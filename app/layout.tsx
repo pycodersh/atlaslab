@@ -1,6 +1,13 @@
 import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
+
+const jakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["800"],
+  variable: "--font-jakarta",
+});
 
 export const metadata: Metadata = {
   title: "Patto — 영어 패턴 학습",
@@ -25,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="antialiased">
+    <html lang="ko" className={`antialiased ${jakartaSans.variable}`}>
       <body>{children}</body>
     </html>
   );

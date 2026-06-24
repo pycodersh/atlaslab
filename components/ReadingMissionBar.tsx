@@ -1,7 +1,6 @@
 'use client'
 
-import { BookOpen } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { Minus, Plus } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -13,74 +12,63 @@ type ReadingMissionBarProps = {
 }
 
 export function ReadingMissionBar({ count, goal, onIncrement, onDecrement }: ReadingMissionBarProps) {
-  const [showUndo, setShowUndo] = useState(false)
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  function handleAdd(e: React.MouseEvent) {
-    e.stopPropagation()
-    if (count >= goal) return
-    onIncrement()
-    setShowUndo(true)
-    if (timerRef.current) clearTimeout(timerRef.current)
-    timerRef.current = setTimeout(() => setShowUndo(false), 3000)
-  }
-
-  function handleUndo(e: React.MouseEvent) {
-    e.stopPropagation()
-    if (timerRef.current) clearTimeout(timerRef.current)
-    setShowUndo(false)
-    onDecrement()
-  }
-
-  useEffect(() => () => {
-    if (timerRef.current) clearTimeout(timerRef.current)
-  }, [])
-
   const isDone = count >= goal
+  const isZero = count <= 0
 
   return (
-    <div className="flex items-center gap-2 rounded-2xl bg-white/80 px-3 py-2 shadow-[0_2px_12px_rgba(79,140,255,0.08)] ring-1 ring-[#E8F0FE] backdrop-blur-sm">
-      {/* 책 아이콘 */}
-      <BookOpen className="h-4 w-4 shrink-0 text-[#4F8CFF]" />
+    <div className="flex items-center gap-3 rounded-2xl bg-white/80 px-4 py-3 shadow-[0_2px_12px_rgba(79,140,255,0.08)] ring-1 ring-[#E8F0FE] backdrop-blur-sm">
 
-      {/* 진행 도트 (10개) */}
-      <div className="flex flex-1 items-center justify-center gap-1">
-        {Array.from({ length: goal }, (_, i) => (
-          <div
-            key={i}
-            className={cn(
-              'rounded-full transition-all duration-300',
-              i < count ? 'h-2 w-2 bg-[#4F8CFF]' : 'h-1.5 w-1.5 bg-[#D1D9E6]',
-            )}
-          />
-        ))}
+      {/* - 버튼 */}
+      <button
+        aria-label="낭독 횟수 -1"
+        className={cn(
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all active:scale-90',
+          isZero
+            ? 'cursor-not-allowed bg-[#F5F8FF] text-[#D1D9E6]'
+            : 'bg-[#F0F7FF] text-[#4F8CFF] hover:bg-[#DCEBFF]',
+        )}
+        disabled={isZero}
+        onClick={(e) => { e.stopPropagation(); if (!isZero) onDecrement() }}
+        type="button"
+      >
+        <Minus className="h-3.5 w-3.5" />
+      </button>
+
+      {/* 도트 + 텍스트 */}
+      <div className="flex flex-1 flex-col items-center gap-1.5">
+        <div className="flex items-center gap-1">
+          {Array.from({ length: goal }, (_, i) => (
+            <div
+              key={i}
+              className={cn(
+                'rounded-full transition-all duration-300',
+                i < count ? 'h-2 w-2 bg-[#4F8CFF]' : 'h-1.5 w-1.5 bg-[#D1D9E6]',
+              )}
+            />
+          ))}
+        </div>
+        <span className="text-[10px] font-semibold tabular-nums text-[#B0BCCE]">
+          {count} / {goal}
+        </span>
       </div>
 
-      {/* + 버튼 or undo */}
-      {showUndo ? (
-        <button
-          className="shrink-0 rounded-lg bg-[#FFF3E0] px-2.5 py-1 text-[11px] font-bold text-[#F59E0B] transition-colors hover:bg-[#FFE8C0] active:scale-95"
-          onClick={handleUndo}
-          type="button"
-        >
-          취소
-        </button>
-      ) : (
-        <button
-          aria-label="낭독 횟수 추가"
-          className={cn(
-            'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-lg font-bold transition-all active:scale-95',
-            isDone
-              ? 'bg-[#DCFCE7] text-[#22C55E]'
-              : 'bg-[#DCEBFF] text-[#4F8CFF] hover:bg-[#C8DCFF]',
-          )}
-          disabled={isDone}
-          onClick={handleAdd}
-          type="button"
-        >
-          {isDone ? '✓' : '+'}
-        </button>
-      )}
+      {/* + 버튼 */}
+      <button
+        aria-label="낭독 횟수 +1"
+        className={cn(
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all active:scale-90',
+          isDone
+            ? 'cursor-not-allowed bg-[#DCFCE7] text-[#22C55E]'
+            : 'bg-[#4F8CFF] text-white shadow-[0_2px_8px_rgba(79,140,255,0.30)] hover:bg-[#3B7DE8]',
+        )}
+        disabled={isDone}
+        onClick={(e) => { e.stopPropagation(); if (!isDone) onIncrement() }}
+        type="button"
+      >
+        {isDone
+          ? <span className="text-sm font-bold">✓</span>
+          : <Plus className="h-3.5 w-3.5" />}
+      </button>
     </div>
   )
 }

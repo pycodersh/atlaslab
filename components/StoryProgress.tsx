@@ -5,10 +5,17 @@ type StoryProgressProps = {
 
 export function StoryProgress({ storyNumber, onJump }: StoryProgressProps) {
   return (
-    <header className="flex items-center justify-center py-1">
+    <header className="flex items-center justify-center py-2">
       <button
-        className="text-[1.15rem] font-bold text-[#1F2937] transition-colors hover:text-[#4F8CFF] active:text-[#4F8CFF]"
+        className="tracking-[0.10em] text-[#4F8CFF] transition-opacity hover:opacity-70 active:opacity-50"
         onClick={onJump}
+        style={{
+          fontFamily: 'var(--font-jakarta), -apple-system, sans-serif',
+          fontWeight: 800,
+          fontSize: '0.8rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.10em',
+        }}
         type="button"
       >
         Story {storyNumber}
