@@ -20,13 +20,15 @@ export function StoryProgress({
   return (
     <header className="space-y-2">
       <div className="flex items-center justify-between gap-3">
-        <p className="min-w-0 truncate text-[0.7rem] font-semibold text-[#9EAEC8]">
+        {/* Story N/M — 크고 굵게 */}
+        <p className="min-w-0 truncate text-sm font-bold text-[#6B7280]">
           Story {storyNumber}/{totalStories}
           {title && (
-            <span className="text-[#B0BCCE]"> · {title}</span>
+            <span className="font-medium text-[#B0BCCE]"> · {title}</span>
           )}
         </p>
-        <span className="shrink-0 rounded-full bg-[#DCEBFF] px-3 py-0.5 text-[10px] font-bold text-[#4F8CFF]">
+        {/* 카드 카운터 — 텍스트만, 배경 없음 */}
+        <span className="shrink-0 text-sm font-bold text-[#1F2937]">
           {isMiniStory ? 'Mini Story' : `${currentCard} / ${totalCards}`}
         </span>
       </div>

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 
 import { AppShell } from '@/components/app-shell'
+import { SlideBottomNav } from '@/components/SlideBottomNav'
 import { StoryCardEngine } from '@/components/StoryCardEngine'
 import { getStoryByOrder, getTotalStoryCount } from '@/queries/stories'
 
@@ -24,8 +25,11 @@ export default async function LearnStoryPage({ params }: LearnStoryPageProps) {
   if (!story) notFound()
 
   return (
-    <AppShell hideNav>
-      <StoryCardEngine story={story} totalStories={totalStories} />
-    </AppShell>
+    <>
+      <AppShell hideNav>
+        <StoryCardEngine story={story} totalStories={totalStories} />
+      </AppShell>
+      <SlideBottomNav />
+    </>
   )
 }

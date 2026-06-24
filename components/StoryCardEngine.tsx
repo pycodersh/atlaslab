@@ -5,7 +5,6 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { CompletionScreen } from '@/components/CompletionScreen'
-import { FloatingNav } from '@/components/FloatingNav'
 import { MiniStory } from '@/components/MiniStory'
 import { PatternCard } from '@/components/PatternCard'
 import { StoryProgress } from '@/components/StoryProgress'
@@ -169,7 +168,6 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
             text={story.mini_story}
           />
         </div>
-        <FloatingNav />
       </div>
     )
   }
@@ -202,7 +200,7 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
 
       {/* 카드 네비게이션 바 */}
       <nav
-        className="flex items-center justify-between gap-4 pb-16"
+        className="flex items-center justify-between gap-4 pb-12"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -221,10 +219,6 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
           이전
         </button>
 
-        <span className="text-sm font-bold text-[#6B7280]">
-          {cardIndex + 1} / {totalCards}
-        </span>
-
         <button
           aria-label="다음 카드"
           className="flex items-center gap-1 rounded-2xl px-4 py-2.5 text-sm font-bold text-[#4F8CFF] transition-colors hover:bg-[#DCEBFF]"
@@ -235,8 +229,6 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
           <ChevronRight className="h-4 w-4" />
         </button>
       </nav>
-
-      <FloatingNav />
     </div>
   )
 }
