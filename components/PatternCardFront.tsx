@@ -11,6 +11,7 @@ type PatternCardFrontProps = {
   cardIndex: number
   totalCards: number
   storyNumber: number
+  storyTitle?: string
   isFavorited?: boolean
   onJump?: () => void
   onToggleFavorite?: () => void
@@ -21,14 +22,15 @@ export function PatternCardFront({
   cardIndex,
   totalCards,
   storyNumber,
+  storyTitle,
   isFavorited = false,
   onJump,
   onToggleFavorite,
 }: PatternCardFrontProps) {
   return (
-    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white px-5 pb-4 pt-12 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden]">
+    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white px-5 pb-4 pt-14 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden]">
 
-      <StoryLabel storyNumber={storyNumber} onJump={onJump} />
+      <StoryLabel storyNumber={storyNumber} subtitle={storyTitle} onJump={onJump} />
 
       {/* 도트 인디케이터 */}
       <div className="mb-3 flex items-center justify-center gap-1.5">

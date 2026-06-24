@@ -13,6 +13,7 @@ type PatternCardProps = {
   cardIndex: number
   totalCards: number
   storyNumber: number
+  storyTitle?: string
   onFlip: () => void
   onJump?: () => void
   onToggleFavorite?: () => void
@@ -26,6 +27,7 @@ export function PatternCard({
   cardIndex,
   totalCards,
   storyNumber,
+  storyTitle,
   onFlip,
   onJump,
   onToggleFavorite,
@@ -56,6 +58,7 @@ export function PatternCard({
           onToggleFavorite={onToggleFavorite}
           pattern={pattern}
           storyNumber={storyNumber}
+          storyTitle={storyTitle}
           totalCards={totalCards}
         />
         <PatternCardBack
@@ -66,6 +69,7 @@ export function PatternCard({
           onToggleFavorite={onToggleFavorite}
           pattern={pattern}
           storyNumber={storyNumber}
+          storyTitle={storyTitle}
           totalCards={totalCards}
         />
       </div>

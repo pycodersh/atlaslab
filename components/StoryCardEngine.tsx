@@ -250,6 +250,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
               onJump={() => setJumpOpen(true)}
               readCount={readCount}
               storyNumber={story.order_index}
+              storyTitle={story.title}
               totalCards={totalCards}
             />
           </div>
@@ -287,6 +288,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
               onToggleFavorite={() => onToggleFavorite(currentPattern.id)}
               pattern={currentPattern}
               storyNumber={story.order_index}
+              storyTitle={story.title}
               totalCards={totalCards}
             />
           </div>

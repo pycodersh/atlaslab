@@ -12,6 +12,7 @@ type MiniStoryProps = {
   content: MiniStoryContent
   totalCards: number
   storyNumber: number
+  storyTitle?: string
   readCount: number
   goal: number
   onJump?: () => void
@@ -22,6 +23,7 @@ type MiniStoryProps = {
 export function MiniStory({
   content,
   storyNumber,
+  storyTitle,
   readCount,
   goal,
   onJump,
@@ -46,10 +48,10 @@ export function MiniStory({
   const isZero = readCount <= 0
 
   return (
-    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white px-5 pb-4 pt-12 shadow-[0_8px_40px_rgba(79,140,255,0.10)]">
+    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white px-5 pb-4 pt-14 shadow-[0_8px_40px_rgba(79,140,255,0.10)]">
 
       {/* STORY 헤더 + 전체 듣기 */}
-      <StoryLabel storyNumber={storyNumber} onJump={onJump} />
+      <StoryLabel storyNumber={storyNumber} subtitle={storyTitle} onJump={onJump} />
       <button
         aria-label={isSpeaking ? '정지' : '전체 듣기'}
         className={cn(
@@ -77,7 +79,7 @@ export function MiniStory({
 
         {/* 구분선 */}
         {koParagraphs.length > 0 && (
-          <div className="my-4 h-px w-full bg-[#EEF4FF]" />
+          <div className="my-7 h-px w-full bg-[#EEF4FF]" />
         )}
 
         {/* 한국어 단락 — 보조 */}
@@ -126,7 +128,7 @@ export function MiniStory({
               className={cn(
                 'flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-all active:scale-90',
                 isZero
-                  ? 'cursor-not-allowed bg-[#F5F8FF] text-[#D1D9E6]'
+                  ? 'cursor-not-allowed bg-transparent text-[#DDE5F0] opacity-40'
                   : 'bg-[#F0F7FF] text-[#4F8CFF] hover:bg-[#DCEBFF]',
               )}
               disabled={isZero}

@@ -13,6 +13,7 @@ type PatternCardBackProps = {
   cardIndex: number
   totalCards: number
   storyNumber: number
+  storyTitle?: string
   isFavorited?: boolean
   onJump?: () => void
   onToggleFavorite?: () => void
@@ -24,6 +25,7 @@ export function PatternCardBack({
   cardIndex,
   totalCards,
   storyNumber,
+  storyTitle,
   isFavorited = false,
   onJump,
   onToggleFavorite,
@@ -39,9 +41,9 @@ export function PatternCardBack({
   }
 
   return (
-    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white px-5 pb-4 pt-12 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white px-5 pb-4 pt-14 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
 
-      <StoryLabel storyNumber={storyNumber} onJump={onJump} />
+      <StoryLabel storyNumber={storyNumber} subtitle={storyTitle} onJump={onJump} />
 
       {/* 도트 — 가운데 */}
       <div className="mb-4 flex items-center justify-center gap-1.5">
@@ -57,7 +59,7 @@ export function PatternCardBack({
       </div>
 
       {/* 예문 목록 — 행 전체 클릭 = TTS */}
-      <ol className="flex-1 space-y-[18px] overflow-y-auto">
+      <ol className="flex-1 space-y-[10px] overflow-y-auto">
         {examples.length === 0 ? (
           <li className="flex h-full items-center justify-center text-xs text-[#C8D8F0]">
             예문이 없습니다
