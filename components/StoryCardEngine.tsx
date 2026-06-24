@@ -52,7 +52,8 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
 
   const currentPattern = story.patterns[cardIndex]
   const isLastStory = story.order_index >= totalStories
-  const canGoPrevious = cardIndex > 0 || showMiniStory
+  const isFirstStory = story.order_index <= 1
+  const canGoPrevious = cardIndex > 0 || showMiniStory || !isFirstStory
 
   useEffect(() => {
     const el = cardWrapperRef.current
@@ -98,6 +99,8 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
         } else if (cardIndex > 0) {
           setCardIndex((v) => v - 1)
           setIsFlipped(false)
+        } else if (!isFirstStory) {
+          router.push(`/learn/${story.order_index - 1}`)
         }
       }
     }, ANIM_MIDPOINT)
