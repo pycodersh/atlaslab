@@ -5,6 +5,7 @@ type StoryProgressProps = {
   totalCards: number
   title?: string
   isMiniStory?: boolean
+  onJump?: () => void
 }
 
 export function StoryProgress({
@@ -14,20 +15,24 @@ export function StoryProgress({
   totalCards,
   title,
   isMiniStory = false,
+  onJump,
 }: StoryProgressProps) {
   const progress = isMiniStory ? 100 : (currentCard / totalCards) * 100
 
   return (
     <header className="space-y-2">
       <div className="flex items-center justify-between gap-3">
-        {/* Story N/M — 크고 굵게 */}
-        <p className="min-w-0 truncate text-sm font-bold text-[#6B7280]">
+        {/* 클릭 시 Story Jump Sheet 열기 */}
+        <button
+          className="min-w-0 truncate text-left text-sm font-bold text-[#6B7280] transition-colors hover:text-[#4F8CFF] active:text-[#4F8CFF]"
+          onClick={onJump}
+          type="button"
+        >
           Story {storyNumber}/{totalStories}
           {title && (
             <span className="font-medium text-[#B0BCCE]"> · {title}</span>
           )}
-        </p>
-        {/* 카드 카운터 — 텍스트만, 배경 없음 */}
+        </button>
         <span className="shrink-0 text-sm font-bold text-[#1F2937]">
           {isMiniStory ? 'Mini Story' : `${currentCard} / ${totalCards}`}
         </span>

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { AppShell } from '@/components/app-shell'
 import { SlideBottomNav } from '@/components/SlideBottomNav'
 import { StoryCardEngine } from '@/components/StoryCardEngine'
-import { getStoryByOrder, getTotalStoryCount } from '@/queries/stories'
+import { getAllStories, getStoryByOrder, getTotalStoryCount } from '@/queries/stories'
 
 type LearnStoryPageProps = {
   params: Promise<{ order: string }>
@@ -17,9 +17,10 @@ export default async function LearnStoryPage({ params }: LearnStoryPageProps) {
     notFound()
   }
 
-  const [story, totalStories] = await Promise.all([
+  const [story, totalStories, allStories] = await Promise.all([
     getStoryByOrder(orderIndex),
     getTotalStoryCount(),
+    getAllStories(),
   ])
 
   if (!story) notFound()
@@ -27,7 +28,11 @@ export default async function LearnStoryPage({ params }: LearnStoryPageProps) {
   return (
     <>
       <AppShell hideNav>
-        <StoryCardEngine story={story} totalStories={totalStories} />
+        <StoryCardEngine
+          allStories={allStories}
+          story={story}
+          totalStories={totalStories}
+        />
       </AppShell>
       <SlideBottomNav />
     </>

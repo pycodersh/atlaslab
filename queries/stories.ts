@@ -119,6 +119,28 @@ export async function getStoryByOrder(orderIndex: number): Promise<StoryWithPatt
   }
 }
 
+export type StoryListItem = {
+  id: string
+  order_index: number
+  title: string
+}
+
+export async function getAllStories(): Promise<StoryListItem[]> {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('stories')
+    .select('id, order_index, story_translations!inner(title)')
+    .eq('is_published', true)
+    .eq('story_translations.ui_lang', UI_LANG)
+    .order('order_index')
+
+  return (data ?? []).map((s) => ({
+    id: s.id,
+    order_index: s.order_index,
+    title: (s.story_translations as { title: string }[])[0]?.title ?? '',
+  }))
+}
+
 export async function getTotalStoryCount(): Promise<number> {
   const supabase = await createClient()
   const { count } = await supabase
