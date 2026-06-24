@@ -5,6 +5,7 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { CompletionScreen } from '@/components/CompletionScreen'
+import { FloatingNav } from '@/components/FloatingNav'
 import { MiniStory } from '@/components/MiniStory'
 import { PatternCard } from '@/components/PatternCard'
 import { StoryProgress } from '@/components/StoryProgress'
@@ -149,6 +150,7 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
           currentCard={totalCards}
           isMiniStory
           storyNumber={story.order_index}
+          title={story.title}
           totalCards={totalCards}
           totalStories={totalStories}
         />
@@ -167,6 +169,7 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
             text={story.mini_story}
           />
         </div>
+        <FloatingNav />
       </div>
     )
   }
@@ -176,17 +179,14 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
       <StoryProgress
         currentCard={cardIndex + 1}
         storyNumber={story.order_index}
+        title={story.title}
         totalCards={totalCards}
         totalStories={totalStories}
       />
 
-      <p className="mt-3 text-center text-xs font-bold text-[#9EAEC8]">
-        {story.title}
-      </p>
-
       {/* 카드 영역 (스와이프 감지) */}
       <section
-        className={cn('flex flex-1 items-center py-5', slideClass)}
+        className={cn('flex flex-1 items-center py-3', slideClass)}
         onTouchEnd={handleTouchEnd}
         onTouchStart={handleTouchStart}
       >
@@ -200,9 +200,9 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
         />
       </section>
 
-      {/* 외부 네비게이션 바 */}
+      {/* 카드 네비게이션 바 */}
       <nav
-        className="flex items-center justify-between gap-4 pb-4"
+        className="flex items-center justify-between gap-4 pb-16"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -235,6 +235,8 @@ export function StoryCardEngine({ story, totalStories }: StoryCardEngineProps) {
           <ChevronRight className="h-4 w-4" />
         </button>
       </nav>
+
+      <FloatingNav />
     </div>
   )
 }

@@ -1,39 +1,41 @@
 type StoryProgressProps = {
-  storyNumber: number;
-  totalStories: number;
-  currentCard: number;
-  totalCards: number;
-  isMiniStory?: boolean;
-};
+  storyNumber: number
+  totalStories: number
+  currentCard: number
+  totalCards: number
+  title?: string
+  isMiniStory?: boolean
+}
 
 export function StoryProgress({
   storyNumber,
   totalStories,
   currentCard,
   totalCards,
+  title,
   isMiniStory = false,
 }: StoryProgressProps) {
-  const progress = isMiniStory ? 100 : (currentCard / totalCards) * 100;
+  const progress = isMiniStory ? 100 : (currentCard / totalCards) * 100
 
   return (
-    <header className="space-y-4">
+    <header className="space-y-2">
       <div className="flex items-center justify-between gap-3">
-        <div>
-          <p className="text-sm font-semibold text-[#6f7895]">Patto</p>
-          <h1 className="text-2xl font-bold tracking-normal text-[#202842]">
-            Story {storyNumber} / {totalStories}
-          </h1>
-        </div>
-        <div className="rounded-full bg-white/80 px-4 py-2 text-sm font-semibold text-[#4f5fd7] shadow-sm">
-          {isMiniStory ? "Mini Story" : `Card ${currentCard} / ${totalCards}`}
-        </div>
+        <p className="min-w-0 truncate text-[0.7rem] font-semibold text-[#9EAEC8]">
+          Story {storyNumber}/{totalStories}
+          {title && (
+            <span className="text-[#B0BCCE]"> · {title}</span>
+          )}
+        </p>
+        <span className="shrink-0 rounded-full bg-[#DCEBFF] px-3 py-0.5 text-[10px] font-bold text-[#4F8CFF]">
+          {isMiniStory ? 'Mini Story' : `${currentCard} / ${totalCards}`}
+        </span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-white/70">
+      <div className="h-1 overflow-hidden rounded-full bg-[#E8F0FE]">
         <div
-          className="h-full rounded-full bg-[#5b6ee1] transition-[width] duration-300 ease-out"
+          className="h-full rounded-full bg-[#4F8CFF] transition-[width] duration-300 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
     </header>
-  );
+  )
 }
