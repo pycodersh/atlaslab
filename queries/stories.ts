@@ -1,7 +1,7 @@
 import { MINI_STORIES } from '@/lib/mini-stories'
 import { createClient } from '@/lib/supabase/server'
 import type { Difficulty, PatternExample, PatternWithExamples } from '@/types/pattern'
-import type { StoryWithPatterns } from '@/types/story'
+import type { MiniStoryContent, StoryWithPatterns } from '@/types/story'
 
 const UI_LANG = 'ko'
 
@@ -150,13 +150,14 @@ export async function getTotalStoryCount(): Promise<number> {
   return count ?? 0
 }
 
-// 예문이 없는 스토리의 폴백: 해당 난이도 첫 예문을 이어 붙임
-function buildMiniStory(patterns: PatternWithExamples[], difficulty: Difficulty): string {
-  return patterns
+// 예문이 없는 스토리의 폴백: 해당 난이도 첫 예문을 단락 단위로 이어 붙임 (한국어 번역 없음)
+function buildMiniStory(patterns: PatternWithExamples[], difficulty: Difficulty): MiniStoryContent {
+  const en = patterns
     .map((p) => {
       const ex = p.examples[difficulty]?.[0] ?? p.examples.normal?.[0]
       return ex?.sentence ?? ''
     })
     .filter(Boolean)
-    .join(' ')
+    .join('\n\n')
+  return { en, ko: '' }
 }

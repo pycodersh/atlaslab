@@ -190,7 +190,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
       ? 'animate-apple-prev'
       : ''
 
-  const miniStoryText = story.mini_stories[difficulty] || story.mini_stories.normal || ''
+  const miniStoryContent = story.mini_stories[difficulty] ?? story.mini_stories.normal
 
   // ── 공통 하단 영역 ──
   const bottomNav = (
@@ -252,7 +252,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
             onTouchEnd={handleTouchEnd}
             onTouchStart={handleTouchStart}
           >
-            <MiniStory text={miniStoryText} totalCards={totalCards} />
+            <MiniStory content={miniStoryContent} totalCards={totalCards} />
           </div>
           {bottomNav}
         </div>

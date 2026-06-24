@@ -4,15 +4,19 @@ import { Volume2 } from 'lucide-react'
 
 import { useSpeech } from '@/hooks/useSpeech'
 import { cn } from '@/lib/utils'
+import type { MiniStoryContent } from '@/types/story'
 
 type MiniStoryProps = {
-  text: string
+  content: MiniStoryContent
   totalCards: number
 }
 
-export function MiniStory({ text, totalCards }: MiniStoryProps) {
-  const paragraphs = text.split(/\n+/).map((p) => p.trim()).filter(Boolean)
-  const allSentences = paragraphs.flatMap(
+export function MiniStory({ content, totalCards }: MiniStoryProps) {
+  const enParagraphs = content.en.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
+  const koParagraphs = content.ko.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
+
+  // TTS는 영어 원문만 재생
+  const enSentences = enParagraphs.flatMap(
     (p) => p.match(/[^.!?]+[.!?]+/g)?.map((s) => s.trim()) ?? [p],
   )
   const { speakAll, isSpeaking, stop } = useSpeech()
@@ -20,13 +24,13 @@ export function MiniStory({ text, totalCards }: MiniStoryProps) {
   function handleSpeakAll(e: React.MouseEvent) {
     e.stopPropagation()
     if (isSpeaking) { stop(); return }
-    speakAll(allSentences)
+    speakAll(enSentences)
   }
 
   return (
     <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white p-6 shadow-[0_8px_40px_rgba(79,140,255,0.10)]">
 
-      {/* 상단: 도트 (카드 모두 완료) + TTS */}
+      {/* 상단: 도트 (카드 전체 완료) + TTS */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
           {Array.from({ length: totalCards }, (_, i) => (
@@ -48,15 +52,21 @@ export function MiniStory({ text, totalCards }: MiniStoryProps) {
         </button>
       </div>
 
-      {/* 단락형 스토리 텍스트 */}
-      <div className="mt-5 flex-1 space-y-4 overflow-y-auto">
-        {paragraphs.map((para, i) => (
-          <p
-            key={i}
-            className="text-[1rem] font-medium leading-relaxed text-[#1F2937]"
-          >
-            {para}
-          </p>
+      {/* 영어 + 한국어 단락 페어 */}
+      <div className="mt-5 flex-1 space-y-5 overflow-y-auto">
+        {enParagraphs.map((enPara, i) => (
+          <div key={i} className="space-y-1">
+            {/* 영어: 크고 진하게 */}
+            <p className="text-[1rem] font-semibold leading-relaxed text-[#1F2937]">
+              {enPara}
+            </p>
+            {/* 한국어: 작고 연한 회색 */}
+            {koParagraphs[i] && (
+              <p className="text-[0.8rem] font-normal leading-relaxed text-[#9EAEC8]">
+                {koParagraphs[i]}
+              </p>
+            )}
+          </div>
         ))}
       </div>
     </div>
