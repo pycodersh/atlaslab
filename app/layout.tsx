@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Baloo_2, Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
 
@@ -7,6 +7,12 @@ const jakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["800"],
   variable: "--font-jakarta",
+});
+
+const baloo2 = Baloo_2({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-baloo",
 });
 
 export const metadata: Metadata = {
@@ -32,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`antialiased ${jakartaSans.variable}`}>
+    <html lang="ko" className={`antialiased ${jakartaSans.variable} ${baloo2.variable}`}>
       <body>{children}</body>
     </html>
   );

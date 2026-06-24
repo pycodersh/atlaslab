@@ -46,9 +46,9 @@ export function MiniStory({
   const isZero = readCount <= 0
 
   return (
-    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white p-5 shadow-[0_8px_40px_rgba(79,140,255,0.10)]">
+    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white px-5 pb-5 pt-10 shadow-[0_8px_40px_rgba(79,140,255,0.10)]">
 
-      {/* STORY 섹션 헤더 */}
+      {/* STORY 배지 — absolute top-3 left-3 */}
       <StoryLabel storyNumber={storyNumber} onJump={onJump} />
 
       {/* 단락형 스토리 텍스트 */}
