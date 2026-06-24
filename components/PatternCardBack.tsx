@@ -1,9 +1,8 @@
 'use client'
 
-import { ArrowLeft, ArrowRight, Volume2 } from 'lucide-react'
+import { Volume2 } from 'lucide-react'
 import { useState } from 'react'
 
-import { Button } from '@/components/ui/button'
 import { useSpeech } from '@/hooks/useSpeech'
 import { cn } from '@/lib/utils'
 import type { Difficulty, PatternWithExamples } from '@/types/pattern'
@@ -19,19 +18,11 @@ const DIFFICULTIES: Difficulty[] = ['normal', 'advanced', 'native']
 type PatternCardBackProps = {
   pattern: PatternWithExamples
   defaultDifficulty?: Difficulty
-  canGoPrevious: boolean
-  isLastCard: boolean
-  onPrevious: () => void
-  onNext: () => void
 }
 
 export function PatternCardBack({
   pattern,
   defaultDifficulty = 'normal',
-  canGoPrevious,
-  isLastCard,
-  onPrevious,
-  onNext,
 }: PatternCardBackProps) {
   const [difficulty, setDifficulty] = useState<Difficulty>(defaultDifficulty)
   const { speak, speakAll, isSpeaking, stop } = useSpeech()
@@ -67,7 +58,7 @@ export function PatternCardBack({
         </button>
       </div>
 
-      {/* 난이도 탭 (임시 변경용) */}
+      {/* 난이도 탭 */}
       <div
         className="mt-3 grid grid-cols-3 gap-1 rounded-2xl bg-[#F5F8FF] p-1"
         onClick={(e) => e.stopPropagation()}
@@ -111,7 +102,7 @@ export function PatternCardBack({
             <button
               aria-label={`${index + 1}번 예문 듣기`}
               className="mt-0.5 shrink-0 rounded-full p-1.5 text-[#C8D8F0] transition-colors hover:bg-[#F0F7FF] hover:text-[#4F8CFF]"
-              onClick={(e) => { e.stopPropagation(); speak(ex.sentence) }}
+              onClick={(e) => { e.stopPropagation(); speak(ex.sentence.trim()) }}
               type="button"
             >
               <Volume2 className="h-3.5 w-3.5" />
@@ -119,28 +110,6 @@ export function PatternCardBack({
           </li>
         ))}
       </ol>
-
-      {/* 이전/다음 */}
-      <div className="mt-auto grid grid-cols-2 gap-2.5 pt-4" onClick={(e) => e.stopPropagation()}>
-        <Button
-          className="gap-1.5 rounded-2xl border border-[#E8F0FE] bg-white text-[#6B7280] hover:bg-[#F5F8FF] hover:text-[#1F2937]"
-          disabled={!canGoPrevious}
-          onClick={onPrevious}
-          type="button"
-          variant="ghost"
-        >
-          <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-          이전
-        </Button>
-        <Button
-          className="gap-1.5 rounded-2xl bg-[#4F8CFF] text-white hover:bg-[#3D7AEE]"
-          onClick={onNext}
-          type="button"
-        >
-          {isLastCard ? 'Mini Story' : '다음'}
-          <ArrowRight aria-hidden="true" className="h-4 w-4" />
-        </Button>
-      </div>
     </div>
   )
 }

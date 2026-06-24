@@ -24,7 +24,7 @@ export default async function LearnStoryPage({ params }: LearnStoryPageProps) {
   if (!story) notFound()
 
   return (
-    <AppShell>
+    <AppShell hideNav>
       <StoryCardEngine story={story} totalStories={totalStories} />
     </AppShell>
   )
