@@ -2,6 +2,7 @@
 
 import { Heart, Volume2 } from 'lucide-react'
 
+import { StoryLabel } from '@/components/StoryLabel'
 import { useSpeech } from '@/hooks/useSpeech'
 import { cn } from '@/lib/utils'
 import type { Difficulty, PatternWithExamples } from '@/types/pattern'
@@ -15,19 +16,6 @@ type PatternCardBackProps = {
   isFavorited?: boolean
   onJump?: () => void
   onToggleFavorite?: () => void
-}
-
-const storyLabelStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-jakarta), -apple-system, sans-serif',
-  fontWeight: 800,
-  fontSize: '0.72rem',
-  textTransform: 'uppercase',
-  letterSpacing: '0.10em',
-  color: '#4F8CFF',
-  textDecoration: 'underline wavy',
-  textDecorationColor: '#4F8CFF',
-  textUnderlineOffset: '3px',
-  textDecorationThickness: '1.5px',
 }
 
 export function PatternCardBack({
@@ -53,16 +41,7 @@ export function PatternCardBack({
   return (
     <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white p-5 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
 
-      {/* STORY 섹션 헤더 */}
-      <button
-        className="mb-3 flex items-center gap-1 self-start transition-opacity hover:opacity-60 active:opacity-40"
-        onClick={(e) => { e.stopPropagation(); onJump?.() }}
-        type="button"
-      >
-        <span style={{ color: '#4F8CFF', fontSize: '0.5rem' }}>✦</span>
-        <span style={storyLabelStyle}>Story {storyNumber}</span>
-        <span style={{ color: '#4F8CFF', fontSize: '0.5rem' }}>✦</span>
-      </button>
+      <StoryLabel storyNumber={storyNumber} onJump={onJump} />
 
       {/* 도트 — 가운데 */}
       <div className="mb-3 flex items-center justify-center gap-1.5">
