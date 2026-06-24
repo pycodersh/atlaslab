@@ -7,22 +7,24 @@ import type { Pattern } from '@/types/pattern'
 
 type PatternCardFrontProps = {
   pattern: Pattern
+  cardLabel?: string
   isFavorited?: boolean
   onToggleFavorite?: () => void
 }
 
 export function PatternCardFront({
   pattern,
+  cardLabel,
   isFavorited = false,
   onToggleFavorite,
 }: PatternCardFrontProps) {
   return (
     <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white p-6 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden]">
 
-      {/* 상단: Level 배지 + Heart */}
+      {/* 상단: Card X/Y 배지 + Heart */}
       <div className="flex items-center justify-between">
         <span className="rounded-full bg-[#DCEBFF] px-3 py-1 text-[11px] font-bold tracking-wide text-[#4F8CFF]">
-          Level {pattern.level}
+          {cardLabel ?? `Level ${pattern.level}`}
         </span>
         {onToggleFavorite && (
           <button
@@ -66,10 +68,6 @@ export function PatternCardFront({
         </p>
       </div>
 
-      {/* 하단 힌트 */}
-      <p className="mt-4 text-center text-[11px] font-medium text-[#C8D8F0]">
-        탭해서 예문 보기
-      </p>
     </div>
   )
 }

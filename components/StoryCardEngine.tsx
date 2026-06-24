@@ -1,5 +1,6 @@
 'use client'
 
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
@@ -21,12 +22,9 @@ type StoryCardEngineProps = {
 }
 
 const READ_GOAL = 10
-const PAGE_TURN_DURATION = 420
-const PAGE_TURN_MIDPOINT = 185
+const ANIM_DURATION = 300   // Apple-style: 300ms
+const ANIM_MIDPOINT = 114   // 38% of 300ms
 const DRAG_THRESHOLD = 0.30
-
-// page-curl 애니메이션 사용 여부 (성능 문제 시 false로 fallback → slide 사용)
-const USE_PAGE_CURL = true
 
 export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEngineProps) {
   const router = useRouter()
@@ -57,6 +55,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
   const isLastStory = story.order_index >= totalStories
   const canGoPrevious = cardIndex > 0 || showMiniStory
 
+  // non-passive touchmove — React의 onTouchMove는 passive이므로 useEffect로 처리
   useEffect(() => {
     const el = cardWrapperRef.current
     if (!el) return
@@ -97,18 +96,18 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
         if (showMiniStory) {
           setShowMiniStory(false)
           setCardIndex(totalCards - 1)
-          setIsFlipped(true)
+          setIsFlipped(false)
         } else if (cardIndex > 0) {
           setCardIndex((v) => v - 1)
           setIsFlipped(false)
         }
       }
-    }, PAGE_TURN_MIDPOINT)
+    }, ANIM_MIDPOINT)
 
     window.setTimeout(() => {
       isAnimatingRef.current = false
       setAnimDir(null)
-    }, PAGE_TURN_DURATION)
+    }, ANIM_DURATION)
   }
 
   function handleFlip() {
@@ -159,28 +158,34 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
 
   if (showCompletion) return <CompletionScreen />
 
-  // ── Page-curl 드래그 스타일 ──
+  // ── Apple-style 드래그 비주얼 ──
+  // - translateX: 손가락 움직임의 65%만 따라옴 (카드가 살짝 저항감 있게)
+  // - rotateZ: 최대 ±4도 기울기
+  // - scale: 최대 4% 축소
   const cardWidth = cardWrapperRef.current?.offsetWidth ?? 320
-  const rawProgress = Math.abs(dragOffset) / (cardWidth * DRAG_THRESHOLD)
-  const angle = Math.min(rawProgress, 1) * 55          // 최대 55도
-  const shadowAlpha = Math.min(rawProgress, 1) * 0.18  // 최대 18% 어두워짐
+  const dragProgress = dragOffset / cardWidth  // -1 ~ +1
+  const tx = dragOffset * 0.65
+  const rz = dragProgress * 4
+  const sc = 1 - Math.min(Math.abs(dragProgress) * 0.04, 0.04)
+  const shadowIntensity = Math.min(Math.abs(dragProgress) * 0.20, 0.20)
 
   const dragStyle: React.CSSProperties = isDragging || dragOffset !== 0
     ? {
-        transformOrigin: dragOffset < 0 ? 'left center' : 'right center',
-        transform: `perspective(1200px) rotateY(${dragOffset < 0 ? -angle : angle}deg)`,
+        transform: `translateX(${tx}px) rotateZ(${rz}deg) scale(${sc})`,
         transition: 'none',
         willChange: 'transform',
+        filter: `drop-shadow(0 ${8 + shadowIntensity * 24}px ${20 + shadowIntensity * 40}px rgba(79,140,255,${0.10 + shadowIntensity * 0.15}))`,
       }
     : {
-        transform: 'perspective(1200px) rotateY(0deg)',
-        transition: 'transform 0.40s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        transform: 'translateX(0) rotateZ(0deg) scale(1)',
+        transition: 'transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        filter: 'drop-shadow(0 8px 20px rgba(79,140,255,0.10))',
       }
 
   const animClass = animDir === 'next'
-    ? (USE_PAGE_CURL ? 'animate-page-turn-next' : 'animate-slide-next')
+    ? 'animate-apple-next'
     : animDir === 'prev'
-      ? (USE_PAGE_CURL ? 'animate-page-turn-prev' : 'animate-slide-prev')
+      ? 'animate-apple-prev'
       : ''
 
   const miniStoryText = story.mini_stories[difficulty] || story.mini_stories.normal || ''
@@ -195,9 +200,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
             isMiniStory
             onJump={() => setJumpOpen(true)}
             storyNumber={story.order_index}
-            title={story.title}
             totalCards={totalCards}
-            totalStories={totalStories}
           />
           <div
             className={cn('flex flex-1 flex-col', animClass)}
@@ -228,38 +231,24 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
   // ── 카드 학습 화면 ──
   return (
     <>
-      <div className="flex min-h-[calc(100dvh-5rem)] flex-col pb-12">
+      <div className="flex min-h-[calc(100dvh-5rem)] flex-col">
         <StoryProgress
           currentCard={cardIndex + 1}
           onJump={() => setJumpOpen(true)}
           storyNumber={story.order_index}
-          title={story.title}
           totalCards={totalCards}
-          totalStories={totalStories}
         />
 
-        {/* animClass는 section에, drag 스타일은 inner div에 분리 */}
+        {/* 카드 영역 */}
         <section
           aria-label="카드 학습 영역"
           className={cn('flex flex-1 items-center py-4', animClass)}
           onTouchEnd={handleTouchEnd}
           onTouchStart={handleTouchStart}
         >
-          <div className="relative w-full" ref={cardWrapperRef} style={dragStyle}>
-            {/* page-curl edge 그림자 오버레이 */}
-            {isDragging && (
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-[28px]"
-                style={{
-                  background: dragOffset < 0
-                    ? `linear-gradient(to left, rgba(0,0,0,${shadowAlpha}), transparent 55%)`
-                    : `linear-gradient(to right, rgba(0,0,0,${shadowAlpha}), transparent 55%)`,
-                  zIndex: 10,
-                }}
-              />
-            )}
+          <div className="w-full" ref={cardWrapperRef} style={dragStyle}>
             <PatternCard
+              cardLabel={`Card ${cardIndex + 1} / ${totalCards}`}
               difficulty={difficulty}
               isFavorited={favorites.has(currentPattern.id)}
               isFlipped={isFlipped}
@@ -270,9 +259,42 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
           </div>
         </section>
 
-        <p className="pb-2 text-center text-[10px] font-medium text-[#D1D9E6]">
-          ← 스와이프로 이동 →
-        </p>
+        {/* ◀ ▶ 이동 버튼 (PC 우선, 모바일 보조) */}
+        <nav aria-label="카드 이동" className="flex items-center justify-center gap-5 pb-5 pt-1">
+          <button
+            aria-label="이전 카드"
+            className={cn(
+              'flex h-11 w-11 items-center justify-center rounded-full',
+              'border border-white bg-white/90 backdrop-blur-sm',
+              'shadow-[0_4px_16px_rgba(79,140,255,0.13)] ring-1 ring-[#E8F0FE]',
+              'transition-all duration-200 active:scale-95',
+              canGoPrevious
+                ? 'text-[#6B7280] hover:text-[#4F8CFF] hover:shadow-[0_4px_20px_rgba(79,140,255,0.22)] hover:ring-[#DCEBFF]'
+                : 'cursor-not-allowed text-[#D1D9E6]',
+            )}
+            disabled={!canGoPrevious}
+            onClick={() => canGoPrevious && navigate('prev')}
+            type="button"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+
+          <button
+            aria-label="다음 카드"
+            className={cn(
+              'flex h-11 w-11 items-center justify-center rounded-full',
+              'border border-[#4F8CFF]/20 bg-[#4F8CFF] backdrop-blur-sm',
+              'shadow-[0_4px_16px_rgba(79,140,255,0.32)]',
+              'text-white transition-all duration-200',
+              'hover:bg-[#3B7DE8] hover:shadow-[0_6px_24px_rgba(79,140,255,0.40)]',
+              'active:scale-95',
+            )}
+            onClick={() => navigate('next')}
+            type="button"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </nav>
       </div>
 
       <StoryJumpSheet

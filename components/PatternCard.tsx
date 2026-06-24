@@ -10,6 +10,7 @@ type PatternCardProps = {
   isFlipped: boolean
   isFavorited?: boolean
   difficulty?: Difficulty
+  cardLabel?: string
   onFlip: () => void
   onToggleFavorite?: () => void
 }
@@ -19,6 +20,7 @@ export function PatternCard({
   isFlipped,
   isFavorited = false,
   difficulty = 'normal',
+  cardLabel,
   onFlip,
   onToggleFavorite,
 }: PatternCardProps) {
@@ -45,6 +47,7 @@ export function PatternCard({
         )}
       >
         <PatternCardFront
+          cardLabel={cardLabel}
           isFavorited={isFavorited}
           onToggleFavorite={onToggleFavorite}
           pattern={pattern}

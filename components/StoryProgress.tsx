@@ -1,19 +1,15 @@
 type StoryProgressProps = {
   storyNumber: number
-  totalStories: number
   currentCard: number
   totalCards: number
-  title?: string
   isMiniStory?: boolean
   onJump?: () => void
 }
 
 export function StoryProgress({
   storyNumber,
-  totalStories,
   currentCard,
   totalCards,
-  title,
   isMiniStory = false,
   onJump,
 }: StoryProgressProps) {
@@ -22,20 +18,16 @@ export function StoryProgress({
   return (
     <header className="space-y-2">
       <div className="flex items-center justify-between gap-3">
-        {/* 클릭 시 Story Jump Sheet 열기 */}
         <button
-          className="min-w-0 truncate text-left text-sm font-bold text-[#6B7280] transition-colors hover:text-[#4F8CFF] active:text-[#4F8CFF]"
+          className="text-sm font-bold text-[#6B7280] transition-colors hover:text-[#4F8CFF] active:text-[#4F8CFF]"
           onClick={onJump}
           type="button"
         >
-          Story {storyNumber}/{totalStories}
-          {title && (
-            <span className="font-medium text-[#B0BCCE]"> · {title}</span>
-          )}
+          Story {storyNumber}
         </button>
-        <span className="shrink-0 text-sm font-bold text-[#1F2937]">
-          {isMiniStory ? 'Mini Story' : `${currentCard} / ${totalCards}`}
-        </span>
+        {isMiniStory && (
+          <span className="text-xs font-semibold text-[#B0BCCE]">Mini Story</span>
+        )}
       </div>
       <div className="h-1 overflow-hidden rounded-full bg-[#E8F0FE]">
         <div

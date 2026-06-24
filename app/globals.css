@@ -61,27 +61,25 @@ body {
   animation: slide-prev 360ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Page-curl 카드 전환 (기본) — 좌우 edge 기준 rotateY */
-@keyframes page-turn-next {
-  0%   { opacity: 1; transform: perspective(1200px) rotateY(0deg); }
-  44%  { opacity: 0; transform: perspective(1200px) rotateY(-82deg); }
-  56%  { opacity: 0; transform: perspective(1200px) rotateY(82deg); }
-  100% { opacity: 1; transform: perspective(1200px) rotateY(0deg); }
+/* Apple-style 카드 전환 — translateX + scale (0.30s) */
+@keyframes apple-next {
+  0%   { opacity: 1; transform: translateX(0)     scale(1); }
+  38%  { opacity: 0; transform: translateX(-68px) scale(0.93); }
+  62%  { opacity: 0; transform: translateX(68px)  scale(0.93); }
+  100% { opacity: 1; transform: translateX(0)     scale(1); }
 }
 
-@keyframes page-turn-prev {
-  0%   { opacity: 1; transform: perspective(1200px) rotateY(0deg); }
-  44%  { opacity: 0; transform: perspective(1200px) rotateY(82deg); }
-  56%  { opacity: 0; transform: perspective(1200px) rotateY(-82deg); }
-  100% { opacity: 1; transform: perspective(1200px) rotateY(0deg); }
+@keyframes apple-prev {
+  0%   { opacity: 1; transform: translateX(0)    scale(1); }
+  38%  { opacity: 0; transform: translateX(68px) scale(0.93); }
+  62%  { opacity: 0; transform: translateX(-68px) scale(0.93); }
+  100% { opacity: 1; transform: translateX(0)    scale(1); }
 }
 
-.animate-page-turn-next {
-  transform-origin: left center;
-  animation: page-turn-next 420ms cubic-bezier(0.4, 0, 0.2, 1);
+.animate-apple-next {
+  animation: apple-next 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.animate-page-turn-prev {
-  transform-origin: right center;
-  animation: page-turn-prev 420ms cubic-bezier(0.4, 0, 0.2, 1);
+.animate-apple-prev {
+  animation: apple-prev 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
