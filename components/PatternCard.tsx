@@ -12,7 +12,9 @@ type PatternCardProps = {
   difficulty?: Difficulty
   cardIndex: number
   totalCards: number
+  storyNumber: number
   onFlip: () => void
+  onJump?: () => void
   onToggleFavorite?: () => void
 }
 
@@ -23,7 +25,9 @@ export function PatternCard({
   difficulty = 'normal',
   cardIndex,
   totalCards,
+  storyNumber,
   onFlip,
+  onJump,
   onToggleFavorite,
 }: PatternCardProps) {
   return (
@@ -33,10 +37,7 @@ export function PatternCard({
       className="h-[31rem] w-full cursor-pointer rounded-[28px] text-left [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F8CFF] focus-visible:ring-offset-4"
       onClick={onFlip}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          onFlip()
-        }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onFlip() }
       }}
       role="button"
       tabIndex={0}
@@ -51,16 +52,20 @@ export function PatternCard({
         <PatternCardFront
           cardIndex={cardIndex}
           isFavorited={isFavorited}
+          onJump={onJump}
           onToggleFavorite={onToggleFavorite}
           pattern={pattern}
+          storyNumber={storyNumber}
           totalCards={totalCards}
         />
         <PatternCardBack
           cardIndex={cardIndex}
           difficulty={difficulty}
           isFavorited={isFavorited}
+          onJump={onJump}
           onToggleFavorite={onToggleFavorite}
           pattern={pattern}
+          storyNumber={storyNumber}
           totalCards={totalCards}
         />
       </div>

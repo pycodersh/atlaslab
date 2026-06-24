@@ -7,9 +7,7 @@ import { useRouter } from 'next/navigation'
 import { CompletionScreen } from '@/components/CompletionScreen'
 import { MiniStory } from '@/components/MiniStory'
 import { PatternCard } from '@/components/PatternCard'
-import { ReadingMissionBar } from '@/components/ReadingMissionBar'
 import { StoryJumpSheet } from '@/components/StoryJumpSheet'
-import { StoryProgress } from '@/components/StoryProgress'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { useProgress } from '@/hooks/useProgress'
 import { cn } from '@/lib/utils'
@@ -192,43 +190,41 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
 
   const miniStoryContent = story.mini_stories[difficulty] ?? story.mini_stories.normal
 
-  // ── 카드 화면 하단 네비 (낭독 미션 없음) ──
-  const cardNav = (
-    <div className="flex flex-col gap-3 pb-4 pt-2">
-      <div className="flex items-center justify-center gap-5">
-        <button
-          aria-label="이전"
-          className={cn(
-            'flex h-11 w-11 items-center justify-center rounded-full',
-            'border border-white bg-white/90 backdrop-blur-sm',
-            'shadow-[0_4px_16px_rgba(79,140,255,0.13)] ring-1 ring-[#E8F0FE]',
-            'transition-all duration-200 active:scale-95',
-            canGoPrevious
-              ? 'text-[#6B7280] hover:text-[#4F8CFF] hover:ring-[#DCEBFF]'
-              : 'cursor-not-allowed text-[#D1D9E6]',
-          )}
-          disabled={!canGoPrevious}
-          onClick={() => canGoPrevious && navigate('prev')}
-          type="button"
-        >
-          <ChevronLeft className="h-5 w-5" />
-        </button>
-        <button
-          aria-label="다음"
-          className={cn(
-            'flex h-11 w-11 items-center justify-center rounded-full',
-            'border border-[#4F8CFF]/20 bg-[#4F8CFF]',
-            'shadow-[0_4px_16px_rgba(79,140,255,0.32)]',
-            'text-white transition-all duration-200',
-            'hover:bg-[#3B7DE8] hover:shadow-[0_6px_24px_rgba(79,140,255,0.40)]',
-            'active:scale-95',
-          )}
-          onClick={() => navigate('next')}
-          type="button"
-        >
-          <ChevronRight className="h-5 w-5" />
-        </button>
-      </div>
+  // ── 공통 네비 버튼 ──
+  const navButtons = (
+    <div className="flex items-center justify-center gap-5 pb-4 pt-2">
+      <button
+        aria-label="이전"
+        className={cn(
+          'flex h-11 w-11 items-center justify-center rounded-full',
+          'border border-white bg-white/90 backdrop-blur-sm',
+          'shadow-[0_4px_16px_rgba(79,140,255,0.13)] ring-1 ring-[#E8F0FE]',
+          'transition-all duration-200 active:scale-95',
+          canGoPrevious
+            ? 'text-[#6B7280] hover:text-[#4F8CFF] hover:ring-[#DCEBFF]'
+            : 'cursor-not-allowed text-[#D1D9E6]',
+        )}
+        disabled={!canGoPrevious}
+        onClick={() => canGoPrevious && navigate('prev')}
+        type="button"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <button
+        aria-label="다음"
+        className={cn(
+          'flex h-11 w-11 items-center justify-center rounded-full',
+          'border border-[#4F8CFF]/20 bg-[#4F8CFF]',
+          'shadow-[0_4px_16px_rgba(79,140,255,0.32)]',
+          'text-white transition-all duration-200',
+          'hover:bg-[#3B7DE8] hover:shadow-[0_6px_24px_rgba(79,140,255,0.40)]',
+          'active:scale-95',
+        )}
+        onClick={() => navigate('next')}
+        type="button"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
     </div>
   )
 
@@ -237,57 +233,24 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
     return (
       <>
         <div className="flex min-h-[calc(100dvh-5rem)] flex-col gap-3">
-          <StoryProgress
-            onJump={() => setJumpOpen(true)}
-            storyNumber={story.order_index}
-          />
+          {/* 낭독 미션은 MiniStory 카드 내부에 포함됨 */}
           <div
             className={cn('relative flex-1', animClass)}
             onTouchEnd={handleTouchEnd}
             onTouchStart={handleTouchStart}
           >
-            <MiniStory content={miniStoryContent} totalCards={totalCards} />
-          </div>
-          {/* 낭독 미션 바 + 네비 (Mini Story 전용) */}
-          <div className="flex flex-col gap-3 pb-4 pt-2">
-            <ReadingMissionBar
-              count={readCount}
+            <MiniStory
+              content={miniStoryContent}
               goal={READ_GOAL}
               onDecrement={handleDecrementRead}
               onIncrement={handleIncrementRead}
+              onJump={() => setJumpOpen(true)}
+              readCount={readCount}
+              storyNumber={story.order_index}
+              totalCards={totalCards}
             />
-            <div className="flex items-center justify-center gap-5">
-              <button
-                aria-label="이전"
-                className={cn(
-                  'flex h-11 w-11 items-center justify-center rounded-full',
-                  'border border-white bg-white/90 backdrop-blur-sm',
-                  'shadow-[0_4px_16px_rgba(79,140,255,0.13)] ring-1 ring-[#E8F0FE]',
-                  'transition-all duration-200 active:scale-95',
-                  'text-[#6B7280] hover:text-[#4F8CFF] hover:ring-[#DCEBFF]',
-                )}
-                onClick={() => navigate('prev')}
-                type="button"
-              >
-                <ChevronLeft className="h-5 w-5" />
-              </button>
-              <button
-                aria-label="다음"
-                className={cn(
-                  'flex h-11 w-11 items-center justify-center rounded-full',
-                  'border border-[#4F8CFF]/20 bg-[#4F8CFF]',
-                  'shadow-[0_4px_16px_rgba(79,140,255,0.32)]',
-                  'text-white transition-all duration-200',
-                  'hover:bg-[#3B7DE8] hover:shadow-[0_6px_24px_rgba(79,140,255,0.40)]',
-                  'active:scale-95',
-                )}
-                onClick={() => navigate('next')}
-                type="button"
-              >
-                <ChevronRight className="h-5 w-5" />
-              </button>
-            </div>
           </div>
+          {navButtons}
         </div>
         <StoryJumpSheet
           currentOrderIndex={story.order_index}
@@ -303,11 +266,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
   return (
     <>
       <div className="flex min-h-[calc(100dvh-5rem)] flex-col gap-3">
-        <StoryProgress
-          onJump={() => setJumpOpen(true)}
-          storyNumber={story.order_index}
-        />
-
+        {/* STORY 헤더는 PatternCard 내부에 포함됨 */}
         <section
           aria-label="카드 학습 영역"
           className={cn('flex-1', animClass)}
@@ -321,14 +280,15 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
               isFavorited={favorites.has(currentPattern.id)}
               isFlipped={isFlipped}
               onFlip={handleFlip}
+              onJump={() => setJumpOpen(true)}
               onToggleFavorite={() => onToggleFavorite(currentPattern.id)}
               pattern={currentPattern}
+              storyNumber={story.order_index}
               totalCards={totalCards}
             />
           </div>
         </section>
-
-        {cardNav}
+        {navButtons}
       </div>
 
       <StoryJumpSheet

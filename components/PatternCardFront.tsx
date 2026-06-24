@@ -9,7 +9,9 @@ type PatternCardFrontProps = {
   pattern: Pattern
   cardIndex: number
   totalCards: number
+  storyNumber: number
   isFavorited?: boolean
+  onJump?: () => void
   onToggleFavorite?: () => void
 }
 
@@ -17,13 +19,34 @@ export function PatternCardFront({
   pattern,
   cardIndex,
   totalCards,
+  storyNumber,
   isFavorited = false,
+  onJump,
   onToggleFavorite,
 }: PatternCardFrontProps) {
   return (
-    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white p-6 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden]">
+    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white p-5 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden]">
 
-      {/* 상단: 도트 인디케이터 */}
+      {/* STORY 섹션 헤더 */}
+      <button
+        className="self-start transition-opacity hover:opacity-60 active:opacity-40"
+        onClick={(e) => { e.stopPropagation(); onJump?.() }}
+        style={{
+          fontFamily: 'var(--font-jakarta), -apple-system, sans-serif',
+          fontWeight: 800,
+          fontSize: '0.68rem',
+          textTransform: 'uppercase',
+          letterSpacing: '0.10em',
+          color: '#4F8CFF',
+        }}
+        type="button"
+      >
+        Story {storyNumber}
+      </button>
+      {/* 얇은 블루 라인 */}
+      <div className="mb-3 mt-1 h-px w-full bg-[#4F8CFF]/20" />
+
+      {/* 도트 인디케이터 — 가운데 */}
       <div className="flex items-center justify-center gap-1.5">
         {Array.from({ length: totalCards }, (_, i) => (
           <div
@@ -36,33 +59,29 @@ export function PatternCardFront({
         ))}
       </div>
 
-      {/* 이미지 영역 */}
-      <div className="mt-4 flex h-40 w-full items-center justify-center overflow-hidden rounded-[20px] bg-[#DCEBFF]">
+      {/* 이미지 */}
+      <div className="mt-3 flex h-36 w-full items-center justify-center overflow-hidden rounded-[18px] bg-[#DCEBFF]">
         {pattern.image_url ? (
-          <img
-            alt={pattern.pattern_text}
-            className="h-full w-full object-cover"
-            src={pattern.image_url}
-          />
+          <img alt={pattern.pattern_text} className="h-full w-full object-cover" src={pattern.image_url} />
         ) : (
           <div className="flex flex-col items-center text-[#4F8CFF]/50">
-            <ImageIcon className="h-10 w-10" strokeWidth={1.5} />
+            <ImageIcon className="h-9 w-9" strokeWidth={1.5} />
           </div>
         )}
       </div>
 
       {/* 패턴 텍스트 */}
-      <div className="mt-5 flex-1 text-center">
-        <p className="text-[2.1rem] font-extrabold leading-tight tracking-tight text-[#1F2937]">
+      <div className="mt-4 flex-1 text-center">
+        <p className="text-[1.9rem] font-extrabold leading-tight tracking-tight text-[#1F2937]">
           {pattern.pattern_text}
         </p>
-        <p className="mt-2 text-[0.95rem] font-semibold text-[#6B7280]">
+        <p className="mt-1.5 text-[0.9rem] font-semibold text-[#6B7280]">
           {pattern.meaning}
         </p>
       </div>
 
-      {/* 하트 — 우하단 */}
-      <div className="flex justify-end pt-2">
+      {/* 하트 — 좌하단 */}
+      <div className="flex justify-start pt-1">
         {onToggleFavorite && (
           <button
             aria-label={isFavorited ? '즐겨찾기 해제' : '즐겨찾기 추가'}
