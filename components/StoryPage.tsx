@@ -57,27 +57,27 @@ export function StoryPage({
       <div className="flex-1 overflow-y-auto">
         <div className="pl-7 pr-6 pt-5 pb-8">
 
-          {/* Title row — title left, Story 01 ˅ right */}
-          <div className="flex items-start justify-between gap-3 mt-2 mb-1">
-            <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[#1A1A1A] flex-1">
-              {story.title}
-            </h1>
+          {/* Title */}
+          <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[#1A1A1A] mt-2 mb-1">
+            {story.title}
+          </h1>
+
+          {/* Korean subtitle + Story picker on same line */}
+          <div className="flex items-center justify-between mb-5">
+            <p className="text-[0.78rem] text-[#9B9490] tracking-wide">
+              {story.subtitleKo}
+            </p>
             <button
               type="button"
               onClick={onOpenPicker}
               aria-label="스토리 선택"
-              className="flex items-center gap-1 mt-1.5 shrink-0 group cursor-pointer"
+              className="flex items-center shrink-0 ml-3 group cursor-pointer"
             >
               <span className="text-[9px] tracking-[0.2em] font-semibold text-[#8B2246] group-hover:opacity-70 transition-opacity">
                 Story {String(story.id).padStart(2, '0')}
               </span>
             </button>
           </div>
-
-          {/* Korean subtitle */}
-          <p className="text-[0.78rem] text-[#9B9490] mb-5 tracking-wide">
-            {story.subtitleKo}
-          </p>
 
           {/* Image + Heart + Speaker overlay */}
           <div className="relative w-full h-48 rounded-xl overflow-hidden mb-7 shadow-sm">
