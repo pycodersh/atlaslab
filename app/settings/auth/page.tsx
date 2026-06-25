@@ -87,8 +87,8 @@ export default function AuthPage() {
 
         {/* Title */}
         <div className="mb-10">
-          <h1 className="font-playfair text-[1.9rem] font-black leading-tight text-[#1A1A1A] tracking-tight">
-            로그인 /<br />회원가입
+          <h1 className="font-playfair text-[1.6rem] font-black leading-tight text-[#1A1A1A] tracking-tight">
+            Sign In / Create Account
           </h1>
           <p className="text-[0.8rem] text-[#9B9490] mt-3 leading-relaxed">
             PATTO 계정으로 학습 기록을 저장하고<br />
