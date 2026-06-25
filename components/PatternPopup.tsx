@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Volume2, BookmarkPlus, BookmarkCheck } from 'lucide-react'
 import type { MagazinePattern } from '@/types/magazine'
 
@@ -15,6 +15,11 @@ type PatternPopupProps = {
 export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: PatternPopupProps) {
   const [saved, setSaved] = useState(false)
   const [speakingId, setSpeakingId] = useState<string | null>(null)
+
+  // isSpeaking이 외부에서 false가 되면(페이지 전환 등) 활성 버튼 상태 초기화
+  useEffect(() => {
+    if (!isSpeaking) setSpeakingId(null)
+  }, [isSpeaking])
 
   function handleSpeak(id: string, text: string) {
     if (speakingId === id && isSpeaking) { stop(); setSpeakingId(null); return }
