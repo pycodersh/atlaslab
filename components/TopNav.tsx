@@ -37,12 +37,12 @@ export function TopNav() {
             height: 38,
             paddingLeft: 14,
             paddingRight: 14,
-            background: '#1A1A1A',
+            background: '#EDE5DC',
             borderRadius: '7px 7px 0 0',
             fontSize: 13,
             letterSpacing: '0.22em',
             fontWeight: 800,
-            color: '#FAF8F4',
+            color: '#1A1A1A',
           }}
         >
           PATTO
@@ -57,7 +57,7 @@ export function TopNav() {
               href={href}
               className="flex items-center justify-center cursor-pointer transition-colors"
               style={{
-                height: isActive ? 34 : 28,
+                height: 28,
                 paddingLeft: 10,
                 paddingRight: 10,
                 background: isActive ? '#8B2246' : '#EDE5DC',
