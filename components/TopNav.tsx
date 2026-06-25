@@ -10,6 +10,7 @@ const TABS = [
 ] as const
 
 function getActive(pathname: string) {
+  if (pathname === '/home' || pathname === '/') return 'HOME'
   if (pathname.startsWith('/records')) return 'PROGRESS'
   if (pathname.startsWith('/settings')) return 'SETTINGS'
   return 'STUDY'
@@ -28,20 +29,20 @@ export function TopNav() {
     >
       <div className="flex items-end gap-1.5 px-3 h-full pb-0">
 
-        {/* PATTO brand tab */}
+        {/* PATTO brand tab → Home */}
         <Link
-          href="/stories/1"
+          href="/home"
           className="flex items-center justify-center cursor-pointer transition-colors shrink-0"
           style={{
             height: 38,
             paddingLeft: 14,
             paddingRight: 14,
-            background: 'var(--pd)',
+            background: active === 'HOME' ? 'var(--pa)' : 'var(--pd)',
             borderRadius: '7px 7px 0 0',
             fontSize: 13,
             letterSpacing: '0.22em',
             fontWeight: 800,
-            color: 'var(--pt)',
+            color: active === 'HOME' ? 'var(--pb)' : 'var(--pt)',
           }}
         >
           PATTO
