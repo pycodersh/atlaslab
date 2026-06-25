@@ -13,6 +13,8 @@ export type MagazinePattern = {
   storySentenceKo: string
   variationSentence: string
   variationSentenceKo: string
+  explanation?: string
+  examples?: { en: string; ko: string }[]
 }
 
 export type MagazineStory = {

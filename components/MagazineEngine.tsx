@@ -6,10 +6,11 @@ import { Volume2, X } from 'lucide-react'
 
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { PatternsPage } from '@/components/PatternsPage'
+import { PatternPopup } from '@/components/PatternPopup'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
 import { useSpeech } from '@/hooks/useSpeech'
-import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
+import type { MagazineParagraph, MagazinePattern, MagazineStory } from '@/types/magazine'
 
 type MagazineEngineProps = {
   story: MagazineStory
@@ -24,6 +25,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
   const [view, setView] = useState<'story' | 'patterns'>(initialView)
   const [showPicker, setShowPicker] = useState(false)
   const [popup, setPopup] = useState<MagazineParagraph | null>(null)
+  const [patternPopup, setPatternPopup] = useState<MagazinePattern | null>(null)
 
   // ── Swipe / drag state ──────────────────────────────────────────────
   const [dragOffset, setDragOffset] = useState(0)
@@ -197,6 +199,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
             onNext={goNext}
             hasNext={!isLast}
             onOpenPicker={() => setShowPicker(true)}
+            onOpenPattern={(p) => { stop(); setPatternPopup(p) }}
           />
         </div>
       </div>
@@ -272,6 +275,17 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
             )}
           </div>
         </div>
+      )}
+
+      {/* Pattern popup — outside rail */}
+      {patternPopup && (
+        <PatternPopup
+          pattern={patternPopup}
+          onClose={() => setPatternPopup(null)}
+          speak={speak}
+          stop={stop}
+          isSpeaking={isSpeaking}
+        />
       )}
 
       {/* Wheel picker */}

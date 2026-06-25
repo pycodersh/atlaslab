@@ -1,18 +1,19 @@
 'use client'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import type { MagazineStory } from '@/types/magazine'
+import type { MagazinePattern, MagazineStory } from '@/types/magazine'
 
 type PatternsPageProps = {
   story: MagazineStory
   totalStories: number
-  onPrev: () => void       // Patterns → Story (same story)
-  onNext: () => void       // Patterns → next Story
+  onPrev: () => void
+  onNext: () => void
   hasNext: boolean
   onOpenPicker: () => void
+  onOpenPattern: (pattern: MagazinePattern) => void
 }
 
-export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: PatternsPageProps) {
+export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, onOpenPattern }: PatternsPageProps) {
   return (
     <div className="h-full flex flex-col bg-[#FAF8F4]">
       <div className="flex-1 overflow-y-auto">
@@ -43,43 +44,32 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
             </button>
           </div>
 
-          <div className="h-px bg-[#E8E0D8] mb-1" />
+          <div className="h-px bg-[#E8E0D8]" />
 
-          {/* Pattern list */}
+          {/* Pattern list — tap to open popup */}
           <div>
             {story.patterns.map((pattern, index) => (
               <div key={pattern.id}>
-                <div className="flex gap-4 py-6">
-                  <div className="shrink-0 w-10 pt-0.5">
-                    <span className="font-playfair text-[1.5rem] font-bold text-[#8B2246] leading-none">
+                <button
+                  type="button"
+                  onClick={() => onOpenPattern(pattern)}
+                  className="w-full text-left flex gap-4 py-6 group cursor-pointer active:bg-[#F5EDE8]/50 rounded-xl -mx-1 px-1 transition-colors"
+                >
+                  <div className="shrink-0 w-8 pt-0.5">
+                    <span className="font-playfair text-[1.4rem] font-bold text-[#8B2246] leading-none group-hover:opacity-70 transition-opacity">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-playfair text-[1.1rem] font-bold text-[#1A1A1A] leading-snug">
+                    <p className="font-playfair text-[1.05rem] font-bold text-[#1A1A1A] leading-snug group-hover:text-[#8B2246] transition-colors">
                       {pattern.pattern}
                     </p>
-                    <p className="text-[0.72rem] text-[#8B2246] mt-0.5 mb-4">{pattern.meaningKo}</p>
-
-                    <div className="mb-3">
-                      <p className="text-[0.82rem] text-[#1A1A1A] leading-relaxed font-medium">
-                        {pattern.storySentence}
-                      </p>
-                      <p className="text-[0.74rem] text-[#9B9490] leading-relaxed mt-0.5">
-                        {pattern.storySentenceKo}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-[0.82rem] text-[#1A1A1A] leading-relaxed font-medium">
-                        {pattern.variationSentence}
-                      </p>
-                      <p className="text-[0.74rem] text-[#9B9490] leading-relaxed mt-0.5">
-                        {pattern.variationSentenceKo}
-                      </p>
-                    </div>
+                    <p className="text-[0.72rem] text-[#8B2246]/70 mt-0.5">{pattern.meaningKo}</p>
                   </div>
-                </div>
+                  <div className="shrink-0 pt-1.5">
+                    <ChevronRight className="w-3.5 h-3.5 text-[#D8D0C8] group-hover:text-[#8B2246] transition-colors" strokeWidth={1.5} />
+                  </div>
+                </button>
                 {index < story.patterns.length - 1 && (
                   <div className="h-px bg-[#EEE8E0]" />
                 )}
