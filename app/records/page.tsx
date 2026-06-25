@@ -26,12 +26,14 @@ function getLevel(completedStories: number, total: number) {
 // ── Stat row ───────────────────────────────────────────────────────────
 function StatRow({
   label,
+  labelKo,
   value,
   sub,
   icon: Icon,
   last,
 }: {
   label: string
+  labelKo: string
   value: string
   sub: string
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
@@ -43,7 +45,10 @@ function StatRow({
         <div className="w-7 h-7 rounded-full bg-[#8B2246]/8 flex items-center justify-center shrink-0">
           <Icon className="w-3.5 h-3.5 text-[#8B2246]" strokeWidth={1.8} />
         </div>
-        <p className="text-[13px] font-semibold text-[#3A3A3A] tracking-wide">{label}</p>
+        <div>
+          <p className="text-[13px] font-semibold text-[#3A3A3A] tracking-wide">{label}</p>
+          <p className="text-[10px] text-[#B8AFA8] mt-0.5">{labelKo}</p>
+        </div>
       </div>
       <div className="text-right">
         <p className="font-playfair text-[1.4rem] font-bold text-[#1A1A1A] leading-none">{value}</p>
@@ -168,24 +173,28 @@ export default async function RecordsPage() {
         <div className="py-2 border-b border-[#EDE5DC]">
           <StatRow
             label="Stories Completed"
+            labelKo="완료한 스토리"
             value={String(stats.completedStories)}
             sub={`/ ${total} stories`}
             icon={BookOpen}
           />
           <StatRow
             label="Patterns Learned"
+            labelKo="학습한 패턴"
             value={String(stats.totalPatternsSeen)}
             sub={`/ ${totalPatterns} patterns`}
             icon={BookOpen}
           />
           <StatRow
             label="Current Streak"
+            labelKo="연속 학습일"
             value={String(streakDays)}
             sub="days"
             icon={Flame}
           />
           <StatRow
             label="Study Time"
+            labelKo="총 학습 시간"
             value={studyHours}
             sub="hours"
             icon={Clock}
@@ -208,7 +217,7 @@ export default async function RecordsPage() {
             </Link>
           </div>
 
-          <p className="text-[0.75rem] text-[#9B9490] mb-5">저장한 패턴 미리보기</p>
+          <p className="text-[0.75rem] text-[#9B9490] mb-3">저장한 패턴 미리보기</p>
 
           <div className="space-y-0">
             {SAVED_PATTERNS.map((p, i) => (

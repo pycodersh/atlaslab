@@ -6,25 +6,25 @@ const hubs = [
   {
     icon: UserCircle,
     label: 'ACCOUNT',
-    desc: 'Manage profile and authentication',
+    desc: '프로필 및 계정 관리',
     href: '/settings/account',
   },
   {
     icon: SlidersHorizontal,
     label: 'PREFERENCES',
-    desc: 'Customize your learning experience',
+    desc: '학습 환경 맞춤 설정',
     href: '/settings/preferences',
   },
   {
     icon: Sparkles,
     label: 'SUBSCRIPTION',
-    desc: 'Premium plans and billing',
+    desc: '프리미엄 플랜 및 결제',
     href: '/settings/subscription',
   },
   {
     icon: Info,
     label: 'ABOUT',
-    desc: 'Terms, privacy and app information',
+    desc: '이용약관, 개인정보 및 앱 정보',
     href: '/settings/about',
   },
 ]
