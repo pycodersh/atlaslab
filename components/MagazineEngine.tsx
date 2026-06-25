@@ -31,11 +31,13 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
   const touchStartY = useRef(0)
   const isHorizontalSwipe = useRef<boolean | null>(null)
   const viewRef = useRef(view)
+  const storyRef = useRef(story)
+  const allStoriesRef = useRef(allStories)
   const railRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    viewRef.current = view
-  }, [view])
+  useEffect(() => { viewRef.current = view }, [view])
+  useEffect(() => { storyRef.current = story }, [story])
+  useEffect(() => { allStoriesRef.current = allStories }, [allStories])
 
   // Non-passive touchmove to allow e.preventDefault() on horizontal swipes
   useEffect(() => {
@@ -58,9 +60,11 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
       e.preventDefault()
 
       const v = viewRef.current
-      // Hard-constrain: story can only go left, patterns can only go right
-      if (v === 'story' && dx > 0) return
-      if (v === 'patterns' && dx < 0) return
+      const hasNext = storyRef.current.id < allStoriesRef.current.length
+      const hasPrev = storyRef.current.id > 1
+      // Constrain hard edges: first story can't swipe right on story, last story can't swipe left on patterns
+      if (v === 'story' && dx > 0 && !hasPrev) return
+      if (v === 'patterns' && dx < 0 && !hasNext) return
 
       setDragOffset(dx)
       setIsDragging(true)
@@ -78,19 +82,30 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
 
   function handleTouchEnd() {
     isHorizontalSwipe.current = null
-    if (!isDragging) return
+    if (!isDragging) { setDragOffset(0); return }
 
     const THRESHOLD = (typeof window !== 'undefined' ? window.innerWidth : 375) * 0.25
     const currentView = viewRef.current
+    const currentStory = storyRef.current
 
-    if (dragOffset < -THRESHOLD && currentView === 'story') {
-      stop()
-      setPopup(null)
-      setView('patterns')
-    } else if (dragOffset > THRESHOLD && currentView === 'patterns') {
-      stop()
-      setPopup(null)
-      setView('story')
+    if (dragOffset < -THRESHOLD) {
+      if (currentView === 'story') {
+        // Story → Patterns (같은 스토리)
+        stop(); setPopup(null); setView('patterns')
+      } else {
+        // Patterns → 다음 Story
+        const next = allStoriesRef.current.find(s => s.id === currentStory.id + 1)
+        if (next) { stop(); setPopup(null); setView('story'); router.push(`/stories/${next.id}`) }
+      }
+    } else if (dragOffset > THRESHOLD) {
+      if (currentView === 'patterns') {
+        // Patterns → Story (같은 스토리)
+        stop(); setPopup(null); setView('story')
+      } else {
+        // Story → 이전 Story
+        const prev = allStoriesRef.current.find(s => s.id === currentStory.id - 1)
+        if (prev) { stop(); setPopup(null); setView('story'); router.push(`/stories/${prev.id}`) }
+      }
     }
 
     setIsDragging(false)
