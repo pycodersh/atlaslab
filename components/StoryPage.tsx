@@ -71,9 +71,6 @@ export function StoryPage({
               <span className="text-[9px] tracking-[0.2em] font-semibold text-[#8B2246] group-hover:opacity-70 transition-opacity">
                 Story {String(story.id).padStart(2, '0')}
               </span>
-              <svg width="7" height="5" viewBox="0 0 7 5" fill="none" className="text-[#8B2246] opacity-70">
-                <path d="M1 1L3.5 3.5L6 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
             </button>
           </div>
 

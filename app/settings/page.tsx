@@ -46,7 +46,7 @@ export default function SettingsPage() {
     <div className="min-h-dvh bg-[#FAF8F4]">
       <TopNav />
 
-      <div style={{ paddingTop: NAV_HEIGHT + 8 }} className="px-6 pb-16 max-w-sm mx-auto">
+      <div style={{ paddingTop: NAV_HEIGHT + 16 }} className="px-6 pb-16 max-w-sm mx-auto">
         {/* Page title */}
         <div className="pt-6 pb-5 border-b border-[#EDE5DC]">
           <h1 className="font-playfair text-[2.8rem] font-black leading-none text-[#1A1A1A] tracking-tight">
@@ -78,7 +78,7 @@ export default function SettingsPage() {
                   {/* Item label — 19px, medium weight */}
                   <span
                     className="text-[#161616] group-hover:text-[#8B2246] transition-colors"
-                    style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.4 }}
+                    style={{ fontSize: 14, fontWeight: 700, lineHeight: 1.4 }}
                   >
                     {item.label}
                   </span>
@@ -88,7 +88,7 @@ export default function SettingsPage() {
                     {item.value && (
                       <span
                         className="text-[#8f837b]"
-                        style={{ fontSize: 15, fontWeight: 400 }}
+                        style={{ fontSize: 14, fontWeight: 700 }}
                       >
                         {item.value}
                       </span>
