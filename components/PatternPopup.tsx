@@ -14,10 +14,13 @@ type PatternPopupProps = {
 
 export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: PatternPopupProps) {
   const [saved, setSaved] = useState(false)
+  const [speakingId, setSpeakingId] = useState<string | null>(null)
 
-  function handleAudio() {
-    if (isSpeaking) { stop(); return }
-    speak(pattern.storySentence)
+  function handleSpeak(id: string, text: string) {
+    if (speakingId === id && isSpeaking) { stop(); setSpeakingId(null); return }
+    stop()
+    setSpeakingId(id)
+    speak(text)
   }
 
   return (
@@ -31,31 +34,17 @@ export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: Patt
         style={{ background: '#FAF8F4', maxHeight: '82dvh' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header — PATTERN NOTE + TTS + Close */}
+        {/* Header — PATTERN NOTE + Close */}
         <div className="flex justify-between items-center mb-4">
           <span className="text-[9px] tracking-[0.25em] text-[#8B2246] font-semibold">PATTERN NOTE</span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              aria-label={isSpeaking ? '정지' : '읽기'}
-              onClick={handleAudio}
-              className={`p-1.5 rounded-full transition-colors cursor-pointer ${
-                isSpeaking
-                  ? 'bg-[#EDE5DC] text-[#8B2246]'
-                  : 'text-[#C8BFB5] hover:bg-[#EDE5DC] hover:text-[#8B2246]'
-              }`}
-            >
-              <Volume2 className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              aria-label="닫기"
-              onClick={() => { onClose(); stop() }}
-              className="text-[#C8BFB5] hover:text-[#1A1A1A] transition-colors cursor-pointer"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
+          <button
+            type="button"
+            aria-label="닫기"
+            onClick={() => { onClose(); stop() }}
+            className="text-[#C8BFB5] hover:text-[#1A1A1A] transition-colors cursor-pointer"
+          >
+            <X className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Pattern + meaning */}
@@ -78,12 +67,29 @@ export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: Patt
         {/* Story sentence */}
         <div className="h-px bg-[#EDE5DC] mb-3" />
         <p className="text-[9px] tracking-[0.2em] text-[#C8BFB5] font-semibold mb-2">스토리 예문</p>
-        <p className="font-playfair text-[0.82rem] font-bold text-[#1A1A1A] leading-relaxed">
-          {pattern.storySentence}
-        </p>
-        <p className="text-[0.73rem] text-[#9B9490] mt-0.5 leading-relaxed mb-4">
-          {pattern.storySentenceKo}
-        </p>
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <p className="font-playfair text-[0.82rem] font-bold text-[#1A1A1A] leading-relaxed">
+              {pattern.storySentence}
+            </p>
+            <p className="text-[0.73rem] text-[#9B9490] mt-0.5 leading-relaxed">
+              {pattern.storySentenceKo}
+            </p>
+          </div>
+          <button
+            type="button"
+            aria-label="읽기"
+            onClick={() => handleSpeak('story', pattern.storySentence)}
+            className={`shrink-0 p-1.5 rounded-full transition-colors cursor-pointer mt-0.5 ${
+              speakingId === 'story' && isSpeaking
+                ? 'bg-[#EDE5DC] text-[#8B2246]'
+                : 'text-[#C8BFB5] hover:bg-[#EDE5DC] hover:text-[#8B2246]'
+            }`}
+          >
+            <Volume2 className="w-3 h-3" />
+          </button>
+        </div>
+        <div className="mb-4" />
 
         {/* Additional examples */}
         {pattern.examples && pattern.examples.length > 0 && (
@@ -92,14 +98,26 @@ export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: Patt
             <p className="text-[9px] tracking-[0.2em] text-[#C8BFB5] font-semibold mb-3">추가 예문</p>
             <div className="space-y-3 mb-4">
               {pattern.examples.map((ex, i) => (
-                <div key={i} className="flex gap-3">
+                <div key={i} className="flex gap-3 items-start">
                   <span className="font-playfair text-[11px] font-bold text-[#8B2246] w-4 shrink-0 pt-0.5">
                     {i + 1}
                   </span>
-                  <div>
+                  <div className="flex-1 min-w-0">
                     <p className="text-[0.8rem] font-medium text-[#1A1A1A] leading-relaxed">{ex.en}</p>
                     <p className="text-[0.7rem] text-[#9B9490] mt-0.5">{ex.ko}</p>
                   </div>
+                  <button
+                    type="button"
+                    aria-label="읽기"
+                    onClick={() => handleSpeak(`ex-${i}`, ex.en)}
+                    className={`shrink-0 p-1.5 rounded-full transition-colors cursor-pointer mt-0.5 ${
+                      speakingId === `ex-${i}` && isSpeaking
+                        ? 'bg-[#EDE5DC] text-[#8B2246]'
+                        : 'text-[#C8BFB5] hover:bg-[#EDE5DC] hover:text-[#8B2246]'
+                    }`}
+                  >
+                    <Volume2 className="w-3 h-3" />
+                  </button>
                 </div>
               ))}
             </div>
