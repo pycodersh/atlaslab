@@ -64,7 +64,19 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, onO
                     <p className="font-playfair text-[1.05rem] font-bold text-[#1A1A1A] leading-snug group-hover:text-[#8B2246] transition-colors">
                       {pattern.pattern}
                     </p>
-                    <p className="text-[0.72rem] text-[#8B2246]/70 mt-0.5">{pattern.meaningKo}</p>
+                    <p className="text-[0.72rem] text-[#8B2246]/70 mt-0.5 mb-3">{pattern.meaningKo}</p>
+                    <p className="text-[0.8rem] text-[#1A1A1A] leading-relaxed font-medium">
+                      {pattern.storySentence}
+                    </p>
+                    <p className="text-[0.72rem] text-[#9B9490] mt-0.5 leading-relaxed">
+                      {pattern.storySentenceKo}
+                    </p>
+                    <p className="text-[0.8rem] text-[#1A1A1A] leading-relaxed font-medium mt-2">
+                      {pattern.variationSentence}
+                    </p>
+                    <p className="text-[0.72rem] text-[#9B9490] mt-0.5 leading-relaxed">
+                      {pattern.variationSentenceKo}
+                    </p>
                   </div>
                   <div className="shrink-0 pt-1.5">
                     <ChevronRight className="w-3.5 h-3.5 text-[#D8D0C8] group-hover:text-[#8B2246] transition-colors" strokeWidth={1.5} />
