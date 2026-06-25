@@ -103,7 +103,7 @@ export default async function RecordsPage() {
       <TopNav />
 
       <div
-        className="px-7 pb-20 max-w-sm mx-auto pt-36"
+        className="px-7 pb-20 max-w-sm mx-auto pt-20"
         
       >
         {/* ── Page title ── */}

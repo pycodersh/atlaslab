@@ -42,7 +42,7 @@ export default function SubscriptionPage() {
     <div className="min-h-dvh bg-[#FAF8F4]">
       <TopNav />
 
-      <div className="px-7 pb-28 max-w-sm mx-auto pt-36">
+      <div className="px-7 pb-28 max-w-sm mx-auto pt-20">
         <Link
           href="/settings"
           className="flex items-center gap-1.5 text-[#9B9490] hover:text-[#8B2246] transition-colors mb-8 w-fit"

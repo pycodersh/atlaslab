@@ -101,7 +101,7 @@ export default function AccountPage() {
     <div className="min-h-dvh bg-[#FAF8F4]">
       <TopNav />
 
-      <div className="px-7 pb-24 max-w-sm mx-auto pt-36">
+      <div className="px-7 pb-24 max-w-sm mx-auto pt-20">
         {/* Back */}
         <Link
           href="/settings"
