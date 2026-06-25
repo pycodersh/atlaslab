@@ -10,7 +10,7 @@ const TABS: BookmarkTab[] = ['STUDY', 'PROGRESS', 'SETTINGS']
 
 export function BookmarkNav({ activeTab = 'STUDY' }: BookmarkNavProps) {
   return (
-    <div className="fixed left-0 top-0 h-full z-30 flex flex-col items-start justify-center gap-2.5 pointer-events-none">
+    <div className="fixed left-0 top-0 h-full z-30 flex flex-col items-start justify-start pt-10 gap-2 pointer-events-none">
       {TABS.map((tab) => {
         const isActive = activeTab === tab
         return (

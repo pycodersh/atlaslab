@@ -98,6 +98,7 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
                 onClick={() => scrollToStory(story.id)}
               >
                 <span className="text-[0.82rem] text-center leading-tight line-clamp-1">
+                  <span className="text-[#8B2246] font-semibold mr-1.5">{String(story.id).padStart(2, '0')}</span>
                   {story.title}
                 </span>
               </div>
