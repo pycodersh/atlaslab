@@ -1,21 +1,8 @@
 import { ChevronRight } from 'lucide-react'
 
-import { BookmarkNav } from '@/components/BookmarkNav'
+import { TopNav } from '@/components/TopNav'
 
-type SettingSection = {
-  label: string
-  items: { label: string; value?: string }[]
-}
-
-const sections: SettingSection[] = [
-  {
-    label: 'ACCOUNT',
-    items: [
-      { label: 'Profile' },
-      { label: 'Subscription', value: 'Free' },
-      { label: 'Sign Out' },
-    ],
-  },
+const sections = [
   {
     label: 'THEME',
     items: [
@@ -31,78 +18,72 @@ const sections: SettingSection[] = [
     ],
   },
   {
-    label: 'NOTIFICATIONS',
-    items: [
-      { label: 'Daily Reminder', value: 'On' },
-      { label: 'Reminder Time', value: '09:00' },
-    ],
-  },
-  {
     label: 'LANGUAGE',
     items: [
       { label: 'App Language', value: '한국어' },
       { label: 'Translation', value: 'Korean' },
     ],
   },
-]
+  {
+    label: 'ACCOUNT',
+    items: [
+      { label: 'Profile' },
+      { label: 'Subscription', value: 'Free' },
+      { label: 'Sign Out' },
+    ],
+  },
+  {
+    label: 'NOTIFICATIONS',
+    items: [
+      { label: 'Daily Reminder', value: 'On' },
+      { label: 'Reminder Time', value: '09:00' },
+    ],
+  },
+] as const
 
 export default function SettingsPage() {
   return (
-    <div className="relative min-h-dvh bg-[#FAF8F4]">
-      <BookmarkNav />
+    <div className="min-h-dvh bg-[#FAF8F4]">
+      <TopNav />
 
-      <div className="pl-10 pr-6 pt-10 pb-16 max-w-sm mx-auto">
-        {/* Header */}
-        <p className="text-[11px] font-bold tracking-[0.3em] text-[#1A1A1A] mb-6">PATTO</p>
-
-        <h1 className="font-playfair text-[3rem] font-black leading-none text-[#1A1A1A] tracking-tight">
-          SETTINGS
-        </h1>
-        <div className="h-px bg-[#8B2246] w-12 mt-4 mb-2" />
-
-        {/* Index subtitle */}
-        <p className="text-[0.75rem] text-[#9B9490] mb-10 tracking-wide">
-          앱을 나에게 맞게 조정하세요.
-        </p>
-
-        {/* ── Index-style sections ── */}
-        <div className="space-y-8">
-          {sections.map((section) => (
-            <div key={section.label}>
-              {/* Section label */}
-              <div className="flex items-center gap-3 mb-3">
-                <p className="text-[9px] tracking-[0.3em] text-[#8B2246] font-semibold shrink-0">
-                  {section.label}
-                </p>
-                <div className="h-px flex-1 bg-[#E8E0D8]" />
-              </div>
-
-              {/* Items */}
-              <div className="bg-white rounded-2xl overflow-hidden shadow-[0_1px_8px_rgba(0,0,0,0.06)]">
-                {section.items.map((item, i) => (
-                  <button
-                    key={item.label}
-                    type="button"
-                    className={[
-                      'w-full flex items-center justify-between px-5 py-4 cursor-pointer',
-                      'hover:bg-[#FDF8F4] active:bg-[#F5EDE8] transition-colors text-left',
-                      i > 0 ? 'border-t border-[#F0E8E0]' : '',
-                    ].join(' ')}
-                  >
-                    <span className="text-[0.88rem] text-[#1A1A1A]">{item.label}</span>
-                    <span className="flex items-center gap-1.5 text-[0.78rem] text-[#C8BFB5]">
-                      {item.value && <span>{item.value}</span>}
-                      <ChevronRight className="w-3.5 h-3.5" strokeWidth={1.5} />
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
+      <div className="pt-11 pl-6 pr-6 pb-16 max-w-sm mx-auto">
+        {/* Page title */}
+        <div className="pt-8 pb-6 border-b border-[#EDE5DC]">
+          <h1 className="font-playfair text-[2.8rem] font-black leading-none text-[#1A1A1A] tracking-tight">
+            SETTINGS
+          </h1>
+          <p className="text-base text-[#9B9490] mt-2">앱을 나에게 맞게 조정하세요.</p>
         </div>
 
-        {/* Footer */}
-        <p className="text-[8px] tracking-[0.2em] text-[#D8D0C8] text-center mt-12">
+        {/* Sections — typography + divider only, no boxes */}
+        {sections.map((section) => (
+          <div key={section.label} className="py-6 border-b border-[#EDE5DC]">
+            <p className="text-[10px] tracking-[0.28em] text-[#8B2246] font-semibold mb-5">
+              {section.label}
+            </p>
+            <div className="space-y-5">
+              {section.items.map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  className="w-full flex items-center justify-between py-0.5 text-left cursor-pointer group"
+                >
+                  <span className="text-base text-[#1A1A1A] group-hover:text-[#8B2246] transition-colors">
+                    {item.label}
+                  </span>
+                  <span className="flex items-center gap-1 text-base text-[#C8BFB5]">
+                    {'value' in item && item.value && (
+                      <span>{item.value}</span>
+                    )}
+                    <ChevronRight className="w-4 h-4" strokeWidth={1.4} />
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <p className="text-[10px] tracking-[0.2em] text-[#D8D0C8] text-center pt-10">
           PATTO · v1.0.0
         </p>
       </div>

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Volume2, X } from 'lucide-react'
 
-import { BookmarkNav } from '@/components/BookmarkNav'
+import { TopNav } from '@/components/TopNav'
 import { PatternsPage } from '@/components/PatternsPage'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
@@ -144,10 +144,9 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
     : `translateX(${basePercent}%)`
 
   return (
-    // Outer clip: 100dvh, hides off-screen page
-    <div className="relative overflow-hidden" style={{ height: '100dvh' }}>
-      {/* Fixed left bookmark — rendered here (outside rail transform) so it stays in viewport */}
-      <BookmarkNav />
+    // Outer clip: below fixed TopNav (44px), hides off-screen page
+    <div className="relative overflow-hidden" style={{ marginTop: 44, height: 'calc(100dvh - 44px)' }}>
+      <TopNav />
 
       {/* Sliding rail */}
       <div

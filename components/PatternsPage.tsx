@@ -16,8 +16,7 @@ export function PatternsPage({ story, onOpenPicker }: PatternsPageProps) {
       {/* Scrollable area */}
       <div className="flex-1 overflow-y-auto">
         {/* Header */}
-        <header className="flex items-center justify-between pl-8 pr-6 pt-10 pb-2">
-          <span className="text-[11px] font-bold tracking-[0.3em] text-[#1A1A1A]">PATTO</span>
+        <header className="flex items-center justify-end pl-8 pr-6 pt-4 pb-2">
           <button
             aria-label="스토리 선택"
             className="text-[9px] tracking-[0.25em] text-[#C8BFB5] cursor-pointer hover:text-[#8B2246] transition-colors"

@@ -54,8 +54,7 @@ export function StoryPage({
     <div className="h-full flex flex-col bg-[#FAF8F4]">
       {/* Scrollable content */}
       <div className="flex-1 overflow-y-auto">
-        <header className="flex items-center justify-between pl-8 pr-6 pt-10 pb-2">
-          <span className="text-[11px] font-bold tracking-[0.3em] text-[#1A1A1A]">PATTO</span>
+        <header className="flex items-center justify-end pl-8 pr-6 pt-4 pb-2">
           <span className="text-[9px] tracking-[0.25em] text-[#C8BFB5]">
             {String(story.id).padStart(2, '0')} / 100
           </span>
