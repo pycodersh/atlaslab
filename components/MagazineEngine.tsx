@@ -147,7 +147,7 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
     // Outer clip: 100dvh, hides off-screen page
     <div className="relative overflow-hidden" style={{ height: '100dvh' }}>
       {/* Fixed left bookmark — rendered here (outside rail transform) so it stays in viewport */}
-      <BookmarkNav activeTab="STUDY" />
+      <BookmarkNav />
 
       {/* Sliding rail */}
       <div
@@ -156,7 +156,7 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
         style={{
           width: '200%',
           transform: railTransform,
-          transition: isDragging ? 'none' : 'transform 500ms cubic-bezier(0.4, 0, 0.15, 1)',
+          transition: isDragging ? 'none' : 'transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1)',
           willChange: 'transform',
         }}
         onTouchStart={handleTouchStart}
