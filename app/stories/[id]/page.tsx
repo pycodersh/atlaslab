@@ -18,5 +18,5 @@ export default async function StoryDetailPage({ params }: Props) {
 
   if (!story) notFound()
 
-  return <MagazineEngine story={story} totalStories={magazineStories.length} />
+  return <MagazineEngine story={story} allStories={magazineStories} />
 }

@@ -8,22 +8,36 @@ type PatternsPageProps = {
   totalStories: number
   onPrev: () => void
   onNext: () => void
+  onOpenPicker: () => void
 }
 
-export function PatternsPage({ story, totalStories, onPrev, onNext }: PatternsPageProps) {
+export function PatternsPage({
+  story,
+  totalStories,
+  onPrev,
+  onNext,
+  onOpenPicker,
+}: PatternsPageProps) {
   const isLastStory = story.id >= totalStories
 
   return (
-    <div className="min-h-screen bg-[#FAF8F4]">
-      {/* Scrollable content */}
-      <div className="overflow-y-auto pb-24">
+    <div className="h-full flex flex-col bg-[#FAF8F4]">
+      {/* Scrollable area */}
+      <div className="flex-1 overflow-y-auto">
         {/* Header */}
-        <header className="flex items-center justify-between px-6 pt-10 pb-2">
+        <header className="flex items-center justify-between pl-8 pr-6 pt-10 pb-2">
           <span className="text-[11px] font-bold tracking-[0.3em] text-[#1A1A1A]">PATTO</span>
-          <span className="text-[10px] tracking-[0.3em] text-[#8B2246] font-semibold">PATTERNS</span>
+          <button
+            aria-label="스토리 선택"
+            className="text-[10px] tracking-[0.3em] text-[#8B2246] font-semibold cursor-pointer hover:opacity-60 transition-opacity"
+            onClick={onOpenPicker}
+            type="button"
+          >
+            PATTERNS
+          </button>
         </header>
 
-        <div className="px-6">
+        <div className="pl-8 pr-6 pb-6">
           {/* Big heading */}
           <h1 className="font-playfair text-[3.2rem] font-black leading-none text-[#8B2246] mt-3 tracking-tight">
             PATTERNS
@@ -52,7 +66,7 @@ export function PatternsPage({ story, totalStories, onPrev, onNext }: PatternsPa
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    {/* Pattern + Korean meaning */}
+                    {/* Pattern + meaning */}
                     <p className="font-playfair text-[1.15rem] font-bold text-[#1A1A1A] leading-snug">
                       {pattern.pattern}
                     </p>
@@ -62,9 +76,6 @@ export function PatternsPage({ story, totalStories, onPrev, onNext }: PatternsPa
 
                     {/* Story sentence */}
                     <div className="mb-3">
-                      <span className="text-[8.5px] tracking-[0.22em] text-[#B8AFA8] font-semibold block mb-1">
-                        STORY
-                      </span>
                       <p className="text-[0.82rem] text-[#1A1A1A] leading-relaxed font-medium">
                         {pattern.storySentence}
                       </p>
@@ -75,9 +86,6 @@ export function PatternsPage({ story, totalStories, onPrev, onNext }: PatternsPa
 
                     {/* Variation sentence */}
                     <div>
-                      <span className="text-[8.5px] tracking-[0.22em] text-[#B8AFA8] font-semibold block mb-1">
-                        VARIATION
-                      </span>
                       <p className="text-[0.82rem] text-[#1A1A1A] leading-relaxed font-medium">
                         {pattern.variationSentence}
                       </p>
@@ -97,10 +105,10 @@ export function PatternsPage({ story, totalStories, onPrev, onNext }: PatternsPa
         </div>
       </div>
 
-      {/* Bottom footer bar */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[600px] mx-auto bg-[#FAF8F4] border-t border-[#E8E0D8]">
-        <div className="flex items-center justify-between px-6 py-4">
-          <span className="text-[9px] tracking-[0.25em] text-[#B8AFA8] font-medium">
+      {/* Bottom bar */}
+      <div className="shrink-0 bg-[#FAF8F4] border-t border-[#E8E0D8]">
+        <div className="flex items-center justify-between pl-8 pr-6 py-4">
+          <span className="text-[9px] tracking-[0.2em] text-[#B8AFA8] font-medium">
             SPEAK NATURALLY. CONNECT DEEPLY.
           </span>
           <div className="flex items-center gap-4">
@@ -126,12 +134,9 @@ export function PatternsPage({ story, totalStories, onPrev, onNext }: PatternsPa
             )}
           </div>
         </div>
-        {/* Bottom page indicator */}
-        <div className="px-6 pb-3">
-          <p className="text-[8px] tracking-[0.12em] text-[#C8C0B8] text-center">
-            STUDY · STORIES · PATTERNS
-          </p>
-        </div>
+        <p className="text-[8px] tracking-[0.12em] text-[#C8C0B8] text-center pb-3">
+          STUDY · STORIES · PATTERNS
+        </p>
       </div>
     </div>
   )
