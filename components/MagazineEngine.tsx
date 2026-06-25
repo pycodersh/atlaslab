@@ -14,13 +14,14 @@ import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 type MagazineEngineProps = {
   story: MagazineStory
   allStories: MagazineStory[]
+  initialView?: 'story' | 'patterns'
 }
 
-export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
+export function MagazineEngine({ story, allStories, initialView = 'story' }: MagazineEngineProps) {
   const router = useRouter()
   const { speak, speakAll, stop, isSpeaking } = useSpeech()
 
-  const [view, setView] = useState<'story' | 'patterns'>('story')
+  const [view, setView] = useState<'story' | 'patterns'>(initialView)
   const [showPicker, setShowPicker] = useState(false)
   const [popup, setPopup] = useState<MagazineParagraph | null>(null)
 
@@ -48,23 +49,22 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
       const dx = e.touches[0].clientX - touchStartX.current
       const dy = e.touches[0].clientY - touchStartY.current
 
-      // Determine swipe direction on first significant movement
       if (isHorizontalSwipe.current === null) {
         if (Math.abs(dx) > Math.abs(dy) + 5) isHorizontalSwipe.current = true
         else if (Math.abs(dy) > Math.abs(dx) + 5) isHorizontalSwipe.current = false
         else return
       }
-
       if (!isHorizontalSwipe.current) return
 
       e.preventDefault()
 
       const v = viewRef.current
-      const hasNext = storyRef.current.id < allStoriesRef.current.length
-      const hasPrev = storyRef.current.id > 1
-      // Constrain hard edges: first story can't swipe right on story, last story can't swipe left on patterns
-      if (v === 'story' && dx > 0 && !hasPrev) return
-      if (v === 'patterns' && dx < 0 && !hasNext) return
+      const s = storyRef.current
+      const all = allStoriesRef.current
+      // Block left-drag when on last page (Patterns of last story)
+      if (v === 'patterns' && dx < 0 && s.id >= all.length) return
+      // Block right-drag when on first page (Story of first story)
+      if (v === 'story' && dx > 0 && s.id <= 1) return
 
       setDragOffset(dx)
       setIsDragging(true)
@@ -80,31 +80,34 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
     isHorizontalSwipe.current = null
   }
 
+  // Linear swipe: Story01 → Patterns01 → Story02 → Patterns02 …
   function handleTouchEnd() {
     isHorizontalSwipe.current = null
     if (!isDragging) { setDragOffset(0); return }
 
     const THRESHOLD = (typeof window !== 'undefined' ? window.innerWidth : 375) * 0.25
-    const currentView = viewRef.current
-    const currentStory = storyRef.current
+    const v = viewRef.current
+    const s = storyRef.current
 
     if (dragOffset < -THRESHOLD) {
-      if (currentView === 'story') {
-        // Story → Patterns (같은 스토리)
+      // Swipe LEFT → forward
+      if (v === 'story') {
+        // Story → Patterns (same story)
         stop(); setPopup(null); setView('patterns')
       } else {
-        // Patterns → 다음 Story
-        const next = allStoriesRef.current.find(s => s.id === currentStory.id + 1)
+        // Patterns → next Story
+        const next = allStoriesRef.current.find(x => x.id === s.id + 1)
         if (next) { stop(); setPopup(null); setView('story'); router.push(`/stories/${next.id}`) }
       }
     } else if (dragOffset > THRESHOLD) {
-      if (currentView === 'patterns') {
-        // Patterns → Story (같은 스토리)
+      // Swipe RIGHT → backward
+      if (v === 'patterns') {
+        // Patterns → Story (same story)
         stop(); setPopup(null); setView('story')
       } else {
-        // Story → 이전 Story
-        const prev = allStoriesRef.current.find(s => s.id === currentStory.id - 1)
-        if (prev) { stop(); setPopup(null); setView('story'); router.push(`/stories/${prev.id}`) }
+        // Story → prev story's Patterns
+        const prev = allStoriesRef.current.find(x => x.id === s.id - 1)
+        if (prev) { stop(); setPopup(null); router.push(`/stories/${prev.id}?v=p`) }
       }
     }
 
@@ -112,32 +115,41 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
     setDragOffset(0)
   }
 
-  // ── View switching ──────────────────────────────────────────────────
+  // ── Navigation ──────────────────────────────────────────────────────
   function switchView(newView: 'story' | 'patterns') {
-    stop()
-    setPopup(null)
-    setView(newView)
+    stop(); setPopup(null); setView(newView)
   }
 
-  function goToStory(id: number) {
-    stop()
-    setPopup(null)
-    setView('story')
-    router.push(`/stories/${id}`)
+  function goToStory(id: number, startView: 'story' | 'patterns' = 'story') {
+    stop(); setPopup(null); setView('story')
+    const suffix = startView === 'patterns' ? '?v=p' : ''
+    router.push(`/stories/${id}${suffix}`)
   }
 
-  function goNextStory() {
-    const next = allStories.find((s) => s.id === story.id + 1)
-    if (next) goToStory(next.id)
+  // Linear next: Story → Patterns, Patterns → next Story
+  function goNext() {
+    if (view === 'story') {
+      switchView('patterns')
+    } else {
+      const next = allStories.find(s => s.id === story.id + 1)
+      if (next) goToStory(next.id, 'story')
+    }
   }
 
-  function goPrevStory() {
-    const prev = allStories.find((s) => s.id === story.id - 1)
-    if (prev) goToStory(prev.id)
+  // Linear prev: Patterns → Story, Story → prev Story's Patterns
+  function goPrev() {
+    if (view === 'patterns') {
+      switchView('story')
+    } else {
+      const prev = allStories.find(s => s.id === story.id - 1)
+      if (prev) goToStory(prev.id, 'patterns')
+    }
   }
+
+  const isFirst = story.id <= 1 && view === 'story'
+  const isLast = story.id >= allStories.length && view === 'patterns'
 
   // ── Rail transform ──────────────────────────────────────────────────
-  // Container is 200% wide; -50% = -100vw = one full page left
   const basePercent = view === 'story' ? 0 : -50
   const railTransform = isDragging
     ? `translateX(calc(${basePercent}% + ${dragOffset}px))`
@@ -160,14 +172,14 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Story page — left slot */}
+        {/* Story page */}
         <div className="h-full overflow-hidden" style={{ width: '50%' }}>
           <StoryPage
             story={story}
             totalStories={allStories.length}
-            onToPatterns={() => switchView('patterns')}
-            onPrevStory={story.id > 1 ? goPrevStory : undefined}
-            onNextStory={story.id < allStories.length ? goNextStory : undefined}
+            onNext={goNext}
+            onPrev={goPrev}
+            hasPrev={!isFirst}
             onOpenPicker={() => setShowPicker(true)}
             onOpenPopup={setPopup}
             speakAll={speakAll}
@@ -176,49 +188,40 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
           />
         </div>
 
-        {/* Patterns page — right slot */}
+        {/* Patterns page */}
         <div className="h-full overflow-hidden" style={{ width: '50%' }}>
           <PatternsPage
             story={story}
             totalStories={allStories.length}
-            onPrev={() => switchView('story')}
-            onNext={goNextStory}
+            onPrev={goPrev}
+            onNext={goNext}
+            hasNext={!isLast}
             onOpenPicker={() => setShowPicker(true)}
           />
         </div>
       </div>
 
-      {/* ── PC ghost edge arrows — desktop only, outside rail ── */}
+      {/* PC ghost edge arrows */}
       <button
         aria-label="이전 페이지"
-        onClick={() => {
-          if (view === 'patterns') switchView('story')
-          else if (story.id > 1) goPrevStory()
-        }}
+        onClick={() => { if (!isFirst) goPrev() }}
         className="fixed left-0 top-0 h-full z-20 hidden md:flex items-center justify-start pl-2 pr-3 group cursor-pointer"
         style={{ background: 'none', border: 'none' }}
         type="button"
       >
-        <span className="text-[#1A1A1A] text-[1.4rem] leading-none opacity-10 group-hover:opacity-40 transition-opacity duration-300 select-none">
-          ‹
-        </span>
+        <span className="text-[#1A1A1A] text-[1.4rem] opacity-10 group-hover:opacity-35 transition-opacity select-none">‹</span>
       </button>
       <button
         aria-label="다음 페이지"
-        onClick={() => {
-          if (view === 'story') switchView('patterns')
-          else goNextStory()
-        }}
+        onClick={() => { if (!isLast) goNext() }}
         className="fixed right-0 top-0 h-full z-20 hidden md:flex items-center justify-end pr-2 pl-3 group cursor-pointer"
         style={{ background: 'none', border: 'none' }}
         type="button"
       >
-        <span className="text-[#1A1A1A] text-[1.4rem] leading-none opacity-10 group-hover:opacity-40 transition-opacity duration-300 select-none">
-          ›
-        </span>
+        <span className="text-[#1A1A1A] text-[1.4rem] opacity-10 group-hover:opacity-35 transition-opacity select-none">›</span>
       </button>
 
-      {/* ── Translation popup — outside rail so fixed = viewport ── */}
+      {/* Translation popup — outside rail */}
       {popup && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-6"
@@ -228,19 +231,12 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
             className="bg-white rounded-2xl p-5 w-full max-w-[320px] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
             <div className="flex justify-between items-center mb-3">
-              <span className="text-[9px] tracking-[0.25em] text-[#8B2246] font-semibold">
-                TRANSLATION
-              </span>
+              <span className="text-[9px] tracking-[0.25em] text-[#8B2246] font-semibold">TRANSLATION</span>
               <div className="flex items-center gap-2">
                 <button
-                  aria-label={isSpeaking ? '정지' : '영어 읽기'}
-                  className={`p-1.5 rounded-full transition-colors cursor-pointer ${
-                    isSpeaking
-                      ? 'bg-[#FDF0F4] text-[#8B2246]'
-                      : 'text-[#C8BFB5] hover:bg-[#FDF0F4] hover:text-[#8B2246]'
-                  }`}
+                  aria-label={isSpeaking ? '정지' : '읽기'}
+                  className={`p-1.5 rounded-full transition-colors cursor-pointer ${isSpeaking ? 'bg-[#FDF0F4] text-[#8B2246]' : 'text-[#C8BFB5] hover:bg-[#FDF0F4] hover:text-[#8B2246]'}`}
                   onClick={() => (isSpeaking ? stop() : speak(popup.english))}
                   type="button"
                 >
@@ -256,27 +252,18 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
                 </button>
               </div>
             </div>
-
-            {/* English (italic) */}
             <p className="font-playfair text-[0.78rem] text-[#9B9490] leading-relaxed mb-2">
               {popup.english}
             </p>
-
-            {/* Korean */}
             <p className="text-[0.9rem] text-[#1A1A1A] leading-relaxed mb-4">
               {popup.koreanTranslation}
             </p>
-
-            {/* Key expressions */}
             {popup.keyExpressions.length > 0 && (
               <>
                 <div className="h-px bg-[#F0E8E0] mb-3" />
                 <div className="flex flex-wrap gap-2">
                   {popup.keyExpressions.map((expr, i) => (
-                    <span
-                      key={i}
-                      className="text-[11px] bg-[#FDF0F4] text-[#8B2246] px-3 py-1 rounded-full"
-                    >
+                    <span key={i} className="text-[11px] bg-[#FDF0F4] text-[#8B2246] px-3 py-1 rounded-full">
                       {expr}
                     </span>
                   ))}
@@ -287,12 +274,12 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
         </div>
       )}
 
-      {/* ── Wheel picker — also outside rail ── */}
+      {/* Wheel picker */}
       {showPicker && (
         <WheelPicker
           stories={allStories}
           currentId={story.id}
-          onSelect={goToStory}
+          onSelect={(id) => goToStory(id)}
           onClose={() => setShowPicker(false)}
         />
       )}

@@ -1,45 +1,50 @@
 'use client'
 
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 
 type PatternsPageProps = {
   story: MagazineStory
   totalStories: number
-  onPrev: () => void
-  onNext: () => void
+  onPrev: () => void       // Patterns → Story (same story)
+  onNext: () => void       // Patterns → next Story
+  hasNext: boolean
   onOpenPicker: () => void
 }
 
-export function PatternsPage({ story, onOpenPicker }: PatternsPageProps) {
+export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: PatternsPageProps) {
   return (
     <div className="h-full flex flex-col bg-[#FAF8F4]">
-      {/* Scrollable area */}
       <div className="flex-1 overflow-y-auto">
-        {/* Header */}
-        <header className="flex items-center justify-end pl-8 pr-6 pt-4 pb-2">
-          <button
-            aria-label="스토리 선택"
-            className="text-[9px] tracking-[0.25em] text-[#C8BFB5] cursor-pointer hover:text-[#8B2246] transition-colors"
-            onClick={onOpenPicker}
-            type="button"
-          >
-            {String(story.id).padStart(2, '0')} / 100
-          </button>
-        </header>
+        <div className="pl-7 pr-6 pt-5 pb-10">
 
-        <div className="pl-8 pr-6 pb-12">
-          {/* Big heading */}
-          <h1 className="font-playfair text-[3.2rem] font-black leading-none text-[#8B2246] mt-3 tracking-tight">
-            PATTERNS
-          </h1>
-          <p className="text-[9px] tracking-[0.35em] text-[#8B2246] mt-1.5 font-semibold">
-            FROM THIS STORY
-          </p>
-          <p className="text-[0.8rem] text-[#9B9490] mt-2 mb-5">
-            스토리 속에서 만난 {story.patterns.length}가지 패턴을 정리했어요.
+          {/* Header row */}
+          <div className="flex items-start justify-between gap-3 mt-2 mb-1">
+            <div>
+              <h1 className="font-playfair text-[2.8rem] font-black leading-none text-[#8B2246] tracking-tight">
+                PATTERNS
+              </h1>
+              <p className="text-[9px] tracking-[0.3em] text-[#8B2246] font-semibold mt-1">
+                FROM THIS STORY
+              </p>
+            </div>
+            <button
+              aria-label="스토리 선택"
+              className="text-[9px] tracking-[0.2em] font-semibold text-[#8B2246] flex items-center gap-1 mt-2.5 shrink-0 group cursor-pointer hover:opacity-70 transition-opacity"
+              onClick={onOpenPicker}
+              type="button"
+            >
+              Story {String(story.id).padStart(2, '0')}
+              <svg width="7" height="5" viewBox="0 0 7 5" fill="none" className="opacity-70">
+                <path d="M1 1L3.5 3.5L6 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <p className="text-sm text-[#9B9490] mt-2 mb-6">
+            스토리 속에서 만난 {story.patterns.length}가지 패턴
           </p>
 
-          {/* Top divider */}
           <div className="h-px bg-[#E8E0D8] mb-1" />
 
           {/* Pattern list */}
@@ -47,23 +52,17 @@ export function PatternsPage({ story, onOpenPicker }: PatternsPageProps) {
             {story.patterns.map((pattern, index) => (
               <div key={pattern.id}>
                 <div className="flex gap-4 py-6">
-                  {/* Number */}
-                  <div className="shrink-0 w-12 pt-0.5">
-                    <span className="font-playfair text-[1.6rem] font-bold text-[#8B2246] leading-none">
+                  <div className="shrink-0 w-10 pt-0.5">
+                    <span className="font-playfair text-[1.5rem] font-bold text-[#8B2246] leading-none">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
-
-                  {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <p className="font-playfair text-[1.15rem] font-bold text-[#1A1A1A] leading-snug">
+                    <p className="font-playfair text-[1.1rem] font-bold text-[#1A1A1A] leading-snug">
                       {pattern.pattern}
                     </p>
-                    <p className="text-[0.72rem] text-[#8B2246] mt-0.5 mb-4">
-                      {pattern.meaningKo}
-                    </p>
+                    <p className="text-[0.72rem] text-[#8B2246] mt-0.5 mb-4">{pattern.meaningKo}</p>
 
-                    {/* Story sentence */}
                     <div className="mb-3">
                       <p className="text-[0.82rem] text-[#1A1A1A] leading-relaxed font-medium">
                         {pattern.storySentence}
@@ -73,7 +72,6 @@ export function PatternsPage({ story, onOpenPicker }: PatternsPageProps) {
                       </p>
                     </div>
 
-                    {/* Variation sentence */}
                     <div>
                       <p className="text-[0.82rem] text-[#1A1A1A] leading-relaxed font-medium">
                         {pattern.variationSentence}
@@ -84,7 +82,6 @@ export function PatternsPage({ story, onOpenPicker }: PatternsPageProps) {
                     </div>
                   </div>
                 </div>
-
                 {index < story.patterns.length - 1 && (
                   <div className="h-px bg-[#EEE8E0]" />
                 )}
@@ -94,11 +91,36 @@ export function PatternsPage({ story, onOpenPicker }: PatternsPageProps) {
         </div>
       </div>
 
-      {/* Bottom — brand only */}
-      <div className="shrink-0 pb-8 pt-3">
-        <p className="text-[8px] tracking-[0.2em] text-[#D8D0C8] text-center">
-          SPEAK NATURALLY. CONNECT DEEPLY.
-        </p>
+      {/* Bottom — ‹ and › only */}
+      <div className="shrink-0 border-t border-[#EDE5DC] bg-[#FAF8F4] py-3 px-7">
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            aria-label="이전 (스토리)"
+            onClick={onPrev}
+            className="p-2 rounded-full text-[#9B9490] hover:text-[#8B2246] hover:bg-[#FDF0F4] transition-colors cursor-pointer"
+          >
+            <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
+          </button>
+
+          <span className="text-[8px] tracking-[0.3em] text-[#D8D0C8] font-medium">
+            {String(story.id).padStart(2, '0')} · PATTERNS
+          </span>
+
+          <button
+            type="button"
+            aria-label="다음 스토리"
+            onClick={onNext}
+            disabled={!hasNext}
+            className={`p-2 rounded-full transition-colors ${
+              hasNext
+                ? 'text-[#9B9490] hover:text-[#8B2246] hover:bg-[#FDF0F4] cursor-pointer'
+                : 'text-[#E0D8D2] cursor-not-allowed'
+            }`}
+          >
+            <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -1,6 +1,6 @@
 import { ChevronRight } from 'lucide-react'
-
 import { TopNav } from '@/components/TopNav'
+import { NAV_HEIGHT } from '@/components/TopNav'
 
 const sections = [
   {
@@ -29,7 +29,7 @@ const sections = [
     items: [
       { label: 'Profile', value: '' },
       { label: 'Subscription', value: 'Free' },
-      { label: 'Sign Out', value: '' },
+      { label: 'Sign In / Sign Out', value: '' },
     ],
   },
   {
@@ -46,34 +46,39 @@ export default function SettingsPage() {
     <div className="min-h-dvh bg-[#FAF8F4]">
       <TopNav />
 
-      <div className="pt-[72px] px-6 pb-16 max-w-sm mx-auto">
-        {/* Title */}
-        <div className="pt-8 pb-6 border-b border-[#EDE5DC]">
+      <div style={{ paddingTop: NAV_HEIGHT + 8 }} className="px-6 pb-16 max-w-sm mx-auto">
+        {/* Page title */}
+        <div className="pt-6 pb-5 border-b border-[#EDE5DC]">
           <h1 className="font-playfair text-[2.8rem] font-black leading-none text-[#1A1A1A] tracking-tight">
             SETTINGS
           </h1>
-          <p className="text-sm text-[#9B9490] mt-2">앱을 나에게 맞게 조정하세요.</p>
+          <p className="text-sm text-[#9B9490] mt-2 tracking-wide">
+            앱을 나에게 맞게 조정하세요.
+          </p>
         </div>
 
         {/* Sections */}
         {sections.map((section) => (
-          <div key={section.label} className="py-6 border-b border-[#EDE5DC]">
-            {/* Section label */}
-            <p className="text-[9px] tracking-[0.28em] text-[#8B2246] font-semibold mb-5">
+          <div key={section.label} className="py-5 border-b border-[#EDE5DC]">
+            {/* Section label — burgundy, tight tracking, 13px */}
+            <p
+              className="text-[#8B2246] font-bold uppercase mb-4"
+              style={{ fontSize: 13, letterSpacing: '0.22em' }}
+            >
               {section.label}
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-1">
               {section.items.map((item) => (
                 <button
                   key={item.label}
                   type="button"
-                  className="w-full flex items-center justify-between py-0.5 text-left cursor-pointer group"
+                  className="w-full flex items-center justify-between py-2.5 text-left cursor-pointer group"
                 >
-                  {/* Label — 17px, legible */}
+                  {/* Item label — 19px, medium weight */}
                   <span
-                    className="text-[17px] text-[#1A1A1A] group-hover:text-[#8B2246] transition-colors"
-                    style={{ letterSpacing: '0.01em' }}
+                    className="text-[#161616] group-hover:text-[#8B2246] transition-colors"
+                    style={{ fontSize: 19, fontWeight: 500, lineHeight: 1.4 }}
                   >
                     {item.label}
                   </span>
@@ -81,11 +86,16 @@ export default function SettingsPage() {
                   {/* Value + chevron */}
                   <span className="flex items-center gap-1.5 shrink-0 ml-4">
                     {item.value && (
-                      <span className="text-[15px] text-[#9B9490]">{item.value}</span>
+                      <span
+                        className="text-[#8f837b]"
+                        style={{ fontSize: 17, fontWeight: 400 }}
+                      >
+                        {item.value}
+                      </span>
                     )}
                     <ChevronRight
                       className="w-4 h-4 text-[#C8BFB5] group-hover:text-[#8B2246] transition-colors"
-                      strokeWidth={1.5}
+                      strokeWidth={1.4}
                     />
                   </span>
                 </button>

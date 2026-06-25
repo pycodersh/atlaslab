@@ -8,9 +8,9 @@ import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 type StoryPageProps = {
   story: MagazineStory
   totalStories: number
-  onToPatterns: () => void
-  onPrevStory?: () => void
-  onNextStory?: () => void
+  onNext: () => void        // Story → Patterns (same story)
+  onPrev: () => void        // Story → prev story's Patterns (or first story)
+  hasPrev: boolean
   onOpenPicker: () => void
   onOpenPopup: (paragraph: MagazineParagraph) => void
   speakAll: (texts: string[]) => void
@@ -35,9 +35,9 @@ function highlightText(text: string, phrases: string[]): React.ReactNode {
 
 export function StoryPage({
   story,
-  onToPatterns,
-  onPrevStory,
-  onNextStory,
+  onNext,
+  onPrev,
+  hasPrev,
   onOpenPicker,
   onOpenPopup,
   speakAll,
@@ -57,31 +57,32 @@ export function StoryPage({
       <div className="flex-1 overflow-y-auto">
         <div className="pl-7 pr-6 pt-5 pb-8">
 
-          {/* Title */}
-          <h1 className="font-playfair text-[2rem] font-bold leading-tight text-[#1A1A1A]">
-            {story.title}
-          </h1>
+          {/* Title row — title left, Story 01 ˅ right */}
+          <div className="flex items-start justify-between gap-3 mt-2 mb-1">
+            <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[#1A1A1A] flex-1">
+              {story.title}
+            </h1>
+            <button
+              type="button"
+              onClick={onOpenPicker}
+              aria-label="스토리 선택"
+              className="flex items-center gap-1 mt-1.5 shrink-0 group cursor-pointer"
+            >
+              <span className="text-[9px] tracking-[0.2em] font-semibold text-[#8B2246] group-hover:opacity-70 transition-opacity">
+                Story {String(story.id).padStart(2, '0')}
+              </span>
+              <svg width="7" height="5" viewBox="0 0 7 5" fill="none" className="text-[#8B2246] opacity-70">
+                <path d="M1 1L3.5 3.5L6 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
 
-          {/* Story picker trigger — "Story 01 ▼" */}
-          <button
-            type="button"
-            onClick={onOpenPicker}
-            aria-label="스토리 선택"
-            className="flex items-center gap-1 mt-1.5 mb-1 group cursor-pointer"
-          >
-            <span className="text-[10px] tracking-[0.2em] font-semibold text-[#8B2246] group-hover:opacity-70 transition-opacity">
-              Story {String(story.id).padStart(2, '0')}
-            </span>
-            <svg width="8" height="5" viewBox="0 0 8 5" fill="none" className="text-[#8B2246] opacity-70 group-hover:opacity-50 transition-opacity">
-              <path d="M1 1L4 4L7 1" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-
+          {/* Korean subtitle */}
           <p className="text-[0.78rem] text-[#9B9490] mb-5 tracking-wide">
             {story.subtitleKo}
           </p>
 
-          {/* Story image */}
+          {/* Image + Heart + Speaker overlay */}
           <div className="relative w-full h-48 rounded-xl overflow-hidden mb-7 shadow-sm">
             <Image
               src={story.imageUrl}
@@ -91,6 +92,20 @@ export function StoryPage({
               sizes="100vw"
               priority
             />
+            {/* Speaker — bottom-right of image */}
+            <button
+              type="button"
+              aria-label={isSpeaking ? '정지' : '전체 읽기'}
+              onClick={handleAudio}
+              className={[
+                'absolute bottom-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
+                isSpeaking
+                  ? 'bg-[#8B2246] text-white'
+                  : 'bg-black/30 text-white hover:bg-[#8B2246]',
+              ].join(' ')}
+            >
+              <Volume2 className="w-3.5 h-3.5" />
+            </button>
           </div>
 
           {/* Paragraphs */}
@@ -111,28 +126,41 @@ export function StoryPage({
             ))}
           </div>
 
-          {story.storyNote && (
-            <div className="mt-8 border-l-2 border-[#E8D4B8] pl-4">
-              <p className="font-playfair text-sm text-[#9B9490] leading-relaxed">
-                {story.storyNote}
-              </p>
-            </div>
-          )}
+          {/* Story note + Heart */}
+          <div className="mt-7 flex items-start gap-3">
+            {story.storyNote && (
+              <div className="flex-1 border-l-2 border-[#E8D4B8] pl-3">
+                <p className="font-playfair text-sm text-[#9B9490] leading-relaxed">
+                  {story.storyNote}
+                </p>
+              </div>
+            )}
+            <button
+              type="button"
+              aria-label={liked ? '좋아요 취소' : '좋아요'}
+              onClick={() => setLiked((v) => !v)}
+              className="p-1.5 cursor-pointer shrink-0 mt-0.5"
+            >
+              <Heart
+                className={`w-4 h-4 transition-colors ${
+                  liked ? 'text-[#8B2246] fill-[#8B2246]' : 'text-[#D8D0C8]'
+                }`}
+              />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Bottom bar — ‹  ♥  🔊  › */}
-      <div className="shrink-0 border-t border-[#EDE5DC] bg-[#FAF8F4]">
-        <div className="flex items-center justify-between px-7 py-4">
-
-          {/* ‹ Prev story */}
+      {/* Bottom — ‹ and › only */}
+      <div className="shrink-0 border-t border-[#EDE5DC] bg-[#FAF8F4] py-3 px-7">
+        <div className="flex items-center justify-between">
           <button
             type="button"
-            aria-label="이전 스토리"
-            onClick={onPrevStory}
-            disabled={!onPrevStory}
+            aria-label="이전"
+            onClick={onPrev}
+            disabled={!hasPrev}
             className={`p-2 rounded-full transition-colors ${
-              onPrevStory
+              hasPrev
                 ? 'text-[#9B9490] hover:text-[#8B2246] hover:bg-[#FDF0F4] cursor-pointer'
                 : 'text-[#E0D8D2] cursor-not-allowed'
             }`}
@@ -140,39 +168,14 @@ export function StoryPage({
             <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
           </button>
 
-          {/* ♥ Like */}
-          <button
-            type="button"
-            aria-label={liked ? '좋아요 취소' : '좋아요'}
-            onClick={() => setLiked((v) => !v)}
-            className="p-2 cursor-pointer"
-          >
-            <Heart
-              className={`w-[18px] h-[18px] transition-colors ${
-                liked ? 'text-[#8B2246] fill-[#8B2246]' : 'text-[#C8BFB5]'
-              }`}
-            />
-          </button>
+          <span className="text-[8px] tracking-[0.3em] text-[#D8D0C8] font-medium">
+            {String(story.id).padStart(2, '0')} · STORY
+          </span>
 
-          {/* 🔊 Speaker (TTS) */}
           <button
             type="button"
-            aria-label={isSpeaking ? '정지' : '전체 읽기'}
-            onClick={handleAudio}
-            className={`p-2 rounded-full transition-colors cursor-pointer ${
-              isSpeaking
-                ? 'text-[#8B2246] bg-[#FDF0F4]'
-                : 'text-[#C8BFB5] hover:text-[#8B2246] hover:bg-[#FDF0F4]'
-            }`}
-          >
-            <Volume2 className="w-5 h-5" />
-          </button>
-
-          {/* › Next story (or to patterns when last story) */}
-          <button
-            type="button"
-            aria-label={onNextStory ? '다음 스토리' : '패턴 보기'}
-            onClick={onNextStory ?? onToPatterns}
+            aria-label="다음 (패턴)"
+            onClick={onNext}
             className="p-2 rounded-full text-[#9B9490] hover:text-[#8B2246] hover:bg-[#FDF0F4] transition-colors cursor-pointer"
           >
             <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
