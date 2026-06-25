@@ -78,7 +78,7 @@ export default function SettingsPage() {
                   {/* Item label — 19px, medium weight */}
                   <span
                     className="text-[#161616] group-hover:text-[#8B2246] transition-colors"
-                    style={{ fontSize: 19, fontWeight: 500, lineHeight: 1.4 }}
+                    style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.4 }}
                   >
                     {item.label}
                   </span>
@@ -88,7 +88,7 @@ export default function SettingsPage() {
                     {item.value && (
                       <span
                         className="text-[#8f837b]"
-                        style={{ fontSize: 17, fontWeight: 400 }}
+                        style={{ fontSize: 15, fontWeight: 400 }}
                       >
                         {item.value}
                       </span>

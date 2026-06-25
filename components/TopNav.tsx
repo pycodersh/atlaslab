@@ -37,40 +37,20 @@ export function TopNav() {
       <div className="flex items-end px-4 border-b border-[#EDE5DC]" style={{ height: 33 }}>
         {TABS.map(({ label, href }) => {
           const isActive = active === label
-          return isActive ? (
-            // Active: bookmark shape with V-notch at bottom
+          return (
             <Link
               key={label}
               href={href}
-              className="relative flex items-center justify-center px-4 text-[#FAF8F4] cursor-pointer"
+              className="flex items-center justify-center px-4 cursor-pointer transition-colors"
               style={{
-                height: 32,
+                height: isActive ? 32 : 26,
                 minWidth: 72,
-                background: '#8B2246',
-                clipPath: 'polygon(0 0, 100% 0, 100% 68%, 50% 100%, 0 68%)',
+                background: isActive ? '#8B2246' : '#EDE5DC',
+                borderRadius: '6px 6px 0 0',
                 fontSize: 9,
                 letterSpacing: '0.28em',
-                fontWeight: 700,
-                paddingBottom: 6,
-              }}
-            >
-              {label}
-            </Link>
-          ) : (
-            // Inactive: flat shorter tab
-            <Link
-              key={label}
-              href={href}
-              className="flex items-center justify-center px-4 cursor-pointer transition-colors hover:text-[#9B9490]"
-              style={{
-                height: 26,
-                minWidth: 72,
-                background: '#EDE5DC',
-                borderRadius: '4px 4px 0 0',
-                fontSize: 9,
-                letterSpacing: '0.25em',
-                fontWeight: 600,
-                color: '#B8AFA8',
+                fontWeight: isActive ? 700 : 600,
+                color: isActive ? '#FAF8F4' : '#B8AFA8',
               }}
             >
               {label}
