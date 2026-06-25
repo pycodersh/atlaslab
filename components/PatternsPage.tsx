@@ -1,6 +1,5 @@
 'use client'
 
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 
 type PatternsPageProps = {
@@ -11,15 +10,7 @@ type PatternsPageProps = {
   onOpenPicker: () => void
 }
 
-export function PatternsPage({
-  story,
-  totalStories,
-  onPrev,
-  onNext,
-  onOpenPicker,
-}: PatternsPageProps) {
-  const isLastStory = story.id >= totalStories
-
+export function PatternsPage({ story, onOpenPicker }: PatternsPageProps) {
   return (
     <div className="h-full flex flex-col bg-[#FAF8F4]">
       {/* Scrollable area */}
@@ -29,15 +20,15 @@ export function PatternsPage({
           <span className="text-[11px] font-bold tracking-[0.3em] text-[#1A1A1A]">PATTO</span>
           <button
             aria-label="스토리 선택"
-            className="text-[10px] tracking-[0.3em] text-[#8B2246] font-semibold cursor-pointer hover:opacity-60 transition-opacity"
+            className="text-[9px] tracking-[0.25em] text-[#C8BFB5] cursor-pointer hover:text-[#8B2246] transition-colors"
             onClick={onOpenPicker}
             type="button"
           >
-            PATTERNS
+            {String(story.id).padStart(2, '0')} / 100
           </button>
         </header>
 
-        <div className="pl-8 pr-6 pb-6">
+        <div className="pl-8 pr-6 pb-12">
           {/* Big heading */}
           <h1 className="font-playfair text-[3.2rem] font-black leading-none text-[#8B2246] mt-3 tracking-tight">
             PATTERNS
@@ -66,7 +57,6 @@ export function PatternsPage({
 
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    {/* Pattern + meaning */}
                     <p className="font-playfair text-[1.15rem] font-bold text-[#1A1A1A] leading-snug">
                       {pattern.pattern}
                     </p>
@@ -105,37 +95,10 @@ export function PatternsPage({
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="shrink-0 bg-[#FAF8F4] border-t border-[#E8E0D8]">
-        <div className="flex items-center justify-between pl-8 pr-6 py-4">
-          <span className="text-[9px] tracking-[0.2em] text-[#B8AFA8] font-medium">
-            SPEAK NATURALLY. CONNECT DEEPLY.
-          </span>
-          <div className="flex items-center gap-4">
-            <button
-              aria-label="스토리로 돌아가기"
-              className="flex items-center gap-1 text-[9px] tracking-[0.15em] text-[#9B9490] hover:text-[#8B2246] transition-colors cursor-pointer"
-              onClick={onPrev}
-              type="button"
-            >
-              <ChevronLeft className="w-3 h-3" />
-              STORY
-            </button>
-            {!isLastStory && (
-              <button
-                aria-label="다음 스토리"
-                className="flex items-center gap-1 text-[9px] tracking-[0.15em] text-[#9B9490] hover:text-[#8B2246] transition-colors cursor-pointer"
-                onClick={onNext}
-                type="button"
-              >
-                NEXT
-                <ChevronRight className="w-3 h-3" />
-              </button>
-            )}
-          </div>
-        </div>
-        <p className="text-[8px] tracking-[0.12em] text-[#C8C0B8] text-center pb-3">
-          STUDY · STORIES · PATTERNS
+      {/* Bottom — brand only */}
+      <div className="shrink-0 pb-8 pt-3">
+        <p className="text-[8px] tracking-[0.2em] text-[#D8D0C8] text-center">
+          SPEAK NATURALLY. CONNECT DEEPLY.
         </p>
       </div>
     </div>

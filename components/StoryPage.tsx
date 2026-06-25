@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Heart, Volume2, ChevronRight, ChevronLeft } from 'lucide-react'
+import { Heart, Volume2 } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 
 type StoryPageProps = {
@@ -37,8 +37,6 @@ function highlightText(text: string, phrases: string[]): React.ReactNode {
 
 export function StoryPage({
   story,
-  onNext,
-  onPrevStory,
   onOpenPicker,
   onOpenPopup,
   speakAll,
@@ -47,11 +45,9 @@ export function StoryPage({
 }: StoryPageProps) {
   const [liked, setLiked] = useState(false)
 
-  const allEnglish = story.paragraphs.map((p) => p.english)
-
   function handleGlobalAudio() {
     if (isSpeaking) { stop(); return }
-    speakAll(allEnglish)
+    speakAll(story.paragraphs.map((p) => p.english))
   }
 
   return (
@@ -60,20 +56,23 @@ export function StoryPage({
       <div className="flex-1 overflow-y-auto">
         <header className="flex items-center justify-between pl-8 pr-6 pt-10 pb-2">
           <span className="text-[11px] font-bold tracking-[0.3em] text-[#1A1A1A]">PATTO</span>
-          <button
-            aria-label="스토리 선택"
-            className="text-[10px] tracking-[0.3em] text-[#8B2246] font-semibold cursor-pointer hover:opacity-60 transition-opacity active:opacity-40"
-            onClick={onOpenPicker}
-            type="button"
-          >
-            STORY {String(story.id).padStart(2, '0')}
-          </button>
+          <span className="text-[9px] tracking-[0.25em] text-[#C8BFB5]">
+            {String(story.id).padStart(2, '0')} / 100
+          </span>
         </header>
 
         <div className="pl-8 pr-6 pb-6">
-          <h1 className="font-playfair text-[2rem] font-bold leading-tight text-[#1A1A1A] mt-3">
-            {story.title}
-          </h1>
+          {/* Title — click to open story picker */}
+          <button
+            type="button"
+            onClick={onOpenPicker}
+            className="text-left w-full group mt-3 mb-0.5"
+            aria-label="스토리 선택"
+          >
+            <h1 className="font-playfair text-[2rem] font-bold leading-tight text-[#1A1A1A] group-hover:text-[#8B2246] transition-colors duration-200">
+              {story.title}
+            </h1>
+          </button>
           <p className="text-[0.78rem] text-[#8B2246] mt-1.5 mb-5 tracking-wide">
             {story.subtitleKo}
           </p>
@@ -112,7 +111,7 @@ export function StoryPage({
           {/* Story note */}
           {story.storyNote && (
             <div className="mt-8 bg-[#FDF5EC] border border-[#E8D4B8] rounded-xl p-4">
-              <p className="font-playfair text-sm text-[#7A6550] leading-relaxed italic">
+              <p className="font-playfair text-sm text-[#7A6550] leading-relaxed">
                 {story.storyNote}
               </p>
             </div>
@@ -120,8 +119,8 @@ export function StoryPage({
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div className="shrink-0 bg-gradient-to-t from-[#FAF8F4] via-[#FAF8F4] to-transparent pb-8 pt-4 pl-8 pr-6">
+      {/* Bottom bar — Heart + Speaker only */}
+      <div className="shrink-0 pb-8 pt-4 pl-8 pr-6 bg-gradient-to-t from-[#FAF8F4] via-[#FAF8F4] to-transparent">
         <div className="flex items-center justify-between">
           <button
             aria-label={liked ? '좋아요 취소' : '좋아요'}
@@ -136,28 +135,9 @@ export function StoryPage({
             />
           </button>
 
-          <div className="flex items-center gap-3">
-            {onPrevStory && (
-              <button
-                aria-label="이전 스토리"
-                className="flex items-center gap-1 text-[10px] tracking-[0.2em] text-[#9B9490] hover:text-[#1A1A1A] transition-colors cursor-pointer"
-                onClick={onPrevStory}
-                type="button"
-              >
-                <ChevronLeft className="w-3.5 h-3.5" />
-                PREV
-              </button>
-            )}
-            <button
-              aria-label="패턴 페이지로 이동"
-              className="bg-[#1A1A1A] text-[#FAF8F4] text-[10px] tracking-[0.2em] font-semibold px-6 py-3 rounded-full flex items-center gap-2 hover:bg-[#333] transition-colors cursor-pointer active:scale-95"
-              onClick={onNext}
-              type="button"
-            >
-              PATTERNS
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          <p className="text-[8px] tracking-[0.2em] text-[#D8D0C8]">
+            SPEAK NATURALLY. CONNECT DEEPLY.
+          </p>
 
           <button
             aria-label={isSpeaking ? '정지' : '전체 읽기'}

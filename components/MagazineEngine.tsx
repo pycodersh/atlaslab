@@ -189,6 +189,36 @@ export function MagazineEngine({ story, allStories }: MagazineEngineProps) {
         </div>
       </div>
 
+      {/* ── PC ghost edge arrows — desktop only, outside rail ── */}
+      <button
+        aria-label="이전 페이지"
+        onClick={() => {
+          if (view === 'patterns') switchView('story')
+          else if (story.id > 1) goPrevStory()
+        }}
+        className="fixed left-0 top-0 h-full z-20 hidden md:flex items-center justify-start pl-2 pr-3 group cursor-pointer"
+        style={{ background: 'none', border: 'none' }}
+        type="button"
+      >
+        <span className="text-[#1A1A1A] text-[1.4rem] leading-none opacity-10 group-hover:opacity-40 transition-opacity duration-300 select-none">
+          ‹
+        </span>
+      </button>
+      <button
+        aria-label="다음 페이지"
+        onClick={() => {
+          if (view === 'story') switchView('patterns')
+          else goNextStory()
+        }}
+        className="fixed right-0 top-0 h-full z-20 hidden md:flex items-center justify-end pr-2 pl-3 group cursor-pointer"
+        style={{ background: 'none', border: 'none' }}
+        type="button"
+      >
+        <span className="text-[#1A1A1A] text-[1.4rem] leading-none opacity-10 group-hover:opacity-40 transition-opacity duration-300 select-none">
+          ›
+        </span>
+      </button>
+
       {/* ── Translation popup — outside rail so fixed = viewport ── */}
       {popup && (
         <div
