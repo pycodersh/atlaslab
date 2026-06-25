@@ -40,7 +40,7 @@ export default function SavedPatternsPage() {
     <div className="min-h-dvh bg-[#FAF8F4]">
       <TopNav />
 
-      <div className="px-7 pb-20 max-w-sm mx-auto" style={{ paddingTop: NAV_HEIGHT + 32 }}>
+      <div className="px-7 pb-20 max-w-sm mx-auto" style={{ paddingTop: NAV_HEIGHT + 64 }}>
         {/* Back */}
         <Link
           href="/records"

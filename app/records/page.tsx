@@ -104,7 +104,7 @@ export default async function RecordsPage() {
 
       <div
         className="px-7 pb-20 max-w-sm mx-auto"
-        style={{ paddingTop: NAV_HEIGHT + 32 }}
+        style={{ paddingTop: NAV_HEIGHT + 64 }}
       >
         {/* ── Page title ── */}
         <div className="mb-8 border-b border-[#EDE5DC] pb-6">

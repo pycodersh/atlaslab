@@ -32,7 +32,7 @@ export default function SettingsPage() {
 
       <div
         className="px-7 pb-20 max-w-sm mx-auto"
-        style={{ paddingTop: NAV_HEIGHT + 32 }}
+        style={{ paddingTop: NAV_HEIGHT + 64 }}
       >
         {/* Page title */}
         <div className="mb-10">
