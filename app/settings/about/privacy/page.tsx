@@ -38,7 +38,7 @@ export default function PrivacyPage() {
     <div className="min-h-dvh bg-[#FAF8F4]">
       <TopNav />
 
-      <div className="px-7 pb-20 max-w-sm mx-auto" style={{ paddingTop: NAV_HEIGHT + 64 }}>
+      <div className="px-7 pb-20 max-w-sm mx-auto pt-36">
         <Link href="/settings/about" className="flex items-center gap-1 text-[#9B9490] hover:text-[#8B2246] transition-colors mb-8 w-fit">
           <ChevronLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
           <span className="text-[11px] tracking-[0.18em] font-semibold">ABOUT</span>
