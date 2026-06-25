@@ -108,7 +108,7 @@ export default async function RecordsPage() {
       >
         {/* ── Page title ── */}
         <div className="mb-8 border-b border-[#EDE5DC] pb-6">
-          <h1 className="font-playfair text-[3.2rem] font-black leading-none text-[#1A1A1A] tracking-tight">
+          <h1 className="font-playfair text-[1.9rem] font-black leading-none text-[#1A1A1A] tracking-tight">
             PROGRESS
           </h1>
           <p className="text-[0.78rem] text-[#9B9490] mt-2 tracking-wide">나의 학습 기록</p>

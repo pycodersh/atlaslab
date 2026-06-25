@@ -45,7 +45,7 @@ export default function PrivacyPage() {
         </Link>
 
         <div className="mb-10">
-          <h1 className="font-playfair text-[2.6rem] font-black leading-tight text-[#1A1A1A] tracking-tight">
+          <h1 className="font-playfair text-[1.9rem] font-black leading-tight text-[#1A1A1A] tracking-tight">
             Privacy<br />Policy
           </h1>
           <p className="text-[0.75rem] text-[#9B9490] mt-2 tracking-wide">

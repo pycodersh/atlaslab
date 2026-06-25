@@ -52,7 +52,7 @@ export default function SubscriptionPage() {
         </Link>
 
         <div className="mb-8">
-          <h1 className="font-playfair text-[3.2rem] font-black leading-none text-[#1A1A1A] tracking-tight">
+          <h1 className="font-playfair text-[1.9rem] font-black leading-none text-[#1A1A1A] tracking-tight">
             SUBSCRIPTION
           </h1>
           <p className="text-[0.78rem] text-[#9B9490] mt-2 tracking-wide">
