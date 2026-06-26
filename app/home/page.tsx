@@ -7,39 +7,19 @@ import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { getFirstIncompleteItem } from '@/lib/review/home'
 import { getTodayReviewItems } from '@/lib/review/storage'
 
-// ── Curated cover images (Unsplash) ────────────────────────────────────────
-const COVER_IMAGES = [
-  'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1518837695005-2083093ee35b?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1428908728789-d2de25dbd4e2?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1476611338391-6f395a0ebc7b?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1473496169904-658ba7574f19?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1463320726281-696a3cc57e01?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1516912481808-3406841bd33c?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1490750967868-88df5691cc00?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1532012197267-da84d127e765?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1499678329028-101435549a4e?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1507281549113-040fcb6c1ef1?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=900&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1416169607655-0c2b3ce2e1cc?q=80&w=900&auto=format&fit=crop',
+// ── Curated cover images (picsum.photos · seed 기반, 항상 동일 이미지) ─────
+// seed 단어로 이미지 고정 — 날짜마다 다른 이미지 순환
+const COVER_SEEDS = [
+  'coffee', 'library', 'journal', 'cafe', 'forest',
+  'rain', 'ocean', 'sunlight', 'winter', 'autumn',
+  'steam', 'desk', 'sunrise', 'lake', 'snow',
+  'mountain', 'bloom', 'window', 'stars', 'reading',
+  'evening', 'alps', 'fog', 'bridge', 'beach',
+  'mist', 'shore', 'bookshelf', 'galaxy', 'candle',
 ]
+const COVER_IMAGES = COVER_SEEDS.map(
+  s => `https://picsum.photos/seed/${s}/900/600`
+)
 
 // ── Daily quotes ────────────────────────────────────────────────────────────
 const DAILY_QUOTES = [
