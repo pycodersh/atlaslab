@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { getPreferences, RATE_MAP, findVoice } from '@/lib/settings/preferences'
 
 export function useSpeech() {
@@ -45,6 +45,11 @@ export function useSpeech() {
     const combined = texts.map(t => t.trim()).filter(Boolean).join(' ')
     s.speak(buildUtterance(combined))
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // 페이지 이동(언마운트) 시 즉시 중단
+  useEffect(() => {
+    return () => { synth()?.cancel() }
   }, [])
 
   return { speak, speakAll, stop, isSpeaking }
