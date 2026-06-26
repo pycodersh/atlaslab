@@ -3,6 +3,7 @@ import { Baloo_2, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { PreferencesProvider } from "@/contexts/PreferencesContext";
 
 const jakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -47,7 +48,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`antialiased ${jakartaSans.variable} ${baloo2.variable} ${playfair.variable}`}>
-      <body><ThemeProvider>{children}</ThemeProvider></body>
+      <body><ThemeProvider><PreferencesProvider>{children}</PreferencesProvider></ThemeProvider></body>
     </html>
   );
 }

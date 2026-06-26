@@ -2,10 +2,16 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, Sun, Moon, Type, Mic, Globe, BookOpen } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, BookOpen, Check } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useTheme } from '@/components/ThemeProvider'
+import { usePreferences } from '@/contexts/PreferencesContext'
+import {
+  type SpeechRate, type VoiceKey, type AppLang, type TranslationLang,
+  SPEECH_RATE_LABELS, VOICE_LABELS, APP_LANG_LABELS, TRANSLATION_LANG_LABELS,
+} from '@/lib/settings/preferences'
 
+// ── Section label ─────────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <p className="text-[10px] tracking-[0.22em] text-[var(--pa)] font-bold mb-4 mt-8 first:mt-0">
@@ -14,18 +20,17 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   )
 }
 
-function ChipGroup({
-  options,
-  value,
-  onChange,
+// ── Chip group (small option set) ─────────────────────────────────────────
+function ChipGroup<T extends string>({
+  options, value, onChange,
 }: {
-  options: { label: string; value: string }[]
-  value: string
-  onChange: (v: string) => void
+  options: { label: string; value: T }[]
+  value: T
+  onChange: (v: T) => void
 }) {
   return (
     <div className="flex flex-wrap gap-2 mt-3">
-      {options.map((o) => (
+      {options.map(o => (
         <button
           key={o.value}
           type="button"
@@ -43,17 +48,16 @@ function ChipGroup({
   )
 }
 
-function SettingRow({
-  icon: Icon,
-  label,
-  desc,
-  value,
-  last,
+// ── Setting row with expandable chips ─────────────────────────────────────
+function ChipRow<T extends string>({
+  icon: Icon, label, desc, options, value, onChange, last,
 }: {
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
   label: string
   desc: string
-  value: string
+  options: { label: string; value: T }[]
+  value: T
+  onChange: (v: T) => void
   last?: boolean
 }) {
   return (
@@ -64,15 +68,117 @@ function SettingRow({
       <div className="flex-1 min-w-0">
         <p className="font-semibold text-[14px] text-[var(--pt)] leading-snug">{label}</p>
         <p className="text-[11.5px] text-[var(--pm)] mt-0.5 leading-relaxed">{desc}</p>
+        <ChipGroup options={options} value={value} onChange={onChange} />
       </div>
-      <span className="text-[13px] text-[var(--pa)] font-semibold shrink-0 mt-1">{value}</span>
     </div>
   )
 }
 
+// ── Bottom Sheet ──────────────────────────────────────────────────────────
+function BottomSheet<T extends string>({
+  title, options, value, onSelect, onClose,
+}: {
+  title: string
+  options: { label: string; value: T }[]
+  value: T
+  onSelect: (v: T) => void
+  onClose: () => void
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-sm rounded-t-2xl pb-10 shadow-2xl"
+        style={{ background: 'var(--pb)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="px-6 pt-6 pb-2">
+          <p className="text-[10px] tracking-[0.22em] text-[var(--pa)] font-bold">{title}</p>
+        </div>
+        <div className="px-6">
+          {options.map((opt, i) => (
+            <div key={opt.value}>
+              {i > 0 && <div className="h-px bg-[var(--pd)]" />}
+              <button
+                type="button"
+                onClick={() => { onSelect(opt.value); onClose() }}
+                className="w-full flex items-center justify-between py-4 cursor-pointer hover:opacity-60 transition-opacity"
+              >
+                <span
+                  className="text-[14px] font-medium"
+                  style={{ color: opt.value === value ? 'var(--pa)' : 'var(--pt)' }}
+                >
+                  {opt.label}
+                </span>
+                {opt.value === value && (
+                  <Check className="w-4 h-4 text-[var(--pa)]" strokeWidth={2} />
+                )}
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Select row (opens bottom sheet) ──────────────────────────────────────
+function SelectRow({
+  icon: Icon, label, desc, displayValue, onClick, last,
+}: {
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
+  label: string
+  desc: string
+  displayValue: string
+  onClick: () => void
+  last?: boolean
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`w-full flex items-center gap-4 py-5 cursor-pointer hover:opacity-75 transition-opacity text-left ${last ? '' : 'border-b border-[var(--pd)]'}`}
+    >
+      <div className="w-9 h-9 rounded-xl bg-[var(--pc2)] flex items-center justify-center shrink-0">
+        <Icon className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="font-semibold text-[14px] text-[var(--pt)] leading-snug">{label}</p>
+        <p className="text-[11.5px] text-[var(--pm)] mt-0.5">{desc}</p>
+      </div>
+      <div className="flex items-center gap-1 shrink-0">
+        <span className="text-[13px] text-[var(--pa)] font-semibold">{displayValue}</span>
+        <ChevronRight className="w-3.5 h-3.5 text-[var(--pm2)]" strokeWidth={1.5} />
+      </div>
+    </button>
+  )
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────
+type Sheet = 'appLang' | 'translation' | null
+
 export default function PreferencesPage() {
   const { theme, setTheme } = useTheme()
-  const [fontSize, setFontSize] = useState('medium')
+  const { prefs, update }   = usePreferences()
+  const [sheet, setSheet]   = useState<Sheet>(null)
+
+  const speechRateOptions = (
+    ['slow', 'normal', 'fast'] as SpeechRate[]
+  ).map(v => ({ label: SPEECH_RATE_LABELS[v], value: v }))
+
+  const voiceOptions = (
+    ['us-male', 'us-female', 'uk-male', 'uk-female'] as VoiceKey[]
+  ).map(v => ({ label: VOICE_LABELS[v], value: v }))
+
+  const appLangOptions = (
+    Object.keys(APP_LANG_LABELS) as AppLang[]
+  ).map(v => ({ label: APP_LANG_LABELS[v], value: v }))
+
+  const translationOptions = (
+    Object.keys(TRANSLATION_LANG_LABELS) as TranslationLang[]
+  ).map(v => ({ label: TRANSLATION_LANG_LABELS[v], value: v }))
 
   return (
     <div className="min-h-dvh bg-[var(--pb)]">
@@ -96,13 +202,13 @@ export default function PreferencesPage() {
           </p>
         </div>
 
-        {/* APPEARANCE */}
-        <SectionLabel>APPEARANCE</SectionLabel>
+        {/* ── DISPLAY ──────────────────────────────────────────────────── */}
+        <SectionLabel>DISPLAY</SectionLabel>
         <div className="border-t border-[var(--pd)]">
-          <div className="flex items-start gap-4 pt-5 pb-3">
+          <div className="flex items-start gap-4 py-5">
             <div className="w-9 h-9 rounded-xl bg-[var(--pc2)] flex items-center justify-center shrink-0 mt-0.5">
               {theme === 'light'
-                ? <Sun className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
+                ? <Sun  className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
                 : <Moon className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />}
             </div>
             <div className="flex-1">
@@ -111,45 +217,74 @@ export default function PreferencesPage() {
               <ChipGroup
                 options={[{ label: 'Light', value: 'light' }, { label: 'Dark', value: 'dark' }]}
                 value={theme}
-                onChange={(v) => setTheme(v as 'light' | 'dark')}
-              />
-            </div>
-          </div>
-          <div className="h-px bg-[var(--pd)]" />
-          <div className="flex items-start gap-4 pt-5 pb-3">
-            <div className="w-9 h-9 rounded-xl bg-[var(--pc2)] flex items-center justify-center shrink-0 mt-0.5">
-              <Type className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
-            </div>
-            <div className="flex-1">
-              <p className="font-semibold text-[14px] text-[var(--pt)]">Font Size</p>
-              <p className="text-[11.5px] text-[var(--pm)] mt-0.5">읽기 편한 글자 크기를 설정하세요</p>
-              <ChipGroup
-                options={[
-                  { label: 'Small', value: 'small' },
-                  { label: 'Medium', value: 'medium' },
-                  { label: 'Large', value: 'large' },
-                ]}
-                value={fontSize}
-                onChange={setFontSize}
+                onChange={v => setTheme(v as 'light' | 'dark')}
               />
             </div>
           </div>
         </div>
 
-        {/* AUDIO */}
+        {/* ── AUDIO ────────────────────────────────────────────────────── */}
         <SectionLabel>AUDIO</SectionLabel>
         <div className="border-t border-[var(--pd)]">
-          <SettingRow icon={Mic} label="Speech Rate" desc="오디오 재생 속도" value="Normal" />
-          <SettingRow icon={Mic} label="Voice" desc="TTS 음성 언어 및 억양" value="en-US" last />
+          <ChipRow
+            icon={Mic}
+            label="Speech Rate"
+            desc="TTS 재생 속도를 선택하세요 — 변경 즉시 모든 오디오에 적용됩니다"
+            options={speechRateOptions}
+            value={prefs.speechRate}
+            onChange={v => update({ speechRate: v })}
+          />
+          <ChipRow
+            icon={Mic}
+            label="Voice"
+            desc="TTS 음성 언어 및 억양을 선택하세요"
+            options={voiceOptions}
+            value={prefs.voice}
+            onChange={v => update({ voice: v })}
+            last
+          />
         </div>
 
-        {/* LANGUAGE */}
+        {/* ── LANGUAGE ─────────────────────────────────────────────────── */}
         <SectionLabel>LANGUAGE</SectionLabel>
         <div className="border-t border-[var(--pd)]">
-          <SettingRow icon={Globe} label="App Language" desc="앱 인터페이스 표시 언어" value="한국어" />
-          <SettingRow icon={BookOpen} label="Translation" desc="스토리 번역 대상 언어" value="Korean" last />
+          <SelectRow
+            icon={Globe}
+            label="App Language"
+            desc="앱 인터페이스 표시 언어"
+            displayValue={APP_LANG_LABELS[prefs.appLang]}
+            onClick={() => setSheet('appLang')}
+          />
+          <SelectRow
+            icon={BookOpen}
+            label="Translation"
+            desc="스토리 번역 표시 언어 — None 선택 시 번역 숨김"
+            displayValue={TRANSLATION_LANG_LABELS[prefs.translationLang]}
+            onClick={() => setSheet('translation')}
+            last
+          />
         </div>
       </div>
+
+      {/* ── Bottom Sheets ─────────────────────────────────────────────── */}
+      {sheet === 'appLang' && (
+        <BottomSheet
+          title="APP LANGUAGE"
+          options={appLangOptions}
+          value={prefs.appLang}
+          onSelect={v => update({ appLang: v })}
+          onClose={() => setSheet(null)}
+        />
+      )}
+      {sheet === 'translation' && (
+        <BottomSheet
+          title="TRANSLATION LANGUAGE"
+          options={translationOptions}
+          value={prefs.translationLang}
+          onSelect={v => update({ translationLang: v })}
+          onClose={() => setSheet(null)}
+        />
+      )}
     </div>
   )
 }

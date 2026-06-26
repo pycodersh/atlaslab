@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useRef, useState } from 'react'
+import { getPreferences, RATE_MAP, findVoice } from '@/lib/settings/preferences'
 
 export function useSpeech() {
   const [isSpeaking, setIsSpeaking] = useState(false)
@@ -16,34 +17,34 @@ export function useSpeech() {
     setIsSpeaking(false)
   }, [])
 
-  // DB 원본 문장을 직접 사용, 공백 정리
+  function buildUtterance(text: string): SpeechSynthesisUtterance {
+    const prefs = getPreferences()
+    const u = new SpeechSynthesisUtterance(text.trim())
+    u.lang = prefs.voice.startsWith('uk') ? 'en-GB' : 'en-US'
+    u.rate = RATE_MAP[prefs.speechRate]
+    const voice = findVoice(prefs.voice)
+    if (voice) u.voice = voice
+    u.onstart = () => { isSpeakingRef.current = true;  setIsSpeaking(true)  }
+    u.onend   = () => { isSpeakingRef.current = false; setIsSpeaking(false) }
+    u.onerror = () => { isSpeakingRef.current = false; setIsSpeaking(false) }
+    return u
+  }
+
   const speak = useCallback((text: string) => {
     const s = synth()
     if (!s) return
     s.cancel()
-    const u = new SpeechSynthesisUtterance(text.trim())
-    u.lang = 'en-US'
-    u.rate = 0.88
-    u.onstart = () => { isSpeakingRef.current = true; setIsSpeaking(true) }
-    u.onend   = () => { isSpeakingRef.current = false; setIsSpeaking(false) }
-    u.onerror = () => { isSpeakingRef.current = false; setIsSpeaking(false) }
-    s.speak(u)
+    s.speak(buildUtterance(text))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // 여러 문장을 하나의 utterance로 합쳐서 자연스럽게 연속 재생
-  // 큐잉 방식은 브라우저(특히 iOS Safari)에서 문장 사이에 부자연스러운 끊김이 발생함
   const speakAll = useCallback((texts: string[]) => {
     const s = synth()
     if (!s || texts.length === 0) return
     s.cancel()
-    const combined = texts.map((t) => t.trim()).filter(Boolean).join(' ')
-    const u = new SpeechSynthesisUtterance(combined)
-    u.lang = 'en-US'
-    u.rate = 0.88
-    u.onstart = () => { isSpeakingRef.current = true; setIsSpeaking(true) }
-    u.onend   = () => { isSpeakingRef.current = false; setIsSpeaking(false) }
-    u.onerror = () => { isSpeakingRef.current = false; setIsSpeaking(false) }
-    s.speak(u)
+    const combined = texts.map(t => t.trim()).filter(Boolean).join(' ')
+    s.speak(buildUtterance(combined))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return { speak, speakAll, stop, isSpeaking }
