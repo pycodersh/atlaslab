@@ -4,6 +4,8 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { Heart, Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
+import { usePreferences } from '@/contexts/PreferencesContext'
+import { storyParaAudioUrl } from '@/lib/tts'
 
 type StoryPageProps = {
   story: MagazineStory
@@ -13,7 +15,7 @@ type StoryPageProps = {
   hasPrev: boolean
   onOpenPicker: () => void
   onOpenPopup: (paragraph: MagazineParagraph) => void
-  speakAll: (texts: string[]) => void
+  speakAll: (texts: string[], audioUrls?: (string | null | undefined)[]) => void
   stop: () => void
   isSpeaking: boolean
 }
@@ -53,12 +55,14 @@ export function StoryPage({
   isSpeaking,
 }: StoryPageProps) {
   const [liked, setLiked] = useState(false)
-  // 세션마다 랜덤 이미지 선택 (마운트 시 1회만 결정)
   const [storyImg] = useState(() => pickStoryImage(story))
+  const { prefs } = usePreferences()
 
   function handleAudio() {
     if (isSpeaking) { stop(); return }
-    speakAll(story.paragraphs.map((p) => p.english))
+    const texts     = story.paragraphs.map(p => p.english)
+    const audioUrls = story.paragraphs.map(p => storyParaAudioUrl(prefs.voice, story.id, p.id))
+    speakAll(texts, audioUrls)
   }
 
   return (

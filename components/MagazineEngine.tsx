@@ -12,6 +12,7 @@ import { WheelPicker } from '@/components/WheelPicker'
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { storyParaAudioUrl } from '@/lib/tts'
 import type { AmbienceId } from '@/types/magazine'
 import type { MagazineParagraph, MagazinePattern, MagazineStory } from '@/types/magazine'
 
@@ -274,7 +275,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
                 <button
                   aria-label={isSpeaking ? '정지' : '읽기'}
                   className={`p-1.5 rounded-full transition-colors cursor-pointer ${isSpeaking ? 'bg-[var(--pd)] text-[var(--pa)]' : 'text-[var(--pm2)] hover:bg-[var(--pd)] hover:text-[var(--pa)]'}`}
-                  onClick={() => (isSpeaking ? stop() : speak(popup.english))}
+                  onClick={() => isSpeaking ? stop() : speak(popup.english, storyParaAudioUrl(prefs.voice, story.id, popup.id))}
                   type="button"
                 >
                   <Volume2 className="w-3.5 h-3.5" />

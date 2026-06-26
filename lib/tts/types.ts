@@ -5,6 +5,8 @@ export type { VoiceKey }
 export interface SpeakOptions {
   /** 순차 재생할 텍스트 배열 (문단 단위) */
   texts: string[]
+  /** 사전 생성된 오디오 URL 배열 (texts와 1:1 대응, null이면 Browser TTS 폴백) */
+  audioUrls?: (string | null | undefined)[]
   voiceKey: VoiceKey
   rate: number
   pitch: number
@@ -16,7 +18,7 @@ export interface SpeakOptions {
 
 /**
  * TTS 엔진 인터페이스.
- * BrowserTTSProvider 외에 OpenAITTSProvider 등을 추후 구현 가능.
+ * PregeneratedTTSProvider(현재) 외에 OpenAITTSProvider 등을 추후 구현 가능.
  */
 export interface ITTSProvider {
   speak(options: SpeakOptions): void

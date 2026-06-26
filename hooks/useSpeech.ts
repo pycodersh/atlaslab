@@ -7,16 +7,18 @@ import { ttsProvider, getPitchForKey } from '@/lib/tts'
 export function useSpeech() {
   const [isSpeaking, setIsSpeaking] = useState(false)
 
-  /** 텍스트 배열을 문단 단위로 순차 재생 */
-  const speakTexts = useCallback((texts: string[]) => {
+  const speakTexts = useCallback((
+    texts:     string[],
+    audioUrls?: (string | null | undefined)[],
+  ) => {
     const prefs    = getPreferences()
     const voiceKey = prefs.voice
 
-    // 재생 시작 전 optimistic 상태 업데이트 (버튼 즉시 반응)
     setIsSpeaking(true)
 
     ttsProvider.speak({
       texts,
+      audioUrls,
       voiceKey,
       rate:   RATE_MAP[prefs.speechRate],
       pitch:  getPitchForKey(voiceKey),
@@ -27,14 +29,17 @@ export function useSpeech() {
     })
   }, [])
 
-  /** 단일 문장 (팝업 번역 읽기) */
-  const speak = useCallback((text: string) => {
-    speakTexts([text])
+  /** 단일 문장 (팝업 번역 읽기) — audioUrl 있으면 사전생성 MP3 우선 재생 */
+  const speak = useCallback((text: string, audioUrl?: string | null) => {
+    speakTexts([text], audioUrl ? [audioUrl] : undefined)
   }, [speakTexts])
 
-  /** 전체 스토리 문단 순차 읽기 */
-  const speakAll = useCallback((texts: string[]) => {
-    speakTexts(texts)
+  /** 전체 스토리 문단 순차 읽기 — audioUrls 있으면 사전생성 MP3 우선 재생 */
+  const speakAll = useCallback((
+    texts:     string[],
+    audioUrls?: (string | null | undefined)[],
+  ) => {
+    speakTexts(texts, audioUrls)
   }, [speakTexts])
 
   const stop = useCallback(() => {
