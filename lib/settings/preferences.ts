@@ -40,27 +40,11 @@ export function savePreferences(patch: Partial<UserPreferences>): UserPreference
 
 // ── TTS helpers ─────────────────────────────────────────────────────────────
 
+// Slow/Normal/Fast 각 단계가 자연스럽게 들리는 값 (브라우저 특성 반영)
 export const RATE_MAP: Record<SpeechRate, number> = {
-  slow:   0.70,
-  normal: 0.88,
+  slow:   0.85,
+  normal: 0.95,
   fast:   1.10,
-}
-
-const FEMALE_PATTERN = /samantha|karen|moira|fiona|victoria|allison|ava|susan|zira|female|woman|kate|siri/i
-
-export function findVoice(key: VoiceKey): SpeechSynthesisVoice | null {
-  if (typeof window === 'undefined') return null
-  const voices = window.speechSynthesis.getVoices()
-  if (!voices.length) return null
-
-  const langPrefix = key.startsWith('us') ? 'en-US' : 'en-GB'
-  const pool = voices.filter(v => v.lang.startsWith(langPrefix.slice(0, 5)))
-  if (!pool.length) return voices.find(v => v.lang.startsWith('en')) ?? null
-
-  const isFemale = key.endsWith('female')
-  return pool.find(v => isFemale ? FEMALE_PATTERN.test(v.name) : !FEMALE_PATTERN.test(v.name))
-    ?? pool[isFemale ? 0 : 1]
-    ?? pool[0]
 }
 
 // ── Label maps ───────────────────────────────────────────────────────────────

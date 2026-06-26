@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, BookOpen, Check, Waves } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, BookOpen, Check, Waves, Play, Square } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -11,6 +11,93 @@ import {
   type SpeechRate, type VoiceKey, type AppLang, type TranslationLang, type AmbienceDefault,
   SPEECH_RATE_LABELS, VOICE_LABELS, APP_LANG_LABELS, TRANSLATION_LANG_LABELS,
 } from '@/lib/settings/preferences'
+import { BrowserTTSProvider, findBestVoice, getPitchForKey } from '@/lib/tts'
+
+// ── Voice Preview ─────────────────────────────────────────────────────────
+const PREVIEW_TEXT = "Hello. Welcome to PATTO. Let's read today's story."
+const _previewProvider = new BrowserTTSProvider()
+
+function VoiceChipGroup({
+  options,
+  value,
+  onChange,
+}: {
+  options: { label: string; value: VoiceKey }[]
+  value: VoiceKey
+  onChange: (v: VoiceKey) => void
+}) {
+  const [previewing, setPreviewing] = useState<VoiceKey | null>(null)
+
+  function handlePreview(key: VoiceKey) {
+    if (previewing === key) {
+      _previewProvider.stop()
+      setPreviewing(null)
+      return
+    }
+    _previewProvider.stop()
+    setPreviewing(key)
+    _previewProvider.speak({
+      texts:    [PREVIEW_TEXT],
+      voiceKey: key,
+      rate:     0.95,
+      pitch:    getPitchForKey(key),
+      volume:   1.0,
+      onEnd:    () => setPreviewing(null),
+      onError:  () => setPreviewing(null),
+    })
+  }
+
+  return (
+    <div className="flex flex-wrap gap-2 mt-3">
+      {options.map(o => {
+        const isActive    = value === o.value
+        const isPreviewing = previewing === o.value
+        return (
+          <div key={o.value} className="flex items-center">
+            {/* 선택 칩 */}
+            <button
+              type="button"
+              onClick={() => onChange(o.value)}
+              className={[
+                'px-4 py-1.5 rounded-l-full text-[12px] font-semibold border-y border-l transition-colors cursor-pointer',
+                isActive
+                  ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
+                  : 'bg-transparent text-[var(--pm)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]',
+              ].join(' ')}
+            >
+              {o.label}
+            </button>
+            {/* 구분선 */}
+            <span
+              className="h-[30px] w-px shrink-0"
+              style={{
+                background: isActive ? 'rgba(255,255,255,0.35)' : 'var(--pd)',
+              }}
+            />
+            {/* 미리듣기 버튼 */}
+            <button
+              type="button"
+              aria-label={isPreviewing ? '미리듣기 중지' : `${o.label} 미리듣기`}
+              onClick={() => handlePreview(o.value)}
+              className={[
+                'w-8 h-[30px] rounded-r-full flex items-center justify-center border-y border-r transition-colors cursor-pointer',
+                isActive
+                  ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
+                  : isPreviewing
+                    ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pa)]'
+                    : 'bg-transparent text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]',
+              ].join(' ')}
+            >
+              {isPreviewing
+                ? <Square  className="w-2.5 h-2.5" fill="currentColor" strokeWidth={0} />
+                : <Play    className="w-2.5 h-2.5" fill="currentColor" strokeWidth={0} />}
+            </button>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
 
 // ── Section label ─────────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -236,14 +323,21 @@ export default function PreferencesPage() {
             value={prefs.speechRate}
             onChange={v => update({ speechRate: v })}
           />
-          <ChipRow
-            icon={Mic}
-            label={t('voice')}
-            desc={t('voice_desc')}
-            options={voiceOptions}
-            value={prefs.voice}
-            onChange={v => update({ voice: v })}
-          />
+          {/* Voice — ▶ Preview 버튼 포함 */}
+          <div className="flex items-start gap-4 py-5 border-b border-[var(--pd)]">
+            <div className="w-9 h-9 rounded-xl bg-[var(--pc2)] flex items-center justify-center shrink-0 mt-0.5">
+              <Mic className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-[14px] text-[var(--pt)] leading-snug">{t('voice')}</p>
+              <p className="text-[11.5px] text-[var(--pm)] mt-0.5 leading-relaxed">{t('voice_desc')}</p>
+              <VoiceChipGroup
+                options={voiceOptions}
+                value={prefs.voice}
+                onChange={v => update({ voice: v })}
+              />
+            </div>
+          </div>
           <ChipRow
             icon={Waves}
             label="Story Ambience"
