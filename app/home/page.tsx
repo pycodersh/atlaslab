@@ -7,7 +7,7 @@ import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { getFirstIncompleteItem } from '@/lib/review/home'
 import { getTodayReviewItems } from '@/lib/review/storage'
 
-// ── Curated cover images (Unsplash · warm / lifestyle) ─────────────────────
+// ── Curated cover images (Unsplash) ────────────────────────────────────────
 const COVER_IMAGES = [
   'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=900&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=900&auto=format&fit=crop',
@@ -92,16 +92,21 @@ function getDateLabel(): string {
   return new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' }).toUpperCase()
 }
 
-// ── Component ───────────────────────────────────────────────────────────────
+const T = 'transition: opacity 0.7s ease-out'
+
+function fade(show: boolean): React.CSSProperties {
+  return { opacity: show ? 1 : 0, transition: 'opacity 0.7s ease-out' }
+}
+
 export default function HomePage() {
   const router = useRouter()
-  const [notice, setNotice] = useState('')
-  const [firstHref, setFirstHref] = useState('/stories/1')
-  const [showImg,     setShowImg]     = useState(false)
-  const [showQuote,   setShowQuote]   = useState(false)
-  const [showDivider, setShowDivider] = useState(false)
-  const [showNotice,  setShowNotice]  = useState(false)
-  const [showBtn,     setShowBtn]     = useState(false)
+  const [notice,     setNotice]     = useState('')
+  const [firstHref,  setFirstHref]  = useState('/stories/1')
+  const [showImg,    setShowImg]    = useState(false)
+  const [showQuote,  setShowQuote]  = useState(false)
+  const [showLine,   setShowLine]   = useState(false)
+  const [showNotice, setShowNotice] = useState(false)
+  const [showBtn,    setShowBtn]    = useState(false)
 
   const coverUrl  = byDayOfYear(COVER_IMAGES)
   const quote     = byDayOfYear(DAILY_QUOTES)
@@ -114,86 +119,144 @@ export default function HomePage() {
     if (first) setFirstHref(first.href)
 
     const t = [
-      setTimeout(() => setShowImg(true),      60),
-      setTimeout(() => setShowQuote(true),    380),
-      setTimeout(() => setShowDivider(true),  600),
-      setTimeout(() => setShowNotice(true),   700),
-      setTimeout(() => setShowBtn(true),      860),
+      setTimeout(() => setShowImg(true),     60),
+      setTimeout(() => setShowQuote(true),   380),
+      setTimeout(() => setShowLine(true),    600),
+      setTimeout(() => setShowNotice(true),  700),
+      setTimeout(() => setShowBtn(true),     860),
     ]
     return () => t.forEach(clearTimeout)
   }, [])
 
-  const cls = (show: boolean, extra = '') =>
-    `transition-opacity duration-700 ease-out ${show ? 'opacity-100' : 'opacity-0'} ${extra}`
+  // suppress TS unused-var warning for T
+  void T
 
   return (
-    <div className="min-h-dvh bg-[var(--pb)]">
+    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
       <TopNav />
 
       {/* ── Hero Image ─────────────────────────────────────────────────── */}
       <div
-        className={cls(showImg, 'relative w-full overflow-hidden')}
-        style={{ marginTop: NAV_HEIGHT, height: '52vh' }}
+        style={{
+          position: 'relative',
+          width: '100%',
+          height: '52vh',
+          marginTop: NAV_HEIGHT,
+          overflow: 'hidden',
+          ...fade(showImg),
+        }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={coverUrl}
           alt="Daily cover"
-          className="w-full h-full object-cover object-center"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
         />
         {/* Bottom vignette */}
         <div
-          className="absolute inset-x-0 bottom-0 pointer-events-none"
-          style={{ height: '45%', background: 'linear-gradient(to bottom, transparent, var(--pb))' }}
+          style={{
+            position: 'absolute',
+            inset: 'auto 0 0 0',
+            height: '45%',
+            background: 'linear-gradient(to bottom, transparent, var(--pb))',
+            pointerEvents: 'none',
+          }}
         />
-        {/* Masthead */}
+        {/* Masthead — top left */}
         <p
-          className="absolute top-5 left-6 text-white/70 font-bold tracking-[0.28em] pointer-events-none"
-          style={{ fontSize: 10, textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}
+          style={{
+            position: 'absolute',
+            top: 20,
+            left: 24,
+            margin: 0,
+            fontSize: 10,
+            fontWeight: 800,
+            letterSpacing: '0.28em',
+            color: 'rgba(255,255,255,0.72)',
+            textShadow: '0 1px 6px rgba(0,0,0,0.5)',
+            pointerEvents: 'none',
+          }}
         >
           PATTO
         </p>
+        {/* Date — top right */}
         <p
-          className="absolute top-5 right-6 text-white/60 tracking-[0.14em] pointer-events-none"
-          style={{ fontSize: 10, textShadow: '0 1px 6px rgba(0,0,0,0.5)' }}
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 24,
+            margin: 0,
+            fontSize: 10,
+            letterSpacing: '0.14em',
+            color: 'rgba(255,255,255,0.6)',
+            textShadow: '0 1px 6px rgba(0,0,0,0.5)',
+            pointerEvents: 'none',
+          }}
         >
           {dateLabel}
         </p>
       </div>
 
       {/* ── Content ────────────────────────────────────────────────────── */}
-      <div className="px-7 pb-24 max-w-sm mx-auto">
+      <div style={{ padding: '0 28px 96px', maxWidth: 384, margin: '0 auto' }}>
 
         {/* Quote */}
-        <div className={cls(showQuote, 'pt-6 mb-7')}>
+        <div style={{ paddingTop: 24, marginBottom: 28, ...fade(showQuote) }}>
           <p
-            className="font-playfair font-bold italic leading-snug text-[var(--pt)]"
-            style={{ fontSize: 'clamp(1.35rem, 5vw, 1.65rem)' }}
+            className="font-playfair"
+            style={{
+              fontSize: 'clamp(1.35rem, 5vw, 1.65rem)',
+              fontWeight: 700,
+              fontStyle: 'italic',
+              lineHeight: 1.35,
+              color: 'var(--pt)',
+              margin: 0,
+            }}
           >
             {quote}
           </p>
         </div>
 
         {/* Divider */}
-        <div className={cls(showDivider, 'h-px bg-[var(--pd)] mb-6')} />
+        <div style={{ height: 1, background: 'var(--pd)', marginBottom: 24, ...fade(showLine) }} />
 
         {/* Notice */}
-        <div className={cls(showNotice, 'mb-8')}>
-          <p className="text-[12.5px] text-[var(--pm)] tracking-[0.04em]">
+        <div style={{ marginBottom: 32, ...fade(showNotice) }}>
+          <p style={{ fontSize: 12.5, color: 'var(--pm)', letterSpacing: '0.04em', margin: 0 }}>
             {notice || ' '}
           </p>
         </div>
 
-        {/* Continue Learning */}
-        <div className={cls(showBtn)}>
+        {/* Continue Learning — text style */}
+        <div style={fade(showBtn)}>
           <button
             type="button"
             onClick={() => router.push(firstHref)}
-            className="flex items-center gap-2.5 px-7 py-4 rounded-full bg-[var(--pa)] text-white font-bold tracking-[0.1em] hover:opacity-90 active:scale-[0.97] transition-all cursor-pointer"
-            style={{ fontSize: 12 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 7,
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              cursor: 'pointer',
+              opacity: 1,
+              transition: 'opacity 0.2s',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.55')}
+            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
-            Continue Learning
-            <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.5} />
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                color: 'var(--pa)',
+              }}
+            >
+              Continue Learning
+            </span>
+            <ArrowRight style={{ width: 13, height: 13, color: 'var(--pa)', strokeWidth: 2.5 }} />
           </button>
         </div>
 
