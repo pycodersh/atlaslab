@@ -7,7 +7,7 @@ import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { getFirstIncompleteItem } from '@/lib/review/home'
 import { getTodayReviewItems } from '@/lib/review/storage'
 
-// ── Cover image seeds (picsum.photos · 50장 순환) ─────────────────────────
+// ── Cover image seeds (50장 순환) ─────────────────────────────────────────
 const COVER_SEEDS = [
   'coffee', 'steam', 'candle', 'journal', 'desk',
   'forest', 'sunlight', 'mist', 'bloom', 'dawn',
@@ -22,9 +22,8 @@ const COVER_SEEDS = [
 ]
 const COVER_IMAGES = COVER_SEEDS.map(s => `https://picsum.photos/seed/${s}/900/600`)
 
-// ── Editorial quotes (100개 · 날짜 순환) ───────────────────────────────────
+// ── Editorial quotes (100개) ─────────────────────────────────────────────
 const DAILY_QUOTES = [
-  // 01–10
   'Small progress every day.',
   'Read. Repeat. Remember.',
   'Every review matters.',
@@ -35,7 +34,6 @@ const DAILY_QUOTES = [
   'Trust your voice.',
   'Speak naturally.',
   'Keep moving forward.',
-  // 11–20
   'Every word, a small victory.',
   'Language lives in stories.',
   'Make it a habit.',
@@ -46,7 +44,6 @@ const DAILY_QUOTES = [
   'A little, every day.',
   'The story continues.',
   'Speak with confidence.',
-  // 21–30
   'Read it. Feel it. Say it.',
   'Slow is smooth. Smooth is fluent.',
   'Every page is a step forward.',
@@ -57,7 +54,6 @@ const DAILY_QUOTES = [
   'Every session leaves a mark.',
   'Stories stay with you.',
   'Read deeply. Speak freely.',
-  // 31–40
   'The quiet habit builds the loudest skill.',
   'One review at a time.',
   'Speak first. Refine later.',
@@ -68,8 +64,7 @@ const DAILY_QUOTES = [
   'Immerse yourself.',
   'Language grows with practice.',
   'Find the story. Learn the language.',
-  // 41–50
-  'Progress is invisible until it isn\'t.',
+  "Progress is invisible until it isn't.",
   'Patience builds fluency.',
   'Every pattern is a stepping stone.',
   'Read. Listen. Speak. Repeat.',
@@ -79,7 +74,6 @@ const DAILY_QUOTES = [
   'Your voice is already there. Practice finds it.',
   'One more story.',
   'Not perfect. Just consistent.',
-  // 51–60
   'Language is a door. Reading is the key.',
   'The best time to practice is now.',
   'Every story leaves something behind.',
@@ -90,7 +84,6 @@ const DAILY_QUOTES = [
   'Effort compounds quietly.',
   'Stay curious. Stay fluent.',
   'You understand more than you think.',
-  // 61–70
   'Every listen counts.',
   'The page is always open.',
   'Words become yours with time.',
@@ -101,8 +94,7 @@ const DAILY_QUOTES = [
   'Return to the story. Find something new.',
   'The habit of reading builds the habit of speaking.',
   'Language is patience rewarded.',
-  // 71–80
-  'Today\'s review is tomorrow\'s reflex.',
+  "Today's review is tomorrow's reflex.",
   'Every sentence you read stays with you.',
   'Depth before breadth.',
   'Understand it. Then own it.',
@@ -112,7 +104,6 @@ const DAILY_QUOTES = [
   'The story is the lesson.',
   'Practice in quiet. Speak with ease.',
   'Build the habit. The skill will follow.',
-  // 81–90
   'Every day, a new sentence remembered.',
   'Learn the language. Tell your story.',
   'Reading is the root of speaking.',
@@ -121,22 +112,20 @@ const DAILY_QUOTES = [
   'Speak a little more today than yesterday.',
   'Language is a craft. Polish it daily.',
   'One good review is worth ten new words.',
-  'The pattern you learn today becomes the sentence you use tomorrow.',
   'Keep going. Even on quiet days.',
-  // 91–100
-  'Stories teach what textbooks can\'t.',
+  "Stories teach what textbooks can't.",
   'Your accent is part of your voice.',
   'A sentence a day moves mountains.',
   'Language rewards the patient.',
   'The habit protects the skill.',
   'Every story read is a conversation prepared.',
-  'Fluency is not a destination. It\'s a direction.',
-  'Make today\'s session count.',
+  "Fluency is not a destination. It's a direction.",
+  "Make today's session count.",
   'One page. One pattern. One step.',
   'The cover changes. The practice continues.',
 ]
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────────────────
 function dayOfYear(): number {
   const start = new Date(new Date().getFullYear(), 0, 0)
   return Math.floor((Date.now() - start.getTime()) / 86_400_000)
@@ -146,9 +135,10 @@ function byDay<T>(arr: T[]): T {
   return arr[dayOfYear() % arr.length]
 }
 
-function getDateLabel(): string {
+// "JUNE 26, 2026" — 매거진 발행일 형식
+function getIssueDateLabel(): string {
   return new Date()
-    .toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     .toUpperCase()
 }
 
@@ -163,20 +153,24 @@ function fade(show: boolean): React.CSSProperties {
   return { opacity: show ? 1 : 0, transition: 'opacity 0.75s ease-out' }
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
+// 탭의 좌측 가장자리(px-3 = 12px)와 맞추기 위한 콘텐츠 좌측 패딩
+const LEFT_GUTTER  = 14   // nav PATTO tab paddingLeft 기준
+const RIGHT_GUTTER = 20
+
+// ── Page ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const router = useRouter()
-  const [notice,     setNotice]     = useState('')
-  const [firstHref,  setFirstHref]  = useState('/stories/1')
-  const [showImg,    setShowImg]    = useState(false)
-  const [showQuote,  setShowQuote]  = useState(false)
-  const [showLine,   setShowLine]   = useState(false)
-  const [showNote,   setShowNote]   = useState(false)
-  const [showBtn,    setShowBtn]    = useState(false)
+  const [notice,       setNotice]       = useState('')
+  const [firstHref,    setFirstHref]    = useState('/stories/1')
+  const [showImg,      setShowImg]      = useState(false)
+  const [showQuote,    setShowQuote]    = useState(false)
+  const [showLine,     setShowLine]     = useState(false)
+  const [showNote,     setShowNote]     = useState(false)
+  const [showBtn,      setShowBtn]      = useState(false)
 
-  const coverUrl  = byDay(COVER_IMAGES)
-  const quote     = byDay(DAILY_QUOTES)
-  const dateLabel = getDateLabel()
+  const coverUrl       = byDay(COVER_IMAGES)
+  const quote          = byDay(DAILY_QUOTES)
+  const issueDateLabel = getIssueDateLabel()
 
   useEffect(() => {
     const reviews = getTodayReviewItems()
@@ -186,10 +180,10 @@ export default function HomePage() {
 
     const timers = [
       setTimeout(() => setShowImg(true),   60),
-      setTimeout(() => setShowQuote(true), 380),
-      setTimeout(() => setShowLine(true),  600),
-      setTimeout(() => setShowNote(true),  700),
-      setTimeout(() => setShowBtn(true),   860),
+      setTimeout(() => setShowQuote(true), 400),
+      setTimeout(() => setShowLine(true),  620),
+      setTimeout(() => setShowNote(true),  720),
+      setTimeout(() => setShowBtn(true),   880),
     ]
     return () => timers.forEach(clearTimeout)
   }, [])
@@ -198,12 +192,12 @@ export default function HomePage() {
     <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
       <TopNav />
 
-      {/* ── Cover Image ── */}
+      {/* ── Cover Image — full-bleed ────────────────────────────────── */}
       <div
         style={{
           position: 'relative',
           width: '100%',
-          height: '45vh',          // 58vh → 45vh : Quote가 첫 화면에 함께 보임
+          height: '45vh',
           marginTop: NAV_HEIGHT,
           overflow: 'hidden',
           ...fade(showImg),
@@ -222,58 +216,84 @@ export default function HomePage() {
           }}
         />
 
-        {/* Bottom vignette */}
+        {/* 하단 그라디언트 — 콘텐츠 영역으로 자연스럽게 이어짐 */}
         <div
           style={{
             position: 'absolute',
             inset: 'auto 0 0 0',
-            height: '48%',
+            height: '50%',
             background: 'linear-gradient(to bottom, transparent, var(--pb))',
             pointerEvents: 'none',
           }}
         />
 
-        {/* Left: 미니 PATTO 워드마크 */}
-        <p
+        {/* 우측 미세 어둠 — 로고 가독성 보조 */}
+        <div
           style={{
             position: 'absolute',
-            top: 16,
-            left: 20,
-            margin: 0,
-            fontSize: 8.5,
-            fontWeight: 800,
-            letterSpacing: '0.3em',
-            color: 'rgba(255,255,255,0.5)',
-            textShadow: '0 1px 6px rgba(0,0,0,0.4)',
+            inset: '0 0 0 40%',
+            background: 'linear-gradient(to right, transparent, rgba(0,0,0,0.20))',
             pointerEvents: 'none',
           }}
-        >
-          PATTO
-        </p>
+        />
 
-        {/* Right: 날짜 */}
-        <p
+        {/* ── Magazine Logo — 이미지 우측 중앙 ── */}
+        <div
           style={{
             position: 'absolute',
-            top: 16,
-            right: 20,
-            margin: 0,
-            fontSize: 8.5,
-            fontWeight: 500,
-            letterSpacing: '0.18em',
-            color: 'rgba(255,255,255,0.5)',
-            textShadow: '0 1px 6px rgba(0,0,0,0.4)',
+            top: '50%',
+            right: RIGHT_GUTTER,
+            transform: 'translateY(-55%)',
+            textAlign: 'right',
             pointerEvents: 'none',
           }}
         >
-          {dateLabel}
-        </p>
+          {/* PATTO 타이틀 — Playfair, 대형, 매거진 로고 */}
+          <p
+            className="font-playfair"
+            style={{
+              margin: 0,
+              fontSize: 'clamp(4rem, 18vw, 6.5rem)',
+              fontWeight: 900,
+              letterSpacing: '-0.025em',
+              lineHeight: 0.88,
+              color: 'rgba(255,255,255,0.93)',
+              textShadow: [
+                '0 2px 28px rgba(0,0,0,0.72)',
+                '0 1px 6px rgba(0,0,0,0.45)',
+              ].join(', '),
+            }}
+          >
+            PATTO
+          </p>
+
+          {/* 발행일 — PATTO 바로 아래 */}
+          <p
+            style={{
+              margin: '8px 0 0',
+              fontSize: 8.5,
+              fontWeight: 500,
+              letterSpacing: '0.22em',
+              color: 'rgba(255,255,255,0.60)',
+              textShadow: '0 1px 8px rgba(0,0,0,0.55)',
+            }}
+          >
+            {issueDateLabel}
+          </p>
+        </div>
       </div>
 
-      {/* ── Content ── */}
-      <div style={{ padding: '0 28px 96px', maxWidth: 384, margin: '0 auto' }}>
+      {/* ── Content — PATTO 탭 좌측 기준선(14px)으로 정렬 ──────────── */}
+      <div
+        style={{
+          paddingLeft:  LEFT_GUTTER,
+          paddingRight: RIGHT_GUTTER,
+          paddingBottom: 96,
+          maxWidth: 440,
+        }}
+      >
 
-        {/* Quote — 이미지와 가깝게, 매거진 헤드라인 */}
+        {/* Quote */}
         <div style={{ paddingTop: 18, marginBottom: 28, ...fade(showQuote) }}>
           <p
             className="font-playfair"
@@ -323,11 +343,11 @@ export default function HomePage() {
               margin: 0,
             }}
           >
-            {notice || ' '}
+            {notice || ' '}
           </p>
         </div>
 
-        {/* Continue Learning — 텍스트 링크 */}
+        {/* Continue Learning */}
         <div style={fade(showBtn)}>
           <button
             type="button"
