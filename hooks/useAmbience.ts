@@ -1,28 +1,16 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { createAmbience, type AmbienceId, type AmbienceController } from '@/lib/ambience/generator'
 
 const FADE_IN  = 2.0   // seconds
 const FADE_OUT = 2.2   // seconds
-const VOLUME   = 0.18  // 18% — well below TTS voice
+const VOLUME   = 0.18  // 18% — TTS보다 훨씬 낮은 볼륨
 
 export function useAmbience() {
-  const ctxRef     = useRef<AudioContext | null>(null)
-  const masterRef  = useRef<GainNode | null>(null)
-  const ctrlRef    = useRef<AmbienceController | null>(null)
-  const [active, setActive] = useState(false)
-
-  function ensureCtx(): AudioContext {
-    if (!ctxRef.current) {
-      ctxRef.current = new AudioContext()
-    }
-    // Resume if suspended (browser autoplay policy)
-    if (ctxRef.current.state === 'suspended') {
-      ctxRef.current.resume()
-    }
-    return ctxRef.current
-  }
+  const ctxRef    = useRef<AudioContext | null>(null)
+  const masterRef = useRef<GainNode | null>(null)
+  const ctrlRef   = useRef<AmbienceController | null>(null)
 
   function ensureMaster(ctx: AudioContext): GainNode {
     if (!masterRef.current) {
@@ -34,14 +22,22 @@ export function useAmbience() {
     return masterRef.current
   }
 
-  const play = useCallback((id: AmbienceId) => {
-    const ctx    = ensureCtx()
+  // AudioContext는 반드시 resume() 완료 후 사운드 생성 (autoplay policy 대응)
+  const play = useCallback(async (id: AmbienceId) => {
+    if (!ctxRef.current) {
+      ctxRef.current = new AudioContext()
+    }
+    const ctx = ctxRef.current
+
+    if (ctx.state === 'suspended') {
+      await ctx.resume()
+    }
+    if (ctx.state !== 'running') return  // 여전히 실행 불가 → 조용히 중단
+
     const master = ensureMaster(ctx)
 
-    // Tear down previous
+    // 기존 사운드 정리
     ctrlRef.current?.destroy()
-
-    // Build and start new sounds
     ctrlRef.current = createAmbience(ctx, id, master)
 
     // Fade in
@@ -49,8 +45,6 @@ export function useAmbience() {
     master.gain.cancelScheduledValues(now)
     master.gain.setValueAtTime(master.gain.value, now)
     master.gain.linearRampToValueAtTime(VOLUME, now + FADE_IN)
-
-    setActive(true)
   }, [])
 
   const stop = useCallback(() => {
@@ -58,7 +52,7 @@ export function useAmbience() {
     const master = masterRef.current
     if (!ctx || !master) return
 
-    // Fade out then destroy
+    // Fade out → destroy
     const now = ctx.currentTime
     master.gain.cancelScheduledValues(now)
     master.gain.setValueAtTime(master.gain.value, now)
@@ -66,17 +60,10 @@ export function useAmbience() {
 
     const ctrl = ctrlRef.current
     ctrlRef.current = null
-    setTimeout(() => { ctrl?.destroy() }, (FADE_OUT + 0.1) * 1000)
-
-    setActive(false)
+    setTimeout(() => { ctrl?.destroy() }, (FADE_OUT + 0.2) * 1000)
   }, [])
 
-  const toggle = useCallback((id: AmbienceId) => {
-    if (active) stop()
-    else play(id)
-  }, [active, play, stop])
-
-  // Clean up on unmount (page navigation)
+  // 언마운트(페이지 이동) 시 즉시 정리
   useEffect(() => {
     return () => {
       ctrlRef.current?.destroy()
@@ -84,5 +71,5 @@ export function useAmbience() {
     }
   }, [])
 
-  return { active, toggle, play, stop }
+  return { play, stop }
 }

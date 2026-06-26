@@ -12,6 +12,7 @@ import { WheelPicker } from '@/components/WheelPicker'
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import type { AmbienceId } from '@/types/magazine'
 import type { MagazineParagraph, MagazinePattern, MagazineStory } from '@/types/magazine'
 
 type MagazineEngineProps = {
@@ -24,7 +25,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
   const router = useRouter()
   const { speak, speakAll, stop, isSpeaking } = useSpeech()
   const { prefs } = usePreferences()
-  const { active: ambienceActive, toggle: toggleAmbience, stop: stopAmbience } = useAmbience()
+  const { play: playAmbience, stop: stopAmbience } = useAmbience()
 
   const [view, setView] = useState<'story' | 'patterns'>(initialView)
   const [showPicker, setShowPicker] = useState(false)
@@ -121,17 +122,33 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
     setDragOffset(0)
   }
 
-  // Stop ambience when story changes (navigation causes unmount, but handle explicit nav too)
+  // 스토리 진입 시 ambience 자동 시작
+  // - ambienceDefault=on 인 경우에만 동작
+  // - 브라우저 autoplay 정책: 반드시 사용자 제스처(click/touchstart) 이후 AudioContext 허용
+  // - 따라서 첫 인터랙션(단락 탭, TTS 버튼 등)을 감지한 뒤 재생
   useEffect(() => {
-    if (ambienceActive) stopAmbience()
-    // Auto-start if user has ambienceDefault=on and story has ambience
-    if (prefs.ambienceDefault === 'on' && story.ambienceId) {
-      // Slight delay so AudioContext is created after user gesture context
-      const t = setTimeout(() => toggleAmbience(story.ambienceId!), 300)
-      return () => clearTimeout(t)
+    stopAmbience()
+
+    if (prefs.ambienceDefault !== 'on' || !story.ambienceId) return
+
+    const id = story.ambienceId as AmbienceId
+    let started = false
+
+    function onFirstGesture() {
+      if (started) return
+      started = true
+      playAmbience(id)
+    }
+
+    document.addEventListener('click',      onFirstGesture, { once: true, capture: true })
+    document.addEventListener('touchstart', onFirstGesture, { once: true, capture: true })
+
+    return () => {
+      document.removeEventListener('click',      onFirstGesture, { capture: true })
+      document.removeEventListener('touchstart', onFirstGesture, { capture: true })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [story.id])
+  }, [story.id, prefs.ambienceDefault])
 
   // ── Navigation ──────────────────────────────────────────────────────
   function switchView(newView: 'story' | 'patterns') {
@@ -203,9 +220,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
             speakAll={speakAll}
             stop={stop}
             isSpeaking={isSpeaking}
-            ambienceActive={ambienceActive}
-            onToggleAmbience={() => story.ambienceId && toggleAmbience(story.ambienceId)}
-            hasAmbience={!!story.ambienceId}
           />
         </div>
 
