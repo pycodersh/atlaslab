@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Heart, Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Heart, Volume2, ChevronLeft, ChevronRight, Waves } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 
 type StoryPageProps = {
@@ -16,6 +16,9 @@ type StoryPageProps = {
   speakAll: (texts: string[]) => void
   stop: () => void
   isSpeaking: boolean
+  ambienceActive: boolean
+  onToggleAmbience: () => void
+  hasAmbience: boolean
 }
 
 function highlightText(text: string, phrases: string[]): React.ReactNode {
@@ -43,6 +46,9 @@ export function StoryPage({
   speakAll,
   stop,
   isSpeaking,
+  ambienceActive,
+  onToggleAmbience,
+  hasAmbience,
 }: StoryPageProps) {
   const [liked, setLiked] = useState(false)
 
@@ -85,6 +91,24 @@ export function StoryPage({
               sizes="100vw"
               priority
             />
+            {/* Ambience toggle — 스피커 왼쪽 */}
+            {hasAmbience && (
+              <button
+                type="button"
+                aria-label={ambienceActive ? 'Ambience 끄기' : 'Ambience 켜기'}
+                onClick={onToggleAmbience}
+                className={[
+                  'absolute bottom-3 right-[52px] w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
+                  ambienceActive
+                    ? 'bg-[var(--pa)] text-white'
+                    : 'bg-black/30 text-white hover:bg-[var(--pa)]',
+                ].join(' ')}
+              >
+                <Waves className="w-3.5 h-3.5" />
+              </button>
+            )}
+
+            {/* TTS — 전체 읽기 */}
             <button
               type="button"
               aria-label={isSpeaking ? '정지' : '전체 읽기'}

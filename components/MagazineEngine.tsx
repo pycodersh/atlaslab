@@ -10,6 +10,8 @@ import { PatternPopup } from '@/components/PatternPopup'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
 import { useSpeech } from '@/hooks/useSpeech'
+import { useAmbience } from '@/hooks/useAmbience'
+import { usePreferences } from '@/contexts/PreferencesContext'
 import type { MagazineParagraph, MagazinePattern, MagazineStory } from '@/types/magazine'
 
 type MagazineEngineProps = {
@@ -21,6 +23,8 @@ type MagazineEngineProps = {
 export function MagazineEngine({ story, allStories, initialView = 'story' }: MagazineEngineProps) {
   const router = useRouter()
   const { speak, speakAll, stop, isSpeaking } = useSpeech()
+  const { prefs } = usePreferences()
+  const { active: ambienceActive, toggle: toggleAmbience, stop: stopAmbience } = useAmbience()
 
   const [view, setView] = useState<'story' | 'patterns'>(initialView)
   const [showPicker, setShowPicker] = useState(false)
@@ -117,6 +121,18 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
     setDragOffset(0)
   }
 
+  // Stop ambience when story changes (navigation causes unmount, but handle explicit nav too)
+  useEffect(() => {
+    if (ambienceActive) stopAmbience()
+    // Auto-start if user has ambienceDefault=on and story has ambience
+    if (prefs.ambienceDefault === 'on' && story.ambienceId) {
+      // Slight delay so AudioContext is created after user gesture context
+      const t = setTimeout(() => toggleAmbience(story.ambienceId!), 300)
+      return () => clearTimeout(t)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [story.id])
+
   // ── Navigation ──────────────────────────────────────────────────────
   function switchView(newView: 'story' | 'patterns') {
     stop(); setPopup(null); setView(newView)
@@ -187,6 +203,9 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
             speakAll={speakAll}
             stop={stop}
             isSpeaking={isSpeaking}
+            ambienceActive={ambienceActive}
+            onToggleAmbience={() => story.ambienceId && toggleAmbience(story.ambienceId)}
+            hasAmbience={!!story.ambienceId}
           />
         </div>
 

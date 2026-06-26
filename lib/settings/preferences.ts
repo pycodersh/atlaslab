@@ -1,13 +1,15 @@
-export type SpeechRate     = 'slow' | 'normal' | 'fast'
-export type VoiceKey       = 'us-male' | 'us-female' | 'uk-male' | 'uk-female'
-export type AppLang        = 'ko' | 'en' | 'es' | 'ja' | 'zh-cn' | 'zh-tw' | 'fr' | 'de'
+export type SpeechRate      = 'slow' | 'normal' | 'fast'
+export type VoiceKey        = 'us-male' | 'us-female' | 'uk-male' | 'uk-female'
+export type AppLang         = 'ko' | 'en' | 'es' | 'ja' | 'zh-cn' | 'zh-tw' | 'fr' | 'de'
 export type TranslationLang = 'none' | 'ko' | 'en' | 'es' | 'ja' | 'zh-cn' | 'zh-tw' | 'fr' | 'de'
+export type AmbienceDefault = 'off' | 'on'
 
 export interface UserPreferences {
   speechRate:      SpeechRate
   voice:           VoiceKey
   appLang:         AppLang
   translationLang: TranslationLang
+  ambienceDefault: AmbienceDefault
 }
 
 export const DEFAULTS: UserPreferences = {
@@ -15,6 +17,7 @@ export const DEFAULTS: UserPreferences = {
   voice:           'us-female',
   appLang:         'ko',
   translationLang: 'ko',
+  ambienceDefault: 'off',
 }
 
 const KEY = 'patto-user-preferences'

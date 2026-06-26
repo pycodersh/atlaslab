@@ -17,6 +17,10 @@ export type MagazinePattern = {
   examples?: { en: string; ko: string }[]
 }
 
+export type AmbienceId =
+  | 'rain' | 'forest' | 'ocean' | 'cafe' | 'city'
+  | 'night' | 'fireplace' | 'wind' | 'library' | 'train'
+
 export type MagazineStory = {
   id: number
   title: string
@@ -27,4 +31,5 @@ export type MagazineStory = {
   highlightPhrases: string[]
   paragraphs: MagazineParagraph[]
   patterns: MagazinePattern[]
+  ambienceId?: AmbienceId
 }

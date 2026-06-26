@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, BookOpen, Check } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, BookOpen, Check, Waves } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
 import {
-  type SpeechRate, type VoiceKey, type AppLang, type TranslationLang,
+  type SpeechRate, type VoiceKey, type AppLang, type TranslationLang, type AmbienceDefault,
   SPEECH_RATE_LABELS, VOICE_LABELS, APP_LANG_LABELS, TRANSLATION_LANG_LABELS,
 } from '@/lib/settings/preferences'
 
@@ -243,6 +243,17 @@ export default function PreferencesPage() {
             options={voiceOptions}
             value={prefs.voice}
             onChange={v => update({ voice: v })}
+          />
+          <ChipRow
+            icon={Waves}
+            label="Story Ambience"
+            desc="스토리를 열 때 배경 Ambience를 자동으로 켭니다"
+            options={([
+              { label: 'Off', value: 'off' },
+              { label: 'On',  value: 'on'  },
+            ] as { label: string; value: AmbienceDefault }[])}
+            value={prefs.ambienceDefault}
+            onChange={v => update({ ambienceDefault: v })}
             last
           />
         </div>
