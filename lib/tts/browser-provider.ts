@@ -93,12 +93,34 @@ export class BrowserTTSProvider implements ITTSProvider {
 
   stop() { this.synth?.cancel() }
 
-  speak({ texts, voiceKey, rate, pitch, volume, onStart, onEnd, onError }: SpeakOptions) {
+  speak(options: SpeakOptions) {
     const s = this.synth
     if (!s) return
 
     s.cancel()
 
+    // iOS Chrome(WKWebView)에서 getVoices()가 빈 배열을 반환하는 경우
+    // voiceschanged 이벤트를 기다린 뒤 재생 (최대 2초 타임아웃)
+    if (s.getVoices().length === 0) {
+      let resolved = false
+      const proceed = () => {
+        if (resolved) return
+        resolved = true
+        window.speechSynthesis.removeEventListener('voiceschanged', proceed)
+        this._doSpeak(s, options)
+      }
+      window.speechSynthesis.addEventListener('voiceschanged', proceed)
+      // 2초 안에 이벤트가 안 오면 그냥 진행 (일부 구형 브라우저 대응)
+      setTimeout(proceed, 2000)
+    } else {
+      this._doSpeak(s, options)
+    }
+  }
+
+  private _doSpeak(
+    s: SpeechSynthesis,
+    { texts, voiceKey, rate, pitch, volume, onStart, onEnd, onError }: SpeakOptions,
+  ) {
     const voice      = findBestVoice(voiceKey)
     const lang       = voiceKey.startsWith('uk') ? 'en-GB' : 'en-US'
     const validTexts = texts.map(t => t.trim()).filter(Boolean)
@@ -123,14 +145,12 @@ export class BrowserTTSProvider implements ITTSProvider {
       }
       u.onend = () => {
         if (index < validTexts.length) {
-          // 문단 간 자연스러운 쉼
           setTimeout(next, PARAGRAPH_PAUSE_MS)
         } else {
           onEnd?.()
         }
       }
       u.onerror = (e) => {
-        // 'interrupted' / 'canceled'은 사용자 stop() 호출이므로 무시
         if (e.error !== 'interrupted' && e.error !== 'canceled') onError?.()
       }
 
