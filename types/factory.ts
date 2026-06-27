@@ -144,22 +144,32 @@ export type StoryAssets = {
     voice: string
     urls: Record<string, string> // patternId-exampleIndex → url
   }
-  // Scene 이미지 (AI 생성 후 연결)
-  sceneImages: {
-    sceneId: string
-    status: AssetStatus
-    url: string                  // 예: /images/story001-s1.jpg
-  }[]
-  // Image Slider용 슬라이드 이미지 (Story Viewer 기본 표현 방식)
-  slideshow?: {
-    images: Array<{
-      url: string                // Unsplash CDN 또는 로컬 경로
-      alt: string
-      sceneId?: string           // 연결된 Scene ID
-    }>
-    interval?: number            // 슬라이드 간격(초), 기본값 6
-    transition?: 'crossfade' | 'slide'
-  }
+  // Scene 이미지 슬라이드 (Story Viewer 기본 표현 방식)
+  // status: 'missing'이면 랜덤 이미지 fallback 없이 placeholder 표시
+  sceneImages?: StorySceneImages
+}
+
+// ── Scene Image Types ──────────────────────────────────────────────────────────
+
+export type SceneImageStatus = 'ready' | 'missing' | 'generating'
+
+export type SceneImageItem = {
+  id: string                   // 예: 'scene-01'
+  url: string                  // 예: '/images/stories/story-001/scene-01.jpg'
+  alt: string                  // 한국어 장면 설명 (접근성 + placeholder 표시용)
+  prompt: string               // AI 이미지 생성 프롬프트 (Midjourney / Flux / DALL-E)
+  linkedParagraphIds: string[] // 이 이미지가 커버하는 paragraph ID 목록
+  durationSec: number          // 자동 슬라이드 시 표시 시간(초)
+  status: SceneImageStatus
+}
+
+export type StorySceneImages = {
+  enabled: boolean
+  status: 'ready' | 'missing' | 'partial'  // overall
+  syncMode: 'scene' | 'timer' | 'tts-paragraph'
+  transition: 'fade' | 'slide'
+  kenBurns: boolean
+  images: SceneImageItem[]
 }
 
 // ── Video Production Pipeline ─────────────────────────────────────────────────

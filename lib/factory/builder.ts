@@ -149,11 +149,22 @@ export function buildPackage(input: BuildPackageInput): StoryPackage {
       voice,
       urls: storyTtsUrls,
     },
-    sceneImages: scenes.map(s => ({
-      sceneId: s.id,
+    sceneImages: {
+      enabled: false,
       status: 'missing' as const,
-      url: paths.sceneImage(s.id),
-    })),
+      syncMode: 'scene' as const,
+      transition: 'fade' as const,
+      kenBurns: true,
+      images: scenes.map((s, i) => ({
+        id: `scene-${String(i + 1).padStart(2, '0')}`,
+        url: paths.sceneImage(s.id),
+        alt: s.titleKo ?? s.title,
+        prompt: s.imagePrompt ?? '',
+        linkedParagraphIds: s.paragraphIds,
+        durationSec: 8,
+        status: 'missing' as const,
+      })),
+    },
   }
 
   // ── Metadata ─────────────────────────────────────────────────────────────────

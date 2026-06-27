@@ -114,7 +114,8 @@ export function StoryPage({
           {/* Image Slider — Story 장면 이미지 자동 슬라이드 */}
           <StoryImageSlider
             images={slideImages}
-            interval={story.slideshowInterval ?? 6}
+            interval={story.slideshowInterval ?? 8}
+            kenBurns={story.slideshowKenBurns ?? true}
             audioButton={
               <button
                 type="button"

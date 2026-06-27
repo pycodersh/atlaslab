@@ -145,11 +145,18 @@ export const storyTpl001Package: StoryPackage = {
         'pt1-5-ex5': '/audio/tts/story-tpl-001-pt1-5-ex5.mp3',
       },
     },
-    sceneImages: [
-      { sceneId: 'st1-1', status: 'missing', url: '/images/story-tpl-001-st1-1.jpg' },
-      { sceneId: 'st1-2', status: 'missing', url: '/images/story-tpl-001-st1-2.jpg' },
-      { sceneId: 'st1-3', status: 'missing', url: '/images/story-tpl-001-st1-3.jpg' },
-    ],
+    sceneImages: {
+      enabled: false,
+      status: 'missing',
+      syncMode: 'scene',
+      transition: 'fade',
+      kenBurns: true,
+      images: [
+        { id: 'scene-01', url: '/images/stories/story-tpl-001/scene-01.jpg', alt: 'Scene 1', prompt: '', linkedParagraphIds: [], durationSec: 8, status: 'missing' },
+        { id: 'scene-02', url: '/images/stories/story-tpl-001/scene-02.jpg', alt: 'Scene 2', prompt: '', linkedParagraphIds: [], durationSec: 8, status: 'missing' },
+        { id: 'scene-03', url: '/images/stories/story-tpl-001/scene-03.jpg', alt: 'Scene 3', prompt: '', linkedParagraphIds: [], durationSec: 8, status: 'missing' },
+      ],
+    },
   },
 
   // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

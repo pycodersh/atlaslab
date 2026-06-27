@@ -94,12 +94,22 @@ export function packageToStory(pkg: StoryPackage): MagazineStory {
     ambiencePrompt: sc.ambiencePrompt,
   }))
 
-  // ── Slideshow 이미지 매핑 ─────────────────────────────────────────────────
-  const slideImages: StorySlideImage[] | undefined = assets.slideshow?.images.map(img => ({
-    url: img.url,
-    alt: img.alt,
-    sceneId: img.sceneId,
-  }))
+  // ── Scene Images → Slide Images 매핑 ────────────────────────────────────────
+  // status: 'missing'인 이미지도 그대로 전달 (Slider에서 placeholder 처리)
+  const slideImages: StorySlideImage[] | undefined = assets.sceneImages?.enabled
+    ? assets.sceneImages.images.map(img => ({
+        id: img.id,
+        url: img.url,
+        alt: img.alt,
+        status: img.status,
+        sceneId: img.id,
+        linkedParagraphIds: img.linkedParagraphIds,
+        durationSec: img.durationSec,
+      }))
+    : undefined
+
+  const slideshowInterval = assets.sceneImages?.images?.[0]?.durationSec ?? 8
+  const slideshowKenBurns = assets.sceneImages?.kenBurns ?? true
 
   return {
     id: story.id,
@@ -116,6 +126,7 @@ export function packageToStory(pkg: StoryPackage): MagazineStory {
     patterns: mappedPatterns,
     scenes: mappedScenes,
     slideImages,
-    slideshowInterval: assets.slideshow?.interval,
+    slideshowInterval,
+    slideshowKenBurns,
   }
 }

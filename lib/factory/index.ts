@@ -209,7 +209,22 @@ export function assembleStoryPackage(input: AssembleInput): StoryPackage {
       scenePoster: { status: 'missing', url: `/images/story${pad}-poster.jpg` },
       ambience:    { status: 'missing', url: `/audio/ambience/story${pad}.mp3`, type: 'ambient', volume: 0.25 },
       storyTts:    { voice, urls: storyTtsUrls },
-      sceneImages: scenes.map(s => ({ sceneId: s.id, status: 'missing' as const, url: `/images/story${pad}-${s.id}.jpg` })),
+      sceneImages: {
+        enabled: false,
+        status: 'missing' as const,
+        syncMode: 'scene' as const,
+        transition: 'fade' as const,
+        kenBurns: true,
+        images: scenes.map((s, i) => ({
+          id: `scene-${String(i + 1).padStart(2, '0')}`,
+          url: `/images/stories/story-${pad}/${`scene-${String(i + 1).padStart(2, '0')}`}.jpg`,
+          alt: s.titleKo ?? s.title,
+          prompt: s.imagePrompt ?? '',
+          linkedParagraphIds: s.paragraphIds,
+          durationSec: 8,
+          status: 'missing' as const,
+        })),
+      },
     },
 
     paragraphs,

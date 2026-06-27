@@ -38,9 +38,13 @@ export type StoryImage = {
 }
 
 export type StorySlideImage = {
+  id?: string
   url: string
   alt: string
-  sceneId?: string   // 연결된 MagazineScene ID (선택)
+  sceneId?: string
+  status?: 'ready' | 'missing' | 'generating'
+  linkedParagraphIds?: string[]
+  durationSec?: number
 }
 
 export type IntroVideoSource = 'pexels' | 'local' | 'ai'
@@ -149,5 +153,6 @@ export type MagazineStory = {
   scenePractice?: ScenePractice
   // Image Slider — Story Viewer 기본 표현 방식
   slideImages?: StorySlideImage[]   // 슬라이드 이미지 목록 (3~6장 권장)
-  slideshowInterval?: number        // 슬라이드 간격(초), 기본값 6
+  slideshowInterval?: number        // 슬라이드 간격(초), 기본값 8
+  slideshowKenBurns?: boolean       // Ken Burns 효과 사용 여부, 기본값 true
 }

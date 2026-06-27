@@ -4,11 +4,10 @@
  * StoryImageSlider
  *
  * Story Viewer 상단 이미지 슬라이더.
- * - Cross Fade 전환 (CSS opacity transition)
- * - Ken Burns 효과 (CSS animation, 각 슬라이드 활성화 시 재시작)
- * - 자동 재생 (interval초마다)
+ * - status: 'ready'   → 이미지 + Ken Burns + Cross Fade
+ * - status: 'missing' → 랜덤 fallback 없이 branded placeholder
+ * - 자동 재생 (durationSec 또는 interval 기준)
  * - 좌우 화살표 + 인디케이터 도트
- * - audioButton prop: TTS 버튼 등 우하단 오버레이 슬롯
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react'
@@ -17,11 +16,17 @@ import type { StorySlideImage } from '@/types/magazine'
 
 type Props = {
   images: StorySlideImage[]
-  interval?: number             // 슬라이드 간격(초), 기본값 6
-  audioButton?: React.ReactNode // 우하단 오버레이 슬롯 (TTS 버튼)
+  interval?: number             // 기본 슬라이드 간격(초)
+  kenBurns?: boolean
+  audioButton?: React.ReactNode
 }
 
-export function StoryImageSlider({ images, interval = 6, audioButton }: Props) {
+export function StoryImageSlider({
+  images,
+  interval = 8,
+  kenBurns = true,
+  audioButton,
+}: Props) {
   const [currentIdx, setCurrentIdx] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -31,19 +36,23 @@ export function StoryImageSlider({ images, interval = 6, audioButton }: Props) {
 
   const startTimer = useCallback(() => {
     stopTimer()
+    const current = images[0]  // re-calculated inside interval via closure on idx
     timerRef.current = setInterval(() => {
-      setCurrentIdx(prev => (prev + 1) % images.length)
+      setCurrentIdx(prev => {
+        const next = (prev + 1) % images.length
+        return next
+      })
     }, interval * 1000)
-  }, [stopTimer, interval, images.length])
+  }, [stopTimer, interval, images.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    startTimer()
+    if (images.length > 1) startTimer()
     return stopTimer
-  }, [startTimer, stopTimer])
+  }, [startTimer, stopTimer, images.length])
 
   function go(nextIdx: number) {
     setCurrentIdx(nextIdx)
-    startTimer()
+    if (images.length > 1) startTimer()
   }
 
   const goNext = () => go((currentIdx + 1) % images.length)
@@ -54,51 +63,62 @@ export function StoryImageSlider({ images, interval = 6, audioButton }: Props) {
   return (
     <div className="relative w-full h-48 rounded-xl overflow-hidden mb-7 shadow-sm">
 
-      {/* 이미지 레이어: 전체 렌더 + opacity 전환으로 Cross Fade 구현 */}
+      {/* 이미지 레이어 */}
       {images.map((img, i) => {
         const isActive = i === currentIdx
+        const isMissing = img.status === 'missing' || img.status === 'generating'
+
         return (
           <div
             key={i}
             aria-hidden={!isActive}
             className="absolute inset-0 transition-opacity duration-700"
-            style={{
-              opacity: isActive ? 1 : 0,
-              zIndex: isActive ? 1 : 0,
-            }}
+            style={{ opacity: isActive ? 1 : 0, zIndex: isActive ? 1 : 0 }}
           >
-            {/* 정적 배경 (항상 렌더) */}
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url(${img.url})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-            {/* Ken Burns 오버레이 — 활성화될 때마다 새로 마운트되어 애니메이션 재시작 */}
-            {isActive && (
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage: `url(${img.url})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  animation: `pattoKenBurns ${interval + 3}s ease-out forwards`,
-                }}
+            {isMissing ? (
+              /* Placeholder — Story와 무관한 랜덤 이미지 절대 사용 안 함 */
+              <PlaceholderSlide
+                index={i}
+                total={images.length}
+                alt={img.alt}
+                isGenerating={img.status === 'generating'}
               />
+            ) : (
+              <>
+                {/* 정적 배경 */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    backgroundImage: `url(${img.url})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                />
+                {/* Ken Burns — 활성 시마다 새로 마운트 → 애니메이션 재시작 */}
+                {isActive && kenBurns && (
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage: `url(${img.url})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      animation: `pattoKenBurns ${interval + 3}s ease-out forwards`,
+                    }}
+                  />
+                )}
+              </>
             )}
           </div>
         )
       })}
 
-      {/* 하단 그라데이션 오버레이 */}
+      {/* 하단 그라데이션 */}
       <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"
         style={{ zIndex: 2 }}
       />
 
-      {/* 오디오 버튼 슬롯 (우하단) */}
+      {/* 오디오 버튼 슬롯 */}
       {audioButton && (
         <div className="absolute bottom-3 right-3" style={{ zIndex: 3 }}>
           {audioButton}
@@ -151,6 +171,51 @@ export function StoryImageSlider({ images, interval = 6, audioButton }: Props) {
           </button>
         </>
       )}
+    </div>
+  )
+}
+
+// ── Placeholder — status: 'missing' or 'generating' ───────────────────────────
+
+function PlaceholderSlide({
+  index,
+  total,
+  alt,
+  isGenerating,
+}: {
+  index: number
+  total: number
+  alt: string
+  isGenerating: boolean
+}) {
+  return (
+    <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-br from-[var(--pc)] via-[var(--pc2)] to-[var(--pd)]">
+      {/* 미묘한 격자 패턴 */}
+      <div
+        className="absolute inset-0 opacity-[0.04]"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(0deg,transparent,transparent 23px,var(--pt) 24px),' +
+            'repeating-linear-gradient(90deg,transparent,transparent 23px,var(--pt) 24px)',
+        }}
+      />
+      {/* 씬 번호 (우상단) */}
+      <div className="absolute top-3 right-3 flex items-center gap-1">
+        <span className="text-[8px] font-mono tracking-[0.2em] text-[var(--pm2)]">
+          {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+        </span>
+        {isGenerating && (
+          <span className="text-[7px] font-mono text-[var(--pa)] tracking-wider animate-pulse">
+            · GEN
+          </span>
+        )}
+      </div>
+      {/* 장면 설명 (좌하단) */}
+      <div className="relative px-4 pb-4">
+        <p className="text-[var(--pm)] text-[11px] leading-relaxed">
+          {alt}
+        </p>
+      </div>
     </div>
   )
 }
