@@ -124,13 +124,15 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
   }
 
   // 스토리 진입 시 ambience 자동 시작
-  // - ambienceDefault=on 인 경우에만 동작
-  // - 브라우저 autoplay 정책: 반드시 사용자 제스처(click/touchstart) 이후 AudioContext 허용
-  // - 따라서 첫 인터랙션(단락 탭, TTS 버튼 등)을 감지한 뒤 재생
+  // - sceneVideo가 있는 Scene First 스토리: ambienceDefault 설정 무관하게 항상 재생
+  // - 일반 스토리: ambienceDefault=on 일 때만 재생
+  // - 브라우저 autoplay 정책: AudioContext는 첫 사용자 제스처 이후에만 허용
   useEffect(() => {
     stopAmbience()
 
-    if (prefs.ambienceDefault !== 'on' || !story.ambienceId) return
+    const sceneFirst = !!story.sceneVideo
+    const shouldPlay = sceneFirst || prefs.ambienceDefault === 'on'
+    if (!shouldPlay || !story.ambienceId) return
 
     const id = story.ambienceId as AmbienceId
     let started = false

@@ -5,7 +5,7 @@ import { createAmbience, type AmbienceId, type AmbienceController } from '@/lib/
 
 const FADE_IN  = 2.0   // seconds
 const FADE_OUT = 2.2   // seconds
-const VOLUME   = 0.18  // 18% — TTS보다 훨씬 낮은 볼륨
+const VOLUME   = 0.22  // 22% — Scene First 기준 (TTS 100% 기준 배경)
 
 export function useAmbience() {
   const ctxRef    = useRef<AudioContext | null>(null)

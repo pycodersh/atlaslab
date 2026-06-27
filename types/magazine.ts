@@ -81,7 +81,7 @@ export type MagazineStory = {
   id: number
   title: string
   subtitleKo: string
-  imageUrl: string          // fallback / primary
+  imageUrl: string
   imageAlt: string
   imagePool?: StoryImage[]
   storyNote?: string
@@ -89,7 +89,9 @@ export type MagazineStory = {
   paragraphs: MagazineParagraph[]
   patterns: MagazinePattern[]
   ambienceId?: AmbienceId
-  sceneVideo?: SceneVideo   // Scene First: Story 전체를 대표하는 AI Scene Video
+  sceneVideo?: SceneVideo    // Scene First: Story 전체를 대표하는 AI Scene Video
+  ambienceUrl?: string       // 향후: 실제 녹음된 환경음 파일 URL
+  videoPrompt?: string       // 향후: AI 영상 생성 프롬프트
   introVideo?: IntroVideo
   scenePractice?: ScenePractice
 }
