@@ -159,10 +159,11 @@ export function buildPackage(input: BuildPackageInput): StoryPackage {
         id: `scene-${String(i + 1).padStart(2, '0')}`,
         url: paths.sceneImage(s.id),
         alt: s.titleKo ?? s.title,
-        prompt: s.imagePrompt ?? '',
+        status: 'missing' as const,
         linkedParagraphIds: s.paragraphIds,
         durationSec: 8,
-        status: 'missing' as const,
+        scene: { title: s.title, summary: s.summary, emotion: '', location: '', timeOfDay: '' },
+        production: { prompt: s.imagePrompt ?? '', style: 'realistic-cinematic-warm' },
       })),
     },
   }

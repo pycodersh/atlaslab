@@ -89,8 +89,8 @@ export const story001Package: StoryPackage = {
     },
     sceneImages: {
       enabled: true,
-      status: 'ready',
-      syncMode: 'scene',
+      status: 'test',
+      syncMode: 'tts-paragraph',
       transition: 'fade',
       kenBurns: true,
       images: [
@@ -98,37 +98,101 @@ export const story001Package: StoryPackage = {
           id: 'scene-01',
           url: '/images/stories/story-001/scene-01.jpg',
           alt: '금요일 저녁, 마지막 기차 안 — 피곤한 직장인이 창밖 도시 불빛을 바라본다',
-          prompt: `Cinematic realistic photograph. A tired young Korean man in his late 20s sits alone by the window in a quiet night train carriage. Smart casual work attire, work bag on lap. He leans slightly against the window, eyes distant, watching blurred city lights stream past outside. Warm amber overhead carriage lighting vs cool blue-white city light from the window. Shallow depth of field. Film grain. Peaceful, slightly melancholic Friday evening mood. No text, no logos. 16:9 ratio. Photorealistic.`,
+          status: 'test',
           linkedParagraphIds: ['p1-1', 'p1-2'],
           durationSec: 8,
-          status: 'ready',
+          scene: {
+            title: 'Last Train Home',
+            summary: 'A tired office worker rides the Friday evening commuter train alone, watching blurred city lights drift past the window after a long week.',
+            emotion: 'tired',
+            location: 'Commuter Train',
+            timeOfDay: 'Friday Evening',
+          },
+          production: {
+            prompt: `Subject: A tired young Korean man in his late 20s, sitting alone by the train window in smart casual work attire, work bag on lap, eyes distant and heavy-lidded.
+Environment: Quiet commuter train carriage at night, nearly empty seats, overhead warm amber lighting, city lights streaming past outside the window.
+Lighting: Warm amber overhead train lights contrasting with cool blue-white city glow from the window, soft rim lighting on subject's profile.
+Mood: Quiet exhaustion, Friday evening melancholy, peaceful solitude.
+Camera Composition: Medium shot, slightly low angle, shallow depth of field, subject occupying left third, blurred city lights filling the right half of frame.
+Style: Cinematic realistic photography, fine film grain, 16:9 ratio, no text no logos.
+Color Tone: Warm amber interior vs cool blue exterior — desaturated with slight warm push on skin tones.`,
+            style: 'realistic-cinematic-warm',
+          },
         },
         {
           id: 'scene-02',
           url: '/images/stories/story-001/scene-02.jpg',
           alt: '기차 안에서 친구 Jisu의 파티 초대 문자를 받고 잠시 고민하는 장면',
-          prompt: `Cinematic close-up photograph. A young Korean man in his late 20s sits in a dim night train carriage, holding his smartphone. The phone screen glows softly, illuminating his face from below. His expression is thoughtful — tired but something has caught his attention. Warm screen glow against dark carriage interior. City lights blur faintly in background through window. Film grain. Intimate, quiet moment. No text visible on screen. 16:9 ratio. Photorealistic.`,
+          status: 'test',
           linkedParagraphIds: ['p1-2', 'p1-3'],
           durationSec: 8,
-          status: 'ready',
+          scene: {
+            title: 'The Text Message',
+            summary: "The commuter's phone buzzes with an unexpected party invitation from a friend. He stares at the glowing screen, weighing tiredness against the pull of something spontaneous.",
+            emotion: 'hesitating',
+            location: 'Commuter Train',
+            timeOfDay: 'Friday Evening',
+          },
+          production: {
+            prompt: `Subject: A young Korean man in his late 20s holding a smartphone in a dim train carriage, face illuminated from below by soft screen glow, expression thoughtful and slightly surprised — tired but intrigued.
+Environment: Dim commuter train interior at night, dark carriage with blurred city lights faintly visible through the window behind.
+Lighting: Soft warm smartphone screen glow as primary light source on face, minimal ambient amber overhead, cool dark background.
+Mood: Quiet hesitation, unexpected spark of interest, a moment of decision.
+Camera Composition: Close-up to medium shot, hands and phone in lower frame, face partially visible above, intimate framing.
+Style: Cinematic realistic photography, fine film grain, 16:9 ratio, no text visible on screen.
+Color Tone: Near-dark with isolated warm phone-screen glow, deep shadows, slightly cool overall.`,
+            style: 'realistic-cinematic-warm',
+          },
         },
         {
           id: 'scene-03',
           url: '/images/stories/story-001/scene-03.jpg',
           alt: '따뜻한 아파트 모임 — 친구들, 음식, 웃음, 편안한 분위기',
-          prompt: `Cinematic warm interior photograph. A small, intimate apartment gathering on a Friday evening. A group of young Korean friends in their late 20s sit around a low table with Korean home-cooked food, beer bottles, and simple snacks. Someone is mid-laugh. Warm fairy lights and soft floor lamp. Cozy, lived-in apartment with plants and books. Relaxed, joyful atmosphere. Shallow depth of field. Film grain. 16:9 ratio. Photorealistic.`,
+          status: 'test',
           linkedParagraphIds: ['p1-4'],
           durationSec: 8,
-          status: 'ready',
+          scene: {
+            title: 'The Gathering',
+            summary: 'A warm apartment filled with laughter, friends, and home-cooked food — the spontaneous detour from the commute home turns into the best part of the week.',
+            emotion: 'joyful',
+            location: "Friend's Apartment",
+            timeOfDay: 'Friday Night',
+          },
+          production: {
+            prompt: `Subject: A small group of young Korean friends in their late 20s, 3–4 people, gathered around a low wooden table covered with Korean home-cooked food, drinks, and snacks — one person mid-laugh, others smiling warmly.
+Environment: Cozy lived-in apartment interior, soft floor lamp and warm fairy lights, houseplants, books on shelf, relaxed Friday night atmosphere.
+Lighting: Warm incandescent lamp light, golden-hour-indoor quality, soft shadows, no harsh overhead lighting.
+Mood: Spontaneous joy, genuine friendship, relaxed celebration of the everyday.
+Camera Composition: Wide shot or medium-wide, low angle at table level, all subjects visible, food prominently framed in foreground.
+Style: Cinematic realistic photography, fine film grain, 16:9 ratio.
+Color Tone: Warm golden-amber palette, rich and saturated, soft skin tones, high warmth.`,
+            style: 'realistic-cinematic-warm',
+          },
         },
         {
           id: 'scene-04',
           url: '/images/stories/story-001/scene-04.jpg',
           alt: '모임이 끝나고 마지막 기차로 조용히 귀가 — 창밖 야경, 부드러운 표정',
-          prompt: `Cinematic night photograph. A young Korean man sits alone in a quiet night train carriage heading home after midnight. The city lights blur softly outside the dark window. His expression is soft and content — tired but genuinely happy, eyes half-closed. The carriage is nearly empty. Warm amber overhead light. Film grain. Reflective, peaceful mood. 16:9 ratio. Photorealistic.`,
+          status: 'test',
           linkedParagraphIds: ['p1-5'],
           durationSec: 8,
-          status: 'ready',
+          scene: {
+            title: 'Riding Home',
+            summary: 'The last train home feels different now — the city outside looks softer, quieter, and the face reflected in the dark window carries a quiet, contented smile.',
+            emotion: 'peaceful',
+            location: 'Commuter Train',
+            timeOfDay: 'Late Friday Night',
+          },
+          production: {
+            prompt: `Subject: A young Korean man in his late 20s sitting alone in a nearly empty late-night train carriage, eyes half-closed, expression soft and quietly happy — tired but genuinely content, no longer weary.
+Environment: Late-night commuter train, mostly empty carriage, dark window reflecting his face faintly against blurred distant city lights.
+Lighting: Dim warm amber overhead carriage light, darker and quieter than scene-01, face gently lit from above.
+Mood: Peaceful contentment, quiet reflection, the warmth of a night well spent.
+Camera Composition: Medium shot, subject centered or left-frame, window occupying right side showing faint city light trails and his ghost reflection.
+Style: Cinematic realistic photography, fine film grain, 16:9 ratio.
+Color Tone: Very muted, soft warm tones, lower contrast than earlier scenes — quieter and more introspective.`,
+            style: 'realistic-cinematic-warm',
+          },
         },
       ],
     },

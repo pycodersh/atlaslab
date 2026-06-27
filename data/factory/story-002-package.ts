@@ -90,7 +90,7 @@ export const story002Package: StoryPackage = {
     sceneImages: {
       enabled: true,
       status: 'missing',
-      syncMode: 'scene',
+      syncMode: 'tts-paragraph',
       transition: 'fade',
       kenBurns: true,
       images: [
@@ -98,37 +98,101 @@ export const story002Package: StoryPackage = {
           id: 'scene-01',
           url: '/images/stories/story-002/scene-01.jpg',
           alt: '조용한 토요일 아침 — 소파에서 커피 한 잔과 함께 여유로운 시간',
-          prompt: `Cinematic cozy interior photograph. A young Korean woman in her late 20s sits curled up on a comfortable sofa on a quiet Saturday morning. She holds a warm ceramic mug of coffee with both hands, looking completely relaxed and unhurried. Soft natural light filters through sheer white curtains. Clean, minimal modern apartment interior. Morning stillness. Film grain. 16:9 ratio. Photorealistic.`,
+          status: 'missing',
           linkedParagraphIds: ['p2-1'],
           durationSec: 8,
-          status: 'missing',
+          scene: {
+            title: 'Saturday Morning Coffee',
+            summary: 'A young woman enjoys a slow Saturday morning alone on her sofa, warm coffee mug in both hands, no plans, no rush — just quiet contentment.',
+            emotion: 'content',
+            location: 'Home Living Room',
+            timeOfDay: 'Saturday Morning',
+          },
+          production: {
+            prompt: `Subject: A young Korean woman in her late 20s curled up on a comfortable sofa, holding a warm ceramic coffee mug with both hands, looking completely relaxed — no phone, no hurry, just morning stillness.
+Environment: Clean, minimal modern apartment living room, sheer white curtains filtering soft morning light, a few plants, books nearby, cozy weekend atmosphere.
+Lighting: Soft diffused natural morning light through curtains, no harsh shadows, gentle and even — quiet morning glow.
+Mood: Peaceful contentment, unhurried weekend morning, quiet solitude before the day begins.
+Camera Composition: Medium shot, subject slightly off-center, sofa and room visible to establish environment, coffee mug prominent in frame.
+Style: Cinematic realistic photography, fine film grain, 16:9 ratio.
+Color Tone: Soft warm whites and cream tones, morning light palette, gentle desaturation with warm push on wood and fabric surfaces.`,
+            style: 'realistic-cinematic-warm',
+          },
         },
         {
           id: 'scene-02',
           url: '/images/stories/story-002/scene-02.jpg',
           alt: '오래된 친구 Mia에게서 뜻밖의 초대 메시지 — 놀라움과 기쁨이 담긴 표정',
-          prompt: `Cinematic close-up photograph. A young Korean woman's hands hold a smartphone in a bright indoor morning setting. The phone screen shows a casual chat message. Her face partially visible above, expression showing pleasant surprised happiness — eyes slightly wide, a small genuine smile forming. Natural warm morning light. Soft blurred background. Film grain. 16:9 ratio. Photorealistic.`,
+          status: 'missing',
           linkedParagraphIds: ['p2-2', 'p2-3'],
           durationSec: 8,
-          status: 'missing',
+          scene: {
+            title: 'An Unexpected Message',
+            summary: 'A text from an old university friend breaks the quiet Saturday morning — a surprise lunch invitation that sparks both shock and warm delight.',
+            emotion: 'surprised',
+            location: 'Home Living Room',
+            timeOfDay: 'Saturday Morning',
+          },
+          production: {
+            prompt: `Subject: A young Korean woman in her late 20s holding a smartphone in both hands, face partially visible above the screen — eyes slightly wide with pleasant surprise, a small genuine smile beginning to form.
+Environment: Bright Saturday morning living room interior, same sofa setting as scene-01, morning light from window, coffee mug visible nearby.
+Lighting: Warm natural morning light as key, soft smartphone screen glow contributing secondary warm light on her face.
+Mood: Surprise turning to delight, a quiet morning interrupted by something unexpectedly wonderful.
+Camera Composition: Close-up to medium, hands and phone occupy lower two-thirds of frame, face in upper third, soft background blur.
+Style: Cinematic realistic photography, fine film grain, 16:9 ratio, no text visible on phone screen.
+Color Tone: Warm morning whites and creams, slightly brighter and more saturated than scene-01 to reflect the emotional lift.`,
+            style: 'realistic-cinematic-warm',
+          },
         },
         {
           id: 'scene-03',
           url: '/images/stories/story-002/scene-03.jpg',
           alt: '강가 근처 작은 카페에서 오랜 친구 Mia와 재회 — 3년 만의 만남',
-          prompt: `Cinematic warm café photograph. Two young Korean women in their late 20s sit across from each other at a small wooden café table near a window. They look genuinely happy to see each other — mid-conversation, warm smiles, catching up after years apart. Two coffee cups on the table. Afternoon natural light through the window. Intimate, warm atmosphere. Shallow depth of field. Film grain. 16:9 ratio. Photorealistic.`,
+          status: 'missing',
           linkedParagraphIds: ['p2-4', 'p2-5'],
           durationSec: 8,
-          status: 'missing',
+          scene: {
+            title: 'Café Reunion',
+            summary: 'Two old university friends meet face-to-face for the first time in three years at a cozy riverside café, their conversation picking up exactly where it left off.',
+            emotion: 'warm',
+            location: 'Small Riverside Café',
+            timeOfDay: 'Saturday Afternoon',
+          },
+          production: {
+            prompt: `Subject: Two young Korean women in their late 20s sitting across from each other at a small wooden café table near a large window — mid-conversation, genuine warm smiles, leaning slightly forward, clearly happy to be reunited after years apart.
+Environment: Intimate riverside café, small wooden tables, warm interior, afternoon natural light streaming through the window, two coffee cups on the table, café plants and soft décor visible.
+Lighting: Afternoon window light as key — warm natural fill with soft café interior ambient lighting.
+Mood: Warm reconnection, the ease of a long friendship instantly revived, joy in rediscovery.
+Camera Composition: Medium two-shot, both women visible in frame, table between them, window light from one side, shallow depth of field on background.
+Style: Cinematic realistic photography, fine film grain, 16:9 ratio.
+Color Tone: Warm golden-amber café tones, natural wood and cream palette, soft afternoon light saturation.`,
+            style: 'realistic-cinematic-warm',
+          },
         },
         {
           id: 'scene-04',
           url: '/images/stories/story-002/scene-04.jpg',
           alt: '몇 시간째 이야기가 이어지는 카페 — 케이크를 나누며 웃는 두 사람',
-          prompt: `Cinematic warm café photograph. Two young Korean women in their late 20s share a slice of cake at a cozy café table, laughing and talking animatedly. Coffee cups, dessert plates. Warm interior lighting. The scene radiates genuine warmth — long-lost friends enjoying an unexpected afternoon together. Film grain. 16:9 ratio. Photorealistic.`,
+          status: 'missing',
           linkedParagraphIds: ['p2-6'],
           durationSec: 8,
-          status: 'missing',
+          scene: {
+            title: 'Friends Forever',
+            summary: 'Hours have passed but neither wants to leave. Sharing a slice of cake, laughing, the afternoon stretching on — some friendships never really fade.',
+            emotion: 'joyful',
+            location: 'Small Riverside Café',
+            timeOfDay: 'Saturday Afternoon',
+          },
+          production: {
+            prompt: `Subject: Two young Korean women in their late 20s sharing a slice of cake at the same café table — laughing openly, animated, one gesturing mid-story, the other leaning back in laughter.
+Environment: Same cozy riverside café, table now showing more time spent — empty coffee cups, cake plates, small crumbs, late afternoon light softer than earlier.
+Lighting: Softer late-afternoon window light, slightly warmer and lower angle than scene-03, golden-hour indoor quality.
+Mood: Uninhibited joy, the pure pleasure of old friendship, time passing unnoticed.
+Camera Composition: Medium shot, both subjects in frame, cake and table prominently visible in foreground, loose and natural framing to capture the spontaneity of the moment.
+Style: Cinematic realistic photography, fine film grain, 16:9 ratio.
+Color Tone: Richer and warmer than scene-03 — late afternoon gold, deeper amber tones, slightly higher saturation to match the elevated emotion.`,
+            style: 'realistic-cinematic-warm',
+          },
         },
       ],
     },

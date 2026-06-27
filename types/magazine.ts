@@ -42,7 +42,7 @@ export type StorySlideImage = {
   url: string
   alt: string
   sceneId?: string
-  status?: 'ready' | 'missing' | 'generating'
+  status?: 'ready' | 'missing' | 'generating' | 'test'
   linkedParagraphIds?: string[]
   durationSec?: number
 }

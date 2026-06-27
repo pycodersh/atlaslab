@@ -152,9 +152,9 @@ export const storyTpl001Package: StoryPackage = {
       transition: 'fade',
       kenBurns: true,
       images: [
-        { id: 'scene-01', url: '/images/stories/story-tpl-001/scene-01.jpg', alt: 'Scene 1', prompt: '', linkedParagraphIds: [], durationSec: 8, status: 'missing' },
-        { id: 'scene-02', url: '/images/stories/story-tpl-001/scene-02.jpg', alt: 'Scene 2', prompt: '', linkedParagraphIds: [], durationSec: 8, status: 'missing' },
-        { id: 'scene-03', url: '/images/stories/story-tpl-001/scene-03.jpg', alt: 'Scene 3', prompt: '', linkedParagraphIds: [], durationSec: 8, status: 'missing' },
+        { id: 'scene-01', url: '/images/stories/story-tpl-001/scene-01.jpg', alt: 'Scene 1', status: 'missing', linkedParagraphIds: [], durationSec: 8, scene: { title: '', summary: '', emotion: '', location: '', timeOfDay: '' }, production: { prompt: '', style: 'realistic-cinematic-warm' } },
+        { id: 'scene-02', url: '/images/stories/story-tpl-001/scene-02.jpg', alt: 'Scene 2', status: 'missing', linkedParagraphIds: [], durationSec: 8, scene: { title: '', summary: '', emotion: '', location: '', timeOfDay: '' }, production: { prompt: '', style: 'realistic-cinematic-warm' } },
+        { id: 'scene-03', url: '/images/stories/story-tpl-001/scene-03.jpg', alt: 'Scene 3', status: 'missing', linkedParagraphIds: [], durationSec: 8, scene: { title: '', summary: '', emotion: '', location: '', timeOfDay: '' }, production: { prompt: '', style: 'realistic-cinematic-warm' } },
       ],
     },
   },

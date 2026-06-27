@@ -151,21 +151,39 @@ export type StoryAssets = {
 
 // ── Scene Image Types ──────────────────────────────────────────────────────────
 
-export type SceneImageStatus = 'ready' | 'missing' | 'generating'
+/** 'test' = picsum 등 임시 이미지, URL만 교체하면 'ready'로 전환 가능 */
+export type SceneImageStatus = 'ready' | 'missing' | 'generating' | 'test'
 
 export type SceneImageItem = {
   id: string                   // 예: 'scene-01'
   url: string                  // 예: '/images/stories/story-001/scene-01.jpg'
   alt: string                  // 한국어 장면 설명 (접근성 + placeholder 표시용)
-  prompt: string               // AI 이미지 생성 프롬프트 (Midjourney / Flux / DALL-E)
+  status: SceneImageStatus
   linkedParagraphIds: string[] // 이 이미지가 커버하는 paragraph ID 목록
   durationSec: number          // 자동 슬라이드 시 표시 시간(초)
-  status: SceneImageStatus
+
+  /** 장면 컨텍스트 — AI 이미지·영상 재생산 시 동일하게 재사용 */
+  scene: {
+    title: string              // 영어 장면 제목 (e.g. "Last Train Home")
+    summary: string            // 1~2문장 장면 요약
+    emotion: string            // 주요 감정 lowercase (e.g. "tired", "joyful")
+    location: string           // 장소 (e.g. "Subway Train")
+    timeOfDay: string          // 시간대 (e.g. "Friday Evening")
+  }
+
+  /** 이미지 제작 메타데이터 — 모델 교체 시 prompt 재사용 가능 */
+  production: {
+    /** Subject / Environment / Lighting / Mood / Camera / Style / Color 포함 */
+    prompt: string
+    style: string              // e.g. "realistic-cinematic-warm"
+    model?: string             // 사용된 모델 (e.g. "midjourney-v6", "flux-1.1-pro")
+    generatedAt?: string       // ISO date
+  }
 }
 
 export type StorySceneImages = {
   enabled: boolean
-  status: 'ready' | 'missing' | 'partial'  // overall
+  status: 'ready' | 'missing' | 'partial' | 'test'  // overall
   syncMode: 'scene' | 'timer' | 'tts-paragraph'
   transition: 'fade' | 'slide'
   kenBurns: boolean
