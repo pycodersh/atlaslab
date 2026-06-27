@@ -50,13 +50,15 @@ export type IntroVideo = {
   durationSec?: number
 }
 
+export type SceneVideoStatus = 'ready' | 'missing' | 'generating'
+
 export type SceneVideo = {
-  url: string
-  poster?: string
+  status: SceneVideoStatus   // 'ready'일 때만 <video> 렌더링
+  url: string                // AI 영상 경로 (예: /videos/story1-scene.mp4)
+  poster?: string            // 영상 없을 때 대체 이미지 URL
+  prompt?: string            // 이 영상 생성에 사용된 videoPrompt
+  source?: 'ai' | 'pexels' | 'local'
   credit?: string
-  pexelsUrl?: string
-  source?: IntroVideoSource
-  scenePrompt?: string
 }
 
 export type AmbienceType =

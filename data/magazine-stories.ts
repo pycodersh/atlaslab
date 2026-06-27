@@ -9,12 +9,11 @@ export const magazineStories: MagazineStory[] = [
     imageUrl: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Friends celebrating at a warm evening party',
     sceneVideo: {
-      url: 'https://videos.pexels.com/video-files/36244116/15370437_1280_720_30fps.mp4',
-      poster: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
-      credit: 'Video by Yura Forrat on Pexels',
-      pexelsUrl: 'https://www.pexels.com/video/nighttime-cityscape-with-elevated-train-passing-36244116/',
-      source: 'pexels',
-      scenePrompt: 'Nighttime cityscape with elevated train passing, urban night lights, 8s seamless loop',
+      status: 'missing',
+      url: '/videos/story1-scene.mp4',
+      poster: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80',
+      source: 'ai',
+      prompt: `A young man in his late 20s sits alone by a train window at night. City lights blur past outside. He leans his head slightly against the glass, eyes distant, exhausted but peaceful. The carriage is quiet. Warm-cool lighting contrast. Natural ambient motion. 5–8 seconds. Seamless loop. No dialogue. No music. Only the ambient sound of the train.`,
     },
     ambience: {
       enabled: true,

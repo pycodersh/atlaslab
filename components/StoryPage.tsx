@@ -60,6 +60,12 @@ export function StoryPage({
   const { prefs } = usePreferences()
 
   const scene = story.sceneVideo
+  const sceneReady = scene?.status === 'ready' && !!scene.url
+
+  // dev 전용: Scene 1 videoPrompt 확인
+  if (process.env.NODE_ENV === 'development' && scene?.prompt) {
+    console.log('[Story sceneVideo prompt]', scene.prompt)
+  }
 
   function handleAudio() {
     if (isSpeaking) { stop(); return }
@@ -94,12 +100,15 @@ export function StoryPage({
             </button>
           </div>
 
-          {/* Scene Video 또는 커버 이미지 */}
+          {/* Scene Video 또는 커버 이미지
+               - status === 'ready'  → AI Scene Video 재생
+               - status === 'missing' / 'generating' → poster 또는 커버 이미지
+               스토리와 무관한 테스트 영상은 절대 fallback으로 쓰지 않음 */}
           <div className="relative w-full h-48 rounded-xl overflow-hidden mb-7 shadow-sm">
-            {scene?.url ? (
+            {sceneReady ? (
               <video
-                src={scene.url}
-                poster={scene.poster}
+                src={scene!.url}
+                poster={scene!.poster}
                 autoPlay
                 muted
                 playsInline
@@ -109,7 +118,7 @@ export function StoryPage({
               />
             ) : (
               <Image
-                src={storyImg.url}
+                src={scene?.poster ?? storyImg.url}
                 alt={storyImg.alt}
                 fill
                 className="object-cover"
