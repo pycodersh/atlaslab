@@ -6,6 +6,7 @@ import { ttsProvider, getPitchForKey } from '@/lib/tts'
 
 export function useSpeech() {
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [currentParagraphIdx, setCurrentParagraphIdx] = useState(-1)
 
   const speakTexts = useCallback((
     texts:     string[],
@@ -15,6 +16,7 @@ export function useSpeech() {
     const voiceKey = prefs.voice
 
     setIsSpeaking(true)
+    setCurrentParagraphIdx(0)
 
     ttsProvider.speak({
       texts,
@@ -24,17 +26,18 @@ export function useSpeech() {
       pitch:  getPitchForKey(voiceKey),
       volume: 1.0,
       onStart: () => setIsSpeaking(true),
-      onEnd:   () => setIsSpeaking(false),
-      onError: () => setIsSpeaking(false),
+      onEnd:   () => { setIsSpeaking(false); setCurrentParagraphIdx(-1) },
+      onError: () => { setIsSpeaking(false); setCurrentParagraphIdx(-1) },
+      onParagraphChange: (idx) => setCurrentParagraphIdx(idx),
     })
   }, [])
 
-  /** 단일 문장 (팝업 번역 읽기) — audioUrl 있으면 사전생성 MP3 우선 재생 */
+  /** 단일 문장 (팝업 번역 읽기) */
   const speak = useCallback((text: string, audioUrl?: string | null) => {
     speakTexts([text], audioUrl ? [audioUrl] : undefined)
   }, [speakTexts])
 
-  /** 전체 스토리 문단 순차 읽기 — audioUrls 있으면 사전생성 MP3 우선 재생 */
+  /** 전체 스토리 문단 순차 읽기 */
   const speakAll = useCallback((
     texts:     string[],
     audioUrls?: (string | null | undefined)[],
@@ -45,6 +48,7 @@ export function useSpeech() {
   const stop = useCallback(() => {
     ttsProvider.stop()
     setIsSpeaking(false)
+    setCurrentParagraphIdx(-1)
   }, [])
 
   // 페이지 이동(언마운트) 시 즉시 중단
@@ -52,5 +56,5 @@ export function useSpeech() {
     return () => { ttsProvider.stop() }
   }, [])
 
-  return { speak, speakAll, stop, isSpeaking }
+  return { speak, speakAll, stop, isSpeaking, currentParagraphIdx }
 }

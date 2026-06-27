@@ -14,6 +14,8 @@ export interface SpeakOptions {
   onStart?: () => void
   onEnd?: () => void
   onError?: () => void
+  /** 문단이 바뀔 때마다 호출 — 슬라이드 동기화에 사용 */
+  onParagraphChange?: (index: number) => void
 }
 
 /**

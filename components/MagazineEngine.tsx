@@ -24,7 +24,7 @@ type MagazineEngineProps = {
 
 export function MagazineEngine({ story, allStories, initialView = 'story' }: MagazineEngineProps) {
   const router = useRouter()
-  const { speak, speakAll, stop, isSpeaking } = useSpeech()
+  const { speak, speakAll, stop, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
 
@@ -223,6 +223,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
             speakAll={speakAll}
             stop={stop}
             isSpeaking={isSpeaking}
+            currentParagraphIdx={currentParagraphIdx}
           />
         </div>
 

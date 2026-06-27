@@ -48,6 +48,7 @@ export class PregeneratedTTSProvider implements ITTSProvider {
         return
       }
 
+      options.onParagraphChange?.(index)   // 문단 시작 직전 호출
       const url  = audioUrls?.[index] ?? null
       const text = texts[index++]
       const onDone = () => { if (!self.stopped) setTimeout(next, PARAGRAPH_PAUSE_MS) }

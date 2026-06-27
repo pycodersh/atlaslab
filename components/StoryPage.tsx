@@ -19,6 +19,7 @@ type StoryPageProps = {
   speakAll: (texts: string[], audioUrls?: (string | null | undefined)[]) => void
   stop: () => void
   isSpeaking: boolean
+  currentParagraphIdx: number   // 현재 TTS 재생 중인 문단 인덱스 (-1 = 비활성)
 }
 
 function highlightText(text: string, phrases: string[]): React.ReactNode {
@@ -47,9 +48,16 @@ export function StoryPage({
   speakAll,
   stop,
   isSpeaking,
+  currentParagraphIdx,
 }: StoryPageProps) {
   const [liked, setLiked] = useState(false)
   const { prefs } = usePreferences()
+
+  // TTS 현재 문단 ID → 슬라이더 동기화용
+  const activeParagraphId =
+    currentParagraphIdx >= 0
+      ? (story.paragraphs[currentParagraphIdx]?.id ?? null)
+      : null
 
   // Image Slider: slideImages 우선, 없으면 단일 커버 이미지 fallback
   const slideImages =
@@ -116,6 +124,8 @@ export function StoryPage({
             images={slideImages}
             interval={story.slideshowInterval ?? 8}
             kenBurns={story.slideshowKenBurns ?? true}
+            activeParagraphId={activeParagraphId}
+            isTTSActive={isSpeaking}
             audioButton={
               <button
                 type="button"
