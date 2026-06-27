@@ -113,6 +113,9 @@ export function StoryPage({
               <div>APP_VERSION: package-render-v2</div>
               <div>STORY_SOURCE: story-00{story.id}-package.ts</div>
               <div>VIDEO_STATUS: {scene?.status ?? 'none'}</div>
+              <div className={scene?.source === 'test' ? 'text-yellow-400' : ''}>
+                VIDEO_SOURCE: {scene?.source ?? 'none'}{scene?.source === 'test' ? ' ⚠ PLACEHOLDER' : ''}
+              </div>
               <div>VIDEO_URL: {scene?.url ?? 'none'}</div>
               <div>TTS_URL: story-{story.id}-p{story.id}-1-{prefs.voice}.mp3</div>
             </div>

@@ -62,8 +62,10 @@ export const story001Package: StoryPackage = {
   assets: {
     sceneVideo: {
       status: 'ready',
-      url: '/videos/story001-scene.mp4',
+      source: 'test',
+      url: '/videos/story001-test.mp4',
       poster: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80',
+      prompt: `A cinematic realistic short film about a tired office worker riding the last train home on a Friday evening. City lights blur outside the train window. Their phone buzzes with a text invitation from a friend. They hesitate, then smile and change direction back toward the city. The scene transitions to a warm apartment gathering with friends laughing, eating, and talking. Later, they ride the quiet last train home again, looking out at the softer city lights. Warm natural lighting, realistic human motion, gentle camera movement, cozy evening mood, no dialogue, no text on screen, ambient sound only, 24 seconds.`,
     },
     scenePoster: {
       status: 'missing',

@@ -117,6 +117,8 @@ export type StoryAssets = {
     status: AssetStatus
     url: string                  // 예: /videos/story001-scene.mp4
     poster?: string              // 영상 없을 때 대체 이미지
+    source?: 'ai' | 'test' | 'local'  // 'test' = placeholder, 'ai' = 실제 생성본
+    prompt?: string              // 실제 AI 영상 생성에 쓸 확정 프롬프트
     model?: string               // 생성 모델 (예: 'runway-gen3', 'veo-2')
     generatedAt?: string
   }

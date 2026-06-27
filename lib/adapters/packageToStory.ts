@@ -48,6 +48,8 @@ export function packageToStory(pkg: StoryPackage): MagazineStory {
     status: assets.sceneVideo.status,
     url: assets.sceneVideo.url,
     poster: assets.sceneVideo.poster,
+    source: assets.sceneVideo.source as SceneVideo['source'],
+    prompt: assets.sceneVideo.prompt,
   }
 
   // ── Ambience 매핑 ─────────────────────────────────────────────────────────

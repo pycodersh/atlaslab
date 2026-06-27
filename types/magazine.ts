@@ -57,7 +57,7 @@ export type SceneVideo = {
   url: string                // AI 영상 경로 (예: /videos/story1-scene.mp4)
   poster?: string            // 영상 없을 때 대체 이미지 URL
   prompt?: string            // 이 영상 생성에 사용된 videoPrompt
-  source?: 'ai' | 'pexels' | 'local'
+  source?: 'ai' | 'pexels' | 'local' | 'test'
   credit?: string
 }
 
