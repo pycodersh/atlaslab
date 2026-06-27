@@ -7,34 +7,45 @@ import { useAmbience } from '@/hooks/useAmbience'
 
 type Props = {
   ambience: StoryAmbience
-  ambienceId?: AmbienceId   // HTML audio 실패 시 Web Audio 합성 폴백
+  ambienceId?: AmbienceId  // Web Audio 합성 폴백용
 }
 
 export function AmbienceAudio({ ambience, ambienceId }: Props) {
   const [on, setOn] = useState(false)
+
   const audioRef      = useRef<HTMLAudioElement | null>(null)
-  const useUrlRef     = useRef(true)   // URL 사용 가능 여부
+  const audioReadyRef = useRef(false)   // loadeddata 이벤트 수신 여부
+  const useUrlRef     = useRef(true)    // HTML audio 사용 가능 여부
+
   const { play: playWebAudio, stop: stopWebAudio } = useAmbience()
 
-  // HTML audio 초기화
+  // HTML audio 초기화 — preload auto로 미리 로드
   useEffect(() => {
     if (!ambience.enabled || !ambience.url) return
 
     const audio = new Audio(ambience.url)
-    audio.loop   = true
-    audio.volume = ambience.volume ?? 0.25
-    audio.preload = 'none'
+    audio.loop    = true
+    audio.volume  = ambience.volume ?? 0.25
+    audio.preload = 'auto'
     audioRef.current = audio
 
-    audio.addEventListener('error', (e) => {
+    function onLoaded() { audioReadyRef.current = true }
+    function onError(e: Event) {
       console.log('[Ambience] load error', e)
-      useUrlRef.current = false
-    })
+      useUrlRef.current   = false
+      audioReadyRef.current = false
+    }
+
+    audio.addEventListener('loadeddata', onLoaded)
+    audio.addEventListener('error', onError)
 
     return () => {
+      audio.removeEventListener('loadeddata', onLoaded)
+      audio.removeEventListener('error', onError)
       audio.pause()
       audio.src = ''
       audioRef.current = null
+      audioReadyRef.current = false
     }
   }, [ambience.url, ambience.volume, ambience.enabled])
 
@@ -47,31 +58,32 @@ export function AmbienceAudio({ ambience, ambienceId }: Props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleToggle = useCallback(async () => {
+  // 동기(non-async) 핸들러 — 사용자 제스처 컨텍스트 유지
+  const handleToggle = useCallback(() => {
     if (!ambience.enabled) return
 
     if (on) {
       audioRef.current?.pause()
       stopWebAudio()
       setOn(false)
-    } else {
-      // HTML audio 먼저 시도
-      if (useUrlRef.current && audioRef.current) {
-        try {
-          audioRef.current.currentTime = 0
-          await audioRef.current.play()
-          setOn(true)
-          return
-        } catch (e) {
-          console.log('[Ambience] play rejected', e)
-          useUrlRef.current = false
-        }
-      }
-      // Web Audio 합성 폴백
-      if (ambienceId) {
-        playWebAudio(ambienceId)
-        setOn(true)
-      }
+      return
+    }
+
+    // HTML audio: 파일이 로드 완료된 경우에만 사용
+    if (useUrlRef.current && audioReadyRef.current && audioRef.current) {
+      audioRef.current.currentTime = 0
+      audioRef.current.play().catch(e => {
+        console.log('[Ambience] play rejected', e)
+        useUrlRef.current = false
+      })
+      setOn(true)
+      return
+    }
+
+    // Web Audio 합성 폴백 — 사용자 제스처 내 동기 호출 (iOS/Chrome 정책 준수)
+    if (ambienceId) {
+      playWebAudio(ambienceId)
+      setOn(true)
     }
   }, [on, ambience.enabled, ambienceId, playWebAudio, stopWebAudio])
 
@@ -81,8 +93,7 @@ export function AmbienceAudio({ ambience, ambienceId }: Props) {
     <button
       type="button"
       onClick={handleToggle}
-      aria-label={on ? `${ambience.label ?? 'Ambience'} 끄기` : `${ambience.label ?? 'Ambience'} 켜기`}
-      title={on ? 'Ambience Off' : 'Ambience On'}
+      aria-label={on ? 'Ambience 끄기' : 'Ambience 켜기'}
       className={[
         'flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-semibold tracking-[0.1em] transition-all cursor-pointer select-none',
         on
