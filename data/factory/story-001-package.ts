@@ -89,7 +89,7 @@ export const story001Package: StoryPackage = {
     },
     sceneImages: {
       enabled: true,
-      status: 'test',
+      status: 'missing',
       syncMode: 'tts-paragraph',
       transition: 'fade',
       kenBurns: true,
@@ -98,7 +98,7 @@ export const story001Package: StoryPackage = {
           id: 'scene-01',
           url: '/images/stories/story-001/scene-01.jpg',
           alt: '금요일 저녁, 마지막 기차 안 — 피곤한 직장인이 창밖 도시 불빛을 바라본다',
-          status: 'test',
+          status: 'missing',
           linkedParagraphIds: ['p1-1'],
           durationSec: 8,
           scene: {
@@ -123,7 +123,7 @@ Color Tone: Warm amber interior vs cool blue exterior — desaturated with sligh
           id: 'scene-02',
           url: '/images/stories/story-001/scene-02.jpg',
           alt: '기차 안에서 친구 Jisu의 파티 초대 문자를 받고 잠시 고민하는 장면',
-          status: 'test',
+          status: 'missing',
           linkedParagraphIds: ['p1-2'],
           durationSec: 8,
           scene: {
@@ -148,7 +148,7 @@ Color Tone: Near-dark with isolated warm phone-screen glow, deep shadows, slight
           id: 'scene-03',
           url: '/images/stories/story-001/scene-03.jpg',
           alt: '따뜻한 아파트 모임 — 친구들, 음식, 웃음, 편안한 분위기',
-          status: 'test',
+          status: 'missing',
           linkedParagraphIds: ['p1-3'],
           durationSec: 8,
           scene: {
@@ -173,7 +173,7 @@ Color Tone: Warm golden-amber palette, rich and saturated, soft skin tones, high
           id: 'scene-04',
           url: '/images/stories/story-001/scene-04.jpg',
           alt: '모임이 끝나고 마지막 기차로 조용히 귀가 — 창밖 야경, 부드러운 표정',
-          status: 'test',
+          status: 'missing',
           linkedParagraphIds: ['p1-4', 'p1-5'],
           durationSec: 8,
           scene: {
