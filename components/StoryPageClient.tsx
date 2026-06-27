@@ -52,19 +52,26 @@ export function StoryPageClient({ story, allStories, initialView = 'story' }: Pr
 
     const timer = setTimeout(() => settle(false), GATE_TIMEOUT_MS)
 
-    const onError    = () => settle(false)
-    const onCanPlay  = () => {
+    const onError   = () => settle(false)
+    const tryPlay   = () => {
       const dur = el.duration
       if (!isNaN(dur) && dur < MIN_DURATION_SEC) { settle(false); return }
       el.play()
         .then(() => settle(true))
         .catch(() => settle(false))
     }
+    const onCanPlay = () => tryPlay()
 
     el.addEventListener('error',   onError)
     el.addEventListener('canplay', onCanPlay)
 
-    el.load()
+    // 이미 canplay 상태라면 이벤트가 다시 오지 않으므로 즉시 처리
+    // readyState 3 = HAVE_FUTURE_DATA, 4 = HAVE_ENOUGH_DATA
+    if (el.readyState >= 3) {
+      tryPlay()
+    } else {
+      el.load()
+    }
 
     return () => {
       settledRef.current = true
@@ -85,7 +92,7 @@ export function StoryPageClient({ story, allStories, initialView = 'story' }: Pr
         initialView={initialView}
       />
 
-      {/* 게이트 video: DOM에 있어야 canplay가 발생한다 */}
+      {/* 게이트 video: display:none이면 브라우저가 미디어를 로드 안 함 → visibility:hidden 사용 */}
       {eligible && intro?.url && (
         <video
           ref={gateRef}
@@ -93,7 +100,7 @@ export function StoryPageClient({ story, allStories, initialView = 'story' }: Pr
           muted
           playsInline
           preload="auto"
-          style={{ display: 'none' }}
+          style={{ position: 'fixed', top: 0, left: 0, width: 1, height: 1, opacity: 0, pointerEvents: 'none', zIndex: -1 }}
         />
       )}
 
