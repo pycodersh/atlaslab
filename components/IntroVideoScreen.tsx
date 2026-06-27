@@ -9,15 +9,18 @@ type Props = {
   onComplete: () => void
 }
 
+const LOAD_TIMEOUT_MS  = 4000
+const MIN_DURATION_SEC = 4
+
 export function IntroVideoScreen({ story, intro, onComplete }: Props) {
   const videoRef  = useRef<HTMLVideoElement>(null)
   const doneRef   = useRef(false)
-  const playedRef = useRef(false)   // stale closure 방지용
+  const shownRef  = useRef(false)   // play 이벤트 발생 여부
 
   const [visible, setVisible] = useState(false)
   const [exiting, setExiting] = useState(false)
 
-  const handleDone = () => {
+  const exit = () => {
     if (doneRef.current) return
     doneRef.current = true
     videoRef.current?.pause()
@@ -25,30 +28,54 @@ export function IntroVideoScreen({ story, intro, onComplete }: Props) {
     setTimeout(onComplete, 380)
   }
 
+  const silentFail = () => {
+    if (doneRef.current) return
+    doneRef.current = true
+    onComplete()
+  }
+
   useEffect(() => {
     const el = videoRef.current
     if (!el) return
 
-    const onPlay    = () => { playedRef.current = true; setVisible(true) }
-    const onEnded   = () => handleDone()
-    const onError   = () => { if (!playedRef.current) onComplete(); else handleDone() }
-    const onStalled = () => { if (!playedRef.current) onComplete() }
+    // 일정 시간 안에 재생 안 되면 조용히 포기
+    const timeout = setTimeout(silentFail, LOAD_TIMEOUT_MS)
 
+    const onPlay = () => {
+      clearTimeout(timeout)
+      shownRef.current = true
+      setVisible(true)
+    }
+
+    const onCanPlay = () => {
+      const dur = el.duration
+      if (!isNaN(dur) && dur < MIN_DURATION_SEC) {
+        clearTimeout(timeout)
+        silentFail()
+        return
+      }
+      el.play().catch(silentFail)
+    }
+
+    const onEnded = () => exit()
+    const onError = () => { shownRef.current ? exit() : silentFail() }
+
+    el.addEventListener('canplay', onCanPlay)
     el.addEventListener('play',    onPlay)
     el.addEventListener('ended',   onEnded)
     el.addEventListener('error',   onError)
-    el.addEventListener('stalled', onStalled)
 
-    // 게이트를 통과한 영상이므로 play()는 대부분 바로 성공
-    el.play().catch(() => {
-      if (!doneRef.current) onComplete()
-    })
+    // readyState가 이미 충분하면 canplay가 다시 오지 않음
+    if (el.readyState >= 3) {
+      onCanPlay()
+    }
 
     return () => {
+      clearTimeout(timeout)
+      el.removeEventListener('canplay', onCanPlay)
       el.removeEventListener('play',    onPlay)
       el.removeEventListener('ended',   onEnded)
       el.removeEventListener('error',   onError)
-      el.removeEventListener('stalled', onStalled)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -62,12 +89,11 @@ export function IntroVideoScreen({ story, intro, onComplete }: Props) {
         background:    '#000',
         opacity:       visible && !exiting ? 1 : 0,
         transition:    visible
-          ? exiting ? 'opacity 0.38s ease-in' : 'opacity 0.35s ease-out'
+          ? exiting ? 'opacity 0.38s ease-in' : 'opacity 0.4s ease-out'
           : 'none',
         pointerEvents: visible ? 'auto' : 'none',
       }}
     >
-      {/* 배경 영상 — autoPlay + muted 조합으로 브라우저 autoplay 정책 통과 */}
       <video
         ref={videoRef}
         src={intro.url}
@@ -76,49 +102,35 @@ export function IntroVideoScreen({ story, intro, onComplete }: Props) {
         playsInline
         autoPlay
         preload="auto"
-        style={{
-          position:  'absolute',
-          inset:     0,
-          width:     '100%',
-          height:    '100%',
-          objectFit: 'cover',
-        }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
       />
 
-      {/* 하단 그라데이션 */}
       <div
         style={{
           position:      'absolute',
           inset:         0,
-          background:    'linear-gradient(to bottom, rgba(0,0,0,0.12) 0%, transparent 30%, transparent 52%, rgba(0,0,0,0.70) 100%)',
+          background:    'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 35%, transparent 55%, rgba(0,0,0,0.72) 100%)',
           pointerEvents: 'none',
         }}
       />
 
-      {/* Skip */}
       <button
         type="button"
-        onClick={handleDone}
+        onClick={exit}
         style={{
-          position:       'absolute',
-          top:            20,
-          right:          20,
-          padding:        '5px 14px',
-          border:         '1px solid rgba(255,255,255,0.30)',
-          borderRadius:   20,
-          background:     'rgba(0,0,0,0.22)',
-          color:          'rgba(255,255,255,0.70)',
-          fontSize:       10,
-          letterSpacing:  '0.14em',
-          fontWeight:     600,
-          cursor:         'pointer',
-          backdropFilter: 'blur(6px)',
+          position: 'absolute', top: 20, right: 20,
+          padding: '5px 14px',
+          border: '1px solid rgba(255,255,255,0.30)',
+          borderRadius: 20,
+          background: 'rgba(0,0,0,0.22)',
+          color: 'rgba(255,255,255,0.70)',
+          fontSize: 10, letterSpacing: '0.14em', fontWeight: 600,
+          cursor: 'pointer', backdropFilter: 'blur(6px)',
         }}
       >
         SKIP
       </button>
 
-      {/* 하단 스토리 정보 */}
       <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 28px 44px' }}>
         <p style={{ margin: '0 0 6px', fontSize: 9, letterSpacing: '0.24em', fontWeight: 600, color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase' }}>
           Cinematic Intro · Story {String(story.id).padStart(2, '0')}
