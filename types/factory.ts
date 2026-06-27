@@ -137,6 +137,16 @@ export type StoryPackage = {
   scenes: FactoryScene[]
   patterns: FactoryPattern[]
   ttsQueue: TTSQueueItem[]
+
+  // QC 결과 — runQC() 실행 후 추가됨
+  quality?: {
+    score: number
+    grade: string           // 'A+' | 'A' | 'B+' | 'B' | 'C' | 'F'
+    reviewStatus: string    // 'pass' | 'needs-review' | 'fail'
+    checkedAt: string
+    failCount: number
+    warningCount: number
+  }
 }
 
 // ── Factory Generator 출력 타입 ───────────────────────────────────────────────

@@ -8,6 +8,12 @@
  * 전체 Pipeline: buildStoryPackage() 순서대로 호출.
  */
 
+// QC
+export { runQC, mergeAIChecks, toPackageQuality, printQCReport } from './quality'
+export { buildTranslationQCPrompt, buildPatternNaturalnessQCPrompt, buildPromptConsistencyQCPrompt } from './quality'
+export type { ScenePromptCheckInput } from './quality'
+
+// Prompts
 export {
   buildStoryPrompt,
   buildScenePrompt,
