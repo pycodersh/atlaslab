@@ -92,6 +92,32 @@ export const story002Package: StoryPackage = {
       { sceneId: 's2-2', status: 'missing', url: '/images/story002-s2-2.jpg' },
       { sceneId: 's2-3', status: 'missing', url: '/images/story002-s2-3.jpg' },
     ],
+    slideshow: {
+      interval: 7,
+      transition: 'crossfade',
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80',
+          alt: '토요일 아침, 소파에서 커피 한 잔과 함께 여유로운 시간',
+          sceneId: 's2-1',
+        },
+        {
+          url: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+          alt: '오래된 친구에게서 갑작스러운 초대 메시지가 도착한다',
+          sceneId: 's2-1',
+        },
+        {
+          url: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=80',
+          alt: '카페에서 오랜 친구와 다시 만나는 따뜻한 순간',
+          sceneId: 's2-2',
+        },
+        {
+          url: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?auto=format&fit=crop&w=800&q=80',
+          alt: '따뜻한 카페 안에서 이어지는 대화와 웃음',
+          sceneId: 's2-3',
+        },
+      ],
+    },
   },
 
   paragraphs: [

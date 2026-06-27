@@ -137,3 +137,16 @@ body {
 }
 .animate-fade-in { animation: fade-in 0.9s ease forwards; }
 .animate-fade-up { animation: fade-up 0.8s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+/* Image Slider — Ken Burns 효과 */
+@keyframes pattoKenBurns {
+  from { transform: scale(1.0) translate(0, 0); }
+  to   { transform: scale(1.08) translate(-1%, -0.5%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes pattoKenBurns {
+    from { transform: scale(1); }
+    to   { transform: scale(1); }
+  }
+}

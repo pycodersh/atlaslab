@@ -18,6 +18,7 @@ import type {
   MagazineScene,
   SceneVideo,
   StoryAmbience,
+  StorySlideImage,
   AmbienceId,
   AmbienceType,
 } from '@/types/magazine'
@@ -93,6 +94,13 @@ export function packageToStory(pkg: StoryPackage): MagazineStory {
     ambiencePrompt: sc.ambiencePrompt,
   }))
 
+  // ── Slideshow 이미지 매핑 ─────────────────────────────────────────────────
+  const slideImages: StorySlideImage[] | undefined = assets.slideshow?.images.map(img => ({
+    url: img.url,
+    alt: img.alt,
+    sceneId: img.sceneId,
+  }))
+
   return {
     id: story.id,
     title: story.title,
@@ -107,5 +115,7 @@ export function packageToStory(pkg: StoryPackage): MagazineStory {
     paragraphs: mappedParagraphs,
     patterns: mappedPatterns,
     scenes: mappedScenes,
+    slideImages,
+    slideshowInterval: assets.slideshow?.interval,
   }
 }

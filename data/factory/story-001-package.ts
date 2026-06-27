@@ -92,6 +92,32 @@ export const story001Package: StoryPackage = {
       { sceneId: 's1-2', status: 'missing', url: '/images/story001-s1-2.jpg' },
       { sceneId: 's1-3', status: 'missing', url: '/images/story001-s1-3.jpg' },
     ],
+    slideshow: {
+      interval: 6,
+      transition: 'crossfade',
+      images: [
+        {
+          url: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80',
+          alt: '금요일 저녁, 마지막 기차 안 — 도시 불빛이 창밖을 스쳐 지나간다',
+          sceneId: 's1-1',
+        },
+        {
+          url: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=800&q=80',
+          alt: '친구에게서 파티 초대 문자가 온다',
+          sceneId: 's1-1',
+        },
+        {
+          url: 'https://images.unsplash.com/photo-1529543544282-ea669407fca3?auto=format&fit=crop&w=800&q=80',
+          alt: '따뜻한 조명 아래 친구들과 함께하는 저녁 모임',
+          sceneId: 's1-2',
+        },
+        {
+          url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80',
+          alt: '모임이 끝나고, 마지막 기차로 조용히 집으로 돌아간다',
+          sceneId: 's1-3',
+        },
+      ],
+    },
   },
 
   videoProduction: {

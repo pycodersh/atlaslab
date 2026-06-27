@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { Heart, Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory, AmbienceId } from '@/types/magazine'
 import { AmbienceAudio } from '@/components/AmbienceAudio'
+import { StoryImageSlider } from '@/components/StoryImageSlider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { storyParaAudioUrl } from '@/lib/tts'
 
@@ -36,13 +36,6 @@ function highlightText(text: string, phrases: string[]): React.ReactNode {
   )
 }
 
-function pickStoryImage(story: MagazineStory): { url: string; alt: string } {
-  const pool = story.imagePool
-  if (pool && pool.length > 0) {
-    return pool[Math.floor(Math.random() * pool.length)]
-  }
-  return { url: story.imageUrl, alt: story.imageAlt }
-}
 
 export function StoryPage({
   story,
@@ -56,20 +49,21 @@ export function StoryPage({
   isSpeaking,
 }: StoryPageProps) {
   const [liked, setLiked] = useState(false)
-  const [storyImg] = useState(() => pickStoryImage(story))
   const { prefs } = usePreferences()
 
-  const scene = story.sceneVideo
-  const sceneReady = scene?.status === 'ready' && !!scene.url
+  // Image Slider: slideImages 우선, 없으면 단일 커버 이미지 fallback
+  const slideImages =
+    story.slideImages && story.slideImages.length > 0
+      ? story.slideImages
+      : [{ url: story.imageUrl, alt: story.imageAlt }]
 
   // dev 전용 디버그 로그
   if (process.env.NODE_ENV === 'development') {
     console.log('[PATTO DEBUG]', {
-      APP_VERSION: 'package-render-v2',
+      APP_VERSION: 'image-slider-v1',
       STORY_SOURCE: `story-00${story.id}-package.ts`,
       STORY_ID: story.id,
-      VIDEO_STATUS: scene?.status ?? 'none',
-      VIDEO_URL: scene?.url ?? 'none',
+      SLIDE_COUNT: slideImages.length,
       TTS_URL: `story-${story.id}-p${story.id}-1-${prefs.voice}.mp3`,
     })
   }
@@ -110,65 +104,36 @@ export function StoryPage({
           {/* dev 디버그 배너 */}
           {process.env.NODE_ENV === 'development' && (
             <div className="mb-3 rounded-lg bg-black/80 px-3 py-2 font-mono text-[10px] leading-relaxed text-green-400">
-              <div>APP_VERSION: package-render-v2</div>
+              <div>APP_VERSION: image-slider-v1</div>
               <div>STORY_SOURCE: story-00{story.id}-package.ts</div>
-              <div>VIDEO_STATUS: {scene?.status ?? 'none'}</div>
-              <div className={scene?.source === 'test' ? 'text-yellow-400' : ''}>
-                VIDEO_SOURCE: {scene?.source ?? 'none'}{scene?.source === 'test' ? ' ⚠ PLACEHOLDER' : ''}
-              </div>
-              <div>VIDEO_URL: {scene?.url ?? 'none'}</div>
+              <div>SLIDE_COUNT: {slideImages.length}</div>
               <div>TTS_URL: story-{story.id}-p{story.id}-1-{prefs.voice}.mp3</div>
             </div>
           )}
 
-          {/* Scene Video 또는 커버 이미지
-               - status === 'ready'  → AI Scene Video 재생
-               - status === 'missing' / 'generating' → poster 또는 커버 이미지
-               스토리와 무관한 테스트 영상은 절대 fallback으로 쓰지 않음 */}
-          <div className="relative w-full h-48 rounded-xl overflow-hidden mb-7 shadow-sm">
-            {sceneReady ? (
-              <video
-                src={scene!.url}
-                poster={scene!.poster}
-                autoPlay
-                muted
-                playsInline
-                loop
-                preload="metadata"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-            ) : (
-              <Image
-                src={scene?.poster ?? storyImg.url}
-                alt={storyImg.alt}
-                fill
-                className="object-cover"
-                sizes="100vw"
-                priority
-                onError={(e) => {
-                  const img = e.currentTarget
-                  if (img.src !== story.imageUrl) img.src = story.imageUrl
-                }}
-              />
-            )}
-            {/* TTS 버튼 */}
-            <button
-              type="button"
-              aria-label={isSpeaking ? '정지' : '전체 읽기'}
-              onClick={handleAudio}
-              className={[
-                'absolute bottom-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
-                isSpeaking
-                  ? 'bg-[var(--pa)] text-white'
-                  : 'bg-black/30 text-white hover:bg-[var(--pa)]',
-              ].join(' ')}
-            >
-              <Volume2 className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          {/* Image Slider — Story 장면 이미지 자동 슬라이드 */}
+          <StoryImageSlider
+            images={slideImages}
+            interval={story.slideshowInterval ?? 6}
+            audioButton={
+              <button
+                type="button"
+                aria-label={isSpeaking ? '정지' : '전체 읽기'}
+                onClick={handleAudio}
+                className={[
+                  'w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
+                  isSpeaking
+                    ? 'bg-[var(--pa)] text-white'
+                    : 'bg-black/30 text-white hover:bg-[var(--pa)]',
+                ].join(' ')}
+              >
+                <Volume2 className="w-3.5 h-3.5" />
+              </button>
+            }
+          />
 
-          {/* Ambience 버튼 — sceneVideo 스토리에만 표시 */}
-          {scene && story.ambience?.enabled && (
+          {/* Ambience 버튼 */}
+          {story.ambience?.enabled && (
             <div className="flex justify-end mb-4 -mt-3">
               <AmbienceAudio
                 ambience={story.ambience}

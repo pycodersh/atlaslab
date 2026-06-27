@@ -37,6 +37,12 @@ export type StoryImage = {
   alt: string
 }
 
+export type StorySlideImage = {
+  url: string
+  alt: string
+  sceneId?: string   // 연결된 MagazineScene ID (선택)
+}
+
 export type IntroVideoSource = 'pexels' | 'local' | 'ai'
 
 export type IntroVideo = {
@@ -141,4 +147,7 @@ export type MagazineStory = {
   videoPrompt?: string              // Story 전체 영상 프롬프트 (장기 보관)
   introVideo?: IntroVideo
   scenePractice?: ScenePractice
+  // Image Slider — Story Viewer 기본 표현 방식
+  slideImages?: StorySlideImage[]   // 슬라이드 이미지 목록 (3~6장 권장)
+  slideshowInterval?: number        // 슬라이드 간격(초), 기본값 6
 }

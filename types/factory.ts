@@ -150,6 +150,16 @@ export type StoryAssets = {
     status: AssetStatus
     url: string                  // 예: /images/story001-s1.jpg
   }[]
+  // Image Slider용 슬라이드 이미지 (Story Viewer 기본 표현 방식)
+  slideshow?: {
+    images: Array<{
+      url: string                // Unsplash CDN 또는 로컬 경로
+      alt: string
+      sceneId?: string           // 연결된 Scene ID
+    }>
+    interval?: number            // 슬라이드 간격(초), 기본값 6
+    transition?: 'crossfade' | 'slide'
+  }
 }
 
 // ── Video Production Pipeline ─────────────────────────────────────────────────
