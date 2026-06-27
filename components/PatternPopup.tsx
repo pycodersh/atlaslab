@@ -36,12 +36,15 @@ export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: Patt
       onClick={() => { onClose(); stop() }}
     >
       <div
-        className="rounded-2xl p-5 w-full max-w-[320px] shadow-2xl overflow-y-auto"
+        className="rounded-2xl w-full max-w-[320px] shadow-2xl overflow-y-auto"
         style={{ background: 'var(--pb)', maxHeight: '82dvh' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="flex justify-between items-center mb-4">
+        {/* Header — sticky so X is always visible when scrolling */}
+        <div
+          className="flex justify-between items-center px-5 pt-5 pb-3"
+          style={{ position: 'sticky', top: 0, background: 'var(--pb)', zIndex: 1 }}
+        >
           <span className="text-[9px] tracking-[0.25em] text-[var(--pa)] font-semibold">PATTERN NOTE</span>
           <button
             type="button"
@@ -52,6 +55,8 @@ export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: Patt
             <X className="w-4 h-4" />
           </button>
         </div>
+
+        <div className="px-5 pb-5">
 
         {/* Pattern + meaning */}
         <p className="font-playfair text-[1.15rem] font-bold text-[var(--pt)] leading-snug">
@@ -69,35 +74,6 @@ export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: Patt
             </p>
           </>
         )}
-
-        {/* Story sentence */}
-        <div className="h-px bg-[var(--pd)] mb-3" />
-        <p className="text-[9px] tracking-[0.2em] text-[var(--pm2)] font-semibold mb-2">스토리 예문</p>
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex-1 min-w-0">
-            <p className="font-playfair text-[0.82rem] font-bold text-[var(--pt)] leading-relaxed">
-              {pattern.storySentence}
-            </p>
-            {showTranslation && (
-              <p className="text-[0.73rem] text-[var(--pm)] mt-0.5 leading-relaxed">
-                {pattern.storySentenceKo}
-              </p>
-            )}
-          </div>
-          <button
-            type="button"
-            aria-label="읽기"
-            onClick={() => handleSpeak('story', pattern.storySentence)}
-            className={`shrink-0 p-1.5 rounded-full transition-colors cursor-pointer mt-0.5 ${
-              speakingId === 'story' && isSpeaking
-                ? 'bg-[var(--pd)] text-[var(--pa)]'
-                : 'text-[var(--pm2)] hover:bg-[var(--pd)] hover:text-[var(--pa)]'
-            }`}
-          >
-            <Volume2 className="w-3 h-3" />
-          </button>
-        </div>
-        <div className="mb-4" />
 
         {/* Additional examples */}
         {pattern.examples && pattern.examples.length > 0 && (
@@ -150,6 +126,7 @@ export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: Patt
             <><BookmarkPlus className="w-3.5 h-3.5" /> SAVE PATTERN</>
           )}
         </button>
+        </div>{/* px-5 pb-5 */}
       </div>
     </div>
   )
