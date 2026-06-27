@@ -75,6 +75,34 @@ export function PatternPopup({ pattern, onClose, speak, stop, isSpeaking }: Patt
           </>
         )}
 
+        {/* Variation sentence */}
+        <div className="h-px bg-[var(--pd)] mb-3" />
+        <p className="text-[9px] tracking-[0.2em] text-[var(--pm2)] font-semibold mb-2">변형 예문</p>
+        <div className="flex items-start justify-between gap-2 mb-4">
+          <div className="flex-1 min-w-0">
+            <p className="text-[0.82rem] font-medium text-[var(--pt)] leading-relaxed">
+              {pattern.variationSentence}
+            </p>
+            {showTranslation && (
+              <p className="text-[0.73rem] text-[var(--pm)] mt-0.5 leading-relaxed">
+                {pattern.variationSentenceKo}
+              </p>
+            )}
+          </div>
+          <button
+            type="button"
+            aria-label="읽기"
+            onClick={() => handleSpeak('variation', pattern.variationSentence)}
+            className={`shrink-0 p-1.5 rounded-full transition-colors cursor-pointer mt-0.5 ${
+              speakingId === 'variation' && isSpeaking
+                ? 'bg-[var(--pd)] text-[var(--pa)]'
+                : 'text-[var(--pm2)] hover:bg-[var(--pd)] hover:text-[var(--pa)]'
+            }`}
+          >
+            <Volume2 className="w-3 h-3" />
+          </button>
+        </div>
+
         {/* Additional examples */}
         {pattern.examples && pattern.examples.length > 0 && (
           <>

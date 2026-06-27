@@ -74,14 +74,6 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, onO
                         {pattern.storySentenceKo}
                       </p>
                     )}
-                    <p className="text-[0.8rem] text-[var(--pt)] leading-relaxed font-medium mt-2">
-                      {pattern.variationSentence}
-                    </p>
-                    {showTranslation && (
-                      <p className="text-[0.72rem] text-[var(--pm)] mt-0.5 leading-relaxed">
-                        {pattern.variationSentenceKo}
-                      </p>
-                    )}
                   </div>
                   <div className="shrink-0 pt-1.5">
                     <ChevronRight className="w-3.5 h-3.5 text-[var(--pm2)] group-hover:text-[var(--pa)] transition-colors" strokeWidth={1.5} />
