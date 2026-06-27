@@ -89,7 +89,7 @@ export const story001Package: StoryPackage = {
     },
     sceneImages: {
       enabled: true,
-      status: 'missing',
+      status: 'ready',
       syncMode: 'scene',
       transition: 'fade',
       kenBurns: true,
@@ -101,7 +101,7 @@ export const story001Package: StoryPackage = {
           prompt: `Cinematic realistic photograph. A tired young Korean man in his late 20s sits alone by the window in a quiet night train carriage. Smart casual work attire, work bag on lap. He leans slightly against the window, eyes distant, watching blurred city lights stream past outside. Warm amber overhead carriage lighting vs cool blue-white city light from the window. Shallow depth of field. Film grain. Peaceful, slightly melancholic Friday evening mood. No text, no logos. 16:9 ratio. Photorealistic.`,
           linkedParagraphIds: ['p1-1', 'p1-2'],
           durationSec: 8,
-          status: 'missing',
+          status: 'ready',
         },
         {
           id: 'scene-02',
@@ -110,7 +110,7 @@ export const story001Package: StoryPackage = {
           prompt: `Cinematic close-up photograph. A young Korean man in his late 20s sits in a dim night train carriage, holding his smartphone. The phone screen glows softly, illuminating his face from below. His expression is thoughtful — tired but something has caught his attention. Warm screen glow against dark carriage interior. City lights blur faintly in background through window. Film grain. Intimate, quiet moment. No text visible on screen. 16:9 ratio. Photorealistic.`,
           linkedParagraphIds: ['p1-2', 'p1-3'],
           durationSec: 8,
-          status: 'missing',
+          status: 'ready',
         },
         {
           id: 'scene-03',
@@ -119,7 +119,7 @@ export const story001Package: StoryPackage = {
           prompt: `Cinematic warm interior photograph. A small, intimate apartment gathering on a Friday evening. A group of young Korean friends in their late 20s sit around a low table with Korean home-cooked food, beer bottles, and simple snacks. Someone is mid-laugh. Warm fairy lights and soft floor lamp. Cozy, lived-in apartment with plants and books. Relaxed, joyful atmosphere. Shallow depth of field. Film grain. 16:9 ratio. Photorealistic.`,
           linkedParagraphIds: ['p1-4'],
           durationSec: 8,
-          status: 'missing',
+          status: 'ready',
         },
         {
           id: 'scene-04',
@@ -128,7 +128,7 @@ export const story001Package: StoryPackage = {
           prompt: `Cinematic night photograph. A young Korean man sits alone in a quiet night train carriage heading home after midnight. The city lights blur softly outside the dark window. His expression is soft and content — tired but genuinely happy, eyes half-closed. The carriage is nearly empty. Warm amber overhead light. Film grain. Reflective, peaceful mood. 16:9 ratio. Photorealistic.`,
           linkedParagraphIds: ['p1-5'],
           durationSec: 8,
-          status: 'missing',
+          status: 'ready',
         },
       ],
     },
