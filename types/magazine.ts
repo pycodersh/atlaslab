@@ -1,8 +1,19 @@
+export type ParagraphMediaType = 'image' | 'video' | 'animation'
+
+export type ParagraphMedia = {
+  type: ParagraphMediaType
+  imageUrl?: string
+  imageAlt?: string
+  videoUrl?: string
+  poster?: string
+}
+
 export type MagazineParagraph = {
   id: string
   english: string
   koreanTranslation: string
   keyExpressions: string[]
+  media?: ParagraphMedia
 }
 
 export type MagazinePattern = {
