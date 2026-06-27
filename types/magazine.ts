@@ -39,6 +39,24 @@ export type IntroVideo = {
   durationSec?: number      // 영상 길이 (참고용)
 }
 
+export type ScenePracticeSubtitle = {
+  id: string
+  start: number          // 영상 시작 시각 (초) — v1에서는 참고용
+  end: number            // 영상 종료 시각 (초)
+  en: string
+  ko: string
+  patternId?: string     // 연결된 패턴 ID (강조 표시용)
+}
+
+export type ScenePractice = {
+  enabled: boolean
+  videoUrl: string
+  poster?: string
+  title: string
+  description: string
+  subtitles: ScenePracticeSubtitle[]
+}
+
 export type MagazineStory = {
   id: number
   title: string
@@ -51,5 +69,6 @@ export type MagazineStory = {
   paragraphs: MagazineParagraph[]
   patterns: MagazinePattern[]
   ambienceId?: AmbienceId
-  introVideo?: IntroVideo   // 시네마틱 인트로 영상 (선택적)
+  introVideo?: IntroVideo
+  scenePractice?: ScenePractice
 }
