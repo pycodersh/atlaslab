@@ -6,6 +6,7 @@ import { Heart, Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { storyParaAudioUrl } from '@/lib/tts'
+import { SceneReplayCard } from '@/components/SceneReplayCard'
 
 type StoryPageProps = {
   story: MagazineStory
@@ -136,6 +137,13 @@ export function StoryPage({
               </div>
             ))}
           </div>
+
+          {/* Scene Replay — introVideo가 있는 스토리에만 표시 */}
+          {story.introVideo?.url && (
+            <div className="mt-8">
+              <SceneReplayCard story={story} />
+            </div>
+          )}
 
           <div className="mt-7 flex items-start gap-3">
             {story.storyNote && (
