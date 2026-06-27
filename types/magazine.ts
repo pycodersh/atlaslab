@@ -43,11 +43,20 @@ export type IntroVideo = {
   enabled: boolean
   source: IntroVideoSource
   url: string
-  poster?: string           // 영상 로딩 전 표시할 이미지
-  credit?: string           // "Video by Creator on Pexels"
-  pexelsUrl?: string        // 원본 Pexels 페이지 URL
-  keywords?: string[]       // 관리자 검색 시 사용할 키워드
-  durationSec?: number      // 영상 길이 (참고용)
+  poster?: string
+  credit?: string
+  pexelsUrl?: string
+  keywords?: string[]
+  durationSec?: number
+}
+
+export type SceneVideo = {
+  url: string
+  poster?: string
+  credit?: string
+  pexelsUrl?: string
+  source?: IntroVideoSource
+  scenePrompt?: string     // 향후: AI 영상 생성 프롬프트
 }
 
 export type ScenePracticeSubtitle = {
@@ -74,12 +83,13 @@ export type MagazineStory = {
   subtitleKo: string
   imageUrl: string          // fallback / primary
   imageAlt: string
-  imagePool?: StoryImage[]  // 3장 랜덤 풀 — 있으면 세션마다 랜덤 선택
+  imagePool?: StoryImage[]
   storyNote?: string
   highlightPhrases: string[]
   paragraphs: MagazineParagraph[]
   patterns: MagazinePattern[]
   ambienceId?: AmbienceId
+  sceneVideo?: SceneVideo   // Scene First: Story 전체를 대표하는 AI Scene Video
   introVideo?: IntroVideo
   scenePractice?: ScenePractice
 }

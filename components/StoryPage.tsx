@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Heart, Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
-import type { MagazineParagraph, MagazineStory, ParagraphMedia } from '@/types/magazine'
+import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { storyParaAudioUrl } from '@/lib/tts'
 
@@ -43,34 +43,6 @@ function pickStoryImage(story: MagazineStory): { url: string; alt: string } {
   return { url: story.imageUrl, alt: story.imageAlt }
 }
 
-/** 단락 미디어 — 이미지 또는 루프 영상 */
-function ParagraphMediaBlock({ media }: { media: ParagraphMedia }) {
-  return (
-    <div className="relative w-full h-48 rounded-xl overflow-hidden mb-5 shadow-sm">
-      {media.type === 'video' && media.videoUrl ? (
-        <video
-          src={media.videoUrl}
-          poster={media.poster}
-          autoPlay
-          muted
-          playsInline
-          loop
-          preload="metadata"
-          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        />
-      ) : media.imageUrl ? (
-        <Image
-          src={media.imageUrl}
-          alt={media.imageAlt ?? ''}
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-      ) : null}
-    </div>
-  )
-}
-
 export function StoryPage({
   story,
   onNext,
@@ -86,8 +58,7 @@ export function StoryPage({
   const [storyImg] = useState(() => pickStoryImage(story))
   const { prefs } = usePreferences()
 
-  // 단락에 media가 하나라도 있으면 단락별 media 모드
-  const hasParaMedia = story.paragraphs.some(p => !!p.media)
+  const scene = story.sceneVideo
 
   function handleAudio() {
     if (isSpeaking) { stop(); return }
@@ -101,28 +72,10 @@ export function StoryPage({
       <div className="flex-1 overflow-y-auto">
         <div className="pl-7 pr-6 pt-5 pb-8">
 
-          {/* 제목 + 메타 */}
-          <div className="flex items-start justify-between mt-2 mb-1 gap-2">
-            <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[var(--pt)]">
-              {story.title}
-            </h1>
-            {/* 단락별 media 모드에서는 TTS 버튼을 헤더에 */}
-            {hasParaMedia && (
-              <button
-                type="button"
-                aria-label={isSpeaking ? '정지' : '전체 읽기'}
-                onClick={handleAudio}
-                className={[
-                  'shrink-0 mt-1 w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer',
-                  isSpeaking
-                    ? 'bg-[var(--pa)] text-white'
-                    : 'bg-[var(--pd)] text-[var(--pm)] hover:bg-[var(--pa)] hover:text-white',
-                ].join(' ')}
-              >
-                <Volume2 className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
+          {/* 제목 */}
+          <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[var(--pt)] mt-2 mb-1">
+            {story.title}
+          </h1>
 
           <div className="flex items-center justify-between mb-5">
             <p className="text-[0.78rem] text-[var(--pm)] tracking-wide">
@@ -140,9 +93,20 @@ export function StoryPage({
             </button>
           </div>
 
-          {/* 단락별 media 없는 스토리 — 기존 커버 이미지 */}
-          {!hasParaMedia && (
-            <div className="relative w-full h-48 rounded-xl overflow-hidden mb-7 shadow-sm">
+          {/* Scene Video 또는 커버 이미지 */}
+          <div className="relative w-full h-48 rounded-xl overflow-hidden mb-7 shadow-sm">
+            {scene?.url ? (
+              <video
+                src={scene.url}
+                poster={scene.poster}
+                autoPlay
+                muted
+                playsInline
+                loop
+                preload="metadata"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            ) : (
               <Image
                 src={storyImg.url}
                 alt={storyImg.alt}
@@ -155,41 +119,37 @@ export function StoryPage({
                   if (img.src !== story.imageUrl) img.src = story.imageUrl
                 }}
               />
-              <button
-                type="button"
-                aria-label={isSpeaking ? '정지' : '전체 읽기'}
-                onClick={handleAudio}
-                className={[
-                  'absolute bottom-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
-                  isSpeaking
-                    ? 'bg-[var(--pa)] text-white'
-                    : 'bg-black/30 text-white hover:bg-[var(--pa)]',
-                ].join(' ')}
-              >
-                <Volume2 className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          )}
+            )}
+            {/* TTS 버튼 */}
+            <button
+              type="button"
+              aria-label={isSpeaking ? '정지' : '전체 읽기'}
+              onClick={handleAudio}
+              className={[
+                'absolute bottom-3 right-3 w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
+                isSpeaking
+                  ? 'bg-[var(--pa)] text-white'
+                  : 'bg-black/30 text-white hover:bg-[var(--pa)]',
+              ].join(' ')}
+            >
+              <Volume2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
 
-          {/* 단락 목록 */}
-          <div className={hasParaMedia ? 'space-y-7' : 'space-y-5'}>
+          {/* 단락 목록 — 텍스트만, 이미지 없음 */}
+          <div className="space-y-5">
             {story.paragraphs.map((para) => (
-              <div key={para.id}>
-                {/* 단락별 media */}
-                {para.media && <ParagraphMediaBlock media={para.media} />}
-
-                {/* 단락 텍스트 */}
-                <div
-                  className="cursor-pointer rounded-xl px-2 py-1.5 -mx-2 hover:bg-[var(--pc2)] active:bg-[var(--pc)] transition-colors"
-                  onClick={() => onOpenPopup(para)}
-                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOpenPopup(para) }}
-                  role="button"
-                  tabIndex={0}
-                >
-                  <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)] select-none">
-                    {highlightText(para.english, story.highlightPhrases)}
-                  </p>
-                </div>
+              <div
+                key={para.id}
+                className="cursor-pointer rounded-xl px-2 py-1.5 -mx-2 hover:bg-[var(--pc2)] active:bg-[var(--pc)] transition-colors"
+                onClick={() => onOpenPopup(para)}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOpenPopup(para) }}
+                role="button"
+                tabIndex={0}
+              >
+                <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)] select-none">
+                  {highlightText(para.english, story.highlightPhrases)}
+                </p>
               </div>
             ))}
           </div>
