@@ -94,6 +94,14 @@ export const story001Package: StoryPackage = {
     ],
   },
 
+  videoProduction: {
+    status: 'prompt-ready',
+    targetFile: 'public/videos/story001-scene.mp4',
+    duration: 24,
+    recommendedTool: 'runway',
+    promptFile: 'data/factory/story-001-video-production.ts',
+  },
+
   paragraphs: [
     {
       id: 'p1-1',

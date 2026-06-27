@@ -152,6 +152,28 @@ export type StoryAssets = {
   }[]
 }
 
+// ── Video Production Pipeline ─────────────────────────────────────────────────
+// Story 영상이 AI 도구에서 생성되어 Package에 연결되기까지의 상태 관리
+
+export type VideoProductionStatus =
+  | 'draft'          // prompt 미완성
+  | 'prompt-ready'   // prompt 완성 — AI 도구 제출 대기
+  | 'submitted'      // AI 도구에 제출됨
+  | 'generating'     // AI 도구 생성 중
+  | 'completed'      // 생성 완료 — MP4 다운로드 필요
+  | 'linked'         // MP4 연결 완료
+
+export type VideoProduction = {
+  status: VideoProductionStatus
+  targetFile: string                       // 예: 'public/videos/story001-scene.mp4'
+  duration: number                         // 목표 초
+  recommendedTool?: 'runway' | 'kling' | 'veo' | 'luma' | 'pika'
+  promptFile?: string                      // 예: 'data/factory/story-001-video-production.ts'
+  submittedAt?: string
+  generatedAt?: string
+  linkedAt?: string
+}
+
 // ── Package Version ────────────────────────────────────────────────────────────
 
 export type PackageVersion = {
@@ -188,6 +210,7 @@ export type StoryPackage = {
   }
 
   assets: StoryAssets
+  videoProduction?: VideoProduction
 
   paragraphs: FactoryParagraph[]
   scenes: FactoryScene[]

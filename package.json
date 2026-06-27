@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate-audio": "tsx scripts/generate-audio.ts"
+    "generate-audio": "tsx scripts/generate-audio.ts",
+    "link-video": "tsx scripts/link-video.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",

@@ -383,6 +383,69 @@ export const story001VideoSpecs = {
 }
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SUBMIT KIT — AI 도구에 바로 제출 가능한 패키지
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 사용법: 도구별 prompt를 복사하여 AI 영상 생성 도구에 붙여넣기
+// 생성된 MP4를 public/videos/story001-scene.mp4 로 저장 후
+// npm run link-video -- --story 1 실행
+
+export const story001SubmitKit = {
+  storyId: '001',
+  title: 'The Last Train Home',
+  targetFile: 'public/videos/story001-scene.mp4',
+  duration: '24 seconds (3 scenes × 8s)',
+  status: 'prompt-ready',
+
+  // ── 도구 선택 가이드 ────────────────────────────────────────────────────
+  tools: {
+    runway: {
+      name: 'Runway Gen-3 Alpha / Gen-4',
+      url: 'https://runwayml.com',
+      strength: '카메라 움직임, 인물 모션, 연속성',
+      scene1: story001VideoPrompts.scene1.tool_runway,
+      scene2: story001VideoPrompts.scene2.tool_runway,
+      scene3: story001VideoPrompts.scene3.tool_runway,
+    },
+    kling: {
+      name: 'Kling 1.6 / 2.0',
+      url: 'https://kling.kuaishou.com',
+      strength: '한국/동아시아 인물, 감성 연출, 접근성',
+      scene1: story001VideoPrompts.scene1.tool_kling,
+      scene2: story001VideoPrompts.scene2.tool_kling,
+      scene3: story001VideoPrompts.scene3.tool_kling,
+    },
+    veo: {
+      name: 'Google Veo 2 / Veo 3',
+      url: 'https://deepmind.google/veo',
+      strength: '최고 품질, 현실감, 조명 품질',
+      scene1: story001VideoPrompts.scene1.tool_veo,
+      scene2: story001VideoPrompts.scene2.tool_veo,
+      scene3: story001VideoPrompts.scene3.tool_veo,
+    },
+  },
+
+  // ── 제출 체크리스트 ─────────────────────────────────────────────────────
+  checklist: [
+    '[ ] Scene 1 생성 완료 (8s seamless loop)',
+    '[ ] Scene 2 생성 완료 (8s seamless loop)',
+    '[ ] Scene 3 생성 완료 (8s — party → dissolve → train)',
+    '[ ] 3개 Scene을 순서대로 편집하여 24초 MP4로 합치기',
+    '[ ] public/videos/story001-scene.mp4 로 저장',
+    '[ ] npm run link-video -- --story 1 실행',
+    '[ ] /stories/1 에서 영상 재생 확인',
+  ],
+
+  // ── 편집 참고 ────────────────────────────────────────────────────────────
+  editingNotes: {
+    sceneOrder: 'Scene1 → Scene2 → Scene3 (순서 고정)',
+    transition12: '하드 컷 — Scene 2 시작 직전 Scene 1의 전화 진동 소리와 맞추기',
+    transition23: '크로스 디졸브 금지 — Scene 3 내부에서만 4초 지점에 디졸브',
+    audio: '영상 파일에 오디오 임베드 금지 — 앱이 별도로 ambience 재생',
+    format: 'MP4 H.264, 1920×1080 이상, 24fps, 8MB 이하',
+  },
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // GOLDEN TEMPLATE RULES
 // 이 Story 1을 기준으로 향후 800개 Story에 적용할 영상 제작 표준
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
