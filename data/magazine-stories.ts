@@ -16,6 +16,13 @@ export const magazineStories: MagazineStory[] = [
       source: 'pexels',
       scenePrompt: 'Nighttime cityscape with elevated train passing, urban night lights, 8s seamless loop',
     },
+    ambience: {
+      enabled: true,
+      url: '/audio/ambience/story1-train-night.mp3',
+      type: 'train',
+      volume: 0.25,
+      label: 'Train ambience',
+    },
     storyNote: '가장 좋은 밤은 계획하지 않아도 찾아올 때가 있어요.',
     highlightPhrases: [
       'all I wanted was to',

@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Heart, Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
-import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
+import type { MagazineParagraph, MagazineStory, AmbienceId } from '@/types/magazine'
+import { AmbienceAudio } from '@/components/AmbienceAudio'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { storyParaAudioUrl } from '@/lib/tts'
 
@@ -135,6 +136,16 @@ export function StoryPage({
               <Volume2 className="w-3.5 h-3.5" />
             </button>
           </div>
+
+          {/* Ambience 버튼 — sceneVideo 스토리에만 표시 */}
+          {scene && story.ambience?.enabled && (
+            <div className="flex justify-end mb-4 -mt-3">
+              <AmbienceAudio
+                ambience={story.ambience}
+                ambienceId={story.ambienceId as AmbienceId | undefined}
+              />
+            </div>
+          )}
 
           {/* 단락 목록 — 텍스트만, 이미지 없음 */}
           <div className="space-y-5">

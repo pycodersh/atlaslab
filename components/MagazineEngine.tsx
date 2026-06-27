@@ -130,9 +130,9 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
   useEffect(() => {
     stopAmbience()
 
-    const sceneFirst = !!story.sceneVideo
-    const shouldPlay = sceneFirst || prefs.ambienceDefault === 'on'
-    if (!shouldPlay || !story.ambienceId) return
+    // sceneVideo 스토리는 AmbienceAudio 버튼으로만 제어 (자동재생 제외)
+    if (story.sceneVideo) return
+    if (prefs.ambienceDefault !== 'on' || !story.ambienceId) return
 
     const id = story.ambienceId as AmbienceId
     let started = false

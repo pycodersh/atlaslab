@@ -56,7 +56,17 @@ export type SceneVideo = {
   credit?: string
   pexelsUrl?: string
   source?: IntroVideoSource
-  scenePrompt?: string     // 향후: AI 영상 생성 프롬프트
+  scenePrompt?: string
+}
+
+export type AmbienceType = 'party' | 'home' | 'rain' | 'cafe' | 'station' | 'train' | 'city' | 'night'
+
+export type StoryAmbience = {
+  enabled: boolean
+  url: string              // 로컬 파일: /audio/ambience/xxx.mp3
+  type: AmbienceType
+  volume?: number          // 기본값 0.25
+  label?: string
 }
 
 export type ScenePracticeSubtitle = {
@@ -89,8 +99,8 @@ export type MagazineStory = {
   paragraphs: MagazineParagraph[]
   patterns: MagazinePattern[]
   ambienceId?: AmbienceId
-  sceneVideo?: SceneVideo    // Scene First: Story 전체를 대표하는 AI Scene Video
-  ambienceUrl?: string       // 향후: 실제 녹음된 환경음 파일 URL
+  sceneVideo?: SceneVideo
+  ambience?: StoryAmbience   // Scene 환경음 (HTML audio → Web Audio 폴백)
   videoPrompt?: string       // 향후: AI 영상 생성 프롬프트
   introVideo?: IntroVideo
   scenePractice?: ScenePractice
