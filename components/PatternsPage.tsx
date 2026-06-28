@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, Volume2, Square } from 'lucide-react'
+import { useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { PatternPracticeCard } from '@/components/PatternPracticeCard'
@@ -23,88 +23,49 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
 
   // 한 번에 하나의 카드만 재생되도록 조정
   const [activeId, setActiveId] = useState<string | null>(null)
-  const [playingAll, setPlayingAll] = useState(false)
-  const playAllRef = useRef(false)
-  const [autoKey, setAutoKey] = useState(0)
-
-  function listenAll() {
-    if (playingAll || activeId) {
-      playAllRef.current = false
-      setPlayingAll(false)
-      setActiveId(null)
-      return
-    }
-    playAllRef.current = true
-    setPlayingAll(true)
-    setActiveId(story.patterns[0].id)
-    setAutoKey((k) => k + 1)
-  }
-
-  function handleRequestPlay(id: string) {
-    playAllRef.current = false
-    setPlayingAll(false)
-    setActiveId(id)
-  }
-
-  function handleFinished(idx: number) {
-    if (playAllRef.current && idx + 1 < total) {
-      setActiveId(story.patterns[idx + 1].id)
-      setAutoKey((k) => k + 1)
-    } else {
-      playAllRef.current = false
-      setPlayingAll(false)
-    }
-  }
 
   const cover = story.slideImages?.[0]?.url ?? story.imageUrl
 
   return (
     <div className="h-full flex flex-col bg-[var(--pb)]">
       <div className="flex-1 overflow-y-auto">
-        <div className="pl-7 pr-6 pt-5 pb-10">
+        <div className="px-7 pt-6 pb-12">
 
-          {/* ── Story 히어로: 대표 이미지 + 제목 + 반복 횟수 ── */}
-          <div className="flex gap-4 items-stretch mb-5">
+          {/* ── Story 히어로 ── */}
+          <div className="flex gap-4 items-stretch mb-7">
             <div
               className="w-36 rounded-2xl bg-cover bg-center shrink-0 shadow-sm"
-              style={{ backgroundImage: `url(${cover})`, minHeight: 96 }}
+              style={{ backgroundImage: `url(${cover})`, minHeight: 100 }}
               aria-label={story.imageAlt}
               role="img"
             />
             <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <p className="text-[9px] tracking-[0.28em] font-bold text-[var(--pa)] mb-1">
+              <p className="text-[9px] tracking-[0.3em] font-bold text-[var(--pa)] mb-1.5">
                 STORY {String(story.id).padStart(2, '0')}
               </p>
-              <h2 className="font-playfair text-[1.45rem] font-bold text-[var(--pt)] leading-tight">
+              <h2 className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] leading-tight">
                 {story.title}
               </h2>
-              <p className="text-[0.72rem] text-[var(--pm)] mt-0.5 leading-snug">{story.subtitleKo}</p>
+              <p className="text-[0.74rem] text-[var(--pm)] mt-1 leading-snug">{story.subtitleKo}</p>
             </div>
           </div>
 
-          <div className="h-px bg-[var(--pd)] mt-6" />
-
-          {/* PATTERNS 제목 + 전체 듣기 */}
-          <div className="flex items-end justify-between mt-5 mb-5">
-            <div>
-              <h1 className="font-playfair text-[2.2rem] font-black leading-none text-[var(--pa)] tracking-tight">
-                PATTERNS
-              </h1>
-              <p className="text-[0.72rem] text-[var(--pm)] mt-1.5">스토리 속에서 만난 {total}가지 패턴</p>
-            </div>
+          {/* ── PATTERNS 머리말 ── */}
+          <div className="border-t border-[var(--pd)] pt-7 mb-2">
+            <h1 className="font-playfair text-[2.1rem] font-black leading-none text-[var(--pa)] tracking-tight">
+              PATTERNS
+            </h1>
             <button
               type="button"
-              onClick={listenAll}
-              aria-label={playingAll ? '전체 정지' : '전체 듣기'}
-              className="shrink-0 flex items-center gap-1.5 rounded-full px-2 py-2 text-[11px] font-bold text-[var(--pt2)] hover:text-[var(--pa)] transition-colors cursor-pointer"
+              onClick={onOpenPicker}
+              className="mt-2 text-[0.72rem] text-[var(--pm)] hover:text-[var(--pa)] transition-colors cursor-pointer"
             >
-              {playingAll ? <Square className="w-3 h-3 fill-current" /> : <Volume2 className="w-3.5 h-3.5" />}
-              {playingAll ? '정지' : '전체 듣기'}
+              스토리 속에서 만난 {total}가지 패턴 · Story {String(story.id).padStart(2, '0')}
             </button>
           </div>
 
-          {/* 패턴 5개 — 각 카드에 예문 5개를 처음부터 모두 표시 */}
-          <div className="space-y-4">
+          {/* ── 패턴 카드 — 사이 구분선 + 넉넉한 여백 ── */}
+          <div className="divide-y divide-[var(--pd)]">
             {story.patterns.map((pattern, index) => {
               const fromData = getPatternExamples(pattern.id)
               const examples = fromData.length > 0
@@ -123,9 +84,7 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
                   examples={examples}
                   index={index + 1}
                   active={activeId === pattern.id}
-                  onRequestPlay={() => handleRequestPlay(pattern.id)}
-                  autoPlayKey={autoKey}
-                  onFinished={() => handleFinished(index)}
+                  onRequestPlay={() => setActiveId(pattern.id)}
                 />
               )
             })}
