@@ -234,7 +234,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
             onNext={goNext}
             hasNext={!isLast}
             onOpenPicker={() => setShowPicker(true)}
-            onOpenPattern={(p) => { stop(); router.push(`/stories/${story.id}/patterns/${p.id}`) }}
           />
         </div>
       </div>

@@ -1,8 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import type { MagazinePattern, MagazineStory } from '@/types/magazine'
+import type { MagazineStory } from '@/types/magazine'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { PatternPracticeCard } from '@/components/PatternPracticeCard'
+import { getPatternExamples } from '@/data/pattern-examples'
 
 type PatternsPageProps = {
   story: MagazineStory
@@ -11,12 +14,14 @@ type PatternsPageProps = {
   onNext: () => void
   hasNext: boolean
   onOpenPicker: () => void
-  onOpenPattern: (pattern: MagazinePattern) => void
 }
 
-export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, onOpenPattern }: PatternsPageProps) {
+export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: PatternsPageProps) {
   const { prefs } = usePreferences()
-  const showTranslation = prefs.translationLang !== 'none'
+  const voice = story.narratorVoice ?? prefs.voice
+
+  // 한 번에 하나의 카드만 재생되도록 조정
+  const [activeId, setActiveId] = useState<string | null>(null)
 
   return (
     <div className="h-full flex flex-col bg-[var(--pb)]">
@@ -46,44 +51,30 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, onO
             </button>
           </div>
 
-          <div className="h-px bg-[var(--pd)]" />
-
-          <div>
-            {story.patterns.map((pattern, index) => (
-              <div key={pattern.id}>
-                <button
-                  type="button"
-                  onClick={() => onOpenPattern(pattern)}
-                  className="w-full text-left flex gap-4 py-6 group cursor-pointer active:bg-[var(--pc2)] rounded-xl -mx-1 px-1 transition-colors"
-                >
-                  <div className="shrink-0 w-8 pt-0.5">
-                    <span className="font-playfair text-[1.4rem] font-bold text-[var(--pa)] leading-none group-hover:opacity-70 transition-opacity">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-playfair text-[1.05rem] font-bold text-[var(--pt)] leading-snug group-hover:text-[var(--pa)] transition-colors">
-                      {pattern.pattern}
-                    </p>
-                    {showTranslation && <p className="text-[0.72rem] text-[var(--pa)]/70 mt-0.5 mb-3">{pattern.meaningKo}</p>}
-                    <p className="text-[0.8rem] text-[var(--pt)] leading-relaxed font-medium">
-                      {pattern.storySentence}
-                    </p>
-                    {showTranslation && (
-                      <p className="text-[0.72rem] text-[var(--pm)] mt-0.5 leading-relaxed">
-                        {pattern.storySentenceKo}
-                      </p>
-                    )}
-                  </div>
-                  <div className="shrink-0 pt-1.5">
-                    <ChevronRight className="w-3.5 h-3.5 text-[var(--pm2)] group-hover:text-[var(--pa)] transition-colors" strokeWidth={1.5} />
-                  </div>
-                </button>
-                {index < story.patterns.length - 1 && (
-                  <div className="h-px bg-[var(--pd)]" />
-                )}
-              </div>
-            ))}
+          {/* 패턴 5개 — 각 카드에 예문 5개를 처음부터 모두 표시 (클릭/팝업 없이 바로 반복) */}
+          <div className="space-y-5">
+            {story.patterns.map((pattern, index) => {
+              const fromData = getPatternExamples(pattern.id)
+              const examples = fromData.length > 0
+                ? fromData
+                : [
+                    { en: pattern.storySentence, ko: pattern.storySentenceKo },
+                    { en: pattern.variationSentence, ko: pattern.variationSentenceKo },
+                  ]
+              return (
+                <PatternPracticeCard
+                  key={pattern.id}
+                  storyId={story.id}
+                  storyTitle={story.title}
+                  voice={voice}
+                  pattern={pattern}
+                  examples={examples}
+                  index={index + 1}
+                  active={activeId === pattern.id}
+                  onRequestPlay={() => setActiveId(pattern.id)}
+                />
+              )
+            })}
           </div>
         </div>
       </div>
