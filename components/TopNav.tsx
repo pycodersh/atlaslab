@@ -1,7 +1,10 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Flame, User } from 'lucide-react'
+import { getStreak } from '@/lib/srs/storage'
 
 const TABS = [
   { label: 'STORY',    href: '/stories/1' },
@@ -21,6 +24,9 @@ export const NAV_HEIGHT = 52
 export function TopNav() {
   const pathname = usePathname()
   const active = getActive(pathname)
+  const [streak, setStreak] = useState(0)
+
+  useEffect(() => { setStreak(getStreak()) }, [pathname])
 
   return (
     <nav
@@ -73,6 +79,27 @@ export function TopNav() {
             </Link>
           )
         })}
+
+        {/* 우측: streak + 프로필 */}
+        <div className="ml-auto flex items-center gap-3 self-center pb-0.5">
+          <div className="flex items-center gap-1" title={`연속 학습 ${streak}일`}>
+            <Flame
+              className="w-3.5 h-3.5"
+              strokeWidth={2}
+              style={{ color: streak > 0 ? 'var(--pa)' : 'var(--pm2)' }}
+              fill={streak > 0 ? 'var(--pa)' : 'none'}
+            />
+            <span className="text-[12px] font-bold" style={{ color: 'var(--pt)' }}>{streak}</span>
+          </div>
+          <Link
+            href="/settings"
+            aria-label="설정"
+            className="w-7 h-7 rounded-full flex items-center justify-center transition-colors"
+            style={{ background: 'var(--pd)' }}
+          >
+            <User className="w-3.5 h-3.5" strokeWidth={2} style={{ color: 'var(--pt)' }} />
+          </Link>
+        </div>
       </div>
     </nav>
   )

@@ -140,6 +140,62 @@ export function getTotalRepeatCount(): number {
     .reduce((sum, r) => sum + r.repeatCount, 0)
 }
 
+/** 총 낭독(연습) 시간 합계 (ms) */
+export function getTotalPracticeMs(): number {
+  return getAllRecords().reduce((sum, r) => sum + (r.totalPracticeTime || 0), 0)
+}
+
+/** 일별 활동 수 (Learning Calendar용) — 실제 활동 로그 기반 */
+export function getActivityByDate(): Record<string, number> {
+  if (typeof window === 'undefined') return {}
+  try {
+    return JSON.parse(localStorage.getItem(ACTIVITY_KEY) ?? '{}')
+  } catch {
+    return {}
+  }
+}
+
+/** 연속 학습일(streak) — 오늘(또는 어제)부터 거꾸로 활동이 있는 날 수 */
+export function getStreak(): number {
+  const map = getActivityByDate()
+  const has = (d: Date) => (map[d.toISOString().slice(0, 10)] ?? 0) > 0
+  const cursor = new Date()
+  // 오늘 활동이 없으면 어제부터 카운트 시작 (오늘은 아직 안 했을 수 있음)
+  if (!has(cursor)) cursor.setDate(cursor.getDate() - 1)
+  let streak = 0
+  while (has(cursor)) {
+    streak++
+    cursor.setDate(cursor.getDate() - 1)
+  }
+  return streak
+}
+
+/** 오늘 연습한 패턴 수 (lastPracticedAt === 오늘) */
+export function getPracticedTodayCount(): number {
+  const t = todayStr()
+  return getAllRecords().filter(
+    (r) => r.itemType === 'pattern' && r.lastPracticedAt?.slice(0, 10) === t,
+  ).length
+}
+
+/** 오늘 학습한 (서로 다른) 스토리 수 — 오늘 연습한 패턴이 속한 스토리 기준 */
+export function getStudiedTodayStoryCount(): number {
+  const t = todayStr()
+  const stories = new Set<string>()
+  for (const r of getAllRecords()) {
+    if (r.itemType !== 'pattern' || r.lastPracticedAt?.slice(0, 10) !== t) continue
+    const m = r.itemId.match(/^pt(\d+)-/) // pt{story}-{n}
+    if (m) stories.add(m[1])
+  }
+  return stories.size
+}
+
+/** 오늘 복습 완료 수 (lastReviewedAt === 오늘) */
+export function getReviewedTodayCount(): number {
+  const t = todayStr()
+  return getAllRecords().filter((r) => r.lastReviewedAt?.slice(0, 10) === t).length
+}
+
 // ── 기록 ────────────────────────────────────────────────────────────────────
 function blankRecord(
   itemId: string,
