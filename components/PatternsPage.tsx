@@ -36,10 +36,6 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
     setRepeats(story.patterns.map((p) => getRecord('pattern', p.id)?.repeatCount ?? 0))
   }, [story.id, story.patterns, statsVersion])
 
-  const totalRepeats = repeats.reduce((a, b) => a + b, 0)
-  const practiced = repeats.filter((n) => n > 0).length
-  const ringPct = total > 0 ? (practiced / total) * 100 : 0
-
   function listenAll() {
     if (playingAll || activeId) {
       playAllRef.current = false
@@ -98,25 +94,6 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
                   {story.storyNote}
                 </p>
               )}
-            </div>
-
-            {/* 반복/진행 링 */}
-            <div className="shrink-0 flex flex-col items-center justify-center">
-              <div className="relative w-[58px] h-[58px]">
-                <svg viewBox="0 0 36 36" className="w-full h-full -rotate-90">
-                  <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--pd)" strokeWidth="3" />
-                  <circle
-                    cx="18" cy="18" r="15.5" fill="none" stroke="var(--pa)" strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeDasharray={`${(ringPct / 100) * 97.4} 97.4`}
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="font-playfair text-[1rem] font-bold text-[var(--pt)] leading-none">{practiced}/{total}</span>
-                </div>
-              </div>
-              <p className="text-[8px] tracking-[0.1em] text-[var(--pm)] font-semibold mt-1">Patterns</p>
-              <p className="text-[9px] text-[var(--pa)] font-bold mt-0.5">반복 {totalRepeats}회</p>
             </div>
           </div>
 

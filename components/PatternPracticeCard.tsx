@@ -132,10 +132,7 @@ export function PatternPracticeCard({
   const isPlaying = phase === 'speaking' || phase === 'pause'
 
   return (
-    <div className={[
-      'rounded-3xl border bg-[var(--pb)] px-5 py-5 transition-colors',
-      isPlaying ? 'border-[var(--pa)]' : 'border-[var(--pd)]',
-    ].join(' ')}>
+    <div className="py-3">
       {/* Pattern 헤더 */}
       <div className="flex items-start gap-3">
         <span className="font-playfair text-[1.4rem] font-bold text-[var(--pa)] leading-none shrink-0 pt-1">
@@ -156,7 +153,7 @@ export function PatternPracticeCard({
         onClick={handlePlay}
         aria-label={isPlaying ? '정지' : '예문 듣기'}
         className={[
-          'mt-2 ml-[2.1rem] p-1 -m-1 transition-colors cursor-pointer',
+          'mt-2 ml-1 p-1 transition-colors cursor-pointer',
           isPlaying ? 'text-[var(--pa)] animate-pulse' : 'text-[var(--pm2)] hover:text-[var(--pa)]',
         ].join(' ')}
       >
@@ -164,7 +161,7 @@ export function PatternPracticeCard({
       </button>
 
       {/* 예문 5개 (항상 표시) */}
-      <div className="mt-3 ml-[2.1rem] space-y-0.5">
+      <div className="mt-3 space-y-0.5">
         {examples.map((ex, i) => {
           const isActive = currentIdx === i
           const following = isActive && phase === 'pause'
@@ -172,8 +169,8 @@ export function PatternPracticeCard({
             <div
               key={i}
               className={[
-                'rounded-lg px-2.5 py-1.5 border transition-colors duration-300',
-                isActive ? 'border-[var(--pa)] bg-[var(--pal)]' : 'border-transparent',
+                'rounded-lg px-2 py-1.5 transition-colors duration-300',
+                isActive ? 'bg-[var(--pal)]' : '',
               ].join(' ')}
             >
               <div className="flex gap-2.5 items-start">
@@ -208,7 +205,7 @@ export function PatternPracticeCard({
 
       {/* 완료 피드백 */}
       {phase === 'done' && feedback && (
-        <div className="mt-3 ml-[2.1rem] flex items-center gap-2 text-[var(--pa)]">
+        <div className="mt-3 ml-1 flex items-center gap-2 text-[var(--pa)]">
           <Check className="w-4 h-4" strokeWidth={2.5} />
           <span className="text-[12px] font-bold">{feedback}</span>
         </div>
