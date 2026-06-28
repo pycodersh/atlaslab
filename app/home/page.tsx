@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowRight } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
-import { getFirstIncompleteItem } from '@/lib/review/home'
-import { getTodayReviewItems } from '@/lib/review/storage'
+import { getDueCount, getAllRecords } from '@/lib/srs/storage'
+import { magazineStories } from '@/data/magazine-stories'
 
 // ── Themed cover pairs (이미지 + 쿼트 느낌 매칭) ─────────────────────────────
 type CoverTheme = {
@@ -176,10 +176,14 @@ export default function HomePage() {
   const [showBtn,   setShowBtn]   = useState(false)
 
   useEffect(() => {
-    const reviews = getTodayReviewItems()
-    const first   = getFirstIncompleteItem()
-    setNotice(getNotice(reviews.length, !!first))
-    if (first) setFirstHref(first.href)
+    // 오늘 복습할 항목이 있으면 ReviewSession으로, 없으면 새 스토리로
+    const due = getDueCount()
+    const learnedStoryIds = new Set(
+      getAllRecords().filter((r) => r.itemType === 'story').map((r) => r.itemId),
+    )
+    const nextStory = magazineStories.find((s) => !learnedStoryIds.has(String(s.id))) ?? magazineStories[0]
+    setNotice(getNotice(due, true))
+    setFirstHref(due > 0 ? '/review' : `/stories/${nextStory.id}`)
 
     const timers = [
       setTimeout(() => setShowImg(true),   60),

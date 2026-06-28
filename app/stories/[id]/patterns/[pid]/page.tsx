@@ -34,6 +34,7 @@ export default async function PatternDetailPage({ params }: Props) {
   return (
     <PatternDetail
       storyId={story.id}
+      storyTitle={story.title}
       narratorVoice={story.narratorVoice}
       pattern={pattern}
       examples={examples}

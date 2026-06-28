@@ -9,10 +9,11 @@ import type { PracticeExample } from '@/data/pattern-examples'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { RATE_MAP, type VoiceKey } from '@/lib/settings/preferences'
 import { ttsProvider, getPitchForKey, patternExampleAudioUrl } from '@/lib/tts'
-import { getPatternPractice, recordPatternRepeat } from '@/lib/practice/storage'
+import { getRecord, recordPatternPractice } from '@/lib/srs/storage'
 
 type Props = {
   storyId: number
+  storyTitle: string
   narratorVoice?: VoiceKey
   pattern: MagazinePattern
   examples: PracticeExample[]
@@ -23,7 +24,7 @@ type Phase = 'idle' | 'speaking' | 'pause' | 'done'
 // 예문 1개 재생 후 따라 읽기 시간 (ms)
 const FOLLOW_PAUSE_MS = 2500
 
-export function PatternDetail({ storyId, narratorVoice, pattern, examples }: Props) {
+export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, examples }: Props) {
   const router = useRouter()
   const { prefs } = usePreferences()
   const showTranslation = prefs.translationLang !== 'none'
@@ -40,7 +41,7 @@ export function PatternDetail({ storyId, narratorVoice, pattern, examples }: Pro
 
   // 저장된 반복 횟수 로드
   useEffect(() => {
-    setRepeatCount(getPatternPractice(pattern.id)?.repeatCount ?? 0)
+    setRepeatCount(getRecord('pattern', pattern.id)?.repeatCount ?? 0)
   }, [pattern.id])
 
   const clearTimer = () => {
@@ -61,12 +62,12 @@ export function PatternDetail({ storyId, narratorVoice, pattern, examples }: Pro
   const finish = useCallback(() => {
     runningRef.current = false
     const duration = Date.now() - startedAtRef.current
-    const rec = recordPatternRepeat(pattern.id, storyId, duration)
+    const rec = recordPatternPractice(pattern.id, storyId, pattern.pattern, storyTitle, duration)
     setRepeatCount(rec.repeatCount)
     setFeedback(`반복 ${rec.repeatCount}회 완료`)
     setPhase('done')
     setCurrentIdx(-1)
-  }, [pattern.id, storyId])
+  }, [pattern.id, pattern.pattern, storyId, storyTitle])
 
   const playFrom = useCallback((i: number) => {
     if (!runningRef.current) return

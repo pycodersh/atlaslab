@@ -3,8 +3,7 @@ import { BookOpen, Flame, Clock, ArrowRight } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
 import { CalendarHeatmap } from './CalendarHeatmap'
-import { TodayReview } from './TodayReview'
-import { PracticeSummary } from '@/components/PracticeSummary'
+import { ReviewOverview } from '@/components/ReviewOverview'
 import { createClient } from '@/lib/supabase/server'
 import { getProgressStats } from '@/queries/progress'
 
@@ -98,11 +97,8 @@ export default async function RecordsPage() {
           <p className="text-[0.78rem] text-[var(--pm)] mt-2 tracking-wide">반복학습 관리</p>
         </div>
 
-        {/* 1. TODAY'S REVIEW */}
-        <TodayReview />
-
-        {/* PATTERN PRACTICE SUMMARY */}
-        <PracticeSummary />
+        {/* 1. REVIEW OVERVIEW — SRS 복습 현황 + 복습하기 진입 */}
+        <ReviewOverview />
 
         {/* 2. LEARNING CALENDAR */}
         <div className="py-8 border-b border-[var(--pd)]">
