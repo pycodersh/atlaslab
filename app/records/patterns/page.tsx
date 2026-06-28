@@ -1,30 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Search } from 'lucide-react'
-import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
+import { TopNav } from '@/components/TopNav'
+import { getBookmarks, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 
 type SortKey = 'recent' | 'alpha'
-
-const ALL_PATTERNS = [
-  { id: 1, pattern: 'I want to ~', meaningKo: '~하고 싶어요', savedAt: '2025-06-20' },
-  { id: 2, pattern: 'I have to ~', meaningKo: '~해야 해요', savedAt: '2025-06-19' },
-  { id: 3, pattern: 'I just ~', meaningKo: '방금 ~했어요', savedAt: '2025-06-18' },
-  { id: 4, pattern: 'I can ~', meaningKo: '~할 수 있어요', savedAt: '2025-06-17' },
-  { id: 5, pattern: "I don't ~", meaningKo: '~하지 않아요', savedAt: '2025-06-16' },
-  { id: 6, pattern: 'I used to ~', meaningKo: '예전에 ~했어요', savedAt: '2025-06-15' },
-  { id: 7, pattern: "I'm going to ~", meaningKo: '~할 거예요', savedAt: '2025-06-14' },
-  { id: 8, pattern: 'I think ~', meaningKo: '~인 것 같아요', savedAt: '2025-06-13' },
-  { id: 9, pattern: 'What if ~', meaningKo: '만약 ~라면 어떨까요', savedAt: '2025-06-12' },
-  { id: 10, pattern: 'Have you ever ~', meaningKo: '~해본 적 있어요?', savedAt: '2025-06-11' },
-]
 
 export default function SavedPatternsPage() {
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState<SortKey>('recent')
+  const [items, setItems] = useState<BookmarkedPattern[]>([])
 
-  const filtered = ALL_PATTERNS
+  useEffect(() => { setItems(getBookmarks()) }, [])
+
+  const filtered = items
     .filter(
       (p) =>
         p.pattern.toLowerCase().includes(query.toLowerCase()) ||
@@ -55,7 +46,7 @@ export default function SavedPatternsPage() {
             PATTERNS
           </h1>
           <p className="text-[0.78rem] text-[#9B9490] mt-2 tracking-wide">
-            저장한 패턴 모음 · {ALL_PATTERNS.length}개
+            저장한 패턴 모음 · {items.length}개
           </p>
         </div>
 
@@ -92,10 +83,12 @@ export default function SavedPatternsPage() {
         {/* List */}
         <div>
           {filtered.length === 0 ? (
-            <p className="text-[13px] text-[#9B9490] py-10 text-center">검색 결과가 없습니다.</p>
+            <p className="text-[13px] text-[#9B9490] py-10 text-center">
+              {items.length === 0 ? '아직 저장한 패턴이 없어요. 패턴 옆 북마크를 눌러 저장해보세요.' : '검색 결과가 없습니다.'}
+            </p>
           ) : (
             filtered.map((p, i) => (
-              <div key={p.id}>
+              <div key={p.patternId}>
                 {i > 0 && <div className="h-px bg-[#EDE5DC]" />}
                 <div className="flex items-center gap-4 py-5">
                   <span className="font-playfair text-[1.1rem] font-bold text-[#8B2246] w-6 shrink-0 leading-none">

@@ -8,9 +8,10 @@ import { getDueCount, getAllRecords } from '@/lib/srs/storage'
 import { magazineStories } from '@/data/magazine-stories'
 
 // ── Themed cover pairs (이미지 + 쿼트 느낌 매칭) ─────────────────────────────
+type Quote = { en: string; ko: string }
 type CoverTheme = {
   seeds:  string[]   // picsum.photos seed words
-  quotes: string[]
+  quotes: Quote[]
 }
 
 const COVER_THEMES: CoverTheme[] = [
@@ -18,117 +19,117 @@ const COVER_THEMES: CoverTheme[] = [
   {
     seeds: ['rain', 'mist', 'fog', 'overcast', 'drizzle', 'window'],
     quotes: [
-      'Read. Repeat. Remember.',
-      'The quiet habit builds the loudest skill.',
-      'Slow is smooth. Smooth is fluent.',
-      'Every story leaves something behind.',
-      'Language lives in stories.',
-      'Practice in quiet. Speak with ease.',
-      'A good sentence is worth rereading.',
-      'The page is always open.',
+      { en: 'Read. Repeat. Remember.', ko: '읽고. 반복하고. 기억하라.' },
+      { en: 'The quiet habit builds the loudest skill.', ko: '조용한 습관이 가장 큰 실력을 만든다.' },
+      { en: 'Slow is smooth. Smooth is fluent.', ko: '천천히가 매끄러움, 매끄러움이 유창함.' },
+      { en: 'Every story leaves something behind.', ko: '모든 이야기는 무언가를 남긴다.' },
+      { en: 'Language lives in stories.', ko: '언어는 이야기 속에 산다.' },
+      { en: 'Practice in quiet. Speak with ease.', ko: '조용히 연습하면, 편하게 말하게 된다.' },
+      { en: 'A good sentence is worth rereading.', ko: '좋은 문장은 다시 읽을 가치가 있다.' },
+      { en: 'The page is always open.', ko: '페이지는 언제나 열려 있다.' },
     ],
   },
   // ② Coffee / Morning focus — 커피, 아침, 집중
   {
     seeds: ['coffee', 'espresso', 'latte', 'breakfast', 'journal', 'desk'],
     quotes: [
-      'Every morning is a new page.',
-      'Begin again, every day.',
-      "Today's effort is tomorrow's ease.",
-      'Make it a habit.',
-      'A little, every day.',
-      "Make today's session count.",
-      'Show up. The rest follows.',
-      'Keep the rhythm going.',
+      { en: 'Every morning is a new page.', ko: '매일 아침은 새로운 페이지다.' },
+      { en: 'Begin again, every day.', ko: '매일, 다시 시작하라.' },
+      { en: "Today's effort is tomorrow's ease.", ko: '오늘의 노력이 내일의 여유다.' },
+      { en: 'Make it a habit.', ko: '습관으로 만들어라.' },
+      { en: 'A little, every day.', ko: '매일, 조금씩.' },
+      { en: "Make today's session count.", ko: '오늘의 학습을 의미 있게.' },
+      { en: 'Show up. The rest follows.', ko: '일단 시작하라. 나머지는 따라온다.' },
+      { en: 'Keep the rhythm going.', ko: '리듬을 이어가라.' },
     ],
   },
   // ③ Forest / Nature — 숲, 자연, 고요
   {
     seeds: ['forest', 'pine', 'meadow', 'fern', 'woodland', 'bloom'],
     quotes: [
-      'Patience builds fluency.',
-      'Language rewards the patient.',
-      'Small steps. Big changes.',
-      'The habit is the teacher.',
-      'One pattern at a time.',
-      'Depth before breadth.',
-      'Reading is the root of speaking.',
-      'The smallest habit changes everything.',
+      { en: 'Patience builds fluency.', ko: '인내가 유창함을 만든다.' },
+      { en: 'Language rewards the patient.', ko: '언어는 인내하는 자에게 보답한다.' },
+      { en: 'Small steps. Big changes.', ko: '작은 걸음이 큰 변화를.' },
+      { en: 'The habit is the teacher.', ko: '습관이 곧 스승이다.' },
+      { en: 'One pattern at a time.', ko: '한 번에 패턴 하나씩.' },
+      { en: 'Depth before breadth.', ko: '넓이보다 깊이를 먼저.' },
+      { en: 'Reading is the root of speaking.', ko: '읽기가 말하기의 뿌리다.' },
+      { en: 'The smallest habit changes everything.', ko: '가장 작은 습관이 모든 걸 바꾼다.' },
     ],
   },
   // ④ Evening / Cozy — 저녁, 램프, 따뜻함
   {
     seeds: ['candle', 'lamp', 'evening', 'warmglow', 'dusk', 'fireplace'],
     quotes: [
-      'Stories stay with you.',
-      'Stories connect us.',
-      'Find the story. Learn the language.',
-      'Every story read is a conversation prepared.',
-      "Stories teach what textbooks can't.",
-      'Language is a door. Reading is the key.',
-      'Return to the story. Find something new.',
-      'Read deeply. Speak freely.',
+      { en: 'Stories stay with you.', ko: '이야기는 마음에 남는다.' },
+      { en: 'Stories connect us.', ko: '이야기는 우리를 잇는다.' },
+      { en: 'Find the story. Learn the language.', ko: '이야기를 찾으면, 언어를 배운다.' },
+      { en: 'Every story read is a conversation prepared.', ko: '읽은 이야기 하나가 대화 하나를 준비시킨다.' },
+      { en: "Stories teach what textbooks can't.", ko: '이야기는 교과서가 못 가르치는 걸 가르친다.' },
+      { en: 'Language is a door. Reading is the key.', ko: '언어는 문이고, 읽기는 열쇠다.' },
+      { en: 'Return to the story. Find something new.', ko: '이야기로 돌아가면, 새로운 걸 발견한다.' },
+      { en: 'Read deeply. Speak freely.', ko: '깊이 읽고, 자유롭게 말하라.' },
     ],
   },
   // ⑤ City / Travel — 도시, 거리, 여행
   {
     seeds: ['street', 'cobblestone', 'alley', 'city', 'bridge', 'urban'],
     quotes: [
-      'Keep moving forward.',
-      'One sentence changes everything.',
-      'Words are bridges.',
-      'Speak first. Refine later.',
-      'Less hesitation. More speaking.',
-      'Your voice is already there. Practice finds it.',
-      'Speak a little more today than yesterday.',
-      'The story continues.',
+      { en: 'Keep moving forward.', ko: '계속 앞으로 나아가라.' },
+      { en: 'One sentence changes everything.', ko: '문장 하나가 모든 걸 바꾼다.' },
+      { en: 'Words are bridges.', ko: '말은 다리다.' },
+      { en: 'Speak first. Refine later.', ko: '먼저 말하고, 나중에 다듬어라.' },
+      { en: 'Less hesitation. More speaking.', ko: '망설임은 줄이고, 말은 더 많이.' },
+      { en: 'Your voice is already there. Practice finds it.', ko: '네 목소리는 이미 있다. 연습이 그걸 찾아준다.' },
+      { en: 'Speak a little more today than yesterday.', ko: '어제보다 오늘 조금만 더 말하라.' },
+      { en: 'The story continues.', ko: '이야기는 계속된다.' },
     ],
   },
   // ⑥ Ocean / Peace — 바다, 해변, 평온
   {
     seeds: ['ocean', 'shore', 'horizon', 'harbor', 'beach', 'waves'],
     quotes: [
-      "Fluency is not a destination. It's a direction.",
-      'Stay curious. Stay fluent.',
-      'Every listen counts.',
-      'Words become yours with time.',
-      'You understand more than you think.',
-      'Language is alive — keep it moving.',
-      'Effort compounds quietly.',
-      'Progress sounds like silence at first.',
+      { en: "Fluency is not a destination. It's a direction.", ko: '유창함은 목적지가 아니라 방향이다.' },
+      { en: 'Stay curious. Stay fluent.', ko: '호기심을 잃지 말고, 유창함을 잃지 마라.' },
+      { en: 'Every listen counts.', ko: '한 번의 듣기도 쌓인다.' },
+      { en: 'Words become yours with time.', ko: '시간이 지나면 단어는 네 것이 된다.' },
+      { en: 'You understand more than you think.', ko: '너는 생각보다 더 많이 이해하고 있다.' },
+      { en: 'Language is alive — keep it moving.', ko: '언어는 살아 있다 — 계속 움직이게 하라.' },
+      { en: 'Effort compounds quietly.', ko: '노력은 조용히 쌓인다.' },
+      { en: 'Progress sounds like silence at first.', ko: '성장은 처음엔 침묵처럼 들린다.' },
     ],
   },
   // ⑦ Morning Light — 일출, 여명, 상쾌함
   {
     seeds: ['sunrise', 'dawn', 'morning', 'sunlight', 'daybreak', 'fresh'],
     quotes: [
-      'Small progress every day.',
-      'Every review matters.',
-      'One more story.',
-      'Not perfect. Just consistent.',
-      'Consistency is the only shortcut.',
-      'Keep going. Even on quiet days.',
-      'Every word, a small victory.',
-      'Build the habit. The skill will follow.',
+      { en: 'Small progress every day.', ko: '매일 작은 진전을.' },
+      { en: 'Every review matters.', ko: '모든 복습이 중요하다.' },
+      { en: 'One more story.', ko: '이야기 하나 더.' },
+      { en: 'Not perfect. Just consistent.', ko: '완벽하지 않아도, 꾸준하게.' },
+      { en: 'Consistency is the only shortcut.', ko: '꾸준함이 유일한 지름길이다.' },
+      { en: 'Keep going. Even on quiet days.', ko: '조용한 날에도, 계속하라.' },
+      { en: 'Every word, a small victory.', ko: '단어 하나하나가 작은 승리다.' },
+      { en: 'Build the habit. The skill will follow.', ko: '습관을 쌓아라. 실력은 따라온다.' },
     ],
   },
   // ⑧ Library / Reading — 책, 도서관, 독서
   {
     seeds: ['library', 'bookshelf', 'reading', 'book', 'pages', 'study'],
     quotes: [
-      'Patterns become habits.',
-      'One story at a time.',
-      'Every session leaves a mark.',
-      'Sentences become instinct.',
-      'Read it. Feel it. Say it.',
-      'Natural speech starts with natural reading.',
-      'Fluency comes from repetition.',
-      'Language is a craft. Polish it daily.',
+      { en: 'Patterns become habits.', ko: '패턴이 습관이 된다.' },
+      { en: 'One story at a time.', ko: '한 번에 이야기 하나씩.' },
+      { en: 'Every session leaves a mark.', ko: '매 학습이 흔적을 남긴다.' },
+      { en: 'Sentences become instinct.', ko: '문장이 본능이 된다.' },
+      { en: 'Read it. Feel it. Say it.', ko: '읽고. 느끼고. 말하라.' },
+      { en: 'Natural speech starts with natural reading.', ko: '자연스러운 말하기는 자연스러운 읽기에서 시작된다.' },
+      { en: 'Fluency comes from repetition.', ko: '유창함은 반복에서 온다.' },
+      { en: 'Language is a craft. Polish it daily.', ko: '언어는 기술이다. 매일 갈고닦아라.' },
     ],
   },
 ]
 
-function pickCover(): { imageUrl: string; quote: string } {
+function pickCover(): { imageUrl: string; quote: Quote } {
   const theme  = COVER_THEMES[Math.floor(Math.random() * COVER_THEMES.length)]
   const seed   = theme.seeds[Math.floor(Math.random() * theme.seeds.length)]
   const quote  = theme.quotes[Math.floor(Math.random() * theme.quotes.length)]
@@ -317,7 +318,18 @@ export default function HomePage() {
               margin: 0,
             }}
           >
-            {quote}
+            {quote.en}
+          </p>
+          <p
+            style={{
+              fontSize: 13,
+              color: 'var(--pm)',
+              lineHeight: 1.5,
+              letterSpacing: '0.01em',
+              margin: '10px 0 0',
+            }}
+          >
+            {quote.ko}
           </p>
         </div>
 

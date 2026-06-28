@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Volume2, Check } from 'lucide-react'
+import { Volume2, Check, Bookmark } from 'lucide-react'
 
 import type { MagazinePattern } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -9,6 +9,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { RATE_MAP, type VoiceKey } from '@/lib/settings/preferences'
 import { ttsProvider, getPitchForKey, patternExampleAudioUrl } from '@/lib/tts'
 import { recordPatternPractice } from '@/lib/srs/storage'
+import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 
 type Props = {
   storyId: number
@@ -37,6 +38,21 @@ export function PatternPracticeCard({
   const [phase, setPhase] = useState<Phase>('idle')
   const [currentIdx, setCurrentIdx] = useState(-1)
   const [feedback, setFeedback] = useState<string | null>(null)
+  const [bookmarked, setBookmarked] = useState(false)
+
+  useEffect(() => {
+    setBookmarked(isBookmarked(pattern.id))
+  }, [pattern.id])
+
+  function handleBookmark() {
+    const next = toggleBookmark({
+      patternId: pattern.id,
+      pattern: pattern.pattern,
+      meaningKo: pattern.meaningKo,
+      storyId,
+    })
+    setBookmarked(next)
+  }
 
   const runningRef = useRef(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -144,18 +160,32 @@ export function PatternPracticeCard({
           <p className="font-playfair text-[1.2rem] font-bold text-[var(--pt)] leading-snug">{pattern.pattern}</p>
           {showTranslation && <p className="text-[0.74rem] text-[var(--pa)] mt-0.5">{pattern.meaningKo}</p>}
         </div>
-        {/* 스피커 아이콘 (배경 없음) — 패턴 옆 */}
-        <button
-          type="button"
-          onClick={handlePlay}
-          aria-label={isPlaying ? '정지' : '예문 듣기'}
-          className={[
-            'shrink-0 p-1 mt-0.5 transition-colors cursor-pointer',
-            isPlaying ? 'text-[var(--pa)] animate-pulse' : 'text-[var(--pm2)] hover:text-[var(--pa)]',
-          ].join(' ')}
-        >
-          <Volume2 className="w-[18px] h-[18px]" strokeWidth={1.8} />
-        </button>
+        <div className="shrink-0 flex items-center gap-1 mt-0.5">
+          {/* 북마크 — 패턴 제목 옆, Progress 패턴 라이브러리에 저장 */}
+          <button
+            type="button"
+            onClick={handleBookmark}
+            aria-label={bookmarked ? '북마크 해제' : '북마크'}
+            className={[
+              'p-1 transition-colors cursor-pointer',
+              bookmarked ? 'text-[var(--pa)]' : 'text-[var(--pm2)] hover:text-[var(--pa)]',
+            ].join(' ')}
+          >
+            <Bookmark className="w-[18px] h-[18px]" strokeWidth={1.8} fill={bookmarked ? 'currentColor' : 'none'} />
+          </button>
+          {/* 스피커 아이콘 (배경 없음) */}
+          <button
+            type="button"
+            onClick={handlePlay}
+            aria-label={isPlaying ? '정지' : '예문 듣기'}
+            className={[
+              'p-1 transition-colors cursor-pointer',
+              isPlaying ? 'text-[var(--pa)] animate-pulse' : 'text-[var(--pm2)] hover:text-[var(--pa)]',
+            ].join(' ')}
+          >
+            <Volume2 className="w-[18px] h-[18px]" strokeWidth={1.8} />
+          </button>
+        </div>
       </div>
 
       {/* 예문 5개 (항상 표시) */}

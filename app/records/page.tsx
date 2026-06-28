@@ -1,19 +1,13 @@
-import Link from 'next/link'
-import { BookOpen, Flame, Clock, ArrowRight } from 'lucide-react'
+import { BookOpen, Flame, Clock } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
 import { CalendarHeatmap } from './CalendarHeatmap'
 import { ReviewOverview } from '@/components/ReviewOverview'
+import { PatternLibraryPreview } from '@/components/PatternLibraryPreview'
 import { createClient } from '@/lib/supabase/server'
 import { getProgressStats } from '@/queries/progress'
 
 export const dynamic = 'force-dynamic'
-
-const SAVED_PATTERNS = [
-  { id: 1, pattern: 'I want to ~', meaningKo: '~하고 싶어요' },
-  { id: 2, pattern: 'I have to ~', meaningKo: '~해야 해요' },
-  { id: 3, pattern: 'I just ~', meaningKo: '방금 ~했어요' },
-]
 
 function getLevel(completedStories: number, total: number) {
   const pct = total > 0 ? completedStories / total : 0
@@ -151,32 +145,8 @@ export default async function RecordsPage() {
           <StatRow label="Study Time" labelKo="총 학습 시간" value={studyHours} sub="hours" icon={Clock} last />
         </div>
 
-        {/* 5. PATTERN LIBRARY */}
-        <div className="pt-8 pb-6 border-b border-[var(--pd)]">
-          <div className="flex items-center justify-between mb-5">
-            <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold">PATTERN LIBRARY</p>
-            <Link href="/records/patterns" className="flex items-center gap-1 text-[11px] text-[var(--pa)] font-semibold hover:opacity-70 transition-opacity">
-              View All <ArrowRight className="w-3 h-3" strokeWidth={2} />
-            </Link>
-          </div>
-          <p className="text-[0.75rem] text-[var(--pm)] mb-3">저장한 패턴 미리보기</p>
-          <div className="space-y-0">
-            {SAVED_PATTERNS.map((p, i) => (
-              <div key={p.id}>
-                {i > 0 && <div className="h-px bg-[var(--pd)]" />}
-                <div className="flex items-center gap-4 py-4">
-                  <span className="font-playfair text-[1.1rem] font-bold text-[var(--pa)] w-6 shrink-0 leading-none">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <div>
-                    <p className="text-[13px] font-bold text-[var(--pt)]">{p.pattern}</p>
-                    <p className="text-[11px] text-[var(--pm)] mt-0.5">{p.meaningKo}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* 5. PATTERN LIBRARY — 북마크 저장 패턴 */}
+        <PatternLibraryPreview />
 
         <p className="text-[10px] tracking-[0.2em] text-[var(--pm2)] text-center pt-10">
           SPEAK NATURALLY. CONNECT DEEPLY.

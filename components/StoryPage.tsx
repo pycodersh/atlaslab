@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from 'react'
-import { Heart, Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory, AmbienceId } from '@/types/magazine'
 import { AmbienceAudio } from '@/components/AmbienceAudio'
 import { StoryImageSlider } from '@/components/StoryImageSlider'
@@ -50,7 +49,6 @@ export function StoryPage({
   isSpeaking,
   currentParagraphIdx,
 }: StoryPageProps) {
-  const [liked, setLiked] = useState(false)
   const { prefs } = usePreferences()
 
   // TTS 현재 문단 ID → 슬라이더 동기화용
@@ -153,27 +151,13 @@ export function StoryPage({
             ))}
           </div>
 
-          <div className="mt-7 flex items-start gap-3">
-            {story.storyNote && (
-              <div className="flex-1 border-l-2 border-[var(--pd)] pl-3">
-                <p className="font-playfair text-sm text-[var(--pm)] leading-relaxed">
-                  {story.storyNote}
-                </p>
-              </div>
-            )}
-            <button
-              type="button"
-              aria-label={liked ? '좋아요 취소' : '좋아요'}
-              onClick={() => setLiked((v) => !v)}
-              className="p-1.5 cursor-pointer shrink-0 mt-0.5"
-            >
-              <Heart
-                className={`w-4 h-4 transition-colors ${
-                  liked ? 'text-[var(--pa)] fill-[var(--pa)]' : 'text-[var(--pm2)]'
-                }`}
-              />
-            </button>
-          </div>
+          {story.storyNote && (
+            <div className="mt-7 border-l-2 border-[var(--pd)] pl-3">
+              <p className="font-playfair text-sm text-[var(--pm)] leading-relaxed">
+                {story.storyNote}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
