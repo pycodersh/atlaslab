@@ -195,6 +195,11 @@ export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, exa
                           STORY
                         </span>
                       )}
+                      {ex.domain && (
+                        <span className="text-[8px] font-bold text-[var(--pm)] bg-[var(--pd)] rounded px-1.5 py-0.5">
+                          {ex.domain}
+                        </span>
+                      )}
                     </div>
                     {showTranslation && (
                       <p className="text-[0.78rem] text-[var(--pm)] mt-1 leading-relaxed">{ex.ko}</p>
