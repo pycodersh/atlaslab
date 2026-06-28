@@ -38,6 +38,14 @@ export function todayStr(): string {
   return new Date().toISOString().slice(0, 10)
 }
 
+/** 로컬 타임존 기준 날짜 문자열 (YYYY-MM-DD) — 활동/캘린더/스트릭용 */
+export function localDateStr(d: Date = new Date()): string {
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
+}
+
 export function addDays(dateStr: string, days: number): string {
   const d = new Date(dateStr)
   d.setDate(d.getDate() + days)
@@ -68,7 +76,7 @@ function logActivity() {
   if (typeof window === 'undefined') return
   let map: Record<string, number> = {}
   try { map = JSON.parse(localStorage.getItem(ACTIVITY_KEY) ?? '{}') } catch {}
-  const t = todayStr()
+  const t = localDateStr()
   map[t] = (map[t] ?? 0) + 1
   localStorage.setItem(ACTIVITY_KEY, JSON.stringify(map))
 }
@@ -84,7 +92,7 @@ export function getLast7Days(): { date: string; label: string; count: number }[]
   for (let i = 6; i >= 0; i--) {
     const d = new Date(base)
     d.setDate(base.getDate() - i)
-    const date = d.toISOString().slice(0, 10)
+    const date = localDateStr(d)
     out.push({ date, label: labels[d.getDay()], count: map[date] ?? 0 })
   }
   return out
@@ -158,7 +166,7 @@ export function getActivityByDate(): Record<string, number> {
 /** 연속 학습일(streak) — 오늘(또는 어제)부터 거꾸로 활동이 있는 날 수 */
 export function getStreak(): number {
   const map = getActivityByDate()
-  const has = (d: Date) => (map[d.toISOString().slice(0, 10)] ?? 0) > 0
+  const has = (d: Date) => (map[localDateStr(d)] ?? 0) > 0
   const cursor = new Date()
   // 오늘 활동이 없으면 어제부터 카운트 시작 (오늘은 아직 안 했을 수 있음)
   if (!has(cursor)) cursor.setDate(cursor.getDate() - 1)

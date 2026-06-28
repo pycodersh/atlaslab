@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { getActivityByDate } from '@/lib/srs/storage'
 
-type DayData = { iso: string; count: number; isToday: boolean; future: boolean }
+type DayData = { iso: string; dom: number; count: number; isToday: boolean; future: boolean }
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 const DAY_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
@@ -17,8 +17,9 @@ function buildMonth(year: number, month: number, counts: Record<string, number>)
   for (let i = 0; i < startDow; i++) cells.push(null)
   for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(year, month, d)
-    const iso = date.toISOString().slice(0, 10)
-    cells.push({ iso, count: counts[iso] ?? 0, isToday: date.getTime() === today.getTime(), future: date.getTime() > today.getTime() })
+    // 로컬 날짜 키 (활동 로그와 동일 기준)
+    const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
+    cells.push({ iso, dom: d, count: counts[iso] ?? 0, isToday: date.getTime() === today.getTime(), future: date.getTime() > today.getTime() })
   }
   const weeks: (DayData | null)[][] = []
   for (let i = 0; i < cells.length; i += 7) {
@@ -33,6 +34,15 @@ function cellStyle(day: DayData | null): React.CSSProperties {
   if (day.count <= 2) return { background: 'var(--ph1)' }
   if (day.count <= 5) return { background: 'var(--ph2)' }
   return { background: 'var(--ph3)' }
+}
+
+// 날짜 숫자 색상 — 칸 색이 진할수록 밝게
+function cellTextColor(day: DayData | null): string {
+  if (!day) return 'transparent'
+  if (day.future) return 'var(--pm2)'
+  if (day.count === 0) return 'var(--pm2)'
+  if (day.count <= 2) return 'var(--pt2)'
+  return '#fff'
 }
 
 export function LearningCalendar() {
@@ -91,11 +101,20 @@ export function LearningCalendar() {
                 key={di}
                 title={day ? `${day.iso} · ${day.count}회` : undefined}
                 className={[
-                  'aspect-square rounded-md',
+                  'aspect-square rounded-md flex items-center justify-center',
                   day?.isToday ? 'ring-2 ring-[var(--pa)] ring-offset-1 ring-offset-[var(--pb)]' : '',
                 ].join(' ')}
                 style={cellStyle(day)}
-              />
+              >
+                {day && (
+                  <span
+                    className={`text-[10px] leading-none ${day.isToday ? 'font-bold' : 'font-medium'}`}
+                    style={{ color: cellTextColor(day) }}
+                  >
+                    {day.dom}
+                  </span>
+                )}
+              </div>
             ))}
           </div>
         ))}
