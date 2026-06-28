@@ -279,7 +279,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
                   onClick={() => {
                     if (isSpeaking) { stop(); return }
                     const v = story.narratorVoice ?? prefs.voice
-                    speak(popup.english, storyParaAudioUrl(v, story.id, popup.id), v)
+                    speak(popup.english, storyParaAudioUrl(v, story.id, popup.id, popup.english), v)
                   }}
                   type="button"
                 >

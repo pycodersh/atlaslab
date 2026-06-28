@@ -71,7 +71,7 @@ export function StoryPage({
   function handleAudio() {
     if (isSpeaking) { stop(); return }
     const texts     = story.paragraphs.map(p => p.english)
-    const audioUrls = story.paragraphs.map(p => storyParaAudioUrl(narrator, story.id, p.id))
+    const audioUrls = story.paragraphs.map(p => storyParaAudioUrl(narrator, story.id, p.id, p.english))
     speakAll(texts, audioUrls, { voiceKey: narrator })
   }
 

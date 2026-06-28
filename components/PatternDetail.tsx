@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, Volume2, Square, Check } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Volume2, Square, Check } from 'lucide-react'
 
 import type { MagazinePattern } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -17,6 +17,10 @@ type Props = {
   narratorVoice?: VoiceKey
   pattern: MagazinePattern
   examples: PracticeExample[]
+  patternIndex: number   // 1-based (현재 Pattern 위치)
+  patternTotal: number   // 보통 5
+  prevPid: string | null
+  nextPid: string | null
 }
 
 type Phase = 'idle' | 'speaking' | 'pause' | 'done'
@@ -24,7 +28,10 @@ type Phase = 'idle' | 'speaking' | 'pause' | 'done'
 // 예문 1개 재생 후 따라 읽기 시간 (ms)
 const FOLLOW_PAUSE_MS = 2500
 
-export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, examples }: Props) {
+export function PatternDetail({
+  storyId, storyTitle, narratorVoice, pattern, examples,
+  patternIndex, patternTotal, prevPid, nextPid,
+}: Props) {
   const router = useRouter()
   const { prefs } = usePreferences()
   const showTranslation = prefs.translationLang !== 'none'
@@ -39,7 +46,6 @@ export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, exa
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const startedAtRef = useRef(0)
 
-  // 저장된 반복 횟수 로드
   useEffect(() => {
     setRepeatCount(getRecord('pattern', pattern.id)?.repeatCount ?? 0)
   }, [pattern.id])
@@ -56,7 +62,6 @@ export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, exa
     setCurrentIdx(-1)
   }, [])
 
-  // 언마운트 시 정지
   useEffect(() => () => { runningRef.current = false; clearTimer(); ttsProvider.stop() }, [])
 
   const finish = useCallback(() => {
@@ -86,7 +91,7 @@ export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, exa
       }, FOLLOW_PAUSE_MS)
     }
 
-    const url = patternExampleAudioUrl(voice, pattern.id, i)
+    const url = patternExampleAudioUrl(voice, pattern.id, i, examples[i].en)
     ttsProvider.speak({
       texts: [examples[i].en],
       audioUrls: url ? [url] : undefined,
@@ -110,61 +115,87 @@ export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, exa
 
   const isPlaying = phase === 'speaking' || phase === 'pause'
 
+  function goPattern(pid: string | null) {
+    if (!pid) return
+    stop()
+    router.push(`/stories/${storyId}/patterns/${pid}`)
+  }
+
   return (
     <div className="min-h-dvh bg-[var(--pb)] flex flex-col">
       {/* 상단 바 */}
-      <div className="flex items-center gap-2 px-4 pt-4 pb-2">
+      <div className="flex items-center gap-2 px-5 pt-4 pb-1">
         <button
           type="button"
-          aria-label="뒤로"
-          onClick={() => { stop(); router.back() }}
+          aria-label="패턴 목록"
+          onClick={() => { stop(); router.push(`/stories/${storyId}?v=p`) }}
           className="p-2 -ml-2 rounded-full text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
         >
           <ChevronLeft className="w-5 h-5" strokeWidth={1.6} />
         </button>
-        <span className="text-[9px] tracking-[0.25em] text-[var(--pa)] font-semibold">PATTERN PRACTICE</span>
       </div>
 
       <div className="flex-1 overflow-y-auto px-7 pb-10">
 
-        {/* 패턴 문장 */}
-        <div className="pt-4 pb-6 border-b border-[var(--pd)]">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <h1 className="font-playfair text-[1.9rem] font-bold text-[var(--pt)] leading-tight">
-                {pattern.pattern}
-              </h1>
-              {showTranslation && (
-                <p className="text-[0.85rem] text-[var(--pa)] mt-1">{pattern.meaningKo}</p>
-              )}
+        {/* ── 학습 흐름 헤더: Story 번호 / 제목 / Pattern 위치 ── */}
+        <div className="pt-2 pb-6">
+          <p className="text-[10px] tracking-[0.28em] font-bold text-[var(--pa)] mb-1.5">
+            STORY {String(storyId).padStart(2, '0')}
+          </p>
+          <h1 className="font-playfair text-[1.9rem] font-bold text-[var(--pt)] leading-tight mb-3">
+            {storyTitle}
+          </h1>
+          <div className="flex items-center gap-2.5">
+            <span className="text-[11px] font-bold tracking-[0.05em] text-[var(--pm)]">
+              Pattern {patternIndex} / {patternTotal}
+            </span>
+            {/* 진행 점 */}
+            <div className="flex items-center gap-1">
+              {Array.from({ length: patternTotal }).map((_, i) => (
+                <span
+                  key={i}
+                  className={[
+                    'block rounded-full transition-colors',
+                    i + 1 === patternIndex ? 'w-4 h-1.5 bg-[var(--pa)]' : 'w-1.5 h-1.5 bg-[var(--pd)]',
+                  ].join(' ')}
+                />
+              ))}
             </div>
-            <span className="shrink-0 mt-1 text-[10px] font-semibold text-[var(--pm)] bg-[var(--pc)] rounded-full px-3 py-1">
+            <span className="ml-auto text-[10px] font-semibold text-[var(--pm)] bg-[var(--pc)] rounded-full px-2.5 py-1">
               반복 {repeatCount}회
             </span>
           </div>
         </div>
 
-        {/* 스피커 버튼 */}
-        <div className="py-6 flex flex-col items-center">
+        <div className="h-px bg-[var(--pd)]" />
+
+        {/* ── Pattern + Play ── */}
+        <div className="pt-7 pb-7 flex flex-col items-center text-center">
+          <p className="text-[9px] tracking-[0.28em] font-bold text-[var(--pm2)] mb-3">PATTERN</p>
+          <p className="font-playfair text-[2rem] font-bold text-[var(--pt)] leading-snug">
+            {pattern.pattern}
+          </p>
+          {showTranslation && (
+            <p className="text-[0.85rem] text-[var(--pa)] mt-1.5 mb-5">{pattern.meaningKo}</p>
+          )}
           <button
             type="button"
             onClick={handlePlay}
             aria-label={isPlaying ? '정지' : '예문 5개 듣기'}
             className={[
-              'flex items-center gap-2.5 rounded-full px-7 py-3.5 text-[13px] font-bold tracking-[0.04em] transition-colors cursor-pointer',
+              'mt-2 flex items-center gap-2.5 rounded-full px-7 py-3 text-[13px] font-bold tracking-[0.04em] transition-colors cursor-pointer',
               isPlaying ? 'bg-[var(--pd)] text-[var(--pa)]' : 'bg-[var(--pa)] text-white hover:opacity-90',
             ].join(' ')}
           >
             {isPlaying ? <Square className="w-4 h-4 fill-current" /> : <Volume2 className="w-4 h-4" />}
-            {isPlaying ? '정지' : `예문 ${examples.length}개 듣기`}
+            {isPlaying ? '정지' : 'Play'}
           </button>
-          <p className="text-[11px] text-[var(--pm)] mt-3">
-            한 문장씩 듣고 따라 읽으며 패턴을 익혀보세요.
-          </p>
         </div>
 
-        {/* 예문 5개 */}
-        <div className="space-y-2.5">
+        <div className="h-px bg-[var(--pd)]" />
+
+        {/* ── 예문 5개 (처음부터 모두 표시, 잡지 스타일 여백) ── */}
+        <div className="pt-7 space-y-3.5">
           {examples.map((ex, i) => {
             const active = currentIdx === i
             const following = active && phase === 'pause'
@@ -172,29 +203,21 @@ export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, exa
               <div
                 key={i}
                 className={[
-                  'rounded-2xl px-4 py-3.5 border transition-colors duration-300',
-                  active
-                    ? 'border-[var(--pa)] bg-[var(--pal)]'
-                    : 'border-[var(--pd)] bg-transparent',
+                  'rounded-2xl px-5 py-4 border transition-colors duration-300',
+                  active ? 'border-[var(--pa)] bg-[var(--pal)]' : 'border-[var(--pd)] bg-transparent',
                 ].join(' ')}
               >
-                <div className="flex gap-3 items-start">
+                <div className="flex gap-3.5 items-start">
+                  {/* 번호 ①~⑤ */}
                   <span className={[
-                    'font-playfair text-[1.1rem] font-bold w-5 shrink-0 leading-tight pt-0.5 transition-colors',
-                    active ? 'text-[var(--pa)]' : 'text-[var(--pm2)]',
+                    'shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[12px] font-bold transition-colors mt-0.5',
+                    active ? 'bg-[var(--pa)] text-white' : 'bg-[var(--pc)] text-[var(--pa)]',
                   ].join(' ')}>
                     {i + 1}
                   </span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <p className="text-[0.95rem] font-medium text-[var(--pt)] leading-relaxed">
-                        {ex.en}
-                      </p>
-                      {i === 0 && (
-                        <span className="text-[8px] tracking-[0.12em] font-bold text-[var(--pa)] bg-[var(--pc)] rounded px-1.5 py-0.5">
-                          STORY
-                        </span>
-                      )}
+                      <p className="text-[0.98rem] font-medium text-[var(--pt)] leading-relaxed">{ex.en}</p>
                       {ex.domain && (
                         <span className="text-[8px] font-bold text-[var(--pm)] bg-[var(--pd)] rounded px-1.5 py-0.5">
                           {ex.domain}
@@ -219,7 +242,7 @@ export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, exa
 
         {/* 완료 피드백 */}
         {phase === 'done' && feedback && (
-          <div className="mt-7 flex flex-col items-center">
+          <div className="mt-8 flex flex-col items-center">
             <div className="w-12 h-12 rounded-full bg-[var(--pa)] flex items-center justify-center mb-3">
               <Check className="w-6 h-6 text-white" strokeWidth={2.5} />
             </div>
@@ -234,6 +257,39 @@ export function PatternDetail({ storyId, storyTitle, narratorVoice, pattern, exa
             </button>
           </div>
         )}
+      </div>
+
+      {/* ── 하단: 이전 / 다음 Pattern ── */}
+      <div className="shrink-0 border-t border-[var(--pd)] bg-[var(--pb)] py-3 px-5">
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            aria-label="이전 패턴"
+            onClick={() => goPattern(prevPid)}
+            disabled={!prevPid}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[12px] font-bold transition-colors ${
+              prevPid ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer' : 'text-[var(--pd)] cursor-not-allowed'
+            }`}
+          >
+            <ChevronLeft className="w-4 h-4" strokeWidth={1.8} /> 이전 패턴
+          </button>
+
+          <span className="text-[10px] tracking-[0.15em] text-[var(--pm2)] font-semibold">
+            {patternIndex} / {patternTotal}
+          </span>
+
+          <button
+            type="button"
+            aria-label="다음 패턴"
+            onClick={() => goPattern(nextPid)}
+            disabled={!nextPid}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[12px] font-bold transition-colors ${
+              nextPid ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer' : 'text-[var(--pd)] cursor-not-allowed'
+            }`}
+          >
+            다음 패턴 <ChevronRight className="w-4 h-4" strokeWidth={1.8} />
+          </button>
+        </div>
       </div>
     </div>
   )

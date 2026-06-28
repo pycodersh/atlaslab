@@ -30,6 +30,16 @@ const EDGE_VOICE_MAP: Record<string, string> = {
   'uk-male':   'en-GB-RyanNeural',
 }
 
+// 콘텐츠 해시 — lib/tts/audio-urls.ts 의 contentHash 와 반드시 동일해야 함
+function contentHash(text: string): string {
+  let h = 0x811c9dc5
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i)
+    h = Math.imul(h, 0x01000193)
+  }
+  return (h >>> 0).toString(36)
+}
+
 // CLI 인자 파싱
 const args       = process.argv.slice(2)
 const voiceArg   = args.includes('--voice') ? args[args.indexOf('--voice') + 1] : null
@@ -89,7 +99,7 @@ async function main() {
 
     for (const story of stories) {
       for (const para of story.paragraphs) {
-        const filePath = `story-${story.id}-${para.id}-${voiceKey}.mp3`
+        const filePath = `story-${story.id}-${para.id}-${contentHash(para.english)}-${voiceKey}.mp3`
         total++
 
         // 이미 존재하는 파일은 건너뜀 (--force 없이)

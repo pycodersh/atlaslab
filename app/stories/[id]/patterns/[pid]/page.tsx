@@ -21,6 +21,12 @@ export default async function PatternDetailPage({ params }: Props) {
 
   if (!story || !pattern) notFound()
 
+  // 학습 흐름: 현재 Pattern 위치 + 이전/다음 Pattern
+  const patternIndex = story.patterns.findIndex((p) => p.id === pid)
+  const total = story.patterns.length
+  const prevPid = patternIndex > 0 ? story.patterns[patternIndex - 1].id : null
+  const nextPid = patternIndex < total - 1 ? story.patterns[patternIndex + 1].id : null
+
   // 예문 5개 — pattern-examples 우선, 없으면 storySentence/variationSentence로 폴백
   const fromData = getPatternExamples(pid)
   const examples =
@@ -38,6 +44,10 @@ export default async function PatternDetailPage({ params }: Props) {
       narratorVoice={story.narratorVoice}
       pattern={pattern}
       examples={examples}
+      patternIndex={patternIndex + 1}
+      patternTotal={total}
+      prevPid={prevPid}
+      nextPid={nextPid}
     />
   )
 }
