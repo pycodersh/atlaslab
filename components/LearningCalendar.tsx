@@ -101,14 +101,14 @@ export function LearningCalendar() {
                 key={di}
                 title={day ? `${day.iso} · ${day.count}회` : undefined}
                 className={[
-                  'aspect-square rounded-md flex items-center justify-center',
+                  'aspect-square rounded-md flex items-start justify-start p-1',
                   day?.isToday ? 'ring-2 ring-[var(--pa)] ring-offset-1 ring-offset-[var(--pb)]' : '',
                 ].join(' ')}
                 style={cellStyle(day)}
               >
                 {day && (
                   <span
-                    className={`text-[10px] leading-none ${day.isToday ? 'font-bold' : 'font-medium'}`}
+                    className={`text-[9px] leading-none ${day.isToday ? 'font-bold' : 'font-medium'}`}
                     style={{ color: cellTextColor(day) }}
                   >
                     {day.dom}
