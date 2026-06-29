@@ -9,12 +9,32 @@
 
 ---
 
-## ★ Gold Standard 50 (기준 콘텐츠)
+## ★ Gold Standard 100 (정식 커리큘럼)
 
-현재 확정된 **Pattern 50 · Example 250 · Story 10**이 PATTO의 Gold Standard다.
-앞으로 만들 100 / 500 / 1000 / 4000개의 모든 콘텐츠는 이 50개를 기준으로 확장한다.
+현재 확정된 **Pattern 100 · Example 500 · Story 20**이 PATTO의 첫 공식 커리큘럼이자 Gold Standard다.
+앞으로 만들 500 / 1000 / 4000개의 모든 콘텐츠는 이 100개를 기준으로 확장한다.
 
-목표 수준: **"이 50개만 반복해도 영어 실력이 눈에 띄게 좋아진다."**
+목표 수준: **"이 100개의 Pattern만 완벽하게 반복하면 영어의 핵심 구조를 체계적으로 익힌다."**
+
+### 난이도 5 Level 구조 (사용자가 "Level을 마스터한다"고 느끼도록)
+
+| Level | Pattern | Story | 테마 | 예 |
+|---|---|---|---|---|
+| 1 | 1~20 | 1~4 | 생존 회화 | I want to / I have to / Can you? |
+| 2 | 21~40 | 5~8 | 일상생활 | I'm going to / I'd rather / Could you? |
+| 3 | 41~60 | 9~12 | 감정·인간관계·의견 | I'm worried about / To be honest / I was wondering if |
+| 4 | 61~80 | 13~16 | 회사·문제 해결·일정·협업 | I'll get back to you / Can we reschedule / In case / I'd suggest |
+| 5 | 81~100 | 17~20 | 원어민 표현·이디엄·반응·Conversation Chunk | Sounds like / I'm down for / Long story short / I'll catch you |
+
+- 난이도는 **자연스럽게** 올라간다. 갑자기 어려운 문법을 넣지 않는다.
+- Level 5의 **Conversation Chunk**는 통째로 외워 바로 쓰는 회화 덩어리다
+  (예: "It's up to you", "Sounds good", "I'm on it", "On second thought").
+  슬롯이 있으면 패턴화하고(`Sounds like ~`), 고정 표현이면 그대로 둔다(`I owe you one`).
+
+### 새 Pattern 선정 이유 (51~100)
+- 기존 50과 **기능이 겹치지 않을 것** (중복 금지). 요청·질문·의견 등 기능 단위로 구분.
+- 원어민 사용 빈도 · 실제 회화 사용률 우선. 교과서 문법보다 회화.
+- patternId(pt{story}-{n})는 **고정 키**이므로 한 번 정하면 바꾸지 않는다.
 
 ### Pattern 통과 기준 (1주일 테스트)
 모든 Pattern은 다음 질문에 YES여야 한다.
