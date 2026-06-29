@@ -1,4 +1,4 @@
-# PATTO Content Style Guide (v1)
+# PATTO Content Style Guide (v2 · Gold Standard)
 
 > 이 문서는 PATTO의 **콘텐츠 품질 기준(Standard)** 이다.
 > 앞으로 제작되는 모든 Pattern · Example · Story · 이미지 · 음성은 이 가이드를 따른다.
@@ -6,6 +6,27 @@
 > 핵심 원칙: **양보다 품질.**
 > PATTO는 새로운 콘텐츠를 계속 쏟아내는 앱이 아니라,
 > **핵심 Pattern을 반복하여 자동화하는 영어 학습 플랫폼**이다.
+
+---
+
+## ★ Gold Standard 50 (기준 콘텐츠)
+
+현재 확정된 **Pattern 50 · Example 250 · Story 10**이 PATTO의 Gold Standard다.
+앞으로 만들 100 / 500 / 1000 / 4000개의 모든 콘텐츠는 이 50개를 기준으로 확장한다.
+
+목표 수준: **"이 50개만 반복해도 영어 실력이 눈에 띄게 좋아진다."**
+
+### Pattern 통과 기준 (1주일 테스트)
+모든 Pattern은 다음 질문에 YES여야 한다.
+
+> **"원어민이 일주일 안에 실제로 사용할 가능성이 높은가?"**
+
+YES가 아니면 수정한다. 교과서 영어가 아니라 **실제 회화**를 우선한다.
+(중복·저빈도·문법 중심 패턴은 제거. Pattern은 한 번 확정되면 ID가 고정되므로 신중히.)
+
+### 톤·스타일 통일
+50개가 한 권의 책처럼 일관되도록 — 문장 길이, 어휘 수준, 대화 톤,
+Story 스타일, Example 스타일을 모두 일정하게 유지한다.
 
 ---
 
@@ -144,16 +165,26 @@ Story와 Example은 **실제 대화 느낌의 자연스러운 보이스**를 목
 - 추상명사 나열보다 **구체적인 사물·행동·상황**
 - 학습자가 오늘 바로 쓸 수 있는 단어 위주 (Level 1 기준 CEFR A2~B1)
 - 고유명사는 최소화하고, 쓸 경우 보편적인 것(Busan, the airport)만
+- **단어장을 따로 만들지 않는다.** 생활 어휘는 Example 안에서 자연스럽게 반복 학습되게 한다.
+
+권장 생활 어휘 풀 (Example에 적극 활용):
+`receipt, landlord, groceries, appointment, parking, sink, package, reservation,
+schedule, charger, refund, deposit, leftovers, umbrella, elevator, pharmacy,
+invoice, boarding pass, rental car, dentist, spare key, mechanic, plumber,
+checkout, ATM, takeout, delivery, shift, haircut, rent, suitcase` 등.
 
 ---
 
 ## 8. 이디엄(관용구) 사용 기준
 
 - **이디엄은 절제해서 사용**한다. Level 1에서는 직관적으로 이해되는 것만
-- 허용: 의미가 투명하고 매우 흔한 표현 — "grab a coffee", "give me a hand", "keep an eye on", "make it on time"
+- 허용: 의미가 투명하고 매우 흔한 표현 — "grab a coffee", "give me a hand", "keep an eye on", "make it on time", "get the hang of", "swing by", "heads-up", "catch up"
 - 지양: 비유가 강해 직역이 막히는 표현 — "break the ice", "hit the sack", "under the weather", "cost an arm and a leg"
 - 슬랭·비속어·지나친 구어 축약("gonna", "wanna")은 본문 표기에서 지양 (음성에서 자연 발화는 허용)
 - 이디엄을 쓸 경우, 한국어 번역은 **뜻이 통하는 자연스러운 의역**으로 제공
+- 자연스러운 **회화 응답 표현**도 적절히 (억지로 X, 실제 빈도 우선):
+  "Sounds good", "No worries", "Here you go", "It's up to you", "I'm all set",
+  "That makes sense", "Hang on", "I guess"
 
 ---
 
