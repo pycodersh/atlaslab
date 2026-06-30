@@ -41,11 +41,11 @@ export const patternExamples: Record<string, PracticeExample[]> = {
     { en: 'I should grab the spare key before we lock ourselves out.', ko: '문 잠기기 전에 여분 열쇠를 챙겨야 할 것 같아.', domain: '돌발' },
   ],
   'pt1-4': [
-    { en: 'The reason is I forget the small moments too quickly.', ko: '이유는 작은 순간들을 너무 빨리 잊어버리기 때문이야.', domain: '생활' },
-    { en: 'The reason is the printer jammed right before the big meeting.', ko: '이유는 중요한 회의 직전에 프린터가 걸렸기 때문이야.', domain: '회사' },
-    { en: 'The reason is our connecting flight got delayed two hours.', ko: '이유는 우리 환승 비행기가 두 시간 지연됐기 때문이야.', domain: '여행' },
-    { en: "The reason is I didn't want to cancel on you last minute.", ko: '이유는 너한테 막판에 약속을 취소하고 싶지 않아서야.', domain: '인간관계' },
-    { en: 'The reason is the elevator broke and I took the stairs.', ko: '이유는 엘리베이터가 고장 나서 계단으로 왔기 때문이야.', domain: '돌발' },
+    { en: "That's because I forget the small moments too quickly.", ko: '그건 내가 작은 순간들을 너무 빨리 잊어버리기 때문이야.', domain: '생활' },
+    { en: "That's because the printer jammed right before the big meeting.", ko: '그건 중요한 회의 직전에 프린터가 걸렸기 때문이야.', domain: '회사' },
+    { en: "That's because our connecting flight got delayed two hours.", ko: '그건 우리 환승 비행기가 두 시간 지연됐기 때문이야.', domain: '여행' },
+    { en: "That's because I didn't want to cancel on you last minute.", ko: '그건 너한테 막판에 약속을 취소하고 싶지 않아서야.', domain: '인간관계' },
+    { en: "That's because the elevator broke and I took the stairs.", ko: '그건 엘리베이터가 고장 나서 계단으로 왔기 때문이야.', domain: '돌발' },
   ],
   'pt1-5': [
     { en: 'It turns out it only took five minutes.', ko: '알고 보니 5분밖에 안 걸렸어.', domain: '생활' },
@@ -122,11 +122,11 @@ export const patternExamples: Record<string, PracticeExample[]> = {
     { en: 'Thank you for lending me your charger when mine died.', ko: '내 거 꺼졌을 때 충전기 빌려줘서 고마워.', domain: '돌발' },
   ],
   'pt3-5': [
-    { en: 'I just grabbed my bag and headed for the door.', ko: '나는 그냥 가방을 들고 문으로 향했어.', domain: '생활' },
-    { en: 'I just emailed you the updated schedule for next week.', ko: '다음 주 수정된 일정 방금 메일로 보냈어.', domain: '회사' },
-    { en: 'I just dropped my bags at the hotel and headed out.', ko: '방금 호텔에 짐만 두고 나왔어.', domain: '여행' },
+    { en: 'I just wanted to enjoy the quiet before the day got loud.', ko: '그냥 하루가 시끄러워지기 전에 그 고요함을 즐기고 싶었어.', domain: '생활' },
+    { en: 'I just wanted to confirm the schedule before I send it out.', ko: '보내기 전에 그냥 일정만 확인하고 싶었어요.', domain: '회사' },
+    { en: 'I just wanted to drop my bags before exploring the city.', ko: '도시 구경하기 전에 그냥 짐만 내려놓고 싶었어.', domain: '여행' },
     { en: "I just wanted to check in and see how you're doing.", ko: '그냥 잘 지내는지 안부 물어보고 싶었어.', domain: '인간관계' },
-    { en: 'I just noticed a big scratch on the rental car.', ko: '렌터카에 큰 스크래치 난 거 방금 봤어.', domain: '돌발' },
+    { en: 'I just wanted to grab a coffee, but the line was huge.', ko: '그냥 커피 한 잔 사려던 거였는데 줄이 엄청 길었어.', domain: '돌발' },
   ],
 
   // ── Story 4 · 계획과 준비 ──────────────────────────────────────────────
@@ -323,11 +323,11 @@ export const patternExamples: Record<string, PracticeExample[]> = {
     { en: 'Make sure you keep a spare key with a neighbor.', ko: '이웃한테 여분 열쇠 하나 꼭 맡겨둬.', domain: '돌발' },
   ],
   'pt9-2': [
-    { en: 'Do you prefer the beach or the old town?', ko: '너는 해변이 좋아, 아니면 구시가지가 좋아?', domain: '여행' },
-    { en: 'Do you have a minute to look over my slides?', ko: '내 슬라이드 잠깐 봐줄 시간 있어?', domain: '회사' },
-    { en: 'Do you have any cash, or should we find an ATM?', ko: '현금 있어, 아니면 인출기 찾아야 돼?', domain: '생활' },
-    { en: 'Do you want to grab dinner after work tomorrow?', ko: '내일 퇴근하고 저녁 같이 먹을래?', domain: '인간관계' },
-    { en: 'Do you know if the pharmacy is still open this late?', ko: '이 시간에 약국이 아직 여는지 알아?', domain: '돌발' },
+    { en: 'How do you want to spend the first day?', ko: '첫날 어떻게 보내고 싶어?', domain: '여행' },
+    { en: 'How do you want me to format the report?', ko: '보고서 형식 어떻게 해드릴까요?', domain: '회사' },
+    { en: 'How do you get this stain out of a shirt?', ko: '셔츠에 묻은 이 얼룩 어떻게 빼?', domain: '생활' },
+    { en: 'How do you two know each other, by the way?', ko: '근데 너희 둘은 어떻게 아는 사이야?', domain: '인간관계' },
+    { en: "How do you say 'pharmacy' in the local language?", ko: "현지 말로 '약국'을 어떻게 말해?", domain: '돌발' },
   ],
   'pt9-3': [
     { en: 'Have you ever tried fresh oysters?', ko: '신선한 굴 먹어본 적 있어?', domain: '여행' },
@@ -730,11 +730,11 @@ export const patternExamples: Record<string, PracticeExample[]> = {
     { en: "Let's grab a cab — we're going to be late.", ko: '택시 잡자, 우리 늦겠어.', domain: '돌발' },
   ],
   'pt20-2': [
-    { en: "I'll text you the address tonight.", ko: '오늘 밤에 주소 문자할게.', domain: '인간관계' },
-    { en: "I'll text you the meeting link in a minute.", ko: '잠시 후에 회의 링크 문자로 보낼게요.', domain: '회사' },
-    { en: "I'll text you the gate number once I'm through security.", ko: '보안 검색 통과하면 게이트 번호 문자할게.', domain: '여행' },
-    { en: "I'll text you the grocery list before you leave.", ko: '너 나가기 전에 장볼 목록 문자할게.', domain: '생활' },
-    { en: "I'll text you if the plan changes last minute.", ko: '막판에 계획 바뀌면 문자할게.', domain: '돌발' },
+    { en: "I'll let you know the address tonight.", ko: '오늘 밤에 주소 알려줄게.', domain: '인간관계' },
+    { en: "I'll let you know as soon as the client replies.", ko: '고객이 답장하는 대로 바로 알려드릴게요.', domain: '회사' },
+    { en: "I'll let you know our gate number once we're through security.", ko: '보안 검색 통과하면 게이트 번호 알려줄게.', domain: '여행' },
+    { en: "I'll let you know if the package arrives today.", ko: '오늘 택배 오면 알려줄게.', domain: '생활' },
+    { en: "I'll let you know the second the plan changes.", ko: '계획 바뀌는 순간 바로 알려줄게.', domain: '돌발' },
   ],
   'pt20-3': [
     { en: 'Saturday works for me if it works for you.', ko: '너만 괜찮으면 토요일 나는 좋아.', domain: '인간관계' },
@@ -751,10 +751,10 @@ export const patternExamples: Record<string, PracticeExample[]> = {
     { en: "Don't worry about the car — I called a mechanic.", ko: '차는 신경 쓰지 마, 정비사 불렀어.', domain: '돌발' },
   ],
   'pt20-5': [
-    { en: "I'll catch you later this week, then.", ko: '그럼 이번 주 중에 또 보자.', domain: '인간관계' },
-    { en: "I'll catch you after the meeting.", ko: '회의 끝나고 봐요.', domain: '회사' },
-    { en: "I'll catch you at the gate in ten.", ko: '10분 뒤에 게이트에서 봐.', domain: '여행' },
-    { en: "I'll catch you when I'm back from groceries.", ko: '장 보고 와서 봐.', domain: '생활' },
+    { en: "I'll catch you later, then.", ko: '그럼 나중에 또 보자.', domain: '인간관계' },
+    { en: "I'm heading into a meeting — I'll catch you later.", ko: '회의 들어가야 해서, 이따 봐요.', domain: '회사' },
+    { en: "Our gates are different, so I'll catch you later.", ko: '게이트가 달라서, 이따 또 봐.', domain: '여행' },
+    { en: "I'll catch you later, I've got to start dinner.", ko: '저녁 차려야 해서 이따 봐.', domain: '생활' },
     { en: "Gotta run — I'll catch you later!", ko: '가봐야 해, 이따 봐!', domain: '돌발' },
   ],
 }

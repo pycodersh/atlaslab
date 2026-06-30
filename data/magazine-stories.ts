@@ -52,7 +52,7 @@ export const magazineStories: MagazineStory[] = [
       'I want to start something new',
       "I'm thinking about keeping a short journal",
       'I should write down one good thing',
-      'The reason is simple',
+      "That's because I forget the small moments",
       'It turns out it only took five minutes',
     ],
     paragraphs: [
@@ -76,9 +76,9 @@ export const magazineStories: MagazineStory[] = [
       },
       {
         id: 'p1-4',
-        english: "The reason is simple: I forget the small moments too quickly. A busy week erases them. I want to hold on to a few.",
-        koreanTranslation: '이유는 간단하다: 나는 작은 순간들을 너무 빨리 잊어버린다. 바쁜 한 주가 그것들을 지워버린다. 몇 개라도 붙잡고 싶다.',
-        keyExpressions: ['The reason is ~', 'hold on to'],
+        english: "That's because I forget the small moments too quickly. A busy week erases them, so I want to hold on to a few.",
+        koreanTranslation: '그건 내가 작은 순간들을 너무 빨리 잊어버리기 때문이다. 바쁜 한 주가 그것들을 지워버려서, 몇 개라도 붙잡고 싶다.',
+        keyExpressions: ["That's because ~", 'hold on to'],
       },
       {
         id: 'p1-5',
@@ -91,7 +91,7 @@ export const magazineStories: MagazineStory[] = [
       { id: 'pt1-1', pattern: 'I want to ~.', meaningKo: '~하고 싶어', storySentence: 'I want to start something new this time.', storySentenceKo: '이번엔 새로운 걸 시작하고 싶다.', variationSentence: 'I want to read more books this year.', variationSentenceKo: '올해는 책을 더 많이 읽고 싶다.' },
       { id: 'pt1-2', pattern: "I'm thinking about ~ing.", meaningKo: '~을 생각 중이야', storySentence: "I'm thinking about keeping a short journal every night.", storySentenceKo: '매일 밤 짧은 일기를 쓰는 걸 생각 중이다.', variationSentence: "I'm thinking about taking a cooking class.", variationSentenceKo: '요리 수업을 들을까 생각 중이다.' },
       { id: 'pt1-3', pattern: 'I should ~.', meaningKo: '~해야 할 것 같아', storySentence: 'I should write down one good thing too.', storySentenceKo: '좋은 일 하나도 적어야 할 것 같다.', variationSentence: 'I should go to bed earlier tonight.', variationSentenceKo: '오늘 밤은 더 일찍 자야 할 것 같다.' },
-      { id: 'pt1-4', pattern: 'The reason is ~.', meaningKo: '이유는 ~ 때문이야', storySentence: 'The reason is simple: I forget the small moments too quickly.', storySentenceKo: '이유는 간단하다: 작은 순간들을 너무 빨리 잊어버린다.', variationSentence: 'The reason is I want to feel less stressed.', variationSentenceKo: '이유는 덜 스트레스 받고 싶어서다.' },
+      { id: 'pt1-4', pattern: "That's because ~.", meaningKo: '그건 ~ 때문이야', storySentence: "That's because I forget the small moments too quickly.", storySentenceKo: '그건 내가 작은 순간들을 너무 빨리 잊어버리기 때문이야.', variationSentence: "That's because I want to feel less stressed.", variationSentenceKo: '그건 내가 스트레스를 덜 받고 싶어서야.' },
       { id: 'pt1-5', pattern: 'It turns out ~.', meaningKo: '알고 보니 ~이더라', storySentence: 'It turns out it only took five minutes.', storySentenceKo: '알고 보니 5분밖에 안 걸렸다.', variationSentence: 'It turns out the hard part was just starting.', variationSentenceKo: '알고 보니 어려운 건 그냥 시작하는 거였다.' },
     ],
   },
@@ -187,7 +187,7 @@ export const magazineStories: MagazineStory[] = [
       "I don't drink coffee",
       'Let me help you look',
       'Thank you for helping me',
-      'I just grabbed my bag',
+      'I just wanted to enjoy the quiet',
     ],
     paragraphs: [
       {
@@ -216,9 +216,9 @@ export const magazineStories: MagazineStory[] = [
       },
       {
         id: 'p3-5',
-        english: "I just grabbed my bag and headed for the door. The morning was simple, but nice. Sometimes ordinary days are the best ones.",
-        koreanTranslation: '나는 그냥 가방을 들고 문으로 향했다. 아침은 단순했지만 좋았다. 가끔은 평범한 날이 가장 좋은 날이다.',
-        keyExpressions: ['I just ~', 'ordinary days'],
+        english: "I just wanted to enjoy the quiet before the day got loud. The morning was simple, but nice. Sometimes ordinary days are the best ones.",
+        koreanTranslation: '나는 그냥 하루가 시끄러워지기 전에 그 고요함을 즐기고 싶었다. 아침은 단순했지만 좋았다. 가끔은 평범한 날이 가장 좋은 날이다.',
+        keyExpressions: ['I just wanted to ~', 'ordinary days'],
       },
     ],
     patterns: [
@@ -226,7 +226,7 @@ export const magazineStories: MagazineStory[] = [
       { id: 'pt3-2', pattern: "I don't ~.", meaningKo: '~하지 않아', storySentence: "I don't drink coffee in the morning.", storySentenceKo: '나는 아침에 커피를 마시지 않는다.', variationSentence: "I don't watch TV on weekdays.", variationSentenceKo: '나는 평일에는 TV를 보지 않는다.' },
       { id: 'pt3-3', pattern: 'Let me ~.', meaningKo: '내가 ~할게', storySentence: 'Let me help you look.', storySentenceKo: '내가 같이 찾아줄게.', variationSentence: 'Let me carry that for you.', variationSentenceKo: '그거 내가 들어줄게.' },
       { id: 'pt3-4', pattern: 'Thank you for ~ing.', meaningKo: '~해줘서 고마워', storySentence: 'Thank you for helping me.', storySentenceKo: '도와줘서 고마워.', variationSentence: 'Thank you for waiting for me.', variationSentenceKo: '기다려줘서 고마워.' },
-      { id: 'pt3-5', pattern: 'I just ~.', meaningKo: '방금 ~ / 그냥 ~', storySentence: 'I just grabbed my bag and headed for the door.', storySentenceKo: '나는 그냥 가방을 들고 문으로 향했다.', variationSentence: 'I just finished my homework.', variationSentenceKo: '방금 숙제를 끝냈다.' },
+      { id: 'pt3-5', pattern: 'I just wanted to ~.', meaningKo: '그냥 ~하고 싶었어', storySentence: 'I just wanted to enjoy the quiet before the day got loud.', storySentenceKo: '그냥 하루가 시끄러워지기 전에 그 고요함을 즐기고 싶었어.', variationSentence: 'I just wanted to say thank you.', variationSentenceKo: '그냥 고맙다고 말하고 싶었어.' },
     ],
   },
 
@@ -583,7 +583,7 @@ export const magazineStories: MagazineStory[] = [
     storyNote: '좋은 여행은 질문에서 시작돼요.',
     highlightPhrases: [
       'Make sure you bring your passport',
-      'Do you prefer the beach or the old town?',
+      'How do you want to spend the first day?',
       'Have you ever tried fresh oysters?',
       'Do you know a good place to stay there?',
       'What if we leave on Friday night instead?',
@@ -597,9 +597,9 @@ export const magazineStories: MagazineStory[] = [
       },
       {
         id: 'p9-2',
-        english: "\"Do you prefer the beach or the old town?\" she asked. I said both, if we have time. We both love to explore.",
-        koreanTranslation: '"너는 해변이 좋아, 아니면 구시가지가 좋아?"라고 그녀가 물었다. 시간이 되면 둘 다 좋다고 말했다. 우리 둘 다 탐험하는 걸 좋아한다.',
-        keyExpressions: ['Do you ~?', 'love to explore'],
+        english: "\"How do you want to spend the first day?\" she asked. I said let's just explore, if we have time. We both love to explore.",
+        koreanTranslation: '"첫날 어떻게 보내고 싶어?"라고 그녀가 물었다. 시간이 되면 그냥 돌아다니자고 말했다. 우리 둘 다 탐험하는 걸 좋아한다.',
+        keyExpressions: ['How do you ~?', 'love to explore'],
       },
       {
         id: 'p9-3',
@@ -622,7 +622,7 @@ export const magazineStories: MagazineStory[] = [
     ],
     patterns: [
       { id: 'pt9-1', pattern: 'Make sure ~.', meaningKo: '꼭 ~해', storySentence: 'Make sure you bring your passport.', storySentenceKo: '여권 꼭 챙겨.', variationSentence: 'Make sure you lock the door.', variationSentenceKo: '문 꼭 잠가.' },
-      { id: 'pt9-2', pattern: 'Do you ~?', meaningKo: '~해?', storySentence: 'Do you prefer the beach or the old town?', storySentenceKo: '너는 해변이 좋아, 아니면 구시가지가 좋아?', variationSentence: 'Do you like spicy food?', variationSentenceKo: '매운 음식 좋아해?' },
+      { id: 'pt9-2', pattern: 'How do you ~?', meaningKo: '어떻게 ~해?', storySentence: 'How do you want to spend the first day?', storySentenceKo: '첫날 어떻게 보내고 싶어?', variationSentence: 'How do you say this in Spanish?', variationSentenceKo: '이거 스페인어로 어떻게 말해?' },
       { id: 'pt9-3', pattern: 'Have you ever ~?', meaningKo: '~해본 적 있어?', storySentence: 'Have you ever tried fresh oysters?', storySentenceKo: '신선한 굴 먹어본 적 있어?', variationSentence: 'Have you ever been to Japan?', variationSentenceKo: '일본에 가본 적 있어?' },
       { id: 'pt9-4', pattern: 'Do you know ~?', meaningKo: '~알아?', storySentence: 'Do you know a good place to stay there?', storySentenceKo: '거기 묵을 만한 좋은 곳 알아?', variationSentence: 'Do you know what time it is?', variationSentenceKo: '지금 몇 시인지 알아?' },
       { id: 'pt9-5', pattern: 'What if ~?', meaningKo: '~하면 어떨까?', storySentence: 'What if we leave on Friday night instead?', storySentenceKo: '차라리 금요일 밤에 떠나면 어떨까?', variationSentence: 'What if it rains tomorrow?', variationSentenceKo: '내일 비가 오면 어떡하지?' },
@@ -1092,24 +1092,24 @@ export const magazineStories: MagazineStory[] = [
     storyNote: '좋은 작별엔 언제나 "다음에"가 있어요.',
     highlightPhrases: [
       'Let’s grab lunch before you leave town',
-      "I'll text you the address tonight",
+      "I'll let you know the address tonight",
       'Saturday works for me',
       "Don't worry about being late",
-      "I'll catch you later this week",
+      "I'll catch you later",
     ],
     paragraphs: [
       { id: 'p20-1', english: 'As the evening wound down, we started making the next plan. "Let\'s grab lunch before you leave town," I said. Goodbyes are easier with something to look forward to.', koreanTranslation: '저녁이 저물어 갈 무렵, 우린 다음 약속을 잡기 시작했다. "떠나기 전에 점심 한번 하자"라고 말했다. 기대할 게 있으면 작별이 한결 쉬워진다.', keyExpressions: ["Let's grab ~", 'wound down'] },
-      { id: 'p20-2', english: 'She wasn\'t sure where the new place was. "I\'ll text you the address tonight," I promised. My phone was already half-dead, so I made a note.', koreanTranslation: '그녀는 새로 생긴 데가 어딘지 몰랐다. "오늘 밤에 주소 문자할게"라고 약속했다. 폰이 이미 반쯤 방전돼서 메모를 해뒀다.', keyExpressions: ["I'll text you ~", 'made a note'] },
+      { id: 'p20-2', english: 'She wasn\'t sure where the new place was. "I\'ll let you know the address tonight," I promised. My phone was already half-dead, so I made a note.', koreanTranslation: '그녀는 새로 생긴 데가 어딘지 몰랐다. "오늘 밤에 주소 알려줄게"라고 약속했다. 폰이 이미 반쯤 방전돼서 메모를 해뒀다.', keyExpressions: ["I'll let you know ~", 'made a note'] },
       { id: 'p20-3', english: 'We tried to find a day that suited us both. "Saturday works for me if it works for you," I said. She pulled up her calendar and smiled.', koreanTranslation: '우리는 둘 다 맞는 날을 찾으려 했다. "너만 괜찮으면 토요일 나는 좋아"라고 말했다. 그녀는 캘린더를 열어보고는 미소 지었다.', keyExpressions: ['~ works for me', 'suited us both'] },
       { id: 'p20-4', english: 'She worried she might run a little late on the day. "Don\'t worry about being late — I\'ll wait," I told her. Good company is worth a few extra minutes.', koreanTranslation: '그녀는 그날 조금 늦을까 봐 걱정했다. "늦는 거 신경 쓰지 마, 기다릴게"라고 말해줬다. 좋은 사람과의 시간은 몇 분 더 기다릴 가치가 있다.', keyExpressions: ["Don't worry about ~", 'worth it'] },
-      { id: 'p20-5', english: 'We hugged at the corner where our streets split. "I\'ll catch you later this week, then," I said. The best goodbyes already have a next time.', koreanTranslation: '우리는 각자의 길이 갈라지는 모퉁이에서 포옹했다. "그럼 이번 주 중에 또 보자"라고 말했다. 가장 좋은 작별엔 이미 다음이 있다.', keyExpressions: ["I'll catch you ~", 'next time'] },
+      { id: 'p20-5', english: 'We hugged at the corner where our streets split. "I\'ll catch you later, then," I said. The best goodbyes already have a next time.', koreanTranslation: '우리는 각자의 길이 갈라지는 모퉁이에서 포옹했다. "그럼 나중에 또 보자"라고 말했다. 가장 좋은 작별엔 이미 다음이 있다.', keyExpressions: ["I'll catch you later", 'next time'] },
     ],
     patterns: [
       { id: 'pt20-1', pattern: "Let's grab ~.", meaningKo: '~ 하자 / 가볍게 ~하자', storySentence: "Let's grab lunch before you leave town.", storySentenceKo: '떠나기 전에 점심 한번 하자.', variationSentence: "Let's grab a coffee sometime soon.", variationSentenceKo: '조만간 커피 한잔하자.' },
-      { id: 'pt20-2', pattern: "I'll text you ~.", meaningKo: '~ 문자할게', storySentence: "I'll text you the address tonight.", storySentenceKo: '오늘 밤에 주소 문자할게.', variationSentence: "I'll text you when I'm on my way.", variationSentenceKo: '출발할 때 문자할게.' },
+      { id: 'pt20-2', pattern: "I'll let you know ~.", meaningKo: '~ 알려줄게', storySentence: "I'll let you know the address tonight.", storySentenceKo: '오늘 밤에 주소 알려줄게.', variationSentence: "I'll let you know when I'm on my way.", variationSentenceKo: '출발할 때 알려줄게.' },
       { id: 'pt20-3', pattern: '~ works for me.', meaningKo: '~ 나는 괜찮아 / 좋아', storySentence: 'Saturday works for me if it works for you.', storySentenceKo: '너만 괜찮으면 토요일 나는 좋아.', variationSentence: 'Any time after six works for me.', variationSentenceKo: '6시 이후면 나는 아무 때나 괜찮아.' },
       { id: 'pt20-4', pattern: "Don't worry about ~.", meaningKo: '~는 신경 쓰지 마', storySentence: "Don't worry about being late — I'll wait.", storySentenceKo: '늦는 거 신경 쓰지 마, 기다릴게.', variationSentence: "Don't worry about the bill, I've got it.", variationSentenceKo: '계산은 신경 쓰지 마, 내가 낼게.' },
-      { id: 'pt20-5', pattern: "I'll catch you ~.", meaningKo: '이따 / 나중에 ~ 봐', storySentence: "I'll catch you later this week, then.", storySentenceKo: '그럼 이번 주 중에 또 보자.', variationSentence: "I'll catch you after the weekend.", variationSentenceKo: '주말 지나고 보자.' },
+      { id: 'pt20-5', pattern: "I'll catch you later.", meaningKo: '나중에 봐 / 이따 봐', storySentence: "I'll catch you later, then.", storySentenceKo: '그럼 나중에 또 보자.', variationSentence: "I'll catch you later — take care!", variationSentenceKo: '이따 봐, 잘 가!' },
     ],
   },
 ]

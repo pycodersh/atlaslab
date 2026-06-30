@@ -1,5 +1,16 @@
 # PATTO Content Style Guide (v2 · Gold Standard)
 
+> **Gold Standard 100 — Version 1.0 확정 (2026-06-30)**
+> 최종 미세 검수 반영: 실제 회화 사용 빈도를 높이기 위해 5개 Pattern을 조정했다.
+> - P4 `The reason is ~` → `That's because ~` (구어에서 더 자연스러운 인과 표현)
+> - P15 `I just ~` → `I just wanted to ~` (범위가 넓던 표현을 고빈도 회화 청크로 초점화)
+> - P42 `Do you ~?` → `How do you ~?` (학습 가치가 더 높은 핵심 의문 패턴)
+> - P97 `I'll text you ~` → `I'll let you know ~` (회사·일상·여행 전반에 더 범용적)
+> - P100 `I'll catch you ~` → `I'll catch you later.` (고정 Conversation Chunk화)
+>
+> 이후 200 / 500 / 1000 / 4000 확장은 모두 이 v1.0 100개를 기준으로 한다.
+
+
 > 이 문서는 PATTO의 **콘텐츠 품질 기준(Standard)** 이다.
 > 앞으로 제작되는 모든 Pattern · Example · Story · 이미지 · 음성은 이 가이드를 따른다.
 >
