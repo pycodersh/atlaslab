@@ -93,7 +93,7 @@ export function StoryPage({
               aria-label="스토리 선택"
               className="flex items-center shrink-0 ml-3 group cursor-pointer"
             >
-              <span className="text-[9px] tracking-[0.2em] font-semibold text-[var(--pa)] group-hover:opacity-70 transition-opacity">
+              <span className="text-[11px] tracking-[0.2em] font-semibold uppercase text-[var(--pa)] group-hover:opacity-70 transition-opacity">
                 Story {String(story.id).padStart(2, '0')}
               </span>
             </button>

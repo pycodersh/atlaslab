@@ -88,7 +88,7 @@ export function StoryImageSlider({
   if (!images.length) return null
 
   return (
-    <div className="relative w-full h-48 rounded-xl overflow-hidden mb-7 shadow-sm">
+    <div className="relative w-full rounded-xl overflow-hidden mb-7 shadow-sm" style={{ height: '13.8rem' }}>
 
       {/* 이미지 레이어 */}
       {images.map((img, i) => {
