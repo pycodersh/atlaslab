@@ -2,16 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { BookOpen } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
-import {
-  getDueCount,
-  getAllRecords,
-  getStudiedTodayStoryCount,
-  getPracticedTodayCount,
-  getReviewedTodayCount,
-} from '@/lib/srs/storage'
+import { getDueCount, getAllRecords } from '@/lib/srs/storage'
 import { magazineStories } from '@/data/magazine-stories'
+import { EDITOR_NOTES } from '@/data/editor-notes'
+import { getNextUnreadId } from '@/lib/editor/storage'
+import { useT } from '@/hooks/useT'
 
 // ── Ken Burns keyframe (injected once) ───────────────────────────────────────
 let kbInjected = false
@@ -21,15 +17,13 @@ function injectKenBurns() {
   const s = document.createElement('style')
   s.textContent = `
     @keyframes kenBurns {
-      from { transform: scale(1)     translateZ(0); }
-      to   { transform: scale(1.07)  translateZ(0); }
-    }
-    @keyframes homeFadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+      from { transform: scale(1)    translateZ(0); }
+      to   { transform: scale(1.07) translateZ(0); }
     }
     .kb-img { animation: kenBurns 26s ease-out forwards; will-change: transform; }
-    .hm-btn-press:active { transform: scale(0.97); }
+    .hm-link { transition: opacity 0.18s ease; cursor: pointer; }
+    .hm-link:hover { opacity: 0.65; }
+    .hm-link:active { opacity: 0.45; }
   `
   document.head.appendChild(s)
 }
@@ -130,66 +124,23 @@ function getIssueDateLabel(): string {
     .toUpperCase()
 }
 
-// ── Circular Goal Badge ───────────────────────────────────────────────────────
-function GoalCircle({ done, total }: { done: number; total: number }) {
-  const SIZE = 76
-  const r    = 30
-  const circ = 2 * Math.PI * r
-  const pct  = total > 0 ? Math.min(done / total, 1) : 0
-  const offset = circ * (1 - pct)
-
-  return (
-    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:5 }}>
-      <p style={{
-        fontSize: 7, fontWeight: 700, letterSpacing: '0.20em',
-        color: 'rgba(255,255,255,0.40)', margin: 0, textTransform: 'uppercase',
-      }}>
-        Daily Goal
-      </p>
-      <div style={{ position:'relative', width:SIZE, height:SIZE }}>
-        <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`}
-          style={{ transform:'rotate(-90deg)' }}>
-          <circle cx={SIZE/2} cy={SIZE/2} r={r}
-            fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={2.5} />
-          <circle cx={SIZE/2} cy={SIZE/2} r={r}
-            fill="none" stroke="rgba(255,255,255,0.82)" strokeWidth={2.5}
-            strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round"
-            style={{ transition:'stroke-dashoffset 1.2s ease-out' }} />
-        </svg>
-        <div style={{
-          position:'absolute', inset:0,
-          display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
-          gap:1,
-        }}>
-          <span className="font-playfair" style={{ fontSize:22, fontWeight:800, color:'#fff', lineHeight:1 }}>
-            {done}
-          </span>
-          <span style={{ fontSize:9, color:'rgba(255,255,255,0.45)', lineHeight:1 }}>/ {total}</span>
-        </div>
-      </div>
-      <p style={{ fontSize:7, color:'rgba(255,255,255,0.28)', margin:0, letterSpacing:'0.10em' }}>
-        tasks
-      </p>
-    </div>
-  )
-}
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const router = useRouter()
+  const t = useT()
 
   const [{ imageUrl, quote }] = useState(() => pickCover())
   const issueDateLabel = getIssueDateLabel()
 
   const [firstHref, setFirstHref] = useState('/stories/1')
-  const [goalDone,  setGoalDone]  = useState(0)
-  const [goalTotal, setGoalTotal] = useState(2)
+  const [editorNote, setEditorNote] = useState<{ id: number; title: string; readTimeSec: number } | null>(null)
 
-  const [phase, setPhase] = useState(0)   // 0→1→2→3 cascade
+  const [phase, setPhase] = useState(0)
 
   useEffect(() => {
     injectKenBurns()
 
+    // Next story to read
     const due = getDueCount()
     const learnedStoryIds = new Set(
       getAllRecords().filter(r => r.itemType === 'story').map(r => r.itemId),
@@ -197,17 +148,12 @@ export default function HomePage() {
     const nextStory = magazineStories.find(s => !learnedStoryIds.has(String(s.id))) ?? magazineStories[0]
     setFirstHref(due > 0 ? '/review' : `/stories/${nextStory.id}`)
 
-    const storyDone   = getStudiedTodayStoryCount()
-    const patternDone = getPracticedTodayCount()
-    const reviewDone  = getReviewedTodayCount()
-    const total = due > 0 ? 3 : 2
-    let done = 0
-    if (storyDone >= 1)   done++
-    if (patternDone >= 5) done++
-    if (due > 0 && reviewDone >= due) done++
-    setGoalDone(done)
-    setGoalTotal(total)
+    // Next unread editor's note
+    const nextId = getNextUnreadId(30)
+    const note = EDITOR_NOTES.find(n => n.id === nextId) ?? EDITOR_NOTES[0]
+    if (note) setEditorNote({ id: note.id, title: note.title, readTimeSec: note.readTimeSec })
 
+    // Phase cascade for entrance animation
     const timers = [
       setTimeout(() => setPhase(1), 80),
       setTimeout(() => setPhase(2), 500),
@@ -221,6 +167,10 @@ export default function HomePage() {
     transform: phase >= minPhase ? 'translateY(0)' : 'translateY(14px)',
     transition: 'opacity 0.75s cubic-bezier(.4,0,.2,1), transform 0.75s cubic-bezier(.4,0,.2,1)',
   })
+
+  const editorReadLabel = editorNote
+    ? t('editor_note_read', { n: editorNote.readTimeSec })
+    : ''
 
   return (
     <div style={{ minHeight:'100dvh', background:'#0e0e0e' }}>
@@ -254,21 +204,20 @@ export default function HomePage() {
           }}
         />
 
-        {/* 최소 균일 오버레이 — 그라디언트 없음 */}
-        <div style={{ position:'absolute', inset:0, background:'rgba(0,0,0,0.14)', pointerEvents:'none' }} />
+        {/* Minimal dark overlay */}
+        <div style={{ position:'absolute', inset:0, background:'rgba(0,0,0,0.16)', pointerEvents:'none' }} />
 
-        {/* ── 상단: PATTO + 슬로건 + 날짜 — editorial stack ───────────── */}
+        {/* ── 상단: PATTO + 슬로건 + 날짜 ───────────────────────────────── */}
         <div style={{
           position: 'absolute',
-          top: 22,
+          top: 18,
           left: 18,
           right: 18,
           ...fadeUp(1),
         }}>
-          {/* PATTO — 크게, 위로 */}
           <p className="font-playfair" style={{
             margin: 0,
-            fontSize: 'clamp(4rem, 17.5vw, 6.2rem)',
+            fontSize: 'clamp(4.7rem, 20vw, 7.2rem)',
             fontWeight: 900,
             letterSpacing: '-0.025em',
             lineHeight: 0.88,
@@ -278,35 +227,33 @@ export default function HomePage() {
             PATTO
           </p>
 
-          {/* 슬로건 */}
           <p style={{
             margin: '10px 0 0',
             fontSize: 8,
             fontWeight: 600,
             letterSpacing: '0.22em',
-            color: 'rgba(255,255,255,0.46)',
+            color: 'rgba(255,255,255,0.44)',
             textShadow: '0 1px 6px rgba(0,0,0,0.4)',
           }}>
             PATTERNS. STORIES. YOU.
           </p>
 
-          {/* 날짜 */}
           <p style={{
             margin: '5px 0 0',
             fontSize: 7.5,
             fontWeight: 400,
             letterSpacing: '0.14em',
-            color: 'rgba(255,255,255,0.30)',
+            color: 'rgba(255,255,255,0.28)',
             textShadow: '0 1px 6px rgba(0,0,0,0.4)',
           }}>
             {issueDateLabel}
           </p>
         </div>
 
-        {/* ── Quote — 화면 절반 폭, 하단 패널 위 ──────────────────────── */}
+        {/* ── Quote ─────────────────────────────────────────────────────── */}
         <div style={{
           position: 'absolute',
-          bottom: 'calc(38% + 20px)',
+          bottom: 'calc(30% + 24px)',
           left: 18,
           width: '52%',
           ...fadeUp(2),
@@ -328,7 +275,7 @@ export default function HomePage() {
             margin: '10px 0 0',
             fontSize: 10,
             lineHeight: 1.65,
-            color: 'rgba(255,255,255,0.46)',
+            color: 'rgba(255,255,255,0.44)',
             textShadow: '0 1px 8px rgba(0,0,0,0.4)',
             whiteSpace: 'pre-line',
             letterSpacing: '0.01em',
@@ -337,102 +284,83 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* ── 하단 패널 ────────────────────────────────────────────────── */}
+        {/* ── 하단 — Magazine Link Typography ──────────────────────────── */}
         <div style={{
           position: 'absolute',
           bottom: 0, left: 0, right: 0,
-          background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.65) 35%, rgba(0,0,0,0.78))',
-          padding: '52px 18px 26px',
+          background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.62) 30%, rgba(0,0,0,0.76))',
+          padding: '60px 20px 32px',
           ...fadeUp(3),
         }}>
-          <div style={{ display:'flex', alignItems:'center', gap:16 }}>
 
-            {/* 좌: 버튼 컬럼 */}
-            <div style={{ display:'flex', flexDirection:'column', gap:12, flex:'0 0 auto', minWidth:0 }}>
-
-              {/* Continue Learning — Premium dark glass */}
-              <button
-                type="button"
-                onClick={() => router.push(firstHref)}
-                className="hm-btn-press"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 28,
-                  padding: '10px 22px',
-                  background: 'rgba(20,20,20,0.58)',
-                  backdropFilter: 'blur(14px)',
-                  WebkitBackdropFilter: 'blur(14px)',
-                  border: '1px solid rgba(255,255,255,0.17)',
-                  borderRadius: 10,
-                  cursor: 'pointer',
-                  transition: 'background 0.20s ease, transform 0.15s ease',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.18)',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(35,35,35,0.72)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(20,20,20,0.58)' }}
-              >
-                <span style={{ fontSize:13, fontWeight:600, letterSpacing:'0.04em', color:'rgba(255,255,255,0.92)' }}>
-                  Continue Learning
-                </span>
-                <span style={{ fontSize:13, color:'rgba(255,255,255,0.42)', fontWeight:300 }}>&gt;</span>
-              </button>
-
-              {/* Editor's Note — secondary mini editorial card */}
-              <button
-                type="button"
-                onClick={() => router.push('/editor')}
-                className="hm-btn-press"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  padding: '9px 14px 9px 12px',
-                  background: 'rgba(0,0,0,0.28)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255,255,255,0.10)',
-                  borderRadius: 10,
-                  cursor: 'pointer',
-                  transition: 'background 0.20s ease, transform 0.15s ease',
-                  textAlign: 'left',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(20,20,20,0.42)' }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.28)' }}
-              >
-                {/* 아이콘 */}
-                <BookOpen
-                  style={{ width:14, height:14, color:'rgba(255,255,255,0.45)', flexShrink:0 }}
-                  strokeWidth={1.8}
-                />
-
-                {/* 3-line content */}
-                <div>
-                  <p style={{ margin:0, fontSize:7.5, fontWeight:700, letterSpacing:'0.18em', color:'rgba(255,255,255,0.36)' }}>
-                    EDITOR'S NOTE
-                  </p>
-                  <p style={{ margin:'2px 0 0', fontSize:11.5, fontWeight:600, color:'rgba(255,255,255,0.82)' }}>
-                    Why PATTO is Different
-                  </p>
-                  <p style={{ margin:'1px 0 0', fontSize:9.5, color:'rgba(255,255,255,0.36)' }}>
-                    Read · 35 sec
-                  </p>
-                </div>
-
-                <span style={{ marginLeft:'auto', fontSize:12, color:'rgba(255,255,255,0.30)', fontWeight:300 }}>&gt;</span>
-              </button>
-
-            </div>
-
-            {/* 우: Daily Goal 원형 — 버튼 컬럼과 동일 높이 중앙 */}
-            <div style={{ marginLeft:'auto', flexShrink:0 }}>
-              <GoalCircle done={goalDone} total={goalTotal} />
-            </div>
-
+          {/* Continue Learning — primary magazine link */}
+          <div
+            role="button"
+            tabIndex={0}
+            className="hm-link"
+            onClick={() => router.push(firstHref)}
+            onKeyDown={e => e.key === 'Enter' && router.push(firstHref)}
+            style={{ display:'inline-block', marginBottom: 20 }}
+          >
+            <p style={{
+              margin: 0,
+              fontSize: 'clamp(1rem, 4.2vw, 1.2rem)',
+              fontWeight: 700,
+              letterSpacing: '0.01em',
+              color: 'rgba(255,255,255,0.95)',
+              lineHeight: 1.2,
+            }}>
+              {t('continue_learning')} →
+            </p>
+            {/* Magazine rule line */}
+            <div style={{
+              marginTop: 7,
+              height: 1,
+              width: '100%',
+              background: 'rgba(255,255,255,0.28)',
+            }} />
           </div>
+
+          {/* Editor's Note — secondary typography link */}
+          {editorNote && (
+            <div
+              role="button"
+              tabIndex={0}
+              className="hm-link"
+              onClick={() => router.push('/editor')}
+              onKeyDown={e => e.key === 'Enter' && router.push('/editor')}
+              style={{ display:'block' }}
+            >
+              <p style={{
+                margin: '0 0 3px',
+                fontSize: 8,
+                fontWeight: 700,
+                letterSpacing: '0.20em',
+                color: 'rgba(255,255,255,0.36)',
+                textTransform: 'uppercase',
+              }}>
+                {t('editor_note_label')}
+              </p>
+              <p style={{
+                margin: '0 0 2px',
+                fontSize: 13,
+                fontWeight: 600,
+                color: 'rgba(255,255,255,0.72)',
+                lineHeight: 1.3,
+              }}>
+                {editorNote.title}
+              </p>
+              <p style={{
+                margin: 0,
+                fontSize: 10.5,
+                color: 'rgba(255,255,255,0.38)',
+                letterSpacing: '0.02em',
+              }}>
+                {editorReadLabel} →
+              </p>
+            </div>
+          )}
+
         </div>
       </div>
     </div>
