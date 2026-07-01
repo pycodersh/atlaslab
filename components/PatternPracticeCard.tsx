@@ -43,7 +43,6 @@ export function PatternPracticeCard({
 
   // ── UI state ──────────────────────────────────────────────────────────────
   const [noteOpen, setNoteOpen] = useState(false)
-  const [moreOpen, setMoreOpen] = useState(false)
   const [doneMask, setDoneMask] = useState<boolean[]>([])
   const doneRef = useRef<Set<number>>(new Set())
 
@@ -51,14 +50,9 @@ export function PatternPracticeCard({
   useEffect(() => {
     doneRef.current = new Set()
     setDoneMask([])
-    setMoreOpen(false)
     setNoteOpen(false)
   }, [pattern.id])
 
-  // Auto-expand "More examples" when TTS reaches example 3 or 4
-  useEffect(() => {
-    if (currentIdx >= 3) setMoreOpen(true)
-  }, [currentIdx])
 
   useEffect(() => {
     setBookmarked(isBookmarked(pattern.id))
@@ -285,9 +279,6 @@ export function PatternPracticeCard({
           const following = isActive && phase === 'pause'
           const isDone = doneMask[i] === true
 
-          // Show first 3 always; show 4-5 only when expanded
-          if (i >= 3 && !moreOpen) return null
-
           return (
             <div
               key={i}
@@ -330,25 +321,6 @@ export function PatternPracticeCard({
           )
         })}
       </div>
-
-      {/* + More examples toggle */}
-      {examples.length > 3 && (
-        <button
-          type="button"
-          onClick={() => setMoreOpen(v => !v)}
-          className="mt-2 ml-9 cursor-pointer"
-          style={{ background: 'none', border: 'none', padding: 0 }}
-        >
-          <span style={{
-            fontSize: 10,
-            fontWeight: 600,
-            letterSpacing: '0.1em',
-            color: 'var(--pm)',
-          }}>
-            {moreOpen ? '− LESS' : `+ ${examples.length - 3} MORE`}
-          </span>
-        </button>
-      )}
 
       {/* 완료 피드백 */}
       {phase === 'done' && feedback && (
