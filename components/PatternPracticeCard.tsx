@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Volume2, Check, Bookmark } from 'lucide-react'
+import { Volume2, Check, Bookmark, ChevronDown } from 'lucide-react'
 
 import type { MagazinePattern } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -10,6 +10,7 @@ import { RATE_MAP, type VoiceKey } from '@/lib/settings/preferences'
 import { ttsProvider, getPitchForKey, patternExampleAudioUrl } from '@/lib/tts'
 import { recordPatternPractice } from '@/lib/srs/storage'
 import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
+import { PATTERN_NOTES } from '@/data/pattern-notes'
 
 type Props = {
   storyId: number
@@ -39,6 +40,25 @@ export function PatternPracticeCard({
   const [currentIdx, setCurrentIdx] = useState(-1)
   const [feedback, setFeedback] = useState<string | null>(null)
   const [bookmarked, setBookmarked] = useState(false)
+
+  // ── UI state ──────────────────────────────────────────────────────────────
+  const [noteOpen, setNoteOpen] = useState(false)
+  const [moreOpen, setMoreOpen] = useState(false)
+  const [doneMask, setDoneMask] = useState<boolean[]>([])
+  const doneRef = useRef<Set<number>>(new Set())
+
+  // Reset done indicators when the pattern changes
+  useEffect(() => {
+    doneRef.current = new Set()
+    setDoneMask([])
+    setMoreOpen(false)
+    setNoteOpen(false)
+  }, [pattern.id])
+
+  // Auto-expand "More examples" when TTS reaches example 3 or 4
+  useEffect(() => {
+    if (currentIdx >= 3) setMoreOpen(true)
+  }, [currentIdx])
 
   useEffect(() => {
     setBookmarked(isBookmarked(pattern.id))
@@ -104,6 +124,9 @@ export function PatternPracticeCard({
     const afterSpeak = () => {
       if (advanced || !runningRef.current) return
       advanced = true
+      // Mark example as done when the follow-along pause starts
+      doneRef.current.add(i)
+      setDoneMask(Array.from({ length: examples.length }, (_, j) => doneRef.current.has(j)))
       setPhase('pause')
       timerRef.current = setTimeout(() => {
         if (!runningRef.current) return
@@ -149,6 +172,9 @@ export function PatternPracticeCard({
 
   const isPlaying = phase === 'speaking' || phase === 'pause'
 
+  // Pattern Note from data file, or explanation field if present on the pattern
+  const patternNote = pattern.explanation ?? PATTERN_NOTES[pattern.id]
+
   return (
     <div className="py-3">
       {/* Pattern 헤더 */}
@@ -161,7 +187,7 @@ export function PatternPracticeCard({
           {showTranslation && <p className="text-[0.74rem] text-[var(--pa)] mt-0.5">{pattern.meaningKo}</p>}
         </div>
         <div className="shrink-0 flex items-center gap-1 mt-0.5">
-          {/* 북마크 — 패턴 제목 옆, Progress 패턴 라이브러리에 저장 */}
+          {/* 북마크 */}
           <button
             type="button"
             onClick={handleBookmark}
@@ -173,7 +199,7 @@ export function PatternPracticeCard({
           >
             <Bookmark className="w-[18px] h-[18px]" strokeWidth={1.8} fill={bookmarked ? 'currentColor' : 'none'} />
           </button>
-          {/* 스피커 아이콘 (배경 없음) */}
+          {/* 스피커 아이콘 */}
           <button
             type="button"
             onClick={handlePlay}
@@ -188,11 +214,58 @@ export function PatternPracticeCard({
         </div>
       </div>
 
-      {/* 예문 5개 (항상 표시) */}
+      {/* Pattern Note — collapsible */}
+      {patternNote && (
+        <div className="mt-2 ml-9">
+          <button
+            type="button"
+            onClick={() => setNoteOpen(v => !v)}
+            className="flex items-center gap-1 cursor-pointer"
+            style={{ background: 'none', border: 'none', padding: 0 }}
+          >
+            <span style={{
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: '0.1em',
+              color: 'var(--pa)',
+              opacity: 0.75,
+            }}>
+              PATTERN NOTE
+            </span>
+            <ChevronDown
+              className="w-3 h-3 transition-transform duration-200"
+              style={{
+                color: 'var(--pa)',
+                opacity: 0.75,
+                transform: noteOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              }}
+              strokeWidth={2}
+            />
+          </button>
+          {noteOpen && (
+            <p style={{
+              marginTop: 6,
+              fontSize: 12,
+              color: 'var(--pm)',
+              lineHeight: 1.75,
+              whiteSpace: 'pre-line',
+            }}>
+              {patternNote}
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* 예문 목록 */}
       <div className="mt-3 space-y-0.5">
         {examples.map((ex, i) => {
           const isActive = currentIdx === i
           const following = isActive && phase === 'pause'
+          const isDone = doneMask[i] === true
+
+          // Show first 3 always; show 4-5 only when expanded
+          if (i >= 3 && !moreOpen) return null
+
           return (
             <div
               key={i}
@@ -202,11 +275,22 @@ export function PatternPracticeCard({
               ].join(' ')}
             >
               <div className="flex gap-2.5 items-start">
-                <span className={[
-                  'shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold transition-colors mt-0.5',
-                  isActive ? 'bg-[var(--pa)] text-white' : 'bg-[var(--pc)] text-[var(--pa)]',
-                ].join(' ')}>
-                  {i + 1}
+                {/* Done indicator: ✓ → done, filled dot → active, open circle → pending */}
+                <span className="shrink-0 w-4 h-4 flex items-center justify-center mt-0.5">
+                  {isDone ? (
+                    <Check
+                      className="w-3.5 h-3.5"
+                      strokeWidth={2.5}
+                      style={{ color: 'var(--pa)' }}
+                    />
+                  ) : isActive ? (
+                    <span className="w-2 h-2 rounded-full bg-[var(--pa)]" />
+                  ) : (
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ border: '1.5px solid var(--pd)' }}
+                    />
+                  )}
                 </span>
                 <div className="flex-1 min-w-0">
                   <p className="text-[0.82rem] font-medium text-[var(--pt)] leading-snug">{ex.en}</p>
@@ -214,9 +298,8 @@ export function PatternPracticeCard({
                     <p className="text-[0.7rem] text-[var(--pm)] mt-0.5 leading-snug">{ex.ko}</p>
                   )}
                   {following && (
-                    <p className="mt-1 inline-flex items-center gap-1.5 text-[10px] font-bold text-[var(--pa)] animate-pulse">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--pa)]" />
-                      따라 읽어보세요
+                    <p className="mt-1 inline-flex items-center gap-1.5 text-[10px] font-bold tracking-[0.1em] text-[var(--pa)] animate-pulse">
+                      YOUR TURN
                     </p>
                   )}
                 </div>
@@ -225,6 +308,25 @@ export function PatternPracticeCard({
           )
         })}
       </div>
+
+      {/* + More examples toggle */}
+      {examples.length > 3 && (
+        <button
+          type="button"
+          onClick={() => setMoreOpen(v => !v)}
+          className="mt-2 ml-9 cursor-pointer"
+          style={{ background: 'none', border: 'none', padding: 0 }}
+        >
+          <span style={{
+            fontSize: 10,
+            fontWeight: 600,
+            letterSpacing: '0.1em',
+            color: 'var(--pm)',
+          }}>
+            {moreOpen ? '− LESS' : `+ ${examples.length - 3} MORE`}
+          </span>
+        </button>
+      )}
 
       {/* 완료 피드백 */}
       {phase === 'done' && feedback && (
