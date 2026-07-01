@@ -117,9 +117,10 @@ function StatCell({ value, label, border }: { value: React.ReactNode; label: str
       flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
       padding: '18px 4px', borderRight: border ? '1px solid var(--pd)' : 'none',
     }}>
-      <p className="font-playfair" style={{
-        fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', fontWeight: 900,
+      <p style={{
+        fontSize: 'clamp(1.4rem, 5.5vw, 1.75rem)', fontWeight: 700,
         lineHeight: 1, color: 'var(--pt)', margin: '0 0 6px',
+        fontVariantNumeric: 'tabular-nums',
       }}>
         {value}
       </p>
@@ -334,7 +335,7 @@ export default function ProgressPage() {
           {/* ── YOUR JOURNEY ──────────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
             <SectionLabel label="Your Journey" sub="꾸준함이 실력이 됩니다." />
-            <div style={{ display: 'flex', border: '1px solid var(--pd)', borderRadius: 3 }}>
+            <div style={{ display: 'flex', borderLeft: '1px solid var(--pd)', borderRight: '1px solid var(--pd)' }}>
               <StatCell value={v.learnedStories}           label="Stories"  border />
               <StatCell value={v.learnedPatterns}          label="Patterns" border />
               <StatCell value={v.totalRepeats}             label="Repeats"  border />
@@ -342,7 +343,7 @@ export default function ProgressPage() {
             </div>
             <div style={{ marginTop: 18 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
-                <div style={{ flex: 1, height: 1.5, background: 'var(--pd)', borderRadius: 2, overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: 3, background: 'var(--pd)', borderRadius: 2, overflow: 'hidden' }}>
                   <div style={{
                     height: '100%', width: `${Math.max(journeyPct, 0.5)}%`,
                     background: 'var(--pa)', borderRadius: 2, transition: 'width 1s ease-out',
