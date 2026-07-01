@@ -226,7 +226,7 @@ export default function ProgressPage() {
         </div>
 
         {/* ── TODAY'S MISSION ───────────────────────────────────────────── */}
-        <section style={{ marginBottom: 36 }}>
+        <section style={{ marginBottom: 72 }}>
           <SectionLabel
             label="Today's Mission"
             action={
@@ -242,7 +242,7 @@ export default function ProgressPage() {
         </section>
 
         {/* ── YOUR JOURNEY ──────────────────────────────────────────────── */}
-        <section style={{ marginBottom: 36 }}>
+        <section style={{ marginBottom: 72 }}>
           <SectionLabel label="Your Journey" />
           <div style={{ display: 'flex', border: '1px solid var(--pd)', borderRadius: 3 }}>
             <StatCell value={v.learnedStories}           label="Stories"  border />
@@ -270,7 +270,7 @@ export default function ProgressPage() {
         </section>
 
         {/* ── LEARNING CALENDAR ─────────────────────────────────────────── */}
-        <section style={{ marginBottom: 36 }}>
+        <section style={{ marginBottom: 72 }}>
           <SectionLabel label="Learning Calendar" />
           <LearningCalendar />
         </section>
