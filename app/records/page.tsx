@@ -18,9 +18,7 @@ import {
   getPracticedPatternCountByStory,
 } from '@/lib/srs/storage'
 
-// PATTO 전체 커리큘럼 규모 (커리큘럼 기준 진행률)
 const CURRICULUM = { stories: 800, patterns: 4000 }
-// 오늘의 미션 일일 목표
 const DAILY = { story: 1, pattern: 5 }
 
 const COACH = [
@@ -47,7 +45,6 @@ type Stats = {
   readNoteIds: number[]
 }
 
-// 오늘 할 일 우선순위: 1.밀린 복습 2.오늘 복습 3.진행 중 Story 남은 Pattern 4.다음 Story
 function computeCta(dueNow: number): { href: string; label: string } {
   if (dueNow > 0) return { href: '/review', label: '복습 시작하기' }
   const practiced = getPracticedPatternCountByStory()
@@ -65,6 +62,38 @@ function fmtTime(ms: number): string {
   if (min < 60) return `${min}m`
   const h = min / 60
   return `${h < 10 ? h.toFixed(1) : Math.round(h)}h`
+}
+
+// ── Section wrapper ───────────────────────────────────────────────────────────
+function Section({ children, last }: { children: React.ReactNode; last?: boolean }) {
+  return (
+    <section style={{ marginBottom: last ? 0 : 36 }}>
+      {children}
+    </section>
+  )
+}
+
+// ── Section header ────────────────────────────────────────────────────────────
+function SectionTitle({ label, sub }: { label: string; sub?: string }) {
+  return (
+    <div style={{ marginBottom: 16 }}>
+      <p style={{
+        fontSize: 9,
+        fontWeight: 700,
+        letterSpacing: '0.26em',
+        color: 'var(--pa)',
+        margin: 0,
+      }}>
+        {label}
+      </p>
+      {sub && (
+        <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 4, lineHeight: 1.6 }}>
+          {sub}
+        </p>
+      )}
+      <div style={{ height: 1, background: 'var(--pd)', marginTop: 10 }} />
+    </div>
+  )
 }
 
 export default function ProgressPage() {
@@ -100,217 +129,311 @@ export default function ProgressPage() {
   }
 
   const reviewTarget = v.reviewedToday + v.dueNow
-
-  const storyPct = v.learnedStories / CURRICULUM.stories
+  const storyPct   = v.learnedStories / CURRICULUM.stories
   const patternPct = v.learnedPatterns / CURRICULUM.patterns
   const journeyPct = Math.round(((storyPct + patternPct) / 2) * 100)
-
-  const coach = COACH[Math.floor(Date.now() / 86400000) % COACH.length]
+  const coach      = COACH[Math.floor(Date.now() / 86400000) % COACH.length]
 
   return (
-    <div className="min-h-dvh bg-[var(--pb)]">
+    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
       <TopNav />
 
-      <div className="px-5 pb-24 max-w-md mx-auto" style={{ paddingTop: NAV_HEIGHT + 18 }}>
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: `${NAV_HEIGHT + 28}px 22px 80px` }}>
 
-        {/* 2. Coach message */}
-        <p className="font-playfair text-[1.05rem] italic text-[var(--pt)] leading-relaxed mb-6">
-          {coach}
-        </p>
+        {/* ── Magazine Header ───────────────────────────────────────────── */}
+        <div style={{ marginBottom: 36 }}>
+          <p className="font-playfair" style={{
+            fontSize: 'clamp(2rem, 9vw, 2.8rem)',
+            fontWeight: 900,
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
+            color: 'var(--pt)',
+            margin: 0,
+          }}>
+            Progress
+          </p>
+          <p className="font-playfair" style={{
+            fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)',
+            fontStyle: 'italic',
+            fontWeight: 500,
+            color: 'var(--pm)',
+            marginTop: 10,
+            lineHeight: 1.6,
+          }}>
+            {coach}
+          </p>
+          <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
+        </div>
 
-        {/* 3. Today's Mission */}
-        <section className="rounded-3xl bg-[var(--pc)] p-6 shadow-sm mb-5">
-          <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold mb-5">TODAY&apos;S MISSION</p>
+        {/* ── Today's Mission ───────────────────────────────────────────── */}
+        <Section>
+          <SectionTitle label="TODAY'S MISSION" sub="오늘의 학습 목표입니다." />
 
-          <MissionRow icon={BookOpen} label="Story 학습" value={v.studiedTodayStories} total={DAILY.story} />
-          <MissionRow icon={Layers} label="Pattern 학습" value={v.practicedTodayPatterns} total={DAILY.pattern} />
-          <MissionRow icon={RotateCcw} label="복습하기" value={v.reviewedToday} total={reviewTarget} last />
+          <MissionRow icon={BookOpen} label="Story 학습"  value={v.studiedTodayStories}    total={DAILY.story} />
+          <MissionRow icon={Layers}   label="Pattern 학습" value={v.practicedTodayPatterns} total={DAILY.pattern} />
+          <MissionRow icon={RotateCcw} label="복습하기"   value={v.reviewedToday}          total={reviewTarget} last />
 
-          <button
-            type="button"
+          {/* Text-link CTA */}
+          <div
+            role="button"
+            tabIndex={0}
             onClick={() => router.push(v.ctaHref)}
-            className="mt-6 w-full rounded-2xl bg-[var(--pa)] text-white py-4 text-[14px] font-bold tracking-[0.03em] hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2"
+            onKeyDown={e => e.key === 'Enter' && router.push(v.ctaHref)}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              marginTop: 20, cursor: 'pointer',
+            }}
           >
-            {v.ctaLabel}
-            <ArrowRight className="w-4 h-4" strokeWidth={2.4} />
-          </button>
-        </section>
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pa)', letterSpacing: '0.02em' }}>
+              {v.ctaLabel}
+            </span>
+            <ArrowRight style={{ width: 13, height: 13, color: 'var(--pa)' }} strokeWidth={2} />
+          </div>
+        </Section>
 
-        {/* 4. Review */}
-        <section className="rounded-3xl border border-[var(--pd)] bg-[var(--pb)] p-6 mb-5">
-          <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold mb-4">REVIEW</p>
-          <div className="flex gap-4">
-            <div className="flex-1 flex items-center gap-3">
-              <CalendarClock className="w-5 h-5 text-[var(--pa)]" strokeWidth={1.7} />
-              <div>
-                <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] leading-none">{v.todayDue}</p>
-                <p className="text-[11px] text-[var(--pm)] mt-1">오늘 복습</p>
+        {/* ── Review ───────────────────────────────────────────────────── */}
+        <Section>
+          <SectionTitle label="REVIEW" />
+          <div style={{ display: 'flex', gap: 0 }}>
+            <div style={{ flex: 1, paddingRight: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+                <CalendarClock style={{ width: 15, height: 15, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.7} />
+                <p className="font-playfair" style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1 }}>
+                  {v.todayDue}
+                </p>
               </div>
+              <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>오늘 복습</p>
             </div>
-            <div className="w-px bg-[var(--pd)]" />
-            <div className="flex-1 flex items-center gap-3">
-              <AlarmClock className="w-5 h-5 text-[var(--pa)]" strokeWidth={1.7} />
-              <div>
-                <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] leading-none">{v.overdue}</p>
-                <p className="text-[11px] text-[var(--pm)] mt-1">밀린 복습</p>
+            <div style={{ width: 1, background: 'var(--pd)', margin: '0 20px 0 0' }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+                <AlarmClock style={{ width: 15, height: 15, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.7} />
+                <p className="font-playfair" style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1 }}>
+                  {v.overdue}
+                </p>
               </div>
+              <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>밀린 복습</p>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={() => router.push('/review')}
-            disabled={v.dueNow === 0}
-            className={`mt-5 w-full rounded-2xl py-3 text-[13px] font-bold tracking-[0.03em] flex items-center justify-center gap-1.5 transition-colors ${
-              v.dueNow > 0
-                ? 'bg-[var(--pa)] text-white hover:opacity-90 cursor-pointer'
-                : 'bg-[var(--pc)] text-[var(--pm2)] cursor-not-allowed'
-            }`}
-          >
-            {v.dueNow > 0 ? '복습하기' : '오늘 복습 완료'}
-            {v.dueNow > 0 && <ArrowRight className="w-3.5 h-3.5" strokeWidth={2.4} />}
-          </button>
-        </section>
 
-        {/* 5. PATTO Journey */}
-        <section className="rounded-3xl border border-[var(--pd)] bg-[var(--pb)] p-6 mb-5">
-          <div className="flex items-end justify-between mb-1">
-            <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold">PATTO JOURNEY</p>
-            <p className="font-playfair text-[1.8rem] font-bold text-[var(--pa)] leading-none">{journeyPct}%</p>
+          {v.dueNow > 0 && (
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => router.push('/review')}
+              onKeyDown={e => e.key === 'Enter' && router.push('/review')}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 18, cursor: 'pointer' }}
+            >
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pa)' }}>복습하기</span>
+              <ArrowRight style={{ width: 13, height: 13, color: 'var(--pa)' }} strokeWidth={2} />
+            </div>
+          )}
+          {v.dueNow === 0 && (
+            <p style={{ fontSize: 12, color: 'var(--pm)', marginTop: 14 }}>오늘 복습을 모두 완료했어요.</p>
+          )}
+        </Section>
+
+        {/* ── PATTO Journey ─────────────────────────────────────────────── */}
+        <Section>
+          <SectionTitle label="PATTO JOURNEY" sub="여정은 하루 한 문장에서 시작됩니다." />
+
+          {/* Stats row */}
+          <div style={{ display: 'flex', gap: 28, marginBottom: 16 }}>
+            <div>
+              <p className="font-playfair" style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1 }}>
+                {v.learnedStories}
+              </p>
+              <p style={{ fontSize: 10, color: 'var(--pm)', marginTop: 4 }}>Story</p>
+            </div>
+            <div>
+              <p className="font-playfair" style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1 }}>
+                {v.learnedPatterns}
+              </p>
+              <p style={{ fontSize: 10, color: 'var(--pm)', marginTop: 4 }}>Pattern</p>
+            </div>
+            <div>
+              <p className="font-playfair" style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1 }}>
+                {fmtTime(v.totalPracticeMs)}
+              </p>
+              <p style={{ fontSize: 10, color: 'var(--pm)', marginTop: 4 }}>Reading</p>
+            </div>
           </div>
-          <p className="text-[11px] text-[var(--pm)] mb-4">Curriculum Complete</p>
 
-          <div className="h-1.5 bg-[var(--pd)] rounded-full overflow-hidden mb-5">
-            <div className="h-full bg-[var(--pa)] rounded-full transition-all" style={{ width: `${Math.max(journeyPct, 1)}%` }} />
+          {/* Thin progress bar */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ flex: 1, height: 1.5, background: 'var(--pd)', borderRadius: 2, overflow: 'hidden' }}>
+              <div style={{
+                height: '100%',
+                width: `${Math.max(journeyPct, 0.5)}%`,
+                background: 'var(--pa)',
+                borderRadius: 2,
+                transition: 'width 1s ease-out',
+              }} />
+            </div>
+            <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pa)', letterSpacing: '0.04em', flexShrink: 0 }}>
+              {journeyPct}%
+            </span>
           </div>
+          <p style={{ fontSize: 10, color: 'var(--pm)', marginTop: 6 }}>Curriculum Complete</p>
+        </Section>
 
-          <div className="grid grid-cols-3 gap-3">
-            <JourneyStat value={`${v.learnedStories}`} total={`/ ${CURRICULUM.stories}`} label="Story" />
-            <JourneyStat value={`${v.learnedPatterns}`} total={`/ ${CURRICULUM.patterns}`} label="Pattern" />
-            <JourneyStat value={fmtTime(v.totalPracticeMs)} total="총 낭독" label="시간" />
-          </div>
-        </section>
-
-        {/* 6. Learning Calendar */}
-        <section className="rounded-3xl border border-[var(--pd)] bg-[var(--pb)] p-6 mb-5">
-          <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold mb-5">LEARNING CALENDAR</p>
+        {/* ── Learning Calendar ─────────────────────────────────────────── */}
+        <Section>
+          <SectionTitle label="LEARNING CALENDAR" sub="매일의 기록이 당신의 실력이 됩니다." />
           <LearningCalendar />
-        </section>
+        </Section>
 
-        {/* 7. Collected Editor's Notes */}
-        <section className="rounded-3xl border border-[var(--pd)] bg-[var(--pb)] p-6 mb-5">
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold">EDITOR'S NOTES</p>
-            <Link href="/editor" className="flex items-center gap-1 text-[11px] text-[var(--pa)] font-semibold hover:opacity-70 transition-opacity">
-              계속 읽기 <ArrowRight className="w-3 h-3" strokeWidth={2} />
+        {/* ── Collected Notes ───────────────────────────────────────────── */}
+        <Section>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
+            <div>
+              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', color: 'var(--pa)', margin: 0 }}>
+                COLLECTED NOTES
+              </p>
+              <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 4, lineHeight: 1.6 }}>
+                당신의 생각, 표현, 문장을 모아보세요.
+              </p>
+            </div>
+            <Link
+              href="/editor"
+              style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: 'var(--pa)', fontWeight: 600, textDecoration: 'none', marginTop: 2 }}
+            >
+              계속 읽기 <ArrowRight style={{ width: 11, height: 11 }} strokeWidth={2} />
             </Link>
           </div>
+          <div style={{ height: 1, background: 'var(--pd)', marginBottom: 16 }} />
 
-          {/* progress */}
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex-1 h-1.5 bg-[var(--pd)] rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[var(--pa)] rounded-full transition-all"
-                style={{ width: `${Math.max((v.readNoteIds.length / TOTAL_NOTES) * 100, 1)}%` }}
-              />
+          {/* Progress row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+            <div style={{ flex: 1, height: 1.5, background: 'var(--pd)', borderRadius: 2, overflow: 'hidden' }}>
+              <div style={{
+                height: '100%',
+                width: `${Math.max((v.readNoteIds.length / TOTAL_NOTES) * 100, 0.5)}%`,
+                background: 'var(--pa)',
+                borderRadius: 2,
+                transition: 'width 1s ease-out',
+              }} />
             </div>
-            <span className="font-playfair text-[1rem] font-bold text-[var(--pa)] tabular-nums leading-none">
+            <span className="font-playfair" style={{ fontSize: 13, fontWeight: 800, color: 'var(--pa)', flexShrink: 0 }}>
               {v.readNoteIds.length}
-              <span className="text-[var(--pm2)] font-medium text-[0.75rem]"> / {TOTAL_NOTES}</span>
+              <span style={{ fontSize: 10, fontWeight: 400, color: 'var(--pm)' }}> / {TOTAL_NOTES}</span>
             </span>
           </div>
 
           {v.readNoteIds.length === 0 ? (
-            <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed">
+            <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.7 }}>
               아직 읽은 노트가 없어요.<br />홈에서 Editor&apos;s Note를 눌러 시작해보세요.
             </p>
           ) : (
-            <div className="divide-y divide-[var(--pd)]">
-              {v.readNoteIds.slice(-3).reverse().map((nid) => {
+            <div>
+              {v.readNoteIds.slice(-3).reverse().map((nid, idx) => {
                 const note = EDITOR_NOTES.find(n => n.id === nid)
                 if (!note) return null
                 return (
-                  <Link key={nid} href={`/editor/${nid}`}
-                    className="flex items-center gap-4 py-3 hover:opacity-70 transition-opacity">
-                    <span className="font-playfair text-[0.95rem] font-bold text-[var(--pa)] w-6 shrink-0 leading-none tabular-nums">
+                  <Link
+                    key={nid}
+                    href={`/editor/${nid}`}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 14,
+                      padding: '12px 0',
+                      borderTop: idx === 0 ? 'none' : '1px solid var(--pd)',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    <span className="font-playfair" style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--pa)', width: 24, flexShrink: 0, lineHeight: 1 }}>
                       {String(nid).padStart(2, '0')}
                     </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[12.5px] font-bold text-[var(--pt)] truncate">{note.title}</p>
-                      <p className="text-[10px] text-[var(--pm)] mt-0.5">{note.oneThingToRemember}</p>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {note.title}
+                      </p>
+                      <p style={{ fontSize: 10, color: 'var(--pm)', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {note.oneThingToRemember}
+                      </p>
                     </div>
-                    <ArrowRight className="w-3 h-3 text-[var(--pm2)] shrink-0" strokeWidth={2} />
+                    <ArrowRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.8} />
                   </Link>
                 )
               })}
             </div>
           )}
-        </section>
+        </Section>
 
-        {/* 8. My Patterns */}
-        <section className="rounded-3xl border border-[var(--pd)] bg-[var(--pb)] p-6">
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold">MY PATTERNS</p>
-            <Link href="/records/patterns" className="flex items-center gap-1 text-[11px] text-[var(--pa)] font-semibold hover:opacity-70 transition-opacity">
-              전체 보기 <ArrowRight className="w-3 h-3" strokeWidth={2} />
+        {/* ── My Patterns ───────────────────────────────────────────────── */}
+        <Section last>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', color: 'var(--pa)', margin: 0 }}>
+              MY PATTERNS
+            </p>
+            <Link
+              href="/records/patterns"
+              style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: 'var(--pa)', fontWeight: 600, textDecoration: 'none' }}
+            >
+              전체 보기 <ArrowRight style={{ width: 11, height: 11 }} strokeWidth={2} />
             </Link>
           </div>
+          <div style={{ height: 1, background: 'var(--pd)', marginBottom: 4 }} />
 
           {v.bookmarks.length === 0 ? (
-            <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed">
+            <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 12 }}>
               아직 저장한 패턴이 없어요.<br />패턴 옆 북마크를 눌러 자주 쓰는 패턴을 모아보세요.
             </p>
           ) : (
-            <div className="divide-y divide-[var(--pd)]">
+            <div>
               {v.bookmarks.slice(0, 3).map((p, i) => (
-                <div key={p.patternId} className="flex items-center gap-4 py-3.5">
-                  <span className="font-playfair text-[1.05rem] font-bold text-[var(--pa)] w-6 shrink-0 leading-none tabular-nums">
+                <div
+                  key={p.patternId}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 14,
+                    padding: '12px 0',
+                    borderTop: i === 0 ? 'none' : '1px solid var(--pd)',
+                  }}
+                >
+                  <span className="font-playfair" style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--pa)', width: 24, flexShrink: 0, lineHeight: 1 }}>
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  <div className="min-w-0">
-                    <p className="text-[13px] font-bold text-[var(--pt)]">{p.pattern}</p>
-                    <p className="text-[11px] text-[var(--pm)] mt-0.5">{p.meaningKo}</p>
+                  <div style={{ minWidth: 0 }}>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>{p.pattern}</p>
+                    <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 2 }}>{p.meaningKo}</p>
                   </div>
                 </div>
               ))}
             </div>
           )}
-        </section>
+        </Section>
 
       </div>
     </div>
   )
 }
 
+// ── MissionRow ────────────────────────────────────────────────────────────────
 function MissionRow({
   icon: Icon, label, value, total, last,
 }: {
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
+  icon: React.ComponentType<{ style?: React.CSSProperties; strokeWidth?: number }>
   label: string; value: number; total: number; last?: boolean
 }) {
   const done = total > 0 && value >= total
   return (
-    <div className={`flex items-center gap-3 py-3.5 ${last ? '' : 'border-b border-[var(--pd)]'}`}>
-      <Icon className="w-4 h-4 text-[var(--pa)] shrink-0" strokeWidth={1.8} />
-      <p className="flex-1 text-[13px] font-semibold text-[var(--pt2)]">{label}</p>
-      <p className="text-[13px] font-bold text-[var(--pt)] tabular-nums">
-        {value} <span className="text-[var(--pm2)] font-medium">/ {total}</span>
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 12,
+      padding: '13px 0',
+      borderBottom: last ? 'none' : '1px solid var(--pd)',
+    }}>
+      <Icon style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.8} />
+      <p style={{ flex: 1, fontSize: 13, fontWeight: 600, color: 'var(--pt2)', margin: 0 }}>{label}</p>
+      <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>
+        {value} <span style={{ color: 'var(--pm2)', fontWeight: 400 }}>/ {total}</span>
       </p>
-      <span className={[
-        'w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-colors',
-        done ? 'bg-[var(--pa)] text-white' : 'border border-[var(--pd)] text-transparent',
-      ].join(' ')}>
-        <Check className="w-3.5 h-3.5" strokeWidth={3} />
+      <span style={{
+        width: 22, height: 22, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+        background: done ? 'var(--pa)' : 'transparent',
+        border: done ? 'none' : '1px solid var(--pd)',
+        transition: 'background 0.3s',
+      }}>
+        <Check style={{ width: 12, height: 12, color: done ? '#fff' : 'transparent' }} strokeWidth={3} />
       </span>
-    </div>
-  )
-}
-
-function JourneyStat({ value, total, label }: { value: string; total: string; label: string }) {
-  return (
-    <div className="rounded-xl bg-[var(--pc)] px-3 py-3 text-center">
-      <p className="font-playfair text-[1.25rem] font-bold text-[var(--pt)] leading-none">{value}</p>
-      <p className="text-[9px] text-[var(--pm)] mt-1.5">{total}</p>
-      <p className="text-[9px] text-[var(--pm2)] mt-0.5">{label}</p>
     </div>
   )
 }
