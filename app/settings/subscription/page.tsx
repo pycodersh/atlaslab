@@ -6,11 +6,10 @@ import { ChevronLeft, Sparkles } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 
 const FEATURES = [
-  '스토리 무제한',
-  '모든 패턴',
-  'AI 해설',
-  '쉐도잉 연습',
-  '단어 컬렉션',
+  '모든 Story',
+  '모든 Pattern',
+  'Unlimited Bookmarks',
+  'Future Updates',
 ]
 
 const PLANS = [
@@ -103,20 +102,19 @@ export default function SubscriptionPage() {
         {/* ── Premium Features ───────────────────────────────── */}
         <SectionLabel>Premium Features</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
-          {FEATURES.map((f, i) => (
+          {FEATURES.map((f) => (
             <div
               key={f}
               style={{
-                display: 'flex', alignItems: 'center', gap: 16,
-                padding: '14px 0',
-                borderBottom: i < FEATURES.length - 1 ? '1px solid var(--pd)' : 'none',
+                display: 'flex', alignItems: 'center', gap: 12,
+                padding: '7px 0',
               }}
             >
               <span style={{
-                width: 4, height: 4, borderRadius: '50%',
-                background: 'var(--pa)', flexShrink: 0, opacity: 0.55,
+                width: 3, height: 3, borderRadius: '50%',
+                background: 'var(--pa)', flexShrink: 0, opacity: 0.4,
               }} />
-              <span style={{ fontSize: 14, color: 'var(--pt)', fontWeight: 400 }}>{f}</span>
+              <span style={{ fontSize: 13, color: 'var(--pt)', fontWeight: 400 }}>{f}</span>
             </div>
           ))}
         </div>
