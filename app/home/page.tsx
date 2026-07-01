@@ -376,7 +376,7 @@ export default function HomePage() {
               {/* Editor's Note — Continue Learning과 동일 폭 */}
               <button
                 type="button"
-                onClick={() => router.push('/settings/about')}
+                onClick={() => router.push('/editor')}
                 style={{ ...btnStyle, width: '100%' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.16)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.10)' }}

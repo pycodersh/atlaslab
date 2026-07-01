@@ -9,6 +9,8 @@ import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { LearningCalendar } from '@/components/LearningCalendar'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, type BookmarkedPattern } from '@/lib/bookmarks/storage'
+import { EDITOR_NOTES, TOTAL_NOTES } from '@/data/editor-notes'
+import { getReadNoteIds } from '@/lib/editor/storage'
 import {
   getDueCount, getTodayDueCount, getOverdueCount,
   getLearnedStoryCount, getLearnedPatternCount, getTotalRepeatCount, getTotalPracticeMs,
@@ -42,6 +44,7 @@ type Stats = {
   bookmarks: BookmarkedPattern[]
   ctaHref: string
   ctaLabel: string
+  readNoteIds: number[]
 }
 
 // 오늘 할 일 우선순위: 1.밀린 복습 2.오늘 복습 3.진행 중 Story 남은 Pattern 4.다음 Story
@@ -85,6 +88,7 @@ export default function ProgressPage() {
       bookmarks: getBookmarks(),
       ctaHref: cta.href,
       ctaLabel: cta.label,
+      readNoteIds: getReadNoteIds(),
     })
   }, [])
 
@@ -92,6 +96,7 @@ export default function ProgressPage() {
     studiedTodayStories: 0, practicedTodayPatterns: 0, reviewedToday: 0, dueNow: 0,
     todayDue: 0, overdue: 0, learnedStories: 0, learnedPatterns: 0, totalRepeats: 0,
     totalPracticeMs: 0, bookmarks: [], ctaHref: '/stories/1', ctaLabel: '오늘 학습 시작하기',
+    readNoteIds: [],
   }
 
   const reviewTarget = v.reviewedToday + v.dueNow
@@ -191,7 +196,57 @@ export default function ProgressPage() {
           <LearningCalendar />
         </section>
 
-        {/* 7. My Patterns */}
+        {/* 7. Collected Editor's Notes */}
+        <section className="rounded-3xl border border-[var(--pd)] bg-[var(--pb)] p-6 mb-5">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold">EDITOR'S NOTES</p>
+            <Link href="/editor" className="flex items-center gap-1 text-[11px] text-[var(--pa)] font-semibold hover:opacity-70 transition-opacity">
+              계속 읽기 <ArrowRight className="w-3 h-3" strokeWidth={2} />
+            </Link>
+          </div>
+
+          {/* progress */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex-1 h-1.5 bg-[var(--pd)] rounded-full overflow-hidden">
+              <div
+                className="h-full bg-[var(--pa)] rounded-full transition-all"
+                style={{ width: `${Math.max((v.readNoteIds.length / TOTAL_NOTES) * 100, 1)}%` }}
+              />
+            </div>
+            <span className="font-playfair text-[1rem] font-bold text-[var(--pa)] tabular-nums leading-none">
+              {v.readNoteIds.length}
+              <span className="text-[var(--pm2)] font-medium text-[0.75rem]"> / {TOTAL_NOTES}</span>
+            </span>
+          </div>
+
+          {v.readNoteIds.length === 0 ? (
+            <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed">
+              아직 읽은 노트가 없어요.<br />홈에서 Editor&apos;s Note를 눌러 시작해보세요.
+            </p>
+          ) : (
+            <div className="divide-y divide-[var(--pd)]">
+              {v.readNoteIds.slice(-3).reverse().map((nid) => {
+                const note = EDITOR_NOTES.find(n => n.id === nid)
+                if (!note) return null
+                return (
+                  <Link key={nid} href={`/editor/${nid}`}
+                    className="flex items-center gap-4 py-3 hover:opacity-70 transition-opacity">
+                    <span className="font-playfair text-[0.95rem] font-bold text-[var(--pa)] w-6 shrink-0 leading-none tabular-nums">
+                      {String(nid).padStart(2, '0')}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[12.5px] font-bold text-[var(--pt)] truncate">{note.title}</p>
+                      <p className="text-[10px] text-[var(--pm)] mt-0.5">{note.oneThingToRemember}</p>
+                    </div>
+                    <ArrowRight className="w-3 h-3 text-[var(--pm2)] shrink-0" strokeWidth={2} />
+                  </Link>
+                )
+              })}
+            </div>
+          )}
+        </section>
+
+        {/* 8. My Patterns */}
         <section className="rounded-3xl border border-[var(--pd)] bg-[var(--pb)] p-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-[10px] tracking-[0.26em] text-[var(--pa)] font-bold">MY PATTERNS</p>
