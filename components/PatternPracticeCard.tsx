@@ -214,45 +214,67 @@ export function PatternPracticeCard({
         </div>
       </div>
 
-      {/* Pattern Note — collapsible */}
+      {/* Pattern Note — editorial section */}
       {patternNote && (
-        <div className="mt-2 ml-9">
-          <button
-            type="button"
+        <div style={{ marginTop: 14 }}>
+          {/* Divider + label row — not a button, feels like a magazine section header */}
+          <div
             onClick={() => setNoteOpen(v => !v)}
-            className="flex items-center gap-1 cursor-pointer"
-            style={{ background: 'none', border: 'none', padding: 0 }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingTop: 11,
+              paddingBottom: 11,
+              borderTop: '1px solid var(--pd)',
+              cursor: 'pointer',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+            }}
           >
             <span style={{
-              fontSize: 10,
+              fontSize: 9,
               fontWeight: 600,
-              letterSpacing: '0.1em',
-              color: 'var(--pa)',
-              opacity: 0.75,
+              letterSpacing: '0.18em',
+              color: 'var(--pm)',
+              lineHeight: 1,
             }}>
               PATTERN NOTE
             </span>
             <ChevronDown
-              className="w-3 h-3 transition-transform duration-200"
               style={{
-                color: 'var(--pa)',
-                opacity: 0.75,
+                width: 11,
+                height: 11,
+                color: 'var(--pm2)',
+                flexShrink: 0,
                 transform: noteOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 220ms cubic-bezier(0.4, 0, 0.2, 1)',
               }}
-              strokeWidth={2}
+              strokeWidth={1.5}
             />
-          </button>
-          {noteOpen && (
-            <p style={{
-              marginTop: 6,
-              fontSize: 12,
-              color: 'var(--pm)',
-              lineHeight: 1.75,
-              whiteSpace: 'pre-line',
-            }}>
-              {patternNote}
-            </p>
-          )}
+          </div>
+
+          {/* Smooth height animation via CSS grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateRows: noteOpen ? '1fr' : '0fr',
+            transition: 'grid-template-rows 220ms cubic-bezier(0.4, 0, 0.2, 1)',
+          }}>
+            <div style={{ overflow: 'hidden' }}>
+              <p style={{
+                margin: 0,
+                paddingTop: 2,
+                paddingBottom: 18,
+                fontSize: 12.5,
+                lineHeight: 1.85,
+                color: 'var(--pm)',
+                whiteSpace: 'pre-line',
+                letterSpacing: '0.01em',
+              }}>
+                {patternNote}
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
