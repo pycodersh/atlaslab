@@ -260,7 +260,7 @@ export default function HomePage() {
         }}>
           <p className="font-playfair" style={{
             margin: 0,
-            fontSize: 'clamp(1.2rem, 5vw, 1.5rem)',
+            fontSize: 'clamp(1.45rem, 6vw, 1.8rem)',
             fontWeight: 700,
             fontStyle: 'italic',
             lineHeight: 1.5,
@@ -273,7 +273,7 @@ export default function HomePage() {
           </p>
           <p style={{
             margin: '10px 0 0',
-            fontSize: 10,
+            fontSize: 12,
             lineHeight: 1.65,
             color: 'rgba(255,255,255,0.44)',
             textShadow: '0 1px 8px rgba(0,0,0,0.4)',
@@ -293,35 +293,34 @@ export default function HomePage() {
           ...fadeUp(3),
         }}>
 
-          {/* Continue Learning — primary magazine link */}
+          {/* Continue Learning — magazine text link */}
           <div
             role="button"
             tabIndex={0}
             className="hm-link"
             onClick={() => router.push(firstHref)}
             onKeyDown={e => e.key === 'Enter' && router.push(firstHref)}
-            style={{ display:'inline-block', marginBottom: 20 }}
+            style={{ display:'block', marginBottom: 18 }}
           >
             <p style={{
               margin: 0,
-              fontSize: 'clamp(1rem, 4.2vw, 1.2rem)',
-              fontWeight: 700,
+              fontSize: 13,
+              fontWeight: 600,
               letterSpacing: '0.01em',
               color: 'rgba(255,255,255,0.95)',
               lineHeight: 1.2,
             }}>
-              {t('continue_learning')} →
+              {t('continue_learning')} &gt;
             </p>
-            {/* Magazine rule line */}
             <div style={{
-              marginTop: 7,
+              marginTop: 6,
               height: 1,
               width: '100%',
               background: 'rgba(255,255,255,0.28)',
             }} />
           </div>
 
-          {/* Editor's Note — secondary typography link */}
+          {/* Editor's Note — same style, title only */}
           {editorNote && (
             <div
               role="button"
@@ -332,32 +331,21 @@ export default function HomePage() {
               style={{ display:'block' }}
             >
               <p style={{
-                margin: '0 0 3px',
-                fontSize: 8,
-                fontWeight: 700,
-                letterSpacing: '0.20em',
-                color: 'rgba(255,255,255,0.36)',
-                textTransform: 'uppercase',
-              }}>
-                {t('editor_note_label')}
-              </p>
-              <p style={{
-                margin: '0 0 2px',
+                margin: 0,
                 fontSize: 13,
                 fontWeight: 600,
-                color: 'rgba(255,255,255,0.72)',
-                lineHeight: 1.3,
+                letterSpacing: '0.01em',
+                color: 'rgba(255,255,255,0.60)',
+                lineHeight: 1.2,
               }}>
-                {editorNote.title}
+                {editorNote.title} &gt;
               </p>
-              <p style={{
-                margin: 0,
-                fontSize: 10.5,
-                color: 'rgba(255,255,255,0.38)',
-                letterSpacing: '0.02em',
-              }}>
-                {editorReadLabel} →
-              </p>
+              <div style={{
+                marginTop: 6,
+                height: 1,
+                width: '100%',
+                background: 'rgba(255,255,255,0.16)',
+              }} />
             </div>
           )}
 
