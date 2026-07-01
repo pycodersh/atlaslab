@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Check, ArrowRight, BookOpen, Layers, RotateCcw, CalendarClock, AlarmClock } from 'lucide-react'
 
-import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
+import { TopNav } from '@/components/TopNav'
 import { LearningCalendar } from '@/components/LearningCalendar'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, type BookmarkedPattern } from '@/lib/bookmarks/storage'
@@ -20,13 +20,6 @@ import {
 
 const CURRICULUM = { stories: 800, patterns: 4000 }
 const DAILY = { story: 1, pattern: 5 }
-
-const COACH = [
-  '매일 조금씩, 자연스럽게. 반복이 실력을 만듭니다.',
-  '오늘의 반복이 내일의 자연스러움이 됩니다.',
-  '많이 배우기보다, 깊이 반복하세요.',
-  '한 문장씩, 입에 붙을 때까지.',
-]
 
 type Stats = {
   studiedTodayStories: number
@@ -64,11 +57,65 @@ function fmtTime(ms: number): string {
   return `${h < 10 ? h.toFixed(1) : Math.round(h)}h`
 }
 
-// ── Section label ─────────────────────────────────────────────────────────────
+// ── Typography components ──────────────────────────────────────────────────────
+
+/**
+ * L2 — Major section heading (Today / Your Journey)
+ * Clearly smaller than L1 "Progress" page title.
+ * pre-label: muted micro caps (not L3 burgundy — doesn't compete with section labels)
+ */
+function SectionHeading({ pre, title, sub }: { pre: string; title: string; sub?: string }) {
+  return (
+    <div style={{ marginBottom: 32, paddingBottom: 20, borderBottom: '1.5px solid var(--pd)' }}>
+      <p style={{
+        fontSize: 8,
+        fontWeight: 500,
+        letterSpacing: '0.22em',
+        color: 'var(--pm2)',
+        margin: '0 0 10px',
+        textTransform: 'uppercase',
+      }}>
+        {pre}
+      </p>
+      <h2 className="font-playfair" style={{
+        fontSize: 'clamp(1.6rem, 7vw, 2rem)',   // L2: ~22% smaller than L1 at any viewport
+        fontWeight: 900,
+        lineHeight: 1,
+        color: 'var(--pt)',
+        margin: 0,
+        letterSpacing: '-0.02em',
+      }}>
+        {title}
+      </h2>
+      {sub && (
+        <p style={{
+          fontSize: 11,
+          color: 'var(--pm)',
+          marginTop: 8,
+          lineHeight: 1.55,
+        }}>
+          {sub}
+        </p>
+      )}
+    </div>
+  )
+}
+
+/**
+ * L3 — Section label (TODAY'S MISSION, REVIEW, LEARNING CALENDAR …)
+ * Burgundy, uppercase, small caps feel — introduces content, not a headline.
+ */
 function SectionLabel({ label, sub }: { label: string; sub?: string }) {
   return (
     <div style={{ marginBottom: 16 }}>
-      <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', color: 'var(--pa)', margin: 0 }}>
+      <p style={{
+        fontSize: 9,
+        fontWeight: 700,
+        letterSpacing: '0.26em',
+        color: 'var(--pa)',
+        margin: 0,
+        textTransform: 'uppercase',
+      }}>
         {label}
       </p>
       {sub && (
@@ -79,38 +126,7 @@ function SectionLabel({ label, sub }: { label: string; sub?: string }) {
   )
 }
 
-// ── Chapter heading ───────────────────────────────────────────────────────────
-function ChapterHeading({ roman, title, sub }: { roman: string; title: string; sub?: string }) {
-  return (
-    <div style={{ marginBottom: 32, paddingBottom: 22, borderBottom: '2px solid var(--pd)' }}>
-      <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', color: 'var(--pm)', margin: '0 0 8px' }}>
-        {roman}
-      </p>
-      <h2 className="font-playfair" style={{
-        fontSize: 'clamp(2.6rem, 12vw, 3.6rem)',
-        fontWeight: 900,
-        lineHeight: 1,
-        color: 'var(--pt)',
-        margin: 0,
-        letterSpacing: '-0.02em',
-      }}>
-        {title}
-      </h2>
-      {sub && (
-        <p className="font-playfair" style={{
-          fontSize: 'clamp(0.85rem, 3.5vw, 1rem)',
-          fontStyle: 'italic',
-          fontWeight: 500,
-          color: 'var(--pm)',
-          marginTop: 10,
-          lineHeight: 1.5,
-        }}>
-          {sub}
-        </p>
-      )}
-    </div>
-  )
-}
+// ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ProgressPage() {
   const router = useRouter()
@@ -148,7 +164,6 @@ export default function ProgressPage() {
   const storyPct   = v.learnedStories / CURRICULUM.stories
   const patternPct = v.learnedPatterns / CURRICULUM.patterns
   const journeyPct = Math.round(((storyPct + patternPct) / 2) * 100)
-  const coach      = COACH[Math.floor(Date.now() / 86400000) % COACH.length]
 
   return (
     <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
@@ -164,10 +179,10 @@ export default function ProgressPage() {
         boxSizing: 'border-box',
       }}>
 
-        {/* ── Page header ───────────────────────────────────────────────── */}
-        <div style={{ marginBottom: 52 }}>
+        {/* ── L1 — Page title ───────────────────────────────────────────── */}
+        <div style={{ marginBottom: 56 }}>
           <p className="font-playfair" style={{
-            fontSize: 'clamp(2rem, 9vw, 2.8rem)',
+            fontSize: 'clamp(2rem, 9vw, 2.8rem)',  // L1 — largest, kept from before
             fontWeight: 900,
             letterSpacing: '-0.02em',
             lineHeight: 1,
@@ -176,27 +191,33 @@ export default function ProgressPage() {
           }}>
             Progress
           </p>
+          {/* Page philosophy — fixed, not rotating */}
           <p className="font-playfair" style={{
-            fontSize: 'clamp(0.9rem, 3.5vw, 1.1rem)',
+            fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
             fontStyle: 'italic',
             fontWeight: 500,
             color: 'var(--pm)',
             marginTop: 10,
             lineHeight: 1.6,
           }}>
-            {coach}
+            한 문장씩, 입에 붙을 때까지.
           </p>
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>
 
         {/* ════════════════════════════════════════════════════════════════ */}
-        {/* CHAPTER I — TODAY                                               */}
+        {/* L2 — TODAY                                                      */}
         {/* ════════════════════════════════════════════════════════════════ */}
-        <ChapterHeading roman="CHAPTER I" title="Today" sub={coach} />
+        <SectionHeading
+          pre="Chapter I"
+          title="Today"
+          sub="오늘의 학습 목표"
+        />
 
-        {/* ── Today's Mission ──────────────────────────────────────────── */}
+        {/* ── L3: Today's Mission ──────────────────────────────────────── */}
         <section style={{ marginBottom: 28 }}>
-          <SectionLabel label="TODAY'S MISSION" />
+          <SectionLabel label="Today's Mission" />
+          {/* L4 — Content rows */}
           <MissionRow icon={BookOpen}  label="Story 학습"   value={v.studiedTodayStories}    total={DAILY.story} />
           <MissionRow icon={Layers}    label="Pattern 학습" value={v.practicedTodayPatterns} total={DAILY.pattern} />
           <MissionRow icon={RotateCcw} label="복습하기"     value={v.reviewedToday}          total={reviewTarget} last />
@@ -217,7 +238,7 @@ export default function ProgressPage() {
             border: 'none',
             borderRadius: 3,
             cursor: 'pointer',
-            marginBottom: 44,
+            marginBottom: 48,
           }}
         >
           <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.02em' }}>
@@ -226,18 +247,20 @@ export default function ProgressPage() {
           <ArrowRight style={{ width: 17, height: 17, flexShrink: 0 }} strokeWidth={2.5} />
         </button>
 
-        {/* ── Review ───────────────────────────────────────────────────── */}
+        {/* ── L3: Review ───────────────────────────────────────────────── */}
         <section style={{ marginBottom: 0 }}>
-          <SectionLabel label="REVIEW" />
+          <SectionLabel label="Review" />
           <div style={{ display: 'flex', gap: 0, marginBottom: 20 }}>
             <div style={{ flex: 1, paddingRight: 24 }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
+                {/* Stats number — hero size, number first */}
                 <p className="font-playfair" style={{ fontSize: 'clamp(2.6rem, 12vw, 3.4rem)', fontWeight: 900, color: 'var(--pt)', margin: 0, lineHeight: 1 }}>
                   {v.todayDue}
                 </p>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <CalendarClock style={{ width: 12, height: 12, color: 'var(--pm)' }} strokeWidth={1.7} />
+                {/* L4 — content label */}
                 <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>오늘 복습</p>
               </div>
             </div>
@@ -258,50 +281,47 @@ export default function ProgressPage() {
         </section>
 
         {/* ════════════════════════════════════════════════════════════════ */}
-        {/* CHAPTER II — YOUR JOURNEY                                       */}
+        {/* L2 — YOUR JOURNEY  (large top margin = clear visual break)      */}
         {/* ════════════════════════════════════════════════════════════════ */}
-        <div style={{ marginTop: 64 }}>
-          <ChapterHeading
-            roman="CHAPTER II"
+        <div style={{ marginTop: 80 }}>
+          <SectionHeading
+            pre="Chapter II"
             title="Your Journey"
-            sub={`Curriculum ${journeyPct}% complete`}
+            sub={`커리큘럼 ${journeyPct}% 완료`}
           />
         </div>
 
-        {/* ── Hero stats grid ──────────────────────────────────────────── */}
-        <section style={{ marginBottom: 44 }}>
+        {/* ── Statistics (Numbers first, label small below) ─────────────── */}
+        <section style={{ marginBottom: 48 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-            {/* Story */}
             <div style={{ paddingRight: 24, paddingBottom: 28, borderRight: '1px solid var(--pd)', borderBottom: '1px solid var(--pd)' }}>
               <p className="font-playfair" style={{ fontSize: 'clamp(2.8rem, 13vw, 4rem)', fontWeight: 900, lineHeight: 1, color: 'var(--pt)', margin: '0 0 8px' }}>
                 {v.learnedStories}
               </p>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm)', margin: 0 }}>STORIES</p>
+              {/* L4 — stat label */}
+              <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', color: 'var(--pm)', margin: 0, textTransform: 'uppercase' }}>Stories</p>
             </div>
-            {/* Pattern */}
             <div style={{ paddingLeft: 24, paddingBottom: 28, borderBottom: '1px solid var(--pd)' }}>
               <p className="font-playfair" style={{ fontSize: 'clamp(2.8rem, 13vw, 4rem)', fontWeight: 900, lineHeight: 1, color: 'var(--pt)', margin: '0 0 8px' }}>
                 {v.learnedPatterns}
               </p>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm)', margin: 0 }}>PATTERNS</p>
+              <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', color: 'var(--pm)', margin: 0, textTransform: 'uppercase' }}>Patterns</p>
             </div>
-            {/* Repeats */}
             <div style={{ paddingRight: 24, paddingTop: 24, borderRight: '1px solid var(--pd)' }}>
               <p className="font-playfair" style={{ fontSize: 'clamp(2.8rem, 13vw, 4rem)', fontWeight: 900, lineHeight: 1, color: 'var(--pt)', margin: '0 0 8px' }}>
                 {v.totalRepeats}
               </p>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm)', margin: 0 }}>REPEATS</p>
+              <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', color: 'var(--pm)', margin: 0, textTransform: 'uppercase' }}>Repeats</p>
             </div>
-            {/* Reading time */}
             <div style={{ paddingLeft: 24, paddingTop: 24 }}>
               <p className="font-playfair" style={{ fontSize: 'clamp(2.8rem, 13vw, 4rem)', fontWeight: 900, lineHeight: 1, color: 'var(--pt)', margin: '0 0 8px' }}>
                 {fmtTime(v.totalPracticeMs)}
               </p>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm)', margin: 0 }}>READING</p>
+              <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.18em', color: 'var(--pm)', margin: 0, textTransform: 'uppercase' }}>Reading</p>
             </div>
           </div>
 
-          {/* Progress bar */}
+          {/* Curriculum progress bar */}
           <div style={{ marginTop: 32 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
               <div style={{ flex: 1, height: 1.5, background: 'var(--pd)', borderRadius: 2, overflow: 'hidden' }}>
@@ -317,22 +337,22 @@ export default function ProgressPage() {
                 {journeyPct}%
               </span>
             </div>
-            <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0 }}>Curriculum Complete</p>
+            <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0 }}>Curriculum Progress</p>
           </div>
         </section>
 
-        {/* ── Learning Calendar ─────────────────────────────────────────── */}
-        <section style={{ marginBottom: 44 }}>
-          <SectionLabel label="LEARNING CALENDAR" sub="매일의 기록이 당신의 실력이 됩니다." />
+        {/* ── L3: Learning Calendar ─────────────────────────────────────── */}
+        <section style={{ marginBottom: 48 }}>
+          <SectionLabel label="Learning Calendar" />
           <LearningCalendar />
         </section>
 
-        {/* ── Collected Notes ───────────────────────────────────────────── */}
-        <section style={{ marginBottom: 44 }}>
+        {/* ── L3: Collected Notes ───────────────────────────────────────── */}
+        <section style={{ marginBottom: 48 }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 10 }}>
             <div>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', color: 'var(--pa)', margin: 0 }}>
-                COLLECTED NOTES
+              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', color: 'var(--pa)', margin: 0, textTransform: 'uppercase' }}>
+                Collected Notes
               </p>
               <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 4, lineHeight: 1.6 }}>
                 당신의 생각, 표현, 문장을 모아보세요.
@@ -402,11 +422,11 @@ export default function ProgressPage() {
           )}
         </section>
 
-        {/* ── My Patterns ───────────────────────────────────────────────── */}
+        {/* ── L3: My Patterns ───────────────────────────────────────────── */}
         <section>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', color: 'var(--pa)', margin: 0 }}>
-              MY PATTERNS
+            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.26em', color: 'var(--pa)', margin: 0, textTransform: 'uppercase' }}>
+              My Patterns
             </p>
             <Link
               href="/records/patterns"
@@ -436,7 +456,8 @@ export default function ProgressPage() {
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div style={{ minWidth: 0 }}>
-                    <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>{p.pattern}</p>
+                    {/* L4 — content */}
+                    <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt2)', margin: 0 }}>{p.pattern}</p>
                     <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 2 }}>{p.meaningKo}</p>
                   </div>
                 </div>
@@ -450,7 +471,7 @@ export default function ProgressPage() {
   )
 }
 
-// ── MissionRow ────────────────────────────────────────────────────────────────
+// ── MissionRow (L4 content) ───────────────────────────────────────────────────
 function MissionRow({
   icon: Icon, label, value, total, last,
 }: {
@@ -465,7 +486,8 @@ function MissionRow({
       borderBottom: last ? 'none' : '1px solid var(--pd)',
     }}>
       <Icon style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.8} />
-      <p style={{ flex: 1, fontSize: 13, fontWeight: 600, color: 'var(--pt2)', margin: 0 }}>{label}</p>
+      {/* L4 — content label: readable, no excess emphasis */}
+      <p style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)', margin: 0 }}>{label}</p>
       <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>
         {value} <span style={{ color: 'var(--pm2)', fontWeight: 400 }}>/ {total}</span>
       </p>
