@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, Sparkles } from 'lucide-react'
+import { ChevronLeft, Sparkles, BookOpen, Layers, Bookmark } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 
 const FEATURES = [
-  '모든 Story',
-  '모든 Pattern',
-  'Unlimited Bookmarks',
-  'Future Updates',
+  { icon: BookOpen,  label: '모든 Story' },
+  { icon: Layers,    label: '모든 Pattern' },
+  { icon: Bookmark,  label: '저장 패턴 무제한' },
+  { icon: Sparkles,  label: '신규 업데이트 제공' },
 ]
 
 const PLANS = [
@@ -102,19 +102,13 @@ export default function SubscriptionPage() {
         {/* ── Premium Features ───────────────────────────────── */}
         <SectionLabel>Premium Features</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
-          {FEATURES.map((f) => (
+          {FEATURES.map(({ icon: Icon, label }) => (
             <div
-              key={f}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 12,
-                padding: '7px 0',
-              }}
+              key={label}
+              style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0' }}
             >
-              <span style={{
-                width: 3, height: 3, borderRadius: '50%',
-                background: 'var(--pa)', flexShrink: 0, opacity: 0.4,
-              }} />
-              <span style={{ fontSize: 13, color: 'var(--pt)', fontWeight: 400 }}>{f}</span>
+              <Icon style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.8} />
+              <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--pt2)', margin: 0 }}>{label}</p>
             </div>
           ))}
         </div>
