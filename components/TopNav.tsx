@@ -19,7 +19,7 @@ function getActive(pathname: string) {
   return 'STORY'
 }
 
-export const NAV_HEIGHT = 52
+export const NAV_HEIGHT = 48
 
 export function TopNav() {
   const pathname = usePathname()
@@ -37,17 +37,19 @@ export function TopNav() {
         borderBottom: '1px solid var(--pd)',
       }}
     >
-      <div className="flex items-center gap-0 px-4 h-full">
+      {/* 아래 줄 맞춤 — pb-2로 바닥 기준 정렬 */}
+      <div className="flex items-end gap-0 px-3 h-full pb-2">
 
         {/* PATTO brand → Home */}
         <Link
           href="/home"
           className="font-playfair shrink-0 transition-opacity"
           style={{
-            fontSize: 17,
+            fontSize: 16,
             fontWeight: 800,
-            letterSpacing: '0.08em',
+            letterSpacing: '0.06em',
             color: 'var(--pt)',
+            lineHeight: 1,
           }}
           onMouseEnter={e => (e.currentTarget.style.opacity = '0.65')}
           onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
@@ -55,8 +57,8 @@ export function TopNav() {
           PATTO
         </Link>
 
-        {/* Nav tabs */}
-        <div className="flex items-center gap-5 ml-6">
+        {/* Nav tabs — 간격 축소 */}
+        <div className="flex items-end gap-3 ml-4">
           {TABS.map(({ label, href }) => {
             const isActive = active === label
             return (
@@ -65,11 +67,12 @@ export function TopNav() {
                 href={href}
                 className="transition-colors"
                 style={{
-                  fontSize: 9.5,
-                  letterSpacing: '0.16em',
+                  fontSize: 9,
+                  letterSpacing: '0.12em',
                   fontWeight: isActive ? 700 : 500,
                   color: isActive ? 'var(--pt)' : 'var(--pm)',
                   whiteSpace: 'nowrap',
+                  lineHeight: 1,
                 }}
               >
                 {label}
@@ -79,23 +82,23 @@ export function TopNav() {
         </div>
 
         {/* 우측: streak + 프로필 */}
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex items-center gap-2.5 pb-0.5">
           <div className="flex items-center gap-1" title={`연속 학습 ${streak}일`}>
             <Flame
-              className="w-3.5 h-3.5"
+              className="w-3 h-3"
               strokeWidth={2}
               style={{ color: streak > 0 ? 'var(--pa)' : 'var(--pm2)' }}
               fill={streak > 0 ? 'var(--pa)' : 'none'}
             />
-            <span className="text-[12px] font-bold" style={{ color: 'var(--pt)' }}>{streak}</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pt)' }}>{streak}</span>
           </div>
           <Link
             href="/settings"
             aria-label="설정"
-            className="w-7 h-7 rounded-full flex items-center justify-center transition-colors"
+            className="w-6 h-6 rounded-full flex items-center justify-center transition-colors"
             style={{ background: 'var(--pd)' }}
           >
-            <User className="w-3.5 h-3.5" strokeWidth={2} style={{ color: 'var(--pt)' }} />
+            <User className="w-3 h-3" strokeWidth={2} style={{ color: 'var(--pt)' }} />
           </Link>
         </div>
       </div>

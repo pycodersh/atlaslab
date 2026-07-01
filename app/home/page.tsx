@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import {
   getDueCount,
@@ -21,104 +20,104 @@ const COVER_THEMES: CoverTheme[] = [
     seeds: ['rain', 'mist', 'fog', 'overcast', 'drizzle', 'window'],
     quotes: [
       { en: 'Read. Repeat. Remember.', ko: '읽고. 반복하고. 기억하라.' },
-      { en: 'The quiet habit builds the loudest skill.', ko: '조용한 습관이 가장 큰 실력을 만든다.' },
-      { en: 'Slow is smooth. Smooth is fluent.', ko: '천천히가 매끄러움, 매끄러움이 유창함.' },
-      { en: 'Every story leaves something behind.', ko: '모든 이야기는 무언가를 남긴다.' },
-      { en: 'Language lives in stories.', ko: '언어는 이야기 속에 산다.' },
-      { en: 'Practice in quiet. Speak with ease.', ko: '조용히 연습하면, 편하게 말하게 된다.' },
-      { en: 'A good sentence is worth rereading.', ko: '좋은 문장은 다시 읽을 가치가 있다.' },
-      { en: 'The page is always open.', ko: '페이지는 언제나 열려 있다.' },
+      { en: 'The quiet habit builds the loudest skill.', ko: '조용한 습관이\n가장 큰 실력을 만든다.' },
+      { en: 'Slow is smooth.\nSmooth is fluent.', ko: '천천히가 매끄러움,\n매끄러움이 유창함.' },
+      { en: 'Every story leaves\nsomething behind.', ko: '모든 이야기는\n무언가를 남긴다.' },
+      { en: 'Language lives\nin stories.', ko: '언어는\n이야기 속에 산다.' },
+      { en: 'Practice in quiet.\nSpeak with ease.', ko: '조용히 연습하면,\n편하게 말하게 된다.' },
+      { en: 'A good sentence is\nworth rereading.', ko: '좋은 문장은\n다시 읽을 가치가 있다.' },
+      { en: 'The page is\nalways open.', ko: '페이지는\n언제나 열려 있다.' },
     ],
   },
   {
     seeds: ['coffee', 'espresso', 'latte', 'breakfast', 'journal', 'desk'],
     quotes: [
-      { en: 'Every morning is a new page.', ko: '매일 아침은 새로운 페이지다.' },
-      { en: 'Begin again, every day.', ko: '매일, 다시 시작하라.' },
-      { en: "Today's effort is tomorrow's ease.", ko: '오늘의 노력이 내일의 여유다.' },
+      { en: 'Every morning is\na new page.', ko: '매일 아침은\n새로운 페이지다.' },
+      { en: 'Begin again,\nevery day.', ko: '매일,\n다시 시작하라.' },
+      { en: "Today's effort is\ntomorrow's ease.", ko: '오늘의 노력이\n내일의 여유다.' },
       { en: 'Make it a habit.', ko: '습관으로 만들어라.' },
       { en: 'A little, every day.', ko: '매일, 조금씩.' },
-      { en: "Make today's session count.", ko: '오늘의 학습을 의미 있게.' },
-      { en: 'Show up. The rest follows.', ko: '일단 시작하라. 나머지는 따라온다.' },
-      { en: 'Keep the rhythm going.', ko: '리듬을 이어가라.' },
+      { en: "Make today's\nsession count.", ko: '오늘의 학습을\n의미 있게.' },
+      { en: 'Show up.\nThe rest follows.', ko: '일단 시작하라.\n나머지는 따라온다.' },
+      { en: 'Keep the\nrhythm going.', ko: '리듬을 이어가라.' },
     ],
   },
   {
     seeds: ['forest', 'pine', 'meadow', 'fern', 'woodland', 'bloom'],
     quotes: [
-      { en: 'Patience builds fluency.', ko: '인내가 유창함을 만든다.' },
-      { en: 'Language rewards the patient.', ko: '언어는 인내하는 자에게 보답한다.' },
-      { en: 'Small steps. Big changes.', ko: '작은 걸음이 큰 변화를.' },
-      { en: 'The habit is the teacher.', ko: '습관이 곧 스승이다.' },
-      { en: 'One pattern at a time.', ko: '한 번에 패턴 하나씩.' },
+      { en: 'Patience builds\nfluency.', ko: '인내가\n유창함을 만든다.' },
+      { en: 'Language rewards\nthe patient.', ko: '언어는\n인내하는 자에게 보답한다.' },
+      { en: 'Small steps.\nBig changes.', ko: '작은 걸음이\n큰 변화를.' },
+      { en: 'The habit is\nthe teacher.', ko: '습관이 곧 스승이다.' },
+      { en: 'One pattern\nat a time.', ko: '한 번에\n패턴 하나씩.' },
       { en: 'Depth before breadth.', ko: '넓이보다 깊이를 먼저.' },
-      { en: 'Reading is the root of speaking.', ko: '읽기가 말하기의 뿌리다.' },
-      { en: 'The smallest habit changes everything.', ko: '가장 작은 습관이 모든 걸 바꾼다.' },
+      { en: 'Reading is the root\nof speaking.', ko: '읽기가\n말하기의 뿌리다.' },
+      { en: 'The smallest habit\nchanges everything.', ko: '가장 작은 습관이\n모든 걸 바꾼다.' },
     ],
   },
   {
     seeds: ['candle', 'lamp', 'evening', 'warmglow', 'dusk', 'fireplace'],
     quotes: [
-      { en: 'Stories stay with you.', ko: '이야기는 마음에 남는다.' },
+      { en: 'Stories stay\nwith you.', ko: '이야기는\n마음에 남는다.' },
       { en: 'Stories connect us.', ko: '이야기는 우리를 잇는다.' },
-      { en: 'Find the story. Learn the language.', ko: '이야기를 찾으면, 언어를 배운다.' },
-      { en: 'Every story read is a conversation prepared.', ko: '읽은 이야기 하나가 대화 하나를 준비시킨다.' },
-      { en: "Stories teach what textbooks can't.", ko: '이야기는 교과서가 못 가르치는 걸 가르친다.' },
-      { en: 'Language is a door. Reading is the key.', ko: '언어는 문이고, 읽기는 열쇠다.' },
-      { en: 'Return to the story. Find something new.', ko: '이야기로 돌아가면, 새로운 걸 발견한다.' },
-      { en: 'Read deeply. Speak freely.', ko: '깊이 읽고, 자유롭게 말하라.' },
+      { en: 'Find the story.\nLearn the language.', ko: '이야기를 찾으면,\n언어를 배운다.' },
+      { en: 'Every story read is\na conversation prepared.', ko: '읽은 이야기 하나가\n대화 하나를 준비시킨다.' },
+      { en: "Stories teach what\ntextbooks can't.", ko: '이야기는 교과서가\n못 가르치는 걸 가르친다.' },
+      { en: 'Language is a door.\nReading is the key.', ko: '언어는 문이고,\n읽기는 열쇠다.' },
+      { en: 'Return to the story.\nFind something new.', ko: '이야기로 돌아가면,\n새로운 걸 발견한다.' },
+      { en: 'Read deeply.\nSpeak freely.', ko: '깊이 읽고,\n자유롭게 말하라.' },
     ],
   },
   {
     seeds: ['street', 'cobblestone', 'alley', 'city', 'bridge', 'urban'],
     quotes: [
       { en: 'Keep moving forward.', ko: '계속 앞으로 나아가라.' },
-      { en: 'One sentence changes everything.', ko: '문장 하나가 모든 걸 바꾼다.' },
+      { en: 'One sentence\nchanges everything.', ko: '문장 하나가\n모든 걸 바꾼다.' },
       { en: 'Words are bridges.', ko: '말은 다리다.' },
-      { en: 'Speak first. Refine later.', ko: '먼저 말하고, 나중에 다듬어라.' },
-      { en: 'Less hesitation. More speaking.', ko: '망설임은 줄이고, 말은 더 많이.' },
-      { en: 'Your voice is already there. Practice finds it.', ko: '네 목소리는 이미 있다. 연습이 그걸 찾아준다.' },
-      { en: 'Speak a little more today than yesterday.', ko: '어제보다 오늘 조금만 더 말하라.' },
+      { en: 'Speak first.\nRefine later.', ko: '먼저 말하고,\n나중에 다듬어라.' },
+      { en: 'Less hesitation.\nMore speaking.', ko: '망설임은 줄이고,\n말은 더 많이.' },
+      { en: 'Your voice is already\nthere. Practice finds it.', ko: '네 목소리는 이미 있다.\n연습이 그걸 찾아준다.' },
+      { en: 'Speak a little more\ntoday than yesterday.', ko: '어제보다 오늘\n조금만 더 말하라.' },
       { en: 'The story continues.', ko: '이야기는 계속된다.' },
     ],
   },
   {
     seeds: ['ocean', 'shore', 'horizon', 'harbor', 'beach', 'waves'],
     quotes: [
-      { en: "Fluency is not a destination. It's a direction.", ko: '유창함은 목적지가 아니라 방향이다.' },
-      { en: 'Stay curious. Stay fluent.', ko: '호기심을 잃지 말고, 유창함을 잃지 마라.' },
+      { en: "Fluency is not\na destination.\nIt's a direction.", ko: '유창함은\n목적지가 아니라 방향이다.' },
+      { en: 'Stay curious.\nStay fluent.', ko: '호기심을 잃지 말고,\n유창함을 잃지 마라.' },
       { en: 'Every listen counts.', ko: '한 번의 듣기도 쌓인다.' },
-      { en: 'Words become yours with time.', ko: '시간이 지나면 단어는 네 것이 된다.' },
-      { en: 'You understand more than you think.', ko: '너는 생각보다 더 많이 이해하고 있다.' },
-      { en: 'Language is alive — keep it moving.', ko: '언어는 살아 있다 — 계속 움직이게 하라.' },
-      { en: 'Effort compounds quietly.', ko: '노력은 조용히 쌓인다.' },
-      { en: 'Progress sounds like silence at first.', ko: '성장은 처음엔 침묵처럼 들린다.' },
+      { en: 'Words become yours\nwith time.', ko: '시간이 지나면\n단어는 네 것이 된다.' },
+      { en: 'You understand more\nthan you think.', ko: '너는 생각보다\n더 많이 이해하고 있다.' },
+      { en: 'Language is alive —\nkeep it moving.', ko: '언어는 살아 있다 —\n계속 움직이게 하라.' },
+      { en: 'Effort compounds\nquietly.', ko: '노력은 조용히 쌓인다.' },
+      { en: 'Progress sounds like\nsilence at first.', ko: '성장은 처음엔\n침묵처럼 들린다.' },
     ],
   },
   {
     seeds: ['sunrise', 'dawn', 'morning', 'sunlight', 'daybreak', 'fresh'],
     quotes: [
-      { en: 'Small progress every day.', ko: '매일 작은 진전을.' },
+      { en: 'Small progress\nevery day.', ko: '매일 작은 진전을.' },
       { en: 'Every review matters.', ko: '모든 복습이 중요하다.' },
       { en: 'One more story.', ko: '이야기 하나 더.' },
-      { en: 'Not perfect. Just consistent.', ko: '완벽하지 않아도, 꾸준하게.' },
-      { en: 'Consistency is the only shortcut.', ko: '꾸준함이 유일한 지름길이다.' },
-      { en: 'Keep going. Even on quiet days.', ko: '조용한 날에도, 계속하라.' },
-      { en: 'Every word, a small victory.', ko: '단어 하나하나가 작은 승리다.' },
-      { en: 'Build the habit. The skill will follow.', ko: '습관을 쌓아라. 실력은 따라온다.' },
+      { en: 'Not perfect.\nJust consistent.', ko: '완벽하지 않아도,\n꾸준하게.' },
+      { en: 'Consistency is\nthe only shortcut.', ko: '꾸준함이\n유일한 지름길이다.' },
+      { en: 'Keep going.\nEven on quiet days.', ko: '조용한 날에도,\n계속하라.' },
+      { en: 'Every word,\na small victory.', ko: '단어 하나하나가\n작은 승리다.' },
+      { en: 'Build the habit.\nThe skill will follow.', ko: '습관을 쌓아라.\n실력은 따라온다.' },
     ],
   },
   {
     seeds: ['library', 'bookshelf', 'reading', 'book', 'pages', 'study'],
     quotes: [
-      { en: 'Patterns become habits.', ko: '패턴이 습관이 된다.' },
+      { en: 'Patterns become\nhabits.', ko: '패턴이 습관이 된다.' },
       { en: 'One story at a time.', ko: '한 번에 이야기 하나씩.' },
-      { en: 'Every session leaves a mark.', ko: '매 학습이 흔적을 남긴다.' },
-      { en: 'Sentences become instinct.', ko: '문장이 본능이 된다.' },
-      { en: 'Read it. Feel it. Say it.', ko: '읽고. 느끼고. 말하라.' },
-      { en: 'Natural speech starts with natural reading.', ko: '자연스러운 말하기는 자연스러운 읽기에서 시작된다.' },
-      { en: 'Fluency comes from repetition.', ko: '유창함은 반복에서 온다.' },
-      { en: 'Language is a craft. Polish it daily.', ko: '언어는 기술이다. 매일 갈고닦아라.' },
+      { en: 'Every session\nleaves a mark.', ko: '매 학습이 흔적을 남긴다.' },
+      { en: 'Sentences become\ninstinct.', ko: '문장이 본능이 된다.' },
+      { en: 'Read it. Feel it.\nSay it.', ko: '읽고. 느끼고. 말하라.' },
+      { en: 'Natural speech starts\nwith natural reading.', ko: '자연스러운 말하기는\n자연스러운 읽기에서 시작된다.' },
+      { en: 'Fluency comes\nfrom repetition.', ko: '유창함은 반복에서 온다.' },
+      { en: 'Language is a craft.\nPolish it daily.', ko: '언어는 기술이다.\n매일 갈고닦아라.' },
     ],
   },
 ]
@@ -136,30 +135,24 @@ function getIssueDateLabel(): string {
     .toUpperCase()
 }
 
-function getNotice(reviewCount: number): string {
-  if (reviewCount >= 2) return `${reviewCount} reviews are ready.`
-  if (reviewCount === 1) return 'One review is waiting.'
-  return 'A new story is waiting.'
-}
-
 // ── Circular Goal Badge ───────────────────────────────────────────────────────
 function GoalCircle({ done, total }: { done: number; total: number }) {
-  const r = 28
+  const r = 26
   const circ = 2 * Math.PI * r
-  const pct = total > 0 ? Math.min(done / total, 1) : 0
+  const pct  = total > 0 ? Math.min(done / total, 1) : 0
   const offset = circ * (1 - pct)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-      <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.20em', color: 'rgba(255,255,255,0.55)', margin: 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+      <p style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.45)', margin: 0 }}>
         DAILY GOAL
       </p>
-      <div style={{ position: 'relative', width: 68, height: 68 }}>
-        <svg width={68} height={68} viewBox="0 0 68 68" style={{ transform: 'rotate(-90deg)' }}>
-          <circle cx={34} cy={34} r={r} fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth={3} />
+      <div style={{ position: 'relative', width: 62, height: 62 }}>
+        <svg width={62} height={62} viewBox="0 0 62 62" style={{ transform: 'rotate(-90deg)' }}>
+          <circle cx={31} cy={31} r={r} fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth={2.5} />
           <circle
-            cx={34} cy={34} r={r} fill="none"
-            stroke="rgba(255,255,255,0.85)" strokeWidth={3}
+            cx={31} cy={31} r={r} fill="none"
+            stroke="rgba(255,255,255,0.80)" strokeWidth={2.5}
             strokeDasharray={circ}
             strokeDashoffset={offset}
             strokeLinecap="round"
@@ -170,15 +163,14 @@ function GoalCircle({ done, total }: { done: number; total: number }) {
           position: 'absolute', inset: 0,
           display: 'flex', flexDirection: 'column',
           alignItems: 'center', justifyContent: 'center',
-          gap: 0,
         }}>
-          <span className="font-playfair" style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1 }}>
+          <span className="font-playfair" style={{ fontSize: 18, fontWeight: 800, color: '#fff', lineHeight: 1 }}>
             {done}
           </span>
-          <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.55)', lineHeight: 1.2 }}>/ {total}</span>
+          <span style={{ fontSize: 8.5, color: 'rgba(255,255,255,0.50)', lineHeight: 1.3 }}>/ {total}</span>
         </div>
       </div>
-      <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.45)', margin: 0, letterSpacing: '0.06em' }}>tasks</p>
+      <p style={{ fontSize: 8, color: 'rgba(255,255,255,0.35)', margin: 0, letterSpacing: '0.06em' }}>tasks</p>
     </div>
   )
 }
@@ -190,11 +182,9 @@ export default function HomePage() {
   const [{ imageUrl, quote }] = useState(() => pickCover())
   const issueDateLabel = getIssueDateLabel()
 
-  const [notice,    setNotice]    = useState('')
   const [firstHref, setFirstHref] = useState('/stories/1')
-  const [dueCount,  setDueCount]  = useState(0)
   const [goalDone,  setGoalDone]  = useState(0)
-  const [goalTotal, setGoalTotal] = useState(3)
+  const [goalTotal, setGoalTotal] = useState(2)
 
   const [showImg,    setShowImg]    = useState(false)
   const [showTop,    setShowTop]    = useState(false)
@@ -207,15 +197,12 @@ export default function HomePage() {
       getAllRecords().filter((r) => r.itemType === 'story').map((r) => r.itemId),
     )
     const nextStory = magazineStories.find((s) => !learnedStoryIds.has(String(s.id))) ?? magazineStories[0]
-    setNotice(getNotice(due))
     setFirstHref(due > 0 ? '/review' : `/stories/${nextStory.id}`)
-    setDueCount(due)
 
-    // Daily Goal: Story(1) + Pattern(5) + Review(if due)
     const storyDone   = getStudiedTodayStoryCount()
     const patternDone = getPracticedTodayCount()
     const reviewDone  = getReviewedTodayCount()
-    const total       = due > 0 ? 3 : 2
+    const total = due > 0 ? 3 : 2
     let done = 0
     if (storyDone >= 1)  done++
     if (patternDone >= 5) done++
@@ -238,11 +225,28 @@ export default function HomePage() {
     transition: 'opacity 0.65s ease-out, transform 0.65s ease-out',
   })
 
+  // 버튼 공통 스타일 — 두 버튼 동일 폭·높이 (fit-content 기준 최소폭)
+  const btnStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 20,
+    padding: '11px 16px',
+    background: 'rgba(255,255,255,0.10)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    border: '1px solid rgba(255,255,255,0.18)',
+    borderRadius: 10,
+    cursor: 'pointer',
+    transition: 'background 0.18s',
+    whiteSpace: 'nowrap' as const,
+  }
+
   return (
     <div style={{ minHeight: '100dvh', background: '#111' }}>
       <TopNav />
 
-      {/* ── Full-bleed Hero (전체화면) ─────────────────────────────────── */}
+      {/* ── Full-bleed Hero ───────────────────────────────────────────────── */}
       <div
         style={{
           position: 'relative',
@@ -254,43 +258,33 @@ export default function HomePage() {
           transition: 'opacity 1.1s ease-out',
         }}
       >
-        {/* Cover image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageUrl}
           alt="Daily cover"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center 30%',
-            display: 'block',
-          }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
           onError={(e) => {
             const img = e.currentTarget
             if (!img.src.includes('coffee')) img.src = 'https://picsum.photos/seed/coffee/900/1400'
           }}
         />
-
-        {/* 얇은 전체 오버레이 */}
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.15)', pointerEvents: 'none' }} />
 
-        {/* ── 상단: PATTO + 슬로건 + 날짜 ──────────────────────────── */}
+        {/* ── PATTO 로고 — 우측으로 치우치게, 상단에서 35% 내려감 ──── */}
         <div
           style={{
             position: 'absolute',
-            top: 28,
-            left: 20,
-            right: 20,
+            top: '18%',
+            left: '28%',
+            right: 18,
             ...fadeUp(showTop),
           }}
         >
-          {/* PATTO 로고 */}
           <p
             className="font-playfair"
             style={{
               margin: 0,
-              fontSize: 'clamp(3.6rem, 16vw, 5.8rem)',
+              fontSize: 'clamp(3.2rem, 14vw, 5rem)',
               fontWeight: 900,
               letterSpacing: '-0.02em',
               lineHeight: 0.9,
@@ -300,39 +294,24 @@ export default function HomePage() {
           >
             PATTO
           </p>
-
-          {/* 슬로건 + 날짜 row */}
+          {/* 슬로건 + 날짜 */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
-            <p style={{
-              margin: 0,
-              fontSize: 8,
-              fontWeight: 600,
-              letterSpacing: '0.20em',
-              color: 'rgba(255,255,255,0.55)',
-              textShadow: '0 1px 6px rgba(0,0,0,0.4)',
-            }}>
+            <p style={{ margin: 0, fontSize: 7.5, fontWeight: 600, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.50)', textShadow: '0 1px 6px rgba(0,0,0,0.4)' }}>
               PATTERNS. STORIES. YOU.
             </p>
-            <p style={{
-              margin: 0,
-              fontSize: 8,
-              fontWeight: 500,
-              letterSpacing: '0.14em',
-              color: 'rgba(255,255,255,0.45)',
-              textShadow: '0 1px 6px rgba(0,0,0,0.4)',
-            }}>
+            <p style={{ margin: 0, fontSize: 7.5, fontWeight: 500, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.38)', textShadow: '0 1px 6px rgba(0,0,0,0.4)' }}>
               {issueDateLabel}
             </p>
           </div>
         </div>
 
-        {/* ── 중하단: Quote ─────────────────────────────────────────── */}
+        {/* ── Quote — 화면 절반 이내 폭 ───────────────────────────────── */}
         <div
           style={{
             position: 'absolute',
-            bottom: 'calc(38% + 16px)',
+            bottom: 'calc(40% + 14px)',
             left: 20,
-            right: 20,
+            width: '50%',
             ...fadeUp(showQuote),
           }}
         >
@@ -340,140 +319,80 @@ export default function HomePage() {
             className="font-playfair"
             style={{
               margin: 0,
-              fontSize: 'clamp(1.25rem, 5vw, 1.6rem)',
+              fontSize: 'clamp(1.15rem, 4.8vw, 1.45rem)',
               fontWeight: 700,
               fontStyle: 'italic',
-              lineHeight: 1.3,
+              lineHeight: 1.32,
               color: 'rgba(255,255,255,0.95)',
               textShadow: '0 2px 16px rgba(0,0,0,0.55)',
-              maxWidth: 280,
+              whiteSpace: 'pre-line',
             }}
           >
             {quote.en}
           </p>
           <p style={{
-            margin: '7px 0 0',
-            fontSize: 11,
-            color: 'rgba(255,255,255,0.55)',
-            letterSpacing: '0.02em',
-            lineHeight: 1.5,
+            margin: '8px 0 0',
+            fontSize: 10.5,
+            color: 'rgba(255,255,255,0.52)',
+            lineHeight: 1.6,
             textShadow: '0 1px 8px rgba(0,0,0,0.45)',
+            whiteSpace: 'pre-line',
           }}>
             {quote.ko}
           </p>
         </div>
 
-        {/* ── 하단 패널: 반투명 다크 오버레이 ─────────────────────── */}
+        {/* ── 하단 패널 ────────────────────────────────────────────────── */}
         <div
           style={{
             position: 'absolute',
             bottom: 0,
             left: 0,
             right: 0,
-            height: '38%',
-            background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.72) 40%, rgba(0,0,0,0.82))',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            padding: '0 20px 20px',
+            background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.70) 38%, rgba(0,0,0,0.82))',
+            padding: '40px 18px 24px',
             ...fadeUp(showBottom),
           }}
         >
-          {/* Today's Note + Daily Goal */}
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 14 }}>
-            {/* 좌: Today's Note */}
-            <div style={{ flex: 1, minWidth: 0, paddingRight: 16 }}>
-              <p style={{
-                fontSize: 8.5,
-                fontWeight: 700,
-                letterSpacing: '0.24em',
-                color: 'rgba(255,255,255,0.45)',
-                margin: '0 0 5px 0',
-              }}>
-                TODAY'S NOTE
-              </p>
-              <p style={{
-                fontSize: 13,
-                color: 'rgba(255,255,255,0.85)',
-                lineHeight: 1.4,
-                margin: 0,
-              }}>
-                {notice || ' '}
-              </p>
+          {/* 버튼 + Daily Goal — 같은 row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+
+            {/* 좌: 두 버튼 (동일 폭) */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flex: '0 0 auto' }}>
+              {/* Continue Learning */}
+              <button
+                type="button"
+                onClick={() => router.push(firstHref)}
+                style={btnStyle}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.18)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.10)' }}
+              >
+                <span style={{ fontSize: 12.5, fontWeight: 600, letterSpacing: '0.03em', color: 'rgba(255,255,255,0.90)' }}>
+                  Continue Learning
+                </span>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.50)', fontWeight: 400 }}>&gt;</span>
+              </button>
+
+              {/* Editor's Note — Continue Learning과 동일 폭 */}
+              <button
+                type="button"
+                onClick={() => router.push('/settings/about')}
+                style={{ ...btnStyle, width: '100%' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.16)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.10)' }}
+              >
+                <span style={{ fontSize: 12.5, fontWeight: 600, letterSpacing: '0.03em', color: 'rgba(255,255,255,0.90)' }}>
+                  Editor&apos;s Note
+                </span>
+                <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.50)', fontWeight: 400 }}>&gt;</span>
+              </button>
             </div>
 
-            {/* 우: Daily Goal 원형 */}
-            <GoalCircle done={goalDone} total={goalTotal} />
+            {/* 우: Daily Goal — 버튼 두 개와 동일 높이 중앙 */}
+            <div style={{ marginLeft: 'auto' }}>
+              <GoalCircle done={goalDone} total={goalTotal} />
+            </div>
           </div>
-
-          {/* Continue Learning 버튼 */}
-          <button
-            type="button"
-            onClick={() => router.push(firstHref)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%',
-              padding: '13px 18px',
-              background: 'rgba(255,255,255,0.12)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255,255,255,0.22)',
-              borderRadius: 12,
-              cursor: 'pointer',
-              transition: 'background 0.2s, transform 0.15s',
-              marginBottom: 9,
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.20)'
-              e.currentTarget.style.transform  = 'translateY(-1px)'
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.12)'
-              e.currentTarget.style.transform  = 'translateY(0)'
-            }}
-          >
-            <span style={{ fontSize: 13.5, fontWeight: 700, letterSpacing: '0.04em', color: '#fff' }}>
-              Continue Learning
-            </span>
-            <ArrowRight style={{ width: 15, height: 15, color: 'rgba(255,255,255,0.7)' }} strokeWidth={2.5} />
-          </button>
-
-          {/* Editor's Note 버튼 */}
-          <button
-            type="button"
-            onClick={() => router.push('/settings/about')}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: '100%',
-              padding: '10px 18px',
-              background: 'rgba(255,255,255,0.06)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              borderRadius: 12,
-              cursor: 'pointer',
-              transition: 'background 0.2s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)' }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: 13 }}>📄</span>
-              <div style={{ textAlign: 'left' }}>
-                <p style={{ margin: 0, fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.40)' }}>
-                  EDITOR'S NOTE
-                </p>
-                <p style={{ margin: '2px 0 0', fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.75)' }}>
-                  Why PATTO is Different
-                </p>
-              </div>
-            </div>
-            <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontWeight: 500 }}>Read · 35 sec</span>
-          </button>
         </div>
       </div>
     </div>
