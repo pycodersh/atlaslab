@@ -77,20 +77,25 @@ function ActionLink({ label, href, onClick }: {
   )
 }
 
-// ── Section label ─────────────────────────────────────────────────────────────
+// ── Section label — same Serif design language as PATTERNS page title ─────────
+// PATTERNS: font-playfair 2.2rem font-black var(--pa) tracking-tight
+// Here: identical style at ~64% size (1.4rem). No divider — spacing alone separates.
 function SectionLabel({ label, action }: { label: string; action?: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-        <p style={{
-          fontSize: 11, fontWeight: 800, letterSpacing: '0.22em',
-          color: 'var(--pa)', margin: 0, textTransform: 'uppercase',
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
+        <h2 className="font-playfair" style={{
+          fontSize: '1.4rem',
+          fontWeight: 900,
+          color: 'var(--pa)',
+          margin: 0,
+          letterSpacing: '-0.02em',
+          lineHeight: 1,
         }}>
           {label}
-        </p>
+        </h2>
         {action}
       </div>
-      <div style={{ height: 2, background: 'var(--pa)', width: 48, marginTop: 8, borderRadius: 1, opacity: 0.55 }} />
     </div>
   )
 }
