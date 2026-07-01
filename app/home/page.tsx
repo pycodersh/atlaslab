@@ -427,7 +427,7 @@ export default function HomePage() {
                 color: 'rgba(255,255,255,0.60)',
                 lineHeight: 1.2,
               }}>
-                {t('editor_note_label')}
+                Editor&apos;s Note
               </p>
               <div style={{
                 marginTop: 6,
