@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Flame, User } from 'lucide-react'
-import { getStreak } from '@/lib/srs/storage'
+import { User } from 'lucide-react'
 
 const ALL_TABS = [
   { label: 'TODAY',    href: '/home' },
   { label: 'STORY',    href: '/stories/1' },
+  { label: 'ESSAYS',   href: '/essays' },
   { label: 'PROGRESS', href: '/records' },
   { label: 'SETTINGS', href: '/settings' },
 ] as const
@@ -17,6 +17,7 @@ type TabLabel = (typeof ALL_TABS)[number]['label']
 
 function getActive(pathname: string): TabLabel {
   if (pathname === '/home' || pathname === '/') return 'TODAY'
+  if (pathname.startsWith('/essays'))  return 'ESSAYS'
   if (pathname.startsWith('/records')) return 'PROGRESS'
   if (pathname.startsWith('/settings')) return 'SETTINGS'
   return 'STORY'
@@ -27,20 +28,15 @@ export const NAV_HEIGHT = 48
 const UNDERLINE_COLOR = '#8A1F45'
 
 export function TopNav() {
-  const pathname  = usePathname()
-  const active    = getActive(pathname)
-  const [streak, setStreak] = useState(0)
+  const pathname = usePathname()
+  const active   = getActive(pathname)
 
-  // refs for each tab label element — used to position the sliding underline
   const tabRefs = useRef<Record<TabLabel, HTMLAnchorElement | null>>({
-    TODAY: null, STORY: null, PROGRESS: null, SETTINGS: null,
+    TODAY: null, STORY: null, ESSAYS: null, PROGRESS: null, SETTINGS: null,
   })
 
-  // underline position state: left offset + width relative to the nav row
   const [underline, setUnderline] = useState<{ left: number; width: number } | null>(null)
   const rowRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => { setStreak(getStreak()) }, [pathname])
 
   useEffect(() => {
     const el  = tabRefs.current[active]
@@ -50,7 +46,7 @@ export function TopNav() {
     const elRect  = el.getBoundingClientRect()
     const rowRect = row.getBoundingClientRect()
     const fullW   = elRect.width
-    const underW  = fullW * 0.82            // 82% of label width
+    const underW  = fullW * 0.82
     const left    = elRect.left - rowRect.left + (fullW - underW) / 2
 
     setUnderline({ left, width: underW })
@@ -65,7 +61,6 @@ export function TopNav() {
         borderBottom: '1px solid var(--pd)',
       }}
     >
-      {/* single row — sits below safe area, vertically centred in the remaining 48px */}
       <div
         ref={rowRef}
         className="flex items-center px-3"
@@ -75,8 +70,8 @@ export function TopNav() {
           marginTop: 'env(safe-area-inset-top, 0px)',
         }}
       >
-        {/* All tabs — TODAY acts as brand + home link */}
-        <div className="flex items-center gap-4">
+        {/* Tabs — 5 tabs, slightly tighter spacing */}
+        <div className="flex items-center gap-3">
           {ALL_TABS.map(({ label, href }) => {
             const isActive = active === label
             return (
@@ -85,9 +80,9 @@ export function TopNav() {
                 href={href}
                 ref={el => { tabRefs.current[label] = el }}
                 style={{
-                  fontSize: 9,
+                  fontSize: 8.5,
                   fontWeight: isActive ? 700 : 500,
-                  letterSpacing: '0.12em',
+                  letterSpacing: '0.1em',
                   color: isActive ? 'var(--pt)' : 'var(--pm)',
                   whiteSpace: 'nowrap',
                   lineHeight: 1,
@@ -106,30 +101,21 @@ export function TopNav() {
           <span
             aria-hidden
             style={{
-              position:     'absolute',
-              bottom:       10,
-              left:         underline.left,
-              width:        underline.width,
-              height:       1.5,
-              background:   UNDERLINE_COLOR,
-              borderRadius: 1,
-              transition:   'left 180ms cubic-bezier(.4,0,.2,1), width 180ms cubic-bezier(.4,0,.2,1)',
+              position:      'absolute',
+              bottom:        10,
+              left:          underline.left,
+              width:         underline.width,
+              height:        1.5,
+              background:    UNDERLINE_COLOR,
+              borderRadius:  1,
+              transition:    'left 180ms cubic-bezier(.4,0,.2,1), width 180ms cubic-bezier(.4,0,.2,1)',
               pointerEvents: 'none',
             }}
           />
         )}
 
-        {/* 우측: streak + 프로필 */}
-        <div className="ml-auto flex items-center gap-2.5">
-          <div className="flex items-center gap-1" title={`연속 학습 ${streak}일`}>
-            <Flame
-              className="w-3 h-3"
-              strokeWidth={2}
-              style={{ color: streak > 0 ? 'var(--pa)' : 'var(--pm2)' }}
-              fill={streak > 0 ? 'var(--pa)' : 'none'}
-            />
-            <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pt)' }}>{streak}</span>
-          </div>
+        {/* 우측: 프로필 아이콘만 (streak 숫자 제거) */}
+        <div className="ml-auto">
           <Link
             href="/settings"
             aria-label="설정"
