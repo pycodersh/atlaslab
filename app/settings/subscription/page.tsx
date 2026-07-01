@@ -2,35 +2,31 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, Check, Sparkles, Zap, Calendar } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 
 const FEATURES = [
-  '스토리 무제한 열람',
-  '패턴 전체 접근',
-  'AI 문장 해설',
-  '단어 컬렉션',
-  '쉐도잉 연습',
+  'Unlimited Stories',
+  'All Patterns',
+  'AI Notes',
+  'Shadowing Practice',
+  'Word Collection',
 ]
 
 const PLANS = [
   {
     id: 'monthly',
-    icon: Zap,
-    label: 'Premium Monthly',
-    sublabel: '언제든 해지 가능',
+    label: 'Monthly',
     price: '$4.99',
     period: '/ month',
-    badge: null,
+    note: null,
   },
   {
     id: 'annual',
-    icon: Calendar,
-    label: 'Premium Annual',
-    sublabel: '월간 대비 33% 절약',
+    label: 'Annual',
     price: '$39.99',
     period: '/ year',
-    badge: 'BEST VALUE',
+    note: '33% 절약',
   },
 ]
 
@@ -39,97 +35,135 @@ export default function SubscriptionPage() {
   const [toast, setToast] = useState(false)
 
   return (
-    <div className="min-h-dvh bg-[var(--pb)]">
+    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
       <TopNav />
 
-      <div className="px-7 pb-28 max-w-sm mx-auto pt-20">
+      <div style={{
+        maxWidth: 480, margin: '0 auto',
+        paddingTop: 'calc(var(--pnav-h) + 28px)',
+        paddingLeft: 24, paddingRight: 24, paddingBottom: 100,
+        boxSizing: 'border-box',
+      }}>
+
+        {/* Back */}
         <Link
           href="/settings"
-          className="flex items-center gap-1.5 text-[var(--pm)] hover:text-[var(--pa)] transition-colors mb-8 w-fit"
+          style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            color: 'var(--pm)', textDecoration: 'none',
+            marginBottom: 32, width: 'fit-content',
+          }}
         >
-          <ChevronLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
-          <span className="text-[10px] tracking-[0.18em] font-bold">SETTINGS</span>
+          <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
+          <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
+            Settings
+          </span>
         </Link>
 
-        <div className="mb-8">
-          <h1 className="font-playfair text-[1.9rem] font-black leading-none text-[var(--pt)] tracking-tight">
-            SUBSCRIPTION
+        {/* Header */}
+        <div style={{ marginBottom: 40 }}>
+          <h1 className="font-playfair" style={{
+            fontSize: 'clamp(1.7rem, 7vw, 2.2rem)',
+            fontWeight: 900, lineHeight: 1, color: 'var(--pt)',
+            margin: 0, letterSpacing: '-0.02em',
+          }}>
+            Subscription
           </h1>
-          <p className="text-[0.78rem] text-[var(--pm)] mt-2 tracking-wide">
+          <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
             PATTO의 모든 기능을 경험해보세요
           </p>
         </div>
 
-        {/* Current plan card */}
-        <div className="rounded-2xl bg-[var(--pc)] px-5 py-4 mb-10 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-[var(--pa)]/15 flex items-center justify-center shrink-0">
-            <Sparkles className="w-5 h-5 text-[var(--pa)]" strokeWidth={1.5} />
-          </div>
-          <div>
-            <p className="text-[10px] tracking-[0.18em] text-[var(--pa)] font-bold mb-0.5">CURRENT PLAN</p>
-            <p className="text-[15px] font-bold text-[var(--pt)]">Free</p>
-            <p className="text-[11px] text-[var(--pm)] mt-0.5">업그레이드하여 모든 기능을 이용하세요</p>
-          </div>
+        {/* ── Current Plan ───────────────────────────────────────── */}
+        <div style={{ marginBottom: 40 }}>
+          <p style={{
+            fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
+            color: 'var(--pa)', textTransform: 'uppercase', marginBottom: 10,
+          }}>
+            Current Plan
+          </p>
+          <p className="font-playfair" style={{
+            fontSize: '1.3rem', fontWeight: 900,
+            color: 'var(--pt)', margin: '0 0 4px', letterSpacing: '-0.01em',
+          }}>
+            Free
+          </p>
+          <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>
+            무료 플랜 이용 중
+          </p>
         </div>
 
-        {/* Features */}
-        <div className="mb-8 pb-8 border-b border-[var(--pd)]">
-          <p className="text-[10px] tracking-[0.22em] text-[var(--pa)] font-bold mb-5">PREMIUM INCLUDES</p>
-          <div className="space-y-4">
-            {FEATURES.map((f) => (
-              <div key={f} className="flex items-center gap-3">
-                <div className="w-5 h-5 rounded-full bg-[var(--pa)]/10 flex items-center justify-center shrink-0">
-                  <Check className="w-3 h-3 text-[var(--pa)]" strokeWidth={2.5} />
-                </div>
-                <span className="text-[13px] text-[var(--pt2)] font-medium">{f}</span>
+        {/* ── Premium Includes ───────────────────────────────────── */}
+        <div style={{ marginBottom: 40, paddingBottom: 40, borderBottom: '1px solid var(--pd)' }}>
+          <p style={{
+            fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
+            color: 'var(--pa)', textTransform: 'uppercase', marginBottom: 16,
+          }}>
+            Premium Includes
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+            {FEATURES.map(f => (
+              <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{
+                  width: 4, height: 4, borderRadius: '50%',
+                  background: 'var(--pa)', flexShrink: 0, opacity: 0.6,
+                }} />
+                <span style={{ fontSize: 13, color: 'var(--pt)', fontWeight: 400 }}>{f}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Plan selection */}
-        <div className="mb-8">
-          <p className="text-[10px] tracking-[0.22em] text-[var(--pa)] font-bold mb-5">CHOOSE A PLAN</p>
-          <div className="space-y-3">
-            {PLANS.map((plan) => {
-              const PlanIcon = plan.icon
+        {/* ── Choose a Plan ──────────────────────────────────────── */}
+        <div style={{ marginBottom: 32 }}>
+          <p style={{
+            fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
+            color: 'var(--pa)', textTransform: 'uppercase', marginBottom: 16,
+          }}>
+            Choose a Plan
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {PLANS.map(plan => {
               const isSelected = selected === plan.id
               return (
                 <button
                   key={plan.id}
                   type="button"
                   onClick={() => setSelected(plan.id)}
-                  className={`w-full text-left rounded-2xl border-2 px-5 py-4 transition-all cursor-pointer ${
-                    isSelected
-                      ? 'border-[var(--pa)] bg-[var(--pal)]'
-                      : 'border-[var(--pd)] bg-[var(--pw)] hover:border-[var(--pm2)]'
-                  }`}
+                  style={{
+                    width: '100%', textAlign: 'left', cursor: 'pointer',
+                    background: 'none',
+                    border: isSelected ? '1.5px solid var(--pa)' : '1.5px solid var(--pd)',
+                    borderRadius: 14, padding: '16px 18px',
+                    transition: 'border-color 0.18s ease',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  }}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 transition-colors ${isSelected ? 'bg-[var(--pa)]/10' : 'bg-[var(--pc2)]'}`}>
-                        <PlanIcon className={`w-4 h-4 ${isSelected ? 'text-[var(--pa)]' : 'text-[var(--pm)]'}`} strokeWidth={1.6} />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <p className={`font-bold text-[13px] ${isSelected ? 'text-[var(--pt)]' : 'text-[var(--pt2)]'}`}>
-                            {plan.label}
-                          </p>
-                          {plan.badge && (
-                            <span className="text-[8px] tracking-[0.15em] bg-[var(--pa)] text-white px-2 py-0.5 rounded-full font-bold">
-                              {plan.badge}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-[11px] text-[var(--pm)] mt-0.5">{plan.sublabel}</p>
-                      </div>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <p className={`font-playfair text-[1.3rem] font-bold leading-none ${isSelected ? 'text-[var(--pa)]' : 'text-[var(--pt2)]'}`}>
-                        {plan.price}
+                  <div>
+                    <p style={{
+                      fontSize: 13, fontWeight: 700, margin: '0 0 2px',
+                      color: isSelected ? 'var(--pt)' : 'var(--pt2)',
+                    }}>
+                      {plan.label}
+                    </p>
+                    {plan.note && (
+                      <p style={{ fontSize: 10, color: 'var(--pa)', margin: 0, fontWeight: 500 }}>
+                        {plan.note}
                       </p>
-                      <p className="text-[10px] text-[var(--pm)] mt-0.5">{plan.period}</p>
-                    </div>
+                    )}
+                  </div>
+                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                    <p className="font-playfair" style={{
+                      fontSize: '1.25rem', fontWeight: 900,
+                      color: isSelected ? 'var(--pa)' : 'var(--pt2)',
+                      margin: '0 0 1px', lineHeight: 1,
+                      letterSpacing: '-0.01em',
+                    }}>
+                      {plan.price}
+                    </p>
+                    <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0 }}>
+                      {plan.period}
+                    </p>
                   </div>
                 </button>
               )
@@ -137,22 +171,42 @@ export default function SubscriptionPage() {
           </div>
         </div>
 
-        {/* CTA */}
+        {/* ── CTA ───────────────────────────────────────────────── */}
         <button
           type="button"
           onClick={() => { setToast(true); setTimeout(() => setToast(false), 2800) }}
-          className="w-full py-4 bg-[var(--pa)] text-white font-bold tracking-[0.12em] rounded-2xl text-[13px] hover:opacity-90 active:opacity-80 transition-opacity cursor-pointer"
+          style={{
+            width: '100%', padding: '13px 0',
+            background: 'var(--pa)', color: '#fff',
+            border: 'none', borderRadius: 12,
+            fontSize: 12, fontWeight: 700,
+            letterSpacing: '0.14em', cursor: 'pointer',
+            transition: 'opacity 0.15s ease',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.88')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
         >
           SUBSCRIBE
         </button>
 
-        <p className="text-center text-[10px] text-[var(--pm2)] mt-4">
+        <p style={{
+          textAlign: 'center', fontSize: 10,
+          color: 'var(--pm2)', marginTop: 14,
+        }}>
           언제든 해지 가능 · 숨은 비용 없음
         </p>
+
       </div>
 
+      {/* Toast */}
       {toast && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[var(--pt)] text-[var(--pb)] text-[12px] px-5 py-2.5 rounded-full shadow-lg tracking-wide z-50 whitespace-nowrap">
+        <div style={{
+          position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)',
+          background: 'var(--pt)', color: 'var(--pb)',
+          fontSize: 12, padding: '10px 20px', borderRadius: 999,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          zIndex: 50, whiteSpace: 'nowrap', letterSpacing: '0.04em',
+        }}>
           결제 시스템 준비 중입니다.
         </div>
       )}
