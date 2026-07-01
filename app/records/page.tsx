@@ -78,9 +78,7 @@ function ActionLink({ label, href, onClick }: {
 }
 
 // ── Section label — same Serif design language as PATTERNS page title ─────────
-// PATTERNS: font-playfair 2.2rem font-black var(--pa) tracking-tight
-// Here: identical style at ~64% size (1.4rem). No divider — spacing alone separates.
-function SectionLabel({ label, action }: { label: string; action?: React.ReactNode }) {
+function SectionLabel({ label, sub, action }: { label: string; sub?: string; action?: React.ReactNode }) {
   return (
     <div style={{ marginBottom: 20 }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
@@ -96,6 +94,18 @@ function SectionLabel({ label, action }: { label: string; action?: React.ReactNo
         </h2>
         {action}
       </div>
+      {sub && (
+        <p style={{
+          fontSize: 11,
+          fontWeight: 400,
+          color: 'var(--pm)',
+          margin: '7px 0 0',
+          lineHeight: 1.5,
+          letterSpacing: '0.01em',
+        }}>
+          {sub}
+        </p>
+      )}
     </div>
   )
 }
@@ -313,6 +323,7 @@ export default function ProgressPage() {
           <section style={{ marginBottom: 72 }}>
             <SectionLabel
               label="Today's Mission"
+              sub="오늘의 학습을 완료하세요."
               action={<ActionLink label="이어서 학습" onClick={() => router.push(v.ctaHref)} />}
             />
             <MissionRow icon={BookOpen}  label="Story 학습"   value={v.studiedTodayStories}    total={DAILY.story} />
@@ -322,7 +333,7 @@ export default function ProgressPage() {
 
           {/* ── YOUR JOURNEY ──────────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
-            <SectionLabel label="Your Journey" />
+            <SectionLabel label="Your Journey" sub="꾸준함이 실력이 됩니다." />
             <div style={{ display: 'flex', border: '1px solid var(--pd)', borderRadius: 3 }}>
               <StatCell value={v.learnedStories}           label="Stories"  border />
               <StatCell value={v.learnedPatterns}          label="Patterns" border />
@@ -347,7 +358,7 @@ export default function ProgressPage() {
 
           {/* ── LEARNING CALENDAR ─────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
-            <SectionLabel label="Learning Calendar" />
+            <SectionLabel label="Learning Calendar" sub="하루의 기록이 습관이 됩니다." />
             <LearningCalendar />
           </section>
 
@@ -355,6 +366,7 @@ export default function ProgressPage() {
           <section>
             <SectionLabel
               label="My Patterns"
+              sub="저장한 표현을 다시 만나보세요."
               action={<ActionLink label="전체 보기" onClick={() => setSheetOpen(true)} />}
             />
 
