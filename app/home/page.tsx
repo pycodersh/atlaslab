@@ -29,23 +29,23 @@ function injectKenBurns() {
 }
 
 // ── Cover data ────────────────────────────────────────────────────────────────
+// Image source: Unsplash keyword queries (editorial lifestyle, warm tones)
+// Categories follow the PATTO Cover Image Selection Guide:
+//   카페/커피, 풍경/자연, 책/독서, 도서관/공간, 디저트/음식, 사람/일상
 type Quote = { en: string; ko: string }
-type CoverTheme = { seeds: string[]; quotes: Quote[] }
+type CoverTheme = { keywords: string[]; quotes: Quote[] }
 
 const COVER_THEMES: CoverTheme[] = [
   {
-    seeds: ['rain','mist','fog','window','drizzle','overcast'],
-    quotes: [
-      { en: 'The quiet habit\nbuilds the\nloudest skill.', ko: '조용한 습관이\n가장 큰 실력을 만든다.' },
-      { en: 'The page is\nalways open.', ko: '페이지는\n언제나 열려 있다.' },
-      { en: 'Language lives\nin stories.', ko: '언어는\n이야기 속에 산다.' },
-      { en: 'A good sentence\nis worth rereading.', ko: '좋은 문장은\n다시 읽을 가치가 있다.' },
-      { en: 'Read.\nRepeat.\nRemember.', ko: '읽고.\n반복하고.\n기억하라.' },
-      { en: 'Practice in quiet.\nSpeak with ease.', ko: '조용히 연습하면,\n편하게 말하게 된다.' },
+    // 카페 / 커피 — 따뜻한 테이블, 창가 커피, 노트
+    keywords: [
+      'cafe,window,coffee,morning',
+      'coffee,table,book,morning',
+      'latte,notebook,cafe,cozy',
+      'espresso,morning,desk,warm',
+      'coffeeshop,window,light,quiet',
+      'cappuccino,journal,morning',
     ],
-  },
-  {
-    seeds: ['coffee','espresso','latte','journal','desk','breakfast'],
     quotes: [
       { en: 'Every morning\nis a new page.', ko: '매일 아침은\n새로운 페이지다.' },
       { en: 'A little,\nevery day.', ko: '매일,\n조금씩.' },
@@ -55,67 +55,153 @@ const COVER_THEMES: CoverTheme[] = [
     ],
   },
   {
-    seeds: ['forest','pine','meadow','fern','woodland','bloom'],
-    quotes: [
-      { en: 'Small steps.\nBig changes.', ko: '작은 걸음이\n큰 변화를.' },
-      { en: 'Patience builds\nfluency.', ko: '인내가\n유창함을 만든다.' },
-      { en: 'One pattern\nat a time.', ko: '한 번에\n패턴 하나씩.' },
-      { en: 'Depth before\nbreadth.', ko: '넓이보다\n깊이를 먼저.' },
-      { en: 'The smallest habit\nchanges everything.', ko: '가장 작은 습관이\n모든 걸 바꾼다.' },
+    // 풍경 / 자연 — 바다, 산, 도시, 하늘, 계절
+    keywords: [
+      'ocean,horizon,calm,sea',
+      'mountain,path,nature,morning',
+      'landscape,golden,hour,serene',
+      'city,river,bridge,dusk',
+      'seaside,quiet,light,view',
+      'meadow,soft,light,nature',
     ],
-  },
-  {
-    seeds: ['candle','lamp','evening','dusk','fireplace','warmglow'],
-    quotes: [
-      { en: 'Stories stay\nwith you.', ko: '이야기는\n마음에 남는다.' },
-      { en: 'Read deeply.\nSpeak freely.', ko: '깊이 읽고,\n자유롭게 말하라.' },
-      { en: 'Language is a door.\nReading is the key.', ko: '언어는 문이고,\n읽기는 열쇠다.' },
-      { en: 'Return to the story.\nFind something new.', ko: '이야기로 돌아가면,\n새로운 걸 발견한다.' },
-    ],
-  },
-  {
-    seeds: ['street','cobblestone','city','bridge','urban','alley'],
-    quotes: [
-      { en: 'Words are bridges.', ko: '말은 다리다.' },
-      { en: 'One sentence\nchanges everything.', ko: '문장 하나가\n모든 걸 바꾼다.' },
-      { en: 'Speak a little more\ntoday than yesterday.', ko: '어제보다 오늘\n조금만 더 말하라.' },
-      { en: 'The story continues.', ko: '이야기는 계속된다.' },
-    ],
-  },
-  {
-    seeds: ['ocean','shore','horizon','harbor','beach','waves'],
     quotes: [
       { en: "Fluency is not\na destination.\nIt's a direction.", ko: '유창함은\n목적지가 아니라 방향이다.' },
       { en: 'Effort compounds\nquietly.', ko: '노력은 조용히 쌓인다.' },
       { en: 'You understand more\nthan you think.', ko: '너는 생각보다\n더 많이 이해하고 있다.' },
       { en: 'Progress sounds\nlike silence at first.', ko: '성장은 처음엔\n침묵처럼 들린다.' },
+      { en: 'Small steps.\nBig changes.', ko: '작은 걸음이\n큰 변화를.' },
     ],
   },
   {
-    seeds: ['sunrise','dawn','morning','sunlight','daybreak','fresh'],
-    quotes: [
-      { en: 'Not perfect.\nJust consistent.', ko: '완벽하지 않아도,\n꾸준하게.' },
-      { en: 'Keep going.\nEven on quiet days.', ko: '조용한 날에도,\n계속하라.' },
-      { en: 'Build the habit.\nThe skill will follow.', ko: '습관을 쌓아라.\n실력은 따라온다.' },
-      { en: 'Consistency is\nthe only shortcut.', ko: '꾸준함이\n유일한 지름길이다.' },
+    // 책 / 독서 — 오픈북, 필기, 읽는 공간
+    keywords: [
+      'book,open,reading,warm',
+      'reading,notebook,pen,light',
+      'open,book,coffee,morning',
+      'pages,reading,cozy,light',
+      'handwriting,journal,table,soft',
+      'book,glasses,coffee,quiet',
     ],
-  },
-  {
-    seeds: ['library','bookshelf','reading','book','pages','study'],
     quotes: [
       { en: 'Patterns become\nhabits.', ko: '패턴이\n습관이 된다.' },
       { en: 'Sentences become\ninstinct.', ko: '문장이\n본능이 된다.' },
       { en: 'Fluency comes\nfrom repetition.', ko: '유창함은\n반복에서 온다.' },
       { en: 'Language is a craft.\nPolish it daily.', ko: '언어는 기술이다.\n매일 갈고닦아라.' },
+      { en: 'A good sentence\nis worth rereading.', ko: '좋은 문장은\n다시 읽을 가치가 있다.' },
+    ],
+  },
+  {
+    // 도서관 / 공부 공간 — 서재, 책장, 조용한 공간
+    keywords: [
+      'library,books,shelf,warm',
+      'bookshelf,study,lamp,quiet',
+      'library,table,light,cozy',
+      'study,room,books,morning',
+      'desk,lamp,books,evening',
+      'reading,room,shelf,soft',
+    ],
+    quotes: [
+      { en: 'Language lives\nin stories.', ko: '언어는\n이야기 속에 산다.' },
+      { en: 'Read deeply.\nSpeak freely.', ko: '깊이 읽고,\n자유롭게 말하라.' },
+      { en: 'Language is a door.\nReading is the key.', ko: '언어는 문이고,\n읽기는 열쇠다.' },
+      { en: 'The quiet habit\nbuilds the\nloudest skill.', ko: '조용한 습관이\n가장 큰 실력을 만든다.' },
+      { en: 'Read.\nRepeat.\nRemember.', ko: '읽고.\n반복하고.\n기억하라.' },
+    ],
+  },
+  {
+    // 디저트 / 음식 — 케이크, 베이커리, 테이블 세팅
+    keywords: [
+      'dessert,cake,table,soft',
+      'bakery,pastry,morning,light',
+      'coffee,cake,table,cozy',
+      'bread,breakfast,morning,warm',
+      'tea,pastry,table,light',
+      'dessert,plate,minimal,warm',
+    ],
+    quotes: [
+      { en: 'Stories stay\nwith you.', ko: '이야기는\n마음에 남는다.' },
+      { en: 'Return to the story.\nFind something new.', ko: '이야기로 돌아가면,\n새로운 걸 발견한다.' },
+      { en: 'The page is\nalways open.', ko: '페이지는\n언제나 열려 있다.' },
+      { en: 'Practice in quiet.\nSpeak with ease.', ko: '조용히 연습하면,\n편하게 말하게 된다.' },
+    ],
+  },
+  {
+    // 사람 / 일상 — 뒷모습, 걷는 모습, 창밖 보는 실루엣
+    keywords: [
+      'woman,window,reading,soft',
+      'person,walking,street,quiet',
+      'silhouette,morning,light,calm',
+      'person,cafe,window,book',
+      'woman,back,ocean,view',
+      'person,street,alley,travel',
+    ],
+    quotes: [
+      { en: 'Words are bridges.', ko: '말은 다리다.' },
+      { en: 'One sentence\nchanges everything.', ko: '문장 하나가\n모든 걸 바꾼다.' },
+      { en: 'Speak a little more\ntoday than yesterday.', ko: '어제보다 오늘\n조금만 더 말하라.' },
+      { en: 'The story continues.', ko: '이야기는 계속된다.' },
+      { en: 'Depth before\nbreadth.', ko: '넓이보다\n깊이를 먼저.' },
+    ],
+  },
+  {
+    // 아침 / 일출 — 빛, 창가, 새벽
+    keywords: [
+      'sunrise,window,morning,golden',
+      'morning,light,curtain,soft',
+      'dawn,city,view,warm',
+      'sunlight,room,morning,calm',
+      'golden,hour,outdoor,soft',
+      'morning,fog,landscape,serene',
+    ],
+    quotes: [
+      { en: 'Not perfect.\nJust consistent.', ko: '완벽하지 않아도,\n꾸준하게.' },
+      { en: 'Keep going.\nEven on quiet days.', ko: '조용한 날에도,\n계속하라.' },
+      { en: 'Build the habit.\nThe skill will follow.', ko: '습관을 쌓아라.\n실력은 따라온다.' },
+      { en: 'Consistency is\nthe only shortcut.', ko: '꾸준함이\n유일한 지름길이다.' },
+      { en: 'Patience builds\nfluency.', ko: '인내가\n유창함을 만든다.' },
+    ],
+  },
+  {
+    // 도시 / 여행 / 골목 — 유럽풍 골목, 조용한 거리
+    keywords: [
+      'alley,europe,flowers,quiet',
+      'street,cobblestone,travel,calm',
+      'city,morning,empty,light',
+      'europe,alley,cafe,warm',
+      'travel,street,soft,light',
+      'village,path,morning,still',
+    ],
+    quotes: [
+      { en: 'One pattern\nat a time.', ko: '한 번에\n패턴 하나씩.' },
+      { en: 'The smallest habit\nchanges everything.', ko: '가장 작은 습관이\n모든 걸 바꾼다.' },
+      { en: 'Words are bridges.', ko: '말은 다리다.' },
+      { en: 'The story continues.', ko: '이야기는 계속된다.' },
     ],
   },
 ]
 
+// Daily-stable seed: same image all day, changes at midnight
+function getDailySeed(): number {
+  const d = new Date()
+  return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()
+}
+
+function seededRandom(seed: number): () => number {
+  let s = seed
+  return () => {
+    s = (s * 1664525 + 1013904223) & 0xffffffff
+    return (s >>> 0) / 0xffffffff
+  }
+}
+
 function pickCover(): { imageUrl: string; quote: Quote } {
-  const theme = COVER_THEMES[Math.floor(Math.random() * COVER_THEMES.length)]
-  const seed  = theme.seeds[Math.floor(Math.random() * theme.seeds.length)]
-  const quote = theme.quotes[Math.floor(Math.random() * theme.quotes.length)]
-  return { imageUrl: `https://picsum.photos/seed/${seed}/900/1400`, quote }
+  const rng   = seededRandom(getDailySeed())
+  const theme = COVER_THEMES[Math.floor(rng() * COVER_THEMES.length)]
+  const kw    = theme.keywords[Math.floor(rng() * theme.keywords.length)]
+  const quote = theme.quotes[Math.floor(rng() * theme.quotes.length)]
+  // Unsplash source: keyword-based editorial lifestyle image, portrait ratio
+  const imageUrl = `https://source.unsplash.com/900x1400/?${encodeURIComponent(kw)}`
+  return { imageUrl, quote }
 }
 
 function getIssueDateLabel(): string {
