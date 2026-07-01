@@ -143,7 +143,7 @@ function Book() {
           fill={C.paper} stroke={C.border} strokeWidth="1.2" />
         {/* right cover */}
         <path d="M64,38 L96,44 L96,118 L64,118 Z"
-          fill={C.pc2 ?? C.paper} stroke={C.border} strokeWidth="1.2" />
+          fill={C.paper} stroke={C.border} strokeWidth="1.2" />
         {/* left page lines */}
         <line x1="30" y1="58" x2="54" y2="57" stroke={C.border} strokeWidth="1" />
         <line x1="30" y1="64" x2="54" y2="63" stroke={C.border} strokeWidth="1" />
