@@ -151,7 +151,7 @@ export default function ProgressPage() {
   const coach      = COACH[Math.floor(Date.now() / 86400000) % COACH.length]
 
   return (
-    <div style={{ height: '100dvh', overflowY: 'auto', overflowX: 'hidden', background: 'var(--pb)' }}>
+    <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
       <TopNav />
 
       <div style={{ maxWidth: 480, margin: '0 auto', padding: `${NAV_HEIGHT + 28}px 22px 100px` }}>

@@ -63,7 +63,8 @@ export function TopNav() {
         height: NAV_HEIGHT,
         background: 'var(--pnav)',
         borderBottom: '1px solid var(--pd)',
-        overflow: 'hidden',
+        transform: 'translateZ(0)',
+        WebkitTransform: 'translateZ(0)',
       }}
     >
       {/* single row — vertically centred */}
