@@ -79,11 +79,11 @@ export default function SettingsPage() {
                 style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0', textDecoration: 'none' }}
               >
                 <Icon
-                  style={{ width: 15, height: 15, color: 'var(--pa)', flexShrink: 0 }}
-                  strokeWidth={1.6}
+                  style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }}
+                  strokeWidth={1.5}
                 />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', letterSpacing: '0.01em' }}>
+                  <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.01em' }}>
                     {label}
                   </p>
                   <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{desc}</p>
