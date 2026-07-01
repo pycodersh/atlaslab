@@ -181,27 +181,13 @@ const COVER_THEMES: CoverTheme[] = [
   },
 ]
 
-// Daily-stable seed: same image all day, changes at midnight
-function getDailySeed(): number {
-  const d = new Date()
-  return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()
-}
-
-function seededRandom(seed: number): () => number {
-  let s = seed
-  return () => {
-    s = (s * 1664525 + 1013904223) & 0xffffffff
-    return (s >>> 0) / 0xffffffff
-  }
-}
-
 function pickCover(): { imageUrl: string; quote: Quote } {
-  const rng   = seededRandom(getDailySeed())
-  const theme = COVER_THEMES[Math.floor(rng() * COVER_THEMES.length)]
-  const kw    = theme.keywords[Math.floor(rng() * theme.keywords.length)]
-  const quote = theme.quotes[Math.floor(rng() * theme.quotes.length)]
-  // Unsplash source: keyword-based editorial lifestyle image, portrait ratio
-  const imageUrl = `https://source.unsplash.com/900x1400/?${encodeURIComponent(kw)}`
+  const theme = COVER_THEMES[Math.floor(Math.random() * COVER_THEMES.length)]
+  const kw    = theme.keywords[Math.floor(Math.random() * theme.keywords.length)]
+  const quote = theme.quotes[Math.floor(Math.random() * theme.quotes.length)]
+  // cache-bust로 매번 새 이미지 — Unsplash keyword editorial lifestyle
+  const bust  = Date.now()
+  const imageUrl = `https://source.unsplash.com/900x1400/?${encodeURIComponent(kw)}&t=${bust}`
   return { imageUrl, quote }
 }
 
