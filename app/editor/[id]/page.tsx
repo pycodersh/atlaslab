@@ -7,6 +7,7 @@ import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { EDITOR_NOTES, TOTAL_NOTES } from '@/data/editor-notes'
 import { markNoteRead, isNoteRead, getReadCount } from '@/lib/editor/storage'
 import { EditorIllustration } from '@/components/EditorIllustration'
+import { useT } from '@/hooks/useT'
 
 function fmtTime(sec: number): string {
   if (sec < 60) return `${sec} sec`
@@ -39,6 +40,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
   const id = Number(idStr)
 
   const note = EDITOR_NOTES.find(n => n.id === id)
+  const t = useT()
 
   const [readCount,  setReadCount]  = useState(0)
   const [bookmarked, setBookmarked] = useState(false)
@@ -143,7 +145,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
               strokeWidth={2}
             />
             <span style={{ fontSize:10, color: bookmarked ? 'var(--pa)' : 'var(--pm2)', fontWeight:600 }}>
-              {bookmarked ? 'Collected' : 'Collect'}
+              {bookmarked ? t('editor_collect') : t('editor_collect_btn')}
             </span>
           </button>
           <button
@@ -152,7 +154,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
             style={{ background:'none', border:'none', cursor:'pointer', padding:'4px 0', display:'flex', alignItems:'center', gap:5 }}
           >
             <Share2 style={{ width:13, height:13, color:'var(--pm2)' }} strokeWidth={2} />
-            <span style={{ fontSize:10, color:'var(--pm2)', fontWeight:600 }}>Share</span>
+            <span style={{ fontSize:10, color:'var(--pm2)', fontWeight:600 }}>{t('editor_share')}</span>
           </button>
         </div>
 

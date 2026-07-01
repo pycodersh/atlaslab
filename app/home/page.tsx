@@ -9,6 +9,7 @@ import { magazineStories } from '@/data/magazine-stories'
 import { EDITOR_NOTES } from '@/data/editor-notes'
 import { getNextUnreadId } from '@/lib/editor/storage'
 import { useT } from '@/hooks/useT'
+import { usePreferences } from '@/contexts/PreferencesContext'
 
 // ── Ken Burns keyframe (injected once) ───────────────────────────────────────
 let kbInjected = false
@@ -200,6 +201,7 @@ function getIssueDateLabel(): string {
 export default function HomePage() {
   const router = useRouter()
   const t = useT()
+  const { prefs } = usePreferences()
 
   const [{ imageUrl, quote }] = useState(() => pickCover())
   const issueDateLabel = getIssueDateLabel()
@@ -346,17 +348,19 @@ export default function HomePage() {
           }}>
             {quote.en}
           </p>
-          <p style={{
-            margin: '10px 0 0',
-            fontSize: 12,
-            lineHeight: 1.65,
-            color: 'rgba(255,255,255,0.44)',
-            textShadow: '0 1px 8px rgba(0,0,0,0.4)',
-            whiteSpace: 'pre-line',
-            letterSpacing: '0.01em',
-          }}>
-            {quote.ko}
-          </p>
+          {prefs.appLang === 'ko' && (
+            <p style={{
+              margin: '10px 0 0',
+              fontSize: 12,
+              lineHeight: 1.65,
+              color: 'rgba(255,255,255,0.44)',
+              textShadow: '0 1px 8px rgba(0,0,0,0.4)',
+              whiteSpace: 'pre-line',
+              letterSpacing: '0.01em',
+            }}>
+              {quote.ko}
+            </p>
+          )}
         </div>
 
         {/* ── 하단 — Magazine Link Typography ──────────────────────────── */}
@@ -388,7 +392,7 @@ export default function HomePage() {
                 color: 'rgba(255,255,255,0.95)',
                 lineHeight: 1.2,
               }}>
-                {t('continue_learning')}
+                Continue Learning
               </p>
               <div style={{
                 marginTop: 6,
