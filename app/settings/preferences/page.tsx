@@ -262,7 +262,7 @@ export default function PreferencesPage() {
         >
           <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
           <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
-            Settings
+            {t('back')}
           </span>
         </Link>
 
@@ -313,7 +313,7 @@ export default function PreferencesPage() {
           <ToggleRow
             icon={Waves}
             label="Story Ambience"
-            desc="스토리를 열 때 배경 Ambience를 자동으로 켭니다"
+            desc={t('ambience_desc')}
             on={prefs.ambienceDefault === 'on'}
             onChange={v => update({ ambienceDefault: v ? 'on' : 'off' })}
             last

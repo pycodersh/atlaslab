@@ -6,6 +6,7 @@ import { Check, ChevronRight, BookOpen, Layers, RotateCcw, X } from 'lucide-reac
 
 import { TopNav } from '@/components/TopNav'
 import { LearningCalendar } from '@/components/LearningCalendar'
+import { useT } from '@/hooks/useT'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import {
@@ -145,6 +146,7 @@ function BookmarkSheet({
   bookmarks: BookmarkedPattern[]
 }) {
   const router = useRouter()
+  const t = useT()
 
   // Prevent body scroll when open
   useEffect(() => {
@@ -214,14 +216,14 @@ function BookmarkSheet({
 
         {/* Pattern count */}
         <p style={{ fontSize: 11, color: 'var(--pm)', margin: '6px 24px 0', flexShrink: 0 }}>
-          {bookmarks.length}개 저장됨
+          {t('bookmarks_count', { n: bookmarks.length })}
         </p>
 
         {/* Scrollable list */}
         <div style={{ overflowY: 'auto', padding: '16px 24px', paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))' }}>
           {bookmarks.length === 0 ? (
-            <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 8 }}>
-              아직 저장한 패턴이 없어요.<br />패턴 옆 북마크를 눌러 시작해보세요.
+            <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 8, whiteSpace: 'pre-line' }}>
+              {t('no_bookmarks_sheet')}
             </p>
           ) : (
             bookmarks.map((bm, i) => {
@@ -264,6 +266,7 @@ function BookmarkSheet({
 
 export default function ProgressPage() {
   const router = useRouter()
+  const t = useT()
   const [s, setS] = useState<Stats | null>(null)
   const [sheetOpen, setSheetOpen] = useState(false)
 
@@ -317,7 +320,7 @@ export default function ProgressPage() {
               fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', fontStyle: 'italic',
               fontWeight: 500, color: 'var(--pm)', marginTop: 10, lineHeight: 1.6,
             }}>
-              한 문장씩, 입에 붙을 때까지.
+              {t('progress_subtitle')}
             </p>
             <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
           </div>
@@ -326,17 +329,17 @@ export default function ProgressPage() {
           <section style={{ marginBottom: 72 }}>
             <SectionLabel
               label="Today's Mission"
-              sub="오늘의 학습을 완료하세요."
-              action={<ActionLink label="이어서 학습" onClick={() => router.push(v.ctaHref)} />}
+              sub={t('mission_sub')}
+              action={<ActionLink label={t('continue_study')} onClick={() => router.push(v.ctaHref)} />}
             />
-            <MissionRow icon={BookOpen}  label="Story 학습"   value={v.studiedTodayStories}    total={DAILY.story} />
-            <MissionRow icon={Layers}    label="Pattern 학습" value={v.practicedTodayPatterns} total={DAILY.pattern} />
-            <MissionRow icon={RotateCcw} label="복습하기"     value={v.reviewedToday}          total={v.reviewedToday + v.dueNow} last />
+            <MissionRow icon={BookOpen}  label={t('mission_story')}   value={v.studiedTodayStories}    total={DAILY.story} />
+            <MissionRow icon={Layers}    label={t('mission_pattern')} value={v.practicedTodayPatterns} total={DAILY.pattern} />
+            <MissionRow icon={RotateCcw} label={t('mission_review')}  value={v.reviewedToday}          total={v.reviewedToday + v.dueNow} last />
           </section>
 
           {/* ── YOUR JOURNEY ──────────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
-            <SectionLabel label="Your Journey" sub="꾸준함이 실력이 됩니다." />
+            <SectionLabel label="Your Journey" sub={t('journey_sub')} />
             <div style={{ display: 'flex', borderLeft: '1px solid var(--pd)', borderRight: '1px solid var(--pd)' }}>
               <StatCell value={v.learnedStories}           label="Stories"  border />
               <StatCell value={v.learnedPatterns}          label="Patterns" border />
@@ -361,7 +364,7 @@ export default function ProgressPage() {
 
           {/* ── LEARNING CALENDAR ─────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
-            <SectionLabel label="Learning Calendar" sub="하루의 기록이 습관이 됩니다." />
+            <SectionLabel label="Learning Calendar" sub={t('calendar_sub')} />
             <LearningCalendar />
           </section>
 
@@ -369,13 +372,13 @@ export default function ProgressPage() {
           <section>
             <SectionLabel
               label="My Patterns"
-              sub="저장한 표현을 다시 만나보세요."
-              action={<ActionLink label="전체 보기" onClick={() => setSheetOpen(true)} />}
+              sub={t('my_patterns_sub')}
+              action={<ActionLink label={t('view_all')} onClick={() => setSheetOpen(true)} />}
             />
 
             {v.bookmarks.length === 0 ? (
-              <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 4 }}>
-                아직 저장한 패턴이 없어요.<br />패턴 옆 북마크를 눌러 자주 쓰는 패턴을 모아보세요.
+              <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 4, whiteSpace: 'pre-line' }}>
+                {t('no_bookmarks')}
               </p>
             ) : (
               <div>

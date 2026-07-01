@@ -1,35 +1,40 @@
+'use client'
+
 import Link from 'next/link'
 import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
-
-const HUBS = [
-  {
-    icon: UserCircle,
-    label: 'Account',
-    desc: '로그인하여 학습 기록과 저장한 패턴을 동기화합니다.',
-    href: '/settings/auth',
-  },
-  {
-    icon: SlidersHorizontal,
-    label: 'Preferences',
-    desc: '학습 환경과 표시 언어를 설정합니다.',
-    href: '/settings/preferences',
-  },
-  {
-    icon: Sparkles,
-    label: 'Subscription',
-    desc: '프리미엄 플랜 및 결제를 관리합니다.',
-    href: '/settings/subscription',
-  },
-  {
-    icon: Info,
-    label: 'About PATTO',
-    desc: "PATTO의 철학, Editor's Notes, 버전 정보를 확인합니다.",
-    href: '/settings/about',
-  },
-]
+import { useT } from '@/hooks/useT'
 
 export default function SettingsPage() {
+  const t = useT()
+
+  const HUBS = [
+    {
+      icon: UserCircle,
+      label: t('hub_account'),
+      desc: t('hub_account_desc'),
+      href: '/settings/auth',
+    },
+    {
+      icon: SlidersHorizontal,
+      label: t('hub_preferences'),
+      desc: t('hub_preferences_desc'),
+      href: '/settings/preferences',
+    },
+    {
+      icon: Sparkles,
+      label: t('hub_subscription'),
+      desc: t('hub_subscription_desc'),
+      href: '/settings/subscription',
+    },
+    {
+      icon: Info,
+      label: t('hub_about'),
+      desc: t('hub_about_desc'),
+      href: '/settings/about',
+    },
+  ]
+
   return (
     <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
       <TopNav />
@@ -64,14 +69,14 @@ export default function SettingsPage() {
             marginTop: 10,
             lineHeight: 1.6,
           }}>
-            나에게 맞는 학습 환경을 설정하세요.
+            {t('settings_desc')}
           </p>
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>
 
-        {/* ── Settings rows — all identical style ──────────────────────── */}
+        {/* ── Settings rows ──────────────────────────────────────────── */}
         <div>
-          {HUBS.map(({ icon: Icon, label, desc, href }, i) => (
+          {HUBS.map(({ icon: Icon, label, desc, href }) => (
             <div key={href}>
               <div style={{ height: 1, background: 'var(--pd)' }} />
               <Link

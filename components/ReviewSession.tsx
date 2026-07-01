@@ -14,6 +14,7 @@ import {
   type LearningRecord,
   type SrsItemType,
 } from '@/lib/srs/storage'
+import { useT } from '@/hooks/useT'
 
 type ReviewCard = {
   itemType: SrsItemType
@@ -72,6 +73,7 @@ function buildCards(records: LearningRecord[]): ReviewCard[] {
 
 export function ReviewSession() {
   const router = useRouter()
+  const t = useT()
   const { speakAll, stop } = useSpeech()
 
   const [cards, setCards] = useState<ReviewCard[] | null>(null)
@@ -118,7 +120,7 @@ export function ReviewSession() {
 
   // ── 로딩 ──
   if (cards === null) {
-    return <div className="min-h-dvh bg-[var(--pb)] flex items-center justify-center text-[var(--pm)] text-sm">불러오는 중…</div>
+    return <div className="min-h-dvh bg-[var(--pb)] flex items-center justify-center text-[var(--pm)] text-sm">{t('loading')}</div>
   }
 
   // ── 복습할 항목 없음 ──
@@ -126,12 +128,12 @@ export function ReviewSession() {
     return (
       <div className="min-h-dvh bg-[var(--pb)] flex flex-col items-center justify-center px-8 text-center">
         <Check className="w-10 h-10 text-[var(--pa)] mb-4" strokeWidth={1.6} />
-        <p className="font-playfair text-[1.4rem] font-bold text-[var(--pt)] mb-2">복습할 항목이 없어요</p>
-        <p className="text-[13px] text-[var(--pm)] leading-relaxed mb-7">
-          오늘 예정된 복습이 없습니다.<br />새로운 스토리로 학습을 이어가보세요.
+        <p className="font-playfair text-[1.4rem] font-bold text-[var(--pt)] mb-2">{t('no_reviews_title')}</p>
+        <p className="text-[13px] text-[var(--pm)] leading-relaxed mb-7 whitespace-pre-line">
+          {t('no_reviews_desc')}
         </p>
         <div className="flex gap-3">
-          <button type="button" onClick={() => router.push('/stories/1')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer">새 스토리 학습</button>
+          <button type="button" onClick={() => router.push('/stories/1')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer">{t('new_story_btn')}</button>
           <button type="button" onClick={() => router.push('/records')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pc)] text-[var(--pt)] hover:opacity-80 transition-opacity cursor-pointer">Progress</button>
         </div>
       </div>
@@ -145,23 +147,23 @@ export function ReviewSession() {
         <div className="w-14 h-14 rounded-full bg-[var(--pa)] flex items-center justify-center mb-4">
           <Check className="w-7 h-7 text-white" strokeWidth={2.5} />
         </div>
-        <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] mb-1">복습 완료!</p>
-        <p className="text-[13px] text-[var(--pm)] mb-6">오늘 복습을 모두 마쳤어요.</p>
+        <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] mb-1">{t('review_done_title')}</p>
+        <p className="text-[13px] text-[var(--pm)] mb-6">{t('review_done_desc')}</p>
 
         {/* 오늘 완료한 복습 수 */}
         <div className="rounded-2xl bg-[var(--pc)] px-8 py-5 mb-6">
           <p className="font-playfair text-[2.4rem] font-bold text-[var(--pa)] leading-none">{answered}</p>
-          <p className="text-[11px] text-[var(--pm)] mt-2">오늘 완료한 복습</p>
+          <p className="text-[11px] text-[var(--pm)] mt-2">{t('review_today_label')}</p>
         </div>
 
         <div className="flex gap-6 mb-8">
           <div className="text-center">
             <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] leading-none">{correct}</p>
-            <p className="text-[11px] text-[var(--pm)] mt-1.5">알겠어요</p>
+            <p className="text-[11px] text-[var(--pm)] mt-1.5">{t('correct_label')}</p>
           </div>
           <div className="text-center">
             <p className="font-playfair text-[1.5rem] font-bold text-[var(--pm2)] leading-none">{wrong}</p>
-            <p className="text-[11px] text-[var(--pm)] mt-1.5">다시 볼게요</p>
+            <p className="text-[11px] text-[var(--pm)] mt-1.5">{t('wrong_label')}</p>
           </div>
         </div>
 
@@ -182,7 +184,7 @@ export function ReviewSession() {
       {/* 상단: 오늘 복습 진행률 */}
       <div className="px-6 pt-5">
         <div className="flex items-center justify-between mb-2">
-          <button type="button" aria-label="나가기" onClick={() => { stop(); router.push('/records') }} className="text-[var(--pm)] hover:text-[var(--pa)] transition-colors cursor-pointer p-1 -ml-1">
+          <button type="button" aria-label={t('exit')} onClick={() => { stop(); router.push('/records') }} className="text-[var(--pm)] hover:text-[var(--pa)] transition-colors cursor-pointer p-1 -ml-1">
             <X className="w-5 h-5" strokeWidth={1.6} />
           </button>
           <span className="text-[12px] font-bold text-[var(--pt)]">{answered} / {total}</span>
@@ -215,7 +217,7 @@ export function ReviewSession() {
                 </>
               )}
               <p className="text-[12px] text-[var(--pm)] mt-4">
-                {isPattern ? '예문을 떠올려보세요.' : '스토리 내용을 떠올려보세요.'}
+                {isPattern ? t('card_hint_pattern') : t('card_hint_story')}
               </p>
             </div>
           ) : isPattern ? (
@@ -223,7 +225,7 @@ export function ReviewSession() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <p className="font-playfair text-[1.3rem] font-bold text-[var(--pa)]">{card.pattern}</p>
-                <button type="button" aria-label="예문 듣기" onClick={speakPattern} className="shrink-0 p-2 rounded-full text-[var(--pm2)] hover:bg-[var(--pd)] hover:text-[var(--pa)] transition-colors cursor-pointer">
+                <button type="button" aria-label={t('listen')} onClick={speakPattern} className="shrink-0 p-2 rounded-full text-[var(--pm2)] hover:bg-[var(--pd)] hover:text-[var(--pa)] transition-colors cursor-pointer">
                   <Volume2 className="w-4 h-4" />
                 </button>
               </div>
@@ -244,7 +246,7 @@ export function ReviewSession() {
             <div>
               <p className="font-playfair text-[1.4rem] font-bold text-[var(--pa)] mb-1">{card.title}</p>
               <p className="text-[0.9rem] text-[var(--pt)] leading-relaxed mb-5">{card.summary}</p>
-              <p className="text-[9px] tracking-[0.2em] font-bold text-[var(--pm2)] mb-2.5">연결 패턴</p>
+              <p className="text-[9px] tracking-[0.2em] font-bold text-[var(--pm2)] mb-2.5">{t('linked_patterns')}</p>
               <div className="space-y-2">
                 {card.linkedPatterns!.map((p, i) => (
                   <div key={i} className="flex gap-2.5 items-center">
@@ -262,15 +264,15 @@ export function ReviewSession() {
       <div className="px-6 pb-8">
         {!revealed ? (
           <button type="button" onClick={() => setRevealed(true)} className="w-full rounded-2xl py-4 text-[14px] font-bold tracking-[0.04em] bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
-            <RotateCcw className="w-4 h-4" /> 정답 확인
+            <RotateCcw className="w-4 h-4" /> {t('reveal_btn')}
           </button>
         ) : (
           <div className="flex gap-3">
             <button type="button" onClick={() => answer(false)} className="flex-1 rounded-2xl py-4 text-[14px] font-bold bg-[var(--pc)] text-[var(--pm)] border border-[var(--pd)] hover:bg-[var(--pd)] transition-colors cursor-pointer flex items-center justify-center gap-2">
-              <X className="w-4 h-4" /> 모르겠어
+              <X className="w-4 h-4" /> {t('dont_know')}
             </button>
             <button type="button" onClick={() => answer(true)} className="flex-1 rounded-2xl py-4 text-[14px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
-              <Check className="w-4 h-4" /> 알겠어
+              <Check className="w-4 h-4" /> {t('got_it')}
             </button>
           </div>
         )}

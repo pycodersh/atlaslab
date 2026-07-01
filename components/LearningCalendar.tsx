@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { getActivityByDate } from '@/lib/srs/storage'
+import { useT } from '@/hooks/useT'
 
 type DayData = { iso: string; dom: number; count: number; isToday: boolean; future: boolean }
 
@@ -46,6 +47,7 @@ function cellTextColor(day: DayData | null): string {
 }
 
 export function LearningCalendar() {
+  const t = useT()
   const now = new Date()
   const [year, setYear] = useState(now.getFullYear())
   const [month, setMonth] = useState(now.getMonth())
@@ -77,7 +79,7 @@ export function LearningCalendar() {
         </button>
         <div className="text-center">
           <p className="text-[13px] font-bold text-[var(--pt)] tracking-wide">{MONTHS[month]} {year}</p>
-          <p className="text-[10px] text-[var(--pm)] mt-0.5">{studiedThisMonth}일 학습</p>
+          <p className="text-[10px] text-[var(--pm)] mt-0.5">{t('cal_study_days', { n: studiedThisMonth })}</p>
         </div>
         <button type="button" onClick={next} disabled={isCurrentMonth} aria-label="다음 달"
           className={`p-1 transition-colors cursor-pointer ${isCurrentMonth ? 'text-[var(--pd)] cursor-not-allowed' : 'text-[var(--pm)] hover:text-[var(--pa)]'}`}>

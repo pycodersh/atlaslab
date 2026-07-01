@@ -11,6 +11,7 @@ import { ttsProvider, getPitchForKey, patternExampleAudioUrl } from '@/lib/tts'
 import { recordPatternPractice } from '@/lib/srs/storage'
 import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
+import { useT } from '@/hooks/useT'
 
 type Props = {
   storyId: number
@@ -34,6 +35,7 @@ export function PatternPracticeCard({
   active, onRequestPlay, autoPlayKey, onFinished,
 }: Props) {
   const { prefs } = usePreferences()
+  const t = useT()
   const showTranslation = prefs.translationLang !== 'none'
 
   const [phase, setPhase] = useState<Phase>('idle')
@@ -101,7 +103,7 @@ export function PatternPracticeCard({
     runningRef.current = false
     const duration = Date.now() - startedAtRef.current
     const rec = recordPatternPractice(pattern.id, storyId, pattern.pattern, storyTitle, duration)
-    setFeedback(`반복 ${rec.repeatCount}회 완료`)
+    setFeedback(t('repeat_done', { n: rec.repeatCount }))
     setPhase('done')
     setCurrentIdx(-1)
     pausedAtRef.current = 0  // 끝까지 읽었으면 다음엔 처음부터
@@ -185,7 +187,7 @@ export function PatternPracticeCard({
           <button
             type="button"
             onClick={handleBookmark}
-            aria-label={bookmarked ? '북마크 해제' : '북마크'}
+            aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
             className={[
               'p-1 transition-colors cursor-pointer',
               bookmarked ? 'text-[var(--pa)]' : 'text-[var(--pm2)] hover:text-[var(--pa)]',
@@ -197,7 +199,7 @@ export function PatternPracticeCard({
           <button
             type="button"
             onClick={handlePlay}
-            aria-label={isPlaying ? '정지' : '예문 듣기'}
+            aria-label={isPlaying ? t('stop') : t('listen')}
             className={[
               'p-1 transition-colors cursor-pointer',
               isPlaying ? 'text-[var(--pa)] animate-pulse' : 'text-[var(--pm2)] hover:text-[var(--pa)]',

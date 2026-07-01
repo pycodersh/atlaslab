@@ -4,30 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Sparkles, BookOpen, Layers, Bookmark } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
-
-const FEATURES = [
-  { icon: BookOpen,  label: '모든 Story' },
-  { icon: Layers,    label: '모든 Pattern' },
-  { icon: Bookmark,  label: '저장 패턴 무제한' },
-  { icon: Sparkles,  label: '신규 업데이트 제공' },
-]
-
-const PLANS = [
-  {
-    id: 'monthly',
-    label: 'Monthly',
-    price: '$4.99',
-    period: '/ month',
-    note: null,
-  },
-  {
-    id: 'annual',
-    label: 'Annual',
-    price: '$39.99',
-    period: '/ year',
-    note: '33% 절약',
-  },
-]
+import { useT } from '@/hooks/useT'
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -42,8 +19,21 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export default function SubscriptionPage() {
+  const t = useT()
   const [selected, setSelected] = useState('annual')
   const [toast, setToast] = useState(false)
+
+  const FEATURES = [
+    { icon: BookOpen,  label: t('feat_all_stories') },
+    { icon: Layers,    label: t('feat_all_patterns') },
+    { icon: Bookmark,  label: t('feat_bookmarks') },
+    { icon: Sparkles,  label: t('feat_updates') },
+  ]
+
+  const PLANS = [
+    { id: 'monthly', label: t('plan_monthly'), price: '$4.99', period: '/ month', note: null },
+    { id: 'annual',  label: t('plan_annual'),  price: '$39.99', period: '/ year', note: t('plan_save') },
+  ]
 
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
@@ -67,7 +57,7 @@ export default function SubscriptionPage() {
         >
           <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
           <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
-            Settings
+            {t('back')}
           </span>
         </Link>
 
@@ -78,15 +68,15 @@ export default function SubscriptionPage() {
             fontWeight: 900, lineHeight: 1, color: 'var(--pt)',
             margin: 0, letterSpacing: '-0.02em',
           }}>
-            Subscription
+            SUBSCRIPTION
           </h1>
           <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
-            현재 플랜 및 요금제를 관리합니다
+            {t('sub_subtitle')}
           </p>
         </div>
 
         {/* ── Current Plan ───────────────────────────────────── */}
-        <SectionLabel>Current Plan</SectionLabel>
+        <SectionLabel>{t('sub_current_plan')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0',
@@ -94,13 +84,13 @@ export default function SubscriptionPage() {
             <Sparkles style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px' }}>Free</p>
-              <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>무료 플랜 이용 중</p>
+              <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{t('sub_free_desc')}</p>
             </div>
           </div>
         </div>
 
         {/* ── Premium Features ───────────────────────────────── */}
-        <SectionLabel>Premium Features</SectionLabel>
+        <SectionLabel>{t('sub_premium')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           {FEATURES.map(({ icon: Icon, label }) => (
             <div
@@ -114,7 +104,7 @@ export default function SubscriptionPage() {
         </div>
 
         {/* ── Choose a Plan ──────────────────────────────────── */}
-        <SectionLabel>Choose a Plan</SectionLabel>
+        <SectionLabel>{t('sub_choose_plan')}</SectionLabel>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
           {PLANS.map(plan => {
             const isSelected = selected === plan.id
@@ -184,7 +174,7 @@ export default function SubscriptionPage() {
             textAlign: 'center', fontSize: 10,
             color: 'var(--pm2)', marginTop: 14,
           }}>
-            언제든 해지 가능 · 숨은 비용 없음
+            {t('sub_fine_print')}
           </p>
         </div>
 
@@ -199,7 +189,7 @@ export default function SubscriptionPage() {
           boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
           zIndex: 50, whiteSpace: 'nowrap', letterSpacing: '0.04em',
         }}>
-          결제 시스템 준비 중입니다.
+          {t('sub_toast')}
         </div>
       )}
     </div>

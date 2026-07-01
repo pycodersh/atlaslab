@@ -1,39 +1,44 @@
+'use client'
+
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight, ScrollText, Shield, Mail, Info } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
-
-const ITEMS = [
-  {
-    icon: ScrollText,
-    label: 'Terms of Service',
-    desc: 'PATTO 이용 규칙 및 약관',
-    href: '/settings/about/terms',
-    value: null,
-  },
-  {
-    icon: Shield,
-    label: 'Privacy Policy',
-    desc: '개인정보 수집·이용·보호 방침',
-    href: '/settings/about/privacy',
-    value: null,
-  },
-  {
-    icon: Mail,
-    label: 'Contact',
-    desc: 'support@patto.app',
-    href: null,
-    value: null,
-  },
-  {
-    icon: Info,
-    label: 'Version',
-    desc: 'PATTO v1.0.0',
-    href: null,
-    value: '1.0.0',
-  },
-]
+import { useT } from '@/hooks/useT'
 
 export default function AboutPage() {
+  const t = useT()
+
+  const ITEMS = [
+    {
+      icon: ScrollText,
+      label: 'Terms of Service',
+      desc: t('terms_desc'),
+      href: '/settings/about/terms',
+      value: null,
+    },
+    {
+      icon: Shield,
+      label: 'Privacy Policy',
+      desc: t('privacy_desc'),
+      href: '/settings/about/privacy',
+      value: null,
+    },
+    {
+      icon: Mail,
+      label: 'Contact',
+      desc: 'support@patto.app',
+      href: null,
+      value: null,
+    },
+    {
+      icon: Info,
+      label: 'Version',
+      desc: 'PATTO v1.0.0',
+      href: null,
+      value: '1.0.0',
+    },
+  ]
+
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
       <TopNav />
@@ -56,7 +61,7 @@ export default function AboutPage() {
         >
           <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
           <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
-            Settings
+            {t('back')}
           </span>
         </Link>
 
@@ -70,7 +75,7 @@ export default function AboutPage() {
             About PATTO
           </h1>
           <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
-            이용약관, 개인정보 및 앱 정보
+            {t('about_sub')}
           </p>
         </div>
 
