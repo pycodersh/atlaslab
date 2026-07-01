@@ -2,15 +2,15 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, Sparkles } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 
 const FEATURES = [
-  'Unlimited Stories',
-  'All Patterns',
-  'AI Notes',
-  'Shadowing Practice',
-  'Word Collection',
+  '스토리 무제한',
+  '모든 패턴',
+  'AI 해설',
+  '쉐도잉 연습',
+  '단어 컬렉션',
 ]
 
 const PLANS = [
@@ -29,6 +29,18 @@ const PLANS = [
     note: '33% 절약',
   },
 ]
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{
+      fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
+      color: 'var(--pa)', textTransform: 'uppercase',
+      margin: '36px 0 0', paddingBottom: 10,
+    }}>
+      {children}
+    </p>
+  )
+}
 
 export default function SubscriptionPage() {
   const [selected, setSelected] = useState('annual')
@@ -61,7 +73,7 @@ export default function SubscriptionPage() {
         </Link>
 
         {/* Header */}
-        <div style={{ marginBottom: 40 }}>
+        <div style={{ marginBottom: 8 }}>
           <h1 className="font-playfair" style={{
             fontSize: 'clamp(1.7rem, 7vw, 2.2rem)',
             fontWeight: 900, lineHeight: 1, color: 'var(--pt)',
@@ -70,131 +82,119 @@ export default function SubscriptionPage() {
             Subscription
           </h1>
           <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
-            PATTO의 모든 기능을 경험해보세요
+            현재 플랜 및 요금제를 관리합니다
           </p>
         </div>
 
-        {/* ── Current Plan ───────────────────────────────────────── */}
-        <div style={{ marginBottom: 40 }}>
-          <p style={{
-            fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
-            color: 'var(--pa)', textTransform: 'uppercase', marginBottom: 10,
+        {/* ── Current Plan ───────────────────────────────────── */}
+        <SectionLabel>Current Plan</SectionLabel>
+        <div style={{ borderTop: '1px solid var(--pd)' }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0',
           }}>
-            Current Plan
-          </p>
-          <p className="font-playfair" style={{
-            fontSize: '1.3rem', fontWeight: 900,
-            color: 'var(--pt)', margin: '0 0 4px', letterSpacing: '-0.01em',
-          }}>
-            Free
-          </p>
-          <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>
-            무료 플랜 이용 중
-          </p>
-        </div>
-
-        {/* ── Premium Includes ───────────────────────────────────── */}
-        <div style={{ marginBottom: 40, paddingBottom: 40, borderBottom: '1px solid var(--pd)' }}>
-          <p style={{
-            fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
-            color: 'var(--pa)', textTransform: 'uppercase', marginBottom: 16,
-          }}>
-            Premium Includes
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
-            {FEATURES.map(f => (
-              <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{
-                  width: 4, height: 4, borderRadius: '50%',
-                  background: 'var(--pa)', flexShrink: 0, opacity: 0.6,
-                }} />
-                <span style={{ fontSize: 13, color: 'var(--pt)', fontWeight: 400 }}>{f}</span>
-              </div>
-            ))}
+            <Sparkles style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px' }}>Free</p>
+              <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>무료 플랜 이용 중</p>
+            </div>
           </div>
         </div>
 
-        {/* ── Choose a Plan ──────────────────────────────────────── */}
-        <div style={{ marginBottom: 32 }}>
-          <p style={{
-            fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
-            color: 'var(--pa)', textTransform: 'uppercase', marginBottom: 16,
-          }}>
-            Choose a Plan
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {PLANS.map(plan => {
-              const isSelected = selected === plan.id
-              return (
-                <button
-                  key={plan.id}
-                  type="button"
-                  onClick={() => setSelected(plan.id)}
-                  style={{
-                    width: '100%', textAlign: 'left', cursor: 'pointer',
-                    background: 'none',
-                    border: isSelected ? '1.5px solid var(--pa)' : '1.5px solid var(--pd)',
-                    borderRadius: 14, padding: '16px 18px',
-                    transition: 'border-color 0.18s ease',
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  }}
-                >
-                  <div>
-                    <p style={{
-                      fontSize: 13, fontWeight: 700, margin: '0 0 2px',
-                      color: isSelected ? 'var(--pt)' : 'var(--pt2)',
-                    }}>
-                      {plan.label}
-                    </p>
-                    {plan.note && (
-                      <p style={{ fontSize: 10, color: 'var(--pa)', margin: 0, fontWeight: 500 }}>
-                        {plan.note}
-                      </p>
-                    )}
-                  </div>
-                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                    <p className="font-playfair" style={{
-                      fontSize: '1.25rem', fontWeight: 900,
-                      color: isSelected ? 'var(--pa)' : 'var(--pt2)',
-                      margin: '0 0 1px', lineHeight: 1,
-                      letterSpacing: '-0.01em',
-                    }}>
-                      {plan.price}
-                    </p>
-                    <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0 }}>
-                      {plan.period}
-                    </p>
-                  </div>
-                </button>
-              )
-            })}
-          </div>
+        {/* ── Premium Features ───────────────────────────────── */}
+        <SectionLabel>Premium Features</SectionLabel>
+        <div style={{ borderTop: '1px solid var(--pd)' }}>
+          {FEATURES.map((f, i) => (
+            <div
+              key={f}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 16,
+                padding: '14px 0',
+                borderBottom: i < FEATURES.length - 1 ? '1px solid var(--pd)' : 'none',
+              }}
+            >
+              <span style={{
+                width: 4, height: 4, borderRadius: '50%',
+                background: 'var(--pa)', flexShrink: 0, opacity: 0.55,
+              }} />
+              <span style={{ fontSize: 14, color: 'var(--pt)', fontWeight: 400 }}>{f}</span>
+            </div>
+          ))}
         </div>
 
-        {/* ── CTA ───────────────────────────────────────────────── */}
-        <button
-          type="button"
-          onClick={() => { setToast(true); setTimeout(() => setToast(false), 2800) }}
-          style={{
-            width: '100%', padding: '13px 0',
-            background: 'var(--pa)', color: '#fff',
-            border: 'none', borderRadius: 12,
-            fontSize: 12, fontWeight: 700,
-            letterSpacing: '0.14em', cursor: 'pointer',
-            transition: 'opacity 0.15s ease',
-          }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.88')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-        >
-          SUBSCRIBE
-        </button>
+        {/* ── Choose a Plan ──────────────────────────────────── */}
+        <SectionLabel>Choose a Plan</SectionLabel>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
+          {PLANS.map(plan => {
+            const isSelected = selected === plan.id
+            return (
+              <button
+                key={plan.id}
+                type="button"
+                onClick={() => setSelected(plan.id)}
+                style={{
+                  width: '100%', textAlign: 'left', cursor: 'pointer',
+                  background: 'none',
+                  border: isSelected ? '1.5px solid var(--pa)' : '1.5px solid var(--pd)',
+                  borderRadius: 14, padding: '14px 18px',
+                  transition: 'border-color 0.18s ease',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                }}
+              >
+                <div>
+                  <p style={{
+                    fontSize: 13, fontWeight: 700, margin: '0 0 2px',
+                    color: isSelected ? 'var(--pt)' : 'var(--pt2)',
+                  }}>
+                    {plan.label}
+                  </p>
+                  {plan.note && (
+                    <p style={{ fontSize: 10, color: 'var(--pa)', margin: 0, fontWeight: 500 }}>
+                      {plan.note}
+                    </p>
+                  )}
+                </div>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <p className="font-playfair" style={{
+                    fontSize: '1.2rem', fontWeight: 900,
+                    color: isSelected ? 'var(--pa)' : 'var(--pt2)',
+                    margin: '0 0 1px', lineHeight: 1, letterSpacing: '-0.01em',
+                  }}>
+                    {plan.price}
+                  </p>
+                  <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0 }}>
+                    {plan.period}
+                  </p>
+                </div>
+              </button>
+            )
+          })}
+        </div>
 
-        <p style={{
-          textAlign: 'center', fontSize: 10,
-          color: 'var(--pm2)', marginTop: 14,
-        }}>
-          언제든 해지 가능 · 숨은 비용 없음
-        </p>
+        {/* ── CTA ───────────────────────────────────────────── */}
+        <div style={{ marginTop: 32 }}>
+          <button
+            type="button"
+            onClick={() => { setToast(true); setTimeout(() => setToast(false), 2800) }}
+            style={{
+              width: '100%', padding: '13px 0',
+              background: 'var(--pa)', color: '#fff',
+              border: 'none', borderRadius: 12,
+              fontSize: 12, fontWeight: 700,
+              letterSpacing: '0.14em', cursor: 'pointer',
+              transition: 'opacity 0.15s ease',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.88')}
+            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+          >
+            SUBSCRIBE
+          </button>
+          <p style={{
+            textAlign: 'center', fontSize: 10,
+            color: 'var(--pm2)', marginTop: 14,
+          }}>
+            언제든 해지 가능 · 숨은 비용 없음
+          </p>
+        </div>
 
       </div>
 
