@@ -1,7 +1,10 @@
 'use client'
 
+import { useMemo } from 'react'
 import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory, AmbienceId } from '@/types/magazine'
+import { getMoodImages } from '@/data/mood-images'
+import { STORY_MOOD_MAP } from '@/data/story-moods'
 import { AmbienceAudio } from '@/components/AmbienceAudio'
 import { StoryImageSlider } from '@/components/StoryImageSlider'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -57,11 +60,13 @@ export function StoryPage({
       ? (story.paragraphs[currentParagraphIdx]?.id ?? null)
       : null
 
-  // Image Slider: slideImages 우선, 없으면 단일 커버 이미지 fallback
-  const slideImages =
-    story.slideImages && story.slideImages.length > 0
-      ? story.slideImages
-      : [{ url: story.imageUrl, alt: story.imageAlt }]
+  // Image Slider: Mood 시스템 우선 → 방문마다 Pool에서 4장 랜덤 선택
+  const slideImages = useMemo(() => {
+    const mood = story.mood ?? STORY_MOOD_MAP[story.id]
+    if (mood) return getMoodImages(mood, 4)
+    if (story.slideImages && story.slideImages.length > 0) return story.slideImages
+    return [{ url: story.imageUrl, alt: story.imageAlt, status: 'ready' as const }]
+  }, [story.id])  // eslint-disable-line react-hooks/exhaustive-deps
 
   // 내레이션 음성: 스토리 상황/주인공에 맞춘 narratorVoice 우선, 없으면 사용자 설정
   const narrator = story.narratorVoice ?? prefs.voice

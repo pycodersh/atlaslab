@@ -159,4 +159,6 @@ export type MagazineStory = {
   slideImages?: StorySlideImage[]   // 슬라이드 이미지 목록 (3~6장 권장)
   slideshowInterval?: number        // 슬라이드 간격(초), 기본값 8
   slideshowKenBurns?: boolean       // Ken Burns 효과 사용 여부, 기본값 true
+  // Mood Image System — story-moods.ts의 STORY_MOOD_MAP으로 관리
+  mood?: import('@/data/mood-images').MoodKey
 }
