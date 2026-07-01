@@ -31,7 +31,7 @@ const HUBS = [
 
 export default function SettingsPage() {
   return (
-    <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
+    <div style={{ height: '100dvh', overflowY: 'auto', overflowX: 'hidden', background: 'var(--pb)' }}>
       <TopNav />
 
       <div style={{ maxWidth: 480, margin: '0 auto', padding: `${NAV_HEIGHT + 28}px 22px 60px` }}>

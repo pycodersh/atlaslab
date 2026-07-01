@@ -234,11 +234,14 @@ export default function HomePage() {
     return () => timers.forEach(clearTimeout)
   }, [])
 
-  const fadeUp = (minPhase: number): React.CSSProperties => ({
-    opacity: phase >= minPhase ? 1 : 0,
-    transform: phase >= minPhase ? 'translateY(0)' : 'translateY(14px)',
-    transition: 'opacity 0.75s cubic-bezier(.4,0,.2,1), transform 0.75s cubic-bezier(.4,0,.2,1)',
-  })
+  const fadeStyle = (minPhase: number) => {
+    const active = phase >= minPhase
+    return {
+      opacity: active ? 1 : 0,
+      transform: active ? 'translateY(0)' : 'translateY(14px)',
+      transition: 'opacity 0.75s cubic-bezier(.4,0,.2,1), transform 0.75s cubic-bezier(.4,0,.2,1)',
+    }
+  }
 
   const editorReadLabel = editorNote
     ? t('editor_note_read', { n: editorNote.readTimeSec })
@@ -285,7 +288,7 @@ export default function HomePage() {
           top: 18,
           left: 18,
           right: 18,
-          ...fadeUp(1),
+          ...fadeStyle(1),
         }}>
           <p className="font-playfair" style={{
             margin: 0,
@@ -328,7 +331,7 @@ export default function HomePage() {
           bottom: 'calc(30% + 24px)',
           left: 18,
           width: '52%',
-          ...fadeUp(2),
+          ...fadeStyle(2),
         }}>
           <p className="font-playfair" style={{
             margin: 0,
@@ -362,7 +365,7 @@ export default function HomePage() {
           bottom: 0, left: 0, right: 0,
           background: 'linear-gradient(to bottom, transparent, rgba(0,0,0,0.62) 30%, rgba(0,0,0,0.76))',
           padding: '60px 20px 32px',
-          ...fadeUp(3),
+          ...fadeStyle(3),
         }}>
           {/* 우측 정렬 컨테이너 — 두 링크 모두 동일 오른쪽 기준 */}
           <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end' }}>

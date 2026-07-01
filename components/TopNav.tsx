@@ -63,6 +63,7 @@ export function TopNav() {
         height: NAV_HEIGHT,
         background: 'var(--pnav)',
         borderBottom: '1px solid var(--pd)',
+        overflow: 'hidden',
       }}
     >
       {/* single row — vertically centred */}
