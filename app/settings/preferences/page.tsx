@@ -8,361 +8,329 @@ import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
 import {
-  type SpeechRate, type VoiceKey, type AppLang, type TranslationLang, type AmbienceDefault,
+  type SpeechRate, type VoiceKey, type AppLang, type TranslationLang,
   SPEECH_RATE_LABELS, VOICE_LABELS, APP_LANG_LABELS, TRANSLATION_LANG_LABELS,
 } from '@/lib/settings/preferences'
-import { BrowserTTSProvider, findBestVoice, getPitchForKey } from '@/lib/tts'
+import { BrowserTTSProvider, getPitchForKey } from '@/lib/tts'
 
-// ── Voice Preview ─────────────────────────────────────────────────────────
 const PREVIEW_TEXT = "Hello. Welcome to PATTO. Let's read today's story."
 const _previewProvider = new BrowserTTSProvider()
 
-function VoiceChipGroup({
-  options,
-  value,
-  onChange,
-}: {
-  options: { label: string; value: VoiceKey }[]
-  value: VoiceKey
-  onChange: (v: VoiceKey) => void
-}) {
-  const [previewing, setPreviewing] = useState<VoiceKey | null>(null)
-
-  function handlePreview(key: VoiceKey) {
-    if (previewing === key) {
-      _previewProvider.stop()
-      setPreviewing(null)
-      return
-    }
-    _previewProvider.stop()
-    setPreviewing(key)
-    _previewProvider.speak({
-      texts:    [PREVIEW_TEXT],
-      voiceKey: key,
-      rate:     0.95,
-      pitch:    getPitchForKey(key),
-      volume:   1.0,
-      onEnd:    () => setPreviewing(null),
-      onError:  () => setPreviewing(null),
-    })
-  }
-
+// ── iOS-style Toggle ──────────────────────────────────────────────────────────
+function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
   return (
-    <div className="flex flex-wrap gap-2 mt-3">
-      {options.map(o => {
-        const isActive    = value === o.value
-        const isPreviewing = previewing === o.value
-        return (
-          <div key={o.value} className="flex items-center">
-            {/* 선택 칩 */}
-            <button
-              type="button"
-              onClick={() => onChange(o.value)}
-              className={[
-                'px-4 py-1.5 rounded-l-full text-[12px] font-semibold border-y border-l transition-colors cursor-pointer',
-                isActive
-                  ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                  : 'bg-transparent text-[var(--pm)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]',
-              ].join(' ')}
-            >
-              {o.label}
-            </button>
-            {/* 구분선 */}
-            <span
-              className="h-[30px] w-px shrink-0"
-              style={{
-                background: isActive ? 'rgba(255,255,255,0.35)' : 'var(--pd)',
-              }}
-            />
-            {/* 미리듣기 버튼 */}
-            <button
-              type="button"
-              aria-label={isPreviewing ? '미리듣기 중지' : `${o.label} 미리듣기`}
-              onClick={() => handlePreview(o.value)}
-              className={[
-                'w-8 h-[30px] rounded-r-full flex items-center justify-center border-y border-r transition-colors cursor-pointer',
-                isActive
-                  ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                  : isPreviewing
-                    ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pa)]'
-                    : 'bg-transparent text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]',
-              ].join(' ')}
-            >
-              {isPreviewing
-                ? <Square  className="w-2.5 h-2.5" fill="currentColor" strokeWidth={0} />
-                : <Play    className="w-2.5 h-2.5" fill="currentColor" strokeWidth={0} />}
-            </button>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-// ── Section label ─────────────────────────────────────────────────────────
-function SectionLabel({ children }: { children: React.ReactNode }) {
-  return (
-    <p className="text-[10px] tracking-[0.22em] text-[var(--pa)] font-bold mb-4 mt-8 first:mt-0">
-      {children}
-    </p>
-  )
-}
-
-// ── Chip group (small option set) ─────────────────────────────────────────
-function ChipGroup<T extends string>({
-  options, value, onChange,
-}: {
-  options: { label: string; value: T }[]
-  value: T
-  onChange: (v: T) => void
-}) {
-  return (
-    <div className="flex flex-wrap gap-2 mt-3">
-      {options.map(o => (
-        <button
-          key={o.value}
-          type="button"
-          onClick={() => onChange(o.value)}
-          className={`px-4 py-1.5 rounded-full text-[12px] font-semibold border transition-colors cursor-pointer ${
-            value === o.value
-              ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-              : 'bg-transparent text-[var(--pm)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
-          }`}
-        >
-          {o.label}
-        </button>
-      ))}
-    </div>
-  )
-}
-
-// ── Setting row with expandable chips ─────────────────────────────────────
-function ChipRow<T extends string>({
-  icon: Icon, label, desc, options, value, onChange, last,
-}: {
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
-  label: string
-  desc: string
-  options: { label: string; value: T }[]
-  value: T
-  onChange: (v: T) => void
-  last?: boolean
-}) {
-  return (
-    <div className={`flex items-start gap-4 py-5 ${last ? '' : 'border-b border-[var(--pd)]'}`}>
-      <div className="w-9 h-9 rounded-xl bg-[var(--pc2)] flex items-center justify-center shrink-0 mt-0.5">
-        <Icon className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="font-semibold text-[14px] text-[var(--pt)] leading-snug">{label}</p>
-        <p className="text-[11.5px] text-[var(--pm)] mt-0.5 leading-relaxed">{desc}</p>
-        <ChipGroup options={options} value={value} onChange={onChange} />
-      </div>
-    </div>
-  )
-}
-
-// ── Bottom Sheet ──────────────────────────────────────────────────────────
-function BottomSheet<T extends string>({
-  title, options, value, onSelect, onClose,
-}: {
-  title: string
-  options: { label: string; value: T }[]
-  value: T
-  onSelect: (v: T) => void
-  onClose: () => void
-}) {
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40"
-      onClick={onClose}
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      onClick={() => onChange(!on)}
+      style={{
+        width: 44, height: 26, borderRadius: 13,
+        background: on ? 'var(--pa)' : 'var(--pd)',
+        border: 'none', cursor: 'pointer',
+        position: 'relative', flexShrink: 0, padding: 0,
+        transition: 'background 0.22s ease',
+      }}
     >
-      <div
-        className="w-full max-w-sm rounded-t-2xl pb-10 shadow-2xl"
-        style={{ background: 'var(--pb)' }}
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="px-6 pt-6 pb-2">
-          <p className="text-[10px] tracking-[0.22em] text-[var(--pa)] font-bold">{title}</p>
-        </div>
-        <div className="px-6">
-          {options.map((opt, i) => (
-            <div key={opt.value}>
-              {i > 0 && <div className="h-px bg-[var(--pd)]" />}
-              <button
-                type="button"
-                onClick={() => { onSelect(opt.value); onClose() }}
-                className="w-full flex items-center justify-between py-4 cursor-pointer hover:opacity-60 transition-opacity"
-              >
-                <span
-                  className="text-[14px] font-medium"
-                  style={{ color: opt.value === value ? 'var(--pa)' : 'var(--pt)' }}
-                >
-                  {opt.label}
-                </span>
-                {opt.value === value && (
-                  <Check className="w-4 h-4 text-[var(--pa)]" strokeWidth={2} />
-                )}
-              </button>
-            </div>
-          ))}
-        </div>
+      <span style={{
+        position: 'absolute', top: 3,
+        left: on ? 21 : 3,
+        width: 20, height: 20, borderRadius: '50%',
+        background: '#fff',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.25)',
+        transition: 'left 0.22s ease',
+        display: 'block',
+      }} />
+    </button>
+  )
+}
+
+// ── Toggle Row ────────────────────────────────────────────────────────────────
+function ToggleRow({ icon: Icon, label, desc, on, onChange, last }: {
+  icon: React.ComponentType<{ style?: React.CSSProperties; strokeWidth?: number }>
+  label: string; desc: string; on: boolean
+  onChange: (v: boolean) => void; last?: boolean
+}) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0',
+      borderBottom: last ? 'none' : '1px solid var(--pd)',
+    }}>
+      <Icon style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px' }}>{label}</p>
+        <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{desc}</p>
       </div>
+      <Toggle on={on} onChange={onChange} />
     </div>
   )
 }
 
-// ── Select row (opens bottom sheet) ──────────────────────────────────────
-function SelectRow({
-  icon: Icon, label, desc, displayValue, onClick, last,
-}: {
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
-  label: string
-  desc: string
-  displayValue: string
-  onClick: () => void
-  last?: boolean
+// ── Nav Row (opens Bottom Sheet) ──────────────────────────────────────────────
+function NavRow({ icon: Icon, label, desc, displayValue, onClick, last }: {
+  icon: React.ComponentType<{ style?: React.CSSProperties; strokeWidth?: number }>
+  label: string; desc: string; displayValue: string
+  onClick: () => void; last?: boolean
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`w-full flex items-center gap-4 py-5 cursor-pointer hover:opacity-75 transition-opacity text-left ${last ? '' : 'border-b border-[var(--pd)]'}`}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0',
+        width: '100%', background: 'none', border: 'none',
+        borderBottom: last ? 'none' : '1px solid var(--pd)',
+        cursor: 'pointer', textAlign: 'left',
+      }}
     >
-      <div className="w-9 h-9 rounded-xl bg-[var(--pc2)] flex items-center justify-center shrink-0">
-        <Icon className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
+      <Icon style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px' }}>{label}</p>
+        <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{desc}</p>
       </div>
-      <div className="flex-1 min-w-0">
-        <p className="font-semibold text-[14px] text-[var(--pt)] leading-snug">{label}</p>
-        <p className="text-[11.5px] text-[var(--pm)] mt-0.5">{desc}</p>
-      </div>
-      <div className="flex items-center gap-1 shrink-0">
-        <span className="text-[13px] text-[var(--pa)] font-semibold">{displayValue}</span>
-        <ChevronRight className="w-3.5 h-3.5 text-[var(--pm2)]" strokeWidth={1.5} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
+        <span style={{ fontSize: 13, color: 'var(--pm)', fontWeight: 500 }}>{displayValue}</span>
+        <ChevronRight style={{ width: 14, height: 14, color: 'var(--pm2)' }} strokeWidth={1.4} />
       </div>
     </button>
   )
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────
-type Sheet = 'appLang' | 'translation' | null
+// ── Bottom Sheet ──────────────────────────────────────────────────────────────
+function BottomSheet<T extends string>({
+  open, title, options, value, onSelect, onClose, renderRight,
+}: {
+  open: boolean
+  title: string
+  options: { label: string; value: T }[]
+  value: T
+  onSelect: (v: T) => void
+  onClose: () => void
+  renderRight?: (opt: { label: string; value: T }) => React.ReactNode
+}) {
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={onClose}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 60,
+          background: 'rgba(0,0,0,0.45)',
+          opacity: open ? 1 : 0,
+          pointerEvents: open ? 'auto' : 'none',
+          transition: 'opacity 0.3s ease',
+        }}
+      />
+      {/* Sheet */}
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
+        background: 'var(--pb)',
+        borderRadius: '20px 20px 0 0',
+        boxShadow: '0 -4px 32px rgba(0,0,0,0.12)',
+        transform: open ? 'translateY(0)' : 'translateY(100%)',
+        transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+        paddingBottom: 'calc(24px + env(safe-area-inset-bottom, 0px))',
+      }}>
+        {/* Handle */}
+        <div style={{ padding: '12px 24px 0' }}>
+          <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto' }} />
+        </div>
+        {/* Section label as title */}
+        <p style={{
+          fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
+          color: 'var(--pa)', textTransform: 'uppercase',
+          margin: '20px 24px 4px',
+        }}>
+          {title}
+        </p>
+        {/* Options */}
+        <div style={{ padding: '0 24px' }}>
+          {options.map((opt, i) => (
+            <div key={opt.value}>
+              {i > 0 && <div style={{ height: 1, background: 'var(--pd)' }} />}
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <button
+                  type="button"
+                  onClick={() => { onSelect(opt.value); onClose() }}
+                  style={{
+                    flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '16px 0', background: 'none', border: 'none',
+                    cursor: 'pointer', textAlign: 'left',
+                  }}
+                >
+                  <span style={{
+                    fontSize: 14,
+                    fontWeight: opt.value === value ? 600 : 400,
+                    color: opt.value === value ? 'var(--pa)' : 'var(--pt)',
+                  }}>
+                    {opt.label}
+                  </span>
+                  {opt.value === value && (
+                    <Check style={{ width: 15, height: 15, color: 'var(--pa)', flexShrink: 0, marginLeft: 8 }} strokeWidth={2.5} />
+                  )}
+                </button>
+                {renderRight && (
+                  <div style={{ flexShrink: 0, marginLeft: 8 }}>
+                    {renderRight(opt)}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  )
+}
+
+// ── Section label ─────────────────────────────────────────────────────────────
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{
+      fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
+      color: 'var(--pa)', textTransform: 'uppercase',
+      margin: '36px 0 0', paddingBottom: 10,
+    }}>
+      {children}
+    </p>
+  )
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+type Sheet = 'speechRate' | 'voice' | 'appLang' | 'translation' | null
 
 export default function PreferencesPage() {
-  const { theme, setTheme } = useTheme()
-  const { prefs, update }   = usePreferences()
-  const [sheet, setSheet]   = useState<Sheet>(null)
+  const { theme, setTheme }         = useTheme()
+  const { prefs, update }           = usePreferences()
+  const [sheet, setSheet]           = useState<Sheet>(null)
+  const [previewing, setPreviewing] = useState<VoiceKey | null>(null)
   const t = useT()
 
-  const speechRateOptions = (
-    ['slow', 'normal', 'fast'] as SpeechRate[]
-  ).map(v => ({ label: SPEECH_RATE_LABELS[v], value: v }))
+  function handleVoicePreview(key: VoiceKey) {
+    if (previewing === key) {
+      _previewProvider.stop(); setPreviewing(null); return
+    }
+    _previewProvider.stop()
+    setPreviewing(key)
+    _previewProvider.speak({
+      texts: [PREVIEW_TEXT], voiceKey: key,
+      rate: 0.95, pitch: getPitchForKey(key), volume: 1.0,
+      onEnd:  () => setPreviewing(null),
+      onError: () => setPreviewing(null),
+    })
+  }
 
-  const voiceOptions = (
-    ['us-male', 'us-female', 'uk-male', 'uk-female'] as VoiceKey[]
-  ).map(v => ({ label: VOICE_LABELS[v], value: v }))
+  function closeSheet() {
+    _previewProvider.stop()
+    setPreviewing(null)
+    setSheet(null)
+  }
 
-  const appLangOptions = (
-    Object.keys(APP_LANG_LABELS) as AppLang[]
-  ).map(v => ({ label: APP_LANG_LABELS[v], value: v }))
+  const speechRateOptions = (['slow', 'normal', 'fast'] as SpeechRate[])
+    .map(v => ({ label: SPEECH_RATE_LABELS[v], value: v }))
 
-  const translationOptions = (
-    Object.keys(TRANSLATION_LANG_LABELS) as TranslationLang[]
-  ).map(v => ({ label: TRANSLATION_LANG_LABELS[v], value: v }))
+  const voiceOptions = (['us-female', 'us-male', 'uk-female', 'uk-male'] as VoiceKey[])
+    .map(v => ({ label: VOICE_LABELS[v], value: v }))
+
+  const appLangOptions = (Object.keys(APP_LANG_LABELS) as AppLang[])
+    .map(v => ({ label: APP_LANG_LABELS[v], value: v }))
+
+  const translationOptions = (Object.keys(TRANSLATION_LANG_LABELS) as TranslationLang[])
+    .map(v => ({ label: TRANSLATION_LANG_LABELS[v], value: v }))
+
+  const ThemeIcon = theme === 'light' ? Sun : Moon
 
   return (
-    <div className="min-h-dvh bg-[var(--pb)]">
+    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
       <TopNav />
 
-      <div className="px-7 pb-24 max-w-sm mx-auto pt-20">
+      <div style={{
+        maxWidth: 480, margin: '0 auto',
+        paddingTop: 'calc(var(--pnav-h) + 28px)',
+        paddingLeft: 24, paddingRight: 24, paddingBottom: 100,
+        boxSizing: 'border-box',
+      }}>
+
+        {/* Back */}
         <Link
           href="/settings"
-          className="flex items-center gap-1.5 text-[var(--pm)] hover:text-[var(--pa)] transition-colors mb-8 w-fit"
+          style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            color: 'var(--pm)', textDecoration: 'none',
+            marginBottom: 32, width: 'fit-content',
+          }}
         >
-          <ChevronLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
-          <span className="text-[10px] tracking-[0.18em] font-bold">SETTINGS</span>
+          <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
+          <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
+            Settings
+          </span>
         </Link>
 
-        <div className="mb-10">
-          <h1 className="font-playfair text-[1.9rem] font-black leading-none text-[var(--pt)] tracking-tight">
+        {/* Header */}
+        <div style={{ marginBottom: 8 }}>
+          <h1 className="font-playfair" style={{
+            fontSize: 'clamp(1.7rem, 7vw, 2.2rem)',
+            fontWeight: 900, lineHeight: 1, color: 'var(--pt)',
+            margin: 0, letterSpacing: '-0.02em',
+          }}>
             {t('pref_title')}
           </h1>
-          <p className="text-[0.78rem] text-[var(--pm)] mt-2 tracking-wide">
+          <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
             {t('pref_desc')}
           </p>
         </div>
 
         {/* ── DISPLAY ──────────────────────────────────────────────────── */}
         <SectionLabel>{t('display')}</SectionLabel>
-        <div className="border-t border-[var(--pd)]">
-          <div className="flex items-start gap-4 py-5">
-            <div className="w-9 h-9 rounded-xl bg-[var(--pc2)] flex items-center justify-center shrink-0 mt-0.5">
-              {theme === 'light'
-                ? <Sun  className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
-                : <Moon className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />}
-            </div>
-            <div className="flex-1">
-              <p className="font-semibold text-[14px] text-[var(--pt)]">{t('theme')}</p>
-              <p className="text-[11.5px] text-[var(--pm)] mt-0.5">{t('theme_desc')}</p>
-              <ChipGroup
-                options={[{ label: 'Light', value: 'light' }, { label: 'Dark', value: 'dark' }]}
-                value={theme}
-                onChange={v => setTheme(v as 'light' | 'dark')}
-              />
-            </div>
-          </div>
+        <div style={{ borderTop: '1px solid var(--pd)' }}>
+          <ToggleRow
+            icon={ThemeIcon}
+            label={t('theme')}
+            desc={t('theme_desc')}
+            on={theme === 'dark'}
+            onChange={v => setTheme(v ? 'dark' : 'light')}
+            last
+          />
         </div>
 
         {/* ── AUDIO ────────────────────────────────────────────────────── */}
         <SectionLabel>{t('audio')}</SectionLabel>
-        <div className="border-t border-[var(--pd)]">
-          <ChipRow
+        <div style={{ borderTop: '1px solid var(--pd)' }}>
+          <NavRow
             icon={Mic}
             label={t('speech_rate')}
             desc={t('speech_rate_desc')}
-            options={speechRateOptions}
-            value={prefs.speechRate}
-            onChange={v => update({ speechRate: v })}
+            displayValue={SPEECH_RATE_LABELS[prefs.speechRate]}
+            onClick={() => setSheet('speechRate')}
           />
-          {/* Voice — ▶ Preview 버튼 포함 */}
-          <div className="flex items-start gap-4 py-5 border-b border-[var(--pd)]">
-            <div className="w-9 h-9 rounded-xl bg-[var(--pc2)] flex items-center justify-center shrink-0 mt-0.5">
-              <Mic className="w-4 h-4 text-[var(--pa)]" strokeWidth={1.6} />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-[14px] text-[var(--pt)] leading-snug">{t('voice')}</p>
-              <p className="text-[11.5px] text-[var(--pm)] mt-0.5 leading-relaxed">{t('voice_desc')}</p>
-              <VoiceChipGroup
-                options={voiceOptions}
-                value={prefs.voice}
-                onChange={v => update({ voice: v })}
-              />
-            </div>
-          </div>
-          <ChipRow
+          <NavRow
+            icon={Mic}
+            label={t('voice')}
+            desc={t('voice_desc')}
+            displayValue={VOICE_LABELS[prefs.voice]}
+            onClick={() => setSheet('voice')}
+          />
+          <ToggleRow
             icon={Waves}
             label="Story Ambience"
             desc="스토리를 열 때 배경 Ambience를 자동으로 켭니다"
-            options={([
-              { label: 'Off', value: 'off' },
-              { label: 'On',  value: 'on'  },
-            ] as { label: string; value: AmbienceDefault }[])}
-            value={prefs.ambienceDefault}
-            onChange={v => update({ ambienceDefault: v })}
+            on={prefs.ambienceDefault === 'on'}
+            onChange={v => update({ ambienceDefault: v ? 'on' : 'off' })}
             last
           />
         </div>
 
         {/* ── LANGUAGE ─────────────────────────────────────────────────── */}
         <SectionLabel>{t('language')}</SectionLabel>
-        <div className="border-t border-[var(--pd)]">
-          <SelectRow
+        <div style={{ borderTop: '1px solid var(--pd)' }}>
+          <NavRow
             icon={Globe}
             label={t('app_language')}
             desc={t('app_language_desc')}
             displayValue={APP_LANG_LABELS[prefs.appLang]}
             onClick={() => setSheet('appLang')}
           />
-          <SelectRow
+          <NavRow
             icon={BookOpen}
             label={t('translation')}
             desc={t('translation_desc')}
@@ -371,27 +339,62 @@ export default function PreferencesPage() {
             last
           />
         </div>
+
       </div>
 
       {/* ── Bottom Sheets ─────────────────────────────────────────────── */}
-      {sheet === 'appLang' && (
-        <BottomSheet
-          title="APP LANGUAGE"
-          options={appLangOptions}
-          value={prefs.appLang}
-          onSelect={v => update({ appLang: v })}
-          onClose={() => setSheet(null)}
-        />
-      )}
-      {sheet === 'translation' && (
-        <BottomSheet
-          title="TRANSLATION LANGUAGE"
-          options={translationOptions}
-          value={prefs.translationLang}
-          onSelect={v => update({ translationLang: v })}
-          onClose={() => setSheet(null)}
-        />
-      )}
+      <BottomSheet
+        open={sheet === 'speechRate'}
+        title={t('speech_rate')}
+        options={speechRateOptions}
+        value={prefs.speechRate}
+        onSelect={v => update({ speechRate: v })}
+        onClose={closeSheet}
+      />
+
+      <BottomSheet
+        open={sheet === 'voice'}
+        title={t('voice')}
+        options={voiceOptions}
+        value={prefs.voice}
+        onSelect={v => update({ voice: v })}
+        onClose={closeSheet}
+        renderRight={opt => (
+          <button
+            type="button"
+            onClick={e => { e.stopPropagation(); handleVoicePreview(opt.value as VoiceKey) }}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 30, height: 30, borderRadius: '50%',
+              background: previewing === opt.value ? 'var(--pal)' : 'var(--pc)',
+              border: 'none', cursor: 'pointer', flexShrink: 0,
+            }}
+          >
+            {previewing === opt.value
+              ? <Square style={{ width: 9, height: 9, color: 'var(--pa)' }} fill="currentColor" strokeWidth={0} />
+              : <Play   style={{ width: 9, height: 9, color: 'var(--pm)' }} fill="currentColor" strokeWidth={0} />
+            }
+          </button>
+        )}
+      />
+
+      <BottomSheet
+        open={sheet === 'appLang'}
+        title={t('app_language')}
+        options={appLangOptions}
+        value={prefs.appLang}
+        onSelect={v => update({ appLang: v })}
+        onClose={closeSheet}
+      />
+
+      <BottomSheet
+        open={sheet === 'translation'}
+        title={t('translation')}
+        options={translationOptions}
+        value={prefs.translationLang}
+        onSelect={v => update({ translationLang: v })}
+        onClose={closeSheet}
+      />
     </div>
   )
 }
