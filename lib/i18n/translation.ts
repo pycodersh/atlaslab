@@ -21,6 +21,6 @@ export function resolveTranslation(
   if (lang === 'ko') return koText
   const extra = extras?.[lang]
   if (extra) return extra
-  // No translation for this language yet → ko fallback
-  return koText
+  // No translation for this language yet → hide (return null)
+  return null
 }
