@@ -58,13 +58,11 @@ export function TopNav() {
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-40 backdrop-blur-sm"
+      className="fixed top-0 left-0 right-0 z-40"
       style={{
         height: NAV_HEIGHT,
-        background: 'var(--pnav)',
+        background: 'var(--pb)',
         borderBottom: '1px solid var(--pd)',
-        transform: 'translateZ(0)',
-        WebkitTransform: 'translateZ(0)',
       }}
     >
       {/* single row — vertically centred */}
