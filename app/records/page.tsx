@@ -32,19 +32,21 @@ type Stats = {
   totalPracticeMs: number
   bookmarks: BookmarkedPattern[]
   ctaHref: string
-  ctaLabel: string
 }
 
-function computeCta(dueNow: number): { href: string; label: string } {
-  if (dueNow > 0) return { href: '/review', label: '복습 시작하기' }
+function computeCtaHref(dueNow: number): string {
+  // 1. Review due → go to review
+  if (dueNow > 0) return '/review'
   const practiced = getPracticedPatternCountByStory()
+  // 2. In-progress story with patterns → continue patterns
   const inProgress = magazineStories.find((st) => {
     const c = practiced[st.id] ?? 0
     return c > 0 && c < st.patterns.length
   })
-  if (inProgress) return { href: `/stories/${inProgress.id}?v=p`, label: '이어서 학습하기' }
+  if (inProgress) return `/stories/${inProgress.id}?v=p`
+  // 3. First story not yet started
   const newStory = magazineStories.find((st) => !(practiced[st.id] > 0)) ?? magazineStories[0]
-  return { href: `/stories/${newStory.id}`, label: '오늘 학습 시작하기' }
+  return `/stories/${newStory.id}`
 }
 
 function fmtTime(ms: number): string {
@@ -60,9 +62,9 @@ function SectionLabel({ label, action }: { label: string; action?: React.ReactNo
     <div style={{ marginBottom: 14 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <p style={{
-          fontSize: 10,
-          fontWeight: 700,
-          letterSpacing: '0.24em',
+          fontSize: 11,
+          fontWeight: 800,
+          letterSpacing: '0.22em',
           color: 'var(--pa)',
           margin: 0,
           textTransform: 'uppercase',
@@ -119,7 +121,6 @@ export default function ProgressPage() {
 
   useEffect(() => {
     const dueNow = getDueCount()
-    const cta = computeCta(dueNow)
     setS({
       studiedTodayStories: getStudiedTodayStoryCount(),
       practicedTodayPatterns: getPracticedTodayCount(),
@@ -132,8 +133,7 @@ export default function ProgressPage() {
       totalRepeats: getTotalRepeatCount(),
       totalPracticeMs: getTotalPracticeMs(),
       bookmarks: getBookmarks(),
-      ctaHref: cta.href,
-      ctaLabel: cta.label,
+      ctaHref: computeCtaHref(dueNow),
     })
   }, [])
 
@@ -141,7 +141,7 @@ export default function ProgressPage() {
     studiedTodayStories: 0, practicedTodayPatterns: 0, reviewedToday: 0, dueNow: 0,
     todayDue: 0, overdue: 0, learnedStories: 0, learnedPatterns: 0, totalRepeats: 0,
     totalPracticeMs: 0, bookmarks: [],
-    ctaHref: '/stories/1', ctaLabel: '오늘 학습 시작하기',
+    ctaHref: '/stories/1',
   }
 
   const reviewTarget = v.reviewedToday + v.dueNow
@@ -203,19 +203,20 @@ export default function ProgressPage() {
               alignItems: 'center',
               justifyContent: 'space-between',
               width: '100%',
-              padding: '15px 20px',
-              background: 'var(--pa)',
-              color: '#fff',
-              border: 'none',
+              padding: '13px 18px',
+              background: 'transparent',
+              color: 'var(--pa)',
+              border: '1px solid var(--pa)',
               borderRadius: 3,
               cursor: 'pointer',
               marginTop: 20,
+              opacity: 0.85,
             }}
           >
-            <span style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.02em' }}>
-              {v.ctaLabel}
+            <span style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.04em' }}>
+              학습 이어하기
             </span>
-            <ArrowRight style={{ width: 16, height: 16, flexShrink: 0 }} strokeWidth={2.5} />
+            <ArrowRight style={{ width: 14, height: 14, flexShrink: 0 }} strokeWidth={2} />
           </button>
         </section>
 
