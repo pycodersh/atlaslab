@@ -1,19 +1,22 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Flame, User } from 'lucide-react'
 import { getStreak } from '@/lib/srs/storage'
 
-const TABS = [
+const ALL_TABS = [
+  { label: 'TODAY',    href: '/home' },
   { label: 'STORY',    href: '/stories/1' },
   { label: 'PROGRESS', href: '/records' },
   { label: 'SETTINGS', href: '/settings' },
 ] as const
 
-function getActive(pathname: string) {
-  if (pathname === '/home' || pathname === '/') return 'HOME'
+type TabLabel = (typeof ALL_TABS)[number]['label']
+
+function getActive(pathname: string): TabLabel {
+  if (pathname === '/home' || pathname === '/') return 'TODAY'
   if (pathname.startsWith('/records')) return 'PROGRESS'
   if (pathname.startsWith('/settings')) return 'SETTINGS'
   return 'STORY'
@@ -21,12 +24,37 @@ function getActive(pathname: string) {
 
 export const NAV_HEIGHT = 48
 
+const UNDERLINE_COLOR = '#8A1F45'
+
 export function TopNav() {
-  const pathname = usePathname()
-  const active = getActive(pathname)
+  const pathname  = usePathname()
+  const active    = getActive(pathname)
   const [streak, setStreak] = useState(0)
 
+  // refs for each tab label element — used to position the sliding underline
+  const tabRefs = useRef<Record<TabLabel, HTMLAnchorElement | null>>({
+    TODAY: null, STORY: null, PROGRESS: null, SETTINGS: null,
+  })
+
+  // underline position state: left offset + width relative to the nav row
+  const [underline, setUnderline] = useState<{ left: number; width: number } | null>(null)
+  const rowRef = useRef<HTMLDivElement>(null)
+
   useEffect(() => { setStreak(getStreak()) }, [pathname])
+
+  useEffect(() => {
+    const el  = tabRefs.current[active]
+    const row = rowRef.current
+    if (!el || !row) return
+
+    const elRect  = el.getBoundingClientRect()
+    const rowRect = row.getBoundingClientRect()
+    const fullW   = elRect.width
+    const underW  = fullW * 0.82            // 82% of label width
+    const left    = elRect.left - rowRect.left + (fullW - underW) / 2
+
+    setUnderline({ left, width: underW })
+  }, [active, pathname])
 
   return (
     <nav
@@ -37,42 +65,30 @@ export function TopNav() {
         borderBottom: '1px solid var(--pd)',
       }}
     >
-      {/* 아래 줄 맞춤 — pb-2로 바닥 기준 정렬 */}
-      <div className="flex items-end gap-0 px-3 h-full pb-2">
-
-        {/* PATTO brand → Home */}
-        <Link
-          href="/home"
-          className="font-playfair shrink-0 transition-opacity"
-          style={{
-            fontSize: 16,
-            fontWeight: 800,
-            letterSpacing: '0.06em',
-            color: 'var(--pt)',
-            lineHeight: 1,
-          }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.65')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-        >
-          PATTO
-        </Link>
-
-        {/* Nav tabs — 간격 축소 */}
-        <div className="flex items-end gap-3 ml-4">
-          {TABS.map(({ label, href }) => {
+      {/* single row — vertically centred */}
+      <div
+        ref={rowRef}
+        className="flex items-center px-3 h-full"
+        style={{ position: 'relative' }}
+      >
+        {/* All tabs — TODAY acts as brand + home link */}
+        <div className="flex items-center gap-4">
+          {ALL_TABS.map(({ label, href }) => {
             const isActive = active === label
             return (
               <Link
                 key={label}
                 href={href}
-                className="transition-colors"
+                ref={el => { tabRefs.current[label] = el }}
                 style={{
                   fontSize: 9,
-                  letterSpacing: '0.12em',
                   fontWeight: isActive ? 700 : 500,
+                  letterSpacing: '0.12em',
                   color: isActive ? 'var(--pt)' : 'var(--pm)',
                   whiteSpace: 'nowrap',
                   lineHeight: 1,
+                  transition: 'color 0.18s ease',
+                  textDecoration: 'none',
                 }}
               >
                 {label}
@@ -81,8 +97,26 @@ export function TopNav() {
           })}
         </div>
 
+        {/* Sliding underline */}
+        {underline && (
+          <span
+            aria-hidden
+            style={{
+              position:     'absolute',
+              bottom:       10,
+              left:         underline.left,
+              width:        underline.width,
+              height:       1.5,
+              background:   UNDERLINE_COLOR,
+              borderRadius: 1,
+              transition:   'left 180ms cubic-bezier(.4,0,.2,1), width 180ms cubic-bezier(.4,0,.2,1)',
+              pointerEvents: 'none',
+            }}
+          />
+        )}
+
         {/* 우측: streak + 프로필 */}
-        <div className="ml-auto flex items-center gap-2.5 pb-0.5">
+        <div className="ml-auto flex items-center gap-2.5">
           <div className="flex items-center gap-1" title={`연속 학습 ${streak}일`}>
             <Flame
               className="w-3 h-3"
@@ -95,7 +129,7 @@ export function TopNav() {
           <Link
             href="/settings"
             aria-label="설정"
-            className="w-6 h-6 rounded-full flex items-center justify-center transition-colors"
+            className="w-6 h-6 rounded-full flex items-center justify-center"
             style={{ background: 'var(--pd)' }}
           >
             <User className="w-3 h-3" strokeWidth={2} style={{ color: 'var(--pt)' }} />
