@@ -183,11 +183,10 @@ const COVER_THEMES: CoverTheme[] = [
 
 function pickCover(): { imageUrl: string; quote: Quote } {
   const theme = COVER_THEMES[Math.floor(Math.random() * COVER_THEMES.length)]
-  const kw    = theme.keywords[Math.floor(Math.random() * theme.keywords.length)]
   const quote = theme.quotes[Math.floor(Math.random() * theme.quotes.length)]
-  // cache-bust로 매번 새 이미지 — Unsplash keyword editorial lifestyle
-  const bust  = Date.now()
-  const imageUrl = `https://source.unsplash.com/900x1400/?${encodeURIComponent(kw)}&t=${bust}`
+  // picsum: 숫자 시드로 매번 다른 이미지 보장
+  const seed  = Math.floor(Math.random() * 9000) + 1000
+  const imageUrl = `https://picsum.photos/seed/${seed}/900/1400`
   return { imageUrl, quote }
 }
 
