@@ -1,5 +1,6 @@
 'use client'
 
+import type { JSX } from 'react'
 import type { IllustrationType } from '@/data/editor-notes'
 
 // ── CSS Animation keyframes (injected once) ───────────────────────────────────
