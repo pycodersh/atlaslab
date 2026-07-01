@@ -107,6 +107,7 @@ function SectionLabel({ label, sub, action }: { label: string; sub?: string; act
           {sub}
         </p>
       )}
+      <div style={{ height: 1, background: 'var(--pd)', marginTop: 14 }} />
     </div>
   )
 }
