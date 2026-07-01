@@ -56,7 +56,7 @@ const T = {
     reviews_ready_one:  '1 review is waiting.',
     reviews_ready:      '{n} reviews are ready.',
     learning_ready:     "Today's learning is ready.",
-    editor_note_label:  '에디터 노트',
+    editor_note_label:  '에디터 팁',
     editor_note_read:   '읽기 · {n}초',
 
     // ── Pattern labels ───────────────────────────────────────────────────────
@@ -218,7 +218,7 @@ const T = {
     reviews_ready_one:  '1 review is waiting.',
     reviews_ready:      '{n} reviews are ready.',
     learning_ready:     "Today's learning is ready.",
-    editor_note_label:  "Editor's Note",
+    editor_note_label:  "Editor's Tips",
     editor_note_read:   'Read · {n} sec',
     pattern_label:        'Pattern',
     explanation_label:    'Explanation',
