@@ -31,10 +31,10 @@ const HUBS = [
 
 export default function SettingsPage() {
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
+    <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
       <TopNav />
 
-      <div style={{ maxWidth: 480, margin: '0 auto', padding: `${NAV_HEIGHT + 28}px 22px 80px` }}>
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: `${NAV_HEIGHT + 28}px 22px 60px` }}>
 
         {/* ── Magazine Header ───────────────────────────────────────────── */}
         <div style={{ marginBottom: 36 }}>
