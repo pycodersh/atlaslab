@@ -241,20 +241,6 @@ export default function ProgressPage() {
           <MissionRow icon={RotateCcw} label="복습하기"     value={v.reviewedToday}          total={reviewTarget} last />
         </section>
 
-        {/* ── REVIEW ────────────────────────────────────────────────────── */}
-        <section style={{ marginBottom: 36 }}>
-          <SectionLabel label="Review" />
-          <div style={{ display: 'flex', border: '1px solid var(--pd)', borderRadius: 3 }}>
-            <StatCell value={v.todayDue} label="오늘 복습" border />
-            <StatCell value={v.overdue}  label="밀린 복습" />
-          </div>
-          {v.dueNow === 0 && (
-            <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 10, lineHeight: 1.6 }}>
-              오늘 복습을 모두 완료했어요.
-            </p>
-          )}
-        </section>
-
         {/* ── YOUR JOURNEY ──────────────────────────────────────────────── */}
         <section style={{ marginBottom: 36 }}>
           <SectionLabel label="Your Journey" />
