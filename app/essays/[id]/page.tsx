@@ -55,18 +55,21 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
         const yShift = ev(i)
 
         // Shared style for all above-line ink notes
-        // maxWidth + white-space: normal = never overflows right edge
+        // word-break:normal = word-level wrapping only (no character splits)
+        // overflowWrap:break-word = only break a long unbreakable token as last resort
         const inkStyle: React.CSSProperties = {
           position: 'absolute',
           bottom: `calc(100% + ${3 + yShift}px)`,
           left: 0,
           fontFamily: 'var(--font-caveat, cursive)',
-          fontSize: 14,
+          fontSize: 15,
           fontWeight: 700,
-          lineHeight: 1.35,
+          lineHeight: 1.4,
           whiteSpace: 'normal',
-          wordBreak: 'break-word',
-          maxWidth: 'min(160px, 46vw)',
+          wordBreak: 'normal',
+          overflowWrap: 'break-word',
+          // Wide enough that short words (We, I, a, have…) never split
+          maxWidth: 'min(220px, 62vw)',
           // Clamp to 2 lines maximum
           display: '-webkit-box',
           WebkitLineClamp: 2,
