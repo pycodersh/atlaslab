@@ -4,7 +4,7 @@ import { use, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Pencil, Trash2, Copy, Check } from 'lucide-react'
 import { NAV_HEIGHT } from '@/components/TopNav'
-import { type Essay, type Annotation, getEssay, deleteEssay } from '@/lib/essays/storage'
+import { type Essay, type Annotation, type TypicalMistake, getEssay, deleteEssay } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
 
 // ── Fixed editor personality — subtle y-variation only (no rotation/drift) ───
@@ -41,7 +41,7 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
   return (
     <p style={{
       fontSize: 16,
-      lineHeight: 3.6,
+      lineHeight: 4.0,
       color: 'var(--pt)',
       margin: 0,
       whiteSpace: 'pre-wrap',
@@ -194,6 +194,47 @@ function EditorNotes({ annotations }: { annotations: Annotation[] }) {
             Strength · {strength}
           </span>
         )}
+      </div>
+    </div>
+  )
+}
+
+// ── Typical Mistakes ──────────────────────────────────────────────────────────
+function TypicalMistakes({ mistakes }: { mistakes: TypicalMistake[] }) {
+  if (!mistakes || mistakes.length === 0) return null
+
+  return (
+    <div style={{ marginTop: 44, borderTop: '1px solid var(--pd)', paddingTop: 28 }}>
+      <p style={{
+        fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em',
+        color: 'var(--pm)', margin: '0 0 20px',
+      }}>
+        TYPICAL MISTAKES
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        {mistakes.map((m, i) => (
+          <div key={i}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 6 }}>
+              <span style={{ color: 'var(--pa)', fontWeight: 800, fontSize: 13, flexShrink: 0, marginTop: 1 }}>✓</span>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: 0, lineHeight: 1.5 }}>
+                {m.rule}
+              </p>
+            </div>
+            {m.examples && m.examples.length > 0 && (
+              <div style={{ marginLeft: 22, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {m.examples.map((ex, j) => (
+                  <p key={j} style={{
+                    fontFamily: 'var(--font-caveat, cursive)',
+                    fontSize: 15, fontWeight: 700,
+                    color: '#c0392b', margin: 0, lineHeight: 1.4,
+                  }}>
+                    {ex}
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   )
@@ -451,6 +492,11 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               ))}
             </div>
           </div>
+        )}
+
+        {/* ── Typical Mistakes ─────────────────────────────────────────── */}
+        {review?.typicalMistakes && review.typicalMistakes.length > 0 && (
+          <TypicalMistakes mistakes={review.typicalMistakes} />
         )}
 
         {/* ── One Natural Revision ─────────────────────────────────────── */}

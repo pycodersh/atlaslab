@@ -13,11 +13,17 @@ export type Annotation = {
   note: string          // editor's handwritten note
 }
 
+export type TypicalMistake = {
+  rule: string        // "Capitalize the first word of every sentence."
+  examples?: string[] // ["hello → Hello", "we went → We went"]
+}
+
 export type EditorReview = {
   detectedStyle: string
   annotations: Annotation[]
   editorComment: string
   nextChallenge: string | string[]  // string[] new format; string for legacy
+  typicalMistakes?: TypicalMistake[]
   suggestedVersion?: string
   createdAt: string
 }
