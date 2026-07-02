@@ -1,10 +1,7 @@
-import Anthropic from '@anthropic-ai/sdk'
+import { createClaudeClient } from '@/lib/ai/claude'
 
-// Detect if text is primarily English (rough heuristic)
 function isEnglish(text: string): boolean {
-  const words = text.trim().split(/\s+/).filter(Boolean)
-  if (words.length === 0) return false
-  // If more than 40% of characters are non-ASCII, it's likely not English
+  if (text.trim().length === 0) return false
   const nonAscii = (text.match(/[^\x00-\x7F]/g) ?? []).length
   return nonAscii / text.length < 0.4
 }
@@ -15,14 +12,14 @@ function wordCount(text: string): number {
 
 function buildSystemPrompt(language: string): string {
   const langInstructions: Record<string, string> = {
-    ko: '한국어로 모든 note, editorComment, nextChallenge를 작성하세요.',
-    ja: '日本語でnote、editorComment、nextChallengeをすべて書いてください。',
-    es: 'Escribe todas las notas, editorComment y nextChallenge en español.',
-    fr: 'Rédigez toutes les notes, editorComment et nextChallenge en français.',
-    de: 'Schreiben Sie alle Notizen, editorComment und nextChallenge auf Deutsch.',
+    ko:      '한국어로 모든 note, editorComment, nextChallenge를 작성하세요.',
+    ja:      '日本語でnote、editorComment、nextChallengeをすべて書いてください。',
+    es:      'Escribe todas las notas, editorComment y nextChallenge en español.',
+    fr:      'Rédigez toutes les notes, editorComment et nextChallenge en français.',
+    de:      'Schreiben Sie alle Notizen, editorComment und nextChallenge auf Deutsch.',
     'zh-cn': '请用简体中文写所有的note、editorComment和nextChallenge。',
     'zh-tw': '請用繁體中文寫所有的note、editorComment和nextChallenge。',
-    en: 'Write all notes, editorComment, and nextChallenge in English.',
+    en:      'Write all notes, editorComment, and nextChallenge in English.',
   }
   const langInstruction = langInstructions[language] ?? langInstructions.en
 
@@ -80,9 +77,8 @@ IMPORTANT: The "fragment" field must be copied EXACTLY from the essay text — s
 }
 
 export async function POST(request: Request) {
-  // API key guard — fail fast with a clear server log
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('[essays/review] ANTHROPIC_API_KEY is missing')
+  const claude = createClaudeClient()
+  if (!claude.ok) {
     return Response.json({ error: 'service_unavailable' }, { status: 503 })
   }
 
@@ -95,15 +91,14 @@ export async function POST(request: Request) {
       language: string
     }
 
-    // Validation
+    // ── Input validation (400) ──────────────────────────────────────────────
     if (!essayBody || typeof essayBody !== 'string') {
       return Response.json({ error: 'invalid_input' }, { status: 400 })
     }
-
-    const wc = wordCount(essayBody)
     if (!isEnglish(essayBody)) {
       return Response.json({ error: 'not_english' }, { status: 422 })
     }
+    const wc = wordCount(essayBody)
     if (wc < 10) {
       return Response.json({ error: 'too_short' }, { status: 422 })
     }
@@ -111,15 +106,15 @@ export async function POST(request: Request) {
       return Response.json({ error: 'too_long' }, { status: 422 })
     }
 
-    const userPrompt = `Essay Title: "${essayTitle}"
+    // ── Claude call ─────────────────────────────────────────────────────────
+    const userPrompt = `Essay Title: "${essayTitle ?? 'Untitled'}"
 
 Essay:
 ${essayBody}
 
 Please review this essay and return the JSON response as specified.`
 
-    const client = new Anthropic()
-    const message = await client.messages.create({
+    const message = await claude.client.messages.create({
       model: 'claude-sonnet-5',
       max_tokens: 1500,
       system: buildSystemPrompt(language),
@@ -128,16 +123,16 @@ Please review this essay and return the JSON response as specified.`
 
     const rawText = message.content[0].type === 'text' ? message.content[0].text : ''
 
-    // Parse JSON from response
+    // ── Parse response ──────────────────────────────────────────────────────
     const jsonMatch = rawText.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
-      console.error('[essays/review] Failed to parse JSON from Claude response')
+      console.error('[essays/review] Claude returned non-JSON response:', rawText.slice(0, 200))
       return Response.json({ error: 'parse_error' }, { status: 500 })
     }
 
     const review = JSON.parse(jsonMatch[0])
 
-    // Filter annotations to only those whose fragment actually exists in the essay
+    // Keep only annotations whose fragment actually exists in the essay
     if (Array.isArray(review.annotations)) {
       review.annotations = review.annotations.filter(
         (a: { fragment: string }) =>
@@ -147,9 +142,12 @@ Please review this essay and return the JSON response as specified.`
 
     review.createdAt = new Date().toISOString()
 
+    // ── Response shape ──────────────────────────────────────────────────────
+    // { review: { detectedStyle, annotations, editorComment, nextChallenge, createdAt }, essayId }
     return Response.json({ review, essayId })
+
   } catch (err) {
-    console.error('[essays/review]', err)
+    console.error('[essays/review] Unexpected error:', err)
     return Response.json({ error: 'server_error' }, { status: 500 })
   }
 }
