@@ -4,18 +4,14 @@ const REVIEW_COUNT_KEY = 'patto-essay-review-count'
 
 export const MAX_DAILY_REVIEWS = 3
 
-export type AnnotationType = 'grammar' | 'expression' | 'strength'
+// 'typical' = recurring mechanical error (first occurrence only, marked ★ Typ.)
+export type AnnotationType = 'grammar' | 'expression' | 'strength' | 'typical'
 
 export type Annotation = {
   type: AnnotationType
   fragment: string      // exact text to mark in the essay
-  replacement?: string  // for grammar/expression fixes
+  replacement?: string  // corrected form (grammar / expression / typical)
   note: string          // editor's handwritten note
-}
-
-export type TypicalMistake = {
-  rule: string        // "Capitalize the first word of every sentence."
-  examples?: string[] // ["hello → Hello", "we went → We went"]
 }
 
 export type EditorReview = {
@@ -23,7 +19,6 @@ export type EditorReview = {
   annotations: Annotation[]
   editorComment: string
   nextChallenge: string | string[]  // string[] new format; string for legacy
-  typicalMistakes?: TypicalMistake[]
   suggestedVersion?: string
   createdAt: string
 }
