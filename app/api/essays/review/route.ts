@@ -1,3 +1,4 @@
+import Anthropic from '@anthropic-ai/sdk'
 import { createClaudeClient } from '@/lib/ai/claude'
 
 function isEnglish(text: string): boolean {
@@ -147,6 +148,15 @@ Please review this essay and return the JSON response as specified.`
     return Response.json({ review, essayId })
 
   } catch (err) {
+    if (err instanceof Anthropic.APIError) {
+      console.error('[essays/review] Anthropic APIError:', {
+        status:  err.status,
+        name:    err.name,
+        message: err.message,
+        error:   err.error,
+      })
+      return Response.json({ error: 'server_error', detail: err.message }, { status: 500 })
+    }
     console.error('[essays/review] Unexpected error:', err)
     return Response.json({ error: 'server_error' }, { status: 500 })
   }
