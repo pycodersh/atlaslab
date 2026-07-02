@@ -61,11 +61,11 @@ export function StoryPage({
       ? (story.paragraphs[currentParagraphIdx]?.id ?? null)
       : null
 
-  // Image Slider: Mood 시스템 우선 → 방문마다 Pool에서 4장 랜덤 선택
+  // Image Slider: slideImages 우선 → Mood fallback → imageUrl fallback
   const slideImages = useMemo(() => {
+    if (story.slideImages && story.slideImages.length > 0) return story.slideImages
     const mood = story.mood ?? STORY_MOOD_MAP[story.id]
     if (mood) return getMoodImages(mood, 4)
-    if (story.slideImages && story.slideImages.length > 0) return story.slideImages
     return [{ url: story.imageUrl, alt: story.imageAlt, status: 'ready' as const }]
   }, [story.id])  // eslint-disable-line react-hooks/exhaustive-deps
 
