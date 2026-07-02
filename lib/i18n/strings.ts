@@ -1,4 +1,4 @@
-import type { AppLang } from '@/lib/settings/preferences'
+import type { Language } from '@/lib/settings/preferences'
 
 // ── Localisation principles ────────────────────────────────────────────────────
 // App Language  → translates all currently-Korean UI text (buttons, descriptions,
@@ -1148,10 +1148,10 @@ const T = {
     essays_delete:           'Löschen',
     back: 'EINSTELLUNGEN',
   },
-} satisfies Record<AppLang, Record<string, string>>
+} satisfies Record<Language, Record<string, string>>
 
 export type TKey = keyof (typeof T)['ko']
 
-export function getStrings(lang: AppLang): Record<TKey, string> {
+export function getStrings(lang: Language): Record<TKey, string> {
   return (T[lang] ?? T.ko) as Record<TKey, string>
 }

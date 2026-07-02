@@ -61,7 +61,7 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
                 padding: '2px 7px',
                 borderRadius: 10,
               }}>
-                {t.tEl('essays_reviewed_at')}
+                {t('essays_reviewed_at')}
               </span>
             )}
             {essay.review && (
@@ -138,7 +138,7 @@ export default function EssaysPage() {
         }}>
           <div>
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm)', margin: '0 0 3px' }}>
-              {t.tEl('essays_reviews_today')}
+              {t('essays_reviews_today')}
             </p>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
               <span style={{ fontSize: 22, fontWeight: 800, color: reviewCount >= MAX_DAILY_REVIEWS ? 'var(--pm2)' : 'var(--pa)', lineHeight: 1 }}>
@@ -185,7 +185,7 @@ export default function EssaysPage() {
         >
           <PenLine style={{ width: 15, height: 15, color: 'var(--pa)' }} strokeWidth={1.8} />
           <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: 'var(--pa)' }}>
-            {t.tEl('essays_new')}
+            {t('essays_new')}
           </span>
         </button>
 
@@ -199,7 +199,7 @@ export default function EssaysPage() {
               color: 'var(--pm)',
               margin: '0 0 4px',
             }}>
-              {t.tEl('essays_my')}
+              {t('essays_my')}
             </p>
             <div style={{ borderTop: '1px solid var(--pd)' }}>
               {essays.map(essay => (
@@ -222,7 +222,7 @@ export default function EssaysPage() {
               lineHeight: 1.8,
               whiteSpace: 'pre-line',
             }}>
-              {t.tEl('essays_empty')}
+              {t('essays_empty')}
             </p>
           </div>
         )}

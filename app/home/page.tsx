@@ -230,7 +230,7 @@ export default function HomePage() {
     // Next unread editor's note
     const nextId = getNextUnreadId(30)
     const note = EDITOR_NOTES.find(n => n.id === nextId) ?? EDITOR_NOTES[0]
-    if (note) setEditorNote({ id: note.id, title: note.title[prefs.appLang as keyof LangMap<unknown>] ?? note.title.en, readTimeSec: note.readTimeSec })
+    if (note) setEditorNote({ id: note.id, title: note.title[prefs.language as keyof LangMap<unknown>] ?? note.title.en, readTimeSec: note.readTimeSec })
 
     // Phase cascade for entrance animation
     const timers = [
@@ -353,7 +353,7 @@ export default function HomePage() {
           }}>
             {quote.en}
           </p>
-          {prefs.appLang === 'ko' && (
+          {prefs.language === 'ko' && (
             <p style={{
               margin: '10px 0 0',
               fontSize: 12,

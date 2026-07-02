@@ -57,7 +57,7 @@ export default function SubscriptionPage() {
         >
           <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
           <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
-            {t.tEl('back')}
+            {t('back')}
           </span>
         </Link>
 
@@ -71,12 +71,12 @@ export default function SubscriptionPage() {
             SUBSCRIPTION
           </h1>
           <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
-            {t.tEl('sub_subtitle')}
+            {t('sub_subtitle')}
           </p>
         </div>
 
         {/* ── Current Plan ───────────────────────────────────── */}
-        <SectionLabel>{t.tEl('sub_current_plan')}</SectionLabel>
+        <SectionLabel>{t('sub_current_plan')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0',
@@ -84,13 +84,13 @@ export default function SubscriptionPage() {
             <Sparkles style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px' }}>Free</p>
-              <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{t.tEl('sub_free_desc')}</p>
+              <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{t('sub_free_desc')}</p>
             </div>
           </div>
         </div>
 
         {/* ── Premium Features ───────────────────────────────── */}
-        <SectionLabel>{t.tEl('sub_premium')}</SectionLabel>
+        <SectionLabel>{t('sub_premium')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           {FEATURES.map(({ icon: Icon, label }) => (
             <div
@@ -104,7 +104,7 @@ export default function SubscriptionPage() {
         </div>
 
         {/* ── Choose a Plan ──────────────────────────────────── */}
-        <SectionLabel>{t.tEl('sub_choose_plan')}</SectionLabel>
+        <SectionLabel>{t('sub_choose_plan')}</SectionLabel>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
           {PLANS.map(plan => {
             const isSelected = selected === plan.id
@@ -174,7 +174,7 @@ export default function SubscriptionPage() {
             textAlign: 'center', fontSize: 10,
             color: 'var(--pm2)', marginTop: 14,
           }}>
-            {t.tEl('sub_fine_print')}
+            {t('sub_fine_print')}
           </p>
         </div>
 
@@ -189,7 +189,7 @@ export default function SubscriptionPage() {
           boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
           zIndex: 50, whiteSpace: 'nowrap', letterSpacing: '0.04em',
         }}>
-          {t.tEl('sub_toast')}
+          {t('sub_toast')}
         </div>
       )}
     </div>

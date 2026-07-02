@@ -15,7 +15,7 @@ function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length
 }
 
-function buildSystemPrompt(appLang: string): string {
+function buildSystemPrompt(language: string): string {
   const langInstructions: Record<string, string> = {
     ko: '한국어로 모든 note, editorComment, nextChallenge를 작성하세요.',
     ja: '日本語でnote、editorComment、nextChallengeをすべて書いてください。',
@@ -26,7 +26,7 @@ function buildSystemPrompt(appLang: string): string {
     'zh-tw': '請用繁體中文寫所有的note、editorComment和nextChallenge。',
     en: 'Write all notes, editorComment, and nextChallenge in English.',
   }
-  const langInstruction = langInstructions[appLang] ?? langInstructions.en
+  const langInstruction = langInstructions[language] ?? langInstructions.en
 
   return `You are a thoughtful magazine editor — the kind who works at Monocle, Kinfolk, or The New York Times Magazine. You review essays with genuine care and a light editorial touch.
 
@@ -84,11 +84,11 @@ IMPORTANT: The "fragment" field must be copied EXACTLY from the essay text — s
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { essayId, essayBody, essayTitle, appLang = 'ko' } = body as {
+    const { essayId, essayBody, essayTitle, language = 'ko' } = body as {
       essayId: string
       essayBody: string
       essayTitle: string
-      appLang: string
+      language: string
     }
 
     // Validation
@@ -117,7 +117,7 @@ Please review this essay and return the JSON response as specified.`
     const message = await client.messages.create({
       model: 'claude-sonnet-5',
       max_tokens: 1500,
-      system: buildSystemPrompt(appLang),
+      system: buildSystemPrompt(language),
       messages: [{ role: 'user', content: userPrompt }],
     })
 

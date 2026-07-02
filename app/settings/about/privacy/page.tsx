@@ -10,7 +10,7 @@ import { PRIVACY, getLegalDoc } from '@/lib/i18n/legal-content'
 export default function PrivacyPage() {
   const t = useT()
   const { prefs } = usePreferences()
-  const doc = getLegalDoc(PRIVACY, prefs.appLang)
+  const doc = getLegalDoc(PRIVACY, prefs.language)
 
   return (
     <div className="min-h-dvh bg-[var(--pb)]">

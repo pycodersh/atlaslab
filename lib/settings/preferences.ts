@@ -1,22 +1,19 @@
-export type SpeechRate      = 'slow' | 'normal' | 'fast'
-export type VoiceKey        = 'us-male' | 'us-female' | 'uk-male' | 'uk-female'
-export type AppLang         = 'ko' | 'en' | 'es' | 'ja' | 'zh-cn' | 'zh-tw' | 'fr' | 'de'
-export type TranslationLang = 'none' | 'ko' | 'en' | 'es' | 'ja' | 'zh-cn' | 'zh-tw' | 'fr' | 'de'
+export type SpeechRate = 'slow' | 'normal' | 'fast'
+export type VoiceKey   = 'us-male' | 'us-female' | 'uk-male' | 'uk-female'
+export type Language   = 'ko' | 'en' | 'es' | 'ja' | 'zh-cn' | 'zh-tw' | 'fr' | 'de'
 export type AmbienceDefault = 'off' | 'on'
 
 export interface UserPreferences {
   speechRate:      SpeechRate
   voice:           VoiceKey
-  appLang:         AppLang
-  translationLang: TranslationLang
+  language:        Language
   ambienceDefault: AmbienceDefault
 }
 
 export const DEFAULTS: UserPreferences = {
   speechRate:      'normal',
   voice:           'us-female',
-  appLang:         'ko',
-  translationLang: 'ko',
+  language:        'ko',
   ambienceDefault: 'off',
 }
 
@@ -26,7 +23,11 @@ export function getPreferences(): UserPreferences {
   if (typeof window === 'undefined') return DEFAULTS
   try {
     const raw = localStorage.getItem(KEY)
-    return raw ? { ...DEFAULTS, ...JSON.parse(raw) } : DEFAULTS
+    if (!raw) return DEFAULTS
+    const stored = JSON.parse(raw) as Record<string, unknown>
+    // Migration: appLang / translationLang → language
+    const language = (stored.language ?? stored.appLang ?? DEFAULTS.language) as Language
+    return { ...DEFAULTS, ...stored, language }
   } catch {
     return DEFAULTS
   }
@@ -38,9 +39,8 @@ export function savePreferences(patch: Partial<UserPreferences>): UserPreference
   return next
 }
 
-// ── TTS helpers ─────────────────────────────────────────────────────────────
+// ── TTS helpers ──────────────────────────────────────────────────────────────
 
-// Slow/Normal/Fast 각 단계가 자연스럽게 들리는 값 (브라우저 특성 반영)
 export const RATE_MAP: Record<SpeechRate, number> = {
   slow:   0.85,
   normal: 0.95,
@@ -60,19 +60,7 @@ export const VOICE_LABELS: Record<VoiceKey, string> = {
   'uk-female': '🇬🇧 Female',
 }
 
-export const APP_LANG_LABELS: Record<AppLang, string> = {
-  ko:    '한국어',
-  en:    'English',
-  es:    'Español',
-  ja:    '日本語',
-  'zh-cn': '简体中文',
-  'zh-tw': '繁體中文',
-  fr:    'Français',
-  de:    'Deutsch',
-}
-
-export const TRANSLATION_LANG_LABELS: Record<TranslationLang, string> = {
-  none:    'None',
+export const LANGUAGE_LABELS: Record<Language, string> = {
   ko:      '한국어',
   en:      'English',
   es:      'Español',

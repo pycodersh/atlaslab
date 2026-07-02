@@ -2,14 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, BookOpen, Check, Waves, Play, Square } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Play, Square } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
 import {
-  type SpeechRate, type VoiceKey, type AppLang, type TranslationLang,
-  SPEECH_RATE_LABELS, VOICE_LABELS, APP_LANG_LABELS, TRANSLATION_LANG_LABELS,
+  type SpeechRate, type VoiceKey, type Language,
+  SPEECH_RATE_LABELS, VOICE_LABELS, LANGUAGE_LABELS,
 } from '@/lib/settings/preferences'
 import { BrowserTTSProvider, getPitchForKey } from '@/lib/tts'
 
@@ -197,7 +197,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
-type Sheet = 'speechRate' | 'voice' | 'appLang' | 'translation' | null
+type Sheet = 'speechRate' | 'voice' | 'language' | null
 
 export default function PreferencesPage() {
   const { theme, setTheme }         = useTheme()
@@ -232,11 +232,8 @@ export default function PreferencesPage() {
   const voiceOptions = (['us-female', 'us-male', 'uk-female', 'uk-male'] as VoiceKey[])
     .map(v => ({ label: VOICE_LABELS[v], value: v }))
 
-  const appLangOptions = (Object.keys(APP_LANG_LABELS) as AppLang[])
-    .map(v => ({ label: APP_LANG_LABELS[v], value: v }))
-
-  const translationOptions = (Object.keys(TRANSLATION_LANG_LABELS) as TranslationLang[])
-    .map(v => ({ label: TRANSLATION_LANG_LABELS[v], value: v }))
+  const languageOptions = (Object.keys(LANGUAGE_LABELS) as Language[])
+    .map(v => ({ label: LANGUAGE_LABELS[v], value: v }))
 
   const ThemeIcon = theme === 'light' ? Sun : Moon
 
@@ -262,7 +259,7 @@ export default function PreferencesPage() {
         >
           <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
           <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
-            {t.tEl('back')}
+            {t('back')}
           </span>
         </Link>
 
@@ -273,15 +270,15 @@ export default function PreferencesPage() {
             fontWeight: 900, lineHeight: 1, color: 'var(--pt)',
             margin: 0, letterSpacing: '-0.02em',
           }}>
-            {t.tEl('pref_title')}
+            {t('pref_title')}
           </h1>
           <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
-            {t.tEl('pref_desc')}
+            {t('pref_desc')}
           </p>
         </div>
 
         {/* ── DISPLAY ──────────────────────────────────────────────────── */}
-        <SectionLabel>{t.tEl('display')}</SectionLabel>
+        <SectionLabel>{t('display')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           <ToggleRow
             icon={ThemeIcon}
@@ -294,7 +291,7 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── AUDIO ────────────────────────────────────────────────────── */}
-        <SectionLabel>{t.tEl('audio')}</SectionLabel>
+        <SectionLabel>{t('audio')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           <NavRow
             icon={Mic}
@@ -321,21 +318,14 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── LANGUAGE ─────────────────────────────────────────────────── */}
-        <SectionLabel>{t.tEl('language')}</SectionLabel>
+        <SectionLabel>{t('language')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           <NavRow
             icon={Globe}
-            label={t('app_language')}
+            label={t('language')}
             desc={t('app_language_desc')}
-            displayValue={APP_LANG_LABELS[prefs.appLang]}
-            onClick={() => setSheet('appLang')}
-          />
-          <NavRow
-            icon={BookOpen}
-            label={t('translation')}
-            desc={t('translation_desc')}
-            displayValue={TRANSLATION_LANG_LABELS[prefs.translationLang]}
-            onClick={() => setSheet('translation')}
+            displayValue={LANGUAGE_LABELS[prefs.language]}
+            onClick={() => setSheet('language')}
             last
           />
         </div>
@@ -379,20 +369,11 @@ export default function PreferencesPage() {
       />
 
       <BottomSheet
-        open={sheet === 'appLang'}
-        title={t('app_language')}
-        options={appLangOptions}
-        value={prefs.appLang}
-        onSelect={v => update({ appLang: v })}
-        onClose={closeSheet}
-      />
-
-      <BottomSheet
-        open={sheet === 'translation'}
-        title={t('translation')}
-        options={translationOptions}
-        value={prefs.translationLang}
-        onSelect={v => update({ translationLang: v })}
+        open={sheet === 'language'}
+        title={t('language')}
+        options={languageOptions}
+        value={prefs.language}
+        onSelect={v => update({ language: v })}
         onClose={closeSheet}
       />
     </div>

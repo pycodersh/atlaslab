@@ -13,7 +13,6 @@ import { recordPatternPractice } from '@/lib/srs/storage'
 import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import { useT } from '@/hooks/useT'
-import { HL } from '@/components/HL'
 
 type Props = {
   storyId: number
@@ -38,7 +37,7 @@ export function PatternPracticeCard({
 }: Props) {
   const { prefs } = usePreferences()
   const t = useT()
-  const showTranslation = prefs.translationLang !== 'none'
+  const showTranslation = true
 
   const [phase, setPhase] = useState<Phase>('idle')
   const [currentIdx, setCurrentIdx] = useState(-1)
@@ -182,11 +181,9 @@ export function PatternPracticeCard({
         </span>
         <div className="flex-1 min-w-0">
           <p className="font-playfair text-[1.2rem] font-bold text-[var(--pt)] leading-snug">{pattern.pattern}</p>
-          {showTranslation && resolveTranslation(pattern.meaningKo, prefs.translationLang, pattern.meaningTranslations) && (
+          {showTranslation && resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations) && (
             <p className="text-[0.74rem] text-[var(--pa)] mt-0.5">
-              {storyId === 1
-                ? <HL>{resolveTranslation(pattern.meaningKo, prefs.translationLang, pattern.meaningTranslations)}</HL>
-                : resolveTranslation(pattern.meaningKo, prefs.translationLang, pattern.meaningTranslations)}
+              {resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations)}
             </p>
           )}
         </div>
@@ -317,11 +314,9 @@ export function PatternPracticeCard({
                 </span>
                 <div className="flex-1 min-w-0">
                   <p className="text-[0.82rem] font-medium text-[var(--pt)] leading-snug">{ex.en}</p>
-                  {showTranslation && resolveTranslation(ex.ko, prefs.translationLang, ex.translations) && (
+                  {showTranslation && resolveTranslation(ex.ko, prefs.language, ex.translations) && (
                     <p className="text-[0.7rem] text-[var(--pm)] mt-0.5 leading-snug">
-                      {storyId === 1
-                        ? <HL>{resolveTranslation(ex.ko, prefs.translationLang, ex.translations)}</HL>
-                        : resolveTranslation(ex.ko, prefs.translationLang, ex.translations)}
+                      {resolveTranslation(ex.ko, prefs.language, ex.translations)}
                     </p>
                   )}
                   {following && (

@@ -1,9 +1,9 @@
 // ── PATTO Legal Content (Terms & Privacy) ──────────────────────────────────────
 // 각 언어별 전체 법적 문서 내용.
 // 번역이 없는 언어는 한국어('ko')로 폴백됩니다.
-// 새 언어 번역 추가: TERMS 또는 PRIVACY 객체에 해당 AppLang 키를 추가하세요.
+// 새 언어 번역 추가: TERMS 또는 PRIVACY 객체에 해당 Language 키를 추가하세요.
 
-import type { AppLang } from '@/lib/settings/preferences'
+import type { Language } from '@/lib/settings/preferences'
 
 export type LegalSection = { title: string; body: string }
 export type LegalDoc = {
@@ -14,7 +14,7 @@ export type LegalDoc = {
 
 // ── Terms of Service ───────────────────────────────────────────────────────────
 
-export const TERMS: Partial<Record<AppLang, LegalDoc>> = {
+export const TERMS: Partial<Record<Language, LegalDoc>> = {
   ko: {
     title: '이용약관',
     updated: '최종 업데이트: 2026년 6월 25일',
@@ -263,7 +263,7 @@ export const TERMS: Partial<Record<AppLang, LegalDoc>> = {
 
 // ── Privacy Policy ─────────────────────────────────────────────────────────────
 
-export const PRIVACY: Partial<Record<AppLang, LegalDoc>> = {
+export const PRIVACY: Partial<Record<Language, LegalDoc>> = {
   ko: {
     title: '개인정보처리방침',
     updated: '최종 업데이트: 2026년 6월 25일',
@@ -408,8 +408,8 @@ export const PRIVACY: Partial<Record<AppLang, LegalDoc>> = {
 // ── Helper ─────────────────────────────────────────────────────────────────────
 
 export function getLegalDoc(
-  doc: Partial<Record<AppLang, LegalDoc>>,
-  lang: AppLang,
+  doc: Partial<Record<Language, LegalDoc>>,
+  lang: Language,
 ): LegalDoc {
   return doc[lang] ?? doc.ko!
 }

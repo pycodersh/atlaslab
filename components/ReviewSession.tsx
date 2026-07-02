@@ -120,7 +120,7 @@ export function ReviewSession() {
 
   // ── 로딩 ──
   if (cards === null) {
-    return <div className="min-h-dvh bg-[var(--pb)] flex items-center justify-center text-[var(--pm)] text-sm">{t.tEl('loading')}</div>
+    return <div className="min-h-dvh bg-[var(--pb)] flex items-center justify-center text-[var(--pm)] text-sm">{t('loading')}</div>
   }
 
   // ── 복습할 항목 없음 ──
@@ -128,12 +128,12 @@ export function ReviewSession() {
     return (
       <div className="min-h-dvh bg-[var(--pb)] flex flex-col items-center justify-center px-8 text-center">
         <Check className="w-10 h-10 text-[var(--pa)] mb-4" strokeWidth={1.6} />
-        <p className="font-playfair text-[1.4rem] font-bold text-[var(--pt)] mb-2">{t.tEl('no_reviews_title')}</p>
+        <p className="font-playfair text-[1.4rem] font-bold text-[var(--pt)] mb-2">{t('no_reviews_title')}</p>
         <p className="text-[13px] text-[var(--pm)] leading-relaxed mb-7 whitespace-pre-line">
-          {t.tEl('no_reviews_desc')}
+          {t('no_reviews_desc')}
         </p>
         <div className="flex gap-3">
-          <button type="button" onClick={() => router.push('/stories/1')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer">{t.tEl('new_story_btn')}</button>
+          <button type="button" onClick={() => router.push('/stories/1')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer">{t('new_story_btn')}</button>
           <button type="button" onClick={() => router.push('/records')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pc)] text-[var(--pt)] hover:opacity-80 transition-opacity cursor-pointer">Progress</button>
         </div>
       </div>
@@ -147,23 +147,23 @@ export function ReviewSession() {
         <div className="w-14 h-14 rounded-full bg-[var(--pa)] flex items-center justify-center mb-4">
           <Check className="w-7 h-7 text-white" strokeWidth={2.5} />
         </div>
-        <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] mb-1">{t.tEl('review_done_title')}</p>
-        <p className="text-[13px] text-[var(--pm)] mb-6">{t.tEl('review_done_desc')}</p>
+        <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] mb-1">{t('review_done_title')}</p>
+        <p className="text-[13px] text-[var(--pm)] mb-6">{t('review_done_desc')}</p>
 
         {/* 오늘 완료한 복습 수 */}
         <div className="rounded-2xl bg-[var(--pc)] px-8 py-5 mb-6">
           <p className="font-playfair text-[2.4rem] font-bold text-[var(--pa)] leading-none">{answered}</p>
-          <p className="text-[11px] text-[var(--pm)] mt-2">{t.tEl('review_today_label')}</p>
+          <p className="text-[11px] text-[var(--pm)] mt-2">{t('review_today_label')}</p>
         </div>
 
         <div className="flex gap-6 mb-8">
           <div className="text-center">
             <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] leading-none">{correct}</p>
-            <p className="text-[11px] text-[var(--pm)] mt-1.5">{t.tEl('correct_label')}</p>
+            <p className="text-[11px] text-[var(--pm)] mt-1.5">{t('correct_label')}</p>
           </div>
           <div className="text-center">
             <p className="font-playfair text-[1.5rem] font-bold text-[var(--pm2)] leading-none">{wrong}</p>
-            <p className="text-[11px] text-[var(--pm)] mt-1.5">{t.tEl('wrong_label')}</p>
+            <p className="text-[11px] text-[var(--pm)] mt-1.5">{t('wrong_label')}</p>
           </div>
         </div>
 
@@ -217,7 +217,7 @@ export function ReviewSession() {
                 </>
               )}
               <p className="text-[12px] text-[var(--pm)] mt-4">
-                {isPattern ? t.tEl('card_hint_pattern') : t.tEl('card_hint_story')}
+                {isPattern ? t('card_hint_pattern') : t('card_hint_story')}
               </p>
             </div>
           ) : isPattern ? (
@@ -246,7 +246,7 @@ export function ReviewSession() {
             <div>
               <p className="font-playfair text-[1.4rem] font-bold text-[var(--pa)] mb-1">{card.title}</p>
               <p className="text-[0.9rem] text-[var(--pt)] leading-relaxed mb-5">{card.summary}</p>
-              <p className="text-[9px] tracking-[0.2em] font-bold text-[var(--pm2)] mb-2.5">{t.tEl('linked_patterns')}</p>
+              <p className="text-[9px] tracking-[0.2em] font-bold text-[var(--pm2)] mb-2.5">{t('linked_patterns')}</p>
               <div className="space-y-2">
                 {card.linkedPatterns!.map((p, i) => (
                   <div key={i} className="flex gap-2.5 items-center">
@@ -264,15 +264,15 @@ export function ReviewSession() {
       <div className="px-6 pb-8">
         {!revealed ? (
           <button type="button" onClick={() => setRevealed(true)} className="w-full rounded-2xl py-4 text-[14px] font-bold tracking-[0.04em] bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
-            <RotateCcw className="w-4 h-4" /> {t.tEl('reveal_btn')}
+            <RotateCcw className="w-4 h-4" /> {t('reveal_btn')}
           </button>
         ) : (
           <div className="flex gap-3">
             <button type="button" onClick={() => answer(false)} className="flex-1 rounded-2xl py-4 text-[14px] font-bold bg-[var(--pc)] text-[var(--pm)] border border-[var(--pd)] hover:bg-[var(--pd)] transition-colors cursor-pointer flex items-center justify-center gap-2">
-              <X className="w-4 h-4" /> {t.tEl('dont_know')}
+              <X className="w-4 h-4" /> {t('dont_know')}
             </button>
             <button type="button" onClick={() => answer(true)} className="flex-1 rounded-2xl py-4 text-[14px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
-              <Check className="w-4 h-4" /> {t.tEl('got_it')}
+              <Check className="w-4 h-4" /> {t('got_it')}
             </button>
           </div>
         )}

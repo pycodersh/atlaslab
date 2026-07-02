@@ -61,7 +61,7 @@ export default function AboutPage() {
         >
           <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
           <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
-            {t.tEl('back')}
+            {t('back')}
           </span>
         </Link>
 
@@ -75,7 +75,7 @@ export default function AboutPage() {
             About PATTO
           </h1>
           <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
-            {t.tEl('about_sub')}
+            {t('about_sub')}
           </p>
         </div>
 
