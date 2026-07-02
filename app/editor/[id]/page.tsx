@@ -243,6 +243,17 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
         {/* ── Article ───────────────────────────────────────────────────── */}
         <article style={{ maxWidth: 480, margin: '0 auto', padding: '0 22px 100px' }}>
 
+          {/* Category label */}
+          <p style={{
+            fontSize: 9,
+            fontWeight: 700,
+            letterSpacing: '0.22em',
+            color: 'var(--pa)',
+            margin: '32px 0 10px',
+          }}>
+            {note.partTitle}
+          </p>
+
           {/* Title */}
           <h1 className="font-playfair" style={{
             fontSize: 'clamp(1.7rem, 7vw, 2.4rem)',
@@ -250,7 +261,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
             lineHeight: 1.15,
             letterSpacing: '-0.01em',
             color: 'var(--pt)',
-            margin: '32px 0 8px',
+            margin: '0 0 8px',
           }}>
             {title}
           </h1>
