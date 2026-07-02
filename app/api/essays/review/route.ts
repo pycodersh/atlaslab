@@ -13,14 +13,14 @@ function wordCount(text: string): number {
 
 function buildSystemPrompt(language: string): string {
   const langInstructions: Record<string, string> = {
-    ko:      '모든 note, editorComment, nextChallenge 항목을 한국어로 작성하세요.',
-    ja:      'note、editorComment、nextChallengeの各項目をすべて日本語で書いてください。',
-    es:      'Escribe todas las notas, editorComment y cada ítem de nextChallenge en español.',
-    fr:      'Rédigez toutes les notes, editorComment et chaque élément de nextChallenge en français.',
-    de:      'Schreiben Sie alle Notizen, editorComment und jeden nextChallenge-Punkt auf Deutsch.',
-    'zh-cn': '请用简体中文写所有的note、editorComment和nextChallenge各项。',
-    'zh-tw': '請用繁體中文寫所有的note、editorComment和nextChallenge各項。',
-    en:      'Write all notes, editorComment, and each nextChallenge item in English.',
+    ko:      '⚠️ 언어 규칙: 아래의 모든 텍스트 필드를 반드시 한국어로 작성하세요 — note(모든 annotation), editorComment, nextChallenge의 각 항목, typicalMistakes의 rule. 영어로 작성하지 마세요.',
+    ja:      '⚠️ 言語ルール: 以下のすべてのテキストフィールドを必ず日本語で記述してください — note（すべてのannotation）、editorComment、nextChallengeの各項目、typicalMistakesのrule。英語で書かないでください。',
+    es:      '⚠️ Regla de idioma: Escribe TODOS los campos de texto en español — note (todas las anotaciones), editorComment, cada ítem de nextChallenge, rule de typicalMistakes. No uses inglés.',
+    fr:      "⚠️ Règle de langue: Rédigez TOUS les champs texte en français — note (toutes les annotations), editorComment, chaque élément de nextChallenge, rule de typicalMistakes. N'utilisez pas l'anglais.",
+    de:      '⚠️ Sprachregel: Schreiben Sie ALLE Textfelder auf Deutsch — note (alle Annotationen), editorComment, jeden nextChallenge-Punkt, rule der typicalMistakes. Kein Englisch.',
+    'zh-cn': '⚠️ 语言规则：以下所有文本字段必须用简体中文填写 — note（所有注释）、editorComment、nextChallenge的每个项目、typicalMistakes的rule。不要使用英文。',
+    'zh-tw': '⚠️ 語言規則：以下所有文字欄位必須用繁體中文填寫 — note（所有注釋）、editorComment、nextChallenge的每個項目、typicalMistakes的rule。不要使用英文。',
+    en:      '⚠️ Language rule: Write ALL text fields in English — note (all annotations), editorComment, each nextChallenge item, typicalMistakes rule. Do not use Korean or any other language.',
   }
   const langInstruction = langInstructions[language] ?? langInstructions.en
 
