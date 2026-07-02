@@ -5,10 +5,21 @@ import { useRouter } from 'next/navigation'
 import { Share2, ChevronLeft, ChevronRight } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { EDITOR_NOTES, TOTAL_NOTES, type LangMap } from '@/data/editor-notes'
+import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
 import { markNoteRead, getReadCount } from '@/lib/editor/storage'
 import { EditorIllustration } from '@/components/EditorIllustration'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
+
+// Map preference language codes to TipLang keys
+function toTipLang(lang: string): TipLang | null {
+  const map: Record<string, TipLang> = {
+    en: 'en', es: 'es', ja: 'ja',
+    'zh-cn': 'zh-CN', 'zh-tw': 'zh-TW',
+    fr: 'fr', de: 'de',
+  }
+  return map[lang] ?? null
+}
 
 function fmtTime(sec: number): string {
   if (sec < 60) return `${sec} sec`
@@ -149,6 +160,10 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
   const t = useT()
   const { prefs } = usePreferences()
   const lang = prefs.language as keyof LangMap<unknown>
+  const tipLang = toTipLang(prefs.language)
+  const tipTrans = note && tipLang
+    ? editorTipTranslations.find(e => e.noteId === note.id)?.translations[tipLang]
+    : null
 
   const [readCount,   setReadCount]   = useState(0)
   const [visible,     setVisible]     = useState(false)
@@ -178,9 +193,12 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
 
   const swipe = useSwipe(goNext, goPrev)
 
-  const title = note ? (note.title[lang] ?? note.title.en) : ''
-  const body  = note ? (note.body[lang]  ?? note.body.en)  : []
-  const otr   = note ? (note.oneThingToRemember[lang] ?? note.oneThingToRemember.en) : ''
+  const koTitle = note?.title.ko ?? note?.title.en ?? ''
+  const koBody  = note?.body.ko  ?? note?.body.en  ?? []
+  const koOtr   = note?.oneThingToRemember.ko ?? note?.oneThingToRemember.en ?? ''
+  const title = tipTrans?.title ?? (prefs.language === 'ko' ? koTitle : note?.title[lang] ?? koTitle)
+  const body  = tipTrans?.body  ?? (prefs.language === 'ko' ? koBody  : note?.body[lang]  ?? koBody)
+  const otr   = tipTrans?.oneThingToRemember ?? (prefs.language === 'ko' ? koOtr : note?.oneThingToRemember[lang] ?? koOtr)
 
   if (!note) {
     return (
@@ -323,7 +341,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
                       {r.title}
                     </p>
                     <p style={{ margin:0, fontSize:12, lineHeight:1.65, color:'var(--pm)' }}>
-                      {r.brief[lang] ?? r.brief.en}
+                      {tipTrans?.researchBriefs?.[i] ?? (prefs.language === 'ko' ? (r.brief.ko ?? r.brief.en) : (r.brief[lang] ?? r.brief.ko ?? r.brief.en))}
                     </p>
                   </div>
                 ))}
