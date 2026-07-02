@@ -4,11 +4,11 @@ const REVIEW_COUNT_KEY = 'patto-essay-review-count'
 
 export const MAX_DAILY_REVIEWS = 3
 
-export type AnnotationType = 'grammar' | 'expression' | 'praise'
+export type AnnotationType = 'grammar' | 'expression' | 'strength'
 
 export type Annotation = {
   type: AnnotationType
-  fragment: string      // exact text to highlight in the essay
+  fragment: string      // exact text to mark in the essay
   replacement?: string  // for grammar/expression fixes
   note: string          // editor's handwritten note
 }
@@ -17,7 +17,7 @@ export type EditorReview = {
   detectedStyle: string
   annotations: Annotation[]
   editorComment: string
-  nextChallenge: string
+  nextChallenge: string | string[]  // string[] new format; string for legacy
   createdAt: string
 }
 

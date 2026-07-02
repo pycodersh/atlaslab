@@ -7,25 +7,38 @@ import { NAV_HEIGHT } from '@/components/TopNav'
 import { type Essay, type Annotation, getEssay, deleteEssay } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
 
-// ── Annotation colors ─────────────────────────────────────────────────────────
-const ANNOTATION_STYLE: Record<Annotation['type'], {
-  highlight: string
-  noteColor: string
-  marker: string
-}> = {
-  grammar:    { highlight: 'rgba(220, 53, 69, 0.12)',  noteColor: '#c0392b', marker: '→' },
-  expression: { highlight: 'rgba(108, 99, 255, 0.12)', noteColor: '#6c63ff', marker: '✦' },
-  praise:     { highlight: 'rgba(39, 174, 96, 0.14)',  noteColor: '#219653', marker: '' },
+// ── Annotation visual config ──────────────────────────────────────────────────
+const ANN = {
+  grammar: {
+    icon:        '✗',
+    inkColor:    '#c0392b',
+    inkBg:       'rgba(192,57,43,0.06)',
+    underline:   '2px solid #e74c3c',
+    decoration:  'line-through' as const,
+    decorColor:  '#e74c3c',
+  },
+  expression: {
+    icon:        '✦',
+    inkColor:    '#7d3c98',
+    inkBg:       'rgba(125,60,152,0.06)',
+    underline:   '1.5px solid #7d3c98',
+    decoration:  'none' as const,
+    decorColor:  '#7d3c98',
+  },
+  strength: {
+    icon:        '⭐',
+    inkColor:    '#1e8449',
+    inkBg:       'rgba(30,132,73,0.06)',
+    underline:   'none',
+    decoration:  'none' as const,
+    decorColor:  'transparent',
+  },
 }
 
-// ── Build annotated segments ──────────────────────────────────────────────────
-type Segment = {
-  text: string
-  annotation?: Annotation
-}
+// ── Build segments ────────────────────────────────────────────────────────────
+type Segment = { text: string; annotation?: Annotation }
 
 function buildSegments(body: string, annotations: Annotation[]): Segment[] {
-  // Sort by first occurrence in body
   const positioned = annotations
     .map(a => ({ annotation: a, index: body.indexOf(a.fragment) }))
     .filter(p => p.index >= 0)
@@ -35,159 +48,189 @@ function buildSegments(body: string, annotations: Annotation[]): Segment[] {
   let cursor = 0
 
   for (const { annotation, index } of positioned) {
-    if (index < cursor) continue  // overlapping — skip
-    if (index > cursor) {
-      segments.push({ text: body.slice(cursor, index) })
-    }
+    if (index < cursor) continue
+    if (index > cursor) segments.push({ text: body.slice(cursor, index) })
     segments.push({ text: annotation.fragment, annotation })
     cursor = index + annotation.fragment.length
   }
-  if (cursor < body.length) {
-    segments.push({ text: body.slice(cursor) })
-  }
+  if (cursor < body.length) segments.push({ text: body.slice(cursor) })
   return segments
 }
 
-// ── Annotated essay body ──────────────────────────────────────────────────────
-function AnnotatedBody({ body, annotations }: { body: string; annotations: Annotation[] }) {
-  const [activeIdx, setActiveIdx] = useState<number | null>(null)
+// ── Annotated manuscript body ─────────────────────────────────────────────────
+function AnnotatedManuscript({ body, annotations }: { body: string; annotations: Annotation[] }) {
   const segments = buildSegments(body, annotations)
 
-  // Map annotation index in segments
-  const annotatedSegments = segments.filter(s => s.annotation)
-
   return (
-    <div>
-      <p style={{
-        fontSize: 16,
-        lineHeight: 1.9,
-        color: 'var(--pt)',
-        margin: 0,
-        whiteSpace: 'pre-wrap',
-        wordBreak: 'break-word',
-      }}>
-        {segments.map((seg, i) => {
-          if (!seg.annotation) {
-            return <span key={i}>{seg.text}</span>
-          }
+    <p style={{
+      fontSize: 16,
+      lineHeight: 2.1,
+      color: 'var(--pt)',
+      margin: 0,
+      whiteSpace: 'pre-wrap',
+      wordBreak: 'break-word',
+    }}>
+      {segments.map((seg, i) => {
+        if (!seg.annotation) return <span key={i}>{seg.text}</span>
 
-          const ann = seg.annotation
-          const style = ANNOTATION_STYLE[ann.type]
-          const annIdx = annotatedSegments.indexOf(seg)
-          const isActive = activeIdx === annIdx
+        const ann = seg.annotation
+        const cfg = ANN[ann.type] ?? ANN.grammar
 
+        if (ann.type === 'grammar') {
           return (
-            <span key={i} style={{ position: 'relative', display: 'inline' }}>
-              <span
-                onClick={() => setActiveIdx(isActive ? null : annIdx)}
-                style={{
-                  background: style.highlight,
-                  borderBottom: ann.type === 'grammar' ? `1.5px solid ${style.noteColor}` : 'none',
-                  borderRadius: 3,
-                  padding: '1px 1px',
-                  cursor: 'pointer',
-                  transition: 'background 0.15s',
-                }}
-              >
+            <span key={i} style={{ display: 'inline' }}>
+              {/* Crossed-out original */}
+              <span style={{
+                textDecoration: `line-through`,
+                textDecorationColor: cfg.decorColor,
+                color: 'rgba(0,0,0,0.28)',
+              }}>
                 {seg.text}
               </span>
-              {/* Inline margin note */}
-              {isActive && (
+              {/* Red-pen replacement inline */}
+              {ann.replacement && (
                 <span style={{
-                  display: 'inline-block',
-                  marginLeft: 6,
-                  padding: '3px 10px',
-                  borderRadius: 12,
-                  background: 'var(--pb)',
-                  border: `1px solid ${style.noteColor}`,
-                  fontSize: 11.5,
-                  color: style.noteColor,
                   fontFamily: 'var(--font-caveat, cursive)',
+                  color: cfg.inkColor,
+                  fontSize: 15,
                   fontWeight: 600,
-                  lineHeight: 1.4,
-                  verticalAlign: 'middle',
-                  whiteSpace: 'normal',
-                  maxWidth: 200,
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                  position: 'relative',
-                  zIndex: 10,
+                  marginLeft: 5,
+                  paddingBottom: 1,
+                  borderBottom: cfg.underline,
+                  letterSpacing: '0.01em',
                 }}>
-                  {style.marker && `${style.marker} `}
-                  {ann.note}
-                  {ann.replacement && (
-                    <span style={{ display: 'block', marginTop: 3, fontStyle: 'italic', opacity: 0.85 }}>
-                      → {ann.replacement}
-                    </span>
-                  )}
+                  {ann.replacement}
                 </span>
               )}
             </span>
           )
-        })}
-      </p>
+        }
 
-      {/* Annotation legend */}
-      {annotations.length > 0 && (
-        <p style={{
-          fontSize: 10,
-          color: 'var(--pm2)',
-          marginTop: 20,
-          fontStyle: 'italic',
-          fontFamily: 'var(--font-caveat, cursive)',
-        }}>
-          Tap highlighted text to read the editor&apos;s note.
-        </p>
-      )}
-    </div>
+        if (ann.type === 'expression') {
+          return (
+            <span key={i} style={{ display: 'inline' }}>
+              {/* Underlined original */}
+              <span style={{ borderBottom: cfg.underline, paddingBottom: 1 }}>
+                {seg.text}
+              </span>
+              {/* Purple suggestion inline */}
+              {ann.replacement && (
+                <span style={{
+                  fontFamily: 'var(--font-caveat, cursive)',
+                  color: cfg.inkColor,
+                  fontSize: 14,
+                  marginLeft: 5,
+                  opacity: 0.9,
+                }}>
+                  ✦ {ann.replacement}
+                </span>
+              )}
+            </span>
+          )
+        }
+
+        if (ann.type === 'strength') {
+          return (
+            <span key={i} style={{
+              background: 'rgba(255, 210, 80, 0.22)',
+              borderRadius: 3,
+              padding: '1px 2px',
+            }}>
+              {seg.text}
+            </span>
+          )
+        }
+
+        return <span key={i}>{seg.text}</span>
+      })}
+    </p>
   )
 }
 
-// ── Annotation summary cards ──────────────────────────────────────────────────
-function AnnotationCards({ annotations }: { annotations: Annotation[] }) {
+// ── Editor's Notes (handwritten style) ───────────────────────────────────────
+function EditorNotes({ annotations }: { annotations: Annotation[] }) {
   if (annotations.length === 0) return null
 
-  const grammar = annotations.filter(a => a.type === 'grammar')
-  const expression = annotations.filter(a => a.type === 'expression')
-  const praise = annotations.filter(a => a.type === 'praise')
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 28 }}>
-      {[
-        { list: praise,     color: '#219653', bg: 'rgba(39,174,96,0.08)',  label: 'Well Done' },
-        { list: grammar,    color: '#c0392b', bg: 'rgba(220,53,69,0.07)',  label: 'Grammar'   },
-        { list: expression, color: '#6c63ff', bg: 'rgba(108,99,255,0.08)', label: 'Expression' },
-      ].map(({ list, color, bg, label }) =>
-        list.length > 0 && list.map((a, i) => (
-          <div
-            key={`${label}-${i}`}
-            style={{
-              padding: '13px 16px',
-              borderRadius: 12,
-              background: bg,
-              borderLeft: `3px solid ${color}`,
-            }}
-          >
-            <p style={{ margin: '0 0 4px', fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color, textTransform: 'uppercase' }}>
-              {label}
-            </p>
-            <p style={{
-              margin: 0,
-              fontSize: 13,
-              color: 'var(--pt)',
-              lineHeight: 1.6,
-              fontFamily: 'var(--font-caveat, cursive)',
-              fontWeight: 500,
+    <div style={{ marginTop: 36 }}>
+      {/* Section label */}
+      <p style={{
+        fontSize: 8,
+        fontWeight: 700,
+        letterSpacing: '0.28em',
+        color: 'var(--pm2)',
+        margin: '0 0 14px',
+      }}>
+        EDITOR&apos;S MARKS
+      </p>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {annotations.map((ann, i) => {
+          const cfg = ANN[ann.type] ?? ANN.grammar
+          return (
+            <div key={i} style={{
+              display: 'flex',
+              gap: 14,
+              padding: '13px 0',
+              borderBottom: i < annotations.length - 1 ? '1px solid var(--pd)' : 'none',
             }}>
-              {a.note}
-            </p>
-            {a.replacement && (
-              <p style={{ margin: '5px 0 0', fontSize: 12, color, fontStyle: 'italic' }}>
-                → {a.replacement}
-              </p>
-            )}
-          </div>
-        ))
-      )}
+              {/* Icon */}
+              <span style={{
+                fontSize: ann.type === 'strength' ? 16 : 14,
+                color: cfg.inkColor,
+                flexShrink: 0,
+                width: 20,
+                paddingTop: 2,
+              }}>
+                {cfg.icon}
+              </span>
+
+              <div style={{ flex: 1, minWidth: 0 }}>
+                {/* Original text */}
+                <p style={{
+                  margin: '0 0 3px',
+                  fontSize: 12,
+                  color: 'var(--pm2)',
+                  fontStyle: 'italic',
+                  lineHeight: 1.5,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}>
+                  &ldquo;{ann.fragment}&rdquo;
+                </p>
+
+                {/* Replacement */}
+                {ann.replacement && (
+                  <p style={{
+                    margin: '0 0 3px',
+                    fontFamily: 'var(--font-caveat, cursive)',
+                    fontSize: 17,
+                    fontWeight: 600,
+                    color: cfg.inkColor,
+                    lineHeight: 1.3,
+                    letterSpacing: '0.01em',
+                  }}>
+                    → {ann.replacement}
+                  </p>
+                )}
+
+                {/* Note */}
+                <p style={{
+                  margin: 0,
+                  fontFamily: 'var(--font-caveat, cursive)',
+                  fontSize: 14,
+                  color: cfg.inkColor,
+                  opacity: ann.type === 'strength' ? 1 : 0.78,
+                  lineHeight: 1.45,
+                }}>
+                  {ann.note}
+                </p>
+              </div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -201,9 +244,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const [essay, setEssay] = useState<Essay | null>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
 
-  useEffect(() => {
-    setEssay(getEssay(id))
-  }, [id])
+  useEffect(() => { setEssay(getEssay(id)) }, [id])
 
   if (!essay) {
     return (
@@ -214,6 +255,11 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   }
 
   const review = essay.review
+  const challenges = review
+    ? Array.isArray(review.nextChallenge)
+      ? review.nextChallenge
+      : [review.nextChallenge]
+    : []
 
   function handleDelete() {
     deleteEssay(id)
@@ -226,9 +272,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
       {/* ── Top bar ─────────────────────────────────────────────────────── */}
       <div style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
+        top: 0, left: 0, right: 0,
         height: NAV_HEIGHT,
         background: 'var(--pb)',
         borderBottom: '1px solid var(--pd)',
@@ -283,22 +327,13 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         {/* Detected style badge */}
         {review && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18 }}>
-            <span style={{
-              fontSize: 8.5,
-              fontWeight: 700,
-              letterSpacing: '0.18em',
-              color: 'var(--pm)',
-            }}>
+            <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm)' }}>
               {t('essays_detected_style')}
             </span>
             <span style={{
-              fontSize: 10,
-              fontWeight: 700,
-              color: 'var(--pa)',
-              background: 'var(--pal)',
-              padding: '3px 10px',
-              borderRadius: 20,
-              letterSpacing: '0.04em',
+              fontSize: 10, fontWeight: 700, color: 'var(--pa)',
+              background: 'var(--pal)', padding: '3px 10px',
+              borderRadius: 20, letterSpacing: '0.04em',
             }}>
               {review.detectedStyle}
             </span>
@@ -308,10 +343,8 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         {/* Essay title */}
         <h1 className="font-playfair" style={{
           fontSize: 'clamp(1.6rem, 6.5vw, 2.2rem)',
-          fontWeight: 900,
-          lineHeight: 1.2,
-          color: 'var(--pt)',
-          margin: '0 0 6px',
+          fontWeight: 900, lineHeight: 1.2,
+          color: 'var(--pt)', margin: '0 0 6px',
           letterSpacing: '-0.01em',
         }}>
           {essay.title}
@@ -324,46 +357,38 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         {/* Divider */}
         <div style={{ height: 1, background: 'var(--pd)', marginBottom: 28 }} />
 
-        {/* Essay body with annotations */}
-        {review ? (
-          <AnnotatedBody body={essay.body} annotations={review.annotations} />
-        ) : (
-          <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--pt)', whiteSpace: 'pre-wrap' }}>
-            {essay.body}
-          </p>
-        )}
+        {/* ── Manuscript (annotated or plain) ─────────────────────────── */}
+        {review
+          ? <AnnotatedManuscript body={essay.body} annotations={review.annotations} />
+          : <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--pt)', whiteSpace: 'pre-wrap' }}>{essay.body}</p>
+        }
 
-        {/* Annotation summary cards */}
-        {review && <AnnotationCards annotations={review.annotations} />}
+        {/* ── Editor's Marks ───────────────────────────────────────────── */}
+        {review && <EditorNotes annotations={review.annotations} />}
 
-        {/* ── Editor's Comment ──────────────────────────────────────────── */}
+        {/* ── Editor's Comment ─────────────────────────────────────────── */}
         {review && (
           <div style={{ marginTop: 44, borderTop: '1px solid var(--pd)', paddingTop: 32 }}>
             <p style={{
-              fontSize: 8.5,
-              fontWeight: 700,
-              letterSpacing: '0.28em',
-              color: 'var(--pm)',
-              margin: '0 0 14px',
+              fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em',
+              color: 'var(--pm)', margin: '0 0 14px',
             }}>
               {t('essays_editor_comment')}
             </p>
             <p className="font-playfair" style={{
-              fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',
+              fontSize: 'clamp(1rem, 3.8vw, 1.15rem)',
               fontStyle: 'italic',
               color: 'var(--pt)',
-              lineHeight: 1.65,
+              lineHeight: 1.75,
               margin: 0,
-              fontFamily: 'var(--font-caveat, cursive)',
-              fontWeight: 600,
             }}>
               &ldquo;{review.editorComment}&rdquo;
             </p>
           </div>
         )}
 
-        {/* ── Next Challenge ─────────────────────────────────────────────── */}
-        {review && review.nextChallenge && (
+        {/* ── Next Challenge ───────────────────────────────────────────── */}
+        {review && challenges.length > 0 && (
           <div style={{
             marginTop: 32,
             padding: '22px 22px',
@@ -371,31 +396,41 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
             background: 'var(--pd)',
           }}>
             <p style={{
-              fontSize: 8.5,
-              fontWeight: 700,
-              letterSpacing: '0.28em',
-              color: 'var(--pa)',
-              margin: '0 0 10px',
+              fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em',
+              color: 'var(--pa)', margin: '0 0 14px',
             }}>
               {t('essays_next_challenge')}
             </p>
-            <p style={{
-              fontSize: 14,
-              lineHeight: 1.7,
-              color: 'var(--pt)',
-              margin: 0,
-              fontFamily: 'var(--font-caveat, cursive)',
-              fontWeight: 600,
-            }}>
-              {review.nextChallenge}
-            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {challenges.map((item, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                  <span style={{
+                    width: 16, height: 16, borderRadius: 3,
+                    border: '1.5px solid var(--pm2)',
+                    flexShrink: 0, marginTop: 2,
+                    display: 'inline-block',
+                  }} />
+                  <span style={{
+                    fontSize: 14, lineHeight: 1.6,
+                    color: 'var(--pt)',
+                    fontFamily: 'var(--font-caveat, cursive)',
+                    fontWeight: 500,
+                  }}>
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* No review yet — prompt to review */}
+        {/* No review yet */}
         {!review && (
           <div style={{ marginTop: 40, textAlign: 'center' }}>
-            <p style={{ fontSize: 13, color: 'var(--pm)', fontStyle: 'italic', marginBottom: 16 }}>
+            <p className="font-playfair" style={{
+              fontSize: 14, fontStyle: 'italic',
+              color: 'var(--pm)', lineHeight: 1.8,
+            }}>
               {t('essays_no_review')}
             </p>
           </div>
@@ -403,28 +438,22 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
 
       </article>
 
-      {/* ── Delete confirm dialog ─────────────────────────────────────────── */}
+      {/* ── Delete confirm ───────────────────────────────────────────────── */}
       {showDeleteConfirm && (
         <div
           style={{
-            position: 'fixed',
-            inset: 0,
+            position: 'fixed', inset: 0,
             background: 'rgba(0,0,0,0.45)',
-            zIndex: 50,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            zIndex: 50, display: 'flex',
+            alignItems: 'center', justifyContent: 'center',
             padding: '0 32px',
           }}
           onClick={() => setShowDeleteConfirm(false)}
         >
           <div
             style={{
-              background: 'var(--pb)',
-              borderRadius: 20,
-              padding: '28px 24px',
-              width: '100%',
-              maxWidth: 320,
+              background: 'var(--pb)', borderRadius: 20,
+              padding: '28px 24px', width: '100%', maxWidth: 320,
               boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
             }}
             onClick={e => e.stopPropagation()}
@@ -440,16 +469,10 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
                 type="button"
                 onClick={() => setShowDeleteConfirm(false)}
                 style={{
-                  flex: 1,
-                  padding: '12px 0',
-                  borderRadius: 12,
-                  border: '1px solid var(--pd)',
-                  background: 'none',
-                  cursor: 'pointer',
-                  fontSize: 13,
-                  fontWeight: 600,
-                  color: 'var(--pm)',
-                  fontFamily: 'inherit',
+                  flex: 1, padding: '12px 0', borderRadius: 12,
+                  border: '1px solid var(--pd)', background: 'none',
+                  cursor: 'pointer', fontSize: 13, fontWeight: 600,
+                  color: 'var(--pm)', fontFamily: 'inherit',
                 }}
               >
                 Cancel
@@ -458,16 +481,10 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
                 type="button"
                 onClick={handleDelete}
                 style={{
-                  flex: 1,
-                  padding: '12px 0',
-                  borderRadius: 12,
-                  border: 'none',
-                  background: '#c0392b',
-                  cursor: 'pointer',
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: '#fff',
-                  fontFamily: 'inherit',
+                  flex: 1, padding: '12px 0', borderRadius: 12,
+                  border: 'none', background: '#c0392b',
+                  cursor: 'pointer', fontSize: 13, fontWeight: 700,
+                  color: '#fff', fontFamily: 'inherit',
                 }}
               >
                 Delete

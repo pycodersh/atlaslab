@@ -13,40 +13,41 @@ function wordCount(text: string): number {
 
 function buildSystemPrompt(language: string): string {
   const langInstructions: Record<string, string> = {
-    ko:      '한국어로 모든 note, editorComment, nextChallenge를 작성하세요.',
-    ja:      '日本語でnote、editorComment、nextChallengeをすべて書いてください。',
-    es:      'Escribe todas las notas, editorComment y nextChallenge en español.',
-    fr:      'Rédigez toutes les notes, editorComment et nextChallenge en français.',
-    de:      'Schreiben Sie alle Notizen, editorComment und nextChallenge auf Deutsch.',
-    'zh-cn': '请用简体中文写所有的note、editorComment和nextChallenge。',
-    'zh-tw': '請用繁體中文寫所有的note、editorComment和nextChallenge。',
-    en:      'Write all notes, editorComment, and nextChallenge in English.',
+    ko:      '모든 note, editorComment, nextChallenge 항목을 한국어로 작성하세요.',
+    ja:      'note、editorComment、nextChallengeの各項目をすべて日本語で書いてください。',
+    es:      'Escribe todas las notas, editorComment y cada ítem de nextChallenge en español.',
+    fr:      'Rédigez toutes les notes, editorComment et chaque élément de nextChallenge en français.',
+    de:      'Schreiben Sie alle Notizen, editorComment und jeden nextChallenge-Punkt auf Deutsch.',
+    'zh-cn': '请用简体中文写所有的note、editorComment和nextChallenge各项。',
+    'zh-tw': '請用繁體中文寫所有的note、editorComment和nextChallenge各項。',
+    en:      'Write all notes, editorComment, and each nextChallenge item in English.',
   }
   const langInstruction = langInstructions[language] ?? langInstructions.en
 
-  return `You are a thoughtful magazine editor — the kind who works at Monocle, Kinfolk, or The New York Times Magazine. You review essays with genuine care and a light editorial touch.
+  return `You are a senior editor at a literary magazine — someone who reads manuscripts with care, marks them sparingly, and writes notes that feel personal, not algorithmic.
 
 ${langInstruction}
 
-Your task is to review a student's English essay and return a structured JSON response. Follow these rules STRICTLY:
+Review the student's English essay and return a JSON object. Follow these rules exactly.
 
 ANNOTATION RULES:
-- Maximum 3 grammar corrections (type: "grammar")
-- Maximum 3 expression improvements (type: "expression")
-- Minimum 2 genuine praises (type: "praise") — find truly good moments
-- Total annotations: maximum 8
+- type "grammar": factual corrections only (wrong tense, missing article, subject-verb agreement, etc.). Max 3.
+- type "expression": natural-sounding improvements — the original isn't wrong, just less idiomatic. Max 3.
+- type "strength": phrases or sentences worth praising — genuine, specific moments. Min 1, max 2.
+- Total annotations: max 7. Do not annotate every sentence. Only mark what matters most.
 
-For each annotation, identify the EXACT text fragment from the essay. Copy it character-for-character — it must match exactly so it can be found programmatically.
+For each annotation, copy the EXACT text from the essay into "targetText". Character-for-character. Do not paraphrase.
+- grammar/expression: include "replacement" with the corrected or improved version.
+- strength: no "replacement" needed.
 
-STYLE DETECTION:
-Detect the essay's style from: Diary, Business Email, Essay, TOEFL, Letter, Report, SNS Post, Story, Personal Statement, Blog Post
+STYLE DETECTION: Diary, Essay, Letter, Report, Blog Post, SNS Post, Story, Personal Statement, TOEFL, Business Email
 
-TONE:
-- Be warm, specific, and encouraging — not clinical
-- Praises should be genuine, not generic
-- Grammar notes should explain the WHY, not just state the rule
-- Expression improvements should feel like upgrades, not corrections
-- The student should feel like a magazine editor personally read their work
+TONE — write as a real editor, not an AI:
+- grammar notes: explain the WHY briefly. One sentence.
+- expression notes: say what sounds more natural and why. One sentence.
+- strength notes: be specific. Say exactly what works. Start with ⭐.
+- editorComment: 2–4 sentences. Warm, observational. Mention something specific from the essay.
+- nextChallenge: return as a JSON array of 2–3 short imperative sentences. Each item is one concrete action for the next essay.
 
 RESPONSE FORMAT — return ONLY valid JSON, no markdown, no extra text:
 {
@@ -54,27 +55,25 @@ RESPONSE FORMAT — return ONLY valid JSON, no markdown, no extra text:
   "annotations": [
     {
       "type": "grammar",
-      "fragment": "exact text from the essay",
+      "targetText": "exact text copied from essay",
       "replacement": "corrected version",
-      "note": "brief explanation in the target language"
+      "note": "brief reason"
     },
     {
       "type": "expression",
-      "fragment": "exact text from the essay",
-      "replacement": "better expression",
-      "note": "why this sounds more natural"
+      "targetText": "exact text copied from essay",
+      "replacement": "more natural version",
+      "note": "why this sounds better"
     },
     {
-      "type": "praise",
-      "fragment": "exact text from the essay",
-      "note": "⭐ specific praise for this moment"
+      "type": "strength",
+      "targetText": "exact text copied from essay",
+      "note": "⭐ specific praise"
     }
   ],
-  "editorComment": "1-2 sentence overall editorial comment",
-  "nextChallenge": "One specific writing challenge for their next essay"
-}
-
-IMPORTANT: The "fragment" field must be copied EXACTLY from the essay text — same spelling, same spacing, same punctuation. Do not paraphrase or modify it.`
+  "editorComment": "2–4 warm sentences about the essay",
+  "nextChallenge": ["Write one scene in detail.", "Name one specific place.", "End with how you felt."]
+}`
 }
 
 export async function POST(request: Request) {
@@ -92,7 +91,7 @@ export async function POST(request: Request) {
       language: string
     }
 
-    // ── Input validation (400) ──────────────────────────────────────────────
+    // ── Input validation ────────────────────────────────────────────────────
     if (!essayBody || typeof essayBody !== 'string') {
       return Response.json({ error: 'invalid_input' }, { status: 400 })
     }
@@ -100,7 +99,7 @@ export async function POST(request: Request) {
       return Response.json({ error: 'not_english' }, { status: 422 })
     }
     const wc = wordCount(essayBody)
-    if (wc < 10) {
+    if (wc < 30) {
       return Response.json({ error: 'too_short' }, { status: 422 })
     }
     if (wc > 300) {
@@ -127,39 +126,47 @@ Please review this essay and return the JSON response as specified.`
     // ── Parse response ──────────────────────────────────────────────────────
     const jsonMatch = rawText.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
-      console.error('[essays/review] Claude returned non-JSON response:', rawText.slice(0, 200))
+      console.error('[essays/review] Non-JSON response:', rawText.slice(0, 200))
       return Response.json({ error: 'parse_error' }, { status: 500 })
     }
 
-    const review = JSON.parse(jsonMatch[0])
+    const parsed = JSON.parse(jsonMatch[0])
 
-    // Keep only annotations whose fragment actually exists in the essay
-    if (Array.isArray(review.annotations)) {
-      review.annotations = review.annotations.filter(
-        (a: { fragment: string }) =>
-          typeof a.fragment === 'string' && essayBody.includes(a.fragment),
-      )
+    // Map targetText → fragment; filter out non-matching annotations
+    if (Array.isArray(parsed.annotations)) {
+      parsed.annotations = parsed.annotations
+        .map((a: { targetText?: string; fragment?: string; type: string; replacement?: string; note: string }) => ({
+          type: a.type,
+          fragment: a.targetText ?? a.fragment ?? '',
+          replacement: a.replacement,
+          note: a.note,
+        }))
+        .filter((a: { fragment: string }) =>
+          typeof a.fragment === 'string' &&
+          a.fragment.length > 0 &&
+          essayBody.includes(a.fragment),
+        )
     }
 
-    review.createdAt = new Date().toISOString()
+    // Ensure nextChallenge is always an array
+    if (typeof parsed.nextChallenge === 'string') {
+      parsed.nextChallenge = [parsed.nextChallenge]
+    }
 
-    // ── Response shape ──────────────────────────────────────────────────────
-    // { review: { detectedStyle, annotations, editorComment, nextChallenge, createdAt }, essayId }
-    return Response.json({ review, essayId })
+    parsed.createdAt = new Date().toISOString()
+
+    return Response.json({ review: parsed, essayId })
 
   } catch (err) {
     if (err instanceof Anthropic.APIError) {
-      const detail = {
-        anthropic_status: err.status,
-        anthropic_error:  err.name,
-        anthropic_message: err.message,
-        anthropic_body:   err.error,
-      }
-      console.error('[essays/review] Anthropic APIError:', JSON.stringify(detail))
-      return Response.json({ error: 'server_error', debug: detail }, { status: 500 })
+      console.error('[essays/review] Anthropic APIError:', {
+        status:  err.status,
+        name:    err.name,
+        message: err.message,
+      })
+    } else {
+      console.error('[essays/review] Unexpected error:', err)
     }
-    const msg = err instanceof Error ? err.message : String(err)
-    console.error('[essays/review] Unexpected error:', msg)
-    return Response.json({ error: 'server_error', debug: { message: msg } }, { status: 500 })
+    return Response.json({ error: 'server_error' }, { status: 500 })
   }
 }

@@ -9,7 +9,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
 
 const MAX_WORDS = 300
-const MIN_WORDS = 10
+const MIN_WORDS = 30
 
 function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length
@@ -199,21 +199,34 @@ export default function NewEssayPage() {
         borderTop: '1px solid var(--pd)',
       }}>
         <div style={{ maxWidth: 580, margin: '0 auto' }}>
+          {wc > 0 && wc < MIN_WORDS && !loading && (
+            <p style={{
+              textAlign: 'center',
+              fontSize: 11.5,
+              color: 'var(--pm2)',
+              fontStyle: 'italic',
+              marginBottom: 10,
+              lineHeight: 1.6,
+            }}>
+              Keep writing.{' '}
+              Write at least {MIN_WORDS} words to receive Editor&apos;s Review.
+            </p>
+          )}
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={loading || body.trim().length === 0}
+            disabled={loading || wc < MIN_WORDS}
             style={{
               width: '100%',
               padding: '15px 0',
               borderRadius: 14,
               border: 'none',
-              background: loading || body.trim().length === 0 ? 'var(--pd)' : 'var(--pa)',
-              color: loading || body.trim().length === 0 ? 'var(--pm2)' : '#fff',
+              background: loading || wc < MIN_WORDS ? 'var(--pd)' : 'var(--pa)',
+              color: loading || wc < MIN_WORDS ? 'var(--pm2)' : '#fff',
               fontSize: 13,
               fontWeight: 700,
               letterSpacing: '0.06em',
-              cursor: loading || body.trim().length === 0 ? 'default' : 'pointer',
+              cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
