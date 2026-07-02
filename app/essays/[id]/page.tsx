@@ -399,7 +399,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
                     fontSize: 14, lineHeight: 1.6,
                     color: 'var(--pt)',
                     fontFamily: 'inherit',
-                    fontWeight: 500,
+                    fontWeight: 400,
                   }}>
                     {item}
                   </span>
