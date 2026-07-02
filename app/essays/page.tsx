@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { PenLine, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronRight, ChevronDown, ChevronUp } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { type Essay, getEssays, getDailyReviewCount, MAX_DAILY_REVIEWS } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
@@ -148,26 +148,34 @@ export default function EssaysPage() {
           </div>
         </div>
 
-        {/* ── New Essay — Burgundy button ──────────────────────────────────── */}
-        <button
-          type="button"
-          onClick={() => router.push('/essays/new')}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            gap: 8, width: '100%', padding: '15px 0',
-            borderRadius: 14, border: 'none',
-            background: 'var(--pa)', cursor: 'pointer',
-            marginBottom: 20,
-            transition: 'opacity 0.15s',
-          }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.85' }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1' }}
-        >
-          <PenLine style={{ width: 14, height: 14, color: '#fff' }} strokeWidth={2} />
-          <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', color: '#fff' }}>
-            {t('essays_new')}
-          </span>
-        </button>
+        {/* ── New Essay — Magazine Editorial CTA ───────────────────────────── */}
+        <div style={{ textAlign: 'center', padding: '8px 0 12px' }}>
+          <button
+            type="button"
+            onClick={() => router.push('/essays/new')}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: '6px 0', display: 'inline-block',
+              transition: 'opacity 0.18s',
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.55' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1' }}
+            onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.35' }}
+            onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1' }}
+          >
+            <span className="font-playfair" style={{
+              fontSize: 'clamp(1.15rem, 4.5vw, 1.35rem)',
+              fontWeight: 700,
+              fontStyle: 'italic',
+              color: 'var(--pa)',
+              letterSpacing: '0.01em',
+              borderBottom: '1.5px solid var(--pa)',
+              paddingBottom: 3,
+            }}>
+              {t('essays_new')}
+            </span>
+          </button>
+        </div>
       </div>
       {/* ── END sticky header ─────────────────────────────────────────────────── */}
 
@@ -178,6 +186,7 @@ export default function EssaysPage() {
         paddingLeft: 24,
         paddingRight: 24,
         paddingBottom: 80,
+        paddingTop: 32,
       }}>
         {/* ── My Essays ────────────────────────────────────────────────────── */}
         {essays.length > 0 && (

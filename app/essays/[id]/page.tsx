@@ -68,8 +68,8 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
                 left: drift,
                 fontFamily: 'var(--font-caveat, cursive)',
                 color: '#c0392b',
-                fontSize: 13,
-                fontWeight: 500,
+                fontSize: 16,
+                fontWeight: 700,
                 lineHeight: 1,
                 whiteSpace: 'nowrap',
                 pointerEvents: 'none',
@@ -114,7 +114,8 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
                   left: drift,
                   fontFamily: 'var(--font-caveat, cursive)',
                   color: '#7d3c98',
-                  fontSize: 12,
+                  fontSize: 15,
+                  fontWeight: 600,
                   lineHeight: 1,
                   whiteSpace: 'nowrap',
                   pointerEvents: 'none',
@@ -148,7 +149,8 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
                 left: drift,
                 fontFamily: 'var(--font-caveat, cursive)',
                 color: '#1a7a3a',
-                fontSize: 12,
+                fontSize: 15,
+                fontWeight: 600,
                 lineHeight: 1,
                 whiteSpace: 'nowrap',
                 pointerEvents: 'none',
@@ -359,7 +361,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               {t('essays_editor_comment')}
             </p>
             <p className="font-playfair" style={{
-              fontSize: 'clamp(1rem, 3.8vw, 1.15rem)',
+              fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
               fontStyle: 'italic',
               color: 'var(--pt)',
               lineHeight: 1.75,
@@ -396,7 +398,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
                   <span style={{
                     fontSize: 14, lineHeight: 1.6,
                     color: 'var(--pt)',
-                    fontFamily: 'var(--font-caveat, cursive)',
+                    fontFamily: 'inherit',
                     fontWeight: 500,
                   }}>
                     {item}
