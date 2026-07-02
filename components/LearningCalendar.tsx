@@ -79,7 +79,7 @@ export function LearningCalendar() {
         </button>
         <div className="text-center">
           <p className="text-[13px] font-bold text-[var(--pt)] tracking-wide">{MONTHS[month]} {year}</p>
-          <p className="text-[10px] text-[var(--pm)] mt-0.5">{t('cal_study_days', { n: studiedThisMonth })}</p>
+          <p className="text-[10px] text-[var(--pm)] mt-0.5">{t.tEl('cal_study_days', { n: studiedThisMonth })}</p>
         </div>
         <button type="button" onClick={next} disabled={isCurrentMonth} aria-label="다음 달"
           className={`p-1 transition-colors cursor-pointer ${isCurrentMonth ? 'text-[var(--pd)] cursor-not-allowed' : 'text-[var(--pm)] hover:text-[var(--pa)]'}`}>

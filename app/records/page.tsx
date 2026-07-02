@@ -216,14 +216,14 @@ function BookmarkSheet({
 
         {/* Pattern count */}
         <p style={{ fontSize: 11, color: 'var(--pm)', margin: '6px 24px 0', flexShrink: 0 }}>
-          {t('bookmarks_count', { n: bookmarks.length })}
+          {t.tEl('bookmarks_count', { n: bookmarks.length })}
         </p>
 
         {/* Scrollable list */}
         <div style={{ overflowY: 'auto', padding: '16px 24px', paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))' }}>
           {bookmarks.length === 0 ? (
             <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 8, whiteSpace: 'pre-line' }}>
-              {t('no_bookmarks_sheet')}
+              {t.tEl('no_bookmarks_sheet')}
             </p>
           ) : (
             bookmarks.map((bm, i) => {
@@ -320,7 +320,7 @@ export default function ProgressPage() {
               fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', fontStyle: 'italic',
               fontWeight: 500, color: 'var(--pm)', marginTop: 10, lineHeight: 1.6,
             }}>
-              {t('progress_subtitle')}
+              {t.tEl('progress_subtitle')}
             </p>
             <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
           </div>
@@ -378,7 +378,7 @@ export default function ProgressPage() {
 
             {v.bookmarks.length === 0 ? (
               <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 4, whiteSpace: 'pre-line' }}>
-                {t('no_bookmarks')}
+                {t.tEl('no_bookmarks')}
               </p>
             ) : (
               <div>

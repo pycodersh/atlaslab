@@ -9,6 +9,7 @@ import { markNoteRead, getReadCount } from '@/lib/editor/storage'
 import { EditorIllustration } from '@/components/EditorIllustration'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
+import { HL } from '@/components/HL'
 
 function fmtTime(sec: number): string {
   if (sec < 60) return `${sec} sec`
@@ -263,7 +264,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
             color: 'var(--pt)',
             margin: '0 0 8px',
           }}>
-            {title}
+            {note.id === 1 ? <HL>{title}</HL> : title}
           </h1>
 
           {/* Illustration */}
@@ -281,7 +282,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
                 fontWeight: 400,
                 margin: 0,
               }}>
-                {para}
+                {note.id === 1 ? <HL>{para}</HL> : para}
               </p>
             ))}
           </div>
@@ -299,7 +300,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
               color: 'var(--pa)',
               margin: 0,
             }}>
-              {otr}
+              {note.id === 1 ? <HL>{otr}</HL> : otr}
             </p>
           </div>
 
@@ -319,7 +320,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
                       {r.title}
                     </p>
                     <p style={{ margin:0, fontSize:12, lineHeight:1.65, color:'var(--pm)' }}>
-                      {r.brief[lang] ?? r.brief.en}
+                      {note.id === 1 ? <HL>{r.brief[lang] ?? r.brief.en}</HL> : (r.brief[lang] ?? r.brief.en)}
                     </p>
                   </div>
                 ))}

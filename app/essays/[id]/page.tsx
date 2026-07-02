@@ -289,7 +289,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               letterSpacing: '0.18em',
               color: 'var(--pm)',
             }}>
-              {t('essays_detected_style')}
+              {t.tEl('essays_detected_style')}
             </span>
             <span style={{
               fontSize: 10,
@@ -346,7 +346,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               color: 'var(--pm)',
               margin: '0 0 14px',
             }}>
-              {t('essays_editor_comment')}
+              {t.tEl('essays_editor_comment')}
             </p>
             <p className="font-playfair" style={{
               fontSize: 'clamp(1.05rem, 4vw, 1.25rem)',
@@ -377,7 +377,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               color: 'var(--pa)',
               margin: '0 0 10px',
             }}>
-              {t('essays_next_challenge')}
+              {t.tEl('essays_next_challenge')}
             </p>
             <p style={{
               fontSize: 14,
@@ -396,7 +396,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         {!review && (
           <div style={{ marginTop: 40, textAlign: 'center' }}>
             <p style={{ fontSize: 13, color: 'var(--pm)', fontStyle: 'italic', marginBottom: 16 }}>
-              {t('essays_no_review')}
+              {t.tEl('essays_no_review')}
             </p>
           </div>
         )}
@@ -430,7 +430,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
             onClick={e => e.stopPropagation()}
           >
             <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 10px' }}>
-              {t('essays_delete')}?
+              {t.tEl('essays_delete')}?
             </p>
             <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 24px', lineHeight: 1.6 }}>
               This essay and its review will be permanently deleted.

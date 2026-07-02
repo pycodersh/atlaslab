@@ -13,6 +13,7 @@ import { recordPatternPractice } from '@/lib/srs/storage'
 import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import { useT } from '@/hooks/useT'
+import { HL } from '@/components/HL'
 
 type Props = {
   storyId: number
@@ -183,7 +184,9 @@ export function PatternPracticeCard({
           <p className="font-playfair text-[1.2rem] font-bold text-[var(--pt)] leading-snug">{pattern.pattern}</p>
           {showTranslation && resolveTranslation(pattern.meaningKo, prefs.translationLang, pattern.meaningTranslations) && (
             <p className="text-[0.74rem] text-[var(--pa)] mt-0.5">
-              {resolveTranslation(pattern.meaningKo, prefs.translationLang, pattern.meaningTranslations)}
+              {storyId === 1
+                ? <HL>{resolveTranslation(pattern.meaningKo, prefs.translationLang, pattern.meaningTranslations)}</HL>
+                : resolveTranslation(pattern.meaningKo, prefs.translationLang, pattern.meaningTranslations)}
             </p>
           )}
         </div>
@@ -316,7 +319,9 @@ export function PatternPracticeCard({
                   <p className="text-[0.82rem] font-medium text-[var(--pt)] leading-snug">{ex.en}</p>
                   {showTranslation && resolveTranslation(ex.ko, prefs.translationLang, ex.translations) && (
                     <p className="text-[0.7rem] text-[var(--pm)] mt-0.5 leading-snug">
-                      {resolveTranslation(ex.ko, prefs.translationLang, ex.translations)}
+                      {storyId === 1
+                        ? <HL>{resolveTranslation(ex.ko, prefs.translationLang, ex.translations)}</HL>
+                        : resolveTranslation(ex.ko, prefs.translationLang, ex.translations)}
                     </p>
                   )}
                   {following && (

@@ -16,6 +16,7 @@ import type { AmbienceId } from '@/types/magazine'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { saveLastPosition } from '@/lib/last-position'
+import { HL } from '@/components/HL'
 
 type MagazineEngineProps = {
   story: MagazineStory
@@ -304,7 +305,9 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
             </p>
             {resolveTranslation(popup.koreanTranslation, prefs.translationLang, popup.translations) && (
               <p className="text-[0.9rem] text-[var(--pt)] leading-relaxed mb-4">
-                {resolveTranslation(popup.koreanTranslation, prefs.translationLang, popup.translations)}
+                {story.id === 1
+                  ? <HL>{resolveTranslation(popup.koreanTranslation, prefs.translationLang, popup.translations)}</HL>
+                  : resolveTranslation(popup.koreanTranslation, prefs.translationLang, popup.translations)}
               </p>
             )}
             {popup.keyExpressions.length > 0 && (

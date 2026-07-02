@@ -69,7 +69,7 @@ export default function SettingsPage() {
             marginTop: 10,
             lineHeight: 1.6,
           }}>
-            {t('settings_desc')}
+            {t.tEl('settings_desc')}
           </p>
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>

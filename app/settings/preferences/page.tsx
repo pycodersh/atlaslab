@@ -262,7 +262,7 @@ export default function PreferencesPage() {
         >
           <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
           <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>
-            {t('back')}
+            {t.tEl('back')}
           </span>
         </Link>
 
@@ -273,15 +273,15 @@ export default function PreferencesPage() {
             fontWeight: 900, lineHeight: 1, color: 'var(--pt)',
             margin: 0, letterSpacing: '-0.02em',
           }}>
-            {t('pref_title')}
+            {t.tEl('pref_title')}
           </h1>
           <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>
-            {t('pref_desc')}
+            {t.tEl('pref_desc')}
           </p>
         </div>
 
         {/* ── DISPLAY ──────────────────────────────────────────────────── */}
-        <SectionLabel>{t('display')}</SectionLabel>
+        <SectionLabel>{t.tEl('display')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           <ToggleRow
             icon={ThemeIcon}
@@ -294,7 +294,7 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── AUDIO ────────────────────────────────────────────────────── */}
-        <SectionLabel>{t('audio')}</SectionLabel>
+        <SectionLabel>{t.tEl('audio')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           <NavRow
             icon={Mic}
@@ -321,7 +321,7 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── LANGUAGE ─────────────────────────────────────────────────── */}
-        <SectionLabel>{t('language')}</SectionLabel>
+        <SectionLabel>{t.tEl('language')}</SectionLabel>
         <div style={{ borderTop: '1px solid var(--pd)' }}>
           <NavRow
             icon={Globe}

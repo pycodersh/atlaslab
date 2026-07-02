@@ -116,7 +116,7 @@ export default function NewEssayPage() {
         </button>
 
         <span style={{ fontSize: wc > MAX_WORDS ? 11 : 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s' }}>
-          {t('essays_word_count').replace('{n}', String(wc))}
+          {t.tEl('essays_word_count', { n: wc })}
         </span>
       </div>
 
@@ -225,7 +225,7 @@ export default function NewEssayPage() {
             {loading ? (
               <>
                 <Loader2 style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />
-                {t('essays_reviewing')}
+                {t.tEl('essays_reviewing')}
               </>
             ) : (
               t('essays_submit')

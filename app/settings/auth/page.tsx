@@ -71,7 +71,7 @@ export default function AuthPage() {
   ]
 
   function handleLogin(provider: string) {
-    setToast(`${provider} ${t('auth_coming_soon')}`)
+    setToast(`${provider} ${t.tEl('auth_coming_soon')}`)
     setTimeout(() => setToast(''), 2800)
   }
 
@@ -93,7 +93,7 @@ export default function AuthPage() {
             Sign In / Create Account
           </h1>
           <p className="text-[0.8rem] text-[var(--pm)] mt-3 leading-relaxed">
-            {t('auth_desc')}
+            {t.tEl('auth_desc')}
           </p>
         </div>
 
@@ -121,15 +121,15 @@ export default function AuthPage() {
 
         {/* Footer agreement */}
         <p className="text-[10.5px] text-[var(--pm2)] leading-relaxed text-center">
-          {t('auth_agree_pre')}{' '}
+          {t.tEl('auth_agree_pre')}{' '}
           <Link href="/settings/about/terms" className="underline text-[var(--pm)] hover:text-[var(--pa)] transition-colors">
-            {t('auth_terms_link')}
+            {t.tEl('auth_terms_link')}
           </Link>
-          {t('auth_agree_mid')}
+          {t.tEl('auth_agree_mid')}
           <Link href="/settings/about/privacy" className="underline text-[var(--pm)] hover:text-[var(--pa)] transition-colors">
-            {t('auth_privacy_link')}
+            {t.tEl('auth_privacy_link')}
           </Link>
-          {t('auth_agree_post')}
+          {t.tEl('auth_agree_post')}
         </p>
       </div>
 
