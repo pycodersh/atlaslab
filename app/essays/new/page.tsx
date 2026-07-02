@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { saveEssay, saveReview, canReview, incrementDailyReviewCount } from '@/lib/essays/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -10,6 +10,9 @@ import { useT } from '@/hooks/useT'
 
 const MAX_WORDS = 300
 const MIN_WORDS = 30
+const DRAFT_KEY  = 'patto_essay_draft'
+// Secondary bar sits below TopNav
+const BAR_HEIGHT = 40
 
 function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length
@@ -23,12 +26,41 @@ export default function NewEssayPage() {
   const t = useT()
 
   const [title, setTitle] = useState('')
-  const [body, setBody] = useState('')
+  const [body, setBody]   = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<ValidationError>(null)
   const titleManuallyEdited = useRef(false)
 
-  // Auto-generate title from first sentence when user hasn't typed one manually
+  // ── Refs to always capture latest values for cleanup ─────────────────────
+  const latestBody  = useRef(body)
+  const latestTitle = useRef(title)
+  useEffect(() => { latestBody.current  = body  }, [body])
+  useEffect(() => { latestTitle.current = title }, [title])
+
+  // ── Restore draft on mount ────────────────────────────────────────────────
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(DRAFT_KEY)
+      if (saved) {
+        const { title: t, body: b } = JSON.parse(saved) as { title: string; body: string }
+        if (b) { setBody(b) }
+        if (t) { setTitle(t); titleManuallyEdited.current = true }
+      }
+    } catch { /* ignore */ }
+  }, [])
+
+  // ── Auto-save draft on unmount ────────────────────────────────────────────
+  useEffect(() => {
+    return () => {
+      const b = latestBody.current
+      const t = latestTitle.current
+      if (b.trim()) {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ title: t, body: b })) } catch { /* ignore */ }
+      }
+    }
+  }, [])
+
+  // ── Auto-title from first sentence ────────────────────────────────────────
   useEffect(() => {
     if (titleManuallyEdited.current) return
     const first = body.trim().split(/[.!?\n]/)[0].trim()
@@ -56,7 +88,6 @@ export default function NewEssayPage() {
     if (wc < MIN_WORDS) { setError('too_short'); return }
     if (wc > MAX_WORDS) { setError('too_long'); return }
 
-    // Save draft first
     const essay = saveEssay({ title, body })
 
     setLoading(true)
@@ -65,10 +96,10 @@ export default function NewEssayPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          essayId: essay.id,
+          essayId:   essay.id,
           essayBody: body,
           essayTitle: title || 'Untitled',
-          language: prefs.language,
+          language:  prefs.language,
         }),
       })
 
@@ -87,6 +118,8 @@ export default function NewEssayPage() {
 
       saveReview(essay.id, data.review)
       incrementDailyReviewCount()
+      // Clear draft on successful submission
+      try { localStorage.removeItem(DRAFT_KEY) } catch { /* ignore */ }
       router.push(`/essays/${essay.id}`)
     } catch {
       setLoading(false)
@@ -94,37 +127,28 @@ export default function NewEssayPage() {
     }
   }
 
+  const totalTopOffset = NAV_HEIGHT + BAR_HEIGHT
+
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--pb)', display: 'flex', flexDirection: 'column' }}>
+      {/* ── Main tab nav (TODAY / STORY / ESSAYS / …) ───────────────────── */}
       <TopNav />
 
-      {/* ── Minimal top bar ───────────────────────────────────────────────── */}
+      {/* ── Secondary bar: word count — sits directly below TopNav ─────── */}
       <div style={{
         position: 'fixed',
-        top: 0,
+        top: NAV_HEIGHT,
         left: 0,
         right: 0,
-        height: NAV_HEIGHT,
+        height: BAR_HEIGHT,
         background: 'var(--pb)',
         borderBottom: '1px solid var(--pd)',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         padding: '0 20px',
-        zIndex: 40,
-        marginTop: 'env(safe-area-inset-top, 0px)',
+        zIndex: 39,
       }}>
-        <button
-          type="button"
-          onClick={() => router.back()}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, padding: '4px 0' }}
-        >
-          <ArrowLeft style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={1.8} />
-          <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--pm)' }}>
-            ESSAYS
-          </span>
-        </button>
-
         <span style={{ fontSize: wc > MAX_WORDS ? 11 : 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s' }}>
           {t('essays_word_count', { n: wc })}
         </span>
@@ -136,7 +160,7 @@ export default function NewEssayPage() {
         maxWidth: 580,
         width: '100%',
         margin: '0 auto',
-        padding: `${NAV_HEIGHT + 28}px 24px 160px`,
+        padding: `${totalTopOffset + 28}px 24px 160px`,
         boxSizing: 'border-box',
       }}>
 
