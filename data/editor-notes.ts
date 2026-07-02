@@ -69,7 +69,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 들은 영어 중 딱 하나만 골라 "이 표현이 이렇게 들리는구나"를 의식해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Stephen Krashen',
+        title: 'The Input Hypothesis: Issues and Implications',
+        year: 1985,
+        brief: {
+          en: '크라센은 언어 습득은 이해 가능한 입력(i+1)이 있어야만 이루어진다고 주장했습니다. 단순 노출만으로는 충분하지 않습니다.',
+          ko: '크라센은 언어 습득은 이해 가능한 입력(i+1)이 있어야만 이루어진다고 주장했습니다. 단순 노출만으로는 충분하지 않습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '귀가 열리려면 먼저 머리가 열려야 합니다.',
       ko: '귀가 열리려면 먼저 머리가 열려야 합니다.',
@@ -98,7 +108,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 영어 영상을 볼 때, 소리가 이상하다 싶으면 그게 연음이나 축약 때문인지 생각해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Richard Cauldwell',
+        title: 'Phonology for Listening',
+        year: 2013,
+        brief: {
+          en: '음성학자 콜드웰은 원어민 대화 속 연음·약화·탈락이 교재 발음과 얼마나 다른지 체계적으로 분석했습니다.',
+          ko: '음성학자 콜드웰은 원어민 대화 속 연음·약화·탈락이 교재 발음과 얼마나 다른지 체계적으로 분석했습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '원어민은 빠른 게 아닙니다. 연음이 있을 뿐입니다.',
       ko: '원어민은 빠른 게 아닙니다. 연음이 있을 뿐입니다.',
@@ -127,7 +147,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 좋아하는 영상 한 편을 영어 자막으로 다시 보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Jan Hulstijn',
+        title: 'Intentional and Incidental Second Language Vocabulary Learning',
+        year: 2001,
+        brief: {
+          en: '훌스틴은 영어 자막이 소리와 텍스트를 동시에 처리하게 해 어휘 습득에 효과적이라고 밝혔습니다. 모국어 자막은 이 연결 과정을 단락시킵니다.',
+          ko: '훌스틴은 영어 자막이 소리와 텍스트를 동시에 처리하게 해 어휘 습득에 효과적이라고 밝혔습니다. 모국어 자막은 이 연결 과정을 단락시킵니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '자막은 도구입니다. 의존하면 효과가 없어집니다.',
       ko: '자막은 도구입니다. 의존하면 효과가 없어집니다.',
@@ -156,7 +186,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: PATTO 스토리를 한 번 읽고 내용을 파악한 뒤, 오디오를 들으면서 조용히 따라 말해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Alexander Arguelles',
+        title: 'Shadowing and Reading',
+        year: 2009,
+        brief: {
+          en: '언어학자 아르게예스는 쉐도잉이 발음과 유창성 향상에 효과적이지만, 내용 이해가 선행되어야 진짜 훈련이 된다고 강조했습니다.',
+          ko: '언어학자 아르게예스는 쉐도잉이 발음과 유창성 향상에 효과적이지만, 내용 이해가 선행되어야 진짜 훈련이 된다고 강조했습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '모르는 내용을 따라하는 건 쉐도잉이 아니라 앵무새입니다.',
       ko: '모르는 내용을 따라하는 건 쉐도잉이 아니라 앵무새입니다.',
@@ -187,7 +227,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 하루 동안 영어로 말할 기회가 생기면 일단 입을 열어보세요. 틀려도 좋습니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Merrill Swain',
+        title: 'The Output Hypothesis and Beyond',
+        year: 1985,
+        brief: {
+          en: '스웨인은 결과물 가설(Output Hypothesis)을 통해, 실제로 말하고 써보는 과정에서 언어 실력이 성장한다는 것을 밝혔습니다. 말하면서 틀리는 경험 자체가 학습입니다.',
+          ko: '스웨인은 결과물 가설(Output Hypothesis)을 통해, 실제로 말하고 써보는 과정에서 언어 실력이 성장한다는 것을 밝혔습니다. 말하면서 틀리는 경험 자체가 학습입니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '실수가 두려우면 실력도 멈춥니다.',
       ko: '실수가 두려우면 실력도 멈춥니다.',
@@ -216,7 +266,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 거울 앞에서 10초만 자신 있게 영어로 말해보세요. 발음보다 표정이 중요합니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Jennifer Jenkins',
+        title: 'The Phonology of English as an International Language',
+        year: 2000,
+        brief: {
+          en: '젠킨스는 비원어민끼리의 영어 소통을 연구하며, 원어민식 발음보다 상대방이 이해할 수 있는 명확한 발음이 더 중요하다는 것을 밝혔습니다.',
+          ko: '젠킨스는 비원어민끼리의 영어 소통을 연구하며, 원어민식 발음보다 상대방이 이해할 수 있는 명확한 발음이 더 중요하다는 것을 밝혔습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '발음 걱정보다 말하는 습관이 먼저입니다.',
       ko: '발음 걱정보다 말하는 습관이 먼저입니다.',
@@ -245,7 +305,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 하루 동안 눈에 보이는 사물 5개를 영어로 말해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Lev Vygotsky',
+        title: 'Thought and Language',
+        year: 1962,
+        brief: {
+          en: '비고츠키는 언어와 사고가 긴밀하게 연결되어 있으며, 내면의 언어(inner speech)가 충분히 쌓여야 그 언어로 자연스럽게 생각할 수 있다고 주장했습니다.',
+          ko: '비고츠키는 언어와 사고가 긴밀하게 연결되어 있으며, 내면의 언어(inner speech)가 충분히 쌓여야 그 언어로 자연스럽게 생각할 수 있다고 주장했습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '영어로 생각하는 것은 훈련이지 재능이 아닙니다.',
       ko: '영어로 생각하는 것은 훈련이지 재능이 아닙니다.',
@@ -274,7 +344,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: PATTO에서 패턴 하나를 오늘 5번 이상 소리 내어 따라 말해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Sian Beilock',
+        title: 'Choke: What the Secrets of the Brain Reveal About Getting It Right When You Have To',
+        year: 2010,
+        brief: {
+          en: '인지심리학자 베일록은 긴장 상황에서 기억 인출이 막히는 현상을 연구했습니다. 충분히 자동화된 표현만이 압박 상황에서도 자연스럽게 나옵니다.',
+          ko: '인지심리학자 베일록은 긴장 상황에서 기억 인출이 막히는 현상을 연구했습니다. 충분히 자동화된 표현만이 압박 상황에서도 자연스럽게 나옵니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '긴장해도 나오는 영어가 진짜 내 것입니다.',
       ko: '긴장해도 나오는 영어가 진짜 내 것입니다.',
@@ -305,7 +385,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: PATTO 스토리를 읽을 때, 모르는 단어가 있어도 일단 끝까지 읽고 전체 흐름을 파악해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Stephen Krashen',
+        title: 'Principles and Practice in Second Language Acquisition',
+        year: 1982,
+        brief: {
+          en: '크라센은 번역 의존 습관이 목표 언어를 직접 처리하는 능력 발달을 방해한다고 지적했습니다. 영어를 영어로 이해하는 경험이 쌓여야 합니다.',
+          ko: '크라센은 번역 의존 습관이 목표 언어를 직접 처리하는 능력 발달을 방해한다고 지적했습니다. 영어를 영어로 이해하는 경험이 쌓여야 합니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '번역은 이해의 도구이지, 목적이 아닙니다.',
       ko: '번역은 이해의 도구이지, 목적이 아닙니다.',
@@ -334,7 +424,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 스토리를 읽을 때 모르는 단어는 일단 넘어가고, 전체를 먼저 읽어보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Paul Nation',
+        title: 'Learning Vocabulary in Another Language',
+        year: 2001,
+        brief: {
+          en: '네이션은 문맥에서 단어 뜻을 유추하는 능력이 독해력의 핵심이며, 빈번한 사전 사용은 오히려 이 능력 발달을 방해한다고 밝혔습니다.',
+          ko: '네이션은 문맥에서 단어 뜻을 유추하는 능력이 독해력의 핵심이며, 빈번한 사전 사용은 오히려 이 능력 발달을 방해한다고 밝혔습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '문맥에서 뜻을 유추하는 능력이 진짜 독해력입니다.',
       ko: '문맥에서 뜻을 유추하는 능력이 진짜 독해력입니다.',
@@ -363,7 +463,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 짧은 영어 기사 하나를 찾아서 읽어보세요. 완벽히 이해하지 않아도 됩니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Stephen Krashen',
+        title: 'The Power of Reading',
+        year: 2004,
+        brief: {
+          en: '크라센은 자유 독서(Free Voluntary Reading)가 언어 실력 향상에 가장 효과적인 방법 중 하나라고 주장했습니다. 완벽한 이해보다 꾸준한 독서 경험이 중요합니다.',
+          ko: '크라센은 자유 독서(Free Voluntary Reading)가 언어 실력 향상에 가장 효과적인 방법 중 하나라고 주장했습니다. 완벽한 이해보다 꾸준한 독서 경험이 중요합니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '완벽히 이해하려다 읽기를 멈추는 것이 가장 큰 실수입니다.',
       ko: '완벽히 이해하려다 읽기를 멈추는 것이 가장 큰 실수입니다.',
@@ -394,7 +504,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: PATTO에서 배운 패턴 하나를 써서 짧은 문장을 만들어보세요. 두 문장도 충분합니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Tricia Hedge',
+        title: 'Writing',
+        year: 2005,
+        brief: {
+          en: '언어 교육 전문가 헤지는 규칙적인 글쓰기가 어휘와 문법의 내재화를 돕는다고 밝혔습니다. 단, 새로운 표현을 의도적으로 사용하려는 노력이 반드시 필요합니다.',
+          ko: '언어 교육 전문가 헤지는 규칙적인 글쓰기가 어휘와 문법의 내재화를 돕는다고 밝혔습니다. 단, 새로운 표현을 의도적으로 사용하려는 노력이 반드시 필요합니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '일기는 연습장입니다. 완벽하지 않아도 됩니다.',
       ko: '일기는 연습장입니다. 완벽하지 않아도 됩니다.',
@@ -423,7 +543,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: ESSAYS에서 짧은 글 하나를 써보세요. 첨삭 결과를 그냥 보지 말고 "왜?"를 생각해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'John Hattie',
+        title: 'Visible Learning',
+        year: 2009,
+        brief: {
+          en: '교육학자 해티는 수백 개 연구의 메타분석을 통해, 즉각적이고 구체적인 피드백이 학습 효과를 가장 크게 높이는 요소 중 하나임을 밝혔습니다.',
+          ko: '교육학자 해티는 수백 개 연구의 메타분석을 통해, 즉각적이고 구체적인 피드백이 학습 효과를 가장 크게 높이는 요소 중 하나임을 밝혔습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: 'AI가 고쳐주는 게 아니라, 내가 배우는 것입니다.',
       ko: 'AI가 고쳐주는 게 아니라, 내가 배우는 것입니다.',
@@ -452,7 +582,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 딱 3문장만 영어로 써보세요. 틀려도 좋습니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Stephen Krashen',
+        title: 'Principles and Practice in Second Language Acquisition',
+        year: 1982,
+        brief: {
+          en: '크라센은 의식적인 문법 학습(learning)보다 실제 사용 속에서 자연스럽게 익히는 습득(acquisition)이 훨씬 효과적이라고 주장했습니다.',
+          ko: '크라센은 의식적인 문법 학습(learning)보다 실제 사용 속에서 자연스럽게 익히는 습득(acquisition)이 훨씬 효과적이라고 주장했습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '쓰지 않으면 실력도 없습니다.',
       ko: '쓰지 않으면 실력도 없습니다.',
@@ -483,7 +623,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 딱 5개의 단어를 골라, 각각 예문을 하나씩 만들어보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Paul Nation',
+        title: 'Learning Vocabulary in Another Language',
+        year: 2001,
+        brief: {
+          en: '네이션은 어휘 학습에서 소량 반복(spaced repetition)이 대량 단기 암기보다 훨씬 높은 장기 기억률을 보인다고 밝혔습니다.',
+          ko: '네이션은 어휘 학습에서 소량 반복(spaced repetition)이 대량 단기 암기보다 훨씬 높은 장기 기억률을 보인다고 밝혔습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '많이 외우는 것보다 오래 기억하는 것이 중요합니다.',
       ko: '많이 외우는 것보다 오래 기억하는 것이 중요합니다.',
@@ -512,7 +662,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 새로 배운 단어를 직접 문장으로 써보세요. 내가 만든 예문이 책의 예문보다 더 기억에 남습니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Hermann Ebbinghaus',
+        title: 'Über das Gedächtnis',
+        year: 1885,
+        brief: {
+          en: '에빙하우스는 망각 곡선 연구를 통해, 학습 후 24시간 이내에 약 70%의 내용을 잊어버린다는 사실을 밝혔습니다. 문맥이 없는 정보는 더 빨리 사라집니다.',
+          ko: '에빙하우스는 망각 곡선 연구를 통해, 학습 후 24시간 이내에 약 70%의 내용을 잊어버린다는 사실을 밝혔습니다. 문맥이 없는 정보는 더 빨리 사라집니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '문맥 없는 단어는 24시간 안에 사라집니다.',
       ko: '문맥 없는 단어는 24시간 안에 사라집니다.',
@@ -541,7 +701,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 PATTO에서 마음에 드는 예문 하나를 통째로 외워보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Michael Lewis',
+        title: 'The Lexical Approach',
+        year: 1993,
+        brief: {
+          en: '루이스는 어휘 접근법(Lexical Approach)을 통해, 단어 하나보다 덩어리 표현(chunks)을 통째로 익히는 것이 실제 회화 능력 향상에 훨씬 효과적이라고 주장했습니다.',
+          ko: '루이스는 어휘 접근법(Lexical Approach)을 통해, 단어 하나보다 덩어리 표현(chunks)을 통째로 익히는 것이 실제 회화 능력 향상에 훨씬 효과적이라고 주장했습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '단어를 아는 것과 문장을 쓸 수 있는 것은 다릅니다.',
       ko: '단어를 아는 것과 문장을 쓸 수 있는 것은 다릅니다.',
@@ -570,7 +740,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 단어장 앱을 잠깐 내려두고, 오늘은 스토리를 읽으면서 단어를 만나보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Robert Bjork',
+        title: 'Memory and Metamemory Considerations in the Training of Human Beings',
+        year: 1994,
+        brief: {
+          en: '비요크는 단어를 맥락 없이 반복 확인하는 것보다 실제 사용 상황에서 인출하는 것이 장기 기억에 훨씬 효과적이라고 밝혔습니다.',
+          ko: '비요크는 단어를 맥락 없이 반복 확인하는 것보다 실제 사용 상황에서 인출하는 것이 장기 기억에 훨씬 효과적이라고 밝혔습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '단어는 외우는 것이 아니라 만나는 것입니다.',
       ko: '단어는 외우는 것이 아니라 만나는 것입니다.',
@@ -601,7 +781,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 딱 10분만 PATTO를 열어보세요. 10분은 누구에게나 있습니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Anders Ericsson',
+        title: 'Peak: Secrets from the New Science of Expertise',
+        year: 2016,
+        brief: {
+          en: '에릭슨은 의도적 연습(deliberate practice) 연구를 통해, 짧더라도 매일 꾸준히 집중해서 연습하는 것이 간헐적인 장시간 연습보다 실력 향상에 효과적임을 밝혔습니다.',
+          ko: '에릭슨은 의도적 연습(deliberate practice) 연구를 통해, 짧더라도 매일 꾸준히 집중해서 연습하는 것이 간헐적인 장시간 연습보다 실력 향상에 효과적임을 밝혔습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '매일 조금씩이 가끔 많이보다 낫습니다.',
       ko: '매일 조금씩이 가끔 많이보다 낫습니다.',
@@ -630,7 +820,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 배운 패턴을 내일 다시 한번 읽어보세요. 딱 30초면 됩니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Hermann Ebbinghaus',
+        title: 'Über das Gedächtnis',
+        year: 1885,
+        brief: {
+          en: '에빙하우스의 망각 곡선 연구를 기반으로 한 간격 반복(spaced repetition) 원리는, 잊어버리기 직전에 복습하는 것이 가장 효율적인 기억 유지 방법임을 보여줍니다.',
+          ko: '에빙하우스의 망각 곡선 연구를 기반으로 한 간격 반복(spaced repetition) 원리는, 잊어버리기 직전에 복습하는 것이 가장 효율적인 기억 유지 방법임을 보여줍니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '복습 타이밍이 복습 시간보다 중요합니다.',
       ko: '복습 타이밍이 복습 시간보다 중요합니다.',
@@ -659,7 +859,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: PATTO의 Progress 화면에서 학습한 패턴 수를 확인해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Jim Cummins',
+        title: 'Language, Power, and Pedagogy',
+        year: 2000,
+        brief: {
+          en: '커민스는 언어 능력이 눈에 보이지 않게 꾸준히 발전하다가 특정 시점에 급격히 향상되는 양상을 보인다고 연구했습니다.',
+          ko: '커민스는 언어 능력이 눈에 보이지 않게 꾸준히 발전하다가 특정 시점에 급격히 향상되는 양상을 보인다고 연구했습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '매일 느끼지 못해도, 매일 조금씩 늘고 있습니다.',
       ko: '매일 느끼지 못해도, 매일 조금씩 늘고 있습니다.',
@@ -688,7 +898,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 좋아하는 영상 5분만 영어 자막으로 보고, 표현 하나를 따라 말해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Stephen Krashen',
+        title: 'The Input Hypothesis: Issues and Implications',
+        year: 1985,
+        brief: {
+          en: '크라센의 이해 가능한 입력 이론에 따르면, 좋아하는 콘텐츠를 영어로 꾸준히 시청하는 것은 자연스러운 언어 습득의 훌륭한 방법입니다.',
+          ko: '크라센의 이해 가능한 입력 이론에 따르면, 좋아하는 콘텐츠를 영어로 꾸준히 시청하는 것은 자연스러운 언어 습득의 훌륭한 방법입니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '즐거운 것이 꾸준한 것을 이깁니다.',
       ko: '즐거운 것이 꾸준한 것을 이깁니다.',
@@ -717,7 +937,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘 영어 문장 5개를 혼자 소리 내어 말해보세요.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Paul Nation',
+        title: 'What Do You Need to Know to Learn a Foreign Language?',
+        year: 2014,
+        brief: {
+          en: '네이션은 자기 주도적 언어 학습자가 좋은 자료와 꾸준한 습관만 갖춘다면 교실 환경 없이도 높은 수준의 언어 능력을 달성할 수 있다고 주장했습니다.',
+          ko: '네이션은 자기 주도적 언어 학습자가 좋은 자료와 꾸준한 습관만 갖춘다면 교실 환경 없이도 높은 수준의 언어 능력을 달성할 수 있다고 주장했습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '영어는 학원이 가르치는 게 아니라 내가 익히는 것입니다.',
       ko: '영어는 학원이 가르치는 게 아니라 내가 익히는 것입니다.',
@@ -746,7 +976,17 @@ export const EDITOR_NOTES: EditorNote[] = [
         '오늘의 실천: 오늘은 PATTO를 딱 5분만 열어보세요. 많이 하지 않아도 됩니다.',
       ],
     },
-    research: [],
+    research: [
+      {
+        author: 'Carol Dweck',
+        title: 'Mindset: The New Psychology of Success',
+        year: 2006,
+        brief: {
+          en: '드웩은 성장 마인드셋(Growth Mindset) 연구를 통해, 어려운 시기를 포기하지 않고 버티는 사람이 결국 더 큰 성장을 이룬다는 것을 밝혔습니다.',
+          ko: '드웩은 성장 마인드셋(Growth Mindset) 연구를 통해, 어려운 시기를 포기하지 않고 버티는 사람이 결국 더 큰 성장을 이룬다는 것을 밝혔습니다.',
+        },
+      },
+    ],
     oneThingToRemember: {
       en: '슬럼프에서 멈추지 않으면, 결국 넘어갑니다.',
       ko: '슬럼프에서 멈추지 않으면, 결국 넘어갑니다.',
