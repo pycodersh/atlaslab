@@ -40,6 +40,14 @@ export function PatternPracticeCard({
   const t = useT()
   const showTranslation = true
 
+  // DEBUG: remove after diagnosis
+  if (typeof window !== 'undefined') {
+    console.log('[PATTO_DEBUG] lang:', prefs.language)
+    console.log('[PATTO_DEBUG] pattern.id:', pattern.id)
+    console.log('[PATTO_DEBUG] meaningTranslations:', JSON.stringify(pattern.meaningTranslations))
+    console.log('[PATTO_DEBUG] ex[0].translations:', JSON.stringify(examples[0]?.translations))
+  }
+
   const [phase, setPhase] = useState<Phase>('idle')
   const [currentIdx, setCurrentIdx] = useState(-1)
   const [feedback, setFeedback] = useState<string | null>(null)
