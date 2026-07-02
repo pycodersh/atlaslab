@@ -181,6 +181,10 @@ const T = {
     essays_reviewed_at:      '첨삭 완료',
     essays_no_review:        '아직 첨삭되지 않았습니다.',
     essays_delete:           '삭제',
+    essays_delete_title:     '이 에세이를 삭제하시겠습니까?',
+    essays_delete_desc:      '에세이와 첨삭 결과가 영구적으로 삭제됩니다.',
+    essays_delete_confirm:   '삭제',
+    essays_cancel:           '취소',
 
     // ── Back nav ─────────────────────────────────────────────────────────────
     back: 'SETTINGS',
@@ -324,6 +328,10 @@ const T = {
     essays_reviewed_at:      'Reviewed',
     essays_no_review:        'Not yet reviewed.',
     essays_delete:           'Delete',
+    essays_delete_title:     'Delete this essay?',
+    essays_delete_desc:      'The essay and its review will be permanently deleted.',
+    essays_delete_confirm:   'Delete',
+    essays_cancel:           'Cancel',
     back: 'SETTINGS',
   },
 
@@ -465,6 +473,10 @@ const T = {
     essays_reviewed_at:      'Revisado',
     essays_no_review:        'Aún no revisado.',
     essays_delete:           'Eliminar',
+    essays_delete_title:     '¿Eliminar este ensayo?',
+    essays_delete_desc:      'El ensayo y su revisión se eliminarán permanentemente.',
+    essays_delete_confirm:   'Eliminar',
+    essays_cancel:           'Cancelar',
     back: 'SETTINGS',
   },
 
@@ -606,6 +618,10 @@ const T = {
     essays_reviewed_at:      'レビュー済み',
     essays_no_review:        'まだレビューされていません。',
     essays_delete:           '削除',
+    essays_delete_title:     'このエッセイを削除しますか？',
+    essays_delete_desc:      'エッセイと添削結果が永久に削除されます。',
+    essays_delete_confirm:   '削除',
+    essays_cancel:           'キャンセル',
     back: 'SETTINGS',
   },
 
@@ -747,6 +763,10 @@ const T = {
     essays_reviewed_at:      '已批改',
     essays_no_review:        '尚未批改。',
     essays_delete:           '删除',
+    essays_delete_title:     '删除这篇文章？',
+    essays_delete_desc:      '文章和批改结果将被永久删除。',
+    essays_delete_confirm:   '删除',
+    essays_cancel:           '取消',
     back: 'SETTINGS',
   },
 
@@ -888,6 +908,10 @@ const T = {
     essays_reviewed_at:      '已批改',
     essays_no_review:        '尚未批改。',
     essays_delete:           '刪除',
+    essays_delete_title:     '刪除這篇文章？',
+    essays_delete_desc:      '文章和批改結果將被永久刪除。',
+    essays_delete_confirm:   '刪除',
+    essays_cancel:           '取消',
     back: 'SETTINGS',
   },
 
@@ -1029,6 +1053,10 @@ const T = {
     essays_reviewed_at:      'Révisé',
     essays_no_review:        'Pas encore révisé.',
     essays_delete:           'Supprimer',
+    essays_delete_title:     'Supprimer cet essai ?',
+    essays_delete_desc:      "L'essai et son bilan seront définitivement supprimés.",
+    essays_delete_confirm:   'Supprimer',
+    essays_cancel:           'Annuler',
     back: 'SETTINGS',
   },
 
@@ -1170,6 +1198,10 @@ const T = {
     essays_reviewed_at:      'Korrigiert',
     essays_no_review:        'Noch nicht korrigiert.',
     essays_delete:           'Löschen',
+    essays_delete_title:     'Diesen Aufsatz löschen?',
+    essays_delete_desc:      'Der Aufsatz und sein Review werden dauerhaft gelöscht.',
+    essays_delete_confirm:   'Löschen',
+    essays_cancel:           'Abbrechen',
     back: 'SETTINGS',
   },
 } satisfies Record<Language, Record<string, string>>

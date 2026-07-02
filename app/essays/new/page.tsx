@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import { NAV_HEIGHT } from '@/components/TopNav'
@@ -26,6 +26,15 @@ export default function NewEssayPage() {
   const [body, setBody] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<ValidationError>(null)
+  const titleManuallyEdited = useRef(false)
+
+  // Auto-generate title from first sentence when user hasn't typed one manually
+  useEffect(() => {
+    if (titleManuallyEdited.current) return
+    const first = body.trim().split(/[.!?\n]/)[0].trim()
+    if (!first) { setTitle(''); return }
+    setTitle(first.length > 60 ? first.slice(0, 57) + '…' : first)
+  }, [body])
 
   const wc = wordCount(body)
   const wcColor = wc > MAX_WORDS ? 'var(--pa)' : wc >= MIN_WORDS ? 'var(--pm)' : 'var(--pm2)'
@@ -134,7 +143,7 @@ export default function NewEssayPage() {
         <input
           type="text"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={e => { titleManuallyEdited.current = true; setTitle(e.target.value) }}
           placeholder={t('essays_title_placeholder')}
           disabled={loading}
           style={{

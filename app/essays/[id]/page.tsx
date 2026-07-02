@@ -443,51 +443,69 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         <div
           style={{
             position: 'fixed', inset: 0,
-            background: 'rgba(0,0,0,0.45)',
+            background: 'rgba(0,0,0,0.38)',
             zIndex: 50, display: 'flex',
-            alignItems: 'center', justifyContent: 'center',
-            padding: '0 32px',
+            alignItems: 'flex-end', justifyContent: 'center',
+            padding: '0 0 env(safe-area-inset-bottom, 0px)',
           }}
           onClick={() => setShowDeleteConfirm(false)}
         >
           <div
             style={{
-              background: 'var(--pb)', borderRadius: 20,
-              padding: '28px 24px', width: '100%', maxWidth: 320,
-              boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
+              background: 'var(--pb)',
+              borderRadius: '22px 22px 0 0',
+              padding: '32px 28px 36px',
+              width: '100%',
+              maxWidth: 540,
+              boxShadow: '0 -8px 40px rgba(0,0,0,0.12)',
             }}
             onClick={e => e.stopPropagation()}
           >
-            <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 10px' }}>
-              {t('essays_delete')}?
+            {/* Handle bar */}
+            <div style={{
+              width: 36, height: 4, borderRadius: 2,
+              background: 'var(--pd)', margin: '0 auto 28px',
+            }} />
+
+            <p style={{
+              fontSize: 17, fontWeight: 800,
+              color: 'var(--pt)', margin: '0 0 10px',
+              lineHeight: 1.3, letterSpacing: '-0.01em',
+            }}>
+              {t('essays_delete_title')}
             </p>
-            <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 24px', lineHeight: 1.6 }}>
-              This essay and its review will be permanently deleted.
+            <p style={{
+              fontSize: 13, color: 'var(--pm)',
+              margin: '0 0 32px', lineHeight: 1.65,
+            }}>
+              {t('essays_delete_desc')}
             </p>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button
-                type="button"
-                onClick={() => setShowDeleteConfirm(false)}
-                style={{
-                  flex: 1, padding: '12px 0', borderRadius: 12,
-                  border: '1px solid var(--pd)', background: 'none',
-                  cursor: 'pointer', fontSize: 13, fontWeight: 600,
-                  color: 'var(--pm)', fontFamily: 'inherit',
-                }}
-              >
-                Cancel
-              </button>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <button
                 type="button"
                 onClick={handleDelete}
                 style={{
-                  flex: 1, padding: '12px 0', borderRadius: 12,
-                  border: 'none', background: '#c0392b',
-                  cursor: 'pointer', fontSize: 13, fontWeight: 700,
+                  width: '100%', padding: '15px 0', borderRadius: 14,
+                  border: 'none', background: 'var(--pa)',
+                  cursor: 'pointer', fontSize: 14, fontWeight: 700,
                   color: '#fff', fontFamily: 'inherit',
+                  letterSpacing: '0.03em',
                 }}
               >
-                Delete
+                {t('essays_delete_confirm')}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowDeleteConfirm(false)}
+                style={{
+                  width: '100%', padding: '15px 0', borderRadius: 14,
+                  border: '1.5px solid var(--pd)', background: 'none',
+                  cursor: 'pointer', fontSize: 14, fontWeight: 600,
+                  color: 'var(--pm)', fontFamily: 'inherit',
+                }}
+              >
+                {t('essays_cancel')}
               </button>
             </div>
           </div>
