@@ -117,3 +117,9 @@ export function incrementDailyReviewCount(): void {
   localStorage.setItem(REVIEW_DAY_KEY, today)
   localStorage.setItem(REVIEW_COUNT_KEY, String(count + 1))
 }
+
+export function resetDailyReviewCount(): void {
+  if (typeof window === 'undefined') return
+  localStorage.removeItem(REVIEW_DAY_KEY)
+  localStorage.removeItem(REVIEW_COUNT_KEY)
+}

@@ -2,10 +2,13 @@
 
 import { use, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Pencil, Trash2, Copy, Check } from 'lucide-react'
+import { ArrowLeft, Pencil, Trash2, Copy, Check, RefreshCw } from 'lucide-react'
 import { NAV_HEIGHT } from '@/components/TopNav'
-import { type Essay, type Annotation, type TypicalMistake, getEssay, deleteEssay } from '@/lib/essays/storage'
+import { type Essay, type Annotation, type TypicalMistake, getEssay, deleteEssay, saveReview, resetDailyReviewCount } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
+import { usePreferences } from '@/contexts/PreferencesContext'
+
+const IS_DEV = process.env.NODE_ENV === 'development'
 
 // ── Fixed editor personality — subtle y-variation only (no rotation/drift) ───
 // Keeps annotations within screen bounds; Kalam font provides natural variation
@@ -311,10 +314,51 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const router = useRouter()
   const t = useT()
 
+  const { prefs } = usePreferences()
   const [essay, setEssay] = useState<Essay | null>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [rereviewing, setRereviewing] = useState(false)
+  const [devMsg, setDevMsg] = useState('')
 
   useEffect(() => { setEssay(getEssay(id)) }, [id])
+
+  async function handleRereview() {
+    if (!essay || rereviewing) return
+    setRereviewing(true)
+    setDevMsg('Calling Claude…')
+    try {
+      const res = await fetch('/api/essays/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          essayId: essay.id,
+          essayBody: essay.body,
+          essayTitle: essay.title,
+          language: prefs.language ?? 'ko',
+        }),
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        setDevMsg(`Error ${res.status}: ${err.error ?? 'unknown'}`)
+        return
+      }
+      const data = await res.json()
+      const updated = saveReview(essay.id, data.review)
+      if (updated) setEssay(updated)
+      setDevMsg('Re-review saved!')
+      setTimeout(() => setDevMsg(''), 3000)
+    } catch (e) {
+      setDevMsg(`Failed: ${String(e)}`)
+    } finally {
+      setRereviewing(false)
+    }
+  }
+
+  function handleResetCount() {
+    resetDailyReviewCount()
+    setDevMsg('Daily review count reset!')
+    setTimeout(() => setDevMsg(''), 2000)
+  }
 
   if (!essay) {
     return (
@@ -513,6 +557,56 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
             }}>
               {t('essays_no_review')}
             </p>
+          </div>
+        )}
+
+        {/* ── DEV TOOLS (development only) ─────────────────────────────── */}
+        {IS_DEV && (
+          <div style={{
+            marginTop: 60,
+            borderTop: '1px dashed var(--pd)',
+            paddingTop: 20,
+          }}>
+            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', color: 'var(--pm2)', margin: '0 0 14px' }}>
+              DEV TOOLS
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <button
+                type="button"
+                onClick={handleRereview}
+                disabled={rereviewing}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+                  padding: '12px 0', borderRadius: 10,
+                  border: '1.5px solid #c0392b',
+                  background: 'none', cursor: rereviewing ? 'default' : 'pointer',
+                  fontSize: 12, fontWeight: 700,
+                  color: '#c0392b', fontFamily: 'inherit',
+                  opacity: rereviewing ? 0.5 : 1,
+                }}
+              >
+                <RefreshCw style={{ width: 12, height: 12 }} strokeWidth={2} />
+                {rereviewing ? 'Reviewing…' : 'Re-review (Regenerate)'}
+              </button>
+              <button
+                type="button"
+                onClick={handleResetCount}
+                style={{
+                  padding: '12px 0', borderRadius: 10,
+                  border: '1.5px solid var(--pd)',
+                  background: 'none', cursor: 'pointer',
+                  fontSize: 12, fontWeight: 600,
+                  color: 'var(--pm)', fontFamily: 'inherit',
+                }}
+              >
+                Reset Daily Review Count
+              </button>
+              {devMsg && (
+                <p style={{ fontSize: 11, color: 'var(--pa)', margin: 0, textAlign: 'center' }}>
+                  {devMsg}
+                </p>
+              )}
+            </div>
           </div>
         )}
 
