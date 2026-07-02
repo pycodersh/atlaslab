@@ -16,14 +16,16 @@ import type { AmbienceId } from '@/types/magazine'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { saveLastPosition } from '@/lib/last-position'
+import type { PracticeExample } from '@/data/pattern-examples'
 
 type MagazineEngineProps = {
   story: MagazineStory
   allStories: MagazineStory[]
   initialView?: 'story' | 'patterns'
+  patternExamples?: Record<string, PracticeExample[]>
 }
 
-export function MagazineEngine({ story, allStories, initialView = 'story' }: MagazineEngineProps) {
+export function MagazineEngine({ story, allStories, initialView = 'story', patternExamples }: MagazineEngineProps) {
   const router = useRouter()
   const { speak, speakAll, stop, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
@@ -239,6 +241,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story' }: Mag
             onNext={goNext}
             hasNext={!isLast}
             onOpenPicker={() => setShowPicker(true)}
+            patternExamples={patternExamples}
           />
         </div>
       </div>

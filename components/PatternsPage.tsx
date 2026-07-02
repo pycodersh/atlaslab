@@ -7,7 +7,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { useT } from '@/hooks/useT'
 import { PatternPracticeCard } from '@/components/PatternPracticeCard'
-import { getPatternExamples } from '@/data/pattern-examples'
+import { getPatternExamples, type PracticeExample } from '@/data/pattern-examples'
 
 type PatternsPageProps = {
   story: MagazineStory
@@ -16,9 +16,10 @@ type PatternsPageProps = {
   onNext: () => void
   hasNext: boolean
   onOpenPicker: () => void
+  patternExamples?: Record<string, PracticeExample[]>
 }
 
-export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: PatternsPageProps) {
+export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, patternExamples }: PatternsPageProps) {
   const { prefs } = usePreferences()
   const voice = story.narratorVoice ?? prefs.voice
   const total = story.patterns.length
@@ -113,13 +114,15 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
           {/* 패턴 5개 — 각 카드에 예문 5개를 처음부터 모두 표시 */}
           <div className="space-y-4">
             {story.patterns.map((pattern, index) => {
-              const fromData = getPatternExamples(pattern.id)
-              const examples = fromData.length > 0
-                ? fromData
-                : [
-                    { en: pattern.storySentence, ko: pattern.storySentenceKo },
-                    { en: pattern.variationSentence, ko: pattern.variationSentenceKo },
-                  ]
+              const examples = patternExamples?.[pattern.id] ?? (() => {
+                const fromData = getPatternExamples(pattern.id)
+                return fromData.length > 0
+                  ? fromData
+                  : [
+                      { en: pattern.storySentence, ko: pattern.storySentenceKo },
+                      { en: pattern.variationSentence, ko: pattern.variationSentenceKo },
+                    ]
+              })()
               return (
                 <PatternPracticeCard
                   key={pattern.id}
