@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowLeft, Loader2 } from 'lucide-react'
-import { NAV_HEIGHT } from '@/components/TopNav'
+import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { saveEssay, saveReview, canReview, incrementDailyReviewCount } from '@/lib/essays/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
@@ -96,6 +96,7 @@ export default function NewEssayPage() {
 
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--pb)', display: 'flex', flexDirection: 'column' }}>
+      <TopNav />
 
       {/* ── Minimal top bar ───────────────────────────────────────────────── */}
       <div style={{
