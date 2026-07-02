@@ -15,7 +15,7 @@ function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length
 }
 
-type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | null
+type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'service_unavailable' | null
 
 export default function NewEssayPage() {
   const router = useRouter()
@@ -31,10 +31,11 @@ export default function NewEssayPage() {
   const wcColor = wc > MAX_WORDS ? 'var(--pa)' : wc >= MIN_WORDS ? 'var(--pm)' : 'var(--pm2)'
 
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
-    not_english: t('essays_not_english'),
-    too_short:   t('essays_too_short'),
-    too_long:    t('essays_too_long'),
-    limit_reached: t('essays_limit_reached'),
+    not_english:         t('essays_not_english'),
+    too_short:           t('essays_too_short'),
+    too_long:            t('essays_too_long'),
+    limit_reached:       t('essays_limit_reached'),
+    service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
   async function handleSubmit() {
@@ -65,12 +66,11 @@ export default function NewEssayPage() {
       const data = await res.json()
 
       if (!res.ok) {
-        const errCode = data.error as ValidationError
-        if (errCode === 'not_english' || errCode === 'too_short' || errCode === 'too_long') {
+        const errCode = data.error as string
+        if (errCode === 'not_english' || errCode === 'too_short' || errCode === 'too_long' || errCode === 'service_unavailable') {
           setError(errCode)
         } else {
-          setError(null)
-          alert('Something went wrong. Please try again.')
+          setError('service_unavailable')
         }
         setLoading(false)
         return
@@ -81,7 +81,7 @@ export default function NewEssayPage() {
       router.push(`/essays/${essay.id}`)
     } catch {
       setLoading(false)
-      alert('Something went wrong. Please try again.')
+      setError('service_unavailable')
     }
   }
 

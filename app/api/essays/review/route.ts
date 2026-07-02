@@ -1,6 +1,4 @@
-import OpenAI from 'openai'
-
-const client = new OpenAI()
+import Anthropic from '@anthropic-ai/sdk'
 
 // Detect if text is primarily English (rough heuristic)
 function isEnglish(text: string): boolean {
@@ -82,6 +80,12 @@ IMPORTANT: The "fragment" field must be copied EXACTLY from the essay text — s
 }
 
 export async function POST(request: Request) {
+  // API key guard — fail fast with a clear server log
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.error('[essays/review] ANTHROPIC_API_KEY is missing')
+    return Response.json({ error: 'service_unavailable' }, { status: 503 })
+  }
+
   try {
     const body = await request.json()
     const { essayId, essayBody, essayTitle, language = 'ko' } = body as {
@@ -114,20 +118,20 @@ ${essayBody}
 
 Please review this essay and return the JSON response as specified.`
 
-    const message = await client.chat.completions.create({
-      model: 'gpt-4o',
+    const client = new Anthropic()
+    const message = await client.messages.create({
+      model: 'claude-sonnet-5',
       max_tokens: 1500,
-      messages: [
-        { role: 'system', content: buildSystemPrompt(language) },
-        { role: 'user', content: userPrompt },
-      ],
+      system: buildSystemPrompt(language),
+      messages: [{ role: 'user', content: userPrompt }],
     })
 
-    const rawText = message.choices[0]?.message?.content ?? ''
+    const rawText = message.content[0].type === 'text' ? message.content[0].text : ''
 
     // Parse JSON from response
     const jsonMatch = rawText.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
+      console.error('[essays/review] Failed to parse JSON from Claude response')
       return Response.json({ error: 'parse_error' }, { status: 500 })
     }
 
