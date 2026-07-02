@@ -64,7 +64,8 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
   return (
     <p style={{
       fontSize: 16,
-      lineHeight: 2.1,
+      // Extra line-height creates the "between-lines" space for above-line corrections
+      lineHeight: 3.2,
       color: 'var(--pt)',
       margin: 0,
       whiteSpace: 'pre-wrap',
@@ -74,69 +75,91 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
         if (!seg.annotation) return <span key={i}>{seg.text}</span>
 
         const ann = seg.annotation
-        const cfg = ANN[ann.type] ?? ANN.grammar
 
         if (ann.type === 'grammar') {
           return (
-            <span key={i} style={{ display: 'inline' }}>
-              {/* Crossed-out original */}
-              <span style={{
-                textDecoration: `line-through`,
-                textDecorationColor: cfg.decorColor,
-                color: 'rgba(0,0,0,0.28)',
-              }}>
-                {seg.text}
-              </span>
-              {/* Red-pen replacement inline */}
+            // position: relative on inline allows the absolute replacement to anchor here
+            <span key={i} style={{ position: 'relative' }}>
+              {/* Correction written above the line — like red pen on paper */}
               {ann.replacement && (
                 <span style={{
+                  position: 'absolute',
+                  bottom: '100%',
+                  left: 0,
                   fontFamily: 'var(--font-caveat, cursive)',
-                  color: cfg.inkColor,
-                  fontSize: 15,
+                  color: '#c0392b',
+                  fontSize: 13,
                   fontWeight: 600,
-                  marginLeft: 5,
-                  paddingBottom: 1,
-                  borderBottom: cfg.underline,
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                  pointerEvents: 'none',
                   letterSpacing: '0.01em',
                 }}>
                   {ann.replacement}
                 </span>
               )}
+              {/* Original word — struck through in red */}
+              <span style={{
+                textDecoration: 'line-through',
+                textDecorationColor: '#e74c3c',
+                color: 'rgba(0,0,0,0.28)',
+              }}>
+                {seg.text}
+              </span>
             </span>
           )
         }
 
         if (ann.type === 'expression') {
           return (
-            <span key={i} style={{ display: 'inline' }}>
-              {/* Underlined original */}
-              <span style={{ borderBottom: cfg.underline, paddingBottom: 1 }}>
-                {seg.text}
-              </span>
-              {/* Purple suggestion inline */}
+            <span key={i} style={{ position: 'relative' }}>
+              {/* Suggestion written above — curved arrow feel via ✦ prefix */}
               {ann.replacement && (
                 <span style={{
+                  position: 'absolute',
+                  bottom: '100%',
+                  left: 0,
                   fontFamily: 'var(--font-caveat, cursive)',
-                  color: cfg.inkColor,
-                  fontSize: 14,
-                  marginLeft: 5,
+                  color: '#7d3c98',
+                  fontSize: 12,
+                  lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
+                  pointerEvents: 'none',
                   opacity: 0.9,
                 }}>
                   ✦ {ann.replacement}
                 </span>
               )}
+              {/* Original phrase — purple underline */}
+              <span style={{
+                borderBottom: '1.5px solid #7d3c98',
+                paddingBottom: 1,
+              }}>
+                {seg.text}
+              </span>
             </span>
           )
         }
 
         if (ann.type === 'strength') {
           return (
-            <span key={i} style={{
-              background: 'rgba(255, 210, 80, 0.22)',
-              borderRadius: 3,
-              padding: '1px 2px',
-            }}>
-              {seg.text}
+            // Warm highlight — no above-line text, just a ⭐ after
+            <span key={i}>
+              <span style={{
+                background: 'rgba(255, 200, 60, 0.2)',
+                borderRadius: 3,
+                padding: '1px 3px',
+              }}>
+                {seg.text}
+              </span>
+              <span style={{
+                fontFamily: 'var(--font-caveat, cursive)',
+                color: '#1e8449',
+                fontSize: 14,
+                marginLeft: 3,
+              }}>
+                ⭐
+              </span>
             </span>
           )
         }
@@ -147,89 +170,44 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
   )
 }
 
-// ── Editor's Notes (handwritten style) ───────────────────────────────────────
+// ── Editor's Marks — count summary only ──────────────────────────────────────
 function EditorNotes({ annotations }: { annotations: Annotation[] }) {
   if (annotations.length === 0) return null
 
+  const grammar    = annotations.filter(a => a.type === 'grammar').length
+  const expression = annotations.filter(a => a.type === 'expression').length
+  const strength   = annotations.filter(a => a.type === 'strength').length
+
   return (
-    <div style={{ marginTop: 36 }}>
-      {/* Section label */}
+    <div style={{ marginTop: 28 }}>
       <p style={{
         fontSize: 8,
         fontWeight: 700,
         letterSpacing: '0.28em',
         color: 'var(--pm2)',
-        margin: '0 0 14px',
+        margin: '0 0 10px',
       }}>
         EDITOR&apos;S MARKS
       </p>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-        {annotations.map((ann, i) => {
-          const cfg = ANN[ann.type] ?? ANN.grammar
-          return (
-            <div key={i} style={{
-              display: 'flex',
-              gap: 14,
-              padding: '13px 0',
-              borderBottom: i < annotations.length - 1 ? '1px solid var(--pd)' : 'none',
-            }}>
-              {/* Icon */}
-              <span style={{
-                fontSize: ann.type === 'strength' ? 16 : 14,
-                color: cfg.inkColor,
-                flexShrink: 0,
-                width: 20,
-                paddingTop: 2,
-              }}>
-                {cfg.icon}
-              </span>
-
-              <div style={{ flex: 1, minWidth: 0 }}>
-                {/* Original text */}
-                <p style={{
-                  margin: '0 0 3px',
-                  fontSize: 12,
-                  color: 'var(--pm2)',
-                  fontStyle: 'italic',
-                  lineHeight: 1.5,
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}>
-                  &ldquo;{ann.fragment}&rdquo;
-                </p>
-
-                {/* Replacement */}
-                {ann.replacement && (
-                  <p style={{
-                    margin: '0 0 3px',
-                    fontFamily: 'var(--font-caveat, cursive)',
-                    fontSize: 17,
-                    fontWeight: 600,
-                    color: cfg.inkColor,
-                    lineHeight: 1.3,
-                    letterSpacing: '0.01em',
-                  }}>
-                    → {ann.replacement}
-                  </p>
-                )}
-
-                {/* Note */}
-                <p style={{
-                  margin: 0,
-                  fontFamily: 'var(--font-caveat, cursive)',
-                  fontSize: 14,
-                  color: cfg.inkColor,
-                  opacity: ann.type === 'strength' ? 1 : 0.78,
-                  lineHeight: 1.45,
-                }}>
-                  {ann.note}
-                </p>
-              </div>
-            </div>
-          )
-        })}
+      <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
+        {grammar > 0 && (
+          <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ color: '#c0392b', fontWeight: 700 }}>✗</span>
+            Grammar · {grammar}
+          </span>
+        )}
+        {expression > 0 && (
+          <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span style={{ color: '#7d3c98', fontWeight: 700 }}>✦</span>
+            Expression · {expression}
+          </span>
+        )}
+        {strength > 0 && (
+          <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <span>⭐</span>
+            Strength · {strength}
+          </span>
+        )}
       </div>
     </div>
   )
