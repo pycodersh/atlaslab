@@ -353,17 +353,19 @@ export default function HomePage() {
           }}>
             {quote.en}
           </p>
-          <p style={{
-            margin: '10px 0 0',
-            fontSize: 12,
-            lineHeight: 1.65,
-            color: 'rgba(255,255,255,0.44)',
-            textShadow: '0 1px 8px rgba(0,0,0,0.4)',
-            whiteSpace: 'pre-line',
-            letterSpacing: '0.01em',
-          }}>
-            {quote.ko}
-          </p>
+          {prefs.language === 'ko' && (
+            <p style={{
+              margin: '10px 0 0',
+              fontSize: 12,
+              lineHeight: 1.65,
+              color: 'rgba(255,255,255,0.44)',
+              textShadow: '0 1px 8px rgba(0,0,0,0.4)',
+              whiteSpace: 'pre-line',
+              letterSpacing: '0.01em',
+            }}>
+              {quote.ko}
+            </p>
+          )}
         </div>
 
         {/* ── 하단 — Magazine Link Typography ──────────────────────────── */}
