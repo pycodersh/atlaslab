@@ -149,15 +149,17 @@ Please review this essay and return the JSON response as specified.`
 
   } catch (err) {
     if (err instanceof Anthropic.APIError) {
-      console.error('[essays/review] Anthropic APIError:', {
-        status:  err.status,
-        name:    err.name,
-        message: err.message,
-        error:   err.error,
-      })
-      return Response.json({ error: 'server_error', detail: err.message }, { status: 500 })
+      const detail = {
+        anthropic_status: err.status,
+        anthropic_error:  err.name,
+        anthropic_message: err.message,
+        anthropic_body:   err.error,
+      }
+      console.error('[essays/review] Anthropic APIError:', JSON.stringify(detail))
+      return Response.json({ error: 'server_error', debug: detail }, { status: 500 })
     }
-    console.error('[essays/review] Unexpected error:', err)
-    return Response.json({ error: 'server_error' }, { status: 500 })
+    const msg = err instanceof Error ? err.message : String(err)
+    console.error('[essays/review] Unexpected error:', msg)
+    return Response.json({ error: 'server_error', debug: { message: msg } }, { status: 500 })
   }
 }
