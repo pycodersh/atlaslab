@@ -160,18 +160,22 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
     setVisible(false)
     setReadCount(getReadCount())
     const t1 = setTimeout(() => setVisible(true), 60)
-    const t2 = setTimeout(() => {
-      markNoteRead(note.id)
-      setReadCount(getReadCount())
-    }, 3000)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
+    return () => clearTimeout(t1)
   }, [note])
 
   const prevId = id > 1           ? id - 1 : null
   const nextId = id < TOTAL_NOTES ? id + 1 : null
 
-  const goNext = () => { if (nextId) router.push(`/editor/${nextId}`) }
-  const goPrev = () => { if (prevId) router.push(`/editor/${prevId}`) }
+  const goNext = () => {
+    if (!nextId || !note) return
+    markNoteRead(note.id)
+    router.push(`/editor/${nextId}`)
+  }
+  const goPrev = () => {
+    if (!prevId || !note) return
+    markNoteRead(note.id)
+    router.push(`/editor/${prevId}`)
+  }
 
   const swipe = useSwipe(goNext, goPrev)
 
