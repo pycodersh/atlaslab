@@ -120,7 +120,7 @@ export default function EssaysPage() {
           justifyContent: 'space-between',
           paddingBottom: 14,
           borderBottom: '1px solid var(--pd)',
-          marginBottom: 20,
+          marginBottom: 14,
         }}>
           <p style={{
             fontSize: 9, fontWeight: 700, letterSpacing: '0.2em',
@@ -149,7 +149,7 @@ export default function EssaysPage() {
         </div>
 
         {/* ── New Essay — Magazine Editorial CTA ───────────────────────────── */}
-        <div style={{ textAlign: 'center', padding: '8px 0 12px' }}>
+        <div style={{ textAlign: 'center', padding: '14px 0 14px' }}>
           <button
             type="button"
             onClick={() => router.push('/essays/new')}
@@ -172,10 +172,12 @@ export default function EssaysPage() {
               borderBottom: '1.5px solid var(--pa)',
               paddingBottom: 3,
             }}>
-              {t('essays_new')}
+              + New Essay
             </span>
           </button>
         </div>
+        {/* Bottom divider — mirrors the top divider above Today's Reviews */}
+        <div style={{ height: '1px', background: 'var(--pd)', marginBottom: 0 }} />
       </div>
       {/* ── END sticky header ─────────────────────────────────────────────────── */}
 
@@ -186,7 +188,7 @@ export default function EssaysPage() {
         paddingLeft: 24,
         paddingRight: 24,
         paddingBottom: 80,
-        paddingTop: 32,
+        paddingTop: 44,
       }}>
         {/* ── My Essays ────────────────────────────────────────────────────── */}
         {essays.length > 0 && (
