@@ -1,6 +1,6 @@
-import Anthropic from '@anthropic-ai/sdk'
+import OpenAI from 'openai'
 
-const client = new Anthropic()
+const client = new OpenAI()
 
 // Detect if text is primarily English (rough heuristic)
 function isEnglish(text: string): boolean {
@@ -114,14 +114,16 @@ ${essayBody}
 
 Please review this essay and return the JSON response as specified.`
 
-    const message = await client.messages.create({
-      model: 'claude-sonnet-5',
+    const message = await client.chat.completions.create({
+      model: 'gpt-4o',
       max_tokens: 1500,
-      system: buildSystemPrompt(language),
-      messages: [{ role: 'user', content: userPrompt }],
+      messages: [
+        { role: 'system', content: buildSystemPrompt(language) },
+        { role: 'user', content: userPrompt },
+      ],
     })
 
-    const rawText = message.content[0].type === 'text' ? message.content[0].text : ''
+    const rawText = message.choices[0]?.message?.content ?? ''
 
     // Parse JSON from response
     const jsonMatch = rawText.match(/\{[\s\S]*\}/)
