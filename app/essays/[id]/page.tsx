@@ -10,8 +10,12 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 
 const IS_DEV = process.env.NODE_ENV === 'development'
 
+// ── Editor color palette — dark ink-on-paper feel ────────────────────────────
+const PEN_RED    = '#8B1A1A'  // dark burgundy red (grammar, typical)
+const PEN_PURPLE = '#6C2D82'  // deep violet (expression)
+const PEN_GREEN  = '#1a7a3a'  // forest green (strength)
+
 // ── Fixed editor personality — subtle y-variation only (no rotation/drift) ───
-// Keeps annotations within screen bounds; Kalam font provides natural variation
 const EV_LUT = [0, 2, -1, 3, -2, 1, -3, 2, 0, -1, 3, -2, 1, 0, -1]
 function ev(i: number): number { return EV_LUT[i % EV_LUT.length] }
 
@@ -57,10 +61,8 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
         // Subtle y-variation per annotation (no rotation — keeps text inside bounds)
         const yShift = ev(i)
 
-        // Shared style for all above-line ink notes
-        // word-break:normal = word-level wrapping only (no character splits)
-        // overflowWrap:break-word = only break a long unbreakable token as last resort
-        const inkStyle: React.CSSProperties = {
+        // Base ink style — word-level wrapping, max 2 lines
+        const inkBase: React.CSSProperties = {
           position: 'absolute',
           bottom: `calc(100% + ${3 + yShift}px)`,
           left: 0,
@@ -71,9 +73,7 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
           whiteSpace: 'normal',
           wordBreak: 'normal',
           overflowWrap: 'break-word',
-          // Wide enough that short words (We, I, a, have…) never split
-          maxWidth: 'min(220px, 62vw)',
-          // Clamp to 2 lines maximum
+          maxWidth: 'min(200px, 60vw)',
           display: '-webkit-box',
           WebkitLineClamp: 2,
           WebkitBoxOrient: 'vertical',
@@ -81,17 +81,18 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
           pointerEvents: 'none',
         }
 
-        // ── Grammar: oval circle + correction above with ↓ arrow ─────────────
+        // ── Grammar: oval circle (wrong word circled) + fix written above ─────
+        // style: 동그라미 — the classic red-pen circle
         if (ann.type === 'grammar') {
           const hasReplacement = !!ann.replacement
           return (
             <span key={i} style={{ position: 'relative', display: 'inline' }}>
-              <span style={{ ...inkStyle, color: '#c0392b' }}>
-                {hasReplacement ? ann.replacement : '✗'}{' '}↓
+              <span style={{ ...inkBase, color: PEN_RED }}>
+                {hasReplacement ? ann.replacement : '—'}{' '}↓
               </span>
               {hasReplacement ? (
                 <span style={{
-                  border: '1.5px solid #c0392b',
+                  border: `1.5px solid ${PEN_RED}`,
                   borderRadius: '52% 48% 47% 53% / 46% 54% 46% 54%',
                   padding: '0 3px 1px',
                   display: 'inline',
@@ -100,10 +101,12 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
                   {seg.text}
                 </span>
               ) : (
+                // deletion — strikethrough (취소선)
                 <span style={{
                   textDecoration: 'line-through',
-                  textDecorationColor: '#c0392b',
-                  color: 'rgba(0,0,0,0.32)',
+                  textDecorationColor: PEN_RED,
+                  textDecorationThickness: '1.5px',
+                  color: 'rgba(0,0,0,0.3)',
                 }}>
                   {seg.text}
                 </span>
@@ -112,20 +115,22 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
           )
         }
 
-        // ── Expression: wavy underline + suggestion above with ↓ arrow ────────
+        // ── Expression: wavy underline + natural suggestion above ─────────────
+        // style: 물결 밑줄 — "this could flow better"
         if (ann.type === 'expression') {
           return (
             <span key={i} style={{ position: 'relative' }}>
               {ann.replacement && (
-                <span style={{ ...inkStyle, color: '#7d3c98' }}>
+                <span style={{ ...inkBase, color: PEN_PURPLE }}>
                   {ann.replacement}{' '}↓
                 </span>
               )}
               <span style={{
                 textDecoration: 'underline',
-                textDecorationColor: '#7d3c98',
+                textDecorationColor: PEN_PURPLE,
                 textDecorationStyle: 'wavy',
                 textUnderlineOffset: '4px',
+                textDecorationThickness: '1.5px',
               }}>
                 {seg.text}
               </span>
@@ -133,18 +138,19 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
           )
         }
 
-        // ── Strength: highlight + short ⭐ memo above with ↓ arrow ────────────
+        // ── Strength: yellow highlight + ⭐ memo above ────────────────────────
+        // style: 형광펜 — the one good moment
         if (ann.type === 'strength') {
           const memo = ann.note ?? '⭐ Good.'
           return (
             <span key={i} style={{ position: 'relative' }}>
-              <span style={{ ...inkStyle, color: '#1a7a3a' }}>
+              <span style={{ ...inkBase, color: PEN_GREEN }}>
                 {memo}{' '}↓
               </span>
               <mark style={{
-                background: 'rgba(255, 210, 60, 0.22)',
+                background: 'rgba(255, 210, 60, 0.25)',
                 borderRadius: 2,
-                padding: '1px 2px',
+                padding: '0 2px',
                 color: 'inherit',
               }}>
                 {seg.text}
@@ -153,18 +159,32 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
           )
         }
 
-        // ── Typical: oval circle + ★ Typ. ↓ (recurring mechanical error) ──────
+        // ── Typical: dashed underline + "Typ. ↓" never wraps ─────────────────
+        // style: 점선 밑줄 — "this repeats; find the rest yourself"
         if (ann.type === 'typical') {
+          // Separate style: nowrap guarantees single-line label
+          const typInk: React.CSSProperties = {
+            position: 'absolute',
+            bottom: `calc(100% + ${3 + yShift}px)`,
+            left: 0,
+            fontFamily: 'var(--font-caveat, cursive)',
+            fontSize: 14,
+            fontWeight: 700,
+            lineHeight: 1.4,
+            whiteSpace: 'nowrap',
+            color: PEN_RED,
+            pointerEvents: 'none',
+          }
+          const label = ann.replacement ? `${ann.replacement} Typ. ↓` : 'Typ. ↓'
           return (
             <span key={i} style={{ position: 'relative', display: 'inline' }}>
-              <span style={{ ...inkStyle, color: '#c0392b' }}>
-                {ann.replacement ? `${ann.replacement} ★ Typ.` : '★ Typ.'}{' '}↓
-              </span>
+              <span style={typInk}>{label}</span>
               <span style={{
-                border: '1.5px solid #c0392b',
-                borderRadius: '52% 48% 47% 53% / 46% 54% 46% 54%',
-                padding: '0 3px 1px',
-                display: 'inline',
+                textDecoration: 'underline',
+                textDecorationColor: PEN_RED,
+                textDecorationStyle: 'dashed',
+                textUnderlineOffset: '3px',
+                textDecorationThickness: '1.5px',
                 color: 'rgba(0,0,0,0.45)',
               }}>
                 {seg.text}
@@ -202,19 +222,19 @@ function EditorNotes({ annotations }: { annotations: Annotation[] }) {
       <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
         {grammar > 0 && (
           <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}>
-            <span style={{ color: '#c0392b', fontWeight: 700 }}>✗</span>
+            <span style={{ color: PEN_RED, fontWeight: 700 }}>○</span>
             Grammar · {grammar}
           </span>
         )}
         {expression > 0 && (
           <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}>
-            <span style={{ color: '#7d3c98', fontWeight: 700 }}>✦</span>
+            <span style={{ color: PEN_PURPLE, fontWeight: 700 }}>～</span>
             Expression · {expression}
           </span>
         )}
         {typical > 0 && (
           <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}>
-            <span style={{ color: '#c0392b', fontWeight: 700 }}>★</span>
+            <span style={{ color: PEN_RED, fontWeight: 700 }}>- -</span>
             Typical · {typical}
           </span>
         )}
