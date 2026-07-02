@@ -1,0 +1,55 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="tbl" x1="0" y1="0" x2=".05" y2="1"><stop offset="0%" stop-color="#7A5030"/><stop offset="100%" stop-color="#5A3818"/></linearGradient>
+  <linearGradient id="mug" x1="0" y1="0" x2=".2" y2="1"><stop offset="0%" stop-color="#EEE8DC"/><stop offset="100%" stop-color="#D4C8B0"/></linearGradient>
+  <radialGradient id="lamp" cx=".4" cy=".18" r=".55"><stop offset="0%" stop-color="#FFE090" stop-opacity=".65"/><stop offset="100%" stop-color="#FFE090" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="52%" stop-color="transparent"/><stop offset="100%" stop-color="#2A1408" stop-opacity=".6"/></radialGradient>
+  <filter id="b4"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="b9"><feGaussianBlur stdDeviation="9"/></filter>
+</defs>
+<!-- TABLE TOP VIEW — dark espresso wood -->
+<rect width="800" height="500" fill="url(#tbl)"/>
+<rect width="800" height="500" fill="url(#lamp)"/>
+<!-- coffee ring stains (signature of Story 02) -->
+<circle cx="270" cy="220" r="54" fill="none" stroke="#A07038" stroke-width="3" opacity=".48"/>
+<circle cx="270" cy="220" r="40" fill="none" stroke="#904F28" stroke-width="1.5" opacity=".32"/>
+<circle cx="540" cy="300" r="46" fill="none" stroke="#A07038" stroke-width="2.5" opacity=".42"/>
+<circle cx="540" cy="300" r="34" fill="none" stroke="#904F28" stroke-width="1.2" opacity=".28"/>
+<!-- small ring (old, faded) -->
+<circle cx="380" cy="380" r="30" fill="none" stroke="#8A6028" stroke-width="1.5" opacity=".25"/>
+<!-- MUG A (full, Person A's — warm, just arrived) -->
+<rect x="158" y="108" width="114" height="138" rx="24" fill="url(#mug)" opacity=".94"/>
+<ellipse cx="215" cy="134" rx="40" ry="14" fill="#FAFAFC" opacity=".3"/>
+<rect x="170" y="150" width="90" height="24" rx="12" fill="#8A5020" opacity=".72"/>
+<path d="M272 138 Q300 158 272 178" fill="none" stroke="#DDD0BC" stroke-width="20" stroke-linecap="round"/>
+<!-- steam A -->
+<path d="M188 108 Q182 82 188 56" fill="none" stroke="#C8A870" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+<path d="M215 104 Q221 78 215 52" fill="none" stroke="#C8A870" stroke-width="2.5" stroke-linecap="round" opacity=".42"/>
+<path d="M240 108 Q246 82 240 58" fill="none" stroke="#C8A870" stroke-width="2.5" stroke-linecap="round" opacity=".36"/>
+<!-- MUG B (half-used, Person B's) -->
+<rect x="528" y="148" width="108" height="128" rx="22" fill="url(#mug)" opacity=".88"/>
+<ellipse cx="582" cy="172" rx="38" ry="12" fill="#FAFAFC" opacity=".25"/>
+<!-- less coffee inside (used) -->
+<rect x="540" y="222" width="88" height="22" rx="11" fill="#7A4818" opacity=".55"/>
+<path d="M528 172 Q500 190 528 210" fill="none" stroke="#D8CCBC" stroke-width="18" stroke-linecap="round"/>
+<!-- faint steam only -->
+<path d="M556 148 Q550 126 556 106" fill="none" stroke="#C0A060" stroke-width="2" stroke-linecap="round" opacity=".32"/>
+<!-- OLD PHOTO on table (Object: memory) -->
+<rect x="320" y="200" width="148" height="108" rx="5" fill="#E8D8B8" opacity=".85"/>
+<rect x="328" y="208" width="132" height="86" rx="3" fill="#C8B898" opacity=".7"/>
+<!-- photo content hint (two blurry figures) -->
+<ellipse cx="368" cy="248" rx="20" ry="30" fill="#A89070" filter="url(#b4)" opacity=".55"/>
+<circle cx="368" cy="222" r="16" fill="#A89070" filter="url(#b4)" opacity=".5"/>
+<ellipse cx="416" cy="252" rx="18" ry="28" fill="#9A8068" filter="url(#b4)" opacity=".5"/>
+<circle cx="416" cy="226" r="14" fill="#9A8068" filter="url(#b4)" opacity=".45"/>
+<!-- photo border white -->
+<rect x="320" y="200" width="148" height="108" rx="5" fill="none" stroke="#F0E8D8" stroke-width="4" opacity=".6"/>
+<!-- sugar packet / receipt corner -->
+<rect x="580" y="348" width="80" height="58" rx="3" fill="#F0E8CC" opacity=".72"/>
+<rect x="588" y="358" width="58" height="3" rx="1.5" fill="#C0A060" opacity=".38"/>
+<rect x="588" y="368" width="50" height="3" rx="1.5" fill="#C0A060" opacity=".32"/>
+<rect x="588" y="378" width="54" height="3" rx="1.5" fill="#C0A060" opacity=".28"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#D4A870" letter-spacing="4" opacity=".75">STORY 02  ·  I USED TO ~  ·  COFFEE BROWN</text>
+</svg>

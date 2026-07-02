@@ -1,0 +1,69 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1C1408"/><stop offset="100%" stop-color="#100C04"/></linearGradient>
+  <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2A1E0C"/><stop offset="100%" stop-color="#1C1408"/></linearGradient>
+  <radialGradient id="lamp" cx=".62" cy=".3" r=".46"><stop offset="0%" stop-color="#FFD080" stop-opacity=".88"/><stop offset="50%" stop-color="#F0A830" stop-opacity=".38"/><stop offset="100%" stop-color="#C07010" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="44%" stop-color="transparent"/><stop offset="100%" stop-color="#060300" stop-opacity=".75"/></radialGradient>
+  <filter id="b5"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="b12"><feGaussianBlur stdDeviation="12"/></filter>
+</defs>
+<!-- WIDE SHOT: person at desk, late night -->
+<rect width="800" height="500" fill="url(#wall)"/>
+<rect width="800" height="500" fill="url(#lamp)"/>
+<!-- desk surface -->
+<rect x="0" y="368" width="800" height="132" fill="url(#desk)"/>
+<rect x="0" y="366" width="800" height="4" fill="#3A2810" opacity=".4"/>
+<!-- DESK LAMP BODY (tall, right side) -->
+<!-- lamp arm -->
+<path d="M598 30 Q648 80 628 180 Q618 240 582 280" fill="none" stroke="#5A4428" stroke-width="14" stroke-linecap="round" opacity=".7"/>
+<rect x="590" y="16" width="22" height="46" rx="11" fill="#6A5030" opacity=".7"/>
+<!-- lamp shade -->
+<ellipse cx="574" cy="290" rx="68" ry="24" fill="#9A7840" opacity=".72"/>
+<rect x="520" y="270" width="108" height="46" rx="18" fill="#B08040" opacity=".65"/>
+<!-- lamp glow from shade -->
+<ellipse cx="574" cy="380" rx="140" ry="68" fill="#FFD060" filter="url(#b12)" opacity=".28"/>
+<!-- lamp base on desk -->
+<rect x="548" y="368" width="56" height="20" rx="10" fill="#4A3418" opacity=".8"/>
+<rect x="532" y="380" width="88" height="10" rx="5" fill="#3A2810" opacity=".7"/>
+<!-- PERSON: WIDE SHOT, back of head + shoulders, sitting at desk, arm reaching toward lamp switch -->
+<!-- chair back -->
+<rect x="246" y="282" width="180" height="198" rx="28" fill="#1E180C" opacity=".6"/>
+<!-- torso / body -->
+<rect x="284" y="210" width="108" height="240" rx="24" fill="#3A2C14" opacity=".72"/>
+<!-- head -->
+<circle cx="338" cy="182" r="54" fill="#2E2212" opacity=".78"/>
+<ellipse cx="338" cy="162" rx="54" ry="34" fill="#1A1408" opacity=".82"/>
+<!-- SHOULDERS: arm extending toward lamp switch (right side) -->
+<path d="M376 254 Q448 270 530 310 Q558 325 572 342" fill="none" stroke="#3A2C14" stroke-width="42" stroke-linecap="round" opacity=".75"/>
+<!-- forearm / hand near switch -->
+<path d="M558 330 Q570 344 568 362" fill="none" stroke="#D4AC68" stroke-width="20" stroke-linecap="round" opacity=".82"/>
+<!-- HAND reaching for switch -->
+<ellipse cx="566" cy="368" rx="22" ry="16" fill="#D0A860" opacity=".88"/>
+<rect x="550" y="348" width="18" height="34" rx="9" fill="#D4AC64" transform="rotate(10 559 365)"/>
+<rect x="570" y="344" width="18" height="38" rx="9" fill="#D0A860" transform="rotate(2 579 363)"/>
+<!-- LAMP SWITCH (small toggle on base) -->
+<rect x="563" y="370" width="14" height="9" rx="4" fill="#A08050" opacity=".8"/>
+<!-- DESK: scattered notes, pen -->
+<rect x="88" y="376" width="210" height="90" rx="5" fill="#F0E4C0" opacity=".55" transform="rotate(-3 193 421)"/>
+<rect x="104" y="392" width="160" height="3.5" rx="1.5" fill="#8A6830" opacity=".4" transform="rotate(-3 184 393)"/>
+<rect x="104" y="404" width="148" height="3.5" rx="1.5" fill="#8A6830" opacity=".36" transform="rotate(-3 178 405)"/>
+<rect x="104" y="416" width="154" height="3.5" rx="1.5" fill="#8A6830" opacity=".32" transform="rotate(-3 181 417)"/>
+<!-- pen on desk -->
+<rect x="60" y="402" width="280" height="11" rx="5.5" fill="#C8A060" opacity=".7" transform="rotate(6 200 407)"/>
+<!-- window (dark, night) behind person -->
+<rect x="50" y="28" width="196" height="290" rx="6" fill="#0A0804" opacity=".88"/>
+<rect x="50" y="28" width="196" height="290" rx="6" fill="none" stroke="#2A2018" stroke-width="8" opacity=".5"/>
+<rect x="146" y="28" width="6" height="290" fill="#2A2018" opacity=".4"/>
+<rect x="50" y="170" width="196" height="5" fill="#2A2018" opacity=".35"/>
+<!-- faint city lights through window (tiny specks) -->
+<circle cx="80" cy="60" r="3" fill="#D0B060" filter="url(#b5)" opacity=".4"/>
+<circle cx="110" cy="90" r="2" fill="#C8A040" filter="url(#b5)" opacity=".35"/>
+<circle cx="152" cy="70" r="2.5" fill="#D0B060" filter="url(#b5)" opacity=".38"/>
+<circle cx="200" cy="50" r="2" fill="#C8A050" filter="url(#b5)" opacity=".32"/>
+<circle cx="220" cy="88" r="2" fill="#D0B070" filter="url(#b5)" opacity=".3"/>
+<circle cx="88" cy="110" r="1.5" fill="#D4B868" filter="url(#b5)" opacity=".28"/>
+<circle cx="180" cy="105" r="2" fill="#CCA848" filter="url(#b5)" opacity=".3"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#C09040" letter-spacing="4" opacity=".72">STORY 04  ·  I'M ABOUT TO ~  ·  AMBER NIGHT</text>
+</svg>

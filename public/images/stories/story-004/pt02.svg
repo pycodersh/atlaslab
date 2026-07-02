@@ -1,0 +1,73 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1E1508"/><stop offset="100%" stop-color="#140E04"/></linearGradient>
+  <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2C2010"/><stop offset="100%" stop-color="#1E1408"/></linearGradient>
+  <linearGradient id="lap" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2A2A2E"/><stop offset="100%" stop-color="#1A1A1E"/></linearGradient>
+  <radialGradient id="scr" cx=".5" cy=".5" r=".6"><stop offset="0%" stop-color="#4A8CC0" stop-opacity=".88"/><stop offset="100%" stop-color="#1A3A58" stop-opacity=".5"/></radialGradient>
+  <radialGradient id="lamp" cx=".88" cy=".06" r=".48"><stop offset="0%" stop-color="#FFD080" stop-opacity=".88"/><stop offset="50%" stop-color="#F0A830" stop-opacity=".4"/><stop offset="100%" stop-color="#C07010" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="45%" stop-color="transparent"/><stop offset="100%" stop-color="#080400" stop-opacity=".72"/></radialGradient>
+  <filter id="b4"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="b10"><feGaussianBlur stdDeviation="10"/></filter>
+</defs>
+<!-- dark room -->
+<rect width="800" height="500" fill="url(#wall)"/>
+<!-- desk surface -->
+<rect x="0" y="300" width="800" height="200" fill="url(#desk)"/>
+<rect x="0" y="298" width="800" height="4" fill="#3A2810" opacity=".4"/>
+<!-- desk lamp glow (top right) -->
+<rect width="800" height="500" fill="url(#lamp)"/>
+<!-- LAPTOP body -->
+<rect x="140" y="148" width="480" height="306" rx="18" fill="url(#lap)" opacity=".92"/>
+<!-- SCREEN: slide deck open, cold blue-white glow -->
+<rect x="158" y="164" width="444" height="256" rx="10" fill="url(#scr)"/>
+<!-- slide content on screen -->
+<rect x="174" y="178" width="200" height="10" rx="4" fill="#A0C8E8" opacity=".72"/>
+<rect x="174" y="196" width="380" height="3" rx="1.5" fill="#6888A4" opacity=".45"/>
+<rect x="174" y="207" width="360" height="3" rx="1.5" fill="#6888A4" opacity=".4"/>
+<rect x="174" y="218" width="372" height="3" rx="1.5" fill="#6888A4" opacity=".36"/>
+<rect x="174" y="236" width="120" height="68" rx="5" fill="#2A5880" opacity=".52"/>
+<rect x="302" y="236" width="220" height="68" rx="5" fill="#2A4870" opacity=".48"/>
+<rect x="174" y="316" width="280" height="3" rx="1.5" fill="#6888A4" opacity=".38"/>
+<rect x="174" y="327" width="240" height="3" rx="1.5" fill="#6888A4" opacity=".32"/>
+<!-- screen blue glow spill onto keyboard/desk -->
+<rect x="140" y="420" width="480" height="80" fill="#2A5880" filter="url(#b10)" opacity=".28"/>
+<!-- keyboard -->
+<rect x="152" y="422" width="456" height="50" rx="8" fill="#222226" opacity=".9"/>
+<rect x="168" y="430" width="424" height="34" rx="5" fill="#1A1A1E" opacity=".7"/>
+<!-- KEY ROWS (subtle) -->
+<rect x="172" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="210" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="248" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="286" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="324" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="362" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="400" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="438" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="476" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="514" y="434" width="32" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="176" y="450" width="88" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="270" y="450" width="260" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<rect x="536" y="450" width="64" height="10" rx="3" fill="#2C2C32" opacity=".7"/>
+<!-- HANDS on keyboard (tense, pressing keys) -->
+<!-- left hand -->
+<ellipse cx="242" cy="462" rx="68" ry="26" fill="#D0A860" opacity=".82"/>
+<rect x="194" y="430" width="28" height="56" rx="14" fill="#D4AC64" transform="rotate(-12 208 458)"/>
+<rect x="226" y="424" width="26" height="60" rx="13" fill="#D0A860" transform="rotate(-5 239 454)"/>
+<rect x="256" y="426" width="24" height="58" rx="12" fill="#CCA45C" transform="rotate(4 268 455)"/>
+<rect x="284" y="432" width="22" height="52" rx="11" fill="#C8A058" transform="rotate(11 295 458)"/>
+<!-- right hand -->
+<ellipse cx="556" cy="462" rx="68" ry="26" fill="#D0A860" opacity=".82"/>
+<rect x="508" y="432" width="22" height="52" rx="11" fill="#C8A058" transform="rotate(-11 519 458)"/>
+<rect x="536" y="426" width="24" height="58" rx="12" fill="#CCA45C" transform="rotate(-4 548 455)"/>
+<rect x="564" y="424" width="26" height="60" rx="13" fill="#D0A860" transform="rotate(5 577 454)"/>
+<rect x="594" y="430" width="28" height="56" rx="14" fill="#D4AC64" transform="rotate(12 608 458)"/>
+<!-- COLD COFFEE (pushed aside, desk right) -->
+<rect x="650" y="316" width="104" height="114" rx="20" fill="#1E1408" opacity=".88"/>
+<ellipse cx="702" cy="334" rx="36" ry="11" fill="#2A1A08" opacity=".7"/>
+<rect x="756" y="332" width="22" height="58" rx="11" fill="none" stroke="#2A1A08" stroke-width="14"/>
+<!-- amber lamp arm -->
+<rect x="710" y="0" width="14" height="100" rx="7" fill="#6A5030" opacity=".5"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#C09040" letter-spacing="4" opacity=".72">STORY 04  ·  I NEED TO ~  ·  AMBER NIGHT</text>
+</svg>

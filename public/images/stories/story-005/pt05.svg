@@ -1,0 +1,84 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2A3444"/><stop offset="100%" stop-color="#1E2A38"/></linearGradient>
+  <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#242E3C"/><stop offset="100%" stop-color="#181E2A"/></linearGradient>
+  <radialGradient id="lampglw" cx=".28" cy=".68" r=".38"><stop offset="0%" stop-color="#D8C890" stop-opacity=".72"/><stop offset="60%" stop-color="#C0A850" stop-opacity=".28"/><stop offset="100%" stop-color="#C0A850" stop-opacity="0"/></radialGradient>
+  <radialGradient id="candle" cx=".72" cy=".52" r=".14"><stop offset="0%" stop-color="#FFE080" stop-opacity=".88"/><stop offset="100%" stop-color="#F0A830" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="47%" stop-color="transparent"/><stop offset="100%" stop-color="#060A12" stop-opacity=".72"/></radialGradient>
+  <filter id="b4"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="b10"><feGaussianBlur stdDeviation="10"/></filter>
+  <filter id="b16"><feGaussianBlur stdDeviation="16"/></filter>
+</defs>
+<!-- WIDE MOOD: cozy corner vs rainy dark outside -->
+<rect width="800" height="500" fill="url(#wall)"/>
+<!-- WINDOW (right side, dark and rainy) -->
+<rect x="522" y="0" width="278" height="340" rx="5" fill="#18222E" opacity=".9"/>
+<rect x="522" y="0" width="278" height="340" rx="5" fill="none" stroke="#28384A" stroke-width="8" opacity=".6"/>
+<rect x="654" y="0" width="7" height="340" fill="#28384A" opacity=".4"/>
+<rect x="522" y="168" width="278" height="5" fill="#28384A" opacity=".35"/>
+<!-- city outside (dark bokeh) -->
+<rect x="540" y="28" width="60" height="240" fill="#0E1820" filter="url(#b16)" opacity=".72"/>
+<rect x="610" y="14" width="50" height="260" fill="#0C1620" filter="url(#b16)" opacity=".68"/>
+<rect x="668" y="36" width="80" height="228" fill="#0E1820" filter="url(#b16)" opacity=".7"/>
+<!-- city lights -->
+<circle cx="566" cy="120" r="14" fill="#6888A8" filter="url(#b10)" opacity=".4"/>
+<circle cx="628" cy="80" r="10" fill="#7898B8" filter="url(#b10)" opacity=".35"/>
+<circle cx="694" cy="140" r="16" fill="#6888A8" filter="url(#b10)" opacity=".38"/>
+<circle cx="756" cy="100" r="10" fill="#7090A8" filter="url(#b10)" opacity=".32"/>
+<!-- rain streaks on window -->
+<line x1="576" y1="0" x2="568" y2="340" stroke="#6888A4" stroke-width="1.1" opacity=".24"/>
+<line x1="628" y1="0" x2="620" y2="340" stroke="#7090A8" stroke-width="1.2" opacity=".26"/>
+<line x1="688" y1="0" x2="680" y2="340" stroke="#6888A4" stroke-width="1" opacity=".22"/>
+<line x1="748" y1="0" x2="740" y2="340" stroke="#7090A8" stroke-width="1.1" opacity=".24"/>
+<!-- rain drops -->
+<circle cx="598" cy="60" r="3" fill="#8AAAC4" opacity=".4"/>
+<circle cx="650" cy="108" r="3.5" fill="#8AAAC4" opacity=".36"/>
+<circle cx="720" cy="72" r="2.5" fill="#8AAAC4" opacity=".32"/>
+<!-- FLOOR LAMP (left side, warm glow) -->
+<rect x="180" y="22" width="18" height="440" rx="9" fill="#3A4A5A" opacity=".68"/>
+<rect x="172" y="440" width="34" height="20" rx="10" fill="#2A3848" opacity=".75"/>
+<!-- lamp shade -->
+<ellipse cx="189" cy="36" rx="88" ry="24" fill="#8A7A4A" opacity=".65"/>
+<rect x="120" y="14" width="138" height="52" rx="22" fill="#A08850" opacity=".55"/>
+<rect x="130" y="32" width="118" height="36" rx="18" fill="#FFD880" opacity=".18"/>
+<!-- lamp glow on floor/wall -->
+<rect width="800" height="500" fill="url(#lampglw)"/>
+<!-- BLANKET + PERSON (implied, floor, lower left) -->
+<ellipse cx="200" cy="440" rx="200" ry="60" fill="#3A4858" opacity=".62"/>
+<ellipse cx="188" cy="430" rx="170" ry="50" fill="#2E3C4E" filter="url(#b4)" opacity=".55"/>
+<rect x="38" y="390" width="330" height="112" rx="32" fill="#34445A" opacity=".7"/>
+<!-- blanket texture folds -->
+<path d="M50 420 Q120 408 200 420 Q280 432 340 420" fill="none" stroke="#3C5068" stroke-width="10" stroke-linecap="round" opacity=".55"/>
+<path d="M62 445 Q140 432 220 445 Q300 458 360 446" fill="none" stroke="#3C5068" stroke-width="8" stroke-linecap="round" opacity=".45"/>
+<!-- BOOK (open, resting on blanket) -->
+<rect x="72" y="342" width="178" height="234" rx="6" fill="#EEF2F8" opacity=".88" transform="rotate(-8 161 459)"/>
+<rect x="158" y="342" width="176" height="234" rx="6" fill="#E8EEF6" opacity=".86" transform="rotate(4 246 459)"/>
+<!-- spine -->
+<rect x="148" y="342" width="18" height="234" rx="4" fill="#C8D0E0" opacity=".65" transform="rotate(-2 157 459)"/>
+<!-- text lines on book -->
+<rect x="88" y="370" width="140" height="3" rx="1.5" fill="#8898B0" opacity=".35" transform="rotate(-8 158 371)"/>
+<rect x="88" y="384" width="128" height="3" rx="1.5" fill="#8898B0" opacity=".32" transform="rotate(-8 152 385)"/>
+<rect x="88" y="398" width="134" height="3" rx="1.5" fill="#8898B0" opacity=".3" transform="rotate(-8 155 399)"/>
+<rect x="176" y="366" width="136" height="3" rx="1.5" fill="#8898B0" opacity=".34" transform="rotate(4 244 367)"/>
+<rect x="176" y="380" width="124" height="3" rx="1.5" fill="#8898B0" opacity=".3" transform="rotate(4 238 381)"/>
+<rect x="176" y="394" width="130" height="3" rx="1.5" fill="#8898B0" opacity=".28" transform="rotate(4 241 395)"/>
+<!-- CANDLE (small, on floor beside book — tiny warm flame) -->
+<rect x="354" y="390" width="22" height="72" rx="5" fill="#D0C890" opacity=".78"/>
+<ellipse cx="365" cy="388" rx="11" ry="4" fill="#E8D890" opacity=".65"/>
+<!-- flame -->
+<ellipse cx="365" cy="376" rx="6" ry="10" fill="#FFE080" opacity=".9"/>
+<ellipse cx="365" cy="372" rx="4" ry="7" fill="#FFFFFF" opacity=".7"/>
+<!-- candle glow -->
+<rect width="800" height="500" fill="url(#candle)"/>
+<!-- TEA CUP beside book -->
+<rect x="400" y="378" width="82" height="94" rx="18" fill="#2A3848" opacity=".82"/>
+<ellipse cx="441" cy="394" rx="30" ry="9" fill="#38485C" opacity=".6"/>
+<rect x="408" y="404" width="66" height="16" rx="8" fill="#6A5838" opacity=".3"/>
+<!-- steam (tiny, cozy) -->
+<path d="M424 378 Q420 360 424 342" fill="none" stroke="#8AAAC4" stroke-width="2" stroke-linecap="round" opacity=".38"/>
+<path d="M456 374 Q460 356 456 338" fill="none" stroke="#8AAAC4" stroke-width="1.8" stroke-linecap="round" opacity=".32"/>
+<path d="M482 396 Q498 406 482 416" fill="none" stroke="#38485C" stroke-width="16" stroke-linecap="round"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#7090A8" letter-spacing="4" opacity=".72">STORY 05  ·  I'D RATHER ~  ·  RAINY BLUE GRAY</text>
+</svg>

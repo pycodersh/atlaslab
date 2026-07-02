@@ -1,0 +1,53 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C8A870"/><stop offset="100%" stop-color="#A07848"/></linearGradient>
+  <linearGradient id="tbl" x1="0" y1="0" x2=".05" y2="1"><stop offset="0%" stop-color="#7A5030"/><stop offset="100%" stop-color="#5A3818"/></linearGradient>
+  <linearGradient id="mug" x1="0" y1="0" x2=".2" y2="1"><stop offset="0%" stop-color="#EEE8DC"/><stop offset="100%" stop-color="#D8CCBA"/></linearGradient>
+  <radialGradient id="pendant" cx=".5" cy=".08" r=".5"><stop offset="0%" stop-color="#FFE090" stop-opacity=".75"/><stop offset="100%" stop-color="#FFE090" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="52%" stop-color="transparent"/><stop offset="100%" stop-color="#2A1408" stop-opacity=".58"/></radialGradient>
+  <filter id="b5"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="b10"><feGaussianBlur stdDeviation="10"/></filter>
+</defs>
+<!-- CAFÉ WALL warm brown -->
+<rect width="800" height="500" fill="url(#wall)"/>
+<!-- pendant lamp glow -->
+<rect width="800" height="500" fill="url(#pendant)"/>
+<!-- pendant lamp fixture -->
+<ellipse cx="400" cy="32" rx="38" ry="20" fill="#C89040" filter="url(#b5)" opacity=".8"/>
+<ellipse cx="400" cy="40" rx="28" ry="14" fill="#FFE080" filter="url(#b5)" opacity=".7"/>
+<!-- TABLE SURFACE (espresso dark wood) -->
+<rect x="0" y="310" width="800" height="190" fill="url(#tbl)"/>
+<rect x="0" y="308" width="800" height="5" fill="#A07840" opacity=".35"/>
+<!-- MUG LEFT (empty, waiting) -->
+<rect x="178" y="230" width="100" height="122" rx="20" fill="url(#mug)" opacity=".92"/>
+<ellipse cx="228" cy="254" rx="34" ry="12" fill="#FAFAF8" opacity=".3"/>
+<rect x="190" y="266" width="76" height="18" rx="9" fill="#C8A060" opacity=".25"/>
+<path d="M278 258 Q306 276 278 294" fill="none" stroke="#E0D4C0" stroke-width="18" stroke-linecap="round"/>
+<!-- steam L -->
+<path d="M204 230 Q198 206 204 182" fill="none" stroke="#C8A870" stroke-width="3" stroke-linecap="round" opacity=".48"/>
+<path d="M228 226 Q234 202 228 178" fill="none" stroke="#C8A870" stroke-width="2.5" stroke-linecap="round" opacity=".4"/>
+<path d="M250 230 Q256 206 250 184" fill="none" stroke="#C8A870" stroke-width="2.5" stroke-linecap="round" opacity=".35"/>
+<!-- MUG RIGHT (empty, waiting) -->
+<rect x="522" y="230" width="100" height="122" rx="20" fill="url(#mug)" opacity=".9"/>
+<ellipse cx="572" cy="254" rx="34" ry="12" fill="#FAFAF8" opacity=".28"/>
+<rect x="534" y="266" width="76" height="18" rx="9" fill="#C8A060" opacity=".22"/>
+<path d="M522 258 Q494 276 522 294" fill="none" stroke="#E0D4C0" stroke-width="18" stroke-linecap="round"/>
+<!-- steam R -->
+<path d="M548 228 Q542 204 548 180" fill="none" stroke="#C8A870" stroke-width="3" stroke-linecap="round" opacity=".45"/>
+<path d="M572 224 Q578 200 572 176" fill="none" stroke="#C8A870" stroke-width="2.5" stroke-linecap="round" opacity=".38"/>
+<path d="M594 228 Q600 204 594 182" fill="none" stroke="#C8A870" stroke-width="2.5" stroke-linecap="round" opacity=".33"/>
+<!-- MENU CARD between mugs -->
+<rect x="360" y="278" width="80" height="110" rx="4" fill="#F0E8D4" opacity=".82"/>
+<rect x="368" y="292" width="58" height="5" rx="2.5" fill="#A07828" opacity=".5"/>
+<rect x="368" y="308" width="50" height="3" rx="1.5" fill="#C0A050" opacity=".35"/>
+<rect x="368" y="318" width="54" height="3" rx="1.5" fill="#C0A050" opacity=".3"/>
+<rect x="368" y="328" width="46" height="3" rx="1.5" fill="#C0A050" opacity=".28"/>
+<!-- empty chair shadow (anticipation) -->
+<ellipse cx="400" cy="488" rx="110" ry="18" fill="#3A2010" opacity=".4"/>
+<!-- background bokeh (café details) -->
+<rect x="40" y="80" width="100" height="180" fill="#B89060" filter="url(#b10)" opacity=".35"/>
+<rect x="660" y="60" width="120" height="200" fill="#C09858" filter="url(#b10)" opacity=".3"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#D4A870" letter-spacing="4" opacity=".75">STORY 02  ·  I'M PLANNING TO ~  ·  COFFEE BROWN</text>
+</svg>

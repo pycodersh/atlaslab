@@ -1,0 +1,68 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1E2C3E"/><stop offset="100%" stop-color="#2A3A4E"/></linearGradient>
+  <radialGradient id="cityglw" cx=".5" cy=".62" r=".58"><stop offset="0%" stop-color="#5A7A9A" stop-opacity=".55"/><stop offset="100%" stop-color="#5A7A9A" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="44%" stop-color="transparent"/><stop offset="100%" stop-color="#060A12" stop-opacity=".75"/></radialGradient>
+  <filter id="b6"><feGaussianBlur stdDeviation="6"/></filter>
+  <filter id="b14"><feGaussianBlur stdDeviation="14"/></filter>
+  <filter id="b20"><feGaussianBlur stdDeviation="20"/></filter>
+</defs>
+<!-- WINDOW CLOSE-UP: rain drops on glass, city bokeh, faint ghost reflection -->
+<rect width="800" height="500" fill="url(#glass)"/>
+<!-- city light blobs outside (very deep bokeh) -->
+<circle cx="120" cy="160" r="70" fill="#88B0D0" filter="url(#b20)" opacity=".48"/>
+<circle cx="260" cy="280" r="55" fill="#6898C0" filter="url(#b20)" opacity=".42"/>
+<circle cx="420" cy="130" r="80" fill="#90B8D8" filter="url(#b20)" opacity=".52"/>
+<circle cx="590" cy="220" r="65" fill="#7AAAC8" filter="url(#b20)" opacity=".46"/>
+<circle cx="720" cy="160" r="50" fill="#88B0D0" filter="url(#b20)" opacity=".44"/>
+<circle cx="670" cy="360" r="45" fill="#6898C0" filter="url(#b20)" opacity=".38"/>
+<circle cx="180" cy="390" r="50" fill="#80AACC" filter="url(#b20)" opacity=".36"/>
+<circle cx="340" cy="420" r="40" fill="#6898C0" filter="url(#b20)" opacity=".32"/>
+<circle cx="510" cy="400" r="38" fill="#88B0D0" filter="url(#b20)" opacity=".35"/>
+<!-- city glow overlay -->
+<rect width="800" height="500" fill="url(#cityglw)"/>
+<!-- RAIN STREAKS (multiple speeds, varied opacity) -->
+<line x1="88" y1="0" x2="76" y2="500" stroke="#8AAAC4" stroke-width="1.5" opacity=".3"/>
+<line x1="148" y1="0" x2="138" y2="500" stroke="#7090A8" stroke-width="1" opacity=".22"/>
+<line x1="214" y1="0" x2="204" y2="500" stroke="#8AAAC4" stroke-width="1.2" opacity=".26"/>
+<line x1="288" y1="0" x2="278" y2="500" stroke="#7090A8" stroke-width="1.4" opacity=".28"/>
+<line x1="354" y1="0" x2="344" y2="500" stroke="#8AAAC4" stroke-width="1" opacity=".22"/>
+<line x1="428" y1="0" x2="418" y2="500" stroke="#7090A8" stroke-width="1.3" opacity=".25"/>
+<line x1="502" y1="0" x2="492" y2="500" stroke="#8AAAC4" stroke-width="1.1" opacity=".24"/>
+<line x1="572" y1="0" x2="562" y2="500" stroke="#7090A8" stroke-width="1.5" opacity=".28"/>
+<line x1="638" y1="0" x2="628" y2="500" stroke="#8AAAC4" stroke-width="1" opacity=".22"/>
+<line x1="714" y1="0" x2="704" y2="500" stroke="#7090A8" stroke-width="1.2" opacity=".24"/>
+<!-- shorter streak fragments (splattered rain) -->
+<line x1="110" y1="120" x2="106" y2="180" stroke="#90AAC8" stroke-width="1" opacity=".28"/>
+<line x1="332" y1="60" x2="328" y2="110" stroke="#90AAC8" stroke-width="1.1" opacity=".25"/>
+<line x1="470" y1="200" x2="466" y2="258" stroke="#90AAC8" stroke-width="1" opacity=".26"/>
+<line x1="756" y1="88" x2="752" y2="144" stroke="#90AAC8" stroke-width="1" opacity=".22"/>
+<!-- RAIN DROPLETS on glass (various sizes, surface tension) -->
+<circle cx="104" cy="92" r="6" fill="#8AAAC4" opacity=".52"/>
+<circle cx="104" cy="98" r="3" fill="#6888A8" opacity=".38"/>
+<line x1="104" y1="104" x2="100" y2="148" stroke="#6888A8" stroke-width="1.2" opacity=".35"/>
+<circle cx="192" cy="68" r="8" fill="#8AAAC4" opacity=".5"/>
+<line x1="192" y1="80" x2="188" y2="130" stroke="#6888A8" stroke-width="1.3" opacity=".32"/>
+<circle cx="286" cy="148" r="5" fill="#90AAC8" opacity=".48"/>
+<circle cx="284" cy="156" r="2.5" fill="#6888A8" opacity=".38"/>
+<line x1="285" y1="160" x2="281" y2="200" stroke="#6888A8" stroke-width="1" opacity=".3"/>
+<circle cx="396" cy="82" r="7" fill="#8AAAC4" opacity=".52"/>
+<line x1="396" y1="93" x2="392" y2="148" stroke="#6888A8" stroke-width="1.2" opacity=".35"/>
+<circle cx="472" cy="196" r="4.5" fill="#90AAC8" opacity=".45"/>
+<circle cx="600" cy="104" r="6.5" fill="#8AAAC4" opacity=".5"/>
+<line x1="600" y1="116" x2="596" y2="162" stroke="#6888A8" stroke-width="1.2" opacity=".32"/>
+<circle cx="688" cy="60" r="5" fill="#90AAC8" opacity=".46"/>
+<circle cx="736" cy="240" r="7" fill="#8AAAC4" opacity=".5"/>
+<line x1="736" y1="252" x2="732" y2="298" stroke="#6888A8" stroke-width="1.1" opacity=".32"/>
+<circle cx="144" cy="320" r="5.5" fill="#90AAC8" opacity=".44"/>
+<circle cx="348" cy="370" r="4" fill="#8AAAC4" opacity=".42"/>
+<circle cx="516" cy="338" r="6" fill="#90AAC8" opacity=".46"/>
+<line x1="516" y1="350" x2="512" y2="394" stroke="#6888A8" stroke-width="1" opacity=".28"/>
+<circle cx="652" cy="410" r="4.5" fill="#8AAAC4" opacity=".4"/>
+<!-- GHOST REFLECTION (faint silhouette of person in glass) -->
+<ellipse cx="400" cy="260" rx="200" ry="280" fill="#3A5068" filter="url(#b14)" opacity=".14"/>
+<circle cx="400" cy="140" r="72" fill="#3A5068" filter="url(#b14)" opacity=".12"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#7090A8" letter-spacing="4" opacity=".72">STORY 05  ·  IT REMINDS ME OF ~  ·  RAINY BLUE GRAY</text>
+</svg>

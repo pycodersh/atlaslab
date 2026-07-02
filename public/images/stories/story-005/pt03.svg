@@ -1,0 +1,78 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2C3848"/><stop offset="100%" stop-color="#1E2C3C"/></linearGradient>
+  <linearGradient id="win" x1="0" y1="0" x2=".3" y2="1"><stop offset="0%" stop-color="#2A3A50"/><stop offset="100%" stop-color="#1E2E42"/></linearGradient>
+  <linearGradient id="desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#303C4C"/><stop offset="100%" stop-color="#222E3C"/></linearGradient>
+  <radialGradient id="cityglw" cx=".25" cy=".5" r=".55"><stop offset="0%" stop-color="#4A6888" stop-opacity=".5"/><stop offset="100%" stop-color="#4A6888" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="47%" stop-color="transparent"/><stop offset="100%" stop-color="#060A12" stop-opacity=".72"/></radialGradient>
+  <filter id="b5"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="b12"><feGaussianBlur stdDeviation="12"/></filter>
+</defs>
+<!-- 45°: face profile near rain window, tired eyes -->
+<rect width="800" height="500" fill="url(#wall)"/>
+<!-- RAINY WINDOW (left half) -->
+<rect x="-10" y="0" width="440" height="500" fill="url(#win)" opacity=".88"/>
+<rect width="800" height="500" fill="url(#cityglw)"/>
+<!-- city outside (bokeh) -->
+<rect x="20" y="60" width="80" height="320" fill="#1A2838" filter="url(#b12)" opacity=".72"/>
+<rect x="110" y="40" width="60" height="340" fill="#182434" filter="url(#b12)" opacity=".65"/>
+<rect x="182" y="70" width="90" height="300" fill="#1A2A38" filter="url(#b12)" opacity=".68"/>
+<rect x="280" y="50" width="70" height="320" fill="#182434" filter="url(#b12)" opacity=".62"/>
+<rect x="358" y="68" width="56" height="290" fill="#1A2838" filter="url(#b12)" opacity=".6"/>
+<!-- city glow dots -->
+<circle cx="60" cy="200" r="18" fill="#7AACC8" filter="url(#b12)" opacity=".42"/>
+<circle cx="148" cy="180" r="14" fill="#6898B8" filter="url(#b12)" opacity=".38"/>
+<circle cx="236" cy="240" r="16" fill="#78A8C8" filter="url(#b12)" opacity=".4"/>
+<circle cx="330" cy="210" r="12" fill="#6898B8" filter="url(#b12)" opacity=".35"/>
+<!-- RAIN STREAKS -->
+<line x1="58" y1="0" x2="50" y2="500" stroke="#6888A4" stroke-width="1" opacity=".22"/>
+<line x1="134" y1="0" x2="126" y2="500" stroke="#7090A8" stroke-width="1.2" opacity=".24"/>
+<line x1="210" y1="0" x2="202" y2="500" stroke="#6888A4" stroke-width="1" opacity=".2"/>
+<line x1="298" y1="0" x2="290" y2="500" stroke="#7090A8" stroke-width="1.1" opacity=".22"/>
+<line x1="374" y1="0" x2="366" y2="500" stroke="#6888A4" stroke-width="1" opacity=".2"/>
+<!-- rain droplets -->
+<circle cx="96" cy="148" r="3" fill="#8AAAC4" opacity=".38"/>
+<circle cx="172" cy="96" r="3.5" fill="#8AAAC4" opacity=".35"/>
+<circle cx="264" cy="200" r="2.5" fill="#8AAAC4" opacity=".32"/>
+<circle cx="340" cy="128" r="3" fill="#8AAAC4" opacity=".3"/>
+<!-- window frame -->
+<rect x="-10" y="0" width="440" height="500" fill="none" stroke="#2C3C50" stroke-width="10" opacity=".6"/>
+<rect x="206" y="0" width="8" height="500" fill="#2C3C50" opacity=".45"/>
+<rect x="-10" y="248" width="440" height="6" fill="#2C3C50" opacity=".38"/>
+<!-- DESK / LEDGE (right half) -->
+<rect x="410" y="350" width="400" height="150" fill="url(#desk)"/>
+<rect x="410" y="348" width="400" height="4" fill="#38485C" opacity=".4"/>
+<!-- WARM MUG on desk (right side) -->
+<rect x="560" y="240" width="130" height="170" rx="28" fill="#2A3648" opacity=".88"/>
+<ellipse cx="625" cy="264" rx="46" ry="15" fill="#3A4C62" opacity=".6"/>
+<!-- tea color inside -->
+<rect x="574" y="276" width="102" height="28" rx="14" fill="#8A7848" opacity=".35"/>
+<!-- steam (warm vs cold rain outside) -->
+<path d="M590 240 Q584 208 592 176" fill="none" stroke="#8AAAC4" stroke-width="2.8" stroke-linecap="round" opacity=".48"/>
+<path x="625" d="M626 234 Q632 202 626 170" fill="none" stroke="#8AAAC4" stroke-width="2.5" stroke-linecap="round" opacity=".42"/>
+<path d="M660 240 Q666 208 660 178" fill="none" stroke="#8AAAC4" stroke-width="2.5" stroke-linecap="round" opacity=".38"/>
+<!-- handle -->
+<path d="M690 278 Q718 300 690 322" fill="none" stroke="#3A4C62" stroke-width="24" stroke-linecap="round"/>
+<path d="M690 278 Q718 300 690 322" fill="none" stroke="#2E4258" stroke-width="14" stroke-linecap="round"/>
+<!-- PERSON: face profile (left side, near window), back of head + partial face outline visible -->
+<!-- neck -->
+<rect x="420" y="320" width="80" height="140" rx="20" fill="#4A5E76" opacity=".7"/>
+<!-- shoulders -->
+<rect x="360" y="310" width="200" height="220" rx="36" fill="#3A4E64" opacity=".72"/>
+<!-- head (facing left, profile) -->
+<circle cx="462" cy="258" r="82" fill="#3A4E64" opacity=".8"/>
+<!-- forehead / facial profile shadow -->
+<ellipse cx="440" cy="232" rx="68" ry="58" fill="#2C3E52" opacity=".7"/>
+<!-- chin/jaw forward (profile toward window) -->
+<path d="M396 282 Q370 306 382 340 Q390 360 420 366" fill="#3A4E64" opacity=".65"/>
+<!-- eye area glint (reflected rain light) -->
+<ellipse cx="420" cy="242" rx="22" ry="12" fill="#4A6888" opacity=".45"/>
+<ellipse cx="416" cy="240" rx="8" ry="5" fill="#8AAAC4" opacity=".28"/>
+<!-- temple / hair -->
+<ellipse cx="492" cy="218" rx="52" ry="44" fill="#283848" opacity=".82"/>
+<!-- reflected rain light on face (blue-gray) -->
+<ellipse cx="428" cy="280" rx="60" ry="90" fill="#4A6888" filter="url(#b5)" opacity=".22"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#7090A8" letter-spacing="4" opacity=".72">STORY 05  ·  I'VE BEEN ~ING  ·  RAINY BLUE GRAY</text>
+</svg>

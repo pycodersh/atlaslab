@@ -1,0 +1,68 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#F0E8D8"/><stop offset="100%" stop-color="#D8C8A8"/></linearGradient>
+  <linearGradient id="tbl" x1="0" y1="0" x2=".08" y2="1"><stop offset="0%" stop-color="#E0D0B8"/><stop offset="100%" stop-color="#C8B898"/></linearGradient>
+  <linearGradient id="ppr" x1="0" y1="0" x2=".05" y2="1"><stop offset="0%" stop-color="#FAF6EE"/><stop offset="100%" stop-color="#EDE8DA"/></linearGradient>
+  <radialGradient id="lgt" cx=".3" cy=".1" r=".7"><stop offset="0%" stop-color="#FFFFFF" stop-opacity=".55"/><stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="55%" stop-color="transparent"/><stop offset="100%" stop-color="#8A7050" stop-opacity=".45"/></radialGradient>
+  <filter id="b4"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="b9"><feGaussianBlur stdDeviation="9"/></filter>
+</defs>
+<!-- BG: warm beige, top-down view -->
+<rect width="800" height="500" fill="url(#bg)"/>
+<!-- table oval -->
+<ellipse cx="400" cy="300" rx="380" ry="240" fill="url(#tbl)"/>
+<!-- morning light -->
+<rect width="800" height="500" fill="url(#lgt)"/>
+<!-- window shadow stripes -->
+<rect x="0" y="0" width="120" height="500" fill="#F0E0C0" opacity=".15" transform="rotate(-3 60 250)"/>
+<!-- NOTEBOOK open -->
+<rect x="210" y="100" width="280" height="360" rx="6" fill="url(#ppr)" opacity=".95"/>
+<!-- spiral -->
+<rect x="216" y="100" width="14" height="360" fill="#D8C8A8" opacity=".55"/>
+<circle cx="223" cy="140" r="7" fill="#C0A878" opacity=".5"/>
+<circle cx="223" cy="175" r="7" fill="#C0A878" opacity=".5"/>
+<circle cx="223" cy="210" r="7" fill="#C0A878" opacity=".5"/>
+<circle cx="223" cy="245" r="7" fill="#C0A878" opacity=".5"/>
+<circle cx="223" cy="280" r="7" fill="#C0A878" opacity=".5"/>
+<circle cx="223" cy="315" r="7" fill="#C0A878" opacity=".5"/>
+<circle cx="223" cy="350" r="7" fill="#C0A878" opacity=".5"/>
+<!-- TITLE line -->
+<rect x="244" y="128" width="176" height="10" rx="3" fill="#C8A060" opacity=".7"/>
+<!-- checklist items -->
+<rect x="248" y="160" width="8" height="8" rx="2" fill="none" stroke="#C8A060" stroke-width="1.5"/>
+<rect x="264" y="162" width="130" height="4" rx="2" fill="#C8B880" opacity=".5"/>
+<rect x="248" y="186" width="8" height="8" rx="2" fill="none" stroke="#C8A060" stroke-width="1.5"/>
+<rect x="264" y="188" width="145" height="4" rx="2" fill="#C8B880" opacity=".45"/>
+<rect x="248" y="212" width="8" height="8" rx="2" fill="#C8A060" opacity=".65"/>
+<path d="M250 216 L254 221 L262 212" fill="none" stroke="#F0E8D8" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="264" y="214" width="118" height="4" rx="2" fill="#C8B880" opacity=".5"/>
+<rect x="248" y="238" width="8" height="8" rx="2" fill="none" stroke="#C8A060" stroke-width="1.5"/>
+<rect x="264" y="240" width="140" height="4" rx="2" fill="#C8B880" opacity=".4"/>
+<rect x="248" y="264" width="8" height="8" rx="2" fill="none" stroke="#C8A060" stroke-width="1.5"/>
+<rect x="264" y="266" width="125" height="4" rx="2" fill="#C8B880" opacity=".38"/>
+<!-- small margin note -->
+<rect x="248" y="310" width="90" height="3" rx="1.5" fill="#D4A050" opacity=".35"/>
+<rect x="248" y="320" width="78" height="3" rx="1.5" fill="#D4A050" opacity=".3"/>
+<!-- PEN entering from top-right -->
+<rect x="444" y="90" width="14" height="180" rx="7" fill="#9A8060" opacity=".75" transform="rotate(14 451 180)"/>
+<!-- pen tip -->
+<polygon points="458,258 448,270 470,278" fill="#7A6040" opacity=".7"/>
+<!-- COFFEE MUG top-view, left -->
+<circle cx="112" cy="280" r="58" fill="#D8C8A8" opacity=".88"/>
+<circle cx="112" cy="280" r="42" fill="#E8DCC0" opacity=".85"/>
+<circle cx="112" cy="280" r="24" fill="#C0A050" opacity=".55"/>
+<!-- steam (top-view hint) -->
+<path d="M98 218 Q92 200 98 182" fill="none" stroke="#C8B880" stroke-width="3" stroke-linecap="round" opacity=".45"/>
+<path d="M116 214 Q122 196 116 178" fill="none" stroke="#C8B880" stroke-width="2.5" stroke-linecap="round" opacity=".38"/>
+<!-- keys (small, right of notebook) -->
+<circle cx="560" cy="350" r="18" fill="none" stroke="#A89070" stroke-width="3" opacity=".7"/>
+<circle cx="560" cy="350" r="10" fill="#B89868" opacity=".4"/>
+<rect x="575" y="348" width="45" height="6" rx="3" fill="#A89070" opacity=".7"/>
+<rect x="605" y="340" width="6" height="7" rx="2" fill="#9A8060" opacity=".65"/>
+<rect x="613" y="340" width="6" height="7" rx="2" fill="#9A8060" opacity=".65"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<!-- label -->
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#C8A870" letter-spacing="4" opacity=".75">STORY 01  ·  I WANT TO ~  ·  WARM BEIGE</text>
+</svg>

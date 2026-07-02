@@ -1,0 +1,58 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="street" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4A4840"/><stop offset="100%" stop-color="#383630"/></linearGradient>
+  <linearGradient id="cafe" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4A050"/><stop offset="100%" stop-color="#A87830"/></linearGradient>
+  <radialGradient id="cafeglow" cx=".5" cy=".5" r=".6"><stop offset="0%" stop-color="#FFE090" stop-opacity=".55"/><stop offset="100%" stop-color="#FFE090" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="45%" stop-color="transparent"/><stop offset="100%" stop-color="#0E0C08" stop-opacity=".68"/></radialGradient>
+  <filter id="b4"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="b8"><feGaussianBlur stdDeviation="8"/></filter>
+  <filter id="b14"><feGaussianBlur stdDeviation="14"/></filter>
+</defs>
+<!-- DARK RAINY STREET (exterior, looking in) -->
+<rect width="800" height="500" fill="url(#street)"/>
+<!-- rain streaks -->
+<line x1="80" y1="0" x2="66" y2="500" stroke="#6A7878" stroke-width="1" opacity=".35"/>
+<line x1="140" y1="0" x2="126" y2="500" stroke="#6A7878" stroke-width=".7" opacity=".28"/>
+<line x1="210" y1="0" x2="196" y2="500" stroke="#6A7878" stroke-width=".9" opacity=".32"/>
+<line x1="280" y1="0" x2="266" y2="500" stroke="#6A7878" stroke-width=".7" opacity=".26"/>
+<line x1="350" y1="0" x2="336" y2="500" stroke="#6A7878" stroke-width=".8" opacity=".3"/>
+<line x1="430" y1="0" x2="416" y2="500" stroke="#6A7878" stroke-width=".7" opacity=".27"/>
+<line x1="510" y1="0" x2="496" y2="500" stroke="#6A7878" stroke-width=".9" opacity=".31"/>
+<line x1="590" y1="0" x2="576" y2="500" stroke="#6A7878" stroke-width=".7" opacity=".28"/>
+<line x1="660" y1="0" x2="646" y2="500" stroke="#6A7878" stroke-width=".8" opacity=".3"/>
+<line x1="730" y1="0" x2="716" y2="500" stroke="#6A7878" stroke-width=".7" opacity=".26"/>
+<!-- water droplets on glass (foreground) -->
+<ellipse cx="118" cy="148" rx="3" ry="8" fill="#7A9098" opacity=".5"/>
+<ellipse cx="290" cy="96" rx="2.5" ry="7" fill="#7A9098" opacity=".44"/>
+<ellipse cx="460" cy="180" rx="3" ry="9" fill="#7A9098" opacity=".47"/>
+<ellipse cx="620" cy="120" rx="2.5" ry="7" fill="#7A9098" opacity=".42"/>
+<ellipse cx="190" cy="280" rx="2" ry="6" fill="#7A9098" opacity=".4"/>
+<ellipse cx="540" cy="260" rx="2.5" ry="7" fill="#7A9098" opacity=".43"/>
+<ellipse cx="700" cy="310" rx="2" ry="6" fill="#7A9098" opacity=".38"/>
+<!-- CAFÉ WINDOW (warm amber glow from inside) -->
+<rect x="90" y="50" width="620" height="360" rx="6" fill="url(#cafe)" opacity=".65"/>
+<rect x="90" y="50" width="620" height="360" rx="6" fill="url(#cafeglow)"/>
+<!-- window panes -->
+<rect x="96" y="56" width="300" height="170" rx="3" fill="#D4A858" opacity=".5"/>
+<rect x="404" y="56" width="300" height="170" rx="3" fill="#CC9E50" opacity=".48"/>
+<rect x="96" y="234" width="300" height="170" rx="3" fill="#C89848" opacity=".46"/>
+<rect x="404" y="234" width="300" height="170" rx="3" fill="#C49040" opacity=".44"/>
+<rect x="396" y="50" width="12" height="360" rx="6" fill="#C89040" opacity=".45"/>
+<rect x="90" y="226" width="620" height="10" rx="5" fill="#C89040" opacity=".38"/>
+<!-- TWO FIGURES inside (warm amber silhouettes, smiling) -->
+<ellipse cx="284" cy="248" rx="52" ry="82" fill="#5A3810" filter="url(#b4)" opacity=".85"/>
+<circle cx="284" cy="164" r="40" fill="#5A3810" filter="url(#b4)" opacity=".85"/>
+<ellipse cx="516" cy="252" rx="50" ry="78" fill="#5A3810" filter="url(#b4)" opacity=".82"/>
+<circle cx="516" cy="170" r="38" fill="#5A3810" filter="url(#b4)" opacity=".82"/>
+<!-- warm lamp above them -->
+<ellipse cx="400" cy="88" rx="28" ry="14" fill="#FFE080" filter="url(#b8)" opacity=".65"/>
+<!-- WET PAVEMENT BELOW -->
+<rect x="0" y="410" width="800" height="90" fill="#3A3830" opacity=".8"/>
+<!-- reflections of café warmth on wet pavement -->
+<ellipse cx="284" cy="430" rx="80" ry="12" fill="#D4A050" filter="url(#b8)" opacity=".25"/>
+<ellipse cx="516" cy="436" rx="68" ry="10" fill="#D4A050" filter="url(#b8)" opacity=".2"/>
+<ellipse cx="400" cy="424" rx="120" ry="8" fill="#C89040" filter="url(#b14)" opacity=".18"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#D4A870" letter-spacing="4" opacity=".75">STORY 02  ·  I'M LOOKING FORWARD TO ~  ·  COFFEE BROWN</text>
+</svg>

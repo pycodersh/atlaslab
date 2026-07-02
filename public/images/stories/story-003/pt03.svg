@@ -1,0 +1,59 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#DDE8F2"/><stop offset="100%" stop-color="#C4D4E0"/></linearGradient>
+  <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D0DCE8"/><stop offset="100%" stop-color="#B8C8D4"/></linearGradient>
+  <linearGradient id="pA" x1="0" y1="0" x2=".2" y2="1"><stop offset="0%" stop-color="#7A98B0"/><stop offset="100%" stop-color="#587888"/></linearGradient>
+  <linearGradient id="pB" x1="0" y1="0" x2=".2" y2="1"><stop offset="0%" stop-color="#90A8C0"/><stop offset="100%" stop-color="#6888A0"/></linearGradient>
+  <radialGradient id="lgt" cx=".08" cy=".18" r=".65"><stop offset="0%" stop-color="#FFFFFF" stop-opacity=".58"/><stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="50%" stop-color="transparent"/><stop offset="100%" stop-color="#3A5468" stop-opacity=".46"/></radialGradient>
+  <filter id="b5"><feGaussianBlur stdDeviation="5"/></filter>
+  <filter id="b11"><feGaussianBlur stdDeviation="11"/></filter>
+</defs>
+<!-- HALLWAY / KITCHEN ENTRY — wide side view -->
+<rect width="800" height="500" fill="url(#wall)"/>
+<!-- floor -->
+<rect x="0" y="370" width="800" height="130" fill="url(#floor)"/>
+<rect x="0" y="368" width="800" height="4" fill="#B8C8D8" opacity=".32"/>
+<!-- morning light from left window -->
+<rect x="-10" y="0" width="200" height="460" fill="#C8E0F4" filter="url(#b11)" opacity=".55"/>
+<rect width="800" height="500" fill="url(#lgt)"/>
+<!-- kitchen counter (bokeh, right) -->
+<rect x="560" y="128" width="250" height="220" rx="4" fill="#C0D0DC" filter="url(#b11)" opacity=".5"/>
+<ellipse cx="640" cy="142" rx="28" ry="34" fill="#A8C0D0" filter="url(#b11)" opacity=".45"/>
+<ellipse cx="720" cy="134" rx="20" ry="28" fill="#A0B8CC" filter="url(#b11)" opacity=".4"/>
+<!-- NEWSPAPER on floor -->
+<rect x="270" y="392" width="262" height="76" rx="5" fill="#EEF4F8" opacity=".8"/>
+<rect x="284" y="406" width="118" height="8" rx="3" fill="#A8BCCC" opacity=".58"/>
+<rect x="284" y="422" width="230" height="3.5" rx="1.5" fill="#B8CCDA" opacity=".38"/>
+<rect x="284" y="432" width="214" height="3.5" rx="1.5" fill="#B8CCDA" opacity=".34"/>
+<!-- KEYS on floor -->
+<circle cx="408" cy="396" r="16" fill="none" stroke="#7890A8" stroke-width="3.5" opacity=".9"/>
+<circle cx="408" cy="396" r="9" fill="#90A8C0" opacity=".5"/>
+<rect x="422" y="393" width="40" height="6" rx="3" fill="#8898B0" opacity=".9"/>
+<rect x="450" y="385" width="7" height="8" rx="2" fill="#7888A0" opacity=".82"/>
+<rect x="459" y="385" width="7" height="8" rx="2" fill="#7888A0" opacity=".78"/>
+<circle cx="405" cy="392" r="4" fill="#FFFFFF" opacity=".52"/>
+<!-- PERSON A: crouching / bending, searching -->
+<rect x="108" y="224" width="96" height="190" rx="20" fill="url(#pA)" opacity=".82"/>
+<circle cx="152" cy="196" r="44" fill="#7090A8" opacity=".76"/>
+<ellipse cx="152" cy="178" rx="44" ry="28" fill="#3A5060" opacity=".8"/>
+<!-- arm reaching to floor -->
+<path d="M194 330 Q236 380 296 404" fill="none" stroke="#6888A0" stroke-width="24" stroke-linecap="round" opacity=".75"/>
+<!-- feet/shoes -->
+<ellipse cx="120" cy="406" rx="38" ry="14" fill="#3A5868" opacity=".68"/>
+<ellipse cx="180" cy="408" rx="32" ry="12" fill="#3A5868" opacity=".64"/>
+<!-- PERSON B: standing, also searching / leaning -->
+<rect x="540" y="198" width="92" height="202" rx="20" fill="url(#pB)" opacity=".78"/>
+<circle cx="584" cy="168" r="42" fill="#80A0B8" opacity=".74"/>
+<ellipse cx="584" cy="150" rx="42" ry="26" fill="#2A3E50" opacity=".8"/>
+<!-- arm pointing down -->
+<path d="M542 295 Q490 360 440 400" fill="none" stroke="#7090A8" stroke-width="22" stroke-linecap="round" opacity=".7"/>
+<!-- feet -->
+<ellipse cx="554" cy="408" rx="36" ry="13" fill="#3A5060" opacity=".66"/>
+<ellipse cx="608" cy="410" rx="32" ry="12" fill="#3A5060" opacity=".62"/>
+<!-- light spill from window on floor -->
+<ellipse cx="90" cy="420" rx="110" ry="30" fill="#C8E0F4" opacity=".18" filter="url(#b5)"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#7AAAC0" letter-spacing="4" opacity=".75">STORY 03  ·  LET ME ~  ·  SOFT BLUE</text>
+</svg>

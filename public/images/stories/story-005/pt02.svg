@@ -1,0 +1,70 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2=".05" y2="1"><stop offset="0%" stop-color="#2E3848"/><stop offset="100%" stop-color="#222E3C"/></linearGradient>
+  <linearGradient id="ppr" x1="0" y1="0" x2=".04" y2="1"><stop offset="0%" stop-color="#EEF2F8"/><stop offset="100%" stop-color="#DCE4F0"/></linearGradient>
+  <radialGradient id="lamp" cx=".82" cy=".06" r=".45"><stop offset="0%" stop-color="#D0D8E8" stop-opacity=".62"/><stop offset="100%" stop-color="#D0D8E8" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vig" cx=".5" cy=".5" r=".72"><stop offset="48%" stop-color="transparent"/><stop offset="100%" stop-color="#080C14" stop-opacity=".68"/></radialGradient>
+  <filter id="b4"><feGaussianBlur stdDeviation="4"/></filter>
+  <filter id="b10"><feGaussianBlur stdDeviation="10"/></filter>
+</defs>
+<!-- TOP VIEW: open journal on lap/table, rainy evening -->
+<rect width="800" height="500" fill="url(#bg)"/>
+<rect width="800" height="500" fill="url(#lamp)"/>
+<!-- ambient rain light from window (upper left) -->
+<rect x="-40" y="-40" width="400" height="300" fill="#3A4E64" filter="url(#b10)" opacity=".4"/>
+<!-- JOURNAL (open, large, center) -->
+<rect x="72" y="46" width="330" height="418" rx="7" fill="url(#ppr)" opacity=".96" transform="rotate(-2 237 255)"/>
+<rect x="406" y="46" width="326" height="418" rx="7" fill="url(#ppr)" opacity=".94" transform="rotate(2 569 255)"/>
+<!-- journal spine shadow -->
+<rect x="388" y="46" width="24" height="418" rx="4" fill="#C8D0E0" opacity=".6"/>
+<!-- RULED LINES left page -->
+<rect x="90" y="94" width="296" height="1.5" fill="#C8D4E4" opacity=".5" transform="rotate(-2 238 94)"/>
+<rect x="90" y="116" width="296" height="1.5" fill="#C8D4E4" opacity=".48" transform="rotate(-2 238 116)"/>
+<rect x="90" y="138" width="296" height="1.5" fill="#C8D4E4" opacity=".45" transform="rotate(-2 238 138)"/>
+<rect x="90" y="160" width="296" height="1.5" fill="#C8D4E4" opacity=".45" transform="rotate(-2 238 160)"/>
+<rect x="90" y="182" width="296" height="1.5" fill="#C8D4E4" opacity=".42" transform="rotate(-2 238 182)"/>
+<rect x="90" y="204" width="296" height="1.5" fill="#C8D4E4" opacity=".42" transform="rotate(-2 238 204)"/>
+<rect x="90" y="226" width="296" height="1.5" fill="#C8D4E4" opacity=".4" transform="rotate(-2 238 226)"/>
+<rect x="90" y="248" width="296" height="1.5" fill="#C8D4E4" opacity=".4" transform="rotate(-2 238 248)"/>
+<rect x="90" y="270" width="296" height="1.5" fill="#C8D4E4" opacity=".38" transform="rotate(-2 238 270)"/>
+<rect x="90" y="292" width="296" height="1.5" fill="#C8D4E4" opacity=".38" transform="rotate(-2 238 292)"/>
+<!-- DATE at top "6:00 AM" written large -->
+<rect x="104" y="66" width="180" height="18" rx="5" fill="#5880A0" opacity=".18" transform="rotate(-2 194 75)"/>
+<text x="108" y="84" font-family="Georgia,serif" font-size="22" fill="#4A6888" opacity=".88" transform="rotate(-2 194 75)">6:00 AM</text>
+<!-- handwritten text (wavy bars) left page -->
+<rect x="100" y="106" width="248" height="5" rx="2.5" fill="#6888A8" opacity=".42" transform="rotate(-2 224 108)"/>
+<rect x="100" y="128" width="272" height="5" rx="2.5" fill="#6888A8" opacity=".38" transform="rotate(-2 236 130)"/>
+<rect x="100" y="150" width="236" height="5" rx="2.5" fill="#6888A8" opacity=".36" transform="rotate(-2 218 152)"/>
+<rect x="100" y="172" width="258" height="5" rx="2.5" fill="#6888A8" opacity=".34" transform="rotate(-2 229 174)"/>
+<rect x="100" y="194" width="244" height="5" rx="2.5" fill="#6888A8" opacity=".36" transform="rotate(-2 222 196)"/>
+<rect x="100" y="216" width="260" height="5" rx="2.5" fill="#6888A8" opacity=".32" transform="rotate(-2 230 218)"/>
+<rect x="100" y="238" width="230" height="5" rx="2.5" fill="#6888A8" opacity=".3" transform="rotate(-2 215 240)"/>
+<rect x="100" y="260" width="248" height="5" rx="2.5" fill="#6888A8" opacity=".3" transform="rotate(-2 224 262)"/>
+<!-- right page — more sparse writing, mood page -->
+<rect x="424" y="94" width="1.5" fill="#C8D4E4" height="370" opacity=".3"/>
+<!-- ruled lines right -->
+<rect x="424" y="94" width="290" height="1.5" fill="#C8D4E4" opacity=".5" transform="rotate(2 569 94)"/>
+<rect x="424" y="116" width="290" height="1.5" fill="#C8D4E4" opacity=".46" transform="rotate(2 569 116)"/>
+<rect x="424" y="138" width="290" height="1.5" fill="#C8D4E4" opacity=".44" transform="rotate(2 569 138)"/>
+<rect x="424" y="160" width="290" height="1.5" fill="#C8D4E4" opacity=".42" transform="rotate(2 569 160)"/>
+<rect x="424" y="182" width="290" height="1.5" fill="#C8D4E4" opacity=".4" transform="rotate(2 569 182)"/>
+<rect x="424" y="204" width="290" height="1.5" fill="#C8D4E4" opacity=".4" transform="rotate(2 569 204)"/>
+<!-- right page content: a few lines then empty space — thoughtful pause -->
+<rect x="438" y="106" width="240" height="5" rx="2.5" fill="#6888A8" opacity=".4" transform="rotate(2 558 108)"/>
+<rect x="438" y="128" width="210" height="5" rx="2.5" fill="#6888A8" opacity=".36" transform="rotate(2 543 130)"/>
+<rect x="438" y="150" width="228" height="5" rx="2.5" fill="#6888A8" opacity=".32" transform="rotate(2 552 152)"/>
+<!-- PEN hovering (action: about to write) -->
+<rect x="416" y="238" width="320" height="15" rx="7.5" fill="#5A6880" opacity=".88" transform="rotate(-18 576 245)"/>
+<ellipse cx="420" cy="256" rx="11" ry="6" fill="#4A5870" opacity=".82" transform="rotate(-18 420 256)"/>
+<rect x="492" y="350" width="40" height="12" rx="6" fill="#8090A8" opacity=".7" transform="rotate(-18 512 356)"/>
+<!-- pen shadow -->
+<ellipse cx="540" cy="268" rx="160" ry="8" fill="#1A2432" filter="url(#b4)" opacity=".3" transform="rotate(-18 540 268)"/>
+<!-- HAND holding pen (bottom right, entering frame) -->
+<ellipse cx="712" cy="388" rx="72" ry="34" fill="#D4C8B8" opacity=".82"/>
+<rect x="668" y="352" width="26" height="62" rx="13" fill="#D8CCC0" transform="rotate(-22 681 383)"/>
+<rect x="700" y="344" width="24" height="66" rx="12" fill="#D4C8B8" transform="rotate(-14 712 377)"/>
+<rect x="726" y="348" width="22" height="62" rx="11" fill="#CEC0B0" transform="rotate(-6 737 379)"/>
+<!-- vignette -->
+<rect width="800" height="500" fill="url(#vig)"/>
+<text x="32" y="468" font-family="Helvetica Neue,Helvetica,sans-serif" font-size="11" fill="#7090A8" letter-spacing="4" opacity=".72">STORY 05  ·  I DECIDED TO ~  ·  RAINY BLUE GRAY</text>
+</svg>
