@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Baloo_2, Caveat, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import { Baloo_2, Kalam, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -17,10 +17,10 @@ const baloo2 = Baloo_2({
   variable: "--font-baloo",
 });
 
-const caveat = Caveat({
+const kalam = Kalam({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-caveat",
+  weight: ["300", "400", "700"],
+  variable: "--font-caveat",  // reuse variable name — no other files need changing
 });
 
 const playfair = Playfair_Display({
@@ -54,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`antialiased ${jakartaSans.variable} ${baloo2.variable} ${playfair.variable} ${caveat.variable}`}>
+    <html lang="ko" className={`antialiased ${jakartaSans.variable} ${baloo2.variable} ${playfair.variable} ${kalam.variable}`}>
       <body><ThemeProvider><PreferencesProvider>{children}</PreferencesProvider></ThemeProvider></body>
     </html>
   );

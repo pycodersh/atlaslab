@@ -7,9 +7,9 @@ import { NAV_HEIGHT } from '@/components/TopNav'
 import { type Essay, type Annotation, getEssay, deleteEssay } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
 
-// ── Fixed editor personality — deterministic micro-variation ─────────────────
-// Same index always produces the same offset, giving one consistent "hand"
-const EV_LUT = [-0.3, 0.5, -0.1, 0.4, -0.5, 0.2, -0.4, 0.6, -0.2, 0.3, -0.6, 0.1, 0.4, -0.3, 0.5]
+// ── Fixed editor personality — subtle y-variation only (no rotation/drift) ───
+// Keeps annotations within screen bounds; Kalam font provides natural variation
+const EV_LUT = [0, 2, -1, 3, -2, 1, -3, 2, 0, -1, 3, -2, 1, 0, -1]
 function ev(i: number): number { return EV_LUT[i % EV_LUT.length] }
 
 // ── Build segments ────────────────────────────────────────────────────────────
@@ -50,39 +50,42 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
       {segments.map((seg, i) => {
         if (!seg.annotation) return <span key={i}>{seg.text}</span>
 
-        const ann = seg.annotation
-        const drift  = ev(i) * 3   // horizontal position nudge ±3px
-        const tilt   = ev(i + 1) * 2.5  // slight rotation ±2.5°
-        // y-offset so notes don't all sit at the exact same baseline above the line
-        const yShift = ev(i + 2) * 4
+        const ann    = seg.annotation
+        // Subtle y-variation per annotation (no rotation — keeps text inside bounds)
+        const yShift = ev(i)
 
-        // ── Grammar: hand-drawn oval circle + correction written above ────────
+        // Shared style for all above-line ink notes
+        // maxWidth + white-space: normal = never overflows right edge
+        const inkStyle: React.CSSProperties = {
+          position: 'absolute',
+          bottom: `calc(100% + ${3 + yShift}px)`,
+          left: 0,
+          fontFamily: 'var(--font-caveat, cursive)',
+          fontSize: 14,
+          fontWeight: 700,
+          lineHeight: 1.35,
+          whiteSpace: 'normal',
+          wordBreak: 'break-word',
+          maxWidth: 'min(160px, 46vw)',
+          // Clamp to 2 lines maximum
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+          pointerEvents: 'none',
+        }
+
+        // ── Grammar: oval circle + correction above with ↓ arrow ─────────────
         if (ann.type === 'grammar') {
           const hasReplacement = !!ann.replacement
           return (
             <span key={i} style={{ position: 'relative', display: 'inline' }}>
-              {/* Correction or deletion caret written above */}
-              <span style={{
-                position: 'absolute',
-                bottom: `calc(100% + ${4 + yShift}px)`,
-                left: drift,
-                fontFamily: 'var(--font-caveat, cursive)',
-                color: '#c0392b',
-                fontSize: 16,
-                fontWeight: 700,
-                lineHeight: 1,
-                whiteSpace: 'nowrap',
-                pointerEvents: 'none',
-                transform: `rotate(${tilt}deg)`,
-                transformOrigin: 'left bottom',
-              }}>
-                {hasReplacement ? ann.replacement : '✗'}
+              <span style={{ ...inkStyle, color: '#c0392b' }}>
+                {hasReplacement ? ann.replacement : '✗'}{' '}↓
               </span>
-              {/* Original — circled (has replacement) or struck (deletion) */}
               {hasReplacement ? (
                 <span style={{
                   border: '1.5px solid #c0392b',
-                  // Irregular border-radius = hand-drawn oval feel
                   borderRadius: '52% 48% 47% 53% / 46% 54% 46% 54%',
                   padding: '0 3px 1px',
                   display: 'inline',
@@ -103,26 +106,13 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
           )
         }
 
-        // ── Expression: wavy underline + suggestion above ─────────────────────
+        // ── Expression: wavy underline + suggestion above with ↓ arrow ────────
         if (ann.type === 'expression') {
           return (
             <span key={i} style={{ position: 'relative' }}>
               {ann.replacement && (
-                <span style={{
-                  position: 'absolute',
-                  bottom: `calc(100% + ${4 + yShift}px)`,
-                  left: drift,
-                  fontFamily: 'var(--font-caveat, cursive)',
-                  color: '#7d3c98',
-                  fontSize: 15,
-                  fontWeight: 600,
-                  lineHeight: 1,
-                  whiteSpace: 'nowrap',
-                  pointerEvents: 'none',
-                  transform: `rotate(${tilt}deg)`,
-                  transformOrigin: 'left bottom',
-                }}>
-                  → {ann.replacement}
+                <span style={{ ...inkStyle, color: '#7d3c98' }}>
+                  {ann.replacement}{' '}↓
                 </span>
               )}
               <span style={{
@@ -137,27 +127,13 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
           )
         }
 
-        // ── Strength: warm highlight + short ⭐ memo above ────────────────────
+        // ── Strength: highlight + short ⭐ memo above with ↓ arrow ────────────
         if (ann.type === 'strength') {
-          // Claude returns a short note (already ⭐-prefixed per prompt)
           const memo = ann.note ?? '⭐ Good.'
           return (
             <span key={i} style={{ position: 'relative' }}>
-              <span style={{
-                position: 'absolute',
-                bottom: `calc(100% + ${4 + yShift}px)`,
-                left: drift,
-                fontFamily: 'var(--font-caveat, cursive)',
-                color: '#1a7a3a',
-                fontSize: 15,
-                fontWeight: 600,
-                lineHeight: 1,
-                whiteSpace: 'nowrap',
-                pointerEvents: 'none',
-                transform: `rotate(${tilt}deg)`,
-                transformOrigin: 'left bottom',
-              }}>
-                {memo}
+              <span style={{ ...inkStyle, color: '#1a7a3a' }}>
+                {memo}{' '}↓
               </span>
               <mark style={{
                 background: 'rgba(255, 210, 60, 0.22)',
