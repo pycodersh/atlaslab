@@ -7,33 +7,10 @@ import { NAV_HEIGHT } from '@/components/TopNav'
 import { type Essay, type Annotation, getEssay, deleteEssay } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
 
-// ── Annotation visual config ──────────────────────────────────────────────────
-const ANN = {
-  grammar: {
-    icon:        '✗',
-    inkColor:    '#c0392b',
-    inkBg:       'rgba(192,57,43,0.06)',
-    underline:   '2px solid #e74c3c',
-    decoration:  'line-through' as const,
-    decorColor:  '#e74c3c',
-  },
-  expression: {
-    icon:        '✦',
-    inkColor:    '#7d3c98',
-    inkBg:       'rgba(125,60,152,0.06)',
-    underline:   '1.5px solid #7d3c98',
-    decoration:  'none' as const,
-    decorColor:  '#7d3c98',
-  },
-  strength: {
-    icon:        '⭐',
-    inkColor:    '#1e8449',
-    inkBg:       'rgba(30,132,73,0.06)',
-    underline:   'none',
-    decoration:  'none' as const,
-    decorColor:  'transparent',
-  },
-}
+// ── Fixed editor personality — deterministic micro-variation ─────────────────
+// Same index always produces the same offset, giving one consistent "hand"
+const EV_LUT = [-0.3, 0.5, -0.1, 0.4, -0.5, 0.2, -0.4, 0.6, -0.2, 0.3, -0.6, 0.1, 0.4, -0.3, 0.5]
+function ev(i: number): number { return EV_LUT[i % EV_LUT.length] }
 
 // ── Build segments ────────────────────────────────────────────────────────────
 type Segment = { text: string; annotation?: Annotation }
@@ -64,8 +41,7 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
   return (
     <p style={{
       fontSize: 16,
-      // Extra line-height creates the "between-lines" space for above-line corrections
-      lineHeight: 3.2,
+      lineHeight: 3.6,
       color: 'var(--pt)',
       margin: 0,
       whiteSpace: 'pre-wrap',
@@ -75,65 +51,84 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
         if (!seg.annotation) return <span key={i}>{seg.text}</span>
 
         const ann = seg.annotation
+        const drift  = ev(i) * 3   // horizontal position nudge ±3px
+        const tilt   = ev(i + 1) * 2.5  // slight rotation ±2.5°
+        // y-offset so notes don't all sit at the exact same baseline above the line
+        const yShift = ev(i + 2) * 4
 
+        // ── Grammar: hand-drawn oval circle + correction written above ────────
         if (ann.type === 'grammar') {
+          const hasReplacement = !!ann.replacement
           return (
-            // position: relative on inline allows the absolute replacement to anchor here
-            <span key={i} style={{ position: 'relative' }}>
-              {/* Correction written above the line — like red pen on paper */}
-              {ann.replacement && (
+            <span key={i} style={{ position: 'relative', display: 'inline' }}>
+              {/* Correction or deletion caret written above */}
+              <span style={{
+                position: 'absolute',
+                bottom: `calc(100% + ${4 + yShift}px)`,
+                left: drift,
+                fontFamily: 'var(--font-caveat, cursive)',
+                color: '#c0392b',
+                fontSize: 13,
+                fontWeight: 500,
+                lineHeight: 1,
+                whiteSpace: 'nowrap',
+                pointerEvents: 'none',
+                transform: `rotate(${tilt}deg)`,
+                transformOrigin: 'left bottom',
+              }}>
+                {hasReplacement ? ann.replacement : '✗'}
+              </span>
+              {/* Original — circled (has replacement) or struck (deletion) */}
+              {hasReplacement ? (
                 <span style={{
-                  position: 'absolute',
-                  bottom: '100%',
-                  left: 0,
-                  fontFamily: 'var(--font-caveat, cursive)',
-                  color: '#c0392b',
-                  fontSize: 13,
-                  fontWeight: 600,
-                  lineHeight: 1.2,
-                  whiteSpace: 'nowrap',
-                  pointerEvents: 'none',
-                  letterSpacing: '0.01em',
+                  border: '1.5px solid #c0392b',
+                  // Irregular border-radius = hand-drawn oval feel
+                  borderRadius: '52% 48% 47% 53% / 46% 54% 46% 54%',
+                  padding: '0 3px 1px',
+                  display: 'inline',
+                  color: 'var(--pt)',
                 }}>
-                  {ann.replacement}
+                  {seg.text}
+                </span>
+              ) : (
+                <span style={{
+                  textDecoration: 'line-through',
+                  textDecorationColor: '#c0392b',
+                  color: 'rgba(0,0,0,0.32)',
+                }}>
+                  {seg.text}
                 </span>
               )}
-              {/* Original word — struck through in red */}
-              <span style={{
-                textDecoration: 'line-through',
-                textDecorationColor: '#e74c3c',
-                color: 'rgba(0,0,0,0.28)',
-              }}>
-                {seg.text}
-              </span>
             </span>
           )
         }
 
+        // ── Expression: wavy underline + suggestion above ─────────────────────
         if (ann.type === 'expression') {
           return (
             <span key={i} style={{ position: 'relative' }}>
-              {/* Suggestion written above — curved arrow feel via ✦ prefix */}
               {ann.replacement && (
                 <span style={{
                   position: 'absolute',
-                  bottom: '100%',
-                  left: 0,
+                  bottom: `calc(100% + ${4 + yShift}px)`,
+                  left: drift,
                   fontFamily: 'var(--font-caveat, cursive)',
                   color: '#7d3c98',
                   fontSize: 12,
-                  lineHeight: 1.2,
+                  lineHeight: 1,
                   whiteSpace: 'nowrap',
                   pointerEvents: 'none',
-                  opacity: 0.9,
+                  transform: `rotate(${tilt}deg)`,
+                  transformOrigin: 'left bottom',
                 }}>
-                  ✦ {ann.replacement}
+                  → {ann.replacement}
                 </span>
               )}
-              {/* Original phrase — purple underline */}
               <span style={{
-                borderBottom: '1.5px solid #7d3c98',
-                paddingBottom: 1,
+                textDecoration: 'underline',
+                textDecorationColor: '#7d3c98',
+                textDecorationStyle: 'wavy',
+                textUnderlineOffset: '4px',
               }}>
                 {seg.text}
               </span>
@@ -141,25 +136,35 @@ function AnnotatedManuscript({ body, annotations }: { body: string; annotations:
           )
         }
 
+        // ── Strength: warm highlight + short ⭐ memo above ────────────────────
         if (ann.type === 'strength') {
+          // Claude returns a short note (already ⭐-prefixed per prompt)
+          const memo = ann.note ?? '⭐ Good.'
           return (
-            // Warm highlight — no above-line text, just a ⭐ after
-            <span key={i}>
+            <span key={i} style={{ position: 'relative' }}>
               <span style={{
-                background: 'rgba(255, 200, 60, 0.2)',
-                borderRadius: 3,
-                padding: '1px 3px',
+                position: 'absolute',
+                bottom: `calc(100% + ${4 + yShift}px)`,
+                left: drift,
+                fontFamily: 'var(--font-caveat, cursive)',
+                color: '#1a7a3a',
+                fontSize: 12,
+                lineHeight: 1,
+                whiteSpace: 'nowrap',
+                pointerEvents: 'none',
+                transform: `rotate(${tilt}deg)`,
+                transformOrigin: 'left bottom',
+              }}>
+                {memo}
+              </span>
+              <mark style={{
+                background: 'rgba(255, 210, 60, 0.22)',
+                borderRadius: 2,
+                padding: '1px 2px',
+                color: 'inherit',
               }}>
                 {seg.text}
-              </span>
-              <span style={{
-                fontFamily: 'var(--font-caveat, cursive)',
-                color: '#1e8449',
-                fontSize: 14,
-                marginLeft: 3,
-              }}>
-                ⭐
-              </span>
+              </mark>
             </span>
           )
         }
