@@ -12,6 +12,7 @@ import { ttsProvider, getPitchForKey, patternExampleAudioUrl } from '@/lib/tts'
 import { recordPatternPractice } from '@/lib/srs/storage'
 import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
+import { patternMeaningNoteTranslations } from '@/data/pattern-meaning-note-translations'
 import { useT } from '@/hooks/useT'
 
 type Props = {
@@ -169,9 +170,17 @@ export function PatternPracticeCard({
 
   const isPlaying = phase === 'speaking' || phase === 'pause'
 
-  // Pattern Note from data file, or explanation field if present on the pattern
-  // Pattern Note: Korean-only data — show only when language is ko
-  const patternNote = prefs.language === 'ko' ? (pattern.explanation ?? PATTERN_NOTES[pattern.id]) : null
+  // Pattern Note: show for all languages using translated version, fallback to ko
+  const koNote = pattern.explanation ?? PATTERN_NOTES[pattern.id] ?? null
+  const noteEntry = patternMeaningNoteTranslations.find(t => t.patternId === pattern.id)
+  const patternNote = (() => {
+    if (prefs.language === 'ko') return koNote
+    if (!noteEntry?.noteTranslations) return null  // no translation (patterns 13-100)
+    const mapped = prefs.language === 'zh-cn' ? 'zh-CN' : prefs.language === 'zh-tw' ? 'zh-TW' : prefs.language
+    return noteEntry.noteTranslations[mapped as keyof typeof noteEntry.noteTranslations]
+      ?? noteEntry.noteTranslations['en']
+      ?? koNote
+  })()
 
   return (
     <div className="py-3">

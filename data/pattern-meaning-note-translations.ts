@@ -158,8 +158,7 @@ export const patternMeaningNoteTranslations: PatternTranslation[] = [
       "zh-CN": "这是一个表示你过去经常做，但现在不再做的事情的模式。\n当你的习惯改变时，可以自然地使用它。\n它暗示\"现在情况不同了\"。",
       "zh-TW": "這是一個表示你過去經常做，但現在不再做的事情的模式。\n當你的習慣改變時，可以自然地使用它。\n它暗示\"現在情況不同了\"。",
       "fr": "C'est un schéma montrant quelque chose que vous aviez l'habitude de faire fréquemment, mais plus maintenant.\nVous pouvez l'utiliser naturellement quand vos habitudes ont changé.\nIl porte la nuance de \"les choses sont différentes maintenant.\"",
-      "de": "Es ist ein Muster, das etwas zeigt, das du früher häufig getan hast, aber nicht mehr.\nDu kannst es natürlich verwenden, wenn sich deine Gewohnheiten geändert haben.\nEs trägt den Hauch von \"Jetzt ist es anders.\"",
-      "pt": "É um padrão que mostra algo que você fazia frequentemente no passado, mas não mais.\nVocê pode usá-lo naturalmente quando seus hábitos mudaram.\nLeva a nuança de \"as coisas são diferentes agora.\""
+      "de": "Es ist ein Muster, das etwas zeigt, das du früher häufig getan hast, aber nicht mehr.\nDu kannst es natürlich verwenden, wenn sich deine Gewohnheiten geändert haben.\nEs trägt den Hauch von \"Jetzt ist es anders.\""
     }
   },
   {
