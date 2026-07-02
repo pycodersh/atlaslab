@@ -82,17 +82,21 @@ export default function EssaysPage() {
     <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
       <TopNav />
 
+      {/* ── Sticky header block ──────────────────────────────────────────────── */}
       <div style={{
+        position: 'sticky',
+        top: NAV_HEIGHT,
+        zIndex: 30,
+        background: 'var(--pb)',
         maxWidth: 480,
         margin: '0 auto',
-        paddingTop: NAV_HEIGHT + 28,
+        paddingTop: 28,
         paddingLeft: 24,
         paddingRight: 24,
-        paddingBottom: 80,
+        paddingBottom: 0,
       }}>
-
-        {/* ── Header ─────────────────────────────────────────────────────── */}
-        <div style={{ marginBottom: 32 }}>
+        {/* ── Header ───────────────────────────────────────────────────────── */}
+        <div style={{ marginBottom: 20 }}>
           <p className="font-playfair" style={{
             fontSize: 'clamp(2rem, 9vw, 2.8rem)',
             fontWeight: 900, letterSpacing: '-0.02em',
@@ -110,13 +114,13 @@ export default function EssaysPage() {
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>
 
-        {/* ── Today's Reviews — simple strip ──────────────────────────────── */}
+        {/* ── Today's Reviews — simple strip ───────────────────────────────── */}
         <div style={{
           display: 'flex', alignItems: 'center',
           justifyContent: 'space-between',
           paddingBottom: 14,
           borderBottom: '1px solid var(--pd)',
-          marginBottom: 28,
+          marginBottom: 20,
         }}>
           <p style={{
             fontSize: 9, fontWeight: 700, letterSpacing: '0.2em',
@@ -153,7 +157,7 @@ export default function EssaysPage() {
             gap: 8, width: '100%', padding: '15px 0',
             borderRadius: 14, border: 'none',
             background: 'var(--pa)', cursor: 'pointer',
-            marginBottom: 40,
+            marginBottom: 20,
             transition: 'opacity 0.15s',
           }}
           onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.85' }}
@@ -164,7 +168,17 @@ export default function EssaysPage() {
             {t('essays_new')}
           </span>
         </button>
+      </div>
+      {/* ── END sticky header ─────────────────────────────────────────────────── */}
 
+      {/* ── Scrollable essay list ────────────────────────────────────────────── */}
+      <div style={{
+        maxWidth: 480,
+        margin: '0 auto',
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingBottom: 80,
+      }}>
         {/* ── My Essays ────────────────────────────────────────────────────── */}
         {essays.length > 0 && (
           <div>
@@ -218,7 +232,6 @@ export default function EssaysPage() {
             </p>
           </div>
         )}
-
       </div>
     </div>
   )
