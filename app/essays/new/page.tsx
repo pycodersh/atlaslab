@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Loader2, Sparkles, Copy, Check } from 'lucide-react'
+import { Loader2, Sparkles, Copy, Check, ArrowLeft } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { saveEssay, saveReview, canReview, incrementDailyReviewCount } from '@/lib/essays/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -201,17 +201,26 @@ export default function NewEssayPage() {
     <div style={{ minHeight: '100dvh', background: 'var(--pb)', display: 'flex', flexDirection: 'column' }}>
       <TopNav />
 
-      {/* ── Word count bar (below tab nav) ───────────────────────────────── */}
+      {/* ── Secondary bar: back button + word count ──────────────────────── */}
       <div style={{
         position: 'fixed',
         top: NAV_HEIGHT, left: 0, right: 0,
         height: BAR_HEIGHT,
         background: 'var(--pb)',
-        borderBottom: '1px solid var(--pd)',
-        display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '0 20px',
         zIndex: 39,
       }}>
+        <button
+          type="button"
+          onClick={() => router.push('/essays')}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '4px 0' }}
+        >
+          <ArrowLeft style={{ width: 14, height: 14, color: 'var(--pm)' }} strokeWidth={1.8} />
+          <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--pm)' }}>
+            New Essay
+          </span>
+        </button>
         <span style={{ fontSize: wc > MAX_WORDS ? 11 : 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s' }}>
           {t('essays_word_count', { n: wc })}
         </span>
@@ -239,11 +248,9 @@ export default function NewEssayPage() {
             background: 'transparent',
             fontSize: 'clamp(1.5rem, 6vw, 2rem)',
             fontWeight: 800, color: 'var(--pt)',
-            marginBottom: 4, padding: 0, fontFamily: 'inherit',
+            marginBottom: 20, padding: 0, fontFamily: 'inherit',
           }}
         />
-
-        <div style={{ height: 1, background: 'var(--pd)', marginBottom: 24 }} />
 
         {/* Body textarea */}
         <textarea
