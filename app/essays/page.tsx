@@ -163,12 +163,12 @@ export default function EssaysPage() {
             onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.35' }}
             onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1' }}
           >
-            <span className="font-playfair" style={{
-              fontSize: 'clamp(1.15rem, 4.5vw, 1.35rem)',
-              fontWeight: 700,
-              fontStyle: 'italic',
+            <span style={{
+              fontSize: 'clamp(1rem, 4vw, 1.15rem)',
+              fontWeight: 800,
+              fontStyle: 'normal',
               color: 'var(--pa)',
-              letterSpacing: '0.01em',
+              letterSpacing: '0.04em',
               borderBottom: '1.5px solid var(--pa)',
               paddingBottom: 3,
             }}>
@@ -188,7 +188,7 @@ export default function EssaysPage() {
         paddingLeft: 24,
         paddingRight: 24,
         paddingBottom: 80,
-        paddingTop: 44,
+        paddingTop: 64,
       }}>
         {/* ── My Essays ────────────────────────────────────────────────────── */}
         {essays.length > 0 && (
