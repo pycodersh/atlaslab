@@ -18,6 +18,7 @@ export type EditorReview = {
   annotations: Annotation[]
   editorComment: string
   nextChallenge: string | string[]  // string[] new format; string for legacy
+  suggestedVersion?: string
   createdAt: string
 }
 

@@ -1,8 +1,8 @@
 'use client'
 
-import { use, useEffect, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Pencil, Trash2 } from 'lucide-react'
+import { ArrowLeft, Pencil, Trash2, Copy, Check } from 'lucide-react'
 import { NAV_HEIGHT } from '@/components/TopNav'
 import { type Essay, type Annotation, getEssay, deleteEssay } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
@@ -220,6 +220,71 @@ function EditorNotes({ annotations }: { annotations: Annotation[] }) {
   )
 }
 
+// ── One Natural Revision ──────────────────────────────────────────────────────
+function SuggestedVersion({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  function handleCopy() {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true)
+      if (timerRef.current) clearTimeout(timerRef.current)
+      timerRef.current = setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  return (
+    <div style={{ marginTop: 44, borderTop: '1px solid var(--pd)', paddingTop: 32 }}>
+      <p style={{
+        fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em',
+        color: 'var(--pm)', margin: '0 0 6px',
+      }}>
+        ONE NATURAL REVISION
+      </p>
+      <p style={{
+        fontSize: 10, color: 'var(--pm2)', margin: '0 0 20px', lineHeight: 1.5,
+      }}>
+        All corrections applied — one possible natural version.
+      </p>
+
+      {/* Revised text */}
+      <div style={{
+        padding: '20px 20px',
+        borderRadius: 14,
+        background: 'var(--pd)',
+      }}>
+        <p style={{
+          fontSize: 15, lineHeight: 2.0,
+          color: 'var(--pt)', margin: 0,
+          whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+        }}>
+          {text}
+        </p>
+      </div>
+
+      {/* Copy button */}
+      <button
+        type="button"
+        onClick={handleCopy}
+        style={{
+          marginTop: 12,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          width: '100%', padding: '13px 0',
+          borderRadius: 12, border: '1.5px solid var(--pd)',
+          background: 'none', cursor: 'pointer',
+          fontSize: 12, fontWeight: 600, color: 'var(--pm)',
+          fontFamily: 'inherit', transition: 'color 0.15s',
+        }}
+      >
+        {copied
+          ? <><Check style={{ width: 12, height: 12 }} strokeWidth={2} /> Copied</>
+          : <><Copy style={{ width: 12, height: 12 }} strokeWidth={1.8} /> Copy Revision</>
+        }
+      </button>
+    </div>
+  )
+}
+
 // ── Main page ─────────────────────────────────────────────────────────────────
 export default function EssayDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -407,6 +472,11 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               ))}
             </div>
           </div>
+        )}
+
+        {/* ── One Natural Revision ─────────────────────────────────────── */}
+        {review?.suggestedVersion && (
+          <SuggestedVersion text={review.suggestedVersion} />
         )}
 
         {/* No review yet */}

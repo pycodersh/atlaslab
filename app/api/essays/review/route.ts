@@ -73,6 +73,14 @@ Write as a real human editor, not an AI checklist.
 ━━━ STYLE DETECTION ━━━
 Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statement / TOEFL / Business Email
 
+━━━ RULE 5 — SUGGESTED VERSION ━━━
+After annotating, rewrite the full essay as "suggestedVersion":
+- Apply every grammar and expression correction you marked.
+- Keep the student's original voice, structure, and ideas exactly.
+- Make it sound natural and polished — like a native speaker wrote it.
+- Do NOT add new ideas or change the meaning.
+- This is ONE possible natural revision, not the only answer.
+
 ━━━ RESPONSE FORMAT ━━━
 Return ONLY valid JSON — no markdown, no commentary, no extra text:
 {
@@ -96,8 +104,9 @@ Return ONLY valid JSON — no markdown, no commentary, no extra text:
       "note": "⭐ Strong ending."
     }
   ],
-  "editorComment": "2–4 warm specific sentences",
-  "nextChallenge": ["Add one concrete detail.", "Name the place.", "End with a feeling."]
+  "editorComment": "1–2 warm specific sentences, 40 words max",
+  "nextChallenge": ["Add one concrete detail.", "Name the place.", "End with a feeling."],
+  "suggestedVersion": "Full revised essay with all corrections applied, preserving the student's voice."
 }`
 }
 
@@ -141,7 +150,7 @@ Please review this essay and return the JSON response as specified.`
 
     const message = await claude.client.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1500,
+      max_tokens: 2400,
       system: buildSystemPrompt(language),
       messages: [{ role: 'user', content: userPrompt }],
     })
@@ -176,6 +185,11 @@ Please review this essay and return the JSON response as specified.`
     // Ensure nextChallenge is always an array
     if (typeof parsed.nextChallenge === 'string') {
       parsed.nextChallenge = [parsed.nextChallenge]
+    }
+
+    // suggestedVersion: keep as-is if string, drop if missing
+    if (typeof parsed.suggestedVersion !== 'string' || !parsed.suggestedVersion.trim()) {
+      delete parsed.suggestedVersion
     }
 
     parsed.createdAt = new Date().toISOString()
