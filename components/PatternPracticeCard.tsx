@@ -170,7 +170,8 @@ export function PatternPracticeCard({
   const isPlaying = phase === 'speaking' || phase === 'pause'
 
   // Pattern Note from data file, or explanation field if present on the pattern
-  const patternNote = pattern.explanation ?? PATTERN_NOTES[pattern.id]
+  // Pattern Note: Korean-only data — show only when language is ko
+  const patternNote = prefs.language === 'ko' ? (pattern.explanation ?? PATTERN_NOTES[pattern.id]) : null
 
   return (
     <div className="py-3">

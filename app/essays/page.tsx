@@ -121,7 +121,7 @@ export default function EssaysPage() {
             marginTop: 10,
             lineHeight: 1.6,
           }}>
-            Write. Reflect. Improve.
+            {t('essays_subtitle')}
           </p>
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>

@@ -4,6 +4,8 @@ import { useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight, Volume2, Square } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { resolveTranslation } from '@/lib/i18n/translation'
+import { useT } from '@/hooks/useT'
 import { PatternPracticeCard } from '@/components/PatternPracticeCard'
 import { getPatternExamples } from '@/data/pattern-examples'
 
@@ -20,6 +22,7 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
   const { prefs } = usePreferences()
   const voice = story.narratorVoice ?? prefs.voice
   const total = story.patterns.length
+  const t = useT()
 
   // 한 번에 하나의 카드만 재생되도록 조정
   const [activeId, setActiveId] = useState<string | null>(null)
@@ -78,7 +81,11 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
               <h2 className="font-playfair text-[1.45rem] font-bold text-[var(--pt)] leading-tight">
                 {story.title}
               </h2>
-              <p className="text-[0.72rem] text-[var(--pm)] mt-0.5 leading-snug">{story.subtitleKo}</p>
+              {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations) && (
+                <p className="text-[0.72rem] text-[var(--pm)] mt-0.5 leading-snug">
+                  {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)}
+                </p>
+              )}
             </div>
           </div>
 
@@ -90,16 +97,16 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker }: P
               <h1 className="font-playfair text-[2.2rem] font-black leading-none text-[var(--pa)] tracking-tight">
                 PATTERNS
               </h1>
-              <p className="text-[0.72rem] text-[var(--pm)] mt-1.5">스토리 속에서 만난 {total}가지 패턴</p>
+              <p className="text-[0.72rem] text-[var(--pm)] mt-1.5">{t('patterns_subtitle', { n: total })}</p>
             </div>
             <button
               type="button"
               onClick={listenAll}
-              aria-label={playingAll ? '전체 정지' : '전체 듣기'}
+              aria-label={playingAll ? t('stop_all') : t('listen_all')}
               className="shrink-0 flex items-center gap-1.5 rounded-full px-2 py-2 text-[11px] font-bold text-[var(--pt2)] hover:text-[var(--pa)] transition-colors cursor-pointer"
             >
               {playingAll ? <Square className="w-3 h-3 fill-current" /> : <Volume2 className="w-3.5 h-3.5" />}
-              {playingAll ? '정지' : '전체 듣기'}
+              {playingAll ? t('stop_all') : t('listen_all')}
             </button>
           </div>
 

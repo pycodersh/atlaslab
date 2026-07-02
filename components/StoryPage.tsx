@@ -8,6 +8,7 @@ import { STORY_MOOD_MAP } from '@/data/story-moods'
 import { AmbienceAudio } from '@/components/AmbienceAudio'
 import { StoryImageSlider } from '@/components/StoryImageSlider'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { resolveTranslation } from '@/lib/i18n/translation'
 import { storyParaAudioUrl } from '@/lib/tts'
 
 type StoryPageProps = {
@@ -89,9 +90,11 @@ export function StoryPage({
           </h1>
 
           <div className="flex items-center justify-between mb-5">
-            <p className="text-[0.78rem] text-[var(--pm)] tracking-wide">
-              {story.subtitleKo}
-            </p>
+            {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations) && (
+              <p className="text-[0.78rem] text-[var(--pm)] tracking-wide">
+                {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)}
+              </p>
+            )}
             <button
               type="button"
               onClick={onOpenPicker}
@@ -156,10 +159,10 @@ export function StoryPage({
             ))}
           </div>
 
-          {story.storyNote && (
+          {resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations) && (
             <div className="mt-7 border-l-2 border-[var(--pd)] pl-3">
               <p className="font-playfair text-sm text-[var(--pm)] leading-relaxed">
-                {story.storyNote}
+                {resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations)}
               </p>
             </div>
           )}

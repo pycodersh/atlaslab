@@ -143,10 +143,12 @@ export type MagazineStory = {
   id: number
   title: string
   subtitleKo: string
+  subtitleTranslations?: Partial<Record<string, string>>
   imageUrl: string
   imageAlt: string
   imagePool?: StoryImage[]
   storyNote?: string
+  storyNoteTranslations?: Partial<Record<string, string>>
   highlightPhrases: string[]
   paragraphs: MagazineParagraph[]   // UI 렌더링 기준
   patterns: MagazinePattern[]       // UI 렌더링 기준
