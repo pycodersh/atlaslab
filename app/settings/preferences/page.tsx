@@ -8,8 +8,8 @@ import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
 import {
-  type SpeechRate, type VoiceKey, type Language, type AmbienceVolume,
-  SPEECH_RATE_LABELS, LANGUAGE_LABELS, AMBIENCE_VOLUME_LABELS,
+  type SpeechRate, type VoiceKey, type Language,
+  SPEECH_RATE_LABELS, LANGUAGE_LABELS,
 } from '@/lib/settings/preferences'
 
 // ── iOS-style Toggle ──────────────────────────────────────────────────────────
@@ -193,7 +193,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
-type Sheet = 'speechRate' | 'ambienceVolume' | 'language' | null
+type Sheet = 'speechRate' | 'language' | null
 
 export default function PreferencesPage() {
   const { theme, setTheme } = useTheme()
@@ -205,9 +205,6 @@ export default function PreferencesPage() {
 
   const speechRateOptions = (['slow', 'normal', 'fast'] as SpeechRate[])
     .map(v => ({ label: SPEECH_RATE_LABELS[v], value: v }))
-
-  const ambienceVolumeOptions = (['low', 'medium', 'high'] as AmbienceVolume[])
-    .map(v => ({ label: AMBIENCE_VOLUME_LABELS[v], value: v }))
 
   const languageOptions = (Object.keys(LANGUAGE_LABELS) as Language[])
     .map(v => ({ label: LANGUAGE_LABELS[v], value: v }))
@@ -284,14 +281,31 @@ export default function PreferencesPage() {
             on={prefs.ambienceDefault === 'on'}
             onChange={v => update({ ambienceDefault: v ? 'on' : 'off' })}
           />
-          <NavRow
-            icon={Waves}
-            label="Ambience Volume"
-            desc="Overall volume level for story ambient sounds"
-            displayValue={AMBIENCE_VOLUME_LABELS[prefs.ambienceVolume ?? 'medium']}
-            onClick={() => setSheet('ambienceVolume')}
-            last
-          />
+          <div style={{
+            display: 'flex', alignItems: 'flex-start', gap: 16, padding: '18px 0',
+          }}>
+            <Waves style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0, marginTop: 2 }} strokeWidth={1.5} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 1 }}>
+                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>Ambience Volume</p>
+                <span style={{ fontSize: 12, color: 'var(--pa)', fontWeight: 600, flexShrink: 0, marginLeft: 8 }}>
+                  {prefs.ambienceVolume ?? 50}%
+                </span>
+              </div>
+              <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 10px' }}>
+                Overall volume level for story ambient sounds
+              </p>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                step={5}
+                value={prefs.ambienceVolume ?? 50}
+                onChange={e => update({ ambienceVolume: Number(e.target.value) })}
+                style={{ width: '100%', accentColor: 'var(--pa)', cursor: 'pointer' }}
+              />
+            </div>
+          </div>
         </div>
 
         {/* ── LANGUAGE ─────────────────────────────────────────────────── */}
@@ -316,15 +330,6 @@ export default function PreferencesPage() {
         options={speechRateOptions}
         value={prefs.speechRate}
         onSelect={v => update({ speechRate: v })}
-        onClose={closeSheet}
-      />
-
-      <BottomSheet
-        open={sheet === 'ambienceVolume'}
-        title="Ambience Volume"
-        options={ambienceVolumeOptions}
-        value={prefs.ambienceVolume ?? 'medium'}
-        onSelect={v => update({ ambienceVolume: v as AmbienceVolume })}
         onClose={closeSheet}
       />
 

@@ -13,7 +13,7 @@ import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { storyParaAudioUrl } from '@/lib/tts'
 import type { AmbienceId } from '@/types/magazine'
-import { AMBIENCE_VOLUME_MAP, type VoiceKey } from '@/lib/settings/preferences'
+import { ambienceGain, type VoiceKey } from '@/lib/settings/preferences'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { saveLastPosition } from '@/lib/last-position'
@@ -137,7 +137,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   }, [story.id])  // eslint-disable-line react-hooks/exhaustive-deps
 
   const effectiveAmbienceOn = ambienceOverride ?? (prefs.ambienceDefault === 'on')
-  const userVolume = AMBIENCE_VOLUME_MAP[prefs.ambienceVolume ?? 'medium']
+  const userVolume = ambienceGain(prefs.ambienceVolume ?? 50)
 
   // 환경음 toggle: 낭독 중이면 즉시 재생/중단
   const toggleAmbience = useCallback(() => {
