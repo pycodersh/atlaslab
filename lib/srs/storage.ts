@@ -300,6 +300,20 @@ export function recordPatternPractice(
 }
 
 /**
+ * Story 완료 기록 훅.
+ * 완료 판정 조건(체류 시간, 스크롤, 오디오 재생률 등)은 호출자가 판단한다.
+ * engine.ts 의 onStoryComplete 가 이 함수를 re-export 한다.
+ */
+export function onStoryComplete(storyId: number, storyTitle: string): LearningRecord {
+  const map = readAll()
+  const rec = ensureRecord(map, String(storyId), 'story', storyTitle)
+  rec.lastPracticedAt = new Date().toISOString()
+  writeAll(map)
+  logActivity()
+  return rec
+}
+
+/**
  * 복습 결과 적용 (SRS 규칙).
  * @param correct true="알겠어", false="모르겠어"
  */
