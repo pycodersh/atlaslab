@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Music2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -285,7 +285,7 @@ export default function PreferencesPage() {
             onChange={v => update({ ambienceDefault: v ? 'on' : 'off' })}
           />
           <NavRow
-            icon={Music2}
+            icon={Waves}
             label="Ambience Volume"
             desc="Overall volume level for story ambient sounds"
             displayValue={AMBIENCE_VOLUME_LABELS[prefs.ambienceVolume ?? 'medium']}

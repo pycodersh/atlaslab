@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { Volume2, Music2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Volume2, Waves, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
@@ -132,7 +132,7 @@ export function StoryPage({
                         : 'bg-black/30 text-white hover:bg-[var(--pa)]',
                     ].join(' ')}
                   >
-                    <Music2 className="w-3.5 h-3.5" />
+                    <Waves className="w-3.5 h-3.5" />
                   </button>
                 )}
                 {/* TTS button */}

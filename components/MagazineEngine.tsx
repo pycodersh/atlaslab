@@ -13,7 +13,7 @@ import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { storyParaAudioUrl } from '@/lib/tts'
 import type { AmbienceId } from '@/types/magazine'
-import { AMBIENCE_VOLUME_MAP } from '@/lib/settings/preferences'
+import { AMBIENCE_VOLUME_MAP, type VoiceKey } from '@/lib/settings/preferences'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { saveLastPosition } from '@/lib/last-position'
@@ -109,21 +109,21 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       // Swipe LEFT → forward
       if (v === 'story') {
         // Story → Patterns (same story)
-        stop(); setPopup(null); setView('patterns')
+        handleStop(); setPopup(null); setView('patterns')
       } else {
         // Patterns → next Story
         const next = allStoriesRef.current.find(x => x.id === s.id + 1)
-        if (next) { stop(); setPopup(null); setView('story'); router.push(`/stories/${next.id}`) }
+        if (next) { handleStop(); setPopup(null); setView('story'); router.push(`/stories/${next.id}`) }
       }
     } else if (dragOffset > THRESHOLD) {
       // Swipe RIGHT → backward
       if (v === 'patterns') {
         // Patterns → Story (same story)
-        stop(); setPopup(null); setView('story')
+        handleStop(); setPopup(null); setView('story')
       } else {
         // Story → prev story's Patterns
         const prev = allStoriesRef.current.find(x => x.id === s.id - 1)
-        if (prev) { stop(); setPopup(null); router.push(`/stories/${prev.id}?v=p`) }
+        if (prev) { handleStop(); setPopup(null); router.push(`/stories/${prev.id}?v=p`) }
       }
     }
 
@@ -139,49 +139,55 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   const effectiveAmbienceOn = ambienceOverride ?? (prefs.ambienceDefault === 'on')
   const userVolume = AMBIENCE_VOLUME_MAP[prefs.ambienceVolume ?? 'medium']
 
+  // 환경음 toggle: 낭독 중이면 즉시 재생/중단
   const toggleAmbience = useCallback(() => {
-    setAmbienceOverride(!effectiveAmbienceOn)
-  }, [effectiveAmbienceOn])
-
-  // Ambience 재생/정지
-  useEffect(() => {
-    if (!story.ambienceId || story.sceneVideo) {
-      stopAmbience()
-      return
-    }
-    if (!effectiveAmbienceOn) {
-      stopAmbience()
-      return
-    }
-
-    const id = story.ambienceId as AmbienceId
-    playAmbience(id, userVolume)
-
-    // 모바일 autoplay 차단 대응: 100ms 후 첫 인터랙션에서 재시도
-    // (즉시 등록하면 현재 탭의 pointerdown을 잡아 toggle 경쟁 발생)
-    let retried = false
-    function onGesture() {
-      if (retried) return
-      retried = true
-      playAmbience(id, userVolume)
-    }
-    const timer = setTimeout(() => {
-      document.addEventListener('pointerdown', onGesture, { once: true, capture: true })
-    }, 100)
-    return () => {
-      clearTimeout(timer)
-      document.removeEventListener('pointerdown', onGesture, { capture: true })
+    const next = !effectiveAmbienceOn
+    setAmbienceOverride(next)
+    if (isSpeaking && story.ambienceId && !story.sceneVideo) {
+      if (next) playAmbience(story.ambienceId as AmbienceId, userVolume)
+      else stopAmbience()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [story.id, effectiveAmbienceOn, userVolume])
+  }, [effectiveAmbienceOn, isSpeaking, story.ambienceId, story.sceneVideo, userVolume])
+
+  // 낭독이 끝나거나 중단되면 환경음도 함께 중단
+  useEffect(() => {
+    if (!isSpeaking) stopAmbience()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSpeaking])
+
+  // 페이지 이탈(언마운트) 시 환경음 정리
+  useEffect(() => {
+    return () => stopAmbience()
+  }, [])  // eslint-disable-line react-hooks/exhaustive-deps
+
+  // 낭독 시작 시 환경음도 같이 시작 (활성화 상태일 때)
+  const handleSpeakAll = useCallback((
+    texts: string[],
+    audioUrls?: (string | null | undefined)[],
+    opts?: { voiceKey?: VoiceKey; voiceKeys?: VoiceKey[] },
+  ) => {
+    if (effectiveAmbienceOn && story.ambienceId && !story.sceneVideo) {
+      playAmbience(story.ambienceId as AmbienceId, userVolume)
+    }
+    speakAll(texts, audioUrls, opts)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [effectiveAmbienceOn, story.ambienceId, story.sceneVideo, userVolume, speakAll])
+
+  // 낭독 중단 시 환경음도 함께 중단
+  const handleStop = useCallback(() => {
+    stop()
+    stopAmbience()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stop])
 
   // ── Navigation ──────────────────────────────────────────────────────
   function switchView(newView: 'story' | 'patterns') {
-    stop(); setPopup(null); setView(newView)
+    handleStop(); setPopup(null); setView(newView)
   }
 
   function goToStory(id: number, startView: 'story' | 'patterns' = 'story') {
-    stop(); setPopup(null); setView('story')
+    handleStop(); setPopup(null); setView('story')
     const suffix = startView === 'patterns' ? '?v=p' : ''
     router.push(`/stories/${id}${suffix}`)
   }
@@ -242,8 +248,8 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
             hasPrev={!isFirst}
             onOpenPicker={() => setShowPicker(true)}
             onOpenPopup={setPopup}
-            speakAll={speakAll}
-            stop={stop}
+            speakAll={handleSpeakAll}
+            stop={handleStop}
             isSpeaking={isSpeaking}
             currentParagraphIdx={currentParagraphIdx}
             ambienceOn={effectiveAmbienceOn}
