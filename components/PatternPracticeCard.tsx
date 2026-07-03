@@ -14,6 +14,7 @@ import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import { patternMeaningNoteTranslations } from '@/data/pattern-meaning-note-translations'
 import { useT } from '@/hooks/useT'
+import { TappableWordText } from '@/components/TappableWordText'
 
 type Props = {
   storyId: number
@@ -324,7 +325,18 @@ export function PatternPracticeCard({
                   )}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[0.82rem] font-medium text-[var(--pt)] leading-snug">{ex.en}</p>
+                  <TappableWordText
+                    text={ex.en}
+                    source={{
+                      sourceType:       'example',
+                      sourceId:         pattern.id,
+                      storyId,
+                      patternId:        pattern.id,
+                      exampleIndex:     i,
+                      originalSentence: ex.en,
+                    }}
+                    className="text-[0.82rem] font-medium text-[var(--pt)] leading-snug block"
+                  />
                   {showTranslation && resolveTranslation(ex.ko, prefs.language, ex.translations) && (
                     <p className="text-[0.7rem] text-[var(--pm)] mt-0.5 leading-snug">
                       {resolveTranslation(ex.ko, prefs.language, ex.translations)}

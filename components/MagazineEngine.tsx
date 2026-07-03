@@ -8,6 +8,7 @@ import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { PatternsPage } from '@/components/PatternsPage'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
+import { TappableWordText } from '@/components/TappableWordText'
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -327,9 +328,17 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
                 </button>
               </div>
             </div>
-            <p className="font-playfair text-[0.78rem] text-[var(--pm)] leading-relaxed mb-2">
-              {popup.english}
-            </p>
+            <TappableWordText
+              text={popup.english}
+              source={{
+                sourceType:       'story',
+                sourceId:         String(story.id),
+                storyId:          story.id,
+                paragraphId:      popup.id,
+                originalSentence: popup.english,
+              }}
+              className="font-playfair text-[0.78rem] text-[var(--pm)] leading-relaxed block mb-2"
+            />
             {resolveTranslation(popup.koreanTranslation, prefs.language, popup.translations) && (
               <p className="text-[0.9rem] text-[var(--pt)] leading-relaxed mb-4">
                 {resolveTranslation(popup.koreanTranslation, prefs.language, popup.translations)}

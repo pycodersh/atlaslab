@@ -15,6 +15,8 @@ export type SavedWord = {
   sourceId:         string           // storyId or patternId or essayId (string)
   storyId?:         number
   patternId?:       string
+  paragraphId?:     string           // 문단 팝업에서 저장 시
+  exampleIndex?:    number           // 패턴 예문에서 저장 시 (0-based)
   originalSentence: string
   savedAt:          string           // ISO
 }
