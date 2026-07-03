@@ -313,6 +313,62 @@ export function onStoryComplete(storyId: number, storyTitle: string): LearningRe
   return rec
 }
 
+// ── Learning Event Log ───────────────────────────────────────────────────────
+// 학습 이력을 날짜별로 추적한다. 향후 MagazineEngine에서 started/completed 이벤트를 emit.
+
+export type LearningEventType = 'started' | 'completed' | 'reviewed'
+
+export type LearningEvent = {
+  id:                  string
+  storyId:             number
+  patternIds?:         string[]
+  eventType:           LearningEventType
+  /** SRS interval 변화 전 (reviewed 이벤트) */
+  reviewStageBefore?:  number
+  /** SRS interval 변화 후 (reviewed 이벤트) */
+  reviewStageAfter?:   number
+  createdAt:           string    // ISO
+  durationMs?:         number
+  nextReviewAt?:       string    // YYYY-MM-DD
+}
+
+const EVENTS_KEY = 'patto-srs-events'
+
+function readEvents(): LearningEvent[] {
+  if (typeof window === 'undefined') return []
+  try { return JSON.parse(localStorage.getItem(EVENTS_KEY) ?? '[]') } catch { return [] }
+}
+function writeEvents(events: LearningEvent[]) {
+  if (typeof window === 'undefined') return
+  localStorage.setItem(EVENTS_KEY, JSON.stringify(events))
+}
+
+export function recordLearningEvent(
+  event: Omit<LearningEvent, 'id' | 'createdAt'>,
+): LearningEvent {
+  const ev: LearningEvent = {
+    ...event,
+    id:        `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    createdAt: new Date().toISOString(),
+  }
+  const all = readEvents()
+  all.push(ev)
+  writeEvents(all)
+  return ev
+}
+
+export function getEventsByDate(dateStr: string): LearningEvent[] {
+  return readEvents().filter(e => e.createdAt.slice(0, 10) === dateStr)
+}
+
+export function getEventsByStory(storyId: number): LearningEvent[] {
+  return readEvents().filter(e => e.storyId === storyId)
+}
+
+export function getAllEvents(): LearningEvent[] {
+  return readEvents()
+}
+
 /**
  * 복습 결과 적용 (SRS 규칙).
  * @param correct true="알겠어", false="모르겠어"

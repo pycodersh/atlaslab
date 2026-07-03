@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ArrowRight } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { getAllRecords } from '@/lib/srs/storage'
+import { getMissionItems } from '@/lib/srs/engine'
 import { getLastPosition } from '@/lib/last-position'
 import { magazineStories } from '@/data/magazine-stories'
 import { EDITOR_NOTES, type LangMap } from '@/data/editor-notes'
@@ -215,16 +216,22 @@ export default function HomePage() {
   useEffect(() => {
     injectKenBurns()
 
-    // Continue Learning — 마지막 위치로, 없으면 다음 미학습 스토리로
-    const lastPos = getLastPosition()
-    if (lastPos) {
-      setFirstHref(`/stories/${lastPos.storyId}${lastPos.view === 'patterns' ? '?v=p' : ''}`)
+    // Continue Learning — 오늘 미션 첫 번째 미완료 항목 우선, 없으면 마지막 위치
+    const missionItems = getMissionItems()
+    const firstPending = missionItems.find(item => !item.done)
+    if (firstPending) {
+      setFirstHref(firstPending.href)
     } else {
-      const learnedStoryIds = new Set(
-        getAllRecords().filter(r => r.itemType === 'story').map(r => r.itemId),
-      )
-      const nextStory = magazineStories.find(s => !learnedStoryIds.has(String(s.id))) ?? magazineStories[0]
-      setFirstHref(`/stories/${nextStory.id}`)
+      const lastPos = getLastPosition()
+      if (lastPos) {
+        setFirstHref(`/stories/${lastPos.storyId}${lastPos.view === 'patterns' ? '?v=p' : ''}`)
+      } else {
+        const learnedStoryIds = new Set(
+          getAllRecords().filter(r => r.itemType === 'story').map(r => r.itemId),
+        )
+        const nextStory = magazineStories.find(s => !learnedStoryIds.has(String(s.id))) ?? magazineStories[0]
+        setFirstHref(`/stories/${nextStory.id}`)
+      }
     }
 
     // Next unread editor's note

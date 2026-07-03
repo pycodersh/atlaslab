@@ -6,6 +6,7 @@ import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
 import { StoryImageSlider } from '@/components/StoryImageSlider'
+import { TodayMissionBar } from '@/components/TodayMissionBar'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { storyParaAudioUrl } from '@/lib/tts'
@@ -86,6 +87,9 @@ export function StoryPage({
     <div className="h-full flex flex-col bg-[var(--pb)]">
       <div className="flex-1 overflow-y-auto">
         <div className="pl-7 pr-6 pt-5 pb-8">
+
+          {/* Today's Mission mini bar */}
+          <TodayMissionBar currentStoryId={story.id} />
 
           {/* 제목 */}
           <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[var(--pt)] mt-2 mb-1">

@@ -7,6 +7,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { useT } from '@/hooks/useT'
 import { PatternIllustrationRow } from '@/components/PatternIllustrationRow'
+import { TodayMissionBar } from '@/components/TodayMissionBar'
 import { getPatternExamples, type PracticeExample } from '@/data/pattern-examples'
 
 type PatternsPageProps = {
@@ -67,7 +68,10 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, pat
       <div className="flex-1 overflow-y-auto">
         <div className="pl-7 pr-6 pt-5 pb-10">
 
-          {/* ── Story 히어로: 대표 이미지 + 제목 + 반복 횟수 ── */}
+          {/* Today's Mission mini bar */}
+          <TodayMissionBar currentStoryId={story.id} />
+
+          {/* ── Story 히어로: 대표 이미지 + 제목 (클릭 → Story 선택) ── */}
           <div className="flex gap-4 items-stretch mb-5">
             <div
               className="w-36 rounded-2xl bg-cover bg-center shrink-0 shadow-sm"
@@ -75,8 +79,15 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, pat
               aria-label={story.imageAlt}
               role="img"
             />
-            <div className="flex-1 min-w-0 flex flex-col justify-center">
-              <p className="text-[9px] tracking-[0.28em] font-bold text-[var(--pa)] mb-1">
+            {/* 제목 영역 — 탭하면 Story 선택 피커 열림 */}
+            <button
+              type="button"
+              onClick={onOpenPicker}
+              aria-label="스토리 선택"
+              className="flex-1 min-w-0 flex flex-col justify-center text-left group cursor-pointer"
+              style={{ background: 'none', border: 'none', padding: 0 }}
+            >
+              <p className="text-[9px] tracking-[0.28em] font-bold text-[var(--pa)] mb-1 group-hover:opacity-70 transition-opacity">
                 STORY {String(story.id).padStart(2, '0')}
               </p>
               <h2 className="font-playfair text-[1.45rem] font-bold text-[var(--pt)] leading-tight">
@@ -87,7 +98,7 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, pat
                   {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)}
                 </p>
               )}
-            </div>
+            </button>
           </div>
 
           <div className="h-px bg-[var(--pd)] mt-6" />

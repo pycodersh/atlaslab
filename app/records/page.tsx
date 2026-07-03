@@ -15,11 +15,13 @@ import {
   getDueCount,
   getLearnedStoryCount, getLearnedPatternCount, getTotalPracticeMs,
   getStudiedTodayStoryCount, getPracticedTodayCount, getReviewedTodayCount,
-  getPracticedPatternCountByStory, getStreak, getDailyStats,
+  getPracticedPatternCountByStory, getStreak,
 } from '@/lib/srs/storage'
 import {
   getStatusCounts, getReviewQueue, getFutureSchedule,
+  getEnhancedDayDetail, getStoryActivity,
   type PatternStatus, type ReviewQueue, type ScheduledDay,
+  type EnhancedDayDetail,
 } from '@/lib/srs/engine'
 import { getCurrentPhase, getPhaseProgress, PHASES } from '@/lib/curriculum/phases'
 
@@ -28,8 +30,6 @@ import { getCurrentPhase, getPhaseProgress, PHASES } from '@/lib/curriculum/phas
 const DAILY = { story: 1, pattern: 5 }
 
 // ── 타입 ─────────────────────────────────────────────────────────────────────
-
-type DayDetail = { iso: string; stories: number; patterns: number; reviews: number }
 
 type Stats = {
   studiedTodayStories:    number
@@ -329,12 +329,75 @@ function PatternStatusBar() {
 
 // ── Day Detail Bottom Sheet ───────────────────────────────────────────────────
 
-function DayDetailSheet({ detail, onClose }: { detail: DayDetail | null; onClose: () => void }) {
+const STATUS_COLOR: Record<string, string> = {
+  new: 'var(--pm2)', learning: '#E67E22', review: 'var(--pa)', mastered: '#27AE60',
+}
+
+function StoryActivityDetail({ storyId, storyTitle }: { storyId: number; storyTitle: string }) {
+  const story = magazineStories.find(s => s.id === storyId)
+  const patternIds = story?.patterns.map(p => p.id) ?? []
+  const activity = getStoryActivity(storyId, storyTitle, patternIds)
+
+  return (
+    <div style={{
+      marginTop: 8, padding: '12px 14px',
+      background: 'var(--pc)', borderRadius: 10,
+    }}>
+      {/* Summary row */}
+      <div style={{ display: 'flex', gap: 16, marginBottom: 10, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 11, color: 'var(--pm2)' }}>
+          Viewed <strong style={{ color: 'var(--pt)' }}>{activity.viewCount}×</strong>
+        </span>
+        <span style={{ fontSize: 11, color: 'var(--pm2)' }}>
+          Reviews <strong style={{ color: 'var(--pt)' }}>{activity.reviewsCompleted}/{activity.stages.length}</strong>
+        </span>
+        <span style={{ fontSize: 11, color: STATUS_COLOR[activity.status] ?? 'var(--pm2)', fontWeight: 700, textTransform: 'capitalize' }}>
+          {activity.status}
+        </span>
+      </div>
+
+      {/* Next review */}
+      {activity.nextReviewAt && (
+        <p style={{ fontSize: 10, color: 'var(--pm)', margin: '0 0 10px' }}>
+          Next review: <strong style={{ color: 'var(--pt)' }}>{fmtDate(activity.nextReviewAt.slice(0, 10))}</strong>
+        </p>
+      )}
+
+      {/* Pattern stages */}
+      {activity.stages.length > 0 && (
+        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+          {activity.stages.map((stage, i) => (
+            <div key={i} style={{
+              padding: '3px 7px', borderRadius: 5,
+              background: stage.status === 'new' ? 'var(--pd)' : STATUS_COLOR[stage.status] + '22',
+              border: `1px solid ${STATUS_COLOR[stage.status] ?? 'var(--pd)'}33`,
+            }}>
+              <span style={{
+                fontSize: 9, fontWeight: 700, letterSpacing: '0.06em',
+                color: STATUS_COLOR[stage.status] ?? 'var(--pm2)',
+              }}>
+                P{i + 1}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null; onClose: () => void }) {
   const open = !!detail
+  const [expandedStoryId, setExpandedStoryId] = useState<number | null>(null)
+
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
+
+  useEffect(() => { if (!open) setExpandedStoryId(null) }, [open])
+
+  const isEmpty = detail && detail.completed.length === 0 && detail.due.length === 0 && detail.upcoming.length === 0
 
   return (
     <>
@@ -349,16 +412,20 @@ function DayDetailSheet({ detail, onClose }: { detail: DayDetail | null; onClose
         transform: open ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)',
         paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))',
+        maxHeight: '80dvh', overflowY: 'auto',
       }}>
+        {/* Handle */}
         <div style={{ padding: '12px 24px 0' }}>
           <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto' }} />
         </div>
+
+        {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
           <p className="font-playfair" style={{
             fontSize: 'clamp(1.4rem, 5.5vw, 1.7rem)', fontWeight: 900,
             color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em',
           }}>
-            {detail ? fmtDate(detail.iso) : ''}
+            {detail ? fmtDate(detail.date) : ''}
           </p>
           <button type="button" onClick={onClose} style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -368,24 +435,121 @@ function DayDetailSheet({ detail, onClose }: { detail: DayDetail | null; onClose
             <X style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
           </button>
         </div>
+
         {detail && (
-          <div style={{ padding: '20px 24px 0' }}>
-            {[
-              { icon: BookOpen,  label: 'Story',   value: detail.stories },
-              { icon: Layers,    label: 'Pattern',  value: detail.patterns },
-              { icon: RotateCcw, label: 'Review',   value: detail.reviews },
-            ].map(({ icon: Icon, label, value }, i, arr) => (
-              <div key={label} style={{
-                display: 'flex', alignItems: 'center', gap: 12, padding: '13px 0',
-                borderBottom: i < arr.length - 1 ? '1px solid var(--pd)' : 'none',
-              }}>
-                <Icon style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.8} />
-                <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)' }}>{label}</span>
-                <span style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
-                  {value}
-                </span>
+          <div style={{ padding: '20px 24px' }}>
+            {isEmpty && (
+              <p style={{ fontSize: 13, color: 'var(--pm2)', textAlign: 'center', paddingTop: 16 }}>
+                이 날은 학습 기록이 없어요.
+              </p>
+            )}
+
+            {/* ── Completed ──────────────────────────────────────────── */}
+            {detail.completed.length > 0 && (
+              <div style={{ marginBottom: 24 }}>
+                <p style={{
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
+                  color: '#27AE60', textTransform: 'uppercase', margin: '0 0 10px',
+                }}>
+                  Completed
+                  {detail.totalPracticeMs > 0 && (
+                    <span style={{ fontWeight: 400, color: 'var(--pm2)', marginLeft: 8 }}>
+                      · {fmtTime(detail.totalPracticeMs)}
+                    </span>
+                  )}
+                </p>
+                {detail.completed.map((item, i) => {
+                  const isExpanded = expandedStoryId === item.storyId
+                  return (
+                    <div key={item.storyId}>
+                      <button
+                        type="button"
+                        onClick={() => setExpandedStoryId(isExpanded ? null : item.storyId)}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 10,
+                          width: '100%', padding: '12px 0',
+                          borderBottom: (i < detail.completed.length - 1 || isExpanded) ? '1px solid var(--pd)' : 'none',
+                          background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
+                          borderTop: i === 0 ? 'none' : undefined,
+                        }}
+                      >
+                        <Check style={{ width: 13, height: 13, color: '#27AE60', flexShrink: 0 }} strokeWidth={2.5} />
+                        <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: 'var(--pt)' }}>
+                          Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
+                        </span>
+                        {item.practiceMins > 0 && (
+                          <span style={{
+                            fontSize: 9, fontWeight: 600, color: 'var(--pm2)', flexShrink: 0,
+                          }}>
+                            {item.practiceMins}m
+                          </span>
+                        )}
+                        <ChevronRight style={{
+                          width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0,
+                          transform: isExpanded ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s',
+                        }} strokeWidth={2} />
+                      </button>
+                      {isExpanded && (
+                        <div style={{ borderBottom: i < detail.completed.length - 1 ? '1px solid var(--pd)' : 'none', paddingBottom: 12 }}>
+                          <StoryActivityDetail storyId={item.storyId} storyTitle={item.storyTitle} />
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
-            ))}
+            )}
+
+            {/* ── Due ────────────────────────────────────────────────── */}
+            {detail.due.length > 0 && (
+              <div style={{ marginBottom: 24 }}>
+                <p style={{
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
+                  color: 'var(--pa)', textTransform: 'uppercase', margin: '0 0 10px',
+                }}>
+                  Due
+                </p>
+                {detail.due.map((item, i) => (
+                  <div key={item.storyId} style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '12px 0',
+                    borderBottom: i < detail.due.length - 1 ? '1px solid var(--pd)' : 'none',
+                  }}>
+                    <RotateCcw style={{ width: 13, height: 13, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={2} />
+                    <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)' }}>
+                      Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle} Review
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* ── Upcoming ────────────────────────────────────────────── */}
+            {detail.upcoming.length > 0 && (
+              <div>
+                <p style={{
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
+                  color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 10px',
+                }}>
+                  Upcoming
+                </p>
+                {detail.upcoming.map((item, i) => (
+                  <div key={`${item.storyId}-${i}`} style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '12px 0',
+                    borderBottom: i < detail.upcoming.length - 1 ? '1px solid var(--pd)' : 'none',
+                  }}>
+                    <CalendarClock style={{ width: 13, height: 13, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.8} />
+                    <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)' }}>
+                      Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
+                    </span>
+                    <span style={{ fontSize: 10, color: 'var(--pm2)', flexShrink: 0 }}>
+                      {fmtDate(item.date.slice(0, 10))}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -505,7 +669,7 @@ export default function ProgressPage() {
   const router  = useRouter()
   const t       = useT()
   const [s, setS]               = useState<Stats | null>(null)
-  const [dayDetail, setDayDetail]   = useState<DayDetail | null>(null)
+  const [dayDetail, setDayDetail]   = useState<EnhancedDayDetail | null>(null)
   const [selectedIso, setSelectedIso] = useState<string | null>(null)
   const [helpOpen, setHelpOpen]     = useState(false)
 
@@ -545,7 +709,7 @@ export default function ProgressPage() {
   function handleDaySelect(iso: string) {
     if (selectedIso === iso) { setSelectedIso(null); setDayDetail(null); return }
     setSelectedIso(iso)
-    setDayDetail({ iso, ...getDailyStats(iso) })
+    setDayDetail(getEnhancedDayDetail(iso))
   }
 
   return (
