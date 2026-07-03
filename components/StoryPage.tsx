@@ -1,12 +1,13 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { Volume2, Waves, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
 import { StoryImageSlider } from '@/components/StoryImageSlider'
 import { TodayMissionBar } from '@/components/TodayMissionBar'
+import { WordSavePopup } from '@/components/WordSavePopup'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { storyParaAudioUrl } from '@/lib/tts'
@@ -58,6 +59,7 @@ export function StoryPage({
   onAmbienceToggle,
 }: StoryPageProps) {
   const { prefs } = usePreferences()
+  const storyContentRef = useRef<HTMLDivElement>(null)
 
   // TTS 현재 문단 ID → 슬라이더 동기화용
   const activeParagraphId =
@@ -158,22 +160,31 @@ export function StoryPage({
           />
 
           {/* 단락 목록 — 텍스트만, 이미지 없음 */}
-          <div className="space-y-5">
+          <div className="space-y-5" ref={storyContentRef}>
             {story.paragraphs.map((para) => (
               <div
                 key={para.id}
+                data-para-id={para.id}
                 className="cursor-pointer rounded-xl px-2 py-1.5 -mx-2 hover:bg-[var(--pc2)] active:bg-[var(--pc)] transition-colors"
                 onClick={() => onOpenPopup(para)}
                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onOpenPopup(para) }}
                 role="button"
                 tabIndex={0}
               >
-                <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)] select-none">
+                <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)]">
                   {highlightText(para.english, story.highlightPhrases)}
                 </p>
               </div>
             ))}
           </div>
+
+          {/* 단어 long-press 저장 팝업 */}
+          <WordSavePopup
+            storyId={story.id}
+            sourceType="story"
+            containerRef={storyContentRef}
+            paragraphs={story.paragraphs.map(p => ({ id: p.id, english: p.english }))}
+          />
 
           {resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations) && (
             <div className="mt-7 border-l-2 border-[var(--pd)] pl-3">
