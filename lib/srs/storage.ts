@@ -217,6 +217,23 @@ export function getReviewedTodayCount(): number {
   return getAllRecords().filter((r) => r.lastReviewedAt?.slice(0, 10) === t).length
 }
 
+/** 특정 날짜의 학습 상세 (캘린더 탭용) */
+export function getDailyStats(dateStr: string): { stories: number; patterns: number; reviews: number } {
+  const records = getAllRecords()
+  const storySet = new Set<string>()
+  let patterns = 0
+  let reviews = 0
+  for (const r of records) {
+    if (r.lastPracticedAt?.slice(0, 10) === dateStr && r.itemType === 'pattern') {
+      patterns++
+      const m = r.itemId.match(/^pt(\d+)-/)
+      if (m) storySet.add(m[1])
+    }
+    if (r.lastReviewedAt?.slice(0, 10) === dateStr) reviews++
+  }
+  return { stories: storySet.size, patterns, reviews }
+}
+
 // ── 기록 ────────────────────────────────────────────────────────────────────
 function blankRecord(
   itemId: string,

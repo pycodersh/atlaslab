@@ -18,7 +18,6 @@ function buildMonth(year: number, month: number, counts: Record<string, number>)
   for (let i = 0; i < startDow; i++) cells.push(null)
   for (let d = 1; d <= daysInMonth; d++) {
     const date = new Date(year, month, d)
-    // 로컬 날짜 키 (활동 로그와 동일 기준)
     const iso = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`
     cells.push({ iso, dom: d, count: counts[iso] ?? 0, isToday: date.getTime() === today.getTime(), future: date.getTime() > today.getTime() })
   }
@@ -29,24 +28,30 @@ function buildMonth(year: number, month: number, counts: Record<string, number>)
   return weeks
 }
 
-function cellStyle(day: DayData | null): React.CSSProperties {
+function cellStyle(day: DayData | null, selected: boolean): React.CSSProperties {
   if (!day || day.future) return { background: 'transparent' }
-  if (day.count === 0) return { background: 'transparent', border: '1px solid var(--pd)' } // 학습 없음 = 빈칸
-  if (day.count <= 2) return { background: 'var(--ph1)' }  // 1~2회 연한
-  if (day.count <= 5) return { background: 'var(--ph2)' }  // 3~5회 중간
-  return { background: 'var(--ph3)' }                       // 6회+ 진한
+  if (selected) return { background: 'var(--pa)' }
+  if (day.count === 0) return { background: 'transparent', border: '1px solid var(--pd)' }
+  if (day.count <= 2) return { background: 'var(--ph1)' }
+  if (day.count <= 5) return { background: 'var(--ph2)' }
+  return { background: 'var(--ph3)' }
 }
 
-// 날짜 숫자 색상 — 칸 색이 진할수록 밝게
-function cellTextColor(day: DayData | null): string {
+function cellTextColor(day: DayData | null, selected: boolean): string {
   if (!day) return 'transparent'
   if (day.future) return 'var(--pm2)'
+  if (selected) return '#fff'
   if (day.count === 0) return 'var(--pm2)'
   if (day.count <= 2) return 'var(--pt2)'
   return '#fff'
 }
 
-export function LearningCalendar() {
+type Props = {
+  onDaySelect?: (iso: string) => void
+  selectedIso?: string | null
+}
+
+export function LearningCalendar({ onDaySelect, selectedIso }: Props) {
   const t = useT()
   const now = new Date()
   const [year, setYear] = useState(now.getFullYear())
@@ -72,7 +77,7 @@ export function LearningCalendar() {
 
   return (
     <div>
-      {/* Month nav (더보기 = 이전 달 탐색) */}
+      {/* Month nav */}
       <div className="flex items-center justify-between mb-5">
         <button type="button" onClick={prev} aria-label="이전 달" className="p-1 text-[var(--pm)] hover:text-[var(--pa)] transition-colors cursor-pointer">
           <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
@@ -98,26 +103,35 @@ export function LearningCalendar() {
       <div className="space-y-1.5">
         {weeks.map((week, wi) => (
           <div key={wi} className="grid grid-cols-7 gap-1.5">
-            {week.map((day, di) => (
-              <div
-                key={di}
-                title={day ? `${day.iso} · ${day.count}회` : undefined}
-                className={[
-                  'aspect-square rounded-md flex items-start justify-start p-1',
-                  day?.isToday ? 'ring-2 ring-[var(--pa)] ring-offset-1 ring-offset-[var(--pb)]' : '',
-                ].join(' ')}
-                style={cellStyle(day)}
-              >
-                {day && (
-                  <span
-                    className={`text-[9px] leading-none ${day.isToday ? 'font-bold' : 'font-medium'}`}
-                    style={{ color: cellTextColor(day) }}
-                  >
-                    {day.dom}
-                  </span>
-                )}
-              </div>
-            ))}
+            {week.map((day, di) => {
+              const isSelected = !!day && day.iso === selectedIso
+              const tappable = !!day && !day.future && day.count > 0 && !!onDaySelect
+              return (
+                <div
+                  key={di}
+                  title={day ? `${day.iso} · ${day.count}회` : undefined}
+                  role={tappable ? 'button' : undefined}
+                  tabIndex={tappable ? 0 : undefined}
+                  onClick={tappable ? () => onDaySelect?.(day.iso) : undefined}
+                  onKeyDown={tappable ? (e) => { if (e.key === 'Enter' || e.key === ' ') onDaySelect?.(day!.iso) } : undefined}
+                  className={[
+                    'aspect-square rounded-md flex items-start justify-start p-1',
+                    day?.isToday && !isSelected ? 'ring-2 ring-[var(--pa)] ring-offset-1 ring-offset-[var(--pb)]' : '',
+                    tappable ? 'cursor-pointer' : '',
+                  ].join(' ')}
+                  style={cellStyle(day, isSelected)}
+                >
+                  {day && (
+                    <span
+                      className={`text-[9px] leading-none ${day.isToday ? 'font-bold' : 'font-medium'}`}
+                      style={{ color: cellTextColor(day, isSelected) }}
+                    >
+                      {day.dom}
+                    </span>
+                  )}
+                </div>
+              )
+            })}
           </div>
         ))}
       </div>
