@@ -19,7 +19,7 @@ import {
 } from '@/lib/srs/storage'
 import {
   getStatusCounts, getReviewQueue, getFutureSchedule,
-  type PatternStatus, type ReviewQueue,
+  type PatternStatus, type ReviewQueue, type ScheduledDay,
 } from '@/lib/srs/engine'
 import { getCurrentPhase, getPhaseProgress, PHASES } from '@/lib/curriculum/phases'
 
@@ -35,7 +35,7 @@ type Stats = {
   studiedTodayStories:    number
   practicedTodayPatterns: number
   reviewedToday:          number
-  dueNow:                 number
+  dueNow:                 number     // 복습 대기 수 (Review Queue 표시용)
   learnedStories:         number
   learnedPatterns:        number
   totalPracticeMs:        number
@@ -43,13 +43,17 @@ type Stats = {
   ctaHref:                string
   statusCounts:           ReturnType<typeof getStatusCounts>
   queue:                  ReviewQueue
-  futureSchedule:         Record<string, number>
+  futureSchedule:         Record<string, ScheduledDay>
 }
 
 // ── 헬퍼 ─────────────────────────────────────────────────────────────────────
 
-function computeCtaHref(dueNow: number): string {
-  if (dueNow > 0) return '/review'
+/**
+ * 오늘 이어서 학습할 URL.
+ * Review는 /review 별도 페이지가 아닌 Today's Mission 내 Story 흐름에서 자동 처리.
+ * (복습 대기 여부와 무관하게 다음 학습 스토리로 안내)
+ */
+function computeCtaHref(): string {
   const practiced = getPracticedPatternCountByStory()
   const inProgress = magazineStories.find(st => {
     const c = practiced[st.id] ?? 0
@@ -229,21 +233,12 @@ const QUEUE_CHIPS: {
   },
 ]
 
-function ReviewQueueSection({
-  queue, onGoReview,
-}: {
-  queue: ReviewQueue
-  onGoReview: () => void
-}) {
-  const totalDue = queue.overdue.length + queue.dueToday.length
+function ReviewQueueSection({ queue }: { queue: ReviewQueue }) {
   return (
     <section style={{ marginBottom: 72 }}>
       <SectionLabel
         label="Review Queue"
-        sub="복습 예정 패턴 현황. 밀린 복습부터 우선 처리해요."
-        action={totalDue > 0
-          ? <ActionLink label="복습 시작" onClick={onGoReview} />
-          : undefined}
+        sub="복습 예정 패턴 현황. 오늘 Story 학습 중 자동으로 처리돼요."
       />
       <div style={{ display: 'flex', gap: 10 }}>
         {QUEUE_CHIPS.map(({ key, label, icon: Icon, color, bg }) => {
@@ -274,8 +269,7 @@ function ReviewQueueSection({
         })}
       </div>
 
-      {/* Pattern Status 요약 */}
-      <PatternStatusBar queue={queue} />
+      <PatternStatusBar />
     </section>
   )
 }
@@ -283,12 +277,13 @@ function ReviewQueueSection({
 // ── Pattern Status 요약 바 ────────────────────────────────────────────────────
 
 const STATUS_META: { key: PatternStatus; label: string; color: string }[] = [
-  { key: 'learning', label: 'Learning',  color: '#E67E22' },
-  { key: 'review',   label: 'Review',    color: 'var(--pa)' },
-  { key: 'mastered', label: 'Mastered',  color: '#27AE60' },
+  { key: 'new',      label: 'New',      color: 'var(--pm2)' },
+  { key: 'learning', label: 'Learning', color: '#E67E22' },
+  { key: 'review',   label: 'Review',   color: 'var(--pa)' },
+  { key: 'mastered', label: 'Mastered', color: '#27AE60' },
 ]
 
-function PatternStatusBar({ queue }: { queue: ReviewQueue }) {
+function PatternStatusBar() {
   const [counts, setCounts] = useState<ReturnType<typeof getStatusCounts> | null>(null)
   useEffect(() => { setCounts(getStatusCounts()) }, [])
 
@@ -525,7 +520,7 @@ export default function ProgressPage() {
       learnedPatterns:  getLearnedPatternCount(),
       totalPracticeMs:  getTotalPracticeMs(),
       streak:           getStreak(),
-      ctaHref:          computeCtaHref(dueNow),
+      ctaHref:          computeCtaHref(),
       statusCounts:     getStatusCounts(),
       queue:            getReviewQueue(),
       futureSchedule:   getFutureSchedule(),
@@ -612,10 +607,7 @@ export default function ProgressPage() {
           </section>
 
           {/* ── REVIEW QUEUE ──────────────────────────────────────────── */}
-          <ReviewQueueSection
-            queue={v.queue}
-            onGoReview={() => router.push('/review')}
-          />
+          <ReviewQueueSection queue={v.queue} />
 
           {/* ── TODAY'S MISSION ───────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>

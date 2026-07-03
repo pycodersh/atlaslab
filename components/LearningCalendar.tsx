@@ -3,13 +3,14 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { getActivityByDate } from '@/lib/srs/storage'
+import { type ScheduledDay } from '@/lib/srs/engine'
 import { useT } from '@/hooks/useT'
 
 type DayData = {
   iso:       string
   dom:       number
-  count:     number     // 과거: 실제 활동 수
-  scheduled: number     // 미래: 예정된 복습 수
+  count:     number           // 과거: 실제 활동 수
+  scheduled: ScheduledDay | null  // 미래: 예정된 복습 정보
   isToday:   boolean
   future:    boolean
 }
@@ -21,7 +22,7 @@ function buildMonth(
   year: number,
   month: number,
   counts: Record<string, number>,
-  futureSchedule: Record<string, number>,
+  futureSchedule: Record<string, ScheduledDay>,
 ): (DayData | null)[][] {
   const today    = new Date(); today.setHours(0, 0, 0, 0)
   const startDow = (new Date(year, month, 1).getDay() + 6) % 7
@@ -36,7 +37,7 @@ function buildMonth(
       iso,
       dom:       d,
       count:     isFuture ? 0 : (counts[iso] ?? 0),
-      scheduled: isFuture ? (futureSchedule[iso] ?? 0) : 0,
+      scheduled: isFuture ? (futureSchedule[iso] ?? null) : null,
       isToday:   date.getTime() === today.getTime(),
       future:    isFuture,
     })
@@ -70,9 +71,9 @@ function cellTextColor(day: DayData | null, selected: boolean): string {
 }
 
 type Props = {
-  onDaySelect?:   (iso: string) => void
-  selectedIso?:   string | null
-  futureSchedule?: Record<string, number>
+  onDaySelect?:    (iso: string) => void
+  selectedIso?:    string | null
+  futureSchedule?: Record<string, ScheduledDay>
 }
 
 export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {} }: Props) {
@@ -134,15 +135,15 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
           <div key={wi} className="grid grid-cols-7 gap-1.5">
             {week.map((day, di) => {
               const isSelected = !!day && day.iso === selectedIso
-              const tappable   = !!day && !day.future && day.count > 0 && !!onDaySelect
-              const hasScheduled = !!day && day.future && day.scheduled > 0
+              const tappable     = !!day && !day.future && day.count > 0 && !!onDaySelect
+              const hasScheduled = !!day && day.future && !!day.scheduled && day.scheduled.count > 0
               return (
                 <div
                   key={di}
                   title={
                     day
                       ? day.future && hasScheduled
-                        ? `${day.iso} · 복습 예정 ${day.scheduled}개`
+                        ? `${day.iso} · 복습 예정 ${day.scheduled!.count}개`
                         : `${day.iso} · ${day.count}회`
                       : undefined
                   }
