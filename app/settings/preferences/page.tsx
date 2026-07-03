@@ -2,19 +2,15 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Play, Square } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Music2 } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
 import {
-  type SpeechRate, type VoiceKey, type Language,
-  SPEECH_RATE_LABELS, VOICE_LABELS, LANGUAGE_LABELS,
+  type SpeechRate, type VoiceKey, type Language, type AmbienceVolume,
+  SPEECH_RATE_LABELS, LANGUAGE_LABELS, AMBIENCE_VOLUME_LABELS,
 } from '@/lib/settings/preferences'
-import { BrowserTTSProvider, getPitchForKey } from '@/lib/tts'
-
-const PREVIEW_TEXT = "Hello. Welcome to PATTO. Let's read today's story."
-const _previewProvider = new BrowserTTSProvider()
 
 // ── iOS-style Toggle ──────────────────────────────────────────────────────────
 function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void }) {
@@ -197,40 +193,21 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
-type Sheet = 'speechRate' | 'voice' | 'language' | null
+type Sheet = 'speechRate' | 'ambienceVolume' | 'language' | null
 
 export default function PreferencesPage() {
-  const { theme, setTheme }         = useTheme()
-  const { prefs, update }           = usePreferences()
-  const [sheet, setSheet]           = useState<Sheet>(null)
-  const [previewing, setPreviewing] = useState<VoiceKey | null>(null)
+  const { theme, setTheme } = useTheme()
+  const { prefs, update }   = usePreferences()
+  const [sheet, setSheet]   = useState<Sheet>(null)
   const t = useT()
 
-  function handleVoicePreview(key: VoiceKey) {
-    if (previewing === key) {
-      _previewProvider.stop(); setPreviewing(null); return
-    }
-    _previewProvider.stop()
-    setPreviewing(key)
-    _previewProvider.speak({
-      texts: [PREVIEW_TEXT], voiceKey: key,
-      rate: 0.95, pitch: getPitchForKey(key), volume: 1.0,
-      onEnd:  () => setPreviewing(null),
-      onError: () => setPreviewing(null),
-    })
-  }
-
-  function closeSheet() {
-    _previewProvider.stop()
-    setPreviewing(null)
-    setSheet(null)
-  }
+  function closeSheet() { setSheet(null) }
 
   const speechRateOptions = (['slow', 'normal', 'fast'] as SpeechRate[])
     .map(v => ({ label: SPEECH_RATE_LABELS[v], value: v }))
 
-  const voiceOptions = (['us-female', 'us-male', 'uk-female', 'uk-male'] as VoiceKey[])
-    .map(v => ({ label: VOICE_LABELS[v], value: v }))
+  const ambienceVolumeOptions = (['low', 'medium', 'high'] as AmbienceVolume[])
+    .map(v => ({ label: AMBIENCE_VOLUME_LABELS[v], value: v }))
 
   const languageOptions = (Object.keys(LANGUAGE_LABELS) as Language[])
     .map(v => ({ label: LANGUAGE_LABELS[v], value: v }))
@@ -300,19 +277,19 @@ export default function PreferencesPage() {
             displayValue={SPEECH_RATE_LABELS[prefs.speechRate]}
             onClick={() => setSheet('speechRate')}
           />
-          <NavRow
-            icon={Mic}
-            label={t('voice')}
-            desc={t('voice_desc')}
-            displayValue={VOICE_LABELS[prefs.voice]}
-            onClick={() => setSheet('voice')}
-          />
           <ToggleRow
             icon={Waves}
-            label="Story Ambience"
-            desc={t('ambience_desc')}
+            label="Enable Story Ambience"
+            desc="Play ambient sound automatically when opening a story"
             on={prefs.ambienceDefault === 'on'}
             onChange={v => update({ ambienceDefault: v ? 'on' : 'off' })}
+          />
+          <NavRow
+            icon={Music2}
+            label="Ambience Volume"
+            desc="Overall volume level for story ambient sounds"
+            displayValue={AMBIENCE_VOLUME_LABELS[prefs.ambienceVolume ?? 'medium']}
+            onClick={() => setSheet('ambienceVolume')}
             last
           />
         </div>
@@ -343,29 +320,12 @@ export default function PreferencesPage() {
       />
 
       <BottomSheet
-        open={sheet === 'voice'}
-        title={t('voice')}
-        options={voiceOptions}
-        value={prefs.voice}
-        onSelect={v => update({ voice: v })}
+        open={sheet === 'ambienceVolume'}
+        title="Ambience Volume"
+        options={ambienceVolumeOptions}
+        value={prefs.ambienceVolume ?? 'medium'}
+        onSelect={v => update({ ambienceVolume: v as AmbienceVolume })}
         onClose={closeSheet}
-        renderRight={opt => (
-          <button
-            type="button"
-            onClick={e => { e.stopPropagation(); handleVoicePreview(opt.value as VoiceKey) }}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 30, height: 30, borderRadius: '50%',
-              background: previewing === opt.value ? 'var(--pal)' : 'var(--pc)',
-              border: 'none', cursor: 'pointer', flexShrink: 0,
-            }}
-          >
-            {previewing === opt.value
-              ? <Square style={{ width: 9, height: 9, color: 'var(--pa)' }} fill="currentColor" strokeWidth={0} />
-              : <Play   style={{ width: 9, height: 9, color: 'var(--pm)' }} fill="currentColor" strokeWidth={0} />
-            }
-          </button>
-        )}
       />
 
       <BottomSheet

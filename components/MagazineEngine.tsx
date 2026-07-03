@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { Volume2, X } from 'lucide-react'
 
@@ -13,6 +13,7 @@ import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { storyParaAudioUrl } from '@/lib/tts'
 import type { AmbienceId } from '@/types/magazine'
+import { AMBIENCE_VOLUME_MAP } from '@/lib/settings/preferences'
 import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { saveLastPosition } from '@/lib/last-position'
@@ -32,6 +33,8 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
 
   const [view, setView] = useState<'story' | 'patterns'>(initialView)
+  // null = follow Settings default; true/false = per-story override
+  const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
 
   // 위치 저장 — Continue Learning이 여기로 돌아올 수 있도록
   useEffect(() => { saveLastPosition(story.id, view) }, [story.id, view])
@@ -128,35 +131,49 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     setDragOffset(0)
   }
 
-  // 스토리 진입 시 ambience 자동 시작
-  // - sceneVideo가 있는 Scene First 스토리: ambienceDefault 설정 무관하게 항상 재생
-  // - 일반 스토리: ambienceDefault=on 일 때만 재생
-  // - 브라우저 autoplay 정책: AudioContext는 첫 사용자 제스처 이후에만 허용
+  // Story 변경 시 per-story override 초기화
   useEffect(() => {
-    stopAmbience()
+    setAmbienceOverride(null)
+  }, [story.id])  // eslint-disable-line react-hooks/exhaustive-deps
 
-    // sceneVideo 스토리는 AmbienceAudio 버튼으로만 제어 (자동재생 제외)
-    if (story.sceneVideo) return
-    if (prefs.ambienceDefault !== 'on' || !story.ambienceId) return
+  const effectiveAmbienceOn = ambienceOverride ?? (prefs.ambienceDefault === 'on')
+  const userVolume = AMBIENCE_VOLUME_MAP[prefs.ambienceVolume ?? 'medium']
+
+  const toggleAmbience = useCallback(() => {
+    setAmbienceOverride(!effectiveAmbienceOn)
+  }, [effectiveAmbienceOn])
+
+  // Ambience 재생/정지
+  useEffect(() => {
+    if (!story.ambienceId || story.sceneVideo) {
+      stopAmbience()
+      return
+    }
+    if (!effectiveAmbienceOn) {
+      stopAmbience()
+      return
+    }
 
     const id = story.ambienceId as AmbienceId
-    let started = false
+    playAmbience(id, userVolume)
 
-    function onFirstGesture() {
-      if (started) return
-      started = true
-      playAmbience(id)
+    // 모바일 autoplay 차단 대응: 100ms 후 첫 인터랙션에서 재시도
+    // (즉시 등록하면 현재 탭의 pointerdown을 잡아 toggle 경쟁 발생)
+    let retried = false
+    function onGesture() {
+      if (retried) return
+      retried = true
+      playAmbience(id, userVolume)
     }
-
-    document.addEventListener('click',      onFirstGesture, { once: true, capture: true })
-    document.addEventListener('touchstart', onFirstGesture, { once: true, capture: true })
-
+    const timer = setTimeout(() => {
+      document.addEventListener('pointerdown', onGesture, { once: true, capture: true })
+    }, 100)
     return () => {
-      document.removeEventListener('click',      onFirstGesture, { capture: true })
-      document.removeEventListener('touchstart', onFirstGesture, { capture: true })
+      clearTimeout(timer)
+      document.removeEventListener('pointerdown', onGesture, { capture: true })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [story.id, prefs.ambienceDefault])
+  }, [story.id, effectiveAmbienceOn, userVolume])
 
   // ── Navigation ──────────────────────────────────────────────────────
   function switchView(newView: 'story' | 'patterns') {
@@ -229,6 +246,8 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
             stop={stop}
             isSpeaking={isSpeaking}
             currentParagraphIdx={currentParagraphIdx}
+            ambienceOn={effectiveAmbienceOn}
+            onAmbienceToggle={toggleAmbience}
           />
         </div>
 

@@ -1,11 +1,10 @@
 'use client'
 
 import { useCallback, useEffect, useRef } from 'react'
-import { createAmbience, type AmbienceId, type AmbienceController } from '@/lib/ambience/generator'
+import { createAmbience, type AmbienceId, type AmbienceController, AMBIENCE_BASE_VOLUME } from '@/lib/ambience/generator'
 
-const FADE_IN  = 2.0   // seconds
-const FADE_OUT = 2.2   // seconds
-const VOLUME   = 0.22  // 22% — Scene First 기준 (TTS 100% 기준 배경)
+const FADE_IN  = 0.8   // seconds
+const FADE_OUT = 0.8   // seconds
 
 export function useAmbience() {
   const ctxRef    = useRef<AudioContext | null>(null)
@@ -22,8 +21,9 @@ export function useAmbience() {
     return masterRef.current
   }
 
-  // AudioContext는 반드시 resume() 완료 후 사운드 생성 (autoplay policy 대응)
-  const play = useCallback(async (id: AmbienceId) => {
+  // userVolume: from AMBIENCE_VOLUME_MAP[prefs.ambienceVolume]
+  // finalGain  = userVolume × AMBIENCE_BASE_VOLUME[id]
+  const play = useCallback(async (id: AmbienceId, userVolume = 0.22) => {
     if (!ctxRef.current) {
       ctxRef.current = new AudioContext()
     }
@@ -32,19 +32,18 @@ export function useAmbience() {
     if (ctx.state === 'suspended') {
       await ctx.resume()
     }
-    if (ctx.state !== 'running') return  // 여전히 실행 불가 → 조용히 중단
+    if (ctx.state !== 'running') return
 
     const master = ensureMaster(ctx)
+    const targetGain = userVolume * (AMBIENCE_BASE_VOLUME[id] ?? 1.0)
 
-    // 기존 사운드 정리
     ctrlRef.current?.destroy()
     ctrlRef.current = createAmbience(ctx, id, master)
 
-    // Fade in
     const now = ctx.currentTime
     master.gain.cancelScheduledValues(now)
     master.gain.setValueAtTime(master.gain.value, now)
-    master.gain.linearRampToValueAtTime(VOLUME, now + FADE_IN)
+    master.gain.linearRampToValueAtTime(targetGain, now + FADE_IN)
   }, [])
 
   const stop = useCallback(() => {
@@ -52,7 +51,6 @@ export function useAmbience() {
     const master = masterRef.current
     if (!ctx || !master) return
 
-    // Fade out → destroy
     const now = ctx.currentTime
     master.gain.cancelScheduledValues(now)
     master.gain.setValueAtTime(master.gain.value, now)

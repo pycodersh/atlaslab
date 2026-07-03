@@ -3,6 +3,24 @@
 import type { AmbienceId } from '@/types/magazine'
 export type { AmbienceId }
 
+/**
+ * Per-type base volume multiplier.
+ * Final gain = userVolume (from preferences) × AMBIENCE_BASE_VOLUME[id]
+ * Keeps each ambience at a comfortable perceived loudness before user scaling.
+ */
+export const AMBIENCE_BASE_VOLUME: Record<AmbienceId, number> = {
+  rain:      1.25,   // rich texture — slightly louder
+  ocean:     1.30,   // wide waves — slightly louder
+  forest:    1.00,   // natural reference
+  cafe:      0.75,   // murmur should sit behind speech
+  city:      0.85,   // traffic hum, moderate
+  night:     1.00,   // already very quiet synth, keep scale
+  fireplace: 0.70,   // intimate, gentle
+  wind:      1.00,   // reference
+  library:   0.50,   // near-silent — quietest
+  train:     0.80,   // rhythmic rumble, moderate
+}
+
 export const AMBIENCE_LABELS: Record<AmbienceId, string> = {
   rain:      'Rain',
   forest:    'Forest',

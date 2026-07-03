@@ -1,11 +1,10 @@
 'use client'
 
 import { useMemo } from 'react'
-import { Volume2, ChevronLeft, ChevronRight } from 'lucide-react'
-import type { MagazineParagraph, MagazineStory, AmbienceId } from '@/types/magazine'
+import { Volume2, Music2, ChevronLeft, ChevronRight } from 'lucide-react'
+import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
-import { AmbienceAudio } from '@/components/AmbienceAudio'
 import { StoryImageSlider } from '@/components/StoryImageSlider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
@@ -22,7 +21,9 @@ type StoryPageProps = {
   speakAll: (texts: string[], audioUrls?: (string | null | undefined)[], opts?: { voiceKey?: import('@/lib/settings/preferences').VoiceKey; voiceKeys?: import('@/lib/settings/preferences').VoiceKey[] }) => void
   stop: () => void
   isSpeaking: boolean
-  currentParagraphIdx: number   // 현재 TTS 재생 중인 문단 인덱스 (-1 = 비활성)
+  currentParagraphIdx: number
+  ambienceOn: boolean
+  onAmbienceToggle: () => void
 }
 
 function highlightText(text: string, phrases: string[]): React.ReactNode {
@@ -52,6 +53,8 @@ export function StoryPage({
   stop,
   isSpeaking,
   currentParagraphIdx,
+  ambienceOn,
+  onAmbienceToggle,
 }: StoryPageProps) {
   const { prefs } = usePreferences()
 
@@ -115,31 +118,40 @@ export function StoryPage({
             activeParagraphId={activeParagraphId}
             isTTSActive={isSpeaking}
             audioButton={
-              <button
-                type="button"
-                aria-label={isSpeaking ? '정지' : '전체 읽기'}
-                onClick={handleAudio}
-                className={[
-                  'w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
-                  isSpeaking
-                    ? 'bg-[var(--pa)] text-white'
-                    : 'bg-black/30 text-white hover:bg-[var(--pa)]',
-                ].join(' ')}
-              >
-                <Volume2 className="w-3.5 h-3.5" />
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Ambience toggle — only when story has ambience */}
+                {story.ambienceId && (
+                  <button
+                    type="button"
+                    aria-label={ambienceOn ? '환경음 끄기' : '환경음 켜기'}
+                    onClick={onAmbienceToggle}
+                    className={[
+                      'w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
+                      ambienceOn
+                        ? 'bg-[var(--pa)] text-white'
+                        : 'bg-black/30 text-white hover:bg-[var(--pa)]',
+                    ].join(' ')}
+                  >
+                    <Music2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+                {/* TTS button */}
+                <button
+                  type="button"
+                  aria-label={isSpeaking ? '정지' : '전체 읽기'}
+                  onClick={handleAudio}
+                  className={[
+                    'w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
+                    isSpeaking
+                      ? 'bg-[var(--pa)] text-white'
+                      : 'bg-black/30 text-white hover:bg-[var(--pa)]',
+                  ].join(' ')}
+                >
+                  <Volume2 className="w-3.5 h-3.5" />
+                </button>
+              </div>
             }
           />
-
-          {/* Ambience 버튼 */}
-          {story.ambience?.enabled && (
-            <div className="flex justify-end mb-4 -mt-3">
-              <AmbienceAudio
-                ambience={story.ambience}
-                ambienceId={story.ambienceId as AmbienceId | undefined}
-              />
-            </div>
-          )}
 
           {/* 단락 목록 — 텍스트만, 이미지 없음 */}
           <div className="space-y-5">
