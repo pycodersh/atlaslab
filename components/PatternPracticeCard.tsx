@@ -47,7 +47,7 @@ export function PatternPracticeCard({
   const [bookmarked, setBookmarked] = useState(false)
 
   // ── UI state ──────────────────────────────────────────────────────────────
-  const [noteOpen, setNoteOpen] = useState(false)
+  const [noteOpen, setNoteOpen] = useState(true)
   const [doneMask, setDoneMask] = useState<boolean[]>([])
   const doneRef = useRef<Set<number>>(new Set())
 
@@ -55,7 +55,7 @@ export function PatternPracticeCard({
   useEffect(() => {
     doneRef.current = new Set()
     setDoneMask([])
-    setNoteOpen(false)
+    setNoteOpen(true)
   }, [pattern.id])
 
 
