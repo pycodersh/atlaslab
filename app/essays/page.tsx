@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ChevronRight, ChevronDown, ChevronUp } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { type Essay, getEssays, getDailyReviewCount, MAX_DAILY_REVIEWS } from '@/lib/essays/storage'
+import { SectionLabel } from '@/components/SectionLabel'
 import { useT } from '@/hooks/useT'
 
 const INITIAL_SHOW = 3
@@ -114,38 +115,24 @@ export default function EssaysPage() {
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>
 
-        {/* ── Today's Reviews — simple strip ───────────────────────────────── */}
-        <div style={{
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingBottom: 14,
-          borderBottom: '1px solid var(--pd)',
-          marginBottom: 14,
-        }}>
-          <p style={{
-            fontSize: 9, fontWeight: 700, letterSpacing: '0.2em',
-            color: 'var(--pm2)', margin: 0,
-          }}>
-            {t('essays_reviews_today')}
-          </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            {/* Pip indicators */}
-            <div style={{ display: 'flex', gap: 4 }}>
-              {Array.from({ length: MAX_DAILY_REVIEWS }).map((_, i) => (
-                <div key={i} style={{
-                  width: 6, height: 6, borderRadius: '50%',
-                  background: i < reviewCount ? 'var(--pm2)' : 'var(--pa)',
-                  opacity: i < reviewCount ? 0.3 : 1,
-                }} />
-              ))}
-            </div>
-            <span style={{
-              fontSize: 11, fontWeight: 700,
-              color: remaining === 0 ? 'var(--pm2)' : 'var(--pa)',
-            }}>
-              {remaining} / {MAX_DAILY_REVIEWS}
-            </span>
+        {/* ── Today's Reviews ───────────────────────────────────────────────── */}
+        <SectionLabel label="Today's Reviews" sub={t('sec_reviews_today')} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{ display: 'flex', gap: 4 }}>
+            {Array.from({ length: MAX_DAILY_REVIEWS }).map((_, i) => (
+              <div key={i} style={{
+                width: 6, height: 6, borderRadius: '50%',
+                background: i < reviewCount ? 'var(--pm2)' : 'var(--pa)',
+                opacity: i < reviewCount ? 0.3 : 1,
+              }} />
+            ))}
           </div>
+          <span style={{
+            fontSize: 11, fontWeight: 700,
+            color: remaining === 0 ? 'var(--pm2)' : 'var(--pa)',
+          }}>
+            {remaining} / {MAX_DAILY_REVIEWS}
+          </span>
         </div>
 
         {/* ── New Essay — Magazine Editorial CTA ───────────────────────────── */}
@@ -193,21 +180,14 @@ export default function EssaysPage() {
         {/* ── My Essays ────────────────────────────────────────────────────── */}
         {essays.length > 0 && (
           <div>
-            <p style={{
-              fontSize: 8.5, fontWeight: 700, letterSpacing: '0.24em',
-              color: 'var(--pm)', margin: '0 0 4px',
-            }}>
-              {t('essays_my')}
-            </p>
-            <div style={{ borderTop: '1px solid var(--pd)' }}>
-              {displayed.map(essay => (
-                <EssayCard
-                  key={essay.id}
-                  essay={essay}
-                  onClick={() => router.push(`/essays/${essay.id}`)}
-                />
-              ))}
-            </div>
+            <SectionLabel label="My Essays" sub={t('sec_my_essays')} />
+            {displayed.map(essay => (
+              <EssayCard
+                key={essay.id}
+                essay={essay}
+                onClick={() => router.push(`/essays/${essay.id}`)}
+              />
+            ))}
 
             {/* Show More / Show Less */}
             {hasMore && (

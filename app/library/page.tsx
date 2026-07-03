@@ -5,9 +5,11 @@ import { useRouter } from 'next/navigation'
 import { Search, X, BookOpen, ChevronRight, Bookmark } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
+import { SectionLabel } from '@/components/SectionLabel'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import { getSavedWords, type SavedWord } from '@/lib/words/storage'
+import { useT } from '@/hooks/useT'
 import type { MagazinePattern } from '@/types/magazine'
 
 // ── 타입 ─────────────────────────────────────────────────────────────────────
@@ -64,28 +66,6 @@ function searchAll(
 }
 
 // ── 공통 UI ───────────────────────────────────────────────────────────────────
-
-function SectionLabel({ label, sub, action }: { label: string; sub?: string; action?: React.ReactNode }) {
-  return (
-    <div style={{ marginBottom: 20 }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
-        <h2 className="font-playfair" style={{
-          fontSize: '1.4rem', fontWeight: 900, color: 'var(--pa)',
-          margin: 0, letterSpacing: '-0.02em', lineHeight: 1,
-        }}>
-          {label}
-        </h2>
-        {action}
-      </div>
-      {sub && (
-        <p style={{ fontSize: 11, color: 'var(--pm)', margin: '7px 0 0', lineHeight: 1.5 }}>
-          {sub}
-        </p>
-      )}
-      <div style={{ height: 1, background: 'var(--pd)', marginTop: 14 }} />
-    </div>
-  )
-}
 
 function ViewAllLink({ label, onClick }: { label: string; onClick: () => void }) {
   return (
@@ -204,6 +184,7 @@ function SavedWordRow({ w, border }: { w: SavedWord; border?: boolean }) {
 
 export default function LibraryPage() {
   const router    = useRouter()
+  const t         = useT()
   const inputRef  = useRef<HTMLInputElement>(null)
   const [query, setQuery]         = useState('')
   const [bookmarks, setBookmarks] = useState<BookmarkedPattern[]>([])
@@ -343,7 +324,7 @@ export default function LibraryPage() {
             <section style={{ marginBottom: 64 }}>
               <SectionLabel
                 label="Saved Patterns"
-                sub="북마크한 패턴을 모아봤어요."
+                sub={t('sec_saved_patterns')}
                 action={
                   bookmarks.length > 0 ? (
                     <ViewAllLink label="전체 보기" onClick={() => router.push('/records/patterns')} />
@@ -374,7 +355,7 @@ export default function LibraryPage() {
             <section style={{ marginBottom: 64 }}>
               <SectionLabel
                 label="Saved Words"
-                sub="Story를 읽다 모르는 단어를 길게 눌러 저장해요."
+                sub={t('sec_saved_words')}
                 action={
                   words.length > 0 ? (
                     <ViewAllLink label="전체 보기" onClick={() => router.push('/library/words')} />

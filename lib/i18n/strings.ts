@@ -186,6 +186,13 @@ const T = {
     essays_delete_confirm:   '삭제',
     essays_cancel:           '취소',
 
+    // ── Section descriptions (i18n) ──────────────────────────────────────────
+    sec_reviews_today:  '오늘 남은 AI 첨삭 횟수예요.',
+    sec_my_essays:      '작성한 에세이 전체 목록이에요.',
+    sec_story_progress: 'Story별 기억 강도예요. 5단계를 완료하면 Mastered.',
+    sec_saved_patterns: '북마크한 패턴을 모아봤어요.',
+    sec_saved_words:    'Story를 읽다 모르는 단어를 길게 눌러 저장해요.',
+
     // ── Back nav ─────────────────────────────────────────────────────────────
     back: 'SETTINGS',
   },
@@ -332,6 +339,11 @@ const T = {
     essays_delete_desc:      'The essay and its review will be permanently deleted.',
     essays_delete_confirm:   'Delete',
     essays_cancel:           'Cancel',
+    sec_reviews_today:  'Remaining AI reviews for today.',
+    sec_my_essays:      'All your submitted essays.',
+    sec_story_progress: "Track each story's memory strength. Five stages to Mastered.",
+    sec_saved_patterns: 'Your bookmarked patterns, all in one place.',
+    sec_saved_words:    'Long-press any word while reading to save it here.',
     back: 'SETTINGS',
   },
 
@@ -477,6 +489,11 @@ const T = {
     essays_delete_desc:      'El ensayo y su revisión se eliminarán permanentemente.',
     essays_delete_confirm:   'Eliminar',
     essays_cancel:           'Cancelar',
+    sec_reviews_today:  'Revisiones de IA restantes para hoy.',
+    sec_my_essays:      'Todos tus ensayos enviados.',
+    sec_story_progress: 'Sigue la fortaleza de memoria de cada historia. Cinco etapas hasta Mastered.',
+    sec_saved_patterns: 'Tus patrones marcados, todos en un lugar.',
+    sec_saved_words:    'Mantén pulsada una palabra al leer para guardarla aquí.',
     back: 'SETTINGS',
   },
 
@@ -622,6 +639,11 @@ const T = {
     essays_delete_desc:      'エッセイと添削結果が永久に削除されます。',
     essays_delete_confirm:   '削除',
     essays_cancel:           'キャンセル',
+    sec_reviews_today:  '今日の残りAIレビュー回数です。',
+    sec_my_essays:      'これまでに書いたすべてのエッセイです。',
+    sec_story_progress: '各Storyの記憶強度を確認できます。5段階でMasteredになります。',
+    sec_saved_patterns: 'ブックマークしたパターンをまとめました。',
+    sec_saved_words:    '読みながら単語を長押しするとここに保存されます。',
     back: 'SETTINGS',
   },
 
@@ -767,6 +789,11 @@ const T = {
     essays_delete_desc:      '文章和批改结果将被永久删除。',
     essays_delete_confirm:   '删除',
     essays_cancel:           '取消',
+    sec_reviews_today:  '今日剩余AI批改次数。',
+    sec_my_essays:      '您提交的所有文章。',
+    sec_story_progress: '追踪每个故事的记忆强度。五个阶段达到Mastered。',
+    sec_saved_patterns: '您收藏的句型，尽在一处。',
+    sec_saved_words:    '阅读时长按任意单词即可在此保存。',
     back: 'SETTINGS',
   },
 
@@ -912,6 +939,11 @@ const T = {
     essays_delete_desc:      '文章和批改結果將被永久刪除。',
     essays_delete_confirm:   '刪除',
     essays_cancel:           '取消',
+    sec_reviews_today:  '今日剩餘AI批改次數。',
+    sec_my_essays:      '您提交的所有文章。',
+    sec_story_progress: '追蹤每個故事的記憶強度。五個階段達到Mastered。',
+    sec_saved_patterns: '您收藏的句型，盡在一處。',
+    sec_saved_words:    '閱讀時長按任意單詞即可在此保存。',
     back: 'SETTINGS',
   },
 
@@ -1057,6 +1089,11 @@ const T = {
     essays_delete_desc:      "L'essai et son bilan seront définitivement supprimés.",
     essays_delete_confirm:   'Supprimer',
     essays_cancel:           'Annuler',
+    sec_reviews_today:  "Révisions IA restantes pour aujourd'hui.",
+    sec_my_essays:      'Tous vos essais soumis.',
+    sec_story_progress: 'Suivez la force mémorielle de chaque histoire. Cinq étapes pour être Mastered.',
+    sec_saved_patterns: 'Vos modèles favoris, tous au même endroit.',
+    sec_saved_words:    'Appuyez longuement sur un mot pendant la lecture pour le sauvegarder ici.',
     back: 'SETTINGS',
   },
 
@@ -1202,6 +1239,11 @@ const T = {
     essays_delete_desc:      'Der Aufsatz und sein Review werden dauerhaft gelöscht.',
     essays_delete_confirm:   'Löschen',
     essays_cancel:           'Abbrechen',
+    sec_reviews_today:  'Verbleibende KI-Korrekturen für heute.',
+    sec_my_essays:      'Alle deine eingereichten Aufsätze.',
+    sec_story_progress: 'Verfolge die Gedächtnisstärke jeder Geschichte. Fünf Stufen bis Mastered.',
+    sec_saved_patterns: 'Deine gespeicherten Muster, alle an einem Ort.',
+    sec_saved_words:    'Halte beim Lesen ein Wort gedrückt, um es hier zu speichern.',
     back: 'SETTINGS',
   },
 } satisfies Record<Language, Record<string, string>>

@@ -9,6 +9,7 @@ import {
 
 import { TopNav } from '@/components/TopNav'
 import { LearningCalendar } from '@/components/LearningCalendar'
+import { SectionLabel } from '@/components/SectionLabel'
 import { useT } from '@/hooks/useT'
 import { magazineStories } from '@/data/magazine-stories'
 import {
@@ -70,34 +71,6 @@ function fmtDate(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number)
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
   return `${months[m - 1]} ${d}, ${y}`
-}
-
-// ── 공통 UI ───────────────────────────────────────────────────────────────────
-
-function SectionLabel({
-  label, sub, action,
-}: {
-  label: string; sub?: string; action?: React.ReactNode
-}) {
-  return (
-    <div style={{ marginBottom: 20 }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
-        <h2 className="font-playfair" style={{
-          fontSize: '1.4rem', fontWeight: 900, color: 'var(--pa)',
-          margin: 0, letterSpacing: '-0.02em', lineHeight: 1,
-        }}>
-          {label}
-        </h2>
-        {action}
-      </div>
-      {sub && (
-        <p style={{ fontSize: 11, color: 'var(--pm)', margin: '7px 0 0', lineHeight: 1.5 }}>
-          {sub}
-        </p>
-      )}
-      <div style={{ height: 1, background: 'var(--pd)', marginTop: 14 }} />
-    </div>
-  )
 }
 
 function StatCell({ value, label, border }: { value: React.ReactNode; label: string; border?: boolean }) {
@@ -286,6 +259,7 @@ function StoryActivityDetail({ storyId, storyTitle }: { storyId: number; storyTi
 // ── Story Progress 섹션 ───────────────────────────────────────────────────────
 
 function StoryProgressSection() {
+  const t = useT()
   const [list, setList] = useState<StoryProgressItem[]>([])
   const [expanded, setExpanded] = useState<number | null>(null)
 
@@ -297,7 +271,7 @@ function StoryProgressSection() {
     <section style={{ marginBottom: 72 }}>
       <SectionLabel
         label="Story Progress"
-        sub="각 Story의 기억 강도예요. 5단계를 완료하면 Mastered."
+        sub={t('sec_story_progress')}
       />
 
       {list.map((item) => {
@@ -738,7 +712,7 @@ export default function ProgressPage() {
           <section style={{ marginBottom: 72 }}>
             <SectionLabel
               label="Memory Calendar"
-              sub="학습 기록과 미래 복습 일정을 한눈에 확인해요."
+              sub={t('calendar_sub')}
             />
             <LearningCalendar
               onDaySelect={handleDaySelect}
