@@ -427,12 +427,10 @@ export default function ProgressPage() {
                 </p>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 3px' }}>
-                  {v.learnedStories} stories
+                <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px', fontVariantNumeric: 'tabular-nums' }}>
+                  {v.learnedStories + v.learnedPatterns} <span style={{ color: 'var(--pm2)', fontWeight: 400 }}>/ 600</span>
                 </p>
-                <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>
-                  {v.learnedPatterns} patterns
-                </p>
+                <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0 }}>completed</p>
               </div>
             </div>
           </section>
@@ -441,10 +439,10 @@ export default function ProgressPage() {
           <section style={{ marginBottom: 72 }}>
             <SectionLabel label="Your Journey" sub={t('journey_sub')} />
             <div style={{ display: 'flex', borderLeft: '1px solid var(--pd)', borderRight: '1px solid var(--pd)' }}>
-              <StatCell value={v.learnedStories}           label="Stories"   border />
-              <StatCell value={v.learnedPatterns}          label="Patterns"  border />
+              <StatCell value={v.learnedStories}           label="Stories Done"  border />
+              <StatCell value={v.learnedPatterns}          label="Patterns Done" border />
               <StatCell value={`${v.streak > 0 ? '🔥' : ''}${v.streak}`} label="Day Streak" border />
-              <StatCell value={fmtTime(v.totalPracticeMs)} label="Listening" />
+              <StatCell value={fmtTime(v.totalPracticeMs)} label="Practice" />
             </div>
           </section>
 
