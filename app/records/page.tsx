@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Check, ChevronRight, BookOpen, Layers, RotateCcw, X,
-  AlertCircle, Clock, CalendarClock, HelpCircle,
+  CalendarClock, HelpCircle,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
@@ -18,10 +18,10 @@ import {
   getPracticedPatternCountByStory, getStreak,
 } from '@/lib/srs/storage'
 import {
-  getStatusCounts, getReviewQueue, getFutureSchedule,
-  getEnhancedDayDetail, getStoryActivity,
-  type PatternStatus, type ReviewQueue, type ScheduledDay,
-  type EnhancedDayDetail,
+  getStatusCounts, getFutureSchedule,
+  getEnhancedDayDetail, getStoryActivity, getStoryProgressList,
+  type PatternStatus, type ScheduledDay,
+  type EnhancedDayDetail, type StoryProgressItem,
 } from '@/lib/srs/engine'
 import { getCurrentPhase, getPhaseProgress, PHASES } from '@/lib/curriculum/phases'
 
@@ -35,24 +35,18 @@ type Stats = {
   studiedTodayStories:    number
   practicedTodayPatterns: number
   reviewedToday:          number
-  dueNow:                 number     // 복습 대기 수 (Review Queue 표시용)
+  dueNow:                 number
   learnedStories:         number
   learnedPatterns:        number
   totalPracticeMs:        number
   streak:                 number
   ctaHref:                string
   statusCounts:           ReturnType<typeof getStatusCounts>
-  queue:                  ReviewQueue
   futureSchedule:         Record<string, ScheduledDay>
 }
 
 // ── 헬퍼 ─────────────────────────────────────────────────────────────────────
 
-/**
- * 오늘 이어서 학습할 URL.
- * Review는 /review 별도 페이지가 아닌 Today's Mission 내 Story 흐름에서 자동 처리.
- * (복습 대기 여부와 무관하게 다음 학습 스토리로 안내)
- */
 function computeCtaHref(): string {
   const practiced = getPracticedPatternCountByStory()
   const inProgress = magazineStories.find(st => {
@@ -78,20 +72,7 @@ function fmtDate(iso: string): string {
   return `${months[m - 1]} ${d}, ${y}`
 }
 
-// ── 공통 UI 컴포넌트 ──────────────────────────────────────────────────────────
-
-function ActionLink({ label, onClick }: { label: string; onClick: () => void }) {
-  return (
-    <button type="button" onClick={onClick} style={{
-      display: 'inline-flex', alignItems: 'center', gap: 2,
-      fontSize: 11, fontWeight: 600, color: 'var(--pa)',
-      background: 'none', border: 'none',
-      padding: 0, cursor: 'pointer', letterSpacing: '0.01em', lineHeight: 1, opacity: 0.9,
-    }}>
-      {label}<ChevronRight style={{ width: 10, height: 10, marginLeft: 1 }} strokeWidth={2.2} />
-    </button>
-  )
-}
+// ── 공통 UI ───────────────────────────────────────────────────────────────────
 
 function SectionLabel({
   label, sub, action,
@@ -197,84 +178,7 @@ function MissionRow({
   )
 }
 
-// ── Review Queue 섹션 ─────────────────────────────────────────────────────────
-
-const QUEUE_CHIPS: {
-  key: keyof ReviewQueue
-  label: string
-  emptyLabel: string
-  icon: React.ComponentType<{ style?: React.CSSProperties; strokeWidth?: number }>
-  color: string
-  bg: string
-}[] = [
-  {
-    key: 'overdue',
-    label: 'Overdue',
-    emptyLabel: '없음',
-    icon: AlertCircle,
-    color: '#C0392B',
-    bg: 'rgba(192,57,43,0.08)',
-  },
-  {
-    key: 'dueToday',
-    label: 'Due Today',
-    emptyLabel: '없음',
-    icon: Clock,
-    color: 'var(--pa)',
-    bg: 'rgba(var(--pa-rgb,138,31,69),0.08)',
-  },
-  {
-    key: 'upcoming',
-    label: 'Upcoming',
-    emptyLabel: '없음',
-    icon: CalendarClock,
-    color: 'var(--pm)',
-    bg: 'var(--pc)',
-  },
-]
-
-function ReviewQueueSection({ queue }: { queue: ReviewQueue }) {
-  return (
-    <section style={{ marginBottom: 72 }}>
-      <SectionLabel
-        label="Review Queue"
-        sub="복습 예정 패턴 현황. 오늘 Story 학습 중 자동으로 처리돼요."
-      />
-      <div style={{ display: 'flex', gap: 10 }}>
-        {QUEUE_CHIPS.map(({ key, label, icon: Icon, color, bg }) => {
-          const count = queue[key].length
-          return (
-            <div
-              key={key}
-              style={{
-                flex: 1, padding: '14px 12px', borderRadius: 10,
-                background: bg, display: 'flex', flexDirection: 'column', gap: 6,
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                <Icon style={{ width: 12, height: 12, color, flexShrink: 0 }} strokeWidth={2} />
-                <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color, textTransform: 'uppercase' }}>
-                  {label}
-                </span>
-              </div>
-              <p style={{
-                fontSize: 'clamp(1.3rem, 5vw, 1.6rem)', fontWeight: 900,
-                color: count > 0 ? color : 'var(--pm2)',
-                margin: 0, lineHeight: 1, fontVariantNumeric: 'tabular-nums',
-              }}>
-                {count}
-              </p>
-            </div>
-          )
-        })}
-      </div>
-
-      <PatternStatusBar />
-    </section>
-  )
-}
-
-// ── Pattern Status 요약 바 ────────────────────────────────────────────────────
+// ── Pattern Status 바 ─────────────────────────────────────────────────────────
 
 const STATUS_META: { key: PatternStatus; label: string; color: string }[] = [
   { key: 'new',      label: 'New',      color: 'var(--pm2)' },
@@ -282,6 +186,10 @@ const STATUS_META: { key: PatternStatus; label: string; color: string }[] = [
   { key: 'review',   label: 'Review',   color: 'var(--pa)' },
   { key: 'mastered', label: 'Mastered', color: '#27AE60' },
 ]
+
+const STATUS_COLOR: Record<string, string> = {
+  new: 'var(--pm2)', learning: '#E67E22', review: 'var(--pa)', mastered: '#27AE60',
+}
 
 function PatternStatusBar() {
   const [counts, setCounts] = useState<ReturnType<typeof getStatusCounts> | null>(null)
@@ -292,26 +200,21 @@ function PatternStatusBar() {
   if (total === 0) return null
 
   return (
-    <div style={{ marginTop: 18 }}>
+    <div style={{ marginTop: 20 }}>
       <p style={{
         fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
         color: 'var(--pm2)', margin: '0 0 8px', textTransform: 'uppercase',
       }}>
         Pattern Status
       </p>
-      {/* 색상 바 */}
-      <div style={{ display: 'flex', height: 5, borderRadius: 3, overflow: 'hidden', gap: 2 }}>
+      <div style={{ display: 'flex', height: 4, borderRadius: 2, overflow: 'hidden', gap: 1 }}>
         {STATUS_META.map(({ key, color }) => {
-          const pct = (counts[key] / total) * 100
+          const pct = (counts[key] / (total + counts.new)) * 100
           return pct > 0 ? (
-            <div
-              key={key}
-              style={{ width: `${pct}%`, background: color, transition: 'width 1s ease-out' }}
-            />
+            <div key={key} style={{ width: `${pct}%`, background: color, transition: 'width 1s ease-out' }} />
           ) : null
         })}
       </div>
-      {/* 레이블 */}
       <div style={{ display: 'flex', gap: 14, marginTop: 8 }}>
         {STATUS_META.map(({ key, label, color }) => (
           <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -327,11 +230,7 @@ function PatternStatusBar() {
   )
 }
 
-// ── Day Detail Bottom Sheet ───────────────────────────────────────────────────
-
-const STATUS_COLOR: Record<string, string> = {
-  new: 'var(--pm2)', learning: '#E67E22', review: 'var(--pa)', mastered: '#27AE60',
-}
+// ── Story Activity 상세 (확장 시 표시) ────────────────────────────────────────
 
 function StoryActivityDetail({ storyId, storyTitle }: { storyId: number; storyTitle: string }) {
   const story = magazineStories.find(s => s.id === storyId)
@@ -340,10 +239,9 @@ function StoryActivityDetail({ storyId, storyTitle }: { storyId: number; storyTi
 
   return (
     <div style={{
-      marginTop: 8, padding: '12px 14px',
+      margin: '4px 0 12px', padding: '12px 14px',
       background: 'var(--pc)', borderRadius: 10,
     }}>
-      {/* Summary row */}
       <div style={{ display: 'flex', gap: 16, marginBottom: 10, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 11, color: 'var(--pm2)' }}>
           Viewed <strong style={{ color: 'var(--pt)' }}>{activity.viewCount}×</strong>
@@ -351,25 +249,24 @@ function StoryActivityDetail({ storyId, storyTitle }: { storyId: number; storyTi
         <span style={{ fontSize: 11, color: 'var(--pm2)' }}>
           Reviews <strong style={{ color: 'var(--pt)' }}>{activity.reviewsCompleted}/{activity.stages.length}</strong>
         </span>
-        <span style={{ fontSize: 11, color: STATUS_COLOR[activity.status] ?? 'var(--pm2)', fontWeight: 700, textTransform: 'capitalize' }}>
+        <span style={{
+          fontSize: 11, fontWeight: 700, textTransform: 'capitalize',
+          color: STATUS_COLOR[activity.status] ?? 'var(--pm2)',
+        }}>
           {activity.status}
         </span>
       </div>
-
-      {/* Next review */}
       {activity.nextReviewAt && (
         <p style={{ fontSize: 10, color: 'var(--pm)', margin: '0 0 10px' }}>
           Next review: <strong style={{ color: 'var(--pt)' }}>{fmtDate(activity.nextReviewAt.slice(0, 10))}</strong>
         </p>
       )}
-
-      {/* Pattern stages */}
       {activity.stages.length > 0 && (
         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
           {activity.stages.map((stage, i) => (
             <div key={i} style={{
               padding: '3px 7px', borderRadius: 5,
-              background: stage.status === 'new' ? 'var(--pd)' : STATUS_COLOR[stage.status] + '22',
+              background: stage.status === 'new' ? 'var(--pd)' : `${STATUS_COLOR[stage.status]}22`,
               border: `1px solid ${STATUS_COLOR[stage.status] ?? 'var(--pd)'}33`,
             }}>
               <span style={{
@@ -385,6 +282,103 @@ function StoryActivityDetail({ storyId, storyTitle }: { storyId: number; storyTi
     </div>
   )
 }
+
+// ── Story Progress 섹션 ───────────────────────────────────────────────────────
+
+function StoryProgressSection() {
+  const [list, setList] = useState<StoryProgressItem[]>([])
+  const [expanded, setExpanded] = useState<number | null>(null)
+
+  useEffect(() => { setList(getStoryProgressList()) }, [])
+
+  if (list.length === 0) return null
+
+  return (
+    <section style={{ marginBottom: 72 }}>
+      <SectionLabel
+        label="Story Progress"
+        sub="각 Story의 기억 강도예요. 5단계를 완료하면 Mastered."
+      />
+
+      {list.map((item) => {
+        const isExpanded = expanded === item.storyId
+        const isMastered = item.status === 'mastered'
+
+        return (
+          <div key={item.storyId}>
+            <button
+              type="button"
+              onClick={() => setExpanded(isExpanded ? null : item.storyId)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                padding: '13px 0', borderBottom: '1px solid var(--pd)',
+                background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
+              }}
+            >
+              {/* Story 번호 */}
+              <span style={{
+                fontSize: 9, fontWeight: 700, letterSpacing: '0.12em',
+                color: 'var(--pm2)', width: 22, flexShrink: 0,
+              }}>
+                {String(item.storyId).padStart(2, '0')}
+              </span>
+
+              {/* 타이틀 */}
+              <span style={{
+                flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)',
+                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              }}>
+                {item.storyTitle}
+              </span>
+
+              {/* 도트 바 */}
+              <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
+                {[1, 2, 3, 4, 5].map(n => (
+                  <span key={n} style={{
+                    width: 7, height: 7, borderRadius: '50%', flexShrink: 0,
+                    background: n <= item.dots
+                      ? (STATUS_COLOR[item.status] ?? 'var(--pa)')
+                      : 'var(--pd)',
+                    transition: 'background 0.3s',
+                  }} />
+                ))}
+              </div>
+
+              {/* 상태 레이블 */}
+              {isMastered ? (
+                <span style={{
+                  fontSize: 9, fontWeight: 700, color: '#27AE60',
+                  letterSpacing: '0.1em', width: 54, textAlign: 'right', flexShrink: 0,
+                }}>
+                  MASTERED
+                </span>
+              ) : (
+                <span style={{
+                  fontSize: 10, fontWeight: 700, color: 'var(--pm2)',
+                  fontVariantNumeric: 'tabular-nums', width: 22, textAlign: 'right', flexShrink: 0,
+                }}>
+                  {item.dots}/5
+                </span>
+              )}
+
+              <ChevronRight style={{
+                width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0,
+                transform: isExpanded ? 'rotate(90deg)' : 'none',
+                transition: 'transform 0.2s',
+              }} strokeWidth={2} />
+            </button>
+
+            {isExpanded && (
+              <StoryActivityDetail storyId={item.storyId} storyTitle={item.storyTitle} />
+            )}
+          </div>
+        )
+      })}
+    </section>
+  )
+}
+
+// ── Day Detail Bottom Sheet ───────────────────────────────────────────────────
 
 function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null; onClose: () => void }) {
   const open = !!detail
@@ -414,12 +408,9 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
         paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))',
         maxHeight: '80dvh', overflowY: 'auto',
       }}>
-        {/* Handle */}
         <div style={{ padding: '12px 24px 0' }}>
           <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto' }} />
         </div>
-
-        {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
           <p className="font-playfair" style={{
             fontSize: 'clamp(1.4rem, 5.5vw, 1.7rem)', fontWeight: 900,
@@ -444,7 +435,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
               </p>
             )}
 
-            {/* ── Completed ──────────────────────────────────────────── */}
+            {/* ── Completed ── */}
             {detail.completed.length > 0 && (
               <div style={{ marginBottom: 24 }}>
                 <p style={{
@@ -459,18 +450,14 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                   )}
                 </p>
                 {detail.completed.map((item, i) => {
-                  const isExpanded = expandedStoryId === item.storyId
+                  const isExp = expandedStoryId === item.storyId
                   return (
                     <div key={item.storyId}>
-                      <button
-                        type="button"
-                        onClick={() => setExpandedStoryId(isExpanded ? null : item.storyId)}
+                      <button type="button" onClick={() => setExpandedStoryId(isExp ? null : item.storyId)}
                         style={{
-                          display: 'flex', alignItems: 'center', gap: 10,
-                          width: '100%', padding: '12px 0',
-                          borderBottom: (i < detail.completed.length - 1 || isExpanded) ? '1px solid var(--pd)' : 'none',
+                          display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                          padding: '12px 0', borderBottom: '1px solid var(--pd)',
                           background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
-                          borderTop: i === 0 ? 'none' : undefined,
                         }}
                       >
                         <Check style={{ width: 13, height: 13, color: '#27AE60', flexShrink: 0 }} strokeWidth={2.5} />
@@ -478,29 +465,23 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                           Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
                         </span>
                         {item.practiceMins > 0 && (
-                          <span style={{
-                            fontSize: 9, fontWeight: 600, color: 'var(--pm2)', flexShrink: 0,
-                          }}>
+                          <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--pm2)', flexShrink: 0 }}>
                             {item.practiceMins}m
                           </span>
                         )}
                         <ChevronRight style={{
                           width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0,
-                          transform: isExpanded ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s',
+                          transform: isExp ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s',
                         }} strokeWidth={2} />
                       </button>
-                      {isExpanded && (
-                        <div style={{ borderBottom: i < detail.completed.length - 1 ? '1px solid var(--pd)' : 'none', paddingBottom: 12 }}>
-                          <StoryActivityDetail storyId={item.storyId} storyTitle={item.storyTitle} />
-                        </div>
-                      )}
+                      {isExp && <StoryActivityDetail storyId={item.storyId} storyTitle={item.storyTitle} />}
                     </div>
                   )
                 })}
               </div>
             )}
 
-            {/* ── Due ────────────────────────────────────────────────── */}
+            {/* ── Due ── */}
             {detail.due.length > 0 && (
               <div style={{ marginBottom: 24 }}>
                 <p style={{
@@ -511,8 +492,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                 </p>
                 {detail.due.map((item, i) => (
                   <div key={item.storyId} style={{
-                    display: 'flex', alignItems: 'center', gap: 10,
-                    padding: '12px 0',
+                    display: 'flex', alignItems: 'center', gap: 10, padding: '12px 0',
                     borderBottom: i < detail.due.length - 1 ? '1px solid var(--pd)' : 'none',
                   }}>
                     <RotateCcw style={{ width: 13, height: 13, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={2} />
@@ -524,7 +504,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
               </div>
             )}
 
-            {/* ── Upcoming ────────────────────────────────────────────── */}
+            {/* ── Upcoming ── */}
             {detail.upcoming.length > 0 && (
               <div>
                 <p style={{
@@ -535,8 +515,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                 </p>
                 {detail.upcoming.map((item, i) => (
                   <div key={`${item.storyId}-${i}`} style={{
-                    display: 'flex', alignItems: 'center', gap: 10,
-                    padding: '12px 0',
+                    display: 'flex', alignItems: 'center', gap: 10, padding: '12px 0',
                     borderBottom: i < detail.upcoming.length - 1 ? '1px solid var(--pd)' : 'none',
                   }}>
                     <CalendarClock style={{ width: 13, height: 13, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.8} />
@@ -564,12 +543,6 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
-
-  const items = [
-    { emoji: '🟠', status: 'Learning',  desc: 'intervalDays < 7일. 아직 단기 반복 중이에요.' },
-    { emoji: '🔵', status: 'Review',    desc: '7 ≤ interval < 30일. 장기 기억으로 굳혀지는 중이에요.' },
-    { emoji: '🟢', status: 'Mastered',  desc: 'interval ≥ 30일. 장기 기억 완성! 패턴을 외운 것으로 봐요.' },
-  ]
 
   return (
     <>
@@ -604,7 +577,6 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
             <X style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
           </button>
         </div>
-
         <div style={{ padding: '20px 24px' }}>
           <p style={{ fontSize: 13, color: 'var(--pt2)', lineHeight: 1.7, margin: '0 0 24px' }}>
             Patto는 <strong>간격 반복(SRS)</strong>으로 패턴을 장기 기억으로 굳혀요.<br />
@@ -614,44 +586,30 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
           <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm)', margin: '0 0 12px', textTransform: 'uppercase' }}>
             복습 간격
           </p>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 6,
-            flexWrap: 'wrap', marginBottom: 24,
-          }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', marginBottom: 24 }}>
             {['1일', '3일', '7일', '14일', '30일', '✓ Mastered'].map((step, i, arr) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{
-                  fontSize: 11, fontWeight: 700, color: i === arr.length - 1 ? '#27AE60' : 'var(--pt)',
+                  fontSize: 11, fontWeight: 700,
+                  color: i === arr.length - 1 ? '#27AE60' : 'var(--pt)',
                   background: 'var(--pc)', borderRadius: 6, padding: '4px 8px',
                 }}>
                   {step}
                 </span>
-                {i < arr.length - 1 && (
-                  <span style={{ fontSize: 10, color: 'var(--pm2)' }}>→</span>
-                )}
+                {i < arr.length - 1 && <span style={{ fontSize: 10, color: 'var(--pm2)' }}>→</span>}
               </div>
             ))}
           </div>
 
           <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm)', margin: '0 0 12px', textTransform: 'uppercase' }}>
-            패턴 상태
+            Story Progress 도트
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {items.map(({ emoji, status, desc }) => (
-              <div key={status} style={{ display: 'flex', gap: 12 }}>
-                <span style={{ fontSize: 16, flexShrink: 0, lineHeight: 1.4 }}>{emoji}</span>
-                <div>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px' }}>{status}</p>
-                  <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.6, margin: '0 0 24px' }}>
+            ● 도트는 해당 Story의 기억 강도를 나타내요.<br />
+            5개 모두 채워지면 Mastered — 장기 기억 완성이에요.
+          </p>
 
-          <div style={{
-            marginTop: 24, padding: '14px 16px',
-            background: 'var(--pc)', borderRadius: 10,
-          }}>
+          <div style={{ padding: '14px 16px', background: 'var(--pc)', borderRadius: 10 }}>
             <p style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1.6, margin: 0 }}>
               📅 <strong>Memory Calendar</strong>의 작은 점(·)은 미래 복습 예정일을 나타내요.
               밀린 복습이 생겨도 하루 최대 5개만 표시해 부담을 줄여드려요.
@@ -666,28 +624,26 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ProgressPage() {
-  const router  = useRouter()
-  const t       = useT()
-  const [s, setS]               = useState<Stats | null>(null)
+  const router   = useRouter()
+  const t        = useT()
+  const [s, setS]                   = useState<Stats | null>(null)
   const [dayDetail, setDayDetail]   = useState<EnhancedDayDetail | null>(null)
   const [selectedIso, setSelectedIso] = useState<string | null>(null)
   const [helpOpen, setHelpOpen]     = useState(false)
 
   useEffect(() => {
-    const dueNow = getDueCount()
     setS({
       studiedTodayStories:    getStudiedTodayStoryCount(),
       practicedTodayPatterns: getPracticedTodayCount(),
       reviewedToday:          getReviewedTodayCount(),
-      dueNow,
-      learnedStories:   getLearnedStoryCount(),
-      learnedPatterns:  getLearnedPatternCount(),
-      totalPracticeMs:  getTotalPracticeMs(),
-      streak:           getStreak(),
-      ctaHref:          computeCtaHref(),
-      statusCounts:     getStatusCounts(),
-      queue:            getReviewQueue(),
-      futureSchedule:   getFutureSchedule(),
+      dueNow:                 getDueCount(),
+      learnedStories:         getLearnedStoryCount(),
+      learnedPatterns:        getLearnedPatternCount(),
+      totalPracticeMs:        getTotalPracticeMs(),
+      streak:                 getStreak(),
+      ctaHref:                computeCtaHref(),
+      statusCounts:           getStatusCounts(),
+      futureSchedule:         getFutureSchedule(),
     })
   }, [])
 
@@ -695,16 +651,14 @@ export default function ProgressPage() {
     studiedTodayStories: 0, practicedTodayPatterns: 0, reviewedToday: 0, dueNow: 0,
     learnedStories: 0, learnedPatterns: 0, totalPracticeMs: 0, streak: 0,
     ctaHref: '/stories/1',
-    statusCounts: { learning: 0, review: 0, mastered: 0 },
-    queue: { overdue: [], dueToday: [], upcoming: [] },
+    statusCounts: { new: 0, learning: 0, review: 0, mastered: 0 },
     futureSchedule: {},
   }
 
-  const phase       = getCurrentPhase(v.learnedPatterns)
-  const phasePct    = getPhaseProgress(phase, v.learnedPatterns)
-  const storyPct    = (v.learnedStories  / phase.storiesCumulative)  * 100
-  const patternPct  = (v.learnedPatterns / phase.patternsCumulative) * 100
-  const overallPct  = Math.round((storyPct + patternPct) / 2)
+  const phase      = getCurrentPhase(v.learnedPatterns)
+  const phasePct   = getPhaseProgress(phase, v.learnedPatterns)
+  const storyPct   = (v.learnedStories  / phase.storiesCumulative)  * 100
+  const patternPct = (v.learnedPatterns / phase.patternsCumulative) * 100
 
   function handleDaySelect(iso: string) {
     if (selectedIso === iso) { setSelectedIso(null); setDayDetail(null); return }
@@ -724,7 +678,7 @@ export default function ProgressPage() {
           boxSizing: 'border-box',
         }}>
 
-          {/* ── Page title ────────────────────────────────────────────── */}
+          {/* ── Page title ─────────────────────────────────────────────── */}
           <div style={{ marginBottom: 44, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
             <div>
               <p className="font-playfair" style={{
@@ -741,7 +695,6 @@ export default function ProgressPage() {
               </p>
               <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
             </div>
-            {/* ⓘ 도움말 버튼 */}
             <button
               type="button"
               onClick={() => setHelpOpen(true)}
@@ -757,7 +710,31 @@ export default function ProgressPage() {
             </button>
           </div>
 
-          {/* ── MEMORY CALENDAR (primary) ─────────────────────────────── */}
+          {/* ── 1. TODAY'S MISSION ─────────────────────────────────────── */}
+          <section style={{ marginBottom: 72 }}>
+            <SectionLabel label="Today's Mission" sub={t('mission_sub')} />
+            <MissionRow icon={BookOpen}  label={t('mission_story')}   value={v.studiedTodayStories}    total={DAILY.story} />
+            <MissionRow icon={Layers}    label={t('mission_pattern')} value={v.practicedTodayPatterns} total={DAILY.pattern} />
+            <MissionRow icon={RotateCcw} label={t('mission_review')}  value={v.reviewedToday}          total={v.reviewedToday + v.dueNow} last />
+
+            {/* CTA */}
+            <button
+              type="button"
+              onClick={() => router.push(v.ctaHref)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                width: '100%', marginTop: 20, padding: '14px 0',
+                background: 'var(--pa)', borderRadius: 12, border: 'none',
+                cursor: 'pointer', fontSize: 13, fontWeight: 700,
+                color: '#fff', letterSpacing: '0.02em',
+              }}
+            >
+              {t('continue_study')}
+              <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />
+            </button>
+          </section>
+
+          {/* ── 2. MEMORY CALENDAR ─────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
             <SectionLabel
               label="Memory Calendar"
@@ -770,22 +747,10 @@ export default function ProgressPage() {
             />
           </section>
 
-          {/* ── REVIEW QUEUE ──────────────────────────────────────────── */}
-          <ReviewQueueSection queue={v.queue} />
+          {/* ── 3. STORY PROGRESS ──────────────────────────────────────── */}
+          <StoryProgressSection />
 
-          {/* ── TODAY'S MISSION ───────────────────────────────────────── */}
-          <section style={{ marginBottom: 72 }}>
-            <SectionLabel
-              label="Today's Mission"
-              sub={t('mission_sub')}
-              action={<ActionLink label={t('continue_study')} onClick={() => router.push(v.ctaHref)} />}
-            />
-            <MissionRow icon={BookOpen}  label={t('mission_story')}   value={v.studiedTodayStories}    total={DAILY.story} />
-            <MissionRow icon={Layers}    label={t('mission_pattern')} value={v.practicedTodayPatterns} total={DAILY.pattern} />
-            <MissionRow icon={RotateCcw} label={t('mission_review')}  value={v.reviewedToday}          total={v.reviewedToday + v.dueNow} last />
-          </section>
-
-          {/* ── OVERALL PROGRESS ──────────────────────────────────────── */}
+          {/* ── 4. OVERALL PROGRESS ────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
             <SectionLabel
               label="Overall Progress"
@@ -803,67 +768,47 @@ export default function ProgressPage() {
               total={phase.patternsCumulative}
               pct={patternPct}
             />
+
+            {/* Phase % + next phase hint */}
             <div style={{
-              marginTop: 20, padding: '16px 20px',
-              background: 'var(--pc)', borderRadius: 12,
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '14px 0', borderTop: '1px solid var(--pd)',
             }}>
               <div>
                 <p style={{
-                  fontSize: 10, fontWeight: 700, letterSpacing: '0.18em',
-                  color: 'var(--pm)', margin: '0 0 4px', textTransform: 'uppercase',
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
+                  color: 'var(--pm2)', margin: '0 0 4px', textTransform: 'uppercase',
                 }}>
-                  Phase {phase.id} Progress
+                  Phase {phase.id} Completion
                 </p>
                 <p style={{
-                  fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', fontWeight: 900,
+                  fontSize: 'clamp(1.4rem, 6vw, 1.8rem)', fontWeight: 900,
                   color: 'var(--pa)', margin: 0, lineHeight: 1, letterSpacing: '-0.02em',
                 }}>
                   {phasePct}%
                 </p>
               </div>
-              <div style={{ textAlign: 'right' }}>
-                <p style={{
-                  fontSize: 13, fontWeight: 700, color: 'var(--pt)',
-                  margin: '0 0 2px', fontVariantNumeric: 'tabular-nums',
-                }}>
-                  {v.learnedStories + v.learnedPatterns}{' '}
-                  <span style={{ color: 'var(--pm2)', fontWeight: 400 }}>
-                    / {phase.storiesCumulative + phase.patternsCumulative}
-                  </span>
-                </p>
-                <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0 }}>completed</p>
-              </div>
-            </div>
-
-            {/* Phase 잠금 상태 미리보기 */}
-            {PHASES.filter(p => !p.unlocked).slice(0, 1).map(nextPhase => (
-              <div key={nextPhase.id} style={{
-                marginTop: 12, padding: '11px 16px',
-                border: '1px dashed var(--pd)', borderRadius: 10,
-                display: 'flex', alignItems: 'center', gap: 10,
-              }}>
-                <span style={{ fontSize: 14 }}>🔒</span>
-                <div>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', margin: '0 0 1px' }}>
-                    Phase {nextPhase.id} · {nextPhase.name}
-                  </p>
-                  <p style={{ fontSize: 10, color: 'var(--pm2)', margin: 0 }}>
-                    Phase {phase.id} 완료 후 해금돼요.
+              {PHASES.filter(p => !p.unlocked).slice(0, 1).map(next => (
+                <div key={next.id} style={{ textAlign: 'right' }}>
+                  <p style={{ fontSize: 10, color: 'var(--pm2)', margin: '0 0 2px' }}>🔒 Next</p>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', margin: 0 }}>
+                    Phase {next.id} · {next.name}
                   </p>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <PatternStatusBar />
           </section>
 
-          {/* ── YOUR JOURNEY ──────────────────────────────────────────── */}
+          {/* ── 5. LEARNING JOURNEY ────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
-            <SectionLabel label="Your Journey" sub={t('journey_sub')} />
+            <SectionLabel label="Learning Journey" sub={t('journey_sub')} />
             <div style={{ display: 'flex', borderLeft: '1px solid var(--pd)', borderRight: '1px solid var(--pd)' }}>
-              <StatCell value={v.learnedStories}                              label="Stories Done"  border />
-              <StatCell value={v.learnedPatterns}                             label="Patterns Done" border />
-              <StatCell value={`${v.streak > 0 ? '🔥' : ''}${v.streak}`}   label="Day Streak"   border />
-              <StatCell value={fmtTime(v.totalPracticeMs)}                   label="Practice" />
+              <StatCell value={fmtTime(v.totalPracticeMs)}                  label="Practice"     border />
+              <StatCell value={`${v.streak > 0 ? '🔥' : ''}${v.streak}`} label="Day Streak"   border />
+              <StatCell value={v.learnedStories}                            label="Stories Done" border />
+              <StatCell value={v.learnedPatterns}                           label="Patterns" />
             </div>
           </section>
 

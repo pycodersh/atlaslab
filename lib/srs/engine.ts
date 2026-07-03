@@ -397,6 +397,59 @@ export function getStoryActivity(storyId: number, storyTitle: string, patternIds
   return { storyId, storyTitle, viewCount, repeatCount, reviewsCompleted, lastPracticedAt, nextReviewAt, status, stages }
 }
 
+// ── Story Progress List (Progress 화면 ●●○○○ 시각화용) ──────────────────────
+
+export type StoryProgressItem = {
+  storyId:      number
+  storyTitle:   string
+  dots:         number          // 0–5 (SRS 단계 기반)
+  status:       PatternStatus
+  nextReviewAt: string | null
+}
+
+function intervalToDots(interval: number): number {
+  if (interval >= 30) return 5
+  if (interval >= 14) return 4
+  if (interval >= 7)  return 3
+  if (interval >= 3)  return 2
+  return 1  // 한 번이라도 연습한 패턴은 최소 1점
+}
+
+export function getStoryProgressList(): StoryProgressItem[] {
+  const records = getAllRecords()
+  const byStory = new Map<number, { minInterval: number; nextReviewAt: string | null }>()
+
+  for (const r of records) {
+    if (r.itemType !== 'pattern' || !r.storyId) continue
+    const interval = r.intervalDays ?? 0
+    const nra      = r.nextReviewAt ?? null
+    const prev     = byStory.get(r.storyId)
+    if (!prev) {
+      byStory.set(r.storyId, { minInterval: interval, nextReviewAt: nra })
+    } else {
+      byStory.set(r.storyId, {
+        minInterval: Math.min(prev.minInterval, interval),
+        nextReviewAt:
+          nra && (!prev.nextReviewAt || nra < prev.nextReviewAt)
+            ? nra
+            : prev.nextReviewAt,
+      })
+    }
+  }
+
+  return Array.from(byStory.entries())
+    .map(([storyId, { minInterval, nextReviewAt }]) => {
+      const dots: number = intervalToDots(minInterval)
+      const status: PatternStatus =
+        minInterval >= 30 ? 'mastered' :
+        minInterval >= 7  ? 'review'   :
+        minInterval >  0  ? 'learning' : 'new'
+      const story = magazineStories.find(s => s.id === storyId)
+      return { storyId, storyTitle: story?.title ?? `Story ${storyId}`, dots, status, nextReviewAt }
+    })
+    .sort((a, b) => a.storyId - b.storyId)
+}
+
 // ── Story 완료 훅 (구조 준비 — 트리거는 다음 단계에서 MagazineEngine에 연결) ─
 
 export { onStoryComplete } from './storage'
