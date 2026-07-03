@@ -10,7 +10,7 @@ const ALL_TABS = [
   { label: 'STORY',    href: '/stories/1' },
   { label: 'ESSAYS',   href: '/essays' },
   { label: 'PROGRESS', href: '/records' },
-  { label: 'SETTINGS', href: '/settings' },
+  { label: 'LIBRARY',  href: '/library' },
 ] as const
 
 type TabLabel = (typeof ALL_TABS)[number]['label']
@@ -19,7 +19,7 @@ function getActive(pathname: string): TabLabel {
   if (pathname === '/home' || pathname === '/') return 'TODAY'
   if (pathname.startsWith('/essays'))  return 'ESSAYS'
   if (pathname.startsWith('/records')) return 'PROGRESS'
-  if (pathname.startsWith('/settings')) return 'SETTINGS'
+  if (pathname.startsWith('/library')) return 'LIBRARY'
   return 'STORY'
 }
 
@@ -32,7 +32,7 @@ export function TopNav() {
   const active   = getActive(pathname)
 
   const tabRefs = useRef<Record<TabLabel, HTMLAnchorElement | null>>({
-    TODAY: null, STORY: null, ESSAYS: null, PROGRESS: null, SETTINGS: null,
+    TODAY: null, STORY: null, ESSAYS: null, PROGRESS: null, LIBRARY: null,
   })
 
   const [underline, setUnderline] = useState<{ left: number; width: number } | null>(null)
@@ -70,7 +70,7 @@ export function TopNav() {
           marginTop: 'env(safe-area-inset-top, 0px)',
         }}
       >
-        {/* Tabs — 5 tabs, slightly tighter spacing */}
+        {/* Tabs */}
         <div className="flex items-center gap-3">
           {ALL_TABS.map(({ label, href }) => {
             const isActive = active === label
@@ -114,11 +114,11 @@ export function TopNav() {
           />
         )}
 
-        {/* 우측: 프로필 아이콘만 (streak 숫자 제거) */}
+        {/* Profile icon → Settings */}
         <div className="ml-auto">
           <Link
             href="/settings"
-            aria-label="설정"
+            aria-label="프로필"
             className="w-6 h-6 rounded-full flex items-center justify-center"
             style={{ background: 'var(--pd)' }}
           >

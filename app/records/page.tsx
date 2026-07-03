@@ -8,10 +8,9 @@ import { TopNav } from '@/components/TopNav'
 import { LearningCalendar } from '@/components/LearningCalendar'
 import { useT } from '@/hooks/useT'
 import { magazineStories } from '@/data/magazine-stories'
-import { getBookmarks, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import {
   getDueCount,
-  getLearnedStoryCount, getLearnedPatternCount, getTotalRepeatCount, getTotalPracticeMs,
+  getLearnedStoryCount, getLearnedPatternCount, getTotalPracticeMs,
   getStudiedTodayStoryCount, getPracticedTodayCount, getReviewedTodayCount,
   getPracticedPatternCountByStory, getStreak, getDailyStats,
 } from '@/lib/srs/storage'
@@ -28,10 +27,8 @@ type Stats = {
   dueNow: number
   learnedStories: number
   learnedPatterns: number
-  totalRepeats: number
   totalPracticeMs: number
   streak: number
-  bookmarks: BookmarkedPattern[]
   ctaHref: string
 }
 
@@ -62,27 +59,14 @@ function fmtDate(iso: string): string {
 }
 
 // ── Action link ───────────────────────────────────────────────────────────────
-function ActionLink({ label, href, onClick }: {
-  label: string
-  href?: string
-  onClick?: () => void
-}) {
-  const style: React.CSSProperties = {
-    display: 'inline-flex', alignItems: 'center', gap: 2,
-    fontSize: 11, fontWeight: 600, color: 'var(--pa)',
-    textDecoration: 'none', background: 'none', border: 'none',
-    padding: 0, cursor: 'pointer', letterSpacing: '0.01em', lineHeight: 1, opacity: 0.9,
-  }
-  if (href) {
-    const Link = require('next/link').default
-    return (
-      <Link href={href} style={style}>
-        {label}<ChevronRight style={{ width: 10, height: 10, marginLeft: 1 }} strokeWidth={2.2} />
-      </Link>
-    )
-  }
+function ActionLink({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <button type="button" onClick={onClick} style={style}>
+    <button type="button" onClick={onClick} style={{
+      display: 'inline-flex', alignItems: 'center', gap: 2,
+      fontSize: 11, fontWeight: 600, color: 'var(--pa)',
+      background: 'none', border: 'none',
+      padding: 0, cursor: 'pointer', letterSpacing: '0.01em', lineHeight: 1, opacity: 0.9,
+    }}>
       {label}<ChevronRight style={{ width: 10, height: 10, marginLeft: 1 }} strokeWidth={2.2} />
     </button>
   )
@@ -102,7 +86,7 @@ function SectionLabel({ label, sub, action }: { label: string; sub?: string; act
         {action}
       </div>
       {sub && (
-        <p style={{ fontSize: 11, fontWeight: 400, color: 'var(--pm)', margin: '7px 0 0', lineHeight: 1.5, letterSpacing: '0.01em' }}>
+        <p style={{ fontSize: 11, color: 'var(--pm)', margin: '7px 0 0', lineHeight: 1.5 }}>
           {sub}
         </p>
       )}
@@ -165,30 +149,21 @@ function DayDetailSheet({ detail, onClose }: { detail: DayDetail | null; onClose
 
   return (
     <>
-      <div
-        onClick={onClose}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 60,
-          background: 'rgba(0,0,0,0.45)',
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'auto' : 'none',
-          transition: 'opacity 0.25s ease',
-        }}
-      />
+      <div onClick={onClose} style={{
+        position: 'fixed', inset: 0, zIndex: 60, background: 'rgba(0,0,0,0.45)',
+        opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none', transition: 'opacity 0.25s ease',
+      }} />
       <div style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
-        background: 'var(--pb)',
-        borderRadius: '20px 20px 0 0',
+        background: 'var(--pb)', borderRadius: '20px 20px 0 0',
         boxShadow: '0 -4px 32px rgba(0,0,0,0.12)',
         transform: open ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)',
         paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))',
       }}>
-        {/* Handle */}
         <div style={{ padding: '12px 24px 0' }}>
           <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto' }} />
         </div>
-        {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
           <p className="font-playfair" style={{
             fontSize: 'clamp(1.4rem, 5.5vw, 1.7rem)', fontWeight: 900,
@@ -204,13 +179,12 @@ function DayDetailSheet({ detail, onClose }: { detail: DayDetail | null; onClose
             <X style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
           </button>
         </div>
-        {/* Stats */}
         {detail && (
           <div style={{ padding: '20px 24px 0' }}>
             {[
-              { icon: BookOpen, label: 'Story', value: detail.stories },
-              { icon: Layers, label: 'Pattern', value: detail.patterns },
-              { icon: RotateCcw, label: 'Review', value: detail.reviews },
+              { icon: BookOpen,  label: 'Story',   value: detail.stories },
+              { icon: Layers,    label: 'Pattern',  value: detail.patterns },
+              { icon: RotateCcw, label: 'Review',   value: detail.reviews },
             ].map(({ icon: Icon, label, value }, i, arr) => (
               <div key={label} style={{
                 display: 'flex', alignItems: 'center', gap: 12,
@@ -231,98 +205,12 @@ function DayDetailSheet({ detail, onClose }: { detail: DayDetail | null; onClose
   )
 }
 
-// ── My Patterns Bottom Sheet ──────────────────────────────────────────────────
-function BookmarkSheet({ open, onClose, bookmarks }: {
-  open: boolean; onClose: () => void; bookmarks: BookmarkedPattern[]
-}) {
-  const router = useRouter()
-  const t = useT()
-
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [open])
-
-  function goToPattern(bm: BookmarkedPattern) {
-    router.push(`/stories/${bm.storyId}?v=p`)
-    onClose()
-  }
-
-  return (
-    <>
-      <div onClick={onClose} style={{
-        position: 'fixed', inset: 0, zIndex: 60, background: 'rgba(0,0,0,0.45)',
-        opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none', transition: 'opacity 0.3s ease',
-      }} />
-      <div style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
-        background: 'var(--pb)', borderRadius: '20px 20px 0 0',
-        maxHeight: '82dvh', display: 'flex', flexDirection: 'column',
-        transform: open ? 'translateY(0)' : 'translateY(100%)',
-        transition: 'transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
-        boxShadow: '0 -4px 32px rgba(0,0,0,0.12)',
-      }}>
-        <div style={{ padding: '12px 24px 0', flexShrink: 0 }}>
-          <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto 0' }} />
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px 0', flexShrink: 0 }}>
-          <p className="font-playfair" style={{
-            fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', fontWeight: 900,
-            color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em',
-          }}>
-            My Patterns
-          </p>
-          <button type="button" onClick={onClose} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            width: 32, height: 32, borderRadius: '50%',
-            background: 'var(--pc)', border: 'none', cursor: 'pointer', flexShrink: 0,
-          }}>
-            <X style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
-          </button>
-        </div>
-        <p style={{ fontSize: 11, color: 'var(--pm)', margin: '6px 24px 0', flexShrink: 0 }}>
-          {t('bookmarks_count', { n: bookmarks.length })}
-        </p>
-        <div style={{ overflowY: 'auto', padding: '16px 24px', paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))' }}>
-          {bookmarks.length === 0 ? (
-            <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 8, whiteSpace: 'pre-line' }}>
-              {t('no_bookmarks_sheet')}
-            </p>
-          ) : (
-            bookmarks.map((bm, i) => {
-              const story = magazineStories.find(s => s.id === bm.storyId)
-              return (
-                <button key={bm.patternId} type="button" onClick={() => goToPattern(bm)} style={{
-                  display: 'block', width: '100%', textAlign: 'left',
-                  background: 'none', border: 'none', padding: '18px 0',
-                  borderTop: i === 0 ? 'none' : '1px solid var(--pd)', cursor: 'pointer',
-                }}>
-                  <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 4px', lineHeight: 1.3 }}>
-                    {bm.pattern}
-                  </p>
-                  {bm.meaningKo && (
-                    <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 8px', lineHeight: 1.5 }}>{bm.meaningKo}</p>
-                  )}
-                  <p style={{ fontSize: 10, fontWeight: 600, color: 'var(--pm2)', margin: 0, letterSpacing: '0.06em' }}>
-                    Story {String(bm.storyId).padStart(2, '0')}{story ? ` · ${story.title}` : ''}
-                  </p>
-                </button>
-              )
-            })
-          )}
-        </div>
-      </div>
-    </>
-  )
-}
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ProgressPage() {
   const router = useRouter()
   const t = useT()
   const [s, setS] = useState<Stats | null>(null)
-  const [sheetOpen, setSheetOpen] = useState(false)
   const [dayDetail, setDayDetail] = useState<DayDetail | null>(null)
   const [selectedIso, setSelectedIso] = useState<string | null>(null)
 
@@ -335,18 +223,16 @@ export default function ProgressPage() {
       dueNow,
       learnedStories: getLearnedStoryCount(),
       learnedPatterns: getLearnedPatternCount(),
-      totalRepeats: getTotalRepeatCount(),
       totalPracticeMs: getTotalPracticeMs(),
       streak: getStreak(),
-      bookmarks: getBookmarks(),
       ctaHref: computeCtaHref(dueNow),
     })
   }, [])
 
   const v = s ?? {
     studiedTodayStories: 0, practicedTodayPatterns: 0, reviewedToday: 0, dueNow: 0,
-    learnedStories: 0, learnedPatterns: 0, totalRepeats: 0,
-    totalPracticeMs: 0, streak: 0, bookmarks: [], ctaHref: '/stories/1',
+    learnedStories: 0, learnedPatterns: 0,
+    totalPracticeMs: 0, streak: 0, ctaHref: '/stories/1',
   }
 
   const storyPct   = (v.learnedStories / CURRICULUM.stories) * 100
@@ -354,14 +240,9 @@ export default function ProgressPage() {
   const overallPct = Math.round((storyPct + patternPct) / 2)
 
   function handleDaySelect(iso: string) {
-    if (selectedIso === iso) {
-      setSelectedIso(null)
-      setDayDetail(null)
-      return
-    }
+    if (selectedIso === iso) { setSelectedIso(null); setDayDetail(null); return }
     setSelectedIso(iso)
-    const stats = getDailyStats(iso)
-    setDayDetail({ iso, ...stats })
+    setDayDetail({ iso, ...getDailyStats(iso) })
   }
 
   return (
@@ -408,11 +289,8 @@ export default function ProgressPage() {
           {/* ── OVERALL PROGRESS ──────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
             <SectionLabel label="Overall Progress" sub="전체 커리큘럼 기준 학습 진행 현황" />
-
             <ProgressRow label="Stories"  value={v.learnedStories}  total={CURRICULUM.stories}  pct={storyPct} />
             <ProgressRow label="Patterns" value={v.learnedPatterns} total={CURRICULUM.patterns} pct={patternPct} />
-
-            {/* Overall curriculum highlight */}
             <div style={{
               marginTop: 20, padding: '16px 20px',
               background: 'var(--pc)', borderRadius: 12,
@@ -450,57 +328,14 @@ export default function ProgressPage() {
           <section style={{ marginBottom: 72 }}>
             <SectionLabel label="Learning Calendar" sub={t('calendar_sub')} />
             <LearningCalendar onDaySelect={handleDaySelect} selectedIso={selectedIso} />
-            {selectedIso && !dayDetail && (
-              <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 12, textAlign: 'center' }}>
-                학습 기록이 없는 날입니다
-              </p>
-            )}
-          </section>
-
-          {/* ── MY PATTERNS ───────────────────────────────────────────── */}
-          <section>
-            <SectionLabel
-              label="My Patterns"
-              sub={t('my_patterns_sub')}
-              action={<ActionLink label={t('view_all')} onClick={() => setSheetOpen(true)} />}
-            />
-            {v.bookmarks.length === 0 ? (
-              <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.7, paddingTop: 4, whiteSpace: 'pre-line' }}>
-                {t('no_bookmarks')}
-              </p>
-            ) : (
-              <div>
-                {v.bookmarks.slice(0, 3).map((bm, i) => {
-                  const story = magazineStories.find(s => s.id === bm.storyId)
-                  return (
-                    <button key={bm.patternId} type="button" onClick={() => router.push(`/stories/${bm.storyId}?v=p`)} style={{
-                      display: 'block', width: '100%', textAlign: 'left',
-                      background: 'none', border: 'none', padding: '14px 0',
-                      borderTop: i === 0 ? 'none' : '1px solid var(--pd)', cursor: 'pointer',
-                    }}>
-                      <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt2)', margin: '0 0 4px' }}>{bm.pattern}</p>
-                      <p style={{ fontSize: 10, fontWeight: 600, color: 'var(--pm2)', margin: 0, letterSpacing: '0.04em' }}>
-                        Story {String(bm.storyId).padStart(2, '0')}{story ? ` · ${story.title}` : ''}
-                      </p>
-                    </button>
-                  )
-                })}
-              </div>
-            )}
           </section>
 
         </div>
       </div>
 
-      {/* Bottom sheets — outside scroll container */}
       <DayDetailSheet
         detail={dayDetail}
         onClose={() => { setDayDetail(null); setSelectedIso(null) }}
-      />
-      <BookmarkSheet
-        open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
-        bookmarks={v.bookmarks}
       />
     </>
   )
@@ -516,8 +351,7 @@ function MissionRow({
   const done = total > 0 && value >= total
   return (
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 12,
-      padding: '13px 0',
+      display: 'flex', alignItems: 'center', gap: 12, padding: '13px 0',
       borderBottom: last ? 'none' : '1px solid var(--pd)',
     }}>
       <Icon style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.8} />

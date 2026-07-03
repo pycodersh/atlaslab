@@ -59,7 +59,7 @@ export default function SettingsPage() {
             color: 'var(--pt)',
             margin: 0,
           }}>
-            Settings
+            Profile
           </p>
           <p className="font-playfair" style={{
             fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
