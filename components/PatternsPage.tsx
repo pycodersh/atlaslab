@@ -6,7 +6,7 @@ import type { MagazineStory } from '@/types/magazine'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { useT } from '@/hooks/useT'
-import { PatternPracticeCard } from '@/components/PatternPracticeCard'
+import { PatternIllustrationRow } from '@/components/PatternIllustrationRow'
 import { getPatternExamples, type PracticeExample } from '@/data/pattern-examples'
 
 type PatternsPageProps = {
@@ -111,8 +111,8 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, pat
             </button>
           </div>
 
-          {/* 패턴 5개 — 각 카드에 예문 5개를 처음부터 모두 표시 */}
-          <div className="space-y-4">
+          {/* 패턴 목록 — 전체 스토리 일러스트 행 UI */}
+          <div className="mt-2">
             {story.patterns.map((pattern, index) => {
               const examples = patternExamples?.[pattern.id] ?? (() => {
                 const fromData = getPatternExamples(pattern.id)
@@ -124,7 +124,7 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, pat
                     ]
               })()
               return (
-                <PatternPracticeCard
+                <PatternIllustrationRow
                   key={pattern.id}
                   storyId={story.id}
                   storyTitle={story.title}
@@ -136,6 +136,7 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, pat
                   onRequestPlay={() => handleRequestPlay(pattern.id)}
                   autoPlayKey={autoKey}
                   onFinished={() => handleFinished(index)}
+                  isLast={index === total - 1}
                 />
               )
             })}
