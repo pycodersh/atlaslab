@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Volume2, X } from 'lucide-react'
 
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
-import { PatternsPage } from '@/components/PatternsPage'
+import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
 import { TappableWordText } from '@/components/TappableWordText'
@@ -260,7 +260,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
 
         {/* Patterns page */}
         <div className="h-full overflow-hidden" style={{ width: '50%' }}>
-          <PatternsPage
+          <PatternsPageV2
             story={story}
             totalStories={allStories.length}
             onPrev={goPrev}
@@ -271,6 +271,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
           />
         </div>
       </div>
+
 
       {/* PC ghost edge arrows */}
       <button
