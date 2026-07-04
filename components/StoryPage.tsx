@@ -170,28 +170,28 @@ export function StoryPage({
       <div className="flex-1 overflow-y-auto">
         <div className="pl-7 pr-6 pt-5 pb-8">
 
+          {/* Story number — above title */}
+          <button
+            type="button"
+            onClick={onOpenPicker}
+            aria-label="스토리 선택"
+            className="flex items-center mt-2 mb-1 group cursor-pointer"
+          >
+            <span className="text-[11px] tracking-[0.2em] font-semibold uppercase text-[var(--pa)] group-hover:opacity-70 transition-opacity">
+              Story {String(story.id).padStart(2, '0')}
+            </span>
+          </button>
+
           {/* Title */}
-          <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[var(--pt)] mt-2 mb-1">
+          <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[var(--pt)] mb-1">
             {story.title}
           </h1>
 
-          <div className="flex items-center justify-between mb-5">
-            {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations) && (
-              <p className="text-[0.78rem] text-[var(--pm)] tracking-wide">
-                {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)}
-              </p>
-            )}
-            <button
-              type="button"
-              onClick={onOpenPicker}
-              aria-label="스토리 선택"
-              className="flex items-center shrink-0 ml-3 group cursor-pointer"
-            >
-              <span className="text-[11px] tracking-[0.2em] font-semibold uppercase text-[var(--pa)] group-hover:opacity-70 transition-opacity">
-                Story {String(story.id).padStart(2, '0')}
-              </span>
-            </button>
-          </div>
+          {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations) && (
+            <p className="text-[0.78rem] text-[var(--pm)] tracking-wide mb-5">
+              {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)}
+            </p>
+          )}
 
           {/* Image Slider */}
           <StoryImageSlider
