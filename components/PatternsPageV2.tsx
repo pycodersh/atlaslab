@@ -313,20 +313,19 @@ export function PatternsPageV2({
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         <div className="pl-7 pr-6 pt-5 pb-10">
 
-          {/* Story header row */}
+          {/* Story header: number on top, title below */}
           <div className="mt-2 mb-4">
             <button
               type="button"
               onClick={onOpenPicker}
               aria-label="스토리 선택"
-              className="flex items-center gap-2 group cursor-pointer min-w-0"
+              className="flex flex-col items-start group cursor-pointer"
               style={{ background: 'none', border: 'none', padding: 0 }}
             >
-              <span className="text-[9px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity shrink-0">
+              <span className="text-[9px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity mb-0.5">
                 STORY {String(story.id).padStart(2, '0')}
               </span>
-              <span className="text-[10px] text-[var(--pm2)] shrink-0">·</span>
-              <span className="text-[0.95rem] font-playfair text-[var(--pt)] font-bold leading-tight truncate">
+              <span className="text-[0.95rem] font-playfair text-[var(--pt)] font-bold leading-tight">
                 {story.title}
               </span>
             </button>
