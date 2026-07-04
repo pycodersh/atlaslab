@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ChevronLeft, ChevronRight, Volume2, Square,
-  Bookmark, BookOpen, Eye, EyeOff, ChevronDown, X, Check,
+  Bookmark, Info, Eye, EyeOff, ChevronDown, X, Check,
 } from 'lucide-react'
 
 import type { MagazineStory } from '@/types/magazine'
@@ -424,20 +424,21 @@ export function PatternsPageV2({
             </button>
           </div>
 
-          {/* ── Swipe area (pattern card + example) ── */}
+          {/* ── Swipe area ── */}
           <div ref={swipeRef}>
 
-            {/* Pattern card */}
-            <div className="rounded-2xl p-5 mb-5" style={{ background: 'var(--pc2)' }}>
+            {/* ── Pattern section — magazine style, dividers only ── */}
+            <div className="border-t border-b border-[var(--pd)] py-5 mb-6">
+              {/* Top row: illustration + pattern text + icons */}
               <div className="flex items-start gap-4">
                 {/* Illustration */}
-                <div className="w-[72px] h-[72px] shrink-0">
+                <div className="w-[64px] h-[64px] shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`/images/patterns/${pattern.id}.svg`}
                     alt=""
                     aria-hidden="true"
-                    className="w-[72px] h-[72px] object-contain"
+                    className="w-[64px] h-[64px] object-contain"
                   />
                 </div>
 
@@ -453,8 +454,8 @@ export function PatternsPageV2({
                   )}
                 </div>
 
-                {/* Bookmark + Note */}
-                <div className="flex flex-col items-center gap-2 shrink-0 pt-0.5">
+                {/* Bookmark + Note — horizontal, top-right */}
+                <div className="flex items-center gap-0.5 shrink-0 pt-0.5">
                   <button
                     type="button"
                     onClick={handleBookmark}
@@ -464,7 +465,7 @@ export function PatternsPageV2({
                     }`}
                   >
                     <Bookmark
-                      className="w-4 h-4"
+                      className="w-3.5 h-3.5"
                       strokeWidth={1.8}
                       fill={bookmarked ? 'currentColor' : 'none'}
                     />
@@ -476,37 +477,37 @@ export function PatternsPageV2({
                       aria-label="Pattern Note"
                       className="p-1.5 rounded-full text-[var(--pm2)] hover:text-[var(--pa)] transition-colors cursor-pointer"
                     >
-                      <BookOpen className="w-4 h-4" strokeWidth={1.8} />
+                      <Info className="w-3.5 h-3.5" strokeWidth={1.8} />
                     </button>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Example display */}
-            <div className="min-h-[90px] mb-4">
+            {/* ── Example display — centered ── */}
+            <div className="min-h-[90px] mb-5 text-center px-2">
               {/* Thinking indicator */}
               {recallMode && phase === 'thinking' && (
-                <p className="text-[9px] font-bold tracking-[0.18em] text-[var(--pa)] mb-2 animate-pulse">
+                <p className="text-[9px] font-bold tracking-[0.18em] text-[var(--pa)] mb-3 animate-pulse">
                   THINK IN ENGLISH…
                 </p>
               )}
 
               {/* English text or skeleton */}
               {showEnglish ? (
-                <p className="font-playfair text-[1.05rem] leading-relaxed text-[var(--pt)] mb-2">
+                <p className="font-playfair text-[0.9rem] leading-[1.9] text-[var(--pt)] mb-1">
                   {example?.en}
                 </p>
               ) : (
-                <div className="mb-3 space-y-2" aria-hidden="true">
-                  <div className="h-5 rounded-lg bg-[var(--pd)]" style={{ width: '82%' }} />
-                  <div className="h-5 rounded-lg bg-[var(--pd)]" style={{ width: '64%' }} />
+                <div className="mb-3 space-y-2 flex flex-col items-center" aria-hidden="true">
+                  <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '80%' }} />
+                  <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '60%' }} />
                 </div>
               )}
 
               {/* Korean translation */}
               {showKorean && translationTx && (
-                <p className="text-[0.8rem] text-[var(--pm)] leading-relaxed">
+                <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed">
                   {translationTx}
                 </p>
               )}
@@ -516,7 +517,7 @@ export function PatternsPageV2({
                 <button
                   type="button"
                   onClick={() => setRevealed(true)}
-                  className="mt-3 flex items-center gap-1.5 text-[11px] font-bold text-[var(--pa)] hover:opacity-70 transition-opacity cursor-pointer"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-bold text-[var(--pa)] hover:opacity-70 transition-opacity cursor-pointer"
                 >
                   <Eye className="w-3.5 h-3.5" />
                   REVEAL
@@ -524,56 +525,50 @@ export function PatternsPageV2({
               )}
             </div>
 
-            {/* Example indicator dots */}
-            <div className="flex items-center justify-between mb-1">
-              <div className="flex items-center gap-1.5">
-                {examples.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => navigateTo(patIdx, i)}
-                    aria-label={`Example ${i + 1}`}
-                    className="cursor-pointer py-1"
-                  >
-                    <span
-                      className="block rounded-full transition-all duration-200"
-                      style={{
-                        width:   i === exIdx ? 18 : 6,
-                        height:  6,
-                        background: i === exIdx
-                          ? 'var(--pa)'
-                          : doneMask.has(i)
-                          ? 'var(--pa)'
-                          : 'var(--pd)',
-                        opacity: doneMask.has(i) && i !== exIdx ? 0.4 : 1,
-                      }}
-                    />
-                  </button>
-                ))}
-              </div>
-              <span className="text-[10px] text-[var(--pm2)] font-medium tabular-nums">
-                {exIdx + 1} / {examples.length}
-              </span>
+            {/* Example indicator dots — centered, no counter */}
+            <div className="flex items-center justify-center gap-1.5 mb-1">
+              {examples.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => navigateTo(patIdx, i)}
+                  aria-label={`Example ${i + 1}`}
+                  className="cursor-pointer py-1"
+                >
+                  <span
+                    className="block rounded-full transition-all duration-200"
+                    style={{
+                      width:   i === exIdx ? 18 : 6,
+                      height:  6,
+                      background: i === exIdx
+                        ? 'var(--pa)'
+                        : doneMask.has(i)
+                        ? 'var(--pa)'
+                        : 'var(--pd)',
+                      opacity: doneMask.has(i) && i !== exIdx ? 0.4 : 1,
+                    }}
+                  />
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* ── Controls row ── */}
-          <div className="flex items-center gap-2 py-3 mt-1 border-t border-[var(--pd)]">
-            {/* Auto-play */}
+          {/* ── Controls row — simplified ── */}
+          <div className="flex items-center gap-1.5 py-3 mt-2 border-t border-[var(--pd)]">
+            {/* Auto-play: icon only */}
             <button
               type="button"
               onClick={toggleAutoPlay}
               aria-label={isAutoPlaying ? t('stop') : t('listen_all')}
-              className={`flex items-center gap-1.5 text-[11px] font-bold tracking-wide px-3 py-1.5 rounded-full transition-colors cursor-pointer ${
+              className={`p-1.5 rounded-full transition-colors cursor-pointer ${
                 isAutoPlaying
-                  ? 'bg-[var(--pa)] text-white'
-                  : 'bg-[var(--pal)] text-[var(--pa)] hover:bg-[var(--pa)] hover:text-white'
+                  ? 'text-[var(--pa)] bg-[var(--pal)]'
+                  : 'text-[var(--pm2)] hover:text-[var(--pa)] hover:bg-[var(--pal)]'
               }`}
             >
               {isAutoPlaying
-                ? <Square className="w-3 h-3 fill-current" />
-                : <Volume2 className="w-3.5 h-3.5" />}
-              {isAutoPlaying ? t('stop') : t('listen_all')}
+                ? <Square className="w-4 h-4 fill-current" />
+                : <Volume2 className="w-4 h-4" strokeWidth={1.8} />}
             </button>
 
             {/* Single-play (only when not auto-playing) */}
@@ -584,23 +579,23 @@ export function PatternsPageV2({
                 aria-label={t('listen')}
                 className="p-1.5 rounded-full text-[var(--pm2)] hover:text-[var(--pa)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
               >
-                <Volume2 className="w-4 h-4" strokeWidth={1.8} />
+                <Volume2 className="w-3.5 h-3.5" strokeWidth={1.5} style={{ opacity: 0.55 }} />
               </button>
             )}
 
-            <div className="ml-auto flex items-center gap-2">
+            <div className="ml-auto flex items-center gap-1.5">
               {/* Recall mode toggle */}
               <button
                 type="button"
                 onClick={() => { setRecallMode(v => !v); setRevealed(false) }}
                 aria-label={recallMode ? 'Recall OFF' : 'Recall ON'}
-                className={`flex items-center gap-1 text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
+                className={`flex items-center gap-1 text-[9px] font-bold tracking-wide px-2 py-1 rounded-full transition-colors cursor-pointer border ${
                   recallMode
                     ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
                     : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
                 }`}
               >
-                <EyeOff className="w-3 h-3" />
+                <EyeOff className="w-2.5 h-2.5" />
                 RECALL
               </button>
 
@@ -609,7 +604,7 @@ export function PatternsPageV2({
                 type="button"
                 onClick={() => setTranslationOn(v => !v)}
                 aria-label={translationOn ? '번역 숨기기' : '번역 보기'}
-                className={`text-[10px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
+                className={`text-[9px] font-bold tracking-wide px-2 py-1 rounded-full transition-colors cursor-pointer border ${
                   translationOn
                     ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pal)]'
                     : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
@@ -620,16 +615,14 @@ export function PatternsPageV2({
             </div>
           </div>
 
-          {/* ── Examples list (collapsible) ── */}
+          {/* ── Examples list (collapsible) — icon only header ── */}
           <div className="border-t border-[var(--pd)]">
             <button
               type="button"
               onClick={() => setExamplesOpen(v => !v)}
-              className="w-full flex items-center justify-between py-3 text-left cursor-pointer"
+              className="w-full flex items-center justify-center py-2.5 cursor-pointer"
+              aria-label={examplesOpen ? 'Collapse examples' : 'Expand examples'}
             >
-              <span className="text-[10px] tracking-[0.2em] font-bold text-[var(--pm)]">
-                EXAMPLES
-              </span>
               <ChevronDown
                 className="w-4 h-4 text-[var(--pm2)] transition-transform duration-200"
                 style={{ transform: examplesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
@@ -722,7 +715,6 @@ export function PatternsPageV2({
             className="fixed bottom-0 left-0 right-0 z-50 rounded-t-3xl p-6 max-h-[70vh] overflow-y-auto"
             style={{ background: 'var(--pb)', boxShadow: '0 -8px 32px rgba(0,0,0,0.12)' }}
           >
-            {/* Sheet handle */}
             <div className="w-10 h-1 rounded-full bg-[var(--pd)] mx-auto mb-5" />
             <div className="flex items-center justify-between mb-4">
               <div>
