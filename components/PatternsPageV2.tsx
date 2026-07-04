@@ -93,10 +93,8 @@ export function PatternsPageV2({
   // ── UI state ───────────────────────────────────────────────────────────────
   const [studyMode,    setStudyMode]   = useState<StudyMode>('en')
   const [examplesOpen, setExamplesOpen] = useState(false)
-  const [audioMenuOpen, setAudioMenuOpen] = useState(false)
   const [bookmarked,   setBookmarked]  = useState(false)
   const [phase,        setPhase]       = useState<Phase>('idle')
-  const audioMenuRef = useRef<HTMLDivElement>(null)
 
   // done mask: patternId → Set<exIdx>
   const doneMasksRef = useRef<Record<string, Set<number>>>({})
@@ -109,22 +107,6 @@ export function PatternsPageV2({
   useEffect(() => {
     setBookmarked(isBookmarked(pattern.id))
   }, [pattern.id])
-
-  // Close audio menu on outside click
-  useEffect(() => {
-    if (!audioMenuOpen) return
-    function onDown(e: MouseEvent | TouchEvent) {
-      if (audioMenuRef.current && !audioMenuRef.current.contains(e.target as Node)) {
-        setAudioMenuOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', onDown)
-    document.addEventListener('touchstart', onDown)
-    return () => {
-      document.removeEventListener('mousedown', onDown)
-      document.removeEventListener('touchstart', onDown)
-    }
-  }, [audioMenuOpen])
 
   // ── Playback refs ─────────────────────────────────────────────────────────
   const runningRef   = useRef(false)
@@ -230,80 +212,55 @@ export function PatternsPageV2({
     }
   }, [goNext, goPrev])
 
-  // ── Single example play ───────────────────────────────────────────────────
-  const playSingle = useCallback((p: number, e: number) => {
-    const pat = patterns[p]
+  // ── Play current pattern's examples sequentially ──────────────────────────
+  const playPatternExamples = useCallback(() => {
+    if (phase === 'speaking' || phase === 'pause') { stop(); return }
+
+    const pat = patterns[patIdxRef.current]
     const exs = resolveExamples(
       patternExamples, pat.id,
       pat.storySentence, pat.storySentenceKo,
       pat.variationSentence, pat.variationSentenceKo,
     )
-    const ex = exs[e]
-    if (!ex) return
-    setPhase('speaking')
-    const url = patternExampleAudioUrl(voice, pat.id, e, ex.en)
-    if (DEV) console.log('[PatternsV2] single play', pat.id, 'ex', e)
-    ttsProvider.speak({
-      texts: [ex.en], audioUrls: url ? [url] : undefined,
-      voiceKey: voice, voiceKeys: [voice],
-      rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
-      onEnd: () => { markDone(p, e); setPhase('idle') },
-      onError: () => setPhase('idle'),
-    })
-  }, [patterns, patternExamples, prefs.speechRate, voice, markDone])
 
-  // ── Auto-play ─────────────────────────────────────────────────────────────
-  const autoPlayOne = useCallback((p: number, e: number) => {
-    if (!runningRef.current) return
-    const pat = patterns[p]
-    const exs = resolveExamples(
-      patternExamples, pat.id,
-      pat.storySentence, pat.storySentenceKo,
-      pat.variationSentence, pat.variationSentenceKo,
-    )
-    const ex = exs[e]
-    if (!ex) { stop(); return }
-
-    navigateTo(p, e, true)
-    if (DEV) console.log('[PatternsV2] autoPlayOne', pat.id, 'ex', e, 'mode=', studyModeRef.current)
-
-    const advance = () => {
-      if (!runningRef.current) return
-      markDone(p, e)
-      setPhase('pause')
-      setRevealed(false)
-      timerRef.current = setTimeout(() => {
-        if (!runningRef.current) return
-        let nextP = p, nextE = e + 1
-        if (nextE >= exs.length) {
-          const dur = Date.now() - startedAtRef.current
-          recordPatternPractice(pat.id, story.id, pat.pattern, story.title, dur)
-          nextP = p + 1; nextE = 0
-        }
-        if (nextP >= patterns.length) { runningRef.current = false; setPhase('done'); return }
-        autoPlayOne(nextP, nextE)
-      }, EXAMPLE_PAUSE_MS)
-    }
-
-    setPhase('speaking')
-    const url = patternExampleAudioUrl(voice, pat.id, e, ex.en)
-    ttsProvider.speak({
-      texts: [ex.en], audioUrls: url ? [url] : undefined,
-      voiceKey: voice, voiceKeys: [voice],
-      rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
-      onEnd: advance, onError: advance,
-    })
-  }, [patterns, patternExamples, prefs.speechRate, voice, story.id, story.title, stop, navigateTo, markDone])
-
-  const isAutoPlaying = phase === 'speaking' || phase === 'thinking' || phase === 'revealed' || phase === 'pause'
-
-  const toggleAutoPlay = useCallback(() => {
-    if (isAutoPlaying) { stop(); return }
     runningRef.current = true
     startedAtRef.current = Date.now()
-    setPhase('idle')
-    autoPlayOne(patIdxRef.current, exIdxRef.current)
-  }, [isAutoPlaying, stop, autoPlayOne])
+
+    function playOne(idx: number) {
+      if (!runningRef.current) return
+      const ex = exs[idx]
+      if (!ex) { runningRef.current = false; setPhase('idle'); return }
+
+      navigateTo(patIdxRef.current, idx, true)
+      if (DEV) console.log('[PatternsV2] playPatternExamples', pat.id, 'ex', idx)
+
+      setPhase('speaking')
+      const url = patternExampleAudioUrl(voice, pat.id, idx, ex.en)
+      ttsProvider.speak({
+        texts: [ex.en], audioUrls: url ? [url] : undefined,
+        voiceKey: voice, voiceKeys: [voice],
+        rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
+        onEnd: () => {
+          if (!runningRef.current) return
+          markDone(patIdxRef.current, idx)
+          if (idx + 1 < exs.length) {
+            setPhase('pause')
+            timerRef.current = setTimeout(() => playOne(idx + 1), EXAMPLE_PAUSE_MS)
+          } else {
+            const dur = Date.now() - startedAtRef.current
+            recordPatternPractice(pat.id, story.id, pat.pattern, story.title, dur)
+            runningRef.current = false
+            setPhase('idle')
+          }
+        },
+        onError: () => { runningRef.current = false; setPhase('idle') },
+      })
+    }
+
+    playOne(exIdxRef.current)
+  }, [phase, stop, patterns, patternExamples, voice, prefs.speechRate, markDone, navigateTo, story.id, story.title])
+
+  const isPlaying = phase === 'speaking' || phase === 'pause'
 
   // ── Bookmark ───────────────────────────────────────────────────────────────
   function handleBookmark() {
@@ -348,22 +305,58 @@ export function PatternsPageV2({
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         <div className="pl-7 pr-6 pt-5 pb-10">
 
-          {/* Story header */}
-          <button
-            type="button"
-            onClick={onOpenPicker}
-            aria-label="스토리 선택"
-            className="flex items-center gap-2 mb-5 mt-2 group cursor-pointer"
-            style={{ background: 'none', border: 'none', padding: 0 }}
-          >
-            <span className="text-[9px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity">
-              STORY {String(story.id).padStart(2, '0')}
-            </span>
-            <span className="text-[10px] text-[var(--pm2)]">·</span>
-            <span className="text-[0.8rem] font-playfair text-[var(--pt)] font-bold leading-tight">
-              {story.title}
-            </span>
-          </button>
+          {/* Story header row: story info (left) + Language Toggle + Bookmark (right) */}
+          <div className="flex items-center justify-between mb-5 mt-2">
+            <button
+              type="button"
+              onClick={onOpenPicker}
+              aria-label="스토리 선택"
+              className="flex items-center gap-2 group cursor-pointer min-w-0"
+              style={{ background: 'none', border: 'none', padding: 0 }}
+            >
+              <span className="text-[9px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity shrink-0">
+                STORY {String(story.id).padStart(2, '0')}
+              </span>
+              <span className="text-[10px] text-[var(--pm2)] shrink-0">·</span>
+              <span className="text-[0.95rem] font-playfair text-[var(--pt)] font-bold leading-tight truncate">
+                {story.title}
+              </span>
+            </button>
+
+            {/* Top-right controls: Language Toggle + Bookmark */}
+            <div className="flex items-center gap-2 ml-3 shrink-0">
+              <button
+                type="button"
+                onClick={cycleStudyMode}
+                aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
+                className={`text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
+                  studyMode === 'ko'
+                    ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
+                    : studyMode === 'en-ko'
+                    ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pal)]'
+                    : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
+                }`}
+              >
+                {STUDY_LABEL[studyMode]}
+              </button>
+              <button
+                type="button"
+                onClick={handleBookmark}
+                aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
+                className={`p-1.5 rounded-full transition-colors cursor-pointer ${
+                  bookmarked
+                    ? 'text-[var(--pa)] bg-[var(--pal)]'
+                    : 'text-[var(--pm2)] hover:text-[var(--pa)] hover:bg-[var(--pal)]'
+                }`}
+              >
+                <Bookmark
+                  className="w-4 h-4"
+                  strokeWidth={1.8}
+                  fill={bookmarked ? 'currentColor' : 'none'}
+                />
+              </button>
+            </div>
+          </div>
 
           {/* Pattern navigation */}
           <div className="flex items-center justify-between mb-5">
@@ -396,48 +389,63 @@ export function PatternsPageV2({
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
 
-            {/* ── Pattern section ── */}
-            <div className="pt-8 pb-5 mb-6">
-              <div className="flex items-center justify-center gap-4">
-                <div className="w-[64px] h-[64px] shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`/images/patterns/${pattern.id}.svg`}
-                    alt="" aria-hidden="true"
-                    className="w-[64px] h-[64px] object-contain"
-                  />
-                </div>
-                <div className="min-w-0">
-                  <p className="font-playfair text-[1.1rem] font-bold text-[var(--pt)] leading-snug">
-                    {pattern.pattern}
-                  </p>
-                  {patternMeaning && (
-                    <p className="text-[0.7rem] text-[var(--pa)] mt-1 font-semibold tracking-wide">
-                      {patternMeaning}
+            {/* ── Pattern section — vertical centered, 50% larger ── */}
+            <div className="pt-8 pb-6 mb-6 text-center">
+              <div className="w-[96px] h-[96px] mx-auto mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`/images/patterns/${pattern.id}.svg`}
+                  alt="" aria-hidden="true"
+                  className="w-[96px] h-[96px] object-contain"
+                />
+              </div>
+              <p className="font-playfair text-[1.65rem] font-bold text-[var(--pt)] leading-snug px-4">
+                {pattern.pattern}
+              </p>
+              {patternMeaning && (
+                <p className="text-[1rem] text-[var(--pa)] mt-2 font-semibold tracking-wide">
+                  {patternMeaning}
+                </p>
+              )}
+            </div>
+
+            {/* ── Example display — text on left, speaker on right ── */}
+            <div className="min-h-[90px] mb-5 px-2">
+              <div className="flex items-start gap-3">
+                <div className="flex-1 min-w-0">
+                  {showEnglish ? (
+                    <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)] mb-1">
+                      {example?.en}
+                    </p>
+                  ) : (
+                    <div className="mb-3 space-y-2 pt-1" aria-hidden="true">
+                      <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '80%' }} />
+                      <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '60%' }} />
+                    </div>
+                  )}
+                  {showKorean && translationTx && (
+                    <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed mt-1">
+                      {translationTx}
                     </p>
                   )}
                 </div>
+
+                {/* Speaker — plays current pattern's examples only */}
+                <button
+                  type="button"
+                  onClick={playPatternExamples}
+                  aria-label={isPlaying ? '정지' : '예문 듣기'}
+                  className={`shrink-0 mt-1 p-1.5 rounded-full transition-colors cursor-pointer ${
+                    isPlaying
+                      ? 'text-[var(--pa)] bg-[var(--pal)]'
+                      : 'text-[var(--pm2)] hover:text-[var(--pa)] hover:bg-[var(--pal)]'
+                  }`}
+                >
+                  {isPlaying
+                    ? <Square className="w-4 h-4 fill-current" />
+                    : <Volume2 className="w-4 h-4" strokeWidth={1.8} />}
+                </button>
               </div>
-            </div>
-
-            {/* ── Example display — centered ── */}
-            <div className="min-h-[90px] mb-5 text-center px-2">
-              {showEnglish ? (
-                <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)] mb-1">
-                  {example?.en}
-                </p>
-              ) : (
-                <div className="mb-3 space-y-2 flex flex-col items-center" aria-hidden="true">
-                  <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '80%' }} />
-                  <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '60%' }} />
-                </div>
-              )}
-
-              {showKorean && translationTx && (
-                <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed mt-1">
-                  {translationTx}
-                </p>
-              )}
             </div>
 
             {/* Example indicator dots — centered */}
@@ -464,78 +472,8 @@ export function PatternsPageV2({
             </div>
           </div>
 
-          {/* ── Controls row: Speaker + Study Mode only ── */}
-          <div className="flex items-center gap-2 py-3 mt-2 border-t border-[var(--pd)]">
-
-            {/* Speaker button with inline menu */}
-            <div className="relative" ref={audioMenuRef}>
-              <button
-                type="button"
-                onClick={() => {
-                  if (isAutoPlaying) { stop(); return }
-                  setAudioMenuOpen(v => !v)
-                }}
-                aria-label="오디오 재생"
-                className={`p-1.5 rounded-full transition-colors cursor-pointer ${
-                  isAutoPlaying
-                    ? 'text-[var(--pa)] bg-[var(--pal)]'
-                    : 'text-[var(--pm2)] hover:text-[var(--pa)] hover:bg-[var(--pal)]'
-                }`}
-              >
-                {isAutoPlaying
-                  ? <Square className="w-4 h-4 fill-current" />
-                  : <Volume2 className="w-4 h-4" strokeWidth={1.8} />}
-              </button>
-
-              {/* Audio options menu */}
-              {audioMenuOpen && !isAutoPlaying && (
-                <div
-                  className="absolute left-0 top-full mt-1.5 z-30 rounded-xl overflow-hidden"
-                  style={{
-                    background: 'var(--pb)',
-                    border: '1px solid var(--pd)',
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-                    minWidth: 170,
-                  }}
-                >
-                  <button
-                    type="button"
-                    onClick={() => { setAudioMenuOpen(false); playSingle(patIdx, exIdx) }}
-                    className="w-full text-left px-4 py-2.5 text-[0.78rem] text-[var(--pt)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
-                  >
-                    This Example
-                  </button>
-                  <div style={{ height: 1, background: 'var(--pd)' }} />
-                  <button
-                    type="button"
-                    onClick={() => { setAudioMenuOpen(false); toggleAutoPlay() }}
-                    className="w-full text-left px-4 py-2.5 text-[0.78rem] text-[var(--pt)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
-                  >
-                    All Examples ({examples.length})
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Study Mode cycling button */}
-            <button
-              type="button"
-              onClick={cycleStudyMode}
-              aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
-              className={`ml-auto text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
-                studyMode === 'ko'
-                  ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                  : studyMode === 'en-ko'
-                  ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pal)]'
-                  : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
-              }`}
-            >
-              {STUDY_LABEL[studyMode]}
-            </button>
-          </div>
-
           {/* ── Examples list (collapsible) ── */}
-          <div className="border-t border-[var(--pd)]">
+          <div className="border-t border-[var(--pd)] mt-4">
             <button
               type="button"
               onClick={() => setExamplesOpen(v => !v)}
@@ -558,7 +496,7 @@ export function PatternsPageV2({
               transition: 'grid-template-rows 230ms cubic-bezier(0.4,0,0.2,1)',
             }}>
               <div style={{ overflow: 'hidden' }}>
-                {/* Pattern Note + Save Pattern at top of list */}
+                {/* Pattern Note → Bookmark → Examples */}
                 {examplesOpen && (
                   <div className="pb-3 mb-1">
                     {patternNote && (
