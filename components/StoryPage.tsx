@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Volume2, Waves, ChevronLeft, ChevronRight, Eye, EyeOff, Square } from 'lucide-react'
+import { Volume2, Waves, ChevronLeft, ChevronRight, Eye, Square } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
@@ -50,22 +50,31 @@ export function StoryPage({
   const { prefs } = usePreferences()
 
   // ── Learning mode state ──────────────────────────────────────────────────
-  const [translationOn, setTranslationOn]   = useState(false)
-  const [recallMode,    setRecallMode]       = useState(false)
+  type StudyMode = 'english' | 'translation' | 'recall'
+  const STUDY_CYCLE: StudyMode[] = ['english', 'translation', 'recall']
+  const STUDY_LABEL: Record<StudyMode, string> = { english: 'EN', translation: 'EN·KR', recall: 'RECALL' }
+
+  const [studyMode,     setStudyMode]        = useState<StudyMode>('english')
+  const translationOn = studyMode === 'translation'
+  const recallMode    = studyMode === 'recall'
+
+  function cycleStudyMode() {
+    setStudyMode(prev => {
+      const next = STUDY_CYCLE[(STUDY_CYCLE.indexOf(prev) + 1) % STUDY_CYCLE.length]
+      if (next !== 'recall') setRevealedParas(new Set())
+      return next
+    })
+  }
+
   const [revealedParas, setRevealedParas]    = useState<Set<string>>(new Set())
   const [playingParaId, setPlayingParaId]    = useState<string | null>(null)
 
   // Reset per-story state when story changes
   useEffect(() => {
     setRevealedParas(new Set())
-    setRecallMode(false)
+    setStudyMode('english')
     setPlayingParaId(null)
   }, [story.id])
-
-  // When recall mode turns off, clear all reveals
-  useEffect(() => {
-    if (!recallMode) setRevealedParas(new Set())
-  }, [recallMode])
 
   // If speakAll starts (isSpeaking=true), clear single-para indicator
   useEffect(() => {
@@ -242,35 +251,21 @@ export function StoryPage({
             }
           />
 
-          {/* ── Controls: Translation + Recall ── */}
-          <div className="flex items-center gap-2 pt-4 pb-3">
-            {/* Translation toggle */}
+          {/* ── Controls: Study Mode ── */}
+          <div className="flex items-center pt-4 pb-3">
             <button
               type="button"
-              onClick={() => setTranslationOn(v => !v)}
-              aria-label={translationOn ? '번역 숨기기' : '번역 보기'}
-              className={`flex items-center gap-1.5 text-[10px] font-bold tracking-wide px-3 py-1.5 rounded-full transition-colors cursor-pointer border ${
-                translationOn
+              onClick={cycleStudyMode}
+              aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
+              className={`text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
+                studyMode === 'recall'
+                  ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
+                  : studyMode === 'translation'
                   ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pal)]'
                   : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
               }`}
             >
-              KR
-            </button>
-
-            {/* Recall toggle */}
-            <button
-              type="button"
-              onClick={() => setRecallMode(v => !v)}
-              aria-label={recallMode ? 'Recall OFF' : 'Recall ON'}
-              className={`flex items-center gap-1 text-[10px] font-bold tracking-wide px-3 py-1.5 rounded-full transition-colors cursor-pointer border ${
-                recallMode
-                  ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                  : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
-              }`}
-            >
-              <EyeOff className="w-3 h-3" />
-              RECALL
+              {STUDY_LABEL[studyMode]}
             </button>
           </div>
 
