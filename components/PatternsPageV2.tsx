@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ChevronLeft, ChevronRight, Volume2, Square,
-  Bookmark, Eye, ChevronDown, Check,
+  Bookmark, ChevronDown, Check,
 } from 'lucide-react'
 
 import type { MagazineStory } from '@/types/magazine'
@@ -20,9 +20,7 @@ import { getPatternExamples } from '@/data/pattern-examples'
 import { useT } from '@/hooks/useT'
 
 // ── Timing constants ──────────────────────────────────────────────────────────
-const RECALL_THINK_MS        = 2500
-const RECALL_REVEAL_PAUSE_MS = 500
-const EXAMPLE_PAUSE_MS       = 1800
+const EXAMPLE_PAUSE_MS = 1800
 const DEV = process.env.NODE_ENV === 'development'
 
 type Props = {
@@ -35,14 +33,14 @@ type Props = {
   patternExamples?: Record<string, PracticeExample[]>
 }
 
-type Phase     = 'idle' | 'thinking' | 'revealed' | 'speaking' | 'pause' | 'done'
-type StudyMode = 'english' | 'translation' | 'recall'
+type Phase     = 'idle' | 'speaking' | 'pause' | 'done'
+type StudyMode = 'en' | 'en-ko' | 'ko'
 
-const STUDY_CYCLE: StudyMode[] = ['english', 'translation', 'recall']
+const STUDY_CYCLE: StudyMode[] = ['en', 'en-ko', 'ko']
 const STUDY_LABEL: Record<StudyMode, string> = {
-  english:     'EN',
-  translation: 'EN·KR',
-  recall:      'RECALL',
+  'en':    'EN',
+  'en-ko': 'EN·KO',
+  'ko':    'KO',
 }
 
 function resolveExamples(
@@ -93,8 +91,7 @@ export function PatternsPageV2({
   }, [story.id])
 
   // ── UI state ───────────────────────────────────────────────────────────────
-  const [studyMode,    setStudyMode]   = useState<StudyMode>('translation')
-  const [revealed,     setRevealed]    = useState(false)
+  const [studyMode,    setStudyMode]   = useState<StudyMode>('en')
   const [examplesOpen, setExamplesOpen] = useState(false)
   const [audioMenuOpen, setAudioMenuOpen] = useState(false)
   const [bookmarked,   setBookmarked]  = useState(false)
@@ -146,7 +143,6 @@ export function PatternsPageV2({
     clearTimer()
     ttsProvider.stop()
     setPhase('idle')
-    setRevealed(false)
   }, [])
 
   useEffect(() => () => { runningRef.current = false; clearTimer(); ttsProvider.stop() }, [])
@@ -163,7 +159,6 @@ export function PatternsPageV2({
     if (!keepRunning && runningRef.current) stop()
     setPatIdx(p); patIdxRef.current = p
     setExIdx(e);  exIdxRef.current  = e
-    setRevealed(false)
     setDoneMask(new Set(doneMasksRef.current[patterns[p].id] ?? []))
   }, [stop, patterns])
 
@@ -290,31 +285,14 @@ export function PatternsPageV2({
       }, EXAMPLE_PAUSE_MS)
     }
 
-    const doSpeak = () => {
-      setPhase('speaking')
-      const url = patternExampleAudioUrl(voice, pat.id, e, ex.en)
-      ttsProvider.speak({
-        texts: [ex.en], audioUrls: url ? [url] : undefined,
-        voiceKey: voice, voiceKeys: [voice],
-        rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
-        onEnd: advance, onError: advance,
-      })
-    }
-
-    if (studyModeRef.current === 'recall') {
-      setRevealed(false); setPhase('thinking')
-      timerRef.current = setTimeout(() => {
-        if (!runningRef.current) return
-        setRevealed(true); setPhase('revealed')
-        timerRef.current = setTimeout(() => {
-          if (!runningRef.current) return
-          doSpeak()
-        }, RECALL_REVEAL_PAUSE_MS)
-      }, RECALL_THINK_MS)
-    } else {
-      setRevealed(true)
-      doSpeak()
-    }
+    setPhase('speaking')
+    const url = patternExampleAudioUrl(voice, pat.id, e, ex.en)
+    ttsProvider.speak({
+      texts: [ex.en], audioUrls: url ? [url] : undefined,
+      voiceKey: voice, voiceKeys: [voice],
+      rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
+      onEnd: advance, onError: advance,
+    })
   }, [patterns, patternExamples, prefs.speechRate, voice, story.id, story.title, stop, navigateTo, markDone])
 
   const isAutoPlaying = phase === 'speaking' || phase === 'thinking' || phase === 'revealed' || phase === 'pause'
@@ -348,10 +326,8 @@ export function PatternsPageV2({
   })()
 
   // ── Derived display state ─────────────────────────────────────────────────
-  const recallMode    = studyMode === 'recall'
-  const translationOn = studyMode === 'translation'
-  const showEnglish   = studyMode !== 'recall' || revealed
-  const showKorean    = studyMode !== 'english'
+  const showEnglish = studyMode === 'en' || studyMode === 'en-ko'
+  const showKorean  = studyMode === 'en-ko' || studyMode === 'ko'
   const translationTx = example
     ? resolveTranslation(example.ko, prefs.language, example.translations)
     : null
@@ -362,7 +338,6 @@ export function PatternsPageV2({
       const idx = STUDY_CYCLE.indexOf(prev)
       return STUDY_CYCLE[(idx + 1) % STUDY_CYCLE.length]
     })
-    setRevealed(false)
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -447,12 +422,6 @@ export function PatternsPageV2({
 
             {/* ── Example display — centered ── */}
             <div className="min-h-[90px] mb-5 text-center px-2">
-              {recallMode && phase === 'thinking' && (
-                <p className="text-[9px] font-bold tracking-[0.18em] text-[var(--pa)] mb-3 animate-pulse">
-                  THINK IN ENGLISH…
-                </p>
-              )}
-
               {showEnglish ? (
                 <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)] mb-1">
                   {example?.en}
@@ -465,20 +434,9 @@ export function PatternsPageV2({
               )}
 
               {showKorean && translationTx && (
-                <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed">
+                <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed mt-1">
                   {translationTx}
                 </p>
-              )}
-
-              {recallMode && !revealed && phase !== 'thinking' && phase !== 'speaking' && (
-                <button
-                  type="button"
-                  onClick={() => setRevealed(true)}
-                  className="mt-3 inline-flex items-center gap-1.5 text-[11px] font-bold text-[var(--pa)] hover:opacity-70 transition-opacity cursor-pointer"
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                  REVEAL
-                </button>
               )}
             </div>
 
@@ -565,9 +523,9 @@ export function PatternsPageV2({
               onClick={cycleStudyMode}
               aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
               className={`ml-auto text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
-                studyMode === 'recall'
+                studyMode === 'ko'
                   ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                  : studyMode === 'translation'
+                  : studyMode === 'en-ko'
                   ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pal)]'
                   : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
               }`}
@@ -655,7 +613,7 @@ export function PatternsPageV2({
                       </span>
                       <div className="flex-1 min-w-0">
                         <p className="text-[0.8rem] text-[var(--pt)] leading-snug">{ex.en}</p>
-                        {(translationOn || recallMode) &&
+                        {showKorean &&
                           resolveTranslation(ex.ko, prefs.language, ex.translations) && (
                             <p className="text-[0.7rem] text-[var(--pm)] mt-0.5 leading-snug">
                               {resolveTranslation(ex.ko, prefs.language, ex.translations)}

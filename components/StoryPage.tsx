@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Volume2, Waves, ChevronLeft, ChevronRight, Eye, Square } from 'lucide-react'
+import { Volume2, Waves, ChevronLeft, ChevronRight, Square } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
@@ -49,29 +49,22 @@ export function StoryPage({
   const { prefs } = usePreferences()
 
   // ── Learning mode state ──────────────────────────────────────────────────
-  type StudyMode = 'english' | 'translation' | 'recall'
-  const STUDY_CYCLE: StudyMode[] = ['english', 'translation', 'recall']
-  const STUDY_LABEL: Record<StudyMode, string> = { english: 'EN', translation: 'EN·KR', recall: 'RECALL' }
+  type StudyMode = 'en' | 'en-ko' | 'ko'
+  const STUDY_CYCLE: StudyMode[] = ['en', 'en-ko', 'ko']
+  const STUDY_LABEL: Record<StudyMode, string> = { 'en': 'EN', 'en-ko': 'EN·KO', 'ko': 'KO' }
 
-  const [studyMode,     setStudyMode]        = useState<StudyMode>('english')
-  const translationOn = studyMode === 'translation'
-  const recallMode    = studyMode === 'recall'
+  const [studyMode, setStudyMode] = useState<StudyMode>('en')
+  const showEnglish = studyMode === 'en' || studyMode === 'en-ko'
+  const showKorean  = studyMode === 'en-ko' || studyMode === 'ko'
 
   function cycleStudyMode() {
-    setStudyMode(prev => {
-      const next = STUDY_CYCLE[(STUDY_CYCLE.indexOf(prev) + 1) % STUDY_CYCLE.length]
-      if (next !== 'recall') setRevealedParas(new Set())
-      return next
-    })
+    setStudyMode(prev => STUDY_CYCLE[(STUDY_CYCLE.indexOf(prev) + 1) % STUDY_CYCLE.length])
   }
-
-  const [revealedParas, setRevealedParas]    = useState<Set<string>>(new Set())
   const [playingParaId, setPlayingParaId]    = useState<string | null>(null)
 
   // Reset per-story state when story changes
   useEffect(() => {
-    setRevealedParas(new Set())
-    setStudyMode('english')
+    setStudyMode('en')
     setPlayingParaId(null)
   }, [story.id])
 
@@ -172,11 +165,6 @@ export function StoryPage({
     })
   }
 
-  // ── Reveal ───────────────────────────────────────────────────────────────
-  function revealPara(id: string) {
-    setRevealedParas(prev => new Set(prev).add(id))
-  }
-
   return (
     <div className="h-full flex flex-col bg-[var(--pb)]">
       <div className="flex-1 overflow-y-auto">
@@ -255,9 +243,9 @@ export function StoryPage({
               onClick={cycleStudyMode}
               aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
               className={`text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
-                studyMode === 'recall'
+                studyMode === 'ko'
                   ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                  : studyMode === 'translation'
+                  : studyMode === 'en-ko'
                   ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pal)]'
                   : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
               }`}
@@ -269,9 +257,7 @@ export function StoryPage({
           {/* ── Paragraphs ── */}
           <div className="space-y-5">
             {story.paragraphs.map((para) => {
-              const isRevealed  = revealedParas.has(para.id)
-              const showEnglish = !recallMode || isRevealed
-              const isPlaying   = playingParaId === para.id
+              const isPlaying    = playingParaId === para.id
               const isCurrentTTS = currentParagraphIdx >= 0 &&
                 story.paragraphs[currentParagraphIdx]?.id === para.id
 
@@ -283,10 +269,10 @@ export function StoryPage({
 
               return (
                 <div key={para.id} className="relative group" data-para-id={para.id}>
-                  {/* English text or skeleton */}
                   <div className={`pr-8 rounded-xl px-2 py-1.5 -mx-2 transition-colors ${
                     isCurrentTTS && isSpeaking ? 'bg-[var(--pal)]' : ''
                   }`}>
+                    {/* English */}
                     {showEnglish ? (
                       <TappableWordText
                         text={para.english}
@@ -300,28 +286,15 @@ export function StoryPage({
                         className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block"
                       />
                     ) : (
-                      /* Recall skeleton */
+                      /* KO-only: skeleton placeholder for layout */
                       <div className="space-y-2 py-1" aria-hidden="true">
                         <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '90%' }} />
-                        <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '75%' }} />
-                        <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '55%' }} />
+                        <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '60%' }} />
                       </div>
                     )}
 
-                    {/* Reveal button */}
-                    {recallMode && !isRevealed && (
-                      <button
-                        type="button"
-                        onClick={() => revealPara(para.id)}
-                        className="mt-1.5 flex items-center gap-1 text-[11px] font-bold text-[var(--pa)] hover:opacity-70 transition-opacity cursor-pointer"
-                      >
-                        <Eye className="w-3 h-3" />
-                        REVEAL
-                      </button>
-                    )}
-
                     {/* Korean translation */}
-                    {(translationOn || (recallMode && isRevealed)) && koText && (
+                    {showKorean && koText && (
                       <p className="text-[0.8rem] text-[var(--pm)] leading-relaxed mt-1.5">
                         {koText}
                       </p>
