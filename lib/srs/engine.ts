@@ -450,6 +450,36 @@ export function getStoryProgressList(): StoryProgressItem[] {
     .sort((a, b) => a.storyId - b.storyId)
 }
 
+// ── Active Story Progress (Progress 화면 — 관리 중인 스토리만) ──────────────
+// Mastered 완료 후 복습 일정 없는 스토리는 제외. 최대 8개.
+
+export function getActiveStoryProgress(limit = 8): StoryProgressItem[] {
+  const today = todayStr()
+  const all   = getStoryProgressList()
+
+  // 오늘 미션에 있는 storyId 집합 (우선순위 1·2)
+  const missionIds = new Set(getMissionItems().map(i => i.storyId))
+
+  // 필터: mastered + 향후 복습 없음 → 제외
+  const active = all.filter(item => {
+    if (item.status !== 'mastered') return true
+    return item.nextReviewAt != null && item.nextReviewAt >= today
+  })
+
+  // 정렬: 미션 → 복습 예정 빠른 순 → storyId
+  active.sort((a, b) => {
+    const am = missionIds.has(a.storyId) ? 0 : 1
+    const bm = missionIds.has(b.storyId) ? 0 : 1
+    if (am !== bm) return am - bm
+    const ar = a.nextReviewAt ?? '9999-99-99'
+    const br = b.nextReviewAt ?? '9999-99-99'
+    if (ar !== br) return ar < br ? -1 : 1
+    return a.storyId - b.storyId
+  })
+
+  return active.slice(0, limit)
+}
+
 // ── Story 완료 훅 (구조 준비 — 트리거는 다음 단계에서 MagazineEngine에 연결) ─
 
 export { onStoryComplete } from './storage'

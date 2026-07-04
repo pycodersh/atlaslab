@@ -20,7 +20,7 @@ import {
 } from '@/lib/srs/storage'
 import {
   getStatusCounts, getFutureSchedule,
-  getEnhancedDayDetail, getStoryActivity, getStoryProgressList,
+  getEnhancedDayDetail, getStoryActivity, getActiveStoryProgress,
   getMissionItems, getTodayMission,
   type PatternStatus, type ScheduledDay,
   type EnhancedDayDetail, type StoryProgressItem, type MissionItem,
@@ -224,14 +224,14 @@ function StoryActivityDetail({ storyId, storyTitle }: { storyId: number; storyTi
   )
 }
 
-// ── Story Progress 섹션 ───────────────────────────────────────────────────────
+// ── Story Progress 섹션 (활성 스토리만, 최대 8개) ────────────────────────────
 
 function StoryProgressSection() {
-  const t = useT()
+  const router = useRouter()
   const [list, setList] = useState<StoryProgressItem[]>([])
   const [expanded, setExpanded] = useState<number | null>(null)
 
-  useEffect(() => { setList(getStoryProgressList()) }, [])
+  useEffect(() => { setList(getActiveStoryProgress(8)) }, [])
 
   if (list.length === 0) return null
 
@@ -239,7 +239,7 @@ function StoryProgressSection() {
     <section style={{ marginBottom: 72 }}>
       <SectionLabel
         label="Story Progress"
-        sub={t('sec_story_progress')}
+        sub="현재 진행 중인 Story의 기억 상태입니다."
       />
 
       {list.map((item) => {
@@ -257,7 +257,6 @@ function StoryProgressSection() {
                 background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
               }}
             >
-              {/* Story 번호 */}
               <span style={{
                 fontSize: 9, fontWeight: 700, letterSpacing: '0.12em',
                 color: 'var(--pm2)', width: 22, flexShrink: 0,
@@ -265,7 +264,6 @@ function StoryProgressSection() {
                 {String(item.storyId).padStart(2, '0')}
               </span>
 
-              {/* 타이틀 */}
               <span style={{
                 flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)',
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
@@ -273,7 +271,6 @@ function StoryProgressSection() {
                 {item.storyTitle}
               </span>
 
-              {/* 도트 바 */}
               <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
                 {[1, 2, 3, 4, 5].map(n => (
                   <span key={n} style={{
@@ -286,7 +283,6 @@ function StoryProgressSection() {
                 ))}
               </div>
 
-              {/* 상태 레이블 */}
               {isMastered ? (
                 <span style={{
                   fontSize: 9, fontWeight: 700, color: '#27AE60',
@@ -316,6 +312,23 @@ function StoryProgressSection() {
           </div>
         )
       })}
+
+      {/* View All Stories */}
+      <button
+        type="button"
+        onClick={() => router.push('/stories/progress')}
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          width: '100%', marginTop: 16, padding: '11px 0',
+          background: 'none', border: '1px solid var(--pd)',
+          borderRadius: 10, cursor: 'pointer',
+          fontSize: 12, fontWeight: 600, color: 'var(--pm2)',
+          letterSpacing: '0.02em',
+        }}
+      >
+        View All Stories
+        <ChevronRight style={{ width: 13, height: 13 }} strokeWidth={2} />
+      </button>
     </section>
   )
 }
