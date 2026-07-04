@@ -1,0 +1,145 @@
+{
+  "generated_at": "2026-07-03T03:38:27.836Z",
+  "model": "gpt-4o-mini-tts",
+  "voice": "nova",
+  "speed": 1,
+  "instructions": "Speak as a natural, friendly American woman in casual everyday conversation.\nUse natural connected speech and contractions — the way real Americans actually talk.\nRhythm and intonation should feel relaxed and genuine, not like a textbook recording.\nAvoid sounding like a formal announcer, AI assistant, or language teacher.\nKeep emotion natural: warm but not over-enthusiastic, clear but not robotic.\nThink: talking to a close friend, not presenting to a classroom.",
+  "total": 27,
+  "files": [
+    {
+      "id": "a01",
+      "label": "[Pattern] I want to",
+      "text": "I want to."
+    },
+    {
+      "id": "a02",
+      "label": "[Pattern] I'd like to",
+      "text": "I'd like to."
+    },
+    {
+      "id": "a03",
+      "label": "[Pattern] I'm planning to",
+      "text": "I'm planning to."
+    },
+    {
+      "id": "a04",
+      "label": "[Pattern] It seems like",
+      "text": "It seems like."
+    },
+    {
+      "id": "a05",
+      "label": "[Pattern] I used to",
+      "text": "I used to."
+    },
+    {
+      "id": "b01",
+      "label": "[Easy] I want to go home.",
+      "text": "I want to go home."
+    },
+    {
+      "id": "b02",
+      "label": "[Easy] Let's grab some coffee.",
+      "text": "Let's grab some coffee."
+    },
+    {
+      "id": "b03",
+      "label": "[Easy] She's really good at it.",
+      "text": "She's really good at it."
+    },
+    {
+      "id": "b04",
+      "label": "[Easy] That's a great idea.",
+      "text": "That's a great idea."
+    },
+    {
+      "id": "c01",
+      "label": "[Casual] I'm gonna call you later.",
+      "text": "I'm gonna call you later."
+    },
+    {
+      "id": "c02",
+      "label": "[Casual] We've been waiting forever.",
+      "text": "We've been waiting forever."
+    },
+    {
+      "id": "c03",
+      "label": "[Casual] It's kinda hard to explain.",
+      "text": "It's kinda hard to explain."
+    },
+    {
+      "id": "c04",
+      "label": "[Casual] I dunno, maybe tomorrow?",
+      "text": "I dunno, maybe tomorrow?"
+    },
+    {
+      "id": "c05",
+      "label": "[Casual] Honestly, I didn't expect that.",
+      "text": "Honestly, I didn't expect that."
+    },
+    {
+      "id": "d01",
+      "label": "[Question] Could you tell me where the station is?",
+      "text": "Could you tell me where the station is?"
+    },
+    {
+      "id": "d02",
+      "label": "[Question] Would you mind helping me out?",
+      "text": "Would you mind helping me out?"
+    },
+    {
+      "id": "d03",
+      "label": "[Question] Have you ever been to New York?",
+      "text": "Have you ever been to New York?"
+    },
+    {
+      "id": "d04",
+      "label": "[Question] What do you think about it?",
+      "text": "What do you think about it?"
+    },
+    {
+      "id": "e01",
+      "label": "[Negative] I can't believe it.",
+      "text": "I can't believe it."
+    },
+    {
+      "id": "e02",
+      "label": "[Negative] That doesn't make any sense.",
+      "text": "That doesn't make any sense."
+    },
+    {
+      "id": "e03",
+      "label": "[Negative] I'm not sure about that.",
+      "text": "I'm not sure about that."
+    },
+    {
+      "id": "f01",
+      "label": "[Exclaim] That's amazing!",
+      "text": "That's amazing!"
+    },
+    {
+      "id": "f02",
+      "label": "[Exclaim] No way!",
+      "text": "No way!"
+    },
+    {
+      "id": "f03",
+      "label": "[Exclaim] Oh, that reminds me.",
+      "text": "Oh, that reminds me."
+    },
+    {
+      "id": "g01",
+      "label": "[Long] If I had known earlier…",
+      "text": "If I had known about the meeting earlier, I would have prepared more carefully."
+    },
+    {
+      "id": "g02",
+      "label": "[Long] I've been thinking about it…",
+      "text": "I've been thinking about it a lot, and I'm not really sure what the right move is."
+    },
+    {
+      "id": "g03",
+      "label": "[Long] It's been a long day…",
+      "text": "It's been such a long day — I just need to sit down for a minute."
+    }
+  ]
+}

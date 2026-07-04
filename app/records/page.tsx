@@ -8,6 +8,7 @@ import {
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
+import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { LearningCalendar } from '@/components/LearningCalendar'
 import { SectionLabel } from '@/components/SectionLabel'
 import { useT } from '@/hooks/useT'
@@ -634,7 +635,7 @@ export default function ProgressPage() {
         <div style={{
           maxWidth: 480, margin: '0 auto',
           paddingTop: 'calc(var(--pnav-h) + 28px)',
-          paddingLeft: 24, paddingRight: 24, paddingBottom: 100,
+          paddingLeft: 24, paddingRight: 24, paddingBottom: TAB_BAR_HEIGHT + 24,
           boxSizing: 'border-box',
         }}>
 

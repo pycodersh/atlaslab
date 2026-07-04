@@ -46,7 +46,7 @@ export function SectionLabel({
         </p>
       )}
 
-      <div style={{ height: 1, background: 'var(--pd)', marginTop: 14 }} />
+      <div style={{ height: '0.5px', background: 'var(--pd)', marginTop: 14 }} />
     </div>
   )
 }

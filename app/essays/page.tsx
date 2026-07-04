@@ -2,62 +2,89 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown, ChevronUp, Plus } from 'lucide-react'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
+import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { type Essay, getEssays, getDailyReviewCount, MAX_DAILY_REVIEWS } from '@/lib/essays/storage'
-import { SectionLabel } from '@/components/SectionLabel'
 import { useT } from '@/hooks/useT'
 
 const INITIAL_SHOW = 3
 
 function fmtDate(iso: string): string {
   const d = new Date(iso)
-  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+  return d.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', year: 'numeric' })
 }
 
 function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
   const t = useT()
-  const preview = essay.body.slice(0, 120).replace(/\n/g, ' ')
+  const preview = essay.body.slice(0, 100).replace(/\n/g, ' ')
   const hasReview = !!essay.review
 
   return (
     <div
       onClick={onClick}
-      style={{ padding: '18px 0', borderBottom: '1px solid var(--pd)', cursor: 'pointer' }}
+      style={{
+        background: 'var(--pc)',
+        borderRadius: 16,
+        padding: '18px 18px 14px',
+        cursor: 'pointer',
+        marginBottom: 10,
+        transition: 'opacity 0.15s',
+      }}
+      onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
+      onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{
             fontSize: 15, fontWeight: 700,
-            color: 'var(--pt)', margin: '0 0 4px', lineHeight: 1.3,
+            color: 'var(--pt)', margin: '0 0 5px', lineHeight: 1.3,
+            overflow: 'hidden', display: '-webkit-box',
+            WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
           }}>
             {essay.title}
           </p>
           <p style={{
-            fontSize: 12, color: 'var(--pm)', margin: '0 0 8px',
+            fontSize: 12.5, color: 'var(--pm)', margin: '0 0 10px',
             lineHeight: 1.6, overflow: 'hidden',
             display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
           }}>
-            {preview}{essay.body.length > 120 ? '…' : ''}
+            {preview}{essay.body.length > 100 ? '…' : ''}
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 10, color: 'var(--pm2)' }}>{fmtDate(essay.createdAt)}</span>
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 6 }}>
+            <span style={{
+              fontSize: 10, color: 'var(--pm2)',
+              background: 'var(--pb)', borderRadius: 6, padding: '2px 7px',
+            }}>
+              {fmtDate(essay.createdAt)}
+            </span>
             {hasReview && (
               <span style={{
-                fontSize: 9, color: 'var(--pm2)',
-                letterSpacing: '0.05em',
+                fontSize: 10, color: '#27AE60', fontWeight: 700,
+                background: 'rgba(39,174,96,0.1)', borderRadius: 6, padding: '2px 7px',
               }}>
-                · ✓ {t('essays_reviewed_at')}
+                ✓ 첨삭 완료
               </span>
             )}
             {essay.review?.detectedStyle && (
-              <span style={{ fontSize: 9, color: 'var(--pm2)', opacity: 0.7 }}>
-                · {essay.review.detectedStyle}
+              <span style={{
+                fontSize: 10, color: 'var(--pm2)',
+                background: 'var(--pb)', borderRadius: 6, padding: '2px 7px',
+              }}>
+                {essay.review.detectedStyle}
               </span>
             )}
           </div>
         </div>
-        <ChevronRight style={{ width: 13, height: 13, color: 'var(--pm2)', flexShrink: 0, marginTop: 3 }} strokeWidth={1.4} />
+        <div style={{
+          flexShrink: 0,
+          width: 28, height: 28,
+          borderRadius: 8,
+          background: 'var(--pb)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <ChevronDown style={{ width: 13, height: 13, color: 'var(--pm2)', transform: 'rotate(-90deg)' }} strokeWidth={2} />
+        </div>
       </div>
     </div>
   )
@@ -77,107 +104,115 @@ export default function EssaysPage() {
 
   const remaining = MAX_DAILY_REVIEWS - reviewCount
   const displayed = showAll ? essays : essays.slice(0, INITIAL_SHOW)
-  const hasMore = essays.length > INITIAL_SHOW
+  const hasMore   = essays.length > INITIAL_SHOW
 
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
       <TopNav />
 
-      {/* ── Sticky header block ──────────────────────────────────────────────── */}
       <div style={{
-        position: 'sticky',
-        top: NAV_HEIGHT,
-        zIndex: 30,
-        background: 'var(--pb)',
-        maxWidth: 480,
+        paddingTop: 'var(--pnav-h)',
+        paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)`,
+        maxWidth: 540,
         margin: '0 auto',
-        paddingTop: 28,
-        paddingLeft: 24,
-        paddingRight: 24,
-        paddingBottom: 0,
+        padding: `var(--pnav-h) 20px calc(${TAB_BAR_HEIGHT}px + 24px)`,
       }}>
-        {/* ── Header: ESSAYS title + review dots/count on right ────────────── */}
-        <div style={{ marginBottom: 20 }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
-            <p className="font-playfair" style={{
-              fontSize: 'clamp(2rem, 9vw, 2.8rem)',
-              fontWeight: 900, letterSpacing: '-0.02em',
-              lineHeight: 1, color: 'var(--pt)', margin: 0,
+
+        {/* ── Page header ──────────────────────────────────────────────── */}
+        <div style={{ paddingTop: 24, marginBottom: 4 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 }}>
+            <div>
+              <p className="font-playfair" style={{
+                fontSize: 36, fontWeight: 900,
+                letterSpacing: '-0.03em', lineHeight: 1,
+                color: 'var(--pt)', margin: 0,
+              }}>
+                ESSAYS
+              </p>
+              <p className="font-playfair" style={{
+                fontSize: 14, fontStyle: 'italic',
+                color: 'var(--pm)', marginTop: 8, lineHeight: 1.5, margin: '8px 0 0',
+              }}>
+                {t('essays_subtitle')}
+              </p>
+            </div>
+
+            {/* Review quota badge */}
+            <div style={{
+              flexShrink: 0,
+              background: remaining === 0 ? 'var(--pc)' : 'var(--pal)',
+              border: `1px solid ${remaining === 0 ? 'var(--pd)' : 'var(--pacb)'}`,
+              borderRadius: 12,
+              padding: '10px 14px',
+              textAlign: 'center',
             }}>
-              ESSAYS
-            </p>
-            {/* Review count — top-right of header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingTop: 6, flexShrink: 0 }}>
-              <div style={{ display: 'flex', gap: 4 }}>
+              <div style={{ display: 'flex', gap: 3, marginBottom: 4, justifyContent: 'center' }}>
                 {Array.from({ length: MAX_DAILY_REVIEWS }).map((_, i) => (
                   <div key={i} style={{
-                    width: 6, height: 6, borderRadius: '50%',
+                    width: 5, height: 5, borderRadius: '50%',
                     background: i < reviewCount ? 'var(--pm2)' : 'var(--pa)',
                     opacity: i < reviewCount ? 0.3 : 1,
                   }} />
                 ))}
               </div>
               <span style={{
-                fontSize: 11, fontWeight: 700,
+                fontSize: 11, fontWeight: 800,
                 color: remaining === 0 ? 'var(--pm2)' : 'var(--pa)',
               }}>
-                {remaining} / {MAX_DAILY_REVIEWS}
+                {remaining}/{MAX_DAILY_REVIEWS}
               </span>
             </div>
           </div>
-          <p className="font-playfair" style={{
-            fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
-            fontStyle: 'italic', fontWeight: 500,
-            color: 'var(--pm)', marginTop: 10, lineHeight: 1.6,
-          }}>
-            {t('essays_subtitle')}
-          </p>
-          <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
+
+          {/* Accent rule */}
+          <div style={{ height: 2, background: 'var(--pa)', width: 36, marginTop: 14, borderRadius: 1 }} />
         </div>
 
-        {/* ── New Essay CTA — centered between dividers, no underline ──────── */}
-        <div style={{ height: '1px', background: 'var(--pd)' }} />
-        <div style={{ textAlign: 'center', padding: '21px 0' }}>
-          <button
-            type="button"
-            onClick={() => router.push('/essays/new')}
-            style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              padding: '0', display: 'inline-block',
-              transition: 'opacity 0.18s',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.55' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1' }}
-            onMouseDown={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.35' }}
-            onMouseUp={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '1' }}
-          >
-            <span style={{
-              fontSize: 'clamp(1rem, 4vw, 1.15rem)',
-              fontWeight: 800,
-              color: 'var(--pa)',
-              letterSpacing: '0.04em',
-            }}>
-              + New Essay
-            </span>
-          </button>
-        </div>
-        <div style={{ height: '1px', background: 'var(--pd)' }} />
-      </div>
-      {/* ── END sticky header ─────────────────────────────────────────────────── */}
+        {/* ── New Essay button ─────────────────────────────────────────── */}
+        <button
+          type="button"
+          onClick={() => router.push('/essays/new')}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 8,
+            width: '100%',
+            marginTop: 20,
+            padding: '16px 0',
+            background: 'var(--pa)',
+            border: 'none',
+            borderRadius: 16,
+            cursor: 'pointer',
+            fontSize: 15,
+            fontWeight: 800,
+            color: '#fff',
+            letterSpacing: '0.02em',
+            transition: 'opacity 0.15s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+        >
+          <Plus style={{ width: 18, height: 18 }} strokeWidth={2.5} />
+          New Essay
+        </button>
 
-      {/* ── Scrollable essay list ────────────────────────────────────────────── */}
-      <div style={{
-        maxWidth: 480,
-        margin: '0 auto',
-        paddingLeft: 24,
-        paddingRight: 24,
-        paddingBottom: 80,
-        paddingTop: 64,
-      }}>
-        {/* ── My Essays ────────────────────────────────────────────────────── */}
-        {essays.length > 0 && (
-          <div>
-            <SectionLabel label="My Essays" sub={t('sec_my_essays')} />
+        {/* ── Essay list ───────────────────────────────────────────────── */}
+        {essays.length > 0 ? (
+          <div style={{ marginTop: 24 }}>
+            {/* Section label */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <p className="font-playfair" style={{
+                fontSize: 18, fontWeight: 900,
+                color: 'var(--pt)', margin: 0, letterSpacing: '-0.01em',
+              }}>
+                My Essays
+              </p>
+              <span style={{ fontSize: 11, color: 'var(--pm2)', fontWeight: 600 }}>
+                {essays.length} total
+              </span>
+            </div>
+
             {displayed.map(essay => (
               <EssayCard
                 key={essay.id}
@@ -193,33 +228,41 @@ export default function EssaysPage() {
                 onClick={() => setShowAll(v => !v)}
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  gap: 5, width: '100%', padding: '12px 0',
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  marginTop: 4,
+                  gap: 6, width: '100%', padding: '13px 0',
+                  background: 'var(--pc)', border: 'none', cursor: 'pointer',
+                  borderRadius: 14, marginTop: 4,
+                  fontSize: 12, fontWeight: 600, color: 'var(--pm2)',
                 }}
               >
-                <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.08em', color: 'var(--pm2)' }}>
-                  {showAll ? 'Show Less' : `Show More (${essays.length - INITIAL_SHOW})`}
-                </span>
+                {showAll ? 'Show Less' : `Show More (${essays.length - INITIAL_SHOW})`}
                 {showAll
-                  ? <ChevronUp style={{ width: 13, height: 13, color: 'var(--pm2)' }} strokeWidth={1.8} />
-                  : <ChevronDown style={{ width: 13, height: 13, color: 'var(--pm2)' }} strokeWidth={1.8} />
+                  ? <ChevronUp style={{ width: 13, height: 13 }} strokeWidth={2} />
+                  : <ChevronDown style={{ width: 13, height: 13 }} strokeWidth={2} />
                 }
               </button>
             )}
           </div>
-        )}
-
-        {essays.length === 0 && (
-          <div style={{ textAlign: 'center', paddingTop: 40 }}>
+        ) : (
+          <div style={{ textAlign: 'center', paddingTop: 48 }}>
+            <div style={{
+              width: 64, height: 64,
+              borderRadius: '50%',
+              background: 'var(--pc)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 16px',
+            }}>
+              <span style={{ fontSize: 28 }}>✍️</span>
+            </div>
             <p className="font-playfair" style={{
-              fontSize: 14, fontStyle: 'italic',
-              color: 'var(--pm)', lineHeight: 1.8, whiteSpace: 'pre-line',
+              fontSize: 15, fontStyle: 'italic',
+              color: 'var(--pm)', lineHeight: 1.8, margin: 0,
+              whiteSpace: 'pre-line',
             }}>
               {t('essays_empty')}
             </p>
           </div>
         )}
+
       </div>
     </div>
   )

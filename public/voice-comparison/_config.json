@@ -1,0 +1,54 @@
+{
+  "generated_at": "2026-07-03T04:42:06.835Z",
+  "model": "gpt-4o-mini-tts",
+  "speed": 1,
+  "instructions": "You're a warm, friendly American woman talking casually with a friend.\nSpeak naturally — use connected speech, relaxed rhythm, and everyday contractions.\nDon't perform or project. Don't narrate. Just talk.\nPronunciation should be clear and easy to follow, but never stiff or over-precise.\nLet sentences flow together the way real conversation does.\nThink: catching up over coffee, not reading a script.\nAvoid: audiobook narration, radio announcing, language teacher voice, overacting.",
+  "voices": [
+    "nova",
+    "shimmer",
+    "alloy",
+    "coral"
+  ],
+  "sentences": [
+    {
+      "id": "01",
+      "label": "[Pattern] I'm planning to.",
+      "text": "I'm planning to."
+    },
+    {
+      "id": "02",
+      "label": "[Pattern] It seems like.",
+      "text": "It seems like."
+    },
+    {
+      "id": "03",
+      "label": "[Pattern] I used to.",
+      "text": "I used to."
+    },
+    {
+      "id": "04",
+      "label": "[Example] Planning (long)",
+      "text": "I'm planning to visit my parents this weekend."
+    },
+    {
+      "id": "05",
+      "label": "[Casual] gonna",
+      "text": "I'm gonna call you later."
+    },
+    {
+      "id": "06",
+      "label": "[Question] Would you mind",
+      "text": "Would you mind helping me?"
+    },
+    {
+      "id": "07",
+      "label": "[Exclaim] That's amazing!",
+      "text": "That's amazing!"
+    },
+    {
+      "id": "08",
+      "label": "[Long] If I had known earlier",
+      "text": "If I had known earlier, I would have joined you."
+    }
+  ]
+}

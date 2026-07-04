@@ -59,3 +59,27 @@ export function patternExampleAudioUrl(
   if (!base) return null
   return `${base}/storage/v1/object/public/audio/${patternExampleFilePath(voiceKey, patternId, index, text)}`
 }
+
+/** Pattern 핵심 문구 오디오 파일 경로 (tilde 제거 후 생성된 파일) */
+export function patternPhraseFilePath(voiceKey: VoiceKey, patternId: string, cleanText: string): string {
+  return `pattern-${patternId}-phrase-${contentHash(cleanText)}-${voiceKey}.mp3`
+}
+
+/** Pattern 핵심 문구 재생용 공개 URL */
+export function patternPhraseAudioUrl(
+  voiceKey: VoiceKey,
+  patternId: string,
+  cleanText: string,
+): string | null {
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL
+  if (!base) return null
+  return `${base}/storage/v1/object/public/audio/${patternPhraseFilePath(voiceKey, patternId, cleanText)}`
+}
+
+/** pattern.pattern 필드에서 tilde 제거 → 음성 재생용 클린 텍스트 */
+export function cleanPatternText(pattern: string): string {
+  return pattern
+    .replace(/\s*~ing\.?/g, '...')
+    .replace(/\s*~\.?/g, '...')
+    .trim()
+}
