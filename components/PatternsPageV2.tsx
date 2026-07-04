@@ -18,7 +18,6 @@ import { PATTERN_NOTES } from '@/data/pattern-notes'
 import { patternMeaningNoteTranslations } from '@/data/pattern-meaning-note-translations'
 import { getPatternExamples } from '@/data/pattern-examples'
 import { useT } from '@/hooks/useT'
-import { TodayMissionBar } from '@/components/TodayMissionBar'
 
 // ── Timing constants ──────────────────────────────────────────────────────────
 const RECALL_THINK_MS        = 2500
@@ -373,8 +372,6 @@ export function PatternsPageV2({
       {/* ── Scrollable main content ── */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         <div className="pl-7 pr-6 pt-5 pb-10">
-
-          <TodayMissionBar currentStoryId={story.id} />
 
           {/* Story header */}
           <button

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
-  Check, ChevronRight, BookOpen, Layers, RotateCcw, X,
+  Check, ChevronRight, BookOpen, RotateCcw, X,
   CalendarClock, HelpCircle,
 } from 'lucide-react'
 
@@ -21,14 +21,11 @@ import {
 import {
   getStatusCounts, getFutureSchedule,
   getEnhancedDayDetail, getStoryActivity, getStoryProgressList,
+  getMissionItems, getTodayMission,
   type PatternStatus, type ScheduledDay,
-  type EnhancedDayDetail, type StoryProgressItem,
+  type EnhancedDayDetail, type StoryProgressItem, type MissionItem,
 } from '@/lib/srs/engine'
 import { getCurrentPhase, getPhaseProgress, PHASES } from '@/lib/curriculum/phases'
-
-// ── 상수 ─────────────────────────────────────────────────────────────────────
-
-const DAILY = { story: 1, pattern: 5 }
 
 // ── 타입 ─────────────────────────────────────────────────────────────────────
 
@@ -44,6 +41,8 @@ type Stats = {
   ctaHref:                string
   statusCounts:           ReturnType<typeof getStatusCounts>
   futureSchedule:         Record<string, ScheduledDay>
+  missionItems:           MissionItem[]
+  estimatedMinutes:       number
 }
 
 // ── 헬퍼 ─────────────────────────────────────────────────────────────────────
@@ -119,37 +118,6 @@ function ProgressRow({
   )
 }
 
-// ── Mission Row ───────────────────────────────────────────────────────────────
-
-function MissionRow({
-  icon: Icon, label, value, total, last,
-}: {
-  icon: React.ComponentType<{ style?: React.CSSProperties; strokeWidth?: number }>
-  label: string; value: number; total: number; last?: boolean
-}) {
-  const done = total > 0 && value >= total
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: 12, padding: '13px 0',
-      borderBottom: last ? 'none' : '1px solid var(--pd)',
-    }}>
-      <Icon style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.8} />
-      <p style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)', margin: 0 }}>{label}</p>
-      <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>
-        {value} <span style={{ color: 'var(--pm2)', fontWeight: 400 }}>/ {total}</span>
-      </p>
-      <span style={{
-        width: 22, height: 22, borderRadius: '50%',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-        background: done ? 'var(--pa)' : 'transparent',
-        border: done ? 'none' : '1px solid var(--pd)',
-        transition: 'background 0.3s',
-      }}>
-        <Check style={{ width: 12, height: 12, color: done ? '#fff' : 'transparent' }} strokeWidth={3} />
-      </span>
-    </div>
-  )
-}
 
 // ── Pattern Status 바 ─────────────────────────────────────────────────────────
 
@@ -606,6 +574,7 @@ export default function ProgressPage() {
   const [helpOpen, setHelpOpen]     = useState(false)
 
   useEffect(() => {
+    const mission = getTodayMission()
     setS({
       studiedTodayStories:    getStudiedTodayStoryCount(),
       practicedTodayPatterns: getPracticedTodayCount(),
@@ -618,6 +587,8 @@ export default function ProgressPage() {
       ctaHref:                computeCtaHref(),
       statusCounts:           getStatusCounts(),
       futureSchedule:         getFutureSchedule(),
+      missionItems:           getMissionItems(),
+      estimatedMinutes:       mission.estimatedMinutes,
     })
   }, [])
 
@@ -627,6 +598,8 @@ export default function ProgressPage() {
     ctaHref: '/stories/1',
     statusCounts: { new: 0, learning: 0, review: 0, mastered: 0 },
     futureSchedule: {},
+    missionItems: [],
+    estimatedMinutes: 0,
   }
 
   const phase      = getCurrentPhase(v.learnedPatterns)
@@ -687,25 +660,120 @@ export default function ProgressPage() {
           {/* ── 1. TODAY'S MISSION ─────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
             <SectionLabel label="Today's Mission" sub={t('mission_sub')} />
-            <MissionRow icon={BookOpen}  label={t('mission_story')}   value={v.studiedTodayStories}    total={DAILY.story} />
-            <MissionRow icon={Layers}    label={t('mission_pattern')} value={v.practicedTodayPatterns} total={DAILY.pattern} />
-            <MissionRow icon={RotateCcw} label={t('mission_review')}  value={v.reviewedToday}          total={v.reviewedToday + v.dueNow} last />
 
-            {/* CTA */}
-            <button
-              type="button"
-              onClick={() => router.push(v.ctaHref)}
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                width: '100%', marginTop: 20, padding: '14px 0',
-                background: 'var(--pa)', borderRadius: 12, border: 'none',
-                cursor: 'pointer', fontSize: 13, fontWeight: 700,
-                color: '#fff', letterSpacing: '0.02em',
-              }}
-            >
-              {t('continue_study')}
-              <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />
-            </button>
+            {v.missionItems.length === 0 ? (
+              <p style={{ fontSize: 13, color: 'var(--pm2)', padding: '16px 0' }}>
+                오늘 미션이 없어요. 내일 또 만나요!
+              </p>
+            ) : (() => {
+              const newItems    = v.missionItems.filter(i => i.type === 'new_story' || i.type === 'in_progress_story')
+              const reviewItems = v.missionItems.filter(i => i.type === 'review_pattern')
+              const firstPending = v.missionItems.find(i => !i.done)
+              const allDone = v.missionItems.every(i => i.done)
+
+              return (
+                <>
+                  {/* New Learning */}
+                  {newItems.length > 0 && (
+                    <div style={{ marginBottom: 16 }}>
+                      <p style={{
+                        fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
+                        color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 8px',
+                        display: 'flex', alignItems: 'center', gap: 5,
+                      }}>
+                        <BookOpen style={{ width: 10, height: 10 }} strokeWidth={2} />
+                        New Learning
+                      </p>
+                      {newItems.map(item => (
+                        <div key={item.storyId} style={{
+                          display: 'flex', alignItems: 'center', gap: 10,
+                          padding: '12px 0', borderBottom: '1px solid var(--pd)',
+                        }}>
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
+                            color: 'var(--pm2)', width: 22, flexShrink: 0,
+                          }}>
+                            {String(item.storyId).padStart(2, '0')}
+                          </span>
+                          <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)' }}>
+                            {item.storyTitle}
+                          </span>
+                          <span style={{
+                            fontSize: 13, fontWeight: 700,
+                            color: item.done ? '#27AE60' : 'var(--pa)',
+                          }}>
+                            {item.done ? '✓' : '▶'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Review */}
+                  {reviewItems.length > 0 && (
+                    <div style={{ marginBottom: 16 }}>
+                      <p style={{
+                        fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
+                        color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 8px',
+                        display: 'flex', alignItems: 'center', gap: 5,
+                      }}>
+                        <RotateCcw style={{ width: 10, height: 10 }} strokeWidth={2} />
+                        Review · {reviewItems.length}
+                      </p>
+                      {reviewItems.map(item => (
+                        <div key={item.storyId} style={{
+                          display: 'flex', alignItems: 'center', gap: 10,
+                          padding: '12px 0', borderBottom: '1px solid var(--pd)',
+                        }}>
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
+                            color: 'var(--pm2)', width: 22, flexShrink: 0,
+                          }}>
+                            {String(item.storyId).padStart(2, '0')}
+                          </span>
+                          <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)' }}>
+                            {item.storyTitle}
+                          </span>
+                          <span style={{
+                            fontSize: 13, fontWeight: 700,
+                            color: item.done ? '#27AE60' : 'var(--pm2)',
+                          }}>
+                            {item.done ? '✓' : '○'}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Estimated time */}
+                  {v.estimatedMinutes > 0 && !allDone && (
+                    <p style={{ fontSize: 11, color: 'var(--pm2)', margin: '8px 0 16px' }}>
+                      예상 시간&nbsp;
+                      <strong style={{ color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+                        ~{v.estimatedMinutes}분
+                      </strong>
+                    </p>
+                  )}
+
+                  {/* CTA */}
+                  <button
+                    type="button"
+                    onClick={() => router.push(firstPending ? firstPending.href : v.ctaHref)}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                      width: '100%', marginTop: 4, padding: '14px 0',
+                      background: allDone ? 'var(--pc)' : 'var(--pa)',
+                      borderRadius: 12, border: 'none',
+                      cursor: 'pointer', fontSize: 13, fontWeight: 700,
+                      color: allDone ? 'var(--pm)' : '#fff', letterSpacing: '0.02em',
+                    }}
+                  >
+                    {allDone ? '오늘 미션 완료!' : t('continue_study')}
+                    {!allDone && <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />}
+                  </button>
+                </>
+              )
+            })()}
           </section>
 
           {/* ── 2. MEMORY CALENDAR ─────────────────────────────────────── */}

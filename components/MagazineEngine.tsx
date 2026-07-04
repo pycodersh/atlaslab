@@ -8,6 +8,7 @@ import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
 import { GlobalSavePopup } from '@/components/GlobalSavePopup'
+import { TodayMissionPopup } from '@/components/TodayMissionPopup'
 
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
@@ -291,6 +292,9 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
 
       {/* Global word/phrase save popup — singleton for all TappableWordText instances */}
       <GlobalSavePopup />
+
+      {/* Today's Mission popup — shown once per day on entry */}
+      <TodayMissionPopup />
 
       {/* Wheel picker */}
       {showPicker && (
