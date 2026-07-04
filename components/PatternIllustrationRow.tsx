@@ -35,6 +35,9 @@ type Props = {
 
 type Phase = 'idle' | 'speaking' | 'pause' | 'done'
 const FOLLOW_PAUSE_MS = 2500
+const DEV = process.env.NODE_ENV === 'development'
+const eq = (id: string, i: number, msg: string) => DEV && console.log(`[ExampleQueue] ${id} ex${i}: ${msg}`)
+const eqlog = (id: string, msg: string) => DEV && console.log(`[ExampleQueue] ${id}: ${msg}`)
 
 export function PatternIllustrationRow({
   storyId, storyTitle, voice, pattern, examples, index,
@@ -83,6 +86,7 @@ export function PatternIllustrationRow({
   }
 
   const stop = useCallback(() => {
+    eqlog(pattern.id, `stop() called, running=${runningRef.current}`)
     if (runningRef.current) {
       pausedAtRef.current = playingIdxRef.current
       setCurrentIdx(playingIdxRef.current)
@@ -91,11 +95,12 @@ export function PatternIllustrationRow({
     clearTimer()
     ttsProvider.stop()
     setPhase('idle')
-  }, [])
+  }, [pattern.id])
 
   useEffect(() => {
+    eqlog(pattern.id, `active changed → ${active}, running=${runningRef.current}`)
     if (!active && runningRef.current) stop()
-  }, [active, stop])
+  }, [active, stop, pattern.id])
 
   useEffect(() => () => { runningRef.current = false; clearTimer(); ttsProvider.stop() }, [])
 
@@ -111,26 +116,34 @@ export function PatternIllustrationRow({
   }, [pattern.id, pattern.pattern, storyId, storyTitle, onFinished, t])
 
   const playFrom = useCallback((i: number) => {
-    if (!runningRef.current) return
+    eq(pattern.id, i, `playFrom called, running=${runningRef.current}`)
+    if (!runningRef.current) { eq(pattern.id, i, 'ABORT: not running'); return }
     playingIdxRef.current = i
     setCurrentIdx(i)
     setPhase('speaking')
 
     let advanced = false
     const afterSpeak = () => {
-      if (advanced || !runningRef.current) return
+      eq(pattern.id, i, `afterSpeak called, advanced=${advanced}, running=${runningRef.current}`)
+      if (advanced || !runningRef.current) {
+        eq(pattern.id, i, `afterSpeak BLOCKED (advanced=${advanced}, running=${runningRef.current})`)
+        return
+      }
       advanced = true
       doneRef.current.add(i)
       setDoneMask(Array.from({ length: examples.length }, (_, j) => doneRef.current.has(j)))
       setPhase('pause')
+      eq(pattern.id, i, `scheduling next in ${FOLLOW_PAUSE_MS}ms`)
       timerRef.current = setTimeout(() => {
-        if (!runningRef.current) return
+        eq(pattern.id, i, `timer fired, running=${runningRef.current}, next=${i + 1}/${examples.length}`)
+        if (!runningRef.current) { eq(pattern.id, i, 'ABORT: not running at timer'); return }
         if (i + 1 < examples.length) playFrom(i + 1)
         else finish()
       }, FOLLOW_PAUSE_MS)
     }
 
     const url = patternExampleAudioUrl(voice, pattern.id, i, examples[i].en)
+    eq(pattern.id, i, `calling ttsProvider.speak, url=${url ? url.split('/').pop() : 'null'}`)
     ttsProvider.speak({
       texts: [examples[i].en],
       audioUrls: url ? [url] : undefined,

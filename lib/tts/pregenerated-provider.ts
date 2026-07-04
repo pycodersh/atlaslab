@@ -3,16 +3,44 @@ import type { ITTSProvider, SpeakOptions } from './types'
 
 const PARAGRAPH_PAUSE_MS = 280
 /**
- * Stall detection: if no timeupdate event fires for this many ms, treat as stalled.
- * Reset on every timeupdate/playing event so long-but-healthy audio is never cut off.
+ * Stall detection: if no timeupdate fires for this many ms, treat as stalled.
+ * Resets on every timeupdate/playing so long-but-healthy audio is never cut short.
  */
 const STALL_TIMEOUT_MS = 5000
-/** Blob fetch must complete within this many ms, or fall back to browser TTS */
+/** Blob fetch must complete within this many ms before falling back to browser TTS */
 const FETCH_TIMEOUT_MS = 12000
 
 const DEV = process.env.NODE_ENV === 'development'
 
-let activeAudio: HTMLAudioElement | null = null
+/**
+ * Single shared Audio element, reused across all sequential speak() calls.
+ *
+ * iOS Safari grants the "audio activation" to a specific HTMLAudioElement instance
+ * on the first user-gesture-triggered play(). Subsequent play() calls on the SAME
+ * element are allowed without a new gesture. Creating `new Audio()` per segment
+ * throws NotAllowedError on iOS after the first example, which is why the queue
+ * stalled at Example 2.
+ */
+let sharedAudio: HTMLAudioElement | null = null
+
+function getSharedAudio(): HTMLAudioElement {
+  if (!sharedAudio) sharedAudio = new Audio()
+  return sharedAudio
+}
+
+/** Clear all event handlers to avoid stale callbacks when reusing the element */
+function clearHandlers(a: HTMLAudioElement) {
+  a.onplay        = null
+  a.onplaying     = null
+  a.ontimeupdate  = null
+  a.onwaiting     = null
+  a.onstalled     = null
+  a.onsuspend     = null
+  a.onended       = null
+  a.onerror       = null
+  a.onloadeddata  = null
+  a.oncanplay     = null
+}
 
 export class PregeneratedTTSProvider implements ITTSProvider {
   private browser = new BrowserTTSProvider()
@@ -25,10 +53,10 @@ export class PregeneratedTTSProvider implements ITTSProvider {
     this.stopped = true
     this.fetchAbort.abort()
     this.fetchAbort = new AbortController()
-    if (activeAudio) {
-      activeAudio.pause()
-      activeAudio.src = ''
-      activeAudio = null
+    if (sharedAudio) {
+      sharedAudio.pause()
+      clearHandlers(sharedAudio)
+      // Do NOT null sharedAudio or clear src — keeps iOS activation alive
     }
     this.browser.stop()
   }
@@ -40,7 +68,12 @@ export class PregeneratedTTSProvider implements ITTSProvider {
     this.fetchAbort.abort()
     this.fetchAbort = new AbortController()
     this.browser.stop()
-    if (activeAudio) { activeAudio.pause(); activeAudio.src = ''; activeAudio = null }
+
+    // Pause any ongoing playback, clear stale handlers
+    if (sharedAudio) {
+      sharedAudio.pause()
+      clearHandlers(sharedAudio)
+    }
 
     let index = 0
     let started = false
@@ -58,11 +91,18 @@ export class PregeneratedTTSProvider implements ITTSProvider {
       })
     }
 
-    // Play a pre-fetched blob URL, with timeupdate-based stall detection
+    // Play a pre-fetched blob on the shared Audio element.
+    // Reusing the same element is the iOS fix: the element stays "activated"
+    // after the first user-gesture-triggered play().
     const playBlob = (blobUrl: string, text: string, segKey: typeof voiceKey, onDone: () => void) => {
-      const audio = new Audio(blobUrl)
-      activeAudio = audio
+      const audio = getSharedAudio()
+
+      // Detach old handlers before configuring for new segment
+      clearHandlers(audio)
+      audio.pause()
+      audio.src = blobUrl
       audio.playbackRate = Math.min(Math.max(rate ?? 1, 0.5), 2.0)
+      audio.load()
 
       let resolved = false
       let stallTimer: ReturnType<typeof setTimeout> | null = null
@@ -71,7 +111,6 @@ export class PregeneratedTTSProvider implements ITTSProvider {
         if (stallTimer) { clearTimeout(stallTimer); stallTimer = null }
       }
 
-      // Reset stall watchdog — called on every sign of progress
       const resetStall = () => {
         clearStall()
         if (resolved) return
@@ -89,7 +128,6 @@ export class PregeneratedTTSProvider implements ITTSProvider {
         resolved = true
         clearStall()
         URL.revokeObjectURL(blobUrl)
-        activeAudio = null
         onDone()
       }
 
@@ -98,21 +136,19 @@ export class PregeneratedTTSProvider implements ITTSProvider {
         resolved = true
         clearStall()
         URL.revokeObjectURL(blobUrl)
-        activeAudio = null
         if (DEV) console.warn('[TTS] audio error:', reason ?? audio.error?.message)
         if (!self.stopped) browserFallback(text, segKey, onDone)
       }
 
       if (!started) { started = true; onStart?.() }
 
-      // Stall watchdog resets on every progress event
-      audio.onplay     = () => { if (DEV) console.log('[TTS] play'); resetStall() }
-      audio.onplaying  = () => { if (DEV) console.log('[TTS] playing'); resetStall() }
+      audio.onplay      = () => { if (DEV) console.log('[TTS] play'); resetStall() }
+      audio.onplaying   = () => { if (DEV) console.log('[TTS] playing'); resetStall() }
       audio.ontimeupdate = resetStall
-      audio.onwaiting  = () => { if (DEV) console.log('[TTS] waiting (buffering)') }
-      audio.onstalled  = () => { if (DEV) console.log('[TTS] stalled') }
-      audio.onended    = () => { if (DEV) console.log('[TTS] ended'); handleEnded() }
-      audio.onerror    = () => handleError(audio.error?.message)
+      audio.onwaiting   = () => { if (DEV) console.log('[TTS] waiting (buffering)') }
+      audio.onstalled   = () => { if (DEV) console.log('[TTS] stalled') }
+      audio.onended     = () => { if (DEV) console.log('[TTS] ended'); handleEnded() }
+      audio.onerror     = () => handleError(audio.error?.message)
 
       if (DEV) {
         audio.onloadeddata = () => console.log('[TTS] loadeddata dur:', audio.duration?.toFixed(2), 's')
@@ -122,7 +158,7 @@ export class PregeneratedTTSProvider implements ITTSProvider {
       audio.play().catch(() => handleError('play() rejected'))
     }
 
-    // Fetch MP3 as blob (eliminates streaming partial-content issues).
+    // Fetch MP3 as blob (avoids streaming partial-content stalls).
     // Retries once on transient failure, then falls back to browser TTS.
     const fetchAndPlay = async (
       url: string, text: string, segKey: typeof voiceKey, onDone: () => void, retries = 1,
@@ -153,15 +189,13 @@ export class PregeneratedTTSProvider implements ITTSProvider {
         abortSignal.removeEventListener('abort', onParentAbort)
         if (self.stopped) return
 
-        const msg = (err as Error).message
         const isAbort = (err as Error).name === 'AbortError'
-
         if (!isAbort && retries > 0) {
-          if (DEV) console.warn('[TTS] fetch failed, retrying…', msg)
+          if (DEV) console.warn('[TTS] fetch failed, retrying…', (err as Error).message)
           await new Promise(r => setTimeout(r, 600))
           if (!self.stopped) fetchAndPlay(url, text, segKey, onDone, retries - 1)
         } else {
-          if (DEV) console.warn('[TTS] fetch failed → browser TTS fallback', msg)
+          if (DEV) console.warn('[TTS] fetch failed → browser TTS fallback', (err as Error).message)
           if (!self.stopped) browserFallback(text, segKey, onDone)
         }
       }
