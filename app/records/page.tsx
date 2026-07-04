@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Check, ChevronRight, BookOpen, RotateCcw, X,
-  CalendarClock, HelpCircle,
+  CalendarClock, HelpCircle, Clock,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
@@ -663,31 +663,33 @@ export default function ProgressPage() {
 
             {v.missionItems.length === 0 ? (
               <p style={{ fontSize: 13, color: 'var(--pm2)', padding: '16px 0' }}>
-                오늘 미션이 없어요. 내일 또 만나요!
+                No missions for today. See you tomorrow!
               </p>
             ) : (() => {
-              const newItems    = v.missionItems.filter(i => i.type === 'new_story' || i.type === 'in_progress_story')
-              const reviewItems = v.missionItems.filter(i => i.type === 'review_pattern')
+              const newItems     = v.missionItems.filter(i => i.type === 'new_story' || i.type === 'in_progress_story')
+              const reviewItems  = v.missionItems.filter(i => i.type === 'review_pattern')
               const firstPending = v.missionItems.find(i => !i.done)
-              const allDone = v.missionItems.every(i => i.done)
+              const allDone      = v.missionItems.every(i => i.done)
+
+              const secLabel: React.CSSProperties = {
+                fontSize: 11, fontWeight: 800, letterSpacing: '0.12em',
+                color: 'var(--pt)', textTransform: 'uppercase', margin: '0 0 10px',
+                display: 'flex', alignItems: 'center', gap: 6,
+              }
 
               return (
                 <>
                   {/* New Learning */}
                   {newItems.length > 0 && (
-                    <div style={{ marginBottom: 16 }}>
-                      <p style={{
-                        fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
-                        color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 8px',
-                        display: 'flex', alignItems: 'center', gap: 5,
-                      }}>
-                        <BookOpen style={{ width: 10, height: 10 }} strokeWidth={2} />
+                    <div style={{ marginBottom: 18 }}>
+                      <p style={secLabel}>
+                        <BookOpen style={{ width: 11, height: 11 }} strokeWidth={2.5} />
                         New Learning
                       </p>
                       {newItems.map(item => (
                         <div key={item.storyId} style={{
                           display: 'flex', alignItems: 'center', gap: 10,
-                          padding: '12px 0', borderBottom: '1px solid var(--pd)',
+                          padding: '11px 0', borderBottom: '1px solid var(--pd)',
                         }}>
                           <span style={{
                             fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
@@ -699,7 +701,7 @@ export default function ProgressPage() {
                             {item.storyTitle}
                           </span>
                           <span style={{
-                            fontSize: 13, fontWeight: 700,
+                            fontSize: 11, fontWeight: 700,
                             color: item.done ? '#27AE60' : 'var(--pa)',
                           }}>
                             {item.done ? '✓' : '▶'}
@@ -711,19 +713,15 @@ export default function ProgressPage() {
 
                   {/* Review */}
                   {reviewItems.length > 0 && (
-                    <div style={{ marginBottom: 16 }}>
-                      <p style={{
-                        fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
-                        color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 8px',
-                        display: 'flex', alignItems: 'center', gap: 5,
-                      }}>
-                        <RotateCcw style={{ width: 10, height: 10 }} strokeWidth={2} />
-                        Review · {reviewItems.length}
+                    <div style={{ marginBottom: 18 }}>
+                      <p style={secLabel}>
+                        <RotateCcw style={{ width: 11, height: 11 }} strokeWidth={2.5} />
+                        Review — {reviewItems.length} {reviewItems.length === 1 ? 'Story' : 'Stories'}
                       </p>
                       {reviewItems.map(item => (
                         <div key={item.storyId} style={{
                           display: 'flex', alignItems: 'center', gap: 10,
-                          padding: '12px 0', borderBottom: '1px solid var(--pd)',
+                          padding: '11px 0', borderBottom: '1px solid var(--pd)',
                         }}>
                           <span style={{
                             fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
@@ -735,7 +733,7 @@ export default function ProgressPage() {
                             {item.storyTitle}
                           </span>
                           <span style={{
-                            fontSize: 13, fontWeight: 700,
+                            fontSize: 11, fontWeight: 700,
                             color: item.done ? '#27AE60' : 'var(--pm2)',
                           }}>
                             {item.done ? '✓' : '○'}
@@ -747,12 +745,19 @@ export default function ProgressPage() {
 
                   {/* Estimated time */}
                   {v.estimatedMinutes > 0 && !allDone && (
-                    <p style={{ fontSize: 11, color: 'var(--pm2)', margin: '8px 0 16px' }}>
-                      예상 시간&nbsp;
-                      <strong style={{ color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
-                        ~{v.estimatedMinutes}분
-                      </strong>
-                    </p>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', gap: 6,
+                      marginBottom: 16, padding: '10px 13px',
+                      background: 'var(--pc)', borderRadius: 10,
+                    }}>
+                      <Clock style={{ width: 13, height: 13, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.8} />
+                      <span style={{ fontSize: 12, color: 'var(--pm2)' }}>
+                        Estimated time&nbsp;
+                        <strong style={{ color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+                          ~{v.estimatedMinutes} min
+                        </strong>
+                      </span>
+                    </div>
                   )}
 
                   {/* CTA */}
@@ -768,7 +773,7 @@ export default function ProgressPage() {
                       color: allDone ? 'var(--pm)' : '#fff', letterSpacing: '0.02em',
                     }}
                   >
-                    {allDone ? '오늘 미션 완료!' : t('continue_study')}
+                    {allDone ? 'All done today!' : 'Continue Learning'}
                     {!allDone && <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />}
                   </button>
                 </>
