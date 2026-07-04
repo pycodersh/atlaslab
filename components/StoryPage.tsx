@@ -53,7 +53,7 @@ export function StoryPage({
   const STUDY_CYCLE: StudyMode[] = ['en', 'en-ko', 'ko']
   const STUDY_LABEL: Record<StudyMode, string> = { 'en': 'EN', 'en-ko': 'EN·KO', 'ko': 'KO' }
 
-  const [studyMode, setStudyMode] = useState<StudyMode>('en-ko')
+  const [studyMode, setStudyMode] = useState<StudyMode>('en')
   const showEnglish = studyMode === 'en' || studyMode === 'en-ko'
   const showKorean  = studyMode === 'en-ko' || studyMode === 'ko'
 
@@ -69,7 +69,7 @@ export function StoryPage({
 
   // Reset per-story state when story changes
   useEffect(() => {
-    setStudyMode('en-ko')
+    setStudyMode('en')
     setPlayingParaId(null)
     setRevealedParas(new Set())
   }, [story.id])
