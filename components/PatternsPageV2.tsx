@@ -322,10 +322,10 @@ export function PatternsPageV2({
               className="flex flex-col items-start group cursor-pointer"
               style={{ background: 'none', border: 'none', padding: 0 }}
             >
-              <span className="text-[9px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity mb-0.5">
+              <span className="text-[11px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity mb-0.5">
                 STORY {String(story.id).padStart(2, '0')}
               </span>
-              <span className="text-[0.95rem] font-playfair text-[var(--pt)] font-bold leading-tight">
+              <span className="text-[1.075rem] font-playfair text-[var(--pt)] font-bold leading-tight">
                 {story.title}
               </span>
             </button>
@@ -403,7 +403,7 @@ export function PatternsPageV2({
                 />
               </div>
               <div className="min-w-0">
-                <p className="font-playfair text-[1.65rem] font-bold text-[var(--pt)] leading-snug">
+                <p className="text-[1.65rem] font-bold text-[var(--pt)] leading-snug">
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
