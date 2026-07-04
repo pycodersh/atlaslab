@@ -428,7 +428,7 @@ export function PatternsPageV2({
           <div ref={swipeRef}>
 
             {/* ── Pattern section — magazine style, top divider only ── */}
-            <div className="border-t border-[var(--pd)] py-5 mb-6">
+            <div className="py-5 mb-6">
               {/* Illustration + pattern side by side, centered, icons top-right */}
               <div className="flex items-center justify-center gap-4 relative">
                 {/* Illustration */}
