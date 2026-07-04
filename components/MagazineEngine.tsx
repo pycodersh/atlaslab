@@ -7,6 +7,7 @@ import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
+import { GlobalSavePopup } from '@/components/GlobalSavePopup'
 
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
@@ -287,6 +288,9 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       >
         <span className="text-[var(--pt)] text-[1.4rem] opacity-10 group-hover:opacity-35 transition-opacity select-none">›</span>
       </button>
+
+      {/* Global word/phrase save popup — singleton for all TappableWordText instances */}
+      <GlobalSavePopup />
 
       {/* Wheel picker */}
       {showPicker && (

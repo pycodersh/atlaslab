@@ -12,6 +12,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { RATE_MAP } from '@/lib/settings/preferences'
 import { ttsProvider, getPitchForKey, storyParaAudioUrl } from '@/lib/tts'
+import { openSavePopup, closeSavePopup } from '@/lib/words/popupStore'
 
 type StoryPageProps = {
   story: MagazineStory
@@ -73,6 +74,46 @@ export function StoryPage({
 
   // Cleanup on unmount
   useEffect(() => () => { ttsProvider.stop() }, [])
+
+  // ── Phrase selection via native long-press + drag ────────────────────────
+  useEffect(() => {
+    function onSelectionChange() {
+      const sel = window.getSelection()
+      if (!sel || sel.isCollapsed) return
+
+      const text = sel.toString().trim()
+      if (!text) return
+
+      const words = text.split(/\s+/).filter(Boolean)
+      // Only handle multi-word selections (single words handled by tap)
+      if (words.length < 2 || words.length > 8) return
+
+      // Find which paragraph the selection is in via data-para-id
+      const anchorNode = sel.anchorNode
+      if (!anchorNode) return
+      const el = anchorNode.nodeType === Node.TEXT_NODE
+        ? anchorNode.parentElement
+        : anchorNode as Element
+      const paraEl = el?.closest('[data-para-id]') as HTMLElement | null
+      if (!paraEl) return
+
+      const paragraphId = paraEl.dataset.paraId
+      const para = story.paragraphs.find(p => p.id === paragraphId)
+      if (!para) return
+
+      openSavePopup({
+        word:             text,
+        originalSentence: para.english,
+        sourceType:       'story',
+        sourceId:         String(story.id),
+        storyId:          story.id,
+        paragraphId:      para.id,
+      })
+    }
+
+    document.addEventListener('selectionchange', onSelectionChange)
+    return () => document.removeEventListener('selectionchange', onSelectionChange)
+  }, [story])
 
   // ── Image slider ─────────────────────────────────────────────────────────
   const activeParagraphId =
@@ -249,7 +290,7 @@ export function StoryPage({
               )
 
               return (
-                <div key={para.id} className="relative group">
+                <div key={para.id} className="relative group" data-para-id={para.id}>
                   {/* English text or skeleton */}
                   <div className={`pr-8 rounded-xl px-2 py-1.5 -mx-2 transition-colors ${
                     isCurrentTTS && isSpeaking ? 'bg-[var(--pal)]' : ''
