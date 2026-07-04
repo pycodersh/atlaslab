@@ -495,7 +495,7 @@ export function PatternsPageV2({
 
               {/* English text or skeleton */}
               {showEnglish ? (
-                <p className="font-playfair text-[0.9rem] leading-[1.9] text-[var(--pt)] mb-1">
+                <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)] mb-1">
                   {example?.en}
                 </p>
               ) : (
