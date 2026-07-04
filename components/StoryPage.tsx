@@ -60,12 +60,18 @@ export function StoryPage({
   function cycleStudyMode() {
     setStudyMode(prev => STUDY_CYCLE[(STUDY_CYCLE.indexOf(prev) + 1) % STUDY_CYCLE.length])
   }
-  const [playingParaId, setPlayingParaId]    = useState<string | null>(null)
+  const [playingParaId, setPlayingParaId] = useState<string | null>(null)
+  const [revealedParas, setRevealedParas] = useState<Set<string>>(new Set())
+
+  function revealPara(paraId: string) {
+    setRevealedParas(prev => new Set([...prev, paraId]))
+  }
 
   // Reset per-story state when story changes
   useEffect(() => {
     setStudyMode('en')
     setPlayingParaId(null)
+    setRevealedParas(new Set())
   }, [story.id])
 
   // If speakAll starts (isSpeaking=true), clear single-para indicator
@@ -273,7 +279,7 @@ export function StoryPage({
                     isCurrentTTS && isSpeaking ? 'bg-[var(--pal)]' : ''
                   }`}>
                     {/* English */}
-                    {showEnglish ? (
+                    {showEnglish || revealedParas.has(para.id) ? (
                       <TappableWordText
                         text={para.english}
                         source={{
@@ -286,11 +292,22 @@ export function StoryPage({
                         className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block"
                       />
                     ) : (
-                      /* KO-only: skeleton placeholder for layout */
-                      <div className="space-y-2 py-1" aria-hidden="true">
-                        <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '90%' }} />
-                        <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '60%' }} />
-                      </div>
+                      /* KR mode: tappable skeleton to reveal English */
+                      <button
+                        type="button"
+                        onClick={() => revealPara(para.id)}
+                        aria-label="Reveal English"
+                        className="w-full text-left cursor-pointer group/reveal"
+                        style={{ background: 'none', border: 'none', padding: 0 }}
+                      >
+                        <div className="space-y-2 py-1">
+                          <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:bg-[var(--pa)] group-hover/reveal:opacity-30 transition-colors" style={{ width: '90%' }} />
+                          <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:bg-[var(--pa)] group-hover/reveal:opacity-30 transition-colors" style={{ width: '60%' }} />
+                        </div>
+                        <span className="text-[9px] tracking-[0.15em] text-[var(--pm2)] font-semibold mt-1 block opacity-0 group-hover/reveal:opacity-100 transition-opacity">
+                          TAP TO REVEAL
+                        </span>
+                      </button>
                     )}
 
                     {/* Korean translation */}

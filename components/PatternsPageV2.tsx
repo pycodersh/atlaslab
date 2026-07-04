@@ -88,13 +88,20 @@ export function PatternsPageV2({
   useEffect(() => {
     setPatIdx(0); setExIdx(0)
     patIdxRef.current = 0; exIdxRef.current = 0
+    setRevealedExSet(new Set())
   }, [story.id])
 
   // ── UI state ───────────────────────────────────────────────────────────────
-  const [studyMode,    setStudyMode]   = useState<StudyMode>('en')
-  const [examplesOpen, setExamplesOpen] = useState(false)
-  const [bookmarked,   setBookmarked]  = useState(false)
-  const [phase,        setPhase]       = useState<Phase>('idle')
+  const [studyMode,     setStudyMode]    = useState<StudyMode>('en')
+  const [examplesOpen,  setExamplesOpen] = useState(false)
+  const [bookmarked,    setBookmarked]   = useState(false)
+  const [phase,         setPhase]        = useState<Phase>('idle')
+  // revealedExSet: keys of form `${patIdx}-${exIdx}` revealed in KR mode
+  const [revealedExSet, setRevealedExSet] = useState<Set<string>>(new Set())
+
+  function revealEx(p: number, e: number) {
+    setRevealedExSet(prev => new Set([...prev, `${p}-${e}`]))
+  }
 
   // done mask: patternId → Set<exIdx>
   const doneMasksRef = useRef<Record<string, Set<number>>>({})
@@ -283,7 +290,8 @@ export function PatternsPageV2({
   })()
 
   // ── Derived display state ─────────────────────────────────────────────────
-  const showEnglish = studyMode === 'en' || studyMode === 'en-ko'
+  const exRevealed  = revealedExSet.has(`${patIdx}-${exIdx}`)
+  const showEnglish = studyMode === 'en' || studyMode === 'en-ko' || exRevealed
   const showKorean  = studyMode === 'en-ko' || studyMode === 'ko'
   const translationTx = example
     ? resolveTranslation(example.ko, prefs.language, example.translations)
@@ -418,10 +426,22 @@ export function PatternsPageV2({
                       {example?.en}
                     </p>
                   ) : (
-                    <div className="mb-3 space-y-2 pt-1" aria-hidden="true">
-                      <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '80%' }} />
-                      <div className="h-4 rounded-lg bg-[var(--pd)]" style={{ width: '60%' }} />
-                    </div>
+                    /* KR mode: tappable skeleton to reveal English */
+                    <button
+                      type="button"
+                      onClick={() => revealEx(patIdx, exIdx)}
+                      aria-label="Reveal English"
+                      className="w-full text-left cursor-pointer group/reveal"
+                      style={{ background: 'none', border: 'none', padding: 0 }}
+                    >
+                      <div className="mb-1 space-y-2 pt-1">
+                        <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:bg-[var(--pa)] group-hover/reveal:opacity-30 transition-colors" style={{ width: '80%' }} />
+                        <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:bg-[var(--pa)] group-hover/reveal:opacity-30 transition-colors" style={{ width: '60%' }} />
+                      </div>
+                      <span className="text-[9px] tracking-[0.15em] text-[var(--pm2)] font-semibold opacity-0 group-hover/reveal:opacity-100 transition-opacity">
+                        TAP TO REVEAL
+                      </span>
+                    </button>
                   )}
                   {showKorean && translationTx && (
                     <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed mt-1">
