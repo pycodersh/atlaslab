@@ -429,10 +429,10 @@ export function PatternsPageV2({
 
             {/* ── Pattern section — magazine style, top divider only ── */}
             <div className="border-t border-[var(--pd)] py-5 mb-6">
-              {/* Centered: illustration + pattern text, with icons top-right */}
-              <div className="flex flex-col items-center text-center relative">
+              {/* Illustration + pattern side by side, centered, icons top-right */}
+              <div className="flex items-center justify-center gap-4 relative">
                 {/* Illustration */}
-                <div className="w-[64px] h-[64px] mb-3">
+                <div className="w-[64px] h-[64px] shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`/images/patterns/${pattern.id}.svg`}
