@@ -2,21 +2,18 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Volume2, X } from 'lucide-react'
 
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
-import { TappableWordText } from '@/components/TappableWordText'
+
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
-import { storyParaAudioUrl } from '@/lib/tts'
 import type { AmbienceId } from '@/types/magazine'
 import { ambienceGain, type VoiceKey } from '@/lib/settings/preferences'
-import type { MagazineParagraph, MagazineStory } from '@/types/magazine'
-import { resolveTranslation } from '@/lib/i18n/translation'
+import type { MagazineStory } from '@/types/magazine'
 import { saveLastPosition } from '@/lib/last-position'
 import type { PracticeExample } from '@/data/pattern-examples'
 
@@ -29,7 +26,7 @@ type MagazineEngineProps = {
 
 export function MagazineEngine({ story, allStories, initialView = 'story', patternExamples }: MagazineEngineProps) {
   const router = useRouter()
-  const { speak, speakAll, stop, isSpeaking, currentParagraphIdx } = useSpeech()
+  const { speakAll, stop, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
 
@@ -40,7 +37,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   // 위치 저장 — Continue Learning이 여기로 돌아올 수 있도록
   useEffect(() => { saveLastPosition(story.id, view) }, [story.id, view])
   const [showPicker, setShowPicker] = useState(false)
-  const [popup, setPopup] = useState<MagazineParagraph | null>(null)
 
   // ── Swipe / drag state ──────────────────────────────────────────────
   const [dragOffset, setDragOffset] = useState(0)
@@ -110,21 +106,21 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       // Swipe LEFT → forward
       if (v === 'story') {
         // Story → Patterns (same story)
-        handleStop(); setPopup(null); setView('patterns')
+        handleStop(); setView('patterns')
       } else {
         // Patterns → next Story
         const next = allStoriesRef.current.find(x => x.id === s.id + 1)
-        if (next) { handleStop(); setPopup(null); setView('story'); router.push(`/stories/${next.id}`) }
+        if (next) { handleStop(); setView('story'); router.push(`/stories/${next.id}`) }
       }
     } else if (dragOffset > THRESHOLD) {
       // Swipe RIGHT → backward
       if (v === 'patterns') {
         // Patterns → Story (same story)
-        handleStop(); setPopup(null); setView('story')
+        handleStop(); setView('story')
       } else {
         // Story → prev story's Patterns
         const prev = allStoriesRef.current.find(x => x.id === s.id - 1)
-        if (prev) { handleStop(); setPopup(null); router.push(`/stories/${prev.id}?v=p`) }
+        if (prev) { handleStop(); router.push(`/stories/${prev.id}?v=p`) }
       }
     }
 
@@ -184,11 +180,11 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
 
   // ── Navigation ──────────────────────────────────────────────────────
   function switchView(newView: 'story' | 'patterns') {
-    handleStop(); setPopup(null); setView(newView)
+    handleStop(); setView(newView)
   }
 
   function goToStory(id: number, startView: 'story' | 'patterns' = 'story') {
-    handleStop(); setPopup(null); setView('story')
+    handleStop(); setView('story')
     const suffix = startView === 'patterns' ? '?v=p' : ''
     router.push(`/stories/${id}${suffix}`)
   }
@@ -248,7 +244,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
             onPrev={goPrev}
             hasPrev={!isFirst}
             onOpenPicker={() => setShowPicker(true)}
-            onOpenPopup={setPopup}
             speakAll={handleSpeakAll}
             stop={handleStop}
             isSpeaking={isSpeaking}
@@ -292,74 +287,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       >
         <span className="text-[var(--pt)] text-[1.4rem] opacity-10 group-hover:opacity-35 transition-opacity select-none">›</span>
       </button>
-
-      {/* Translation popup — outside rail */}
-      {popup && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-6"
-          onClick={() => { setPopup(null); stop() }}
-        >
-          <div
-            className="rounded-2xl p-5 w-full max-w-[320px] shadow-2xl"
-            style={{ background: 'var(--pb)' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex justify-between items-center mb-3">
-              <span className="text-[9px] tracking-[0.25em] text-[var(--pa)] font-semibold">TRANSLATION</span>
-              <div className="flex items-center gap-2">
-                <button
-                  aria-label={isSpeaking ? '정지' : '읽기'}
-                  className={`p-1.5 rounded-full transition-colors cursor-pointer ${isSpeaking ? 'bg-[var(--pd)] text-[var(--pa)]' : 'text-[var(--pm2)] hover:bg-[var(--pd)] hover:text-[var(--pa)]'}`}
-                  onClick={() => {
-                    if (isSpeaking) { stop(); return }
-                    const v = story.narratorVoice ?? prefs.voice
-                    speak(popup.english, storyParaAudioUrl(v, story.id, popup.id, popup.english), v)
-                  }}
-                  type="button"
-                >
-                  <Volume2 className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  aria-label="닫기"
-                  className="text-[var(--pm2)] hover:text-[var(--pt)] transition-colors cursor-pointer"
-                  onClick={() => { setPopup(null); stop() }}
-                  type="button"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-            <TappableWordText
-              text={popup.english}
-              source={{
-                sourceType:       'story',
-                sourceId:         String(story.id),
-                storyId:          story.id,
-                paragraphId:      popup.id,
-                originalSentence: popup.english,
-              }}
-              className="font-playfair text-[0.78rem] text-[var(--pm)] leading-relaxed block mb-2"
-            />
-            {resolveTranslation(popup.koreanTranslation, prefs.language, popup.translations) && (
-              <p className="text-[0.9rem] text-[var(--pt)] leading-relaxed mb-4">
-                {resolveTranslation(popup.koreanTranslation, prefs.language, popup.translations)}
-              </p>
-            )}
-            {popup.keyExpressions.length > 0 && (
-              <>
-                <div className="h-px bg-[var(--pd)] mb-3" />
-                <div className="flex flex-wrap gap-2">
-                  {popup.keyExpressions.map((expr, i) => (
-                    <span key={i} className="text-[11px] bg-[var(--pal)] text-[var(--pa)] px-3 py-1 rounded-full">
-                      {expr}
-                    </span>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Wheel picker */}
       {showPicker && (
