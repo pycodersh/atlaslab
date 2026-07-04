@@ -92,7 +92,7 @@ export function PatternsPageV2({
   }, [story.id])
 
   // ── UI state ───────────────────────────────────────────────────────────────
-  const [studyMode,     setStudyMode]    = useState<StudyMode>('en')
+  const [studyMode,     setStudyMode]    = useState<StudyMode>('en-ko')
   const [examplesOpen,  setExamplesOpen] = useState(false)
   const [bookmarked,    setBookmarked]   = useState(false)
   const [phase,         setPhase]        = useState<Phase>('idle')
@@ -366,13 +366,7 @@ export function PatternsPageV2({
                 type="button"
                 onClick={cycleStudyMode}
                 aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
-                className={`text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
-                  studyMode === 'ko'
-                    ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                    : studyMode === 'en-ko'
-                    ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pal)]'
-                    : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
-                }`}
+                className="text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full cursor-pointer border text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)] transition-colors"
               >
                 {STUDY_LABEL[studyMode]}
               </button>

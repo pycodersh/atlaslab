@@ -53,7 +53,7 @@ export function StoryPage({
   const STUDY_CYCLE: StudyMode[] = ['en', 'en-ko', 'ko']
   const STUDY_LABEL: Record<StudyMode, string> = { 'en': 'EN', 'en-ko': 'EN·KO', 'ko': 'KO' }
 
-  const [studyMode, setStudyMode] = useState<StudyMode>('en')
+  const [studyMode, setStudyMode] = useState<StudyMode>('en-ko')
   const showEnglish = studyMode === 'en' || studyMode === 'en-ko'
   const showKorean  = studyMode === 'en-ko' || studyMode === 'ko'
 
@@ -69,7 +69,7 @@ export function StoryPage({
 
   // Reset per-story state when story changes
   useEffect(() => {
-    setStudyMode('en')
+    setStudyMode('en-ko')
     setPlayingParaId(null)
     setRevealedParas(new Set())
   }, [story.id])
@@ -248,13 +248,7 @@ export function StoryPage({
               type="button"
               onClick={cycleStudyMode}
               aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
-              className={`text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full transition-colors cursor-pointer border ${
-                studyMode === 'ko'
-                  ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                  : studyMode === 'en-ko'
-                  ? 'bg-[var(--pal)] text-[var(--pa)] border-[var(--pal)]'
-                  : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
-              }`}
+              className="text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full cursor-pointer border text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)] transition-colors"
             >
               {STUDY_LABEL[studyMode]}
             </button>
