@@ -96,15 +96,35 @@ export default function EssaysPage() {
         paddingRight: 24,
         paddingBottom: 0,
       }}>
-        {/* ── Header ───────────────────────────────────────────────────────── */}
+        {/* ── Header: ESSAYS title + review dots/count on right ────────────── */}
         <div style={{ marginBottom: 20 }}>
-          <p className="font-playfair" style={{
-            fontSize: 'clamp(2rem, 9vw, 2.8rem)',
-            fontWeight: 900, letterSpacing: '-0.02em',
-            lineHeight: 1, color: 'var(--pt)', margin: 0,
-          }}>
-            ESSAYS
-          </p>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
+            <p className="font-playfair" style={{
+              fontSize: 'clamp(2rem, 9vw, 2.8rem)',
+              fontWeight: 900, letterSpacing: '-0.02em',
+              lineHeight: 1, color: 'var(--pt)', margin: 0,
+            }}>
+              ESSAYS
+            </p>
+            {/* Review count — top-right of header */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingTop: 6, flexShrink: 0 }}>
+              <div style={{ display: 'flex', gap: 4 }}>
+                {Array.from({ length: MAX_DAILY_REVIEWS }).map((_, i) => (
+                  <div key={i} style={{
+                    width: 6, height: 6, borderRadius: '50%',
+                    background: i < reviewCount ? 'var(--pm2)' : 'var(--pa)',
+                    opacity: i < reviewCount ? 0.3 : 1,
+                  }} />
+                ))}
+              </div>
+              <span style={{
+                fontSize: 11, fontWeight: 700,
+                color: remaining === 0 ? 'var(--pm2)' : 'var(--pa)',
+              }}>
+                {remaining} / {MAX_DAILY_REVIEWS}
+              </span>
+            </div>
+          </div>
           <p className="font-playfair" style={{
             fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
             fontStyle: 'italic', fontWeight: 500,
@@ -115,34 +135,15 @@ export default function EssaysPage() {
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>
 
-        {/* ── Today's Reviews ───────────────────────────────────────────────── */}
-        <SectionLabel label="Today's Reviews" sub={t('sec_reviews_today')} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-          <div style={{ display: 'flex', gap: 4 }}>
-            {Array.from({ length: MAX_DAILY_REVIEWS }).map((_, i) => (
-              <div key={i} style={{
-                width: 6, height: 6, borderRadius: '50%',
-                background: i < reviewCount ? 'var(--pm2)' : 'var(--pa)',
-                opacity: i < reviewCount ? 0.3 : 1,
-              }} />
-            ))}
-          </div>
-          <span style={{
-            fontSize: 11, fontWeight: 700,
-            color: remaining === 0 ? 'var(--pm2)' : 'var(--pa)',
-          }}>
-            {remaining} / {MAX_DAILY_REVIEWS}
-          </span>
-        </div>
-
-        {/* ── New Essay — Magazine Editorial CTA ───────────────────────────── */}
-        <div style={{ textAlign: 'center', padding: '14px 0 14px' }}>
+        {/* ── New Essay CTA — centered between dividers, no underline ──────── */}
+        <div style={{ height: '1px', background: 'var(--pd)' }} />
+        <div style={{ textAlign: 'center', padding: '21px 0' }}>
           <button
             type="button"
             onClick={() => router.push('/essays/new')}
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              padding: '6px 0', display: 'inline-block',
+              padding: '0', display: 'inline-block',
               transition: 'opacity 0.18s',
             }}
             onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.55' }}
@@ -153,18 +154,14 @@ export default function EssaysPage() {
             <span style={{
               fontSize: 'clamp(1rem, 4vw, 1.15rem)',
               fontWeight: 800,
-              fontStyle: 'normal',
               color: 'var(--pa)',
               letterSpacing: '0.04em',
-              borderBottom: '1.5px solid var(--pa)',
-              paddingBottom: 3,
             }}>
               + New Essay
             </span>
           </button>
         </div>
-        {/* Bottom divider — mirrors the top divider above Today's Reviews */}
-        <div style={{ height: '1px', background: 'var(--pd)', marginBottom: 0 }} />
+        <div style={{ height: '1px', background: 'var(--pd)' }} />
       </div>
       {/* ── END sticky header ─────────────────────────────────────────────────── */}
 

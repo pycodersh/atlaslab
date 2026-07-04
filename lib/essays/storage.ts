@@ -2,7 +2,7 @@ const ESSAYS_KEY = 'patto-essays'
 const REVIEW_DAY_KEY = 'patto-essay-review-day'
 const REVIEW_COUNT_KEY = 'patto-essay-review-count'
 
-export const MAX_DAILY_REVIEWS = 10
+export const MAX_DAILY_REVIEWS = 5
 
 // 'typical' = recurring mechanical error (first occurrence only, marked ★ Typ.)
 export type AnnotationType = 'grammar' | 'expression' | 'strength' | 'typical'
