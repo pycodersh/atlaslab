@@ -155,7 +155,13 @@ export class BrowserTTSProvider implements ITTSProvider {
         }
       }
       u.onerror = (e) => {
-        if (e.error !== 'interrupted' && e.error !== 'canceled') onError?.()
+        if (e.error === 'interrupted' || e.error === 'canceled') return
+        // Advance queue so a single utterance error doesn't stop everything
+        if (index < segments.length) {
+          setTimeout(next, PARAGRAPH_PAUSE_MS)
+        } else {
+          onEnd?.()
+        }
       }
 
       s.speak(u)

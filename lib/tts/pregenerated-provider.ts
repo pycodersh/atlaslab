@@ -2,6 +2,8 @@ import { BrowserTTSProvider } from './browser-provider'
 import type { ITTSProvider, SpeakOptions } from './types'
 
 const PARAGRAPH_PAUSE_MS = 280
+/** Max ms to wait for audio.onended before force-advancing (guards against network stall) */
+const AUDIO_TIMEOUT_MS = 8000
 
 let activeAudio: HTMLAudioElement | null = null
 
@@ -65,24 +67,45 @@ export class PregeneratedTTSProvider implements ITTSProvider {
       // HTML Audio element: rate 적용 (pitch는 Neural 음성이므로 불필요)
       audio.playbackRate = Math.min(Math.max(rate, 0.5), 2.0)
 
-      audio.onplay = () => {
-        if (!started) { started = true; onStart?.() }
+      // Guard: once fired (ended/error/timeout), no second callback
+      let resolved = false
+      let stallTimer: ReturnType<typeof setTimeout> | null = null
+
+      const clearStall = () => {
+        if (stallTimer) { clearTimeout(stallTimer); stallTimer = null }
       }
-      audio.onended = () => {
+
+      const handleEnded = () => {
+        if (resolved) return
+        resolved = true
+        clearStall()
         activeAudio = null
         onDone()
       }
-      audio.onerror = () => {
-        // 파일 없거나 네트워크 오류 → Browser TTS 폴백
+
+      const handleError = () => {
+        if (resolved) return
+        resolved = true
+        clearStall()
         activeAudio = null
         if (!self.stopped) browserFallback(text, segKey, onDone)
       }
 
-      audio.play().catch(() => {
-        // autoplay 차단 등 → Browser TTS 폴백
-        activeAudio = null
-        if (!self.stopped) browserFallback(text, segKey, onDone)
-      })
+      audio.onplay = () => {
+        if (!started) { started = true; onStart?.() }
+        // Start stall watchdog once audio is actually playing
+        stallTimer = setTimeout(() => {
+          if (!resolved && !self.stopped) {
+            audio.pause()
+            audio.src = ''
+            handleEnded()  // treat stall as ended → advance queue
+          }
+        }, AUDIO_TIMEOUT_MS)
+      }
+      audio.onended = handleEnded
+      audio.onerror = handleError  // 파일 없거나 네트워크 오류 → Browser TTS 폴백
+
+      audio.play().catch(handleError)  // autoplay 차단 등 → Browser TTS 폴백
     }
 
     next()
