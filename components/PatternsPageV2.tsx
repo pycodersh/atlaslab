@@ -313,8 +313,8 @@ export function PatternsPageV2({
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         <div className="pl-7 pr-6 pt-5 pb-10">
 
-          {/* Story header row: story info (left) + Language Toggle + Bookmark (right) */}
-          <div className="flex items-center justify-between mb-5 mt-2">
+          {/* Story header row */}
+          <div className="mt-2 mb-4">
             <button
               type="button"
               onClick={onOpenPicker}
@@ -330,9 +330,39 @@ export function PatternsPageV2({
                 {story.title}
               </span>
             </button>
+          </div>
 
-            {/* Top-right controls: Language Toggle + Bookmark */}
-            <div className="flex items-center gap-2 ml-3 shrink-0">
+          {/* Pattern navigation + Language Toggle + Bookmark */}
+          <div className="mb-4">
+            {/* Pattern prev/next row */}
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => patIdx > 0 ? navigateTo(patIdx - 1, 0) : onPrev()}
+                aria-label="이전 패턴"
+                className="p-1.5 rounded-full text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
+              >
+                <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
+              </button>
+              <span className="text-[10px] tracking-[0.22em] font-bold text-[var(--pm)]">
+                PATTERN {patIdx + 1} / {patterns.length}
+              </span>
+              <button
+                type="button"
+                onClick={() => patIdx < patterns.length - 1 ? navigateTo(patIdx + 1, 0) : undefined}
+                disabled={patIdx >= patterns.length - 1}
+                aria-label="다음 패턴"
+                className={`p-1.5 rounded-full transition-colors ${
+                  patIdx < patterns.length - 1
+                    ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer'
+                    : 'text-[var(--pd)] cursor-default'
+                }`}
+              >
+                <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
+              </button>
+            </div>
+            {/* Language Toggle + Bookmark — below pattern nav, right-aligned */}
+            <div className="flex items-center justify-end gap-2 mt-2">
               <button
                 type="button"
                 onClick={cycleStudyMode}
@@ -366,40 +396,12 @@ export function PatternsPageV2({
             </div>
           </div>
 
-          {/* Pattern navigation */}
-          <div className="flex items-center justify-between mb-5">
-            <button
-              type="button"
-              onClick={() => patIdx > 0 ? navigateTo(patIdx - 1, 0) : onPrev()}
-              aria-label="이전 패턴"
-              className="p-1.5 rounded-full text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
-            >
-              <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
-            </button>
-            <span className="text-[10px] tracking-[0.22em] font-bold text-[var(--pm)]">
-              PATTERN {patIdx + 1} / {patterns.length}
-            </span>
-            <button
-              type="button"
-              onClick={() => patIdx < patterns.length - 1 ? navigateTo(patIdx + 1, 0) : undefined}
-              disabled={patIdx >= patterns.length - 1}
-              aria-label="다음 패턴"
-              className={`p-1.5 rounded-full transition-colors ${
-                patIdx < patterns.length - 1
-                  ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer'
-                  : 'text-[var(--pd)] cursor-default'
-              }`}
-            >
-              <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
-            </button>
-          </div>
-
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
 
-            {/* ── Pattern section — vertical centered, 50% larger ── */}
-            <div className="pt-8 pb-6 mb-6 text-center">
-              <div className="w-[96px] h-[96px] mx-auto mb-4">
+            {/* ── Pattern section — illust left, pattern name + meaning right ── */}
+            <div className="pt-6 pb-5 mb-5 flex items-center gap-5">
+              <div className="w-[96px] h-[96px] shrink-0">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/images/patterns/${pattern.id}.svg`}
@@ -407,14 +409,16 @@ export function PatternsPageV2({
                   className="w-[96px] h-[96px] object-contain"
                 />
               </div>
-              <p className="font-playfair text-[1.65rem] font-bold text-[var(--pt)] leading-snug px-4">
-                {pattern.pattern}
-              </p>
-              {patternMeaning && (
-                <p className="text-[1rem] text-[var(--pa)] mt-2 font-semibold tracking-wide">
-                  {patternMeaning}
+              <div className="min-w-0">
+                <p className="font-playfair text-[1.65rem] font-bold text-[var(--pt)] leading-snug">
+                  {pattern.pattern}
                 </p>
-              )}
+                {patternMeaning && (
+                  <p className="text-[1rem] text-[var(--pa)] mt-1.5 font-semibold tracking-wide">
+                    {patternMeaning}
+                  </p>
+                )}
+              </div>
             </div>
 
             {/* ── Example display — text on left, speaker on right ── */}
