@@ -427,12 +427,12 @@ export function PatternsPageV2({
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
 
-            {/* ── Pattern section — magazine style, dividers only ── */}
-            <div className="border-t border-b border-[var(--pd)] py-5 mb-6">
-              {/* Top row: illustration + pattern text + icons */}
-              <div className="flex items-start gap-4">
+            {/* ── Pattern section — magazine style, top divider only ── */}
+            <div className="border-t border-[var(--pd)] py-5 mb-6">
+              {/* Centered: illustration + pattern text, with icons top-right */}
+              <div className="flex flex-col items-center text-center relative">
                 {/* Illustration */}
-                <div className="w-[64px] h-[64px] shrink-0">
+                <div className="w-[64px] h-[64px] mb-3">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`/images/patterns/${pattern.id}.svg`}
@@ -443,7 +443,7 @@ export function PatternsPageV2({
                 </div>
 
                 {/* Pattern text + meaning */}
-                <div className="flex-1 min-w-0 pt-0.5">
+                <div className="min-w-0">
                   <p className="font-playfair text-[1.1rem] font-bold text-[var(--pt)] leading-snug">
                     {pattern.pattern}
                   </p>
@@ -454,8 +454,8 @@ export function PatternsPageV2({
                   )}
                 </div>
 
-                {/* Bookmark + Note — horizontal, top-right */}
-                <div className="flex items-center gap-0.5 shrink-0 pt-0.5">
+                {/* Bookmark + Note — absolute top-right */}
+                <div className="absolute top-0 right-0 flex items-center gap-0.5">
                   <button
                     type="button"
                     onClick={handleBookmark}
