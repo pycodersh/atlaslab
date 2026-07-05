@@ -358,22 +358,6 @@ export function StoryPage({
                         )}
                       </div>
 
-                      {/* Per-paragraph Volume button */}
-                      <button
-                        type="button"
-                        onClick={() => playSinglePara(para)}
-                        aria-label={isPlaying ? '정지' : '이 문단 듣기'}
-                        className={`absolute right-0 top-1.5 p-1.5 rounded-full opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all cursor-pointer ${
-                          isPlaying
-                            ? 'opacity-100 bg-[var(--pal)]'
-                            : 'text-[var(--pm2)] hover:bg-[var(--pal)]'
-                        }`}
-                        style={{ color: 'var(--pm2)' }}
-                      >
-                        {isPlaying
-                          ? <Square className="w-3.5 h-3.5 fill-current" />
-                          : <Volume2 className="w-3.5 h-3.5" strokeWidth={1.8} />}
-                      </button>
                     </div>
                   )
                 })}
