@@ -427,7 +427,7 @@ export function PatternsPageV2({
                     aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
                     style={{
                       background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                      color: bookmarked ? '#8F234B' : 'rgba(255,255,255,0.45)',
+                      color: bookmarked ? '#8F234B' : '#AAACB0',
                       transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
                     onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
@@ -444,16 +444,14 @@ export function PatternsPageV2({
 
                 {/* Pattern text */}
                 <p style={{
-                  fontSize: '1.55rem', fontWeight: 900, color: '#F7F7F8',
-                  lineHeight: 1.2, margin: '0 0 8px', letterSpacing: '-0.01em',
-                  textShadow: '0 2px 10px rgba(0,0,0,.18)',
+                  fontSize: '1.55rem', fontWeight: 900, color: '#1C1E22',
+                  lineHeight: 1.2, margin: '0 0 4px', letterSpacing: '-0.01em',
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   position: 'relative',
                 }}>
                   <span style={{
-                    color: '#D8DADF',
+                    color: '#6B6E76',
                     fontWeight: 700,
-                    textShadow: '0 1px 4px rgba(0,0,0,.35)',
                     marginRight: '0.35em',
                     letterSpacing: '0.02em',
                   }}>
@@ -461,45 +459,53 @@ export function PatternsPageV2({
                   </span>
                   {pattern.pattern}
                 </p>
-                {patternMeaning && (
-                  <p style={{ fontSize: 13, fontWeight: 600, color: '#ECEDEF', margin: 0, position: 'relative' }}>
-                    {patternMeaning}
-                  </p>
-                )}
               </div>
 
               {/* ── Card body ── */}
               <div style={{ padding: '16px 20px 22px' }}>
 
-                {/* Action buttons: Speaker + Translation */}
-                <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
-                  <button
-                    type="button"
-                    onClick={playPatternExamples}
-                    aria-label={isPlaying ? '정지' : '예문 듣기'}
-                    style={{
-                      ...glassBtn,
-                      background: isPlaying ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.45)',
-                      filter: isPlaying ? 'brightness(1.05)' : 'brightness(1)',
-                    }}
-                    {...glassBtnMotion}
-                  >
-                    {isPlaying
-                      ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
-                      : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
-                  </button>
+                {/* Pattern meaning — below English title */}
+                {patternMeaning && (
+                  <p style={{
+                    fontSize: 12, fontWeight: 500, color: '#8A8A8E',
+                    margin: '0 0 14px', letterSpacing: '0.01em',
+                  }}>
+                    {patternMeaning}
+                  </p>
+                )}
+
+                {/* Action buttons: Language (left) + Speaker (right) */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                   <button
                     type="button"
                     onClick={cycleStudyMode}
                     aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
                     style={{
                       ...glassBtn,
-                      background: studyMode !== 'en' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.45)',
+                      background: 'transparent',
+                      border: '1px solid rgba(0,0,0,0.10)',
+                      color: '#6B6E76',
                     }}
                     {...glassBtnMotion}
                   >
                     <Globe style={{ width: 13, height: 13 }} strokeWidth={1.8} />
                     {STUDY_LABEL[studyMode]}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={playPatternExamples}
+                    aria-label={isPlaying ? '정지' : '예문 듣기'}
+                    style={{
+                      ...glassBtn,
+                      background: 'transparent',
+                      border: '1px solid rgba(0,0,0,0.10)',
+                      color: isPlaying ? '#8F234B' : '#6B6E76',
+                    }}
+                    {...glassBtnMotion}
+                  >
+                    {isPlaying
+                      ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
+                      : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
                   </button>
                 </div>
 
