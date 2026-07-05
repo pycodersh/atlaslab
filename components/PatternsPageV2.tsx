@@ -322,7 +322,21 @@ export function PatternsPageV2({
     backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
     border: '1px solid rgba(255,255,255,0.70)',
     color: '#555A61', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
-    transition: 'filter 0.15s',
+    transition: 'filter 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
+  }
+  const glassBtnMotion = {
+    onPointerDown: (e: React.PointerEvent<HTMLButtonElement>) => {
+      e.currentTarget.style.transform = 'scale(0.98)'
+      e.currentTarget.style.filter = 'brightness(0.95)'
+    },
+    onPointerUp: (e: React.PointerEvent<HTMLButtonElement>) => {
+      e.currentTarget.style.transform = 'scale(1)'
+      e.currentTarget.style.filter = 'brightness(1)'
+    },
+    onPointerLeave: (e: React.PointerEvent<HTMLButtonElement>) => {
+      e.currentTarget.style.transform = 'scale(1)'
+      e.currentTarget.style.filter = 'brightness(1)'
+    },
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -373,18 +387,36 @@ export function PatternsPageV2({
 
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
-            <div className="glass-card" style={{ overflow: 'hidden', borderRadius: 20, padding: 0 }}>
+            <div className="glass-card" style={{
+              overflow: 'hidden', borderRadius: 30, padding: 0,
+              background: 'rgba(255,255,255,0.42)',
+              backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,.65)',
+              boxShadow: '0 20px 50px rgba(40,40,60,.08)',
+            }}>
 
-              {/* ── Card header — pure glass, no color tint ── */}
+              {/* ── Card header — Aurora dark glass ── */}
               <div style={{
+                position: 'relative', overflow: 'hidden',
                 padding: '18px 20px 16px',
-                borderBottom: '1px solid rgba(0,0,0,0.06)',
+                background: 'rgba(18, 22, 42, 0.30)',
+                backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+                borderBottom: '1px solid rgba(255,255,255,0.12)',
               }}>
+                {/* Glass wave decoration */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: -15, left: '5%', right: '5%', height: 50,
+                  background: 'rgba(255,255,255,0.18)',
+                  borderRadius: '50%', opacity: 0.09,
+                  pointerEvents: 'none',
+                }} />
+
                 {/* Number + Bookmark row */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, position: 'relative' }}>
                   <span style={{
                     fontSize: 9, letterSpacing: '0.22em', fontWeight: 600,
-                    color: 'var(--pm2)',
+                    color: 'rgba(255,255,255,0.60)',
                   }}>
                     {String(globalPatternNum).padStart(3, '0')}
                   </span>
@@ -394,9 +426,12 @@ export function PatternsPageV2({
                     aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
                     style={{
                       background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                      color: bookmarked ? '#C08B30' : 'var(--pm2)',
-                      transition: 'color 0.15s',
+                      color: bookmarked ? '#E8AE3A' : 'rgba(255,255,255,0.55)',
+                      transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
+                    onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
+                    onPointerUp={e => { e.currentTarget.style.transform = 'scale(1)' }}
+                    onPointerLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
                   >
                     <Bookmark
                       style={{ width: 16, height: 16 }}
@@ -408,15 +443,16 @@ export function PatternsPageV2({
 
                 {/* Pattern text */}
                 <p style={{
-                  fontSize: '1.55rem', fontWeight: 800, color: 'var(--pt)',
+                  fontSize: '1.55rem', fontWeight: 900, color: '#F6F6F7',
                   lineHeight: 1.2, margin: '0 0 8px', letterSpacing: '-0.01em',
-                  textShadow: '0 1px 0 rgba(255,255,255,.75)',
+                  textShadow: '0 2px 10px rgba(0,0,0,.18)',
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                  position: 'relative',
                 }}>
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
-                  <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--pm)', margin: 0 }}>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.70)', margin: 0, position: 'relative' }}>
                     {patternMeaning}
                   </p>
                 )}
@@ -436,6 +472,7 @@ export function PatternsPageV2({
                       background: isPlaying ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.45)',
                       filter: isPlaying ? 'brightness(1.05)' : 'brightness(1)',
                     }}
+                    {...glassBtnMotion}
                   >
                     {isPlaying
                       ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
@@ -450,6 +487,7 @@ export function PatternsPageV2({
                       ...glassBtn,
                       background: studyMode !== 'en' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.45)',
                     }}
+                    {...glassBtnMotion}
                   >
                     <Globe style={{ width: 13, height: 13 }} strokeWidth={1.8} />
                     {STUDY_LABEL[studyMode]}

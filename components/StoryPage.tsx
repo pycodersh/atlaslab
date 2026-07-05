@@ -305,7 +305,7 @@ export function StoryPage({
             </div>
 
             {/* Paragraphs */}
-            <div style={{ padding: '20px 20px 8px', paddingRight: 68 }}>
+            <div style={{ padding: '20px 28px 8px' }}>
               <div className="space-y-5">
                 {story.paragraphs.map((para) => {
                   const isPlaying    = playingParaId === para.id
