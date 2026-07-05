@@ -445,9 +445,9 @@ export default function HomePage() {
           aria-modal="true"
           style={{
             position: 'fixed', inset: 0, zIndex: 100,
-            background: 'rgba(20,22,30,0.50)',
-            backdropFilter: 'blur(10px)',
-            WebkitBackdropFilter: 'blur(10px)',
+            background: 'rgba(220,225,235,0.30)',
+            backdropFilter: 'blur(28px)',
+            WebkitBackdropFilter: 'blur(28px)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '0 20px',
           }}
