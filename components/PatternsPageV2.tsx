@@ -403,12 +403,11 @@ export function PatternsPageV2({
               boxShadow: '0 20px 50px rgba(40,40,60,.08)',
             }}>
 
-              {/* ── Card header — Aurora dark glass ── */}
+              {/* ── Card header ── */}
               <div style={{
                 position: 'relative', overflow: 'hidden',
                 padding: '18px 20px 16px',
-                background: 'rgba(18, 22, 42, 0.30)',
-                backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
+                background: 'transparent',
                 borderBottom: '1px solid rgba(255,255,255,0.12)',
               }}>
                 {/* Glass wave decoration */}
