@@ -1,8 +1,9 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
 import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
+import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
 
 export default function SettingsPage() {
@@ -36,7 +37,7 @@ export default function SettingsPage() {
   ]
 
   return (
-    <div style={{ height: '100dvh', overflowY: 'auto' }}>
+    <div style={{ minHeight: '100dvh', overflowY: 'auto' }}>
       <TopNav />
 
       <div style={{
@@ -45,81 +46,101 @@ export default function SettingsPage() {
         paddingTop: 'calc(var(--pnav-h) + 28px)',
         paddingLeft: 24,
         paddingRight: 24,
-        paddingBottom: 60,
+        paddingBottom: TAB_BAR_HEIGHT + 32,
         boxSizing: 'border-box',
       }}>
 
-        {/* ── Header ───────────────────────────────────────────────────── */}
+        {/* Header */}
         <div style={{ marginBottom: 32 }}>
           <p style={{
-            fontSize: 'clamp(2rem, 9vw, 2.8rem)',
-            fontWeight: 900,
-            letterSpacing: '-0.02em',
-            lineHeight: 1,
-            color: 'var(--pt)',
-            margin: 0,
+            fontSize: 38, fontWeight: 900,
+            letterSpacing: '-0.04em', lineHeight: 1,
+            color: '#1C1C1E', margin: 0,
             fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
             Profile
           </p>
           <p style={{
-            fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
-            fontWeight: 400,
-            color: 'var(--pm)',
-            marginTop: 10,
-            lineHeight: 1.6,
+            fontSize: 14, color: '#6E6E73',
+            margin: '8px 0 0', lineHeight: 1.5,
+            fontWeight: 400, letterSpacing: '-0.01em',
           }}>
-            {t('settings_desc')}
+            나에게 맞는 학습 환경을 설정하세요.
           </p>
-          <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>
 
-        {/* ── Settings rows — glass card ──────────────────────────────── */}
-        <div className="glass-card" style={{ overflow: 'hidden' }}>
+        {/* Settings card */}
+        <div style={{
+          background: 'rgba(255,255,255,0.92)',
+          backdropFilter: 'blur(24px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          borderRadius: 30,
+          border: '1px solid rgba(255,255,255,0.85)',
+          boxShadow: '0 12px 36px rgba(40,40,60,0.08), 0 2px 8px rgba(40,40,60,0.04)',
+          overflow: 'hidden',
+        }}>
           {HUBS.map(({ icon: Icon, label, desc, href }, idx) => (
             <Link
               key={href}
               href={href}
               style={{
                 display: 'flex', alignItems: 'center', gap: 16,
-                padding: '18px 20px',
+                padding: '20px 24px',
                 textDecoration: 'none',
-                borderBottom: idx < HUBS.length - 1 ? '1px solid rgba(60,60,67,0.08)' : 'none',
-                transition: 'background 0.12s',
+                borderBottom: idx < HUBS.length - 1 ? '1px solid rgba(230,232,236,0.9)' : 'none',
+                transition: 'filter 0.15s, transform 0.15s',
+                minHeight: 84,
+                boxSizing: 'border-box',
               }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(109,141,255,0.06)')}
-              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'transparent')}
+              onMouseEnter={e => {
+                const el = e.currentTarget as HTMLElement
+                el.style.filter = 'brightness(0.98)'
+                el.style.transform = 'scale(0.99)'
+              }}
+              onMouseLeave={e => {
+                const el = e.currentTarget as HTMLElement
+                el.style.filter = 'brightness(1)'
+                el.style.transform = 'scale(1)'
+              }}
             >
               <div style={{
-                width: 36, height: 36, borderRadius: 10,
-                background: 'var(--pal)',
+                width: 40, height: 40, borderRadius: 13,
+                background: 'rgba(255,255,255,0.7)',
+                border: '1px solid rgba(220,225,235,0.8)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0,
+                boxShadow: '0 1px 4px rgba(40,40,60,0.05)',
               }}>
-                <Icon style={{ width: 17, height: 17, color: 'var(--pa)' }} strokeWidth={1.5} />
+                <Icon style={{ width: 18, height: 18, color: '#6E6E73' }} strokeWidth={1.6} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.01em' }}>
+                <p style={{
+                  fontSize: 15.5, fontWeight: 700,
+                  color: '#1C1C1E', margin: '0 0 2px',
+                  letterSpacing: '-0.01em',
+                }}>
                   {label}
                 </p>
-                <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{desc}</p>
+                <p style={{
+                  fontSize: 12, color: '#6E6E73',
+                  margin: 0, fontWeight: 500,
+                  lineHeight: 1.4,
+                }}>
+                  {desc}
+                </p>
               </div>
-              <ChevronRight style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.4} />
+              <ChevronRight style={{ width: 14, height: 14, color: '#8E8E93', flexShrink: 0 }} strokeWidth={1.8} />
             </Link>
           ))}
         </div>
 
-        {/* ── Footer ───────────────────────────────────────────────────── */}
-        <div style={{ marginTop: 64, textAlign: 'center' }}>
+        {/* Footer version */}
+        <div style={{ marginTop: 48, textAlign: 'center' }}>
           <p style={{
-            fontSize: 15, fontWeight: 900, letterSpacing: '0.06em',
-            color: 'var(--pa)', margin: '0 0 5px', opacity: 0.7,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+            fontSize: 11, color: '#B0B3B8', fontWeight: 500,
+            margin: 0, letterSpacing: '0.02em',
           }}>
-            PATTO
-          </p>
-          <p style={{ fontSize: 8, letterSpacing: '0.22em', color: 'var(--pm2)', margin: 0 }}>
-            PATTERNS. STORIES. YOU.
+            v1.0.0
           </p>
         </div>
 
