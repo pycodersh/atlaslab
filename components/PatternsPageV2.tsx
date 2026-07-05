@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   ChevronLeft, ChevronRight, Volume2, Square,
-  Bookmark, ChevronDown, Check,
+  Bookmark, Check,
 } from 'lucide-react'
 
 import type { MagazineStory } from '@/types/magazine'
@@ -21,6 +21,13 @@ import { useT } from '@/hooks/useT'
 
 // ── Timing constants ──────────────────────────────────────────────────────────
 const EXAMPLE_PAUSE_MS = 1800
+
+const STORY_ILLUSTRATIONS: Record<number, string> = {
+  1: '🌱', 2: '👋', 3: '☀️', 4: '🌙', 5: '☕',
+  6: '🔀', 7: '🏔️', 8: '✈️', 9: '🎒', 10: '📚',
+  11: '💬', 12: '🎁', 13: '📅', 14: '🏥', 15: '🏦',
+  16: '🛒', 17: '🏨', 18: '🚕', 19: '🌤️', 20: '🏃',
+}
 const DEV = process.env.NODE_ENV === 'development'
 
 type Props = {
@@ -93,7 +100,7 @@ export function PatternsPageV2({
 
   // ── UI state ───────────────────────────────────────────────────────────────
   const [studyMode,     setStudyMode]    = useState<StudyMode>('en-ko')
-  const [examplesOpen,  setExamplesOpen] = useState(false)
+  // examplesOpen removed — examples always visible in list style
   const [bookmarked,    setBookmarked]   = useState(false)
   const [phase,         setPhase]        = useState<Phase>('idle')
   // revealedExSet: keys of form `${patIdx}-${exIdx}` revealed in KR mode
@@ -393,207 +400,132 @@ export function PatternsPageV2({
 
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
+            {/* ── Pattern card — PatternDetail style ── */}
+            <div className="glass-card" style={{ padding: '20px 22px 24px' }}>
 
-            {/* ── Pattern section — glass card ── */}
-            <div className="glass-card" style={{
-              padding: '20px 20px 18px',
-              marginBottom: 20,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 16,
-            }}>
-              <div style={{ width: 80, height: 80, flexShrink: 0 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`/images/patterns/${pattern.id}.svg`}
-                  alt="" aria-hidden="true"
-                  style={{ width: 80, height: 80, objectFit: 'contain' }}
-                />
-              </div>
-              <div style={{ minWidth: 0 }}>
-                <p style={{
-                  fontSize: '1.55rem', fontWeight: 800,
-                  color: 'var(--pt)', lineHeight: 1.15,
-                  margin: '0 0 6px', letterSpacing: '-0.01em',
-                }}>
-                  {pattern.pattern}
-                </p>
-                {patternMeaning && (
-                  <p style={{
-                    fontSize: '0.9rem', fontWeight: 600,
-                    color: 'var(--pa)', margin: 0,
-                    letterSpacing: '0.01em',
-                  }}>
-                    {patternMeaning}
+              {/* Illustration + pattern header */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                <div style={{ flex: 1, paddingRight: 12 }}>
+                  <p style={{ fontSize: 10, letterSpacing: '0.22em', fontWeight: 700, color: 'var(--pa)', marginBottom: 5 }}>
+                    {String(patIdx + 1).padStart(2, '0')}
                   </p>
-                )}
-              </div>
-            </div>
-
-            {/* ── Example display — text on left, speaker on right ── */}
-            <div className="min-h-[90px] mb-5 px-2">
-              <div className="flex items-start gap-3">
-                <div className="flex-1 min-w-0">
-                  {showEnglish ? (
-                    <p className="text-[0.9rem] leading-[1.9] text-[var(--pt)] mb-1">
-                      {example?.en}
-                    </p>
-                  ) : (
-                    /* KR mode: tappable skeleton to reveal English */
-                    <button
-                      type="button"
-                      onClick={() => revealEx(patIdx, exIdx)}
-                      aria-label="Reveal English"
-                      className="w-full text-left cursor-pointer group/reveal"
-                      style={{ background: 'none', border: 'none', padding: 0 }}
-                    >
-                      <div className="mb-1 space-y-2 pt-1">
-                        <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:bg-[var(--pa)] group-hover/reveal:opacity-30 transition-colors" style={{ width: '80%' }} />
-                        <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:bg-[var(--pa)] group-hover/reveal:opacity-30 transition-colors" style={{ width: '60%' }} />
-                      </div>
-                      <span className="text-[9px] tracking-[0.15em] text-[var(--pm2)] font-semibold opacity-0 group-hover/reveal:opacity-100 transition-opacity">
-                        TAP TO REVEAL
-                      </span>
-                    </button>
-                  )}
-                  {showKorean && translationTx && (
-                    <p className="text-[0.78rem] text-[var(--pm)] leading-relaxed mt-1">
-                      {translationTx}
+                  <p style={{ fontSize: '1.55rem', fontWeight: 800, color: 'var(--pt)', lineHeight: 1.15, margin: '0 0 6px', letterSpacing: '-0.01em' }}>
+                    {pattern.pattern}
+                  </p>
+                  {patternMeaning && (
+                    <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--pa)', margin: 0 }}>
+                      {patternMeaning}
                     </p>
                   )}
                 </div>
+                <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--pal)', border: '1px solid var(--pacb)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>
+                  {STORY_ILLUSTRATIONS[story.id] ?? '✨'}
+                </div>
+              </div>
 
-                {/* Speaker — plays current pattern's examples only */}
+              {/* Audio + Save buttons */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
                 <button
                   type="button"
                   onClick={playPatternExamples}
                   aria-label={isPlaying ? '정지' : '예문 듣기'}
-                  className={`shrink-0 mt-1 p-1.5 rounded-full transition-colors cursor-pointer ${
-                    isPlaying
-                      ? 'text-[var(--pa)] bg-[var(--pal)]'
-                      : 'text-[var(--pm2)] hover:text-[var(--pa)] hover:bg-[var(--pal)]'
-                  }`}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 5,
+                    padding: '5px 12px', borderRadius: 9999, border: 'none',
+                    cursor: 'pointer', fontSize: 11, fontWeight: 700,
+                    background: isPlaying ? 'var(--pa)' : 'var(--pal)',
+                    color: isPlaying ? 'white' : 'var(--pa)',
+                    transition: 'all 0.15s',
+                  }}
                 >
                   {isPlaying
-                    ? <Square className="w-4 h-4 fill-current" />
-                    : <Volume2 className="w-4 h-4" strokeWidth={1.8} />}
+                    ? <Square style={{ width: 12, height: 12 }} fill="currentColor" strokeWidth={0} />
+                    : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
+                  {isPlaying ? '정지' : '전체 듣기'}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleBookmark}
+                  aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 5,
+                    padding: '5px 12px', borderRadius: 9999,
+                    border: `1px solid ${bookmarked ? 'var(--pa)' : 'var(--pd)'}`,
+                    cursor: 'pointer', fontSize: 11, fontWeight: 700,
+                    background: bookmarked ? 'var(--pa)' : 'transparent',
+                    color: bookmarked ? 'white' : 'var(--pm2)',
+                    transition: 'all 0.15s',
+                  }}
+                >
+                  <Bookmark style={{ width: 12, height: 12 }} strokeWidth={2} fill={bookmarked ? 'currentColor' : 'none'} />
+                  {bookmarked ? 'Saved' : 'Save Pattern'}
                 </button>
               </div>
-            </div>
 
-            {/* Example indicator dots — centered */}
-            <div className="flex items-center justify-center gap-1.5 mb-1">
-              {examples.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => navigateTo(patIdx, i)}
-                  aria-label={`Example ${i + 1}`}
-                  className="cursor-pointer py-1"
-                >
-                  <span
-                    className="block rounded-full transition-all duration-200"
-                    style={{
-                      width:  i === exIdx ? 18 : 6,
-                      height: 6,
-                      background: i === exIdx || doneMask.has(i) ? 'var(--pa)' : 'var(--pd)',
-                      opacity: doneMask.has(i) && i !== exIdx ? 0.4 : 1,
-                    }}
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
+              {/* Pattern Note */}
+              {patternNote && (
+                <>
+                  <div style={{ height: 1, background: 'var(--pd)', marginBottom: 12 }} />
+                  <p style={{ fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, color: 'var(--pa)', marginBottom: 6 }}>
+                    PATTERN NOTE
+                  </p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--pm)', lineHeight: 1.8, whiteSpace: 'pre-line', marginBottom: 4 }}>
+                    {patternNote}
+                  </p>
+                </>
+              )}
 
-          {/* ── Examples list (collapsible) ── */}
-          <div className="border-t border-[var(--pd)] mt-4">
-            <button
-              type="button"
-              onClick={() => setExamplesOpen(v => !v)}
-              className="w-full flex items-center justify-between py-3 cursor-pointer"
-              aria-label={examplesOpen ? 'Collapse examples' : 'Expand examples'}
-            >
-              <span className="text-[10px] tracking-[0.15em] font-bold text-[var(--pm)]">
-                Examples ({examples.length})
-              </span>
-              <ChevronDown
-                className="w-4 h-4 text-[var(--pm2)] transition-transform duration-200"
-                style={{ transform: examplesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                strokeWidth={1.5}
-              />
-            </button>
+              {/* Divider before examples */}
+              <div style={{ height: 1, background: 'var(--pd)', margin: '12px 0 6px' }} />
 
-            <div style={{
-              display: 'grid',
-              gridTemplateRows: examplesOpen ? '1fr' : '0fr',
-              transition: 'grid-template-rows 230ms cubic-bezier(0.4,0,0.2,1)',
-            }}>
-              <div style={{ overflow: 'hidden' }}>
-                {/* Pattern Note → Bookmark → Examples */}
-                {examplesOpen && (
-                  <div className="pb-3 mb-1">
-                    {patternNote && (
-                      <div className="mb-3">
-                        <p className="text-[9px] tracking-[0.2em] font-bold text-[var(--pa)] mb-1.5">
-                          PATTERN NOTE
-                        </p>
-                        <p className="text-[0.8rem] text-[var(--pm)] leading-[1.8] whitespace-pre-line">
-                          {patternNote}
-                        </p>
-                      </div>
-                    )}
-                    <button
-                      type="button"
-                      onClick={handleBookmark}
-                      aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
-                      className={`inline-flex items-center gap-1.5 text-[11px] font-bold tracking-wide px-3 py-1.5 rounded-full transition-colors cursor-pointer border ${
-                        bookmarked
-                          ? 'bg-[var(--pa)] text-white border-[var(--pa)]'
-                          : 'text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)]'
-                      }`}
-                    >
-                      <Bookmark
-                        className="w-3 h-3"
-                        strokeWidth={2}
-                        fill={bookmarked ? 'currentColor' : 'none'}
-                      />
-                      {bookmarked ? 'Saved' : 'Save Pattern'}
-                    </button>
-                    <div className="mt-3 border-t border-[var(--pd)]" />
-                  </div>
-                )}
-
-                <div className="pb-5 space-y-1">
-                  {examples.map((ex, i) => (
+              {/* Examples list — all 3, clickable, active highlighted */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                {examples.map((ex, i) => {
+                  const isActive = i === exIdx
+                  const exRevealed = revealedExSet.has(`${patIdx}-${i}`)
+                  const showExEn = studyMode === 'en' || studyMode === 'en-ko' || exRevealed
+                  const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
+                  return (
                     <button
                       key={i}
                       type="button"
                       onClick={() => navigateTo(patIdx, i)}
                       className={`w-full flex items-start gap-3 text-left rounded-xl px-3 py-2.5 transition-colors cursor-pointer ${
-                        i === exIdx ? 'bg-[var(--pal)]' : 'hover:bg-[var(--pc2)]'
+                        isActive ? 'bg-[var(--pal)]' : 'hover:bg-[var(--pc2)]'
                       }`}
                     >
-                      <span className="shrink-0 w-4 h-4 flex items-center justify-center mt-0.5">
+                      <span className="shrink-0 w-5 h-5 flex items-center justify-center mt-0.5">
                         {doneMask.has(i) ? (
                           <Check className="w-3.5 h-3.5 text-[var(--pa)]" strokeWidth={2.5} />
-                        ) : i === exIdx ? (
+                        ) : isActive ? (
                           <span className="w-2 h-2 rounded-full bg-[var(--pa)]" />
                         ) : (
-                          <span className="w-2 h-2 rounded-full border border-[var(--pd2,var(--pd))]" />
+                          <span className="w-2 h-2 rounded-full border border-[var(--pd)]" />
                         )}
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[0.8rem] text-[var(--pt)] leading-snug">{ex.en}</p>
-                        {showKorean &&
-                          resolveTranslation(ex.ko, prefs.language, ex.translations) && (
-                            <p className="text-[0.7rem] text-[var(--pm)] mt-0.5 leading-snug">
-                              {resolveTranslation(ex.ko, prefs.language, ex.translations)}
-                            </p>
-                          )}
+                        {showExEn ? (
+                          <p className="text-[0.85rem] font-medium text-[var(--pt)] leading-snug">{ex.en}</p>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); revealEx(patIdx, i) }}
+                            className="w-full text-left cursor-pointer"
+                            style={{ background: 'none', border: 'none', padding: 0 }}
+                          >
+                            <div className="space-y-1.5 py-0.5">
+                              <div className="h-3 rounded-md bg-[var(--pd)]" style={{ width: '85%' }} />
+                              <div className="h-3 rounded-md bg-[var(--pd)]" style={{ width: '55%' }} />
+                            </div>
+                          </button>
+                        )}
+                        {showKorean && exKo && (
+                          <p className="text-[0.75rem] text-[var(--pm)] mt-0.5 leading-snug">{exKo}</p>
+                        )}
                       </div>
                     </button>
-                  ))}
-                </div>
+                  )
+                })}
               </div>
             </div>
           </div>
