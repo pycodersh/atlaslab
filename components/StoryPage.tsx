@@ -282,7 +282,7 @@ export function StoryPage({
             }}
           >
             {/* EN / KO button — top right inside card */}
-            <div style={{ position: 'absolute', top: 14, right: 14, zIndex: 1 }}>
+            <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 1 }}>
               <button
                 type="button"
                 onClick={cycleStudyMode}
@@ -304,8 +304,8 @@ export function StoryPage({
               </button>
             </div>
 
-            {/* Paragraphs */}
-            <div style={{ padding: '20px 28px 8px' }}>
+            {/* Paragraphs — paddingTop pushes content below the floating EN button */}
+            <div style={{ padding: '56px 28px 8px' }}>
               <div className="space-y-5">
                 {story.paragraphs.map((para) => {
                   const isPlaying    = playingParaId === para.id
