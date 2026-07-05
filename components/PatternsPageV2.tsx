@@ -406,16 +406,14 @@ export function PatternsPageV2({
               <div style={{
                 position: 'relative', overflow: 'hidden',
                 padding: '18px 20px 16px',
-                background: 'rgba(18, 22, 42, 0.10)',
-                backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-                borderBottom: '1px solid rgba(255,255,255,0.12)',
+                background: 'linear-gradient(135deg, rgba(245,248,255,0.95), rgba(226,238,255,0.62), rgba(255,255,255,0.92))',
+                borderBottom: '1px solid rgba(220,230,255,0.40)',
               }}>
-                {/* Wave decoration */}
+                {/* Wave line — light flow, opacity ≤ 0.25 */}
                 <div style={{
                   position: 'absolute',
-                  bottom: -20, left: '-10%', right: '-10%', height: 60,
-                  background: 'rgba(255,255,255,1)',
-                  borderRadius: '50%', opacity: 0.05,
+                  top: '38%', left: '-5%', right: '-5%', height: 1,
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.22), rgba(200,215,255,0.18), transparent)',
                   pointerEvents: 'none',
                 }} />
 
@@ -444,7 +442,7 @@ export function PatternsPageV2({
 
                 {/* Pattern number */}
                 <p style={{
-                  fontSize: '0.68rem', fontWeight: 500, color: '#9B9B9B',
+                  fontSize: '0.68rem', fontWeight: 600, color: '#6E6E73',
                   margin: '0 0 6px', letterSpacing: '0.04em',
                   fontFamily: '"SF Mono", "Fira Mono", "Courier New", monospace',
                   position: 'relative',
@@ -453,17 +451,17 @@ export function PatternsPageV2({
                 </p>
                 {/* Pattern title */}
                 <p style={{
-                  fontSize: '2.0rem', fontWeight: 800, color: '#F6F6F4',
+                  fontSize: '2.0rem', fontWeight: 800, color: '#FCFCFC',
                   lineHeight: 1.15, margin: '0 0 6px', letterSpacing: '-0.02em',
                   fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-                  textShadow: '0 2px 10px rgba(0,0,0,0.17)',
+                  textShadow: '0 2px 10px rgba(80,80,80,0.18), 0 0 1px rgba(255,255,255,0.6)',
                   position: 'relative',
                 }}>
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
                   <p style={{
-                    fontSize: 12, fontWeight: 400, color: 'rgba(236,237,239,0.80)',
+                    fontSize: 12, fontWeight: 600, color: '#5F6368',
                     margin: 0, letterSpacing: '0.01em',
                   }}>
                     {patternMeaning}
@@ -492,9 +490,10 @@ export function PatternsPageV2({
                         style={{
                           padding: '5px 12px', borderRadius: 8, border: 'none', cursor: 'pointer',
                           fontSize: 10, fontWeight: 600, letterSpacing: '0.06em',
-                          background: studyMode === mode ? 'rgba(255,255,255,0.85)' : 'transparent',
-                          color: studyMode === mode ? '#3A3A3C' : '#9B9B9B',
-                          transition: 'background 0.18s, color 0.18s',
+                          background: studyMode === mode ? 'rgba(255,255,255,0.75)' : 'transparent',
+                          color: studyMode === mode ? '#1C1C1E' : '#6E6E73',
+                          boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.07)' : 'none',
+                          transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
                         }}
                       >
                         {STUDY_LABEL[mode]}
@@ -508,11 +507,10 @@ export function PatternsPageV2({
                     aria-label={isPlaying ? '정지' : '예문 듣기'}
                     style={{
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                      width: 34, height: 34, borderRadius: 999, border: 'none', cursor: 'pointer',
-                      background: 'rgba(255,255,255,0.50)',
-                      backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                      border: '1px solid rgba(255,255,255,0.65)',
-                      color: isPlaying ? '#8F234B' : '#6B6E76',
+                      width: 34, height: 34, borderRadius: 999, cursor: 'pointer',
+                      background: 'rgba(255,255,255,0.62)',
+                      border: '1px solid rgba(220,225,235,0.8)',
+                      color: '#5F6368',
                       transition: 'filter 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
                     onPointerDown={e => { e.currentTarget.style.filter = 'brightness(1.08)' }}

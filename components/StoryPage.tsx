@@ -275,33 +275,39 @@ export function StoryPage({
         <div style={{ padding: '14px 16px 40px' }}>
           <div
             className="glass-card"
-            style={{ borderRadius: 20 }}
+            style={{ borderRadius: 20, position: 'relative' }}
           >
-            {/* EN / KO button row — in flow, right-aligned */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px 20px 0' }}>
-              <button
-                type="button"
-                onClick={cycleStudyMode}
-                aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
-                style={{
-                  fontSize: 9, fontWeight: 700, letterSpacing: '0.10em',
-                  padding: '4px 10px', borderRadius: 999, cursor: 'pointer',
-                  background: 'rgba(255,255,255,0.45)',
-                  backdropFilter: 'blur(20px)',
-                  WebkitBackdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255,255,255,0.70)',
-                  color: '#555A61',
-                  transition: 'filter 0.15s',
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(1.08)' }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(1)' }}
-              >
-                {STUDY_LABEL[studyMode]}
-              </button>
+            {/* Segmented Control — absolute top-right, does not reduce text width */}
+            <div style={{ position: 'absolute', top: 14, right: 16, zIndex: 2 }}>
+              <div style={{
+                display: 'inline-flex', borderRadius: 10,
+                background: 'rgba(255,255,255,0.50)',
+                backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid rgba(255,255,255,0.65)',
+                padding: 2,
+              }}>
+                {STUDY_CYCLE.map(mode => (
+                  <button
+                    key={mode}
+                    type="button"
+                    onClick={() => setStudyMode(mode)}
+                    style={{
+                      padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                      fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                      background: studyMode === mode ? 'rgba(255,255,255,0.75)' : 'transparent',
+                      color: studyMode === mode ? '#1C1C1E' : '#6E6E73',
+                      boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.07)' : 'none',
+                      transition: 'background 0.18s, color 0.18s',
+                    }}
+                  >
+                    {STUDY_LABEL[mode]}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Paragraphs — merged into 2 display blocks (3+2) */}
-            <div style={{ padding: '12px 28px 8px' }}>
+            {/* Paragraphs — merged into 2 display blocks (3+2), full card width */}
+            <div style={{ padding: '48px 28px 8px' }}>
               {(() => {
                 const all = story.paragraphs
                 const split = Math.ceil(all.length / 2)
