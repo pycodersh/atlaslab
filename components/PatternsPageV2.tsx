@@ -375,19 +375,16 @@ export function PatternsPageV2({
           <div ref={swipeRef}>
             <div className="glass-card" style={{ overflow: 'hidden', borderRadius: 20, padding: 0 }}>
 
-              {/* ── Card header — subtle aurora glass tint ── */}
+              {/* ── Card header — pure glass, no color tint ── */}
               <div style={{
-                background: 'linear-gradient(135deg, rgba(100,118,200,0.14) 0%, rgba(148,128,210,0.10) 100%)',
-                borderRadius: '20px 20px 0 0',
                 padding: '18px 20px 16px',
-                position: 'relative',
-                overflow: 'hidden',
+                borderBottom: '1px solid rgba(0,0,0,0.06)',
               }}>
                 {/* Number + Bookmark row */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                   <span style={{
                     fontSize: 9, letterSpacing: '0.22em', fontWeight: 600,
-                    color: 'rgba(255,255,255,0.55)',
+                    color: 'var(--pm2)',
                   }}>
                     {String(globalPatternNum).padStart(3, '0')}
                   </span>
@@ -397,7 +394,7 @@ export function PatternsPageV2({
                     aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
                     style={{
                       background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                      color: bookmarked ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.45)',
+                      color: bookmarked ? '#C08B30' : 'var(--pm2)',
                       transition: 'color 0.15s',
                     }}
                   >
@@ -411,15 +408,15 @@ export function PatternsPageV2({
 
                 {/* Pattern text */}
                 <p style={{
-                  fontSize: '1.55rem', fontWeight: 800, color: '#F6F6F7',
+                  fontSize: '1.55rem', fontWeight: 800, color: 'var(--pt)',
                   lineHeight: 1.2, margin: '0 0 8px', letterSpacing: '-0.01em',
-                  textShadow: '0 2px 10px rgba(0,0,0,.18)',
+                  textShadow: '0 1px 0 rgba(255,255,255,.75)',
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                 }}>
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
-                  <p style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.65)', margin: 0 }}>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--pm)', margin: 0 }}>
                     {patternMeaning}
                   </p>
                 )}
