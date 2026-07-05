@@ -163,7 +163,6 @@ export default function HomePage() {
           {/* Bottom content */}
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 20px 20px' }}>
             <p
-              className="font-playfair"
               style={{
                 fontSize: 26,
                 fontWeight: 900,
@@ -171,6 +170,7 @@ export default function HomePage() {
                 lineHeight: 1.15,
                 color: '#fff',
                 margin: '0 0 6px',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
               }}
             >
               {featuredStory.title}
@@ -217,16 +217,14 @@ export default function HomePage() {
           margin: '14px 20px 0',
         }}>
           {/* Streak */}
-          <div style={{
-            background: 'var(--pc)',
-            borderRadius: 16,
+          <div className="glass-card-sm" style={{
             padding: '14px 16px',
             display: 'flex',
             flexDirection: 'column',
             gap: 4,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <Flame style={{ width: 14, height: 14, color: '#E67E22' }} strokeWidth={2} />
+              <Flame style={{ width: 14, height: 14, color: '#E06030' }} strokeWidth={2} />
               <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--pm)', letterSpacing: '0.04em' }}>
                 Streak
               </span>
@@ -237,9 +235,7 @@ export default function HomePage() {
           </div>
 
           {/* Mission progress */}
-          <div style={{
-            background: 'var(--pc)',
-            borderRadius: 16,
+          <div className="glass-card-sm" style={{
             padding: '14px 16px',
             display: 'flex',
             flexDirection: 'column',
@@ -257,9 +253,7 @@ export default function HomePage() {
           </div>
 
           {/* Stories */}
-          <div style={{
-            background: 'var(--pc)',
-            borderRadius: 16,
+          <div className="glass-card-sm" style={{
             padding: '14px 16px',
             display: 'flex',
             flexDirection: 'column',
@@ -316,9 +310,10 @@ export default function HomePage() {
         {/* ── Story Grid ──────────────────────────────────────────────────── */}
         <div style={{ padding: '16px 20px 0' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <p className="font-playfair" style={{
-              fontSize: 18, fontWeight: 900,
+            <p style={{
+              fontSize: 18, fontWeight: 800,
               color: 'var(--pt)', margin: 0, letterSpacing: '-0.01em',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
             }}>
               Stories
             </p>
@@ -349,12 +344,12 @@ export default function HomePage() {
                   tabIndex={0}
                   onClick={() => router.push(`/stories/${story.id}`)}
                   onKeyDown={e => e.key === 'Enter' && router.push(`/stories/${story.id}`)}
+                  className="glass-card-sm"
                   style={{
-                    borderRadius: 16,
                     overflow: 'hidden',
                     cursor: 'pointer',
-                    background: 'var(--pc)',
                     position: 'relative',
+                    borderRadius: 18,
                   }}
                 >
                   {/* Image */}

@@ -7,10 +7,10 @@ type AppShellProps = {
 
 export function AppShell({ children, hideNav = false }: AppShellProps) {
   return (
-    <div className="min-h-dvh bg-[#F5F8FF] text-[#1F2937]">
+    <div className="min-h-dvh text-[var(--pt)]">
       <main className={hideNav
         ? "mx-auto min-h-dvh w-full max-w-md px-5 pb-6 pt-6"
-        : "mx-auto min-h-dvh w-full max-w-md px-5 pb-28 pt-6"
+        : "mx-auto min-h-dvh w-full max-w-md px-5 pb-32 pt-6"
       }>
         {children}
       </main>

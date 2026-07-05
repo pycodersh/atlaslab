@@ -2,57 +2,63 @@
 
 /* ── PATTO Design Tokens ─────────────────────────────────────────────── */
 :root {
-  /* iOS Clean Magazine — Light */
-  --pb:   #FFFFFF;                    /* page background */
-  --pc:   #F2F2F7;                    /* card surface (iOS system gray 6) */
-  --pc2:  #F8F8FA;                    /* card surface 2 */
-  --pd:   rgba(60,60,67,0.12);        /* divider / border (iOS separator) */
-  --pd2:  rgba(60,60,67,0.08);        /* divider 2 */
-  --pw:   #FFFFFF;                    /* white surface */
-  --pt:   #000000;                    /* primary text */
-  --pt2:  #1C1C1E;                    /* secondary text */
-  --pm:   #6E6E73;                    /* muted text (iOS label secondary) */
-  --pm2:  #AEAEB2;                    /* very muted text (iOS label tertiary) */
-  --pa:   #8B2246;                    /* accent / point */
-  --pal:  #FDF0F4;                    /* accent light bg */
-  --pacb: #F0C0CC;                    /* accent card border */
-  --pnav: rgb(255 255 255 / 0.94);   /* nav blur bg */
+  /* Soft Aurora — Light */
+  --pb:   #FAFAFA;                       /* page background (near-white) */
+  --pc:   rgba(255,255,255,0.72);        /* glass card surface */
+  --pc2:  rgba(255,255,255,0.55);        /* glass card surface 2 */
+  --pd:   rgba(60,60,67,0.10);           /* divider / border */
+  --pd2:  rgba(60,60,67,0.06);           /* divider 2 */
+  --pw:   #FFFFFF;                       /* white surface */
+  --pt:   #1A1A1A;                       /* primary text — near black */
+  --pt2:  #2D2D2D;                       /* secondary text */
+  --pm:   #6B6B80;                       /* muted text */
+  --pm2:  #ADADBC;                       /* very muted text */
+  --pa:   #7A1E3F;                       /* Deep Burgundy primary */
+  --pa2:  #E8A0B4;                       /* Soft Pink accent */
+  --pal:  rgba(122,30,63,0.06);          /* accent light bg */
+  --pacb: rgba(122,30,63,0.15);          /* accent card border */
+  --pnav: rgba(255,255,255,0.82);        /* nav blur bg */
+  --pglass: rgba(255,255,255,0.72);      /* glass panel bg */
+  --pglass-border: rgba(255,255,255,0.85); /* glass border */
   /* Heatmap */
-  --ph0: #E5E5EA;
-  --ph1: #C9799A;
-  --ph2: #A6385E;
-  --ph3: #8B2246;
-  /* Nav height including iOS safe-area-inset-top (non-zero in viewport-fit:cover PWA mode) */
+  --ph0: #EBEBF0;
+  --ph1: #D4A0B4;
+  --ph2: #B05C7C;
+  --ph3: #7A1E3F;
+  /* Nav height including iOS safe-area-inset-top */
   --pnav-h: calc(60px + env(safe-area-inset-top, 0px));
-  /* Bottom tab bar height */
-  --pbnav-h: calc(64px + env(safe-area-inset-bottom, 0px));
+  /* Bottom tab bar height — floating nav */
+  --pbnav-h: calc(72px + env(safe-area-inset-bottom, 0px));
 }
 
 .dark {
-  /* iOS Dark Magazine */
-  --pb:   #000000;
-  --pc:   #1C1C1E;
-  --pc2:  #2C2C2E;
-  --pd:   rgba(255,255,255,0.12);
-  --pd2:  rgba(255,255,255,0.08);
-  --pw:   #1C1C1E;
-  --pt:   #FFFFFF;
-  --pt2:  #EBEBF5;
-  --pm:   #8E8E93;
-  --pm2:  #48484A;
-  --pa:   #C05478;
-  --pal:  #2A1820;
-  --pacb: #4A2030;
-  --pnav: rgb(0 0 0 / 0.94);
+  /* Deep Aurora — Dark */
+  --pb:   #0E0E12;
+  --pc:   rgba(30,30,42,0.75);
+  --pc2:  rgba(40,40,55,0.65);
+  --pd:   rgba(255,255,255,0.10);
+  --pd2:  rgba(255,255,255,0.06);
+  --pw:   #18181E;
+  --pt:   #F2F2F5;
+  --pt2:  #E0E0EA;
+  --pm:   #8E8EA8;
+  --pm2:  #4A4A5E;
+  --pa:   #C0547A;
+  --pa2:  #E8A0B4;
+  --pal:  rgba(192,84,122,0.12);
+  --pacb: rgba(192,84,122,0.25);
+  --pnav: rgba(14,14,18,0.85);
+  --pglass: rgba(22,22,32,0.78);
+  --pglass-border: rgba(255,255,255,0.08);
   /* Heatmap */
-  --ph0: #2C2C2E;
-  --ph1: #8B3560;
-  --ph2: #A0325A;
-  --ph3: #C05478;
+  --ph0: #2A2A38;
+  --ph1: #6B3055;
+  --ph2: #A03060;
+  --ph3: #C0547A;
 }
 
 @theme inline {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", Arial, sans-serif;
   --font-mono: "Courier New", Courier, monospace;
   --font-playfair: var(--font-playfair);
 }
@@ -67,70 +73,113 @@ html {
 
 body {
   min-height: 100vh;
-  background: var(--pb);
+  /* Soft Aurora gradient background — almost white, premium atmosphere */
+  background:
+    radial-gradient(ellipse 80% 60% at 15% -5%, rgba(232,228,248,0.40) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 5%,  rgba(210,232,252,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 40% at 50% 95%, rgba(252,228,238,0.30) 0%, transparent 55%),
+    #FAFAFA;
+  background-attachment: fixed;
   color: var(--pt);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
+.dark body, .dark {
+  background:
+    radial-gradient(ellipse 80% 60% at 15% -5%, rgba(60,40,90,0.20) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 5%,  rgba(30,50,90,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 40% at 50% 95%, rgba(80,30,55,0.15) 0%, transparent 55%),
+    #0E0E12;
+  background-attachment: fixed;
+}
+
+/* ── Glass Card ─────────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--pglass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--pglass-border);
+  border-radius: 24px;
+  box-shadow:
+    0 4px 28px rgba(0,0,0,0.06),
+    0 1px 4px rgba(0,0,0,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.glass-card-sm {
+  background: var(--pglass);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid var(--pglass-border);
+  border-radius: 18px;
+  box-shadow:
+    0 2px 16px rgba(0,0,0,0.05),
+    0 1px 3px rgba(0,0,0,0.03),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+/* ── Floating Nav ────────────────────────────────────────────────────── */
+.floating-nav {
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255,255,255,0.95);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.10),
+    0 2px 8px rgba(0,0,0,0.06),
+    inset 0 1px 0 rgba(255,255,255,1);
+}
+
+.dark .floating-nav {
+  background: rgba(18,18,26,0.90);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.40),
+    0 2px 8px rgba(0,0,0,0.20);
+}
+
+/* ── Card transition animations ────────────────────────────────────── */
 @keyframes card-page-turn {
   0%   { opacity: 1; transform: scale(1); }
   50%  { opacity: 0.6; transform: scale(0.96); }
   100% { opacity: 1; transform: scale(1); }
 }
-
 .animate-card-page-turn {
   animation: card-page-turn 460ms ease-in-out;
 }
 
-/* 방향성 카드 전환 애니메이션 */
 @keyframes slide-next {
   0%   { opacity: 1; transform: translateX(0); }
   42%  { opacity: 0; transform: translateX(-48px); }
   58%  { opacity: 0; transform: translateX(48px); }
   100% { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes slide-prev {
   0%   { opacity: 1; transform: translateX(0); }
   42%  { opacity: 0; transform: translateX(48px); }
   58%  { opacity: 0; transform: translateX(-48px); }
   100% { opacity: 1; transform: translateX(0); }
 }
+.animate-slide-next { animation: slide-next 360ms cubic-bezier(0.4,0,0.2,1); }
+.animate-slide-prev { animation: slide-prev 360ms cubic-bezier(0.4,0,0.2,1); }
 
-.animate-slide-next {
-  animation: slide-next 360ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.animate-slide-prev {
-  animation: slide-prev 360ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Apple-style 카드 전환 — translateX + scale (0.30s) */
 @keyframes apple-next {
-  0%   { opacity: 1; transform: translateX(0)     scale(1); }
+  0%   { opacity: 1; transform: translateX(0) scale(1); }
   38%  { opacity: 0; transform: translateX(-68px) scale(0.93); }
-  62%  { opacity: 0; transform: translateX(68px)  scale(0.93); }
-  100% { opacity: 1; transform: translateX(0)     scale(1); }
+  62%  { opacity: 0; transform: translateX(68px) scale(0.93); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
 }
-
 @keyframes apple-prev {
-  0%   { opacity: 1; transform: translateX(0)    scale(1); }
+  0%   { opacity: 1; transform: translateX(0) scale(1); }
   38%  { opacity: 0; transform: translateX(68px) scale(0.93); }
   62%  { opacity: 0; transform: translateX(-68px) scale(0.93); }
-  100% { opacity: 1; transform: translateX(0)    scale(1); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
 }
+.animate-apple-next { animation: apple-next 300ms cubic-bezier(0.4,0,0.2,1); }
+.animate-apple-prev { animation: apple-prev 300ms cubic-bezier(0.4,0,0.2,1); }
 
-.animate-apple-next {
-  animation: apple-next 300ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.animate-apple-prev {
-  animation: apple-prev 300ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-
-/* Home cover animations */
+/* ── Home cover animations ──────────────────────────────────────────── */
 @keyframes fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -142,12 +191,11 @@ body {
 .animate-fade-in { animation: fade-in 0.9s ease forwards; }
 .animate-fade-up { animation: fade-up 0.8s cubic-bezier(0.22,1,0.36,1) forwards; }
 
-/* Image Slider — Ken Burns 효과 */
+/* ── Image Slider Ken Burns ──────────────────────────────────────────── */
 @keyframes pattoKenBurns {
-  from { transform: scale(1.0) translate(0, 0); }
-  to   { transform: scale(1.08) translate(-1%, -0.5%); }
+  from { transform: scale(1.0) translate(0,0); }
+  to   { transform: scale(1.08) translate(-1%,-0.5%); }
 }
-
 @media (prefers-reduced-motion: reduce) {
   @keyframes pattoKenBurns {
     from { transform: scale(1); }

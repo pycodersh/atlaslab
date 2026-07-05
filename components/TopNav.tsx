@@ -31,10 +31,11 @@ export function TopNav() {
       className="fixed top-0 left-0 right-0 z-40"
       style={{
         height: 'var(--pnav-h)',
-        background: 'var(--pnav)',
-        borderBottom: '0.5px solid var(--pd)',
-        backdropFilter: 'blur(24px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        background: 'rgba(250,250,250,0.85)',
+        borderBottom: '0.5px solid rgba(255,255,255,0.8)',
+        backdropFilter: 'blur(28px) saturate(200%)',
+        WebkitBackdropFilter: 'blur(28px) saturate(200%)',
+        boxShadow: '0 1px 16px rgba(0,0,0,0.04)',
       }}
     >
       <div
@@ -48,28 +49,28 @@ export function TopNav() {
         <div>
           {isHome ? (
             <p
-              className="font-playfair"
               style={{
                 fontSize: 22,
                 fontWeight: 900,
                 letterSpacing: '-0.03em',
-                color: 'var(--pt)',
+                color: 'var(--pa)',
                 margin: 0,
                 lineHeight: 1,
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
               }}
             >
               PATTO
             </p>
           ) : (
             <p
-              className="font-playfair"
               style={{
                 fontSize: 20,
-                fontWeight: 900,
+                fontWeight: 800,
                 letterSpacing: '-0.02em',
                 color: 'var(--pt)',
                 margin: 0,
                 lineHeight: 1,
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
               }}
             >
               {meta.title}
@@ -78,15 +79,16 @@ export function TopNav() {
           <p style={{
             fontSize: 10,
             color: 'var(--pm)',
-            margin: '2px 0 0',
+            margin: '3px 0 0',
             letterSpacing: '0.02em',
             lineHeight: 1,
+            fontWeight: 500,
           }}>
             {meta.sub}
           </p>
         </div>
 
-        {/* Right: icons */}
+        {/* Right: icon buttons */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Link
             href="/library"
@@ -94,7 +96,11 @@ export function TopNav() {
             style={{
               width: 36, height: 36, borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'var(--pc)',
+              background: 'rgba(255,255,255,0.80)',
+              border: '1px solid rgba(255,255,255,0.9)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             }}
           >
             <Search style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
@@ -105,7 +111,11 @@ export function TopNav() {
             style={{
               width: 36, height: 36, borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'var(--pc)',
+              background: 'rgba(255,255,255,0.80)',
+              border: '1px solid rgba(255,255,255,0.9)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
             }}
           >
             <User style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />

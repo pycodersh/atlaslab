@@ -188,11 +188,11 @@ export function PatternPracticeCard({
     <div className="py-3">
       {/* Pattern 헤더 */}
       <div className="flex items-start gap-3">
-        <span className="font-playfair text-[1.4rem] font-bold text-[var(--pa)] leading-none shrink-0 pt-1">
+        <span style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--pa)', lineHeight: 1, flexShrink: 0, paddingTop: 4 }}>
           {String(index).padStart(2, '0')}
         </span>
         <div className="flex-1 min-w-0">
-          <p className="font-playfair text-[1.2rem] font-bold text-[var(--pt)] leading-snug">{pattern.pattern}</p>
+          <p style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--pt)', lineHeight: 1.3, letterSpacing: '-0.01em' }}>{pattern.pattern}</p>
           {showTranslation && resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations) && (
             <p className="text-[0.74rem] text-[var(--pa)] mt-0.5">
               {resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations)}

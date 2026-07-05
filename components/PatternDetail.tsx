@@ -29,76 +29,139 @@ export function PatternDetail({
   const { prefs } = usePreferences()
   const voice: VoiceKey = narratorVoice ?? prefs.voice
 
+  // Show only first 3 examples for a cleaner learning flow
+  const displayExamples = examples.slice(0, 3)
+
   return (
-    <div className="min-h-dvh bg-[var(--pb)] flex flex-col">
+    <div style={{ minHeight: '100dvh', background: 'transparent', display: 'flex', flexDirection: 'column' }}>
       {/* 상단 바 */}
-      <div className="flex items-center gap-2 px-5 pt-4 pb-1">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '16px 20px 4px' }}>
         <button
           type="button"
           aria-label="패턴 목록"
           onClick={() => router.push(`/stories/${storyId}?v=p`)}
-          className="p-2 -ml-2 rounded-full text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
+          style={{
+            padding: '8px',
+            marginLeft: -8,
+            borderRadius: '50%',
+            color: 'var(--pm)',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
         >
-          <ChevronLeft className="w-5 h-5" strokeWidth={1.6} />
+          <ChevronLeft style={{ width: 20, height: 20 }} strokeWidth={1.6} />
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto px-7 pb-10">
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 20px 32px' }}>
         {/* ── 학습 흐름 헤더 ── */}
-        <div className="pt-2 pb-6">
-          <p className="text-[10px] tracking-[0.28em] font-bold text-[var(--pa)] mb-1.5">
+        <div style={{ paddingTop: 8, paddingBottom: 20 }}>
+          <p style={{
+            fontSize: 10,
+            letterSpacing: '0.28em',
+            fontWeight: 700,
+            color: 'var(--pa)',
+            marginBottom: 6,
+          }}>
             STORY {String(storyId).padStart(2, '0')}
           </p>
-          <h1 className="font-playfair text-[1.9rem] font-bold text-[var(--pt)] leading-tight mb-3">
+          <h1 style={{
+            fontSize: 28,
+            fontWeight: 800,
+            color: 'var(--pt)',
+            lineHeight: 1.15,
+            marginBottom: 12,
+            letterSpacing: '-0.02em',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+          }}>
             {storyTitle}
           </h1>
-          <div className="flex items-center gap-2.5">
-            <span className="text-[11px] font-bold tracking-[0.05em] text-[var(--pm)]">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: '0.05em',
+              color: 'var(--pm)',
+            }}>
               Pattern {patternIndex} / {patternTotal}
             </span>
-            <div className="flex items-center gap-1">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               {Array.from({ length: patternTotal }).map((_, i) => (
                 <span
                   key={i}
-                  className={[
-                    'block rounded-full transition-colors',
-                    i + 1 === patternIndex ? 'w-4 h-1.5 bg-[var(--pa)]' : 'w-1.5 h-1.5 bg-[var(--pd)]',
-                  ].join(' ')}
+                  style={{
+                    display: 'block',
+                    borderRadius: 9999,
+                    transition: 'all 0.2s ease',
+                    width: i + 1 === patternIndex ? 16 : 6,
+                    height: 6,
+                    background: i + 1 === patternIndex ? 'var(--pa)' : 'var(--pd)',
+                  }}
                 />
               ))}
             </div>
           </div>
         </div>
 
-        {/* 단일 Pattern 카드 (예문 5개 인라인) */}
-        <PatternPracticeCard
-          storyId={storyId}
-          storyTitle={storyTitle}
-          voice={voice}
-          pattern={pattern}
-          examples={examples}
-          index={patternIndex}
-          active
-          onRequestPlay={() => {}}
-        />
+        {/* ── Pattern Card (glass) ── */}
+        <div className="glass-card" style={{ padding: '20px 22px 24px', marginBottom: 12 }}>
+          <PatternPracticeCard
+            storyId={storyId}
+            storyTitle={storyTitle}
+            voice={voice}
+            pattern={pattern}
+            examples={displayExamples}
+            index={patternIndex}
+            active
+            onRequestPlay={() => {}}
+          />
+        </div>
       </div>
 
       {/* ── 하단: 이전 / 다음 Pattern ── */}
-      <div className="shrink-0 border-t border-[var(--pd)] bg-[var(--pb)] py-3 px-5">
-        <div className="flex items-center justify-between">
+      <div style={{
+        flexShrink: 0,
+        padding: '12px 20px',
+        background: 'rgba(250,250,250,0.85)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        borderTop: '0.5px solid rgba(255,255,255,0.8)',
+        boxShadow: '0 -1px 12px rgba(0,0,0,0.04)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <button
             type="button"
             aria-label="이전 패턴"
             onClick={() => prevPid && router.push(`/stories/${storyId}/patterns/${prevPid}`)}
             disabled={!prevPid}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[12px] font-bold transition-colors ${
-              prevPid ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer' : 'text-[var(--pd)] cursor-not-allowed'
-            }`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '8px 14px',
+              borderRadius: 9999,
+              fontSize: 12,
+              fontWeight: 700,
+              border: 'none',
+              cursor: prevPid ? 'pointer' : 'not-allowed',
+              color: prevPid ? 'var(--pm)' : 'var(--pd)',
+              background: prevPid ? 'var(--pal)' : 'transparent',
+              transition: 'all 0.15s ease',
+            }}
           >
-            <ChevronLeft className="w-4 h-4" strokeWidth={1.8} /> 이전 패턴
+            <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={1.8} /> 이전 패턴
           </button>
 
-          <span className="text-[10px] tracking-[0.15em] text-[var(--pm2)] font-semibold">
+          <span style={{
+            fontSize: 10,
+            letterSpacing: '0.15em',
+            color: 'var(--pm2)',
+            fontWeight: 600,
+          }}>
             {patternIndex} / {patternTotal}
           </span>
 
@@ -107,11 +170,22 @@ export function PatternDetail({
             aria-label="다음 패턴"
             onClick={() => nextPid && router.push(`/stories/${storyId}/patterns/${nextPid}`)}
             disabled={!nextPid}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[12px] font-bold transition-colors ${
-              nextPid ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer' : 'text-[var(--pd)] cursor-not-allowed'
-            }`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '8px 14px',
+              borderRadius: 9999,
+              fontSize: 12,
+              fontWeight: 700,
+              border: 'none',
+              cursor: nextPid ? 'pointer' : 'not-allowed',
+              color: nextPid ? 'var(--pm)' : 'var(--pd)',
+              background: nextPid ? 'var(--pal)' : 'transparent',
+              transition: 'all 0.15s ease',
+            }}
           >
-            다음 패턴 <ChevronRight className="w-4 h-4" strokeWidth={1.8} />
+            다음 패턴 <ChevronRight style={{ width: 16, height: 16 }} strokeWidth={1.8} />
           </button>
         </div>
       </div>

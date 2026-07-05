@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 
-export const TAB_BAR_HEIGHT = 64
+export const TAB_BAR_HEIGHT = 72
 
 const TABS = [
   {
@@ -66,27 +67,50 @@ const TABS = [
 
 export function MainTabBar() {
   const pathname = usePathname()
+  const [scrolledDown, setScrolledDown] = useState(false)
+  const lastYRef = useRef(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY
+      if (y > lastYRef.current && y > 60) {
+        setScrolledDown(true)
+      } else if (y < lastYRef.current) {
+        setScrolledDown(false)
+      }
+      lastYRef.current = y
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <nav
+    <div
       style={{
         position: 'fixed',
         bottom: 0,
         left: 0,
         right: 0,
         zIndex: 40,
-        background: 'var(--pnav)',
-        borderTop: '0.5px solid var(--pd)',
-        backdropFilter: 'blur(24px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        display: 'flex',
+        justifyContent: 'center',
+        paddingBottom: 'calc(14px + env(safe-area-inset-bottom, 0px))',
+        paddingTop: 8,
+        pointerEvents: 'none',
       }}
     >
-      <div
+      <nav
+        className="floating-nav"
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(5, 1fr)',
-          height: TAB_BAR_HEIGHT,
+          pointerEvents: 'auto',
+          borderRadius: 9999,
+          padding: scrolledDown ? '8px 20px' : '10px 24px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: scrolledDown ? 4 : 8,
+          transition: 'all 0.28s cubic-bezier(0.34,1.56,0.64,1)',
+          transform: scrolledDown ? 'scale(0.93)' : 'scale(1)',
+          transformOrigin: 'bottom center',
         }}
       >
         {TABS.map((tab) => {
@@ -100,25 +124,30 @@ export function MainTabBar() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 4,
+                gap: scrolledDown ? 2 : 3,
                 textDecoration: 'none',
                 color: isActive ? 'var(--pa)' : 'var(--pm)',
                 transition: 'color 0.15s ease',
+                padding: scrolledDown ? '4px 10px' : '6px 14px',
+                borderRadius: 9999,
+                background: isActive ? 'var(--pal)' : 'transparent',
+                minWidth: scrolledDown ? 44 : 52,
               }}
             >
               {tab.icon(isActive)}
               <span style={{
-                fontSize: 9.5,
-                fontWeight: isActive ? 700 : 400,
+                fontSize: scrolledDown ? 8.5 : 9.5,
+                fontWeight: isActive ? 700 : 500,
                 letterSpacing: '0.03em',
                 lineHeight: 1,
+                transition: 'font-size 0.28s ease',
               }}>
                 {tab.label}
               </span>
             </Link>
           )
         })}
-      </div>
-    </nav>
+      </nav>
+    </div>
   )
 }
