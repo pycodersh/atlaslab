@@ -451,10 +451,10 @@ export function PatternsPageV2({
                 </p>
                 {/* Pattern title */}
                 <p style={{
-                  fontSize: '2.0rem', fontWeight: 800, color: '#FCFCFC',
+                  fontSize: '2.0rem', fontWeight: 800, color: '#4A4A4F',
                   lineHeight: 1.15, margin: '0 0 6px', letterSpacing: '-0.02em',
                   fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-                  textShadow: '0 2px 10px rgba(80,80,80,0.18), 0 0 1px rgba(255,255,255,0.6)',
+                  textShadow: 'none',
                   position: 'relative',
                 }}>
                   {pattern.pattern}
@@ -524,7 +524,7 @@ export function PatternsPageV2({
                 </div>
 
                 {/* Examples */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                   {examples.map((ex, i) => {
                     const isActive   = i === exIdx
                     const exRev      = revealedExSet.has(`${patIdx}-${i}`)
@@ -538,6 +538,9 @@ export function PatternsPageV2({
                         style={{
                           display: 'block', textAlign: 'left', width: '100%',
                           background: 'transparent', border: 'none', cursor: 'pointer', padding: 0,
+                          borderTop: i > 0 ? '1px solid rgba(220,225,235,0.7)' : 'none',
+                          paddingTop: i > 0 ? 14 : 0,
+                          paddingBottom: i < examples.length - 1 ? 14 : 0,
                         }}
                       >
                         <p style={{
