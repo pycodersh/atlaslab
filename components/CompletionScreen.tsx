@@ -11,8 +11,8 @@ export function CompletionScreen() {
     <div className="flex min-h-[calc(100dvh-8.5rem)] flex-col items-center justify-center gap-8 px-6 text-center">
       <div className="space-y-4">
         <p className="text-6xl">🎉</p>
-        <h1 className="text-3xl font-bold text-[#26315e]">모든 스토리 완료!</h1>
-        <p className="text-base leading-relaxed text-[#7a839f]">
+        <h1 className="text-3xl font-bold text-[#1C1C1E]">모든 스토리 완료!</h1>
+        <p className="text-base leading-relaxed text-[#6E6E73]">
           Level 1의 모든 패턴을 학습했습니다.
           <br />
           복습을 통해 패턴을 확실히 익혀보세요.

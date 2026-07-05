@@ -71,7 +71,7 @@ export function MiniStory({
         {/* 영어 단락 — 메인 */}
         <div className="space-y-3">
           {enParagraphs.map((p, i) => (
-            <p key={i} className="text-[0.9rem] font-semibold leading-relaxed text-[#1A2744]">
+            <p key={i} className="text-[0.9rem] font-semibold leading-relaxed text-[#3A3A3C]">
               {p}
             </p>
           ))}
@@ -86,7 +86,7 @@ export function MiniStory({
         {koParagraphs.length > 0 && (
           <div className="space-y-2.5">
             {koParagraphs.map((p, i) => (
-              <p key={i} className="text-[0.78rem] font-normal leading-relaxed text-[#B0BCCE]">
+              <p key={i} className="text-[0.78rem] font-normal leading-relaxed text-[#6E6E73]">
                 {p}
               </p>
             ))}
@@ -128,7 +128,7 @@ export function MiniStory({
               className={cn(
                 'flex h-6 w-6 shrink-0 items-center justify-center rounded-full transition-all active:scale-90',
                 isZero
-                  ? 'cursor-not-allowed bg-transparent text-[#DDE5F0] opacity-40'
+                  ? 'cursor-not-allowed bg-transparent text-[#C7C7CC] opacity-40'
                   : 'bg-[#F0F7FF] text-[#4F8CFF] hover:bg-[#DCEBFF]',
               )}
               disabled={isZero}

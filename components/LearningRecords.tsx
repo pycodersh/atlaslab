@@ -1,4 +1,4 @@
-﻿// @ts-nocheck
+// @ts-nocheck
 "use client";
 
 import { BookOpenCheck } from "lucide-react";
@@ -38,7 +38,7 @@ export function LearningRecords() {
   return (
     <div className="space-y-6">
       <header className="space-y-2 pt-1">
-        <p className="text-sm font-semibold text-[#6f7895]">Patto</p>
+        <p className="text-sm font-semibold text-[#8E8E93]">Patto</p>
         <h1 className="text-3xl font-bold tracking-normal">학습 기록</h1>
       </header>
 
@@ -48,8 +48,8 @@ export function LearningRecords() {
             <BookOpenCheck aria-hidden="true" className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-[#7a839f]">현재 학습 위치</p>
-            <p className="text-lg font-bold text-[#26315e]">
+            <p className="text-sm font-semibold text-[#6E6E73]">현재 학습 위치</p>
+            <p className="text-lg font-bold text-[#1C1C1E]">
               Story {progress.currentStoryId} · {currentPosition}
             </p>
           </div>
@@ -59,16 +59,16 @@ export function LearningRecords() {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#7a839f]">연속 학습</p>
-            <p className="text-3xl font-bold text-[#26315e]">
+            <p className="text-sm font-semibold text-[#6E6E73]">연속 학습</p>
+            <p className="text-3xl font-bold text-[#1C1C1E]">
               {progress.streakDays}일
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#7a839f]">Story 완료</p>
-            <p className="text-3xl font-bold text-[#26315e]">
+            <p className="text-sm font-semibold text-[#6E6E73]">Story 완료</p>
+            <p className="text-3xl font-bold text-[#1C1C1E]">
               {progress.completedStoryIds.length} / 100
             </p>
           </CardContent>
@@ -78,18 +78,18 @@ export function LearningRecords() {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#7a839f]">오늘 신규</p>
-            <p className="text-3xl font-bold text-[#26315e]">
+            <p className="text-sm font-semibold text-[#6E6E73]">오늘 신규</p>
+            <p className="text-3xl font-bold text-[#1C1C1E]">
               {todayRecord?.storyCompleted ?? 0}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#7a839f]">
+            <p className="text-sm font-semibold text-[#6E6E73]">
               오늘 다시 만나기
             </p>
-            <p className="text-3xl font-bold text-[#26315e]">
+            <p className="text-3xl font-bold text-[#1C1C1E]">
               {todayRecord?.reviewCompleted ?? 0}
             </p>
           </CardContent>
@@ -99,7 +99,7 @@ export function LearningRecords() {
       <Card>
         <CardContent className="space-y-5 p-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-[#26315e]">이번 달 기록</h2>
+            <h2 className="text-xl font-bold text-[#1C1C1E]">이번 달 기록</h2>
             <span className="rounded-full bg-[#e8f5ed] px-3 py-1 text-xs font-bold text-[#357a52]">
               저장됨
             </span>
@@ -125,7 +125,7 @@ export function LearningRecords() {
                       : `${key}`
                   }
                 >
-                  <span className="text-[11px] font-semibold text-[#8a93ad]">
+                  <span className="text-[11px] font-semibold text-[#8E8E93]">
                     {day}
                   </span>
                   <span

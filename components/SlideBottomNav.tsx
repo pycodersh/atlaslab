@@ -24,7 +24,7 @@ export function SlideBottomNav() {
             return (
               <Link
                 className={cn(
-                  'flex flex-col items-center justify-center gap-0.5 rounded-xl py-2 text-[10px] font-bold text-[#9EAEC8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F8CFF]',
+                  'flex flex-col items-center justify-center gap-0.5 rounded-xl py-2 text-[10px] font-bold text-[#8E8E93] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F8CFF]',
                   active ? 'bg-[#DCEBFF] text-[#4F8CFF]' : 'hover:text-[#6B7280]',
                 )}
                 href={href}

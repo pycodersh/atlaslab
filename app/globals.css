@@ -9,14 +9,21 @@
   --pd:   rgba(60,60,67,0.10);           /* divider / border */
   --pd2:  rgba(60,60,67,0.06);           /* divider 2 */
   --pw:   #FFFFFF;                       /* white surface */
-  --pt:   #1A1A1A;                       /* primary text — near black */
-  --pt2:  #2D2D2D;                       /* secondary text */
-  --pm:   #6B6B80;                       /* muted text */
-  --pm2:  #ADADBC;                       /* very muted text */
-  --pa:   #7A1E3F;                       /* Deep Burgundy primary */
+  --pt:   #1C1C1E;                       /* primary text — iOS systemLabel */
+  --pt2:  #3A3A3C;                       /* body text — iOS secondaryLabel */
+  --pm:   #6E6E73;                       /* secondary/helper text — iOS tertiaryLabel */
+  --pm2:  #8E8E93;                       /* caption/meta text — iOS quaternaryLabel */
+  --pa:   #8D234C;                       /* Deep Burgundy primary accent */
   --pa2:  #E8A0B4;                       /* Soft Pink accent */
-  --pal:  rgba(122,30,63,0.06);          /* accent light bg */
-  --pacb: rgba(122,30,63,0.15);          /* accent card border */
+  --pal:  rgba(141,35,76,0.06);          /* accent light bg */
+  --pacb: rgba(141,35,76,0.15);          /* accent card border */
+  /* Semantic text tokens (iOS-style palette) */
+  --text-main:      #1C1C1E;             /* page/story/pattern title */
+  --text-body:      #3A3A3C;             /* body, example sentences */
+  --text-secondary: #6E6E73;             /* descriptions, helper text */
+  --text-caption:   #8E8E93;             /* captions, dates, meta */
+  --text-disabled:  #C7C7CC;             /* disabled state */
+  --accent-burgundy: #8D234C;            /* Korean meaning, key highlight */
   --pnav: rgba(255,255,255,0.82);        /* nav blur bg */
   --pglass: rgba(255,255,255,0.72);      /* glass panel bg */
   --pglass-border: rgba(255,255,255,0.85); /* glass border */
@@ -24,7 +31,7 @@
   --ph0: #EBEBF0;
   --ph1: #D4A0B4;
   --ph2: #B05C7C;
-  --ph3: #7A1E3F;
+  --ph3: #8D234C;
   /* Nav height including iOS safe-area-inset-top */
   --pnav-h: calc(60px + env(safe-area-inset-top, 0px));
   /* Bottom tab bar height — floating nav */
@@ -47,6 +54,12 @@
   --pa2:  #E8A0B4;
   --pal:  rgba(192,84,122,0.12);
   --pacb: rgba(192,84,122,0.25);
+  --text-main:      #F2F2F5;
+  --text-body:      #E0E0EA;
+  --text-secondary: #8E8E93;
+  --text-caption:   #636366;
+  --text-disabled:  #48484A;
+  --accent-burgundy: #C0547A;
   --pnav: rgba(14,14,18,0.85);
   --pglass: rgba(22,22,32,0.78);
   --pglass-border: rgba(255,255,255,0.08);

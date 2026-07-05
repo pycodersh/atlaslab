@@ -26,7 +26,7 @@ export function BottomNav() {
             <Link
               aria-current={active ? "page" : undefined}
               className={cn(
-                "flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl text-xs font-semibold text-[#9EAEC8] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F8CFF]",
+                "flex min-h-14 flex-col items-center justify-center gap-1 rounded-2xl text-xs font-semibold text-[#8E8E93] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F8CFF]",
                 active && "bg-[#DCEBFF] text-[#4F8CFF]",
               )}
               href={tab.href}

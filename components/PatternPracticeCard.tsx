@@ -335,7 +335,7 @@ export function PatternPracticeCard({
                       exampleIndex:     i,
                       originalSentence: ex.en,
                     }}
-                    className="text-[0.82rem] font-medium text-[var(--pt)] leading-snug block"
+                    className="text-[0.82rem] font-medium text-[var(--pt2)] leading-snug block"
                   />
                   {showTranslation && resolveTranslation(ex.ko, prefs.language, ex.translations) && (
                     <p className="text-[0.7rem] text-[var(--pm)] mt-0.5 leading-snug">

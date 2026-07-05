@@ -61,7 +61,7 @@ export function PatternCardBack({
       {/* 예문 목록 — 행 전체 클릭 = TTS */}
       <ol className="flex-1 space-y-[10px] overflow-y-auto">
         {examples.length === 0 ? (
-          <li className="flex h-full items-center justify-center text-xs text-[#C8D8F0]">
+          <li className="flex h-full items-center justify-center text-xs text-[#C7C7CC]">
             예문이 없습니다
           </li>
         ) : (
@@ -71,11 +71,11 @@ export function PatternCardBack({
               className="cursor-pointer rounded-xl px-2 py-1 transition-colors hover:bg-[#F8FBFF] active:bg-[#F0F7FF]"
               onClick={(e) => { e.stopPropagation(); speak(ex.sentence.trim()) }}
             >
-              <p className="text-[0.88rem] font-semibold leading-relaxed text-[#1F2937]">
+              <p className="text-[0.88rem] font-semibold leading-relaxed text-[#3A3A3C]">
                 {ex.sentence}
               </p>
               {ex.translation && (
-                <p className="mt-[5px] text-[0.75rem] font-normal leading-relaxed text-[#9EAEC8]">
+                <p className="mt-[5px] text-[0.75rem] font-normal leading-relaxed text-[#6E6E73]">
                   {ex.translation}
                 </p>
               )}

@@ -58,10 +58,10 @@ export function PatternCardFront({
 
       {/* 패턴 텍스트 — 이미지 바로 아래 */}
       <div className="mt-3 flex-1 text-center">
-        <p className="text-[2rem] font-extrabold leading-tight tracking-tight text-[#1F2937]">
+        <p className="text-[2rem] font-extrabold leading-tight tracking-tight text-[#1C1C1E]">
           {pattern.pattern_text}
         </p>
-        <p className="mt-1 text-[0.9rem] font-semibold text-[#6B7280]">
+        <p className="mt-1 text-[0.9rem] font-semibold text-[#8D234C]">
           {pattern.meaning}
         </p>
       </div>

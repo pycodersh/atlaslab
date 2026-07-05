@@ -505,7 +505,7 @@ export function PatternsPageV2({
                       </span>
                       <div className="flex-1 min-w-0">
                         {showExEn ? (
-                          <p className="text-[0.85rem] font-medium text-[var(--pt)] leading-snug">{ex.en}</p>
+                          <p className="text-[0.85rem] font-medium text-[var(--pt2)] leading-snug">{ex.en}</p>
                         ) : (
                           <button
                             type="button"
