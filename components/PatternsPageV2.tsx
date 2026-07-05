@@ -347,7 +347,7 @@ export function PatternsPageV2({
 
           {/* ── Story label + Dot progress ── */}
           <div style={{
-            paddingTop: 20, paddingBottom: 16,
+            paddingTop: 76, paddingBottom: 16,
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           }}>
             <button

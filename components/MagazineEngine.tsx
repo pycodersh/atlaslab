@@ -222,7 +222,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     : `translateX(${basePercent}%)`
 
   return (
-    <div className="relative overflow-hidden" style={{ marginTop: NAV_HEIGHT, height: `calc(100dvh - ${NAV_HEIGHT}px - ${TAB_BAR_HEIGHT}px)` }}>
+    <div className="relative overflow-hidden" style={{ height: `calc(100dvh - ${TAB_BAR_HEIGHT}px)` }}>
       <TopNav />
 
       {/* Sliding rail */}

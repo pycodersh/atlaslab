@@ -303,7 +303,7 @@ export function StoryPage({
             {/* Paragraphs */}
             <div style={{ padding: '12px 28px 8px' }}>
               <div className="space-y-2">
-                {story.paragraphs.map((para) => {
+                {story.paragraphs.slice(0, 2).map((para) => {
                   const isPlaying    = playingParaId === para.id
                   const isCurrentTTS = currentParagraphIdx >= 0 &&
                     story.paragraphs[currentParagraphIdx]?.id === para.id
