@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  ChevronLeft, ChevronRight, Volume2, Square,
-  Bookmark, Check,
+  Volume2, Square, Bookmark, Check, Globe,
 } from 'lucide-react'
 
 import type { MagazineStory } from '@/types/magazine'
@@ -312,279 +311,241 @@ export function PatternsPageV2({
     })
   }
 
+  // Global pattern number (1–500)
+  const globalPatternNum = (story.id - 1) * patterns.length + patIdx + 1
+
+  // Glass button base style
+  const glassBtn: React.CSSProperties = {
+    display: 'inline-flex', alignItems: 'center', gap: 6,
+    padding: '7px 16px', borderRadius: 999, cursor: 'pointer',
+    background: 'rgba(255,255,255,0.45)',
+    backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255,255,255,0.70)',
+    color: '#555A61', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
+    transition: 'filter 0.15s',
+  }
+
   // ── Render ────────────────────────────────────────────────────────────────
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
-
-      {/* ── Scrollable main content ── */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
-        <div className="pl-7 pr-6 pt-5 pb-10">
+        <div style={{ padding: '0 16px 40px' }}>
 
-          {/* Story header: number on top, title below */}
-          <div className="mt-2 mb-3">
+          {/* ── Story label + Dot progress ── */}
+          <div style={{
+            paddingTop: 20, paddingBottom: 16,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
             <button
               type="button"
               onClick={onOpenPicker}
               aria-label="스토리 선택"
-              className="flex flex-col items-start group cursor-pointer"
-              style={{ background: 'none', border: 'none', padding: 0 }}
+              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
             >
-              <span className="text-[10px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity mb-1">
+              <span style={{
+                fontSize: 9, letterSpacing: '0.20em', fontWeight: 600,
+                color: '#8A8A8E', textTransform: 'uppercase',
+              }}>
                 STORY {String(story.id).padStart(2, '0')}
               </span>
-              <span style={{ fontSize: '1.075rem', fontWeight: 800, color: 'var(--pt)', lineHeight: 1.3 }}>
-                {story.title}
-              </span>
             </button>
-            {/* Accent rule */}
-            <div style={{ height: 1.5, background: 'var(--pa)', width: 28, marginTop: 10, borderRadius: 1, opacity: 0.7 }} />
-          </div>
 
-          {/* Pattern navigation + Language Toggle + Bookmark */}
-          <div className="mb-4">
-            {/* Pattern prev/next row */}
-            <div className="flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => patIdx > 0 ? navigateTo(patIdx - 1, 0) : onPrev()}
-                aria-label="이전 패턴"
-                className="p-1.5 rounded-full text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
-              >
-                <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
-              </button>
-              <span className="text-[10px] tracking-[0.22em] font-bold text-[var(--pm)]">
-                PATTERN {patIdx + 1} / {patterns.length}
-              </span>
-              <button
-                type="button"
-                onClick={() => patIdx < patterns.length - 1 ? navigateTo(patIdx + 1, 0) : undefined}
-                disabled={patIdx >= patterns.length - 1}
-                aria-label="다음 패턴"
-                className={`p-1.5 rounded-full transition-colors ${
-                  patIdx < patterns.length - 1
-                    ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer'
-                    : 'text-[var(--pd)] cursor-default'
-                }`}
-              >
-                <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
-              </button>
-            </div>
-            {/* Language Toggle + Bookmark — below pattern nav, right-aligned */}
-            <div className="flex items-center justify-end gap-2 mt-2">
-              <button
-                type="button"
-                onClick={cycleStudyMode}
-                aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
-                className="text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full cursor-pointer border text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)] transition-colors"
-              >
-                {STUDY_LABEL[studyMode]}
-              </button>
-              <button
-                type="button"
-                onClick={handleBookmark}
-                aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
-                className={`p-1.5 rounded-full transition-colors cursor-pointer ${
-                  bookmarked
-                    ? 'text-[var(--pa)] bg-[var(--pal)]'
-                    : 'text-[var(--pm2)] hover:text-[var(--pa)] hover:bg-[var(--pal)]'
-                }`}
-              >
-                <Bookmark
-                  className="w-4 h-4"
-                  strokeWidth={1.8}
-                  fill={bookmarked ? 'currentColor' : 'none'}
-                />
-              </button>
+            {/* Dot indicators */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              {patterns.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`패턴 ${i + 1}`}
+                  onClick={() => navigateTo(i, 0)}
+                  style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer' }}
+                >
+                  <span style={{
+                    display: 'block', width: i === patIdx ? 14 : 6, height: 6,
+                    borderRadius: 999,
+                    background: i === patIdx ? '#3A3A3C' : '#D1D1D6',
+                    transition: 'all 0.25s',
+                  }} />
+                </button>
+              ))}
             </div>
           </div>
 
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
-            {/* ── Pattern card — PatternDetail style ── */}
-            <div className="glass-card" style={{ padding: '0 0 24px', overflow: 'hidden' }}>
+            <div className="glass-card" style={{ overflow: 'hidden', borderRadius: 20, padding: 0 }}>
 
-              {/* Wave gradient header */}
+              {/* ── Card header — subtle aurora glass tint ── */}
               <div style={{
-                background: 'linear-gradient(135deg, #4A68D4 0%, #6D8DFF 45%, #9B8FE8 100%)',
-                borderRadius: '22px 22px 0 0',
-                padding: '20px 22px 18px',
+                background: 'linear-gradient(135deg, rgba(100,118,200,0.14) 0%, rgba(148,128,210,0.10) 100%)',
+                borderRadius: '20px 20px 0 0',
+                padding: '18px 20px 16px',
                 position: 'relative',
                 overflow: 'hidden',
-                marginBottom: 16,
               }}>
-                {/* abstract wave overlay */}
-                <svg style={{ position: 'absolute', bottom: -12, left: -20, opacity: 0.12, pointerEvents: 'none' }} width="340" height="80" viewBox="0 0 340 80" fill="none">
-                  <path d="M0 40 Q60 10 120 40 Q180 70 240 40 Q300 10 340 40 L340 80 L0 80 Z" fill="white"/>
-                </svg>
-                <p style={{ fontSize: 10, letterSpacing: '0.22em', fontWeight: 700, color: 'rgba(255,255,255,0.55)', marginBottom: 8 }}>
-                  {String(patIdx + 1).padStart(2, '0')}
-                </p>
-                <p style={{ fontSize: '1.65rem', fontWeight: 800, color: '#ECEDEF', lineHeight: 1.15, margin: '0 0 8px', letterSpacing: '-0.01em', textShadow: '0 1px 8px rgba(0,0,0,0.18)' }}>
+                {/* Number + Bookmark row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <span style={{
+                    fontSize: 9, letterSpacing: '0.22em', fontWeight: 600,
+                    color: 'rgba(255,255,255,0.55)',
+                  }}>
+                    {String(globalPatternNum).padStart(3, '0')}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleBookmark}
+                    aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
+                    style={{
+                      background: 'none', border: 'none', padding: 4, cursor: 'pointer',
+                      color: bookmarked ? 'rgba(255,255,255,0.90)' : 'rgba(255,255,255,0.45)',
+                      transition: 'color 0.15s',
+                    }}
+                  >
+                    <Bookmark
+                      style={{ width: 16, height: 16 }}
+                      strokeWidth={1.8}
+                      fill={bookmarked ? 'currentColor' : 'none'}
+                    />
+                  </button>
+                </div>
+
+                {/* Pattern text */}
+                <p style={{
+                  fontSize: '1.55rem', fontWeight: 800, color: '#F6F6F7',
+                  lineHeight: 1.2, margin: '0 0 8px', letterSpacing: '-0.01em',
+                  textShadow: '0 2px 10px rgba(0,0,0,.18)',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                }}>
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
-                  <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(255,255,255,0.72)', margin: 0 }}>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.65)', margin: 0 }}>
                     {patternMeaning}
                   </p>
                 )}
               </div>
 
-              <div style={{ padding: '0 22px' }}>
+              {/* ── Card body ── */}
+              <div style={{ padding: '16px 20px 22px' }}>
 
-              {/* Audio + Save buttons */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-                <button
-                  type="button"
-                  onClick={playPatternExamples}
-                  aria-label={isPlaying ? '정지' : '예문 듣기'}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 5,
-                    padding: '5px 12px', borderRadius: 9999, border: 'none',
-                    cursor: 'pointer', fontSize: 11, fontWeight: 700,
-                    background: isPlaying ? 'var(--pa)' : 'var(--pal)',
-                    color: isPlaying ? 'white' : 'var(--pa)',
-                    transition: 'all 0.15s',
-                  }}
-                >
-                  {isPlaying
-                    ? <Square style={{ width: 12, height: 12 }} fill="currentColor" strokeWidth={0} />
-                    : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
-                  {isPlaying ? '정지' : '전체 듣기'}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleBookmark}
-                  aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 5,
-                    padding: '5px 12px', borderRadius: 9999,
-                    border: `1px solid ${bookmarked ? 'var(--pa)' : 'var(--pd)'}`,
-                    cursor: 'pointer', fontSize: 11, fontWeight: 700,
-                    background: bookmarked ? 'var(--pa)' : 'transparent',
-                    color: bookmarked ? 'white' : 'var(--pm2)',
-                    transition: 'all 0.15s',
-                  }}
-                >
-                  <Bookmark style={{ width: 12, height: 12 }} strokeWidth={2} fill={bookmarked ? 'currentColor' : 'none'} />
-                  {bookmarked ? 'Saved' : 'Save Pattern'}
-                </button>
+                {/* Action buttons: Speaker + Translation */}
+                <div style={{ display: 'flex', gap: 8, marginBottom: 18 }}>
+                  <button
+                    type="button"
+                    onClick={playPatternExamples}
+                    aria-label={isPlaying ? '정지' : '예문 듣기'}
+                    style={{
+                      ...glassBtn,
+                      background: isPlaying ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.45)',
+                      filter: isPlaying ? 'brightness(1.05)' : 'brightness(1)',
+                    }}
+                  >
+                    {isPlaying
+                      ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
+                      : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
+                    {isPlaying ? 'Stop' : 'Speaker'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={cycleStudyMode}
+                    aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
+                    style={{
+                      ...glassBtn,
+                      background: studyMode !== 'en' ? 'rgba(255,255,255,0.62)' : 'rgba(255,255,255,0.45)',
+                    }}
+                  >
+                    <Globe style={{ width: 13, height: 13 }} strokeWidth={1.8} />
+                    {STUDY_LABEL[studyMode]}
+                  </button>
+                </div>
+
+                {/* Pattern Note */}
+                {patternNote && (
+                  <>
+                    <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', marginBottom: 14 }} />
+                    <p style={{
+                      fontSize: 8.5, letterSpacing: '0.16em', fontWeight: 700,
+                      color: 'var(--pm2)', marginBottom: 8, textTransform: 'uppercase',
+                    }}>
+                      Pattern Note
+                    </p>
+                    <p style={{
+                      fontSize: 13, color: 'var(--pm)', lineHeight: 1.78,
+                      margin: '0 0 4px',
+                    }}>
+                      {patternNote.replace(/\n+/g, ' ').trim()}
+                    </p>
+                  </>
+                )}
+
+                {/* Divider before examples */}
+                <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '14px 0 6px' }} />
+
+                {/* Examples */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  {examples.map((ex, i) => {
+                    const isActive   = i === exIdx
+                    const exRev      = revealedExSet.has(`${patIdx}-${i}`)
+                    const showExEn   = studyMode === 'en' || studyMode === 'en-ko' || exRev
+                    const exKo       = resolveTranslation(ex.ko, prefs.language, ex.translations)
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => navigateTo(patIdx, i)}
+                        style={{
+                          display: 'flex', alignItems: 'flex-start', gap: 10,
+                          textAlign: 'left', width: '100%',
+                          padding: '10px 10px', borderRadius: 12,
+                          background: isActive ? 'rgba(0,0,0,0.04)' : 'transparent',
+                          border: 'none', cursor: 'pointer',
+                          transition: 'background 0.15s',
+                        }}
+                      >
+                        {/* Dot / check */}
+                        <span style={{
+                          flexShrink: 0, width: 18, height: 18,
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          marginTop: 2,
+                        }}>
+                          {doneMask.has(i) ? (
+                            <Check style={{ width: 13, height: 13, color: '#3DAD6A' }} strokeWidth={2.5} />
+                          ) : isActive ? (
+                            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#3A3A3C', display: 'block' }} />
+                          ) : (
+                            <span style={{ width: 7, height: 7, borderRadius: '50%', border: '1.5px solid #C7C7CC', display: 'block' }} />
+                          )}
+                        </span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          {showExEn ? (
+                            <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--pt2)', lineHeight: 1.55, margin: 0 }}>
+                              {ex.en}
+                            </p>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); revealEx(patIdx, i) }}
+                              style={{ background: 'none', border: 'none', padding: 0, width: '100%', textAlign: 'left', cursor: 'pointer' }}
+                            >
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingTop: 2 }}>
+                                <div style={{ height: 12, borderRadius: 6, background: 'var(--pd)', width: '85%' }} />
+                                <div style={{ height: 12, borderRadius: 6, background: 'var(--pd)', width: '55%' }} />
+                              </div>
+                            </button>
+                          )}
+                          {showKorean && exKo && (
+                            <p style={{ fontSize: 12, color: 'var(--pm)', marginTop: 4, lineHeight: 1.5 }}>
+                              {exKo}
+                            </p>
+                          )}
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-
-              {/* Pattern Note */}
-              {patternNote && (
-                <>
-                  <div style={{ height: 1, background: 'var(--pd)', marginBottom: 12 }} />
-                  <p style={{ fontSize: 9, letterSpacing: '0.2em', fontWeight: 700, color: 'var(--pa)', marginBottom: 6 }}>
-                    PATTERN NOTE
-                  </p>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--pm)', lineHeight: 1.8, whiteSpace: 'pre-line', marginBottom: 4 }}>
-                    {patternNote}
-                  </p>
-                </>
-              )}
-
-              {/* Divider before examples */}
-              <div style={{ height: 1, background: 'var(--pd)', margin: '12px 0 6px' }} />
-
-              {/* Examples list — all 3, clickable, active highlighted */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                {examples.map((ex, i) => {
-                  const isActive = i === exIdx
-                  const exRevealed = revealedExSet.has(`${patIdx}-${i}`)
-                  const showExEn = studyMode === 'en' || studyMode === 'en-ko' || exRevealed
-                  const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
-                  return (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => navigateTo(patIdx, i)}
-                      className={`w-full flex items-start gap-3 text-left rounded-xl px-3 py-2.5 transition-colors cursor-pointer ${
-                        isActive ? 'bg-[var(--pal)]' : 'hover:bg-[var(--pc2)]'
-                      }`}
-                    >
-                      <span className="shrink-0 w-5 h-5 flex items-center justify-center mt-0.5">
-                        {doneMask.has(i) ? (
-                          <Check className="w-3.5 h-3.5 text-[var(--pa)]" strokeWidth={2.5} />
-                        ) : isActive ? (
-                          <span className="w-2 h-2 rounded-full bg-[var(--pa)]" />
-                        ) : (
-                          <span className="w-2 h-2 rounded-full border border-[var(--pd)]" />
-                        )}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        {showExEn ? (
-                          <p className="text-[0.85rem] font-medium text-[var(--pt2)] leading-snug">{ex.en}</p>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={(e) => { e.stopPropagation(); revealEx(patIdx, i) }}
-                            className="w-full text-left cursor-pointer"
-                            style={{ background: 'none', border: 'none', padding: 0 }}
-                          >
-                            <div className="space-y-1.5 py-0.5">
-                              <div className="h-3 rounded-md bg-[var(--pd)]" style={{ width: '85%' }} />
-                              <div className="h-3 rounded-md bg-[var(--pd)]" style={{ width: '55%' }} />
-                            </div>
-                          </button>
-                        )}
-                        {showKorean && exKo && (
-                          <p className="text-[0.75rem] text-[var(--pm)] mt-0.5 leading-snug">{exKo}</p>
-                        )}
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-              </div>{/* /padding wrapper */}
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* ── Bottom navigation ── */}
-      <div className="shrink-0 bg-[var(--pb)] px-5 py-2" style={{ borderTop: '1px solid var(--pd)' }}>
-        <div className="flex items-center justify-between">
-          <button
-            type="button"
-            aria-label="이전 (스토리)"
-            onClick={onPrev}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 40, height: 40, borderRadius: 12,
-              background: 'var(--pc)',
-              border: 'none', cursor: 'pointer',
-              color: 'var(--pt)',
-              transition: 'all 0.15s',
-            }}
-          >
-            <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
-          </button>
-
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
-              Patterns
-            </p>
-            <p style={{ fontSize: 11, fontWeight: 800, color: 'var(--pa)', margin: 0, letterSpacing: '0.06em' }}>
-              {String(story.id).padStart(2, '0')}
-            </p>
-          </div>
-
-          <button
-            type="button"
-            aria-label="다음 스토리"
-            onClick={onNext}
-            disabled={!hasNext}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 40, height: 40, borderRadius: 12,
-              background: hasNext ? 'var(--pc)' : 'transparent',
-              border: 'none', cursor: hasNext ? 'pointer' : 'not-allowed',
-              color: hasNext ? 'var(--pt)' : 'var(--pd)',
-              transition: 'all 0.15s',
-            }}
-          >
-            <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
-          </button>
         </div>
       </div>
     </div>
