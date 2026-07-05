@@ -175,7 +175,7 @@ export function StoryPage({
   const storyNote = resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations)
 
   return (
-    <div className="h-full flex flex-col bg-[var(--pb)]">
+    <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
       <div className="flex-1 overflow-y-auto">
 
         {/* ── Hero Image — same width as card below ── */}
