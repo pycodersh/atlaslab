@@ -176,7 +176,7 @@ export function StoryPage({
 
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto" style={{ paddingTop: 60 }}>
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px' }}>
@@ -300,68 +300,71 @@ export function StoryPage({
               </button>
             </div>
 
-            {/* Paragraphs */}
+            {/* Paragraphs — merged into 2 display blocks (3+2) */}
             <div style={{ padding: '12px 28px 8px' }}>
-              <div className="space-y-2">
-                {story.paragraphs.slice(0, 2).map((para) => {
-                  const isPlaying    = playingParaId === para.id
-                  const isCurrentTTS = currentParagraphIdx >= 0 &&
-                    story.paragraphs[currentParagraphIdx]?.id === para.id
+              {(() => {
+                const all = story.paragraphs
+                const split = Math.ceil(all.length / 2)
+                const groups = [all.slice(0, split), all.slice(split)].filter(g => g.length > 0)
+                return (
+                  <div className="space-y-5">
+                    {groups.map((group, gi) => {
+                      const firstPara = group[0]
+                      const mergedEnglish = group.map(p => p.english).join(' ')
+                      const mergedKorean = group.map(p => resolveTranslation(p.koreanTranslation, prefs.language, p.translations)).filter(Boolean).join(' ')
+                      const groupParaIds = group.map(p => p.id)
+                      const isCurrentTTS = currentParagraphIdx >= 0 &&
+                        groupParaIds.includes(story.paragraphs[currentParagraphIdx]?.id)
+                      const isRevealed = showEnglish || group.some(p => revealedParas.has(p.id))
 
-                  const koText = resolveTranslation(
-                    para.koreanTranslation,
-                    prefs.language,
-                    para.translations,
-                  )
+                      return (
+                        <div key={`group-${gi}`} className={`rounded-xl px-2 py-1 -mx-2 transition-colors ${
+                          isCurrentTTS && isSpeaking ? 'bg-[var(--pal)]' : ''
+                        }`}>
+                          {/* English */}
+                          {isRevealed ? (
+                            <TappableWordText
+                              text={mergedEnglish}
+                              source={{
+                                sourceType:       'story',
+                                sourceId:         String(story.id),
+                                storyId:          story.id,
+                                paragraphId:      firstPara.id,
+                                originalSentence: mergedEnglish,
+                              }}
+                              className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block text-justify"
+                            />
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => group.forEach(p => revealPara(p.id))}
+                              aria-label="Reveal English"
+                              className="w-full text-left cursor-pointer group/reveal"
+                              style={{ background: 'none', border: 'none', padding: 0 }}
+                            >
+                              <div className="space-y-2 py-1">
+                                <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '90%' }} />
+                                <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '75%' }} />
+                                <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '60%' }} />
+                              </div>
+                              <span className="text-[9px] tracking-[0.15em] text-[var(--pm2)] font-semibold mt-1 block opacity-0 group-hover/reveal:opacity-100 transition-opacity">
+                                TAP TO REVEAL
+                              </span>
+                            </button>
+                          )}
 
-                  return (
-                    <div key={para.id} className="relative group" data-para-id={para.id}>
-                      <div className={`rounded-xl px-2 py-1 -mx-2 transition-colors ${
-                        isCurrentTTS && isSpeaking ? 'bg-[var(--pal)]' : ''
-                      }`}>
-                        {/* English */}
-                        {showEnglish || revealedParas.has(para.id) ? (
-                          <TappableWordText
-                            text={para.english}
-                            source={{
-                              sourceType:       'story',
-                              sourceId:         String(story.id),
-                              storyId:          story.id,
-                              paragraphId:      para.id,
-                              originalSentence: para.english,
-                            }}
-                            className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block text-justify"
-                          />
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => revealPara(para.id)}
-                            aria-label="Reveal English"
-                            className="w-full text-left cursor-pointer group/reveal"
-                            style={{ background: 'none', border: 'none', padding: 0 }}
-                          >
-                            <div className="space-y-2 py-1">
-                              <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '90%' }} />
-                              <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '60%' }} />
-                            </div>
-                            <span className="text-[9px] tracking-[0.15em] text-[var(--pm2)] font-semibold mt-1 block opacity-0 group-hover/reveal:opacity-100 transition-opacity">
-                              TAP TO REVEAL
-                            </span>
-                          </button>
-                        )}
-
-                        {/* Korean translation */}
-                        {showKorean && koText && (
-                          <p className="text-[0.8rem] text-[var(--pm)] leading-relaxed mt-1 text-justify">
-                            {koText}
-                          </p>
-                        )}
-                      </div>
-
-                    </div>
-                  )
-                })}
-              </div>
+                          {/* Korean translation */}
+                          {showKorean && mergedKorean && (
+                            <p className="text-[0.8rem] text-[var(--pm)] leading-relaxed mt-1 text-justify">
+                              {mergedKorean}
+                            </p>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                )
+              })()}
             </div>
 
             {/* Story note — 한줄 요약 */}
