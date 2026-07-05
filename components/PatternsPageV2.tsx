@@ -412,14 +412,8 @@ export function PatternsPageV2({
                   pointerEvents: 'none',
                 }} />
 
-                {/* Number + Bookmark row */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, position: 'relative' }}>
-                  <span style={{
-                    fontSize: 9, letterSpacing: '0.22em', fontWeight: 600,
-                    color: 'rgba(255,255,255,0.60)',
-                  }}>
-                    {String(globalPatternNum).padStart(3, '0')}
-                  </span>
+                {/* Bookmark row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 10, position: 'relative' }}>
                   <button
                     type="button"
                     onClick={handleBookmark}
@@ -449,6 +443,15 @@ export function PatternsPageV2({
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   position: 'relative',
                 }}>
+                  <span style={{
+                    color: 'rgba(200,200,210,0.75)',
+                    fontWeight: 900,
+                    textShadow: '0 1px 4px rgba(0,0,0,.40)',
+                    marginRight: '0.35em',
+                    letterSpacing: '0.02em',
+                  }}>
+                    {String(globalPatternNum).padStart(3, '0')}
+                  </span>
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
@@ -477,7 +480,6 @@ export function PatternsPageV2({
                     {isPlaying
                       ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
                       : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
-                    {isPlaying ? 'Stop' : 'Speaker'}
                   </button>
                   <button
                     type="button"
@@ -497,7 +499,6 @@ export function PatternsPageV2({
                 {/* Pattern Note */}
                 {patternNote && (
                   <>
-                    <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', marginBottom: 14 }} />
                     <p style={{
                       fontSize: 8.5, letterSpacing: '0.16em', fontWeight: 700,
                       color: 'var(--pm2)', marginBottom: 8, textTransform: 'uppercase',
