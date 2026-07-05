@@ -52,17 +52,6 @@ const TABS = [
       </svg>
     ),
   },
-  {
-    label: 'You',
-    href: '/settings',
-    active: (p: string) => p.startsWith('/settings'),
-    icon: (active: boolean) => (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="8" r="4"/>
-        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-      </svg>
-    ),
-  },
 ] as const
 
 export function MainTabBar() {
