@@ -50,7 +50,7 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
       >
         {/* Label */}
         <div className="px-5 pt-4 pb-1">
-          <p className="text-[9px] tracking-[0.3em] text-[#8B2246] font-semibold text-center">
+          <p className="text-[9px] tracking-[0.3em] text-[#6D8DFF] font-semibold text-center">
             SELECT STORY
           </p>
         </div>
@@ -91,14 +91,14 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
                 className={[
                   'flex items-center justify-center px-6 cursor-pointer transition-all duration-150',
                   story.id === selectedId
-                    ? 'text-[#8B2246] font-semibold'
+                    ? 'text-[#6D8DFF] font-semibold'
                     : 'text-[#9B9490] font-normal',
                 ].join(' ')}
                 style={{ height: ITEM_H, scrollSnapAlign: 'center' }}
                 onClick={() => scrollToStory(story.id)}
               >
                 <span className="text-[0.82rem] text-center leading-tight line-clamp-1">
-                  <span className="text-[#8B2246] font-semibold mr-1.5">{String(story.id).padStart(2, '0')}</span>
+                  <span className="text-[#6D8DFF] font-semibold mr-1.5">{String(story.id).padStart(2, '0')}</span>
                   {story.title}
                 </span>
               </div>
@@ -116,7 +116,7 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
             취소
           </button>
           <button
-            className="flex-1 py-3.5 text-sm font-semibold text-[#8B2246] border-l border-[#E8E0D8] cursor-pointer hover:bg-[#FDF0F4] transition-colors"
+            className="flex-1 py-3.5 text-sm font-semibold text-[#6D8DFF] border-l border-[#E8E0D8] cursor-pointer hover:bg-[#EEF2FF] transition-colors"
             onClick={() => {
               onSelect(selectedId)
               onClose()

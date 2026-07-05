@@ -87,7 +87,7 @@ export default function SettingsPage() {
                 borderBottom: idx < HUBS.length - 1 ? '1px solid rgba(60,60,67,0.08)' : 'none',
                 transition: 'background 0.12s',
               }}
-              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(122,30,63,0.04)')}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(109,141,255,0.06)')}
               onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'transparent')}
             >
               <div style={{

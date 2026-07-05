@@ -13,25 +13,25 @@
   --pt2:  #3A3A3C;                       /* body text — iOS secondaryLabel */
   --pm:   #6E6E73;                       /* secondary/helper text — iOS tertiaryLabel */
   --pm2:  #8E8E93;                       /* caption/meta text — iOS quaternaryLabel */
-  --pa:   #8D234C;                       /* Deep Burgundy primary accent */
-  --pa2:  #E8A0B4;                       /* Soft Pink accent */
-  --pal:  rgba(141,35,76,0.06);          /* accent light bg */
-  --pacb: rgba(141,35,76,0.15);          /* accent card border */
+  --pa:   #6D8DFF;                       /* Soft Blue primary accent */
+  --pa2:  #B8C8FF;                       /* Light Blue accent */
+  --pal:  rgba(109,141,255,0.08);        /* accent light bg */
+  --pacb: rgba(109,141,255,0.20);        /* accent card border */
   /* Semantic text tokens (iOS-style palette) */
   --text-main:      #1C1C1E;             /* page/story/pattern title */
   --text-body:      #3A3A3C;             /* body, example sentences */
   --text-secondary: #6E6E73;             /* descriptions, helper text */
   --text-caption:   #8E8E93;             /* captions, dates, meta */
   --text-disabled:  #C7C7CC;             /* disabled state */
-  --accent-burgundy: #8D234C;            /* Korean meaning, key highlight */
+  --accent-blue:    #6D8DFF;             /* Korean meaning, key highlight */
   --pnav: rgba(255,255,255,0.82);        /* nav blur bg */
   --pglass: rgba(255,255,255,0.72);      /* glass panel bg */
   --pglass-border: rgba(255,255,255,0.85); /* glass border */
   /* Heatmap */
   --ph0: #EBEBF0;
-  --ph1: #D4A0B4;
-  --ph2: #B05C7C;
-  --ph3: #8D234C;
+  --ph1: #C0CDFF;
+  --ph2: #8BA3FF;
+  --ph3: #6D8DFF;
   /* Nav height including iOS safe-area-inset-top */
   --pnav-h: calc(60px + env(safe-area-inset-top, 0px));
   /* Bottom tab bar height — floating nav */
@@ -50,24 +50,24 @@
   --pt2:  #E0E0EA;
   --pm:   #8E8EA8;
   --pm2:  #4A4A5E;
-  --pa:   #C0547A;
-  --pa2:  #E8A0B4;
-  --pal:  rgba(192,84,122,0.12);
-  --pacb: rgba(192,84,122,0.25);
+  --pa:   #8FABFF;
+  --pa2:  #C0D0FF;
+  --pal:  rgba(143,171,255,0.14);
+  --pacb: rgba(143,171,255,0.28);
   --text-main:      #F2F2F5;
   --text-body:      #E0E0EA;
   --text-secondary: #8E8E93;
   --text-caption:   #636366;
   --text-disabled:  #48484A;
-  --accent-burgundy: #C0547A;
+  --accent-blue:    #8FABFF;
   --pnav: rgba(14,14,18,0.85);
   --pglass: rgba(22,22,32,0.78);
   --pglass-border: rgba(255,255,255,0.08);
   /* Heatmap */
   --ph0: #2A2A38;
-  --ph1: #6B3055;
-  --ph2: #A03060;
-  --ph3: #C0547A;
+  --ph1: #3A4E8A;
+  --ph2: #5577CC;
+  --ph3: #8FABFF;
 }
 
 @theme inline {
@@ -93,9 +93,9 @@ body {
   min-height: 100vh;
   /* Soft Aurora gradient background — almost white, premium atmosphere */
   background:
-    radial-gradient(ellipse 80% 60% at 15% -5%, rgba(232,228,248,0.40) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 85% 5%,  rgba(210,232,252,0.35) 0%, transparent 55%),
-    radial-gradient(ellipse 90% 40% at 50% 95%, rgba(252,228,238,0.30) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 15% -5%, rgba(200,215,255,0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 5%,  rgba(220,228,255,0.40) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 40% at 50% 95%, rgba(210,220,255,0.32) 0%, transparent 55%),
     #FAFAFA;
   background-attachment: fixed;
   color: var(--pt);

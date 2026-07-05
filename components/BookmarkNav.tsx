@@ -36,7 +36,7 @@ export function BookmarkNav() {
             className={[
               'pointer-events-auto flex items-center justify-center rounded-r-lg transition-all duration-300 select-none cursor-pointer',
               isActive
-                ? 'bg-[#8B2246] text-[#FAF8F4] w-5 h-[76px] shadow-md'
+                ? 'bg-[#6D8DFF] text-white w-5 h-[76px] shadow-md'
                 : 'bg-[#E8E0D8] text-[#C0B4AE] w-4 h-14 hover:bg-[#D8CEC8] hover:w-[18px]',
             ].join(' ')}
           >

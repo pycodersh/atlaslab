@@ -401,27 +401,35 @@ export function PatternsPageV2({
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
             {/* ── Pattern card — PatternDetail style ── */}
-            <div className="glass-card" style={{ padding: '20px 22px 24px' }}>
+            <div className="glass-card" style={{ padding: '0 0 24px', overflow: 'hidden' }}>
 
-              {/* Illustration + pattern header */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-                <div style={{ flex: 1, paddingRight: 12 }}>
-                  <p style={{ fontSize: 10, letterSpacing: '0.22em', fontWeight: 700, color: 'var(--pa)', marginBottom: 5 }}>
-                    {String(patIdx + 1).padStart(2, '0')}
+              {/* Wave gradient header */}
+              <div style={{
+                background: 'linear-gradient(135deg, #4A68D4 0%, #6D8DFF 45%, #9B8FE8 100%)',
+                borderRadius: '22px 22px 0 0',
+                padding: '20px 22px 18px',
+                position: 'relative',
+                overflow: 'hidden',
+                marginBottom: 16,
+              }}>
+                {/* abstract wave overlay */}
+                <svg style={{ position: 'absolute', bottom: -12, left: -20, opacity: 0.12, pointerEvents: 'none' }} width="340" height="80" viewBox="0 0 340 80" fill="none">
+                  <path d="M0 40 Q60 10 120 40 Q180 70 240 40 Q300 10 340 40 L340 80 L0 80 Z" fill="white"/>
+                </svg>
+                <p style={{ fontSize: 10, letterSpacing: '0.22em', fontWeight: 700, color: 'rgba(255,255,255,0.55)', marginBottom: 8 }}>
+                  {String(patIdx + 1).padStart(2, '0')}
+                </p>
+                <p style={{ fontSize: '1.65rem', fontWeight: 800, color: '#ECEDEF', lineHeight: 1.15, margin: '0 0 8px', letterSpacing: '-0.01em', textShadow: '0 1px 8px rgba(0,0,0,0.18)' }}>
+                  {pattern.pattern}
+                </p>
+                {patternMeaning && (
+                  <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'rgba(255,255,255,0.72)', margin: 0 }}>
+                    {patternMeaning}
                   </p>
-                  <p style={{ fontSize: '1.55rem', fontWeight: 800, color: 'var(--pt)', lineHeight: 1.15, margin: '0 0 6px', letterSpacing: '-0.01em' }}>
-                    {pattern.pattern}
-                  </p>
-                  {patternMeaning && (
-                    <p style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--pa)', margin: 0 }}>
-                      {patternMeaning}
-                    </p>
-                  )}
-                </div>
-                <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--pal)', border: '1px solid var(--pacb)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, flexShrink: 0 }}>
-                  {STORY_ILLUSTRATIONS[story.id] ?? '✨'}
-                </div>
+                )}
               </div>
+
+              <div style={{ padding: '0 22px' }}>
 
               {/* Audio + Save buttons */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
@@ -527,6 +535,7 @@ export function PatternsPageV2({
                   )
                 })}
               </div>
+              </div>{/* /padding wrapper */}
             </div>
           </div>
         </div>

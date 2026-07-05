@@ -375,7 +375,7 @@ export default function HomePage() {
                       <span style={{
                         display: 'inline-block',
                         padding: '3px 8px',
-                        background: done ? 'rgba(39,174,96,0.9)' : 'rgba(139,34,70,0.88)',
+                        background: done ? 'rgba(39,174,96,0.9)' : 'rgba(90,115,230,0.88)',
                         borderRadius: 8,
                         fontSize: 8.5,
                         fontWeight: 700,

@@ -35,7 +35,7 @@ export default function SavedPatternsPage() {
         {/* Back */}
         <Link
           href="/records"
-          className="flex items-center gap-1 text-[#8E8E93] hover:text-[#8D234C] transition-colors mb-8 w-fit"
+          className="flex items-center gap-1 text-[#8E8E93] hover:text-[#6D8DFF] transition-colors mb-8 w-fit"
         >
           <ChevronLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
           <span className="text-[11px] tracking-[0.18em] font-semibold">PROGRESS</span>
@@ -58,7 +58,7 @@ export default function SavedPatternsPage() {
             placeholder="패턴 검색..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-[#EDE5DC]/50 rounded-xl py-2.5 pl-9 pr-4 text-[13px] text-[#3A3A3C] placeholder-[#C7C7CC] focus:outline-none focus:ring-1 focus:ring-[#8D234C]/40"
+            className="w-full bg-[#E8EEFF]/50 rounded-xl py-2.5 pl-9 pr-4 text-[13px] text-[#3A3A3C] placeholder-[#C7C7CC] focus:outline-none focus:ring-1 focus:ring-[#6D8DFF]/40"
           />
         </div>
 
@@ -71,8 +71,8 @@ export default function SavedPatternsPage() {
               onClick={() => setSort(key)}
               className={`px-4 py-1.5 rounded-full text-[11px] font-semibold border transition-colors cursor-pointer ${
                 sort === key
-                  ? 'bg-[#8D234C] text-white border-[#8D234C]'
-                  : 'bg-transparent text-[#8E8E93] border-[#D8D0C8] hover:border-[#8D234C] hover:text-[#8D234C]'
+                  ? 'bg-[#6D8DFF] text-white border-[#6D8DFF]'
+                  : 'bg-transparent text-[#8E8E93] border-[#D8D0C8] hover:border-[#6D8DFF] hover:text-[#6D8DFF]'
               }`}
             >
               {key === 'recent' ? 'Recent' : 'Alphabetical'}
@@ -89,9 +89,9 @@ export default function SavedPatternsPage() {
           ) : (
             filtered.map((p, i) => (
               <div key={p.patternId}>
-                {i > 0 && <div className="h-px bg-[#EDE5DC]" />}
+                {i > 0 && <div className="h-px bg-[#E8EEFF]" />}
                 <div className="flex items-center gap-4 py-5">
-                  <span className="font-playfair text-[1.1rem] font-bold text-[#8D234C] w-6 shrink-0 leading-none">
+                  <span className="font-playfair text-[1.1rem] font-bold text-[#6D8DFF] w-6 shrink-0 leading-none">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <div>
@@ -102,7 +102,7 @@ export default function SavedPatternsPage() {
               </div>
             ))
           )}
-          {filtered.length > 0 && <div className="h-px bg-[#EDE5DC]" />}
+          {filtered.length > 0 && <div className="h-px bg-[#E8EEFF]" />}
         </div>
       </div>
     </div>
