@@ -275,14 +275,10 @@ export function StoryPage({
         <div style={{ padding: '14px 16px 40px' }}>
           <div
             className="glass-card"
-            style={{
-              borderRadius: 20,
-              position: 'relative',
-              overflow: 'visible',
-            }}
+            style={{ borderRadius: 20 }}
           >
-            {/* EN / KO button — top right inside card */}
-            <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 1 }}>
+            {/* EN / KO button row — in flow, right-aligned */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px 20px 0' }}>
               <button
                 type="button"
                 onClick={cycleStudyMode}
@@ -304,8 +300,8 @@ export function StoryPage({
               </button>
             </div>
 
-            {/* Paragraphs — paddingTop pushes content below the floating EN button */}
-            <div style={{ padding: '56px 28px 8px' }}>
+            {/* Paragraphs */}
+            <div style={{ padding: '12px 28px 8px' }}>
               <div className="space-y-5">
                 {story.paragraphs.map((para) => {
                   const isPlaying    = playingParaId === para.id
