@@ -36,7 +36,7 @@ export default function SettingsPage() {
   ]
 
   return (
-    <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
+    <div style={{ height: '100dvh', overflowY: 'auto' }}>
       <TopNav />
 
       <div style={{
@@ -50,21 +50,21 @@ export default function SettingsPage() {
       }}>
 
         {/* ── Header ───────────────────────────────────────────────────── */}
-        <div style={{ marginBottom: 40 }}>
-          <p className="font-playfair" style={{
+        <div style={{ marginBottom: 32 }}>
+          <p style={{
             fontSize: 'clamp(2rem, 9vw, 2.8rem)',
             fontWeight: 900,
             letterSpacing: '-0.02em',
             lineHeight: 1,
             color: 'var(--pt)',
             margin: 0,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
             Profile
           </p>
-          <p className="font-playfair" style={{
+          <p style={{
             fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
-            fontStyle: 'italic',
-            fontWeight: 500,
+            fontWeight: 400,
             color: 'var(--pm)',
             marginTop: 10,
             lineHeight: 1.6,
@@ -74,37 +74,47 @@ export default function SettingsPage() {
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>
 
-        {/* ── Settings rows ──────────────────────────────────────────── */}
-        <div>
-          {HUBS.map(({ icon: Icon, label, desc, href }) => (
-            <div key={href}>
-              <div style={{ height: 1, background: 'var(--pd)' }} />
-              <Link
-                href={href}
-                style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0', textDecoration: 'none' }}
-              >
-                <Icon
-                  style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }}
-                  strokeWidth={1.5}
-                />
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.01em' }}>
-                    {label}
-                  </p>
-                  <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{desc}</p>
-                </div>
-                <ChevronRight style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.4} />
-              </Link>
-            </div>
+        {/* ── Settings rows — glass card ──────────────────────────────── */}
+        <div className="glass-card" style={{ overflow: 'hidden' }}>
+          {HUBS.map(({ icon: Icon, label, desc, href }, idx) => (
+            <Link
+              key={href}
+              href={href}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 16,
+                padding: '18px 20px',
+                textDecoration: 'none',
+                borderBottom: idx < HUBS.length - 1 ? '1px solid rgba(60,60,67,0.08)' : 'none',
+                transition: 'background 0.12s',
+              }}
+              onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'rgba(122,30,63,0.04)')}
+              onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'transparent')}
+            >
+              <div style={{
+                width: 36, height: 36, borderRadius: 10,
+                background: 'var(--pal)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <Icon style={{ width: 17, height: 17, color: 'var(--pa)' }} strokeWidth={1.5} />
+              </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.01em' }}>
+                  {label}
+                </p>
+                <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{desc}</p>
+              </div>
+              <ChevronRight style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.4} />
+            </Link>
           ))}
-          <div style={{ height: 1, background: 'var(--pd)' }} />
         </div>
 
         {/* ── Footer ───────────────────────────────────────────────────── */}
         <div style={{ marginTop: 64, textAlign: 'center' }}>
-          <p className="font-playfair" style={{
+          <p style={{
             fontSize: 15, fontWeight: 900, letterSpacing: '0.06em',
             color: 'var(--pa)', margin: '0 0 5px', opacity: 0.7,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
             PATTO
           </p>

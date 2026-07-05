@@ -63,6 +63,11 @@
   --font-playfair: var(--font-playfair);
 }
 
+/* Override: treat all Playfair usages as bold modern sans-serif throughout the app */
+.font-playfair {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", Arial, sans-serif !important;
+}
+
 * {
   box-sizing: border-box;
 }

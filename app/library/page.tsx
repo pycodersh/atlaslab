@@ -208,7 +208,7 @@ export default function LibraryPage() {
   }
 
   return (
-    <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
+    <div style={{ height: '100dvh', overflowY: 'auto' }}>
       <TopNav />
 
       <div style={{
@@ -220,15 +220,16 @@ export default function LibraryPage() {
 
         {/* ── Page title ────────────────────────────────────────────── */}
         <div style={{ marginBottom: 32 }}>
-          <p className="font-playfair" style={{
+          <p style={{
             fontSize: 'clamp(2rem, 9vw, 2.8rem)', fontWeight: 900,
             letterSpacing: '-0.02em', lineHeight: 1, color: 'var(--pt)', margin: 0,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
             Library
           </p>
-          <p className="font-playfair" style={{
-            fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', fontStyle: 'italic',
-            fontWeight: 500, color: 'var(--pm)', marginTop: 10, lineHeight: 1.6,
+          <p style={{
+            fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
+            fontWeight: 400, color: 'var(--pm)', marginTop: 10, lineHeight: 1.6,
           }}>
             패턴을 찾고, 단어를 모으세요.
           </p>
@@ -239,9 +240,13 @@ export default function LibraryPage() {
         <div style={{ marginBottom: 44 }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
-            background: 'var(--pc)', borderRadius: 12,
+            background: 'rgba(255,255,255,0.80)',
+            backdropFilter: 'blur(16px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+            borderRadius: 16,
             padding: '12px 16px',
-            border: '1px solid var(--pd)',
+            border: '1px solid rgba(255,255,255,0.9)',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.05)',
           }}>
             <Search style={{ width: 15, height: 15, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
             <input
@@ -332,24 +337,25 @@ export default function LibraryPage() {
                   ) : undefined
                 }
               />
-              {bookmarks.length === 0 ? (
-                <div style={{ padding: '20px 0' }}>
-                  <Bookmark style={{ width: 24, height: 24, color: 'var(--pd)', marginBottom: 10 }} strokeWidth={1.5} />
-                  <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.7, margin: 0 }}>
-                    아직 저장한 패턴이 없어요.<br />
-                    패턴 옆 북마크를 눌러 자주 쓰는 패턴을 모아보세요.
-                  </p>
-                </div>
-              ) : (
-                bookmarks.slice(0, 5).map((bm, i) => (
-                  <SavedPatternRow
-                    key={bm.patternId}
-                    bm={bm}
-                    border={i > 0}
-                    onPress={() => router.push(`/stories/${bm.storyId}?v=p`)}
-                  />
-                ))
-              )}
+              <div className="glass-card" style={{ padding: bookmarks.length === 0 ? '20px' : '0 20px', overflow: 'hidden' }}>
+                {bookmarks.length === 0 ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <Bookmark style={{ width: 20, height: 20, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.5} />
+                    <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.6, margin: 0 }}>
+                      패턴 옆 북마크를 눌러 자주 쓰는 패턴을 모아보세요.
+                    </p>
+                  </div>
+                ) : (
+                  bookmarks.slice(0, 5).map((bm, i) => (
+                    <SavedPatternRow
+                      key={bm.patternId}
+                      bm={bm}
+                      border={i > 0}
+                      onPress={() => router.push(`/stories/${bm.storyId}?v=p`)}
+                    />
+                  ))
+                )}
+              </div>
             </section>
 
             {/* ── SAVED WORDS ─────────────────────────────────────── */}
@@ -363,19 +369,20 @@ export default function LibraryPage() {
                   ) : undefined
                 }
               />
-              {words.length === 0 ? (
-                <div style={{ padding: '20px 0' }}>
-                  <BookOpen style={{ width: 24, height: 24, color: 'var(--pd)', marginBottom: 10 }} strokeWidth={1.5} />
-                  <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.7, margin: 0 }}>
-                    아직 저장한 단어가 없어요.<br />
-                    Story에서 단어를 길게 누르면 저장할 수 있어요.
-                  </p>
-                </div>
-              ) : (
-                words.slice(0, 8).map((w, i) => (
-                  <SavedWordRow key={w.id} w={w} border={i > 0} />
-                ))
-              )}
+              <div className="glass-card" style={{ padding: words.length === 0 ? '20px' : '0 20px', overflow: 'hidden' }}>
+                {words.length === 0 ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <BookOpen style={{ width: 20, height: 20, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.5} />
+                    <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.6, margin: 0 }}>
+                      Story에서 단어를 길게 누르면 저장할 수 있어요.
+                    </p>
+                  </div>
+                ) : (
+                  words.slice(0, 8).map((w, i) => (
+                    <SavedWordRow key={w.id} w={w} border={i > 0} />
+                  ))
+                )}
+              </div>
             </section>
           </>
         )}

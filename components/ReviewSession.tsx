@@ -120,13 +120,13 @@ export function ReviewSession() {
 
   // ── 로딩 ──
   if (cards === null) {
-    return <div className="min-h-dvh bg-[var(--pb)] flex items-center justify-center text-[var(--pm)] text-sm">{t('loading')}</div>
+    return <div className="min-h-dvh bg-transparent flex items-center justify-center text-[var(--pm)] text-sm">{t('loading')}</div>
   }
 
   // ── 복습할 항목 없음 ──
   if (total === 0) {
     return (
-      <div className="min-h-dvh bg-[var(--pb)] flex flex-col items-center justify-center px-8 text-center">
+      <div className="min-h-dvh bg-transparent flex flex-col items-center justify-center px-8 text-center">
         <Check className="w-10 h-10 text-[var(--pa)] mb-4" strokeWidth={1.6} />
         <p className="font-playfair text-[1.4rem] font-bold text-[var(--pt)] mb-2">{t('no_reviews_title')}</p>
         <p className="text-[13px] text-[var(--pm)] leading-relaxed mb-7 whitespace-pre-line">
@@ -143,7 +143,7 @@ export function ReviewSession() {
   // ── 완료 화면 ──
   if (done) {
     return (
-      <div className="min-h-dvh bg-[var(--pb)] flex flex-col items-center justify-center px-8 text-center">
+      <div className="min-h-dvh bg-transparent flex flex-col items-center justify-center px-8 text-center">
         <div className="w-14 h-14 rounded-full bg-[var(--pa)] flex items-center justify-center mb-4">
           <Check className="w-7 h-7 text-white" strokeWidth={2.5} />
         </div>
@@ -180,7 +180,7 @@ export function ReviewSession() {
 
   // ── 카드 진행 화면 ──
   return (
-    <div className="min-h-dvh bg-[var(--pb)] flex flex-col">
+    <div className="min-h-dvh bg-transparent flex flex-col">
       {/* 상단: 오늘 복습 진행률 */}
       <div className="px-6 pt-5">
         <div className="flex items-center justify-between mb-2">
@@ -197,7 +197,7 @@ export function ReviewSession() {
 
       {/* 카드 */}
       <div className="flex-1 flex flex-col justify-center px-6 py-4 min-h-0">
-        <div className="rounded-3xl border border-[var(--pd)] bg-[var(--pc)] px-6 py-8 flex flex-col shadow-sm max-h-[62vh] overflow-y-auto">
+        <div className="glass-card px-6 py-8 flex flex-col max-h-[62vh] overflow-y-auto">
           <span className="inline-flex items-center gap-1.5 text-[9px] tracking-[0.15em] font-bold text-[var(--pm)] mb-5 self-center">
             {isPattern ? <Layers className="w-3 h-3" /> : <BookOpen className="w-3 h-3" />}
             {card.storyLabel} · {isPattern ? 'PATTERN' : 'STORY'}

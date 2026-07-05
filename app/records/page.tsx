@@ -357,8 +357,12 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
       }} />
       <div style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
-        background: 'var(--pb)', borderRadius: '20px 20px 0 0',
-        boxShadow: '0 -4px 32px rgba(0,0,0,0.12)',
+        background: 'rgba(252,250,255,0.94)',
+        backdropFilter: 'blur(28px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+        borderRadius: '24px 24px 0 0',
+        border: '1px solid rgba(255,255,255,0.9)',
+        boxShadow: '0 -8px 40px rgba(0,0,0,0.10)',
         transform: open ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)',
         paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))',
@@ -368,9 +372,10 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
           <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto' }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
-          <p className="font-playfair" style={{
+          <p style={{
             fontSize: 'clamp(1.4rem, 5.5vw, 1.7rem)', fontWeight: 900,
             color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
             {detail ? fmtDate(detail.date) : ''}
           </p>
@@ -508,8 +513,12 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
       }} />
       <div style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
-        background: 'var(--pb)', borderRadius: '20px 20px 0 0',
-        boxShadow: '0 -4px 32px rgba(0,0,0,0.12)',
+        background: 'rgba(252,250,255,0.94)',
+        backdropFilter: 'blur(28px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+        borderRadius: '24px 24px 0 0',
+        border: '1px solid rgba(255,255,255,0.9)',
+        boxShadow: '0 -8px 40px rgba(0,0,0,0.10)',
         transform: open ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)',
         paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))',
@@ -519,9 +528,10 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
           <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto' }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
-          <p className="font-playfair" style={{
+          <p style={{
             fontSize: 'clamp(1.3rem, 5vw, 1.6rem)', fontWeight: 900,
             color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
             Memory Engine
           </p>
@@ -629,7 +639,7 @@ export default function ProgressPage() {
 
   return (
     <>
-      <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
+      <div style={{ height: '100dvh', overflowY: 'auto' }}>
         <TopNav />
 
         <div style={{
@@ -642,15 +652,16 @@ export default function ProgressPage() {
           {/* ── Page title ─────────────────────────────────────────────── */}
           <div style={{ marginBottom: 44, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
             <div>
-              <p className="font-playfair" style={{
+              <p style={{
                 fontSize: 'clamp(2rem, 9vw, 2.8rem)', fontWeight: 900,
                 letterSpacing: '-0.02em', lineHeight: 1, color: 'var(--pt)', margin: 0,
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
               }}>
                 Progress
               </p>
-              <p className="font-playfair" style={{
-                fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', fontStyle: 'italic',
-                fontWeight: 500, color: 'var(--pm)', marginTop: 10, lineHeight: 1.6,
+              <p style={{
+                fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)',
+                fontWeight: 400, color: 'var(--pm)', marginTop: 10, lineHeight: 1.6,
               }}>
                 {t('progress_subtitle')}
               </p>
@@ -865,7 +876,7 @@ export default function ProgressPage() {
           {/* ── 5. LEARNING JOURNEY ────────────────────────────────────── */}
           <section style={{ marginBottom: 72 }}>
             <SectionLabel label="Learning Journey" sub={t('journey_sub')} />
-            <div style={{ display: 'flex', borderLeft: '1px solid var(--pd)', borderRight: '1px solid var(--pd)' }}>
+            <div className="glass-card" style={{ display: 'flex', overflow: 'hidden' }}>
               <StatCell value={fmtTime(v.totalPracticeMs)}                  label="Practice"     border />
               <StatCell value={`${v.streak > 0 ? '🔥' : ''}${v.streak}`} label="Day Streak"   border />
               <StatCell value={v.learnedStories}                            label="Stories Done" border />

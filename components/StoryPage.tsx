@@ -181,23 +181,26 @@ export function StoryPage({
             type="button"
             onClick={onOpenPicker}
             aria-label="스토리 선택"
-            className="flex items-center mt-2 mb-1 group cursor-pointer"
+            className="flex items-center mt-2 mb-2 group cursor-pointer"
           >
-            <span className="text-[11px] tracking-[0.2em] font-semibold uppercase text-[var(--pa)] group-hover:opacity-70 transition-opacity">
+            <span className="text-[10px] tracking-[0.25em] font-bold uppercase text-[var(--pa)] group-hover:opacity-70 transition-opacity">
               Story {String(story.id).padStart(2, '0')}
             </span>
           </button>
 
           {/* Title */}
-          <h1 className="font-playfair text-[1.85rem] font-bold leading-tight text-[var(--pt)] mb-1">
+          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, lineHeight: 1.2, color: 'var(--pt)', marginBottom: 4, letterSpacing: '-0.02em' }}>
             {story.title}
           </h1>
 
           {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations) && (
-            <p className="text-[0.78rem] text-[var(--pm)] tracking-wide mb-5">
+            <p className="text-[0.78rem] text-[var(--pm)] tracking-wide mb-3">
               {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)}
             </p>
           )}
+
+          {/* Accent rule */}
+          <div style={{ height: 1.5, background: 'var(--pa)', width: 28, marginBottom: 20, borderRadius: 1, opacity: 0.7 }} />
 
           {/* Image Slider */}
           <StoryImageSlider
@@ -335,7 +338,7 @@ export function StoryPage({
           {/* Story note */}
           {resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations) && (
             <div className="mt-7 border-l-2 border-[var(--pd)] pl-3">
-              <p className="font-playfair text-sm text-[var(--pm)] leading-relaxed">
+              <p style={{ fontSize: 14, color: 'var(--pm)', lineHeight: 1.7 }}>
                 {resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations)}
               </p>
             </div>
@@ -344,29 +347,46 @@ export function StoryPage({
       </div>
 
       {/* Bottom nav */}
-      <div className="shrink-0 border-t border-[var(--pd)] bg-[var(--pb)] py-3 px-7">
+      <div className="shrink-0 bg-[var(--pb)] px-5 py-2" style={{ borderTop: '1px solid var(--pd)' }}>
         <div className="flex items-center justify-between">
           <button
             type="button"
             aria-label="이전"
             onClick={onPrev}
             disabled={!hasPrev}
-            className={`p-2 rounded-full transition-colors ${
-              hasPrev
-                ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer'
-                : 'text-[var(--pd)] cursor-not-allowed'
-            }`}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 40, height: 40, borderRadius: 12,
+              background: hasPrev ? 'var(--pc)' : 'transparent',
+              border: 'none', cursor: hasPrev ? 'pointer' : 'not-allowed',
+              color: hasPrev ? 'var(--pt)' : 'var(--pd)',
+              transition: 'all 0.15s',
+            }}
           >
             <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
           </button>
-          <span className="text-[8px] tracking-[0.3em] text-[var(--pm2)] font-medium">
-            {String(story.id).padStart(2, '0')} · STORY
-          </span>
+
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
+              Story
+            </p>
+            <p style={{ fontSize: 11, fontWeight: 800, color: 'var(--pa)', margin: 0, letterSpacing: '0.06em' }}>
+              {String(story.id).padStart(2, '0')}
+            </p>
+          </div>
+
           <button
             type="button"
             aria-label="다음 (패턴)"
             onClick={onNext}
-            className="p-2 rounded-full text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 40, height: 40, borderRadius: 12,
+              background: 'var(--pc)',
+              border: 'none', cursor: 'pointer',
+              color: 'var(--pt)',
+              transition: 'all 0.15s',
+            }}
           >
             <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
           </button>

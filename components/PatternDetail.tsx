@@ -3,6 +3,18 @@
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
+// One illustration per story — reused by all patterns in that story
+const STORY_ILLUSTRATIONS: Record<number, string> = {
+  1: '🌱', 2: '👋', 3: '☀️', 4: '🌙', 5: '☕',
+  6: '🔀', 7: '🏔️', 8: '✈️', 9: '🎒', 10: '📚',
+  11: '💬', 12: '🎁', 13: '📅', 14: '🏥', 15: '🏦',
+  16: '🛒', 17: '🏨', 18: '🚕', 19: '🌤️', 20: '🏃',
+}
+
+function storyIllustration(storyId: number): string {
+  return STORY_ILLUSTRATIONS[storyId] ?? STORY_ILLUSTRATIONS[((storyId - 1) % 20) + 1] ?? '✨'
+}
+
 import type { MagazinePattern } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -109,6 +121,19 @@ export function PatternDetail({
 
         {/* ── Pattern Card (glass) ── */}
         <div className="glass-card" style={{ padding: '20px 22px 24px', marginBottom: 12 }}>
+          {/* Story illustration */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8 }}>
+            <div style={{
+              width: 48, height: 48,
+              borderRadius: 14,
+              background: 'var(--pal)',
+              border: '1px solid var(--pacb)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 24,
+            }}>
+              {storyIllustration(storyId)}
+            </div>
+          </div>
           <PatternPracticeCard
             storyId={storyId}
             storyTitle={storyTitle}

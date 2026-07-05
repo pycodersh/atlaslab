@@ -307,14 +307,14 @@ export function PatternsPageV2({
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
-    <div className="h-full flex flex-col bg-[var(--pb)]">
+    <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
 
       {/* ── Scrollable main content ── */}
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         <div className="pl-7 pr-6 pt-5 pb-10">
 
           {/* Story header: number on top, title below */}
-          <div className="mt-2 mb-4">
+          <div className="mt-2 mb-3">
             <button
               type="button"
               onClick={onOpenPicker}
@@ -322,13 +322,15 @@ export function PatternsPageV2({
               className="flex flex-col items-start group cursor-pointer"
               style={{ background: 'none', border: 'none', padding: 0 }}
             >
-              <span className="text-[11px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity mb-0.5">
+              <span className="text-[10px] tracking-[0.25em] font-bold text-[var(--pa)] group-hover:opacity-70 transition-opacity mb-1">
                 STORY {String(story.id).padStart(2, '0')}
               </span>
-              <span className="text-[1.075rem] font-playfair text-[var(--pt)] font-bold leading-tight">
+              <span style={{ fontSize: '1.075rem', fontWeight: 800, color: 'var(--pt)', lineHeight: 1.3 }}>
                 {story.title}
               </span>
             </button>
+            {/* Accent rule */}
+            <div style={{ height: 1.5, background: 'var(--pa)', width: 28, marginTop: 10, borderRadius: 1, opacity: 0.7 }} />
           </div>
 
           {/* Pattern navigation + Language Toggle + Bookmark */}
@@ -392,22 +394,36 @@ export function PatternsPageV2({
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
 
-            {/* ── Pattern section — illust left, pattern name + meaning right ── */}
-            <div className="pt-6 pb-5 mb-5 flex items-center gap-5">
-              <div className="w-[96px] h-[96px] shrink-0">
+            {/* ── Pattern section — glass card ── */}
+            <div className="glass-card" style={{
+              padding: '20px 20px 18px',
+              marginBottom: 20,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 16,
+            }}>
+              <div style={{ width: 80, height: 80, flexShrink: 0 }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={`/images/patterns/${pattern.id}.svg`}
                   alt="" aria-hidden="true"
-                  className="w-[96px] h-[96px] object-contain"
+                  style={{ width: 80, height: 80, objectFit: 'contain' }}
                 />
               </div>
-              <div className="min-w-0">
-                <p className="text-[1.65rem] font-bold text-[var(--pt)] leading-snug">
+              <div style={{ minWidth: 0 }}>
+                <p style={{
+                  fontSize: '1.55rem', fontWeight: 800,
+                  color: 'var(--pt)', lineHeight: 1.15,
+                  margin: '0 0 6px', letterSpacing: '-0.01em',
+                }}>
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
-                  <p className="text-[1rem] text-[var(--pa)] mt-1.5 font-semibold tracking-wide">
+                  <p style={{
+                    fontSize: '0.9rem', fontWeight: 600,
+                    color: 'var(--pa)', margin: 0,
+                    letterSpacing: '0.01em',
+                  }}>
                     {patternMeaning}
                   </p>
                 )}
@@ -585,29 +601,46 @@ export function PatternsPageV2({
       </div>
 
       {/* ── Bottom navigation ── */}
-      <div className="shrink-0 border-t border-[var(--pd)] bg-[var(--pb)] py-3 px-7">
+      <div className="shrink-0 bg-[var(--pb)] px-5 py-2" style={{ borderTop: '1px solid var(--pd)' }}>
         <div className="flex items-center justify-between">
           <button
             type="button"
             aria-label="이전 (스토리)"
             onClick={onPrev}
-            className="p-2 rounded-full text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] transition-colors cursor-pointer"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 40, height: 40, borderRadius: 12,
+              background: 'var(--pc)',
+              border: 'none', cursor: 'pointer',
+              color: 'var(--pt)',
+              transition: 'all 0.15s',
+            }}
           >
             <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
           </button>
-          <span className="text-[8px] tracking-[0.3em] text-[var(--pm2)] font-medium">
-            {String(story.id).padStart(2, '0')} · PATTERNS
-          </span>
+
+          <div style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
+              Patterns
+            </p>
+            <p style={{ fontSize: 11, fontWeight: 800, color: 'var(--pa)', margin: 0, letterSpacing: '0.06em' }}>
+              {String(story.id).padStart(2, '0')}
+            </p>
+          </div>
+
           <button
             type="button"
             aria-label="다음 스토리"
             onClick={onNext}
             disabled={!hasNext}
-            className={`p-2 rounded-full transition-colors ${
-              hasNext
-                ? 'text-[var(--pm)] hover:text-[var(--pa)] hover:bg-[var(--pal)] cursor-pointer'
-                : 'text-[var(--pd)] cursor-not-allowed'
-            }`}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 40, height: 40, borderRadius: 12,
+              background: hasNext ? 'var(--pc)' : 'transparent',
+              border: 'none', cursor: hasNext ? 'pointer' : 'not-allowed',
+              color: hasNext ? 'var(--pt)' : 'var(--pd)',
+              transition: 'all 0.15s',
+            }}
           >
             <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
           </button>

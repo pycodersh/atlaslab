@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronDown, ChevronUp, Plus } from 'lucide-react'
-import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
+import { ChevronDown, ChevronUp, Plus, ChevronRight } from 'lucide-react'
+import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { type Essay, getEssays, getDailyReviewCount, MAX_DAILY_REVIEWS } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
@@ -23,16 +23,15 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
   return (
     <div
       onClick={onClick}
+      className="glass-card-sm"
       style={{
-        background: 'var(--pc)',
-        borderRadius: 16,
         padding: '18px 18px 14px',
         cursor: 'pointer',
         marginBottom: 10,
-        transition: 'opacity 0.15s',
+        transition: 'opacity 0.15s, transform 0.15s',
       }}
-      onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
-      onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+      onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+      onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -54,14 +53,16 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
           <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 6 }}>
             <span style={{
               fontSize: 10, color: 'var(--pm2)',
-              background: 'var(--pb)', borderRadius: 6, padding: '2px 7px',
+              background: 'rgba(255,255,255,0.6)', borderRadius: 6, padding: '2px 7px',
+              border: '1px solid rgba(255,255,255,0.8)',
             }}>
               {fmtDate(essay.createdAt)}
             </span>
             {hasReview && (
               <span style={{
                 fontSize: 10, color: '#27AE60', fontWeight: 700,
-                background: 'rgba(39,174,96,0.1)', borderRadius: 6, padding: '2px 7px',
+                background: 'rgba(39,174,96,0.08)', borderRadius: 6, padding: '2px 7px',
+                border: '1px solid rgba(39,174,96,0.15)',
               }}>
                 ✓ 첨삭 완료
               </span>
@@ -69,7 +70,7 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
             {essay.review?.detectedStyle && (
               <span style={{
                 fontSize: 10, color: 'var(--pm2)',
-                background: 'var(--pb)', borderRadius: 6, padding: '2px 7px',
+                background: 'rgba(255,255,255,0.6)', borderRadius: 6, padding: '2px 7px',
               }}>
                 {essay.review.detectedStyle}
               </span>
@@ -80,10 +81,11 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
           flexShrink: 0,
           width: 28, height: 28,
           borderRadius: 8,
-          background: 'var(--pb)',
+          background: 'rgba(255,255,255,0.6)',
+          border: '1px solid rgba(255,255,255,0.8)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <ChevronDown style={{ width: 13, height: 13, color: 'var(--pm2)', transform: 'rotate(-90deg)' }} strokeWidth={2} />
+          <ChevronRight style={{ width: 13, height: 13, color: 'var(--pm2)' }} strokeWidth={2} />
         </div>
       </div>
     </div>
@@ -107,12 +109,10 @@ export default function EssaysPage() {
   const hasMore   = essays.length > INITIAL_SHOW
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
+    <div style={{ minHeight: '100dvh' }}>
       <TopNav />
 
       <div style={{
-        paddingTop: 'var(--pnav-h)',
-        paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)`,
         maxWidth: 540,
         margin: '0 auto',
         padding: `var(--pnav-h) 20px calc(${TAB_BAR_HEIGHT}px + 24px)`,
@@ -122,29 +122,29 @@ export default function EssaysPage() {
         <div style={{ paddingTop: 24, marginBottom: 4 }}>
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12 }}>
             <div>
-              <p className="font-playfair" style={{
+              <p style={{
                 fontSize: 36, fontWeight: 900,
                 letterSpacing: '-0.03em', lineHeight: 1,
                 color: 'var(--pt)', margin: 0,
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
               }}>
                 ESSAYS
               </p>
-              <p className="font-playfair" style={{
-                fontSize: 14, fontStyle: 'italic',
+              <p style={{
+                fontSize: 14,
                 color: 'var(--pm)', marginTop: 8, lineHeight: 1.5, margin: '8px 0 0',
+                fontWeight: 400,
               }}>
                 {t('essays_subtitle')}
               </p>
             </div>
 
             {/* Review quota badge */}
-            <div style={{
+            <div className="glass-card-sm" style={{
               flexShrink: 0,
-              background: remaining === 0 ? 'var(--pc)' : 'var(--pal)',
-              border: `1px solid ${remaining === 0 ? 'var(--pd)' : 'var(--pacb)'}`,
-              borderRadius: 12,
               padding: '10px 14px',
               textAlign: 'center',
+              borderRadius: 14,
             }}>
               <div style={{ display: 'flex', gap: 3, marginBottom: 4, justifyContent: 'center' }}>
                 {Array.from({ length: MAX_DAILY_REVIEWS }).map((_, i) => (
@@ -164,7 +164,6 @@ export default function EssaysPage() {
             </div>
           </div>
 
-          {/* Accent rule */}
           <div style={{ height: 2, background: 'var(--pa)', width: 36, marginTop: 14, borderRadius: 1 }} />
         </div>
 
@@ -182,16 +181,17 @@ export default function EssaysPage() {
             padding: '16px 0',
             background: 'var(--pa)',
             border: 'none',
-            borderRadius: 16,
+            borderRadius: 18,
             cursor: 'pointer',
             fontSize: 15,
             fontWeight: 800,
             color: '#fff',
             letterSpacing: '0.02em',
-            transition: 'opacity 0.15s',
+            boxShadow: '0 4px 20px rgba(122,30,63,0.25)',
+            transition: 'opacity 0.15s, transform 0.15s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '0.9'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+          onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)' }}
         >
           <Plus style={{ width: 18, height: 18 }} strokeWidth={2.5} />
           New Essay
@@ -199,12 +199,12 @@ export default function EssaysPage() {
 
         {/* ── Essay list ───────────────────────────────────────────────── */}
         {essays.length > 0 ? (
-          <div style={{ marginTop: 24 }}>
-            {/* Section label */}
+          <div style={{ marginTop: 28 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-              <p className="font-playfair" style={{
-                fontSize: 18, fontWeight: 900,
+              <p style={{
+                fontSize: 18, fontWeight: 800,
                 color: 'var(--pt)', margin: 0, letterSpacing: '-0.01em',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
               }}>
                 My Essays
               </p>
@@ -221,17 +221,17 @@ export default function EssaysPage() {
               />
             ))}
 
-            {/* Show More / Show Less */}
             {hasMore && (
               <button
                 type="button"
                 onClick={() => setShowAll(v => !v)}
+                className="glass-card-sm"
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   gap: 6, width: '100%', padding: '13px 0',
-                  background: 'var(--pc)', border: 'none', cursor: 'pointer',
+                  border: 'none', cursor: 'pointer',
                   borderRadius: 14, marginTop: 4,
-                  fontSize: 12, fontWeight: 600, color: 'var(--pm2)',
+                  fontSize: 12, fontWeight: 600, color: 'var(--pm)',
                 }}
               >
                 {showAll ? 'Show Less' : `Show More (${essays.length - INITIAL_SHOW})`}
@@ -244,17 +244,16 @@ export default function EssaysPage() {
           </div>
         ) : (
           <div style={{ textAlign: 'center', paddingTop: 48 }}>
-            <div style={{
-              width: 64, height: 64,
+            <div className="glass-card-sm" style={{
+              width: 72, height: 72,
               borderRadius: '50%',
-              background: 'var(--pc)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 16px',
             }}>
-              <span style={{ fontSize: 28 }}>✍️</span>
+              <span style={{ fontSize: 32 }}>✍️</span>
             </div>
-            <p className="font-playfair" style={{
-              fontSize: 15, fontStyle: 'italic',
+            <p style={{
+              fontSize: 15,
               color: 'var(--pm)', lineHeight: 1.8, margin: 0,
               whiteSpace: 'pre-line',
             }}>
