@@ -10,7 +10,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <p style={{
       fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
-      color: 'var(--pa)', textTransform: 'uppercase',
+      color: '#3A3A3C', textTransform: 'uppercase',
       margin: '36px 0 0', paddingBottom: 10,
     }}>
       {children}
@@ -81,7 +81,7 @@ export default function SubscriptionPage() {
           <div style={{
             display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0',
           }}>
-            <Sparkles style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
+            <Sparkles style={{ width: 17, height: 17, color: '#3A3A3C', flexShrink: 0 }} strokeWidth={1.5} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px' }}>Free</p>
               <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{t('sub_free_desc')}</p>
@@ -97,7 +97,7 @@ export default function SubscriptionPage() {
               key={label}
               style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0' }}
             >
-              <Icon style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.8} />
+              <Icon style={{ width: 14, height: 14, color: '#3A3A3C', flexShrink: 0 }} strokeWidth={1.8} />
               <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--pt2)', margin: 0 }}>{label}</p>
             </div>
           ))}
@@ -116,7 +116,7 @@ export default function SubscriptionPage() {
                 style={{
                   width: '100%', textAlign: 'left', cursor: 'pointer',
                   background: 'none',
-                  border: isSelected ? '1.5px solid var(--pa)' : '1.5px solid var(--pd)',
+                  border: isSelected ? '1.5px solid #3A3A3C' : '1.5px solid var(--pd)',
                   borderRadius: 14, padding: '14px 18px',
                   transition: 'border-color 0.18s ease',
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -130,7 +130,7 @@ export default function SubscriptionPage() {
                     {plan.label}
                   </p>
                   {plan.note && (
-                    <p style={{ fontSize: 10, color: 'var(--pa)', margin: 0, fontWeight: 500 }}>
+                    <p style={{ fontSize: 10, color: '#3A3A3C', margin: 0, fontWeight: 500 }}>
                       {plan.note}
                     </p>
                   )}
@@ -164,7 +164,7 @@ export default function SubscriptionPage() {
               WebkitBackdropFilter: 'blur(24px) saturate(180%)',
               border: '1px solid rgba(255,255,255,0.82)',
               boxShadow: '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
-              color: 'var(--pa)',
+              color: '#3A3A3C',
               borderRadius: 12,
               fontSize: 12, fontWeight: 700,
               letterSpacing: '0.14em', cursor: 'pointer',

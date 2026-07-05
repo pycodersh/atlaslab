@@ -540,22 +540,17 @@ export function PatternsPageV2({
                           background: 'transparent', border: 'none', cursor: 'pointer', padding: 0,
                         }}
                       >
-                        {showExEn ? (
-                          <p style={{ fontSize: 14.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.5, margin: '0 0 2px' }}>
-                            {ex.en}
-                          </p>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={(e) => { e.stopPropagation(); revealEx(patIdx, i) }}
-                            style={{ background: 'none', border: 'none', padding: 0, width: '100%', textAlign: 'left', cursor: 'pointer' }}
-                          >
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingTop: 2 }}>
-                              <div style={{ height: 11, borderRadius: 6, background: 'var(--pd)', width: '85%' }} />
-                              <div style={{ height: 11, borderRadius: 6, background: 'var(--pd)', width: '55%' }} />
-                            </div>
-                          </button>
-                        )}
+                        <p style={{
+                          fontSize: 14.5, fontWeight: isActive ? 600 : 400,
+                          color: isActive ? 'var(--pt)' : 'var(--pt2)',
+                          lineHeight: 1.5, margin: '0 0 2px',
+                          opacity: showExEn ? 1 : 0.04,
+                          userSelect: showExEn ? undefined : 'none',
+                          pointerEvents: showExEn ? undefined : 'none',
+                          transition: 'opacity 0.2s',
+                        }}>
+                          {ex.en}
+                        </p>
                         {showKorean && exKo && (
                           <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
                             {exKo}

@@ -22,7 +22,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
       onClick={() => onChange(!on)}
       style={{
         width: 44, height: 26, borderRadius: 13,
-        background: on ? 'var(--pa)' : 'var(--pd)',
+        background: on ? '#3A3A3C' : 'var(--pd)',
         border: 'none', cursor: 'pointer',
         position: 'relative', flexShrink: 0, padding: 0,
         transition: 'background 0.22s ease',
@@ -52,7 +52,7 @@ function ToggleRow({ icon: Icon, label, desc, on, onChange, last }: {
       display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0',
       borderBottom: last ? 'none' : '1px solid var(--pd)',
     }}>
-      <Icon style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
+      <Icon style={{ width: 17, height: 17, color: '#3A3A3C', flexShrink: 0 }} strokeWidth={1.5} />
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px' }}>{label}</p>
         <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{desc}</p>
@@ -79,7 +79,7 @@ function NavRow({ icon: Icon, label, desc, displayValue, onClick, last }: {
         cursor: 'pointer', textAlign: 'left',
       }}
     >
-      <Icon style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
+      <Icon style={{ width: 17, height: 17, color: '#3A3A3C', flexShrink: 0 }} strokeWidth={1.5} />
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px' }}>{label}</p>
         <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>{desc}</p>
@@ -134,7 +134,7 @@ function BottomSheet<T extends string>({
         {/* Section label as title */}
         <p style={{
           fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
-          color: 'var(--pa)', textTransform: 'uppercase',
+          color: '#3A3A3C', textTransform: 'uppercase',
           margin: '20px 24px 4px',
         }}>
           {title}
@@ -162,7 +162,7 @@ function BottomSheet<T extends string>({
                     {opt.label}
                   </span>
                   {opt.value === value && (
-                    <Check style={{ width: 15, height: 15, color: 'var(--pa)', flexShrink: 0, marginLeft: 8 }} strokeWidth={2.5} />
+                    <Check style={{ width: 15, height: 15, color: '#3A3A3C', flexShrink: 0, marginLeft: 8 }} strokeWidth={2.5} />
                   )}
                 </button>
                 {renderRight && (
@@ -184,7 +184,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
     <p style={{
       fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
-      color: 'var(--pa)', textTransform: 'uppercase',
+      color: '#3A3A3C', textTransform: 'uppercase',
       margin: '36px 0 0', paddingBottom: 10,
     }}>
       {children}
@@ -284,11 +284,11 @@ export default function PreferencesPage() {
           <div style={{
             display: 'flex', alignItems: 'flex-start', gap: 16, padding: '18px 0',
           }}>
-            <Waves style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0, marginTop: 2 }} strokeWidth={1.5} />
+            <Waves style={{ width: 17, height: 17, color: '#3A3A3C', flexShrink: 0, marginTop: 2 }} strokeWidth={1.5} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 1 }}>
                 <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>Ambience Volume</p>
-                <span style={{ fontSize: 12, color: 'var(--pa)', fontWeight: 600, flexShrink: 0, marginLeft: 8 }}>
+                <span style={{ fontSize: 12, color: '#3A3A3C', fontWeight: 600, flexShrink: 0, marginLeft: 8 }}>
                   {prefs.ambienceVolume ?? 50}%
                 </span>
               </div>
@@ -302,7 +302,7 @@ export default function PreferencesPage() {
                 step={5}
                 value={prefs.ambienceVolume ?? 50}
                 onChange={e => update({ ambienceVolume: Number(e.target.value) })}
-                style={{ width: '100%', accentColor: 'var(--pa)', cursor: 'pointer' }}
+                style={{ width: '100%', accentColor: '#3A3A3C', cursor: 'pointer' }}
               />
             </div>
           </div>

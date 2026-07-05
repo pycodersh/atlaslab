@@ -505,45 +505,47 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
     return () => { document.body.style.overflow = '' }
   }, [open])
 
+  if (!open) return null
+
   return (
-    <>
-      <div onClick={onClose} style={{
-        position: 'fixed', inset: 0, zIndex: 60, background: 'rgba(0,0,0,0.45)',
-        opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none', transition: 'opacity 0.25s ease',
-      }} />
-      <div style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
-        background: 'rgba(252,250,255,0.94)',
-        backdropFilter: 'blur(28px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-        borderRadius: '24px 24px 0 0',
-        border: '1px solid rgba(255,255,255,0.9)',
-        boxShadow: '0 -8px 40px rgba(0,0,0,0.10)',
-        transform: open ? 'translateY(0)' : 'translateY(100%)',
-        transition: 'transform 0.32s cubic-bezier(0.4, 0, 0.2, 1)',
-        paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))',
-        maxHeight: '80dvh', overflowY: 'auto',
-      }}>
-        <div style={{ padding: '12px 24px 0' }}>
-          <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto' }} />
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
-          <p style={{
-            fontSize: 'clamp(1.3rem, 5vw, 1.6rem)', fontWeight: 900,
-            color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          }}>
-            Memory Engine
-          </p>
-          <button type="button" onClick={onClose} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            width: 32, height: 32, borderRadius: '50%',
-            background: 'var(--pc)', border: 'none', cursor: 'pointer', flexShrink: 0,
-          }}>
-            <X style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
-          </button>
-        </div>
-        <div style={{ padding: '20px 24px' }}>
+    <div
+      role="dialog"
+      aria-modal="true"
+      style={{
+        position: 'fixed', inset: 0, zIndex: 100,
+        background: 'rgba(0,0,0,0.22)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '0 20px',
+      }}
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
+    >
+      <div
+        className="glass-card"
+        style={{
+          width: '100%', maxWidth: 480,
+          maxHeight: '80dvh', overflowY: 'auto',
+          borderRadius: 24,
+        }}
+      >
+        <div style={{ padding: '24px 24px 40px' }}>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
+            <p style={{
+              fontSize: 'clamp(1.1rem, 4.5vw, 1.3rem)', fontWeight: 800,
+              color: '#3A3A3C', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.25,
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+            }}>
+              Memory Engine
+            </p>
+            <button type="button" onClick={onClose} style={{
+              width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
+              background: 'var(--pc)', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <X style={{ width: 14, height: 14, color: 'var(--pm)' }} strokeWidth={2} />
+            </button>
+          </div>
+
           <p style={{ fontSize: 13, color: 'var(--pt2)', lineHeight: 1.7, margin: '0 0 24px' }}>
             Patto는 <strong>간격 반복(SRS)</strong>으로 패턴을 장기 기억으로 굳혀요.<br />
             복습을 맞히면 다음 복습 간격이 늘어나고, 틀리면 다시 처음부터 시작해요.
@@ -575,7 +577,7 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
             5개 모두 채워지면 Mastered — 장기 기억 완성이에요.
           </p>
 
-          <div style={{ padding: '14px 16px', background: 'var(--pc)', borderRadius: 10 }}>
+          <div style={{ padding: '14px 16px', background: 'rgba(100,110,140,0.06)', border: '1px solid rgba(100,110,140,0.12)', borderRadius: 14 }}>
             <p style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1.6, margin: 0 }}>
               📅 <strong>Memory Calendar</strong>의 작은 점(·)은 미래 복습 예정일을 나타내요.
               밀린 복습이 생겨도 하루 최대 5개만 표시해 부담을 줄여드려요.
@@ -583,7 +585,7 @@ function HelpSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

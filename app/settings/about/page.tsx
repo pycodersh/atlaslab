@@ -87,7 +87,7 @@ export default function AboutPage() {
                 display: 'flex', alignItems: 'center', gap: 16, padding: '18px 0',
                 borderBottom: i < ITEMS.length - 1 ? '1px solid var(--pd)' : 'none',
               }}>
-                <Icon style={{ width: 17, height: 17, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={1.5} />
+                <Icon style={{ width: 17, height: 17, color: '#3A3A3C', flexShrink: 0 }} strokeWidth={1.5} />
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.01em' }}>
                     {label}
@@ -118,7 +118,7 @@ export default function AboutPage() {
         <div style={{ marginTop: 64, textAlign: 'center' }}>
           <p className="font-playfair" style={{
             fontSize: 15, fontWeight: 900, letterSpacing: '0.06em',
-            color: 'var(--pa)', margin: '0 0 5px', opacity: 0.7,
+            color: '#3A3A3C', margin: '0 0 5px', opacity: 0.7,
           }}>
             PATTO
           </p>
