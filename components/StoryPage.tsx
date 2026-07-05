@@ -302,7 +302,7 @@ export function StoryPage({
 
             {/* Paragraphs */}
             <div style={{ padding: '12px 28px 8px' }}>
-              <div className="space-y-5">
+              <div className="space-y-2">
                 {story.paragraphs.map((para) => {
                   const isPlaying    = playingParaId === para.id
                   const isCurrentTTS = currentParagraphIdx >= 0 &&
@@ -316,7 +316,7 @@ export function StoryPage({
 
                   return (
                     <div key={para.id} className="relative group" data-para-id={para.id}>
-                      <div className={`pr-8 rounded-xl px-2 py-1.5 -mx-2 transition-colors ${
+                      <div className={`rounded-xl px-2 py-1 -mx-2 transition-colors ${
                         isCurrentTTS && isSpeaking ? 'bg-[var(--pal)]' : ''
                       }`}>
                         {/* English */}
@@ -330,7 +330,7 @@ export function StoryPage({
                               paragraphId:      para.id,
                               originalSentence: para.english,
                             }}
-                            className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block"
+                            className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block text-justify"
                           />
                         ) : (
                           <button
@@ -352,7 +352,7 @@ export function StoryPage({
 
                         {/* Korean translation */}
                         {showKorean && koText && (
-                          <p className="text-[0.8rem] text-[var(--pm)] leading-relaxed mt-1.5">
+                          <p className="text-[0.8rem] text-[var(--pm)] leading-relaxed mt-1 text-justify">
                             {koText}
                           </p>
                         )}
