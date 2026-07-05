@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ChevronRight, Flame, X, BookOpen, RotateCcw } from 'lucide-react'
+import { ArrowRight, ChevronRight, Flame, X, BookOpen, RotateCcw, Pencil } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
@@ -190,25 +190,9 @@ export default function HomePage() {
             background: 'linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.12) 35%, rgba(0,0,0,0.76) 100%)',
           }} />
 
-          {/* Top-left: Today badge */}
+          {/* Top-left: story number */}
           <div style={{ position: 'absolute', top: 16, left: 16 }}>
-            <span style={{
-              display: 'inline-block', padding: '4px 10px',
-              background: 'rgba(255,255,255,0.22)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255,255,255,0.38)',
-              borderRadius: 20,
-              fontSize: 9, fontWeight: 700, letterSpacing: '0.12em',
-              color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase',
-            }}>
-              Today
-            </span>
-          </div>
-
-          {/* Top-right: story number */}
-          <div style={{ position: 'absolute', top: 16, right: 16 }}>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.5)' }}>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.6)' }}>
               STORY {String(todayStory.id).padStart(2, '0')}
             </span>
           </div>
@@ -320,14 +304,7 @@ export default function HomePage() {
                 display: 'flex', alignItems: 'center', gap: 12,
               }}
             >
-              <div style={{
-                width: 34, height: 34, borderRadius: 10, flexShrink: 0,
-                background: 'linear-gradient(135deg, rgba(109,141,255,0.12) 0%, rgba(155,143,232,0.12) 100%)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                border: '1px solid rgba(109,141,255,0.15)',
-              }}>
-                <span style={{ fontSize: 16 }}>✏️</span>
-              </div>
+              <Pencil style={{ width: 15, height: 15, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.8} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 3px', textTransform: 'uppercase' }}>
                   Editor Tip
