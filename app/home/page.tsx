@@ -147,6 +147,14 @@ export default function HomePage() {
   const tipBody     = dailyTip?.body?.ko     ?? dailyTip?.body?.en     ?? []
   const tipRemember = dailyTip?.oneThingToRemember?.ko ?? dailyTip?.oneThingToRemember?.en ?? ''
 
+  const frostedCard: React.CSSProperties = {
+    background: 'rgba(255,255,255,0.32)',
+    backdropFilter: 'blur(28px) saturate(180%)',
+    WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+    border: '1px solid rgba(255,255,255,0.52)',
+    boxShadow: '0 4px 20px rgba(30,40,60,0.06), inset 0 1px 0 rgba(255,255,255,0.75)',
+  }
+
   const glassChip = {
     display: 'inline-block' as const,
     padding: '3px 8px',
@@ -262,7 +270,7 @@ export default function HomePage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
 
           {/* NEW STORY */}
-          <div className="glass-card-sm" style={{ padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <div className="glass-card-sm" style={{ ...frostedCard, padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
               <BookOpen style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
               <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>New Story</p>
@@ -276,7 +284,7 @@ export default function HomePage() {
           </div>
 
           {/* REVIEW STORY */}
-          <div className="glass-card-sm" style={{ padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <div className="glass-card-sm" style={{ ...frostedCard, padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
               <RotateCcw style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
               <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>Review Story</p>
@@ -290,7 +298,7 @@ export default function HomePage() {
           </div>
 
           {/* STREAK */}
-          <div className="glass-card-sm" style={{ padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          <div className="glass-card-sm" style={{ ...frostedCard, padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
               <Flame style={{ width: 9, height: 9, color: '#D0601A' }} strokeWidth={2} />
               <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>Streak</p>
@@ -309,8 +317,9 @@ export default function HomePage() {
               onClick={() => setTipOpen(true)}
               className="glass-card-sm"
               style={{
+                ...frostedCard,
                 width: '100%', textAlign: 'left', cursor: 'pointer',
-                padding: '12px 15px', border: 'none',
+                padding: '12px 15px',
                 display: 'flex', alignItems: 'center', gap: 10,
               }}
             >
