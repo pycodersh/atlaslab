@@ -344,7 +344,7 @@ export function PatternsPageV2({
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
-        <div style={{ padding: '0 16px 40px' }}>
+        <div style={{ padding: '0 16px 112px' }}>
 
           {/* ── Story label + Dot progress ── */}
           <div style={{
