@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ChevronRight, Flame, X, BookOpen, RotateCcw, Pencil } from 'lucide-react'
+import { ArrowRight, ChevronRight, Flame, X, Pencil } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
@@ -23,7 +23,7 @@ function getDailyTip() {
   return EDITOR_NOTES[dayOfYear % EDITOR_NOTES.length]
 }
 
-type StoryLabel = 'Today' | 'Reading' | 'Review' | 'Tomorrow' | 'Upcoming' | 'Done'
+type StoryLabel = 'Review' | 'Tomorrow' | 'Upcoming' | 'Done'
 
 type ScheduledStory = {
   story: MagazineStory
@@ -32,39 +32,40 @@ type ScheduledStory = {
   done: boolean
 }
 
-const LABEL_STYLE: Record<StoryLabel, { bg: string; color: string }> = {
-  Today:    { bg: 'var(--pa)',               color: '#fff' },
-  Reading:  { bg: 'rgba(109,141,255,0.72)',  color: '#fff' },
-  Review:   { bg: 'rgba(255,165,50,0.85)',   color: '#fff' },
-  Tomorrow: { bg: 'rgba(130,130,150,0.75)',  color: '#fff' },
-  Upcoming: { bg: 'rgba(160,160,180,0.55)',  color: '#fff' },
-  Done:     { bg: 'rgba(39,174,96,0.88)',    color: '#fff' },
+// Glass chip — same bg for all, only text color varies
+const CHIP_COLOR: Record<StoryLabel | 'Reading', string> = {
+  Review:   '#B07820',
+  Tomorrow: '#8E8E93',
+  Upcoming: '#8E8E93',
+  Done:     '#2D8A4E',
+  Reading:  '#5577CC',
 }
 
 export default function HomePage() {
   const router = useRouter()
 
-  const [firstHref, setFirstHref]         = useState('/stories/1')
-  const [streak, setStreak]               = useState(0)
-  const [todayStory, setTodayStory]       = useState<MagazineStory>(magazineStories[0])
-  const [newStoryIds, setNewStoryIds]     = useState<number[]>([])
+  const [firstHref, setFirstHref]           = useState('/stories/1')
+  const [streak, setStreak]                 = useState(0)
+  const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
+  const [newStoryIds, setNewStoryIds]       = useState<number[]>([])
   const [reviewStoryIds, setReviewStoryIds] = useState<number[]>([])
-  const [scheduledList, setScheduledList] = useState<ScheduledStory[]>([])
-  const [allDone, setAllDone]             = useState(false)
-  const [tipOpen, setTipOpen]             = useState(false)
+  const [scheduledList, setScheduledList]   = useState<ScheduledStory[]>([])
+  const [allDone, setAllDone]               = useState(false)
+  const [tipOpen, setTipOpen]               = useState(false)
 
   const dailyTip = getDailyTip()
 
   useEffect(() => {
-    const records = getAllRecords()
-    const today   = todayStr()
+    const records  = getAllRecords()
+    const today    = todayStr()
     const tomorrow = addDays(today, 1)
 
     try { setStreak(getStreak()) } catch { setStreak(0) }
 
     const missionItems = getMissionItems()
-    const missionMap = new Map(missionItems.map(i => [i.storyId, i]))
+    const missionMap   = new Map(missionItems.map(i => [i.storyId, i]))
 
+    // firstHref — first pending mission, or last position, or next unlearned
     const firstPending = missionItems.find(i => !i.done)
     if (firstPending) {
       setFirstHref(firstPending.href)
@@ -81,24 +82,22 @@ export default function HomePage() {
       }
     }
 
+    // Hero story
     const heroMission = missionItems.find(i => i.type === 'new_story' || i.type === 'in_progress_story')
-    const heroData = heroMission
+    const heroData    = heroMission
       ? magazineStories.find(s => s.id === heroMission.storyId) ?? magazineStories[0]
       : magazineStories[0]
     setTodayStory(heroData)
 
     setAllDone(missionItems.length > 0 && missionItems.every(i => i.done))
 
-    // New vs Review story IDs
-    const newIds = missionItems
-      .filter(i => i.type === 'new_story' || i.type === 'in_progress_story')
-      .map(i => i.storyId)
-    const reviewIds = missionItems
-      .filter(i => i.type === 'review_pattern')
-      .map(i => i.storyId)
+    // NEW / REVIEW story IDs for summary cards
+    const newIds    = missionItems.filter(i => i.type === 'new_story' || i.type === 'in_progress_story').map(i => i.storyId)
+    const reviewIds = missionItems.filter(i => i.type === 'review_pattern').map(i => i.storyId)
     setNewStoryIds(newIds)
     setReviewStoryIds(reviewIds)
 
+    // Per-story earliest next review date
     const storyNextReview: Record<number, string> = {}
     for (const r of records) {
       if (r.itemType !== 'pattern' || !r.storyId || !r.nextReviewAt) continue
@@ -110,28 +109,31 @@ export default function HomePage() {
       records.filter(r => r.itemType === 'pattern' && r.repeatCount > 0).map(r => r.storyId).filter(Boolean)
     )
 
+    // Stories list: Review + Upcoming only (no Today/Reading — those are the hero)
+    const heroIds = new Set(newIds)
     const list: ScheduledStory[] = []
 
+    // Review items (review_pattern from mission)
     for (const item of missionItems) {
+      if (item.type !== 'review_pattern') continue
       const story = magazineStories.find(s => s.id === item.storyId)
       if (!story) continue
-      const label: StoryLabel =
-        item.type === 'review_pattern'    ? 'Review' :
-        item.type === 'in_progress_story' ? 'Reading' : 'Today'
-      list.push({ story, label, href: item.href, done: item.done })
+      list.push({ story, label: item.done ? 'Done' : 'Review', href: item.href, done: item.done })
     }
 
+    // Tomorrow stories
     for (const s of magazineStories) {
       if (list.length >= 8) break
-      if (missionMap.has(s.id)) continue
+      if (heroIds.has(s.id) || missionMap.has(s.id)) continue
       if (storyNextReview[s.id] === tomorrow) {
         list.push({ story: s, label: 'Tomorrow', href: `/stories/${s.id}`, done: false })
       }
     }
 
+    // Upcoming (not started, not in mission, not hero)
     for (const s of magazineStories) {
       if (list.length >= 8) break
-      if (missionMap.has(s.id)) continue
+      if (heroIds.has(s.id) || missionMap.has(s.id)) continue
       if (storyNextReview[s.id] === tomorrow) continue
       if (!learnedIds.has(s.id)) {
         list.push({ story: s, label: 'Upcoming', href: `/stories/${s.id}`, done: false })
@@ -141,9 +143,22 @@ export default function HomePage() {
     setScheduledList(list.slice(0, 8))
   }, [])
 
-  const tipTitle = dailyTip?.title?.ko ?? dailyTip?.title?.en ?? ''
-  const tipBody  = dailyTip?.body?.ko ?? dailyTip?.body?.en ?? []
+  const tipTitle    = dailyTip?.title?.ko    ?? dailyTip?.title?.en    ?? ''
+  const tipBody     = dailyTip?.body?.ko     ?? dailyTip?.body?.en     ?? []
   const tipRemember = dailyTip?.oneThingToRemember?.ko ?? dailyTip?.oneThingToRemember?.en ?? ''
+
+  const glassChip = {
+    display: 'inline-block' as const,
+    padding: '3px 8px',
+    background: 'rgba(255,255,255,0.42)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255,255,255,0.65)',
+    borderRadius: 8,
+    fontSize: 8.5,
+    fontWeight: 700,
+    letterSpacing: '0.06em',
+  }
 
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
@@ -154,7 +169,7 @@ export default function HomePage() {
         paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)`,
       }}>
 
-        {/* ── Date header ─────────────────────────────────────────────── */}
+        {/* ── Date ────────────────────────────────────────────────────── */}
         <div style={{ padding: '20px 20px 0' }}>
           <p style={{
             fontSize: 11, fontWeight: 600, letterSpacing: '0.12em',
@@ -164,7 +179,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* ── Hero Card ───────────────────────────────────────────────── */}
+        {/* ── Hero Cover ──────────────────────────────────────────────── */}
         <div
           role="button"
           tabIndex={0}
@@ -175,7 +190,7 @@ export default function HomePage() {
             margin: '12px 20px 0',
             borderRadius: 20,
             overflow: 'hidden',
-            height: 360,
+            height: 340,
             cursor: 'pointer',
           }}
         >
@@ -187,23 +202,22 @@ export default function HomePage() {
           />
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.12) 35%, rgba(0,0,0,0.76) 100%)',
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.10) 35%, rgba(0,0,0,0.78) 100%)',
           }} />
 
           {/* Top-left: story number */}
-          <div style={{ position: 'absolute', top: 16, left: 16 }}>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.6)' }}>
+          <div style={{ position: 'absolute', top: 14, left: 16 }}>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.55)' }}>
               STORY {String(todayStory.id).padStart(2, '0')}
             </span>
           </div>
 
-          {/* Bottom content — title left, Continue right */}
+          {/* Bottom: title left / Continue right */}
           <div style={{
             position: 'absolute', bottom: 0, left: 0, right: 0,
             padding: '0 18px 18px',
             display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 12,
           }}>
-            {/* Left: title + subtitle */}
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{
                 fontSize: 22, fontWeight: 900, letterSpacing: '-0.02em',
@@ -214,28 +228,27 @@ export default function HomePage() {
               }}>
                 {todayStory.title}
               </p>
-              <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', margin: 0, lineHeight: 1.3,
+              <p style={{
+                fontSize: 12, color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.3,
                 overflow: 'hidden', display: '-webkit-box',
                 WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
               }}>
                 {todayStory.subtitleKo}
               </p>
             </div>
-
-            {/* Right: Continue button */}
             <button
               type="button"
               onClick={e => { e.stopPropagation(); router.push(firstHref) }}
               style={{
                 flexShrink: 0,
                 display: 'inline-flex', alignItems: 'center', gap: 5,
-                background: 'rgba(255,255,255,0.22)',
+                background: 'rgba(255,255,255,0.20)',
                 backdropFilter: 'blur(20px) saturate(160%)',
                 WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-                border: '1px solid rgba(255,255,255,0.45)',
+                border: '1px solid rgba(255,255,255,0.40)',
                 borderRadius: 999, padding: '9px 16px',
                 cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#fff',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.4)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.35)',
                 transition: 'all 0.15s', letterSpacing: '0.01em', whiteSpace: 'nowrap',
               }}
             >
@@ -245,68 +258,59 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ── Stats — [Today Story] [Streak] ──────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, margin: '12px 20px 0' }}>
+        {/* ── Summary Cards — NEW / REVIEW / STREAK ───────────────────── */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
 
-          {/* Today Story card — New / Review */}
-          <div className="glass-card-sm" style={{ padding: '13px 14px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 10 }}>
-              <BookOpen style={{ width: 12, height: 12, color: 'var(--pm2)' }} strokeWidth={2} />
-              <span style={{ fontSize: 9, fontWeight: 700, color: 'var(--pm2)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Today Story</span>
-            </div>
-            <div style={{ display: 'flex', gap: 12 }}>
-              {/* New */}
-              <div>
-                <p style={{ fontSize: 8, fontWeight: 600, color: 'var(--pm2)', letterSpacing: '0.08em', textTransform: 'uppercase', margin: '0 0 3px' }}>New</p>
-                <p style={{ fontSize: 18, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
-                  {newStoryIds.length > 0
-                    ? newStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
-                    : <span style={{ fontSize: 13, color: 'var(--pm2)', fontWeight: 500 }}>—</span>
-                  }
-                </p>
-              </div>
-              {/* Review */}
-              {reviewStoryIds.length > 0 && (
-                <div>
-                  <p style={{ fontSize: 8, fontWeight: 600, color: 'var(--pm2)', letterSpacing: '0.08em', textTransform: 'uppercase', margin: '0 0 3px' }}>
-                    Review
-                  </p>
-                  <p style={{ fontSize: 18, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
-                    {reviewStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')}
-                  </p>
-                </div>
-              )}
-            </div>
+          {/* NEW */}
+          <div className="glass-card-sm" style={{ padding: '12px 12px 13px' }}>
+            <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>New</p>
+            <p style={{ fontSize: 20, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+              {newStoryIds.length > 0
+                ? newStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
+                : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
+              }
+            </p>
           </div>
 
-          {/* Streak card */}
-          <div className="glass-card-sm" style={{ padding: '13px 14px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              <Flame style={{ width: 12, height: 12, color: '#E06030' }} strokeWidth={2} />
-              <span style={{ fontSize: 9, fontWeight: 700, color: 'var(--pm2)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Streak</span>
-            </div>
-            <p style={{ fontSize: 28, fontWeight: 900, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.02em' }}>
-              {streak}<span style={{ fontSize: 12, fontWeight: 500, color: 'var(--pm)', marginLeft: 2 }}>d</span>
+          {/* REVIEW */}
+          <div className="glass-card-sm" style={{ padding: '12px 12px 13px' }}>
+            <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>Review</p>
+            <p style={{ fontSize: reviewStoryIds.length > 1 ? 13 : 20, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+              {reviewStoryIds.length > 0
+                ? reviewStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
+                : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
+              }
+            </p>
+          </div>
+
+          {/* STREAK */}
+          <div className="glass-card-sm" style={{ padding: '12px 12px 13px' }}>
+            <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 3 }}>
+              <Flame style={{ width: 9, height: 9, color: '#D0601A' }} strokeWidth={2} />
+              Streak
+            </p>
+            <p style={{ fontSize: 20, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+              {streak}<span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', marginLeft: 3 }}>Days</span>
             </p>
           </div>
         </div>
 
         {/* ── Editor Tip ───────────────────────────────────────────────── */}
         {dailyTip && (
-          <div style={{ padding: '14px 20px 0' }}>
+          <div style={{ padding: '10px 20px 0' }}>
             <button
               type="button"
               onClick={() => setTipOpen(true)}
               className="glass-card-sm"
               style={{
                 width: '100%', textAlign: 'left', cursor: 'pointer',
-                padding: '13px 16px', border: 'none',
-                display: 'flex', alignItems: 'center', gap: 12,
+                padding: '12px 15px', border: 'none',
+                display: 'flex', alignItems: 'center', gap: 10,
               }}
             >
-              <Pencil style={{ width: 15, height: 15, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.8} />
+              <Pencil style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.8} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 3px', textTransform: 'uppercase' }}>
+                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 2px', textTransform: 'uppercase' }}>
                   Editor Tip
                 </p>
                 <p style={{
@@ -317,18 +321,21 @@ export default function HomePage() {
                   {tipTitle}
                 </p>
               </div>
-              <ChevronRight style={{ width: 13, height: 13, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+              <ChevronRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
             </button>
           </div>
         )}
 
-        {/* ── Scheduled Stories ─────────────────────────────────────────── */}
-        <div style={{ padding: '18px 20px 0' }}>
+        {/* ── STORIES ─────────────────────────────────────────────────── */}
+        <div style={{ padding: '20px 20px 0' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
             <p style={{
-              fontSize: 17, fontWeight: 800, color: 'var(--pt)',
-              margin: 0, letterSpacing: '-0.01em',
+              fontSize: 17, fontWeight: 800,
+              color: '#3A3A3C',
+              margin: 0, letterSpacing: '0.04em',
+              textTransform: 'uppercase',
               fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+              textShadow: '0 1px 0 rgba(255,255,255,.8), 0 8px 18px rgba(60,70,90,.08)',
             }}>
               Stories
             </p>
@@ -338,16 +345,23 @@ export default function HomePage() {
               style={{
                 display: 'flex', alignItems: 'center', gap: 2,
                 background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: 12, fontWeight: 600, color: 'var(--pm)',
+                fontSize: 11, fontWeight: 600, color: 'var(--pm)',
+                letterSpacing: '0.02em',
               }}
             >
-              See All <ChevronRight style={{ width: 13, height: 13 }} strokeWidth={2.5} />
+              See All <ChevronRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />
             </button>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {scheduledList.map(({ story, label, href, done }) => {
-              const ls = LABEL_STYLE[done ? 'Done' : label]
+              const chipColor = done
+                ? CHIP_COLOR['Done']
+                : label === 'Review' ? CHIP_COLOR['Review']
+                : label === 'Tomorrow' ? CHIP_COLOR['Tomorrow']
+                : CHIP_COLOR['Upcoming']
+              const chipText = done ? 'Done' : label
+
               return (
                 <div
                   key={story.id}
@@ -366,13 +380,8 @@ export default function HomePage() {
                       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                     <div style={{ position: 'absolute', top: 8, left: 8 }}>
-                      <span style={{
-                        display: 'inline-block', padding: '3px 8px',
-                        background: ls.bg, color: ls.color,
-                        borderRadius: 8, fontSize: 8.5, fontWeight: 700,
-                        letterSpacing: '0.06em', backdropFilter: 'blur(4px)',
-                      }}>
-                        {done ? 'Done' : label}
+                      <span style={{ ...glassChip, color: chipColor }}>
+                        {chipText}
                       </span>
                     </div>
                   </div>
@@ -411,7 +420,6 @@ export default function HomePage() {
             backdropFilter: 'blur(8px)',
             WebkitBackdropFilter: 'blur(8px)',
             display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-            padding: '0 0 env(safe-area-inset-bottom, 0px)',
           }}
           onClick={e => { if (e.target === e.currentTarget) setTipOpen(false) }}
         >
@@ -421,15 +429,14 @@ export default function HomePage() {
               width: '100%', maxWidth: 560,
               maxHeight: '82dvh', overflowY: 'auto',
               borderRadius: '24px 24px 0 0',
-              padding: '6px 0 0',
             }}
           >
             {/* Handle */}
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 0 4px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '12px 0 6px' }}>
               <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--pd)' }} />
             </div>
 
-            <div style={{ padding: '8px 24px 32px' }}>
+            <div style={{ padding: '8px 24px 40px' }}>
               {/* Header */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
                 <div style={{ flex: 1, paddingRight: 12 }}>
@@ -460,7 +467,7 @@ export default function HomePage() {
                 </button>
               </div>
 
-              {/* Body paragraphs */}
+              {/* Body */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
                 {tipBody.map((para, i) => (
                   <p key={i} style={{
@@ -476,8 +483,8 @@ export default function HomePage() {
               {tipRemember && (
                 <div style={{
                   padding: '14px 16px',
-                  background: 'rgba(109,141,255,0.06)',
-                  border: '1px solid rgba(109,141,255,0.14)',
+                  background: 'rgba(100,110,140,0.06)',
+                  border: '1px solid rgba(100,110,140,0.12)',
                   borderRadius: 14,
                 }}>
                   <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 5px', textTransform: 'uppercase' }}>
@@ -489,7 +496,7 @@ export default function HomePage() {
                 </div>
               )}
 
-              {/* Research refs */}
+              {/* Research */}
               {(dailyTip.research ?? []).length > 0 && (
                 <div style={{ marginTop: 16 }}>
                   {dailyTip.research.map((ref, i) => (
