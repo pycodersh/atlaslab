@@ -79,7 +79,7 @@ export function PatternsPageV2({
     patternExamples, pattern.id,
     pattern.storySentence, pattern.storySentenceKo,
     pattern.variationSentence, pattern.variationSentenceKo,
-  )
+  ).slice(0, 3)
   const example = examples[exIdx] ?? examples[0]
 
   useEffect(() => { patIdxRef.current = patIdx }, [patIdx])
@@ -158,7 +158,7 @@ export function PatternsPageV2({
       patterns[p].storySentence, patterns[p].storySentenceKo,
       patterns[p].variationSentence, patterns[p].variationSentenceKo,
     ).length
-    if (e < exLen - 1)               navigateTo(p, e + 1)
+    if (e < Math.min(exLen, 3) - 1)  navigateTo(p, e + 1)
     else if (p < patterns.length - 1) navigateTo(p + 1, 0)
     else if (hasNext)                  onNext()
   }, [patterns, patternExamples, navigateTo, hasNext, onNext])
@@ -174,7 +174,7 @@ export function PatternsPageV2({
         prev.storySentence, prev.storySentenceKo,
         prev.variationSentence, prev.variationSentenceKo,
       ).length
-      navigateTo(p - 1, prevLen - 1)
+      navigateTo(p - 1, Math.min(prevLen, 3) - 1)
     } else {
       onPrev()
     }
