@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Volume2, Waves, ChevronLeft, ChevronRight, Square } from 'lucide-react'
+import { Volume2, Waves, Square } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
@@ -171,226 +171,241 @@ export function StoryPage({
     })
   }
 
+  const subtitle = resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)
+  const storyNote = resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations)
+
   return (
     <div className="h-full flex flex-col bg-[var(--pb)]">
       <div className="flex-1 overflow-y-auto">
-        <div className="pl-7 pr-6 pt-5 pb-8">
 
-          {/* Story number — above title */}
-          <button
-            type="button"
-            onClick={onOpenPicker}
-            aria-label="스토리 선택"
-            className="flex items-center mt-2 mb-2 group cursor-pointer"
-          >
-            <span className="text-[10px] tracking-[0.25em] font-bold uppercase text-[var(--pa)] group-hover:opacity-70 transition-opacity">
-              Story {String(story.id).padStart(2, '0')}
-            </span>
-          </button>
-
-          {/* Title */}
-          <h1 style={{ fontSize: '1.85rem', fontWeight: 800, lineHeight: 1.2, color: 'var(--pt)', marginBottom: 4, letterSpacing: '-0.02em' }}>
-            {story.title}
-          </h1>
-
-          {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations) && (
-            <p className="text-[0.78rem] text-[var(--pm)] tracking-wide mb-3">
-              {resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)}
-            </p>
-          )}
-
-          {/* Accent rule */}
-          <div style={{ height: 1.5, background: 'var(--pa)', width: 28, marginBottom: 20, borderRadius: 1, opacity: 0.7 }} />
-
-          {/* Image Slider */}
-          <StoryImageSlider
-            images={slideImages}
-            interval={story.slideshowInterval ?? 8}
-            kenBurns={story.slideshowKenBurns ?? true}
-            activeParagraphId={activeParagraphId}
-            isTTSActive={isSpeaking}
-            audioButton={
-              <div className="flex items-center gap-2">
-                {story.ambienceId && (
-                  <button
-                    type="button"
-                    aria-label={ambienceOn ? '환경음 끄기' : '환경음 켜기'}
-                    onClick={onAmbienceToggle}
-                    className={[
-                      'w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
-                      ambienceOn
-                        ? 'bg-[var(--pa)] text-white'
-                        : 'bg-black/30 text-white hover:bg-[var(--pa)]',
-                    ].join(' ')}
-                  >
-                    <Waves className="w-3.5 h-3.5" />
-                  </button>
-                )}
+        {/* ── Hero Image (edge-to-edge, title overlay) ── */}
+        <StoryImageSlider
+          images={slideImages}
+          interval={story.slideshowInterval ?? 8}
+          kenBurns={story.slideshowKenBurns ?? true}
+          activeParagraphId={activeParagraphId}
+          isTTSActive={isSpeaking}
+          titleContent={
+            <div style={{ padding: '0 18px 18px' }}>
+              {/* Story number */}
+              <button
+                type="button"
+                onClick={onOpenPicker}
+                aria-label="스토리 선택"
+                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', marginBottom: 6, display: 'block' }}
+              >
+                <span style={{
+                  fontSize: 9, fontWeight: 600, letterSpacing: '0.20em',
+                  color: 'rgba(255,255,255,0.72)', textTransform: 'uppercase',
+                }}>
+                  STORY {String(story.id).padStart(2, '0')}
+                </span>
+              </button>
+              {/* Title */}
+              <h1 style={{
+                fontSize: 22, fontWeight: 900, lineHeight: 1.2,
+                color: '#fff', margin: '0 0 4px', letterSpacing: '-0.02em',
+                textShadow: '0 4px 18px rgba(0,0,0,.30)',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                overflow: 'hidden', display: '-webkit-box',
+                WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
+              }}>
+                {story.title}
+              </h1>
+              {subtitle && (
+                <p style={{
+                  fontSize: 12, color: 'rgba(255,255,255,0.62)',
+                  margin: 0, lineHeight: 1.3,
+                  textShadow: '0 2px 8px rgba(0,0,0,.25)',
+                }}>
+                  {subtitle}
+                </p>
+              )}
+            </div>
+          }
+          audioButton={
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {story.ambienceId && (
                 <button
                   type="button"
-                  aria-label={isSpeaking ? '정지' : '전체 읽기'}
-                  onClick={handleSpeakAll}
-                  className={[
-                    'w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm transition-colors cursor-pointer',
-                    isSpeaking
-                      ? 'bg-[var(--pa)] text-white'
-                      : 'bg-black/30 text-white hover:bg-[var(--pa)]',
-                  ].join(' ')}
+                  aria-label={ambienceOn ? '환경음 끄기' : '환경음 켜기'}
+                  onClick={onAmbienceToggle}
+                  style={{
+                    width: 32, height: 32, borderRadius: '50%',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: ambienceOn ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.25)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(255,255,255,0.4)',
+                    color: '#fff', cursor: 'pointer',
+                    transition: 'background 0.15s',
+                    filter: ambienceOn ? 'brightness(1.1)' : 'brightness(1)',
+                  }}
                 >
-                  {isSpeaking
-                    ? <Square className="w-3 h-3 fill-current" />
-                    : <Volume2 className="w-3.5 h-3.5" />}
+                  <Waves style={{ width: 14, height: 14 }} />
                 </button>
-              </div>
-            }
-          />
+              )}
+              <button
+                type="button"
+                aria-label={isSpeaking ? '정지' : '전체 읽기'}
+                onClick={handleSpeakAll}
+                style={{
+                  width: 32, height: 32, borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: isSpeaking ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.25)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255,255,255,0.4)',
+                  color: '#fff', cursor: 'pointer',
+                  transition: 'background 0.15s',
+                  filter: isSpeaking ? 'brightness(1.1)' : 'brightness(1)',
+                }}
+              >
+                {isSpeaking
+                  ? <Square style={{ width: 12, height: 12 }} />
+                  : <Volume2 style={{ width: 14, height: 14 }} />}
+              </button>
+            </div>
+          }
+        />
 
-          {/* ── Controls: Study Mode ── */}
-          <div className="flex items-center pt-4 pb-3">
-            <button
-              type="button"
-              onClick={cycleStudyMode}
-              aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
-              className="text-[9px] font-bold tracking-wide px-2.5 py-1 rounded-full cursor-pointer border text-[var(--pm2)] border-[var(--pd)] hover:border-[var(--pa)] hover:text-[var(--pa)] transition-colors"
-            >
-              {STUDY_LABEL[studyMode]}
-            </button>
-          </div>
+        {/* ── Glass Story Card ── */}
+        <div style={{ padding: '14px 16px 40px' }}>
+          <div
+            className="glass-card"
+            style={{
+              borderRadius: 20,
+              position: 'relative',
+              overflow: 'visible',
+            }}
+          >
+            {/* EN / KO button — top right inside card */}
+            <div style={{ position: 'absolute', top: 14, right: 14, zIndex: 1 }}>
+              <button
+                type="button"
+                onClick={cycleStudyMode}
+                aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
+                style={{
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.10em',
+                  padding: '4px 10px', borderRadius: 999, cursor: 'pointer',
+                  background: 'rgba(255,255,255,0.45)',
+                  backdropFilter: 'blur(20px)',
+                  WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255,255,255,0.70)',
+                  color: '#555A61',
+                  transition: 'filter 0.15s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(1.08)' }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.filter = 'brightness(1)' }}
+              >
+                {STUDY_LABEL[studyMode]}
+              </button>
+            </div>
 
-          {/* ── Paragraphs ── */}
-          <div className="space-y-5">
-            {story.paragraphs.map((para) => {
-              const isPlaying    = playingParaId === para.id
-              const isCurrentTTS = currentParagraphIdx >= 0 &&
-                story.paragraphs[currentParagraphIdx]?.id === para.id
+            {/* Paragraphs */}
+            <div style={{ padding: '20px 20px 8px', paddingRight: 68 }}>
+              <div className="space-y-5">
+                {story.paragraphs.map((para) => {
+                  const isPlaying    = playingParaId === para.id
+                  const isCurrentTTS = currentParagraphIdx >= 0 &&
+                    story.paragraphs[currentParagraphIdx]?.id === para.id
 
-              const koText = resolveTranslation(
-                para.koreanTranslation,
-                prefs.language,
-                para.translations,
-              )
+                  const koText = resolveTranslation(
+                    para.koreanTranslation,
+                    prefs.language,
+                    para.translations,
+                  )
 
-              return (
-                <div key={para.id} className="relative group" data-para-id={para.id}>
-                  <div className={`pr-8 rounded-xl px-2 py-1.5 -mx-2 transition-colors ${
-                    isCurrentTTS && isSpeaking ? 'bg-[var(--pal)]' : ''
-                  }`}>
-                    {/* English */}
-                    {showEnglish || revealedParas.has(para.id) ? (
-                      <TappableWordText
-                        text={para.english}
-                        source={{
-                          sourceType:       'story',
-                          sourceId:         String(story.id),
-                          storyId:          story.id,
-                          paragraphId:      para.id,
-                          originalSentence: para.english,
-                        }}
-                        className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block"
-                      />
-                    ) : (
-                      /* KR mode: tappable skeleton to reveal English */
+                  return (
+                    <div key={para.id} className="relative group" data-para-id={para.id}>
+                      <div className={`pr-8 rounded-xl px-2 py-1.5 -mx-2 transition-colors ${
+                        isCurrentTTS && isSpeaking ? 'bg-[var(--pal)]' : ''
+                      }`}>
+                        {/* English */}
+                        {showEnglish || revealedParas.has(para.id) ? (
+                          <TappableWordText
+                            text={para.english}
+                            source={{
+                              sourceType:       'story',
+                              sourceId:         String(story.id),
+                              storyId:          story.id,
+                              paragraphId:      para.id,
+                              originalSentence: para.english,
+                            }}
+                            className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block"
+                          />
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => revealPara(para.id)}
+                            aria-label="Reveal English"
+                            className="w-full text-left cursor-pointer group/reveal"
+                            style={{ background: 'none', border: 'none', padding: 0 }}
+                          >
+                            <div className="space-y-2 py-1">
+                              <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '90%' }} />
+                              <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '60%' }} />
+                            </div>
+                            <span className="text-[9px] tracking-[0.15em] text-[var(--pm2)] font-semibold mt-1 block opacity-0 group-hover/reveal:opacity-100 transition-opacity">
+                              TAP TO REVEAL
+                            </span>
+                          </button>
+                        )}
+
+                        {/* Korean translation */}
+                        {showKorean && koText && (
+                          <p className="text-[0.8rem] text-[var(--pm)] leading-relaxed mt-1.5">
+                            {koText}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Per-paragraph Volume button */}
                       <button
                         type="button"
-                        onClick={() => revealPara(para.id)}
-                        aria-label="Reveal English"
-                        className="w-full text-left cursor-pointer group/reveal"
-                        style={{ background: 'none', border: 'none', padding: 0 }}
+                        onClick={() => playSinglePara(para)}
+                        aria-label={isPlaying ? '정지' : '이 문단 듣기'}
+                        className={`absolute right-0 top-1.5 p-1.5 rounded-full opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all cursor-pointer ${
+                          isPlaying
+                            ? 'opacity-100 bg-[var(--pal)]'
+                            : 'text-[var(--pm2)] hover:bg-[var(--pal)]'
+                        }`}
+                        style={{ color: 'var(--pm2)' }}
                       >
-                        <div className="space-y-2 py-1">
-                          <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:bg-[var(--pa)] group-hover/reveal:opacity-30 transition-colors" style={{ width: '90%' }} />
-                          <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:bg-[var(--pa)] group-hover/reveal:opacity-30 transition-colors" style={{ width: '60%' }} />
-                        </div>
-                        <span className="text-[9px] tracking-[0.15em] text-[var(--pm2)] font-semibold mt-1 block opacity-0 group-hover/reveal:opacity-100 transition-opacity">
-                          TAP TO REVEAL
-                        </span>
+                        {isPlaying
+                          ? <Square className="w-3.5 h-3.5 fill-current" />
+                          : <Volume2 className="w-3.5 h-3.5" strokeWidth={1.8} />}
                       </button>
-                    )}
-
-                    {/* Korean translation */}
-                    {showKorean && koText && (
-                      <p className="text-[0.8rem] text-[var(--pm)] leading-relaxed mt-1.5">
-                        {koText}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Per-paragraph Volume button */}
-                  <button
-                    type="button"
-                    onClick={() => playSinglePara(para)}
-                    aria-label={isPlaying ? '정지' : '이 문단 듣기'}
-                    className={`absolute right-0 top-1.5 p-1.5 rounded-full opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all cursor-pointer ${
-                      isPlaying
-                        ? 'text-[var(--pa)] opacity-100 bg-[var(--pal)]'
-                        : 'text-[var(--pm2)] hover:text-[var(--pa)] hover:bg-[var(--pal)]'
-                    }`}
-                  >
-                    {isPlaying
-                      ? <Square className="w-3.5 h-3.5 fill-current" />
-                      : <Volume2 className="w-3.5 h-3.5" strokeWidth={1.8} />}
-                  </button>
-                </div>
-              )
-            })}
-          </div>
-
-          {/* Story note */}
-          {resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations) && (
-            <div className="mt-7 border-l-2 border-[var(--pd)] pl-3">
-              <p style={{ fontSize: 14, color: 'var(--pm)', lineHeight: 1.7 }}>
-                {resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations)}
-              </p>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
-          )}
-        </div>
-      </div>
 
-      {/* Bottom nav */}
-      <div className="shrink-0 bg-[var(--pb)] px-5 py-2" style={{ borderTop: '1px solid var(--pd)' }}>
-        <div className="flex items-center justify-between">
-          <button
-            type="button"
-            aria-label="이전"
-            onClick={onPrev}
-            disabled={!hasPrev}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 40, height: 40, borderRadius: 12,
-              background: hasPrev ? 'var(--pc)' : 'transparent',
-              border: 'none', cursor: hasPrev ? 'pointer' : 'not-allowed',
-              color: hasPrev ? 'var(--pt)' : 'var(--pd)',
-              transition: 'all 0.15s',
-            }}
-          >
-            <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
-          </button>
+            {/* Story note — 한줄 요약 */}
+            {storyNote && (
+              <div style={{ padding: '0 20px 22px', marginTop: 8 }}>
+                <div style={{
+                  borderTop: '1px solid rgba(255,255,255,0.55)',
+                  paddingTop: 14,
+                }}>
+                  <p style={{
+                    fontSize: 9, fontWeight: 700, letterSpacing: '0.14em',
+                    color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase',
+                  }}>
+                    Summary
+                  </p>
+                  <p style={{ fontSize: 13.5, color: 'var(--pt2)', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
+                    {storyNote}
+                  </p>
+                </div>
+              </div>
+            )}
 
-          <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
-              Story
-            </p>
-            <p style={{ fontSize: 11, fontWeight: 800, color: 'var(--pa)', margin: 0, letterSpacing: '0.06em' }}>
-              {String(story.id).padStart(2, '0')}
-            </p>
+            {!storyNote && <div style={{ height: 22 }} />}
           </div>
-
-          <button
-            type="button"
-            aria-label="다음 (패턴)"
-            onClick={onNext}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 40, height: 40, borderRadius: 12,
-              background: 'var(--pc)',
-              border: 'none', cursor: 'pointer',
-              color: 'var(--pt)',
-              transition: 'all 0.15s',
-            }}
-          >
-            <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
-          </button>
         </div>
+
       </div>
     </div>
   )

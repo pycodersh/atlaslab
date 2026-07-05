@@ -12,7 +12,6 @@
  */
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { StorySlideImage } from '@/types/magazine'
 
 type Props = {
@@ -20,6 +19,7 @@ type Props = {
   interval?: number              // 자동 타이머 간격(초), 기본 8
   kenBurns?: boolean
   audioButton?: React.ReactNode
+  titleContent?: React.ReactNode  // bottom-left title/subtitle overlay
   activeParagraphId?: string | null   // TTS 현재 문단 ID
   isTTSActive?: boolean               // TTS 재생 중 여부
 }
@@ -29,6 +29,7 @@ export function StoryImageSlider({
   interval = 8,
   kenBurns = true,
   audioButton,
+  titleContent,
   activeParagraphId,
   isTTSActive = false,
 }: Props) {
@@ -88,7 +89,7 @@ export function StoryImageSlider({
   if (!images.length) return null
 
   return (
-    <div className="relative w-full rounded-xl overflow-hidden mb-7 shadow-sm" style={{ height: '13.8rem' }}>
+    <div className="relative w-full overflow-hidden" style={{ height: '17rem', borderRadius: '0 0 24px 24px' }}>
 
       {/* 이미지 레이어 */}
       {images.map((img, i) => {
@@ -136,10 +137,15 @@ export function StoryImageSlider({
         )
       })}
 
-      {/* 하단 그라데이션 */}
+      {/* 상단 그라데이션 (chip/number 가독성) */}
       <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"
-        style={{ zIndex: 2 }}
+        className="pointer-events-none absolute inset-0"
+        style={{ zIndex: 2, background: 'linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 30%)' }}
+      />
+      {/* 하단 그라데이션 (title 가독성) */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{ zIndex: 2, background: 'linear-gradient(0deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.20) 40%, rgba(0,0,0,0) 65%)' }}
       />
 
       {/* TTS 활성 표시 — 좌상단 작은 인디케이터 */}
@@ -153,9 +159,16 @@ export function StoryImageSlider({
         </div>
       )}
 
-      {/* 오디오 버튼 슬롯 */}
+      {/* title/subtitle overlay — bottom left */}
+      {titleContent && (
+        <div className="absolute bottom-0 left-0 right-0" style={{ zIndex: 3 }}>
+          {titleContent}
+        </div>
+      )}
+
+      {/* 오디오 버튼 슬롯 — bottom right */}
       {audioButton && (
-        <div className="absolute bottom-3 right-3" style={{ zIndex: 3 }}>
+        <div className="absolute bottom-3 right-3" style={{ zIndex: 4 }}>
           {audioButton}
         </div>
       )}
@@ -163,8 +176,8 @@ export function StoryImageSlider({
       {/* 인디케이터 도트 */}
       {images.length > 1 && (
         <div
-          className="absolute bottom-3 flex items-center gap-1.5"
-          style={{ zIndex: 3, left: '50%', transform: 'translateX(-50%)' }}
+          className="absolute flex items-center gap-1.5"
+          style={{ zIndex: 4, bottom: 12, left: '50%', transform: 'translateX(-50%)' }}
         >
           {images.map((_, i) => (
             <button
@@ -181,30 +194,6 @@ export function StoryImageSlider({
             />
           ))}
         </div>
-      )}
-
-      {/* 좌우 화살표 */}
-      {images.length > 1 && (
-        <>
-          <button
-            type="button"
-            aria-label="이전 이미지"
-            onClick={goPrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/20 text-white/80 flex items-center justify-center cursor-pointer hover:bg-black/38 transition-colors"
-            style={{ zIndex: 3 }}
-          >
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          <button
-            type="button"
-            aria-label="다음 이미지"
-            onClick={goNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-black/20 text-white/80 flex items-center justify-center cursor-pointer hover:bg-black/38 transition-colors"
-            style={{ zIndex: 3 }}
-          >
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </>
       )}
     </div>
   )
