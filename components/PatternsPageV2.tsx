@@ -354,7 +354,15 @@ export function PatternsPageV2({
               type="button"
               onClick={onOpenPicker}
               aria-label="스토리 선택"
-              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+              style={{
+                background: 'rgba(255,255,255,0.38)',
+                backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
+                border: '1px solid rgba(255,255,255,0.65)',
+                borderRadius: 999,
+                padding: '0 13px', height: 30,
+                display: 'flex', alignItems: 'center',
+                cursor: 'pointer',
+              }}
             >
               <span style={{
                 fontSize: 9, letterSpacing: '0.20em', fontWeight: 600,
@@ -420,7 +428,7 @@ export function PatternsPageV2({
                     aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
                     style={{
                       background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                      color: bookmarked ? '#E8AE3A' : 'rgba(255,255,255,0.55)',
+                      color: bookmarked ? '#8F234B' : 'rgba(255,255,255,0.45)',
                       transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
                     onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
@@ -437,16 +445,16 @@ export function PatternsPageV2({
 
                 {/* Pattern text */}
                 <p style={{
-                  fontSize: '1.55rem', fontWeight: 900, color: '#F6F6F7',
+                  fontSize: '1.55rem', fontWeight: 900, color: '#F7F7F8',
                   lineHeight: 1.2, margin: '0 0 8px', letterSpacing: '-0.01em',
                   textShadow: '0 2px 10px rgba(0,0,0,.18)',
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   position: 'relative',
                 }}>
                   <span style={{
-                    color: 'rgba(200,200,210,0.75)',
-                    fontWeight: 900,
-                    textShadow: '0 1px 4px rgba(0,0,0,.40)',
+                    color: '#D8DADF',
+                    fontWeight: 700,
+                    textShadow: '0 1px 4px rgba(0,0,0,.35)',
                     marginRight: '0.35em',
                     letterSpacing: '0.02em',
                   }}>
@@ -455,7 +463,7 @@ export function PatternsPageV2({
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
-                  <p style={{ fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.70)', margin: 0, position: 'relative' }}>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: '#ECEDEF', margin: 0, position: 'relative' }}>
                     {patternMeaning}
                   </p>
                 )}
@@ -496,27 +504,6 @@ export function PatternsPageV2({
                   </button>
                 </div>
 
-                {/* Pattern Note */}
-                {patternNote && (
-                  <>
-                    <p style={{
-                      fontSize: 8.5, letterSpacing: '0.16em', fontWeight: 700,
-                      color: 'var(--pm2)', marginBottom: 8, textTransform: 'uppercase',
-                    }}>
-                      Pattern Note
-                    </p>
-                    <p style={{
-                      fontSize: 13, color: 'var(--pm)', lineHeight: 1.78,
-                      margin: '0 0 4px',
-                    }}>
-                      {patternNote.replace(/\n+/g, ' ').trim()}
-                    </p>
-                  </>
-                )}
-
-                {/* Divider before examples */}
-                <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '10px 0 4px' }} />
-
                 {/* Examples */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                   {examples.map((ex, i) => {
@@ -530,27 +517,13 @@ export function PatternsPageV2({
                         type="button"
                         onClick={() => navigateTo(patIdx, i)}
                         style={{
-                          display: 'flex', alignItems: 'flex-start', gap: 8,
+                          display: 'flex', alignItems: 'flex-start', gap: 0,
                           textAlign: 'left', width: '100%',
                           padding: '7px 0', borderRadius: 8,
                           background: 'transparent',
                           border: 'none', cursor: 'pointer',
                         }}
                       >
-                        {/* Dot / check */}
-                        <span style={{
-                          flexShrink: 0, width: 14, height: 14,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          marginTop: 3,
-                        }}>
-                          {doneMask.has(i) ? (
-                            <Check style={{ width: 11, height: 11, color: '#3DAD6A' }} strokeWidth={2.5} />
-                          ) : isActive ? (
-                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#3A3A3C', display: 'block' }} />
-                          ) : (
-                            <span style={{ width: 6, height: 6, borderRadius: '50%', border: '1.5px solid #C7C7CC', display: 'block' }} />
-                          )}
-                        </span>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           {showExEn ? (
                             <p style={{ fontSize: 13.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.4, margin: 0 }}>
@@ -578,6 +551,25 @@ export function PatternsPageV2({
                     )
                   })}
                 </div>
+
+                {/* Pattern Note — 예문 아래 */}
+                {patternNote && (
+                  <>
+                    <div style={{ height: 1, background: 'rgba(0,0,0,0.07)', margin: '14px 0 12px' }} />
+                    <p style={{
+                      fontSize: 8.5, letterSpacing: '0.16em', fontWeight: 700,
+                      color: '#8A8A8E', marginBottom: 8, textTransform: 'uppercase',
+                    }}>
+                      Pattern Note
+                    </p>
+                    <p style={{
+                      fontSize: 13, color: 'var(--pm)', lineHeight: 1.78,
+                      margin: '0 0 4px',
+                    }}>
+                      {patternNote.replace(/\n+/g, ' ').trim()}
+                    </p>
+                  </>
+                )}
               </div>
             </div>
           </div>
