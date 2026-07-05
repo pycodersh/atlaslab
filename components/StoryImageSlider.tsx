@@ -89,7 +89,7 @@ export function StoryImageSlider({
   if (!images.length) return null
 
   return (
-    <div className="relative w-full overflow-hidden" style={{ height: '17rem', borderRadius: '0 0 24px 24px' }}>
+    <div className="relative w-full overflow-hidden" style={{ height: '17rem', borderRadius: 20 }}>
 
       {/* 이미지 레이어 */}
       {images.map((img, i) => {

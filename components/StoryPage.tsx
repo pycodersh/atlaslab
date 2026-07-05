@@ -178,7 +178,8 @@ export function StoryPage({
     <div className="h-full flex flex-col bg-[var(--pb)]">
       <div className="flex-1 overflow-y-auto">
 
-        {/* ── Hero Image (edge-to-edge, title overlay) ── */}
+        {/* ── Hero Image — same width as card below ── */}
+        <div style={{ padding: '0 16px' }}>
         <StoryImageSlider
           images={slideImages}
           interval={story.slideshowInterval ?? 8}
@@ -268,6 +269,7 @@ export function StoryPage({
             </div>
           }
         />
+        </div>
 
         {/* ── Glass Story Card ── */}
         <div style={{ padding: '14px 16px 40px' }}>
