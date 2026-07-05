@@ -569,7 +569,7 @@ export function PatternsPageV2({
                 {/* Pattern Note — 예문 아래 */}
                 {patternNote && (
                   <>
-                    <div style={{ marginTop: 20 }} />
+                    <div style={{ height: 1, background: 'rgba(220,225,235,0.7)', margin: '20px 0 16px' }} />
                     <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
                       <Lightbulb style={{ width: 12, height: 12, color: '#8F234B', flexShrink: 0 }} strokeWidth={2} />
                       <p style={{
