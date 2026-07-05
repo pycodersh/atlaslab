@@ -532,7 +532,7 @@ export function PatternsPageV2({
                       >
                         <div style={{ flex: 1, minWidth: 0 }}>
                           {showExEn ? (
-                            <p style={{ fontSize: 15.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.4, margin: 0 }}>
+                            <p style={{ fontSize: 14.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.4, margin: 0 }}>
                               {ex.en}
                             </p>
                           ) : (
@@ -548,7 +548,7 @@ export function PatternsPageV2({
                             </button>
                           )}
                           {showKorean && exKo && (
-                            <p style={{ fontSize: 13.5, color: 'var(--pm)', marginTop: 2, lineHeight: 1.35 }}>
+                            <p style={{ fontSize: 12.5, color: 'var(--pm)', marginTop: 2, lineHeight: 1.35 }}>
                               {exKo}
                             </p>
                           )}
