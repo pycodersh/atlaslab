@@ -349,6 +349,7 @@ export function PatternsPageV2({
           <div style={{
             paddingTop: 76, paddingBottom: 16,
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            position: 'relative',
           }}>
             <button
               type="button"
@@ -372,8 +373,9 @@ export function PatternsPageV2({
               </span>
             </button>
 
-            {/* Dot indicators */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            {/* Dot indicators — centered */}
+            <div style={{ position: 'absolute', left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, pointerEvents: 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, pointerEvents: 'auto' }}>
               {patterns.map((_, i) => (
                 <button
                   key={i}
@@ -390,6 +392,7 @@ export function PatternsPageV2({
                   }} />
                 </button>
               ))}
+              </div>
             </div>
           </div>
 
@@ -529,7 +532,7 @@ export function PatternsPageV2({
                       >
                         <div style={{ flex: 1, minWidth: 0 }}>
                           {showExEn ? (
-                            <p style={{ fontSize: 13.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.4, margin: 0 }}>
+                            <p style={{ fontSize: 15.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.4, margin: 0 }}>
                               {ex.en}
                             </p>
                           ) : (
@@ -545,7 +548,7 @@ export function PatternsPageV2({
                             </button>
                           )}
                           {showKorean && exKo && (
-                            <p style={{ fontSize: 11.5, color: 'var(--pm)', marginTop: 2, lineHeight: 1.35 }}>
+                            <p style={{ fontSize: 13.5, color: 'var(--pm)', marginTop: 2, lineHeight: 1.35 }}>
                               {exKo}
                             </p>
                           )}
