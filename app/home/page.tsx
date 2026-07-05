@@ -173,7 +173,7 @@ export default function HomePage() {
   }
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
+    <div style={{ minHeight: '100dvh' }}>
       <TopNav />
 
       <div style={{
