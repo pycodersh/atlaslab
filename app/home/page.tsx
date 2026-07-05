@@ -192,15 +192,18 @@ export default function HomePage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                background: allDone ? 'rgba(255,255,255,0.2)' : 'var(--pa)',
-                border: 'none',
+                background: 'rgba(255,255,255,0.22)',
+                backdropFilter: 'blur(22px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(22px) saturate(180%)',
+                border: '1px solid rgba(255,255,255,0.45)',
                 borderRadius: 14,
                 padding: '12px 20px',
                 cursor: 'pointer',
                 fontSize: 13,
                 fontWeight: 700,
                 color: '#fff',
-                backdropFilter: 'blur(8px)',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.30)',
+                transition: 'all 0.15s',
               }}
             >
               {allDone ? 'All done today! 🎉' : 'Continue Learning'}

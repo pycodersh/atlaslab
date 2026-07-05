@@ -662,9 +662,13 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
                 onClick={handleDelete}
                 style={{
                   width: '100%', padding: '15px 0', borderRadius: 14,
-                  border: 'none', background: 'var(--pa)',
+                  background: 'rgba(255,255,255,0.68)',
+                  backdropFilter: 'blur(24px)',
+                  WebkitBackdropFilter: 'blur(24px)',
+                  border: '1px solid rgba(255,255,255,0.82)',
+                  boxShadow: '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
                   cursor: 'pointer', fontSize: 14, fontWeight: 700,
-                  color: '#fff', fontFamily: 'inherit',
+                  color: 'var(--pa)', fontFamily: 'inherit',
                   letterSpacing: '0.03em',
                 }}
               >

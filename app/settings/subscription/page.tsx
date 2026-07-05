@@ -159,7 +159,12 @@ export default function SubscriptionPage() {
             onClick={() => { setToast(true); setTimeout(() => setToast(false), 2800) }}
             style={{
               width: '100%', padding: '13px 0',
-              background: 'var(--pa)', color: '#fff',
+              background: 'rgba(255,255,255,0.68)',
+              backdropFilter: 'blur(24px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+              border: '1px solid rgba(255,255,255,0.82)',
+              boxShadow: '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
+              color: 'var(--pa)',
               border: 'none', borderRadius: 12,
               fontSize: 12, fontWeight: 700,
               letterSpacing: '0.14em', cursor: 'pointer',

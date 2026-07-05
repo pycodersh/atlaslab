@@ -792,10 +792,14 @@ export default function ProgressPage() {
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                       width: '100%', marginTop: 4, padding: '14px 0',
-                      background: allDone ? 'var(--pc)' : 'var(--pa)',
-                      borderRadius: 12, border: 'none',
-                      cursor: 'pointer', fontSize: 13, fontWeight: 700,
-                      color: allDone ? 'var(--pm)' : '#fff', letterSpacing: '0.02em',
+                      background: 'rgba(255,255,255,0.68)',
+                      backdropFilter: 'blur(24px) saturate(180%)',
+                      WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                      border: '1px solid rgba(255,255,255,0.82)',
+                      boxShadow: '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
+                      borderRadius: 12, cursor: 'pointer', fontSize: 13, fontWeight: 700,
+                      color: 'var(--pa)', letterSpacing: '0.02em',
+                      transition: 'all 0.15s',
                     }}
                   >
                     {allDone ? 'All done today!' : 'Continue Learning'}

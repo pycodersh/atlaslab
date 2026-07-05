@@ -173,8 +173,12 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
               onClick={handleSave}
               style={{
                 flex: 1, padding: '7px 0', borderRadius: 7,
-                background: 'var(--pa)', color: '#fff',
-                border: 'none', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                background: 'rgba(255,255,255,0.68)',
+                backdropFilter: 'blur(18px)',
+                WebkitBackdropFilter: 'blur(18px)',
+                border: '1px solid rgba(255,255,255,0.82)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                color: 'var(--pa)', fontSize: 11, fontWeight: 700, cursor: 'pointer',
               }}
             >
               Save Word

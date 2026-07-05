@@ -133,8 +133,8 @@ export function ReviewSession() {
           {t('no_reviews_desc')}
         </p>
         <div className="flex gap-3">
-          <button type="button" onClick={() => router.push('/stories/1')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer">{t('new_story_btn')}</button>
-          <button type="button" onClick={() => router.push('/records')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pc)] text-[var(--pt)] hover:opacity-80 transition-opacity cursor-pointer">Progress</button>
+          <button type="button" onClick={() => router.push('/stories/1')} className="btn-glass rounded-full px-6 py-2.5 text-[12px] cursor-pointer">{t('new_story_btn')}</button>
+          <button type="button" onClick={() => router.push('/records')} className="glass-card-sm rounded-full px-6 py-2.5 text-[12px] font-bold text-[var(--pm)] cursor-pointer">Progress</button>
         </div>
       </div>
     )
@@ -168,8 +168,8 @@ export function ReviewSession() {
         </div>
 
         <div className="flex gap-3">
-          <button type="button" onClick={() => router.push('/home')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer">Home</button>
-          <button type="button" onClick={() => router.push('/records')} className="rounded-full px-6 py-2.5 text-[12px] font-bold bg-[var(--pc)] text-[var(--pt)] hover:opacity-80 transition-opacity cursor-pointer">Progress</button>
+          <button type="button" onClick={() => router.push('/home')} className="btn-glass rounded-full px-6 py-2.5 text-[12px] cursor-pointer">Home</button>
+          <button type="button" onClick={() => router.push('/records')} className="glass-card-sm rounded-full px-6 py-2.5 text-[12px] font-bold text-[var(--pm)] cursor-pointer">Progress</button>
         </div>
       </div>
     )
@@ -263,7 +263,7 @@ export function ReviewSession() {
       {/* 하단 버튼 */}
       <div className="px-6 pb-8">
         {!revealed ? (
-          <button type="button" onClick={() => setRevealed(true)} className="w-full rounded-2xl py-4 text-[14px] font-bold tracking-[0.04em] bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
+          <button type="button" onClick={() => setRevealed(true)} className="btn-glass w-full rounded-2xl py-4 text-[14px] tracking-[0.04em] cursor-pointer flex items-center justify-center gap-2">
             <RotateCcw className="w-4 h-4" /> {t('reveal_btn')}
           </button>
         ) : (
@@ -271,7 +271,7 @@ export function ReviewSession() {
             <button type="button" onClick={() => answer(false)} className="flex-1 rounded-2xl py-4 text-[14px] font-bold bg-[var(--pc)] text-[var(--pm)] border border-[var(--pd)] hover:bg-[var(--pd)] transition-colors cursor-pointer flex items-center justify-center gap-2">
               <X className="w-4 h-4" /> {t('dont_know')}
             </button>
-            <button type="button" onClick={() => answer(true)} className="flex-1 rounded-2xl py-4 text-[14px] font-bold bg-[var(--pa)] text-white hover:opacity-90 transition-opacity cursor-pointer flex items-center justify-center gap-2">
+            <button type="button" onClick={() => answer(true)} className="btn-glass flex-1 rounded-2xl py-4 text-[14px] cursor-pointer flex items-center justify-center gap-2">
               <Check className="w-4 h-4" /> {t('got_it')}
             </button>
           </div>

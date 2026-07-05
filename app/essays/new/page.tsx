@@ -309,14 +309,18 @@ export default function NewEssayPage() {
                   onClick={handleSuggest}
                   disabled={suggestLoading}
                   style={{
-                    background: 'var(--pa)', border: 'none', borderRadius: 8,
+                    background: 'rgba(255,255,255,0.68)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(255,255,255,0.82)',
+                    borderRadius: 8,
                     padding: '5px 12px', cursor: suggestLoading ? 'default' : 'pointer',
                     display: 'flex', alignItems: 'center', gap: 5,
                   }}
                 >
                   {suggestLoading
-                    ? <Loader2 style={{ width: 11, height: 11, color: '#fff', animation: 'spin 1s linear infinite' }} />
-                    : <span style={{ fontSize: 11, fontWeight: 700, color: '#fff' }}>Suggest →</span>
+                    ? <Loader2 style={{ width: 11, height: 11, color: 'var(--pa)', animation: 'spin 1s linear infinite' }} />
+                    : <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pa)' }}>Suggest →</span>
                   }
                 </button>
               )}
@@ -347,8 +351,12 @@ export default function NewEssayPage() {
                     onClick={handleInsert}
                     style={{
                       flex: 1, padding: '9px 0', borderRadius: 9,
-                      border: 'none', background: 'var(--pa)',
-                      fontSize: 12, fontWeight: 700, color: '#fff',
+                      background: 'rgba(255,255,255,0.68)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255,255,255,0.82)',
+                      boxShadow: '0 2px 10px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                      fontSize: 12, fontWeight: 700, color: 'var(--pa)',
                       cursor: 'pointer', fontFamily: 'inherit',
                     }}
                   >
@@ -408,8 +416,12 @@ export default function NewEssayPage() {
             style={{
               width: '100%', padding: '15px 0', borderRadius: 14,
               border: 'none',
-              background: loading || wc < MIN_WORDS ? 'var(--pd)' : 'var(--pa)',
-              color: loading || wc < MIN_WORDS ? 'var(--pm2)' : '#fff',
+              background: loading || wc < MIN_WORDS ? 'var(--pd)' : 'rgba(255,255,255,0.68)',
+              backdropFilter: loading || wc < MIN_WORDS ? 'none' : 'blur(24px) saturate(180%)',
+              WebkitBackdropFilter: loading || wc < MIN_WORDS ? 'none' : 'blur(24px) saturate(180%)',
+              border: loading || wc < MIN_WORDS ? 'none' : '1px solid rgba(255,255,255,0.82)',
+              boxShadow: loading || wc < MIN_WORDS ? 'none' : '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
+              color: loading || wc < MIN_WORDS ? 'var(--pm2)' : 'var(--pa)',
               fontSize: 13, fontWeight: 700, letterSpacing: '0.06em',
               cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
