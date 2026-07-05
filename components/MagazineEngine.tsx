@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
+import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
@@ -221,7 +222,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     : `translateX(${basePercent}%)`
 
   return (
-    <div className="relative overflow-hidden" style={{ marginTop: NAV_HEIGHT, height: `calc(100dvh - ${NAV_HEIGHT}px)` }}>
+    <div className="relative overflow-hidden" style={{ marginTop: NAV_HEIGHT, height: `calc(100dvh - ${NAV_HEIGHT}px - ${TAB_BAR_HEIGHT}px)` }}>
       <TopNav />
 
       {/* Sliding rail */}
