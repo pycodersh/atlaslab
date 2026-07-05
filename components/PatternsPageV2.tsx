@@ -67,7 +67,7 @@ function resolveExamples(
 }
 
 export function PatternsPageV2({
-  story, onPrev, onNext, hasNext, onOpenPicker, patternExamples,
+  story, totalStories, onPrev, onNext, hasNext, onOpenPicker, patternExamples,
 }: Props) {
   const { prefs } = usePreferences()
   const t = useT()
@@ -313,6 +313,7 @@ export function PatternsPageV2({
 
   // Global pattern number (1–500)
   const globalPatternNum = (story.id - 1) * patterns.length + patIdx + 1
+  const totalPatterns = totalStories * patterns.length
 
   // Glass button base style
   const glassBtn: React.CSSProperties = {
@@ -356,18 +357,13 @@ export function PatternsPageV2({
               onClick={onOpenPicker}
               aria-label="스토리 선택"
               style={{
-                background: 'rgba(255,255,255,0.38)',
-                backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
-                border: '1px solid rgba(255,255,255,0.65)',
-                borderRadius: 999,
-                padding: '0 13px', height: 30,
+                background: 'none', border: 'none', padding: 0, cursor: 'pointer',
                 display: 'flex', alignItems: 'center',
-                cursor: 'pointer',
               }}
             >
               <span style={{
                 fontSize: 9, letterSpacing: '0.20em', fontWeight: 600,
-                color: '#8A8A8E', textTransform: 'uppercase',
+                color: '#9B9B9B', textTransform: 'uppercase',
               }}>
                 STORY {String(story.id).padStart(2, '0')}
               </span>
@@ -403,22 +399,23 @@ export function PatternsPageV2({
               background: 'rgba(255,255,255,0.42)',
               backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
               border: '1px solid rgba(255,255,255,.65)',
-              boxShadow: '0 20px 50px rgba(40,40,60,.08)',
+              boxShadow: '0 20px 40px rgba(40,40,60,0.05)',
             }}>
 
               {/* ── Card header ── */}
               <div style={{
                 position: 'relative', overflow: 'hidden',
                 padding: '18px 20px 16px',
-                background: 'transparent',
+                background: 'rgba(18, 22, 42, 0.10)',
+                backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
                 borderBottom: '1px solid rgba(255,255,255,0.12)',
               }}>
-                {/* Glass wave decoration */}
+                {/* Wave decoration */}
                 <div style={{
                   position: 'absolute',
-                  bottom: -15, left: '5%', right: '5%', height: 50,
-                  background: 'rgba(255,255,255,0.18)',
-                  borderRadius: '50%', opacity: 0.09,
+                  bottom: -20, left: '-10%', right: '-10%', height: 60,
+                  background: 'rgba(255,255,255,1)',
+                  borderRadius: '50%', opacity: 0.05,
                   pointerEvents: 'none',
                 }} />
 
@@ -445,27 +442,29 @@ export function PatternsPageV2({
                   </button>
                 </div>
 
-                {/* Pattern text */}
+                {/* Pattern number */}
                 <p style={{
-                  fontSize: '1.55rem', fontWeight: 900, color: '#1C1E22',
-                  lineHeight: 1.2, margin: '0 0 4px', letterSpacing: '-0.01em',
-                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                  fontSize: '0.68rem', fontWeight: 500, color: '#9B9B9B',
+                  margin: '0 0 6px', letterSpacing: '0.04em',
+                  fontFamily: '"SF Mono", "Fira Mono", "Courier New", monospace',
                   position: 'relative',
                 }}>
-                  <span style={{
-                    color: '#6B6E76',
-                    fontWeight: 700,
-                    marginRight: '0.35em',
-                    letterSpacing: '0.02em',
-                  }}>
-                    {String(globalPatternNum).padStart(3, '0')}
-                  </span>
+                  {String(globalPatternNum).padStart(3, '0')} / {totalPatterns}
+                </p>
+                {/* Pattern title */}
+                <p style={{
+                  fontSize: '2.0rem', fontWeight: 800, color: '#F6F6F4',
+                  lineHeight: 1.15, margin: '0 0 6px', letterSpacing: '-0.02em',
+                  fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                  textShadow: '0 2px 10px rgba(0,0,0,0.17)',
+                  position: 'relative',
+                }}>
                   {pattern.pattern}
                 </p>
                 {patternMeaning && (
                   <p style={{
-                    fontSize: 12, fontWeight: 500, color: '#8A8A8E',
-                    margin: '4px 0 0', letterSpacing: '0.01em',
+                    fontSize: 12, fontWeight: 400, color: 'rgba(236,237,239,0.80)',
+                    margin: 0, letterSpacing: '0.01em',
                   }}>
                     {patternMeaning}
                   </p>
@@ -475,43 +474,59 @@ export function PatternsPageV2({
               {/* ── Card body ── */}
               <div style={{ padding: '16px 20px 22px' }}>
 
-                {/* Action buttons: Language (left) + Speaker (right) */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                  <button
-                    type="button"
-                    onClick={cycleStudyMode}
-                    aria-label={`Study mode: ${STUDY_LABEL[studyMode]}`}
-                    style={{
-                      ...glassBtn,
-                      background: 'transparent',
-                      border: '1px solid rgba(0,0,0,0.10)',
-                      color: '#6B6E76',
-                    }}
-                    {...glassBtnMotion}
-                  >
-                    <Globe style={{ width: 13, height: 13 }} strokeWidth={1.8} />
-                    {STUDY_LABEL[studyMode]}
-                  </button>
+                {/* Action row: Segmented EN/KO (left) + Speaker (right) */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  {/* iOS Segmented Control */}
+                  <div style={{
+                    display: 'inline-flex', borderRadius: 10,
+                    background: 'rgba(255,255,255,0.50)',
+                    backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(255,255,255,0.65)',
+                    padding: 2, gap: 0,
+                  }}>
+                    {STUDY_CYCLE.map(mode => (
+                      <button
+                        key={mode}
+                        type="button"
+                        onClick={() => setStudyMode(mode)}
+                        style={{
+                          padding: '5px 12px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                          fontSize: 10, fontWeight: 600, letterSpacing: '0.06em',
+                          background: studyMode === mode ? 'rgba(255,255,255,0.85)' : 'transparent',
+                          color: studyMode === mode ? '#3A3A3C' : '#9B9B9B',
+                          transition: 'background 0.18s, color 0.18s',
+                        }}
+                      >
+                        {STUDY_LABEL[mode]}
+                      </button>
+                    ))}
+                  </div>
+                  {/* Speaker */}
                   <button
                     type="button"
                     onClick={playPatternExamples}
                     aria-label={isPlaying ? '정지' : '예문 듣기'}
                     style={{
-                      ...glassBtn,
-                      background: 'transparent',
-                      border: '1px solid rgba(0,0,0,0.10)',
+                      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                      width: 34, height: 34, borderRadius: 999, border: 'none', cursor: 'pointer',
+                      background: 'rgba(255,255,255,0.50)',
+                      backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                      border: '1px solid rgba(255,255,255,0.65)',
                       color: isPlaying ? '#8F234B' : '#6B6E76',
+                      transition: 'filter 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
-                    {...glassBtnMotion}
+                    onPointerDown={e => { e.currentTarget.style.filter = 'brightness(1.08)' }}
+                    onPointerUp={e => { e.currentTarget.style.filter = 'brightness(1)' }}
+                    onPointerLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
                   >
                     {isPlaying
-                      ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
-                      : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
+                      ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
+                      : <Volume2 style={{ width: 14, height: 14 }} strokeWidth={1.8} />}
                   </button>
                 </div>
 
                 {/* Examples */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   {examples.map((ex, i) => {
                     const isActive   = i === exIdx
                     const exRev      = revealedExSet.has(`${patIdx}-${i}`)
@@ -523,36 +538,31 @@ export function PatternsPageV2({
                         type="button"
                         onClick={() => navigateTo(patIdx, i)}
                         style={{
-                          display: 'flex', alignItems: 'flex-start', gap: 0,
-                          textAlign: 'left', width: '100%',
-                          padding: '7px 0', borderRadius: 8,
-                          background: 'transparent',
-                          border: 'none', cursor: 'pointer',
+                          display: 'block', textAlign: 'left', width: '100%',
+                          background: 'transparent', border: 'none', cursor: 'pointer', padding: 0,
                         }}
                       >
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          {showExEn ? (
-                            <p style={{ fontSize: 14.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.4, margin: 0 }}>
-                              {ex.en}
-                            </p>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={(e) => { e.stopPropagation(); revealEx(patIdx, i) }}
-                              style={{ background: 'none', border: 'none', padding: 0, width: '100%', textAlign: 'left', cursor: 'pointer' }}
-                            >
-                              <div style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingTop: 2 }}>
-                                <div style={{ height: 11, borderRadius: 6, background: 'var(--pd)', width: '85%' }} />
-                                <div style={{ height: 11, borderRadius: 6, background: 'var(--pd)', width: '55%' }} />
-                              </div>
-                            </button>
-                          )}
-                          {showKorean && exKo && (
-                            <p style={{ fontSize: 12.5, color: 'var(--pm)', marginTop: 2, lineHeight: 1.35 }}>
-                              {exKo}
-                            </p>
-                          )}
-                        </div>
+                        {showExEn ? (
+                          <p style={{ fontSize: 14.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.5, margin: '0 0 2px' }}>
+                            {ex.en}
+                          </p>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); revealEx(patIdx, i) }}
+                            style={{ background: 'none', border: 'none', padding: 0, width: '100%', textAlign: 'left', cursor: 'pointer' }}
+                          >
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingTop: 2 }}>
+                              <div style={{ height: 11, borderRadius: 6, background: 'var(--pd)', width: '85%' }} />
+                              <div style={{ height: 11, borderRadius: 6, background: 'var(--pd)', width: '55%' }} />
+                            </div>
+                          </button>
+                        )}
+                        {showKorean && exKo && (
+                          <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
+                            {exKo}
+                          </p>
+                        )}
                       </button>
                     )
                   })}
@@ -561,7 +571,7 @@ export function PatternsPageV2({
                 {/* Pattern Note — 예문 아래 */}
                 {patternNote && (
                   <>
-                    <div style={{ height: 1, background: 'rgba(0,0,0,0.07)', margin: '14px 0 12px' }} />
+                    <div style={{ marginTop: 20 }} />
                     <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
                       <Lightbulb style={{ width: 12, height: 12, color: '#8F234B', flexShrink: 0 }} strokeWidth={2} />
                       <p style={{
