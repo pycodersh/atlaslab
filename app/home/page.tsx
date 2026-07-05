@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ChevronRight, Flame, X, Pencil } from 'lucide-react'
+import { ArrowRight, ChevronRight, Flame, X, Pencil, BookOpen, RotateCcw } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
@@ -261,36 +261,42 @@ export default function HomePage() {
         {/* ── Summary Cards — NEW / REVIEW / STREAK ───────────────────── */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
 
-          {/* NEW */}
-          <div className="glass-card-sm" style={{ padding: '12px 12px 13px' }}>
-            <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>New</p>
-            <p style={{ fontSize: 20, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+          {/* NEW STORY */}
+          <div className="glass-card-sm" style={{ padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
+              <BookOpen style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
+              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>New Story</p>
+            </div>
+            <p style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
               {newStoryIds.length > 0
                 ? newStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
-                : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
+                : <span style={{ fontSize: 15, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
               }
             </p>
           </div>
 
-          {/* REVIEW */}
-          <div className="glass-card-sm" style={{ padding: '12px 12px 13px' }}>
-            <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>Review</p>
-            <p style={{ fontSize: reviewStoryIds.length > 1 ? 13 : 20, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+          {/* REVIEW STORY */}
+          <div className="glass-card-sm" style={{ padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
+              <RotateCcw style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
+              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>Review Story</p>
+            </div>
+            <p style={{ fontSize: reviewStoryIds.length > 1 ? 14 : 22, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
               {reviewStoryIds.length > 0
                 ? reviewStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
-                : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
+                : <span style={{ fontSize: 15, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
               }
             </p>
           </div>
 
           {/* STREAK */}
-          <div className="glass-card-sm" style={{ padding: '12px 12px 13px' }}>
-            <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 3 }}>
+          <div className="glass-card-sm" style={{ padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
               <Flame style={{ width: 9, height: 9, color: '#D0601A' }} strokeWidth={2} />
-              Streak
-            </p>
-            <p style={{ fontSize: 20, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
-              {streak}<span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', marginLeft: 3 }}>Days</span>
+              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>Streak</p>
+            </div>
+            <p style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+              {streak}<span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', marginLeft: 2 }}>Days</span>
             </p>
           </div>
         </div>
@@ -315,8 +321,7 @@ export default function HomePage() {
                 </p>
                 <p style={{
                   fontSize: 12, fontWeight: 600,
-                  color: '#D8D8DC',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.18)',
+                  color: 'var(--pt2)',
                   margin: 0, lineHeight: 1.35,
                   overflow: 'hidden', display: '-webkit-box',
                   WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
@@ -447,7 +452,8 @@ export default function HomePage() {
                   </p>
                   <p style={{
                     fontSize: 'clamp(1.1rem, 4.5vw, 1.3rem)', fontWeight: 800,
-                    color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.25,
+                    color: '#E8E8EC', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.25,
+                    textShadow: '0 1px 0 rgba(0,0,0,0.25), 0 2px 12px rgba(0,0,0,0.15)',
                     fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   }}>
                     {tipTitle}
