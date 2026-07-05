@@ -119,8 +119,8 @@ export function MainTabBar() {
                 transition: 'color 0.15s ease',
                 padding: scrolledDown ? '4px 10px' : '6px 14px',
                 borderRadius: 9999,
-                background: isActive ? 'rgba(255,255,255,0.55)' : 'transparent',
-                boxShadow: isActive ? 'inset 0 1px 0 rgba(255,255,255,0.8), 0 1px 4px rgba(0,0,0,0.06)' : 'none',
+                background: 'transparent',
+                boxShadow: 'none',
                 minWidth: scrolledDown ? 44 : 52,
               }}
             >

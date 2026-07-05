@@ -429,7 +429,7 @@ export function PatternsPageV2({
               <div style={{ padding: '16px 20px 22px' }}>
 
                 {/* Action buttons: Speaker + Translation */}
-                <div style={{ display: 'flex', gap: 8, marginBottom: 18 }}>
+                <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
                   <button
                     type="button"
                     onClick={playPatternExamples}
@@ -479,10 +479,10 @@ export function PatternsPageV2({
                 )}
 
                 {/* Divider before examples */}
-                <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '14px 0 6px' }} />
+                <div style={{ height: 1, background: 'rgba(0,0,0,0.06)', margin: '10px 0 4px' }} />
 
                 {/* Examples */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                   {examples.map((ex, i) => {
                     const isActive   = i === exIdx
                     const exRev      = revealedExSet.has(`${patIdx}-${i}`)
@@ -494,31 +494,30 @@ export function PatternsPageV2({
                         type="button"
                         onClick={() => navigateTo(patIdx, i)}
                         style={{
-                          display: 'flex', alignItems: 'flex-start', gap: 10,
+                          display: 'flex', alignItems: 'flex-start', gap: 8,
                           textAlign: 'left', width: '100%',
-                          padding: '10px 10px', borderRadius: 12,
-                          background: isActive ? 'rgba(0,0,0,0.04)' : 'transparent',
+                          padding: '7px 0', borderRadius: 8,
+                          background: 'transparent',
                           border: 'none', cursor: 'pointer',
-                          transition: 'background 0.15s',
                         }}
                       >
                         {/* Dot / check */}
                         <span style={{
-                          flexShrink: 0, width: 18, height: 18,
+                          flexShrink: 0, width: 14, height: 14,
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          marginTop: 2,
+                          marginTop: 3,
                         }}>
                           {doneMask.has(i) ? (
-                            <Check style={{ width: 13, height: 13, color: '#3DAD6A' }} strokeWidth={2.5} />
+                            <Check style={{ width: 11, height: 11, color: '#3DAD6A' }} strokeWidth={2.5} />
                           ) : isActive ? (
-                            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#3A3A3C', display: 'block' }} />
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#3A3A3C', display: 'block' }} />
                           ) : (
-                            <span style={{ width: 7, height: 7, borderRadius: '50%', border: '1.5px solid #C7C7CC', display: 'block' }} />
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', border: '1.5px solid #C7C7CC', display: 'block' }} />
                           )}
                         </span>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           {showExEn ? (
-                            <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--pt2)', lineHeight: 1.55, margin: 0 }}>
+                            <p style={{ fontSize: 13.5, fontWeight: isActive ? 600 : 400, color: isActive ? 'var(--pt)' : 'var(--pt2)', lineHeight: 1.4, margin: 0 }}>
                               {ex.en}
                             </p>
                           ) : (
@@ -528,13 +527,13 @@ export function PatternsPageV2({
                               style={{ background: 'none', border: 'none', padding: 0, width: '100%', textAlign: 'left', cursor: 'pointer' }}
                             >
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 5, paddingTop: 2 }}>
-                                <div style={{ height: 12, borderRadius: 6, background: 'var(--pd)', width: '85%' }} />
-                                <div style={{ height: 12, borderRadius: 6, background: 'var(--pd)', width: '55%' }} />
+                                <div style={{ height: 11, borderRadius: 6, background: 'var(--pd)', width: '85%' }} />
+                                <div style={{ height: 11, borderRadius: 6, background: 'var(--pd)', width: '55%' }} />
                               </div>
                             </button>
                           )}
                           {showKorean && exKo && (
-                            <p style={{ fontSize: 12, color: 'var(--pm)', marginTop: 4, lineHeight: 1.5 }}>
+                            <p style={{ fontSize: 11.5, color: 'var(--pm)', marginTop: 2, lineHeight: 1.35 }}>
                               {exKo}
                             </p>
                           )}
