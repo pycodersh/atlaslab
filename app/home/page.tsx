@@ -32,13 +32,12 @@ type ScheduledStory = {
   done: boolean
 }
 
-// Dot color per status — chip bg is always the same glass
-const DOT_COLOR: Record<StoryLabel | 'Reading', string> = {
-  Review:   '#C08B30',
-  Tomorrow: '#9B9BA0',
-  Upcoming: '#9B9BA0',
-  Done:     '#3DAD6A',
-  Reading:  '#6B90D9',
+// Chip gradient per status
+const CHIP_GRADIENT: Record<StoryLabel | 'Done', string> = {
+  Review:   'linear-gradient(135deg, rgba(192,139,48,0.72) 0%, rgba(210,160,60,0.55) 100%)',
+  Tomorrow: 'linear-gradient(135deg, rgba(155,155,160,0.55) 0%, rgba(175,175,180,0.40) 100%)',
+  Upcoming: 'linear-gradient(135deg, rgba(155,155,160,0.55) 0%, rgba(175,175,180,0.40) 100%)',
+  Done:     'linear-gradient(135deg, rgba(61,173,106,0.72) 0%, rgba(80,195,120,0.55) 100%)',
 }
 
 export default function HomePage() {
@@ -327,7 +326,7 @@ export default function HomePage() {
                 display: 'flex', alignItems: 'center', gap: 10,
               }}
             >
-              <Pencil style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={1.8} />
+              <Pencil style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 2px', textTransform: 'uppercase' }}>
                   Editor Tip
@@ -348,10 +347,10 @@ export default function HomePage() {
         )}
 
         {/* ── STORIES ─────────────────────────────────────────────────── */}
-        <div style={{ padding: '20px 20px 0' }}>
+        <div style={{ padding: '28px 20px 0' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
             <p style={{
-              fontSize: 17, fontWeight: 800,
+              fontSize: 15, fontWeight: 800,
               color: '#3A3A3C',
               margin: 0, letterSpacing: '0.04em',
               textTransform: 'uppercase',
@@ -378,11 +377,9 @@ export default function HomePage() {
             {scheduledList.map(({ story, label, href, done }) => {
               const chipText = done ? 'Done' : label
 
-              const dotColor = done
-                ? DOT_COLOR['Done']
-                : label === 'Review' ? DOT_COLOR['Review']
-                : label === 'Tomorrow' ? DOT_COLOR['Tomorrow']
-                : DOT_COLOR['Upcoming']
+              const chipGradient = done
+                ? CHIP_GRADIENT['Done']
+                : CHIP_GRADIENT[label] ?? CHIP_GRADIENT['Upcoming']
 
               return (
                 <div
@@ -408,8 +405,13 @@ export default function HomePage() {
                       pointerEvents: 'none',
                     }} />
                     <div style={{ position: 'absolute', top: 8, left: 8 }}>
-                      <span style={glassChip}>
-                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: dotColor, flexShrink: 0, display: 'inline-block' }} />
+                      <span style={{
+                        ...glassChip,
+                        background: chipGradient,
+                        border: '1px solid rgba(255,255,255,0.45)',
+                        color: '#fff',
+                        textShadow: '0 1px 2px rgba(0,0,0,0.18)',
+                      }}>
                         {chipText}
                       </span>
                     </div>
