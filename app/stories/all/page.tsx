@@ -11,12 +11,12 @@ import { getMissionItems } from '@/lib/srs/engine'
 
 type StoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
 
-const LABEL_STYLE: Record<StoryLabel, { bg: string; color: string }> = {
-  Today:   { bg: 'var(--pa)',              color: '#fff' },
-  Reading: { bg: 'rgba(109,141,255,0.72)', color: '#fff' },
-  Review:  { bg: 'rgba(255,165,50,0.85)',  color: '#fff' },
-  Done:    { bg: 'rgba(39,174,96,0.88)',   color: '#fff' },
-  New:     { bg: 'rgba(160,160,180,0.50)', color: '#fff' },
+const DOT_COLOR: Record<StoryLabel, string> = {
+  Today:   '#6B90D9',
+  Reading: '#6B90D9',
+  Review:  '#C08B30',
+  Done:    '#3DAD6A',
+  New:     '#9B9BA0',
 }
 
 export default function AllStoriesPage() {
@@ -94,7 +94,7 @@ export default function AllStoriesPage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           {magazineStories.map(story => {
             const label = labelMap[story.id] ?? 'New'
-            const ls = LABEL_STYLE[label]
+            const dotColor = DOT_COLOR[label]
             const href = label === 'Review' || label === 'Today' || label === 'Reading'
               ? `/stories/${story.id}?v=p`
               : `/stories/${story.id}`
@@ -116,13 +116,26 @@ export default function AllStoriesPage() {
                     alt={story.imageAlt}
                     style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                   />
+                  {/* Top gradient overlay for chip readability */}
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%)',
+                    pointerEvents: 'none',
+                  }} />
                   <div style={{ position: 'absolute', top: 8, left: 8 }}>
                     <span style={{
-                      display: 'inline-block', padding: '3px 8px',
-                      background: ls.bg, color: ls.color,
-                      borderRadius: 8, fontSize: 8.5, fontWeight: 700,
-                      letterSpacing: '0.06em', backdropFilter: 'blur(4px)',
+                      display: 'inline-flex', alignItems: 'center', gap: 4,
+                      padding: '3px 8px',
+                      background: 'rgba(255,255,255,0.42)',
+                      backdropFilter: 'blur(20px)',
+                      WebkitBackdropFilter: 'blur(20px)',
+                      border: '1px solid rgba(255,255,255,0.75)',
+                      borderRadius: 999,
+                      fontSize: 8.5, fontWeight: 700, letterSpacing: '0.06em',
+                      color: '#555A61',
+                      textShadow: '0 1px 1px rgba(255,255,255,.55)',
                     }}>
+                      <span style={{ width: 5, height: 5, borderRadius: '50%', background: dotColor, flexShrink: 0, display: 'inline-block' }} />
                       {label}
                     </span>
                   </div>

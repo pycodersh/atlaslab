@@ -32,13 +32,13 @@ type ScheduledStory = {
   done: boolean
 }
 
-// Glass chip — same bg for all, only text color varies
-const CHIP_COLOR: Record<StoryLabel | 'Reading', string> = {
-  Review:   '#B07820',
-  Tomorrow: '#8E8E93',
-  Upcoming: '#8E8E93',
-  Done:     '#2D8A4E',
-  Reading:  '#5577CC',
+// Dot color per status — chip bg is always the same glass
+const DOT_COLOR: Record<StoryLabel | 'Reading', string> = {
+  Review:   '#C08B30',
+  Tomorrow: '#9B9BA0',
+  Upcoming: '#9B9BA0',
+  Done:     '#3DAD6A',
+  Reading:  '#6B90D9',
 }
 
 export default function HomePage() {
@@ -156,16 +156,20 @@ export default function HomePage() {
   }
 
   const glassChip = {
-    display: 'inline-block' as const,
+    display: 'inline-flex' as const,
+    alignItems: 'center' as const,
+    gap: 4,
     padding: '3px 8px',
     background: 'rgba(255,255,255,0.42)',
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255,255,255,0.65)',
-    borderRadius: 8,
+    border: '1px solid rgba(255,255,255,0.75)',
+    borderRadius: 999,
     fontSize: 8.5,
     fontWeight: 700,
     letterSpacing: '0.06em',
+    color: '#555A61',
+    textShadow: '0 1px 1px rgba(255,255,255,.55)',
   }
 
   return (
@@ -372,12 +376,13 @@ export default function HomePage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {scheduledList.map(({ story, label, href, done }) => {
-              const chipColor = done
-                ? CHIP_COLOR['Done']
-                : label === 'Review' ? CHIP_COLOR['Review']
-                : label === 'Tomorrow' ? CHIP_COLOR['Tomorrow']
-                : CHIP_COLOR['Upcoming']
               const chipText = done ? 'Done' : label
+
+              const dotColor = done
+                ? DOT_COLOR['Done']
+                : label === 'Review' ? DOT_COLOR['Review']
+                : label === 'Tomorrow' ? DOT_COLOR['Tomorrow']
+                : DOT_COLOR['Upcoming']
 
               return (
                 <div
@@ -396,8 +401,15 @@ export default function HomePage() {
                       alt={story.imageAlt}
                       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                     />
+                    {/* Top gradient overlay for chip readability */}
+                    <div style={{
+                      position: 'absolute', inset: 0,
+                      background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%)',
+                      pointerEvents: 'none',
+                    }} />
                     <div style={{ position: 'absolute', top: 8, left: 8 }}>
-                      <span style={{ ...glassChip, color: chipColor }}>
+                      <span style={glassChip}>
+                        <span style={{ width: 5, height: 5, borderRadius: '50%', background: dotColor, flexShrink: 0, display: 'inline-block' }} />
                         {chipText}
                       </span>
                     </div>
