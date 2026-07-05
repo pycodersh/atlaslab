@@ -415,7 +415,6 @@ export default function NewEssayPage() {
             disabled={loading || wc < MIN_WORDS}
             style={{
               width: '100%', padding: '15px 0', borderRadius: 14,
-              border: 'none',
               background: loading || wc < MIN_WORDS ? 'var(--pd)' : 'rgba(255,255,255,0.68)',
               backdropFilter: loading || wc < MIN_WORDS ? 'none' : 'blur(24px) saturate(180%)',
               WebkitBackdropFilter: loading || wc < MIN_WORDS ? 'none' : 'blur(24px) saturate(180%)',

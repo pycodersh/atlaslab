@@ -165,7 +165,7 @@ export default function SubscriptionPage() {
               border: '1px solid rgba(255,255,255,0.82)',
               boxShadow: '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
               color: 'var(--pa)',
-              border: 'none', borderRadius: 12,
+              borderRadius: 12,
               fontSize: 12, fontWeight: 700,
               letterSpacing: '0.14em', cursor: 'pointer',
               transition: 'opacity 0.15s ease',
