@@ -461,8 +461,8 @@ export default function HomePage() {
                   </p>
                   <p style={{
                     fontSize: 'clamp(1.1rem, 4.5vw, 1.3rem)', fontWeight: 800,
-                    color: '#E8E8EC', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.25,
-                    textShadow: '0 1px 0 rgba(0,0,0,0.25), 0 2px 12px rgba(0,0,0,0.15)',
+                    color: '#3A3A3C', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.25,
+                    textShadow: '0 1px 0 rgba(255,255,255,.6), 0 2px 12px rgba(60,70,90,0.08)',
                     fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   }}>
                     {tipTitle}
@@ -504,7 +504,7 @@ export default function HomePage() {
                   <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 5px', textTransform: 'uppercase' }}>
                     One thing to remember
                   </p>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: 0, lineHeight: 1.5 }}>
+                  <p style={{ fontSize: 13, fontWeight: 700, color: '#8D234C', margin: 0, lineHeight: 1.5 }}>
                     {tipRemember}
                   </p>
                 </div>
