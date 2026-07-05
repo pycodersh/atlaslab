@@ -75,7 +75,7 @@ function ViewAllLink({ label, onClick }: { label: string; onClick: () => void })
       onClick={onClick}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 2,
-        fontSize: 11, fontWeight: 600, color: 'var(--pa)',
+        fontSize: 11, fontWeight: 600, color: 'var(--pm)',
         background: 'none', border: 'none', padding: 0, cursor: 'pointer',
         letterSpacing: '0.01em', lineHeight: 1,
       }}

@@ -157,7 +157,7 @@ export default function EssaysPage() {
               </div>
               <span style={{
                 fontSize: 11, fontWeight: 800,
-                color: remaining === 0 ? 'var(--pm2)' : 'var(--pa)',
+                color: remaining === 0 ? 'var(--pm2)' : 'var(--pt2)',
               }}>
                 {remaining}/{MAX_DAILY_REVIEWS}
               </span>
@@ -187,7 +187,7 @@ export default function EssaysPage() {
             cursor: 'pointer',
             fontSize: 15,
             fontWeight: 800,
-            color: 'var(--pa)',
+            color: '#5F6368',
             letterSpacing: '0.02em',
             boxShadow: '0 4px 20px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
             transition: 'opacity 0.15s, transform 0.15s',

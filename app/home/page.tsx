@@ -269,7 +269,7 @@ export default function HomePage() {
               style={{
                 display: 'flex', alignItems: 'center', gap: 2,
                 background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: 12, fontWeight: 600, color: 'var(--pa)',
+                fontSize: 12, fontWeight: 600, color: 'var(--pm)',
               }}
             >
               See All <ChevronRight style={{ width: 13, height: 13 }} strokeWidth={2.5} />

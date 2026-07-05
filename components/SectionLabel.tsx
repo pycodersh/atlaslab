@@ -28,8 +28,9 @@ export function SectionLabel({
         <h2
           className="font-playfair"
           style={{
-            fontSize: '1.3rem', fontWeight: 900, color: 'var(--pa)',
+            fontSize: '1.3rem', fontWeight: 900, color: 'var(--pt2)',
             margin: 0, letterSpacing: '-0.02em', lineHeight: 1,
+            textShadow: '0 1px 0 rgba(255,255,255,.75), 0 10px 24px rgba(70,80,110,.08)',
           }}
         >
           {label}

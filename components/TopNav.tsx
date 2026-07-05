@@ -53,10 +53,11 @@ export function TopNav() {
                 fontSize: 22,
                 fontWeight: 900,
                 letterSpacing: '-0.03em',
-                color: 'var(--pa)',
+                color: 'var(--pt)',
                 margin: 0,
                 lineHeight: 1,
                 fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                textShadow: '0 1px 0 rgba(255,255,255,.75), 0 10px 24px rgba(70,80,110,.08)',
               }}
             >
               PATTO

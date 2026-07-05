@@ -125,12 +125,12 @@ function ProgressRow({
 const STATUS_META: { key: PatternStatus; label: string; color: string }[] = [
   { key: 'new',      label: 'New',      color: 'var(--pm2)' },
   { key: 'learning', label: 'Learning', color: '#E67E22' },
-  { key: 'review',   label: 'Review',   color: 'var(--pa)' },
+  { key: 'review',   label: 'Review',   color: '#6E6E73' },
   { key: 'mastered', label: 'Mastered', color: '#27AE60' },
 ]
 
 const STATUS_COLOR: Record<string, string> = {
-  new: 'var(--pm2)', learning: '#E67E22', review: 'var(--pa)', mastered: '#27AE60',
+  new: 'var(--pm2)', learning: '#E67E22', review: '#6E6E73', mastered: '#27AE60',
 }
 
 function PatternStatusBar() {
@@ -447,7 +447,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
               <div style={{ marginBottom: 24 }}>
                 <p style={{
                   fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
-                  color: 'var(--pa)', textTransform: 'uppercase', margin: '0 0 10px',
+                  color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 10px',
                 }}>
                   Due
                 </p>
@@ -456,7 +456,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                     display: 'flex', alignItems: 'center', gap: 10, padding: '12px 0',
                     borderBottom: i < detail.due.length - 1 ? '1px solid var(--pd)' : 'none',
                   }}>
-                    <RotateCcw style={{ width: 13, height: 13, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={2} />
+                    <RotateCcw style={{ width: 13, height: 13, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
                     <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)' }}>
                       Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle} Review
                     </span>
@@ -727,7 +727,7 @@ export default function ProgressPage() {
                           </span>
                           <span style={{
                             fontSize: 11, fontWeight: 700,
-                            color: item.done ? '#27AE60' : 'var(--pa)',
+                            color: item.done ? '#27AE60' : 'var(--pt2)',
                           }}>
                             {item.done ? '✓' : '▶'}
                           </span>
@@ -798,7 +798,7 @@ export default function ProgressPage() {
                       border: '1px solid rgba(255,255,255,0.82)',
                       boxShadow: '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
                       borderRadius: 12, cursor: 'pointer', fontSize: 13, fontWeight: 700,
-                      color: 'var(--pa)', letterSpacing: '0.02em',
+                      color: '#5F6368', letterSpacing: '0.02em',
                       transition: 'all 0.15s',
                     }}
                   >
@@ -859,7 +859,8 @@ export default function ProgressPage() {
                 </p>
                 <p style={{
                   fontSize: 'clamp(1.4rem, 6vw, 1.8rem)', fontWeight: 900,
-                  color: 'var(--pa)', margin: 0, lineHeight: 1, letterSpacing: '-0.02em',
+                  color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.02em',
+                  textShadow: '0 1px 0 rgba(255,255,255,.75), 0 10px 24px rgba(70,80,110,.08)',
                 }}>
                   {phasePct}%
                 </p>

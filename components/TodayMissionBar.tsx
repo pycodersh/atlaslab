@@ -46,7 +46,7 @@ export function TodayMissionBar({ currentStoryId }: Props) {
         </span>
         <span style={{ fontSize: 9, color: 'var(--pd)', marginLeft: 2 }}>·</span>
         <span style={{
-          fontSize: 9, fontWeight: 700, color: 'var(--pa)',
+          fontSize: 9, fontWeight: 700, color: 'var(--pm)',
           fontVariantNumeric: 'tabular-nums',
         }}>
           {doneCount} / {items.length}
@@ -94,9 +94,9 @@ export function TodayMissionBar({ currentStoryId }: Props) {
               >
                 {/* 상태 아이콘 */}
                 {item.done ? (
-                  <Check style={{ width: 10, height: 10, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={2.5} />
+                  <Check style={{ width: 10, height: 10, color: '#6E6E73', flexShrink: 0 }} strokeWidth={2.5} />
                 ) : isCurrent ? (
-                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--pa)', flexShrink: 0 }} />
+                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--pt2)', flexShrink: 0 }} />
                 ) : (
                   <span style={{ width: 5, height: 5, borderRadius: '50%', border: '1px solid var(--pm2)', flexShrink: 0 }} />
                 )}
@@ -116,7 +116,7 @@ export function TodayMissionBar({ currentStoryId }: Props) {
                 {isCurrent && (
                   <span style={{
                     fontSize: 8, fontWeight: 700, letterSpacing: '0.14em',
-                    color: 'var(--pa)', textTransform: 'uppercase', marginLeft: 2,
+                    color: 'var(--pm)', textTransform: 'uppercase', marginLeft: 2,
                   }}>
                     Now
                   </span>

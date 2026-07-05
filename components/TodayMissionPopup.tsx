@@ -80,7 +80,7 @@ export function TodayMissionPopup() {
           <div>
             <p style={{
               fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
-              color: 'var(--pa)', margin: '0 0 4px', textTransform: 'uppercase',
+              color: 'var(--pm2)', margin: '0 0 4px', textTransform: 'uppercase',
             }}>
               Today&apos;s Mission
             </p>
@@ -128,7 +128,7 @@ export function TodayMissionPopup() {
                   </span>
                   <span style={{
                     fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
-                    color: item.type === 'in_progress_story' ? 'var(--pa)' : 'var(--pm2)',
+                    color: 'var(--pm2)',
                     textTransform: 'uppercase',
                   }}>
                     {item.type === 'in_progress_story' ? 'Continue' : 'New'}
@@ -200,7 +200,7 @@ export function TodayMissionPopup() {
               border: '1px solid rgba(255,255,255,0.82)',
               boxShadow: '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
               borderRadius: 12, cursor: 'pointer', fontSize: 13, fontWeight: 700,
-              color: 'var(--pa)', letterSpacing: '0.02em',
+              color: '#5F6368', letterSpacing: '0.02em',
               transition: 'all 0.15s',
             }}
           >
