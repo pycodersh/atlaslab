@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  Volume2, Square, Bookmark, Check, Globe,
+  Volume2, Square, Bookmark, Check, Globe, Lightbulb,
 } from 'lucide-react'
 
 import type { MagazineStory } from '@/types/magazine'
@@ -459,20 +459,18 @@ export function PatternsPageV2({
                   </span>
                   {pattern.pattern}
                 </p>
-              </div>
-
-              {/* ── Card body ── */}
-              <div style={{ padding: '16px 20px 22px' }}>
-
-                {/* Pattern meaning — below English title */}
                 {patternMeaning && (
                   <p style={{
                     fontSize: 12, fontWeight: 500, color: '#8A8A8E',
-                    margin: '0 0 14px', letterSpacing: '0.01em',
+                    margin: '4px 0 0', letterSpacing: '0.01em',
                   }}>
                     {patternMeaning}
                   </p>
                 )}
+              </div>
+
+              {/* ── Card body ── */}
+              <div style={{ padding: '16px 20px 22px' }}>
 
                 {/* Action buttons: Language (left) + Speaker (right) */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
@@ -561,12 +559,15 @@ export function PatternsPageV2({
                 {patternNote && (
                   <>
                     <div style={{ height: 1, background: 'rgba(0,0,0,0.07)', margin: '14px 0 12px' }} />
-                    <p style={{
-                      fontSize: 8.5, letterSpacing: '0.16em', fontWeight: 700,
-                      color: '#8A8A8E', marginBottom: 8, textTransform: 'uppercase',
-                    }}>
-                      Pattern Note
-                    </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
+                      <Lightbulb style={{ width: 12, height: 12, color: '#8F234B', flexShrink: 0 }} strokeWidth={2} />
+                      <p style={{
+                        fontSize: 8.5, letterSpacing: '0.16em', fontWeight: 700,
+                        color: '#8A8A8E', margin: 0, textTransform: 'uppercase',
+                      }}>
+                        Pattern Note
+                      </p>
+                    </div>
                     <p style={{
                       fontSize: 13, color: 'var(--pm)', lineHeight: 1.78,
                       margin: '0 0 4px',
