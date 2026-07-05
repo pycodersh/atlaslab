@@ -53,13 +53,13 @@ const TABS = [
     ),
   },
   {
-    label: 'Library',
-    href: '/library',
-    active: (p: string) => p.startsWith('/library'),
+    label: 'You',
+    href: '/settings',
+    active: (p: string) => p.startsWith('/settings'),
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
       </svg>
     ),
   },

@@ -31,11 +31,8 @@ export function TopNav() {
       className="fixed top-0 left-0 right-0 z-40"
       style={{
         height: 'var(--pnav-h)',
-        background: 'rgba(250,250,250,0.85)',
-        borderBottom: '0.5px solid rgba(255,255,255,0.8)',
-        backdropFilter: 'blur(28px) saturate(200%)',
-        WebkitBackdropFilter: 'blur(28px) saturate(200%)',
-        boxShadow: '0 1px 16px rgba(0,0,0,0.04)',
+        background: 'transparent',
+        borderBottom: 'none',
       }}
     >
       <div
@@ -93,7 +90,7 @@ export function TopNav() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Link
             href="/library"
-            aria-label="검색"
+            aria-label="라이브러리"
             style={{
               width: 36, height: 36, borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
