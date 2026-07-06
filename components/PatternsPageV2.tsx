@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  Volume2, Square, Bookmark, Globe, Lightbulb, X,
+  Volume2, Square, Bookmark, Lightbulb, X,
 } from 'lucide-react'
 
 import type { MagazineStory } from '@/types/magazine'
@@ -17,6 +17,7 @@ import { PATTERN_NOTES } from '@/data/pattern-notes'
 import { patternMeaningNoteTranslations } from '@/data/pattern-meaning-note-translations'
 import { getPatternExamples } from '@/data/pattern-examples'
 import { patternExamplesFull } from '@/data/pattern-examples-full'
+import { shimmerExamples } from '@/data/shimmer-audio-meta'
 import { TappableWordText } from '@/components/TappableWordText'
 import { useT } from '@/hooks/useT'
 
@@ -189,6 +190,8 @@ export function PatternsPageV2({
     setPhase('idle')
   }, [])
 
+
+
   useEffect(() => () => { runningRef.current = false; clearTimer(); ttsProvider.stop() }, [])
 
   // ── Navigation ─────────────────────────────────────────────────────────────
@@ -297,7 +300,8 @@ export function PatternsPageV2({
       if (DEV) console.log('[PatternsV2] playPatternExamples', pat.id, 'ex', idx)
 
       setPhase('speaking')
-      const url = patternExampleAudioUrl(voice, pat.id, idx, ex.en)
+      const shimmerEx = shimmerExamples[`${pat.id}-ex${idx + 1}`]
+      const url       = shimmerEx?.url ?? patternExampleAudioUrl(voice, pat.id, idx, ex.en)
       ttsProvider.speak({
         texts: [ex.en], audioUrls: url ? [url] : undefined,
         voiceKey: voice, voiceKeys: [voice],
@@ -324,28 +328,6 @@ export function PatternsPageV2({
 
   const isPlaying = phase === 'speaking' || phase === 'pause'
 
-  // ── Per-example single play ────────────────────────────────────────────────
-  const playSingleExample = useCallback((idx: number) => {
-    stop()
-    const pat = patterns[patIdxRef.current]
-    const exs = resolveExamples(
-      patternExamples, pat.id,
-      pat.storySentence, pat.storySentenceKo,
-      pat.variationSentence, pat.variationSentenceKo,
-    )
-    const ex = exs[idx]
-    if (!ex) return
-    navigateTo(patIdxRef.current, idx, true)
-    setPhase('speaking')
-    const url = patternExampleAudioUrl(voice, pat.id, idx, ex.en)
-    ttsProvider.speak({
-      texts: [ex.en], audioUrls: url ? [url] : undefined,
-      voiceKey: voice, voiceKeys: [voice],
-      rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
-      onEnd: () => { markDone(patIdxRef.current, idx); setPhase('idle') },
-      onError: () => setPhase('idle'),
-    })
-  }, [stop, patterns, patternExamples, navigateTo, voice, prefs.speechRate, markDone])
 
   // ── Bookmark ───────────────────────────────────────────────────────────────
   function handleBookmark() {
@@ -484,7 +466,7 @@ export function PatternsPageV2({
                   {pattern.pattern}
                 </p>
 
-                {/* Row 3: meaning (left) + speaker (right), same line */}
+                {/* Row 3: meaning (left) + sequential speaker (right) */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
                   {patternMeaning ? (
                     <p style={{ fontSize: 12, fontWeight: 600, color: heroTheme.meaningColor, margin: 0, letterSpacing: '0.01em', flex: 1, paddingRight: 8 }}>
@@ -492,7 +474,7 @@ export function PatternsPageV2({
                     </p>
                   ) : <div />}
 
-                  {/* Speaker — icon only, no background circle */}
+                  {/* Sequential examples play — icon only */}
                   <button
                     type="button"
                     onClick={playPatternExamples}
@@ -565,73 +547,44 @@ export function PatternsPageV2({
                           background: isExPlaying ? 'rgba(0,0,0,0.03)' : 'transparent',
                           borderRadius: isExPlaying ? 8 : 0,
                           transition: 'background 0.2s',
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: 8,
                         }}
                       >
-                        {/* Text block */}
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          {showExEn ? (
-                            <TappableWordText
-                              text={ex.en}
-                              saveCandidates={fullEx?.saveCandidates}
-                              source={{
-                                sourceType:       'example',
-                                sourceId:         fullEx?.id ?? `${pattern.id}-ex${i}`,
-                                patternId:        pattern.id,
-                                exampleIndex:     i,
-                                originalSentence: ex.en,
-                              }}
-                              style={{
-                                display:     'block',
-                                fontSize:    14.5,
-                                fontWeight:  isExPlaying ? 500 : 400,
-                                color:       'var(--pt)',
-                                lineHeight:  1.5,
-                                marginBottom: 2,
-                              }}
-                            />
-                          ) : (
-                            <p style={{
-                              fontSize: 14.5, fontWeight: 400,
-                              color: 'var(--pt)',
-                              lineHeight: 1.5, margin: '0 0 2px',
-                              opacity: 0.04, userSelect: 'none',
-                            }}>
-                              {ex.en}
-                            </p>
-                          )}
-                          {showKorean && exKo && (
-                            <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
-                              {exKo}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Per-example play button */}
-                        <button
-                          type="button"
-                          onClick={() => isExPlaying ? stop() : playSingleExample(i)}
-                          style={{
-                            flexShrink: 0,
-                            width: 28, height: 28,
-                            borderRadius: '50%',
-                            border: 'none',
-                            background: isExPlaying ? 'var(--pc)' : 'rgba(180,185,195,0.25)',
-                            color: isExPlaying ? 'var(--pt2)' : 'var(--pt2)',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            cursor: 'pointer',
-                            transition: 'background 0.15s',
-                            marginTop: 1,
-                          }}
-                          aria-label={isExPlaying ? '정지' : `예문 ${i + 1} 재생`}
-                        >
-                          {isExPlaying
-                            ? <Square size={11} fill="currentColor" />
-                            : <Volume2 size={12} />
-                          }
-                        </button>
+                        {showExEn ? (
+                          <TappableWordText
+                            text={ex.en}
+                            saveCandidates={undefined}
+                            source={{
+                              sourceType:       'example',
+                              sourceId:         `${pattern.id}-ex${i + 1}`,
+                              patternId:        pattern.id,
+                              storyId:          story.id,
+                              exampleIndex:     i,
+                              originalSentence: ex.en,
+                            }}
+                            style={{
+                              display:     'block',
+                              fontSize:    14.5,
+                              fontWeight:  isExPlaying ? 500 : 400,
+                              color:       'var(--pt)',
+                              lineHeight:  1.5,
+                              marginBottom: 2,
+                            }}
+                          />
+                        ) : (
+                          <p style={{
+                            fontSize: 14.5, fontWeight: 400,
+                            color: 'var(--pt)',
+                            lineHeight: 1.5, margin: '0 0 2px',
+                            opacity: 0.04, userSelect: 'none',
+                          }}>
+                            {ex.en}
+                          </p>
+                        )}
+                        {showKorean && exKo && (
+                          <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
+                            {exKo}
+                          </p>
+                        )}
                       </div>
                     )
                   })}

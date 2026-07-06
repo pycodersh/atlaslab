@@ -863,12 +863,6 @@ export default function LibraryPage() {
             value={words.length}
             accent="#3A7A4A"
           />
-          <SummaryCard
-            icon={<RotateCcw style={{ width: 16, height: 16, color: '#8F234B' }} strokeWidth={1.8} />}
-            label="Reviews"
-            value={reviews}
-            accent="#8F234B"
-          />
         </div>
 
         {/* ── Main sections (non-search) ── */}
@@ -910,7 +904,7 @@ export default function LibraryPage() {
                   icon={<Layers style={{ width: 24, height: 24, color: '#C08040' }} strokeWidth={1.6} />}
                   iconColor="#C08040"
                   title="No saved phrases yet."
-                  body={'Tap any word in a sentence to save it.\nIf a phrase is recommended, you can save the whole expression.'}
+                  body="문장 속 단어를 탭하면 표현을 저장할 수 있어요."
                 />
               ) : (
                 <div>
