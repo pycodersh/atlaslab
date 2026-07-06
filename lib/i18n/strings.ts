@@ -77,7 +77,7 @@ const T = {
     mission_review:     '복습하기',
     view_all:           '전체 보기',
     bookmarks_count:    '{n}개 저장됨',
-    no_bookmarks:       '아직 저장한 패턴이 없어요.\n패턴 옆 북마크를 눌러 자주 쓰는 패턴을 모아보세요.',
+    no_bookmarks:       '패턴 옆 북마크를 눌러 자주 쓰는 패턴을 모아보세요.',
     no_bookmarks_sheet: '아직 저장한 패턴이 없어요.\n패턴 옆 북마크를 눌러 시작해보세요.',
     bookmark:           '북마크',
     bookmark_remove:    '북마크 해제',
