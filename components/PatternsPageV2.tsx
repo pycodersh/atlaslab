@@ -347,7 +347,7 @@ export function PatternsPageV2({
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
-        <div style={{ padding: '0 16px 112px' }}>
+        <div style={{ padding: '0 16px 80px' }}>
 
           {/* ── Top spacer (was: story label + dots) ── */}
           <div style={{ paddingTop: 76 }} />
