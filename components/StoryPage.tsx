@@ -383,12 +383,15 @@ export function StoryPage({
                   borderTop: '1px solid rgba(255,255,255,0.55)',
                   paddingTop: 14,
                 }}>
-                  <p style={{
-                    fontSize: 9, fontWeight: 700, letterSpacing: '0.14em',
-                    color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase',
-                  }}>
-                    Summary
-                  </p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <p style={{
+                      fontSize: 9, fontWeight: 700, letterSpacing: '0.14em',
+                      color: 'var(--pm2)', margin: 0, textTransform: 'uppercase', flexShrink: 0,
+                    }}>
+                      Summary
+                    </p>
+                    <div style={{ flex: 1, height: 1, background: 'rgba(60,60,67,0.18)' }} />
+                  </div>
                   <p style={{ fontSize: 13.5, color: 'var(--pt2)', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
                     {storyNote}
                   </p>
