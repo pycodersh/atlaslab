@@ -4,13 +4,15 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, Sparkles, Copy, Check, ArrowLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
-import { saveEssay, saveReview, canReview, incrementDailyReviewCount } from '@/lib/essays/storage'
+import {
+  getDraft, saveDraft, clearDraft, saveEssay, saveReview,
+  canReview, incrementDailyReviewCount, autoTitle,
+} from '@/lib/essays/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
 
 const MAX_WORDS  = 300
 const MIN_WORDS  = 30
-const DRAFT_KEY  = 'patto_essay_draft'
 const NATIVE_RATIO_WARN = 0.35
 
 function wordCount(text: string): number {
@@ -31,9 +33,7 @@ function detectNativeSentence(body: string): string {
 }
 
 type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'service_unavailable' | null
-type SaveStatus = 'idle' | 'editing' | 'saved'
 
-// Shared glass button style
 function glassBtn(extra?: React.CSSProperties): React.CSSProperties {
   return {
     width: '100%', padding: '13px 0', borderRadius: 14,
@@ -56,10 +56,9 @@ export default function NewEssayPage() {
 
   const [title, setTitle]   = useState('')
   const [body, setBody]     = useState('')
-  const [loading, setLoading]     = useState(false)
-  const [error, setError]         = useState<ValidationError>(null)
-  const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
-  const [savedEssayId, setSavedEssayId] = useState<string | null>(null)
+  const [loading, setLoading]       = useState(false)
+  const [error, setError]           = useState<ValidationError>(null)
+  const [saveFlash, setSaveFlash]   = useState(false)
 
   // Expression suggestion
   const [nativeSentence, setNativeSentence] = useState('')
@@ -67,44 +66,29 @@ export default function NewEssayPage() {
   const [suggestLoading, setSuggestLoading] = useState(false)
   const [copied, setCopied]                 = useState(false)
 
-  // Unsaved-changes dialog
+  // Leave dialog
   const [leaveDialog, setLeaveDialog] = useState(false)
   const pendingNavRef = useRef<(() => void) | null>(null)
 
   const titleManuallyEdited = useRef(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const latestBody  = useRef(body)
-  const latestTitle = useRef(title)
 
-  useEffect(() => { latestBody.current  = body  }, [body])
-  useEffect(() => { latestTitle.current = title }, [title])
-
-  // Restore draft on mount
+  // Load draft on mount (if exists)
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(DRAFT_KEY)
-      if (saved) {
-        const { title: t, body: b } = JSON.parse(saved) as { title: string; body: string }
-        if (b) setBody(b)
-        if (t) { setTitle(t); titleManuallyEdited.current = true }
-      }
-    } catch { /* ignore */ }
+    const draft = getDraft()
+    if (draft?.body) {
+      setBody(draft.body)
+      if (draft.title) { setTitle(draft.title); titleManuallyEdited.current = true }
+    }
   }, [])
 
-  // Auto-title from first sentence
+  // Auto-title from first sentence (only when title not manually set)
   useEffect(() => {
     if (titleManuallyEdited.current) return
-    const first = body.trim().split(/[.!?\n]/)[0].trim()
-    if (!first) { setTitle(''); return }
-    setTitle(first.length > 60 ? first.slice(0, 57) + '…' : first)
+    setTitle(autoTitle(body))
   }, [body])
 
-  // Mark editing when content changes
-  useEffect(() => {
-    if (body.trim() || title.trim()) setSaveStatus('editing')
-  }, [body, title])
-
-  // Detect native sentence
+  // Detect native language sentence
   useEffect(() => {
     const detected = detectNativeSentence(body)
     if (detected !== nativeSentence) {
@@ -117,7 +101,7 @@ export default function NewEssayPage() {
   const wc = wordCount(body)
   const wcColor = wc > MAX_WORDS ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
   const showNativeWarning = nonAsciiRatio(body) > NATIVE_RATIO_WARN && body.trim().length > 20
-  const isDirty = saveStatus === 'editing'
+  const isDirty = body.trim().length > 0 || title.trim().length > 0
 
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
@@ -127,7 +111,7 @@ export default function NewEssayPage() {
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
-  // Navigation guard
+  // Navigation guard — only trigger if there's content
   function tryNavigate(action: () => void) {
     if (isDirty) {
       pendingNavRef.current = action
@@ -137,31 +121,44 @@ export default function NewEssayPage() {
     }
   }
 
-  function handleLeaveDialogSave() {
-    handleSaveOnly()
-    setLeaveDialog(false)
-    pendingNavRef.current?.()
-    pendingNavRef.current = null
+  // "Save Draft" in leave dialog → save to My Essay + clear draft + navigate
+  function handleLeaveDialogSaveDraft() {
+    if (body.trim()) {
+      const essay = saveEssay({ title, body })
+      clearDraft()
+      setLeaveDialog(false)
+      pendingNavRef.current?.()
+      pendingNavRef.current = null
+      // If navigating to /essays, the new essay will appear in the list
+      void essay
+    } else {
+      handleLeaveDialogDiscard()
+    }
   }
+
+  // "Discard" → clear draft + navigate
   function handleLeaveDialogDiscard() {
+    clearDraft()
     setLeaveDialog(false)
     pendingNavRef.current?.()
     pendingNavRef.current = null
   }
+
+  // "Cancel" → stay
   function handleLeaveDialogCancel() {
     setLeaveDialog(false)
     pendingNavRef.current = null
   }
 
-  // Save only (no review)
-  function handleSaveOnly() {
+  // Save — saves to My Essay, clears draft, goes back to list
+  function handleSave() {
     if (!body.trim()) return
-    const essay = saveEssay({ title, body })
-    setSavedEssayId(essay.id)
-    setSaveStatus('saved')
-    // Store draft key cleared
-    try { localStorage.removeItem(DRAFT_KEY) } catch { /* ignore */ }
-    setTimeout(() => setSaveStatus('idle'), 1500)
+    saveEssay({ title, body })
+    clearDraft()
+    setSaveFlash(true)
+    setTimeout(() => {
+      router.push('/essays')
+    }, 400)
   }
 
   // Suggestion
@@ -198,20 +195,16 @@ export default function NewEssayPage() {
     })
   }
 
-  // Editor Review
-  async function handleEditorReview() {
+  // Review — auto-saves first, then reviews, updates same essay
+  async function handleReview() {
     setError(null)
     if (!canReview()) { setError('limit_reached'); return }
     if (wc < MIN_WORDS) { setError('too_short'); return }
     if (wc > MAX_WORDS) { setError('too_long'); return }
 
-    // Save first if not already saved
-    let essayId = savedEssayId
-    if (!essayId) {
-      const essay = saveEssay({ title, body })
-      essayId = essay.id
-      setSavedEssayId(essay.id)
-    }
+    // Save essay first
+    const essay = saveEssay({ title, body })
+    clearDraft()
 
     setLoading(true)
     try {
@@ -219,27 +212,24 @@ export default function NewEssayPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          essayId,
+          essayId:    essay.id,
           essayBody:  body,
-          essayTitle: title || 'Untitled',
+          essayTitle: essay.title,
           language:   prefs.language,
         }),
       })
       const data = await res.json()
       if (!res.ok) {
         const errCode = data.error as string
-        if (errCode === 'not_english' || errCode === 'too_short' || errCode === 'too_long' || errCode === 'service_unavailable') {
-          setError(errCode)
-        } else {
-          setError('service_unavailable')
-        }
+        setError((['not_english','too_short','too_long','service_unavailable'] as const).includes(errCode as never)
+          ? errCode as ValidationError
+          : 'service_unavailable')
         setLoading(false)
         return
       }
-      saveReview(essayId, data.review)
+      saveReview(essay.id, data.review)
       incrementDailyReviewCount()
-      try { localStorage.removeItem(DRAFT_KEY) } catch { /* ignore */ }
-      router.push(`/essays/${essayId}`)
+      router.push(`/essays/${essay.id}`)
     } catch {
       setLoading(false)
       setError('service_unavailable')
@@ -252,7 +242,7 @@ export default function NewEssayPage() {
     <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column' }}>
       <TopNav />
 
-      {/* ── Sub-bar: back + word count ── */}
+      {/* Sub-bar */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '6px 20px 10px',
@@ -269,36 +259,18 @@ export default function NewEssayPage() {
           </span>
         </button>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {/* Save status indicator */}
-          {saveStatus === 'editing' && (
-            <span style={{ fontSize: 9.5, fontWeight: 600, color: '#B0B0B8', letterSpacing: '0.08em' }}>
-              ● Editing
-            </span>
-          )}
-          {saveStatus === 'saved' && (
-            <span style={{ fontSize: 9.5, fontWeight: 600, color: '#4A7A6A', letterSpacing: '0.08em' }}>
-              ✓ Saved
-            </span>
-          )}
-          {/* Word count */}
-          <span style={{ fontSize: 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s', letterSpacing: '0.02em' }}>
-            {wc} words
-          </span>
-        </div>
+        <span style={{ fontSize: 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s', letterSpacing: '0.02em' }}>
+          {wc} words
+        </span>
       </div>
 
-      {/* ── Paper area ── */}
+      {/* Paper area */}
       <div style={{
-        flex: 1,
-        maxWidth: 580,
-        width: '100%',
-        margin: '0 auto',
-        padding: '4px 28px 80px',
-        boxSizing: 'border-box',
+        flex: 1, maxWidth: 580, width: '100%',
+        margin: '0 auto', padding: '4px 28px 80px', boxSizing: 'border-box',
       }}>
 
-        {/* Title input */}
+        {/* Title */}
         <input
           type="text"
           value={title}
@@ -314,7 +286,7 @@ export default function NewEssayPage() {
           }}
         />
 
-        {/* Body textarea — auto-grow */}
+        {/* Body */}
         <textarea
           ref={textareaRef}
           value={body}
@@ -345,7 +317,7 @@ export default function NewEssayPage() {
           </div>
         )}
 
-        {/* Native sentence suggestion UI */}
+        {/* Native sentence suggestion */}
         {nativeSentence && (
           <div style={{ marginTop: 14, borderRadius: 12, border: '1px solid var(--pd)', overflow: 'hidden' }}>
             <div style={{
@@ -361,10 +333,7 @@ export default function NewEssayPage() {
                 </span>
               </div>
               {!suggestion && (
-                <button
-                  type="button"
-                  onClick={handleSuggest}
-                  disabled={suggestLoading}
+                <button type="button" onClick={handleSuggest} disabled={suggestLoading}
                   style={{
                     background: 'rgba(255,255,255,0.68)',
                     backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
@@ -372,8 +341,7 @@ export default function NewEssayPage() {
                     borderRadius: 8, padding: '5px 12px',
                     cursor: suggestLoading ? 'default' : 'pointer',
                     display: 'flex', alignItems: 'center', gap: 5,
-                  }}
-                >
+                  }}>
                   {suggestLoading
                     ? <Loader2 style={{ width: 11, height: 11, color: 'var(--pa)', animation: 'spin 1s linear infinite' }} />
                     : <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pa)' }}>Suggest →</span>
@@ -413,10 +381,9 @@ export default function NewEssayPage() {
           </p>
         )}
 
-        {/* ── Inline actions — ordered: stats · Editor Review · Save ── */}
+        {/* Actions */}
         <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 10 }}>
 
-          {/* Estimated info */}
           {wc > 0 && (
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 6 }}>
               <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500 }}>
@@ -424,16 +391,16 @@ export default function NewEssayPage() {
               </span>
               {wc > 0 && wc < MIN_WORDS && (
                 <span style={{ fontSize: 10, color: '#B0B0B8', fontStyle: 'italic' }}>
-                  {MIN_WORDS - wc} more words for Editor Review
+                  {MIN_WORDS - wc} more words for Review
                 </span>
               )}
             </div>
           )}
 
-          {/* Editor Review button */}
+          {/* Review button */}
           <button
             type="button"
-            onClick={handleEditorReview}
+            onClick={handleReview}
             disabled={loading || wc < MIN_WORDS}
             style={{
               ...glassBtn(),
@@ -453,7 +420,7 @@ export default function NewEssayPage() {
           {/* Save button */}
           <button
             type="button"
-            onClick={handleSaveOnly}
+            onClick={handleSave}
             disabled={!body.trim() || loading}
             style={{
               ...glassBtn(),
@@ -464,12 +431,12 @@ export default function NewEssayPage() {
             onMouseEnter={e => { if (body.trim() && !loading) e.currentTarget.style.filter = 'brightness(0.97)' }}
             onMouseLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
           >
-            {saveStatus === 'saved' ? '✓ Saved' : 'Save'}
+            {saveFlash ? '✓ Saved' : 'Save'}
           </button>
         </div>
       </div>
 
-      {/* ── Unsaved changes dialog ── */}
+      {/* Leave dialog */}
       {leaveDialog && (
         <div
           style={{
@@ -493,24 +460,24 @@ export default function NewEssayPage() {
             }}
             onClick={e => e.stopPropagation()}
           >
-            <p style={{ fontSize: 15, fontWeight: 800, color: '#1C1C1E', margin: '0 0 8px', letterSpacing: '-0.01em' }}>
-              저장하지 않은 변경사항이 있습니다.
+            <p style={{ fontSize: 17, fontWeight: 800, color: '#1C1C1E', margin: '0 0 6px', letterSpacing: '-0.01em' }}>
+              Discard draft?
             </p>
             <p style={{ fontSize: 12, color: '#8E8E93', margin: '0 0 22px', lineHeight: 1.6 }}>
-              이 글을 저장하고 나가시겠습니까?
+              저장하지 않으면 이 글은 사라집니다.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <button type="button" onClick={handleLeaveDialogSave}
+              <button type="button" onClick={handleLeaveDialogSaveDraft}
                 style={{ ...glassBtn({ fontSize: 14, fontWeight: 700, color: '#3A3A3C' }) }}>
-                저장
+                Save Draft
               </button>
               <button type="button" onClick={handleLeaveDialogDiscard}
                 style={{ ...glassBtn({ fontSize: 14, fontWeight: 600, color: '#8E8E93', background: 'rgba(140,140,150,0.07)', boxShadow: 'none', border: '1px solid rgba(140,140,150,0.15)' }) }}>
-                저장 안 함
+                Discard
               </button>
               <button type="button" onClick={handleLeaveDialogCancel}
                 style={{ ...glassBtn({ fontSize: 14, fontWeight: 500, color: '#B0B0B8', background: 'none', boxShadow: 'none', border: 'none' }) }}>
-                취소
+                Cancel
               </button>
             </div>
           </div>
