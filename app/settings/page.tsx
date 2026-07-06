@@ -97,14 +97,6 @@ export default function SettingsPage() {
           }}>
             Your Learning Space
           </p>
-          <p style={{
-            fontSize: 26, fontWeight: 700,
-            letterSpacing: '-0.025em', lineHeight: 1.1,
-            color: '#1C1C1E', margin: 0,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          }}>
-            학습 환경을<br />관리합니다.
-          </p>
         </div>
 
         {/* Card 1 — Account + Preferences */}
