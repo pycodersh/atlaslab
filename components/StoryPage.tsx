@@ -176,7 +176,7 @@ export function StoryPage({
 
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
-      <div className="flex-1 overflow-y-auto" style={{ paddingTop: 8, paddingBottom: 72 }}>
+      <div className="flex-1 overflow-y-auto" style={{ paddingTop: 8, paddingBottom: 120 }}>
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>
@@ -276,7 +276,7 @@ export function StoryPage({
         </div>
 
         {/* ── Glass Story Card ── */}
-        <div style={{ padding: '14px 16px 40px' }}>
+        <div style={{ padding: '14px 16px 0' }}>
           <div
             className="glass-card"
             style={{ borderRadius: 20, position: 'relative' }}

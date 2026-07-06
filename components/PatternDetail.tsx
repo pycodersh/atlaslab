@@ -69,7 +69,7 @@ export function PatternDetail({
         </button>
       </div>
 
-      <div style={{ flex: 1, overflowY: 'auto', padding: '0 20px 32px' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 20px 120px' }}>
         {/* ── 학습 흐름 헤더 ── */}
         <div style={{ paddingTop: 8, paddingBottom: 20 }}>
           <p style={{
@@ -145,73 +145,63 @@ export function PatternDetail({
             onRequestPlay={() => {}}
           />
         </div>
-      </div>
 
-      {/* ── 하단: 이전 / 다음 Pattern ── */}
-      <div style={{
-        flexShrink: 0,
-        padding: '12px 20px',
-        background: 'rgba(250,250,250,0.85)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        borderTop: '0.5px solid rgba(255,255,255,0.8)',
-        boxShadow: '0 -1px 12px rgba(0,0,0,0.04)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <button
-            type="button"
-            aria-label="이전 패턴"
-            onClick={() => prevPid && router.push(`/stories/${storyId}/patterns/${prevPid}`)}
-            disabled={!prevPid}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '8px 14px',
-              borderRadius: 9999,
-              fontSize: 12,
-              fontWeight: 700,
-              border: 'none',
-              cursor: prevPid ? 'pointer' : 'not-allowed',
-              color: prevPid ? 'var(--pm)' : 'var(--pd)',
-              background: prevPid ? 'var(--pal)' : 'transparent',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={1.8} /> 이전 패턴
-          </button>
+        {/* ── 이전 / 다음 Pattern ── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 }}>
+        <button
+          type="button"
+          aria-label="이전 패턴"
+          onClick={() => prevPid && router.push(`/stories/${storyId}/patterns/${prevPid}`)}
+          disabled={!prevPid}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '8px 14px',
+            borderRadius: 9999,
+            fontSize: 12,
+            fontWeight: 700,
+            border: 'none',
+            cursor: prevPid ? 'pointer' : 'not-allowed',
+            color: prevPid ? 'var(--pm)' : 'var(--pd)',
+            background: prevPid ? 'var(--pal)' : 'transparent',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={1.8} /> 이전 패턴
+        </button>
 
-          <span style={{
-            fontSize: 10,
-            letterSpacing: '0.15em',
-            color: 'var(--pm2)',
-            fontWeight: 600,
-          }}>
-            {patternIndex} / {patternTotal}
-          </span>
+        <span style={{
+          fontSize: 10,
+          letterSpacing: '0.15em',
+          color: 'var(--pm2)',
+          fontWeight: 600,
+        }}>
+          {patternIndex} / {patternTotal}
+        </span>
 
-          <button
-            type="button"
-            aria-label="다음 패턴"
-            onClick={() => nextPid && router.push(`/stories/${storyId}/patterns/${nextPid}`)}
-            disabled={!nextPid}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '8px 14px',
-              borderRadius: 9999,
-              fontSize: 12,
-              fontWeight: 700,
-              border: 'none',
-              cursor: nextPid ? 'pointer' : 'not-allowed',
-              color: nextPid ? 'var(--pm)' : 'var(--pd)',
-              background: nextPid ? 'var(--pal)' : 'transparent',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            다음 패턴 <ChevronRight style={{ width: 16, height: 16 }} strokeWidth={1.8} />
-          </button>
+        <button
+          type="button"
+          aria-label="다음 패턴"
+          onClick={() => nextPid && router.push(`/stories/${storyId}/patterns/${nextPid}`)}
+          disabled={!nextPid}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            padding: '8px 14px',
+            borderRadius: 9999,
+            fontSize: 12,
+            fontWeight: 700,
+            border: 'none',
+            cursor: nextPid ? 'pointer' : 'not-allowed',
+            color: nextPid ? 'var(--pm)' : 'var(--pd)',
+            background: nextPid ? 'var(--pal)' : 'transparent',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          다음 패턴 <ChevronRight style={{ width: 16, height: 16 }} strokeWidth={1.8} />
+        </button>
         </div>
       </div>
     </div>

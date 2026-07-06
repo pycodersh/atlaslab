@@ -389,7 +389,7 @@ export function PatternsPageV2({
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
-        <div style={{ padding: '0 16px 80px' }}>
+        <div style={{ padding: '0 16px 120px' }}>
 
           {/* ── Top spacer ── */}
           <div style={{ paddingTop: 8 }} />
