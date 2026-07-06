@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ChevronRight, Flame, X, Pencil, BookOpen, RotateCcw } from 'lucide-react'
+import { ArrowRight, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
 import type { MagazineStory } from '@/types/magazine'
-import { getAllRecords, getStreak, todayStr, addDays } from '@/lib/srs/storage'
+import { getAllRecords, todayStr, addDays } from '@/lib/srs/storage'
 import { getMissionItems } from '@/lib/srs/engine'
 import { getLastPosition } from '@/lib/last-position'
 import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
@@ -264,10 +264,11 @@ export default function HomePage() {
   const router = useRouter()
 
   const [firstHref, setFirstHref]           = useState('/stories/1')
-  const [streak, setStreak]                 = useState(0)
   const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
   const [newStoryIds, setNewStoryIds]       = useState<number[]>([])
   const [reviewStoryIds, setReviewStoryIds] = useState<number[]>([])
+  const [newDone, setNewDone]               = useState(false)
+  const [reviewDone, setReviewDone]         = useState(false)
   const [scheduledList, setScheduledList]   = useState<ScheduledStory[]>([])
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
@@ -278,8 +279,6 @@ export default function HomePage() {
     const records  = getAllRecords()
     const today    = todayStr()
     const tomorrow = addDays(today, 1)
-
-    try { setStreak(getStreak()) } catch { setStreak(0) }
 
     const missionItems = getMissionItems()
     const missionMap   = new Map(missionItems.map(i => [i.storyId, i]))
@@ -308,10 +307,12 @@ export default function HomePage() {
 
     setAllDone(missionItems.length > 0 && missionItems.every(i => i.done))
 
-    const newIds    = missionItems.filter(i => i.type === 'new_story' || i.type === 'in_progress_story').map(i => i.storyId)
-    const reviewIds = missionItems.filter(i => i.type === 'review_pattern').map(i => i.storyId)
-    setNewStoryIds(newIds)
-    setReviewStoryIds(reviewIds)
+    const newMissions    = missionItems.filter(i => i.type === 'new_story' || i.type === 'in_progress_story')
+    const reviewMissions = missionItems.filter(i => i.type === 'review_pattern')
+    setNewStoryIds(newMissions.map(i => i.storyId))
+    setReviewStoryIds(reviewMissions.map(i => i.storyId))
+    setNewDone(newMissions.length > 0 && newMissions.every(i => i.done))
+    setReviewDone(reviewMissions.length > 0 && reviewMissions.every(i => i.done))
 
     const storyNextReview: Record<number, string> = {}
     for (const r of records) {
@@ -324,7 +325,7 @@ export default function HomePage() {
       records.filter(r => r.itemType === 'pattern' && r.repeatCount > 0).map(r => r.storyId).filter(Boolean)
     )
 
-    const heroIds = new Set(newIds)
+    const heroIds = new Set(newMissions.map(i => i.storyId))
     const list: ScheduledStory[] = []
 
     for (const item of missionItems) {
@@ -462,16 +463,26 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ── Summary Cards — NEW / REVIEW / STREAK ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
+        {/* ── Summary Cards — NEW / REVIEW ── */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
 
           {/* NEW */}
-          <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
+          <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
+            {newDone && (
+              <span style={{
+                position: 'absolute', top: 7, right: 9,
+                width: 14, height: 14, borderRadius: '50%',
+                background: 'rgba(39,174,96,0.12)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
+              </span>
+            )}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 9 }}>
               <BookOpen style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
               <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>NEW</p>
             </div>
-            <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+            <p style={{ fontSize: 15, fontWeight: 800, color: newDone ? '#27AE60' : 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
               {newStoryIds.length > 0
                 ? newStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
                 : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
@@ -480,29 +491,35 @@ export default function HomePage() {
           </div>
 
           {/* REVIEW */}
-          <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
-              <RotateCcw style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
-              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>REVIEW</p>
-            </div>
-            <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
-              {reviewStoryIds.length > 0
-                ? reviewStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
-                : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
-              }
-            </p>
-          </div>
-
-          {/* STREAK */}
-          <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
-              <Flame style={{ width: 9, height: 9, color: '#D0601A' }} strokeWidth={2} />
-              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>STREAK</p>
-            </div>
-            <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
-              {streak}<span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', marginLeft: 2 }}>Days</span>
-            </p>
-          </div>
+          {(() => {
+            const ids = reviewStoryIds
+            const reviewText = ids.length === 0
+              ? null
+              : ids.length <= 3
+                ? ids.map(id => String(id).padStart(2, '0')).join(' · ')
+                : ids.slice(0, 2).map(id => String(id).padStart(2, '0')).concat(`+${ids.length - 2}`).join(' · ')
+            return (
+              <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
+                {reviewDone && ids.length > 0 && (
+                  <span style={{
+                    position: 'absolute', top: 7, right: 9,
+                    width: 14, height: 14, borderRadius: '50%',
+                    background: 'rgba(39,174,96,0.12)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
+                  </span>
+                )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 9 }}>
+                  <RotateCcw style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
+                  <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>REVIEW</p>
+                </div>
+                <p style={{ fontSize: 15, fontWeight: 800, color: reviewDone ? '#27AE60' : 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+                  {reviewText ?? <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>}
+                </p>
+              </div>
+            )
+          })()}
         </div>
 
         {/* ── Editor Tip chip — same height as summary chips ── */}

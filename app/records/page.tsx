@@ -15,23 +15,8 @@ import {
   getFutureSchedule, getEnhancedDayDetail, getTodayMission,
   type EnhancedDayDetail, type ScheduledDay,
 } from '@/lib/srs/engine'
-import { getCurrentPhase, PHASES, type Phase } from '@/lib/curriculum/phases'
 
 // ── Memory calculations ────────────────────────────────────────────────────────
-
-function computeMemoryPoints(records: LearningRecord[], phase: Phase): number {
-  const prevPhase = PHASES.find(p => p.id === phase.id - 1)
-  const minStoryId = prevPhase ? prevPhase.storiesCumulative + 1 : 1
-  const maxStoryId = phase.storiesCumulative
-  const phasePatterns = records.filter(r =>
-    r.itemType === 'pattern' &&
-    r.storyId !== undefined &&
-    r.storyId >= minStoryId &&
-    r.storyId <= maxStoryId
-  )
-  const score = phasePatterns.reduce((sum, r) => sum + Math.min(r.repeatCount, 5) / 5, 0)
-  return Math.round((score / phase.patternsInPhase) * 100)
-}
 
 function computeMemoryScore(records: LearningRecord[]): number {
   const patternRecords = records.filter(r => r.itemType === 'pattern')
@@ -39,110 +24,6 @@ function computeMemoryScore(records: LearningRecord[]): number {
   const patternScore = patternRecords.reduce((sum, r) => sum + Math.min(r.repeatCount, 5) / 5, 0) / 500
   const storyScore = storyIds.size / 100
   return Math.round((patternScore + storyScore) / 2 * 100)
-}
-
-// ── Camp definitions ──────────────────────────────────────────────────────────
-
-const CAMPS = [
-  { pts: 25,  label: 'Camp 1' },
-  { pts: 50,  label: 'Camp 2' },
-  { pts: 75,  label: 'Camp 3' },
-  { pts: 100, label: 'Summit' },
-]
-
-function nextCampInfo(pts: number): { label: string; left: number } | null {
-  const camp = CAMPS.find(c => c.pts > pts)
-  if (!camp) return null
-  return { label: camp.label, left: camp.pts - pts }
-}
-
-// ── Mountain SVG ──────────────────────────────────────────────────────────────
-
-function MountainSVG({ pts }: { pts: number }) {
-  const W = 300, H = 170
-  const peak = { x: 150, y: 18 }
-  const baseL = { x: 0, y: H }
-  const baseR = { x: W, y: H }
-
-  const t = Math.min(pts / 100, 1)
-  const hx = baseL.x + t * (peak.x - baseL.x)
-  const hy = baseL.y + t * (peak.y - baseL.y)
-
-  // camps on left slope
-  const campPts = CAMPS.map(c => {
-    const ct = c.pts / 100
-    return {
-      label: c.label,
-      reached: pts >= c.pts,
-      x: baseL.x + ct * (peak.x - baseL.x),
-      y: baseL.y + ct * (peak.y - baseL.y),
-    }
-  })
-
-  const startPath = `M ${baseL.x},${baseL.y} L ${hx},${hy}`
-
-  return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      style={{ width: '100%', maxWidth: 300, display: 'block', margin: '0 auto' }}
-      aria-hidden
-    >
-      {/* Mountain body */}
-      <path
-        d={`M ${baseL.x},${baseL.y} L ${peak.x},${peak.y} L ${baseR.x},${baseR.y} Z`}
-        fill="rgba(200,218,245,0.42)"
-        stroke="rgba(150,178,225,0.55)"
-        strokeWidth={1.5}
-        strokeLinejoin="round"
-      />
-      {/* Snow cap */}
-      <path
-        d={`M ${peak.x - 22},${peak.y + 30} L ${peak.x},${peak.y} L ${peak.x + 22},${peak.y + 30} Z`}
-        fill="rgba(255,255,255,0.90)"
-      />
-      {/* Full left slope (dotted) */}
-      <line
-        x1={baseL.x} y1={baseL.y}
-        x2={peak.x} y2={peak.y}
-        stroke="rgba(150,178,225,0.25)"
-        strokeWidth={1.5}
-        strokeDasharray="4 4"
-      />
-      {/* Traveled path */}
-      {pts > 0 && (
-        <path
-          d={startPath}
-          stroke="rgba(78,118,200,0.75)"
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          fill="none"
-        />
-      )}
-      {/* Camp markers */}
-      {campPts.map((c, i) => (
-        <g key={i}>
-          <circle
-            cx={c.x} cy={c.y} r={4.5}
-            fill={c.reached ? 'rgba(78,118,200,0.88)' : 'rgba(240,245,255,0.90)'}
-            stroke={c.reached ? 'rgba(55,90,170,0.90)' : 'rgba(150,175,215,0.60)'}
-            strokeWidth={1.5}
-          />
-        </g>
-      ))}
-      {/* Hiker */}
-      {pts > 0 && (
-        <g>
-          <circle cx={hx} cy={hy} r={7} fill="rgba(60,100,200,0.92)" stroke="white" strokeWidth={2} />
-          {/* Flag at peak */}
-          {pts >= 100 && (
-            <text x={peak.x} y={peak.y - 8} textAnchor="middle" fontSize={14}>🚩</text>
-          )}
-        </g>
-      )}
-      {/* Base camp label */}
-      <text x={8} y={H - 6} fontSize={9} fill="rgba(100,120,160,0.70)" fontWeight="700">START</text>
-    </svg>
-  )
 }
 
 // ── fmtDate ───────────────────────────────────────────────────────────────────
@@ -274,7 +155,7 @@ function InfoChip({ label, value, accent }: { label: string; value: React.ReactN
 // ── Card 1: Memory Calendar ───────────────────────────────────────────────────
 
 function CardCalendar({
-  futureSchedule, selectedIso, onDaySelect, todayNew, todayReview, dueNow, estimatedMin,
+  futureSchedule, selectedIso, onDaySelect, todayNew, todayReview, dueNow, estimatedMin, streak,
 }: {
   futureSchedule: Record<string, ScheduledDay>
   selectedIso: string | null
@@ -283,13 +164,31 @@ function CardCalendar({
   todayReview: number
   dueNow: number
   estimatedMin: number
+  streak: number
 }) {
   return (
     <div style={{ padding: '0 20px', boxSizing: 'border-box' }}>
 
-      {/* Section header */}
-      <div style={{ marginBottom: 20 }}>
-        <p style={{ fontSize: 13, color: 'var(--pm)', marginTop: 0, marginBottom: 0 }}>이번 달 학습 기록</p>
+      {/* Section header with Streak */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+        <p style={{ fontSize: 13, color: 'var(--pm)', margin: 0 }}>이번 달 학습 기록</p>
+        {streak > 0 && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            background: 'rgba(208,96,26,0.08)',
+            border: '1px solid rgba(208,96,26,0.16)',
+            borderRadius: 999,
+            padding: '4px 10px',
+          }}>
+            <span style={{ fontSize: 12 }}>🔥</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: '#C0541A', letterSpacing: '-0.01em' }}>
+              {streak}
+            </span>
+            <span style={{ fontSize: 9, fontWeight: 600, color: '#C0541A', letterSpacing: '0.04em' }}>
+              DAYS
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Calendar */}
@@ -324,108 +223,14 @@ function CardCalendar({
   )
 }
 
-// ── Card 2: Memory Journey ────────────────────────────────────────────────────
-
-function CardJourney({ pts, phase }: { pts: number; phase: Phase }) {
-  const nc = nextCampInfo(pts)
-  const phasePct = Math.round((pts / 100) * 100)
-
-  // next camp milestone
-  const nextCampPts = CAMPS.find(c => c.pts > pts)?.pts ?? 100
-  const prevCampPts = [...CAMPS].reverse().find(c => c.pts <= pts)?.pts ?? 0
-  const segPct = nextCampPts > prevCampPts
-    ? Math.round(((pts - prevCampPts) / (nextCampPts - prevCampPts)) * 100)
-    : 100
-
-  return (
-    <div style={{ padding: '0 20px', boxSizing: 'border-box' }}>
-
-      {/* Section header */}
-      <div style={{ marginBottom: 20 }}>
-        <p style={{ fontSize: 13, color: 'var(--pm)', marginTop: 0, marginBottom: 0 }}>
-          Phase {phase.id} · {phase.name}
-        </p>
-      </div>
-
-      {/* Points display */}
-      <div style={{ ...glassCard, padding: '18px 20px', marginBottom: 18 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 12 }}>
-          <div>
-            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: 'var(--pm2)', margin: '0 0 4px', textTransform: 'uppercase' }}>
-              Memory Points
-            </p>
-            <p style={{ fontSize: 'clamp(1.8rem, 8vw, 2.4rem)', fontWeight: 900, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.02em' }}>
-              {pts}
-              <span style={{ fontSize: '0.45em', fontWeight: 500, color: 'var(--pm2)', marginLeft: 4 }}>/ 100</span>
-            </p>
-          </div>
-          {nc && (
-            <div style={{ textAlign: 'right' }}>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 3px', textTransform: 'uppercase' }}>
-                Next Camp
-              </p>
-              <p style={{ fontSize: 13, fontWeight: 800, color: '#4A7AC8', margin: 0 }}>
-                {nc.left} pts left
-              </p>
-            </div>
-          )}
-        </div>
-
-        {/* Segment progress bar */}
-        <div style={{ height: 3, background: 'var(--pd)', borderRadius: 2, overflow: 'hidden', marginBottom: 8 }}>
-          <div style={{
-            height: '100%', width: `${segPct}%`,
-            background: 'linear-gradient(90deg, rgba(78,118,200,0.7), rgba(78,118,200,1))',
-            borderRadius: 2, transition: 'width 1s ease-out',
-          }} />
-        </div>
-        <p style={{ fontSize: 10, color: 'var(--pm2)', margin: 0 }}>
-          {pts === 100 ? '🏔️ Summit reached!' : `${segPct}% to ${CAMPS.find(c => c.pts === nextCampPts)?.label ?? 'Summit'}`}
-        </p>
-      </div>
-
-      {/* Mountain graphic */}
-      <div style={{ ...glassCard, padding: '20px 16px 12px', marginBottom: 18 }}>
-        <MountainSVG pts={pts} />
-        {/* Camp legend */}
-        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: 10 }}>
-          {CAMPS.map((c, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              <span style={{
-                width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
-                background: pts >= c.pts ? 'rgba(78,118,200,0.85)' : 'rgba(180,190,210,0.60)',
-              }} />
-              <span style={{ fontSize: 9, fontWeight: 600, color: pts >= c.pts ? '#4A7AC8' : 'var(--pm2)' }}>
-                {c.label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Phase breakdown */}
-      <div style={{ ...glassCard, padding: '14px 18px' }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: 'var(--pm2)', margin: '0 0 10px', textTransform: 'uppercase' }}>
-          Phase {phase.id} · {phase.nameKo}
-        </p>
-        <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.7, margin: 0 }}>
-          패턴 1회 연습 = 20pt · 5회 완성 = 100pt<br />
-          현재 Phase의 {phase.patternsInPhase} 패턴 기준으로 계산합니다.
-        </p>
-      </div>
-    </div>
-  )
-}
-
-// ── Card 3: Memory Score ──────────────────────────────────────────────────────
+// ── Card 2: Memory Score ──────────────────────────────────────────────────────
 
 function CardScore({
-  score, learnedStories, learnedPatterns, streak, totalMs,
+  score, learnedStories, learnedPatterns, totalMs,
 }: {
   score: number
   learnedStories: number
   learnedPatterns: number
-  streak: number
   totalMs: number
 }) {
   const storyPct  = Math.round((learnedStories  / 100)  * 100)
@@ -511,24 +316,14 @@ function CardScore({
         </div>
       </div>
 
-      {/* Streak + Practice time */}
-      <div style={{ display: 'flex', gap: 10 }}>
-        <div style={{ ...glassCard, flex: 1, padding: '14px 16px', textAlign: 'center' }}>
-          <p style={{ fontSize: 'clamp(1.1rem, 5vw, 1.4rem)', fontWeight: 800, color: 'var(--pt)', margin: '0 0 4px', lineHeight: 1 }}>
-            {streak > 0 ? `🔥 ${streak}` : streak}
-          </p>
-          <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
-            Day Streak
-          </p>
-        </div>
-        <div style={{ ...glassCard, flex: 1, padding: '14px 16px', textAlign: 'center' }}>
-          <p style={{ fontSize: 'clamp(1.1rem, 5vw, 1.4rem)', fontWeight: 800, color: 'var(--pt)', margin: '0 0 4px', lineHeight: 1 }}>
-            {fmtTime(totalMs)}
-          </p>
-          <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
-            Total Practice
-          </p>
-        </div>
+      {/* Practice time */}
+      <div style={{ ...glassCard, padding: '14px 16px', textAlign: 'center' }}>
+        <p style={{ fontSize: 'clamp(1.1rem, 5vw, 1.4rem)', fontWeight: 800, color: 'var(--pt)', margin: '0 0 4px', lineHeight: 1 }}>
+          {fmtTime(totalMs)}
+        </p>
+        <p style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.12em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
+          Total Practice
+        </p>
       </div>
     </div>
   )
@@ -570,8 +365,6 @@ export default function ProgressPage() {
 
   const learnedPatterns = records.filter(r => r.itemType === 'pattern').length
   const learnedStories  = records.filter(r => r.itemType === 'story').length
-  const phase = getCurrentPhase(learnedPatterns)
-  const memoryPoints = useMemo(() => computeMemoryPoints(records, phase), [records, phase])
   const memoryScore  = useMemo(() => computeMemoryScore(records), [records])
 
   // Scroll-snap: track active card
@@ -580,7 +373,7 @@ export default function ProgressPage() {
     if (!rail) return
     const handleScroll = () => {
       const idx = Math.round(rail.scrollLeft / rail.clientWidth)
-      setActiveCard(Math.min(2, Math.max(0, idx)))
+      setActiveCard(Math.min(1, Math.max(0, idx)))
     }
     rail.addEventListener('scroll', handleScroll, { passive: true })
     return () => rail.removeEventListener('scroll', handleScroll)
@@ -598,7 +391,7 @@ export default function ProgressPage() {
     setDayDetail(getEnhancedDayDetail(iso))
   }
 
-  const CARD_LABELS = ['Memory Calendar', 'Memory Journey', 'Memory Score']
+  const CARD_LABELS = ['Memory Calendar', 'Memory Score']
 
   return (
     <>
@@ -611,7 +404,7 @@ export default function ProgressPage() {
           padding: '8px 0 6px',
           flexShrink: 0,
         }}>
-          {[0, 1, 2].map(i => (
+          {[0, 1].map(i => (
             <button
               key={i}
               type="button"
@@ -653,48 +446,32 @@ export default function ProgressPage() {
             scrollbarWidth: 'none',
           } as React.CSSProperties}
         >
-          {/* Each card: full-width, scrollable vertically */}
-          {[0, 1, 2].map(cardIdx => (
-            <div
-              key={cardIdx}
-              style={{
-                flex: '0 0 100%',
-                scrollSnapAlign: 'start',
-                overflowY: 'auto',
-                height: '100%',
-                paddingTop: 10,
-                paddingBottom: TAB_BAR_HEIGHT + 24,
-                boxSizing: 'border-box',
-              }}
-            >
-              {/* Center content */}
-              <div style={{ maxWidth: 480, margin: '0 auto', width: '100%' }}>
-                {cardIdx === 0 && (
-                  <CardCalendar
-                    futureSchedule={futureSchedule}
-                    selectedIso={selectedIso}
-                    onDaySelect={handleDaySelect}
-                    todayNew={todayNew}
-                    todayReview={todayReview}
-                    dueNow={dueNow}
-                    estimatedMin={estimatedMin}
-                  />
-                )}
-                {cardIdx === 1 && (
-                  <CardJourney pts={memoryPoints} phase={phase} />
-                )}
-                {cardIdx === 2 && (
-                  <CardScore
-                    score={memoryScore}
-                    learnedStories={learnedStories}
-                    learnedPatterns={learnedPatterns}
-                    streak={streak}
-                    totalMs={totalMs}
-                  />
-                )}
-              </div>
+          {/* Card 0: Memory Calendar */}
+          <div style={{ flex: '0 0 100%', scrollSnapAlign: 'start', overflowY: 'auto', height: '100%', paddingTop: 10, paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box' }}>
+            <div style={{ maxWidth: 480, margin: '0 auto', width: '100%' }}>
+              <CardCalendar
+                futureSchedule={futureSchedule}
+                selectedIso={selectedIso}
+                onDaySelect={handleDaySelect}
+                todayNew={todayNew}
+                todayReview={todayReview}
+                dueNow={dueNow}
+                estimatedMin={estimatedMin}
+                streak={streak}
+              />
             </div>
-          ))}
+          </div>
+          {/* Card 1: Memory Score */}
+          <div style={{ flex: '0 0 100%', scrollSnapAlign: 'start', overflowY: 'auto', height: '100%', paddingTop: 10, paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box' }}>
+            <div style={{ maxWidth: 480, margin: '0 auto', width: '100%' }}>
+              <CardScore
+                score={memoryScore}
+                learnedStories={learnedStories}
+                learnedPatterns={learnedPatterns}
+                totalMs={totalMs}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
