@@ -43,25 +43,31 @@ const STUDY_LABEL: Record<StudyMode, string> = {
   'ko':    'KO',
 }
 
-// ── Wave variants — 3 subtle colour themes ────────────────────────────────────
-const WAVE_VARIANTS = [
+// ── Hero themes — 2 styles, selected by storyId % 2 ─────────────────────────
+const HERO_THEMES = [
   {
-    // Soft blue-lavender
-    bg: 'linear-gradient(145deg, rgba(240,245,255,0.98) 0%, rgba(225,235,255,0.85) 60%, rgba(245,240,255,0.92) 100%)',
-    wave1: 'rgba(160,185,255,0.18)',
-    wave2: 'rgba(185,160,255,0.12)',
+    // Theme A · Soft Sky — bright, clean iOS glass
+    bg: 'linear-gradient(150deg, rgba(215,232,255,0.97) 0%, rgba(236,247,255,0.92) 55%, rgba(248,253,255,0.97) 100%)',
+    wave1: 'rgba(130,185,255,0.14)',
+    wave2: 'rgba(155,205,255,0.08)',
+    borderColor: 'rgba(175,210,255,0.38)',
+    patternColor: '#FAFAFA',
+    patternShadow: '0 1px 5px rgba(48,85,155,0.42), 0 3px 18px rgba(48,85,155,0.24)',
+    meaningColor: 'rgba(42,68,132,0.68)',
+    labelColor: 'rgba(55,80,150,0.55)',
+    iconColor: '#7C8BB0',
   },
   {
-    // Soft peach-rose
-    bg: 'linear-gradient(145deg, rgba(255,245,242,0.98) 0%, rgba(255,232,228,0.82) 60%, rgba(255,242,248,0.92) 100%)',
-    wave1: 'rgba(255,170,150,0.18)',
-    wave2: 'rgba(255,150,185,0.12)',
-  },
-  {
-    // Soft sage-mint
-    bg: 'linear-gradient(145deg, rgba(242,252,248,0.98) 0%, rgba(225,248,240,0.82) 60%, rgba(238,252,246,0.92) 100%)',
-    wave1: 'rgba(120,210,180,0.18)',
-    wave2: 'rgba(100,200,160,0.12)',
+    // Theme B · Warm Pearl — calm Apple Books / Journal
+    bg: 'linear-gradient(150deg, rgba(250,247,243,0.98) 0%, rgba(243,239,234,0.93) 55%, rgba(252,249,245,0.98) 100%)',
+    wave1: 'rgba(185,175,162,0.11)',
+    wave2: 'rgba(165,157,145,0.07)',
+    borderColor: 'rgba(200,190,178,0.32)',
+    patternColor: '#FAFAFA',
+    patternShadow: '0 1px 4px rgba(88,78,68,0.32), 0 2px 14px rgba(88,78,68,0.17)',
+    meaningColor: 'rgba(90,78,68,0.66)',
+    labelColor: 'rgba(100,88,76,0.52)',
+    iconColor: '#9E9188',
   },
 ]
 
@@ -132,9 +138,9 @@ export function PatternsPageV2({
     setRevealedExSet(new Set())
   }, [story.id])
 
-  // ── Wave variant — random per story ──────────────────────────────────────
-  const waveVariant = useMemo(
-    () => WAVE_VARIANTS[story.id % WAVE_VARIANTS.length],
+  // ── Hero theme — deterministic by storyId % 2 ────────────────────────────
+  const heroTheme = useMemo(
+    () => HERO_THEMES[story.id % 2],
     [story.id],
   )
 
@@ -366,11 +372,11 @@ export function PatternsPageV2({
               <div style={{
                 position: 'relative', overflow: 'hidden',
                 padding: '14px 16px 16px',
-                background: waveVariant.bg,
-                borderBottom: '1px solid rgba(220,230,255,0.35)',
+                background: heroTheme.bg,
+                borderBottom: `1px solid ${heroTheme.borderColor}`,
               }}>
                 {/* Wave SVG overlay */}
-                <WaveOverlay wave1={waveVariant.wave1} wave2={waveVariant.wave2} />
+                <WaveOverlay wave1={heroTheme.wave1} wave2={heroTheme.wave2} />
 
                 {/* Row 1: PATTERN number (left) · Note · Bookmark (right) */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, position: 'relative', zIndex: 1 }}>
@@ -382,7 +388,7 @@ export function PatternsPageV2({
                     style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                   >
                     <span style={{
-                      fontSize: '0.62rem', fontWeight: 700, color: '#6E6E73',
+                      fontSize: '0.62rem', fontWeight: 700, color: heroTheme.labelColor,
                       letterSpacing: '0.06em',
                       fontFamily: '"SF Mono", "Fira Mono", "Courier New", monospace',
                     }}>
@@ -400,7 +406,7 @@ export function PatternsPageV2({
                         aria-label="패턴 노트"
                         style={{
                           background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                          color: '#AAACB0',
+                          color: heroTheme.iconColor,
                           transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                         }}
                         onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
@@ -418,7 +424,7 @@ export function PatternsPageV2({
                       aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
                       style={{
                         background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                        color: bookmarked ? '#8F234B' : '#AAACB0',
+                        color: bookmarked ? '#8F234B' : heroTheme.iconColor,
                         transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                       }}
                       onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
@@ -436,10 +442,11 @@ export function PatternsPageV2({
 
                 {/* Pattern title */}
                 <p style={{
-                  fontSize: '2.0rem', fontWeight: 800, color: '#4A4A4F',
+                  fontSize: '2.0rem', fontWeight: 800, color: heroTheme.patternColor,
                   lineHeight: 1.15, margin: '10px 0 8px', letterSpacing: '-0.02em',
                   fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   position: 'relative', zIndex: 1,
+                  textShadow: heroTheme.patternShadow,
                 }}>
                   {pattern.pattern}
                 </p>
@@ -447,7 +454,7 @@ export function PatternsPageV2({
                 {/* Row 3: meaning (left) + speaker (right), same line */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
                   {patternMeaning ? (
-                    <p style={{ fontSize: 12, fontWeight: 600, color: '#5F6368', margin: 0, letterSpacing: '0.01em', flex: 1, paddingRight: 8 }}>
+                    <p style={{ fontSize: 12, fontWeight: 600, color: heroTheme.meaningColor, margin: 0, letterSpacing: '0.01em', flex: 1, paddingRight: 8 }}>
                       {patternMeaning}
                     </p>
                   ) : <div />}
