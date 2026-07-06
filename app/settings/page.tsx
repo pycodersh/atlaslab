@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import Link from 'next/link'
 import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle } from 'lucide-react'
@@ -6,35 +6,77 @@ import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
 
+const glass: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.88)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+  borderRadius: 20,
+  border: '1px solid rgba(255,255,255,0.82)',
+  boxShadow: '0 4px 18px rgba(40,40,60,0.06), 0 1px 4px rgba(40,40,60,0.03)',
+  overflow: 'hidden',
+}
+
+function SettingsRow({
+  icon: Icon,
+  label,
+  desc,
+  href,
+  last = false,
+}: {
+  icon: React.ElementType
+  label: string
+  desc: string
+  href: string
+  last?: boolean
+}) {
+  return (
+    <Link
+      href={href}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 14,
+        padding: '16px 20px',
+        textDecoration: 'none',
+        borderBottom: last ? 'none' : '1px solid rgba(60,60,67,0.06)',
+        transition: 'opacity 0.15s',
+      }}
+      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.72' }}
+      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
+    >
+      <div style={{
+        width: 30, height: 30, borderRadius: 9,
+        background: 'rgba(248,248,250,0.7)',
+        border: '1px solid rgba(60,60,67,0.08)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexShrink: 0,
+      }}>
+        <Icon style={{ width: 14, height: 14, color: '#6E6E73' }} strokeWidth={1.6} />
+      </div>
+
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <p style={{
+          fontSize: 15, fontWeight: 600,
+          color: '#1C1C1E', margin: '0 0 1px',
+          letterSpacing: '-0.01em',
+        }}>
+          {label}
+        </p>
+        <p style={{
+          fontSize: 12, color: '#AEAEB2',
+          margin: 0, fontWeight: 400, lineHeight: 1.4,
+        }}>
+          {desc}
+        </p>
+      </div>
+
+      <ChevronRight style={{ width: 12, height: 12, color: '#C7C7CC', flexShrink: 0 }} strokeWidth={1.8} />
+    </Link>
+  )
+}
+
 export default function SettingsPage() {
   const t = useT()
-
-  const HUBS = [
-    {
-      icon: UserCircle,
-      label: t('hub_account'),
-      desc: t('hub_account_desc'),
-      href: '/settings/auth',
-    },
-    {
-      icon: SlidersHorizontal,
-      label: t('hub_preferences'),
-      desc: t('hub_preferences_desc'),
-      href: '/settings/preferences',
-    },
-    {
-      icon: Sparkles,
-      label: t('hub_subscription'),
-      desc: t('hub_subscription_desc'),
-      href: '/settings/subscription',
-    },
-    {
-      icon: Info,
-      label: t('hub_about'),
-      desc: t('hub_about_desc'),
-      href: '/settings/about',
-    },
-  ]
 
   return (
     <div style={{ minHeight: '100dvh', overflowY: 'auto' }}>
@@ -43,102 +85,67 @@ export default function SettingsPage() {
       <div style={{
         maxWidth: 480,
         margin: '0 auto',
-        paddingTop: 16,
-        paddingLeft: 24,
-        paddingRight: 24,
-        paddingBottom: TAB_BAR_HEIGHT + 32,
+        padding: `12px 20px calc(${TAB_BAR_HEIGHT}px + 40px)`,
         boxSizing: 'border-box',
       }}>
 
-        {/* Header */}
-        <div style={{ marginBottom: 26 }}>
+        {/* Editorial header */}
+        <div style={{ marginBottom: 32, paddingLeft: 4 }}>
           <p style={{
-            fontSize: 31, fontWeight: 700,
-            letterSpacing: '-0.03em', lineHeight: 0.96,
+            fontSize: 9, fontWeight: 700, letterSpacing: '0.22em',
+            color: '#AEAEB2', margin: '0 0 10px', textTransform: 'uppercase',
+          }}>
+            Your Learning Space
+          </p>
+          <p style={{
+            fontSize: 26, fontWeight: 700,
+            letterSpacing: '-0.025em', lineHeight: 1.1,
             color: '#1C1C1E', margin: 0,
             fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
-            Profile
-          </p>
-          <p style={{
-            fontSize: 14, color: '#9CA3AF',
-            margin: '7px 0 0', lineHeight: 1.45,
-            fontWeight: 400, letterSpacing: '0em',
-          }}>
-            나에게 맞는 학습 환경을 설정하세요.
+            학습 환경을<br />관리합니다.
           </p>
         </div>
 
-        {/* Settings card */}
-        <div style={{
-          background: 'rgba(255,255,255,0.92)',
-          backdropFilter: 'blur(24px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-          borderRadius: 30,
-          border: '1px solid rgba(255,255,255,0.85)',
-          boxShadow: '0 12px 36px rgba(40,40,60,0.08), 0 2px 8px rgba(40,40,60,0.04)',
-          overflow: 'hidden',
-        }}>
-          {HUBS.map(({ icon: Icon, label, desc, href }, idx) => (
-            <Link
-              key={href}
-              href={href}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 16,
-                padding: '18px 22px',
-                textDecoration: 'none',
-                borderBottom: idx < HUBS.length - 1 ? '1px solid rgba(230,232,236,0.9)' : 'none',
-                transition: 'filter 0.15s, transform 0.15s',
-                minHeight: 76,
-                boxSizing: 'border-box',
-              }}
-              onMouseEnter={e => {
-                const el = e.currentTarget as HTMLElement
-                el.style.filter = 'brightness(0.98)'
-                el.style.transform = 'scale(0.99)'
-              }}
-              onMouseLeave={e => {
-                const el = e.currentTarget as HTMLElement
-                el.style.filter = 'brightness(1)'
-                el.style.transform = 'scale(1)'
-              }}
-            >
-              <div style={{
-                width: 35, height: 35, borderRadius: 11,
-                background: 'rgba(255,255,255,0.7)',
-                border: '1px solid rgba(220,225,235,0.8)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0,
-                boxShadow: '0 1px 3px rgba(40,40,60,0.05)',
-              }}>
-                <Icon style={{ width: 16, height: 16, color: '#6E6E73' }} strokeWidth={1.6} />
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{
-                  fontSize: 15, fontWeight: 600,
-                  color: '#1C1C1E', margin: '0 0 2px',
-                  letterSpacing: '-0.005em',
-                }}>
-                  {label}
-                </p>
-                <p style={{
-                  fontSize: 12.5, color: '#9CA3AF',
-                  margin: 0, fontWeight: 400,
-                  lineHeight: 1.4,
-                }}>
-                  {desc}
-                </p>
-              </div>
-              <ChevronRight style={{ width: 13, height: 13, color: '#C5C7CC', flexShrink: 0 }} strokeWidth={1.6} />
-            </Link>
-          ))}
+        {/* Card 1 — Account + Preferences */}
+        <div style={{ ...glass, marginBottom: 14 }}>
+          <SettingsRow
+            icon={UserCircle}
+            label={t('hub_account')}
+            desc={t('hub_account_desc')}
+            href="/settings/auth"
+          />
+          <SettingsRow
+            icon={SlidersHorizontal}
+            label={t('hub_preferences')}
+            desc={t('hub_preferences_desc')}
+            href="/settings/preferences"
+            last
+          />
         </div>
 
-        {/* Footer version */}
-        <div style={{ marginTop: 64, textAlign: 'center' }}>
+        {/* Card 2 — Subscription + About */}
+        <div style={glass}>
+          <SettingsRow
+            icon={Sparkles}
+            label={t('hub_subscription')}
+            desc={t('hub_subscription_desc')}
+            href="/settings/subscription"
+          />
+          <SettingsRow
+            icon={Info}
+            label={t('hub_about')}
+            desc={t('hub_about_desc')}
+            href="/settings/about"
+            last
+          />
+        </div>
+
+        {/* Footer */}
+        <div style={{ marginTop: 56, textAlign: 'center' }}>
           <p style={{
-            fontSize: 11.5, color: '#C5C7CC', fontWeight: 400,
-            margin: 0, letterSpacing: '0.01em',
+            fontSize: 11, color: '#D1D1D6', fontWeight: 400,
+            margin: 0, letterSpacing: '0.02em',
           }}>
             v1.0.0
           </p>

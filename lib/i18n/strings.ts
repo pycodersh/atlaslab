@@ -24,13 +24,13 @@ const T = {
     settings_title:    'SETTINGS',
     settings_desc:     '나에게 맞는 학습 환경을 설정하세요.',
     hub_account:       'Account',
-    hub_account_desc:  '로그인하여 학습 기록과 저장한 패턴을 동기화합니다.',
+    hub_account_desc:  '로그인하여 학습 데이터를 동기화합니다.',
     hub_preferences:      'Preferences',
-    hub_preferences_desc: '학습 환경과 표시 언어를 설정합니다.',
+    hub_preferences_desc: '표시 언어와 학습 환경을 설정합니다.',
     hub_subscription:      'Subscription',
-    hub_subscription_desc: '프리미엄 플랜 및 결제를 관리합니다.',
+    hub_subscription_desc: '프리미엄 플랜을 관리합니다.',
     hub_about:      'About PATTO',
-    hub_about_desc: "PATTO의 철학, Editor's Notes, 버전 정보를 확인합니다.",
+    hub_about_desc: "철학, Editor's Notes, 버전 정보를 확인합니다.",
 
     // ── Preferences ─────────────────────────────────────────────────────────
     pref_title: 'PREFERENCES',
