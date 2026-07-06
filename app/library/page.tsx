@@ -2,14 +2,14 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, X, BookOpen, Bookmark, RotateCcw, ChevronRight, Sprout, BookMarked } from 'lucide-react'
+import { Search, X, BookOpen, Bookmark, RotateCcw, ChevronRight, ChevronDown, Sprout, BookMarked, SlidersHorizontal } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import { getSavedWords, type SavedWord } from '@/lib/words/storage'
-import { getRecord, getTotalRepeatCount } from '@/lib/srs/storage'
+import { getTotalRepeatCount } from '@/lib/srs/storage'
 import { useT } from '@/hooks/useT'
 import type { MagazinePattern } from '@/types/magazine'
 
@@ -17,6 +17,19 @@ import type { MagazinePattern } from '@/types/magazine'
 
 const RECENT_KEY = 'patto-library-recent-searches'
 const MAX_RECENT  = 5
+
+type FilterType = 'all' | 'words' | 'patterns' | 'stories'
+
+// ── Normalize for search ──────────────────────────────────────────────────────
+
+function normalize(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[''`]/g, '')           // apostrophes
+    .replace(/[.,!?;:"\-–—()\[\]{}]/g, '') // punctuation
+    .replace(/\s+/g, ' ')           // collapse spaces
+    .trim()
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -76,13 +89,8 @@ const glassCard: React.CSSProperties = {
 
 // ── Summary cards ─────────────────────────────────────────────────────────────
 
-function SummaryCard({
-  icon, label, value,
-}: {
-  icon: React.ReactNode
-  label: string
-  value: number
-  accent: string
+function SummaryCard({ icon, label, value, accent }: {
+  icon: React.ReactNode; label: string; value: number; accent: string
 }) {
   return (
     <div style={{
@@ -97,6 +105,27 @@ function SummaryCard({
       </span>
       <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: '#8E8E93', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
         {label}
+      </span>
+    </div>
+  )
+}
+
+// ── Story badge (replaces drop-cap) ──────────────────────────────────────────
+
+function StoryBadge({ storyId, color = '#4A6FA8' }: { storyId: number; color?: string }) {
+  return (
+    <div style={{
+      width: 52, flexShrink: 0,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      gap: 2,
+      background: `${color}10`,
+      borderRight: `1px solid ${color}18`,
+    }}>
+      <span style={{ fontSize: 7.5, fontWeight: 700, letterSpacing: '0.10em', color: `${color}99`, textTransform: 'uppercase' }}>
+        STORY
+      </span>
+      <span style={{ fontSize: 17, fontWeight: 900, color, lineHeight: 1, letterSpacing: '-0.02em' }}>
+        {String(storyId).padStart(2, '0')}
       </span>
     </div>
   )
@@ -117,26 +146,18 @@ function DiffChip({ diff }: { diff: 'Easy' | 'Medium' | 'Hard' }) {
   )
 }
 
-// ── Saved Pattern card (horizontal list) ─────────────────────────────────────
+// ── Saved Pattern card ────────────────────────────────────────────────────────
 
-function PatternCard({
-  bm, onPress, onRemove,
-}: {
-  bm: BookmarkedPattern
-  onPress: () => void
-  onRemove: () => void
+function PatternCard({ bm, onPress, onRemove }: {
+  bm: BookmarkedPattern; onPress: () => void; onRemove: () => void
 }) {
-  const story = magazineStories.find(s => s.id === bm.storyId)
-  const diff  = getDifficulty(bm.storyId)
-  const srsRec = getRecord('pattern', bm.patternId)
-  const lastRev = relativeTime(srsRec?.lastPracticedAt ?? null)
-  const dropChar = bm.pattern.trim()[0]?.toUpperCase() ?? '?'
+  const story  = magazineStories.find(s => s.id === bm.storyId)
+  const diff   = getDifficulty(bm.storyId)
   const [pressed, setPressed] = useState(false)
 
   return (
     <div
-      role="button"
-      tabIndex={0}
+      role="button" tabIndex={0}
       onClick={onPress}
       onKeyDown={e => e.key === 'Enter' && onPress()}
       onMouseDown={() => setPressed(true)}
@@ -146,8 +167,7 @@ function PatternCard({
       onTouchEnd={() => setPressed(false)}
       style={{
         ...glassCard,
-        display: 'flex', alignItems: 'stretch', gap: 0,
-        cursor: 'pointer',
+        display: 'flex', alignItems: 'stretch', cursor: 'pointer',
         transform: pressed ? 'scale(0.975)' : 'scale(1)',
         transition: 'transform 0.15s ease, box-shadow 0.15s ease',
         boxShadow: pressed
@@ -155,69 +175,28 @@ function PatternCard({
           : '0 4px 18px rgba(40,50,80,0.07), 0 1px 4px rgba(40,50,80,0.03)',
       }}
     >
-      {/* Drop cap */}
-      <div style={{
-        width: 52, flexShrink: 0,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(240,243,250,0.65)',
-        borderRight: '1px solid rgba(230,233,240,0.70)',
-      }}>
-        <span style={{
-          fontSize: 26, fontWeight: 900, color: '#4A6FA8',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", serif',
-          lineHeight: 1, letterSpacing: '-0.03em',
-        }}>
-          {dropChar}
-        </span>
-      </div>
-
-      {/* Body */}
-      <div style={{ flex: 1, minWidth: 0, padding: '12px 12px 10px' }}>
-        {/* Top: PATTERN chip */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5 }}>
-          <span style={{
-            fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em',
-            color: '#8E8E93', textTransform: 'uppercase',
-          }}>
-            PATTERN
-          </span>
-        </div>
-        {/* Pattern text */}
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px', lineHeight: 1.3 }}>
+      <StoryBadge storyId={bm.storyId} color="#4A6FA8" />
+      <div style={{ flex: 1, minWidth: 0, padding: '11px 12px 10px' }}>
+        <p style={{ fontSize: 14, fontWeight: 600, color: '#1C1C1E', margin: '0 0 3px', lineHeight: 1.3 }}>
           {bm.pattern}
         </p>
-        {/* Meaning */}
         {bm.meaningKo && (
           <p style={{ fontSize: 11.5, color: '#8E8E93', margin: '0 0 7px', fontWeight: 400 }}>
             {bm.meaningKo}
           </p>
         )}
-        {/* Story */}
-        <p style={{ fontSize: 9.5, fontWeight: 600, color: '#B0B0B8', margin: '0 0 6px', letterSpacing: '0.05em' }}>
-          Story {String(bm.storyId).padStart(2, '0')}{story ? ` · ${story.title}` : ''}
-        </p>
-        {/* Bottom row: diff chip + last review */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
           <DiffChip diff={diff} />
-          {lastRev && (
-            <span style={{ fontSize: 9, color: '#B0B0B8', fontWeight: 500 }}>
-              {lastRev}
-            </span>
-          )}
+          <span style={{ fontSize: 9.5, fontWeight: 600, color: '#B0B0B8', letterSpacing: '0.05em' }}>
+            {story ? story.title : `Story ${String(bm.storyId).padStart(2, '0')}`}
+          </span>
         </div>
       </div>
-
-      {/* Right: bookmark remove */}
-      <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', padding: '10px 10px 0 0' }}>
+      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'flex-start', padding: '10px 10px 0 0' }}>
         <button
           type="button"
           onClick={e => { e.stopPropagation(); onRemove() }}
-          style={{
-            background: 'none', border: 'none', cursor: 'pointer', padding: 4,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            borderRadius: 7,
-          }}
-          title="Remove bookmark"
+          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, borderRadius: 7 }}
         >
           <Bookmark style={{ width: 14, height: 14, color: '#8F234B' }} strokeWidth={0} fill="#8F234B" />
         </button>
@@ -226,48 +205,18 @@ function PatternCard({
   )
 }
 
-// ── Saved Word card ───────────────────────────────────────────────────────────
+// ── Saved Word card (compact) ─────────────────────────────────────────────────
 
 function WordCard({ w }: { w: SavedWord }) {
   const story = w.storyId ? magazineStories.find(s => s.id === w.storyId) : null
   const lastSaved = relativeTime(w.savedAt)
-  const dropChar = w.word.trim()[0]?.toUpperCase() ?? '?'
-  const [pressed, setPressed] = useState(false)
 
   return (
-    <div
-      style={{
-        ...glassCard,
-        display: 'flex', alignItems: 'stretch',
-        transform: pressed ? 'scale(0.975)' : 'scale(1)',
-        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-        boxShadow: pressed
-          ? '0 2px 8px rgba(40,50,80,0.05)'
-          : '0 4px 18px rgba(40,50,80,0.07), 0 1px 4px rgba(40,50,80,0.03)',
-      }}
-      onMouseDown={() => setPressed(true)}
-      onMouseUp={() => setPressed(false)}
-      onMouseLeave={() => setPressed(false)}
-      onTouchStart={() => setPressed(true)}
-      onTouchEnd={() => setPressed(false)}
-    >
-      {/* Drop cap */}
-      <div style={{
-        width: 52, flexShrink: 0,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(240,248,244,0.65)',
-        borderRight: '1px solid rgba(210,235,220,0.60)',
-      }}>
-        <span style={{
-          fontSize: 26, fontWeight: 900, color: '#3A7A4A',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", serif',
-          lineHeight: 1, letterSpacing: '-0.03em',
-        }}>
-          {dropChar}
-        </span>
-      </div>
-
-      {/* Body */}
+    <div style={{
+      ...glassCard,
+      display: 'flex', alignItems: 'stretch',
+    }}>
+      <StoryBadge storyId={w.storyId ?? 0} color="#3A7A4A" />
       <div style={{ flex: 1, minWidth: 0, padding: '10px 12px 10px' }}>
         <p style={{ fontSize: 14, fontWeight: 600, color: '#1C1C1E', margin: '0 0 4px', lineHeight: 1.3 }}>
           {w.word}
@@ -275,7 +224,7 @@ function WordCard({ w }: { w: SavedWord }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           {story && (
             <span style={{ fontSize: 9.5, fontWeight: 600, color: '#B0B0B8', letterSpacing: '0.05em' }}>
-              Story {String(story.id).padStart(2, '0')} · {story.title}
+              {story.title}
             </span>
           )}
           {lastSaved && (
@@ -287,11 +236,90 @@ function WordCard({ w }: { w: SavedWord }) {
   )
 }
 
-// ── Search result rows (compact, inside glass card) ───────────────────────────
+// ── Story Accordion for words ─────────────────────────────────────────────────
 
-function SearchPatternRow({
-  storyId, storyTitle, pattern, border, onPress,
+function WordAccordion({
+  storyId, storyTitle, words,
 }: {
+  storyId: number | null; storyTitle: string; words: SavedWord[]
+}) {
+  const [open, setOpen] = useState(true)
+
+  return (
+    <div style={{ ...glassCard, overflow: 'hidden', marginBottom: 8 }}>
+      {/* Story header row */}
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        style={{
+          width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '12px 16px',
+          borderBottom: open ? '1px solid rgba(230,232,240,0.70)' : 'none',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {storyId !== null ? (
+            <span style={{
+              fontSize: 11, fontWeight: 800, color: '#fff',
+              background: 'rgba(58,122,74,0.78)',
+              borderRadius: 7, padding: '2px 8px',
+              letterSpacing: '0.04em',
+            }}>
+              S{String(storyId).padStart(2, '0')}
+            </span>
+          ) : (
+            <span style={{
+              fontSize: 11, fontWeight: 700, color: '#8E8E93',
+              background: 'rgba(140,140,150,0.10)',
+              borderRadius: 7, padding: '2px 8px',
+            }}>
+              ?
+            </span>
+          )}
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E' }}>{storyTitle}</span>
+          <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500 }}>{words.length}</span>
+        </div>
+        <ChevronDown
+          style={{
+            width: 14, height: 14, color: '#B0B0B8',
+            transition: 'transform 0.2s',
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+          strokeWidth={2}
+        />
+      </button>
+
+      {/* Word list */}
+      {open && (
+        <div>
+          {words.map((w, i) => (
+            <div
+              key={w.id}
+              style={{
+                display: 'flex', alignItems: 'center',
+                padding: '10px 16px',
+                borderTop: i > 0 ? '1px solid rgba(230,232,240,0.55)' : 'none',
+              }}
+            >
+              <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: '#1C1C1E' }}>{w.word}</span>
+              {w.meaning && (
+                <span style={{ fontSize: 11, color: '#8E8E93', fontWeight: 400 }}>{w.meaning}</span>
+              )}
+              <span style={{ fontSize: 9, color: '#C0C0C8', marginLeft: 8, flexShrink: 0 }}>
+                {relativeTime(w.savedAt) ?? ''}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Search result rows ────────────────────────────────────────────────────────
+
+function SearchPatternRow({ storyId, storyTitle, pattern, border, onPress }: {
   storyId: number; storyTitle: string; pattern: MagazinePattern; border: boolean; onPress: () => void
 }) {
   return (
@@ -317,10 +345,31 @@ function SearchWordRow({ w, border }: { w: SavedWord; border: boolean }) {
     <div style={{ padding: '14px 18px', borderTop: border ? '1px solid rgba(230,232,236,0.8)' : 'none' }}>
       <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px' }}>{w.word}</p>
       {w.meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 4px' }}>{w.meaning}</p>}
-      {story && <p style={{ fontSize: 9.5, color: '#B0B0B8', margin: 0, letterSpacing: '0.05em' }}>
-        Story {String(story.id).padStart(2, '0')} · {story.title}
-      </p>}
+      {story && (
+        <p style={{ fontSize: 9.5, color: '#B0B0B8', margin: 0, letterSpacing: '0.05em' }}>
+          Story {String(story.id).padStart(2, '0')} · {story.title}
+        </p>
+      )}
     </div>
+  )
+}
+
+function SearchStoryRow({ story, border, onPress }: {
+  story: { id: number; title: string }; border: boolean; onPress: () => void
+}) {
+  return (
+    <button type="button" onClick={onPress} style={{
+      display: 'block', width: '100%', textAlign: 'left',
+      background: 'none', border: 'none',
+      padding: '14px 18px',
+      borderTop: border ? '1px solid rgba(230,232,236,0.8)' : 'none',
+      cursor: 'pointer',
+    }}>
+      <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px' }}>
+        Story {String(story.id).padStart(2, '0')}
+      </p>
+      <p style={{ fontSize: 11, color: '#8E8E93', margin: 0 }}>{story.title}</p>
+    </button>
   )
 }
 
@@ -328,10 +377,7 @@ function SearchWordRow({ w, border }: { w: SavedWord; border: boolean }) {
 
 function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
   return (
-    <div style={{
-      ...glassCard,
-      padding: '28px 22px',
-    }}>
+    <div style={{ ...glassCard, padding: '28px 22px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         {icon}
         <p style={{ fontSize: 14, fontWeight: 700, color: '#1C1C1E', margin: 0, letterSpacing: '-0.01em' }}>{title}</p>
@@ -343,23 +389,12 @@ function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: s
 
 // ── Section label ─────────────────────────────────────────────────────────────
 
-function SecLabel({ label, count, onViewAll }: { label: string; count?: number; onViewAll?: () => void }) {
+function SecLabel({ label, onViewAll }: { label: string; onViewAll?: () => void }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>
-          {label}
-        </span>
-        {count !== undefined && count > 0 && (
-          <span style={{
-            fontSize: 9, fontWeight: 700, color: '#8E8E93',
-            background: 'rgba(140,140,150,0.10)', borderRadius: 999,
-            padding: '1px 6px',
-          }}>
-            {count}
-          </span>
-        )}
-      </div>
+      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>
+        {label}
+      </span>
       {onViewAll && (
         <button type="button" onClick={onViewAll} style={{
           display: 'flex', alignItems: 'center', gap: 2,
@@ -373,6 +408,56 @@ function SecLabel({ label, count, onViewAll }: { label: string; count?: number; 
   )
 }
 
+// ── Filter dropdown ───────────────────────────────────────────────────────────
+
+const FILTER_OPTIONS: { key: FilterType; label: string }[] = [
+  { key: 'all',      label: 'All'      },
+  { key: 'words',    label: 'Words'    },
+  { key: 'patterns', label: 'Patterns' },
+  { key: 'stories',  label: 'Stories'  },
+]
+
+function FilterDropdown({ filter, onChange, onClose }: {
+  filter: FilterType; onChange: (f: FilterType) => void; onClose: () => void
+}) {
+  return (
+    <>
+      <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 50 }} />
+      <div style={{
+        position: 'absolute', top: 'calc(100% + 8px)', right: 0, zIndex: 51,
+        background: 'rgba(255,255,255,0.96)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        borderRadius: 14,
+        border: '1px solid rgba(255,255,255,0.90)',
+        boxShadow: '0 8px 32px rgba(40,50,80,0.12)',
+        overflow: 'hidden',
+        minWidth: 120,
+      }}>
+        {FILTER_OPTIONS.map((opt, i) => (
+          <button
+            key={opt.key}
+            type="button"
+            onClick={() => { onChange(opt.key); onClose() }}
+            style={{
+              display: 'block', width: '100%', textAlign: 'left',
+              padding: '11px 16px',
+              background: filter === opt.key ? 'rgba(74,111,168,0.08)' : 'none',
+              border: 'none',
+              borderTop: i > 0 ? '1px solid rgba(230,232,240,0.6)' : 'none',
+              fontSize: 13, fontWeight: filter === opt.key ? 700 : 500,
+              color: filter === opt.key ? '#4A6FA8' : '#1C1C1E',
+              cursor: 'pointer',
+            }}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+    </>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function LibraryPage() {
@@ -380,12 +465,14 @@ export default function LibraryPage() {
   const t        = useT()
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const [query, setQuery]         = useState('')
-  const [bookmarks, setBookmarks] = useState<BookmarkedPattern[]>([])
-  const [words, setWords]         = useState<SavedWord[]>([])
-  const [reviews, setReviews]     = useState(0)
+  const [query, setQuery]             = useState('')
+  const [filter, setFilter]           = useState<FilterType>('all')
+  const [showFilter, setShowFilter]   = useState(false)
+  const [bookmarks, setBookmarks]     = useState<BookmarkedPattern[]>([])
+  const [words, setWords]             = useState<SavedWord[]>([])
+  const [reviews, setReviews]         = useState(0)
   const [recentSearches, setRecentSearches] = useState<string[]>([])
-  const [focused, setFocused]     = useState(false)
+  const [focused, setFocused]         = useState(false)
 
   useEffect(() => {
     setBookmarks(getBookmarks())
@@ -396,22 +483,58 @@ export default function LibraryPage() {
 
   const patternIndex = useMemo(() => buildPatternIndex(), [])
 
+  // Group words by storyId
+  const wordsByStory = useMemo(() => {
+    const map = new Map<number | null, SavedWord[]>()
+    for (const w of words) {
+      const key = w.storyId ?? null
+      if (!map.has(key)) map.set(key, [])
+      map.get(key)!.push(w)
+    }
+    // Sort by storyId
+    return [...map.entries()].sort(([a], [b]) => {
+      if (a === null) return 1
+      if (b === null) return -1
+      return a - b
+    })
+  }, [words])
+
   // Search
   const isSearching = query.trim().length > 0
+  const nq = normalize(query)
+
   const searchResults = useMemo(() => {
-    const q = query.toLowerCase().trim()
-    if (!q) return { patterns: [], words: [] }
-    const patterns = patternIndex.filter(({ pattern }) =>
-      pattern.pattern.toLowerCase().includes(q) ||
-      pattern.meaningKo.toLowerCase().includes(q) ||
-      (pattern.explanation ?? '').toLowerCase().includes(q)
-    ).slice(0, 20)
-    const words2 = words.filter(w =>
-      w.word.toLowerCase().includes(q) ||
-      (w.meaning ?? '').toLowerCase().includes(q)
-    )
-    return { patterns, words: words2 }
-  }, [patternIndex, words, query])
+    if (!nq) return { patterns: [], words: [], stories: [] }
+
+    const matchWord = (s: string) => normalize(s).includes(nq)
+
+    const patterns = (filter === 'all' || filter === 'patterns')
+      ? patternIndex.filter(({ pattern, storyTitle }) =>
+          matchWord(pattern.pattern) ||
+          matchWord(pattern.meaningKo) ||
+          matchWord(storyTitle) ||
+          matchWord(pattern.explanation ?? '')
+        ).slice(0, 20)
+      : []
+
+    const filteredWords = (filter === 'all' || filter === 'words')
+      ? words.filter(w =>
+          matchWord(w.word) ||
+          matchWord(w.meaning ?? '') ||
+          matchWord(w.originalSentence ?? '')
+        )
+      : []
+
+    const storyMatches = (filter === 'all' || filter === 'stories')
+      ? magazineStories.filter(s =>
+          matchWord(s.title) ||
+          normalize(`story ${s.id}`).includes(nq) ||
+          normalize(`s${String(s.id).padStart(2, '0')}`).includes(nq)
+        ).slice(0, 10)
+      : []
+
+    return { patterns, words: filteredWords, stories: storyMatches }
+  }, [patternIndex, words, nq, filter])
 
   function submitSearch(q: string) {
     if (!q.trim()) return
@@ -425,6 +548,7 @@ export default function LibraryPage() {
   }
 
   const showRecent = focused && !isSearching && recentSearches.length > 0
+  const hasResults = searchResults.patterns.length > 0 || searchResults.words.length > 0 || searchResults.stories.length > 0
 
   return (
     <div style={{ minHeight: '100dvh', overflowY: 'auto' }}>
@@ -437,13 +561,6 @@ export default function LibraryPage() {
         paddingBottom: TAB_BAR_HEIGHT + 32,
         boxSizing: 'border-box',
       }}>
-
-        {/* ── Page title ── */}
-        <div style={{ marginBottom: 18 }}>
-          <p style={{ fontSize: 12, color: '#8E8E93', margin: 0, fontWeight: 400 }}>
-            나만의 영어 컬렉션
-          </p>
-        </div>
 
         {/* ── Summary cards ── */}
         <div style={{ display: 'flex', gap: 9, marginBottom: 20 }}>
@@ -467,15 +584,15 @@ export default function LibraryPage() {
           />
         </div>
 
-        {/* ── Search bar ── */}
-        <div style={{ marginBottom: isSearching || showRecent ? 0 : 24 }}>
+        {/* ── Search bar + Filter ── */}
+        <div style={{ marginBottom: isSearching || showRecent ? 0 : 24, position: 'relative' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
             background: 'rgba(255,255,255,0.88)',
             backdropFilter: 'blur(20px) saturate(180%)',
             WebkitBackdropFilter: 'blur(20px) saturate(180%)',
             borderRadius: 16,
-            padding: '14px 18px',
+            padding: '14px 14px 14px 18px',
             border: focused
               ? '1px solid rgba(74,111,168,0.35)'
               : '1px solid rgba(255,255,255,0.92)',
@@ -493,7 +610,7 @@ export default function LibraryPage() {
               onFocus={() => setFocused(true)}
               onBlur={() => setTimeout(() => setFocused(false), 150)}
               onKeyDown={e => { if (e.key === 'Enter') submitSearch(query) }}
-              placeholder="Search patterns, words..."
+              placeholder="Search patterns, words, stories..."
               style={{
                 flex: 1, background: 'none', border: 'none', outline: 'none',
                 fontSize: 14, color: '#1C1C1E', fontWeight: 400,
@@ -506,7 +623,55 @@ export default function LibraryPage() {
                 <X style={{ width: 14, height: 14, color: '#8E8E93' }} strokeWidth={2} />
               </button>
             )}
+            {/* Filter button */}
+            <div style={{ position: 'relative' }}>
+              <button
+                type="button"
+                onClick={() => setShowFilter(v => !v)}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  width: 30, height: 30, borderRadius: 9,
+                  background: filter !== 'all' ? 'rgba(74,111,168,0.12)' : 'rgba(140,140,150,0.08)',
+                  border: filter !== 'all' ? '1px solid rgba(74,111,168,0.24)' : '1px solid rgba(140,140,150,0.14)',
+                  cursor: 'pointer', flexShrink: 0,
+                }}
+              >
+                <SlidersHorizontal
+                  style={{ width: 13, height: 13, color: filter !== 'all' ? '#4A6FA8' : '#8E8E93' }}
+                  strokeWidth={2}
+                />
+              </button>
+              {showFilter && (
+                <FilterDropdown
+                  filter={filter}
+                  onChange={f => { setFilter(f) }}
+                  onClose={() => setShowFilter(false)}
+                />
+              )}
+            </div>
           </div>
+
+          {/* Active filter chip */}
+          {filter !== 'all' && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
+              <span style={{ fontSize: 10, color: '#8E8E93', fontWeight: 500 }}>Filter:</span>
+              <button
+                type="button"
+                onClick={() => setFilter('all')}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 4,
+                  fontSize: 11, fontWeight: 600, color: '#4A6FA8',
+                  background: 'rgba(74,111,168,0.08)',
+                  border: '1px solid rgba(74,111,168,0.20)',
+                  borderRadius: 999, padding: '3px 10px',
+                  cursor: 'pointer',
+                }}
+              >
+                {FILTER_OPTIONS.find(f => f.key === filter)?.label}
+                <X style={{ width: 10, height: 10 }} strokeWidth={2.5} />
+              </button>
+            </div>
+          )}
 
           {/* Recent searches */}
           {showRecent && (
@@ -533,7 +698,7 @@ export default function LibraryPage() {
           {/* Search results */}
           {isSearching && (
             <div style={{ marginTop: 12, marginBottom: 24 }}>
-              {searchResults.patterns.length === 0 && searchResults.words.length === 0 ? (
+              {!hasResults ? (
                 <div style={{ ...glassCard, padding: '24px', textAlign: 'center' }}>
                   <p style={{ fontSize: 13, color: '#8E8E93', margin: 0 }}>검색 결과가 없어요.</p>
                 </div>
@@ -542,7 +707,7 @@ export default function LibraryPage() {
                   {searchResults.words.length > 0 && (
                     <div style={{ marginBottom: 14 }}>
                       <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em', color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' }}>
-                        Saved Words · {searchResults.words.length}
+                        Words · {searchResults.words.length}
                       </p>
                       <div style={glassCard}>
                         {searchResults.words.map((w, i) => (
@@ -552,7 +717,7 @@ export default function LibraryPage() {
                     </div>
                   )}
                   {searchResults.patterns.length > 0 && (
-                    <div>
+                    <div style={{ marginBottom: 14 }}>
                       <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em', color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' }}>
                         Patterns · {searchResults.patterns.length}
                       </p>
@@ -565,6 +730,23 @@ export default function LibraryPage() {
                             pattern={r.pattern}
                             border={i > 0}
                             onPress={() => router.push(`/stories/${r.storyId}?v=p`)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {searchResults.stories.length > 0 && (
+                    <div>
+                      <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em', color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' }}>
+                        Stories · {searchResults.stories.length}
+                      </p>
+                      <div style={glassCard}>
+                        {searchResults.stories.map((s, i) => (
+                          <SearchStoryRow
+                            key={s.id}
+                            story={s}
+                            border={i > 0}
+                            onPress={() => router.push(`/stories/${s.id}`)}
                           />
                         ))}
                       </div>
@@ -583,7 +765,6 @@ export default function LibraryPage() {
             <section style={{ marginBottom: 28 }}>
               <SecLabel
                 label="Saved Patterns"
-                count={bookmarks.length}
                 onViewAll={bookmarks.length > 4 ? () => router.push('/records/patterns') : undefined}
               />
               {bookmarks.length === 0 ? (
@@ -607,13 +788,9 @@ export default function LibraryPage() {
               )}
             </section>
 
-            {/* Saved Words */}
+            {/* Saved Words — Story accordion */}
             <section>
-              <SecLabel
-                label="Saved Words"
-                count={words.length}
-                onViewAll={words.length > 6 ? () => router.push('/library/words') : undefined}
-              />
+              <SecLabel label="Saved Words" />
               {words.length === 0 ? (
                 <EmptyState
                   icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />}
@@ -622,10 +799,19 @@ export default function LibraryPage() {
                   body={t('sec_saved_words')}
                 />
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {words.slice(0, 6).map(w => (
-                    <WordCard key={w.id} w={w} />
-                  ))}
+                <div>
+                  {wordsByStory.map(([storyId, storyWords]) => {
+                    const story = storyId !== null ? magazineStories.find(s => s.id === storyId) : null
+                    const title = story ? story.title : 'Unknown Story'
+                    return (
+                      <WordAccordion
+                        key={storyId ?? 'unknown'}
+                        storyId={storyId}
+                        storyTitle={title}
+                        words={storyWords}
+                      />
+                    )
+                  })}
                 </div>
               )}
             </section>
