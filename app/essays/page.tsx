@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus, ChevronRight, Sparkles } from 'lucide-react'
+import { Plus, ChevronRight, Sparkles, PenLine } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { type Essay, getEssays, getDailyReviewCount, MAX_DAILY_REVIEWS } from '@/lib/essays/storage'
@@ -252,7 +252,7 @@ export default function EssaysPage() {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 18px',
             }}>
-              <span style={{ fontSize: 32 }}>✍️</span>
+              <PenLine size={32} strokeWidth={1.5} color="var(--pm)" />
             </div>
             <p style={{ fontSize: 14, color: '#8E8E93', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-line' }}>
               {t('essays_empty')}
