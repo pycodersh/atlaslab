@@ -71,8 +71,12 @@ export function TodayMissionPopup() {
         pointerEvents: open ? 'auto' : 'none',
         transition: 'transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.22s ease',
         width: 'min(92vw, 380px)',
-        background: 'var(--pb)', borderRadius: 20,
-        boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+        background: 'rgba(255,255,255,0.82)',
+        backdropFilter: 'blur(32px) saturate(200%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(200%)',
+        border: '1px solid rgba(255,255,255,0.90)',
+        borderRadius: 24,
+        boxShadow: '0 8px 40px rgba(30,40,70,0.14), inset 0 1px 0 rgba(255,255,255,0.95)',
         maxHeight: '85dvh', overflowY: 'auto',
       }}>
         {/* Header */}
@@ -114,25 +118,25 @@ export function TodayMissionPopup() {
               </p>
               {newItems.map(item => (
                 <div key={item.storyId} style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '10px 0', borderBottom: '1px solid var(--pd)',
+                  padding: '10px 0 10px 4px', borderBottom: '1px solid rgba(0,0,0,0.06)',
                 }}>
-                  <span style={{
-                    fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
-                    color: 'var(--pm2)', width: 22, flexShrink: 0,
-                  }}>
-                    {String(item.storyId).padStart(2, '0')}
-                  </span>
-                  <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
+                    <span style={{
+                      fontSize: 9, fontWeight: 700, letterSpacing: '0.14em',
+                      color: 'var(--pm2)', textTransform: 'uppercase',
+                    }}>
+                      Story {String(item.storyId).padStart(2, '0')}
+                    </span>
+                    <span style={{
+                      fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
+                      color: 'var(--pm2)', textTransform: 'uppercase',
+                    }}>
+                      {item.type === 'in_progress_story' ? 'Continue' : 'New'}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: '#8D234C', margin: 0, paddingLeft: 10, lineHeight: 1.35 }}>
                     {item.storyTitle}
-                  </span>
-                  <span style={{
-                    fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
-                    color: 'var(--pm2)',
-                    textTransform: 'uppercase',
-                  }}>
-                    {item.type === 'in_progress_story' ? 'Continue' : 'New'}
-                  </span>
+                  </p>
                 </div>
               ))}
             </div>
@@ -147,24 +151,22 @@ export function TodayMissionPopup() {
               </p>
               {reviewItems.map(item => (
                 <div key={item.storyId} style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  padding: '10px 0', borderBottom: '1px solid var(--pd)',
+                  padding: '10px 0 10px 4px', borderBottom: '1px solid rgba(0,0,0,0.06)',
                 }}>
-                  <span style={{
-                    fontSize: 9, fontWeight: 700, letterSpacing: '0.1em',
-                    color: 'var(--pm2)', width: 22, flexShrink: 0,
-                  }}>
-                    {String(item.storyId).padStart(2, '0')}
-                  </span>
-                  <span style={{ flex: 1, fontSize: 13, fontWeight: 500, color: 'var(--pt2)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
+                    <span style={{
+                      fontSize: 9, fontWeight: 700, letterSpacing: '0.14em',
+                      color: 'var(--pm2)', textTransform: 'uppercase',
+                    }}>
+                      Story {String(item.storyId).padStart(2, '0')}
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: item.done ? '#27AE60' : 'var(--pm2)' }}>
+                      {item.done ? '✓' : '○'}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: '#8D234C', margin: 0, paddingLeft: 10, lineHeight: 1.35 }}>
                     {item.storyTitle}
-                  </span>
-                  <span style={{
-                    fontSize: 11, fontWeight: 700,
-                    color: item.done ? '#27AE60' : 'var(--pm2)',
-                  }}>
-                    {item.done ? '✓' : '○'}
-                  </span>
+                  </p>
                 </div>
               ))}
             </div>

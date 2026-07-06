@@ -179,7 +179,25 @@ export function StoryPage({
       <div className="flex-1 overflow-y-auto" style={{ paddingTop: 92, paddingBottom: 72 }}>
 
         {/* ── Hero Image — same width as card below ── */}
-        <div style={{ padding: '0 16px' }}>
+        <div style={{ padding: '0 16px', position: 'relative' }}>
+          {/* Story number — top-left of image */}
+          <button
+            type="button"
+            onClick={onOpenPicker}
+            aria-label="스토리 선택"
+            style={{
+              position: 'absolute', top: 12, left: 28, zIndex: 10,
+              background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+            }}
+          >
+            <span style={{
+              fontSize: 9, fontWeight: 700, letterSpacing: '0.20em',
+              color: 'rgba(255,255,255,0.82)', textTransform: 'uppercase',
+              textShadow: '0 1px 4px rgba(0,0,0,0.4)',
+            }}>
+              STORY {String(story.id).padStart(2, '0')}
+            </span>
+          </button>
         <StoryImageSlider
           images={slideImages}
           interval={story.slideshowInterval ?? 8}
@@ -188,20 +206,6 @@ export function StoryPage({
           isTTSActive={isSpeaking}
           titleContent={
             <div style={{ padding: '0 18px 18px' }}>
-              {/* Story number */}
-              <button
-                type="button"
-                onClick={onOpenPicker}
-                aria-label="스토리 선택"
-                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', marginBottom: 6, display: 'block' }}
-              >
-                <span style={{
-                  fontSize: 9, fontWeight: 600, letterSpacing: '0.20em',
-                  color: 'rgba(255,255,255,0.72)', textTransform: 'uppercase',
-                }}>
-                  STORY {String(story.id).padStart(2, '0')}
-                </span>
-              </button>
               {/* Title */}
               <h1 style={{
                 fontSize: 22, fontWeight: 900, lineHeight: 1.2,
@@ -311,26 +315,29 @@ export function StoryPage({
               <div className="space-y-5">
                 {story.paragraphs.map((para, i) => {
                   const isCurrentTTS = currentParagraphIdx === i && isSpeaking
-                  const isRevealed = showEnglish || revealedParas.has(para.id)
+                  const isKoOnly = studyMode === 'ko'
+                  const isRevealed = showEnglish || isKoOnly || revealedParas.has(para.id)
                   const koText = resolveTranslation(para.koreanTranslation, prefs.language, para.translations)
 
                   return (
                     <div key={para.id} data-para-id={para.id} className={`rounded-xl px-2 py-1 -mx-2 transition-colors ${
                       isCurrentTTS ? 'bg-[var(--pal)]' : ''
                     }`}>
-                      {/* English */}
+                      {/* English — KO 모드에서는 투명(위치 유지) */}
                       {isRevealed ? (
-                        <TappableWordText
-                          text={para.english}
-                          source={{
-                            sourceType:       'story',
-                            sourceId:         String(story.id),
-                            storyId:          story.id,
-                            paragraphId:      para.id,
-                            originalSentence: para.english,
-                          }}
-                          className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block text-justify"
-                        />
+                        <div style={{ opacity: isKoOnly ? 0 : 1, transition: 'opacity 0.2s', pointerEvents: isKoOnly ? 'none' : 'auto' }}>
+                          <TappableWordText
+                            text={para.english}
+                            source={{
+                              sourceType:       'story',
+                              sourceId:         String(story.id),
+                              storyId:          story.id,
+                              paragraphId:      para.id,
+                              originalSentence: para.english,
+                            }}
+                            className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block text-justify"
+                          />
+                        </div>
                       ) : (
                         <button
                           type="button"
