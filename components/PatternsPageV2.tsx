@@ -43,31 +43,67 @@ const STUDY_LABEL: Record<StudyMode, string> = {
   'ko':    'KO',
 }
 
-// ── Hero themes — 2 styles, selected by storyId % 2 ─────────────────────────
+// ── Hero themes — 5 story-palette themes, cycled by (storyId-1) % 5 ─────────
 const HERO_THEMES = [
   {
-    // Theme A · Soft Sky — bright, clean iOS glass
-    bg: 'linear-gradient(150deg, rgba(215,232,255,0.97) 0%, rgba(236,247,255,0.92) 55%, rgba(248,253,255,0.97) 100%)',
-    wave1: 'rgba(130,185,255,0.14)',
-    wave2: 'rgba(155,205,255,0.08)',
-    borderColor: 'rgba(175,210,255,0.38)',
+    // Theme 1 · Soft Sky Blue
+    bg: 'linear-gradient(150deg, #FFFFFF 0%, #F4F8FF 50%, #FFFFFF 100%)',
+    wave1: 'rgba(255,255,255,0.11)',
+    wave2: 'rgba(180,210,255,0.07)',
+    borderColor: 'rgba(175,210,255,0.28)',
     patternColor: '#FAFAFA',
-    patternShadow: '0 1px 5px rgba(48,85,155,0.42), 0 3px 18px rgba(48,85,155,0.24)',
-    meaningColor: 'rgba(42,68,132,0.68)',
-    labelColor: 'rgba(55,80,150,0.55)',
-    iconColor: '#7C8BB0',
+    patternShadow: '0 4px 13px rgba(48,60,120,0.35)',
+    meaningColor: 'rgba(55,62,90,0.72)',
+    labelColor: '#6E7694',
+    iconColor: '#6E7694',
   },
   {
-    // Theme B · Warm Pearl — calm Apple Books / Journal
-    bg: 'linear-gradient(150deg, rgba(250,247,243,0.98) 0%, rgba(243,239,234,0.93) 55%, rgba(252,249,245,0.98) 100%)',
-    wave1: 'rgba(185,175,162,0.11)',
-    wave2: 'rgba(165,157,145,0.07)',
-    borderColor: 'rgba(200,190,178,0.32)',
+    // Theme 2 · Soft Mint
+    bg: 'linear-gradient(150deg, #FFFFFF 0%, #F2FAF6 50%, #FFFFFF 100%)',
+    wave1: 'rgba(255,255,255,0.11)',
+    wave2: 'rgba(155,215,190,0.07)',
+    borderColor: 'rgba(155,210,185,0.28)',
     patternColor: '#FAFAFA',
-    patternShadow: '0 1px 4px rgba(88,78,68,0.32), 0 2px 14px rgba(88,78,68,0.17)',
-    meaningColor: 'rgba(90,78,68,0.66)',
-    labelColor: 'rgba(100,88,76,0.52)',
-    iconColor: '#9E9188',
+    patternShadow: '0 4px 13px rgba(40,100,70,0.32)',
+    meaningColor: 'rgba(55,62,90,0.72)',
+    labelColor: '#6E7694',
+    iconColor: '#6E7694',
+  },
+  {
+    // Theme 3 · Soft Cream
+    bg: 'linear-gradient(150deg, #FFFFFF 0%, #FAF7F0 50%, #FFFFFF 100%)',
+    wave1: 'rgba(255,255,255,0.11)',
+    wave2: 'rgba(215,200,170,0.07)',
+    borderColor: 'rgba(210,195,162,0.26)',
+    patternColor: '#FAFAFA',
+    patternShadow: '0 4px 13px rgba(100,80,45,0.30)',
+    meaningColor: 'rgba(55,62,90,0.72)',
+    labelColor: '#6E7694',
+    iconColor: '#6E7694',
+  },
+  {
+    // Theme 4 · Soft Lavender
+    bg: 'linear-gradient(150deg, #FFFFFF 0%, #F5F3FF 50%, #FFFFFF 100%)',
+    wave1: 'rgba(255,255,255,0.11)',
+    wave2: 'rgba(185,175,245,0.07)',
+    borderColor: 'rgba(178,168,238,0.26)',
+    patternColor: '#FAFAFA',
+    patternShadow: '0 4px 13px rgba(68,50,128,0.32)',
+    meaningColor: 'rgba(55,62,90,0.72)',
+    labelColor: '#6E7694',
+    iconColor: '#6E7694',
+  },
+  {
+    // Theme 5 · Soft Peach
+    bg: 'linear-gradient(150deg, #FFFFFF 0%, #FFF5F0 50%, #FFFFFF 100%)',
+    wave1: 'rgba(255,255,255,0.11)',
+    wave2: 'rgba(255,190,165,0.07)',
+    borderColor: 'rgba(238,182,158,0.26)',
+    patternColor: '#FAFAFA',
+    patternShadow: '0 4px 13px rgba(115,62,38,0.30)',
+    meaningColor: 'rgba(55,62,90,0.72)',
+    labelColor: '#6E7694',
+    iconColor: '#6E7694',
   },
 ]
 
@@ -138,9 +174,9 @@ export function PatternsPageV2({
     setRevealedExSet(new Set())
   }, [story.id])
 
-  // ── Hero theme — deterministic by storyId % 2 ────────────────────────────
+  // ── Hero theme — deterministic by (storyId-1) % 5 ────────────────────────
   const heroTheme = useMemo(
-    () => HERO_THEMES[story.id % 2],
+    () => HERO_THEMES[(story.id - 1) % 5],
     [story.id],
   )
 
@@ -468,7 +504,7 @@ export function PatternsPageV2({
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                       padding: 6, cursor: 'pointer',
                       background: 'none', border: 'none',
-                      color: isPlaying ? '#8F234B' : '#8A8A8E', flexShrink: 0,
+                      color: isPlaying ? '#8F234B' : heroTheme.iconColor, flexShrink: 0,
                       transition: 'opacity 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
                     onPointerDown={e => { e.currentTarget.style.opacity = '0.6' }}
