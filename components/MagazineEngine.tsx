@@ -227,10 +227,10 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     <div className="h-screen-stable flex flex-col overflow-hidden">
       <TopNav />
 
-      {/* Sliding rail */}
+      {/* Sliding rail — min-h-0 prevents flex-1 from growing to content height */}
       <div
         ref={railRef}
-        className="flex flex-1"
+        className="flex flex-1 min-h-0"
         style={{
           width: '200%',
           transform: railTransform,
