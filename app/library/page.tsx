@@ -772,6 +772,7 @@ export default function LibraryPage() {
                   icon={<BookMarked style={{ width: 24, height: 24, color: '#4A6FA8' }} strokeWidth={1.6} />}
                   iconColor="#4A6FA8"
                   title="No saved patterns yet."
+                  body={t('no_bookmarks')}
                 />
               ) : (
                 <div>
