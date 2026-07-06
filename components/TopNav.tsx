@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Search, User } from 'lucide-react'
+import { User } from 'lucide-react'
 
 export const NAV_HEIGHT = 60
 
@@ -45,21 +45,6 @@ export function TopNav() {
 
         {/* Right: icon buttons */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Link
-            href="/library"
-            aria-label="라이브러리"
-            style={{
-              width: 36, height: 36, borderRadius: '50%',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'rgba(255,255,255,0.80)',
-              border: '1px solid rgba(255,255,255,0.9)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-            }}
-          >
-            <Search style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
-          </Link>
           <Link
             href="/settings"
             aria-label="프로필"

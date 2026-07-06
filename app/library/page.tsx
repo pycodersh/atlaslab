@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, X, BookOpen, Bookmark, RotateCcw, ChevronRight, Sprout } from 'lucide-react'
+import { Search, X, BookOpen, Bookmark, RotateCcw, ChevronRight, Sprout, BookMarked } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -342,14 +342,22 @@ function SearchWordRow({ w, border }: { w: SavedWord; border: boolean }) {
 
 // ── Empty state ───────────────────────────────────────────────────────────────
 
-function EmptyState({ emoji, title, body }: { emoji: string; title: string; body: string }) {
+function EmptyState({ icon, iconColor, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
   return (
     <div style={{
       ...glassCard,
       padding: '36px 24px',
       textAlign: 'center',
     }}>
-      <div style={{ fontSize: 38, lineHeight: 1, marginBottom: 14 }}>{emoji}</div>
+      <div style={{
+        width: 52, height: 52, borderRadius: 16,
+        background: `${iconColor}12`,
+        border: `1px solid ${iconColor}20`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        margin: '0 auto 16px',
+      }}>
+        {icon}
+      </div>
       <p style={{ fontSize: 14, fontWeight: 700, color: '#1C1C1E', margin: '0 0 7px', letterSpacing: '-0.01em' }}>{title}</p>
       <p style={{ fontSize: 12, color: '#8E8E93', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
     </div>
@@ -455,13 +463,6 @@ export default function LibraryPage() {
 
         {/* ── Page title ── */}
         <div style={{ marginBottom: 18 }}>
-          <p style={{
-            fontSize: 32, fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1,
-            color: '#1C1C1E', margin: '0 0 4px',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          }}>
-            Library
-          </p>
           <p style={{ fontSize: 12, color: '#8E8E93', margin: 0, fontWeight: 400 }}>
             나만의 영어 컬렉션
           </p>
@@ -610,9 +611,10 @@ export default function LibraryPage() {
               />
               {bookmarks.length === 0 ? (
                 <EmptyState
-                  emoji="🔖"
+                  icon={<BookMarked style={{ width: 24, height: 24, color: '#4A6FA8' }} strokeWidth={1.6} />}
+                  iconColor="#4A6FA8"
                   title="No saved patterns yet."
-                  body={'Tap the bookmark while learning\nto save it here.'}
+                  body={t('no_bookmarks')}
                 />
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -637,9 +639,10 @@ export default function LibraryPage() {
               />
               {words.length === 0 ? (
                 <EmptyState
-                  emoji="📖"
+                  icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />}
+                  iconColor="#3A7A4A"
                   title="No saved words yet."
-                  body={'Long press a word while reading\nto save it here.'}
+                  body={t('sec_saved_words')}
                 />
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
