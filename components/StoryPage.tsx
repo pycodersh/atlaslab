@@ -176,7 +176,11 @@ export function StoryPage({
 
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
-      <div className="flex-1 overflow-y-auto" style={{ paddingTop: 8, paddingBottom: 120 }}>
+      <div className="flex-1 overflow-y-auto" style={{
+          paddingTop: 8, paddingBottom: 120,
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 88px), transparent calc(100% - 8px))',
+          maskImage: 'linear-gradient(to bottom, black 0%, black calc(100% - 88px), transparent calc(100% - 8px))',
+        }}>
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>
