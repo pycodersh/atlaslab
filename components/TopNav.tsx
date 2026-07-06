@@ -8,11 +8,11 @@ export const NAV_HEIGHT = 60
 function PattoIcon() {
   return (
     <img
-      src="/Patto Logo.jpg"
+      src="/patto-logo.png"
       alt="PATTO"
       width={34}
       height={34}
-      style={{ borderRadius: 8, flexShrink: 0, display: 'block' }}
+      style={{ flexShrink: 0, display: 'block' }}
     />
   )
 }
