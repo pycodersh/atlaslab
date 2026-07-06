@@ -264,7 +264,7 @@ function InfoChip({ label, value, accent }: { label: string; value: React.ReactN
       <span style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)', fontWeight: 800, color: accent ? '#4A7AC8' : 'var(--pt)', lineHeight: 1 }}>
         {value}
       </span>
-      <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--pm2)', letterSpacing: '0.12em', textTransform: 'uppercase', textAlign: 'center' }}>
+      <span style={{ fontSize: 11, fontWeight: 500, color: 'var(--pm2)', letterSpacing: '0.06em', textTransform: 'uppercase', textAlign: 'center' }}>
         {label}
       </span>
     </div>
@@ -289,13 +289,7 @@ function CardCalendar({
 
       {/* Section header */}
       <div style={{ marginBottom: 20 }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.20em', color: 'var(--pm2)', margin: '0 0 4px', textTransform: 'uppercase' }}>
-          CARD 1 OF 3
-        </p>
-        <p style={{ fontSize: 'clamp(1.4rem, 6vw, 1.9rem)', fontWeight: 900, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
-          Memory Calendar
-        </p>
-        <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 5 }}>이번 달 학습 기록</p>
+        <p style={{ fontSize: 13, color: 'var(--pm)', marginTop: 0, marginBottom: 0 }}>이번 달 학습 기록</p>
       </div>
 
       {/* Calendar */}
@@ -348,13 +342,7 @@ function CardJourney({ pts, phase }: { pts: number; phase: Phase }) {
 
       {/* Section header */}
       <div style={{ marginBottom: 20 }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.20em', color: 'var(--pm2)', margin: '0 0 4px', textTransform: 'uppercase' }}>
-          CARD 2 OF 3
-        </p>
-        <p style={{ fontSize: 'clamp(1.4rem, 6vw, 1.9rem)', fontWeight: 900, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
-          Memory Journey
-        </p>
-        <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 5 }}>
+        <p style={{ fontSize: 13, color: 'var(--pm)', marginTop: 0, marginBottom: 0 }}>
           Phase {phase.id} · {phase.name}
         </p>
       </div>
@@ -455,13 +443,7 @@ function CardScore({
 
       {/* Section header */}
       <div style={{ marginBottom: 20 }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.20em', color: 'var(--pm2)', margin: '0 0 4px', textTransform: 'uppercase' }}>
-          CARD 3 OF 3
-        </p>
-        <p style={{ fontSize: 'clamp(1.4rem, 6vw, 1.9rem)', fontWeight: 900, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em', lineHeight: 1 }}>
-          Memory Score
-        </p>
-        <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 5 }}>전체 장기 기억 지표</p>
+        <p style={{ fontSize: 13, color: 'var(--pm)', marginTop: 0, marginBottom: 0 }}>전체 장기 기억 지표</p>
       </div>
 
       {/* Big score */}
