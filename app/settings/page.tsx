@@ -51,19 +51,19 @@ export default function SettingsPage() {
       }}>
 
         {/* Header */}
-        <div style={{ marginBottom: 32 }}>
+        <div style={{ marginBottom: 26 }}>
           <p style={{
-            fontSize: 38, fontWeight: 900,
-            letterSpacing: '-0.04em', lineHeight: 1,
+            fontSize: 31, fontWeight: 700,
+            letterSpacing: '-0.03em', lineHeight: 0.96,
             color: '#1C1C1E', margin: 0,
             fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
             Profile
           </p>
           <p style={{
-            fontSize: 14, color: '#6E6E73',
-            margin: '8px 0 0', lineHeight: 1.5,
-            fontWeight: 400, letterSpacing: '-0.01em',
+            fontSize: 14, color: '#9CA3AF',
+            margin: '7px 0 0', lineHeight: 1.45,
+            fontWeight: 400, letterSpacing: '0em',
           }}>
             나에게 맞는 학습 환경을 설정하세요.
           </p>
@@ -85,11 +85,11 @@ export default function SettingsPage() {
               href={href}
               style={{
                 display: 'flex', alignItems: 'center', gap: 16,
-                padding: '20px 24px',
+                padding: '18px 22px',
                 textDecoration: 'none',
                 borderBottom: idx < HUBS.length - 1 ? '1px solid rgba(230,232,236,0.9)' : 'none',
                 transition: 'filter 0.15s, transform 0.15s',
-                minHeight: 84,
+                minHeight: 76,
                 boxSizing: 'border-box',
               }}
               onMouseEnter={e => {
@@ -104,41 +104,41 @@ export default function SettingsPage() {
               }}
             >
               <div style={{
-                width: 40, height: 40, borderRadius: 13,
+                width: 35, height: 35, borderRadius: 11,
                 background: 'rgba(255,255,255,0.7)',
                 border: '1px solid rgba(220,225,235,0.8)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0,
-                boxShadow: '0 1px 4px rgba(40,40,60,0.05)',
+                boxShadow: '0 1px 3px rgba(40,40,60,0.05)',
               }}>
-                <Icon style={{ width: 18, height: 18, color: '#6E6E73' }} strokeWidth={1.6} />
+                <Icon style={{ width: 16, height: 16, color: '#6E6E73' }} strokeWidth={1.6} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{
-                  fontSize: 15.5, fontWeight: 700,
+                  fontSize: 15, fontWeight: 600,
                   color: '#1C1C1E', margin: '0 0 2px',
-                  letterSpacing: '-0.01em',
+                  letterSpacing: '-0.005em',
                 }}>
                   {label}
                 </p>
                 <p style={{
-                  fontSize: 12, color: '#6E6E73',
-                  margin: 0, fontWeight: 500,
+                  fontSize: 12.5, color: '#9CA3AF',
+                  margin: 0, fontWeight: 400,
                   lineHeight: 1.4,
                 }}>
                   {desc}
                 </p>
               </div>
-              <ChevronRight style={{ width: 14, height: 14, color: '#8E8E93', flexShrink: 0 }} strokeWidth={1.8} />
+              <ChevronRight style={{ width: 13, height: 13, color: '#C5C7CC', flexShrink: 0 }} strokeWidth={1.6} />
             </Link>
           ))}
         </div>
 
         {/* Footer version */}
-        <div style={{ marginTop: 48, textAlign: 'center' }}>
+        <div style={{ marginTop: 64, textAlign: 'center' }}>
           <p style={{
-            fontSize: 11, color: '#B0B3B8', fontWeight: 500,
-            margin: 0, letterSpacing: '0.02em',
+            fontSize: 11.5, color: '#C5C7CC', fontWeight: 400,
+            margin: 0, letterSpacing: '0.01em',
           }}>
             v1.0.0
           </p>
