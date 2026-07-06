@@ -8,9 +8,10 @@ import { TopNav } from '@/components/TopNav'
 import {
   type Essay, type Annotation,
   getEssay, updateEssay, deleteEssay, saveReview,
-  canReview, incrementDailyReviewCount, autoTitle,
-  resetDailyReviewCount,
+  canReview, recordReviewUsed, autoTitle,
+  resetDailyReviewCount, getReviewsRemaining, getFreeReviewTotal,
 } from '@/lib/essays/storage'
+import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS, FREE_REVIEW_LIFETIME } from '@/lib/subscription/storage'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
 
@@ -172,7 +173,6 @@ function glassBtn(extra?: React.CSSProperties): React.CSSProperties {
 
 type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'service_unavailable' | null
 
-const MAX_WORDS = 300
 const MIN_WORDS = 30
 function wordCount(t: string) { return t.trim().split(/\s+/).filter(Boolean).length }
 
@@ -213,15 +213,23 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
     if (generated) setTitle(generated)
   }, [body])
 
+  const plan = typeof window !== 'undefined' ? getPlan() : 'free'
+  const MAX_WORDS = plan === 'premium' ? PREMIUM_MAX_ESSAY_WORDS : FREE_MAX_ESSAY_WORDS
+  const reviewsLeft = typeof window !== 'undefined' ? getReviewsRemaining() : (plan === 'free' ? FREE_REVIEW_LIFETIME : 5)
+
   const wc = wordCount(body)
   const wcColor = wc > MAX_WORDS ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
   const isDirty = title !== originalTitle.current || body !== originalBody.current
+
+  const limitMsg = plan === 'free'
+    ? `Free plan: ${FREE_REVIEW_LIFETIME} lifetime reviews used up. Upgrade to Premium for 5/day.`
+    : "You've used all 5 reviews for today. Come back tomorrow!"
 
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
     too_long:            t('essays_too_long'),
-    limit_reached:       t('essays_limit_reached'),
+    limit_reached:       limitMsg,
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -271,7 +279,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         originalTitle.current = updated.title
         originalBody.current  = updated.body
       }
-      incrementDailyReviewCount()
+      recordReviewUsed()
     } catch {
       setError('service_unavailable')
     }

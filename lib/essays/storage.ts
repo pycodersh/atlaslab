@@ -1,9 +1,12 @@
+import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
+
 const ESSAYS_KEY    = 'patto-essays'
 const DRAFT_KEY     = 'patto-essay-draft'
-const REVIEW_DAY_KEY   = 'patto-essay-review-day'
-const REVIEW_COUNT_KEY = 'patto-essay-review-count'
+const REVIEW_DAY_KEY        = 'patto-essay-review-day'
+const REVIEW_COUNT_KEY      = 'patto-essay-review-count'
+const FREE_REVIEW_TOTAL_KEY = 'patto-essay-free-reviews-total'
 
-export const MAX_DAILY_REVIEWS = 5
+export const MAX_DAILY_REVIEWS = PREMIUM_REVIEW_DAILY
 
 // 'typical' = recurring mechanical error (first occurrence only, marked ★ Typ.)
 export type AnnotationType = 'grammar' | 'expression' | 'strength' | 'typical'
@@ -161,8 +164,35 @@ export function getDailyReviewCount(): number {
   return Number(localStorage.getItem(REVIEW_COUNT_KEY) ?? '0')
 }
 
+export function getFreeReviewTotal(): number {
+  if (typeof window === 'undefined') return 0
+  return Number(localStorage.getItem(FREE_REVIEW_TOTAL_KEY) ?? '0')
+}
+
+function incrementFreeReviewTotal(): void {
+  if (typeof window === 'undefined') return
+  localStorage.setItem(FREE_REVIEW_TOTAL_KEY, String(getFreeReviewTotal() + 1))
+}
+
 export function canReview(): boolean {
-  return getDailyReviewCount() < MAX_DAILY_REVIEWS
+  const plan = getPlan()
+  if (plan === 'premium') return getDailyReviewCount() < PREMIUM_REVIEW_DAILY
+  return getFreeReviewTotal() < FREE_REVIEW_LIFETIME
+}
+
+export function getReviewsRemaining(): number {
+  const plan = getPlan()
+  if (plan === 'premium') return Math.max(0, PREMIUM_REVIEW_DAILY - getDailyReviewCount())
+  return Math.max(0, FREE_REVIEW_LIFETIME - getFreeReviewTotal())
+}
+
+export function recordReviewUsed(): void {
+  const plan = getPlan()
+  if (plan === 'free') {
+    incrementFreeReviewTotal()
+  } else {
+    incrementDailyReviewCount()
+  }
 }
 
 export function incrementDailyReviewCount(): void {

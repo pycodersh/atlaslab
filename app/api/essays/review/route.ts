@@ -140,7 +140,7 @@ export async function POST(request: Request) {
     if (wc < 30) {
       return Response.json({ error: 'too_short' }, { status: 422 })
     }
-    if (wc > 300) {
+    if (wc > 500) {
       return Response.json({ error: 'too_long' }, { status: 422 })
     }
 

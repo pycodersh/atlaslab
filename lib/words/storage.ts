@@ -21,6 +21,8 @@ export type SavedWord = {
   savedAt:          string           // ISO
 }
 
+import { getPlan, FREE_WORD_LIMIT } from '@/lib/subscription/storage'
+
 const KEY = 'patto-saved-words'
 
 function readAll(): Record<string, SavedWord> {
@@ -39,6 +41,15 @@ function writeAll(map: Record<string, SavedWord>) {
 
 function genId(): string {
   return `w-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
+}
+
+export function getSavedWordCount(): number {
+  return Object.keys(readAll()).length
+}
+
+export function canSaveWord(): boolean {
+  if (getPlan() === 'premium') return true
+  return getSavedWordCount() < FREE_WORD_LIMIT
 }
 
 /** 저장된 단어 목록 (최근 저장순) */

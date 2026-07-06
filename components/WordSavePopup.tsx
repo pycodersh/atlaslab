@@ -13,7 +13,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
-import { saveWord, type WordSourceType } from '@/lib/words/storage'
+import { saveWord, canSaveWord, type WordSourceType } from '@/lib/words/storage'
+import { FREE_WORD_LIMIT } from '@/lib/subscription/storage'
 
 type Props = {
   /** 단어가 속한 스토리 ID */
@@ -32,7 +33,7 @@ type PopupState = {
   anchorX:  number
 }
 
-type ToastState = 'hidden' | 'visible' | 'fading'
+type ToastState = 'hidden' | 'visible' | 'fading' | 'limit'
 
 export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }: Props) {
   const [popup, setPopup]   = useState<PopupState | null>(null)
@@ -94,6 +95,17 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
 
   function handleSave() {
     if (!popup) return
+    if (!canSaveWord()) {
+      window.getSelection()?.removeAllRanges()
+      setPopup(null)
+      if (toastTimer.current) clearTimeout(toastTimer.current)
+      setToast('limit')
+      toastTimer.current = setTimeout(() => {
+        setToast('fading')
+        toastTimer.current = setTimeout(() => setToast('hidden'), 400)
+      }, 2800)
+      return
+    }
     saveWord({
       word:             popup.word,
       sourceType,
@@ -201,8 +213,8 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
           bottom:    90,
           left:      '50%',
           transform: 'translateX(-50%)',
-          background: 'var(--pc)',
-          color:     'var(--pt2)',
+          background: toast === 'limit' ? '#3A3A3C' : 'var(--pc)',
+          color:     toast === 'limit' ? '#fff' : 'var(--pt2)',
           fontSize:  12,
           fontWeight: 600,
           padding:   '8px 20px',
@@ -214,7 +226,9 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
           transition: 'opacity 0.4s ease',
           border:    '1px solid var(--pd)',
         }}>
-          Saved to Library
+          {toast === 'limit'
+            ? `Free plan: ${FREE_WORD_LIMIT} words max · Upgrade to Premium`
+            : 'Saved to Library'}
         </div>
       )}
     </>
