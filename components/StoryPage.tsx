@@ -284,7 +284,7 @@ export function StoryPage({
         </div>
 
         {/* ── Glass Story Card ── */}
-        <div style={{ padding: '14px 16px 0' }}>
+        <div style={{ padding: '14px 16px 16px' }}>
           <div
             className="glass-card"
             style={{ borderRadius: 20, position: 'relative' }}
@@ -400,8 +400,16 @@ export function StoryPage({
           </div>
         </div>
 
-        {/* iOS Safari: padding-bottom on overflow-scroll is ignored — use spacer instead */}
-        <div style={{ height: 'calc(140px + env(safe-area-inset-bottom, 0px))', flexShrink: 0 }} />
+        {/* Bottom spacer — transparent, keeps content above tab bar */}
+        <div
+          aria-hidden="true"
+          style={{
+            height: 'calc(120px + env(safe-area-inset-bottom, 0px))',
+            flexShrink: 0,
+            background: 'transparent',
+            pointerEvents: 'none',
+          }}
+        />
       </div>
     </div>
   )

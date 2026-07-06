@@ -587,8 +587,16 @@ export function PatternsPageV2({
           </div>
         </div>
 
-        {/* iOS Safari: padding-bottom on overflow-scroll is ignored — use spacer instead */}
-        <div style={{ height: 'calc(140px + env(safe-area-inset-bottom, 0px))', flexShrink: 0 }} />
+        {/* Bottom spacer — transparent, keeps content above tab bar */}
+        <div
+          aria-hidden="true"
+          style={{
+            height: 'calc(120px + env(safe-area-inset-bottom, 0px))',
+            flexShrink: 0,
+            background: 'transparent',
+            pointerEvents: 'none',
+          }}
+        />
       </div>
 
       {/* ── Pattern Note Popup ── */}
