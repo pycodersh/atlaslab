@@ -387,7 +387,7 @@ export default function HomePage() {
       <TopNav />
 
       <div style={{
-        paddingTop: 'var(--pnav-h)',
+        paddingTop: 0,
         paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)`,
       }}>
 

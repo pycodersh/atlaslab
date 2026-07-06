@@ -270,7 +270,7 @@ export default function EssaysPage() {
       <div style={{
         maxWidth: 540,
         margin: '0 auto',
-        padding: `var(--pnav-h) 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
+        padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
       }}>
 
         {/* Spacer replacing page header */}

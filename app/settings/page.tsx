@@ -43,7 +43,7 @@ export default function SettingsPage() {
       <div style={{
         maxWidth: 480,
         margin: '0 auto',
-        paddingTop: 'calc(var(--pnav-h) + 28px)',
+        paddingTop: 16,
         paddingLeft: 24,
         paddingRight: 24,
         paddingBottom: TAB_BAR_HEIGHT + 32,

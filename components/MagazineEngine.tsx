@@ -222,13 +222,13 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     : `translateX(${basePercent}%)`
 
   return (
-    <div className="relative overflow-hidden" style={{ height: '100dvh' }}>
+    <div className="flex flex-col overflow-hidden" style={{ height: '100dvh' }}>
       <TopNav />
 
       {/* Sliding rail */}
       <div
         ref={railRef}
-        className="flex h-full"
+        className="flex flex-1"
         style={{
           width: '200%',
           transform: railTransform,

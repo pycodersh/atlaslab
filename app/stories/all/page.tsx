@@ -55,7 +55,7 @@ export default function AllStoriesPage() {
       <div style={{
         maxWidth: 560,
         margin: '0 auto',
-        paddingTop: 'var(--pnav-h)',
+        paddingTop: 8,
         paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)`,
         paddingLeft: 20,
         paddingRight: 20,

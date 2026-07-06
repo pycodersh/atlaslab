@@ -355,8 +355,8 @@ export function PatternsPageV2({
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         <div style={{ padding: '0 16px 80px' }}>
 
-          {/* ── Top spacer (was: story label + dots) ── */}
-          <div style={{ paddingTop: 76 }} />
+          {/* ── Top spacer ── */}
+          <div style={{ paddingTop: 8 }} />
 
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>

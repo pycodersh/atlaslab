@@ -41,7 +41,7 @@ export default function SubscriptionPage() {
 
       <div style={{
         maxWidth: 480, margin: '0 auto',
-        paddingTop: 'calc(var(--pnav-h) + 28px)',
+        paddingTop: 16,
         paddingLeft: 24, paddingRight: 24, paddingBottom: 100,
         boxSizing: 'border-box',
       }}>
