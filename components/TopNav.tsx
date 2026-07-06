@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import { Search, User } from 'lucide-react'
 
 export const NAV_HEIGHT = 60
@@ -25,6 +26,19 @@ export function TopNav() {
   const pathname = usePathname()
   const isHome   = pathname === '/home' || pathname === '/'
   const meta     = getPageMeta(pathname)
+  const [hidden, setHidden] = useState(false)
+  const lastYRef = useRef(0)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY
+      if (y > lastYRef.current && y > 40) setHidden(true)
+      else if (y < lastYRef.current) setHidden(false)
+      lastYRef.current = y
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <nav
@@ -33,6 +47,8 @@ export function TopNav() {
         height: 'var(--pnav-h)',
         background: 'transparent',
         borderBottom: 'none',
+        transform: hidden ? 'translateY(-100%)' : 'translateY(0)',
+        transition: 'transform 0.3s cubic-bezier(0.4,0,0.2,1)',
       }}
     >
       <div

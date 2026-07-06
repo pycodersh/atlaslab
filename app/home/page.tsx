@@ -12,15 +12,17 @@ import { getMissionItems } from '@/lib/srs/engine'
 import { getLastPosition } from '@/lib/last-position'
 import { EDITOR_NOTES } from '@/data/editor-notes'
 
+const TOTAL_TIPS = EDITOR_NOTES.length
+
 function getDateLabel() {
   return new Date().toLocaleDateString('en-US', {
     weekday: 'long', month: 'long', day: 'numeric',
   })
 }
 
-function getDailyTip() {
+function getDailyTipIndex() {
   const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000)
-  return EDITOR_NOTES[dayOfYear % EDITOR_NOTES.length]
+  return dayOfYear % EDITOR_NOTES.length
 }
 
 type StoryLabel = 'Review' | 'Tomorrow' | 'Upcoming' | 'Done'
@@ -51,8 +53,11 @@ export default function HomePage() {
   const [scheduledList, setScheduledList]   = useState<ScheduledStory[]>([])
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
+  const [tipIndex, setTipIndex]             = useState(0)
 
-  const dailyTip = getDailyTip()
+  const dailyTipIndex = getDailyTipIndex()
+  const currentTip = EDITOR_NOTES[tipIndex]
+  const dailyTip = EDITOR_NOTES[dailyTipIndex]
 
   useEffect(() => {
     const records  = getAllRecords()
@@ -143,8 +148,15 @@ export default function HomePage() {
   }, [])
 
   const tipTitle    = dailyTip?.title?.ko    ?? dailyTip?.title?.en    ?? ''
-  const tipBody     = dailyTip?.body?.ko     ?? dailyTip?.body?.en     ?? []
-  const tipRemember = dailyTip?.oneThingToRemember?.ko ?? dailyTip?.oneThingToRemember?.en ?? ''
+
+  const curTitle    = currentTip?.title?.ko    ?? currentTip?.title?.en    ?? ''
+  const curBody     = currentTip?.body?.ko     ?? currentTip?.body?.en     ?? []
+  const curRemember = currentTip?.oneThingToRemember?.ko ?? currentTip?.oneThingToRemember?.en ?? ''
+
+  function openTip() {
+    setTipIndex(dailyTipIndex)
+    setTipOpen(true)
+  }
 
   const frostedCard: React.CSSProperties = {
     background: 'rgba(255,255,255,0.32)',
@@ -253,13 +265,13 @@ export default function HomePage() {
               style={{
                 flexShrink: 0,
                 display: 'inline-flex', alignItems: 'center', gap: 5,
-                background: 'rgba(255,255,255,0.20)',
-                backdropFilter: 'blur(20px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-                border: '1px solid rgba(255,255,255,0.40)',
+                background: 'rgba(255,255,255,0.38)',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                border: '1px solid rgba(255,255,255,0.70)',
                 borderRadius: 999, padding: '9px 16px',
                 cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#fff',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.14), inset 0 1px 0 rgba(255,255,255,0.35)',
+                boxShadow: '0 2px 16px rgba(0,0,0,0.10), inset 0 1px 0 rgba(255,255,255,0.55)',
                 transition: 'all 0.15s', letterSpacing: '0.01em', whiteSpace: 'nowrap',
               }}
             >
@@ -272,30 +284,30 @@ export default function HomePage() {
         {/* ── Summary Cards — NEW / REVIEW / STREAK ───────────────────── */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
 
-          {/* NEW STORY */}
+          {/* 뉴러닝 */}
           <div className="glass-card-sm" style={{ ...frostedCard, padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
               <BookOpen style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
-              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>New Story</p>
+              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>뉴러닝</p>
             </div>
-            <p style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+            <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
               {newStoryIds.length > 0
                 ? newStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
-                : <span style={{ fontSize: 15, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
+                : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
               }
             </p>
           </div>
 
-          {/* REVIEW STORY */}
+          {/* 리뷰 */}
           <div className="glass-card-sm" style={{ ...frostedCard, padding: '13px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 7 }}>
               <RotateCcw style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
-              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>Review Story</p>
+              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>리뷰</p>
             </div>
-            <p style={{ fontSize: reviewStoryIds.length > 1 ? 14 : 22, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+            <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
               {reviewStoryIds.length > 0
                 ? reviewStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
-                : <span style={{ fontSize: 15, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
+                : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
               }
             </p>
           </div>
@@ -306,7 +318,7 @@ export default function HomePage() {
               <Flame style={{ width: 9, height: 9, color: '#D0601A' }} strokeWidth={2} />
               <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>Streak</p>
             </div>
-            <p style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+            <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
               {streak}<span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', marginLeft: 2 }}>Days</span>
             </p>
           </div>
@@ -317,12 +329,12 @@ export default function HomePage() {
           <div style={{ padding: '10px 20px 0' }}>
             <button
               type="button"
-              onClick={() => setTipOpen(true)}
+              onClick={openTip}
               className="glass-card-sm"
               style={{
                 ...frostedCard,
                 width: '100%', textAlign: 'left', cursor: 'pointer',
-                padding: '12px 15px',
+                padding: '24px 15px',
                 display: 'flex', alignItems: 'center', gap: 10,
               }}
             >
@@ -441,7 +453,7 @@ export default function HomePage() {
       </div>
 
       {/* ── Editor Tip Modal ─────────────────────────────────────────────── */}
-      {tipOpen && dailyTip && (
+      {tipOpen && currentTip && (
         <div
           role="dialog"
           aria-modal="true"
@@ -461,7 +473,7 @@ export default function HomePage() {
               borderRadius: 24,
             }}
           >
-            <div style={{ padding: '24px 24px 40px' }}>
+            <div style={{ padding: '24px 24px 32px' }}>
               {/* Header */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
                 <div style={{ flex: 1, paddingRight: 12 }}>
@@ -469,7 +481,7 @@ export default function HomePage() {
                     fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
                     color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase',
                   }}>
-                    Editor Tip · {dailyTip.partTitle}
+                    Editor Tip {tipIndex + 1}/{TOTAL_TIPS} · {currentTip.partTitle}
                   </p>
                   <p style={{
                     fontSize: 'clamp(1.1rem, 4.5vw, 1.3rem)', fontWeight: 800,
@@ -477,7 +489,7 @@ export default function HomePage() {
                     textShadow: '0 1px 0 rgba(255,255,255,.6), 0 2px 12px rgba(60,70,90,0.08)',
                     fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   }}>
-                    {tipTitle}
+                    {curTitle}
                   </p>
                 </div>
                 <button
@@ -495,7 +507,7 @@ export default function HomePage() {
 
               {/* Body */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
-                {tipBody.map((para, i) => (
+                {curBody.map((para, i) => (
                   <p key={i} style={{
                     fontSize: 14, lineHeight: 1.65, color: 'var(--pt2)',
                     margin: 0, fontWeight: i === 0 ? 500 : 400,
@@ -506,32 +518,62 @@ export default function HomePage() {
               </div>
 
               {/* One thing to remember */}
-              {tipRemember && (
+              {curRemember && (
                 <div style={{
                   padding: '14px 16px',
                   background: 'rgba(100,110,140,0.06)',
                   border: '1px solid rgba(100,110,140,0.12)',
                   borderRadius: 14,
+                  marginBottom: 20,
                 }}>
                   <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 5px', textTransform: 'uppercase' }}>
                     One thing to remember
                   </p>
                   <p style={{ fontSize: 13, fontWeight: 700, color: '#8D234C', margin: 0, lineHeight: 1.5 }}>
-                    {tipRemember}
+                    {curRemember}
                   </p>
                 </div>
               )}
 
               {/* Research */}
-              {(dailyTip.research ?? []).length > 0 && (
-                <div style={{ marginTop: 16 }}>
-                  {dailyTip.research.map((ref, i) => (
+              {(currentTip.research ?? []).length > 0 && (
+                <div style={{ marginBottom: 20 }}>
+                  {currentTip.research.map((ref, i) => (
                     <p key={i} style={{ fontSize: 10, color: 'var(--pm2)', margin: '0 0 4px', lineHeight: 1.4 }}>
                       {ref.author} ({ref.year}) — {ref.brief?.ko ?? ref.brief?.en ?? ''}
                     </p>
                   ))}
                 </div>
               )}
+
+              {/* Prev / Next navigation */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                <button
+                  type="button"
+                  onClick={() => setTipIndex(i => (i - 1 + TOTAL_TIPS) % TOTAL_TIPS)}
+                  style={{
+                    flex: 1, padding: '10px 0', borderRadius: 12,
+                    background: 'var(--pc)', border: 'none', cursor: 'pointer',
+                    fontSize: 12, fontWeight: 600, color: 'var(--pt2)',
+                  }}
+                >
+                  ← 이전
+                </button>
+                <span style={{ fontSize: 11, color: 'var(--pm2)', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                  {tipIndex + 1} / {TOTAL_TIPS}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setTipIndex(i => (i + 1) % TOTAL_TIPS)}
+                  style={{
+                    flex: 1, padding: '10px 0', borderRadius: 12,
+                    background: 'var(--pc)', border: 'none', cursor: 'pointer',
+                    fontSize: 12, fontWeight: 600, color: 'var(--pt2)',
+                  }}
+                >
+                  다음 →
+                </button>
+              </div>
             </div>
           </div>
         </div>

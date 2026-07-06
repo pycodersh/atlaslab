@@ -273,60 +273,8 @@ export default function EssaysPage() {
         padding: `var(--pnav-h) 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
       }}>
 
-        {/* Page header */}
-        <div style={{ paddingTop: 28, marginBottom: 28 }}>
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16 }}>
-            <div>
-              <p style={{
-                fontSize: 38, fontWeight: 900,
-                letterSpacing: '-0.04em', lineHeight: 1,
-                color: '#1C1C1E', margin: 0,
-                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-              }}>
-                ESSAYS
-              </p>
-              <p style={{
-                fontSize: 14, color: '#6E6E73',
-                margin: '8px 0 0', lineHeight: 1.5,
-                fontWeight: 400, letterSpacing: '-0.01em',
-              }}>
-                쓰고, 돌아보고, 성장하세요.
-              </p>
-            </div>
-
-            <div style={{
-              flexShrink: 0,
-              background: 'rgba(255,255,255,0.75)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              borderRadius: 16,
-              border: '1px solid rgba(255,255,255,0.85)',
-              boxShadow: '0 4px 16px rgba(40,40,60,0.06)',
-              padding: '12px 16px',
-              textAlign: 'center',
-              minWidth: 72,
-            }}>
-              <div style={{ display: 'flex', gap: 4, marginBottom: 5, justifyContent: 'center' }}>
-                {Array.from({ length: MAX_DAILY_REVIEWS }).map((_, i) => (
-                  <div key={i} style={{
-                    width: 5, height: 5, borderRadius: '50%',
-                    background: i < reviewCount ? 'rgba(142,142,147,0.3)' : 'rgba(100,160,255,0.55)',
-                  }} />
-                ))}
-              </div>
-              <span style={{
-                fontSize: 12, fontWeight: 800,
-                color: remaining === 0 ? '#8E8E93' : '#1C1C1E',
-                letterSpacing: '-0.02em',
-              }}>
-                {remaining}/{MAX_DAILY_REVIEWS}
-              </span>
-              <div style={{ fontSize: 9.5, color: '#8E8E93', fontWeight: 500, marginTop: 2 }}>
-                남은 첨삭
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Spacer replacing page header */}
+        <div style={{ paddingTop: 20 }} />
 
         {/* New Essay card */}
         <button
@@ -338,7 +286,7 @@ export default function EssaysPage() {
             justifyContent: 'center',
             gap: 10,
             width: '100%',
-            marginBottom: 32,
+            marginBottom: remaining === 0 ? 8 : 8,
             padding: '20px 0',
             background: 'rgba(255,255,255,0.70)',
             backdropFilter: 'blur(24px) saturate(180%)',
@@ -372,6 +320,21 @@ export default function EssaysPage() {
             New Essay
           </span>
         </button>
+
+        {/* AI 첨삭 남은 횟수 */}
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            {Array.from({ length: MAX_DAILY_REVIEWS }).map((_, i) => (
+              <div key={i} style={{
+                width: 5, height: 5, borderRadius: '50%',
+                background: i < reviewCount ? 'rgba(142,142,147,0.25)' : 'rgba(100,160,255,0.55)',
+              }} />
+            ))}
+            <span style={{ fontSize: 11, fontWeight: 600, color: remaining === 0 ? '#8E8E93' : '#5A9CF0', marginLeft: 4 }}>
+              AI 첨삭 {remaining}회 남음
+            </span>
+          </div>
+        </div>
 
         {/* My Essays */}
         {essays.length > 0 ? (
