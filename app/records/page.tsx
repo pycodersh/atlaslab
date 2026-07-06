@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { X } from 'lucide-react'
+import { X, Info, BookOpen, Layers } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { LearningCalendar } from '@/components/LearningCalendar'
@@ -55,6 +55,15 @@ function fmtDate(iso: string): string {
   return `${months[m - 1]} ${d}, ${y}`
 }
 
+function getScoreGrade(score: number): { grade: string; comment: string; color: string } {
+  if (score >= 80) return { grade: 'Excellent!',      comment: '최고예요 🎉 이 루틴을 계속 유지하세요.',          color: '#2A7A3A' }
+  if (score >= 60) return { grade: 'Very Good',       comment: '훌륭해요! 장기 기억으로 자리잡고 있어요.',        color: '#4A7AC8' }
+  if (score >= 40) return { grade: 'Good',            comment: '잘 하고 있어요. 반복 복습이 기억을 강화시켜요.',   color: '#7A6AC8' }
+  if (score >= 20) return { grade: 'Building Up',     comment: '기초가 쌓이고 있어요. 복습 패턴을 유지해보세요.', color: '#C8913A' }
+  if (score > 0)   return { grade: 'Getting Started', comment: '좋은 시작이에요! 매일 조금씩 쌓아가면 돼요.',    color: '#C87A3A' }
+  return                  { grade: 'Just Starting',   comment: '첫 학습을 시작해보세요. 매일 조금씩이면 충분해요.', color: '#A0A0AA' }
+}
+
 // ── Shared ────────────────────────────────────────────────────────────────────
 
 const glassCard: React.CSSProperties = {
@@ -77,14 +86,12 @@ function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
 
   return (
     <svg width={size} height={size} style={{ flexShrink: 0, transform: 'rotate(-90deg)' }}>
-      {/* Track */}
       <circle
         cx={size / 2} cy={size / 2} r={r}
         fill="none"
         stroke="rgba(140,150,185,0.13)"
         strokeWidth={stroke}
       />
-      {/* Progress */}
       <circle
         cx={size / 2} cy={size / 2} r={r}
         fill="none"
@@ -159,6 +166,81 @@ function MasteryRing({ pct, label }: { pct: number; label: string }) {
         {label}
       </span>
     </div>
+  )
+}
+
+// ── Score Info Popup ──────────────────────────────────────────────────────────
+
+function ScoreInfoPopup({ score, onClose }: { score: number; onClose: () => void }) {
+  return (
+    <>
+      <div onClick={onClose} style={{
+        position: 'fixed', inset: 0, zIndex: 80,
+        background: 'rgba(20,20,40,0.38)',
+        backdropFilter: 'blur(4px)',
+        WebkitBackdropFilter: 'blur(4px)',
+      }} />
+      <div style={{
+        position: 'fixed',
+        top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 81,
+        width: 'calc(100vw - 48px)',
+        maxWidth: 320,
+        background: 'rgba(252,251,255,0.97)',
+        backdropFilter: 'blur(32px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+        borderRadius: 22,
+        border: '1px solid rgba(255,255,255,0.92)',
+        boxShadow: '0 12px 48px rgba(40,50,80,0.18), 0 2px 8px rgba(40,50,80,0.08)',
+        padding: '24px 22px 22px',
+      }}>
+        {/* Close */}
+        <button type="button" onClick={onClose} style={{
+          position: 'absolute', top: 16, right: 16,
+          width: 26, height: 26, borderRadius: '50%',
+          background: 'rgba(140,150,185,0.10)', border: 'none', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <X style={{ width: 11, height: 11, color: 'var(--pm2)' }} strokeWidth={2} />
+        </button>
+
+        {/* Title */}
+        <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--pt)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
+          장기 기억 점수
+        </p>
+        <p style={{ fontSize: 11, color: 'var(--pm2)', margin: '0 0 18px', lineHeight: 1.5 }}>
+          현재 점수: <strong style={{ color: '#4A7AC8' }}>{score}%</strong>
+        </p>
+
+        {/* Divider */}
+        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 16 }} />
+
+        {/* Explanation */}
+        <p style={{ fontSize: 12, color: 'var(--pt2)', lineHeight: 1.75, margin: '0 0 14px', fontWeight: 500 }}>
+          Story와 Pattern을 얼마나 반복 학습했는지 측정한 지수예요.
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {[
+            { range: '0 – 19', label: 'Getting Started', color: '#C87A3A' },
+            { range: '20 – 39', label: 'Building Up',    color: '#C8913A' },
+            { range: '40 – 59', label: 'Good',           color: '#7A6AC8' },
+            { range: '60 – 79', label: 'Very Good',      color: '#4A7AC8' },
+            { range: '80+',     label: 'Excellent',      color: '#2A7A3A' },
+          ].map(({ range, label, color }) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm2)', width: 46, flexShrink: 0 }}>{range}</span>
+              <span style={{
+                fontSize: 10, fontWeight: 700, color,
+                background: `${color}12`,
+                border: `1px solid ${color}28`,
+                borderRadius: 6, padding: '2px 8px',
+              }}>{label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -260,86 +342,111 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
 }) {
   const storyPct   = Math.min(Math.round((learnedStories  / 100)  * 100), 100)
   const patternPct = Math.min(Math.round((learnedPatterns / 500) * 100), 100)
+  const { grade, comment, color } = getScoreGrade(score)
+  const [showInfo, setShowInfo] = useState(false)
 
   return (
-    <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <>
+      <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-      {/* ── Memory Score hero ── */}
-      <div style={{ ...glassCard, padding: '24px 24px 22px' }}>
+        {/* ── Memory Score hero ── */}
+        <div style={{ ...glassCard, padding: '24px 24px 22px' }}>
 
-        {/* Label */}
-        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 18px', textTransform: 'uppercase' }}>
-          Memory Score
-        </p>
+          {/* Title row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
+            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: 0, textTransform: 'uppercase', flex: 1 }}>
+              Memory Score
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowInfo(true)}
+              style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+            >
+              <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
+            </button>
+          </div>
 
-        {/* Ring + score row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 22, marginBottom: 24 }}>
-          <div style={{ position: 'relative', flexShrink: 0 }}>
-            <RingProgress pct={score} size={80} stroke={5} color="#4A7AC8" />
-            <div style={{
-              position: 'absolute', inset: 0,
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              gap: 1,
-            }}>
-              <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', lineHeight: 1, letterSpacing: '-0.03em' }}>
-                {score}
-              </span>
-              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm2)' }}>%</span>
+          {/* Ring + grade row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 22, marginBottom: 24 }}>
+            <div style={{ position: 'relative', flexShrink: 0 }}>
+              <RingProgress pct={score} size={80} stroke={5} color={color} />
+              <div style={{
+                position: 'absolute', inset: 0,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                gap: 1,
+              }}>
+                <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', lineHeight: 1, letterSpacing: '-0.03em' }}>
+                  {score}
+                </span>
+                <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm2)' }}>%</span>
+              </div>
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 16, fontWeight: 800, color, margin: '0 0 5px', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+                {grade}
+              </p>
+              <p style={{ fontSize: 11.5, fontWeight: 400, color: 'var(--pm2)', margin: 0, lineHeight: 1.55 }}>
+                {comment}
+              </p>
             </div>
           </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 4px', lineHeight: 1.3 }}>
-              장기 기억 점수
-            </p>
-            <p style={{ fontSize: 11, fontWeight: 400, color: 'var(--pm2)', margin: 0, lineHeight: 1.5 }}>
-              Story + Pattern<br />반복 학습 기반 평균
-            </p>
+
+          {/* Divider */}
+          <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 20 }} />
+
+          {/* Story Progress */}
+          <div style={{ marginBottom: 18 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <BookOpen style={{ width: 13, height: 13, color: '#4A7AC8', flexShrink: 0 }} strokeWidth={2.2} />
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  Story Progress
+                </span>
+              </div>
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+                {learnedStories}
+                <span style={{ fontWeight: 400, color: 'var(--pm2)', fontSize: 11 }}> / 100</span>
+              </span>
+            </div>
+            <SlimBar pct={storyPct} color="#4A7AC8" />
+          </div>
+
+          {/* Pattern Progress */}
+          <div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Layers style={{ width: 13, height: 13, color: '#7A6AC8', flexShrink: 0 }} strokeWidth={2.2} />
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                  Pattern Progress
+                </span>
+              </div>
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+                {learnedPatterns}
+                <span style={{ fontWeight: 400, color: 'var(--pm2)', fontSize: 11 }}> / 500</span>
+              </span>
+            </div>
+            <SlimBar pct={patternPct} color="#7A6AC8" />
           </div>
         </div>
 
-        {/* Divider */}
-        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 20 }} />
-
-        {/* Story Progress */}
-        <div style={{ marginBottom: 18 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--pt2)' }}>Story Progress</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
-              {learnedStories}
-              <span style={{ fontWeight: 400, color: 'var(--pm2)', fontSize: 11 }}> / 100</span>
-            </span>
+        {/* ── Review Mastery ── */}
+        <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
+          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: '0 0 18px', textTransform: 'uppercase' }}>
+            Review Mastery
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {mastery.map((pct, i) => (
+              <MasteryRing key={i} pct={pct} label={`${i + 1}회`} />
+            ))}
           </div>
-          <SlimBar pct={storyPct} color="#4A7AC8" />
-        </div>
-
-        {/* Pattern Progress */}
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--pt2)' }}>Pattern Progress</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
-              {learnedPatterns}
-              <span style={{ fontWeight: 400, color: 'var(--pm2)', fontSize: 11 }}> / 500</span>
-            </span>
-          </div>
-          <SlimBar pct={patternPct} color="#7A6AC8" />
+          <p style={{ fontSize: 10, color: 'rgba(140,150,185,0.65)', margin: '16px 0 0', textAlign: 'center', fontWeight: 400 }}>
+            전체 학습 패턴 중 각 회차 도달 비율
+          </p>
         </div>
       </div>
 
-      {/* ── Review Mastery ── */}
-      <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
-        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 18px', textTransform: 'uppercase' }}>
-          Review Mastery
-        </p>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          {mastery.map((pct, i) => (
-            <MasteryRing key={i} pct={pct} label={`${i + 1}회`} />
-          ))}
-        </div>
-        <p style={{ fontSize: 10, color: 'rgba(140,150,185,0.65)', margin: '16px 0 0', textAlign: 'center', fontWeight: 400 }}>
-          전체 학습 패턴 중 각 회차 도달 비율
-        </p>
-      </div>
-    </div>
+      {showInfo && <ScoreInfoPopup score={score} onClose={() => setShowInfo(false)} />}
+    </>
   )
 }
 
@@ -356,28 +463,15 @@ function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak }: {
 
       {/* ── Calendar card ── */}
       <div style={{ ...glassCard, padding: '22px 18px 18px' }}>
-        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 16px', textTransform: 'uppercase' }}>
+        <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: '0 0 16px', textTransform: 'uppercase' }}>
           Memory Calendar
         </p>
         <LearningCalendar
           onDaySelect={onDaySelect}
           selectedIso={selectedIso}
           futureSchedule={futureSchedule}
+          streak={streak}
         />
-      </div>
-
-      {/* ── Streak inline row ── */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 8,
-        padding: '16px 6px 4px',
-      }}>
-        <span style={{ fontSize: 18, lineHeight: 1 }}>🔥</span>
-        <span style={{ fontSize: 13, fontWeight: 600, color: streak > 0 ? '#C0541A' : 'var(--pm2)' }}>
-          {streak > 0 ? `${streak} Days` : 'No streak yet'}
-        </span>
-        <span style={{ fontSize: 11, color: 'var(--pm2)', fontWeight: 400 }}>
-          {streak > 0 ? 'Current Streak' : ''}
-        </span>
       </div>
     </div>
   )

@@ -9,8 +9,8 @@ import { useT } from '@/hooks/useT'
 type DayData = {
   iso:       string
   dom:       number
-  count:     number           // 과거: 실제 활동 수
-  scheduled: ScheduledDay | null  // 미래: 예정된 복습 정보
+  count:     number
+  scheduled: ScheduledDay | null
   isToday:   boolean
   future:    boolean
 }
@@ -74,9 +74,10 @@ type Props = {
   onDaySelect?:    (iso: string) => void
   selectedIso?:    string | null
   futureSchedule?: Record<string, ScheduledDay>
+  streak?:         number
 }
 
-export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {} }: Props) {
+export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}, streak = 0 }: Props) {
   const t   = useT()
   const now = new Date()
   const [year,   setYear]   = useState(now.getFullYear())
@@ -92,9 +93,6 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
 
   const todayObj        = new Date()
   const isCurrentMonth  = year === todayObj.getFullYear() && month === todayObj.getMonth()
-  const studiedThisMonth = Object.keys(counts).filter(
-    iso => iso.startsWith(`${year}-${String(month + 1).padStart(2, '0')}`) && (counts[iso] ?? 0) > 0,
-  ).length
 
   function prev() {
     if (month === 0) { setYear(y => y - 1); setMonth(11) } else setMonth(m => m - 1)
@@ -112,10 +110,7 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
           className="p-1 text-[var(--pm)] hover:text-[var(--pa)] transition-colors cursor-pointer">
           <ChevronLeft className="w-4 h-4" strokeWidth={1.5} />
         </button>
-        <div className="text-center">
-          <p className="text-[13px] font-bold text-[var(--pt)] tracking-wide">{MONTHS[month]} {year}</p>
-          <p className="text-[10px] text-[var(--pm)] mt-0.5">{t('cal_study_days', { n: studiedThisMonth })}</p>
-        </div>
+        <p className="text-[13px] font-bold text-[var(--pt)] tracking-wide">{MONTHS[month]} {year}</p>
         <button type="button" onClick={next} disabled={isCurrentMonth} aria-label="다음 달"
           className={`p-1 transition-colors cursor-pointer ${isCurrentMonth ? 'text-[var(--pd)] cursor-not-allowed' : 'text-[var(--pm)] hover:text-[var(--pa)]'}`}>
           <ChevronRight className="w-4 h-4" strokeWidth={1.5} />
@@ -125,7 +120,7 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
       {/* Day labels */}
       <div className="grid grid-cols-7 mb-2">
         {DAY_LABELS.map((d, i) => (
-          <div key={i} className="text-center text-[10px] font-medium text-[var(--pm2)]">{d}</div>
+          <div key={i} className="text-center text-[10px] font-bold text-[var(--pt2)]">{d}</div>
         ))}
       </div>
 
@@ -161,12 +156,11 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
                   {day && (
                     <>
                       <span
-                        className={`text-[9px] leading-none ${day.isToday ? 'font-bold' : 'font-medium'}`}
+                        className="text-[9px] leading-none font-bold"
                         style={{ color: cellTextColor(day, isSelected) }}
                       >
                         {day.dom}
                       </span>
-                      {/* 미래 복습 예정 도트 */}
                       {hasScheduled && !isSelected && (
                         <span
                           style={{
@@ -188,22 +182,32 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
         ))}
       </div>
 
-      {/* Legend */}
-      <div className="flex items-center gap-2 mt-4 justify-end">
-        <span className="text-[9px] text-[var(--pm2)]">Less</span>
-        <div className="w-3 h-3 rounded-sm" style={{ background: 'transparent', border: '1px solid var(--pd)' }} />
-        {(['var(--ph1)', 'var(--ph2)', 'var(--ph3)'] as const).map((c, i) => (
-          <div key={i} className="w-3 h-3 rounded-sm" style={{ background: c }} />
-        ))}
-        <span className="text-[9px] text-[var(--pm2)]">More</span>
-        <span className="text-[9px] text-[var(--pm2)] ml-2">·</span>
-        <span
-          style={{
-            display: 'inline-block', width: 5, height: 5,
-            borderRadius: '50%', background: 'var(--pa)', opacity: 0.55,
-          }}
-        />
-        <span className="text-[9px] text-[var(--pm2)]">복습 예정</span>
+      {/* Bottom row: Streak (left) + Legend (right) */}
+      <div className="flex items-center justify-between mt-4">
+        {/* Streak */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+          <span style={{ fontSize: 13, lineHeight: 1 }}>🔥</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: streak > 0 ? '#C0541A' : 'var(--pm2)', lineHeight: 1 }}>
+            {streak > 0 ? `${streak} Days` : '0 Days'}
+          </span>
+        </div>
+        {/* Legend */}
+        <div className="flex items-center gap-2">
+          <span className="text-[9px] text-[var(--pm2)]">Less</span>
+          <div className="w-3 h-3 rounded-sm" style={{ background: 'transparent', border: '1px solid var(--pd)' }} />
+          {(['var(--ph1)', 'var(--ph2)', 'var(--ph3)'] as const).map((c, i) => (
+            <div key={i} className="w-3 h-3 rounded-sm" style={{ background: c }} />
+          ))}
+          <span className="text-[9px] text-[var(--pm2)]">More</span>
+          <span className="text-[9px] text-[var(--pm2)] ml-1">·</span>
+          <span
+            style={{
+              display: 'inline-block', width: 5, height: 5,
+              borderRadius: '50%', background: 'var(--pa)', opacity: 0.55,
+            }}
+          />
+          <span className="text-[9px] text-[var(--pm2)]">복습예정</span>
+        </div>
       </div>
     </div>
   )
