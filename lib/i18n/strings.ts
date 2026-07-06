@@ -162,7 +162,7 @@ const T = {
     essays_subtitle: '쓰고, 돌아보고, 성장하세요.',
     essays_new:              '새 에세이',
     essays_my:               'MY ESSAYS',
-    essays_empty:            '아직 작성한 에세이가 없어요.\n첫 번째 에세이를 써보세요.',
+    essays_empty:            '아직 작성한 Essay가 없어요.\nEssay를 작성하면 AI가 첨삭해 드려요.',
     essays_reviews_today:    "Today's Reviews",
     essays_limit_reached:    '오늘의 첨삭 횟수를 모두 사용했습니다.',
     essays_title_placeholder:'제목',
