@@ -91,14 +91,14 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
                 className={[
                   'flex items-center justify-center px-6 cursor-pointer transition-all duration-150',
                   story.id === selectedId
-                    ? 'text-[#6D8DFF] font-semibold'
+                    ? 'text-[#1C1C1E] font-semibold'
                     : 'text-[#9B9490] font-normal',
                 ].join(' ')}
                 style={{ height: ITEM_H, scrollSnapAlign: 'center' }}
                 onClick={() => scrollToStory(story.id)}
               >
                 <span className="text-[0.82rem] text-center leading-tight line-clamp-1">
-                  <span className="text-[#6D8DFF] font-semibold mr-1.5">{String(story.id).padStart(2, '0')}</span>
+                  <span className="text-[#1C1C1E] font-semibold mr-1.5">{String(story.id).padStart(2, '0')}</span>
                   {story.title}
                 </span>
               </div>
