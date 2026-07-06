@@ -2,13 +2,17 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, X, BookOpen, Bookmark, RotateCcw, ChevronRight, ChevronDown, Sprout, BookMarked, SlidersHorizontal } from 'lucide-react'
+import {
+  Search, X, BookOpen, Bookmark, RotateCcw,
+  ChevronRight, ChevronDown, Sprout, BookMarked,
+  SlidersHorizontal, Layers,
+} from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/bookmarks/storage'
-import { getSavedWords, type SavedWord } from '@/lib/words/storage'
+import { getSavedWords, getSavedPhrases, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
 import { useT } from '@/hooks/useT'
 import type { MagazinePattern } from '@/types/magazine'
@@ -18,16 +22,17 @@ import type { MagazinePattern } from '@/types/magazine'
 const RECENT_KEY = 'patto-library-recent-searches'
 const MAX_RECENT  = 5
 
-type FilterType = 'all' | 'words' | 'patterns' | 'stories'
+type FilterType = 'all' | 'words' | 'phrases' | 'patterns' | 'stories'
 
-// ── Normalize for search ─────────────────────────────────────────────────────
+// ── Normalize for search ──────────────────────────────────────────────────────
+// Rules: lowercase → strip apostrophes → strip punctuation → collapse spaces → trim
 
 function normalize(s: string): string {
   return s
     .toLowerCase()
-    .replace(/[''`]/g, '')           // apostrophes
-    .replace(/[.,!?;:"\-–—()\[\]{}]/g, '') // punctuation
-    .replace(/\s+/g, ' ')           // collapse spaces
+    .replace(/[''`]/g, '')
+    .replace(/[.,!?;:"\-–—()\[\]{}]/g, '')
+    .replace(/\s+/g, ' ')
     .trim()
 }
 
@@ -39,8 +44,8 @@ function relativeTime(iso: string | null): string | null {
   const days = Math.floor(diff / 86400000)
   if (days === 0) return 'Today'
   if (days === 1) return 'Yesterday'
-  if (days < 30)  return `${days} days ago`
-  return `${Math.floor(days / 30)} mo ago`
+  if (days < 30)  return `${days}d ago`
+  return `${Math.floor(days / 30)}mo ago`
 }
 
 function readRecentSearches(): string[] {
@@ -63,7 +68,15 @@ function buildPatternIndex() {
   return out
 }
 
-// ── Shared glass card shell ───────────────────────────────────────────────────
+function sourceLabel(item: SavedWord | SavedPhrase): string {
+  const parts: string[] = []
+  if (item.storyId) parts.push(`Story ${String(item.storyId).padStart(2, '0')}`)
+  if (item.patternId) parts.push(`Pattern ${item.patternId}`)
+  if (item.exampleIndex != null) parts.push(`Ex ${item.exampleIndex + 1}`)
+  return parts.join(' · ')
+}
+
+// ── Styles ────────────────────────────────────────────────────────────────────
 
 const glassCard: React.CSSProperties = {
   background: 'rgba(255,255,255,0.88)',
@@ -74,6 +87,13 @@ const glassCard: React.CSSProperties = {
   boxShadow: '0 4px 18px rgba(40,50,80,0.07), 0 1px 4px rgba(40,50,80,0.03)',
   overflow: 'hidden',
 }
+
+const SECTION_LABEL: React.CSSProperties = {
+  fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em',
+  color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' as const,
+}
+
+const ROW_BORDER = '1px solid rgba(230,232,236,0.8)'
 
 // ── Summary cards ─────────────────────────────────────────────────────────────
 
@@ -88,7 +108,7 @@ function SummaryCard({ icon, label, value, accent }: {
       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
     }}>
       {icon}
-      <span style={{ fontSize: 'clamp(1.15rem, 5vw, 1.45rem)', fontWeight: 800, color: '#1C1C1E', lineHeight: 1 }}>
+      <span style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.35rem)', fontWeight: 800, color: '#1C1C1E', lineHeight: 1 }}>
         {value}
       </span>
       <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: '#8E8E93', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
@@ -98,7 +118,7 @@ function SummaryCard({ icon, label, value, accent }: {
   )
 }
 
-// ── Story badge (replaces drop-cap) ──────────────────────────────────────────
+// ── Story badge ───────────────────────────────────────────────────────────────
 
 function StoryBadge({ storyId, color = '#4A6FA8' }: { storyId: number; color?: string }) {
   return (
@@ -119,7 +139,7 @@ function StoryBadge({ storyId, color = '#4A6FA8' }: { storyId: number; color?: s
   )
 }
 
-// ── Pattern Accordion for bookmarks ──────────────────────────────────────────
+// ── Pattern Accordion ─────────────────────────────────────────────────────────
 
 function PatternAccordion({
   storyId, storyTitle, patterns, onPress, onRemove,
@@ -128,10 +148,8 @@ function PatternAccordion({
   onPress: (bm: BookmarkedPattern) => void; onRemove: (patternId: string) => void
 }) {
   const [open, setOpen] = useState(true)
-
   return (
     <div style={{ ...glassCard, overflow: 'hidden', marginBottom: 8 }}>
-      {/* Story header */}
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
@@ -139,15 +157,14 @@ function PatternAccordion({
           width: '100%', background: 'none', border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '12px 16px',
-          borderBottom: open ? '1px solid rgba(230,232,240,0.70)' : 'none',
+          borderBottom: open ? ROW_BORDER : 'none',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{
             fontSize: 11, fontWeight: 800, color: '#fff',
             background: 'rgba(74,111,168,0.78)',
-            borderRadius: 7, padding: '2px 8px',
-            letterSpacing: '0.04em',
+            borderRadius: 7, padding: '2px 8px', letterSpacing: '0.04em',
           }}>
             S{String(storyId).padStart(2, '0')}
           </span>
@@ -155,16 +172,10 @@ function PatternAccordion({
           <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500 }}>{patterns.length}</span>
         </div>
         <ChevronDown
-          style={{
-            width: 14, height: 14, color: '#B0B0B8',
-            transition: 'transform 0.2s',
-            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-          }}
+          style={{ width: 14, height: 14, color: '#B0B0B8', transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
           strokeWidth={2}
         />
       </button>
-
-      {/* Pattern rows */}
       {open && (
         <div>
           {patterns.map((bm, i) => (
@@ -176,17 +187,12 @@ function PatternAccordion({
                 display: 'block', width: '100%', textAlign: 'left',
                 background: 'none', border: 'none', cursor: 'pointer',
                 padding: '11px 16px',
-                borderTop: i > 0 ? '1px solid rgba(230,232,240,0.55)' : 'none',
+                borderTop: i > 0 ? ROW_BORDER : 'none',
               }}
             >
-              <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px', lineHeight: 1.35 }}>
-                {bm.pattern}
-              </p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
               {bm.meaningKo && (
-                <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>
-                  {bm.meaningKo}
-                  <span style={{ marginLeft: 6, fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', color: '#4A6FA8', opacity: 0.7 }}>SAVED</span>
-                </p>
+                <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{bm.meaningKo}</p>
               )}
             </button>
           ))}
@@ -196,49 +202,17 @@ function PatternAccordion({
   )
 }
 
-// ── Saved Word card (compact) ─────────────────────────────────────────────────
+// ── Phrase Accordion ──────────────────────────────────────────────────────────
 
-function WordCard({ w }: { w: SavedWord }) {
-  const story = w.storyId ? magazineStories.find(s => s.id === w.storyId) : null
-  const lastSaved = relativeTime(w.savedAt)
-
-  return (
-    <div style={{
-      ...glassCard,
-      display: 'flex', alignItems: 'stretch',
-    }}>
-      <StoryBadge storyId={w.storyId ?? 0} color="#3A7A4A" />
-      <div style={{ flex: 1, minWidth: 0, padding: '10px 12px 10px' }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#1C1C1E', margin: '0 0 4px', lineHeight: 1.3 }}>
-          {w.word}
-        </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          {story && (
-            <span style={{ fontSize: 9.5, fontWeight: 600, color: '#B0B0B8', letterSpacing: '0.05em' }}>
-              {story.title}
-            </span>
-          )}
-          {lastSaved && (
-            <span style={{ fontSize: 9, color: '#C0C0C8', fontWeight: 400 }}>{lastSaved}</span>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-// ── Story Accordion for words ─────────────────────────────────────────────────
-
-function WordAccordion({
-  storyId, storyTitle, words,
+function PhraseAccordion({
+  storyId, storyTitle, phrases, onPress,
 }: {
-  storyId: number | null; storyTitle: string; words: SavedWord[]
+  storyId: number | null; storyTitle: string; phrases: SavedPhrase[]
+  onPress: (ph: SavedPhrase) => void
 }) {
   const [open, setOpen] = useState(true)
-
   return (
     <div style={{ ...glassCard, overflow: 'hidden', marginBottom: 8 }}>
-      {/* Story header row */}
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
@@ -246,7 +220,74 @@ function WordAccordion({
           width: '100%', background: 'none', border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '12px 16px',
-          borderBottom: open ? '1px solid rgba(230,232,240,0.70)' : 'none',
+          borderBottom: open ? ROW_BORDER : 'none',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {storyId !== null ? (
+            <span style={{
+              fontSize: 11, fontWeight: 800, color: '#fff',
+              background: 'rgba(180,120,60,0.75)',
+              borderRadius: 7, padding: '2px 8px', letterSpacing: '0.04em',
+            }}>
+              S{String(storyId).padStart(2, '0')}
+            </span>
+          ) : (
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#8E8E93', background: 'rgba(140,140,150,0.10)', borderRadius: 7, padding: '2px 8px' }}>?</span>
+          )}
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E' }}>{storyTitle}</span>
+          <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500 }}>{phrases.length}</span>
+        </div>
+        <ChevronDown
+          style={{ width: 14, height: 14, color: '#B0B0B8', transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          strokeWidth={2}
+        />
+      </button>
+      {open && (
+        <div>
+          {phrases.map((ph, i) => (
+            <button
+              key={ph.id}
+              type="button"
+              onClick={() => onPress(ph)}
+              style={{
+                display: 'block', width: '100%', textAlign: 'left',
+                background: 'none', border: 'none', cursor: 'pointer',
+                padding: '11px 16px',
+                borderTop: i > 0 ? ROW_BORDER : 'none',
+              }}
+            >
+              <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px', lineHeight: 1.35 }}>{ph.phrase}</p>
+              <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
+                {ph.phraseType} · {relativeTime(ph.savedAt)}
+              </p>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Word Accordion ────────────────────────────────────────────────────────────
+
+function WordAccordion({
+  storyId, storyTitle, words, onPress,
+}: {
+  storyId: number | null; storyTitle: string; words: SavedWord[]
+  onPress: (w: SavedWord) => void
+}) {
+  const [open, setOpen] = useState(true)
+  return (
+    <div style={{ ...glassCard, overflow: 'hidden', marginBottom: 8 }}>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        style={{
+          width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '12px 16px',
+          borderBottom: open ? ROW_BORDER : 'none',
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -254,53 +295,43 @@ function WordAccordion({
             <span style={{
               fontSize: 11, fontWeight: 800, color: '#fff',
               background: 'rgba(58,122,74,0.78)',
-              borderRadius: 7, padding: '2px 8px',
-              letterSpacing: '0.04em',
+              borderRadius: 7, padding: '2px 8px', letterSpacing: '0.04em',
             }}>
               S{String(storyId).padStart(2, '0')}
             </span>
           ) : (
-            <span style={{
-              fontSize: 11, fontWeight: 700, color: '#8E8E93',
-              background: 'rgba(140,140,150,0.10)',
-              borderRadius: 7, padding: '2px 8px',
-            }}>
-              ?
-            </span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#8E8E93', background: 'rgba(140,140,150,0.10)', borderRadius: 7, padding: '2px 8px' }}>?</span>
           )}
           <span style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E' }}>{storyTitle}</span>
           <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500 }}>{words.length}</span>
         </div>
         <ChevronDown
-          style={{
-            width: 14, height: 14, color: '#B0B0B8',
-            transition: 'transform 0.2s',
-            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-          }}
+          style={{ width: 14, height: 14, color: '#B0B0B8', transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
           strokeWidth={2}
         />
       </button>
-
-      {/* Word list */}
       {open && (
         <div>
           {words.map((w, i) => (
-            <div
+            <button
               key={w.id}
+              type="button"
+              onClick={() => onPress(w)}
               style={{
-                display: 'flex', alignItems: 'center',
+                display: 'flex', alignItems: 'center', width: '100%',
+                background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
                 padding: '10px 16px',
-                borderTop: i > 0 ? '1px solid rgba(230,232,240,0.55)' : 'none',
+                borderTop: i > 0 ? ROW_BORDER : 'none',
               }}
             >
               <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: '#1C1C1E' }}>{w.word}</span>
               {w.meaning && (
-                <span style={{ fontSize: 11, color: '#8E8E93', fontWeight: 400 }}>{w.meaning}</span>
+                <span style={{ fontSize: 11, color: '#8E8E93', fontWeight: 400, marginRight: 8 }}>{w.meaning}</span>
               )}
-              <span style={{ fontSize: 9, color: '#C0C0C8', marginLeft: 8, flexShrink: 0 }}>
+              <span style={{ fontSize: 9, color: '#C0C0C8', flexShrink: 0 }}>
                 {relativeTime(w.savedAt) ?? ''}
               </span>
-            </div>
+            </button>
           ))}
         </div>
       )}
@@ -310,6 +341,44 @@ function WordAccordion({
 
 // ── Search result rows ────────────────────────────────────────────────────────
 
+function SearchWordRow({ w, border, onPress }: { w: SavedWord; border: boolean; onPress: () => void }) {
+  const src = sourceLabel(w)
+  return (
+    <button type="button" onClick={onPress} style={{
+      display: 'block', width: '100%', textAlign: 'left',
+      background: 'none', border: 'none', cursor: 'pointer',
+      padding: '13px 18px',
+      borderTop: border ? ROW_BORDER : 'none',
+    }}>
+      <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px' }}>{w.word}</p>
+      {w.meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 3px' }}>{w.meaning}</p>}
+      <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
+        {src || w.originalSentence.slice(0, 50)}
+      </p>
+    </button>
+  )
+}
+
+function SearchPhraseRow({ ph, border, onPress }: { ph: SavedPhrase; border: boolean; onPress: () => void }) {
+  const src = sourceLabel(ph)
+  return (
+    <button type="button" onClick={onPress} style={{
+      display: 'block', width: '100%', textAlign: 'left',
+      background: 'none', border: 'none', cursor: 'pointer',
+      padding: '13px 18px',
+      borderTop: border ? ROW_BORDER : 'none',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 2 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: 0 }}>{ph.phrase}</p>
+        <span style={{ fontSize: 9, fontWeight: 700, color: '#C08040', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          {ph.phraseType === 'phrasalVerb' ? 'PHRASAL' : ph.phraseType === 'idiom' ? 'IDIOM' : ph.phraseType.toUpperCase()}
+        </span>
+      </div>
+      <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>{src}</p>
+    </button>
+  )
+}
+
 function SearchPatternRow({ storyId, storyTitle, pattern, border, onPress }: {
   storyId: number; storyTitle: string; pattern: MagazinePattern; border: boolean; onPress: () => void
 }) {
@@ -317,31 +386,16 @@ function SearchPatternRow({ storyId, storyTitle, pattern, border, onPress }: {
     <button type="button" onClick={onPress} style={{
       display: 'block', width: '100%', textAlign: 'left',
       background: 'none', border: 'none',
-      padding: '14px 18px',
-      borderTop: border ? '1px solid rgba(230,232,236,0.8)' : 'none',
+      padding: '13px 18px',
+      borderTop: border ? ROW_BORDER : 'none',
       cursor: 'pointer',
     }}>
       <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px' }}>{pattern.pattern}</p>
-      {pattern.meaningKo && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 4px' }}>{pattern.meaningKo}</p>}
-      <p style={{ fontSize: 9.5, color: '#B0B0B8', margin: 0, letterSpacing: '0.05em' }}>
+      {pattern.meaningKo && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 3px' }}>{pattern.meaningKo}</p>}
+      <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
         Story {String(storyId).padStart(2, '0')} · {storyTitle}
       </p>
     </button>
-  )
-}
-
-function SearchWordRow({ w, border }: { w: SavedWord; border: boolean }) {
-  const story = w.storyId ? magazineStories.find(s => s.id === w.storyId) : null
-  return (
-    <div style={{ padding: '14px 18px', borderTop: border ? '1px solid rgba(230,232,236,0.8)' : 'none' }}>
-      <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px' }}>{w.word}</p>
-      {w.meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 4px' }}>{w.meaning}</p>}
-      {story && (
-        <p style={{ fontSize: 9.5, color: '#B0B0B8', margin: 0, letterSpacing: '0.05em' }}>
-          Story {String(story.id).padStart(2, '0')} · {story.title}
-        </p>
-      )}
-    </div>
   )
 }
 
@@ -352,14 +406,14 @@ function SearchStoryRow({ story, border, onPress }: {
     <button type="button" onClick={onPress} style={{
       display: 'block', width: '100%', textAlign: 'left',
       background: 'none', border: 'none',
-      padding: '14px 18px',
-      borderTop: border ? '1px solid rgba(230,232,236,0.8)' : 'none',
+      padding: '13px 18px',
+      borderTop: border ? ROW_BORDER : 'none',
       cursor: 'pointer',
     }}>
-      <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px' }}>
-        Story {String(story.id).padStart(2, '0')}
+      <p style={{ fontSize: 11, fontWeight: 700, color: '#8E8E93', margin: '0 0 2px', letterSpacing: '0.06em' }}>
+        STORY {String(story.id).padStart(2, '0')}
       </p>
-      <p style={{ fontSize: 11, color: '#8E8E93', margin: 0 }}>{story.title}</p>
+      <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: 0 }}>{story.title}</p>
     </button>
   )
 }
@@ -380,11 +434,11 @@ function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: s
 
 // ── Section label ─────────────────────────────────────────────────────────────
 
-function SecLabel({ label, onViewAll }: { label: string; onViewAll?: () => void }) {
+function SecLabel({ label, count, onViewAll }: { label: string; count?: number; onViewAll?: () => void }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
       <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>
-        {label}
+        {label}{count != null ? ` · ${count}` : ''}
       </span>
       {onViewAll && (
         <button type="button" onClick={onViewAll} style={{
@@ -404,6 +458,7 @@ function SecLabel({ label, onViewAll }: { label: string; onViewAll?: () => void 
 const FILTER_OPTIONS: { key: FilterType; label: string }[] = [
   { key: 'all',      label: 'All'      },
   { key: 'words',    label: 'Words'    },
+  { key: 'phrases',  label: 'Phrases'  },
   { key: 'patterns', label: 'Patterns' },
   { key: 'stories',  label: 'Stories'  },
 ]
@@ -456,25 +511,27 @@ export default function LibraryPage() {
   const t        = useT()
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const [query, setQuery]             = useState('')
-  const [filter, setFilter]           = useState<FilterType>('all')
-  const [showFilter, setShowFilter]   = useState(false)
-  const [bookmarks, setBookmarks]     = useState<BookmarkedPattern[]>([])
-  const [words, setWords]             = useState<SavedWord[]>([])
-  const [reviews, setReviews]         = useState(0)
+  const [query, setQuery]               = useState('')
+  const [filter, setFilter]             = useState<FilterType>('all')
+  const [showFilter, setShowFilter]     = useState(false)
+  const [bookmarks, setBookmarks]       = useState<BookmarkedPattern[]>([])
+  const [words, setWords]               = useState<SavedWord[]>([])
+  const [phrases, setPhrases]           = useState<SavedPhrase[]>([])
+  const [reviews, setReviews]           = useState(0)
   const [recentSearches, setRecentSearches] = useState<string[]>([])
-  const [focused, setFocused]         = useState(false)
+  const [focused, setFocused]           = useState(false)
 
   useEffect(() => {
     setBookmarks(getBookmarks())
     setWords(getSavedWords())
+    setPhrases(getSavedPhrases())
     setReviews(getTotalRepeatCount())
     setRecentSearches(readRecentSearches())
   }, [])
 
   const patternIndex = useMemo(() => buildPatternIndex(), [])
 
-  // Group bookmarks by storyId
+  // ── Group bookmarks by storyId ────────────────────────────────────────────
   const bookmarksByStory = useMemo(() => {
     const map = new Map<number, BookmarkedPattern[]>()
     for (const bm of bookmarks) {
@@ -484,7 +541,22 @@ export default function LibraryPage() {
     return [...map.entries()].sort(([a], [b]) => a - b)
   }, [bookmarks])
 
-  // Group words by storyId
+  // ── Group phrases by storyId ──────────────────────────────────────────────
+  const phrasesByStory = useMemo(() => {
+    const map = new Map<number | null, SavedPhrase[]>()
+    for (const ph of phrases) {
+      const key = ph.storyId ?? null
+      if (!map.has(key)) map.set(key, [])
+      map.get(key)!.push(ph)
+    }
+    return [...map.entries()].sort(([a], [b]) => {
+      if (a === null) return 1
+      if (b === null) return -1
+      return a - b
+    })
+  }, [phrases])
+
+  // ── Group words by storyId ────────────────────────────────────────────────
   const wordsByStory = useMemo(() => {
     const map = new Map<number | null, SavedWord[]>()
     for (const w of words) {
@@ -492,7 +564,6 @@ export default function LibraryPage() {
       if (!map.has(key)) map.set(key, [])
       map.get(key)!.push(w)
     }
-    // Sort by storyId
     return [...map.entries()].sort(([a], [b]) => {
       if (a === null) return 1
       if (b === null) return -1
@@ -500,42 +571,48 @@ export default function LibraryPage() {
     })
   }, [words])
 
-  // Search
+  // ── Search ────────────────────────────────────────────────────────────────
   const isSearching = query.trim().length > 0
   const nq = normalize(query)
 
   const searchResults = useMemo(() => {
-    if (!nq) return { patterns: [], words: [], stories: [] }
+    if (!nq) return { words: [], phrases: [], patterns: [], stories: [] }
 
-    const matchWord = (s: string) => normalize(s).includes(nq)
+    const match = (s: string) => normalize(s).includes(nq)
 
-    const patterns = (filter === 'all' || filter === 'patterns')
-      ? patternIndex.filter(({ pattern, storyTitle }) =>
-          matchWord(pattern.pattern) ||
-          matchWord(pattern.meaningKo) ||
-          matchWord(storyTitle) ||
-          matchWord(pattern.explanation ?? '')
+    // Words: match word, meaning, originalSentence
+    const matchedWords = (filter === 'all' || filter === 'words')
+      ? words.filter(w => match(w.word) || match(w.meaning ?? '') || match(w.originalSentence))
+      : []
+
+    // Phrases: match phrase text (partial match handles chunk word search automatically)
+    // e.g. "forward" matches "look forward to" because normalize("look forward to").includes("forward")
+    const matchedPhrases = (filter === 'all' || filter === 'phrases')
+      ? phrases.filter(ph => match(ph.phrase) || match(ph.originalSentence))
+      : []
+
+    // Patterns: match pattern text, meaningKo, explanation, storySentence, variationSentence
+    const matchedPatterns = (filter === 'all' || filter === 'patterns')
+      ? patternIndex.filter(({ pattern }) =>
+          match(pattern.pattern) ||
+          match(pattern.meaningKo) ||
+          match(pattern.explanation ?? '') ||
+          match(pattern.storySentence) ||
+          match(pattern.variationSentence)
         ).slice(0, 20)
       : []
 
-    const filteredWords = (filter === 'all' || filter === 'words')
-      ? words.filter(w =>
-          matchWord(w.word) ||
-          matchWord(w.meaning ?? '') ||
-          matchWord(w.originalSentence ?? '')
-        )
-      : []
-
-    const storyMatches = (filter === 'all' || filter === 'stories')
+    // Stories: match title or "story N" / "sNN" shorthand
+    const matchedStories = (filter === 'all' || filter === 'stories')
       ? magazineStories.filter(s =>
-          matchWord(s.title) ||
+          match(s.title) ||
           normalize(`story ${s.id}`).includes(nq) ||
           normalize(`s${String(s.id).padStart(2, '0')}`).includes(nq)
         ).slice(0, 10)
       : []
 
-    return { patterns, words: filteredWords, stories: storyMatches }
-  }, [patternIndex, words, nq, filter])
+    return { words: matchedWords, phrases: matchedPhrases, patterns: matchedPatterns, stories: matchedStories }
+  }, [patternIndex, words, phrases, nq, filter])
 
   function submitSearch(q: string) {
     if (!q.trim()) return
@@ -548,8 +625,20 @@ export default function LibraryPage() {
     setBookmarks(prev => prev.filter(b => b.patternId !== patternId))
   }
 
+  // ── Navigation helpers ────────────────────────────────────────────────────
+
+  function goToWord(w: SavedWord) {
+    if (w.storyId) router.push(`/stories/${w.storyId}`)
+  }
+
+  function goToPhrase(ph: SavedPhrase) {
+    if (ph.storyId && ph.patternId) router.push(`/stories/${ph.storyId}?v=p`)
+    else if (ph.storyId) router.push(`/stories/${ph.storyId}`)
+  }
+
   const showRecent = focused && !isSearching && recentSearches.length > 0
-  const hasResults = searchResults.patterns.length > 0 || searchResults.words.length > 0 || searchResults.stories.length > 0
+  const hasResults = searchResults.words.length > 0 || searchResults.phrases.length > 0
+    || searchResults.patterns.length > 0 || searchResults.stories.length > 0
 
   return (
     <div style={{ minHeight: '100dvh', overflowY: 'auto' }}>
@@ -589,7 +678,7 @@ export default function LibraryPage() {
               onFocus={() => setFocused(true)}
               onBlur={() => setTimeout(() => setFocused(false), 150)}
               onKeyDown={e => { if (e.key === 'Enter') submitSearch(query) }}
-              placeholder="Search patterns, words, stories..."
+              placeholder="words, phrases, patterns, stories…"
               style={{
                 flex: 1, background: 'none', border: 'none', outline: 'none',
                 fontSize: 14, color: '#1C1C1E', fontWeight: 400,
@@ -623,7 +712,7 @@ export default function LibraryPage() {
               {showFilter && (
                 <FilterDropdown
                   filter={filter}
-                  onChange={f => { setFilter(f) }}
+                  onChange={f => setFilter(f)}
                   onClose={() => setShowFilter(false)}
                 />
               )}
@@ -660,7 +749,7 @@ export default function LibraryPage() {
               </span>
               {recentSearches.map(s => (
                 <button key={s} type="button"
-                  onClick={() => { setQuery(s); inputRef.current?.focus() }}
+                  onClick={() => { setQuery(s); submitSearch(s); inputRef.current?.focus() }}
                   style={{
                     fontSize: 12, fontWeight: 500, color: '#4A6FA8',
                     background: 'rgba(74,111,168,0.07)',
@@ -674,32 +763,49 @@ export default function LibraryPage() {
             </div>
           )}
 
-          {/* Search results */}
+          {/* ── Search results ── */}
           {isSearching && (
             <div style={{ marginTop: 12, marginBottom: 24 }}>
               {!hasResults ? (
-                <div style={{ ...glassCard, padding: '24px', textAlign: 'center' }}>
-                  <p style={{ fontSize: 13, color: '#8E8E93', margin: 0 }}>검색 결과가 없어요.</p>
+                <div style={{ ...glassCard, padding: '30px 22px', textAlign: 'center' }}>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: '#1C1C1E', margin: '0 0 8px' }}>
+                    No matching results found.
+                  </p>
+                  <p style={{ fontSize: 12, color: '#8E8E93', margin: 0, lineHeight: 1.7 }}>
+                    Try a different keyword —{'\n'}
+                    spelling and capitalization don't matter.
+                  </p>
                 </div>
               ) : (
                 <>
+                  {/* WORDS */}
                   {searchResults.words.length > 0 && (
-                    <div style={{ marginBottom: 14 }}>
-                      <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em', color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' }}>
-                        Words · {searchResults.words.length}
-                      </p>
+                    <div style={{ marginBottom: 16 }}>
+                      <p style={SECTION_LABEL}>Words · {searchResults.words.length}</p>
                       <div style={glassCard}>
                         {searchResults.words.map((w, i) => (
-                          <SearchWordRow key={w.id} w={w} border={i > 0} />
+                          <SearchWordRow key={w.id} w={w} border={i > 0} onPress={() => goToWord(w)} />
                         ))}
                       </div>
                     </div>
                   )}
+
+                  {/* PHRASES */}
+                  {searchResults.phrases.length > 0 && (
+                    <div style={{ marginBottom: 16 }}>
+                      <p style={SECTION_LABEL}>Phrases · {searchResults.phrases.length}</p>
+                      <div style={glassCard}>
+                        {searchResults.phrases.map((ph, i) => (
+                          <SearchPhraseRow key={ph.id} ph={ph} border={i > 0} onPress={() => goToPhrase(ph)} />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* PATTERNS */}
                   {searchResults.patterns.length > 0 && (
-                    <div style={{ marginBottom: 14 }}>
-                      <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em', color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' }}>
-                        Patterns · {searchResults.patterns.length}
-                      </p>
+                    <div style={{ marginBottom: 16 }}>
+                      <p style={SECTION_LABEL}>Patterns · {searchResults.patterns.length}</p>
                       <div style={glassCard}>
                         {searchResults.patterns.map((r, i) => (
                           <SearchPatternRow
@@ -714,11 +820,11 @@ export default function LibraryPage() {
                       </div>
                     </div>
                   )}
+
+                  {/* STORIES */}
                   {searchResults.stories.length > 0 && (
                     <div>
-                      <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em', color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' }}>
-                        Stories · {searchResults.stories.length}
-                      </p>
+                      <p style={SECTION_LABEL}>Stories · {searchResults.stories.length}</p>
                       <div style={glassCard}>
                         {searchResults.stories.map((s, i) => (
                           <SearchStoryRow
@@ -746,6 +852,12 @@ export default function LibraryPage() {
             accent="#4A6FA8"
           />
           <SummaryCard
+            icon={<Layers style={{ width: 16, height: 16, color: '#C08040' }} strokeWidth={1.8} />}
+            label="Phrases"
+            value={phrases.length}
+            accent="#C08040"
+          />
+          <SummaryCard
             icon={<Sprout style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.8} />}
             label="Words"
             value={words.length}
@@ -759,13 +871,70 @@ export default function LibraryPage() {
           />
         </div>
 
-        {/* ── Main sections ── */}
+        {/* ── Main sections (non-search) ── */}
         {!isSearching && (
           <>
-            {/* Saved Patterns */}
+            {/* Saved Words */}
             <section style={{ marginBottom: 28 }}>
+              <SecLabel label="Saved Words" count={words.length} />
+              {words.length === 0 ? (
+                <EmptyState
+                  icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />}
+                  iconColor="#3A7A4A"
+                  title="No saved words yet."
+                  body={t('sec_saved_words')}
+                />
+              ) : (
+                <div>
+                  {wordsByStory.map(([storyId, storyWords]) => {
+                    const story = storyId !== null ? magazineStories.find(s => s.id === storyId) : null
+                    return (
+                      <WordAccordion
+                        key={storyId ?? 'unknown'}
+                        storyId={storyId}
+                        storyTitle={story ? story.title : 'Unknown Story'}
+                        words={storyWords}
+                        onPress={goToWord}
+                      />
+                    )
+                  })}
+                </div>
+              )}
+            </section>
+
+            {/* Saved Phrases */}
+            <section style={{ marginBottom: 28 }}>
+              <SecLabel label="Saved Phrases" count={phrases.length} />
+              {phrases.length === 0 ? (
+                <EmptyState
+                  icon={<Layers style={{ width: 24, height: 24, color: '#C08040' }} strokeWidth={1.6} />}
+                  iconColor="#C08040"
+                  title="No saved phrases yet."
+                  body={'Tap any word in a sentence to save it.\nIf a phrase is recommended, you can save the whole expression.'}
+                />
+              ) : (
+                <div>
+                  {phrasesByStory.map(([storyId, storyPhrases]) => {
+                    const story = storyId !== null ? magazineStories.find(s => s.id === storyId) : null
+                    return (
+                      <PhraseAccordion
+                        key={storyId ?? 'unknown'}
+                        storyId={storyId}
+                        storyTitle={story ? story.title : 'Unknown Story'}
+                        phrases={storyPhrases}
+                        onPress={goToPhrase}
+                      />
+                    )
+                  })}
+                </div>
+              )}
+            </section>
+
+            {/* Saved Patterns */}
+            <section>
               <SecLabel
                 label="Saved Patterns"
+                count={bookmarks.length}
                 onViewAll={bookmarks.length > 4 ? () => router.push('/records/patterns') : undefined}
               />
               {bookmarks.length === 0 ? (
@@ -787,34 +956,6 @@ export default function LibraryPage() {
                         patterns={storyBms}
                         onPress={bm => router.push(`/stories/${bm.storyId}?v=p`)}
                         onRemove={handleRemoveBookmark}
-                      />
-                    )
-                  })}
-                </div>
-              )}
-            </section>
-
-            {/* Saved Words — Story accordion */}
-            <section>
-              <SecLabel label="Saved Words" />
-              {words.length === 0 ? (
-                <EmptyState
-                  icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />}
-                  iconColor="#3A7A4A"
-                  title="No saved words yet."
-                  body={t('sec_saved_words')}
-                />
-              ) : (
-                <div>
-                  {wordsByStory.map(([storyId, storyWords]) => {
-                    const story = storyId !== null ? magazineStories.find(s => s.id === storyId) : null
-                    const title = story ? story.title : 'Unknown Story'
-                    return (
-                      <WordAccordion
-                        key={storyId ?? 'unknown'}
-                        storyId={storyId}
-                        storyTitle={title}
-                        words={storyWords}
                       />
                     )
                   })}
