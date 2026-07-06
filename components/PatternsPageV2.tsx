@@ -43,67 +43,32 @@ const STUDY_LABEL: Record<StudyMode, string> = {
   'ko':    'KO',
 }
 
-// ── Hero themes — 5 story-palette themes, cycled by (storyId-1) % 5 ─────────
+// ── Hero themes — Version A (Soft Burgundy) / Version B (Slate Blue) ─────────
+// Alternates by story.id so odd stories = A, even stories = B
 const HERO_THEMES = [
   {
-    // Theme 1 · Soft Sky Blue
-    bg: 'linear-gradient(150deg, #FFFFFF 0%, #F4F8FF 50%, #FFFFFF 100%)',
-    wave1: 'rgba(255,255,255,0.11)',
-    wave2: 'rgba(180,210,255,0.07)',
-    borderColor: 'rgba(175,210,255,0.28)',
-    patternColor: '#FAFAFA',
-    patternShadow: '0 4px 13px rgba(48,60,120,0.35)',
-    meaningColor: 'rgba(55,62,90,0.72)',
-    labelColor: '#6E7694',
-    iconColor: '#6E7694',
+    // Version A · Soft Burgundy — PATTO brand, editorial, premium
+    bg: 'linear-gradient(160deg, #8B4555 0%, #B27B89 54%, #EDE2E5 100%)',
+    wave1: 'rgba(255,255,255,0.08)',
+    wave2: 'rgba(255,255,255,0.05)',
+    borderColor: 'rgba(185,135,145,0.30)',
+    patternColor: '#FFFFFF',
+    patternShadow: '0 2px 16px rgba(65,10,18,0.38), 0 1px 4px rgba(0,0,0,0.18)',
+    meaningColor: 'rgba(255,255,255,0.82)',
+    labelColor: 'rgba(255,255,255,0.60)',
+    iconColor: 'rgba(255,255,255,0.70)',
   },
   {
-    // Theme 2 · Soft Mint
-    bg: 'linear-gradient(150deg, #FFFFFF 0%, #F2FAF6 50%, #FFFFFF 100%)',
-    wave1: 'rgba(255,255,255,0.11)',
-    wave2: 'rgba(155,215,190,0.07)',
-    borderColor: 'rgba(155,210,185,0.28)',
-    patternColor: '#FAFAFA',
-    patternShadow: '0 4px 13px rgba(40,100,70,0.32)',
-    meaningColor: 'rgba(55,62,90,0.72)',
-    labelColor: '#6E7694',
-    iconColor: '#6E7694',
-  },
-  {
-    // Theme 3 · Soft Cream
-    bg: 'linear-gradient(150deg, #FFFFFF 0%, #FAF7F0 50%, #FFFFFF 100%)',
-    wave1: 'rgba(255,255,255,0.11)',
-    wave2: 'rgba(215,200,170,0.07)',
-    borderColor: 'rgba(210,195,162,0.26)',
-    patternColor: '#FAFAFA',
-    patternShadow: '0 4px 13px rgba(100,80,45,0.30)',
-    meaningColor: 'rgba(55,62,90,0.72)',
-    labelColor: '#6E7694',
-    iconColor: '#6E7694',
-  },
-  {
-    // Theme 4 · Soft Lavender
-    bg: 'linear-gradient(150deg, #FFFFFF 0%, #F5F3FF 50%, #FFFFFF 100%)',
-    wave1: 'rgba(255,255,255,0.11)',
-    wave2: 'rgba(185,175,245,0.07)',
-    borderColor: 'rgba(178,168,238,0.26)',
-    patternColor: '#FAFAFA',
-    patternShadow: '0 4px 13px rgba(68,50,128,0.32)',
-    meaningColor: 'rgba(55,62,90,0.72)',
-    labelColor: '#6E7694',
-    iconColor: '#6E7694',
-  },
-  {
-    // Theme 5 · Soft Peach
-    bg: 'linear-gradient(150deg, #FFFFFF 0%, #FFF5F0 50%, #FFFFFF 100%)',
-    wave1: 'rgba(255,255,255,0.11)',
-    wave2: 'rgba(255,190,165,0.07)',
-    borderColor: 'rgba(238,182,158,0.26)',
-    patternColor: '#FAFAFA',
-    patternShadow: '0 4px 13px rgba(115,62,38,0.30)',
-    meaningColor: 'rgba(55,62,90,0.72)',
-    labelColor: '#6E7694',
-    iconColor: '#6E7694',
+    // Version B · Slate Blue — Apple-style, clean, modern
+    bg: 'linear-gradient(160deg, #5C6FAE 0%, #8294C8 54%, #DCE5F8 100%)',
+    wave1: 'rgba(255,255,255,0.08)',
+    wave2: 'rgba(255,255,255,0.05)',
+    borderColor: 'rgba(140,165,215,0.32)',
+    patternColor: '#FFFFFF',
+    patternShadow: '0 2px 16px rgba(25,40,100,0.34), 0 1px 4px rgba(0,0,0,0.14)',
+    meaningColor: 'rgba(255,255,255,0.82)',
+    labelColor: 'rgba(255,255,255,0.60)',
+    iconColor: 'rgba(255,255,255,0.70)',
   },
 ]
 
@@ -174,9 +139,9 @@ export function PatternsPageV2({
     setRevealedExSet(new Set())
   }, [story.id])
 
-  // ── Hero theme — deterministic by (storyId-1) % 5 ────────────────────────
+  // ── Hero theme — A (Burgundy) for odd stories, B (Slate Blue) for even ──────
   const heroTheme = useMemo(
-    () => HERO_THEMES[(story.id - 1) % 5],
+    () => HERO_THEMES[(story.id - 1) % 2],
     [story.id],
   )
 
