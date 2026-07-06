@@ -56,7 +56,9 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   useEffect(() => { storyRef.current = story }, [story])
   useEffect(() => { allStoriesRef.current = allStories }, [allStories])
 
-  // Non-passive touchmove to allow e.preventDefault() on horizontal swipes
+  // Passive touchmove — touch-action: pan-y on the rail prevents horizontal scroll
+  // natively so we don't need preventDefault(). Passive = browser scrolls immediately
+  // without waiting for JS, which fixes the iOS "null content below initial viewport" bug.
   useEffect(() => {
     const el = railRef.current
     if (!el) return
@@ -72,7 +74,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       }
       if (!isHorizontalSwipe.current) return
 
-      e.preventDefault()
+      // No e.preventDefault() — touch-action: pan-y handles it at CSS level
 
       const v = viewRef.current
       const s = storyRef.current
@@ -86,7 +88,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       setIsDragging(true)
     }
 
-    el.addEventListener('touchmove', onTouchMove, { passive: false })
+    el.addEventListener('touchmove', onTouchMove, { passive: true })
     return () => el.removeEventListener('touchmove', onTouchMove)
   }, [])
 
@@ -234,12 +236,13 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
           transform: railTransform,
           transition: isDragging ? 'none' : 'transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1)',
           willChange: isDragging ? 'transform' : 'auto',
+          touchAction: 'pan-y',
         }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Story page */}
-        <div className="h-full overflow-hidden" style={{ width: '50%' }}>
+        {/* Story page — overflow:clip clips without creating a scroll context */}
+        <div className="h-full" style={{ width: '50%', overflow: 'clip' }}>
           <StoryPage
             story={story}
             totalStories={allStories.length}
@@ -256,8 +259,8 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
           />
         </div>
 
-        {/* Patterns page */}
-        <div className="h-full overflow-hidden" style={{ width: '50%' }}>
+        {/* Patterns page — overflow:clip clips without creating a scroll context */}
+        <div className="h-full" style={{ width: '50%', overflow: 'clip' }}>
           <PatternsPageV2
             story={story}
             totalStories={allStories.length}
