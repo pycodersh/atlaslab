@@ -162,11 +162,11 @@ function SliderRow({ icon: Icon, iconColor = '#6E6E73', label, desc, value, onCh
 
 // ── Section title ─────────────────────────────────────────────────────────────
 
-function SecTitle({ label }: { label: string }) {
+function SecTitle({ label, noUppercase }: { label: string; noUppercase?: boolean }) {
   return (
     <p style={{
       fontSize: 9.5, fontWeight: 700, letterSpacing: '0.20em',
-      color: '#8E8E93', textTransform: 'uppercase',
+      color: '#8E8E93', textTransform: noUppercase ? 'none' : 'uppercase',
       margin: '24px 0 8px 2px',
     }}>
       {label}
@@ -310,7 +310,7 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── LANGUAGE ── */}
-        <SecTitle label={t('language')} />
+        <SecTitle label={t('language')} noUppercase />
         <div style={glassCard}>
           <NavRow
             icon={Globe}

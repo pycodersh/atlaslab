@@ -397,42 +397,45 @@ export default function NewEssayPage() {
             </div>
           )}
 
-          {/* Review button */}
-          <button
-            type="button"
-            onClick={handleReview}
-            disabled={loading || wc < MIN_WORDS}
-            style={{
-              ...glassBtn(),
-              opacity: loading || wc < MIN_WORDS ? 0.45 : 1,
-              cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer',
-              fontSize: 13, fontWeight: 700, color: '#5A5A62', letterSpacing: '0.02em',
-            }}
-            onMouseEnter={e => { if (!loading && wc >= MIN_WORDS) e.currentTarget.style.filter = 'brightness(0.97)' }}
-            onMouseLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
-          >
-            {loading
-              ? <><Loader2 style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />{t('essays_reviewing')}</>
-              : <><Sparkles style={{ width: 13, height: 13, strokeWidth: 1.8 }} /> {t('essays_submit')}</>
-            }
-          </button>
+          {/* Review + Save buttons — side by side */}
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={!body.trim() || loading}
+              style={{
+                ...glassBtn(),
+                flex: 1,
+                opacity: !body.trim() || loading ? 0.40 : 1,
+                cursor: !body.trim() || loading ? 'default' : 'pointer',
+                fontSize: 13, fontWeight: 600, color: '#8E8E93',
+              }}
+              onMouseEnter={e => { if (body.trim() && !loading) e.currentTarget.style.filter = 'brightness(0.97)' }}
+              onMouseLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
+            >
+              {saveFlash ? '✓ Saved' : 'My Essay'}
+            </button>
 
-          {/* Save button */}
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={!body.trim() || loading}
-            style={{
-              ...glassBtn(),
-              opacity: !body.trim() || loading ? 0.40 : 1,
-              cursor: !body.trim() || loading ? 'default' : 'pointer',
-              fontSize: 13, fontWeight: 600, color: '#8E8E93',
-            }}
-            onMouseEnter={e => { if (body.trim() && !loading) e.currentTarget.style.filter = 'brightness(0.97)' }}
-            onMouseLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
-          >
-            {saveFlash ? '✓ Saved' : 'Save'}
-          </button>
+            <button
+              type="button"
+              onClick={handleReview}
+              disabled={loading || wc < MIN_WORDS}
+              style={{
+                ...glassBtn(),
+                flex: 1,
+                opacity: loading || wc < MIN_WORDS ? 0.45 : 1,
+                cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer',
+                fontSize: 13, fontWeight: 700, color: '#5A5A62', letterSpacing: '0.02em',
+              }}
+              onMouseEnter={e => { if (!loading && wc >= MIN_WORDS) e.currentTarget.style.filter = 'brightness(0.97)' }}
+              onMouseLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
+            >
+              {loading
+                ? <><Loader2 style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />{t('essays_reviewing')}</>
+                : <><Sparkles style={{ width: 13, height: 13, strokeWidth: 1.8 }} /> {t('essays_submit')}</>
+              }
+            </button>
+          </div>
         </div>
       </div>
 
