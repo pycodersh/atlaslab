@@ -20,7 +20,7 @@ const MAX_RECENT  = 5
 
 type FilterType = 'all' | 'words' | 'patterns' | 'stories'
 
-// ── Normalize for search ──────────────────────────────────────────────────────
+// ── Normalize for search ─────────────────────────────────────────────────────
 
 function normalize(s: string): string {
   return s
@@ -32,18 +32,6 @@ function normalize(s: string): string {
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-
-function getDifficulty(storyId: number): 'Easy' | 'Medium' | 'Hard' {
-  if (storyId <= 33)  return 'Easy'
-  if (storyId <= 66)  return 'Medium'
-  return 'Hard'
-}
-
-const DIFF_STYLE: Record<string, React.CSSProperties> = {
-  Easy:   { color: '#3A7A4A', background: 'rgba(80,180,100,0.09)',  border: '1px solid rgba(80,180,100,0.18)'  },
-  Medium: { color: '#7A6A20', background: 'rgba(200,175,50,0.09)',  border: '1px solid rgba(200,175,50,0.18)'  },
-  Hard:   { color: '#8F234B', background: 'rgba(143,35,75,0.08)',   border: '1px solid rgba(143,35,75,0.16)'   },
-}
 
 function relativeTime(iso: string | null): string | null {
   if (!iso) return null
@@ -131,76 +119,78 @@ function StoryBadge({ storyId, color = '#4A6FA8' }: { storyId: number; color?: s
   )
 }
 
-// ── Difficulty chip ───────────────────────────────────────────────────────────
+// ── Pattern Accordion for bookmarks ──────────────────────────────────────────
 
-function DiffChip({ diff }: { diff: 'Easy' | 'Medium' | 'Hard' }) {
-  return (
-    <span style={{
-      ...DIFF_STYLE[diff],
-      fontSize: 9, fontWeight: 700, letterSpacing: '0.10em',
-      borderRadius: 6, padding: '2px 7px',
-      textTransform: 'uppercase',
-    }}>
-      {diff}
-    </span>
-  )
-}
-
-// ── Saved Pattern card ────────────────────────────────────────────────────────
-
-function PatternCard({ bm, onPress, onRemove }: {
-  bm: BookmarkedPattern; onPress: () => void; onRemove: () => void
+function PatternAccordion({
+  storyId, storyTitle, patterns, onPress, onRemove,
+}: {
+  storyId: number; storyTitle: string; patterns: BookmarkedPattern[]
+  onPress: (bm: BookmarkedPattern) => void; onRemove: (patternId: string) => void
 }) {
-  const story  = magazineStories.find(s => s.id === bm.storyId)
-  const diff   = getDifficulty(bm.storyId)
-  const [pressed, setPressed] = useState(false)
+  const [open, setOpen] = useState(true)
 
   return (
-    <div
-      role="button" tabIndex={0}
-      onClick={onPress}
-      onKeyDown={e => e.key === 'Enter' && onPress()}
-      onMouseDown={() => setPressed(true)}
-      onMouseUp={() => setPressed(false)}
-      onMouseLeave={() => setPressed(false)}
-      onTouchStart={() => setPressed(true)}
-      onTouchEnd={() => setPressed(false)}
-      style={{
-        ...glassCard,
-        display: 'flex', alignItems: 'stretch', cursor: 'pointer',
-        transform: pressed ? 'scale(0.975)' : 'scale(1)',
-        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-        boxShadow: pressed
-          ? '0 2px 8px rgba(40,50,80,0.05)'
-          : '0 4px 18px rgba(40,50,80,0.07), 0 1px 4px rgba(40,50,80,0.03)',
-      }}
-    >
-      <StoryBadge storyId={bm.storyId} color="#4A6FA8" />
-      <div style={{ flex: 1, minWidth: 0, padding: '11px 12px 10px' }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#1C1C1E', margin: '0 0 3px', lineHeight: 1.3 }}>
-          {bm.pattern}
-        </p>
-        {bm.meaningKo && (
-          <p style={{ fontSize: 11.5, color: '#8E8E93', margin: '0 0 7px', fontWeight: 400 }}>
-            {bm.meaningKo}
-          </p>
-        )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-          <DiffChip diff={diff} />
-          <span style={{ fontSize: 9.5, fontWeight: 600, color: '#B0B0B8', letterSpacing: '0.05em' }}>
-            {story ? story.title : `Story ${String(bm.storyId).padStart(2, '0')}`}
+    <div style={{ ...glassCard, overflow: 'hidden', marginBottom: 8 }}>
+      {/* Story header */}
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        style={{
+          width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '12px 16px',
+          borderBottom: open ? '1px solid rgba(230,232,240,0.70)' : 'none',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{
+            fontSize: 11, fontWeight: 800, color: '#fff',
+            background: 'rgba(74,111,168,0.78)',
+            borderRadius: 7, padding: '2px 8px',
+            letterSpacing: '0.04em',
+          }}>
+            S{String(storyId).padStart(2, '0')}
           </span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E' }}>{storyTitle}</span>
+          <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500 }}>{patterns.length}</span>
         </div>
-      </div>
-      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'flex-start', padding: '10px 10px 0 0' }}>
-        <button
-          type="button"
-          onClick={e => { e.stopPropagation(); onRemove() }}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, borderRadius: 7 }}
-        >
-          <Bookmark style={{ width: 14, height: 14, color: '#8F234B' }} strokeWidth={0} fill="#8F234B" />
-        </button>
-      </div>
+        <ChevronDown
+          style={{
+            width: 14, height: 14, color: '#B0B0B8',
+            transition: 'transform 0.2s',
+            transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          }}
+          strokeWidth={2}
+        />
+      </button>
+
+      {/* Pattern rows */}
+      {open && (
+        <div>
+          {patterns.map((bm, i) => (
+            <button
+              key={bm.patternId}
+              type="button"
+              onClick={() => onPress(bm)}
+              style={{
+                display: 'block', width: '100%', textAlign: 'left',
+                background: 'none', border: 'none', cursor: 'pointer',
+                padding: '11px 16px',
+                borderTop: i > 0 ? '1px solid rgba(230,232,240,0.55)' : 'none',
+              }}
+            >
+              <p style={{ fontSize: 13, fontWeight: 600, color: '#1C1C1E', margin: '0 0 2px', lineHeight: 1.35 }}>
+                {bm.pattern}
+              </p>
+              {bm.meaningKo && (
+                <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>
+                  {bm.meaningKo}
+                </p>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -482,6 +472,16 @@ export default function LibraryPage() {
   }, [])
 
   const patternIndex = useMemo(() => buildPatternIndex(), [])
+
+  // Group bookmarks by storyId
+  const bookmarksByStory = useMemo(() => {
+    const map = new Map<number, BookmarkedPattern[]>()
+    for (const bm of bookmarks) {
+      if (!map.has(bm.storyId)) map.set(bm.storyId, [])
+      map.get(bm.storyId)!.push(bm)
+    }
+    return [...map.entries()].sort(([a], [b]) => a - b)
+  }, [bookmarks])
 
   // Group words by storyId
   const wordsByStory = useMemo(() => {
@@ -775,15 +775,20 @@ export default function LibraryPage() {
                   body={t('no_bookmarks')}
                 />
               ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {bookmarks.slice(0, 5).map(bm => (
-                    <PatternCard
-                      key={bm.patternId}
-                      bm={bm}
-                      onPress={() => router.push(`/stories/${bm.storyId}?v=p`)}
-                      onRemove={() => handleRemoveBookmark(bm.patternId)}
-                    />
-                  ))}
+                <div>
+                  {bookmarksByStory.map(([storyId, storyBms]) => {
+                    const story = magazineStories.find(s => s.id === storyId)
+                    return (
+                      <PatternAccordion
+                        key={storyId}
+                        storyId={storyId}
+                        storyTitle={story ? story.title : `Story ${String(storyId).padStart(2, '0')}`}
+                        patterns={storyBms}
+                        onPress={bm => router.push(`/stories/${bm.storyId}?v=p`)}
+                        onRemove={handleRemoveBookmark}
+                      />
+                    )
+                  })}
                 </div>
               )}
             </section>
