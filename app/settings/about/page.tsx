@@ -119,7 +119,7 @@ export default function AboutPage() {
   ]
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
+    <div style={{ minHeight: '100dvh' }}>
       <TopNav />
 
       <div style={{
@@ -127,20 +127,6 @@ export default function AboutPage() {
         paddingTop: 14, paddingLeft: 20, paddingRight: 20, paddingBottom: 100,
         boxSizing: 'border-box',
       }}>
-
-        {/* Back */}
-        <Link href="/settings" style={{ display: 'flex', alignItems: 'center', gap: 5, textDecoration: 'none', marginBottom: 20 }}>
-          <ChevronLeft style={{ width: 13, height: 13, color: 'var(--pm)' }} strokeWidth={1.8} />
-          <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.10em', color: 'var(--pm)' }}>Profile</span>
-        </Link>
-
-        {/* Page title */}
-        <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px', letterSpacing: '-0.01em' }}>
-          About PATTO
-        </p>
-        <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 4px' }}>
-          {t('about_sub')}
-        </p>
 
         {/* Legal */}
         <SecTitle label="Legal" />
