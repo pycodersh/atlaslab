@@ -79,10 +79,21 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
 
       {/* Chips row */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        {!!essay.review && (
+        {essay.review ? (
           <span style={aiChipStyle}>
             <Sparkles style={{ width: 8, height: 8 }} strokeWidth={2} />
             AI 첨삭 완료
+          </span>
+        ) : (
+          <span style={{
+            fontSize: 10, fontWeight: 600,
+            color: '#A0A0A8',
+            background: 'rgba(140,140,150,0.08)',
+            borderRadius: 7, padding: '2px 8px',
+            border: '1px solid rgba(140,140,150,0.16)',
+            display: 'inline-flex', alignItems: 'center',
+          }}>
+            AI 첨삭 미완료
           </span>
         )}
         <span style={{ fontSize: 9.5, color: '#B0B0B8', fontWeight: 500, marginLeft: 'auto' }}>
