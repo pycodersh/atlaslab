@@ -176,10 +176,16 @@ export function StoryPage({
 
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
-      <div className="flex-1 overflow-y-auto" style={{
+      <div
+        className="flex-1"
+        style={{
+          overflowY: 'scroll',
+          WebkitOverflowScrolling: 'touch' as never,
+          touchAction: 'pan-y',
           paddingTop: 8,
           paddingBottom: 'calc(140px + env(safe-area-inset-bottom, 0px))',
-        }}>
+        }}
+      >
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>

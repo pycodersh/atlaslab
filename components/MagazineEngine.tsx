@@ -233,7 +233,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
           width: '200%',
           transform: railTransform,
           transition: isDragging ? 'none' : 'transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1)',
-          willChange: 'transform',
+          willChange: isDragging ? 'transform' : 'auto',
         }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
