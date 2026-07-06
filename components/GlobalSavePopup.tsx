@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { subscribeSavePopup, closeSavePopup, type PopupItem } from '@/lib/words/popupStore'
-import { saveWord } from '@/lib/words/storage'
+import { saveWord, savePhrase } from '@/lib/words/storage'
 
 type Toast = 'hidden' | 'visible' | 'fading'
 
@@ -12,17 +12,29 @@ type Toast = 'hidden' | 'visible' | 'fading'
  *
  * - Always centered on screen
  * - Backdrop click closes the popup
- * - Shows word or multi-word phrase
+ * - When item.chunk is present: shows "추천 표현" + [Save Phrase] [Save Word]
+ * - Otherwise: shows word + [Save Word] [Cancel]
  * - Toast notification on save
  */
 export function GlobalSavePopup() {
-  const [item, setItem]   = useState<PopupItem | null>(null)
-  const [toast, setToast] = useState<Toast>('hidden')
-  const toastTimer        = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [item, setItem]       = useState<PopupItem | null>(null)
+  const [toast, setToast]     = useState<Toast>('hidden')
+  const [toastMsg, setToastMsg] = useState('Saved to Library')
+  const toastTimer            = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => subscribeSavePopup(setItem), [])
 
-  function handleSave() {
+  function showToast(msg: string) {
+    setToastMsg(msg)
+    if (toastTimer.current) clearTimeout(toastTimer.current)
+    setToast('visible')
+    toastTimer.current = setTimeout(() => {
+      setToast('fading')
+      toastTimer.current = setTimeout(() => setToast('hidden'), 400)
+    }, 1600)
+  }
+
+  function handleSaveWord() {
     if (!item) return
     saveWord({
       word:             item.word,
@@ -34,16 +46,27 @@ export function GlobalSavePopup() {
       exampleIndex:     item.exampleIndex,
       originalSentence: item.originalSentence,
     })
-    // Clear any native text selection
     window.getSelection()?.removeAllRanges()
     closeSavePopup()
+    showToast('단어 저장됨')
+  }
 
-    if (toastTimer.current) clearTimeout(toastTimer.current)
-    setToast('visible')
-    toastTimer.current = setTimeout(() => {
-      setToast('fading')
-      toastTimer.current = setTimeout(() => setToast('hidden'), 400)
-    }, 1600)
+  function handleSavePhrase() {
+    if (!item?.chunk) return
+    savePhrase({
+      phrase:           item.chunk.text,
+      phraseType:       item.chunk.type,
+      sourceType:       item.sourceType,
+      sourceId:         item.sourceId,
+      storyId:          item.storyId,
+      patternId:        item.patternId,
+      paragraphId:      item.paragraphId,
+      exampleIndex:     item.exampleIndex,
+      originalSentence: item.originalSentence,
+    })
+    window.getSelection()?.removeAllRanges()
+    closeSavePopup()
+    showToast('표현 저장됨')
   }
 
   function handleClose() {
@@ -51,19 +74,28 @@ export function GlobalSavePopup() {
     closeSavePopup()
   }
 
-  const display  = item ? (item.word.length > 40 ? item.word.slice(0, 38) + '…' : item.word) : ''
+  const wordDisplay   = item ? (item.word.length > 40 ? item.word.slice(0, 38) + '…' : item.word) : ''
+  const phraseDisplay = item?.chunk
+    ? (item.chunk.text.length > 40 ? item.chunk.text.slice(0, 38) + '…' : item.chunk.text)
+    : ''
+
+  const BTN: React.CSSProperties = {
+    flex: 1,
+    padding: '9px 14px',
+    borderRadius: 10,
+    border: 'none',
+    fontSize: 13,
+    fontWeight: 600,
+    cursor: 'pointer',
+  }
 
   return (
     <>
-      {/* ── Backdrop: closes popup on tap outside ── */}
+      {/* ── Backdrop ── */}
       {item && (
         <div
           onClick={handleClose}
-          style={{
-            position: 'fixed', inset: 0,
-            zIndex: 490,
-            background: 'transparent',
-          }}
+          style={{ position: 'fixed', inset: 0, zIndex: 490, background: 'transparent' }}
         />
       )}
 
@@ -82,59 +114,74 @@ export function GlobalSavePopup() {
             borderRadius: 16,
             padding:   '18px 20px 16px',
             boxShadow: '0 8px 40px rgba(0,0,0,0.25)',
-            minWidth:  220,
+            minWidth:  240,
             maxWidth:  'calc(100vw - 48px)',
           }}
         >
-          {/* Word / Phrase display */}
-          <p style={{
-            fontSize: 15, fontWeight: 700,
-            color: 'var(--pt)',
-            margin: '0 0 14px',
-            textAlign: 'center',
-            wordBreak: 'break-word',
-            lineHeight: 1.4,
-          }}>
-            &ldquo;{display}&rdquo;
-          </p>
+          {item.chunk ? (
+            /* ── Phrase recommendation mode ── */
+            <>
+              {/* Tapped word */}
+              <p style={{
+                fontSize: 13, color: 'var(--pt2)',
+                margin: '0 0 10px', textAlign: 'center',
+              }}>
+                &ldquo;{wordDisplay}&rdquo;
+              </p>
 
-          {/* Buttons */}
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              type="button"
-              onClick={handleSave}
-              style={{
-                flex: 1,
-                padding: '9px 16px',
+              {/* Recommended phrase */}
+              <div style={{
+                background: 'rgba(255,200,80,0.15)',
+                border: '1px solid rgba(255,200,80,0.4)',
                 borderRadius: 10,
-                background: 'var(--pc)',
-                color: 'var(--pt2)',
-                border: 'none',
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={handleClose}
-              style={{
-                flex: 1,
-                padding: '9px 16px',
-                borderRadius: 10,
-                background: 'var(--pc)',
-                color: 'var(--pt2)',
-                border: 'none',
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              Cancel
-            </button>
-          </div>
+                padding: '8px 12px',
+                marginBottom: 14,
+                textAlign: 'center',
+              }}>
+                <p style={{ fontSize: 10, color: 'var(--pm)', margin: '0 0 3px', letterSpacing: '0.05em', fontWeight: 600 }}>
+                  추천 표현
+                </p>
+                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: 0, wordBreak: 'break-word' }}>
+                  {phraseDisplay}
+                </p>
+              </div>
+
+              {/* Buttons: Save Phrase + Save Word */}
+              <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                <button type="button" onClick={handleSavePhrase} style={{ ...BTN, background: 'var(--pc)', color: 'var(--pt2)', flex: 2 }}>
+                  표현 저장
+                </button>
+                <button type="button" onClick={handleSaveWord} style={{ ...BTN, background: 'rgba(200,205,215,0.5)', color: 'var(--pt)', flex: 1 }}>
+                  단어만
+                </button>
+              </div>
+              <button type="button" onClick={handleClose} style={{ ...BTN, background: 'transparent', color: 'var(--pm)', width: '100%' }}>
+                취소
+              </button>
+            </>
+          ) : (
+            /* ── Word-only mode ── */
+            <>
+              <p style={{
+                fontSize: 15, fontWeight: 700,
+                color: 'var(--pt)',
+                margin: '0 0 14px',
+                textAlign: 'center',
+                wordBreak: 'break-word',
+                lineHeight: 1.4,
+              }}>
+                &ldquo;{wordDisplay}&rdquo;
+              </p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button type="button" onClick={handleSaveWord} style={{ ...BTN, background: 'var(--pc)', color: 'var(--pt2)' }}>
+                  단어 저장
+                </button>
+                <button type="button" onClick={handleClose} style={{ ...BTN, background: 'var(--pc)', color: 'var(--pt2)' }}>
+                  취소
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -158,7 +205,7 @@ export function GlobalSavePopup() {
           transition: 'opacity 0.4s ease',
           border:     '1px solid var(--pd)',
         }}>
-          Saved to Library
+          {toastMsg}
         </div>
       )}
     </>

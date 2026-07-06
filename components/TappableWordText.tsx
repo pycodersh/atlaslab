@@ -1,8 +1,9 @@
 'use client'
 
-import { isSavedWord } from '@/lib/words/storage'
+import { isSavedWord, isSavedPhrase } from '@/lib/words/storage'
 import { openSavePopup } from '@/lib/words/popupStore'
 import type { WordSourceType } from '@/lib/words/storage'
+import type { SaveCandidate } from '@/data/pattern-examples-full'
 
 export type WordSaveSource = {
   sourceType:       WordSourceType
@@ -15,25 +16,46 @@ export type WordSaveSource = {
 }
 
 type Props = {
-  text:      string
-  source:    WordSaveSource
-  className?: string
-  style?:    React.CSSProperties
+  text:            string
+  source:          WordSaveSource
+  saveCandidates?: SaveCandidate[]
+  className?:      string
+  style?:          React.CSSProperties
 }
 
 /**
  * Renders text as tappable words.
  * Tapping a word opens the global singleton save popup (via popupStore).
- * Long-press + drag triggers native text selection; StoryPage detects this
- * via selectionchange for phrase-level saving.
+ * If saveCandidates is provided, tapping a word that belongs to a chunk
+ * also surfaces a "Save Phrase" option.
  */
-export function TappableWordText({ text, source, className, style }: Props) {
+export function TappableWordText({ text, source, saveCandidates, className, style }: Props) {
   const tokens = text.split(/(\s+)/)
 
-  function handleWordTap(e: React.MouseEvent, raw: string) {
+  // Precompute character offsets for each token
+  let charOffset = 0
+  const tokenData = tokens.map(token => {
+    const start = charOffset
+    charOffset += token.length
+    return { token, start, end: charOffset }
+  })
+
+  function findChunk(wordStart: number, wordEnd: number): SaveCandidate | undefined {
+    if (!saveCandidates?.length) return undefined
+    // Priority: phrasalVerb > idiom > fixedExpression > collocation > chunk > prepPhrase
+    const PRIORITY: Record<string, number> = {
+      phrasalVerb: 6, idiom: 5, fixedExpression: 4, collocation: 3, chunk: 2, prepPhrase: 1,
+    }
+    const overlapping = saveCandidates.filter(c => c.start < wordEnd && c.end > wordStart)
+    if (!overlapping.length) return undefined
+    return overlapping.sort((a, b) => (PRIORITY[b.type] ?? 0) - (PRIORITY[a.type] ?? 0))[0]
+  }
+
+  function handleWordTap(e: React.MouseEvent, token: string, wordStart: number, wordEnd: number) {
     e.stopPropagation()
-    const clean = raw.replace(/[^a-zA-Z''-]/g, '')
+    const clean = token.replace(/[^a-zA-Z''-]/g, '')
     if (!clean || clean.length < 2) return
+    const chunk = findChunk(wordStart, wordEnd)
     openSavePopup({
       word:             clean,
       originalSentence: source.originalSentence,
@@ -43,28 +65,35 @@ export function TappableWordText({ text, source, className, style }: Props) {
       patternId:        source.patternId,
       paragraphId:      source.paragraphId,
       exampleIndex:     source.exampleIndex,
+      chunk:            chunk ? { text: chunk.text, type: chunk.type } : undefined,
     })
   }
 
   return (
     <span className={className} style={style}>
-      {tokens.map((token, i) => {
+      {tokenData.map(({ token, start, end }, i) => {
         if (/^\s+$/.test(token)) return <span key={i}>{token}</span>
 
         const clean = token.replace(/[^a-zA-Z''-]/g, '')
         if (!clean || clean.length < 2) return <span key={i}>{token}</span>
 
         const alreadySaved = isSavedWord(clean)
+        const chunk = findChunk(start, end)
+        const phraseHighlight = chunk ? isSavedPhrase(chunk.text) : false
 
         return (
           <span
             key={i}
-            onClick={(e) => handleWordTap(e, token)}
+            onClick={(e) => handleWordTap(e, token, start, end)}
             style={{
               cursor:       'pointer',
               borderRadius: 3,
-              padding:      alreadySaved ? '1px 3px' : '0',
-              background:   alreadySaved ? 'var(--pal)' : 'transparent',
+              padding:      (alreadySaved || phraseHighlight) ? '1px 3px' : '0',
+              background:   phraseHighlight
+                ? 'var(--pal-phrase, rgba(255,200,80,0.25))'
+                : alreadySaved
+                  ? 'var(--pal)'
+                  : 'transparent',
               transition:   'background 0.12s',
               userSelect:   'text',
               WebkitUserSelect: 'text',

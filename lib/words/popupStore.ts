@@ -9,6 +9,8 @@ export type PopupItem = {
   patternId?:       string
   paragraphId?:     string
   exampleIndex?:    number
+  /** Present when the tapped word belongs to a known chunk/phrase in saveCandidates */
+  chunk?:           { text: string; type: string }
 }
 
 type Listener = (item: PopupItem | null) => void

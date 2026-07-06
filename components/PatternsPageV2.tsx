@@ -16,6 +16,8 @@ import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import { patternMeaningNoteTranslations } from '@/data/pattern-meaning-note-translations'
 import { getPatternExamples } from '@/data/pattern-examples'
+import { patternExamplesFull } from '@/data/pattern-examples-full'
+import { TappableWordText } from '@/components/TappableWordText'
 import { useT } from '@/hooks/useT'
 
 // ── Timing constants ──────────────────────────────────────────────────────────
@@ -322,6 +324,29 @@ export function PatternsPageV2({
 
   const isPlaying = phase === 'speaking' || phase === 'pause'
 
+  // ── Per-example single play ────────────────────────────────────────────────
+  const playSingleExample = useCallback((idx: number) => {
+    stop()
+    const pat = patterns[patIdxRef.current]
+    const exs = resolveExamples(
+      patternExamples, pat.id,
+      pat.storySentence, pat.storySentenceKo,
+      pat.variationSentence, pat.variationSentenceKo,
+    )
+    const ex = exs[idx]
+    if (!ex) return
+    navigateTo(patIdxRef.current, idx, true)
+    setPhase('speaking')
+    const url = patternExampleAudioUrl(voice, pat.id, idx, ex.en)
+    ttsProvider.speak({
+      texts: [ex.en], audioUrls: url ? [url] : undefined,
+      voiceKey: voice, voiceKeys: [voice],
+      rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
+      onEnd: () => { markDone(patIdxRef.current, idx); setPhase('idle') },
+      onError: () => setPhase('idle'),
+    })
+  }, [stop, patterns, patternExamples, navigateTo, voice, prefs.speechRate, markDone])
+
   // ── Bookmark ───────────────────────────────────────────────────────────────
   function handleBookmark() {
     const next = toggleBookmark({
@@ -522,43 +547,92 @@ export function PatternsPageV2({
                   </div>
                 </div>
 
-                {/* Examples */}
+                {/* Examples — all 3 always visible; tap word to save, ▶ to play */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   {examples.map((ex, i) => {
-                    const isActive   = i === exIdx
-                    const exRev      = revealedExSet.has(`${patIdx}-${i}`)
-                    const showExEn   = studyMode === 'en' || studyMode === 'en-ko' || exRev
-                    const exKo       = resolveTranslation(ex.ko, prefs.language, ex.translations)
+                    const isExPlaying = phase === 'speaking' && i === exIdx
+                    const exRev       = revealedExSet.has(`${patIdx}-${i}`)
+                    const showExEn    = studyMode === 'en' || studyMode === 'en-ko' || exRev
+                    const exKo        = resolveTranslation(ex.ko, prefs.language, ex.translations)
+                    const fullEx      = patternExamplesFull[pattern.id]?.[i]
                     return (
-                      <button
+                      <div
                         key={i}
-                        type="button"
-                        onClick={() => navigateTo(patIdx, i)}
                         style={{
-                          display: 'block', textAlign: 'left', width: '100%',
-                          background: 'transparent', border: 'none', cursor: 'pointer', padding: 0,
                           borderTop: i > 0 ? '1px solid rgba(220,225,235,0.7)' : 'none',
                           paddingTop: i > 0 ? 14 : 0,
                           paddingBottom: i < examples.length - 1 ? 14 : 0,
+                          background: isExPlaying ? 'rgba(0,0,0,0.03)' : 'transparent',
+                          borderRadius: isExPlaying ? 8 : 0,
+                          transition: 'background 0.2s',
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: 8,
                         }}
                       >
-                        <p style={{
-                          fontSize: 14.5, fontWeight: isActive ? 600 : 400,
-                          color: isActive ? 'var(--pt)' : 'var(--pt2)',
-                          lineHeight: 1.5, margin: '0 0 2px',
-                          opacity: showExEn ? 1 : 0.04,
-                          userSelect: showExEn ? undefined : 'none',
-                          pointerEvents: showExEn ? undefined : 'none',
-                          transition: 'opacity 0.2s',
-                        }}>
-                          {ex.en}
-                        </p>
-                        {showKorean && exKo && (
-                          <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
-                            {exKo}
-                          </p>
-                        )}
-                      </button>
+                        {/* Text block */}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          {showExEn ? (
+                            <TappableWordText
+                              text={ex.en}
+                              saveCandidates={fullEx?.saveCandidates}
+                              source={{
+                                sourceType:       'example',
+                                sourceId:         fullEx?.id ?? `${pattern.id}-ex${i}`,
+                                patternId:        pattern.id,
+                                exampleIndex:     i,
+                                originalSentence: ex.en,
+                              }}
+                              style={{
+                                display:     'block',
+                                fontSize:    14.5,
+                                fontWeight:  isExPlaying ? 500 : 400,
+                                color:       'var(--pt)',
+                                lineHeight:  1.5,
+                                marginBottom: 2,
+                              }}
+                            />
+                          ) : (
+                            <p style={{
+                              fontSize: 14.5, fontWeight: 400,
+                              color: 'var(--pt)',
+                              lineHeight: 1.5, margin: '0 0 2px',
+                              opacity: 0.04, userSelect: 'none',
+                            }}>
+                              {ex.en}
+                            </p>
+                          )}
+                          {showKorean && exKo && (
+                            <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
+                              {exKo}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Per-example play button */}
+                        <button
+                          type="button"
+                          onClick={() => isExPlaying ? stop() : playSingleExample(i)}
+                          style={{
+                            flexShrink: 0,
+                            width: 28, height: 28,
+                            borderRadius: '50%',
+                            border: 'none',
+                            background: isExPlaying ? 'var(--pc)' : 'rgba(180,185,195,0.25)',
+                            color: isExPlaying ? 'var(--pt2)' : 'var(--pt2)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            cursor: 'pointer',
+                            transition: 'background 0.15s',
+                            marginTop: 1,
+                          }}
+                          aria-label={isExPlaying ? '정지' : `예문 ${i + 1} 재생`}
+                        >
+                          {isExPlaying
+                            ? <Square size={11} fill="currentColor" />
+                            : <Volume2 size={12} />
+                          }
+                        </button>
+                      </div>
                     )
                   })}
                 </div>
