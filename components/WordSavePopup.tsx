@@ -172,22 +172,18 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
               type="button"
               onClick={handleSave}
               style={{
-                flex: 1, padding: '7px 0', borderRadius: 7,
-                background: 'rgba(255,255,255,0.68)',
-                backdropFilter: 'blur(18px)',
-                WebkitBackdropFilter: 'blur(18px)',
-                border: '1px solid rgba(255,255,255,0.82)',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
-                color: 'var(--pa)', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                flex: 1, padding: '7px 12px', borderRadius: 7,
+                background: 'var(--pc)', color: 'var(--pt2)',
+                border: 'none', fontSize: 11, fontWeight: 600, cursor: 'pointer',
               }}
             >
-              Save Word
+              Save
             </button>
             <button
               type="button"
               onClick={handleCancel}
               style={{
-                padding: '7px 12px', borderRadius: 7,
+                flex: 1, padding: '7px 12px', borderRadius: 7,
                 background: 'var(--pc)', color: 'var(--pt2)',
                 border: 'none', fontSize: 11, fontWeight: 600, cursor: 'pointer',
               }}
@@ -205,10 +201,10 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
           bottom:    90,
           left:      '50%',
           transform: 'translateX(-50%)',
-          background: 'var(--pa)',
-          color:     '#fff',
+          background: 'var(--pc)',
+          color:     'var(--pt2)',
           fontSize:  12,
-          fontWeight: 700,
+          fontWeight: 600,
           padding:   '8px 20px',
           borderRadius: 20,
           zIndex:    300,
@@ -216,6 +212,7 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
           whiteSpace: 'nowrap',
           opacity:   toast === 'fading' ? 0 : 1,
           transition: 'opacity 0.4s ease',
+          border:    '1px solid var(--pd)',
         }}>
           Saved to Library
         </div>

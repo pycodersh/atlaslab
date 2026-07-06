@@ -51,8 +51,6 @@ export function GlobalSavePopup() {
     closeSavePopup()
   }
 
-  const isPhrase = item ? item.word.includes(' ') : false
-  const label    = isPhrase ? 'Save Phrase' : 'Save Word'
   const display  = item ? (item.word.length > 40 ? item.word.slice(0, 38) + '…' : item.word) : ''
 
   return (
@@ -107,26 +105,23 @@ export function GlobalSavePopup() {
               onClick={handleSave}
               style={{
                 flex: 1,
-                padding: '9px 0',
+                padding: '9px 16px',
                 borderRadius: 10,
-                background: 'rgba(255,255,255,0.68)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255,255,255,0.82)',
-                boxShadow: '0 2px 10px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.95)',
-                color: 'var(--pa)',
+                background: 'var(--pc)',
+                color: 'var(--pt2)',
+                border: 'none',
                 fontSize: 13,
-                fontWeight: 700,
+                fontWeight: 600,
                 cursor: 'pointer',
-                letterSpacing: '0.02em',
               }}
             >
-              {label}
+              Save
             </button>
             <button
               type="button"
               onClick={handleClose}
               style={{
+                flex: 1,
                 padding: '9px 16px',
                 borderRadius: 10,
                 background: 'var(--pc)',
@@ -150,10 +145,10 @@ export function GlobalSavePopup() {
           bottom:     88,
           left:       '50%',
           transform:  'translateX(-50%)',
-          background: 'var(--pa)',
-          color:      '#fff',
+          background: 'var(--pc)',
+          color:      'var(--pt2)',
           fontSize:   12,
-          fontWeight: 700,
+          fontWeight: 600,
           padding:    '8px 22px',
           borderRadius: 20,
           zIndex:     510,
@@ -161,6 +156,7 @@ export function GlobalSavePopup() {
           whiteSpace: 'nowrap',
           opacity:    toast === 'fading' ? 0 : 1,
           transition: 'opacity 0.4s ease',
+          border:     '1px solid var(--pd)',
         }}>
           Saved to Library
         </div>

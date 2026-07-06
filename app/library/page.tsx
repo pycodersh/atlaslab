@@ -77,7 +77,7 @@ const glassCard: React.CSSProperties = {
 // ── Summary cards ─────────────────────────────────────────────────────────────
 
 function SummaryCard({
-  icon, label, value, accent,
+  icon, label, value,
 }: {
   icon: React.ReactNode
   label: string
@@ -91,15 +91,7 @@ function SummaryCard({
       padding: '14px 12px 12px',
       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
     }}>
-      <div style={{
-        width: 34, height: 34, borderRadius: 10,
-        background: `${accent}14`,
-        border: `1px solid ${accent}24`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexShrink: 0,
-      }}>
-        {icon}
-      </div>
+      {icon}
       <span style={{ fontSize: 'clamp(1.15rem, 5vw, 1.45rem)', fontWeight: 800, color: '#1C1C1E', lineHeight: 1 }}>
         {value}
       </span>
@@ -276,19 +268,11 @@ function WordCard({ w }: { w: SavedWord }) {
       </div>
 
       {/* Body */}
-      <div style={{ flex: 1, minWidth: 0, padding: '12px 12px 10px' }}>
-        <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: '#8E8E93', textTransform: 'uppercase' }}>
-          WORD
-        </span>
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#1C1C1E', margin: '4px 0 2px', lineHeight: 1.3 }}>
+      <div style={{ flex: 1, minWidth: 0, padding: '10px 12px 10px' }}>
+        <p style={{ fontSize: 14, fontWeight: 600, color: '#1C1C1E', margin: '0 0 4px', lineHeight: 1.3 }}>
           {w.word}
         </p>
-        {w.meaning && (
-          <p style={{ fontSize: 11.5, color: '#8E8E93', margin: '0 0 6px', fontWeight: 400 }}>
-            {w.meaning}
-          </p>
-        )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           {story && (
             <span style={{ fontSize: 9.5, fontWeight: 600, color: '#B0B0B8', letterSpacing: '0.05em' }}>
               Story {String(story.id).padStart(2, '0')} · {story.title}
@@ -342,23 +326,16 @@ function SearchWordRow({ w, border }: { w: SavedWord; border: boolean }) {
 
 // ── Empty state ───────────────────────────────────────────────────────────────
 
-function EmptyState({ icon, iconColor, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
+function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
   return (
     <div style={{
       ...glassCard,
-      padding: '36px 24px',
-      textAlign: 'center',
+      padding: '28px 22px',
     }}>
-      <div style={{
-        width: 52, height: 52, borderRadius: 16,
-        background: `${iconColor}12`,
-        border: `1px solid ${iconColor}20`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        margin: '0 auto 16px',
-      }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
         {icon}
+        <p style={{ fontSize: 14, fontWeight: 700, color: '#1C1C1E', margin: 0, letterSpacing: '-0.01em' }}>{title}</p>
       </div>
-      <p style={{ fontSize: 14, fontWeight: 700, color: '#1C1C1E', margin: '0 0 7px', letterSpacing: '-0.01em' }}>{title}</p>
       <p style={{ fontSize: 12, color: '#8E8E93', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
     </div>
   )
