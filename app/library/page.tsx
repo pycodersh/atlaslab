@@ -185,6 +185,7 @@ function PatternAccordion({
               {bm.meaningKo && (
                 <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>
                   {bm.meaningKo}
+                  <span style={{ marginLeft: 6, fontSize: 9, fontWeight: 700, letterSpacing: '0.07em', color: '#4A6FA8', opacity: 0.7 }}>SAVED</span>
                 </p>
               )}
             </button>
@@ -740,13 +741,13 @@ export default function LibraryPage() {
         <div style={{ display: 'flex', gap: 9, marginBottom: 24 }}>
           <SummaryCard
             icon={<Bookmark style={{ width: 16, height: 16, color: '#4A6FA8' }} strokeWidth={1.8} />}
-            label="Saved Patterns"
+            label="Patterns"
             value={bookmarks.length}
             accent="#4A6FA8"
           />
           <SummaryCard
             icon={<Sprout style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.8} />}
-            label="Saved Words"
+            label="Words"
             value={words.length}
             accent="#3A7A4A"
           />

@@ -514,12 +514,10 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
               Review Mastery
             </p>
             <button type="button" onClick={() => setShowMasteryInfo(true)} style={{
-              width: 22, height: 22, borderRadius: '50%',
-              background: 'rgba(140,150,185,0.12)', border: '1px solid rgba(140,150,185,0.20)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', padding: 0,
+              background: 'none', border: 'none', padding: 2,
+              cursor: 'pointer', display: 'flex', alignItems: 'center',
             }}>
-              <Info style={{ width: 11, height: 11, color: 'var(--pm2)' }} strokeWidth={2} />
+              <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
             </button>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
