@@ -7,34 +7,32 @@ export const NAV_HEIGHT = 60
 
 function PattoIcon() {
   return (
-    <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+    <svg width="34" height="34" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+      {/* Background */}
       <rect width="100" height="100" rx="22" fill="white" />
-      <rect x="1" y="1" width="98" height="98" rx="21" stroke="rgba(0,0,0,0.09)" strokeWidth="2" />
+      <rect x="1" y="1" width="98" height="98" rx="21" stroke="rgba(0,0,0,0.09)" strokeWidth="2" fill="none" />
 
-      {/* ── P ── serif vertical stem */}
-      <path d="M22 14 L22 86" stroke="black" strokeWidth="7.5" strokeLinecap="butt" />
-      {/* P bowl — D-shaped, upper half */}
-      <path
-        d="M22 14 C22 12 25 10 30 10 C50 10 58 16 58 30 C58 44 48 50 22 50"
-        stroke="black" strokeWidth="6.5" fill="none"
-        strokeLinecap="round" strokeLinejoin="round"
-      />
-      {/* P top serif */}
-      <path d="M16 14 L28 14" stroke="black" strokeWidth="5" strokeLinecap="round" />
-      {/* P bottom serif */}
-      <path d="M16 86 L28 86" stroke="black" strokeWidth="5" strokeLinecap="round" />
+      {/* P — large serif (Georgia-style) */}
+      <text
+        x="6" y="82"
+        fontFamily="Georgia, 'Times New Roman', serif"
+        fontSize="76"
+        fill="black"
+        fontWeight="normal"
+      >P</text>
 
-      {/* ── A ── tent/roof, no crossbar, peak at top center-right */}
-      {/* Left leg */}
-      <path d="M56 12 L18 87" stroke="black" strokeWidth="6" strokeLinecap="round" />
-      {/* Right leg */}
-      <path d="M56 12 L90 87" stroke="black" strokeWidth="6" strokeLinecap="round" />
+      {/* A — tent shape, no crossbar, drawn on top of P */}
+      <line x1="53" y1="12" x2="9" y2="91" stroke="black" strokeWidth="6.5" strokeLinecap="round" />
+      <line x1="53" y1="12" x2="95" y2="91" stroke="black" strokeWidth="6.5" strokeLinecap="round" />
 
-      {/* ── T ── small, centered under A peak */}
-      {/* T crossbar */}
-      <path d="M43 60 L69 60" stroke="black" strokeWidth="4.5" strokeLinecap="round" />
-      {/* T stem */}
-      <path d="M56 60 L56 78" stroke="black" strokeWidth="4.5" strokeLinecap="round" />
+      {/* T — small serif, centered under A peak */}
+      <text
+        x="40" y="78"
+        fontFamily="Georgia, 'Times New Roman', serif"
+        fontSize="26"
+        fill="black"
+        fontWeight="normal"
+      >T</text>
     </svg>
   )
 }
