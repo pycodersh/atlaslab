@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  Volume2, Square, Bookmark, Check, Globe, Lightbulb,
+  Volume2, Square, Bookmark, Globe, Lightbulb, X,
 } from 'lucide-react'
 
 import type { MagazineStory } from '@/types/magazine'
@@ -21,12 +21,6 @@ import { useT } from '@/hooks/useT'
 // ── Timing constants ──────────────────────────────────────────────────────────
 const EXAMPLE_PAUSE_MS = 1800
 
-const STORY_ILLUSTRATIONS: Record<number, string> = {
-  1: '🌱', 2: '👋', 3: '☀️', 4: '🌙', 5: '☕',
-  6: '🔀', 7: '🏔️', 8: '✈️', 9: '🎒', 10: '📚',
-  11: '💬', 12: '🎁', 13: '📅', 14: '🏥', 15: '🏦',
-  16: '🛒', 17: '🏨', 18: '🚕', 19: '🌤️', 20: '🏃',
-}
 const DEV = process.env.NODE_ENV === 'development'
 
 type Props = {
@@ -47,6 +41,48 @@ const STUDY_LABEL: Record<StudyMode, string> = {
   'en':    'EN',
   'en-ko': 'EN·KO',
   'ko':    'KO',
+}
+
+// ── Wave variants — 3 subtle colour themes ────────────────────────────────────
+const WAVE_VARIANTS = [
+  {
+    // Soft blue-lavender
+    bg: 'linear-gradient(145deg, rgba(240,245,255,0.98) 0%, rgba(225,235,255,0.85) 60%, rgba(245,240,255,0.92) 100%)',
+    wave1: 'rgba(160,185,255,0.18)',
+    wave2: 'rgba(185,160,255,0.12)',
+  },
+  {
+    // Soft peach-rose
+    bg: 'linear-gradient(145deg, rgba(255,245,242,0.98) 0%, rgba(255,232,228,0.82) 60%, rgba(255,242,248,0.92) 100%)',
+    wave1: 'rgba(255,170,150,0.18)',
+    wave2: 'rgba(255,150,185,0.12)',
+  },
+  {
+    // Soft sage-mint
+    bg: 'linear-gradient(145deg, rgba(242,252,248,0.98) 0%, rgba(225,248,240,0.82) 60%, rgba(238,252,246,0.92) 100%)',
+    wave1: 'rgba(120,210,180,0.18)',
+    wave2: 'rgba(100,200,160,0.12)',
+  },
+]
+
+function WaveOverlay({ wave1, wave2 }: { wave1: string; wave2: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', overflow: 'hidden' }}
+      viewBox="0 0 400 120"
+      preserveAspectRatio="none"
+    >
+      <path
+        d="M0,60 C60,30 120,90 200,55 C280,20 340,80 400,50 L400,0 L0,0 Z"
+        fill={wave1}
+      />
+      <path
+        d="M0,85 C80,55 160,105 240,75 C320,45 370,90 400,70 L400,0 L0,0 Z"
+        fill={wave2}
+      />
+    </svg>
+  )
 }
 
 function resolveExamples(
@@ -86,7 +122,6 @@ export function PatternsPageV2({
     pattern.storySentence, pattern.storySentenceKo,
     pattern.variationSentence, pattern.variationSentenceKo,
   ).slice(0, 3)
-  const example = examples[exIdx] ?? examples[0]
 
   useEffect(() => { patIdxRef.current = patIdx }, [patIdx])
   useEffect(() => { exIdxRef.current  = exIdx  }, [exIdx])
@@ -97,12 +132,17 @@ export function PatternsPageV2({
     setRevealedExSet(new Set())
   }, [story.id])
 
+  // ── Wave variant — random per story ──────────────────────────────────────
+  const waveVariant = useMemo(
+    () => WAVE_VARIANTS[story.id % WAVE_VARIANTS.length],
+    [story.id],
+  )
+
   // ── UI state ───────────────────────────────────────────────────────────────
   const [studyMode,     setStudyMode]    = useState<StudyMode>('en-ko')
-  // examplesOpen removed — examples always visible in list style
   const [bookmarked,    setBookmarked]   = useState(false)
   const [phase,         setPhase]        = useState<Phase>('idle')
-  // revealedExSet: keys of form `${patIdx}-${exIdx}` revealed in KR mode
+  const [noteOpen,      setNoteOpen]     = useState(false)
   const [revealedExSet, setRevealedExSet] = useState<Set<string>>(new Set())
 
   function revealEx(p: number, e: number) {
@@ -296,49 +336,12 @@ export function PatternsPageV2({
   })()
 
   // ── Derived display state ─────────────────────────────────────────────────
-  const exRevealed  = revealedExSet.has(`${patIdx}-${exIdx}`)
-  const showEnglish = studyMode === 'en' || studyMode === 'en-ko' || exRevealed
   const showKorean  = studyMode === 'en-ko' || studyMode === 'ko'
-  const translationTx = example
-    ? resolveTranslation(example.ko, prefs.language, example.translations)
-    : null
   const patternMeaning = resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations)
-
-  function cycleStudyMode() {
-    setStudyMode(prev => {
-      const idx = STUDY_CYCLE.indexOf(prev)
-      return STUDY_CYCLE[(idx + 1) % STUDY_CYCLE.length]
-    })
-  }
 
   // Global pattern number (1–500)
   const globalPatternNum = (story.id - 1) * patterns.length + patIdx + 1
   const totalPatterns = totalStories * patterns.length
-
-  // Glass button base style
-  const glassBtn: React.CSSProperties = {
-    display: 'inline-flex', alignItems: 'center', gap: 6,
-    padding: '7px 16px', borderRadius: 999, cursor: 'pointer',
-    background: 'rgba(255,255,255,0.45)',
-    backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255,255,255,0.70)',
-    color: '#555A61', fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
-    transition: 'filter 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
-  }
-  const glassBtnMotion = {
-    onPointerDown: (e: React.PointerEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.transform = 'scale(0.98)'
-      e.currentTarget.style.filter = 'brightness(0.95)'
-    },
-    onPointerUp: (e: React.PointerEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.transform = 'scale(1)'
-      e.currentTarget.style.filter = 'brightness(1)'
-    },
-    onPointerLeave: (e: React.PointerEvent<HTMLButtonElement>) => {
-      e.currentTarget.style.transform = 'scale(1)'
-      e.currentTarget.style.filter = 'brightness(1)'
-    },
-  }
 
   // ── Render ────────────────────────────────────────────────────────────────
   return (
@@ -346,51 +349,8 @@ export function PatternsPageV2({
       <div className="flex-1 overflow-y-auto overflow-x-hidden">
         <div style={{ padding: '0 16px 112px' }}>
 
-          {/* ── Story label + Dot progress ── */}
-          <div style={{
-            paddingTop: 76, paddingBottom: 16,
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            position: 'relative',
-          }}>
-            <button
-              type="button"
-              onClick={onOpenPicker}
-              aria-label="스토리 선택"
-              style={{
-                background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                display: 'flex', alignItems: 'center',
-              }}
-            >
-              <span style={{
-                fontSize: 9, letterSpacing: '0.20em', fontWeight: 600,
-                color: '#9B9B9B', textTransform: 'uppercase',
-              }}>
-                STORY {String(story.id).padStart(2, '0')}
-              </span>
-            </button>
-
-            {/* Dot indicators — centered */}
-            <div style={{ position: 'absolute', left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, pointerEvents: 'none' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5, pointerEvents: 'auto' }}>
-              {patterns.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`패턴 ${i + 1}`}
-                  onClick={() => navigateTo(i, 0)}
-                  style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer' }}
-                >
-                  <span style={{
-                    display: 'block', width: i === patIdx ? 14 : 6, height: 6,
-                    borderRadius: 999,
-                    background: i === patIdx ? '#3A3A3C' : '#D1D1D6',
-                    transition: 'all 0.25s',
-                  }} />
-                </button>
-              ))}
-              </div>
-            </div>
-          </div>
+          {/* ── Top spacer (was: story label + dots) ── */}
+          <div style={{ paddingTop: 76 }} />
 
           {/* ── Swipe area ── */}
           <div ref={swipeRef}>
@@ -405,101 +365,120 @@ export function PatternsPageV2({
               {/* ── Card header ── */}
               <div style={{
                 position: 'relative', overflow: 'hidden',
-                padding: '18px 20px 16px',
-                background: 'linear-gradient(135deg, rgba(245,248,255,0.95), rgba(226,238,255,0.62), rgba(255,255,255,0.92))',
-                borderBottom: '1px solid rgba(220,230,255,0.40)',
+                padding: '14px 16px 16px',
+                background: waveVariant.bg,
+                borderBottom: '1px solid rgba(220,230,255,0.35)',
               }}>
-                {/* Wave line — light flow, opacity ≤ 0.25 */}
-                <div style={{
-                  position: 'absolute',
-                  top: '38%', left: '-5%', right: '-5%', height: 1,
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.22), rgba(200,215,255,0.18), transparent)',
-                  pointerEvents: 'none',
-                }} />
+                {/* Wave SVG overlay */}
+                <WaveOverlay wave1={waveVariant.wave1} wave2={waveVariant.wave2} />
 
-                {/* Bookmark row */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: 10, position: 'relative' }}>
+                {/* Row 1: PATTERN number (left) · Language · Note · Bookmark (right) */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, position: 'relative', zIndex: 1 }}>
+                  {/* Story picker → PATTERN number */}
                   <button
                     type="button"
-                    onClick={handleBookmark}
-                    aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
-                    style={{
-                      background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                      color: bookmarked ? '#8F234B' : '#AAACB0',
-                      transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
-                    }}
-                    onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
-                    onPointerUp={e => { e.currentTarget.style.transform = 'scale(1)' }}
-                    onPointerLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+                    onClick={onOpenPicker}
+                    aria-label="스토리 선택"
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                   >
-                    <Bookmark
-                      style={{ width: 16, height: 16 }}
-                      strokeWidth={1.8}
-                      fill={bookmarked ? 'currentColor' : 'none'}
-                    />
+                    <span style={{
+                      fontSize: '0.62rem', fontWeight: 700, color: '#6E6E73',
+                      letterSpacing: '0.06em',
+                      fontFamily: '"SF Mono", "Fira Mono", "Courier New", monospace',
+                    }}>
+                      PATTERN {String(globalPatternNum).padStart(3, '0')} / {totalPatterns}
+                    </span>
                   </button>
+
+                  {/* Right icons: Language segmented + Note + Bookmark */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {/* iOS Segmented Control */}
+                    <div style={{
+                      display: 'inline-flex', borderRadius: 8,
+                      background: 'rgba(255,255,255,0.55)',
+                      backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                      border: '1px solid rgba(255,255,255,0.70)',
+                      padding: 2, gap: 0,
+                    }}>
+                      {STUDY_CYCLE.map(mode => (
+                        <button
+                          key={mode}
+                          type="button"
+                          onClick={() => setStudyMode(mode)}
+                          style={{
+                            padding: '3px 8px', borderRadius: 6, border: 'none', cursor: 'pointer',
+                            fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                            background: studyMode === mode ? 'rgba(255,255,255,0.85)' : 'transparent',
+                            color: studyMode === mode ? '#1C1C1E' : '#6E6E73',
+                            boxShadow: studyMode === mode ? '0 1px 3px rgba(0,0,0,0.07)' : 'none',
+                            transition: 'background 0.15s, color 0.15s',
+                          }}
+                        >
+                          {STUDY_LABEL[mode]}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Note button */}
+                    {patternNote && (
+                      <button
+                        type="button"
+                        onClick={() => setNoteOpen(true)}
+                        aria-label="패턴 노트"
+                        style={{
+                          background: 'none', border: 'none', padding: 4, cursor: 'pointer',
+                          color: '#AAACB0',
+                          transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
+                        }}
+                        onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
+                        onPointerUp={e => { e.currentTarget.style.transform = 'scale(1)' }}
+                        onPointerLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+                      >
+                        <Lightbulb style={{ width: 16, height: 16 }} strokeWidth={1.8} />
+                      </button>
+                    )}
+
+                    {/* Bookmark */}
+                    <button
+                      type="button"
+                      onClick={handleBookmark}
+                      aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
+                      style={{
+                        background: 'none', border: 'none', padding: 4, cursor: 'pointer',
+                        color: bookmarked ? '#8F234B' : '#AAACB0',
+                        transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
+                      }}
+                      onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
+                      onPointerUp={e => { e.currentTarget.style.transform = 'scale(1)' }}
+                      onPointerLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+                    >
+                      <Bookmark
+                        style={{ width: 16, height: 16 }}
+                        strokeWidth={1.8}
+                        fill={bookmarked ? 'currentColor' : 'none'}
+                      />
+                    </button>
+                  </div>
                 </div>
 
-                {/* Pattern number */}
-                <p style={{
-                  fontSize: '0.68rem', fontWeight: 600, color: '#6E6E73',
-                  margin: '0 0 6px', letterSpacing: '0.04em',
-                  fontFamily: '"SF Mono", "Fira Mono", "Courier New", monospace',
-                  position: 'relative',
-                }}>
-                  {String(globalPatternNum).padStart(3, '0')} / {totalPatterns}
-                </p>
                 {/* Pattern title */}
                 <p style={{
                   fontSize: '2.0rem', fontWeight: 800, color: '#4A4A4F',
-                  lineHeight: 1.15, margin: '0 0 6px', letterSpacing: '-0.02em',
+                  lineHeight: 1.15, margin: '0 0 8px', letterSpacing: '-0.02em',
                   fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-                  textShadow: 'none',
-                  position: 'relative',
+                  position: 'relative', zIndex: 1,
                 }}>
                   {pattern.pattern}
                 </p>
-                {patternMeaning && (
-                  <p style={{
-                    fontSize: 12, fontWeight: 600, color: '#5F6368',
-                    margin: 0, letterSpacing: '0.01em',
-                  }}>
-                    {patternMeaning}
-                  </p>
-                )}
-              </div>
 
-              {/* ── Card body ── */}
-              <div style={{ padding: '16px 20px 22px' }}>
+                {/* Row 3: meaning (left) + speaker (right), same line */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
+                  {patternMeaning ? (
+                    <p style={{ fontSize: 12, fontWeight: 600, color: '#5F6368', margin: 0, letterSpacing: '0.01em', flex: 1, paddingRight: 8 }}>
+                      {patternMeaning}
+                    </p>
+                  ) : <div />}
 
-                {/* Action row: Segmented EN/KO (left) + Speaker (right) */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-                  {/* iOS Segmented Control */}
-                  <div style={{
-                    display: 'inline-flex', borderRadius: 10,
-                    background: 'rgba(255,255,255,0.50)',
-                    backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                    border: '1px solid rgba(255,255,255,0.65)',
-                    padding: 2, gap: 0,
-                  }}>
-                    {STUDY_CYCLE.map(mode => (
-                      <button
-                        key={mode}
-                        type="button"
-                        onClick={() => setStudyMode(mode)}
-                        style={{
-                          padding: '5px 12px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                          fontSize: 10, fontWeight: 600, letterSpacing: '0.06em',
-                          background: studyMode === mode ? 'rgba(255,255,255,0.75)' : 'transparent',
-                          color: studyMode === mode ? '#1C1C1E' : '#6E6E73',
-                          boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.07)' : 'none',
-                          transition: 'background 0.18s, color 0.18s, box-shadow 0.18s',
-                        }}
-                      >
-                        {STUDY_LABEL[mode]}
-                      </button>
-                    ))}
-                  </div>
                   {/* Speaker */}
                   <button
                     type="button"
@@ -507,10 +486,10 @@ export function PatternsPageV2({
                     aria-label={isPlaying ? '정지' : '예문 듣기'}
                     style={{
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                      width: 34, height: 34, borderRadius: 999, cursor: 'pointer',
-                      background: 'rgba(255,255,255,0.62)',
+                      width: 30, height: 30, borderRadius: 999, cursor: 'pointer',
+                      background: 'rgba(255,255,255,0.65)',
                       border: '1px solid rgba(220,225,235,0.8)',
-                      color: '#5F6368',
+                      color: '#5F6368', flexShrink: 0,
                       transition: 'filter 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
                     onPointerDown={e => { e.currentTarget.style.filter = 'brightness(1.08)' }}
@@ -518,10 +497,14 @@ export function PatternsPageV2({
                     onPointerLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
                   >
                     {isPlaying
-                      ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
-                      : <Volume2 style={{ width: 14, height: 14 }} strokeWidth={1.8} />}
+                      ? <Square style={{ width: 9, height: 9 }} fill="currentColor" strokeWidth={0} />
+                      : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
                   </button>
                 </div>
+              </div>
+
+              {/* ── Card body ── */}
+              <div style={{ padding: '16px 20px 20px' }}>
 
                 {/* Examples */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -564,32 +547,99 @@ export function PatternsPageV2({
                   })}
                 </div>
 
-                {/* Pattern Note — 예문 아래 */}
-                {patternNote && (
-                  <>
-                    <div style={{ height: 1, background: 'rgba(220,225,235,0.7)', margin: '20px 0 16px' }} />
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
-                      <Lightbulb style={{ width: 12, height: 12, color: '#8F234B', flexShrink: 0 }} strokeWidth={2} />
-                      <p style={{
-                        fontSize: 8.5, letterSpacing: '0.16em', fontWeight: 700,
-                        color: '#8A8A8E', margin: 0, textTransform: 'uppercase',
-                      }}>
-                        Pattern Note
-                      </p>
-                    </div>
-                    <p style={{
-                      fontSize: 13, color: 'var(--pm)', lineHeight: 1.78,
-                      margin: '0 0 4px',
-                    }}>
-                      {patternNote.replace(/\n+/g, ' ').trim()}
-                    </p>
-                  </>
-                )}
+                {/* ── Dot indicators — below examples ── */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, marginTop: 20 }}>
+                  {patterns.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      aria-label={`패턴 ${i + 1}`}
+                      onClick={() => navigateTo(i, 0)}
+                      style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer' }}
+                    >
+                      <span style={{
+                        display: 'block', width: i === patIdx ? 14 : 6, height: 6,
+                        borderRadius: 999,
+                        background: i === patIdx ? '#3A3A3C' : '#D1D1D6',
+                        transition: 'all 0.25s',
+                      }} />
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ── Pattern Note Popup ── */}
+      {noteOpen && patternNote && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          style={{
+            position: 'fixed', inset: 0, zIndex: 100,
+            background: 'rgba(0,0,0,0.22)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '0 20px',
+          }}
+          onClick={e => { if (e.target === e.currentTarget) setNoteOpen(false) }}
+        >
+          <div
+            className="glass-card"
+            style={{
+              width: '100%', maxWidth: 480,
+              maxHeight: '75dvh', overflowY: 'auto',
+              borderRadius: 24,
+            }}
+          >
+            <div style={{ padding: '24px 24px 32px' }}>
+              {/* Header */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
+                <div style={{ flex: 1, paddingRight: 12 }}>
+                  <p style={{
+                    fontSize: 9, fontWeight: 700, letterSpacing: '0.18em',
+                    color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase',
+                  }}>
+                    Pattern Note
+                  </p>
+                  <p style={{
+                    fontSize: 'clamp(1.0rem, 4vw, 1.2rem)', fontWeight: 800,
+                    color: '#3A3A3C', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.25,
+                    fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                  }}>
+                    {pattern.pattern}
+                  </p>
+                  {patternMeaning && (
+                    <p style={{ fontSize: 12, color: 'var(--pm2)', margin: '4px 0 0', fontWeight: 500 }}>
+                      {patternMeaning}
+                    </p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setNoteOpen(false)}
+                  style={{
+                    width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
+                    background: 'var(--pc)', border: 'none', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}
+                >
+                  <X style={{ width: 14, height: 14, color: 'var(--pm)' }} strokeWidth={2} />
+                </button>
+              </div>
+
+              {/* Note body */}
+              <p style={{
+                fontSize: 14, lineHeight: 1.75, color: 'var(--pt2)',
+                margin: 0, whiteSpace: 'pre-line',
+              }}>
+                {patternNote}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
