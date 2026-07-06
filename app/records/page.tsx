@@ -433,7 +433,7 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
           {/* Title row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
             <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: 0, textTransform: 'uppercase', flex: 1 }}>
-              Memory Score
+              Score
             </p>
             <button
               type="button"
@@ -553,7 +553,7 @@ function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak }: {
       {/* ── Calendar card ── */}
       <div style={{ ...glassCard, padding: '22px 18px 18px' }}>
         <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: '0 0 16px', textTransform: 'uppercase' }}>
-          Memory Calendar
+          Calendar
         </p>
         <LearningCalendar
           onDaySelect={onDaySelect}
@@ -618,7 +618,7 @@ export default function ProgressPage() {
         {/* ── Page indicator ── */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-          padding: '8px 0 6px', flexShrink: 0,
+          padding: '8px 0 14px', flexShrink: 0,
         }}>
           {[0, 1].map(i => (
             <button
@@ -644,23 +644,7 @@ export default function ProgressPage() {
             scrollbarWidth: 'none',
           } as React.CSSProperties}
         >
-          {/* Page 0 */}
-          <div style={{
-            flex: '0 0 100%', scrollSnapAlign: 'start',
-            overflowY: 'auto', height: '100%',
-            paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box',
-          }}>
-            <div style={{ maxWidth: 480, margin: '0 auto' }}>
-              <PageScore
-                score={memoryScore}
-                learnedStories={learnedStories}
-                learnedPatterns={learnedPatterns}
-                mastery={mastery}
-              />
-            </div>
-          </div>
-
-          {/* Page 1 */}
+          {/* Page 0 — Calendar */}
           <div style={{
             flex: '0 0 100%', scrollSnapAlign: 'start',
             overflowY: 'auto', height: '100%',
@@ -672,6 +656,22 @@ export default function ProgressPage() {
                 selectedIso={selectedIso}
                 onDaySelect={handleDaySelect}
                 streak={streak}
+              />
+            </div>
+          </div>
+
+          {/* Page 1 — Score */}
+          <div style={{
+            flex: '0 0 100%', scrollSnapAlign: 'start',
+            overflowY: 'auto', height: '100%',
+            paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box',
+          }}>
+            <div style={{ maxWidth: 480, margin: '0 auto' }}>
+              <PageScore
+                score={memoryScore}
+                learnedStories={learnedStories}
+                learnedPatterns={learnedPatterns}
+                mastery={mastery}
               />
             </div>
           </div>
