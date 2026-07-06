@@ -7,18 +7,34 @@ export const NAV_HEIGHT = 60
 
 function PattoIcon() {
   return (
-    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-      <rect width="34" height="34" rx="8" fill="white" />
-      <rect x="0.5" y="0.5" width="33" height="33" rx="7.5" stroke="rgba(0,0,0,0.08)" />
-      {/* P — large, upper-left */}
-      <path d="M6 8 L6 26" stroke="black" strokeWidth="3.2" strokeLinecap="round" />
-      <path d="M6 8 Q14 8 14 13 Q14 18 6 18" stroke="black" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-      {/* A — mountain/tent shape, center-right, no crossbar */}
-      <path d="M20 8 L27 26" stroke="black" strokeWidth="3.0" strokeLinecap="round" />
-      <path d="M20 8 L13 26" stroke="black" strokeWidth="3.0" strokeLinecap="round" />
-      {/* T — small, tucked under A apex */}
-      <path d="M17.5 14 L22.5 14" stroke="black" strokeWidth="2.0" strokeLinecap="round" />
-      <path d="M20 14 L20 19" stroke="black" strokeWidth="2.0" strokeLinecap="round" />
+    <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+      <rect width="100" height="100" rx="22" fill="white" />
+      <rect x="1" y="1" width="98" height="98" rx="21" stroke="rgba(0,0,0,0.09)" strokeWidth="2" />
+
+      {/* ── P ── serif vertical stem */}
+      <path d="M22 14 L22 86" stroke="black" strokeWidth="7.5" strokeLinecap="butt" />
+      {/* P bowl — D-shaped, upper half */}
+      <path
+        d="M22 14 C22 12 25 10 30 10 C50 10 58 16 58 30 C58 44 48 50 22 50"
+        stroke="black" strokeWidth="6.5" fill="none"
+        strokeLinecap="round" strokeLinejoin="round"
+      />
+      {/* P top serif */}
+      <path d="M16 14 L28 14" stroke="black" strokeWidth="5" strokeLinecap="round" />
+      {/* P bottom serif */}
+      <path d="M16 86 L28 86" stroke="black" strokeWidth="5" strokeLinecap="round" />
+
+      {/* ── A ── tent/roof, no crossbar, peak at top center-right */}
+      {/* Left leg */}
+      <path d="M56 12 L18 87" stroke="black" strokeWidth="6" strokeLinecap="round" />
+      {/* Right leg */}
+      <path d="M56 12 L90 87" stroke="black" strokeWidth="6" strokeLinecap="round" />
+
+      {/* ── T ── small, centered under A peak */}
+      {/* T crossbar */}
+      <path d="M43 60 L69 60" stroke="black" strokeWidth="4.5" strokeLinecap="round" />
+      {/* T stem */}
+      <path d="M56 60 L56 78" stroke="black" strokeWidth="4.5" strokeLinecap="round" />
     </svg>
   )
 }
