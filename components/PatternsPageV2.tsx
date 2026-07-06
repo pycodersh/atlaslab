@@ -372,7 +372,7 @@ export function PatternsPageV2({
                 {/* Wave SVG overlay */}
                 <WaveOverlay wave1={waveVariant.wave1} wave2={waveVariant.wave2} />
 
-                {/* Row 1: PATTERN number (left) · Language · Note · Bookmark (right) */}
+                {/* Row 1: PATTERN number (left) · Note · Bookmark (right) */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, position: 'relative', zIndex: 1 }}>
                   {/* Story picker → PATTERN number */}
                   <button
@@ -390,35 +390,8 @@ export function PatternsPageV2({
                     </span>
                   </button>
 
-                  {/* Right icons: Language segmented + Note + Bookmark */}
+                  {/* Right icons: Note + Bookmark */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                    {/* iOS Segmented Control */}
-                    <div style={{
-                      display: 'inline-flex', borderRadius: 8,
-                      background: 'rgba(255,255,255,0.55)',
-                      backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                      border: '1px solid rgba(255,255,255,0.70)',
-                      padding: 2, gap: 0,
-                    }}>
-                      {STUDY_CYCLE.map(mode => (
-                        <button
-                          key={mode}
-                          type="button"
-                          onClick={() => setStudyMode(mode)}
-                          style={{
-                            padding: '3px 8px', borderRadius: 6, border: 'none', cursor: 'pointer',
-                            fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                            background: studyMode === mode ? 'rgba(255,255,255,0.85)' : 'transparent',
-                            color: studyMode === mode ? '#1C1C1E' : '#6E6E73',
-                            boxShadow: studyMode === mode ? '0 1px 3px rgba(0,0,0,0.07)' : 'none',
-                            transition: 'background 0.15s, color 0.15s',
-                          }}
-                        >
-                          {STUDY_LABEL[mode]}
-                        </button>
-                      ))}
-                    </div>
-
                     {/* Note button */}
                     {patternNote && (
                       <button
@@ -464,7 +437,7 @@ export function PatternsPageV2({
                 {/* Pattern title */}
                 <p style={{
                   fontSize: '2.0rem', fontWeight: 800, color: '#4A4A4F',
-                  lineHeight: 1.15, margin: '0 0 8px', letterSpacing: '-0.02em',
+                  lineHeight: 1.15, margin: '10px 0 8px', letterSpacing: '-0.02em',
                   fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   position: 'relative', zIndex: 1,
                 }}>
@@ -479,32 +452,60 @@ export function PatternsPageV2({
                     </p>
                   ) : <div />}
 
-                  {/* Speaker */}
+                  {/* Speaker — icon only, no background circle */}
                   <button
                     type="button"
                     onClick={playPatternExamples}
                     aria-label={isPlaying ? '정지' : '예문 듣기'}
                     style={{
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                      width: 30, height: 30, borderRadius: 999, cursor: 'pointer',
-                      background: 'rgba(255,255,255,0.65)',
-                      border: '1px solid rgba(220,225,235,0.8)',
-                      color: '#5F6368', flexShrink: 0,
-                      transition: 'filter 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
+                      padding: 6, cursor: 'pointer',
+                      background: 'none', border: 'none',
+                      color: isPlaying ? '#8F234B' : '#8A8A8E', flexShrink: 0,
+                      transition: 'opacity 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
-                    onPointerDown={e => { e.currentTarget.style.filter = 'brightness(1.08)' }}
-                    onPointerUp={e => { e.currentTarget.style.filter = 'brightness(1)' }}
-                    onPointerLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
+                    onPointerDown={e => { e.currentTarget.style.opacity = '0.6' }}
+                    onPointerUp={e => { e.currentTarget.style.opacity = '1' }}
+                    onPointerLeave={e => { e.currentTarget.style.opacity = '1' }}
                   >
                     {isPlaying
-                      ? <Square style={{ width: 9, height: 9 }} fill="currentColor" strokeWidth={0} />
-                      : <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />}
+                      ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
+                      : <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.6} />}
                   </button>
                 </div>
               </div>
 
               {/* ── Card body ── */}
               <div style={{ padding: '16px 20px 20px' }}>
+
+                {/* Language control — above examples, right-aligned */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
+                  <div style={{
+                    display: 'inline-flex', borderRadius: 8,
+                    background: 'rgba(255,255,255,0.55)',
+                    backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(200,205,215,0.55)',
+                    padding: 2, gap: 0,
+                  }}>
+                    {STUDY_CYCLE.map(mode => (
+                      <button
+                        key={mode}
+                        type="button"
+                        onClick={() => setStudyMode(mode)}
+                        style={{
+                          padding: '3px 8px', borderRadius: 6, border: 'none', cursor: 'pointer',
+                          fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                          background: studyMode === mode ? 'rgba(255,255,255,0.85)' : 'transparent',
+                          color: studyMode === mode ? '#1C1C1E' : '#6E6E73',
+                          boxShadow: studyMode === mode ? '0 1px 3px rgba(0,0,0,0.07)' : 'none',
+                          transition: 'background 0.15s, color 0.15s',
+                        }}
+                      >
+                        {STUDY_LABEL[mode]}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Examples */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
