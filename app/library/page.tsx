@@ -562,28 +562,6 @@ export default function LibraryPage() {
         boxSizing: 'border-box',
       }}>
 
-        {/* ── Summary cards ── */}
-        <div style={{ display: 'flex', gap: 9, marginBottom: 20 }}>
-          <SummaryCard
-            icon={<Bookmark style={{ width: 16, height: 16, color: '#4A6FA8' }} strokeWidth={1.8} />}
-            label="Saved Patterns"
-            value={bookmarks.length}
-            accent="#4A6FA8"
-          />
-          <SummaryCard
-            icon={<Sprout style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.8} />}
-            label="Saved Words"
-            value={words.length}
-            accent="#3A7A4A"
-          />
-          <SummaryCard
-            icon={<RotateCcw style={{ width: 16, height: 16, color: '#8F234B' }} strokeWidth={1.8} />}
-            label="Reviews"
-            value={reviews}
-            accent="#8F234B"
-          />
-        </div>
-
         {/* ── Search bar + Filter ── */}
         <div style={{ marginBottom: isSearching || showRecent ? 0 : 24, position: 'relative' }}>
           <div style={{
@@ -756,6 +734,28 @@ export default function LibraryPage() {
               )}
             </div>
           )}
+        </div>
+
+        {/* ── Summary cards ── */}
+        <div style={{ display: 'flex', gap: 9, marginBottom: 24 }}>
+          <SummaryCard
+            icon={<Bookmark style={{ width: 16, height: 16, color: '#4A6FA8' }} strokeWidth={1.8} />}
+            label="Saved Patterns"
+            value={bookmarks.length}
+            accent="#4A6FA8"
+          />
+          <SummaryCard
+            icon={<Sprout style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.8} />}
+            label="Saved Words"
+            value={words.length}
+            accent="#3A7A4A"
+          />
+          <SummaryCard
+            icon={<RotateCcw style={{ width: 16, height: 16, color: '#8F234B' }} strokeWidth={1.8} />}
+            label="Reviews"
+            value={reviews}
+            accent="#8F234B"
+          />
         </div>
 
         {/* ── Main sections ── */}
