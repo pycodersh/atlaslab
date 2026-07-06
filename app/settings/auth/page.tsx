@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
+import { usePreferences } from '@/contexts/PreferencesContext'
 
 const glassCard: React.CSSProperties = {
   background: 'rgba(255,255,255,0.88)',
@@ -31,35 +32,15 @@ function SecTitle({ label }: { label: string }) {
 export default function AuthPage() {
   const [toast, setToast] = useState('')
   const t = useT()
+  const { prefs } = usePreferences()
+  const isKorean = prefs.language === 'ko'
 
   function handleLogin(provider: string) {
     setToast(`${provider} ${t('auth_coming_soon')}`)
     setTimeout(() => setToast(''), 2800)
   }
 
-  const PROVIDERS = [
-    {
-      id: 'naver',
-      label: t('auth_continue_naver'),
-      logo: (
-        <svg viewBox="0 0 24 24" width={20} height={20} fill="none">
-          <rect width="24" height="24" rx="6" fill="#03C75A" />
-          <path d="M13.74 12.27L10.14 7H7v10h3.26V11.73L14.86 17H18V7h-3.26v5.27z" fill="white" />
-        </svg>
-      ),
-      bg: '#03C75A', text: '#fff', border: 'rgba(3,199,90,0.80)',
-    },
-    {
-      id: 'kakao',
-      label: t('auth_continue_kakao'),
-      logo: (
-        <svg viewBox="0 0 24 24" width={20} height={20} fill="none">
-          <rect width="24" height="24" rx="6" fill="#FEE500" />
-          <path d="M12 5.5C8.13 5.5 5 7.97 5 11.03c0 1.93 1.2 3.63 3.01 4.67l-.77 2.87c-.07.26.22.47.45.33L11.1 17c.29.03.59.05.9.05 3.87 0 7-2.47 7-5.52S15.87 5.5 12 5.5z" fill="#3C1E1E" />
-        </svg>
-      ),
-      bg: '#FEE500', text: '#3C1E1E', border: 'rgba(254,229,0,0.80)',
-    },
+  const BASE_PROVIDERS = [
     {
       id: 'google',
       label: t('auth_continue_google'),
@@ -74,16 +55,44 @@ export default function AuthPage() {
       bg: null, text: null, border: null,
     },
     {
-      id: 'apple',
-      label: t('auth_continue_apple'),
+      id: 'email',
+      label: t('auth_continue_email'),
       logo: (
-        <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor">
-          <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.42c1.28.07 2.17.74 2.93.8 1.12-.22 2.19-.91 3.39-.84 1.44.09 2.52.66 3.22 1.67-2.95 1.78-2.25 5.69.23 6.78-.52 1.56-1.2 3.12-1.77 4.45zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+        <svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="3" />
+          <path d="M2 7l10 7 10-7" />
         </svg>
       ),
-      bg: null, text: null, border: null, dark: true,
+      bg: null, text: null, border: null,
     },
-  ] as const
+  ]
+
+  const KO_PROVIDERS = [
+    {
+      id: 'kakao',
+      label: t('auth_continue_kakao'),
+      logo: (
+        <svg viewBox="0 0 24 24" width={20} height={20} fill="none">
+          <rect width="24" height="24" rx="6" fill="#FEE500" />
+          <path d="M12 5.5C8.13 5.5 5 7.97 5 11.03c0 1.93 1.2 3.63 3.01 4.67l-.77 2.87c-.07.26.22.47.45.33L11.1 17c.29.03.59.05.9.05 3.87 0 7-2.47 7-5.52S15.87 5.5 12 5.5z" fill="#3C1E1E" />
+        </svg>
+      ),
+      bg: '#FEE500', text: '#3C1E1E', border: 'rgba(254,229,0,0.80)',
+    },
+    {
+      id: 'naver',
+      label: t('auth_continue_naver'),
+      logo: (
+        <svg viewBox="0 0 24 24" width={20} height={20} fill="none">
+          <rect width="24" height="24" rx="6" fill="#03C75A" />
+          <path d="M13.74 12.27L10.14 7H7v10h3.26V11.73L14.86 17H18V7h-3.26v5.27z" fill="white" />
+        </svg>
+      ),
+      bg: '#03C75A', text: '#fff', border: 'rgba(3,199,90,0.80)',
+    },
+  ]
+
+  const PROVIDERS = isKorean ? [...BASE_PROVIDERS, ...KO_PROVIDERS] : BASE_PROVIDERS
 
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
@@ -116,8 +125,6 @@ export default function AuthPage() {
             const isLast = i === PROVIDERS.length - 1
             const btnStyle: React.CSSProperties = p.bg
               ? { background: p.bg, color: p.text, border: `1.5px solid ${p.border}` }
-              : ('dark' in p && p.dark)
-              ? { background: 'var(--pt)', color: 'var(--pb)', border: '1.5px solid var(--pt)' }
               : {
                   background: 'rgba(255,255,255,0.80)',
                   backdropFilter: 'blur(16px)',
