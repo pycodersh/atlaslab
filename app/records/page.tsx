@@ -244,6 +244,83 @@ function ScoreInfoPopup({ score, onClose }: { score: number; onClose: () => void
   )
 }
 
+// ── Review Mastery Info Popup ─────────────────────────────────────────────────
+function MasteryInfoPopup({ onClose }: { onClose: () => void }) {
+  return (
+    <>
+      <div onClick={onClose} style={{
+        position: 'fixed', inset: 0, zIndex: 80,
+        background: 'rgba(20,20,40,0.38)',
+        backdropFilter: 'blur(4px)',
+        WebkitBackdropFilter: 'blur(4px)',
+      }} />
+      <div style={{
+        position: 'fixed',
+        top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 81,
+        width: 'calc(100vw - 48px)',
+        maxWidth: 320,
+        background: 'rgba(252,251,255,0.97)',
+        backdropFilter: 'blur(32px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+        borderRadius: 22,
+        border: '1px solid rgba(255,255,255,0.92)',
+        boxShadow: '0 12px 48px rgba(40,50,80,0.18), 0 2px 8px rgba(40,50,80,0.08)',
+        padding: '24px 22px 22px',
+      }}>
+        <button type="button" onClick={onClose} style={{
+          position: 'absolute', top: 16, right: 16,
+          width: 26, height: 26, borderRadius: '50%',
+          background: 'rgba(140,150,185,0.10)', border: 'none', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <X style={{ width: 11, height: 11, color: 'var(--pm2)' }} strokeWidth={2} />
+        </button>
+
+        <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--pt)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
+          Review Mastery
+        </p>
+        <p style={{ fontSize: 11, color: 'var(--pm2)', margin: '0 0 16px', lineHeight: 1.5 }}>
+          각 회차별 패턴 도달 비율
+        </p>
+
+        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 16 }} />
+
+        <p style={{ fontSize: 12, color: 'var(--pt2)', lineHeight: 1.75, margin: '0 0 16px', fontWeight: 500 }}>
+          전체 500개 패턴 중 몇 개가 각 복습 회차에 도달했는지 보여줘요. 회차가 높을수록 장기 기억에 가까워집니다.
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {[
+            { step: '1회', desc: '패턴을 처음 학습한 단계', color: '#C87A3A' },
+            { step: '2회', desc: '1차 복습 완료 — 단기 기억 강화', color: '#C8913A' },
+            { step: '3회', desc: '2차 복습 — 중기 기억으로 전환', color: '#7A6AC8' },
+            { step: '4회', desc: '3차 복습 — 장기 기억 진입', color: '#4A7AC8' },
+            { step: '5회', desc: '완전 습득 — 장기 기억 정착', color: '#2A7A3A' },
+          ].map(({ step, desc, color }) => (
+            <div key={step} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+              <span style={{
+                fontSize: 10, fontWeight: 700, color,
+                background: `${color}12`,
+                border: `1px solid ${color}28`,
+                borderRadius: 6, padding: '2px 8px',
+                flexShrink: 0, marginTop: 1,
+              }}>{step}</span>
+              <span style={{ fontSize: 11, color: 'var(--pt2)', lineHeight: 1.55 }}>{desc}</span>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', margin: '16px 0 12px' }} />
+        <p style={{ fontSize: 10, color: 'var(--pm2)', lineHeight: 1.6, margin: 0 }}>
+          복습은 간격 반복(Spaced Repetition) 방식으로 진행돼요. 복습할수록 다음 복습 간격이 늘어나며 기억이 강화됩니다.
+        </p>
+      </div>
+    </>
+  )
+}
+
 // ── Day detail bottom sheet ───────────────────────────────────────────────────
 
 function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null; onClose: () => void }) {
@@ -344,6 +421,7 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
   const patternPct = Math.min(Math.round((learnedPatterns / 500) * 100), 100)
   const { grade, comment, color } = getScoreGrade(score)
   const [showInfo, setShowInfo] = useState(false)
+  const [showMasteryInfo, setShowMasteryInfo] = useState(false)
 
   return (
     <>
@@ -431,9 +509,19 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
 
         {/* ── Review Mastery ── */}
         <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
-          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: '0 0 18px', textTransform: 'uppercase' }}>
-            Review Mastery
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: 0, textTransform: 'uppercase' }}>
+              Review Mastery
+            </p>
+            <button type="button" onClick={() => setShowMasteryInfo(true)} style={{
+              width: 22, height: 22, borderRadius: '50%',
+              background: 'rgba(140,150,185,0.12)', border: '1px solid rgba(140,150,185,0.20)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', padding: 0,
+            }}>
+              <Info style={{ width: 11, height: 11, color: 'var(--pm2)' }} strokeWidth={2} />
+            </button>
+          </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             {mastery.map((pct, i) => (
               <MasteryRing key={i} pct={pct} label={`${i + 1}회`} />
@@ -446,6 +534,7 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
       </div>
 
       {showInfo && <ScoreInfoPopup score={score} onClose={() => setShowInfo(false)} />}
+      {showMasteryInfo && <MasteryInfoPopup onClose={() => setShowMasteryInfo(false)} />}
     </>
   )
 }
