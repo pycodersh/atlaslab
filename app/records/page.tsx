@@ -6,13 +6,12 @@ import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { LearningCalendar } from '@/components/LearningCalendar'
 import {
-  getAllRecords, getStreak, getTotalPracticeMs,
-  getReviewedTodayCount, getStudiedTodayStoryCount, getActivityByDate,
-  todayStr, localDateStr,
+  getAllRecords, getStreak, getActivityByDate,
+  getStudiedTodayStoryCount, getReviewedTodayCount, todayStr,
   type LearningRecord,
 } from '@/lib/srs/storage'
 import {
-  getFutureSchedule, getEnhancedDayDetail, getTodayMission,
+  getFutureSchedule, getEnhancedDayDetail,
   type EnhancedDayDetail, type ScheduledDay,
 } from '@/lib/srs/engine'
 
@@ -26,7 +25,6 @@ function computeMemoryScore(records: LearningRecord[]): number {
   return Math.round((patternScore + storyScore) / 2 * 100)
 }
 
-// Review Mastery: % of patterns that reached each repeat level
 function computeReviewMastery(records: LearningRecord[]): number[] {
   const patterns = records.filter(r => r.itemType === 'pattern' && r.repeatCount > 0)
   const total = patterns.length
@@ -36,42 +34,132 @@ function computeReviewMastery(records: LearningRecord[]): number[] {
   )
 }
 
-// Best streak from activity log
 function getBestStreak(): number {
   const map = getActivityByDate()
   const dates = Object.keys(map).filter(d => (map[d] ?? 0) > 0).sort()
   if (dates.length === 0) return 0
   let best = 1, current = 1
   for (let i = 1; i < dates.length; i++) {
-    const prev = new Date(dates[i - 1])
-    const curr = new Date(dates[i])
-    const diff = Math.round((curr.getTime() - prev.getTime()) / 86400000)
+    const diff = Math.round(
+      (new Date(dates[i]).getTime() - new Date(dates[i - 1]).getTime()) / 86400000
+    )
     if (diff === 1) { current++; best = Math.max(best, current) }
     else current = 1
   }
   return best
 }
 
-// Today's practice time from records
-function getTodayPracticeMs(records: LearningRecord[]): number {
-  const today = todayStr()
-  return records
-    .filter(r => r.lastPracticedAt?.slice(0, 10) === today)
-    .reduce((sum, r) => sum + (r.totalPracticeTime || 0), 0)
-}
-
-function fmtTime(ms: number): string {
-  const min = Math.floor(ms / 60000)
-  if (min < 1) return '<1m'
-  if (min < 60) return `${min}m`
-  const h = Math.floor(min / 60), rem = min % 60
-  return rem === 0 ? `${h}h` : `${h}h ${rem}m`
-}
-
 function fmtDate(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number)
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
   return `${months[m - 1]} ${d}, ${y}`
+}
+
+// ── Shared ────────────────────────────────────────────────────────────────────
+
+const glassCard: React.CSSProperties = {
+  background: 'rgba(255,255,255,0.80)',
+  backdropFilter: 'blur(28px) saturate(180%)',
+  WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+  borderRadius: 24,
+  border: '1px solid rgba(255,255,255,0.88)',
+  boxShadow: '0 2px 24px rgba(40,50,80,0.06), 0 1px 4px rgba(40,50,80,0.03)',
+}
+
+// ── Circular Progress Ring ────────────────────────────────────────────────────
+
+function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
+  pct: number; size?: number; stroke?: number; color?: string
+}) {
+  const r   = (size - stroke) / 2
+  const circ = 2 * Math.PI * r
+  const offset = circ * (1 - Math.min(pct, 100) / 100)
+
+  return (
+    <svg width={size} height={size} style={{ flexShrink: 0, transform: 'rotate(-90deg)' }}>
+      {/* Track */}
+      <circle
+        cx={size / 2} cy={size / 2} r={r}
+        fill="none"
+        stroke="rgba(140,150,185,0.13)"
+        strokeWidth={stroke}
+      />
+      {/* Progress */}
+      <circle
+        cx={size / 2} cy={size / 2} r={r}
+        fill="none"
+        stroke={color}
+        strokeWidth={stroke}
+        strokeLinecap="round"
+        strokeDasharray={circ}
+        strokeDashoffset={offset}
+        style={{ transition: 'stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)' }}
+      />
+    </svg>
+  )
+}
+
+// ── Slim progress bar ─────────────────────────────────────────────────────────
+
+function SlimBar({ pct, color }: { pct: number; color: string }) {
+  return (
+    <div style={{ height: 3, background: 'rgba(140,150,185,0.12)', borderRadius: 99, overflow: 'hidden' }}>
+      <div style={{
+        height: '100%', width: `${Math.min(pct, 100)}%`,
+        background: color, borderRadius: 99,
+        transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)',
+      }} />
+    </div>
+  )
+}
+
+// ── Mastery ring (small SVG circle with stroke) ───────────────────────────────
+
+function MasteryRing({ pct, label }: { pct: number; label: string }) {
+  const size = 44, stroke = 3, r = (size - stroke) / 2
+  const circ = 2 * Math.PI * r
+  const offset = circ * (1 - pct / 100)
+  const active = pct > 0
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, flex: 1 }}>
+      <div style={{ position: 'relative', width: size, height: size }}>
+        <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
+          <circle
+            cx={size / 2} cy={size / 2} r={r}
+            fill="none"
+            stroke="rgba(140,150,185,0.14)"
+            strokeWidth={stroke}
+          />
+          <circle
+            cx={size / 2} cy={size / 2} r={r}
+            fill="none"
+            stroke={active ? '#4A7AC8' : 'transparent'}
+            strokeWidth={stroke}
+            strokeLinecap="round"
+            strokeDasharray={circ}
+            strokeDashoffset={offset}
+            style={{ transition: 'stroke-dashoffset 1.3s cubic-bezier(0.4,0,0.2,1)' }}
+          />
+        </svg>
+        <div style={{
+          position: 'absolute', inset: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <span style={{
+            fontSize: 10, fontWeight: 700,
+            color: active ? '#4A7AC8' : 'rgba(140,150,185,0.55)',
+            lineHeight: 1,
+          }}>
+            {pct}%
+          </span>
+        </div>
+      </div>
+      <span style={{ fontSize: 9.5, fontWeight: 500, color: 'var(--pm2)', letterSpacing: '0.02em' }}>
+        {label}
+      </span>
+    </div>
+  )
 }
 
 // ── Day detail bottom sheet ───────────────────────────────────────────────────
@@ -91,41 +179,43 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
   return (
     <>
       <div onClick={onClose} style={{
-        position: 'fixed', inset: 0, zIndex: 60, background: 'rgba(0,0,0,0.42)',
-        opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none', transition: 'opacity 0.22s',
+        position: 'fixed', inset: 0, zIndex: 60,
+        background: 'rgba(0,0,0,0.36)',
+        opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none',
+        transition: 'opacity 0.22s',
       }} />
       <div style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
-        background: 'rgba(252,250,255,0.95)',
-        backdropFilter: 'blur(28px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+        background: 'rgba(252,250,255,0.96)',
+        backdropFilter: 'blur(32px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
         borderRadius: '24px 24px 0 0',
-        border: '1px solid rgba(255,255,255,0.9)',
-        boxShadow: '0 -8px 40px rgba(0,0,0,0.10)',
+        border: '1px solid rgba(255,255,255,0.92)',
+        boxShadow: '0 -6px 32px rgba(0,0,0,0.08)',
         transform: open ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.30s cubic-bezier(0.4,0,0.2,1)',
-        paddingBottom: `calc(24px + env(safe-area-inset-bottom, 0px))`,
+        paddingBottom: 'calc(24px + env(safe-area-inset-bottom, 0px))',
         maxHeight: '72dvh', overflowY: 'auto',
       }}>
         <div style={{ padding: '12px 24px 0' }}>
-          <div style={{ width: 36, height: 4, background: 'var(--pd)', borderRadius: 2, margin: '0 auto' }} />
+          <div style={{ width: 32, height: 3, background: 'rgba(140,150,185,0.22)', borderRadius: 99, margin: '0 auto' }} />
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 24px 0' }}>
-          <p style={{ fontSize: 'clamp(1.3rem, 5vw, 1.6rem)', fontWeight: 900, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
+          <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
             {detail ? fmtDate(detail.date) : ''}
           </p>
           <button type="button" onClick={onClose} style={{
-            width: 30, height: 30, borderRadius: '50%',
-            background: 'var(--pc)', border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            width: 28, height: 28, borderRadius: '50%',
+            background: 'rgba(140,150,185,0.10)', border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <X style={{ width: 14, height: 14, color: 'var(--pm)' }} strokeWidth={2} />
+            <X style={{ width: 12, height: 12, color: 'var(--pm2)' }} strokeWidth={2} />
           </button>
         </div>
         {detail && (
-          <div style={{ padding: '18px 24px' }}>
+          <div style={{ padding: '16px 24px' }}>
             {isEmpty && (
-              <p style={{ fontSize: 13, color: 'var(--pm2)', textAlign: 'center', paddingTop: 12 }}>
+              <p style={{ fontSize: 13, color: 'var(--pm2)', textAlign: 'center', paddingTop: 8 }}>
                 이 날은 학습 기록이 없어요.
               </p>
             )}
@@ -135,7 +225,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                   Completed
                 </p>
                 {detail.completed.map(item => (
-                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid var(--pd)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
+                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
                     Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
                   </div>
                 ))}
@@ -147,7 +237,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                   Due
                 </p>
                 {detail.due.map(item => (
-                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid var(--pd)', fontSize: 13, color: 'var(--pt2)', fontWeight: 500 }}>
+                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt2)', fontWeight: 500 }}>
                     Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
                   </div>
                 ))}
@@ -160,36 +250,9 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
   )
 }
 
-// ── Shared styles ─────────────────────────────────────────────────────────────
-
-const glassCard: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.82)',
-  backdropFilter: 'blur(24px) saturate(180%)',
-  WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-  borderRadius: 20,
-  border: '1px solid rgba(255,255,255,0.86)',
-  boxShadow: '0 4px 20px rgba(40,50,80,0.07)',
-}
-
-// ── Thin progress bar ─────────────────────────────────────────────────────────
-
-function ThinBar({ pct, color = 'rgba(78,118,200,0.85)' }: { pct: number; color?: string }) {
-  return (
-    <div style={{ height: 4, background: 'rgba(140,150,180,0.14)', borderRadius: 2, overflow: 'hidden' }}>
-      <div style={{
-        height: '100%', width: `${Math.min(pct, 100)}%`,
-        background: color, borderRadius: 2,
-        transition: 'width 1.1s ease-out',
-      }} />
-    </div>
-  )
-}
-
 // ── Page 1: Memory Score ──────────────────────────────────────────────────────
 
-function PageScore({
-  score, learnedStories, learnedPatterns, mastery,
-}: {
+function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
   score: number
   learnedStories: number
   learnedPatterns: number
@@ -199,99 +262,82 @@ function PageScore({
   const patternPct = Math.min(Math.round((learnedPatterns / 500) * 100), 100)
 
   return (
-    <div style={{ padding: '0 20px', boxSizing: 'border-box' }}>
+    <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-      {/* ── Memory Score ── */}
-      <div style={{ ...glassCard, padding: '24px 22px 20px', marginBottom: 12 }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', margin: '0 0 12px', textTransform: 'uppercase' }}>
+      {/* ── Memory Score hero ── */}
+      <div style={{ ...glassCard, padding: '24px 24px 22px' }}>
+
+        {/* Label */}
+        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 18px', textTransform: 'uppercase' }}>
           Memory Score
         </p>
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, marginBottom: 6 }}>
-          <span style={{
-            fontSize: 'clamp(3rem, 16vw, 4rem)', fontWeight: 900,
-            color: 'var(--pt)', lineHeight: 1, letterSpacing: '-0.04em',
-          }}>
-            {score}
-          </span>
-          <span style={{ fontSize: 20, fontWeight: 500, color: 'var(--pm2)', lineHeight: 1, marginBottom: 6 }}>%</span>
-        </div>
-        <p style={{ fontSize: 11, color: 'var(--pm2)', margin: '0 0 14px', fontWeight: 400 }}>
-          Story + Pattern 장기 기억 평균
-        </p>
-        <ThinBar pct={score} color="linear-gradient(90deg, rgba(78,118,200,0.7) 0%, rgba(78,118,200,1) 100%)" />
-      </div>
 
-      {/* ── Story & Pattern Progress ── */}
-      <div style={{ ...glassCard, padding: '18px 20px', marginBottom: 12 }}>
+        {/* Ring + score row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 22, marginBottom: 24 }}>
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <RingProgress pct={score} size={80} stroke={5} color="#4A7AC8" />
+            <div style={{
+              position: 'absolute', inset: 0,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              gap: 1,
+            }}>
+              <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', lineHeight: 1, letterSpacing: '-0.03em' }}>
+                {score}
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm2)' }}>%</span>
+            </div>
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 4px', lineHeight: 1.3 }}>
+              장기 기억 점수
+            </p>
+            <p style={{ fontSize: 11, fontWeight: 400, color: 'var(--pm2)', margin: 0, lineHeight: 1.5 }}>
+              Story + Pattern<br />반복 학습 기반 평균
+            </p>
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 20 }} />
 
         {/* Story Progress */}
         <div style={{ marginBottom: 18 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt2)', letterSpacing: '0.01em' }}>Story Progress</span>
-            <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--pt2)' }}>Story Progress</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
               {learnedStories}
-              <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--pm2)' }}> / 100</span>
+              <span style={{ fontWeight: 400, color: 'var(--pm2)', fontSize: 11 }}> / 100</span>
             </span>
           </div>
-          <ThinBar pct={storyPct} color="rgba(78,118,200,0.80)" />
-          <p style={{ fontSize: 9.5, color: 'var(--pm2)', margin: '5px 0 0', fontWeight: 400 }}>5회 반복 완료 기준 100%</p>
+          <SlimBar pct={storyPct} color="#4A7AC8" />
         </div>
 
         {/* Pattern Progress */}
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt2)', letterSpacing: '0.01em' }}>Pattern Progress</span>
-            <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
+            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--pt2)' }}>Pattern Progress</span>
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
               {learnedPatterns}
-              <span style={{ fontSize: 11, fontWeight: 400, color: 'var(--pm2)' }}> / 500</span>
+              <span style={{ fontWeight: 400, color: 'var(--pm2)', fontSize: 11 }}> / 500</span>
             </span>
           </div>
-          <ThinBar pct={patternPct} color="rgba(90,78,200,0.75)" />
-          <p style={{ fontSize: 9.5, color: 'var(--pm2)', margin: '5px 0 0', fontWeight: 400 }}>5회 반복 완료 기준 100%</p>
+          <SlimBar pct={patternPct} color="#7A6AC8" />
         </div>
       </div>
 
       {/* ── Review Mastery ── */}
-      <div style={{ ...glassCard, padding: '18px 20px' }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', margin: '0 0 16px', textTransform: 'uppercase' }}>
+      <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
+        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 18px', textTransform: 'uppercase' }}>
           Review Mastery
         </p>
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 6 }}>
-          {mastery.map((pct, i) => {
-            const active = pct > 0
-            const circleColor = active
-              ? `rgba(78,118,200,${0.25 + (pct / 100) * 0.65})`
-              : 'rgba(180,190,215,0.25)'
-            const textColor = active ? '#4A7AC8' : 'var(--pm2)'
-            return (
-              <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                {/* Step circle */}
-                <div style={{
-                  width: 44, height: 44, borderRadius: '50%',
-                  background: circleColor,
-                  border: `1.5px solid ${active ? 'rgba(78,118,200,0.30)' : 'rgba(180,190,215,0.30)'}`,
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  gap: 1,
-                }}>
-                  <span style={{ fontSize: 8.5, fontWeight: 700, color: textColor, letterSpacing: '0.04em' }}>
-                    {i + 1}회
-                  </span>
-                  <span style={{ fontSize: 11, fontWeight: 800, color: textColor, lineHeight: 1 }}>
-                    {pct}%
-                  </span>
-                </div>
-                {/* Bar under circle */}
-                <div style={{ width: '100%', height: 3, background: 'rgba(140,150,180,0.14)', borderRadius: 2, overflow: 'hidden' }}>
-                  <div style={{
-                    height: '100%', width: `${pct}%`,
-                    background: active ? `rgba(78,118,200,${0.4 + (pct / 100) * 0.5})` : 'transparent',
-                    borderRadius: 2, transition: 'width 1.2s ease-out',
-                  }} />
-                </div>
-              </div>
-            )
-          })}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          {mastery.map((pct, i) => (
+            <MasteryRing key={i} pct={pct} label={`${i + 1}회`} />
+          ))}
         </div>
+        <p style={{ fontSize: 10, color: 'rgba(140,150,185,0.65)', margin: '16px 0 0', textAlign: 'center', fontWeight: 400 }}>
+          전체 학습 패턴 중 각 회차 도달 비율
+        </p>
       </div>
     </div>
   )
@@ -299,25 +345,18 @@ function PageScore({
 
 // ── Page 2: Memory Calendar ───────────────────────────────────────────────────
 
-function PageCalendar({
-  futureSchedule, selectedIso, onDaySelect,
-  streak, bestStreak, todayNew, todayReview, todayMs,
-}: {
+function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak }: {
   futureSchedule: Record<string, ScheduledDay>
   selectedIso: string | null
   onDaySelect: (iso: string) => void
   streak: number
-  bestStreak: number
-  todayNew: number
-  todayReview: number
-  todayMs: number
 }) {
   return (
-    <div style={{ padding: '0 20px', boxSizing: 'border-box' }}>
+    <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 0 }}>
 
-      {/* ── Calendar ── */}
-      <div style={{ ...glassCard, padding: '18px 16px 14px', marginBottom: 12 }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', margin: '0 0 14px', textTransform: 'uppercase' }}>
+      {/* ── Calendar card ── */}
+      <div style={{ ...glassCard, padding: '22px 18px 18px' }}>
+        <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 16px', textTransform: 'uppercase' }}>
           Memory Calendar
         </p>
         <LearningCalendar
@@ -327,53 +366,18 @@ function PageCalendar({
         />
       </div>
 
-      {/* ── Current Streak ── */}
-      <div style={{ ...glassCard, padding: '16px 20px', marginBottom: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span style={{ fontSize: 28, lineHeight: 1, flexShrink: 0 }}>🔥</span>
-          <div style={{ flex: 1 }}>
-            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 2px', textTransform: 'uppercase' }}>
-              Current Streak
-            </p>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 4 }}>
-              <span style={{ fontSize: 'clamp(1.6rem, 7vw, 2rem)', fontWeight: 900, color: '#C0541A', lineHeight: 1, letterSpacing: '-0.02em' }}>
-                {streak}
-              </span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#C0541A' }}>Days</span>
-            </div>
-          </div>
-          {bestStreak > 0 && (
-            <div style={{ textAlign: 'right', flexShrink: 0 }}>
-              <p style={{ fontSize: 9, fontWeight: 600, color: 'var(--pm2)', margin: '0 0 2px', letterSpacing: '0.06em' }}>BEST</p>
-              <p style={{ fontSize: 13, fontWeight: 800, color: 'var(--pt)', margin: 0 }}>{bestStreak} Days</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* ── Today stats ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
-        {([
-          { label: 'Today New',    value: todayNew },
-          { label: 'Review Done',  value: todayReview },
-          { label: 'Study Time',   value: fmtTime(todayMs) },
-        ] as const).map(({ label, value }) => (
-          <div key={label} style={{
-            ...glassCard,
-            padding: '13px 10px',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5,
-          }}>
-            <span style={{
-              fontSize: typeof value === 'number' ? 'clamp(1.1rem,5vw,1.35rem)' : 'clamp(0.95rem,4vw,1.1rem)',
-              fontWeight: 800, color: 'var(--pt)', lineHeight: 1,
-            }}>
-              {value}
-            </span>
-            <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.08em', color: 'var(--pm2)', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
-              {label}
-            </span>
-          </div>
-        ))}
+      {/* ── Streak inline row ── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 8,
+        padding: '16px 6px 4px',
+      }}>
+        <span style={{ fontSize: 18, lineHeight: 1 }}>🔥</span>
+        <span style={{ fontSize: 13, fontWeight: 600, color: streak > 0 ? '#C0541A' : 'var(--pm2)' }}>
+          {streak > 0 ? `${streak} Days` : 'No streak yet'}
+        </span>
+        <span style={{ fontSize: 11, color: 'var(--pm2)', fontWeight: 400 }}>
+          {streak > 0 ? 'Current Streak' : ''}
+        </span>
       </div>
     </div>
   )
@@ -382,29 +386,21 @@ function PageCalendar({
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ProgressPage() {
-  const railRef  = useRef<HTMLDivElement>(null)
+  const railRef = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState(0)
 
-  const [dayDetail, setDayDetail]       = useState<EnhancedDayDetail | null>(null)
-  const [selectedIso, setSelectedIso]   = useState<string | null>(null)
+  const [dayDetail, setDayDetail]     = useState<EnhancedDayDetail | null>(null)
+  const [selectedIso, setSelectedIso] = useState<string | null>(null)
   const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
 
-  const [records, setRecords]       = useState<LearningRecord[]>([])
-  const [streak, setStreak]         = useState(0)
-  const [bestStreak, setBestStreak] = useState(0)
-  const [todayNew, setTodayNew]     = useState(0)
-  const [todayReview, setTodayReview] = useState(0)
-  const [todayMs, setTodayMs]       = useState(0)
+  const [records, setRecords] = useState<LearningRecord[]>([])
+  const [streak, setStreak]   = useState(0)
 
   useEffect(() => {
     const allRec = getAllRecords()
     setRecords(allRec)
     setFutureSchedule(getFutureSchedule())
     setStreak(getStreak())
-    setBestStreak(getBestStreak())
-    setTodayNew(getStudiedTodayStoryCount())
-    setTodayReview(getReviewedTodayCount())
-    setTodayMs(getTodayPracticeMs(allRec))
   }, [])
 
   const learnedPatterns = records.filter(r => r.itemType === 'pattern').length
@@ -412,15 +408,13 @@ export default function ProgressPage() {
   const memoryScore     = useMemo(() => computeMemoryScore(records), [records])
   const mastery         = useMemo(() => computeReviewMastery(records), [records])
 
-  // Scroll-snap: track active page
   useEffect(() => {
     const rail = railRef.current
     if (!rail) return
-    const handleScroll = () => {
+    const onScroll = () =>
       setPage(Math.min(1, Math.max(0, Math.round(rail.scrollLeft / rail.clientWidth))))
-    }
-    rail.addEventListener('scroll', handleScroll, { passive: true })
-    return () => rail.removeEventListener('scroll', handleScroll)
+    rail.addEventListener('scroll', onScroll, { passive: true })
+    return () => rail.removeEventListener('scroll', onScroll)
   }, [])
 
   function goToPage(idx: number) {
@@ -438,47 +432,42 @@ export default function ProgressPage() {
       <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <TopNav />
 
-        {/* ── Page indicator dots ── */}
+        {/* ── Page indicator ── */}
         <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-          padding: '10px 0 8px', flexShrink: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+          padding: '8px 0 6px', flexShrink: 0,
         }}>
           {[0, 1].map(i => (
             <button
-              key={i}
-              type="button"
-              onClick={() => goToPage(i)}
+              key={i} type="button" onClick={() => goToPage(i)}
               style={{
-                width: page === i ? 22 : 6, height: 6, borderRadius: 3,
-                background: page === i ? 'rgba(78,118,200,0.85)' : 'rgba(140,150,180,0.28)',
+                width: page === i ? 20 : 5, height: 5, borderRadius: 99,
+                background: page === i ? 'rgba(74,122,200,0.80)' : 'rgba(140,150,185,0.22)',
                 border: 'none', cursor: 'pointer', padding: 0,
-                transition: 'width 0.25s ease, background 0.25s ease',
+                transition: 'width 0.28s ease, background 0.28s ease',
               }}
             />
           ))}
         </div>
 
-        {/* ── Horizontal scroll-snap rail ── */}
+        {/* ── Scroll rail ── */}
         <div
           ref={railRef}
           style={{
-            flex: 1,
-            display: 'flex',
-            overflowX: 'auto',
-            overflowY: 'hidden',
+            flex: 1, display: 'flex',
+            overflowX: 'auto', overflowY: 'hidden',
             scrollSnapType: 'x mandatory',
             scrollBehavior: 'smooth',
-            WebkitOverflowScrolling: 'touch' as 'auto',
             scrollbarWidth: 'none',
           } as React.CSSProperties}
         >
-          {/* Page 0: Memory Score */}
+          {/* Page 0 */}
           <div style={{
             flex: '0 0 100%', scrollSnapAlign: 'start',
             overflowY: 'auto', height: '100%',
-            paddingTop: 10, paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box',
+            paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box',
           }}>
-            <div style={{ maxWidth: 480, margin: '0 auto', width: '100%' }}>
+            <div style={{ maxWidth: 480, margin: '0 auto' }}>
               <PageScore
                 score={memoryScore}
                 learnedStories={learnedStories}
@@ -488,22 +477,18 @@ export default function ProgressPage() {
             </div>
           </div>
 
-          {/* Page 1: Memory Calendar */}
+          {/* Page 1 */}
           <div style={{
             flex: '0 0 100%', scrollSnapAlign: 'start',
             overflowY: 'auto', height: '100%',
-            paddingTop: 10, paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box',
+            paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box',
           }}>
-            <div style={{ maxWidth: 480, margin: '0 auto', width: '100%' }}>
+            <div style={{ maxWidth: 480, margin: '0 auto' }}>
               <PageCalendar
                 futureSchedule={futureSchedule}
                 selectedIso={selectedIso}
                 onDaySelect={handleDaySelect}
                 streak={streak}
-                bestStreak={bestStreak}
-                todayNew={todayNew}
-                todayReview={todayReview}
-                todayMs={todayMs}
               />
             </div>
           </div>
@@ -515,7 +500,7 @@ export default function ProgressPage() {
         onClose={() => { setDayDetail(null); setSelectedIso(null) }}
       />
 
-      <style>{`div::-webkit-scrollbar { display: none }`}</style>
+      <style>{`div::-webkit-scrollbar{display:none}`}</style>
     </>
   )
 }
