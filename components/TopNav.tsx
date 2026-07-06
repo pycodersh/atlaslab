@@ -7,33 +7,13 @@ export const NAV_HEIGHT = 60
 
 function PattoIcon() {
   return (
-    <svg width="34" height="34" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
-      {/* Background */}
-      <rect width="100" height="100" rx="22" fill="white" />
-      <rect x="1" y="1" width="98" height="98" rx="21" stroke="rgba(0,0,0,0.09)" strokeWidth="2" fill="none" />
-
-      {/* P — large serif (Georgia-style) */}
-      <text
-        x="6" y="82"
-        fontFamily="Georgia, 'Times New Roman', serif"
-        fontSize="76"
-        fill="black"
-        fontWeight="normal"
-      >P</text>
-
-      {/* A — tent shape, no crossbar, drawn on top of P */}
-      <line x1="53" y1="12" x2="9" y2="91" stroke="black" strokeWidth="6.5" strokeLinecap="round" />
-      <line x1="53" y1="12" x2="95" y2="91" stroke="black" strokeWidth="6.5" strokeLinecap="round" />
-
-      {/* T — small serif, centered under A peak */}
-      <text
-        x="40" y="78"
-        fontFamily="Georgia, 'Times New Roman', serif"
-        fontSize="26"
-        fill="black"
-        fontWeight="normal"
-      >T</text>
-    </svg>
+    <img
+      src="/Patto Logo.jpg"
+      alt="PATTO"
+      width={34}
+      height={34}
+      style={{ borderRadius: 8, flexShrink: 0, display: 'block' }}
+    />
   )
 }
 
