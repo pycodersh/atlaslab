@@ -183,7 +183,6 @@ export function StoryPage({
           WebkitOverflowScrolling: 'touch' as never,
           touchAction: 'pan-y',
           paddingTop: 8,
-          paddingBottom: 'calc(140px + env(safe-area-inset-bottom, 0px))',
         }}
       >
 
@@ -401,6 +400,8 @@ export function StoryPage({
           </div>
         </div>
 
+        {/* iOS Safari: padding-bottom on overflow-scroll is ignored — use spacer instead */}
+        <div style={{ height: 'calc(140px + env(safe-area-inset-bottom, 0px))', flexShrink: 0 }} />
       </div>
     </div>
   )

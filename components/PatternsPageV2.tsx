@@ -359,7 +359,6 @@ export function PatternsPageV2({
           overflowY: 'scroll',
           WebkitOverflowScrolling: 'touch' as never,
           touchAction: 'pan-y',
-          paddingBottom: 'calc(120px + env(safe-area-inset-bottom, 0px))',
         }}
       >
         <div style={{ padding: '0 16px 0' }}>
@@ -587,6 +586,9 @@ export function PatternsPageV2({
             </div>
           </div>
         </div>
+
+        {/* iOS Safari: padding-bottom on overflow-scroll is ignored — use spacer instead */}
+        <div style={{ height: 'calc(140px + env(safe-area-inset-bottom, 0px))', flexShrink: 0 }} />
       </div>
 
       {/* ── Pattern Note Popup ── */}
