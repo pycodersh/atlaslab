@@ -286,7 +286,7 @@ export function PatternsPageV2({
       patternExamples, pat.id,
       pat.storySentence, pat.storySentenceKo,
       pat.variationSentence, pat.variationSentenceKo,
-    )
+    ).slice(0, 3)
 
     runningRef.current = true
     startedAtRef.current = Date.now()
