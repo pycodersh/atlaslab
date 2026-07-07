@@ -10,20 +10,29 @@ function PattoIcon() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   return (
-    <div style={{
-      width: 34, height: 34, flexShrink: 0,
-      background: 'var(--pb)',
-      isolation: 'isolate',
-      lineHeight: 0,
-    }}>
+    <>
+      {/* SVG filter: removes white background from PNG by keying on brightness */}
+      <svg width={0} height={0} style={{ position: 'absolute' }}>
+        <defs>
+          <filter id="patto-remove-white">
+            <feColorMatrix type="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 3 0" />
+          </filter>
+        </defs>
+      </svg>
       <img
         src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
         alt="PATTO"
         width={34}
         height={34}
-        style={{ display: 'block', mixBlendMode: isDark ? 'screen' : 'multiply', filter: isDark ? 'brightness(1.4) contrast(2)' : 'none' }}
+        style={{
+          flexShrink: 0, display: 'block',
+          filter: isDark
+            ? 'brightness(1.4) contrast(2)'
+            : 'url(#patto-remove-white)',
+        }}
       />
-    </div>
+    </>
   )
 }
 
