@@ -10,7 +10,8 @@ export type WordSourceType = 'story' | 'pattern' | 'example' | 'essay'
 export type SavedWord = {
   id:               string           // UUID-like unique key
   word:             string
-  meaning?:         string           // optional — 사용자가 직접 입력하거나 AI가 채울 예정
+  meaning?:         string           // legacy Korean meaning / fallback
+  translations?:    Partial<Record<string, string>>  // lang → meaning (cache)
   sourceType:       WordSourceType
   sourceId:         string           // storyId or patternId or essayId (string)
   storyId?:         number
@@ -24,6 +25,7 @@ export type SavedWord = {
 import { getPlan, FREE_WORD_LIMIT } from '@/lib/subscription/storage'
 import { lookupMeaning, normalizeWord } from '@/data/patto-dictionary'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
+import { upsertCacheEntry, getCacheEntry } from '@/lib/saved/translationCache'
 
 const KEY = 'patto-saved-words'
 
@@ -65,10 +67,24 @@ export function isSavedWord(word: string): boolean {
 }
 
 export function saveWord(item: Omit<SavedWord, 'id' | 'savedAt'>): SavedWord {
-  // normalizeWord strips punctuation/apostrophes so lookup works for "It's", "Sunday," etc.
-  const meaning = item.meaning ?? lookupMeaning(normalizeWord(item.word))
+  const dictMeaning = item.meaning ?? lookupMeaning(normalizeWord(item.word))
+
+  // Merge existing cache translations so re-saves reuse prior API calls
+  const cached = getCacheEntry('word', item.word)
+  const translations = { ...(cached?.translations ?? {}), ...(item.translations ?? {}) }
+  if (dictMeaning) translations.ko = translations.ko ?? dictMeaning
+
+  // Persist to translation cache
+  if (Object.keys(translations).length) upsertCacheEntry('word', item.word, translations)
+
   const map = readAll()
-  const entry: SavedWord = { ...item, meaning, id: genId(), savedAt: new Date().toISOString() }
+  const entry: SavedWord = {
+    ...item,
+    meaning: dictMeaning,
+    translations,
+    id: genId(),
+    savedAt: new Date().toISOString(),
+  }
   map[entry.id] = entry
   writeAll(map)
   return entry
@@ -86,7 +102,8 @@ export type SavedPhrase = {
   id:               string
   phrase:           string
   phraseType:       string           // 'phrasalVerb' | 'idiom' | 'chunk' | etc.
-  meaning?:         string
+  meaning?:         string           // legacy Korean meaning / fallback
+  translations?:    Partial<Record<string, string>>  // lang → meaning (cache)
   meaningSource?:   'dictionary' | 'sentence'  // where meaning came from
   needsMeaningReview?: boolean                 // true if sentence fallback used
   sourceType:       WordSourceType
@@ -138,9 +155,18 @@ export function savePhrase(item: Omit<SavedPhrase, 'id' | 'savedAt'>): SavedPhra
     meaningSource = 'sentence'
     needsMeaningReview = true
   }
+
+  // Merge existing cache translations so re-saves reuse prior API calls
+  const cached = getCacheEntry('phrase', item.phrase)
+  const translations = { ...(cached?.translations ?? {}), ...(item.translations ?? {}) }
+  if (meaning) translations.ko = translations.ko ?? meaning
+
+  if (Object.keys(translations).length) upsertCacheEntry('phrase', item.phrase, translations)
+
   const entry: SavedPhrase = {
     ...item,
     meaning,
+    translations,
     meaningSource,
     needsMeaningReview,
     id: `ph-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,

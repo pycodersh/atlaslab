@@ -56,7 +56,9 @@ export function StoryPage({
   // ── Learning mode state ──────────────────────────────────────────────────
   type StudyMode = 'en' | 'en-ko' | 'ko'
   const STUDY_CYCLE: StudyMode[] = ['en', 'en-ko', 'ko']
-  const STUDY_LABEL: Record<StudyMode, string> = { 'en': 'EN', 'en-ko': 'EN·KO', 'ko': 'KO' }
+  const LANG_CODE: Record<string, string> = { ko: 'KO', ja: 'JP', es: 'ES', fr: 'FR', de: 'DE', 'zh-cn': '中文', 'zh-tw': '中文' }
+  const langCode = LANG_CODE[prefs.language] ?? prefs.language.toUpperCase()
+  const STUDY_LABEL: Record<StudyMode, string> = { 'en': 'EN', 'en-ko': `EN·${langCode}`, 'ko': langCode }
 
   const [studyMode, setStudyMode] = useState<StudyMode>('en')
   const showEnglish = studyMode === 'en' || studyMode === 'en-ko'
@@ -313,7 +315,8 @@ export function StoryPage({
             className="glass-card"
             style={{ borderRadius: 20, position: 'relative' }}
           >
-            {/* Segmented Control — absolute top-right, does not reduce text width */}
+            {/* Segmented Control — absolute top-right, hidden when app language is English */}
+            {prefs.language !== 'en' && (
             <div style={{ position: 'absolute', top: 14, right: 16, zIndex: 2 }}>
               <div style={{
                 display: 'inline-flex', borderRadius: 10,
@@ -341,6 +344,7 @@ export function StoryPage({
                 ))}
               </div>
             </div>
+            )}
 
             {/* Paragraphs */}
             <div style={{ padding: '48px 28px 8px' }}>

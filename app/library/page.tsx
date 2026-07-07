@@ -15,6 +15,7 @@ import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/book
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
 import { useT } from '@/hooks/useT'
+import { useItemTranslation } from '@/hooks/useItemTranslation'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
 import { lookupMeaning } from '@/data/patto-dictionary'
 import type { MagazinePattern } from '@/types/magazine'
@@ -119,31 +120,53 @@ function SummaryCard({ icon, label, value, accent }: {
 
 // ── Dict word list (flat — dictionary style) ──────────────────────────────────
 
+function WordListRow({ w, first, onRemove }: { w: SavedWord; first: boolean; onRemove: () => void }) {
+  const meaning = useItemTranslation('word', w.word, w.translations, w.meaning ?? lookupMeaning(w.word))
+  return (
+    <SwipeDeleteRow
+      onDeleteRequest={onRemove}
+      containerStyle={{ borderTop: first ? 'none' : ROW_BORDER }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px 12px 18px' }}>
+        <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
+        <span style={{ fontSize: 12, color: meaning ? 'var(--pm)' : 'var(--pd)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
+          {meaning ?? '—'}
+        </span>
+      </div>
+    </SwipeDeleteRow>
+  )
+}
+
 function DictWordList({ words, onRemove }: { words: SavedWord[]; onRemove: (id: string) => void }) {
   return (
     <div style={glassCard}>
-      {words.map((w, i) => {
-        const meaning = w.meaning ?? lookupMeaning(w.word)
-        return (
-          <SwipeDeleteRow
-            key={w.id}
-            onDeleteRequest={() => onRemove(w.id)}
-            containerStyle={{ borderTop: i > 0 ? ROW_BORDER : 'none' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px 12px 18px' }}>
-              <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
-              <span style={{ fontSize: 12, color: meaning ? 'var(--pm)' : 'var(--pd)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
-                {meaning ?? '—'}
-              </span>
-            </div>
-          </SwipeDeleteRow>
-        )
-      })}
+      {words.map((w, i) => (
+        <WordListRow key={w.id} w={w} first={i === 0} onRemove={() => onRemove(w.id)} />
+      ))}
     </div>
   )
 }
 
 // ── Dict phrase list (flat — same style as word list) ────────────────────────
+
+function PhraseListRow({ ph, first, onRemove }: { ph: SavedPhrase; first: boolean; onRemove: () => void }) {
+  const dictEntry = lookupPhraseMeaning(ph.phrase)
+  const legacyMeaning = dictEntry?.meaning ?? (ph.meaningSource === 'dictionary' ? ph.meaning : undefined)
+  const meaning = useItemTranslation('phrase', ph.phrase, ph.translations, legacyMeaning)
+  return (
+    <SwipeDeleteRow
+      onDeleteRequest={onRemove}
+      containerStyle={{ borderTop: first ? 'none' : ROW_BORDER }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px 12px 18px' }}>
+        <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{ph.phrase}</span>
+        {meaning && (
+          <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{meaning}</span>
+        )}
+      </div>
+    </SwipeDeleteRow>
+  )
+}
 
 function DictPhraseList({ phrases, onRemove }: {
   phrases: SavedPhrase[]
@@ -151,34 +174,44 @@ function DictPhraseList({ phrases, onRemove }: {
 }) {
   return (
     <div style={glassCard}>
-      {phrases.map((ph, i) => {
-        const dictEntry = lookupPhraseMeaning(ph.phrase)
-        const storedMeaning = ph.meaningSource === 'dictionary'
-          ? ph.meaning
-          : (ph.meaning && ph.meaning.length <= 30 && ph.meaningSource !== 'sentence')
-            ? ph.meaning
-            : undefined
-        const meaning = dictEntry?.meaning ?? storedMeaning
-        return (
-          <SwipeDeleteRow
-            key={ph.id}
-            onDeleteRequest={() => onRemove(ph.id)}
-            containerStyle={{ borderTop: i > 0 ? ROW_BORDER : 'none' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px 12px 18px' }}>
-              <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{ph.phrase}</span>
-              {meaning && (
-                <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{meaning}</span>
-              )}
-            </div>
-          </SwipeDeleteRow>
-        )
-      })}
+      {phrases.map((ph, i) => (
+        <PhraseListRow key={ph.id} ph={ph} first={i === 0} onRemove={() => onRemove(ph.id)} />
+      ))}
     </div>
   )
 }
 
 // ── Pattern Accordion (story-grouped card view) ───────────────────────────────
+
+function BookmarkedPatternRow({ bm, first, onPress, onRemove }: {
+  bm: BookmarkedPattern; first: boolean
+  onPress: () => void; onRemove: () => void
+}) {
+  const meaning = useItemTranslation('pattern', bm.pattern, bm.translations, bm.meaningKo)
+  return (
+    <SwipeDeleteRow
+      onDeleteRequest={onRemove}
+      containerStyle={{ borderTop: first ? 'none' : ROW_BORDER }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <button
+          type="button"
+          onClick={onPress}
+          style={{
+            flex: 1, textAlign: 'left',
+            background: 'none', border: 'none', cursor: 'pointer',
+            padding: '11px 8px 11px 16px',
+          }}
+        >
+          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
+          {meaning && (
+            <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{meaning}</p>
+          )}
+        </button>
+      </div>
+    </SwipeDeleteRow>
+  )
+}
 
 function PatternAccordion({
   storyId, storyTitle, patterns, onPress, onRemove,
@@ -218,28 +251,13 @@ function PatternAccordion({
       {open && (
         <div>
           {patterns.map((bm, i) => (
-            <SwipeDeleteRow
+            <BookmarkedPatternRow
               key={bm.patternId}
-              onDeleteRequest={() => onRemove(bm.patternId)}
-              containerStyle={{ borderTop: i > 0 ? ROW_BORDER : 'none' }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <button
-                  type="button"
-                  onClick={() => onPress(bm)}
-                  style={{
-                    flex: 1, textAlign: 'left',
-                    background: 'none', border: 'none', cursor: 'pointer',
-                    padding: '11px 8px 11px 16px',
-                  }}
-                >
-                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
-                  {bm.meaningKo && (
-                    <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{bm.meaningKo}</p>
-                  )}
-                </button>
-              </div>
-            </SwipeDeleteRow>
+              bm={bm}
+              first={i === 0}
+              onPress={() => onPress(bm)}
+              onRemove={() => onRemove(bm.patternId)}
+            />
           ))}
         </div>
       )}
@@ -251,6 +269,7 @@ function PatternAccordion({
 
 function SearchWordRow({ w, border, onPress }: { w: SavedWord; border: boolean; onPress: () => void }) {
   const src = sourceLabel(w)
+  const meaning = useItemTranslation('word', w.word, w.translations, w.meaning ?? lookupMeaning(w.word))
   return (
     <button type="button" onClick={onPress} style={{
       display: 'block', width: '100%', textAlign: 'left',
@@ -259,7 +278,7 @@ function SearchWordRow({ w, border, onPress }: { w: SavedWord; border: boolean; 
       borderTop: border ? ROW_BORDER : 'none',
     }}>
       <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px' }}>{w.word}</p>
-      {w.meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 3px' }}>{w.meaning}</p>}
+      {meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 3px' }}>{meaning}</p>}
       <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
         {src || w.originalSentence.slice(0, 50)}
       </p>
@@ -290,6 +309,7 @@ function SearchPhraseRow({ ph, border, onPress }: { ph: SavedPhrase; border: boo
 function SearchPatternRow({ storyId, storyTitle, pattern, border, onPress }: {
   storyId: number; storyTitle: string; pattern: MagazinePattern; border: boolean; onPress: () => void
 }) {
+  const meaning = useItemTranslation('pattern', pattern.pattern, undefined, pattern.meaningKo)
   return (
     <button type="button" onClick={onPress} style={{
       display: 'block', width: '100%', textAlign: 'left',
@@ -299,7 +319,7 @@ function SearchPatternRow({ storyId, storyTitle, pattern, border, onPress }: {
       cursor: 'pointer',
     }}>
       <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px' }}>{pattern.pattern}</p>
-      {pattern.meaningKo && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 3px' }}>{pattern.meaningKo}</p>}
+      {meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 3px' }}>{meaning}</p>}
       <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
         Story {String(storyId).padStart(2, '0')} · {storyTitle}
       </p>
@@ -866,33 +886,15 @@ export default function LibraryPage() {
               ) : (
                 <>
                   <div style={glassCard}>
-                    {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => {
-                      const story = magazineStories.find(s => s.id === bm.storyId)
-                      return (
-                        <SwipeDeleteRow
-                          key={bm.patternId}
-                          onDeleteRequest={() => handleRemoveBookmark(bm.patternId)}
-                          containerStyle={{ borderTop: i > 0 ? ROW_BORDER : 'none' }}
-                        >
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <button
-                              type="button"
-                              onClick={() => router.push(`/stories/${bm.storyId}?v=p`)}
-                              style={{
-                                flex: 1, textAlign: 'left',
-                                background: 'none', border: 'none', cursor: 'pointer',
-                                padding: '12px 14px 12px 18px',
-                              }}
-                            >
-                              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
-                              <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
-                                Story {String(bm.storyId).padStart(2, '0')}{story ? ` · ${story.title}` : ''}
-                              </p>
-                            </button>
-                          </div>
-                        </SwipeDeleteRow>
-                      )
-                    })}
+                    {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => (
+                      <BookmarkedPatternRow
+                        key={bm.patternId}
+                        bm={bm}
+                        first={i === 0}
+                        onPress={() => router.push(`/stories/${bm.storyId}?v=p`)}
+                        onRemove={() => handleRemoveBookmark(bm.patternId)}
+                      />
+                    ))}
                   </div>
                   {bookmarks.length > PREVIEW_PATTERNS && (
                     <button

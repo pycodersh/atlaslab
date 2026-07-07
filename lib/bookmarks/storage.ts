@@ -9,6 +9,7 @@ export type BookmarkedPattern = {
   patternId: string
   pattern: string
   meaningKo: string
+  translations?: Partial<Record<string, string>>  // lang → meaning (cache)
   storyId: number
   savedAt: string // ISO
 }
@@ -44,6 +45,8 @@ export function removeBookmark(patternId: string) {
   writeAll(map)
 }
 
+import { upsertCacheEntry, getCacheEntry } from '@/lib/saved/translationCache'
+
 /** 북마크 토글 — 새 상태(true=저장됨)를 반환 */
 export function toggleBookmark(item: Omit<BookmarkedPattern, 'savedAt'>): boolean {
   const map = readAll()
@@ -52,7 +55,18 @@ export function toggleBookmark(item: Omit<BookmarkedPattern, 'savedAt'>): boolea
     writeAll(map)
     return false
   }
-  map[item.patternId] = { ...item, savedAt: new Date().toISOString() }
+
+  // Merge existing cache translations so re-saves reuse prior API calls
+  const cached = getCacheEntry('pattern', item.pattern)
+  const translations: Partial<Record<string, string>> = {
+    ...(cached?.translations ?? {}),
+    ...(item.translations ?? {}),
+  }
+  if (item.meaningKo) translations.ko = translations.ko ?? item.meaningKo
+
+  if (Object.keys(translations).length) upsertCacheEntry('pattern', item.pattern, translations)
+
+  map[item.patternId] = { ...item, translations, savedAt: new Date().toISOString() }
   writeAll(map)
   return true
 }

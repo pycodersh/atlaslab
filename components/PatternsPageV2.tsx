@@ -43,11 +43,7 @@ type Phase     = 'idle' | 'speaking' | 'pause' | 'done'
 type StudyMode = 'en' | 'en-ko' | 'ko'
 
 const STUDY_CYCLE: StudyMode[] = ['en', 'en-ko', 'ko']
-const STUDY_LABEL: Record<StudyMode, string> = {
-  'en':    'EN',
-  'en-ko': 'EN·KO',
-  'ko':    'KO',
-}
+const LANG_CODE: Record<string, string> = { ko: 'KO', ja: 'JP', es: 'ES', fr: 'FR', de: 'DE', 'zh-cn': '中文', 'zh-tw': '中文' }
 
 // ── Hero themes — Version A (Soft Burgundy) / Version B (Slate Blue) ─────────
 // Alternates by story.id so odd stories = A, even stories = B
@@ -143,6 +139,8 @@ export function PatternsPageV2({
   const isDark = theme === 'dark'
   const t = useT()
   const voice = story.narratorVoice ?? prefs.voice
+  const langCode = LANG_CODE[prefs.language] ?? prefs.language.toUpperCase()
+  const STUDY_LABEL: Record<StudyMode, string> = { 'en': 'EN', 'en-ko': `EN·${langCode}`, 'ko': langCode }
   const patterns = story.patterns
 
   // ── Core navigation state ─────────────────────────────────────────────────
@@ -655,7 +653,8 @@ export function PatternsPageV2({
               {/* ── Card body ── */}
               <div style={{ padding: '16px 20px 20px' }}>
 
-                {/* Language control — above examples, right-aligned */}
+                {/* Language control — hidden when app language is English */}
+                {prefs.language !== 'en' && (
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
                   <div style={{
                     display: 'inline-flex', borderRadius: 8,
@@ -683,6 +682,7 @@ export function PatternsPageV2({
                     ))}
                   </div>
                 </div>
+                )}
 
                 {/* Examples — all 3 always visible; tap word to save, ▶ to play */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
