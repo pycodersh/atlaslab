@@ -42,3 +42,14 @@ next-env.d.ts
 
 .vercel
 data/library/exports/
+
+# generated audio files — served from Supabase Storage, not from public/
+public/audio-generated/*.mp3
+public/audio-generated/*.wav
+public/audio-generated/*.m4a
+public/audio/*.mp3
+public/audio/*.wav
+
+# other large generated assets
+public/videos/*.mp4
+public/videos/*.mov
