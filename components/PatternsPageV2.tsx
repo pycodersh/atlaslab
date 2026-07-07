@@ -561,9 +561,6 @@ export function PatternsPageV2({
                           borderTop: i > 0 ? '1px solid rgba(220,225,235,0.7)' : 'none',
                           paddingTop: i > 0 ? 14 : 0,
                           paddingBottom: i < examples.length - 1 ? 14 : 0,
-                          background: isExPlaying ? 'rgba(0,0,0,0.03)' : 'transparent',
-                          borderRadius: isExPlaying ? 8 : 0,
-                          transition: 'background 0.2s',
                         }}
                       >
                         {showExEn ? (
@@ -581,7 +578,7 @@ export function PatternsPageV2({
                             style={{
                               display:     'block',
                               fontSize:    14.5,
-                              fontWeight:  isExPlaying ? 500 : 400,
+                              fontWeight:  isExPlaying ? 700 : 400,
                               color:       'var(--pt)',
                               lineHeight:  1.5,
                               marginBottom: 2,

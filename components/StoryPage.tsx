@@ -347,9 +347,7 @@ export function StoryPage({
                   const koText = resolveTranslation(para.koreanTranslation, prefs.language, para.translations)
 
                   return (
-                    <div key={para.id} data-para-id={para.id} className={`rounded-xl px-2 py-1 -mx-2 transition-colors ${
-                      isCurrentTTS ? 'bg-[var(--pal)]' : ''
-                    }`}>
+                    <div key={para.id} data-para-id={para.id} className="rounded-xl px-2 py-1 -mx-2">
                       {/* English — KO 모드에서는 투명(위치 유지) */}
                       {isRevealed ? (
                         <div style={{ opacity: isKoOnly ? 0 : 1, transition: 'opacity 0.2s', pointerEvents: isKoOnly ? 'none' : 'auto' }}>
