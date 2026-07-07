@@ -56,7 +56,7 @@ export default function SubscriptionPage() {
           <UserCircle style={{ width: 32, height: 32, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={1.25} />
           <div>
             <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px' }}>
-              {IS_PREMIUM ? 'Premium Plan' : 'Free Plan'}
+              {IS_PREMIUM ? 'PREMIUM PLAN' : 'FREE PLAN'}
             </p>
             <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>
               {IS_PREMIUM ? t('sub_premium_plan_msg') : t('sub_free_plan_msg')}
