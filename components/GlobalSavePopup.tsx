@@ -148,7 +148,7 @@ export function GlobalSavePopup() {
 
               {/* Buttons: Save Phrase + Save Word */}
               <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-                <button type="button" onClick={handleSavePhrase} style={{ ...BTN, background: 'var(--pc)', color: 'var(--pt2)', flex: 2 }}>
+                <button type="button" onClick={handleSavePhrase} style={{ ...BTN, background: 'var(--pc)', color: 'var(--pt2)', flex: 1 }}>
                   표현 저장
                 </button>
                 <button type="button" onClick={handleSaveWord} style={{ ...BTN, background: 'rgba(200,205,215,0.5)', color: 'var(--pt)', flex: 1 }}>
