@@ -1,7 +1,7 @@
 ﻿'use client'
 
 import { useState } from 'react'
-import { Check } from 'lucide-react'
+import { CircleCheck, UserCircle } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
 
@@ -53,14 +53,7 @@ export default function SubscriptionPage() {
           marginBottom: 12,
           display: 'flex', alignItems: 'center', gap: 12,
         }}>
-          <div style={{
-            width: 40, height: 40, borderRadius: 12,
-            background: IS_PREMIUM ? 'rgba(74,111,168,0.12)' : 'rgba(110,110,115,0.10)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 20, flexShrink: 0,
-          }}>
-            {IS_PREMIUM ? '\u{1F451}' : '\u{1F7E2}'}
-          </div>
+          <UserCircle style={{ width: 32, height: 32, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={1.25} />
           <div>
             <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px' }}>
               {IS_PREMIUM ? 'Premium Plan' : 'Free Plan'}
@@ -79,7 +72,7 @@ export default function SubscriptionPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {freeFeatures.map(feat => (
               <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Check style={{ width: 14, height: 14, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2.5} />
+                <CircleCheck style={{ width: 14, height: 14, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={1.5} />
                 <p style={{ fontSize: 12.5, color: 'var(--pt2)', margin: 0 }}>{feat}</p>
               </div>
             ))}
@@ -91,20 +84,19 @@ export default function SubscriptionPage() {
           ...glassCard,
           padding: '16px 18px',
           marginBottom: 18,
-          border: '1.5px solid rgba(74,111,168,0.45)',
-          background: 'rgba(74,111,168,0.06)',
+          border: '1px solid rgba(74,111,168,0.30)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#4A6FA8', margin: 0, textTransform: 'uppercase' }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', margin: 0, textTransform: 'uppercase' }}>
               Premium
             </p>
-            <p style={{ fontSize: 9.5, fontWeight: 600, color: '#4A6FA8', margin: 0 }}>{'✶'} All features</p>
+            <span style={{ fontSize: 9, color: 'rgba(74,111,168,0.70)', letterSpacing: '0.04em' }}>✦</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {premiumFeatures.map(feat => (
               <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Check style={{ width: 14, height: 14, color: '#4A6FA8', flexShrink: 0 }} strokeWidth={2.5} />
-                <p style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--pt)', margin: 0 }}>{feat}</p>
+                <CircleCheck style={{ width: 14, height: 14, color: 'rgba(74,111,168,0.65)', flexShrink: 0 }} strokeWidth={1.5} />
+                <p style={{ fontSize: 12.5, color: 'var(--pt)', margin: 0 }}>{feat}</p>
               </div>
             ))}
           </div>
