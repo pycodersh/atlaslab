@@ -131,8 +131,8 @@ export function GlobalSavePopup() {
 
               {/* Recommended phrase */}
               <div style={{
-                background: 'rgba(255,200,80,0.15)',
-                border: '1px solid rgba(255,200,80,0.4)',
+                background: 'rgba(100,180,255,0.15)',
+                border: '1px solid rgba(100,180,255,0.40)',
                 borderRadius: 10,
                 padding: '8px 12px',
                 marginBottom: 14,
