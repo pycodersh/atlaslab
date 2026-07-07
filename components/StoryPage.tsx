@@ -207,10 +207,7 @@ export function StoryPage({
           paddingTop: 8,
         }}
       >
-        {/* var(--pb) bg behind nav only — fixes mix-blend-mode on iOS inside scroll stacking context */}
-        <div style={{ background: 'var(--pb)' }}>
-          <TopNav />
-        </div>
+        <TopNav />
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>

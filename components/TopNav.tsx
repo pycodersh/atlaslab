@@ -8,14 +8,22 @@ export const NAV_HEIGHT = 60
 
 function PattoIcon() {
   const { theme } = useTheme()
+  const isDark = theme === 'dark'
   return (
-    <img
-      src={theme === 'dark' ? '/PATTO Dark.png' : '/PATTO.png'}
-      alt="PATTO"
-      width={34}
-      height={34}
-      style={{ flexShrink: 0, display: 'block', mixBlendMode: theme === 'dark' ? 'screen' : 'multiply', filter: theme === 'dark' ? 'brightness(1.4) contrast(2)' : 'none' }}
-    />
+    <div style={{
+      width: 34, height: 34, flexShrink: 0,
+      background: 'var(--pb)',
+      isolation: 'isolate',
+      lineHeight: 0,
+    }}>
+      <img
+        src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
+        alt="PATTO"
+        width={34}
+        height={34}
+        style={{ display: 'block', mixBlendMode: isDark ? 'screen' : 'multiply', filter: isDark ? 'brightness(1.4) contrast(2)' : 'none' }}
+      />
+    </div>
   )
 }
 
