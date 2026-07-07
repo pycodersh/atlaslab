@@ -205,10 +205,12 @@ export function StoryPage({
           WebkitOverflowScrolling: 'touch' as never,
           touchAction: 'pan-y',
           paddingTop: 8,
-          background: 'var(--pb)',
         }}
       >
-        <TopNav />
+        {/* var(--pb) bg behind nav only — fixes mix-blend-mode on iOS inside scroll stacking context */}
+        <div style={{ background: 'var(--pb)' }}>
+          <TopNav />
+        </div>
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>
