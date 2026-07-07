@@ -34,6 +34,7 @@ type Props = {
   hasNext: boolean
   onOpenPicker: () => void
   patternExamples?: Record<string, PracticeExample[]>
+  isActive?: boolean
 }
 
 type Phase     = 'idle' | 'speaking' | 'pause' | 'done'
@@ -113,7 +114,7 @@ function resolveExamples(
 }
 
 export function PatternsPageV2({
-  story, totalStories, onPrev, onNext, hasNext, onOpenPicker, patternExamples,
+  story, totalStories, onPrev, onNext, hasNext, onOpenPicker, patternExamples, isActive = true,
 }: Props) {
   const { prefs } = usePreferences()
   const t = useT()
@@ -195,6 +196,18 @@ export function PatternsPageV2({
 
 
   useEffect(() => () => { runningRef.current = false; clearTimer(); ttsProvider.stop() }, [])
+
+  // Stop audio and reset to ex0 when navigating away from patterns view
+  useEffect(() => {
+    if (!isActive) {
+      playTokenRef.current++
+      runningRef.current = false
+      clearTimer()
+      ttsProvider.stop()
+      setPhase('idle')
+      setExIdx(0); exIdxRef.current = 0
+    }
+  }, [isActive])
 
   // ── Navigation ─────────────────────────────────────────────────────────────
   const markDone = useCallback((p: number, e: number) => {

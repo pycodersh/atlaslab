@@ -269,6 +269,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
             hasNext={!isLast}
             onOpenPicker={() => setShowPicker(true)}
             patternExamples={patternExamples}
+            isActive={view === 'patterns'}
           />
         </div>
       </div>
