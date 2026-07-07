@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "app/api/essays/review/route.ts": {
+      "maxDuration": 60
+    }
+  }
+}

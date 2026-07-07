@@ -255,24 +255,53 @@ ${essayBody}
 
 Review this essay. Find EVERY grammar error. Return the JSON as specified.`
 
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      max_tokens: 5000,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: buildMainPrompt(language) },
-        { role: 'user', content: userPrompt },
-      ],
-    })
+    const DEV = process.env.NODE_ENV === 'development'
 
-    const rawText = completion.choices[0]?.message?.content ?? ''
-    const jsonMatch = rawText.match(/\{[\s\S]*\}/)
-    if (!jsonMatch) {
-      console.error('[essays/review] Non-JSON response:', rawText.slice(0, 200))
-      return Response.json({ error: 'parse_error' }, { status: 500 })
+    let completion: Awaited<ReturnType<typeof openai.chat.completions.create>>
+    try {
+      completion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        max_tokens: 5000,
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: buildMainPrompt(language) },
+          { role: 'user', content: userPrompt },
+        ],
+      })
+    } catch (apiErr: unknown) {
+      const msg = apiErr instanceof Error ? apiErr.message : String(apiErr)
+      const status = (apiErr as { status?: number }).status
+      console.error(`[essays/review] OpenAI API error — status=${status} message=${msg}`)
+      return Response.json(
+        { error: 'openai_error', ...(DEV ? { detail: msg, status } : {}) },
+        { status: 502 },
+      )
     }
 
-    const parsed = JSON.parse(jsonMatch[0])
+    const finishReason = completion.choices[0]?.finish_reason
+    const rawText = completion.choices[0]?.message?.content ?? ''
+    console.log(`[essays/review] Pass1 finish_reason=${finishReason} tokens=${completion.usage?.total_tokens} rawLen=${rawText.length}`)
+    if (DEV) console.log('[essays/review] Pass1 raw:', rawText.slice(0, 500))
+
+    const jsonMatch = rawText.match(/\{[\s\S]*\}/)
+    if (!jsonMatch) {
+      console.error('[essays/review] Non-JSON response (full):', rawText.slice(0, 1000))
+      return Response.json(
+        { error: 'parse_error', ...(DEV ? { rawResponse: rawText.slice(0, 1000) } : {}) },
+        { status: 500 },
+      )
+    }
+
+    let parsed: Record<string, unknown>
+    try {
+      parsed = JSON.parse(jsonMatch[0])
+    } catch (parseErr) {
+      console.error('[essays/review] JSON.parse failed:', parseErr, 'raw:', jsonMatch[0].slice(0, 500))
+      return Response.json(
+        { error: 'parse_error', ...(DEV ? { rawResponse: jsonMatch[0].slice(0, 500) } : {}) },
+        { status: 500 },
+      )
+    }
 
     // Normalise pass-1 annotations
     let annotations: object[] = []
@@ -326,8 +355,12 @@ Review this essay. Find EVERY grammar error. Return the JSON as specified.`
 
     return Response.json({ review: final, essayId })
 
-  } catch (err) {
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err)
     console.error('[essays/review] Unexpected error:', err)
-    return Response.json({ error: 'server_error' }, { status: 500 })
+    return Response.json(
+      { error: 'server_error', ...(process.env.NODE_ENV === 'development' ? { detail: msg } : {}) },
+      { status: 500 },
+    )
   }
 }

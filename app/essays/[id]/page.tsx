@@ -131,6 +131,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
       const data = await res.json()
       if (!res.ok) {
         const errCode = data.error as string
+        console.error(`[essay/review] HTTP ${res.status} error=${errCode}`, data.detail ?? data)
         setError((['not_english','too_short','too_long','service_unavailable'] as const).includes(errCode as never)
           ? errCode as ValidationError : 'service_unavailable')
         setLoading(false)
@@ -143,7 +144,8 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         originalBody.current  = updated.body
       }
       recordReviewUsed()
-    } catch {
+    } catch (err) {
+      console.error('[essay/review] fetch exception:', err)
       setError('service_unavailable')
     }
     setLoading(false)

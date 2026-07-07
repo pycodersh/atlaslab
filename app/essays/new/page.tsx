@@ -237,6 +237,7 @@ export default function NewEssayPage() {
       const data = await res.json()
       if (!res.ok) {
         const errCode = data.error as string
+        console.error(`[essay/review] HTTP ${res.status} error=${errCode}`, data.detail ?? data)
         setError((['not_english','too_short','too_long','service_unavailable'] as const).includes(errCode as never)
           ? errCode as ValidationError
           : 'service_unavailable')
@@ -246,7 +247,8 @@ export default function NewEssayPage() {
       saveReview(essay.id, data.review)
       recordReviewUsed()
       router.push(`/essays/${essay.id}`)
-    } catch {
+    } catch (err) {
+      console.error('[essay/review] fetch exception:', err)
       setLoading(false)
       setError('service_unavailable')
     }
