@@ -46,11 +46,6 @@ export default function SubscriptionPage() {
         boxSizing: 'border-box',
       }}>
 
-        {/* Page title */}
-        <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: '0 0 20px', letterSpacing: '-0.01em' }}>
-          Plan Management
-        </p>
-
         {/* Current Plan card */}
         <div style={{
           ...glassCard,
