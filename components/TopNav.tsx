@@ -30,6 +30,7 @@ function PattoIcon() {
           filter: isDark
             ? 'brightness(1.4) contrast(2)'
             : 'url(#patto-remove-white)',
+          mixBlendMode: isDark ? 'screen' : 'normal',
         }}
       />
     </>
