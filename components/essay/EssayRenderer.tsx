@@ -4,11 +4,21 @@
  * EssayRenderer — pure rendering layer for essay review annotations.
  *
  * ARCHITECTURE RULE:
- *   DB stores only semantic data: { type, fragment, replacement, note }
+ *   DB stores only semantic data: { type, subType, fragment, replacement, note }
  *   ALL visual decisions (colors, underlines, circles, ink style) live HERE.
  *
  *   Updating this file is the only thing needed to restyle every past review.
  *   Never store CSS, colors, or layout in the DB.
+ *
+ * ── Grammar visual styles ──────────────────────────────────────────────────
+ *   circle   (tense / agreement / verbForm / default)
+ *              → organic red circle border + correction floating above ↓
+ *
+ *   replace  (article / preposition / vocab)
+ *              → ~~wrong~~ → right, all inline, no floating note
+ *
+ *   insert   (missing)
+ *              → word ∧ missing, small caret marker after the anchor word
  */
 
 import { useRef, useState } from 'react'
@@ -16,14 +26,13 @@ import { Copy, Check } from 'lucide-react'
 import type { Annotation } from '@/lib/essays/storage'
 
 // ── Ink palette ───────────────────────────────────────────────────────────────
-// Change these to restyle every annotation across all past essays instantly.
 
-const INK_GRAMMAR    = '#8B1A1A'   // red pen — grammar errors
-const INK_EXPRESSION = '#6C2D82'   // purple pen — expression suggestions
-const INK_STRENGTH   = '#1a7a3a'   // green pen — strength highlights
-const INK_TYPICAL    = '#8B1A1A'   // red pen (same as grammar) — recurring errors
+const INK_GRAMMAR    = '#8B1A1A'   // red pen
+const INK_EXPRESSION = '#6C2D82'   // purple pen
+const INK_STRENGTH   = '#1a7a3a'   // green pen
+const INK_TYPICAL    = '#8B1A1A'   // red pen (same as grammar)
 
-// ── Jitter table — slight vertical offsets for handwritten feel ───────────────
+// ── Jitter table ──────────────────────────────────────────────────────────────
 const EV_LUT = [0, 2, -1, 3, -2, 1, -3, 2, 0, -1, 3, -2, 1, 0, -1]
 function ev(i: number): number { return EV_LUT[i % EV_LUT.length] }
 
@@ -46,6 +55,74 @@ export function buildSegments(body: string, annotations: Annotation[]): Segment[
   }
   if (cursor < body.length) segments.push({ text: body.slice(cursor) })
   return segments
+}
+
+// ── Grammar rendering — 3 visual styles ──────────────────────────────────────
+
+function GrammarCircle({ seg, ann, idx, inkBase }: {
+  seg: Segment; ann: Annotation; idx: number; inkBase: React.CSSProperties
+}) {
+  const above = { ...inkBase, bottom: `calc(100% + ${3 + ev(idx)}px)` }
+  return (
+    <span style={{ position: 'relative', display: 'inline' }}>
+      <span style={{ ...above, color: INK_GRAMMAR }}>{ann.replacement ?? '—'}{' '}↓</span>
+      {ann.replacement
+        ? <span style={{ border: `1.5px solid ${INK_GRAMMAR}`, borderRadius: '52% 48% 47% 53% / 46% 54% 46% 54%', padding: '0 3px 1px' }}>{seg.text}</span>
+        : <span style={{ textDecoration: 'line-through', textDecorationColor: INK_GRAMMAR, textDecorationThickness: '1.5px', color: 'rgba(0,0,0,0.3)' }}>{seg.text}</span>
+      }
+    </span>
+  )
+}
+
+function GrammarReplace({ seg, ann }: { seg: Segment; ann: Annotation }) {
+  // ~~wrong~~ → right  (inline, no floating note)
+  return (
+    <span style={{ display: 'inline' }}>
+      <span style={{
+        textDecoration: 'line-through',
+        textDecorationColor: INK_GRAMMAR,
+        textDecorationThickness: '1.5px',
+        color: 'rgba(100,20,20,0.4)',
+      }}>
+        {seg.text}
+      </span>
+      {ann.replacement && (
+        <span style={{
+          fontFamily: 'var(--font-caveat, cursive)',
+          color: INK_GRAMMAR,
+          fontSize: 16,
+          fontWeight: 700,
+          marginLeft: 4,
+        }}>
+          {ann.replacement}
+        </span>
+      )}
+    </span>
+  )
+}
+
+function GrammarInsert({ seg, ann, idx, inkBase }: {
+  seg: Segment; ann: Annotation; idx: number; inkBase: React.CSSProperties
+}) {
+  // word ∧ missing  — caret indicator after the anchor word
+  const above = { ...inkBase, bottom: `calc(100% + ${3 + ev(idx)}px)`, left: 'auto', right: 0 }
+  return (
+    <span style={{ position: 'relative', display: 'inline' }}>
+      {ann.replacement && (
+        <span style={{ ...above, color: INK_GRAMMAR }}>
+          {ann.replacement} ↓
+        </span>
+      )}
+      <span>{seg.text}</span>
+      <span style={{
+        fontFamily: 'var(--font-caveat, cursive)',
+        color: INK_GRAMMAR,
+        fontSize: 15,
+        fontWeight: 700,
+        letterSpacing: '-0.02em',
+      }}>∧</span>
+    </span>
+  )
 }
 
 // ── Annotated manuscript ──────────────────────────────────────────────────────
@@ -77,18 +154,22 @@ export function AnnotatedManuscript({
         const yShift = ev(i)
         const above = { ...inkBase, bottom: `calc(100% + ${3 + yShift}px)` }
 
+        // ── grammar ──────────────────────────────────────────────────────────
         if (ann.type === 'grammar') {
-          return (
-            <span key={i} style={{ position: 'relative', display: 'inline' }}>
-              <span style={{ ...above, color: INK_GRAMMAR }}>{ann.replacement ?? '—'}{' '}↓</span>
-              {ann.replacement
-                ? <span style={{ border: `1.5px solid ${INK_GRAMMAR}`, borderRadius: '52% 48% 47% 53% / 46% 54% 46% 54%', padding: '0 3px 1px' }}>{seg.text}</span>
-                : <span style={{ textDecoration: 'line-through', textDecorationColor: INK_GRAMMAR, textDecorationThickness: '1.5px', color: 'rgba(0,0,0,0.3)' }}>{seg.text}</span>
-              }
-            </span>
-          )
+          const sub = ann.subType
+          // replace style: article / preposition / vocab
+          if (sub === 'article' || sub === 'preposition' || sub === 'vocab') {
+            return <GrammarReplace key={i} seg={seg} ann={ann} />
+          }
+          // insert style: missing word
+          if (sub === 'missing') {
+            return <GrammarInsert key={i} seg={seg} ann={ann} idx={i} inkBase={inkBase} />
+          }
+          // default circle style: tense / agreement / verbForm / unknown
+          return <GrammarCircle key={i} seg={seg} ann={ann} idx={i} inkBase={inkBase} />
         }
 
+        // ── expression ───────────────────────────────────────────────────────
         if (ann.type === 'expression') {
           return (
             <span key={i} style={{ position: 'relative' }}>
@@ -98,6 +179,7 @@ export function AnnotatedManuscript({
           )
         }
 
+        // ── strength ─────────────────────────────────────────────────────────
         if (ann.type === 'strength') {
           return (
             <span key={i} style={{ position: 'relative' }}>
@@ -107,6 +189,7 @@ export function AnnotatedManuscript({
           )
         }
 
+        // ── typical ──────────────────────────────────────────────────────────
         if (ann.type === 'typical') {
           const typInk: React.CSSProperties = {
             position: 'absolute', bottom: `calc(100% + ${3 + yShift}px)`, left: 0,
