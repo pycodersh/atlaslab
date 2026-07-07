@@ -317,12 +317,12 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
           </p>
         )}
 
-        {/* ── Review panel (reference — shown below editor) ── */}
+        {/* ── Review panel ── */}
         {review && (
           <div style={{ marginTop: 56, borderTop: '1px solid var(--pd)', paddingTop: 36 }}>
 
             {/* Style badge */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32 }}>
               <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm)' }}>
                 {t('essays_detected_style')}
               </span>
@@ -335,23 +335,79 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               </span>
             </div>
 
-            {/* Annotated manuscript */}
-            <AnnotatedManuscript body={essay.body} annotations={review.annotations} essayId={essay.id} />
+            {/* 1. Original Essay */}
+            <div style={{ marginBottom: 0 }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm)', margin: '0 0 16px' }}>
+                ORIGINAL ESSAY
+              </p>
+              <p style={{
+                fontSize: 15.5, lineHeight: 1.72, color: 'var(--pt)',
+                margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+              }}>
+                {essay.body}
+              </p>
+            </div>
 
-            {/* Editor marks */}
-            <EditorNotes annotations={review.annotations} />
+            {/* 2. Editor's Marks */}
+            <div style={{ marginTop: 44, borderTop: '1px solid var(--pd)', paddingTop: 36 }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm)', margin: '0 0 20px' }}>
+                EDITOR&apos;S MARKS
+              </p>
+              <AnnotatedManuscript body={essay.body} annotations={review.annotations} essayId={essay.id} />
+              <EditorNotes annotations={review.annotations} />
+            </div>
 
-            {/* Editor comment */}
+            {/* 3. Editor's Comment */}
             <div style={{ marginTop: 44, borderTop: '1px solid var(--pd)', paddingTop: 32 }}>
-              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm)', margin: '0 0 14px' }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm)', margin: '0 0 20px' }}>
                 {t('essays_editor_comment')}
               </p>
-              <p className="font-playfair" style={{
-                fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', fontStyle: 'italic',
-                color: 'var(--pt)', lineHeight: 1.75, margin: 0,
-              }}>
-                &ldquo;{review.editorComment}&rdquo;
-              </p>
+
+              {(review.commentStrengths?.length || review.commentImprovements?.length || review.commentOverall) ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                  {review.commentStrengths && review.commentStrengths.length > 0 && (
+                    <div>
+                      <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.14em', color: '#3A7A4A', margin: '0 0 8px' }}>STRENGTHS</p>
+                      {review.commentStrengths.map((s, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 5 }}>
+                          <span style={{ color: '#3A7A4A', fontSize: 14, lineHeight: '1.7', flexShrink: 0 }}>•</span>
+                          <span style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--pt)' }}>{s}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {review.commentImprovements && review.commentImprovements.length > 0 && (
+                    <div>
+                      <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.14em', color: 'var(--ann-red-1)', margin: '0 0 8px' }}>NEEDS IMPROVEMENT</p>
+                      {review.commentImprovements.map((s, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 5 }}>
+                          <span style={{ color: 'var(--ann-red-1)', fontSize: 14, lineHeight: '1.7', flexShrink: 0 }}>•</span>
+                          <span style={{ fontSize: 13, lineHeight: 1.7, color: 'var(--pt)' }}>{s}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {review.commentOverall && (
+                    <div>
+                      <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.14em', color: 'var(--pm)', margin: '0 0 8px' }}>OVERALL</p>
+                      <p className="font-playfair" style={{
+                        fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', fontStyle: 'italic',
+                        color: 'var(--pt)', lineHeight: 1.75, margin: 0,
+                      }}>
+                        &ldquo;{review.commentOverall}&rdquo;
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* Fallback: old single-string format */
+                <p className="font-playfair" style={{
+                  fontSize: 'clamp(0.9rem, 3.5vw, 1.05rem)', fontStyle: 'italic',
+                  color: 'var(--pt)', lineHeight: 1.75, margin: 0,
+                }}>
+                  &ldquo;{review.editorComment}&rdquo;
+                </p>
+              )}
             </div>
 
             {/* Next challenge */}
@@ -371,7 +427,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               </div>
             )}
 
-            {/* Suggested version */}
+            {/* 4. Final Version */}
             {review.suggestedVersion && <SuggestedVersion text={review.suggestedVersion} />}
           </div>
         )}

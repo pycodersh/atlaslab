@@ -105,8 +105,12 @@ Never annotate an entire sentence.
   Do NOT use for tense/article/agreement — those get "grammar".
 
 ━━━ EDITOR COMMENT ━━━
-25–30 words, 1 sentence. Warm, specific. Quote or reference something the student actually wrote.
-No generic praise.
+Return three fields (all in the user's language):
+- commentStrengths: exactly 2 bullet strings. Specific things done well.
+- commentImprovements: exactly 2 bullet strings. Specific, actionable areas to improve.
+- commentOverall: 1 warm sentence (≤20 words). Reference something the student actually wrote.
+- editorComment: same string as commentOverall (for compatibility).
+Keep each bullet under 15 words. No generic praise.
 
 ━━━ SUGGESTED VERSION ━━━
 Full rewrite applying EVERY correction. Native-sounding, student's voice preserved.
@@ -132,7 +136,10 @@ Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statem
     { "type": "strength",   "targetText": "phrase",    "note": "⭐ Vivid.", "confidence": 1.0 },
     { "type": "typical",    "targetText": "i",         "replacement": "I",        "note": "Typ.", "confidence": 0.99 }
   ],
-  "editorComment": "25–30단어 코멘트.",
+  "commentStrengths": ["구체적인 경험을 잘 묘사했어요.", "문장 흐름이 자연스럽습니다."],
+  "commentImprovements": ["동사 시제를 일관되게 유지해보세요.", "관사 사용을 더 정확하게 써보세요."],
+  "commentOverall": "전반적으로 자신만의 목소리가 잘 살아있는 좋은 글입니다.",
+  "editorComment": "전반적으로 자신만의 목소리가 잘 살아있는 좋은 글입니다.",
   "nextChallenge": ["목표 1.", "목표 2."],
   "suggestedVersion": "전체 교정 에세이.",
   "oneLineAdvice": "코치 스타일 조언."
@@ -342,7 +349,12 @@ Review this essay. Find EVERY grammar error. Return the JSON as specified.`
     const final = {
       detectedStyle: parsed.detectedStyle,
       annotations,
-      editorComment: parsed.editorComment,
+      editorComment: typeof parsed.commentOverall === 'string'
+        ? parsed.commentOverall
+        : (typeof parsed.editorComment === 'string' ? parsed.editorComment : ''),
+      commentStrengths: Array.isArray(parsed.commentStrengths) ? parsed.commentStrengths : undefined,
+      commentImprovements: Array.isArray(parsed.commentImprovements) ? parsed.commentImprovements : undefined,
+      commentOverall: typeof parsed.commentOverall === 'string' ? parsed.commentOverall : undefined,
       nextChallenge: Array.isArray(parsed.nextChallenge)
         ? parsed.nextChallenge
         : typeof parsed.nextChallenge === 'string'

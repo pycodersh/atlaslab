@@ -26,7 +26,7 @@
  */
 
 import { useRef, useState } from 'react'
-import { Copy, Check } from 'lucide-react'
+import { Copy, Check, ChevronDown } from 'lucide-react'
 import type { Annotation, AnnotationSubType } from '@/lib/essays/storage'
 
 // ── Ink palette — CSS custom properties (light/dark auto via globals.css) ─────
@@ -471,7 +471,7 @@ export function AnnotatedManuscript({
   return (
     <p style={{
       fontSize: 16,
-      lineHeight: 4.0,
+      lineHeight: 2.6,
       color: 'var(--pt)',
       margin: 0,
       whiteSpace: 'pre-wrap',
@@ -502,24 +502,112 @@ export function AnnotatedManuscript({
   )
 }
 
+// ── Subtype display labels ────────────────────────────────────────────────────
+
+const SUBTYPE_LABELS: Record<string, string> = {
+  tense:          'Tense',
+  agreement:      'Subject-Verb Agreement',
+  verbForm:       'Verb Form',
+  article:        'Articles',
+  preposition:    'Prepositions',
+  vocabulary:     'Word Choice',
+  vocab:          'Word Choice',
+  missing:        'Missing Word',
+  spelling:       'Spelling',
+  punctuation:    'Punctuation',
+  capitalization: 'Capitalization',
+  wordOrder:      'Word Order',
+  pronoun:        'Pronouns',
+  plural:         'Plural',
+}
+
 // ── Editor marks legend ───────────────────────────────────────────────────────
 
 export function EditorNotes({ annotations }: { annotations: Annotation[] }) {
+  const [grammarOpen, setGrammarOpen] = useState(false)
+
   if (annotations.length === 0) return null
-  const grammar    = annotations.filter(a => a.type === 'grammar').length
+
+  const grammarAnns = annotations.filter(a => a.type === 'grammar')
+  const grammarCount = grammarAnns.length
   const expression = annotations.filter(a => a.type === 'expression').length
   const strength   = annotations.filter(a => a.type === 'strength').length
   const typical    = annotations.filter(a => a.type === 'typical').length
+
+  // Count by subType (merge vocab legacy → vocabulary display)
+  const subTypeCounts = new Map<string, number>()
+  for (const ann of grammarAnns) {
+    const key = ann.subType ?? 'other'
+    const displayKey = key === 'vocab' ? 'vocabulary' : key
+    subTypeCounts.set(displayKey, (subTypeCounts.get(displayKey) ?? 0) + 1)
+  }
+  const subTypeEntries = [...subTypeCounts.entries()].sort((a, b) => b[1] - a[1])
+
   return (
     <div style={{ marginTop: 28 }}>
-      <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm2)', margin: '0 0 10px' }}>
+      <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm2)', margin: '0 0 12px' }}>
         EDITOR&apos;S MARKS
       </p>
-      <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
-        {grammar    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: 'var(--ann-red-1)', fontWeight: 700 }}>○</span>Grammar · {grammar}</span>}
-        {expression > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: 'var(--ann-purple-1)', fontWeight: 700 }}>～</span>Expression · {expression}</span>}
-        {typical    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: 'var(--ann-red-1)', fontWeight: 700 }}>- -</span>Typical · {typical}</span>}
-        {strength   > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span>⭐</span>Strength · {strength}</span>}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {/* Grammar — expandable */}
+        {grammarCount > 0 && (
+          <div>
+            <button
+              type="button"
+              onClick={() => setGrammarOpen(v => !v)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                background: 'none', border: 'none', cursor: 'pointer',
+                padding: '5px 0', fontFamily: 'inherit',
+              }}
+            >
+              <span style={{ color: 'var(--ann-red-1)', fontWeight: 700, fontSize: 13 }}>○</span>
+              <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 600 }}>
+                Grammar ({grammarCount})
+              </span>
+              <ChevronDown
+                style={{
+                  width: 11, height: 11, color: 'var(--pm2)',
+                  transition: 'transform 0.2s',
+                  transform: grammarOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                }}
+                strokeWidth={2.2}
+              />
+            </button>
+            {grammarOpen && (
+              <div style={{ paddingLeft: 20, paddingBottom: 8, paddingTop: 4 }}>
+                {subTypeEntries.map(([key, count]) => (
+                  <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '3px 0', borderBottom: '1px solid var(--pd2)', maxWidth: 240 }}>
+                    <span style={{ fontSize: 11, color: 'var(--pm)' }}>
+                      {SUBTYPE_LABELS[key] ?? 'Other'}
+                    </span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--ann-red-1)', marginLeft: 16 }}>
+                      {count}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+        {/* Expression, Typical, Strength */}
+        <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', paddingTop: grammarCount > 0 ? 2 : 0 }}>
+          {expression > 0 && (
+            <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5, padding: '5px 0' }}>
+              <span style={{ color: 'var(--ann-purple-1)', fontWeight: 700 }}>～</span>Expression ({expression})
+            </span>
+          )}
+          {typical > 0 && (
+            <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5, padding: '5px 0' }}>
+              <span style={{ color: 'var(--ann-red-1)', fontWeight: 700 }}>- -</span>Typical ({typical})
+            </span>
+          )}
+          {strength > 0 && (
+            <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5, padding: '5px 0' }}>
+              <span>⭐</span>Strength ({strength})
+            </span>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -540,34 +628,44 @@ export function SuggestedVersion({ text }: { text: string }) {
   }
 
   return (
-    <div style={{ marginTop: 44, borderTop: '1px solid var(--pd)', paddingTop: 32 }}>
-      <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm)', margin: '0 0 6px' }}>
-        ONE NATURAL REVISION
-      </p>
-      <p style={{ fontSize: 10, color: 'var(--pm2)', margin: '0 0 20px', lineHeight: 1.5 }}>
-        All corrections applied — one possible natural version.
-      </p>
-      <div style={{ padding: '20px', borderRadius: 14, background: 'var(--pd)' }}>
-        <p style={{ fontSize: 15, lineHeight: 2.0, color: 'var(--pt)', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+    <div style={{ marginTop: 44, borderTop: '1px solid var(--pd)', paddingTop: 36 }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+        <div>
+          <p style={{ fontSize: 8.5, fontWeight: 800, letterSpacing: '0.28em', color: 'var(--pa)', margin: '0 0 3px' }}>
+            FINAL VERSION
+          </p>
+          <p style={{ fontSize: 10, color: 'var(--pm2)', margin: 0 }}>
+            All corrections applied
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={handleCopy}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            padding: '7px 13px', borderRadius: 10,
+            border: '1px solid var(--pacb)', background: 'var(--pal)',
+            cursor: 'pointer', fontSize: 11, fontWeight: 600, color: 'var(--pa)', fontFamily: 'inherit',
+          }}
+        >
+          {copied
+            ? <><Check style={{ width: 11, height: 11 }} strokeWidth={2} /> Copied</>
+            : <><Copy style={{ width: 11, height: 11 }} strokeWidth={1.8} /> Copy</>
+          }
+        </button>
+      </div>
+      {/* Card */}
+      <div style={{
+        padding: '22px 20px',
+        borderRadius: 16,
+        background: 'var(--pal)',
+        border: '1px solid var(--pacb)',
+      }}>
+        <p style={{ fontSize: 15.5, lineHeight: 1.9, color: 'var(--pt)', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
           {text}
         </p>
       </div>
-      <button
-        type="button"
-        onClick={handleCopy}
-        style={{
-          marginTop: 12,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-          width: '100%', padding: '13px 0', borderRadius: 12,
-          border: '1.5px solid var(--pd)', background: 'none',
-          cursor: 'pointer', fontSize: 12, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit',
-        }}
-      >
-        {copied
-          ? <><Check style={{ width: 12, height: 12 }} strokeWidth={2} /> Copied</>
-          : <><Copy style={{ width: 12, height: 12 }} strokeWidth={1.8} /> Copy Revision</>
-        }
-      </button>
     </div>
   )
 }

@@ -47,8 +47,11 @@ export type Annotation = {
 export type EditorReview = {
   detectedStyle: string
   annotations: Annotation[]
-  editorComment: string
-  nextChallenge: string | string[]  // string[] new format; string for legacy
+  editorComment: string          // legacy / fallback
+  commentStrengths?: string[]    // structured comment: what went well
+  commentImprovements?: string[] // structured comment: what to work on
+  commentOverall?: string        // structured comment: warm wrap-up sentence
+  nextChallenge: string | string[]
   suggestedVersion?: string
   oneLineAdvice?: string
   createdAt: string
