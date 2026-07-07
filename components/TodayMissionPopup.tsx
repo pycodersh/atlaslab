@@ -41,7 +41,8 @@ export function TodayMissionPopup() {
   }
 
   const newItems    = items.filter(i => i.type === 'new_story' || i.type === 'in_progress_story')
-  const reviewItems = items.filter(i => i.type === 'review_pattern').slice(0, 3)
+  const newStoryIds = new Set(newItems.map(i => i.storyId))
+  const reviewItems = items.filter(i => i.type === 'review_pattern' && !newStoryIds.has(i.storyId)).slice(0, 3)
 
   return (
     <>
@@ -75,7 +76,7 @@ export function TodayMissionPopup() {
 
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
-          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
+          <p style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em', color: '#4A6FA8', margin: 0 }}>
             Today&apos;s Mission
           </p>
           <button
@@ -127,9 +128,14 @@ export function TodayMissionPopup() {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {reviewItems.map(item => (
-                  <p key={item.storyId} style={{ fontSize: 13, color: 'var(--pm)', margin: 0, lineHeight: 1.4 }}>
-                    Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
-                  </p>
+                  <div key={item.storyId} style={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase', flexShrink: 0, lineHeight: 1.4, whiteSpace: 'nowrap' }}>
+                      Story {String(item.storyId).padStart(2, '0')} ·
+                    </span>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase', lineHeight: 1.4 }}>
+                      {item.storyTitle}
+                    </span>
+                  </div>
                 ))}
               </div>
             )}
