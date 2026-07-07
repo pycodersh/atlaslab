@@ -4,14 +4,14 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Search, X, BookOpen, ChevronRight, ChevronDown,
-  BookMarked, SlidersHorizontal, Layers,
+  BookMarked, SlidersHorizontal, Layers, Trash2,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/bookmarks/storage'
-import { getSavedWords, getSavedPhrases, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
+import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
 import { useT } from '@/hooks/useT'
 import type { MagazinePattern } from '@/types/magazine'
@@ -113,22 +113,29 @@ function SummaryCard({ icon, label, value, accent }: {
 
 // ── Dict word list (flat — dictionary style) ──────────────────────────────────
 
-function DictWordList({ words }: { words: SavedWord[] }) {
+function DictWordList({ words, onRemove }: { words: SavedWord[]; onRemove: (id: string) => void }) {
   return (
     <div style={glassCard}>
       {words.map((w, i) => (
         <div
           key={w.id}
           style={{
-            display: 'flex', alignItems: 'center',
-            padding: '12px 18px',
+            display: 'flex', alignItems: 'center', gap: 10,
+            padding: '12px 14px 12px 18px',
             borderTop: i > 0 ? ROW_BORDER : 'none',
           }}
         >
           <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
           {w.meaning && (
-            <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right' }}>{w.meaning}</span>
+            <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{w.meaning}</span>
           )}
+          <button
+            type="button"
+            onClick={() => onRemove(w.id)}
+            style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, display: 'flex' }}
+          >
+            <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+          </button>
         </div>
       ))}
     </div>
@@ -137,27 +144,50 @@ function DictWordList({ words }: { words: SavedWord[] }) {
 
 // ── Dict phrase list (flat — dictionary style) ────────────────────────────────
 
-function DictPhraseList({ phrases, onPress }: { phrases: SavedPhrase[]; onPress: (ph: SavedPhrase) => void }) {
+function DictPhraseList({ phrases, onPress, onRemove }: {
+  phrases: SavedPhrase[]
+  onPress: (ph: SavedPhrase) => void
+  onRemove: (id: string) => void
+}) {
   return (
     <div style={glassCard}>
-      {phrases.map((ph, i) => (
-        <button
-          key={ph.id}
-          type="button"
-          onClick={() => onPress(ph)}
-          style={{
-            display: 'flex', alignItems: 'center', width: '100%',
-            background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
-            padding: '12px 18px',
-            borderTop: i > 0 ? ROW_BORDER : 'none',
-          }}
-        >
-          <span style={{ flex: 1, fontSize: 13, fontWeight: 700, color: 'var(--pt)' }}>{ph.phrase}</span>
-          <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400 }}>
-            {ph.meaning ?? formatPhraseType(ph.phraseType)}
-          </span>
-        </button>
-      ))}
+      {phrases.map((ph, i) => {
+        // meaning이 짧으면(≤40자) 실제 뜻, 길면 문장 컨텍스트
+        const isContext = (ph.meaning?.length ?? 0) > 40
+        return (
+          <div
+            key={ph.id}
+            style={{
+              display: 'flex', alignItems: 'flex-start', gap: 8,
+              padding: '12px 10px 12px 18px',
+              borderTop: i > 0 ? ROW_BORDER : 'none',
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => onPress(ph)}
+              style={{ flex: 1, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
+            >
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', marginBottom: isContext ? 3 : 0 }}>{ph.phrase}</div>
+              {ph.meaning && !isContext && (
+                <div style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, marginTop: 2 }}>{ph.meaning}</div>
+              )}
+              {isContext && (
+                <div style={{ fontSize: 11, color: 'var(--pm2)', fontWeight: 400, lineHeight: 1.5 }}>
+                  {ph.meaning!.slice(0, 60)}{ph.meaning!.length > 60 ? '…' : ''}
+                </div>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => onRemove(ph.id)}
+              style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, display: 'flex', marginTop: 2 }}
+            >
+              <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+            </button>
+          </div>
+        )
+      })}
     </div>
   )
 }
@@ -202,22 +232,35 @@ function PatternAccordion({
       {open && (
         <div>
           {patterns.map((bm, i) => (
-            <button
+            <div
               key={bm.patternId}
-              type="button"
-              onClick={() => onPress(bm)}
               style={{
-                display: 'block', width: '100%', textAlign: 'left',
-                background: 'none', border: 'none', cursor: 'pointer',
-                padding: '11px 16px',
+                display: 'flex', alignItems: 'center', gap: 4,
                 borderTop: i > 0 ? ROW_BORDER : 'none',
               }}
             >
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
-              {bm.meaningKo && (
-                <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{bm.meaningKo}</p>
-              )}
-            </button>
+              <button
+                type="button"
+                onClick={() => onPress(bm)}
+                style={{
+                  flex: 1, textAlign: 'left',
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  padding: '11px 8px 11px 16px',
+                }}
+              >
+                <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
+                {bm.meaningKo && (
+                  <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{bm.meaningKo}</p>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => onRemove(bm.patternId)}
+                style={{ background: 'none', border: 'none', padding: '8px 14px 8px 4px', cursor: 'pointer', display: 'flex', flexShrink: 0 }}
+              >
+                <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+              </button>
+            </div>
           ))}
         </div>
       )}
@@ -482,6 +525,16 @@ export default function LibraryPage() {
     setBookmarks(prev => prev.filter(b => b.patternId !== patternId))
   }
 
+  function handleRemoveWord(id: string) {
+    removeSavedWord(id)
+    setWords(prev => prev.filter(w => w.id !== id))
+  }
+
+  function handleRemovePhrase(id: string) {
+    removeSavedPhrase(id)
+    setPhrases(prev => prev.filter(p => p.id !== id))
+  }
+
   function goToWord(w: SavedWord) {
     if (w.storyId) router.push(`/stories/${w.storyId}`)
   }
@@ -725,7 +778,7 @@ export default function LibraryPage() {
                   body={t('sec_saved_words')}
                 />
               ) : (
-                <DictWordList words={words} />
+                <DictWordList words={words} onRemove={handleRemoveWord} />
               )}
             </section>
 
@@ -740,7 +793,7 @@ export default function LibraryPage() {
                   body={t('sec_saved_words')}
                 />
               ) : (
-                <DictPhraseList phrases={phrases} onPress={goToPhrase} />
+                <DictPhraseList phrases={phrases} onPress={goToPhrase} onRemove={handleRemovePhrase} />
               )}
             </section>
 
