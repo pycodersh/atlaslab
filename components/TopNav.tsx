@@ -8,11 +8,11 @@ export const NAV_HEIGHT = 60
 function PattoIcon() {
   return (
     <img
-      src="/patto-logo.png"
+      src="/PATTO.png"
       alt="PATTO"
       width={34}
       height={34}
-      style={{ flexShrink: 0, display: 'block' }}
+      style={{ flexShrink: 0, display: 'block', mixBlendMode: 'multiply' }}
     />
   )
 }
@@ -33,8 +33,8 @@ export function TopNav() {
           <div>
             <p
               style={{
-                fontSize: 22,
-                fontWeight: 900,
+                fontSize: 20,
+                fontWeight: 500,
                 letterSpacing: '-0.03em',
                 color: 'var(--pt)',
                 margin: 0,
