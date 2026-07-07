@@ -205,6 +205,7 @@ export function StoryPage({
           WebkitOverflowScrolling: 'touch' as never,
           touchAction: 'pan-y',
           paddingTop: 8,
+          background: 'var(--pb)',
         }}
       >
         <TopNav />
