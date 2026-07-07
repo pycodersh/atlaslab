@@ -480,7 +480,7 @@ export default function HomePage() {
             )}
             <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 9 }}>
               <BookOpen style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
-              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>NEW</p>
+              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>LEARN TODAY</p>
             </div>
             <p style={{ fontSize: 15, fontWeight: 800, color: newDone ? '#27AE60' : 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
               {newStoryIds.length > 0

@@ -8,7 +8,7 @@ export const TAB_BAR_HEIGHT = 72
 
 const TABS = [
   {
-    label: 'Today',
+    label: 'HOME',
     href: '/home',
     active: (p: string) => p === '/home' || p === '/',
     icon: (active: boolean) => (
@@ -19,7 +19,7 @@ const TABS = [
     ),
   },
   {
-    label: 'Story',
+    label: 'STORY',
     href: '/stories/1',
     active: (p: string) => p.startsWith('/stories') || p.startsWith('/learn') || p.startsWith('/review'),
     icon: (active: boolean) => (
@@ -30,7 +30,7 @@ const TABS = [
     ),
   },
   {
-    label: 'Essays',
+    label: 'ESSAYS',
     href: '/essays',
     active: (p: string) => p.startsWith('/essays') || p.startsWith('/editor'),
     icon: (active: boolean) => (
@@ -41,7 +41,7 @@ const TABS = [
     ),
   },
   {
-    label: 'Progress',
+    label: 'PROGRESS',
     href: '/records',
     active: (p: string) => p.startsWith('/records'),
     icon: (active: boolean) => (
@@ -53,7 +53,7 @@ const TABS = [
     ),
   },
   {
-    label: 'Library',
+    label: 'LIBRARY',
     href: '/library',
     active: (p: string) => p.startsWith('/library'),
     icon: (active: boolean) => (

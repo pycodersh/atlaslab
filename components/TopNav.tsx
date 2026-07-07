@@ -46,8 +46,8 @@ export function TopNav() {
           paddingTop: 'env(safe-area-inset-top, 0px)',
         }}
       >
-        {/* Left: PATTO logo — same on all pages */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* Left: PATTO logo — tapping navigates home */}
+        <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
           <PattoIcon />
           <div>
             <p
@@ -75,7 +75,7 @@ export function TopNav() {
               Patterns · Stories · You
             </p>
           </div>
-        </div>
+        </Link>
 
         {/* Right: icon buttons */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
