@@ -8,11 +8,11 @@ import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
 
 const glassCard: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.88)',
+  background: 'var(--pglass)',
   backdropFilter: 'blur(24px) saturate(180%)',
   WebkitBackdropFilter: 'blur(24px) saturate(180%)',
   borderRadius: 20,
-  border: '1px solid rgba(255,255,255,0.86)',
+  border: '1px solid var(--pglass-border)',
   boxShadow: '0 4px 18px rgba(40,50,80,0.07)',
   overflow: 'hidden',
 }
@@ -126,11 +126,11 @@ export default function AuthPage() {
             const btnStyle: React.CSSProperties = p.bg
               ? { background: p.bg, color: p.text, border: `1.5px solid ${p.border}` }
               : {
-                  background: 'rgba(255,255,255,0.80)',
+                  background: 'var(--pglass)',
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
                   color: 'var(--pt2)',
-                  border: '1.5px solid rgba(220,225,235,0.90)',
+                  border: '1.5px solid var(--pglass-border)',
                 }
             return (
               <div key={p.id}>

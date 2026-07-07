@@ -15,11 +15,11 @@ function fmtDate(iso: string): string {
 
 // Shared card style
 const cardBase: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.88)',
+  background: 'var(--pglass)',
   backdropFilter: 'blur(20px)',
   WebkitBackdropFilter: 'blur(20px)',
   borderRadius: 20,
-  border: '1px solid rgba(255,255,255,0.82)',
+  border: '1px solid var(--pglass-border)',
   boxShadow: '0 4px 18px rgba(40,40,60,0.06), 0 1px 4px rgba(40,40,60,0.03)',
 }
 
@@ -58,7 +58,7 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
       {/* Title row */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 6 }}>
         <p style={{
-          fontSize: 14, fontWeight: 700, color: '#1C1C1E',
+          fontSize: 14, fontWeight: 700, color: 'var(--pt)',
           margin: 0, lineHeight: 1.3, flex: 1, minWidth: 0,
           overflow: 'hidden', display: '-webkit-box',
           WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
@@ -146,7 +146,7 @@ export default function EssaysPage() {
             padding: '24px 0',
             marginTop: 12,
             marginBottom: 10,
-            border: '1px solid rgba(255,255,255,0.82)',
+            border: '1px solid var(--pglass-border)',
             cursor: 'pointer',
             transition: 'all 0.18s',
           }}
@@ -167,7 +167,7 @@ export default function EssaysPage() {
           }}>
             <Plus style={{ width: 15, height: 15, color: '#8E8E93' }} strokeWidth={2.5} />
           </div>
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#3A3A3C', letterSpacing: '-0.01em' }}>
+          <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.01em' }}>
             New Essay
           </span>
         </button>
@@ -226,10 +226,10 @@ export default function EssaysPage() {
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   gap: 6, width: '100%', marginTop: 16,
                   padding: '12px 0',
-                  background: 'rgba(255,255,255,0.60)',
+                  background: 'var(--pglass)',
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
-                  border: '1px solid rgba(255,255,255,0.80)',
+                  border: '1px solid var(--pglass-border)',
                   borderRadius: 14, cursor: 'pointer',
                   fontSize: 12, fontWeight: 600, color: '#8E8E93',
                   transition: 'opacity 0.15s',
@@ -245,10 +245,10 @@ export default function EssaysPage() {
           <div style={{ textAlign: 'center', paddingTop: 56 }}>
             <div style={{
               width: 72, height: 72, borderRadius: 24,
-              background: 'rgba(255,255,255,0.75)',
+              background: 'var(--pglass)',
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(255,255,255,0.85)',
+              border: '1px solid var(--pglass-border)',
               boxShadow: '0 6px 20px rgba(40,40,60,0.05)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               margin: '0 auto 18px',

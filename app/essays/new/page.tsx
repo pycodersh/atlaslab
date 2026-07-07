@@ -37,11 +37,11 @@ type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached
 function glassBtn(extra?: React.CSSProperties): React.CSSProperties {
   return {
     width: '100%', padding: '13px 0', borderRadius: 14,
-    background: 'rgba(255,255,255,0.68)',
+    background: 'var(--pglass)',
     backdropFilter: 'blur(24px) saturate(180%)',
     WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-    border: '1px solid rgba(255,255,255,0.82)',
-    boxShadow: '0 2px 12px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.95)',
+    border: '1px solid var(--pglass-border)',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
     cursor: 'pointer', fontFamily: 'inherit',
     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
     transition: 'filter 0.15s',
@@ -335,9 +335,9 @@ export default function NewEssayPage() {
               {!suggestion && (
                 <button type="button" onClick={handleSuggest} disabled={suggestLoading}
                   style={{
-                    background: 'rgba(255,255,255,0.68)',
+                    background: 'var(--pglass)',
                     backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                    border: '1px solid rgba(255,255,255,0.82)',
+                    border: '1px solid var(--pglass-border)',
                     borderRadius: 8, padding: '5px 12px',
                     cursor: suggestLoading ? 'default' : 'pointer',
                     display: 'flex', alignItems: 'center', gap: 5,
@@ -361,7 +361,7 @@ export default function NewEssayPage() {
                 <p style={{ fontSize: 15, color: 'var(--pt)', margin: '0 0 12px', lineHeight: 1.6, fontWeight: 500 }}>{suggestion}</p>
                 <div style={{ display: 'flex', gap: 8 }}>
                   <button type="button" onClick={handleInsert}
-                    style={{ flex: 1, padding: '9px 0', borderRadius: 9, background: 'rgba(255,255,255,0.68)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(255,255,255,0.82)', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', fontSize: 12, fontWeight: 700, color: 'var(--pa)', cursor: 'pointer', fontFamily: 'inherit' }}>
+                    style={{ flex: 1, padding: '9px 0', borderRadius: 9, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', fontSize: 12, fontWeight: 700, color: 'var(--pa)', cursor: 'pointer', fontFamily: 'inherit' }}>
                     Insert into Essay
                   </button>
                   <button type="button" onClick={handleCopy}
@@ -413,7 +413,7 @@ export default function NewEssayPage() {
               onMouseEnter={e => { if (body.trim() && !loading) e.currentTarget.style.filter = 'brightness(0.97)' }}
               onMouseLeave={e => { e.currentTarget.style.filter = 'brightness(1)' }}
             >
-              {saveFlash ? '✓ Saved' : 'My Essay'}
+              {saveFlash ? '✓ Saved' : 'Save'}
             </button>
 
             <button
@@ -452,10 +452,10 @@ export default function NewEssayPage() {
         >
           <div
             style={{
-              background: 'rgba(255,255,255,0.92)',
+              background: 'var(--pglass)',
               backdropFilter: 'blur(32px) saturate(200%)',
               WebkitBackdropFilter: 'blur(32px) saturate(200%)',
-              border: '1px solid rgba(255,255,255,0.90)',
+              border: '1px solid var(--pglass-border)',
               borderRadius: 22,
               boxShadow: '0 8px 40px rgba(30,40,70,0.14)',
               padding: '28px 24px 22px',

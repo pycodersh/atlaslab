@@ -17,15 +17,7 @@ export default function PrivacyPage() {
       <TopNav />
 
       <div className="px-7 pb-20 max-w-sm mx-auto pt-20">
-        <Link
-          href="/settings/about"
-          className="flex items-center gap-1 text-[var(--pm)] hover:text-[var(--pa)] transition-colors mb-8 w-fit"
-        >
-          <ChevronLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
-          <span className="text-[11px] tracking-[0.18em] font-semibold">{t('about_nav')}</span>
-        </Link>
-
-        <div className="mb-10">
+<div className="mb-10">
           <h1 className="font-playfair text-[1.9rem] font-black leading-tight text-[var(--pt)] tracking-tight">
             {doc.title}
           </h1>

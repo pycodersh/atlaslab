@@ -67,11 +67,11 @@ function getScoreGrade(score: number): { grade: string; comment: string; color: 
 // ── Shared ────────────────────────────────────────────────────────────────────
 
 const glassCard: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.80)',
+  background: 'var(--pglass)',
   backdropFilter: 'blur(28px) saturate(180%)',
   WebkitBackdropFilter: 'blur(28px) saturate(180%)',
   borderRadius: 24,
-  border: '1px solid rgba(255,255,255,0.88)',
+  border: '1px solid var(--pglass-border)',
   boxShadow: '0 2px 24px rgba(40,50,80,0.06), 0 1px 4px rgba(40,50,80,0.03)',
 }
 

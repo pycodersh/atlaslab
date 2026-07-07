@@ -356,11 +356,11 @@ export default function HomePage() {
   }, [])
 
   const frostedCard: React.CSSProperties = {
-    background: 'rgba(255,255,255,0.32)',
+    background: 'var(--pglass)',
     backdropFilter: 'blur(28px) saturate(180%)',
     WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-    border: '1px solid rgba(255,255,255,0.52)',
-    boxShadow: '0 4px 20px rgba(30,40,60,0.06), inset 0 1px 0 rgba(255,255,255,0.75)',
+    border: '1px solid var(--pglass-border)',
+    boxShadow: '0 4px 20px rgba(30,40,60,0.06)',
   }
 
   const glassChip = {

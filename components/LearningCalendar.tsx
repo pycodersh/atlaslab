@@ -125,7 +125,7 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
       </div>
 
       {/* Grid */}
-      <div className="space-y-1.5">
+      <div className="space-y-2">
         {weeks.map((week, wi) => (
           <div key={wi} className="grid grid-cols-7 gap-1.5">
             {week.map((day, di) => {
@@ -147,11 +147,11 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
                   onClick={tappable ? () => onDaySelect?.(day.iso) : undefined}
                   onKeyDown={tappable ? e => { if (e.key === 'Enter' || e.key === ' ') onDaySelect?.(day!.iso) } : undefined}
                   className={[
-                    'aspect-square rounded-md flex flex-col items-start justify-start p-1',
+                    'rounded-md flex flex-col items-start justify-start p-1',
                     day?.isToday && !isSelected ? 'ring-2 ring-[var(--pa)] ring-offset-1 ring-offset-[var(--pb)]' : '',
                     tappable ? 'cursor-pointer' : '',
                   ].join(' ')}
-                  style={cellBg(day, isSelected)}
+                  style={{ ...cellBg(day, isSelected), minHeight: 44 }}
                 >
                   {day && (
                     <>

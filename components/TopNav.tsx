@@ -2,17 +2,19 @@
 
 import Link from 'next/link'
 import { User } from 'lucide-react'
+import { useTheme } from '@/components/ThemeProvider'
 
 export const NAV_HEIGHT = 60
 
 function PattoIcon() {
+  const { theme } = useTheme()
   return (
     <img
-      src="/PATTO.png"
+      src={theme === 'dark' ? '/PATTO Dark.png' : '/PATTO.png'}
       alt="PATTO"
       width={34}
       height={34}
-      style={{ flexShrink: 0, display: 'block', mixBlendMode: 'multiply' }}
+      style={{ flexShrink: 0, display: 'block', mixBlendMode: theme === 'dark' ? 'screen' : 'multiply', filter: theme === 'dark' ? 'brightness(1.4) contrast(2)' : 'none' }}
     />
   )
 }
@@ -33,7 +35,7 @@ export function TopNav() {
           <div>
             <p
               style={{
-                fontSize: 20,
+                fontSize: 15,
                 fontWeight: 500,
                 letterSpacing: '-0.03em',
                 color: 'var(--pt)',
@@ -66,8 +68,8 @@ export function TopNav() {
             style={{
               width: 36, height: 36, borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'rgba(255,255,255,0.80)',
-              border: '1px solid rgba(255,255,255,0.9)',
+              background: 'var(--pglass)',
+              border: '1px solid var(--pglass-border)',
               backdropFilter: 'blur(8px)',
               WebkitBackdropFilter: 'blur(8px)',
               boxShadow: '0 2px 8px rgba(0,0,0,0.06)',

@@ -159,11 +159,11 @@ function SuggestedVersion({ text }: { text: string }) {
 function glassBtn(extra?: React.CSSProperties): React.CSSProperties {
   return {
     flex: 1, padding: '13px 0', borderRadius: 14,
-    background: 'rgba(255,255,255,0.68)',
+    background: 'var(--pglass)',
     backdropFilter: 'blur(24px) saturate(180%)',
     WebkitBackdropFilter: 'blur(24px) saturate(180%)',
-    border: '1px solid rgba(255,255,255,0.82)',
-    boxShadow: '0 2px 12px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.95)',
+    border: '1px solid var(--pglass-border)',
+    boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
     cursor: 'pointer', fontFamily: 'inherit',
     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
     transition: 'filter 0.15s',
@@ -546,7 +546,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
             <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 32px', lineHeight: 1.65 }}>{t('essays_delete_desc')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <button type="button" onClick={handleDelete}
-                style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'rgba(255,255,255,0.68)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid rgba(255,255,255,0.82)', boxShadow: '0 2px 14px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,0.95)', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit', letterSpacing: '0.03em' }}>
+                style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', boxShadow: '0 2px 14px rgba(0,0,0,0.07)', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit', letterSpacing: '0.03em' }}>
                 {t('essays_delete_confirm')}
               </button>
               <button type="button" onClick={() => setShowDeleteConfirm(false)}

@@ -564,8 +564,10 @@ export function PatternsPageV2({
                     const isExPlaying = phase === 'speaking' && i === exIdx
                     const exRev       = revealedExSet.has(`${patIdx}-${i}`)
                     const showExEn    = studyMode === 'en' || studyMode === 'en-ko' || exRev
-                    const exKo        = resolveTranslation(ex.ko, prefs.language, ex.translations)
                     const fullEx      = patternExamplesFull[pattern.id]?.[i]
+                    const displayEn   = fullEx?.en ?? ex.en
+                    const displayKo   = fullEx?.ko ?? ex.ko
+                    const exKo        = resolveTranslation(displayKo, prefs.language, ex.translations)
                     return (
                       <div
                         key={i}
@@ -577,7 +579,7 @@ export function PatternsPageV2({
                       >
                         {showExEn ? (
                           <TappableWordText
-                            text={ex.en}
+                            text={displayEn}
                             saveCandidates={fullEx?.saveCandidates}
                             source={{
                               sourceType:       'example',
@@ -585,7 +587,7 @@ export function PatternsPageV2({
                               patternId:        pattern.id,
                               storyId:          story.id,
                               exampleIndex:     i,
-                              originalSentence: ex.en,
+                              originalSentence: displayEn,
                             }}
                             style={{
                               display:     'block',
@@ -603,7 +605,7 @@ export function PatternsPageV2({
                             lineHeight: 1.5, margin: '0 0 2px',
                             opacity: 0.04, userSelect: 'none',
                           }}>
-                            {ex.en}
+                            {displayEn}
                           </p>
                         )}
                         {showKorean && exKo && (

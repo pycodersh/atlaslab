@@ -42,30 +42,31 @@
 
 .dark {
   /* Deep Aurora — Dark */
-  --pb:   #0E0E12;
-  --pc:   rgba(30,30,42,0.75);
-  --pc2:  rgba(40,40,55,0.65);
+  --pb:   #0C0C14;
+  --pc:   rgba(28,28,44,0.82);
+  --pc2:  rgba(38,38,58,0.70);
   --pd:   rgba(255,255,255,0.10);
   --pd2:  rgba(255,255,255,0.06);
-  --pw:   #18181E;
+  --pw:   #16162A;
   --pt:   #F2F2F5;
   --pt2:  #E0E0EA;
-  --pm:   #8E8EA8;
-  --pm2:  #4A4A5E;
+  --pm:   #9090AA;
+  --pm2:  #5A5A72;
   --pa:   #8FABFF;
   --pa2:  #C0D0FF;
   --pal:  rgba(143,171,255,0.14);
   --pacb: rgba(143,171,255,0.28);
   --text-main:      #F2F2F5;
   --text-body:      #E0E0EA;
-  --text-secondary: #8E8E93;
-  --text-caption:   #636366;
+  --text-secondary: #8E8EA8;
+  --text-caption:   #5A5A72;
   --text-disabled:  #48484A;
   --accent-blue:    #8FABFF;
-  --pattern-hl: #FF7A8A;
-  --pnav: rgba(14,14,18,0.85);
-  --pglass: rgba(22,22,32,0.78);
-  --pglass-border: rgba(255,255,255,0.08);
+  /* 2. Pattern highlight → Accent Color (not pink) */
+  --pattern-hl:     #8FABFF;
+  --pnav: rgba(12,12,20,0.88);
+  --pglass: rgba(26,26,42,0.80);
+  --pglass-border: rgba(143,171,255,0.12);
   /* Heatmap */
   --ph0: #2A2A38;
   --ph1: #3A4E8A;
@@ -116,11 +117,13 @@ body {
 }
 
 .dark body, .dark {
+  /* 3. 블루·퍼플 그라데이션 배경 */
   background:
-    radial-gradient(ellipse 80% 60% at 15% -5%, rgba(60,40,90,0.20) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 85% 5%,  rgba(30,50,90,0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 90% 40% at 50% 95%, rgba(80,30,55,0.15) 0%, transparent 55%),
-    #0E0E12;
+    radial-gradient(ellipse 90% 55% at 10% -10%, rgba(80,60,160,0.32) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 90%  5%,  rgba(50,80,180,0.24) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 45% at 50% 100%, rgba(90,40,140,0.20) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 75%  60%, rgba(40,60,120,0.14) 0%, transparent 50%),
+    #0C0C14;
   background-attachment: fixed;
 }
 
@@ -137,6 +140,18 @@ body {
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
 
+/* 1. Dark Glass 카드 */
+.dark .glass-card {
+  background: rgba(26,26,44,0.78);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgba(143,171,255,0.13);
+  box-shadow:
+    0 4px 32px rgba(0,0,0,0.40),
+    0 1px 4px rgba(0,0,0,0.20),
+    inset 0 1px 0 rgba(143,171,255,0.08);
+}
+
 .glass-card-sm {
   background: var(--pglass);
   backdrop-filter: blur(16px) saturate(160%);
@@ -148,6 +163,18 @@ body {
     0 1px 3px rgba(0,0,0,0.03),
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
+
+.dark .glass-card-sm {
+  background: rgba(26,26,44,0.78);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(143,171,255,0.13);
+  box-shadow:
+    0 2px 20px rgba(0,0,0,0.35),
+    0 1px 3px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(143,171,255,0.08);
+}
+
 
 /* ── Floating Nav ────────────────────────────────────────────────────── */
 .floating-nav {

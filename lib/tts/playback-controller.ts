@@ -108,11 +108,20 @@ class PlaybackController {
       audio.onplaying = () => {
         if (signal.aborted) { this._revokeBlobUrl(); return }
         this.emit('playing', id)
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'PATTO',
+            artist: 'Patterns · Stories · You',
+            artwork: [{ src: '/patto-logo.png', sizes: 'any', type: 'image/png' }],
+          })
+          navigator.mediaSession.playbackState = 'playing'
+        }
       }
 
       audio.onended = () => {
         this._revokeBlobUrl()
         this.emit('idle', null)
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none'
       }
 
       audio.onerror = () => {

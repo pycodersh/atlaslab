@@ -6,22 +6,19 @@ import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
 
 const glassCard: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.88)',
+  background: 'var(--pglass)',
   backdropFilter: 'blur(24px) saturate(180%)',
   WebkitBackdropFilter: 'blur(24px) saturate(180%)',
   borderRadius: 20,
-  border: '1px solid rgba(255,255,255,0.86)',
+  border: '1px solid var(--pglass-border)',
   boxShadow: '0 4px 18px rgba(40,50,80,0.07)',
   overflow: 'hidden',
 }
 
-function IconCircle({ children, accent }: { children: React.ReactNode; accent?: string }) {
+function IconCircle({ children }: { children: React.ReactNode; accent?: string }) {
   return (
     <div style={{
       width: 38, height: 38, borderRadius: 12, flexShrink: 0,
-      background: accent ? `${accent}12` : 'rgba(255,255,255,0.72)',
-      border: `1px solid ${accent ? `${accent}22` : 'rgba(220,225,235,0.80)'}`,
-      boxShadow: '0 1px 4px rgba(40,50,80,0.06)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
       {children}
@@ -91,12 +88,12 @@ export default function AboutPage() {
 
   const LEGAL: RowItem[] = [
     {
-      icon: ScrollText, iconColor: '#4A6FA8', accent: '#4A6FA8',
+      icon: ScrollText, iconColor: '#8E8E93',
       label: 'Terms of Service', desc: t('terms_desc'),
       href: '/settings/about/terms',
     },
     {
-      icon: Shield, iconColor: '#3A7A4A', accent: '#3A7A4A',
+      icon: Shield, iconColor: '#8E8E93',
       label: 'Privacy Policy', desc: t('privacy_desc'),
       href: '/settings/about/privacy', last: true,
     },
@@ -104,7 +101,7 @@ export default function AboutPage() {
 
   const SUPPORT: RowItem[] = [
     {
-      icon: Mail, iconColor: '#8F234B', accent: '#8F234B',
+      icon: Mail, iconColor: '#8E8E93',
       label: 'Contact', desc: 'support@patto.app',
       href: null, last: true,
     },

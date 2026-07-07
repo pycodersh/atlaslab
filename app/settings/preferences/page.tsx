@@ -15,11 +15,11 @@ import {
 // ── Shared ────────────────────────────────────────────────────────────────────
 
 const glassCard: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.88)',
+  background: 'var(--pglass)',
   backdropFilter: 'blur(24px) saturate(180%)',
   WebkitBackdropFilter: 'blur(24px) saturate(180%)',
   borderRadius: 20,
-  border: '1px solid rgba(255,255,255,0.86)',
+  border: '1px solid var(--pglass-border)',
   boxShadow: '0 4px 18px rgba(40,50,80,0.07)',
   overflow: 'hidden',
 }
@@ -28,8 +28,8 @@ function IconCircle({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
       width: 38, height: 38, borderRadius: 12, flexShrink: 0,
-      background: 'rgba(255,255,255,0.72)',
-      border: '1px solid rgba(220,225,235,0.80)',
+      background: 'var(--pc)',
+      border: '1px solid var(--pglass-border)',
       boxShadow: '0 1px 4px rgba(40,50,80,0.06)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
@@ -193,11 +193,11 @@ function BottomSheet<T extends string>({
       }} />
       <div style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
-        background: 'rgba(252,250,255,0.96)',
+        background: 'var(--pglass)',
         backdropFilter: 'blur(28px) saturate(180%)',
         WebkitBackdropFilter: 'blur(28px) saturate(180%)',
         borderRadius: '22px 22px 0 0',
-        border: '1px solid rgba(255,255,255,0.90)',
+        border: '1px solid var(--pglass-border)',
         boxShadow: '0 -6px 32px rgba(0,0,0,0.10)',
         transform: open ? 'translateY(0)' : 'translateY(100%)',
         transition: 'transform 0.32s cubic-bezier(0.4,0,0.2,1)',

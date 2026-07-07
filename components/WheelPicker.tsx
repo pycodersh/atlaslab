@@ -45,7 +45,8 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl w-72 overflow-hidden shadow-2xl"
+        className="rounded-2xl w-72 overflow-hidden shadow-2xl"
+        style={{ background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Label */}
@@ -60,12 +61,12 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
           {/* Top fade */}
           <div
             className="absolute inset-x-0 top-0 z-10 pointer-events-none"
-            style={{ height: PAD, background: 'linear-gradient(to bottom, white 30%, transparent)' }}
+            style={{ height: PAD, background: 'linear-gradient(to bottom, var(--pw, white) 30%, transparent)' }}
           />
           {/* Bottom fade */}
           <div
             className="absolute inset-x-0 bottom-0 z-10 pointer-events-none"
-            style={{ height: PAD, background: 'linear-gradient(to top, white 30%, transparent)' }}
+            style={{ height: PAD, background: 'linear-gradient(to top, var(--pw, white) 30%, transparent)' }}
           />
           {/* Selection lines */}
           <div

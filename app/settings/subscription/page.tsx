@@ -6,11 +6,11 @@ import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
 
 const glassCard: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.88)',
+  background: 'var(--pglass)',
   backdropFilter: 'blur(24px) saturate(180%)',
   WebkitBackdropFilter: 'blur(24px) saturate(180%)',
   borderRadius: 20,
-  border: '1px solid rgba(255,255,255,0.86)',
+  border: '1px solid var(--pglass-border)',
   boxShadow: '0 4px 18px rgba(40,50,80,0.07)',
   overflow: 'hidden',
 }
@@ -129,8 +129,8 @@ export default function SubscriptionPage() {
                 ? '1.5px solid rgba(74,111,168,0.40)'
                 : '1px solid rgba(255,255,255,0.86)',
               background: plan.id === 'annual'
-                ? 'rgba(74,111,168,0.04)'
-                : 'rgba(255,255,255,0.88)',
+                ? 'rgba(74,111,168,0.08)'
+                : 'var(--pglass)',
             }}>
               <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: plan.id === 'annual' ? '#4A6FA8' : 'var(--pm)', margin: '0 0 6px', textTransform: 'uppercase' }}>
                 {plan.label}

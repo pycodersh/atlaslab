@@ -10,20 +10,20 @@ import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.82)',
+  background: 'var(--pglass)',
   backdropFilter: 'blur(20px)',
   WebkitBackdropFilter: 'blur(20px)',
   borderRadius: 16,
-  border: '1px solid rgba(60,60,67,0.07)',
+  border: '1px solid var(--pglass-border)',
   boxShadow: '0 1px 6px rgba(40,40,60,0.04)',
 }
 
 const glassCard: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.88)',
+  background: 'var(--pglass)',
   backdropFilter: 'blur(24px) saturate(180%)',
   WebkitBackdropFilter: 'blur(24px) saturate(180%)',
   borderRadius: 20,
-  border: '1px solid rgba(255,255,255,0.86)',
+  border: '1px solid var(--pglass-border)',
   boxShadow: '0 4px 18px rgba(40,50,80,0.07)',
   overflow: 'hidden',
 }
@@ -45,8 +45,8 @@ function MenuCard({
     <>
       <div style={{
         width: 28, height: 28, borderRadius: 8,
-        background: 'rgba(245,245,247,0.9)',
-        border: '1px solid rgba(60,60,67,0.06)',
+        background: 'var(--pc)',
+        border: '1px solid var(--pglass-border)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexShrink: 0,
       }}>
@@ -56,7 +56,7 @@ function MenuCard({
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{
           fontSize: 11.5, fontWeight: 700,
-          color: '#1C1C1E', margin: '0 0 1px',
+          color: 'var(--pt)', margin: '0 0 1px',
           letterSpacing: '0.07em', textTransform: 'uppercase',
         }}>
           {label}
@@ -129,17 +129,6 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
 
   const KO_PROVIDERS = [
     {
-      id: 'naver',
-      label: t('auth_continue_naver'),
-      logo: (
-        <svg viewBox="0 0 24 24" width={20} height={20} fill="none">
-          <rect width="24" height="24" rx="6" fill="#03C75A" />
-          <path d="M13.74 12.27L10.14 7H7v10h3.26V11.73L14.86 17H18V7h-3.26v5.27z" fill="white" />
-        </svg>
-      ),
-      bg: '#03C75A', text: '#fff', border: 'rgba(3,199,90,0.80)',
-    },
-    {
       id: 'kakao',
       label: t('auth_continue_kakao'),
       logo: (
@@ -149,6 +138,17 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
         </svg>
       ),
       bg: '#FEE500', text: '#3C1E1E', border: 'rgba(254,229,0,0.80)',
+    },
+    {
+      id: 'naver',
+      label: t('auth_continue_naver'),
+      logo: (
+        <svg viewBox="0 0 24 24" width={20} height={20} fill="none">
+          <rect width="24" height="24" rx="6" fill="#03C75A" />
+          <path d="M13.74 12.27L10.14 7H7v10h3.26V11.73L14.86 17H18V7h-3.26v5.27z" fill="white" />
+        </svg>
+      ),
+      bg: '#03C75A', text: '#fff', border: 'rgba(3,199,90,0.80)',
     },
   ]
 
@@ -164,22 +164,22 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
           <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
         </svg>
       ),
-      bg: null, text: null, border: null,
+      bg: '#1C1C1E', text: '#fff', border: 'rgba(80,80,90,0.60)',
     },
     {
       id: 'email',
-      label: 'Continue with E-mail',
+      label: 'E-mail로 계속하기',
       logo: (
         <svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="3" />
           <path d="M2 7l10 7 10-7" />
         </svg>
       ),
-      bg: null, text: null, border: null,
+      bg: '#2C2C2E', text: '#fff', border: 'rgba(80,80,90,0.60)',
     },
   ]
 
-  const PROVIDERS = isKorean ? [...KO_PROVIDERS, ...BASE_PROVIDERS] : BASE_PROVIDERS
+  const PROVIDERS = isKorean ? [...BASE_PROVIDERS, ...KO_PROVIDERS] : BASE_PROVIDERS
 
   const content = (
     <div
@@ -305,7 +305,7 @@ export default function SettingsPage() {
         <div style={{
           maxWidth: 480,
           margin: '0 auto',
-          padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
+          padding: `40px 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',

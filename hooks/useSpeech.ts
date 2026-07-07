@@ -34,9 +34,27 @@ export function useSpeech() {
       rate:   RATE_MAP[prefs.speechRate],
       pitch:  getPitchForKey(voiceKey),
       volume: 1.0,
-      onStart: () => setIsSpeaking(true),
-      onEnd:   () => { setIsSpeaking(false); setCurrentParagraphIdx(-1) },
-      onError: () => { setIsSpeaking(false); setCurrentParagraphIdx(-1) },
+      onStart: () => {
+        setIsSpeaking(true)
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'PATTO',
+            artist: 'Patterns · Stories · You',
+            artwork: [{ src: '/patto-logo.png', sizes: 'any', type: 'image/png' }],
+          })
+          navigator.mediaSession.playbackState = 'playing'
+        }
+      },
+      onEnd: () => {
+        setIsSpeaking(false)
+        setCurrentParagraphIdx(-1)
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none'
+      },
+      onError: () => {
+        setIsSpeaking(false)
+        setCurrentParagraphIdx(-1)
+        if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none'
+      },
       onParagraphChange: (idx) => setCurrentParagraphIdx(idx),
     })
   }, [])
