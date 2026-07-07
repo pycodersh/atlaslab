@@ -9,6 +9,7 @@ import {
 
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
+import { SwipeDeleteRow } from '@/components/SwipeDeleteRow'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
@@ -122,29 +123,30 @@ function DictWordList({ words, onRemove }: { words: SavedWord[]; onRemove: (id: 
   return (
     <div style={glassCard}>
       {words.map((w, i) => {
-        // Live re-lookup covers old saved words where meaning was missing or incorrect
         const meaning = w.meaning ?? lookupMeaning(w.word)
         return (
-          <div
+          <SwipeDeleteRow
             key={w.id}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '12px 14px 12px 18px',
-              borderTop: i > 0 ? ROW_BORDER : 'none',
-            }}
+            onDeleteRequest={() => onRemove(w.id)}
+            containerStyle={{ borderTop: i > 0 ? ROW_BORDER : 'none' }}
           >
-            <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
-            <span style={{ fontSize: 12, color: meaning ? 'var(--pm)' : 'var(--pd)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
-              {meaning ?? '—'}
-            </span>
-            <button
-              type="button"
-              onClick={() => onRemove(w.id)}
-              style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, display: 'flex' }}
-            >
-              <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
-            </button>
-          </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px 12px 18px' }}>
+              <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
+              <span style={{ fontSize: 12, color: meaning ? 'var(--pm)' : 'var(--pd)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
+                {meaning ?? '—'}
+              </span>
+              {/* PC-only trash — hidden on mobile (swipe to delete) */}
+              <button
+                type="button"
+                onClick={e => { e.stopPropagation(); onRemove(w.id) }}
+                className="pc-trash"
+                style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, alignItems: 'center' }}
+                aria-label="삭제"
+              >
+                <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+              </button>
+            </div>
+          </SwipeDeleteRow>
         )
       })}
     </div>
@@ -160,9 +162,7 @@ function DictPhraseList({ phrases, onRemove }: {
   return (
     <div style={glassCard}>
       {phrases.map((ph, i) => {
-        // Prefer dictionary meaning (live lookup covers old saved phrases too)
         const dictEntry = lookupPhraseMeaning(ph.phrase)
-        // For stored meaning: only use if explicitly from dictionary, OR if short enough to be a real meaning (≤30 chars)
         const storedMeaning = ph.meaningSource === 'dictionary'
           ? ph.meaning
           : (ph.meaning && ph.meaning.length <= 30 && ph.meaningSource !== 'sentence')
@@ -170,26 +170,27 @@ function DictPhraseList({ phrases, onRemove }: {
             : undefined
         const meaning = dictEntry?.meaning ?? storedMeaning
         return (
-          <div
+          <SwipeDeleteRow
             key={ph.id}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '12px 14px 12px 18px',
-              borderTop: i > 0 ? ROW_BORDER : 'none',
-            }}
+            onDeleteRequest={() => onRemove(ph.id)}
+            containerStyle={{ borderTop: i > 0 ? ROW_BORDER : 'none' }}
           >
-            <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{ph.phrase}</span>
-            {meaning && (
-              <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{meaning}</span>
-            )}
-            <button
-              type="button"
-              onClick={() => onRemove(ph.id)}
-              style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, display: 'flex' }}
-            >
-              <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
-            </button>
-          </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px 12px 18px' }}>
+              <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{ph.phrase}</span>
+              {meaning && (
+                <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{meaning}</span>
+              )}
+              <button
+                type="button"
+                onClick={e => { e.stopPropagation(); onRemove(ph.id) }}
+                className="pc-trash"
+                style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, alignItems: 'center' }}
+                aria-label="삭제"
+              >
+                <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+              </button>
+            </div>
+          </SwipeDeleteRow>
         )
       })}
     </div>
@@ -236,35 +237,37 @@ function PatternAccordion({
       {open && (
         <div>
           {patterns.map((bm, i) => (
-            <div
+            <SwipeDeleteRow
               key={bm.patternId}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 4,
-                borderTop: i > 0 ? ROW_BORDER : 'none',
-              }}
+              onDeleteRequest={() => onRemove(bm.patternId)}
+              containerStyle={{ borderTop: i > 0 ? ROW_BORDER : 'none' }}
             >
-              <button
-                type="button"
-                onClick={() => onPress(bm)}
-                style={{
-                  flex: 1, textAlign: 'left',
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  padding: '11px 8px 11px 16px',
-                }}
-              >
-                <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
-                {bm.meaningKo && (
-                  <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{bm.meaningKo}</p>
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => onRemove(bm.patternId)}
-                style={{ background: 'none', border: 'none', padding: '8px 14px 8px 4px', cursor: 'pointer', display: 'flex', flexShrink: 0 }}
-              >
-                <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
-              </button>
-            </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <button
+                  type="button"
+                  onClick={() => onPress(bm)}
+                  style={{
+                    flex: 1, textAlign: 'left',
+                    background: 'none', border: 'none', cursor: 'pointer',
+                    padding: '11px 8px 11px 16px',
+                  }}
+                >
+                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
+                  {bm.meaningKo && (
+                    <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{bm.meaningKo}</p>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={e => { e.stopPropagation(); onRemove(bm.patternId) }}
+                  className="pc-trash"
+                  style={{ background: 'none', border: 'none', padding: '8px 14px 8px 4px', cursor: 'pointer', alignItems: 'center', flexShrink: 0 }}
+                  aria-label="삭제"
+                >
+                  <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+                </button>
+              </div>
+            </SwipeDeleteRow>
           ))}
         </div>
       )}

@@ -50,6 +50,7 @@
   --pattern-hl: #8B2635;
   /* Nav height including iOS safe-area-inset-top */
   --pnav-h: calc(60px + env(safe-area-inset-top, 0px));
+  /* Swipe-to-delete: PC-only trash icon */
   /* Bottom tab bar height — floating nav */
   --pbnav-h: calc(72px + env(safe-area-inset-bottom, 0px));
 }
@@ -341,6 +342,13 @@ body {
 }
 .animate-fade-in { animation: fade-in 0.9s ease forwards; }
 .animate-fade-up { animation: fade-up 0.8s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+/* ── SwipeDeleteRow: PC-only trash icon ─────────────────────────────── */
+/* Mobile: swipe-to-delete reveals red panel. PC: trash icon always visible. */
+.pc-trash { display: none }
+@media (hover: hover) and (pointer: fine) {
+  .pc-trash { display: flex }
+}
 
 /* ── Image Slider Ken Burns ──────────────────────────────────────────── */
 @keyframes pattoKenBurns {
