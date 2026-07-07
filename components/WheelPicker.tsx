@@ -61,12 +61,12 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
           {/* Top fade */}
           <div
             className="absolute inset-x-0 top-0 z-10 pointer-events-none"
-            style={{ height: PAD, background: 'linear-gradient(to bottom, var(--pw, white) 30%, transparent)' }}
+            style={{ height: PAD, background: 'linear-gradient(to bottom, var(--pglass) 30%, transparent)' }}
           />
           {/* Bottom fade */}
           <div
             className="absolute inset-x-0 bottom-0 z-10 pointer-events-none"
-            style={{ height: PAD, background: 'linear-gradient(to top, var(--pw, white) 30%, transparent)' }}
+            style={{ height: PAD, background: 'linear-gradient(to top, var(--pglass) 30%, transparent)' }}
           />
           {/* Selection lines */}
           <div
