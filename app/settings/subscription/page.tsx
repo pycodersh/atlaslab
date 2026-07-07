@@ -72,9 +72,7 @@ export default function SubscriptionPage() {
               {IS_PREMIUM ? 'Premium Plan' : 'Free Plan'}
             </p>
             <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>
-              {IS_PREMIUM
-                ? 'Enjoying unlimited access to all features.'
-                : 'Upgrade to unlock everything PATTO has to offer.'}
+              {IS_PREMIUM ? t('sub_premium_plan_msg') : t('sub_free_plan_msg')}
             </p>
           </div>
         </div>
