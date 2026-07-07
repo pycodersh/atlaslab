@@ -564,10 +564,13 @@ export function PatternsPageV2({
                     const isExPlaying = phase === 'speaking' && i === exIdx
                     const exRev       = revealedExSet.has(`${patIdx}-${i}`)
                     const showExEn    = studyMode === 'en' || studyMode === 'en-ko' || exRev
-                    const fullEx      = patternExamplesFull[pattern.id]?.[i]
-                    const displayEn   = fullEx?.en ?? ex.en
-                    const displayKo   = fullEx?.ko ?? ex.ko
-                    const exKo        = resolveTranslation(displayKo, prefs.language, ex.translations)
+                    const fullEx        = patternExamplesFull[pattern.id]?.[i]
+                    // Always use pattern-examples.ts text (matches audio); fullEx.en/ko may be misassigned
+                    const displayEn     = ex.en
+                    const displayKo     = ex.ko
+                    // saveCandidates positions are calibrated to fullEx.en — only use when texts match
+                    const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
+                    const exKo          = resolveTranslation(displayKo, prefs.language, ex.translations)
                     return (
                       <div
                         key={i}
@@ -580,7 +583,7 @@ export function PatternsPageV2({
                         {showExEn ? (
                           <TappableWordText
                             text={displayEn}
-                            saveCandidates={fullEx?.saveCandidates}
+                            saveCandidates={safeCandidates}
                             source={{
                               sourceType:       'example',
                               sourceId:         `${pattern.id}-ex${i + 1}`,
