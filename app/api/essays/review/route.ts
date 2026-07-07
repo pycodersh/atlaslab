@@ -1,4 +1,4 @@
-﻿import OpenAI from 'openai'
+import OpenAI from 'openai'
 import type { Plan } from '@/lib/subscription/storage'
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
@@ -16,149 +16,204 @@ function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length
 }
 
-function buildSystemPrompt(language: string): string {
+// ── Pass 1: full review ──────────────────────────────────────────────────────
+function buildMainPrompt(language: string): string {
   const langInstructions: Record<string, string> = {
-    ko:      '⚠️ 언어 규칙: 아래의 모든 텍스트 필드를 반드시 한국어로 작성하세요 — note(모든 annotation), editorComment, nextChallenge의 각 항목. 영어로 작성하지 마세요.',
-    ja:      '⚠️ 言語ルール: 以下のすべてのテキストフィールドを必ず日本語で記述してください — note（すべてのannotation）、editorComment、nextChallengeの各項目。英語で書かないでください。',
-    es:      '⚠️ Regla de idioma: Escribe TODOS los campos de texto en español — note (todas las anotaciones), editorComment, cada ítem de nextChallenge. No uses inglés.',
-    fr:      "⚠️ Règle de langue: Rédigez TOUS les champs texte en français — note (toutes les annotations), editorComment, chaque élément de nextChallenge. N'utilisez pas l'anglais.",
-    de:      '⚠️ Sprachregel: Schreiben Sie ALLE Textfelder auf Deutsch — note (alle Annotationen), editorComment, jeden nextChallenge-Punkt. Kein Englisch.',
-    'zh-cn': '⚠️ 语言规则：以下所有文本字段必须用简体中文填写 — note（所有注释）、editorComment、nextChallenge的每个项目。不要使用英文。',
-    'zh-tw': '⚠️ 語言規則：以下所有文字欄位必須用繁體中文填寫 — note（所有注釋）、editorComment、nextChallenge的每個項目。不要使用英文。',
-    en:      '⚠️ Language rule: Write ALL text fields in English — note (all annotations), editorComment, each nextChallenge item. Do not use Korean or any other language.',
+    ko:      '⚠️ 언어 규칙: note, editorComment, nextChallenge 항목을 반드시 한국어로 작성하세요. 영어로 쓰지 마세요.',
+    ja:      '⚠️ 言語ルール: note、editorComment、nextChallengeの各項目を必ず日本語で記述してください。',
+    es:      '⚠️ Regla de idioma: Escribe note, editorComment y cada ítem de nextChallenge en español.',
+    fr:      "⚠️ Règle de langue: Rédigez note, editorComment et chaque nextChallenge en français.",
+    de:      '⚠️ Sprachregel: Schreiben Sie note, editorComment und jeden nextChallenge-Punkt auf Deutsch.',
+    'zh-cn': '⚠️ 语言规则：note、editorComment、nextChallenge各项目必须用简体中文填写。',
+    'zh-tw': '⚠️ 語言規則：note、editorComment、nextChallenge各項目必須用繁體中文填寫。',
+    en:      '⚠️ Language rule: Write note, editorComment, and each nextChallenge item in English.',
   }
   const langInstruction = langInstructions[language] ?? langInstructions.en
 
-  return `You are a rigorous English editor. Your job is to find EVERY grammar error in the essay — not just the obvious ones.
+  return `You are a rigorous English editor. Your job is to find EVERY grammar error — none skipped.
 
 ${langInstruction}
 
-━━━ HOW TO WORK — THREE PASSES ━━━
+━━━ WORKING METHOD — THREE PASSES ━━━
 
-PASS 1 — SCAN (write in "_scan"):
-  Read the essay sentence by sentence. For EVERY sentence, check ALL of these:
-  □ Tense — is the tense correct? consistent with the narrative?
-  □ Subject-Verb Agreement — does the verb match the subject?
-  □ Verb Form — infinitive / gerund / past participle used correctly?
-  □ Articles — is a / an / the correct? missing?
-  □ Prepositions — correct preposition used?
-  □ Plural/Singular — nouns correctly pluralised or singular?
-  □ Pronouns — correct pronoun case and reference?
-  □ Capitalization — sentence starts, proper nouns, "I" capitalised?
-  □ Spelling — any misspelled words?
-  □ Vocabulary — is this the most natural word choice?
-  □ Word Order — natural English word order?
-  □ Natural Expression — does it sound like a native speaker?
-  □ Punctuation — missing or wrong punctuation?
+PASS 1 — SENTENCE SCAN (write in "_scan"):
+  Go through every sentence one by one. For each sentence check ALL of:
+  □ Tense (wrong tense, tense inconsistency with narrative)
+  □ Subject-Verb Agreement (including "there was/were")
+  □ Verb Form (infinitive / gerund / past participle)
+  □ Articles (a / an / the — missing or wrong)
+  □ Prepositions
+  □ Plural / Singular
+  □ Pronouns
+  □ Capitalization (sentence starts, proper nouns, "I")
+  □ Spelling
+  □ Vocabulary (unnatural word choice)
+  □ Word Order
+  □ Natural Expression
+  □ Punctuation
+  Do NOT stop early. Check every sentence. Log every error found.
 
-  Do NOT stop after finding 2–3 errors. Check EVERY sentence. List all errors found.
+PASS 2 — SELF-REVIEW (continue in "_scan"):
+  Re-read the essay. Specifically look for:
+  • "there was many/few..." → agreement error
+  • Multiple verb errors in the same sentence — list each one
+  • Articles before vowels: "a apple" → "an apple"
+  • Sentence-start capitals missed in pass 1
+  • "didn't + past participle" → "hadn't + past participle"
+  • Adverb vs. adjective ("more confident" → "more confidently")
+  Add any newly found errors.
 
-PASS 2 — SELF-REVIEW (write in "_scan", continue):
-  Re-read each sentence. Ask: "Did I miss any error above?"
-  Especially check for:
-  • Subject-verb agreement that was overlooked
-  • Tense inconsistency between sentences
-  • Articles before vowel sounds (a → an)
-  • Repeated capitalization errors (mark only the FIRST as "typical")
-  Add any newly found errors to your list.
+PASS 3 — VERIFY & OUTPUT (write verdict in "_scan"):
+  Check: does the suggestedVersion fix EVERY error listed in passes 1 and 2?
+  If any error was found but NOT fixed in suggestedVersion, fix it now.
+  Then output the JSON.
 
-PASS 3 — OUTPUT:
-  Before outputting, verify:
-  ✓ Every sentence was checked
-  ✓ Multi-error sentences have ALL errors included
-  ✓ suggestedVersion fixes EVERY error (grammar + expression + typical)
-  ✓ No error in suggestedVersion that is missing from annotations
-  Then output the final JSON.
-
-━━━ MINIMUM TARGETTEXT RULE ━━━
-Always circle the SMALLEST unit containing the error — one word whenever possible.
-  ✗ "the weather were bad"  → do NOT circle "the weather were"
-  ✓ "were"  →  "was"
-  ✗ "didn't met him"  → do NOT circle "didn't met"
-  ✓ "met"  →  "seen"  (note explains "hadn't seen him")
+━━━ TARGETTEXT RULE ━━━
+Always the SMALLEST unit: one word whenever possible.
+  ✗ "the weather were bad"  →  ✓ targetText: "were"
+  ✗ "didn't met him"        →  ✓ targetText: "met"
 Never annotate an entire sentence.
 
 ━━━ ANNOTATION TYPES ━━━
 
-"grammar"  — Grammatical errors with clear learning value.
-  Covers: tense, agreement, verbForm, article, preposition, plural/singular,
-          pronoun, vocabulary, missing word, spelling, punctuation, capitalization, wordOrder.
-  Max 8. Always include "replacement". note = 2–4 words.
+"grammar"  — ALL grammatical errors. NO LIMIT on count. Return every one found.
+  Always include "replacement" and "confidence" (0.0–1.0).
+  confidence guide:
+    0.95–1.0  = certain error (tense, agreement, article before vowel)
+    0.80–0.94 = likely error (preposition, vocabulary)
+    0.60–0.79 = possible error or style preference
+  note = 2–4 words in the user's language.
 
   Required "subType" — choose exactly one:
-    "tense"          "agreement"      "verbForm"       "article"
-    "preposition"    "vocabulary"     "missing"        "spelling"
-    "punctuation"    "capitalization" "wordOrder"      "pronoun"
-    "plural"
+    "tense"  "agreement"  "verbForm"  "article"  "preposition"
+    "vocabulary"  "missing"  "spelling"  "punctuation"
+    "capitalization"  "wordOrder"  "pronoun"  "plural"
 
-  For "missing": targetText = word directly BEFORE the gap; replacement = the missing word only.
+  For "missing": targetText = word BEFORE the gap; replacement = missing word only.
 
-"expression"  — Grammatically correct but unnatural or weak phrasing.
-  Max 3. Always include "replacement" (natural native alternative). note = 2–4 words.
+"expression"  — Grammatically OK but unnatural phrasing. Max 5.
+  Always include "replacement" and "confidence". note = 2–4 words.
 
-"strength"  — The single best moment worth celebrating. Exactly 1. No "replacement".
-  note = "⭐ Nice." / "⭐ Natural." / "⭐ Vivid." / "⭐ Strong opening."
+"strength"  — The single best moment. Exactly 1. No "replacement".
+  note = "⭐ Nice." / "⭐ Natural." / "⭐ Vivid." / "⭐ Strong."
+  confidence = 1.0.
 
-"typical"  — A mechanical error that REPEATS throughout the essay.
-  Mark ONLY the FIRST occurrence. note = exactly "Typ."
+"typical"  — Mechanical error repeating throughout. Mark FIRST occurrence only.
+  note = exactly "Typ."  Max 2.
   Use ONLY for: lowercase "i", missing sentence-start capital, lowercase proper noun,
   missing apostrophe in contraction.
-  Do NOT use for tense/article/agreement — those are "grammar".
-  Max 2 "typical" annotations (one per distinct repeating pattern).
-
-Total budget: up to 12 grammar + up to 3 expression + exactly 1 strength + up to 2 typical.
-Find ALL errors first, then prioritise if over budget. Never pad.
-
-IMPORTANT — easily missed errors to check explicitly:
-• "there was many people" → "there were many people" (existential there + plural)
-• Multiple tense errors in one sentence — annotate EACH wrong verb separately
-• Sentence-start capitalization ("last weekend" → "Last weekend"):
-  use "typical" if the pattern repeats throughout, "capitalization" subtype if isolated
-• Adverb vs. adjective ("speak more confident" → "more confidently") — subType "verbForm"
-• "didn't + past participle" errors ("didn't met" → "hadn't met")
+  Do NOT use for tense/article/agreement — those get "grammar".
 
 ━━━ EDITOR COMMENT ━━━
-25–30 words, 1 sentence, warm and specific. Name one concrete thing from this essay.
-No generic praise. Reference something the student actually wrote.
+25–30 words, 1 sentence. Warm, specific. Quote or reference something the student actually wrote.
+No generic praise.
 
 ━━━ SUGGESTED VERSION ━━━
-Rewrite the FULL essay applying every correction — grammar, expression, typical, capitalization.
-Keep the student's exact voice, structure, and ideas. Do NOT add new ideas.
-Write it as a native speaker would naturally express the same thoughts.
+Full rewrite applying EVERY correction. Native-sounding, student's voice preserved.
+Do NOT add new ideas or change meaning.
 
 ━━━ ONE-LINE COACHING ADVICE ━━━
-Under 12 words. Sound like a coach, not a textbook.
-Give direction, not just grammar rules.
+Under 12 words. Coach tone, not textbook.
 Examples: "Consistency builds confidence." / "Small improvements become fluency."
-         "Accuracy comes from repetition." / "Speak first. Perfection comes later."
-Write in the same language as all other text fields.
 
 ━━━ STYLE DETECTION ━━━
 Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statement / TOEFL / Business Email
 
-━━━ RESPONSE FORMAT — valid JSON only, no markdown fences ━━━
+━━━ RESPONSE FORMAT — valid JSON only ━━━
 {
-  "_scan": "Your sentence-by-sentence analysis from Pass 1 and Pass 2 goes here. This field is ignored by the parser — use it freely to think through every error.",
+  "_scan": "All your Pass 1, Pass 2, Pass 3 thinking goes here.",
   "detectedStyle": "Diary",
   "annotations": [
-    { "type": "grammar",    "subType": "agreement",      "targetText": "were",       "replacement": "was",             "note": "주어-동사 불일치." },
-    { "type": "grammar",    "subType": "tense",          "targetText": "go",         "replacement": "went",            "note": "과거 시제 사용." },
-    { "type": "grammar",    "subType": "article",        "targetText": "a english",  "replacement": "an English",      "note": "'an' 사용." },
-    { "type": "grammar",    "subType": "preposition",    "targetText": "arrived to", "replacement": "arrived at",      "note": "전치사 오류." },
-    { "type": "grammar",    "subType": "spelling",       "targetText": "recieve",    "replacement": "receive",         "note": "철자 오류." },
-    { "type": "grammar",    "subType": "plural",         "targetText": "two cup",    "replacement": "two cups",        "note": "복수형 사용." },
-    { "type": "grammar",    "subType": "vocabulary",     "targetText": "very big",   "replacement": "enormous",        "note": "더 강한 표현." },
-    { "type": "expression", "targetText": "very tired",  "replacement": "exhausted", "note": "자연스러운 표현." },
-    { "type": "strength",   "targetText": "exact phrase from essay", "note": "⭐ Vivid detail." },
-    { "type": "typical",    "targetText": "i",           "replacement": "I",         "note": "Typ." }
+    { "type": "grammar",    "subType": "tense",       "targetText": "go",        "replacement": "went",           "note": "과거 시제.", "confidence": 0.99 },
+    { "type": "grammar",    "subType": "agreement",   "targetText": "were",      "replacement": "was",            "note": "주어-동사.", "confidence": 0.99 },
+    { "type": "grammar",    "subType": "article",     "targetText": "a english", "replacement": "an English",     "note": "'an' 사용.", "confidence": 0.99 },
+    { "type": "grammar",    "subType": "plural",      "targetText": "two cup",   "replacement": "two cups",       "note": "복수형.", "confidence": 0.97 },
+    { "type": "expression", "targetText": "very tired","replacement": "exhausted","note": "자연스러운 표현.", "confidence": 0.85 },
+    { "type": "strength",   "targetText": "phrase",    "note": "⭐ Vivid.", "confidence": 1.0 },
+    { "type": "typical",    "targetText": "i",         "replacement": "I",        "note": "Typ.", "confidence": 0.99 }
   ],
-  "editorComment": "이 에세이만의 구체적인 내용을 언급하는 25–30단어 코멘트.",
-  "nextChallenge": ["구체적인 글쓰기 목표 1.", "구체적인 글쓰기 목표 2."],
-  "suggestedVersion": "모든 교정이 반영된 전체 에세이 — 학생의 목소리와 아이디어 유지.",
-  "oneLineAdvice": "코치처럼 12단어 이하의 조언."
+  "editorComment": "25–30단어 코멘트.",
+  "nextChallenge": ["목표 1.", "목표 2."],
+  "suggestedVersion": "전체 교정 에세이.",
+  "oneLineAdvice": "코치 스타일 조언."
 }`
 }
 
+// ── Pass 2: verification ─────────────────────────────────────────────────────
+const VERIFY_SYSTEM = `You are a grammar checker. Your only job: look for grammar errors that were missed.
+Return JSON: { "hasErrors": true/false, "missedErrors": [...] }
+missedErrors format: { "targetText": "exact phrase from original essay", "replacement": "correction", "subType": "tense|agreement|verbForm|article|preposition|vocabulary|missing|spelling|punctuation|capitalization|wordOrder|pronoun|plural", "note": "short note", "confidence": 0.0-1.0 }
+Only include CLEAR, HIGH-CONFIDENCE errors (confidence >= 0.85).
+targetText must be an exact substring from the ORIGINAL ESSAY, not the corrected version.`
+
+async function verifyPass(
+  essayBody: string,
+  suggestedVersion: string,
+  language: string,
+): Promise<Array<{ targetText: string; replacement: string; subType: string; note: string; confidence: number }>> {
+  const langNote = language === 'ko' ? ' (note field in Korean)' :
+                   language === 'ja' ? ' (note field in Japanese)' : ''
+
+  const verifyPrompt = `ORIGINAL ESSAY:
+${essayBody}
+
+CORRECTED VERSION (what the reviewer fixed):
+${suggestedVersion}
+
+Find grammar errors in the ORIGINAL ESSAY that were NOT fixed in the corrected version${langNote}.
+These are errors the reviewer missed. Return only high-confidence errors (≥ 0.85).`
+
+  try {
+    const res = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      max_tokens: 1200,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: VERIFY_SYSTEM },
+        { role: 'user', content: verifyPrompt },
+      ],
+    })
+    const raw = res.choices[0]?.message?.content ?? ''
+    const parsed = JSON.parse(raw)
+    if (!parsed.hasErrors || !Array.isArray(parsed.missedErrors)) return []
+    return parsed.missedErrors
+  } catch {
+    return []
+  }
+}
+
+// ── Annotation normaliser ────────────────────────────────────────────────────
+type RawAnnotation = {
+  targetText?: string
+  fragment?: string
+  type: string
+  subType?: string
+  replacement?: string
+  note: string
+  confidence?: number
+}
+
+function normaliseAnnotations(
+  annotations: RawAnnotation[],
+  essayBody: string,
+): object[] {
+  return annotations
+    .map(a => ({
+      type: a.type,
+      ...(a.subType ? { subType: a.subType } : {}),
+      fragment: a.targetText ?? a.fragment ?? '',
+      replacement: a.replacement,
+      note: a.note,
+      confidence: typeof a.confidence === 'number' ? Math.round(a.confidence * 100) / 100 : undefined,
+    }))
+    .filter((a) =>
+      typeof a.fragment === 'string' &&
+      a.fragment.length > 0 &&
+      essayBody.includes(a.fragment),
+    )
+}
+
+// ── Route handler ────────────────────────────────────────────────────────────
 export async function POST(request: Request) {
   try {
     const body = await request.json()
@@ -176,7 +231,7 @@ export async function POST(request: Request) {
       plan: Plan
     }
 
-    // ── Input validation ────────────────────────────────────────────────────
+    // ── Input validation ──────────────────────────────────────────────────────
     if (!essayBody || typeof essayBody !== 'string') {
       return Response.json({ error: 'invalid_input' }, { status: 400 })
     }
@@ -192,27 +247,25 @@ export async function POST(request: Request) {
       return Response.json({ error: 'too_long' }, { status: 422 })
     }
 
-    // ── OpenAI call ─────────────────────────────────────────────────────────
+    // ── Pass 1: main review ───────────────────────────────────────────────────
     const userPrompt = `Essay Title: "${essayTitle ?? 'Untitled'}"
 
 Essay:
 ${essayBody}
 
-Please review this essay and return the JSON response as specified.`
+Review this essay. Find EVERY grammar error. Return the JSON as specified.`
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
-      max_tokens: 4000,
+      max_tokens: 5000,
       response_format: { type: 'json_object' },
       messages: [
-        { role: 'system', content: buildSystemPrompt(language) },
+        { role: 'system', content: buildMainPrompt(language) },
         { role: 'user', content: userPrompt },
       ],
     })
 
     const rawText = completion.choices[0]?.message?.content ?? ''
-
-    // ── Parse response ──────────────────────────────────────────────────────
     const jsonMatch = rawText.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
       console.error('[essays/review] Non-JSON response:', rawText.slice(0, 200))
@@ -221,36 +274,57 @@ Please review this essay and return the JSON response as specified.`
 
     const parsed = JSON.parse(jsonMatch[0])
 
-    // Map targetText → fragment; filter out non-matching annotations
+    // Normalise pass-1 annotations
+    let annotations: object[] = []
     if (Array.isArray(parsed.annotations)) {
-      parsed.annotations = parsed.annotations
-        .map((a: { targetText?: string; fragment?: string; type: string; subType?: string; replacement?: string; note: string }) => ({
-          type: a.type,
-          ...(a.subType ? { subType: a.subType } : {}),
-          fragment: a.targetText ?? a.fragment ?? '',
-          replacement: a.replacement,
-          note: a.note,
-        }))
-        .filter((a: { fragment: string }) =>
-          typeof a.fragment === 'string' &&
-          a.fragment.length > 0 &&
-          essayBody.includes(a.fragment),
+      annotations = normaliseAnnotations(parsed.annotations as RawAnnotation[], essayBody)
+    }
+
+    // ── Pass 2: verification ──────────────────────────────────────────────────
+    const suggestedVersion: string = typeof parsed.suggestedVersion === 'string' ? parsed.suggestedVersion : ''
+    if (suggestedVersion) {
+      const missed = await verifyPass(essayBody, suggestedVersion, language)
+      if (missed.length > 0) {
+        const extraAnnotations = normaliseAnnotations(
+          missed.map(m => ({ ...m, type: 'grammar' })),
+          essayBody,
         )
+        // Deduplicate: skip if fragment overlaps with any existing annotation
+        const existingFrags = (annotations as Array<{ fragment?: string }>)
+          .map(a => a.fragment?.toLowerCase() ?? '')
+          .filter(Boolean)
+        for (const extra of extraAnnotations) {
+          const frag = (extra as { fragment?: string }).fragment?.toLowerCase() ?? ''
+          if (!frag) continue
+          // Skip if any existing fragment contains this one, or this one contains an existing
+          const overlap = existingFrags.some(e => e.includes(frag) || frag.includes(e))
+          if (!overlap) {
+            annotations.push(extra)
+            existingFrags.push(frag)
+          }
+        }
+        console.log(`[essays/review] Pass 2 added ${extraAnnotations.length} missed error(s)`)
+      } else {
+        console.log('[essays/review] Pass 2: no additional errors found')
+      }
     }
 
-    // Ensure nextChallenge is always an array
-    if (typeof parsed.nextChallenge === 'string') {
-      parsed.nextChallenge = [parsed.nextChallenge]
+    // ── Build final response ──────────────────────────────────────────────────
+    const final = {
+      detectedStyle: parsed.detectedStyle,
+      annotations,
+      editorComment: parsed.editorComment,
+      nextChallenge: Array.isArray(parsed.nextChallenge)
+        ? parsed.nextChallenge
+        : typeof parsed.nextChallenge === 'string'
+          ? [parsed.nextChallenge]
+          : [],
+      ...(suggestedVersion ? { suggestedVersion } : {}),
+      oneLineAdvice: parsed.oneLineAdvice,
+      createdAt: new Date().toISOString(),
     }
 
-    // suggestedVersion: keep as-is if string, drop if missing
-    if (typeof parsed.suggestedVersion !== 'string' || !parsed.suggestedVersion.trim()) {
-      delete parsed.suggestedVersion
-    }
-
-    parsed.createdAt = new Date().toISOString()
-
-    return Response.json({ review: parsed, essayId })
+    return Response.json({ review: final, essayId })
 
   } catch (err) {
     console.error('[essays/review] Unexpected error:', err)
