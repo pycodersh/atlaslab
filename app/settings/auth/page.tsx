@@ -6,6 +6,7 @@ import { ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { createClient } from '@/lib/supabase/client'
 
 const glassCard: React.CSSProperties = {
   background: 'var(--pglass)',
@@ -31,19 +32,63 @@ function SecTitle({ label }: { label: string }) {
 
 export default function AuthPage() {
   const [toast, setToast] = useState('')
+  const [emailMode, setEmailMode] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isSignUp, setIsSignUp] = useState(false)
+  const [loading, setLoading] = useState(false)
   const t = useT()
   const { prefs } = usePreferences()
   const isKorean = prefs.language === 'ko'
 
-  function handleLogin(provider: string) {
-    setToast(`${provider} ${t('auth_coming_soon')}`)
+  function showToast(msg: string) {
+    setToast(msg)
     setTimeout(() => setToast(''), 2800)
+  }
+
+  async function handleGoogle() {
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    })
+    if (error) showToast(error.message)
+  }
+
+  async function handleEmailSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!email || !password) return
+    setLoading(true)
+    const supabase = createClient()
+    const { error } = isSignUp
+      ? await supabase.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/auth/callback` } })
+      : await supabase.auth.signInWithPassword({ email, password })
+    setLoading(false)
+    if (error) {
+      showToast(error.message)
+    } else if (isSignUp) {
+      showToast(isKorean ? '가입 완료! 로그인해주세요.' : 'Signed up! Please sign in.')
+      setIsSignUp(false)
+    } else {
+      window.location.href = '/'
+    }
+  }
+
+  async function handleKakao() {
+    showToast(isKorean ? '카카오 로그인 준비 중' : 'Kakao coming soon')
+  }
+
+  async function handleNaver() {
+    showToast(isKorean ? '네이버 로그인 준비 중' : 'Naver coming soon')
   }
 
   const BASE_PROVIDERS = [
     {
       id: 'google',
       label: t('auth_continue_google'),
+      onClick: handleGoogle,
       logo: (
         <svg viewBox="0 0 24 24" width={20} height={20}>
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -57,6 +102,7 @@ export default function AuthPage() {
     {
       id: 'email',
       label: t('auth_continue_email'),
+      onClick: () => setEmailMode(true),
       logo: (
         <svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="3" />
@@ -71,6 +117,7 @@ export default function AuthPage() {
     {
       id: 'kakao',
       label: t('auth_continue_kakao'),
+      onClick: handleKakao,
       logo: (
         <svg viewBox="0 0 24 24" width={20} height={20} fill="none">
           <rect width="24" height="24" rx="6" fill="#FEE500" />
@@ -82,6 +129,7 @@ export default function AuthPage() {
     {
       id: 'naver',
       label: t('auth_continue_naver'),
+      onClick: handleNaver,
       logo: (
         <svg viewBox="0 0 24 24" width={20} height={20} fill="none">
           <rect width="24" height="24" rx="6" fill="#03C75A" />
@@ -104,13 +152,11 @@ export default function AuthPage() {
         boxSizing: 'border-box',
       }}>
 
-        {/* Back */}
         <Link href="/settings" style={{ display: 'flex', alignItems: 'center', gap: 5, textDecoration: 'none', marginBottom: 20 }}>
           <ChevronLeft style={{ width: 13, height: 13, color: 'var(--pm)' }} strokeWidth={1.8} />
           <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.10em', color: 'var(--pm)' }}>Profile</span>
         </Link>
 
-        {/* Page title */}
         <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px', letterSpacing: '-0.01em' }}>
           Account
         </p>
@@ -118,49 +164,115 @@ export default function AuthPage() {
           {t('auth_desc')}
         </p>
 
-        {/* Sign in section */}
         <SecTitle label="Sign In" />
-        <div style={{ ...glassCard, padding: '10px 16px' }}>
-          {PROVIDERS.map((p, i) => {
-            const isLast = i === PROVIDERS.length - 1
-            const btnStyle: React.CSSProperties = p.bg
-              ? { background: p.bg, color: p.text, border: `1.5px solid ${p.border}` }
-              : {
-                  background: 'var(--pglass)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  color: 'var(--pt2)',
-                  border: '1.5px solid var(--pglass-border)',
-                }
-            return (
-              <div key={p.id}>
-                <button
-                  type="button"
-                  onClick={() => handleLogin(p.id)}
-                  style={{
-                    ...btnStyle,
-                    width: '100%',
-                    display: 'flex', alignItems: 'center', gap: 12,
-                    padding: '13px 14px',
-                    borderRadius: 14,
-                    fontSize: 13.5, fontWeight: 600,
-                    cursor: 'pointer', textAlign: 'left',
-                    fontFamily: 'inherit',
-                    transition: 'opacity 0.15s',
-                    marginBottom: isLast ? 0 : 8,
-                  }}
-                  onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
-                  onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-                >
-                  <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>{p.logo}</span>
-                  <span style={{ flex: 1, textAlign: 'center' }}>{p.label}</span>
-                </button>
-              </div>
-            )
-          })}
-        </div>
 
-        {/* Agreement */}
+        {emailMode ? (
+          <div style={{ ...glassCard, padding: '16px' }}>
+            <button
+              type="button"
+              onClick={() => setEmailMode(false)}
+              style={{
+                background: 'none', border: 'none', color: 'var(--pm)',
+                fontSize: 12, cursor: 'pointer', padding: '0 0 12px', fontFamily: 'inherit',
+                display: 'flex', alignItems: 'center', gap: 4,
+              }}
+            >
+              ← {isKorean ? '뒤로' : 'Back'}
+            </button>
+            <form onSubmit={handleEmailSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <input
+                type="email"
+                placeholder={isKorean ? '이메일' : 'Email'}
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                required
+                style={{
+                  background: 'var(--pglass)', border: '1.5px solid var(--pglass-border)',
+                  borderRadius: 12, padding: '13px 14px', fontSize: 13.5,
+                  color: 'var(--pt)', fontFamily: 'inherit', outline: 'none', width: '100%', boxSizing: 'border-box',
+                }}
+              />
+              <input
+                type="password"
+                placeholder={isKorean ? '비밀번호 (6자 이상)' : 'Password (6+ chars)'}
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                required
+                minLength={6}
+                style={{
+                  background: 'var(--pglass)', border: '1.5px solid var(--pglass-border)',
+                  borderRadius: 12, padding: '13px 14px', fontSize: 13.5,
+                  color: 'var(--pt)', fontFamily: 'inherit', outline: 'none', width: '100%', boxSizing: 'border-box',
+                }}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  background: 'var(--pm)', color: 'var(--pb)',
+                  border: 'none', borderRadius: 12, padding: '13px 14px',
+                  fontSize: 13.5, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer',
+                  fontFamily: 'inherit', opacity: loading ? 0.6 : 1,
+                }}
+              >
+                {loading ? '...' : isSignUp ? (isKorean ? '회원가입' : 'Sign Up') : (isKorean ? '로그인' : 'Sign In')}
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsSignUp(v => !v)}
+                style={{
+                  background: 'none', border: 'none', color: 'var(--pm)',
+                  fontSize: 12, cursor: 'pointer', fontFamily: 'inherit', padding: '4px 0',
+                }}
+              >
+                {isSignUp
+                  ? (isKorean ? '이미 계정이 있어요 → 로그인' : 'Already have an account? Sign In')
+                  : (isKorean ? '계정이 없어요 → 회원가입' : "Don't have an account? Sign Up")}
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div style={{ ...glassCard, padding: '10px 16px' }}>
+            {PROVIDERS.map((p, i) => {
+              const isLast = i === PROVIDERS.length - 1
+              const btnStyle: React.CSSProperties = p.bg
+                ? { background: p.bg, color: p.text, border: `1.5px solid ${p.border}` }
+                : {
+                    background: 'var(--pglass)',
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                    color: 'var(--pt2)',
+                    border: '1.5px solid var(--pglass-border)',
+                  }
+              return (
+                <div key={p.id}>
+                  <button
+                    type="button"
+                    onClick={p.onClick}
+                    style={{
+                      ...btnStyle,
+                      width: '100%',
+                      display: 'flex', alignItems: 'center', gap: 12,
+                      padding: '13px 14px',
+                      borderRadius: 14,
+                      fontSize: 13.5, fontWeight: 600,
+                      cursor: 'pointer', textAlign: 'left',
+                      fontFamily: 'inherit',
+                      transition: 'opacity 0.15s',
+                      marginBottom: isLast ? 0 : 8,
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
+                    onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+                  >
+                    <span style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>{p.logo}</span>
+                    <span style={{ flex: 1, textAlign: 'center' }}>{p.label}</span>
+                  </button>
+                </div>
+              )
+            })}
+          </div>
+        )}
+
         <p style={{ fontSize: 10.5, color: 'var(--pm2)', lineHeight: 1.7, textAlign: 'center', margin: '18px 0 0' }}>
           {t('auth_agree_pre')}{' '}
           <Link href="/settings/about/terms" style={{ textDecoration: 'underline', color: 'var(--pm)' }}>
@@ -173,7 +285,6 @@ export default function AuthPage() {
           {t('auth_agree_post')}
         </p>
 
-        {/* Version */}
         <p style={{ textAlign: 'center', fontSize: 11, color: '#C0C0C8', margin: '40px 0 0', fontWeight: 500 }}>
           v1.0.0
         </p>
