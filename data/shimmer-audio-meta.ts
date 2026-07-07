@@ -3,7 +3,7 @@
  *
  * Do not edit manually.
  * Run `npm run generate-shimmer` to regenerate.
- * Last generated: 2026-07-06T11:37:39.813Z
+ * Last generated: 2026-07-07T00:06:07.175Z
  */
 
 export type ShimmerAudioMeta = {
@@ -32,6 +32,1986 @@ export const shimmerPatterns: Record<string, ShimmerAudioMeta> = {
   "pt100-5": {
     "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt100-5-shimmer.mp3",
     "duration": 7.4
+  },
+  "pt1-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt1-2-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt1-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt1-3-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt1-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt1-4-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt1-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt1-5-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt2-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt2-1-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt2-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt2-2-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt2-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt2-3-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt2-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt2-4-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt2-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt2-5-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt3-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt3-1-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt3-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt3-2-shimmer.mp3",
+    "duration": 3.2
+  },
+  "pt3-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt3-3-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt3-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt3-4-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt3-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt3-5-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt4-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt4-1-shimmer.mp3",
+    "duration": 3
+  },
+  "pt4-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt4-2-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt4-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt4-3-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt4-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt4-4-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt4-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt4-5-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt5-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt5-1-shimmer.mp3",
+    "duration": 5
+  },
+  "pt5-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt5-2-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt5-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt5-4-shimmer.mp3",
+    "duration": 3
+  },
+  "pt5-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt5-5-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt6-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt6-1-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt6-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt6-2-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt6-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt6-3-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt6-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt6-4-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt6-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt6-5-shimmer.mp3",
+    "duration": 4.5
+  },
+  "pt7-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt7-1-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt7-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt7-2-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt7-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt7-3-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt7-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt7-4-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt7-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt7-5-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt8-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt8-1-shimmer.mp3",
+    "duration": 4
+  },
+  "pt8-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt8-2-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt8-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt8-3-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt8-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt8-4-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt8-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt8-5-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt9-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt9-1-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt9-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt9-2-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt9-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt9-3-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt9-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt9-4-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt9-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt9-5-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt10-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt10-1-shimmer.mp3",
+    "duration": 9.8
+  },
+  "pt10-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt10-2-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt10-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt10-3-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt10-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt10-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt10-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt10-5-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt11-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt11-1-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt11-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt11-2-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt11-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt11-3-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt11-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt11-4-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt11-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt11-5-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt12-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt12-1-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt12-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt12-2-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt12-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt12-3-shimmer.mp3",
+    "duration": 5
+  },
+  "pt12-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt12-4-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt12-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt12-5-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt13-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt13-1-shimmer.mp3",
+    "duration": 7.5
+  },
+  "pt13-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt13-2-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt13-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt13-3-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt13-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt13-4-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt13-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt13-5-shimmer.mp3",
+    "duration": 9.8
+  },
+  "pt14-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt14-1-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt14-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt14-2-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt14-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt14-3-shimmer.mp3",
+    "duration": 8.2
+  },
+  "pt14-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt14-4-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt14-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt14-5-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt15-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt15-1-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt15-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt15-2-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt15-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt15-3-shimmer.mp3",
+    "duration": 5
+  },
+  "pt15-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt15-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt15-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt15-5-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt16-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt16-1-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt16-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt16-2-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt16-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt16-3-shimmer.mp3",
+    "duration": 3.7
+  },
+  "pt16-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt16-4-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt16-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt16-5-shimmer.mp3",
+    "duration": 9
+  },
+  "pt17-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt17-1-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt17-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt17-2-shimmer.mp3",
+    "duration": 7
+  },
+  "pt17-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt17-3-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt17-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt17-4-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt17-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt17-5-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt18-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt18-1-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt18-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt18-2-shimmer.mp3",
+    "duration": 3.2
+  },
+  "pt18-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt18-3-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt18-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt18-4-shimmer.mp3",
+    "duration": 7
+  },
+  "pt18-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt18-5-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt19-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt19-1-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt19-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt19-2-shimmer.mp3",
+    "duration": 5
+  },
+  "pt19-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt19-3-shimmer.mp3",
+    "duration": 9.3
+  },
+  "pt19-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt19-4-shimmer.mp3",
+    "duration": 3.7
+  },
+  "pt19-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt19-5-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt20-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt20-1-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt20-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt20-3-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt20-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt20-4-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt20-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt20-5-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt21-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt21-1-shimmer.mp3",
+    "duration": 8.8
+  },
+  "pt21-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt21-2-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt21-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt21-3-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt21-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt21-4-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt21-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt21-5-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt22-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt22-1-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt22-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt22-2-shimmer.mp3",
+    "duration": 8
+  },
+  "pt22-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt22-3-shimmer.mp3",
+    "duration": 8
+  },
+  "pt22-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt22-4-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt22-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt22-5-shimmer.mp3",
+    "duration": 4
+  },
+  "pt23-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt23-1-shimmer.mp3",
+    "duration": 3.7
+  },
+  "pt23-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt23-2-shimmer.mp3",
+    "duration": 8.8
+  },
+  "pt23-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt23-3-shimmer.mp3",
+    "duration": 8.8
+  },
+  "pt23-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt23-4-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt23-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt23-5-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt24-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt24-1-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt24-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt24-2-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt24-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt24-3-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt24-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt24-4-shimmer.mp3",
+    "duration": 4
+  },
+  "pt24-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt24-5-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt25-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt25-1-shimmer.mp3",
+    "duration": 10.6
+  },
+  "pt25-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt25-2-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt25-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt25-3-shimmer.mp3",
+    "duration": 11.8
+  },
+  "pt25-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt25-4-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt25-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt25-5-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt26-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt26-1-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt26-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt26-2-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt26-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt26-3-shimmer.mp3",
+    "duration": 8.2
+  },
+  "pt26-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt26-4-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt26-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt26-5-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt27-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt27-1-shimmer.mp3",
+    "duration": 8.2
+  },
+  "pt27-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt27-2-shimmer.mp3",
+    "duration": 4.5
+  },
+  "pt27-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt27-3-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt27-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt27-4-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt27-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt27-5-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt28-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt28-1-shimmer.mp3",
+    "duration": 10.9
+  },
+  "pt28-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt28-2-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt28-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt28-3-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt28-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt28-4-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt28-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt28-5-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt29-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt29-1-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt29-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt29-2-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt29-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt29-3-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt29-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt29-4-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt29-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt29-5-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt30-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt30-1-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt30-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt30-2-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt30-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt30-3-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt30-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt30-4-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt30-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt30-5-shimmer.mp3",
+    "duration": 4.5
+  },
+  "pt31-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt31-1-shimmer.mp3",
+    "duration": 11.4
+  },
+  "pt31-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt31-2-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt31-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt31-3-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt31-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt31-4-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt31-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt31-5-shimmer.mp3",
+    "duration": 9.3
+  },
+  "pt32-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt32-1-shimmer.mp3",
+    "duration": 4.5
+  },
+  "pt32-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt32-2-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt32-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt32-3-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt32-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt32-4-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt32-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt32-5-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt33-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt33-1-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt33-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt33-2-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt33-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt33-3-shimmer.mp3",
+    "duration": 8.6
+  },
+  "pt33-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt33-4-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt33-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt33-5-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt34-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt34-1-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt34-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt34-2-shimmer.mp3",
+    "duration": 11.8
+  },
+  "pt34-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt34-3-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt34-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt34-4-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt34-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt34-5-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt35-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt35-1-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt35-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt35-2-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt35-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt35-3-shimmer.mp3",
+    "duration": 7.5
+  },
+  "pt35-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt35-4-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt35-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt35-5-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt36-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt36-1-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt36-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt36-2-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt36-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt36-3-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt36-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt36-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt36-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt36-5-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt37-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt37-1-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt37-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt37-2-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt37-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt37-3-shimmer.mp3",
+    "duration": 8
+  },
+  "pt37-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt37-4-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt37-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt37-5-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt38-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt38-1-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt38-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt38-2-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt38-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt38-3-shimmer.mp3",
+    "duration": 4.5
+  },
+  "pt38-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt38-4-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt38-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt38-5-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt39-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt39-1-shimmer.mp3",
+    "duration": 9.6
+  },
+  "pt39-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt39-2-shimmer.mp3",
+    "duration": 8.2
+  },
+  "pt39-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt39-3-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt39-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt39-4-shimmer.mp3",
+    "duration": 11
+  },
+  "pt39-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt39-5-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt40-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt40-1-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt40-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt40-2-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt40-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt40-3-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt40-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt40-4-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt40-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt40-5-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt41-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt41-1-shimmer.mp3",
+    "duration": 10.7
+  },
+  "pt41-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt41-2-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt41-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt41-3-shimmer.mp3",
+    "duration": 6.6
+  },
+  "pt41-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt41-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt41-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt41-5-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt42-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt42-1-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt42-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt42-2-shimmer.mp3",
+    "duration": 5
+  },
+  "pt42-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt42-3-shimmer.mp3",
+    "duration": 7
+  },
+  "pt42-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt42-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt42-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt42-5-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt43-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt43-1-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt43-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt43-2-shimmer.mp3",
+    "duration": 7
+  },
+  "pt43-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt43-3-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt43-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt43-4-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt43-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt43-5-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt44-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt44-1-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt44-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt44-2-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt44-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt44-3-shimmer.mp3",
+    "duration": 3.7
+  },
+  "pt44-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt44-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt44-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt44-5-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt45-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt45-1-shimmer.mp3",
+    "duration": 4.5
+  },
+  "pt45-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt45-2-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt45-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt45-3-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt45-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt45-4-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt45-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt45-5-shimmer.mp3",
+    "duration": 3.2
+  },
+  "pt46-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt46-1-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt46-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt46-2-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt46-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt46-3-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt46-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt46-4-shimmer.mp3",
+    "duration": 11
+  },
+  "pt46-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt46-5-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt47-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt47-1-shimmer.mp3",
+    "duration": 10.7
+  },
+  "pt47-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt47-2-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt47-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt47-3-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt47-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt47-4-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt47-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt47-5-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt48-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt48-1-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt48-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt48-2-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt48-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt48-3-shimmer.mp3",
+    "duration": 10.2
+  },
+  "pt48-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt48-4-shimmer.mp3",
+    "duration": 7.5
+  },
+  "pt48-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt48-5-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt49-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt49-1-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt49-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt49-2-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt49-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt49-3-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt49-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt49-4-shimmer.mp3",
+    "duration": 9.8
+  },
+  "pt49-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt49-5-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt50-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt50-1-shimmer.mp3",
+    "duration": 11.7
+  },
+  "pt50-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt50-2-shimmer.mp3",
+    "duration": 9.8
+  },
+  "pt50-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt50-3-shimmer.mp3",
+    "duration": 3.7
+  },
+  "pt50-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt50-5-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt51-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt51-1-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt51-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt51-2-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt51-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt51-3-shimmer.mp3",
+    "duration": 7.5
+  },
+  "pt51-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt51-4-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt51-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt51-5-shimmer.mp3",
+    "duration": 8.5
+  },
+  "pt52-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt52-1-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt52-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt52-2-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt52-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt52-3-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt52-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt52-4-shimmer.mp3",
+    "duration": 4
+  },
+  "pt52-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt52-5-shimmer.mp3",
+    "duration": 9.3
+  },
+  "pt53-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt53-1-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt53-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt53-2-shimmer.mp3",
+    "duration": 7.5
+  },
+  "pt53-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt53-3-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt53-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt53-4-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt53-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt53-5-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt54-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt54-1-shimmer.mp3",
+    "duration": 7
+  },
+  "pt54-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt54-2-shimmer.mp3",
+    "duration": 10.7
+  },
+  "pt54-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt54-3-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt54-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt54-4-shimmer.mp3",
+    "duration": 8.6
+  },
+  "pt54-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt54-5-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt55-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt55-1-shimmer.mp3",
+    "duration": 9
+  },
+  "pt55-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt55-2-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt55-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt55-3-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt55-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt55-4-shimmer.mp3",
+    "duration": 5
+  },
+  "pt55-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt55-5-shimmer.mp3",
+    "duration": 8.2
+  },
+  "pt56-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt56-1-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt56-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt56-2-shimmer.mp3",
+    "duration": 10.6
+  },
+  "pt56-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt56-3-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt56-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt56-4-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt56-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt56-5-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt57-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt57-1-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt57-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt57-2-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt57-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt57-3-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt57-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt57-4-shimmer.mp3",
+    "duration": 3
+  },
+  "pt57-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt57-5-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt58-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt58-1-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt58-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt58-2-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt58-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt58-3-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt58-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt58-4-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt58-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt58-5-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt59-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt59-1-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt59-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt59-2-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt59-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt59-3-shimmer.mp3",
+    "duration": 3.2
+  },
+  "pt59-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt59-4-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt59-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt59-5-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt60-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt60-1-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt60-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt60-2-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt60-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt60-3-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt60-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt60-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt60-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt60-5-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt61-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt61-1-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt61-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt61-2-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt61-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt61-3-shimmer.mp3",
+    "duration": 8
+  },
+  "pt61-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt61-4-shimmer.mp3",
+    "duration": 8.5
+  },
+  "pt61-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt61-5-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt62-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt62-1-shimmer.mp3",
+    "duration": 10.4
+  },
+  "pt62-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt62-2-shimmer.mp3",
+    "duration": 9.6
+  },
+  "pt62-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt62-3-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt62-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt62-4-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt62-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt62-5-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt63-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt63-1-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt63-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt63-2-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt63-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt63-3-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt63-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt63-4-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt63-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt63-5-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt64-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt64-1-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt64-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt64-2-shimmer.mp3",
+    "duration": 9.8
+  },
+  "pt64-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt64-3-shimmer.mp3",
+    "duration": 9.6
+  },
+  "pt64-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt64-4-shimmer.mp3",
+    "duration": 9
+  },
+  "pt64-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt64-5-shimmer.mp3",
+    "duration": 10.4
+  },
+  "pt65-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt65-1-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt65-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt65-2-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt65-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt65-3-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt65-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt65-4-shimmer.mp3",
+    "duration": 9.6
+  },
+  "pt65-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt65-5-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt66-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt66-1-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt66-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt66-2-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt66-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt66-3-shimmer.mp3",
+    "duration": 8
+  },
+  "pt66-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt66-4-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt66-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt66-5-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt67-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt67-1-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt67-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt67-2-shimmer.mp3",
+    "duration": 8
+  },
+  "pt67-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt67-3-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt67-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt67-4-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt67-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt67-5-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt68-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt68-1-shimmer.mp3",
+    "duration": 10.6
+  },
+  "pt68-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt68-2-shimmer.mp3",
+    "duration": 10.7
+  },
+  "pt68-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt68-3-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt68-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt68-4-shimmer.mp3",
+    "duration": 9.9
+  },
+  "pt68-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt68-5-shimmer.mp3",
+    "duration": 5
+  },
+  "pt69-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt69-1-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt69-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt69-2-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt69-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt69-3-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt69-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt69-4-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt69-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt69-5-shimmer.mp3",
+    "duration": 10.2
+  },
+  "pt70-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt70-1-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt70-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt70-2-shimmer.mp3",
+    "duration": 7.5
+  },
+  "pt70-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt70-3-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt70-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt70-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt70-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt70-5-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt71-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt71-1-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt71-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt71-2-shimmer.mp3",
+    "duration": 5
+  },
+  "pt71-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt71-3-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt71-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt71-4-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt71-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt71-5-shimmer.mp3",
+    "duration": 8
+  },
+  "pt72-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt72-1-shimmer.mp3",
+    "duration": 8.5
+  },
+  "pt72-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt72-2-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt72-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt72-3-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt72-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt72-4-shimmer.mp3",
+    "duration": 8
+  },
+  "pt72-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt72-5-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt73-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt73-1-shimmer.mp3",
+    "duration": 9.3
+  },
+  "pt73-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt73-2-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt73-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt73-3-shimmer.mp3",
+    "duration": 9
+  },
+  "pt73-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt73-4-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt73-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt73-5-shimmer.mp3",
+    "duration": 4
+  },
+  "pt74-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt74-1-shimmer.mp3",
+    "duration": 10.2
+  },
+  "pt74-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt74-2-shimmer.mp3",
+    "duration": 9.3
+  },
+  "pt74-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt74-3-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt74-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt74-4-shimmer.mp3",
+    "duration": 8.2
+  },
+  "pt74-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt74-5-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt75-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt75-1-shimmer.mp3",
+    "duration": 8.5
+  },
+  "pt75-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt75-2-shimmer.mp3",
+    "duration": 9.8
+  },
+  "pt75-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt75-3-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt75-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt75-4-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt75-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt75-5-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt76-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt76-1-shimmer.mp3",
+    "duration": 7
+  },
+  "pt76-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt76-2-shimmer.mp3",
+    "duration": 7
+  },
+  "pt76-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt76-3-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt76-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt76-4-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt76-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt76-5-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt77-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt77-1-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt77-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt77-2-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt77-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt77-3-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt77-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt77-4-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt77-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt77-5-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt78-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt78-1-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt78-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt78-2-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt78-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt78-3-shimmer.mp3",
+    "duration": 3.2
+  },
+  "pt78-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt78-4-shimmer.mp3",
+    "duration": 8.5
+  },
+  "pt78-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt78-5-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt79-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt79-1-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt79-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt79-2-shimmer.mp3",
+    "duration": 4
+  },
+  "pt79-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt79-3-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt79-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt79-4-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt79-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt79-5-shimmer.mp3",
+    "duration": 9.9
+  },
+  "pt80-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt80-1-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt80-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt80-2-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt80-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt80-3-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt80-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt80-4-shimmer.mp3",
+    "duration": 8
+  },
+  "pt80-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt80-5-shimmer.mp3",
+    "duration": 3.7
+  },
+  "pt81-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt81-1-shimmer.mp3",
+    "duration": 8.2
+  },
+  "pt81-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt81-2-shimmer.mp3",
+    "duration": 9
+  },
+  "pt81-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt81-3-shimmer.mp3",
+    "duration": 11.5
+  },
+  "pt81-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt81-4-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt81-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt81-5-shimmer.mp3",
+    "duration": 9.4
+  },
+  "pt82-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt82-1-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt82-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt82-2-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt82-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt82-3-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt82-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt82-4-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt82-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt82-5-shimmer.mp3",
+    "duration": 9.4
+  },
+  "pt83-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt83-1-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt83-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt83-2-shimmer.mp3",
+    "duration": 9.9
+  },
+  "pt83-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt83-3-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt83-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt83-4-shimmer.mp3",
+    "duration": 8
+  },
+  "pt83-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt83-5-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt84-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt84-1-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt84-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt84-2-shimmer.mp3",
+    "duration": 9
+  },
+  "pt84-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt84-3-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt84-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt84-4-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt84-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt84-5-shimmer.mp3",
+    "duration": 8.8
+  },
+  "pt85-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt85-1-shimmer.mp3",
+    "duration": 8.6
+  },
+  "pt85-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt85-2-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt85-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt85-3-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt85-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt85-4-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt85-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt85-5-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt86-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt86-1-shimmer.mp3",
+    "duration": 4
+  },
+  "pt86-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt86-2-shimmer.mp3",
+    "duration": 3.2
+  },
+  "pt86-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt86-3-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt86-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt86-4-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt86-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt86-5-shimmer.mp3",
+    "duration": 7.4
+  },
+  "pt87-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt87-1-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt87-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt87-2-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt87-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt87-3-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt87-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt87-4-shimmer.mp3",
+    "duration": 7
+  },
+  "pt87-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt87-5-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt88-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt88-1-shimmer.mp3",
+    "duration": 7.8
+  },
+  "pt88-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt88-2-shimmer.mp3",
+    "duration": 8
+  },
+  "pt88-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt88-3-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt88-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt88-4-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt88-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt88-5-shimmer.mp3",
+    "duration": 6.9
+  },
+  "pt89-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt89-1-shimmer.mp3",
+    "duration": 10.2
+  },
+  "pt89-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt89-2-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt89-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt89-3-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt89-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt89-4-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt89-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt89-5-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt90-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt90-1-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt90-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt90-2-shimmer.mp3",
+    "duration": 4
+  },
+  "pt90-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt90-3-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt90-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt90-4-shimmer.mp3",
+    "duration": 7.5
+  },
+  "pt90-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt90-5-shimmer.mp3",
+    "duration": 3.5
+  },
+  "pt91-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt91-1-shimmer.mp3",
+    "duration": 3.7
+  },
+  "pt91-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt91-2-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt91-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt91-3-shimmer.mp3",
+    "duration": 6.1
+  },
+  "pt91-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt91-4-shimmer.mp3",
+    "duration": 9.3
+  },
+  "pt91-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt91-5-shimmer.mp3",
+    "duration": 10.1
+  },
+  "pt92-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt92-1-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt92-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt92-2-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt92-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt92-3-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt92-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt92-4-shimmer.mp3",
+    "duration": 3.8
+  },
+  "pt92-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt92-5-shimmer.mp3",
+    "duration": 4.6
+  },
+  "pt93-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt93-1-shimmer.mp3",
+    "duration": 4.8
+  },
+  "pt93-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt93-2-shimmer.mp3",
+    "duration": 8.8
+  },
+  "pt93-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt93-3-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt93-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt93-4-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt93-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt93-5-shimmer.mp3",
+    "duration": 8
+  },
+  "pt94-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt94-1-shimmer.mp3",
+    "duration": 4
+  },
+  "pt94-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt94-2-shimmer.mp3",
+    "duration": 5
+  },
+  "pt94-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt94-3-shimmer.mp3",
+    "duration": 7.7
+  },
+  "pt94-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt94-4-shimmer.mp3",
+    "duration": 5
+  },
+  "pt94-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt94-5-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt95-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt95-1-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt95-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt95-2-shimmer.mp3",
+    "duration": 4.2
+  },
+  "pt95-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt95-3-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt95-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt95-4-shimmer.mp3",
+    "duration": 3.4
+  },
+  "pt95-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt95-5-shimmer.mp3",
+    "duration": 4.3
+  },
+  "pt96-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt96-1-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt96-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt96-2-shimmer.mp3",
+    "duration": 9
+  },
+  "pt96-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt96-3-shimmer.mp3",
+    "duration": 3.7
+  },
+  "pt96-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt96-4-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt96-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt96-5-shimmer.mp3",
+    "duration": 7
+  },
+  "pt97-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt97-1-shimmer.mp3",
+    "duration": 6.7
+  },
+  "pt97-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt97-2-shimmer.mp3",
+    "duration": 7.2
+  },
+  "pt97-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt97-3-shimmer.mp3",
+    "duration": 5.3
+  },
+  "pt97-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt97-4-shimmer.mp3",
+    "duration": 6.4
+  },
+  "pt97-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt97-5-shimmer.mp3",
+    "duration": 5.4
+  },
+  "pt98-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt98-1-shimmer.mp3",
+    "duration": 8.3
+  },
+  "pt98-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt98-2-shimmer.mp3",
+    "duration": 5.8
+  },
+  "pt98-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt98-3-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt98-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt98-4-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt98-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt98-5-shimmer.mp3",
+    "duration": 9.1
+  },
+  "pt99-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt99-1-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt99-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt99-2-shimmer.mp3",
+    "duration": 8.2
+  },
+  "pt99-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt99-3-shimmer.mp3",
+    "duration": 5.1
+  },
+  "pt99-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt99-4-shimmer.mp3",
+    "duration": 5.6
+  },
+  "pt99-5": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt99-5-shimmer.mp3",
+    "duration": 5.9
+  },
+  "pt100-1": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt100-1-shimmer.mp3",
+    "duration": 7
+  },
+  "pt100-2": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt100-2-shimmer.mp3",
+    "duration": 6.2
+  },
+  "pt100-3": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt100-3-shimmer.mp3",
+    "duration": 7.5
+  },
+  "pt100-4": {
+    "url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/patterns/pt100-4-shimmer.mp3",
+    "duration": 9.8
   }
 }
 
