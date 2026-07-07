@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  Volume2, Square, Bookmark, Lightbulb, X,
+  Volume2, Square, Bookmark, Lightbulb, X, ChevronLeft, ChevronRight,
 } from 'lucide-react'
 
 import type { MagazineStory } from '@/types/magazine'
@@ -263,12 +263,13 @@ export function PatternsPageV2({
     }
   }, [patterns, patternExamples, navigateTo, onPrev])
 
-  // ── Swipe ─────────────────────────────────────────────────────────────────
+  // ── Swipe (touch) + Mouse drag + Keyboard ────────────────────────────────
   const swipeRef    = useRef<HTMLDivElement>(null)
   const swipeStartX = useRef(0)
   const swipeStartY = useRef(0)
   const swipeDir    = useRef<'h' | 'v' | null>(null)
 
+  // Touch swipe — keep original logic (mobile)
   useEffect(() => {
     const el = swipeRef.current
     if (!el) return
@@ -301,6 +302,69 @@ export function PatternsPageV2({
       el.removeEventListener('touchend',   onTouchEnd)
     }
   }, [goNext, goPrev])
+
+  // Mouse drag (PC) — pointer events, mouse only
+  useEffect(() => {
+    const el = swipeRef.current
+    if (!el) return
+    let startX = 0
+    let dragging = false
+    let hasMoved = false
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return
+      startX = e.clientX
+      dragging = true
+      hasMoved = false
+      el.setPointerCapture(e.pointerId)
+      el.style.cursor = 'grabbing'
+    }
+    const onPointerMove = (e: PointerEvent) => {
+      if (!dragging || e.pointerType !== 'mouse') return
+      if (Math.abs(e.clientX - startX) > 6) hasMoved = true
+    }
+    const onPointerUp = (e: PointerEvent) => {
+      if (!dragging || e.pointerType !== 'mouse') return
+      dragging = false
+      el.style.cursor = ''
+      if (!hasMoved) return
+      const dx = e.clientX - startX
+      if (dx < -40) goNext()
+      else if (dx > 40) goPrev()
+    }
+    const onPointerCancel = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return
+      dragging = false
+      el.style.cursor = ''
+    }
+
+    el.addEventListener('pointerdown',  onPointerDown)
+    el.addEventListener('pointermove',  onPointerMove)
+    el.addEventListener('pointerup',    onPointerUp)
+    el.addEventListener('pointercancel', onPointerCancel)
+    return () => {
+      el.removeEventListener('pointerdown',  onPointerDown)
+      el.removeEventListener('pointermove',  onPointerMove)
+      el.removeEventListener('pointerup',    onPointerUp)
+      el.removeEventListener('pointercancel', onPointerCancel)
+    }
+  }, [goNext, goPrev])
+
+  // Keyboard navigation (← → A D) — PC only, skip when focused in inputs
+  useEffect(() => {
+    if (!isActive) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      const tag = (e.target as HTMLElement)?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return
+      if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+        e.preventDefault(); goNext()
+      } else if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+        e.preventDefault(); goPrev()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [isActive, goNext, goPrev])
 
   // ── Play current pattern's examples sequentially ──────────────────────────
   const playPatternExamples = useCallback(() => {
@@ -406,7 +470,52 @@ export function PatternsPageV2({
           <div style={{ paddingTop: 8 }} />
 
           {/* ── Swipe area ── */}
-          <div ref={swipeRef}>
+          <div ref={swipeRef} style={{ position: 'relative' }}>
+
+            {/* Previous button — PC (mouse/trackpad) only */}
+            <button
+              type="button"
+              className="patto-pc-nav patto-pc-nav-prev"
+              onClick={goPrev}
+              aria-label="Previous pattern"
+              style={{
+                position: 'absolute', left: 10, top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 10, width: 36, height: 36, borderRadius: '50%',
+                border: 'none', cursor: 'pointer',
+                background: 'rgba(0,0,0,0.22)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: 'rgba(255,255,255,0.88)',
+                transition: 'background 0.15s, opacity 0.15s',
+              }}
+            >
+              <ChevronLeft style={{ width: 18, height: 18 }} strokeWidth={2.2} />
+            </button>
+
+            {/* Next button — PC (mouse/trackpad) only */}
+            <button
+              type="button"
+              className="patto-pc-nav patto-pc-nav-next"
+              onClick={goNext}
+              aria-label="Next pattern"
+              style={{
+                position: 'absolute', right: 10, top: '50%',
+                transform: 'translateY(-50%)',
+                zIndex: 10, width: 36, height: 36, borderRadius: '50%',
+                border: 'none', cursor: 'pointer',
+                background: 'rgba(0,0,0,0.22)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: 'rgba(255,255,255,0.88)',
+                transition: 'background 0.15s, opacity 0.15s',
+              }}
+            >
+              <ChevronRight style={{ width: 18, height: 18 }} strokeWidth={2.2} />
+            </button>
+
             <div className="glass-card" style={{
               overflow: 'hidden', borderRadius: 30, padding: 0,
               boxShadow: isDark ? '0 20px 40px rgba(0,0,0,0.40)' : '0 20px 40px rgba(40,40,60,0.05)',
@@ -656,6 +765,23 @@ export function PatternsPageV2({
           }}
         />
       </div>
+
+      {/* PC nav styles — hidden on touch, visible on mouse devices */}
+      <style>{`
+        .patto-pc-nav {
+          display: none;
+        }
+        @media (hover: hover) and (pointer: fine) {
+          .patto-pc-nav {
+            display: flex !important;
+            opacity: 0.55;
+          }
+          .patto-pc-nav:hover {
+            opacity: 1;
+            background: rgba(0,0,0,0.38) !important;
+          }
+        }
+      `}</style>
 
       {/* ── Pattern Note Popup ── */}
       {noteOpen && patternNote && (
