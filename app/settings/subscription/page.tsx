@@ -15,20 +15,6 @@ const glassCard: React.CSSProperties = {
   overflow: 'hidden',
 }
 
-const FREE_FEATURES = [
-  '10 Stories',
-  'Save 20 Words',
-  'Basic Progress',
-  '3 AI Essay Reviews',
-]
-
-const PREMIUM_FEATURES = [
-  'Unlimited Access',
-  'Unlimited Collection',
-  '5 AI Essay Reviews / Day',
-  'Future Updates',
-]
-
 // Stub: replace with real subscription state
 const IS_PREMIUM = false
 
@@ -36,6 +22,19 @@ export default function SubscriptionPage() {
   const t = useT()
   const [billing, setBilling] = useState<'monthly' | 'annual'>('annual')
   const [toast, setToast] = useState(false)
+
+  const freeFeatures = [
+    t('sub_free_f1'),
+    t('sub_free_f2'),
+    t('sub_free_f3'),
+    t('sub_free_f4'),
+  ]
+  const premiumFeatures = [
+    t('sub_prem_f1'),
+    t('sub_prem_f2'),
+    t('sub_prem_f3'),
+    t('sub_prem_f4'),
+  ]
 
   return (
     <div style={{ minHeight: '100dvh' }}>
@@ -83,7 +82,7 @@ export default function SubscriptionPage() {
             Free
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {FREE_FEATURES.map(feat => (
+            {freeFeatures.map(feat => (
               <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Check style={{ width: 14, height: 14, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2.5} />
                 <p style={{ fontSize: 12.5, color: 'var(--pt2)', margin: 0 }}>{feat}</p>
@@ -107,7 +106,7 @@ export default function SubscriptionPage() {
             <p style={{ fontSize: 9.5, fontWeight: 600, color: '#4A6FA8', margin: 0 }}>{'✶'} All features</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {PREMIUM_FEATURES.map(feat => (
+            {premiumFeatures.map(feat => (
               <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <Check style={{ width: 14, height: 14, color: '#4A6FA8', flexShrink: 0 }} strokeWidth={2.5} />
                 <p style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--pt)', margin: 0 }}>{feat}</p>
@@ -158,17 +157,22 @@ export default function SubscriptionPage() {
           type="button"
           onClick={() => { setToast(true); setTimeout(() => setToast(false), 2800) }}
           style={{
+            ...glassCard,
             width: '100%', padding: '15px 0',
-            background: '#4A6FA8',
-            border: 'none',
-            borderRadius: 16, cursor: 'pointer',
-            fontSize: 13.5, fontWeight: 700, letterSpacing: '0.08em',
-            color: '#fff', fontFamily: 'inherit',
-            boxShadow: '0 4px 18px rgba(74,111,168,0.30)',
-            transition: 'opacity 0.15s',
+            border: '1px solid var(--pglass-border)',
+            cursor: 'pointer',
+            fontSize: 14, fontWeight: 700, letterSpacing: '-0.01em',
+            color: 'var(--pt)', fontFamily: 'inherit',
+            transition: 'transform 0.18s, box-shadow 0.18s',
           }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-          onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-1px)'
+            e.currentTarget.style.boxShadow = '0 8px 24px rgba(40,40,80,0.09)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.boxShadow = '0 4px 18px rgba(40,50,80,0.07)'
+          }}
         >
           {IS_PREMIUM ? 'Manage Subscription' : 'Upgrade to Premium'}
         </button>
