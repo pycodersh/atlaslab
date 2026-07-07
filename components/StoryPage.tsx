@@ -116,6 +116,7 @@ export function StoryPage({
       openSavePopup({
         word:             text,
         originalSentence: para.english,
+        koreanSentence:   resolveTranslation(para.koreanTranslation, prefs.language, para.translations) ?? undefined,
         sourceType:       'story',
         sourceId:         String(story.id),
         storyId:          story.id,
@@ -364,6 +365,7 @@ export function StoryPage({
                               storyId:          story.id,
                               paragraphId:      para.id,
                               originalSentence: para.english,
+                              koreanSentence:   koText ?? undefined,
                             }}
                             highlightPhrases={patternHighlightMap.get(para.id)}
                             className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block text-justify"

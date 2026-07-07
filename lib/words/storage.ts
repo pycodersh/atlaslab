@@ -22,6 +22,7 @@ export type SavedWord = {
 }
 
 import { getPlan, FREE_WORD_LIMIT } from '@/lib/subscription/storage'
+import { lookupMeaning } from '@/data/patto-dictionary'
 
 const KEY = 'patto-saved-words'
 
@@ -63,8 +64,9 @@ export function isSavedWord(word: string): boolean {
 }
 
 export function saveWord(item: Omit<SavedWord, 'id' | 'savedAt'>): SavedWord {
+  const meaning = item.meaning ?? lookupMeaning(item.word)
   const map = readAll()
-  const entry: SavedWord = { ...item, id: genId(), savedAt: new Date().toISOString() }
+  const entry: SavedWord = { ...item, meaning, id: genId(), savedAt: new Date().toISOString() }
   map[entry.id] = entry
   writeAll(map)
   return entry

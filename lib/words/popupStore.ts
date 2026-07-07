@@ -3,6 +3,7 @@ import type { WordSourceType } from './storage'
 export type PopupItem = {
   word:             string
   originalSentence: string
+  koreanSentence?:  string
   sourceType:       WordSourceType
   sourceId:         string
   storyId?:         number

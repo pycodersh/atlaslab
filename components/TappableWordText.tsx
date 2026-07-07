@@ -13,6 +13,7 @@ export type WordSaveSource = {
   paragraphId?:     string
   exampleIndex?:    number
   originalSentence: string
+  koreanSentence?:  string
 }
 
 type Props = {
@@ -71,6 +72,7 @@ export function TappableWordText({ text, source, saveCandidates, className, styl
     openSavePopup({
       word:             clean,
       originalSentence: source.originalSentence,
+      koreanSentence:   source.koreanSentence,
       sourceType:       source.sourceType,
       sourceId:         source.sourceId,
       storyId:          source.storyId,

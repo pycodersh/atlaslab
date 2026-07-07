@@ -63,6 +63,7 @@ export function GlobalSavePopup() {
       paragraphId:      item.paragraphId,
       exampleIndex:     item.exampleIndex,
       originalSentence: item.originalSentence,
+      meaning:          item.koreanSentence,
     })
     window.getSelection()?.removeAllRanges()
     closeSavePopup()

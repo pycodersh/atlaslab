@@ -125,9 +125,9 @@ function DictWordList({ words }: { words: SavedWord[] }) {
             borderTop: i > 0 ? ROW_BORDER : 'none',
           }}
         >
-          <span style={{ flex: 1, fontSize: 13, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
+          <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
           {w.meaning && (
-            <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400 }}>{w.meaning}</span>
+            <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right' }}>{w.meaning}</span>
           )}
         </div>
       ))}
