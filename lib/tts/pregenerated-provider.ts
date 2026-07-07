@@ -46,6 +46,7 @@ export class PregeneratedTTSProvider implements ITTSProvider {
   private browser = new BrowserTTSProvider()
   private stopped = false
   private fetchAbort = new AbortController()
+  private _playId = 0
 
   isAvailable() { return true }
 
@@ -64,6 +65,7 @@ export class PregeneratedTTSProvider implements ITTSProvider {
   speak(options: SpeakOptions) {
     const { texts, audioUrls, voiceKey, voiceKeys, rate, pitch, volume, onStart, onEnd, onError } = options
 
+    const myPlayId = ++this._playId
     this.stopped = false
     this.fetchAbort.abort()
     this.fetchAbort = new AbortController()
@@ -115,7 +117,7 @@ export class PregeneratedTTSProvider implements ITTSProvider {
         clearStall()
         if (resolved) return
         stallTimer = setTimeout(() => {
-          if (!resolved && !self.stopped) {
+          if (!resolved && !self.stopped && myPlayId === self._playId) {
             if (DEV) console.warn('[TTS] stall detected — advancing queue')
             audio.pause()
             handleEnded()

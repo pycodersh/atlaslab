@@ -176,6 +176,7 @@ export function PatternsPageV2({
   const timerRef     = useRef<ReturnType<typeof setTimeout> | null>(null)
   const startedAtRef = useRef(0)
   const studyModeRef = useRef(studyMode)
+  const playTokenRef = useRef(0)
 
   useEffect(() => { studyModeRef.current = studyMode }, [studyMode])
 
@@ -184,6 +185,7 @@ export function PatternsPageV2({
   }
 
   const stop = useCallback(() => {
+    playTokenRef.current++
     runningRef.current = false
     clearTimer()
     ttsProvider.stop()
@@ -226,13 +228,7 @@ export function PatternsPageV2({
     if (e > 0) {
       navigateTo(p, e - 1)
     } else if (p > 0) {
-      const prev = patterns[p - 1]
-      const prevLen = resolveExamples(
-        patternExamples, prev.id,
-        prev.storySentence, prev.storySentenceKo,
-        prev.variationSentence, prev.variationSentenceKo,
-      ).length
-      navigateTo(p - 1, Math.min(prevLen, 3) - 1)
+      navigateTo(p - 1, 0)
     } else {
       onPrev()
     }
@@ -281,6 +277,7 @@ export function PatternsPageV2({
   const playPatternExamples = useCallback(() => {
     if (phase === 'speaking' || phase === 'pause') { stop(); return }
 
+    const token = ++playTokenRef.current
     const pat = patterns[patIdxRef.current]
     const exs = resolveExamples(
       patternExamples, pat.id,
@@ -292,7 +289,7 @@ export function PatternsPageV2({
     startedAtRef.current = Date.now()
 
     function playOne(idx: number) {
-      if (!runningRef.current) return
+      if (!runningRef.current || playTokenRef.current !== token) return
       const ex = exs[idx]
       if (!ex) { runningRef.current = false; setPhase('idle'); return }
 
@@ -307,7 +304,7 @@ export function PatternsPageV2({
         voiceKey: voice, voiceKeys: [voice],
         rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
         onEnd: () => {
-          if (!runningRef.current) return
+          if (!runningRef.current || playTokenRef.current !== token) return
           markDone(patIdxRef.current, idx)
           if (idx + 1 < exs.length) {
             setPhase('pause')
@@ -319,7 +316,11 @@ export function PatternsPageV2({
             setPhase('idle')
           }
         },
-        onError: () => { runningRef.current = false; setPhase('idle') },
+        onError: () => {
+          if (playTokenRef.current !== token) return
+          runningRef.current = false
+          setPhase('idle')
+        },
       })
     }
 
