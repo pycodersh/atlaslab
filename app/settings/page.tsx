@@ -167,14 +167,15 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
       bg: null, text: null, border: null,
     },
     {
-      id: 'apple',
-      label: t('auth_continue_apple'),
+      id: 'email',
+      label: 'Continue with E-mail',
       logo: (
-        <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor">
-          <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.42c1.28.07 2.17.74 2.93.8 1.12-.22 2.19-.91 3.39-.84 1.44.09 2.52.66 3.22 1.67-2.95 1.78-2.25 5.69.23 6.78-.52 1.56-1.2 3.12-1.77 4.45zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+        <svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="3" />
+          <path d="M2 7l10 7 10-7" />
         </svg>
       ),
-      bg: null, text: null, border: null, dark: true,
+      bg: null, text: null, border: null,
     },
   ]
 
