@@ -10,6 +10,7 @@ import { markNoteRead, getReadCount } from '@/lib/editor/storage'
 import { EditorIllustration } from '@/components/EditorIllustration'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
+import { useTheme } from '@/components/ThemeProvider'
 
 // Map preference language codes to TipLang keys
 function toTipLang(lang: string): TipLang | null {
@@ -159,6 +160,8 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
   const note = EDITOR_NOTES.find(n => n.id === id)
   const t = useT()
   const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const lang = prefs.language as keyof LangMap<unknown>
   const tipLang = toTipLang(prefs.language)
   const tipTrans = note && tipLang
@@ -310,7 +313,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
 
           {/* ── One Thing to Remember ──────────────────────────────────── */}
           <div style={{ margin: '52px 0 44px' }}>
-            <p style={{ fontSize:8.5, fontWeight:700, letterSpacing:'0.28em', color:'var(--pa)', margin:'0 0 16px' }}>
+            <p style={{ fontSize:8.5, fontWeight:700, letterSpacing:'0.28em', color: isDark ? 'var(--pa2)' : 'var(--pa)', margin:'0 0 16px' }}>
               ONE THING TO REMEMBER
             </p>
             <p className="font-playfair" style={{
@@ -318,7 +321,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
               fontWeight: 800,
               fontStyle: 'italic',
               lineHeight: 1.35,
-              color: 'var(--pa)',
+              color: isDark ? 'var(--pa2)' : 'var(--pa)',
               margin: 0,
             }}>
               {otr}
