@@ -434,21 +434,28 @@ function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: s
 
 // ── Section label ─────────────────────────────────────────────────────────────
 
-function SecLabel({ label, count, onViewAll }: { label: string; count?: number; onViewAll?: () => void }) {
+function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: number; unit?: string; onViewAll?: () => void }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
       <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>
-        {label}{count != null ? ` · ${count}` : ''}
+        {label}
       </span>
-      {onViewAll && (
-        <button type="button" onClick={onViewAll} style={{
-          display: 'flex', alignItems: 'center', gap: 2,
-          fontSize: 11, fontWeight: 600, color: '#8E8E93',
-          background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-        }}>
-          See all <ChevronRight style={{ width: 10, height: 10 }} strokeWidth={2.2} />
-        </button>
-      )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {count != null && unit != null && (
+          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--pm)' }}>
+            {count} {unit}
+          </span>
+        )}
+        {onViewAll && (
+          <button type="button" onClick={onViewAll} style={{
+            display: 'flex', alignItems: 'center', gap: 2,
+            fontSize: 11, fontWeight: 600, color: '#8E8E93',
+            background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+          }}>
+            See all <ChevronRight style={{ width: 10, height: 10 }} strokeWidth={2.2} />
+          </button>
+        )}
+      </div>
     </div>
   )
 }
@@ -873,6 +880,7 @@ export default function LibraryPage() {
               <SecLabel
                 label="Saved Patterns"
                 count={bookmarks.length}
+                unit="Patterns"
                 onViewAll={bookmarks.length > 4 ? () => router.push('/records/patterns') : undefined}
               />
               {bookmarks.length === 0 ? (
@@ -903,7 +911,7 @@ export default function LibraryPage() {
 
             {/* Saved Phrases */}
             <section style={{ marginBottom: 28 }}>
-              <SecLabel label="Saved Phrases" count={phrases.length} />
+              <SecLabel label="Saved Phrases" count={phrases.length} unit="Phrases" />
               {phrases.length === 0 ? (
                 <EmptyState
                   icon={<Layers style={{ width: 24, height: 24, color: '#C08040' }} strokeWidth={1.6} />}
@@ -931,7 +939,7 @@ export default function LibraryPage() {
 
             {/* Saved Words */}
             <section>
-              <SecLabel label="Saved Words" count={words.length} />
+              <SecLabel label="Saved Words" count={words.length} unit="Words" />
               {words.length === 0 ? (
                 <EmptyState
                   icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />}

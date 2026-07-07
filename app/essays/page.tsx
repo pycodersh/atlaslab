@@ -202,9 +202,9 @@ export default function EssaysPage() {
                 My Essays
               </p>
               <span style={{
-                fontSize: 11, color: '#B0B0B8', fontWeight: 600,
+                fontSize: 12, color: 'var(--pm)', fontWeight: 500,
               }}>
-                {essays.length}
+                {essays.length} Essays
               </span>
             </div>
 
