@@ -1,4 +1,5 @@
 import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
+import { migrateAnnotations } from './migration'
 
 const ESSAYS_KEY    = 'patto-essays'
 const DRAFT_KEY     = 'patto-essay-draft'
@@ -11,8 +12,33 @@ export const MAX_DAILY_REVIEWS = PREMIUM_REVIEW_DAILY
 // 'typical' = recurring mechanical error (first occurrence only, marked ★ Typ.)
 export type AnnotationType = 'grammar' | 'expression' | 'strength' | 'typical'
 
+/**
+ * Grammar sub-types drive the visual style in EssayRenderer.
+ * Renderer applies Controlled Random from a per-subType style pool.
+ * Old annotations without subType fall back to 'circle' style.
+ *
+ * circle-pool  → tense / agreement / verbForm
+ * replace-pool → article / preposition / vocabulary / vocab (legacy)
+ * insert-pool  → missing
+ * single-style → spelling / punctuation / capitalization / wordOrder
+ */
+export type AnnotationSubType =
+  | 'tense'           // wrong tense / tense sequence
+  | 'agreement'       // subject-verb agreement
+  | 'verbForm'        // infinitive / gerund / past participle
+  | 'article'         // a / an / the
+  | 'preposition'     // wrong preposition
+  | 'vocabulary'      // wrong word choice
+  | 'vocab'           // legacy alias — renderer treats same as vocabulary
+  | 'missing'         // word entirely missing from sentence
+  | 'spelling'        // misspelling
+  | 'punctuation'     // wrong / missing punctuation
+  | 'capitalization'  // wrong capitalization
+  | 'wordOrder'       // word order error
+
 export type Annotation = {
   type: AnnotationType
+  subType?: AnnotationSubType  // optional — old data without it falls back to circle
   fragment: string      // exact text to mark in the essay
   replacement?: string  // corrected form (grammar / expression / typical)
   note: string          // editor's handwritten note
@@ -24,6 +50,7 @@ export type EditorReview = {
   editorComment: string
   nextChallenge: string | string[]  // string[] new format; string for legacy
   suggestedVersion?: string
+  oneLineAdvice?: string
   createdAt: string
 }
 
@@ -86,16 +113,35 @@ function writeAll(map: Record<string, Essay>) {
   localStorage.setItem(ESSAYS_KEY, JSON.stringify(map))
 }
 
+// Run migration on a single essay in-place. Returns true if anything changed.
+function applyMigration(essay: Essay, map: Record<string, Essay>): boolean {
+  if (!essay.review?.annotations?.length) return false
+  const { annotations, changed } = migrateAnnotations(essay.review.annotations)
+  if (!changed) return false
+  essay.review = { ...essay.review, annotations }
+  map[essay.id] = essay
+  return true
+}
+
 export function getEssays(): Essay[] {
-  return Object.values(readAll())
-    .map(e => ({ ...e, status: e.status ?? (e.review ? 'reviewed' : 'saved') as Essay['status'] }))
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+  const map = readAll()
+  let dirty = false
+  const essays = Object.values(map).map(e => {
+    const essay: Essay = { ...e, status: e.status ?? (e.review ? 'reviewed' : 'saved') as Essay['status'] }
+    if (applyMigration(essay, map)) dirty = true
+    return essay
+  })
+  if (dirty) writeAll(map)
+  return essays.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 }
 
 export function getEssay(id: string): Essay | null {
-  const e = readAll()[id] ?? null
+  const map = readAll()
+  const e = map[id] ?? null
   if (!e) return null
-  return { ...e, status: e.status ?? (e.review ? 'reviewed' : 'saved') }
+  const essay: Essay = { ...e, status: e.status ?? (e.review ? 'reviewed' : 'saved') as Essay['status'] }
+  if (applyMigration(essay, map)) writeAll(map)
+  return essay
 }
 
 export function saveEssay(data: Pick<Essay, 'title' | 'body'>): Essay {

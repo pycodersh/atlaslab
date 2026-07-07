@@ -62,11 +62,26 @@ When you can only mark a limited number of errors, prioritise in this order:
 
 "grammar"    High-learning-value errors.
   Covers: tense, verb form, present-perfect vs. simple-past, article, agreement,
-          singular/plural, preposition.
+          singular/plural, preposition, missing word.
   Max 3. Always include "replacement" — the corrected word or shortest natural phrase.
   Prefer the most natural native phrasing, not just the grammatically correct one.
     e.g. "didn't met" → replacement "hadn't seen him" (not just "met" → "seen")
   note = 2–4 words only: "Past tense." / "Use 'an'." / "Present perfect." / "Subject-verb."
+
+  REQUIRED: always add "subType" to every grammar annotation.
+  Choose exactly one:
+    "tense"          — wrong tense or tense sequence
+    "agreement"      — subject-verb agreement
+    "verbForm"       — wrong infinitive / gerund / past participle
+    "article"        — missing or wrong article (a / an / the)
+    "preposition"    — wrong preposition
+    "vocabulary"     — wrong word choice (not a tense/article/preposition issue)
+    "missing"        — a word is entirely missing from the sentence
+    "spelling"       — misspelled word
+    "punctuation"    — wrong or missing punctuation mark
+    "capitalization" — wrong capitalization (not a typical error)
+    "wordOrder"      — words in wrong order
+  For "missing": targetText = the word directly BEFORE the gap; replacement = the missing word only.
 
 "expression" Phrasing that is grammatically OK but sounds unnatural or weak.
   Max 2. Always include "replacement" — the most natural native alternative.
@@ -113,8 +128,12 @@ Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statem
 {
   "detectedStyle": "Diary",
   "annotations": [
-    { "type": "grammar",    "targetText": "were",        "replacement": "was",           "note": "Subject-verb." },
-    { "type": "grammar",    "targetText": "met",         "replacement": "hadn't seen him","note": "Past perfect." },
+    { "type": "grammar",    "subType": "agreement",   "targetText": "were",        "replacement": "was",            "note": "Subject-verb." },
+    { "type": "grammar",    "subType": "tense",       "targetText": "met",         "replacement": "hadn't seen him","note": "Past perfect." },
+    { "type": "grammar",    "subType": "article",      "targetText": "cafe",        "replacement": "the cafe",       "note": "Use 'the'." },
+    { "type": "grammar",    "subType": "preposition",  "targetText": "arrived to",  "replacement": "arrived at",     "note": "Preposition." },
+    { "type": "grammar",    "subType": "missing",      "targetText": "I",           "replacement": "was",            "note": "Missing verb." },
+    { "type": "grammar",    "subType": "vocabulary",   "targetText": "big",         "replacement": "significant",    "note": "Stronger word." },
     { "type": "expression", "targetText": "very tired",  "replacement": "exhausted",     "note": "More natural." },
     { "type": "strength",   "targetText": "exact phrase","note": "⭐ Vivid detail." },
     { "type": "typical",    "targetText": "i",           "replacement": "I",             "note": "Typ." }
@@ -191,8 +210,9 @@ Please review this essay and return the JSON response as specified.`
     // Map targetText → fragment; filter out non-matching annotations
     if (Array.isArray(parsed.annotations)) {
       parsed.annotations = parsed.annotations
-        .map((a: { targetText?: string; fragment?: string; type: string; replacement?: string; note: string }) => ({
+        .map((a: { targetText?: string; fragment?: string; type: string; subType?: string; replacement?: string; note: string }) => ({
           type: a.type,
+          ...(a.subType ? { subType: a.subType } : {}),
           fragment: a.targetText ?? a.fragment ?? '',
           replacement: a.replacement,
           note: a.note,

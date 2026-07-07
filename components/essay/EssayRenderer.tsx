@@ -1,42 +1,42 @@
 'use client'
 
 /**
- * EssayRenderer — pure rendering layer for essay review annotations.
+ * EssayRenderer — pure visual layer for essay annotations.
  *
- * ARCHITECTURE RULE:
+ * ARCHITECTURE:
  *   DB stores only semantic data: { type, subType, fragment, replacement, note }
- *   ALL visual decisions (colors, underlines, circles, ink style) live HERE.
+ *   ALL visual decisions live here. Updating this file restykes every past review.
  *
- *   Updating this file is the only thing needed to restyle every past review.
- *   Never store CSS, colors, or layout in the DB.
+ * CONTROLLED RANDOM RENDERING:
+ *   Each subType has a pool of 2-3 distinct visual styles.
+ *   Style is chosen deterministically from (fragment hash + essay seed),
+ *   so the same annotation always renders the same way, but varies across annotations.
+ *   No two consecutive annotations ever share the same style.
  *
- * ── Grammar visual styles ──────────────────────────────────────────────────
- *   circle   (tense / agreement / verbForm / default)
- *              → organic red circle border + correction floating above ↓
- *
- *   replace  (article / preposition / vocab)
- *              → ~~wrong~~ → right, all inline, no floating note
- *
- *   insert   (missing)
- *              → word ∧ missing, small caret marker after the anchor word
+ * STYLE POOLS:
+ *   tense / agreement / verbForm  → circle · underCorrect · strikeCorrect
+ *   article                       → insertCaret · strikeReplace · bubble
+ *   preposition / vocabulary      → strikeReplace · betterWord · underCorrect
+ *   missing                       → insertCaret · ghostInsert · insertArrow
+ *   expression (type)             → wavyUnderline · betterNote · softSuggest
+ *   spelling / capitalization     → strikeCorrect · circle
+ *   punctuation / wordOrder       → insertCaret · circle
+ *   strength (type)               → highlight (fixed)
+ *   typical (type)                → strikeCorrect (fixed)
  */
 
 import { useRef, useState } from 'react'
 import { Copy, Check } from 'lucide-react'
-import type { Annotation } from '@/lib/essays/storage'
+import type { Annotation, AnnotationSubType } from '@/lib/essays/storage'
 
 // ── Ink palette ───────────────────────────────────────────────────────────────
 
-const INK_GRAMMAR    = '#8B1A1A'   // red pen
-const INK_EXPRESSION = '#6C2D82'   // purple pen
-const INK_STRENGTH   = '#1a7a3a'   // green pen
-const INK_TYPICAL    = '#8B1A1A'   // red pen (same as grammar)
-
-// ── Jitter table ──────────────────────────────────────────────────────────────
-const EV_LUT = [0, 2, -1, 3, -2, 1, -3, 2, 0, -1, 3, -2, 1, 0, -1]
-function ev(i: number): number { return EV_LUT[i % EV_LUT.length] }
+const INK_G  = '#8B1A1A'   // grammar / typical — red pen
+const INK_E  = '#6C2D82'   // expression — purple pen
+const INK_S  = '#1a7a3a'   // strength — green pen
 
 // ── Segment builder ───────────────────────────────────────────────────────────
+
 type Segment = { text: string; annotation?: Annotation }
 
 export function buildSegments(body: string, annotations: Annotation[]): Segment[] {
@@ -57,42 +57,205 @@ export function buildSegments(body: string, annotations: Annotation[]): Segment[
   return segments
 }
 
-// ── Grammar rendering — 3 visual styles ──────────────────────────────────────
+// ── Controlled random ─────────────────────────────────────────────────────────
 
-function GrammarCircle({ seg, ann, idx, inkBase }: {
-  seg: Segment; ann: Annotation; idx: number; inkBase: React.CSSProperties
-}) {
-  const above = { ...inkBase, bottom: `calc(100% + ${3 + ev(idx)}px)` }
+type StyleName =
+  | 'circle' | 'underCorrect' | 'strikeCorrect'
+  | 'insertCaret' | 'strikeReplace' | 'bubble'
+  | 'betterWord' | 'ghostInsert' | 'insertArrow'
+  | 'wavyUnderline' | 'betterNote' | 'softSuggest'
+
+const STYLE_POOLS: Record<string, StyleName[]> = {
+  tense:          ['circle', 'underCorrect', 'strikeCorrect'],
+  agreement:      ['circle', 'underCorrect', 'strikeCorrect'],
+  verbForm:       ['circle', 'strikeCorrect', 'underCorrect'],
+  article:        ['insertCaret', 'strikeReplace', 'bubble'],
+  preposition:    ['strikeReplace', 'betterWord', 'underCorrect'],
+  vocabulary:     ['strikeReplace', 'betterWord', 'underCorrect'],
+  vocab:          ['strikeReplace', 'betterWord', 'underCorrect'],  // legacy alias
+  missing:        ['insertCaret', 'ghostInsert', 'insertArrow'],
+  spelling:       ['circle', 'strikeCorrect'],
+  capitalization: ['strikeCorrect', 'bubble'],
+  punctuation:    ['insertCaret', 'circle'],
+  wordOrder:      ['circle', 'underCorrect'],
+}
+
+const EXPRESSION_POOL: StyleName[] = ['wavyUnderline', 'betterNote', 'softSuggest']
+
+function hashStr(s: string): number {
+  let h = 5381
+  for (let i = 0; i < s.length; i++) {
+    h = (Math.imul(h, 31) + s.charCodeAt(i)) | 0
+  }
+  return Math.abs(h)
+}
+
+function pickStyle(
+  pool: StyleName[],
+  fragHash: number,
+  annIdx: number,
+  essayHash: number,
+  prevStyle?: StyleName,
+): StyleName {
+  if (pool.length === 1) return pool[0]
+  // Mix annotation index, fragment hash, and essay-level seed
+  const idx = (fragHash + annIdx * 7 + essayHash) % pool.length
+  const candidate = pool[idx]
+  // Never repeat consecutively
+  if (candidate === prevStyle) return pool[(idx + 1) % pool.length]
+  return candidate
+}
+
+function resolvePool(ann: Annotation): StyleName[] {
+  if (ann.type === 'expression') return EXPRESSION_POOL
+  if (ann.type !== 'grammar')    return ['circle']  // strength / typical handled separately
+  const sub = ann.subType as AnnotationSubType | undefined
+  return STYLE_POOLS[sub ?? ''] ?? ['circle']
+}
+
+// ── Shared style objects ──────────────────────────────────────────────────────
+
+const CAVEAT: React.CSSProperties = {
+  fontFamily: 'var(--font-caveat, cursive)',
+  fontSize: 16,
+  fontWeight: 700,
+  lineHeight: 1,
+}
+
+function floatAbove(bottom: number, color: string, extra?: React.CSSProperties): React.CSSProperties {
+  return {
+    position: 'absolute',
+    left: 0,
+    bottom,
+    ...CAVEAT,
+    fontSize: 15,
+    color,
+    lineHeight: 1.4,
+    whiteSpace: 'nowrap',
+    maxWidth: 'min(220px, 62vw)',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    pointerEvents: 'none',
+    ...extra,
+  }
+}
+
+// ── Individual style renderers ────────────────────────────────────────────────
+
+interface SP { text: string; ann: Annotation; yShift: number; color: string }
+
+// 1. Red organic circle border + correction floating above ↓
+function RenderCircle({ text, ann, yShift, color }: SP) {
   return (
     <span style={{ position: 'relative', display: 'inline' }}>
-      <span style={{ ...above, color: INK_GRAMMAR }}>{ann.replacement ?? '—'}{' '}↓</span>
-      {ann.replacement
-        ? <span style={{ border: `1.5px solid ${INK_GRAMMAR}`, borderRadius: '52% 48% 47% 53% / 46% 54% 46% 54%', padding: '0 3px 1px' }}>{seg.text}</span>
-        : <span style={{ textDecoration: 'line-through', textDecorationColor: INK_GRAMMAR, textDecorationThickness: '1.5px', color: 'rgba(0,0,0,0.3)' }}>{seg.text}</span>
-      }
+      {ann.replacement && (
+        <span style={floatAbove(3 + yShift, color)}>{ann.replacement} ↓</span>
+      )}
+      <span style={{
+        border: `1.5px solid ${color}`,
+        borderRadius: '52% 48% 47% 53% / 46% 54% 46% 54%',
+        padding: '0 3px 1px',
+      }}>
+        {text}
+      </span>
     </span>
   )
 }
 
-function GrammarReplace({ seg, ann }: { seg: Segment; ann: Annotation }) {
-  // ~~wrong~~ → right  (inline, no floating note)
+// 2. Wavy underline + correction floating above ↓
+function RenderUnderCorrect({ text, ann, yShift, color }: SP) {
   return (
-    <span style={{ display: 'inline' }}>
+    <span style={{ position: 'relative', display: 'inline' }}>
+      {ann.replacement && (
+        <span style={floatAbove(3 + yShift, color)}>{ann.replacement} ↓</span>
+      )}
+      <span style={{
+        textDecoration: 'underline wavy',
+        textDecorationColor: color,
+        textUnderlineOffset: '4px',
+        textDecorationThickness: '1.5px',
+      }}>
+        {text}
+      </span>
+    </span>
+  )
+}
+
+// 3. Strikethrough + replacement inline (Caveat font)
+function RenderStrikeCorrect({ text, ann, color }: SP) {
+  return (
+    <span>
       <span style={{
         textDecoration: 'line-through',
-        textDecorationColor: INK_GRAMMAR,
+        textDecorationColor: color,
         textDecorationThickness: '1.5px',
-        color: 'rgba(100,20,20,0.4)',
+        color: `rgba(139,26,26,0.35)`,
       }}>
-        {seg.text}
+        {text}
       </span>
       {ann.replacement && (
+        <span style={{ ...CAVEAT, color, marginLeft: 4 }}>
+          {ann.replacement}
+        </span>
+      )}
+    </span>
+  )
+}
+
+// 4. Caret (∧) insertion marker + word above
+function RenderInsertCaret({ text, ann, yShift, color }: SP) {
+  return (
+    <span style={{ position: 'relative', display: 'inline' }}>
+      {ann.replacement && (
+        <span style={floatAbove(3 + yShift, color, { left: 'auto', right: 0 })}>
+          {ann.replacement} ↓
+        </span>
+      )}
+      <span>{text}</span>
+      <span style={{ ...CAVEAT, fontSize: 15, color, letterSpacing: '-0.02em' }}>∧</span>
+    </span>
+  )
+}
+
+// 5. Strikethrough fragment + replacement inline (same font, not Caveat)
+function RenderStrikeReplace({ text, ann, color }: SP) {
+  return (
+    <span>
+      <span style={{
+        textDecoration: 'line-through',
+        textDecorationColor: color,
+        textDecorationThickness: '1.5px',
+        color: `rgba(100,20,20,0.38)`,
+      }}>
+        {text}
+      </span>
+      {ann.replacement && (
+        <span style={{ ...CAVEAT, color, marginLeft: 4 }}>
+          {ann.replacement}
+        </span>
+      )}
+    </span>
+  )
+}
+
+// 6. Small inline bubble/pill showing the correction after the word
+function RenderBubble({ text, ann, color }: SP) {
+  return (
+    <span>
+      {text}
+      {ann.replacement && (
         <span style={{
-          fontFamily: 'var(--font-caveat, cursive)',
-          color: INK_GRAMMAR,
-          fontSize: 16,
-          fontWeight: 700,
-          marginLeft: 4,
+          display: 'inline-block',
+          background: `rgba(139,26,26,0.07)`,
+          border: `1px solid rgba(139,26,26,0.22)`,
+          borderRadius: 4,
+          padding: '0 4px',
+          marginLeft: 3,
+          ...CAVEAT,
+          fontSize: 13,
+          color,
+          verticalAlign: '0.1em',
+          lineHeight: 1.5,
         }}>
           {ann.replacement}
         </span>
@@ -101,28 +264,176 @@ function GrammarReplace({ seg, ann }: { seg: Segment; ann: Annotation }) {
   )
 }
 
-function GrammarInsert({ seg, ann, idx, inkBase }: {
-  seg: Segment; ann: Annotation; idx: number; inkBase: React.CSSProperties
-}) {
-  // word ∧ missing  — caret indicator after the anchor word
-  const above = { ...inkBase, bottom: `calc(100% + ${3 + ev(idx)}px)`, left: 'auto', right: 0 }
+// 7. Wavy underline + "→ better" after word
+function RenderBetterWord({ text, ann, color }: SP) {
+  return (
+    <span>
+      <span style={{
+        textDecoration: 'underline wavy',
+        textDecorationColor: color,
+        textUnderlineOffset: '4px',
+        textDecorationThickness: '1.5px',
+      }}>
+        {text}
+      </span>
+      {ann.replacement && (
+        <span style={{ ...CAVEAT, fontSize: 15, color, marginLeft: 5 }}>
+          → {ann.replacement}
+        </span>
+      )}
+    </span>
+  )
+}
+
+// 8. Ghost / faded replacement shown inline after anchor word
+function RenderGhostInsert({ text, ann }: SP) {
+  return (
+    <span>
+      {text}
+      {ann.replacement && (
+        <span style={{
+          ...CAVEAT,
+          fontSize: 15,
+          color: `rgba(139,26,26,0.30)`,
+          fontStyle: 'italic',
+          marginLeft: 3,
+        }}>
+          [{ann.replacement}]
+        </span>
+      )}
+    </span>
+  )
+}
+
+// 9. Small ↑ arrow after word + replacement floating above
+function RenderInsertArrow({ text, ann, yShift, color }: SP) {
   return (
     <span style={{ position: 'relative', display: 'inline' }}>
       {ann.replacement && (
-        <span style={{ ...above, color: INK_GRAMMAR }}>
-          {ann.replacement} ↓
+        <span style={floatAbove(3 + yShift, color, { left: 'auto', right: 0 })}>
+          {ann.replacement}
         </span>
       )}
-      <span>{seg.text}</span>
-      <span style={{
-        fontFamily: 'var(--font-caveat, cursive)',
-        color: INK_GRAMMAR,
-        fontSize: 15,
-        fontWeight: 700,
-        letterSpacing: '-0.02em',
-      }}>∧</span>
+      <span>{text}</span>
+      <span style={{ color, fontSize: 11, fontWeight: 700, marginLeft: 1 }}>↑</span>
     </span>
   )
+}
+
+// 10. Purple wavy underline + replacement above ↓
+function RenderWavyUnderline({ text, ann, yShift, color }: SP) {
+  return (
+    <span style={{ position: 'relative', display: 'inline' }}>
+      {ann.replacement && (
+        <span style={floatAbove(3 + yShift, color)}>{ann.replacement} ↓</span>
+      )}
+      <span style={{
+        textDecoration: 'underline wavy',
+        textDecorationColor: color,
+        textUnderlineOffset: '4px',
+        textDecorationThickness: '1.5px',
+      }}>
+        {text}
+      </span>
+    </span>
+  )
+}
+
+// 11. Purple solid underline + "→ better" inline after word
+function RenderBetterNote({ text, ann, color }: SP) {
+  return (
+    <span>
+      <span style={{
+        textDecoration: 'underline',
+        textDecorationColor: color,
+        textUnderlineOffset: '4px',
+        textDecorationThickness: '1.5px',
+      }}>
+        {text}
+      </span>
+      {ann.replacement && (
+        <span style={{ ...CAVEAT, fontSize: 15, color, marginLeft: 5 }}>
+          → {ann.replacement}
+        </span>
+      )}
+    </span>
+  )
+}
+
+// 12. Purple dashed underline + replacement floating above ↓
+function RenderSoftSuggest({ text, ann, yShift, color }: SP) {
+  return (
+    <span style={{ position: 'relative', display: 'inline' }}>
+      {ann.replacement && (
+        <span style={floatAbove(3 + yShift, color)}>{ann.replacement} ↓</span>
+      )}
+      <span style={{
+        textDecoration: 'underline dashed',
+        textDecorationColor: color,
+        textUnderlineOffset: '4px',
+        textDecorationThickness: '1.5px',
+      }}>
+        {text}
+      </span>
+    </span>
+  )
+}
+
+// ── Style dispatcher ──────────────────────────────────────────────────────────
+
+const EV = [0, 2, -1, 3, -2, 1, -3, 2, 0, -1, 3, -2, 1, 0, -1]
+
+function renderAnnotation(
+  text: string,
+  ann: Annotation,
+  style: StyleName,
+  segIdx: number,
+): React.ReactNode {
+  const yShift = EV[segIdx % EV.length]
+  const color = ann.type === 'expression' ? INK_E : INK_G
+  const sp: SP = { text, ann, yShift, color }
+
+  // ── Strength — always yellow highlight ────────────────────────────────────
+  if (ann.type === 'strength') {
+    return (
+      <span style={{ position: 'relative', display: 'inline' }}>
+        <span style={floatAbove(3 + yShift, INK_S)}>{ann.note ?? '⭐'} ↓</span>
+        <mark style={{ background: 'rgba(255,210,60,0.25)', borderRadius: 2, padding: '0 2px', color: 'inherit' }}>
+          {text}
+        </mark>
+      </span>
+    )
+  }
+
+  // ── Typical — always strikethrough + replacement ──────────────────────────
+  if (ann.type === 'typical') {
+    return (
+      <span>
+        <span style={{ textDecoration: 'line-through', textDecorationColor: INK_G, textDecorationThickness: '1.5px', color: 'rgba(139,26,26,0.38)' }}>
+          {text}
+        </span>
+        {ann.replacement && (
+          <span style={{ ...CAVEAT, color: INK_G, marginLeft: 4 }}>{ann.replacement}</span>
+        )}
+      </span>
+    )
+  }
+
+  switch (style) {
+    case 'circle':        return <RenderCircle        {...sp} />
+    case 'underCorrect':  return <RenderUnderCorrect  {...sp} />
+    case 'strikeCorrect': return <RenderStrikeCorrect {...sp} />
+    case 'insertCaret':   return <RenderInsertCaret   {...sp} />
+    case 'strikeReplace': return <RenderStrikeReplace {...sp} />
+    case 'bubble':        return <RenderBubble        {...sp} />
+    case 'betterWord':    return <RenderBetterWord    {...sp} />
+    case 'ghostInsert':   return <RenderGhostInsert   {...sp} />
+    case 'insertArrow':   return <RenderInsertArrow   {...sp} />
+    case 'wavyUnderline': return <RenderWavyUnderline {...sp} />
+    case 'betterNote':    return <RenderBetterNote    {...sp} />
+    case 'softSuggest':   return <RenderSoftSuggest   {...sp} />
+    default:              return <RenderCircle        {...sp} />
+  }
 }
 
 // ── Annotated manuscript ──────────────────────────────────────────────────────
@@ -130,81 +441,42 @@ function GrammarInsert({ seg, ann, idx, inkBase }: {
 export function AnnotatedManuscript({
   body,
   annotations,
+  essayId = '',
 }: {
   body: string
   annotations: Annotation[]
+  essayId?: string
 }) {
   const segments = buildSegments(body, annotations)
+  const essayHash = hashStr(essayId || body.slice(0, 20))
 
-  const inkBase: React.CSSProperties = {
-    position: 'absolute', left: 0,
-    fontFamily: 'var(--font-caveat, cursive)',
-    fontSize: 15, fontWeight: 700, lineHeight: 1.4,
-    whiteSpace: 'normal', wordBreak: 'normal', overflowWrap: 'break-word',
-    maxWidth: 'min(200px, 60vw)',
-    display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
-    overflow: 'hidden', pointerEvents: 'none',
-  }
+  let prevStyle: StyleName | undefined
+  let annIdx = 0
 
   return (
-    <p style={{ fontSize: 16, lineHeight: 4.0, color: 'var(--pt)', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+    <p style={{
+      fontSize: 16,
+      lineHeight: 4.0,
+      color: 'var(--pt)',
+      margin: 0,
+      whiteSpace: 'pre-wrap',
+      wordBreak: 'break-word',
+    }}>
       {segments.map((seg, i) => {
         if (!seg.annotation) return <span key={i}>{seg.text}</span>
         const ann = seg.annotation
-        const yShift = ev(i)
-        const above = { ...inkBase, bottom: `calc(100% + ${3 + yShift}px)` }
 
-        // ── grammar ──────────────────────────────────────────────────────────
-        if (ann.type === 'grammar') {
-          const sub = ann.subType
-          // replace style: article / preposition / vocab
-          if (sub === 'article' || sub === 'preposition' || sub === 'vocab') {
-            return <GrammarReplace key={i} seg={seg} ann={ann} />
-          }
-          // insert style: missing word
-          if (sub === 'missing') {
-            return <GrammarInsert key={i} seg={seg} ann={ann} idx={i} inkBase={inkBase} />
-          }
-          // default circle style: tense / agreement / verbForm / unknown
-          return <GrammarCircle key={i} seg={seg} ann={ann} idx={i} inkBase={inkBase} />
+        // strength / typical — fixed style, no pool
+        if (ann.type === 'strength' || ann.type === 'typical') {
+          return <span key={i}>{renderAnnotation(seg.text, ann, 'circle', i)}</span>
         }
 
-        // ── expression ───────────────────────────────────────────────────────
-        if (ann.type === 'expression') {
-          return (
-            <span key={i} style={{ position: 'relative' }}>
-              {ann.replacement && <span style={{ ...above, color: INK_EXPRESSION }}>{ann.replacement}{' '}↓</span>}
-              <span style={{ textDecoration: 'underline', textDecorationColor: INK_EXPRESSION, textDecorationStyle: 'wavy', textUnderlineOffset: '4px', textDecorationThickness: '1.5px' }}>{seg.text}</span>
-            </span>
-          )
-        }
+        const pool = resolvePool(ann)
+        const style = pickStyle(pool, hashStr(ann.fragment), annIdx, essayHash, prevStyle)
+        prevStyle = style
+        annIdx++
 
-        // ── strength ─────────────────────────────────────────────────────────
-        if (ann.type === 'strength') {
-          return (
-            <span key={i} style={{ position: 'relative' }}>
-              <span style={{ ...above, color: INK_STRENGTH }}>{ann.note ?? '⭐ Good.'}{' '}↓</span>
-              <mark style={{ background: 'rgba(255,210,60,0.25)', borderRadius: 2, padding: '0 2px', color: 'inherit' }}>{seg.text}</mark>
-            </span>
-          )
-        }
-
-        // ── typical ──────────────────────────────────────────────────────────
-        if (ann.type === 'typical') {
-          const typInk: React.CSSProperties = {
-            position: 'absolute', bottom: `calc(100% + ${3 + yShift}px)`, left: 0,
-            fontFamily: 'var(--font-caveat, cursive)', fontSize: 14, fontWeight: 700,
-            lineHeight: 1.4, whiteSpace: 'nowrap', color: INK_TYPICAL, pointerEvents: 'none',
-          }
-          return (
-            <span key={i} style={{ position: 'relative', display: 'inline' }}>
-              <span style={typInk}>{ann.replacement ? `${ann.replacement} Typ. ↓` : 'Typ. ↓'}</span>
-              <span style={{ textDecoration: 'underline', textDecorationColor: INK_TYPICAL, textDecorationStyle: 'dashed', textUnderlineOffset: '3px', textDecorationThickness: '1.5px', color: 'rgba(0,0,0,0.45)' }}>{seg.text}</span>
-            </span>
-          )
-        }
-
-        return <span key={i}>{seg.text}</span>
+        return <span key={i}>{renderAnnotation(seg.text, ann, style, i)}</span>
       })}
     </p>
   )
@@ -220,11 +492,13 @@ export function EditorNotes({ annotations }: { annotations: Annotation[] }) {
   const typical    = annotations.filter(a => a.type === 'typical').length
   return (
     <div style={{ marginTop: 28 }}>
-      <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm2)', margin: '0 0 10px' }}>EDITOR&apos;S MARKS</p>
+      <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm2)', margin: '0 0 10px' }}>
+        EDITOR&apos;S MARKS
+      </p>
       <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
-        {grammar    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_GRAMMAR,    fontWeight: 700 }}>○</span>Grammar · {grammar}</span>}
-        {expression > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_EXPRESSION, fontWeight: 700 }}>～</span>Expression · {expression}</span>}
-        {typical    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_TYPICAL,    fontWeight: 700 }}>- -</span>Typical · {typical}</span>}
+        {grammar    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_G, fontWeight: 700 }}>○</span>Grammar · {grammar}</span>}
+        {expression > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_E, fontWeight: 700 }}>～</span>Expression · {expression}</span>}
+        {typical    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_G, fontWeight: 700 }}>- -</span>Typical · {typical}</span>}
         {strength   > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span>⭐</span>Strength · {strength}</span>}
       </div>
     </div>
@@ -247,17 +521,24 @@ export function SuggestedVersion({ text }: { text: string }) {
 
   return (
     <div style={{ marginTop: 44, borderTop: '1px solid var(--pd)', paddingTop: 32 }}>
-      <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm)', margin: '0 0 6px' }}>ONE NATURAL REVISION</p>
-      <p style={{ fontSize: 10, color: 'var(--pm2)', margin: '0 0 20px', lineHeight: 1.5 }}>All corrections applied — one possible natural version.</p>
+      <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.28em', color: 'var(--pm)', margin: '0 0 6px' }}>
+        ONE NATURAL REVISION
+      </p>
+      <p style={{ fontSize: 10, color: 'var(--pm2)', margin: '0 0 20px', lineHeight: 1.5 }}>
+        All corrections applied — one possible natural version.
+      </p>
       <div style={{ padding: '20px', borderRadius: 14, background: 'var(--pd)' }}>
-        <p style={{ fontSize: 15, lineHeight: 2.0, color: 'var(--pt)', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{text}</p>
+        <p style={{ fontSize: 15, lineHeight: 2.0, color: 'var(--pt)', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+          {text}
+        </p>
       </div>
       <button
         type="button"
         onClick={handleCopy}
         style={{
-          marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          gap: 6, width: '100%', padding: '13px 0', borderRadius: 12,
+          marginTop: 12,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          width: '100%', padding: '13px 0', borderRadius: 12,
           border: '1.5px solid var(--pd)', background: 'none',
           cursor: 'pointer', fontSize: 12, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit',
         }}

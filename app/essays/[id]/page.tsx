@@ -334,7 +334,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
             </div>
 
             {/* Annotated manuscript */}
-            <AnnotatedManuscript body={essay.body} annotations={review.annotations} />
+            <AnnotatedManuscript body={essay.body} annotations={review.annotations} essayId={essay.id} />
 
             {/* Editor marks */}
             <EditorNotes annotations={review.annotations} />
