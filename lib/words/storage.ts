@@ -23,6 +23,7 @@ export type SavedWord = {
 
 import { getPlan, FREE_WORD_LIMIT } from '@/lib/subscription/storage'
 import { lookupMeaning } from '@/data/patto-dictionary'
+import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
 
 const KEY = 'patto-saved-words'
 
@@ -85,6 +86,8 @@ export type SavedPhrase = {
   phrase:           string
   phraseType:       string           // 'phrasalVerb' | 'idiom' | 'chunk' | etc.
   meaning?:         string
+  meaningSource?:   'dictionary' | 'sentence'  // where meaning came from
+  needsMeaningReview?: boolean                 // true if sentence fallback used
   sourceType:       WordSourceType
   sourceId:         string
   storyId?:         number
@@ -122,7 +125,26 @@ export function isSavedPhrase(phrase: string): boolean {
 
 export function savePhrase(item: Omit<SavedPhrase, 'id' | 'savedAt'>): SavedPhrase {
   const map = readPhrases()
-  const entry: SavedPhrase = { ...item, id: `ph-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`, savedAt: new Date().toISOString() }
+  const dictEntry = lookupPhraseMeaning(item.phrase)
+  let meaning: string | undefined
+  let meaningSource: 'dictionary' | 'sentence' | undefined
+  let needsMeaningReview: boolean | undefined
+  if (dictEntry) {
+    meaning = dictEntry.meaning
+    meaningSource = 'dictionary'
+  } else if (item.meaning) {
+    meaning = item.meaning
+    meaningSource = 'sentence'
+    needsMeaningReview = true
+  }
+  const entry: SavedPhrase = {
+    ...item,
+    meaning,
+    meaningSource,
+    needsMeaningReview,
+    id: `ph-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+    savedAt: new Date().toISOString(),
+  }
   map[entry.id] = entry
   writePhrases(map)
   return entry

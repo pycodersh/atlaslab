@@ -14,6 +14,7 @@ import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/book
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
 import { useT } from '@/hooks/useT'
+import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
 import type { MagazinePattern } from '@/types/magazine'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -145,46 +146,41 @@ function DictWordList({ words, onRemove }: { words: SavedWord[]; onRemove: (id: 
   )
 }
 
-// ── Dict phrase list (flat — dictionary style) ────────────────────────────────
+// ── Dict phrase list (flat — same style as word list) ────────────────────────
 
-function DictPhraseList({ phrases, onPress, onRemove }: {
+function DictPhraseList({ phrases, onRemove }: {
   phrases: SavedPhrase[]
-  onPress: (ph: SavedPhrase) => void
   onRemove: (id: string) => void
 }) {
   return (
     <div style={glassCard}>
       {phrases.map((ph, i) => {
-        // meaning이 짧으면(≤40자) 실제 뜻, 길면 문장 컨텍스트
-        const isContext = (ph.meaning?.length ?? 0) > 40
+        // Prefer dictionary meaning (live lookup covers old saved phrases too)
+        const dictEntry = lookupPhraseMeaning(ph.phrase)
+        // For stored meaning: only use if explicitly from dictionary, OR if short enough to be a real meaning (≤30 chars)
+        const storedMeaning = ph.meaningSource === 'dictionary'
+          ? ph.meaning
+          : (ph.meaning && ph.meaning.length <= 30 && ph.meaningSource !== 'sentence')
+            ? ph.meaning
+            : undefined
+        const meaning = dictEntry?.meaning ?? storedMeaning
         return (
           <div
             key={ph.id}
             style={{
-              display: 'flex', alignItems: 'flex-start', gap: 8,
-              padding: '12px 10px 12px 18px',
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '12px 14px 12px 18px',
               borderTop: i > 0 ? ROW_BORDER : 'none',
             }}
           >
-            <button
-              type="button"
-              onClick={() => onPress(ph)}
-              style={{ flex: 1, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
-            >
-              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', marginBottom: isContext ? 3 : 0 }}>{ph.phrase}</div>
-              {ph.meaning && !isContext && (
-                <div style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, marginTop: 2 }}>{ph.meaning}</div>
-              )}
-              {isContext && (
-                <div style={{ fontSize: 11, color: 'var(--pm2)', fontWeight: 400, lineHeight: 1.5 }}>
-                  {ph.meaning!.slice(0, 60)}{ph.meaning!.length > 60 ? '…' : ''}
-                </div>
-              )}
-            </button>
+            <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{ph.phrase}</span>
+            {meaning && (
+              <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{meaning}</span>
+            )}
             <button
               type="button"
               onClick={() => onRemove(ph.id)}
-              style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, display: 'flex', marginTop: 2 }}
+              style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, display: 'flex' }}
             >
               <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
             </button>
@@ -845,7 +841,6 @@ export default function LibraryPage() {
                 <>
                   <DictPhraseList
                     phrases={showAllPhrases ? phrases : phrases.slice(0, PREVIEW_PHRASES)}
-                    onPress={goToPhrase}
                     onRemove={handleRemovePhrase}
                   />
                   {phrases.length > PREVIEW_PHRASES && (
