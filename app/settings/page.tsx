@@ -8,6 +8,7 @@ import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { useTheme } from '@/components/ThemeProvider'
 
 const card: React.CSSProperties = {
   background: 'var(--pglass)',
@@ -119,6 +120,8 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
   useEffect(() => { setMounted(true) }, [])
   const t = useT()
   const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const isKorean = prefs.language === 'ko'
   const [toast, setToast] = useState('')
 
@@ -164,7 +167,7 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
           <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
         </svg>
       ),
-      bg: '#1C1C1E', text: '#fff', border: 'rgba(80,80,90,0.60)',
+      bg: isDark ? '#1C1C1E' : '#F2F2F7', text: isDark ? '#fff' : '#1C1C1E', border: isDark ? 'rgba(80,80,90,0.60)' : 'rgba(200,200,210,0.80)',
     },
     {
       id: 'email',
@@ -175,7 +178,7 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
           <path d="M2 7l10 7 10-7" />
         </svg>
       ),
-      bg: '#2C2C2E', text: '#fff', border: 'rgba(80,80,90,0.60)',
+      bg: isDark ? '#2C2C2E' : '#F2F2F7', text: isDark ? '#fff' : '#1C1C1E', border: isDark ? 'rgba(80,80,90,0.60)' : 'rgba(200,200,210,0.80)',
     },
   ]
 
