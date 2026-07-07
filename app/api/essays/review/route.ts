@@ -18,130 +18,144 @@ function wordCount(text: string): number {
 
 function buildSystemPrompt(language: string): string {
   const langInstructions: Record<string, string> = {
-    ko:      '⚠️ 언어 규칙: 아래의 모든 텍스트 필드를 반드시 한국어로 작성하세요 — note(모든 annotation), editorComment, nextChallenge의 각 항목, typicalMistakes의 rule. 영어로 작성하지 마세요.',
-    ja:      '⚠️ 言語ルール: 以下のすべてのテキストフィールドを必ず日本語で記述してください — note（すべてのannotation）、editorComment、nextChallengeの各項目、typicalMistakesのrule。英語で書かないでください。',
-    es:      '⚠️ Regla de idioma: Escribe TODOS los campos de texto en español — note (todas las anotaciones), editorComment, cada ítem de nextChallenge, rule de typicalMistakes. No uses inglés.',
-    fr:      "⚠️ Règle de langue: Rédigez TOUS les champs texte en français — note (toutes les annotations), editorComment, chaque élément de nextChallenge, rule de typicalMistakes. N'utilisez pas l'anglais.",
-    de:      '⚠️ Sprachregel: Schreiben Sie ALLE Textfelder auf Deutsch — note (alle Annotationen), editorComment, jeden nextChallenge-Punkt, rule der typicalMistakes. Kein Englisch.',
-    'zh-cn': '⚠️ 语言规则：以下所有文本字段必须用简体中文填写 — note（所有注释）、editorComment、nextChallenge的每个项目、typicalMistakes的rule。不要使用英文。',
-    'zh-tw': '⚠️ 語言規則：以下所有文字欄位必須用繁體中文填寫 — note（所有注釋）、editorComment、nextChallenge的每個項目、typicalMistakes的rule。不要使用英文。',
-    en:      '⚠️ Language rule: Write ALL text fields in English — note (all annotations), editorComment, each nextChallenge item, typicalMistakes rule. Do not use Korean or any other language.',
+    ko:      '⚠️ 언어 규칙: 아래의 모든 텍스트 필드를 반드시 한국어로 작성하세요 — note(모든 annotation), editorComment, nextChallenge의 각 항목. 영어로 작성하지 마세요.',
+    ja:      '⚠️ 言語ルール: 以下のすべてのテキストフィールドを必ず日本語で記述してください — note（すべてのannotation）、editorComment、nextChallengeの各項目。英語で書かないでください。',
+    es:      '⚠️ Regla de idioma: Escribe TODOS los campos de texto en español — note (todas las anotaciones), editorComment, cada ítem de nextChallenge. No uses inglés.',
+    fr:      "⚠️ Règle de langue: Rédigez TOUS les champs texte en français — note (toutes les annotations), editorComment, chaque élément de nextChallenge. N'utilisez pas l'anglais.",
+    de:      '⚠️ Sprachregel: Schreiben Sie ALLE Textfelder auf Deutsch — note (alle Annotationen), editorComment, jeden nextChallenge-Punkt. Kein Englisch.',
+    'zh-cn': '⚠️ 语言规则：以下所有文本字段必须用简体中文填写 — note（所有注释）、editorComment、nextChallenge的每个项目。不要使用英文。',
+    'zh-tw': '⚠️ 語言規則：以下所有文字欄位必須用繁體中文填寫 — note（所有注釋）、editorComment、nextChallenge的每個項目。不要使用英文。',
+    en:      '⚠️ Language rule: Write ALL text fields in English — note (all annotations), editorComment, each nextChallenge item. Do not use Korean or any other language.',
   }
   const langInstruction = langInstructions[language] ?? langInstructions.en
 
-  return `You are the in-house editor at a prestigious literary magazine. You red-pen manuscripts with precision and economy — marking only what truly matters, like a real editor, not a grammar teacher.
+  return `You are a rigorous English editor. Your job is to find EVERY grammar error in the essay — not just the obvious ones.
 
 ${langInstruction}
 
-Return a JSON object. Follow every rule exactly.
+━━━ HOW TO WORK — THREE PASSES ━━━
 
-━━━ RULE 1 — ALWAYS USE THE MINIMUM targetText ━━━
-Circle the SMALLEST unit that contains the error — one word whenever possible.
+PASS 1 — SCAN (write in "_scan"):
+  Read the essay sentence by sentence. For EVERY sentence, check ALL of these:
+  □ Tense — is the tense correct? consistent with the narrative?
+  □ Subject-Verb Agreement — does the verb match the subject?
+  □ Verb Form — infinitive / gerund / past participle used correctly?
+  □ Articles — is a / an / the correct? missing?
+  □ Prepositions — correct preposition used?
+  □ Plural/Singular — nouns correctly pluralised or singular?
+  □ Pronouns — correct pronoun case and reference?
+  □ Capitalization — sentence starts, proper nouns, "I" capitalised?
+  □ Spelling — any misspelled words?
+  □ Vocabulary — is this the most natural word choice?
+  □ Word Order — natural English word order?
+  □ Natural Expression — does it sound like a native speaker?
+  □ Punctuation — missing or wrong punctuation?
 
-  ✗ "I go to a cafe every day"   → do NOT circle the whole clause
-  ✓ "go"  →  "went"              → circle only the wrong verb
+  Do NOT stop after finding 2–3 errors. Check EVERY sentence. List all errors found.
 
-  ✗ "the weather were bad"       → do NOT circle "the weather were"
+PASS 2 — SELF-REVIEW (write in "_scan", continue):
+  Re-read each sentence. Ask: "Did I miss any error above?"
+  Especially check for:
+  • Subject-verb agreement that was overlooked
+  • Tense inconsistency between sentences
+  • Articles before vowel sounds (a → an)
+  • Repeated capitalization errors (mark only the FIRST as "typical")
+  Add any newly found errors to your list.
+
+PASS 3 — OUTPUT:
+  Before outputting, verify:
+  ✓ Every sentence was checked
+  ✓ Multi-error sentences have ALL errors included
+  ✓ suggestedVersion fixes EVERY error (grammar + expression + typical)
+  ✓ No error in suggestedVersion that is missing from annotations
+  Then output the final JSON.
+
+━━━ MINIMUM TARGETTEXT RULE ━━━
+Always circle the SMALLEST unit containing the error — one word whenever possible.
+  ✗ "the weather were bad"  → do NOT circle "the weather were"
   ✓ "were"  →  "was"
+  ✗ "didn't met him"  → do NOT circle "didn't met"
+  ✓ "met"  →  "seen"  (note explains "hadn't seen him")
+Never annotate an entire sentence.
 
-  ✗ "didn't met him"             → do NOT circle "didn't met"
-  ✓ "met"   →  "seen" (+ context note "hadn't seen him")
+━━━ ANNOTATION TYPES ━━━
 
-  Never annotate a whole sentence. Never annotate more words than necessary.
+"grammar"  — Grammatical errors with clear learning value.
+  Covers: tense, agreement, verbForm, article, preposition, plural/singular,
+          pronoun, vocabulary, missing word, spelling, punctuation, capitalization, wordOrder.
+  Max 8. Always include "replacement". note = 2–4 words.
 
-━━━ RULE 2 — ANNOTATION PRIORITY ORDER ━━━
-When you can only mark a limited number of errors, prioritise in this order:
-  1. Tense errors (wrong tense, tense sequence)
-  2. Subject-verb agreement
-  3. Wrong verb form (infinitive vs. gerund, past participle)
-  4. Article errors (a / an / the / missing)
-  5. Expression improvements (unnatural phrasing)
-  Lower-priority errors go unmarked if the budget is full.
+  Required "subType" — choose exactly one:
+    "tense"          "agreement"      "verbForm"       "article"
+    "preposition"    "vocabulary"     "missing"        "spelling"
+    "punctuation"    "capitalization" "wordOrder"      "pronoun"
+    "plural"
 
-━━━ RULE 3 — FOUR ANNOTATION TYPES ━━━
+  For "missing": targetText = word directly BEFORE the gap; replacement = the missing word only.
 
-"grammar"    High-learning-value errors.
-  Covers: tense, verb form, present-perfect vs. simple-past, article, agreement,
-          singular/plural, preposition, missing word.
-  Max 3. Always include "replacement" — the corrected word or shortest natural phrase.
-  Prefer the most natural native phrasing, not just the grammatically correct one.
-    e.g. "didn't met" → replacement "hadn't seen him" (not just "met" → "seen")
-  note = 2–4 words only: "Past tense." / "Use 'an'." / "Present perfect." / "Subject-verb."
+"expression"  — Grammatically correct but unnatural or weak phrasing.
+  Max 3. Always include "replacement" (natural native alternative). note = 2–4 words.
 
-  REQUIRED: always add "subType" to every grammar annotation.
-  Choose exactly one:
-    "tense"          — wrong tense or tense sequence
-    "agreement"      — subject-verb agreement
-    "verbForm"       — wrong infinitive / gerund / past participle
-    "article"        — missing or wrong article (a / an / the)
-    "preposition"    — wrong preposition
-    "vocabulary"     — wrong word choice (not a tense/article/preposition issue)
-    "missing"        — a word is entirely missing from the sentence
-    "spelling"       — misspelled word
-    "punctuation"    — wrong or missing punctuation mark
-    "capitalization" — wrong capitalization (not a typical error)
-    "wordOrder"      — words in wrong order
-  For "missing": targetText = the word directly BEFORE the gap; replacement = the missing word only.
+"strength"  — The single best moment worth celebrating. Exactly 1. No "replacement".
+  note = "⭐ Nice." / "⭐ Natural." / "⭐ Vivid." / "⭐ Strong opening."
 
-"expression" Phrasing that is grammatically OK but sounds unnatural or weak.
-  Max 2. Always include "replacement" — the most natural native alternative.
-  note = 2–4 words: "More natural." / "Native phrasing." / "Flows better."
+"typical"  — A mechanical error that REPEATS throughout the essay.
+  Mark ONLY the FIRST occurrence. note = exactly "Typ."
+  Use ONLY for: lowercase "i", missing sentence-start capital, lowercase proper noun,
+  missing apostrophe in contraction.
+  Do NOT use for tense/article/agreement — those are "grammar".
+  Max 2 "typical" annotations (one per distinct repeating pattern).
 
-"strength"   The single best moment — one phrase or sentence worth celebrating.
-  Exactly 1. No "replacement".
-  note = one short memo: "⭐ Nice." / "⭐ Natural." / "⭐ Vivid detail." / "⭐ Strong opening."
+Total budget: up to 12 grammar + up to 3 expression + exactly 1 strength + up to 2 typical.
+Find ALL errors first, then prioritise if over budget. Never pad.
 
-"typical"    A simple mechanical error that REPEATS throughout the essay.
-  Mark ONLY the FIRST occurrence. Leave every other occurrence unmarked — the student finds them.
-  Always include "replacement" (the correct single-word form).
-  note = exactly "Typ."  (nothing else)
-  Use ONLY for:
-    • Lowercase "i"  →  "I"
-    • Missing capital at sentence start  →  "Hello" / "We"
-    • Lowercase proper noun  →  "English" / "Canada"
-    • Missing apostrophe in contraction  →  "don't" / "I'm"
-  Do NOT use "typical" for tense, article, or any error with learning value — those get "grammar".
-  Max 2 "typical" annotations total (one per distinct pattern).
+IMPORTANT — easily missed errors to check explicitly:
+• "there was many people" → "there were many people" (existential there + plural)
+• Multiple tense errors in one sentence — annotate EACH wrong verb separately
+• Sentence-start capitalization ("last weekend" → "Last weekend"):
+  use "typical" if the pattern repeats throughout, "capitalization" subtype if isolated
+• Adverb vs. adjective ("speak more confident" → "more confidently") — subType "verbForm"
+• "didn't + past participle" errors ("didn't met" → "hadn't met")
 
-Total budget: max 7 (up to 3 grammar + up to 2 expression + exactly 1 strength + up to 2 typical).
-If the essay is clean, use fewer. Never pad with weak annotations.
+━━━ EDITOR COMMENT ━━━
+25–30 words, 1 sentence, warm and specific. Name one concrete thing from this essay.
+No generic praise. Reference something the student actually wrote.
 
-━━━ RULE 4 — editorComment ━━━
-25–30 words MAX. 1 sentence. Warm and specific.
-Name one concrete thing from the essay. No generic praise ("Good job!", "Nice essay!").
+━━━ SUGGESTED VERSION ━━━
+Rewrite the FULL essay applying every correction — grammar, expression, typical, capitalization.
+Keep the student's exact voice, structure, and ideas. Do NOT add new ideas.
+Write it as a native speaker would naturally express the same thoughts.
 
-━━━ RULE 5 — SUGGESTED VERSION ━━━
-Rewrite the full essay applying ALL corrections (grammar + expression + typical + capitalization).
-Preserve the student's voice, structure, and every idea exactly.
-Do NOT add new ideas. Do NOT change meaning. Polish — do not rewrite.
-
-━━━ RULE 6 — ONE-LINE ADVICE ━━━
-A single short sentence (under 12 words) the student can remember and apply next time.
-Examples: "Use past perfect for events before another past event."
-          "Replace 'very + adjective' with a stronger single word."
-Write it in the same language as all other text fields.
+━━━ ONE-LINE COACHING ADVICE ━━━
+Under 12 words. Sound like a coach, not a textbook.
+Give direction, not just grammar rules.
+Examples: "Consistency builds confidence." / "Small improvements become fluency."
+         "Accuracy comes from repetition." / "Speak first. Perfection comes later."
+Write in the same language as all other text fields.
 
 ━━━ STYLE DETECTION ━━━
 Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statement / TOEFL / Business Email
 
 ━━━ RESPONSE FORMAT — valid JSON only, no markdown fences ━━━
 {
+  "_scan": "Your sentence-by-sentence analysis from Pass 1 and Pass 2 goes here. This field is ignored by the parser — use it freely to think through every error.",
   "detectedStyle": "Diary",
   "annotations": [
-    { "type": "grammar",    "subType": "agreement",   "targetText": "were",        "replacement": "was",            "note": "Subject-verb." },
-    { "type": "grammar",    "subType": "tense",       "targetText": "met",         "replacement": "hadn't seen him","note": "Past perfect." },
-    { "type": "grammar",    "subType": "article",      "targetText": "cafe",        "replacement": "the cafe",       "note": "Use 'the'." },
-    { "type": "grammar",    "subType": "preposition",  "targetText": "arrived to",  "replacement": "arrived at",     "note": "Preposition." },
-    { "type": "grammar",    "subType": "missing",      "targetText": "I",           "replacement": "was",            "note": "Missing verb." },
-    { "type": "grammar",    "subType": "vocabulary",   "targetText": "big",         "replacement": "significant",    "note": "Stronger word." },
-    { "type": "expression", "targetText": "very tired",  "replacement": "exhausted",     "note": "More natural." },
-    { "type": "strength",   "targetText": "exact phrase","note": "⭐ Vivid detail." },
-    { "type": "typical",    "targetText": "i",           "replacement": "I",             "note": "Typ." }
+    { "type": "grammar",    "subType": "agreement",      "targetText": "were",       "replacement": "was",             "note": "주어-동사 불일치." },
+    { "type": "grammar",    "subType": "tense",          "targetText": "go",         "replacement": "went",            "note": "과거 시제 사용." },
+    { "type": "grammar",    "subType": "article",        "targetText": "a english",  "replacement": "an English",      "note": "'an' 사용." },
+    { "type": "grammar",    "subType": "preposition",    "targetText": "arrived to", "replacement": "arrived at",      "note": "전치사 오류." },
+    { "type": "grammar",    "subType": "spelling",       "targetText": "recieve",    "replacement": "receive",         "note": "철자 오류." },
+    { "type": "grammar",    "subType": "plural",         "targetText": "two cup",    "replacement": "two cups",        "note": "복수형 사용." },
+    { "type": "grammar",    "subType": "vocabulary",     "targetText": "very big",   "replacement": "enormous",        "note": "더 강한 표현." },
+    { "type": "expression", "targetText": "very tired",  "replacement": "exhausted", "note": "자연스러운 표현." },
+    { "type": "strength",   "targetText": "exact phrase from essay", "note": "⭐ Vivid detail." },
+    { "type": "typical",    "targetText": "i",           "replacement": "I",         "note": "Typ." }
   ],
-  "editorComment": "Specific warm comment about one thing in this essay, 25–30 words.",
-  "nextChallenge": ["One concrete writing goal.", "Another specific challenge."],
-  "suggestedVersion": "Full revised essay — all corrections applied, student's voice preserved.",
-  "oneLineAdvice": "Short actionable rule under 12 words."
+  "editorComment": "이 에세이만의 구체적인 내용을 언급하는 25–30단어 코멘트.",
+  "nextChallenge": ["구체적인 글쓰기 목표 1.", "구체적인 글쓰기 목표 2."],
+  "suggestedVersion": "모든 교정이 반영된 전체 에세이 — 학생의 목소리와 아이디어 유지.",
+  "oneLineAdvice": "코치처럼 12단어 이하의 조언."
 }`
 }
 
@@ -188,7 +202,7 @@ Please review this essay and return the JSON response as specified.`
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
-      max_tokens: 2400,
+      max_tokens: 4000,
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: buildSystemPrompt(language) },
