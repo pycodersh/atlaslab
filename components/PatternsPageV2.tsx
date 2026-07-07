@@ -20,6 +20,7 @@ import { patternExamplesFull } from '@/data/pattern-examples-full'
 import { shimmerExamples } from '@/data/shimmer-audio-meta'
 import { TappableWordText } from '@/components/TappableWordText'
 import { TopNav } from '@/components/TopNav'
+import { useTheme } from '@/components/ThemeProvider'
 import { useT } from '@/hooks/useT'
 
 // ── Timing constants ──────────────────────────────────────────────────────────
@@ -50,32 +51,52 @@ const STUDY_LABEL: Record<StudyMode, string> = {
 
 // ── Hero themes — Version A (Soft Burgundy) / Version B (Slate Blue) ─────────
 // Alternates by story.id so odd stories = A, even stories = B
-const HERO_THEMES = [
-  {
-    // Version A · Soft Burgundy — PATTO brand, editorial, premium
-    bg: 'linear-gradient(160deg, #8B4555 0%, #B27B89 54%, #EDE2E5 100%)',
-    wave1: 'rgba(255,255,255,0.08)',
-    wave2: 'rgba(255,255,255,0.05)',
-    borderColor: 'rgba(185,135,145,0.30)',
-    patternColor: '#FFFFFF',
-    patternShadow: '0 2px 16px rgba(65,10,18,0.38), 0 1px 4px rgba(0,0,0,0.18)',
-    meaningColor: 'rgba(255,255,255,0.82)',
-    labelColor: 'rgba(255,255,255,0.60)',
-    iconColor: 'rgba(255,255,255,0.70)',
-  },
-  {
-    // Version B · Slate Blue — Apple-style, clean, modern
-    bg: 'linear-gradient(160deg, #5C6FAE 0%, #8294C8 54%, #DCE5F8 100%)',
-    wave1: 'rgba(255,255,255,0.08)',
-    wave2: 'rgba(255,255,255,0.05)',
-    borderColor: 'rgba(140,165,215,0.32)',
-    patternColor: '#FFFFFF',
-    patternShadow: '0 2px 16px rgba(25,40,100,0.34), 0 1px 4px rgba(0,0,0,0.14)',
-    meaningColor: 'rgba(255,255,255,0.82)',
-    labelColor: 'rgba(255,255,255,0.60)',
-    iconColor: 'rgba(255,255,255,0.70)',
-  },
-]
+const HERO_THEMES = {
+  light: [
+    {
+      bg: 'linear-gradient(160deg, #8B4555 0%, #B27B89 54%, #EDE2E5 100%)',
+      wave1: 'rgba(255,255,255,0.08)', wave2: 'rgba(255,255,255,0.05)',
+      borderColor: 'rgba(185,135,145,0.30)',
+      patternColor: '#FFFFFF',
+      patternShadow: '0 2px 16px rgba(65,10,18,0.38), 0 1px 4px rgba(0,0,0,0.18)',
+      meaningColor: 'rgba(255,255,255,0.82)',
+      labelColor: 'rgba(255,255,255,0.60)',
+      iconColor: 'rgba(255,255,255,0.70)',
+    },
+    {
+      bg: 'linear-gradient(160deg, #5C6FAE 0%, #8294C8 54%, #DCE5F8 100%)',
+      wave1: 'rgba(255,255,255,0.08)', wave2: 'rgba(255,255,255,0.05)',
+      borderColor: 'rgba(140,165,215,0.32)',
+      patternColor: '#FFFFFF',
+      patternShadow: '0 2px 16px rgba(25,40,100,0.34), 0 1px 4px rgba(0,0,0,0.14)',
+      meaningColor: 'rgba(255,255,255,0.82)',
+      labelColor: 'rgba(255,255,255,0.60)',
+      iconColor: 'rgba(255,255,255,0.70)',
+    },
+  ],
+  dark: [
+    {
+      bg: 'linear-gradient(160deg, #3D1520 0%, #6B2D3E 54%, #2A1018 100%)',
+      wave1: 'rgba(255,255,255,0.06)', wave2: 'rgba(255,255,255,0.03)',
+      borderColor: 'rgba(139,70,85,0.35)',
+      patternColor: '#F2F2F5',
+      patternShadow: '0 2px 16px rgba(0,0,0,0.60), 0 1px 4px rgba(0,0,0,0.30)',
+      meaningColor: 'rgba(242,242,245,0.75)',
+      labelColor: 'rgba(242,242,245,0.50)',
+      iconColor: 'rgba(242,242,245,0.60)',
+    },
+    {
+      bg: 'linear-gradient(160deg, #1E2A52 0%, #2E4080 54%, #0C1228 100%)',
+      wave1: 'rgba(255,255,255,0.06)', wave2: 'rgba(255,255,255,0.03)',
+      borderColor: 'rgba(80,110,200,0.35)',
+      patternColor: '#F2F2F5',
+      patternShadow: '0 2px 16px rgba(0,0,0,0.60), 0 1px 4px rgba(0,0,0,0.30)',
+      meaningColor: 'rgba(242,242,245,0.75)',
+      labelColor: 'rgba(242,242,245,0.50)',
+      iconColor: 'rgba(242,242,245,0.60)',
+    },
+  ],
+}
 
 function WaveOverlay({ wave1, wave2 }: { wave1: string; wave2: string }) {
   return (
@@ -118,6 +139,8 @@ export function PatternsPageV2({
   story, totalStories, onPrev, onNext, hasNext, onOpenPicker, patternExamples, isActive = true,
 }: Props) {
   const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const t = useT()
   const voice = story.narratorVoice ?? prefs.voice
   const patterns = story.patterns
@@ -146,8 +169,8 @@ export function PatternsPageV2({
 
   // ── Hero theme — A (Burgundy) for odd stories, B (Slate Blue) for even ──────
   const heroTheme = useMemo(
-    () => HERO_THEMES[(story.id - 1) % 2],
-    [story.id],
+    () => HERO_THEMES[isDark ? 'dark' : 'light'][(story.id - 1) % 2],
+    [story.id, isDark],
   )
 
   // ── UI state ───────────────────────────────────────────────────────────────
@@ -386,10 +409,7 @@ export function PatternsPageV2({
           <div ref={swipeRef}>
             <div className="glass-card" style={{
               overflow: 'hidden', borderRadius: 30, padding: 0,
-              background: 'rgba(255,255,255,0.42)',
-              backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255,255,255,.65)',
-              boxShadow: '0 20px 40px rgba(40,40,60,0.05)',
+              boxShadow: isDark ? '0 20px 40px rgba(0,0,0,0.40)' : '0 20px 40px rgba(40,40,60,0.05)',
             }}>
 
               {/* ── Card header ── */}
@@ -513,9 +533,9 @@ export function PatternsPageV2({
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
                   <div style={{
                     display: 'inline-flex', borderRadius: 8,
-                    background: 'rgba(255,255,255,0.55)',
+                    background: 'var(--pc)',
                     backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                    border: '1px solid rgba(200,205,215,0.55)',
+                    border: '1px solid var(--pd)',
                     padding: 2, gap: 0,
                   }}>
                     {STUDY_CYCLE.map(mode => (
@@ -526,9 +546,9 @@ export function PatternsPageV2({
                         style={{
                           padding: '3px 8px', borderRadius: 6, border: 'none', cursor: 'pointer',
                           fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                          background: studyMode === mode ? 'rgba(255,255,255,0.85)' : 'transparent',
-                          color: studyMode === mode ? '#1C1C1E' : '#6E6E73',
-                          boxShadow: studyMode === mode ? '0 1px 3px rgba(0,0,0,0.07)' : 'none',
+                          background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                          color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
+                          boxShadow: studyMode === mode ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
                           transition: 'background 0.15s, color 0.15s',
                         }}
                       >
@@ -550,7 +570,7 @@ export function PatternsPageV2({
                       <div
                         key={i}
                         style={{
-                          borderTop: i > 0 ? '1px solid rgba(220,225,235,0.7)' : 'none',
+                          borderTop: i > 0 ? '1px solid var(--pd)' : 'none',
                           paddingTop: i > 0 ? 14 : 0,
                           paddingBottom: i < examples.length - 1 ? 14 : 0,
                         }}
@@ -558,7 +578,7 @@ export function PatternsPageV2({
                         {showExEn ? (
                           <TappableWordText
                             text={ex.en}
-                            saveCandidates={undefined}
+                            saveCandidates={fullEx?.saveCandidates}
                             source={{
                               sourceType:       'example',
                               sourceId:         `${pattern.id}-ex${i + 1}`,
@@ -609,7 +629,7 @@ export function PatternsPageV2({
                       <span style={{
                         display: 'block', width: i === patIdx ? 14 : 6, height: 6,
                         borderRadius: 999,
-                        background: i === patIdx ? '#3A3A3C' : '#D1D1D6',
+                        background: i === patIdx ? 'var(--pt)' : 'var(--pm2)',
                         transition: 'all 0.25s',
                       }} />
                     </button>
