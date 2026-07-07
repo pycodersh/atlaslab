@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { StoryPage } from '@/components/StoryPage'
@@ -225,7 +224,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
 
   return (
     <div className="h-screen-stable flex flex-col overflow-hidden">
-      <TopNav />
 
       {/* Sliding rail — min-h-0 prevents flex-1 from growing to content height */}
       <div

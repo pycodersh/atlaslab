@@ -19,6 +19,7 @@ import { getPatternExamples } from '@/data/pattern-examples'
 import { patternExamplesFull } from '@/data/pattern-examples-full'
 import { shimmerExamples } from '@/data/shimmer-audio-meta'
 import { TappableWordText } from '@/components/TappableWordText'
+import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
 
 // ── Timing constants ──────────────────────────────────────────────────────────
@@ -382,6 +383,8 @@ export function PatternsPageV2({
           touchAction: 'pan-y',
         }}
       >
+        <TopNav />
+
         <div style={{ padding: '0 16px 0' }}>
 
           {/* ── Top spacer ── */}

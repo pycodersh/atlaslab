@@ -16,11 +16,12 @@ export type WordSaveSource = {
 }
 
 type Props = {
-  text:            string
-  source:          WordSaveSource
-  saveCandidates?: SaveCandidate[]
-  className?:      string
-  style?:          React.CSSProperties
+  text:             string
+  source:           WordSaveSource
+  saveCandidates?:  SaveCandidate[]
+  className?:       string
+  style?:           React.CSSProperties
+  highlightPhrases?: string[]
 }
 
 /**
@@ -29,7 +30,7 @@ type Props = {
  * If saveCandidates is provided, tapping a word that belongs to a chunk
  * also surfaces a "Save Phrase" option.
  */
-export function TappableWordText({ text, source, saveCandidates, className, style }: Props) {
+export function TappableWordText({ text, source, saveCandidates, className, style, highlightPhrases }: Props) {
   const tokens = text.split(/(\s+)/)
 
   // Precompute character offsets for each token
@@ -39,6 +40,17 @@ export function TappableWordText({ text, source, saveCandidates, className, styl
     charOffset += token.length
     return { token, start, end: charOffset }
   })
+
+  // Build char ranges for pattern phrase highlighting
+  const hlRanges: Array<[number, number]> = []
+  if (highlightPhrases?.length) {
+    const lower = text.toLowerCase()
+    for (const phrase of highlightPhrases) {
+      if (!phrase) continue
+      const idx = lower.indexOf(phrase.toLowerCase())
+      if (idx !== -1) hlRanges.push([idx, idx + phrase.length])
+    }
+  }
 
   function findChunk(wordStart: number, wordEnd: number): SaveCandidate | undefined {
     if (!saveCandidates?.length) return undefined
@@ -80,6 +92,7 @@ export function TappableWordText({ text, source, saveCandidates, className, styl
         const alreadySaved = isSavedWord(clean)
         const chunk = findChunk(start, end)
         const phraseHighlight = chunk ? isSavedPhrase(chunk.text) : false
+        const isPatternWord = hlRanges.some(([s, e]) => start < e && end > s)
 
         return (
           <span
@@ -94,6 +107,8 @@ export function TappableWordText({ text, source, saveCandidates, className, styl
                 : alreadySaved
                   ? 'var(--pal)'
                   : 'transparent',
+              color:        isPatternWord ? 'var(--pattern-hl)' : undefined,
+              fontWeight:   isPatternWord ? 600 : undefined,
               transition:   'background 0.12s',
               userSelect:   'text',
               WebkitUserSelect: 'text',

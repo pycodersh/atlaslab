@@ -32,6 +32,8 @@
   --ph1: #C0CDFF;
   --ph2: #8BA3FF;
   --ph3: #6D8DFF;
+  /* Pattern highlight — burgundy */
+  --pattern-hl: #8B2635;
   /* Nav height including iOS safe-area-inset-top */
   --pnav-h: calc(60px + env(safe-area-inset-top, 0px));
   /* Bottom tab bar height — floating nav */
@@ -60,6 +62,7 @@
   --text-caption:   #636366;
   --text-disabled:  #48484A;
   --accent-blue:    #8FABFF;
+  --pattern-hl: #FF7A8A;
   --pnav: rgba(14,14,18,0.85);
   --pglass: rgba(22,22,32,0.78);
   --pglass-border: rgba(255,255,255,0.08);

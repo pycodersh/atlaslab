@@ -7,6 +7,7 @@ import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
 import { StoryImageSlider } from '@/components/StoryImageSlider'
 import { TappableWordText } from '@/components/TappableWordText'
+import { TopNav } from '@/components/TopNav'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { RATE_MAP } from '@/lib/settings/preferences'
@@ -174,6 +175,23 @@ export function StoryPage({
   const subtitle = resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)
   const storyNote = resolveTranslation(story.storyNote, prefs.language, story.storyNoteTranslations)
 
+  // Build map: paragraphId → pattern core phrases to highlight in burgundy
+  const patternHighlightMap = useMemo(() => {
+    const map = new Map<string, string[]>()
+    for (const pat of story.patterns ?? []) {
+      const core = pat.pattern.replace(/~.*$/, '').trim().replace(/[.,!?]+$/, '').trim()
+      if (!core) continue
+      for (const para of story.paragraphs) {
+        if (para.english.includes(pat.storySentence)) {
+          const existing = map.get(para.id) ?? []
+          existing.push(core)
+          map.set(para.id, existing)
+        }
+      }
+    }
+    return map
+  }, [story])
+
   return (
     <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
       <div
@@ -185,6 +203,7 @@ export function StoryPage({
           paddingTop: 8,
         }}
       >
+        <TopNav />
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>
@@ -343,6 +362,7 @@ export function StoryPage({
                               paragraphId:      para.id,
                               originalSentence: para.english,
                             }}
+                            highlightPhrases={patternHighlightMap.get(para.id)}
                             className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block text-justify"
                           />
                         </div>
