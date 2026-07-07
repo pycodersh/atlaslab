@@ -189,6 +189,7 @@ Please review this essay and return the JSON response as specified.`
     const completion = await openai.chat.completions.create({
       model: 'gpt-5-mini',
       max_completion_tokens: 8000,
+      reasoning_effort: 'low',
       response_format: { type: 'json_object' },
       messages: [
         { role: 'system', content: buildSystemPrompt(language) },
