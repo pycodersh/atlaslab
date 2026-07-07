@@ -138,7 +138,7 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
                   title={
                     day
                       ? day.future && hasScheduled
-                        ? `${day.iso} · 복습 예정 ${day.scheduled!.count}개`
+                        ? `${day.iso} · ${t('cal_upcoming')} ${day.scheduled!.count}`
                         : `${day.iso} · ${day.count}회`
                       : undefined
                   }
@@ -206,7 +206,7 @@ export function LearningCalendar({ onDaySelect, selectedIso, futureSchedule = {}
               borderRadius: '50%', background: 'var(--pa)', opacity: 0.55,
             }}
           />
-          <span className="text-[9px] text-[var(--pm2)]">복습예정</span>
+          <span className="text-[9px] text-[var(--pm2)]">{t('cal_upcoming')}</span>
         </div>
       </div>
     </div>

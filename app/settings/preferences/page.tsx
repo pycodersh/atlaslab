@@ -295,14 +295,14 @@ export default function PreferencesPage() {
           <ToggleRow
             icon={Waves}
             label="Story Ambience"
-            desc="스토리 배경음 자동 재생"
+            desc={t('ambience_desc')}
             on={prefs.ambienceDefault === 'on'}
             onChange={v => update({ ambienceDefault: v ? 'on' : 'off' })}
           />
           <SliderRow
             icon={Waves}
             label="Ambience Volume"
-            desc="배경음 볼륨 조절"
+            desc={t('ambience_volume_desc')}
             value={prefs.ambienceVolume ?? 50}
             onChange={v => update({ ambienceVolume: v })}
             last

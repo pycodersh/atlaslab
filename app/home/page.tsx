@@ -11,6 +11,7 @@ import { getAllRecords, todayStr, addDays } from '@/lib/srs/storage'
 import { getMissionItems } from '@/lib/srs/engine'
 import { getLastPosition } from '@/lib/last-position'
 import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
+import { usePreferences } from '@/contexts/PreferencesContext'
 
 // ── Carousel helpers ──────────────────────────────────────────────────────────
 const TOTAL_TIPS = EDITOR_NOTES.length
@@ -57,9 +58,13 @@ function DotIndicator({ total, pos }: { total: number; pos: number }) {
 
 // Tip content renderer
 function TipContent({ tip }: { tip: EditorNote }) {
-  const title    = tip.title?.ko    ?? tip.title?.en    ?? ''
-  const body     = tip.body?.ko     ?? tip.body?.en     ?? []
-  const remember = tip.oneThingToRemember?.ko ?? tip.oneThingToRemember?.en ?? ''
+  const { prefs } = usePreferences()
+  const lang = prefs.language
+  const lm = <T,>(map: Record<string, T> | undefined, fallback: T): T =>
+    (lang !== 'ko' ? ((map as Record<string, T> | undefined)?.[lang] ?? map?.en) : undefined) ?? map?.ko ?? map?.en ?? fallback
+  const title    = lm(tip.title    as Record<string, string>  | undefined, '')
+  const body     = lm(tip.body     as Record<string, string[]>| undefined, [])
+  const remember = lm(tip.oneThingToRemember as Record<string, string> | undefined, '')
   return (
     <>
       <p style={{
@@ -95,7 +100,7 @@ function TipContent({ tip }: { tip: EditorNote }) {
         <div style={{ marginTop: 14 }}>
           {tip.research.map((ref, i) => (
             <p key={i} style={{ fontSize: 10, color: 'var(--pm2)', margin: '0 0 3px', lineHeight: 1.4 }}>
-              {ref.author} ({ref.year}) — {ref.brief?.ko ?? ref.brief?.en ?? ''}
+              {ref.author} ({ref.year}) — {lm(ref.brief as Record<string, string> | undefined, '')}
             </p>
           ))}
         </div>
@@ -262,6 +267,7 @@ const CHIP_GRADIENT: Record<StoryLabel | 'Done', string> = {
 
 export default function HomePage() {
   const router = useRouter()
+  const { prefs } = usePreferences()
 
   const [firstHref, setFirstHref]           = useState('/stories/1')
   const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
@@ -439,7 +445,7 @@ export default function HomePage() {
                 {todayStory.title}
               </p>
               <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.3 }}>
-                {todayStory.subtitleKo}
+                {todayStory.subtitleTranslations?.[prefs.language] ?? todayStory.subtitleKo}
               </p>
             </div>
             {/* Continue — more transparent */}
@@ -549,7 +555,7 @@ export default function HomePage() {
                   overflow: 'hidden', display: '-webkit-box',
                   WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
                 }}>
-                  {dailyTip.title?.ko ?? dailyTip.title?.en ?? ''}
+                  {(() => { const l = prefs.language; const t = dailyTip.title as Record<string,string>|undefined; return (l !== 'ko' ? (t?.[l] ?? t?.en) : undefined) ?? t?.ko ?? t?.en ?? '' })()}
                 </p>
               </div>
               <ChevronRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />

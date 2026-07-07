@@ -171,7 +171,7 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
     },
     {
       id: 'email',
-      label: 'E-mail로 계속하기',
+      label: t('auth_continue_email'),
       logo: (
         <svg viewBox="0 0 24 24" width={20} height={20} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="3" />
