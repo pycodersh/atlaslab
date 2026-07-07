@@ -22,7 +22,7 @@ export type SavedWord = {
 }
 
 import { getPlan, FREE_WORD_LIMIT } from '@/lib/subscription/storage'
-import { lookupMeaning } from '@/data/patto-dictionary'
+import { lookupMeaning, normalizeWord } from '@/data/patto-dictionary'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
 
 const KEY = 'patto-saved-words'
@@ -65,7 +65,8 @@ export function isSavedWord(word: string): boolean {
 }
 
 export function saveWord(item: Omit<SavedWord, 'id' | 'savedAt'>): SavedWord {
-  const meaning = item.meaning ?? lookupMeaning(item.word)
+  // normalizeWord strips punctuation/apostrophes so lookup works for "It's", "Sunday," etc.
+  const meaning = item.meaning ?? lookupMeaning(normalizeWord(item.word))
   const map = readAll()
   const entry: SavedWord = { ...item, meaning, id: genId(), savedAt: new Date().toISOString() }
   map[entry.id] = entry

@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Plus, ChevronRight, Sparkles, PenLine } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
-import { type Essay, getEssays, getDailyReviewCount, MAX_DAILY_REVIEWS } from '@/lib/essays/storage'
+import { type Essay, getEssays, getReviewsRemaining } from '@/lib/essays/storage'
+import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
 import { useT } from '@/hooks/useT'
 
 function fmtDate(iso: string): string {
@@ -95,17 +96,19 @@ export default function EssaysPage() {
   const router = useRouter()
   const t = useT()
   const [essays, setEssays] = useState<Essay[]>([])
-  const [reviewCount, setReviewCount] = useState(0)
+  const [plan, setPlan]     = useState<'free' | 'premium'>('free')
+  const [remaining, setRemaining] = useState(0)
   const [showAll, setShowAll] = useState(false)
 
   const INITIAL_SHOW = 6
 
   useEffect(() => {
     setEssays(getEssays())
-    setReviewCount(getDailyReviewCount())
+    setPlan(getPlan())
+    setRemaining(getReviewsRemaining())
   }, [])
 
-  const remaining = MAX_DAILY_REVIEWS - reviewCount
+  const maxReviews = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_LIFETIME
   const displayed = showAll ? essays : essays.slice(0, INITIAL_SHOW)
   const hasMore = essays.length > INITIAL_SHOW
 
@@ -166,7 +169,7 @@ export default function EssaysPage() {
             fontSize: 12, fontWeight: 600,
             color: remaining === 0 ? '#B0B0B8' : '#4A7A6A',
           }}>
-            {remaining} / {MAX_DAILY_REVIEWS} Today
+            {remaining} / {maxReviews}{plan === 'premium' ? ' Today' : ' Lifetime'}
           </span>
         </div>
 

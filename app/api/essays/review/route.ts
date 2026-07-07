@@ -1,5 +1,10 @@
-import Anthropic from '@anthropic-ai/sdk'
-import { createClaudeClient } from '@/lib/ai/claude'
+﻿import OpenAI from 'openai'
+import type { Plan } from '@/lib/subscription/storage'
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+
+const FREE_MAX  = 300
+const PREM_MAX  = 500
 
 function isEnglish(text: string): boolean {
   if (text.trim().length === 0) return false
@@ -95,6 +100,12 @@ Rewrite the full essay applying ALL corrections (grammar + expression + typical 
 Preserve the student's voice, structure, and every idea exactly.
 Do NOT add new ideas. Do NOT change meaning. Polish — do not rewrite.
 
+━━━ RULE 6 — ONE-LINE ADVICE ━━━
+A single short sentence (under 12 words) the student can remember and apply next time.
+Examples: "Use past perfect for events before another past event."
+          "Replace 'very + adjective' with a stronger single word."
+Write it in the same language as all other text fields.
+
 ━━━ STYLE DETECTION ━━━
 Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statement / TOEFL / Business Email
 
@@ -110,23 +121,26 @@ Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statem
   ],
   "editorComment": "Specific warm comment about one thing in this essay, 25–30 words.",
   "nextChallenge": ["One concrete writing goal.", "Another specific challenge."],
-  "suggestedVersion": "Full revised essay — all corrections applied, student's voice preserved."
+  "suggestedVersion": "Full revised essay — all corrections applied, student's voice preserved.",
+  "oneLineAdvice": "Short actionable rule under 12 words."
 }`
 }
 
 export async function POST(request: Request) {
-  const claude = createClaudeClient()
-  if (!claude.ok) {
-    return Response.json({ error: 'service_unavailable' }, { status: 503 })
-  }
-
   try {
     const body = await request.json()
-    const { essayId, essayBody, essayTitle, language = 'ko' } = body as {
+    const {
+      essayId,
+      essayBody,
+      essayTitle,
+      language = 'ko',
+      plan = 'free',
+    } = body as {
       essayId: string
       essayBody: string
       essayTitle: string
       language: string
+      plan: Plan
     }
 
     // ── Input validation ────────────────────────────────────────────────────
@@ -140,11 +154,12 @@ export async function POST(request: Request) {
     if (wc < 30) {
       return Response.json({ error: 'too_short' }, { status: 422 })
     }
-    if (wc > 500) {
+    const maxWords = plan === 'premium' ? PREM_MAX : FREE_MAX
+    if (wc > maxWords) {
       return Response.json({ error: 'too_long' }, { status: 422 })
     }
 
-    // ── Claude call ─────────────────────────────────────────────────────────
+    // ── OpenAI call ─────────────────────────────────────────────────────────
     const userPrompt = `Essay Title: "${essayTitle ?? 'Untitled'}"
 
 Essay:
@@ -152,14 +167,17 @@ ${essayBody}
 
 Please review this essay and return the JSON response as specified.`
 
-    const message = await claude.client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-5-mini',
       max_tokens: 2400,
-      system: buildSystemPrompt(language),
-      messages: [{ role: 'user', content: userPrompt }],
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: buildSystemPrompt(language) },
+        { role: 'user', content: userPrompt },
+      ],
     })
 
-    const rawText = message.content[0].type === 'text' ? message.content[0].text : ''
+    const rawText = completion.choices[0]?.message?.content ?? ''
 
     // ── Parse response ──────────────────────────────────────────────────────
     const jsonMatch = rawText.match(/\{[\s\S]*\}/)
@@ -201,15 +219,7 @@ Please review this essay and return the JSON response as specified.`
     return Response.json({ review: parsed, essayId })
 
   } catch (err) {
-    if (err instanceof Anthropic.APIError) {
-      console.error('[essays/review] Anthropic APIError:', {
-        status:  err.status,
-        name:    err.name,
-        message: err.message,
-      })
-    } else {
-      console.error('[essays/review] Unexpected error:', err)
-    }
+    console.error('[essays/review] Unexpected error:', err)
     return Response.json({ error: 'server_error' }, { status: 500 })
   }
 }

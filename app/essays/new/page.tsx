@@ -5,13 +5,17 @@ import { useRouter } from 'next/navigation'
 import { Loader2, Sparkles, Copy, Check, ArrowLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import {
-  getDraft, saveDraft, clearDraft, saveEssay, saveReview,
-  canReview, incrementDailyReviewCount, autoTitle,
+  getDraft, clearDraft, saveEssay, saveReview,
+  canReview, recordReviewUsed, getReviewsRemaining, autoTitle,
 } from '@/lib/essays/storage'
+import {
+  getPlan,
+  FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS,
+  FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY,
+} from '@/lib/subscription/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
 
-const MAX_WORDS  = 300
 const MIN_WORDS  = 30
 const NATIVE_RATIO_WARN = 0.35
 
@@ -59,6 +63,8 @@ export default function NewEssayPage() {
   const [loading, setLoading]       = useState(false)
   const [error, setError]           = useState<ValidationError>(null)
   const [saveFlash, setSaveFlash]   = useState(false)
+  const [plan, setPlan]             = useState<'free' | 'premium'>('free')
+  const [reviewsLeft, setReviewsLeft] = useState(0)
 
   // Expression suggestion
   const [nativeSentence, setNativeSentence] = useState('')
@@ -73,8 +79,11 @@ export default function NewEssayPage() {
   const titleManuallyEdited = useRef(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  // Load draft on mount (if exists)
+  // Load plan + draft on mount
   useEffect(() => {
+    const p = getPlan()
+    setPlan(p)
+    setReviewsLeft(getReviewsRemaining())
     const draft = getDraft()
     if (draft?.body) {
       setBody(draft.body)
@@ -98,16 +107,22 @@ export default function NewEssayPage() {
     }
   }, [body, nativeSentence])
 
+  const maxWords = plan === 'premium' ? PREMIUM_MAX_ESSAY_WORDS : FREE_MAX_ESSAY_WORDS
+  const maxReviews = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_LIFETIME
   const wc = wordCount(body)
-  const wcColor = wc > MAX_WORDS ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
+  const wcColor = wc > maxWords ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
   const showNativeWarning = nonAsciiRatio(body) > NATIVE_RATIO_WARN && body.trim().length > 20
   const isDirty = body.trim().length > 0 || title.trim().length > 0
 
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
-    too_long:            t('essays_too_long'),
-    limit_reached:       t('essays_limit_reached'),
+    too_long:            plan === 'premium'
+      ? `Premium reviews support up to ${PREMIUM_MAX_ESSAY_WORDS} words.`
+      : `Free users can review essays up to ${FREE_MAX_ESSAY_WORDS} words.`,
+    limit_reached:       plan === 'premium'
+      ? `You've used all ${maxReviews} AI reviews today. Your limit resets tomorrow.`
+      : `You've used all ${maxReviews} free AI reviews. Upgrade to Premium for 5 reviews per day.`,
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -200,7 +215,7 @@ export default function NewEssayPage() {
     setError(null)
     if (!canReview()) { setError('limit_reached'); return }
     if (wc < MIN_WORDS) { setError('too_short'); return }
-    if (wc > MAX_WORDS) { setError('too_long'); return }
+    if (wc > maxWords) { setError('too_long'); return }
 
     // Save essay first
     const essay = saveEssay({ title, body })
@@ -216,6 +231,7 @@ export default function NewEssayPage() {
           essayBody:  body,
           essayTitle: essay.title,
           language:   prefs.language,
+          plan,
         }),
       })
       const data = await res.json()
@@ -228,7 +244,7 @@ export default function NewEssayPage() {
         return
       }
       saveReview(essay.id, data.review)
-      incrementDailyReviewCount()
+      recordReviewUsed()
       router.push(`/essays/${essay.id}`)
     } catch {
       setLoading(false)
@@ -259,9 +275,16 @@ export default function NewEssayPage() {
           </span>
         </button>
 
-        <span style={{ fontSize: 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s', letterSpacing: '0.02em' }}>
-          {wc} words
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span style={{ fontSize: 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s', letterSpacing: '0.02em' }}>
+            {wc} / {maxWords} words
+          </span>
+          <span style={{ fontSize: 10, fontWeight: 500, color: reviewsLeft === 0 ? '#C0392B' : '#B0B0B8' }}>
+            {reviewsLeft > 0
+              ? `${reviewsLeft} review${reviewsLeft === 1 ? '' : 's'} left${plan === 'premium' ? ' today' : ''}`
+              : plan === 'premium' ? 'No reviews left today' : 'No reviews left'}
+          </span>
+        </div>
       </div>
 
       {/* Paper area */}

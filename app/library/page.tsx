@@ -15,6 +15,7 @@ import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, typ
 import { getTotalRepeatCount } from '@/lib/srs/storage'
 import { useT } from '@/hooks/useT'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
+import { lookupMeaning } from '@/data/patto-dictionary'
 import type { MagazinePattern } from '@/types/magazine'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -120,28 +121,32 @@ function SummaryCard({ icon, label, value, accent }: {
 function DictWordList({ words, onRemove }: { words: SavedWord[]; onRemove: (id: string) => void }) {
   return (
     <div style={glassCard}>
-      {words.map((w, i) => (
-        <div
-          key={w.id}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            padding: '12px 14px 12px 18px',
-            borderTop: i > 0 ? ROW_BORDER : 'none',
-          }}
-        >
-          <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
-          {w.meaning && (
-            <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{w.meaning}</span>
-          )}
-          <button
-            type="button"
-            onClick={() => onRemove(w.id)}
-            style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, display: 'flex' }}
+      {words.map((w, i) => {
+        // Live re-lookup covers old saved words where meaning was missing or incorrect
+        const meaning = w.meaning ?? lookupMeaning(w.word)
+        return (
+          <div
+            key={w.id}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '12px 14px 12px 18px',
+              borderTop: i > 0 ? ROW_BORDER : 'none',
+            }}
           >
-            <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
-          </button>
-        </div>
-      ))}
+            <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
+            <span style={{ fontSize: 12, color: meaning ? 'var(--pm)' : 'var(--pd)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
+              {meaning ?? '—'}
+            </span>
+            <button
+              type="button"
+              onClick={() => onRemove(w.id)}
+              style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, display: 'flex' }}
+            >
+              <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+            </button>
+          </div>
+        )
+      })}
     </div>
   )
 }

@@ -7,6 +7,7 @@ export type DictEntry = {
 }
 
 export const pattoDict: Record<string, DictEntry> = {
+  "a": { word: "a", meaning: "하나의 (부정관사)" },
   "able": { word: "able", meaning: "할 수 있는" },
   "about": { word: "about", meaning: "~에 관하여" },
   "above": { word: "above", meaning: "위에" },
@@ -104,6 +105,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "ambulance": { word: "ambulance", meaning: "구급차" },
   "amount": { word: "amount", meaning: "양" },
   "ancient": { word: "ancient", meaning: "고대의" },
+  "and": { word: "and", meaning: "그리고" },
   "anger": { word: "anger", meaning: "분노" },
   "angle": { word: "angle", meaning: "각도" },
   "angry": { word: "angry", meaning: "화난", pos: "adj", level: "A2" },
@@ -152,6 +154,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "approved": { word: "approved", meaning: "승인된" },
   "apron": { word: "apron", meaning: "앞치마" },
   "archway": { word: "archway", meaning: "아치길" },
+  "are": { word: "are", meaning: "~이다 (be동사)" },
   "area": { word: "area", meaning: "지역" },
   "argue": { word: "argue", meaning: "논쟁하다" },
   "arguing": { word: "arguing", meaning: "논쟁하는" },
@@ -247,6 +250,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "battery": { word: "battery", meaning: "배터리" },
   "battle": { word: "battle", meaning: "전투" },
   "battles": { word: "battles", meaning: "싸움들" },
+  "be": { word: "be", meaning: "~이다, ~있다" },
   "beach": { word: "beach", meaning: "해변", pos: "noun", level: "A2" },
   "beaming": { word: "beaming", meaning: "활짝 웃는" },
   "bear": { word: "bear", meaning: "곰; 참다" },
@@ -449,6 +453,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "business": { word: "business", meaning: "사업, 업무", pos: "noun", level: "B1" },
   "businesses": { word: "businesses", meaning: "사업들" },
   "busy": { word: "busy", meaning: "바쁜", pos: "adj", level: "A1" },
+  "but": { word: "but", meaning: "하지만" },
   "butter": { word: "butter", meaning: "버터" },
   "button": { word: "button", meaning: "단추" },
   "buttons": { word: "buttons", meaning: "버튼들" },
@@ -953,6 +958,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "diamond": { word: "diamond", meaning: "다이아몬드" },
   "diary": { word: "diary", meaning: "일기" },
   "dictionary": { word: "dictionary", meaning: "사전" },
+  "did": { word: "did", meaning: "했다 (do 과거)" },
   "didn": { word: "didn", meaning: "하지 않았다" },
   "die": { word: "die", meaning: "죽다" },
   "died": { word: "died", meaning: "죽었다" },
@@ -1000,11 +1006,13 @@ export const pattoDict: Record<string, DictEntry> = {
   "divide": { word: "divide", meaning: "나누다" },
   "dizziness": { word: "dizziness", meaning: "어지러움" },
   "dizzy": { word: "dizzy", meaning: "어지러운" },
+  "do": { word: "do", meaning: "하다" },
   "doable": { word: "doable", meaning: "실현 가능한" },
   "doctor": { word: "doctor", meaning: "의사" },
   "doctors": { word: "doctors", meaning: "의사들" },
   "document": { word: "document", meaning: "문서" },
   "documents": { word: "documents", meaning: "문서들" },
+  "does": { word: "does", meaning: "한다 (3인칭 단수)" },
   "doesn": { word: "doesn", meaning: "~하지 않는다" },
   "dog": { word: "dog", meaning: "개", pos: "noun", level: "A1" },
   "doing": { word: "doing", meaning: "하는" },
@@ -1583,6 +1591,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "gym": { word: "gym", meaning: "체육관" },
   "habit": { word: "habit", meaning: "습관", pos: "noun", level: "A2" },
   "habits": { word: "habits", meaning: "습관들", pos: "noun", level: "A2" },
+  "had": { word: "had", meaning: "가졌다, 했다 (have 과거)" },
   "hadn": { word: "hadn", meaning: "하지 않았었다" },
   "hair": { word: "hair", meaning: "머리카락" },
   "haircut": { word: "haircut", meaning: "이발" },
@@ -1616,12 +1625,15 @@ export const pattoDict: Record<string, DictEntry> = {
   "harm": { word: "harm", meaning: "해" },
   "harmony": { word: "harmony", meaning: "조화" },
   "harvest": { word: "harvest", meaning: "수확" },
+  "has": { word: "has", meaning: "가지다, 있다 (have 3인칭)" },
   "hasn": { word: "hasn", meaning: "~하지 않았다" },
   "hat": { word: "hat", meaning: "모자" },
   "hate": { word: "hate", meaning: "싫어하다" },
   "hated": { word: "hated", meaning: "싫어했다" },
+  "have": { word: "have", meaning: "가지다, 있다" },
   "haven": { word: "haven", meaning: "~하지 않았다" },
   "having": { word: "having", meaning: "가지는" },
+  "he": { word: "he", meaning: "그 (남성 주어)" },
   "head": { word: "head", meaning: "머리", pos: "noun", level: "A1" },
   "headache": { word: "headache", meaning: "두통" },
   "headed": { word: "headed", meaning: "향했다" },
@@ -1651,6 +1663,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "helped": { word: "helped", meaning: "도왔다" },
   "helping": { word: "helping", meaning: "돕는" },
   "helps": { word: "helps", meaning: "돕다" },
+  "her": { word: "her", meaning: "그녀를, 그녀의" },
   "hero": { word: "hero", meaning: "영웅" },
   "herself": { word: "herself", meaning: "그녀 자신" },
   "hesitate": { word: "hesitate", meaning: "망설이다" },
@@ -1666,6 +1679,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "hike": { word: "hike", meaning: "하이킹" },
   "hill": { word: "hill", meaning: "언덕" },
   "hills": { word: "hills", meaning: "언덕들" },
+  "him": { word: "him", meaning: "그를" },
   "himself": { word: "himself", meaning: "그 자신" },
   "hindsight": { word: "hindsight", meaning: "뒤늦은 깨달음" },
   "hint": { word: "hint", meaning: "힌트" },
@@ -1673,6 +1687,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "hip": { word: "hip", meaning: "엉덩이" },
   "hire": { word: "hire", meaning: "고용하다" },
   "hiring": { word: "hiring", meaning: "채용하는" },
+  "his": { word: "his", meaning: "그의" },
   "history": { word: "history", meaning: "역사" },
   "hit": { word: "hit", meaning: "치다" },
   "hits": { word: "hits", meaning: "치다" },
@@ -1848,6 +1863,8 @@ export const pattoDict: Record<string, DictEntry> = {
   "isolating": { word: "isolating", meaning: "고립시키는" },
   "issue": { word: "issue", meaning: "문제, 발행하다" },
   "issues": { word: "issues", meaning: "문제들" },
+  "it": { word: "it", meaning: "그것" },
+  "its": { word: "its", meaning: "그것의" },
   "item": { word: "item", meaning: "항목" },
   "items": { word: "items", meaning: "항목들" },
   "itinerary": { word: "itinerary", meaning: "여행 일정" },
@@ -2143,6 +2160,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "mature": { word: "mature", meaning: "성숙한" },
   "maturity": { word: "maturity", meaning: "성숙" },
   "maybe": { word: "maybe", meaning: "아마도", pos: "adv", level: "A1" },
+  "me": { word: "me", meaning: "나를, 나에게" },
   "meal": { word: "meal", meaning: "식사" },
   "meals": { word: "meals", meaning: "식사들" },
   "mean": { word: "mean", meaning: "의미하다, 못된" },
@@ -2272,6 +2290,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "mute": { word: "mute", meaning: "음소거하다" },
   "muttered": { word: "muttered", meaning: "중얼거렸다" },
   "mutual": { word: "mutual", meaning: "상호의" },
+  "my": { word: "my", meaning: "나의" },
   "myself": { word: "myself", meaning: "나 자신" },
   "mysterious": { word: "mysterious", meaning: "신비로운" },
   "mystery": { word: "mystery", meaning: "미스터리" },
@@ -2327,6 +2346,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "nighter": { word: "nighter", meaning: "밤새우는 사람" },
   "nights": { word: "nights", meaning: "밤들" },
   "nine": { word: "nine", meaning: "아홉" },
+  "no": { word: "no", meaning: "아니오, 없는" },
   "nobody": { word: "nobody", meaning: "아무도", pos: "pron", level: "A2" },
   "nod": { word: "nod", meaning: "끄덕이다" },
   "nodded": { word: "nodded", meaning: "끄덕였다" },
@@ -2338,10 +2358,12 @@ export const pattoDict: Record<string, DictEntry> = {
   "none": { word: "none", meaning: "아무것도" },
   "nonstop": { word: "nonstop", meaning: "쉬지 않는" },
   "noon": { word: "noon", meaning: "정오" },
+  "nor": { word: "nor", meaning: "~도 아니다" },
   "normal": { word: "normal", meaning: "정상적인, 보통의", pos: "adj", level: "A2" },
   "north": { word: "north", meaning: "북쪽" },
   "northern": { word: "northern", meaning: "북쪽의" },
   "nose": { word: "nose", meaning: "코" },
+  "not": { word: "not", meaning: "~이 아닌, ~하지 않는" },
   "note": { word: "note", meaning: "메모" },
   "notebook": { word: "notebook", meaning: "공책" },
   "notes": { word: "notes", meaning: "메모들" },
@@ -2395,6 +2417,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "ones": { word: "ones", meaning: "것들" },
   "onion": { word: "onion", meaning: "양파" },
   "online": { word: "online", meaning: "온라인의" },
+  "only": { word: "only", meaning: "오직, 단지" },
   "onto": { word: "onto", meaning: "~위로" },
   "oops": { word: "oops", meaning: "이런" },
   "open": { word: "open", meaning: "열다", pos: "verb", level: "A1" },
@@ -2414,6 +2437,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "opposition": { word: "opposition", meaning: "반대" },
   "option": { word: "option", meaning: "선택" },
   "options": { word: "options", meaning: "선택들" },
+  "or": { word: "or", meaning: "또는, 아니면" },
   "orange": { word: "orange", meaning: "오렌지" },
   "order": { word: "order", meaning: "주문, 명령, 순서" },
   "ordered": { word: "ordered", meaning: "주문했다" },
@@ -2427,6 +2451,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "others": { word: "others", meaning: "다른 것들" },
   "otherwise": { word: "otherwise", meaning: "그렇지 않으면" },
   "ought": { word: "ought", meaning: "~해야 한다" },
+  "our": { word: "our", meaning: "우리의" },
   "outage": { word: "outage", meaning: "정전" },
   "outages": { word: "outages", meaning: "정전들" },
   "outcome": { word: "outcome", meaning: "결과" },
@@ -3244,6 +3269,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "shaken": { word: "shaken", meaning: "흔들린" },
   "shaking": { word: "shaking", meaning: "흔들리는" },
   "shaky": { word: "shaky", meaning: "흔들리는" },
+  "shall": { word: "shall", meaning: "~할 것이다 (의지/제안)" },
   "shallow": { word: "shallow", meaning: "얕은" },
   "shame": { word: "shame", meaning: "수치" },
   "shape": { word: "shape", meaning: "모양" },
@@ -3253,6 +3279,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "sharp": { word: "sharp", meaning: "날카로운" },
   "sharply": { word: "sharply", meaning: "날카롭게" },
   "shaved": { word: "shaved", meaning: "면도했다" },
+  "she": { word: "she", meaning: "그녀 (여성 주어)" },
   "shed": { word: "shed", meaning: "헛간, 흘리다" },
   "sheep": { word: "sheep", meaning: "양" },
   "sheet": { word: "sheet", meaning: "시트" },
@@ -3283,6 +3310,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "shortage": { word: "shortage", meaning: "부족" },
   "shot": { word: "shot", meaning: "발사, 슛" },
   "shots": { word: "shots", meaning: "주사들" },
+  "should": { word: "should", meaning: "~해야 한다" },
   "shoulder": { word: "shoulder", meaning: "어깨" },
   "shoulders": { word: "shoulders", meaning: "어깨들" },
   "shouldn": { word: "shouldn", meaning: "~하지 않아야 한다" },
@@ -3404,6 +3432,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "sniff": { word: "sniff", meaning: "냄새 맡다" },
   "snoring": { word: "snoring", meaning: "코고는" },
   "snow": { word: "snow", meaning: "눈", pos: "noun", level: "A1" },
+  "so": { word: "so", meaning: "그래서, 매우" },
   "soaked": { word: "soaked", meaning: "흠뻑 젖은" },
   "soap": { word: "soap", meaning: "비누" },
   "soared": { word: "soared", meaning: "솟았다" },
@@ -3821,12 +3850,18 @@ export const pattoDict: Record<string, DictEntry> = {
   "thank": { word: "thank", meaning: "감사하다" },
   "thanked": { word: "thanked", meaning: "감사했다" },
   "thanks": { word: "thanks", meaning: "감사해" },
+  "that": { word: "that", meaning: "저것, 그것" },
+  "the": { word: "the", meaning: "그, 저 (정관사)" },
   "theater": { word: "theater", meaning: "극장" },
+  "their": { word: "their", meaning: "그들의" },
+  "them": { word: "them", meaning: "그들을" },
   "theme": { word: "theme", meaning: "주제" },
   "themselves": { word: "themselves", meaning: "그들 자신" },
   "theory": { word: "theory", meaning: "이론" },
   "therapy": { word: "therapy", meaning: "치료" },
   "therefore": { word: "therefore", meaning: "그러므로" },
+  "these": { word: "these", meaning: "이것들" },
+  "they": { word: "they", meaning: "그들" },
   "thick": { word: "thick", meaning: "두꺼운" },
   "thief": { word: "thief", meaning: "도둑" },
   "thin": { word: "thin", meaning: "얇은, 마른" },
@@ -3838,7 +3873,9 @@ export const pattoDict: Record<string, DictEntry> = {
   "third": { word: "third", meaning: "세 번째" },
   "thirst": { word: "thirst", meaning: "갈증" },
   "thirty": { word: "thirty", meaning: "서른" },
+  "this": { word: "this", meaning: "이것" },
   "thorough": { word: "thorough", meaning: "철저한" },
+  "those": { word: "those", meaning: "저것들" },
   "though": { word: "though", meaning: "그렇지만", pos: "adv", level: "B1" },
   "thought": { word: "thought", meaning: "생각" },
   "thoughts": { word: "thoughts", meaning: "생각들" },
@@ -4063,6 +4100,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "urge": { word: "urge", meaning: "촉구하다" },
   "urgent": { word: "urgent", meaning: "긴급한" },
   "urgently": { word: "urgently", meaning: "긴급하게" },
+  "us": { word: "us", meaning: "우리를, 우리에게" },
   "usage": { word: "usage", meaning: "사용" },
   "useful": { word: "useful", meaning: "유용한" },
   "useless": { word: "useless", meaning: "쓸모없는" },
@@ -4156,6 +4194,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "warning": { word: "warning", meaning: "경고" },
   "warranty": { word: "warranty", meaning: "보증" },
   "warrior": { word: "warrior", meaning: "전사" },
+  "was": { word: "was", meaning: "이었다 (be 과거 단수)" },
   "wash": { word: "wash", meaning: "씻다", pos: "verb", level: "A1" },
   "wasn": { word: "wasn", meaning: "~이 아니었다" },
   "waste": { word: "waste", meaning: "낭비하다" },
@@ -4168,6 +4207,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "waved": { word: "waved", meaning: "흔들었다" },
   "waving": { word: "waving", meaning: "흔드는" },
   "ways": { word: "ways", meaning: "방법들" },
+  "we": { word: "we", meaning: "우리" },
   "weak": { word: "weak", meaning: "약한", pos: "adj", level: "A2" },
   "wealth": { word: "wealth", meaning: "부" },
   "weapon": { word: "weapon", meaning: "무기" },
@@ -4192,6 +4232,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "welcome": { word: "welcome", meaning: "환영하다" },
   "welfare": { word: "welfare", meaning: "복지" },
   "went": { word: "went", meaning: "갔다" },
+  "were": { word: "were", meaning: "이었다 (be 과거 복수)" },
   "weren": { word: "weren", meaning: "~이 아니었다" },
   "west": { word: "west", meaning: "서쪽" },
   "wet": { word: "wet", meaning: "젖은" },
@@ -4218,6 +4259,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "wiggle": { word: "wiggle", meaning: "흔들다" },
   "wild": { word: "wild", meaning: "야생의" },
   "wildlife": { word: "wildlife", meaning: "야생동물" },
+  "will": { word: "will", meaning: "~할 것이다" },
   "willing": { word: "willing", meaning: "기꺼이 하는" },
   "willpower": { word: "willpower", meaning: "의지력" },
   "win": { word: "win", meaning: "이기다", pos: "verb", level: "A2" },
@@ -4279,6 +4321,7 @@ export const pattoDict: Record<string, DictEntry> = {
   "worth": { word: "worth", meaning: "~의 가치가 있는" },
   "worthwhile": { word: "worthwhile", meaning: "가치 있는" },
   "worthy": { word: "worthy", meaning: "가치 있는" },
+  "would": { word: "would", meaning: "~할 것이다, ~하곤 했다" },
   "wouldn": { word: "wouldn", meaning: "~하지 않을 것이다" },
   "wound": { word: "wound", meaning: "상처" },
   "wow": { word: "wow", meaning: "와" },
@@ -4302,13 +4345,39 @@ export const pattoDict: Record<string, DictEntry> = {
   "yes": { word: "yes", meaning: "그렇다" },
   "yeses": { word: "yeses", meaning: "동의들" },
   "yesterday": { word: "yesterday", meaning: "어제", pos: "noun", level: "A1" },
+  "yet": { word: "yet", meaning: "아직, 그렇지만" },
+  "you": { word: "you", meaning: "당신, 너" },
   "young": { word: "young", meaning: "젊은, 어린", pos: "adj", level: "A1" },
+  "your": { word: "your", meaning: "당신의, 너의" },
   "yours": { word: "yours", meaning: "당신의 것" },
   "yourself": { word: "yourself", meaning: "당신 자신" },
   "youth": { word: "youth", meaning: "청춘" },
   "zero": { word: "zero", meaning: "영" },
   "zone": { word: "zone", meaning: "지역" },
   "zoo": { word: "zoo", meaning: "동물원" },
+}
+
+/**
+ * Normalize a raw word token before dictionary lookup.
+ * Strips leading/trailing punctuation and lowercases.
+ * For contractions (it's → it, I'm → I) the part before apostrophe is tried as fallback.
+ */
+export function normalizeWord(raw: string): string {
+  // trim whitespace
+  let w = raw.trim()
+  // strip leading/trailing punctuation (keep internal apostrophes for now)
+  w = w.replace(/^[^\w']+|[^\w']+$/g, '')
+  // lowercase
+  w = w.toLowerCase()
+  return w
+}
+
+/** Returns candidate tokens to try for a contraction like "it's" → ["it's", "it", "its"] */
+function contractionCandidates(w: string): string[] {
+  if (!w.includes("'")) return [w]
+  const beforeApostrophe = w.split("'")[0]
+  const noApostrophe = w.replace(/'/g, '')
+  return [w, beforeApostrophe, noApostrophe]
 }
 
 // Generate candidate base forms for a possibly-inflected word (plurals, -ed, -ing, etc.).
@@ -4335,12 +4404,16 @@ function stemCandidates(w: string): string[] {
 }
 
 export function lookupMeaning(word: string): string | undefined {
-  const w = word.toLowerCase()
-  const direct = pattoDict[w]
-  if (direct) return direct.meaning
-  for (const cand of stemCandidates(w)) {
-    const e = pattoDict[cand]
-    if (e) return e.meaning
+  // Normalize first (strip punctuation, lowercase)
+  const normalized = normalizeWord(word)
+  // Try contraction variants (it's → it, I'm → I, etc.)
+  for (const token of contractionCandidates(normalized)) {
+    const direct = pattoDict[token]
+    if (direct) return direct.meaning
+    for (const cand of stemCandidates(token)) {
+      const e = pattoDict[cand]
+      if (e) return e.meaning
+    }
   }
   return undefined
 }

@@ -76,6 +76,14 @@ export default function SubscriptionPage() {
                 <p style={{ fontSize: 12.5, color: 'var(--pt2)', margin: 0 }}>{feat}</p>
               </div>
             ))}
+            {/* Essay review limit */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+              <CircleCheck style={{ width: 14, height: 14, color: 'var(--pm)', flexShrink: 0, marginTop: 2 }} strokeWidth={1.5} />
+              <div>
+                <p style={{ fontSize: 12.5, color: 'var(--pt2)', margin: 0 }}>AI Essay Reviews</p>
+                <p style={{ fontSize: 10.5, color: 'var(--pm)', margin: '1px 0 0', fontWeight: 400 }}>3 lifetime · up to 300 words</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -99,6 +107,14 @@ export default function SubscriptionPage() {
                 <p style={{ fontSize: 12.5, color: 'var(--pt)', margin: 0 }}>{feat}</p>
               </div>
             ))}
+            {/* Essay review limit */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+              <CircleCheck style={{ width: 14, height: 14, color: 'rgba(74,111,168,0.65)', flexShrink: 0, marginTop: 2 }} strokeWidth={1.5} />
+              <div>
+                <p style={{ fontSize: 12.5, color: 'var(--pt)', margin: 0 }}>AI Essay Reviews</p>
+                <p style={{ fontSize: 10.5, color: 'var(--pm)', margin: '1px 0 0', fontWeight: 400 }}>5 / day · up to 500 words</p>
+              </div>
+            </div>
           </div>
         </div>
 
