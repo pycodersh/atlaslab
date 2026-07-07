@@ -458,6 +458,11 @@ export default function LibraryPage() {
   const [phrases, setPhrases]           = useState<SavedPhrase[]>([])
   const [recentSearches, setRecentSearches] = useState<string[]>([])
   const [focused, setFocused]           = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    type: 'word' | 'phrase' | 'pattern'
+    id: string
+    label: string
+  } | null>(null)
   const [showAllWords, setShowAllWords]       = useState(false)
   const [showAllPhrases, setShowAllPhrases]   = useState(false)
   const [showAllPatterns, setShowAllPatterns] = useState(false)
@@ -527,18 +532,34 @@ export default function LibraryPage() {
   }
 
   function handleRemoveBookmark(patternId: string) {
-    removeBookmark(patternId)
-    setBookmarks(prev => prev.filter(b => b.patternId !== patternId))
+    const bm = bookmarks.find(b => b.patternId === patternId)
+    setDeleteConfirm({ type: 'pattern', id: patternId, label: bm?.pattern ?? 'this pattern' })
   }
 
   function handleRemoveWord(id: string) {
-    removeSavedWord(id)
-    setWords(prev => prev.filter(w => w.id !== id))
+    const w = words.find(x => x.id === id)
+    setDeleteConfirm({ type: 'word', id, label: w?.word ?? 'this word' })
   }
 
   function handleRemovePhrase(id: string) {
-    removeSavedPhrase(id)
-    setPhrases(prev => prev.filter(p => p.id !== id))
+    const ph = phrases.find(x => x.id === id)
+    setDeleteConfirm({ type: 'phrase', id, label: ph?.phrase ?? 'this phrase' })
+  }
+
+  function confirmDelete() {
+    if (!deleteConfirm) return
+    const { type, id } = deleteConfirm
+    if (type === 'word') {
+      removeSavedWord(id)
+      setWords(prev => prev.filter(w => w.id !== id))
+    } else if (type === 'phrase') {
+      removeSavedPhrase(id)
+      setPhrases(prev => prev.filter(p => p.id !== id))
+    } else {
+      removeBookmark(id)
+      setBookmarks(prev => prev.filter(b => b.patternId !== id))
+    }
+    setDeleteConfirm(null)
   }
 
   function goToWord(w: SavedWord) {
@@ -934,6 +955,69 @@ export default function LibraryPage() {
           </>
         )}
       </div>
+
+      {/* ── Delete confirmation popup ── */}
+      {deleteConfirm && (
+        <>
+          <div
+            onClick={() => setDeleteConfirm(null)}
+            style={{ position: 'fixed', inset: 0, zIndex: 490, background: 'rgba(0,0,0,0.2)' }}
+          />
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              position: 'fixed',
+              top: '50%', left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 500,
+              background: 'var(--pb)',
+              border: '1px solid var(--pd)',
+              borderRadius: 16,
+              padding: '20px 20px 16px',
+              boxShadow: '0 8px 40px rgba(0,0,0,0.25)',
+              minWidth: 240,
+              maxWidth: 'calc(100vw - 48px)',
+            }}
+          >
+            <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 6px', textAlign: 'center' }}>
+              삭제하시겠습니까?
+            </p>
+            <p style={{
+              fontSize: 15, fontWeight: 700, color: 'var(--pt)',
+              margin: '0 0 16px', textAlign: 'center',
+              wordBreak: 'break-word', lineHeight: 1.4,
+            }}>
+              &ldquo;{deleteConfirm.label.length > 40
+                ? deleteConfirm.label.slice(0, 38) + '…'
+                : deleteConfirm.label}&rdquo;
+            </p>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                type="button"
+                onClick={() => setDeleteConfirm(null)}
+                style={{
+                  flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none',
+                  fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                  background: 'rgba(200,205,215,0.5)', color: 'var(--pt)',
+                }}
+              >
+                취소
+              </button>
+              <button
+                type="button"
+                onClick={confirmDelete}
+                style={{
+                  flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none',
+                  fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                  background: '#E84040', color: '#fff',
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
