@@ -372,6 +372,7 @@ export const phraseDict: PhraseDictEntry[] = [
   { phrase: 'out loud',             meaning: '소리 내어',                     type: 'collocation' },
   { phrase: 'walk me through',      meaning: '자세히 설명해주다',             type: 'collocation' },
   { phrase: 'fits perfectly',       meaning: '딱 맞다',                       type: 'collocation' },
+  { phrase: 'for a whole',          meaning: '꼬박, 통째로',                  type: 'prepPhrase' },
   { phrase: 'a whole week',         meaning: '꼬박 일주일',                   type: 'collocation' },
   { phrase: 'a whole month',        meaning: '꼬박 한 달',                    type: 'collocation' },
   { phrase: 'helps me relax',       meaning: '긴장을 풀어주다',               type: 'collocation' },
