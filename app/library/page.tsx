@@ -20,6 +20,9 @@ import type { MagazinePattern } from '@/types/magazine'
 
 const RECENT_KEY = 'patto-library-recent-searches'
 const MAX_RECENT  = 5
+const PREVIEW_WORDS    = 5
+const PREVIEW_PHRASES  = 5
+const PREVIEW_PATTERNS = 3
 
 type FilterType = 'all' | 'words' | 'phrases' | 'patterns' | 'stories'
 
@@ -455,6 +458,9 @@ export default function LibraryPage() {
   const [phrases, setPhrases]           = useState<SavedPhrase[]>([])
   const [recentSearches, setRecentSearches] = useState<string[]>([])
   const [focused, setFocused]           = useState(false)
+  const [showAllWords, setShowAllWords]       = useState(false)
+  const [showAllPhrases, setShowAllPhrases]   = useState(false)
+  const [showAllPatterns, setShowAllPatterns] = useState(false)
 
   useEffect(() => {
     setBookmarks(getBookmarks())
@@ -778,7 +784,29 @@ export default function LibraryPage() {
                   body={t('sec_saved_words')}
                 />
               ) : (
-                <DictWordList words={words} onRemove={handleRemoveWord} />
+                <>
+                  <DictWordList
+                    words={showAllWords ? words : words.slice(0, PREVIEW_WORDS)}
+                    onRemove={handleRemoveWord}
+                  />
+                  {words.length > PREVIEW_WORDS && (
+                    <button
+                      type="button"
+                      onClick={() => setShowAllWords(v => !v)}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 4,
+                        marginTop: 10, padding: 0,
+                        background: 'none', border: 'none', cursor: 'pointer',
+                        fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                      }}
+                    >
+                      {showAllWords
+                        ? 'Show less'
+                        : `Show all ${words.length} Words`}
+                      {!showAllWords && <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />}
+                    </button>
+                  )}
+                </>
               )}
             </section>
 
@@ -793,18 +821,36 @@ export default function LibraryPage() {
                   body={t('sec_saved_words')}
                 />
               ) : (
-                <DictPhraseList phrases={phrases} onPress={goToPhrase} onRemove={handleRemovePhrase} />
+                <>
+                  <DictPhraseList
+                    phrases={showAllPhrases ? phrases : phrases.slice(0, PREVIEW_PHRASES)}
+                    onPress={goToPhrase}
+                    onRemove={handleRemovePhrase}
+                  />
+                  {phrases.length > PREVIEW_PHRASES && (
+                    <button
+                      type="button"
+                      onClick={() => setShowAllPhrases(v => !v)}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 4,
+                        marginTop: 10, padding: 0,
+                        background: 'none', border: 'none', cursor: 'pointer',
+                        fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                      }}
+                    >
+                      {showAllPhrases
+                        ? 'Show less'
+                        : `Show all ${phrases.length} Phrases`}
+                      {!showAllPhrases && <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />}
+                    </button>
+                  )}
+                </>
               )}
             </section>
 
             {/* Saved Patterns */}
             <section style={{ marginBottom: 28 }}>
-              <SecLabel
-                label="Saved Patterns"
-                count={bookmarks.length}
-                unit="Patterns"
-                onViewAll={bookmarks.length > 4 ? () => router.push('/records/patterns') : undefined}
-              />
+              <SecLabel label="Saved Patterns" count={bookmarks.length} unit="Patterns" />
               {bookmarks.length === 0 ? (
                 <EmptyState
                   icon={<BookMarked style={{ width: 24, height: 24, color: '#4A6FA8' }} strokeWidth={1.6} />}
@@ -812,22 +858,77 @@ export default function LibraryPage() {
                   title="No saved patterns yet."
                   body={t('no_bookmarks')}
                 />
+              ) : showAllPatterns ? (
+                <>
+                  <div>
+                    {bookmarksByStory.map(([storyId, storyBms]) => {
+                      const story = magazineStories.find(s => s.id === storyId)
+                      return (
+                        <PatternAccordion
+                          key={storyId}
+                          storyId={storyId}
+                          storyTitle={story ? story.title : `Story ${String(storyId).padStart(2, '0')}`}
+                          patterns={storyBms}
+                          onPress={bm => router.push(`/stories/${bm.storyId}?v=p`)}
+                          onRemove={handleRemoveBookmark}
+                        />
+                      )
+                    })}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowAllPatterns(false)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 4,
+                      marginTop: 10, padding: 0,
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                    }}
+                  >
+                    Show less
+                  </button>
+                </>
               ) : (
-                <div>
-                  {bookmarksByStory.map(([storyId, storyBms]) => {
-                    const story = magazineStories.find(s => s.id === storyId)
-                    return (
-                      <PatternAccordion
-                        key={storyId}
-                        storyId={storyId}
-                        storyTitle={story ? story.title : `Story ${String(storyId).padStart(2, '0')}`}
-                        patterns={storyBms}
-                        onPress={bm => router.push(`/stories/${bm.storyId}?v=p`)}
-                        onRemove={handleRemoveBookmark}
-                      />
-                    )
-                  })}
-                </div>
+                <>
+                  <div style={glassCard}>
+                    {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => {
+                      const story = magazineStories.find(s => s.id === bm.storyId)
+                      return (
+                        <button
+                          key={bm.patternId}
+                          type="button"
+                          onClick={() => router.push(`/stories/${bm.storyId}?v=p`)}
+                          style={{
+                            display: 'block', width: '100%', textAlign: 'left',
+                            background: 'none', border: 'none', cursor: 'pointer',
+                            padding: '12px 14px 12px 18px',
+                            borderTop: i > 0 ? ROW_BORDER : 'none',
+                          }}
+                        >
+                          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
+                          <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
+                            Story {String(bm.storyId).padStart(2, '0')}{story ? ` · ${story.title}` : ''}
+                          </p>
+                        </button>
+                      )
+                    })}
+                  </div>
+                  {bookmarks.length > PREVIEW_PATTERNS && (
+                    <button
+                      type="button"
+                      onClick={() => setShowAllPatterns(true)}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 4,
+                        marginTop: 10, padding: 0,
+                        background: 'none', border: 'none', cursor: 'pointer',
+                        fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                      }}
+                    >
+                      {`Show all ${bookmarks.length} Patterns`}
+                      <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
+                    </button>
+                  )}
+                </>
               )}
             </section>
           </>
