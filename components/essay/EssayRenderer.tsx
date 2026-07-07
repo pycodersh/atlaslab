@@ -29,11 +29,16 @@ import { useRef, useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 import type { Annotation, AnnotationSubType } from '@/lib/essays/storage'
 
-// ── Ink palette ───────────────────────────────────────────────────────────────
+// ── Ink palette — CSS custom properties (light/dark auto via globals.css) ─────
 
-const INK_G  = '#8B1A1A'   // grammar / typical — red pen
-const INK_E  = '#6C2D82'   // expression — purple pen
-const INK_S  = '#1a7a3a'   // strength — green pen
+const INK_G_VARS  = ['var(--ann-red-1)',    'var(--ann-red-2)',    'var(--ann-red-3)']
+const INK_E_VARS  = ['var(--ann-purple-1)', 'var(--ann-purple-2)']
+const INK_S       = 'var(--ann-green-1)'   // strength — fixed
+
+function pickColor(vars: string[], fragHash: number, annIdx: number, essayHash: number): string {
+  if (vars.length === 1) return vars[0]
+  return vars[(fragHash + annIdx * 13 + essayHash) % vars.length]
+}
 
 // ── Segment builder ───────────────────────────────────────────────────────────
 
@@ -142,7 +147,7 @@ function floatAbove(bottom: number, color: string, extra?: React.CSSProperties):
 
 // ── Individual style renderers ────────────────────────────────────────────────
 
-interface SP { text: string; ann: Annotation; yShift: number; color: string }
+interface SP { text: string; ann: Annotation; yShift: number; color: string; colorFade: string; colorBg: string; colorBorder: string }
 
 // 1. Red organic circle border + correction floating above ↓
 function RenderCircle({ text, ann, yShift, color }: SP) {
@@ -182,14 +187,14 @@ function RenderUnderCorrect({ text, ann, yShift, color }: SP) {
 }
 
 // 3. Strikethrough + replacement inline (Caveat font)
-function RenderStrikeCorrect({ text, ann, color }: SP) {
+function RenderStrikeCorrect({ text, ann, color, colorFade }: SP) {
   return (
     <span>
       <span style={{
         textDecoration: 'line-through',
         textDecorationColor: color,
         textDecorationThickness: '1.5px',
-        color: `rgba(139,26,26,0.35)`,
+        color: colorFade,
       }}>
         {text}
       </span>
@@ -218,14 +223,14 @@ function RenderInsertCaret({ text, ann, yShift, color }: SP) {
 }
 
 // 5. Strikethrough fragment + replacement inline (same font, not Caveat)
-function RenderStrikeReplace({ text, ann, color }: SP) {
+function RenderStrikeReplace({ text, ann, color, colorFade }: SP) {
   return (
     <span>
       <span style={{
         textDecoration: 'line-through',
         textDecorationColor: color,
         textDecorationThickness: '1.5px',
-        color: `rgba(100,20,20,0.38)`,
+        color: colorFade,
       }}>
         {text}
       </span>
@@ -239,15 +244,15 @@ function RenderStrikeReplace({ text, ann, color }: SP) {
 }
 
 // 6. Small inline bubble/pill showing the correction after the word
-function RenderBubble({ text, ann, color }: SP) {
+function RenderBubble({ text, ann, color, colorBg, colorBorder }: SP) {
   return (
     <span>
       {text}
       {ann.replacement && (
         <span style={{
           display: 'inline-block',
-          background: `rgba(139,26,26,0.07)`,
-          border: `1px solid rgba(139,26,26,0.22)`,
+          background: colorBg,
+          border: `1px solid ${colorBorder}`,
           borderRadius: 4,
           padding: '0 4px',
           marginLeft: 3,
@@ -286,7 +291,7 @@ function RenderBetterWord({ text, ann, color }: SP) {
 }
 
 // 8. Ghost / faded replacement shown inline after anchor word
-function RenderGhostInsert({ text, ann }: SP) {
+function RenderGhostInsert({ text, ann, colorFade }: SP) {
   return (
     <span>
       {text}
@@ -294,7 +299,7 @@ function RenderGhostInsert({ text, ann }: SP) {
         <span style={{
           ...CAVEAT,
           fontSize: 15,
-          color: `rgba(139,26,26,0.30)`,
+          color: colorFade,
           fontStyle: 'italic',
           marginLeft: 3,
         }}>
@@ -388,10 +393,19 @@ function renderAnnotation(
   ann: Annotation,
   style: StyleName,
   segIdx: number,
+  fragHash: number,
+  annIdx: number,
+  essayHash: number,
 ): React.ReactNode {
   const yShift = EV[segIdx % EV.length]
-  const color = ann.type === 'expression' ? INK_E : INK_G
-  const sp: SP = { text, ann, yShift, color }
+  const isExpr = ann.type === 'expression'
+  const color = isExpr
+    ? pickColor(INK_E_VARS, fragHash, annIdx, essayHash)
+    : pickColor(INK_G_VARS, fragHash, annIdx, essayHash)
+  const colorFade   = isExpr ? 'var(--ann-purple-fade)' : 'var(--ann-red-fade)'
+  const colorBg     = isExpr ? 'var(--ann-purple-bg)'   : 'var(--ann-red-bg)'
+  const colorBorder = isExpr ? 'var(--ann-purple-border)' : 'var(--ann-red-border)'
+  const sp: SP = { text, ann, yShift, color, colorFade, colorBg, colorBorder }
 
   // ── Strength — always yellow highlight ────────────────────────────────────
   if (ann.type === 'strength') {
@@ -407,13 +421,14 @@ function renderAnnotation(
 
   // ── Typical — always strikethrough + replacement ──────────────────────────
   if (ann.type === 'typical') {
+    const typicalColor = pickColor(INK_G_VARS, fragHash, annIdx, essayHash)
     return (
       <span>
-        <span style={{ textDecoration: 'line-through', textDecorationColor: INK_G, textDecorationThickness: '1.5px', color: 'rgba(139,26,26,0.38)' }}>
+        <span style={{ textDecoration: 'line-through', textDecorationColor: typicalColor, textDecorationThickness: '1.5px', color: 'var(--ann-red-fade)' }}>
           {text}
         </span>
         {ann.replacement && (
-          <span style={{ ...CAVEAT, color: INK_G, marginLeft: 4 }}>{ann.replacement}</span>
+          <span style={{ ...CAVEAT, color: typicalColor, marginLeft: 4 }}>{ann.replacement}</span>
         )}
       </span>
     )
@@ -466,17 +481,22 @@ export function AnnotatedManuscript({
         if (!seg.annotation) return <span key={i}>{seg.text}</span>
         const ann = seg.annotation
 
+        const fragHash = hashStr(ann.fragment)
+
         // strength / typical — fixed style, no pool
         if (ann.type === 'strength' || ann.type === 'typical') {
-          return <span key={i}>{renderAnnotation(seg.text, ann, 'circle', i)}</span>
+          const node = renderAnnotation(seg.text, ann, 'circle', i, fragHash, annIdx, essayHash)
+          annIdx++
+          return <span key={i}>{node}</span>
         }
 
         const pool = resolvePool(ann)
-        const style = pickStyle(pool, hashStr(ann.fragment), annIdx, essayHash, prevStyle)
+        const style = pickStyle(pool, fragHash, annIdx, essayHash, prevStyle)
         prevStyle = style
+        const node = renderAnnotation(seg.text, ann, style, i, fragHash, annIdx, essayHash)
         annIdx++
 
-        return <span key={i}>{renderAnnotation(seg.text, ann, style, i)}</span>
+        return <span key={i}>{node}</span>
       })}
     </p>
   )
@@ -496,9 +516,9 @@ export function EditorNotes({ annotations }: { annotations: Annotation[] }) {
         EDITOR&apos;S MARKS
       </p>
       <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
-        {grammar    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_G, fontWeight: 700 }}>○</span>Grammar · {grammar}</span>}
-        {expression > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_E, fontWeight: 700 }}>～</span>Expression · {expression}</span>}
-        {typical    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: INK_G, fontWeight: 700 }}>- -</span>Typical · {typical}</span>}
+        {grammar    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: 'var(--ann-red-1)', fontWeight: 700 }}>○</span>Grammar · {grammar}</span>}
+        {expression > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: 'var(--ann-purple-1)', fontWeight: 700 }}>～</span>Expression · {expression}</span>}
+        {typical    > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span style={{ color: 'var(--ann-red-1)', fontWeight: 700 }}>- -</span>Typical · {typical}</span>}
         {strength   > 0 && <span style={{ fontSize: 12, color: 'var(--pm)', display: 'flex', alignItems: 'center', gap: 5 }}><span>⭐</span>Strength · {strength}</span>}
       </div>
     </div>

@@ -32,6 +32,20 @@
   --ph1: #C0CDFF;
   --ph2: #8BA3FF;
   --ph3: #6D8DFF;
+  /* Annotation ink palette — light (handwritten pen feel) */
+  --ann-red-1:      #8B1A1A;   /* deep crimson — primary grammar mark */
+  --ann-red-2:      #7A1212;   /* darker wine — secondary variant */
+  --ann-red-3:      #A02828;   /* warmer crimson — tertiary variant */
+  --ann-purple-1:   #6C2D82;   /* deep violet — primary expression mark */
+  --ann-purple-2:   #5A2572;   /* cool indigo-purple — secondary variant */
+  --ann-green-1:    #1A7A3A;   /* forest green — strength */
+  --ann-green-2:    #157030;   /* darker forest — secondary variant */
+  --ann-red-fade:    rgba(139,26,26,0.30);   /* dimmed strikethrough text */
+  --ann-red-bg:      rgba(139,26,26,0.07);   /* bubble background */
+  --ann-red-border:  rgba(139,26,26,0.22);   /* bubble border */
+  --ann-purple-fade: rgba(108,45,130,0.28);  /* expression fade */
+  --ann-purple-bg:   rgba(108,45,130,0.07);
+  --ann-purple-border: rgba(108,45,130,0.22);
   /* Pattern highlight — burgundy */
   --pattern-hl: #8B2635;
   /* Nav height including iOS safe-area-inset-top */
@@ -62,6 +76,20 @@
   --text-caption:   #5A5A72;
   --text-disabled:  #48484A;
   --accent-blue:    #8FABFF;
+  /* Annotation ink palette — dark (softer, easier on eyes) */
+  --ann-red-1:      #E8736B;   /* soft coral — primary grammar mark */
+  --ann-red-2:      #D45E56;   /* deeper coral — secondary variant */
+  --ann-red-3:      #F08070;   /* warm salmon — tertiary variant */
+  --ann-purple-1:   #B07FD0;   /* lavender — primary expression mark */
+  --ann-purple-2:   #9E70C0;   /* cooler lavender — secondary variant */
+  --ann-green-1:    #5DC47A;   /* mint green — strength */
+  --ann-green-2:    #4DB568;   /* deeper mint — secondary variant */
+  --ann-red-fade:    rgba(232,115,107,0.28);
+  --ann-red-bg:      rgba(232,115,107,0.10);
+  --ann-red-border:  rgba(232,115,107,0.30);
+  --ann-purple-fade: rgba(176,127,208,0.28);
+  --ann-purple-bg:   rgba(176,127,208,0.10);
+  --ann-purple-border: rgba(176,127,208,0.30);
   /* 2. Pattern highlight → Accent Color (not pink) */
   --pattern-hl:     #8FABFF;
   --pnav: rgba(12,12,20,0.88);
