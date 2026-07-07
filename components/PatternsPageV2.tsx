@@ -226,22 +226,14 @@ export function PatternsPageV2({
   }, [stop, patterns])
 
   const goNext = useCallback(() => {
-    const p = patIdxRef.current, e = exIdxRef.current
-    const exLen = resolveExamples(
-      patternExamples, patterns[p].id,
-      patterns[p].storySentence, patterns[p].storySentenceKo,
-      patterns[p].variationSentence, patterns[p].variationSentenceKo,
-    ).length
-    if (e < Math.min(exLen, 3) - 1)  navigateTo(p, e + 1)
-    else if (p < patterns.length - 1) navigateTo(p + 1, 0)
-    else if (hasNext)                  onNext()
-  }, [patterns, patternExamples, navigateTo, hasNext, onNext])
+    const p = patIdxRef.current
+    if (p < patterns.length - 1) navigateTo(p + 1, 0)
+    else if (hasNext)             onNext()
+  }, [patterns, navigateTo, hasNext, onNext])
 
   const goPrev = useCallback(() => {
-    const p = patIdxRef.current, e = exIdxRef.current
-    if (e > 0) {
-      navigateTo(p, e - 1)
-    } else if (p > 0) {
+    const p = patIdxRef.current
+    if (p > 0) {
       navigateTo(p - 1, 0)
     } else {
       onPrev()
