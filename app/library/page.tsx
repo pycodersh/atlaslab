@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Search, X, BookOpen, ChevronRight, ChevronDown,
-  BookMarked, SlidersHorizontal, Layers, Trash2,
+  BookMarked, SlidersHorizontal, Layers,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
@@ -135,16 +135,6 @@ function DictWordList({ words, onRemove }: { words: SavedWord[]; onRemove: (id: 
               <span style={{ fontSize: 12, color: meaning ? 'var(--pm)' : 'var(--pd)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
                 {meaning ?? '—'}
               </span>
-              {/* PC-only trash — hidden on mobile (swipe to delete) */}
-              <button
-                type="button"
-                onClick={e => { e.stopPropagation(); onRemove(w.id) }}
-                className="pc-trash"
-                style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, alignItems: 'center' }}
-                aria-label="삭제"
-              >
-                <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
-              </button>
             </div>
           </SwipeDeleteRow>
         )
@@ -180,15 +170,6 @@ function DictPhraseList({ phrases, onRemove }: {
               {meaning && (
                 <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{meaning}</span>
               )}
-              <button
-                type="button"
-                onClick={e => { e.stopPropagation(); onRemove(ph.id) }}
-                className="pc-trash"
-                style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0, alignItems: 'center' }}
-                aria-label="삭제"
-              >
-                <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
-              </button>
             </div>
           </SwipeDeleteRow>
         )
@@ -256,15 +237,6 @@ function PatternAccordion({
                   {bm.meaningKo && (
                     <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{bm.meaningKo}</p>
                   )}
-                </button>
-                <button
-                  type="button"
-                  onClick={e => { e.stopPropagation(); onRemove(bm.patternId) }}
-                  className="pc-trash"
-                  style={{ background: 'none', border: 'none', padding: '8px 14px 8px 4px', cursor: 'pointer', alignItems: 'center', flexShrink: 0 }}
-                  aria-label="삭제"
-                >
-                  <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
                 </button>
               </div>
             </SwipeDeleteRow>
@@ -462,11 +434,6 @@ export default function LibraryPage() {
   const [phrases, setPhrases]           = useState<SavedPhrase[]>([])
   const [recentSearches, setRecentSearches] = useState<string[]>([])
   const [focused, setFocused]           = useState(false)
-  const [deleteConfirm, setDeleteConfirm] = useState<{
-    type: 'word' | 'phrase' | 'pattern'
-    id: string
-    label: string
-  } | null>(null)
   const [showAllWords, setShowAllWords]       = useState(false)
   const [showAllPhrases, setShowAllPhrases]   = useState(false)
   const [showAllPatterns, setShowAllPatterns] = useState(false)
@@ -536,34 +503,18 @@ export default function LibraryPage() {
   }
 
   function handleRemoveBookmark(patternId: string) {
-    const bm = bookmarks.find(b => b.patternId === patternId)
-    setDeleteConfirm({ type: 'pattern', id: patternId, label: bm?.pattern ?? 'this pattern' })
+    removeBookmark(patternId)
+    setBookmarks(prev => prev.filter(b => b.patternId !== patternId))
   }
 
   function handleRemoveWord(id: string) {
-    const w = words.find(x => x.id === id)
-    setDeleteConfirm({ type: 'word', id, label: w?.word ?? 'this word' })
+    removeSavedWord(id)
+    setWords(prev => prev.filter(w => w.id !== id))
   }
 
   function handleRemovePhrase(id: string) {
-    const ph = phrases.find(x => x.id === id)
-    setDeleteConfirm({ type: 'phrase', id, label: ph?.phrase ?? 'this phrase' })
-  }
-
-  function confirmDelete() {
-    if (!deleteConfirm) return
-    const { type, id } = deleteConfirm
-    if (type === 'word') {
-      removeSavedWord(id)
-      setWords(prev => prev.filter(w => w.id !== id))
-    } else if (type === 'phrase') {
-      removeSavedPhrase(id)
-      setPhrases(prev => prev.filter(p => p.id !== id))
-    } else {
-      removeBookmark(id)
-      setBookmarks(prev => prev.filter(b => b.patternId !== id))
-    }
-    setDeleteConfirm(null)
+    removeSavedPhrase(id)
+    setPhrases(prev => prev.filter(p => p.id !== id))
   }
 
   function goToWord(w: SavedWord) {
@@ -938,15 +889,6 @@ export default function LibraryPage() {
                                 Story {String(bm.storyId).padStart(2, '0')}{story ? ` · ${story.title}` : ''}
                               </p>
                             </button>
-                            <button
-                              type="button"
-                              onClick={e => { e.stopPropagation(); handleRemoveBookmark(bm.patternId) }}
-                              className="pc-trash"
-                              style={{ background: 'none', border: 'none', padding: '8px 14px 8px 4px', cursor: 'pointer', alignItems: 'center', flexShrink: 0 }}
-                              aria-label="삭제"
-                            >
-                              <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
-                            </button>
                           </div>
                         </SwipeDeleteRow>
                       )
@@ -974,68 +916,6 @@ export default function LibraryPage() {
         )}
       </div>
 
-      {/* ── Delete confirmation popup ── */}
-      {deleteConfirm && (
-        <>
-          <div
-            onClick={() => setDeleteConfirm(null)}
-            style={{ position: 'fixed', inset: 0, zIndex: 490, background: 'rgba(0,0,0,0.2)' }}
-          />
-          <div
-            onClick={e => e.stopPropagation()}
-            style={{
-              position: 'fixed',
-              top: '50%', left: '50%',
-              transform: 'translate(-50%, -50%)',
-              zIndex: 500,
-              background: 'var(--pb)',
-              border: '1px solid var(--pd)',
-              borderRadius: 16,
-              padding: '20px 20px 16px',
-              boxShadow: '0 8px 40px rgba(0,0,0,0.25)',
-              minWidth: 240,
-              maxWidth: 'calc(100vw - 48px)',
-            }}
-          >
-            <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 6px', textAlign: 'center' }}>
-              삭제하시겠습니까?
-            </p>
-            <p style={{
-              fontSize: 15, fontWeight: 700, color: 'var(--pt)',
-              margin: '0 0 16px', textAlign: 'center',
-              wordBreak: 'break-word', lineHeight: 1.4,
-            }}>
-              &ldquo;{deleteConfirm.label.length > 40
-                ? deleteConfirm.label.slice(0, 38) + '…'
-                : deleteConfirm.label}&rdquo;
-            </p>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                type="button"
-                onClick={() => setDeleteConfirm(null)}
-                style={{
-                  flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none',
-                  fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                  background: 'rgba(200,205,215,0.5)', color: 'var(--pt)',
-                }}
-              >
-                취소
-              </button>
-              <button
-                type="button"
-                onClick={confirmDelete}
-                style={{
-                  flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none',
-                  fontSize: 13, fontWeight: 600, cursor: 'pointer',
-                  background: '#E84040', color: '#fff',
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          </div>
-        </>
-      )}
     </div>
   )
 }

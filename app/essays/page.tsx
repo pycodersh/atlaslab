@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { Plus, ChevronRight, Sparkles, PenLine } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
-import { type Essay, getEssays, getReviewsRemaining } from '@/lib/essays/storage'
+import { SwipeDeleteRow } from '@/components/SwipeDeleteRow'
+import { type Essay, getEssays, getReviewsRemaining, deleteEssay } from '@/lib/essays/storage'
 import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
 import { useT } from '@/hooks/useT'
 
@@ -95,10 +96,15 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
 export default function EssaysPage() {
   const router = useRouter()
   const t = useT()
-  const [essays, setEssays] = useState<Essay[]>([])
-  const [plan, setPlan]     = useState<'free' | 'premium'>('free')
+  const [essays, setEssays]   = useState<Essay[]>([])
+  const [plan, setPlan]       = useState<'free' | 'premium'>('free')
   const [remaining, setRemaining] = useState(0)
   const [showAll, setShowAll] = useState(false)
+
+  function handleDelete(id: string) {
+    deleteEssay(id)
+    setEssays(prev => prev.filter(e => e.id !== id))
+  }
 
   const INITIAL_SHOW = 6
 
@@ -190,11 +196,17 @@ export default function EssaysPage() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {displayed.map(essay => (
-                <EssayCard
+                <SwipeDeleteRow
                   key={essay.id}
-                  essay={essay}
-                  onClick={() => router.push(`/essays/${essay.id}`)}
-                />
+                  onDeleteRequest={() => handleDelete(essay.id)}
+                  containerStyle={{ borderRadius: 16 }}
+                  contentBg="transparent"
+                >
+                  <EssayCard
+                    essay={essay}
+                    onClick={() => router.push(`/essays/${essay.id}`)}
+                  />
+                </SwipeDeleteRow>
               ))}
             </div>
 
