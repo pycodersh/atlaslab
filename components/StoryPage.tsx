@@ -8,6 +8,7 @@ import { STORY_MOOD_MAP } from '@/data/story-moods'
 import { StoryImageSlider } from '@/components/StoryImageSlider'
 import { TappableWordText } from '@/components/TappableWordText'
 import { TopNav } from '@/components/TopNav'
+import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { RATE_MAP } from '@/lib/settings/preferences'
@@ -48,6 +49,8 @@ export function StoryPage({
   onAmbienceToggle,
 }: StoryPageProps) {
   const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   // ── Learning mode state ──────────────────────────────────────────────────
   type StudyMode = 'en' | 'en-ko' | 'ko'
@@ -312,9 +315,9 @@ export function StoryPage({
             <div style={{ position: 'absolute', top: 14, right: 16, zIndex: 2 }}>
               <div style={{
                 display: 'inline-flex', borderRadius: 10,
-                background: 'rgba(255,255,255,0.50)',
+                background: 'var(--pc)',
                 backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                border: '1px solid rgba(255,255,255,0.65)',
+                border: '1px solid var(--pd)',
                 padding: 2,
               }}>
                 {STUDY_CYCLE.map(mode => (
@@ -325,9 +328,9 @@ export function StoryPage({
                     style={{
                       padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                       fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                      background: studyMode === mode ? 'rgba(255,255,255,0.75)' : 'transparent',
-                      color: studyMode === mode ? '#1C1C1E' : '#6E6E73',
-                      boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.07)' : 'none',
+                      background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                      color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
+                      boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
                       transition: 'background 0.18s, color 0.18s',
                     }}
                   >
