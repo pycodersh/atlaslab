@@ -179,6 +179,15 @@ export function PatternsPageV2({
   const [phase,         setPhase]        = useState<Phase>('idle')
   const [noteOpen,      setNoteOpen]     = useState(false)
   const [revealedExSet, setRevealedExSet] = useState<Set<string>>(new Set())
+  const [isPointerFine, setIsPointerFine] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
+    setIsPointerFine(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsPointerFine(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   function revealEx(p: number, e: number) {
     setRevealedExSet(prev => new Set([...prev, `${p}-${e}`]))
@@ -472,10 +481,10 @@ export function PatternsPageV2({
           {/* ── Swipe area ── */}
           <div ref={swipeRef} style={{ position: 'relative' }}>
 
-            {/* Previous button — PC (mouse/trackpad) only */}
+            {/* Previous button — pointer:fine devices only */}
+            {isPointerFine && (
             <button
               type="button"
-              className="patto-pc-nav patto-pc-nav-prev"
               onClick={goPrev}
               aria-label="Previous pattern"
               style={{
@@ -488,16 +497,20 @@ export function PatternsPageV2({
                 WebkitBackdropFilter: 'blur(10px)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: 'rgba(255,255,255,0.88)',
+                opacity: 0.55,
                 transition: 'background 0.15s, opacity 0.15s',
               }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '1', e.currentTarget.style.background = 'rgba(0,0,0,0.38)')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '0.55', e.currentTarget.style.background = 'rgba(0,0,0,0.22)')}
             >
               <ChevronLeft style={{ width: 18, height: 18 }} strokeWidth={2.2} />
             </button>
+            )}
 
-            {/* Next button — PC (mouse/trackpad) only */}
+            {/* Next button — pointer:fine devices only */}
+            {isPointerFine && (
             <button
               type="button"
-              className="patto-pc-nav patto-pc-nav-next"
               onClick={goNext}
               aria-label="Next pattern"
               style={{
@@ -510,11 +523,15 @@ export function PatternsPageV2({
                 WebkitBackdropFilter: 'blur(10px)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: 'rgba(255,255,255,0.88)',
+                opacity: 0.55,
                 transition: 'background 0.15s, opacity 0.15s',
               }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '1', e.currentTarget.style.background = 'rgba(0,0,0,0.38)')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '0.55', e.currentTarget.style.background = 'rgba(0,0,0,0.22)')}
             >
               <ChevronRight style={{ width: 18, height: 18 }} strokeWidth={2.2} />
             </button>
+            )}
 
             <div className="glass-card" style={{
               overflow: 'hidden', borderRadius: 30, padding: 0,
@@ -766,24 +783,7 @@ export function PatternsPageV2({
         />
       </div>
 
-      {/* PC nav styles — hidden on touch, visible on mouse devices */}
-      <style>{`
-        .patto-pc-nav {
-          display: none;
-        }
-        @media (hover: hover) and (pointer: fine) {
-          .patto-pc-nav {
-            display: flex !important;
-            opacity: 0.55;
-          }
-          .patto-pc-nav:hover {
-            opacity: 1;
-            background: rgba(0,0,0,0.38) !important;
-          }
-        }
-      `}</style>
-
-      {/* ── Pattern Note Popup ── */}
+{/* ── Pattern Note Popup ── */}
       {noteOpen && patternNote && (
         <div
           role="dialog"
