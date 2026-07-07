@@ -13,6 +13,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { RATE_MAP } from '@/lib/settings/preferences'
 import { ttsProvider, getPitchForKey, storyParaAudioUrl } from '@/lib/tts'
+import { storyChunks } from '@/data/story-chunks'
 import { openSavePopup, closeSavePopup } from '@/lib/words/popupStore'
 
 type StoryPageProps = {
@@ -356,6 +357,7 @@ export function StoryPage({
                         <div style={{ opacity: isKoOnly ? 0 : 1, transition: 'opacity 0.2s', pointerEvents: isKoOnly ? 'none' : 'auto' }}>
                           <TappableWordText
                             text={para.english}
+                            saveCandidates={para.saveCandidates ?? storyChunks[para.id]}
                             source={{
                               sourceType:       'story',
                               sourceId:         String(story.id),

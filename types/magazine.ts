@@ -1,4 +1,5 @@
 import type { VoiceKey } from '@/lib/settings/preferences'
+import type { SaveCandidate } from '@/data/pattern-examples-full'
 
 export type ParagraphMediaType = 'image' | 'video' | 'animation'
 
@@ -17,6 +18,7 @@ export type MagazineParagraph = {
   translations?: Partial<Record<string, string>>  // future: { ja: '...', es: '...' }
   keyExpressions: string[]
   media?: ParagraphMedia
+  saveCandidates?: SaveCandidate[]
 }
 
 export type MagazinePattern = {
