@@ -918,22 +918,37 @@ export default function LibraryPage() {
                     {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => {
                       const story = magazineStories.find(s => s.id === bm.storyId)
                       return (
-                        <button
+                        <SwipeDeleteRow
                           key={bm.patternId}
-                          type="button"
-                          onClick={() => router.push(`/stories/${bm.storyId}?v=p`)}
-                          style={{
-                            display: 'block', width: '100%', textAlign: 'left',
-                            background: 'none', border: 'none', cursor: 'pointer',
-                            padding: '12px 14px 12px 18px',
-                            borderTop: i > 0 ? ROW_BORDER : 'none',
-                          }}
+                          onDeleteRequest={() => handleRemoveBookmark(bm.patternId)}
+                          containerStyle={{ borderTop: i > 0 ? ROW_BORDER : 'none' }}
                         >
-                          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
-                          <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
-                            Story {String(bm.storyId).padStart(2, '0')}{story ? ` · ${story.title}` : ''}
-                          </p>
-                        </button>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <button
+                              type="button"
+                              onClick={() => router.push(`/stories/${bm.storyId}?v=p`)}
+                              style={{
+                                flex: 1, textAlign: 'left',
+                                background: 'none', border: 'none', cursor: 'pointer',
+                                padding: '12px 14px 12px 18px',
+                              }}
+                            >
+                              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
+                              <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
+                                Story {String(bm.storyId).padStart(2, '0')}{story ? ` · ${story.title}` : ''}
+                              </p>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={e => { e.stopPropagation(); handleRemoveBookmark(bm.patternId) }}
+                              className="pc-trash"
+                              style={{ background: 'none', border: 'none', padding: '8px 14px 8px 4px', cursor: 'pointer', alignItems: 'center', flexShrink: 0 }}
+                              aria-label="삭제"
+                            >
+                              <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+                            </button>
+                          </div>
+                        </SwipeDeleteRow>
                       )
                     })}
                   </div>
