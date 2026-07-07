@@ -255,3 +255,8 @@ export function resetDailyReviewCount(): void {
   localStorage.removeItem(REVIEW_DAY_KEY)
   localStorage.removeItem(REVIEW_COUNT_KEY)
 }
+
+export function resetFreeReviewTotal(): void {
+  if (typeof window === 'undefined') return
+  localStorage.removeItem(FREE_REVIEW_TOTAL_KEY)
+}

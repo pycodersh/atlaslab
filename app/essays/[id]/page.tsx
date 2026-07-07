@@ -9,7 +9,7 @@ import {
   type Essay,
   getEssay, updateEssay, deleteEssay, saveReview,
   canReview, recordReviewUsed, autoTitle,
-  resetDailyReviewCount, getReviewsRemaining,
+  resetDailyReviewCount, resetFreeReviewTotal, getReviewsRemaining,
 } from '@/lib/essays/storage'
 import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS, FREE_REVIEW_LIFETIME } from '@/lib/subscription/storage'
 import { AnnotatedManuscript, EditorNotes, SuggestedVersion } from '@/components/essay/EssayRenderer'
@@ -387,6 +387,10 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               <button type="button" onClick={() => { resetDailyReviewCount(); setDevMsg('Daily review count reset!'); setTimeout(() => setDevMsg(''), 2000) }}
                 style={{ padding: '12px 0', borderRadius: 10, border: '1.5px solid var(--pd)', background: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>
                 Reset Daily Review Count
+              </button>
+              <button type="button" onClick={() => { resetFreeReviewTotal(); setDevMsg('Lifetime review count reset!'); setTimeout(() => setDevMsg(''), 2000) }}
+                style={{ padding: '12px 0', borderRadius: 10, border: '1.5px solid var(--pd)', background: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>
+                Reset Lifetime Review Count
               </button>
               {devMsg && <p style={{ fontSize: 11, color: 'var(--pa)', margin: 0, textAlign: 'center' }}>{devMsg}</p>}
             </div>
