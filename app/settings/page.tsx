@@ -7,6 +7,7 @@ import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X } from '
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
+import { usePreferences } from '@/contexts/PreferencesContext'
 
 const card: React.CSSProperties = {
   background: 'rgba(255,255,255,0.82)',
@@ -117,6 +118,8 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
   const [mounted, setMounted] = useState(false)
   useEffect(() => { setMounted(true) }, [])
   const t = useT()
+  const { prefs } = usePreferences()
+  const isKorean = prefs.language === 'ko'
   const [toast, setToast] = useState('')
 
   function handleLogin(provider: string) {
@@ -124,7 +127,7 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
     setTimeout(() => setToast(''), 2800)
   }
 
-  const PROVIDERS = [
+  const KO_PROVIDERS = [
     {
       id: 'naver',
       label: t('auth_continue_naver'),
@@ -147,6 +150,9 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
       ),
       bg: '#FEE500', text: '#3C1E1E', border: 'rgba(254,229,0,0.80)',
     },
+  ]
+
+  const BASE_PROVIDERS = [
     {
       id: 'google',
       label: t('auth_continue_google'),
@@ -170,7 +176,9 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
       ),
       bg: null, text: null, border: null, dark: true,
     },
-  ] as const
+  ]
+
+  const PROVIDERS = isKorean ? [...KO_PROVIDERS, ...BASE_PROVIDERS] : BASE_PROVIDERS
 
   const content = (
     <div
