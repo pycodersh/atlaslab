@@ -78,7 +78,7 @@ export default function AllStoriesPage() {
           </button>
 
           <p style={{
-            fontSize: 'clamp(1.4rem, 6vw, 1.85rem)', fontWeight: 900,
+            fontSize: 'clamp(1.2rem, 5vw, 1.65rem)', fontWeight: 900,
             letterSpacing: '-0.02em', lineHeight: 1, color: 'var(--pt)',
             margin: '0 0 6px',
             fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
