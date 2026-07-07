@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { User } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
 
-export const NAV_HEIGHT = 60
+export const NAV_HEIGHT = 50
 
 function PattoIcon() {
   const { theme } = useTheme()
@@ -48,34 +48,22 @@ export function TopNav() {
         }}
       >
         {/* Left: PATTO logo — tapping navigates home */}
-        <Link href="/home" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+        <Link href="/home" style={{ display: 'flex', alignItems: 'flex-end', gap: 4, textDecoration: 'none' }}>
           <PattoIcon />
-          <div>
-            <p
-              style={{
-                fontSize: 15,
-                fontWeight: 500,
-                letterSpacing: '-0.03em',
-                color: 'var(--pt)',
-                margin: 0,
-                lineHeight: 1,
-                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-                textShadow: '0 1px 0 rgba(255,255,255,.75), 0 10px 24px rgba(70,80,110,.08)',
-              }}
-            >
-              PATTO
-            </p>
-            <p style={{
-              fontSize: 10,
-              color: 'var(--pm)',
-              margin: '3px 0 0',
-              letterSpacing: '0.02em',
-              lineHeight: 1,
+          <p
+            style={{
+              fontSize: 15,
               fontWeight: 500,
-            }}>
-              Patterns · Stories · You
-            </p>
-          </div>
+              letterSpacing: '-0.03em',
+              color: 'var(--pt)',
+              margin: 0,
+              paddingBottom: 2,
+              lineHeight: 1,
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+            }}
+          >
+            PATTO
+          </p>
         </Link>
 
         {/* Right: icon buttons */}
