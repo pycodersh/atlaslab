@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare } from 'lucide-react'
+import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
@@ -415,10 +415,13 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
 
         {/* Safari reminder */}
         <div style={{ margin: '14px 20px', padding: '10px 13px', borderRadius: 12, background: 'rgba(88,86,214,0.08)', border: '1px solid rgba(88,86,214,0.15)' }}>
-          <p style={{ fontSize: 12.5, color: '#5856D6', margin: 0, lineHeight: 1.5, fontWeight: 500 }}>
-            {isKorean
-              ? '🧭 Safari에서 열면 홈 화면에 추가할 수 있어요.'
-              : '🧭 Open this page in Safari to add it to your Home Screen.'}
+          <p style={{ fontSize: 12.5, color: '#5856D6', margin: 0, lineHeight: 1.5, fontWeight: 500, display: 'flex', alignItems: 'flex-start', gap: 7 }}>
+            <Compass style={{ width: 14, height: 14, flexShrink: 0, marginTop: 2 }} strokeWidth={1.8} />
+            <span>
+              {isKorean
+                ? 'Safari에서 열면 홈 화면에 추가할 수 있어요.'
+                : 'Open this page in Safari to add it to your Home Screen.'}
+            </span>
           </p>
         </div>
 
