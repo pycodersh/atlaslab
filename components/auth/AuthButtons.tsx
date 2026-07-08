@@ -71,7 +71,14 @@ interface AuthButtonsProps {
 export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
   const t = useT()
   const { prefs } = usePreferences()
-  const isKorean = prefs.language === 'ko'
+
+  // Provider visibility policy:
+  // - Google + Email: always shown (global defaults).
+  // - Kakao: shown only when UI locale is 'ko' or 'ko-KR'.
+  //   Kakao is a Korean regional convenience provider, not a global option.
+  //   PATTO is a global English learning app — Kakao is not exposed to non-Korean users.
+  // - Apple, Naver: excluded from this version entirely.
+  const isKorean = prefs.language === 'ko' || prefs.language === 'ko-KR'
 
   const [emailMode, setEmailMode] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
