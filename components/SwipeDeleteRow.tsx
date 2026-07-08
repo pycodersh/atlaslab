@@ -3,18 +3,90 @@
 /**
  * SwipeDeleteRow
  *
- * Touch: swipe left to reveal iOS-style Delete button. One row open at a time.
- *        Tap Delete → animate out → call onDeleteRequest.
- * PC (pointer:fine): hover reveals a small trash icon.
+ * Touch: swipe left to reveal a minimal Delete action (Burgundy icon + label,
+ *        transparent background). Tap Delete → Confirmation Dialog → onDeleteRequest.
+ * PC (pointer:fine): hover reveals a subtle trash icon.
  */
 
 import { useEffect, useRef, useState } from 'react'
 import { Trash2 } from 'lucide-react'
 
-const REVEAL = 80
+const REVEAL = 86          // width of the delete panel (px)
+const BURGUNDY = '#B44A5A'
 
 // Singleton: only one row open at a time
 let _globalClose: (() => void) | null = null
+
+// ── Confirmation Dialog ───────────────────────────────────────────────────────
+
+function ConfirmDeleteDialog({
+  onConfirm,
+  onCancel,
+}: {
+  onConfirm: () => void
+  onCancel: () => void
+}) {
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={onCancel}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 200,
+          background: 'rgba(0,0,0,0.30)',
+        }}
+      />
+      {/* Dialog */}
+      <div style={{
+        position: 'fixed', top: '50%', left: '50%', zIndex: 201,
+        transform: 'translate(-50%, -50%)',
+        width: 'min(86vw, 300px)',
+        background: 'var(--pb)',
+        borderRadius: 18,
+        boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
+        overflow: 'hidden',
+      }}>
+        <div style={{ padding: '24px 22px 20px', textAlign: 'center' }}>
+          <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--pt)', margin: '0 0 8px' }}>
+            Delete this?
+          </p>
+          <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.55 }}>
+            This action cannot be undone.
+          </p>
+        </div>
+        <div style={{ display: 'flex', borderTop: '1px solid var(--pd)' }}>
+          <button
+            type="button"
+            onClick={onCancel}
+            style={{
+              flex: 1, padding: '14px 0',
+              background: 'none', border: 'none',
+              borderRight: '1px solid var(--pd)',
+              cursor: 'pointer', fontSize: 14, fontWeight: 500,
+              color: 'var(--pm)', fontFamily: 'inherit',
+            }}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            style={{
+              flex: 1, padding: '14px 0',
+              background: 'none', border: 'none',
+              cursor: 'pointer', fontSize: 14, fontWeight: 700,
+              color: BURGUNDY, fontFamily: 'inherit',
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </>
+  )
+}
+
+// ── SwipeDeleteRow ────────────────────────────────────────────────────────────
 
 export function SwipeDeleteRow({
   children,
@@ -32,8 +104,9 @@ export function SwipeDeleteRow({
   const startX       = useRef(0)
   const isDragging   = useRef(false)
   const isOpen       = useRef(false)
-  const [isPointerFine, setIsPointerFine] = useState(false)
-  const [isHovered,    setIsHovered]      = useState(false)
+  const [isPointerFine,  setIsPointerFine]  = useState(false)
+  const [isHovered,      setIsHovered]      = useState(false)
+  const [showConfirm,    setShowConfirm]    = useState(false)
 
   useEffect(() => {
     const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
@@ -70,7 +143,6 @@ export function SwipeDeleteRow({
   function handlePointerMove(e: React.PointerEvent) {
     if (!isDragging.current) return
     const dx = e.clientX - startX.current
-    // Close other row as soon as we start dragging left
     if (dx < -6 && _globalClose && _globalClose !== closeThis) {
       _globalClose()
     }
@@ -100,17 +172,21 @@ export function SwipeDeleteRow({
     }
   }
 
-  function animateDelete() {
+  function handleDeleteTap() {
+    moveTo(0, true)
+    setShowConfirm(true)
+  }
+
+  function animateAndDelete() {
+    setShowConfirm(false)
     const content   = contentRef.current
     const container = containerRef.current
     if (!content || !container) { onDeleteRequest(); return }
 
-    // Step 1: slide content out
     content.style.transition = 'transform 0.22s cubic-bezier(0.4,0,0.2,1), opacity 0.22s'
     content.style.transform  = 'translateX(-100%)'
     content.style.opacity    = '0'
 
-    // Step 2: collapse height
     const h = container.offsetHeight
     container.style.height   = `${h}px`
     container.style.overflow = 'hidden'
@@ -122,67 +198,75 @@ export function SwipeDeleteRow({
   }
 
   return (
-    <div ref={containerRef} style={{ position: 'relative', overflow: 'hidden', ...containerStyle }}>
-      {/* iOS-style Delete panel behind */}
-      <div style={{
-        position: 'absolute', right: 0, top: 0, bottom: 0, width: REVEAL,
-        background: '#FF3B30',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <button
-          type="button"
-          onClick={animateDelete}
-          style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
-            color: '#fff', padding: '8px 14px',
-          }}
-          aria-label="Delete"
+    <>
+      {showConfirm && (
+        <ConfirmDeleteDialog
+          onConfirm={animateAndDelete}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+
+      <div ref={containerRef} style={{ position: 'relative', overflow: 'hidden', ...containerStyle }}>
+        {/* Minimal delete panel — transparent background, Burgundy icon + label */}
+        <div style={{
+          position: 'absolute', right: 0, top: 0, bottom: 0, width: REVEAL,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <button
+            type="button"
+            onClick={handleDeleteTap}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+              color: BURGUNDY, padding: '8px 0', width: '100%',
+            }}
+            aria-label="Delete"
+          >
+            <Trash2 style={{ width: 22, height: 22, strokeWidth: 1.5 }} />
+            <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.01em' }}>Delete</span>
+          </button>
+        </div>
+
+        {/* Sliding content */}
+        <div
+          ref={contentRef}
+          style={{ background: contentBg, touchAction: 'pan-y', position: 'relative' }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={() => { isDragging.current = false; moveTo(0, true) }}
+          onClick={handleContentClick}
+          onMouseEnter={() => isPointerFine && setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          <Trash2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
-          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.02em' }}>Delete</span>
-        </button>
-      </div>
+          {children}
 
-      {/* Sliding content */}
-      <div
-        ref={contentRef}
-        style={{ background: contentBg, touchAction: 'pan-y', position: 'relative' }}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={() => { isDragging.current = false; moveTo(0, true) }}
-        onClick={handleContentClick}
-        onMouseEnter={() => isPointerFine && setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {children}
-
-        {/* PC hover trash */}
-        {isPointerFine && (
-          <div style={{
-            position: 'absolute', right: 0, top: 0, bottom: 0,
-            display: 'flex', alignItems: 'center',
-            paddingRight: 12,
-            opacity: isHovered ? 1 : 0,
-            transition: 'opacity 0.15s',
-            pointerEvents: isHovered ? 'auto' : 'none',
-          }}>
-            <button
-              type="button"
-              onClick={e => { e.stopPropagation(); animateDelete() }}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                padding: 6, display: 'flex', alignItems: 'center',
-                borderRadius: 8,
-              }}
-              aria-label="Delete"
-            >
-              <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
-            </button>
-          </div>
-        )}
+          {/* PC hover trash */}
+          {isPointerFine && (
+            <div style={{
+              position: 'absolute', right: 0, top: 0, bottom: 0,
+              display: 'flex', alignItems: 'center',
+              paddingRight: 12,
+              opacity: isHovered ? 1 : 0,
+              transition: 'opacity 0.15s',
+              pointerEvents: isHovered ? 'auto' : 'none',
+            }}>
+              <button
+                type="button"
+                onClick={e => { e.stopPropagation(); handleDeleteTap() }}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  padding: 6, display: 'flex', alignItems: 'center',
+                  borderRadius: 8,
+                }}
+                aria-label="Delete"
+              >
+                <Trash2 style={{ width: 14, height: 14, color: '#C0C0C8' }} strokeWidth={1.8} />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
