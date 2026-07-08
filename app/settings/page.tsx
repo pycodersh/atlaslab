@@ -353,6 +353,103 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
   return createPortal(content, document.body)
 }
 
+// ── Android Confirmation Modal ────────────────────────────────────────────────
+function AndroidConfirmModal({
+  onInstall,
+  onCancel,
+}: {
+  onInstall: () => void
+  onCancel: () => void
+}) {
+  const t = useT()
+  const [mounted, setMounted] = useState(false)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => { setMounted(true); setTimeout(() => setVisible(true), 10) }, [])
+
+  function handleCancel() {
+    setVisible(false)
+    setTimeout(onCancel, 260)
+  }
+
+  if (!mounted) return null
+
+  const content = (
+    <div
+      style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: visible ? 'rgba(0,0,0,0.38)' : 'rgba(0,0,0,0)',
+        backdropFilter: visible ? 'blur(6px)' : 'none',
+        WebkitBackdropFilter: visible ? 'blur(6px)' : 'none',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '0 20px',
+        transition: 'background 0.22s',
+      }}
+      onClick={e => { if (e.target === e.currentTarget) handleCancel() }}
+    >
+      <div style={{
+        width: '100%', maxWidth: 360,
+        background: 'var(--pglass)',
+        backdropFilter: 'blur(32px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+        border: '1px solid var(--pglass-border)',
+        borderRadius: 28,
+        padding: '0 0 20px',
+        transform: visible ? 'scale(1)' : 'scale(0.96)',
+        opacity: visible ? 1 : 0,
+        transition: 'transform 0.24s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s ease',
+        boxShadow: '0 8px 40px rgba(0,0,0,0.14)',
+      }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 20px 0' }}>
+          <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
+            {t('install_android_modal_title')}
+          </p>
+          <button type="button" onClick={handleCancel}
+            style={{ background: 'rgba(120,120,128,0.10)', border: 'none', borderRadius: 999, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}>
+            <X style={{ width: 12, height: 12, color: '#8E8E93' }} strokeWidth={2.2} />
+          </button>
+        </div>
+
+        {/* Description */}
+        <p style={{ fontSize: 13.5, color: 'var(--pm)', margin: '12px 20px 22px', lineHeight: 1.55 }}>
+          {t('install_android_modal_desc')}
+        </p>
+
+        {/* Buttons */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '0 20px' }}>
+          <button
+            type="button"
+            onClick={onInstall}
+            style={{
+              width: '100%', padding: '14px 0', borderRadius: 14,
+              background: 'var(--pa)', border: 'none',
+              cursor: 'pointer', fontSize: 14, fontWeight: 700,
+              color: '#fff', fontFamily: 'inherit',
+            }}
+          >
+            {t('install_install')}
+          </button>
+          <button
+            type="button"
+            onClick={handleCancel}
+            style={{
+              width: '100%', padding: '14px 0', borderRadius: 14,
+              background: 'var(--pglass)', border: '1px solid var(--pglass-border)',
+              backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+              cursor: 'pointer', fontSize: 14, fontWeight: 500,
+              color: 'var(--pm)', fontFamily: 'inherit',
+            }}
+          >
+            {t('install_not_now')}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+
+  return createPortal(content, document.body)
+}
+
 // ── Install Guide Sheet (iOS & Android fallback) ─────────────────────────────
 function IOSInstallSheet({ onClose, installType = 'ios' }: { onClose: () => void; installType?: 'ios' | 'android' }) {
   const t = useT()
@@ -455,11 +552,11 @@ function IOSInstallSheet({ onClose, installType = 'ios' }: { onClose: () => void
 // ── Add to Home Screen card ───────────────────────────────────────────────────
 function InstallCard() {
   const t = useT()
-  const { prefs } = usePreferences()
-  const isKorean = prefs.language === 'ko'
 
   const [installType, setInstallType] = useState<'android' | 'ios' | null>(null)
-  const [showIOSSheet, setShowIOSSheet] = useState(false)
+  const [showAndroidConfirm, setShowAndroidConfirm] = useState(false)
+  const [showGuideSheet, setShowGuideSheet] = useState(false)
+  const [guideType, setGuideType] = useState<'ios' | 'android'>('ios')
   const deferredPromptRef = useRef<BeforeInstallPromptEvent | null>(null)
 
   useEffect(() => {
@@ -497,16 +594,27 @@ function InstallCard() {
     </svg>
   )
 
-  async function handleClick() {
-    if (isIOS) { setShowIOSSheet(true); return }
-    // Android: try native prompt, fall back to guide sheet
+  function handleClick() {
+    if (isIOS) {
+      setGuideType('ios')
+      setShowGuideSheet(true)
+      return
+    }
+    // Android: show confirmation modal first
+    setShowAndroidConfirm(true)
+  }
+
+  async function handleAndroidInstall() {
+    setShowAndroidConfirm(false)
     if (deferredPromptRef.current) {
       deferredPromptRef.current.prompt()
       const { outcome } = await deferredPromptRef.current.userChoice
       deferredPromptRef.current = null
       if (outcome === 'accepted') setInstallType(null)
     } else {
-      setShowIOSSheet(true)
+      // Fallback: show Chrome manual guide
+      setGuideType('android')
+      setShowGuideSheet(true)
     }
   }
 
@@ -539,8 +647,14 @@ function InstallCard() {
         <ChevronRight style={{ width: 11, height: 11, color: '#D1D1D6', flexShrink: 0 }} strokeWidth={2} />
       </button>
 
-      {showIOSSheet && (
-        <IOSInstallSheet onClose={() => setShowIOSSheet(false)} installType={installType ?? 'ios'} />
+      {showAndroidConfirm && (
+        <AndroidConfirmModal
+          onInstall={handleAndroidInstall}
+          onCancel={() => setShowAndroidConfirm(false)}
+        />
+      )}
+      {showGuideSheet && (
+        <IOSInstallSheet onClose={() => setShowGuideSheet(false)} installType={guideType} />
       )}
     </>
   )
