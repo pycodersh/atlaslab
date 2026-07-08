@@ -5,6 +5,7 @@ import { CircleCheck, UserCircle } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
 import { usePaddle } from '@/hooks/usePaddle'
+import { useSubscription } from '@/hooks/useSubscription'
 import { getCurrentUser } from '@/lib/auth-actions'
 
 const MONTHLY_PRICE_ID = process.env.NEXT_PUBLIC_PADDLE_MONTHLY_PRICE_ID!
@@ -20,12 +21,10 @@ const glassCard: React.CSSProperties = {
   overflow: 'hidden',
 }
 
-// Stub: replace with real subscription state from Supabase
-const IS_PREMIUM = false
-
 export default function SubscriptionPage() {
   const t = useT()
   const paddle = usePaddle()
+  const { isPro, loading: subLoading } = useSubscription()
   const [billing, setBilling] = useState<'monthly' | 'annual'>('annual')
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState('')
@@ -46,6 +45,8 @@ export default function SubscriptionPage() {
       paddle.Checkout.open({
         items: [{ priceId, quantity: 1 }],
         customer: user?.email ? { email: user.email } : undefined,
+        // Pass user_id so webhook can link subscription to Supabase user
+        customData: user?.id ? { user_id: user.id } : undefined,
         settings: {
           displayMode: 'overlay',
           theme: 'light',
@@ -92,10 +93,10 @@ export default function SubscriptionPage() {
           <UserCircle style={{ width: 32, height: 32, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={1.25} />
           <div>
             <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px' }}>
-              {IS_PREMIUM ? 'PREMIUM PLAN' : 'FREE PLAN'}
+              {isPro ? 'PREMIUM PLAN' : 'FREE PLAN'}
             </p>
             <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>
-              {IS_PREMIUM ? t('sub_premium_plan_msg') : t('sub_free_plan_msg')}
+              {isPro ? t('sub_premium_plan_msg') : t('sub_free_plan_msg')}
             </p>
           </div>
         </div>
@@ -192,7 +193,7 @@ export default function SubscriptionPage() {
         {/* CTA */}
         <button
           type="button"
-          onClick={IS_PREMIUM ? undefined : handleUpgrade}
+          onClick={isPro ? undefined : handleUpgrade}
           disabled={loading || !paddle}
           style={{
             ...glassCard,
@@ -215,7 +216,7 @@ export default function SubscriptionPage() {
             e.currentTarget.style.boxShadow = '0 4px 18px rgba(40,50,80,0.07)'
           }}
         >
-          {loading ? '...' : IS_PREMIUM ? 'Manage Subscription' : 'Upgrade to Premium'}
+          {loading ? '...' : isPro ? 'Manage Subscription' : 'Upgrade to Premium'}
         </button>
         <p style={{ textAlign: 'center', fontSize: 10.5, color: 'var(--pm2)', marginTop: 10, marginBottom: 0 }}>
           Cancel anytime.
