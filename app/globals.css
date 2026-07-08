@@ -17,18 +17,9 @@
   --pa2:  #B8C8FF;                       /* Light Blue accent */
   --pal:  rgba(109,141,255,0.08);        /* accent light bg */
   --pacb: rgba(109,141,255,0.20);        /* accent card border */
-  /* Semantic text tokens (iOS-style palette) */
-  --text-main:      #1C1C1E;             /* page/story/pattern title */
-  --text-body:      #3A3A3C;             /* body, example sentences */
-  --text-secondary: #6E6E73;             /* descriptions, helper text */
-  --text-caption:   #8E8E93;             /* captions, dates, meta */
-  --text-disabled:  #C7C7CC;             /* disabled state */
-  --accent-blue:    #6D8DFF;             /* Korean meaning, key highlight */
-  --pnav: rgba(255,255,255,0.82);        /* nav blur bg */
   --pglass: rgba(255,255,255,0.72);      /* glass panel bg */
   --pglass-border: rgba(255,255,255,0.85); /* glass border */
   /* Heatmap */
-  --ph0: #EBEBF0;
   --ph1: #C0CDFF;
   --ph2: #8BA3FF;
   --ph3: #6D8DFF;
@@ -39,7 +30,6 @@
   --ann-purple-1:   #6C2D82;   /* deep violet — primary expression mark */
   --ann-purple-2:   #5A2572;   /* cool indigo-purple — secondary variant */
   --ann-green-1:    #1A7A3A;   /* forest green — strength */
-  --ann-green-2:    #157030;   /* darker forest — secondary variant */
   --ann-red-fade:    rgba(139,26,26,0.30);   /* dimmed strikethrough text */
   --ann-red-bg:      rgba(139,26,26,0.07);   /* bubble background */
   --ann-red-border:  rgba(139,26,26,0.22);   /* bubble border */
@@ -48,11 +38,6 @@
   --ann-purple-border: rgba(108,45,130,0.22);
   /* Pattern highlight — burgundy */
   --pattern-hl: #8B2635;
-  /* Nav height including iOS safe-area-inset-top */
-  --pnav-h: calc(60px + env(safe-area-inset-top, 0px));
-  /* Swipe-to-delete: PC-only trash icon */
-  /* Bottom tab bar height — floating nav */
-  --pbnav-h: calc(72px + env(safe-area-inset-bottom, 0px));
 }
 
 .dark {
@@ -71,12 +56,6 @@
   --pa2:  #C0D0FF;
   --pal:  rgba(143,171,255,0.14);
   --pacb: rgba(143,171,255,0.28);
-  --text-main:      #F2F2F5;
-  --text-body:      #E0E0EA;
-  --text-secondary: #8E8EA8;
-  --text-caption:   #5A5A72;
-  --text-disabled:  #48484A;
-  --accent-blue:    #8FABFF;
   /* Annotation ink palette — dark (softer, easier on eyes) */
   --ann-red-1:      #E8736B;   /* soft coral — primary grammar mark */
   --ann-red-2:      #D45E56;   /* deeper coral — secondary variant */
@@ -84,7 +63,6 @@
   --ann-purple-1:   #B07FD0;   /* lavender — primary expression mark */
   --ann-purple-2:   #9E70C0;   /* cooler lavender — secondary variant */
   --ann-green-1:    #5DC47A;   /* mint green — strength */
-  --ann-green-2:    #4DB568;   /* deeper mint — secondary variant */
   --ann-red-fade:    rgba(232,115,107,0.28);
   --ann-red-bg:      rgba(232,115,107,0.10);
   --ann-red-border:  rgba(232,115,107,0.30);
@@ -93,11 +71,9 @@
   --ann-purple-border: rgba(176,127,208,0.30);
   /* 2. Pattern highlight → Accent Color (not pink) */
   --pattern-hl:     #8FABFF;
-  --pnav: rgba(12,12,20,0.88);
   --pglass: rgba(26,26,42,0.80);
   --pglass-border: rgba(143,171,255,0.12);
   /* Heatmap */
-  --ph0: #2A2A38;
   --ph1: #3A4E8A;
   --ph2: #5577CC;
   --ph3: #8FABFF;
