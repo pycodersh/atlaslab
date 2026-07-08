@@ -10,81 +10,13 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { Trash2 } from 'lucide-react'
+import { PDialog } from '@/components/ui/PDialog'
 
 const REVEAL = 86          // width of the delete panel (px)
 const BURGUNDY = '#B44A5A'
 
 // Singleton: only one row open at a time
 let _globalClose: (() => void) | null = null
-
-// ── Confirmation Dialog ───────────────────────────────────────────────────────
-
-function ConfirmDeleteDialog({
-  onConfirm,
-  onCancel,
-}: {
-  onConfirm: () => void
-  onCancel: () => void
-}) {
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        onClick={onCancel}
-        style={{
-          position: 'fixed', inset: 0, zIndex: 200,
-          background: 'rgba(0,0,0,0.30)',
-        }}
-      />
-      {/* Dialog */}
-      <div style={{
-        position: 'fixed', top: '50%', left: '50%', zIndex: 201,
-        transform: 'translate(-50%, -50%)',
-        width: 'min(86vw, 300px)',
-        background: 'var(--pb)',
-        borderRadius: 18,
-        boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
-        overflow: 'hidden',
-      }}>
-        <div style={{ padding: '24px 22px 20px', textAlign: 'center' }}>
-          <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--pt)', margin: '0 0 8px' }}>
-            Delete this?
-          </p>
-          <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.55 }}>
-            This action cannot be undone.
-          </p>
-        </div>
-        <div style={{ display: 'flex', borderTop: '1px solid var(--pd)' }}>
-          <button
-            type="button"
-            onClick={onCancel}
-            style={{
-              flex: 1, padding: '14px 0',
-              background: 'none', border: 'none',
-              borderRight: '1px solid var(--pd)',
-              cursor: 'pointer', fontSize: 14, fontWeight: 500,
-              color: 'var(--pm)', fontFamily: 'inherit',
-            }}
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            style={{
-              flex: 1, padding: '14px 0',
-              background: 'none', border: 'none',
-              cursor: 'pointer', fontSize: 14, fontWeight: 700,
-              color: BURGUNDY, fontFamily: 'inherit',
-            }}
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-    </>
-  )
-}
 
 // ── SwipeDeleteRow ────────────────────────────────────────────────────────────
 
@@ -200,9 +132,15 @@ export function SwipeDeleteRow({
   return (
     <>
       {showConfirm && (
-        <ConfirmDeleteDialog
-          onConfirm={animateAndDelete}
-          onCancel={() => setShowConfirm(false)}
+        <PDialog
+          open={showConfirm}
+          onClose={() => setShowConfirm(false)}
+          title="Delete this?"
+          description="This action cannot be undone."
+          actions={[
+            { label: 'Cancel', onClick: () => setShowConfirm(false), variant: 'secondary' },
+            { label: 'Delete', onClick: animateAndDelete, variant: 'danger' },
+          ]}
         />
       )}
 

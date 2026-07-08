@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone } from 'lucide-react'
+import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
@@ -355,198 +356,64 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
 
 // ── Android Confirmation Modal ────────────────────────────────────────────────
 function AndroidConfirmModal({
+  open,
   onInstall,
   onCancel,
 }: {
+  open: boolean
   onInstall: () => void
   onCancel: () => void
 }) {
   const t = useT()
-  const [mounted, setMounted] = useState(false)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => { setMounted(true); setTimeout(() => setVisible(true), 10) }, [])
-
-  function handleCancel() {
-    setVisible(false)
-    setTimeout(onCancel, 260)
-  }
-
-  if (!mounted) return null
-
-  const content = (
-    <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 9999,
-        background: visible ? 'rgba(0,0,0,0.38)' : 'rgba(0,0,0,0)',
-        backdropFilter: visible ? 'blur(6px)' : 'none',
-        WebkitBackdropFilter: visible ? 'blur(6px)' : 'none',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '0 20px',
-        transition: 'background 0.22s',
-      }}
-      onClick={e => { if (e.target === e.currentTarget) handleCancel() }}
-    >
-      <div style={{
-        width: '100%', maxWidth: 360,
-        background: 'var(--pglass)',
-        backdropFilter: 'blur(32px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-        border: '1px solid var(--pglass-border)',
-        borderRadius: 28,
-        padding: '0 0 20px',
-        transform: visible ? 'scale(1)' : 'scale(0.96)',
-        opacity: visible ? 1 : 0,
-        transition: 'transform 0.24s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s ease',
-        boxShadow: '0 8px 40px rgba(0,0,0,0.14)',
-      }}>
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 20px 0' }}>
-          <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
-            {t('install_android_modal_title')}
-          </p>
-          <button type="button" onClick={handleCancel}
-            style={{ background: 'rgba(120,120,128,0.10)', border: 'none', borderRadius: 999, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}>
-            <X style={{ width: 12, height: 12, color: '#8E8E93' }} strokeWidth={2.2} />
-          </button>
-        </div>
-
-        {/* Description */}
-        <p style={{ fontSize: 13.5, color: 'var(--pm)', margin: '12px 20px 22px', lineHeight: 1.55 }}>
-          {t('install_android_modal_desc')}
-        </p>
-
-        {/* Buttons */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '0 20px' }}>
-          <button
-            type="button"
-            onClick={onInstall}
-            style={{
-              width: '100%', padding: '14px 0', borderRadius: 14,
-              background: 'var(--pa)', border: 'none',
-              cursor: 'pointer', fontSize: 14, fontWeight: 700,
-              color: '#fff', fontFamily: 'inherit',
-            }}
-          >
-            {t('install_install')}
-          </button>
-          <button
-            type="button"
-            onClick={handleCancel}
-            style={{
-              width: '100%', padding: '14px 0', borderRadius: 14,
-              background: 'var(--pglass)', border: '1px solid var(--pglass-border)',
-              backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-              cursor: 'pointer', fontSize: 14, fontWeight: 500,
-              color: 'var(--pm)', fontFamily: 'inherit',
-            }}
-          >
-            {t('install_not_now')}
-          </button>
-        </div>
-      </div>
-    </div>
+  return (
+    <PDialog
+      open={open}
+      onClose={onCancel}
+      title={t('install_android_modal_title')}
+      description={t('install_android_modal_desc')}
+      actions={[
+        { label: t('install_install'), onClick: onInstall, variant: 'primary' },
+        { label: t('install_not_now'), onClick: onCancel, variant: 'secondary' },
+      ]}
+    />
   )
-
-  return createPortal(content, document.body)
 }
 
 // ── Install Guide Sheet (iOS & Android fallback) ─────────────────────────────
-function IOSInstallSheet({ onClose, installType = 'ios' }: { onClose: () => void; installType?: 'ios' | 'android' }) {
+function IOSInstallSheet({ open, onClose, installType = 'ios' }: { open: boolean; onClose: () => void; installType?: 'ios' | 'android' }) {
   const t = useT()
-  const [mounted, setMounted] = useState(false)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => { setMounted(true); setTimeout(() => setVisible(true), 10) }, [])
-
-  function handleClose() {
-    setVisible(false)
-    setTimeout(onClose, 260)
-  }
-
   const isAndroid = installType === 'android'
-
   const title = isAndroid ? t('install_android_title') : t('install_ios_title')
   const hint  = isAndroid ? t('install_android_hint')  : t('install_ios_hint')
-
   const steps = isAndroid
-    ? [
-        { n: '1', text: t('install_android_step1') },
-        { n: '2', text: t('install_android_step2') },
-        { n: '3', text: t('install_android_step3') },
-      ]
-    : [
-        { n: '1', text: t('install_ios_step1') },
-        { n: '2', text: t('install_ios_step2') },
-        { n: '3', text: t('install_ios_step3') },
-      ]
+    ? [t('install_android_step1'), t('install_android_step2'), t('install_android_step3')]
+    : [t('install_ios_step1'), t('install_ios_step2'), t('install_ios_step3')]
 
-  const content = (
-    <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 9999,
-        background: visible ? 'rgba(0,0,0,0.38)' : 'rgba(0,0,0,0)',
-        backdropFilter: visible ? 'blur(6px)' : 'none',
-        WebkitBackdropFilter: visible ? 'blur(6px)' : 'none',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '0 20px',
-        transition: 'background 0.22s',
-      }}
-      onClick={e => { if (e.target === e.currentTarget) handleClose() }}
+  return (
+    <PDialog
+      open={open}
+      onClose={onClose}
+      title={title}
+      hint={
+        <p style={{ fontSize: 12.5, color: '#5856D6', margin: 0, lineHeight: 1.5, fontWeight: 500, display: 'flex', alignItems: 'flex-start', gap: 7 }}>
+          <Compass style={{ width: 14, height: 14, flexShrink: 0, marginTop: 2 }} strokeWidth={1.8} />
+          <span>{hint}</span>
+        </p>
+      }
+      actions={[
+        { label: t('install_confirm'), onClick: onClose, variant: 'text' },
+      ]}
     >
-      <div style={{
-        width: '100%', maxWidth: 360,
-        background: 'var(--pglass)',
-        backdropFilter: 'blur(32px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-        border: '1px solid var(--pglass-border)',
-        borderRadius: 24,
-        padding: '0 0 24px',
-        transform: visible ? 'scale(1)' : 'scale(0.96)',
-        opacity: visible ? 1 : 0,
-        transition: 'transform 0.24s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s ease',
-        boxShadow: '0 8px 40px rgba(0,0,0,0.14)',
-      }}>
-        {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
-          <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
-            {title}
-          </p>
-          <button type="button" onClick={handleClose}
-            style={{ background: 'rgba(120,120,128,0.10)', border: 'none', borderRadius: 999, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}>
-            <X style={{ width: 12, height: 12, color: '#8E8E93' }} strokeWidth={2.2} />
-          </button>
-        </div>
-
-        {/* Safari reminder */}
-        <div style={{ margin: '14px 20px', padding: '10px 13px', borderRadius: 12, background: 'rgba(88,86,214,0.08)', border: '1px solid rgba(88,86,214,0.15)' }}>
-          <p style={{ fontSize: 12.5, color: '#5856D6', margin: 0, lineHeight: 1.5, fontWeight: 500, display: 'flex', alignItems: 'flex-start', gap: 7 }}>
-            <Compass style={{ width: 14, height: 14, flexShrink: 0, marginTop: 2 }} strokeWidth={1.8} />
-            <span>{hint}</span>
-          </p>
-        </div>
-
-        {/* Steps */}
-        <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 13 }}>
-          {steps.map(s => (
-            <div key={s.n} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-              <span style={{ fontSize: 13.5, fontWeight: 400, color: 'var(--pt)', flexShrink: 0, lineHeight: 1.55 }}>{s.n}.</span>
-              <p style={{ fontSize: 13.5, color: 'var(--pt)', margin: 0, lineHeight: 1.55 }}>{s.text}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* Confirm button */}
-        <div style={{ padding: '22px 20px 0' }}>
-          <button type="button" onClick={handleClose}
-            style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit' }}>
-            {t('install_confirm')}
-          </button>
-        </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 13, paddingTop: 16, paddingBottom: 4 }}>
+        {steps.map((text, i) => (
+          <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+            <span style={{ fontSize: 13.5, fontWeight: 400, color: 'var(--pt)', flexShrink: 0, lineHeight: 1.55 }}>{i + 1}.</span>
+            <p style={{ fontSize: 13.5, color: 'var(--pt)', margin: 0, lineHeight: 1.55 }}>{text}</p>
+          </div>
+        ))}
       </div>
-    </div>
+    </PDialog>
   )
-
-  if (!mounted) return null
-  return createPortal(content, document.body)
 }
 
 // ── Add to Home Screen card ───────────────────────────────────────────────────
@@ -647,15 +514,16 @@ function InstallCard() {
         <ChevronRight style={{ width: 11, height: 11, color: '#D1D1D6', flexShrink: 0 }} strokeWidth={2} />
       </button>
 
-      {showAndroidConfirm && (
-        <AndroidConfirmModal
-          onInstall={handleAndroidInstall}
-          onCancel={() => setShowAndroidConfirm(false)}
-        />
-      )}
-      {showGuideSheet && (
-        <IOSInstallSheet onClose={() => setShowGuideSheet(false)} installType={guideType} />
-      )}
+      <AndroidConfirmModal
+        open={showAndroidConfirm}
+        onInstall={handleAndroidInstall}
+        onCancel={() => setShowAndroidConfirm(false)}
+      />
+      <IOSInstallSheet
+        open={showGuideSheet}
+        onClose={() => setShowGuideSheet(false)}
+        installType={guideType}
+      />
     </>
   )
 }
