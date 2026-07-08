@@ -104,7 +104,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
   //   Kakao is a Korean regional convenience provider, not a global option.
   //   PATTO is a global English learning app — Kakao is not exposed to non-Korean users.
   // - Apple, Naver: excluded from this version entirely.
-  const isKorean = prefs.language === 'ko' || prefs.language === 'ko-KR'
+  const isKorean = prefs.language === 'ko'
 
   const [emailMode, setEmailMode] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
