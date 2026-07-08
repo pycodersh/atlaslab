@@ -24,12 +24,11 @@ const EmailIcon = () => (
 
 const KakaoIcon = () => (
   <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }} fill="none">
-    <rect width="24" height="24" rx="6" fill="#FEE500" />
     <path d="M12 5.5C8.13 5.5 5 7.97 5 11.03c0 1.93 1.2 3.63 3.01 4.67l-.77 2.87c-.07.26.22.47.45.33L11.1 17c.29.03.59.05.9.05 3.87 0 7-2.47 7-5.52S15.87 5.5 12 5.5z" fill="#3C1E1E" />
   </svg>
 )
 
-const btnStyle: React.CSSProperties = {
+const BASE_BTN: React.CSSProperties = {
   width: '100%',
   height: 52,
   display: 'flex', alignItems: 'center', gap: 12,
@@ -39,13 +38,40 @@ const btnStyle: React.CSSProperties = {
   cursor: 'pointer',
   fontFamily: 'inherit',
   boxSizing: 'border-box',
+  transition: 'opacity 0.15s',
+}
+
+const googleBtnStyle: React.CSSProperties = {
+  ...BASE_BTN,
+  background: '#FFFFFF',
+  color: '#1F1F1F',
+  border: '1px solid rgba(0,0,0,0.12)',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+}
+
+const emailBtnStyle: React.CSSProperties = {
+  ...BASE_BTN,
+  background: '#FFFFFF',
+  color: '#1F1F1F',
+  border: '1px solid rgba(0,0,0,0.12)',
+  boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+}
+
+const kakaoBtnStyle: React.CSSProperties = {
+  ...BASE_BTN,
+  background: '#FEE500',
+  color: '#1A1A1A',
+  border: '1px solid rgba(0,0,0,0.06)',
+}
+
+const btnStyle: React.CSSProperties = {
+  ...BASE_BTN,
   background: 'var(--pglass)',
   backdropFilter: 'blur(16px)',
   WebkitBackdropFilter: 'blur(16px)',
   color: 'var(--pt)',
   border: '1px solid var(--pglass-border)',
   boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-  transition: 'opacity 0.15s',
 }
 
 function Toast({ msg }: { msg: string }) {
@@ -187,23 +213,23 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <button type="button" onClick={handleGoogle} style={btnStyle}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.78')}
+        <button type="button" onClick={handleGoogle} style={googleBtnStyle}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
           onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
           <GoogleIcon />
           <span style={{ flex: 1, textAlign: 'center', marginRight: 20 }}>{t('auth_continue_google')}</span>
         </button>
 
-        <button type="button" onClick={() => setEmailMode(true)} style={btnStyle}
-          onMouseEnter={e => (e.currentTarget.style.opacity = '0.78')}
+        <button type="button" onClick={() => setEmailMode(true)} style={emailBtnStyle}
+          onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
           onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
           <EmailIcon />
           <span style={{ flex: 1, textAlign: 'center', marginRight: 20 }}>{t('auth_continue_email')}</span>
         </button>
 
         {isKorean && (
-          <button type="button" onClick={handleKakao} style={btnStyle}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.78')}
+          <button type="button" onClick={handleKakao} style={kakaoBtnStyle}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
             <KakaoIcon />
             <span style={{ flex: 1, textAlign: 'center', marginRight: 20 }}>{t('auth_continue_kakao')}</span>

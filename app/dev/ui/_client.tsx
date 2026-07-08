@@ -423,20 +423,26 @@ export function UIPlaygroundClient() {
 
           {/* Login / Social — AccountPopup. Apple 제거. Google/Email/Kakao 동일 glass style. */}
           <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 28, boxShadow: '0 8px 48px rgba(0,0,0,0.16)', overflow: 'hidden' }}>
-            <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm2)', padding: '14px 20px 0', margin: 0 }}>Login · Social (accent: glass + --pa border)</p>
+            <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm2)', padding: '14px 20px 0', margin: 0 }}>Login · Social — Google(white) / Email(white) / Kakao(#FEE500)</p>
             <div style={{ padding: '14px 20px 20px' }}>
               <p style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--pt)', margin: '0 0 6px' }}>Welcome to PATTO</p>
               <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.6, margin: '0 0 18px' }}>Sign in to save your essays and continue learning across devices.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>
-                {[
-                  { icon: <svg width="17" height="17" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>, label: 'Continue with Google' },
-                  { icon: <Mail size={16} style={{ color: 'var(--pm)' }} />, label: 'Continue with Email' },
-                  { icon: <svg width="14" height="13" viewBox="0 0 18 17"><path fill="#3C1E1E" d="M9 0C4.03 0 0 3.313 0 7.4c0 2.494 1.654 4.693 4.15 5.975L3.1 17l4.387-2.32c.49.065.988.1 1.513.1 4.97 0 9-3.313 9-7.4C18 3.313 13.97 0 9 0z"/></svg>, label: '카카오로 계속하기' },
-                ].map(({ icon, label }) => (
-                  <button key={label} type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', height: 52, borderRadius: 14, background: 'var(--pglass)', border: '1px solid rgba(109,141,255,0.30)', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit', cursor: 'default' }}>
-                    {icon}{label}
-                  </button>
-                ))}
+                {/* Google — white bg + gray border + official icon + dark text */}
+                <button type="button" style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', height: 52, padding: '0 18px', borderRadius: 16, background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.12)', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', fontSize: 14, fontWeight: 600, color: '#1F1F1F', fontFamily: 'inherit', cursor: 'default', boxSizing: 'border-box' }}>
+                  <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }}><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.61z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                  <span style={{ flex: 1, textAlign: 'center', marginRight: 20 }}>Continue with Google</span>
+                </button>
+                {/* Email — white bg + gray border + dark icon + dark text */}
+                <button type="button" style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', height: 52, padding: '0 18px', borderRadius: 16, background: '#FFFFFF', border: '1px solid rgba(0,0,0,0.12)', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', fontSize: 14, fontWeight: 600, color: '#1F1F1F', fontFamily: 'inherit', cursor: 'default', boxSizing: 'border-box' }}>
+                  <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }} fill="none" stroke="#1F1F1F" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 7 10-7"/></svg>
+                  <span style={{ flex: 1, textAlign: 'center', marginRight: 20 }}>Continue with Email</span>
+                </button>
+                {/* Kakao — brand yellow bg + dark icon + dark text */}
+                <button type="button" style={{ display: 'flex', alignItems: 'center', gap: 12, width: '100%', height: 52, padding: '0 18px', borderRadius: 16, background: '#FEE500', border: '1px solid rgba(0,0,0,0.06)', fontSize: 14, fontWeight: 600, color: '#1A1A1A', fontFamily: 'inherit', cursor: 'default', boxSizing: 'border-box' }}>
+                  <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }} fill="none"><path d="M12 5.5C8.13 5.5 5 7.97 5 11.03c0 1.93 1.2 3.63 3.01 4.67l-.77 2.87c-.07.26.22.47.45.33L11.1 17c.29.03.59.05.9.05 3.87 0 7-2.47 7-5.52S15.87 5.5 12 5.5z" fill="#3C1E1E"/></svg>
+                  <span style={{ flex: 1, textAlign: 'center', marginRight: 20 }}>카카오로 계속하기</span>
+                </button>
               </div>
               <p style={{ fontSize: 10, color: 'var(--pm2)', textAlign: 'center', margin: 0 }}>Terms of Use · Privacy Policy</p>
             </div>
