@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass } from 'lucide-react'
+import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
@@ -353,8 +353,8 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
   return createPortal(content, document.body)
 }
 
-// ── iOS Install Guide Sheet ───────────────────────────────────────────────────
-function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean: boolean }) {
+// ── Install Guide Sheet (iOS & Android fallback) ─────────────────────────────
+function IOSInstallSheet({ onClose, isKorean, installType = 'ios' }: { onClose: () => void; isKorean: boolean; installType?: 'ios' | 'android' }) {
   const [mounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
   useEffect(() => { setMounted(true); setTimeout(() => setVisible(true), 10) }, [])
@@ -364,17 +364,39 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
     setTimeout(onClose, 260)
   }
 
-  const steps = isKorean
-    ? [
-        { n: '1', text: 'Safari 하단의 공유 버튼(□↑)을 누르세요.' },
-        { n: '2', text: '메뉴에서 "홈 화면에 추가"를 선택하세요.' },
-        { n: '3', text: '오른쪽 위의 "추가"를 누르면 완료됩니다.' },
-      ]
-    : [
-        { n: '1', text: 'Tap the Share button (□↑) at the bottom of Safari.' },
-        { n: '2', text: 'Select "Add to Home Screen" from the menu.' },
-        { n: '3', text: 'Tap "Add" in the top right to finish.' },
-      ]
+  const isAndroid = installType === 'android'
+
+  const title = isAndroid
+    ? (isKorean ? 'PATTO 홈 화면에 추가' : 'Add PATTO to Home Screen')
+    : (isKorean ? 'iPhone에 PATTO 설치하기' : 'Install PATTO on iPhone')
+
+  const hint = isAndroid
+    ? (isKorean ? 'Chrome 브라우저에서 아래 순서로 추가할 수 있어요.' : 'Follow these steps in Chrome to add to your home screen.')
+    : (isKorean ? 'Safari에서 열면 홈 화면에 추가할 수 있어요.' : 'Open this page in Safari to add it to your Home Screen.')
+
+  const steps = isAndroid
+    ? (isKorean
+        ? [
+            { n: '1', text: 'Chrome 주소창 오른쪽 메뉴(⋮)를 누르세요.' },
+            { n: '2', text: '"홈 화면에 추가"를 선택하세요.' },
+            { n: '3', text: '"추가"를 누르면 완료됩니다.' },
+          ]
+        : [
+            { n: '1', text: 'Tap the menu (⋮) in the top-right of Chrome.' },
+            { n: '2', text: 'Select "Add to Home screen".' },
+            { n: '3', text: 'Tap "Add" to finish.' },
+          ])
+    : (isKorean
+        ? [
+            { n: '1', text: 'Safari 하단의 공유 버튼(□↑)을 누르세요.' },
+            { n: '2', text: '메뉴에서 "홈 화면에 추가"를 선택하세요.' },
+            { n: '3', text: '오른쪽 위의 "추가"를 누르면 완료됩니다.' },
+          ]
+        : [
+            { n: '1', text: 'Tap the Share button (□↑) at the bottom of Safari.' },
+            { n: '2', text: 'Select "Add to Home Screen" from the menu.' },
+            { n: '3', text: 'Tap "Add" in the top right to finish.' },
+          ])
 
   const content = (
     <div
@@ -405,7 +427,7 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
           <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
-            {isKorean ? 'iPhone에 PATTO 설치하기' : 'Install PATTO on iPhone'}
+            {title}
           </p>
           <button type="button" onClick={handleClose}
             style={{ background: 'rgba(120,120,128,0.10)', border: 'none', borderRadius: 999, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}>
@@ -417,11 +439,7 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
         <div style={{ margin: '14px 20px', padding: '10px 13px', borderRadius: 12, background: 'rgba(88,86,214,0.08)', border: '1px solid rgba(88,86,214,0.15)' }}>
           <p style={{ fontSize: 12.5, color: '#5856D6', margin: 0, lineHeight: 1.5, fontWeight: 500, display: 'flex', alignItems: 'flex-start', gap: 7 }}>
             <Compass style={{ width: 14, height: 14, flexShrink: 0, marginTop: 2 }} strokeWidth={1.8} />
-            <span>
-              {isKorean
-                ? 'Safari에서 열면 홈 화면에 추가할 수 있어요.'
-                : 'Open this page in Safari to add it to your Home Screen.'}
-            </span>
+            <span>{hint}</span>
           </p>
         </div>
 
@@ -463,6 +481,9 @@ function InstallCard() {
   const deferredPromptRef = useRef<BeforeInstallPromptEvent | null>(null)
 
   useEffect(() => {
+    // DEV: force android install card for preview
+    if (process.env.NODE_ENV === 'development') { setInstallType('android'); return }
+
     const ua = navigator.userAgent
     const isIOS = /iphone|ipad|ipod/i.test(ua)
     const isAndroid = /android/i.test(ua)
@@ -493,17 +514,16 @@ function InstallCard() {
       <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.53 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
     </svg>
   )
-  const emoji = isIOS ? null : '📱'
 
   async function handleClick() {
     if (isIOS) { setShowIOSSheet(true); return }
+    // Android: try native prompt, fall back to guide sheet
     if (deferredPromptRef.current) {
       deferredPromptRef.current.prompt()
       const { outcome } = await deferredPromptRef.current.userChoice
       deferredPromptRef.current = null
       if (outcome === 'accepted') setInstallType(null)
     } else {
-      // beforeinstallprompt not fired yet — show generic help
       setShowIOSSheet(true)
     }
   }
@@ -523,8 +543,8 @@ function InstallCard() {
         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.70' }}
         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
       >
-        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--pc)', border: '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 14 }}>
-          {isIOS ? <AppleSvg /> : emoji}
+        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--pc)', border: '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          {isIOS ? <AppleSvg /> : <Smartphone style={{ width: 14, height: 14, color: 'var(--pt)' }} strokeWidth={1.6} />}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
@@ -538,7 +558,7 @@ function InstallCard() {
       </button>
 
       {showIOSSheet && (
-        <IOSInstallSheet onClose={() => setShowIOSSheet(false)} isKorean={isKorean} />
+        <IOSInstallSheet onClose={() => setShowIOSSheet(false)} isKorean={isKorean} installType={installType ?? 'ios'} />
       )}
     </>
   )
