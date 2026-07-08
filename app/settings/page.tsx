@@ -380,32 +380,30 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 9999,
-        background: visible ? 'rgba(0,0,0,0.32)' : 'rgba(0,0,0,0)',
+        background: visible ? 'rgba(0,0,0,0.38)' : 'rgba(0,0,0,0)',
         backdropFilter: visible ? 'blur(6px)' : 'none',
         WebkitBackdropFilter: visible ? 'blur(6px)' : 'none',
-        display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-        transition: 'background 0.26s',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '0 20px',
+        transition: 'background 0.22s',
       }}
       onClick={e => { if (e.target === e.currentTarget) handleClose() }}
     >
       <div style={{
-        width: '100%', maxWidth: 520,
+        width: '100%', maxWidth: 360,
         background: 'var(--pglass)',
         backdropFilter: 'blur(32px) saturate(180%)',
         WebkitBackdropFilter: 'blur(32px) saturate(180%)',
         border: '1px solid var(--pglass-border)',
-        borderRadius: '24px 24px 0 0',
-        padding: '0 0 calc(28px + env(safe-area-inset-bottom, 0px))',
-        transform: visible ? 'translateY(0)' : 'translateY(100%)',
-        transition: 'transform 0.26s cubic-bezier(0.32,0.72,0,1)',
+        borderRadius: 24,
+        padding: '0 0 24px',
+        transform: visible ? 'scale(1)' : 'scale(0.96)',
+        opacity: visible ? 1 : 0,
+        transition: 'transform 0.24s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s ease',
+        boxShadow: '0 8px 40px rgba(0,0,0,0.14)',
       }}>
-        {/* Handle */}
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '14px 0 0' }}>
-          <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--pd)' }} />
-        </div>
-
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
           <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
             {isKorean ? 'iPhone에 PATTO 설치하기' : 'Install PATTO on iPhone'}
           </p>
@@ -416,7 +414,7 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
         </div>
 
         {/* Safari reminder */}
-        <div style={{ margin: '16px 24px', padding: '11px 14px', borderRadius: 12, background: 'rgba(88,86,214,0.08)', border: '1px solid rgba(88,86,214,0.15)' }}>
+        <div style={{ margin: '14px 20px', padding: '10px 13px', borderRadius: 12, background: 'rgba(88,86,214,0.08)', border: '1px solid rgba(88,86,214,0.15)' }}>
           <p style={{ fontSize: 12.5, color: '#5856D6', margin: 0, lineHeight: 1.5, fontWeight: 500 }}>
             {isKorean
               ? '🧭 Safari에서 열면 홈 화면에 추가할 수 있어요.'
@@ -425,21 +423,21 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
         </div>
 
         {/* Steps */}
-        <div style={{ padding: '0 24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 13 }}>
           {steps.map(s => (
-            <div key={s.n} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-              <div style={{ width: 26, height: 26, borderRadius: 999, background: 'var(--pa)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 11, fontWeight: 800, color: '#fff' }}>{s.n}</span>
+            <div key={s.n} style={{ display: 'flex', gap: 13, alignItems: 'flex-start' }}>
+              <div style={{ width: 24, height: 24, borderRadius: 999, background: 'var(--pa)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: 10, fontWeight: 800, color: '#fff' }}>{s.n}</span>
               </div>
-              <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, lineHeight: 1.55, paddingTop: 3 }}>{s.text}</p>
+              <p style={{ fontSize: 13.5, color: 'var(--pt)', margin: 0, lineHeight: 1.55, paddingTop: 2 }}>{s.text}</p>
             </div>
           ))}
         </div>
 
         {/* Confirm button */}
-        <div style={{ padding: '28px 24px 0' }}>
+        <div style={{ padding: '22px 20px 0' }}>
           <button type="button" onClick={handleClose}
-            style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pa)', border: 'none', cursor: 'pointer', fontSize: 15, fontWeight: 700, color: '#fff', fontFamily: 'inherit' }}>
+            style={{ width: '100%', padding: '14px 0', borderRadius: 14, background: 'var(--pa)', border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: '#fff', fontFamily: 'inherit' }}>
             {isKorean ? '확인' : 'Got it'}
           </button>
         </div>
@@ -586,14 +584,14 @@ export default function SettingsPage() {
             desc={t('hub_subscription_desc')}
             href="/settings/subscription"
           />
+          <InstallCard />
+
           <MenuCard
             icon={Info}
             label={t('hub_about')}
             desc={t('hub_about_desc')}
             href="/settings/about"
           />
-
-          <InstallCard />
 
           <p style={{
             fontSize: 11, color: '#D1D1D6', fontWeight: 400,
