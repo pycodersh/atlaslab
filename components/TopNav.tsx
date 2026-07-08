@@ -18,6 +18,10 @@ function PattoIcon() {
             <feColorMatrix type="matrix"
               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 3 0" />
           </filter>
+          <filter id="patto-remove-dark">
+            <feColorMatrix type="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  1 1 1 0 -2" />
+          </filter>
         </defs>
       </svg>
       <img
@@ -27,10 +31,7 @@ function PattoIcon() {
         height={34}
         style={{
           flexShrink: 0, display: 'block',
-          filter: isDark
-            ? 'brightness(1.4) contrast(2)'
-            : 'url(#patto-remove-white)',
-          mixBlendMode: isDark ? 'screen' : 'normal',
+          filter: isDark ? 'url(#patto-remove-dark)' : 'url(#patto-remove-white)',
         }}
       />
     </>
