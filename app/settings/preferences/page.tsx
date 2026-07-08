@@ -49,7 +49,7 @@ function Toggle({ on, onChange }: { on: boolean; onChange: (v: boolean) => void 
       onClick={() => onChange(!on)}
       style={{
         width: 46, height: 27, borderRadius: 14, flexShrink: 0,
-        background: on ? '#4A6FA8' : 'rgba(140,145,165,0.22)',
+        background: on ? 'var(--pa)' : 'rgba(140,145,165,0.22)',
         border: 'none', cursor: 'pointer', position: 'relative', padding: 0,
         transition: 'background 0.22s ease',
       }}

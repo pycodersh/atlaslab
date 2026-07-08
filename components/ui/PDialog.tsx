@@ -38,6 +38,7 @@ export type PDialogActionVariant =
   | 'cancel'    // Glass + --pd border + muted text — Cancel, Not now, Maybe later
   | 'danger'    // Glass + burgundy border + burgundy text — Delete, Remove, Sign out
   | 'accent'    // Glass + accent border + --pa text — Install, Retry, Subscribe
+  | 'primary'   // Dark fill (#2C2C32) + white text — main CTA: Install, Subscribe, View Result
 
 export interface PDialogAction {
   label: string
@@ -100,6 +101,7 @@ function ActionButton({ action }: { action: PDialogAction; isOnly: boolean }) {
     if (v === 'confirm') return { ...base, ...GLASS, border: '1px solid var(--pd)', color: 'var(--pt)',  fontWeight: 700 }
     if (v === 'cancel')  return { ...base, ...GLASS, border: '1px solid var(--pd)', color: 'var(--pm)',  fontWeight: 500 }
     if (v === 'danger')  return { ...base, ...GLASS, border: `1px solid ${DANGER_BORDER}`, color: DANGER, fontWeight: 700 }
+    if (v === 'primary') return { ...base, background: '#2C2C32', border: 'none', color: '#FFFFFF', fontWeight: 700 }
     // accent
     return { ...base, ...GLASS, border: `1px solid ${ACCENT_BORDER}`, color: 'var(--pa)', fontWeight: 700 }
   })()

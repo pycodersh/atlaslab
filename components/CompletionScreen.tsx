@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation'
 // Shared Full-screen State button tokens
 const PRIMARY_BTN: React.CSSProperties = {
   width: '100%', height: 56, borderRadius: 18,
-  border: '1px solid rgba(109,141,255,0.30)',
-  background: 'rgba(109,141,255,0.06)',
+  border: 'none',
+  background: '#2C2C32',
   fontSize: 15, fontWeight: 700,
-  color: 'var(--pa)',
-  boxShadow: '0 2px 12px rgba(109,141,255,0.12)',
+  color: '#FFFFFF',
   cursor: 'pointer', fontFamily: 'inherit',
 }
 
@@ -34,8 +33,8 @@ export function CompletionScreen() {
       {/* Icon */}
       <div style={{
         width: 72, height: 72, borderRadius: 22,
-        background: 'rgba(109,141,255,0.08)',
-        border: '1px solid rgba(109,141,255,0.16)',
+        background: 'rgba(0,0,0,0.05)',
+        border: '1px solid rgba(0,0,0,0.08)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: 32, marginBottom: 20,
       }}>
@@ -43,7 +42,7 @@ export function CompletionScreen() {
       </div>
 
       {/* Eyebrow */}
-      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 8px' }}>
+      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm)', margin: '0 0 8px' }}>
         Level Complete
       </p>
 

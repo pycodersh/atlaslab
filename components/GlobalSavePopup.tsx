@@ -85,13 +85,12 @@ export function GlobalSavePopup() {
     flex: 1,
     padding: '11px 14px',
     borderRadius: 12,
-    border: '1px solid rgba(109,141,255,0.30)',
-    background: 'rgba(109,141,255,0.06)',
+    border: 'none',
+    background: '#2C2C32',
     fontSize: 13,
     fontWeight: 700,
     cursor: 'pointer',
-    color: 'var(--pa)',
-    boxShadow: '0 2px 8px rgba(109,141,255,0.10)',
+    color: '#FFFFFF',
     fontFamily: 'inherit',
   }
 

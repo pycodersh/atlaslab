@@ -59,10 +59,11 @@ function DialogCard({
               const v = a.variant ?? 'confirm'
               const GLASS_BTN: React.CSSProperties = { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }
               const s: React.CSSProperties =
-                v === 'confirm' ? { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pt)' }
-                : v === 'cancel'  ? { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pm)' }
-                : v === 'danger'  ? { ...GLASS_BTN, color: BURGUNDY, border: '1px solid rgba(180,74,90,0.28)' }
-                : v === 'accent'  ? { ...GLASS_BTN, border: '1px solid rgba(109,141,255,0.30)', color: 'var(--pa)' }
+                v === 'confirm'  ? { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pt)' }
+                : v === 'cancel' ? { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pm)' }
+                : v === 'danger' ? { ...GLASS_BTN, color: BURGUNDY, border: '1px solid rgba(180,74,90,0.28)' }
+                : v === 'primary'? { background: '#2C2C32', border: 'none', color: '#FFFFFF' }
+                : v === 'accent' ? { ...GLASS_BTN, border: '1px solid rgba(109,141,255,0.30)', color: 'var(--pa)' }
                 : { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pm)' }
               return (
                 <button key={i} type="button" style={{ flex: 1, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 16, fontSize: 14, fontWeight: v === 'cancel' ? 500 : 700, fontFamily: 'inherit', cursor: 'default', minWidth: 0, ...s }}>
@@ -249,7 +250,7 @@ function CardsDemo() {
       <div>
         <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 8px' }}>Story Card</p>
         <div style={{ ...GC, padding: 0, overflow: 'hidden' }}>
-          <div style={{ height: 72, background: 'linear-gradient(135deg, rgba(109,141,255,0.25) 0%, rgba(180,180,255,0.12) 100%)' }} />
+          <div style={{ height: 72, background: 'linear-gradient(135deg, rgba(40,40,48,0.10) 0%, rgba(80,80,100,0.05) 100%)' }} />
           <div style={{ padding: '12px 16px 16px' }}>
             <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 3px' }}>STORY 01</p>
             <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 3px' }}>A New Start</p>
@@ -295,13 +296,13 @@ function CardsDemo() {
       {/* Subscription */}
       <div>
         <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 8px' }}>Subscription Card</p>
-        <div style={{ ...GC, background: 'linear-gradient(135deg, rgba(109,141,255,0.15) 0%, rgba(155,109,255,0.08) 100%)', border: '1px solid rgba(109,141,255,0.22)' }}>
+        <div style={{ ...GC, background: 'var(--pglass)', border: '1px solid var(--pacb)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
             <div>
               <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 3px' }}>PREMIUM</p>
               <p style={{ fontSize: 17, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>₩9,900 / month</p>
             </div>
-            <span style={{ fontSize: 10, fontWeight: 700, color: '#fff', background: 'var(--pa)', borderRadius: 20, padding: '4px 12px', alignSelf: 'flex-start' }}>Active</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--pa)', background: 'var(--pal)', border: '1px solid var(--pacb)', borderRadius: 20, padding: '4px 12px', alignSelf: 'flex-start' }}>Active</span>
           </div>
           <p style={{ fontSize: 12.5, color: 'var(--pm)', lineHeight: 1.5, margin: 0 }}>Unlimited reviews · All patterns · Priority support</p>
         </div>
@@ -314,7 +315,7 @@ function CardsDemo() {
           <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: '0 0 14px', letterSpacing: '-0.01em' }}>I decided to ___</p>
           <div style={{ display: 'flex', gap: 8 }}>
             <button type="button" style={{ flex: 1, padding: '10px 0', borderRadius: 12, border: '1px solid rgba(180,74,90,0.22)', background: 'none', color: BURGUNDY, fontSize: 13, fontWeight: 700, cursor: 'default', fontFamily: 'inherit' }}>Again</button>
-            <button type="button" style={{ flex: 1, padding: '10px 0', borderRadius: 12, border: 'none', background: 'var(--pa)', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'default', fontFamily: 'inherit' }}>Got it</button>
+            <button type="button" style={{ flex: 1, padding: '10px 0', borderRadius: 12, border: 'none', background: '#2C2C32', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'default', fontFamily: 'inherit' }}>Got it</button>
           </div>
         </div>
       </div>
@@ -322,7 +323,7 @@ function CardsDemo() {
       <div>
         <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 8px' }}>Profile Card</p>
         <div style={{ ...GC, display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'linear-gradient(135deg, var(--pa) 0%, rgba(155,109,255,0.8) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <div style={{ width: 48, height: 48, borderRadius: '50%', background: '#2C2C32', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <User size={22} style={{ color: '#fff' }} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -401,7 +402,7 @@ function NavigationDemo() {
       </Sub>
       <Sub title="Floating Action Button">
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <button type="button" style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--pa)', border: 'none', cursor: 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 20px rgba(109,141,255,0.4)' }}>
+          <button type="button" style={{ width: 56, height: 56, borderRadius: '50%', background: '#2C2C32', border: 'none', cursor: 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.20)' }}>
             <Plus size={24} style={{ color: '#fff' }} strokeWidth={2.5} />
           </button>
           <button type="button" style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', cursor: 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
@@ -504,10 +505,10 @@ export function UIPlaygroundClient() {
             actions={[{ label: 'Cancel', variant: 'cancel' }, { label: 'Sign out', variant: 'danger' }]}
           />
 
-          <DialogCard tag="Android Install · Accent"
+          <DialogCard tag="Android Install · Primary"
             title="Add PATTO to Home Screen"
             description="Install PATTO for faster access and continue learning like an app."
-            actions={[{ label: 'Not now', variant: 'cancel' }, { label: 'Install', variant: 'accent' }]}
+            actions={[{ label: 'Not now', variant: 'cancel' }, { label: 'Install', variant: 'primary' }]}
           />
 
           <DialogCard tag="iPhone Install · Guide"
@@ -525,15 +526,15 @@ export function UIPlaygroundClient() {
             </div>
           </DialogCard>
 
-          <DialogCard tag="Review Complete · Accent"
+          <DialogCard tag="Review Complete · Primary"
             title="Review completed."
-            actions={[{ label: 'View Result', variant: 'accent' }]}
+            actions={[{ label: 'View Result', variant: 'primary' }]}
           />
 
           <DialogCard tag="Network Error · Error"
             title="Network Error"
             description="Please check your connection and try again."
-            actions={[{ label: 'Cancel', variant: 'cancel' }, { label: 'Retry', variant: 'accent' }]}
+            actions={[{ label: 'Cancel', variant: 'cancel' }, { label: 'Retry', variant: 'primary' }]}
           />
 
           <DialogCard tag="Review Mastery · Info"
@@ -593,7 +594,7 @@ export function UIPlaygroundClient() {
           <DialogCard tag="Subscription · Upgrade"
             title="Upgrade to Premium"
             description="Unlock unlimited reviews, all patterns, and advanced features."
-            actions={[{ label: 'Maybe later', variant: 'cancel' }, { label: 'Subscribe', variant: 'accent' }]}
+            actions={[{ label: 'Maybe later', variant: 'cancel' }, { label: 'Subscribe', variant: 'primary' }]}
           />
 
           <DialogCard tag="Discard Draft · 3-option"
@@ -789,7 +790,7 @@ export function UIPlaygroundClient() {
               </div>
               {/* Primary + Secondary */}
               <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
-                <button type="button" style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 13, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 8px rgba(109,141,255,0.10)', fontFamily: 'inherit', cursor: 'default' }}>표현 저장</button>
+                <button type="button" style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: 'none', background: '#2C2C32', fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: 'inherit', cursor: 'default' }}>표현 저장</button>
                 <button type="button" style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: '1px solid rgba(0,0,0,0.10)', background: 'rgba(0,0,0,0.03)', fontSize: 13, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>단어만</button>
               </div>
               {/* Text Cancel */}
@@ -803,7 +804,7 @@ export function UIPlaygroundClient() {
             <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '20px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.18)' }}>
               <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 16px', textAlign: 'center' }}>&ldquo;perseverance&rdquo;</p>
               {/* Primary */}
-              <button type="button" style={{ width: '100%', padding: '11px 14px', borderRadius: 12, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 13, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 8px rgba(109,141,255,0.10)', fontFamily: 'inherit', cursor: 'default', marginBottom: 4 }}>단어 저장</button>
+              <button type="button" style={{ width: '100%', padding: '11px 14px', borderRadius: 12, border: 'none', background: '#2C2C32', fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: 'inherit', cursor: 'default', marginBottom: 4 }}>단어 저장</button>
               {/* Text Cancel */}
               <button type="button" style={{ width: '100%', padding: '8px 0 2px', border: 'none', background: 'transparent', fontSize: 12, fontWeight: 500, color: 'var(--pm2)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
             </div>
@@ -826,7 +827,7 @@ export function UIPlaygroundClient() {
               <div style={{ position: 'absolute', top: -7, left: '50%', width: 12, height: 12, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderBottom: 'none', borderRight: 'none', transform: 'translateX(-50%) rotate(45deg)' }} />
               <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: '0 0 12px', textAlign: 'center' }}>&ldquo;try something&rdquo;</p>
               {/* Primary: Save */}
-              <button type="button" style={{ width: '100%', padding: '9px 14px', borderRadius: 10, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 13, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 6px rgba(109,141,255,0.10)', fontFamily: 'inherit', cursor: 'default', marginBottom: 4 }}>Save</button>
+              <button type="button" style={{ width: '100%', padding: '9px 14px', borderRadius: 10, border: 'none', background: '#2C2C32', fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: 'inherit', cursor: 'default', marginBottom: 4 }}>Save</button>
               {/* Text Cancel */}
               <button type="button" style={{ width: '100%', padding: '6px 0', border: 'none', background: 'transparent', fontSize: 12, fontWeight: 500, color: 'var(--pm2)', fontFamily: 'inherit', cursor: 'default' }}>Cancel</button>
             </div>
@@ -843,16 +844,16 @@ export function UIPlaygroundClient() {
           {/* Full-screen State 공통 패턴: Icon → Eyebrow → Title → Desc → Primary → Secondary */}
           <div style={{ border: '1px solid var(--pd)', borderRadius: 20, padding: '48px 24px', textAlign: 'center', maxWidth: 360 }}>
             {/* Icon 72×72, radius 22, accent tint */}
-            <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(109,141,255,0.08)', border: '1px solid rgba(109,141,255,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 20px' }}>🎉</div>
+            <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 20px' }}>🎉</div>
             {/* Eyebrow */}
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 8px' }}>Level Complete</p>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm)', margin: '0 0 8px' }}>Level Complete</p>
             {/* Title */}
             <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>모든 스토리 완료!</h2>
             {/* Description */}
             <p style={{ fontSize: 13.5, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 36px' }}>Level 1의 모든 패턴을 학습했습니다.<br />복습을 통해 패턴을 확실히 익혀보세요.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 320, margin: '0 auto' }}>
-              {/* Primary: accent border + accent text, h56, r18 */}
-              <button type="button" style={{ width: '100%', height: 56, borderRadius: 18, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 15, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 12px rgba(109,141,255,0.12)', fontFamily: 'inherit', cursor: 'default' }}>처음부터 다시 학습</button>
+              {/* Primary: dark fill, h56, r18 */}
+              <button type="button" style={{ width: '100%', height: 56, borderRadius: 18, border: 'none', background: '#2C2C32', fontSize: 15, fontWeight: 700, color: '#FFFFFF', fontFamily: 'inherit', cursor: 'default' }}>처음부터 다시 학습</button>
               {/* Secondary: text only, h48 */}
               <button type="button" style={{ width: '100%', height: 48, border: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>학습 기록 보기</button>
             </div>
@@ -866,16 +867,16 @@ export function UIPlaygroundClient() {
           {/* Full-screen State 공통 패턴: Icon → Eyebrow → Title → Desc → Primary → Secondary */}
           <div style={{ border: '1px solid var(--pd)', borderRadius: 20, padding: '48px 24px', textAlign: 'center', maxWidth: 360 }}>
             {/* Icon 72×72, radius 22, accent tint */}
-            <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(109,141,255,0.08)', border: '1px solid rgba(109,141,255,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 20px' }}>🔒</div>
+            <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 20px' }}>🔒</div>
             {/* Eyebrow */}
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 8px' }}>Premium Story</p>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm)', margin: '0 0 8px' }}>Premium Story</p>
             {/* Title */}
             <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>&ldquo;Moving On&rdquo;</h2>
             {/* Description */}
             <p style={{ fontSize: 13.5, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 36px' }}>Free plan includes the first 3 stories.<br />Upgrade to unlock all stories.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 320, margin: '0 auto' }}>
-              {/* Primary: accent border + accent text, h56, r18 */}
-              <button type="button" style={{ width: '100%', height: 56, borderRadius: 18, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 15, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 12px rgba(109,141,255,0.12)', fontFamily: 'inherit', cursor: 'default' }}>Upgrade to Premium</button>
+              {/* Primary: dark fill, h56, r18 */}
+              <button type="button" style={{ width: '100%', height: 56, borderRadius: 18, border: 'none', background: '#2C2C32', fontSize: 15, fontWeight: 700, color: '#FFFFFF', fontFamily: 'inherit', cursor: 'default' }}>Upgrade to Premium</button>
               {/* Secondary: text only, h48 */}
               <button type="button" style={{ width: '100%', height: 48, border: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>← Go back</button>
             </div>

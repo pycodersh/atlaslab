@@ -128,23 +128,23 @@ export default function SubscriptionPage() {
           ...glassCard,
           padding: '16px 18px',
           marginBottom: 18,
-          border: '1px solid rgba(74,111,168,0.30)',
+          border: '1px solid var(--pacb)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', margin: 0, textTransform: 'uppercase' }}>
               Premium
             </p>
-            <span style={{ fontSize: 9, color: 'rgba(74,111,168,0.70)', letterSpacing: '0.04em' }}>✦</span>
+            <span style={{ fontSize: 9, color: 'var(--pa)', letterSpacing: '0.04em', opacity: 0.7 }}>✦</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {premiumFeatures.map(feat => (
               <div key={feat} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <CircleCheck style={{ width: 14, height: 14, color: 'rgba(74,111,168,0.65)', flexShrink: 0 }} strokeWidth={1.5} />
+                <CircleCheck style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0, opacity: 0.65 }} strokeWidth={1.5} />
                 <p style={{ fontSize: 12.5, color: 'var(--pt)', margin: 0 }}>{feat}</p>
               </div>
             ))}
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-              <CircleCheck style={{ width: 14, height: 14, color: 'rgba(74,111,168,0.65)', flexShrink: 0, marginTop: 2 }} strokeWidth={1.5} />
+              <CircleCheck style={{ width: 14, height: 14, color: 'var(--pa)', flexShrink: 0, marginTop: 2, opacity: 0.65 }} strokeWidth={1.5} />
               <div>
                 <p style={{ fontSize: 12.5, color: 'var(--pt)', margin: 0 }}>AI Essay Reviews</p>
                 <p style={{ fontSize: 10.5, color: 'var(--pm)', margin: '1px 0 0', fontWeight: 400 }}>5 / day · up to 500 words</p>
@@ -169,17 +169,17 @@ export default function SubscriptionPage() {
                   ...glassCard,
                   flex: 1, padding: '14px 14px 12px',
                   border: selected
-                    ? '1.5px solid rgba(74,111,168,0.50)'
+                    ? '1.5px solid var(--pacb)'
                     : '1px solid var(--pglass-border)',
-                  background: selected ? 'rgba(74,111,168,0.09)' : 'var(--pglass)',
+                  background: selected ? 'var(--pal)' : 'var(--pglass)',
                   cursor: 'pointer', textAlign: 'left',
                   transition: 'border 0.15s, background 0.15s',
                 }}
               >
-                <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: selected ? '#4A6FA8' : 'var(--pm)', margin: '0 0 6px', textTransform: 'uppercase' }}>
+                <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: selected ? 'var(--pa)' : 'var(--pm)', margin: '0 0 6px', textTransform: 'uppercase' }}>
                   {plan.label}
                 </p>
-                <p style={{ fontSize: 20, fontWeight: 900, letterSpacing: '-0.02em', color: selected ? '#4A6FA8' : 'var(--pt)', margin: '0 0 2px', lineHeight: 1 }}>
+                <p style={{ fontSize: 20, fontWeight: 900, letterSpacing: '-0.02em', color: selected ? 'var(--pa)' : 'var(--pt)', margin: '0 0 2px', lineHeight: 1 }}>
                   {plan.price}
                 </p>
                 <p style={{ fontSize: 10, color: 'var(--pm2)', margin: 0, lineHeight: 1.3 }}>

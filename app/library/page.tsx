@@ -235,7 +235,7 @@ function PatternAccordion({
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{
             fontSize: 11, fontWeight: 800, color: '#fff',
-            background: 'rgba(74,111,168,0.78)',
+            background: '#2C2C32',
             borderRadius: 7, padding: '2px 8px', letterSpacing: '0.04em',
           }}>
             S{String(storyId).padStart(2, '0')}
@@ -423,11 +423,11 @@ function FilterDropdown({ filter, onChange, onClose }: {
             style={{
               display: 'block', width: '100%', textAlign: 'left',
               padding: '11px 16px',
-              background: filter === opt.key ? 'rgba(74,111,168,0.08)' : 'none',
+              background: filter === opt.key ? 'var(--pal)' : 'none',
               border: 'none',
               borderTop: i > 0 ? '1px solid rgba(230,232,240,0.6)' : 'none',
               fontSize: 13, fontWeight: filter === opt.key ? 700 : 500,
-              color: filter === opt.key ? '#4A6FA8' : 'var(--pt)',
+              color: filter === opt.key ? 'var(--pa)' : 'var(--pt)',
               cursor: 'pointer',
             }}
           >
@@ -572,10 +572,10 @@ export default function LibraryPage() {
             borderRadius: 16,
             padding: '14px 14px 14px 18px',
             border: focused
-              ? '1px solid rgba(74,111,168,0.35)'
+              ? '1px solid var(--pacb)'
               : '1px solid var(--pglass-border)',
             boxShadow: focused
-              ? '0 4px 20px rgba(74,111,168,0.12)'
+              ? '0 4px 20px rgba(109,141,255,0.10)'
               : '0 4px 16px rgba(40,50,80,0.07)',
             transition: 'border 0.2s, box-shadow 0.2s',
           }}>
@@ -592,7 +592,7 @@ export default function LibraryPage() {
               style={{
                 flex: 1, background: 'none', border: 'none', outline: 'none',
                 fontSize: 14, color: 'var(--pt)', fontWeight: 400,
-                caretColor: '#4A6FA8',
+                caretColor: 'var(--pa)',
               }}
             />
             {query && (
@@ -608,13 +608,13 @@ export default function LibraryPage() {
                 style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   width: 30, height: 30, borderRadius: 9,
-                  background: filter !== 'all' ? 'rgba(74,111,168,0.12)' : 'rgba(140,140,150,0.08)',
-                  border: filter !== 'all' ? '1px solid rgba(74,111,168,0.24)' : '1px solid rgba(140,140,150,0.14)',
+                  background: filter !== 'all' ? 'var(--pal)' : 'rgba(140,140,150,0.08)',
+                  border: filter !== 'all' ? '1px solid var(--pacb)' : '1px solid rgba(140,140,150,0.14)',
                   cursor: 'pointer', flexShrink: 0,
                 }}
               >
                 <SlidersHorizontal
-                  style={{ width: 13, height: 13, color: filter !== 'all' ? '#4A6FA8' : '#8E8E93' }}
+                  style={{ width: 13, height: 13, color: filter !== 'all' ? 'var(--pa)' : '#8E8E93' }}
                   strokeWidth={2}
                 />
               </button>
@@ -637,9 +637,9 @@ export default function LibraryPage() {
                 onClick={() => setFilter('all')}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 4,
-                  fontSize: 11, fontWeight: 600, color: '#4A6FA8',
-                  background: 'rgba(74,111,168,0.08)',
-                  border: '1px solid rgba(74,111,168,0.20)',
+                  fontSize: 11, fontWeight: 600, color: 'var(--pa)',
+                  background: 'var(--pal)',
+                  border: '1px solid var(--pacb)',
                   borderRadius: 999, padding: '3px 10px',
                   cursor: 'pointer',
                 }}
@@ -660,9 +660,9 @@ export default function LibraryPage() {
                 <button key={s} type="button"
                   onClick={() => { setQuery(s); submitSearch(s); inputRef.current?.focus() }}
                   style={{
-                    fontSize: 12, fontWeight: 500, color: '#4A6FA8',
-                    background: 'rgba(74,111,168,0.07)',
-                    border: '1px solid rgba(74,111,168,0.16)',
+                    fontSize: 12, fontWeight: 500, color: 'var(--pa)',
+                    background: 'var(--pal)',
+                    border: '1px solid var(--pacb)',
                     borderRadius: 999, padding: '4px 12px',
                     cursor: 'pointer', fontFamily: 'inherit',
                   }}>
@@ -759,10 +759,10 @@ export default function LibraryPage() {
             accent="#C08040"
           />
           <SummaryCard
-            icon={<BookMarked style={{ width: 16, height: 16, color: '#4A6FA8' }} strokeWidth={1.8} />}
+            icon={<BookMarked style={{ width: 16, height: 16, color: 'var(--pa)' }} strokeWidth={1.8} />}
             label="Patterns"
             value={bookmarks.length}
-            accent="#4A6FA8"
+            accent="var(--pa)"
           />
         </div>
 
@@ -848,8 +848,8 @@ export default function LibraryPage() {
               <SecLabel label="Saved Patterns" count={bookmarks.length} unit="Patterns" />
               {bookmarks.length === 0 ? (
                 <EmptyState
-                  icon={<BookMarked style={{ width: 24, height: 24, color: '#4A6FA8' }} strokeWidth={1.6} />}
-                  iconColor="#4A6FA8"
+                  icon={<BookMarked style={{ width: 24, height: 24, color: 'var(--pa)' }} strokeWidth={1.6} />}
+                  iconColor="var(--pa)"
                   title="No saved patterns yet."
                   body={t('no_bookmarks')}
                 />

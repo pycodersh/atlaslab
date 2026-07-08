@@ -144,7 +144,7 @@ export function ReviewSession() {
   if (done) {
     return (
       <div className="min-h-dvh bg-transparent flex flex-col items-center justify-center px-8 text-center">
-        <div className="w-14 h-14 rounded-full bg-[var(--pa)] flex items-center justify-center mb-4">
+        <div className="w-14 h-14 rounded-full bg-[#2C2C32] flex items-center justify-center mb-4">
           <Check className="w-7 h-7 text-white" strokeWidth={2.5} />
         </div>
         <p className="font-playfair text-[1.5rem] font-bold text-[var(--pt)] mb-1">{t('review_done_title')}</p>
