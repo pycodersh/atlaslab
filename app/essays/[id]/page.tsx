@@ -140,6 +140,105 @@ const TAG_LABELS: Record<string, string> = {
   pronoun: 'Pronoun', plural: 'Plural',
 }
 
+// ── Review Overlay ────────────────────────────────────────────────────────────
+const REVIEW_STEPS = [
+  'Checking grammar',
+  'Improving vocabulary',
+  'Enhancing natural expressions',
+  'Preparing feedback',
+]
+
+function ReviewOverlay({ visible }: { visible: boolean }) {
+  const [step, setStep] = useState(0)
+  const [fadeOut, setFadeOut] = useState(false)
+
+  useEffect(() => {
+    if (!visible) return
+    setStep(0)
+    setFadeOut(false)
+    const timers = REVIEW_STEPS.map((_, i) =>
+      setTimeout(() => setStep(i), i * 1400)
+    )
+    return () => timers.forEach(clearTimeout)
+  }, [visible])
+
+  useEffect(() => {
+    if (!visible) setFadeOut(true)
+  }, [visible])
+
+  if (!visible && fadeOut) return null
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 100,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'rgba(0,0,0,0.45)',
+      backdropFilter: 'blur(6px)',
+      WebkitBackdropFilter: 'blur(6px)',
+      animation: fadeOut ? 'overlayFadeOut 0.35s ease forwards' : 'overlayFadeIn 0.3s ease',
+    }}>
+      <div style={{
+        background: 'var(--pglass)',
+        backdropFilter: 'blur(32px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+        border: '1px solid var(--pglass-border)',
+        borderRadius: 28,
+        padding: '40px 36px',
+        width: 'min(320px, calc(100vw - 48px))',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20,
+        animation: fadeOut ? 'overlayScaleOut 0.35s ease forwards' : 'overlayScaleIn 0.3s ease',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
+      }}>
+        {/* AI Spinner */}
+        <div style={{ position: 'relative', width: 56, height: 56 }}>
+          <svg width={56} height={56} style={{ animation: 'spin 1.4s linear infinite', position: 'absolute', inset: 0 }}>
+            <circle cx={28} cy={28} r={24} fill="none" stroke="var(--pglass-border)" strokeWidth={3} />
+            <circle cx={28} cy={28} r={24} fill="none" stroke="var(--pa)" strokeWidth={3}
+              strokeDasharray="40 110" strokeLinecap="round" />
+          </svg>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Sparkles style={{ width: 18, height: 18, color: 'var(--pa)' }} strokeWidth={1.8} />
+          </div>
+        </div>
+
+        {/* Title */}
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: '0 0 6px', letterSpacing: '-0.01em' }}>
+            Reviewing your essay...
+          </p>
+          <p key={step} style={{
+            fontSize: 12, color: 'var(--pm)', margin: 0,
+            minHeight: 18,
+            animation: 'stepFade 0.4s ease',
+          }}>
+            {REVIEW_STEPS[step]}
+          </p>
+        </div>
+
+        {/* Indeterminate progress bar */}
+        <div style={{ width: '100%', height: 3, background: 'var(--pglass-border)', borderRadius: 99, overflow: 'hidden' }}>
+          <div style={{
+            height: '100%', width: '40%', borderRadius: 99,
+            background: 'var(--pa)',
+            animation: 'progressSlide 1.6s ease-in-out infinite',
+          }} />
+        </div>
+
+        {/* Step dots */}
+        <div style={{ display: 'flex', gap: 6 }}>
+          {REVIEW_STEPS.map((_, i) => (
+            <div key={i} style={{
+              width: i === step ? 16 : 6, height: 6, borderRadius: 99,
+              background: i <= step ? 'var(--pa)' : 'var(--pglass-border)',
+              transition: 'all 0.4s ease',
+            }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Main page ─────────────────────────────────────────────────────────────────
 export default function EssayDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -152,6 +251,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const [body, setBody] = useState('')
   const [isEditing, setIsEditing] = useState(false)   // report → edit toggle
   const [loading, setLoading] = useState(false)
+  const [overlayVisible, setOverlayVisible] = useState(false)
   const [error, setError] = useState<ValidationError>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [showCompare, setShowCompare] = useState(false)
@@ -206,6 +306,8 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
     if (wc > MAX_WORDS) { setError('too_long'); return }
     autoSave()
     setLoading(true)
+    setOverlayVisible(true)
+    const minDelay = new Promise(r => setTimeout(r, 700))
     try {
       const res = await fetch('/api/essays/review', {
         method: 'POST',
@@ -213,6 +315,9 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         body: JSON.stringify({ essayId: id, essayBody: body, essayTitle: title || essay.title, language: prefs.language }),
       })
       const data = await res.json()
+      await minDelay
+      setOverlayVisible(false)
+      await new Promise(r => setTimeout(r, 350)) // fade-out 대기
       if (!res.ok) {
         const errCode = data.error as string
         setError((['not_english','too_short','too_long','service_unavailable'] as const).includes(errCode as never)
@@ -227,8 +332,10 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         setBody(updated.body)
       }
       recordReviewUsed()
-      setIsEditing(false)  // switch to report mode
+      setIsEditing(false)
     } catch {
+      await minDelay
+      setOverlayVisible(false)
       setError('service_unavailable')
     }
     setLoading(false)
@@ -598,6 +705,8 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
       {subBar}
       {isEditing ? editView : reportView}
 
+      <ReviewOverlay visible={overlayVisible} />
+
       {/* Delete confirm sheet */}
       {showDeleteConfirm && (
         <div
@@ -625,7 +734,19 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         </div>
       )}
 
-      <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
+      <style>{`
+        @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+        @keyframes overlayFadeIn { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes overlayFadeOut { from { opacity: 1 } to { opacity: 0 } }
+        @keyframes overlayScaleIn { from { opacity: 0; transform: scale(0.88) } to { opacity: 1; transform: scale(1) } }
+        @keyframes overlayScaleOut { from { opacity: 1; transform: scale(1) } to { opacity: 0; transform: scale(0.92) } }
+        @keyframes progressSlide {
+          0% { transform: translateX(-100%) }
+          50% { transform: translateX(160%) }
+          100% { transform: translateX(160%) }
+        }
+        @keyframes stepFade { from { opacity: 0; transform: translateY(4px) } to { opacity: 1; transform: translateY(0) } }
+      `}</style>
     </div>
   )
 }
