@@ -77,7 +77,12 @@ export default function AuthPage() {
   }
 
   async function handleKakao() {
-    showToast(isKorean ? '카카오 로그인 준비 중' : 'Kakao coming soon')
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'kakao',
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    })
+    if (error) showToast(error.message)
   }
 
   async function handleNaver() {
