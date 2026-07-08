@@ -405,6 +405,137 @@ export const PRIVACY: Partial<Record<Language, LegalDoc>> = {
   },
 }
 
+// ── Refund Policy ──────────────────────────────────────────────────────────────
+
+export const REFUND: Partial<Record<Language, LegalDoc>> = {
+  ko: {
+    title: '환불 정책',
+    updated: '최종 업데이트: 2026년 7월 8일',
+    sections: [
+      {
+        title: '1. 기본 원칙',
+        body: `PATTO는 모든 구독 결제에 대해 공정하고 투명한 환불 정책을 운영합니다. 결제 처리는 Paddle을 통해 이루어지며, 해당 환불은 Paddle의 정책 및 관련 소비자 보호법에 따라 처리됩니다.`,
+      },
+      {
+        title: '2. 환불 가능 기간',
+        body: `최초 구독 결제일로부터 14일 이내에 환불을 요청할 수 있습니다.\n\n단, 다음의 경우 환불이 제한될 수 있습니다.\n\n• 프리미엄 콘텐츠를 상당 부분 이용한 경우\n• 동일 계정으로 이미 환불을 받은 이력이 있는 경우`,
+      },
+      {
+        title: '3. 자동 갱신 구독',
+        body: `월간 또는 연간 구독은 현재 결제 기간 종료 최소 24시간 전에 해지하지 않으면 자동으로 갱신됩니다.\n\n자동 갱신 이후 발생한 결제는 환불되지 않습니다. 계정 설정에서 언제든지 구독을 해지할 수 있으며, 해지 후에도 현재 결제 기간이 종료될 때까지 프리미엄 서비스를 이용할 수 있습니다.`,
+      },
+      {
+        title: '4. 환불 신청 방법',
+        body: `환불을 요청하려면 아래 이메일로 문의해 주세요.\n\n이메일: support@patto.app\n제목: 환불 요청 — [가입 이메일 주소]\n\n환불 요청을 받은 날로부터 영업일 기준 5일 이내에 답변 드리며, 승인된 환불은 원래 결제 수단으로 7~14 영업일 내에 처리됩니다.`,
+      },
+      {
+        title: '5. 기술적 문제',
+        body: `PATTO의 기술적 결함으로 인해 서비스를 정상적으로 이용하지 못한 경우, 당사는 전액 환불 또는 구독 기간 연장을 제공합니다. 해당 문제를 재현할 수 있는 스크린샷이나 설명을 support@patto.app으로 보내주시면 신속하게 처리하겠습니다.`,
+      },
+      {
+        title: '6. 문의',
+        body: `환불 정책에 관한 문의는 아래로 연락주시기 바랍니다.\n\n이메일: support@patto.app\n주소: PATTO Inc., 대한민국 서울\n\n본 환불 정책은 2026년 7월 8일에 최종 업데이트되었습니다.`,
+      },
+    ],
+  },
+
+  en: {
+    title: 'Refund Policy',
+    updated: 'Last updated: July 8, 2026',
+    sections: [
+      {
+        title: '1. Our Commitment',
+        body: `PATTO operates a fair and transparent refund policy for all subscription payments. Payments are processed through Paddle, and refunds are handled in accordance with Paddle's policies and applicable consumer protection laws.`,
+      },
+      {
+        title: '2. Refund Eligibility',
+        body: `You may request a refund within 14 days of your initial subscription payment.\n\nRefunds may be limited in the following cases:\n\n• A substantial portion of the premium content has been accessed\n• A refund has already been issued for the same account`,
+      },
+      {
+        title: '3. Auto-Renewing Subscriptions',
+        body: `Monthly and annual subscriptions automatically renew unless cancelled at least 24 hours before the end of the current billing period.\n\nPayments made after automatic renewal are non-refundable. You may cancel your subscription at any time in your account settings. After cancellation, you will retain access to premium features until the end of the current billing period.`,
+      },
+      {
+        title: '4. How to Request a Refund',
+        body: `To request a refund, please contact us at:\n\nEmail: support@patto.app\nSubject: Refund Request — [your account email]\n\nWe will respond within 5 business days of receiving your request. Approved refunds will be processed to your original payment method within 7–14 business days.`,
+      },
+      {
+        title: '5. Technical Issues',
+        body: `If you experience a technical failure caused by PATTO that prevents normal use of the Service, we will offer a full refund or an extension of your subscription period. Please send screenshots or a description of the issue to support@patto.app and we will resolve it promptly.`,
+      },
+      {
+        title: '6. Contact',
+        body: `For inquiries regarding this Refund Policy:\n\nEmail: support@patto.app\nAddress: PATTO Inc., Seoul, South Korea\n\nThis Refund Policy was last updated on July 8, 2026.`,
+      },
+    ],
+  },
+
+  ja: {
+    title: '返金ポリシー',
+    updated: '最終更新日：2026年7月8日',
+    sections: [
+      { title: '1. 基本方針', body: `PATTOはすべてのサブスクリプション決済に対して公正かつ透明な返金ポリシーを採用しています。決済はPaddleを通じて処理されます。` },
+      { title: '2. 返金対象期間', body: `初回サブスクリプション決済日から14日以内に返金を申請できます。ただし、プレミアムコンテンツを大幅に利用した場合や、同一アカウントで返金を受けた履歴がある場合は制限されることがあります。` },
+      { title: '3. 自動更新サブスクリプション', body: `月間・年間サブスクリプションは、現在の請求期間終了の少なくとも24時間前にキャンセルしない限り自動更新されます。自動更新後の決済は返金されません。` },
+      { title: '4. 返金申請方法', body: `返金をご希望の場合は以下にご連絡ください。\n\nメール：support@patto.app\n件名：返金申請 — [登録メールアドレス]\n\n承認された返金は7〜14営業日以内に元の決済手段に返金されます。` },
+      { title: '5. 技術的問題', body: `PATTOの技術的な障害によりサービスを正常に利用できなかった場合、全額返金またはサブスクリプション期間の延長を提供します。support@patto.appまでご連絡ください。` },
+      { title: '6. お問い合わせ', body: `返金ポリシーに関するお問い合わせ：\n\nメール：support@patto.app\n最終更新日：2026年7月8日` },
+    ],
+  },
+
+  es: {
+    title: 'Política de Reembolso',
+    updated: 'Última actualización: 8 de julio de 2026',
+    sections: [
+      { title: '1. Nuestro compromiso', body: `PATTO opera una política de reembolso justa y transparente. Los pagos se procesan a través de Paddle.` },
+      { title: '2. Elegibilidad para reembolso', body: `Puedes solicitar un reembolso dentro de los 14 días posteriores a tu pago de suscripción inicial. Los reembolsos pueden limitarse si se ha accedido a una parte sustancial del contenido premium.` },
+      { title: '3. Suscripciones de renovación automática', body: `Las suscripciones se renuevan automáticamente a menos que se cancelen al menos 24 horas antes del final del período de facturación. Los pagos después de la renovación automática no son reembolsables.` },
+      { title: '4. Cómo solicitar un reembolso', body: `Envía un correo a support@patto.app con el asunto: Solicitud de reembolso — [tu correo]. Responderemos en 5 días hábiles.` },
+      { title: '5. Problemas técnicos', body: `Si experimentas una falla técnica causada por PATTO, ofreceremos un reembolso completo o una extensión de tu suscripción.` },
+      { title: '6. Contacto', body: `Correo: support@patto.app\nÚltima actualización: 8 de julio de 2026.` },
+    ],
+  },
+
+  'zh-cn': {
+    title: '退款政策',
+    updated: '最后更新：2026年7月8日',
+    sections: [
+      { title: '1. 我们的承诺', body: `PATTO对所有订阅付款实行公平透明的退款政策。付款通过Paddle处理。` },
+      { title: '2. 退款资格', body: `您可以在初次订阅付款后14天内申请退款。如已访问大量高级内容或同一账户已有退款记录，退款可能受到限制。` },
+      { title: '3. 自动续订', body: `订阅将自动续订，除非在当前计费周期结束前至少24小时取消。自动续订后的付款不予退款。` },
+      { title: '4. 如何申请退款', body: `请发送邮件至support@patto.app，主题：退款申请 — [您的账户邮箱]。我们将在5个工作日内回复。` },
+      { title: '5. 技术问题', body: `如因PATTO技术故障导致无法正常使用服务，我们将提供全额退款或延长订阅期限。` },
+      { title: '6. 联系方式', body: `邮箱：support@patto.app\n最后更新：2026年7月8日` },
+    ],
+  },
+
+  fr: {
+    title: 'Politique de Remboursement',
+    updated: 'Dernière mise à jour : 8 juillet 2026',
+    sections: [
+      { title: '1. Notre engagement', body: `PATTO applique une politique de remboursement juste et transparente. Les paiements sont traités via Paddle.` },
+      { title: '2. Éligibilité au remboursement', body: `Vous pouvez demander un remboursement dans les 14 jours suivant votre premier paiement d'abonnement. Les remboursements peuvent être limités si une partie substantielle du contenu premium a été consultée.` },
+      { title: '3. Abonnements à renouvellement automatique', body: `Les abonnements se renouvellent automatiquement sauf annulation au moins 24 heures avant la fin de la période de facturation. Les paiements après renouvellement automatique ne sont pas remboursables.` },
+      { title: '4. Comment demander un remboursement', body: `Envoyez un email à support@patto.app avec l'objet : Demande de remboursement — [votre email]. Nous répondrons sous 5 jours ouvrables.` },
+      { title: '5. Problèmes techniques', body: `En cas de défaillance technique de PATTO empêchant l'utilisation normale du Service, nous proposerons un remboursement complet ou une extension d'abonnement.` },
+      { title: '6. Contact', body: `Email : support@patto.app\nDernière mise à jour : 8 juillet 2026.` },
+    ],
+  },
+
+  de: {
+    title: 'Rückerstattungsrichtlinie',
+    updated: 'Zuletzt aktualisiert: 8. Juli 2026',
+    sections: [
+      { title: '1. Unser Engagement', body: `PATTO betreibt eine faire und transparente Rückerstattungsrichtlinie. Zahlungen werden über Paddle abgewickelt.` },
+      { title: '2. Erstattungsberechtigung', body: `Sie können innerhalb von 14 Tagen nach Ihrer ersten Abonnementzahlung eine Rückerstattung beantragen. Rückerstattungen können eingeschränkt sein, wenn ein wesentlicher Teil des Premium-Inhalts genutzt wurde.` },
+      { title: '3. Automatisch erneuerte Abonnements', body: `Abonnements verlängern sich automatisch, sofern sie nicht mindestens 24 Stunden vor Ablauf gekündigt werden. Zahlungen nach automatischer Verlängerung sind nicht erstattungsfähig.` },
+      { title: '4. Rückerstattung beantragen', body: `Senden Sie eine E-Mail an support@patto.app mit dem Betreff: Rückerstattungsantrag — [Ihre E-Mail]. Wir antworten innerhalb von 5 Werktagen.` },
+      { title: '5. Technische Probleme', body: `Bei technischen Fehlern seitens PATTO bieten wir eine vollständige Rückerstattung oder Verlängerung des Abonnementzeitraums an.` },
+      { title: '6. Kontakt', body: `E-Mail: support@patto.app\nZuletzt aktualisiert: 8. Juli 2026.` },
+    ],
+  },
+}
+
 // ── Helper ─────────────────────────────────────────────────────────────────────
 
 export function getLegalDoc(
