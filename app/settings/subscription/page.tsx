@@ -1,9 +1,14 @@
-﻿'use client'
+'use client'
 
 import { useState } from 'react'
 import { CircleCheck, UserCircle } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
+import { usePaddle } from '@/hooks/usePaddle'
+import { getCurrentUser } from '@/lib/auth-actions'
+
+const MONTHLY_PRICE_ID = process.env.NEXT_PUBLIC_PADDLE_MONTHLY_PRICE_ID!
+const ANNUAL_PRICE_ID  = process.env.NEXT_PUBLIC_PADDLE_ANNUAL_PRICE_ID!
 
 const glassCard: React.CSSProperties = {
   background: 'var(--pglass)',
@@ -15,13 +20,44 @@ const glassCard: React.CSSProperties = {
   overflow: 'hidden',
 }
 
-// Stub: replace with real subscription state
+// Stub: replace with real subscription state from Supabase
 const IS_PREMIUM = false
 
 export default function SubscriptionPage() {
   const t = useT()
+  const paddle = usePaddle()
   const [billing, setBilling] = useState<'monthly' | 'annual'>('annual')
-  const [toast, setToast] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState('')
+
+  function showToast(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(''), 2800)
+  }
+
+  async function handleUpgrade() {
+    if (!paddle) { showToast('결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.'); return }
+
+    setLoading(true)
+    try {
+      const user = await getCurrentUser()
+      const priceId = billing === 'monthly' ? MONTHLY_PRICE_ID : ANNUAL_PRICE_ID
+
+      paddle.Checkout.open({
+        items: [{ priceId, quantity: 1 }],
+        customer: user?.email ? { email: user.email } : undefined,
+        settings: {
+          displayMode: 'overlay',
+          theme: 'light',
+          locale: 'ko',
+        },
+      })
+    } catch {
+      showToast('결제 창을 열 수 없습니다. 다시 시도해주세요.')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const freeFeatures = [
     t('sub_free_f1'),
@@ -76,7 +112,6 @@ export default function SubscriptionPage() {
                 <p style={{ fontSize: 12.5, color: 'var(--pt2)', margin: 0 }}>{feat}</p>
               </div>
             ))}
-            {/* Essay review limit */}
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
               <CircleCheck style={{ width: 14, height: 14, color: 'var(--pm)', flexShrink: 0, marginTop: 2 }} strokeWidth={1.5} />
               <div>
@@ -107,7 +142,6 @@ export default function SubscriptionPage() {
                 <p style={{ fontSize: 12.5, color: 'var(--pt)', margin: 0 }}>{feat}</p>
               </div>
             ))}
-            {/* Essay review limit */}
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
               <CircleCheck style={{ width: 14, height: 14, color: 'rgba(74,111,168,0.65)', flexShrink: 0, marginTop: 2 }} strokeWidth={1.5} />
               <div>
@@ -158,32 +192,35 @@ export default function SubscriptionPage() {
         {/* CTA */}
         <button
           type="button"
-          onClick={() => { setToast(true); setTimeout(() => setToast(false), 2800) }}
+          onClick={IS_PREMIUM ? undefined : handleUpgrade}
+          disabled={loading || !paddle}
           style={{
             ...glassCard,
             width: '100%', padding: '15px 0',
             border: '1px solid var(--pglass-border)',
-            cursor: 'pointer',
+            cursor: loading || !paddle ? 'not-allowed' : 'pointer',
             fontSize: 14, fontWeight: 700, letterSpacing: '-0.01em',
             color: 'var(--pt)', fontFamily: 'inherit',
-            transition: 'transform 0.18s, box-shadow 0.18s',
+            opacity: loading || !paddle ? 0.6 : 1,
+            transition: 'transform 0.18s, box-shadow 0.18s, opacity 0.15s',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.transform = 'translateY(-1px)'
-            e.currentTarget.style.boxShadow = '0 8px 24px rgba(40,40,80,0.09)'
+            if (!loading && paddle) {
+              e.currentTarget.style.transform = 'translateY(-1px)'
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(40,40,80,0.09)'
+            }
           }}
           onMouseLeave={e => {
             e.currentTarget.style.transform = 'translateY(0)'
             e.currentTarget.style.boxShadow = '0 4px 18px rgba(40,50,80,0.07)'
           }}
         >
-          {IS_PREMIUM ? 'Manage Subscription' : 'Upgrade to Premium'}
+          {loading ? '...' : IS_PREMIUM ? 'Manage Subscription' : 'Upgrade to Premium'}
         </button>
         <p style={{ textAlign: 'center', fontSize: 10.5, color: 'var(--pm2)', marginTop: 10, marginBottom: 0 }}>
           Cancel anytime.
         </p>
 
-        {/* Version */}
         <p style={{ textAlign: 'center', fontSize: 11, color: '#C0C0C8', margin: '40px 0 0', fontWeight: 500 }}>
           v1.0.0
         </p>
@@ -197,7 +234,7 @@ export default function SubscriptionPage() {
           boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
           zIndex: 50, whiteSpace: 'nowrap', letterSpacing: '0.04em',
         }}>
-          {t('sub_toast')}
+          {toast}
         </div>
       )}
     </div>
