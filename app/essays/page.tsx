@@ -229,7 +229,7 @@ export default function EssaysPage() {
                 onMouseEnter={e => { e.currentTarget.style.opacity = '0.75' }}
                 onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
               >
-                {showAll ? '접기' : `${essays.length - INITIAL_SHOW}개 더 보기`}
+                {showAll ? t('essays_collapse') : t('essays_show_more', { n: essays.length - INITIAL_SHOW })}
               </button>
             )}
           </div>
