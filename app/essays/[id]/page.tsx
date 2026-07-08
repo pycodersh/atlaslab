@@ -389,43 +389,24 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   )
 
   // ── Report mode ───────────────────────────────────────────────────────────
+  // Determine if there is any meaningful content in Editor's Review
+  const hasReviewContent = review
+    ? (review.score !== undefined || review.commentOverall || review.editorComment ||
+       (review.commentStrengths?.length ?? 0) > 0 || (review.commentImprovements?.length ?? 0) > 0)
+    : false
+
   const reportView = review ? (
     <div style={{ flex: 1, maxWidth: 600, width: '100%', margin: '0 auto', padding: `0 20px calc(${64}px + env(safe-area-inset-bottom, 0px))`, boxSizing: 'border-box' }}>
 
-      {/* 1. Editor's Review */}
-      <div style={{ marginBottom: 20 }}>
-        <p style={sectionLabel}>Editor&apos;s Review</p>
-        <div style={{ ...glassCard }}>
-          <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-            {review.score !== undefined && <ScoreRing score={review.score} />}
-            <div style={{ flex: 1, minWidth: 0 }}>
-              {review.commentOverall && (
-                <p style={{ fontSize: 13, lineHeight: 1.65, color: 'var(--pt)', margin: '0 0 14px', fontStyle: 'italic' }}>
-                  {review.commentOverall}
-                </p>
-              )}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                {review.commentStrengths && review.commentStrengths.length > 0 && (
-                  <div>
-                    <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.12em', color: '#3A7A4A', margin: '0 0 8px' }}>✓ Strengths</p>
-                    {review.commentStrengths.map((s, i) => (
-                      <p key={i} style={{ fontSize: 11.5, lineHeight: 1.55, color: 'var(--pt2)', margin: '0 0 5px' }}>• {s}</p>
-                    ))}
-                  </div>
-                )}
-                {review.commentImprovements && review.commentImprovements.length > 0 && (
-                  <div>
-                    <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.12em', color: '#B36200', margin: '0 0 8px' }}>▲ Areas to Improve</p>
-                    {review.commentImprovements.map((s, i) => (
-                      <p key={i} style={{ fontSize: 11.5, lineHeight: 1.55, color: 'var(--pt2)', margin: '0 0 5px' }}>• {s}</p>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+      {/* 1. Editor's Marks */}
+      {review.annotations.length > 0 && (
+        <div style={{ marginBottom: 20 }}>
+          <p style={sectionLabel}>Editor&apos;s Marks</p>
+          <div style={{ ...glassCard, lineHeight: 2.6 }}>
+            <AnnotatedManuscript body={essay.body} annotations={review.annotations} essayId={essay.id} />
           </div>
         </div>
-      </div>
+      )}
 
       {/* 2. Detailed Feedback */}
       {grammarAnns.length > 0 && (
@@ -435,12 +416,13 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
             {(showAllFeedback ? grammarAnns : grammarAnns.slice(0, FEEDBACK_INITIAL)).map((ann, i) => {
               const tag = TAG_COLORS[ann.subType ?? ''] ?? { bg: 'rgba(90,90,100,0.10)', color: '#5A5A64' }
               const label = TAG_LABELS[ann.subType ?? ''] ?? 'Other'
+              const visibleCount = showAllFeedback ? grammarAnns.length : Math.min(grammarAnns.length, FEEDBACK_INITIAL)
               return (
                 <div key={i} style={{
                   display: 'grid', gridTemplateColumns: '1fr 16px 1fr auto',
                   alignItems: 'center', gap: 8,
                   padding: '10px 0',
-                  borderBottom: i < Math.min(grammarAnns.length, showAllFeedback ? grammarAnns.length : FEEDBACK_INITIAL) - 1 ? '1px solid var(--pd)' : 'none',
+                  borderBottom: i < visibleCount - 1 ? '1px solid var(--pd)' : 'none',
                 }}>
                   <span style={{ fontSize: 12, color: 'var(--ann-red-fade)', textDecoration: 'line-through', wordBreak: 'break-word' }}>{ann.fragment}</span>
                   <span style={{ fontSize: 11, color: 'var(--pm2)', textAlign: 'center' }}>→</span>
@@ -463,7 +445,54 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         </div>
       )}
 
-      {/* 3. Corrected Essay */}
+      {/* 3. Editor's Review */}
+      {hasReviewContent && (
+        <div style={{ marginBottom: 20 }}>
+          <p style={sectionLabel}>Editor&apos;s Review</p>
+          <div style={{ ...glassCard }}>
+            <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+              {review.score !== undefined && <ScoreRing score={review.score} />}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                {/* New structured comment, or legacy editorComment fallback */}
+                {(review.commentOverall || review.editorComment) && (
+                  <p style={{ fontSize: 13, lineHeight: 1.65, color: 'var(--pt)', margin: '0 0 14px', fontStyle: 'italic' }}>
+                    {review.commentOverall ?? review.editorComment}
+                  </p>
+                )}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  {review.commentStrengths && review.commentStrengths.length > 0 && (
+                    <div>
+                      <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.12em', color: '#3A7A4A', margin: '0 0 8px' }}>✓ Strengths</p>
+                      {review.commentStrengths.map((s, i) => (
+                        <p key={i} style={{ fontSize: 11.5, lineHeight: 1.55, color: 'var(--pt2)', margin: '0 0 5px' }}>• {s}</p>
+                      ))}
+                    </div>
+                  )}
+                  {review.commentImprovements && review.commentImprovements.length > 0 && (
+                    <div>
+                      <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.12em', color: '#B36200', margin: '0 0 8px' }}>▲ Areas to Improve</p>
+                      {review.commentImprovements.map((s, i) => (
+                        <p key={i} style={{ fontSize: 11.5, lineHeight: 1.55, color: 'var(--pt2)', margin: '0 0 5px' }}>• {s}</p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {/* Legacy: nextChallenge */}
+                {review.nextChallenge && !review.commentStrengths?.length && (
+                  <div style={{ marginTop: 10, padding: '10px 12px', background: 'rgba(88,86,214,0.07)', borderRadius: 10 }}>
+                    <p style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.12em', color: '#5856D6', margin: '0 0 5px' }}>▶ Next Challenge</p>
+                    <p style={{ fontSize: 12, color: 'var(--pt2)', margin: 0, lineHeight: 1.55 }}>
+                      {Array.isArray(review.nextChallenge) ? review.nextChallenge.join(' ') : review.nextChallenge}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 4. Corrected Essay */}
       {review.suggestedVersion && (
         <div style={{ marginBottom: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
@@ -494,61 +523,53 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         </div>
       )}
 
-      {/* 4-6. Expandable sections */}
-      <div style={{ ...glassCard, padding: '0 20px', marginBottom: 20 }}>
-        {review.vocabulary && review.vocabulary.length > 0 && (
-          <CollapsibleSection icon={<BookOpen style={{ width: 13, height: 13 }} strokeWidth={1.8} />} title="Vocabulary" count={review.vocabulary.length} color="#FF9F0A">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {review.vocabulary.map((v: VocabItem, i: number) => (
-                <div key={i} style={{ paddingBottom: 12, borderBottom: i < (review.vocabulary?.length ?? 0) - 1 ? '1px solid var(--pd)' : 'none' }}>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 3 }}>
-                    <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)' }}>{v.word}</span>
-                    <span style={{ fontSize: 12, color: 'var(--pm2)' }}>{v.meaning}</span>
+      {/* 5-7. Expandable sections */}
+      {(review.vocabulary?.length || review.usefulChunks?.length || review.grammarTips?.length) ? (
+        <div style={{ ...glassCard, padding: '0 20px', marginBottom: 20 }}>
+          {review.vocabulary && review.vocabulary.length > 0 && (
+            <CollapsibleSection icon={<BookOpen style={{ width: 13, height: 13 }} strokeWidth={1.8} />} title="Vocabulary" count={review.vocabulary.length} color="#FF9F0A">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {review.vocabulary.map((v: VocabItem, i: number) => (
+                  <div key={i} style={{ paddingBottom: 12, borderBottom: i < (review.vocabulary?.length ?? 0) - 1 ? '1px solid var(--pd)' : 'none' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 3 }}>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)' }}>{v.word}</span>
+                      <span style={{ fontSize: 12, color: 'var(--pm2)' }}>{v.meaning}</span>
+                    </div>
+                    <p style={{ fontSize: 11.5, color: 'var(--pt2)', margin: 0, fontStyle: 'italic', lineHeight: 1.5 }}>&ldquo;{v.example}&rdquo;</p>
                   </div>
-                  <p style={{ fontSize: 11.5, color: 'var(--pt2)', margin: 0, fontStyle: 'italic', lineHeight: 1.5 }}>&ldquo;{v.example}&rdquo;</p>
-                </div>
-              ))}
-            </div>
-          </CollapsibleSection>
-        )}
+                ))}
+              </div>
+            </CollapsibleSection>
+          )}
 
-        {review.usefulChunks && review.usefulChunks.length > 0 && (
-          <CollapsibleSection icon={<Zap style={{ width: 13, height: 13 }} strokeWidth={1.8} />} title="Useful Chunks" count={review.usefulChunks.length} color="#5856D6">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {review.usefulChunks.map((c: ChunkItem, i: number) => (
-                <div key={i} style={{ paddingBottom: 10, borderBottom: i < (review.usefulChunks?.length ?? 0) - 1 ? '1px solid var(--pd)' : 'none' }}>
-                  <p style={{ fontSize: 13.5, fontWeight: 700, color: '#5856D6', margin: '0 0 3px', fontFamily: 'var(--font-caveat, cursive)' }}>{c.expression}</p>
-                  <p style={{ fontSize: 11.5, color: 'var(--pt2)', margin: 0, lineHeight: 1.5 }}>{c.usage}</p>
-                </div>
-              ))}
-            </div>
-          </CollapsibleSection>
-        )}
+          {review.usefulChunks && review.usefulChunks.length > 0 && (
+            <CollapsibleSection icon={<Zap style={{ width: 13, height: 13 }} strokeWidth={1.8} />} title="Useful Chunks" count={review.usefulChunks.length} color="#5856D6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {review.usefulChunks.map((c: ChunkItem, i: number) => (
+                  <div key={i} style={{ paddingBottom: 10, borderBottom: i < (review.usefulChunks?.length ?? 0) - 1 ? '1px solid var(--pd)' : 'none' }}>
+                    <p style={{ fontSize: 13.5, fontWeight: 700, color: '#5856D6', margin: '0 0 3px', fontFamily: 'var(--font-caveat, cursive)' }}>{c.expression}</p>
+                    <p style={{ fontSize: 11.5, color: 'var(--pt2)', margin: 0, lineHeight: 1.5 }}>{c.usage}</p>
+                  </div>
+                ))}
+              </div>
+            </CollapsibleSection>
+          )}
 
-        {review.grammarTips && review.grammarTips.length > 0 && (
-          <CollapsibleSection icon={<GraduationCap style={{ width: 13, height: 13 }} strokeWidth={1.8} />} title="Grammar Tips" count={review.grammarTips.length} color="#34C759">
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {review.grammarTips.map((tip: GrammarTip, i: number) => (
-                <div key={i} style={{ paddingBottom: 14, borderBottom: i < (review.grammarTips?.length ?? 0) - 1 ? '1px solid var(--pd)' : 'none' }}>
-                  <p style={{ fontSize: 12, fontWeight: 700, color: '#34C759', margin: '0 0 4px', letterSpacing: '0.03em' }}>{tip.point}</p>
-                  <p style={{ fontSize: 12, color: 'var(--pt)', margin: '0 0 5px', lineHeight: 1.55 }}>{tip.explanation}</p>
-                  <p style={{ fontSize: 11, color: 'var(--pm2)', margin: 0, fontStyle: 'italic', lineHeight: 1.5 }}>{tip.example}</p>
-                </div>
-              ))}
-            </div>
-          </CollapsibleSection>
-        )}
-      </div>
-
-      {/* Editor's Marks */}
-      {review.annotations.length > 0 && (
-        <div style={{ marginBottom: 20 }}>
-          <p style={sectionLabel}>Editor&apos;s Marks</p>
-          <div style={{ ...glassCard, lineHeight: 2.6 }}>
-            <AnnotatedManuscript body={essay.body} annotations={review.annotations} essayId={essay.id} />
-          </div>
+          {review.grammarTips && review.grammarTips.length > 0 && (
+            <CollapsibleSection icon={<GraduationCap style={{ width: 13, height: 13 }} strokeWidth={1.8} />} title="Grammar Tips" count={review.grammarTips.length} color="#34C759">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {review.grammarTips.map((tip: GrammarTip, i: number) => (
+                  <div key={i} style={{ paddingBottom: 14, borderBottom: i < (review.grammarTips?.length ?? 0) - 1 ? '1px solid var(--pd)' : 'none' }}>
+                    <p style={{ fontSize: 12, fontWeight: 700, color: '#34C759', margin: '0 0 4px', letterSpacing: '0.03em' }}>{tip.point}</p>
+                    <p style={{ fontSize: 12, color: 'var(--pt)', margin: '0 0 5px', lineHeight: 1.55 }}>{tip.explanation}</p>
+                    <p style={{ fontSize: 11, color: 'var(--pm2)', margin: 0, fontStyle: 'italic', lineHeight: 1.5 }}>{tip.example}</p>
+                  </div>
+                ))}
+              </div>
+            </CollapsibleSection>
+          )}
         </div>
-      )}
+      ) : null}
 
       {/* Dev tools */}
       {IS_DEV && (
