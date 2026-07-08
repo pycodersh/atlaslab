@@ -302,7 +302,7 @@ export function PatternPracticeCard({
             <div
               key={i}
               className={[
-                'rounded-lg px-2 py-1.5 transition-colors duration-300',
+                'rounded-xl px-2 py-1.5 transition-colors duration-300',
                 isActive ? 'bg-[var(--pal)]' : '',
               ].join(' ')}
             >

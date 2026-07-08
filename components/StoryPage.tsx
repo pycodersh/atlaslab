@@ -384,8 +384,8 @@ export function StoryPage({
                           style={{ background: 'none', border: 'none', padding: 0 }}
                         >
                           <div className="space-y-2 py-1">
-                            <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '90%' }} />
-                            <div className="h-4 rounded-lg bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '55%' }} />
+                            <div className="h-4 rounded-xl bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '90%' }} />
+                            <div className="h-4 rounded-xl bg-[var(--pd)] group-hover/reveal:opacity-50 transition-colors" style={{ width: '55%' }} />
                           </div>
                           <span className="text-[9px] tracking-[0.15em] text-[var(--pm2)] font-semibold mt-1 block opacity-0 group-hover/reveal:opacity-100 transition-opacity">
                             TAP TO REVEAL

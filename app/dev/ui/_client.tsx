@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { X, Search, Eye, EyeOff, ChevronDown, RefreshCw, Plus, ArrowLeft, Home, BookOpen, PenLine, BarChart2, BookMarked, User, FileText, Bookmark, Layers, SearchX, WifiOff } from 'lucide-react'
+import { X, Search, Eye, EyeOff, ChevronDown, RefreshCw, Plus, ArrowLeft, Home, BookOpen, PenLine, BarChart2, BookMarked, User, FileText, Bookmark, Layers, SearchX, WifiOff, ChevronRight, CheckCircle2, Circle, PlayCircle, Lock, Loader2, Mail } from 'lucide-react'
 
 const BURGUNDY = '#B44A5A'
 
@@ -56,14 +56,16 @@ function DialogCard({
         {actions.length > 0 && (
           <div style={{ display: 'flex', flexDirection: actions.length === 2 ? 'row' : 'column', gap: actions.length === 2 ? 8 : 10, padding: '20px 20px 22px' }}>
             {actions.map((a, i) => {
-              const v = a.variant ?? 'primary'
+              const v = a.variant ?? 'confirm'
+              const GLASS_BTN: React.CSSProperties = { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }
               const s: React.CSSProperties =
-                v === 'primary'  ? { background: 'var(--pt)', color: 'var(--pb)', border: 'none' }
-                : v === 'danger' ? { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.20)' }
-                : v === 'text'   ? { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', color: 'var(--pm)', border: '1px solid rgba(0,0,0,0.12)' }
-                : { background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid rgba(0,0,0,0.12)', color: 'var(--pm)' }
+                v === 'confirm' ? { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pt)' }
+                : v === 'cancel'  ? { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pm)' }
+                : v === 'danger'  ? { ...GLASS_BTN, color: BURGUNDY, border: '1px solid rgba(180,74,90,0.28)' }
+                : v === 'accent'  ? { ...GLASS_BTN, border: '1px solid rgba(109,141,255,0.30)', color: 'var(--pa)' }
+                : { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pm)' }
               return (
-                <button key={i} type="button" style={{ flex: 1, padding: '13px 0', borderRadius: 14, fontSize: 14, fontWeight: v === 'secondary' ? 500 : 700, fontFamily: 'inherit', cursor: 'default', minWidth: 0, ...s }}>
+                <button key={i} type="button" style={{ flex: 1, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 16, fontSize: 14, fontWeight: v === 'cancel' ? 500 : 700, fontFamily: 'inherit', cursor: 'default', minWidth: 0, ...s }}>
                   {a.label}
                 </button>
               )
@@ -419,39 +421,54 @@ export function UIPlaygroundClient() {
       <Section title="Dialogs — Always Open">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }}>
 
-          <DialogCard tag="Login · Social"
-            title="Continue with Account"
-            description="Sign in to save your progress and sync across devices."
-            actions={[{ label: 'Sign in with Apple', variant: 'primary' }, { label: 'Sign in with Google', variant: 'secondary' }]}
-          />
+          {/* Login / Social — AccountPopup. Apple 제거. Google/Email/Kakao 동일 glass style. */}
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 28, boxShadow: '0 8px 48px rgba(0,0,0,0.16)', overflow: 'hidden' }}>
+            <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm2)', padding: '14px 20px 0', margin: 0 }}>Login · Social (accent: glass + --pa border)</p>
+            <div style={{ padding: '14px 20px 20px' }}>
+              <p style={{ fontSize: 22, fontWeight: 800, letterSpacing: '-0.025em', color: 'var(--pt)', margin: '0 0 6px' }}>Welcome to PATTO</p>
+              <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.6, margin: '0 0 18px' }}>Sign in to save your essays and continue learning across devices.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>
+                {[
+                  { icon: <svg width="17" height="17" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.566 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z"/></svg>, label: 'Continue with Google' },
+                  { icon: <Mail size={16} style={{ color: 'var(--pm)' }} />, label: 'Continue with Email' },
+                  { icon: <svg width="14" height="13" viewBox="0 0 18 17"><path fill="#3C1E1E" d="M9 0C4.03 0 0 3.313 0 7.4c0 2.494 1.654 4.693 4.15 5.975L3.1 17l4.387-2.32c.49.065.988.1 1.513.1 4.97 0 9-3.313 9-7.4C18 3.313 13.97 0 9 0z"/></svg>, label: '카카오로 계속하기' },
+                ].map(({ icon, label }) => (
+                  <button key={label} type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%', height: 52, borderRadius: 14, background: 'var(--pglass)', border: '1px solid rgba(109,141,255,0.30)', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit', cursor: 'default' }}>
+                    {icon}{label}
+                  </button>
+                ))}
+              </div>
+              <p style={{ fontSize: 10, color: 'var(--pm2)', textAlign: 'center', margin: 0 }}>Terms of Use · Privacy Policy</p>
+            </div>
+          </div>
 
           <DialogCard tag="Delete Essay · Danger"
             title="Delete Essay?"
             description="This action cannot be undone."
-            actions={[{ label: 'Cancel', variant: 'secondary' }, { label: 'Delete', variant: 'danger' }]}
+            actions={[{ label: 'Cancel', variant: 'cancel' }, { label: 'Delete', variant: 'danger' }]}
           />
 
           <DialogCard tag="Delete Account · Danger"
             title="Delete your account?"
             description="This action cannot be undone. All data will be permanently removed."
-            actions={[{ label: 'Cancel', variant: 'secondary' }, { label: 'Delete', variant: 'danger' }]}
+            actions={[{ label: 'Cancel', variant: 'cancel' }, { label: 'Delete', variant: 'danger' }]}
           />
 
-          <DialogCard tag="Sign Out · Confirm"
+          <DialogCard tag="Sign Out · Danger"
             title="Sign out?"
-            actions={[{ label: 'Cancel', variant: 'secondary' }, { label: 'Sign out', variant: 'danger' }]}
+            actions={[{ label: 'Cancel', variant: 'cancel' }, { label: 'Sign out', variant: 'danger' }]}
           />
 
-          <DialogCard tag="Android Install · Primary"
+          <DialogCard tag="Android Install · Accent"
             title="Add PATTO to Home Screen"
             description="Install PATTO for faster access and continue learning like an app."
-            actions={[{ label: 'Not now', variant: 'secondary' }, { label: 'Install', variant: 'primary' }]}
+            actions={[{ label: 'Not now', variant: 'cancel' }, { label: 'Install', variant: 'accent' }]}
           />
 
           <DialogCard tag="iPhone Install · Guide"
             title="Install PATTO on iPhone"
             hint={<p style={{ fontSize: 12.5, color: '#5856D6', margin: 0, lineHeight: 1.5, fontWeight: 500 }}>Open this page in Safari to add it to your Home Screen.</p>}
-            actions={[{ label: 'Got it', variant: 'text' }]}
+            actions={[{ label: 'Got it', variant: 'confirm' }]}
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 14, paddingBottom: 4 }}>
               {['Tap the Share button (□↑) at the bottom of Safari.', 'Select "Add to Home Screen" from the menu.', 'Tap "Add" in the top right to finish.'].map((s, i) => (
@@ -463,21 +480,21 @@ export function UIPlaygroundClient() {
             </div>
           </DialogCard>
 
-          <DialogCard tag="Review Complete · Action"
+          <DialogCard tag="Review Complete · Accent"
             title="Review completed."
-            actions={[{ label: 'View Result', variant: 'primary' }]}
+            actions={[{ label: 'View Result', variant: 'accent' }]}
           />
 
           <DialogCard tag="Network Error · Error"
             title="Network Error"
             description="Please check your connection and try again."
-            actions={[{ label: 'Cancel', variant: 'secondary' }, { label: 'Retry', variant: 'primary' }]}
+            actions={[{ label: 'Cancel', variant: 'cancel' }, { label: 'Retry', variant: 'accent' }]}
           />
 
           <DialogCard tag="Review Mastery · Info"
             title="Review Mastery"
             description="How mastery levels work"
-            actions={[{ label: 'OK', variant: 'text' }]}
+            actions={[{ label: 'OK', variant: 'confirm' }]}
           >
             <div style={{ paddingTop: 4 }}>
               <div style={{ height: 1, background: 'var(--pd)', marginBottom: 12 }} />
@@ -495,7 +512,7 @@ export function UIPlaygroundClient() {
           <DialogCard tag="Score Info · Info"
             title="Score Information"
             description="Current Score: 72%"
-            actions={[{ label: 'OK', variant: 'text' }]}
+            actions={[{ label: 'OK', variant: 'confirm' }]}
           >
             <div style={{ paddingTop: 4 }}>
               <div style={{ height: 1, background: 'var(--pd)', marginBottom: 12 }} />
@@ -513,7 +530,7 @@ export function UIPlaygroundClient() {
           <DialogCard tag="Mastery Info · Info"
             title="Review Mastery"
             description="How mastery levels work"
-            actions={[{ label: 'OK', variant: 'text' }]}
+            actions={[{ label: 'OK', variant: 'confirm' }]}
           >
             <div style={{ paddingTop: 4 }}>
               <div style={{ height: 1, background: 'var(--pd)', marginBottom: 12 }} />
@@ -531,21 +548,297 @@ export function UIPlaygroundClient() {
           <DialogCard tag="Subscription · Upgrade"
             title="Upgrade to Premium"
             description="Unlock unlimited reviews, all patterns, and advanced features."
-            actions={[{ label: 'Maybe later', variant: 'text' }, { label: 'Subscribe', variant: 'primary' }]}
+            actions={[{ label: 'Maybe later', variant: 'cancel' }, { label: 'Subscribe', variant: 'accent' }]}
           />
 
           <DialogCard tag="Discard Draft · 3-option"
             title="Discard draft?"
             description="저장하지 않으면 이 글은 사라집니다."
-            actions={[{ label: 'Save Draft', variant: 'secondary' }, { label: 'Discard', variant: 'danger' }, { label: 'Cancel', variant: 'text' }]}
+            actions={[{ label: 'Save Draft', variant: 'cancel' }, { label: 'Discard', variant: 'danger' }, { label: 'Cancel', variant: 'cancel' }]}
+          />
+
+          {/* SwipeDeleteRow confirm — component: SwipeDeleteRow.tsx */}
+          <DialogCard tag="Swipe Delete · Confirm"
+            title="Delete this?"
+            description="This action cannot be undone."
+            actions={[{ label: 'Cancel', variant: 'cancel' }, { label: 'Delete', variant: 'danger' }]}
           />
 
         </div>
       </Section>
 
-      {/* 2. Toast */}
+      {/* 2. Mission Popup */}
+      <Section title="Mission Popup — TodayMissionPopup">
+        <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 20, lineHeight: 1.6 }}>
+          홈 최초 접속 시 표시. localStorage의 오늘 날짜 체크 후 1회만 노출. 미션이 모두 완료된 날은 표시 안 함.
+        </p>
+        <div style={{ maxWidth: 360 }}>
+          {/* TodayMissionPopup 실물 재현 */}
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 28, boxShadow: '0 8px 48px rgba(0,0,0,0.16)' }}>
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
+              <p style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--pt)', margin: 0 }}>Today&apos;s Mission</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, borderRadius: '50%', background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
+                <X size={13} style={{ color: 'var(--pm)' }} strokeWidth={2} />
+              </div>
+            </div>
+            <div style={{ padding: '18px 20px 20px' }}>
+              {/* LEARN TODAY */}
+              <div style={{ marginBottom: 16 }}>
+                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 7px' }}>LEARN TODAY</p>
+                {[{ id: '03', title: 'BUILDING UP' }, { id: '04', title: 'MOVING ON' }].map(s => (
+                  <div key={s.id} style={{ display: 'flex', gap: 4, alignItems: 'flex-start' }}>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Story {s.id} ·</span>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>{s.title}</span>
+                  </div>
+                ))}
+              </div>
+              {/* REVIEW */}
+              <div style={{ marginBottom: 20 }}>
+                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 7px' }}>REVIEW</p>
+                {[{ id: '01', title: 'A NEW START' }, { id: '02', title: 'FIRST STEPS' }].map(s => (
+                  <div key={s.id} style={{ display: 'flex', gap: 4, alignItems: 'flex-start' }}>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Story {s.id} ·</span>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>{s.title}</span>
+                  </div>
+                ))}
+              </div>
+              {/* CTA glass button */}
+              <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, width: '100%', padding: '13px 0', background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 12, fontSize: 13, fontWeight: 700, color: 'var(--pt)', fontFamily: 'inherit', cursor: 'default', letterSpacing: '0.03em' }}>
+                Start Learning <ChevronRight size={14} strokeWidth={2.5} />
+              </button>
+            </div>
+          </div>
+          {/* Review-only variant */}
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '20px 0 10px' }}>Review Only (no new stories)</p>
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 28, boxShadow: '0 8px 48px rgba(0,0,0,0.16)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
+              <p style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--pt)', margin: 0 }}>Today&apos;s Mission</p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, borderRadius: '50%', background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
+                <X size={13} style={{ color: 'var(--pm)' }} strokeWidth={2} />
+              </div>
+            </div>
+            <div style={{ padding: '18px 20px 20px' }}>
+              <div style={{ marginBottom: 20 }}>
+                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 7px' }}>REVIEW</p>
+                <p style={{ fontSize: 13, color: 'var(--pm2)', margin: 0 }}>No review patterns due today.</p>
+              </div>
+              <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, width: '100%', padding: '13px 0', background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 12, fontSize: 13, fontWeight: 700, color: 'var(--pt)', fontFamily: 'inherit', cursor: 'default', letterSpacing: '0.03em' }}>
+                Start Learning <ChevronRight size={14} strokeWidth={2.5} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* 3. Bottom Sheet */}
+      <Section title="Bottom Sheet">
+        <Sub title="StoryJumpSheet — 학습 목록">
+          <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>StoryCardEngine 상단 목록 버튼 → 전체 스토리 점프 시트. rounded-t-3xl, max-h-75dvh, translate-y 애니메이션.</p>
+          <div style={{ border: '1px solid var(--pd)', borderRadius: 24, overflow: 'hidden', maxWidth: 380 }}>
+            {/* handle + header */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '12px 20px 12px' }}>
+              <div style={{ width: 40, height: 4, borderRadius: 999, background: 'var(--pd)', marginBottom: 16 }} />
+              <div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>학습 목록</span>
+                <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--pglass)', border: '1px solid var(--pd)' }}>
+                  <X size={14} style={{ color: 'var(--pm2)' }} />
+                </div>
+              </div>
+            </div>
+            {/* legend */}
+            <div style={{ display: 'flex', gap: 16, padding: '0 20px 10px', borderBottom: '1px solid var(--pd)' }}>
+              {[{ Icon: CheckCircle2, color: '#22C55E', label: '완료' }, { Icon: PlayCircle, color: '#4F8CFF', label: '진행 중' }, { Icon: Circle, color: '#D1D9E6', label: '미학습' }].map(({ Icon, color, label }) => (
+                <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: 'var(--pm2)' }}>
+                  <Icon size={14} style={{ color }} />
+                  {label}
+                </span>
+              ))}
+            </div>
+            {/* story list */}
+            {[
+              { n: 1, title: 'A New Start', status: 'done' as const },
+              { n: 2, title: 'First Steps', status: 'done' as const },
+              { n: 3, title: 'Building Up', status: 'active' as const },
+              { n: 4, title: 'Moving On', status: 'idle' as const },
+              { n: 5, title: 'New Horizons', status: 'idle' as const },
+            ].map(({ n, title, status }) => {
+              const colors = { done: { bg: '#DCFCE7', txt: '#22C55E', row: 'transparent', titleC: '#374151' }, active: { bg: '#4F8CFF', txt: '#fff', row: 'rgba(79,140,255,0.06)', titleC: '#4F8CFF' }, idle: { bg: '#F5F8FF', txt: '#B0BCCE', row: 'transparent', titleC: '#9EAEC8' } }
+              const c = colors[status]
+              return (
+                <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', background: c.row }}>
+                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: c.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: c.txt }}>{n}</span>
+                  </div>
+                  <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: c.titleC }}>{title}</span>
+                  {status === 'done' && <CheckCircle2 size={16} style={{ color: '#22C55E' }} />}
+                  {status === 'active' && <PlayCircle size={16} style={{ color: '#4F8CFF' }} />}
+                </div>
+              )
+            })}
+          </div>
+        </Sub>
+
+        <Sub title="DayDetailSheet — 날짜별 기록">
+          <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>Records 페이지 캘린더 날짜 탭 → 해당 날짜 학습 기록 시트.</p>
+          <div style={{ border: '1px solid var(--pd)', borderRadius: 24, overflow: 'hidden', maxWidth: 380 }}>
+            {/* header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 16px', borderBottom: '1px solid var(--pd)' }}>
+              <div>
+                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 4px' }}>LEARNING RECORD</p>
+                <p style={{ fontSize: 18, fontWeight: 800, color: 'var(--pt)', margin: 0 }}>July 8</p>
+              </div>
+              <div style={{ width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--pglass)', border: '1px solid var(--pd)' }}>
+                <X size={14} style={{ color: 'var(--pm2)' }} />
+              </div>
+            </div>
+            {/* completed */}
+            <div style={{ padding: '14px 20px 10px' }}>
+              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#22C55E', margin: '0 0 10px' }}>Completed</p>
+              {['Story 01 · A New Start', 'Story 02 · First Steps'].map(s => (
+                <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 0', borderBottom: '1px solid var(--pd)' }}>
+                  <CheckCircle2 size={14} style={{ color: '#22C55E', flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: 'var(--pt)', fontWeight: 600 }}>{s}</span>
+                </div>
+              ))}
+            </div>
+            {/* due */}
+            <div style={{ padding: '10px 20px 16px' }}>
+              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 10px' }}>Due for Review</p>
+              {['Story 01 · A New Start'].map(s => (
+                <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 0' }}>
+                  <RefreshCw size={14} style={{ color: 'var(--pa)', flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: 'var(--pt)', fontWeight: 600 }}>{s}</span>
+                </div>
+              ))}
+            </div>
+            {/* empty state */}
+            <div style={{ padding: '10px 20px 16px', borderTop: '1px solid var(--pd)' }}>
+              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 8px' }}>Empty State</p>
+              <p style={{ fontSize: 13, color: 'var(--pm2)', margin: 0 }}>이 날은 학습 기록이 없어요.</p>
+            </div>
+          </div>
+        </Sub>
+      </Section>
+
+      {/* 4. Popover */}
+      <Section title="Popover">
+        <Sub title="GlobalSavePopup — Mode A (단어 + 추천 표현)">
+          <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
+            Story 본문에서 단어 탭 → chunk(표현)가 있을 때. popupStore 싱글톤으로 화면 중앙에 표시.
+          </p>
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-start' }}>
+            <div style={{ background: 'var(--pb)', border: '1px solid var(--pd)', borderRadius: 16, padding: '18px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.25)', minWidth: 240, maxWidth: 300 }}>
+              <p style={{ fontSize: 13, color: 'var(--pt2)', margin: '0 0 10px', textAlign: 'center' }}>&ldquo;decided&rdquo;</p>
+              <div style={{ background: 'rgba(100,180,255,0.15)', border: '1px solid rgba(100,180,255,0.40)', borderRadius: 10, padding: '8px 12px', marginBottom: 14, textAlign: 'center' }}>
+                <p style={{ fontSize: 10, color: 'var(--pm)', margin: '0 0 3px', letterSpacing: '0.05em', fontWeight: 600 }}>추천 표현</p>
+                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>decided to try</p>
+              </div>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+                <button type="button" style={{ flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'var(--pglass)', color: 'var(--pt2)', fontFamily: 'inherit', cursor: 'default' }}>표현 저장</button>
+                <button type="button" style={{ flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'rgba(200,205,215,0.5)', color: 'var(--pt)', fontFamily: 'inherit', cursor: 'default' }}>단어만</button>
+              </div>
+              <button type="button" style={{ width: '100%', padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'transparent', color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
+            </div>
+          </div>
+        </Sub>
+
+        <Sub title="GlobalSavePopup — Mode B (단어만)">
+          <div style={{ maxWidth: 260 }}>
+            <div style={{ background: 'var(--pb)', border: '1px solid var(--pd)', borderRadius: 16, padding: '18px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.25)' }}>
+              <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 14px', textAlign: 'center' }}>&ldquo;perseverance&rdquo;</p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button type="button" style={{ flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'var(--pglass)', color: 'var(--pt2)', fontFamily: 'inherit', cursor: 'default' }}>단어 저장</button>
+                <button type="button" style={{ flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'var(--pglass)', color: 'var(--pt2)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
+              </div>
+            </div>
+          </div>
+        </Sub>
+
+        <Sub title="WordSavePopup — 텍스트 선택 저장">
+          <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
+            Story 본문 long-press 텍스트 선택 → 선택 영역 바로 아래에 앵커링. 6단어 이하 선택 시에만 표시.
+          </p>
+          <div style={{ position: 'relative', maxWidth: 340, padding: '20px 20px 60px', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 16 }}>
+            <p style={{ fontSize: 14, color: 'var(--pt)', lineHeight: 1.7, margin: 0 }}>
+              I decided to{' '}
+              <span style={{ background: 'rgba(109,141,255,0.18)', borderRadius: 3 }}>try something new</span>
+              {' '}this week, even though it felt difficult at first.
+            </p>
+            {/* popover anchored below selection */}
+            <div style={{ position: 'absolute', bottom: 12, left: '50%', transform: 'translateX(-50%)', background: 'var(--pt)', borderRadius: 10, padding: '7px 4px', display: 'flex', gap: 2, boxShadow: '0 4px 20px rgba(0,0,0,0.20)', whiteSpace: 'nowrap' }}>
+              <button type="button" style={{ padding: '4px 14px', borderRadius: 8, background: 'transparent', border: 'none', fontSize: 13, fontWeight: 700, color: 'var(--pb)', fontFamily: 'inherit', cursor: 'default' }}>Save</button>
+              <div style={{ width: 1, background: 'rgba(255,255,255,0.2)', margin: '4px 0' }} />
+              <button type="button" style={{ padding: '4px 14px', borderRadius: 8, background: 'transparent', border: 'none', fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.6)', fontFamily: 'inherit', cursor: 'default' }}>Cancel</button>
+            </div>
+          </div>
+        </Sub>
+      </Section>
+
+      {/* 5. Full-Screen State */}
+      <Section title="Full-Screen State">
+        <Sub title="CompletionScreen — 모든 스토리 완료">
+          <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
+            StoryCardEngine 마지막 스토리 완료 → 전체 화면 교체. components/CompletionScreen.tsx
+          </p>
+          <div style={{ border: '1px solid var(--pd)', borderRadius: 20, padding: '48px 24px', textAlign: 'center', maxWidth: 360 }}>
+            <p style={{ fontSize: 48, margin: '0 0 20px' }}>🎉</p>
+            <h2 style={{ fontSize: 26, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>모든 스토리 완료!</h2>
+            <p style={{ fontSize: 14, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 28px' }}>Level 1의 모든 패턴을 학습했습니다.<br />복습을 통해 패턴을 확실히 익혀보세요.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 280, margin: '0 auto' }}>
+              <button type="button" style={{ width: '100%', padding: '14px 0', borderRadius: 999, background: 'var(--pt)', color: 'var(--pb)', fontSize: 14, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>처음부터 다시 학습</button>
+              <button type="button" style={{ width: '100%', padding: '14px 0', borderRadius: 999, background: 'transparent', color: 'var(--pt)', fontSize: 14, fontWeight: 600, border: '1px solid rgba(0,0,0,0.12)', fontFamily: 'inherit', cursor: 'default' }}>학습 기록 보기</button>
+            </div>
+          </div>
+        </Sub>
+
+        <Sub title="UpgradeWall — Premium Gate">
+          <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
+            무료 플랜 유저가 Story {'>'}  FREE_STORY_LIMIT 접근 시. components/StoryPageClient.tsx
+          </p>
+          <div style={{ border: '1px solid var(--pd)', borderRadius: 20, padding: '48px 24px', textAlign: 'center', maxWidth: 360 }}>
+            <div style={{ width: 64, height: 64, borderRadius: 20, background: 'rgba(109,141,255,0.10)', border: '1px solid rgba(109,141,255,0.20)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+              <Lock size={28} style={{ color: 'var(--pa)' }} />
+            </div>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 8px' }}>PREMIUM STORY</p>
+            <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--pt)', margin: '0 0 6px' }}>&ldquo;Moving On&rdquo;</h2>
+            <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 24px' }}>Free plan includes the first 3 stories.<br />Upgrade to unlock all stories.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 260, margin: '0 auto' }}>
+              <button type="button" style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: '#4A6FA8', color: '#fff', fontSize: 14, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>Upgrade to Premium</button>
+              <button type="button" style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: 'transparent', color: 'var(--pm)', fontSize: 13, fontWeight: 500, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>← Go back</button>
+            </div>
+          </div>
+        </Sub>
+
+        <Sub title="Essay Loading — AI 리뷰 진행 중">
+          <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>에세이 제출 후 AI 리뷰 처리 중 상태. Submit 버튼이 disabled + Loader2 스피너로 교체.</p>
+          <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 28px', borderRadius: 14, background: 'var(--pt)', color: 'var(--pb)', fontSize: 14, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'not-allowed', opacity: 0.75 }}>
+            <Loader2 size={16} style={{ color: 'var(--pb)', animation: 'spin 1s linear infinite' }} />
+            Reviewing…
+          </button>
+          <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+        </Sub>
+      </Section>
+
+      {/* 6. Toast */}
       <Section title="Toast">
         <ToastDemo />
+        <Sub title="All Variants">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 340 }}>
+            {[
+              { msg: 'Essay saved.', bg: 'var(--pt)', color: 'var(--pb)' },
+              { msg: 'Saved to Library', bg: 'var(--pglass)', color: 'var(--pt)', border: '1px solid var(--pd)' },
+              { msg: '단어 저장됨', bg: 'var(--pglass)', color: 'var(--pt2)', border: '1px solid var(--pd)' },
+              { msg: '표현 저장됨', bg: 'var(--pglass)', color: 'var(--pt2)', border: '1px solid var(--pd)' },
+              { msg: 'Free plan: 10 words max · Upgrade to Premium', bg: '#3A3A3C', color: '#fff', maxW: 320 },
+              { msg: 'Sign in coming soon.', bg: 'var(--pt)', color: 'var(--pb)' },
+              { msg: '인증 기능 준비 중입니다.', bg: 'var(--pt)', color: 'var(--pb)' },
+              { msg: 'Network Error. Check your connection.', bg: BURGUNDY, color: '#fff' },
+            ].map(({ msg, bg, color, border, maxW }) => (
+              <div key={msg} style={{ alignSelf: 'center', padding: '8px 22px', borderRadius: 20, background: bg, color, fontSize: 12, fontWeight: 600, border: border ?? 'none', maxWidth: maxW ?? 280, textAlign: 'center', lineHeight: 1.5 }}>{msg}</div>
+            ))}
+          </div>
+        </Sub>
       </Section>
 
       {/* 3. Buttons */}

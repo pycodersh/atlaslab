@@ -4,20 +4,18 @@
 :root {
   /* Soft Aurora — Light */
   --pb:   #FAFAFA;                       /* page background (near-white) */
-  --pc:   rgba(255,255,255,0.72);        /* glass card surface */
-  --pc2:  rgba(255,255,255,0.55);        /* glass card surface 2 */
+  --pc:   rgba(255,255,255,0.72);        /* Solid card surface — used WITHOUT backdrop-filter blur */
+  --pc2:  rgba(255,255,255,0.55);        /* Gradient middle stop — softer surface transition layer */
   --pd:   rgba(60,60,67,0.10);           /* divider / border */
-  --pd2:  rgba(60,60,67,0.06);           /* divider 2 */
-  --pw:   #FFFFFF;                       /* white surface */
+  --pw:   #FFFFFF;                       /* Fully opaque white solid surface (e.g. active pill, row bg) */
   --pt:   #1C1C1E;                       /* primary text — iOS systemLabel */
   --pt2:  #3A3A3C;                       /* body text — iOS secondaryLabel */
   --pm:   #6E6E73;                       /* secondary/helper text — iOS tertiaryLabel */
   --pm2:  #8E8E93;                       /* caption/meta text — iOS quaternaryLabel */
   --pa:   #6D8DFF;                       /* Soft Blue primary accent */
-  --pa2:  #B8C8FF;                       /* Light Blue accent */
   --pal:  rgba(109,141,255,0.08);        /* accent light bg */
   --pacb: rgba(109,141,255,0.20);        /* accent card border */
-  --pglass: rgba(255,255,255,0.72);      /* glass panel bg */
+  --pglass: rgba(255,255,255,0.72);      /* Glass overlay surface — always used WITH backdrop-filter blur */
   --pglass-border: rgba(255,255,255,0.85); /* glass border */
   /* Heatmap */
   --ph1: #C0CDFF;
@@ -46,14 +44,12 @@
   --pc:   rgba(28,28,44,0.82);
   --pc2:  rgba(38,38,58,0.70);
   --pd:   rgba(255,255,255,0.10);
-  --pd2:  rgba(255,255,255,0.06);
   --pw:   #16162A;
   --pt:   #F2F2F5;
   --pt2:  #E0E0EA;
   --pm:   #9090AA;
   --pm2:  #5A5A72;
   --pa:   #8FABFF;
-  --pa2:  #C0D0FF;
   --pal:  rgba(143,171,255,0.14);
   --pacb: rgba(143,171,255,0.28);
   /* Annotation ink palette — dark (softer, easier on eyes) */

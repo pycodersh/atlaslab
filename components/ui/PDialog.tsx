@@ -6,6 +6,12 @@
  * All in-app dialogs, confirms, alerts, and install sheets must use this
  * component so the design stays consistent across the app.
  *
+ * Button variant hierarchy (no filled buttons in dialogs):
+ *   confirm  — glass + --pd border + main text  (OK / Got it / Close)
+ *   cancel   — glass + --pd border + muted text  (Cancel / Not now / Maybe later)
+ *   danger   — glass + burgundy border + burgundy text  (Delete / Remove / Sign out)
+ *   accent   — glass + accent border + --pa text  (Install / Retry / Subscribe)
+ *
  * Usage:
  *   <PDialog
  *     open={open}
@@ -13,7 +19,7 @@
  *     title="Delete Essay"
  *     description="This action cannot be undone."
  *     actions={[
- *       { label: 'Cancel', onClick: () => setOpen(false), variant: 'secondary' },
+ *       { label: 'Cancel', onClick: () => setOpen(false), variant: 'cancel' },
  *       { label: 'Delete', onClick: handleDelete, variant: 'danger' },
  *     ]}
  *   />
@@ -28,10 +34,10 @@ import { X } from 'lucide-react'
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 export type PDialogActionVariant =
-  | 'primary'   // Accent fill — Install, Confirm
-  | 'secondary' // Glass/transparent — Cancel, Not now
-  | 'danger'    // Burgundy text — Delete, Remove
-  | 'text'      // Plain text accent — Got it, OK
+  | 'confirm'   // Glass + --pd border + main text — OK, Got it, Close
+  | 'cancel'    // Glass + --pd border + muted text — Cancel, Not now, Maybe later
+  | 'danger'    // Glass + burgundy border + burgundy text — Delete, Remove, Sign out
+  | 'accent'    // Glass + accent border + --pa text — Install, Retry, Subscribe
 
 export interface PDialogAction {
   label: string
@@ -58,41 +64,44 @@ export interface PDialogProps {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const DANGER   = '#B44A5A'
-const ANIM_MS  = 220
+const DANGER        = '#B44A5A'
+const DANGER_BORDER = 'rgba(180,74,90,0.28)'
+const ACCENT_BORDER = 'rgba(109,141,255,0.30)'
+const ANIM_MS       = 220
+
+const GLASS: React.CSSProperties = {
+  background: 'var(--pglass)',
+  backdropFilter: 'blur(20px)',
+  WebkitBackdropFilter: 'blur(20px)',
+}
 
 // ── Button renderer ───────────────────────────────────────────────────────────
 
-function ActionButton({ action, isOnly }: { action: PDialogAction; isOnly: boolean }) {
-  const v = action.variant ?? 'primary'
+function ActionButton({ action }: { action: PDialogAction; isOnly: boolean }) {
+  const v = action.variant ?? 'confirm'
 
   const style: React.CSSProperties = (() => {
     const base: React.CSSProperties = {
       flex: 1,
-      padding: '13px 0',
-      borderRadius: 14,
+      height: 56,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 16,
       border: 'none',
       cursor: action.disabled ? 'not-allowed' : 'pointer',
       fontSize: 14,
-      fontWeight: v === 'secondary' ? 500 : 700,
       fontFamily: 'inherit',
       opacity: action.disabled ? 0.45 : 1,
       transition: 'opacity 0.15s',
       minWidth: 0,
     }
 
-    if (v === 'primary') return { ...base, background: 'var(--pt)', color: 'var(--pb)' }
-    if (v === 'danger')  return { ...base, background: 'none', color: DANGER, border: '1px solid rgba(180,74,90,0.20)' }
-    if (v === 'text')    return { ...base, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(0,0,0,0.12)', color: 'var(--pm)' }
-    // secondary
-    return {
-      ...base,
-      background: 'var(--pglass)',
-      backdropFilter: 'blur(24px)',
-      WebkitBackdropFilter: 'blur(24px)',
-      border: '1px solid rgba(0,0,0,0.12)',
-      color: 'var(--pm)',
-    }
+    if (v === 'confirm') return { ...base, ...GLASS, border: '1px solid var(--pd)', color: 'var(--pt)',  fontWeight: 700 }
+    if (v === 'cancel')  return { ...base, ...GLASS, border: '1px solid var(--pd)', color: 'var(--pm)',  fontWeight: 500 }
+    if (v === 'danger')  return { ...base, ...GLASS, border: `1px solid ${DANGER_BORDER}`, color: DANGER, fontWeight: 700 }
+    // accent
+    return { ...base, ...GLASS, border: `1px solid ${ACCENT_BORDER}`, color: 'var(--pa)', fontWeight: 700 }
   })()
 
   return (

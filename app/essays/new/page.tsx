@@ -472,9 +472,9 @@ export default function NewEssayPage() {
         title="Discard draft?"
         description="저장하지 않으면 이 글은 사라집니다."
         actions={[
-          { label: 'Save Draft', onClick: handleLeaveDialogSaveDraft, variant: 'secondary' },
+          { label: 'Save Draft', onClick: handleLeaveDialogSaveDraft, variant: 'cancel' },
           { label: 'Discard',    onClick: handleLeaveDialogDiscard,   variant: 'danger' },
-          { label: 'Cancel',     onClick: handleLeaveDialogCancel,    variant: 'text' },
+          { label: 'Cancel',     onClick: handleLeaveDialogCancel,    variant: 'cancel' },
         ]}
       />
 

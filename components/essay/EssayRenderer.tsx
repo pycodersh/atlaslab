@@ -577,7 +577,7 @@ export function EditorNotes({ annotations }: { annotations: Annotation[] }) {
             {grammarOpen && (
               <div style={{ paddingLeft: 20, paddingBottom: 8, paddingTop: 4 }}>
                 {subTypeEntries.map(([key, count]) => (
-                  <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '3px 0', borderBottom: '1px solid var(--pd2)', maxWidth: 240 }}>
+                  <div key={key} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '3px 0', borderBottom: '1px solid var(--pd)', maxWidth: 240 }}>
                     <span style={{ fontSize: 11, color: 'var(--pm)' }}>
                       {SUBTYPE_LABELS[key] ?? 'Other'}
                     </span>

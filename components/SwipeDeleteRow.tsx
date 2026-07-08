@@ -138,7 +138,7 @@ export function SwipeDeleteRow({
           title="Delete this?"
           description="This action cannot be undone."
           actions={[
-            { label: 'Cancel', onClick: () => setShowConfirm(false), variant: 'secondary' },
+            { label: 'Cancel', onClick: () => setShowConfirm(false), variant: 'cancel' },
             { label: 'Delete', onClick: animateAndDelete, variant: 'danger' },
           ]}
         />

@@ -404,7 +404,7 @@ function ScoreInfoPopup({ open, score, onClose }: { open: boolean; score: number
       onClose={onClose}
       title={s.scoreInfoTitle}
       description={`${s.scoreCurrent} ${score}%`}
-      actions={[{ label: 'OK', onClick: onClose, variant: 'text' }]}
+      actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}
     >
       <div style={{ paddingTop: 4 }}>
         <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
@@ -445,7 +445,7 @@ function MasteryInfoPopup({ open, onClose }: { open: boolean; onClose: () => voi
       onClose={onClose}
       title="Review Mastery"
       description={s.masterySubtitle}
-      actions={[{ label: 'OK', onClick: onClose, variant: 'text' }]}
+      actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}
     >
       <div style={{ paddingTop: 4 }}>
         <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />

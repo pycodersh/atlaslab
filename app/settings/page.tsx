@@ -201,8 +201,8 @@ function AndroidConfirmModal({
       title={t('install_android_modal_title')}
       description={t('install_android_modal_desc')}
       actions={[
-        { label: t('install_not_now'), onClick: onCancel, variant: 'secondary' },
-        { label: t('install_install'), onClick: onInstall, variant: 'primary' },
+        { label: t('install_not_now'), onClick: onCancel, variant: 'cancel' },
+        { label: t('install_install'), onClick: onInstall, variant: 'accent' },
       ]}
     />
   )
@@ -230,7 +230,7 @@ function IOSInstallSheet({ open, onClose, installType = 'ios' }: { open: boolean
         </p>
       }
       actions={[
-        { label: t('install_confirm'), onClick: onClose, variant: 'text' },
+        { label: t('install_confirm'), onClick: onClose, variant: 'confirm' },
       ]}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 13, paddingTop: 16, paddingBottom: 4 }}>
