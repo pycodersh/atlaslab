@@ -15,10 +15,11 @@ export async function getPaddle(): Promise<Paddle | null> {
 
   const isSandbox = process.env.NEXT_PUBLIC_PADDLE_SANDBOX === 'true'
 
-  paddleInstance = await initializePaddle({
+  const instance = await initializePaddle({
     token,
     environment: isSandbox ? 'sandbox' : 'production',
   })
 
+  paddleInstance = instance ?? null
   return paddleInstance
 }
