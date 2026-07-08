@@ -60,7 +60,7 @@ function DialogCard({
               const s: React.CSSProperties =
                 v === 'primary'  ? { background: 'var(--pt)', color: 'var(--pb)', border: 'none' }
                 : v === 'danger' ? { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.20)' }
-                : v === 'text'   ? { background: 'none', color: 'var(--pa)', border: 'none' }
+                : v === 'text'   ? { background: 'none', color: 'var(--pm)', border: 'none' }
                 : { background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', color: 'var(--pm)' }
               return (
                 <button key={i} type="button" style={{ flex: 1, padding: '13px 0', borderRadius: 14, fontSize: 14, fontWeight: v === 'secondary' ? 500 : 700, fontFamily: 'inherit', cursor: 'default', minWidth: 0, ...s }}>
@@ -112,7 +112,7 @@ function Btn({ label, variant = 'primary', disabled = false, loading = false, ic
     primary:   { background: 'var(--pt)', color: 'var(--pb)', border: 'none' },
     secondary: { background: 'var(--pglass)', color: 'var(--pm)', border: '1px solid var(--pglass-border)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' },
     danger:    { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.22)' },
-    text:      { background: 'none', color: 'var(--pa)', border: 'none' },
+    text:      { background: 'none', color: 'var(--pm)', border: 'none' },
   }
   return (
     <button type="button" disabled={disabled}
@@ -173,7 +173,7 @@ function InputsDemo() {
         <Sub title="Filter Chips">
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {['All', 'New', 'Review', 'Mastered'].map((f, i) => (
-              <button key={f} type="button" style={{ padding: '7px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600, fontFamily: 'inherit', cursor: 'default', background: i === 0 ? 'var(--pa)' : 'var(--pglass)', color: i === 0 ? '#fff' : 'var(--pm)', border: i === 0 ? 'none' : '1px solid var(--pglass-border)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
+              <button key={f} type="button" style={{ padding: '7px 16px', borderRadius: 20, fontSize: 13, fontWeight: 600, fontFamily: 'inherit', cursor: 'default', background: i === 0 ? 'var(--pt)' : 'var(--pglass)', color: i === 0 ? 'var(--pb)' : 'var(--pm)', border: i === 0 ? 'none' : '1px solid var(--pglass-border)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)' }}>
                 {f}
               </button>
             ))}
