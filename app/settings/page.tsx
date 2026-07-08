@@ -429,8 +429,8 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
         <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 13 }}>
           {steps.map(s => (
             <div key={s.n} style={{ display: 'flex', gap: 13, alignItems: 'flex-start' }}>
-              <div style={{ width: 24, height: 24, borderRadius: 999, background: 'var(--pa)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 10, fontWeight: 800, color: '#fff' }}>{s.n}</span>
+              <div style={{ width: 24, height: 24, borderRadius: 999, background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pglass-border)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pa)' }}>{s.n}</span>
               </div>
               <p style={{ fontSize: 13.5, color: 'var(--pt)', margin: 0, lineHeight: 1.55, paddingTop: 2 }}>{s.text}</p>
             </div>
@@ -440,7 +440,7 @@ function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean:
         {/* Confirm button */}
         <div style={{ padding: '22px 20px 0' }}>
           <button type="button" onClick={handleClose}
-            style={{ width: '100%', padding: '14px 0', borderRadius: 14, background: 'var(--pa)', border: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: '#fff', fontFamily: 'inherit' }}>
+            style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit' }}>
             {isKorean ? '확인' : 'Got it'}
           </button>
         </div>
