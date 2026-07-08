@@ -83,14 +83,14 @@ function ActionButton({ action, isOnly }: { action: PDialogAction; isOnly: boole
 
     if (v === 'primary') return { ...base, background: 'var(--pt)', color: 'var(--pb)' }
     if (v === 'danger')  return { ...base, background: 'none', color: DANGER, border: '1px solid rgba(180,74,90,0.20)' }
-    if (v === 'text')    return { ...base, background: 'none', color: 'var(--pm)' }
+    if (v === 'text')    return { ...base, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid rgba(0,0,0,0.12)', color: 'var(--pm)' }
     // secondary
     return {
       ...base,
       background: 'var(--pglass)',
       backdropFilter: 'blur(24px)',
       WebkitBackdropFilter: 'blur(24px)',
-      border: '1px solid var(--pglass-border)',
+      border: '1px solid rgba(0,0,0,0.12)',
       color: 'var(--pm)',
     }
   })()

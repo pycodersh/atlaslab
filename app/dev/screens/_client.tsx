@@ -143,7 +143,7 @@ function MiniDialog({ title, desc, actions }: { title: string; desc?: string; ac
           const s: React.CSSProperties =
             v === 'primary'  ? { background: 'var(--pt)', color: 'var(--pb)', border: 'none' }
             : v === 'danger' ? { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.20)' }
-            : v === 'text'   ? { background: 'none', color: 'var(--pm)', border: 'none' }
+            : v === 'text'   ? { background: 'var(--pglass)', color: 'var(--pm)', border: '1px solid var(--pglass-border)' }
             : { background: 'var(--pglass)', border: '1px solid var(--pglass-border)', color: 'var(--pm)' }
           return (
             <button key={i} type="button" style={{ flex: 1, padding: '9px 0', borderRadius: 11, fontSize: 11, fontWeight: v === 'secondary' ? 500 : 700, fontFamily: 'inherit', cursor: 'default', minWidth: 0, ...s }}>

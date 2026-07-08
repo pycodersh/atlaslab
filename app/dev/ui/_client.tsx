@@ -60,8 +60,8 @@ function DialogCard({
               const s: React.CSSProperties =
                 v === 'primary'  ? { background: 'var(--pt)', color: 'var(--pb)', border: 'none' }
                 : v === 'danger' ? { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.20)' }
-                : v === 'text'   ? { background: 'none', color: 'var(--pm)', border: 'none' }
-                : { background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', color: 'var(--pm)' }
+                : v === 'text'   ? { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', color: 'var(--pm)', border: '1px solid rgba(0,0,0,0.12)' }
+                : { background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid rgba(0,0,0,0.12)', color: 'var(--pm)' }
               return (
                 <button key={i} type="button" style={{ flex: 1, padding: '13px 0', borderRadius: 14, fontSize: 14, fontWeight: v === 'secondary' ? 500 : 700, fontFamily: 'inherit', cursor: 'default', minWidth: 0, ...s }}>
                   {a.label}
@@ -110,9 +110,9 @@ function ToastDemo() {
 function Btn({ label, variant = 'primary', disabled = false, loading = false, iconOnly = false }: { label?: string; variant?: string; disabled?: boolean; loading?: boolean; iconOnly?: boolean }) {
   const s: Record<string, React.CSSProperties> = {
     primary:   { background: 'var(--pt)', color: 'var(--pb)', border: 'none' },
-    secondary: { background: 'var(--pglass)', color: 'var(--pm)', border: '1px solid var(--pglass-border)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' },
+    secondary: { background: 'var(--pglass)', color: 'var(--pm)', border: '1px solid rgba(0,0,0,0.12)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' },
     danger:    { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.22)' },
-    text:      { background: 'none', color: 'var(--pm)', border: 'none' },
+    text:      { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', color: 'var(--pm)', border: '1px solid var(--pglass-border)' },
   }
   return (
     <button type="button" disabled={disabled}
