@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { X, ChevronRight } from 'lucide-react'
 import { getMissionItems } from '@/lib/srs/engine'
-import { useT } from '@/lib/i18n/strings'
+import { useT } from '@/hooks/useT'
 
 const POPUP_KEY = 'patto-mission-popup-shown'
 
