@@ -108,9 +108,10 @@ export function MainTabBar() {
           display: 'flex',
           alignItems: 'center',
           gap: scrolledDown ? 4 : 8,
-          transition: 'all 0.28s cubic-bezier(0.34,1.56,0.64,1)',
+          transition: 'all 0.26s cubic-bezier(0.4, 0, 0.2, 1)',
           transform: scrolledDown ? 'scale(0.93)' : 'scale(1)',
           transformOrigin: 'bottom center',
+          maxWidth: 'calc(100vw - 32px)',
         }}
       >
         {TABS.map((tab) => {

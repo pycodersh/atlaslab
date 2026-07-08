@@ -232,7 +232,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
         style={{
           width: '200%',
           transform: railTransform,
-          transition: isDragging ? 'none' : 'transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1)',
+          transition: isDragging ? 'none' : 'transform 340ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
           willChange: isDragging ? 'transform' : 'auto',
           touchAction: 'pan-y',
         }}
