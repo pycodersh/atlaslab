@@ -446,9 +446,14 @@ export function UIPlaygroundClient() {
     <div style={{ minHeight: '100dvh', background: 'var(--pb)', padding: '28px 20px 100px', maxWidth: 760, margin: '0 auto', boxSizing: 'border-box' }}>
 
       <div style={{ marginBottom: 52 }}>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 6px' }}>PATTO · DEV ONLY</p>
-        <h1 style={{ fontSize: 28, fontWeight: 900, color: 'var(--pt)', margin: '0 0 8px', letterSpacing: '-0.03em' }}>UI Design System</h1>
-        <p style={{ fontSize: 13, color: 'var(--pm)', margin: 0, lineHeight: 1.6 }}>Component catalog — Design Source of Truth. All dialogs shown always-open. Reference before adding any new UI. → <a href="/dev/screens" style={{ color: 'var(--pa)', textDecoration: 'none', fontWeight: 600 }}>/dev/screens</a> · <a href="/dev/theme" style={{ color: 'var(--pa)', textDecoration: 'none', fontWeight: 600 }}>/dev/theme</a></p>
+        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 6px' }}>PATTO · UI PLAYGROUND</p>
+        <h1 style={{ fontSize: 28, fontWeight: 900, color: 'var(--pt)', margin: '0 0 4px', letterSpacing: '-0.03em' }}>PATTO UI Playground</h1>
+        <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--pa)', margin: '0 0 10px', letterSpacing: '0.02em' }}>Design QA &amp; Component Showcase</p>
+        <p style={{ fontSize: 13, color: 'var(--pm)', margin: 0, lineHeight: 1.65 }}>
+          새로운 Dialog · Button · Form · Toast · Bottom Sheet는 반드시 여기서 먼저 검수 후 실제 앱에 적용한다.
+          실제 앱 UI 수정 시 이 페이지도 동시 업데이트. PATTO UI의 Single Source of Truth.
+          {' '}→ <a href="/dev/screens" style={{ color: 'var(--pa)', textDecoration: 'none', fontWeight: 600 }}>/dev/screens</a> · <a href="/dev/theme" style={{ color: 'var(--pa)', textDecoration: 'none', fontWeight: 600 }}>/dev/theme</a>
+        </p>
       </div>
 
       {/* 1. Dialogs */}
