@@ -141,7 +141,7 @@ function MiniDialog({ title, desc, actions }: { title: string; desc?: string; ac
         {actions.map((a, i) => {
           const v = a.v ?? 'primary'
           const s: React.CSSProperties =
-            v === 'primary'  ? { background: 'var(--pa)', color: '#fff', border: 'none' }
+            v === 'primary'  ? { background: 'var(--pt)', color: 'var(--pb)', border: 'none' }
             : v === 'danger' ? { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.20)' }
             : v === 'text'   ? { background: 'none', color: 'var(--pa)', border: 'none' }
             : { background: 'var(--pglass)', border: '1px solid var(--pglass-border)', color: 'var(--pm)' }

@@ -58,7 +58,7 @@ function DialogCard({
             {actions.map((a, i) => {
               const v = a.variant ?? 'primary'
               const s: React.CSSProperties =
-                v === 'primary'  ? { background: 'var(--pa)', color: '#fff', border: 'none' }
+                v === 'primary'  ? { background: 'var(--pt)', color: 'var(--pb)', border: 'none' }
                 : v === 'danger' ? { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.20)' }
                 : v === 'text'   ? { background: 'none', color: 'var(--pa)', border: 'none' }
                 : { background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', color: 'var(--pm)' }
@@ -109,7 +109,7 @@ function ToastDemo() {
 
 function Btn({ label, variant = 'primary', disabled = false, loading = false, iconOnly = false }: { label?: string; variant?: string; disabled?: boolean; loading?: boolean; iconOnly?: boolean }) {
   const s: Record<string, React.CSSProperties> = {
-    primary:   { background: 'var(--pa)', color: '#fff', border: 'none' },
+    primary:   { background: 'var(--pt)', color: 'var(--pb)', border: 'none' },
     secondary: { background: 'var(--pglass)', color: 'var(--pm)', border: '1px solid var(--pglass-border)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' },
     danger:    { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.22)' },
     text:      { background: 'none', color: 'var(--pa)', border: 'none' },

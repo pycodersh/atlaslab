@@ -81,7 +81,7 @@ function ActionButton({ action, isOnly }: { action: PDialogAction; isOnly: boole
       minWidth: 0,
     }
 
-    if (v === 'primary') return { ...base, background: 'var(--pa)', color: '#fff' }
+    if (v === 'primary') return { ...base, background: 'var(--pt)', color: 'var(--pb)' }
     if (v === 'danger')  return { ...base, background: 'none', color: DANGER, border: '1px solid rgba(180,74,90,0.20)' }
     if (v === 'text')    return { ...base, background: 'none', color: 'var(--pa)' }
     // secondary

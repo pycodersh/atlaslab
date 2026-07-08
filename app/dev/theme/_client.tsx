@@ -122,7 +122,7 @@ function ThemePanel({ mode, vars }: { mode: 'Light' | 'Dark'; vars: React.CSSPro
         {/* Buttons */}
         <Row label="Buttons">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <button type="button" style={{ padding: '11px 0', borderRadius: 12, background: 'var(--pa)', color: '#fff', fontSize: 13, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>Primary</button>
+            <button type="button" style={{ padding: '11px 0', borderRadius: 12, background: 'var(--pt)', color: 'var(--pb)', fontSize: 13, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>Primary</button>
             <button type="button" style={{ padding: '11px 0', borderRadius: 12, ...GC as object, fontSize: 13, fontWeight: 500, color: 'var(--pm)', cursor: 'default', fontFamily: 'inherit' }}>Secondary</button>
             <button type="button" style={{ padding: '11px 0', borderRadius: 12, background: 'none', border: `1px solid rgba(180,74,90,0.22)`, fontSize: 13, fontWeight: 700, color: BURGUNDY, cursor: 'default', fontFamily: 'inherit' }}>Danger</button>
             <button type="button" style={{ padding: '11px 0', borderRadius: 12, background: 'none', border: 'none', fontSize: 13, fontWeight: 700, color: 'var(--pa)', cursor: 'default', fontFamily: 'inherit' }}>Text</button>
