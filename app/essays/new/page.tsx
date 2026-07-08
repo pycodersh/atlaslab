@@ -37,7 +37,7 @@ function detectNativeSentence(body: string): string {
   return ''
 }
 
-type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'daily_limit' | 'service_unavailable' | null
+type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'daily_limit' | 'unauthenticated' | 'service_unavailable' | null
 
 function glassBtn(extra?: React.CSSProperties): React.CSSProperties {
   return {
@@ -115,7 +115,12 @@ export default function NewEssayPage() {
   const showNativeWarning = nonAsciiRatio(body) > NATIVE_RATIO_WARN && body.trim().length > 20
   const isDirty = body.trim().length > 0 || title.trim().length > 0
 
-  const dailyLimitMsg = `오늘의 AI 리뷰 횟수(${maxReviews}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`
+  const dailyLimitMsg = prefs.language === 'ko' || !prefs.language
+    ? `오늘의 AI 리뷰 횟수(${maxReviews}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`
+    : `You've used all your AI reviews for today. Try again tomorrow or upgrade to Premium.`
+  const unauthMsg = prefs.language === 'ko' || !prefs.language
+    ? '로그인이 필요합니다. 로그인 후 다시 시도해 주세요.'
+    : 'Please sign in to review your essay.'
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
@@ -124,6 +129,7 @@ export default function NewEssayPage() {
       : `Free users can review essays up to ${FREE_MAX_ESSAY_WORDS} words.`,
     limit_reached:       dailyLimitMsg,
     daily_limit:         dailyLimitMsg,
+    unauthenticated:     unauthMsg,
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -211,10 +217,20 @@ export default function NewEssayPage() {
     })
   }
 
+  const IS_DEV = process.env.NODE_ENV === 'development'
+
   // Review — auto-saves first, then reviews, updates same essay
   async function handleReview() {
     setError(null)
-    if (!canReview()) { setError('limit_reached'); return }
+
+    const reviewCheck = canReview()
+    if (IS_DEV) console.log('[EssayReview/new] canReview result:', reviewCheck)
+
+    if (!reviewCheck.allowed) {
+      if (IS_DEV) console.log('[EssayReview/new] blocked before fetch:', reviewCheck.reason)
+      setError('limit_reached')
+      return
+    }
     if (wc < MIN_WORDS) { setError('too_short'); return }
     if (wc > maxWords) { setError('too_long'); return }
 
@@ -223,6 +239,8 @@ export default function NewEssayPage() {
     clearDraft()
 
     setLoading(true)
+    if (IS_DEV) console.log('[EssayReview/new] calling /api/essays/review', { essayId: essay.id, wc })
+
     try {
       const res = await fetch('/api/essays/review', {
         method: 'POST',
@@ -235,20 +253,21 @@ export default function NewEssayPage() {
           plan,
         }),
       })
-      const data = await res.json()
+      let data: Record<string, unknown> = {}
+      try { data = await res.json() } catch { /* non-JSON response */ }
       if (!res.ok) {
         const errCode = data.error as string
-        console.error(`[essay/review] HTTP ${res.status} error=${errCode}`, data.detail ?? data)
-        const knownErrors = ['not_english','too_short','too_long','limit_reached','daily_limit','service_unavailable'] as const
+        if (IS_DEV) console.log(`[EssayReview/new] HTTP ${res.status} error=${errCode}`, data)
+        const knownErrors = ['not_english','too_short','too_long','limit_reached','daily_limit','unauthenticated','service_unavailable'] as const
         setError(knownErrors.includes(errCode as never) ? errCode as ValidationError : 'service_unavailable')
         setLoading(false)
         return
       }
-      saveReview(essay.id, data.review)
+      saveReview(essay.id, data.review as Parameters<typeof saveReview>[1])
       if (!data.cached) recordReviewUsed()
       router.push(`/essays/${essay.id}`)
     } catch (err) {
-      console.error('[essay/review] fetch exception:', err)
+      if (IS_DEV) console.error('[EssayReview/new] fetch exception:', err)
       setLoading(false)
       setError('service_unavailable')
     }

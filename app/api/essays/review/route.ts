@@ -244,11 +244,12 @@ function normaliseAnnotations(annotations: RawAnnotation[], essayBody: string): 
 
 // ── Route handler ─────────────────────────────────────────────────────────────
 export async function POST(request: Request) {
-  const admin   = createAdminClient()
-  const session = await createClient()
-  const DEV     = process.env.NODE_ENV === 'development'
+  const DEV = process.env.NODE_ENV === 'development'
 
   try {
+    const admin   = createAdminClient()
+    const session = await createClient()
+
     const body = await request.json()
     const {
       essayId,

@@ -16,7 +16,12 @@ function normaliseCacheKey(type: string, text: string, lang: string): string {
 }
 
 export async function POST(req: Request) {
-  const admin = createAdminClient()
+  let admin: ReturnType<typeof createAdminClient>
+  try {
+    admin = createAdminClient()
+  } catch {
+    return Response.json({ error: 'service_unavailable' }, { status: 500 })
+  }
 
   const { type, text, targetLang } = await req.json() as {
     type: 'word' | 'phrase' | 'pattern'

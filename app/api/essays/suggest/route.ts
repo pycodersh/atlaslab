@@ -26,13 +26,18 @@ function releaseLock(key: string) { inFlight.delete(key) }
 
 // ── Route handler ─────────────────────────────────────────────────────────────
 export async function POST(request: Request) {
-  const claude  = createClaudeClient()
-  const admin   = createAdminClient()
-  const session = await createClient()
-
+  const claude = createClaudeClient()
   if (!claude.ok) {
     return Response.json({ error: 'service_unavailable' }, { status: 503 })
   }
+
+  let admin: ReturnType<typeof createAdminClient>
+  try {
+    admin = createAdminClient()
+  } catch {
+    return Response.json({ error: 'service_unavailable' }, { status: 500 })
+  }
+  const session = await createClient()
 
   try {
     const body = await request.json()

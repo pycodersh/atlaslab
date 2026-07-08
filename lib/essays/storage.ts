@@ -215,15 +215,35 @@ function todayStr(): string {
 
 export function getDailyReviewCount(): number {
   if (typeof window === 'undefined') return 0
-  const savedDay = localStorage.getItem(REVIEW_DAY_KEY)
-  if (savedDay !== todayStr()) return 0
-  return Number(localStorage.getItem(REVIEW_COUNT_KEY) ?? '0')
+  try {
+    const savedDay = localStorage.getItem(REVIEW_DAY_KEY)
+    const today    = todayStr()
+    // Different day → count is 0 (reset happens lazily in incrementDailyReviewCount)
+    if (!savedDay || savedDay !== today) return 0
+    const raw   = localStorage.getItem(REVIEW_COUNT_KEY)
+    const count = Number(raw)
+    // Guard against corrupted values (NaN, negative, non-integer)
+    if (!Number.isFinite(count) || count < 0) {
+      localStorage.removeItem(REVIEW_COUNT_KEY)
+      return 0
+    }
+    return Math.floor(count)
+  } catch {
+    return 0
+  }
 }
 
-export function canReview(): boolean {
+export type CanReviewResult =
+  | { allowed: true;  count: number; limit: number; date: string }
+  | { allowed: false; reason: 'daily_limit'; count: number; limit: number; date: string }
+
+export function canReview(): CanReviewResult {
   const plan  = getPlan()
   const limit = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_DAILY
-  return getDailyReviewCount() < limit
+  const count = getDailyReviewCount()
+  const date  = todayStr()
+  if (count < limit) return { allowed: true,  count, limit, date }
+  return { allowed: false, reason: 'daily_limit', count, limit, date }
 }
 
 export function getReviewsRemaining(): number {
@@ -240,11 +260,15 @@ export function recordReviewUsed(): void {
 
 export function incrementDailyReviewCount(): void {
   if (typeof window === 'undefined') return
-  const today    = todayStr()
-  const savedDay = localStorage.getItem(REVIEW_DAY_KEY)
-  const count    = savedDay === today ? Number(localStorage.getItem(REVIEW_COUNT_KEY) ?? '0') : 0
-  localStorage.setItem(REVIEW_DAY_KEY, today)
-  localStorage.setItem(REVIEW_COUNT_KEY, String(count + 1))
+  try {
+    const today    = todayStr()
+    const savedDay = localStorage.getItem(REVIEW_DAY_KEY)
+    const raw      = savedDay === today ? localStorage.getItem(REVIEW_COUNT_KEY) : null
+    const prev     = Number(raw)
+    const count    = Number.isFinite(prev) && prev >= 0 ? Math.floor(prev) : 0
+    localStorage.setItem(REVIEW_DAY_KEY, today)
+    localStorage.setItem(REVIEW_COUNT_KEY, String(count + 1))
+  } catch { /* localStorage unavailable — ignore */ }
 }
 
 export function resetDailyReviewCount(): void {

@@ -22,7 +22,7 @@ const IS_DEV = process.env.NODE_ENV === 'development'
 const MIN_WORDS = 30
 function wordCount(t: string) { return t.trim().split(/\s+/).filter(Boolean).length }
 
-type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'daily_limit' | 'service_unavailable' | null
+type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'daily_limit' | 'unauthenticated' | 'service_unavailable' | null
 
 // ── Shared styles ─────────────────────────────────────────────────────────────
 const glassCard: React.CSSProperties = {
@@ -283,12 +283,19 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const wcColor = wc > MAX_WORDS ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
 
   const dailyLimit = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_DAILY
+  const dailyLimitMsg = prefs.language === 'ko' || !prefs.language
+    ? `오늘의 AI 리뷰 횟수(${dailyLimit}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`
+    : `You've used all your AI reviews for today. Try again tomorrow or upgrade to Premium.`
+  const unauthMsg = prefs.language === 'ko' || !prefs.language
+    ? '로그인이 필요합니다. 로그인 후 다시 시도해 주세요.'
+    : 'Please sign in to review your essay.'
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
     too_long:            t('essays_too_long'),
-    limit_reached:       `오늘의 AI 리뷰 횟수(${dailyLimit}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`,
-    daily_limit:         `오늘의 AI 리뷰 횟수(${dailyLimit}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`,
+    limit_reached:       dailyLimitMsg,
+    daily_limit:         dailyLimitMsg,
+    unauthenticated:     unauthMsg,
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -301,12 +308,23 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   async function handleReview() {
     if (!essay) return
     setError(null)
-    if (!canReview()) { setError('limit_reached'); return }
+
+    const reviewCheck = canReview()
+    if (IS_DEV) console.log('[EssayReview] canReview result:', reviewCheck)
+
+    if (!reviewCheck.allowed) {
+      if (IS_DEV) console.log('[EssayReview] blocked before fetch:', reviewCheck.reason)
+      setError('limit_reached')
+      return
+    }
     if (wc < MIN_WORDS) { setError('too_short'); return }
     if (wc > MAX_WORDS) { setError('too_long'); return }
+
     autoSave()
     setLoading(true)
     setOverlayVisible(true)
+    if (IS_DEV) console.log('[EssayReview] calling /api/essays/review', { essayId: id, wc })
+
     const minDelay = new Promise(r => setTimeout(r, 700))
     try {
       const res = await fetch('/api/essays/review', {
@@ -314,18 +332,20 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ essayId: id, essayBody: body, essayTitle: title || essay.title, language: prefs.language }),
       })
-      const data = await res.json()
+      let data: Record<string, unknown> = {}
+      try { data = await res.json() } catch { /* non-JSON response */ }
       await minDelay
       setOverlayVisible(false)
-      await new Promise(r => setTimeout(r, 350)) // fade-out 대기
+      await new Promise(r => setTimeout(r, 350))
       if (!res.ok) {
         const errCode = data.error as string
-        const knownErrors = ['not_english','too_short','too_long','limit_reached','daily_limit','service_unavailable'] as const
+        if (IS_DEV) console.log(`[EssayReview] HTTP ${res.status} error=${errCode}`, data)
+        const knownErrors = ['not_english','too_short','too_long','limit_reached','daily_limit','unauthenticated','service_unavailable'] as const
         setError(knownErrors.includes(errCode as never) ? errCode as ValidationError : 'service_unavailable')
         setLoading(false)
         return
       }
-      const updated = saveReview(id, data.review)
+      const updated = saveReview(id, data.review as Parameters<typeof saveReview>[1])
       if (updated) {
         setEssay(updated)
         setTitle(updated.title)
@@ -337,7 +357,8 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         setTimeout(() => setCacheToast(false), 3500)
       }
       setIsEditing(false)
-    } catch {
+    } catch (err) {
+      if (IS_DEV) console.error('[EssayReview] fetch exception:', err)
       await minDelay
       setOverlayVisible(false)
       setError('service_unavailable')
