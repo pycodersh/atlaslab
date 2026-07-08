@@ -618,122 +618,434 @@ export function UIPlaygroundClient() {
 
       {/* 9. Tokens */}
       <Section title="Tokens">
+
+        {/* ── Colors ── */}
         <Sub title="Colors">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {[
-              { label: 'Accent  --pa',        color: 'var(--pa)',    hex: '#6D8DFF / #8FABFF' },
-              { label: 'Danger',               color: BURGUNDY,       hex: '#B44A5A' },
-              { label: 'Success',              color: '#34C759',      hex: '#34C759' },
-              { label: 'Warning',              color: '#FF9500',      hex: '#FF9500' },
-              { label: 'Text  --pt',           color: 'var(--pt)',    hex: '#1C1C1E / #F2F2F5' },
-              { label: 'Body  --pt2',          color: 'var(--pt2)',   hex: '#3A3A3C / #E0E0EA' },
-              { label: 'Secondary  --pm',      color: 'var(--pm)',    hex: '#6E6E73 / #9090AA' },
-              { label: 'Caption  --pm2',       color: 'var(--pm2)',   hex: '#8E8E93 / #5A5A72' },
-              { label: 'Glass  --pglass',      color: 'var(--pglass)' },
-              { label: 'Background  --pb',     color: 'var(--pb)' },
-              { label: 'Divider  --pd',        color: 'var(--pd)' },
-              { label: 'Accent Light  --pal',  color: 'var(--pal)' },
-            ].map(s => <Swatch key={s.label} {...s} />)}
-          </div>
-        </Sub>
-
-        <Sub title="Spacing">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'flex-end' }}>
-            {[4, 8, 12, 16, 20, 24, 28, 32, 40, 48].map(s => (
-              <div key={s} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                <div style={{ width: s, height: s, background: 'var(--pa)', borderRadius: 3, opacity: 0.65 }} />
-                <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--pm)' }}>{s}</span>
-              </div>
-            ))}
-          </div>
-        </Sub>
-
-        <Sub title="Border Radius">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'flex-end' }}>
-            {[8, 10, 12, 14, 16, 20, 24, 28, 32, 999].map(r => (
-              <div key={r} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                <div style={{ width: 48, height: 48, background: 'var(--pa)', borderRadius: r, opacity: 0.65 }} />
-                <span style={{ fontSize: 10, color: 'var(--pm)' }}>{r === 999 ? '∞' : r}</span>
-              </div>
-            ))}
-          </div>
-        </Sub>
-
-        <Sub title="Shadow">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {[
-              { label: 'None',   shadow: 'none' },
-              { label: 'XS',     shadow: '0 1px 4px rgba(0,0,0,0.08)' },
-              { label: 'SM',     shadow: '0 2px 12px rgba(0,0,0,0.10)' },
-              { label: 'MD',     shadow: '0 4px 20px rgba(0,0,0,0.12)' },
-              { label: 'LG',     shadow: '0 8px 40px rgba(0,0,0,0.14)' },
-              { label: 'Dialog', shadow: '0 8px 48px rgba(0,0,0,0.16)' },
-              { label: 'FAB',    shadow: '0 4px 20px rgba(109,141,255,0.40)' },
-            ].map(s => <ShadowRow key={s.label} {...s} />)}
-          </div>
-        </Sub>
-
-        <Sub title="Glass">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {[
-              { label: 'Nav / Card',   blur: 'blur(24px) saturate(180%)' },
-              { label: 'Dialog',       blur: 'blur(32px) saturate(180%)' },
-              { label: 'Subtle',       blur: 'blur(16px) saturate(160%)' },
-            ].map(g => (
-              <div key={g.label} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{ width: 64, height: 40, borderRadius: 12, background: 'var(--pglass)', backdropFilter: g.blur, WebkitBackdropFilter: g.blur, border: '1px solid var(--pglass-border)', flexShrink: 0 }} />
+              {
+                token: '--pt', hex: '#1C1C1E / #F2F2F5', label: 'Primary Text',
+                example: <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>A New Start</p>,
+                usage: 'Page title, Card title, Dialog title, Nav title',
+              },
+              {
+                token: '--pm', hex: '#6E6E73 / #9090AA', label: 'Secondary Text',
+                example: <p style={{ fontSize: 13, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>I decided to try something new this week.</p>,
+                usage: 'Description, Dialog body, Card subtitle, Empty state desc',
+              },
+              {
+                token: '--pm2', hex: '#8E8E93 / #5A5A72', label: 'Caption / Label',
+                example: <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: 0 }}>STORY 01 · JULY 8</p>,
+                usage: 'Section headers, Timestamps, Nav labels (inactive), X button icon',
+              },
+              {
+                token: '--pb', hex: '#FAFAFA / #0C0C14', label: 'Page Background',
+                example: <div style={{ width: 80, height: 36, borderRadius: 10, background: 'var(--pb)', border: '1px solid var(--pd)' }} />,
+                usage: 'Page background (html body), Primary button text color',
+              },
+              {
+                token: '--pglass', hex: 'rgba(255,255,255,0.72) / rgba(26,26,42,0.80)', label: 'Glass Fill',
+                example: (
+                  <div style={{ padding: '8px 14px', borderRadius: 12, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', fontSize: 13, fontWeight: 600, color: 'var(--pm)' }}>Cancel</div>
+                ),
+                usage: 'Card, Dialog, Bottom Nav, Secondary button, Back button',
+              },
+              {
+                token: '--pd', hex: 'rgba(60,60,67,0.10) / rgba(255,255,255,0.10)', label: 'Divider',
+                example: (
+                  <div style={{ width: 200 }}>
+                    <div style={{ padding: '8px 0', fontSize: 13, color: 'var(--pt)' }}>Score Info</div>
+                    <div style={{ height: 1, background: 'var(--pd)' }} />
+                    <div style={{ padding: '8px 0', fontSize: 13, color: 'var(--pt)' }}>Review Mastery</div>
+                  </div>
+                ),
+                usage: 'Section dividers in dialogs/lists, Progress bar track',
+              },
+              {
+                token: '--pa', hex: '#6D8DFF / #8FABFF', label: 'Accent',
+                example: (
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <div style={{ height: 4, width: 32, background: 'var(--pa)', borderRadius: 2 }} />
+                    <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--pa)', background: 'rgba(109,141,255,0.08)', borderRadius: 20, padding: '2px 10px' }}>In Progress</span>
+                    <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--pa)' }} />
+                  </div>
+                ),
+                usage: 'Active nav icon, Progress bar, Status chip, Accent underline, Icon fill',
+              },
+              {
+                token: 'Danger', hex: '#B44A5A (fixed)', label: 'Danger',
+                example: (
+                  <button type="button" style={{ padding: '7px 16px', borderRadius: 12, background: 'none', border: '1px solid rgba(180,74,90,0.22)', color: BURGUNDY, fontSize: 13, fontWeight: 700, fontFamily: 'inherit', cursor: 'default' }}>Delete</button>
+                ),
+                usage: 'Delete/Discard/Sign out button text, Danger border',
+              },
+              {
+                token: 'Success', hex: '#34C759', label: 'Mastered badge',
+                example: <span style={{ fontSize: 10, fontWeight: 700, color: '#2A7A3A', background: 'rgba(42,122,58,0.10)', border: '1px solid rgba(42,122,58,0.18)', borderRadius: 6, padding: '3px 10px' }}>Mastered</span>,
+                usage: 'Mastered pattern badge, Completion indicator',
+              },
+            ].map(({ token, hex, label, example, usage }) => (
+              <div key={token} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, alignItems: 'center', padding: '14px 0', borderBottom: '1px solid var(--pd)' }}>
+                {/* Token info */}
                 <div>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--pt)' }}>{g.label}</div>
-                  <code style={{ fontSize: 10, color: 'var(--pm)' }}>{g.blur}</code>
+                  <code style={{ fontSize: 11, fontWeight: 700, color: 'var(--pt)', display: 'block', marginBottom: 3 }}>{token}</code>
+                  <div style={{ fontSize: 10, color: 'var(--pm2)', marginBottom: 2, fontFamily: 'monospace' }}>{hex}</div>
+                  <div style={{ fontSize: 9.5, color: 'var(--pm2)', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 }}>{label}</div>
+                </div>
+                {/* Real example + usage */}
+                <div>
+                  <div style={{ marginBottom: 8 }}>{example}</div>
+                  <div style={{ fontSize: 10, color: 'var(--pm2)' }}>
+                    <span style={{ fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Usage </span>{usage}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </Sub>
 
+        {/* ── Shadow ── */}
+        <Sub title="Shadow">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {[
+              {
+                label: 'XS', value: '0 1px 4px rgba(0,0,0,0.08)',
+                example: (
+                  <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--pt)', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 6, padding: '3px 10px', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>New</span>
+                ),
+                usage: 'Small badge, Status chip',
+              },
+              {
+                label: 'SM', value: '0 2px 12px rgba(0,0,0,0.10)',
+                example: (
+                  <div style={{ padding: '10px 14px', borderRadius: 12, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', boxShadow: '0 2px 12px rgba(0,0,0,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 600, display: 'inline-block' }}>Search patterns…</div>
+                ),
+                usage: 'Input field, Small card',
+              },
+              {
+                label: 'MD', value: '0 4px 20px rgba(0,0,0,0.12)',
+                example: (
+                  <div style={{ padding: '14px 16px', borderRadius: 20, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', boxShadow: '0 4px 20px rgba(0,0,0,0.12)', maxWidth: 280 }}>
+                    <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', marginBottom: 4 }}>STORY 01</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', marginBottom: 3 }}>A New Start</div>
+                    <div style={{ fontSize: 12, color: 'var(--pm)' }}>In Progress · 60%</div>
+                  </div>
+                ),
+                usage: 'Story card, Progress card, Library card',
+              },
+              {
+                label: 'LG', value: '0 8px 40px rgba(0,0,0,0.14)',
+                example: (
+                  <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px 12px', borderRadius: 16, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', boxShadow: '0 8px 40px rgba(0,0,0,0.14)', maxWidth: 280 }}>
+                    {[Home, BookOpen, PenLine, BarChart2, BookMarked].map((Icon, i) => (
+                      <Icon key={i} size={20} style={{ color: i === 0 ? 'var(--pt)' : 'var(--pm)' }} strokeWidth={i === 0 ? 2 : 1.6} />
+                    ))}
+                  </div>
+                ),
+                usage: 'Bottom Navigation bar',
+              },
+              {
+                label: 'Dialog', value: '0 8px 48px rgba(0,0,0,0.16)',
+                example: (
+                  <div style={{ borderRadius: 20, background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', boxShadow: '0 8px 48px rgba(0,0,0,0.16)', overflow: 'hidden', maxWidth: 280 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 14px 0' }}>
+                      <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)', letterSpacing: '-0.01em' }}>Delete Essay?</span>
+                      <div style={{ width: 22, height: 22, borderRadius: 999, background: 'rgba(120,120,128,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <X size={9} style={{ color: 'var(--pm)' }} strokeWidth={2.2} />
+                      </div>
+                    </div>
+                    <p style={{ fontSize: 12, color: 'var(--pm)', margin: '6px 14px 0' }}>This action cannot be undone.</p>
+                    <div style={{ display: 'flex', gap: 8, padding: '12px 14px 14px' }}>
+                      <button type="button" style={{ flex: 1, padding: '9px 0', borderRadius: 11, fontSize: 12, fontWeight: 500, fontFamily: 'inherit', cursor: 'default', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', color: 'var(--pm)' }}>Cancel</button>
+                      <button type="button" style={{ flex: 1, padding: '9px 0', borderRadius: 11, fontSize: 12, fontWeight: 700, fontFamily: 'inherit', cursor: 'default', background: 'none', border: '1px solid rgba(180,74,90,0.22)', color: BURGUNDY }}>Delete</button>
+                    </div>
+                  </div>
+                ),
+                usage: 'All PDialog modals, TodayMissionPopup',
+              },
+              {
+                label: 'FAB', value: '0 4px 20px rgba(0,0,0,0.18)',
+                example: (
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--pt)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.18)' }}>
+                    <Plus size={22} style={{ color: 'var(--pb)' }} strokeWidth={2.5} />
+                  </div>
+                ),
+                usage: 'Floating Action Button (new essay)',
+              },
+            ].map(({ label, value, example, usage }) => (
+              <div key={label} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, alignItems: 'center', padding: '16px 0', borderBottom: '1px solid var(--pd)' }}>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', marginBottom: 4 }}>{label}</div>
+                  <code style={{ fontSize: 9.5, color: 'var(--pm)', fontFamily: 'monospace', lineHeight: 1.5, display: 'block' }}>{value}</code>
+                  <div style={{ fontSize: 10, color: 'var(--pm2)', marginTop: 6 }}>
+                    <span style={{ fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Usage </span>{usage}
+                  </div>
+                </div>
+                <div>{example}</div>
+              </div>
+            ))}
+          </div>
+        </Sub>
+
+        {/* ── Glass ── */}
+        <Sub title="Glass">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {[
+              {
+                label: 'Dialog Glass', blur: 'blur(32px) saturate(180%)',
+                example: (
+                  <div style={{ padding: '12px 14px', borderRadius: 16, background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', maxWidth: 220 }}>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--pt)', marginBottom: 4 }}>Install PATTO</div>
+                    <div style={{ fontSize: 11, color: 'var(--pm)' }}>Add to your Home Screen for quick access.</div>
+                  </div>
+                ),
+                usage: 'PDialog, TodayMissionPopup — strongest glass, depth over content',
+              },
+              {
+                label: 'Nav / Card Glass', blur: 'blur(24px) saturate(180%)',
+                example: (
+                  <div style={{ display: 'flex', justifyContent: 'space-around', padding: '10px 20px', borderRadius: 16, background: 'var(--pglass)', backdropFilter: 'blur(24px) saturate(180%)', WebkitBackdropFilter: 'blur(24px) saturate(180%)', border: '1px solid var(--pglass-border)', maxWidth: 260 }}>
+                    {[Home, BookOpen, PenLine, BarChart2, BookMarked].map((Icon, i) => (
+                      <Icon key={i} size={20} style={{ color: i === 0 ? 'var(--pt)' : 'var(--pm)' }} strokeWidth={i === 0 ? 2 : 1.6} />
+                    ))}
+                  </div>
+                ),
+                usage: 'Bottom Nav, Top Nav, Card, Secondary button, Back button',
+              },
+              {
+                label: 'Subtle Glass', blur: 'blur(16px) saturate(160%)',
+                example: (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    {['All', 'New', 'Review'].map((t, i) => (
+                      <div key={t} style={{ padding: '6px 14px', borderRadius: 20, background: 'var(--pglass)', backdropFilter: 'blur(16px) saturate(160%)', WebkitBackdropFilter: 'blur(16px) saturate(160%)', border: '1px solid var(--pglass-border)', fontSize: 12, fontWeight: 600, color: i === 0 ? 'var(--pt)' : 'var(--pm)' }}>{t}</div>
+                    ))}
+                  </div>
+                ),
+                usage: 'Filter chip, Small badge, Input (light variant)',
+              },
+            ].map(({ label, blur, example, usage }) => (
+              <div key={label} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, alignItems: 'center', padding: '16px 0', borderBottom: '1px solid var(--pd)' }}>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', marginBottom: 4 }}>{label}</div>
+                  <code style={{ fontSize: 9.5, color: 'var(--pm)', display: 'block', lineHeight: 1.5 }}>{blur}</code>
+                  <div style={{ fontSize: 10, color: 'var(--pm2)', marginTop: 6 }}>
+                    <span style={{ fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Usage </span>{usage}
+                  </div>
+                </div>
+                <div>{example}</div>
+              </div>
+            ))}
+          </div>
+        </Sub>
+
+        {/* ── Border ── */}
         <Sub title="Border">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {[
-              { label: 'Glass border  --pglass-border', border: '1px solid var(--pglass-border)' },
-              { label: 'Divider  --pd',                 border: '1px solid var(--pd)' },
-              { label: 'Accent border  --pacb',          border: '1px solid var(--pacb)' },
-              { label: 'Danger border',                  border: '1px solid rgba(180,74,90,0.22)' },
-            ].map(b => (
-              <div key={b.label} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <div style={{ width: 64, height: 36, borderRadius: 10, background: 'var(--pglass)', border: b.border, flexShrink: 0 }} />
-                <code style={{ fontSize: 11, color: 'var(--pm)' }}>{b.label}</code>
+              {
+                label: '--pglass-border', value: 'rgba(255,255,255,0.85) / rgba(143,171,255,0.12)',
+                example: (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, maxWidth: 320 }}>
+                    <div style={{ padding: '12px 14px', borderRadius: 16, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)' }}>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm2)', marginBottom: 3 }}>STORY 01</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)' }}>A New Start</div>
+                    </div>
+                    <button type="button" style={{ padding: '11px 0', borderRadius: 14, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', color: 'var(--pm)', fontSize: 13, fontWeight: 500, fontFamily: 'inherit', cursor: 'default' }}>Cancel</button>
+                  </div>
+                ),
+                usage: 'Card, Dialog, Bottom Nav, Secondary button, Input field, Back button',
+              },
+              {
+                label: '--pd (Divider)', value: 'rgba(60,60,67,0.10) / rgba(255,255,255,0.10)',
+                example: (
+                  <div style={{ maxWidth: 260 }}>
+                    {['Account Settings', 'Language', 'Notifications'].map((item, i) => (
+                      <div key={item}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '11px 0' }}>
+                          <span style={{ fontSize: 13, color: 'var(--pt)' }}>{item}</span>
+                          <ChevronDown size={13} style={{ color: 'var(--pm2)', transform: 'rotate(-90deg)' }} />
+                        </div>
+                        {i < 2 && <div style={{ height: 1, background: 'var(--pd)' }} />}
+                      </div>
+                    ))}
+                  </div>
+                ),
+                usage: 'List row divider, Dialog section separator, Progress bar track',
+              },
+              {
+                label: '--pacb (Accent Card Border)', value: 'rgba(109,141,255,0.20) / rgba(143,171,255,0.28)',
+                example: (
+                  <div style={{ padding: '12px 16px', borderRadius: 16, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pacb)', maxWidth: 220 }}>
+                    <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--pa)', marginBottom: 4 }}>PREMIUM</div>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--pt)' }}>₩9,900 / month</div>
+                  </div>
+                ),
+                usage: 'Subscription card, Highlighted feature card',
+              },
+              {
+                label: 'Danger border', value: 'rgba(180,74,90,0.22)',
+                example: (
+                  <div style={{ display: 'flex', gap: 10 }}>
+                    <button type="button" style={{ padding: '10px 20px', borderRadius: 14, background: 'none', border: '1px solid rgba(180,74,90,0.22)', color: BURGUNDY, fontSize: 13, fontWeight: 700, fontFamily: 'inherit', cursor: 'default' }}>Delete</button>
+                    <button type="button" style={{ padding: '10px 20px', borderRadius: 14, background: 'none', border: '1px solid rgba(180,74,90,0.22)', color: BURGUNDY, fontSize: 13, fontWeight: 700, fontFamily: 'inherit', cursor: 'default' }}>Sign out</button>
+                  </div>
+                ),
+                usage: 'Danger/destructive action buttons (Delete, Sign out, Discard)',
+              },
+            ].map(({ label, value, example, usage }) => (
+              <div key={label} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, alignItems: 'center', padding: '16px 0', borderBottom: '1px solid var(--pd)' }}>
+                <div>
+                  <code style={{ fontSize: 11, fontWeight: 700, color: 'var(--pt)', display: 'block', marginBottom: 3 }}>{label}</code>
+                  <div style={{ fontSize: 9.5, color: 'var(--pm2)', fontFamily: 'monospace', lineHeight: 1.5, marginBottom: 6 }}>{value}</div>
+                  <div style={{ fontSize: 10, color: 'var(--pm2)' }}>
+                    <span style={{ fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Usage </span>{usage}
+                  </div>
+                </div>
+                <div>{example}</div>
               </div>
             ))}
           </div>
         </Sub>
 
+        {/* ── Border Radius ── */}
+        <Sub title="Border Radius">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {[
+              { r: 6,   label: 'r6',  comp: 'Mastery badge, Score label',
+                example: <span style={{ fontSize: 10, fontWeight: 700, color: '#2A7A3A', background: 'rgba(42,122,58,0.10)', border: '1px solid rgba(42,122,58,0.18)', borderRadius: 6, padding: '3px 10px' }}>Mastered</span> },
+              { r: 12,  label: 'r12', comp: 'Input field',
+                example: <div style={{ padding: '10px 14px', borderRadius: 12, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', fontSize: 13, color: 'var(--pm)', display: 'inline-block' }}>Search patterns…</div> },
+              { r: 14,  label: 'r14', comp: 'Button (standard)',
+                example: <button type="button" style={{ padding: '10px 20px', borderRadius: 14, background: 'var(--pt)', color: 'var(--pb)', fontSize: 13, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>Save Draft</button> },
+              { r: 20,  label: 'r20', comp: 'Filter chip, Toast, Story card inner',
+                example: (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <span style={{ padding: '7px 16px', borderRadius: 20, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', fontSize: 12, fontWeight: 600, color: 'var(--pm)' }}>Review</span>
+                    <span style={{ padding: '7px 16px', borderRadius: 20, background: 'var(--pt)', color: 'var(--pb)', fontSize: 12, fontWeight: 600 }}>All</span>
+                  </div>
+                ) },
+              { r: 20,  label: 'r20', comp: 'Card (standard)',
+                example: (
+                  <div style={{ padding: '14px 16px', borderRadius: 20, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', maxWidth: 240 }}>
+                    <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--pm2)', marginBottom: 3 }}>STORY 01</div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)' }}>A New Start</div>
+                  </div>
+                ) },
+              { r: 28,  label: 'r28', comp: 'Dialog',
+                example: (
+                  <div style={{ padding: '14px 16px', borderRadius: 28, background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', boxShadow: '0 8px 48px rgba(0,0,0,0.16)', maxWidth: 240 }}>
+                    <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)', marginBottom: 4 }}>Sign out?</div>
+                    <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                      <button type="button" style={{ flex: 1, padding: '9px 0', borderRadius: 11, fontSize: 12, fontWeight: 500, fontFamily: 'inherit', cursor: 'default', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', color: 'var(--pm)' }}>Cancel</button>
+                      <button type="button" style={{ flex: 1, padding: '9px 0', borderRadius: 11, fontSize: 12, fontWeight: 700, fontFamily: 'inherit', cursor: 'default', background: 'none', border: '1px solid rgba(180,74,90,0.22)', color: BURGUNDY }}>Sign out</button>
+                    </div>
+                  </div>
+                ) },
+              { r: 999, label: 'r∞',  comp: 'Pill chip, Toast notification, X button',
+                example: (
+                  <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                    <div style={{ background: 'var(--pt)', color: 'var(--pb)', fontSize: 12, padding: '8px 18px', borderRadius: 999, fontWeight: 600 }}>Essay saved.</div>
+                    <div style={{ width: 28, height: 28, borderRadius: 999, background: 'rgba(120,120,128,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <X size={11} style={{ color: 'var(--pm)' }} strokeWidth={2.2} />
+                    </div>
+                  </div>
+                ) },
+            ].map(({ r, label, comp, example }, idx) => (
+              <div key={`${label}-${idx}`} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, alignItems: 'center', padding: '14px 0', borderBottom: '1px solid var(--pd)' }}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                    <div style={{ width: 32, height: 32, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: r, flexShrink: 0 }} />
+                    <code style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)' }}>{r === 999 ? '∞' : r}px</code>
+                  </div>
+                  <div style={{ fontSize: 10, color: 'var(--pm2)' }}>
+                    <span style={{ fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Usage </span>{comp}
+                  </div>
+                </div>
+                <div>{example}</div>
+              </div>
+            ))}
+          </div>
+        </Sub>
+
+        {/* ── Spacing ── */}
+        <Sub title="Spacing">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {[
+              { s: 8,  comp: 'Button gap, Action row gap (2-btn)', example: <div style={{ display: 'flex', gap: 8 }}><button type="button" style={{ flex: 1, padding: '10px 0', borderRadius: 12, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', color: 'var(--pm)', fontSize: 12, fontWeight: 500, fontFamily: 'inherit', cursor: 'default' }}>Cancel</button><button type="button" style={{ flex: 1, padding: '10px 0', borderRadius: 12, background: 'none', border: '1px solid rgba(180,74,90,0.22)', color: BURGUNDY, fontSize: 12, fontWeight: 700, fontFamily: 'inherit', cursor: 'default' }}>Delete</button></div> },
+              { s: 10, comp: 'Action row gap (3-btn)', example: <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 200 }}>{['Save Draft', 'Discard', 'Cancel'].map(t => <button key={t} type="button" style={{ padding: '8px 0', borderRadius: 11, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', color: 'var(--pm)', fontSize: 11, fontWeight: 500, fontFamily: 'inherit', cursor: 'default' }}>{t}</button>)}</div> },
+              { s: 14, comp: 'Card inner gap', example: <div style={{ padding: '14px 16px', borderRadius: 16, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', display: 'flex', flexDirection: 'column', gap: 14, maxWidth: 220 }}><div style={{ height: 10, borderRadius: 4, background: 'var(--pd)', width: '70%' }} /><div style={{ height: 10, borderRadius: 4, background: 'var(--pd)', width: '50%' }} /></div> },
+              { s: 20, comp: 'Page horizontal padding, Card padding', example: <div style={{ padding: '0 20px', background: 'var(--pd)', borderRadius: 8, display: 'flex', alignItems: 'center', height: 36, position: 'relative', maxWidth: 220 }}><div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 20, background: 'rgba(109,141,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 9, fontWeight: 700, color: 'var(--pa)', writingMode: 'vertical-rl' }}>20</span></div><div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 20, background: 'rgba(109,141,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span style={{ fontSize: 9, fontWeight: 700, color: 'var(--pa)', writingMode: 'vertical-rl' }}>20</span></div><span style={{ fontSize: 11, color: 'var(--pm)', margin: '0 auto' }}>Content</span></div> },
+              { s: 22, comp: 'Dialog title top padding', example: <div style={{ paddingTop: 22, paddingLeft: 14, paddingRight: 14, borderRadius: 16, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', maxWidth: 220 }}><span style={{ fontSize: 14, fontWeight: 800, color: 'var(--pt)' }}>Dialog Title</span><div style={{ height: 40 }} /></div> },
+              { s: 28, comp: 'Section spacing', example: <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}><div style={{ height: 1, background: 'var(--pd)' }} /><div style={{ height: 28, display: 'flex', alignItems: 'center' }}><span style={{ fontSize: 9, fontWeight: 700, color: 'var(--pm2)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>↕ 28px between sections</span></div><div style={{ height: 1, background: 'var(--pd)' }} /></div> },
+            ].map(({ s, comp, example }) => (
+              <div key={s} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, alignItems: 'center', padding: '14px 0', borderBottom: '1px solid var(--pd)' }}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                    <div style={{ width: s, height: s, background: 'var(--pt)', borderRadius: 3, opacity: 0.2, flexShrink: 0, minWidth: s }} />
+                    <code style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)' }}>{s}px</code>
+                  </div>
+                  <div style={{ fontSize: 10, color: 'var(--pm2)' }}>
+                    <span style={{ fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Usage </span>{comp}
+                  </div>
+                </div>
+                <div>{example}</div>
+              </div>
+            ))}
+          </div>
+        </Sub>
+
+        {/* ── Animation ── */}
         <Sub title="Animation">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {[
-              { label: 'Dialog open',  val: '220ms cubic-bezier(0.34,1.56,0.64,1)' },
-              { label: 'Toast fade',   val: '200ms ease' },
-              { label: 'Button hover', val: '150ms ease' },
-              { label: 'Tab switch',   val: '250ms cubic-bezier(0.25,0.1,0.25,1)' },
-              { label: 'Swipe row',    val: '220ms cubic-bezier(0.25,0.1,0.25,1)' },
-            ].map(a => (
-              <div key={a.label} style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pt)', width: 96, flexShrink: 0 }}>{a.label}</span>
-                <code style={{ fontSize: 11, color: 'var(--pm)', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 6, padding: '3px 8px' }}>{a.val}</code>
+              { label: 'Dialog open',  val: '220ms cubic-bezier(0.34,1.56,0.64,1)', usage: 'PDialog card scale+fade, TodayMissionPopup', note: 'Spring bounce — feels snappy and alive' },
+              { label: 'Toast fade',   val: '200ms ease',                             usage: 'Toast notification appear/disappear', note: 'Fast linear fade, unobtrusive' },
+              { label: 'Button press', val: '150ms ease',                             usage: 'opacity on tap, background on hover', note: 'Instant feedback, sub-100ms perceived' },
+              { label: 'Tab switch',   val: '250ms cubic-bezier(0.25,0.1,0.25,1)',   usage: 'Bottom nav icon color transition', note: 'Smooth standard ease-out' },
+              { label: 'Swipe row',   val: '220ms cubic-bezier(0.25,0.1,0.25,1)',   usage: 'Swipeable list row reveal', note: 'Matches spring duration of dialog' },
+            ].map(({ label, val, usage, note }) => (
+              <div key={label} style={{ padding: '14px 0', borderBottom: '1px solid var(--pd)' }}>
+                <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', flexWrap: 'wrap' }}>
+                  <div style={{ minWidth: 100, flexShrink: 0 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', marginBottom: 4 }}>{label}</div>
+                    <div style={{ fontSize: 10, color: 'var(--pm2)' }}>
+                      <span style={{ fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Usage </span>{usage}
+                    </div>
+                  </div>
+                  <div>
+                    <code style={{ fontSize: 10, color: 'var(--pm)', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 6, padding: '3px 8px', display: 'inline-block', marginBottom: 4 }}>{val}</code>
+                    <div style={{ fontSize: 10, color: 'var(--pm2)', fontStyle: 'italic' }}>{note}</div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </Sub>
 
+        {/* ── Icon Size ── */}
         <Sub title="Icon Size">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'flex-end' }}>
-            {[12, 14, 16, 18, 20, 22, 24, 28, 32].map(s => (
-              <div key={s} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                <BookOpen size={s} style={{ color: 'var(--pa)' }} strokeWidth={2} />
-                <span style={{ fontSize: 10, color: 'var(--pm)' }}>{s}</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {[
+              { s: 12, comp: 'X close button icon', example: <div style={{ width: 28, height: 28, borderRadius: 999, background: 'rgba(120,120,128,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={12} style={{ color: 'var(--pm)' }} strokeWidth={2.2} /></div> },
+              { s: 14, comp: 'Chevron, small action icon', example: <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>Settings <ChevronDown size={14} style={{ color: 'var(--pm2)', transform: 'rotate(-90deg)' }} /></div> },
+              { s: 16, comp: 'Back arrow, input leading icon', example: <div style={{ display: 'flex', gap: 12 }}><div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--pt)', fontWeight: 600 }}><ArrowLeft size={16} strokeWidth={2.5} />Back</div><div style={{ position: 'relative', display: 'inline-block' }}><Search style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: 'var(--pm)' }} /><input readOnly placeholder="Search…" style={{ paddingLeft: 32, padding: '8px 12px 8px 32px', borderRadius: 10, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', fontSize: 12, color: 'var(--pt)', outline: 'none', fontFamily: 'inherit' }} /></div></div> },
+              { s: 20, comp: 'Bottom nav icon', example: <div style={{ display: 'flex', gap: 20, padding: '8px 16px', borderRadius: 12, background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>{[Home, BookOpen, PenLine, BarChart2, BookMarked].map((Icon, i) => <Icon key={i} size={20} style={{ color: i === 0 ? 'var(--pt)' : 'var(--pm)' }} strokeWidth={i === 0 ? 2 : 1.6} />)}</div> },
+              { s: 22, comp: 'Profile avatar icon, Empty state icon', example: <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}><div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><User size={22} style={{ color: 'var(--pm)' }} /></div><div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(109,141,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><PenLine size={22} style={{ color: 'var(--pa)' }} strokeWidth={1.6} /></div></div> },
+              { s: 24, comp: 'FAB icon', example: <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--pt)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.18)' }}><Plus size={24} style={{ color: 'var(--pb)' }} strokeWidth={2.5} /></div> },
+            ].map(({ s, comp, example }) => (
+              <div key={s} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 16, alignItems: 'center', padding: '14px 0', borderBottom: '1px solid var(--pd)' }}>
+                <div>
+                  <code style={{ fontSize: 13, fontWeight: 800, color: 'var(--pt)', display: 'block', marginBottom: 4 }}>{s}px</code>
+                  <div style={{ fontSize: 10, color: 'var(--pm2)' }}>
+                    <span style={{ fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Usage </span>{comp}
+                  </div>
+                </div>
+                <div>{example}</div>
               </div>
             ))}
           </div>
         </Sub>
+
       </Section>
 
       <style>{`
