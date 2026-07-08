@@ -11,7 +11,22 @@ import { getAllRecords, todayStr, addDays } from '@/lib/srs/storage'
 import { getMissionItems } from '@/lib/srs/engine'
 import { getLastPosition } from '@/lib/last-position'
 import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
+import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
 import { usePreferences } from '@/contexts/PreferencesContext'
+
+// Map app Language → TipLang (handle zh-cn/zh-tw case difference)
+function toTipLang(lang: string): TipLang {
+  const m: Record<string, TipLang> = { 'zh-cn': 'zh-CN', 'zh-tw': 'zh-TW' }
+  return (m[lang] ?? lang) as TipLang
+}
+
+function getTipEntry(noteId: number, lang: string) {
+  if (lang === 'ko') return null  // ko → EDITOR_NOTES Korean data
+  const tip = editorTipTranslations.find(t => t.noteId === noteId)
+  if (!tip) return null
+  const l = toTipLang(lang)
+  return tip.translations[l] ?? tip.translations['en']
+}
 
 // ── Carousel helpers ──────────────────────────────────────────────────────────
 const TOTAL_TIPS = EDITOR_NOTES.length
@@ -59,12 +74,11 @@ function DotIndicator({ total, pos }: { total: number; pos: number }) {
 // Tip content renderer
 function TipContent({ tip }: { tip: EditorNote }) {
   const { prefs } = usePreferences()
-  const lang = prefs.language
-  const lm = <T,>(map: Record<string, T> | undefined, fallback: T): T =>
-    (lang !== 'ko' ? ((map as Record<string, T> | undefined)?.[lang] ?? map?.en) : undefined) ?? map?.ko ?? map?.en ?? fallback
-  const title    = lm(tip.title    as Record<string, string>  | undefined, '')
-  const body     = lm(tip.body     as Record<string, string[]>| undefined, [])
-  const remember = lm(tip.oneThingToRemember as Record<string, string> | undefined, '')
+  const entry = getTipEntry(tip.id, prefs.language)
+  const title    = entry?.title ?? (tip.title as Record<string, string>)?.ko ?? ''
+  const body     = entry?.body ?? (tip.body as Record<string, string[]>)?.ko ?? []
+  const remember = entry?.oneThingToRemember ?? (tip.oneThingToRemember as Record<string, string>)?.ko ?? ''
+  const researchBriefs = entry?.researchBriefs ?? []
   return (
     <>
       <p style={{
@@ -96,11 +110,11 @@ function TipContent({ tip }: { tip: EditorNote }) {
           </p>
         </div>
       )}
-      {(tip.research ?? []).length > 0 && (
+      {researchBriefs.length > 0 && (
         <div style={{ marginTop: 14 }}>
-          {tip.research.map((ref, i) => (
+          {researchBriefs.map((brief, i) => (
             <p key={i} style={{ fontSize: 10, color: 'var(--pm2)', margin: '0 0 3px', lineHeight: 1.4 }}>
-              {ref.author} ({ref.year}) — {lm(ref.brief as Record<string, string> | undefined, '')}
+              {brief}
             </p>
           ))}
         </div>
@@ -445,7 +459,8 @@ export default function HomePage() {
                 {todayStory.title}
               </p>
               <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', margin: 0, lineHeight: 1.3 }}>
-                {todayStory.subtitleTranslations?.[prefs.language] ?? todayStory.subtitleKo}
+                {todayStory.subtitleTranslations?.[prefs.language]
+                  ?? (prefs.language !== 'ko' ? (todayStory.subtitleTranslations?.en ?? todayStory.subtitleKo) : todayStory.subtitleKo)}
               </p>
             </div>
             {/* Continue — more transparent */}
@@ -555,7 +570,7 @@ export default function HomePage() {
                   overflow: 'hidden', display: '-webkit-box',
                   WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
                 }}>
-                  {(() => { const l = prefs.language; const t = dailyTip.title as Record<string,string>|undefined; return (l !== 'ko' ? (t?.[l] ?? t?.en) : undefined) ?? t?.ko ?? t?.en ?? '' })()}
+                  {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
                 </p>
               </div>
               <ChevronRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
