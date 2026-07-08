@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X } from 'lucide-react'
+import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
@@ -365,6 +365,197 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
   return createPortal(content, document.body)
 }
 
+// ── iOS Install Guide Sheet ───────────────────────────────────────────────────
+function IOSInstallSheet({ onClose, isKorean }: { onClose: () => void; isKorean: boolean }) {
+  const [mounted, setMounted] = useState(false)
+  const [visible, setVisible] = useState(false)
+  useEffect(() => { setMounted(true); setTimeout(() => setVisible(true), 10) }, [])
+
+  function handleClose() {
+    setVisible(false)
+    setTimeout(onClose, 260)
+  }
+
+  const steps = isKorean
+    ? [
+        { n: '1', text: 'Safari 하단의 공유 버튼(□↑)을 누르세요.' },
+        { n: '2', text: '메뉴에서 "홈 화면에 추가"를 선택하세요.' },
+        { n: '3', text: '오른쪽 위의 "추가"를 누르면 완료됩니다.' },
+      ]
+    : [
+        { n: '1', text: 'Tap the Share button (□↑) at the bottom of Safari.' },
+        { n: '2', text: 'Select "Add to Home Screen" from the menu.' },
+        { n: '3', text: 'Tap "Add" in the top right to finish.' },
+      ]
+
+  const content = (
+    <div
+      style={{
+        position: 'fixed', inset: 0, zIndex: 9999,
+        background: visible ? 'rgba(0,0,0,0.32)' : 'rgba(0,0,0,0)',
+        backdropFilter: visible ? 'blur(6px)' : 'none',
+        WebkitBackdropFilter: visible ? 'blur(6px)' : 'none',
+        display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+        transition: 'background 0.26s',
+      }}
+      onClick={e => { if (e.target === e.currentTarget) handleClose() }}
+    >
+      <div style={{
+        width: '100%', maxWidth: 520,
+        background: 'var(--pglass)',
+        backdropFilter: 'blur(32px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+        border: '1px solid var(--pglass-border)',
+        borderRadius: '24px 24px 0 0',
+        padding: '0 0 calc(28px + env(safe-area-inset-bottom, 0px))',
+        transform: visible ? 'translateY(0)' : 'translateY(100%)',
+        transition: 'transform 0.26s cubic-bezier(0.32,0.72,0,1)',
+      }}>
+        {/* Handle */}
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '14px 0 0' }}>
+          <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--pd)' }} />
+        </div>
+
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
+          <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
+            {isKorean ? 'iPhone에 PATTO 설치하기' : 'Install PATTO on iPhone'}
+          </p>
+          <button type="button" onClick={handleClose}
+            style={{ background: 'rgba(120,120,128,0.10)', border: 'none', borderRadius: 999, width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}>
+            <X style={{ width: 12, height: 12, color: '#8E8E93' }} strokeWidth={2.2} />
+          </button>
+        </div>
+
+        {/* Safari reminder */}
+        <div style={{ margin: '16px 24px', padding: '11px 14px', borderRadius: 12, background: 'rgba(88,86,214,0.08)', border: '1px solid rgba(88,86,214,0.15)' }}>
+          <p style={{ fontSize: 12.5, color: '#5856D6', margin: 0, lineHeight: 1.5, fontWeight: 500 }}>
+            {isKorean
+              ? '🧭 Safari에서 열면 홈 화면에 추가할 수 있어요.'
+              : '🧭 Open this page in Safari to add it to your Home Screen.'}
+          </p>
+        </div>
+
+        {/* Steps */}
+        <div style={{ padding: '0 24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {steps.map(s => (
+            <div key={s.n} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+              <div style={{ width: 26, height: 26, borderRadius: 999, background: 'var(--pa)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: '#fff' }}>{s.n}</span>
+              </div>
+              <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, lineHeight: 1.55, paddingTop: 3 }}>{s.text}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Confirm button */}
+        <div style={{ padding: '28px 24px 0' }}>
+          <button type="button" onClick={handleClose}
+            style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pa)', border: 'none', cursor: 'pointer', fontSize: 15, fontWeight: 700, color: '#fff', fontFamily: 'inherit' }}>
+            {isKorean ? '확인' : 'Got it'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+
+  if (!mounted) return null
+  return createPortal(content, document.body)
+}
+
+// ── Add to Home Screen card ───────────────────────────────────────────────────
+function InstallCard() {
+  const t = useT()
+  const { prefs } = usePreferences()
+  const isKorean = prefs.language === 'ko'
+
+  const [installType, setInstallType] = useState<'android' | 'ios' | null>(null)
+  const [showIOSSheet, setShowIOSSheet] = useState(false)
+  const deferredPromptRef = useRef<BeforeInstallPromptEvent | null>(null)
+
+  useEffect(() => {
+    const ua = navigator.userAgent
+    const isIOS = /iphone|ipad|ipod/i.test(ua)
+    const isAndroid = /android/i.test(ua)
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      (navigator as Navigator & { standalone?: boolean }).standalone === true
+
+    if (isStandalone) return
+
+    if (isAndroid) setInstallType('android')
+    else if (isIOS) setInstallType('ios')
+
+    const handler = (e: Event) => {
+      e.preventDefault()
+      deferredPromptRef.current = e as BeforeInstallPromptEvent
+    }
+    window.addEventListener('beforeinstallprompt', handler)
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  if (!installType) return null
+
+  const isIOS = installType === 'ios'
+  const label = isIOS ? t('hub_install_ios') : t('hub_install')
+  const desc  = isIOS ? t('hub_install_ios_desc') : t('hub_install_desc')
+  const emoji = isIOS ? '🍎' : '📱'
+
+  async function handleClick() {
+    if (isIOS) { setShowIOSSheet(true); return }
+    if (deferredPromptRef.current) {
+      deferredPromptRef.current.prompt()
+      const { outcome } = await deferredPromptRef.current.userChoice
+      deferredPromptRef.current = null
+      if (outcome === 'accepted') setInstallType(null)
+    } else {
+      // beforeinstallprompt not fired yet — show generic help
+      setShowIOSSheet(true)
+    }
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={handleClick}
+        style={{
+          ...card,
+          display: 'flex', alignItems: 'center', gap: 13,
+          padding: '13px 16px', width: '100%', boxSizing: 'border-box',
+          cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
+          transition: 'opacity 0.15s',
+        }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.70' }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
+      >
+        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--pc)', border: '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 14 }}>
+          {emoji}
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+            {label}
+          </p>
+          <p style={{ fontSize: 11.5, color: '#C0C0C5', margin: 0, fontWeight: 400, lineHeight: 1.35 }}>
+            {desc}
+          </p>
+        </div>
+        <ChevronRight style={{ width: 11, height: 11, color: '#D1D1D6', flexShrink: 0 }} strokeWidth={2} />
+      </button>
+
+      {showIOSSheet && (
+        <IOSInstallSheet onClose={() => setShowIOSSheet(false)} isKorean={isKorean} />
+      )}
+    </>
+  )
+}
+
+// Extend global types for beforeinstallprompt
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
+}
+
 export default function SettingsPage() {
   const t = useT()
   const [showAccount, setShowAccount] = useState(false)
@@ -409,9 +600,11 @@ export default function SettingsPage() {
             href="/settings/about"
           />
 
+          <InstallCard />
+
           <p style={{
             fontSize: 11, color: '#D1D1D6', fontWeight: 400,
-            margin: '12px 0 0', textAlign: 'center', letterSpacing: '0.02em',
+            margin: '0', textAlign: 'center', letterSpacing: '0.02em',
           }}>
             v1.0.0
           </p>
