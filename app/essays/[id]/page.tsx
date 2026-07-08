@@ -313,7 +313,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
 
   // ── Edit mode ─────────────────────────────────────────────────────────────
   const editView = (
-    <div style={{ flex: 1, maxWidth: 600, width: '100%', margin: '0 auto', padding: '0 20px 48px', boxSizing: 'border-box' }}>
+    <div style={{ flex: 1, maxWidth: 600, width: '100%', margin: '0 auto', padding: '0 20px calc(80px + env(safe-area-inset-bottom, 0px))', boxSizing: 'border-box' }}>
       <div style={{ ...glassCard, padding: '16px 18px', marginBottom: 8 }}>
         <input
           type="text"
@@ -364,9 +364,9 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         disabled={loading || wc < MIN_WORDS}
         style={{
           width: '100%', padding: '15px 0', borderRadius: 14, marginTop: 8,
-          background: loading || wc < MIN_WORDS ? 'var(--pglass)' : 'linear-gradient(135deg, #7B68EE, #5A54D4)',
+          background: loading || wc < MIN_WORDS ? 'var(--pglass)' : 'var(--pa)',
           border: loading || wc < MIN_WORDS ? '1px solid var(--pglass-border)' : '1px solid transparent',
-          boxShadow: loading || wc < MIN_WORDS ? 'none' : '0 4px 16px rgba(88,84,212,0.28)',
+          boxShadow: 'none',
           cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer',
           opacity: loading || wc < MIN_WORDS ? 0.45 : 1,
           fontSize: 14, fontWeight: 700,
