@@ -740,29 +740,33 @@ export function UIPlaygroundClient() {
             Story 본문에서 단어 탭 → chunk(표현)가 있을 때. popupStore 싱글톤으로 화면 중앙에 표시.
           </p>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-            <div style={{ background: 'var(--pb)', border: '1px solid var(--pd)', borderRadius: 16, padding: '18px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.25)', minWidth: 240, maxWidth: 300 }}>
-              <p style={{ fontSize: 13, color: 'var(--pt2)', margin: '0 0 10px', textAlign: 'center' }}>&ldquo;decided&rdquo;</p>
-              <div style={{ background: 'rgba(100,180,255,0.15)', border: '1px solid rgba(100,180,255,0.40)', borderRadius: 10, padding: '8px 12px', marginBottom: 14, textAlign: 'center' }}>
-                <p style={{ fontSize: 10, color: 'var(--pm)', margin: '0 0 3px', letterSpacing: '0.05em', fontWeight: 600 }}>추천 표현</p>
-                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>decided to try</p>
+            <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '20px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.18)', minWidth: 260, maxWidth: 300 }}>
+              {/* 탭한 단어 — muted */}
+              <p style={{ fontSize: 12, color: 'var(--pm2)', margin: '0 0 12px', textAlign: 'center' }}>&ldquo;decided&rdquo;</p>
+              {/* 추천 표현 카드 — accent tint, bigger padding */}
+              <div style={{ background: 'rgba(109,141,255,0.06)', border: '1px solid rgba(109,141,255,0.20)', borderRadius: 14, padding: '12px 16px', marginBottom: 16, textAlign: 'center' }}>
+                <p style={{ fontSize: 10, color: 'var(--pa)', margin: '0 0 6px', letterSpacing: '0.10em', fontWeight: 700, textTransform: 'uppercase' }}>추천 표현</p>
+                <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: 0, lineHeight: 1.35 }}>decided to try</p>
               </div>
-              <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
-                <button type="button" style={{ flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'var(--pglass)', color: 'var(--pt2)', fontFamily: 'inherit', cursor: 'default' }}>표현 저장</button>
-                <button type="button" style={{ flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'rgba(200,205,215,0.5)', color: 'var(--pt)', fontFamily: 'inherit', cursor: 'default' }}>단어만</button>
+              {/* Primary + Secondary */}
+              <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
+                <button type="button" style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 13, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 8px rgba(109,141,255,0.10)', fontFamily: 'inherit', cursor: 'default' }}>표현 저장</button>
+                <button type="button" style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: '1px solid rgba(0,0,0,0.10)', background: 'rgba(0,0,0,0.03)', fontSize: 13, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>단어만</button>
               </div>
-              <button type="button" style={{ width: '100%', padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'transparent', color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
+              {/* Text Cancel */}
+              <button type="button" style={{ width: '100%', padding: '8px 0 2px', border: 'none', background: 'transparent', fontSize: 12, fontWeight: 500, color: 'var(--pm2)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
             </div>
           </div>
         </Sub>
 
         <Sub title="GlobalSavePopup — Mode B (단어만)">
-          <div style={{ maxWidth: 260 }}>
-            <div style={{ background: 'var(--pb)', border: '1px solid var(--pd)', borderRadius: 16, padding: '18px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.25)' }}>
-              <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 14px', textAlign: 'center' }}>&ldquo;perseverance&rdquo;</p>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button type="button" style={{ flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'var(--pglass)', color: 'var(--pt2)', fontFamily: 'inherit', cursor: 'default' }}>단어 저장</button>
-                <button type="button" style={{ flex: 1, padding: '9px 14px', borderRadius: 10, border: 'none', fontSize: 13, fontWeight: 600, background: 'var(--pglass)', color: 'var(--pt2)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
-              </div>
+          <div style={{ maxWidth: 280 }}>
+            <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '20px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.18)' }}>
+              <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 16px', textAlign: 'center' }}>&ldquo;perseverance&rdquo;</p>
+              {/* Primary */}
+              <button type="button" style={{ width: '100%', padding: '11px 14px', borderRadius: 12, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 13, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 8px rgba(109,141,255,0.10)', fontFamily: 'inherit', cursor: 'default', marginBottom: 4 }}>단어 저장</button>
+              {/* Text Cancel */}
+              <button type="button" style={{ width: '100%', padding: '8px 0 2px', border: 'none', background: 'transparent', fontSize: 12, fontWeight: 500, color: 'var(--pm2)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
             </div>
           </div>
         </Sub>
@@ -771,17 +775,21 @@ export function UIPlaygroundClient() {
           <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
             Story 본문 long-press 텍스트 선택 → 선택 영역 바로 아래에 앵커링. 6단어 이하 선택 시에만 표시.
           </p>
-          <div style={{ position: 'relative', maxWidth: 340, padding: '20px 20px 60px', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 16 }}>
+          <div style={{ position: 'relative', maxWidth: 340, padding: '20px 20px 100px', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 16 }}>
             <p style={{ fontSize: 14, color: 'var(--pt)', lineHeight: 1.7, margin: 0 }}>
               I decided to{' '}
               <span style={{ background: 'rgba(109,141,255,0.18)', borderRadius: 3 }}>try something new</span>
               {' '}this week, even though it felt difficult at first.
             </p>
-            {/* popover anchored below selection */}
-            <div style={{ position: 'absolute', bottom: 12, left: '50%', transform: 'translateX(-50%)', background: 'var(--pt)', borderRadius: 10, padding: '7px 4px', display: 'flex', gap: 2, boxShadow: '0 4px 20px rgba(0,0,0,0.20)', whiteSpace: 'nowrap' }}>
-              <button type="button" style={{ padding: '4px 14px', borderRadius: 8, background: 'transparent', border: 'none', fontSize: 13, fontWeight: 700, color: 'var(--pb)', fontFamily: 'inherit', cursor: 'default' }}>Save</button>
-              <div style={{ width: 1, background: 'rgba(255,255,255,0.2)', margin: '4px 0' }} />
-              <button type="button" style={{ padding: '4px 14px', borderRadius: 8, background: 'transparent', border: 'none', fontSize: 13, fontWeight: 500, color: 'rgba(255,255,255,0.6)', fontFamily: 'inherit', cursor: 'default' }}>Cancel</button>
+            {/* WordSavePopup anchored below selection — new hierarchy design */}
+            <div style={{ position: 'absolute', bottom: 12, left: '50%', transform: 'translateX(-50%)', background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', borderRadius: 14, boxShadow: '0 4px 24px rgba(0,0,0,0.14)', padding: '14px 14px 10px', width: 180 }}>
+              {/* 화살표 */}
+              <div style={{ position: 'absolute', top: -7, left: '50%', width: 12, height: 12, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderBottom: 'none', borderRight: 'none', transform: 'translateX(-50%) rotate(45deg)' }} />
+              <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: '0 0 12px', textAlign: 'center' }}>&ldquo;try something&rdquo;</p>
+              {/* Primary: Save */}
+              <button type="button" style={{ width: '100%', padding: '9px 14px', borderRadius: 10, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 13, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 6px rgba(109,141,255,0.10)', fontFamily: 'inherit', cursor: 'default', marginBottom: 4 }}>Save</button>
+              {/* Text Cancel */}
+              <button type="button" style={{ width: '100%', padding: '6px 0', border: 'none', background: 'transparent', fontSize: 12, fontWeight: 500, color: 'var(--pm2)', fontFamily: 'inherit', cursor: 'default' }}>Cancel</button>
             </div>
           </div>
         </Sub>

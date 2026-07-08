@@ -12,7 +12,6 @@
  */
 
 import { useEffect, useRef, useState } from 'react'
-import { X } from 'lucide-react'
 import { saveWord, canSaveWord, type WordSourceType } from '@/lib/words/storage'
 import { FREE_WORD_LIMIT } from '@/lib/subscription/storage'
 
@@ -147,62 +146,64 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
             left:      clampedX - popupWidth / 2,
             width:     popupWidth,
             zIndex:    200,
-            background: 'var(--pb)',
-            border:    '1px solid var(--pd)',
-            borderRadius: 10,
-            boxShadow: '0 4px 24px rgba(0,0,0,0.15)',
-            padding:   '12px 14px',
+            background: 'var(--pglass)',
+            backdropFilter: 'blur(24px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+            border:    '1px solid var(--pglass-border)',
+            borderRadius: 14,
+            boxShadow: '0 4px 24px rgba(0,0,0,0.14)',
+            padding:   '14px 14px 10px',
           }}
         >
           {/* 화살표 포인터 */}
           <div style={{
             position: 'absolute', top: -7, left: '50%',
             width: 12, height: 12,
-            background: 'var(--pb)', border: '1px solid var(--pd)',
+            background: 'var(--pglass)', border: '1px solid var(--pglass-border)',
             borderBottom: 'none', borderRight: 'none',
             transform: 'translateX(-50%) rotate(45deg)',
           }} />
 
-          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 6, marginBottom: 10 }}>
-            <p style={{
-              fontSize: 12, fontWeight: 700, color: 'var(--pt)',
-              margin: 0, lineHeight: 1.4, wordBreak: 'break-word',
-            }}>
-              Save &ldquo;{popup.word}&rdquo;?
-            </p>
-            <button
-              type="button"
-              onClick={handleCancel}
-              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', flexShrink: 0, marginTop: 1 }}
-            >
-              <X style={{ width: 12, height: 12, color: 'var(--pm2)' }} strokeWidth={2} />
-            </button>
-          </div>
+          {/* 선택된 단어 */}
+          <p style={{
+            fontSize: 13, fontWeight: 700, color: 'var(--pt)',
+            margin: '0 0 12px', lineHeight: 1.4,
+            wordBreak: 'break-word', textAlign: 'center',
+          }}>
+            &ldquo;{popup.word}&rdquo;
+          </p>
 
-          <div style={{ display: 'flex', gap: 6 }}>
-            <button
-              type="button"
-              onClick={handleSave}
-              style={{
-                flex: 1, padding: '7px 12px', borderRadius: 7,
-                background: 'var(--pc)', color: 'var(--pt2)',
-                border: 'none', fontSize: 11, fontWeight: 600, cursor: 'pointer',
-              }}
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              onClick={handleCancel}
-              style={{
-                flex: 1, padding: '7px 12px', borderRadius: 7,
-                background: 'var(--pc)', color: 'var(--pt2)',
-                border: 'none', fontSize: 11, fontWeight: 600, cursor: 'pointer',
-              }}
-            >
-              Cancel
-            </button>
-          </div>
+          {/* Primary: Save */}
+          <button
+            type="button"
+            onClick={handleSave}
+            style={{
+              width: '100%', padding: '9px 14px', borderRadius: 10,
+              border: '1px solid rgba(109,141,255,0.30)',
+              background: 'rgba(109,141,255,0.06)',
+              fontSize: 13, fontWeight: 700, cursor: 'pointer',
+              color: 'var(--pa)',
+              boxShadow: '0 2px 6px rgba(109,141,255,0.10)',
+              fontFamily: 'inherit',
+              marginBottom: 4,
+            }}
+          >
+            Save
+          </button>
+
+          {/* Text Cancel */}
+          <button
+            type="button"
+            onClick={handleCancel}
+            style={{
+              width: '100%', padding: '6px 0',
+              border: 'none', background: 'transparent',
+              fontSize: 12, fontWeight: 500, cursor: 'pointer',
+              color: 'var(--pm2)', fontFamily: 'inherit',
+            }}
+          >
+            Cancel
+          </button>
         </div>
       )}
 
