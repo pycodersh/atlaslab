@@ -107,8 +107,11 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
       showToast(isKorean ? '가입 완료! 로그인해주세요.' : 'Signed up! Please sign in.')
       setIsSignUp(false)
     } else {
-      onSuccess?.()
-      window.location.href = '/'
+      if (onSuccess) {
+        onSuccess()
+      } else {
+        window.location.href = '/'
+      }
     }
   }
 

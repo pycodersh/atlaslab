@@ -4,7 +4,13 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
+  const oauthError = searchParams.get('error')
   const next = searchParams.get('next') ?? '/'
+
+  // User cancelled OAuth — silently redirect back to auth page without error banner
+  if (oauthError === 'access_denied') {
+    return NextResponse.redirect(`${origin}/settings/auth`)
+  }
 
   if (code) {
     const supabase = await createClient()

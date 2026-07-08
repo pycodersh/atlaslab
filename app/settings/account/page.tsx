@@ -69,8 +69,7 @@ export default function AccountPage() {
 
   async function handleSignOut() {
     await signOut()
-    setUser(null)
-    showToast('로그아웃되었습니다.')
+    window.location.href = '/'
   }
 
   async function handleDeleteAccount() {
