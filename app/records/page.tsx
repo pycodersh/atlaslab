@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { X, Info, BookOpen, Layers } from 'lucide-react'
+import { Info, BookOpen, Layers } from 'lucide-react'
+import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -394,55 +395,20 @@ function MasteryRing({ pct, label }: { pct: number; label: string }) {
 
 // ── Score Info Popup ──────────────────────────────────────────────────────────
 
-function ScoreInfoPopup({ score, onClose }: { score: number; onClose: () => void }) {
+function ScoreInfoPopup({ open, score, onClose }: { open: boolean; score: number; onClose: () => void }) {
   const { prefs } = usePreferences()
   const s = getScoreI18n(prefs.language)
   return (
-    <>
-      <div onClick={onClose} style={{
-        position: 'fixed', inset: 0, zIndex: 80,
-        background: 'rgba(20,20,40,0.38)',
-        backdropFilter: 'blur(4px)',
-        WebkitBackdropFilter: 'blur(4px)',
-      }} />
-      <div style={{
-        position: 'fixed',
-        top: '50%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 81,
-        width: 'calc(100vw - 48px)',
-        maxWidth: 320,
-        background: 'rgba(252,251,255,0.97)',
-        backdropFilter: 'blur(32px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-        borderRadius: 22,
-        border: '1px solid rgba(255,255,255,0.92)',
-        boxShadow: '0 12px 48px rgba(40,50,80,0.18), 0 2px 8px rgba(40,50,80,0.08)',
-        padding: '24px 22px 22px',
-      }}>
-        {/* Close */}
-        <button type="button" onClick={onClose} style={{
-          position: 'absolute', top: 16, right: 16,
-          width: 26, height: 26, borderRadius: '50%',
-          background: 'rgba(140,150,185,0.10)', border: 'none', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <X style={{ width: 11, height: 11, color: 'var(--pm2)' }} strokeWidth={2} />
-        </button>
-
-        {/* Title */}
-        <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--pt)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
-          {s.scoreInfoTitle}
-        </p>
-        <p style={{ fontSize: 11, color: 'var(--pm2)', margin: '0 0 18px', lineHeight: 1.5 }}>
-          {s.scoreCurrent} <strong style={{ color: '#4A7AC8' }}>{score}%</strong>
-        </p>
-
-        {/* Divider */}
-        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 16 }} />
-
-        {/* Explanation */}
-        <p style={{ fontSize: 12, color: 'var(--pt2)', lineHeight: 1.75, margin: '0 0 14px', fontWeight: 500 }}>
+    <PDialog
+      open={open}
+      onClose={onClose}
+      title={s.scoreInfoTitle}
+      description={`${s.scoreCurrent} ${score}%`}
+      actions={[{ label: 'OK', onClick: onClose, variant: 'text' }]}
+    >
+      <div style={{ paddingTop: 4 }}>
+        <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
+        <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 12px', fontWeight: 500 }}>
           {s.scoreInfoDesc}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -454,7 +420,7 @@ function ScoreInfoPopup({ score, onClose }: { score: number; onClose: () => void
             { range: '80+',     label: 'Excellent',      color: '#2A7A3A' },
           ].map(({ range, label, color }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm2)', width: 46, flexShrink: 0 }}>{range}</span>
+              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', width: 46, flexShrink: 0 }}>{range}</span>
               <span style={{
                 fontSize: 10, fontWeight: 700, color,
                 background: `${color}12`,
@@ -465,59 +431,27 @@ function ScoreInfoPopup({ score, onClose }: { score: number; onClose: () => void
           ))}
         </div>
       </div>
-    </>
+    </PDialog>
   )
 }
 
 // ── Review Mastery Info Popup ─────────────────────────────────────────────────
-function MasteryInfoPopup({ onClose }: { onClose: () => void }) {
+function MasteryInfoPopup({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { prefs } = usePreferences()
   const s = getScoreI18n(prefs.language)
   return (
-    <>
-      <div onClick={onClose} style={{
-        position: 'fixed', inset: 0, zIndex: 80,
-        background: 'rgba(20,20,40,0.38)',
-        backdropFilter: 'blur(4px)',
-        WebkitBackdropFilter: 'blur(4px)',
-      }} />
-      <div style={{
-        position: 'fixed',
-        top: '50%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 81,
-        width: 'calc(100vw - 48px)',
-        maxWidth: 320,
-        background: 'rgba(252,251,255,0.97)',
-        backdropFilter: 'blur(32px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-        borderRadius: 22,
-        border: '1px solid rgba(255,255,255,0.92)',
-        boxShadow: '0 12px 48px rgba(40,50,80,0.18), 0 2px 8px rgba(40,50,80,0.08)',
-        padding: '24px 22px 22px',
-      }}>
-        <button type="button" onClick={onClose} style={{
-          position: 'absolute', top: 16, right: 16,
-          width: 26, height: 26, borderRadius: '50%',
-          background: 'rgba(140,150,185,0.10)', border: 'none', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <X style={{ width: 11, height: 11, color: 'var(--pm2)' }} strokeWidth={2} />
-        </button>
-
-        <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--pt)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
-          Review Mastery
-        </p>
-        <p style={{ fontSize: 11, color: 'var(--pm2)', margin: '0 0 16px', lineHeight: 1.5 }}>
-          {s.masterySubtitle}
-        </p>
-
-        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 16 }} />
-
-        <p style={{ fontSize: 12, color: 'var(--pt2)', lineHeight: 1.75, margin: '0 0 16px', fontWeight: 500 }}>
+    <PDialog
+      open={open}
+      onClose={onClose}
+      title="Review Mastery"
+      description={s.masterySubtitle}
+      actions={[{ label: 'OK', onClick: onClose, variant: 'text' }]}
+    >
+      <div style={{ paddingTop: 4 }}>
+        <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
+        <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 14px', fontWeight: 500 }}>
           {s.masteryDesc}
         </p>
-
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {s.masterySteps.map(({ step, desc, color }) => (
             <div key={step} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
@@ -528,17 +462,16 @@ function MasteryInfoPopup({ onClose }: { onClose: () => void }) {
                 borderRadius: 6, padding: '2px 8px',
                 flexShrink: 0, marginTop: 1,
               }}>{step}</span>
-              <span style={{ fontSize: 11, color: 'var(--pt2)', lineHeight: 1.55 }}>{desc}</span>
+              <span style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1.55 }}>{desc}</span>
             </div>
           ))}
         </div>
-
-        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', margin: '16px 0 12px' }} />
-        <p style={{ fontSize: 10, color: 'var(--pm2)', lineHeight: 1.6, margin: 0 }}>
+        <div style={{ height: 1, background: 'var(--pd)', margin: '14px 0 10px' }} />
+        <p style={{ fontSize: 10, color: 'var(--pm)', lineHeight: 1.6, margin: 0 }}>
           {s.masteryFooter}
         </p>
       </div>
-    </>
+    </PDialog>
   )
 }
 
@@ -754,8 +687,8 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
         </div>
       </div>
 
-      {showInfo && <ScoreInfoPopup score={score} onClose={() => setShowInfo(false)} />}
-      {showMasteryInfo && <MasteryInfoPopup onClose={() => setShowMasteryInfo(false)} />}
+      <ScoreInfoPopup open={showInfo} score={score} onClose={() => setShowInfo(false)} />
+      <MasteryInfoPopup open={showMasteryInfo} onClose={() => setShowMasteryInfo(false)} />
     </>
   )
 }

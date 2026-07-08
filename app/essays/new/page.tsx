@@ -15,6 +15,7 @@ import {
 } from '@/lib/subscription/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
+import { PDialog } from '@/components/ui/PDialog'
 
 const MIN_WORDS  = 30
 const NATIVE_RATIO_WARN = 0.35
@@ -465,52 +466,17 @@ export default function NewEssayPage() {
       </div>
 
       {/* Leave dialog */}
-      {leaveDialog && (
-        <div
-          style={{
-            position: 'fixed', inset: 0, zIndex: 60,
-            background: 'rgba(0,0,0,0.30)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            padding: '0 24px',
-          }}
-          onClick={handleLeaveDialogCancel}
-        >
-          <div
-            style={{
-              background: 'var(--pglass)',
-              backdropFilter: 'blur(32px) saturate(200%)',
-              WebkitBackdropFilter: 'blur(32px) saturate(200%)',
-              border: '1px solid var(--pglass-border)',
-              borderRadius: 22,
-              boxShadow: '0 8px 40px rgba(30,40,70,0.14)',
-              padding: '28px 24px 22px',
-              width: '100%', maxWidth: 360,
-            }}
-            onClick={e => e.stopPropagation()}
-          >
-            <p style={{ fontSize: 17, fontWeight: 800, color: '#1C1C1E', margin: '0 0 6px', letterSpacing: '-0.01em' }}>
-              Discard draft?
-            </p>
-            <p style={{ fontSize: 12, color: '#8E8E93', margin: '0 0 22px', lineHeight: 1.6 }}>
-              저장하지 않으면 이 글은 사라집니다.
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <button type="button" onClick={handleLeaveDialogSaveDraft}
-                style={{ ...glassBtn({ fontSize: 14, fontWeight: 700, color: '#3A3A3C' }) }}>
-                Save Draft
-              </button>
-              <button type="button" onClick={handleLeaveDialogDiscard}
-                style={{ ...glassBtn({ fontSize: 14, fontWeight: 600, color: '#8E8E93', background: 'rgba(140,140,150,0.07)', boxShadow: 'none', border: '1px solid rgba(140,140,150,0.15)' }) }}>
-                Discard
-              </button>
-              <button type="button" onClick={handleLeaveDialogCancel}
-                style={{ ...glassBtn({ fontSize: 14, fontWeight: 500, color: '#B0B0B8', background: 'none', boxShadow: 'none', border: 'none' }) }}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <PDialog
+        open={leaveDialog}
+        onClose={handleLeaveDialogCancel}
+        title="Discard draft?"
+        description="저장하지 않으면 이 글은 사라집니다."
+        actions={[
+          { label: 'Save Draft', onClick: handleLeaveDialogSaveDraft, variant: 'secondary' },
+          { label: 'Discard',    onClick: handleLeaveDialogDiscard,   variant: 'danger' },
+          { label: 'Cancel',     onClick: handleLeaveDialogCancel,    variant: 'text' },
+        ]}
+      />
 
       <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
     </div>

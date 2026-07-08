@@ -275,6 +275,75 @@ export function UIPlaygroundClient() {
             ]}
           />
 
+          <DialogTrigger
+            label="Discard Draft?"
+            desc="3-option · Essay leave"
+            title="Discard draft?"
+            description="저장하지 않으면 이 글은 사라집니다."
+            actions={[
+              { label: 'Save Draft', onClick: () => {}, variant: 'secondary' },
+              { label: 'Discard',    onClick: () => {}, variant: 'danger' },
+              { label: 'Cancel',     onClick: () => {}, variant: 'text' },
+            ]}
+          />
+
+          <DialogTrigger
+            label="Score Info"
+            desc="Info · Records"
+            title="Score Information"
+            description="Current Score: 72%"
+            actions={[{ label: 'OK', onClick: () => {}, variant: 'text' }]}
+          >
+            <div style={{ paddingTop: 4 }}>
+              <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
+              <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 12px', fontWeight: 500 }}>
+                Your score reflects how well you remember the patterns you have studied.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {[
+                  { range: '0 – 19', label: 'Getting Started', color: '#C87A3A' },
+                  { range: '20 – 39', label: 'Building Up',    color: '#C8913A' },
+                  { range: '40 – 59', label: 'Good',           color: '#7A6AC8' },
+                  { range: '60 – 79', label: 'Very Good',      color: '#4A7AC8' },
+                  { range: '80+',     label: 'Excellent',      color: '#2A7A3A' },
+                ].map(({ range, label, color }) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', width: 46, flexShrink: 0 }}>{range}</span>
+                    <span style={{ fontSize: 10, fontWeight: 700, color, background: `${color}12`, border: `1px solid ${color}28`, borderRadius: 6, padding: '2px 8px' }}>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </DialogTrigger>
+
+          <DialogTrigger
+            label="Mastery Info"
+            desc="Info · Records"
+            title="Review Mastery"
+            description="How mastery levels work"
+            actions={[{ label: 'OK', onClick: () => {}, variant: 'text' }]}
+          >
+            <div style={{ paddingTop: 4 }}>
+              <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
+              <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 12px', fontWeight: 500 }}>
+                Mastery is based on how consistently you review patterns over time using spaced repetition.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[
+                  { step: 'New',      desc: 'You have seen this pattern for the first time.',       color: '#C87A3A' },
+                  { step: 'Learning', desc: 'You are building familiarity through repetition.',     color: '#C8913A' },
+                  { step: 'Review',   desc: 'You are consolidating your memory over time.',         color: '#7A6AC8' },
+                  { step: 'Mastered', desc: 'You have achieved long-term retention of this pattern.', color: '#2A7A3A' },
+                ].map(({ step, desc, color }) => (
+                  <div key={step} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, color, background: `${color}12`, border: `1px solid ${color}28`, borderRadius: 6, padding: '2px 8px', flexShrink: 0, marginTop: 1 }}>{step}</span>
+                    <span style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1.55 }}>{desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </DialogTrigger>
+
         </div>
       </Section>
 

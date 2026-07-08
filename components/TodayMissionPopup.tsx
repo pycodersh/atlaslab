@@ -69,11 +69,11 @@ export function TodayMissionPopup() {
         transition: 'transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.22s ease',
         width: 'min(92vw, 360px)',
         background: 'var(--pglass)',
-        backdropFilter: 'blur(24px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+        backdropFilter: 'blur(32px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
         border: '1px solid var(--pglass-border)',
-        borderRadius: 24,
-        boxShadow: '0 4px 32px rgba(40,50,80,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
+        borderRadius: 28,
+        boxShadow: '0 8px 48px rgba(0,0,0,0.16)',
       }}>
 
         {/* Header */}
