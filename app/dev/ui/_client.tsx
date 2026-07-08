@@ -109,17 +109,51 @@ function ToastDemo() {
 
 // ── Buttons ───────────────────────────────────────────────────────────────────
 
-function Btn({ label, variant = 'primary', disabled = false, loading = false, iconOnly = false }: { label?: string; variant?: string; disabled?: boolean; loading?: boolean; iconOnly?: boolean }) {
-  const s: Record<string, React.CSSProperties> = {
-    primary:   { background: 'var(--pt)', color: 'var(--pb)', border: 'none' },
-    secondary: { background: 'var(--pglass)', color: 'var(--pm)', border: '1px solid rgba(0,0,0,0.12)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' },
-    danger:    { background: 'none', color: BURGUNDY, border: '1px solid rgba(180,74,90,0.22)' },
-    text:      { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', color: 'var(--pm)', border: '1px solid var(--pglass-border)' },
+// Shared button dimensions — all variants use identical size tokens
+const BTN_H      = 52                                    // height px
+const BTN_R      = 16                                    // borderRadius px
+const BTN_FONT   = 14                                    // fontSize px
+const CHARCOAL   = '#2C2C32'                             // Primary filled color
+
+type BtnVariant  = 'primary' | 'secondary' | 'danger' | 'text'
+
+function Btn({
+  label, variant = 'primary', disabled = false, loading = false,
+  pressed = false, iconOnly = false,
+}: {
+  label?: string; variant?: BtnVariant; disabled?: boolean;
+  loading?: boolean; pressed?: boolean; iconOnly?: boolean;
+}) {
+  const variantStyle: Record<BtnVariant, React.CSSProperties> = {
+    primary:   { background: CHARCOAL, color: '#FFFFFF', border: 'none' },
+    secondary: { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', color: 'var(--pm)', border: '1px solid rgba(0,0,0,0.12)' },
+    danger:    { background: 'transparent', color: BURGUNDY, border: `1px solid rgba(180,74,90,0.26)` },
+    text:      { background: 'transparent', color: 'var(--pm)', border: 'none' },
   }
+  const fontWeight = variant === 'text' ? 500 : variant === 'secondary' ? 600 : 700
   return (
-    <button type="button" disabled={disabled}
-      style={{ padding: iconOnly ? '13px' : '13px 20px', borderRadius: 14, cursor: disabled ? 'not-allowed' : 'pointer', fontSize: 14, fontWeight: variant === 'secondary' ? 500 : 700, fontFamily: 'inherit', opacity: disabled ? 0.45 : 1, minWidth: iconOnly ? 48 : 96, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, ...(s[variant] ?? s.primary) }}>
-      {loading ? <RefreshCw size={14} style={{ animation: 'spin 0.8s linear infinite' }} /> : iconOnly ? <Plus size={16} /> : label}
+    <button
+      type="button"
+      disabled={disabled}
+      style={{
+        height: BTN_H,
+        padding: iconOnly ? `0 ${BTN_H / 4}px` : '0 20px',
+        borderRadius: BTN_R,
+        fontSize: BTN_FONT,
+        fontWeight,
+        fontFamily: 'inherit',
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.40 : pressed ? 0.72 : 1,
+        transform: pressed ? 'scale(0.97)' : 'none',
+        minWidth: iconOnly ? BTN_H : 100,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+        ...variantStyle[variant],
+      }}
+    >
+      {loading
+        ? <><Loader2 size={14} style={{ animation: 'spin 0.8s linear infinite', flexShrink: 0 }} />{label && <span>{label}</span>}</>
+        : iconOnly ? <Plus size={16} />
+        : label}
     </button>
   )
 }
@@ -856,19 +890,45 @@ export function UIPlaygroundClient() {
       {/* 6. Toast */}
       <Section title="Toast">
         <ToastDemo />
-        <Sub title="All Variants">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 340 }}>
+        <p style={{ fontSize: 11.5, color: 'var(--pm)', marginBottom: 24, lineHeight: 1.7 }}>
+          3종 통일: <strong>Success (Dark)</strong> · <strong>Neutral (Glass)</strong> · <strong>Error (Red)</strong><br />
+          공통 스타일: <code style={{ background: 'var(--pglass)', padding: '1px 6px', borderRadius: 4, fontSize: 11 }}>padding 8px 22px · radius 20 · fs12/fw600 · whiteSpace nowrap</code>
+        </p>
+
+        {/* Success */}
+        <Sub title="Success (Dark) — 저장 완료 · 삭제 완료 등 긍정적 피드백">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+            {['Essay saved.', '단어 저장됨', '표현 저장됨', 'Draft deleted.'].map(msg => (
+              <div key={msg} style={{ padding: '8px 22px', borderRadius: 20, background: 'var(--pt)', color: 'var(--pb)', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap' }}>{msg}</div>
+            ))}
+          </div>
+        </Sub>
+
+        {/* Neutral */}
+        <Sub title="Neutral (Glass) — 안내 · 진행 중 · Coming Soon 등 중립 메시지">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
             {[
-              { msg: 'Essay saved.', bg: 'var(--pt)', color: 'var(--pb)' },
-              { msg: 'Saved to Library', bg: 'var(--pglass)', color: 'var(--pt)', border: '1px solid var(--pd)' },
-              { msg: '단어 저장됨', bg: 'var(--pglass)', color: 'var(--pt2)', border: '1px solid var(--pd)' },
-              { msg: '표현 저장됨', bg: 'var(--pglass)', color: 'var(--pt2)', border: '1px solid var(--pd)' },
-              { msg: 'Free plan: 10 words max · Upgrade to Premium', bg: '#3A3A3C', color: '#fff', maxW: 320 },
-              { msg: 'Sign in coming soon.', bg: 'var(--pt)', color: 'var(--pb)' },
-              { msg: '인증 기능 준비 중입니다.', bg: 'var(--pt)', color: 'var(--pb)' },
-              { msg: 'Network Error. Check your connection.', bg: BURGUNDY, color: '#fff' },
-            ].map(({ msg, bg, color, border, maxW }) => (
-              <div key={msg} style={{ alignSelf: 'center', padding: '8px 22px', borderRadius: 20, background: bg, color, fontSize: 12, fontWeight: 600, border: border ?? 'none', maxWidth: maxW ?? 280, textAlign: 'center', lineHeight: 1.5 }}>{msg}</div>
+              'Syncing…',
+              'Preparing your review…',
+              'Authentication in progress',
+              'Coming soon.',
+              '인증 기능 준비 중입니다.',
+              'Free plan: 3 words max · Upgrade for more',
+            ].map(msg => (
+              <div key={msg} style={{ padding: '8px 22px', borderRadius: 20, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pd)', color: 'var(--pt)', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap' }}>{msg}</div>
+            ))}
+          </div>
+        </Sub>
+
+        {/* Error */}
+        <Sub title="Error (Red) — 네트워크 오류 · 저장 실패 등 오류 피드백">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-start' }}>
+            {[
+              'Network Error. Check your connection.',
+              'Save failed. Please try again.',
+              '로그인에 실패했습니다.',
+            ].map(msg => (
+              <div key={msg} style={{ padding: '8px 22px', borderRadius: 20, background: BURGUNDY, color: '#fff', fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap' }}>{msg}</div>
             ))}
           </div>
         </Sub>
@@ -876,26 +936,99 @@ export function UIPlaygroundClient() {
 
       {/* 3. Buttons */}
       <Section title="Buttons">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {[
-            { label: 'Primary',   btns: [{ t: 'Install', v: 'primary' }, { t: 'Save', v: 'primary' }, { t: 'Continue', v: 'primary' }] },
-            { label: 'Secondary', btns: [{ t: 'Cancel', v: 'secondary' }, { t: 'Not now', v: 'secondary' }] },
-            { label: 'Danger',    btns: [{ t: 'Delete', v: 'danger' }, { t: 'Sign out', v: 'danger' }] },
-            { label: 'Text',      btns: [{ t: 'Got it', v: 'text' }, { t: 'OK', v: 'text' }, { t: 'Maybe later', v: 'text' }] },
-            { label: 'Disabled',  btns: [{ t: 'Save', v: 'primary', d: true }, { t: 'Cancel', v: 'secondary', d: true }] },
-          ].map(g => (
-            <Sub key={g.label} title={g.label}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                {g.btns.map((b, i) => <Btn key={i} label={b.t} variant={b.v} disabled={'d' in b} />)}
-              </div>
-            </Sub>
-          ))}
-          <Sub title="Loading"><Btn loading variant="primary" /></Sub>
-          <Sub title="Icon Button (FAB)">
-            <div style={{ display: 'flex', gap: 10 }}>
-              <Btn iconOnly variant="primary" /><Btn iconOnly variant="secondary" />
+        {/* Design tokens: h52, r16, fs14 — all variants share same dimensions */}
+        <p style={{ fontSize: 11.5, color: 'var(--pm)', marginBottom: 24, lineHeight: 1.7 }}>
+          모든 버튼: <code style={{ background: 'var(--pglass)', padding: '1px 6px', borderRadius: 4, fontSize: 11 }}>height 52 · radius 16 · fontSize 14</code><br />
+          Primary <code style={{ background: 'var(--pglass)', padding: '1px 6px', borderRadius: 4, fontSize: 11 }}>#2C2C32</code> · Secondary glass · Danger glass+burgundy border · Text transparent
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+
+          {/* Primary */}
+          <Sub title="Primary — 페이지 레벨 메인 CTA">
+            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>Start Learning · Review Essay · Save Essay · Upgrade Premium · Continue with Google</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+              {([
+                { label: 'Start Learning',  state: 'Default'  },
+                { label: 'Review Essay',    state: 'Pressed',  pressed: true },
+                { label: 'Reviewing…',      state: 'Loading',  loading: true },
+                { label: 'Save Essay',      state: 'Disabled', disabled: true },
+              ] as const).map(({ label, state, ...rest }) => (
+                <div key={state} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <Btn label={label} variant="primary" {...rest} />
+                  <span style={{ fontSize: 9.5, color: 'var(--pm2)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{state}</span>
+                </div>
+              ))}
             </div>
           </Sub>
+
+          {/* Secondary */}
+          <Sub title="Secondary — 덜 중요한 보조 액션">
+            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>Save Draft · View Result · Cancel · Not now</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+              {([
+                { label: 'Save Draft',  state: 'Default'  },
+                { label: 'View Result', state: 'Pressed',  pressed: true },
+                { label: 'Cancel',      state: 'Disabled', disabled: true },
+              ] as const).map(({ label, state, ...rest }) => (
+                <div key={state} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <Btn label={label} variant="secondary" {...rest} />
+                  <span style={{ fontSize: 9.5, color: 'var(--pm2)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{state}</span>
+                </div>
+              ))}
+            </div>
+          </Sub>
+
+          {/* Danger */}
+          <Sub title="Danger — 파괴적 액션 (Dialog 전용)">
+            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>Delete · Sign out · Remove · Discard</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+              {([
+                { label: 'Delete',   state: 'Default' },
+                { label: 'Sign out', state: 'Pressed', pressed: true },
+              ] as const).map(({ label, state, ...rest }) => (
+                <div key={state} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <Btn label={label} variant="danger" {...rest} />
+                  <span style={{ fontSize: 9.5, color: 'var(--pm2)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{state}</span>
+                </div>
+              ))}
+            </div>
+          </Sub>
+
+          {/* Text */}
+          <Sub title="Text — 배경/테두리 없는 가장 가벼운 액션">
+            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>Got it · OK · Maybe later · 취소 — 터치 영역만 확보, 시각적으로 링크처럼</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+              {([
+                { label: 'Got it',       state: 'Default' },
+                { label: 'OK',           state: 'Default' },
+                { label: 'Maybe later',  state: 'Default' },
+                { label: 'Got it',       state: 'Pressed', pressed: true },
+              ] as const).map(({ label, state, ...rest }, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                  <Btn label={label} variant="text" {...rest} />
+                  <span style={{ fontSize: 9.5, color: 'var(--pm2)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{state}</span>
+                </div>
+              ))}
+            </div>
+          </Sub>
+
+          {/* Loading full example */}
+          <Sub title="Loading — Spinner + Label + 클릭 비활성">
+            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>AI Review 등 오래 걸리는 작업. Spinner + 진행 중 텍스트 + disabled 상태 동시 표시.</p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+              <Btn label="Reviewing…"     variant="primary"   loading disabled />
+              <Btn label="Saving…"        variant="secondary" loading disabled />
+            </div>
+          </Sub>
+
+          {/* Icon button */}
+          <Sub title="Icon Button (FAB)">
+            <div style={{ display: 'flex', gap: 10 }}>
+              <Btn iconOnly variant="primary" />
+              <Btn iconOnly variant="secondary" />
+            </div>
+          </Sub>
+
         </div>
       </Section>
 
