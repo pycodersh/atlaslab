@@ -118,11 +118,9 @@ function MenuCard({
 function AccountPopup({ onClose }: { onClose: () => void }) {
   const [mounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
-  const [isApple, setIsApple] = useState(false)
   useEffect(() => {
     setMounted(true)
     setTimeout(() => setVisible(true), 10)
-    setIsApple(/iPhone|iPad|iPod|Mac/i.test(navigator.userAgent))
   }, [])
   const t = useT()
   const { prefs } = usePreferences()
@@ -179,16 +177,6 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
     ),
   }
 
-  const APPLE: Provider = {
-    id: 'apple',
-    label: t('auth_continue_apple'),
-    logo: (
-      <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }} fill={isDark ? '#fff' : '#000'}>
-        <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.53 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
-      </svg>
-    ),
-  }
-
   const EMAIL: Provider = {
     id: 'email',
     label: t('auth_continue_email'),
@@ -226,7 +214,6 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
 
   const PROVIDERS: Provider[] = [
     GOOGLE,
-    ...(isApple ? [APPLE] : []),
     EMAIL,
     ...(isKorean ? [KAKAO, NAVER] : []),
   ]
@@ -276,14 +263,15 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
         {/* Title + desc */}
         <div style={{ padding: '28px 32px 24px', textAlign: 'center' }}>
           <p style={{
-            fontSize: 30, fontWeight: 800, color: 'var(--pt)',
-            margin: '0 0 12px', letterSpacing: '-0.03em', lineHeight: 1.1,
+            fontSize: 22, fontWeight: 800, color: 'var(--pt)',
+            margin: '0 0 10px', letterSpacing: '-0.02em', lineHeight: 1.15,
           }}>
             Welcome to PATTO
           </p>
           <p style={{
-            fontSize: 15, color: '#8E8E93', lineHeight: 1.55,
-            margin: 0, fontWeight: 400, maxWidth: 300, marginLeft: 'auto', marginRight: 'auto',
+            fontSize: 12.5, color: '#8E8E93', lineHeight: 1.6,
+            margin: 0, fontWeight: 400, maxWidth: 260, marginLeft: 'auto', marginRight: 'auto',
+            wordBreak: 'keep-all',
           }}>
             {isKorean
               ? '로그인하면 에세이, 단어장, 학습 기록을 모든 기기에서 이어갈 수 있어요.'
@@ -499,7 +487,12 @@ function InstallCard() {
   const isIOS = installType === 'ios'
   const label = isIOS ? t('hub_install_ios') : t('hub_install')
   const desc  = isIOS ? t('hub_install_ios_desc') : t('hub_install_desc')
-  const emoji = isIOS ? '🍎' : '📱'
+  const AppleSvg = () => (
+    <svg viewBox="0 0 24 24" width={15} height={15} fill="currentColor" style={{ color: 'var(--pt)' }}>
+      <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.53 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+    </svg>
+  )
+  const emoji = isIOS ? null : '📱'
 
   async function handleClick() {
     if (isIOS) { setShowIOSSheet(true); return }
@@ -530,7 +523,7 @@ function InstallCard() {
         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
       >
         <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--pc)', border: '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 14 }}>
-          {emoji}
+          {isIOS ? <AppleSvg /> : emoji}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
