@@ -131,7 +131,7 @@ function floatAbove(bottom: number, color: string, extra?: React.CSSProperties):
   return {
     position: 'absolute',
     left: 0,
-    bottom,
+    bottom: bottom + 15,
     ...CAVEAT,
     fontSize: 15,
     color,
@@ -154,7 +154,7 @@ function RenderCircle({ text, ann, yShift, color }: SP) {
   return (
     <span style={{ position: 'relative', display: 'inline' }}>
       {ann.replacement && (
-        <span style={floatAbove(3 + yShift, color)}>{ann.replacement} ↓</span>
+        <span style={floatAbove(3 + yShift, color)}>{ann.replacement}</span>
       )}
       <span style={{
         border: `1.5px solid ${color}`,
@@ -172,7 +172,7 @@ function RenderUnderCorrect({ text, ann, yShift, color }: SP) {
   return (
     <span style={{ position: 'relative', display: 'inline' }}>
       {ann.replacement && (
-        <span style={floatAbove(3 + yShift, color)}>{ann.replacement} ↓</span>
+        <span style={floatAbove(3 + yShift, color)}>{ann.replacement}</span>
       )}
       <span style={{
         textDecoration: 'underline wavy',
@@ -213,7 +213,7 @@ function RenderInsertCaret({ text, ann, yShift, color }: SP) {
     <span style={{ position: 'relative', display: 'inline' }}>
       {ann.replacement && (
         <span style={floatAbove(3 + yShift, color, { left: 'auto', right: 0 })}>
-          {ann.replacement} ↓
+          {ann.replacement}
         </span>
       )}
       <span>{text}</span>
@@ -330,7 +330,7 @@ function RenderWavyUnderline({ text, ann, yShift, color }: SP) {
   return (
     <span style={{ position: 'relative', display: 'inline' }}>
       {ann.replacement && (
-        <span style={floatAbove(3 + yShift, color)}>{ann.replacement} ↓</span>
+        <span style={floatAbove(3 + yShift, color)}>{ann.replacement}</span>
       )}
       <span style={{
         textDecoration: 'underline wavy',
@@ -370,7 +370,7 @@ function RenderSoftSuggest({ text, ann, yShift, color }: SP) {
   return (
     <span style={{ position: 'relative', display: 'inline' }}>
       {ann.replacement && (
-        <span style={floatAbove(3 + yShift, color)}>{ann.replacement} ↓</span>
+        <span style={floatAbove(3 + yShift, color)}>{ann.replacement}</span>
       )}
       <span style={{
         textDecoration: 'underline dashed',
@@ -411,7 +411,7 @@ function renderAnnotation(
   if (ann.type === 'strength') {
     return (
       <span style={{ position: 'relative', display: 'inline' }}>
-        <span style={floatAbove(3 + yShift, INK_S)}>{ann.note ?? '⭐'} ↓</span>
+        <span style={floatAbove(3 + yShift, INK_S)}>{ann.note ?? '⭐'}</span>
         <mark style={{ background: 'rgba(255,210,60,0.25)', borderRadius: 2, padding: '0 2px', color: 'inherit' }}>
           {text}
         </mark>
