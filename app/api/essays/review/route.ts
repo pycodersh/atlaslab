@@ -123,9 +123,25 @@ Examples: "Consistency builds confidence." / "Small improvements become fluency.
 ━━━ STYLE DETECTION ━━━
 Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statement / TOEFL / Business Email
 
+━━━ SCORE ━━━
+score: integer 0-100. Be honest — average learner essays score 55-75.
+
+━━━ VOCABULARY ━━━
+5-10 useful words or phrases from the essay (important words the student used or should know).
+Each: { "word": "...", "meaning": "...(in user's language)", "example": "Short example sentence." }
+
+━━━ USEFUL CHUNKS ━━━
+5-8 natural English expressions or patterns relevant to this essay topic.
+Each: { "expression": "...", "usage": "How/when to use it (in user's language)." }
+
+━━━ GRAMMAR TIPS ━━━
+3-5 key grammar points the student got wrong or should know, based on errors found.
+Each: { "point": "Short label (e.g. 'Past Perfect')", "explanation": "...(in user's language)", "example": "Wrong → Correct." }
+
 ━━━ RESPONSE FORMAT — valid JSON only ━━━
 {
   "_scan": "All your Pass 1, Pass 2, Pass 3 thinking goes here.",
+  "score": 68,
   "detectedStyle": "Diary",
   "annotations": [
     { "type": "grammar",    "subType": "tense",       "targetText": "go",        "replacement": "went",           "note": "과거 시제.", "confidence": 0.99 },
@@ -142,7 +158,16 @@ Diary / Essay / Letter / Report / Blog Post / SNS Post / Story / Personal Statem
   "editorComment": "전반적으로 자신만의 목소리가 잘 살아있는 좋은 글입니다.",
   "nextChallenge": ["목표 1.", "목표 2."],
   "suggestedVersion": "전체 교정 에세이.",
-  "oneLineAdvice": "코치 스타일 조언."
+  "oneLineAdvice": "코치 스타일 조언.",
+  "vocabulary": [
+    { "word": "consistency", "meaning": "일관성", "example": "Consistency is key to improvement." }
+  ],
+  "usefulChunks": [
+    { "expression": "catch up with someone", "usage": "오랜 친구를 다시 만날 때 씁니다." }
+  ],
+  "grammarTips": [
+    { "point": "Subject-Verb Agreement", "explanation": "주어와 동사의 수를 맞춰야 합니다.", "example": "There was many people → There were many people." }
+  ]
 }`
 }
 
@@ -362,6 +387,10 @@ Review this essay. Find EVERY grammar error. Return the JSON as specified.`
           : [],
       ...(suggestedVersion ? { suggestedVersion } : {}),
       oneLineAdvice: parsed.oneLineAdvice,
+      score: typeof parsed.score === 'number' ? Math.min(100, Math.max(0, Math.round(parsed.score))) : undefined,
+      vocabulary:    Array.isArray(parsed.vocabulary)    ? parsed.vocabulary    : undefined,
+      usefulChunks:  Array.isArray(parsed.usefulChunks)  ? parsed.usefulChunks  : undefined,
+      grammarTips:   Array.isArray(parsed.grammarTips)   ? parsed.grammarTips   : undefined,
       createdAt: new Date().toISOString(),
     }
 

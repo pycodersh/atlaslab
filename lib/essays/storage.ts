@@ -44,6 +44,10 @@ export type Annotation = {
   note: string          // editor's handwritten note
 }
 
+export type VocabItem   = { word: string; meaning: string; example: string }
+export type ChunkItem   = { expression: string; usage: string }
+export type GrammarTip  = { point: string; explanation: string; example: string }
+
 export type EditorReview = {
   detectedStyle: string
   annotations: Annotation[]
@@ -54,6 +58,10 @@ export type EditorReview = {
   nextChallenge: string | string[]
   suggestedVersion?: string
   oneLineAdvice?: string
+  score?: number                 // 0-100 overall score
+  vocabulary?: VocabItem[]       // 5-10 key words/expressions
+  usefulChunks?: ChunkItem[]     // 5-8 natural expressions/patterns
+  grammarTips?: GrammarTip[]     // key grammar points from this essay
   createdAt: string
 }
 
