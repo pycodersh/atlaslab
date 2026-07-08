@@ -124,9 +124,12 @@ function TipContent({ tip }: { tip: EditorNote }) {
 }
 
 // iOS-style carousel modal
-function TipCarousel({ onClose }: { onClose: () => void }) {
-  // Deck: ever-growing queue built from shuffled cycles
-  const [deck, setDeck] = useState<number[]>(() => shuffleIndices(TOTAL_TIPS))
+function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initialIndex?: number }) {
+  // Deck: ever-growing queue — starts with initialIndex, then shuffled rest
+  const [deck, setDeck] = useState<number[]>(() => {
+    const rest = shuffleIndices(TOTAL_TIPS, initialIndex).filter(i => i !== initialIndex)
+    return [initialIndex, ...rest]
+  })
   const [pos, setPos] = useState(0)
 
   // Extend deck when near the end
@@ -658,7 +661,7 @@ export default function HomePage() {
       </div>
 
       {/* ── Editor Tip Carousel Modal ── */}
-      {tipOpen && <TipCarousel onClose={() => setTipOpen(false)} />}
+      {tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
     </div>
   )
 }
