@@ -354,7 +354,8 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
 }
 
 // ── Install Guide Sheet (iOS & Android fallback) ─────────────────────────────
-function IOSInstallSheet({ onClose, isKorean, installType = 'ios' }: { onClose: () => void; isKorean: boolean; installType?: 'ios' | 'android' }) {
+function IOSInstallSheet({ onClose, installType = 'ios' }: { onClose: () => void; installType?: 'ios' | 'android' }) {
+  const t = useT()
   const [mounted, setMounted] = useState(false)
   const [visible, setVisible] = useState(false)
   useEffect(() => { setMounted(true); setTimeout(() => setVisible(true), 10) }, [])
@@ -366,37 +367,20 @@ function IOSInstallSheet({ onClose, isKorean, installType = 'ios' }: { onClose: 
 
   const isAndroid = installType === 'android'
 
-  const title = isAndroid
-    ? (isKorean ? 'PATTO 홈 화면에 추가' : 'Add PATTO to Home Screen')
-    : (isKorean ? 'iPhone에 PATTO 설치하기' : 'Install PATTO on iPhone')
-
-  const hint = isAndroid
-    ? (isKorean ? 'Chrome 브라우저에서 아래 순서로 추가할 수 있어요.' : 'Follow these steps in Chrome to add to your home screen.')
-    : (isKorean ? 'Safari에서 열면 홈 화면에 추가할 수 있어요.' : 'Open this page in Safari to add it to your Home Screen.')
+  const title = isAndroid ? t('install_android_title') : t('install_ios_title')
+  const hint  = isAndroid ? t('install_android_hint')  : t('install_ios_hint')
 
   const steps = isAndroid
-    ? (isKorean
-        ? [
-            { n: '1', text: 'Chrome 주소창 오른쪽 메뉴(⋮)를 누르세요.' },
-            { n: '2', text: '"홈 화면에 추가"를 선택하세요.' },
-            { n: '3', text: '"추가"를 누르면 완료됩니다.' },
-          ]
-        : [
-            { n: '1', text: 'Tap the menu (⋮) in the top-right of Chrome.' },
-            { n: '2', text: 'Select "Add to Home screen".' },
-            { n: '3', text: 'Tap "Add" to finish.' },
-          ])
-    : (isKorean
-        ? [
-            { n: '1', text: 'Safari 하단의 공유 버튼(□↑)을 누르세요.' },
-            { n: '2', text: '메뉴에서 "홈 화면에 추가"를 선택하세요.' },
-            { n: '3', text: '오른쪽 위의 "추가"를 누르면 완료됩니다.' },
-          ]
-        : [
-            { n: '1', text: 'Tap the Share button (□↑) at the bottom of Safari.' },
-            { n: '2', text: 'Select "Add to Home Screen" from the menu.' },
-            { n: '3', text: 'Tap "Add" in the top right to finish.' },
-          ])
+    ? [
+        { n: '1', text: t('install_android_step1') },
+        { n: '2', text: t('install_android_step2') },
+        { n: '3', text: t('install_android_step3') },
+      ]
+    : [
+        { n: '1', text: t('install_ios_step1') },
+        { n: '2', text: t('install_ios_step2') },
+        { n: '3', text: t('install_ios_step3') },
+      ]
 
   const content = (
     <div
@@ -459,7 +443,7 @@ function IOSInstallSheet({ onClose, isKorean, installType = 'ios' }: { onClose: 
         <div style={{ padding: '22px 20px 0' }}>
           <button type="button" onClick={handleClose}
             style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit' }}>
-            {isKorean ? '확인' : 'Got it'}
+            {t('install_confirm')}
           </button>
         </div>
       </div>
@@ -558,7 +542,7 @@ function InstallCard() {
       </button>
 
       {showIOSSheet && (
-        <IOSInstallSheet onClose={() => setShowIOSSheet(false)} isKorean={isKorean} installType={installType ?? 'ios'} />
+        <IOSInstallSheet onClose={() => setShowIOSSheet(false)} installType={installType ?? 'ios'} />
       )}
     </>
   )
