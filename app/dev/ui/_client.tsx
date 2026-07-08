@@ -192,8 +192,8 @@ export function UIPlaygroundClient() {
             title="Add PATTO to Home Screen"
             description="Install PATTO for faster access and continue learning like an app."
             actions={[
-              { label: 'Install', onClick: () => {}, variant: 'primary' },
               { label: 'Not now', onClick: () => {}, variant: 'secondary' },
+              { label: 'Install', onClick: () => {}, variant: 'primary' },
             ]}
           />
 

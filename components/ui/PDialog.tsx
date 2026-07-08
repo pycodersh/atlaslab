@@ -69,7 +69,7 @@ function ActionButton({ action, isOnly }: { action: PDialogAction; isOnly: boole
   const style: React.CSSProperties = (() => {
     const base: React.CSSProperties = {
       flex: 1,
-      padding: '15px 0',
+      padding: '13px 0',
       borderRadius: 14,
       border: 'none',
       cursor: action.disabled ? 'not-allowed' : 'pointer',
@@ -78,6 +78,7 @@ function ActionButton({ action, isOnly }: { action: PDialogAction; isOnly: boole
       fontFamily: 'inherit',
       opacity: action.disabled ? 0.45 : 1,
       transition: 'opacity 0.15s',
+      minWidth: 0,
     }
 
     if (v === 'primary') return { ...base, background: 'var(--pa)', color: '#fff' }
@@ -161,6 +162,9 @@ export function PDialog({
       <div
         style={{
           width: '100%', maxWidth,
+          maxHeight: 'calc(100dvh - 60px)',
+          overflowX: 'hidden',
+          overflowY: 'auto',
           background: 'var(--pglass)',
           backdropFilter: 'blur(32px) saturate(180%)',
           WebkitBackdropFilter: 'blur(32px) saturate(180%)',
@@ -170,7 +174,6 @@ export function PDialog({
           transform: visible ? 'scale(1) translateY(0)' : 'scale(0.96) translateY(4px)',
           opacity: visible ? 1 : 0,
           transition: `transform ${ANIM_MS}ms cubic-bezier(0.34,1.56,0.64,1), opacity ${ANIM_MS}ms ease`,
-          overflow: 'hidden',
         }}
       >
         {/* Header row: title + X */}
@@ -190,7 +193,7 @@ export function PDialog({
               cursor: 'pointer', padding: 0, flexShrink: 0, marginLeft: 8,
             }}
           >
-            <X style={{ width: 12, height: 12, color: '#8E8E93' }} strokeWidth={2.2} />
+            <X style={{ width: 12, height: 12, color: 'var(--pm)' }} strokeWidth={2.2} />
           </button>
         </div>
 
@@ -219,8 +222,8 @@ export function PDialog({
         {actions.length > 0 && (
           <div style={{
             display: 'flex',
-            flexDirection: actions.length > 2 ? 'column' : 'column',
-            gap: 10,
+            flexDirection: actions.length === 2 ? 'row' : 'column',
+            gap: actions.length === 2 ? 8 : 10,
             padding: '20px 20px 22px',
           }}>
             {actions.map((a, i) => (

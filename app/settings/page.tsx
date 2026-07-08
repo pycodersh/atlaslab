@@ -372,8 +372,8 @@ function AndroidConfirmModal({
       title={t('install_android_modal_title')}
       description={t('install_android_modal_desc')}
       actions={[
-        { label: t('install_install'), onClick: onInstall, variant: 'primary' },
         { label: t('install_not_now'), onClick: onCancel, variant: 'secondary' },
+        { label: t('install_install'), onClick: onInstall, variant: 'primary' },
       ]}
     />
   )
