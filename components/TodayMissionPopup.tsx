@@ -150,14 +150,11 @@ export function TodayMissionPopup() {
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
               width: '100%', padding: '13px 0',
-              background: 'var(--pglass)',
-              backdropFilter: 'blur(16px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-              border: '1px solid var(--pglass-border)',
-              boxShadow: '0 2px 12px rgba(40,50,80,0.07), inset 0 1px 0 rgba(255,255,255,0.95)',
+              background: '#2C2C32',
+              border: 'none',
               borderRadius: 12, cursor: 'pointer',
               fontSize: 13, fontWeight: 700,
-              color: 'var(--pt)', letterSpacing: '0.03em',
+              color: '#FFFFFF', letterSpacing: '0.03em',
               transition: 'opacity 0.15s',
             }}
           >

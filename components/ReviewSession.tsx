@@ -268,10 +268,10 @@ export function ReviewSession() {
           </button>
         ) : (
           <div className="flex gap-3">
-            <button type="button" onClick={() => answer(false)} className="flex-1 rounded-2xl py-4 text-[14px] font-bold bg-[var(--pc)] text-[var(--pm)] border border-[var(--pd)] hover:bg-[var(--pd)] transition-colors cursor-pointer flex items-center justify-center gap-2">
+            <button type="button" onClick={() => answer(false)} className="flex-1 rounded-2xl text-[14px] font-bold border cursor-pointer flex items-center justify-center gap-2 transition-colors" style={{ height: 52, background: 'none', color: '#B44A5A', borderColor: 'rgba(180,74,90,0.22)' }}>
               <X className="w-4 h-4" /> {t('dont_know')}
             </button>
-            <button type="button" onClick={() => answer(true)} className="btn-glass flex-1 rounded-2xl py-4 text-[14px] cursor-pointer flex items-center justify-center gap-2">
+            <button type="button" onClick={() => answer(true)} className="flex-1 rounded-2xl text-[14px] font-bold cursor-pointer flex items-center justify-center gap-2" style={{ height: 52, background: '#2C2C32', color: '#FFFFFF', border: 'none' }}>
               <Check className="w-4 h-4" /> {t('got_it')}
             </button>
           </div>

@@ -250,7 +250,7 @@ function CardsDemo() {
       <div>
         <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 8px' }}>Story Card</p>
         <div style={{ ...GC, padding: 0, overflow: 'hidden' }}>
-          <div style={{ height: 72, background: 'linear-gradient(135deg, rgba(40,40,48,0.10) 0%, rgba(80,80,100,0.05) 100%)' }} />
+          <div className="story-card-header" />
           <div style={{ padding: '12px 16px 16px' }}>
             <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 3px' }}>STORY 01</p>
             <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 3px' }}>A New Start</p>
@@ -314,8 +314,8 @@ function CardsDemo() {
           <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 8px' }}>PATTERN</p>
           <p style={{ fontSize: 16, fontWeight: 800, color: 'var(--pt)', margin: '0 0 14px', letterSpacing: '-0.01em' }}>I decided to ___</p>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button type="button" style={{ flex: 1, padding: '10px 0', borderRadius: 12, border: '1px solid rgba(180,74,90,0.22)', background: 'none', color: BURGUNDY, fontSize: 13, fontWeight: 700, cursor: 'default', fontFamily: 'inherit' }}>Again</button>
-            <button type="button" style={{ flex: 1, padding: '10px 0', borderRadius: 12, border: 'none', background: '#2C2C32', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'default', fontFamily: 'inherit' }}>Got it</button>
+            <button type="button" style={{ flex: 1, height: 52, borderRadius: 14, border: '1px solid rgba(180,74,90,0.22)', background: 'none', color: BURGUNDY, fontSize: 13, fontWeight: 700, cursor: 'default', fontFamily: 'inherit' }}>Again</button>
+            <button type="button" style={{ flex: 1, height: 52, borderRadius: 14, border: 'none', background: '#2C2C32', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'default', fontFamily: 'inherit' }}>Got it</button>
           </div>
         </div>
       </div>
@@ -650,7 +650,7 @@ export function UIPlaygroundClient() {
                 ))}
               </div>
               {/* CTA glass button */}
-              <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, width: '100%', padding: '13px 0', background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 12, fontSize: 13, fontWeight: 700, color: 'var(--pt)', fontFamily: 'inherit', cursor: 'default', letterSpacing: '0.03em' }}>
+              <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, width: '100%', padding: '13px 0', background: '#2C2C32', border: 'none', borderRadius: 12, fontSize: 13, fontWeight: 700, color: '#FFFFFF', fontFamily: 'inherit', cursor: 'default', letterSpacing: '0.03em' }}>
                 Start Learning <ChevronRight size={14} strokeWidth={2.5} />
               </button>
             </div>
@@ -669,7 +669,7 @@ export function UIPlaygroundClient() {
                 <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 7px' }}>REVIEW</p>
                 <p style={{ fontSize: 13, color: 'var(--pm2)', margin: 0 }}>No review patterns due today.</p>
               </div>
-              <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, width: '100%', padding: '13px 0', background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid rgba(0,0,0,0.12)', borderRadius: 12, fontSize: 13, fontWeight: 700, color: 'var(--pt)', fontFamily: 'inherit', cursor: 'default', letterSpacing: '0.03em' }}>
+              <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, width: '100%', padding: '13px 0', background: '#2C2C32', border: 'none', borderRadius: 12, fontSize: 13, fontWeight: 700, color: '#FFFFFF', fontFamily: 'inherit', cursor: 'default', letterSpacing: '0.03em' }}>
                 Start Learning <ChevronRight size={14} strokeWidth={2.5} />
               </button>
             </div>

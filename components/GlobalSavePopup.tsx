@@ -161,16 +161,16 @@ export function GlobalSavePopup() {
                 &ldquo;{wordDisplay}&rdquo;
               </p>
 
-              {/* Recommended phrase card — clear hierarchy from buttons */}
+              {/* Recommended phrase card — warm neutral tint */}
               <div style={{
-                background: 'rgba(109,141,255,0.06)',
-                border: '1px solid rgba(109,141,255,0.20)',
+                background: 'rgba(0,0,0,0.04)',
+                border: '1px solid rgba(0,0,0,0.08)',
                 borderRadius: 14,
                 padding: '12px 16px',
                 marginBottom: 16,
                 textAlign: 'center',
               }}>
-                <p style={{ fontSize: 10, color: 'var(--pa)', margin: '0 0 6px', letterSpacing: '0.10em', fontWeight: 700, textTransform: 'uppercase' }}>
+                <p style={{ fontSize: 10, color: 'var(--pm)', margin: '0 0 6px', letterSpacing: '0.10em', fontWeight: 700, textTransform: 'uppercase' }}>
                   추천 표현
                 </p>
                 <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: 0, wordBreak: 'break-word', lineHeight: 1.35 }}>
