@@ -432,7 +432,7 @@ export function ScreensClient() {
   const scale = isTablet ? Math.min(1, (window?.innerWidth ?? 1100) / (device.w + 60)) : 1
 
   return (
-    <div style={{ minHeight: '100dvh', background: dark ? '#080810' : '#F0F0F8', padding: '28px 20px 100px', boxSizing: 'border-box' }}>
+    <div style={{ minHeight: '100dvh', background: dark ? '#080810' : '#F2F2F2', padding: '28px 20px 100px', boxSizing: 'border-box' }}>
 
       {/* Header */}
       <div style={{ marginBottom: 32 }}>

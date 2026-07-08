@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { X, Search, Eye, EyeOff, ChevronDown, RefreshCw, Plus, ArrowLeft, Home, BookOpen, PenLine, BarChart2, BookMarked, User } from 'lucide-react'
+import { X, Search, Eye, EyeOff, ChevronDown, RefreshCw, Plus, ArrowLeft, Home, BookOpen, PenLine, BarChart2, BookMarked, User, FileText, Bookmark, Layers, SearchX, WifiOff } from 'lucide-react'
 
 const BURGUNDY = '#B44A5A'
 
@@ -304,20 +304,22 @@ function CardsDemo() {
 
 function EmptyStatesDemo() {
   const states = [
-    { emoji: '📝', title: 'No Essays Yet',       desc: 'Write your first essay to start practicing.' },
-    { emoji: '📖', title: 'No Stories',           desc: 'Stories will appear here as you progress.' },
-    { emoji: '🔖', title: 'No Saved Words',       desc: 'Tap any word while reading to save it.' },
-    { emoji: '🧩', title: 'No Patterns',          desc: 'Complete a story to unlock patterns.' },
-    { emoji: '🔍', title: 'No Search Results',    desc: 'Try a different search term.' },
-    { emoji: '📡', title: 'No Connection',        desc: 'Check your internet connection and try again.' },
+    { Icon: PenLine,   title: 'No Essays Yet',    desc: 'Write your first essay to start practicing.' },
+    { Icon: BookOpen,  title: 'No Stories',        desc: 'Stories will appear here as you progress.' },
+    { Icon: Bookmark,  title: 'No Saved Words',    desc: 'Tap any word while reading to save it.' },
+    { Icon: Layers,    title: 'No Patterns',       desc: 'Complete a story to unlock patterns.' },
+    { Icon: SearchX,   title: 'No Search Results', desc: 'Try a different search term.' },
+    { Icon: WifiOff,   title: 'No Connection',     desc: 'Check your internet connection and try again.' },
   ]
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 10 }}>
-      {states.map(s => (
-        <div key={s.title} style={{ background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '28px 16px', gap: 8 }}>
-          <div style={{ fontSize: 32 }}>{s.emoji}</div>
-          <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>{s.title}</p>
-          <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.55 }}>{s.desc}</p>
+      {states.map(({ Icon, title, desc }) => (
+        <div key={title} style={{ background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '28px 16px', gap: 10 }}>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'rgba(109,141,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Icon size={22} style={{ color: 'var(--pa)' }} strokeWidth={1.6} />
+          </div>
+          <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: 0 }}>{title}</p>
+          <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.55 }}>{desc}</p>
         </div>
       ))}
     </div>
