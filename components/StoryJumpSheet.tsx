@@ -73,12 +73,12 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
       >
         {/* 핸들 + 헤더 */}
         <div className="flex shrink-0 flex-col items-center px-5 pb-3 pt-3">
-          <div className="h-1 w-10 rounded-full bg-[#E8F0FE]" />
+          <div className="h-1 w-10 rounded-full bg-black/[0.08]" />
           <div className="mt-4 flex w-full items-center justify-between">
-            <h2 className="text-base font-bold text-[#1F2937]">학습 목록</h2>
+            <h2 className="text-base font-bold text-[var(--pt)]">학습 목록</h2>
             <button
               aria-label="닫기"
-              className="rounded-full p-1.5 text-[#9EAEC8] hover:bg-[#F5F8FF]"
+              className="rounded-full p-1.5 text-[var(--pm2)] hover:bg-[var(--pal)]"
               onClick={onClose}
               type="button"
             >
@@ -87,11 +87,11 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
           </div>
         </div>
 
-        {/* 범례 */}
-        <div className="flex shrink-0 items-center gap-4 border-b border-[#F0F5FF] px-5 pb-3">
-          <LegendItem color="text-[#22C55E]" label="완료" Icon={CheckCircle2} />
-          <LegendItem color="text-[#4F8CFF]" label="진행 중" Icon={PlayCircle} />
-          <LegendItem color="text-[#D1D9E6]" label="미학습" Icon={Circle} />
+        {/* 범례 — 아이콘 색으로만 상태 구분 */}
+        <div className="flex shrink-0 items-center gap-4 border-b border-[var(--pd)] px-5 pb-3">
+          <LegendItem iconClass="text-[#22C55E]" label="완료"   Icon={CheckCircle2} />
+          <LegendItem iconClass="text-[var(--pa)]" label="진행 중" Icon={PlayCircle} />
+          <LegendItem iconClass="text-[var(--pm2)]" label="미학습" Icon={Circle} />
         </div>
 
         {/* 스토리 목록 */}
@@ -106,37 +106,37 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
                 className={cn(
                   'flex w-full items-center gap-3 px-5 py-3.5 text-left transition-colors',
                   status === 'active'
-                    ? 'bg-[#F0F7FF]'
-                    : 'hover:bg-[#F8FAFF]',
+                    ? 'bg-[var(--pal)]'
+                    : 'hover:bg-[var(--pal)]/50',
                 )}
                 data-current={status === 'active'}
                 key={story.id}
                 onClick={() => handleSelect(story.order_index)}
                 type="button"
               >
-                {/* 번호 */}
+                {/* 번호 — active만 accent, 나머지 동일 중립 */}
                 <span className={cn(
                   'flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[11px] font-bold',
-                  status === 'active' && 'bg-[#4F8CFF] text-white',
-                  status === 'done'   && 'bg-[#DCFCE7] text-[#22C55E]',
-                  status === 'idle'   && 'bg-[#F5F8FF] text-[#B0BCCE]',
+                  status === 'active'
+                    ? 'bg-[var(--pal)] text-[var(--pa)] ring-1 ring-[var(--pacb)]'
+                    : 'bg-black/[0.05] text-[var(--pm)]',
                 )}>
                   {story.order_index}
                 </span>
 
-                {/* 제목 */}
+                {/* 제목 — done/active 동일, idle만 살짝 muted */}
                 <span className={cn(
-                  'flex-1 text-sm font-semibold',
-                  status === 'active' && 'text-[#4F8CFF]',
-                  status === 'done'   && 'text-[#374151]',
-                  status === 'idle'   && 'text-[#9EAEC8]',
+                  'flex-1 text-sm',
+                  status === 'idle'
+                    ? 'font-medium text-[var(--pm)]'
+                    : 'font-semibold text-[var(--pt)]',
                 )}>
                   {story.title}
                 </span>
 
-                {/* 상태 아이콘 */}
+                {/* 상태 아이콘 — 색으로만 구분 */}
                 {status === 'done'   && <CheckCircle2 className="h-4 w-4 shrink-0 text-[#22C55E]" />}
-                {status === 'active' && <PlayCircle   className="h-4 w-4 shrink-0 text-[#4F8CFF]" />}
+                {status === 'active' && <PlayCircle   className="h-4 w-4 shrink-0 text-[var(--pa)]" />}
               </button>
             )
           })}
@@ -150,11 +150,11 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
 }
 
 function LegendItem({
-  Icon, color, label,
-}: { Icon: React.ElementType; color: string; label: string }) {
+  Icon, iconClass, label,
+}: { Icon: React.ElementType; iconClass: string; label: string }) {
   return (
-    <span className="flex items-center gap-1 text-[11px] text-[#9EAEC8]">
-      <Icon className={cn('h-3.5 w-3.5', color)} />
+    <span className="flex items-center gap-1 text-[11px] text-[var(--pm2)]">
+      <Icon className={cn('h-3.5 w-3.5', iconClass)} />
       {label}
     </span>
   )

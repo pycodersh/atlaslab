@@ -652,9 +652,9 @@ export function UIPlaygroundClient() {
                 </div>
               </div>
             </div>
-            {/* legend */}
+            {/* legend — icon color만으로 상태 구분 */}
             <div style={{ display: 'flex', gap: 16, padding: '0 20px 10px', borderBottom: '1px solid var(--pd)' }}>
-              {[{ Icon: CheckCircle2, color: '#22C55E', label: '완료' }, { Icon: PlayCircle, color: '#4F8CFF', label: '진행 중' }, { Icon: Circle, color: '#D1D9E6', label: '미학습' }].map(({ Icon, color, label }) => (
+              {[{ Icon: CheckCircle2, color: '#22C55E', label: '완료' }, { Icon: PlayCircle, color: 'var(--pa)', label: '진행 중' }, { Icon: Circle, color: 'var(--pm2)', label: '미학습' }].map(({ Icon, color, label }) => (
                 <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: 'var(--pm2)' }}>
                   <Icon size={14} style={{ color }} />
                   {label}
@@ -668,20 +668,22 @@ export function UIPlaygroundClient() {
               { n: 3, title: 'Building Up', status: 'active' as const },
               { n: 4, title: 'Moving On', status: 'idle' as const },
               { n: 5, title: 'New Horizons', status: 'idle' as const },
-            ].map(({ n, title, status }) => {
-              const colors = { done: { bg: '#DCFCE7', txt: '#22C55E', row: 'transparent', titleC: '#374151' }, active: { bg: '#4F8CFF', txt: '#fff', row: 'rgba(79,140,255,0.06)', titleC: '#4F8CFF' }, idle: { bg: '#F5F8FF', txt: '#B0BCCE', row: 'transparent', titleC: '#9EAEC8' } }
-              const c = colors[status]
-              return (
-                <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', background: c.row }}>
-                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: c.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: c.txt }}>{n}</span>
-                  </div>
-                  <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: c.titleC }}>{title}</span>
-                  {status === 'done' && <CheckCircle2 size={16} style={{ color: '#22C55E' }} />}
-                  {status === 'active' && <PlayCircle size={16} style={{ color: '#4F8CFF' }} />}
+            ].map(({ n, title, status }) => (
+              <div key={n} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', background: status === 'active' ? 'var(--pal)' : 'transparent' }}>
+                {/* 번호 — active만 accent, 나머지 중립 */}
+                <div style={{
+                  width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  background: status === 'active' ? 'var(--pal)' : 'rgba(0,0,0,0.05)',
+                  outline: status === 'active' ? '1px solid var(--pacb)' : 'none',
+                }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: status === 'active' ? 'var(--pa)' : 'var(--pm)' }}>{n}</span>
                 </div>
-              )
-            })}
+                {/* 제목 — done/active 동일, idle muted */}
+                <span style={{ flex: 1, fontSize: 13, fontWeight: status === 'idle' ? 500 : 600, color: status === 'idle' ? 'var(--pm)' : 'var(--pt)' }}>{title}</span>
+                {status === 'done'   && <CheckCircle2 size={16} style={{ color: '#22C55E' }} />}
+                {status === 'active' && <PlayCircle   size={16} style={{ color: 'var(--pa)' }} />}
+              </div>
+            ))}
           </div>
         </Sub>
 
@@ -700,21 +702,25 @@ export function UIPlaygroundClient() {
             </div>
             {/* completed */}
             <div style={{ padding: '14px 20px 10px' }}>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#22C55E', margin: '0 0 10px' }}>Completed</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, margin: '0 0 10px' }}>
+                <CheckCircle2 size={11} style={{ color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
+                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm2)', margin: 0 }}>Completed</p>
+              </div>
               {['Story 01 · A New Start', 'Story 02 · First Steps'].map(s => (
-                <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 0', borderBottom: '1px solid var(--pd)' }}>
-                  <CheckCircle2 size={14} style={{ color: '#22C55E', flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: 'var(--pt)', fontWeight: 600 }}>{s}</span>
+                <div key={s} style={{ padding: '9px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
+                  {s}
                 </div>
               ))}
             </div>
             {/* due */}
             <div style={{ padding: '10px 20px 16px' }}>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 10px' }}>Due for Review</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5, margin: '0 0 10px' }}>
+                <RefreshCw size={11} style={{ color: 'var(--pa)', flexShrink: 0 }} strokeWidth={2.5} />
+                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm2)', margin: 0 }}>Due for Review</p>
+              </div>
               {['Story 01 · A New Start'].map(s => (
-                <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 0' }}>
-                  <RefreshCw size={14} style={{ color: 'var(--pa)', flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: 'var(--pt)', fontWeight: 600 }}>{s}</span>
+                <div key={s} style={{ padding: '9px 0', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
+                  {s}
                 </div>
               ))}
             </div>

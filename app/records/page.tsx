@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Info, BookOpen, Layers } from 'lucide-react'
+import { Info, BookOpen, Layers, X, CheckCircle2, RefreshCw } from 'lucide-react'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -534,9 +534,12 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
             )}
             {detail.completed.length > 0 && (
               <div style={{ marginBottom: 20 }}>
-                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: '#27AE60', textTransform: 'uppercase', margin: '0 0 10px' }}>
-                  Completed
-                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, margin: '0 0 10px' }}>
+                  <CheckCircle2 style={{ width: 11, height: 11, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
+                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>
+                    Completed
+                  </p>
+                </div>
                 {detail.completed.map(item => (
                   <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
                     Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
@@ -546,11 +549,14 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
             )}
             {detail.due.length > 0 && (
               <div>
-                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 10px' }}>
-                  Due
-                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, margin: '0 0 10px' }}>
+                  <RefreshCw style={{ width: 11, height: 11, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={2.5} />
+                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>
+                    Due for Review
+                  </p>
+                </div>
                 {detail.due.map(item => (
-                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt2)', fontWeight: 500 }}>
+                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
                     Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
                   </div>
                 ))}
