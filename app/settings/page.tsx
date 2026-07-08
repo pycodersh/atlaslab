@@ -430,11 +430,9 @@ function IOSInstallSheet({ onClose, installType = 'ios' }: { onClose: () => void
         {/* Steps */}
         <div style={{ padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 13 }}>
           {steps.map(s => (
-            <div key={s.n} style={{ display: 'flex', gap: 13, alignItems: 'flex-start' }}>
-              <div style={{ width: 24, height: 24, borderRadius: 999, background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pglass-border)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pa)' }}>{s.n}</span>
-              </div>
-              <p style={{ fontSize: 13.5, color: 'var(--pt)', margin: 0, lineHeight: 1.55, paddingTop: 2 }}>{s.text}</p>
+            <div key={s.n} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: 13.5, fontWeight: 400, color: 'var(--pt)', flexShrink: 0, lineHeight: 1.55 }}>{s.n}.</span>
+              <p style={{ fontSize: 13.5, color: 'var(--pt)', margin: 0, lineHeight: 1.55 }}>{s.text}</p>
             </div>
           ))}
         </div>
