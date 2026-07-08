@@ -1,20 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ChevronLeft, User, LogIn, UserPlus, LogOut, Trash2, ChevronRight } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
-
-const MAIN_ITEMS = [
-  { icon: User,     label: 'Profile',   desc: '닉네임과 프로필 사진 수정' },
-  { icon: LogIn,    label: 'Sign In',   desc: '로그인하여 기기 간 학습 데이터를 동기화하세요' },
-  { icon: UserPlus, label: 'Sign Up',   desc: '무료 계정을 만들고 학습 기록을 저장하세요' },
-  { icon: LogOut,   label: 'Sign Out',  desc: '이 기기에서 로그아웃' },
-]
-
-const DANGER_ITEMS = [
-  { icon: Trash2, label: 'Delete Account', desc: '계정과 모든 데이터를 영구적으로 삭제합니다' },
-]
+import { signOut, getCurrentUser } from '@/lib/auth-actions'
+import type { User as SupabaseUser } from '@supabase/supabase-js'
 
 function MenuRow({
   icon: Icon, label, desc, danger, onClick,
@@ -42,9 +34,51 @@ function MenuRow({
   )
 }
 
+function ConfirmDialog({ message, onConfirm, onCancel }: { message: string; onConfirm: () => void; onCancel: () => void }) {
+  return (
+    <div
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}
+      onClick={e => { if (e.target === e.currentTarget) onCancel() }}
+    >
+      <div style={{ background: 'var(--pb)', borderRadius: 20, padding: '28px 24px 20px', maxWidth: 340, width: '100%', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
+        <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 20px', lineHeight: 1.6 }}>{message}</p>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button type="button" onClick={onCancel} style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--pd)', background: 'transparent', color: 'var(--pt)', fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
+            취소
+          </button>
+          <button type="button" onClick={onConfirm} style={{ flex: 1, height: 44, borderRadius: 12, border: 'none', background: '#B04060', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+            삭제
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function AccountPage() {
+  const router = useRouter()
+  const [user, setUser] = useState<SupabaseUser | null>(null)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [toast, setToast] = useState('')
+
+  useEffect(() => {
+    getCurrentUser().then(setUser)
+  }, [])
+
   function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
+
+  async function handleSignOut() {
+    await signOut()
+    setUser(null)
+    showToast('로그아웃되었습니다.')
+  }
+
+  async function handleDeleteAccount() {
+    setShowDeleteConfirm(false)
+    showToast('계정 삭제는 현재 준비 중입니다.')
+  }
+
+  const isLoggedIn = !!user
 
   return (
     <div className="min-h-dvh bg-[var(--pb)]">
@@ -65,31 +99,45 @@ export default function AccountPage() {
             <User className="w-5 h-5 text-[var(--pa)]" strokeWidth={1.5} />
           </div>
           <div>
-            <p className="text-[13px] font-bold text-[var(--pt)]">Guest</p>
-            <p className="text-[11px] text-[var(--pm)] mt-0.5">로그인하면 학습 기록이 동기화됩니다</p>
+            <p className="text-[13px] font-bold text-[var(--pt)]">{user?.email ?? 'Guest'}</p>
+            <p className="text-[11px] text-[var(--pm)] mt-0.5">
+              {isLoggedIn ? '로그인 중' : '로그인하면 학습 기록이 동기화됩니다'}
+            </p>
           </div>
         </div>
 
         <div className="border-t border-[var(--pd)]">
-          {MAIN_ITEMS.map((item, i) => (
-            <div key={item.label}>
-              <MenuRow icon={item.icon} label={item.label} desc={item.desc} onClick={() => showToast('인증 기능 준비 중입니다.')} />
-              {i < MAIN_ITEMS.length - 1 && <div className="h-px bg-[var(--pd)]" />}
-            </div>
-          ))}
+          {!isLoggedIn && (
+            <>
+              <MenuRow icon={LogIn} label="Sign In" desc="로그인하여 기기 간 학습 데이터를 동기화하세요" onClick={() => router.push('/settings/auth')} />
+              <div className="h-px bg-[var(--pd)]" />
+              <MenuRow icon={UserPlus} label="Sign Up" desc="무료 계정을 만들고 학습 기록을 저장하세요" onClick={() => router.push('/settings/auth')} />
+            </>
+          )}
+          {isLoggedIn && (
+            <MenuRow icon={LogOut} label="Sign Out" desc="이 기기에서 로그아웃" onClick={handleSignOut} />
+          )}
         </div>
 
-        <div className="mt-10">
-          <p className="text-[10px] tracking-[0.22em] text-[#B04060] font-bold mb-3">DANGER ZONE</p>
-          <div className="border border-[var(--pacb)] rounded-2xl overflow-hidden bg-[var(--pal)]">
-            {DANGER_ITEMS.map((item) => (
-              <div key={item.label} className="px-2">
-                <MenuRow icon={item.icon} label={item.label} desc={item.desc} danger onClick={() => showToast('인증 기능 준비 중입니다.')} />
+        {isLoggedIn && (
+          <div className="mt-10">
+            <p className="text-[10px] tracking-[0.22em] text-[#B04060] font-bold mb-3">DANGER ZONE</p>
+            <div className="border border-[var(--pacb)] rounded-2xl overflow-hidden bg-[var(--pal)]">
+              <div className="px-2">
+                <MenuRow icon={Trash2} label="Delete Account" desc="계정과 모든 데이터를 영구적으로 삭제합니다" danger onClick={() => setShowDeleteConfirm(true)} />
               </div>
-            ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
+
+      {showDeleteConfirm && (
+        <ConfirmDialog
+          message="계정과 모든 학습 데이터가 영구적으로 삭제됩니다. 정말 삭제하시겠습니까?"
+          onConfirm={handleDeleteAccount}
+          onCancel={() => setShowDeleteConfirm(false)}
+        />
+      )}
 
       {toast && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[var(--pt)] text-[var(--pb)] text-[12px] px-5 py-2.5 rounded-full shadow-lg tracking-wide z-50 whitespace-nowrap">

@@ -10,6 +10,7 @@ import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useTheme } from '@/components/ThemeProvider'
+import { AuthButtons } from '@/components/auth/AuthButtons'
 
 const card: React.CSSProperties = {
   background: 'var(--pglass)',
@@ -123,101 +124,11 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
     setMounted(true)
     setTimeout(() => setVisible(true), 10)
   }, [])
-  const t = useT()
-  const { prefs } = usePreferences()
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-  const isKorean = prefs.language === 'ko'
-  const [toast, setToast] = useState('')
 
   function handleClose() {
     setVisible(false)
     setTimeout(onClose, 220)
   }
-
-  function handleLogin(provider: string) {
-    setToast(`${provider} ${t('auth_coming_soon')}`)
-    setTimeout(() => setToast(''), 2800)
-  }
-
-  const btnBase: React.CSSProperties = {
-    width: '100%',
-    height: 56,
-    display: 'flex', alignItems: 'center', gap: 14,
-    padding: '0 20px',
-    borderRadius: 16,
-    fontSize: 15, fontWeight: 600,
-    cursor: 'pointer', textAlign: 'left',
-    fontFamily: 'inherit',
-    boxSizing: 'border-box',
-    transition: 'box-shadow 0.18s',
-    background: isDark ? 'rgba(44,44,46,0.90)' : '#FFFFFF',
-    color: isDark ? '#FFFFFF' : '#1C1C1E',
-    border: isDark ? '1px solid rgba(80,80,90,0.55)' : '1px solid #E8E8E8',
-  }
-
-  type Provider = {
-    id: string
-    label: string
-    logo: React.ReactNode
-    bg?: string
-    text?: string
-    border?: string
-  }
-
-  const GOOGLE: Provider = {
-    id: 'google',
-    label: t('auth_continue_google'),
-    logo: (
-      <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }}>
-        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-        <path d="M5.84 14.1c-.22-.66-.35-1.36-.35-2.1s.13-1.44.35-2.1V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.61z" fill="#FBBC05" />
-        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-      </svg>
-    ),
-  }
-
-  const EMAIL: Provider = {
-    id: 'email',
-    label: t('auth_continue_email'),
-    logo: (
-      <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="4" width="20" height="16" rx="3" />
-        <path d="M2 7l10 7 10-7" />
-      </svg>
-    ),
-  }
-
-  const KAKAO: Provider = {
-    id: 'kakao',
-    label: t('auth_continue_kakao'),
-    logo: (
-      <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }} fill="none">
-        <rect width="24" height="24" rx="6" fill="#FEE500" />
-        <path d="M12 5.5C8.13 5.5 5 7.97 5 11.03c0 1.93 1.2 3.63 3.01 4.67l-.77 2.87c-.07.26.22.47.45.33L11.1 17c.29.03.59.05.9.05 3.87 0 7-2.47 7-5.52S15.87 5.5 12 5.5z" fill="#3C1E1E" />
-      </svg>
-    ),
-    bg: '#FEE500', text: '#3C1E1E', border: '1px solid rgba(254,229,0,0.80)',
-  }
-
-  const NAVER: Provider = {
-    id: 'naver',
-    label: t('auth_continue_naver'),
-    logo: (
-      <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }} fill="none">
-        <rect width="24" height="24" rx="6" fill="#03C75A" />
-        <path d="M13.74 12.27L10.14 7H7v10h3.26V11.73L14.86 17H18V7h-3.26v5.27z" fill="white" />
-      </svg>
-    ),
-    bg: '#03C75A', text: '#fff', border: '1px solid rgba(3,199,90,0.80)',
-  }
-
-  const PROVIDERS: Provider[] = [
-    GOOGLE,
-    EMAIL,
-    ...(isKorean ? [KAKAO, NAVER] : []),
-  ]
 
   const content = (
     <div
@@ -261,92 +172,10 @@ function AccountPopup({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        {/* Title + desc */}
-        <div style={{ padding: '28px 32px 24px', textAlign: 'center' }}>
-          <p style={{
-            fontSize: 22, fontWeight: 800, color: 'var(--pt)',
-            margin: '0 0 10px', letterSpacing: '-0.02em', lineHeight: 1.15,
-          }}>
-            Welcome to PATTO
-          </p>
-          <p style={{
-            fontSize: 12.5, color: '#8E8E93', lineHeight: 1.6,
-            margin: 0, fontWeight: 400, maxWidth: 260, marginLeft: 'auto', marginRight: 'auto',
-            wordBreak: 'keep-all',
-          }}>
-            {isKorean
-              ? '로그인하면 에세이, 단어장, 학습 기록을 모든 기기에서 이어갈 수 있어요.'
-              : 'Sign in to save your essays and continue learning across devices.'}
-          </p>
+        <div style={{ padding: '8px 32px 32px' }}>
+          <AuthButtons onSuccess={handleClose} showTitle={true} />
         </div>
-
-        {/* Providers */}
-        <div style={{ padding: '0 32px' }}>
-          {PROVIDERS.map((p, i) => {
-            const customStyle: React.CSSProperties = p.bg
-              ? { background: p.bg, color: p.text, border: p.border }
-              : {}
-            return (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => handleLogin(p.id)}
-                style={{
-                  ...btnBase,
-                  ...customStyle,
-                  marginBottom: i < PROVIDERS.length - 1 ? 12 : 0,
-                }}
-                onMouseEnter={e => {
-                  if (!p.bg) e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.10)'
-                  else e.currentTarget.style.opacity = '0.88'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.boxShadow = 'none'
-                  e.currentTarget.style.opacity = '1'
-                }}
-              >
-                <span style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>{p.logo}</span>
-                <span style={{ flex: 1, textAlign: 'center', marginRight: 20 }}>{p.label}</span>
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Divider */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '22px 32px 0' }}>
-          <div style={{ flex: 1, height: 1, background: 'var(--pd)' }} />
-          <span style={{ fontSize: 11, color: '#A0A0A8', fontWeight: 500, letterSpacing: '0.06em' }}>or</span>
-          <div style={{ flex: 1, height: 1, background: 'var(--pd)' }} />
-        </div>
-
-        {/* Terms */}
-        <p style={{
-          fontSize: 12.5, color: '#A0A0A8', lineHeight: 1.65,
-          textAlign: 'center', margin: '14px 0 32px', padding: '0 32px',
-        }}>
-          {t('auth_agree_pre')}{' '}
-          <Link href="/settings/about/terms" style={{ color: 'var(--pa)', textDecoration: 'none', fontWeight: 600 }}>
-            {t('auth_terms_link')}
-          </Link>
-          {t('auth_agree_mid')}
-          <Link href="/settings/about/privacy" style={{ color: 'var(--pa)', textDecoration: 'none', fontWeight: 600 }}>
-            {t('auth_privacy_link')}
-          </Link>
-          {t('auth_agree_post')}
-        </p>
       </div>
-
-      {toast && (
-        <div style={{
-          position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)',
-          background: 'var(--pt)', color: 'var(--pb)',
-          fontSize: 12, padding: '10px 22px', borderRadius: 999,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-          zIndex: 10000, whiteSpace: 'nowrap', letterSpacing: '0.04em',
-        }}>
-          {toast}
-        </div>
-      )}
     </div>
   )
 
