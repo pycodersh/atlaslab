@@ -11,7 +11,7 @@ import {
 import {
   getPlan,
   FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS,
-  FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY,
+  FREE_REVIEW_DAILY, PREMIUM_REVIEW_DAILY,
 } from '@/lib/subscription/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
@@ -37,7 +37,7 @@ function detectNativeSentence(body: string): string {
   return ''
 }
 
-type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'service_unavailable' | null
+type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'daily_limit' | 'service_unavailable' | null
 
 function glassBtn(extra?: React.CSSProperties): React.CSSProperties {
   return {
@@ -108,22 +108,22 @@ export default function NewEssayPage() {
     }
   }, [body, nativeSentence])
 
-  const maxWords = plan === 'premium' ? PREMIUM_MAX_ESSAY_WORDS : FREE_MAX_ESSAY_WORDS
-  const maxReviews = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_LIFETIME
+  const maxWords   = plan === 'premium' ? PREMIUM_MAX_ESSAY_WORDS : FREE_MAX_ESSAY_WORDS
+  const maxReviews = plan === 'premium' ? PREMIUM_REVIEW_DAILY   : FREE_REVIEW_DAILY
   const wc = wordCount(body)
   const wcColor = wc > maxWords ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
   const showNativeWarning = nonAsciiRatio(body) > NATIVE_RATIO_WARN && body.trim().length > 20
   const isDirty = body.trim().length > 0 || title.trim().length > 0
 
+  const dailyLimitMsg = `오늘의 AI 리뷰 횟수(${maxReviews}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
     too_long:            plan === 'premium'
       ? `Premium reviews support up to ${PREMIUM_MAX_ESSAY_WORDS} words.`
       : `Free users can review essays up to ${FREE_MAX_ESSAY_WORDS} words.`,
-    limit_reached:       plan === 'premium'
-      ? `You've used all ${maxReviews} AI reviews today. Your limit resets tomorrow.`
-      : `You've used all ${maxReviews} free AI reviews. Upgrade to Premium for 5 reviews per day.`,
+    limit_reached:       dailyLimitMsg,
+    daily_limit:         dailyLimitMsg,
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -239,14 +239,13 @@ export default function NewEssayPage() {
       if (!res.ok) {
         const errCode = data.error as string
         console.error(`[essay/review] HTTP ${res.status} error=${errCode}`, data.detail ?? data)
-        setError((['not_english','too_short','too_long','service_unavailable'] as const).includes(errCode as never)
-          ? errCode as ValidationError
-          : 'service_unavailable')
+        const knownErrors = ['not_english','too_short','too_long','limit_reached','daily_limit','service_unavailable'] as const
+        setError(knownErrors.includes(errCode as never) ? errCode as ValidationError : 'service_unavailable')
         setLoading(false)
         return
       }
       saveReview(essay.id, data.review)
-      recordReviewUsed()
+      if (!data.cached) recordReviewUsed()
       router.push(`/essays/${essay.id}`)
     } catch (err) {
       console.error('[essay/review] fetch exception:', err)

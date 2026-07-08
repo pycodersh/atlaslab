@@ -1,11 +1,10 @@
-import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
+import { getPlan, FREE_REVIEW_DAILY, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
 import { migrateAnnotations } from './migration'
 
-const ESSAYS_KEY    = 'patto-essays'
-const DRAFT_KEY     = 'patto-essay-draft'
-const REVIEW_DAY_KEY        = 'patto-essay-review-day'
-const REVIEW_COUNT_KEY      = 'patto-essay-review-count'
-const FREE_REVIEW_TOTAL_KEY = 'patto-essay-free-reviews-total'
+const ESSAYS_KEY       = 'patto-essays'
+const DRAFT_KEY        = 'patto-essay-draft'
+const REVIEW_DAY_KEY   = 'patto-essay-review-day'
+const REVIEW_COUNT_KEY = 'patto-essay-review-count'
 
 export const MAX_DAILY_REVIEWS = PREMIUM_REVIEW_DAILY
 
@@ -221,42 +220,29 @@ export function getDailyReviewCount(): number {
   return Number(localStorage.getItem(REVIEW_COUNT_KEY) ?? '0')
 }
 
-export function getFreeReviewTotal(): number {
-  if (typeof window === 'undefined') return 0
-  return Number(localStorage.getItem(FREE_REVIEW_TOTAL_KEY) ?? '0')
-}
-
-function incrementFreeReviewTotal(): void {
-  if (typeof window === 'undefined') return
-  localStorage.setItem(FREE_REVIEW_TOTAL_KEY, String(getFreeReviewTotal() + 1))
-}
-
 export function canReview(): boolean {
-  const plan = getPlan()
-  if (plan === 'premium') return getDailyReviewCount() < PREMIUM_REVIEW_DAILY
-  return getFreeReviewTotal() < FREE_REVIEW_LIFETIME
+  const plan  = getPlan()
+  const limit = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_DAILY
+  return getDailyReviewCount() < limit
 }
 
 export function getReviewsRemaining(): number {
-  const plan = getPlan()
-  if (plan === 'premium') return Math.max(0, PREMIUM_REVIEW_DAILY - getDailyReviewCount())
-  return Math.max(0, FREE_REVIEW_LIFETIME - getFreeReviewTotal())
+  const plan  = getPlan()
+  const limit = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_DAILY
+  return Math.max(0, limit - getDailyReviewCount())
 }
 
+// Called after a successful review to update the local UI counter.
+// The server is authoritative; this is only for immediate UI feedback.
 export function recordReviewUsed(): void {
-  const plan = getPlan()
-  if (plan === 'free') {
-    incrementFreeReviewTotal()
-  } else {
-    incrementDailyReviewCount()
-  }
+  incrementDailyReviewCount()
 }
 
 export function incrementDailyReviewCount(): void {
   if (typeof window === 'undefined') return
-  const today = todayStr()
+  const today    = todayStr()
   const savedDay = localStorage.getItem(REVIEW_DAY_KEY)
-  const count = savedDay === today ? Number(localStorage.getItem(REVIEW_COUNT_KEY) ?? '0') : 0
+  const count    = savedDay === today ? Number(localStorage.getItem(REVIEW_COUNT_KEY) ?? '0') : 0
   localStorage.setItem(REVIEW_DAY_KEY, today)
   localStorage.setItem(REVIEW_COUNT_KEY, String(count + 1))
 }
@@ -265,9 +251,4 @@ export function resetDailyReviewCount(): void {
   if (typeof window === 'undefined') return
   localStorage.removeItem(REVIEW_DAY_KEY)
   localStorage.removeItem(REVIEW_COUNT_KEY)
-}
-
-export function resetFreeReviewTotal(): void {
-  if (typeof window === 'undefined') return
-  localStorage.removeItem(FREE_REVIEW_TOTAL_KEY)
 }

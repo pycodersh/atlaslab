@@ -11,9 +11,9 @@ import {
   type Essay, type VocabItem, type ChunkItem, type GrammarTip,
   getEssay, updateEssay, deleteEssay, saveReview,
   canReview, recordReviewUsed, autoTitle,
-  resetDailyReviewCount, resetFreeReviewTotal,
+  resetDailyReviewCount,
 } from '@/lib/essays/storage'
-import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS, FREE_REVIEW_LIFETIME } from '@/lib/subscription/storage'
+import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS, FREE_REVIEW_DAILY, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
 import { AnnotatedManuscript } from '@/components/essay/EssayRenderer'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -22,7 +22,7 @@ const IS_DEV = process.env.NODE_ENV === 'development'
 const MIN_WORDS = 30
 function wordCount(t: string) { return t.trim().split(/\s+/).filter(Boolean).length }
 
-type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'service_unavailable' | null
+type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached' | 'daily_limit' | 'service_unavailable' | null
 
 // ── Shared styles ─────────────────────────────────────────────────────────────
 const glassCard: React.CSSProperties = {
@@ -257,6 +257,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const [showCompare, setShowCompare] = useState(false)
   const [showAllFeedback, setShowAllFeedback] = useState(false)
   const [devMsg, setDevMsg] = useState('')
+  const [cacheToast, setCacheToast] = useState(false)
 
   const titleManuallyEdited = useRef(false)
 
@@ -281,14 +282,13 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const wc = wordCount(body)
   const wcColor = wc > MAX_WORDS ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
 
-  const limitMsg = plan === 'free'
-    ? `Free plan: ${FREE_REVIEW_LIFETIME} lifetime reviews used up.`
-    : "You've used all 5 reviews for today."
+  const dailyLimit = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_DAILY
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
     too_long:            t('essays_too_long'),
-    limit_reached:       limitMsg,
+    limit_reached:       `오늘의 AI 리뷰 횟수(${dailyLimit}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`,
+    daily_limit:         `오늘의 AI 리뷰 횟수(${dailyLimit}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`,
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -320,8 +320,8 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
       await new Promise(r => setTimeout(r, 350)) // fade-out 대기
       if (!res.ok) {
         const errCode = data.error as string
-        setError((['not_english','too_short','too_long','service_unavailable'] as const).includes(errCode as never)
-          ? errCode as ValidationError : 'service_unavailable')
+        const knownErrors = ['not_english','too_short','too_long','limit_reached','daily_limit','service_unavailable'] as const
+        setError(knownErrors.includes(errCode as never) ? errCode as ValidationError : 'service_unavailable')
         setLoading(false)
         return
       }
@@ -331,7 +331,11 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
         setTitle(updated.title)
         setBody(updated.body)
       }
-      recordReviewUsed()
+      if (!data.cached) recordReviewUsed()
+      if (data.cached) {
+        setCacheToast(true)
+        setTimeout(() => setCacheToast(false), 3500)
+      }
       setIsEditing(false)
     } catch {
       await minDelay
@@ -688,9 +692,9 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
               style={{ padding: '12px 0', borderRadius: 10, border: '1.5px solid var(--pd)', background: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>
               Reset Daily Count
             </button>
-            <button type="button" onClick={() => { resetFreeReviewTotal(); setDevMsg('Reset!'); setTimeout(() => setDevMsg(''), 2000) }}
+            <button type="button" onClick={() => { resetDailyReviewCount(); setDevMsg('Reset!'); setTimeout(() => setDevMsg(''), 2000) }}
               style={{ padding: '12px 0', borderRadius: 10, border: '1.5px solid var(--pd)', background: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>
-              Reset Lifetime Count
+              Reset Daily Count (dup)
             </button>
             {devMsg && <p style={{ fontSize: 11, color: 'var(--pa)', margin: 0, textAlign: 'center' }}>{devMsg}</p>}
           </div>
@@ -706,6 +710,21 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
       {isEditing ? editView : reportView}
 
       <ReviewOverlay visible={overlayVisible} />
+
+      {/* Cache hit toast */}
+      {cacheToast && (
+        <div style={{
+          position: 'fixed', bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
+          left: '50%', transform: 'translateX(-50%)',
+          background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          border: '1px solid var(--pd)', borderRadius: 12,
+          padding: '10px 18px', fontSize: 12.5, color: 'var(--pt)',
+          whiteSpace: 'nowrap', zIndex: 200,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+        }}>
+          변경된 내용이 없어 기존 리뷰 결과를 불러왔어요.
+        </div>
+      )}
 
       {/* Delete confirm sheet */}
       {showDeleteConfirm && (
