@@ -14,6 +14,25 @@ type Props = {
   patternExamples?: Record<string, PracticeExample[]>
 }
 
+// Shared Full-screen State button tokens (mirrors CompletionScreen)
+const FS_PRIMARY: React.CSSProperties = {
+  width: '100%', height: 56, borderRadius: 18,
+  border: '1px solid rgba(109,141,255,0.30)',
+  background: 'rgba(109,141,255,0.06)',
+  fontSize: 15, fontWeight: 700,
+  color: 'var(--pa)',
+  boxShadow: '0 2px 12px rgba(109,141,255,0.12)',
+  cursor: 'pointer', fontFamily: 'inherit',
+}
+
+const FS_SECONDARY: React.CSSProperties = {
+  width: '100%', height: 48,
+  border: 'none', background: 'transparent',
+  fontSize: 13.5, fontWeight: 500,
+  color: 'var(--pm)',
+  cursor: 'pointer', fontFamily: 'inherit',
+}
+
 function UpgradeWall({ storyTitle }: { storyTitle: string }) {
   const router = useRouter()
   return (
@@ -23,45 +42,39 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
       padding: '40px 32px', textAlign: 'center',
       background: 'var(--pb)',
     }}>
+      {/* Icon */}
       <div style={{
-        width: 56, height: 56, borderRadius: 16, marginBottom: 20,
-        background: 'rgba(74,111,168,0.10)',
+        width: 72, height: 72, borderRadius: 22, marginBottom: 20,
+        background: 'rgba(109,141,255,0.08)',
+        border: '1px solid rgba(109,141,255,0.16)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 28,
+        fontSize: 32,
       }}>🔒</div>
-      <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--pt)', margin: '0 0 8px', letterSpacing: '-0.01em' }}>
+
+      {/* Eyebrow */}
+      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 8px' }}>
         Premium Story
       </p>
-      <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 6px', lineHeight: 1.6, maxWidth: 280 }}>
-        "{storyTitle}"
+
+      {/* Title */}
+      <p style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>
+        &ldquo;{storyTitle}&rdquo;
       </p>
-      <p style={{ fontSize: 12, color: 'var(--pm2)', margin: '0 0 32px', lineHeight: 1.6, maxWidth: 280 }}>
-        Free plan includes the first {FREE_STORY_LIMIT} stories.{'\n'}Upgrade to unlock all stories.
+
+      {/* Description */}
+      <p style={{ fontSize: 13.5, color: 'var(--pm)', margin: '0 0 36px', lineHeight: 1.7, maxWidth: 280 }}>
+        Free plan includes the first {FREE_STORY_LIMIT} stories.<br />Upgrade to unlock all stories.
       </p>
-      <button
-        type="button"
-        onClick={() => router.push('/settings/subscription')}
-        style={{
-          background: '#4A6FA8', color: '#fff', border: 'none',
-          borderRadius: 14, padding: '13px 32px',
-          fontSize: 13.5, fontWeight: 700, letterSpacing: '0.06em',
-          cursor: 'pointer', fontFamily: 'inherit',
-          boxShadow: '0 4px 18px rgba(74,111,168,0.30)',
-          marginBottom: 14,
-        }}
-      >
-        Upgrade to Premium
-      </button>
-      <button
-        type="button"
-        onClick={() => router.back()}
-        style={{
-          background: 'none', border: 'none', color: 'var(--pm)',
-          fontSize: 13, cursor: 'pointer', fontFamily: 'inherit', padding: '8px',
-        }}
-      >
-        ← Go back
-      </button>
+
+      {/* Buttons */}
+      <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
+        <button type="button" onClick={() => router.push('/settings/subscription')} style={FS_PRIMARY}>
+          Upgrade to Premium
+        </button>
+        <button type="button" onClick={() => router.back()} style={FS_SECONDARY}>
+          ← Go back
+        </button>
+      </div>
     </div>
   )
 }

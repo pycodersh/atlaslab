@@ -801,13 +801,21 @@ export function UIPlaygroundClient() {
           <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
             StoryCardEngine 마지막 스토리 완료 → 전체 화면 교체. components/CompletionScreen.tsx
           </p>
+          {/* Full-screen State 공통 패턴: Icon → Eyebrow → Title → Desc → Primary → Secondary */}
           <div style={{ border: '1px solid var(--pd)', borderRadius: 20, padding: '48px 24px', textAlign: 'center', maxWidth: 360 }}>
-            <p style={{ fontSize: 48, margin: '0 0 20px' }}>🎉</p>
-            <h2 style={{ fontSize: 26, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>모든 스토리 완료!</h2>
-            <p style={{ fontSize: 14, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 28px' }}>Level 1의 모든 패턴을 학습했습니다.<br />복습을 통해 패턴을 확실히 익혀보세요.</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 280, margin: '0 auto' }}>
-              <button type="button" style={{ width: '100%', padding: '14px 0', borderRadius: 999, background: 'var(--pt)', color: 'var(--pb)', fontSize: 14, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>처음부터 다시 학습</button>
-              <button type="button" style={{ width: '100%', padding: '14px 0', borderRadius: 999, background: 'transparent', color: 'var(--pt)', fontSize: 14, fontWeight: 600, border: '1px solid rgba(0,0,0,0.12)', fontFamily: 'inherit', cursor: 'default' }}>학습 기록 보기</button>
+            {/* Icon 72×72, radius 22, accent tint */}
+            <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(109,141,255,0.08)', border: '1px solid rgba(109,141,255,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 20px' }}>🎉</div>
+            {/* Eyebrow */}
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 8px' }}>Level Complete</p>
+            {/* Title */}
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>모든 스토리 완료!</h2>
+            {/* Description */}
+            <p style={{ fontSize: 13.5, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 36px' }}>Level 1의 모든 패턴을 학습했습니다.<br />복습을 통해 패턴을 확실히 익혀보세요.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 320, margin: '0 auto' }}>
+              {/* Primary: accent border + accent text, h56, r18 */}
+              <button type="button" style={{ width: '100%', height: 56, borderRadius: 18, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 15, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 12px rgba(109,141,255,0.12)', fontFamily: 'inherit', cursor: 'default' }}>처음부터 다시 학습</button>
+              {/* Secondary: text only, h48 */}
+              <button type="button" style={{ width: '100%', height: 48, border: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>학습 기록 보기</button>
             </div>
           </div>
         </Sub>
@@ -816,16 +824,21 @@ export function UIPlaygroundClient() {
           <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
             무료 플랜 유저가 Story {'>'}  FREE_STORY_LIMIT 접근 시. components/StoryPageClient.tsx
           </p>
+          {/* Full-screen State 공통 패턴: Icon → Eyebrow → Title → Desc → Primary → Secondary */}
           <div style={{ border: '1px solid var(--pd)', borderRadius: 20, padding: '48px 24px', textAlign: 'center', maxWidth: 360 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 20, background: 'rgba(109,141,255,0.10)', border: '1px solid rgba(109,141,255,0.20)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-              <Lock size={28} style={{ color: 'var(--pa)' }} />
-            </div>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 8px' }}>PREMIUM STORY</p>
-            <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--pt)', margin: '0 0 6px' }}>&ldquo;Moving On&rdquo;</h2>
-            <p style={{ fontSize: 13, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 24px' }}>Free plan includes the first 3 stories.<br />Upgrade to unlock all stories.</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 260, margin: '0 auto' }}>
-              <button type="button" style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: '#4A6FA8', color: '#fff', fontSize: 14, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>Upgrade to Premium</button>
-              <button type="button" style={{ width: '100%', padding: '13px 0', borderRadius: 14, background: 'transparent', color: 'var(--pm)', fontSize: 13, fontWeight: 500, border: 'none', fontFamily: 'inherit', cursor: 'default' }}>← Go back</button>
+            {/* Icon 72×72, radius 22, accent tint */}
+            <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(109,141,255,0.08)', border: '1px solid rgba(109,141,255,0.16)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 20px' }}>🔒</div>
+            {/* Eyebrow */}
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pa)', margin: '0 0 8px' }}>Premium Story</p>
+            {/* Title */}
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>&ldquo;Moving On&rdquo;</h2>
+            {/* Description */}
+            <p style={{ fontSize: 13.5, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 36px' }}>Free plan includes the first 3 stories.<br />Upgrade to unlock all stories.</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 320, margin: '0 auto' }}>
+              {/* Primary: accent border + accent text, h56, r18 */}
+              <button type="button" style={{ width: '100%', height: 56, borderRadius: 18, border: '1px solid rgba(109,141,255,0.30)', background: 'rgba(109,141,255,0.06)', fontSize: 15, fontWeight: 700, color: 'var(--pa)', boxShadow: '0 2px 12px rgba(109,141,255,0.12)', fontFamily: 'inherit', cursor: 'default' }}>Upgrade to Premium</button>
+              {/* Secondary: text only, h48 */}
+              <button type="button" style={{ width: '100%', height: 48, border: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>← Go back</button>
             </div>
           </div>
         </Sub>
