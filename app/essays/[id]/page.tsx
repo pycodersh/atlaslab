@@ -283,11 +283,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '6px 20px 8px', maxWidth: 600, width: '100%', margin: '0 auto', boxSizing: 'border-box',
     }}>
-      <button type="button" onClick={() => router.push('/essays')}
-        style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '4px 0' }}>
-        <ArrowLeft style={{ width: 13, height: 13, color: 'var(--pm)' }} strokeWidth={1.8} />
-        <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.10em', color: 'var(--pm)' }}>ESSAYS</span>
-      </button>
+      <div />
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         {/* Edit mode: word count */}
