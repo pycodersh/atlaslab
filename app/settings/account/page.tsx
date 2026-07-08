@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, User, LogIn, UserPlus, LogOut, Trash2, ChevronRight } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
-import { signOut, getCurrentUser } from '@/lib/auth-actions'
-import type { User as SupabaseUser } from '@supabase/supabase-js'
+import { signOut } from '@/lib/auth-actions'
+import { useAuth } from '@/contexts/AuthContext'
 
 function MenuRow({
   icon: Icon, label, desc, danger, onClick,
@@ -57,19 +57,15 @@ function ConfirmDialog({ message, onConfirm, onCancel }: { message: string; onCo
 
 export default function AccountPage() {
   const router = useRouter()
-  const [user, setUser] = useState<SupabaseUser | null>(null)
+  const { user } = useAuth()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [toast, setToast] = useState('')
-
-  useEffect(() => {
-    getCurrentUser().then(setUser)
-  }, [])
 
   function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
 
   async function handleSignOut() {
     await signOut()
-    window.location.href = '/'
+    router.push('/home')
   }
 
   async function handleDeleteAccount() {

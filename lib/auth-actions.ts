@@ -25,7 +25,12 @@ export async function signInWithKakao() {
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
-      options: { redirectTo: CALLBACK() },
+      options: {
+        redirectTo: CALLBACK(),
+        // Minimal scope — must match exactly what's enabled in Kakao Developers console
+        // (카카오 로그인 > 동의항목). profile_nickname is the default required scope.
+        scopes: 'profile_nickname',
+      },
     })
     return error?.message ?? null
   } catch (e) {

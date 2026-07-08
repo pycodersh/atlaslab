@@ -4,6 +4,7 @@ import { Baloo_2, Kalam, Playfair_Display, Plus_Jakarta_Sans } from "next/font/g
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PreferencesProvider } from "@/contexts/PreferencesContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { MainTabBar } from "@/components/MainTabBar";
 import { WelcomeCover } from "@/components/WelcomeCover";
 
@@ -57,7 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`antialiased ${jakartaSans.variable} ${baloo2.variable} ${playfair.variable} ${kalam.variable}`}>
-      <body><ThemeProvider><PreferencesProvider><WelcomeCover />{children}<MainTabBar /></PreferencesProvider></ThemeProvider></body>
+      <body><ThemeProvider><PreferencesProvider><AuthProvider><WelcomeCover />{children}<MainTabBar /></AuthProvider></PreferencesProvider></ThemeProvider></body>
     </html>
   );
 }

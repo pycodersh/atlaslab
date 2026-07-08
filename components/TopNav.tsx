@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { User } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
+import { useAuth } from '@/contexts/AuthContext'
 
 export const NAV_HEIGHT = 50
 
@@ -38,6 +39,58 @@ function PattoIcon() {
   )
 }
 
+function UserButton() {
+  const { user, loading } = useAuth()
+
+  const buttonStyle: React.CSSProperties = {
+    width: 36, height: 36, borderRadius: '50%',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    background: 'var(--pglass)',
+    border: '1px solid var(--pglass-border)',
+    backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+    textDecoration: 'none',
+    overflow: 'hidden',
+  }
+
+  if (loading) {
+    return (
+      <div style={{ ...buttonStyle, opacity: 0.5 }}>
+        <User style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
+      </div>
+    )
+  }
+
+  if (user) {
+    const avatarUrl = user.user_metadata?.avatar_url as string | undefined
+    const initial = ((user.user_metadata?.name as string) ?? user.email ?? '?')[0].toUpperCase()
+
+    return (
+      <Link href="/settings/account" aria-label="계정" style={buttonStyle}>
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt="프로필"
+            referrerPolicy="no-referrer"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+          />
+        ) : (
+          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--pa)', lineHeight: 1 }}>
+            {initial}
+          </span>
+        )}
+      </Link>
+    )
+  }
+
+  return (
+    <Link href="/settings/auth" aria-label="로그인" style={buttonStyle}>
+      <User style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
+    </Link>
+  )
+}
+
 export function TopNav() {
   return (
     <nav style={{ background: 'transparent', borderBottom: 'none' }}>
@@ -67,23 +120,9 @@ export function TopNav() {
           </p>
         </Link>
 
-        {/* Right: icon buttons */}
+        {/* Right: user button — state-aware */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Link
-            href="/settings"
-            aria-label="프로필"
-            style={{
-              width: 36, height: 36, borderRadius: '50%',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'var(--pglass)',
-              border: '1px solid var(--pglass-border)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-            }}
-          >
-            <User style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
-          </Link>
+          <UserButton />
         </div>
       </div>
     </nav>
