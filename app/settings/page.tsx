@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { ChevronRight, ChevronLeft, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone } from 'lucide-react'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -364,6 +365,7 @@ type BeforeInstallPromptEvent = Event & {
 }
 
 export default function SettingsPage() {
+  const router = useRouter()
   const t = useT()
   const [showAccount, setShowAccount] = useState(false)
 
@@ -375,12 +377,23 @@ export default function SettingsPage() {
         <div style={{
           maxWidth: 480,
           margin: '0 auto',
-          padding: `40px 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
+          padding: `14px 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
           gap: 12,
         }}>
+          <button
+            type="button"
+            onClick={() => {
+              if (window.history.length > 1) router.back()
+              else router.push('/home')
+            }}
+            style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 4, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit', alignSelf: 'flex-start' }}
+          >
+            <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
+            Back
+          </button>
 
           <MenuCard
             icon={UserCircle}

@@ -487,327 +487,327 @@ export default function LibraryPage() {
   const hasResults = searchResults.words.length > 0 || searchResults.phrases.length > 0
     || searchResults.patterns.length > 0 || searchResults.stories.length > 0
 
+  const savedItemsPanel = (
+    <>
+      {/* Saved Words */}
+      <section style={{ marginBottom: 28 }}>
+        <SecLabel label="Saved Words" count={words.length} unit="Words" />
+        {words.length === 0 ? (
+          <EmptyState
+            icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />}
+            iconColor="#3A7A4A"
+            title="No saved words yet."
+            body={t('sec_saved_words')}
+          />
+        ) : (
+          <>
+            <DictWordList
+              words={showAllWords ? words : words.slice(0, PREVIEW_WORDS)}
+              onRemove={handleRemoveWord}
+            />
+            {words.length > PREVIEW_WORDS && (
+              <button
+                type="button"
+                onClick={() => setShowAllWords(v => !v)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 4,
+                  marginTop: 10, padding: 0,
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                }}
+              >
+                {showAllWords ? 'Show less' : `Show all ${words.length} Words`}
+                {!showAllWords && <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />}
+              </button>
+            )}
+          </>
+        )}
+      </section>
+
+      {/* Saved Phrases */}
+      <section style={{ marginBottom: 28 }}>
+        <SecLabel label="Saved Phrases" count={phrases.length} unit="Phrases" />
+        {phrases.length === 0 ? (
+          <EmptyState
+            icon={<Layers style={{ width: 24, height: 24, color: '#C08040' }} strokeWidth={1.6} />}
+            iconColor="#C08040"
+            title="No saved phrases yet."
+            body={t('sec_saved_words')}
+          />
+        ) : (
+          <>
+            <DictPhraseList
+              phrases={showAllPhrases ? phrases : phrases.slice(0, PREVIEW_PHRASES)}
+              onRemove={handleRemovePhrase}
+            />
+            {phrases.length > PREVIEW_PHRASES && (
+              <button
+                type="button"
+                onClick={() => setShowAllPhrases(v => !v)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 4,
+                  marginTop: 10, padding: 0,
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                }}
+              >
+                {showAllPhrases ? 'Show less' : `Show all ${phrases.length} Phrases`}
+                {!showAllPhrases && <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />}
+              </button>
+            )}
+          </>
+        )}
+      </section>
+
+      {/* Saved Patterns */}
+      <section style={{ marginBottom: 28 }}>
+        <SecLabel label="Saved Patterns" count={bookmarks.length} unit="Patterns" />
+        {bookmarks.length === 0 ? (
+          <EmptyState
+            icon={<BookMarked style={{ width: 24, height: 24, color: 'var(--pa)' }} strokeWidth={1.6} />}
+            iconColor="var(--pa)"
+            title="No saved patterns yet."
+            body={t('no_bookmarks')}
+          />
+        ) : showAllPatterns ? (
+          <>
+            <div>
+              {bookmarksByStory.map(([storyId, storyBms]) => {
+                const story = magazineStories.find(s => s.id === storyId)
+                return (
+                  <PatternAccordion
+                    key={storyId}
+                    storyId={storyId}
+                    storyTitle={story ? story.title : `Story ${String(storyId).padStart(2, '0')}`}
+                    patterns={storyBms}
+                    onPress={bm => router.push(`/stories/${bm.storyId}?v=p`)}
+                    onRemove={handleRemoveBookmark}
+                  />
+                )
+              })}
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAllPatterns(false)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 4,
+                marginTop: 10, padding: 0,
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+              }}
+            >
+              Show less
+            </button>
+          </>
+        ) : (
+          <>
+            <div style={glassCard}>
+              {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => (
+                <BookmarkedPatternRow
+                  key={bm.patternId}
+                  bm={bm}
+                  first={i === 0}
+                  onPress={() => router.push(`/stories/${bm.storyId}?v=p`)}
+                  onRemove={() => handleRemoveBookmark(bm.patternId)}
+                />
+              ))}
+            </div>
+            {bookmarks.length > PREVIEW_PATTERNS && (
+              <button
+                type="button"
+                onClick={() => setShowAllPatterns(true)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 4,
+                  marginTop: 10, padding: 0,
+                  background: 'none', border: 'none', cursor: 'pointer',
+                  fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                }}
+              >
+                {`Show all ${bookmarks.length} Patterns`}
+                <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
+              </button>
+            )}
+          </>
+        )}
+      </section>
+    </>
+  )
+
+  const colPad: React.CSSProperties = {
+    paddingTop: 14, paddingLeft: 20, paddingRight: 20,
+    paddingBottom: TAB_BAR_HEIGHT + 32, boxSizing: 'border-box',
+  }
+
   return (
     <div style={{ minHeight: '100dvh', overflowY: 'auto' }}>
       <TopNav />
 
-      <div style={{
-        maxWidth: 480, margin: '0 auto',
-        paddingTop: 14,
-        paddingLeft: 20, paddingRight: 20,
-        paddingBottom: TAB_BAR_HEIGHT + 32,
-        boxSizing: 'border-box',
-      }}>
+      <div className="desktop-max">
+        <div className="desktop-two-col">
 
-        {/* ── Search bar + Filter ── */}
-        <div style={{ marginBottom: isSearching || showRecent ? 0 : 24, position: 'relative' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            background: 'var(--pglass)',
-            backdropFilter: 'blur(20px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-            borderRadius: 16,
-            padding: '14px 14px 14px 18px',
-            border: focused
-              ? '1px solid var(--pacb)'
-              : '1px solid var(--pglass-border)',
-            boxShadow: focused
-              ? '0 4px 20px rgba(109,141,255,0.10)'
-              : '0 4px 16px rgba(40,50,80,0.07)',
-            transition: 'border 0.2s, box-shadow 0.2s',
-          }}>
-            <Search style={{ width: 16, height: 16, color: '#8E8E93', flexShrink: 0 }} strokeWidth={2} />
-            <input
-              ref={inputRef}
-              type="search"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setTimeout(() => setFocused(false), 150)}
-              onKeyDown={e => { if (e.key === 'Enter') submitSearch(query) }}
-              placeholder="words, phrases, patterns, stories..."
-              style={{
-                flex: 1, background: 'none', border: 'none', outline: 'none',
-                fontSize: 14, color: 'var(--pt)', fontWeight: 400,
-                caretColor: 'var(--pa)',
-              }}
-            />
-            {query && (
-              <button type="button" onClick={() => { setQuery(''); inputRef.current?.focus() }}
-                style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}>
-                <X style={{ width: 14, height: 14, color: '#8E8E93' }} strokeWidth={2} />
-              </button>
-            )}
+          {/* Left column: search + summary cards */}
+          <div style={colPad}>
+            {/* ── Search bar ── */}
+            <div style={{ marginBottom: isSearching || showRecent ? 0 : 24, position: 'relative' }}>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                background: 'var(--pglass)',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                borderRadius: 16,
+                padding: '14px 14px 14px 18px',
+                border: focused ? '1px solid var(--pacb)' : '1px solid var(--pglass-border)',
+                boxShadow: focused ? '0 4px 20px rgba(109,141,255,0.10)' : '0 4px 16px rgba(40,50,80,0.07)',
+                transition: 'border 0.2s, box-shadow 0.2s',
+              }}>
+                <Search style={{ width: 16, height: 16, color: '#8E8E93', flexShrink: 0 }} strokeWidth={2} />
+                <input
+                  ref={inputRef}
+                  type="search"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  onFocus={() => setFocused(true)}
+                  onBlur={() => setTimeout(() => setFocused(false), 150)}
+                  onKeyDown={e => { if (e.key === 'Enter') submitSearch(query) }}
+                  placeholder="words, phrases, patterns, stories..."
+                  style={{
+                    flex: 1, background: 'none', border: 'none', outline: 'none',
+                    fontSize: 14, color: 'var(--pt)', fontWeight: 400,
+                    caretColor: 'var(--pa)',
+                  }}
+                />
+                {query && (
+                  <button type="button" onClick={() => { setQuery(''); inputRef.current?.focus() }}
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}>
+                    <X style={{ width: 14, height: 14, color: '#8E8E93' }} strokeWidth={2} />
+                  </button>
+                )}
+              </div>
+
+              {/* Recent searches */}
+              {showRecent && (
+                <div style={{ padding: '12px 4px 16px', display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#B0B0B8', textTransform: 'uppercase', alignSelf: 'center', marginRight: 2 }}>
+                    Recent
+                  </span>
+                  {recentSearches.map(s => (
+                    <button key={s} type="button"
+                      onClick={() => { setQuery(s); submitSearch(s); inputRef.current?.focus() }}
+                      style={{
+                        fontSize: 12, fontWeight: 500, color: 'var(--pa)',
+                        background: 'var(--pal)',
+                        border: '1px solid var(--pacb)',
+                        borderRadius: 999, padding: '4px 12px',
+                        cursor: 'pointer', fontFamily: 'inherit',
+                      }}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* ── Search results ── */}
+              {isSearching && (
+                <div style={{ marginTop: 12, marginBottom: 24 }}>
+                  {!hasResults ? (
+                    <div style={{ ...glassCard, padding: '30px 22px', textAlign: 'center' }}>
+                      <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: '0 0 8px' }}>
+                        No matching results found.
+                      </p>
+                      <p style={{ fontSize: 12, color: '#8E8E93', margin: 0, lineHeight: 1.7 }}>
+                        Try a different keyword
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      {searchResults.words.length > 0 && (
+                        <div style={{ marginBottom: 16 }}>
+                          <p style={SECTION_LABEL}>Words · {searchResults.words.length}</p>
+                          <div style={glassCard}>
+                            {searchResults.words.map((w, i) => (
+                              <SearchWordRow key={w.id} w={w} border={i > 0} onPress={() => goToWord(w)} />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {searchResults.phrases.length > 0 && (
+                        <div style={{ marginBottom: 16 }}>
+                          <p style={SECTION_LABEL}>Phrases · {searchResults.phrases.length}</p>
+                          <div style={glassCard}>
+                            {searchResults.phrases.map((ph, i) => (
+                              <SearchPhraseRow key={ph.id} ph={ph} border={i > 0} onPress={() => goToPhrase(ph)} />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {searchResults.patterns.length > 0 && (
+                        <div style={{ marginBottom: 16 }}>
+                          <p style={SECTION_LABEL}>Patterns · {searchResults.patterns.length}</p>
+                          <div style={glassCard}>
+                            {searchResults.patterns.map((r, i) => (
+                              <SearchPatternRow
+                                key={r.pattern.id}
+                                storyId={r.storyId}
+                                storyTitle={r.storyTitle}
+                                pattern={r.pattern}
+                                border={i > 0}
+                                onPress={() => router.push(`/stories/${r.storyId}?v=p`)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {searchResults.stories.length > 0 && (
+                        <div>
+                          <p style={SECTION_LABEL}>Stories · {searchResults.stories.length}</p>
+                          <div style={glassCard}>
+                            {searchResults.stories.map((s, i) => (
+                              <SearchStoryRow
+                                key={s.id}
+                                story={s}
+                                border={i > 0}
+                                onPress={() => router.push(`/stories/${s.id}`)}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* ── Summary cards ── */}
+            <div style={{ display: 'flex', gap: 9, marginBottom: 24 }}>
+              <SummaryCard
+                icon={<BookOpen style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.8} />}
+                label="Words"
+                value={words.length}
+                accent="#3A7A4A"
+              />
+              <SummaryCard
+                icon={<Layers style={{ width: 16, height: 16, color: '#C08040' }} strokeWidth={1.8} />}
+                label="Phrases"
+                value={phrases.length}
+                accent="#C08040"
+              />
+              <SummaryCard
+                icon={<BookMarked style={{ width: 16, height: 16, color: 'var(--pa)' }} strokeWidth={1.8} />}
+                label="Patterns"
+                value={bookmarks.length}
+                accent="var(--pa)"
+              />
+            </div>
           </div>
 
-          {/* Recent searches */}
-          {showRecent && (
-            <div style={{ padding: '12px 4px 16px', display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-              <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#B0B0B8', textTransform: 'uppercase', alignSelf: 'center', marginRight: 2 }}>
-                Recent
-              </span>
-              {recentSearches.map(s => (
-                <button key={s} type="button"
-                  onClick={() => { setQuery(s); submitSearch(s); inputRef.current?.focus() }}
-                  style={{
-                    fontSize: 12, fontWeight: 500, color: 'var(--pa)',
-                    background: 'var(--pal)',
-                    border: '1px solid var(--pacb)',
-                    borderRadius: 999, padding: '4px 12px',
-                    cursor: 'pointer', fontFamily: 'inherit',
-                  }}>
-                  {s}
-                </button>
-              ))}
-            </div>
-          )}
+          {/* Right column: saved items (stacks below on mobile) */}
+          <div className="desktop-right-col" style={colPad}>
+            {!isSearching && savedItemsPanel}
+          </div>
 
-          {/* ── Search results ── */}
-          {isSearching && (
-            <div style={{ marginTop: 12, marginBottom: 24 }}>
-              {!hasResults ? (
-                <div style={{ ...glassCard, padding: '30px 22px', textAlign: 'center' }}>
-                  <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: '0 0 8px' }}>
-                    No matching results found.
-                  </p>
-                  <p style={{ fontSize: 12, color: '#8E8E93', margin: 0, lineHeight: 1.7 }}>
-                    Try a different keyword
-                  </p>
-                </div>
-              ) : (
-                <>
-                  {searchResults.words.length > 0 && (
-                    <div style={{ marginBottom: 16 }}>
-                      <p style={SECTION_LABEL}>Words · {searchResults.words.length}</p>
-                      <div style={glassCard}>
-                        {searchResults.words.map((w, i) => (
-                          <SearchWordRow key={w.id} w={w} border={i > 0} onPress={() => goToWord(w)} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {searchResults.phrases.length > 0 && (
-                    <div style={{ marginBottom: 16 }}>
-                      <p style={SECTION_LABEL}>Phrases · {searchResults.phrases.length}</p>
-                      <div style={glassCard}>
-                        {searchResults.phrases.map((ph, i) => (
-                          <SearchPhraseRow key={ph.id} ph={ph} border={i > 0} onPress={() => goToPhrase(ph)} />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {searchResults.patterns.length > 0 && (
-                    <div style={{ marginBottom: 16 }}>
-                      <p style={SECTION_LABEL}>Patterns · {searchResults.patterns.length}</p>
-                      <div style={glassCard}>
-                        {searchResults.patterns.map((r, i) => (
-                          <SearchPatternRow
-                            key={r.pattern.id}
-                            storyId={r.storyId}
-                            storyTitle={r.storyTitle}
-                            pattern={r.pattern}
-                            border={i > 0}
-                            onPress={() => router.push(`/stories/${r.storyId}?v=p`)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {searchResults.stories.length > 0 && (
-                    <div>
-                      <p style={SECTION_LABEL}>Stories · {searchResults.stories.length}</p>
-                      <div style={glassCard}>
-                        {searchResults.stories.map((s, i) => (
-                          <SearchStoryRow
-                            key={s.id}
-                            story={s}
-                            border={i > 0}
-                            onPress={() => router.push(`/stories/${s.id}`)}
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          )}
         </div>
-
-        {/* ── Summary cards (Words / Phrases / Patterns) ── */}
-        <div style={{ display: 'flex', gap: 9, marginBottom: 24 }}>
-          <SummaryCard
-            icon={<BookOpen style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.8} />}
-            label="Words"
-            value={words.length}
-            accent="#3A7A4A"
-          />
-          <SummaryCard
-            icon={<Layers style={{ width: 16, height: 16, color: '#C08040' }} strokeWidth={1.8} />}
-            label="Phrases"
-            value={phrases.length}
-            accent="#C08040"
-          />
-          <SummaryCard
-            icon={<BookMarked style={{ width: 16, height: 16, color: 'var(--pa)' }} strokeWidth={1.8} />}
-            label="Patterns"
-            value={bookmarks.length}
-            accent="var(--pa)"
-          />
-        </div>
-
-        {/* ── Main sections (non-search) ── */}
-        {!isSearching && (
-          <>
-            {/* Saved Words */}
-            <section style={{ marginBottom: 28 }}>
-              <SecLabel label="Saved Words" count={words.length} unit="Words" />
-              {words.length === 0 ? (
-                <EmptyState
-                  icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />}
-                  iconColor="#3A7A4A"
-                  title="No saved words yet."
-                  body={t('sec_saved_words')}
-                />
-              ) : (
-                <>
-                  <DictWordList
-                    words={showAllWords ? words : words.slice(0, PREVIEW_WORDS)}
-                    onRemove={handleRemoveWord}
-                  />
-                  {words.length > PREVIEW_WORDS && (
-                    <button
-                      type="button"
-                      onClick={() => setShowAllWords(v => !v)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 4,
-                        marginTop: 10, padding: 0,
-                        background: 'none', border: 'none', cursor: 'pointer',
-                        fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-                      }}
-                    >
-                      {showAllWords
-                        ? 'Show less'
-                        : `Show all ${words.length} Words`}
-                      {!showAllWords && <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />}
-                    </button>
-                  )}
-                </>
-              )}
-            </section>
-
-            {/* Saved Phrases */}
-            <section style={{ marginBottom: 28 }}>
-              <SecLabel label="Saved Phrases" count={phrases.length} unit="Phrases" />
-              {phrases.length === 0 ? (
-                <EmptyState
-                  icon={<Layers style={{ width: 24, height: 24, color: '#C08040' }} strokeWidth={1.6} />}
-                  iconColor="#C08040"
-                  title="No saved phrases yet."
-                  body={t('sec_saved_words')}
-                />
-              ) : (
-                <>
-                  <DictPhraseList
-                    phrases={showAllPhrases ? phrases : phrases.slice(0, PREVIEW_PHRASES)}
-                    onRemove={handleRemovePhrase}
-                  />
-                  {phrases.length > PREVIEW_PHRASES && (
-                    <button
-                      type="button"
-                      onClick={() => setShowAllPhrases(v => !v)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 4,
-                        marginTop: 10, padding: 0,
-                        background: 'none', border: 'none', cursor: 'pointer',
-                        fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-                      }}
-                    >
-                      {showAllPhrases
-                        ? 'Show less'
-                        : `Show all ${phrases.length} Phrases`}
-                      {!showAllPhrases && <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />}
-                    </button>
-                  )}
-                </>
-              )}
-            </section>
-
-            {/* Saved Patterns */}
-            <section style={{ marginBottom: 28 }}>
-              <SecLabel label="Saved Patterns" count={bookmarks.length} unit="Patterns" />
-              {bookmarks.length === 0 ? (
-                <EmptyState
-                  icon={<BookMarked style={{ width: 24, height: 24, color: 'var(--pa)' }} strokeWidth={1.6} />}
-                  iconColor="var(--pa)"
-                  title="No saved patterns yet."
-                  body={t('no_bookmarks')}
-                />
-              ) : showAllPatterns ? (
-                <>
-                  <div>
-                    {bookmarksByStory.map(([storyId, storyBms]) => {
-                      const story = magazineStories.find(s => s.id === storyId)
-                      return (
-                        <PatternAccordion
-                          key={storyId}
-                          storyId={storyId}
-                          storyTitle={story ? story.title : `Story ${String(storyId).padStart(2, '0')}`}
-                          patterns={storyBms}
-                          onPress={bm => router.push(`/stories/${bm.storyId}?v=p`)}
-                          onRemove={handleRemoveBookmark}
-                        />
-                      )
-                    })}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setShowAllPatterns(false)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: 4,
-                      marginTop: 10, padding: 0,
-                      background: 'none', border: 'none', cursor: 'pointer',
-                      fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-                    }}
-                  >
-                    Show less
-                  </button>
-                </>
-              ) : (
-                <>
-                  <div style={glassCard}>
-                    {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => (
-                      <BookmarkedPatternRow
-                        key={bm.patternId}
-                        bm={bm}
-                        first={i === 0}
-                        onPress={() => router.push(`/stories/${bm.storyId}?v=p`)}
-                        onRemove={() => handleRemoveBookmark(bm.patternId)}
-                      />
-                    ))}
-                  </div>
-                  {bookmarks.length > PREVIEW_PATTERNS && (
-                    <button
-                      type="button"
-                      onClick={() => setShowAllPatterns(true)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 4,
-                        marginTop: 10, padding: 0,
-                        background: 'none', border: 'none', cursor: 'pointer',
-                        fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-                      }}
-                    >
-                      {`Show all ${bookmarks.length} Patterns`}
-                      <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
-                    </button>
-                  )}
-                </>
-              )}
-            </section>
-          </>
-        )}
       </div>
-
     </div>
   )
 }

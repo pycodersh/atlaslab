@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Info, BookOpen, Layers, X, CheckCircle2, RefreshCw } from 'lucide-react'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -729,6 +730,7 @@ function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak }: {
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ProgressPage() {
+  const isDesktop = useIsDesktop()
   const railRef = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState(0)
 
@@ -770,6 +772,42 @@ export default function ProgressPage() {
     setDayDetail(getEnhancedDayDetail(iso))
   }
 
+  // ── Desktop: side-by-side layout ────────────────────────────────────
+  if (isDesktop) {
+    return (
+      <>
+        <div style={{ minHeight: '100dvh' }}>
+          <TopNav />
+          <div className="desktop-max desktop-two-col" style={{ paddingTop: 8, paddingBottom: TAB_BAR_HEIGHT + 32 }}>
+            {/* Left: Calendar */}
+            <div>
+              <PageCalendar
+                futureSchedule={futureSchedule}
+                selectedIso={selectedIso}
+                onDaySelect={handleDaySelect}
+                streak={streak}
+              />
+            </div>
+            {/* Right: Score */}
+            <div className="desktop-right-col">
+              <PageScore
+                score={memoryScore}
+                learnedStories={learnedStories}
+                learnedPatterns={learnedPatterns}
+                mastery={mastery}
+              />
+            </div>
+          </div>
+        </div>
+        <DayDetailSheet
+          detail={dayDetail}
+          onClose={() => { setDayDetail(null); setSelectedIso(null) }}
+        />
+      </>
+    )
+  }
+
+  // ── Mobile: swipe rail layout ────────────────────────────────────────
   return (
     <>
       <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>

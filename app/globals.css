@@ -331,6 +331,44 @@ body {
   .pc-trash { display: flex }
 }
 
+/* ── Desktop responsive layout (≥1024px) ───────────────────────────── */
+.desktop-show { display: none !important; }
+
+@media (min-width: 1024px) {
+  /* Two-column grid wrapper */
+  .desktop-two-col {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  /* Max-width centered page shell */
+  .desktop-max {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
+  /* Show elements only on desktop */
+  .desktop-show { display: block !important; }
+
+  /* Hide elements only on desktop */
+  .mobile-only { display: none !important; }
+
+  /* Sticky right panel that scrolls independently */
+  .desktop-right-col {
+    position: sticky;
+    top: 80px;
+    max-height: calc(100dvh - 100px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .desktop-right-col::-webkit-scrollbar { display: none; }
+}
+
 /* ── Image Slider Ken Burns ──────────────────────────────────────────── */
 @keyframes pattoKenBurns {
   from { transform: scale(1.0) translate(0,0); }

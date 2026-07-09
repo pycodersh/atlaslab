@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, ScrollText, Shield, Mail, Info } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
@@ -84,6 +85,7 @@ function AboutRow({ item }: { item: RowItem }) {
 }
 
 export default function AboutPage() {
+  const router = useRouter()
   const t = useT()
 
   const LEGAL: RowItem[] = [
@@ -124,6 +126,14 @@ export default function AboutPage() {
         paddingTop: 14, paddingLeft: 20, paddingRight: 20, paddingBottom: 100,
         boxSizing: 'border-box',
       }}>
+        <button
+          type="button"
+          onClick={() => router.push('/settings')}
+          style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}
+        >
+          <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
+          Profile
+        </button>
 
         {/* Legal */}
         <SecTitle label="Legal" />

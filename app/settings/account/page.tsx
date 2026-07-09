@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { User, LogIn, UserPlus, LogOut, Trash2, ChevronRight } from 'lucide-react'
+import { User, LogIn, UserPlus, LogOut, Trash2, ChevronRight, ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { signOut } from '@/lib/auth-actions'
 import { useAuth } from '@/contexts/AuthContext'
@@ -82,7 +82,16 @@ export default function AccountPage() {
   return (
     <div className="min-h-dvh bg-[var(--pb)]">
       <TopNav />
-      <div className="px-7 pb-24 max-w-sm mx-auto pt-20">
+      <div className="px-7 pb-24 max-w-sm mx-auto pt-16">
+        <button
+          type="button"
+          onClick={() => router.push('/settings')}
+          className="flex items-center gap-1 mb-4 text-[var(--pa)] text-[13px] font-semibold bg-none border-none p-0 cursor-pointer"
+          style={{ background: 'none', border: 'none' }}
+        >
+          <ChevronLeft className="w-4 h-4" strokeWidth={2} />
+          Profile
+        </button>
         <div className="mb-8">
           <h1 className="font-playfair text-[1.9rem] font-black leading-none text-[var(--pt)] tracking-tight">ACCOUNT</h1>
           <p className="text-[0.78rem] text-[var(--pm)] mt-2 tracking-wide">{t('account_page_desc')}</p>

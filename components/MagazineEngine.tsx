@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
 
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
@@ -28,6 +30,7 @@ type MagazineEngineProps = {
 
 export function MagazineEngine({ story, allStories, initialView = 'story', patternExamples }: MagazineEngineProps) {
   const router = useRouter()
+  const isDesktop = useIsDesktop()
   const { speakAll, stop, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
@@ -194,8 +197,12 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   }
 
   // Linear next: Story → Patterns, Patterns → next Story
+  // Desktop: skip the Story↔Patterns toggle — go directly to next story
   function goNext() {
-    if (view === 'story') {
+    if (isDesktop) {
+      const next = allStories.find(s => s.id === story.id + 1)
+      if (next) goToStory(next.id, 'story')
+    } else if (view === 'story') {
       switchView('patterns')
     } else {
       const next = allStories.find(s => s.id === story.id + 1)
@@ -204,8 +211,12 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   }
 
   // Linear prev: Patterns → Story, Story → prev Story's Patterns
+  // Desktop: go directly to prev story
   function goPrev() {
-    if (view === 'patterns') {
+    if (isDesktop) {
+      const prev = allStories.find(s => s.id === story.id - 1)
+      if (prev) goToStory(prev.id, 'story')
+    } else if (view === 'patterns') {
       switchView('story')
     } else {
       const prev = allStories.find(s => s.id === story.id - 1)
@@ -213,8 +224,8 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     }
   }
 
-  const isFirst = story.id <= 1 && view === 'story'
-  const isLast = story.id >= allStories.length && view === 'patterns'
+  const isFirst = isDesktop ? story.id <= 1 : (story.id <= 1 && view === 'story')
+  const isLast  = isDesktop ? story.id >= allStories.length : (story.id >= allStories.length && view === 'patterns')
 
   // ── Rail transform ──────────────────────────────────────────────────
   const basePercent = view === 'story' ? 0 : -50
@@ -222,10 +233,117 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     ? `translateX(calc(${basePercent}% + ${dragOffset}px))`
     : `translateX(${basePercent}%)`
 
+  const sharedPopups = (
+    <>
+      <GlobalSavePopup />
+      <TodayMissionPopup />
+      {showPicker && (
+        <WheelPicker
+          stories={allStories}
+          currentId={story.id}
+          onSelect={(id) => goToStory(id)}
+          onClose={() => setShowPicker(false)}
+        />
+      )}
+    </>
+  )
+
+  // ── Desktop: side-by-side layout ────────────────────────────────────
+  if (isDesktop) {
+    return (
+      <div className="h-screen-stable flex overflow-hidden" style={{ position: 'relative' }}>
+        {/* Story panel — left 55% */}
+        <div style={{ flex: '0 0 55%', overflow: 'clip', height: '100%', borderRight: '1px solid var(--pd)' }}>
+          <StoryPage
+            story={story}
+            totalStories={allStories.length}
+            onNext={goNext}
+            onPrev={goPrev}
+            hasPrev={!isFirst}
+            onOpenPicker={() => setShowPicker(true)}
+            speakAll={handleSpeakAll}
+            stop={handleStop}
+            isSpeaking={isSpeaking}
+            currentParagraphIdx={currentParagraphIdx}
+            ambienceOn={effectiveAmbienceOn}
+            onAmbienceToggle={toggleAmbience}
+          />
+        </div>
+
+        {/* Patterns panel — right 45% */}
+        <div style={{ flex: '0 0 45%', overflow: 'clip', height: '100%' }}>
+          <PatternsPageV2
+            story={story}
+            totalStories={allStories.length}
+            onPrev={goPrev}
+            onNext={goNext}
+            hasNext={!isLast}
+            onOpenPicker={() => setShowPicker(true)}
+            patternExamples={patternExamples}
+            isActive={true}
+          />
+        </div>
+
+        {/* Desktop story nav arrows */}
+        {!isFirst && (
+          <button
+            type="button"
+            aria-label="Previous story"
+            onClick={goPrev}
+            style={{
+              position: 'fixed', left: 12, top: '50%', transform: 'translateY(-50%)',
+              zIndex: 20, width: 36, height: 36, borderRadius: '50%',
+              background: 'var(--pglass)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid var(--pglass-border)',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', color: 'var(--pm)',
+              transition: 'opacity 0.15s',
+              opacity: 0.6,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '1' }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '0.6' }}
+          >
+            <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
+          </button>
+        )}
+        {!isLast && (
+          <button
+            type="button"
+            aria-label="Next story"
+            onClick={goNext}
+            style={{
+              position: 'fixed', right: 12, top: '50%', transform: 'translateY(-50%)',
+              zIndex: 20, width: 36, height: 36, borderRadius: '50%',
+              background: 'var(--pglass)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              border: '1px solid var(--pglass-border)',
+              boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', color: 'var(--pm)',
+              transition: 'opacity 0.15s',
+              opacity: 0.6,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.opacity = '1' }}
+            onMouseLeave={e => { e.currentTarget.style.opacity = '0.6' }}
+          >
+            <ChevronRight style={{ width: 16, height: 16 }} strokeWidth={2} />
+          </button>
+        )}
+
+        {sharedPopups}
+      </div>
+    )
+  }
+
+  // ── Mobile: swipe rail layout ────────────────────────────────────────
   return (
     <div className="h-screen-stable flex flex-col overflow-hidden">
 
-      {/* Sliding rail — min-h-0 prevents flex-1 from growing to content height */}
+      {/* Sliding rail */}
       <div
         ref={railRef}
         className="flex flex-1 min-h-0"
@@ -239,7 +357,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Story page — overflow:clip clips without creating a scroll context */}
         <div className="h-full" style={{ width: '50%', overflow: 'clip' }}>
           <StoryPage
             story={story}
@@ -257,7 +374,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
           />
         </div>
 
-        {/* Patterns page — overflow:clip clips without creating a scroll context */}
         <div className="h-full" style={{ width: '50%', overflow: 'clip' }}>
           <PatternsPageV2
             story={story}
@@ -272,42 +388,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
         </div>
       </div>
 
-
-      {/* PC ghost edge arrows */}
-      <button
-        aria-label="이전 페이지"
-        onClick={() => { if (!isFirst) goPrev() }}
-        className="fixed left-0 top-0 h-full z-20 hidden md:flex items-center justify-start pl-2 pr-3 group cursor-pointer"
-        style={{ background: 'none', border: 'none' }}
-        type="button"
-      >
-        <span className="text-[var(--pt)] text-[1.4rem] opacity-10 group-hover:opacity-35 transition-opacity select-none">‹</span>
-      </button>
-      <button
-        aria-label="다음 페이지"
-        onClick={() => { if (!isLast) goNext() }}
-        className="fixed right-0 top-0 h-full z-20 hidden md:flex items-center justify-end pr-2 pl-3 group cursor-pointer"
-        style={{ background: 'none', border: 'none' }}
-        type="button"
-      >
-        <span className="text-[var(--pt)] text-[1.4rem] opacity-10 group-hover:opacity-35 transition-opacity select-none">›</span>
-      </button>
-
-      {/* Global word/phrase save popup — singleton for all TappableWordText instances */}
-      <GlobalSavePopup />
-
-      {/* Today's Mission popup — shown once per day on entry */}
-      <TodayMissionPopup />
-
-      {/* Wheel picker */}
-      {showPicker && (
-        <WheelPicker
-          stories={allStories}
-          currentId={story.id}
-          onSelect={(id) => goToStory(id)}
-          onClose={() => setShowPicker(false)}
-        />
-      )}
+      {sharedPopups}
     </div>
   )
 }

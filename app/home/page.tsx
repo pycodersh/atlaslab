@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check } from 'lucide-react'
+import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
@@ -13,6 +14,70 @@ import { getLastPosition } from '@/lib/last-position'
 import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
 import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
 import { usePreferences } from '@/contexts/PreferencesContext'
+
+// ── All Stories panel (desktop right column) ──────────────────────────────────
+type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
+const ALL_DOT: Record<AllStoryLabel, string> = {
+  Today: '#6B90D9', Reading: '#6B90D9', Review: '#C08B30', Done: '#3DAD6A', New: '#9B9BA0',
+}
+function AllStoriesPanel({ labelMap }: { labelMap: Record<number, AllStoryLabel> }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+        <p style={{ fontSize: 15, fontWeight: 800, color: '#3A3A3C', margin: 0, letterSpacing: '0.04em', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif' }}>
+          All Stories
+        </p>
+        <span style={{ fontSize: 11, color: 'var(--pm)', fontWeight: 500 }}>{magazineStories.length} stories</span>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        {magazineStories.map(story => {
+          const label = labelMap[story.id] ?? 'New'
+          const dotColor = ALL_DOT[label]
+          const href = label === 'Review' || label === 'Today' || label === 'Reading'
+            ? `/stories/${story.id}?v=p`
+            : `/stories/${story.id}`
+          return (
+            <Link
+              key={story.id}
+              href={href}
+              className="glass-card-sm"
+              style={{ overflow: 'hidden', borderRadius: 16, display: 'block', textDecoration: 'none' }}
+            >
+              <div style={{ position: 'relative', paddingTop: '60%' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={story.imageUrl} alt={story.imageAlt}
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0) 40%)', pointerEvents: 'none' }} />
+                <div style={{ position: 'absolute', top: 6, left: 6 }}>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                    padding: '2px 7px',
+                    background: 'rgba(255,255,255,0.40)',
+                    backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(255,255,255,0.70)',
+                    borderRadius: 999, fontSize: 8, fontWeight: 700, letterSpacing: '0.06em',
+                    color: '#555A61',
+                  }}>
+                    <span style={{ width: 4.5, height: 4.5, borderRadius: '50%', background: dotColor, flexShrink: 0, display: 'inline-block' }} />
+                    {label}
+                  </span>
+                </div>
+              </div>
+              <div style={{ padding: '8px 10px 10px' }}>
+                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: '0 0 2px', textTransform: 'uppercase' }}>
+                  Story {String(story.id).padStart(2, '0')}
+                </p>
+                <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', margin: 0, lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                  {story.title}
+                </p>
+              </div>
+            </Link>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
 
 // Map app Language → TipLang (handle zh-cn/zh-tw case difference)
 function toTipLang(lang: string): TipLang {
@@ -295,6 +360,7 @@ export default function HomePage() {
   const [scheduledList, setScheduledList]   = useState<ScheduledStory[]>([])
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
+  const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
@@ -378,6 +444,23 @@ export default function HomePage() {
     }
 
     setScheduledList(list.slice(0, 8))
+
+    // Build All Stories label map for desktop right panel
+    const learnedSet = new Set(
+      records.filter(r => r.itemType === 'pattern' && r.repeatCount > 0).map(r => r.storyId).filter(Boolean)
+    )
+    const allMap: Record<number, AllStoryLabel> = {}
+    for (const s of magazineStories) {
+      const mi = missionMap.get(s.id)
+      if (mi) {
+        allMap[s.id] = mi.type === 'review_pattern' ? 'Review' : mi.type === 'in_progress_story' ? 'Reading' : 'Today'
+      } else if (learnedSet.has(s.id)) {
+        allMap[s.id] = 'Done'
+      } else {
+        allMap[s.id] = 'New'
+      }
+    }
+    setAllStoriesLabelMap(allMap)
   }, [])
 
   const frostedCard: React.CSSProperties = {
@@ -412,6 +495,11 @@ export default function HomePage() {
     <div style={{ minHeight: '100dvh' }}>
       <TopNav />
 
+      {/* ── Desktop shell ── */}
+      <div className="desktop-max">
+      <div className="desktop-two-col" style={{ paddingTop: 0 }}>
+
+      {/* ── Left column (always) ── */}
       <div style={{
         paddingTop: 0,
         paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)`,
@@ -581,8 +669,8 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* ── STORIES ── */}
-        <div style={{ padding: '28px 20px 0' }}>
+        {/* ── STORIES (mobile only — desktop shows All Stories panel on right) ── */}
+        <div className="mobile-only" style={{ padding: '28px 20px 0' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
             <p style={{
               fontSize: 15, fontWeight: 800, color: '#3A3A3C',
@@ -658,7 +746,15 @@ export default function HomePage() {
           </div>
         </div>
 
+      </div>{/* end left column */}
+
+      {/* ── Right column: All Stories (desktop only) ── */}
+      <div className="desktop-show desktop-right-col" style={{ paddingTop: 20, paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)` }}>
+        <AllStoriesPanel labelMap={allStoriesLabelMap} />
       </div>
+
+      </div>{/* end desktop-two-col */}
+      </div>{/* end desktop-max */}
 
       {/* ── Editor Tip Carousel Modal ── */}
       {tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}

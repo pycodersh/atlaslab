@@ -118,18 +118,10 @@ export default function EssaysPage() {
   const displayed = showAll ? essays : essays.slice(0, INITIAL_SHOW)
   const hasMore = essays.length > INITIAL_SHOW
 
-  return (
-    <div style={{ minHeight: '100dvh' }}>
-      <TopNav />
-
-      <div style={{
-        maxWidth: 520,
-        margin: '0 auto',
-        padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
-      }}>
-
-        {/* New Essay button — compact */}
-        <button
+  const leftPanel = (
+    <>
+      {/* New Essay button — compact */}
+      <button
           type="button"
           onClick={() => router.push('/essays/new')}
           style={{
@@ -163,95 +155,89 @@ export default function EssaysPage() {
         {/* AI Reviews remaining */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          marginBottom: 20,
+          marginBottom: 8,
         }}>
-          <span style={{
-            fontSize: 11, fontWeight: 700, letterSpacing: '0.08em',
-            color: '#6E6E73', textTransform: 'uppercase',
-          }}>
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#6E6E73', textTransform: 'uppercase' }}>
             AI Reviews
           </span>
-          <span style={{
-            fontSize: 12, fontWeight: 600,
-            color: remaining === 0 ? '#B0B0B8' : '#4A7A6A',
-          }}>
+          <span style={{ fontSize: 12, fontWeight: 600, color: remaining === 0 ? '#B0B0B8' : '#4A7A6A' }}>
             {remaining} / {maxReviews}{plan === 'premium' ? ' Today' : ' Lifetime'}
           </span>
         </div>
+    </>
+  )
 
-        {/* My Essays */}
-        {essays.length > 0 ? (
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-              <p style={{
-                fontSize: 11, fontWeight: 700, color: '#6E6E73',
-                margin: 0, letterSpacing: '0.12em', textTransform: 'uppercase',
-              }}>
-                My Essays
-              </p>
-              <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 500 }}>
-                {essays.length} Essays
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {displayed.map(essay => (
-                <SwipeDeleteRow
-                  key={essay.id}
-                  onDeleteRequest={() => handleDelete(essay.id)}
-                  containerStyle={{ borderRadius: 16 }}
-                  contentBg="transparent"
-                >
-                  <EssayCard
-                    essay={essay}
-                    onClick={() => router.push(`/essays/${essay.id}`)}
-                  />
-                </SwipeDeleteRow>
-              ))}
-            </div>
-
-            {hasMore && (
-              <button
-                type="button"
-                onClick={() => setShowAll(v => !v)}
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  gap: 6, width: '100%', marginTop: 12,
-                  padding: '11px 0',
-                  background: 'var(--pglass)',
-                  backdropFilter: 'blur(16px)',
-                  WebkitBackdropFilter: 'blur(16px)',
-                  border: '1px solid var(--pglass-border)',
-                  borderRadius: 14, cursor: 'pointer',
-                  fontSize: 12, fontWeight: 600, color: '#8E8E93',
-                  transition: 'opacity 0.15s',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.opacity = '0.75' }}
-                onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
-              >
-                {showAll ? t('essays_collapse') : t('essays_show_more', { n: essays.length - INITIAL_SHOW })}
-              </button>
-            )}
-          </div>
-        ) : (
-          <div style={{ textAlign: 'center', paddingTop: 56 }}>
-            <div style={{
-              width: 72, height: 72, borderRadius: 24,
-              background: 'var(--pglass)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid var(--pglass-border)',
-              boxShadow: '0 6px 20px rgba(40,40,60,0.05)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              margin: '0 auto 18px',
-            }}>
-              <PenLine size={32} strokeWidth={1.5} color="var(--pm)" />
-            </div>
-            <p style={{ fontSize: 14, color: '#8E8E93', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-line' }}>
-              {t('essays_empty')}
+  const rightPanel = (
+    <>
+      {/* My Essays */}
+      {essays.length > 0 ? (
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#6E6E73', margin: 0, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+              My Essays
             </p>
+            <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 500 }}>
+              {essays.length} Essays
+            </span>
           </div>
-        )}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {displayed.map(essay => (
+              <SwipeDeleteRow
+                key={essay.id}
+                onDeleteRequest={() => handleDelete(essay.id)}
+                containerStyle={{ borderRadius: 16 }}
+                contentBg="transparent"
+              >
+                <EssayCard essay={essay} onClick={() => router.push(`/essays/${essay.id}`)} />
+              </SwipeDeleteRow>
+            ))}
+          </div>
+          {hasMore && (
+            <button
+              type="button"
+              onClick={() => setShowAll(v => !v)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                gap: 6, width: '100%', marginTop: 12, padding: '11px 0',
+                background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid var(--pglass-border)', borderRadius: 14, cursor: 'pointer',
+                fontSize: 12, fontWeight: 600, color: '#8E8E93', transition: 'opacity 0.15s',
+              }}
+              onMouseEnter={e => { e.currentTarget.style.opacity = '0.75' }}
+              onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
+            >
+              {showAll ? t('essays_collapse') : t('essays_show_more', { n: essays.length - INITIAL_SHOW })}
+            </button>
+          )}
+        </div>
+      ) : (
+        <div style={{ textAlign: 'center', paddingTop: 56 }}>
+          <div style={{
+            width: 72, height: 72, borderRadius: 24,
+            background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid var(--pglass-border)', boxShadow: '0 6px 20px rgba(40,40,60,0.05)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px',
+          }}>
+            <PenLine size={32} strokeWidth={1.5} color="var(--pm)" />
+          </div>
+          <p style={{ fontSize: 14, color: '#8E8E93', lineHeight: 1.8, margin: 0, whiteSpace: 'pre-line' }}>
+            {t('essays_empty')}
+          </p>
+        </div>
+      )}
+    </>
+  )
+
+  return (
+    <div style={{ minHeight: '100dvh' }}>
+      <TopNav />
+      <div className="desktop-max">
+        <div className="desktop-two-col">
+          {/* Left: New Essay + AI credits */}
+          <div style={{ padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)` }}>{leftPanel}</div>
+          {/* Right: My Essays — stacks below on mobile, sticky column on desktop */}
+          <div className="desktop-right-col" style={{ padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)` }}>{rightPanel}</div>
+        </div>
       </div>
     </div>
   )
