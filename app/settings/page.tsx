@@ -496,8 +496,8 @@ export default function SettingsPage() {
 
         <MenuCard
           icon={RotateCcw}
-          label="온보딩 다시 보기"
-          desc="앱 소개 화면을 처음부터 다시 볼 수 있습니다."
+          label={t('hub_replay')}
+          desc={t('hub_replay_desc')}
           onClick={handleReplayOnboarding}
         />
 
