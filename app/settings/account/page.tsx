@@ -2,38 +2,13 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { User, LogIn, UserPlus, LogOut, Trash2, ChevronRight, ChevronLeft } from 'lucide-react'
+import { LogOut, Trash2, ChevronLeft, Shield, Calendar, Hash } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { signOut } from '@/lib/auth-actions'
 import { useAuth } from '@/contexts/AuthContext'
 import { useT } from '@/hooks/useT'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
-
-function MenuRow({
-  icon: Icon, label, desc, danger, onClick,
-}: {
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
-  label: string; desc: string; danger?: boolean; onClick: () => void
-}) {
-  return (
-    <button type="button" onClick={onClick} className="w-full flex items-start gap-4 py-5 text-left group cursor-pointer">
-      <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
-        danger ? 'bg-[#FFF0F3] group-hover:bg-[#FFE0E7]' : 'bg-[var(--pc2)] group-hover:bg-[var(--pd)]'
-      }`}>
-        <Icon className={`w-4 h-4 ${danger ? 'text-[#B04060]' : 'text-[var(--pa)]'}`} strokeWidth={1.6} />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className={`font-semibold text-[14px] leading-snug transition-colors ${
-          danger ? 'text-[#B04060] group-hover:text-[#8B1A35]' : 'text-[var(--pt)] group-hover:text-[var(--pa)]'
-        }`}>{label}</p>
-        <p className="text-[11.5px] text-[var(--pm)] mt-0.5 leading-relaxed">{desc}</p>
-      </div>
-      <ChevronRight className={`w-4 h-4 shrink-0 mt-2.5 transition-colors ${
-        danger ? 'text-[#DDB8C0]' : 'text-[var(--pm2)] group-hover:text-[var(--pa)]'
-      }`} strokeWidth={1.4} />
-    </button>
-  )
-}
+import { useSubscription } from '@/hooks/useSubscription'
 
 function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel }: {
   message: string; cancelLabel: string; confirmLabel: string
@@ -59,10 +34,26 @@ function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel
   )
 }
 
+function InfoRow({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '13px 0', borderBottom: '1px solid var(--pglass-border)' }}>
+      <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--pc)', border: '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+        <Icon style={{ width: 14, height: 14, color: '#6E6E73' }} strokeWidth={1.6} />
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <p style={{ fontSize: 10.5, fontWeight: 700, color: '#8E8E93', margin: '0 0 1px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{label}</p>
+        <p style={{ fontSize: 13.5, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</p>
+      </div>
+    </div>
+  )
+}
+
 export default function AccountPage() {
   const router = useRouter()
   const { user } = useAuth()
   const t = useT()
+  const isDesktop = useIsDesktop()
+  const { isPro } = useSubscription()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [toast, setToast] = useState('')
 
@@ -78,66 +69,146 @@ export default function AccountPage() {
     showToast(t('account_delete_preparing'))
   }
 
-  const isLoggedIn = !!user
-  const isDesktop = useIsDesktop()
+  if (!user) {
+    return (
+      <div className="min-h-dvh bg-[var(--pb)]">
+        <TopNav />
+        <div style={{ padding: '60px 24px', textAlign: 'center', color: 'var(--pm)', fontSize: 14 }}>
+          로그인이 필요합니다.
+        </div>
+      </div>
+    )
+  }
+
+  const avatarUrl = user.user_metadata?.avatar_url as string | undefined
+  const name = (user.user_metadata?.full_name || user.user_metadata?.name || user.user_metadata?.user_name || user.email?.split('@')[0] || 'User') as string
+  const email = user.email
+  const rawProvider = (user.app_metadata?.provider || 'email') as string
+  const providerLabel = rawProvider === 'google' ? 'Google' : rawProvider === 'kakao' ? 'Kakao' : 'Email'
+  const initial = name[0]?.toUpperCase() ?? '?'
+  const userId = user.id ? `···${user.id.slice(-8)}` : '—'
+  const joinedAt = user.created_at
+    ? new Date(user.created_at).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
+    : '—'
 
   return (
     <div className="min-h-dvh bg-[var(--pb)]">
       <TopNav />
-      <div className="px-7 pb-24 max-w-sm mx-auto pt-16">
+      <div style={{ maxWidth: 400, margin: '0 auto', padding: '16px 24px 96px', boxSizing: 'border-box' }}>
+
         {isDesktop && (
           <button
             type="button"
             onClick={() => router.push('/settings')}
-            className="flex items-center gap-1 mb-4 text-[var(--pa)] text-[13px] font-semibold bg-none border-none p-0 cursor-pointer"
-            style={{ background: 'none', border: 'none' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 16, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}
           >
-            <ChevronLeft className="w-4 h-4" strokeWidth={2} />
+            <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
             Profile
           </button>
         )}
-        <div className="mb-8">
-          <h1 className="font-playfair text-[1.9rem] font-black leading-none text-[var(--pt)] tracking-tight">ACCOUNT</h1>
-          <p className="text-[0.78rem] text-[var(--pm)] mt-2 tracking-wide">{t('account_page_desc')}</p>
-        </div>
 
-        <div className="rounded-2xl bg-[var(--pc)] px-5 py-4 mb-8 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-[var(--pa)]/15 flex items-center justify-center shrink-0">
-            <User className="w-5 h-5 text-[var(--pa)]" strokeWidth={1.5} />
+        <h1 style={{ fontSize: 26, fontWeight: 800, color: 'var(--pt)', margin: '0 0 20px', letterSpacing: '-0.03em' }}>
+          Account
+        </h1>
+
+        {/* Avatar + name */}
+        <div style={{
+          background: 'var(--pglass)',
+          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          borderRadius: 20, border: '1px solid var(--pglass-border)',
+          padding: '20px', marginBottom: 12,
+          display: 'flex', alignItems: 'center', gap: 16,
+        }}>
+          <div style={{
+            width: 60, height: 60, borderRadius: '50%', flexShrink: 0,
+            background: 'var(--pc)', border: '2px solid var(--pglass-border)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+          }}>
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={name} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--pa)', lineHeight: 1 }}>{initial}</span>
+            )}
           </div>
-          <div>
-            <p className="text-[13px] font-bold text-[var(--pt)]">
-              {user?.email ?? (user?.user_metadata?.name as string) ?? (user ? 'Kakao User' : 'Guest')}
-            </p>
-            <p className="text-[11px] text-[var(--pm)] mt-0.5">
-              {isLoggedIn ? t('account_loggedin') : t('account_guest_hint')}
-            </p>
-          </div>
-        </div>
-
-        <div className="border-t border-[var(--pd)]">
-          {!isLoggedIn && (
-            <>
-              <MenuRow icon={LogIn} label="Sign In" desc={t('account_signin_desc')} onClick={() => router.push('/settings/auth')} />
-              <div className="h-px bg-[var(--pd)]" />
-              <MenuRow icon={UserPlus} label="Sign Up" desc={t('account_signup_desc')} onClick={() => router.push('/settings/auth')} />
-            </>
-          )}
-          {isLoggedIn && (
-            <MenuRow icon={LogOut} label="Sign Out" desc={t('account_signout_desc')} onClick={handleSignOut} />
-          )}
-        </div>
-
-        {isLoggedIn && (
-          <div className="mt-10">
-            <p className="text-[10px] tracking-[0.22em] text-[#B04060] font-bold mb-3">DANGER ZONE</p>
-            <div className="border border-[var(--pacb)] rounded-2xl overflow-hidden bg-[var(--pal)]">
-              <div className="px-2">
-                <MenuRow icon={Trash2} label="Delete Account" desc={t('account_delete_desc')} danger onClick={() => setShowDeleteConfirm(true)} />
-              </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</p>
+            {email && <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: '0 0 7px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>}
+            <div style={{ display: 'flex', gap: 5 }}>
+              <span style={{ fontSize: 10, fontWeight: 600, color: '#8E8E93', background: 'var(--pc)', border: '1px solid var(--pglass-border)', borderRadius: 6, padding: '2px 8px', letterSpacing: '0.04em' }}>
+                {providerLabel}
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 600, color: isPro ? '#4A7A6A' : '#8E8E93', background: isPro ? 'rgba(100,180,155,0.12)' : 'var(--pc)', border: `1px solid ${isPro ? 'rgba(100,180,155,0.22)' : 'var(--pglass-border)'}`, borderRadius: 6, padding: '2px 8px', letterSpacing: '0.04em' }}>
+                {isPro ? 'Premium' : 'Free Plan'}
+              </span>
             </div>
           </div>
-        )}
+        </div>
+
+        {/* Account info rows */}
+        <div style={{
+          background: 'var(--pglass)',
+          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          borderRadius: 20, border: '1px solid var(--pglass-border)',
+          padding: '0 16px', marginBottom: 12,
+        }}>
+          <InfoRow icon={Shield} label="Provider" value={providerLabel} />
+          <InfoRow icon={Hash} label="User ID" value={userId} />
+          <div style={{ borderBottom: 'none' }}>
+            <InfoRow icon={Calendar} label="가입일" value={joinedAt} />
+          </div>
+        </div>
+
+        {/* Logout button */}
+        <button
+          type="button"
+          onClick={handleSignOut}
+          style={{
+            width: '100%', padding: '14px 0',
+            borderRadius: 14, border: '1px solid var(--pglass-border)',
+            background: 'var(--pglass)',
+            backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+            color: 'var(--pm)', fontSize: 14, fontWeight: 600,
+            cursor: 'pointer', fontFamily: 'inherit',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            marginBottom: 24, transition: 'background 0.15s, color 0.15s',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.background = 'var(--pc)'
+            e.currentTarget.style.color = 'var(--pt)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = 'var(--pglass)'
+            e.currentTarget.style.color = 'var(--pm)'
+          }}
+        >
+          <LogOut style={{ width: 15, height: 15 }} strokeWidth={2} />
+          Logout
+        </button>
+
+        {/* Danger zone */}
+        <div>
+          <p style={{ fontSize: 10, letterSpacing: '0.22em', color: '#B04060', fontWeight: 700, margin: '0 0 10px' }}>DANGER ZONE</p>
+          <div style={{ border: '1px solid rgba(176,64,96,0.25)', borderRadius: 16, overflow: 'hidden', background: 'rgba(176,64,96,0.04)' }}>
+            <button
+              type="button"
+              onClick={() => setShowDeleteConfirm(true)}
+              style={{
+                width: '100%', padding: '14px 16px',
+                background: 'transparent', border: 'none',
+                display: 'flex', alignItems: 'center', gap: 12,
+                cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left',
+              }}
+            >
+              <div style={{ width: 32, height: 32, borderRadius: 8, background: '#FFF0F3', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <Trash2 style={{ width: 14, height: 14, color: '#B04060' }} strokeWidth={1.6} />
+              </div>
+              <div>
+                <p style={{ fontSize: 13.5, fontWeight: 600, color: '#B04060', margin: '0 0 2px' }}>Delete Account</p>
+                <p style={{ fontSize: 12, color: '#C08898', margin: 0 }}>{t('account_delete_desc')}</p>
+              </div>
+            </button>
+          </div>
+        </div>
       </div>
 
       {showDeleteConfirm && (
@@ -151,7 +222,7 @@ export default function AccountPage() {
       )}
 
       {toast && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-[var(--pt)] text-[var(--pb)] text-[12px] px-5 py-2.5 rounded-full shadow-lg tracking-wide z-50 whitespace-nowrap">
+        <div style={{ position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)', background: 'var(--pt)', color: 'var(--pb)', fontSize: 12, padding: '10px 20px', borderRadius: 999, boxShadow: '0 4px 16px rgba(0,0,0,0.15)', zIndex: 50, whiteSpace: 'nowrap' }}>
           {toast}
         </div>
       )}

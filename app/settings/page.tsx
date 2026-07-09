@@ -1,16 +1,18 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { createPortal } from 'react-dom'
+import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone, RotateCcw } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, User as UserIcon, LogOut, Compass, Smartphone, RotateCcw } from 'lucide-react'
 import { requestOnboardingReplay } from '@/lib/onboarding'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
-import { usePreferences } from '@/contexts/PreferencesContext'
-import { useTheme } from '@/components/ThemeProvider'
+import { useAuth } from '@/contexts/AuthContext'
+import { signOut } from '@/lib/auth-actions'
+import { useSubscription } from '@/hooks/useSubscription'
 import { AuthButtons } from '@/components/auth/AuthButtons'
 
 const card: React.CSSProperties = {
@@ -32,6 +34,7 @@ const glassCard: React.CSSProperties = {
   overflow: 'hidden',
 }
 
+// ── Menu card ────────────────────────────────────────────────────────────────
 function MenuCard({
   icon: Icon,
   label,
@@ -118,82 +121,122 @@ function MenuCard({
   )
 }
 
-function AccountPopup({ onClose }: { onClose: () => void }) {
-  const [mounted, setMounted] = useState(false)
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    setMounted(true)
-    setTimeout(() => setVisible(true), 10)
-  }, [])
+// ── User profile card (logged-in) ─────────────────────────────────────────────
+function UserProfileCard({ user, isPro, onLogout }: { user: User; isPro: boolean; onLogout: () => void }) {
+  const avatarUrl = user.user_metadata?.avatar_url as string | undefined
+  const name = ((user.user_metadata?.full_name || user.user_metadata?.name || user.user_metadata?.user_name || user.email?.split('@')[0] || 'User') as string)
+  const email = user.email
+  const rawProvider = (user.app_metadata?.provider || 'email') as string
+  const providerLabel = rawProvider === 'google' ? 'Google' : rawProvider === 'kakao' ? 'Kakao' : 'Email'
+  const initial = name[0]?.toUpperCase() ?? '?'
 
-  function handleClose() {
-    setVisible(false)
-    setTimeout(onClose, 220)
-  }
-
-  const content = (
-    <div
-      role="dialog"
-      aria-modal="true"
-      style={{
-        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999,
-        background: visible ? 'rgba(0,0,0,0.32)' : 'rgba(0,0,0,0)',
-        backdropFilter: visible ? 'blur(8px)' : 'blur(0px)',
-        WebkitBackdropFilter: visible ? 'blur(8px)' : 'blur(0px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '0 20px',
-        transition: 'background 0.22s, backdrop-filter 0.22s',
-      }}
-      onClick={e => { if (e.target === e.currentTarget) handleClose() }}
-    >
-      <div
-        className="glass-card"
-        style={{
-          width: '100%', maxWidth: 400, borderRadius: 28, overflow: 'hidden',
-          opacity: visible ? 1 : 0,
-          transform: visible ? 'scale(1)' : 'scale(0.97)',
-          transition: 'opacity 0.22s ease, transform 0.22s ease',
-        }}
-      >
-        {/* Close button */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '18px 20px 0' }}>
-          <button
-            type="button"
-            onClick={handleClose}
-            style={{
-              background: 'rgba(120,120,128,0.10)', border: 'none',
-              borderRadius: 999, width: 34, height: 34,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', padding: 0, transition: 'background 0.15s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(120,120,128,0.20)' }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'rgba(120,120,128,0.10)' }}
-          >
-            <X style={{ width: 13, height: 13, color: '#8E8E93' }} strokeWidth={2.2} />
-          </button>
-        </div>
-
-        <div style={{ padding: '8px 32px 32px' }}>
-          <AuthButtons onSuccess={handleClose} showTitle={true} />
-        </div>
-      </div>
-    </div>
+  const badge = (text: string, accent?: boolean) => (
+    <span style={{
+      fontSize: 10, fontWeight: 600, letterSpacing: '0.04em',
+      color: accent ? '#4A7A6A' : '#8E8E93',
+      background: accent ? 'rgba(100,180,155,0.12)' : 'var(--pc)',
+      border: `1px solid ${accent ? 'rgba(100,180,155,0.22)' : 'var(--pglass-border)'}`,
+      borderRadius: 6, padding: '2px 8px',
+    }}>
+      {text}
+    </span>
   )
 
-  if (!mounted) return null
-  return createPortal(content, document.body)
+  return (
+    <div style={{ ...glassCard, padding: '20px 20px 16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        {/* Avatar */}
+        <div style={{
+          width: 54, height: 54, borderRadius: '50%', flexShrink: 0,
+          background: 'var(--pc)', border: '1px solid var(--pglass-border)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          overflow: 'hidden',
+        }}>
+          {avatarUrl ? (
+            <img src={avatarUrl} alt={name} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <span style={{ fontSize: 20, fontWeight: 700, color: 'var(--pa)', lineHeight: 1 }}>{initial}</span>
+          )}
+        </div>
+
+        {/* Info */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {name}
+          </p>
+          {email && (
+            <p style={{ fontSize: 11.5, color: 'var(--pm)', margin: '0 0 7px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {email}
+            </p>
+          )}
+          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+            {badge(providerLabel)}
+            {badge(isPro ? 'Premium' : 'Free Plan', isPro)}
+          </div>
+        </div>
+      </div>
+
+      {/* Logout button */}
+      <button
+        type="button"
+        onClick={onLogout}
+        style={{
+          marginTop: 14, width: '100%',
+          padding: '9px 0',
+          borderRadius: 10,
+          border: '1px solid var(--pglass-border)',
+          background: 'transparent',
+          color: 'var(--pm)',
+          fontSize: 13, fontWeight: 600,
+          cursor: 'pointer', fontFamily: 'inherit',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          transition: 'background 0.15s, color 0.15s',
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.background = 'var(--pc)'
+          e.currentTarget.style.color = 'var(--pt)'
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.background = 'transparent'
+          e.currentTarget.style.color = 'var(--pm)'
+        }}
+      >
+        <LogOut style={{ width: 13, height: 13 }} strokeWidth={2} />
+        Logout
+      </button>
+    </div>
+  )
+}
+
+// ── Guest card (not logged in) ────────────────────────────────────────────────
+function GuestProfileCard() {
+  return (
+    <div style={{ ...glassCard, padding: '24px 24px 20px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
+        <div style={{
+          width: 52, height: 52, borderRadius: '50%',
+          background: 'var(--pc)', border: '1px solid var(--pglass-border)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          marginBottom: 12,
+        }}>
+          <UserIcon style={{ width: 22, height: 22, color: 'var(--pm)' }} strokeWidth={1.5} />
+        </div>
+        <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: '0 0 4px' }}>
+          로그인이 필요합니다
+        </p>
+        <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, textAlign: 'center', lineHeight: 1.5 }}>
+          로그인하면 학습 데이터가 동기화됩니다.
+        </p>
+      </div>
+      <AuthButtons showTitle={false} />
+    </div>
+  )
 }
 
 // ── Android Confirmation Modal ────────────────────────────────────────────────
 function AndroidConfirmModal({
-  open,
-  onInstall,
-  onCancel,
-}: {
-  open: boolean
-  onInstall: () => void
-  onCancel: () => void
-}) {
+  open, onInstall, onCancel,
+}: { open: boolean; onInstall: () => void; onCancel: () => void }) {
   const t = useT()
   return (
     <PDialog
@@ -209,7 +252,7 @@ function AndroidConfirmModal({
   )
 }
 
-// ── Install Guide Sheet (iOS & Android fallback) ─────────────────────────────
+// ── Install Guide Sheet ───────────────────────────────────────────────────────
 function IOSInstallSheet({ open, onClose, installType = 'ios' }: { open: boolean; onClose: () => void; installType?: 'ios' | 'android' }) {
   const t = useT()
   const isAndroid = installType === 'android'
@@ -230,9 +273,7 @@ function IOSInstallSheet({ open, onClose, installType = 'ios' }: { open: boolean
           <span>{hint}</span>
         </p>
       }
-      actions={[
-        { label: t('install_confirm'), onClick: onClose, variant: 'confirm' },
-      ]}
+      actions={[{ label: t('install_confirm'), onClick: onClose, variant: 'confirm' }]}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 13, paddingTop: 16, paddingBottom: 4 }}>
         {steps.map((text, i) => (
@@ -247,9 +288,13 @@ function IOSInstallSheet({ open, onClose, installType = 'ios' }: { open: boolean
 }
 
 // ── Add to Home Screen card ───────────────────────────────────────────────────
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
+}
+
 function InstallCard() {
   const t = useT()
-
   const [installType, setInstallType] = useState<'android' | 'ios' | null>(null)
   const [showAndroidConfirm, setShowAndroidConfirm] = useState(false)
   const [showGuideSheet, setShowGuideSheet] = useState(false)
@@ -257,15 +302,13 @@ function InstallCard() {
   const deferredPromptRef = useRef<BeforeInstallPromptEvent | null>(null)
 
   useEffect(() => {
-    // DEV: force android install card for preview
     if (process.env.NODE_ENV === 'development') { setInstallType('android'); return }
 
     const ua = navigator.userAgent
     const isIOS = /iphone|ipad|ipod/i.test(ua)
     const isAndroid = /android/i.test(ua)
-    const isStandalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (navigator as Navigator & { standalone?: boolean }).standalone === true
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || (navigator as { standalone?: boolean }).standalone === true
 
     if (isStandalone) return
 
@@ -292,12 +335,7 @@ function InstallCard() {
   )
 
   function handleClick() {
-    if (isIOS) {
-      setGuideType('ios')
-      setShowGuideSheet(true)
-      return
-    }
-    // Android: show confirmation modal first
+    if (isIOS) { setGuideType('ios'); setShowGuideSheet(true); return }
     setShowAndroidConfirm(true)
   }
 
@@ -309,7 +347,6 @@ function InstallCard() {
       deferredPromptRef.current = null
       if (outcome === 'accepted') setInstallType(null)
     } else {
-      // Fallback: show Chrome manual guide
       setGuideType('android')
       setShowGuideSheet(true)
     }
@@ -334,12 +371,8 @@ function InstallCard() {
           {isIOS ? <AppleSvg /> : <Smartphone style={{ width: 14, height: 14, color: 'var(--pt)' }} strokeWidth={1.6} />}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
-            {label}
-          </p>
-          <p style={{ fontSize: 11.5, color: '#C0C0C5', margin: 0, fontWeight: 400, lineHeight: 1.35 }}>
-            {desc}
-          </p>
+          <p style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>{label}</p>
+          <p style={{ fontSize: 11.5, color: '#C0C0C5', margin: 0, fontWeight: 400, lineHeight: 1.35 }}>{desc}</p>
         </div>
         <ChevronRight style={{ width: 11, height: 11, color: '#D1D1D6', flexShrink: 0 }} strokeWidth={2} />
       </button>
@@ -358,80 +391,89 @@ function InstallCard() {
   )
 }
 
-// Extend global types for beforeinstallprompt
-type BeforeInstallPromptEvent = Event & {
-  prompt: () => Promise<void>
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
-}
-
+// ── Page ─────────────────────────────────────────────────────────────────────
 export default function SettingsPage() {
+  const router = useRouter()
   const t = useT()
-  const [showAccount, setShowAccount] = useState(false)
+  const { user, loading } = useAuth()
+  const { isPro } = useSubscription()
 
   function handleReplayOnboarding() {
     requestOnboardingReplay()
     window.location.href = '/'
   }
 
-  return (
-    <>
-      <div style={{ minHeight: '100dvh', overflowY: 'auto' }}>
-        <TopNav />
+  async function handleLogout() {
+    await signOut()
+    router.refresh()
+  }
 
-        <div style={{
-          maxWidth: 480,
-          margin: '0 auto',
-          padding: `14px 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
-          boxSizing: 'border-box',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 12,
-        }}>
+  return (
+    <div style={{ minHeight: '100dvh', overflowY: 'auto' }}>
+      <TopNav />
+
+      <div style={{
+        maxWidth: 480,
+        margin: '0 auto',
+        padding: `14px 20px calc(${TAB_BAR_HEIGHT}px + 32px)`,
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 12,
+      }}>
+
+        {/* Profile card */}
+        {!loading && (
+          user
+            ? <UserProfileCard user={user} isPro={isPro} onLogout={handleLogout} />
+            : <GuestProfileCard />
+        )}
+
+        {/* Account detail — only when logged in */}
+        {user && (
           <MenuCard
             icon={UserCircle}
             label={t('hub_account')}
             desc={t('hub_account_desc')}
-            onClick={() => setShowAccount(true)}
+            href="/settings/account"
           />
-          <MenuCard
-            icon={SlidersHorizontal}
-            label={t('hub_preferences')}
-            desc={t('hub_preferences_desc')}
-            href="/settings/preferences"
-          />
-          <MenuCard
-            icon={Sparkles}
-            label={t('hub_subscription')}
-            desc={t('hub_subscription_desc')}
-            href="/settings/subscription"
-          />
-          <InstallCard />
+        )}
 
-          <MenuCard
-            icon={RotateCcw}
-            label="온보딩 다시 보기"
-            desc="앱 소개 화면을 처음부터 다시 볼 수 있습니다."
-            onClick={handleReplayOnboarding}
-          />
+        <MenuCard
+          icon={SlidersHorizontal}
+          label={t('hub_preferences')}
+          desc={t('hub_preferences_desc')}
+          href="/settings/preferences"
+        />
+        <MenuCard
+          icon={Sparkles}
+          label={t('hub_subscription')}
+          desc={t('hub_subscription_desc')}
+          href="/settings/subscription"
+        />
+        <InstallCard />
 
-          <MenuCard
-            icon={Info}
-            label={t('hub_about')}
-            desc={t('hub_about_desc')}
-            href="/settings/about"
-          />
+        <MenuCard
+          icon={RotateCcw}
+          label="온보딩 다시 보기"
+          desc="앱 소개 화면을 처음부터 다시 볼 수 있습니다."
+          onClick={handleReplayOnboarding}
+        />
 
-          <p style={{
-            fontSize: 11, color: '#D1D1D6', fontWeight: 400,
-            margin: '0', textAlign: 'center', letterSpacing: '0.02em',
-          }}>
-            v1.0.0
-          </p>
+        <MenuCard
+          icon={Info}
+          label={t('hub_about')}
+          desc={t('hub_about_desc')}
+          href="/settings/about"
+        />
 
-        </div>
+        <p style={{
+          fontSize: 11, color: '#D1D1D6', fontWeight: 400,
+          margin: '0', textAlign: 'center', letterSpacing: '0.02em',
+        }}>
+          v1.0.0
+        </p>
       </div>
-
-      {showAccount && <AccountPopup onClose={() => setShowAccount(false)} />}
-    </>
+    </div>
   )
 }
