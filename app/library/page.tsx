@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Search, X, BookOpen, ChevronRight, ChevronDown,
-  BookMarked, SlidersHorizontal, Layers,
+  BookMarked, Layers,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
@@ -27,8 +27,6 @@ const MAX_RECENT  = 5
 const PREVIEW_WORDS    = 5
 const PREVIEW_PHRASES  = 5
 const PREVIEW_PATTERNS = 3
-
-type FilterType = 'all' | 'words' | 'phrases' | 'patterns' | 'stories'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -388,57 +386,6 @@ function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: nu
   )
 }
 
-// ── Filter dropdown ───────────────────────────────────────────────────────────
-
-const FILTER_OPTIONS: { key: FilterType; label: string }[] = [
-  { key: 'all',      label: 'All'      },
-  { key: 'words',    label: 'Words'    },
-  { key: 'phrases',  label: 'Phrases'  },
-  { key: 'patterns', label: 'Patterns' },
-  { key: 'stories',  label: 'Stories'  },
-]
-
-function FilterDropdown({ filter, onChange, onClose }: {
-  filter: FilterType; onChange: (f: FilterType) => void; onClose: () => void
-}) {
-  return (
-    <>
-      <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 50 }} />
-      <div style={{
-        position: 'absolute', top: 'calc(100% + 8px)', right: 0, zIndex: 51,
-        background: 'rgba(255,255,255,0.96)',
-        backdropFilter: 'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        borderRadius: 14,
-        border: '1px solid rgba(255,255,255,0.90)',
-        boxShadow: '0 8px 32px rgba(40,50,80,0.12)',
-        overflow: 'hidden',
-        minWidth: 120,
-      }}>
-        {FILTER_OPTIONS.map((opt, i) => (
-          <button
-            key={opt.key}
-            type="button"
-            onClick={() => { onChange(opt.key); onClose() }}
-            style={{
-              display: 'block', width: '100%', textAlign: 'left',
-              padding: '11px 16px',
-              background: filter === opt.key ? 'var(--pal)' : 'none',
-              border: 'none',
-              borderTop: i > 0 ? '1px solid rgba(230,232,240,0.6)' : 'none',
-              fontSize: 13, fontWeight: filter === opt.key ? 700 : 500,
-              color: filter === opt.key ? 'var(--pa)' : 'var(--pt)',
-              cursor: 'pointer',
-            }}
-          >
-            {opt.label}
-          </button>
-        ))}
-      </div>
-    </>
-  )
-}
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function LibraryPage() {
@@ -447,8 +394,6 @@ export default function LibraryPage() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const [query, setQuery]               = useState('')
-  const [filter, setFilter]             = useState<FilterType>('all')
-  const [showFilter, setShowFilter]     = useState(false)
   const [bookmarks, setBookmarks]       = useState<BookmarkedPattern[]>([])
   const [words, setWords]               = useState<SavedWord[]>([])
   const [phrases, setPhrases]           = useState<SavedPhrase[]>([])
@@ -487,34 +432,26 @@ export default function LibraryPage() {
 
     const match = (s: string) => normalize(s).includes(nq)
 
-    const matchedWords = (filter === 'all' || filter === 'words')
-      ? words.filter(w => match(w.word) || match(w.meaning ?? '') || match(w.originalSentence))
-      : []
+    const matchedWords = words.filter(w => match(w.word) || match(w.meaning ?? '') || match(w.originalSentence))
 
-    const matchedPhrases = (filter === 'all' || filter === 'phrases')
-      ? phrases.filter(ph => match(ph.phrase) || match(ph.originalSentence))
-      : []
+    const matchedPhrases = phrases.filter(ph => match(ph.phrase) || match(ph.originalSentence))
 
-    const matchedPatterns = (filter === 'all' || filter === 'patterns')
-      ? patternIndex.filter(({ pattern }) =>
-          match(pattern.pattern) ||
-          match(pattern.meaningKo) ||
-          match(pattern.explanation ?? '') ||
-          match(pattern.storySentence) ||
-          match(pattern.variationSentence)
-        ).slice(0, 20)
-      : []
+    const matchedPatterns = patternIndex.filter(({ pattern }) =>
+      match(pattern.pattern) ||
+      match(pattern.meaningKo) ||
+      match(pattern.explanation ?? '') ||
+      match(pattern.storySentence) ||
+      match(pattern.variationSentence)
+    ).slice(0, 20)
 
-    const matchedStories = (filter === 'all' || filter === 'stories')
-      ? magazineStories.filter(s =>
-          match(s.title) ||
-          normalize(`story ${s.id}`).includes(nq) ||
-          normalize(`s${String(s.id).padStart(2, '0')}`).includes(nq)
-        ).slice(0, 10)
-      : []
+    const matchedStories = magazineStories.filter(s =>
+      match(s.title) ||
+      normalize(`story ${s.id}`).includes(nq) ||
+      normalize(`s${String(s.id).padStart(2, '0')}`).includes(nq)
+    ).slice(0, 10)
 
     return { words: matchedWords, phrases: matchedPhrases, patterns: matchedPatterns, stories: matchedStories }
-  }, [patternIndex, words, phrases, nq, filter])
+  }, [patternIndex, words, phrases, nq])
 
   function submitSearch(q: string) {
     if (!q.trim()) return
@@ -601,54 +538,7 @@ export default function LibraryPage() {
                 <X style={{ width: 14, height: 14, color: '#8E8E93' }} strokeWidth={2} />
               </button>
             )}
-            <div style={{ position: 'relative' }}>
-              <button
-                type="button"
-                onClick={() => setShowFilter(v => !v)}
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  width: 30, height: 30, borderRadius: 9,
-                  background: filter !== 'all' ? 'var(--pal)' : 'rgba(140,140,150,0.08)',
-                  border: filter !== 'all' ? '1px solid var(--pacb)' : '1px solid rgba(140,140,150,0.14)',
-                  cursor: 'pointer', flexShrink: 0,
-                }}
-              >
-                <SlidersHorizontal
-                  style={{ width: 13, height: 13, color: filter !== 'all' ? 'var(--pa)' : '#8E8E93' }}
-                  strokeWidth={2}
-                />
-              </button>
-              {showFilter && (
-                <FilterDropdown
-                  filter={filter}
-                  onChange={f => setFilter(f)}
-                  onClose={() => setShowFilter(false)}
-                />
-              )}
-            </div>
           </div>
-
-          {/* Active filter chip */}
-          {filter !== 'all' && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
-              <span style={{ fontSize: 10, color: '#8E8E93', fontWeight: 500 }}>Filter:</span>
-              <button
-                type="button"
-                onClick={() => setFilter('all')}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 4,
-                  fontSize: 11, fontWeight: 600, color: 'var(--pa)',
-                  background: 'var(--pal)',
-                  border: '1px solid var(--pacb)',
-                  borderRadius: 999, padding: '3px 10px',
-                  cursor: 'pointer',
-                }}
-              >
-                {FILTER_OPTIONS.find(f => f.key === filter)?.label}
-                <X style={{ width: 10, height: 10 }} strokeWidth={2.5} />
-              </button>
-            </div>
-          )}
 
           {/* Recent searches */}
           {showRecent && (
