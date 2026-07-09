@@ -377,10 +377,16 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
               <p style={{ fontSize: 10, color: '#B0B0B8', marginBottom: 6, textAlign: 'right', fontStyle: 'italic' }}>{MIN_WORDS - wc} more words for Review</p>
             )}
             {error && <p style={{ fontSize: 12, color: 'var(--pa)', marginBottom: 8, fontStyle: 'italic' }}>{errorMessages[error]}</p>}
-            <button type="button" onClick={handleReview} disabled={loading || wc < MIN_WORDS}
-              style={{ width: '100%', padding: '15px 0', borderRadius: 14, marginTop: 8, background: loading || wc < MIN_WORDS ? 'var(--pglass)' : 'var(--pa)', border: loading || wc < MIN_WORDS ? '1px solid var(--pglass-border)' : '1px solid transparent', cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer', opacity: loading || wc < MIN_WORDS ? 0.45 : 1, fontSize: 14, fontWeight: 700, color: loading || wc < MIN_WORDS ? 'var(--pm)' : '#fff', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, transition: 'all 0.2s' }}>
-              {loading ? <><Loader2 style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />{t('essays_reviewing')}</> : <><Sparkles style={{ width: 13, height: 13, strokeWidth: 1.8 }} />{t('essays_submit')}</>}
-            </button>
+            <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+              <button type="button" onClick={autoSave} disabled={loading}
+                style={{ flex: 1, padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', cursor: loading ? 'default' : 'pointer', opacity: loading ? 0.45 : 1, fontSize: 14, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit', transition: 'all 0.2s' }}>
+                Save
+              </button>
+              <button type="button" onClick={handleReview} disabled={loading || wc < MIN_WORDS}
+                style={{ flex: 1, padding: '15px 0', borderRadius: 14, background: loading || wc < MIN_WORDS ? 'var(--pglass)' : 'var(--pa)', border: loading || wc < MIN_WORDS ? '1px solid var(--pglass-border)' : '1px solid transparent', cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer', opacity: loading || wc < MIN_WORDS ? 0.45 : 1, fontSize: 14, fontWeight: 700, color: loading || wc < MIN_WORDS ? 'var(--pm)' : '#fff', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, transition: 'all 0.2s' }}>
+                {loading ? <><Loader2 style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />{t('essays_reviewing')}</> : <><Sparkles style={{ width: 13, height: 13, strokeWidth: 1.8 }} />{t('essays_submit')}</>}
+              </button>
+            </div>
           </div>
         )}
 
