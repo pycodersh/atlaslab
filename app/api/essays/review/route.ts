@@ -230,15 +230,25 @@ type RawAnnotation = {
 }
 
 function normaliseAnnotations(annotations: RawAnnotation[], essayBody: string): object[] {
+  const bodyLower = essayBody.toLowerCase()
   return annotations
-    .map(a => ({
-      type:        a.type,
-      ...(a.subType ? { subType: a.subType } : {}),
-      fragment:    a.targetText ?? a.fragment ?? '',
-      replacement: a.replacement,
-      note:        a.note,
-      confidence:  typeof a.confidence === 'number' ? Math.round(a.confidence * 100) / 100 : undefined,
-    }))
+    .map(a => {
+      let fragment = a.targetText ?? a.fragment ?? ''
+      // Exact match failed — try case-insensitive to recover annotations
+      // whose targetText has wrong capitalisation (common with sentence-start words)
+      if (fragment && !essayBody.includes(fragment)) {
+        const idx = bodyLower.indexOf(fragment.toLowerCase())
+        if (idx >= 0) fragment = essayBody.slice(idx, idx + fragment.length)
+      }
+      return {
+        type:        a.type,
+        ...(a.subType ? { subType: a.subType } : {}),
+        fragment,
+        replacement: a.replacement,
+        note:        a.note,
+        confidence:  typeof a.confidence === 'number' ? Math.round(a.confidence * 100) / 100 : undefined,
+      }
+    })
     .filter(a => typeof a.fragment === 'string' && a.fragment.length > 0 && essayBody.includes(a.fragment))
 }
 

@@ -136,10 +136,9 @@ function floatAbove(bottom: number, color: string, extra?: React.CSSProperties):
     fontSize: 15,
     color,
     lineHeight: 1.4,
-    whiteSpace: 'nowrap',
-    maxWidth: 'min(220px, 62vw)',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
+    whiteSpace: 'normal',
+    wordBreak: 'break-word',
+    maxWidth: 'min(200px, 52vw)',
     pointerEvents: 'none',
     ...extra,
   }
@@ -469,6 +468,7 @@ export function AnnotatedManuscript({
   let annIdx = 0
 
   return (
+    <div style={{ overflowX: 'clip', width: '100%', boxSizing: 'border-box' }}>
     <p style={{
       fontSize: 16,
       lineHeight: 2.6,
@@ -499,6 +499,7 @@ export function AnnotatedManuscript({
         return <span key={i}>{node}</span>
       })}
     </p>
+    </div>
   )
 }
 
