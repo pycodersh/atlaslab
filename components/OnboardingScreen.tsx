@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, RefreshCw, Volume2, Sparkles } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Volume2, Sparkles, Bookmark } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
 
 // ── Language detection ────────────────────────────────────────────────────────
@@ -17,7 +17,6 @@ function detectLang(): Lang {
     const code = l.toLowerCase().split('-')[0]
     if (code === 'ko') return 'ko'
     if (code === 'ja') return 'ja'
-    // en and everything else falls through to default
   }
   return 'en'
 }
@@ -31,16 +30,16 @@ const STRINGS: Record<Lang, {
     skip: '건너뛰기', back: '이전', next: '다음', start: '시작하기',
     langNote: '현재 언어는 기기 설정을 기준으로 표시됩니다. 언제든 Settings에서 변경할 수 있습니다.',
     slides: [
-      { label: 'WELCOME',
+      { label: '',
         title: 'Repeat Patterns.\nBuild Fluency.',
-        desc: '영어를 매일 조금씩, 자연스럽게 익혀보세요.' },
+        desc: '읽고, 듣고, 반복하며\n영어를 습관으로 만드세요.' },
       { label: 'STORIES',
         title: '스토리로 시작하세요',
         desc: '실제 영어를 읽고 들으며 자연스럽게 익힐 수 있습니다.' },
       { label: 'REPEAT',
         title: '잊기 전에 다시 만나세요',
         desc: '자주 쓰는 표현을 자연스럽게 반복하도록 도와드립니다.' },
-      { label: 'ESSAYS',
+      { label: 'AI ESSAY',
         title: 'AI가 첨삭해드립니다',
         desc: '에세이를 작성하면 손글씨처럼 자연스럽게 첨삭해드립니다.' },
       { label: 'START',
@@ -52,37 +51,37 @@ const STRINGS: Record<Lang, {
     skip: 'Skip', back: 'Back', next: 'Next', start: 'Get Started',
     langNote: 'Display language follows your device settings. You can change it anytime in Settings.',
     slides: [
-      { label: 'WELCOME',
+      { label: '',
         title: 'Repeat Patterns.\nBuild Fluency.',
-        desc: 'Learn English naturally, a little bit every day.' },
+        desc: 'Read, listen, and repeat —\nbuild English into your daily habit.' },
       { label: 'STORIES',
         title: 'Start with Stories',
         desc: 'Read and listen to real English to naturally pick up the language.' },
       { label: 'REPEAT',
         title: 'Review Before You Forget',
         desc: 'We help you revisit common expressions at just the right moment.' },
-      { label: 'ESSAYS',
+      { label: 'AI ESSAY',
         title: 'AI Reviews Your Writing',
         desc: 'Write an essay and receive handcrafted-style corrections from your AI editor.' },
       { label: 'START',
         title: 'Ready to Begin?',
-        desc: 'Build your personal English routine with PATTO.' },
+        desc: 'Build your personal English routine\nwith PATTO.' },
     ],
   },
   ja: {
     skip: 'スキップ', back: '戻る', next: '次へ', start: 'はじめる',
     langNote: '表示言語はデバイス設定に従います。Settingsからいつでも変更できます。',
     slides: [
-      { label: 'WELCOME',
+      { label: '',
         title: 'Repeat Patterns.\nBuild Fluency.',
-        desc: '毎日少しずつ、自然に英語を身につけましょう。' },
+        desc: '読んで、聴いて、繰り返して\n英語を習慣にしましょう。' },
       { label: 'ストーリー',
         title: 'ストーリーから始めよう',
         desc: '本物の英語を読んで聞いて、自然に学べます。' },
       { label: '繰り返し',
         title: '忘れる前に再び',
         desc: 'よく使う表現を自然なリズムで繰り返します。' },
-      { label: 'エッセイ',
+      { label: 'AIエッセイ',
         title: 'AIが添削します',
         desc: 'エッセイを書くと、AI編集者が丁寧に添削します。' },
       { label: 'スタート',
@@ -93,103 +92,180 @@ const STRINGS: Record<Lang, {
 }
 
 // ── Illustrations ─────────────────────────────────────────────────────────────
+
+// Slide 1: PATTO logo only (title text lives in the copy area, no duplication)
 function Illus1(_props?: { isDark?: boolean }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        <img src="/patto-logo.png" alt="" width={56} height={54} style={{ display: 'block' }} />
-        <span style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--pt)', lineHeight: 1 }}>PATTO</span>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+      <img src="/patto-logo.png" alt="" width={72} height={69} style={{ display: 'block' }} />
+      <span style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--pt)', lineHeight: 1 }}>
+        PATTO
+      </span>
+    </div>
+  )
+}
+
+// Slide 2: Realistic story card — mirrors the actual home screen card
+function Illus2({ isDark }: { isDark: boolean }) {
+  return (
+    <div style={{
+      width: 264,
+      background: isDark ? 'rgba(22,32,52,0.95)' : '#fff',
+      borderRadius: 20,
+      padding: '18px 20px',
+      boxShadow: '0 10px 36px rgba(0,0,0,0.13)',
+      border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)'}`,
+    }}>
+      {/* Level badge */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
+        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pa)', textTransform: 'uppercase', background: 'rgba(109,141,255,0.12)', borderRadius: 5, padding: '2px 8px' }}>
+          BEGINNER · 1
+        </span>
       </div>
-      <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm)', textTransform: 'uppercase', margin: 0, textAlign: 'center', lineHeight: 1.8 }}>
-        Repeat Patterns.<br />Build Fluency.
+      {/* Title */}
+      <p style={{ fontSize: 17, fontWeight: 800, color: 'var(--pt)', margin: '0 0 9px', letterSpacing: '-0.02em' }}>
+        A New Start
+      </p>
+      {/* Body preview */}
+      <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: '0 0 16px', lineHeight: 1.65 }}>
+        It was Monday morning. Sarah opened her eyes and looked at the ceiling. Today was different — she had finally decided to change her life...
+      </p>
+      {/* Bottom row */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        paddingTop: 12, borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'}`,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(109,141,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Volume2 style={{ width: 14, height: 14, color: 'var(--pa)' }} strokeWidth={1.8} />
+          </div>
+          <span style={{ fontSize: 11.5, fontWeight: 600, color: 'var(--pm)' }}>Listen</span>
+        </div>
+        <div style={{ display: 'flex', gap: 5 }}>
+          <span style={{ fontSize: 10, color: '#8E8E93', background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', borderRadius: 5, padding: '3px 8px' }}>5 min</span>
+          <span style={{ fontSize: 10, color: '#8E8E93', background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)', borderRadius: 5, padding: '3px 8px' }}>6 patterns</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Slide 3: Realistic pattern card
+function Illus3({ isDark }: { isDark: boolean }) {
+  return (
+    <div style={{
+      width: 264,
+      background: isDark ? 'rgba(22,32,52,0.95)' : '#fff',
+      borderRadius: 20,
+      padding: '18px 20px',
+      boxShadow: '0 10px 36px rgba(0,0,0,0.13)',
+      border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)'}`,
+    }}>
+      <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: '#8E8E93', textTransform: 'uppercase', margin: '0 0 6px' }}>
+        PATTERN
+      </p>
+      <p style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', margin: '0 0 12px', letterSpacing: '-0.01em', fontFamily: 'var(--font-baloo, sans-serif)' }}>
+        look forward to
+      </p>
+      <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: '#8E8E93', textTransform: 'uppercase', margin: '0 0 4px' }}>
+        MEANING
+      </p>
+      <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: '0 0 12px' }}>
+        미래의 일을 기대하거나 고대하다
+      </p>
+      <div style={{
+        background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+        borderRadius: 10, padding: '10px 12px', marginBottom: 14,
+      }}>
+        <p style={{ fontSize: 13, color: 'var(--pt)', margin: 0, lineHeight: 1.6 }}>
+          <span style={{ fontWeight: 700 }}>I look forward to</span> seeing you soon.
+        </p>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(109,141,255,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Volume2 style={{ width: 15, height: 15, color: 'var(--pa)' }} strokeWidth={1.8} />
+        </div>
+        <Bookmark style={{ width: 16, height: 16, color: '#C0C0C5' }} strokeWidth={1.8} />
+      </div>
+    </div>
+  )
+}
+
+// Slide 4: Essay correction — uses real screenshot if placed at /public/onboarding-essay.jpg
+function Illus4({ isDark }: { isDark: boolean }) {
+  const [showFallback, setShowFallback] = useState(false)
+
+  if (!showFallback) {
+    return (
+      <div style={{ width: 240, borderRadius: 18, overflow: 'hidden', boxShadow: '0 10px 36px rgba(0,0,0,0.14)' }}>
+        <img
+          src="/onboarding-essay.jpg"
+          alt="AI essay correction example"
+          style={{ width: '100%', display: 'block', objectFit: 'cover', objectPosition: 'top', maxHeight: 300 }}
+          onError={() => setShowFallback(true)}
+        />
+      </div>
+    )
+  }
+
+  // Fallback: handwritten correction mock
+  const corr = '#7B1A1A'
+  const sep = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'
+
+  return (
+    <div style={{
+      width: 264,
+      background: isDark ? 'rgba(28,24,20,0.97)' : '#FAFAF7',
+      borderRadius: 18,
+      padding: '16px 18px',
+      boxShadow: '0 10px 36px rgba(0,0,0,0.12)',
+      border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.07)'}`,
+    }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 14, paddingBottom: 12, borderBottom: `1px solid ${sep}` }}>
+        <Sparkles style={{ width: 10, height: 10, color: corr }} strokeWidth={2} />
+        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: corr, textTransform: 'uppercase' }}>
+          Editor&apos;s Marks
+        </span>
+      </div>
+
+      {/* Essay text with corrections */}
+      <p style={{ fontSize: 13, color: isDark ? 'rgba(255,255,255,0.85)' : '#1C1C1E', lineHeight: 2.3, margin: 0, fontFamily: 'Georgia, "Times New Roman", serif' }}>
+        Last weekend I{' '}
+        <span style={{ position: 'relative', display: 'inline-block' }}>
+          <span style={{ textDecoration: 'underline', textDecorationStyle: 'wavy', textDecorationColor: corr }}>go</span>
+          <span style={{ position: 'absolute', top: '-1.25em', left: '50%', transform: 'translateX(-50%)', color: corr, fontSize: 11.5, fontStyle: 'italic', fontWeight: 700, whiteSpace: 'nowrap', fontFamily: '"Caveat", cursive, Georgia, serif' }}>went</span>
+        </span>
+        {' '}to the beach. The weather{' '}
+        <span style={{ color: corr, textDecoration: 'line-through', opacity: 0.75 }}>were</span>{' '}
+        <span style={{ color: '#1A6B35', fontWeight: 700 }}>was</span>{' '}
+        so nice that everyone wanted{' '}
+        <span style={{ position: 'relative', display: 'inline-block' }}>
+          <span style={{ outline: `1.5px solid ${corr}`, borderRadius: '40%', padding: '0 3px' }}>staying</span>
+          <span style={{ position: 'absolute', top: '-1.25em', left: '50%', transform: 'translateX(-50%)', color: corr, fontSize: 11.5, fontStyle: 'italic', fontWeight: 700, whiteSpace: 'nowrap', fontFamily: '"Caveat", cursive, Georgia, serif' }}>to stay</span>
+        </span>
+        {' '}outside.
       </p>
     </div>
   )
 }
 
-function Illus2({ isDark }: { isDark: boolean }) {
-  const lineColor = isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)'
-  const accentLine = isDark ? 'rgba(143,171,255,0.35)' : 'rgba(109,141,255,0.30)'
-  return (
-    <div style={{ width: 240, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '20px 20px 18px', boxShadow: '0 8px 32px rgba(0,0,0,0.08)' }}>
-      {/* Story tag */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 16 }}>
-        <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--pa)', opacity: 0.7 }} />
-        <div style={{ height: 7, width: 80, background: accentLine, borderRadius: 4 }} />
-      </div>
-      {/* Text lines */}
-      {[85, 70, 90, 60].map((w, i) => (
-        <div key={i} style={{ height: 7, width: `${w}%`, background: lineColor, borderRadius: 4, marginBottom: 10 }} />
-      ))}
-      {/* Audio row */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 16, paddingTop: 14, borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}` }}>
-        <div style={{ width: 32, height: 32, borderRadius: '50%', background: isDark ? 'rgba(143,171,255,0.14)' : 'rgba(109,141,255,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <Volume2 style={{ width: 14, height: 14, color: 'var(--pa)' }} strokeWidth={1.8} />
-        </div>
-        <div style={{ flex: 1 }}>
-          <div style={{ height: 6, width: '70%', background: lineColor, borderRadius: 4, marginBottom: 6 }} />
-          <div style={{ height: 5, width: '45%', background: lineColor, borderRadius: 4, opacity: 0.6 }} />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function Illus3({ isDark }: { isDark: boolean }) {
-  const chips = [
-    { text: 'I was about to...', rotate: '-4deg', top: 0,   opacity: 0.45, scale: 0.95 },
-    { text: "I'm used to...",    rotate: '2.5deg', top: 18,  opacity: 0.70, scale: 0.97 },
-    { text: 'look forward to', rotate: '-1deg', top: 36,  opacity: 1,    scale: 1 },
-  ]
-  return (
-    <div style={{ position: 'relative', width: 220, height: 120 }}>
-      {chips.map((c, i) => (
-        <div key={i} style={{ position: 'absolute', top: c.top, left: '50%', transform: `translateX(-50%) rotate(${c.rotate}) scale(${c.scale})`, opacity: c.opacity, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', borderRadius: 40, padding: '10px 20px', whiteSpace: 'nowrap', boxShadow: i === 2 ? '0 6px 20px rgba(0,0,0,0.10)' : 'none' }}>
-          <span style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--pt)', fontFamily: 'var(--font-baloo, sans-serif)', letterSpacing: '-0.01em' }}>{c.text}</span>
-        </div>
-      ))}
-      <div style={{ position: 'absolute', bottom: -8, right: 10, width: 28, height: 28, borderRadius: '50%', background: isDark ? 'rgba(143,171,255,0.15)' : 'rgba(109,141,255,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <RefreshCw style={{ width: 12, height: 12, color: 'var(--pa)' }} strokeWidth={2.2} />
-      </div>
-    </div>
-  )
-}
-
-function Illus4({ isDark }: { isDark: boolean }) {
-  const rows = [
-    { wrong: 'I have went', right: 'I have gone', tag: 'Verb Form', tagBg: 'rgba(255,59,48,0.10)', tagColor: '#C0392B' },
-    { wrong: 'since 2 year', right: 'for 2 years', tag: 'Preposition', tagBg: 'rgba(255,149,0,0.12)', tagColor: '#B36200' },
-  ]
-  const redFade = isDark ? 'rgba(220,100,100,0.65)' : 'rgba(180,60,60,0.55)'
-  return (
-    <div style={{ width: 260, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', borderRadius: 18, padding: '16px 18px', boxShadow: '0 8px 28px rgba(0,0,0,0.08)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 14 }}>
-        <Sparkles style={{ width: 11, height: 11, color: 'var(--pa)' }} strokeWidth={2} />
-        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm2)', textTransform: 'uppercase' }}>Editor&apos;s Marks</span>
-      </div>
-      {rows.map((r, i) => (
-        <div key={i} style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 6, paddingBottom: i < rows.length - 1 ? 12 : 0, marginBottom: i < rows.length - 1 ? 12 : 0, borderBottom: i < rows.length - 1 ? `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'}` : 'none' }}>
-          <span style={{ fontSize: 12, color: redFade, textDecoration: 'line-through' }}>{r.wrong}</span>
-          <span style={{ fontSize: 11, color: 'var(--pm2)' }}>→</span>
-          <span style={{ fontSize: 12, fontWeight: 600, color: '#1A7A35' }}>{r.right}</span>
-          <span style={{ fontSize: 9, fontWeight: 700, color: r.tagColor, background: r.tagBg, borderRadius: 6, padding: '2px 7px', whiteSpace: 'nowrap' }}>{r.tag}</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
+// Slide 5: Finish
 function Illus5({ isDark }: { isDark: boolean }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-      <div style={{ width: 72, height: 72, borderRadius: 24, background: isDark ? 'rgba(143,171,255,0.12)' : 'rgba(109,141,255,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: isDark ? '0 0 32px rgba(143,171,255,0.12)' : '0 0 32px rgba(109,141,255,0.10)' }}>
-        <svg width={36} height={36} viewBox="0 0 36 36" fill="none">
-          <polyline points="7,19 14,26 29,11" stroke="var(--pa)" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+      <div style={{
+        width: 76, height: 76, borderRadius: 26,
+        background: isDark ? 'rgba(143,171,255,0.12)' : 'rgba(109,141,255,0.08)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: isDark ? '0 0 36px rgba(143,171,255,0.14)' : '0 0 36px rgba(109,141,255,0.12)',
+      }}>
+        <svg width={38} height={38} viewBox="0 0 38 38" fill="none">
+          <polyline points="8,20 15,27 30,12" stroke="var(--pa)" strokeWidth={3.2} strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
-      {/* Dot constellation */}
-      <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
-        {[1,0.4,0.7,0.25,0.5].map((op, i) => (
+      <div style={{ display: 'flex', gap: 7, marginTop: 6 }}>
+        {[1, 0.4, 0.7, 0.25, 0.5].map((op, i) => (
           <div key={i} style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--pa)', opacity: op }} />
         ))}
       </div>
@@ -215,7 +291,6 @@ export function OnboardingScreen({ onComplete }: Props) {
   const current = s.slides[slide]
   const isLast = slide === TOTAL - 1
 
-  // Touch swipe
   const touchX = useRef<number | null>(null)
 
   function goNext() {
@@ -229,10 +304,10 @@ export function OnboardingScreen({ onComplete }: Props) {
     setTimeout(onComplete, 260)
   }
 
-  const bg          = isDark ? '#0F172A' : '#F7FBFF'
-  const c1          = isDark ? 'rgba(30,58,138,0.18)' : 'rgba(195,225,255,0.50)'
-  const c2          = isDark ? 'rgba(23,45,110,0.13)' : 'rgba(210,238,255,0.40)'
-  const c3          = isDark ? 'rgba(15,30,80,0.10)'  : 'rgba(225,244,255,0.32)'
+  const bg = isDark ? '#0F172A' : '#F7FBFF'
+  const c1 = isDark ? 'rgba(30,58,138,0.18)' : 'rgba(195,225,255,0.50)'
+  const c2 = isDark ? 'rgba(23,45,110,0.13)' : 'rgba(210,238,255,0.40)'
+  const c3 = isDark ? 'rgba(15,30,80,0.10)'  : 'rgba(225,244,255,0.32)'
 
   const IllusComp = ILLUSTRATIONS[slide]
 
@@ -276,7 +351,7 @@ export function OnboardingScreen({ onComplete }: Props) {
         </span>
       </div>
 
-      {/* Slide area — horizontal scroll via transform */}
+      {/* Slide area */}
       <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
         <div
           style={{
@@ -299,24 +374,26 @@ export function OnboardingScreen({ onComplete }: Props) {
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '0 32px',
+                  padding: '0 28px',
                   gap: 0,
                 }}
               >
                 {/* Illustration */}
-                <div style={{ marginBottom: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 160 }}>
+                <div style={{ marginBottom: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 160 }}>
                   <Illus isDark={isDark} />
                 </div>
 
                 {/* Text */}
-                <div style={{ textAlign: 'center', maxWidth: 320 }}>
-                  <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 14px' }}>
-                    {sl.label}
-                  </p>
+                <div style={{ textAlign: 'center', maxWidth: 340, width: '100%' }}>
+                  {sl.label && (
+                    <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 14px' }}>
+                      {sl.label}
+                    </p>
+                  )}
                   <h2 style={{ fontSize: 'clamp(22px, 6vw, 28px)', fontWeight: 800, color: 'var(--pt)', margin: '0 0 14px', lineHeight: 1.22, letterSpacing: '-0.02em', whiteSpace: 'pre-line' }}>
                     {sl.title}
                   </h2>
-                  <p style={{ fontSize: 15, color: 'var(--pm)', margin: 0, lineHeight: 1.65, fontWeight: 400 }}>
+                  <p style={{ fontSize: 15, color: 'var(--pm)', margin: 0, lineHeight: 1.65, fontWeight: 400, whiteSpace: 'pre-line', wordBreak: 'keep-all', overflowWrap: 'break-word' }}>
                     {sl.desc}
                   </p>
                 </div>
@@ -350,7 +427,6 @@ export function OnboardingScreen({ onComplete }: Props) {
 
         {/* Nav buttons */}
         <div style={{ display: 'flex', gap: 12 }}>
-          {/* Back */}
           <button
             type="button"
             onClick={goBack}
@@ -360,7 +436,6 @@ export function OnboardingScreen({ onComplete }: Props) {
             <ChevronLeft style={{ width: 18, height: 18, color: 'var(--pm)' }} strokeWidth={2} />
           </button>
 
-          {/* Next / Start */}
           {isLast ? (
             <button
               type="button"
