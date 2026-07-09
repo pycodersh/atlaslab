@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -14,6 +14,7 @@ import { getLastPosition } from '@/lib/last-position'
 import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
 import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -325,6 +326,100 @@ function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initi
   )
 }
 
+// Desktop-only inline tip panel (no modal overlay)
+function DesktopTipInline({ onClose, initialIndex = 0 }: { onClose: () => void; initialIndex?: number }) {
+  const [deck, setDeck] = useState<number[]>(() => {
+    const rest = shuffleIndices(TOTAL_TIPS, initialIndex).filter(i => i !== initialIndex)
+    return [initialIndex, ...rest]
+  })
+  const [pos, setPos] = useState(0)
+
+  useEffect(() => {
+    if (pos >= deck.length - 2) {
+      const last = deck[deck.length - 1]
+      setDeck(d => [...d, ...shuffleIndices(TOTAL_TIPS, last)])
+    }
+  }, [pos, deck])
+
+  const [transit, setTransit] = useState(false)
+  const [tOffset, setTOffset] = useState(0)
+  const isTransiting = useRef(false)
+
+  const prevIdx = deck[Math.max(0, pos - 1)]
+  const currIdx = deck[pos]
+  const nextIdx = deck[pos + 1] ?? deck[0]
+
+  function slide(dir: -1 | 1) {
+    if (isTransiting.current) return
+    if (dir === 1 && pos === 0) return
+    isTransiting.current = true
+    setTransit(true)
+    setTOffset(dir)
+    setTimeout(() => {
+      setPos(p => p + (dir === -1 ? 1 : -1))
+      setTransit(false)
+      setTOffset(0)
+      isTransiting.current = false
+    }, 330)
+  }
+
+  const basePct = -100 + (transit ? tOffset * 100 : 0)
+
+  return (
+    <div style={{ marginTop: 14, padding: '0 20px' }}>
+      <div className="glass-card" style={{ borderRadius: 24, overflow: 'hidden' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 22px 16px' }}>
+          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
+            Editor Tip · {EDITOR_NOTES[currIdx]?.partTitle ?? ''}
+          </p>
+          <button
+            type="button"
+            onClick={onClose}
+            style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--pc)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+          >
+            <X style={{ width: 13, height: 13, color: 'var(--pm)' }} strokeWidth={2} />
+          </button>
+        </div>
+
+        {/* 3-panel swipe area */}
+        <div style={{ overflow: 'hidden' }}>
+          <div style={{
+            display: 'flex', width: '300%',
+            transform: `translateX(${basePct / 3}%)`,
+            transition: transit ? 'transform 0.32s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
+            willChange: 'transform',
+          }}>
+            <div style={{ width: '33.333%', padding: '0 22px 24px', boxSizing: 'border-box' }}><TipContent tip={EDITOR_NOTES[prevIdx]} /></div>
+            <div style={{ width: '33.333%', padding: '0 22px 24px', boxSizing: 'border-box' }}><TipContent tip={EDITOR_NOTES[currIdx]} /></div>
+            <div style={{ width: '33.333%', padding: '0 22px 24px', boxSizing: 'border-box' }}><TipContent tip={EDITOR_NOTES[nextIdx]} /></div>
+          </div>
+        </div>
+
+        {/* Nav buttons + dot indicator */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 22px 22px' }}>
+          <button
+            type="button"
+            onClick={() => slide(1)}
+            disabled={pos === 0}
+            style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--pc)', border: '1px solid var(--pglass-border)', cursor: pos === 0 ? 'default' : 'pointer', opacity: pos === 0 ? 0.3 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.15s', flexShrink: 0 }}
+          >
+            <ChevronLeft style={{ width: 16, height: 16, color: 'var(--pm)' }} strokeWidth={2} />
+          </button>
+          <DotIndicator total={TOTAL_TIPS} pos={pos % TOTAL_TIPS} />
+          <button
+            type="button"
+            onClick={() => slide(-1)}
+            style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--pc)', border: '1px solid var(--pglass-border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
+          >
+            <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)' }} strokeWidth={2} />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 function getDateLabel() {
   return new Date().toLocaleDateString('en-US', {
@@ -350,6 +445,7 @@ const CHIP_GRADIENT: Record<StoryLabel | 'Done', string> = {
 export default function HomePage() {
   const router = useRouter()
   const { prefs } = usePreferences()
+  const isDesktop = useIsDesktop()
 
   const [firstHref, setFirstHref]           = useState('/stories/1')
   const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
@@ -669,6 +765,11 @@ export default function HomePage() {
           </div>
         )}
 
+        {/* ── Desktop Editor Tip inline panel ── */}
+        {isDesktop && tipOpen && (
+          <DesktopTipInline onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />
+        )}
+
         {/* ── STORIES (mobile only — desktop shows All Stories panel on right) ── */}
         <div className="mobile-only" style={{ padding: '28px 20px 0' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
@@ -756,8 +857,8 @@ export default function HomePage() {
       </div>{/* end desktop-two-col */}
       </div>{/* end desktop-max */}
 
-      {/* ── Editor Tip Carousel Modal ── */}
-      {tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
+      {/* ── Editor Tip Carousel Modal (mobile only) ── */}
+      {!isDesktop && tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
     </div>
   )
 }
