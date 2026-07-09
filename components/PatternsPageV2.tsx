@@ -237,7 +237,7 @@ export function PatternsPageV2({
 
 
 
-  useEffect(() => () => { runningRef.current = false; clearTimer() }, [])
+  useEffect(() => () => { runningRef.current = false; clearTimer(); ttsProvider.stop() }, [])
 
   // Stop audio and reset to ex0 when navigating away from patterns view
   useEffect(() => {
