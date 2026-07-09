@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { BookOpen, RefreshCw, Flame, Check, BarChart2, PenLine, ArrowRight } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
 
-const PEXELS_CAFE = 'https://images.pexels.com/photos/1251175/pexels-photo-1251175.jpeg?auto=compress&cs=tinysrgb&h=1600&w=900'
+const PEXELS_CAFE = 'https://images.pexels.com/photos/10310055/pexels-photo-10310055.jpeg?auto=compress&cs=tinysrgb&h=1600&w=900'
 const STORY_THUMB = 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=300&q=80'
 const TOTAL = 3
 
