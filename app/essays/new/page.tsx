@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Loader2, Sparkles, Copy, Check, ArrowLeft } from 'lucide-react'
+import { Loader2, Sparkles, Copy, Check } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import {
   getDraft, clearDraft, saveEssay, saveReview,
@@ -285,17 +285,6 @@ export default function NewEssayPage() {
         padding: '6px 20px 10px',
         maxWidth: 580, width: '100%', margin: '0 auto', boxSizing: 'border-box',
       }}>
-        <button
-          type="button"
-          onClick={() => tryNavigate(() => router.push('/essays'))}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5, padding: '4px 0' }}
-        >
-          <ArrowLeft style={{ width: 13, height: 13, color: 'var(--pm)' }} strokeWidth={1.8} />
-          <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.10em', color: 'var(--pm)' }}>
-            ESSAYS
-          </span>
-        </button>
-
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <span style={{ fontSize: 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s', letterSpacing: '0.02em' }}>
             {wc} / {maxWords} words
