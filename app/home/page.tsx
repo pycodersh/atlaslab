@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -667,8 +667,11 @@ export default function HomePage() {
                 transition: 'all 0.15s', letterSpacing: '0.01em', whiteSpace: 'nowrap',
               }}
             >
-              {allDone ? '완료 🎉' : 'Continue'}
-              {!allDone && <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />}
+              {allDone ? '완료' : 'Continue'}
+              {allDone
+                ? <PartyPopper style={{ width: 12, height: 12 }} strokeWidth={2.5} />
+                : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />
+              }
             </button>
           </div>
         </div>
