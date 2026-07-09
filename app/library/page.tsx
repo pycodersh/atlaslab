@@ -803,7 +803,7 @@ export default function LibraryPage() {
 
           {/* Right column: saved items (stacks below on mobile) */}
           <div className="desktop-right-col" style={colPad}>
-            {!isSearching && savedItemsPanel}
+            {savedItemsPanel}
           </div>
 
         </div>
