@@ -11,6 +11,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { PDialog } from '@/components/ui/PDialog'
+import { useT } from '@/hooks/useT'
 
 const REVEAL = 86          // width of the delete panel (px)
 const BURGUNDY = '#B44A5A'
@@ -36,6 +37,7 @@ export function SwipeDeleteRow({
   const startX       = useRef(0)
   const isDragging   = useRef(false)
   const isOpen       = useRef(false)
+  const t = useT()
   const [isPointerFine,  setIsPointerFine]  = useState(false)
   const [isHovered,      setIsHovered]      = useState(false)
   const [showConfirm,    setShowConfirm]    = useState(false)
@@ -135,11 +137,11 @@ export function SwipeDeleteRow({
         <PDialog
           open={showConfirm}
           onClose={() => setShowConfirm(false)}
-          title="Delete this?"
-          description="This action cannot be undone."
+          title={t('delete_title')}
+          description={t('delete_desc')}
           actions={[
-            { label: 'Cancel', onClick: () => setShowConfirm(false), variant: 'cancel' },
-            { label: 'Delete', onClick: animateAndDelete, variant: 'danger' },
+            { label: t('delete_cancel'), onClick: () => setShowConfirm(false), variant: 'cancel' },
+            { label: t('delete_confirm'), onClick: animateAndDelete, variant: 'danger' },
           ]}
         />
       )}
