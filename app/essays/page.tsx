@@ -9,6 +9,9 @@ import { SwipeDeleteRow } from '@/components/SwipeDeleteRow'
 import { type Essay, getEssays, getReviewsRemaining, deleteEssay } from '@/lib/essays/storage'
 import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
 import { useT } from '@/hooks/useT'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
+import { EssayComposerPanel } from '@/components/essay/EssayComposerPanel'
+import { EssayDetailPanel } from '@/components/essay/EssayDetailPanel'
 
 function fmtDate(iso: string): string {
   const d = new Date(iso)
@@ -96,15 +99,35 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
 export default function EssaysPage() {
   const router = useRouter()
   const t = useT()
+  const isDesktop = useIsDesktop()
   const [essays, setEssays]   = useState<Essay[]>([])
   const [plan, setPlan]       = useState<'free' | 'premium'>('free')
   const [remaining, setRemaining] = useState(0)
   const [showAll, setShowAll] = useState(false)
+  const [activePanel, setActivePanel] = useState<'composer' | 'detail' | null>(null)
+  const [selectedEssayId, setSelectedEssayId] = useState<string | null>(null)
+
+  function refreshEssays() {
+    setEssays(getEssays())
+    setRemaining(getReviewsRemaining())
+  }
 
   function handleDelete(id: string) {
     deleteEssay(id)
     setEssays(prev => prev.filter(e => e.id !== id))
   }
+
+  function openComposer() {
+    if (isDesktop) { setActivePanel('composer'); setSelectedEssayId(null) }
+    else router.push('/essays/new')
+  }
+
+  function openDetail(id: string) {
+    if (isDesktop) { setActivePanel('detail'); setSelectedEssayId(id) }
+    else router.push(`/essays/${id}`)
+  }
+
+  function closePanel() { setActivePanel(null); setSelectedEssayId(null) }
 
   const INITIAL_SHOW = 6
 
@@ -123,7 +146,7 @@ export default function EssaysPage() {
       {/* New Essay button — compact */}
       <button
           type="button"
-          onClick={() => router.push('/essays/new')}
+          onClick={openComposer}
           style={{
             ...cardBase,
             display: 'flex',
@@ -188,7 +211,7 @@ export default function EssaysPage() {
                 containerStyle={{ borderRadius: 16 }}
                 contentBg="transparent"
               >
-                <EssayCard essay={essay} onClick={() => router.push(`/essays/${essay.id}`)} />
+                <EssayCard essay={essay} onClick={() => openDetail(essay.id)} />
               </SwipeDeleteRow>
             ))}
           </div>
@@ -238,6 +261,34 @@ export default function EssaysPage() {
           {/* Right: My Essays — stacks below on mobile, sticky column on desktop */}
           <div className="desktop-right-col" style={{ padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)` }}>{rightPanel}</div>
         </div>
+
+        {/* Desktop inline panel */}
+        {isDesktop && activePanel && (
+          <div style={{ padding: '0 20px calc(40px + ' + TAB_BAR_HEIGHT + 'px)', maxWidth: 1060, margin: '0 auto' }}>
+            {activePanel === 'composer' && (
+              <EssayComposerPanel
+                onClose={closePanel}
+                onSaved={(essay) => {
+                  refreshEssays()
+                  setActivePanel('detail')
+                  setSelectedEssayId(essay.id)
+                }}
+                onReviewed={(id) => {
+                  refreshEssays()
+                  setActivePanel('detail')
+                  setSelectedEssayId(id)
+                }}
+              />
+            )}
+            {activePanel === 'detail' && selectedEssayId && (
+              <EssayDetailPanel
+                id={selectedEssayId}
+                onClose={closePanel}
+                onDeleted={refreshEssays}
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
