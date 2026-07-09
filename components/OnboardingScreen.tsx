@@ -76,33 +76,22 @@ const corrRed = '#9B1C1C'
 
 // ── Mockup: Slide 1 — Brand / Hero ───────────────────────────────────────────
 const STORY3_IMG = 'https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=800&q=80'
+const BRAND_IMG  = 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=800&q=80'
 
 function BrandMockup({ isDark }: { isDark: boolean }) {
-  const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'
   return (
-    <div style={{ width: '100%', maxWidth: 340 }}>
+    <div style={{ width: '100%', maxWidth: 320 }}>
       <div style={{
         borderRadius: 28, overflow: 'hidden',
         boxShadow: isDark
-          ? '0 32px 80px rgba(0,0,0,0.55)'
-          : '0 32px 80px rgba(0,0,0,0.18)',
-        border: `1px solid ${border}`,
-        position: 'relative',
+          ? '0 28px 72px rgba(0,0,0,0.6)'
+          : '0 28px 72px rgba(0,0,0,0.14)',
       }}>
-        {/* Cover photo */}
-        <div style={{ height: 320, position: 'relative' }}>
-          <img
-            src={STORY3_IMG}
-            alt="A bright kitchen in the morning"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.72) 100%)' }} />
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 22px 24px' }}>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', margin: '0 0 6px' }}>STORY 03</p>
-            <p style={{ fontSize: 28, fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.025em', lineHeight: 1.15 }}>An Ordinary Morning</p>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.52)', margin: 0 }}>평범한 아침의 풍경</p>
-          </div>
-        </div>
+        <img
+          src={BRAND_IMG}
+          alt="A planner and coffee on a desk"
+          style={{ width: '100%', height: 310, objectFit: 'cover', display: 'block' }}
+        />
       </div>
     </div>
   )
@@ -321,9 +310,11 @@ function ProgressMockup({ isDark }: { isDark: boolean }) {
           background: isDark ? '#0A1E12' : '#EDF8F2',
           textAlign: 'center',
         }}>
-          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: green, textTransform: 'uppercase', margin: '0 0 8px' }}>STREAK</p>
-          <p style={{ fontSize: 38, fontWeight: 800, color: isDark ? '#fff' : '#1C1C1E', margin: '0 0 4px', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>12</p>
-          <Flame style={{ width: 22, height: 22, color: '#FF6B2B' }} strokeWidth={1.8} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, margin: '0 0 8px' }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: green, textTransform: 'uppercase', margin: 0 }}>STREAK</p>
+            <Flame style={{ width: 13, height: 13, color: '#FF6B2B' }} strokeWidth={2} />
+          </div>
+          <p style={{ fontSize: 38, fontWeight: 800, color: isDark ? '#fff' : '#1C1C1E', margin: 0, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>12</p>
         </div>
         <div style={{
           flex: 1, borderRadius: 20, padding: '18px 16px 16px',
@@ -409,7 +400,6 @@ function StartMockup({ isDark }: { isDark: boolean }) {
               { Icon: BookOpen,  label: 'Stories'  },
               { Icon: RefreshCw, label: 'Patterns' },
               { Icon: PenLine,   label: 'Essays'   },
-              { Icon: BarChart2, label: 'Progress' },
             ] as const).map(({ Icon, label }) => (
               <span key={label} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 6,
@@ -548,7 +538,14 @@ export function OnboardingScreen({ onComplete }: Props) {
       }}>
         {/* Text block — compact */}
         <div style={{ padding: '16px 28px 14px', flexShrink: 0 }}>
-          {sl.badge && (
+          {/* Slide 0: horizontal logo */}
+          {slide === 0 && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+              <img src="/patto-logo.png" alt="" width={28} height={27} style={{ display: 'block', opacity: isDark ? 0.95 : 1 }} />
+              <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.04em', color: isDark ? '#fff' : '#1C1C1E', lineHeight: 1 }}>PATTO</span>
+            </div>
+          )}
+          {sl.badge && slide !== 0 && (
             <span style={{
               display: 'inline-block',
               fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
