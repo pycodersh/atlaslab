@@ -4,8 +4,11 @@ import { useEffect, useState } from 'react'
 import { BookOpen, RefreshCw, Flame, Check, BarChart2, PenLine, ArrowRight } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
 
-const PEXELS_IMG = 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1200'
+// vertical cafe/book photo (portrait orientation)
+const PEXELS_IMG = 'https://images.pexels.com/photos/1251175/pexels-photo-1251175.jpeg?auto=compress&cs=tinysrgb&h=1400&w=800'
 const STORY_IMG  = 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80'
+// handwriting / essay correction placeholder — replace with /public/essay-handwriting.jpg when available
+const ESSAY_IMG  = 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'
 
 const TOTAL = 3
 
@@ -24,7 +27,27 @@ function Dots({ current, color }: { current: number; color: string }) {
   )
 }
 
-// ── Slide 1: Brand (full-screen photo) ───────────────────────────────────────
+// ── Skip button ───────────────────────────────────────────────────────────────
+function SkipBtn({ onSkip, light }: { onSkip: () => void; light?: boolean }) {
+  return (
+    <div style={{
+      display: 'flex', justifyContent: 'flex-end',
+      paddingTop: 'calc(env(safe-area-inset-top, 0px) + 8px)',
+      paddingRight: 24, paddingBottom: 0,
+      flexShrink: 0,
+    }}>
+      <button type="button" onClick={onSkip} style={{
+        background: 'none', border: 'none', cursor: 'pointer',
+        padding: '8px 4px',
+        fontSize: 13, fontWeight: 600, letterSpacing: '0.06em',
+        color: light ? 'rgba(255,255,255,0.75)' : 'rgba(120,120,130,0.85)',
+        fontFamily: 'inherit',
+      }}>SKIP</button>
+    </div>
+  )
+}
+
+// ── Slide 1: Brand (full-screen vertical photo) ───────────────────────────────
 function Slide1({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => void; onNext: () => void }) {
   return (
     <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
@@ -32,26 +55,20 @@ function Slide1({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => voi
       <img
         src={PEXELS_IMG}
         alt=""
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', display: 'block' }}
       />
-      {/* Gradient overlay — dark from bottom, slight at top */}
+      {/* Gradient overlay */}
       <div style={{
         position: 'absolute', inset: 0,
-        background: 'linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.55) 65%, rgba(0,0,0,0.88) 100%)',
+        background: 'linear-gradient(to bottom, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.50) 65%, rgba(0,0,0,0.90) 100%)',
       }} />
 
-      {/* SKIP — top right */}
-      <div style={{ position: 'relative', zIndex: 2, display: 'flex', justifyContent: 'flex-end', padding: '54px 24px 0' }}>
-        <button type="button" onClick={onSkip} style={{
-          background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.25)',
-          borderRadius: 99, padding: '6px 16px', cursor: 'pointer',
-          fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.9)',
-          fontFamily: 'inherit', letterSpacing: '0.04em',
-        }}>SKIP</button>
+      {/* SKIP — top right, no border */}
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <SkipBtn onSkip={onSkip} light />
       </div>
 
-      {/* Content — lower center area */}
+      {/* Content — lower area */}
       <div style={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', padding: '0 28px 0' }}>
         {/* Logo row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
@@ -59,12 +76,10 @@ function Slide1({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => voi
           <div style={{ width: 1, height: 28, background: 'rgba(255,255,255,0.35)' }} />
           <span style={{ fontSize: 20, fontWeight: 700, color: '#fff', letterSpacing: '0.04em' }}>PATTO</span>
         </div>
-
         <h1 style={{
           fontSize: 38, fontWeight: 800, color: '#fff',
           margin: '0 0 12px', lineHeight: 1.18, letterSpacing: '-0.03em',
-          wordBreak: 'keep-all',
-          textShadow: '0 2px 16px rgba(0,0,0,0.3)',
+          wordBreak: 'keep-all', textShadow: '0 2px 16px rgba(0,0,0,0.3)',
         }}>
           영어를<br />매일 자연스럽게.
         </h1>
@@ -104,18 +119,12 @@ function Slide2({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => voi
 
   return (
     <div style={{ position: 'absolute', inset: 0, background: bg, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      {/* SKIP — top right */}
-      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '54px 24px 0', flexShrink: 0 }}>
-        <button type="button" onClick={onSkip} style={{
-          background: 'none', border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)'}`,
-          borderRadius: 99, padding: '6px 16px', cursor: 'pointer',
-          fontSize: 12.5, fontWeight: 600, color: textMid, fontFamily: 'inherit', letterSpacing: '0.04em',
-        }}>SKIP</button>
-      </div>
+      {/* SKIP — no border */}
+      <SkipBtn onSkip={onSkip} />
 
       {/* Header: icon + title side by side */}
-      <div style={{ padding: '20px 26px 0', flexShrink: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+      <div style={{ padding: '12px 26px 0', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 6 }}>
           <div style={{
             width: 40, height: 40, borderRadius: 12, flexShrink: 0,
             background: isDark ? 'rgba(74,111,168,0.18)' : '#E8EEF8',
@@ -133,7 +142,7 @@ function Slide2({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => voi
       </div>
 
       {/* Cards */}
-      <div style={{ flex: 1, padding: '16px 16px 0', display: 'flex', flexDirection: 'column', gap: 10, overflow: 'hidden' }}>
+      <div style={{ flex: 1, padding: '12px 16px 0', display: 'flex', flexDirection: 'column', gap: 10, overflow: 'hidden' }}>
         {/* Top two cards */}
         <div style={{ display: 'flex', gap: 10, flex: '0 0 auto' }}>
           {/* Story card */}
@@ -188,32 +197,32 @@ function Slide2({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => voi
           </div>
         </div>
 
-        {/* AI Review card */}
+        {/* AI Review card — handwriting image */}
         <div style={{
-          borderRadius: 18, padding: '14px 16px',
-          background: cardBg, border: `1px solid ${border}`,
+          borderRadius: 18, overflow: 'hidden',
+          border: `1px solid ${border}`,
           boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.06)',
-          display: 'flex', alignItems: 'flex-start', gap: 12, flex: '0 0 auto',
+          flex: '0 0 auto', position: 'relative',
         }}>
-          <div style={{ flex: 1 }}>
-            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: aiAccent, textTransform: 'uppercase', margin: '0 0 8px' }}>AI REVIEW</p>
-            <p style={{ fontSize: 14.5, fontStyle: 'italic', color: textDark, margin: 0, lineHeight: 1.65 }}>
-              I used to be shy,<br />
-              but now I&#39;m trying to<br />
-              be more{' '}
-              <span style={{ textDecoration: 'underline', textDecorationColor: aiAccent, textDecorationThickness: 1.5 }}>confident</span>.
-            </p>
-          </div>
+          {/* Label overlay */}
           <div style={{
-            width: 34, height: 34, borderRadius: 99, flexShrink: 0,
-            background: aiAccent, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 14, fontWeight: 700, color: '#fff', marginTop: 2,
-          }}>A</div>
+            position: 'absolute', top: 10, left: 14, zIndex: 1,
+            background: isDark ? 'rgba(0,0,0,0.55)' : 'rgba(255,255,255,0.85)',
+            backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+            borderRadius: 8, padding: '3px 10px',
+          }}>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: aiAccent, textTransform: 'uppercase' }}>AI REVIEW</span>
+          </div>
+          <img
+            src={ESSAY_IMG}
+            alt="AI essay correction"
+            style={{ width: '100%', height: 130, objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
+          />
         </div>
       </div>
 
       {/* Footer */}
-      <div style={{ padding: '16px 20px', paddingBottom: 'calc(28px + env(safe-area-inset-bottom, 0px))', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ padding: '14px 20px', paddingBottom: 'calc(28px + env(safe-area-inset-bottom, 0px))', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
         <button type="button" onClick={onNext} style={{
           width: '100%', minHeight: 52, borderRadius: 16,
           background: btnColor, border: 'none', cursor: 'pointer',
@@ -242,12 +251,12 @@ function Slide3({ isDark, onFinish }: { isDark: boolean; onFinish: () => void })
 
   return (
     <div style={{ position: 'absolute', inset: 0, background: bg, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      {/* Top spacer */}
-      <div style={{ height: 54, flexShrink: 0 }} />
+      {/* Top spacer — safe area only */}
+      <div style={{ height: 'calc(env(safe-area-inset-top, 0px) + 16px)', flexShrink: 0 }} />
 
       {/* Content */}
-      <div style={{ flex: 1, padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 14, overflow: 'hidden' }}>
-        {/* Icon + title side by side */}
+      <div style={{ flex: 1, padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 18, overflow: 'hidden' }}>
+        {/* Icon + title */}
         <div style={{ flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
             <div style={{
@@ -268,13 +277,13 @@ function Slide3({ isDark, onFinish }: { isDark: boolean; onFinish: () => void })
 
         {/* Today's Progress card */}
         <div style={{
-          borderRadius: 20, padding: '16px 18px',
+          borderRadius: 20, padding: '18px 18px',
           background: cardBg, border: `1px solid ${border}`,
           boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.05)',
           flexShrink: 0,
         }}>
-          <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', color: textMid, textTransform: 'uppercase', margin: '0 0 10px' }}>TODAY&#39;S PROGRESS</p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+          <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.12em', color: textMid, textTransform: 'uppercase', margin: '0 0 12px' }}>TODAY&#39;S PROGRESS</p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <p style={{ fontSize: 32, fontWeight: 800, color: textDark, margin: 0, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
               5 <span style={{ fontSize: 18, fontWeight: 500, color: textMid }}>/ 7</span>
             </p>
@@ -283,20 +292,20 @@ function Slide3({ isDark, onFinish }: { isDark: boolean; onFinish: () => void })
             <span style={{ fontSize: 20, fontWeight: 800, color: textDark, fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>12</span>
             <span style={{ fontSize: 11, color: textMid }}>연속</span>
           </div>
-          <div style={{ height: 6, borderRadius: 99, background: isDark ? 'rgba(255,255,255,0.08)' : '#E8EEE9', marginBottom: 14 }}>
+          <div style={{ height: 6, borderRadius: 99, background: isDark ? 'rgba(255,255,255,0.08)' : '#E8EEE9', marginBottom: 16 }}>
             <div style={{ height: '100%', width: '71%', borderRadius: 99, background: `linear-gradient(to right, ${green}, ${greenLight})` }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             {days.map((d, i) => (
-              <div key={d} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+              <div key={d} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 <span style={{ fontSize: 8.5, fontWeight: 600, color: textMid, letterSpacing: '0.04em' }}>{d}</span>
                 <div style={{
-                  width: 24, height: 24, borderRadius: 99,
+                  width: 26, height: 26, borderRadius: 99,
                   background: i < 5 ? green : (isDark ? 'rgba(255,255,255,0.06)' : '#E8EEE9'),
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
                   {i < 5
-                    ? <Check style={{ width: 11, height: 11, color: '#fff' }} strokeWidth={2.5} />
+                    ? <Check style={{ width: 12, height: 12, color: '#fff' }} strokeWidth={2.5} />
                     : <div style={{ width: 5, height: 5, borderRadius: 99, background: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.15)' }} />
                   }
                 </div>
@@ -306,28 +315,29 @@ function Slide3({ isDark, onFinish }: { isDark: boolean; onFinish: () => void })
         </div>
 
         {/* Stat cards */}
-        <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
+        <div style={{ display: 'flex', gap: 12, flex: 1 }}>
           {[
             { label: 'STORIES COMPLETED', value: '18', Icon: BookOpen },
             { label: 'AI REVIEWS',         value: '7',  Icon: PenLine  },
           ].map(({ label, value, Icon }) => (
             <div key={label} style={{
-              flex: 1, borderRadius: 20, padding: '14px 16px',
+              flex: 1, borderRadius: 20, padding: '18px 18px',
               background: cardBg, border: `1px solid ${border}`,
               boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.3)' : '0 4px 20px rgba(0,0,0,0.05)',
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
             }}>
-              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: textMid, textTransform: 'uppercase', margin: '0 0 6px' }}>{label}</p>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <p style={{ fontSize: 30, fontWeight: 800, color: textDark, margin: 0, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{value}</p>
-                <Icon style={{ width: 20, height: 20, color: green, opacity: 0.7 }} strokeWidth={1.6} />
+              <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: textMid, textTransform: 'uppercase', margin: '0 0 12px' }}>{label}</p>
+              <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <p style={{ fontSize: 34, fontWeight: 800, color: textDark, margin: 0, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{value}</p>
+                <Icon style={{ width: 22, height: 22, color: green, opacity: 0.7 }} strokeWidth={1.6} />
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Footer with CTA */}
-      <div style={{ padding: '16px 20px', paddingBottom: 'calc(28px + env(safe-area-inset-bottom, 0px))', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* Footer — CTA only, no 건너뛰기 */}
+      <div style={{ padding: '16px 20px', paddingBottom: 'calc(32px + env(safe-area-inset-bottom, 0px))', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
         <button type="button" onClick={onFinish} style={{
           width: '100%', minHeight: 54, borderRadius: 16,
           background: green, border: 'none', cursor: 'pointer',
@@ -337,13 +347,7 @@ function Slide3({ isDark, onFinish }: { isDark: boolean; onFinish: () => void })
         }}>
           PATTO 시작하기
         </button>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, paddingTop: 2 }}>
-          <button type="button" onClick={onFinish} style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            fontSize: 13.5, color: textMid, fontFamily: 'inherit', fontWeight: 500,
-          }}>건너뛰기</button>
-          <Dots current={2} color={isDark ? '#fff' : green} />
-        </div>
+        <Dots current={2} color={isDark ? '#fff' : green} />
       </div>
     </div>
   )
@@ -360,16 +364,14 @@ export function OnboardingScreen({ onComplete }: Props) {
   const [animating, setAnimating] = useState(false)
   const [visible, setVisible] = useState(true)
 
-  // Lock body scroll while onboarding is shown
+  // Lock body scroll
   useEffect(() => {
     const prev = document.body.style.cssText
     document.body.style.overflow = 'hidden'
     document.body.style.position = 'fixed'
     document.body.style.width = '100%'
     document.body.style.top = '0'
-    return () => {
-      document.body.style.cssText = prev
-    }
+    return () => { document.body.style.cssText = prev }
   }, [])
 
   function goTo(next: number) {
@@ -402,34 +404,29 @@ export function OnboardingScreen({ onComplete }: Props) {
       transition: 'opacity 300ms ease',
       touchAction: 'none',
       overscrollBehavior: 'none',
-    }}>
-      {/* Outgoing slide — fades out + slides up slightly */}
+    } as React.CSSProperties}>
       {outgoing !== null && (
         <div key={`out-${outgoing}`} style={{
-          position: 'absolute', inset: 0,
-          animation: 'slide-out 320ms ease forwards',
-          zIndex: 1,
+          position: 'absolute', inset: 0, zIndex: 1,
+          animation: 'ob-out 320ms ease forwards',
         }}>
           {renderSlide(outgoing)}
         </div>
       )}
-
-      {/* Current slide — fades in */}
       <div key={`in-${slide}`} style={{
-        position: 'absolute', inset: 0,
-        animation: outgoing !== null ? 'slide-in 320ms ease forwards' : 'none',
-        zIndex: 2,
+        position: 'absolute', inset: 0, zIndex: 2,
+        animation: outgoing !== null ? 'ob-in 320ms ease forwards' : 'none',
       }}>
         {renderSlide(slide)}
       </div>
 
       <style>{`
-        @keyframes slide-out {
+        @keyframes ob-out {
           from { opacity: 1; transform: translateY(0) scale(1); }
-          to   { opacity: 0; transform: translateY(-24px) scale(0.97); }
+          to   { opacity: 0; transform: translateY(-28px) scale(0.96); }
         }
-        @keyframes slide-in {
-          from { opacity: 0; transform: translateY(24px) scale(0.97); }
+        @keyframes ob-in {
+          from { opacity: 0; transform: translateY(28px) scale(0.96); }
           to   { opacity: 1; transform: translateY(0) scale(1); }
         }
       `}</style>
