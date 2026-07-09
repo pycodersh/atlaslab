@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, ChevronLeft, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone } from 'lucide-react'
+import { ChevronRight, ChevronLeft, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone, RotateCcw } from 'lucide-react'
+import { requestOnboardingReplay } from '@/lib/onboarding'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -369,6 +370,11 @@ export default function SettingsPage() {
   const t = useT()
   const [showAccount, setShowAccount] = useState(false)
 
+  function handleReplayOnboarding() {
+    requestOnboardingReplay()
+    window.location.href = '/'
+  }
+
   return (
     <>
       <div style={{ minHeight: '100dvh', overflowY: 'auto' }}>
@@ -414,6 +420,13 @@ export default function SettingsPage() {
             href="/settings/subscription"
           />
           <InstallCard />
+
+          <MenuCard
+            icon={RotateCcw}
+            label="온보딩 다시 보기"
+            desc="앱 소개 화면을 처음부터 다시 볼 수 있습니다."
+            onClick={handleReplayOnboarding}
+          />
 
           <MenuCard
             icon={Info}
