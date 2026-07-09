@@ -27,9 +27,10 @@ export async function signInWithKakao() {
       provider: 'kakao',
       options: {
         redirectTo: CALLBACK(),
-        // Override Supabase's default Kakao scopes (profile + account_email).
-        // account_email is not enabled in Kakao console → KOE205 if requested.
-        scopes: 'profile_nickname',
+        // Kakao Developer Console: profile_nickname, profile_image, account_email
+        // all set to 선택 동의. Request them explicitly — Supabase's default
+        // sends the legacy `profile` scope which can trigger KOE205.
+        scopes: 'profile_nickname profile_image account_email',
       },
     })
     return error?.message ?? null
