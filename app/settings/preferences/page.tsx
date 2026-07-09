@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves } from 'lucide-react'
@@ -214,7 +214,7 @@ function BottomSheet<T extends string>({
         <div style={{ padding: '0 24px' }}>
           {options.map((opt, i) => (
             <div key={opt.value}>
-              {i > 0 && <div style={{ height: 1, background: 'rgba(230,232,236,0.80)' }} />}
+              {i > 0 && <div style={{ height: 1, background: 'var(--pglass-border)' }} />}
               <button
                 type="button"
                 onClick={() => { onSelect(opt.value); onClose() }}
@@ -253,6 +253,14 @@ export default function PreferencesPage() {
   const { prefs, update }   = usePreferences()
   const [sheet, setSheet]   = useState<Sheet>(null)
   const t = useT()
+
+  const langRef = useRef(prefs.language)
+  useEffect(() => {
+    if (langRef.current !== prefs.language) {
+      langRef.current = prefs.language
+      router.refresh()
+    }
+  }, [prefs.language, router])
 
   const speechRateOptions = (['slow', 'normal', 'fast'] as SpeechRate[])
     .map(v => ({ label: SPEECH_RATE_LABELS[v], value: v }))
