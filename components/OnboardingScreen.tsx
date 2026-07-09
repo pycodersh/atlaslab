@@ -93,7 +93,7 @@ const STRINGS: Record<Lang, {
 }
 
 // ── Illustrations ─────────────────────────────────────────────────────────────
-function Illus1() {
+function Illus1(_props?: { isDark?: boolean }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -305,7 +305,7 @@ export function OnboardingScreen({ onComplete }: Props) {
               >
                 {/* Illustration */}
                 <div style={{ marginBottom: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 160 }}>
-                  {i === 0 ? <Illus /> : <Illus isDark={isDark} />}
+                  <Illus isDark={isDark} />
                 </div>
 
                 {/* Text */}
