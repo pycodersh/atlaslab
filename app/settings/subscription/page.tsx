@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { CircleCheck, UserCircle, ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { usePaddle } from '@/hooks/usePaddle'
 import { useSubscription } from '@/hooks/useSubscription'
 import { getCurrentUser } from '@/lib/auth-actions'
@@ -24,6 +25,7 @@ const glassCard: React.CSSProperties = {
 
 export default function SubscriptionPage() {
   const router = useRouter()
+  const isDesktop = useIsDesktop()
   const t = useT()
   const paddle = usePaddle()
   const { isPro, loading: subLoading } = useSubscription()
@@ -84,14 +86,16 @@ export default function SubscriptionPage() {
         paddingTop: 14, paddingLeft: 20, paddingRight: 20, paddingBottom: 100,
         boxSizing: 'border-box',
       }}>
-        <button
-          type="button"
-          onClick={() => router.push('/settings')}
-          style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}
-        >
-          <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
-          Profile
-        </button>
+        {isDesktop && (
+          <button
+            type="button"
+            onClick={() => router.push('/settings')}
+            style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}
+          >
+            <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
+            Profile
+          </button>
+        )}
 
         {/* Current Plan card */}
         <div style={{

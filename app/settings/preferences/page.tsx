@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
+import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
@@ -247,6 +248,7 @@ type Sheet = 'speechRate' | 'language' | null
 
 export default function PreferencesPage() {
   const router = useRouter()
+  const isDesktop = useIsDesktop()
   const { theme, setTheme } = useTheme()
   const { prefs, update }   = usePreferences()
   const [sheet, setSheet]   = useState<Sheet>(null)
@@ -269,14 +271,16 @@ export default function PreferencesPage() {
         paddingTop: 14, paddingLeft: 20, paddingRight: 20, paddingBottom: 100,
         boxSizing: 'border-box',
       }}>
-        <button
-          type="button"
-          onClick={() => router.push('/settings')}
-          style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}
-        >
-          <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
-          Profile
-        </button>
+        {isDesktop && (
+          <button
+            type="button"
+            onClick={() => router.push('/settings')}
+            style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}
+          >
+            <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
+            Profile
+          </button>
+        )}
 
         {/* ── DISPLAY ── */}
         <SecTitle label={t('display')} />
