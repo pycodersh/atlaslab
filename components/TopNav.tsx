@@ -67,7 +67,7 @@ function UserButton() {
     const initial = ((user.user_metadata?.name as string) ?? user.email ?? '?')[0].toUpperCase()
 
     return (
-      <Link href="/settings/account" aria-label="계정" style={buttonStyle}>
+      <Link href="/settings" aria-label="계정" style={buttonStyle}>
         {avatarUrl ? (
           <img
             src={avatarUrl}
