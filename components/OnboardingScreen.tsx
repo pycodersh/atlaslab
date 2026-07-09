@@ -7,8 +7,7 @@ import { useTheme } from '@/components/ThemeProvider'
 // vertical cafe/book photo (portrait orientation)
 const PEXELS_IMG = 'https://images.pexels.com/photos/1251175/pexels-photo-1251175.jpeg?auto=compress&cs=tinysrgb&h=1400&w=800'
 const STORY_IMG  = 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80'
-// handwriting / essay correction placeholder — replace with /public/essay-handwriting.jpg when available
-const ESSAY_IMG  = 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=600&q=80'
+const ESSAY_IMG  = '/essay-handwriting.jpg'
 
 const TOTAL = 3
 
