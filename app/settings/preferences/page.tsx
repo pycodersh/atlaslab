@@ -79,7 +79,7 @@ function ToggleRow({ icon: Icon, iconColor = '#6E6E73', label, desc, on, onChang
     <div style={{
       display: 'flex', alignItems: 'center', gap: 14,
       padding: '16px 18px',
-      borderBottom: last ? 'none' : '1px solid rgba(230,232,236,0.80)',
+      borderBottom: last ? 'none' : '1px solid var(--pd)',
     }}>
       <IconCircle>
         <Icon style={{ width: 17, height: 17, color: iconColor }} strokeWidth={1.6} />
@@ -107,7 +107,7 @@ function NavRow({ icon: Icon, iconColor = '#6E6E73', label, desc, displayValue, 
         display: 'flex', alignItems: 'center', gap: 14,
         padding: '16px 18px', width: '100%',
         background: 'none', border: 'none',
-        borderBottom: last ? 'none' : '1px solid rgba(230,232,236,0.80)',
+        borderBottom: last ? 'none' : '1px solid var(--pd)',
         cursor: 'pointer', textAlign: 'left',
       }}
     >
@@ -136,7 +136,7 @@ function SliderRow({ icon: Icon, iconColor = '#6E6E73', label, desc, value, onCh
     <div style={{
       display: 'flex', alignItems: 'flex-start', gap: 14,
       padding: '16px 18px',
-      borderBottom: last ? 'none' : '1px solid rgba(230,232,236,0.80)',
+      borderBottom: last ? 'none' : '1px solid var(--pd)',
     }}>
       <IconCircle>
         <Icon style={{ width: 17, height: 17, color: iconColor }} strokeWidth={1.6} />

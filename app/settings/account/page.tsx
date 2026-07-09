@@ -6,6 +6,7 @@ import { User, LogIn, UserPlus, LogOut, Trash2, ChevronRight } from 'lucide-reac
 import { TopNav } from '@/components/TopNav'
 import { signOut } from '@/lib/auth-actions'
 import { useAuth } from '@/contexts/AuthContext'
+import { useT } from '@/hooks/useT'
 
 function MenuRow({
   icon: Icon, label, desc, danger, onClick,
@@ -33,7 +34,10 @@ function MenuRow({
   )
 }
 
-function ConfirmDialog({ message, onConfirm, onCancel }: { message: string; onConfirm: () => void; onCancel: () => void }) {
+function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel }: {
+  message: string; cancelLabel: string; confirmLabel: string
+  onConfirm: () => void; onCancel: () => void
+}) {
   return (
     <div
       style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}
@@ -43,10 +47,10 @@ function ConfirmDialog({ message, onConfirm, onCancel }: { message: string; onCo
         <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 20px', lineHeight: 1.6 }}>{message}</p>
         <div style={{ display: 'flex', gap: 10 }}>
           <button type="button" onClick={onCancel} style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--pd)', background: 'transparent', color: 'var(--pt)', fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
-            취소
+            {cancelLabel}
           </button>
           <button type="button" onClick={onConfirm} style={{ flex: 1, height: 44, borderRadius: 12, border: 'none', background: '#B04060', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
-            삭제
+            {confirmLabel}
           </button>
         </div>
       </div>
@@ -57,6 +61,7 @@ function ConfirmDialog({ message, onConfirm, onCancel }: { message: string; onCo
 export default function AccountPage() {
   const router = useRouter()
   const { user } = useAuth()
+  const t = useT()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [toast, setToast] = useState('')
 
@@ -69,7 +74,7 @@ export default function AccountPage() {
 
   async function handleDeleteAccount() {
     setShowDeleteConfirm(false)
-    showToast('계정 삭제는 현재 준비 중입니다.')
+    showToast(t('account_delete_preparing'))
   }
 
   const isLoggedIn = !!user
@@ -80,7 +85,7 @@ export default function AccountPage() {
       <div className="px-7 pb-24 max-w-sm mx-auto pt-20">
         <div className="mb-8">
           <h1 className="font-playfair text-[1.9rem] font-black leading-none text-[var(--pt)] tracking-tight">ACCOUNT</h1>
-          <p className="text-[0.78rem] text-[var(--pm)] mt-2 tracking-wide">프로필 및 계정 인증</p>
+          <p className="text-[0.78rem] text-[var(--pm)] mt-2 tracking-wide">{t('account_page_desc')}</p>
         </div>
 
         <div className="rounded-2xl bg-[var(--pc)] px-5 py-4 mb-8 flex items-center gap-4">
@@ -90,7 +95,7 @@ export default function AccountPage() {
           <div>
             <p className="text-[13px] font-bold text-[var(--pt)]">{user?.email ?? 'Guest'}</p>
             <p className="text-[11px] text-[var(--pm)] mt-0.5">
-              {isLoggedIn ? '로그인 중' : '로그인하면 학습 기록이 동기화됩니다'}
+              {isLoggedIn ? t('account_loggedin') : t('account_guest_hint')}
             </p>
           </div>
         </div>
@@ -98,13 +103,13 @@ export default function AccountPage() {
         <div className="border-t border-[var(--pd)]">
           {!isLoggedIn && (
             <>
-              <MenuRow icon={LogIn} label="Sign In" desc="로그인하여 기기 간 학습 데이터를 동기화하세요" onClick={() => router.push('/settings/auth')} />
+              <MenuRow icon={LogIn} label="Sign In" desc={t('account_signin_desc')} onClick={() => router.push('/settings/auth')} />
               <div className="h-px bg-[var(--pd)]" />
-              <MenuRow icon={UserPlus} label="Sign Up" desc="무료 계정을 만들고 학습 기록을 저장하세요" onClick={() => router.push('/settings/auth')} />
+              <MenuRow icon={UserPlus} label="Sign Up" desc={t('account_signup_desc')} onClick={() => router.push('/settings/auth')} />
             </>
           )}
           {isLoggedIn && (
-            <MenuRow icon={LogOut} label="Sign Out" desc="이 기기에서 로그아웃" onClick={handleSignOut} />
+            <MenuRow icon={LogOut} label="Sign Out" desc={t('account_signout_desc')} onClick={handleSignOut} />
           )}
         </div>
 
@@ -113,7 +118,7 @@ export default function AccountPage() {
             <p className="text-[10px] tracking-[0.22em] text-[#B04060] font-bold mb-3">DANGER ZONE</p>
             <div className="border border-[var(--pacb)] rounded-2xl overflow-hidden bg-[var(--pal)]">
               <div className="px-2">
-                <MenuRow icon={Trash2} label="Delete Account" desc="계정과 모든 데이터를 영구적으로 삭제합니다" danger onClick={() => setShowDeleteConfirm(true)} />
+                <MenuRow icon={Trash2} label="Delete Account" desc={t('account_delete_desc')} danger onClick={() => setShowDeleteConfirm(true)} />
               </div>
             </div>
           </div>
@@ -122,7 +127,9 @@ export default function AccountPage() {
 
       {showDeleteConfirm && (
         <ConfirmDialog
-          message="계정과 모든 학습 데이터가 영구적으로 삭제됩니다. 정말 삭제하시겠습니까?"
+          message={t('account_delete_message')}
+          cancelLabel={t('delete_cancel')}
+          confirmLabel={t('delete_confirm')}
           onConfirm={handleDeleteAccount}
           onCancel={() => setShowDeleteConfirm(false)}
         />

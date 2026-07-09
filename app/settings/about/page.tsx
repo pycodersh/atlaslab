@@ -55,7 +55,7 @@ function AboutRow({ item }: { item: RowItem }) {
   const inner = (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 14, padding: '16px 18px',
-      borderBottom: last ? 'none' : '1px solid rgba(230,232,236,0.80)',
+      borderBottom: last ? 'none' : '1px solid var(--pd)',
     }}>
       <IconCircle accent={accent}>
         <Icon style={{ width: 17, height: 17, color: iconColor }} strokeWidth={1.6} />
