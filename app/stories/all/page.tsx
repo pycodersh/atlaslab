@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { ChevronLeft } from 'lucide-react'
+import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
@@ -20,7 +19,6 @@ const DOT_COLOR: Record<StoryLabel, string> = {
 }
 
 export default function AllStoriesPage() {
-  const router = useRouter()
   const [labelMap, setLabelMap] = useState<Record<number, StoryLabel>>({})
 
   useEffect(() => {
@@ -62,20 +60,8 @@ export default function AllStoriesPage() {
         boxSizing: 'border-box',
       }}>
 
-        {/* Back + Header */}
+        {/* Header */}
         <div style={{ paddingTop: 20, marginBottom: 20 }}>
-          <button
-            type="button"
-            onClick={() => router.back()}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 4,
-              background: 'none', border: 'none', cursor: 'pointer',
-              color: 'var(--pm)', padding: 0, marginBottom: 16,
-            }}
-          >
-            <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={1.5} />
-            <span style={{ fontSize: 10, letterSpacing: '0.18em', fontWeight: 700, textTransform: 'uppercase' }}>Back</span>
-          </button>
 
           <p style={{
             fontSize: 'clamp(1.0rem, 4.2vw, 1.45rem)', fontWeight: 900,
@@ -101,14 +87,11 @@ export default function AllStoriesPage() {
               : `/stories/${story.id}`
 
             return (
-              <div
+              <Link
                 key={story.id}
-                role="button"
-                tabIndex={0}
-                onClick={() => router.push(href)}
-                onKeyDown={e => e.key === 'Enter' && router.push(href)}
+                href={href}
                 className="glass-card-sm"
-                style={{ overflow: 'hidden', cursor: 'pointer', borderRadius: 18 }}
+                style={{ overflow: 'hidden', cursor: 'pointer', borderRadius: 18, display: 'block', textDecoration: 'none' }}
               >
                 <div style={{ position: 'relative', paddingTop: '64%' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -157,7 +140,7 @@ export default function AllStoriesPage() {
                     {story.title}
                   </p>
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>
