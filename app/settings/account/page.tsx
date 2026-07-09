@@ -102,7 +102,9 @@ export default function AccountPage() {
             <User className="w-5 h-5 text-[var(--pa)]" strokeWidth={1.5} />
           </div>
           <div>
-            <p className="text-[13px] font-bold text-[var(--pt)]">{user?.email ?? 'Guest'}</p>
+            <p className="text-[13px] font-bold text-[var(--pt)]">
+              {user?.email ?? (user?.user_metadata?.name as string) ?? (user ? 'Kakao User' : 'Guest')}
+            </p>
             <p className="text-[11px] text-[var(--pm)] mt-0.5">
               {isLoggedIn ? t('account_loggedin') : t('account_guest_hint')}
             </p>

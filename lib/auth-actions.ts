@@ -27,6 +27,9 @@ export async function signInWithKakao() {
       provider: 'kakao',
       options: {
         redirectTo: CALLBACK(),
+        // Override Supabase's default Kakao scopes (profile + account_email).
+        // account_email is not enabled in Kakao console → KOE205 if requested.
+        scopes: 'profile_nickname',
       },
     })
     return error?.message ?? null
