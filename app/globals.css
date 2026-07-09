@@ -367,6 +367,10 @@ body {
     scrollbar-width: none;
   }
   .desktop-right-col::-webkit-scrollbar { display: none; }
+
+  /* Hide all scrollbars on desktop — content still scrolls via mouse wheel */
+  * { scrollbar-width: none; }
+  *::-webkit-scrollbar { display: none; }
 }
 
 /* ── Image Slider Ken Burns ──────────────────────────────────────────── */

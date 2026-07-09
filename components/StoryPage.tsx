@@ -204,7 +204,7 @@ export function StoryPage({
       <div
         className="flex-1"
         style={{
-          overflowY: 'scroll',
+          overflowY: 'auto',
           WebkitOverflowScrolling: 'touch' as never,
           touchAction: 'pan-y',
           paddingTop: 8,

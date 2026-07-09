@@ -476,7 +476,7 @@ export function PatternsPageV2({
       <div
         className="flex-1 overflow-x-hidden"
         style={{
-          overflowY: 'scroll',
+          overflowY: 'auto',
           WebkitOverflowScrolling: 'touch' as never,
           touchAction: 'pan-y',
         }}
