@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, Volume2, Bookmark, Waves, Sparkles, Check } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Volume2, Bookmark, Waves, Sparkles, Check, Flame, BookOpen, RefreshCw, PenLine, BarChart2 } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
 
 // ── Language detection ────────────────────────────────────────────────────────
@@ -75,62 +75,35 @@ const patternBlue = '#4A8CFF'
 const corrRed = '#9B1C1C'
 
 // ── Mockup: Slide 1 — Brand / Hero ───────────────────────────────────────────
+const STORY3_IMG = 'https://images.unsplash.com/photo-1525610553991-2bede1a236e2?auto=format&fit=crop&w=800&q=80'
+
 function BrandMockup({ isDark }: { isDark: boolean }) {
-  const cardBg = isDark ? '#0D1623' : '#fff'
   const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'
   return (
-    <div style={{ width: '100%', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 12 }}>
-      {/* Main story hero card */}
+    <div style={{ width: '100%', maxWidth: 340 }}>
       <div style={{
-        borderRadius: 24, overflow: 'hidden',
-        boxShadow: '0 24px 64px rgba(0,0,0,0.22)',
+        borderRadius: 28, overflow: 'hidden',
+        boxShadow: isDark
+          ? '0 32px 80px rgba(0,0,0,0.55)'
+          : '0 32px 80px rgba(0,0,0,0.18)',
         border: `1px solid ${border}`,
+        position: 'relative',
       }}>
-        {/* Cover image — coffee shop atmosphere */}
-        <div style={{
-          height: 200, position: 'relative',
-          background: isDark
-            ? 'linear-gradient(160deg, #2A1A0E 0%, #4A2C10 30%, #6B4020 55%, #8C5A2A 75%, #A07040 100%)'
-            : 'linear-gradient(160deg, #5C3A1E 0%, #7B4E28 30%, #9B6838 55%, #C48840 75%, #D4A060 100%)',
-          display: 'flex', alignItems: 'flex-end',
-        }}>
-          {/* Ambient light blobs */}
-          <div style={{ position: 'absolute', top: 20, right: 40, width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,200,100,0.15)', filter: 'blur(20px)' }} />
-          <div style={{ position: 'absolute', top: 60, left: 30, width: 60, height: 60, borderRadius: '50%', background: 'rgba(200,150,80,0.12)', filter: 'blur(16px)' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.65) 100%)' }} />
-
-          <div style={{ position: 'relative', zIndex: 1, padding: '0 20px 20px', width: '100%' }}>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.65)', textTransform: 'uppercase', margin: '0 0 5px' }}>STORY 03</p>
-            <p style={{ fontSize: 26, fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.025em', lineHeight: 1.15 }}>An Ordinary Morning</p>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', margin: '0 0 16px' }}>평범한 아침의 풍경</p>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ display: 'flex', gap: 5 }}>
-                {[0,1,2,3].map(i => <div key={i} style={{ width: i === 0 ? 20 : 6, height: 6, borderRadius: 3, background: i === 0 ? '#fff' : 'rgba(255,255,255,0.3)' }} />)}
-              </div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {[Waves, Volume2].map((Icon, i) => (
-                  <div key={i} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Icon style={{ width: 16, height: 16, color: 'rgba(255,255,255,0.9)' }} strokeWidth={1.8} />
-                  </div>
-                ))}
-              </div>
-            </div>
+        {/* Cover photo */}
+        <div style={{ height: 320, position: 'relative' }}>
+          <img
+            src={STORY3_IMG}
+            alt="A bright kitchen in the morning"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.72) 100%)' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 22px 24px' }}>
+            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', margin: '0 0 6px' }}>STORY 03</p>
+            <p style={{ fontSize: 28, fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.025em', lineHeight: 1.15 }}>An Ordinary Morning</p>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.52)', margin: 0 }}>평범한 아침의 풍경</p>
           </div>
         </div>
-        {/* Story text preview */}
-        <div style={{ background: cardBg, padding: '14px 20px 18px' }}>
-          <p style={{ fontSize: 14.5, color: isDark ? 'rgba(255,255,255,0.85)' : '#1C1C1E', lineHeight: 1.7, margin: 0 }}>
-            It's seven in the morning. I{' '}
-            <span style={{ color: patternBlue, fontWeight: 700 }}>have to</span>
-            {' '}leave by eight, so I move a little faster than usual.
-          </p>
-        </div>
       </div>
-
-      {/* Tagline */}
-      <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.28)', textTransform: 'uppercase', margin: 0, textAlign: 'center' }}>
-        Repeat Patterns · Build Fluency
-      </p>
     </div>
   )
 }
@@ -145,31 +118,29 @@ function StoryMockup({ isDark }: { isDark: boolean }) {
       width: '100%', maxWidth: 360,
       borderRadius: 24, overflow: 'hidden',
       background: cardBg,
-      boxShadow: '0 28px 72px rgba(0,0,0,0.24)',
+      boxShadow: isDark ? '0 28px 72px rgba(0,0,0,0.5)' : '0 28px 72px rgba(0,0,0,0.18)',
       border: `1px solid ${border}`,
     }}>
-      {/* Cover */}
-      <div style={{
-        height: 210, position: 'relative',
-        background: isDark
-          ? 'linear-gradient(160deg, #2A1A0E 0%, #4A2C10 30%, #6B4020 55%, #8C5A2A 75%, #A07040 100%)'
-          : 'linear-gradient(160deg, #5C3A1E 0%, #7B4E28 30%, #9B6838 55%, #C48840 75%, #D4A060 100%)',
-        display: 'flex', alignItems: 'flex-end',
-      }}>
-        <div style={{ position: 'absolute', top: 24, right: 50, width: 90, height: 90, borderRadius: '50%', background: 'rgba(255,200,100,0.14)', filter: 'blur(22px)' }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.68) 100%)' }} />
-        <div style={{ position: 'relative', zIndex: 1, padding: '0 20px 18px', width: '100%' }}>
+      {/* Cover photo */}
+      <div style={{ height: 210, position: 'relative' }}>
+        <img
+          src={STORY3_IMG}
+          alt="A bright kitchen in the morning"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.70) 100%)' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 20px 16px' }}>
           <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.65)', textTransform: 'uppercase', margin: '0 0 5px' }}>STORY 03</p>
-          <p style={{ fontSize: 26, fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.025em', lineHeight: 1.15 }}>An Ordinary Morning</p>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', margin: '0 0 16px' }}>평범한 아침의 풍경</p>
+          <p style={{ fontSize: 24, fontWeight: 800, color: '#fff', margin: '0 0 4px', letterSpacing: '-0.025em', lineHeight: 1.15 }}>An Ordinary Morning</p>
+          <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.52)', margin: '0 0 14px' }}>평범한 아침의 풍경</p>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{ display: 'flex', gap: 5 }}>
               {[0,1,2,3].map(i => <div key={i} style={{ width: i === 0 ? 20 : 6, height: 6, borderRadius: 3, background: i === 0 ? '#fff' : 'rgba(255,255,255,0.3)' }} />)}
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               {[Waves, Volume2].map((Icon, i) => (
-                <div key={i} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Icon style={{ width: 16, height: 16, color: 'rgba(255,255,255,0.9)' }} strokeWidth={1.8} />
+                <div key={i} style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Icon style={{ width: 15, height: 15, color: 'rgba(255,255,255,0.9)' }} strokeWidth={1.8} />
                 </div>
               ))}
             </div>
@@ -199,7 +170,7 @@ function StoryMockup({ isDark }: { isDark: boolean }) {
         <p style={{ fontSize: 15.5, color: textBody, lineHeight: 1.75, margin: 0 }}>
           I{' '}
           <span style={{ color: patternBlue, fontWeight: 700 }}>don't</span>
-          {' '}drink coffee in the morning. I prefer warm tea instead. It wakes me up gently.
+          {' '}drink coffee in the morning. I prefer warm tea instead.
         </p>
       </div>
     </div>
@@ -351,8 +322,8 @@ function ProgressMockup({ isDark }: { isDark: boolean }) {
           textAlign: 'center',
         }}>
           <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: green, textTransform: 'uppercase', margin: '0 0 8px' }}>STREAK</p>
-          <p style={{ fontSize: 38, fontWeight: 800, color: isDark ? '#fff' : '#1C1C1E', margin: '0 0 2px', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>12</p>
-          <span style={{ fontSize: 20 }}>🔥</span>
+          <p style={{ fontSize: 38, fontWeight: 800, color: isDark ? '#fff' : '#1C1C1E', margin: '0 0 4px', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>12</p>
+          <Flame style={{ width: 22, height: 22, color: '#FF6B2B' }} strokeWidth={1.8} />
         </div>
         <div style={{
           flex: 1, borderRadius: 20, padding: '18px 16px 16px',
@@ -434,14 +405,23 @@ function StartMockup({ isDark }: { isDark: boolean }) {
 
           {/* Mini feature pills */}
           <div style={{ display: 'flex', gap: 8, marginTop: 24, flexWrap: 'wrap', justifyContent: 'center' }}>
-            {['📖 Stories', '🔁 Patterns', '✏️ Essays', '📊 Progress'].map(label => (
+            {([
+              { Icon: BookOpen,  label: 'Stories'  },
+              { Icon: RefreshCw, label: 'Patterns' },
+              { Icon: PenLine,   label: 'Essays'   },
+              { Icon: BarChart2, label: 'Progress' },
+            ] as const).map(({ Icon, label }) => (
               <span key={label} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6,
                 fontSize: 12, fontWeight: 600,
                 padding: '6px 14px', borderRadius: 99,
                 background: isDark ? 'rgba(155,112,190,0.18)' : 'rgba(155,112,190,0.12)',
                 color: isDark ? `${accent}EE` : accent,
                 border: `1px solid ${isDark ? `${accent}30` : `${accent}25`}`,
-              }}>{label}</span>
+              }}>
+                <Icon style={{ width: 12, height: 12 }} strokeWidth={2} />
+                {label}
+              </span>
             ))}
           </div>
         </div>
