@@ -490,58 +490,6 @@ export function PatternsPageV2({
           {/* ── Swipe area ── */}
           <div ref={swipeRef} style={{ position: 'relative' }}>
 
-            {/* Previous button — pointer:fine devices only */}
-            {isPointerFine && (
-            <button
-              type="button"
-              onClick={goPrev}
-              aria-label="Previous pattern"
-              style={{
-                position: 'absolute', left: 10, top: '50%',
-                transform: 'translateY(-50%)',
-                zIndex: 10, width: 36, height: 36, borderRadius: '50%',
-                border: 'none', cursor: 'pointer',
-                background: 'rgba(0,0,0,0.22)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'rgba(255,255,255,0.88)',
-                opacity: 0.55,
-                transition: 'background 0.15s, opacity 0.15s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '1', e.currentTarget.style.background = 'rgba(0,0,0,0.38)')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '0.55', e.currentTarget.style.background = 'rgba(0,0,0,0.22)')}
-            >
-              <ChevronLeft style={{ width: 18, height: 18 }} strokeWidth={2.2} />
-            </button>
-            )}
-
-            {/* Next button — pointer:fine devices only */}
-            {isPointerFine && (
-            <button
-              type="button"
-              onClick={goNext}
-              aria-label="Next pattern"
-              style={{
-                position: 'absolute', right: 10, top: '50%',
-                transform: 'translateY(-50%)',
-                zIndex: 10, width: 36, height: 36, borderRadius: '50%',
-                border: 'none', cursor: 'pointer',
-                background: 'rgba(0,0,0,0.22)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: 'rgba(255,255,255,0.88)',
-                opacity: 0.55,
-                transition: 'background 0.15s, opacity 0.15s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '1', e.currentTarget.style.background = 'rgba(0,0,0,0.38)')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '0.55', e.currentTarget.style.background = 'rgba(0,0,0,0.22)')}
-            >
-              <ChevronRight style={{ width: 18, height: 18 }} strokeWidth={2.2} />
-            </button>
-            )}
-
             <div className="glass-card" style={{
               overflow: 'hidden', borderRadius: 30, padding: 0,
               boxShadow: isDark ? '0 20px 40px rgba(0,0,0,0.40)' : '0 20px 40px rgba(40,40,60,0.05)',
@@ -758,8 +706,29 @@ export function PatternsPageV2({
                   })}
                 </div>
 
-                {/* ── Dot indicators — below examples ── */}
+                {/* ── Dot indicators + nav buttons — below examples ── */}
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5, marginTop: 20 }}>
+                  {isPointerFine && (
+                    <button
+                      type="button"
+                      onClick={goPrev}
+                      aria-label="Previous pattern"
+                      style={{
+                        width: 28, height: 28, borderRadius: '50%',
+                        border: '1px solid var(--pglass-border)',
+                        background: 'var(--pglass)',
+                        backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'pointer', color: 'var(--pm)',
+                        marginRight: 6, flexShrink: 0,
+                        transition: 'opacity 0.15s',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
+                      onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
+                    >
+                      <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={2.2} />
+                    </button>
+                  )}
                   {patterns.map((_, i) => (
                     <button
                       key={i}
@@ -776,6 +745,27 @@ export function PatternsPageV2({
                       }} />
                     </button>
                   ))}
+                  {isPointerFine && (
+                    <button
+                      type="button"
+                      onClick={goNext}
+                      aria-label="Next pattern"
+                      style={{
+                        width: 28, height: 28, borderRadius: '50%',
+                        border: '1px solid var(--pglass-border)',
+                        background: 'var(--pglass)',
+                        backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        cursor: 'pointer', color: 'var(--pm)',
+                        marginLeft: 6, flexShrink: 0,
+                        transition: 'opacity 0.15s',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.opacity = '0.6' }}
+                      onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
+                    >
+                      <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.2} />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
