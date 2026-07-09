@@ -3,8 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { ChevronRight, ChevronLeft, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone, RotateCcw } from 'lucide-react'
+import { ChevronRight, SlidersHorizontal, Sparkles, Info, UserCircle, X, PlusSquare, Compass, Smartphone, RotateCcw } from 'lucide-react'
 import { requestOnboardingReplay } from '@/lib/onboarding'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
@@ -366,7 +365,6 @@ type BeforeInstallPromptEvent = Event & {
 }
 
 export default function SettingsPage() {
-  const router = useRouter()
   const t = useT()
   const [showAccount, setShowAccount] = useState(false)
 
@@ -389,18 +387,6 @@ export default function SettingsPage() {
           flexDirection: 'column',
           gap: 12,
         }}>
-          <button
-            type="button"
-            onClick={() => {
-              if (window.history.length > 1) router.back()
-              else router.push('/home')
-            }}
-            style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 4, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit', alignSelf: 'flex-start' }}
-          >
-            <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
-            Back
-          </button>
-
           <MenuCard
             icon={UserCircle}
             label={t('hub_account')}

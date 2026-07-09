@@ -85,7 +85,7 @@ function UserButton() {
   }
 
   return (
-    <Link href="/settings/auth" aria-label="로그인" style={buttonStyle}>
+    <Link href="/settings" aria-label="설정" style={buttonStyle}>
       <User style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
     </Link>
   )
