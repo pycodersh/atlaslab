@@ -96,9 +96,9 @@ const STRINGS: Record<Lang, {
 // Slide 1: PATTO logo only (title text lives in the copy area, no duplication)
 function Illus1(_props?: { isDark?: boolean }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-      <img src="/patto-logo.png" alt="" width={72} height={69} style={{ display: 'block' }} />
-      <span style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--pt)', lineHeight: 1 }}>
+    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <img src="/patto-logo.png" alt="" width={60} height={58} style={{ display: 'block' }} />
+      <span style={{ fontSize: 34, fontWeight: 700, letterSpacing: '-0.04em', color: 'var(--pt)', lineHeight: 1 }}>
         PATTO
       </span>
     </div>
