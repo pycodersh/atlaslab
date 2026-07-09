@@ -13,7 +13,7 @@ export default function TermsPage() {
   const doc = getLegalDoc(TERMS, prefs.language)
 
   return (
-    <div className="min-h-dvh bg-[var(--pb)]">
+    <div className="min-h-dvh">
       <TopNav />
 
       <div className="px-7 pb-20 max-w-sm mx-auto pt-20">
