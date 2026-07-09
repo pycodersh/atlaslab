@@ -41,7 +41,7 @@ const STRINGS: Record<Lang, {
       { badge: 'PATTERNS',  title: '패턴을 반복하세요.',     desc: '자주 사용하는 표현을\n반복해서 자연스럽게 익혀보세요.' },
       { badge: 'AI ESSAY',  title: 'AI가 첨삭해드립니다.',   desc: '손글씨처럼 자연스러운 첨삭으로\n영어 실력을 빠르게 개선하세요.' },
       { badge: 'PROGRESS',  title: '성장을 확인하세요.',     desc: '매일의 학습 기록과\n꾸준한 성장을 확인하세요.' },
-      { badge: 'START',     title: '이제 시작해볼까요?',     desc: 'PATTO와 함께\n매일 조금씩,\n영어를 자연스럽게 익혀보세요.' },
+      { badge: 'START',     title: '이제 시작해볼까요?',     desc: 'PATTO와 함께 매일 조금씩,\n영어를 자연스럽게 익혀보세요.' },
     ],
   },
   en: {
@@ -104,7 +104,7 @@ function StoryMockup({ isDark }: { isDark: boolean }) {
   const textBody = isDark ? 'rgba(255,255,255,0.88)' : '#1C1C1E'
   return (
     <div style={{
-      width: '100%', maxWidth: 360,
+      width: '100%', maxWidth: 290,
       borderRadius: 24, overflow: 'hidden',
       background: cardBg,
       boxShadow: isDark ? '0 28px 72px rgba(0,0,0,0.5)' : '0 28px 72px rgba(0,0,0,0.18)',
@@ -179,9 +179,9 @@ function PatternMockup({ isDark }: { isDark: boolean }) {
   ]
   return (
     <div style={{
-      width: '100%', maxWidth: 360,
+      width: '100%', maxWidth: 290,
       background: cardBg,
-      borderRadius: 24, padding: '22px 22px 20px',
+      borderRadius: 24, padding: '18px 18px 16px',
       boxShadow: '0 28px 72px rgba(0,0,0,0.22)',
       border: `1px solid ${border}`,
     }}>
@@ -226,9 +226,9 @@ function EssayMockup({ isDark }: { isDark: boolean }) {
 
   return (
     <div style={{
-      width: '100%', maxWidth: 360,
+      width: '100%', maxWidth: 290,
       background: bg,
-      borderRadius: 22, padding: '20px 22px 22px',
+      borderRadius: 22, padding: '16px 18px 18px',
       boxShadow: '0 28px 72px rgba(0,0,0,0.18)',
       border: `1px solid ${border}`,
     }}>
@@ -307,7 +307,7 @@ function ProgressMockup({ isDark }: { isDark: boolean }) {
       <div style={{ display: 'flex', gap: 12 }}>
         <div style={{
           flex: 1, borderRadius: 20, padding: '18px 16px 16px',
-          background: isDark ? '#0A1E12' : '#EDF8F2',
+          background: isDark ? '#0D2B1A' : '#D6F5E5',
           textAlign: 'center',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, margin: '0 0 8px' }}>
@@ -321,8 +321,7 @@ function ProgressMockup({ isDark }: { isDark: boolean }) {
           background: isDark ? '#09112A' : '#EEF2FF',
           textAlign: 'center',
         }}>
-          <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6B7FD7', textTransform: 'uppercase', margin: '0 0 2px' }}>STORIES</p>
-          <p style={{ fontSize: 10, fontWeight: 500, color: '#8E8E93', margin: '0 0 8px', letterSpacing: '0.04em' }}>COMPLETED</p>
+          <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6B7FD7', textTransform: 'uppercase', margin: '0 0 8px' }}>STORIES</p>
           <p style={{ fontSize: 38, fontWeight: 800, color: isDark ? '#fff' : '#1C1C1E', margin: 0, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>18</p>
         </div>
       </div>
@@ -368,10 +367,10 @@ function StartMockup({ isDark }: { isDark: boolean }) {
   const cardBg = isDark ? '#130E1C' : '#F8F4FF'
   const border = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(155,112,190,0.15)'
   return (
-    <div style={{ width: '100%', maxWidth: 360, display: 'flex', flexDirection: 'column', gap: 12 }}>
+    <div style={{ width: '100%', maxWidth: 290, display: 'flex', flexDirection: 'column', gap: 12 }}>
       {/* Hero motivation card */}
       <div style={{
-        borderRadius: 24, padding: '32px 28px',
+        borderRadius: 24, padding: '26px 22px',
         background: isDark
           ? 'linear-gradient(140deg, #130E1C 0%, #1A1028 50%, #221535 100%)'
           : 'linear-gradient(140deg, #F0EAF8 0%, #E8DEFF 50%, #DDD0F5 100%)',
@@ -541,8 +540,8 @@ export function OnboardingScreen({ onComplete }: Props) {
           {/* Slide 0: horizontal logo */}
           {slide === 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-              <img src="/patto-logo.png" alt="" width={28} height={27} style={{ display: 'block', opacity: isDark ? 0.95 : 1 }} />
-              <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: '-0.04em', color: isDark ? '#fff' : '#1C1C1E', lineHeight: 1 }}>PATTO</span>
+              <img src="/patto-logo.png" alt="" width={56} height={54} style={{ display: 'block', opacity: isDark ? 0.95 : 1 }} />
+              <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.06em', color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.4)', lineHeight: 1, textTransform: 'uppercase' }}>PATTO</span>
             </div>
           )}
           {sl.badge && slide !== 0 && (
@@ -589,17 +588,6 @@ export function OnboardingScreen({ onComplete }: Props) {
 
       {/* ── Footer ── */}
       <div style={{ flexShrink: 0, padding: '0 22px', paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))' }}>
-        {/* Language note on last slide */}
-        {isLast && (
-          <p style={{
-            fontSize: 11.5, color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)',
-            textAlign: 'center', margin: '0 0 14px', lineHeight: 1.65,
-            whiteSpace: 'pre-line', wordBreak: 'keep-all',
-          }}>
-            {s.langNote}
-          </p>
-        )}
-
         {/* Dots */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 14 }}>
           {Array.from({ length: TOTAL }).map((_, i) => (
