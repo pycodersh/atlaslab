@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, ScrollText, Shield, Mail, Info } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ScrollText, Shield, ReceiptText, Mail, Info } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
@@ -93,13 +93,18 @@ export default function AboutPage() {
   const LEGAL: RowItem[] = [
     {
       icon: ScrollText, iconColor: '#8E8E93',
-      label: 'Terms of Service', desc: t('terms_desc'),
+      label: t('terms_label'), desc: t('terms_desc'),
       href: '/settings/about/terms',
     },
     {
       icon: Shield, iconColor: '#8E8E93',
-      label: 'Privacy Policy', desc: t('privacy_desc'),
-      href: '/settings/about/privacy', last: true,
+      label: t('privacy_label'), desc: t('privacy_desc'),
+      href: '/settings/about/privacy',
+    },
+    {
+      icon: ReceiptText, iconColor: '#8E8E93',
+      label: t('refund_label'), desc: t('refund_desc'),
+      href: '/settings/about/refunds', last: true,
     },
   ]
 
