@@ -2,13 +2,11 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { LogOut, Trash2, ChevronLeft, Shield, Calendar, Hash } from 'lucide-react'
+import { Trash2, ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
-import { signOut } from '@/lib/auth-actions'
 import { useAuth } from '@/contexts/AuthContext'
 import { useT } from '@/hooks/useT'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
-import { useSubscription } from '@/hooks/useSubscription'
 
 function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel }: {
   message: string; cancelLabel: string; confirmLabel: string
@@ -34,35 +32,16 @@ function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel
   )
 }
 
-function InfoRow({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '13px 0', borderBottom: '1px solid var(--pglass-border)' }}>
-      <div style={{ width: 32, height: 32, borderRadius: 8, background: 'var(--pc)', border: '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-        <Icon style={{ width: 14, height: 14, color: '#6E6E73' }} strokeWidth={1.6} />
-      </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 10.5, fontWeight: 700, color: '#8E8E93', margin: '0 0 1px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{label}</p>
-        <p style={{ fontSize: 13.5, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</p>
-      </div>
-    </div>
-  )
-}
 
 export default function AccountPage() {
   const router = useRouter()
   const { user } = useAuth()
   const t = useT()
   const isDesktop = useIsDesktop()
-  const { isPro } = useSubscription()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [toast, setToast] = useState('')
 
   function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
-
-  async function handleSignOut() {
-    await signOut()
-    router.push('/home')
-  }
 
   async function handleDeleteAccount() {
     setShowDeleteConfirm(false)
@@ -83,13 +62,7 @@ export default function AccountPage() {
   const avatarUrl = user.user_metadata?.avatar_url as string | undefined
   const name = (user.user_metadata?.full_name || user.user_metadata?.name || user.user_metadata?.user_name || user.email?.split('@')[0] || 'User') as string
   const email = user.email
-  const rawProvider = (user.app_metadata?.provider || 'email') as string
-  const providerLabel = rawProvider === 'google' ? 'Google' : rawProvider === 'kakao' ? 'Kakao' : 'Email'
   const initial = name[0]?.toUpperCase() ?? '?'
-  const userId = user.id ? `···${user.id.slice(-8)}` : '—'
-  const joinedAt = user.created_at
-    ? new Date(user.created_at).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
-    : '—'
 
   return (
     <div className="min-h-dvh bg-[var(--pb)]">
@@ -103,7 +76,7 @@ export default function AccountPage() {
             style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 16, background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--pa)', fontSize: 13, fontWeight: 600, fontFamily: 'inherit' }}
           >
             <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={2} />
-            Profile
+            Settings
           </button>
         )}
 
@@ -116,7 +89,7 @@ export default function AccountPage() {
           background: 'var(--pglass)',
           backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
           borderRadius: 20, border: '1px solid var(--pglass-border)',
-          padding: '20px', marginBottom: 12,
+          padding: '20px', marginBottom: 24,
           display: 'flex', alignItems: 'center', gap: 16,
         }}>
           <div style={{
@@ -132,58 +105,9 @@ export default function AccountPage() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{name}</p>
-            {email && <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: '0 0 7px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>}
-            <div style={{ display: 'flex', gap: 5 }}>
-              <span style={{ fontSize: 10, fontWeight: 600, color: '#8E8E93', background: 'var(--pc)', border: '1px solid var(--pglass-border)', borderRadius: 6, padding: '2px 8px', letterSpacing: '0.04em' }}>
-                {providerLabel}
-              </span>
-              <span style={{ fontSize: 10, fontWeight: 600, color: isPro ? '#4A7A6A' : '#8E8E93', background: isPro ? 'rgba(100,180,155,0.12)' : 'var(--pc)', border: `1px solid ${isPro ? 'rgba(100,180,155,0.22)' : 'var(--pglass-border)'}`, borderRadius: 6, padding: '2px 8px', letterSpacing: '0.04em' }}>
-                {isPro ? 'Premium' : 'Free Plan'}
-              </span>
-            </div>
+            {email && <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</p>}
           </div>
         </div>
-
-        {/* Account info rows */}
-        <div style={{
-          background: 'var(--pglass)',
-          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: 20, border: '1px solid var(--pglass-border)',
-          padding: '0 16px', marginBottom: 12,
-        }}>
-          <InfoRow icon={Shield} label="Provider" value={providerLabel} />
-          <InfoRow icon={Hash} label="User ID" value={userId} />
-          <div style={{ borderBottom: 'none' }}>
-            <InfoRow icon={Calendar} label="가입일" value={joinedAt} />
-          </div>
-        </div>
-
-        {/* Logout button */}
-        <button
-          type="button"
-          onClick={handleSignOut}
-          style={{
-            width: '100%', padding: '14px 0',
-            borderRadius: 14, border: '1px solid var(--pglass-border)',
-            background: 'var(--pglass)',
-            backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-            color: 'var(--pm)', fontSize: 14, fontWeight: 600,
-            cursor: 'pointer', fontFamily: 'inherit',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-            marginBottom: 24, transition: 'background 0.15s, color 0.15s',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'var(--pc)'
-            e.currentTarget.style.color = 'var(--pt)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'var(--pglass)'
-            e.currentTarget.style.color = 'var(--pm)'
-          }}
-        >
-          <LogOut style={{ width: 15, height: 15 }} strokeWidth={2} />
-          Logout
-        </button>
 
         {/* Danger zone */}
         <div>
