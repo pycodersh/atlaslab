@@ -255,17 +255,11 @@ export default function EssaysPage() {
     <div style={{ minHeight: '100dvh' }}>
       <TopNav />
       <div className="desktop-max">
-        <div className="desktop-two-col">
-          {/* Left: New Essay + AI credits */}
-          <div style={{ padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)` }}>{leftPanel}</div>
-          {/* Right: My Essays — stacks below on mobile, sticky column on desktop */}
-          <div className="desktop-right-col" style={{ padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)` }}>{rightPanel}</div>
-        </div>
-
-        {/* Desktop inline panel */}
-        {isDesktop && activePanel && (
-          <div style={{ padding: '0 20px calc(40px + ' + TAB_BAR_HEIGHT + 'px)', maxWidth: 1060, margin: '0 auto' }}>
-            {activePanel === 'composer' && (
+        <div className="desktop-two-col" style={{ alignItems: 'flex-start' }}>
+          {/* Left: New Essay + AI credits + composer panel */}
+          <div style={{ padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)` }}>
+            {leftPanel}
+            {isDesktop && activePanel === 'composer' && (
               <EssayComposerPanel
                 onClose={closePanel}
                 onSaved={(essay) => {
@@ -280,7 +274,11 @@ export default function EssaysPage() {
                 }}
               />
             )}
-            {activePanel === 'detail' && selectedEssayId && (
+          </div>
+          {/* Right: My Essays + detail panel — stacks below on mobile */}
+          <div className="desktop-right-col" style={{ padding: `8px 20px calc(${TAB_BAR_HEIGHT}px + 32px)` }}>
+            {rightPanel}
+            {isDesktop && activePanel === 'detail' && selectedEssayId && (
               <EssayDetailPanel
                 id={selectedEssayId}
                 onClose={closePanel}
@@ -288,7 +286,7 @@ export default function EssaysPage() {
               />
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
