@@ -712,6 +712,7 @@ export function PatternsPageV2({
                     <button
                       type="button"
                       onClick={goPrev}
+                      onPointerDown={e => e.stopPropagation()}
                       aria-label="Previous pattern"
                       style={{
                         width: 28, height: 28, borderRadius: '50%',
@@ -749,6 +750,7 @@ export function PatternsPageV2({
                     <button
                       type="button"
                       onClick={goNext}
+                      onPointerDown={e => e.stopPropagation()}
                       aria-label="Next pattern"
                       style={{
                         width: 28, height: 28, borderRadius: '50%',
