@@ -114,7 +114,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       } else {
         // Patterns → next Story
         const next = allStoriesRef.current.find(x => x.id === s.id + 1)
-        if (next) { handleStop(); setView('story'); router.push(`/stories/${next.id}`) }
+        if (next) { handleStop(); router.push(`/stories/${next.id}`) }
       }
     } else if (dragOffset > THRESHOLD) {
       // Swipe RIGHT → backward
@@ -188,7 +188,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   }
 
   function goToStory(id: number, startView: 'story' | 'patterns' = 'story') {
-    handleStop(); setView('story')
+    handleStop()
     const suffix = startView === 'patterns' ? '?v=p' : ''
     router.push(`/stories/${id}${suffix}`)
   }
