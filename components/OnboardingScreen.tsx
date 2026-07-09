@@ -95,56 +95,14 @@ function Screen1({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => vo
 
 // ── Screen 2: Learn ───────────────────────────────────────────────────────────
 function Screen2({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => void; onNext: () => void }) {
-  const bg      = isDark ? '#0E0F14' : '#F8F8FC'
+  const bg      = isDark ? '#0E0F14' : '#F0F2F8'
   const card    = isDark ? '#1A1B23' : '#FFFFFF'
   const border  = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'
-  const title   = isDark ? '#FFFFFF' : '#1A1A2E'
+  const textCol = isDark ? '#FFFFFF' : '#1A1A2E'
   const sub     = isDark ? 'rgba(255,255,255,0.48)' : '#9095A0'
   const accent  = '#4A6FA8'
-  const shadow  = isDark ? '0 4px 18px rgba(0,0,0,0.32)' : '0 4px 18px rgba(0,0,0,0.07)'
-
-  const cards = [
-    {
-      id: 'story',
-      label: 'STORY',
-      desc: '실제 이야기를\n읽고 들어요.',
-      visual: (
-        <img
-          src={STORY_THUMB}
-          alt=""
-          style={{ width: '100%', aspectRatio: '1/1', objectFit: 'cover', borderRadius: 12, display: 'block' }}
-        />
-      ),
-    },
-    {
-      id: 'pattern',
-      label: 'PATTERN',
-      desc: '자주 쓰는 표현을\n반복해요.',
-      visual: (
-        <div style={{
-          width: '100%', aspectRatio: '1/1', borderRadius: 12,
-          background: isDark ? 'rgba(123,94,167,0.12)' : '#F0EBF8',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <RefreshCw style={{ width: 32, height: 32, color: '#7B5EA7', opacity: 0.85 }} strokeWidth={1.6} />
-        </div>
-      ),
-    },
-    {
-      id: 'ai',
-      label: 'AI REVIEW',
-      desc: 'AI가 자연스럽게\n첨삭해요.',
-      visual: (
-        <div style={{
-          width: '100%', aspectRatio: '1/1', borderRadius: 12,
-          background: isDark ? 'rgba(46,125,94,0.12)' : '#EDFAF3',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <PenLine style={{ width: 32, height: 32, color: '#2E7D5E', opacity: 0.85 }} strokeWidth={1.6} />
-        </div>
-      ),
-    },
-  ]
+  const purple  = '#7B5EA7'
+  const shadow  = isDark ? '0 12px 40px rgba(0,0,0,0.5)' : '0 12px 36px rgba(0,0,0,0.13)'
 
   return (
     <div style={{ position: 'absolute', inset: 0, background: bg, display: 'flex', flexDirection: 'column' }}>
@@ -157,44 +115,90 @@ function Screen2({ isDark, onSkip, onNext }: { isDark: boolean; onSkip: () => vo
       </div>
 
       {/* Header */}
-      <div style={{ textAlign: 'center', padding: '20px 28px 0', flexShrink: 0 }}>
+      <div style={{ textAlign: 'center', padding: '16px 28px 0', flexShrink: 0 }}>
         <div style={{
-          width: 60, height: 60, borderRadius: 20, margin: '0 auto 18px',
+          width: 58, height: 58, borderRadius: 20, margin: '0 auto 16px',
           background: isDark ? 'rgba(74,111,168,0.16)' : '#E8EFF8',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <BookOpen style={{ width: 28, height: 28, color: accent }} strokeWidth={1.7} />
+          <BookOpen style={{ width: 27, height: 27, color: accent }} strokeWidth={1.7} />
         </div>
         <h2 style={{
-          fontSize: 26, fontWeight: 800, color: title,
-          margin: '0 0 10px', lineHeight: 1.25, letterSpacing: '-0.03em', wordBreak: 'keep-all',
+          fontSize: 26, fontWeight: 800, color: textCol,
+          margin: '0 0 8px', lineHeight: 1.25, letterSpacing: '-0.03em', wordBreak: 'keep-all',
         }}>읽고, 듣고, 반복하세요.</h2>
         <p style={{ fontSize: 14, color: sub, margin: 0, lineHeight: 1.6, wordBreak: 'keep-all' }}>
           스토리와 패턴으로 실제 영어를 익혀요.
         </p>
       </div>
 
-      {/* 3 cards */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '20px 20px 0' }}>
-        <div style={{ display: 'flex', gap: 10, width: '100%' }}>
-          {cards.map(c => (
-            <div key={c.id} style={{
-              flex: 1, borderRadius: 18, overflow: 'hidden',
-              background: card, border: `1px solid ${border}`, boxShadow: shadow,
-              display: 'flex', flexDirection: 'column', padding: '12px 10px 14px', gap: 10,
+      {/* Overlapping tilted cards */}
+      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        {/* Pattern card — behind, rotated right */}
+        <div style={{
+          position: 'absolute',
+          top: 32, right: 14, width: '62%',
+          borderRadius: 22, background: card, border: `1px solid ${border}`, boxShadow: shadow,
+          padding: '16px 16px 18px',
+          transform: 'rotate(4deg)',
+          transformOrigin: 'bottom right',
+        }}>
+          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: purple, textTransform: 'uppercase', margin: '0 0 10px' }}>PATTERN 127</p>
+          <p style={{ fontSize: 18, fontWeight: 800, color: textCol, margin: '0 0 8px', lineHeight: 1.3, letterSpacing: '-0.02em' }}>
+            I used to ~,<br />but now I ~.
+          </p>
+          <p style={{ fontSize: 12, color: sub, margin: '0 0 16px', lineHeight: 1.5 }}>
+            나는 ~하곤 했지만,<br />지금은 ~해.
+          </p>
+          <button type="button" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            background: 'none', border: `1px solid ${border}`, borderRadius: 99,
+            padding: '6px 14px', cursor: 'pointer', fontFamily: 'inherit',
+            fontSize: 11.5, fontWeight: 600, color: purple,
+          }}>
+            <RefreshCw style={{ width: 11, height: 11 }} strokeWidth={2} /> 연습하기
+          </button>
+        </div>
+
+        {/* Story card — front, rotated left */}
+        <div style={{
+          position: 'absolute',
+          top: 20, left: 14, width: '64%',
+          borderRadius: 22, background: card, border: `1px solid ${border}`, boxShadow: shadow,
+          overflow: 'hidden',
+          transform: 'rotate(-4deg)',
+          transformOrigin: 'bottom left',
+        }}>
+          <div style={{ padding: '14px 16px 0' }}>
+            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: accent, textTransform: 'uppercase', margin: '0 0 4px' }}>STORY 04</p>
+            <p style={{ fontSize: 16, fontWeight: 800, color: textCol, margin: '0 0 10px', lineHeight: 1.3, letterSpacing: '-0.02em' }}>An Ordinary<br />Morning</p>
+          </div>
+          <img
+            src={STORY_THUMB}
+            alt=""
+            style={{ width: '100%', height: 110, objectFit: 'cover', display: 'block' }}
+          />
+          <div style={{ padding: '12px 16px 14px' }}>
+            <p style={{ fontSize: 12, color: sub, margin: '0 0 12px', lineHeight: 1.6 }}>
+              It was an ordinary morning,<br />but something changed.
+            </p>
+            <button type="button" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              background: 'none', border: `1px solid ${border}`, borderRadius: 99,
+              padding: '6px 14px', cursor: 'pointer', fontFamily: 'inherit',
+              fontSize: 11.5, fontWeight: 600, color: sub,
             }}>
-              {c.visual}
-              <div>
-                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.10em', color: sub, textTransform: 'uppercase', margin: '0 0 4px' }}>{c.label}</p>
-                <p style={{ fontSize: 11, color: title, margin: 0, lineHeight: 1.55, fontWeight: 500, whiteSpace: 'pre-line', wordBreak: 'keep-all' }}>{c.desc}</p>
-              </div>
-            </div>
-          ))}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+              </svg>
+              듣기
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div style={{ padding: '20px 24px', paddingBottom: 'calc(env(safe-area-inset-bottom,0px) + 28px)', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ padding: '16px 24px', paddingBottom: 'calc(env(safe-area-inset-bottom,0px) + 28px)', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 16 }}>
         <button type="button" onClick={onNext} style={{
           width: '100%', minHeight: 52, borderRadius: 16,
           background: accent, border: 'none', cursor: 'pointer',
