@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, RotateCcw, Trash2, Calendar } from 'lucide-react'
+import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, RotateCcw, Trash2 } from 'lucide-react'
 import { requestOnboardingReplay } from '@/lib/onboarding'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
@@ -149,21 +149,18 @@ function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel
 }
 
 // ── User profile card (logged-in) ─────────────────────────────────────────────
-function UserProfileCard({ user }: { user: User }) {
+function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void }) {
   const avatarUrl = user.user_metadata?.avatar_url as string | undefined
   const name = ((user.user_metadata?.full_name || user.user_metadata?.name || user.user_metadata?.user_name || user.email?.split('@')[0] || 'User') as string)
   const email = user.email
   const initial = name[0]?.toUpperCase() ?? '?'
-  const joinedAt = user.created_at
-    ? new Date(user.created_at).toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })
-    : null
 
   return (
-    <div style={{ ...glassCard, padding: '20px 20px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        {/* Avatar */}
+    <div style={{ ...glassCard, padding: 0, overflow: 'hidden' }}>
+      {/* Avatar + info */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '22px 20px 20px' }}>
         <div style={{
-          width: 54, height: 54, borderRadius: '50%', flexShrink: 0,
+          width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
           background: 'var(--pc)', border: '1px solid var(--pglass-border)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           overflow: 'hidden',
@@ -171,28 +168,40 @@ function UserProfileCard({ user }: { user: User }) {
           {avatarUrl ? (
             <img src={avatarUrl} alt={name} referrerPolicy="no-referrer" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           ) : (
-            <span style={{ fontSize: 20, fontWeight: 700, color: 'var(--pa)', lineHeight: 1 }}>{initial}</span>
+            <span style={{ fontSize: 21, fontWeight: 700, color: 'var(--pa)', lineHeight: 1 }}>{initial}</span>
           )}
         </div>
-
-        {/* Info */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {name}
           </p>
           {email && (
-            <p style={{ fontSize: 11.5, color: 'var(--pm)', margin: '0 0 5px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {email}
-            </p>
-          )}
-          {joinedAt && (
-            <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, display: 'flex', alignItems: 'center', gap: 4 }}>
-              <Calendar style={{ width: 10, height: 10, flexShrink: 0 }} strokeWidth={2} />
-              Member since {joinedAt}
             </p>
           )}
         </div>
       </div>
+
+      {/* Logout row */}
+      <button
+        type="button"
+        onClick={onLogout}
+        style={{
+          width: '100%', padding: '13px 20px',
+          border: 'none', borderTop: '1px solid var(--pglass-border)',
+          background: 'transparent',
+          color: 'var(--pm)', fontSize: 13.5, fontWeight: 600,
+          cursor: 'pointer', fontFamily: 'inherit',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
+          transition: 'background 0.15s',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = 'var(--pc)' }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
+      >
+        <LogOut style={{ width: 13, height: 13 }} strokeWidth={2} />
+        Logout
+      </button>
     </div>
   )
 }
@@ -462,7 +471,7 @@ export default function SettingsPage() {
         {/* Profile card */}
         {!loading && (
           user
-            ? <UserProfileCard user={user} />
+            ? <UserProfileCard user={user} onLogout={handleLogout} />
             : <GuestProfileCard />
         )}
 
@@ -498,27 +507,6 @@ export default function SettingsPage() {
           desc={t('hub_about_desc')}
           href="/settings/about"
         />
-
-        {/* Logout */}
-        {user && (
-          <button
-            type="button"
-            onClick={handleLogout}
-            style={{
-              ...card,
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              padding: '13px 16px', width: '100%', boxSizing: 'border-box',
-              cursor: 'pointer', fontFamily: 'inherit',
-              color: 'var(--pm)', fontSize: 13, fontWeight: 600,
-              transition: 'opacity 0.15s',
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.70' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
-          >
-            <LogOut style={{ width: 13, height: 13 }} strokeWidth={2} />
-            Logout
-          </button>
-        )}
 
         {/* Delete Account — subtle */}
         {user && (
