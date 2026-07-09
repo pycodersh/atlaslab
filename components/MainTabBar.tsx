@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { getLastPosition } from '@/lib/last-position'
 
 export const TAB_BAR_HEIGHT = 72
 
@@ -70,6 +71,12 @@ export function MainTabBar() {
   const [scrolledDown, setScrolledDown] = useState(false)
   const lastYRef = useRef(0)
 
+  // Restore last story/pattern position when tapping the Story tab
+  const lastPos = getLastPosition()
+  const storyHref = lastPos
+    ? `/stories/${lastPos.storyId}${lastPos.view === 'patterns' ? '?v=p' : ''}`
+    : '/stories/1'
+
   useEffect(() => {
     const handleScroll = () => {
       const y = window.scrollY
@@ -116,10 +123,11 @@ export function MainTabBar() {
       >
         {TABS.map((tab) => {
           const isActive = tab.active(pathname)
+          const href = tab.label === 'STORY' ? storyHref : tab.href
           return (
             <Link
               key={tab.href}
-              href={tab.href}
+              href={href}
               style={{
                 display: 'flex',
                 flexDirection: 'column',

@@ -79,10 +79,5 @@ export function useSpeech() {
     setCurrentParagraphIdx(-1)
   }, [])
 
-  // 페이지 이동(언마운트) 시 즉시 중단
-  useEffect(() => {
-    return () => { ttsProvider.stop() }
-  }, [])
-
   return { speak, speakAll, stop, isSpeaking, currentParagraphIdx }
 }

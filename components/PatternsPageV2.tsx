@@ -144,9 +144,13 @@ export function PatternsPageV2({
   const patterns = story.patterns
 
   // ── Core navigation state ─────────────────────────────────────────────────
-  const [patIdx, setPatIdx] = useState(0)
+  const [patIdx, setPatIdx] = useState(() => {
+    if (typeof window === 'undefined') return 0
+    const saved = localStorage.getItem(`patto-pat-idx-${story.id}`)
+    return saved !== null ? Math.min(parseInt(saved, 10), patterns.length - 1) : 0
+  })
   const [exIdx,  setExIdx]  = useState(0)
-  const patIdxRef = useRef(0)
+  const patIdxRef = useRef(patIdx)
   const exIdxRef  = useRef(0)
 
   const pattern  = patterns[patIdx]
@@ -159,9 +163,16 @@ export function PatternsPageV2({
   useEffect(() => { patIdxRef.current = patIdx }, [patIdx])
   useEffect(() => { exIdxRef.current  = exIdx  }, [exIdx])
 
+  // Save pattern position per story
   useEffect(() => {
-    setPatIdx(0); setExIdx(0)
-    patIdxRef.current = 0; exIdxRef.current = 0
+    localStorage.setItem(`patto-pat-idx-${story.id}`, String(patIdx))
+  }, [patIdx, story.id])
+
+  useEffect(() => {
+    const saved = localStorage.getItem(`patto-pat-idx-${story.id}`)
+    const idx = saved !== null ? Math.min(parseInt(saved, 10), patterns.length - 1) : 0
+    setPatIdx(idx); setExIdx(0)
+    patIdxRef.current = idx; exIdxRef.current = 0
     setRevealedExSet(new Set())
   }, [story.id])
 
@@ -226,7 +237,7 @@ export function PatternsPageV2({
 
 
 
-  useEffect(() => () => { runningRef.current = false; clearTimer(); ttsProvider.stop() }, [])
+  useEffect(() => () => { runningRef.current = false; clearTimer() }, [])
 
   // Stop audio and reset to ex0 when navigating away from patterns view
   useEffect(() => {
