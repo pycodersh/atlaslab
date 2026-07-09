@@ -1,9 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, User, LogIn, UserPlus, LogOut, Trash2, ChevronRight } from 'lucide-react'
+import { User, LogIn, UserPlus, LogOut, Trash2, ChevronRight } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { signOut } from '@/lib/auth-actions'
 import { useAuth } from '@/contexts/AuthContext'
@@ -79,11 +78,6 @@ export default function AccountPage() {
     <div className="min-h-dvh bg-[var(--pb)]">
       <TopNav />
       <div className="px-7 pb-24 max-w-sm mx-auto pt-20">
-        <Link href="/settings" className="flex items-center gap-1.5 text-[var(--pm)] hover:text-[var(--pa)] transition-colors mb-8 w-fit">
-          <ChevronLeft className="w-3.5 h-3.5" strokeWidth={1.5} />
-          <span className="text-[10px] tracking-[0.18em] font-bold">SETTINGS</span>
-        </Link>
-
         <div className="mb-8">
           <h1 className="font-playfair text-[1.9rem] font-black leading-none text-[var(--pt)] tracking-tight">ACCOUNT</h1>
           <p className="text-[0.78rem] text-[var(--pm)] mt-2 tracking-wide">프로필 및 계정 인증</p>
