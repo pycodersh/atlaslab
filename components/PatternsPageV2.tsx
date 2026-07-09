@@ -331,6 +331,7 @@ export function PatternsPageV2({
 
     const onPointerDown = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return
+      if ((e.target as Element).closest('button')) return
       startX = e.clientX
       dragging = true
       hasMoved = false
