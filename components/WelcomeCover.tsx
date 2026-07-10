@@ -100,15 +100,18 @@ export function WelcomeCover() {
         pointerEvents: 'none',
       }}>
         {/* Logo row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-          {/* PT monogram — serif text mark */}
-          <span style={{
-            fontSize: 22, fontWeight: 900, lineHeight: 1,
-            color: isDark ? '#FFFFFF' : '#0F1923',
-            fontFamily: 'Georgia, "Times New Roman", serif',
-            letterSpacing: '-0.04em',
-          }}>PT</span>
-          <div style={{ width: 1, height: 20, background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.20)' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+          <img
+            src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
+            alt="PATTO"
+            style={{
+              display: 'block',
+              height: 28, width: 'auto',
+              mixBlendMode: isDark ? 'screen' : 'multiply',
+              opacity: isDark ? 0.92 : 1,
+            }}
+          />
+          <div style={{ width: 1, height: 22, background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.20)' }} />
           <span style={{
             fontSize: 22, fontWeight: 800, letterSpacing: '0.02em', lineHeight: 1,
             color: isDark ? '#FFFFFF' : '#0F1923',
