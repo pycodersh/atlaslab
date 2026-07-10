@@ -48,7 +48,7 @@ export default function SavedPatternsPage() {
             PATTERNS
           </h1>
           <p className="text-[0.78rem] text-[#8E8E93] mt-2 tracking-wide">
-            {t('patterns_subtitle', { n: items.length })}
+            {t('patterns_saved_subtitle', { n: items.length })}
           </p>
         </div>
 
