@@ -349,6 +349,8 @@ function SlimBar({ pct, color }: { pct: number; color: string }) {
 // ── Mastery ring (small SVG circle with stroke) ───────────────────────────────
 
 function MasteryRing({ pct, label }: { pct: number; label: string }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const size = 44, stroke = 3, r = (size - stroke) / 2
   const circ = 2 * Math.PI * r
   const offset = circ * (1 - pct / 100)
@@ -381,14 +383,14 @@ function MasteryRing({ pct, label }: { pct: number; label: string }) {
         }}>
           <span style={{
             fontSize: 10, fontWeight: 700,
-            color: active ? '#4A7AC8' : 'rgba(140,150,185,0.55)',
+            color: isDark ? 'rgba(255,255,255,0.8)' : (active ? '#4A7AC8' : 'rgba(140,150,185,0.55)'),
             lineHeight: 1,
           }}>
             {pct}%
           </span>
         </div>
       </div>
-      <span style={{ fontSize: 9.5, fontWeight: 500, color: 'var(--pm2)', letterSpacing: '0.02em' }}>
+      <span style={{ fontSize: 9.5, fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', letterSpacing: '0.02em' }}>
         {label}
       </span>
     </div>
@@ -580,6 +582,8 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
   mastery: number[]
 }) {
   const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const s = getScoreI18n(prefs.language)
   const storyPct   = Math.min(Math.round((learnedStories  / 100)  * 100), 100)
   const patternPct = Math.min(Math.round((learnedPatterns / 500) * 100), 100)
@@ -596,7 +600,7 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
 
           {/* Title row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
-            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: 0, textTransform: 'uppercase', flex: 1 }}>
+            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase', flex: 1 }}>
               Score
             </p>
             <button
@@ -624,10 +628,10 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
               </div>
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 16, fontWeight: 800, color, margin: '0 0 5px', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+              <p style={{ fontSize: 16, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.9)' : color, margin: '0 0 5px', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
                 {grade}
               </p>
-              <p style={{ fontSize: 11.5, fontWeight: 400, color: 'var(--pm2)', margin: 0, lineHeight: 1.55 }}>
+              <p style={{ fontSize: 11.5, fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.6)' : 'var(--pm2)', margin: 0, lineHeight: 1.55 }}>
                 {comment}
               </p>
             </div>
@@ -641,13 +645,13 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <BookOpen style={{ width: 13, height: 13, color: '#4A7AC8', flexShrink: 0 }} strokeWidth={2.2} />
-                <span style={{ fontSize: 11, fontWeight: 800, color: '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.7)' : '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   Story Progress
                 </span>
               </div>
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
                 {learnedStories}
-                <span style={{ fontWeight: 400, color: 'var(--pm2)', fontSize: 11 }}> / 100</span>
+                <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / 100</span>
               </span>
             </div>
             <SlimBar pct={storyPct} color="#4A7AC8" />
@@ -658,13 +662,13 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <Layers style={{ width: 13, height: 13, color: '#7A6AC8', flexShrink: 0 }} strokeWidth={2.2} />
-                <span style={{ fontSize: 11, fontWeight: 800, color: '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.7)' : '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                   Pattern Progress
                 </span>
               </div>
-              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
                 {learnedPatterns}
-                <span style={{ fontWeight: 400, color: 'var(--pm2)', fontSize: 11 }}> / 500</span>
+                <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / 500</span>
               </span>
             </div>
             <SlimBar pct={patternPct} color="#7A6AC8" />
@@ -674,7 +678,7 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
         {/* ── Review Mastery ── */}
         <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
-            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: 0, textTransform: 'uppercase' }}>
+            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase' }}>
               Review Mastery
             </p>
             <button type="button" onClick={() => setShowMasteryInfo(true)} style={{
@@ -689,7 +693,7 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
               <MasteryRing key={i} pct={pct} label={s.masteryRingLabel(i + 1)} />
             ))}
           </div>
-          <p style={{ fontSize: 10, color: 'rgba(140,150,185,0.65)', margin: '16px 0 0', textAlign: 'center', fontWeight: 400 }}>
+          <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(140,150,185,0.65)', margin: '16px 0 0', textAlign: 'center', fontWeight: 400 }}>
             {s.masteryCardBottom}
           </p>
         </div>

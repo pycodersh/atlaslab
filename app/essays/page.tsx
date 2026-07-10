@@ -177,7 +177,7 @@ export default function EssaysPage() {
           }}
         >
           <Plus style={{ width: 14, height: 14, color: '#8E8E93' }} strokeWidth={2.5} />
-          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pm)', letterSpacing: '-0.01em' }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.8)' : 'var(--pm)', letterSpacing: '-0.01em' }}>
             {t('essays_new')}
           </span>
         </button>
