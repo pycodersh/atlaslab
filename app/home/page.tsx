@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
@@ -836,7 +837,7 @@ export default function HomePage() {
               </p>
             </div>
             {/* Continue — more transparent */}
-            <button
+            <motion.button
               type="button"
               onClick={e => { e.stopPropagation(); router.push(`/stories/${todayStory.id}`) }}
               style={{
@@ -849,15 +850,17 @@ export default function HomePage() {
                 borderRadius: 999, padding: '9px 16px',
                 cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#fff',
                 boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-                transition: 'all 0.15s', letterSpacing: '0.01em', whiteSpace: 'nowrap',
+                letterSpacing: '0.01em', whiteSpace: 'nowrap',
               }}
+              whileTap={{ scale: 0.93 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
             >
               {allDone ? t('status_done') : 'Start'}
               {allDone
                 ? <PartyPopper style={{ width: 12, height: 12 }} strokeWidth={2.5} />
                 : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />
               }
-            </button>
+            </motion.button>
           </div>
         </div>
 
@@ -894,7 +897,13 @@ export default function HomePage() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
 
               {/* LEARN TODAY */}
-              <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+              <motion.div
+                className="glass-card-sm"
+                style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative', cursor: newStoriesData.length > 0 ? 'pointer' : 'default' }}
+                onClick={() => newStoriesData.length > 0 && router.push(`/stories/${newStoriesData[0].id}`)}
+                whileTap={newStoriesData.length > 0 ? { scale: 0.93 } : {}}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+              >
                 {newDone && (
                   <span style={{
                     position: 'absolute', top: 7, right: 9,
@@ -921,10 +930,16 @@ export default function HomePage() {
                 ) : (
                   <p style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400, margin: 0 }}>—</p>
                 )}
-              </div>
+              </motion.div>
 
               {/* REVIEW */}
-              <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+              <motion.div
+                className="glass-card-sm"
+                style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative', cursor: reviewStoriesData.length > 0 ? 'pointer' : 'default' }}
+                onClick={() => reviewStoriesData.length > 0 && router.push(reviewStoriesData[0] ? `/stories/${reviewStoriesData[0].id}?v=p` : firstHref)}
+                whileTap={reviewStoriesData.length > 0 ? { scale: 0.93 } : {}}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+              >
                 {reviewDone && reviewStoriesData.length > 0 && (
                   <span style={{
                     position: 'absolute', top: 7, right: 9,
@@ -952,7 +967,7 @@ export default function HomePage() {
                 ) : (
                   <p style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400, margin: 0 }}>—</p>
                 )}
-              </div>
+              </motion.div>
             </div>
 
             {/* ── Review list ── */}

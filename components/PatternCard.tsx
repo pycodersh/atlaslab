@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { PatternCardBack } from '@/components/PatternCardBack'
 import { PatternCardFront } from '@/components/PatternCardFront'
 import { cn } from '@/lib/utils'
@@ -33,7 +34,7 @@ export function PatternCard({
   onToggleFavorite,
 }: PatternCardProps) {
   return (
-    <section
+    <motion.section
       aria-label={isFlipped ? '카드 뒷면' : '카드 앞면'}
       aria-pressed={isFlipped}
       className="h-[31rem] w-full cursor-pointer rounded-[28px] text-left [perspective:1200px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F8CFF] focus-visible:ring-offset-4"
@@ -43,6 +44,8 @@ export function PatternCard({
       }}
       role="button"
       tabIndex={0}
+      whileTap={{ scale: 0.93 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
     >
       <div
         className={cn(
@@ -73,6 +76,6 @@ export function PatternCard({
           totalCards={totalCards}
         />
       </div>
-    </section>
+    </motion.section>
   )
 }
