@@ -2,145 +2,166 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useTheme } from '@/components/ThemeProvider'
-import { OnboardingScreen } from '@/components/OnboardingScreen'
-import { isOnboardingDone, markOnboardingDone, consumeOnboardingReplay } from '@/lib/onboarding'
 
-const SPLASH_KEY  = 'patto-welcome-shown'
-const MIN_SHOW_MS = 2500
-const FADEOUT_MS  = 300
+const COVER_KEY   = 'patto_cover_done_v1'
+const COVER_REPLAY = 'patto_cover_replay_v1'
 
-function todayStr() {
-  const d = new Date()
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+export function requestCoverReplay() {
+  if (typeof window !== 'undefined') localStorage.setItem(COVER_REPLAY, 'true')
 }
 
-type Phase =
-  | 'checking'        // reading localStorage — render nothing
-  | 'onboarding'      // show onboarding slides
-  | 'splash'          // show splash (2.5 s)
-  | 'splashFadeout'   // fading out
-  | 'done'            // completely hidden
+function isCoverDone(): boolean {
+  if (typeof window === 'undefined') return true
+  return localStorage.getItem(COVER_KEY) === 'true'
+}
+
+function consumeCoverReplay(): boolean {
+  if (typeof window === 'undefined') return false
+  const had = localStorage.getItem(COVER_REPLAY) === 'true'
+  if (had) localStorage.removeItem(COVER_REPLAY)
+  return had
+}
 
 export function WelcomeCover() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
-  const [phase, setPhase]               = useState<Phase>('checking')
-  const [brandVisible, setBrandVisible] = useState(false)
-  const [sloganVisible, setSloganVisible] = useState(false)
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([])
-
-  // Clear all pending timers on unmount
-  useEffect(() => () => { timers.current.forEach(clearTimeout) }, [])
+  const [visible, setVisible] = useState(false)
+  const [fading, setFading] = useState(false)
+  const touchX = useRef<number | null>(null)
 
   useEffect(() => {
-    // Replay request from Settings (forced full-page reload)
-    const isReplay = consumeOnboardingReplay()
-    if (isReplay) { setPhase('onboarding'); return }
+    const isReplay = consumeCoverReplay()
+    if (isReplay || !isCoverDone()) {
+      setVisible(true)
+      // Lock body scroll
+      document.body.style.overflow = 'hidden'
+      document.body.style.position = 'fixed'
+      document.body.style.width = '100%'
+      document.body.style.top = '0'
+    }
+  }, [])
 
-    // First-run: onboarding not yet completed
-    if (!isOnboardingDone()) { setPhase('onboarding'); return }
-
-    // Regular splash: once per day
-    const today = todayStr()
-    if (localStorage.getItem(SPLASH_KEY) === today) { setPhase('done'); return }
-    localStorage.setItem(SPLASH_KEY, today)
-    startSplash()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  function startSplash() {
-    const startedAt = Date.now()
-    setPhase('splash')
-    setBrandVisible(false)
-    setSloganVisible(false)
-
-    const t1 = setTimeout(() => setBrandVisible(true), 80)
-    const t2 = setTimeout(() => setSloganVisible(true), 420)
-    const t3 = setTimeout(() => {
-      const elapsed  = Date.now() - startedAt
-      const remaining = Math.max(0, MIN_SHOW_MS - elapsed)
-      const t4 = setTimeout(() => {
-        setPhase('splashFadeout')
-        const t5 = setTimeout(() => setPhase('done'), FADEOUT_MS)
-        timers.current.push(t5)
-      }, remaining)
-      timers.current.push(t4)
-    }, MIN_SHOW_MS)
-
-    timers.current.push(t1, t2, t3)
+  function dismiss() {
+    if (fading) return
+    setFading(true)
+    localStorage.setItem(COVER_KEY, 'true')
+    setTimeout(() => {
+      setVisible(false)
+      setFading(false)
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width = ''
+      document.body.style.top = ''
+    }, 380)
   }
 
-  function handleOnboardingComplete() {
-    markOnboardingDone()
-    // Show splash after onboarding (always, on first run)
-    const today = todayStr()
-    localStorage.setItem(SPLASH_KEY, today)
-    startSplash()
-  }
+  if (!visible) return null
 
-  // ── Nothing to show ──────────────────────────────────────────────────────────
-  if (phase === 'checking' || phase === 'done') return null
-
-  // ── Onboarding ───────────────────────────────────────────────────────────────
-  if (phase === 'onboarding') {
-    return <OnboardingScreen onComplete={handleOnboardingComplete} />
-  }
-
-  // ── Splash ───────────────────────────────────────────────────────────────────
-  const bg          = isDark ? '#0F172A' : '#F7FBFF'
-  const c1          = isDark ? 'rgba(30,58,138,0.18)' : 'rgba(195,225,255,0.50)'
-  const c2          = isDark ? 'rgba(23,45,110,0.13)' : 'rgba(210,238,255,0.40)'
-  const c3          = isDark ? 'rgba(15,30,80,0.10)'  : 'rgba(225,244,255,0.32)'
-  const logoFilter  = isDark ? 'invert(1) brightness(1.8)' : 'none'
-  const wordColor   = isDark ? '#FFFFFF' : '#0F1923'
-  const sloganColor = isDark ? 'rgba(255,255,255,0.88)' : 'rgba(15,40,85,0.78)'
-  const transitionIn = 'opacity 680ms cubic-bezier(0.25,0.46,0.45,0.94), transform 680ms cubic-bezier(0.25,0.46,0.45,0.94)'
+  const coverSrc = isDark ? '/Cover_Dark.png' : '/Cover.png'
 
   return (
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 9999,
-        background: bg,
-        display: 'flex', flexDirection: 'column',
-        alignItems: 'center', justifyContent: 'center',
-        opacity: phase === 'splashFadeout' ? 0 : 1,
-        transition: phase === 'splashFadeout' ? `opacity ${FADEOUT_MS}ms ease-in-out` : 'none',
-        overflow: 'hidden',
+        overflow: 'hidden', touchAction: 'none',
+        opacity: fading ? 0 : 1,
+        transition: fading ? 'opacity 380ms ease' : 'none',
       }}
+      onTouchStart={e => { touchX.current = e.targetTouches[0].clientX }}
+      onTouchEnd={e => {
+        if (touchX.current === null) return
+        const delta = e.changedTouches[0].clientX - touchX.current
+        touchX.current = null
+        if (delta < -48) dismiss()
+      }}
+      // Also allow click/tap for desktop testing
+      onClick={dismiss}
     >
-      {/* Drifting background circles */}
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-        <div style={{ position: 'absolute', width: '72vw', height: '72vw', borderRadius: '50%', background: c1, top: '-22vw', right: '-18vw', animation: 'coverDriftA 15s ease-in-out infinite' }} />
-        <div style={{ position: 'absolute', width: '58vw', height: '58vw', borderRadius: '50%', background: c2, bottom: '-14vw', left: '-12vw', animation: 'coverDriftB 19s ease-in-out infinite' }} />
-        <div style={{ position: 'absolute', width: '38vw', height: '38vw', borderRadius: '50%', background: c3, top: '42%', left: '55%', transform: 'translate(-50%, -50%)', animation: 'coverDriftC 24s ease-in-out infinite' }} />
+      {/* Cover image — contain so nothing is cropped */}
+      <img
+        src={coverSrc}
+        alt="PATTO Cover"
+        style={{
+          position: 'absolute', inset: 0,
+          width: '100%', height: '100%',
+          objectFit: 'contain',
+          objectPosition: 'center',
+          display: 'block',
+          background: isDark ? '#0B0F1A' : '#F7F5F0',
+        }}
+      />
+
+      {/* Text overlay — left-aligned, lower center */}
+      <div style={{
+        position: 'absolute',
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 72px)',
+        left: 36,
+        right: 36,
+        pointerEvents: 'none',
+      }}>
+        {/* Logo row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+          <img
+            src="/patto-logo.png"
+            alt=""
+            width={40} height={38}
+            style={{
+              display: 'block',
+              filter: isDark ? 'brightness(0) invert(1)' : 'none',
+              opacity: isDark ? 0.92 : 1,
+            }}
+          />
+          <div style={{ width: 1, height: 24, background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.18)' }} />
+          <span style={{
+            fontSize: 24, fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 1,
+            color: isDark ? '#FFFFFF' : '#0F1923',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif',
+          }}>PATTO</span>
+        </div>
+
+        {/* Slogan */}
+        <p style={{
+          fontSize: 18, fontStyle: 'italic', fontWeight: 400,
+          color: isDark ? 'rgba(255,255,255,0.82)' : 'rgba(15,25,40,0.72)',
+          margin: '0 0 4px', lineHeight: 1.45,
+          fontFamily: '"Palatino Linotype", Palatino, Georgia, serif',
+          letterSpacing: '0.01em',
+        }}>
+          Repeat Patterns.
+        </p>
+        <p style={{
+          fontSize: 13.5, fontWeight: 300,
+          color: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(15,25,40,0.48)',
+          margin: 0, letterSpacing: '0.18em', lineHeight: 1,
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
+          textTransform: 'uppercase',
+        }}>
+          Build Fluency.
+        </p>
       </div>
 
-      {/* Brand content */}
-      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 13, opacity: brandVisible ? 1 : 0, transform: brandVisible ? 'translateY(0)' : 'translateY(14px)', transition: transitionIn }}>
-          <img src="/patto-logo.png" alt="PATTO" width={76} height={73} style={{ display: 'block', filter: logoFilter }} />
-          <p style={{ fontSize: 38, fontWeight: 700, letterSpacing: '-0.045em', color: wordColor, margin: 0, lineHeight: 1, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif' }}>PATTO</p>
-        </div>
-        <div style={{ marginTop: 20, opacity: sloganVisible ? 1 : 0, transform: sloganVisible ? 'translateY(0)' : 'translateY(9px)', transition: transitionIn, textAlign: 'center' }}>
-          <p style={{ fontSize: 14.5, fontWeight: 600, letterSpacing: '0.065em', color: sloganColor, margin: 0, lineHeight: 1.65, fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif', textTransform: 'uppercase', textAlign: 'center' }}>
-            Repeat Patterns.<br />Build Fluency.
-          </p>
-        </div>
+      {/* Swipe hint */}
+      <div style={{
+        position: 'absolute',
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 28px)',
+        left: 0, right: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+        opacity: 0.38,
+        animation: 'hint-pulse 2.4s ease-in-out infinite',
+        pointerEvents: 'none',
+      }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#fff' : '#000'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+        <span style={{ fontSize: 11.5, fontWeight: 500, color: isDark ? '#fff' : '#000', letterSpacing: '0.06em', fontFamily: 'inherit' }}>
+          swipe
+        </span>
       </div>
 
       <style>{`
-        @keyframes coverDriftA {
-          0%,100% { transform: translate(0,0) scale(1); opacity: 1; }
-          35%      { transform: translate(-3%,4%) scale(1.04); opacity: 0.85; }
-          68%      { transform: translate(4%,-2%) scale(0.97); opacity: 0.95; }
-        }
-        @keyframes coverDriftB {
-          0%,100% { transform: translate(0,0) scale(1); opacity: 1; }
-          40%      { transform: translate(4%,-4%) scale(1.05); opacity: 0.88; }
-          72%      { transform: translate(-3%,3%) scale(0.96); opacity: 0.92; }
-        }
-        @keyframes coverDriftC {
-          0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
-          50%      { transform: translate(-52%,-53%) scale(1.08); opacity: 0.80; }
+        @keyframes hint-pulse {
+          0%, 100% { opacity: 0.28; transform: translateX(0); }
+          50%       { opacity: 0.50; transform: translateX(4px); }
         }
       `}</style>
     </div>

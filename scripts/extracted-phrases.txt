@@ -1,0 +1,2518 @@
+// All unique phrases extracted from story-chunks + pattern-examples
+// Format: phrase | type
+
+a bit ahead                                        | chunk
+a bit early                                        | chunk
+a bit of patience                                  | chunk
+a break                                            | chunk
+a cold                                             | chunk
+a comeback like this                               | chunk
+a different style                                  | chunk
+a fancy dinner                                     | chunk
+a few things                                       | chunk
+a great idea                                       | chunk
+a haircut                                          | chunk
+a larger size                                      | chunk
+a lot going on                                     | chunk
+a lot of noise                                     | chunk
+a luxury suite                                     | chunk
+a migraine                                         | chunk
+a new life                                         | chunk
+a painkiller                                       | chunk
+a plan to save money                               | chunk
+a proper vacation                                  | chunk
+a really good idea                                 | chunk
+a refund                                           | chunk
+a rough day                                        | chunk
+a side salad                                       | chunk
+a solution                                         | chunk
+a warranty                                         | chunk
+about to depart                                    | chunk
+about to head into                                 | chunk
+about to lose my mind                              | chunk
+accept the offer                                   | chunk
+accuracy matters more than speed                   | chunk
+actually believe that                              | chunk
+address it                                         | chunk
+adjusting to                                       | chunk
+afford to                                          | chunk
+after a few weeks                                  | chunk
+after a long day                                   | chunk
+after a stressful day at work                      | chunk
+after all this time                                | chunk
+after getting sick                                 | chunk
+after missing a week of school                     | chunk
+after taking this                                  | chunk
+after that                                         | chunk
+after the burnout                                  | chunk
+after the discount                                 | chunk
+after the insurance                                | chunk
+after you graduate                                 | chunk
+after you retire                                   | chunk
+ages since                                         | chunk
+agree with                                         | chunk
+ahead of schedule                                  | chunk
+ahead of the competition                           | chunk
+ahead of the curve                                 | chunk
+all night                                          | chunk
+all platforms                                      | chunk
+all that energy                                    | chunk
+all that matters                                   | chunk
+all the issues                                     | chunk
+all this traffic                                   | chunk
+almost blew it                                     | chunk
+almost burst into tears                            | chunk
+almost missed                                      | chunk
+almost missed our flight                           | chunk
+almost ready                                       | chunk
+already knows about                                | chunk
+Although                                           | chunk
+always a good idea                                 | chunk
+always been                                        | chunk
+always late                                        | chunk
+always thought                                     | chunk
+always wanted to                                   | chunk
+Am I allowed to                                    | chunk
+an extra blanket                                   | chunk
+an old photo                                       | chunk
+antihistamine                                      | chunk
+any discounts                                      | chunk
+any extras                                         | chunk
+any further                                        | chunk
+anyway                                             | chunk
+apologize                                          | chunk
+apply for                                          | chunk
+apply for the promotion                            | chunk
+appreciate                                         | chunk
+Are you                                            | chunk
+Are you seriously                                  | chunk
+arguing about it                                   | chunk
+argument between them                              | chunk
+around here                                        | chunk
+around noon                                        | chunk
+As far as I know                                   | chunk
+as it sounds                                       | chunk
+as much as                                         | chunk
+As you can see                                     | chunk
+ask for a raise                                    | chunk
+ask for help                                       | chunk
+asked for help                                     | chunk
+asking for a favor                                 | chunk
+asking for a second opinion                        | chunk
+at that firm                                       | chunk
+at three                                           | chunk
+avoid an argument                                  | chunk
+avoid certain foods                                | chunk
+avoiding me                                        | chunk
+aware of the implications                          | chunk
+aware of the risks                                 | chunk
+bad at keeping in touch                            | chunk
+bad at letting things go                           | chunk
+bank transfer                                      | chunk
+Be careful what you say                            | chunk
+be delivered                                       | chunk
+be her own boss                                    | chunk
+be honest with                                     | chunk
+be ready                                           | chunk
+became too much                                    | chunk
+because of a busy schedule                         | chunk
+because of personal reasons                        | chunk
+been at it                                         | chunk
+been dealing with                                  | chunk
+been going through                                 | chunk
+been into mindfulness                              | chunk
+been meaning to                                    | chunk
+been thinking about                                | chunk
+been through it                                    | chunk
+been to                                            | chunk
+been trying to                                     | chunk
+before                                             | chunk
+before bed                                         | chunk
+before it even ended                               | chunk
+before judging                                     | chunk
+before responding                                  | chunk
+before the presentation starts                     | chunk
+before things got worse                            | chunk
+before we launch                                   | chunk
+behind on my rent                                  | chunk
+behind on schedule                                 | chunk
+behind this                                        | chunk
+bend my knee                                       | chunk
+best decision I ever made                          | chunk
+better off                                         | chunk
+better than expected                               | chunk
+big setback                                        | chunk
+burned out from                                    | chunk
+busy schedule                                      | chunk
+but it also                                        | chunk
+but she also                                       | chunk
+but they also                                      | chunk
+buying new                                         | chunk
+by now                                             | chunk
+by the end of the year                             | chunk
+By the time                                        | chunk
+by tomorrow                                        | chunk
+can all relate to                                  | chunk
+Can I                                              | chunk
+Can I get                                          | chunk
+Can I pay by                                       | chunk
+can relate to                                      | chunk
+Can we                                             | chunk
+Can we get the check                               | chunk
+Can we reschedule                                  | chunk
+Can you                                            | chunk
+Can you walk me through                            | chunk
+can't afford                                       | chunk
+can't force it                                     | chunk
+can't ignore                                       | chunk
+can't please everyone                              | chunk
+can't seem to                                      | chunk
+can't wait                                         | chunk
+can't wait to                                      | chunk
+cancel the trip                                    | chunk
+capable of handling                                | chunk
+capable of pulling off                             | chunk
+carefree and young                                 | chunk
+carry your habits                                  | chunk
+catch you later                                    | chunk
+caught me up                                       | chunk
+caught the mistake                                 | chunk
+Chances are                                        | chunk
+changed her mind                                   | chunk
+changed their minds                                | chunk
+changes so fast                                    | chunk
+changes things                                     | chunk
+changing careers                                   | chunk
+changing your mind                                 | chunk
+chasing his dream                                  | chunk
+check the facts                                    | chunk
+choosing this career                               | chunk
+clicking sound                                     | chunk
+closes at                                          | chunk
+come to realize                                    | chunk
+coming to                                          | chunk
+comparing myself to others                         | chunk
+completed on time                                  | chunk
+completely                                         | chunk
+completely over trying to please                   | chunk
+confidence come from                               | chunk
+confused about                                     | chunk
+constant complaining                               | chunk
+cook at home                                       | chunk
+cooking is easy                                    | chunk
+could do with                                      | chunk
+could get used to                                  | chunk
+could go for                                       | chunk
+Could I                                            | chunk
+could see himself                                  | chunk
+could see myself                                   | chunk
+could use                                          | chunk
+Could you                                          | chunk
+Could you break                                    | chunk
+couldn't figure out                                | chunk
+couldn't sleep                                     | chunk
+coursework                                         | chunk
+coworker                                           | chunk
+curious about                                      | chunk
+Deal with it                                       | chunk
+dealing with a lot                                 | chunk
+dealing with difficult clients                     | chunk
+depends on                                         | chunk
+desperately wanted to                              | chunk
+didn't invite you                                  | chunk
+didn't tell me                                     | chunk
+disagrees with                                     | chunk
+disappointed with                                  | chunk
+do it right                                        | chunk
+Do you                                             | chunk
+Do you deliver                                     | chunk
+Do you have                                        | chunk
+Do you have anything for                           | chunk
+Do you have this in                                | chunk
+Do you know                                        | chunk
+Do you offer                                       | chunk
+Do you take cards                                  | chunk
+do you want                                        | chunk
+Does this come with                                | chunk
+doesn't feel like                                  | chunk
+doesn't have to                                    | chunk
+don't feel like                                    | chunk
+don't panic                                        | chunk
+Don't tell me                                      | chunk
+Don't worry about                                  | chunk
+done arguing                                       | chunk
+done putting up with                               | chunk
+done tiptoeing around                              | chunk
+double-check                                       | chunk
+double-checking                                    | chunk
+driving in the city                                | chunk
+each other                                         | chunk
+early in the morning                               | chunk
+early withdrawal                                   | chunk
+easy to get carried away                           | chunk
+easy to lose track of time                         | chunk
+easy to take things for granted                    | chunk
+either                                             | chunk
+Either option                                      | chunk
+end up doing                                       | chunk
+end up going                                       | chunk
+end up staying                                     | chunk
+end up together                                    | chunk
+ended up hitting it off                            | chunk
+ended up pulling an all-nighter                    | chunk
+ended up staying                                   | chunk
+enjoy cooking                                      | chunk
+enjoys going off the beaten track                  | chunk
+enjoys unwinding                                   | chunk
+equipment                                          | chunk
+Even if                                            | chunk
+eventually                                         | chunk
+eventually gave in to                              | chunk
+every day                                          | chunk
+every morning                                      | chunk
+every time                                         | chunk
+everything is fine                                 | chunk
+exactly                                            | chunk
+excited about                                      | chunk
+explain yourself                                   | chunk
+extra effort                                       | chunk
+fallen behind on her coursework                    | chunk
+falling asleep                                     | chunk
+faster than I expected                             | chunk
+Feel free to                                       | chunk
+feel that way                                      | chunk
+feel the same way                                  | chunk
+feeling sorry for yourself                         | chunk
+feels at home                                      | chunk
+feels left out of                                  | chunk
+feels like                                         | chunk
+feels off                                          | chunk
+fell asleep                                        | chunk
+felt bad about                                     | chunk
+felt completely at home                            | chunk
+felt left out of                                   | chunk
+fever and chills                                   | chunk
+final presentation                                 | chunk
+finally caught up with                             | chunk
+finally figured out                                | chunk
+finally finished                                   | chunk
+finally ironed out                                 | chunk
+finally opened up about                            | chunk
+finally plucked up the courage                     | chunk
+find a pen                                         | chunk
+finds a way                                        | chunk
+finds time for                                     | chunk
+finish the project                                 | chunk
+finished reading                                   | chunk
+finished that already                              | chunk
+first step to                                      | chunk
+first week on the job                              | chunk
+first-timer                                        | chunk
+fix it myself                                      | chunk
+fix the glitch                                     | chunk
+flying over the ocean                              | chunk
+follow the steps                                   | chunk
+follow-up                                          | chunk
+for about a week                                   | chunk
+for me                                             | chunk
+for my taste                                       | chunk
+for three weeks                                    | chunk
+for two days                                       | chunk
+former boss                                        | chunk
+found something better                             | chunk
+free shipping                                      | chunk
+from a challenge                                   | chunk
+From what I hear                                   | chunk
+From what I know                                   | chunk
+frustrated with                                    | chunk
+fully aware of how                                 | chunk
+gap year                                           | chunk
+gave me                                            | chunk
+gave up chasing his dream                          | chunk
+gave up trying                                     | chunk
+gave up waiting                                    | chunk
+get it right                                       | chunk
+get lonely                                         | chunk
+get some rest                                      | chunk
+get the job                                        | chunk
+get through this crisis                            | chunk
+get what you want                                  | chunk
+gets worse                                         | chunk
+give it a chance                                   | chunk
+give me a call                                     | chunk
+give this to kids                                  | chunk
+go back to normal                                  | chunk
+going for a walk                                   | chunk
+going to rain                                      | chunk
+good at                                            | chunk
+good at reading                                    | chunk
+good at smoothing things over                      | chunk
+good at thinking on her feet                       | chunk
+good idea                                          | chunk
+good teamwork                                      | chunk
+got frustrated with                                | chunk
+got it done                                        | chunk
+got plenty of time                                 | chunk
+got promoted                                       | chunk
+got too stressful                                  | chunk
+got used to the noise                              | chunk
+got used to waking up                              | chunk
+got worse                                          | chunk
+grab a quick breakfast                             | chunk
+grab my keys                                       | chunk
+grad school                                        | chunk
+had a chance to                                    | chunk
+had already passed                                 | chunk
+had been cancelled                                 | chunk
+had borrowed                                       | chunk
+Had I known                                        | chunk
+had to put up with                                 | chunk
+halfway through                                    | chunk
+handle this situation                              | chunk
+hard to bounce back                                | chunk
+hard to keep a straight face                       | chunk
+hard to say no                                     | chunk
+hard to work with                                  | chunk
+has to stop                                        | chunk
+hasn't arrived yet                                 | chunk
+hasn't gotten over                                 | chunk
+have a chance to                                   | chunk
+have an equal say                                  | chunk
+have mixed feelings about                          | chunk
+have to hand in                                    | chunk
+have to leave                                      | chunk
+Have you ever                                      | chunk
+Have you tried                                     | chunk
+haven't been myself                                | chunk
+having breakfast in bed                            | chunk
+having trouble keeping up                          | chunk
+having trouble sleeping                            | chunk
+having trouble wrapping his head around            | chunk
+He exaggerates                                     | chunk
+head-on                                            | chunk
+hear both sides                                    | chunk
+heard the news                                     | chunk
+heard them all                                     | chunk
+help me sleep                                      | chunk
+helps me relax                                     | chunk
+her finances                                       | chunk
+her late grandmother                               | chunk
+her recovery                                       | chunk
+hiding something                                   | chunk
+his designs                                        | chunk
+his excuses                                        | chunk
+How come                                           | chunk
+How did you end up                                 | chunk
+How do you                                         | chunk
+How do you manage to                               | chunk
+how far we have come                               | chunk
+How is it that                                     | chunk
+How long does                                      | chunk
+How long have they been                            | chunk
+How long have you been                             | chunk
+how long this will take                            | chunk
+How long until                                     | chunk
+how much                                           | chunk
+How much do I owe                                  | chunk
+How much is                                        | chunk
+how much the city has changed                      | chunk
+how much they raised                               | chunk
+how much time                                      | chunk
+how quickly                                        | chunk
+how she really felt                                | chunk
+how things turn out                                | chunk
+Hurry up                                           | chunk
+I agree with                                       | chunk
+I apologize for                                    | chunk
+I appreciate                                       | chunk
+I backed it up                                     | chunk
+I bet                                              | chunk
+I can relate to                                    | chunk
+I can't believe                                    | chunk
+I can't connect to                                 | chunk
+I can't stand                                      | chunk
+I can't wait                                       | chunk
+I can't wait to                                    | chunk
+I could see                                        | chunk
+I didn't realize it was                            | chunk
+I disagree with                                    | chunk
+I don't like                                       | chunk
+I don't think                                      | chunk
+I don't want to                                    | chunk
+I feel at home                                     | chunk
+I feel bad about                                   | chunk
+I feel left out of                                 | chunk
+I feel like                                        | chunk
+I guess                                            | chunk
+I had a chance to                                  | chunk
+I had a feeling                                    | chunk
+I had a hard time                                  | chunk
+I had no idea                                      | chunk
+I have                                             | chunk
+I have a                                           | chunk
+I have a reservation                               | chunk
+I have experience                                  | chunk
+I hope                                             | chunk
+I keep                                             | chunk
+I know                                             | chunk
+I know how it looks                                | chunk
+I know how to                                      | chunk
+I know the answer                                  | chunk
+I like                                             | chunk
+I like to                                          | chunk
+I need                                             | chunk
+I need to                                          | chunk
+I really appreciate                                | chunk
+I respect her decision                             | chunk
+I should get going                                 | chunk
+I sympathize with                                  | chunk
+I think                                            | chunk
+I think I'm at the wrong                           | chunk
+I understand why                                   | chunk
+I used to                                          | chunk
+I want                                             | chunk
+I want to                                          | chunk
+I wanted to                                        | chunk
+I was wondering                                    | chunk
+I was wondering if                                 | chunk
+I wish I could                                     | chunk
+I wish things were                                 | chunk
+I won't be able to                                 | chunk
+I wonder                                           | chunk
+I wouldn't                                         | chunk
+I wouldn't say                                     | chunk
+I'd been                                           | chunk
+I'd like to                                        | chunk
+I'd rather                                         | chunk
+I'd suggest                                        | chunk
+I'll be                                            | chunk
+I'll get                                           | chunk
+I'll have                                          | chunk
+I'll have it done by                               | chunk
+I'll have the draft                                | chunk
+I'll make                                          | chunk
+I'll take care of                                  | chunk
+I'll take it                                       | chunk
+I'm afraid                                         | chunk
+I'm afraid I                                       | chunk
+I'm all set with                                   | chunk
+I'm allergic to                                    | chunk
+I'm confident that                                 | chunk
+I'm confused about                                 | chunk
+I'm curious                                        | chunk
+I'm curious about                                  | chunk
+I'm disappointed with                              | chunk
+I'm down for                                       | chunk
+I'm easy                                           | chunk
+I'm excited about                                  | chunk
+I'm free                                           | chunk
+I'm glad                                           | chunk
+I'm going to                                       | chunk
+I'm here to                                        | chunk
+I'm looking for                                    | chunk
+I'm looking forward to                             | chunk
+I'm majoring in                                    | chunk
+I'm not sure                                       | chunk
+I'm pretty sure                                    | chunk
+I'm satisfied with                                 | chunk
+I'm saving up                                      | chunk
+I'm sore from                                      | chunk
+I'm sorry                                          | chunk
+I'm thinking about                                 | chunk
+I'm trying to                                      | chunk
+I'm with                                           | chunk
+I'm working on                                     | chunk
+I'm worried about                                  | chunk
+I'm writing to                                     | chunk
+I've always been                                   | chunk
+I've always thought                                | chunk
+I've always wanted to                              | chunk
+I've been                                          | chunk
+I've been dealing with                             | chunk
+I've been going through                            | chunk
+I've been meaning to                               | chunk
+I've been thinking about                           | chunk
+I've been trying to                                | chunk
+I've come to realize                               | chunk
+I've got no regrets                                | chunk
+I've had                                           | chunk
+I've never really                                  | chunk
+I've practiced                                     | chunk
+If I had to choose                                 | chunk
+If only                                            | chunk
+implications of that decision                      | chunk
+in a while                                         | chunk
+in ages                                            | chunk
+in blue                                            | chunk
+In case                                            | chunk
+in charge of onboarding                            | chunk
+in charge of running                               | chunk
+in charge of social media                          | chunk
+in love                                            | chunk
+in one day                                         | chunk
+In the end                                         | chunk
+in the window                                      | chunk
+in therapy                                         | chunk
+in total                                           | chunk
+installments                                       | chunk
+instead                                            | chunk
+international transfers                            | chunk
+into pushing the envelope                          | chunk
+into tens                                          | chunk
+Is breakfast included                              | chunk
+Is it far                                          | chunk
+Is it okay if                                      | chunk
+Is it safe to                                      | chunk
+Is it too late to                                  | chunk
+is solid                                           | chunk
+Is the internet down                               | chunk
+Is there a fee for                                 | chunk
+Is there anything else I can do                    | chunk
+it always pays to                                  | chunk
+It depends on                                      | chunk
+It drives me                                       | chunk
+It hurts when                                      | chunk
+It looks                                           | chunk
+It looks like                                      | chunk
+It makes sense to                                  | chunk
+It might be better to                              | chunk
+It must be                                         | chunk
+it needs a bit more                                | chunk
+It occurred to me that                             | chunk
+It seems like                                      | chunk
+It should arrive                                   | chunk
+it showed                                          | chunk
+It sounds like                                     | chunk
+It turns out                                       | chunk
+It used to be that                                 | chunk
+It was getting                                     | chunk
+it was okay to                                     | chunk
+It was the best                                    | chunk
+it'll be okay                                      | chunk
+It's                                               | chunk
+It's a bit too                                     | chunk
+It's a good thing                                  | chunk
+It's about time                                    | chunk
+It's freezing                                      | chunk
+it's just                                          | chunk
+it's just complicated                              | chunk
+It's like                                          | chunk
+It's like we'd                                     | chunk
+It's no wonder                                     | chunk
+It's not as simple as                              | chunk
+It's not letting me                                | chunk
+It's up to                                         | chunk
+It's your turn                                     | chunk
+judge you by                                       | chunk
+just ask                                           | chunk
+just by watching                                   | chunk
+just for                                           | chunk
+just got back                                      | chunk
+just in                                            | chunk
+just landed                                        | chunk
+just ran into                                      | chunk
+just talking                                       | chunk
+Just to                                            | chunk
+just want peace                                    | chunk
+just yet                                           | chunk
+keep forgetting                                    | chunk
+keep getting sidetracked                           | chunk
+Keep going                                         | chunk
+keep pushing                                       | chunk
+keep pushing forward                               | chunk
+keep putting                                       | chunk
+keep you focused                                   | chunk
+keeping in touch                                   | chunk
+keeps putting off                                  | chunk
+keeps running into                                 | chunk
+kept quiet                                         | chunk
+landed a job                                       | chunk
+last night                                         | chunk
+last quarter                                       | chunk
+last week                                          | chunk
+lately                                             | chunk
+layoffs are coming                                 | chunk
+leading the project                                | chunk
+lean toward                                        | chunk
+learning Korean                                    | chunk
+left my phone                                      | chunk
+left my phone in the car                           | chunk
+left out                                           | chunk
+left the stove on                                  | chunk
+left without him                                   | chunk
+lent me                                            | chunk
+let me                                             | chunk
+Let me help                                        | chunk
+Let me know                                        | chunk
+Let me know if                                     | chunk
+Let's                                              | chunk
+Let's actually                                     | chunk
+Let's call it                                      | chunk
+Let's circle back                                  | chunk
+Let's find a way                                   | chunk
+Let's go                                           | chunk
+Let's grab                                         | chunk
+let's put this behind us                           | chunk
+Let's say                                          | chunk
+letting it go                                      | chunk
+letting things go                                  | chunk
+living abroad                                      | chunk
+living by the beach                                | chunk
+living on his own                                  | chunk
+long hours                                         | chunk
+long weekend                                       | chunk
+look exhausted                                     | chunk
+look so young                                      | chunk
+looking forward to catching up                     | chunk
+looking forward to starting                        | chunk
+Looks like                                         | chunk
+lose the job                                       | chunk
+love the vibe                                      | chunk
+made everything easier                             | chunk
+made it work                                       | chunk
+made me more determined                            | chunk
+made sure to                                       | chunk
+made the wrong choice                              | chunk
+make a grocery run                                 | chunk
+make changes                                       | chunk
+make it work                                       | chunk
+make time for                                      | chunk
+makes him uncomfortable                            | chunk
+makes no sense                                     | chunk
+makes the most sense                               | chunk
+making a decision                                  | chunk
+making sure                                        | chunk
+making that decision                               | chunk
+making the same mistake                            | chunk
+manage to                                          | chunk
+manage to finish                                   | chunk
+managed to                                         | chunk
+May I                                              | chunk
+maybe we can win                                   | chunk
+mean to interrupt                                  | chunk
+means a lot to me                                  | chunk
+meant to hurt                                      | chunk
+meat eater                                         | chunk
+medium rare                                        | chunk
+might be upset                                     | chunk
+might not win                                      | chunk
+mindfulness and meditation                         | chunk
+miss hanging out                                   | chunk
+miss the train                                     | chunk
+miss waking up                                     | chunk
+missed my flight                                   | chunk
+misses being carefree                              | chunk
+missing the deadline                               | chunk
+missing your birthday                              | chunk
+more than capable                                  | chunk
+more than capable of leading                       | chunk
+morning shift                                      | chunk
+motion sickness                                    | chunk
+move forward                                       | chunk
+moving abroad                                      | chunk
+moving forward                                     | chunk
+my dreams                                          | chunk
+near-accident                                      | chunk
+need a vacation                                    | chunk
+need to finish                                     | chunk
+need to sort this out                              | chunk
+needs to call                                      | chunk
+never actually                                     | chunk
+never backed down                                  | chunk
+never came back                                    | chunk
+never give up                                      | chunk
+never pulled off                                   | chunk
+never quite got used to                            | chunk
+never really                                       | chunk
+never ridden                                       | chunk
+new chapter                                        | chunk
+new policy                                         | chunk
+next month                                         | chunk
+next quarter                                       | chunk
+next week                                          | chunk
+no easy answer                                     | chunk
+no point in arguing                                | chunk
+no point in dwelling on                            | chunk
+no point in pretending                             | chunk
+no rush                                            | chunk
+no way to tell                                     | chunk
+noise complaints                                   | chunk
+noise from upstairs                                | chunk
+non-stop                                           | chunk
+Not all of them are reliable                       | chunk
+not as simple as                                   | chunk
+not changing the price                             | chunk
+not in the mood                                    | chunk
+not just                                           | chunk
+Not only                                           | chunk
+not sign anything yet                              | chunk
+not supposed to park                               | chunk
+not sure how to bring this up                      | chunk
+not sure if                                        | chunk
+not sure what to do                                | chunk
+not talent alone                                   | chunk
+not used to dealing                                | chunk
+nothing to worry about                             | chunk
+Now that                                           | chunk
+old college roommate                               | chunk
+old crew                                           | chunk
+on an empty stomach                                | chunk
+on her way home                                    | chunk
+on my own                                          | chunk
+on schedule                                        | chunk
+on the corner                                      | chunk
+on track                                           | chunk
+on your side                                       | chunk
+onboarding the new staff                           | chunk
+Once                                               | chunk
+once in a while                                    | chunk
+one another                                        | chunk
+open a window                                      | chunk
+open an account                                    | chunk
+Order whatever you want                            | chunk
+over it                                            | chunk
+over the drama                                     | chunk
+over-the-counter                                   | chunk
+overall                                            | chunk
+overreacting to everything                         | chunk
+overwhelmed by                                     | chunk
+owe you anything                                   | chunk
+paperwork                                          | chunk
+park here                                          | chunk
+part of your routine                               | chunk
+past midnight                                      | chunk
+personal problems                                  | chunk
+planned ahead                                      | chunk
+planning to roll out                               | chunk
+planning to set up                                 | chunk
+planning to visit                                  | chunk
+please everyone                                    | chunk
+Please find                                        | chunk
+pretend everything is fine                         | chunk
+pretty quickly                                     | chunk
+pro athlete                                        | chunk
+proud of                                           | chunk
+proud of how far                                   | chunk
+proud of standing her ground                       | chunk
+proud of what our team has built                   | chunk
+prove myself                                       | chunk
+pulling an all-nighter                             | chunk
+pushing herself so hard                            | chunk
+quantum physics                                    | chunk
+quit your job                                      | chunk
+raising kids                                       | chunk
+ran out of time                                    | chunk
+ready for                                          | chunk
+realize you wanted to                              | chunk
+really fast                                        | chunk
+really into jazz                                   | chunk
+really needs your help                             | chunk
+really shows                                       | chunk
+regret not saying                                  | chunk
+regrets burning bridges                            | chunk
+regrets dropping out of                            | chunk
+relieved that                                      | chunk
+reply to                                           | chunk
+respond better to                                  | chunk
+responsible for keeping                            | chunk
+responsible for making sure                        | chunk
+responsible for rolling out                        | chunk
+rest for a couple of days                          | chunk
+rethink my priorities                              | chunk
+risks involved                                     | chunk
+running late                                       | chunk
+runs smoothly                                      | chunk
+said it out loud                                   | chunk
+same problems                                      | chunk
+satisfied with                                     | chunk
+save us later                                      | chunk
+saved a lot of time                                | chunk
+say no                                             | chunk
+say yes                                            | chunk
+saying goodbye                                     | chunk
+Saying it out loud                                 | chunk
+saying yes or no                                   | chunk
+see a doctor                                       | chunk
+set some boundaries                                | chunk
+sharp pain                                         | chunk
+she'd be glad to                                   | chunk
+She'd rather                                       | chunk
+She's all set with                                 | chunk
+She's allergic to                                  | chunk
+she's been crying                                  | chunk
+She's down for                                     | chunk
+She's had                                          | chunk
+should apologize                                   | chunk
+should cut back on                                 | chunk
+should get some rest                               | chunk
+Should I                                           | chunk
+Show them you care                                 | chunk
+showed up late                                     | chunk
+sign the form                                      | chunk
+simple thank-you                                   | chunk
+since the news broke                               | chunk
+since we last talked                               | chunk
+sixth sense                                        | chunk
+sleep better                                       | chunk
+slipped away from me                               | chunk
+smaller apartment                                  | chunk
+smaller bills                                      | chunk
+so early                                           | chunk
+so much pressure                                   | chunk
+social media                                       | chunk
+Some people just                                   | chunk
+Some Sundays                                       | chunk
+someone new                                        | chunk
+someone you care about                             | chunk
+something                                          | chunk
+something about her                                | chunk
+something cold to drink                            | chunk
+something is wrong                                 | chunk
+something like that                                | chunk
+something was off                                  | chunk
+sore throat                                        | chunk
+Sounds good                                        | chunk
+Sounds like                                        | chunk
+Speaking of                                        | chunk
+split it                                           | chunk
+Splitting it                                       | chunk
+spoken in public                                   | chunk
+start my own business                              | chunk
+started cracking down on                           | chunk
+started fresh                                      | chunk
+started going to                                   | chunk
+started opening up                                 | chunk
+started pouring                                    | chunk
+started studying                                   | chunk
+started yelling                                    | chunk
+starting fresh                                     | chunk
+starting her new job                               | chunk
+starting his own business                          | chunk
+starting something new                             | chunk
+stay for dinner                                    | chunk
+stay home                                          | chunk
+stay up late                                       | chunk
+stayed up late                                     | chunk
+stick together                                     | chunk
+stop panicking                                     | chunk
+Stop saying it                                     | chunk
+stopped beating around the bush                    | chunk
+stopped checking                                   | chunk
+stopped pushing herself                            | chunk
+stressed                                           | chunk
+stressed about                                     | chunk
+struggling to                                      | chunk
+studying abroad                                    | chunk
+suddenly occurred to me that                       | chunk
+Suppose                                            | chunk
+supposed to meet                                   | chunk
+supposed to wrap up                                | chunk
+switching careers                                  | chunk
+sympathizes with                                   | chunk
+table that                                         | chunk
+take                                               | chunk
+take care of yourself                              | chunk
+take the calls                                     | chunk
+take the whole summer off                          | chunk
+take this with                                     | chunk
+taken for granted                                  | chunk
+takes time                                         | chunk
+taking a break                                     | chunk
+taking my health seriously                         | chunk
+taking the train                                   | chunk
+taking things slow                                 | chunk
+talk about something else                          | chunk
+talking about it                                   | chunk
+talking to her in person                           | chunk
+tastes different                                   | chunk
+teaching English                                   | chunk
+tech startup                                       | chunk
+tensions run high                                  | chunk
+terrible at small talk                             | chunk
+that complicated                                   | chunk
+that really hit                                    | chunk
+That reminds me                                    | chunk
+That speech was incredible                         | chunk
+that was an understatement                         | chunk
+That's                                             | chunk
+That's all                                         | chunk
+That's because                                     | chunk
+that's not how it works                            | chunk
+That's when                                        | chunk
+That's why                                         | chunk
+the cause of the accident                          | chunk
+The commute                                        | chunk
+the complexity of the situation                    | chunk
+the curb                                           | chunk
+the customer is right                              | chunk
+the drive-through                                  | chunk
+the earlier you start, the better                  | chunk
+The ending of that movie                           | chunk
+the energy shift                                   | chunk
+the entrance of the hotel                          | chunk
+the flu                                            | chunk
+the front desk                                     | chunk
+The full version                                   | chunk
+the groceries                                      | chunk
+the group ahead                                    | chunk
+the heat drained                                   | chunk
+the issue                                          | chunk
+the local accent                                   | chunk
+the mistake                                        | chunk
+the news broke                                     | chunk
+the next shipment                                  | chunk
+The next thing I knew                              | chunk
+the only                                           | chunk
+the only one affected                              | chunk
+the past                                           | chunk
+the plan                                           | chunk
+The reason I brought it up                         | chunk
+The reason I left                                  | chunk
+The reason she quit                                | chunk
+the rest of the team                               | chunk
+the reunion                                        | chunk
+the right moment                                   | chunk
+the risks involved                                 | chunk
+the same                                           | chunk
+the same thing                                     | chunk
+the sound of birds chirping                        | chunk
+the temptation                                     | chunk
+the thought of losing you                          | chunk
+the weather                                        | chunk
+the whole process                                  | chunk
+the whole thing                                    | chunk
+the whole truth                                    | chunk
+their actions                                      | chunk
+there are exceptions                               | chunk
+There is                                           | chunk
+There's an update                                  | chunk
+There's something wrong                            | chunk
+these days                                         | chunk
+They've been going through                         | chunk
+They've been trying to                             | chunk
+things to change                                   | chunk
+think about it                                     | chunk
+Think of something new                             | chunk
+thinking about downsizing                          | chunk
+thinking about switching                           | chunk
+thinking about taking                              | chunk
+thinking of moving closer                          | chunk
+This is                                            | chunk
+This is the first time                             | chunk
+This is too                                        | chunk
+this kind of lifestyle                             | chunk
+this month                                         | chunk
+this research                                      | chunk
+this semester                                      | chunk
+this time                                          | chunk
+This traffic is insane                             | chunk
+this weekend                                       | chunk
+three times a week                                 | chunk
+tight budget                                       | chunk
+tiptoeing around                                   | chunk
+tired of being taken for granted                   | chunk
+tired of going around in circles                   | chunk
+tired of waiting around                            | chunk
+to avoid making things worse                       | chunk
+to decide                                          | chunk
+to fix it                                          | chunk
+to get some medicine                               | chunk
+to sleep better at night                           | chunk
+told me sooner                                     | chunk
+told your parents                                  | chunk
+tonight                                            | chunk
+too late to drive                                  | chunk
+took a day off                                     | chunk
+took so long                                       | chunk
+took the deal                                      | chunk
+tough week                                         | chunk
+toughest year of my life                           | chunk
+transfer some money                                | chunk
+travel plans                                       | chunk
+Trust me                                           | chunk
+trying something new                               | chunk
+trying to                                          | chunk
+trying to concentrate                              | chunk
+trying to cut down on                              | chunk
+trying to get his foot in the door                 | chunk
+trying to make ends meet                           | chunk
+trying to study                                    | chunk
+twice as fast                                      | chunk
+two hours late                                     | chunk
+Ultimately                                         | chunk
+under pressure                                     | chunk
+until we get sick                                  | chunk
+unwinding with                                     | chunk
+up this quarter                                    | chunk
+used to be                                         | chunk
+used to being                                      | chunk
+used to hang out                                   | chunk
+used to hate                                       | chunk
+used to stay up late                               | chunk
+used to walk                                       | chunk
+used to working                                    | chunk
+using other ATMs                                   | chunk
+video games                                        | chunk
+waiting around                                     | chunk
+waking up early                                    | chunk
+was about to give up                               | chunk
+was about to head out                              | chunk
+was about to text                                  | chunk
+was new                                            | chunk
+way ahead of                                       | chunk
+we need more time                                  | chunk
+We should                                          | chunk
+we'd met before                                    | chunk
+We're all set with                                 | chunk
+We've been dealing with                            | chunk
+we've been friends                                 | chunk
+We've been meaning to                              | chunk
+We've been thinking about                          | chunk
+weekly briefings                                   | chunk
+well within our budget                             | chunk
+went to the same school                            | chunk
+went well                                          | chunk
+went wrong                                         | chunk
+were lost                                          | chunk
+What brought you to                                | chunk
+what comes next                                    | chunk
+what could go wrong                                | chunk
+What do you recommend                              | chunk
+What do you think                                  | chunk
+What do you think about                            | chunk
+what feels right                                   | chunk
+What goes into                                     | chunk
+What got you into                                  | chunk
+What if                                            | chunk
+What led to                                        | chunk
+What made you                                      | chunk
+what matters most                                  | chunk
+what others think                                  | chunk
+What time does                                     | chunk
+what to do next                                    | chunk
+what tomorrow might bring                          | chunk
+what would you do                                  | chunk
+what's going on                                    | chunk
+What's keeping you                                 | chunk
+What's the weather like                            | chunk
+whatever she's having                              | chunk
+When are they going to                             | chunk
+When are you going to                              | chunk
+When did he realize                                | chunk
+When did she first                                 | chunk
+When did you first                                 | chunk
+When did you realize                               | chunk
+When do we                                         | chunk
+When do you think                                  | chunk
+when it comes to                                   | chunk
+when people are late                               | chunk
+when the shortage hit                              | chunk
+When was the last time                             | chunk
+When will                                          | chunk
+when you called                                    | chunk
+whenever                                           | chunk
+Where did she get                                  | chunk
+Where did you get                                  | chunk
+Where do they usually                              | chunk
+Where do you see                                   | chunk
+Where do you see yourself                          | chunk
+Where do you usually                               | chunk
+Where does                                         | chunk
+Where were you when                                | chunk
+whether                                            | chunk
+while browsing the store                           | chunk
+while grocery shopping                             | chunk
+while I go to                                      | chunk
+Who came up with                                   | chunk
+Who do you think                                   | chunk
+Who told you                                       | chunk
+Who's going to                                     | chunk
+who's taking the lead                              | chunk
+Why didn't you just                                | chunk
+Why do you think                                   | chunk
+Why does it bother you that                        | chunk
+Why don't I                                        | chunk
+Why don't we                                       | chunk
+Why don't you                                      | chunk
+Why haven't you                                    | chunk
+why she left                                       | chunk
+Why would you                                      | chunk
+Will you                                           | chunk
+willing to fix                                     | chunk
+without any fuss                                   | chunk
+without anyone finding out                         | chunk
+without offending anyone                           | chunk
+won't allow it                                     | chunk
+worked all night                                   | chunk
+working from home                                  | chunk
+Working nights every week                          | chunk
+working nonstop                                    | chunk
+workload                                           | chunk
+works for me                                       | chunk
+worst that could happen                            | chunk
+worth checking out                                 | chunk
+worth giving it a shot                             | chunk
+worth giving it a try                              | chunk
+worth putting in the extra effort                  | chunk
+worth trying                                       | chunk
+Would it be                                        | chunk
+Would you                                          | chunk
+Would you mind                                     | chunk
+written confirmation                               | chunk
+You could have                                     | chunk
+You have to                                        | chunk
+You might want to                                  | chunk
+You should                                         | chunk
+You should have                                    | chunk
+you're upset                                       | chunk
+your own happiness                                 | chunk
+a beautiful sunrise                                | collocation
+a brilliant solution                               | collocation
+a compromise                                       | collocation
+a fair chance                                      | collocation
+a great opportunity                                | collocation
+a lot of changes                                   | collocation
+a recurring dream                                  | collocation
+a whole week                                       | collocation
+a whole year                                       | collocation
+above expectations                                 | collocation
+absolutely right                                   | collocation
+action items                                       | collocation
+acts of kindness                                   | collocation
+adapted to                                         | collocation
+an improvement over                                | collocation
+an interesting point                               | collocation
+anniversary trip                                   | collocation
+announce the results                               | collocation
+argument with management                           | collocation
+assessment of the situation                        | collocation
+backup plan                                        | collocation
+be realistic about                                 | collocation
+be resolved through                                | collocation
+behind schedule                                    | collocation
+being upfront                                      | collocation
+betrayed your trust                                | collocation
+better communication                               | collocation
+boosts productivity                                | collocation
+break a habit                                      | collocation
+breakdown of their relationship                    | collocation
+Breaking a bad habit                               | collocation
+broke the habit                                    | collocation
+broke the record                                   | collocation
+brush your teeth                                   | collocation
+budget constraints                                 | collocation
+build a habit                                      | collocation
+builds trust                                       | collocation
+calm under pressure                                | collocation
+casual event                                       | collocation
+catch the game                                     | collocation
+change your mind                                   | collocation
+check my phone                                     | collocation
+cherry blossom season                              | collocation
+constant pressure                                  | collocation
+cost of living                                     | collocation
+cover all the expenses                             | collocation
+cover the shift                                    | collocation
+covering my shift                                  | collocation
+critical thinking                                  | collocation
+cut costs                                          | collocation
+data breach                                        | collocation
+decided to                                         | collocation
+decided to quit                                    | collocation
+deep breath                                        | collocation
+different priorities                               | collocation
+difficult phase                                    | collocation
+difficult relationship                             | collocation
+digital marketing                                  | collocation
+draft ready                                        | collocation
+easy to                                            | collocation
+entrance exam                                      | collocation
+environmental damage                               | collocation
+every night                                        | collocation
+exceeded our expectations                          | collocation
+exclusive member perks                             | collocation
+extra costs                                        | collocation
+face the consequences                              | collocation
+facing setbacks                                    | collocation
+far-fetched                                        | collocation
+fear of public speaking                            | collocation
+feel better                                        | collocation
+feel heard                                         | collocation
+feel the energy                                    | collocation
+feel valued                                        | collocation
+feeling overwhelmed                                | collocation
+fell silent                                        | collocation
+felt tired                                         | collocation
+final offer                                        | collocation
+finish that report                                 | collocation
+first impression                                   | collocation
+first impressions                                  | collocation
+first-generation college student                   | collocation
+fitting room                                       | collocation
+free for                                           | collocation
+free returns                                       | collocation
+fresh perspective                                  | collocation
+fresh start                                        | collocation
+frustration about                                  | collocation
+full picture                                       | collocation
+fully satisfied                                    | collocation
+gender inequality                                  | collocation
+gender pay gap                                     | collocation
+get lost                                           | collocation
+get ready                                          | collocation
+get started                                        | collocation
+getting sidetracked                                | collocation
+getting the job                                    | collocation
+goes smoothly                                      | collocation
+goes wrong                                         | collocation
+good deal                                          | collocation
+Good job                                           | collocation
+good reason                                        | collocation
+good to                                            | collocation
+got lost                                           | collocation
+gotten soaked                                      | collocation
+great benefits                                     | collocation
+great leaders                                      | collocation
+grew up in poverty                                 | collocation
+group chat                                         | collocation
+habits form                                        | collocation
+had time                                           | collocation
+handle the situation                               | collocation
+handled that situation                             | collocation
+happy to                                           | collocation
+happy to help                                      | collocation
+happy with                                         | collocation
+hard to rebuild                                    | collocation
+has to                                             | collocation
+have a big presentation                            | collocation
+have a feeling                                     | collocation
+have experience                                    | collocation
+have time                                          | collocation
+have to                                            | collocation
+her invitation                                     | collocation
+hold the annual meeting                            | collocation
+hold the door                                      | collocation
+house special                                      | collocation
+I'll let you know                                  | collocation
+icebreaker game                                    | collocation
+increased sharply                                  | collocation
+invested heavily in                                | collocation
+job interview                                      | collocation
+job offer                                          | collocation
+keep in touch                                      | collocation
+kept going                                         | collocation
+known for                                          | collocation
+leaked the information                             | collocation
+learning experience                                | collocation
+log in to                                          | collocation
+long time                                          | collocation
+long trip                                          | collocation
+looks simple                                       | collocation
+lose focus                                         | collocation
+lost hope                                          | collocation
+loyalty to                                         | collocation
+made a funny face                                  | collocation
+made a mistake                                     | collocation
+main points                                        | collocation
+majoring in                                        | collocation
+make a decision                                    | collocation
+make a reservation                                 | collocation
+making the same mistakes                           | collocation
+marketing budget                                   | collocation
+meant it                                           | collocation
+miss it                                            | collocation
+miss the deadline                                  | collocation
+missed the last bus                                | collocation
+missed the last train                              | collocation
+mixed feelings                                     | collocation
+mutual respect                                     | collocation
+nearest subway station                             | collocation
+need to                                            | collocation
+needed to                                          | collocation
+needs to                                           | collocation
+new coworkers                                      | collocation
+new faces                                          | collocation
+new hire                                           | collocation
+new mornings                                       | collocation
+new place                                          | collocation
+new start                                          | collocation
+New streets                                        | collocation
+new tracking                                       | collocation
+noisy office                                       | collocation
+official announcement                              | collocation
+old friend                                         | collocation
+open dialogue                                      | collocation
+ordering takeout                                   | collocation
+out loud                                           | collocation
+outcome of the match                               | collocation
+outdoor event                                      | collocation
+outstanding presentation                           | collocation
+outweighs the reward                               | collocation
+overseas market                                    | collocation
+overwhelmingly positive                            | collocation
+passionate about                                   | collocation
+paying attention                                   | collocation
+peer pressure                                      | collocation
+plan B                                             | collocation
+postponed the launch                               | collocation
+prefer stability over uncertainty                  | collocation
+pretty straightforward                             | collocation
+pretty successful                                  | collocation
+printer ink                                        | collocation
+proceed with caution                               | collocation
+project schedule                                   | collocation
+pulled up a chair                                  | collocation
+quality of their work                              | collocation
+rainy days                                         | collocation
+rarely enforced                                    | collocation
+reach me                                           | collocation
+reading assignments                                | collocation
+real boost                                         | collocation
+real confidence                                    | collocation
+real story                                         | collocation
+reduces costs                                      | collocation
+refers to                                          | collocation
+remote work                                        | collocation
+rent payments                                      | collocation
+repairing trust                                    | collocation
+reschedule the call                                | collocation
+right answer                                       | collocation
+rough day                                          | collocation
+rough patch                                        | collocation
+said that worked                                   | collocation
+save time                                          | collocation
+save us a table                                    | collocation
+saved me                                           | collocation
+saves money                                        | collocation
+second chance                                      | collocation
+second opinion                                     | collocation
+seemed to                                          | collocation
+seems off                                          | collocation
+serious conversation                               | collocation
+serious flaws                                      | collocation
+several errors                                     | collocation
+shows a lot of maturity                            | collocation
+sign-up process                                    | collocation
+signing bonus                                      | collocation
+signs the form                                     | collocation
+skips breakfast                                    | collocation
+slow internet connection                           | collocation
+small business                                     | collocation
+small businesses                                   | collocation
+small kindness                                     | collocation
+small talk                                         | collocation
+social events                                      | collocation
+social life                                        | collocation
+sounds fishy                                       | collocation
+split the bill                                     | collocation
+started to                                         | collocation
+stay calm                                          | collocation
+stay positive                                      | collocation
+stayed calm                                        | collocation
+stayed quiet                                       | collocation
+staying late                                       | collocation
+struggles with depression                          | collocation
+study abroad                                       | collocation
+supposed to                                        | collocation
+take a break                                       | collocation
+take a breath                                      | collocation
+take a deep breath                                 | collocation
+take a look                                        | collocation
+take a look at                                     | collocation
+take a walk                                        | collocation
+take it easy                                       | collocation
+takes real effort                                  | collocation
+taking a cab                                       | collocation
+taking applications                                | collocation
+team setting                                       | collocation
+tend to                                            | collocation
+terrified of                                       | collocation
+the business trip                                  | collocation
+things have been crazy                             | collocation
+thought process                                    | collocation
+too anxious about                                  | collocation
+too stubborn                                       | collocation
+took a breath                                      | collocation
+took full responsibility                           | collocation
+total accident                                     | collocation
+tough call                                         | collocation
+tough time                                         | collocation
+toxic relationship                                 | collocation
+track record                                       | collocation
+traffic is terrible                                | collocation
+travel arrangements                                | collocation
+treat people                                       | collocation
+tried to                                           | collocation
+under a lot of pressure                            | collocation
+underprivileged communities                        | collocation
+unfair policy                                      | collocation
+unfairly criticized                                | collocation
+use the restroom                                   | collocation
+values transparency                                | collocation
+victims of the disaster                            | collocation
+walk me through                                    | collocation
+walked me through                                  | collocation
+want to                                            | collocation
+wanted to                                          | collocation
+warm smile                                         | collocation
+warning signs                                      | collocation
+went smoothly                                      | collocation
+win-win situation                                  | collocation
+work together                                      | collocation
+worked overtime                                    | collocation
+working long hours                                 | collocation
+working overtime                                   | collocation
+workplace safety                                   | collocation
+works incredibly hard                              | collocation
+worthwhile experience                              | collocation
+your patience                                      | collocation
+your place                                         | collocation
+a matter of                                        | fixedExpression
+a quick break                                      | fixedExpression
+a real boost                                       | fixedExpression
+a slow lap                                         | fixedExpression
+a total mess                                       | fixedExpression
+Above all                                          | fixedExpression
+acting up again                                    | fixedExpression
+All I know is                                      | fixedExpression
+All I want is                                      | fixedExpression
+All I'm saying is                                  | fixedExpression
+All it takes is                                    | fixedExpression
+All things considered                              | fixedExpression
+All you have to do is                              | fixedExpression
+apologize for the wait                             | fixedExpression
+As a consequence                                   | fixedExpression
+As a result                                        | fixedExpression
+At the end of the day                              | fixedExpression
+beat the rush                                      | fixedExpression
+Believe it or not                                  | fixedExpression
+big time                                           | fixedExpression
+break bad news to                                  | fixedExpression
+break the news to                                  | fixedExpression
+broke the news to                                  | fixedExpression
+By and large                                       | fixedExpression
+By the way                                         | fixedExpression
+came to the conclusion                             | fixedExpression
+classic restart                                    | fixedExpression
+clause by clause                                   | fixedExpression
+Come to think of it                                | fixedExpression
+count me in                                        | fixedExpression
+dinner's on me                                     | fixedExpression
+do it again soon                                   | fixedExpression
+do the dishes                                      | fixedExpression
+Don't be so hard on yourself                       | fixedExpression
+Don't get me started on                            | fixedExpression
+Don't get me wrong                                 | fixedExpression
+Don't jump to conclusions                          | fixedExpression
+don't push it                                      | fixedExpression
+drives me crazy                                    | fixedExpression
+either way                                         | fixedExpression
+end of the day                                     | fixedExpression
+Even so                                            | fixedExpression
+Fair enough                                        | fixedExpression
+first thing in the morning                         | fixedExpression
+for the first time                                 | fixedExpression
+For the most part                                  | fixedExpression
+For what it's worth                                | fixedExpression
+From the look of it                                | fixedExpression
+Generally speaking                                 | fixedExpression
+Give it a rest                                     | fixedExpression
+Give me a second                                   | fixedExpression
+glad to                                            | fixedExpression
+go according to plan                               | fixedExpression
+had a dream about                                  | fixedExpression
+had no choice but to                               | fixedExpression
+have a point there                                 | fixedExpression
+have no idea                                       | fixedExpression
+Having said that                                   | fixedExpression
+help yourself to                                   | fixedExpression
+hit the spot                                       | fixedExpression
+hit the targets                                    | fixedExpression
+Hold on a second                                   | fixedExpression
+I beg to differ                                    | fixedExpression
+I had no choice but to                             | fixedExpression
+I have experience in                               | fixedExpression
+I hear you                                         | fixedExpression
+I never thought of it that way                     | fixedExpression
+I owe you an apology                               | fixedExpression
+I owe you one                                      | fixedExpression
+I see it differently                               | fixedExpression
+I see your point                                   | fixedExpression
+I stand corrected                                  | fixedExpression
+I won't be able to make it                         | fixedExpression
+I'll catch you later                               | fixedExpression
+I'll keep you posted                               | fixedExpression
+I'm behind on                                      | fixedExpression
+I'm confident that I can                           | fixedExpression
+I'm free anytime                                   | fixedExpression
+I'm here for you                                   | fixedExpression
+I'm lost                                           | fixedExpression
+I'm on it                                          | fixedExpression
+I'm swamped with                                   | fixedExpression
+If anything                                        | fixedExpression
+If anything else                                   | fixedExpression
+if I were you                                      | fixedExpression
+if I'm being honest                                | fixedExpression
+In most cases                                      | fixedExpression
+In my opinion                                      | fixedExpression
+in the first place                                 | fixedExpression
+In the long run                                    | fixedExpression
+is everything okay                                 | fixedExpression
+Is there a good place                              | fixedExpression
+Is there anything else                             | fixedExpression
+is this seat taken                                 | fixedExpression
+It goes without saying that                        | fixedExpression
+It makes sense                                     | fixedExpression
+it's a long story                                  | fixedExpression
+it's a matter of                                   | fixedExpression
+It's been ages                                     | fixedExpression
+it's just that                                     | fixedExpression
+it's not a big deal                                | fixedExpression
+It's not as if                                     | fixedExpression
+It's not letting                                   | fixedExpression
+It's not like                                      | fixedExpression
+It's not that                                      | fixedExpression
+it's not what you think                            | fixedExpression
+it's up to you                                     | fixedExpression
+Just a quick note                                  | fixedExpression
+just my luck                                       | fixedExpression
+Just so you know                                   | fixedExpression
+Just to confirm                                    | fixedExpression
+keep in touch with                                 | fixedExpression
+Keep it up                                         | fixedExpression
+keep the change                                    | fixedExpression
+Keep this between us                               | fixedExpression
+keep this information to yourself                  | fixedExpression
+Keep this to yourself                              | fixedExpression
+Keep up the great work                             | fixedExpression
+kept her feelings to herself                       | fixedExpression
+Knock it off                                       | fixedExpression
+Leave it to me                                     | fixedExpression
+let alone                                          | fixedExpression
+Let me help you                                    | fixedExpression
+let's actually compare                             | fixedExpression
+Let's not turn this into                           | fixedExpression
+let's put this behind                              | fixedExpression
+Long story short                                   | fixedExpression
+lost track of time                                 | fixedExpression
+made the most of                                   | fixedExpression
+make plans for                                     | fixedExpression
+make the most of                                   | fixedExpression
+makes sense                                        | fixedExpression
+might as well                                      | fixedExpression
+More often than not                                | fixedExpression
+my bad                                             | fixedExpression
+Never mind                                         | fixedExpression
+No matter how                                      | fixedExpression
+no matter what                                     | fixedExpression
+no point in                                        | fixedExpression
+Not necessarily                                    | fixedExpression
+Not to mention                                     | fixedExpression
+nothing else to do                                 | fixedExpression
+nothing to do with                                 | fixedExpression
+Of course                                          | fixedExpression
+off your plate                                     | fixedExpression
+on and off                                         | fixedExpression
+On second thought                                  | fixedExpression
+On the one hand                                    | fixedExpression
+on the other hand                                  | fixedExpression
+on the same page                                   | fixedExpression
+On the whole                                       | fixedExpression
+On top of that                                     | fixedExpression
+once-in-a-lifetime                                 | fixedExpression
+one more time                                      | fixedExpression
+one of those days                                  | fixedExpression
+out of the question                                | fixedExpression
+Please find the                                    | fixedExpression
+Pull yourself together                             | fixedExpression
+pulled herself together                            | fixedExpression
+push it                                            | fixedExpression
+right about now                                    | fixedExpression
+right on time                                      | fixedExpression
+sees it differently                                | fixedExpression
+sooner or later                                    | fixedExpression
+Sorry for the late reply                           | fixedExpression
+staying calm under pressure                        | fixedExpression
+suit yourself                                      | fixedExpression
+take care                                          | fixedExpression
+take his time                                      | fixedExpression
+take this opportunity to                           | fixedExpression
+Thanks for your patience                           | fixedExpression
+That being said                                    | fixedExpression
+That makes sense                                   | fixedExpression
+That said                                          | fixedExpression
+That sounds great                                  | fixedExpression
+That's not entirely true                           | fixedExpression
+That's the reason why                              | fixedExpression
+the better                                         | fixedExpression
+the fact that                                      | fixedExpression
+The last thing I want                              | fixedExpression
+The more                                           | fixedExpression
+the offer still stands                             | fixedExpression
+The only thing that matters                        | fixedExpression
+The problem with                                   | fixedExpression
+the sooner, the better                             | fixedExpression
+The thing about                                    | fixedExpression
+The thing is                                       | fixedExpression
+The way I see it                                   | fixedExpression
+The way things are going                           | fixedExpression
+there's more to it than that                       | fixedExpression
+There's no harm in                                 | fixedExpression
+There's no need to                                 | fixedExpression
+There's no way                                     | fixedExpression
+There's nothing                                    | fixedExpression
+There's nothing wrong with                         | fixedExpression
+There's something about                            | fixedExpression
+Therefore                                          | fixedExpression
+This was lovely                                    | fixedExpression
+To be fair                                         | fixedExpression
+To be honest                                       | fixedExpression
+To be precise                                      | fixedExpression
+To put it another way                              | fixedExpression
+To put it simply                                   | fixedExpression
+To sum up                                          | fixedExpression
+touch base with                                    | fixedExpression
+try again next week                                | fixedExpression
+up for negotiation                                 | fixedExpression
+want a word with                                   | fixedExpression
+was on it                                          | fixedExpression
+Way to go                                          | fixedExpression
+we have a deal                                     | fixedExpression
+Welcome to our café                                | fixedExpression
+What's more                                        | fixedExpression
+Whatever happens                                   | fixedExpression
+Wherever you go                                    | fixedExpression
+which is why                                       | fixedExpression
+Who did you hear that from                         | fixedExpression
+Whoever you ask                                    | fixedExpression
+With all due respect                               | fixedExpression
+With respect                                       | fixedExpression
+You can say that again                             | fixedExpression
+You can't always                                   | fixedExpression
+you crushed it                                     | fixedExpression
+You did a great job                                | fixedExpression
+You don't have to                                  | fixedExpression
+You don't need to                                  | fixedExpression
+You had better                                     | fixedExpression
+You have a point                                   | fixedExpression
+You might as well                                  | fixedExpression
+You never know                                     | fixedExpression
+You'd be better off                                | fixedExpression
+You'd be surprised                                 | fixedExpression
+a fresh coat of paint                              | idiom
+a fresh start                                      | idiom
+a great deal                                       | idiom
+a hand                                             | idiom
+a long shot                                        | idiom
+a lot on her plate                                 | idiom
+a lot on his plate                                 | idiom
+a lot on my plate                                  | idiom
+aced the exam                                      | idiom
+aced the interview                                 | idiom
+all along                                          | idiom
+another story                                      | idiom
+at a loss for                                      | idiom
+at a loss for words                                | idiom
+at face value                                      | idiom
+at home                                            | idiom
+at home abroad                                     | idiom
+at the last minute                                 | idiom
+beating around the bush                            | idiom
+behind my back                                     | idiom
+better to be safe than sorry                       | idiom
+big picture                                        | idiom
+bit off more than I can chew                       | idiom
+bit off more than we can chew                      | idiom
+bite the bullet                                    | idiom
+blew it                                            | idiom
+blew my mind                                       | idiom
+blind date                                         | idiom
+break even                                         | idiom
+break the ice                                      | idiom
+break the news                                     | idiom
+broke even                                         | idiom
+burned his bridges                                 | idiom
+burned out                                         | idiom
+burning bridges                                    | idiom
+burst into tears                                   | idiom
+by heart                                           | idiom
+call it a day                                      | idiom
+calling it a day                                   | idiom
+caused a scene                                     | idiom
+changed his mind                                   | idiom
+choosing your battles                              | idiom
+clear my head                                      | idiom
+cleared the air                                    | idiom
+comes at a price                                   | idiom
+cover for me                                       | idiom
+crossed the finish line                            | idiom
+cut corners                                        | idiom
+cut him some slack                                 | idiom
+cut it                                             | idiom
+Cut me some slack                                  | idiom
+cutting corners                                    | idiom
+do more with less                                  | idiom
+done in no time                                    | idiom
+drives her crazy                                   | idiom
+easier said than done                              | idiom
+face the music                                     | idiom
+fall into place                                    | idiom
+feels like home                                    | idiom
+flipping a switch                                  | idiom
+from scratch                                       | idiom
+from square one                                    | idiom
+gave him a wake-up call                            | idiom
+gave it my best shot                               | idiom
+gave me a hand with                                | idiom
+gave me a wake-up call                             | idiom
+gave you the heads up                              | idiom
+Get a grip                                         | idiom
+get back on track                                  | idiom
+get carried away                                   | idiom
+get his foot in the door                           | idiom
+get in the way of                                  | idiom
+get out of hand                                    | idiom
+get the hang of it                                 | idiom
+get their act together                             | idiom
+get to the bottom of                               | idiom
+get your act together                              | idiom
+getting in the way of                              | idiom
+getting old                                        | idiom
+getting on my nerves                               | idiom
+getting out of hand                                | idiom
+getting the hang of                                | idiom
+getting yourself into                              | idiom
+give it a shot                                     | idiom
+give it a try                                      | idiom
+give it another shot                               | idiom
+give it your best shot                             | idiom
+Give me a break                                    | idiom
+give me a hand                                     | idiom
+give me a hand with                                | idiom
+give me a heads-up                                 | idiom
+giving it a shot                                   | idiom
+go a long way                                      | idiom
+goes a long way                                    | idiom
+goes above and beyond                              | idiom
+goes the extra mile                                | idiom
+going around in circles                            | idiom
+going out of your way                              | idiom
+going through a tough time                         | idiom
+gone through the roof                              | idiom
+got his act together                               | idiom
+got it all covered                                 | idiom
+got out of hand                                    | idiom
+got the green light                                | idiom
+got the hang of                                    | idiom
+grab a bite                                        | idiom
+grab a bite to eat                                 | idiom
+growing on me                                      | idiom
+had a hard time                                    | idiom
+have a point                                       | idiom
+have your back                                     | idiom
+having second thoughts                             | idiom
+held accountable for                               | idiom
+his mind was racing                                | idiom
+hit a few bumps                                    | idiom
+hit it off                                         | idiom
+hit it off with                                    | idiom
+hit me out of nowhere                              | idiom
+hit the ground running                             | idiom
+hitting it off                                     | idiom
+hold children accountable for                      | idiom
+hold her tongue                                    | idiom
+hold his horses                                    | idiom
+hold it together                                   | idiom
+hold them accountable for                          | idiom
+Hold your horses                                   | idiom
+Hold your tongue                                   | idiom
+honesty is the best policy                         | idiom
+in over our heads                                  | idiom
+in over your head                                  | idiom
+in the middle of nowhere                           | idiom
+in the spotlight                                   | idiom
+in the zone                                        | idiom
+is on me                                           | idiom
+juggle work and family                             | idiom
+jump to conclusions                                | idiom
+keep a low profile                                 | idiom
+keep a straight face                               | idiom
+keep an eye on                                     | idiom
+keeping a low profile                              | idiom
+keeping an eye on                                  | idiom
+kept in the dark                                   | idiom
+lay low                                            | idiom
+let the cat out of the bag                         | idiom
+long gone                                          | idiom
+long shot                                          | idiom
+look on the bright side                            | idiom
+lose my mind                                       | idiom
+lose track of time                                 | idiom
+lost sleep                                         | idiom
+made it                                            | idiom
+made the right call                                | idiom
+made your case                                     | idiom
+make a big deal out of                             | idiom
+make ends meet                                     | idiom
+make up your mind                                  | idiom
+makes all the difference                           | idiom
+meet halfway                                       | idiom
+moving the goalposts                               | idiom
+nailed it                                          | idiom
+night owl                                          | idiom
+no-brainer                                         | idiom
+not on the same page                               | idiom
+off the beaten track                               | idiom
+off the record                                     | idiom
+on board                                           | idiom
+on the fence about                                 | idiom
+on the house                                       | idiom
+on the right track                                 | idiom
+on the same page about                             | idiom
+on the same page as                                | idiom
+on the tip of my tongue                            | idiom
+on thin ice                                        | idiom
+on your feet                                       | idiom
+one step at a time                                 | idiom
+only a matter of time                              | idiom
+opened my eyes                                     | idiom
+out of date                                        | idiom
+out of my hands                                    | idiom
+outside the box                                    | idiom
+peace and quiet                                    | idiom
+pick up the tab                                    | idiom
+pick your brain                                    | idiom
+plucked up the courage                             | idiom
+pulled an all-nighter                              | idiom
+pulling my leg                                     | idiom
+pushing the envelope                               | idiom
+put all your eggs in one basket                    | idiom
+put yourself through                               | idiom
+puts me at ease                                    | idiom
+putting in a good word for                         | idiom
+read the fine print                                | idiom
+reading between the lines                          | idiom
+see eye to eye                                     | idiom
+set foot in                                        | idiom
+shed some light on                                 | idiom
+sleep on it                                        | idiom
+speak for themselves                               | idiom
+speaks for itself                                  | idiom
+standing her ground                                | idiom
+stay on track                                      | idiom
+stay true to yourself                              | idiom
+stayed up all night                                | idiom
+staying up all night                               | idiom
+stepped out of your comfort zone                   | idiom
+stood her ground                                   | idiom
+take a breather                                    | idiom
+take a step back                                   | idiom
+Take it from me                                    | idiom
+Take it or leave it                                | idiom
+take it with a grain of salt                       | idiom
+take our health for granted                        | idiom
+take things for granted                            | idiom
+take your friends for granted                      | idiom
+take your time                                     | idiom
+taking him for granted                             | idiom
+taking the blame                                   | idiom
+talking to a wall                                  | idiom
+tells a completely different story                 | idiom
+tensions are running high                          | idiom
+That's news to me                                  | idiom
+the benefit of the doubt                           | idiom
+the big picture                                    | idiom
+the bigger picture                                 | idiom
+the bottom line                                    | idiom
+the end of the world                               | idiom
+the glue that holds the team together              | idiom
+The odds are against us                            | idiom
+think on your feet                                 | idiom
+thinking on her feet                               | idiom
+thought twice                                      | idiom
+throw the baby out with the bathwater              | idiom
+too good to be true                                | idiom
+took a deep breath                                 | idiom
+took him a while                                   | idiom
+turn back time                                     | idiom
+up and running                                     | idiom
+up at night                                        | idiom
+up in the air                                      | idiom
+wearing on her                                     | idiom
+wearing on me                                      | idiom
+went over budget                                   | idiom
+where you're coming from                           | idiom
+wiggle room                                        | idiom
+wing it                                            | idiom
+with a grain of salt                               | idiom
+worth a shot                                       | idiom
+wrapping his head around                           | idiom
+acting up                                          | phrasalVerb
+apologize for                                      | phrasalVerb
+apologized for                                     | phrasalVerb
+arrive in                                          | phrasalVerb
+arrived in                                         | phrasalVerb
+ask for                                            | phrasalVerb
+asked for                                          | phrasalVerb
+asking for                                         | phrasalVerb
+back down                                          | phrasalVerb
+back out                                           | phrasalVerb
+back up                                            | phrasalVerb
+backed down                                        | phrasalVerb
+backed out                                         | phrasalVerb
+backed up                                          | phrasalVerb
+backing out                                        | phrasalVerb
+backs down from                                    | phrasalVerb
+bail you out                                       | phrasalVerb
+been through                                       | phrasalVerb
+believe in                                         | phrasalVerb
+blow over                                          | phrasalVerb
+blown out of proportion                            | phrasalVerb
+booked up                                          | phrasalVerb
+bounce back                                        | phrasalVerb
+break free from                                    | phrasalVerb
+Breaking free from                                 | phrasalVerb
+breaking up                                        | phrasalVerb
+bring a friend along                               | phrasalVerb
+bring it up                                        | phrasalVerb
+bring this up                                      | phrasalVerb
+broke free from                                    | phrasalVerb
+broke up                                           | phrasalVerb
+brought it up                                      | phrasalVerb
+brought that up                                    | phrasalVerb
+brought this up                                    | phrasalVerb
+brought up                                         | phrasalVerb
+brush up on                                        | phrasalVerb
+brushed up on                                      | phrasalVerb
+burning out                                        | phrasalVerb
+call ahead                                         | phrasalVerb
+call him back                                      | phrasalVerb
+call it                                            | phrasalVerb
+called her back                                    | phrasalVerb
+called it off                                      | phrasalVerb
+called off                                         | phrasalVerb
+came across                                        | phrasalVerb
+came back                                          | phrasalVerb
+came up                                            | phrasalVerb
+came up with                                       | phrasalVerb
+care about                                         | phrasalVerb
+carried on                                         | phrasalVerb
+catch up                                           | phrasalVerb
+catch up with                                      | phrasalVerb
+catches up with                                    | phrasalVerb
+Catching up                                        | phrasalVerb
+caught up                                          | phrasalVerb
+caught up with                                     | phrasalVerb
+check in                                           | phrasalVerb
+check it out                                       | phrasalVerb
+checked in at                                      | phrasalVerb
+checking in                                        | phrasalVerb
+checking out                                       | phrasalVerb
+circle back                                        | phrasalVerb
+circle back to                                     | phrasalVerb
+circled back                                       | phrasalVerb
+clear up                                           | phrasalVerb
+cleared things up                                  | phrasalVerb
+clears up                                          | phrasalVerb
+come across                                        | phrasalVerb
+come around                                        | phrasalVerb
+come back                                          | phrasalVerb
+come from                                          | phrasalVerb
+come in                                            | phrasalVerb
+come out                                           | phrasalVerb
+come up with                                       | phrasalVerb
+come with                                          | phrasalVerb
+comes up                                           | phrasalVerb
+comes with                                         | phrasalVerb
+coming down with                                   | phrasalVerb
+connect to                                         | phrasalVerb
+cracking down on                                   | phrasalVerb
+crash at                                           | phrasalVerb
+cut back                                           | phrasalVerb
+cut back on                                        | phrasalVerb
+cut down on                                        | phrasalVerb
+deal with                                          | phrasalVerb
+dealing with                                       | phrasalVerb
+dig in                                             | phrasalVerb
+dig into                                           | phrasalVerb
+don't get along                                    | phrasalVerb
+doubled down                                       | phrasalVerb
+dress up                                           | phrasalVerb
+drifting toward                                    | phrasalVerb
+drop it                                            | phrasalVerb
+dropped by                                         | phrasalVerb
+dropped out of                                     | phrasalVerb
+dropping out of                                    | phrasalVerb
+dug in                                             | phrasalVerb
+dwelling on                                        | phrasalVerb
+eat out                                            | phrasalVerb
+eating out                                         | phrasalVerb
+end up                                             | phrasalVerb
+end up living                                      | phrasalVerb
+end up skipping                                    | phrasalVerb
+end up taking                                      | phrasalVerb
+ended up                                           | phrasalVerb
+ended up at                                        | phrasalVerb
+ended up in                                        | phrasalVerb
+fallen behind on                                   | phrasalVerb
+falling apart                                      | phrasalVerb
+falling behind on                                  | phrasalVerb
+falls through                                      | phrasalVerb
+feel like                                          | phrasalVerb
+fell apart                                         | phrasalVerb
+fell behind on                                     | phrasalVerb
+felt like                                          | phrasalVerb
+figure it out                                      | phrasalVerb
+figure out                                         | phrasalVerb
+figure this out                                    | phrasalVerb
+figured it out                                     | phrasalVerb
+figured out                                        | phrasalVerb
+fill me in on                                      | phrasalVerb
+find out                                           | phrasalVerb
+fits perfectly                                     | phrasalVerb
+follow up                                          | phrasalVerb
+follow up on                                       | phrasalVerb
+followed up on                                     | phrasalVerb
+forgot about                                       | phrasalVerb
+gave in to                                         | phrasalVerb
+gave up                                            | phrasalVerb
+gave up on                                         | phrasalVerb
+get along with                                     | phrasalVerb
+get away                                           | phrasalVerb
+get back                                           | phrasalVerb
+get back to you                                    | phrasalVerb
+get going                                          | phrasalVerb
+get into                                           | phrasalVerb
+get mixed up in                                    | phrasalVerb
+get through                                        | phrasalVerb
+get through this                                   | phrasalVerb
+gets away with                                     | phrasalVerb
+getting into                                       | phrasalVerb
+getting over                                       | phrasalVerb
+Getting up                                         | phrasalVerb
+give in                                            | phrasalVerb
+give that up                                       | phrasalVerb
+give up                                            | phrasalVerb
+give up on                                         | phrasalVerb
+giving up                                          | phrasalVerb
+go ahead with                                      | phrasalVerb
+go along with                                      | phrasalVerb
+go out                                             | phrasalVerb
+go over                                            | phrasalVerb
+go with                                            | phrasalVerb
+go wrong                                           | phrasalVerb
+goes by                                            | phrasalVerb
+goes down                                          | phrasalVerb
+going ahead with                                   | phrasalVerb
+going along with                                   | phrasalVerb
+going back                                         | phrasalVerb
+going on                                           | phrasalVerb
+going out                                          | phrasalVerb
+going over                                         | phrasalVerb
+going through                                      | phrasalVerb
+got around to it                                   | phrasalVerb
+got back from                                      | phrasalVerb
+got over                                           | phrasalVerb
+gotten along                                       | phrasalVerb
+gotten over                                        | phrasalVerb
+grew up                                            | phrasalVerb
+hand in                                            | phrasalVerb
+hand it in                                         | phrasalVerb
+hang out                                           | phrasalVerb
+hanging out                                        | phrasalVerb
+head into                                          | phrasalVerb
+head out                                           | phrasalVerb
+headed to                                          | phrasalVerb
+heading to                                         | phrasalVerb
+hear from                                          | phrasalVerb
+heard about                                        | phrasalVerb
+held back                                          | phrasalVerb
+help me out                                        | phrasalVerb
+help out                                           | phrasalVerb
+hold off                                           | phrasalVerb
+hold off on                                        | phrasalVerb
+hold on to                                         | phrasalVerb
+holding on                                         | phrasalVerb
+holds down                                         | phrasalVerb
+hoping for                                         | phrasalVerb
+hung out                                           | phrasalVerb
+ironed out                                         | phrasalVerb
+keep coming back                                   | phrasalVerb
+keep up                                            | phrasalVerb
+keep up with                                       | phrasalVerb
+keeping up with                                    | phrasalVerb
+keeps the noise down                               | phrasalVerb
+knocked out                                        | phrasalVerb
+let everyone down                                  | phrasalVerb
+let go of                                          | phrasalVerb
+let it go                                          | phrasalVerb
+letting go of                                      | phrasalVerb
+letting him down                                   | phrasalVerb
+lie down                                           | phrasalVerb
+listen to                                          | phrasalVerb
+listened to                                        | phrasalVerb
+lit up                                             | phrasalVerb
+live with                                          | phrasalVerb
+log in                                             | phrasalVerb
+look after                                         | phrasalVerb
+look forward to                                    | phrasalVerb
+look it over                                       | phrasalVerb
+look like                                          | phrasalVerb
+look out for                                       | phrasalVerb
+looked around                                      | phrasalVerb
+looked for                                         | phrasalVerb
+looked into                                        | phrasalVerb
+looked up                                          | phrasalVerb
+looking for                                        | phrasalVerb
+looking forward to                                 | phrasalVerb
+looking into                                       | phrasalVerb
+looking into it                                    | phrasalVerb
+made sure                                          | phrasalVerb
+make it through                                    | phrasalVerb
+make sense                                         | phrasalVerb
+Make sure                                          | phrasalVerb
+make up for                                        | phrasalVerb
+meet up                                            | phrasalVerb
+move into                                          | phrasalVerb
+move on                                            | phrasalVerb
+move on from                                       | phrasalVerb
+move out                                           | phrasalVerb
+moved into                                         | phrasalVerb
+moved on                                           | phrasalVerb
+moved on from                                      | phrasalVerb
+moved to                                           | phrasalVerb
+Moving on                                          | phrasalVerb
+opened up                                          | phrasalVerb
+opened up about                                    | phrasalVerb
+opened up to                                       | phrasalVerb
+opening up                                         | phrasalVerb
+own up to                                          | phrasalVerb
+pays off                                           | phrasalVerb
+peeling potatoes                                   | phrasalVerb
+pick up                                            | phrasalVerb
+picked up                                          | phrasalVerb
+piling up                                          | phrasalVerb
+point to                                           | phrasalVerb
+pointed out                                        | phrasalVerb
+pointed to                                         | phrasalVerb
+points to                                          | phrasalVerb
+pouring out                                        | phrasalVerb
+pull back from                                     | phrasalVerb
+pull her through                                   | phrasalVerb
+pull it off                                        | phrasalVerb
+pull off                                           | phrasalVerb
+pull over                                          | phrasalVerb
+pull this off                                      | phrasalVerb
+pulled back from                                   | phrasalVerb
+pulled it off                                      | phrasalVerb
+pulled me through                                  | phrasalVerb
+pulled off                                         | phrasalVerb
+pulled that off                                    | phrasalVerb
+pulled up                                          | phrasalVerb
+pulled up to                                       | phrasalVerb
+pulled us through                                  | phrasalVerb
+pulling off                                        | phrasalVerb
+push back                                          | phrasalVerb
+push the meeting back                              | phrasalVerb
+push through                                       | phrasalVerb
+pushed on                                          | phrasalVerb
+pushed through                                     | phrasalVerb
+pushing for                                        | phrasalVerb
+put down                                           | phrasalVerb
+put off                                            | phrasalVerb
+put on                                             | phrasalVerb
+put this behind                                    | phrasalVerb
+put up with                                        | phrasalVerb
+put you through                                    | phrasalVerb
+putting in                                         | phrasalVerb
+putting it off                                     | phrasalVerb
+putting off                                        | phrasalVerb
+putting things off                                 | phrasalVerb
+putting this off                                   | phrasalVerb
+putting up with                                    | phrasalVerb
+ran into                                           | phrasalVerb
+ran low on                                         | phrasalVerb
+ran out of                                         | phrasalVerb
+reach out                                          | phrasalVerb
+reach out to                                       | phrasalVerb
+reached out                                        | phrasalVerb
+reaching out to                                    | phrasalVerb
+rely on                                            | phrasalVerb
+roll out                                           | phrasalVerb
+rolled up                                          | phrasalVerb
+rolling out                                        | phrasalVerb
+run into                                           | phrasalVerb
+running into                                       | phrasalVerb
+running low on                                     | phrasalVerb
+running out of                                     | phrasalVerb
+rush through                                       | phrasalVerb
+sat down                                           | phrasalVerb
+save up                                            | phrasalVerb
+saving up for                                      | phrasalVerb
+scale up                                           | phrasalVerb
+scaling up                                         | phrasalVerb
+see it through                                     | phrasalVerb
+set out for                                        | phrasalVerb
+set up                                             | phrasalVerb
+setting up the room                                | phrasalVerb
+shaking things up                                  | phrasalVerb
+show up                                            | phrasalVerb
+showed up                                          | phrasalVerb
+showed up at                                       | phrasalVerb
+showing up                                         | phrasalVerb
+shut the whole department down                     | phrasalVerb
+signed up for                                      | phrasalVerb
+slow down                                          | phrasalVerb
+slowed down                                        | phrasalVerb
+smoothing things over                              | phrasalVerb
+snap at                                            | phrasalVerb
+sold out                                           | phrasalVerb
+sort it out                                        | phrasalVerb
+sort out                                           | phrasalVerb
+sort things out                                    | phrasalVerb
+sort this out                                      | phrasalVerb
+sorted this out                                    | phrasalVerb
+speak up                                           | phrasalVerb
+speak up about                                     | phrasalVerb
+splurged on                                        | phrasalVerb
+spoke up about                                     | phrasalVerb
+spoken up                                          | phrasalVerb
+standing up for                                    | phrasalVerb
+standing up for yourself                           | phrasalVerb
+start over                                         | phrasalVerb
+started with                                       | phrasalVerb
+starting with                                      | phrasalVerb
+stay in                                            | phrasalVerb
+stayed over at                                     | phrasalVerb
+stayed up                                          | phrasalVerb
+stepped back                                       | phrasalVerb
+stocked up on                                      | phrasalVerb
+stood up for                                       | phrasalVerb
+stopped by                                         | phrasalVerb
+stretch out                                        | phrasalVerb
+sum up                                             | phrasalVerb
+summed up                                          | phrasalVerb
+swamped with                                       | phrasalVerb
+switching to                                       | phrasalVerb
+tag along                                          | phrasalVerb
+take care of                                       | phrasalVerb
+take in                                            | phrasalVerb
+take off                                           | phrasalVerb
+take on                                            | phrasalVerb
+take out                                           | phrasalVerb
+take over                                          | phrasalVerb
+takes up                                           | phrasalVerb
+taking the lead                                    | phrasalVerb
+talk about                                         | phrasalVerb
+talk down to                                       | phrasalVerb
+talk it over                                       | phrasalVerb
+think about                                        | phrasalVerb
+think it over                                      | phrasalVerb
+think it through                                   | phrasalVerb
+thinking about                                     | phrasalVerb
+thought about                                      | phrasalVerb
+touch base                                         | phrasalVerb
+tried on                                           | phrasalVerb
+try the coat on                                    | phrasalVerb
+try these shoes on                                 | phrasalVerb
+try this on                                        | phrasalVerb
+turn in                                            | phrasalVerb
+turn in early                                      | phrasalVerb
+turn off                                           | phrasalVerb
+turn out                                           | phrasalVerb
+turn things around                                 | phrasalVerb
+turned down                                        | phrasalVerb
+turned it down                                     | phrasalVerb
+turned out                                         | phrasalVerb
+turned things around                               | phrasalVerb
+turned up                                          | phrasalVerb
+turning down                                       | phrasalVerb
+turning on                                         | phrasalVerb
+used to                                            | phrasalVerb
+wait for                                           | phrasalVerb
+waking up                                          | phrasalVerb
+walked out                                         | phrasalVerb
+warm up                                            | phrasalVerb
+watch out                                          | phrasalVerb
+Watch out for                                      | phrasalVerb
+went ahead with                                    | phrasalVerb
+went on                                            | phrasalVerb
+went up                                            | phrasalVerb
+wind down                                          | phrasalVerb
+woke up to                                         | phrasalVerb
+work on                                            | phrasalVerb
+work out                                           | phrasalVerb
+worked out                                         | phrasalVerb
+working out                                        | phrasalVerb
+works out                                          | phrasalVerb
+worried about                                      | phrasalVerb
+worry about                                        | phrasalVerb
+wrap things up                                     | phrasalVerb
+wrap this up                                       | phrasalVerb
+wrap up                                            | phrasalVerb
+wrapped up                                         | phrasalVerb
+wrapping up                                        | phrasalVerb
+writing it off                                     | phrasalVerb
+a few times                                        | prepPhrase
+a long time                                        | prepPhrase
+a lot of                                           | prepPhrase
+after a long break                                 | prepPhrase
+after all                                          | prepPhrase
+after five                                         | prepPhrase
+after hours of thinking                            | prepPhrase
+after listening to it a few times                  | prepPhrase
+after living there for a year                      | prepPhrase
+after the accident                                 | prepPhrase
+after the break                                    | prepPhrase
+after the concert                                  | prepPhrase
+after the injury                                   | prepPhrase
+after work                                         | prepPhrase
+after years of                                     | prepPhrase
+again and again                                    | prepPhrase
+as a family                                        | prepPhrase
+As far as                                          | prepPhrase
+As long as                                         | prepPhrase
+As opposed to                                      | prepPhrase
+as soon as                                         | prepPhrase
+at all                                             | prepPhrase
+at dawn                                            | prepPhrase
+at first                                           | prepPhrase
+at least                                           | prepPhrase
+at once                                            | prepPhrase
+at the airport                                     | prepPhrase
+at the camp                                        | prepPhrase
+at the coffee shop                                 | prepPhrase
+at the corner                                      | prepPhrase
+at the counter                                     | prepPhrase
+at the door                                        | prepPhrase
+at the end of the meeting                          | prepPhrase
+at the gym                                         | prepPhrase
+at the meeting                                     | prepPhrase
+at the same time                                   | prepPhrase
+at the start of                                    | prepPhrase
+at the table                                       | prepPhrase
+back and forth                                     | prepPhrase
+back-to-back                                       | prepPhrase
+because of the noise                               | prepPhrase
+before departure                                   | prepPhrase
+before submitting                                  | prepPhrase
+before the deadline                                | prepPhrase
+before the end of the month                        | prepPhrase
+before the meeting                                 | prepPhrase
+before the storm                                   | prepPhrase
+before the writing test                            | prepPhrase
+behind on my                                       | prepPhrase
+by accident                                        | prepPhrase
+by end of day                                      | prepPhrase
+by end of next week                                | prepPhrase
+by end of week                                     | prepPhrase
+by Friday                                          | prepPhrase
+by herself                                         | prepPhrase
+by noon                                            | prepPhrase
+by the door                                        | prepPhrase
+by the window                                      | prepPhrase
+by Thursday                                        | prepPhrase
+by Thursday morning                                | prepPhrase
+by tomorrow morning                                | prepPhrase
+by tonight                                         | prepPhrase
+by total accident                                  | prepPhrase
+Despite                                            | prepPhrase
+despite strong opposition                          | prepPhrase
+despite the cold weather                           | prepPhrase
+due on Friday                                      | prepPhrase
+during a recession                                 | prepPhrase
+during the discussion                              | prepPhrase
+during the farewell speech                         | prepPhrase
+during the funeral                                 | prepPhrase
+during the internship                              | prepPhrase
+during the lecture                                 | prepPhrase
+during the long flight                             | prepPhrase
+during the sale                                    | prepPhrase
+Even though                                        | prepPhrase
+for a long time                                    | prepPhrase
+for a moment                                       | prepPhrase
+for a quick break                                  | prepPhrase
+for a second                                       | prepPhrase
+for a while                                        | prepPhrase
+for a whole                                        | prepPhrase
+for my birthday                                    | prepPhrase
+for now                                            | prepPhrase
+for once                                           | prepPhrase
+for over ten years                                 | prepPhrase
+for the holidays                                   | prepPhrase
+for the kids                                       | prepPhrase
+for weeks                                          | prepPhrase
+from a different angle                             | prepPhrase
+From a practical standpoint                        | prepPhrase
+From my point of view                              | prepPhrase
+from now on                                        | prepPhrase
+from saying                                        | prepPhrase
+from there                                         | prepPhrase
+I apologize for the wait                           | prepPhrase
+I'll put you through                               | prepPhrase
+in about twenty minutes                            | prepPhrase
+in about two hours                                 | prepPhrase
+In addition to                                     | prepPhrase
+in five years                                      | prepPhrase
+In hindsight                                       | prepPhrase
+In my experience                                   | prepPhrase
+in person                                          | prepPhrase
+in place                                           | prepPhrase
+in practice                                        | prepPhrase
+in silence                                         | prepPhrase
+In spite of                                        | prepPhrase
+in the corner                                      | prepPhrase
+in the middle of                                   | prepPhrase
+in the morning                                     | prepPhrase
+in the next decade                                 | prepPhrase
+in the wrong size                                  | prepPhrase
+In theory                                          | prepPhrase
+in three days                                      | prepPhrase
+instead of                                         | prepPhrase
+just in case                                       | prepPhrase
+just in time                                       | prepPhrase
+later in the week                                  | prepPhrase
+No problem                                         | prepPhrase
+No wonder                                          | prepPhrase
+on hand                                            | prepPhrase
+on her lunch break                                 | prepPhrase
+on her own                                         | prepPhrase
+on me tonight                                      | prepPhrase
+on that point                                      | prepPhrase
+on the highway                                     | prepPhrase
+on the phone                                       | prepPhrase
+on the wall                                        | prepPhrase
+On the way                                         | prepPhrase
+on the way to                                      | prepPhrase
+on this issue                                      | prepPhrase
+on time                                            | prepPhrase
+on weekends                                        | prepPhrase
+one terminal over                                  | prepPhrase
+out of proportion                                  | prepPhrase
+over and over                                      | prepPhrase
+over dinner                                        | prepPhrase
+over each other                                    | prepPhrase
+Rather than                                        | prepPhrase
+Regardless of                                      | prepPhrase
+right away                                         | prepPhrase
+right in front of me                               | prepPhrase
+right now                                          | prepPhrase
+so far                                             | prepPhrase
+so much                                            | prepPhrase
+step by step                                       | prepPhrase
+the best part                                      | prepPhrase
+this afternoon                                     | prepPhrase
+to be clear                                        | prepPhrase
+to me                                              | prepPhrase
+two business days                                  | prepPhrase
+until next month                                   | prepPhrase
+with no luck                                       | prepPhrase
+with you                                           | prepPhrase
+within a minute                                    | prepPhrase
+within a week                                      | prepPhrase
+within fifteen minutes                             | prepPhrase
+within thirty days                                 | prepPhrase
+without any preparation                            | prepPhrase
+without exception                                  | prepPhrase
+without hesitation                                 | prepPhrase
+without saying goodbye                             | prepPhrase

@@ -5,7 +5,7 @@ import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, RotateCcw, Trash2 } from 'lucide-react'
-import { requestOnboardingReplay } from '@/lib/onboarding'
+import { requestCoverReplay } from '@/components/WelcomeCover'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -440,7 +440,7 @@ export default function SettingsPage() {
   function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
 
   function handleReplayOnboarding() {
-    requestOnboardingReplay()
+    requestCoverReplay()
     window.location.href = '/'
   }
 
