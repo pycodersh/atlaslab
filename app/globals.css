@@ -90,22 +90,6 @@
   box-sizing: border-box;
 }
 
-/* ── Glass card / nav tokens ──────────────────────────────────────────── */
-.glass-card {
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 20px;
-  box-shadow: 0 4px 24px rgba(180, 170, 210, 0.15);
-}
-
-.glass-nav {
-  background: rgba(255, 255, 255, 0.60);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border-top: 1px solid rgba(255, 255, 255, 0.70);
-}
 
 /* ── Stable full-screen height (iOS Safari safe) ────────────────────────
    dvh changes as Safari toolbar collapses → causes layout reflow mid-scroll.
@@ -142,15 +126,22 @@ body {
 
 /* ── Glass Card ─────────────────────────────────────────────────────── */
 .glass-card {
-  background: var(--pglass);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--pglass-border);
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 24px;
   box-shadow:
     0 4px 28px rgba(0,0,0,0.06),
     0 1px 4px rgba(0,0,0,0.04),
     inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.50);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 1px solid rgba(255, 255, 255, 0.70);
 }
 
 /* 1. Dark Glass 카드 */

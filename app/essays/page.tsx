@@ -19,11 +19,11 @@ function fmtDate(iso: string): string {
 }
 
 const cardBase: React.CSSProperties = {
-  background: 'var(--pglass)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
+  background: 'rgba(255, 255, 255, 0.45)',
+  backdropFilter: 'blur(30px)',
+  WebkitBackdropFilter: 'blur(30px)',
   borderRadius: 16,
-  border: '1px solid var(--pglass-border)',
+  border: '1px solid rgba(255, 255, 255, 0.7)',
   boxShadow: '0 4px 18px rgba(40,40,60,0.06), 0 1px 4px rgba(40,40,60,0.03)',
 }
 
@@ -237,8 +237,8 @@ export default function EssaysPage() {
         <div style={{ textAlign: 'center', paddingTop: 56 }}>
           <div style={{
             width: 72, height: 72, borderRadius: 24,
-            background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid var(--pglass-border)', boxShadow: '0 6px 20px rgba(40,40,60,0.05)',
+            background: 'rgba(255, 255, 255, 0.45)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)',
+            border: '1px solid rgba(255, 255, 255, 0.7)', boxShadow: '0 6px 20px rgba(40,40,60,0.05)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px',
           }}>
             <PenLine size={32} strokeWidth={1.5} color="var(--pm)" />
