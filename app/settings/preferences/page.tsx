@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Bell } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useTheme } from '@/components/ThemeProvider'
@@ -246,6 +246,29 @@ function BottomSheet<T extends string>({
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+// ── OneSignal helper (browser-only) ──────────────────────────────────────────
+const NOTIF_KEY = 'patto.notif'
+
+function getNotifPrefs(): { enabled: boolean; time: string } {
+  try {
+    return JSON.parse(localStorage.getItem(NOTIF_KEY) ?? '{}')
+  } catch { return { enabled: false, time: '09:00' } }
+}
+
+function getOSDeferred() {
+  if (typeof window === 'undefined') return null
+  window.OneSignalDeferred = window.OneSignalDeferred ?? []
+  return window.OneSignalDeferred
+}
+
+async function osCall(fn: (os: any) => Promise<void>) {
+  const q = getOSDeferred()
+  if (!q) return
+  q.push(async (OneSignal: any) => { try { await fn(OneSignal) } catch { /* ignore */ } })
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+
 type Sheet = 'speechRate' | 'language' | null
 
 export default function PreferencesPage() {
@@ -255,6 +278,49 @@ export default function PreferencesPage() {
   const { prefs, update }   = usePreferences()
   const [sheet, setSheet]   = useState<Sheet>(null)
   const t = useT()
+
+  const [notifEnabled, setNotifEnabled] = useState(false)
+  const [reminderTime, setReminderTime] = useState('09:00')
+
+  useEffect(() => {
+    const saved = getNotifPrefs()
+    setNotifEnabled(saved.enabled ?? false)
+    setReminderTime(saved.time ?? '09:00')
+  }, [])
+
+  async function handleNotifToggle(on: boolean) {
+    if (on) {
+      await osCall(async (os) => {
+        await os.Notifications.requestPermission()
+        const granted = os.Notifications.permission
+        if (granted) {
+          await os.User.PushSubscription.optIn()
+          await os.User.addTag('reminder_time', reminderTime)
+          const saved = { enabled: true, time: reminderTime }
+          localStorage.setItem(NOTIF_KEY, JSON.stringify(saved))
+          setNotifEnabled(true)
+        }
+      })
+    } else {
+      await osCall(async (os) => {
+        await os.User.PushSubscription.optOut()
+      })
+      const saved = { enabled: false, time: reminderTime }
+      localStorage.setItem(NOTIF_KEY, JSON.stringify(saved))
+      setNotifEnabled(false)
+    }
+  }
+
+  async function handleTimeChange(time: string) {
+    setReminderTime(time)
+    const saved = { enabled: notifEnabled, time }
+    localStorage.setItem(NOTIF_KEY, JSON.stringify(saved))
+    if (notifEnabled) {
+      await osCall(async (os) => {
+        await os.User.addTag('reminder_time', time)
+      })
+    }
+  }
 
   const langRef = useRef(prefs.language)
   useEffect(() => {
@@ -344,6 +410,51 @@ export default function PreferencesPage() {
             onClick={() => setSheet('language')}
             last
           />
+        </div>
+
+        {/* ── NOTIFICATIONS ── */}
+        <SecTitle label="Notifications" />
+        <div style={glassCard}>
+          <ToggleRow
+            icon={Bell}
+            iconColor="#4A6FA8"
+            label="Daily Reminder"
+            desc="Get a daily push notification to keep your streak going"
+            on={notifEnabled}
+            onChange={handleNotifToggle}
+            last={!notifEnabled}
+          />
+          {notifEnabled && (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 14,
+              padding: '14px 18px',
+              borderTop: '1px solid var(--pd)',
+            }}>
+              <IconCircle>
+                <Bell style={{ width: 17, height: 17, color: '#4A6FA8', opacity: 0.5 }} strokeWidth={1.6} />
+              </IconCircle>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>Reminder Time</p>
+                <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0, lineHeight: 1.4 }}>When to send your daily reminder</p>
+              </div>
+              <input
+                type="time"
+                value={reminderTime}
+                onChange={e => handleTimeChange(e.target.value)}
+                style={{
+                  fontSize: 14, fontWeight: 600,
+                  color: 'var(--pt)',
+                  background: 'var(--pc)',
+                  border: '1px solid var(--pglass-border)',
+                  borderRadius: 10,
+                  padding: '6px 10px',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                  fontFamily: 'inherit',
+                }}
+              />
+            </div>
+          )}
         </div>
 
         {/* Version */}
