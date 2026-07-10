@@ -200,7 +200,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
         aria-label="이전"
         className={cn(
           'flex h-11 w-11 items-center justify-center rounded-full',
-          'border border-[#E8F0FE] bg-white',
+          'glass-card',
           'shadow-[0_2px_8px_rgba(79,140,255,0.07)]',
           'transition-all duration-200 active:scale-95',
           canGoPrevious

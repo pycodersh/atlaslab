@@ -17,7 +17,7 @@ export function BottomNav() {
   ];
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-[#E8F0FE] bg-white/95 px-4 pb-[max(env(safe-area-inset-bottom),12px)] pt-2 backdrop-blur">
+    <nav className="glass-nav fixed inset-x-0 bottom-0 z-20 px-4 pb-[max(env(safe-area-inset-bottom),12px)] pt-2">
       <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
         {tabs.map((tab) => {
           const active = pathname === tab.href || pathname.startsWith(tab.href + '/');

@@ -43,7 +43,7 @@ export function PatternCardBack({
   }
 
   return (
-    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-[#E8F0FE] bg-white px-5 pb-4 pt-14 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-white/60 bg-white/65 px-5 pb-4 pt-14 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
 
       <StoryLabel storyNumber={storyNumber} subtitle={storyTitle} onJump={onJump} />
 

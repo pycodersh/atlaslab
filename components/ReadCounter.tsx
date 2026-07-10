@@ -14,7 +14,7 @@ export function ReadCounter({ count, goal, onIncrement }: ReadCounterProps) {
   const t = useT();
 
   return (
-    <section className="space-y-4 rounded-[28px] bg-white/80 p-5 shadow-sm">
+    <section className="glass-card space-y-4 rounded-[28px] p-5">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-sm font-semibold text-[#7a839f]">{t('read_mission')}</p>

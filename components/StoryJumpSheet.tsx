@@ -68,7 +68,7 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
         aria-label="스토리 목록"
         aria-modal="true"
         className={cn(
-          'fixed inset-x-0 bottom-0 z-50 flex max-h-[75dvh] flex-col rounded-t-3xl bg-white shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
+          'glass-card fixed inset-x-0 bottom-0 z-50 flex max-h-[75dvh] flex-col rounded-t-3xl rounded-b-none shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
           isOpen ? 'translate-y-0' : 'translate-y-full',
         )}
         role="dialog"

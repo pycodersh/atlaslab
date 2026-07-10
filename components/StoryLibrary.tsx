@@ -99,7 +99,7 @@ export function StoryLibrary() {
                   ))}
                 </section>
 
-                <section className="rounded-3xl bg-white/70 p-4">
+                <section className="glass-card rounded-3xl p-4">
                   <div className="mb-2 flex items-center gap-2 text-[#5b6ee1]">
                     <Sparkles aria-hidden="true" className="h-4 w-4" />
                     <h3 className="text-sm font-bold">AI Examples</h3>
@@ -128,7 +128,7 @@ export function StoryLibrary() {
                   )}
                 </section>
 
-                <section className="rounded-3xl bg-white/70 p-4">
+                <section className="glass-card rounded-3xl p-4">
                   <div className="mb-2 flex items-center gap-2 text-[#5b6ee1]">
                     <BookOpenCheck aria-hidden="true" className="h-4 w-4" />
                     <h3 className="text-sm font-bold">Mini Story</h3>

@@ -16,7 +16,7 @@ export function ReadingMissionBar({ count, goal, onIncrement, onDecrement }: Rea
   const isZero = count <= 0
 
   return (
-    <div className="flex items-center gap-3 rounded-2xl bg-white/80 px-4 py-3 shadow-[0_2px_12px_rgba(79,140,255,0.08)] ring-1 ring-[#E8F0FE] backdrop-blur-sm">
+    <div className="glass-card flex items-center gap-3 rounded-2xl px-4 py-3" style={{borderRadius: 16}}>
 
       {/* - 버튼 */}
       <button

@@ -17,7 +17,7 @@ export function SlideBottomNav() {
   ]
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-20 border-t border-[#E8F0FE] bg-white/96 backdrop-blur-sm">
+    <div className="glass-nav fixed inset-x-0 bottom-0 z-20">
       <nav className="px-3 pb-[max(env(safe-area-inset-bottom),8px)] pt-1.5">
         <div className="mx-auto grid max-w-md grid-cols-3 gap-1">
           {tabs.map(({ href, label, icon: Icon }) => {

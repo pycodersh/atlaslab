@@ -16,7 +16,7 @@ export function OriginalExamplesPanel({
   onClose,
 }: OriginalExamplesPanelProps) {
   return (
-    <div className="fixed inset-x-4 bottom-24 z-30 mx-auto max-w-md rounded-[28px] border border-white/80 bg-white p-5 shadow-[0_24px_80px_rgba(79,94,145,0.22)]">
+    <div className="glass-card fixed inset-x-4 bottom-24 z-30 mx-auto max-w-md rounded-[28px] p-5 shadow-[0_24px_80px_rgba(79,94,145,0.22)]">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-bold text-[#8E8E93]">Original Examples</p>

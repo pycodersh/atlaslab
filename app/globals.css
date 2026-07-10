@@ -90,6 +90,23 @@
   box-sizing: border-box;
 }
 
+/* ── Glass card / nav tokens ──────────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 4px 24px rgba(180, 170, 210, 0.15);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.60);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-top: 1px solid rgba(255, 255, 255, 0.70);
+}
+
 /* ── Stable full-screen height (iOS Safari safe) ────────────────────────
    dvh changes as Safari toolbar collapses → causes layout reflow mid-scroll.
    svh = Small Viewport Height: always fixed (toolbar-visible size).

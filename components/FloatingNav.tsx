@@ -22,7 +22,7 @@ export function FloatingNav() {
     <div className="fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-2">
       {/* 메뉴 패널 */}
       {open && (
-        <div className="flex gap-1.5 rounded-2xl border border-[#E8F0FE] bg-white/95 p-2 shadow-xl backdrop-blur-sm">
+        <div className="glass-card flex gap-1.5 rounded-2xl p-2 shadow-xl" style={{borderRadius: 16}}>
           {tabs.map(({ href, label, icon: Icon }) => {
             const active = pathname === href || pathname.startsWith(href + '/')
             return (
@@ -49,7 +49,7 @@ export function FloatingNav() {
       <button
         aria-expanded={open}
         aria-label={open ? '메뉴 닫기' : '메뉴 열기'}
-        className="flex items-center gap-1.5 rounded-full border border-[#E8F0FE] bg-white/90 px-4 py-2 text-[11px] font-bold text-[#9EAEC8] shadow-md backdrop-blur-sm transition-colors hover:text-[#4F8CFF] active:scale-95"
+        className="glass-card flex items-center gap-1.5 rounded-full px-4 py-2 text-[11px] font-bold text-[#9EAEC8] shadow-md transition-colors hover:text-[#4F8CFF] active:scale-95"
         onClick={() => setOpen((v) => !v)}
         type="button"
       >
