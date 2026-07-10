@@ -12,22 +12,25 @@ import { useT } from '@/hooks/useT'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { EssayComposerPanel } from '@/components/essay/EssayComposerPanel'
 import { EssayDetailPanel } from '@/components/essay/EssayDetailPanel'
+import { useTheme } from '@/components/ThemeProvider'
 
 function fmtDate(iso: string): string {
   const d = new Date(iso)
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
-const cardBase: React.CSSProperties = {
-  background: 'rgba(255, 255, 255, 0.6)',
-  backdropFilter: 'blur(30px)',
-  WebkitBackdropFilter: 'blur(30px)',
-  borderRadius: 16,
-  border: '1px solid rgba(255, 255, 255, 0.8)',
-  boxShadow: '0 4px 18px rgba(40,40,60,0.06), 0 1px 4px rgba(40,40,60,0.03)',
+function cardBase(isDark: boolean): React.CSSProperties {
+  return {
+    background: isDark ? 'rgba(255, 255, 255, 0.10)' : 'rgba(255, 255, 255, 0.6)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    borderRadius: 16,
+    border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(255, 255, 255, 0.8)',
+    boxShadow: isDark ? '0 4px 24px rgba(0,0,0,0.20)' : '0 4px 18px rgba(40,40,60,0.06), 0 1px 4px rgba(40,40,60,0.03)',
+  }
 }
 
-function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
+function EssayCard({ essay, onClick, isDark }: { essay: Essay; onClick: () => void; isDark: boolean }) {
   const isReviewed = Boolean(essay.review)
   return (
     <div
@@ -36,7 +39,7 @@ function EssayCard({ essay, onClick }: { essay: Essay; onClick: () => void }) {
       onClick={onClick}
       onKeyDown={e => e.key === 'Enter' && onClick()}
       style={{
-        ...cardBase,
+        ...cardBase(isDark),
         padding: '11px 14px',
         cursor: 'pointer',
         transition: 'transform 0.15s, box-shadow 0.15s',
@@ -100,6 +103,8 @@ export default function EssaysPage() {
   const router = useRouter()
   const t = useT()
   const isDesktop = useIsDesktop()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const [essays, setEssays]   = useState<Essay[]>([])
   const [plan, setPlan]       = useState<'free' | 'premium'>('free')
   const [remaining, setRemaining] = useState(0)
@@ -148,7 +153,7 @@ export default function EssaysPage() {
           type="button"
           onClick={openComposer}
           style={{
-            ...cardBase,
+            ...cardBase(isDark),
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -211,7 +216,7 @@ export default function EssaysPage() {
                 containerStyle={{ borderRadius: 16 }}
                 contentBg="transparent"
               >
-                <EssayCard essay={essay} onClick={() => openDetail(essay.id)} />
+                <EssayCard essay={essay} onClick={() => openDetail(essay.id)} isDark={isDark} />
               </SwipeDeleteRow>
             ))}
           </div>

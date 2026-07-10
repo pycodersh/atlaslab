@@ -67,10 +67,10 @@
   --ann-purple-border: rgba(176,127,208,0.30);
   /* 2. Pattern highlight → Accent Color (not pink) */
   --pattern-hl:     #8FABFF;
-  --pc:   rgba(255,255,255,0.07);
-  --pc2:  rgba(255,255,255,0.05);
-  --pglass: rgba(255,255,255,0.07);
-  --pglass-border: rgba(255,255,255,0.12);
+  --pc:   rgba(255,255,255,0.10);
+  --pc2:  rgba(255,255,255,0.07);
+  --pglass: rgba(255,255,255,0.10);
+  --pglass-border: rgba(255,255,255,0.15);
   /* Heatmap */
   --ph1: #3A4E8A;
   --ph2: #5577CC;
@@ -148,10 +148,10 @@ body {
 }
 
 .dark .glass-card {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 4px 24px rgba(0,0,0,0.20);
 }
 
@@ -168,10 +168,10 @@ body {
 }
 
 .dark .glass-card-sm {
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.10);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.15);
   box-shadow: 0 4px 24px rgba(0,0,0,0.20);
 }
 
