@@ -48,7 +48,7 @@ function AuthContent() {
 
 export default function AuthPage() {
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--pb)' }}>
+    <div style={{ minHeight: '100dvh', background: 'transparent' }}>
       <TopNav />
       <Suspense>
         <AuthContent />

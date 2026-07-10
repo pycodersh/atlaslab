@@ -37,7 +37,7 @@ export default function SavedWordsPage() {
   }
 
   return (
-    <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
+    <div style={{ height: '100dvh', overflowY: 'auto', background: 'transparent' }}>
       <TopNav />
 
       <div style={{

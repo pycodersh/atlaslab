@@ -87,7 +87,7 @@ export default function AllStoriesProgressPage() {
   const masteredCount = list.filter(i => i.status === 'mastered').length
 
   return (
-    <div style={{ height: '100dvh', overflowY: 'auto', background: 'var(--pb)' }}>
+    <div style={{ height: '100dvh', overflowY: 'auto', background: 'transparent' }}>
       <TopNav />
 
       <div style={{

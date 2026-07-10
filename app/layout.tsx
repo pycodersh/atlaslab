@@ -59,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`antialiased ${jakartaSans.variable} ${baloo2.variable} ${playfair.variable} ${kalam.variable}`}>
       <body>
-        <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', minHeight: '100vh', zIndex: -1, background: 'linear-gradient(135deg, #d8d0ee 0%, #e8d8f0 40%, #d0e0f0 100%)' }} />
+        <div className="patto-bg" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', minHeight: '100vh', zIndex: -1 }} />
         <ThemeProvider><PreferencesProvider><AuthProvider><WelcomeCover />{children}<MainTabBar /></AuthProvider></PreferencesProvider></ThemeProvider>
       </body>
     </html>

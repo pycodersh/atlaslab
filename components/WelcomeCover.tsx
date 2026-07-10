@@ -127,7 +127,7 @@ export function WelcomeCover() {
       )}
 
       {/* Center content */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', paddingBottom: '15%' }}>
 
         {/* Logo + PATTO */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 20 }}>

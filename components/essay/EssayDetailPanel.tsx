@@ -558,7 +558,7 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
 
       {showDeleteConfirm && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.38)', zIndex: 50, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }} onClick={() => setShowDeleteConfirm(false)}>
-          <div style={{ background: 'var(--pb)', borderRadius: '22px 22px 0 0', padding: '32px 28px calc(36px + env(safe-area-inset-bottom, 0px))', width: '100%', maxWidth: 540 }} onClick={e => e.stopPropagation()}>
+          <div style={{ background: 'var(--pc)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderRadius: '22px 22px 0 0', padding: '32px 28px calc(36px + env(safe-area-inset-bottom, 0px))', width: '100%', maxWidth: 540 }} onClick={e => e.stopPropagation()}>
             <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--pd)', margin: '0 auto 28px' }} />
             <p style={{ fontSize: 17, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px' }}>{t('essays_delete_title')}</p>
             <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 32px', lineHeight: 1.65 }}>{t('essays_delete_desc')}</p>

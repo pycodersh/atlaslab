@@ -718,7 +718,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   ) : null
 
   return (
-    <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'var(--pb)' }}>
+    <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'transparent' }}>
       <TopNav />
       {subBar}
       {isEditing ? editView : reportView}
@@ -747,7 +747,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
           onClick={() => setShowDeleteConfirm(false)}
         >
           <div
-            style={{ background: 'var(--pb)', borderRadius: '22px 22px 0 0', padding: '32px 28px calc(36px + env(safe-area-inset-bottom, 0px))', width: '100%', maxWidth: 540 }}
+            style={{ background: 'var(--pc)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderRadius: '22px 22px 0 0', padding: '32px 28px calc(36px + env(safe-area-inset-bottom, 0px))', width: '100%', maxWidth: 540 }}
             onClick={e => e.stopPropagation()}
           >
             <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--pd)', margin: '0 auto 28px' }} />

@@ -39,7 +39,7 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
       minHeight: '100dvh', display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
       padding: '40px 32px', textAlign: 'center',
-      background: 'var(--pb)',
+      background: 'transparent',
     }}>
       {/* Icon */}
       <div style={{

@@ -376,14 +376,14 @@ export default function NewEssayPage() {
                 </button>
               )}
             </div>
-            <div style={{ padding: '8px 14px 0', background: 'var(--pb)' }}>
+            <div style={{ padding: '8px 14px 0', background: 'transparent' }}>
               <p style={{ fontSize: 11, color: 'var(--pm2)', margin: '0 0 2px', letterSpacing: '0.06em' }}>DETECTED</p>
               <p style={{ fontSize: 13, color: 'var(--pm)', margin: 0, lineHeight: 1.5, fontStyle: 'italic' }}>
                 {nativeSentence}
               </p>
             </div>
             {suggestion && (
-              <div style={{ padding: '10px 14px 12px', background: 'var(--pb)' }}>
+              <div style={{ padding: '10px 14px 12px', background: 'transparent' }}>
                 <p style={{ fontSize: 11, color: 'var(--pa)', margin: '0 0 4px', letterSpacing: '0.06em', fontWeight: 700 }}>IN ENGLISH</p>
                 <p style={{ fontSize: 15, color: 'var(--pt)', margin: '0 0 12px', lineHeight: 1.6, fontWeight: 500 }}>{suggestion}</p>
                 <div style={{ display: 'flex', gap: 8 }}>

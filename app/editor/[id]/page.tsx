@@ -89,7 +89,7 @@ function NotePicker({ currentId, lang, onSelect, onClose }: NotePickerProps) {
       onClick={onClose}
     >
       <div
-        style={{ background:'var(--pb)', borderRadius:20, width:300, overflow:'hidden', boxShadow:'0 20px 60px rgba(0,0,0,0.22)' }}
+        style={{ background:'transparent', borderRadius:20, width:300, overflow:'hidden', boxShadow:'0 20px 60px rgba(0,0,0,0.22)' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Label */}
@@ -205,7 +205,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
 
   if (!note) {
     return (
-      <div style={{ minHeight:'100dvh', display:'flex', alignItems:'center', justifyContent:'center', background:'var(--pb)' }}>
+      <div style={{ minHeight:'100dvh', display:'flex', alignItems:'center', justifyContent:'center', background:'transparent' }}>
         <p style={{ color:'var(--pm)', fontSize:14 }}>Note not found.</p>
       </div>
     )
@@ -216,7 +216,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
   return (
     <>
       <div
-        style={{ height:'100dvh', overflowY:'auto', background:'var(--pb)', opacity: visible ? 1 : 0, transition:'opacity .55s ease-out' }}
+        style={{ height:'100dvh', overflowY:'auto', background:'transparent', opacity: visible ? 1 : 0, transition:'opacity .55s ease-out' }}
         {...swipe}
       >
         {/* ── Global TopNav ─────────────────────────────────────────────── */}

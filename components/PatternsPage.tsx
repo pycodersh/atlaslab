@@ -155,7 +155,7 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, pat
         </div>
       </div>
 
-      <div className="shrink-0 border-t border-[var(--pd)] bg-[var(--pb)] py-3 px-7">
+      <div className="shrink-0 border-t border-[var(--pd)] bg-transparent py-3 px-7">
         <div className="flex items-center justify-between">
           <button
             type="button"

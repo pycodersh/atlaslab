@@ -32,7 +32,7 @@ function PattoIcon() {
         height={34}
         style={{
           flexShrink: 0, display: 'block',
-          filter: isDark ? 'url(#patto-remove-dark)' : 'url(#patto-remove-white)',
+          filter: isDark ? 'brightness(10) saturate(0)' : 'url(#patto-remove-white)',
         }}
       />
     </>

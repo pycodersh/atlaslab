@@ -67,8 +67,10 @@
   --ann-purple-border: rgba(176,127,208,0.30);
   /* 2. Pattern highlight → Accent Color (not pink) */
   --pattern-hl:     #8FABFF;
-  --pglass: rgba(26,26,42,0.80);
-  --pglass-border: rgba(143,171,255,0.12);
+  --pc:   rgba(255,255,255,0.07);
+  --pc2:  rgba(255,255,255,0.05);
+  --pglass: rgba(255,255,255,0.07);
+  --pglass-border: rgba(255,255,255,0.12);
   /* Heatmap */
   --ph1: #3A4E8A;
   --ph2: #5577CC;
@@ -117,15 +119,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.dark body, .dark {
-  /* 3. 블루·퍼플 그라데이션 배경 */
-  background:
-    radial-gradient(ellipse 90% 55% at 10% -10%, rgba(80,60,160,0.32) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 90%  5%,  rgba(50,80,180,0.24) 0%, transparent 55%),
-    radial-gradient(ellipse 80% 45% at 50% 100%, rgba(90,40,140,0.20) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 40% at 75%  60%, rgba(40,60,120,0.14) 0%, transparent 50%),
-    #0C0C14;
-  background-attachment: fixed;
+/* ── App background (fixed div in layout.tsx) ───────────────────────── */
+.patto-bg {
+  background: linear-gradient(135deg, #d8d0ee 0%, #e8d8f0 40%, #d0e0f0 100%);
+}
+.dark .patto-bg {
+  background: linear-gradient(160deg, #2a2040 0%, #1e2a40 50%, #251830 100%);
 }
 
 /* ── Glass Card ─────────────────────────────────────────────────────── */
@@ -148,16 +147,12 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.70);
 }
 
-/* 1. Dark Glass 카드 */
 .dark .glass-card {
-  background: rgba(26,26,44,0.78);
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  border: 1px solid rgba(143,171,255,0.13);
-  box-shadow:
-    0 4px 32px rgba(0,0,0,0.40),
-    0 1px 4px rgba(0,0,0,0.20),
-    inset 0 1px 0 rgba(143,171,255,0.08);
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.20);
 }
 
 .glass-card-sm {
@@ -173,14 +168,11 @@ body {
 }
 
 .dark .glass-card-sm {
-  background: rgba(26,26,44,0.78);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid rgba(143,171,255,0.13);
-  box-shadow:
-    0 2px 20px rgba(0,0,0,0.35),
-    0 1px 3px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(143,171,255,0.08);
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.20);
 }
 
 
