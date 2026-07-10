@@ -64,6 +64,7 @@ export function WelcomeCover() {
       style={{
         position: 'fixed', inset: 0, zIndex: 9999,
         overflow: 'hidden', touchAction: 'none',
+        background: isDark ? '#0B0F1A' : '#F2EDE6',
         opacity: fading ? 0 : 1,
         transition: fading ? 'opacity 380ms ease' : 'none',
       }}
@@ -77,17 +78,18 @@ export function WelcomeCover() {
       // Also allow click/tap for desktop testing
       onClick={dismiss}
     >
-      {/* Cover image — contain so nothing is cropped */}
+      {/* Cover image — portrait fill: height 100%, center horizontally */}
       <img
         src={coverSrc}
         alt="PATTO Cover"
         style={{
-          position: 'absolute', inset: 0,
-          width: '100%', height: '100%',
-          objectFit: 'contain',
-          objectPosition: 'center',
+          position: 'absolute',
+          top: 0, left: '50%',
+          transform: 'translateX(-50%)',
+          height: '100%',
+          width: 'auto',
           display: 'block',
-          background: isDark ? '#0B0F1A' : '#F7F5F0',
+          maxWidth: 'none',
         }}
       />
 
@@ -100,18 +102,18 @@ export function WelcomeCover() {
         pointerEvents: 'none',
       }}>
         {/* Logo row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12, marginBottom: 14 }}>
           <img
             src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
             alt="PATTO"
             style={{
               display: 'block',
-              height: 28, width: 'auto',
+              height: 36, width: 'auto',
               mixBlendMode: isDark ? 'screen' : 'multiply',
               opacity: isDark ? 0.92 : 1,
             }}
           />
-          <div style={{ width: 1, height: 22, background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.20)' }} />
+          <div style={{ width: 1, height: 24, marginBottom: 2, background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.20)' }} />
           <span style={{
             fontSize: 22, fontWeight: 800, letterSpacing: '0.02em', lineHeight: 1,
             color: isDark ? '#FFFFFF' : '#0F1923',
