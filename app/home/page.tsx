@@ -479,6 +479,8 @@ export default function HomePage() {
   const [reviewStoryIds, setReviewStoryIds] = useState<number[]>([])
   const [newDone, setNewDone]               = useState(false)
   const [reviewDone, setReviewDone]         = useState(false)
+  const [newStoriesData,    setNewStoriesData]    = useState<Array<{ id: number; title: string }>>([])
+  const [reviewStoriesData, setReviewStoriesData] = useState<Array<{ id: number; title: string; reviewCount: number; done: boolean }>>([])
   const [scheduledList, setScheduledList]   = useState<ScheduledStory[]>([])
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
@@ -525,6 +527,24 @@ export default function HomePage() {
     setReviewStoryIds(reviewMissions.map(i => i.storyId))
     setNewDone(newMissions.length > 0 && newMissions.every(i => i.done))
     setReviewDone(reviewMissions.length > 0 && reviewMissions.every(i => i.done))
+
+    setNewStoriesData(newMissions.map(i => {
+      const s = magazineStories.find(ms => ms.id === i.storyId)
+      return { id: i.storyId, title: s?.title ?? '' }
+    }))
+    const patByStory = new Map<number, number[]>()
+    for (const r of records) {
+      if (r.itemType !== 'pattern' || !r.storyId || r.repeatCount === 0) continue
+      const list = patByStory.get(r.storyId) ?? []
+      list.push(r.reviewCount)
+      patByStory.set(r.storyId, list)
+    }
+    setReviewStoriesData(reviewMissions.map(i => {
+      const s      = magazineStories.find(ms => ms.id === i.storyId)
+      const counts = patByStory.get(i.storyId) ?? []
+      const rc     = counts.length > 0 ? Math.min(...counts) : 0
+      return { id: i.storyId, title: s?.title ?? i.storyTitle ?? '', reviewCount: rc, done: i.done }
+    }))
 
     const storyNextReview: Record<number, string> = {}
     for (const r of records) {
@@ -707,43 +727,40 @@ export default function HomePage() {
         </div>
 
         {/* ── Summary Cards — NEW / REVIEW ── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
-
-          {/* NEW */}
-          <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
-            {newDone && (
-              <span style={{
-                position: 'absolute', top: 7, right: 9,
-                width: 14, height: 14, borderRadius: '50%',
-                background: 'rgba(39,174,96,0.12)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
-              </span>
-            )}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 9 }}>
-              <BookOpen style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
-              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>LEARN TODAY</p>
+        {allDone ? (
+          /* ── All Done Banner ── */
+          <div style={{
+            margin: '12px 20px 0',
+            padding: '16px 18px',
+            borderRadius: 18,
+            background: isDark ? 'rgba(90,184,106,0.12)' : 'rgba(110,201,122,0.15)',
+            border: `1px solid ${isDark ? 'rgba(90,184,106,0.25)' : 'rgba(110,201,122,0.3)'}`,
+            display: 'flex', alignItems: 'center', gap: 14,
+          }}>
+            <PartyPopper
+              style={{
+                width: 20, height: 20, flexShrink: 0,
+                color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)',
+              }}
+              strokeWidth={1.8}
+            />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 13, fontWeight: 800, color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)', margin: '0 0 3px', letterSpacing: '-0.01em' }}>
+                {t('home_done_title')}
+              </p>
+              <p style={{ fontSize: 11, fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(60,90,70,0.75)', margin: 0, lineHeight: 1.4 }}>
+                {t('home_done_next', { n: String(Math.min(todayStory.id + 1, 100)).padStart(2, '0') })}
+              </p>
             </div>
-            <p style={{ fontSize: 15, fontWeight: 800, color: newDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
-              {newStoryIds.length > 0
-                ? newStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
-                : <span style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400 }}>—</span>
-              }
-            </p>
           </div>
+        ) : (
+          <>
+            {/* ── Top 2-column grid ── */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
 
-          {/* REVIEW */}
-          {(() => {
-            const ids = reviewStoryIds
-            const reviewText = ids.length === 0
-              ? null
-              : ids.length <= 3
-                ? ids.map(id => String(id).padStart(2, '0')).join(' · ')
-                : ids.slice(0, 2).map(id => String(id).padStart(2, '0')).concat(`+${ids.length - 2}`).join(' · ')
-            return (
-              <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative' }}>
-                {reviewDone && ids.length > 0 && (
+              {/* LEARN TODAY */}
+              <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                {newDone && (
                   <span style={{
                     position: 'absolute', top: 7, right: 9,
                     width: 14, height: 14, borderRadius: '50%',
@@ -753,17 +770,107 @@ export default function HomePage() {
                     <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
                   </span>
                 )}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 9 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 8 }}>
+                  <BookOpen style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
+                  <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>LEARN TODAY</p>
+                </div>
+                {newStoriesData.length > 0 ? (
+                  <>
+                    <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: newDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.45)' : 'var(--pm2)'), margin: '0 0 2px', textTransform: 'uppercase' }}>
+                      Story {String(newStoriesData[0].id).padStart(2, '0')}
+                    </p>
+                    <p style={{ fontSize: 12, fontWeight: 700, color: newDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                      {newStoriesData[0].title}
+                    </p>
+                  </>
+                ) : (
+                  <p style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400, margin: 0 }}>—</p>
+                )}
+              </div>
+
+              {/* REVIEW */}
+              <div className="glass-card-sm" style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                {reviewDone && reviewStoriesData.length > 0 && (
+                  <span style={{
+                    position: 'absolute', top: 7, right: 9,
+                    width: 14, height: 14, borderRadius: '50%',
+                    background: 'rgba(39,174,96,0.12)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
+                  </span>
+                )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 8 }}>
                   <RotateCcw style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
                   <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>REVIEW</p>
                 </div>
-                <p style={{ fontSize: 15, fontWeight: 800, color: reviewDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
-                  {reviewText ?? <span style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400 }}>—</span>}
-                </p>
+                {reviewStoriesData.length > 0 ? (
+                  <>
+                    <p style={{ fontSize: 13, fontWeight: 800, color: reviewDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: '0 0 4px', lineHeight: 1, letterSpacing: '-0.01em' }}>
+                      {reviewStoriesData.length} {reviewStoriesData.length === 1 ? 'Story' : 'Stories'}
+                    </p>
+                    <p style={{ fontSize: 9.5, fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.4)' : 'var(--pm2)', margin: 0, lineHeight: 1.4, fontVariantNumeric: 'tabular-nums' }}>
+                      {reviewStoriesData.slice(0, 3).map(s => `Story ${String(s.id).padStart(2, '0')}`).join(' · ')}
+                      {reviewStoriesData.length > 3 ? ` +${reviewStoriesData.length - 3}` : ''}
+                    </p>
+                  </>
+                ) : (
+                  <p style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400, margin: 0 }}>—</p>
+                )}
               </div>
-            )
-          })()}
-        </div>
+            </div>
+
+            {/* ── Review list ── */}
+            {reviewStoriesData.length > 0 && (
+              <div style={{ margin: '8px 20px 0', display: 'flex', flexDirection: 'column', gap: 0 }}>
+                {reviewStoriesData.map(s => (
+                  <div
+                    key={s.id}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      padding: '9px 14px',
+                      borderRadius: 14,
+                      background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.55)',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.7)'}`,
+                      marginBottom: 5,
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                    }}
+                  >
+                    <div style={{
+                      width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
+                      background: s.done ? '#27AE60' : (isDark ? 'rgba(180,190,220,0.5)' : 'rgba(100,110,150,0.35)'),
+                    }} />
+                    <p style={{ flex: 1, fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt)', margin: 0, lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      Story {String(s.id).padStart(2, '0')} · {s.title}
+                    </p>
+                    {s.done ? (
+                      <span style={{
+                        flexShrink: 0,
+                        width: 18, height: 18, borderRadius: '50%',
+                        background: 'rgba(39,174,96,0.12)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <Check style={{ width: 10, height: 10, color: '#27AE60' }} strokeWidth={2.5} />
+                      </span>
+                    ) : (
+                      <span style={{
+                        flexShrink: 0, whiteSpace: 'nowrap',
+                        fontSize: 9, fontWeight: 700,
+                        color: isDark ? 'rgba(140,160,255,0.9)' : 'rgba(80,100,220,0.8)',
+                        background: isDark ? 'rgba(140,160,255,0.12)' : 'rgba(80,100,220,0.08)',
+                        border: `1px solid ${isDark ? 'rgba(140,160,255,0.22)' : 'rgba(80,100,220,0.18)'}`,
+                        borderRadius: 6, padding: '2px 7px',
+                      }}>
+                        Round {s.reviewCount + 1}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
 
         {/* ── Editor Tip chip — same height as summary chips ── */}
         {dailyTip && (
