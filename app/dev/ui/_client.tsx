@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { X, Search, Eye, EyeOff, ChevronDown, RefreshCw, Plus, ArrowLeft, Home, BookOpen, PenLine, BarChart2, BookMarked, User, FileText, Bookmark, Layers, SearchX, WifiOff, ChevronRight, CheckCircle2, Circle, PlayCircle, Lock, Loader2, Mail } from 'lucide-react'
+import { X, Search, Eye, EyeOff, ChevronDown, RefreshCw, Plus, ArrowLeft, Home, BookOpen, PenLine, BarChart2, BookMarked, User, FileText, Bookmark, Layers, SearchX, WifiOff, ChevronRight, CheckCircle2, Circle, PlayCircle, Lock, Loader2, Mail, Pencil, Clock, RotateCcw } from 'lucide-react'
 
 const BURGUNDY = '#B44A5A'
 
@@ -331,6 +331,54 @@ function CardsDemo() {
             <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0 }}>john@example.com</p>
           </div>
           <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--pa)', background: 'rgba(109,141,255,0.10)', borderRadius: 20, padding: '3px 10px' }}>Premium</span>
+        </div>
+      </div>
+
+      {/* ── Home Chip Cards ── */}
+      <div style={{ gridColumn: '1 / -1' }}>
+        <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '0 0 12px' }}>Home Chip Cards</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, maxWidth: 390 }}>
+
+          {/* LEARN TODAY */}
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', borderRadius: 16, padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <BookOpen style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>LEARN TODAY</p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--pt2)', margin: 0, lineHeight: 1.35 }}>Story 03 · The Right Choice</p>
+            </div>
+            <ChevronRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+          </div>
+
+          {/* REVIEW */}
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', borderRadius: 16, padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <RotateCcw style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>REVIEW</p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--pt2)', margin: 0, lineHeight: 1.35 }}>5 patterns due today</p>
+            </div>
+            <ChevronRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+          </div>
+
+          {/* EDITOR TIP */}
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', borderRadius: 16, padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Pencil style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>EDITOR TIP</p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--pt2)', margin: 0, lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>슬럼프가 왔을 때 어떻게 해야 할까요?</p>
+            </div>
+            <ChevronRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+          </div>
+
+          {/* PATTO GUIDE */}
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', borderRadius: 16, padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Clock style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>PATTO GUIDE</p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--pt2)', margin: 0, lineHeight: 1.35 }}>How to use PATTO</p>
+            </div>
+            <ChevronRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+          </div>
+
         </div>
       </div>
     </div>
