@@ -26,13 +26,15 @@ function PattoIcon() {
         </defs>
       </svg>
       <img
-        src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
+        src="/PATTO.png"
         alt="PATTO"
         width={34}
         height={34}
         style={{
           flexShrink: 0, display: 'block',
-          filter: isDark ? 'brightness(10) saturate(0)' : 'url(#patto-remove-white)',
+          filter: isDark
+            ? 'url(#patto-remove-white) invert(1) opacity(0.88)'
+            : 'url(#patto-remove-white)',
         }}
       />
     </>
