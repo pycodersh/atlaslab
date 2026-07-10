@@ -27,11 +27,13 @@ const glassCard: React.CSSProperties = {
 }
 
 function IconCircle({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   return (
     <div style={{
       width: 38, height: 38, borderRadius: 12, flexShrink: 0,
-      background: 'var(--pc)',
-      border: '1px solid var(--pglass-border)',
+      background: isDark ? 'rgba(255,255,255,0.12)' : 'var(--pc)',
+      border: isDark ? '1px solid rgba(255,255,255,0.18)' : '1px solid var(--pglass-border)',
       boxShadow: '0 1px 4px rgba(40,50,80,0.06)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
