@@ -5,10 +5,12 @@ import Link from 'next/link'
 import { ChevronLeft, Search } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { getBookmarks, type BookmarkedPattern } from '@/lib/bookmarks/storage'
+import { useT } from '@/hooks/useT'
 
 type SortKey = 'recent' | 'alpha'
 
 export default function SavedPatternsPage() {
+  const t = useT()
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState<SortKey>('recent')
   const [items, setItems] = useState<BookmarkedPattern[]>([])
@@ -46,7 +48,7 @@ export default function SavedPatternsPage() {
             PATTERNS
           </h1>
           <p className="text-[0.78rem] text-[#8E8E93] mt-2 tracking-wide">
-            저장한 패턴 모음 · {items.length}개
+            {t('patterns_subtitle', { n: items.length })}
           </p>
         </div>
 
@@ -55,7 +57,7 @@ export default function SavedPatternsPage() {
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#C7C7CC]" strokeWidth={1.8} />
           <input
             type="text"
-            placeholder="패턴 검색..."
+            placeholder={t('patterns_search')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full bg-[#E8EEFF]/50 rounded-xl py-2.5 pl-9 pr-4 text-[13px] text-[#3A3A3C] placeholder-[#C7C7CC] focus:outline-none focus:ring-1 focus:ring-[#6D8DFF]/40"
@@ -84,7 +86,7 @@ export default function SavedPatternsPage() {
         <div>
           {filtered.length === 0 ? (
             <p className="text-[13px] text-[#8E8E93] py-10 text-center">
-              {items.length === 0 ? '아직 저장한 패턴이 없어요. 패턴 옆 북마크를 눌러 저장해보세요.' : '검색 결과가 없습니다.'}
+              {items.length === 0 ? t('patterns_empty') : t('patterns_no_results')}
             </p>
           ) : (
             filtered.map((p, i) => (

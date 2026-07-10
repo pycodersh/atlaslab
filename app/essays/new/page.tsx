@@ -115,21 +115,15 @@ export default function NewEssayPage() {
   const showNativeWarning = nonAsciiRatio(body) > NATIVE_RATIO_WARN && body.trim().length > 20
   const isDirty = body.trim().length > 0 || title.trim().length > 0
 
-  const dailyLimitMsg = prefs.language === 'ko' || !prefs.language
-    ? `오늘의 AI 리뷰 횟수(${maxReviews}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`
-    : `You've used all your AI reviews for today. Try again tomorrow or upgrade to Premium.`
-  const unauthMsg = prefs.language === 'ko' || !prefs.language
-    ? '로그인이 필요합니다. 로그인 후 다시 시도해 주세요.'
-    : 'Please sign in to review your essay.'
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
     too_long:            plan === 'premium'
       ? `Premium reviews support up to ${PREMIUM_MAX_ESSAY_WORDS} words.`
       : `Free users can review essays up to ${FREE_MAX_ESSAY_WORDS} words.`,
-    limit_reached:       dailyLimitMsg,
-    daily_limit:         dailyLimitMsg,
-    unauthenticated:     unauthMsg,
+    limit_reached:       t('essays_limit_reached'),
+    daily_limit:         t('essays_limit_reached'),
+    unauthenticated:     t('auth_required'),
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -477,7 +471,7 @@ export default function NewEssayPage() {
         open={leaveDialog}
         onClose={handleLeaveDialogCancel}
         title="Discard draft?"
-        description="저장하지 않으면 이 글은 사라집니다."
+        description={t('essays_discard_desc')}
         actions={[
           { label: 'Save Draft', onClick: handleLeaveDialogSaveDraft, variant: 'cancel' },
           { label: 'Discard',    onClick: handleLeaveDialogDiscard,   variant: 'danger' },

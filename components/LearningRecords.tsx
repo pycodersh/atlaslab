@@ -8,6 +8,7 @@ import { stories } from "@/data/stories";
 import { useLearningProgress } from "@/hooks/useLearningProgress";
 import { getTodayKey } from "@/lib/learning-progress";
 import { cn } from "@/lib/utils";
+import { useT } from "@/hooks/useT";
 
 function getMonthDays(date = new Date()) {
   const year = date.getFullYear();
@@ -24,6 +25,7 @@ function getMonthDays(date = new Date()) {
 
 export function LearningRecords() {
   const { progress } = useLearningProgress();
+  const t = useT();
   const monthDays = getMonthDays();
   const todayRecord = progress.dailyRecords[getTodayKey()];
   const currentStory =
@@ -39,7 +41,7 @@ export function LearningRecords() {
     <div className="space-y-6">
       <header className="space-y-2 pt-1">
         <p className="text-sm font-semibold text-[#8E8E93]">Patto</p>
-        <h1 className="text-3xl font-bold tracking-normal">학습 기록</h1>
+        <h1 className="text-3xl font-bold tracking-normal">{t('records_title')}</h1>
       </header>
 
       <Card>
@@ -48,7 +50,7 @@ export function LearningRecords() {
             <BookOpenCheck aria-hidden="true" className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-[#6E6E73]">현재 학습 위치</p>
+            <p className="text-sm font-semibold text-[#6E6E73]">{t('stat_current_position')}</p>
             <p className="text-lg font-bold text-[#1C1C1E]">
               Story {progress.currentStoryId} · {currentPosition}
             </p>
@@ -59,15 +61,15 @@ export function LearningRecords() {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#6E6E73]">연속 학습</p>
+            <p className="text-sm font-semibold text-[#6E6E73]">{t('stat_streak')}</p>
             <p className="text-3xl font-bold text-[#1C1C1E]">
-              {progress.streakDays}일
+              {t('stat_streak_days', { n: progress.streakDays })}
             </p>
           </CardContent>
         </Card>
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#6E6E73]">Story 완료</p>
+            <p className="text-sm font-semibold text-[#6E6E73]">{t('stat_story_done')}</p>
             <p className="text-3xl font-bold text-[#1C1C1E]">
               {progress.completedStoryIds.length} / 100
             </p>
@@ -78,7 +80,7 @@ export function LearningRecords() {
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#6E6E73]">오늘 신규</p>
+            <p className="text-sm font-semibold text-[#6E6E73]">{t('stat_today_new')}</p>
             <p className="text-3xl font-bold text-[#1C1C1E]">
               {todayRecord?.storyCompleted ?? 0}
             </p>
@@ -87,7 +89,7 @@ export function LearningRecords() {
         <Card>
           <CardContent className="space-y-2">
             <p className="text-sm font-semibold text-[#6E6E73]">
-              오늘 다시 만나기
+              {t('stat_today_review')}
             </p>
             <p className="text-3xl font-bold text-[#1C1C1E]">
               {todayRecord?.reviewCompleted ?? 0}
@@ -99,9 +101,9 @@ export function LearningRecords() {
       <Card>
         <CardContent className="space-y-5 p-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-[#1C1C1E]">이번 달 기록</h2>
+            <h2 className="text-xl font-bold text-[#1C1C1E]">{t('stat_this_month')}</h2>
             <span className="rounded-full bg-[#e8f5ed] px-3 py-1 text-xs font-bold text-[#357a52]">
-              저장됨
+              {t('status_done')}
             </span>
           </div>
 
@@ -114,16 +116,12 @@ export function LearningRecords() {
                 <div
                   aria-label={
                     studied
-                      ? `${day}일 학습 완료, 낭독 ${record?.readCount ?? 0}회`
-                      : `${day}일 학습 없음`
+                      ? `${day} · ${record?.readCount ?? 0}`
+                      : `${day}`
                   }
                   className="flex flex-col items-center gap-1"
                   key={key}
-                  title={
-                    studied
-                      ? `${key} · 낭독 ${record?.readCount ?? 0}회`
-                      : `${key}`
-                  }
+                  title={`${key}`}
                 >
                   <span className="text-[11px] font-semibold text-[#8E8E93]">
                     {day}

@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react'
 import type { MagazineStory } from '@/types/magazine'
+import { useT } from '@/hooks/useT'
 
 type WheelPickerProps = {
   stories: MagazineStory[]
@@ -17,6 +18,7 @@ const PAD = Math.floor(VISIBLE / 2) * ITEM_H // 88px
 export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPickerProps) {
   const listRef = useRef<HTMLDivElement>(null)
   const [selectedId, setSelectedId] = useState(currentId)
+  const t = useT()
 
   useEffect(() => {
     if (!listRef.current) return
@@ -109,7 +111,7 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
             onClick={onClose}
             type="button"
           >
-            취소
+            {t('picker_cancel')}
           </button>
           <button
             className="flex-1 py-3.5 font-semibold border-l border-[#E8E0D8] cursor-pointer transition-colors"
@@ -120,7 +122,7 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
             }}
             type="button"
           >
-            선택
+            {t('picker_confirm')}
           </button>
         </div>
       </div>

@@ -83,18 +83,15 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
   const wcColor = wc > maxWords ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
   const showNativeWarning = nonAsciiRatio(body) > NATIVE_RATIO_WARN && body.trim().length > 20
 
-  const dailyLimitMsg = prefs.language === 'ko' || !prefs.language
-    ? `오늘의 AI 리뷰 횟수(${maxReviews}회)를 모두 사용했어요.`
-    : `You've used all your AI reviews for today.`
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
     too_long:            plan === 'premium'
       ? `Premium reviews support up to ${PREMIUM_MAX_ESSAY_WORDS} words.`
       : `Free users can review essays up to ${FREE_MAX_ESSAY_WORDS} words.`,
-    limit_reached:       dailyLimitMsg,
-    daily_limit:         dailyLimitMsg,
-    unauthenticated:     prefs.language === 'ko' || !prefs.language ? '로그인이 필요합니다.' : 'Please sign in.',
+    limit_reached:       t('essays_limit_reached'),
+    daily_limit:         t('essays_limit_reached'),
+    unauthenticated:     t('auth_required'),
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 

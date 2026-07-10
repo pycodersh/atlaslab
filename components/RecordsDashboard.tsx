@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/card'
 import type { ProgressStats } from '@/queries/progress'
+import { useT } from '@/hooks/useT'
 
 type Props = {
   stats: ProgressStats
@@ -22,6 +23,7 @@ function getThisMonthDates(): string[] {
 export function RecordsDashboard({ stats, totalStories }: Props) {
   const monthDates = getThisMonthDates()
   const studiedSet = new Set(stats.studiedDates)
+  const t = useT()
 
   const progressPct =
     totalStories > 0 ? Math.round((stats.completedStories / totalStories) * 100) : 0
@@ -30,14 +32,14 @@ export function RecordsDashboard({ stats, totalStories }: Props) {
     <div className="space-y-6">
       <header className="space-y-2 pt-1">
         <p className="text-sm font-semibold text-[#6f7895]">Patto</p>
-        <h1 className="text-3xl font-bold tracking-normal">학습 기록</h1>
+        <h1 className="text-3xl font-bold tracking-normal">{t('records_title')}</h1>
       </header>
 
       {/* 요약 카드 */}
       <div className="grid grid-cols-2 gap-4">
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#7a839f]">Story 완료</p>
+            <p className="text-sm font-semibold text-[#7a839f]">{t('stat_story_done')}</p>
             <p className="text-3xl font-bold text-[#26315e]">
               {stats.completedStories}
               <span className="text-lg font-normal text-[#9aa0bc]"> / {totalStories}</span>
@@ -46,7 +48,7 @@ export function RecordsDashboard({ stats, totalStories }: Props) {
         </Card>
         <Card>
           <CardContent className="space-y-2">
-            <p className="text-sm font-semibold text-[#7a839f]">즐겨찾기</p>
+            <p className="text-sm font-semibold text-[#7a839f]">{t('stat_favorites')}</p>
             <p className="text-3xl font-bold text-[#26315e]">{stats.favoritesCount}</p>
           </CardContent>
         </Card>
@@ -56,7 +58,7 @@ export function RecordsDashboard({ stats, totalStories }: Props) {
       <Card>
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-bold text-[#26315e]">전체 진도율</h2>
+            <h2 className="text-base font-bold text-[#26315e]">{t('stat_total_progress')}</h2>
             <span className="text-xl font-bold text-[#5b6ee1]">{progressPct}%</span>
           </div>
           <div className="h-3 w-full overflow-hidden rounded-full bg-[#e8ecf8]">
@@ -66,8 +68,8 @@ export function RecordsDashboard({ stats, totalStories }: Props) {
             />
           </div>
           <div className="flex justify-between text-xs text-[#9aa0bc]">
-            <span>패턴 학습 {stats.totalPatternsSeen}개</span>
-            <span>총 복습 {stats.totalReviewCount}회</span>
+            <span>{t('stat_patterns_count', { n: stats.totalPatternsSeen })}</span>
+            <span>{t('stat_reviews_total', { n: stats.totalReviewCount })}</span>
           </div>
         </CardContent>
       </Card>
@@ -75,7 +77,7 @@ export function RecordsDashboard({ stats, totalStories }: Props) {
       {/* 이번 달 기록 */}
       <Card>
         <CardContent className="space-y-5 p-6">
-          <h2 className="text-xl font-bold text-[#26315e]">이번 달 기록</h2>
+          <h2 className="text-xl font-bold text-[#26315e]">{t('stat_this_month')}</h2>
           <div
             className="grid gap-3 rounded-3xl bg-[#f7f9ff] p-5"
             style={{ gridTemplateColumns: 'repeat(7, 1fr)' }}
@@ -86,7 +88,7 @@ export function RecordsDashboard({ stats, totalStories }: Props) {
               return (
                 <div className="flex flex-col items-center gap-1" key={date}>
                   <div
-                    aria-label={studied ? `${day}일 학습` : `${day}일`}
+                    aria-label={studied ? t('stat_streak_days', { n: day }) : `${day}`}
                     className={[
                       'h-5 w-5 rounded-full',
                       studied ? 'bg-[#5b6ee1]' : 'bg-[#d8dfef]',
@@ -99,7 +101,7 @@ export function RecordsDashboard({ stats, totalStories }: Props) {
           </div>
           {stats.studiedDates.length === 0 && (
             <p className="text-center text-sm text-[#aab0c8]">
-              아직 학습 기록이 없습니다. 패턴 카드를 열어보세요!
+              {t('no_reviews_desc')}
             </p>
           )}
         </CardContent>

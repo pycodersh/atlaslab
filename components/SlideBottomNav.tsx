@@ -5,15 +5,16 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
-
-const tabs = [
-  { href: '/learn',    label: '학습', icon: BookOpen },
-  { href: '/records',  label: '기록', icon: ChartNoAxesColumnIncreasing },
-  { href: '/settings', label: '설정', icon: Settings },
-]
+import { useT } from '@/hooks/useT'
 
 export function SlideBottomNav() {
   const pathname = usePathname()
+  const t = useT()
+  const tabs = [
+    { href: '/learn',    label: t('tab_story'),    icon: BookOpen },
+    { href: '/records',  label: t('tab_progress'), icon: ChartNoAxesColumnIncreasing },
+    { href: '/settings', label: t('tab_settings'), icon: Settings },
+  ]
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-20 border-t border-[#E8F0FE] bg-white/96 backdrop-blur-sm">

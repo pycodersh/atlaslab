@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { subscribeSavePopup, closeSavePopup, type PopupItem } from '@/lib/words/popupStore'
 import { saveWord, savePhrase } from '@/lib/words/storage'
+import { useT } from '@/hooks/useT'
 
 type Toast = 'hidden' | 'visible' | 'fading'
 
@@ -19,8 +20,9 @@ type Toast = 'hidden' | 'visible' | 'fading'
 export function GlobalSavePopup() {
   const [item, setItem]         = useState<PopupItem | null>(null)
   const [toast, setToast]       = useState<Toast>('hidden')
-  const [toastMsg, setToastMsg] = useState('Saved to Library')
+  const [toastMsg, setToastMsg] = useState('')
   const toastTimer              = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const t = useT()
 
   useEffect(() => subscribeSavePopup(setItem), [])
 
@@ -48,7 +50,7 @@ export function GlobalSavePopup() {
     })
     window.getSelection()?.removeAllRanges()
     closeSavePopup()
-    showToast('단어 저장됨')
+    showToast(t('toast_word_saved'))
   }
 
   function handleSavePhrase() {
@@ -67,7 +69,7 @@ export function GlobalSavePopup() {
     })
     window.getSelection()?.removeAllRanges()
     closeSavePopup()
-    showToast('표현 저장됨')
+    showToast(t('toast_phrase_saved'))
   }
 
   function handleClose() {
@@ -171,7 +173,7 @@ export function GlobalSavePopup() {
                 textAlign: 'center',
               }}>
                 <p style={{ fontSize: 10, color: 'var(--pm)', margin: '0 0 6px', letterSpacing: '0.10em', fontWeight: 700, textTransform: 'uppercase' }}>
-                  추천 표현
+                  {t('save_recommended')}
                 </p>
                 <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: 0, wordBreak: 'break-word', lineHeight: 1.35 }}>
                   {phraseDisplay}
@@ -181,16 +183,16 @@ export function GlobalSavePopup() {
               {/* Primary + Secondary */}
               <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
                 <button type="button" onClick={handleSavePhrase} style={PRIMARY_BTN}>
-                  표현 저장
+                  {t('save_phrase_btn')}
                 </button>
                 <button type="button" onClick={handleSaveWord} style={SECONDARY_BTN}>
-                  단어만
+                  {t('save_word_only')}
                 </button>
               </div>
 
               {/* Text Cancel */}
               <button type="button" onClick={handleClose} style={CANCEL_BTN}>
-                취소
+                {t('picker_cancel')}
               </button>
             </>
           ) : (
@@ -209,12 +211,12 @@ export function GlobalSavePopup() {
 
               {/* Primary */}
               <button type="button" onClick={handleSaveWord} style={{ ...PRIMARY_BTN, flex: 'none', width: '100%', marginBottom: 4 }}>
-                단어 저장
+                {t('save_word_btn')}
               </button>
 
               {/* Text Cancel */}
               <button type="button" onClick={handleClose} style={CANCEL_BTN}>
-                취소
+                {t('picker_cancel')}
               </button>
             </>
           )}

@@ -6,16 +6,17 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 import { cn } from '@/lib/utils'
-
-const tabs = [
-  { href: '/learn',    label: '학습', icon: BookOpen },
-  { href: '/records',  label: '기록', icon: ChartNoAxesColumnIncreasing },
-  { href: '/settings', label: '설정', icon: Settings },
-]
+import { useT } from '@/hooks/useT'
 
 export function FloatingNav() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const t = useT()
+  const tabs = [
+    { href: '/learn',    label: t('tab_story'),    icon: BookOpen },
+    { href: '/records',  label: t('tab_progress'), icon: ChartNoAxesColumnIncreasing },
+    { href: '/settings', label: t('tab_settings'), icon: Settings },
+  ]
 
   return (
     <div className="fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-2">

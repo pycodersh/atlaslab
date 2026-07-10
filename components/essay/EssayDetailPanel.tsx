@@ -220,17 +220,13 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
   const wc = wordCount(body)
   const wcColor = wc > MAX_WORDS ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
 
-  const dailyLimit = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_DAILY
-  const dailyLimitMsg = prefs.language === 'ko' || !prefs.language
-    ? `오늘의 AI 리뷰 횟수(${dailyLimit}회)를 모두 사용했어요.`
-    : `You've used all your AI reviews for today.`
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english: t('essays_not_english'),
     too_short: t('essays_too_short'),
     too_long: t('essays_too_long'),
-    limit_reached: dailyLimitMsg,
-    daily_limit: dailyLimitMsg,
-    unauthenticated: prefs.language === 'ko' || !prefs.language ? '로그인이 필요합니다.' : 'Please sign in.',
+    limit_reached: t('essays_limit_reached'),
+    daily_limit: t('essays_limit_reached'),
+    unauthenticated: t('auth_required'),
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -556,7 +552,7 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
 
       {cacheToast && (
         <div style={{ position: 'fixed', bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))', left: '50%', transform: 'translateX(-50%)', background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pd)', borderRadius: 12, padding: '10px 18px', fontSize: 12.5, color: 'var(--pt)', whiteSpace: 'nowrap', zIndex: 200, boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}>
-          변경된 내용이 없어 기존 리뷰 결과를 불러왔어요.
+          {t('essays_no_change')}
         </div>
       )}
 

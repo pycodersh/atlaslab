@@ -6,6 +6,7 @@ import { StoryLabel } from '@/components/StoryLabel'
 import { useSpeech } from '@/hooks/useSpeech'
 import { cn } from '@/lib/utils'
 import type { Difficulty, PatternWithExamples } from '@/types/pattern'
+import { useT } from '@/hooks/useT'
 
 type PatternCardBackProps = {
   pattern: PatternWithExamples
@@ -33,6 +34,7 @@ export function PatternCardBack({
   const { speak, speakAll, isSpeaking, stop } = useSpeech()
   const examples = pattern.examples[difficulty] ?? []
   const sentences = examples.map((ex) => ex.sentence)
+  const t = useT()
 
   function handleSpeakAll(e: React.MouseEvent) {
     e.stopPropagation()
@@ -62,7 +64,7 @@ export function PatternCardBack({
       <ol className="flex-1 space-y-[10px] overflow-y-auto">
         {examples.length === 0 ? (
           <li className="flex h-full items-center justify-center text-xs text-[#C7C7CC]">
-            예문이 없습니다
+            {t('no_examples')}
           </li>
         ) : (
           examples.map((ex) => (

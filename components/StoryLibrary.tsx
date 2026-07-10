@@ -7,10 +7,13 @@ import { FavoriteButton } from "@/components/FavoriteButton";
 import { Card, CardContent } from "@/components/ui/card";
 import { stories } from "@/data/stories";
 import { useLearningProgress } from "@/hooks/useLearningProgress";
+import { useT } from "@/hooks/useT";
 
 function getStoryStatusLabel(
   completed: boolean,
   status: { mastered: boolean; currentStage: number } | undefined,
+  reviewPending: string,
+  notStarted: string,
 ) {
   if (status?.mastered) {
     return "Mastered";
@@ -20,11 +23,12 @@ function getStoryStatusLabel(
     return `Review Stage ${status.currentStage} / 6`;
   }
 
-  return completed ? "다시 만나기 예정" : "아직 학습 전";
+  return completed ? reviewPending : notStarted;
 }
 
 export function StoryLibrary() {
   const { progress } = useLearningProgress();
+  const t = useT();
 
   return (
     <div className="space-y-6">
@@ -60,7 +64,7 @@ export function StoryLibrary() {
                     </h2>
                   </div>
                   <span className="rounded-full bg-[#eef3ff] px-3 py-1 text-xs font-bold text-[#4f5fd7]">
-                    {getStoryStatusLabel(completed, status)}
+                    {getStoryStatusLabel(completed, status, t('story_review_pending'), t('story_not_started'))}
                   </span>
                 </div>
 

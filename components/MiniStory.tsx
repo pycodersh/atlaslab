@@ -7,6 +7,7 @@ import { StoryLabel } from '@/components/StoryLabel'
 import { useSpeech } from '@/hooks/useSpeech'
 import { cn } from '@/lib/utils'
 import type { MiniStoryContent } from '@/types/story'
+import { useT } from '@/hooks/useT'
 
 type MiniStoryProps = {
   content: MiniStoryContent
@@ -30,6 +31,7 @@ export function MiniStory({
   onIncrement,
   onDecrement,
 }: MiniStoryProps) {
+  const t = useT()
   const enParagraphs = content.en.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
   const koParagraphs = content.ko.split(/\n\n+/).map((p) => p.trim()).filter(Boolean)
   const enSentences = enParagraphs.flatMap(
@@ -114,7 +116,7 @@ export function MiniStory({
                 onClick={(e) => e.stopPropagation()}
               >
                 <p className="text-[11.5px] leading-relaxed text-white">
-                  10번 소리내어 읽으며 패턴을 내 것으로 만드세요.
+                  {t('read_instruction')}
                 </p>
                 <div className="absolute -bottom-1.5 left-4 h-3 w-3 rotate-45 rounded-sm bg-[#1F2937]" />
               </div>

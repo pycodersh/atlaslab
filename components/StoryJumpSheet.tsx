@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { cn } from '@/lib/utils'
 import type { StoryListItem } from '@/queries/stories'
+import { useT } from '@/hooks/useT'
 
 type Props = {
   stories: StoryListItem[]
@@ -20,6 +21,7 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
   const { progress } = useLearningProgress()
   const listRef = useRef<HTMLDivElement>(null)
   const completedIds = new Set(progress.completedStoryIds)
+  const t = useT()
 
   // 열릴 때 현재 스토리 위치로 스크롤
   useEffect(() => {
@@ -75,7 +77,7 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
         <div className="flex shrink-0 flex-col items-center px-5 pb-3 pt-3">
           <div className="h-1 w-10 rounded-full bg-black/[0.08]" />
           <div className="mt-4 flex w-full items-center justify-between">
-            <h2 className="text-base font-bold text-[var(--pt)]">학습 목록</h2>
+            <h2 className="text-base font-bold text-[var(--pt)]">{t('story_list_title')}</h2>
             <button
               aria-label="닫기"
               className="rounded-full p-1.5 text-[var(--pm2)] hover:bg-[var(--pal)]"
@@ -89,9 +91,9 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
 
         {/* 범례 — 아이콘 색으로만 상태 구분 */}
         <div className="flex shrink-0 items-center gap-4 border-b border-[var(--pd)] px-5 pb-3">
-          <LegendItem iconClass="text-[#22C55E]" label="완료"   Icon={CheckCircle2} />
-          <LegendItem iconClass="text-[var(--pa)]" label="진행 중" Icon={PlayCircle} />
-          <LegendItem iconClass="text-[var(--pm2)]" label="미학습" Icon={Circle} />
+          <LegendItem iconClass="text-[#22C55E]" label={t('status_done')}   Icon={CheckCircle2} />
+          <LegendItem iconClass="text-[var(--pa)]" label={t('status_active')} Icon={PlayCircle} />
+          <LegendItem iconClass="text-[var(--pm2)]" label={t('status_idle')} Icon={Circle} />
         </div>
 
         {/* 스토리 목록 */}

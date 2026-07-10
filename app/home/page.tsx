@@ -15,6 +15,7 @@ import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
 import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
+import { useT } from '@/hooks/useT'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -446,6 +447,7 @@ export default function HomePage() {
   const router = useRouter()
   const { prefs } = usePreferences()
   const isDesktop = useIsDesktop()
+  const t = useT()
 
   const [firstHref, setFirstHref]           = useState('/stories/1')
   const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
@@ -664,7 +666,7 @@ export default function HomePage() {
                 transition: 'all 0.15s', letterSpacing: '0.01em', whiteSpace: 'nowrap',
               }}
             >
-              {allDone ? '완료' : 'Start'}
+              {allDone ? t('status_done') : 'Start'}
               {allDone
                 ? <PartyPopper style={{ width: 12, height: 12 }} strokeWidth={2.5} />
                 : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />

@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useT } from '@/hooks/useT'
 
 // Shared Full-screen State button tokens
 const PRIMARY_BTN: React.CSSProperties = {
@@ -22,6 +23,7 @@ const SECONDARY_BTN: React.CSSProperties = {
 
 export function CompletionScreen() {
   const router = useRouter()
+  const t = useT()
 
   return (
     <div style={{
@@ -48,23 +50,23 @@ export function CompletionScreen() {
 
       {/* Title */}
       <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>
-        모든 스토리 완료!
+        {t('completion_title')}
       </h1>
 
       {/* Description */}
       <p style={{ fontSize: 13.5, color: 'var(--pm)', margin: '0 0 36px', lineHeight: 1.7, maxWidth: 280 }}>
-        Level 1의 모든 패턴을 학습했습니다.
+        {t('completion_desc1')}
         <br />
-        복습을 통해 패턴을 확실히 익혀보세요.
+        {t('completion_desc2')}
       </p>
 
       {/* Buttons */}
       <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
         <button type="button" onClick={() => router.push('/learn/1')} style={PRIMARY_BTN}>
-          처음부터 다시 학습
+          {t('completion_restart')}
         </button>
         <button type="button" onClick={() => router.push('/records')} style={SECONDARY_BTN}>
-          학습 기록 보기
+          {t('completion_records')}
         </button>
       </div>
     </div>

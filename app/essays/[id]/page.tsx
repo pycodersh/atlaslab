@@ -282,20 +282,13 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const wc = wordCount(body)
   const wcColor = wc > MAX_WORDS ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
 
-  const dailyLimit = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_DAILY
-  const dailyLimitMsg = prefs.language === 'ko' || !prefs.language
-    ? `오늘의 AI 리뷰 횟수(${dailyLimit}회)를 모두 사용했어요. 내일 다시 이용하거나 Premium으로 업그레이드해 주세요.`
-    : `You've used all your AI reviews for today. Try again tomorrow or upgrade to Premium.`
-  const unauthMsg = prefs.language === 'ko' || !prefs.language
-    ? '로그인이 필요합니다. 로그인 후 다시 시도해 주세요.'
-    : 'Please sign in to review your essay.'
   const errorMessages: Record<NonNullable<ValidationError>, string> = {
     not_english:         t('essays_not_english'),
     too_short:           t('essays_too_short'),
     too_long:            t('essays_too_long'),
-    limit_reached:       dailyLimitMsg,
-    daily_limit:         dailyLimitMsg,
-    unauthenticated:     unauthMsg,
+    limit_reached:       t('essays_limit_reached'),
+    daily_limit:         t('essays_limit_reached'),
+    unauthenticated:     t('auth_required'),
     service_unavailable: "Editor's Review is temporarily unavailable.",
   }
 
@@ -743,7 +736,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
           whiteSpace: 'nowrap', zIndex: 200,
           boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
         }}>
-          변경된 내용이 없어 기존 리뷰 결과를 불러왔어요.
+          {t('essays_no_change')}
         </div>
       )}
 

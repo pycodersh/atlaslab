@@ -7,6 +7,7 @@ import { TopNav } from '@/components/TopNav'
 import { SwipeDeleteRow } from '@/components/SwipeDeleteRow'
 import { getSavedWords, removeSavedWord, type SavedWord } from '@/lib/words/storage'
 import { magazineStories } from '@/data/magazine-stories'
+import { useT } from '@/hooks/useT'
 
 function fmtDate(iso: string): string {
   const d = new Date(iso)
@@ -26,6 +27,7 @@ function sourceLabel(w: SavedWord): string {
 
 export default function SavedWordsPage() {
   const router = useRouter()
+  const t = useT()
   const [words, setWords] = useState<SavedWord[]>([])
   useEffect(() => { setWords(getSavedWords()) }, [])
 
@@ -70,7 +72,7 @@ export default function SavedWordsPage() {
             Saved Words
           </p>
           <p style={{ fontSize: 11, color: 'var(--pm)', marginTop: 8 }}>
-            {words.length}개 저장됨 · 최근 저장순
+            {t('words_saved_count', { n: words.length })}
           </p>
           <div style={{ height: 1.5, background: 'var(--pa)', width: 32, marginTop: 14, borderRadius: 1, opacity: 0.7 }} />
         </div>
@@ -79,10 +81,8 @@ export default function SavedWordsPage() {
         {words.length === 0 && (
           <div style={{ paddingTop: 40, textAlign: 'center' }}>
             <BookOpen style={{ width: 28, height: 28, color: 'var(--pd)', margin: '0 auto 14px' }} strokeWidth={1.5} />
-            <p style={{ fontSize: 13, color: 'var(--pm2)', lineHeight: 1.7 }}>
-              아직 저장한 단어가 없어요.<br />
-              Story를 읽다 모르는 단어를 길게 누르면<br />
-              여기에 모아볼 수 있어요.
+            <p style={{ fontSize: 13, color: 'var(--pm2)', lineHeight: 1.7, whiteSpace: 'pre-line' }}>
+              {t('words_empty')}
             </p>
           </div>
         )}
