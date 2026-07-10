@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Info, BookOpen, Layers, X, CheckCircle2, RefreshCw } from 'lucide-react'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
+import { useTheme } from '@/components/ThemeProvider'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -702,18 +703,23 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
 
 // ── Page 2: Memory Calendar ───────────────────────────────────────────────────
 
-function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak }: {
+function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak, page, onPageChange }: {
   futureSchedule: Record<string, ScheduledDay>
   selectedIso: string | null
   onDaySelect: (iso: string) => void
   streak: number
+  page?: number
+  onPageChange?: (i: number) => void
 }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
   return (
     <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 0 }}>
 
       {/* ── Calendar card ── */}
       <div style={{ ...glassCard, padding: '22px 18px 18px' }}>
-        <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: '#3A3A4A', margin: '0 0 16px', textTransform: 'uppercase' }}>
+        <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.5)' : '#3A3A4A', margin: '0 0 16px', textTransform: 'uppercase' }}>
           Calendar
         </p>
         <LearningCalendar
@@ -722,6 +728,23 @@ function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak }: {
           futureSchedule={futureSchedule}
           streak={streak}
         />
+
+        {/* ── Page indicator (mobile only) ── */}
+        {page !== undefined && onPageChange && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, paddingTop: 16 }}>
+            {[0, 1].map(i => (
+              <button
+                key={i} type="button" onClick={() => onPageChange(i)}
+                style={{
+                  width: 8, height: 8, borderRadius: '50%',
+                  background: page === i ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.3)',
+                  border: 'none', cursor: 'pointer', padding: 0,
+                  transition: 'background 0.28s ease',
+                }}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
@@ -813,24 +836,6 @@ export default function ProgressPage() {
       <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <TopNav />
 
-        {/* ── Page indicator ── */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-          padding: '8px 0 14px', flexShrink: 0,
-        }}>
-          {[0, 1].map(i => (
-            <button
-              key={i} type="button" onClick={() => goToPage(i)}
-              style={{
-                width: page === i ? 20 : 5, height: 5, borderRadius: 99,
-                background: page === i ? 'rgba(74,122,200,0.80)' : 'rgba(140,150,185,0.22)',
-                border: 'none', cursor: 'pointer', padding: 0,
-                transition: 'width 0.28s ease, background 0.28s ease',
-              }}
-            />
-          ))}
-        </div>
-
         {/* ── Scroll rail ── */}
         <div
           ref={railRef}
@@ -854,6 +859,8 @@ export default function ProgressPage() {
                 selectedIso={selectedIso}
                 onDaySelect={handleDaySelect}
                 streak={streak}
+                page={page}
+                onPageChange={goToPage}
               />
             </div>
           </div>

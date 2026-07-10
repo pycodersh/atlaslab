@@ -154,6 +154,8 @@ export default function EssaysPage() {
           onClick={openComposer}
           style={{
             ...cardBase(isDark),
+            background: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(255, 255, 255, 0.6)',
+            border: isDark ? '1px solid rgba(255,255,255,0.25)' : '1px solid rgba(255, 255, 255, 0.8)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
