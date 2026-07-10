@@ -45,53 +45,28 @@ type StudyMode = 'en' | 'en-ko' | 'ko'
 const STUDY_CYCLE: StudyMode[] = ['en', 'en-ko', 'ko']
 const LANG_CODE: Record<string, string> = { ko: 'KO', ja: 'JP', es: 'ES', fr: 'FR', de: 'DE', 'zh-cn': '中文', 'zh-tw': '中文' }
 
-// ── Hero themes — Version A (Soft Burgundy) / Version B (Slate Blue) ─────────
-// Alternates by story.id so odd stories = A, even stories = B
+// ── Hero theme ────────────────────────────────────────────────────────────────
 const HERO_THEMES = {
-  light: [
-    {
-      bg: 'linear-gradient(160deg, #8B4555 0%, #B27B89 54%, #EDE2E5 100%)',
-      wave1: 'rgba(255,255,255,0.08)', wave2: 'rgba(255,255,255,0.05)',
-      borderColor: 'rgba(185,135,145,0.30)',
-      patternColor: '#FFFFFF',
-      patternShadow: '0 2px 16px rgba(65,10,18,0.38), 0 1px 4px rgba(0,0,0,0.18)',
-      meaningColor: 'rgba(255,255,255,0.82)',
-      labelColor: 'rgba(255,255,255,0.60)',
-      iconColor: 'rgba(255,255,255,0.70)',
-    },
-    {
-      bg: 'linear-gradient(160deg, #5C6FAE 0%, #8294C8 54%, #DCE5F8 100%)',
-      wave1: 'rgba(255,255,255,0.08)', wave2: 'rgba(255,255,255,0.05)',
-      borderColor: 'rgba(140,165,215,0.32)',
-      patternColor: '#FFFFFF',
-      patternShadow: '0 2px 16px rgba(25,40,100,0.34), 0 1px 4px rgba(0,0,0,0.14)',
-      meaningColor: 'rgba(255,255,255,0.82)',
-      labelColor: 'rgba(255,255,255,0.60)',
-      iconColor: 'rgba(255,255,255,0.70)',
-    },
-  ],
-  dark: [
-    {
-      bg: 'linear-gradient(160deg, #3D1520 0%, #6B2D3E 54%, #2A1018 100%)',
-      wave1: 'rgba(255,255,255,0.06)', wave2: 'rgba(255,255,255,0.03)',
-      borderColor: 'rgba(139,70,85,0.35)',
-      patternColor: '#F2F2F5',
-      patternShadow: '0 2px 16px rgba(0,0,0,0.60), 0 1px 4px rgba(0,0,0,0.30)',
-      meaningColor: 'rgba(242,242,245,0.75)',
-      labelColor: 'rgba(242,242,245,0.50)',
-      iconColor: 'rgba(242,242,245,0.60)',
-    },
-    {
-      bg: 'linear-gradient(160deg, #1E2A52 0%, #2E4080 54%, #0C1228 100%)',
-      wave1: 'rgba(255,255,255,0.06)', wave2: 'rgba(255,255,255,0.03)',
-      borderColor: 'rgba(80,110,200,0.35)',
-      patternColor: '#F2F2F5',
-      patternShadow: '0 2px 16px rgba(0,0,0,0.60), 0 1px 4px rgba(0,0,0,0.30)',
-      meaningColor: 'rgba(242,242,245,0.75)',
-      labelColor: 'rgba(242,242,245,0.50)',
-      iconColor: 'rgba(242,242,245,0.60)',
-    },
-  ],
+  light: [{
+    bg: 'linear-gradient(160deg, #c8b8e8 0%, #d4b8d8 54%, #b8c8e0 100%)',
+    wave1: 'rgba(255,255,255,0.18)', wave2: 'rgba(255,255,255,0.10)',
+    borderColor: 'rgba(180,160,215,0.28)',
+    patternColor: 'rgba(25,15,55,0.92)',
+    patternShadow: '0 1px 4px rgba(200,180,240,0.25)',
+    meaningColor: 'rgba(25,15,55,0.62)',
+    labelColor: 'rgba(25,15,55,0.48)',
+    iconColor: 'rgba(25,15,55,0.52)',
+  }],
+  dark: [{
+    bg: 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)',
+    wave1: 'rgba(255,255,255,0.07)', wave2: 'rgba(255,255,255,0.03)',
+    borderColor: 'rgba(120,90,180,0.30)',
+    patternColor: 'rgba(255,255,255,0.97)',
+    patternShadow: '0 2px 16px rgba(0,0,0,0.60)',
+    meaningColor: 'rgba(255,255,255,0.75)',
+    labelColor: 'rgba(255,255,255,0.50)',
+    iconColor: 'rgba(255,255,255,0.60)',
+  }],
 }
 
 function WaveOverlay({ wave1, wave2 }: { wave1: string; wave2: string }) {
@@ -178,8 +153,8 @@ export function PatternsPageV2({
 
   // ── Hero theme — A (Burgundy) for odd stories, B (Slate Blue) for even ──────
   const heroTheme = useMemo(
-    () => HERO_THEMES[isDark ? 'dark' : 'light'][(story.id - 1) % 2],
-    [story.id, isDark],
+    () => HERO_THEMES[isDark ? 'dark' : 'light'][0],
+    [isDark],
   )
 
   // ── UI state ───────────────────────────────────────────────────────────────
@@ -506,6 +481,15 @@ export function PatternsPageV2({
                 {/* Wave SVG overlay */}
                 <WaveOverlay wave1={heroTheme.wave1} wave2={heroTheme.wave2} />
 
+                {/* Orb decoration */}
+                <div style={{
+                  position: 'absolute', width: 110, height: 110, borderRadius: '50%',
+                  top: -25, right: -15, pointerEvents: 'none', zIndex: 0,
+                  background: isDark
+                    ? 'radial-gradient(circle, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.00) 70%)'
+                    : 'radial-gradient(circle, rgba(255,255,255,0.40) 0%, rgba(255,255,255,0.00) 70%)',
+                }} />
+
                 {/* Row 1: PATTERN number (left) · Note · Bookmark (right) */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, position: 'relative', zIndex: 1 }}>
                   {/* Story picker → PATTERN number */}
@@ -570,14 +554,21 @@ export function PatternsPageV2({
 
                 {/* Pattern title */}
                 <p style={{
-                  fontSize: '2.0rem', fontWeight: 800, color: heroTheme.patternColor,
-                  lineHeight: 1.15, margin: '10px 0 8px', letterSpacing: '-0.02em',
+                  fontSize: 34, fontWeight: 800, color: heroTheme.patternColor,
+                  lineHeight: 1.15, margin: '10px 0 6px', letterSpacing: '-0.5px',
                   fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                   position: 'relative', zIndex: 1,
                   textShadow: heroTheme.patternShadow,
                 }}>
                   {pattern.pattern}
                 </p>
+
+                {/* Divider */}
+                <div style={{
+                  width: 32, height: 2, borderRadius: 2, margin: '6px 0 8px',
+                  background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(60,40,100,0.25)',
+                  position: 'relative', zIndex: 1,
+                }} />
 
                 {/* Row 3: meaning (left) + sequential speaker (right) */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
@@ -629,12 +620,16 @@ export function PatternsPageV2({
                         type="button"
                         onClick={() => setStudyMode(mode)}
                         style={{
-                          padding: '3px 8px', borderRadius: 6, border: 'none', cursor: 'pointer',
+                          padding: '3px 8px', borderRadius: 6, cursor: 'pointer',
                           fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                          background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                          background: studyMode === mode
+                            ? (isDark ? 'rgba(255,255,255,0.18)' : 'rgba(80,60,140,0.15)')
+                            : 'transparent',
+                          border: studyMode === mode
+                            ? (isDark ? '1px solid rgba(255,255,255,0.30)' : '1px solid rgba(80,60,140,0.25)')
+                            : '1px solid transparent',
                           color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
-                          boxShadow: studyMode === mode ? '0 1px 3px rgba(0,0,0,0.12)' : 'none',
-                          transition: 'background 0.15s, color 0.15s',
+                          transition: 'background 0.15s, color 0.15s, border 0.15s',
                         }}
                       >
                         {STUDY_LABEL[mode]}
@@ -740,9 +735,13 @@ export function PatternsPageV2({
                       style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer' }}
                     >
                       <span style={{
-                        display: 'block', width: i === patIdx ? 14 : 6, height: 6,
+                        display: 'block',
+                        width: i === patIdx ? 18 : 6,
+                        height: 6,
                         borderRadius: 999,
-                        background: i === patIdx ? 'var(--pt)' : 'var(--pm2)',
+                        background: i === patIdx
+                          ? (isDark ? 'rgba(255,255,255,0.70)' : 'rgba(80,60,140,0.60)')
+                          : (isDark ? 'rgba(255,255,255,0.25)' : 'rgba(80,60,140,0.25)'),
                         transition: 'all 0.25s',
                       }} />
                     </button>
@@ -787,7 +786,7 @@ export function PatternsPageV2({
         />
       </div>
 
-{/* ── Pattern Note Popup ── */}
+      {/* ── Pattern Note Popup ── */}
       {noteOpen && patternNote && (
         <div
           role="dialog"
