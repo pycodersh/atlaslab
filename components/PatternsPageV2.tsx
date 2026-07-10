@@ -789,7 +789,7 @@ export function PatternsPageV2({
         />
       </div>
 
-      {/* ── Pattern Note Popup ── */}
+      {/* Pattern Note Popup */}
       {noteOpen && patternNote && (
         <div
           role="dialog"
@@ -800,7 +800,7 @@ export function PatternsPageV2({
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '0 20px',
           }}
-          onClick={e => { if (e.target === e.currentTarget) setNoteOpen(false) }}
+          onClick={e => e.target === e.currentTarget && setNoteOpen(false)}
         >
           <div
             className="glass-card"

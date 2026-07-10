@@ -18,6 +18,8 @@ import {
   getFutureSchedule, getEnhancedDayDetail,
   type EnhancedDayDetail, type ScheduledDay,
 } from '@/lib/srs/engine'
+import { magazineStories } from '@/data/magazine-stories'
+import type { MagazineStory } from '@/types/magazine'
 
 // ── Inline i18n for score/mastery strings ─────────────────────────────────────
 
@@ -251,13 +253,36 @@ function computeMemoryScore(records: LearningRecord[]): number {
   return Math.round((patternScore + storyScore) / 2 * 100)
 }
 
-function computeReviewMastery(records: LearningRecord[]): number[] {
-  const patterns = records.filter(r => r.itemType === 'pattern' && r.repeatCount > 0)
-  const total = patterns.length
-  if (total === 0) return [0, 0, 0, 0, 0]
-  return [1, 2, 3, 4, 5].map(n =>
-    Math.round((patterns.filter(r => r.repeatCount >= n).length / total) * 100)
-  )
+type MyStoriesData = {
+  completed: number[]
+  inProgress: Array<{ storyId: number; title: string; reviewCount: number }>
+  remaining: number
+}
+
+function computeMyStories(records: LearningRecord[], allStories: MagazineStory[]): MyStoriesData {
+  const patByStory = new Map<number, number[]>()
+  for (const r of records) {
+    if (r.itemType !== 'pattern' || !r.storyId || r.repeatCount === 0) continue
+    const list = patByStory.get(r.storyId) ?? []
+    list.push(r.reviewCount)
+    patByStory.set(r.storyId, list)
+  }
+
+  const completed: number[] = []
+  const inProgress: Array<{ storyId: number; title: string; reviewCount: number }> = []
+
+  for (const story of allStories) {
+    const counts = patByStory.get(story.id)
+    if (!counts || counts.length === 0) continue
+    const minReview = Math.min(...counts)
+    if (minReview >= 5) {
+      completed.push(story.id)
+    } else {
+      inProgress.push({ storyId: story.id, title: story.title, reviewCount: minReview })
+    }
+  }
+
+  return { completed, inProgress, remaining: allStories.length - completed.length - inProgress.length }
 }
 
 function getBestStreak(): number {
@@ -342,6 +367,24 @@ function SlimBar({ pct, color }: { pct: number; color: string }) {
         background: color, borderRadius: 99,
         transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)',
       }} />
+    </div>
+  )
+}
+
+// ── Story review dots ─────────────────────────────────────────────────────────
+
+function StoryDots({ count, isDark }: { count: number; isDark: boolean }) {
+  const filledColor = isDark ? 'rgba(140,160,255,0.8)' : 'rgba(80,100,220,0.7)'
+  const emptyColor  = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)'
+  return (
+    <div style={{ display: 'flex', gap: 4 }}>
+      {[1, 2, 3, 4, 5].map(n => (
+        <div key={n} style={{
+          width: 7, height: 7, borderRadius: '50%',
+          background: n <= count ? filledColor : emptyColor,
+          flexShrink: 0,
+        }} />
+      ))}
     </div>
   )
 }
@@ -439,40 +482,48 @@ function ScoreInfoPopup({ open, score, onClose }: { open: boolean; score: number
   )
 }
 
-// ── Review Mastery Info Popup ─────────────────────────────────────────────────
-function MasteryInfoPopup({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { prefs } = usePreferences()
-  const s = getScoreI18n(prefs.language)
+// ── MY STORIES Info Popup ─────────────────────────────────────────────────────
+const MY_STORIES_ROUNDS = [
+  { n: 1, desc: 'First time learning' },
+  { n: 2, desc: 'Review after 1 day · Short-term memory' },
+  { n: 3, desc: 'Review after 3 days · Mid-term memory' },
+  { n: 4, desc: 'Review after 7 days · Long-term memory' },
+  { n: 5, desc: 'Review after 14 days · Fully mastered ✓' },
+]
+
+function MyStoriesInfoPopup({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <PDialog
       open={open}
       onClose={onClose}
-      title="Review Mastery"
-      description={s.masterySubtitle}
+      title="MY STORIES"
       actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}
     >
       <div style={{ paddingTop: 4 }}>
         <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
         <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 14px', fontWeight: 500 }}>
-          {s.masteryDesc}
+          Track your story review progress.<br />
+          Each dot ● represents one review round.<br />
+          More dots filled = stronger memory.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {s.masterySteps.map(({ step, desc, color }) => (
-            <div key={step} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+          {MY_STORIES_ROUNDS.map(({ n, desc }) => (
+            <div key={n} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
               <span style={{
-                fontSize: 10, fontWeight: 700, color,
-                background: `${color}12`,
-                border: `1px solid ${color}28`,
+                fontSize: 10, fontWeight: 700,
+                color: '#4A7AC8',
+                background: 'rgba(74,122,200,0.08)',
+                border: '1px solid rgba(74,122,200,0.22)',
                 borderRadius: 6, padding: '2px 8px',
-                flexShrink: 0, marginTop: 1,
-              }}>{step}</span>
+                flexShrink: 0, marginTop: 1, whiteSpace: 'nowrap',
+              }}>Round {n}</span>
               <span style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1.55 }}>{desc}</span>
             </div>
           ))}
         </div>
         <div style={{ height: 1, background: 'var(--pd)', margin: '14px 0 10px' }} />
         <p style={{ fontSize: 10, color: 'var(--pm)', lineHeight: 1.6, margin: 0 }}>
-          {s.masteryFooter}
+          Complete all pattern cards in a story<br />to finish one round.
         </p>
       </div>
     </PDialog>
@@ -575,11 +626,11 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
 
 // ── Page 1: Memory Score ──────────────────────────────────────────────────────
 
-function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
+function PageScore({ score, learnedStories, learnedPatterns, myStories }: {
   score: number
   learnedStories: number
   learnedPatterns: number
-  mastery: number[]
+  myStories: MyStoriesData
 }) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -675,11 +726,13 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
           </div>
         </div>
 
-        {/* ── Review Mastery ── */}
+        {/* ── MY STORIES ── */}
         <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
             <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase' }}>
-              Review Mastery
+              MY STORIES
             </p>
             <button type="button" onClick={() => setShowMasteryInfo(true)} style={{
               background: 'none', border: 'none', padding: 2,
@@ -688,19 +741,94 @@ function PageScore({ score, learnedStories, learnedPatterns, mastery }: {
               <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
             </button>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {mastery.map((pct, i) => (
-              <MasteryRing key={i} pct={pct} label={s.masteryRingLabel(i + 1)} />
+
+          {/* Summary pills */}
+          <div style={{ display: 'flex', gap: 7, marginBottom: 16 }}>
+            {([
+              { label: 'Completed ✓', count: myStories.completed.length, color: '#2A7A3A' },
+              { label: 'In Progress',  count: myStories.inProgress.length,  color: '#4A7AC8' },
+              { label: 'Remaining',    count: myStories.remaining,           color: isDark ? 'rgba(255,255,255,0.38)' : '#8E8E93' },
+            ] as const).map(({ label, count, color }) => (
+              <div key={label} style={{
+                flex: 1, textAlign: 'center',
+                background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
+                borderRadius: 12, padding: '9px 4px',
+              }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color, lineHeight: 1.1, fontVariantNumeric: 'tabular-nums' }}>
+                  {count}
+                </div>
+                <div style={{ fontSize: 8.5, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.38)' : '#8E8E93', marginTop: 4, letterSpacing: '0.02em' }}>
+                  {label}
+                </div>
+              </div>
             ))}
           </div>
-          <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(140,150,185,0.65)', margin: '16px 0 0', textAlign: 'center', fontWeight: 400 }}>
-            {s.masteryCardBottom}
-          </p>
+
+          {/* Completed badges */}
+          {myStories.completed.length > 0 && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: myStories.inProgress.length > 0 ? 12 : 0 }}>
+              {myStories.completed.map(id => (
+                <span key={id} style={{
+                  fontSize: 9.5, fontWeight: 700,
+                  color: '#2A7A3A',
+                  background: 'rgba(42,122,58,0.08)',
+                  border: '1px solid rgba(42,122,58,0.20)',
+                  borderRadius: 6, padding: '2px 8px',
+                }}>
+                  Story {String(id).padStart(2, '0')} ✓
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Divider between completed badges and in-progress list */}
+          {myStories.completed.length > 0 && myStories.inProgress.length > 0 && (
+            <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)', marginBottom: 12 }} />
+          )}
+
+          {/* In Progress list */}
+          {myStories.inProgress.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+              {myStories.inProgress.map(({ storyId, title, reviewCount }) => (
+                <div key={storyId} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      fontSize: 12, fontWeight: 600, color: 'var(--pt)', lineHeight: 1.3,
+                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }}>
+                      Story {String(storyId).padStart(2, '0')} · {title}
+                    </div>
+                    <div style={{ fontSize: 9.5, color: isDark ? 'rgba(255,255,255,0.38)' : 'var(--pm2)', marginTop: 2 }}>
+                      Round {reviewCount + 1} · In Review
+                    </div>
+                  </div>
+                  <div style={{ flexShrink: 0 }}>
+                    <StoryDots count={reviewCount} isDark={isDark} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Empty state */}
+          {myStories.completed.length === 0 && myStories.inProgress.length === 0 && (
+            <p style={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.38)' : 'var(--pm2)', textAlign: 'center', padding: '12px 0 4px', margin: 0 }}>
+              Start learning to see your stories here.
+            </p>
+          )}
+
+          {/* Hint */}
+          {myStories.remaining > 0 && (
+            <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(140,150,185,0.60)', margin: `${myStories.inProgress.length > 0 || myStories.completed.length > 0 ? '14px' : '8px'} 0 0`, textAlign: 'center' }}>
+              🔒 {myStories.remaining} more stories waiting
+            </p>
+          )}
         </div>
       </div>
 
       <ScoreInfoPopup open={showInfo} score={score} onClose={() => setShowInfo(false)} />
-      <MasteryInfoPopup open={showMasteryInfo} onClose={() => setShowMasteryInfo(false)} />
+      <MyStoriesInfoPopup open={showMasteryInfo} onClose={() => setShowMasteryInfo(false)} />
     </>
   )
 }
@@ -778,7 +906,7 @@ export default function ProgressPage() {
   const learnedPatterns = records.filter(r => r.itemType === 'pattern').length
   const learnedStories  = records.filter(r => r.itemType === 'story').length
   const memoryScore     = useMemo(() => computeMemoryScore(records), [records])
-  const mastery         = useMemo(() => computeReviewMastery(records), [records])
+  const myStories       = useMemo(() => computeMyStories(records, magazineStories), [records])
 
   useEffect(() => {
     const rail = railRef.current
@@ -821,7 +949,7 @@ export default function ProgressPage() {
                 score={memoryScore}
                 learnedStories={learnedStories}
                 learnedPatterns={learnedPatterns}
-                mastery={mastery}
+                myStories={myStories}
               />
             </div>
           </div>
@@ -880,7 +1008,7 @@ export default function ProgressPage() {
                 score={memoryScore}
                 learnedStories={learnedStories}
                 learnedPatterns={learnedPatterns}
-                mastery={mastery}
+                myStories={myStories}
               />
             </div>
           </div>
