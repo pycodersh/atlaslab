@@ -245,11 +245,14 @@ function getScoreI18n(lang: string): ScoreStrings {
 
 // ── Calculations ──────────────────────────────────────────────────────────────
 
+const TOTAL_STORIES  = magazineStories.length
+const TOTAL_PATTERNS = magazineStories.reduce((sum, s) => sum + s.patterns.length, 0)
+
 function computeMemoryScore(records: LearningRecord[]): number {
   const patternRecords = records.filter(r => r.itemType === 'pattern')
   const storyIds = new Set(patternRecords.map(r => r.storyId).filter(Boolean))
-  const patternScore = patternRecords.reduce((sum, r) => sum + Math.min(r.repeatCount, 5) / 5, 0) / 500
-  const storyScore = storyIds.size / 100
+  const patternScore = patternRecords.reduce((sum, r) => sum + Math.min(r.reviewCount, 5) / 5, 0) / TOTAL_PATTERNS
+  const storyScore = storyIds.size / TOTAL_STORIES
   return Math.round((patternScore + storyScore) / 2 * 100)
 }
 
@@ -640,8 +643,8 @@ function PageScore({ score, learnedStories, learnedPatterns, myStories }: {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const s = getScoreI18n(prefs.language)
-  const storyPct   = Math.min(Math.round((learnedStories  / 100)  * 100), 100)
-  const patternPct = Math.min(Math.round((learnedPatterns / 500) * 100), 100)
+  const storyPct   = Math.min(Math.round((learnedStories  / TOTAL_STORIES)   * 100), 100)
+  const patternPct = Math.min(Math.round((learnedPatterns / TOTAL_PATTERNS) * 100), 100)
   const { grade, comment, color } = getScoreGrade(score, s.scoreGrades)
   const [showInfo, setShowInfo] = useState(false)
   const [showMasteryInfo, setShowMasteryInfo] = useState(false)
@@ -706,7 +709,7 @@ function PageScore({ score, learnedStories, learnedPatterns, myStories }: {
               </div>
               <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
                 {learnedStories}
-                <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / 100</span>
+                <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / {TOTAL_STORIES}</span>
               </span>
             </div>
             <SlimBar pct={storyPct} isDark={isDark} />
@@ -723,7 +726,7 @@ function PageScore({ score, learnedStories, learnedPatterns, myStories }: {
               </div>
               <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
                 {learnedPatterns}
-                <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / 500</span>
+                <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / {TOTAL_PATTERNS}</span>
               </span>
             </div>
             <SlimBar pct={patternPct} isDark={isDark} />

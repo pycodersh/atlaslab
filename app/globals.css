@@ -332,6 +332,7 @@ body {
 
 /* ── Desktop responsive layout (≥1024px) ───────────────────────────── */
 .desktop-show { display: none !important; }
+.guide-nav-btn { display: none !important; }
 
 @media (min-width: 1024px) {
   /* Two-column grid wrapper */
@@ -353,6 +354,7 @@ body {
 
   /* Show elements only on desktop */
   .desktop-show { display: block !important; }
+  .guide-nav-btn { display: flex !important; }
 
   /* Hide elements only on desktop */
   .mobile-only { display: none !important; }

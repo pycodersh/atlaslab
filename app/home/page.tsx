@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -200,6 +200,140 @@ function TipContent({ tip, isDark }: { tip: EditorNote; isDark?: boolean }) {
         </div>
       )}
     </>
+  )
+}
+
+// ── PATTO GUIDE carousel ──────────────────────────────────────────────────────
+const GUIDE_STEPS = [
+  { step: 'STEP 01', title: 'Read the Story',         icon: BookOpen,  color: 'rgba(80,100,220,0.8)' },
+  { step: 'STEP 02', title: 'Hide & Recall',          icon: EyeOff,   color: 'rgba(220,80,80,0.8)' },
+  { step: 'STEP 03', title: 'Repeat 5 Times',         icon: RotateCcw, color: 'rgba(60,170,90,0.85)' },
+  { step: 'STEP 04', title: 'Write & Get Reviewed',   icon: PenLine,  color: 'rgba(200,140,60,0.9)' },
+] as const
+
+function GuideCarousel({ onClose }: { onClose: () => void }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const t = useT()
+  const TOTAL = GUIDE_STEPS.length
+
+  const [pos, setPos]       = useState(0)
+  const [dragX, setDragX]   = useState(0)
+  const [transit, setTransit] = useState(false)
+  const [tOffset, setTOffset] = useState(0)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const isTransiting = useRef(false)
+  const touchStartX  = useRef(0)
+
+  const bodyKeys = ['guide_step1_body', 'guide_step2_body', 'guide_step3_body', 'guide_step4_body'] as const
+
+  function slide(dir: 1 | -1) {
+    if (isTransiting.current) return
+    const next = pos + dir
+    if (next < 0 || next >= TOTAL) return
+    isTransiting.current = true
+    setTransit(true)
+    setTOffset(-dir)
+    setTimeout(() => {
+      setPos(next)
+      setTransit(false)
+      setTOffset(0)
+      isTransiting.current = false
+    }, 300)
+  }
+
+  function onTouchStart(e: React.TouchEvent) { touchStartX.current = e.touches[0].clientX }
+  function onTouchMove(e: React.TouchEvent) {
+    if (isTransiting.current) return
+    setDragX(e.touches[0].clientX - touchStartX.current)
+  }
+  function onTouchEnd() {
+    if (isTransiting.current) return
+    const W = containerRef.current?.offsetWidth ?? 340
+    if (dragX < -W * 0.22)      slide(1)
+    else if (dragX > W * 0.22)  slide(-1)
+    else setDragX(0)
+  }
+
+  const W = containerRef.current?.offsetWidth ?? 340
+  const dragPct = dragX / W * 100
+  const railPct = -(pos * 100) + (transit ? tOffset * 100 : dragPct)
+
+  const overlayBg   = isDark ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.5)'
+  const popupBg     = isDark ? 'rgba(28,20,48,0.96)' : 'rgba(255,255,255,0.94)'
+  const popupBorder = isDark ? '1px solid rgba(255,255,255,0.13)' : 'none'
+  const slideBg     = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(248,246,255,0.8)'
+  const slideBorder = isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(200,190,240,0.3)'
+
+  return (
+    <div
+      role="dialog" aria-modal="true"
+      style={{ position: 'fixed', inset: 0, zIndex: 100, background: overlayBg, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 20px' }}
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
+    >
+      <div style={{ width: '100%', maxWidth: 480, borderRadius: 20, overflow: 'hidden', background: popupBg, backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: popupBorder, position: 'relative' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 22px 16px' }}>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)', margin: 0, textTransform: 'uppercase' }}>
+            PATTO GUIDE
+          </p>
+          <button type="button" onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <X style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)' }} strokeWidth={2} />
+          </button>
+        </div>
+
+        {/* Slide rail */}
+        <div ref={containerRef} style={{ overflow: 'hidden', padding: '0 22px' }} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+          <div style={{ display: 'flex', width: `${TOTAL * 100}%`, transform: `translateX(${railPct / TOTAL}%)`, transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none', willChange: 'transform' }}>
+            {GUIDE_STEPS.map((step, i) => {
+              const Icon = step.icon
+              return (
+                <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box', paddingRight: i < TOTAL - 1 ? 12 : 0 }}>
+                  <div style={{ background: slideBg, border: slideBorder, borderRadius: 16, padding: '22px 20px 20px' }}>
+                    <Icon style={{ width: 28, height: 28, color: step.color, marginBottom: 14 }} strokeWidth={1.8} />
+                    <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(80,90,130,0.55)', margin: '0 0 6px', textTransform: 'uppercase' }}>
+                      {step.step}
+                    </p>
+                    <p style={{ fontSize: 15, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.92)' : '#1A1A2E', margin: '0 0 12px', letterSpacing: '-0.01em' }}>
+                      {step.title}
+                    </p>
+                    <p style={{ fontSize: 13, color: isDark ? 'rgba(255,255,255,0.65)' : 'rgba(60,65,100,0.8)', lineHeight: 1.65, margin: 0, whiteSpace: 'pre-line' }}>
+                      {t(bodyKeys[i])}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* PC nav (md breakpoint 이상에서만) + dot indicator */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 22px 22px' }}>
+          <button
+            type="button" onClick={() => slide(-1)} disabled={pos === 0}
+            style={{ width: 36, height: 36, borderRadius: '50%', background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: 'none', cursor: pos === 0 ? 'default' : 'pointer', opacity: pos === 0 ? 0.3 : 1, display: 'none', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'opacity 0.15s' } as React.CSSProperties}
+            className="guide-nav-btn"
+          >
+            <ChevronLeft style={{ width: 16, height: 16, color: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)' }} strokeWidth={2} />
+          </button>
+
+          {/* Dot indicator */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, margin: '0 auto' }}>
+            {Array.from({ length: TOTAL }, (_, i) => (
+              <div key={i} style={{ borderRadius: pos === i ? 3 : '50%', transition: 'all 0.28s ease', width: pos === i ? 18 : 5, height: 5, background: pos === i ? (isDark ? 'rgba(255,255,255,0.45)' : 'rgba(80,100,220,0.5)') : (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(40,30,80,0.12)') }} />
+            ))}
+          </div>
+
+          <button
+            type="button" onClick={() => slide(1)} disabled={pos === TOTAL - 1}
+            style={{ width: 36, height: 36, borderRadius: '50%', background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)', border: 'none', cursor: pos === TOTAL - 1 ? 'default' : 'pointer', opacity: pos === TOTAL - 1 ? 0.3 : 1, display: 'none', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'opacity 0.15s' } as React.CSSProperties}
+            className="guide-nav-btn"
+          >
+            <ChevronRight style={{ width: 16, height: 16, color: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)' }} strokeWidth={2} />
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -484,6 +618,7 @@ export default function HomePage() {
   const [scheduledList, setScheduledList]   = useState<ScheduledStory[]>([])
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
+  const [guideOpen, setGuideOpen]           = useState(false)
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
@@ -905,6 +1040,27 @@ export default function HomePage() {
           </div>
         )}
 
+        {/* ── PATTO GUIDE card ── */}
+        <div style={{ padding: '8px 20px 0' }}>
+          <button
+            type="button"
+            onClick={() => setGuideOpen(true)}
+            className="glass-card-sm"
+            style={{ ...frostedCard, width: '100%', textAlign: 'left', cursor: 'pointer', padding: chipPad, display: 'flex', alignItems: 'center', gap: 10 }}
+          >
+            <Clock style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
+                PATTO GUIDE
+              </p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)', margin: 0, lineHeight: 1.35 }}>
+                How to use PATTO
+              </p>
+            </div>
+            <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+          </button>
+        </div>
+
         {/* ── Desktop Editor Tip inline panel ── */}
         {isDesktop && tipOpen && (
           <DesktopTipInline onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />
@@ -999,6 +1155,9 @@ export default function HomePage() {
 
       {/* ── Editor Tip Carousel Modal (mobile only) ── */}
       {!isDesktop && tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
+
+      {/* ── PATTO GUIDE Modal ── */}
+      {guideOpen && <GuideCarousel onClose={() => setGuideOpen(false)} />}
     </div>
   )
 }
