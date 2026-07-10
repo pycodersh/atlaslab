@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Bell } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Bell, Clock } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useTheme } from '@/components/ThemeProvider'
@@ -419,7 +419,7 @@ export default function PreferencesPage() {
             icon={Bell}
             iconColor="#4A6FA8"
             label="Daily Reminder"
-            desc="Get a daily push notification to keep your streak going"
+            desc={t('notif_reminder_desc')}
             on={notifEnabled}
             onChange={handleNotifToggle}
             last={!notifEnabled}
@@ -431,11 +431,11 @@ export default function PreferencesPage() {
               borderTop: '1px solid var(--pd)',
             }}>
               <IconCircle>
-                <Bell style={{ width: 17, height: 17, color: '#4A6FA8', opacity: 0.5 }} strokeWidth={1.6} />
+                <Clock style={{ width: 17, height: 17, color: '#4A6FA8' }} strokeWidth={1.6} />
               </IconCircle>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>Reminder Time</p>
-                <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0, lineHeight: 1.4 }}>When to send your daily reminder</p>
+                <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0, lineHeight: 1.4 }}>{t('notif_reminder_time_desc')}</p>
               </div>
               <input
                 type="time"
@@ -451,6 +451,7 @@ export default function PreferencesPage() {
                   cursor: 'pointer',
                   flexShrink: 0,
                   fontFamily: 'inherit',
+                  colorScheme: 'light dark',
                 }}
               />
             </div>

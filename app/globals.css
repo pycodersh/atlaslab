@@ -323,6 +323,9 @@ body {
   background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(200,200,255,0.03) 100%);
 }
 
+/* ── Hide native time-picker clock icon ─────────────────────────────── */
+input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
+
 /* ── SwipeDeleteRow: PC-only trash icon ─────────────────────────────── */
 /* Mobile: swipe-to-delete reveals red panel. PC: trash icon always visible. */
 .pc-trash { display: none }
