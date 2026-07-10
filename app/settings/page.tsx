@@ -490,10 +490,9 @@ export default function SettingsPage() {
             <MenuCard key="sub"   icon={Sparkles}          label={t('hub_subscription')} desc={t('hub_subscription_desc')} href="/settings/subscription" />,
             <MenuCard key="pref"  icon={SlidersHorizontal} label={t('hub_preferences')}  desc={t('hub_preferences_desc')}  href="/settings/preferences" />,
             <InstallCard key="install" />,
-            <MenuCard key="replay" icon={RotateCcw}        label={t('hub_replay')}        desc={t('hub_replay_desc')}       onClick={handleReplayOnboarding} />,
             <MenuCard key="about" icon={Info}              label={t('hub_about')}         desc={t('hub_about_desc')}        href="/settings/about" />,
-          ].map((item, i) => (
-            <div key={i} style={{ borderBottom: i < 4 ? '1px solid rgba(255,255,255,0.3)' : 'none' }}>
+          ].map((item, i, arr) => (
+            <div key={i} style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.3)' : 'none' }}>
               {item}
             </div>
           ))}
