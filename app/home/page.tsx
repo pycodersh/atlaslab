@@ -650,7 +650,7 @@ export default function HomePage() {
             {/* Continue — more transparent */}
             <button
               type="button"
-              onClick={e => { e.stopPropagation(); router.push(firstHref) }}
+              onClick={e => { e.stopPropagation(); router.push(`/stories/${todayStory.id}`) }}
               style={{
                 flexShrink: 0,
                 display: 'inline-flex', alignItems: 'center', gap: 5,
