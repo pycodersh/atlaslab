@@ -613,10 +613,7 @@ export default function HomePage() {
 
         {/* ── Hero Cover ── */}
         <div
-          role="button" tabIndex={0}
-          onClick={() => router.push(`/stories/${todayStory.id}`)}
-          onKeyDown={e => e.key === 'Enter' && router.push(`/stories/${todayStory.id}`)}
-          style={{ position: 'relative', margin: '12px 20px 0', borderRadius: 20, overflow: 'hidden', height: 340, cursor: 'pointer' }}
+          style={{ position: 'relative', margin: '12px 20px 0', borderRadius: 20, overflow: 'hidden', height: 340 }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={todayStory.imageUrl} alt={todayStory.imageAlt}
@@ -667,7 +664,7 @@ export default function HomePage() {
                 transition: 'all 0.15s', letterSpacing: '0.01em', whiteSpace: 'nowrap',
               }}
             >
-              {allDone ? '완료' : 'Continue'}
+              {allDone ? '완료' : 'Start'}
               {allDone
                 ? <PartyPopper style={{ width: 12, height: 12 }} strokeWidth={2.5} />
                 : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />
