@@ -188,8 +188,11 @@ export function StoryPage({
     for (const pat of story.patterns ?? []) {
       const core = pat.pattern.replace(/~.*$/, '').trim().replace(/[.,!?]+$/, '').trim()
       if (!core) continue
+      // Strip trailing punctuation from storySentence for flexible matching:
+      // handles dialogue (". → ,") and sentences with extra words appended.
+      const needle = pat.storySentence.replace(/[.,!?]+$/, '').trim()
       for (const para of story.paragraphs) {
-        if (para.english.includes(pat.storySentence)) {
+        if (needle && para.english.includes(needle)) {
           const existing = map.get(para.id) ?? []
           existing.push(core)
           map.set(para.id, existing)
