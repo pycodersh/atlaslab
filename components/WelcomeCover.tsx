@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTheme } from '@/components/ThemeProvider'
 
 const COVER_KEY    = 'patto_cover_done_v1'
@@ -22,23 +22,13 @@ function consumeCoverReplay(): boolean {
   return had
 }
 
-// Typing animation: reveals chars one by one with opacity, no cursor
-// line1: "Repeat Patterns." — starts at 0ms
-// line2: "Build Fluency."   — starts after line1 finishes
-// Total ~1.7s
-const LINE1 = 'Repeat Patterns.'
-const LINE2 = 'Build Fluency.'
-// Total chars = 30, target ~1.7s → ~56ms per char
-const CHAR_INTERVAL = 56
-
 export function WelcomeCover() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const [visible, setVisible] = useState(false)
   const [fading, setFading] = useState(false)
-  // How many chars revealed for each line
-  const [chars1, setChars1] = useState(0)
-  const [chars2, setChars2] = useState(0)
+  // Animation stages: 0=hidden, 1=logo in, 2=line1 in, 3=line2 in
+  const [stage, setStage] = useState(0)
 
   useEffect(() => {
     const isReplay = consumeCoverReplay()
@@ -51,29 +41,22 @@ export function WelcomeCover() {
     }
   }, [])
 
-  // Start typing animation as soon as visible, then auto-dismiss at 2.5s
   useEffect(() => {
     if (!visible) return
 
-    let c1 = 0
-    let c2 = 0
-    const timer = setInterval(() => {
-      if (c1 < LINE1.length) {
-        c1++
-        setChars1(c1)
-      } else if (c2 < LINE2.length) {
-        c2++
-        setChars2(c2)
-      } else {
-        clearInterval(timer)
-      }
-    }, CHAR_INTERVAL)
-
-    // Auto-dismiss 2.5s after mount
+    // Logo fades in immediately (stage 1)
+    const t1 = setTimeout(() => setStage(1), 20)
+    // Line 1 reveals at 350ms after logo starts
+    const t2 = setTimeout(() => setStage(2), 370)
+    // Line 2 reveals at 750ms after line 1
+    const t3 = setTimeout(() => setStage(3), 1120)
+    // Auto-dismiss at 2.5s
     const autoDismiss = setTimeout(() => dismiss(), 2500)
 
     return () => {
-      clearInterval(timer)
+      clearTimeout(t1)
+      clearTimeout(t2)
+      clearTimeout(t3)
       clearTimeout(autoDismiss)
     }
   }, [visible])
@@ -89,17 +72,31 @@ export function WelcomeCover() {
       document.body.style.position = ''
       document.body.style.width = ''
       document.body.style.top = ''
-    }, 420)
+    }, 400)
   }
 
   if (!visible) return null
 
   const coverSrc = isDark ? '/Cover_Dark.png' : '/Cover.png'
-
-  // PT logo: 43 * 1.2 ≈ 52px
-  // PATTO text: 28 * 1.25 = 35px
   const logoH = 52
   const pattoSize = 35
+
+  const logoStyle: React.CSSProperties = {
+    opacity: stage >= 1 ? 1 : 0,
+    transition: 'opacity 450ms ease-out',
+  }
+
+  // Slogan lines: blur + opacity + translateY → clear
+  function sloganStyle(active: boolean): React.CSSProperties {
+    return {
+      opacity: active ? 1 : 0,
+      filter: active ? 'blur(0px)' : 'blur(6px)',
+      transform: active ? 'translateY(0px)' : 'translateY(8px)',
+      transition: active
+        ? 'opacity 600ms ease-out, filter 600ms ease-out, transform 600ms ease-out'
+        : 'none',
+    }
+  }
 
   return (
     <div
@@ -108,7 +105,7 @@ export function WelcomeCover() {
         overflow: 'hidden', touchAction: 'none',
         background: isDark ? '#0B0F1A' : '#F2EDE6',
         opacity: fading ? 0 : 1,
-        transition: fading ? 'opacity 420ms cubic-bezier(0.4,0,0.2,1)' : 'none',
+        transition: fading ? 'opacity 400ms cubic-bezier(0.4,0,0.2,1)' : 'none',
       }}
     >
       {/* Cover image */}
@@ -126,7 +123,7 @@ export function WelcomeCover() {
         }}
       />
 
-      {/* Brand group — 48% from bottom for more central vertical placement */}
+      {/* Brand group */}
       <div style={{
         position: 'absolute',
         bottom: 'calc(env(safe-area-inset-bottom, 0px) + 48%)',
@@ -134,8 +131,8 @@ export function WelcomeCover() {
         right: 36,
         pointerEvents: 'none',
       }}>
-        {/* PT logo + divider + PATTO */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 20 }}>
+        {/* PT logo + divider + PATTO — fade in together */}
+        <div style={{ ...logoStyle, display: 'flex', alignItems: 'center', gap: 18, marginBottom: 20 }}>
           <img
             src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
             alt="PT"
@@ -150,6 +147,7 @@ export function WelcomeCover() {
             width: 1,
             height: Math.round(pattoSize * 0.85),
             background: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.16)',
+            flexShrink: 0,
           }} />
           <span style={{
             fontSize: pattoSize,
@@ -161,37 +159,32 @@ export function WelcomeCover() {
           }}>PATTO</span>
         </div>
 
-        {/* Slogan — typing animation, left-aligned with PATTO start */}
-        {/* PATTO start = logo width + gap + divider width + gap (≈ logoH*aspect + 18 + 1 + 18) */}
-        {/* We align slogan to the left of PATTO text by using a flex column under the same parent */}
-        {/* Measure: PT logo ~52px height, roughly square aspect so ~52px wide + 18 + 1 + 18 = ~89px offset */}
-        <div style={{ paddingLeft: 0 }}>
-          <p style={{
-            fontSize: 34,
-            fontStyle: 'italic',
-            fontWeight: 400,
-            color: isDark ? 'rgba(255,255,255,0.88)' : 'rgba(22,22,22,0.82)',
-            margin: '0 0 8px',
-            lineHeight: 1.25,
-            fontFamily: 'var(--font-playfair), "Playfair Display", "Cormorant Garamond", Georgia, serif',
-            letterSpacing: '0.008em',
-            whiteSpace: 'nowrap',
-          }}>
-            {LINE1.slice(0, chars1)}
-          </p>
-          <p style={{
-            fontSize: 22,
-            fontWeight: 300,
-            color: isDark ? 'rgba(255,255,255,0.50)' : 'rgba(22,22,22,0.44)',
-            margin: 0,
-            letterSpacing: '0.06em',
-            lineHeight: 1.5,
-            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
-            whiteSpace: 'nowrap',
-          }}>
-            {LINE2.slice(0, chars2)}
-          </p>
-        </div>
+        {/* Slogan lines */}
+        <p style={{
+          ...sloganStyle(stage >= 2),
+          fontSize: 34,
+          fontStyle: 'italic',
+          fontWeight: 400,
+          color: isDark ? 'rgba(255,255,255,0.88)' : 'rgba(22,22,22,0.82)',
+          margin: '0 0 8px',
+          lineHeight: 1.25,
+          fontFamily: 'var(--font-playfair), "Playfair Display", "Cormorant Garamond", Georgia, serif',
+          letterSpacing: '0.008em',
+        }}>
+          Repeat Patterns.
+        </p>
+        <p style={{
+          ...sloganStyle(stage >= 3),
+          fontSize: 22,
+          fontWeight: 300,
+          color: isDark ? 'rgba(255,255,255,0.50)' : 'rgba(22,22,22,0.44)',
+          margin: 0,
+          letterSpacing: '0.06em',
+          lineHeight: 1.5,
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
+        }}>
+          Build Fluency.
+        </p>
       </div>
     </div>
   )
