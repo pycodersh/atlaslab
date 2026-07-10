@@ -140,7 +140,7 @@ function DotIndicator({ total, pos }: { total: number; pos: number }) {
 }
 
 // Tip content renderer
-function TipContent({ tip }: { tip: EditorNote }) {
+function TipContent({ tip, forceDark }: { tip: EditorNote; forceDark?: boolean }) {
   const { prefs } = usePreferences()
   const entry = getTipEntry(tip.id, prefs.language)
   const title    = entry?.title ?? (tip.title as Record<string, string>)?.ko ?? ''
@@ -150,30 +150,36 @@ function TipContent({ tip }: { tip: EditorNote }) {
   return (
     <>
       <p style={{
-        fontSize: 'clamp(1.05rem, 4.5vw, 1.25rem)', fontWeight: 800,
-        color: '#3A3A3C', margin: '0 0 16px', letterSpacing: '-0.02em', lineHeight: 1.25,
+        fontSize: forceDark ? 20 : 'clamp(1.05rem, 4.5vw, 1.25rem)', fontWeight: 800,
+        color: forceDark ? 'rgba(255,255,255,0.95)' : '#3A3A3C',
+        margin: '0 0 16px', letterSpacing: '-0.02em', lineHeight: 1.25,
         fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
       }}>
         {title}
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 11, marginBottom: 18 }}>
         {body.map((para, i) => (
-          <p key={i} style={{ fontSize: 14, lineHeight: 1.65, color: 'var(--pt2)', margin: 0, fontWeight: i === 0 ? 500 : 400 }}>
+          <p key={i} style={{ fontSize: forceDark ? 15 : 14, lineHeight: 1.65, color: forceDark ? 'rgba(255,255,255,0.75)' : 'var(--pt2)', margin: 0, fontWeight: i === 0 ? 500 : 400 }}>
             {para}
           </p>
         ))}
       </div>
       {remember && (
-        <div style={{
+        <div style={forceDark ? {
+          padding: '12px',
+          background: 'rgba(255,255,255,0.08)',
+          borderLeft: '3px solid rgba(255,100,100,0.7)',
+          borderRadius: 8,
+        } : {
           padding: '13px 16px',
           background: 'rgba(100,110,140,0.06)',
           border: '1px solid rgba(100,110,140,0.12)',
           borderRadius: 14,
         }}>
-          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm2)', margin: '0 0 5px', textTransform: 'uppercase' }}>
+          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: forceDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 5px', textTransform: 'uppercase' }}>
             One thing to remember
           </p>
-          <p style={{ fontSize: 13, fontWeight: 700, color: '#8D234C', margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, fontWeight: 700, color: forceDark ? 'rgba(255,180,180,0.9)' : '#8D234C', margin: 0, lineHeight: 1.5 }}>
             {remember}
           </p>
         </div>
@@ -181,7 +187,7 @@ function TipContent({ tip }: { tip: EditorNote }) {
       {researchBriefs.length > 0 && (
         <div style={{ marginTop: 14 }}>
           {researchBriefs.map((brief, i) => (
-            <p key={i} style={{ fontSize: 10, color: 'var(--pm2)', margin: '0 0 3px', lineHeight: 1.4 }}>
+            <p key={i} style={{ fontSize: 10, color: forceDark ? 'rgba(255,255,255,0.4)' : 'var(--pm2)', margin: '0 0 3px', lineHeight: 1.4 }}>
               {brief}
             </p>
           ))}
@@ -262,31 +268,37 @@ function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initi
       aria-modal="true"
       style={{
         position: 'fixed', inset: 0, zIndex: 100,
-        background: 'rgba(0,0,0,0.24)',
+        background: 'rgba(0,0,0,0.6)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '0 20px',
       }}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div
-        className="glass-card"
-        style={{ width: '100%', maxWidth: 480, borderRadius: 24, overflow: 'hidden' }}
+        style={{
+          width: '100%', maxWidth: 480, borderRadius: 20, overflow: 'hidden',
+          background: 'rgba(20,18,35,0.92)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          border: '1px solid rgba(255,255,255,0.15)',
+          position: 'relative',
+        }}
       >
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 22px 18px' }}>
-          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 24px 18px' }}>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.5)', margin: 0, textTransform: 'uppercase' }}>
             Editor Tip · {EDITOR_NOTES[currIdx]?.partTitle ?? ''}
           </p>
           <button
             type="button"
             onClick={onClose}
             style={{
-              width: 28, height: 28, borderRadius: '50%',
-              background: 'var(--pc)', border: 'none', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              width: 32, height: 32, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.15)', border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}
           >
-            <X style={{ width: 13, height: 13, color: 'var(--pm)' }} strokeWidth={2} />
+            <X style={{ width: 14, height: 14, color: 'rgba(255,255,255,0.8)' }} strokeWidth={2} />
           </button>
         </div>
 
@@ -305,22 +317,22 @@ function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initi
             willChange: 'transform',
           }}>
             {/* prev */}
-            <div style={{ width: '33.333%', padding: '0 22px 24px', boxSizing: 'border-box' }}>
-              <TipContent tip={EDITOR_NOTES[prevIdx]} />
+            <div style={{ width: '33.333%', padding: '0 24px 24px', boxSizing: 'border-box' }}>
+              <TipContent tip={EDITOR_NOTES[prevIdx]} forceDark />
             </div>
             {/* current */}
-            <div style={{ width: '33.333%', padding: '0 22px 24px', boxSizing: 'border-box' }}>
-              <TipContent tip={EDITOR_NOTES[currIdx]} />
+            <div style={{ width: '33.333%', padding: '0 24px 24px', boxSizing: 'border-box' }}>
+              <TipContent tip={EDITOR_NOTES[currIdx]} forceDark />
             </div>
             {/* next */}
-            <div style={{ width: '33.333%', padding: '0 22px 24px', boxSizing: 'border-box' }}>
-              <TipContent tip={EDITOR_NOTES[nextIdx]} />
+            <div style={{ width: '33.333%', padding: '0 24px 24px', boxSizing: 'border-box' }}>
+              <TipContent tip={EDITOR_NOTES[nextIdx]} forceDark />
             </div>
           </div>
         </div>
 
         {/* Dot indicator */}
-        <div style={{ padding: '0 22px 24px' }}>
+        <div style={{ padding: '0 24px 24px' }}>
           <DotIndicator total={TOTAL_TIPS} pos={pos % TOTAL_TIPS} />
         </div>
       </div>
