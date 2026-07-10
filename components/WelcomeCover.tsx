@@ -93,69 +93,68 @@ export function WelcomeCover() {
         }}
       />
 
-      {/* Text overlay — left-aligned, lower center */}
+      {/* Text overlay — left-aligned, 30% from bottom */}
       <div style={{
         position: 'absolute',
-        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 72px)',
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 30%)',
         left: 36,
         right: 36,
         pointerEvents: 'none',
       }}>
-        {/* Logo row */}
-        <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12, marginBottom: 14 }}>
+        {/* Logo + PATTO row — vertically centered */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 20 }}>
           <img
             src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
             alt="PATTO"
             style={{
               display: 'block',
-              height: 36, width: 'auto',
+              height: 43, width: 'auto',
               mixBlendMode: isDark ? 'screen' : 'multiply',
               opacity: isDark ? 0.92 : 1,
             }}
           />
-          <div style={{ width: 1, height: 24, marginBottom: 2, background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.20)' }} />
+          <div style={{ width: 1, height: 28, background: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.18)' }} />
           <span style={{
-            fontSize: 22, fontWeight: 800, letterSpacing: '0.02em', lineHeight: 1,
-            color: isDark ? '#FFFFFF' : '#0F1923',
+            fontSize: 28, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1,
+            color: isDark ? '#FFFFFF' : '#161616',
             fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif',
           }}>PATTO</span>
         </div>
 
         {/* Slogan */}
         <p style={{
-          fontSize: 18, fontStyle: 'italic', fontWeight: 400,
-          color: isDark ? 'rgba(255,255,255,0.82)' : 'rgba(15,25,40,0.72)',
-          margin: '0 0 4px', lineHeight: 1.45,
-          fontFamily: '"Palatino Linotype", Palatino, Georgia, serif',
-          letterSpacing: '0.01em',
+          fontSize: 36, fontStyle: 'italic', fontWeight: 400,
+          color: isDark ? 'rgba(255,255,255,0.88)' : 'rgba(22,22,22,0.80)',
+          margin: '0 0 10px', lineHeight: 1.25,
+          fontFamily: 'var(--font-playfair), "Playfair Display", "Cormorant Garamond", Georgia, serif',
+          letterSpacing: '0.005em',
         }}>
           Repeat Patterns.
         </p>
         <p style={{
-          fontSize: 13.5, fontWeight: 300,
-          color: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(15,25,40,0.48)',
-          margin: 0, letterSpacing: '0.18em', lineHeight: 1,
+          fontSize: 23, fontWeight: 300,
+          color: isDark ? 'rgba(255,255,255,0.52)' : 'rgba(22,22,22,0.46)',
+          margin: 0, letterSpacing: '0.04em', lineHeight: 1.5,
           fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
-          textTransform: 'uppercase',
         }}>
           Build Fluency.
         </p>
       </div>
 
-      {/* Swipe hint */}
+      {/* Swipe hint — subtle, bottom center */}
       <div style={{
         position: 'absolute',
-        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 28px)',
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 22px)',
         left: 0, right: 0,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-        opacity: 0.38,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+        opacity: 0.45,
         animation: 'hint-pulse 2.4s ease-in-out infinite',
         pointerEvents: 'none',
       }}>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#fff' : '#000'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#fff' : '#161616'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M5 12h14M13 6l6 6-6 6" />
         </svg>
-        <span style={{ fontSize: 11.5, fontWeight: 500, color: isDark ? '#fff' : '#000', letterSpacing: '0.06em', fontFamily: 'inherit' }}>
+        <span style={{ fontSize: 10, fontWeight: 400, color: isDark ? '#fff' : '#161616', letterSpacing: '0.08em', fontFamily: 'inherit' }}>
           swipe
         </span>
       </div>
