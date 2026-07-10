@@ -283,13 +283,13 @@ function GuideCarousel({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        {/* Slide rail */}
-        <div ref={containerRef} style={{ overflow: 'hidden', padding: '0 22px' }} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+        {/* Slide rail — no padding here; slides carry their own horizontal padding */}
+        <div ref={containerRef} style={{ overflow: 'hidden' }} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
           <div style={{ display: 'flex', width: `${TOTAL * 100}%`, transform: `translateX(${railPct / TOTAL}%)`, transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none', willChange: 'transform' }}>
             {GUIDE_STEPS.map((step, i) => {
               const Icon = step.icon
               return (
-                <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box', paddingRight: i < TOTAL - 1 ? 12 : 0 }}>
+                <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: `0 22px`, paddingRight: i < TOTAL - 1 ? 11 : 22 }}>
                   <div style={{ background: slideBg, border: slideBorder, borderRadius: 16, padding: '22px 20px 20px' }}>
                     <Icon style={{ width: 28, height: 28, color: step.color, marginBottom: 14 }} strokeWidth={1.8} />
                     <p style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.4)' : 'rgba(80,90,130,0.55)', margin: '0 0 6px', textTransform: 'uppercase' }}>
