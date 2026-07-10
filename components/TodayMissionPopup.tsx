@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { X, ChevronRight } from 'lucide-react'
 import { getMissionItems } from '@/lib/srs/engine'
-import { useT } from '@/hooks/useT'
 
 const POPUP_KEY = 'patto-mission-popup-shown'
 
@@ -19,7 +18,6 @@ const label: React.CSSProperties = {
 
 export function TodayMissionPopup() {
   const router = useRouter()
-  const t = useT()
   const [open, setOpen] = useState(false)
   const [items, setItems] = useState<ReturnType<typeof getMissionItems>>([])
 
@@ -79,7 +77,7 @@ export function TodayMissionPopup() {
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
           <p style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--pt)', margin: 0 }}>
-            {t('mission_title')}
+            Today's Mission
           </p>
           <button
             type="button"
@@ -101,7 +99,7 @@ export function TodayMissionPopup() {
           {/* LEARN TODAY */}
           {newItems.length > 0 && (
             <div style={{ marginBottom: 16 }}>
-              <p style={label}>{t('mission_learn_today')}</p>
+              <p style={label}>Learn Today</p>
               {newItems.map(item => (
                 <div key={item.storyId} style={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
                   <span style={{
@@ -124,9 +122,9 @@ export function TodayMissionPopup() {
 
           {/* REVIEW */}
           <div style={{ marginBottom: 20 }}>
-            <p style={label}>{t('mission_review_label')}</p>
+            <p style={label}>Review</p>
             {reviewItems.length === 0 ? (
-              <p style={{ fontSize: 13, color: 'var(--pm2)', margin: 0 }}>{t('mission_no_review')}</p>
+              <p style={{ fontSize: 13, color: 'var(--pm2)', margin: 0 }}>No reviews today.</p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {reviewItems.map(item => (
@@ -158,7 +156,7 @@ export function TodayMissionPopup() {
               transition: 'opacity 0.15s',
             }}
           >
-            {t('mission_continue')}
+            Start
             <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />
           </button>
         </div>
