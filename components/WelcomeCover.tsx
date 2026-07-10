@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTheme } from '@/components/ThemeProvider'
 
-const COVER_KEY   = 'patto_cover_done_v1'
+const COVER_KEY    = 'patto_cover_done_v1'
 const COVER_REPLAY = 'patto_cover_replay_v1'
 
 export function requestCoverReplay() {
@@ -22,24 +22,61 @@ function consumeCoverReplay(): boolean {
   return had
 }
 
+// Typing animation: reveals chars one by one with opacity, no cursor
+// line1: "Repeat Patterns." — starts at 0ms
+// line2: "Build Fluency."   — starts after line1 finishes
+// Total ~1.7s
+const LINE1 = 'Repeat Patterns.'
+const LINE2 = 'Build Fluency.'
+// Total chars = 30, target ~1.7s → ~56ms per char
+const CHAR_INTERVAL = 56
+
 export function WelcomeCover() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const [visible, setVisible] = useState(false)
   const [fading, setFading] = useState(false)
-  const touchX = useRef<number | null>(null)
+  // How many chars revealed for each line
+  const [chars1, setChars1] = useState(0)
+  const [chars2, setChars2] = useState(0)
 
   useEffect(() => {
     const isReplay = consumeCoverReplay()
     if (isReplay || !isCoverDone()) {
       setVisible(true)
-      // Lock body scroll
       document.body.style.overflow = 'hidden'
       document.body.style.position = 'fixed'
       document.body.style.width = '100%'
       document.body.style.top = '0'
     }
   }, [])
+
+  // Start typing animation as soon as visible, then auto-dismiss at 2.5s
+  useEffect(() => {
+    if (!visible) return
+
+    let c1 = 0
+    let c2 = 0
+    const timer = setInterval(() => {
+      if (c1 < LINE1.length) {
+        c1++
+        setChars1(c1)
+      } else if (c2 < LINE2.length) {
+        c2++
+        setChars2(c2)
+      } else {
+        clearInterval(timer)
+      }
+    }, CHAR_INTERVAL)
+
+    // Auto-dismiss 2.5s after mount
+    const autoDismiss = setTimeout(() => dismiss(), 2500)
+
+    return () => {
+      clearInterval(timer)
+      clearTimeout(autoDismiss)
+    }
+  }, [visible])
 
   function dismiss() {
     if (fading) return
@@ -52,12 +89,17 @@ export function WelcomeCover() {
       document.body.style.position = ''
       document.body.style.width = ''
       document.body.style.top = ''
-    }, 380)
+    }, 420)
   }
 
   if (!visible) return null
 
   const coverSrc = isDark ? '/Cover_Dark.png' : '/Cover.png'
+
+  // PT logo: 43 * 1.2 ≈ 52px
+  // PATTO text: 28 * 1.25 = 35px
+  const logoH = 52
+  const pattoSize = 35
 
   return (
     <div
@@ -66,19 +108,10 @@ export function WelcomeCover() {
         overflow: 'hidden', touchAction: 'none',
         background: isDark ? '#0B0F1A' : '#F2EDE6',
         opacity: fading ? 0 : 1,
-        transition: fading ? 'opacity 380ms ease' : 'none',
+        transition: fading ? 'opacity 420ms cubic-bezier(0.4,0,0.2,1)' : 'none',
       }}
-      onTouchStart={e => { touchX.current = e.targetTouches[0].clientX }}
-      onTouchEnd={e => {
-        if (touchX.current === null) return
-        const delta = e.changedTouches[0].clientX - touchX.current
-        touchX.current = null
-        if (delta < -48) dismiss()
-      }}
-      // Also allow click/tap for desktop testing
-      onClick={dismiss}
     >
-      {/* Cover image — portrait fill: height 100%, center horizontally */}
+      {/* Cover image */}
       <img
         src={coverSrc}
         alt="PATTO Cover"
@@ -93,78 +126,73 @@ export function WelcomeCover() {
         }}
       />
 
-      {/* Text overlay — left-aligned, 30% from bottom */}
+      {/* Brand group — 48% from bottom for more central vertical placement */}
       <div style={{
         position: 'absolute',
-        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 30%)',
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 48%)',
         left: 36,
         right: 36,
         pointerEvents: 'none',
       }}>
-        {/* Logo + PATTO row — vertically centered */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 20 }}>
+        {/* PT logo + divider + PATTO */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 20 }}>
           <img
             src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
-            alt="PATTO"
+            alt="PT"
             style={{
               display: 'block',
-              height: 43, width: 'auto',
+              height: logoH, width: 'auto',
               mixBlendMode: isDark ? 'screen' : 'multiply',
               opacity: isDark ? 0.92 : 1,
             }}
           />
-          <div style={{ width: 1, height: 28, background: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.18)' }} />
+          <div style={{
+            width: 1,
+            height: Math.round(pattoSize * 0.85),
+            background: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.16)',
+          }} />
           <span style={{
-            fontSize: 28, fontWeight: 800, letterSpacing: '-0.01em', lineHeight: 1,
+            fontSize: pattoSize,
+            fontWeight: 800,
+            letterSpacing: '-0.02em',
+            lineHeight: 1,
             color: isDark ? '#FFFFFF' : '#161616',
             fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif',
           }}>PATTO</span>
         </div>
 
-        {/* Slogan */}
-        <p style={{
-          fontSize: 36, fontStyle: 'italic', fontWeight: 400,
-          color: isDark ? 'rgba(255,255,255,0.88)' : 'rgba(22,22,22,0.80)',
-          margin: '0 0 10px', lineHeight: 1.25,
-          fontFamily: 'var(--font-playfair), "Playfair Display", "Cormorant Garamond", Georgia, serif',
-          letterSpacing: '0.005em',
-        }}>
-          Repeat Patterns.
-        </p>
-        <p style={{
-          fontSize: 23, fontWeight: 300,
-          color: isDark ? 'rgba(255,255,255,0.52)' : 'rgba(22,22,22,0.46)',
-          margin: 0, letterSpacing: '0.04em', lineHeight: 1.5,
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
-        }}>
-          Build Fluency.
-        </p>
+        {/* Slogan — typing animation, left-aligned with PATTO start */}
+        {/* PATTO start = logo width + gap + divider width + gap (≈ logoH*aspect + 18 + 1 + 18) */}
+        {/* We align slogan to the left of PATTO text by using a flex column under the same parent */}
+        {/* Measure: PT logo ~52px height, roughly square aspect so ~52px wide + 18 + 1 + 18 = ~89px offset */}
+        <div style={{ paddingLeft: 0 }}>
+          <p style={{
+            fontSize: 34,
+            fontStyle: 'italic',
+            fontWeight: 400,
+            color: isDark ? 'rgba(255,255,255,0.88)' : 'rgba(22,22,22,0.82)',
+            margin: '0 0 8px',
+            lineHeight: 1.25,
+            fontFamily: 'var(--font-playfair), "Playfair Display", "Cormorant Garamond", Georgia, serif',
+            letterSpacing: '0.008em',
+            whiteSpace: 'nowrap',
+          }}>
+            {LINE1.slice(0, chars1)}
+          </p>
+          <p style={{
+            fontSize: 22,
+            fontWeight: 300,
+            color: isDark ? 'rgba(255,255,255,0.50)' : 'rgba(22,22,22,0.44)',
+            margin: 0,
+            letterSpacing: '0.06em',
+            lineHeight: 1.5,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
+            whiteSpace: 'nowrap',
+          }}>
+            {LINE2.slice(0, chars2)}
+          </p>
+        </div>
       </div>
-
-      {/* Swipe hint — subtle, bottom center */}
-      <div style={{
-        position: 'absolute',
-        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 22px)',
-        left: 0, right: 0,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-        opacity: 0.45,
-        animation: 'hint-pulse 2.4s ease-in-out infinite',
-        pointerEvents: 'none',
-      }}>
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={isDark ? '#fff' : '#161616'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 12h14M13 6l6 6-6 6" />
-        </svg>
-        <span style={{ fontSize: 10, fontWeight: 400, color: isDark ? '#fff' : '#161616', letterSpacing: '0.08em', fontFamily: 'inherit' }}>
-          swipe
-        </span>
-      </div>
-
-      <style>{`
-        @keyframes hint-pulse {
-          0%, 100% { opacity: 0.28; transform: translateX(0); }
-          50%       { opacity: 0.50; transform: translateX(4px); }
-        }
-      `}</style>
     </div>
   )
 }
