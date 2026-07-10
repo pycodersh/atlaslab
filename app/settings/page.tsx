@@ -83,7 +83,6 @@ function MenuCard({
   )
 
   const sharedStyle: React.CSSProperties = {
-    ...card,
     display: 'flex',
     alignItems: 'center',
     gap: 13,
@@ -95,6 +94,8 @@ function MenuCard({
     cursor: 'pointer',
     textAlign: 'left',
     fontFamily: 'inherit',
+    background: 'none',
+    border: 'none',
   }
 
   if (href) {
@@ -478,35 +479,20 @@ export default function SettingsPage() {
         {/* Learning Stats — only when logged in */}
         {user && <LearningStatsCard />}
 
-        <MenuCard
-          icon={Sparkles}
-          label={t('hub_subscription')}
-          desc={t('hub_subscription_desc')}
-          href="/settings/subscription"
-        />
-
-        <MenuCard
-          icon={SlidersHorizontal}
-          label={t('hub_preferences')}
-          desc={t('hub_preferences_desc')}
-          href="/settings/preferences"
-        />
-
-        <InstallCard />
-
-        <MenuCard
-          icon={RotateCcw}
-          label={t('hub_replay')}
-          desc={t('hub_replay_desc')}
-          onClick={handleReplayOnboarding}
-        />
-
-        <MenuCard
-          icon={Info}
-          label={t('hub_about')}
-          desc={t('hub_about_desc')}
-          href="/settings/about"
-        />
+        {/* Menu list — single glass-card */}
+        <div style={{ ...glassCard, overflow: 'hidden' }}>
+          {[
+            <MenuCard key="sub"   icon={Sparkles}          label={t('hub_subscription')} desc={t('hub_subscription_desc')} href="/settings/subscription" />,
+            <MenuCard key="pref"  icon={SlidersHorizontal} label={t('hub_preferences')}  desc={t('hub_preferences_desc')}  href="/settings/preferences" />,
+            <InstallCard key="install" />,
+            <MenuCard key="replay" icon={RotateCcw}        label={t('hub_replay')}        desc={t('hub_replay_desc')}       onClick={handleReplayOnboarding} />,
+            <MenuCard key="about" icon={Info}              label={t('hub_about')}         desc={t('hub_about_desc')}        href="/settings/about" />,
+          ].map((item, i) => (
+            <div key={i} style={{ borderBottom: i < 4 ? '1px solid rgba(255,255,255,0.3)' : 'none' }}>
+              {item}
+            </div>
+          ))}
+        </div>
 
         {/* Delete Account — subtle */}
         {user && (

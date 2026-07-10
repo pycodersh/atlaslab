@@ -19,11 +19,11 @@ function fmtDate(iso: string): string {
 }
 
 const cardBase: React.CSSProperties = {
-  background: 'rgba(255, 255, 255, 0.45)',
+  background: 'rgba(255, 255, 255, 0.6)',
   backdropFilter: 'blur(30px)',
   WebkitBackdropFilter: 'blur(30px)',
   borderRadius: 16,
-  border: '1px solid rgba(255, 255, 255, 0.7)',
+  border: '1px solid rgba(255, 255, 255, 0.8)',
   boxShadow: '0 4px 18px rgba(40,40,60,0.06), 0 1px 4px rgba(40,40,60,0.03)',
 }
 

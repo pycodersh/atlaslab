@@ -634,7 +634,7 @@ export default function LibraryPage() {
   )
 
   const colPad: React.CSSProperties = {
-    paddingTop: 14, paddingLeft: 20, paddingRight: 20,
+    paddingTop: 7, paddingLeft: 20, paddingRight: 20,
     paddingBottom: TAB_BAR_HEIGHT + 32, boxSizing: 'border-box',
   }
 
