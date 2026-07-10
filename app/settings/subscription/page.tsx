@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTheme } from '@/components/ThemeProvider'
 import { CircleCheck, UserCircle, ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
@@ -28,6 +29,8 @@ export default function SubscriptionPage() {
   const isDesktop = useIsDesktop()
   const t = useT()
   const paddle = usePaddle()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const { isPro, loading: subLoading } = useSubscription()
   const [billing, setBilling] = useState<'monthly' | 'annual'>('annual')
   const [loading, setLoading] = useState(false)
@@ -196,24 +199,25 @@ export default function SubscriptionPage() {
           onClick={isPro ? undefined : handleUpgrade}
           disabled={loading || !paddle}
           style={{
-            ...glassCard,
-            width: '100%', padding: '15px 0',
-            border: '1px solid var(--pglass-border)',
+            width: '100%', padding: '16px',
+            borderRadius: 14,
+            background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)',
+            border: isDark ? '1px solid rgba(255,255,255,0.4)' : '1px solid rgba(0,0,0,0.15)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
             cursor: loading || !paddle ? 'not-allowed' : 'pointer',
-            fontSize: 14, fontWeight: 700, letterSpacing: '-0.01em',
-            color: 'var(--pt)', fontFamily: 'inherit',
+            fontSize: 14, fontWeight: 600, letterSpacing: '-0.01em',
+            color: isDark ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.8)',
+            fontFamily: 'inherit',
             opacity: loading || !paddle ? 0.6 : 1,
-            transition: 'transform 0.18s, box-shadow 0.18s, opacity 0.15s',
+            transition: 'transform 0.18s, opacity 0.15s',
+            boxSizing: 'border-box',
           }}
           onMouseEnter={e => {
-            if (!loading && paddle) {
-              e.currentTarget.style.transform = 'translateY(-1px)'
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(40,40,80,0.09)'
-            }
+            if (!loading && paddle) e.currentTarget.style.transform = 'translateY(-1px)'
           }}
           onMouseLeave={e => {
             e.currentTarget.style.transform = 'translateY(0)'
-            e.currentTarget.style.boxShadow = '0 4px 18px rgba(40,50,80,0.07)'
           }}
         >
           {loading ? '...' : isPro ? 'Manage Subscription' : 'Upgrade to Premium'}

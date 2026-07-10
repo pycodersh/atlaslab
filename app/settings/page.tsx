@@ -8,6 +8,7 @@ import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogO
 import { requestCoverReplay } from '@/components/WelcomeCover'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
+import { useTheme } from '@/components/ThemeProvider'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { useT } from '@/hooks/useT'
 import { useAuth } from '@/contexts/AuthContext'
@@ -50,16 +51,18 @@ function MenuCard({
   href?: string
   onClick?: () => void
 }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const inner = (
     <>
       <div style={{
         width: 28, height: 28, borderRadius: 8,
-        background: 'var(--pc)',
-        border: '1px solid var(--pglass-border)',
+        background: isDark ? 'rgba(255,255,255,0.15)' : 'var(--pc)',
+        border: isDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid var(--pglass-border)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexShrink: 0,
       }}>
-        <Icon style={{ width: 13, height: 13, color: '#6E6E73' }} strokeWidth={1.6} />
+        <Icon style={{ width: 13, height: 13, color: isDark ? 'rgba(255,255,255,0.75)' : '#6E6E73' }} strokeWidth={1.6} />
       </div>
 
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -334,6 +337,8 @@ type BeforeInstallPromptEvent = Event & {
 
 function InstallCard() {
   const t = useT()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const [installType, setInstallType] = useState<'android' | 'ios' | null>(null)
   const [showAndroidConfirm, setShowAndroidConfirm] = useState(false)
   const [showGuideSheet, setShowGuideSheet] = useState(false)
@@ -406,8 +411,8 @@ function InstallCard() {
         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.70' }}
         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
       >
-        <div style={{ width: 28, height: 28, borderRadius: 8, background: 'var(--pc)', border: '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          {isIOS ? <AppleSvg /> : <Smartphone style={{ width: 14, height: 14, color: 'var(--pt)' }} strokeWidth={1.6} />}
+        <div style={{ width: 28, height: 28, borderRadius: 8, background: isDark ? 'rgba(255,255,255,0.15)' : 'var(--pc)', border: isDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          {isIOS ? <AppleSvg /> : <Smartphone style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.75)' : 'var(--pt)' }} strokeWidth={1.6} />}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>{label}</p>
