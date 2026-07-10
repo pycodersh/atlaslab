@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Info, BookOpen, Layers, X, CheckCircle2, RefreshCw } from 'lucide-react'
+import { Info, BookOpen, Layers, X, CheckCircle2, RefreshCw, Lock } from 'lucide-react'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useTheme } from '@/components/ThemeProvider'
 import { PDialog } from '@/components/ui/PDialog'
@@ -359,12 +359,16 @@ function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
 
 // ── Slim progress bar ─────────────────────────────────────────────────────────
 
-function SlimBar({ pct, color }: { pct: number; color: string }) {
+function SlimBar({ pct, isDark }: { pct: number; isDark: boolean }) {
   return (
-    <div style={{ height: 3, background: 'rgba(140,150,185,0.12)', borderRadius: 99, overflow: 'hidden' }}>
+    <div style={{
+      height: 4, borderRadius: 2, overflow: 'hidden',
+      background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
+    }}>
       <div style={{
         height: '100%', width: `${Math.min(pct, 100)}%`,
-        background: color, borderRadius: 99,
+        background: isDark ? 'rgba(140,160,255,0.7)' : 'rgba(80,100,220,0.6)',
+        borderRadius: 2,
         transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)',
       }} />
     </div>
@@ -705,7 +709,7 @@ function PageScore({ score, learnedStories, learnedPatterns, myStories }: {
                 <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / 100</span>
               </span>
             </div>
-            <SlimBar pct={storyPct} color="#4A7AC8" />
+            <SlimBar pct={storyPct} isDark={isDark} />
           </div>
 
           {/* Pattern Progress */}
@@ -722,7 +726,7 @@ function PageScore({ score, learnedStories, learnedPatterns, myStories }: {
                 <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / 500</span>
               </span>
             </div>
-            <SlimBar pct={patternPct} color="#7A6AC8" />
+            <SlimBar pct={patternPct} isDark={isDark} />
           </div>
         </div>
 
@@ -821,7 +825,7 @@ function PageScore({ score, learnedStories, learnedPatterns, myStories }: {
           {/* Hint */}
           {myStories.remaining > 0 && (
             <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(140,150,185,0.60)', margin: `${myStories.inProgress.length > 0 || myStories.completed.length > 0 ? '14px' : '8px'} 0 0`, textAlign: 'center' }}>
-              🔒 {myStories.remaining} more stories waiting
+              <Lock style={{ width: 12, height: 12, display: 'inline', verticalAlign: 'middle' }} strokeWidth={2} />{' '}{myStories.remaining} more stories waiting
             </p>
           )}
         </div>
