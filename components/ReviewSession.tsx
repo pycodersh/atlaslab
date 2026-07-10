@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Volume2, Check, X, RotateCcw, BookOpen, Layers } from 'lucide-react'
 
 import { magazineStories } from '@/data/magazine-stories'
+import { ReviewCompletePopup } from '@/components/ReviewCompletePopup'
 import { getPatternExamples, type PracticeExample } from '@/data/pattern-examples'
 import type { VoiceKey } from '@/lib/settings/preferences'
 import { useSpeech } from '@/hooks/useSpeech'
@@ -82,6 +83,9 @@ export function ReviewSession() {
   const [correct, setCorrect] = useState(0)
   const [wrong, setWrong] = useState(0)
   const [done, setDone] = useState(false)
+  const [showPopup, setShowPopup] = useState(false)
+  const [lastCard, setLastCard] = useState<ReviewCard | null>(null)
+  const [lastRecord, setLastRecord] = useState<{ reviewCount: number; intervalDays: number } | null>(null)
   const loadedRef = useRef(false)
 
   useEffect(() => {
@@ -105,12 +109,22 @@ export function ReviewSession() {
   function answer(isCorrect: boolean) {
     if (!card) return
     stop()
-    applyReview(card.itemType, card.itemId, isCorrect) // 알겠어 → ×2, 모르겠어 → 1, nextReviewAt 갱신
+    const updated = applyReview(card.itemType, card.itemId, isCorrect)
     if (isCorrect) setCorrect((c) => c + 1)
     else setWrong((w) => w + 1)
 
-    if (idx + 1 >= total) setDone(true)
-    else { setIdx((i) => i + 1); setRevealed(false) }
+    if (idx + 1 >= total) {
+      if (isCorrect && updated) {
+        setLastCard(card)
+        setLastRecord({ reviewCount: updated.reviewCount, intervalDays: updated.intervalDays })
+        setShowPopup(true)
+      } else {
+        setDone(true)
+      }
+    } else {
+      setIdx((i) => i + 1)
+      setRevealed(false)
+    }
   }
 
   function speakPattern() {
@@ -137,6 +151,23 @@ export function ReviewSession() {
           <button type="button" onClick={() => router.push('/records')} className="glass-card-sm rounded-full px-6 py-2.5 text-[12px] font-bold text-[var(--pm)] cursor-pointer">Progress</button>
         </div>
       </div>
+    )
+  }
+
+  // ── ReviewCompletePopup (마지막 Got it) ──
+  if (showPopup && lastCard && lastRecord) {
+    const story = magazineStories.find((s) =>
+      s.patterns.some((p) => p.id === lastCard.itemId) || String(s.id) === lastCard.itemId
+    )
+    return (
+      <ReviewCompletePopup
+        storyNumber={story?.id ?? 0}
+        storyTitle={story?.title ?? lastCard.storyLabel}
+        reviewCount={lastRecord.reviewCount}
+        nextReviewDays={lastRecord.intervalDays}
+        onContinue={() => { setShowPopup(false); setDone(true) }}
+        onHome={() => router.push('/home')}
+      />
     )
   }
 

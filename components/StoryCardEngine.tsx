@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { CompletionScreen } from '@/components/CompletionScreen'
+import { StoryCompletePopup } from '@/components/StoryCompletePopup'
 import { MiniStory } from '@/components/MiniStory'
 import { PatternCard } from '@/components/PatternCard'
 import { StoryJumpSheet } from '@/components/StoryJumpSheet'
@@ -158,12 +159,26 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
     onStoryProgress(story.id, next)
   }
 
+  const [showPopup, setShowPopup] = useState(false)
+
   function goNextStory() {
     if (isLastStory) { setShowCompletion(true); return }
-    router.push(`/learn/${story.order_index + 1}`)
+    setShowPopup(true)
   }
 
   if (showCompletion) return <CompletionScreen />
+
+  if (showPopup) return (
+    <StoryCompletePopup
+      storyNumber={story.order_index}
+      patternsInStory={totalCards}
+      onContinue={() => {
+        setShowPopup(false)
+        router.push(`/learn/${story.order_index + 1}`)
+      }}
+      onHome={() => router.push('/home')}
+    />
+  )
 
   // ── Apple-style 드래그 비주얼 ──
   const cardWidth = cardWrapperRef.current?.offsetWidth ?? 320
