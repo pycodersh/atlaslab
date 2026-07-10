@@ -67,13 +67,6 @@ function sourceLabel(item: SavedWord | SavedPhrase): string {
   return parts.join(' · ')
 }
 
-function formatPhraseType(type: string): string {
-  if (type === 'phrasalVerb') return 'Phrasal Verb'
-  if (type === 'idiom') return 'Idiom'
-  if (type === 'collocation') return 'Collocation'
-  return type.charAt(0).toUpperCase() + type.slice(1)
-}
-
 // ── Styles ────────────────────────────────────────────────────────────────────
 
 const glassCard: React.CSSProperties = {
@@ -95,7 +88,7 @@ const ROW_BORDER = '1px solid var(--pglass-border)'
 
 // ── Summary cards ─────────────────────────────────────────────────────────────
 
-function SummaryCard({ icon, label, value, accent }: {
+function SummaryCard({ icon, label, value, accent: _accent }: {
   icon: React.ReactNode; label: string; value: number; accent: string
 }) {
   return (

@@ -1,14 +1,10 @@
 'use client'
 
-import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
-import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { REFUND, getLegalDoc } from '@/lib/i18n/legal-content'
 
 export default function RefundPage() {
-  const t = useT()
   const { prefs } = usePreferences()
   const doc = getLegalDoc(REFUND, prefs.language)
 

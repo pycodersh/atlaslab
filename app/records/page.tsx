@@ -11,7 +11,6 @@ import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { LearningCalendar } from '@/components/LearningCalendar'
 import {
   getAllRecords, getStreak, getActivityByDate,
-  getStudiedTodayStoryCount, getReviewedTodayCount, todayStr,
   type LearningRecord,
 } from '@/lib/srs/storage'
 import {
@@ -288,21 +287,6 @@ function computeMyStories(records: LearningRecord[], allStories: MagazineStory[]
   return { completed, inProgress, remaining: allStories.length - completed.length - inProgress.length }
 }
 
-function getBestStreak(): number {
-  const map = getActivityByDate()
-  const dates = Object.keys(map).filter(d => (map[d] ?? 0) > 0).sort()
-  if (dates.length === 0) return 0
-  let best = 1, current = 1
-  for (let i = 1; i < dates.length; i++) {
-    const diff = Math.round(
-      (new Date(dates[i]).getTime() - new Date(dates[i - 1]).getTime()) / 86400000
-    )
-    if (diff === 1) { current++; best = Math.max(best, current) }
-    else current = 1
-  }
-  return best
-}
-
 function fmtDate(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number)
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
@@ -392,57 +376,6 @@ function StoryDots({ count, isDark }: { count: number; isDark: boolean }) {
           flexShrink: 0,
         }} />
       ))}
-    </div>
-  )
-}
-
-// ── Mastery ring (small SVG circle with stroke) ───────────────────────────────
-
-function MasteryRing({ pct, label }: { pct: number; label: string }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-  const size = 44, stroke = 3, r = (size - stroke) / 2
-  const circ = 2 * Math.PI * r
-  const offset = circ * (1 - pct / 100)
-  const active = pct > 0
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, flex: 1 }}>
-      <div style={{ position: 'relative', width: size, height: size }}>
-        <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-          <circle
-            cx={size / 2} cy={size / 2} r={r}
-            fill="none"
-            stroke="rgba(140,150,185,0.14)"
-            strokeWidth={stroke}
-          />
-          <circle
-            cx={size / 2} cy={size / 2} r={r}
-            fill="none"
-            stroke={active ? '#4A7AC8' : 'transparent'}
-            strokeWidth={stroke}
-            strokeLinecap="round"
-            strokeDasharray={circ}
-            strokeDashoffset={offset}
-            style={{ transition: 'stroke-dashoffset 1.3s cubic-bezier(0.4,0,0.2,1)' }}
-          />
-        </svg>
-        <div style={{
-          position: 'absolute', inset: 0,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <span style={{
-            fontSize: 10, fontWeight: 700,
-            color: isDark ? 'rgba(255,255,255,0.8)' : (active ? '#4A7AC8' : 'rgba(140,150,185,0.55)'),
-            lineHeight: 1,
-          }}>
-            {pct}%
-          </span>
-        </div>
-      </div>
-      <span style={{ fontSize: 9.5, fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', letterSpacing: '0.02em' }}>
-        {label}
-      </span>
     </div>
   )
 }

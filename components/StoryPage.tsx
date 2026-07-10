@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Volume2, Waves, Square } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
@@ -14,7 +14,7 @@ import { resolveTranslation } from '@/lib/i18n/translation'
 import { RATE_MAP } from '@/lib/settings/preferences'
 import { ttsProvider, getPitchForKey, storyParaAudioUrl } from '@/lib/tts'
 import { storyChunks } from '@/data/story-chunks'
-import { openSavePopup, closeSavePopup } from '@/lib/words/popupStore'
+import { openSavePopup } from '@/lib/words/popupStore'
 
 type StoryPageProps = {
   story: MagazineStory
@@ -38,8 +38,8 @@ type StoryPageProps = {
 
 export function StoryPage({
   story,
-  onNext,
-  onPrev,
+  onNext: _onNext,
+  onPrev: _onPrev,
   hasPrev,
   onOpenPicker,
   speakAll,

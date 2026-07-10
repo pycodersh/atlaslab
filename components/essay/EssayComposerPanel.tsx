@@ -10,7 +10,6 @@ import {
 import {
   getPlan,
   FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS,
-  FREE_REVIEW_DAILY, PREMIUM_REVIEW_DAILY,
 } from '@/lib/subscription/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
@@ -78,7 +77,6 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
   }, [body, nativeSentence])
 
   const maxWords   = plan === 'premium' ? PREMIUM_MAX_ESSAY_WORDS : FREE_MAX_ESSAY_WORDS
-  const maxReviews = plan === 'premium' ? PREMIUM_REVIEW_DAILY   : FREE_REVIEW_DAILY
   const wc = wordCount(body)
   const wcColor = wc > maxWords ? '#C0392B' : wc >= MIN_WORDS ? '#6E6E73' : '#B0B0B8'
   const showNativeWarning = nonAsciiRatio(body) > NATIVE_RATIO_WARN && body.trim().length > 20

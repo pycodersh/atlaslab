@@ -152,11 +152,6 @@ export class PregeneratedTTSProvider implements ITTSProvider {
       audio.onended     = () => { if (DEV) console.log('[TTS] ended'); handleEnded() }
       audio.onerror     = () => handleError(audio.error?.message)
 
-      if (DEV) {
-        audio.onloadeddata = () => console.log('[TTS] loadeddata dur:', audio.duration?.toFixed(2), 's')
-        audio.oncanplay    = () => console.log('[TTS] canplay')
-      }
-
       audio.play().catch(() => handleError('play() rejected'))
     }
 

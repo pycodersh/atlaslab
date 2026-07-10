@@ -26,7 +26,6 @@ export function ensureGuestSession(): Promise<string | null> {
       initPromise = null
       return null
     }
-    console.log('[guest-auth] guest session created:', data.user.id)
     return data.user.id
   })()
 

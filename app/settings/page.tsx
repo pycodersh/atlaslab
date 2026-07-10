@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, RotateCcw, Trash2 } from 'lucide-react'
+import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, Trash2 } from 'lucide-react'
 import { requestCoverReplay } from '@/components/WelcomeCover'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
@@ -17,15 +17,6 @@ import { AuthButtons } from '@/components/auth/AuthButtons'
 import { getLearnedStoryCount } from '@/lib/srs/storage'
 import { getSavedWordCount } from '@/lib/words/storage'
 import { getEssays } from '@/lib/essays/storage'
-
-const card: React.CSSProperties = {
-  background: 'var(--pglass)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  borderRadius: 16,
-  border: '1px solid var(--pglass-border)',
-  boxShadow: '0 1px 6px rgba(40,40,60,0.04)',
-}
 
 const glassCard: React.CSSProperties = {
   background: 'var(--pglass)',
@@ -444,11 +435,6 @@ export default function SettingsPage() {
   const [toast, setToast] = useState('')
 
   function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
-
-  function handleReplayOnboarding() {
-    requestCoverReplay()
-    window.location.href = '/'
-  }
 
   async function handleLogout() {
     await signOut()

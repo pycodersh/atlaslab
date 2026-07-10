@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Bell, Clock } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'

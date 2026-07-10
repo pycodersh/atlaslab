@@ -31,7 +31,7 @@ export default function SubscriptionPage() {
   const paddle = usePaddle()
   const { theme } = useTheme()
   const isDark = theme === 'dark'
-  const { isPro, loading: subLoading } = useSubscription()
+  const { isPro } = useSubscription()
   const [billing, setBilling] = useState<'monthly' | 'annual'>('annual')
   const [loading, setLoading] = useState(false)
   const [toast, setToast] = useState('')

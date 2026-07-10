@@ -160,8 +160,6 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
   const note = EDITOR_NOTES.find(n => n.id === id)
   const t = useT()
   const { prefs } = usePreferences()
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
   const lang = prefs.language as keyof LangMap<unknown>
   const tipLang = toTipLang(prefs.language)
   const tipTrans = note && tipLang

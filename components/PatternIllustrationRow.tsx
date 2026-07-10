@@ -40,7 +40,7 @@ const eq = (id: string, i: number, msg: string) => DEV && console.log(`[ExampleQ
 const eqlog = (id: string, msg: string) => DEV && console.log(`[ExampleQueue] ${id}: ${msg}`)
 
 export function PatternIllustrationRow({
-  storyId, storyTitle, voice, pattern, examples, index,
+  storyId, storyTitle, voice, pattern, examples, index: _index,
   active, onRequestPlay, autoPlayKey, onFinished, isLast,
 }: Props) {
   const { prefs } = usePreferences()

@@ -11,7 +11,7 @@ import {
   canReview, recordReviewUsed, autoTitle,
   resetDailyReviewCount,
 } from '@/lib/essays/storage'
-import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS, FREE_REVIEW_DAILY, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
+import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS } from '@/lib/subscription/storage'
 import { AnnotatedManuscript } from '@/components/essay/EssayRenderer'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'

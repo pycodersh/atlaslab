@@ -173,17 +173,9 @@ export function PatternsPageV2({
     return () => mq.removeEventListener('change', handler)
   }, [])
 
-  function revealEx(p: number, e: number) {
-    setRevealedExSet(prev => new Set([...prev, `${p}-${e}`]))
-  }
-
+  const [doneMask, setDoneMask] = useState<Set<number>>(new Set())
   // done mask: patternId → Set<exIdx>
   const doneMasksRef = useRef<Record<string, Set<number>>>({})
-  const [doneMask, setDoneMask] = useState<Set<number>>(new Set())
-
-  useEffect(() => {
-    setDoneMask(new Set(doneMasksRef.current[pattern.id] ?? []))
-  }, [pattern.id])
 
   useEffect(() => {
     setBookmarked(isBookmarked(pattern.id))

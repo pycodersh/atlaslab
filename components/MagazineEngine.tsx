@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 
-import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'

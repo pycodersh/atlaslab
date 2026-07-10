@@ -83,9 +83,6 @@ export function StoryImageSlider({
     if (!isTTSActive && images.length > 1) startTimer()
   }
 
-  const goNext = () => go((currentIdx + 1) % images.length)
-  const goPrev = () => go((currentIdx - 1 + images.length) % images.length)
-
   if (!images.length) return null
 
   return (

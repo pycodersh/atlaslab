@@ -30,8 +30,7 @@ export function AmbienceAudio({ ambience, ambienceId }: Props) {
     audioRef.current = audio
 
     function onLoaded() { audioReadyRef.current = true }
-    function onError(e: Event) {
-      console.log('[Ambience] load error', e)
+    function onError(_e: Event) {
       useUrlRef.current   = false
       audioReadyRef.current = false
     }
@@ -72,8 +71,7 @@ export function AmbienceAudio({ ambience, ambienceId }: Props) {
     // HTML audio: 파일이 로드 완료된 경우에만 사용
     if (useUrlRef.current && audioReadyRef.current && audioRef.current) {
       audioRef.current.currentTime = 0
-      audioRef.current.play().catch(e => {
-        console.log('[Ambience] play rejected', e)
+      audioRef.current.play().catch(() => {
         useUrlRef.current = false
       })
       setOn(true)

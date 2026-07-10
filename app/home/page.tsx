@@ -610,8 +610,6 @@ export default function HomePage() {
 
   const [firstHref, setFirstHref]           = useState('/stories/1')
   const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
-  const [newStoryIds, setNewStoryIds]       = useState<number[]>([])
-  const [reviewStoryIds, setReviewStoryIds] = useState<number[]>([])
   const [newDone, setNewDone]               = useState(false)
   const [reviewDone, setReviewDone]         = useState(false)
   const [newStoriesData,    setNewStoriesData]    = useState<Array<{ id: number; title: string }>>([])
@@ -659,8 +657,6 @@ export default function HomePage() {
     const newMissions    = missionItems.filter(i => i.type === 'new_story' || i.type === 'in_progress_story')
     const newIds         = new Set(newMissions.map(i => i.storyId))
     const reviewMissions = missionItems.filter(i => i.type === 'review_pattern' && !newIds.has(i.storyId))
-    setNewStoryIds(newMissions.map(i => i.storyId))
-    setReviewStoryIds(reviewMissions.map(i => i.storyId))
     setNewDone(newMissions.length > 0 && newMissions.every(i => i.done))
     setReviewDone(reviewMissions.length > 0 && reviewMissions.every(i => i.done))
 
