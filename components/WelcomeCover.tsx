@@ -27,7 +27,6 @@ export function WelcomeCover() {
   const isDark = theme === 'dark'
   const [visible, setVisible] = useState(false)
   const [fading, setFading] = useState(false)
-  // stage: 0=initial, 2=line1 revealed, 3=line2 revealed
   const [stage, setStage] = useState(0)
 
   useEffect(() => {
@@ -43,19 +42,10 @@ export function WelcomeCover() {
 
   useEffect(() => {
     if (!visible) return
-
-    // Line 1 at 350ms (600ms duration)
     const t2 = setTimeout(() => setStage(2), 350)
-    // Line 2 at 350+600+150=1100ms (150ms gap after line 1 finishes)
     const t3 = setTimeout(() => setStage(3), 1100)
-    // Auto-dismiss at 2.5s
     const autoDismiss = setTimeout(() => dismiss(), 2500)
-
-    return () => {
-      clearTimeout(t2)
-      clearTimeout(t3)
-      clearTimeout(autoDismiss)
-    }
+    return () => { clearTimeout(t2); clearTimeout(t3); clearTimeout(autoDismiss) }
   }, [visible])
 
   function dismiss() {
@@ -78,7 +68,6 @@ export function WelcomeCover() {
   const logoH = 52
   const pattoSize = 35
 
-  // Slogan lines: blur + opacity + translateY → clear
   function sloganStyle(active: boolean): React.CSSProperties {
     return {
       opacity: active ? 1 : 0,
@@ -95,35 +84,40 @@ export function WelcomeCover() {
       style={{
         position: 'fixed', inset: 0, zIndex: 9999,
         overflow: 'hidden', touchAction: 'none',
+        // bg color matches image edge so letterbox gaps are invisible
         background: isDark ? '#0B0F1A' : '#F2EDE6',
         opacity: fading ? 0 : 1,
         transition: fading ? 'opacity 400ms cubic-bezier(0.4,0,0.2,1)' : 'none',
       }}
     >
-      {/* Cover image */}
+      {/* Cover image — object-fit: contain so nothing is ever cropped.
+          Width 100% + height 100% + contain fills the screen while
+          preserving the full image. Edge gaps bleed into matching bg. */}
       <img
         src={coverSrc}
         alt="PATTO Cover"
         style={{
           position: 'absolute',
-          top: 0, left: '50%',
-          transform: 'translateX(-50%)',
+          inset: 0,
+          width: '100%',
           height: '100%',
-          width: 'auto',
+          objectFit: 'contain',
+          objectPosition: 'center',
           display: 'block',
-          maxWidth: 'none',
         }}
       />
 
-      {/* Brand group */}
+      {/* Brand group
+          — min 15% above safe area bottom (per spec)
+          — left margin 8% to stay clear of image edge content */}
       <div style={{
         position: 'absolute',
-        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 48%)',
-        left: 36,
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + max(15%, 100px))',
+        left: 'max(36px, 8%)',
         right: 36,
         pointerEvents: 'none',
       }}>
-        {/* PT logo + divider + PATTO — fixed, no animation */}
+        {/* PT logo + divider + PATTO */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 20 }}>
           <img
             src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
@@ -151,7 +145,6 @@ export function WelcomeCover() {
           }}>PATTO</span>
         </div>
 
-        {/* Slogan lines */}
         <p style={{
           ...sloganStyle(stage >= 2),
           fontSize: 34,
