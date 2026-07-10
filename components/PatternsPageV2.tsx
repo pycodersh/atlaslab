@@ -11,7 +11,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
 import { RATE_MAP } from '@/lib/settings/preferences'
 import { ttsProvider, getPitchForKey, patternExampleAudioUrl } from '@/lib/tts'
-import { recordPatternPractice } from '@/lib/srs/storage'
+import { recordPatternPractice, applyReview, todayStr } from '@/lib/srs/storage'
 import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import { patternMeaningNoteTranslations } from '@/data/pattern-meaning-note-translations'
@@ -398,7 +398,10 @@ export function PatternsPageV2({
             timerRef.current = setTimeout(() => playOne(idx + 1), EXAMPLE_PAUSE_MS)
           } else {
             const dur = Date.now() - startedAtRef.current
-            recordPatternPractice(pat.id, story.id, pat.pattern, story.title, dur)
+            const rec = recordPatternPractice(pat.id, story.id, pat.pattern, story.title, dur)
+            if (rec.lastReviewedAt?.slice(0, 10) !== todayStr()) {
+              applyReview('pattern', pat.id, true)
+            }
             runningRef.current = false
             setPhase('idle')
           }

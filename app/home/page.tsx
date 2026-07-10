@@ -486,7 +486,7 @@ export default function HomePage() {
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
-  useEffect(() => {
+  const loadMissions = useCallback(() => {
     const records  = getAllRecords()
     const today    = todayStr()
     const tomorrow = addDays(today, 1)
@@ -584,6 +584,13 @@ export default function HomePage() {
     }
     setAllStoriesLabelMap(allMap)
   }, [])
+
+  useEffect(() => {
+    loadMissions()
+    const onVisible = () => { if (document.visibilityState === 'visible') loadMissions() }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
+  }, [loadMissions])
 
   const frostedCard: React.CSSProperties = {
     background: 'var(--pglass)',
