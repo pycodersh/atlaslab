@@ -873,7 +873,9 @@ function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak, page, 
                 key={i} type="button" onClick={() => onPageChange(i)}
                 style={{
                   width: 8, height: 8, borderRadius: '50%',
-                  background: page === i ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.3)',
+                  background: page === i
+                    ? (isDark ? 'rgba(255,255,255,0.85)' : 'rgba(80,100,180,0.7)')
+                    : (isDark ? 'rgba(255,255,255,0.25)' : 'rgba(80,100,180,0.2)'),
                   border: 'none', cursor: 'pointer', padding: 0,
                   transition: 'background 0.28s ease',
                 }}
