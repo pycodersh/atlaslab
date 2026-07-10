@@ -19,6 +19,7 @@ export function OneSignalInit() {
     OneSignal.init({
       appId,
       serviceWorkerPath: '/OneSignalSDKWorker.js',
+      serviceWorkerParam: { scope: '/' },
       allowLocalhostAsSecureOrigin: true,
     }).catch(() => {})
   }, [appId])
