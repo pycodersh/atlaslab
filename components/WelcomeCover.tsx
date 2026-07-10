@@ -44,17 +44,14 @@ export function WelcomeCover() {
   useEffect(() => {
     if (!visible) return
 
-    // Logo fades in immediately (stage 1)
-    const t1 = setTimeout(() => setStage(1), 20)
-    // Line 1 reveals at 350ms after logo starts
-    const t2 = setTimeout(() => setStage(2), 370)
-    // Line 2 reveals at 750ms after line 1
-    const t3 = setTimeout(() => setStage(3), 1120)
+    // Line 1 reveals at 350ms
+    const t2 = setTimeout(() => setStage(2), 350)
+    // Line 2 reveals 750ms after line 1
+    const t3 = setTimeout(() => setStage(3), 1100)
     // Auto-dismiss at 2.5s
     const autoDismiss = setTimeout(() => dismiss(), 2500)
 
     return () => {
-      clearTimeout(t1)
       clearTimeout(t2)
       clearTimeout(t3)
       clearTimeout(autoDismiss)
@@ -82,8 +79,7 @@ export function WelcomeCover() {
   const pattoSize = 35
 
   const logoStyle: React.CSSProperties = {
-    opacity: stage >= 1 ? 1 : 0,
-    transition: 'opacity 450ms ease-out',
+    opacity: 1,
   }
 
   // Slogan lines: blur + opacity + translateY → clear
