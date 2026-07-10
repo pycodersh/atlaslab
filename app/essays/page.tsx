@@ -242,8 +242,10 @@ export default function EssaysPage() {
         <div style={{ textAlign: 'center', paddingTop: 56 }}>
           <div style={{
             width: 72, height: 72, borderRadius: 24,
-            background: 'rgba(255, 255, 255, 0.45)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)',
-            border: '1px solid rgba(255, 255, 255, 0.7)', boxShadow: '0 6px 20px rgba(40,40,60,0.05)',
+            background: isDark ? 'rgba(255, 255, 255, 0.10)' : 'rgba(255, 255, 255, 0.45)',
+            backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)',
+            border: isDark ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(255, 255, 255, 0.7)',
+            boxShadow: '0 6px 20px rgba(40,40,60,0.05)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 18px',
           }}>
             <PenLine size={32} strokeWidth={1.5} color="var(--pm)" />
