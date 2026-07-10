@@ -140,18 +140,20 @@ function DotIndicator({ total, pos }: { total: number; pos: number }) {
 }
 
 // Tip content renderer
-function TipContent({ tip, forceDark }: { tip: EditorNote; forceDark?: boolean }) {
+function TipContent({ tip, isDark }: { tip: EditorNote; isDark?: boolean }) {
   const { prefs } = usePreferences()
   const entry = getTipEntry(tip.id, prefs.language)
   const title    = entry?.title ?? (tip.title as Record<string, string>)?.ko ?? ''
   const body     = entry?.body ?? (tip.body as Record<string, string[]>)?.ko ?? []
   const remember = entry?.oneThingToRemember ?? (tip.oneThingToRemember as Record<string, string>)?.ko ?? ''
   const researchBriefs = entry?.researchBriefs ?? []
+  const inModal = isDark !== undefined
   return (
     <>
       <p style={{
-        fontSize: forceDark ? 20 : 'clamp(1.05rem, 4.5vw, 1.25rem)', fontWeight: 800,
-        color: forceDark ? 'rgba(255,255,255,0.95)' : '#3A3A3C',
+        fontSize: inModal ? 20 : 'clamp(1.05rem, 4.5vw, 1.25rem)',
+        fontWeight: inModal ? 600 : 800,
+        color: inModal ? (isDark ? 'rgba(255,255,255,0.95)' : 'rgba(0,0,0,0.88)') : '#3A3A3C',
         margin: '0 0 16px', letterSpacing: '-0.02em', lineHeight: 1.25,
         fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
       }}>
@@ -159,27 +161,31 @@ function TipContent({ tip, forceDark }: { tip: EditorNote; forceDark?: boolean }
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 11, marginBottom: 18 }}>
         {body.map((para, i) => (
-          <p key={i} style={{ fontSize: forceDark ? 15 : 14, lineHeight: 1.65, color: forceDark ? 'rgba(255,255,255,0.75)' : 'var(--pt2)', margin: 0, fontWeight: i === 0 ? 500 : 400 }}>
+          <p key={i} style={{
+            fontSize: inModal ? 15 : 14, lineHeight: 1.65,
+            color: inModal ? (isDark ? 'rgba(255,255,255,0.75)' : 'rgba(0,0,0,0.65)') : 'var(--pt2)',
+            margin: 0, fontWeight: i === 0 ? 500 : 400,
+          }}>
             {para}
           </p>
         ))}
       </div>
       {remember && (
-        <div style={forceDark ? {
+        <div style={inModal ? {
           padding: '12px',
-          background: 'rgba(255,255,255,0.08)',
-          borderLeft: '3px solid rgba(255,100,100,0.7)',
-          borderRadius: 8,
+          background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)',
+          borderLeft: `3px solid ${isDark ? 'rgba(255,100,100,0.7)' : 'rgba(200,80,80,0.6)'}`,
+          borderRadius: '0 8px 8px 0',
         } : {
           padding: '13px 16px',
           background: 'rgba(100,110,140,0.06)',
           border: '1px solid rgba(100,110,140,0.12)',
           borderRadius: 14,
         }}>
-          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: forceDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 5px', textTransform: 'uppercase' }}>
+          <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: inModal ? (isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)') : 'var(--pm2)', margin: '0 0 5px', textTransform: 'uppercase' }}>
             One thing to remember
           </p>
-          <p style={{ fontSize: 13, fontWeight: 700, color: forceDark ? 'rgba(255,180,180,0.9)' : '#8D234C', margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, fontWeight: 700, color: inModal ? (isDark ? 'rgba(255,180,180,0.9)' : '#8D234C') : '#8D234C', margin: 0, lineHeight: 1.5 }}>
             {remember}
           </p>
         </div>
@@ -187,7 +193,7 @@ function TipContent({ tip, forceDark }: { tip: EditorNote; forceDark?: boolean }
       {researchBriefs.length > 0 && (
         <div style={{ marginTop: 14 }}>
           {researchBriefs.map((brief, i) => (
-            <p key={i} style={{ fontSize: 10, color: forceDark ? 'rgba(255,255,255,0.4)' : 'var(--pm2)', margin: '0 0 3px', lineHeight: 1.4 }}>
+            <p key={i} style={{ fontSize: 10, color: inModal ? (isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.35)') : 'var(--pm2)', margin: '0 0 3px', lineHeight: 1.4 }}>
               {brief}
             </p>
           ))}
@@ -199,6 +205,8 @@ function TipContent({ tip, forceDark }: { tip: EditorNote; forceDark?: boolean }
 
 // iOS-style carousel modal
 function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initialIndex?: number }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   // Deck: ever-growing queue — starts with initialIndex, then shuffled rest
   const [deck, setDeck] = useState<number[]>(() => {
     const rest = shuffleIndices(TOTAL_TIPS, initialIndex).filter(i => i !== initialIndex)
@@ -268,7 +276,7 @@ function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initi
       aria-modal="true"
       style={{
         position: 'fixed', inset: 0, zIndex: 100,
-        background: 'rgba(0,0,0,0.6)',
+        background: isDark ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.4)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: '0 20px',
       }}
@@ -277,16 +285,16 @@ function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initi
       <div
         style={{
           width: '100%', maxWidth: 480, borderRadius: 20, overflow: 'hidden',
-          background: 'rgba(20,18,35,0.92)',
+          background: isDark ? 'rgba(20,18,35,0.92)' : 'rgba(255,255,255,0.75)',
           backdropFilter: 'blur(24px)',
           WebkitBackdropFilter: 'blur(24px)',
-          border: '1px solid rgba(255,255,255,0.15)',
+          border: isDark ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(255,255,255,0.8)',
           position: 'relative',
         }}
       >
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 24px 18px' }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.5)', margin: 0, textTransform: 'uppercase' }}>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)', margin: 0, textTransform: 'uppercase' }}>
             Editor Tip · {EDITOR_NOTES[currIdx]?.partTitle ?? ''}
           </p>
           <button
@@ -294,11 +302,12 @@ function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initi
             onClick={onClose}
             style={{
               width: 32, height: 32, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.15)', border: 'none', cursor: 'pointer',
+              background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)',
+              border: 'none', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             }}
           >
-            <X style={{ width: 14, height: 14, color: 'rgba(255,255,255,0.8)' }} strokeWidth={2} />
+            <X style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.5)' }} strokeWidth={2} />
           </button>
         </div>
 
@@ -318,15 +327,15 @@ function TipCarousel({ onClose, initialIndex = 0 }: { onClose: () => void; initi
           }}>
             {/* prev */}
             <div style={{ width: '33.333%', padding: '0 24px 24px', boxSizing: 'border-box' }}>
-              <TipContent tip={EDITOR_NOTES[prevIdx]} forceDark />
+              <TipContent tip={EDITOR_NOTES[prevIdx]} isDark={isDark} />
             </div>
             {/* current */}
             <div style={{ width: '33.333%', padding: '0 24px 24px', boxSizing: 'border-box' }}>
-              <TipContent tip={EDITOR_NOTES[currIdx]} forceDark />
+              <TipContent tip={EDITOR_NOTES[currIdx]} isDark={isDark} />
             </div>
             {/* next */}
             <div style={{ width: '33.333%', padding: '0 24px 24px', boxSizing: 'border-box' }}>
-              <TipContent tip={EDITOR_NOTES[nextIdx]} forceDark />
+              <TipContent tip={EDITOR_NOTES[nextIdx]} isDark={isDark} />
             </div>
           </div>
         </div>
