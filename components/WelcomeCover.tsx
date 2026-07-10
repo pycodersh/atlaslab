@@ -27,7 +27,7 @@ export function WelcomeCover() {
   const isDark = theme === 'dark'
   const [visible, setVisible] = useState(false)
   const [fading, setFading] = useState(false)
-  // Animation stages: 0=hidden, 1=logo in, 2=line1 in, 3=line2 in
+  // stage: 0=initial, 2=line1 revealed, 3=line2 revealed
   const [stage, setStage] = useState(0)
 
   useEffect(() => {
@@ -44,9 +44,9 @@ export function WelcomeCover() {
   useEffect(() => {
     if (!visible) return
 
-    // Line 1 reveals at 350ms
+    // Line 1 at 350ms (600ms duration)
     const t2 = setTimeout(() => setStage(2), 350)
-    // Line 2 reveals 750ms after line 1
+    // Line 2 at 350+600+150=1100ms (150ms gap after line 1 finishes)
     const t3 = setTimeout(() => setStage(3), 1100)
     // Auto-dismiss at 2.5s
     const autoDismiss = setTimeout(() => dismiss(), 2500)
@@ -78,15 +78,11 @@ export function WelcomeCover() {
   const logoH = 52
   const pattoSize = 35
 
-  const logoStyle: React.CSSProperties = {
-    opacity: 1,
-  }
-
   // Slogan lines: blur + opacity + translateY → clear
   function sloganStyle(active: boolean): React.CSSProperties {
     return {
       opacity: active ? 1 : 0,
-      filter: active ? 'blur(0px)' : 'blur(6px)',
+      filter: active ? 'blur(0px)' : 'blur(12px)',
       transform: active ? 'translateY(0px)' : 'translateY(8px)',
       transition: active
         ? 'opacity 600ms ease-out, filter 600ms ease-out, transform 600ms ease-out'
@@ -127,8 +123,8 @@ export function WelcomeCover() {
         right: 36,
         pointerEvents: 'none',
       }}>
-        {/* PT logo + divider + PATTO — fade in together */}
-        <div style={{ ...logoStyle, display: 'flex', alignItems: 'center', gap: 18, marginBottom: 20 }}>
+        {/* PT logo + divider + PATTO — fixed, no animation */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 20 }}>
           <img
             src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
             alt="PT"
