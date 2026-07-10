@@ -400,7 +400,7 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── LANGUAGE ── */}
-        <SecTitle label={t('language')} noUppercase />
+        <SecTitle label={t('language')} />
         <div style={glassCard}>
           <NavRow
             icon={Globe}
