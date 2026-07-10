@@ -16,6 +16,7 @@ import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translat
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useT } from '@/hooks/useT'
+import { useTheme } from '@/components/ThemeProvider'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -448,6 +449,8 @@ export default function HomePage() {
   const { prefs } = usePreferences()
   const isDesktop = useIsDesktop()
   const t = useT()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
 
   const [firstHref, setFirstHref]           = useState('/stories/1')
   const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
@@ -691,13 +694,13 @@ export default function HomePage() {
               </span>
             )}
             <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 9 }}>
-              <BookOpen style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
-              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>LEARN TODAY</p>
+              <BookOpen style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
+              <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>LEARN TODAY</p>
             </div>
-            <p style={{ fontSize: 15, fontWeight: 800, color: newDone ? '#27AE60' : 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+            <p style={{ fontSize: 15, fontWeight: 800, color: newDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
               {newStoryIds.length > 0
                 ? newStoryIds.map(id => String(id).padStart(2, '0')).join(' · ')
-                : <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>
+                : <span style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400 }}>—</span>
               }
             </p>
           </div>
@@ -723,11 +726,11 @@ export default function HomePage() {
                   </span>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 9 }}>
-                  <RotateCcw style={{ width: 9, height: 9, color: 'var(--pm2)' }} strokeWidth={2} />
-                  <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>REVIEW</p>
+                  <RotateCcw style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
+                  <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>REVIEW</p>
                 </div>
-                <p style={{ fontSize: 15, fontWeight: 800, color: reviewDone ? '#27AE60' : 'var(--pt)', margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
-                  {reviewText ?? <span style={{ fontSize: 14, color: 'var(--pm2)', fontWeight: 400 }}>—</span>}
+                <p style={{ fontSize: 15, fontWeight: 800, color: reviewDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, lineHeight: 1, letterSpacing: '-0.01em' }}>
+                  {reviewText ?? <span style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400 }}>—</span>}
                 </p>
               </div>
             )
@@ -748,13 +751,13 @@ export default function HomePage() {
                 display: 'flex', alignItems: 'center', gap: 10,
               }}
             >
-              <Pencil style={{ width: 14, height: 14, color: 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
+              <Pencil style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
+                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
                   Editor Tip
                 </p>
                 <p style={{
-                  fontSize: 12, fontWeight: 600, color: 'var(--pt2)',
+                  fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)',
                   margin: 0, lineHeight: 1.35,
                   overflow: 'hidden', display: '-webkit-box',
                   WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
@@ -762,7 +765,7 @@ export default function HomePage() {
                   {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
                 </p>
               </div>
-              <ChevronRight style={{ width: 12, height: 12, color: 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+              <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
             </button>
           </div>
         )}
