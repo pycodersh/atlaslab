@@ -64,7 +64,7 @@ export function PatternsPage({ story, onPrev, onNext, hasNext, onOpenPicker, pat
   const cover = story.slideImages?.[0]?.url ?? story.imageUrl
 
   return (
-    <div className="h-full flex flex-col bg-[var(--pb)]">
+    <div className="h-full flex flex-col bg-transparent">
       <div className="flex-1 overflow-y-auto">
         <div className="pl-7 pr-6 pt-5 pb-10">
 

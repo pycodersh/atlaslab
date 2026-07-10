@@ -30,7 +30,7 @@ export default function SavedPatternsPage() {
     )
 
   return (
-    <div className="min-h-dvh bg-[#FAF8F4]">
+    <div className="min-h-dvh bg-transparent">
       <TopNav />
 
       <div className="px-7 pb-20 max-w-sm mx-auto pt-20">

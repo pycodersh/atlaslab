@@ -100,17 +100,12 @@
 }
 
 html {
-  background: var(--pb);
+  background: #e8e4f3;
 }
 
 body {
   min-height: 100vh;
-  /* Soft Aurora gradient background — almost white, premium atmosphere */
-  background:
-    radial-gradient(ellipse 80% 60% at 15% -5%, rgba(200,215,255,0.45) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 85% 5%,  rgba(220,228,255,0.40) 0%, transparent 55%),
-    radial-gradient(ellipse 90% 40% at 50% 95%, rgba(210,220,255,0.32) 0%, transparent 55%),
-    #FAFAFA;
+  background: linear-gradient(135deg, #e8e4f3 0%, #f0e8f5 40%, #e4eef8 100%);
   background-attachment: fixed;
   color: var(--pt);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", Arial, sans-serif;

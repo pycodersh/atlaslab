@@ -50,7 +50,7 @@ export default function AccountPage() {
 
   if (!user) {
     return (
-      <div className="min-h-dvh bg-[var(--pb)]">
+      <div className="min-h-dvh bg-transparent">
         <TopNav />
         <div style={{ padding: '60px 24px', textAlign: 'center', color: 'var(--pm)', fontSize: 14 }}>
           로그인이 필요합니다.
@@ -65,7 +65,7 @@ export default function AccountPage() {
   const initial = name[0]?.toUpperCase() ?? '?'
 
   return (
-    <div className="min-h-dvh bg-[var(--pb)]">
+    <div className="min-h-dvh bg-transparent">
       <TopNav />
       <div style={{ maxWidth: 400, margin: '0 auto', padding: '16px 24px 96px', boxSizing: 'border-box' }}>
 
