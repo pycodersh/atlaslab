@@ -397,11 +397,11 @@ function InstallCard() {
         type="button"
         onClick={handleClick}
         style={{
-          ...card,
           display: 'flex', alignItems: 'center', gap: 13,
           padding: '13px 16px', width: '100%', boxSizing: 'border-box',
           cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
           transition: 'opacity 0.15s',
+          background: 'none', border: 'none',
         }}
         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.70' }}
         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
