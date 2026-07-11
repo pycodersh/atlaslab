@@ -256,45 +256,39 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     )
   }
 
-  // ── Mobile: vertical layout (story top, patterns below) ─────────────
+  // ── Mobile: single scroll — story then patterns inline ──────────────
+  const inlinePatterns = (
+    <PatternsPageV2
+      story={story}
+      totalStories={allStories.length}
+      onPrev={goPrev}
+      onNext={goNext}
+      hasNext={!isLast}
+      onOpenPicker={() => setShowPicker(true)}
+      patternExamples={patternExamples}
+      isActive={true}
+      nativeScroll={true}
+    />
+  )
+
   return (
-    <div style={{ minHeight: '100dvh' }}>
-      {/* Story zone — full viewport height, horizontal swipe = story navigation */}
-      <div
-        style={{ height: '100dvh', touchAction: 'pan-y' }}
-        onTouchStart={handleStoryTouchStart}
-        onTouchEnd={handleStoryTouchEnd}
-      >
-        <StoryPage
-          story={story}
-          totalStories={allStories.length}
-          onNext={goNext}
-          onPrev={goPrev}
-          hasPrev={!isFirst}
-          onOpenPicker={() => setShowPicker(true)}
-          speakAll={handleSpeakAll}
-          stop={handleStop}
-          isSpeaking={isSpeaking}
-          currentParagraphIdx={currentParagraphIdx}
-          ambienceOn={effectiveAmbienceOn}
-          onAmbienceToggle={toggleAmbience}
-        />
-      </div>
-
-      {/* Pattern zone — independent swipe handled inside PatternsPageV2 */}
-      <div style={{ minHeight: '100dvh' }}>
-        <PatternsPageV2
-          story={story}
-          totalStories={allStories.length}
-          onPrev={goPrev}
-          onNext={goNext}
-          hasNext={!isLast}
-          onOpenPicker={() => setShowPicker(true)}
-          patternExamples={patternExamples}
-          isActive={true}
-        />
-      </div>
-
+    <div style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never }}>
+      <StoryPage
+        story={story}
+        totalStories={allStories.length}
+        onNext={goNext}
+        onPrev={goPrev}
+        hasPrev={!isFirst}
+        onOpenPicker={() => setShowPicker(true)}
+        speakAll={handleSpeakAll}
+        stop={handleStop}
+        isSpeaking={isSpeaking}
+        currentParagraphIdx={currentParagraphIdx}
+        ambienceOn={effectiveAmbienceOn}
+        onAmbienceToggle={toggleAmbience}
+        noScroll={true}
+        afterContent={inlinePatterns}
+      />
       {sharedPopups}
     </div>
   )

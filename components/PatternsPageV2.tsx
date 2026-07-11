@@ -37,6 +37,8 @@ type Props = {
   onOpenPicker: () => void
   patternExamples?: Record<string, PracticeExample[]>
   isActive?: boolean
+  /** When true, skips TopNav + scroll wrapper + bottom spacer (used when embedded inline) */
+  nativeScroll?: boolean
 }
 
 type Phase     = 'idle' | 'speaking' | 'pause' | 'done'
@@ -107,7 +109,7 @@ function resolveExamples(
 }
 
 export function PatternsPageV2({
-  story, totalStories, onPrev, onNext, hasNext, onOpenPicker, patternExamples, isActive = true,
+  story, totalStories, onPrev, onNext, hasNext, onOpenPicker, patternExamples, isActive = true, nativeScroll = false,
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -441,22 +443,11 @@ export function PatternsPageV2({
   const totalPatterns = totalStories * patterns.length
 
   // ── Render ────────────────────────────────────────────────────────────────
-  return (
-    <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
-      <div
-        className="flex-1 overflow-x-hidden"
-        style={{
-          overflowY: 'auto',
-          WebkitOverflowScrolling: 'touch' as never,
-          touchAction: 'pan-y',
-        }}
-      >
-        <TopNav />
-
-        <div style={{ padding: '0 16px 0' }}>
+  const cardSection = (
+    <div style={{ padding: '0 16px 0' }}>
 
           {/* ── Top spacer ── */}
-          <div style={{ paddingTop: 8 }} />
+          <div style={{ paddingTop: nativeScroll ? 24 : 8 }} />
 
           {/* ── Swipe area ── */}
           <div ref={swipeRef} style={{ position: 'relative' }}>
@@ -768,21 +759,9 @@ export function PatternsPageV2({
             </div>
           </div>
         </div>
+  )
 
-        {/* Bottom spacer — transparent, keeps content above tab bar */}
-        <div
-          aria-hidden="true"
-          style={{
-            height: 'calc(120px + env(safe-area-inset-bottom, 0px))',
-            flexShrink: 0,
-            background: 'transparent',
-            pointerEvents: 'none',
-          }}
-        />
-      </div>
-
-      {/* Pattern Note Popup */}
-      {noteOpen && patternNote && (
+  const notePopup = noteOpen && patternNote && (
         <div
           role="dialog"
           aria-modal="true"
@@ -848,7 +827,40 @@ export function PatternsPageV2({
             </div>
           </div>
         </div>
-      )}
+  )
+
+  if (nativeScroll) {
+    return (
+      <>
+        {cardSection}
+        {notePopup}
+      </>
+    )
+  }
+
+  return (
+    <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
+      <div
+        className="flex-1 overflow-x-hidden"
+        style={{
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch' as never,
+          touchAction: 'pan-y',
+        }}
+      >
+        <TopNav />
+        {cardSection}
+        <div
+          aria-hidden="true"
+          style={{
+            height: 'calc(120px + env(safe-area-inset-bottom, 0px))',
+            flexShrink: 0,
+            background: 'transparent',
+            pointerEvents: 'none',
+          }}
+        />
+      </div>
+      {notePopup}
     </div>
   )
 }

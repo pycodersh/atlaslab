@@ -33,6 +33,10 @@ type StoryPageProps = {
   currentParagraphIdx: number
   ambienceOn: boolean
   onAmbienceToggle: () => void
+  /** When true, removes the inner scroll wrapper (parent owns the scroll) */
+  noScroll?: boolean
+  /** Content rendered after the story card, inside the scroll area */
+  afterContent?: React.ReactNode
 }
 
 
@@ -48,6 +52,8 @@ export function StoryPage({
   currentParagraphIdx,
   ambienceOn,
   onAmbienceToggle,
+  noScroll = false,
+  afterContent,
 }: StoryPageProps) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -202,17 +208,8 @@ export function StoryPage({
     return map
   }, [story])
 
-  return (
-    <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
-      <div
-        className="flex-1"
-        style={{
-          overflowY: 'auto',
-          WebkitOverflowScrolling: 'touch' as never,
-          touchAction: 'pan-y',
-          paddingTop: 8,
-        }}
-      >
+  const inner = (
+    <>
         <TopNav />
 
         {/* ── Hero Image — same width as card below ── */}
@@ -435,6 +432,8 @@ export function StoryPage({
           </div>
         </div>
 
+        {afterContent}
+
         {/* Bottom spacer — transparent, keeps content above tab bar */}
         <div
           aria-hidden="true"
@@ -445,6 +444,23 @@ export function StoryPage({
             pointerEvents: 'none',
           }}
         />
+    </>
+  )
+
+  if (noScroll) return <>{inner}</>
+
+  return (
+    <div className="h-full flex flex-col" style={{ background: 'transparent' }}>
+      <div
+        className="flex-1"
+        style={{
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch' as never,
+          touchAction: 'pan-y',
+          paddingTop: 8,
+        }}
+      >
+        {inner}
       </div>
     </div>
   )
