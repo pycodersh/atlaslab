@@ -22,7 +22,7 @@ const TABS = [
   {
     label: 'STORY',
     href: '/patto/stories/1',
-    active: (p: string) => p.startsWith('/stories') || p.startsWith('/learn') || p.startsWith('/review'),
+    active: (p: string) => p.startsWith('/patto/stories') || p.startsWith('/learn') || p.startsWith('/review'),
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
         <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
@@ -55,8 +55,8 @@ const TABS = [
   },
   {
     label: 'LIBRARY',
-    href: '/library',
-    active: (p: string) => p.startsWith('/library'),
+    href: '/patto/library',
+    active: (p: string) => p.startsWith('/patto/library'),
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
         <circle cx="11" cy="11" r="8"/>
