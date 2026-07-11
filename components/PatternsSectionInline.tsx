@@ -257,15 +257,14 @@ export function PatternsSectionInline({
   // Hero gradient theme
   const heroBg = isDark
     ? 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)'
-    : 'linear-gradient(160deg, rgba(142,167,255,0.06) 0%, rgba(255,255,255,0.0) 100%)'
-  const heroBorderColor = isDark ? 'rgba(120,90,180,0.30)' : 'rgba(142,167,255,0.18)'
+    : 'transparent'
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
 
   // Dot indicator colors
-  const dotActive   = isDark ? 'rgba(255,255,255,0.70)' : 'var(--pa)'
-  const dotInactive = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(142,167,255,0.25)'
+  const dotActive   = isDark ? 'rgba(255,255,255,0.70)' : '#8EA7FF'
+  const dotInactive = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(142,167,255,0.2)'
 
   function handleBookmark() {
     const next = toggleBookmark({
@@ -276,9 +275,11 @@ export function PatternsSectionInline({
   }
 
   // Card colors
-  const cardBg       = isDark ? 'rgba(30,28,48,0.85)'       : 'white'
-  const exBoxBg      = isDark ? 'rgba(255,255,255,0.04)'    : 'rgba(142,167,255,0.05)'
-  const exBoxBorder  = isDark ? 'rgba(255,255,255,0.08)'    : 'rgba(142,167,255,0.14)'
+  const cardBg       = isDark ? 'rgba(30,28,48,0.85)'    : '#FFFFFF'
+  const exBoxBg      = isDark ? 'rgba(255,255,255,0.04)' : '#F6F7FB'
+  const exBoxBorder  = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.14)'
+  const exEnColor    = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
+  const exKoColor    = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
 
   return (
     <div style={{ padding: '0 16px' }}>
@@ -364,7 +365,7 @@ export function PatternsSectionInline({
             {/* Divider */}
             <div style={{
               width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px',
-              background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(142,167,255,0.35)',
+              background: isDark ? 'rgba(255,255,255,0.25)' : '#8EA7FF',
             }} />
 
             {/* Meaning + audio */}
@@ -431,13 +432,13 @@ export function PatternsSectionInline({
                         display:     'block',
                         fontSize:    14,
                         fontWeight:  isExPlaying ? 700 : 400,
-                        color:       'var(--pt)',
+                        color:       exEnColor,
                         lineHeight:  1.55,
                         marginBottom: 2,
                       }}
                     />
                     {showKorean && exKo && (
-                      <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
+                      <p style={{ fontSize: 12, color: exKoColor, margin: 0, lineHeight: 1.5 }}>
                         {exKo}
                       </p>
                     )}

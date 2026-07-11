@@ -126,7 +126,7 @@ body {
 
 /* ── App background (fixed div in layout.tsx) ───────────────────────── */
 .patto-bg {
-  background: linear-gradient(135deg, #EEF1FF 0%, #EAE6FF 45%, #EBF0FF 100%);
+  background: #FAFAFC;
 }
 .dark .patto-bg {
   background: linear-gradient(160deg, #2a2040 0%, #1e2a40 50%, #251830 100%);
