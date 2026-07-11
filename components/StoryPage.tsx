@@ -405,31 +405,23 @@ export function StoryPage({
               </div>
             </div>
 
-            {/* Story note — 한줄 요약 */}
-            {storyNote && (
-              <div style={{ padding: '0 20px 22px', marginTop: 8 }}>
-                <div style={{
-                  borderTop: '1px solid rgba(255,255,255,0.55)',
-                  paddingTop: 14,
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                    <p style={{
-                      fontSize: 9, fontWeight: 700, letterSpacing: '0.14em',
-                      color: 'var(--pm2)', margin: 0, textTransform: 'uppercase', flexShrink: 0,
-                    }}>
-                      Summary
-                    </p>
-                    <div style={{ flex: 1, height: 1, background: 'rgba(60,60,67,0.18)' }} />
-                  </div>
-                  <p style={{ fontSize: 13.5, color: 'var(--pt2)', lineHeight: 1.7, margin: 0, fontStyle: 'italic' }}>
-                    {storyNote}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {!storyNote && <div style={{ height: 22 }} />}
+            <div style={{ height: 22 }} />
           </div>
+        </div>
+
+        {/* Divider between story body and pattern cards */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '8px 20px 20px',
+        }}>
+          <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
+          <span style={{
+            fontSize: 8, color: '#A6B8FF', textTransform: 'uppercase',
+            letterSpacing: '0.12em', whiteSpace: 'nowrap',
+          }}>
+            Patterns in this story
+          </span>
+          <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
         </div>
 
         {afterContent}

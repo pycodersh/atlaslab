@@ -303,12 +303,13 @@ export function PatternsSectionInline({
       {/* ── Swipeable card ─────────────────────────────────────────────── */}
       <div ref={swipeRef}>
         <div
-          className="glass-card"
           style={{
-            overflow: 'hidden', borderRadius: 24, padding: 0,
+            overflow: 'hidden', borderRadius: 18, padding: 0,
+            background: isDark ? undefined : 'white',
+            border: isDark ? undefined : '0.5px solid rgba(142,167,255,0.25)',
             boxShadow: isDark
               ? '0 16px 40px rgba(0,0,0,0.40)'
-              : '0 16px 40px rgba(40,40,60,0.06)',
+              : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)',
           }}
         >
           {/* Card hero header */}
