@@ -43,7 +43,7 @@ export function PatternCardBack({
   }
 
   return (
-    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-white/60 bg-white/65 px-5 pb-4 pt-14 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+    <div className="pattern-card-glass absolute inset-0 flex flex-col rounded-[28px] px-5 pb-4 pt-14 [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-[0_8px_40px_rgba(79,140,255,0.10)]">
 
       <StoryLabel storyNumber={storyNumber} subtitle={storyTitle} onJump={onJump} />
 
@@ -70,14 +70,15 @@ export function PatternCardBack({
           examples.map((ex) => (
             <li
               key={ex.id}
-              className="cursor-pointer rounded-xl px-2 py-1 transition-colors hover:bg-[#F8FBFF] active:bg-[#F0F7FF]"
+              className="cursor-pointer rounded-xl px-2 py-1 transition-colors hover:bg-white/20 active:bg-white/30"
+              style={{ borderBottom: '0.5px solid rgba(255,255,255,0.3)' }}
               onClick={(e) => { e.stopPropagation(); speak(ex.sentence.trim()) }}
             >
-              <p className="text-[0.88rem] font-semibold leading-relaxed text-[#3A3A3C]">
+              <p className="text-[0.88rem] font-semibold leading-relaxed text-[#1C1C1E] dark:text-[#F2F2F5]">
                 {ex.sentence}
               </p>
               {ex.translation && (
-                <p className="mt-[5px] text-[0.75rem] font-normal leading-relaxed text-[#6E6E73]">
+                <p className="mt-[5px] text-[0.75rem] font-normal leading-relaxed text-[#6E6E73] dark:text-[#9090AA]">
                   {ex.translation}
                 </p>
               )}

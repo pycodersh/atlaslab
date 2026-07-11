@@ -28,7 +28,7 @@ export function PatternCardFront({
   onToggleFavorite,
 }: PatternCardFrontProps) {
   return (
-    <div className="absolute inset-0 flex flex-col rounded-[28px] border border-white/60 bg-white/65 px-5 pb-4 pt-14 shadow-[0_8px_40px_rgba(79,140,255,0.10)] [backface-visibility:hidden]">
+    <div className="pattern-card-glass absolute inset-0 flex flex-col rounded-[28px] px-5 pb-4 pt-14 [backface-visibility:hidden] shadow-[0_8px_40px_rgba(79,140,255,0.10)]">
 
       <StoryLabel storyNumber={storyNumber} subtitle={storyTitle} onJump={onJump} />
 
@@ -57,8 +57,8 @@ export function PatternCardFront({
       </div>
 
       {/* 패턴 텍스트 — 이미지 바로 아래 */}
-      <div className="mt-3 flex-1 text-center">
-        <p className="text-[2rem] font-extrabold leading-tight tracking-tight text-[#1C1C1E]">
+      <div className="pattern-header-glass mt-3 flex-1 text-center rounded-[16px] px-3 py-3">
+        <p className="text-[2rem] font-extrabold leading-tight tracking-tight text-[#1C1C1E] dark:text-[#F2F2F5]">
           {pattern.pattern_text}
         </p>
         <p className="mt-1 text-[0.9rem] font-semibold text-[#6D8DFF]">

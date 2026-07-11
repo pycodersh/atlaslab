@@ -350,6 +350,24 @@ body {
 .animate-fade-in { animation: fade-in 0.9s ease forwards; }
 .animate-fade-up { animation: fade-up 0.8s cubic-bezier(0.22,1,0.36,1) forwards; }
 
+/* ── Pattern Card glass (front & back) ──────────────────────────────── */
+.pattern-card-glass {
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(255,255,255,0.6);
+}
+.dark .pattern-card-glass {
+  background: rgba(255,255,255,0.08);
+  border: 0.5px solid rgba(255,255,255,0.12);
+}
+.pattern-header-glass {
+  background: rgba(255,255,255,0.25);
+}
+.dark .pattern-header-glass {
+  background: rgba(255,255,255,0.06);
+}
+
 /* ── Story Card Header ───────────────────────────────────────────────── */
 .story-card-header {
   height: 72px;
