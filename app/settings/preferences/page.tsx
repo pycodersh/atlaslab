@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Bell, Clock } from 'lucide-react'
+import OneSignal from 'react-onesignal'
 import { TopNav } from '@/components/TopNav'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useTheme } from '@/components/ThemeProvider'
@@ -243,27 +244,14 @@ function BottomSheet<T extends string>({
   )
 }
 
-// ── Page ──────────────────────────────────────────────────────────────────────
+// ── OneSignal helpers ─────────────────────────────────────────────────────────
 
-// ── OneSignal helper (browser-only) ──────────────────────────────────────────
 const NOTIF_KEY = 'patto.notif'
 
 function getNotifPrefs(): { enabled: boolean; time: string } {
   try {
     return JSON.parse(localStorage.getItem(NOTIF_KEY) ?? '{}')
   } catch { return { enabled: false, time: '09:00' } }
-}
-
-function getOSDeferred() {
-  if (typeof window === 'undefined') return null
-  window.OneSignalDeferred = window.OneSignalDeferred ?? []
-  return window.OneSignalDeferred
-}
-
-async function osCall(fn: (os: any) => Promise<void>) {
-  const q = getOSDeferred()
-  if (!q) return
-  q.push(async (OneSignal: any) => { try { await fn(OneSignal) } catch { /* ignore */ } })
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -280,6 +268,8 @@ export default function PreferencesPage() {
 
   const [notifEnabled, setNotifEnabled] = useState(false)
   const [reminderTime, setReminderTime] = useState('09:00')
+  const [osReady, setOsReady] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
 
   useEffect(() => {
     const saved = getNotifPrefs()
@@ -287,37 +277,58 @@ export default function PreferencesPage() {
     setReminderTime(saved.time ?? '09:00')
   }, [])
 
+  // Poll until OneSignal is initialized (max 5s)
+  useEffect(() => {
+    let attempts = 0
+    const id = setInterval(() => {
+      attempts++
+      try {
+        if (OneSignal.Notifications !== undefined) {
+          setOsReady(true)
+          clearInterval(id)
+        }
+      } catch { /* not ready yet */ }
+      if (attempts >= 25) clearInterval(id) // give up after 5s
+    }, 200)
+    return () => clearInterval(id)
+  }, [])
+
+  function showToast(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(null), 3500)
+  }
+
   async function handleNotifToggle(on: boolean) {
+    if (!osReady) return
     if (on) {
-      await osCall(async (os) => {
-        await os.Notifications.requestPermission()
-        const granted = os.Notifications.permission
+      if (OneSignal.Notifications.permissionNative === 'denied') {
+        showToast('알림이 차단되어 있습니다. 브라우저 설정에서 patto 알림을 허용해 주세요.')
+        return
+      }
+      try {
+        await OneSignal.Notifications.requestPermission()
+        const granted = OneSignal.Notifications.permission
         if (granted) {
-          await os.User.PushSubscription.optIn()
-          await os.User.addTag('reminder_time', reminderTime)
-          const saved = { enabled: true, time: reminderTime }
-          localStorage.setItem(NOTIF_KEY, JSON.stringify(saved))
+          await OneSignal.User.PushSubscription.optIn()
+          await OneSignal.User.addTag('reminder_time', reminderTime)
+          localStorage.setItem(NOTIF_KEY, JSON.stringify({ enabled: true, time: reminderTime }))
           setNotifEnabled(true)
         }
-      })
+      } catch { /* permission dialog dismissed */ }
     } else {
-      await osCall(async (os) => {
-        await os.User.PushSubscription.optOut()
-      })
-      const saved = { enabled: false, time: reminderTime }
-      localStorage.setItem(NOTIF_KEY, JSON.stringify(saved))
+      try {
+        await OneSignal.User.PushSubscription.optOut()
+      } catch { /* ignore */ }
+      localStorage.setItem(NOTIF_KEY, JSON.stringify({ enabled: false, time: reminderTime }))
       setNotifEnabled(false)
     }
   }
 
   async function handleTimeChange(time: string) {
     setReminderTime(time)
-    const saved = { enabled: notifEnabled, time }
-    localStorage.setItem(NOTIF_KEY, JSON.stringify(saved))
-    if (notifEnabled) {
-      await osCall(async (os) => {
-        await os.User.addTag('reminder_time', time)
-      })
+    localStorage.setItem(NOTIF_KEY, JSON.stringify({ enabled: notifEnabled, time }))
+    if (notifEnabled && osReady) {
+      try { await OneSignal.User.addTag('reminder_time', time) } catch { /* ignore */ }
     }
   }
 
@@ -414,15 +425,30 @@ export default function PreferencesPage() {
         {/* ── NOTIFICATIONS ── */}
         <SecTitle label="Notifications" />
         <div style={glassCard}>
-          <ToggleRow
-            icon={Bell}
-            iconColor="#4A6FA8"
-            label="Daily Reminder"
-            desc={t('notif_reminder_desc')}
-            on={notifEnabled}
-            onChange={handleNotifToggle}
-            last={!notifEnabled}
-          />
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 14,
+            padding: '16px 18px',
+            borderBottom: notifEnabled ? '1px solid var(--pd)' : 'none',
+          }}>
+            <IconCircle>
+              <Bell style={{ width: 17, height: 17, color: '#4A6FA8' }} strokeWidth={1.6} />
+            </IconCircle>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>Daily Reminder</p>
+              <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0, lineHeight: 1.4 }}>{t('notif_reminder_desc')}</p>
+            </div>
+            {!osReady ? (
+              <div style={{
+                width: 46, height: 27, borderRadius: 14, flexShrink: 0,
+                background: 'rgba(140,145,165,0.22)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <div style={{ width: 14, height: 14, borderRadius: '50%', border: '2px solid rgba(140,145,165,0.5)', borderTopColor: 'var(--pa)', animation: 'spin 0.7s linear infinite' }} />
+              </div>
+            ) : (
+              <Toggle on={notifEnabled} onChange={handleNotifToggle} />
+            )}
+          </div>
           {notifEnabled && (
             <div style={{
               display: 'flex', alignItems: 'center', gap: 14,
@@ -462,6 +488,23 @@ export default function PreferencesPage() {
           v1.0.0
         </p>
       </div>
+
+      {/* Toast */}
+      {toast && (
+        <div style={{
+          position: 'fixed', bottom: 100, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 200, maxWidth: 320,
+          background: 'rgba(30,30,40,0.92)',
+          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+          borderRadius: 14, padding: '12px 18px',
+          color: '#fff', fontSize: 13, lineHeight: 1.5, textAlign: 'center',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.28)',
+        }}>
+          {toast}
+        </div>
+      )}
+
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
 
       <BottomSheet
         open={sheet === 'speechRate'}
