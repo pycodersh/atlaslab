@@ -275,38 +275,21 @@ export function PatternsSectionInline({
     setBookmarked(next)
   }
 
+  // Card colors
+  const cardBg       = isDark ? 'rgba(30,28,48,0.85)'       : 'rgba(248,248,255,0.95)'
+  const exBoxBg      = isDark ? 'rgba(255,255,255,0.04)'    : 'rgba(142,167,255,0.05)'
+  const exBoxBorder  = isDark ? 'rgba(255,255,255,0.08)'    : 'rgba(142,167,255,0.14)'
+
   return (
     <div style={{ padding: '0 16px' }}>
 
-      {/* ── Section header ─────────────────────────────────────────────── */}
-      <div style={{ padding: '28px 0 16px', display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
-        <div>
-          <p style={{
-            fontSize: 9, fontWeight: 800, letterSpacing: '0.20em',
-            color: 'var(--pa)', margin: '0 0 3px', textTransform: 'uppercase',
-          }}>
-            Today&apos;s Patterns
-          </p>
-          <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, fontWeight: 500 }}>
-            Patterns from this story
-          </p>
-        </div>
-        <p style={{
-          fontSize: 11, fontWeight: 600, color: 'var(--pm2)',
-          margin: 0, letterSpacing: '0.04em',
-          fontFamily: '"SF Mono", "Fira Mono", monospace',
-        }}>
-          {patIdx + 1} / {patterns.length}
-        </p>
-      </div>
-
       {/* ── Swipeable card ─────────────────────────────────────────────── */}
-      <div ref={swipeRef}>
+      <div ref={swipeRef} style={{ paddingTop: 4 }}>
         <div
           style={{
             overflow: 'hidden', borderRadius: 18, padding: 0,
-            background: isDark ? undefined : 'white',
-            border: isDark ? undefined : '0.5px solid rgba(142,167,255,0.25)',
+            background: cardBg,
+            border: isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)',
             boxShadow: isDark
               ? '0 16px 40px rgba(0,0,0,0.40)'
               : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)',
@@ -315,35 +298,19 @@ export function PatternsSectionInline({
           {/* Card hero header */}
           <div style={{
             position: 'relative', overflow: 'hidden',
-            padding: '16px 18px 18px',
+            padding: '14px 18px 16px',
             background: heroBg,
             borderBottom: `1px solid ${heroBorderColor}`,
           }}>
-            {/* Row 1: pattern number (left) + bookmark (right) */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-              <span style={{
-                fontSize: '0.58rem', fontWeight: 700, color: heroIconColor,
-                letterSpacing: '0.06em',
-                fontFamily: '"SF Mono", "Fira Mono", monospace',
-              }}>
-                PATTERN {String(globalPatternNum).padStart(3, '0')} / {totalPatterns}
-              </span>
-              <button
-                type="button"
-                onClick={handleBookmark}
-                aria-label={bookmarked ? '북마크 해제' : '북마크'}
-                style={{
-                  background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                  color: bookmarked ? '#8F234B' : heroIconColor,
-                  transition: 'color 0.15s',
-                }}
-              >
-                <Bookmark
-                  style={{ width: 16, height: 16 }} strokeWidth={1.8}
-                  fill={bookmarked ? 'currentColor' : 'none'}
-                />
-              </button>
-            </div>
+            {/* PATTERN 000/000 — centered top */}
+            <p style={{
+              textAlign: 'center', margin: '0 0 10px',
+              fontSize: '0.58rem', fontWeight: 700, color: heroIconColor,
+              letterSpacing: '0.06em',
+              fontFamily: '"SF Mono", "Fira Mono", monospace',
+            }}>
+              PATTERN {String(globalPatternNum).padStart(3, '0')} / {totalPatterns}
+            </p>
 
             {/* Pattern expression */}
             <p style={{
@@ -360,7 +327,7 @@ export function PatternsSectionInline({
               background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(60,40,100,0.25)',
             }} />
 
-            {/* Row 3: meaning (left) + audio button (right) */}
+            {/* Meaning + audio */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               {patternMeaning ? (
                 <p style={{
@@ -377,8 +344,7 @@ export function PatternsSectionInline({
                 style={{
                   background: 'none', border: 'none', padding: 6, cursor: 'pointer',
                   color: isPlaying ? '#8F234B' : heroIconColor,
-                  transition: 'color 0.15s',
-                  flexShrink: 0,
+                  transition: 'color 0.15s', flexShrink: 0,
                 }}
               >
                 {isPlaying
@@ -386,52 +352,77 @@ export function PatternsSectionInline({
                   : <Volume2 style={{ width: 17, height: 17 }} strokeWidth={1.6} />}
               </button>
             </div>
+
+            {/* Bookmark — bottom right of hero */}
+            <button
+              type="button"
+              onClick={handleBookmark}
+              aria-label={bookmarked ? '북마크 해제' : '북마크'}
+              style={{
+                position: 'absolute', bottom: 12, right: 14,
+                background: 'none', border: 'none', padding: 4, cursor: 'pointer',
+                color: bookmarked ? '#8F234B' : heroIconColor,
+                transition: 'color 0.15s',
+              }}
+            >
+              <Bookmark
+                style={{ width: 15, height: 15 }} strokeWidth={1.8}
+                fill={bookmarked ? 'currentColor' : 'none'}
+              />
+            </button>
           </div>
 
-          {/* Card body — examples */}
-          <div style={{ padding: '18px 20px 20px' }}>
-            {examples.map((ex, i) => {
-              const isExPlaying = isPlaying && i === exIdx
-              const fullEx = patternExamplesFull[pattern.id]?.[i]
-              const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
-              const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
-              return (
-                <div
-                  key={i}
-                  style={{
-                    borderTop: i > 0 ? '1px solid var(--pd)' : 'none',
-                    paddingTop: i > 0 ? 14 : 0,
-                    paddingBottom: i < examples.length - 1 ? 14 : 0,
-                  }}
-                >
-                  <TappableWordText
-                    text={ex.en}
-                    saveCandidates={safeCandidates}
-                    source={{
-                      sourceType:       'example',
-                      sourceId:         `${pattern.id}-ex${i + 1}`,
-                      patternId:        pattern.id,
-                      storyId:          story.id,
-                      exampleIndex:     i,
-                      originalSentence: ex.en,
-                    }}
+          {/* Card body — examples in a box */}
+          <div style={{ padding: '14px 16px 16px' }}>
+            <div style={{
+              borderRadius: 12,
+              background: exBoxBg,
+              border: `1px solid ${exBoxBorder}`,
+              padding: '12px 14px',
+            }}>
+              {examples.map((ex, i) => {
+                const isExPlaying = isPlaying && i === exIdx
+                const fullEx = patternExamplesFull[pattern.id]?.[i]
+                const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
+                const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
+                return (
+                  <div
+                    key={i}
                     style={{
-                      display:     'block',
-                      fontSize:    14.5,
-                      fontWeight:  isExPlaying ? 700 : 400,
-                      color:       'var(--pt)',
-                      lineHeight:  1.55,
-                      marginBottom: 2,
+                      borderTop: i > 0 ? `1px solid ${exBoxBorder}` : 'none',
+                      paddingTop: i > 0 ? 12 : 0,
+                      paddingBottom: i < examples.length - 1 ? 12 : 0,
                     }}
-                  />
-                  {showKorean && exKo && (
-                    <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
-                      {exKo}
-                    </p>
-                  )}
-                </div>
-              )
-            })}
+                  >
+                    <TappableWordText
+                      text={ex.en}
+                      saveCandidates={safeCandidates}
+                      source={{
+                        sourceType:       'example',
+                        sourceId:         `${pattern.id}-ex${i + 1}`,
+                        patternId:        pattern.id,
+                        storyId:          story.id,
+                        exampleIndex:     i,
+                        originalSentence: ex.en,
+                      }}
+                      style={{
+                        display:     'block',
+                        fontSize:    14,
+                        fontWeight:  isExPlaying ? 700 : 400,
+                        color:       'var(--pt)',
+                        lineHeight:  1.55,
+                        marginBottom: 2,
+                      }}
+                    />
+                    {showKorean && exKo && (
+                      <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, lineHeight: 1.5 }}>
+                        {exKo}
+                      </p>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>

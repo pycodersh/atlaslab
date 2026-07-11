@@ -344,7 +344,7 @@ export function StoryPage({
 
             {/* Paragraphs */}
             <div style={{ padding: '0 12px 8px' }}>
-              <div className="space-y-5">
+              <div className="space-y-2">
                 {story.paragraphs.map((para, i) => {
                   const isCurrentTTS = currentParagraphIdx === i && isSpeaking
                   const isKoOnly = studyMode === 'ko'
@@ -411,7 +411,7 @@ export function StoryPage({
         }}>
           <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
           <span style={{
-            fontSize: 8, color: '#A6B8FF', textTransform: 'uppercase',
+            fontSize: 10, color: '#7A94E8', textTransform: 'uppercase',
             letterSpacing: '0.12em', whiteSpace: 'nowrap',
           }}>
             Patterns in this story
