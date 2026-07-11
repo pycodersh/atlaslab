@@ -32,10 +32,11 @@ function IconCircle({ children }: { children: React.ReactNode }) {
   return (
     <div style={{
       width: 38, height: 38, borderRadius: 12, flexShrink: 0,
-      background: isDark ? 'rgba(255,255,255,0.12)' : 'var(--pc)',
-      border: isDark ? '1px solid rgba(255,255,255,0.18)' : '1px solid var(--pglass-border)',
-      boxShadow: '0 1px 4px rgba(40,50,80,0.06)',
+      background: isDark ? 'rgba(255,255,255,0.14)' : 'var(--pc)',
+      border: isDark ? '1px solid rgba(255,255,255,0.20)' : '1px solid var(--pglass-border)',
+      boxShadow: isDark ? '0 1px 6px rgba(0,0,0,0.25)' : '0 1px 4px rgba(40,50,80,0.06)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
+      color: isDark ? '#A6B8FF' : 'inherit',
     }}>
       {children}
     </div>
@@ -79,6 +80,8 @@ function ToggleRow({ icon: Icon, iconColor = '#6E6E73', label, desc, on, onChang
   label: string; desc: string; on: boolean
   onChange: (v: boolean) => void; last?: boolean
 }) {
+  const { theme } = useTheme()
+  const effectiveIconColor = theme === 'dark' ? '#A6B8FF' : iconColor
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 14,
@@ -86,7 +89,7 @@ function ToggleRow({ icon: Icon, iconColor = '#6E6E73', label, desc, on, onChang
       borderBottom: last ? 'none' : '1px solid var(--pd)',
     }}>
       <IconCircle>
-        <Icon style={{ width: 17, height: 17, color: iconColor }} strokeWidth={1.6} />
+        <Icon style={{ width: 17, height: 17, color: effectiveIconColor }} strokeWidth={1.6} />
       </IconCircle>
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>{label}</p>
@@ -103,6 +106,8 @@ function NavRow({ icon: Icon, iconColor = '#6E6E73', label, desc, displayValue, 
   label: string; desc: string; displayValue: string
   onClick: () => void; last?: boolean
 }) {
+  const { theme } = useTheme()
+  const effectiveIconColor = theme === 'dark' ? '#A6B8FF' : iconColor
   return (
     <button
       type="button"
@@ -116,7 +121,7 @@ function NavRow({ icon: Icon, iconColor = '#6E6E73', label, desc, displayValue, 
       }}
     >
       <IconCircle>
-        <Icon style={{ width: 17, height: 17, color: iconColor }} strokeWidth={1.6} />
+        <Icon style={{ width: 17, height: 17, color: effectiveIconColor }} strokeWidth={1.6} />
       </IconCircle>
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>{label}</p>
@@ -136,6 +141,8 @@ function SliderRow({ icon: Icon, iconColor = '#6E6E73', label, desc, value, onCh
   label: string; desc: string; value: number
   onChange: (v: number) => void; last?: boolean
 }) {
+  const { theme } = useTheme()
+  const effectiveIconColor = theme === 'dark' ? '#A6B8FF' : iconColor
   return (
     <div style={{
       display: 'flex', alignItems: 'flex-start', gap: 14,
@@ -143,7 +150,7 @@ function SliderRow({ icon: Icon, iconColor = '#6E6E73', label, desc, value, onCh
       borderBottom: last ? 'none' : '1px solid var(--pd)',
     }}>
       <IconCircle>
-        <Icon style={{ width: 17, height: 17, color: iconColor }} strokeWidth={1.6} />
+        <Icon style={{ width: 17, height: 17, color: effectiveIconColor }} strokeWidth={1.6} />
       </IconCircle>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 }}>
@@ -431,7 +438,7 @@ export default function PreferencesPage() {
             borderBottom: notifEnabled ? '1px solid var(--pd)' : 'none',
           }}>
             <IconCircle>
-              <Bell style={{ width: 17, height: 17, color: '#4A6FA8' }} strokeWidth={1.6} />
+              <Bell style={{ width: 17, height: 17, color: theme === 'dark' ? '#A6B8FF' : '#4A6FA8' }} strokeWidth={1.6} />
             </IconCircle>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>Daily Reminder</p>
@@ -456,7 +463,7 @@ export default function PreferencesPage() {
               borderTop: '1px solid var(--pd)',
             }}>
               <IconCircle>
-                <Clock style={{ width: 17, height: 17, color: '#4A6FA8' }} strokeWidth={1.6} />
+                <Clock style={{ width: 17, height: 17, color: theme === 'dark' ? '#A6B8FF' : '#4A6FA8' }} strokeWidth={1.6} />
               </IconCircle>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>Reminder Time</p>
