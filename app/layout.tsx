@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Atlas Lab Studios — AI-powered guide apps",
-  description: "Atlas Lab Studios builds AI agent apps that help you navigate language, career, news, and food.",
+  title: "Atlas Lab — AI-powered guide apps",
+  description: "Atlas Lab builds AI agent apps that help you navigate language, career, news, and food.",
 };
 
 export default function RootLayout({

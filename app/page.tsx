@@ -67,7 +67,7 @@ export default function HubHome() {
         <div className="hub-nav-inner">
           <a href="/" className="hub-logo">
             <div className="hub-logo-icon">A</div>
-            <span className="hub-logo-text">Atlas Lab Studios</span>
+            <span className="hub-logo-text">Atlas Lab</span>
           </a>
           <ul className="hub-nav-links">
             <li><a href="#apps">Apps</a></li>
@@ -91,7 +91,7 @@ export default function HubHome() {
             <em>We&apos;ll guide the way.</em>
           </h1>
           <p className="hub-sub">
-            Atlas Lab Studios builds AI agent apps that help you navigate
+            Atlas Lab builds AI agent apps that help you navigate
             language, career, news, and food.
           </p>
           <div className="hub-cta">
@@ -166,7 +166,7 @@ export default function HubHome() {
             <HubBlogCard
               tag="Product"
               title="Building six apps at once: our stack, our sanity"
-              preview="One Next.js monorepo, one design system, six products in progress. A candid look at how Atlas Lab Studios works."
+              preview="One Next.js monorepo, one design system, six products in progress. A candid look at how Atlas Lab works."
             />
           </div>
         </section>
@@ -177,12 +177,12 @@ export default function HubHome() {
         <footer className="hub-footer" id="about">
           <div className="hub-footer-left">
             <div className="hub-footer-logo">A</div>
-            <span className="hub-footer-brand">Atlas Lab Studios &nbsp;&middot;&nbsp; &copy; 2026</span>
+            <span className="hub-footer-brand">Atlas Lab &nbsp;&middot;&nbsp; &copy; 2026</span>
           </div>
           <div className="hub-footer-right">
             <a href="/privacy">Privacy</a>
             <a href="/terms">Terms</a>
-            <a href="mailto:hello@atlaslabstudios.com">Contact</a>
+            <a href="mailto:hello@atlaslab.app">Contact</a>
           </div>
         </footer>
 
