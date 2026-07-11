@@ -9,6 +9,8 @@ type SpeakOpts = {
   voiceKey?: VoiceKey
   /** 세그먼트별 음성 (texts와 1:1) — 화자 구분용 */
   voiceKeys?: VoiceKey[]
+  /** 전체 낭독이 끝날 때 호출 (중단 시엔 호출되지 않음) */
+  onEnd?: () => void
 }
 
 export function useSpeech() {
@@ -48,6 +50,7 @@ export function useSpeech() {
       onEnd: () => {
         setIsSpeaking(false)
         setCurrentParagraphIdx(-1)
+        opts?.onEnd?.()
         if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'none'
       },
       onError: () => {

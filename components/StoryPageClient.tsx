@@ -10,7 +10,7 @@ import type { PracticeExample } from '@/data/pattern-examples'
 type Props = {
   story: MagazineStory
   allStories: MagazineStory[]
-  initialView?: 'story' | 'patterns'
+  initialView?: 'story' | 'patterns'  // kept for backwards compat, unused
   patternExamples?: Record<string, PracticeExample[]>
 }
 
@@ -93,7 +93,6 @@ export function StoryPageClient({ story, allStories, initialView = 'story', patt
     <MagazineEngine
       story={story}
       allStories={allStories}
-      initialView={initialView}
       patternExamples={patternExamples}
     />
   )

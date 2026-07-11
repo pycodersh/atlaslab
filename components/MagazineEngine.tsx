@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
@@ -14,10 +14,12 @@ import { TodayMissionPopup } from '@/components/TodayMissionPopup'
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { useLearningProgress } from '@/hooks/useLearningProgress'
 import type { AmbienceId } from '@/types/magazine'
 import { ambienceGain, type VoiceKey } from '@/lib/settings/preferences'
 import type { MagazineStory } from '@/types/magazine'
 import { saveLastPosition } from '@/lib/last-position'
+import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
 
 type MagazineEngineProps = {
@@ -27,114 +29,20 @@ type MagazineEngineProps = {
   patternExamples?: Record<string, PracticeExample[]>
 }
 
-export function MagazineEngine({ story, allStories, initialView = 'story', patternExamples }: MagazineEngineProps) {
+export function MagazineEngine({ story, allStories, patternExamples }: MagazineEngineProps) {
   const router = useRouter()
   const isDesktop = useIsDesktop()
   const { speakAll, stop, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
-
-  const [view, setView] = useState<'story' | 'patterns'>(initialView)
-  // null = follow Settings default; true/false = per-story override
-  const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
+  const { progress, setProgress } = useLearningProgress()
 
   // 위치 저장 — Continue Learning이 여기로 돌아올 수 있도록
-  useEffect(() => { saveLastPosition(story.id, view) }, [story.id, view])
+  useEffect(() => { saveLastPosition(story.id, 'story') }, [story.id])
   const [showPicker, setShowPicker] = useState(false)
 
-  // ── Swipe / drag state ──────────────────────────────────────────────
-  const [dragOffset, setDragOffset] = useState(0)
-  const [isDragging, setIsDragging] = useState(false)
-  const touchStartX = useRef(0)
-  const touchStartY = useRef(0)
-  const isHorizontalSwipe = useRef<boolean | null>(null)
-  const viewRef = useRef(view)
-  const storyRef = useRef(story)
-  const allStoriesRef = useRef(allStories)
-  const railRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => { viewRef.current = view }, [view])
-  useEffect(() => { storyRef.current = story }, [story])
-  useEffect(() => { allStoriesRef.current = allStories }, [allStories])
-
-  // Passive touchmove — touch-action: pan-y on the rail prevents horizontal scroll
-  // natively so we don't need preventDefault(). Passive = browser scrolls immediately
-  // without waiting for JS, which fixes the iOS "null content below initial viewport" bug.
-  useEffect(() => {
-    const el = railRef.current
-    if (!el) return
-
-    function onTouchMove(e: TouchEvent) {
-      const dx = e.touches[0].clientX - touchStartX.current
-      const dy = e.touches[0].clientY - touchStartY.current
-
-      if (isHorizontalSwipe.current === null) {
-        if (Math.abs(dx) > Math.abs(dy) + 5) isHorizontalSwipe.current = true
-        else if (Math.abs(dy) > Math.abs(dx) + 5) isHorizontalSwipe.current = false
-        else return
-      }
-      if (!isHorizontalSwipe.current) return
-
-      // No e.preventDefault() — touch-action: pan-y handles it at CSS level
-
-      const v = viewRef.current
-      const s = storyRef.current
-      const all = allStoriesRef.current
-      // Block left-drag when on last page (Patterns of last story)
-      if (v === 'patterns' && dx < 0 && s.id >= all.length) return
-      // Block right-drag when on first page (Story of first story)
-      if (v === 'story' && dx > 0 && s.id <= 1) return
-
-      setDragOffset(dx)
-      setIsDragging(true)
-    }
-
-    el.addEventListener('touchmove', onTouchMove, { passive: true })
-    return () => el.removeEventListener('touchmove', onTouchMove)
-  }, [])
-
-  function handleTouchStart(e: React.TouchEvent) {
-    touchStartX.current = e.touches[0].clientX
-    touchStartY.current = e.touches[0].clientY
-    isHorizontalSwipe.current = null
-  }
-
-  // Linear swipe: Story01 → Patterns01 → Story02 → Patterns02 …
-  function handleTouchEnd() {
-    isHorizontalSwipe.current = null
-    if (!isDragging) { setDragOffset(0); return }
-
-    const THRESHOLD = (typeof window !== 'undefined' ? window.innerWidth : 375) * 0.25
-    const v = viewRef.current
-    const s = storyRef.current
-
-    if (dragOffset < -THRESHOLD) {
-      // Swipe LEFT → forward
-      if (v === 'story') {
-        // Story → Patterns (same story)
-        handleStop(); setView('patterns')
-      } else {
-        // Patterns → next Story
-        const next = allStoriesRef.current.find(x => x.id === s.id + 1)
-        if (next) { handleStop(); router.push(`/patto/stories/${next.id}`) }
-      }
-    } else if (dragOffset > THRESHOLD) {
-      // Swipe RIGHT → backward
-      if (v === 'patterns') {
-        // Patterns → Story (same story)
-        handleStop(); setView('story')
-      } else {
-        // Story → prev story's Patterns
-        const prev = allStoriesRef.current.find(x => x.id === s.id - 1)
-        if (prev) { handleStop(); router.push(`/patto/stories/${prev.id}?v=p`) }
-      }
-    }
-
-    setIsDragging(false)
-    setDragOffset(0)
-  }
-
   // Story 변경 시 per-story override 초기화
+  const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
   useEffect(() => {
     setAmbienceOverride(null)
   }, [story.id])  // eslint-disable-line react-hooks/exhaustive-deps
@@ -142,7 +50,6 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   const effectiveAmbienceOn = ambienceOverride ?? (prefs.ambienceDefault === 'on')
   const userVolume = ambienceGain(prefs.ambienceVolume ?? 50)
 
-  // 환경음 toggle: 낭독 중이면 즉시 재생/중단
   const toggleAmbience = useCallback(() => {
     const next = !effectiveAmbienceOn
     setAmbienceOverride(next)
@@ -164,6 +71,19 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     return () => stopAmbience()
   }, [])  // eslint-disable-line react-hooks/exhaustive-deps
 
+  // 스토리 음성 완료 처리
+  const storyRef = useRef(story)
+  useEffect(() => { storyRef.current = story }, [story])
+  const progressRef = useRef(progress)
+  useEffect(() => { progressRef.current = progress }, [progress])
+
+  const handleStoryComplete = useCallback(() => {
+    const s = storyRef.current
+    const p = progressRef.current
+    const patternIds = s.patterns.map(pat => pat.id)
+    setProgress(completeStoryAndScheduleReview(p, String(s.id), patternIds, 1, 1))
+  }, [setProgress])
+
   // 낭독 시작 시 환경음도 같이 시작 (활성화 상태일 때)
   const handleSpeakAll = useCallback((
     texts: string[],
@@ -173,9 +93,9 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     if (effectiveAmbienceOn && story.ambienceId && !story.sceneVideo) {
       playAmbience(story.ambienceId as AmbienceId, userVolume)
     }
-    speakAll(texts, audioUrls, opts)
+    speakAll(texts, audioUrls, { ...opts, onEnd: handleStoryComplete })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [effectiveAmbienceOn, story.ambienceId, story.sceneVideo, userVolume, speakAll])
+  }, [effectiveAmbienceOn, story.ambienceId, story.sceneVideo, userVolume, speakAll, handleStoryComplete])
 
   // 낭독 중단 시 환경음도 함께 중단
   const handleStop = useCallback(() => {
@@ -185,52 +105,50 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   }, [stop])
 
   // ── Navigation ──────────────────────────────────────────────────────
-  function switchView(newView: 'story' | 'patterns') {
-    handleStop(); setView(newView)
-  }
+  const allStoriesRef = useRef(allStories)
+  useEffect(() => { allStoriesRef.current = allStories }, [allStories])
 
-  function goToStory(id: number, startView: 'story' | 'patterns' = 'story') {
+  function goToStory(id: number) {
     handleStop()
-    const suffix = startView === 'patterns' ? '?v=p' : ''
-    router.push(`/patto/stories/${id}${suffix}`)
+    router.push(`/patto/stories/${id}`)
   }
 
-  // Linear next: Story → Patterns, Patterns → next Story
-  // Desktop: skip the Story↔Patterns toggle — go directly to next story
   function goNext() {
-    if (isDesktop) {
-      const next = allStories.find(s => s.id === story.id + 1)
-      if (next) goToStory(next.id, 'story')
-    } else if (view === 'story') {
-      switchView('patterns')
-    } else {
-      const next = allStories.find(s => s.id === story.id + 1)
-      if (next) goToStory(next.id, 'story')
-    }
+    const next = allStories.find(s => s.id === story.id + 1)
+    if (next) goToStory(next.id)
   }
 
-  // Linear prev: Patterns → Story, Story → prev Story's Patterns
-  // Desktop: go directly to prev story
   function goPrev() {
-    if (isDesktop) {
-      const prev = allStories.find(s => s.id === story.id - 1)
-      if (prev) goToStory(prev.id, 'story')
-    } else if (view === 'patterns') {
-      switchView('story')
-    } else {
-      const prev = allStories.find(s => s.id === story.id - 1)
-      if (prev) goToStory(prev.id, 'patterns')
-    }
+    const prev = allStories.find(s => s.id === story.id - 1)
+    if (prev) goToStory(prev.id)
   }
 
-  const isFirst = isDesktop ? story.id <= 1 : (story.id <= 1 && view === 'story')
-  const isLast  = isDesktop ? story.id >= allStories.length : (story.id >= allStories.length && view === 'patterns')
+  const isFirst = story.id <= 1
+  const isLast  = story.id >= allStories.length
 
-  // ── Rail transform ──────────────────────────────────────────────────
-  const basePercent = view === 'story' ? 0 : -50
-  const railTransform = isDragging
-    ? `translateX(calc(${basePercent}% + ${dragOffset}px))`
-    : `translateX(${basePercent}%)`
+  // ── Mobile story-zone swipe ──────────────────────────────────────────
+  const storyTouchStartX = useRef(0)
+  const storyTouchStartY = useRef(0)
+
+  function handleStoryTouchStart(e: React.TouchEvent) {
+    storyTouchStartX.current = e.touches[0].clientX
+    storyTouchStartY.current = e.touches[0].clientY
+  }
+
+  function handleStoryTouchEnd(e: React.TouchEvent) {
+    const dx = e.changedTouches[0].clientX - storyTouchStartX.current
+    const dy = e.changedTouches[0].clientY - storyTouchStartY.current
+    // Only act on clearly horizontal swipes
+    if (Math.abs(dy) >= Math.abs(dx) || Math.abs(dx) < 40) return
+    const THRESHOLD = (typeof window !== 'undefined' ? window.innerWidth : 375) * 0.2
+    if (dx < -THRESHOLD) {
+      const next = allStoriesRef.current.find(x => x.id === story.id + 1)
+      if (next) { handleStop(); router.push(`/patto/stories/${next.id}`) }
+    } else if (dx > THRESHOLD) {
+      const prev = allStoriesRef.current.find(x => x.id === story.id - 1)
+      if (prev) { handleStop(); router.push(`/patto/stories/${prev.id}`) }
+    }
+  }
 
   const sharedPopups = (
     <>
@@ -338,53 +256,43 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
     )
   }
 
-  // ── Mobile: swipe rail layout ────────────────────────────────────────
+  // ── Mobile: vertical layout (story top, patterns below) ─────────────
   return (
-    <div className="h-screen-stable flex flex-col overflow-hidden">
-
-      {/* Sliding rail */}
+    <div style={{ minHeight: '100dvh' }}>
+      {/* Story zone — full viewport height, horizontal swipe = story navigation */}
       <div
-        ref={railRef}
-        className="flex flex-1 min-h-0"
-        style={{
-          width: '200%',
-          transform: railTransform,
-          transition: isDragging ? 'none' : 'transform 340ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-          willChange: isDragging ? 'transform' : 'auto',
-          touchAction: 'pan-y',
-        }}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+        style={{ height: '100dvh', touchAction: 'pan-y' }}
+        onTouchStart={handleStoryTouchStart}
+        onTouchEnd={handleStoryTouchEnd}
       >
-        <div className="h-full" style={{ width: '50%', overflow: 'clip' }}>
-          <StoryPage
-            story={story}
-            totalStories={allStories.length}
-            onNext={goNext}
-            onPrev={goPrev}
-            hasPrev={!isFirst}
-            onOpenPicker={() => setShowPicker(true)}
-            speakAll={handleSpeakAll}
-            stop={handleStop}
-            isSpeaking={isSpeaking}
-            currentParagraphIdx={currentParagraphIdx}
-            ambienceOn={effectiveAmbienceOn}
-            onAmbienceToggle={toggleAmbience}
-          />
-        </div>
+        <StoryPage
+          story={story}
+          totalStories={allStories.length}
+          onNext={goNext}
+          onPrev={goPrev}
+          hasPrev={!isFirst}
+          onOpenPicker={() => setShowPicker(true)}
+          speakAll={handleSpeakAll}
+          stop={handleStop}
+          isSpeaking={isSpeaking}
+          currentParagraphIdx={currentParagraphIdx}
+          ambienceOn={effectiveAmbienceOn}
+          onAmbienceToggle={toggleAmbience}
+        />
+      </div>
 
-        <div className="h-full" style={{ width: '50%', overflow: 'clip' }}>
-          <PatternsPageV2
-            story={story}
-            totalStories={allStories.length}
-            onPrev={goPrev}
-            onNext={goNext}
-            hasNext={!isLast}
-            onOpenPicker={() => setShowPicker(true)}
-            patternExamples={patternExamples}
-            isActive={view === 'patterns'}
-          />
-        </div>
+      {/* Pattern zone — independent swipe handled inside PatternsPageV2 */}
+      <div style={{ minHeight: '100dvh' }}>
+        <PatternsPageV2
+          story={story}
+          totalStories={allStories.length}
+          onPrev={goPrev}
+          onNext={goNext}
+          hasNext={!isLast}
+          onOpenPicker={() => setShowPicker(true)}
+          patternExamples={patternExamples}
+          isActive={true}
+        />
       </div>
 
       {sharedPopups}
