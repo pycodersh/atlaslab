@@ -462,7 +462,6 @@ export function PatternsPageV2({
                 position: 'relative', overflow: 'hidden',
                 padding: '14px 16px 16px',
                 background: heroTheme.bg,
-                borderBottom: `1px solid ${heroTheme.borderColor}`,
               }}>
                 {/* Wave SVG overlay */}
                 <WaveOverlay wave1={heroTheme.wave1} wave2={heroTheme.wave2} />
