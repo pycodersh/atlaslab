@@ -327,7 +327,7 @@ function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
   const offset = circ * (1 - Math.min(pct, 100) / 100)
   return (
     <svg width={size} height={size} style={{ flexShrink: 0, transform: 'rotate(-90deg)' }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(140,150,185,0.13)" strokeWidth={stroke} />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(142,167,255,0.15)" strokeWidth={stroke} />
       <circle
         cx={size / 2} cy={size / 2} r={r} fill="none"
         stroke={color} strokeWidth={stroke} strokeLinecap="round"
@@ -342,10 +342,10 @@ function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
 
 function SlimBar({ pct, isDark }: { pct: number; isDark: boolean }) {
   return (
-    <div style={{ height: 4, borderRadius: 2, overflow: 'hidden', background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)' }}>
+    <div style={{ height: 4, borderRadius: 2, overflow: 'hidden', background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(142,167,255,0.15)' }}>
       <div style={{
         height: '100%', width: `${Math.min(pct, 100)}%`,
-        background: isDark ? 'rgba(140,160,255,0.7)' : 'rgba(80,100,220,0.6)',
+        background: isDark ? 'rgba(140,160,255,0.7)' : 'linear-gradient(90deg, #8EA7FF, #CFC4FF)',
         borderRadius: 2,
         transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)',
       }} />
@@ -356,8 +356,8 @@ function SlimBar({ pct, isDark }: { pct: number; isDark: boolean }) {
 // ── Story review dots ─────────────────────────────────────────────────────────
 
 function StoryDots({ count, isDark }: { count: number; isDark: boolean }) {
-  const filledColor = isDark ? 'rgba(140,160,255,0.8)' : 'rgba(80,100,220,0.7)'
-  const emptyColor  = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)'
+  const filledColor = isDark ? 'rgba(140,160,255,0.8)' : 'rgba(142,167,255,0.85)'
+  const emptyColor  = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(142,167,255,0.15)'
   return (
     <div style={{ display: 'flex', gap: 4 }}>
       {[1, 2, 3, 4, 5].map(n => (
@@ -508,12 +508,12 @@ function ScoreCard({ score, learnedStories, learnedPatterns }: {
       <div style={{ ...glassCard, padding: '24px 24px 22px' }}>
         {/* Title row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
-          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase', flex: 1 }}>
+          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : 'var(--pm)', margin: 0, textTransform: 'uppercase', flex: 1 }}>
             Score
           </p>
           <button type="button" onClick={() => setShowInfo(true)}
             style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-            <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
+            <Info style={{ width: 14, height: 14, color: 'rgba(142,167,255,0.50)' }} strokeWidth={1.8} />
           </button>
         </div>
 
@@ -536,7 +536,7 @@ function ScoreCard({ score, learnedStories, learnedPatterns }: {
           </div>
         </div>
 
-        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 20 }} />
+        <div style={{ height: 1, background: 'rgba(142,167,255,0.12)', marginBottom: 20 }} />
 
         {/* Story Progress */}
         <div style={{ marginBottom: 18 }}>
@@ -587,12 +587,12 @@ function MyStoriesCard({ myStories }: { myStories: MyStoriesData }) {
     <>
       <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase' }}>
+          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : 'var(--pm)', margin: 0, textTransform: 'uppercase' }}>
             MY STORIES
           </p>
           <button type="button" onClick={() => setShowInfo(true)}
             style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-            <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
+            <Info style={{ width: 14, height: 14, color: 'rgba(142,167,255,0.50)' }} strokeWidth={1.8} />
           </button>
         </div>
 
@@ -662,7 +662,7 @@ function MyStoriesCard({ myStories }: { myStories: MyStoriesData }) {
         )}
 
         {myStories.remaining > 0 && (
-          <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(140,150,185,0.60)', margin: `${myStories.inProgress.length > 0 || myStories.completed.length > 0 ? '14px' : '8px'} 0 0`, textAlign: 'center' }}>
+          <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(142,167,255,0.55)', margin: `${myStories.inProgress.length > 0 || myStories.completed.length > 0 ? '14px' : '8px'} 0 0`, textAlign: 'center' }}>
             <Lock style={{ width: 12, height: 12, display: 'inline', verticalAlign: 'middle' }} strokeWidth={2} />{' '}{myStories.remaining} more stories waiting
           </p>
         )}
@@ -781,7 +781,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
         maxHeight: '72dvh', overflowY: 'auto',
       }}>
         <div style={{ padding: '12px 24px 0' }}>
-          <div style={{ width: 32, height: 3, background: 'rgba(140,150,185,0.22)', borderRadius: 99, margin: '0 auto' }} />
+          <div style={{ width: 32, height: 3, background: 'rgba(142,167,255,0.20)', borderRadius: 99, margin: '0 auto' }} />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
           <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
@@ -789,7 +789,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
           </p>
           <button type="button" onClick={onClose} style={{
             width: 28, height: 28, borderRadius: '50%',
-            background: 'rgba(140,150,185,0.10)', border: 'none', cursor: 'pointer',
+            background: 'rgba(142,167,255,0.12)', border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <X style={{ width: 12, height: 12, color: 'var(--pm2)' }} strokeWidth={2} />
@@ -809,7 +809,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                   <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>Completed</p>
                 </div>
                 {detail.completed.map(item => (
-                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
+                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(142,167,255,0.12)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
                     Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
                   </div>
                 ))}
@@ -822,7 +822,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
                   <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>Due for Review</p>
                 </div>
                 {detail.due.map(item => (
-                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
+                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(142,167,255,0.12)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
                     Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
                   </div>
                 ))}

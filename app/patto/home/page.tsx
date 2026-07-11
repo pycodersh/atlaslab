@@ -28,7 +28,7 @@ function AllStoriesPanel({ labelMap }: { labelMap: Record<number, AllStoryLabel>
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-        <p style={{ fontSize: 15, fontWeight: 800, color: '#3A3A3C', margin: 0, letterSpacing: '0.04em', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif' }}>
+        <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--pt)', margin: 0, letterSpacing: '0.04em', textTransform: 'uppercase', fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif' }}>
           All Stories
         </p>
         <span style={{ fontSize: 11, color: 'var(--pm)', fontWeight: 500 }}>{magazineStories.length} stories</span>
@@ -206,7 +206,7 @@ function TipContent({ tip, isDark }: { tip: EditorNote; isDark?: boolean }) {
 
 // ── PATTO GUIDE carousel ──────────────────────────────────────────────────────
 const GUIDE_STEPS = [
-  { step: 'STEP 01', title: 'Read the Story',         icon: BookOpen,  color: 'rgba(80,100,220,0.8)' },
+  { step: 'STEP 01', title: 'Read the Story',         icon: BookOpen,  color: 'rgba(142,167,255,0.85)' },
   { step: 'STEP 02', title: 'Hide & Recall',          icon: EyeOff,   color: 'rgba(220,80,80,0.8)' },
   { step: 'STEP 03', title: 'Repeat 5 Times',         icon: RotateCcw, color: 'rgba(60,170,90,0.85)' },
   { step: 'STEP 04', title: 'Write & Get Reviewed',   icon: PenLine,  color: 'rgba(200,140,60,0.9)' },
@@ -321,7 +321,7 @@ function GuideCarousel({ onClose }: { onClose: () => void }) {
           {/* Dot indicator */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, margin: '0 auto' }}>
             {Array.from({ length: TOTAL }, (_, i) => (
-              <div key={i} style={{ borderRadius: pos === i ? 3 : '50%', transition: 'all 0.28s ease', width: pos === i ? 18 : 5, height: 5, background: pos === i ? (isDark ? 'rgba(255,255,255,0.45)' : 'rgba(80,100,220,0.5)') : (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(40,30,80,0.12)') }} />
+              <div key={i} style={{ borderRadius: pos === i ? 3 : '50%', transition: 'all 0.28s ease', width: pos === i ? 18 : 5, height: 5, background: pos === i ? (isDark ? 'rgba(255,255,255,0.45)' : 'rgba(142,167,255,0.75)') : (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(142,167,255,0.18)') }} />
             ))}
           </div>
 
@@ -1003,9 +1003,9 @@ export default function HomePage() {
                       <span style={{
                         flexShrink: 0, whiteSpace: 'nowrap',
                         fontSize: 9, fontWeight: 700,
-                        color: isDark ? 'rgba(140,160,255,0.9)' : 'rgba(80,100,220,0.8)',
-                        background: isDark ? 'rgba(140,160,255,0.12)' : 'rgba(80,100,220,0.08)',
-                        border: `1px solid ${isDark ? 'rgba(140,160,255,0.22)' : 'rgba(80,100,220,0.18)'}`,
+                        color: isDark ? 'rgba(140,160,255,0.9)' : 'rgba(142,167,255,0.90)',
+                        background: isDark ? 'rgba(140,160,255,0.12)' : 'rgba(142,167,255,0.10)',
+                        border: `1px solid ${isDark ? 'rgba(140,160,255,0.22)' : 'rgba(142,167,255,0.20)'}`,
                         borderRadius: 6, padding: '2px 7px',
                       }}>
                         Round {s.reviewCount + 1}
@@ -1081,7 +1081,7 @@ export default function HomePage() {
         <div className="mobile-only" style={{ padding: '28px 20px 0' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
             <p style={{
-              fontSize: 15, fontWeight: 800, color: '#3A3A3C',
+              fontSize: 15, fontWeight: 800, color: 'var(--pt)',
               margin: 0, letterSpacing: '0.04em', textTransform: 'uppercase',
               fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
               textShadow: '0 1px 0 rgba(255,255,255,.8), 0 8px 18px rgba(60,70,90,.08)',

@@ -2,25 +2,30 @@
 
 /* ── PATTO Design Tokens ─────────────────────────────────────────────── */
 :root {
-  /* Soft Aurora — Light */
-  --pb:   #FAFAFA;                       /* page background (near-white) */
-  --pc:   rgba(255,255,255,0.72);        /* Solid card surface — used WITHOUT backdrop-filter blur */
-  --pc2:  rgba(255,255,255,0.55);        /* Gradient middle stop — softer surface transition layer */
-  --pd:   rgba(60,60,67,0.10);           /* divider / border */
-  --pw:   #FFFFFF;                       /* Fully opaque white solid surface (e.g. active pill, row bg) */
-  --pt:   #1C1C1E;                       /* primary text — iOS systemLabel */
-  --pt2:  #3A3A3C;                       /* body text — iOS secondaryLabel */
-  --pm:   #6E6E73;                       /* secondary/helper text — iOS tertiaryLabel */
-  --pm2:  #8E8E93;                       /* caption/meta text — iOS quaternaryLabel */
-  --pa:   #6D8DFF;                       /* Soft Blue primary accent */
-  --pal:  rgba(109,141,255,0.08);        /* accent light bg */
-  --pacb: rgba(109,141,255,0.20);        /* accent card border */
-  --pglass: rgba(255,255,255,0.35);      /* Glass overlay surface — always used WITH backdrop-filter blur */
-  --pglass-border: rgba(255,255,255,0.6); /* glass border */
+  /* Soft Indigo — Light */
+  --pb:   #FAFAFC;                          /* primary background */
+  --pb2:  #F8F9FD;                          /* secondary background */
+  --pb3:  #F6F7FB;                          /* tertiary background */
+  --pc:   rgba(255,255,255,0.55);           /* glass card surface */
+  --pc2:  rgba(255,255,255,0.40);           /* gradient middle stop */
+  --pd:   rgba(142,167,255,0.20);           /* divider / border */
+  --pw:   #FFFFFF;                          /* fully opaque white */
+  --pt:   #1a1a2e;                          /* primary text */
+  --pt2:  #2e2e4a;                          /* body text */
+  --pm:   #5a5a7a;                          /* secondary/helper text */
+  --pm2:  #aaaaaa;                          /* caption/meta text */
+  --pa:   #8EA7FF;                          /* Soft Indigo primary accent */
+  --pa2:  #A6B8FF;                          /* secondary accent */
+  --pal:  rgba(142,167,255,0.15);           /* accent light bg */
+  --pacb: rgba(142,167,255,0.20);           /* accent card border */
+  --plavender: #CFC4FF;                     /* lavender accent */
+  --pgold: #D7B56D;                         /* gold highlight (review badges etc.) */
+  --pglass: rgba(255,255,255,0.55);         /* glass overlay surface */
+  --pglass-border: rgba(142,167,255,0.20);  /* glass border */
   /* Heatmap */
-  --ph1: #C0CDFF;
-  --ph2: #8BA3FF;
-  --ph3: #6D8DFF;
+  --ph1: #C6D2FF;
+  --ph2: #A6B8FF;
+  --ph3: #8EA7FF;
   /* Annotation ink palette — light (handwritten pen feel) */
   --ann-red-1:      #8B1A1A;   /* deep crimson — primary grammar mark */
   --ann-red-2:      #7A1212;   /* darker wine — secondary variant */
@@ -28,10 +33,10 @@
   --ann-purple-1:   #6C2D82;   /* deep violet — primary expression mark */
   --ann-purple-2:   #5A2572;   /* cool indigo-purple — secondary variant */
   --ann-green-1:    #1A7A3A;   /* forest green — strength */
-  --ann-red-fade:    rgba(139,26,26,0.30);   /* dimmed strikethrough text */
-  --ann-red-bg:      rgba(139,26,26,0.07);   /* bubble background */
-  --ann-red-border:  rgba(139,26,26,0.22);   /* bubble border */
-  --ann-purple-fade: rgba(108,45,130,0.28);  /* expression fade */
+  --ann-red-fade:    rgba(139,26,26,0.30);
+  --ann-red-bg:      rgba(139,26,26,0.07);
+  --ann-red-border:  rgba(139,26,26,0.22);
+  --ann-purple-fade: rgba(108,45,130,0.28);
   --ann-purple-bg:   rgba(108,45,130,0.07);
   --ann-purple-border: rgba(108,45,130,0.22);
   /* Pattern highlight — burgundy */
@@ -121,7 +126,7 @@ body {
 
 /* ── App background (fixed div in layout.tsx) ───────────────────────── */
 .patto-bg {
-  background: linear-gradient(135deg, #d8d0ee 0%, #e8d8f0 40%, #d0e0f0 100%);
+  background: linear-gradient(135deg, #EEF1FF 0%, #EAE6FF 45%, #EBF0FF 100%);
 }
 .dark .patto-bg {
   background: linear-gradient(160deg, #2a2040 0%, #1e2a40 50%, #251830 100%);
@@ -129,22 +134,21 @@ body {
 
 /* ── Glass Card ─────────────────────────────────────────────────────── */
 .glass-card {
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 0.5px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 0.5px solid rgba(142, 167, 255, 0.20);
   border-radius: 24px;
   box-shadow:
-    0 4px 28px rgba(0,0,0,0.06),
-    0 1px 4px rgba(0,0,0,0.04),
-    inset 0 1px 0 rgba(255,255,255,0.7);
+    0 2px 20px rgba(142,167,255,0.08),
+    0 1px 4px rgba(0,0,0,0.03);
 }
 
 .glass-nav {
-  background: rgba(255, 255, 255, 0.30);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border-top: 0.5px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid rgba(142, 167, 255, 0.12);
 }
 
 .dark .glass-card {
@@ -156,15 +160,14 @@ body {
 }
 
 .glass-card-sm {
-  background: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 0.5px solid rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 0.5px solid rgba(142, 167, 255, 0.20);
   border-radius: 18px;
   box-shadow:
-    0 2px 16px rgba(0,0,0,0.05),
-    0 1px 3px rgba(0,0,0,0.03),
-    inset 0 1px 0 rgba(255,255,255,0.7);
+    0 2px 16px rgba(142,167,255,0.07),
+    0 1px 3px rgba(0,0,0,0.02);
 }
 
 .dark .glass-card-sm {
@@ -178,14 +181,13 @@ body {
 
 /* ── Floating Nav ────────────────────────────────────────────────────── */
 .floating-nav {
-  background: rgba(255,255,255,0.48);
-  backdrop-filter: blur(36px) saturate(200%);
-  -webkit-backdrop-filter: blur(36px) saturate(200%);
-  border: 1px solid rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.70);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 0.5px solid rgba(142,167,255,0.15);
   box-shadow:
-    0 18px 48px rgba(30,40,60,0.08),
-    0 2px 8px rgba(0,0,0,0.04),
-    inset 0 1px 0 rgba(255,255,255,0.9);
+    0 4px 24px rgba(142,167,255,0.10),
+    0 1px 4px rgba(0,0,0,0.03);
 }
 
 .dark .floating-nav {
@@ -198,41 +200,35 @@ body {
 
 /* ── Glass Button System ─────────────────────────────────────────────── */
 .btn-glass {
-  background: rgba(255,255,255,0.68);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.82);
+  background: rgba(255,255,255,0.70);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 0.5px solid rgba(142,167,255,0.22);
   box-shadow:
-    0 2px 14px rgba(0,0,0,0.07),
-    0 1px 3px rgba(0,0,0,0.04),
-    inset 0 1px 0 rgba(255,255,255,0.95);
-  color: #5F6368;
+    0 2px 12px rgba(142,167,255,0.10),
+    0 1px 3px rgba(0,0,0,0.03);
+  color: var(--pm);
   font-weight: 700;
   cursor: pointer;
   transition: background 0.15s, box-shadow 0.15s, transform 0.12s cubic-bezier(0.34,1.56,0.64,1);
 }
 .btn-glass:hover {
-  background: rgba(255,255,255,0.84);
-  box-shadow:
-    0 4px 20px rgba(0,0,0,0.09),
-    0 1px 4px rgba(0,0,0,0.05),
-    inset 0 1px 0 rgba(255,255,255,1);
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 4px 18px rgba(142,167,255,0.15), 0 1px 4px rgba(0,0,0,0.04);
 }
 .btn-glass:active {
   transform: scale(0.98);
-  background: rgba(255,255,255,0.52);
+  background: rgba(255,255,255,0.55);
 }
 
 .btn-glass-icon {
-  background: rgba(255,255,255,0.68);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid rgba(255,255,255,0.82);
+  background: rgba(255,255,255,0.70);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid rgba(142,167,255,0.22);
   border-radius: 50%;
-  box-shadow:
-    0 2px 10px rgba(0,0,0,0.07),
-    inset 0 1px 0 rgba(255,255,255,0.95);
-  color: #5F6368;
+  box-shadow: 0 2px 10px rgba(142,167,255,0.10);
+  color: var(--pm);
   cursor: pointer;
   transition: background 0.15s, box-shadow 0.15s, transform 0.12s cubic-bezier(0.34,1.56,0.64,1);
   display: flex;
@@ -240,13 +236,13 @@ body {
   justify-content: center;
 }
 .btn-glass-icon:hover {
-  background: rgba(255,255,255,0.86);
+  background: rgba(255,255,255,0.90);
   transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.09), inset 0 1px 0 rgba(255,255,255,1);
+  box-shadow: 0 4px 16px rgba(142,167,255,0.15);
 }
 .btn-glass-icon:active {
   transform: scale(0.95);
-  background: rgba(255,255,255,0.50);
+  background: rgba(255,255,255,0.55);
 }
 
 .dark .btn-glass {
@@ -316,17 +312,17 @@ body {
 
 /* ── Pattern Card glass (front & back) ──────────────────────────────── */
 .pattern-card-glass {
-  background: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.55);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 0.5px solid rgba(255,255,255,0.6);
+  border: 0.5px solid rgba(142,167,255,0.20);
 }
 .dark .pattern-card-glass {
   background: rgba(255,255,255,0.08);
   border: 0.5px solid rgba(255,255,255,0.12);
 }
 .pattern-header-glass {
-  background: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.35);
 }
 .dark .pattern-header-glass {
   background: rgba(255,255,255,0.06);
@@ -335,7 +331,7 @@ body {
 /* ── Story Card Header ───────────────────────────────────────────────── */
 .story-card-header {
   height: 72px;
-  background: linear-gradient(135deg, rgba(40,40,48,0.10) 0%, rgba(80,80,100,0.05) 100%);
+  background: linear-gradient(135deg, rgba(142,167,255,0.08) 0%, rgba(166,184,255,0.04) 100%);
 }
 .dark .story-card-header {
   background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(200,200,255,0.03) 100%);

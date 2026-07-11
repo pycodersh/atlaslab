@@ -133,7 +133,7 @@ export function MainTabBar() {
                 justifyContent: 'center',
                 gap: scrolledDown ? 2 : 3,
                 textDecoration: 'none',
-                color: isActive ? '#3A3A3C' : 'var(--pm)',
+                color: isActive ? 'var(--pa)' : 'var(--pm)',
                 transition: 'color 0.15s ease',
                 padding: scrolledDown ? '4px 10px' : '6px 14px',
                 borderRadius: 9999,
