@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { Info, BookOpen, Layers, X, CheckCircle2, RefreshCw, Lock } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { Info, BookOpen, Layers, X, CheckCircle2, RefreshCw, Lock, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useTheme } from '@/components/ThemeProvider'
 import { PDialog } from '@/components/ui/PDialog'
@@ -293,6 +293,10 @@ function fmtDate(iso: string): string {
   return `${months[m - 1]} ${d}, ${y}`
 }
 
+function toIso(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 function getScoreGrade(score: number, grades: ScoreStrings['scoreGrades']): { grade: string; comment: string; color: string } {
   if (score >= 80) return grades[0]
   if (score >= 60) return grades[1]
@@ -302,7 +306,7 @@ function getScoreGrade(score: number, grades: ScoreStrings['scoreGrades']): { gr
   return                  grades[5]
 }
 
-// ── Shared ────────────────────────────────────────────────────────────────────
+// ── Shared styles ─────────────────────────────────────────────────────────────
 
 const glassCard: React.CSSProperties = {
   background: 'var(--pglass)',
@@ -318,26 +322,16 @@ const glassCard: React.CSSProperties = {
 function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
   pct: number; size?: number; stroke?: number; color?: string
 }) {
-  const r   = (size - stroke) / 2
+  const r    = (size - stroke) / 2
   const circ = 2 * Math.PI * r
   const offset = circ * (1 - Math.min(pct, 100) / 100)
-
   return (
     <svg width={size} height={size} style={{ flexShrink: 0, transform: 'rotate(-90deg)' }}>
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(140,150,185,0.13)" strokeWidth={stroke} />
       <circle
-        cx={size / 2} cy={size / 2} r={r}
-        fill="none"
-        stroke="rgba(140,150,185,0.13)"
-        strokeWidth={stroke}
-      />
-      <circle
-        cx={size / 2} cy={size / 2} r={r}
-        fill="none"
-        stroke={color}
-        strokeWidth={stroke}
-        strokeLinecap="round"
-        strokeDasharray={circ}
-        strokeDashoffset={offset}
+        cx={size / 2} cy={size / 2} r={r} fill="none"
+        stroke={color} strokeWidth={stroke} strokeLinecap="round"
+        strokeDasharray={circ} strokeDashoffset={offset}
         style={{ transition: 'stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)' }}
       />
     </svg>
@@ -348,10 +342,7 @@ function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
 
 function SlimBar({ pct, isDark }: { pct: number; isDark: boolean }) {
   return (
-    <div style={{
-      height: 4, borderRadius: 2, overflow: 'hidden',
-      background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)',
-    }}>
+    <div style={{ height: 4, borderRadius: 2, overflow: 'hidden', background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.08)' }}>
       <div style={{
         height: '100%', width: `${Math.min(pct, 100)}%`,
         background: isDark ? 'rgba(140,160,255,0.7)' : 'rgba(80,100,220,0.6)',
@@ -370,13 +361,315 @@ function StoryDots({ count, isDark }: { count: number; isDark: boolean }) {
   return (
     <div style={{ display: 'flex', gap: 4 }}>
       {[1, 2, 3, 4, 5].map(n => (
-        <div key={n} style={{
-          width: 7, height: 7, borderRadius: '50%',
-          background: n <= count ? filledColor : emptyColor,
-          flexShrink: 0,
-        }} />
+        <div key={n} style={{ width: 7, height: 7, borderRadius: '50%', background: n <= count ? filledColor : emptyColor, flexShrink: 0 }} />
       ))}
     </div>
+  )
+}
+
+// ── Weekly View ───────────────────────────────────────────────────────────────
+
+const WEEK_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+
+function WeeklyView({ activityMap, isDark }: { activityMap: Record<string, number>; isDark: boolean }) {
+  const today = useMemo(() => new Date(), [])
+  const todayIso = useMemo(() => toIso(today), [today])
+
+  const weekDays = useMemo(() => {
+    const dow = today.getDay() // 0=Sun
+    const monday = new Date(today)
+    monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1))
+    return Array.from({ length: 7 }, (_, i) => {
+      const d = new Date(monday)
+      d.setDate(monday.getDate() + i)
+      return d
+    })
+  }, [today])
+
+  const accentFill  = isDark ? 'rgba(140,160,255,0.85)' : 'rgba(74,122,200,0.85)'
+  const emptyFill   = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'
+  const todayBorder = isDark ? 'rgba(140,160,255,0.6)' : 'rgba(74,122,200,0.6)'
+  const labelColor  = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(60,60,100,0.5)'
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4, padding: '4px 0' }}>
+      {weekDays.map((d, i) => {
+        const iso     = toIso(d)
+        const studied = (activityMap[iso] ?? 0) > 0
+        const isToday = iso === todayIso
+        const isFuture = d > today && !isToday
+        return (
+          <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.05em', color: labelColor, textTransform: 'uppercase' }}>
+              {WEEK_LABELS[i]}
+            </span>
+            <div style={{
+              width: 32, height: 32, borderRadius: '50%',
+              background: studied ? accentFill : emptyFill,
+              border: isToday ? `2px solid ${todayBorder}` : '2px solid transparent',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              opacity: isFuture ? 0.35 : 1,
+              transition: 'background 0.2s ease',
+            }}>
+              <span style={{
+                fontSize: 11, fontWeight: 700,
+                color: studied ? '#fff' : (isDark ? 'rgba(255,255,255,0.5)' : 'rgba(40,40,80,0.45)'),
+              }}>
+                {d.getDate()}
+              </span>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// ── Weekly/Calendar Toggle Card ───────────────────────────────────────────────
+
+function WeeklyCalendarCard({
+  futureSchedule, selectedIso, onDaySelect, streak, activityMap,
+}: {
+  futureSchedule: Record<string, ScheduledDay>
+  selectedIso: string | null
+  onDaySelect: (iso: string) => void
+  streak: number
+  activityMap: Record<string, number>
+}) {
+  const [tab, setTab] = useState<'weekly' | 'calendar'>('weekly')
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
+  const toggleBase: React.CSSProperties = {
+    flex: 1, height: 30, borderRadius: 8,
+    border: 'none', cursor: 'pointer',
+    fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
+    transition: 'background 0.18s ease, color 0.18s ease',
+  }
+  const activeToggle: React.CSSProperties = {
+    background: isDark ? 'rgba(140,160,255,0.18)' : 'rgba(74,122,200,0.12)',
+    color: isDark ? 'rgba(180,190,255,0.95)' : 'rgba(50,80,180,0.95)',
+  }
+  const inactiveToggle: React.CSSProperties = {
+    background: 'transparent',
+    color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.4)',
+  }
+
+  return (
+    <div style={{ ...glassCard, padding: '20px 20px 18px' }}>
+      {/* Toggle row */}
+      <div style={{
+        display: 'flex', gap: 4,
+        background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
+        borderRadius: 10, padding: 3, marginBottom: 18,
+      }}>
+        <button type="button" style={{ ...toggleBase, ...(tab === 'weekly' ? activeToggle : inactiveToggle) }}
+          onClick={() => setTab('weekly')}>
+          Weekly
+        </button>
+        <button type="button" style={{ ...toggleBase, ...(tab === 'calendar' ? activeToggle : inactiveToggle) }}
+          onClick={() => setTab('calendar')}>
+          Calendar
+        </button>
+      </div>
+
+      {tab === 'weekly' ? (
+        <WeeklyView activityMap={activityMap} isDark={isDark} />
+      ) : (
+        <LearningCalendar
+          onDaySelect={onDaySelect}
+          selectedIso={selectedIso}
+          futureSchedule={futureSchedule}
+          streak={streak}
+        />
+      )}
+    </div>
+  )
+}
+
+// ── Score Card ────────────────────────────────────────────────────────────────
+
+function ScoreCard({ score, learnedStories, learnedPatterns }: {
+  score: number
+  learnedStories: number
+  learnedPatterns: number
+}) {
+  const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const s = getScoreI18n(prefs.language)
+  const storyPct   = Math.min(Math.round((learnedStories  / TOTAL_STORIES)   * 100), 100)
+  const patternPct = Math.min(Math.round((learnedPatterns / TOTAL_PATTERNS) * 100), 100)
+  const { grade, comment, color } = getScoreGrade(score, s.scoreGrades)
+  const [showInfo, setShowInfo] = useState(false)
+
+  return (
+    <>
+      <div style={{ ...glassCard, padding: '24px 24px 22px' }}>
+        {/* Title row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
+          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase', flex: 1 }}>
+            Score
+          </p>
+          <button type="button" onClick={() => setShowInfo(true)}
+            style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+            <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
+          </button>
+        </div>
+
+        {/* Ring + grade row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 22, marginBottom: 24 }}>
+          <div style={{ position: 'relative', flexShrink: 0 }}>
+            <RingProgress pct={score} size={80} stroke={5} color={color} />
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+              <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', lineHeight: 1, letterSpacing: '-0.03em' }}>{score}</span>
+              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm2)' }}>%</span>
+            </div>
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: 16, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.9)' : color, margin: '0 0 5px', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+              {grade}
+            </p>
+            <p style={{ fontSize: 11.5, fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.6)' : 'var(--pm2)', margin: 0, lineHeight: 1.55 }}>
+              {comment}
+            </p>
+          </div>
+        </div>
+
+        <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 20 }} />
+
+        {/* Story Progress */}
+        <div style={{ marginBottom: 18 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <BookOpen style={{ width: 13, height: 13, color: '#4A7AC8', flexShrink: 0 }} strokeWidth={2.2} />
+              <span style={{ fontSize: 11, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.7)' : '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Story Progress
+              </span>
+            </div>
+            <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+              {learnedStories}<span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / {TOTAL_STORIES}</span>
+            </span>
+          </div>
+          <SlimBar pct={storyPct} isDark={isDark} />
+        </div>
+
+        {/* Pattern Progress */}
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Layers style={{ width: 13, height: 13, color: '#7A6AC8', flexShrink: 0 }} strokeWidth={2.2} />
+              <span style={{ fontSize: 11, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.7)' : '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Pattern Progress
+              </span>
+            </div>
+            <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
+              {learnedPatterns}<span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / {TOTAL_PATTERNS}</span>
+            </span>
+          </div>
+          <SlimBar pct={patternPct} isDark={isDark} />
+        </div>
+      </div>
+
+      <ScoreInfoPopup open={showInfo} score={score} onClose={() => setShowInfo(false)} />
+    </>
+  )
+}
+
+// ── My Stories Card ───────────────────────────────────────────────────────────
+
+function MyStoriesCard({ myStories }: { myStories: MyStoriesData }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const [showInfo, setShowInfo] = useState(false)
+
+  return (
+    <>
+      <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase' }}>
+            MY STORIES
+          </p>
+          <button type="button" onClick={() => setShowInfo(true)}
+            style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+            <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
+          </button>
+        </div>
+
+        {/* Summary pills */}
+        <div style={{ display: 'flex', gap: 7, marginBottom: 16 }}>
+          {([
+            { label: 'Completed ✓', count: myStories.completed.length, color: '#2A7A3A' },
+            { label: 'In Progress',  count: myStories.inProgress.length,  color: '#4A7AC8' },
+            { label: 'Remaining',    count: myStories.remaining,           color: isDark ? 'rgba(255,255,255,0.38)' : '#8E8E93' },
+          ] as const).map(({ label, count, color }) => (
+            <div key={label} style={{
+              flex: 1, textAlign: 'center',
+              background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
+              borderRadius: 12, padding: '9px 4px',
+            }}>
+              <div style={{ fontSize: 18, fontWeight: 800, color, lineHeight: 1.1, fontVariantNumeric: 'tabular-nums' }}>{count}</div>
+              <div style={{ fontSize: 8.5, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.38)' : '#8E8E93', marginTop: 4, letterSpacing: '0.02em' }}>{label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Completed badges */}
+        {myStories.completed.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: myStories.inProgress.length > 0 ? 12 : 0 }}>
+            {myStories.completed.map(id => (
+              <span key={id} style={{
+                fontSize: 9.5, fontWeight: 700, color: '#2A7A3A',
+                background: 'rgba(42,122,58,0.08)', border: '1px solid rgba(42,122,58,0.20)',
+                borderRadius: 6, padding: '2px 8px',
+              }}>
+                Story {String(id).padStart(2, '0')} ✓
+              </span>
+            ))}
+          </div>
+        )}
+
+        {myStories.completed.length > 0 && myStories.inProgress.length > 0 && (
+          <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)', marginBottom: 12 }} />
+        )}
+
+        {/* In Progress list */}
+        {myStories.inProgress.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
+            {myStories.inProgress.map(({ storyId, title, reviewCount }) => (
+              <div key={storyId} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--pt)', lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    Story {String(storyId).padStart(2, '0')} · {title}
+                  </div>
+                  <div style={{ fontSize: 9.5, color: isDark ? 'rgba(255,255,255,0.38)' : 'var(--pm2)', marginTop: 2 }}>
+                    Round {reviewCount + 1} · In Review
+                  </div>
+                </div>
+                <div style={{ flexShrink: 0 }}>
+                  <StoryDots count={reviewCount} isDark={isDark} />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {myStories.completed.length === 0 && myStories.inProgress.length === 0 && (
+          <p style={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.38)' : 'var(--pm2)', textAlign: 'center', padding: '12px 0 4px', margin: 0 }}>
+            Start learning to see your stories here.
+          </p>
+        )}
+
+        {myStories.remaining > 0 && (
+          <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(140,150,185,0.60)', margin: `${myStories.inProgress.length > 0 || myStories.completed.length > 0 ? '14px' : '8px'} 0 0`, textAlign: 'center' }}>
+            <Lock style={{ width: 12, height: 12, display: 'inline', verticalAlign: 'middle' }} strokeWidth={2} />{' '}{myStories.remaining} more stories waiting
+          </p>
+        )}
+      </div>
+
+      <MyStoriesInfoPopup open={showInfo} onClose={() => setShowInfo(false)} />
+    </>
   )
 }
 
@@ -386,18 +679,11 @@ function ScoreInfoPopup({ open, score, onClose }: { open: boolean; score: number
   const { prefs } = usePreferences()
   const s = getScoreI18n(prefs.language)
   return (
-    <PDialog
-      open={open}
-      onClose={onClose}
-      title={s.scoreInfoTitle}
-      description={`${s.scoreCurrent} ${score}%`}
-      actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}
-    >
+    <PDialog open={open} onClose={onClose} title={s.scoreInfoTitle} description={`${s.scoreCurrent} ${score}%`}
+      actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}>
       <div style={{ paddingTop: 4 }}>
         <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
-        <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 12px', fontWeight: 500 }}>
-          {s.scoreInfoDesc}
-        </p>
+        <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 12px', fontWeight: 500 }}>{s.scoreInfoDesc}</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {[
             { range: '0 – 19', label: 'Getting Started', color: '#C87A3A' },
@@ -408,12 +694,7 @@ function ScoreInfoPopup({ open, score, onClose }: { open: boolean; score: number
           ].map(({ range, label, color }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', width: 46, flexShrink: 0 }}>{range}</span>
-              <span style={{
-                fontSize: 10, fontWeight: 700, color,
-                background: `${color}12`,
-                border: `1px solid ${color}28`,
-                borderRadius: 6, padding: '2px 8px',
-              }}>{label}</span>
+              <span style={{ fontSize: 10, fontWeight: 700, color, background: `${color}12`, border: `1px solid ${color}28`, borderRadius: 6, padding: '2px 8px' }}>{label}</span>
             </div>
           ))}
         </div>
@@ -423,6 +704,7 @@ function ScoreInfoPopup({ open, score, onClose }: { open: boolean; score: number
 }
 
 // ── MY STORIES Info Popup ─────────────────────────────────────────────────────
+
 const MY_STORIES_ROUNDS = [
   { n: 1, desc: 'First time learning' },
   { n: 2, desc: 'Review after 1 day · Short-term memory' },
@@ -433,12 +715,8 @@ const MY_STORIES_ROUNDS = [
 
 function MyStoriesInfoPopup({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
-    <PDialog
-      open={open}
-      onClose={onClose}
-      title="MY STORIES"
-      actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}
-    >
+    <PDialog open={open} onClose={onClose} title="MY STORIES"
+      actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}>
       <div style={{ paddingTop: 4 }}>
         <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
         <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 14px', fontWeight: 500 }}>
@@ -450,12 +728,9 @@ function MyStoriesInfoPopup({ open, onClose }: { open: boolean; onClose: () => v
           {MY_STORIES_ROUNDS.map(({ n, desc }) => (
             <div key={n} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
               <span style={{
-                fontSize: 10, fontWeight: 700,
-                color: '#4A7AC8',
-                background: 'rgba(74,122,200,0.08)',
-                border: '1px solid rgba(74,122,200,0.22)',
-                borderRadius: 6, padding: '2px 8px',
-                flexShrink: 0, marginTop: 1, whiteSpace: 'nowrap',
+                fontSize: 10, fontWeight: 700, color: '#4A7AC8',
+                background: 'rgba(74,122,200,0.08)', border: '1px solid rgba(74,122,200,0.22)',
+                borderRadius: 6, padding: '2px 8px', flexShrink: 0, marginTop: 1, whiteSpace: 'nowrap',
               }}>Round {n}</span>
               <span style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1.55 }}>{desc}</span>
             </div>
@@ -531,9 +806,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
               <div style={{ marginBottom: 20 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 5, margin: '0 0 10px' }}>
                   <CheckCircle2 style={{ width: 11, height: 11, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
-                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>
-                    Completed
-                  </p>
+                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>Completed</p>
                 </div>
                 {detail.completed.map(item => (
                   <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
@@ -546,9 +819,7 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 5, margin: '0 0 10px' }}>
                   <RefreshCw style={{ width: 11, height: 11, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={2.5} />
-                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>
-                    Due for Review
-                  </p>
+                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>Due for Review</p>
                 </div>
                 {detail.due.map(item => (
                   <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(140,150,185,0.10)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
@@ -564,285 +835,22 @@ function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null;
   )
 }
 
-// ── Page 1: Memory Score ──────────────────────────────────────────────────────
-
-function PageScore({ score, learnedStories, learnedPatterns, myStories }: {
-  score: number
-  learnedStories: number
-  learnedPatterns: number
-  myStories: MyStoriesData
-}) {
-  const { prefs } = usePreferences()
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-  const s = getScoreI18n(prefs.language)
-  const storyPct   = Math.min(Math.round((learnedStories  / TOTAL_STORIES)   * 100), 100)
-  const patternPct = Math.min(Math.round((learnedPatterns / TOTAL_PATTERNS) * 100), 100)
-  const { grade, comment, color } = getScoreGrade(score, s.scoreGrades)
-  const [showInfo, setShowInfo] = useState(false)
-  const [showMasteryInfo, setShowMasteryInfo] = useState(false)
-
-  return (
-    <>
-      <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
-
-        {/* ── Memory Score hero ── */}
-        <div style={{ ...glassCard, padding: '24px 24px 22px' }}>
-
-          {/* Title row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
-            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase', flex: 1 }}>
-              Score
-            </p>
-            <button
-              type="button"
-              onClick={() => setShowInfo(true)}
-              style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-            >
-              <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
-            </button>
-          </div>
-
-          {/* Ring + grade row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 22, marginBottom: 24 }}>
-            <div style={{ position: 'relative', flexShrink: 0 }}>
-              <RingProgress pct={score} size={80} stroke={5} color={color} />
-              <div style={{
-                position: 'absolute', inset: 0,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                gap: 1,
-              }}>
-                <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', lineHeight: 1, letterSpacing: '-0.03em' }}>
-                  {score}
-                </span>
-                <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm2)' }}>%</span>
-              </div>
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 16, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.9)' : color, margin: '0 0 5px', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
-                {grade}
-              </p>
-              <p style={{ fontSize: 11.5, fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.6)' : 'var(--pm2)', margin: 0, lineHeight: 1.55 }}>
-                {comment}
-              </p>
-            </div>
-          </div>
-
-          {/* Divider */}
-          <div style={{ height: 1, background: 'rgba(140,150,185,0.10)', marginBottom: 20 }} />
-
-          {/* Story Progress */}
-          <div style={{ marginBottom: 18 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <BookOpen style={{ width: 13, height: 13, color: '#4A7AC8', flexShrink: 0 }} strokeWidth={2.2} />
-                <span style={{ fontSize: 11, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.7)' : '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  Story Progress
-                </span>
-              </div>
-              <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
-                {learnedStories}
-                <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / {TOTAL_STORIES}</span>
-              </span>
-            </div>
-            <SlimBar pct={storyPct} isDark={isDark} />
-          </div>
-
-          {/* Pattern Progress */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Layers style={{ width: 13, height: 13, color: '#7A6AC8', flexShrink: 0 }} strokeWidth={2.2} />
-                <span style={{ fontSize: 11, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.7)' : '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  Pattern Progress
-                </span>
-              </div>
-              <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
-                {learnedPatterns}
-                <span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / {TOTAL_PATTERNS}</span>
-              </span>
-            </div>
-            <SlimBar pct={patternPct} isDark={isDark} />
-          </div>
-        </div>
-
-        {/* ── MY STORIES ── */}
-        <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
-
-          {/* Header */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : '#3A3A4A', margin: 0, textTransform: 'uppercase' }}>
-              MY STORIES
-            </p>
-            <button type="button" onClick={() => setShowMasteryInfo(true)} style={{
-              background: 'none', border: 'none', padding: 2,
-              cursor: 'pointer', display: 'flex', alignItems: 'center',
-            }}>
-              <Info style={{ width: 14, height: 14, color: 'rgba(140,150,185,0.55)' }} strokeWidth={1.8} />
-            </button>
-          </div>
-
-          {/* Summary pills */}
-          <div style={{ display: 'flex', gap: 7, marginBottom: 16 }}>
-            {([
-              { label: 'Completed ✓', count: myStories.completed.length, color: '#2A7A3A' },
-              { label: 'In Progress',  count: myStories.inProgress.length,  color: '#4A7AC8' },
-              { label: 'Remaining',    count: myStories.remaining,           color: isDark ? 'rgba(255,255,255,0.38)' : '#8E8E93' },
-            ] as const).map(({ label, count, color }) => (
-              <div key={label} style={{
-                flex: 1, textAlign: 'center',
-                background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
-                borderRadius: 12, padding: '9px 4px',
-              }}>
-                <div style={{ fontSize: 18, fontWeight: 800, color, lineHeight: 1.1, fontVariantNumeric: 'tabular-nums' }}>
-                  {count}
-                </div>
-                <div style={{ fontSize: 8.5, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.38)' : '#8E8E93', marginTop: 4, letterSpacing: '0.02em' }}>
-                  {label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Completed badges */}
-          {myStories.completed.length > 0 && (
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: myStories.inProgress.length > 0 ? 12 : 0 }}>
-              {myStories.completed.map(id => (
-                <span key={id} style={{
-                  fontSize: 9.5, fontWeight: 700,
-                  color: '#2A7A3A',
-                  background: 'rgba(42,122,58,0.08)',
-                  border: '1px solid rgba(42,122,58,0.20)',
-                  borderRadius: 6, padding: '2px 8px',
-                }}>
-                  Story {String(id).padStart(2, '0')} ✓
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Divider between completed badges and in-progress list */}
-          {myStories.completed.length > 0 && myStories.inProgress.length > 0 && (
-            <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)', marginBottom: 12 }} />
-          )}
-
-          {/* In Progress list */}
-          {myStories.inProgress.length > 0 && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
-              {myStories.inProgress.map(({ storyId, title, reviewCount }) => (
-                <div key={storyId} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      fontSize: 12, fontWeight: 600, color: 'var(--pt)', lineHeight: 1.3,
-                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                    }}>
-                      Story {String(storyId).padStart(2, '0')} · {title}
-                    </div>
-                    <div style={{ fontSize: 9.5, color: isDark ? 'rgba(255,255,255,0.38)' : 'var(--pm2)', marginTop: 2 }}>
-                      Round {reviewCount + 1} · In Review
-                    </div>
-                  </div>
-                  <div style={{ flexShrink: 0 }}>
-                    <StoryDots count={reviewCount} isDark={isDark} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Empty state */}
-          {myStories.completed.length === 0 && myStories.inProgress.length === 0 && (
-            <p style={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.38)' : 'var(--pm2)', textAlign: 'center', padding: '12px 0 4px', margin: 0 }}>
-              Start learning to see your stories here.
-            </p>
-          )}
-
-          {/* Hint */}
-          {myStories.remaining > 0 && (
-            <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(140,150,185,0.60)', margin: `${myStories.inProgress.length > 0 || myStories.completed.length > 0 ? '14px' : '8px'} 0 0`, textAlign: 'center' }}>
-              <Lock style={{ width: 12, height: 12, display: 'inline', verticalAlign: 'middle' }} strokeWidth={2} />{' '}{myStories.remaining} more stories waiting
-            </p>
-          )}
-        </div>
-      </div>
-
-      <ScoreInfoPopup open={showInfo} score={score} onClose={() => setShowInfo(false)} />
-      <MyStoriesInfoPopup open={showMasteryInfo} onClose={() => setShowMasteryInfo(false)} />
-    </>
-  )
-}
-
-// ── Page 2: Memory Calendar ───────────────────────────────────────────────────
-
-function PageCalendar({ futureSchedule, selectedIso, onDaySelect, streak, page, onPageChange }: {
-  futureSchedule: Record<string, ScheduledDay>
-  selectedIso: string | null
-  onDaySelect: (iso: string) => void
-  streak: number
-  page?: number
-  onPageChange?: (i: number) => void
-}) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-
-  return (
-    <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 0 }}>
-
-      {/* ── Calendar card ── */}
-      <div style={{ ...glassCard, padding: '22px 18px 18px' }}>
-        <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.5)' : '#3A3A4A', margin: '0 0 16px', textTransform: 'uppercase' }}>
-          Calendar
-        </p>
-        <LearningCalendar
-          onDaySelect={onDaySelect}
-          selectedIso={selectedIso}
-          futureSchedule={futureSchedule}
-          streak={streak}
-        />
-
-        {/* ── Page indicator (mobile only) ── */}
-        {page !== undefined && onPageChange && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, paddingTop: 16 }}>
-            {[0, 1].map(i => (
-              <button
-                key={i} type="button" onClick={() => onPageChange(i)}
-                style={{
-                  width: 8, height: 8, borderRadius: '50%',
-                  background: page === i
-                    ? (isDark ? 'rgba(255,255,255,0.85)' : 'rgba(80,100,180,0.7)')
-                    : (isDark ? 'rgba(255,255,255,0.25)' : 'rgba(80,100,180,0.2)'),
-                  border: 'none', cursor: 'pointer', padding: 0,
-                  transition: 'background 0.28s ease',
-                }}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
-
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ProgressPage() {
   const isDesktop = useIsDesktop()
-  const railRef = useRef<HTMLDivElement>(null)
-  const [page, setPage] = useState(0)
-
   const [dayDetail, setDayDetail]     = useState<EnhancedDayDetail | null>(null)
   const [selectedIso, setSelectedIso] = useState<string | null>(null)
   const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
-
-  const [records, setRecords] = useState<LearningRecord[]>([])
-  const [streak, setStreak]   = useState(0)
+  const [records, setRecords]   = useState<LearningRecord[]>([])
+  const [streak, setStreak]     = useState(0)
+  const [activityMap, setActivityMap] = useState<Record<string, number>>({})
 
   useEffect(() => {
-    const allRec = getAllRecords()
-    setRecords(allRec)
+    setRecords(getAllRecords())
     setFutureSchedule(getFutureSchedule())
     setStreak(getStreak())
+    setActivityMap(getActivityByDate())
   }, [])
 
   const learnedPatterns = records.filter(r => r.itemType === 'pattern').length
@@ -850,119 +858,59 @@ export default function ProgressPage() {
   const memoryScore     = useMemo(() => computeMemoryScore(records), [records])
   const myStories       = useMemo(() => computeMyStories(records, magazineStories), [records])
 
-  useEffect(() => {
-    const rail = railRef.current
-    if (!rail) return
-    const onScroll = () =>
-      setPage(Math.min(1, Math.max(0, Math.round(rail.scrollLeft / rail.clientWidth))))
-    rail.addEventListener('scroll', onScroll, { passive: true })
-    return () => rail.removeEventListener('scroll', onScroll)
-  }, [])
-
-  function goToPage(idx: number) {
-    railRef.current?.scrollTo({ left: idx * (railRef.current.clientWidth), behavior: 'smooth' })
-  }
-
   function handleDaySelect(iso: string) {
     if (selectedIso === iso) { setSelectedIso(null); setDayDetail(null); return }
     setSelectedIso(iso)
     setDayDetail(getEnhancedDayDetail(iso))
   }
 
-  // ── Desktop: side-by-side layout ────────────────────────────────────
+  const calendarCardProps = {
+    futureSchedule,
+    selectedIso,
+    onDaySelect: handleDaySelect,
+    streak,
+    activityMap,
+  }
+
+  // ── Desktop: two-column layout ───────────────────────────────────────
   if (isDesktop) {
     return (
       <>
         <div style={{ minHeight: '100dvh' }}>
           <TopNav />
           <div className="desktop-max desktop-two-col" style={{ paddingTop: 8, paddingBottom: TAB_BAR_HEIGHT + 32 }}>
-            {/* Left: Calendar */}
+            {/* Left: Weekly/Calendar toggle */}
             <div>
-              <PageCalendar
-                futureSchedule={futureSchedule}
-                selectedIso={selectedIso}
-                onDaySelect={handleDaySelect}
-                streak={streak}
-              />
+              <div style={{ padding: '4px 20px 0' }}>
+                <WeeklyCalendarCard {...calendarCardProps} />
+              </div>
             </div>
-            {/* Right: Score */}
+            {/* Right: Score + My Stories */}
             <div className="desktop-right-col">
-              <PageScore
-                score={memoryScore}
-                learnedStories={learnedStories}
-                learnedPatterns={learnedPatterns}
-                myStories={myStories}
-              />
+              <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <ScoreCard score={memoryScore} learnedStories={learnedStories} learnedPatterns={learnedPatterns} />
+                <MyStoriesCard myStories={myStories} />
+              </div>
             </div>
           </div>
         </div>
-        <DayDetailSheet
-          detail={dayDetail}
-          onClose={() => { setDayDetail(null); setSelectedIso(null) }}
-        />
+        <DayDetailSheet detail={dayDetail} onClose={() => { setDayDetail(null); setSelectedIso(null) }} />
       </>
     )
   }
 
-  // ── Mobile: swipe rail layout ────────────────────────────────────────
+  // ── Mobile: vertical scroll layout ──────────────────────────────────
   return (
     <>
-      <div style={{ height: '100dvh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
         <TopNav />
-
-        {/* ── Scroll rail ── */}
-        <div
-          ref={railRef}
-          style={{
-            flex: 1, display: 'flex',
-            overflowX: 'auto', overflowY: 'hidden',
-            scrollSnapType: 'x mandatory',
-            scrollBehavior: 'smooth',
-            scrollbarWidth: 'none',
-          } as React.CSSProperties}
-        >
-          {/* Page 0 — Calendar */}
-          <div style={{
-            flex: '0 0 100%', scrollSnapAlign: 'start',
-            overflowY: 'auto', height: '100%',
-            paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box',
-          }}>
-            <div style={{ maxWidth: 480, margin: '0 auto' }}>
-              <PageCalendar
-                futureSchedule={futureSchedule}
-                selectedIso={selectedIso}
-                onDaySelect={handleDaySelect}
-                streak={streak}
-                page={page}
-                onPageChange={goToPage}
-              />
-            </div>
-          </div>
-
-          {/* Page 1 — Score */}
-          <div style={{
-            flex: '0 0 100%', scrollSnapAlign: 'start',
-            overflowY: 'auto', height: '100%',
-            paddingBottom: TAB_BAR_HEIGHT + 24, boxSizing: 'border-box',
-          }}>
-            <div style={{ maxWidth: 480, margin: '0 auto' }}>
-              <PageScore
-                score={memoryScore}
-                learnedStories={learnedStories}
-                learnedPatterns={learnedPatterns}
-                myStories={myStories}
-              />
-            </div>
-          </div>
+        <div style={{ maxWidth: 480, margin: '0 auto', padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <ScoreCard score={memoryScore} learnedStories={learnedStories} learnedPatterns={learnedPatterns} />
+          <WeeklyCalendarCard {...calendarCardProps} />
+          <MyStoriesCard myStories={myStories} />
         </div>
       </div>
-
-      <DayDetailSheet
-        detail={dayDetail}
-        onClose={() => { setDayDetail(null); setSelectedIso(null) }}
-      />
-
-      <style>{`div::-webkit-scrollbar{display:none}`}</style>
+      <DayDetailSheet detail={dayDetail} onClose={() => { setDayDetail(null); setSelectedIso(null) }} />
     </>
   )
 }
