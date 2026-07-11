@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -51,7 +51,7 @@ export function PatternDetail({
         <button
           type="button"
           aria-label="패턴 목록"
-          onClick={() => router.push(`/stories/${storyId}?v=p`)}
+          onClick={() => router.push(`/patto/stories/${storyId}?v=p`)}
           style={{
             padding: '8px',
             marginLeft: -8,
@@ -151,7 +151,7 @@ export function PatternDetail({
         <button
           type="button"
           aria-label="이전 패턴"
-          onClick={() => prevPid && router.push(`/stories/${storyId}/patterns/${prevPid}`)}
+          onClick={() => prevPid && router.push(`/patto/stories/${storyId}/patterns/${prevPid}`)}
           disabled={!prevPid}
           style={{
             display: 'flex',
@@ -183,7 +183,7 @@ export function PatternDetail({
         <button
           type="button"
           aria-label="다음 패턴"
-          onClick={() => nextPid && router.push(`/stories/${storyId}/patterns/${nextPid}`)}
+          onClick={() => nextPid && router.push(`/patto/stories/${storyId}/patterns/${nextPid}`)}
           disabled={!nextPid}
           style={{
             display: 'flex',

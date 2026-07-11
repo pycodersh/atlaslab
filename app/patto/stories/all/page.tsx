@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -83,8 +83,8 @@ export default function AllStoriesPage() {
             const label = labelMap[story.id] ?? 'New'
             const dotColor = DOT_COLOR[label]
             const href = label === 'Review' || label === 'Today' || label === 'Reading'
-              ? `/stories/${story.id}?v=p`
-              : `/stories/${story.id}`
+              ? `/patto/stories/${story.id}?v=p`
+              : `/patto/stories/${story.id}`
 
             return (
               <Link

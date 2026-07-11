@@ -38,8 +38,8 @@ function AllStoriesPanel({ labelMap }: { labelMap: Record<number, AllStoryLabel>
           const label = labelMap[story.id] ?? 'New'
           const dotColor = ALL_DOT[label]
           const href = label === 'Review' || label === 'Today' || label === 'Reading'
-            ? `/stories/${story.id}?v=p`
-            : `/stories/${story.id}`
+            ? `/patto/stories/${story.id}?v=p`
+            : `/patto/stories/${story.id}`
           return (
             <Link
               key={story.id}
@@ -636,13 +636,13 @@ export default function HomePage() {
     } else {
       const lastPos = getLastPosition()
       if (lastPos) {
-        setFirstHref(`/stories/${lastPos.storyId}${lastPos.view === 'patterns' ? '?v=p' : ''}`)
+        setFirstHref(`/patto/stories/${lastPos.storyId}${lastPos.view === 'patterns' ? '?v=p' : ''}`)
       } else {
         const learnedSet = new Set(
           records.filter(r => r.itemType === 'pattern' && r.repeatCount > 0).map(r => r.storyId).filter(Boolean)
         )
         const next = magazineStories.find(s => !learnedSet.has(s.id)) ?? magazineStories[0]
-        setFirstHref(`/stories/${next.id}`)
+        setFirstHref(`/patto/stories/${next.id}`)
       }
     }
 
@@ -704,7 +704,7 @@ export default function HomePage() {
       if (list.length >= 8) break
       if (heroIds.has(s.id) || missionMap.has(s.id)) continue
       if (storyNextReview[s.id] === tomorrow) {
-        list.push({ story: s, label: 'Tomorrow', href: `/stories/${s.id}`, done: false })
+        list.push({ story: s, label: 'Tomorrow', href: `/patto/stories/${s.id}`, done: false })
       }
     }
 
@@ -713,7 +713,7 @@ export default function HomePage() {
       if (heroIds.has(s.id) || missionMap.has(s.id)) continue
       if (storyNextReview[s.id] === tomorrow) continue
       if (!learnedIds.has(s.id)) {
-        list.push({ story: s, label: 'Upcoming', href: `/stories/${s.id}`, done: false })
+        list.push({ story: s, label: 'Upcoming', href: `/patto/stories/${s.id}`, done: false })
       }
     }
 
@@ -835,7 +835,7 @@ export default function HomePage() {
             {/* Continue — more transparent */}
             <motion.button
               type="button"
-              onClick={e => { e.stopPropagation(); router.push(`/stories/${todayStory.id}`) }}
+              onClick={e => { e.stopPropagation(); router.push(`/patto/stories/${todayStory.id}`) }}
               style={{
                 flexShrink: 0,
                 display: 'inline-flex', alignItems: 'center', gap: 5,
@@ -896,7 +896,7 @@ export default function HomePage() {
               <motion.div
                 className="glass-card-sm"
                 style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative', cursor: newStoriesData.length > 0 ? 'pointer' : 'default' }}
-                onClick={() => newStoriesData.length > 0 && router.push(`/stories/${newStoriesData[0].id}`)}
+                onClick={() => newStoriesData.length > 0 && router.push(`/patto/stories/${newStoriesData[0].id}`)}
                 whileTap={newStoriesData.length > 0 ? { scale: 0.93 } : {}}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
@@ -932,7 +932,7 @@ export default function HomePage() {
               <motion.div
                 className="glass-card-sm"
                 style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative', cursor: reviewStoriesData.length > 0 ? 'pointer' : 'default' }}
-                onClick={() => reviewStoriesData.length > 0 && router.push(reviewStoriesData[0] ? `/stories/${reviewStoriesData[0].id}?v=p` : firstHref)}
+                onClick={() => reviewStoriesData.length > 0 && router.push(reviewStoriesData[0] ? `/patto/stories/${reviewStoriesData[0].id}?v=p` : firstHref)}
                 whileTap={reviewStoriesData.length > 0 ? { scale: 0.93 } : {}}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >

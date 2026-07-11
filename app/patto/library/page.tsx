@@ -468,12 +468,12 @@ export default function LibraryPage() {
   }
 
   function goToWord(w: SavedWord) {
-    if (w.storyId) router.push(`/stories/${w.storyId}`)
+    if (w.storyId) router.push(`/patto/stories/${w.storyId}`)
   }
 
   function goToPhrase(ph: SavedPhrase) {
-    if (ph.storyId && ph.patternId) router.push(`/stories/${ph.storyId}?v=p`)
-    else if (ph.storyId) router.push(`/stories/${ph.storyId}`)
+    if (ph.storyId && ph.patternId) router.push(`/patto/stories/${ph.storyId}?v=p`)
+    else if (ph.storyId) router.push(`/patto/stories/${ph.storyId}`)
   }
 
   const showRecent = focused && !isSearching && recentSearches.length > 0
@@ -573,7 +573,7 @@ export default function LibraryPage() {
                     storyId={storyId}
                     storyTitle={story ? story.title : `Story ${String(storyId).padStart(2, '0')}`}
                     patterns={storyBms}
-                    onPress={bm => router.push(`/stories/${bm.storyId}?v=p`)}
+                    onPress={bm => router.push(`/patto/stories/${bm.storyId}?v=p`)}
                     onRemove={handleRemoveBookmark}
                   />
                 )
@@ -600,7 +600,7 @@ export default function LibraryPage() {
                   key={bm.patternId}
                   bm={bm}
                   first={i === 0}
-                  onPress={() => router.push(`/stories/${bm.storyId}?v=p`)}
+                  onPress={() => router.push(`/patto/stories/${bm.storyId}?v=p`)}
                   onRemove={() => handleRemoveBookmark(bm.patternId)}
                 />
               ))}
@@ -744,7 +744,7 @@ export default function LibraryPage() {
                                 storyTitle={r.storyTitle}
                                 pattern={r.pattern}
                                 border={i > 0}
-                                onPress={() => router.push(`/stories/${r.storyId}?v=p`)}
+                                onPress={() => router.push(`/patto/stories/${r.storyId}?v=p`)}
                               />
                             ))}
                           </div>
@@ -759,7 +759,7 @@ export default function LibraryPage() {
                                 key={s.id}
                                 story={s}
                                 border={i > 0}
-                                onPress={() => router.push(`/stories/${s.id}`)}
+                                onPress={() => router.push(`/patto/stories/${s.id}`)}
                               />
                             ))}
                           </div>

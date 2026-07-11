@@ -74,7 +74,7 @@ export function MainTabBar() {
   // Restore last story/pattern position when tapping the Story tab
   const lastPos = getLastPosition()
   const storyHref = lastPos
-    ? `/stories/${lastPos.storyId}${lastPos.view === 'patterns' ? '?v=p' : ''}`
+    ? `/patto/stories/${lastPos.storyId}${lastPos.view === 'patterns' ? '?v=p' : ''}`
     : '/patto/stories/1'
 
   useEffect(() => {

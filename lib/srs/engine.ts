@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Patto Memory Engine — 계산 레이어.
  *
  * storage.ts 가 읽기/쓰기를 담당하고,
@@ -240,7 +240,7 @@ export function getMissionItems(): MissionItem[] {
       type:       inProgressData ? 'in_progress_story' : 'new_story',
       storyId:    storyTarget.id,
       storyTitle: storyTarget.title,
-      href:       `/stories/${storyTarget.id}?v=p`,
+      href:       `/patto/stories/${storyTarget.id}?v=p`,
       done:       practicedTodayByStory.has(storyTarget.id),
     })
   }
@@ -260,7 +260,7 @@ export function getMissionItems(): MissionItem[] {
     }
   }
   for (const [storyId, { title, done }] of reviewStoryMap) {
-    items.push({ type: 'review_pattern', storyId, storyTitle: title, href: `/stories/${storyId}?v=p`, done })
+    items.push({ type: 'review_pattern', storyId, storyTitle: title, href: `/patto/stories/${storyId}?v=p`, done })
   }
 
   return items

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
@@ -116,7 +116,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       } else {
         // Patterns → next Story
         const next = allStoriesRef.current.find(x => x.id === s.id + 1)
-        if (next) { handleStop(); router.push(`/stories/${next.id}`) }
+        if (next) { handleStop(); router.push(`/patto/stories/${next.id}`) }
       }
     } else if (dragOffset > THRESHOLD) {
       // Swipe RIGHT → backward
@@ -126,7 +126,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
       } else {
         // Story → prev story's Patterns
         const prev = allStoriesRef.current.find(x => x.id === s.id - 1)
-        if (prev) { handleStop(); router.push(`/stories/${prev.id}?v=p`) }
+        if (prev) { handleStop(); router.push(`/patto/stories/${prev.id}?v=p`) }
       }
     }
 
@@ -192,7 +192,7 @@ export function MagazineEngine({ story, allStories, initialView = 'story', patte
   function goToStory(id: number, startView: 'story' | 'patterns' = 'story') {
     handleStop()
     const suffix = startView === 'patterns' ? '?v=p' : ''
-    router.push(`/stories/${id}${suffix}`)
+    router.push(`/patto/stories/${id}${suffix}`)
   }
 
   // Linear next: Story → Patterns, Patterns → next Story
