@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
+import { PatternsSectionInline } from '@/components/PatternsSectionInline'
 import { StoryPage } from '@/components/StoryPage'
 import { WheelPicker } from '@/components/WheelPicker'
 import { GlobalSavePopup } from '@/components/GlobalSavePopup'
@@ -258,16 +259,11 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
   // ── Mobile: single scroll — story then patterns inline ──────────────
   const inlinePatterns = (
-    <PatternsPageV2
+    <PatternsSectionInline
       story={story}
-      totalStories={allStories.length}
-      onPrev={goPrev}
-      onNext={goNext}
-      hasNext={!isLast}
-      onOpenPicker={() => setShowPicker(true)}
       patternExamples={patternExamples}
-      isActive={true}
-      nativeScroll={true}
+      storyIsSpeaking={isSpeaking}
+      showNavButtons={false}
     />
   )
 

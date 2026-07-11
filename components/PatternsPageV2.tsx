@@ -442,7 +442,7 @@ export function PatternsPageV2({
   const globalPatternNum = (story.id - 1) * patterns.length + patIdx + 1
   const totalPatterns = totalStories * patterns.length
 
-  // ── Render ────────────────────────────────────────────────────────────────
+  // ── Render ─────────────────────────────────────────────────────────────────
   const cardSection = (
     <div style={{ padding: '0 16px 0' }}>
 
