@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -10,8 +10,8 @@ export const TAB_BAR_HEIGHT = 72
 const TABS = [
   {
     label: 'HOME',
-    href: '/home',
-    active: (p: string) => p === '/home' || p === '/',
+    href: '/patto/home',
+    active: (p: string) => p === '/patto/home' || p === '/',
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
         <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
@@ -21,7 +21,7 @@ const TABS = [
   },
   {
     label: 'STORY',
-    href: '/stories/1',
+    href: '/patto/stories/1',
     active: (p: string) => p.startsWith('/stories') || p.startsWith('/learn') || p.startsWith('/review'),
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
@@ -32,8 +32,8 @@ const TABS = [
   },
   {
     label: 'ESSAYS',
-    href: '/essays',
-    active: (p: string) => p.startsWith('/essays') || p.startsWith('/editor'),
+    href: '/patto/essays',
+    active: (p: string) => p.startsWith('/patto/essays') || p.startsWith('/editor'),
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
         <path d="M12 20h9"/>
@@ -43,8 +43,8 @@ const TABS = [
   },
   {
     label: 'PROGRESS',
-    href: '/records',
-    active: (p: string) => p.startsWith('/records'),
+    href: '/patto/records',
+    active: (p: string) => p.startsWith('/patto/records'),
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
         <line x1="18" y1="20" x2="18" y2="10"/>
@@ -75,7 +75,7 @@ export function MainTabBar() {
   const lastPos = getLastPosition()
   const storyHref = lastPos
     ? `/stories/${lastPos.storyId}${lastPos.view === 'patterns' ? '?v=p' : ''}`
-    : '/stories/1'
+    : '/patto/stories/1'
 
   useEffect(() => {
     const handleScroll = () => {

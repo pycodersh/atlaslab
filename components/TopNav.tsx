@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
 import { User } from 'lucide-react'
@@ -69,7 +69,7 @@ function UserButton() {
     const initial = ((user.user_metadata?.name as string) ?? user.email ?? '?')[0].toUpperCase()
 
     return (
-      <Link href="/settings" aria-label="계정" style={buttonStyle}>
+      <Link href="/patto/settings" aria-label="계정" style={buttonStyle}>
         {avatarUrl ? (
           <img
             src={avatarUrl}
@@ -87,7 +87,7 @@ function UserButton() {
   }
 
   return (
-    <Link href="/settings" aria-label="설정" style={buttonStyle}>
+    <Link href="/patto/settings" aria-label="설정" style={buttonStyle}>
       <User style={{ width: 15, height: 15, color: 'var(--pm)' }} strokeWidth={2} />
     </Link>
   )
@@ -104,7 +104,7 @@ export function TopNav() {
         }}
       >
         {/* Left: PATTO logo — tapping navigates home */}
-        <Link href="/home" style={{ display: 'flex', alignItems: 'flex-end', gap: 4, textDecoration: 'none' }}>
+        <Link href="/patto/home" style={{ display: 'flex', alignItems: 'flex-end', gap: 4, textDecoration: 'none' }}>
           <PattoIcon />
           <p
             style={{

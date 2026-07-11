@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -147,8 +147,8 @@ export function ReviewSession() {
           {t('no_reviews_desc')}
         </p>
         <div className="flex gap-3">
-          <button type="button" onClick={() => router.push('/stories/1')} className="btn-glass rounded-full px-6 py-2.5 text-[12px] cursor-pointer">{t('new_story_btn')}</button>
-          <button type="button" onClick={() => router.push('/records')} className="glass-card-sm rounded-full px-6 py-2.5 text-[12px] font-bold text-[var(--pm)] cursor-pointer">Progress</button>
+          <button type="button" onClick={() => router.push('/patto/stories/1')} className="btn-glass rounded-full px-6 py-2.5 text-[12px] cursor-pointer">{t('new_story_btn')}</button>
+          <button type="button" onClick={() => router.push('/patto/records')} className="glass-card-sm rounded-full px-6 py-2.5 text-[12px] font-bold text-[var(--pm)] cursor-pointer">Progress</button>
         </div>
       </div>
     )
@@ -166,7 +166,7 @@ export function ReviewSession() {
         reviewCount={lastRecord.reviewCount}
         nextReviewDays={lastRecord.intervalDays}
         onContinue={() => { setShowPopup(false); setDone(true) }}
-        onHome={() => router.push('/home')}
+        onHome={() => router.push('/patto/home')}
       />
     )
   }
@@ -199,8 +199,8 @@ export function ReviewSession() {
         </div>
 
         <div className="flex gap-3">
-          <button type="button" onClick={() => router.push('/home')} className="btn-glass rounded-full px-6 py-2.5 text-[12px] cursor-pointer">Home</button>
-          <button type="button" onClick={() => router.push('/records')} className="glass-card-sm rounded-full px-6 py-2.5 text-[12px] font-bold text-[var(--pm)] cursor-pointer">Progress</button>
+          <button type="button" onClick={() => router.push('/patto/home')} className="btn-glass rounded-full px-6 py-2.5 text-[12px] cursor-pointer">Home</button>
+          <button type="button" onClick={() => router.push('/patto/records')} className="glass-card-sm rounded-full px-6 py-2.5 text-[12px] font-bold text-[var(--pm)] cursor-pointer">Progress</button>
         </div>
       </div>
     )
@@ -215,7 +215,7 @@ export function ReviewSession() {
       {/* 상단: 오늘 복습 진행률 */}
       <div className="px-6 pt-5">
         <div className="flex items-center justify-between mb-2">
-          <button type="button" aria-label={t('exit')} onClick={() => { stop(); router.push('/records') }} className="text-[var(--pm)] hover:text-[var(--pa)] transition-colors cursor-pointer p-1 -ml-1">
+          <button type="button" aria-label={t('exit')} onClick={() => { stop(); router.push('/patto/records') }} className="text-[var(--pm)] hover:text-[var(--pa)] transition-colors cursor-pointer p-1 -ml-1">
             <X className="w-5 h-5" strokeWidth={1.6} />
           </button>
           <span className="text-[12px] font-bold text-[var(--pt)]">{answered} / {total}</span>

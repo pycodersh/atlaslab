@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -7,14 +7,14 @@ export type BookmarkTab = 'STUDY' | 'PROGRESS' | 'SETTINGS'
 const TABS: BookmarkTab[] = ['STUDY', 'PROGRESS', 'SETTINGS']
 
 const TAB_ROUTES: Record<BookmarkTab, string> = {
-  STUDY: '/stories/1',
-  PROGRESS: '/records',
-  SETTINGS: '/settings',
+  STUDY: '/patto/stories/1',
+  PROGRESS: '/patto/records',
+  SETTINGS: '/patto/settings',
 }
 
 function getActiveTab(pathname: string): BookmarkTab {
-  if (pathname.startsWith('/records')) return 'PROGRESS'
-  if (pathname.startsWith('/settings')) return 'SETTINGS'
+  if (pathname.startsWith('/patto/records')) return 'PROGRESS'
+  if (pathname.startsWith('/patto/settings')) return 'SETTINGS'
   return 'STUDY'
 }
 

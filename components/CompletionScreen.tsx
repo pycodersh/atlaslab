@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useRouter } from 'next/navigation'
 import { useT } from '@/hooks/useT'
@@ -62,10 +62,10 @@ export function CompletionScreen() {
 
       {/* Buttons */}
       <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <button type="button" onClick={() => router.push('/learn/1')} style={PRIMARY_BTN}>
+        <button type="button" onClick={() => router.push('/patto/learn/1')} style={PRIMARY_BTN}>
           {t('completion_restart')}
         </button>
-        <button type="button" onClick={() => router.push('/records')} style={SECONDARY_BTN}>
+        <button type="button" onClick={() => router.push('/patto/records')} style={SECONDARY_BTN}>
           {t('completion_records')}
         </button>
       </div>

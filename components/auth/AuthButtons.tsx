@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -239,9 +239,9 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
 
       <p style={{ fontSize: 11, color: 'var(--pm2)', lineHeight: 1.7, textAlign: 'center', margin: '20px 0 0' }}>
         {t('auth_agree_pre')}{' '}
-        <Link href="/settings/about/terms" style={{ textDecoration: 'underline', color: 'var(--pm)' }}>{t('auth_terms_link')}</Link>
+        <Link href="/patto/settings/about/terms" style={{ textDecoration: 'underline', color: 'var(--pm)' }}>{t('auth_terms_link')}</Link>
         {t('auth_agree_mid')}
-        <Link href="/settings/about/privacy" style={{ textDecoration: 'underline', color: 'var(--pm)' }}>{t('auth_privacy_link')}</Link>
+        <Link href="/patto/settings/about/privacy" style={{ textDecoration: 'underline', color: 'var(--pm)' }}>{t('auth_privacy_link')}</Link>
         {t('auth_agree_post')}
       </p>
 

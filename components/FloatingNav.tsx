@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { BookOpen, ChartNoAxesColumnIncreasing, Menu, Settings, X } from 'lucide-react'
 import Link from 'next/link'
@@ -14,8 +14,8 @@ export function FloatingNav() {
   const t = useT()
   const tabs = [
     { href: '/learn',    label: t('tab_story'),    icon: BookOpen },
-    { href: '/records',  label: t('tab_progress'), icon: ChartNoAxesColumnIncreasing },
-    { href: '/settings', label: t('tab_settings'), icon: Settings },
+    { href: '/patto/records',  label: t('tab_progress'), icon: ChartNoAxesColumnIncreasing },
+    { href: '/patto/settings', label: t('tab_settings'), icon: Settings },
   ]
 
   return (
