@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Volume2, Square, Bookmark, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Volume2, Square, Bookmark } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -257,11 +257,11 @@ export function PatternsSectionInline({
   // Hero gradient theme
   const heroBg = isDark
     ? 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)'
-    : 'linear-gradient(160deg, #c8b8e8 0%, #d4b8d8 54%, #b8c8e0 100%)'
-  const heroBorderColor = isDark ? 'rgba(120,90,180,0.30)' : 'rgba(180,160,215,0.28)'
-  const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : 'rgba(25,15,55,0.92)'
-  const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : 'rgba(25,15,55,0.62)'
-  const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : 'rgba(25,15,55,0.52)'
+    : 'linear-gradient(160deg, rgba(142,167,255,0.06) 0%, rgba(255,255,255,0.0) 100%)'
+  const heroBorderColor = isDark ? 'rgba(120,90,180,0.30)' : 'rgba(142,167,255,0.18)'
+  const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
+  const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
+  const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
 
   // Dot indicator colors
   const dotActive   = isDark ? 'rgba(255,255,255,0.70)' : 'var(--pa)'
@@ -276,7 +276,7 @@ export function PatternsSectionInline({
   }
 
   // Card colors
-  const cardBg       = isDark ? 'rgba(30,28,48,0.85)'       : 'rgba(248,248,255,0.95)'
+  const cardBg       = isDark ? 'rgba(30,28,48,0.85)'       : 'white'
   const exBoxBg      = isDark ? 'rgba(255,255,255,0.04)'    : 'rgba(142,167,255,0.05)'
   const exBoxBorder  = isDark ? 'rgba(255,255,255,0.08)'    : 'rgba(142,167,255,0.14)'
 
@@ -298,19 +298,59 @@ export function PatternsSectionInline({
           {/* Card hero header */}
           <div style={{
             position: 'relative', overflow: 'hidden',
-            padding: '14px 18px 16px',
+            padding: '12px 16px 16px',
             background: heroBg,
-            borderBottom: `1px solid ${heroBorderColor}`,
           }}>
-            {/* PATTERN 000/000 — centered top */}
-            <p style={{
-              textAlign: 'center', margin: '0 0 10px',
-              fontSize: '0.58rem', fontWeight: 700, color: heroIconColor,
-              letterSpacing: '0.06em',
-              fontFamily: '"SF Mono", "Fira Mono", monospace',
-            }}>
-              PATTERN {String(globalPatternNum).padStart(3, '0')} / {totalPatterns}
-            </p>
+            {/* Top row: PATTERN num | dots | bookmark */}
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
+              {/* PATTERN label — left */}
+              <p style={{
+                margin: 0, fontSize: '0.57rem', fontWeight: 700, color: heroIconColor,
+                letterSpacing: '0.06em', flexShrink: 0,
+                fontFamily: '"SF Mono", "Fira Mono", monospace',
+              }}>
+                PATTERN {String(globalPatternNum).padStart(3, '0')}
+              </p>
+
+              {/* Dot indicators — center */}
+              <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 4 }}>
+                {patterns.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    aria-label={`패턴 ${i + 1}`}
+                    onClick={() => navigateTo(i)}
+                    style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer' }}
+                  >
+                    <span style={{
+                      display: 'block',
+                      width: i === patIdx ? 16 : 5,
+                      height: 5,
+                      borderRadius: 999,
+                      background: i === patIdx ? dotActive : dotInactive,
+                      transition: 'all 0.25s',
+                    }} />
+                  </button>
+                ))}
+              </div>
+
+              {/* Bookmark — right */}
+              <button
+                type="button"
+                onClick={handleBookmark}
+                aria-label={bookmarked ? '북마크 해제' : '북마크'}
+                style={{
+                  background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0,
+                  color: bookmarked ? isDark ? '#8FABFF' : '#8EA7FF' : heroIconColor,
+                  transition: 'color 0.15s',
+                }}
+              >
+                <Bookmark
+                  style={{ width: 15, height: 15 }} strokeWidth={1.8}
+                  fill={bookmarked ? 'currentColor' : 'none'}
+                />
+              </button>
+            </div>
 
             {/* Pattern expression */}
             <p style={{
@@ -324,7 +364,7 @@ export function PatternsSectionInline({
             {/* Divider */}
             <div style={{
               width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px',
-              background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(60,40,100,0.25)',
+              background: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(142,167,255,0.35)',
             }} />
 
             {/* Meaning + audio */}
@@ -343,7 +383,7 @@ export function PatternsSectionInline({
                 aria-label={isPlaying ? '정지' : '예문 듣기'}
                 style={{
                   background: 'none', border: 'none', padding: 6, cursor: 'pointer',
-                  color: isPlaying ? '#8F234B' : heroIconColor,
+                  color: isPlaying ? isDark ? '#8FABFF' : '#8EA7FF' : heroIconColor,
                   transition: 'color 0.15s', flexShrink: 0,
                 }}
               >
@@ -352,24 +392,6 @@ export function PatternsSectionInline({
                   : <Volume2 style={{ width: 17, height: 17 }} strokeWidth={1.6} />}
               </button>
             </div>
-
-            {/* Bookmark — bottom right of hero */}
-            <button
-              type="button"
-              onClick={handleBookmark}
-              aria-label={bookmarked ? '북마크 해제' : '북마크'}
-              style={{
-                position: 'absolute', bottom: 12, right: 14,
-                background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                color: bookmarked ? '#8F234B' : heroIconColor,
-                transition: 'color 0.15s',
-              }}
-            >
-              <Bookmark
-                style={{ width: 15, height: 15 }} strokeWidth={1.8}
-                fill={bookmarked ? 'currentColor' : 'none'}
-              />
-            </button>
           </div>
 
           {/* Card body — examples in a box */}
@@ -427,74 +449,6 @@ export function PatternsSectionInline({
         </div>
       </div>
 
-      {/* ── Dot navigation ─────────────────────────────────────────────── */}
-      <div style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-        gap: 5, marginTop: 16, marginBottom: 8,
-      }}>
-        {showNavButtons && (
-          <button
-            type="button"
-            onClick={goPrev}
-            aria-label="Previous pattern"
-            disabled={patIdx === 0}
-            style={{
-              width: 28, height: 28, borderRadius: '50%',
-              border: '1px solid var(--pglass-border)',
-              background: 'var(--pglass)',
-              backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: patIdx === 0 ? 'default' : 'pointer',
-              color: 'var(--pm)', marginRight: 6, flexShrink: 0,
-              opacity: patIdx === 0 ? 0.3 : 1,
-              transition: 'opacity 0.15s',
-            }}
-          >
-            <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={2.2} />
-          </button>
-        )}
-
-        {patterns.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`패턴 ${i + 1}`}
-            onClick={() => navigateTo(i)}
-            style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer' }}
-          >
-            <span style={{
-              display: 'block',
-              width: i === patIdx ? 18 : 6,
-              height: 6,
-              borderRadius: 999,
-              background: i === patIdx ? dotActive : dotInactive,
-              transition: 'all 0.25s',
-            }} />
-          </button>
-        ))}
-
-        {showNavButtons && (
-          <button
-            type="button"
-            onClick={goNext}
-            aria-label="Next pattern"
-            disabled={patIdx === patterns.length - 1}
-            style={{
-              width: 28, height: 28, borderRadius: '50%',
-              border: '1px solid var(--pglass-border)',
-              background: 'var(--pglass)',
-              backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: patIdx === patterns.length - 1 ? 'default' : 'pointer',
-              color: 'var(--pm)', marginLeft: 6, flexShrink: 0,
-              opacity: patIdx === patterns.length - 1 ? 0.3 : 1,
-              transition: 'opacity 0.15s',
-            }}
-          >
-            <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.2} />
-          </button>
-        )}
-      </div>
     </div>
   )
 }

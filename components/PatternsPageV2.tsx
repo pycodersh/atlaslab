@@ -50,14 +50,14 @@ const LANG_CODE: Record<string, string> = { ko: 'KO', ja: 'JP', es: 'ES', fr: 'F
 // ── Hero theme ────────────────────────────────────────────────────────────────
 const HERO_THEMES = {
   light: [{
-    bg: 'linear-gradient(160deg, #c8b8e8 0%, #d4b8d8 54%, #b8c8e0 100%)',
-    wave1: 'rgba(255,255,255,0.18)', wave2: 'rgba(255,255,255,0.10)',
-    borderColor: 'rgba(180,160,215,0.28)',
-    patternColor: 'rgba(25,15,55,0.92)',
-    patternShadow: '0 1px 4px rgba(200,180,240,0.25)',
-    meaningColor: 'rgba(25,15,55,0.62)',
-    labelColor: 'rgba(25,15,55,0.48)',
-    iconColor: 'rgba(25,15,55,0.52)',
+    bg: 'linear-gradient(160deg, rgba(142,167,255,0.06) 0%, rgba(255,255,255,0.0) 100%)',
+    wave1: 'rgba(142,167,255,0.08)', wave2: 'rgba(142,167,255,0.04)',
+    borderColor: 'rgba(142,167,255,0.18)',
+    patternColor: '#1a1a2e',
+    patternShadow: '0 1px 4px rgba(142,167,255,0.12)',
+    meaningColor: '#5a5a7a',
+    labelColor: 'rgba(90,90,122,0.60)',
+    iconColor: '#8EA7FF',
   }],
   dark: [{
     bg: 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)',
@@ -522,7 +522,7 @@ export function PatternsPageV2({
                       aria-label={bookmarked ? t('bookmark_remove') : t('bookmark')}
                       style={{
                         background: 'none', border: 'none', padding: 4, cursor: 'pointer',
-                        color: bookmarked ? '#8F234B' : heroTheme.iconColor,
+                        color: bookmarked ? isDark ? '#8FABFF' : '#8EA7FF' : heroTheme.iconColor,
                         transition: 'color 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                       }}
                       onPointerDown={e => { e.currentTarget.style.transform = 'scale(0.92)' }}
@@ -573,7 +573,7 @@ export function PatternsPageV2({
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                       padding: 6, cursor: 'pointer',
                       background: 'none', border: 'none',
-                      color: isPlaying ? '#8F234B' : heroTheme.iconColor, flexShrink: 0,
+                      color: isPlaying ? isDark ? '#8FABFF' : '#8EA7FF' : heroTheme.iconColor, flexShrink: 0,
                       transition: 'opacity 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
                     }}
                     onPointerDown={e => { e.currentTarget.style.opacity = '0.6' }}

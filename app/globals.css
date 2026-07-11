@@ -39,8 +39,8 @@
   --ann-purple-fade: rgba(108,45,130,0.28);
   --ann-purple-bg:   rgba(108,45,130,0.07);
   --ann-purple-border: rgba(108,45,130,0.22);
-  /* Pattern highlight — burgundy */
-  --pattern-hl: #8B2635;
+  /* Pattern highlight — Soft Indigo */
+  --pattern-hl: #8EA7FF;
 }
 
 .dark {
