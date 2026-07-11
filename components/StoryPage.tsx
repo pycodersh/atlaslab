@@ -309,15 +309,11 @@ export function StoryPage({
         />
         </div>
 
-        {/* ── Glass Story Card ── */}
-        <div style={{ padding: '14px 16px 16px' }}>
-          <div
-            className="glass-card"
-            style={{ borderRadius: 20, position: 'relative' }}
-          >
-            {/* Segmented Control — absolute top-right, hidden when app language is English */}
+        {/* ── Story Text ── */}
+        <div style={{ padding: '12px 16px 0' }}>
+            {/* Segmented Control — right-aligned row */}
             {prefs.language !== 'en' && (
-            <div style={{ position: 'absolute', top: 14, right: 16, zIndex: 2 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
               <div style={{
                 display: 'inline-flex', borderRadius: 10,
                 background: 'var(--pc)',
@@ -347,7 +343,7 @@ export function StoryPage({
             )}
 
             {/* Paragraphs */}
-            <div style={{ padding: '48px 28px 8px' }}>
+            <div style={{ padding: '0 12px 8px' }}>
               <div className="space-y-5">
                 {story.paragraphs.map((para, i) => {
                   const isCurrentTTS = currentParagraphIdx === i && isSpeaking
@@ -406,7 +402,6 @@ export function StoryPage({
             </div>
 
             <div style={{ height: 22 }} />
-          </div>
         </div>
 
         {/* Divider between story body and pattern cards */}
