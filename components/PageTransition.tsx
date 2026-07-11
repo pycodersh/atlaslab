@@ -33,16 +33,21 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     prevPathRef.current = pathname
   }
 
+  // Tab switches (non-story routes): skip visual transition to avoid flash
+  if (!inStoryTree) {
+    return <div style={{ width: '100%', minHeight: '100%' }}>{children}</div>
+  }
+
   return (
     <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={pathname}
-        initial={{ x: xEnter, opacity: inStoryTree ? 0.6 : 0 }}
+        initial={{ x: xEnter, opacity: 0.7 }}
         animate={{ x: 0, opacity: 1 }}
-        exit={{ x: xExit, opacity: inStoryTree ? 0.6 : 0 }}
+        exit={{ x: xExit, opacity: 0.7 }}
         transition={{
-          duration: 0.28,
-          ease: [0.32, 0, 0.67, 0], // ease-in-cubic for exit
+          duration: 0.26,
+          ease: [0.32, 0, 0.67, 0],
         }}
         style={{ width: '100%', minHeight: '100%', overflowX: 'hidden' }}
       >

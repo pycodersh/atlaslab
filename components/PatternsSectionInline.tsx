@@ -1,7 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Volume2, Square, Bookmark } from 'lucide-react'
+import { Volume2, Square, Bookmark, Lightbulb } from 'lucide-react'
+import { PATTERN_NOTES } from '@/data/pattern-notes'
 import type { MagazineStory } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -193,6 +194,7 @@ export function PatternsSectionInline({
     }
     const onTouchEnd = (e: TouchEvent) => {
       if (dir !== 'h') return
+      e.stopPropagation() // prevent story navigation from firing
       const dx = e.changedTouches[0].clientX - startX
       if (dx < -50) goNext(); else if (dx > 50) goPrev()
     }
@@ -273,6 +275,9 @@ export function PatternsSectionInline({
     })
     setBookmarked(next)
   }
+
+  // Pattern note
+  const patternNote = pattern.explanation ?? PATTERN_NOTES[pattern.id] ?? null
 
   // Card colors
   const cardBg       = isDark ? 'rgba(30,28,48,0.85)'    : '#FFFFFF'
@@ -446,6 +451,22 @@ export function PatternsSectionInline({
                 )
               })}
             </div>
+
+            {/* Pattern note */}
+            {patternNote && (
+              <div style={{
+                marginTop: 10,
+                borderRadius: 8,
+                background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(142,167,255,0.08)',
+                padding: '10px 12px',
+                display: 'flex', alignItems: 'flex-start', gap: 8,
+              }}>
+                <Lightbulb style={{ width: 13, height: 13, color: isDark ? '#8FABFF' : '#8EA7FF', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
+                <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.50)' : '#5a5a7a', lineHeight: 1.5 }}>
+                  {patternNote}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

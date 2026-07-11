@@ -37,6 +37,9 @@ type StoryPageProps = {
   noScroll?: boolean
   /** Content rendered after the story card, inside the scroll area */
   afterContent?: React.ReactNode
+  /** Story-zone swipe handlers (only fires in story text area, not pattern section) */
+  onStoryAreaTouchStart?: React.TouchEventHandler<HTMLDivElement>
+  onStoryAreaTouchEnd?: React.TouchEventHandler<HTMLDivElement>
 }
 
 
@@ -54,6 +57,8 @@ export function StoryPage({
   onAmbienceToggle,
   noScroll = false,
   afterContent,
+  onStoryAreaTouchStart,
+  onStoryAreaTouchEnd,
 }: StoryPageProps) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -310,7 +315,11 @@ export function StoryPage({
         </div>
 
         {/* ── Story Text ── */}
-        <div style={{ padding: '12px 16px 0' }}>
+        <div
+          style={{ padding: '12px 16px 0' }}
+          onTouchStart={onStoryAreaTouchStart}
+          onTouchEnd={onStoryAreaTouchEnd}
+        >
             {/* Segmented Control — right-aligned row */}
             {prefs.language !== 'en' && (
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>

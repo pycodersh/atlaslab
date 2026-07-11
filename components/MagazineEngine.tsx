@@ -284,6 +284,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         onAmbienceToggle={toggleAmbience}
         noScroll={true}
         afterContent={inlinePatterns}
+        onStoryAreaTouchStart={handleStoryTouchStart}
+        onStoryAreaTouchEnd={handleStoryTouchEnd}
       />
       {sharedPopups}
     </div>
