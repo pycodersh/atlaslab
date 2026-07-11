@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -67,7 +67,7 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
 
       {/* Buttons */}
       <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <button type="button" onClick={() => router.push('/settings/subscription')} style={FS_PRIMARY}>
+        <button type="button" onClick={() => router.push('/patto/settings/subscription')} style={FS_PRIMARY}>
           Upgrade to Premium
         </button>
         <button type="button" onClick={() => router.back()} style={FS_SECONDARY}>

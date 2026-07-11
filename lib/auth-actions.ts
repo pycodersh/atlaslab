@@ -4,8 +4,8 @@ import { createClient } from '@/lib/supabase/client'
 
 const CALLBACK = () =>
   typeof window !== 'undefined'
-    ? `${window.location.origin}/auth/callback`
-    : '/auth/callback'
+    ? `${window.location.origin}/patto/auth/callback`
+    : '/patto/auth/callback'
 
 export async function signInWithGoogle() {
   try {

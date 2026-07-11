@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
@@ -176,7 +176,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
         setShowPopup(false)
         router.push(`/learn/${story.order_index + 1}`)
       }}
-      onHome={() => router.push('/home')}
+      onHome={() => router.push('/patto/home')}
     />
   )
 

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { BookOpen, ChartNoAxesColumnIncreasing, Settings } from 'lucide-react'
 import Link from 'next/link'
@@ -12,8 +12,8 @@ export function SlideBottomNav() {
   const t = useT()
   const tabs = [
     { href: '/learn',    label: t('tab_story'),    icon: BookOpen },
-    { href: '/records',  label: t('tab_progress'), icon: ChartNoAxesColumnIncreasing },
-    { href: '/settings', label: t('tab_settings'), icon: Settings },
+    { href: '/patto/records',  label: t('tab_progress'), icon: ChartNoAxesColumnIncreasing },
+    { href: '/patto/settings', label: t('tab_settings'), icon: Settings },
   ]
 
   return (
