@@ -1,0 +1,24 @@
+import { NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
+
+export async function GET(request: Request) {
+  const { searchParams, origin } = new URL(request.url)
+  const code = searchParams.get('code')
+  const oauthError = searchParams.get('error')
+  const next = searchParams.get('next') ?? '/'
+
+  if (oauthError === 'access_denied') {
+    return NextResponse.redirect(`${origin}/patto/settings/auth`)
+  }
+
+  if (code) {
+    const supabase = await createClient()
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    if (!error) {
+      const destination = next === '/' ? '/patto/home' : next
+      return NextResponse.redirect(`${origin}${destination}`)
+    }
+  }
+
+  return NextResponse.redirect(`${origin}/patto/settings/auth?error=auth_failed`)
+}

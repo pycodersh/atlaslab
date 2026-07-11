@@ -2,17 +2,15 @@
 
 import { createClient } from '@/lib/supabase/client'
 
-const CALLBACK = () =>
-  typeof window !== 'undefined'
-    ? `${window.location.origin}/patto/auth/callback`
-    : '/patto/auth/callback'
+const GOOGLE_CALLBACK = 'https://atlaslabstudios.com/patto/auth/callback'
+const KAKAO_CALLBACK  = 'https://atlaslabstudios.com/patto/auth/callback/kakao'
 
 export async function signInWithGoogle() {
   try {
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: CALLBACK() },
+      options: { redirectTo: GOOGLE_CALLBACK },
     })
     return error?.message ?? null
   } catch (e) {
@@ -26,7 +24,7 @@ export async function signInWithKakao() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'kakao',
       options: {
-        redirectTo: CALLBACK(),
+        redirectTo: KAKAO_CALLBACK,
         // Kakao Developer Console: profile_nickname, profile_image, account_email
         // all set to 선택 동의. Request them explicitly — Supabase's default
         // sends the legacy `profile` scope which can trigger KOE205.
@@ -46,7 +44,7 @@ export async function signInWithEmail(email: string, password: string, isSignUp:
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { emailRedirectTo: CALLBACK() },
+        options: { emailRedirectTo: GOOGLE_CALLBACK },
       })
       return error?.message ?? null
     }
