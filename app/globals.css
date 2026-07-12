@@ -114,11 +114,15 @@
   border: 1.5px solid rgba(107,143,255,0.45) !important;
 }
 
-/* ── Trainer Floating Button ─────────────────────────────────────────────── */
-@keyframes trainer-pulse {
+/* ── Trainer Orb ─────────────────────────────────────────────────────────── */
+@keyframes trainer-orb-pulse {
   0%   { transform: scale(1); }
-  50%  { transform: scale(1.15); }
+  50%  { transform: scale(1.12); }
   100% { transform: scale(1); }
+}
+@keyframes trainer-orb-glow-pulse {
+  0%, 100% { box-shadow: 0 0 20px 6px rgba(172,182,255,0.25), 0 0 40px 12px rgba(172,182,255,0.10); }
+  50%       { box-shadow: 0 0 30px 10px rgba(172,182,255,0.45), 0 0 55px 18px rgba(172,182,255,0.20); }
 }
 @keyframes trainer-bubble-in {
   from { opacity: 0; transform: translateY(4px); }
@@ -129,10 +133,13 @@
   to   { opacity: 0; transform: translateY(4px); }
 }
 .trainer-pulse-once {
-  animation: trainer-pulse 0.4s ease-in-out;
+  animation: trainer-orb-pulse 0.4s ease-in-out;
+}
+.trainer-orb-active-glow {
+  animation: trainer-orb-glow-pulse 2s ease-in-out infinite;
 }
 .trainer-bubble-enter {
-  animation: trainer-bubble-in 0.25s ease-out forwards;
+  animation: trainer-bubble-in 0.2s ease-out forwards;
 }
 .trainer-bubble-exit {
   animation: trainer-bubble-out 0.2s ease-in forwards;
