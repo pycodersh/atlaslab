@@ -92,7 +92,6 @@ export function nextReviewLabel(data: StoryRoundData): string {
   if (data.isMastered) return ''
   const days = REVIEW_DAYS[data.round - 1]
   if (days == null)  return ''
-  if (days === 1)    return '내일'
   if (days === 7)    return '1주일 후'
   if (days === 14)   return '2주일 후'
   return `${days}일 후`
