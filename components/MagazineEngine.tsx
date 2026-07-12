@@ -377,6 +377,13 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trainer])
 
+  // ── Trainer: Pause → stop story audio when Orb enters paused state ─────────
+  useEffect(() => {
+    if (isDesktop) return
+    if (trainer?.orbState === 'paused') handleStop()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trainer?.orbState, isDesktop])
+
   // ── Trainer: register resume callback (Help menu Pause → Orb tap) ─────────
   useEffect(() => {
     if (isDesktop) return
@@ -460,11 +467,11 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     } else {
       // All recall rounds done → complete
       clearFlowTimers()
-      trainer?.clearMessage()
+      trainer?.say('Done.', 1500)
       clearSessionProgress(story.id)
       const data = completeStoryRound(story.id)
       setCompletionData(data)
-      setFlowPhase('complete')
+      setTimeout(() => setFlowPhase('complete'), 1600)
       const patternIds = story.patterns.map(p => p.id)
       setProgress(completeStoryAndScheduleReview(progress, String(story.id), patternIds, 1, 1))
     }
