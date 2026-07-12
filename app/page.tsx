@@ -477,7 +477,10 @@ export default function PattoLanding() {
 
         {/* ── Nav ── */}
         <nav className="pl-nav">
-          <a href="/" className="pl-logo">patt<span>o</span></a>
+          <a href="/">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/Atlaslab_logo.png" alt="Atlas Lab" style={{ height: 36, width: 'auto', display: 'block' }} />
+          </a>
           <div className="pl-nav-mobile-hide">
             <ul className="pl-nav-links">
               <li><a href="#features">Features</a></li>
@@ -590,7 +593,10 @@ export default function PattoLanding() {
 
         {/* ── Footer ── */}
         <footer className="pl-footer">
-          <a href="/" className="pl-footer-left">patt<span>o</span></a>
+          <a href="/">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/Atlaslab_logo.png" alt="Atlas Lab" style={{ height: 28, width: 'auto', display: 'block' }} />
+          </a>
           <nav className="pl-footer-links">
             <a href="/patto/settings/about/terms">Terms</a>
             <a href="/patto/settings/about/privacy">Privacy</a>
