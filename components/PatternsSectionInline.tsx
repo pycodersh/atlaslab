@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
-import { Volume2, Square, Bookmark, Lightbulb, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Bookmark, Lightbulb, ChevronLeft, ChevronRight } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import type { MagazineStory } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -45,6 +45,11 @@ type Props = {
   totalRecallRounds?: number
   onRecallRoundComplete?: () => void
   onPatternIndexChange?: (idx: number) => void
+  // Trainer audio flow callbacks
+  onRegisterPlay?:        (fn: (() => void) | null) => void
+  onRegisterGoNext?:      (fn: (() => void) | null) => void
+  onRegisterRevealOnly?:  (fn: (() => void) | null) => void
+  onPlayingChange?:       (playing: boolean) => void
 }
 
 function resolveExamples(
@@ -76,6 +81,10 @@ export function PatternsSectionInline({
   totalRecallRounds = 3,
   onRecallRoundComplete,
   onPatternIndexChange,
+  onRegisterPlay,
+  onRegisterGoNext,
+  onRegisterRevealOnly,
+  onPlayingChange,
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -262,6 +271,27 @@ export function PatternsSectionInline({
     animate(cardX, 0, SPRING).then(() => { animatingRef.current = false })
   }, [stop, navigateTo, cardX])
 
+  // ── Trainer audio flow callbacks ──────────────────────────────────────
+  useEffect(() => {
+    onRegisterPlay?.(playExamples)
+  }, [playExamples, onRegisterPlay])
+
+  useEffect(() => {
+    onRegisterGoNext?.(goNextPattern)
+  }, [goNextPattern, onRegisterGoNext])
+
+  const revealOnly = useCallback(() => {
+    setRecallRevealed(prev => new Set(prev).add(patIdxRef.current))
+  }, [])
+
+  useEffect(() => {
+    onRegisterRevealOnly?.(revealOnly)
+  }, [revealOnly, onRegisterRevealOnly])
+
+  useEffect(() => {
+    onPlayingChange?.(isPlaying)
+  }, [isPlaying, onPlayingChange])
+
   // ── Drag handling ─────────────────────────────────────────────────────
   function handleDragEnd(_: unknown, info: { offset: { x: number }; velocity: { x: number } }) {
     const { offset, velocity } = info
@@ -421,23 +451,11 @@ export function PatternsSectionInline({
 
         <div style={{ width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px', background: isDark ? 'rgba(255,255,255,0.25)' : '#8EA7FF' }} />
 
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          {patternMeaning ? (
-            <p style={{ fontSize: 13, fontWeight: 600, color: heroMeaningColor, margin: 0, flex: 1, paddingRight: 8, lineHeight: 1.4 }}>
-              {patternMeaning}
-            </p>
-          ) : <div />}
-          <button
-            type="button"
-            onClick={playExamples}
-            aria-label={isPlaying ? '정지' : '예문 듣기'}
-            style={{ background: 'none', border: 'none', padding: 6, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
-          >
-            {isPlaying
-              ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
-              : <Volume2 style={{ width: 17, height: 17 }} strokeWidth={1.6} />}
-          </button>
-        </div>
+        {patternMeaning ? (
+          <p style={{ fontSize: 13, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+            {patternMeaning}
+          </p>
+        ) : null}
       </div>
 
       {/* Examples */}

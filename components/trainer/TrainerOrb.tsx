@@ -6,7 +6,7 @@ import { TrainerOrbContext, type OrbState } from './TrainerOrbContext'
 import { TrainerContext, type CardSpec, type TrainerCtx } from '@/contexts/TrainerContext'
 import { useTheme } from '@/components/ThemeProvider'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
-import { IconRefresh, IconPlayerSkipForward, IconPlayerPause, IconX } from '@tabler/icons-react'
+import { IconRefresh, IconPlayerSkipForward, IconPlayerPause, IconX, IconPlayerPlay, IconCheck } from '@tabler/icons-react'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const ORB_SIZE = 52
@@ -225,6 +225,7 @@ function ConvCard({
   isDark,
   onClear,
   trainerCtx,
+  cardIsPlaying,
 }: {
   card: CardSpec | null
   exitCard: CardSpec | null
@@ -232,6 +233,7 @@ function ConvCard({
   isDark: boolean
   onClear: () => void
   trainerCtx: TrainerCtx | null
+  cardIsPlaying: boolean
 }) {
   const isRight  = corner.endsWith('r')
   const isBottom = corner.startsWith('b')
@@ -314,22 +316,74 @@ function ConvCard({
                 {active.buttons[0].label}
               </button>
             ) : (
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 14, marginTop: 10 }}>
-                {active.buttons.map((btn, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => { onClear(); btn.onClick() }}
-                    style={{
-                      background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0',
-                      fontSize: 13, fontWeight: btn.primary ? 600 : 400,
-                      color: btn.primary ? textPri : textSec,
-                      fontFamily: 'inherit',
-                    }}
-                  >
-                    {btn.label}
-                  </button>
-                ))}
+              <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
+                {active.buttons.map((btn, i) => {
+                  if (btn.btnVariant === 'play') {
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => btn.onClick()}
+                        disabled={cardIsPlaying}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 5,
+                          padding: '6px 14px', borderRadius: 8, cursor: cardIsPlaying ? 'default' : 'pointer',
+                          border: cardIsPlaying
+                            ? `0.5px solid ${isDark ? 'rgba(142,167,255,0.08)' : 'rgba(107,143,255,0.12)'}`
+                            : `0.5px solid rgba(107,143,255,0.25)`,
+                          background: cardIsPlaying
+                            ? 'rgba(107,143,255,0.06)'
+                            : isDark ? 'rgba(142,167,255,0.15)' : 'rgba(107,143,255,0.10)',
+                          color: cardIsPlaying ? '#aaa' : isDark ? '#A6B8FF' : '#6B8FFF',
+                          fontSize: 12, fontWeight: 500, fontFamily: 'inherit',
+                          transition: 'all 0.15s',
+                        }}
+                      >
+                        {cardIsPlaying
+                          ? <span style={{ fontSize: 9, lineHeight: 1 }}>■</span>
+                          : <IconPlayerPlay size={10} strokeWidth={1.8} />
+                        }
+                        {cardIsPlaying ? 'Playing...' : btn.label}
+                      </button>
+                    )
+                  }
+                  if (btn.btnVariant === 'done') {
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => { onClear(); btn.onClick() }}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 5,
+                          padding: '6px 14px', borderRadius: 8, cursor: 'pointer',
+                          border: 'none',
+                          background: isDark ? '#7c6fd4' : '#6B8FFF',
+                          color: '#fff',
+                          fontSize: 12, fontWeight: 500, fontFamily: 'inherit',
+                        }}
+                      >
+                        <IconCheck size={10} strokeWidth={2.5} />
+                        {btn.label}
+                      </button>
+                    )
+                  }
+                  // Default button (text-only)
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => { onClear(); btn.onClick() }}
+                      style={{
+                        background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0',
+                        fontSize: 13, fontWeight: btn.primary ? 600 : 400,
+                        color: btn.primary ? textPri : textSec,
+                        fontFamily: 'inherit',
+                      }}
+                    >
+                      {btn.label}
+                    </button>
+                  )
+                })}
               </div>
             )
           )}
@@ -486,6 +540,7 @@ export function TrainerOrb() {
           isDark={isDark}
           onClear={() => trainerCtxRef.current?.clearMessage()}
           trainerCtx={trainerCtx}
+          cardIsPlaying={trainerCtx?.cardIsPlaying ?? false}
         />
       )}
 

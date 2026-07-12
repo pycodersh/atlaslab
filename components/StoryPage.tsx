@@ -301,7 +301,7 @@ export function StoryPage({
                 type="button"
                 aria-label={isSpeaking ? '정지' : '전체 읽기'}
                 onClick={handleSpeakAll}
-                className={audioPulse && !isSpeaking ? 'patto-audio-pulse' : undefined}
+                className={undefined}
                 style={{
                   width: 32, height: 32, borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',

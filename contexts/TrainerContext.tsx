@@ -20,9 +20,10 @@ export type CardSize = 'small' | 'medium' | 'large'
 
 /** Button inside a Conversation Card */
 export interface DockButton {
-  label:    string
-  onClick:  () => void
-  primary?: boolean
+  label:       string
+  onClick:     () => void
+  primary?:    boolean
+  btnVariant?: 'play' | 'done'   // special styled buttons
 }
 
 /** Backward-compat alias */
@@ -89,6 +90,12 @@ export interface TrainerCtx {
   startSession: (cfg: TrainerSessionConfig) => void
   endSession:   () => void
 
+  // ── Card play state ──────────────────────────────────────────────────────
+  cardIsPlaying:     boolean
+  setCardPlaying:    (v: boolean) => void
+  showFlow:          (msg: string, buttons: DockButton[]) => void
+  setRepeatCallback: (fn: (() => void) | null) => void
+
   // ── Orb interaction ──────────────────────────────────────────────────────
   handleOrbTap:     () => void
   showHelpMenu:     () => void   // directly show/toggle help menu (for pathname-based detection)
@@ -123,9 +130,10 @@ type QueuedCard = Omit<CardSpec, 'id'>
 
 export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // ── Display ──────────────────────────────────────────────────────────────
-  const [card,      setCard]      = useState<CardSpec | null>(null)
-  const [isPulsing, setIsPulsing] = useState(false)
-  const [page,      setPageState] = useState<TrainerPage>('other')
+  const [card,          setCard]          = useState<CardSpec | null>(null)
+  const [isPulsing,     setIsPulsing]     = useState(false)
+  const [page,          setPageState]     = useState<TrainerPage>('other')
+  const [cardIsPlaying, setCardIsPlaying] = useState(false)
 
   // ── Session ──────────────────────────────────────────────────────────────
   const [orbState,          setOrbState]          = useState<OrbState>('idle')
@@ -135,6 +143,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const [currentPatternIdx, setCurrentPatternIdx] = useState(0)
 
   // ── Refs ─────────────────────────────────────────────────────────────────
+  const repeatCallbackRef = useRef<(() => void) | null>(null)
   const silentRef         = useRef(false)
   const dismissRef        = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pulseRef          = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -200,6 +209,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const clearCard = useCallback(() => {
     if (dismissRef.current) clearTimeout(dismissRef.current)
     setCard(null)
+    setCardIsPlaying(false)
     activePriorityRef.current = 0
     processQueue()
   }, [processQueue])
@@ -220,6 +230,24 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     clearCard()
     silentRef.current = false
   }, [clearCard])
+
+  // ── Play card helpers ────────────────────────────────────────────────────
+
+  const setCardPlaying = useCallback((v: boolean) => {
+    setCardIsPlaying(v)
+  }, [])
+
+  /** Session-flow medium card with buttons, no auto-dismiss */
+  const showFlow = useCallback((msg: string, buttons: DockButton[]) => {
+    if (dismissRef.current) clearTimeout(dismissRef.current)
+    const full: CardSpec = { id: nextId(), size: 'medium', message: msg, buttons, priority: 1 }
+    activePriorityRef.current = 1
+    setCard(full)
+  }, [])
+
+  const setRepeatCallback = useCallback((fn: (() => void) | null) => {
+    repeatCallbackRef.current = fn
+  }, [])
 
   // ── New card API ─────────────────────────────────────────────────────────
 
@@ -486,7 +514,11 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const handleMenuRepeat = useCallback(() => {
     clearCard()
-    const c = cfg(); if (!c) return
+    const c = cfg()
+    if (!c) {
+      repeatCallbackRef.current?.()
+      return
+    }
     if (sessionPhase === 'para-your-turn' || sessionPhase === 'para-listen')
       c.playParagraphAudio(currentParaIdx, () => startParaYourTurn(currentParaIdx))
     else if (sessionPhase.startsWith('pat'))
@@ -562,6 +594,8 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     setSilent:    setSilentFn,
     triggerPulse,
     setPage,
+
+    cardIsPlaying, setCardPlaying, showFlow, setRepeatCallback,
 
     orbState, tapMode,
     isMenuOpen: card?.isHelp ?? false,
