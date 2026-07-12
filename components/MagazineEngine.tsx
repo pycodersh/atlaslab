@@ -96,6 +96,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const mobileScrollRef = useRef<HTMLDivElement>(null)
   const patternSectionRef = useRef<HTMLDivElement>(null)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const prevIsSpeakingRef = useRef(false)
 
   // SRS round for this story
   const [storyRoundData] = useState<StoryRoundData>(() => getStoryRound(story.id))
@@ -164,6 +165,17 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     shouldBlockNavRef.current = hasProgress && flowPhase !== 'complete'
   }, [isSpeaking, scrolledToEnd, flowPhase])
 
+  // 1회차: 오디오 완료 시 패턴 섹션으로 자동 스크롤
+  useEffect(() => {
+    if (!isDesktop && prevIsSpeakingRef.current && !isSpeaking && isFirstRound && flowPhase === 'reading') {
+      setTimeout(() => {
+        patternSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 400)
+    }
+    prevIsSpeakingRef.current = isSpeaking
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSpeaking])
+
   // Intercept browser back button
   useEffect(() => {
     // Push a sentinel so the first back-press fires popstate instead of leaving
@@ -198,13 +210,16 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => document.removeEventListener('click', handler, { capture: true })
   }, [])
 
-  // All patterns seen → start hide-recall automatically
+  // All patterns seen → show toast then start hide-recall automatically
   const handleAllPatternsSeen = useCallback(() => {
     if (flowPhase !== 'patterns') return
     saveSessionProgress(story.id, 'hide-recall', 1)
     if (isFirstRound) {
-      showToast('이제 직접 떠올려볼게요 💪')
-      setTimeout(() => setFlowPhase('hide-recall'), 1800)
+      showToast('이제 직접 따라말해볼게요 💪')
+      setTimeout(() => {
+        showToast('이제 직접 떠올려볼게요 💪')
+        setFlowPhase('hide-recall')
+      }, 2000)
     } else {
       setTimeout(() => setFlowPhase('hide-recall'), 600)
     }
@@ -700,7 +715,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         onStoryAreaTouchStart={handleStoryTouchStart}
         onStoryAreaTouchEnd={handleStoryTouchEnd}
         showReadingGuide={isFirstRound && flowPhase === 'reading' && !scrolledToEnd}
-        audioPulse={scrolledToEnd && !isSpeaking && flowPhase === 'reading'}
+        audioPulse={isFirstRound && !isSpeaking && flowPhase === 'reading'}
       />
       {toastEl}
       {recoDialogEl}
