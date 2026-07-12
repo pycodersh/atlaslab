@@ -126,7 +126,7 @@ body {
 
 /* ── App background (fixed div in layout.tsx) ───────────────────────── */
 .patto-bg {
-  background: #e8eaf2;
+  background: #dde1ee;
 }
 .patto-bg::before {
   content: '';
@@ -135,11 +135,11 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 60% at 70% -10%, rgba(255,255,255,0.9) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 70% at -10% 80%, rgba(220,225,240,0.95) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(200,210,235,0.8) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 40% 50%, rgba(240,242,250,0.7) 0%, transparent 60%);
-  filter: blur(40px);
+    radial-gradient(ellipse 65% 55% at 75% -5%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 55%),
+    radial-gradient(ellipse 75% 65% at -15% 85%, rgba(210,218,238,1) 0%, rgba(210,218,238,0) 50%),
+    radial-gradient(ellipse 55% 55% at 95% 95%, rgba(195,205,230,0.95) 0%, rgba(195,205,230,0) 50%),
+    radial-gradient(ellipse 45% 40% at 45% 55%, rgba(245,247,255,0.85) 0%, rgba(245,247,255,0) 55%);
+  filter: blur(20px);
 }
 .patto-bg::after {
   content: '';
