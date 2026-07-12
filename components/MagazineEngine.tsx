@@ -8,6 +8,7 @@ import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { PatternsSectionInline } from '@/components/PatternsSectionInline'
 import { StoryPage } from '@/components/StoryPage'
+import { StoryCompletionScreen } from '@/components/StoryCompletionScreen'
 import { WheelPicker } from '@/components/WheelPicker'
 import { GlobalSavePopup } from '@/components/GlobalSavePopup'
 import { TodayMissionPopup } from '@/components/TodayMissionPopup'
@@ -22,6 +23,7 @@ import type { MagazineStory } from '@/types/magazine'
 import { saveLastPosition } from '@/lib/last-position'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
+import { getStoryRound, getRecallCount, completeStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
 
 type MagazineEngineProps = {
   story: MagazineStory
@@ -41,6 +43,98 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // 위치 저장 — Continue Learning이 여기로 돌아올 수 있도록
   useEffect(() => { saveLastPosition(story.id, 'story') }, [story.id])
   const [showPicker, setShowPicker] = useState(false)
+
+  // ── Study flow state (mobile only) ────────────────────────────────────
+  type FlowPhase = 'reading' | 'patterns' | 'hide-recall' | 'complete'
+  const [flowPhase,     setFlowPhase]     = useState<FlowPhase>('reading')
+  const [scrolledToEnd, setScrolledToEnd] = useState(false)
+  const [showSwipeGuide,setShowSwipeGuide]= useState(false)
+  const [hideRecallRound,setHideRecallRound] = useState(1)
+  const [toast,         setToast]         = useState<string | null>(null)
+  const [completionData,setCompletionData]= useState<StoryRoundData | null>(null)
+  const mobileScrollRef = useRef<HTMLDivElement>(null)
+  const patternSectionRef = useRef<HTMLDivElement>(null)
+  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // SRS round for this story
+  const [storyRoundData] = useState<StoryRoundData>(() => getStoryRound(story.id))
+  const currentRound   = storyRoundData.round          // completed rounds so far
+  const totalRecall    = getRecallCount(currentRound)  // recall rounds this session
+  const isFirstRound   = currentRound === 0
+
+  // Reset flow when story changes
+  useEffect(() => {
+    setFlowPhase('reading')
+    setScrolledToEnd(false)
+    setShowSwipeGuide(false)
+    setHideRecallRound(1)
+    setToast(null)
+    setCompletionData(null)
+  }, [story.id])
+
+  function showToast(msg: string) {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current)
+    setToast(msg)
+    toastTimerRef.current = setTimeout(() => setToast(null), 2800)
+  }
+
+  // Scroll-to-end detection (mobile container)
+  useEffect(() => {
+    const el = mobileScrollRef.current
+    if (!el || isDesktop) return
+    const onScroll = () => {
+      const patEl = patternSectionRef.current
+      if (!patEl || scrolledToEnd) return
+      const patTop = patEl.getBoundingClientRect().top
+      if (patTop < window.innerHeight * 0.75) {
+        setScrolledToEnd(true)
+      }
+    }
+    el.addEventListener('scroll', onScroll, { passive: true })
+    return () => el.removeEventListener('scroll', onScroll)
+  }, [isDesktop, scrolledToEnd])
+
+  // When patterns section reached → show swipe guide (1회차)
+  useEffect(() => {
+    if (scrolledToEnd && isFirstRound && flowPhase === 'reading') {
+      setFlowPhase('patterns')
+      setShowSwipeGuide(true)
+    } else if (scrolledToEnd && !isFirstRound && flowPhase === 'reading') {
+      setFlowPhase('patterns')
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrolledToEnd])
+
+  // All patterns seen → start hide-recall automatically
+  const handleAllPatternsSeen = useCallback(() => {
+    if (flowPhase !== 'patterns') return
+    if (isFirstRound) {
+      showToast('이제 직접 따라말해볼게요 💪')
+      setTimeout(() => setFlowPhase('hide-recall'), 1800)
+    } else {
+      setTimeout(() => setFlowPhase('hide-recall'), 600)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flowPhase, isFirstRound])
+
+  // Recall round complete
+  const handleRecallRoundComplete = useCallback(() => {
+    if (hideRecallRound < totalRecall) {
+      const next = hideRecallRound + 1
+      const msgs = ['한 번 더 해볼게요 🔄', '마지막이에요! 💪']
+      showToast(msgs[next - 2] ?? '계속해봐요!')
+      setTimeout(() => setHideRecallRound(next), 1600)
+    } else {
+      // All recall rounds done → complete
+      const data = completeStoryRound(story.id)
+      setCompletionData(data)
+      setFlowPhase('complete')
+      // Also update legacy learning progress
+      const patternIds = story.patterns.map(p => p.id)
+      setProgress(completeStoryAndScheduleReview(progress, String(story.id), patternIds, 1, 1))
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hideRecallRound, totalRecall, story.id, story.patterns, progress, setProgress])
 
   // Story 변경 시 per-story override 초기화
   const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
@@ -258,17 +352,71 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   }
 
   // ── Mobile: single scroll — story then patterns inline ──────────────
+  const isInRecall   = flowPhase === 'hide-recall'
+  const isComplete   = flowPhase === 'complete'
+
+  // 4회차+는 패턴 카드 뷰 없이 바로 hide-recall 시작
+  const skipPatternView = currentRound >= 3  // round 4+ (0-indexed: completed>=3)
+
   const inlinePatterns = (
-    <PatternsSectionInline
-      story={story}
-      patternExamples={patternExamples}
-      storyIsSpeaking={isSpeaking}
-      showNavButtons={false}
-    />
+    <div ref={patternSectionRef}>
+      {/* Section label */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '24px 16px 12px',
+      }}>
+        <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
+        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm)', textTransform: 'uppercase' }}>
+          {isInRecall ? `Hide Recall · Round ${hideRecallRound}/${totalRecall}` : 'Patterns in this story'}
+        </span>
+        <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
+      </div>
+
+      {isComplete && completionData ? (
+        <StoryCompletionScreen
+          story={story}
+          roundData={completionData}
+          recallRounds={totalRecall}
+        />
+      ) : (
+        <PatternsSectionInline
+          key={isInRecall ? `recall-${hideRecallRound}` : 'view'}
+          story={story}
+          patternExamples={patternExamples}
+          storyIsSpeaking={isSpeaking}
+          showNavButtons={false}
+          showSwipeGuide={showSwipeGuide && !isInRecall}
+          onAllPatternsSeen={!skipPatternView ? handleAllPatternsSeen : undefined}
+          hideRecallMode={isInRecall}
+          recallRound={hideRecallRound}
+          totalRecallRounds={totalRecall}
+          onRecallRoundComplete={handleRecallRoundComplete}
+        />
+      )}
+    </div>
   )
 
+  // Toast overlay
+  const toastEl = toast ? (
+    <div style={{
+      position: 'fixed', bottom: 90, left: '50%', transform: 'translateX(-50%)',
+      zIndex: 200, pointerEvents: 'none',
+      background: 'rgba(26,26,46,0.88)', backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
+      borderRadius: 20, padding: '9px 18px',
+      fontSize: 13, fontWeight: 600, color: '#fff',
+      whiteSpace: 'nowrap', letterSpacing: '0.01em',
+      boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
+    }}>
+      {toast}
+    </div>
+  ) : null
+
   return (
-    <div style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never }}>
+    <div
+      ref={mobileScrollRef}
+      style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never }}
+    >
       <StoryPage
         story={story}
         totalStories={allStories.length}
@@ -286,7 +434,10 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         afterContent={inlinePatterns}
         onStoryAreaTouchStart={handleStoryTouchStart}
         onStoryAreaTouchEnd={handleStoryTouchEnd}
+        showReadingGuide={isFirstRound && flowPhase === 'reading' && !scrolledToEnd}
+        audioPulse={scrolledToEnd && !isSpeaking && flowPhase === 'reading'}
       />
+      {toastEl}
       {sharedPopups}
     </div>
   )

@@ -40,6 +40,10 @@ type StoryPageProps = {
   /** Story-zone swipe handlers (only fires in story text area, not pattern section) */
   onStoryAreaTouchStart?: React.TouchEventHandler<HTMLDivElement>
   onStoryAreaTouchEnd?: React.TouchEventHandler<HTMLDivElement>
+  /** Show reading guide chip at top (1회차 only) */
+  showReadingGuide?: boolean
+  /** Pulse animation on the audio button (after scroll complete) */
+  audioPulse?: boolean
 }
 
 
@@ -59,6 +63,8 @@ export function StoryPage({
   afterContent,
   onStoryAreaTouchStart,
   onStoryAreaTouchEnd,
+  showReadingGuide = false,
+  audioPulse = false,
 }: StoryPageProps) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -217,6 +223,21 @@ export function StoryPage({
     <>
         <TopNav />
 
+        {/* ── Reading guide chip (1회차 only) ─────────────────────────── */}
+        {showReadingGuide && (
+          <div style={{
+            margin: '6px 16px 0', padding: '7px 14px', borderRadius: 20,
+            background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            border: '1px solid rgba(255,255,255,0.30)',
+            fontSize: 12, color: 'rgba(255,255,255,0.88)',
+            textAlign: 'center', letterSpacing: '0.01em',
+            pointerEvents: 'none',
+          }}>
+            📖 스토리를 읽고 아래로 스크롤하세요
+          </div>
+        )}
+
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>
           {/* Story number — top-left of image */}
@@ -293,6 +314,7 @@ export function StoryPage({
                 type="button"
                 aria-label={isSpeaking ? '정지' : '전체 읽기'}
                 onClick={handleSpeakAll}
+                className={audioPulse && !isSpeaking ? 'patto-audio-pulse' : undefined}
                 style={{
                   width: 32, height: 32, borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',

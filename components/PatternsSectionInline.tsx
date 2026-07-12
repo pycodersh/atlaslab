@@ -26,6 +26,18 @@ type Props = {
   storyIsSpeaking?: boolean
   /** Whether to show prev/next arrow buttons (PC) */
   showNavButtons?: boolean
+  /** Guide text shown on the first card ("👆 스와이프해서 패턴을 확인하세요") */
+  showSwipeGuide?: boolean
+  /** Called once when user reaches the last pattern card for the first time */
+  onAllPatternsSeen?: () => void
+  /** Hide-recall mode: Korean visible, English hidden until tap */
+  hideRecallMode?: boolean
+  /** Current recall round (1-based, shown as "Round X/Y") */
+  recallRound?: number
+  /** Total recall rounds in this session */
+  totalRecallRounds?: number
+  /** Called when user has revealed+seen all cards in one recall round */
+  onRecallRoundComplete?: () => void
 }
 
 function resolveExamples(
@@ -50,6 +62,12 @@ export function PatternsSectionInline({
   patternExamples,
   storyIsSpeaking = false,
   showNavButtons = false,
+  showSwipeGuide = false,
+  onAllPatternsSeen,
+  hideRecallMode = false,
+  recallRound = 1,
+  totalRecallRounds = 3,
+  onRecallRoundComplete,
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -62,6 +80,10 @@ export function PatternsSectionInline({
   const [isPlaying, setIsPlaying] = useState(false)
   const [exIdx, setExIdx] = useState(0)
   const [bookmarked, setBookmarked] = useState(false)
+  // hide-recall: which cards have been tapped to reveal in this round
+  const [recallRevealed, setRecallRevealed] = useState<Set<number>>(new Set())
+  // track if onAllPatternsSeen has fired this session
+  const allSeenFiredRef = useRef(false)
 
   const patIdxRef = useRef(0)
   const runningRef = useRef(false)
@@ -77,6 +99,30 @@ export function PatternsSectionInline({
   ).slice(0, 3)
 
   useEffect(() => { setBookmarked(isBookmarked(pattern.id)) }, [pattern.id])
+
+  // Reset recall state when mode switches to hide-recall (new round)
+  useEffect(() => {
+    if (hideRecallMode) {
+      setRecallRevealed(new Set())
+      setPatIdx(0)
+      patIdxRef.current = 0
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hideRecallMode, recallRound])
+
+  // Fire onAllPatternsSeen (view mode) when last card reached
+  useEffect(() => {
+    if (!hideRecallMode && !allSeenFiredRef.current && patIdx === patterns.length - 1) {
+      allSeenFiredRef.current = true
+      onAllPatternsSeen?.()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [patIdx, hideRecallMode, patterns.length])
+
+  // Reset allSeenFired when switching out of recall mode
+  useEffect(() => {
+    if (!hideRecallMode) allSeenFiredRef.current = false
+  }, [hideRecallMode])
 
   // ── When story audio starts, clear pattern playing indicator ─────────
   useEffect(() => {
@@ -268,6 +314,17 @@ export function PatternsSectionInline({
   const dotActive   = isDark ? 'rgba(255,255,255,0.70)' : '#8EA7FF'
   const dotInactive = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(142,167,255,0.2)'
 
+  // Hide-recall: tap card to reveal current pattern
+  function handleRecallReveal() {
+    if (!hideRecallMode) return
+    const next = new Set(recallRevealed).add(patIdx)
+    setRecallRevealed(next)
+    // If this is the last card and now revealed → round complete
+    if (patIdx === patterns.length - 1) {
+      setTimeout(() => onRecallRoundComplete?.(), 600)
+    }
+  }
+
   function handleBookmark() {
     const next = toggleBookmark({
       patternId: pattern.id, pattern: pattern.pattern,
@@ -286,12 +343,41 @@ export function PatternsSectionInline({
   const exEnColor    = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
   const exKoColor    = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
 
+  const isCurrentRevealed = recallRevealed.has(patIdx)
+
   return (
     <div style={{ padding: '0 16px' }}>
+
+      {/* ── Swipe guide (1회차 첫 진입) ─────────────────────────────────── */}
+      {showSwipeGuide && !hideRecallMode && (
+        <div style={{
+          textAlign: 'center', marginBottom: 8,
+          fontSize: 11.5, color: isDark ? 'rgba(255,255,255,0.45)' : '#8EA7FF',
+          letterSpacing: '0.02em',
+        }}>
+          👆 스와이프해서 패턴을 확인하세요
+        </div>
+      )}
+
+      {/* ── Hide-recall round indicator ──────────────────────────────────── */}
+      {hideRecallMode && (
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginBottom: 8,
+        }}>
+          <span style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.45)' : '#8EA7FF', fontWeight: 600 }}>
+            Round {recallRound}/{totalRecallRounds}
+          </span>
+          <span style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.35)' : '#9a9ab0' }}>
+            떠올랐으면 탭해서 확인하세요
+          </span>
+        </div>
+      )}
 
       {/* ── Swipeable card ─────────────────────────────────────────────── */}
       <div ref={swipeRef} style={{ paddingTop: 4 }}>
         <div
+          onClick={hideRecallMode && !isCurrentRevealed ? handleRecallReveal : undefined}
           style={{
             overflow: 'hidden', borderRadius: 18, padding: 0,
             background: cardBg,
@@ -299,6 +385,7 @@ export function PatternsSectionInline({
             boxShadow: isDark
               ? '0 16px 40px rgba(0,0,0,0.40)'
               : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)',
+            cursor: hideRecallMode && !isCurrentRevealed ? 'pointer' : 'default',
           }}
         >
           {/* Card hero header */}
@@ -359,13 +446,33 @@ export function PatternsSectionInline({
             </div>
 
             {/* Pattern expression */}
-            <p style={{
-              fontSize: 32, fontWeight: 800, color: heroPatternColor,
-              lineHeight: 1.2, margin: '0 0 6px', letterSpacing: '-0.5px',
-              fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-            }}>
-              {pattern.pattern}
-            </p>
+            {hideRecallMode && !isCurrentRevealed ? (
+              <div style={{
+                fontSize: 32, fontWeight: 800, lineHeight: 1.2, margin: '0 0 6px',
+                display: 'flex', alignItems: 'center', gap: 10,
+              }}>
+                <span style={{
+                  flex: 1, height: 36, borderRadius: 8,
+                  background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(142,167,255,0.15)',
+                  display: 'block',
+                }} />
+                <span style={{
+                  fontSize: 11, color: isDark ? 'rgba(255,255,255,0.40)' : '#8EA7FF',
+                  fontWeight: 500, flexShrink: 0, letterSpacing: '0.02em',
+                }}>
+                  탭하여 확인
+                </span>
+              </div>
+            ) : (
+              <p style={{
+                fontSize: 32, fontWeight: 800, color: heroPatternColor,
+                lineHeight: 1.2, margin: '0 0 6px', letterSpacing: '-0.5px',
+                fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                transition: 'opacity 0.2s',
+              }}>
+                {pattern.pattern}
+              </p>
+            )}
 
             {/* Divider */}
             <div style={{
