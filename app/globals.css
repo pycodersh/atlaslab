@@ -132,8 +132,8 @@ body {
   content: '';
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 220px;
-  background: linear-gradient(160deg, #1a1060 0%, #2d1b8e 50%, transparent 100%);
+  height: 280px;
+  background: linear-gradient(180deg, #1a1060 0%, #2d1b8e 40%, rgba(26,16,96,0) 100%);
   z-index: 0;
   pointer-events: none;
 }
