@@ -1,10 +1,12 @@
 'use client'
 
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { TrainerOrbContext, type OrbState } from './TrainerOrbContext'
-import { TrainerContext, type CardSpec } from '@/contexts/TrainerContext'
+import { TrainerContext, type CardSpec, type TrainerCtx } from '@/contexts/TrainerContext'
 import { useTheme } from '@/components/ThemeProvider'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
+import { IconRefresh, IconPlayerSkipForward, IconPlayerPause, IconX } from '@tabler/icons-react'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const ORB_SIZE = 52
@@ -84,7 +86,6 @@ function useWaveCanvas(
   const tRef = useRef(0)
   const cfgRef = useRef<WaveConfig>(STATE_CONFIGS[orbState])
 
-  // Smoothly interpolate config on state change
   useEffect(() => {
     cfgRef.current = STATE_CONFIGS[orbState]
   }, [orbState])
@@ -108,7 +109,6 @@ function useWaveCanvas(
 
       ctx.clearRect(0, 0, ORB_SIZE, ORB_SIZE)
 
-      // Clip to circle
       ctx.save()
       ctx.beginPath()
       ctx.arc(R, R, R, 0, Math.PI * 2)
@@ -116,7 +116,6 @@ function useWaveCanvas(
 
       const t = tRef.current
 
-      // Draw 3 wave layers
       cfg.colors.forEach((color, i) => {
         const phase = (i / 3) * Math.PI * 2
         const pulse = 1 + Math.sin(t * cfg.pulseSpeed + phase) * cfg.pulseAmp
@@ -139,7 +138,6 @@ function useWaveCanvas(
         ctx.fill()
       })
 
-      // Center glow
       const glowAlpha = cfg.glowSize * (0.35 + Math.sin(t * cfg.pulseSpeed * 2) * 0.08)
       const grd = ctx.createRadialGradient(R, R, 0, R, R, R * 0.7)
       grd.addColorStop(0, `rgba(107,143,255,${glowAlpha})`)
@@ -157,6 +155,68 @@ function useWaveCanvas(
   }, [canvasRef])
 }
 
+// ── Help Menu ─────────────────────────────────────────────────────────────────
+type HelpAction = 'repeat' | 'skip' | 'pause' | 'exit'
+const HELP_ITEMS: Array<{
+  label: string
+  Icon:  React.ComponentType<{ size?: number; strokeWidth?: number; style?: React.CSSProperties }>
+  action: HelpAction
+  exit?:  boolean
+}> = [
+  { label: 'Repeat', Icon: IconRefresh,           action: 'repeat' },
+  { label: 'Skip',   Icon: IconPlayerSkipForward, action: 'skip'   },
+  { label: 'Pause',  Icon: IconPlayerPause,       action: 'pause'  },
+  { label: 'Exit',   Icon: IconX,                 action: 'exit', exit: true },
+]
+
+function HelpMenu({ ctx, dark }: { ctx: TrainerCtx | null; dark: boolean }) {
+  const iconColor   = dark ? '#A6B8FF' : '#8EA7FF'
+  const iconExit    = dark ? 'rgba(255,255,255,0.40)' : '#ccc'
+  const textColor   = dark ? '#e8e0f8' : '#1a1a2e'
+  const textExit    = dark ? 'rgba(255,255,255,0.38)' : '#aaa'
+  const headerColor = '#8EA7FF'
+  const divider     = dark ? 'rgba(142,167,255,0.12)' : 'rgba(142,167,255,0.08)'
+
+  return (
+    <div style={{ minWidth: 140 }}>
+      <p style={{
+        margin: '0 0 6px', fontSize: 9, fontWeight: 700,
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: headerColor,
+      }}>
+        Need help?
+      </p>
+      {HELP_ITEMS.map((item, i) => (
+        <div key={item.action}>
+          {i > 0 && <div style={{ height: 0, borderTop: `0.5px solid ${divider}`, margin: '1px 0' }} />}
+          <button
+            onClick={() => {
+              if      (item.action === 'repeat') ctx?.handleMenuRepeat()
+              else if (item.action === 'skip')   ctx?.handleMenuSkip()
+              else if (item.action === 'pause')  ctx?.handleMenuPause()
+              else if (item.action === 'exit')   ctx?.handleMenuExit()
+            }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 8,
+              width: '100%', padding: '6px 0',
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontFamily: 'inherit', textAlign: 'left',
+            }}
+          >
+            <item.Icon
+              size={14}
+              strokeWidth={1.8}
+              style={{ color: item.exit ? iconExit : iconColor, flexShrink: 0 }}
+            />
+            <span style={{ fontSize: 12, fontWeight: 500, color: item.exit ? textExit : textColor }}>
+              {item.label}
+            </span>
+          </button>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // ── Conversation Card ─────────────────────────────────────────────────────────
 function ConvCard({
   card,
@@ -164,12 +224,14 @@ function ConvCard({
   corner,
   isDark,
   onClear,
+  trainerCtx,
 }: {
   card: CardSpec | null
   exitCard: CardSpec | null
   corner: Corner
   isDark: boolean
   onClear: () => void
+  trainerCtx: TrainerCtx | null
 }) {
   const isRight  = corner.endsWith('r')
   const isBottom = corner.startsWith('b')
@@ -188,11 +250,17 @@ function ConvCard({
   const textPri    = isDark ? '#A6B8FF'                      : '#6B8FFF'
   const textSec    = isDark ? 'rgba(255,255,255,0.40)'       : '#aaa'
 
-  const borderRadius = active.size === 'small'  ? (isRight ? '14px 14px 4px 14px' : '14px 14px 14px 4px')
-                     : active.size === 'medium' ? (isRight ? '16px 16px 4px 16px' : '16px 16px 16px 4px')
-                     :                            (isRight ? '18px 18px 4px 18px' : '18px 18px 18px 4px')
-  const padding = active.size === 'small' ? '9px 13px' : active.size === 'medium' ? '13px 14px' : '16px'
-  const cardWidth = active.size === 'large' ? 240 : 200
+  const borderRadius = active.isHelp
+    ? (isRight ? '16px 16px 4px 16px' : '16px 16px 16px 4px')
+    : active.size === 'small'  ? (isRight ? '14px 14px 4px 14px' : '14px 14px 14px 4px')
+    : active.size === 'medium' ? (isRight ? '16px 16px 4px 16px' : '16px 16px 16px 4px')
+    :                            (isRight ? '18px 18px 4px 18px' : '18px 18px 18px 4px')
+
+  const padding   = active.isHelp ? '12px 13px'
+    : active.size === 'small' ? '9px 13px'
+    : active.size === 'medium' ? '13px 14px'
+    : '16px'
+  const cardWidth = active.isHelp ? undefined : active.size === 'large' ? 240 : 200
 
   return (
     <div
@@ -214,54 +282,58 @@ function ConvCard({
         zIndex: 1,
       }}
     >
-      {/* Message */}
-      <p style={{ fontSize: 13, fontWeight: 500, color: textMain, margin: 0, lineHeight: 1.45, whiteSpace: 'pre-wrap' }}>
-        {active.message}
-      </p>
+      {active.isHelp ? (
+        <HelpMenu ctx={trainerCtx} dark={isDark} />
+      ) : (
+        <>
+          {/* Message */}
+          <p style={{ fontSize: 13, fontWeight: 500, color: textMain, margin: 0, lineHeight: 1.45, whiteSpace: 'pre-wrap' }}>
+            {active.message}
+          </p>
 
-      {/* Subtext (large only) */}
-      {active.subtext && (
-        <p style={{ fontSize: 11, color: textSub, margin: '5px 0 0', lineHeight: 1.4 }}>
-          {active.subtext}
-        </p>
-      )}
+          {/* Subtext (large only) */}
+          {active.subtext && (
+            <p style={{ fontSize: 11, color: textSub, margin: '5px 0 0', lineHeight: 1.4 }}>
+              {active.subtext}
+            </p>
+          )}
 
-      {/* Buttons */}
-      {active.buttons && active.buttons.length > 0 && (
-        active.size === 'large' ? (
-          /* Large: full-width button */
-          <button
-            type="button"
-            onClick={() => { onClear(); active.buttons![0].onClick() }}
-            style={{
-              marginTop: 12, width: '100%', padding: '9px 0',
-              borderRadius: 10, border: 'none', cursor: 'pointer',
-              background: isDark ? 'rgba(166,184,255,0.15)' : 'rgba(107,143,255,0.10)',
-              fontSize: 13, fontWeight: 600, color: textPri, fontFamily: 'inherit',
-            }}
-          >
-            {active.buttons[0].label}
-          </button>
-        ) : (
-          /* Medium: inline text buttons */
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 14, marginTop: 10 }}>
-            {active.buttons.map((btn, i) => (
+          {/* Buttons */}
+          {active.buttons && active.buttons.length > 0 && (
+            active.size === 'large' ? (
               <button
-                key={i}
                 type="button"
-                onClick={() => { onClear(); btn.onClick() }}
+                onClick={() => { onClear(); active.buttons![0].onClick() }}
                 style={{
-                  background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0',
-                  fontSize: 13, fontWeight: btn.primary ? 600 : 400,
-                  color: btn.primary ? textPri : textSec,
-                  fontFamily: 'inherit',
+                  marginTop: 12, width: '100%', padding: '9px 0',
+                  borderRadius: 10, border: 'none', cursor: 'pointer',
+                  background: isDark ? 'rgba(166,184,255,0.15)' : 'rgba(107,143,255,0.10)',
+                  fontSize: 13, fontWeight: 600, color: textPri, fontFamily: 'inherit',
                 }}
               >
-                {btn.label}
+                {active.buttons[0].label}
               </button>
-            ))}
-          </div>
-        )
+            ) : (
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 14, marginTop: 10 }}>
+                {active.buttons.map((btn, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => { onClear(); btn.onClick() }}
+                    style={{
+                      background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0',
+                      fontSize: 13, fontWeight: btn.primary ? 600 : 400,
+                      color: btn.primary ? textPri : textSec,
+                      fontFamily: 'inherit',
+                    }}
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
+            )
+          )}
+        </>
       )}
     </div>
   )
@@ -273,6 +345,17 @@ export function TrainerOrb() {
   const trainerCtx  = useContext(TrainerContext)
   const { theme } = useTheme()
   const isDark = theme === 'dark'
+  const pathname = usePathname()
+
+  // Study pages: /patto/stories/[id] — MagazineEngine doesn't call startSession()
+  // so we detect via pathname and show help menu directly on tap
+  const inStudyPage = pathname?.includes('/patto/stories/') ?? false
+
+  // Stable ref for tap callback (avoids stale closure in useCallback)
+  const trainerCtxRef = useRef(trainerCtx)
+  trainerCtxRef.current = trainerCtx
+  const inStudyPageRef = useRef(inStudyPage)
+  inStudyPageRef.current = inStudyPage
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useWaveCanvas(canvasRef, orbState)
@@ -297,7 +380,6 @@ export function TrainerOrb() {
   const [pos, setPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
   const [mounted, setMounted] = useState(false)
 
-  // Derive corner from current position for ConvCard placement
   const corner: Corner = typeof window !== 'undefined'
     ? ((pos.x + ORB_SIZE / 2 > window.innerWidth / 2 ? 'r' : 'l') as 'r' | 'l') === 'r'
       ? (pos.y + ORB_SIZE / 2 > window.innerHeight / 2 ? 'br' : 'tr')
@@ -306,7 +388,6 @@ export function TrainerOrb() {
   const [isDragging, setIsDragging] = useState(false)
   const [dragScale, setDragScale] = useState(1)
 
-  // Init position from localStorage or default
   useLayoutEffect(() => {
     const saved = loadSavedPos()
     if (saved) {
@@ -317,7 +398,7 @@ export function TrainerOrb() {
     setMounted(true)
   }, [])
 
-  // ── Drag ──────────────────────────────────────────────────────────────────
+  // ── Drag & tap ────────────────────────────────────────────────────────────
   const hasDraggedRef = useRef(false)
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null)
   const orbRef = useRef<HTMLDivElement>(null)
@@ -358,6 +439,13 @@ export function TrainerOrb() {
       const finalY = Math.max(0, Math.min(H - ORB_SIZE - navH, e.clientY - ORB_SIZE / 2))
       setPos({ x: finalX, y: finalY })
       savePos(finalX, finalY)
+    } else {
+      // Short tap — show/toggle help menu on study pages
+      if (inStudyPageRef.current) {
+        trainerCtxRef.current?.showHelpMenu()
+      } else {
+        trainerCtxRef.current?.handleOrbTap()
+      }
     }
     setIsDragging(false)
     setDragScale(1)
@@ -396,7 +484,8 @@ export function TrainerOrb() {
           exitCard={exitCard}
           corner={corner}
           isDark={isDark}
-          onClear={() => trainerCtx?.clearMessage()}
+          onClear={() => trainerCtxRef.current?.clearMessage()}
+          trainerCtx={trainerCtx}
         />
       )}
 

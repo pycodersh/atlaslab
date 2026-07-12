@@ -91,6 +91,7 @@ export interface TrainerCtx {
 
   // ── Orb interaction ──────────────────────────────────────────────────────
   handleOrbTap:     () => void
+  showHelpMenu:     () => void   // directly show/toggle help menu (for pathname-based detection)
   closeMenu:        () => void
   handleMenuRepeat: () => void
   handleMenuSkip:   () => void
@@ -527,6 +528,23 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     })
   }, [clearCard, showCard, showMsg, endSession])
 
+  // Directly show/toggle help menu — used by GuideDock when on study pages
+  // (where startSession() isn't called, so sessionPhase stays 'inactive')
+  const showHelpMenu = useCallback(() => {
+    // Any open card → close it
+    if (card) { clearCard(); return }
+    // Paused → resume
+    if (sessionPhase === 'paused') {
+      setOrbState('waiting'); setTapMode('menu'); setSessionPhase('para-your-turn')
+      showMsg("Let's continue.", 2500)
+      return
+    }
+    // Show help menu
+    const spec: CardSpec = { id: nextId(), size: 'medium', message: 'Need help?', priority: 1, isHelp: true }
+    activePriorityRef.current = 1
+    setCard(spec)
+  }, [card, sessionPhase, clearCard, showMsg])
+
   // ── Context value ─────────────────────────────────────────────────────────
 
   const value: TrainerCtx = {
@@ -550,7 +568,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
     sessionPhase, currentParaIdx, currentPatternIdx,
     startSession, endSession,
-    handleOrbTap, closeMenu,
+    handleOrbTap, showHelpMenu, closeMenu,
     handleMenuRepeat, handleMenuSkip, handleMenuPause, handleMenuExit,
   }
 
