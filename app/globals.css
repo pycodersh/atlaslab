@@ -126,8 +126,9 @@ body {
 
 /* ── App background (fixed div in layout.tsx) ───────────────────────── */
 .patto-bg {
-  background: #dde1ee;
+  background: #b8bece;
 }
+/* Large 3D orbs — white (top-right) + blue-gray (bottom-left) */
 .patto-bg::before {
   content: '';
   position: fixed;
@@ -135,19 +136,53 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 65% 55% at 75% -5%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 55%),
-    radial-gradient(ellipse 75% 65% at -15% 85%, rgba(210,218,238,1) 0%, rgba(210,218,238,0) 50%),
-    radial-gradient(ellipse 55% 55% at 95% 95%, rgba(195,205,230,0.95) 0%, rgba(195,205,230,0) 50%),
-    radial-gradient(ellipse 45% 40% at 45% 55%, rgba(245,247,255,0.85) 0%, rgba(245,247,255,0) 55%);
-  filter: blur(20px);
+    /* White orb: specular highlight */
+    radial-gradient(ellipse 44% 40% at 90% -10%,
+      rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%),
+    /* White orb: main sphere body */
+    radial-gradient(ellipse 80% 70% at 106% -2%,
+      rgba(250,252,255,0.99) 0%,
+      rgba(234,240,252,0.92) 38%,
+      rgba(212,222,240,0.55) 60%,
+      rgba(200,212,235,0) 72%),
+    /* Blue orb: specular highlight */
+    radial-gradient(ellipse 48% 42% at -8% 92%,
+      rgba(210,220,238,0.92) 0%, rgba(210,220,238,0) 100%),
+    /* Blue orb: main sphere body */
+    radial-gradient(ellipse 88% 78% at -8% 110%,
+      rgba(178,190,214,1) 0%,
+      rgba(164,178,206,0.92) 36%,
+      rgba(150,165,196,0.58) 58%,
+      rgba(140,156,190,0) 70%);
+  filter: blur(3px);
 }
+/* Small crisp bubbles — no blur */
 .patto-bg::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: rgba(255,255,255,0.25);
+  background:
+    /* Medium bubble */
+    radial-gradient(circle 5.5vw at 10% 43%,
+      rgba(255,255,255,0.97) 0%,
+      rgba(252,253,255,0.82) 35%,
+      rgba(238,243,255,0.28) 68%,
+      transparent 84%),
+    /* Small bubble */
+    radial-gradient(circle 2.3vw at 17% 37.5%,
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,255,255,0.55) 48%,
+      transparent 84%),
+    /* Tiny bubble */
+    radial-gradient(circle 1.4vw at 13.5% 39.8%,
+      rgba(255,255,255,0.92) 0%,
+      transparent 80%),
+    /* Tiny blue dot right side */
+    radial-gradient(circle 0.85vw at 87.5% 54%,
+      rgba(135,152,184,0.78) 0%,
+      transparent 100%);
 }
 .dark .patto-bg {
   background-color: transparent;
