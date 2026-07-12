@@ -71,6 +71,9 @@ export function MainTabBar() {
   const [scrolledDown, setScrolledDown] = useState(false)
   const lastYRef = useRef(0)
 
+  // Focus mode: hide tab bar on story pages (mobile only via CSS)
+  const inStoryPage = pathname?.startsWith('/patto/stories/') ?? false
+
   // Restore last story/pattern position when tapping the Story tab
   const lastPos = getLastPosition()
   const storyHref = lastPos ? `/patto/stories/${lastPos.storyId}` : '/patto/stories/1'
@@ -101,7 +104,10 @@ export function MainTabBar() {
         justifyContent: 'center',
         paddingBottom: 'calc(14px + env(safe-area-inset-bottom, 0px))',
         paddingTop: 8,
-        pointerEvents: 'none',
+        pointerEvents: inStoryPage ? 'none' : undefined,
+        opacity: inStoryPage ? 0 : 1,
+        transform: inStoryPage ? 'translateY(12px)' : 'translateY(0)',
+        transition: 'opacity 0.22s ease, transform 0.22s ease',
       }}
     >
       <nav

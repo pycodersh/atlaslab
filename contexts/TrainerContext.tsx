@@ -4,6 +4,7 @@ import {
   createContext, useContext, useState, useCallback,
   useRef, type ReactNode,
 } from 'react'
+import { ttsProvider } from '@/lib/tts'
 import {
   type TrainerPage, type OrbState, type OrbTapMode,
   type SessionPhase, type TrainerSessionConfig, type GuidanceTier,
@@ -95,6 +96,7 @@ export interface TrainerCtx {
   setCardPlaying:    (v: boolean) => void
   showFlow:          (msg: string, buttons: DockButton[]) => void
   setRepeatCallback: (fn: (() => void) | null) => void
+  setResumeCallback: (fn: (() => void) | null) => void
 
   // ── Orb interaction ──────────────────────────────────────────────────────
   handleOrbTap:     () => void
@@ -104,6 +106,7 @@ export interface TrainerCtx {
   handleMenuSkip:   () => void
   handleMenuPause:  () => void
   handleMenuExit:   () => void
+  resumeFromPause:  () => void
 }
 
 // ── Context ───────────────────────────────────────────────────────────────────
@@ -144,6 +147,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   // ── Refs ─────────────────────────────────────────────────────────────────
   const repeatCallbackRef = useRef<(() => void) | null>(null)
+  const resumeCallbackRef = useRef<(() => void) | null>(null)
   const silentRef         = useRef(false)
   const dismissRef        = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pulseRef          = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -247,6 +251,10 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const setRepeatCallback = useCallback((fn: (() => void) | null) => {
     repeatCallbackRef.current = fn
+  }, [])
+
+  const setResumeCallback = useCallback((fn: (() => void) | null) => {
+    resumeCallbackRef.current = fn
   }, [])
 
   // ── New card API ─────────────────────────────────────────────────────────
@@ -538,9 +546,22 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   }, [sessionPhase, currentParaIdx, currentPatternIdx, clearCard])
 
   const handleMenuPause = useCallback(() => {
-    clearCard(); cfg()?.stopAudio(); clearWaitTimer()
+    clearCard()
+    ttsProvider.pause?.()
+    cfg()?.stopAudio?.()
+    clearWaitTimer()
     setOrbState('paused'); setTapMode('done'); setSessionPhase('paused')
-  }, [clearCard])
+    showMsg('Paused.', 2000)
+  }, [clearCard, showMsg])
+
+  const resumeFromPause = useCallback(() => {
+    if (sessionPhase !== 'paused') return
+    ttsProvider.resume?.()
+    setOrbState('idle'); setTapMode('menu'); setSessionPhase('inactive')
+    showMsg("Let's continue.", 2000)
+    resumeCallbackRef.current?.()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sessionPhase, showMsg])
 
   const handleMenuExit = useCallback(() => {
     clearCard()
@@ -595,7 +616,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     triggerPulse,
     setPage,
 
-    cardIsPlaying, setCardPlaying, showFlow, setRepeatCallback,
+    cardIsPlaying, setCardPlaying, showFlow, setRepeatCallback, setResumeCallback,
 
     orbState, tapMode,
     isMenuOpen: card?.isHelp ?? false,
@@ -603,7 +624,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     sessionPhase, currentParaIdx, currentPatternIdx,
     startSession, endSession,
     handleOrbTap, showHelpMenu, closeMenu,
-    handleMenuRepeat, handleMenuSkip, handleMenuPause, handleMenuExit,
+    handleMenuRepeat, handleMenuSkip, handleMenuPause, handleMenuExit, resumeFromPause,
   }
 
   return (

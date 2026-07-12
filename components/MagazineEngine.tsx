@@ -98,6 +98,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const prevIsSpeakingRef = useRef(false)
   const trainerGreetedRef = useRef(false)
+  const sessionStartRef = useRef(Date.now())
+  const [showBridge, setShowBridge] = useState(false)
 
   // ── Trainer audio flow refs ───────────────────────────────────────────────
   const patternPlayRef        = useRef<(() => void) | null>(null)
@@ -130,6 +132,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     setShowSwipeGuide(false)
     setCompletionData(null)
     setPatternIdx(0)
+    setShowBridge(false)
+    sessionStartRef.current = Date.now()
     patternIdxRef.current = 0
     setExitPopupPendingHref(null)
     trainerGreetedRef.current = false
@@ -200,9 +204,11 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     const doStoryDone = () => {
       clearFlowTimers()
       trainer?.say('Nice.', 1200)
+      setShowBridge(true)
       setTimeout(() => {
         patternSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }, 1200)
+        setTimeout(() => setShowBridge(false), 1800)
+      }, 800)
     }
     setTimeout(() => {
       trainer?.showFlow('Your turn.', [{ label: 'Done', btnVariant: 'done', onClick: doStoryDone }])
@@ -323,7 +329,12 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     }
     if (flowPhase === 'complete') {
       trainer?.triggerPulse()
-      const t = setTimeout(() => trainer?.say('Done.', 3000), 300)
+      const t = setTimeout(() => {
+        trainer?.announce('Great work today.', '', 'Finish', () => {
+          handleStop()
+          router.push('/patto/home')
+        })
+      }, 600)
       return () => clearTimeout(t)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -363,6 +374,20 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       }
     })
     return () => trainer?.setRepeatCallback?.(null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trainer])
+
+  // ── Trainer: register resume callback (Help menu Pause → Orb tap) ─────────
+  useEffect(() => {
+    if (isDesktop) return
+    trainer?.setResumeCallback?.(() => {
+      // Re-show the listen card for current phase after resume
+      const phase = flowPhaseRef.current
+      if (phase === 'patterns') showPatternListenCard()
+      else if (phase === 'hide-recall') showRecallYourTurnCard()
+      else showStoryListenCard()
+    })
+    return () => trainer?.setResumeCallback?.(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trainer])
 
@@ -676,6 +701,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // 4회차+는 패턴 카드 뷰 없이 바로 hide-recall 시작
   const skipPatternView = currentRound >= 3  // round 4+ (0-indexed: completed>=3)
 
+  const elapsedMinutes = Math.max(1, Math.round((Date.now() - sessionStartRef.current) / 60000))
+
   const inlinePatterns = (
     <div ref={patternSectionRef}>
       {/* Section label */}
@@ -695,6 +722,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
           story={story}
           roundData={completionData}
           recallRounds={totalRecall}
+          elapsedMinutes={elapsedMinutes}
         />
       ) : (
         <PatternsSectionInline
@@ -773,7 +801,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
   function showExitCard(href: string | null) {
     setExitPopupPendingHref(href)
-    trainer?.ask('One more.', [
+    trainer?.ask('Exit session?', [
       {
         label: 'Exit',
         onClick: () => {
@@ -782,7 +810,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         },
       },
       {
-        label: 'Keep going',
+        label: 'Stay',
         primary: true,
         onClick: () => { /* card closes automatically */ },
       },
@@ -794,6 +822,48 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       ref={mobileScrollRef}
       style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never }}
     >
+      {/* Focus Header — replaces tab bar in story pages */}
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: 'calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px',
+        background: isDark
+          ? 'linear-gradient(to bottom, rgba(12,10,28,0.92) 0%, transparent 100%)'
+          : 'linear-gradient(to bottom, rgba(250,250,255,0.90) 0%, transparent 100%)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        pointerEvents: 'none',
+      }}>
+        <button
+          type="button"
+          aria-label="Back to home"
+          onClick={() => tryNavigate('/patto/home')}
+          style={{
+            pointerEvents: 'auto',
+            display: 'flex', alignItems: 'center', gap: 4,
+            background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0',
+            color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(40,40,80,0.45)',
+            fontSize: 12, fontWeight: 500, fontFamily: 'inherit',
+            transition: 'color 0.15s',
+          }}
+        >
+          <ChevronLeft size={14} strokeWidth={2} style={{ marginRight: 0 }} />
+          Home
+        </button>
+
+        <div style={{
+          pointerEvents: 'none',
+          background: isDark ? 'rgba(142,167,255,0.1)' : 'rgba(107,143,255,0.08)',
+          border: `0.5px solid ${isDark ? 'rgba(142,167,255,0.2)' : 'rgba(107,143,255,0.18)'}`,
+          borderRadius: 9999,
+          padding: '3px 10px',
+          fontSize: 10, fontWeight: 600, letterSpacing: '0.04em',
+          color: isDark ? 'rgba(166,184,255,0.7)' : 'rgba(107,143,255,0.65)',
+        }}>
+          Session {story.id} · Round {currentRound + 1}
+        </div>
+      </div>
+
       <StoryPage
         story={story}
         totalStories={allStories.length}
@@ -808,7 +878,29 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         ambienceOn={effectiveAmbienceOn}
         onAmbienceToggle={toggleAmbience}
         noScroll={true}
-        afterContent={inlinePatterns}
+        afterContent={
+          <>
+            {/* "Let's practice." bridge pill */}
+            {showBridge && (
+              <div style={{
+                display: 'flex', justifyContent: 'center',
+                padding: '12px 0 4px',
+                animation: 'fadeIn 0.25s ease',
+              }}>
+                <span style={{
+                  background: 'rgba(107,143,255,0.08)',
+                  border: '0.5px solid rgba(107,143,255,0.15)',
+                  borderRadius: 20, padding: '6px 16px',
+                  fontSize: 12, color: '#8EA7FF',
+                  fontWeight: 500, letterSpacing: '0.02em',
+                }}>
+                  Let&apos;s practice.
+                </span>
+              </div>
+            )}
+            {inlinePatterns}
+          </>
+        }
         onStoryAreaTouchStart={handleStoryTouchStart}
         onStoryAreaTouchEnd={handleStoryTouchEnd}
         showReadingGuide={isFirstRound && flowPhase === 'reading' && !scrolledToEnd}

@@ -494,8 +494,10 @@ export function TrainerOrb() {
       setPos({ x: finalX, y: finalY })
       savePos(finalX, finalY)
     } else {
-      // Short tap — show/toggle help menu on study pages
-      if (inStudyPageRef.current) {
+      // Short tap — if paused, resume; else show/toggle help menu on study pages
+      if (trainerCtxRef.current?.sessionPhase === 'paused') {
+        trainerCtxRef.current?.resumeFromPause()
+      } else if (inStudyPageRef.current) {
         trainerCtxRef.current?.showHelpMenu()
       } else {
         trainerCtxRef.current?.handleOrbTap()
@@ -506,6 +508,8 @@ export function TrainerOrb() {
     pointerStartRef.current = null
     hasDraggedRef.current = false
   }, [])
+
+  const isPaused = trainerCtx?.sessionPhase === 'paused'
 
   // ── Glow based on state ──────────────────────────────────────────────────
   const lightBoxShadow = isDragging
@@ -529,6 +533,8 @@ export function TrainerOrb() {
         zIndex: 200,
         touchAction: 'none',
         userSelect: 'none',
+        opacity: isPaused ? 0.45 : 1,
+        transition: 'opacity 0.3s ease',
       }}
     >
       {/* Conversation Card */}

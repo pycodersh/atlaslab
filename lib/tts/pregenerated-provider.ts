@@ -45,13 +45,31 @@ function clearHandlers(a: HTMLAudioElement) {
 export class PregeneratedTTSProvider implements ITTSProvider {
   private browser = new BrowserTTSProvider()
   private stopped = false
+  private paused = false
   private fetchAbort = new AbortController()
   private _playId = 0
 
   isAvailable() { return true }
 
+  pause() {
+    if (sharedAudio && !sharedAudio.paused) {
+      sharedAudio.pause()
+      this.paused = true
+    }
+    if (typeof window !== 'undefined') window.speechSynthesis?.pause()
+  }
+
+  resume() {
+    if (this.paused && sharedAudio) {
+      sharedAudio.play().catch(() => {})
+      this.paused = false
+    }
+    if (typeof window !== 'undefined') window.speechSynthesis?.resume()
+  }
+
   stop() {
     this.stopped = true
+    this.paused = false
     this.fetchAbort.abort()
     this.fetchAbort = new AbortController()
     if (sharedAudio) {
