@@ -626,6 +626,8 @@ export default function HomePage() {
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
   const [hasStudied, setHasStudied] = useState(false)
   const trainer = useTrainerSafe()
+  const trainerRef = useRef(trainer)
+  trainerRef.current = trainer
   const { user } = useAuth()
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
@@ -761,28 +763,39 @@ export default function HomePage() {
     return () => document.removeEventListener('visibilitychange', onVisible)
   }, [loadMissions])
 
-  // Welcome back on re-login
+  // Coordinated Welcome back → Ready? flow
+  // "Welcome back." shows first (if re-login), then "Ready?" after it finishes.
   useEffect(() => {
-    if (!user || !trainer) return
-    const sessionKey = `patto_welcome_${user.id}`
-    if (sessionStorage.getItem(sessionKey)) return
-    sessionStorage.setItem(sessionKey, '1')
-    const isFirstEver = !localStorage.getItem('patto_ever_logged_in')
-    localStorage.setItem('patto_ever_logged_in', '1')
-    if (!isFirstEver) {
-      setTimeout(() => trainer.showMessage('Welcome back.', 3000), 800)
-    }
-  }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+    const t = trainerRef.current
+    if (!t) return
 
-  // Trainer: show "Ready?" on home page when not yet studied today
-  useEffect(() => {
-    if (!trainer) return
-    trainer.setPage('home')
-    if (!hasStudied) {
-      const t = setTimeout(() => trainer.showMessage('Ready?', 2500), 1200)
-      return () => clearTimeout(t)
+    t.setPage('home')
+
+    let welcomeEndMs = 0  // when welcome back message ends (ms from now)
+
+    if (user) {
+      const justLoggedIn = localStorage.getItem('patto_just_logged_in')
+      if (justLoggedIn) {
+        localStorage.removeItem('patto_just_logged_in')
+        // First login: created_at === last_sign_in_at (within 1 second tolerance)
+        const createdAt  = user.created_at ? new Date(user.created_at).getTime() : 0
+        const lastSignIn = user.last_sign_in_at ? new Date(user.last_sign_in_at).getTime() : 0
+        const isFirstLogin = Math.abs(createdAt - lastSignIn) < 2000
+        if (!isFirstLogin) {
+          const startMs = 500
+          const durationMs = 2000
+          welcomeEndMs = startMs + durationMs + 300  // buffer
+          setTimeout(() => trainerRef.current?.showMessage('Welcome back.', durationMs), startMs)
+        }
+      }
     }
-  }, [hasStudied]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    if (!hasStudied) {
+      const delay = welcomeEndMs > 0 ? welcomeEndMs : 1200
+      const timer = setTimeout(() => trainerRef.current?.showMessage('Ready?', 2500), delay)
+      return () => clearTimeout(timer)
+    }
+  }, [user?.id, hasStudied]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const frostedCard: React.CSSProperties = {
     background: 'var(--pglass)',

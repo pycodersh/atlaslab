@@ -3,7 +3,6 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import type { User, Session } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/client'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 interface AuthState {
   user: User | null
@@ -15,7 +14,6 @@ const AuthContext = createContext<AuthState>({ user: null, session: null, loadin
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AuthState>({ user: null, session: null, loading: true })
-  const trainer    = useTrainerSafe()
   const prevUserRef = useRef<User | null | undefined>(undefined)  // undefined = not yet loaded
 
   useEffect(() => {
@@ -31,14 +29,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const wasLoggedOut = prevUserRef.current === null
       const isNowLoggedIn = newUser !== null
       if (wasLoggedOut && isNowLoggedIn && prevUserRef.current !== undefined) {
-        setTimeout(() => trainer?.showMessage('Welcome back.', 2500), 600)
+        // Set flag so home page can show "Welcome back." before "Ready?"
+        localStorage.setItem('patto_just_logged_in', '1')
       }
       prevUserRef.current = newUser
       setState({ user: newUser, session, loading: false })
     })
 
     return () => subscription.unsubscribe()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>
 }
