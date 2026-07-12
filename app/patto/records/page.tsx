@@ -1,325 +1,44 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { Info, BookOpen, Layers, X, CheckCircle2, RefreshCw, Lock, ChevronLeft, ChevronRight } from 'lucide-react'
-import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useTheme } from '@/components/ThemeProvider'
-import { PDialog } from '@/components/ui/PDialog'
-import { TopNav } from '@/components/TopNav'
-import { usePreferences } from '@/contexts/PreferencesContext'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
-import { LearningCalendar } from '@/components/LearningCalendar'
-import {
-  getAllRecords, getStreak, getActivityByDate,
-  type LearningRecord,
-} from '@/lib/srs/storage'
-import {
-  getFutureSchedule, getEnhancedDayDetail,
-  type EnhancedDayDetail, type ScheduledDay,
-} from '@/lib/srs/engine'
+import { getStreak } from '@/lib/srs/storage'
 import { magazineStories } from '@/data/magazine-stories'
-import type { MagazineStory } from '@/types/magazine'
+import { getStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
+import { LearningCalendar } from '@/components/LearningCalendar'
+import { getFutureSchedule, type ScheduledDay } from '@/lib/srs/engine'
+import { getActivityByDate } from '@/lib/srs/storage'
 
-// ── Inline i18n for score/mastery strings ─────────────────────────────────────
+// ── Constants ──────────────────────────────────────────────────────────────────
+const WEEKLY_GOAL = 10
+const DAILY_GOAL  = 1
 
-type ScoreStrings = {
-  scoreGrades: Array<{ grade: string; comment: string; color: string }>
-  scoreInfoTitle: string
-  scoreInfoDesc: string
-  scoreCurrent: string
-  masterySubtitle: string
-  masteryDesc: string
-  masterySteps: Array<{ step: string; desc: string; color: string }>
-  masteryFooter: string
-  masteryCardBottom: string
-  masteryRingLabel: (n: number) => string
-}
-
-const SCORE_I18N: Record<string, ScoreStrings> = {
-  ko: {
-    scoreGrades: [
-      { grade: 'Excellent!',      comment: '최고예요 🎉 이 루틴을 계속 유지하세요.',          color: '#2A7A3A' },
-      { grade: 'Very Good',       comment: '훌륭해요! 장기 기억으로 자리잡고 있어요.',        color: '#4A7AC8' },
-      { grade: 'Good',            comment: '잘 하고 있어요. 반복 복습이 기억을 강화시켜요.',   color: '#7A6AC8' },
-      { grade: 'Building Up',     comment: '기초가 쌓이고 있어요. 복습 패턴을 유지해보세요.', color: '#C8913A' },
-      { grade: 'Getting Started', comment: '좋은 시작이에요! 매일 조금씩 쌓아가면 돼요.',    color: '#C87A3A' },
-      { grade: 'Just Starting',   comment: '첫 학습을 시작해보세요. 매일 조금씩이면 충분해요.', color: '#A0A0AA' },
-    ],
-    scoreInfoTitle: '장기 기억 점수',
-    scoreInfoDesc: 'Story와 Pattern을 얼마나 반복 학습했는지 측정한 지수예요.',
-    scoreCurrent: '현재 점수:',
-    masterySubtitle: '각 회차별 패턴 도달 비율',
-    masteryDesc: '전체 500개 패턴 중 몇 개가 각 복습 회차에 도달했는지 보여줘요. 회차가 높을수록 장기 기억에 가까워집니다.',
-    masterySteps: [
-      { step: '1회', desc: '패턴을 처음 학습한 단계', color: '#C87A3A' },
-      { step: '2회', desc: '1차 복습 완료 — 단기 기억 강화', color: '#C8913A' },
-      { step: '3회', desc: '2차 복습 — 중기 기억으로 전환', color: '#7A6AC8' },
-      { step: '4회', desc: '3차 복습 — 장기 기억 진입', color: '#4A7AC8' },
-      { step: '5회', desc: '완전 습득 — 장기 기억 정착', color: '#2A7A3A' },
-    ],
-    masteryFooter: '복습은 간격 반복(Spaced Repetition) 방식으로 진행돼요. 복습할수록 다음 복습 간격이 늘어나며 기억이 강화됩니다.',
-    masteryCardBottom: '전체 학습 패턴 중 각 회차 도달 비율',
-    masteryRingLabel: (n) => `${n}회`,
-  },
-  en: {
-    scoreGrades: [
-      { grade: 'Excellent!',      comment: 'Amazing 🎉 Keep up this routine!',                     color: '#2A7A3A' },
-      { grade: 'Very Good',       comment: "Great work! It's moving into long-term memory.",        color: '#4A7AC8' },
-      { grade: 'Good',            comment: 'Doing well. Repeated reviews strengthen memory.',       color: '#7A6AC8' },
-      { grade: 'Building Up',     comment: 'Foundation is growing. Stay consistent!',               color: '#C8913A' },
-      { grade: 'Getting Started', comment: 'Good start! A little every day adds up.',               color: '#C87A3A' },
-      { grade: 'Just Starting',   comment: 'Start your first session. A little daily is enough.',   color: '#A0A0AA' },
-    ],
-    scoreInfoTitle: 'Long-term Memory Score',
-    scoreInfoDesc: 'Measures how much you have repeatedly studied Stories and Patterns.',
-    scoreCurrent: 'Current score:',
-    masterySubtitle: 'Pattern completion rate per review round',
-    masteryDesc: 'Shows how many of the 500 patterns have reached each review round. Higher rounds mean closer to long-term memory.',
-    masterySteps: [
-      { step: '1×', desc: 'First time learning the pattern', color: '#C87A3A' },
-      { step: '2×', desc: '1st review done — short-term reinforcement', color: '#C8913A' },
-      { step: '3×', desc: '2nd review — shifting to mid-term memory', color: '#7A6AC8' },
-      { step: '4×', desc: '3rd review — entering long-term memory', color: '#4A7AC8' },
-      { step: '5×', desc: 'Fully acquired — long-term memory settled', color: '#2A7A3A' },
-    ],
-    masteryFooter: 'Reviews follow Spaced Repetition. Each review extends the next interval, strengthening memory over time.',
-    masteryCardBottom: 'Completion rate per review round across all learned patterns',
-    masteryRingLabel: (n) => `${n}×`,
-  },
-  ja: {
-    scoreGrades: [
-      { grade: 'Excellent!',      comment: '素晴らしい 🎉 このペースを続けてください！',         color: '#2A7A3A' },
-      { grade: 'Very Good',       comment: '素晴らしいです！長期記憶に定着しています。',           color: '#4A7AC8' },
-      { grade: 'Good',            comment: 'よくできています。繰り返し復習で記憶が強化されます。', color: '#7A6AC8' },
-      { grade: 'Building Up',     comment: '基礎が積み重なっています。復習を続けましょう。',       color: '#C8913A' },
-      { grade: 'Getting Started', comment: '良いスタートです！毎日少しずつ積み上げましょう。',     color: '#C87A3A' },
-      { grade: 'Just Starting',   comment: '最初の学習を始めましょう。毎日少しずつで十分です。',   color: '#A0A0AA' },
-    ],
-    scoreInfoTitle: '長期記憶スコア',
-    scoreInfoDesc: 'ストーリーとパターンをどれだけ繰り返し学習したかを測る指標です。',
-    scoreCurrent: '現在のスコア:',
-    masterySubtitle: '各回数のパターン達成率',
-    masteryDesc: '500個のパターンのうち、何個が各復習回数に到達したかを示します。回数が高いほど長期記憶に近づきます。',
-    masterySteps: [
-      { step: '1回', desc: 'パターンを初めて学習した段階', color: '#C87A3A' },
-      { step: '2回', desc: '1回目の復習完了 — 短期記憶の強化', color: '#C8913A' },
-      { step: '3回', desc: '2回目の復習 — 中期記憶への移行', color: '#7A6AC8' },
-      { step: '4回', desc: '3回目の復習 — 長期記憶への進入', color: '#4A7AC8' },
-      { step: '5回', desc: '完全習得 — 長期記憶の定着', color: '#2A7A3A' },
-    ],
-    masteryFooter: '復習は間隔反復(Spaced Repetition)方式で行われます。復習するたびに次の間隔が延び、記憶が強化されます。',
-    masteryCardBottom: '全学習パターンの各回数達成率',
-    masteryRingLabel: (n) => `${n}回`,
-  },
-  es: {
-    scoreGrades: [
-      { grade: 'Excellent!',      comment: '¡Increíble 🎉 Sigue con esta rutina!',              color: '#2A7A3A' },
-      { grade: 'Very Good',       comment: '¡Excelente! Se está fijando en la memoria a largo plazo.', color: '#4A7AC8' },
-      { grade: 'Good',            comment: 'Bien hecho. Las repeticiones fortalecen la memoria.', color: '#7A6AC8' },
-      { grade: 'Building Up',     comment: 'Las bases crecen. ¡Mantén la constancia!',           color: '#C8913A' },
-      { grade: 'Getting Started', comment: '¡Buen comienzo! Un poco cada día suma mucho.',       color: '#C87A3A' },
-      { grade: 'Just Starting',   comment: 'Empieza tu primera sesión. Un poco al día es suficiente.', color: '#A0A0AA' },
-    ],
-    scoreInfoTitle: 'Puntuación de memoria a largo plazo',
-    scoreInfoDesc: 'Mide cuánto has estudiado repetidamente los Stories y Patterns.',
-    scoreCurrent: 'Puntuación actual:',
-    masterySubtitle: 'Tasa de patrones alcanzados por ronda de repaso',
-    masteryDesc: 'Muestra cuántos de los 500 patrones han alcanzado cada ronda de repaso. Más rondas significa más cerca de la memoria a largo plazo.',
-    masterySteps: [
-      { step: '1×', desc: 'Primera vez que aprendiste el patrón', color: '#C87A3A' },
-      { step: '2×', desc: '1er repaso completo — refuerzo a corto plazo', color: '#C8913A' },
-      { step: '3×', desc: '2o repaso — transición a memoria media', color: '#7A6AC8' },
-      { step: '4×', desc: '3er repaso — entrando en memoria a largo plazo', color: '#4A7AC8' },
-      { step: '5×', desc: 'Completamente adquirido — memoria a largo plazo', color: '#2A7A3A' },
-    ],
-    masteryFooter: 'Los repasos siguen el método de Repetición Espaciada. Cada repaso amplía el intervalo siguiente, fortaleciendo la memoria.',
-    masteryCardBottom: 'Tasa de completado por ronda en todos los patrones aprendidos',
-    masteryRingLabel: (n) => `${n}×`,
-  },
-  fr: {
-    scoreGrades: [
-      { grade: 'Excellent!',      comment: "Incroyable 🎉 Continue sur cette lancée !",          color: '#2A7A3A' },
-      { grade: 'Very Good',       comment: "Super ! Ça s'ancre dans la mémoire à long terme.",   color: '#4A7AC8' },
-      { grade: 'Good',            comment: 'Bien joué. La répétition consolide la mémoire.',     color: '#7A6AC8' },
-      { grade: 'Building Up',     comment: 'Les bases se construisent. Reste régulier !',        color: '#C8913A' },
-      { grade: 'Getting Started', comment: 'Bon début ! Un peu chaque jour, ça porte ses fruits.', color: '#C87A3A' },
-      { grade: 'Just Starting',   comment: 'Lance ta première session. Un peu par jour suffit.', color: '#A0A0AA' },
-    ],
-    scoreInfoTitle: 'Score de mémoire à long terme',
-    scoreInfoDesc: 'Mesure à quel point tu as étudié de manière répétée les Stories et Patterns.',
-    scoreCurrent: 'Score actuel :',
-    masterySubtitle: 'Taux de patterns atteints par tour de révision',
-    masteryDesc: "Indique combien des 500 patterns ont atteint chaque tour de révision. Plus le tour est élevé, plus la mémoire à long terme est proche.",
-    masterySteps: [
-      { step: '1×', desc: "Première fois que tu as appris le pattern", color: '#C87A3A' },
-      { step: '2×', desc: '1re révision — renforcement à court terme', color: '#C8913A' },
-      { step: '3×', desc: '2e révision — passage en mémoire moyenne', color: '#7A6AC8' },
-      { step: '4×', desc: '4e révision — entrée dans la mémoire à long terme', color: '#4A7AC8' },
-      { step: '5×', desc: "Entièrement acquis — mémoire à long terme établie", color: '#2A7A3A' },
-    ],
-    masteryFooter: "Les révisions suivent la méthode de Répétition Espacée. Chaque révision allonge l'intervalle suivant, renforçant la mémoire.",
-    masteryCardBottom: 'Taux de completion par tour sur tous les patterns appris',
-    masteryRingLabel: (n) => `${n}×`,
-  },
-  de: {
-    scoreGrades: [
-      { grade: 'Excellent!',      comment: 'Fantastisch 🎉 Mach weiter so!',                    color: '#2A7A3A' },
-      { grade: 'Very Good',       comment: 'Toll! Es festigt sich im Langzeitgedächtnis.',       color: '#4A7AC8' },
-      { grade: 'Good',            comment: 'Gut gemacht. Wiederholungen stärken das Gedächtnis.', color: '#7A6AC8' },
-      { grade: 'Building Up',     comment: 'Die Grundlage wächst. Bleib dabei!',                 color: '#C8913A' },
-      { grade: 'Getting Started', comment: 'Guter Start! Ein bisschen täglich baut sich auf.',   color: '#C87A3A' },
-      { grade: 'Just Starting',   comment: 'Starte deine erste Sitzung. Etwas täglich reicht.', color: '#A0A0AA' },
-    ],
-    scoreInfoTitle: 'Langzeitgedächtnis-Score',
-    scoreInfoDesc: 'Misst, wie intensiv du Stories und Patterns wiederholt gelernt hast.',
-    scoreCurrent: 'Aktueller Score:',
-    masterySubtitle: 'Musterabschlussrate pro Wiederholungsrunde',
-    masteryDesc: 'Zeigt, wie viele der 500 Muster jede Wiederholungsrunde erreicht haben. Höhere Runden bedeuten näher am Langzeitgedächtnis.',
-    masterySteps: [
-      { step: '1×', desc: 'Erstes Lernen des Musters', color: '#C87A3A' },
-      { step: '2×', desc: '1. Wiederholung — Kurzzeit-Verstärkung', color: '#C8913A' },
-      { step: '3×', desc: '2. Wiederholung — Übergang zum Mittelfristgedächtnis', color: '#7A6AC8' },
-      { step: '4×', desc: '3. Wiederholung — Eintritt ins Langzeitgedächtnis', color: '#4A7AC8' },
-      { step: '5×', desc: 'Vollständig erworben — Langzeitgedächtnis gefestigt', color: '#2A7A3A' },
-    ],
-    masteryFooter: 'Wiederholungen folgen dem Prinzip der Spaced Repetition. Jede Wiederholung verlängert das nächste Intervall und stärkt das Gedächtnis.',
-    masteryCardBottom: 'Abschlussrate pro Runde über alle erlernten Muster',
-    masteryRingLabel: (n) => `${n}×`,
-  },
-  'zh-cn': {
-    scoreGrades: [
-      { grade: 'Excellent!',      comment: '太棒了 🎉 请继续保持这个节奏！',       color: '#2A7A3A' },
-      { grade: 'Very Good',       comment: '非常好！正在向长期记忆转化。',          color: '#4A7AC8' },
-      { grade: 'Good',            comment: '做得不错。反复复习能强化记忆。',        color: '#7A6AC8' },
-      { grade: 'Building Up',     comment: '基础正在积累。保持复习节奏吧！',        color: '#C8913A' },
-      { grade: 'Getting Started', comment: '开始得不错！每天一点点，积少成多。',    color: '#C87A3A' },
-      { grade: 'Just Starting',   comment: '开始第一次学习吧。每天一点点就够了。',  color: '#A0A0AA' },
-    ],
-    scoreInfoTitle: '长期记忆评分',
-    scoreInfoDesc: '衡量你对故事和句型进行了多少次重复学习。',
-    scoreCurrent: '当前评分：',
-    masterySubtitle: '各复习轮次的句型达成率',
-    masteryDesc: '显示500个句型中有多少已达到各复习轮次。轮次越高，越接近长期记忆。',
-    masterySteps: [
-      { step: '第1次', desc: '首次学习句型', color: '#C87A3A' },
-      { step: '第2次', desc: '第1次复习完成 — 短期记忆强化', color: '#C8913A' },
-      { step: '第3次', desc: '第2次复习 — 转向中期记忆', color: '#7A6AC8' },
-      { step: '第4次', desc: '第3次复习 — 进入长期记忆', color: '#4A7AC8' },
-      { step: '第5次', desc: '完全掌握 — 长期记忆稳固', color: '#2A7A3A' },
-    ],
-    masteryFooter: '复习采用间隔重复（Spaced Repetition）方式。每次复习后间隔延长，记忆不断强化。',
-    masteryCardBottom: '所有已学句型各轮次达成率',
-    masteryRingLabel: (n) => `第${n}次`,
-  },
-  'zh-tw': {
-    scoreGrades: [
-      { grade: 'Excellent!',      comment: '太棒了 🎉 請繼續保持這個節奏！',       color: '#2A7A3A' },
-      { grade: 'Very Good',       comment: '非常好！正在向長期記憶轉化。',          color: '#4A7AC8' },
-      { grade: 'Good',            comment: '做得不錯。反覆複習能強化記憶。',        color: '#7A6AC8' },
-      { grade: 'Building Up',     comment: '基礎正在累積。保持複習節奏吧！',        color: '#C8913A' },
-      { grade: 'Getting Started', comment: '開始得不錯！每天一點點，積少成多。',    color: '#C87A3A' },
-      { grade: 'Just Starting',   comment: '開始第一次學習吧。每天一點點就夠了。',  color: '#A0A0AA' },
-    ],
-    scoreInfoTitle: '長期記憶評分',
-    scoreInfoDesc: '衡量你對故事和句型進行了多少次重複學習。',
-    scoreCurrent: '目前評分：',
-    masterySubtitle: '各複習輪次的句型達成率',
-    masteryDesc: '顯示500個句型中有多少已達到各複習輪次。輪次越高，越接近長期記憶。',
-    masterySteps: [
-      { step: '第1次', desc: '首次學習句型', color: '#C87A3A' },
-      { step: '第2次', desc: '第1次複習完成 — 短期記憶強化', color: '#C8913A' },
-      { step: '第3次', desc: '第2次複習 — 轉向中期記憶', color: '#7A6AC8' },
-      { step: '第4次', desc: '第3次複習 — 進入長期記憶', color: '#4A7AC8' },
-      { step: '第5次', desc: '完全掌握 — 長期記憶穩固', color: '#2A7A3A' },
-    ],
-    masteryFooter: '複習採用間隔重複（Spaced Repetition）方式。每次複習後間隔延長，記憶不斷強化。',
-    masteryCardBottom: '所有已學句型各輪次達成率',
-    masteryRingLabel: (n) => `第${n}次`,
-  },
-}
-
-function getScoreI18n(lang: string): ScoreStrings {
-  return SCORE_I18N[lang] ?? SCORE_I18N.en
-}
-
-// ── Calculations ──────────────────────────────────────────────────────────────
-
-const TOTAL_STORIES  = magazineStories.length
-const TOTAL_PATTERNS = magazineStories.reduce((sum, s) => sum + s.patterns.length, 0)
-
-function computeMemoryScore(records: LearningRecord[]): number {
-  const patternRecords = records.filter(r => r.itemType === 'pattern')
-  const storyIds = new Set(patternRecords.map(r => r.storyId).filter(Boolean))
-  const patternScore = patternRecords.reduce((sum, r) => sum + Math.min(r.reviewCount, 5) / 5, 0) / TOTAL_PATTERNS
-  const storyScore = storyIds.size / TOTAL_STORIES
-  return Math.round((patternScore + storyScore) / 2 * 100)
-}
-
-type MyStoriesData = {
-  completed: number[]
-  inProgress: Array<{ storyId: number; title: string; reviewCount: number }>
-  remaining: number
-}
-
-function computeMyStories(records: LearningRecord[], allStories: MagazineStory[]): MyStoriesData {
-  const patByStory = new Map<number, number[]>()
-  for (const r of records) {
-    if (r.itemType !== 'pattern' || !r.storyId || r.repeatCount === 0) continue
-    const list = patByStory.get(r.storyId) ?? []
-    list.push(r.reviewCount)
-    patByStory.set(r.storyId, list)
-  }
-
-  const completed: number[] = []
-  const inProgress: Array<{ storyId: number; title: string; reviewCount: number }> = []
-
-  for (const story of allStories) {
-    const counts = patByStory.get(story.id)
-    if (!counts || counts.length === 0) continue
-    const minReview = Math.min(...counts)
-    if (minReview >= 5) {
-      completed.push(story.id)
-    } else {
-      inProgress.push({ storyId: story.id, title: story.title, reviewCount: minReview })
-    }
-  }
-
-  return { completed, inProgress, remaining: allStories.length - completed.length - inProgress.length }
-}
-
-function fmtDate(iso: string): string {
-  const [y, m, d] = iso.split('-').map(Number)
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December']
-  return `${months[m - 1]} ${d}, ${y}`
-}
-
+// ── Helpers ────────────────────────────────────────────────────────────────────
 function toIso(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
-function getScoreGrade(score: number, grades: ScoreStrings['scoreGrades']): { grade: string; comment: string; color: string } {
-  if (score >= 80) return grades[0]
-  if (score >= 60) return grades[1]
-  if (score >= 40) return grades[2]
-  if (score >= 20) return grades[3]
-  if (score > 0)   return grades[4]
-  return                  grades[5]
+function getMonthLabel(): string {
+  return new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
 }
 
-// ── Shared styles ─────────────────────────────────────────────────────────────
-
-const glassCard: React.CSSProperties = {
-  background: 'var(--pglass)',
-  backdropFilter: 'blur(28px) saturate(180%)',
-  WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-  borderRadius: 24,
-  border: '1px solid var(--pglass-border)',
-  boxShadow: '0 2px 24px rgba(40,50,80,0.06), 0 1px 4px rgba(40,50,80,0.03)',
+function getWeekDays(): Date[] {
+  const today = new Date()
+  const dow   = today.getDay()
+  const monday = new Date(today)
+  monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1))
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(monday)
+    d.setDate(monday.getDate() + i)
+    return d
+  })
 }
 
-// ── Circular Progress Ring ────────────────────────────────────────────────────
+const DOW_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
-function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
+// ── Ring Chart ─────────────────────────────────────────────────────────────────
+function RingChart({ pct, size = 96, stroke = 8, color = '#6B8FFF' }: {
   pct: number; size?: number; stroke?: number; color?: string
 }) {
   const r    = (size - stroke) / 2
@@ -327,7 +46,7 @@ function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
   const offset = circ * (1 - Math.min(pct, 100) / 100)
   return (
     <svg width={size} height={size} style={{ flexShrink: 0, transform: 'rotate(-90deg)' }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(142,167,255,0.15)" strokeWidth={stroke} />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={stroke} />
       <circle
         cx={size / 2} cy={size / 2} r={r} fill="none"
         stroke={color} strokeWidth={stroke} strokeLinecap="round"
@@ -338,579 +57,385 @@ function RingProgress({ pct, size = 80, stroke = 5, color = '#4A7AC8' }: {
   )
 }
 
-// ── Slim progress bar ─────────────────────────────────────────────────────────
-
-function SlimBar({ pct, isDark }: { pct: number; isDark: boolean }) {
+// ── Story Dots ─────────────────────────────────────────────────────────────────
+function StoryDots({ round, isMastered }: { round: number; isMastered: boolean }) {
   return (
-    <div style={{ height: 4, borderRadius: 2, overflow: 'hidden', background: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(142,167,255,0.15)' }}>
-      <div style={{
-        height: '100%', width: `${Math.min(pct, 100)}%`,
-        background: isDark ? 'rgba(140,160,255,0.7)' : 'linear-gradient(90deg, #8EA7FF, #CFC4FF)',
-        borderRadius: 2,
-        transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)',
-      }} />
-    </div>
-  )
-}
-
-// ── Story review dots ─────────────────────────────────────────────────────────
-
-function StoryDots({ count, isDark }: { count: number; isDark: boolean }) {
-  const filledColor = isDark ? 'rgba(140,160,255,0.8)' : 'rgba(142,167,255,0.85)'
-  const emptyColor  = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(142,167,255,0.15)'
-  return (
-    <div style={{ display: 'flex', gap: 4 }}>
+    <div style={{ display: 'flex', gap: 3 }}>
       {[1, 2, 3, 4, 5].map(n => (
-        <div key={n} style={{ width: 7, height: 7, borderRadius: '50%', background: n <= count ? filledColor : emptyColor, flexShrink: 0 }} />
+        <div key={n} style={{
+          width: 8, height: 8, borderRadius: '50%',
+          background: n <= round
+            ? (isMastered ? '#D7B56D' : 'rgba(107,143,255,0.85)')
+            : 'rgba(100,100,150,0.18)',
+          flexShrink: 0,
+          transition: 'background 0.2s',
+        }} />
       ))}
     </div>
   )
 }
 
-// ── Weekly View ───────────────────────────────────────────────────────────────
-
-const WEEK_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
-
-function WeeklyView({ activityMap, isDark }: { activityMap: Record<string, number>; isDark: boolean }) {
-  const today = useMemo(() => new Date(), [])
-  const todayIso = useMemo(() => toIso(today), [today])
-
-  const weekDays = useMemo(() => {
-    const dow = today.getDay() // 0=Sun
-    const monday = new Date(today)
-    monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1))
-    return Array.from({ length: 7 }, (_, i) => {
-      const d = new Date(monday)
-      d.setDate(monday.getDate() + i)
-      return d
-    })
-  }, [today])
-
-  const accentFill  = isDark ? 'rgba(140,160,255,0.85)' : 'rgba(74,122,200,0.85)'
-  const emptyFill   = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'
-  const todayBorder = isDark ? 'rgba(140,160,255,0.6)' : 'rgba(74,122,200,0.6)'
-  const labelColor  = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(60,60,100,0.5)'
-
-  return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4, padding: '4px 0' }}>
-      {weekDays.map((d, i) => {
-        const iso     = toIso(d)
-        const studied = (activityMap[iso] ?? 0) > 0
-        const isToday = iso === todayIso
-        const isFuture = d > today && !isToday
-        return (
-          <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.05em', color: labelColor, textTransform: 'uppercase' }}>
-              {WEEK_LABELS[i]}
-            </span>
-            <div style={{
-              width: 32, height: 32, borderRadius: '50%',
-              background: studied ? accentFill : emptyFill,
-              border: isToday ? `2px solid ${todayBorder}` : '2px solid transparent',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              opacity: isFuture ? 0.35 : 1,
-              transition: 'background 0.2s ease',
-            }}>
-              <span style={{
-                fontSize: 11, fontWeight: 700,
-                color: studied ? '#fff' : (isDark ? 'rgba(255,255,255,0.5)' : 'rgba(40,40,80,0.45)'),
-              }}>
-                {d.getDate()}
-              </span>
-            </div>
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-// ── Weekly/Calendar Toggle Card ───────────────────────────────────────────────
-
-function WeeklyCalendarCard({
-  futureSchedule, selectedIso, onDaySelect, streak, activityMap,
-}: {
-  futureSchedule: Record<string, ScheduledDay>
-  selectedIso: string | null
-  onDaySelect: (iso: string) => void
-  streak: number
-  activityMap: Record<string, number>
-}) {
-  const [tab, setTab] = useState<'weekly' | 'calendar'>('weekly')
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-
-  const toggleBase: React.CSSProperties = {
-    flex: 1, height: 30, borderRadius: 8,
-    border: 'none', cursor: 'pointer',
-    fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
-    transition: 'background 0.18s ease, color 0.18s ease',
-  }
-  const activeToggle: React.CSSProperties = {
-    background: isDark ? 'rgba(140,160,255,0.18)' : 'rgba(74,122,200,0.12)',
-    color: isDark ? 'rgba(180,190,255,0.95)' : 'rgba(50,80,180,0.95)',
-  }
-  const inactiveToggle: React.CSSProperties = {
-    background: 'transparent',
-    color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.4)',
-  }
-
-  return (
-    <div style={{ ...glassCard, padding: '20px 20px 18px' }}>
-      {/* Toggle row */}
-      <div style={{
-        display: 'flex', gap: 4,
-        background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)',
-        borderRadius: 10, padding: 3, marginBottom: 18,
-      }}>
-        <button type="button" style={{ ...toggleBase, ...(tab === 'weekly' ? activeToggle : inactiveToggle) }}
-          onClick={() => setTab('weekly')}>
-          Weekly
-        </button>
-        <button type="button" style={{ ...toggleBase, ...(tab === 'calendar' ? activeToggle : inactiveToggle) }}
-          onClick={() => setTab('calendar')}>
-          Calendar
-        </button>
-      </div>
-
-      {tab === 'weekly' ? (
-        <WeeklyView activityMap={activityMap} isDark={isDark} />
-      ) : (
-        <LearningCalendar
-          onDaySelect={onDaySelect}
-          selectedIso={selectedIso}
-          futureSchedule={futureSchedule}
-          streak={streak}
-        />
-      )}
-    </div>
-  )
-}
-
-// ── Score Card ────────────────────────────────────────────────────────────────
-
-function ScoreCard({ score, learnedStories, learnedPatterns }: {
-  score: number
-  learnedStories: number
-  learnedPatterns: number
-}) {
-  const { prefs } = usePreferences()
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-  const s = getScoreI18n(prefs.language)
-  const storyPct   = Math.min(Math.round((learnedStories  / TOTAL_STORIES)   * 100), 100)
-  const patternPct = Math.min(Math.round((learnedPatterns / TOTAL_PATTERNS) * 100), 100)
-  const { grade, comment, color } = getScoreGrade(score, s.scoreGrades)
-  const [showInfo, setShowInfo] = useState(false)
-
-  return (
-    <>
-      <div style={{ ...glassCard, padding: '24px 24px 22px' }}>
-        {/* Title row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 18 }}>
-          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : 'var(--pm)', margin: 0, textTransform: 'uppercase', flex: 1 }}>
-            Score
-          </p>
-          <button type="button" onClick={() => setShowInfo(true)}
-            style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-            <Info style={{ width: 14, height: 14, color: 'rgba(142,167,255,0.50)' }} strokeWidth={1.8} />
-          </button>
-        </div>
-
-        {/* Ring + grade row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 22, marginBottom: 24 }}>
-          <div style={{ position: 'relative', flexShrink: 0 }}>
-            <RingProgress pct={score} size={80} stroke={5} color={color} />
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-              <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)', lineHeight: 1, letterSpacing: '-0.03em' }}>{score}</span>
-              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm2)' }}>%</span>
-            </div>
-          </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 16, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.9)' : color, margin: '0 0 5px', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
-              {grade}
-            </p>
-            <p style={{ fontSize: 11.5, fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.6)' : 'var(--pm2)', margin: 0, lineHeight: 1.55 }}>
-              {comment}
-            </p>
-          </div>
-        </div>
-
-        <div style={{ height: 1, background: 'rgba(142,167,255,0.12)', marginBottom: 20 }} />
-
-        {/* Story Progress */}
-        <div style={{ marginBottom: 18 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <BookOpen style={{ width: 13, height: 13, color: '#4A7AC8', flexShrink: 0 }} strokeWidth={2.2} />
-              <span style={{ fontSize: 11, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.7)' : '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                Story Progress
-              </span>
-            </div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
-              {learnedStories}<span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / {TOTAL_STORIES}</span>
-            </span>
-          </div>
-          <SlimBar pct={storyPct} isDark={isDark} />
-        </div>
-
-        {/* Pattern Progress */}
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Layers style={{ width: 13, height: 13, color: '#7A6AC8', flexShrink: 0 }} strokeWidth={2.2} />
-              <span style={{ fontSize: 11, fontWeight: 800, color: isDark ? 'rgba(255,255,255,0.7)' : '#2A2A3A', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                Pattern Progress
-              </span>
-            </div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>
-              {learnedPatterns}<span style={{ fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontSize: 11 }}> / {TOTAL_PATTERNS}</span>
-            </span>
-          </div>
-          <SlimBar pct={patternPct} isDark={isDark} />
-        </div>
-      </div>
-
-      <ScoreInfoPopup open={showInfo} score={score} onClose={() => setShowInfo(false)} />
-    </>
-  )
-}
-
-// ── My Stories Card ───────────────────────────────────────────────────────────
-
-function MyStoriesCard({ myStories }: { myStories: MyStoriesData }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-  const [showInfo, setShowInfo] = useState(false)
-
-  return (
-    <>
-      <div style={{ ...glassCard, padding: '22px 20px 20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.14em', color: isDark ? 'rgba(255,255,255,0.6)' : 'var(--pm)', margin: 0, textTransform: 'uppercase' }}>
-            MY STORIES
-          </p>
-          <button type="button" onClick={() => setShowInfo(true)}
-            style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-            <Info style={{ width: 14, height: 14, color: 'rgba(142,167,255,0.50)' }} strokeWidth={1.8} />
-          </button>
-        </div>
-
-        {/* Summary pills */}
-        <div style={{ display: 'flex', gap: 7, marginBottom: 16 }}>
-          {([
-            { label: 'Completed ✓', count: myStories.completed.length, color: '#2A7A3A' },
-            { label: 'In Progress',  count: myStories.inProgress.length,  color: '#4A7AC8' },
-            { label: 'Remaining',    count: myStories.remaining,           color: isDark ? 'rgba(255,255,255,0.38)' : '#8E8E93' },
-          ] as const).map(({ label, count, color }) => (
-            <div key={label} style={{
-              flex: 1, textAlign: 'center',
-              background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
-              border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'}`,
-              borderRadius: 12, padding: '9px 4px',
-            }}>
-              <div style={{ fontSize: 18, fontWeight: 800, color, lineHeight: 1.1, fontVariantNumeric: 'tabular-nums' }}>{count}</div>
-              <div style={{ fontSize: 8.5, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.38)' : '#8E8E93', marginTop: 4, letterSpacing: '0.02em' }}>{label}</div>
-            </div>
-          ))}
-        </div>
-
-        {/* Completed badges */}
-        {myStories.completed.length > 0 && (
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: myStories.inProgress.length > 0 ? 12 : 0 }}>
-            {myStories.completed.map(id => (
-              <span key={id} style={{
-                fontSize: 9.5, fontWeight: 700, color: '#2A7A3A',
-                background: 'rgba(42,122,58,0.08)', border: '1px solid rgba(42,122,58,0.20)',
-                borderRadius: 6, padding: '2px 8px',
-              }}>
-                Story {String(id).padStart(2, '0')} ✓
-              </span>
-            ))}
-          </div>
-        )}
-
-        {myStories.completed.length > 0 && myStories.inProgress.length > 0 && (
-          <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)', marginBottom: 12 }} />
-        )}
-
-        {/* In Progress list */}
-        {myStories.inProgress.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 11 }}>
-            {myStories.inProgress.map(({ storyId, title, reviewCount }) => (
-              <div key={storyId} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--pt)', lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    Story {String(storyId).padStart(2, '0')} · {title}
-                  </div>
-                  <div style={{ fontSize: 9.5, color: isDark ? 'rgba(255,255,255,0.38)' : 'var(--pm2)', marginTop: 2 }}>
-                    Round {reviewCount + 1} · In Review
-                  </div>
-                </div>
-                <div style={{ flexShrink: 0 }}>
-                  <StoryDots count={reviewCount} isDark={isDark} />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {myStories.completed.length === 0 && myStories.inProgress.length === 0 && (
-          <p style={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.38)' : 'var(--pm2)', textAlign: 'center', padding: '12px 0 4px', margin: 0 }}>
-            Start learning to see your stories here.
-          </p>
-        )}
-
-        {myStories.remaining > 0 && (
-          <p style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.3)' : 'rgba(142,167,255,0.55)', margin: `${myStories.inProgress.length > 0 || myStories.completed.length > 0 ? '14px' : '8px'} 0 0`, textAlign: 'center' }}>
-            <Lock style={{ width: 12, height: 12, display: 'inline', verticalAlign: 'middle' }} strokeWidth={2} />{' '}{myStories.remaining} more stories waiting
-          </p>
-        )}
-      </div>
-
-      <MyStoriesInfoPopup open={showInfo} onClose={() => setShowInfo(false)} />
-    </>
-  )
-}
-
-// ── Score Info Popup ──────────────────────────────────────────────────────────
-
-function ScoreInfoPopup({ open, score, onClose }: { open: boolean; score: number; onClose: () => void }) {
-  const { prefs } = usePreferences()
-  const s = getScoreI18n(prefs.language)
-  return (
-    <PDialog open={open} onClose={onClose} title={s.scoreInfoTitle} description={`${s.scoreCurrent} ${score}%`}
-      actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}>
-      <div style={{ paddingTop: 4 }}>
-        <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
-        <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 12px', fontWeight: 500 }}>{s.scoreInfoDesc}</p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {[
-            { range: '0 – 19', label: 'Getting Started', color: '#C87A3A' },
-            { range: '20 – 39', label: 'Building Up',    color: '#C8913A' },
-            { range: '40 – 59', label: 'Good',           color: '#7A6AC8' },
-            { range: '60 – 79', label: 'Very Good',      color: '#4A7AC8' },
-            { range: '80+',     label: 'Excellent',      color: '#2A7A3A' },
-          ].map(({ range, label, color }) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <span style={{ fontSize: 10, fontWeight: 500, color: 'var(--pm)', width: 46, flexShrink: 0 }}>{range}</span>
-              <span style={{ fontSize: 10, fontWeight: 700, color, background: `${color}12`, border: `1px solid ${color}28`, borderRadius: 6, padding: '2px 8px' }}>{label}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </PDialog>
-  )
-}
-
-// ── MY STORIES Info Popup ─────────────────────────────────────────────────────
-
-const MY_STORIES_ROUNDS = [
-  { n: 1, desc: 'First time learning' },
-  { n: 2, desc: 'Review after 1 day · Short-term memory' },
-  { n: 3, desc: 'Review after 3 days · Mid-term memory' },
-  { n: 4, desc: 'Review after 7 days · Long-term memory' },
-  { n: 5, desc: 'Review after 14 days · Fully mastered ✓' },
-]
-
-function MyStoriesInfoPopup({ open, onClose }: { open: boolean; onClose: () => void }) {
-  return (
-    <PDialog open={open} onClose={onClose} title="MY STORIES"
-      actions={[{ label: 'OK', onClick: onClose, variant: 'confirm' }]}>
-      <div style={{ paddingTop: 4 }}>
-        <div style={{ height: 1, background: 'var(--pd)', marginBottom: 14 }} />
-        <p style={{ fontSize: 12, color: 'var(--pm)', lineHeight: 1.75, margin: '0 0 14px', fontWeight: 500 }}>
-          Track your story review progress.<br />
-          Each dot ● represents one review round.<br />
-          More dots filled = stronger memory.
-        </p>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {MY_STORIES_ROUNDS.map(({ n, desc }) => (
-            <div key={n} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-              <span style={{
-                fontSize: 10, fontWeight: 700, color: '#4A7AC8',
-                background: 'rgba(74,122,200,0.08)', border: '1px solid rgba(74,122,200,0.22)',
-                borderRadius: 6, padding: '2px 8px', flexShrink: 0, marginTop: 1, whiteSpace: 'nowrap',
-              }}>Round {n}</span>
-              <span style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1.55 }}>{desc}</span>
-            </div>
-          ))}
-        </div>
-        <div style={{ height: 1, background: 'var(--pd)', margin: '14px 0 10px' }} />
-        <p style={{ fontSize: 10, color: 'var(--pm)', lineHeight: 1.6, margin: 0 }}>
-          Complete all pattern cards in a story<br />to finish one round.
-        </p>
-      </div>
-    </PDialog>
-  )
-}
-
-// ── Day detail bottom sheet ───────────────────────────────────────────────────
-
-function DayDetailSheet({ detail, onClose }: { detail: EnhancedDayDetail | null; onClose: () => void }) {
-  const open = !!detail
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [open])
-
-  const isEmpty = detail &&
-    detail.completed.length === 0 &&
-    detail.due.length === 0 &&
-    detail.upcoming.length === 0
-
-  return (
-    <>
-      <div onClick={onClose} style={{
-        position: 'fixed', inset: 0, zIndex: 60,
-        background: 'rgba(0,0,0,0.36)',
-        opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none',
-        transition: 'opacity 0.22s',
-      }} />
-      <div style={{
-        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 61,
-        background: 'rgba(252,250,255,0.96)',
-        backdropFilter: 'blur(32px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-        borderRadius: '24px 24px 0 0',
-        border: '1px solid rgba(255,255,255,0.92)',
-        boxShadow: '0 -6px 32px rgba(0,0,0,0.08)',
-        transform: open ? 'translateY(0)' : 'translateY(100%)',
-        transition: 'transform 0.30s cubic-bezier(0.4,0,0.2,1)',
-        paddingBottom: 'calc(24px + env(safe-area-inset-bottom, 0px))',
-        maxHeight: '72dvh', overflowY: 'auto',
-      }}>
-        <div style={{ padding: '12px 24px 0' }}>
-          <div style={{ width: 32, height: 3, background: 'rgba(142,167,255,0.20)', borderRadius: 99, margin: '0 auto' }} />
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 24px 0' }}>
-          <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: 0, letterSpacing: '-0.02em' }}>
-            {detail ? fmtDate(detail.date) : ''}
-          </p>
-          <button type="button" onClick={onClose} style={{
-            width: 28, height: 28, borderRadius: '50%',
-            background: 'rgba(142,167,255,0.12)', border: 'none', cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            <X style={{ width: 12, height: 12, color: 'var(--pm2)' }} strokeWidth={2} />
-          </button>
-        </div>
-        {detail && (
-          <div style={{ padding: '16px 24px' }}>
-            {isEmpty && (
-              <p style={{ fontSize: 13, color: 'var(--pm2)', textAlign: 'center', paddingTop: 8 }}>
-                이 날은 학습 기록이 없어요.
-              </p>
-            )}
-            {detail.completed.length > 0 && (
-              <div style={{ marginBottom: 20 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5, margin: '0 0 10px' }}>
-                  <CheckCircle2 style={{ width: 11, height: 11, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
-                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>Completed</p>
-                </div>
-                {detail.completed.map(item => (
-                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(142,167,255,0.12)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
-                    Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
-                  </div>
-                ))}
-              </div>
-            )}
-            {detail.due.length > 0 && (
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 5, margin: '0 0 10px' }}>
-                  <RefreshCw style={{ width: 11, height: 11, color: 'var(--pa)', flexShrink: 0 }} strokeWidth={2.5} />
-                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: 0 }}>Due for Review</p>
-                </div>
-                {detail.due.map(item => (
-                  <div key={item.storyId} style={{ padding: '10px 0', borderBottom: '1px solid rgba(142,167,255,0.12)', fontSize: 13, color: 'var(--pt)', fontWeight: 500 }}>
-                    Story {String(item.storyId).padStart(2, '0')} · {item.storyTitle}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </>
-  )
-}
-
-// ── Page ──────────────────────────────────────────────────────────────────────
-
+// ── Page ───────────────────────────────────────────────────────────────────────
 export default function ProgressPage() {
-  const isDesktop = useIsDesktop()
-  const [dayDetail, setDayDetail]     = useState<EnhancedDayDetail | null>(null)
-  const [selectedIso, setSelectedIso] = useState<string | null>(null)
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
+  const [streak,      setStreak]      = useState(0)
+  const [storyRounds, setStoryRounds] = useState<StoryRoundData[]>([])
+  const [viewMode,    setViewMode]    = useState<'weekly' | 'monthly'>('weekly')
   const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
-  const [records, setRecords]   = useState<LearningRecord[]>([])
-  const [streak, setStreak]     = useState(0)
-  const [activityMap, setActivityMap] = useState<Record<string, number>>({})
+  const [activityMap, setActivityMap]       = useState<Record<string, number>>({})
+  const [selectedIso, setSelectedIso]       = useState<string | null>(null)
 
   useEffect(() => {
-    setRecords(getAllRecords())
-    setFutureSchedule(getFutureSchedule())
     setStreak(getStreak())
+    setStoryRounds(magazineStories.map(s => getStoryRound(s.id)))
+    setFutureSchedule(getFutureSchedule())
     setActivityMap(getActivityByDate())
   }, [])
 
-  const learnedPatterns = records.filter(r => r.itemType === 'pattern').length
-  const learnedStories  = records.filter(r => r.itemType === 'story').length
-  const memoryScore     = useMemo(() => computeMemoryScore(records), [records])
-  const myStories       = useMemo(() => computeMyStories(records, magazineStories), [records])
+  const today    = useMemo(() => toIso(new Date()), [])
+  const weekDays = useMemo(() => getWeekDays(), [])
+  const weekIsos = useMemo(() => new Set(weekDays.map(toIso)), [weekDays])
 
-  function handleDaySelect(iso: string) {
-    if (selectedIso === iso) { setSelectedIso(null); setDayDetail(null); return }
-    setSelectedIso(iso)
-    setDayDetail(getEnhancedDayDetail(iso))
+  // Completions this week (lastCompletedAt is within Mon–Sun)
+  const weeklyCompleted = useMemo(() =>
+    storyRounds.filter(r => r.lastCompletedAt && weekIsos.has(r.lastCompletedAt)),
+  [storyRounds, weekIsos])
+
+  const weeklyStoryCount   = weeklyCompleted.length
+  const weeklyPatternCount = useMemo(() =>
+    weeklyCompleted.reduce((sum, r) => {
+      const s = magazineStories.find(ms => ms.id === r.storyId)
+      return sum + (s?.patterns.length ?? 5)
+    }, 0),
+  [weeklyCompleted])
+
+  const dayCountMap = useMemo(() => {
+    const map: Record<string, number> = {}
+    for (const r of weeklyCompleted) {
+      if (r.lastCompletedAt) map[r.lastCompletedAt] = (map[r.lastCompletedAt] ?? 0) + 1
+    }
+    return map
+  }, [weeklyCompleted])
+
+  const todayCount         = storyRounds.filter(r => r.lastCompletedAt === today).length
+  const isOutperform       = todayCount > DAILY_GOAL
+  const outperformMult     = isOutperform ? Math.floor(todayCount / DAILY_GOAL) : 0
+  const weeklyPct          = Math.min(Math.round((weeklyStoryCount / WEEKLY_GOAL) * 100), 100)
+  const ringColor          = isOutperform ? '#D7B56D' : '#6B8FFF'
+  const bannerGradient     = isOutperform
+    ? 'linear-gradient(135deg, #1a2060, #3d1560)'
+    : 'linear-gradient(135deg, #1a2880, #3d2090)'
+
+  // My stories — started at least 1 round
+  const myStoriesData = useMemo(() =>
+    storyRounds
+      .filter(r => r.round > 0)
+      .map(r => ({ ...r, story: magazineStories.find(s => s.id === r.storyId)! }))
+      .sort((a, b) => a.storyId - b.storyId),
+  [storyRounds])
+
+  // Shared glass card style (adapts to theme)
+  const glassCard: React.CSSProperties = {
+    borderRadius: 20,
+    background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.68)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.82)'}`,
   }
 
-  const calendarCardProps = {
-    futureSchedule,
-    selectedIso,
-    onDaySelect: handleDaySelect,
-    streak,
-    activityMap,
-  }
+  return (
+    <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
 
-  // ── Desktop: two-column layout ───────────────────────────────────────
-  if (isDesktop) {
-    return (
-      <>
-        <div style={{ minHeight: '100dvh' }}>
-          <TopNav />
-          <div className="desktop-max desktop-two-col" style={{ paddingTop: 8, paddingBottom: TAB_BAR_HEIGHT + 32 }}>
-            {/* Left: Weekly/Calendar toggle */}
-            <div>
-              <div style={{ padding: '4px 20px 0' }}>
-                <WeeklyCalendarCard {...calendarCardProps} />
+      {/* ── Sticky Header ── */}
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 50,
+        background: 'linear-gradient(180deg, rgba(26,16,96,0.95) 0%, rgba(26,16,96,0) 100%)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        padding: '52px 20px 18px',
+        display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
+      }}>
+        <div>
+          <p style={{ margin: 0, fontSize: 24, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1 }}>
+            Progress
+          </p>
+          <p style={{ margin: '3px 0 0', fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.5)' }}>
+            {getMonthLabel()}
+          </p>
+        </div>
+        {/* Weekly / Monthly toggle */}
+        <div style={{
+          display: 'flex', gap: 2,
+          background: 'rgba(255,255,255,0.13)',
+          borderRadius: 12, padding: 3,
+        }}>
+          {(['weekly', 'monthly'] as const).map(v => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setViewMode(v)}
+              style={{
+                height: 30, padding: '0 13px', borderRadius: 9,
+                border: 'none', cursor: 'pointer',
+                fontSize: 11, fontWeight: 700, fontFamily: 'inherit',
+                background: viewMode === v ? '#fff' : 'transparent',
+                color: viewMode === v ? '#1a1060' : 'rgba(255,255,255,0.55)',
+                transition: 'all 0.18s',
+              }}
+            >
+              {v === 'weekly' ? 'Weekly' : 'Monthly'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+
+        {/* ── Banner ── */}
+        <div style={{
+          borderRadius: 24, overflow: 'hidden',
+          background: bannerGradient,
+          padding: '20px 22px 18px',
+        }}>
+          {/* Outperform badge */}
+          {isOutperform && (
+            <div style={{
+              marginBottom: 14,
+              display: 'inline-flex', alignItems: 'center',
+              background: 'rgba(215,181,109,0.18)',
+              border: '1px solid rgba(215,181,109,0.40)',
+              borderRadius: 12, padding: '7px 12px',
+            }}>
+              <span style={{ fontSize: 11.5, fontWeight: 700, color: '#D7B56D', lineHeight: 1.3 }}>
+                🔥 오늘 목표의 {outperformMult}배 달성! · 오늘 {todayCount}스토리 완료 · 대단해요!
+              </span>
+            </div>
+          )}
+
+          {/* Ring + text row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+            <div style={{ position: 'relative', flexShrink: 0 }}>
+              <RingChart pct={weeklyPct} size={96} stroke={8} color={ringColor} />
+              <div style={{
+                position: 'absolute', inset: 0,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: '-0.03em' }}>
+                  {weeklyPct}%
+                </span>
               </div>
             </div>
-            {/* Right: Score + My Stories */}
-            <div className="desktop-right-col">
-              <div style={{ padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <ScoreCard score={memoryScore} learnedStories={learnedStories} learnedPatterns={learnedPatterns} />
-                <MyStoriesCard myStories={myStories} />
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0, fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase' }}>
+                THIS WEEK
+              </p>
+              <p style={{ margin: '5px 0 3px', fontSize: 19, fontWeight: 800, color: '#fff', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
+                {weeklyStoryCount} / {WEEKLY_GOAL} 스토리{isOutperform ? ' 🎉' : ''}
+              </p>
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.50)' }}>
+                {isOutperform
+                  ? '주간 목표 초과 달성!'
+                  : `목표까지 ${Math.max(WEEKLY_GOAL - weeklyStoryCount, 0)}개 남았어요`}
+              </p>
+            </div>
+          </div>
+
+          {/* Progress bar */}
+          <div style={{ marginTop: 18 }}>
+            <div style={{ height: 5, borderRadius: 99, background: 'rgba(255,255,255,0.12)', position: 'relative' }}>
+              <div style={{
+                height: '100%', width: `${weeklyPct}%`,
+                background: 'linear-gradient(90deg, #6B8FFF, #D7B56D)',
+                borderRadius: 99,
+                transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)',
+                position: 'relative',
+              }}>
+                {isOutperform && weeklyPct > 0 && (
+                  <div style={{
+                    position: 'absolute', right: -3, top: '50%', transform: 'translateY(-50%)',
+                    width: 11, height: 11, borderRadius: '50%',
+                    background: '#D7B56D',
+                    boxShadow: '0 0 10px 4px rgba(215,181,109,0.55)',
+                  }} />
+                )}
               </div>
             </div>
           </div>
         </div>
-        <DayDetailSheet detail={dayDetail} onClose={() => { setDayDetail(null); setSelectedIso(null) }} />
-      </>
-    )
-  }
 
-  // ── Mobile: vertical scroll layout ──────────────────────────────────
-  return (
-    <>
-      <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
-        <TopNav />
-        <div style={{ maxWidth: 480, margin: '0 auto', padding: '4px 20px 0', display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <ScoreCard score={memoryScore} learnedStories={learnedStories} learnedPatterns={learnedPatterns} />
-          <WeeklyCalendarCard {...calendarCardProps} />
-          <MyStoriesCard myStories={myStories} />
+        {/* ── 3 Chips ── */}
+        <div style={{ display: 'flex', gap: 8 }}>
+          {/* 🔥 Streak */}
+          <div style={{
+            flex: 1, borderRadius: 16, padding: '14px 10px',
+            background: isOutperform
+              ? 'linear-gradient(135deg, rgba(215,181,109,0.22), rgba(215,181,109,0.10))'
+              : 'linear-gradient(135deg, rgba(215,181,109,0.14), rgba(192,139,48,0.07))',
+            border: `1px solid ${isOutperform ? 'rgba(215,181,109,0.45)' : 'rgba(215,181,109,0.20)'}`,
+            boxShadow: isOutperform ? '0 0 16px rgba(215,181,109,0.22)' : 'none',
+            textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 18, lineHeight: 1 }}>🔥</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#D7B56D', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{streak}</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(215,181,109,0.65)', marginTop: 3, textTransform: 'uppercase' }}>Streak</div>
+          </div>
+
+          {/* 📚 이번 주 스토리 */}
+          <div style={{
+            flex: 1, borderRadius: 16, padding: '14px 10px',
+            background: 'linear-gradient(135deg, rgba(107,143,255,0.16), rgba(74,122,200,0.07))',
+            border: '1px solid rgba(107,143,255,0.20)',
+            textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 18, lineHeight: 1 }}>📚</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#8EA7FF', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{weeklyStoryCount}</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(142,167,255,0.60)', marginTop: 3, textTransform: 'uppercase' }}>이번 주</div>
+          </div>
+
+          {/* ⚡ 이번 주 패턴 */}
+          <div style={{
+            flex: 1, borderRadius: 16, padding: '14px 10px',
+            background: 'linear-gradient(135deg, rgba(178,143,255,0.16), rgba(140,107,200,0.07))',
+            border: '1px solid rgba(178,143,255,0.20)',
+            textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 18, lineHeight: 1 }}>⚡</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#CFC4FF', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{weeklyPatternCount}</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(178,143,255,0.60)', marginTop: 3, textTransform: 'uppercase' }}>패턴</div>
+          </div>
         </div>
+
+        {/* ── Weekly / Monthly section ── */}
+        <div style={{ ...glassCard, padding: '18px 16px 16px' }}>
+          <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(60,60,100,0.42)', textTransform: 'uppercase' }}>
+            {viewMode === 'weekly' ? 'WEEKLY' : 'MONTHLY'}
+          </p>
+
+          {viewMode === 'weekly' ? (
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>
+              {weekDays.map((d, i) => {
+                const iso     = toIso(d)
+                const count   = dayCountMap[iso] ?? 0
+                const done    = count > 0
+                const isToday = iso === today
+                const isFut   = d > new Date() && !isToday
+                return (
+                  <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                    <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', color: isDark ? 'rgba(255,255,255,0.32)' : 'rgba(60,60,100,0.38)', textTransform: 'uppercase' }}>
+                      {DOW_LABELS[i]}
+                    </span>
+                    <div style={{
+                      width: 34, height: 34, borderRadius: '50%',
+                      background: done
+                        ? 'linear-gradient(135deg, #4A7AC8, #6B8FFF)'
+                        : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'),
+                      border: isToday && !done
+                        ? '2px solid rgba(107,143,255,0.65)'
+                        : '2px solid transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      opacity: isFut ? 0.28 : 1,
+                      transition: 'background 0.2s',
+                    }}>
+                      {done ? (
+                        <svg width={14} height={14} viewBox="0 0 14 14" fill="none">
+                          <path d="M3 7l3 3 5-5" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      ) : (
+                        <span style={{ fontSize: 10, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(40,40,80,0.38)' }}>
+                          {d.getDate()}
+                        </span>
+                      )}
+                    </div>
+                    {done && (
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#6B8FFF', lineHeight: 1 }}>+{count}</span>
+                    )}
+                    {!done && <span style={{ fontSize: 9, color: 'transparent' }}>·</span>}
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <LearningCalendar
+              onDaySelect={(iso) => {
+                setSelectedIso(prev => prev === iso ? null : iso)
+              }}
+              selectedIso={selectedIso}
+              futureSchedule={futureSchedule}
+              streak={streak}
+            />
+          )}
+        </div>
+
+        {/* ── My Stories ── */}
+        {myStoriesData.length > 0 && (
+          <div style={{ ...glassCard, padding: '18px 16px 16px' }}>
+            <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(60,60,100,0.42)', textTransform: 'uppercase' }}>
+              MY STORIES
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {myStoriesData.map(({ storyId, round, isMastered, story }, i) => (
+                <div
+                  key={storyId}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '11px 0',
+                    borderTop: i === 0 ? 'none' : `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}`,
+                  }}
+                >
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', color: isDark ? 'rgba(255,255,255,0.30)' : 'rgba(60,60,100,0.38)', flexShrink: 0 }}>
+                        S{String(storyId).padStart(2, '0')}
+                      </span>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : '#1a1a2e', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {story?.title ?? ''}
+                      </span>
+                    </div>
+                    <StoryDots round={round} isMastered={isMastered} />
+                  </div>
+                  <div style={{ flexShrink: 0 }}>
+                    {isMastered ? (
+                      <span style={{
+                        fontSize: 9.5, fontWeight: 700, color: '#D7B56D',
+                        background: 'rgba(215,181,109,0.12)',
+                        border: '1px solid rgba(215,181,109,0.28)',
+                        borderRadius: 7, padding: '2px 8px', whiteSpace: 'nowrap',
+                      }}>
+                        마스터 ✅
+                      </span>
+                    ) : (
+                      <span style={{
+                        fontSize: 9.5, fontWeight: 700,
+                        color: isDark ? 'rgba(142,167,255,0.85)' : 'rgba(107,143,255,0.9)',
+                        background: 'rgba(107,143,255,0.10)',
+                        border: '1px solid rgba(107,143,255,0.18)',
+                        borderRadius: 7, padding: '2px 8px', whiteSpace: 'nowrap',
+                      }}>
+                        {round}회차
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Empty state when no stories started */}
+        {myStoriesData.length === 0 && (
+          <div style={{ ...glassCard, padding: '28px 20px', textAlign: 'center' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(60,60,100,0.6)', margin: '0 0 6px' }}>
+              아직 시작한 스토리가 없어요
+            </p>
+            <p style={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.4)', margin: 0, lineHeight: 1.6 }}>
+              스토리를 완료하면 여기에 기록돼요
+            </p>
+          </div>
+        )}
+
       </div>
-      <DayDetailSheet detail={dayDetail} onClose={() => { setDayDetail(null); setSelectedIso(null) }} />
-    </>
+    </div>
   )
 }
