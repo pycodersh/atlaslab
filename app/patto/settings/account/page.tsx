@@ -7,6 +7,7 @@ import { TopNav } from '@/components/TopNav'
 import { useAuth } from '@/contexts/AuthContext'
 import { useT } from '@/hooks/useT'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel }: {
   message: string; cancelLabel: string; confirmLabel: string
@@ -38,14 +39,12 @@ export default function AccountPage() {
   const { user } = useAuth()
   const t = useT()
   const isDesktop = useIsDesktop()
+  const trainer = useTrainerSafe()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [toast, setToast] = useState('')
-
-  function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
 
   async function handleDeleteAccount() {
     setShowDeleteConfirm(false)
-    showToast(t('account_delete_preparing'))
+    trainer?.showMessage(t('account_delete_preparing'), 3000)
   }
 
   if (!user) {
@@ -145,11 +144,6 @@ export default function AccountPage() {
         />
       )}
 
-      {toast && (
-        <div style={{ position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)', background: 'var(--pt)', color: 'var(--pb)', fontSize: 12, padding: '10px 20px', borderRadius: 999, boxShadow: '0 4px 16px rgba(0,0,0,0.15)', zIndex: 50, whiteSpace: 'nowrap' }}>
-          {toast}
-        </div>
-      )}
     </div>
   )
 }

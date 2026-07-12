@@ -1,6 +1,7 @@
 'use client'
 
 import { use, useEffect, useRef, useState } from 'react'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useRouter } from 'next/navigation'
 import {
   Loader2, Sparkles, Trash2, RefreshCw,
@@ -257,7 +258,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const [showCompare, setShowCompare] = useState(false)
   const [showAllFeedback, setShowAllFeedback] = useState(false)
   const [devMsg, setDevMsg] = useState('')
-  const [cacheToast, setCacheToast] = useState(false)
+  const trainer = useTrainerSafe()
 
   const titleManuallyEdited = useRef(false)
 
@@ -346,8 +347,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
       }
       if (!data.cached) recordReviewUsed()
       if (data.cached) {
-        setCacheToast(true)
-        setTimeout(() => setCacheToast(false), 3500)
+        trainer?.showMessage(t('essays_no_change'), 3000)
       }
       setIsEditing(false)
     } catch (err) {
@@ -724,21 +724,6 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
       {isEditing ? editView : reportView}
 
       <ReviewOverlay visible={overlayVisible} />
-
-      {/* Cache hit toast */}
-      {cacheToast && (
-        <div style={{
-          position: 'fixed', bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
-          left: '50%', transform: 'translateX(-50%)',
-          background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid var(--pd)', borderRadius: 12,
-          padding: '10px 18px', fontSize: 12.5, color: 'var(--pt)',
-          whiteSpace: 'nowrap', zIndex: 200,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-        }}>
-          {t('essays_no_change')}
-        </div>
-      )}
 
       {/* Delete confirm sheet */}
       {showDeleteConfirm && (

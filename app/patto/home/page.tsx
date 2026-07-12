@@ -614,7 +614,7 @@ export default function HomePage() {
   const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
   const [newDone, setNewDone]               = useState(false)
   const [reviewDone, setReviewDone]         = useState(false)
-  const [newStoriesData,    setNewStoriesData]    = useState<Array<{ id: number; title: string }>>([])
+  const [newStoriesData,    setNewStoriesData]    = useState<Array<{ id: number; title: string; done: boolean }>>([])
   const [reviewStoriesData, setReviewStoriesData] = useState<Array<{ id: number; title: string; reviewCount: number; done: boolean }>>([])
   const [scheduledList, setScheduledList]   = useState<ScheduledStory[]>([])
   const [allDone, setAllDone]               = useState(false)
@@ -624,7 +624,6 @@ export default function HomePage() {
   const [srsTodayId, setSrsTodayId] = useState<number | null>(null)
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
   const [hasStudied, setHasStudied] = useState(false)
-  const [trainerSheetOpen, setTrainerSheetOpen] = useState(false)
   const trainer = useTrainerSafe()
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
@@ -669,7 +668,7 @@ export default function HomePage() {
 
     setNewStoriesData(newMissions.map(i => {
       const s = magazineStories.find(ms => ms.id === i.storyId)
-      return { id: i.storyId, title: s?.title ?? '' }
+      return { id: i.storyId, title: s?.title ?? '', done: i.done }
     }))
     const patByStory = new Map<number, number[]>()
     for (const r of records) {
@@ -887,52 +886,9 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ── Trainer button below hero ── */}
-        <div style={{ margin: '8px 20px 0' }}>
-          {!hasStudied ? (
-            <motion.button
-              type="button"
-              onClick={() => setTrainerSheetOpen(true)}
-              style={{
-                width: '100%', height: 46, borderRadius: 14, border: 'none', cursor: 'pointer',
-                background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                fontSize: 14, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
-                boxShadow: '0 4px 18px rgba(107,143,255,0.35)',
-                letterSpacing: '0.01em',
-              }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-            >
-              <Dumbbell style={{ width: 16, height: 16 }} strokeWidth={2} />
-              트레이너와 함께 시작
-            </motion.button>
-          ) : (
-            <motion.button
-              type="button"
-              onClick={() => router.push(`/patto/stories/${todayStory.id}`)}
-              style={{
-                width: '100%', height: 46, borderRadius: 14, cursor: 'pointer',
-                background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.65)',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(142,167,255,0.25)'}`,
-                backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                fontSize: 14, fontWeight: 600,
-                color: isDark ? 'rgba(255,255,255,0.75)' : 'rgba(60,70,110,0.80)',
-                fontFamily: 'inherit', letterSpacing: '0.01em',
-              }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-            >
-              이어서 학습하기
-              <ArrowRight style={{ width: 14, height: 14 }} strokeWidth={2} />
-            </motion.button>
-          )}
-        </div>
 
-        {/* ── Summary Cards — NEW / REVIEW ── */}
+        {/* ── TODAY card ── */}
         {allDone ? (
-          /* ── All Done Banner ── */
           <div style={{
             margin: '12px 20px 0',
             padding: '16px 18px',
@@ -941,13 +897,7 @@ export default function HomePage() {
             border: `1px solid ${isDark ? 'rgba(90,184,106,0.25)' : 'rgba(110,201,122,0.3)'}`,
             display: 'flex', alignItems: 'center', gap: 14,
           }}>
-            <PartyPopper
-              style={{
-                width: 20, height: 20, flexShrink: 0,
-                color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)',
-              }}
-              strokeWidth={1.8}
-            />
+            <PartyPopper style={{ width: 20, height: 20, flexShrink: 0, color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)' }} strokeWidth={1.8} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 13, fontWeight: 800, color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)', margin: '0 0 3px', letterSpacing: '-0.01em' }}>
                 {t('home_done_title')}
@@ -957,194 +907,64 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-        ) : (
-          <>
-            {/* ── Top 2-column grid ── */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
-
-              {/* LEARN TODAY */}
-              <motion.div
-                className="glass-card-sm"
-                style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative', cursor: newStoriesData.length > 0 ? 'pointer' : 'default' }}
-                onClick={() => newStoriesData.length > 0 && router.push(`/patto/stories/${newStoriesData[0].id}`)}
-                whileTap={newStoriesData.length > 0 ? { scale: 0.93 } : {}}
-                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-              >
-                {newDone && (
+        ) : (newStoriesData.length > 0 || reviewStoriesData.length > 0) && (
+          <div style={{ margin: '12px 20px 0' }}>
+            <div style={{ ...frostedCard, borderRadius: 18, overflow: 'hidden' }}>
+              {/* Header */}
+              <div style={{ padding: '11px 14px 10px', borderBottom: '1px solid var(--pd)' }}>
+                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.45)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
+                  TODAY
+                </p>
+              </div>
+              {/* Items: new stories first, review stories after */}
+              {[
+                ...newStoriesData.map(s => ({ id: s.id, title: s.title, done: s.done, isReview: false, href: `/patto/stories/${s.id}` })),
+                ...reviewStoriesData.map(s => ({ id: s.id, title: s.title, done: s.done, isReview: true, href: `/patto/stories/${s.id}?v=p` })),
+              ].map((item, idx, arr) => (
+                <button
+                  key={`${item.isReview ? 'r' : 'n'}-${item.id}`}
+                  type="button"
+                  onClick={() => router.push(item.href)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '11px 14px',
+                    width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer',
+                    background: 'transparent', fontFamily: 'inherit',
+                    borderBottom: idx < arr.length - 1 ? '1px solid var(--pd)' : 'none',
+                  }}
+                >
                   <span style={{
-                    position: 'absolute', top: 7, right: 9,
-                    width: 14, height: 14, borderRadius: '50%',
-                    background: 'rgba(39,174,96,0.12)',
+                    width: 16, height: 16, borderRadius: 5, flexShrink: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: item.done ? 'rgba(39,174,96,0.12)' : 'transparent',
+                    border: item.done ? 'none' : `1.5px solid ${isDark ? 'rgba(255,255,255,0.2)' : 'rgba(100,110,150,0.25)'}`,
                   }}>
-                    <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
+                    {item.done && <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />}
                   </span>
-                )}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 8 }}>
-                  <BookOpen style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
-                  <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>LEARN TODAY</p>
-                </div>
-                {newStoriesData.length > 0 ? (
-                  <>
-                    <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: newDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.45)' : 'var(--pm2)'), margin: '0 0 2px', textTransform: 'uppercase' }}>
-                      Story {String(newStoriesData[0].id).padStart(2, '0')}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.35)' : 'var(--pm2)', margin: '0 0 1px', textTransform: 'uppercase' }}>
+                      Story {String(item.id).padStart(2, '0')}
                     </p>
-                    <p style={{ fontSize: 12, fontWeight: 700, color: newDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                      {newStoriesData[0].title}
+                    <p style={{ fontSize: 13, fontWeight: 600, color: item.done ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {item.title}
                     </p>
-                  </>
-                ) : (
-                  <p style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400, margin: 0 }}>—</p>
-                )}
-              </motion.div>
-
-              {/* REVIEW */}
-              <motion.div
-                className="glass-card-sm"
-                style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative', cursor: reviewStoriesData.length > 0 ? 'pointer' : 'default' }}
-                onClick={() => reviewStoriesData.length > 0 && router.push(reviewStoriesData[0] ? `/patto/stories/${reviewStoriesData[0].id}?v=p` : firstHref)}
-                whileTap={reviewStoriesData.length > 0 ? { scale: 0.93 } : {}}
-                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-              >
-                {reviewDone && reviewStoriesData.length > 0 && (
-                  <span style={{
-                    position: 'absolute', top: 7, right: 9,
-                    width: 14, height: 14, borderRadius: '50%',
-                    background: 'rgba(39,174,96,0.12)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}>
-                    <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
-                  </span>
-                )}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 8 }}>
-                  <RotateCcw style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
-                  <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>REVIEW</p>
-                </div>
-                {reviewStoriesData.length > 0 ? (
-                  <>
-                    <p style={{ fontSize: 13, fontWeight: 800, color: reviewDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: '0 0 4px', lineHeight: 1, letterSpacing: '-0.01em' }}>
-                      {reviewStoriesData.length} {reviewStoriesData.length === 1 ? 'Story' : 'Stories'}
-                    </p>
-                    <p style={{ fontSize: 9.5, fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.4)' : 'var(--pm2)', margin: 0, lineHeight: 1.4, fontVariantNumeric: 'tabular-nums' }}>
-                      {reviewStoriesData.slice(0, 3).map(s => `Story ${String(s.id).padStart(2, '0')}`).join(' · ')}
-                      {reviewStoriesData.length > 3 ? ` +${reviewStoriesData.length - 3}` : ''}
-                    </p>
-                  </>
-                ) : (
-                  <p style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400, margin: 0 }}>—</p>
-                )}
-              </motion.div>
-            </div>
-
-            {/* ── Review list ── */}
-            {reviewStoriesData.length > 0 && (
-              <div style={{ margin: '8px 20px 0', display: 'flex', flexDirection: 'column', gap: 0 }}>
-                {reviewStoriesData.map(s => (
-                  <div
-                    key={s.id}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: 10,
-                      padding: '9px 14px',
-                      borderRadius: 14,
-                      background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.55)',
-                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.7)'}`,
-                      marginBottom: 5,
-                      backdropFilter: 'blur(16px)',
-                      WebkitBackdropFilter: 'blur(16px)',
-                    }}
-                  >
-                    <div style={{
-                      width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
-                      background: s.done ? '#27AE60' : (isDark ? 'rgba(180,190,220,0.5)' : 'rgba(100,110,150,0.35)'),
-                    }} />
-                    <p style={{ flex: 1, fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt)', margin: 0, lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      Story {String(s.id).padStart(2, '0')} · {s.title}
-                    </p>
-                    {s.done ? (
-                      <span style={{
-                        flexShrink: 0,
-                        width: 18, height: 18, borderRadius: '50%',
-                        background: 'rgba(39,174,96,0.12)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      }}>
-                        <Check style={{ width: 10, height: 10, color: '#27AE60' }} strokeWidth={2.5} />
-                      </span>
-                    ) : (
-                      <span style={{
-                        flexShrink: 0, whiteSpace: 'nowrap',
-                        fontSize: 9, fontWeight: 700,
-                        color: isDark ? 'rgba(140,160,255,0.9)' : 'rgba(142,167,255,0.90)',
-                        background: isDark ? 'rgba(140,160,255,0.12)' : 'rgba(142,167,255,0.10)',
-                        border: `1px solid ${isDark ? 'rgba(140,160,255,0.22)' : 'rgba(142,167,255,0.20)'}`,
-                        borderRadius: 6, padding: '2px 7px',
-                      }}>
-                        Round {s.reviewCount + 1}
-                      </span>
-                    )}
                   </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
-        {/* ── Editor Tip chip — same height as summary chips ── */}
-        {dailyTip && (
-          <div style={{ padding: '10px 20px 0' }}>
-            <button
-              type="button"
-              onClick={() => setTipOpen(true)}
-              className="glass-card-sm"
-              style={{
-                ...frostedCard,
-                width: '100%', textAlign: 'left', cursor: 'pointer',
-                padding: chipPad,
-                display: 'flex', alignItems: 'center', gap: 10,
-              }}
-            >
-              <Pencil style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
-                  Editor Tip
-                </p>
-                <p style={{
-                  fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)',
-                  margin: 0, lineHeight: 1.35,
-                  overflow: 'hidden', display: '-webkit-box',
-                  WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
-                }}>
-                  {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
-                </p>
-              </div>
-              <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
-            </button>
-          </div>
-        )}
-
-        {/* ── PATTO GUIDE card ── */}
-        <div style={{ padding: '8px 20px 0' }}>
-          <button
-            type="button"
-            onClick={() => setGuideOpen(true)}
-            className="glass-card-sm"
-            style={{ ...frostedCard, width: '100%', textAlign: 'left', cursor: 'pointer', padding: chipPad, display: 'flex', alignItems: 'center', gap: 10 }}
-          >
-            <Clock style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
-                PATTO GUIDE
-              </p>
-              <p style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)', margin: 0, lineHeight: 1.35 }}>
-                How to use PATTO
-              </p>
+                  {item.isReview && (
+                    <span style={{
+                      flexShrink: 0,
+                      fontSize: 9, fontWeight: 700,
+                      color: isDark ? 'rgba(192,139,48,0.9)' : 'rgba(150,105,25,0.9)',
+                      background: isDark ? 'rgba(192,139,48,0.12)' : 'rgba(192,139,48,0.10)',
+                      border: `1px solid ${isDark ? 'rgba(192,139,48,0.25)' : 'rgba(192,139,48,0.22)'}`,
+                      borderRadius: 6, padding: '2px 7px',
+                    }}>
+                      복습
+                    </span>
+                  )}
+                </button>
+              ))}
             </div>
-            <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
-          </button>
-        </div>
-
-        {/* ── Desktop Editor Tip inline panel ── */}
-        {isDesktop && tipOpen && (
-          <DesktopTipInline onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />
+          </div>
         )}
 
         {/* ── STORIES (mobile only — desktop shows All Stories panel on right) ── */}
@@ -1242,125 +1062,10 @@ export default function HomePage() {
       </div>{/* end desktop-two-col */}
       </div>{/* end desktop-max */}
 
-      {/* ── Editor Tip Carousel Modal (mobile only) ── */}
-      {!isDesktop && tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
+      {/* Editor Tip / Guide modals moved to Settings → About PATTO */}
+      {false && tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
+      {false && guideOpen && <GuideCarousel onClose={() => setGuideOpen(false)} />}
 
-      {/* ── PATTO GUIDE Modal ── */}
-      {guideOpen && <GuideCarousel onClose={() => setGuideOpen(false)} />}
-
-      {/* ── Trainer Bottom Sheet ── */}
-      {trainerSheetOpen && (() => {
-        const storyRound = getStoryRound(todayStory.id)
-        const roundNum   = storyRound.round + 1
-        const sheetBg    = isDark ? 'rgba(22,18,46,0.97)' : 'rgba(255,255,255,0.92)'
-        const textPri    = isDark ? 'rgba(255,255,255,0.95)' : '#1a1a2e'
-        const textSec    = isDark ? 'rgba(255,255,255,0.50)' : 'rgba(60,60,100,0.62)'
-        const cardBg     = isDark ? 'rgba(107,143,255,0.12)' : 'rgba(107,143,255,0.08)'
-        const cardBd     = isDark ? 'rgba(107,143,255,0.25)' : 'rgba(107,143,255,0.18)'
-        return (
-          <>
-            <div
-              onClick={() => setTrainerSheetOpen(false)}
-              style={{
-                position: 'fixed', inset: 0, zIndex: 300,
-                background: 'rgba(20,16,50,0.25)',
-              }}
-            />
-            <div style={{
-              position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 301,
-              background: sheetBg,
-              backdropFilter: 'blur(30px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(30px) saturate(180%)',
-              borderRadius: '20px 20px 0 0',
-              border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)'}`,
-              boxShadow: '0 -6px 32px rgba(20,16,50,0.18)',
-              padding: `16px 18px calc(28px + env(safe-area-inset-bottom, 0px))`,
-            }}>
-              {/* Handle */}
-              <div style={{
-                width: 32, height: 4, borderRadius: 99,
-                background: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(142,167,255,0.25)',
-                margin: '0 auto 18px',
-              }} />
-
-              {/* Header: icon + title */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                  background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: '0 3px 12px rgba(107,143,255,0.35)',
-                }}>
-                  <Dumbbell style={{ width: 18, height: 18, color: '#fff' }} strokeWidth={2} />
-                </div>
-                <div>
-                  <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: 'rgba(107,143,255,0.80)', textTransform: 'uppercase' }}>
-                    PATTO 트레이너
-                  </p>
-                  <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: textPri }}>
-                    함께 읽고, 듣고, 따라 말해볼게요! 💪
-                  </p>
-                </div>
-              </div>
-
-              {/* Story info card */}
-              <div style={{
-                marginBottom: 16, padding: '12px 14px',
-                borderRadius: 14, background: cardBg,
-                border: `1px solid ${cardBd}`,
-                display: 'flex', alignItems: 'center', gap: 12,
-              }}>
-                <div style={{ width: 40, height: 40, borderRadius: 9, flexShrink: 0, overflow: 'hidden' }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={todayStory.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ margin: '0 0 1px', fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'rgba(107,143,255,0.80)' }}>
-                    Story {String(todayStory.id).padStart(2, '0')} · {roundNum}회차
-                  </p>
-                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: textPri, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {todayStory.title}
-                  </p>
-                  <p style={{ margin: '2px 0 0', fontSize: 11, color: textSec }}>
-                    패턴 {todayStory.patterns.length}개
-                  </p>
-                </div>
-              </div>
-
-              {/* Start button */}
-              <button
-                type="button"
-                onClick={() => { setTrainerSheetOpen(false); router.push(`/patto/stories/${todayStory.id}`) }}
-                style={{
-                  width: '100%', height: 50, borderRadius: 14, border: 'none', cursor: 'pointer',
-                  background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
-                  fontSize: 15, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
-                  boxShadow: '0 4px 18px rgba(107,143,255,0.38)',
-                  letterSpacing: '0.01em', marginBottom: 6,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                }}
-              >
-                <Dumbbell style={{ width: 17, height: 17 }} strokeWidth={2} />
-                시작하기
-              </button>
-
-              {/* Dismiss */}
-              <button
-                type="button"
-                onClick={() => setTrainerSheetOpen(false)}
-                style={{
-                  width: '100%', height: 40, borderRadius: 12, border: 'none', cursor: 'pointer',
-                  background: 'transparent', fontSize: 13, fontWeight: 600,
-                  color: isDark ? 'rgba(255,255,255,0.30)' : 'rgba(80,80,120,0.40)',
-                  fontFamily: 'inherit',
-                }}
-              >
-                나중에 하기
-              </button>
-            </div>
-          </>
-        )
-      })()}
     </div>
   )
 }

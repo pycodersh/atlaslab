@@ -73,7 +73,6 @@ export function TrainerProvider({ children }: { children: React.ReactNode }) {
   return (
     <TrainerStateProvider>
       {children}
-      <GuideDock />
     </TrainerStateProvider>
   )
 }

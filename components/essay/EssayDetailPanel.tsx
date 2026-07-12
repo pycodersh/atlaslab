@@ -12,6 +12,7 @@ import {
   resetDailyReviewCount,
 } from '@/lib/essays/storage'
 import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS } from '@/lib/subscription/storage'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { AnnotatedManuscript } from '@/components/essay/EssayRenderer'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -186,6 +187,7 @@ type Props = {
 export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
   const t = useT()
   const { prefs } = usePreferences()
+  const trainer = useTrainerSafe()
 
   const [essay, setEssay]                   = useState<Essay | null>(null)
   const [title, setTitle]                   = useState('')
@@ -198,7 +200,6 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
   const [showCompare, setShowCompare]       = useState(false)
   const [showAllFeedback, setShowAllFeedback] = useState(false)
   const [devMsg, setDevMsg]                 = useState('')
-  const [cacheToast, setCacheToast]         = useState(false)
 
   const titleManuallyEdited = useRef(false)
 
@@ -265,7 +266,7 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
       const updated = saveReview(id, data.review as Parameters<typeof saveReview>[1])
       if (updated) { setEssay(updated); setTitle(updated.title); setBody(updated.body) }
       if (!data.cached) recordReviewUsed()
-      if (data.cached) { setCacheToast(true); setTimeout(() => setCacheToast(false), 3500) }
+      if (data.cached) { trainer?.showMessage(t('essays_no_change'), 3500) }
       setIsEditing(false)
     } catch { await minDelay; setOverlayVisible(false); setError('service_unavailable') }
     setLoading(false)
@@ -549,12 +550,6 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
       </div>
 
       <ReviewOverlay visible={overlayVisible} />
-
-      {cacheToast && (
-        <div style={{ position: 'fixed', bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))', left: '50%', transform: 'translateX(-50%)', background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pd)', borderRadius: 12, padding: '10px 18px', fontSize: 12.5, color: 'var(--pt)', whiteSpace: 'nowrap', zIndex: 200, boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}>
-          {t('essays_no_change')}
-        </div>
-      )}
 
       {showDeleteConfirm && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.38)', zIndex: 50, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }} onClick={() => setShowDeleteConfirm(false)}>

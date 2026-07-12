@@ -2,13 +2,14 @@
 
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { TrainerOrbContext, type OrbState } from './TrainerOrbContext'
+import { TrainerContext, type CardSpec } from '@/contexts/TrainerContext'
 import { useTheme } from '@/components/ThemeProvider'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const ORB_SIZE = 52
 const MARGIN = 20
-const LONG_PRESS_MS = 500
+const DRAG_THRESHOLD = 10
 const SNAP_OFFSET = ORB_SIZE / 2 + MARGIN
 const STORAGE_KEY = 'orb-position'
 
@@ -49,32 +50,8 @@ const STATE_CONFIGS: Record<OrbState, WaveConfig> = {
   },
 }
 
-// ── Corner snap helpers ───────────────────────────────────────────────────────
+// ── Position helpers ──────────────────────────────────────────────────────────
 type Corner = 'br' | 'bl' | 'tr' | 'tl'
-
-function snapPosition(x: number, y: number): { x: number; y: number; corner: Corner } {
-  const W = window.innerWidth
-  const H = window.innerHeight
-  const navH = TAB_BAR_HEIGHT + 16
-  const right = W - SNAP_OFFSET
-  const left = SNAP_OFFSET - ORB_SIZE
-  const bottom = H - navH - SNAP_OFFSET
-  const top = SNAP_OFFSET + 44 // below status bar
-
-  const toRight = Math.abs(x - right)
-  const toLeft = Math.abs(x - left)
-  const toBottom = Math.abs(y - bottom)
-  const toTop = Math.abs(y - top)
-
-  const isRight = toRight < toLeft
-  const isBottom = toBottom < toTop
-
-  return {
-    x: isRight ? right : left,
-    y: isBottom ? bottom : top,
-    corner: (isBottom ? 'b' : 't') + (isRight ? 'r' : 'l') as Corner,
-  }
-}
 
 function loadSavedPos(): { x: number; y: number } | null {
   if (typeof window === 'undefined') return null
@@ -182,82 +159,150 @@ function useWaveCanvas(
 
 // ── Conversation Card ─────────────────────────────────────────────────────────
 function ConvCard({
-  message,
+  card,
+  exitCard,
   corner,
   isDark,
+  onClear,
 }: {
-  message: string | null
+  card: CardSpec | null
+  exitCard: CardSpec | null
   corner: Corner
   isDark: boolean
+  onClear: () => void
 }) {
-  const [visible, setVisible] = useState(false)
-  const [text, setText] = useState(message)
-
-  useEffect(() => {
-    if (message) {
-      setText(message)
-      // tiny delay so opacity transition fires
-      const t = setTimeout(() => setVisible(true), 16)
-      return () => clearTimeout(t)
-    } else {
-      setVisible(false)
-      const t = setTimeout(() => setText(null), 220)
-      return () => clearTimeout(t)
-    }
-  }, [message])
-
-  if (!text) return null
-
-  const isRight = corner.endsWith('r')
+  const isRight  = corner.endsWith('r')
   const isBottom = corner.startsWith('b')
 
-  // Tail pointing toward Orb
-  const borderRadius = isRight
-    ? '14px 14px 4px 14px'
-    : '14px 14px 14px 4px'
+  const active  = card ?? exitCard
+  const isExit  = !card && !!exitCard
+  const inClass  = isRight ? 'dock-card-in-br'  : 'dock-card-in-bl'
+  const outClass = isRight ? 'dock-card-out-br' : 'dock-card-out-bl'
 
-  const cardStyle: React.CSSProperties = {
-    position: 'absolute',
-    [isBottom ? 'bottom' : 'top']: ORB_SIZE + 10,
-    [isRight ? 'right' : 'left']: 0,
-    minWidth: 120,
-    maxWidth: 220,
-    whiteSpace: 'pre-wrap',
-    borderRadius,
-    padding: '9px 13px',
-    background: isDark
-      ? 'rgba(30,25,60,0.92)'
-      : 'rgba(255,255,255,0.92)',
-    backdropFilter: 'blur(24px)',
-    WebkitBackdropFilter: 'blur(24px)',
-    border: '0.5px solid rgba(210,220,245,0.7)',
-    boxShadow: '0 4px 20px rgba(107,143,255,0.12)',
-    fontSize: 13,
-    fontWeight: 500,
-    color: isDark ? '#e8e0f8' : '#1a1a2e',
-    lineHeight: 1.45,
-    pointerEvents: 'none',
-    opacity: visible ? 1 : 0,
-    transform: visible ? 'translateY(0)' : `translateY(${isBottom ? '4px' : '-4px'})`,
-    transition: 'opacity 0.2s ease, transform 0.2s ease',
-  }
+  if (!active) return null
 
-  return <div style={cardStyle}>{text}</div>
+  const cardBg     = isDark ? 'rgba(30,25,60,0.92)'         : 'rgba(255,255,255,0.93)'
+  const cardBorder = isDark ? '0.5px solid rgba(142,167,255,0.2)' : '0.5px solid rgba(210,220,245,0.7)'
+  const textMain   = isDark ? '#e8e0f8'                      : '#1a1a2e'
+  const textSub    = isDark ? 'rgba(232,224,248,0.55)'       : 'rgba(40,40,80,0.52)'
+  const textPri    = isDark ? '#A6B8FF'                      : '#6B8FFF'
+  const textSec    = isDark ? 'rgba(255,255,255,0.40)'       : '#aaa'
+
+  const borderRadius = active.size === 'small'  ? (isRight ? '14px 14px 4px 14px' : '14px 14px 14px 4px')
+                     : active.size === 'medium' ? (isRight ? '16px 16px 4px 16px' : '16px 16px 16px 4px')
+                     :                            (isRight ? '18px 18px 4px 18px' : '18px 18px 18px 4px')
+  const padding = active.size === 'small' ? '9px 13px' : active.size === 'medium' ? '13px 14px' : '16px'
+  const cardWidth = active.size === 'large' ? 240 : 200
+
+  return (
+    <div
+      key={active.id}
+      className={isExit ? outClass : inClass}
+      style={{
+        position: 'absolute',
+        [isBottom ? 'bottom' : 'top']: ORB_SIZE + 10,
+        [isRight ? 'right' : 'left']: 0,
+        width: cardWidth,
+        borderRadius,
+        padding,
+        background: cardBg,
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        border: cardBorder,
+        boxShadow: '0 4px 20px rgba(107,143,255,0.12)',
+        pointerEvents: isExit ? 'none' : 'auto',
+        zIndex: 1,
+      }}
+    >
+      {/* Message */}
+      <p style={{ fontSize: 13, fontWeight: 500, color: textMain, margin: 0, lineHeight: 1.45, whiteSpace: 'pre-wrap' }}>
+        {active.message}
+      </p>
+
+      {/* Subtext (large only) */}
+      {active.subtext && (
+        <p style={{ fontSize: 11, color: textSub, margin: '5px 0 0', lineHeight: 1.4 }}>
+          {active.subtext}
+        </p>
+      )}
+
+      {/* Buttons */}
+      {active.buttons && active.buttons.length > 0 && (
+        active.size === 'large' ? (
+          /* Large: full-width button */
+          <button
+            type="button"
+            onClick={() => { onClear(); active.buttons![0].onClick() }}
+            style={{
+              marginTop: 12, width: '100%', padding: '9px 0',
+              borderRadius: 10, border: 'none', cursor: 'pointer',
+              background: isDark ? 'rgba(166,184,255,0.15)' : 'rgba(107,143,255,0.10)',
+              fontSize: 13, fontWeight: 600, color: textPri, fontFamily: 'inherit',
+            }}
+          >
+            {active.buttons[0].label}
+          </button>
+        ) : (
+          /* Medium: inline text buttons */
+          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 14, marginTop: 10 }}>
+            {active.buttons.map((btn, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => { onClear(); btn.onClick() }}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer', padding: '2px 0',
+                  fontSize: 13, fontWeight: btn.primary ? 600 : 400,
+                  color: btn.primary ? textPri : textSec,
+                  fontFamily: 'inherit',
+                }}
+              >
+                {btn.label}
+              </button>
+            ))}
+          </div>
+        )
+      )}
+    </div>
+  )
 }
 
 // ── Main Orb component ────────────────────────────────────────────────────────
 export function TrainerOrb() {
-  const { orbState, message } = useContext(TrainerOrbContext)
+  const { orbState } = useContext(TrainerOrbContext)
+  const trainerCtx  = useContext(TrainerContext)
   const { theme } = useTheme()
   const isDark = theme === 'dark'
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useWaveCanvas(canvasRef, orbState)
 
+  // ── Card exit animation ───────────────────────────────────────────────────
+  const card = trainerCtx?.card ?? null
+  const prevCardRef  = useRef<CardSpec | null>(null)
+  const [exitCard, setExitCard] = useState<CardSpec | null>(null)
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    const prev = prevCardRef.current
+    if (prev && !card) {
+      if (exitTimerRef.current) clearTimeout(exitTimerRef.current)
+      setExitCard(prev)
+      exitTimerRef.current = setTimeout(() => setExitCard(null), 180)
+    }
+    prevCardRef.current = card
+  }, [card])
+
   // ── Position state ──────────────────────────────────────────────────────
   const [pos, setPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
-  const [corner, setCorner] = useState<Corner>('br')
   const [mounted, setMounted] = useState(false)
+
+  // Derive corner from current position for ConvCard placement
+  const corner: Corner = typeof window !== 'undefined'
+    ? ((pos.x + ORB_SIZE / 2 > window.innerWidth / 2 ? 'r' : 'l') as 'r' | 'l') === 'r'
+      ? (pos.y + ORB_SIZE / 2 > window.innerHeight / 2 ? 'br' : 'tr')
+      : (pos.y + ORB_SIZE / 2 > window.innerHeight / 2 ? 'bl' : 'tl')
+    : 'br'
   const [isDragging, setIsDragging] = useState(false)
   const [dragScale, setDragScale] = useState(1)
 
@@ -265,88 +310,69 @@ export function TrainerOrb() {
   useLayoutEffect(() => {
     const saved = loadSavedPos()
     if (saved) {
-      const snapped = snapPosition(saved.x, saved.y)
-      setPos({ x: snapped.x, y: snapped.y })
-      setCorner(snapped.corner)
+      setPos({ x: saved.x, y: saved.y })
     } else {
-      const dp = defaultPos()
-      setPos(dp)
-      setCorner('br')
+      setPos(defaultPos())
     }
     setMounted(true)
   }, [])
 
-  // ── Long-press drag ──────────────────────────────────────────────────────
-  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // ── Drag ──────────────────────────────────────────────────────────────────
+  const hasDraggedRef = useRef(false)
   const pointerStartRef = useRef<{ x: number; y: number } | null>(null)
   const orbRef = useRef<HTMLDivElement>(null)
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
+    e.preventDefault()
     pointerStartRef.current = { x: e.clientX, y: e.clientY }
-    longPressTimerRef.current = setTimeout(() => {
-      setIsDragging(true)
-      setDragScale(1.08)
-      orbRef.current?.setPointerCapture(e.pointerId)
-    }, LONG_PRESS_MS)
+    hasDraggedRef.current = false
+    orbRef.current?.setPointerCapture(e.pointerId)
   }, [])
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
     if (!pointerStartRef.current) return
-
-    // Cancel long press if moved too much before it fires
-    if (!isDragging && longPressTimerRef.current) {
-      const dx = e.clientX - pointerStartRef.current.x
-      const dy = e.clientY - pointerStartRef.current.y
-      if (Math.sqrt(dx * dx + dy * dy) > 6) {
-        clearTimeout(longPressTimerRef.current)
-        longPressTimerRef.current = null
-      }
+    const dx = e.clientX - pointerStartRef.current.x
+    const dy = e.clientY - pointerStartRef.current.y
+    if (!hasDraggedRef.current && Math.sqrt(dx * dx + dy * dy) >= DRAG_THRESHOLD) {
+      hasDraggedRef.current = true
+      setIsDragging(true)
+      setDragScale(1.08)
     }
-
-    if (!isDragging) return
+    if (!hasDraggedRef.current) return
 
     const W = window.innerWidth
     const H = window.innerHeight
     const navH = TAB_BAR_HEIGHT + 16
-    const minX = SNAP_OFFSET - ORB_SIZE
-    const maxX = W - SNAP_OFFSET
-    const minY = 44
-    const maxY = H - navH - SNAP_OFFSET
-
     setPos({
-      x: Math.max(minX, Math.min(maxX, e.clientX - ORB_SIZE / 2)),
-      y: Math.max(minY, Math.min(maxY, e.clientY - ORB_SIZE / 2)),
+      x: Math.max(0, Math.min(W - ORB_SIZE, e.clientX - ORB_SIZE / 2)),
+      y: Math.max(0, Math.min(H - ORB_SIZE - navH, e.clientY - ORB_SIZE / 2)),
     })
-  }, [isDragging])
+  }, [])
 
   const onPointerUp = useCallback((e: React.PointerEvent) => {
-    if (longPressTimerRef.current) {
-      clearTimeout(longPressTimerRef.current)
-      longPressTimerRef.current = null
+    if (hasDraggedRef.current) {
+      const W = window.innerWidth
+      const H = window.innerHeight
+      const navH = TAB_BAR_HEIGHT + 16
+      const finalX = Math.max(0, Math.min(W - ORB_SIZE, e.clientX - ORB_SIZE / 2))
+      const finalY = Math.max(0, Math.min(H - ORB_SIZE - navH, e.clientY - ORB_SIZE / 2))
+      setPos({ x: finalX, y: finalY })
+      savePos(finalX, finalY)
     }
-    if (!isDragging) return
-
     setIsDragging(false)
     setDragScale(1)
-
-    const snapped = snapPosition(
-      e.clientX - ORB_SIZE / 2,
-      e.clientY - ORB_SIZE / 2,
-    )
-    setPos({ x: snapped.x, y: snapped.y })
-    setCorner(snapped.corner)
-    savePos(snapped.x, snapped.y)
-  }, [isDragging])
+    pointerStartRef.current = null
+    hasDraggedRef.current = false
+  }, [])
 
   // ── Glow based on state ──────────────────────────────────────────────────
-  const glowOpacity = orbState === 'idle' ? 0.2
-    : orbState === 'speaking' ? 0.55
-    : orbState === 'waiting' ? 0.45
-    : 0.75 // done
+  const lightBoxShadow = isDragging
+    ? '0 4px 20px rgba(107,143,255,0.4), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 20px rgba(142,167,255,0.9), 0 0 40px rgba(142,167,255,0.5)'
+    : '0 4px 16px rgba(107,143,255,0.25), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 14px rgba(142,167,255,0.8), 0 0 28px rgba(142,167,255,0.4)'
 
-  const outerGlow = isDragging
-    ? `0 0 28px 10px rgba(172,182,255,0.45), 0 0 56px 20px rgba(172,182,255,0.2)`
-    : `0 0 20px 6px rgba(172,182,255,${glowOpacity}), 0 0 40px 12px rgba(172,182,255,${glowOpacity * 0.4})`
+  const darkBoxShadow = isDragging
+    ? '0 4px 20px rgba(142,167,255,0.4), 0 0 20px rgba(142,167,255,0.3)'
+    : '0 2px 12px rgba(142,167,255,0.25)'
 
   if (!mounted) return null
 
@@ -365,7 +391,13 @@ export function TrainerOrb() {
     >
       {/* Conversation Card */}
       {!isDragging && (
-        <ConvCard message={message} corner={corner} isDark={isDark} />
+        <ConvCard
+          card={card}
+          exitCard={exitCard}
+          corner={corner}
+          isDark={isDark}
+          onClear={() => trainerCtx?.clearMessage()}
+        />
       )}
 
       {/* Orb itself */}
@@ -381,16 +413,16 @@ export function TrainerOrb() {
           borderRadius: '50%',
           position: 'relative',
           cursor: isDragging ? 'grabbing' : 'pointer',
-          boxShadow: outerGlow,
+          boxShadow: isDark ? darkBoxShadow : lightBoxShadow,
           transform: `scale(${dragScale})`,
           transition: isDragging
             ? 'box-shadow 0.2s ease, transform 0.15s ease'
             : 'box-shadow 0.4s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1)',
           background: isDark
-            ? 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.18) 0%, rgba(180,190,255,0.10) 50%, rgba(100,120,220,0.08) 100%)'
+            ? 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.12) 0%, rgba(180,190,255,0.08) 50%, rgba(100,120,220,0.05) 100%)'
             : 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95) 0%, rgba(240,243,255,0.7) 40%, rgba(210,220,255,0.35) 70%, rgba(190,205,255,0.15) 100%)',
           border: isDark
-            ? '0.5px solid rgba(255,255,255,0.18)'
+            ? '0.5px solid rgba(255,255,255,0.15)'
             : '0.5px solid rgba(255,255,255,0.9)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',

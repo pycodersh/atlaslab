@@ -434,9 +434,6 @@ export default function SettingsPage() {
   const { user, loading } = useAuth()
   const trainer = useTrainerSafe()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-  const [toast, setToast] = useState('')
-
-  function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
 
   async function handleLogout() {
     trainer?.showMessage('See you.', 2000)
@@ -447,7 +444,7 @@ export default function SettingsPage() {
 
   async function handleDeleteAccount() {
     setShowDeleteConfirm(false)
-    showToast(t('account_delete_preparing'))
+    trainer?.showMessage(t('account_delete_preparing'), 3000)
   }
 
   return (
@@ -523,11 +520,6 @@ export default function SettingsPage() {
         />
       )}
 
-      {toast && (
-        <div style={{ position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)', background: 'var(--pt)', color: 'var(--pb)', fontSize: 12, padding: '10px 20px', borderRadius: 999, boxShadow: '0 4px 16px rgba(0,0,0,0.15)', zIndex: 50, whiteSpace: 'nowrap' }}>
-          {toast}
-        </div>
-      )}
     </div>
   )
 }
