@@ -9,6 +9,8 @@ import { WelcomeCover } from "@/components/WelcomeCover";
 import { OneSignalInit } from "@/components/OneSignalInit";
 import { PageTransition } from "@/components/PageTransition";
 import { TrainerProvider } from "@/components/TrainerButton";
+import { TrainerOrbProvider } from "@/components/trainer/TrainerOrbContext";
+import { TrainerOrb } from "@/components/trainer/TrainerOrb";
 
 const jakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -61,7 +63,7 @@ export default function PattoLayout({
   return (
     <div className={`antialiased ${jakartaSans.variable} ${baloo2.variable} ${playfair.variable} ${kalam.variable}`}>
       <div className="patto-bg" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', minHeight: '100vh', zIndex: -1 }} />
-      <div style={{ position: 'relative', zIndex: 1 }}><ThemeProvider><TrainerProvider><PreferencesProvider><AuthProvider><OneSignalInit /><WelcomeCover /><PageTransition>{children}</PageTransition><MainTabBar /></AuthProvider></PreferencesProvider></TrainerProvider></ThemeProvider></div>
+      <div style={{ position: 'relative', zIndex: 1 }}><ThemeProvider><TrainerOrbProvider><TrainerProvider><PreferencesProvider><AuthProvider><OneSignalInit /><WelcomeCover /><PageTransition>{children}</PageTransition><MainTabBar /><TrainerOrb /></AuthProvider></PreferencesProvider></TrainerProvider></TrainerOrbProvider></ThemeProvider></div>
     </div>
   );
 }
