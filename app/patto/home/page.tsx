@@ -20,6 +20,7 @@ import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useT } from '@/hooks/useT'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
+import { useAuth } from '@/contexts/AuthContext'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -625,6 +626,7 @@ export default function HomePage() {
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
   const [hasStudied, setHasStudied] = useState(false)
   const trainer = useTrainerSafe()
+  const { user } = useAuth()
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
@@ -758,6 +760,19 @@ export default function HomePage() {
     document.addEventListener('visibilitychange', onVisible)
     return () => document.removeEventListener('visibilitychange', onVisible)
   }, [loadMissions])
+
+  // Welcome back on re-login
+  useEffect(() => {
+    if (!user || !trainer) return
+    const sessionKey = `patto_welcome_${user.id}`
+    if (sessionStorage.getItem(sessionKey)) return
+    sessionStorage.setItem(sessionKey, '1')
+    const isFirstEver = !localStorage.getItem('patto_ever_logged_in')
+    localStorage.setItem('patto_ever_logged_in', '1')
+    if (!isFirstEver) {
+      setTimeout(() => trainer.showMessage('Welcome back.', 3000), 800)
+    }
+  }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Trainer: show "Ready?" on home page when not yet studied today
   useEffect(() => {

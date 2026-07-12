@@ -254,7 +254,6 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
   const [loading, setLoading] = useState(false)
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [error, setError] = useState<ValidationError>(null)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [showCompare, setShowCompare] = useState(false)
   const [showAllFeedback, setShowAllFeedback] = useState(false)
   const [devMsg, setDevMsg] = useState('')
@@ -381,7 +380,15 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
 
   function handleDelete() {
     deleteEssay(id)
-    router.push('/essays')
+    trainer?.showMessage('Removed.', 1500)
+    setTimeout(() => router.push('/patto/essays'), 300)
+  }
+
+  function confirmDelete() {
+    trainer?.ask('Remove this item?', [
+      { label: 'Cancel', onClick: () => {} },
+      { label: 'Remove', primary: true, onClick: handleDelete },
+    ])
   }
 
   function handleEditClick() {
@@ -428,7 +435,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
             Edit Essay
           </button>
         )}
-        <button type="button" onClick={() => setShowDeleteConfirm(true)}
+        <button type="button" onClick={confirmDelete}
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0' }}>
           <Trash2 style={{ width: 14, height: 14, color: 'var(--pm2)' }} strokeWidth={1.8} />
         </button>
@@ -725,32 +732,6 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
 
       <ReviewOverlay visible={overlayVisible} />
 
-      {/* Delete confirm sheet */}
-      {showDeleteConfirm && (
-        <div
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.38)', zIndex: 50, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
-          onClick={() => setShowDeleteConfirm(false)}
-        >
-          <div
-            style={{ background: 'var(--pc)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderRadius: '22px 22px 0 0', padding: '32px 28px calc(36px + env(safe-area-inset-bottom, 0px))', width: '100%', maxWidth: 540 }}
-            onClick={e => e.stopPropagation()}
-          >
-            <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--pd)', margin: '0 auto 28px' }} />
-            <p style={{ fontSize: 17, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px' }}>{t('essays_delete_title')}</p>
-            <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 32px', lineHeight: 1.65 }}>{t('essays_delete_desc')}</p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <button type="button" onClick={handleDelete}
-                style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit' }}>
-                {t('essays_delete_confirm')}
-              </button>
-              <button type="button" onClick={() => setShowDeleteConfirm(false)}
-                style={{ width: '100%', padding: '15px 0', borderRadius: 14, border: '1.5px solid var(--pd)', background: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>
-                {t('essays_cancel')}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       <style>{`
         @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }

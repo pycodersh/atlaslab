@@ -119,30 +119,6 @@ function MenuCard({
   )
 }
 
-// ── Confirm Dialog ────────────────────────────────────────────────────────────
-function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel }: {
-  message: string; cancelLabel: string; confirmLabel: string
-  onConfirm: () => void; onCancel: () => void
-}) {
-  return (
-    <div
-      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}
-      onClick={e => { if (e.target === e.currentTarget) onCancel() }}
-    >
-      <div style={{ background: 'var(--pb)', borderRadius: 20, padding: '28px 24px 20px', maxWidth: 340, width: '100%', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
-        <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 20px', lineHeight: 1.6 }}>{message}</p>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button type="button" onClick={onCancel} style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--pd)', background: 'transparent', color: 'var(--pt)', fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {cancelLabel}
-          </button>
-          <button type="button" onClick={onConfirm} style={{ flex: 1, height: 44, borderRadius: 12, border: 'none', background: '#B04060', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {confirmLabel}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 // ── User profile card (logged-in) ─────────────────────────────────────────────
 function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void }) {
@@ -433,8 +409,6 @@ export default function SettingsPage() {
   const t = useT()
   const { user, loading } = useAuth()
   const trainer = useTrainerSafe()
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-
   async function handleLogout() {
     trainer?.showMessage('See you.', 2000)
     await new Promise(r => setTimeout(r, 400))
@@ -442,9 +416,15 @@ export default function SettingsPage() {
     router.refresh()
   }
 
-  async function handleDeleteAccount() {
-    setShowDeleteConfirm(false)
+  function handleDeleteAccount() {
     trainer?.showMessage(t('account_delete_preparing'), 3000)
+  }
+
+  function confirmDeleteAccount() {
+    trainer?.ask('Delete account?', [
+      { label: 'Cancel', onClick: () => {} },
+      { label: 'Delete', primary: true, onClick: handleDeleteAccount },
+    ])
   }
 
   return (
@@ -489,7 +469,7 @@ export default function SettingsPage() {
         {user && (
           <button
             type="button"
-            onClick={() => setShowDeleteConfirm(true)}
+            onClick={confirmDeleteAccount}
             style={{
               background: 'none', border: 'none', padding: '4px 0 0',
               color: '#C08898', fontSize: 11.5, cursor: 'pointer',
@@ -509,16 +489,6 @@ export default function SettingsPage() {
           v1.0.0
         </p>
       </div>
-
-      {showDeleteConfirm && (
-        <ConfirmDialog
-          message={t('account_delete_message')}
-          cancelLabel={t('delete_cancel')}
-          confirmLabel={t('delete_confirm')}
-          onConfirm={handleDeleteAccount}
-          onCancel={() => setShowDeleteConfirm(false)}
-        />
-      )}
 
     </div>
   )

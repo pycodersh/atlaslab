@@ -1,6 +1,5 @@
 ﻿'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Trash2, ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
@@ -9,30 +8,6 @@ import { useT } from '@/hooks/useT'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 
-function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel }: {
-  message: string; cancelLabel: string; confirmLabel: string
-  onConfirm: () => void; onCancel: () => void
-}) {
-  return (
-    <div
-      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}
-      onClick={e => { if (e.target === e.currentTarget) onCancel() }}
-    >
-      <div style={{ background: 'var(--pb)', borderRadius: 20, padding: '28px 24px 20px', maxWidth: 340, width: '100%', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
-        <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 20px', lineHeight: 1.6 }}>{message}</p>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button type="button" onClick={onCancel} style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--pd)', background: 'transparent', color: 'var(--pt)', fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {cancelLabel}
-          </button>
-          <button type="button" onClick={onConfirm} style={{ flex: 1, height: 44, borderRadius: 12, border: 'none', background: '#B04060', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {confirmLabel}
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 
 export default function AccountPage() {
   const router = useRouter()
@@ -40,11 +15,15 @@ export default function AccountPage() {
   const t = useT()
   const isDesktop = useIsDesktop()
   const trainer = useTrainerSafe()
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
-
-  async function handleDeleteAccount() {
-    setShowDeleteConfirm(false)
+  function handleDeleteAccount() {
     trainer?.showMessage(t('account_delete_preparing'), 3000)
+  }
+
+  function confirmDeleteAccount() {
+    trainer?.ask('Delete account?', [
+      { label: 'Cancel', onClick: () => {} },
+      { label: 'Delete', primary: true, onClick: handleDeleteAccount },
+    ])
   }
 
   if (!user) {
@@ -114,7 +93,7 @@ export default function AccountPage() {
           <div style={{ border: '1px solid rgba(176,64,96,0.25)', borderRadius: 16, overflow: 'hidden', background: 'rgba(176,64,96,0.04)' }}>
             <button
               type="button"
-              onClick={() => setShowDeleteConfirm(true)}
+              onClick={confirmDeleteAccount}
               style={{
                 width: '100%', padding: '14px 16px',
                 background: 'transparent', border: 'none',
@@ -133,16 +112,6 @@ export default function AccountPage() {
           </div>
         </div>
       </div>
-
-      {showDeleteConfirm && (
-        <ConfirmDialog
-          message={t('account_delete_message')}
-          cancelLabel={t('delete_cancel')}
-          confirmLabel={t('delete_confirm')}
-          onConfirm={handleDeleteAccount}
-          onCancel={() => setShowDeleteConfirm(false)}
-        />
-      )}
 
     </div>
   )
