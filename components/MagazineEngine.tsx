@@ -182,10 +182,10 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
   function showPatternListenCard() {
     if (isDesktop) return
-    const play = patternPlayRef.current
     trainer?.showFlow('Listen.', [{
       label: 'Play', btnVariant: 'play',
       onClick: () => {
+        const play = patternPlayRef.current
         if (!play) return
         trainer?.setCardPlaying(true)
         play()
@@ -303,7 +303,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // ── Trainer: story audio ended → "Your turn." → "Nice." → scroll ────────
   useEffect(() => {
     if (isDesktop) return
-    if (prevIsSpeakingRef.current && !isSpeaking) {
+    if (prevIsSpeakingRef.current && !isSpeaking && flowPhaseRef.current === 'reading') {
       afterStoryAudioEnds()
     }
     prevIsSpeakingRef.current = isSpeaking
