@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useTheme } from '@/components/ThemeProvider'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { getStreak } from '@/lib/srs/storage'
 import { magazineStories } from '@/data/magazine-stories'
@@ -87,12 +88,17 @@ export default function ProgressPage() {
   const [activityMap, setActivityMap]       = useState<Record<string, number>>({})
   const [selectedIso, setSelectedIso]       = useState<string | null>(null)
 
+  const trainer = useTrainerSafe()
+
   useEffect(() => {
     setStreak(getStreak())
     setStoryRounds(magazineStories.map(s => getStoryRound(s.id)))
     setFutureSchedule(getFutureSchedule())
     setActivityMap(getActivityByDate())
-  }, [])
+    trainer?.setPage('progress')
+    const t = setTimeout(() => trainer?.showMessage('Keep going.', 2500), 1000)
+    return () => clearTimeout(t)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const today    = useMemo(() => toIso(new Date()), [])
   const weekDays = useMemo(() => getWeekDays(), [])

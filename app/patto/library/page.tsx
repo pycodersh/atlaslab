@@ -1,6 +1,7 @@
 ﻿'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useRouter } from 'next/navigation'
 import {
   Search, X, BookOpen, ChevronRight, ChevronDown,
@@ -489,6 +490,8 @@ export default function LibraryPage() {
   const [showAllWords, setShowAllWords]       = useState(false)
   const [showAllPhrases, setShowAllPhrases]   = useState(false)
   const [showAllPatterns, setShowAllPatterns] = useState(false)
+  const trainer = useTrainerSafe()
+  useEffect(() => { trainer?.setPage('library') }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     setBookmarks(getBookmarks())

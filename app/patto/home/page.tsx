@@ -19,6 +19,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useT } from '@/hooks/useT'
 import { useTheme } from '@/components/ThemeProvider'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -624,6 +625,7 @@ export default function HomePage() {
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
   const [hasStudied, setHasStudied] = useState(false)
   const [trainerSheetOpen, setTrainerSheetOpen] = useState(false)
+  const trainer = useTrainerSafe()
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
@@ -757,6 +759,16 @@ export default function HomePage() {
     document.addEventListener('visibilitychange', onVisible)
     return () => document.removeEventListener('visibilitychange', onVisible)
   }, [loadMissions])
+
+  // Trainer: show "Ready?" on home page when not yet studied today
+  useEffect(() => {
+    if (!trainer) return
+    trainer.setPage('home')
+    if (!hasStudied) {
+      const t = setTimeout(() => trainer.showMessage('Ready?', 2500), 1200)
+      return () => clearTimeout(t)
+    }
+  }, [hasStudied]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const frostedCard: React.CSSProperties = {
     background: 'var(--pglass)',

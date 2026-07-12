@@ -25,6 +25,7 @@ import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { getStoryRound, getRecallCount, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
 import { useTheme } from '@/components/ThemeProvider'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 // ── Session progress (resume mid-session) ────────────────────────────────────
 type SessionProgress = { phase: 'patterns' | 'hide-recall'; recallRound: number }
@@ -56,6 +57,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const { prefs } = usePreferences()
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
   const { progress, setProgress } = useLearningProgress()
+  const trainer = useTrainerSafe()
 
   // 위치 저장 — Continue Learning이 여기로 돌아올 수 있도록
   useEffect(() => { saveLastPosition(story.id, 'story') }, [story.id])
@@ -86,7 +88,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const [scrolledToEnd, setScrolledToEnd] = useState(false)
   const [showSwipeGuide,setShowSwipeGuide]= useState(false)
   const [hideRecallRound,setHideRecallRound] = useState(1)
-  const [toast,         setToast]         = useState<string | null>(null)
   const [completionData,setCompletionData]= useState<StoryRoundData | null>(null)
   const [patternIdx,    setPatternIdx]    = useState(0)
   // Exit interception popup
@@ -97,6 +98,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const patternSectionRef = useRef<HTMLDivElement>(null)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const prevIsSpeakingRef = useRef(false)
+  const trainerGreetedRef = useRef(false)
 
   // SRS round for this story
   const [storyRoundData] = useState<StoryRoundData>(() => getStoryRound(story.id))
@@ -117,17 +119,18 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       setHideRecallRound(1)
     }
     setShowSwipeGuide(false)
-    setToast(null)
     setCompletionData(null)
     setPatternIdx(0)
     setExitPopupVisible(false)
     setExitPopupPendingHref(null)
-  }, [story.id])
+    trainerGreetedRef.current = false
+    trainer?.setPage?.('story')
+    trainer?.clearMessage?.()
+  }, [story.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  function showToast(msg: string) {
-    if (toastTimerRef.current) clearTimeout(toastTimerRef.current)
-    setToast(msg)
-    toastTimerRef.current = setTimeout(() => setToast(null), 2800)
+  // Trainer helper — sends message only on mobile (trainer is UI-only, desktop skips)
+  function trainerSay(msg: string, ms = 2500) {
+    if (!isDesktop) trainer?.showMessage(msg, ms)
   }
 
   // Scroll-to-end detection (mobile container)
@@ -158,6 +161,68 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrolledToEnd])
+
+  // ── Trainer: "Ready?" on mount (once per story) ───────────────────────────
+  useEffect(() => {
+    if (isDesktop || trainerGreetedRef.current) return
+    trainerGreetedRef.current = true
+    const t = setTimeout(() => trainerSay('Ready?', 2000), 800)
+    return () => clearTimeout(t)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [story.id])
+
+  // ── Trainer: silence while audio plays; "Your turn." / "Listen." on end ──
+  useEffect(() => {
+    if (isDesktop) return
+    if (isSpeaking) {
+      trainer?.setSilent(true)
+    } else {
+      trainer?.setSilent(false)
+      if (prevIsSpeakingRef.current) {
+        // Audio just finished
+        if (currentRound < 3 && flowPhase === 'reading') {
+          // Round 1-2: audio finished before scroll → show "Your turn."
+          trainerSay('Your turn.', 2000)
+        } else if (currentRound < 3 && flowPhase === 'patterns') {
+          trainerSay('Your turn.', 2000)
+        }
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSpeaking])
+
+  // ── Trainer: scroll done — show "Listen." for round 1-2 ──────────────────
+  useEffect(() => {
+    if (isDesktop || !scrolledToEnd) return
+    if (!isSpeaking) {
+      if (currentRound < 2) {
+        // Show "Listen." to prompt audio
+        trainerSay('Listen.', 2500)
+      } else if (currentRound >= 3) {
+        // Round 4+ skip pattern view → "Again." shortly after
+        if (skipPatternView) {
+          const t = setTimeout(() => trainerSay('Again.', 2500), 800)
+          return () => clearTimeout(t)
+        }
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrolledToEnd])
+
+  // ── Trainer: flowPhase changes ────────────────────────────────────────────
+  useEffect(() => {
+    if (isDesktop) return
+    if (flowPhase === 'hide-recall') {
+      const t = setTimeout(() => trainerSay('Again.', 2500), 400)
+      return () => clearTimeout(t)
+    }
+    if (flowPhase === 'complete') {
+      trainer?.triggerPulse()
+      const t = setTimeout(() => trainerSay('See you tomorrow.', 3500), 600)
+      return () => clearTimeout(t)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flowPhase])
 
   // Keep shouldBlockNav ref in sync
   useEffect(() => {
@@ -210,19 +275,11 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => document.removeEventListener('click', handler, { capture: true })
   }, [])
 
-  // All patterns seen → show toast then start hide-recall automatically
+  // All patterns seen → start hide-recall automatically
   const handleAllPatternsSeen = useCallback(() => {
     if (flowPhase !== 'patterns') return
     saveSessionProgress(story.id, 'hide-recall', 1)
-    if (isFirstRound) {
-      showToast('이제 직접 따라말해볼게요 💪')
-      setTimeout(() => {
-        showToast('이제 직접 떠올려볼게요 💪')
-        setFlowPhase('hide-recall')
-      }, 2000)
-    } else {
-      setTimeout(() => setFlowPhase('hide-recall'), 600)
-    }
+    setTimeout(() => setFlowPhase('hide-recall'), isFirstRound ? 800 : 600)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flowPhase, isFirstRound, story.id])
 
@@ -231,8 +288,9 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     if (hideRecallRound < totalRecall) {
       const next = hideRecallRound + 1
       saveSessionProgress(story.id, 'hide-recall', next)
-      const msgs = ['한 번 더 해볼게요 🔄', '마지막이에요! 끝까지 화이팅 🎯']
-      showToast(msgs[next - 2] ?? '계속해봐요!')
+      const isLast = next === totalRecall
+      trainerSay('Nice.', 1200)
+      setTimeout(() => trainerSay(isLast ? 'Keep going.' : 'Again.', 2500), 1400)
       setTimeout(() => setHideRecallRound(next), 1600)
     } else {
       // All recall rounds done → complete
@@ -517,21 +575,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     </div>
   )
 
-  // Toast overlay
-  const toastEl = toast ? (
-    <div style={{
-      position: 'fixed', bottom: 90, left: '50%', transform: 'translateX(-50%)',
-      zIndex: 200, pointerEvents: 'none',
-      background: 'rgba(26,26,46,0.88)', backdropFilter: 'blur(10px)',
-      WebkitBackdropFilter: 'blur(10px)',
-      borderRadius: 20, padding: '9px 18px',
-      fontSize: 13, fontWeight: 600, color: '#fff',
-      whiteSpace: 'nowrap', letterSpacing: '0.01em',
-      boxShadow: '0 4px 20px rgba(0,0,0,0.25)',
-    }}>
-      {toast}
-    </div>
-  ) : null
 
   const recoStory = recoStoryId ? allStories.find(s => s.id === recoStoryId) : null
   const recoDialogEl = recoStory ? (
@@ -717,7 +760,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         showReadingGuide={isFirstRound && flowPhase === 'reading' && !scrolledToEnd}
         audioPulse={isFirstRound && !isSpeaking && flowPhase === 'reading'}
       />
-      {toastEl}
       {recoDialogEl}
       {exitPopupEl}
       {sharedPopups}

@@ -114,6 +114,30 @@
   border: 1.5px solid rgba(107,143,255,0.45) !important;
 }
 
+/* ── Trainer Floating Button ─────────────────────────────────────────────── */
+@keyframes trainer-pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+@keyframes trainer-bubble-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes trainer-bubble-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(4px); }
+}
+.trainer-pulse-once {
+  animation: trainer-pulse 0.4s ease-in-out;
+}
+.trainer-bubble-enter {
+  animation: trainer-bubble-in 0.25s ease-out forwards;
+}
+.trainer-bubble-exit {
+  animation: trainer-bubble-out 0.2s ease-in forwards;
+}
+
 
 /* ── Stable full-screen height (iOS Safari safe) ────────────────────────
    dvh changes as Safari toolbar collapses → causes layout reflow mid-scroll.

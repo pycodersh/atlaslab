@@ -13,6 +13,7 @@ import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { EssayComposerPanel } from '@/components/essay/EssayComposerPanel'
 import { EssayDetailPanel } from '@/components/essay/EssayDetailPanel'
 import { useTheme } from '@/components/ThemeProvider'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 function fmtDate(iso: string): string {
   const d = new Date(iso)
@@ -111,6 +112,18 @@ export default function EssaysPage() {
   const [showAll, setShowAll] = useState(false)
   const [activePanel, setActivePanel] = useState<'composer' | 'detail' | null>(null)
   const [selectedEssayId, setSelectedEssayId] = useState<string | null>(null)
+  const trainer = useTrainerSafe()
+
+  // Trainer: essay page = silent during composition; "Nice." after review
+  useEffect(() => {
+    trainer?.setPage('essay')
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    // Silence while composer is open (user is typing)
+    if (activePanel === 'composer') trainer?.setSilent(true)
+    else trainer?.setSilent(false)
+  }, [activePanel]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function refreshEssays() {
     setEssays(getEssays())
@@ -280,6 +293,8 @@ export default function EssaysPage() {
                   refreshEssays()
                   setActivePanel('detail')
                   setSelectedEssayId(id)
+                  trainer?.setSilent(false)
+                  setTimeout(() => trainer?.showMessage('Nice.', 2500), 400)
                 }}
               />
             )}
