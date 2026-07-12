@@ -12,6 +12,7 @@ import type { MagazineStory } from '@/types/magazine'
 import { getAllRecords, todayStr, addDays } from '@/lib/srs/storage'
 import { getMissionItems } from '@/lib/srs/engine'
 import { getLastPosition } from '@/lib/last-position'
+import { getStoryStatus, getTodayRecommendedStoryId } from '@/lib/srs/story-round'
 import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
 import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -619,6 +620,8 @@ export default function HomePage() {
   const [tipOpen, setTipOpen]               = useState(false)
   const [guideOpen, setGuideOpen]           = useState(false)
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
+  const [srsTodayId, setSrsTodayId] = useState<number | null>(null)
+  const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
@@ -735,6 +738,11 @@ export default function HomePage() {
       }
     }
     setAllStoriesLabelMap(allMap)
+
+    // SRS story-round badges
+    const ids = magazineStories.map(s => s.id)
+    setSrsTodayId(getTodayRecommendedStoryId(ids))
+    setSrsReviewIds(new Set(ids.filter(id => getStoryStatus(id) === 'review_due')))
   }, [])
 
   useEffect(() => {
@@ -1103,8 +1111,16 @@ export default function HomePage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {scheduledList.map(({ story, label, href, done }) => {
-              const chipText     = done ? 'Done' : label
-              const chipGradient = done ? CHIP_GRADIENT['Done'] : CHIP_GRADIENT[label] ?? CHIP_GRADIENT['Upcoming']
+              const isToday    = story.id === srsTodayId
+              const isReview   = srsReviewIds.has(story.id)
+              const chipText   = done ? 'Done' : isToday ? '오늘' : isReview ? '복습' : label
+              const chipGradient = done ? CHIP_GRADIENT['Done']
+                : isToday  ? 'linear-gradient(135deg, rgba(91,127,212,0.85) 0%, rgba(120,155,240,0.70) 100%)'
+                : isReview ? CHIP_GRADIENT['Review']
+                : CHIP_GRADIENT[label] ?? CHIP_GRADIENT['Upcoming']
+              const cardBorder = isReview && !done
+                ? '1.5px solid rgba(192,139,48,0.55)'
+                : undefined
               return (
                 <div
                   key={story.id}
@@ -1112,7 +1128,7 @@ export default function HomePage() {
                   onClick={() => router.push(href)}
                   onKeyDown={e => e.key === 'Enter' && router.push(href)}
                   className="glass-card-sm"
-                  style={{ overflow: 'hidden', cursor: 'pointer', borderRadius: 18 }}
+                  style={{ overflow: 'hidden', cursor: 'pointer', borderRadius: 18, ...(cardBorder ? { border: cardBorder } : {}) }}
                 >
                   <div style={{ position: 'relative', paddingTop: '64%' }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}

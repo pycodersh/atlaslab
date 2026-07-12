@@ -14,6 +14,7 @@ import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
+import { getStoryStatus, type StoryStatus } from '@/lib/srs/story-round'
 import { useT } from '@/hooks/useT'
 import { useItemTranslation } from '@/hooks/useItemTranslation'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
@@ -379,6 +380,99 @@ function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: nu
   )
 }
 
+// ── Story status ─────────────────────────────────────────────────────────────
+
+const STATUS_LABEL: Record<StoryStatus, string> = {
+  new:        '새로운 스토리',
+  learning:   '학습 중',
+  review_due: '복습 예정',
+  mastered:   '마스터 ✅',
+}
+
+const STATUS_COLOR: Record<StoryStatus, string> = {
+  new:        '#8E8E93',
+  learning:   '#5B7FD4',
+  review_due: '#C08B30',
+  mastered:   '#27AE60',
+}
+
+function StoriesStatusSection({ router }: { router: ReturnType<typeof import('next/navigation').useRouter> }) {
+  const [statuses, setStatuses] = useState<Record<number, StoryStatus>>({})
+
+  useEffect(() => {
+    const map: Record<number, StoryStatus> = {}
+    for (const s of magazineStories) map[s.id] = getStoryStatus(s.id)
+    setStatuses(map)
+  }, [])
+
+  const grouped = useMemo(() => {
+    const order: StoryStatus[] = ['review_due', 'learning', 'new', 'mastered']
+    const buckets: Record<StoryStatus, typeof magazineStories> = {
+      review_due: [], learning: [], new: [], mastered: [],
+    }
+    for (const s of magazineStories) {
+      const st = statuses[s.id] ?? 'new'
+      buckets[st].push(s)
+    }
+    return order.map(st => ({ status: st, stories: buckets[st] })).filter(g => g.stories.length > 0)
+  }, [statuses])
+
+  return (
+    <section style={{ marginBottom: 28 }}>
+      <SecLabel label="Stories" count={magazineStories.length} unit="Stories" />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {grouped.map(({ status, stories }) => (
+          <div key={status} style={{ ...glassCard, overflow: 'hidden' }}>
+            {/* Group header */}
+            <div style={{
+              padding: '10px 16px 8px',
+              display: 'flex', alignItems: 'center', gap: 8,
+              borderBottom: ROW_BORDER,
+            }}>
+              <span style={{
+                display: 'inline-block', width: 7, height: 7, borderRadius: '50%',
+                background: STATUS_COLOR[status], flexShrink: 0,
+              }} />
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: STATUS_COLOR[status] }}>
+                {STATUS_LABEL[status]}
+              </span>
+              <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500, marginLeft: 2 }}>
+                {stories.length}
+              </span>
+            </div>
+            {/* Story rows */}
+            {stories.map((s, i) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => router.push(`/patto/stories/${s.id}`)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  width: '100%', textAlign: 'left', background: 'none', border: 'none',
+                  cursor: 'pointer', padding: '10px 16px',
+                  borderTop: i === 0 ? 'none' : ROW_BORDER,
+                  fontFamily: 'inherit',
+                }}
+              >
+                <span style={{
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.08em',
+                  color: '#8E8E93', flexShrink: 0, minWidth: 40,
+                }}>
+                  S{String(s.id).padStart(2, '0')}
+                </span>
+                <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: 'var(--pt)', lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {s.title}
+                </span>
+                <ChevronRight style={{ width: 12, height: 12, color: '#C0C0C8', flexShrink: 0 }} strokeWidth={2} />
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function LibraryPage() {
@@ -482,6 +576,9 @@ export default function LibraryPage() {
 
   const savedItemsPanel = (
     <>
+      {/* Stories status */}
+      <StoriesStatusSection router={router} />
+
       {/* Saved Words */}
       <section style={{ marginBottom: 28 }}>
         <SecLabel label="Saved Words" count={words.length} unit="Words" />

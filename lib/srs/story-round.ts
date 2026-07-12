@@ -64,6 +64,30 @@ export function completeStoryRound(storyId: number): StoryRoundData {
   return data
 }
 
+export type StoryStatus = 'new' | 'learning' | 'review_due' | 'mastered'
+
+export function getStoryStatus(storyId: number): StoryStatus {
+  const data = getStoryRound(storyId)
+  if (data.isMastered) return 'mastered'
+  if (data.round === 0) return 'new'
+  const today = new Date().toISOString().slice(0, 10)
+  if (data.nextReviewAt && data.nextReviewAt <= today) return 'review_due'
+  return 'learning'
+}
+
+export function getTodayRecommendedStoryId(allStoryIds: number[]): number | null {
+  if (typeof window === 'undefined') return null
+  const today = new Date().toISOString().slice(0, 10)
+  for (const id of allStoryIds) {
+    const data = getStoryRound(id)
+    if (!data.isMastered && data.nextReviewAt && data.nextReviewAt <= today) return id
+  }
+  for (const id of allStoryIds) {
+    if (getStoryRound(id).round === 0) return id
+  }
+  return null
+}
+
 export function nextReviewLabel(data: StoryRoundData): string {
   if (data.isMastered) return ''
   const days = REVIEW_DAYS[data.round - 1]
