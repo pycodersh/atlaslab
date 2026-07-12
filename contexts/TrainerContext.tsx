@@ -448,6 +448,13 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     // If help card is open, close it
     if (card?.isHelp) { clearCard(); return }
 
+    if (sessionPhase === 'paused') {
+      // Resume from pause
+      setOrbState('waiting'); setTapMode('menu'); setSessionPhase('para-your-turn')
+      showMsg('Let\'s continue.', 2500)
+      return
+    }
+
     if (tapMode === 'menu') {
       if (sessionPhase !== 'inactive') {
         // Show help menu card
@@ -500,12 +507,25 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const handleMenuPause = useCallback(() => {
     clearCard(); cfg()?.stopAudio(); clearWaitTimer()
     setOrbState('paused'); setTapMode('done'); setSessionPhase('paused')
-    showMsg('Paused.', 99999)
-  }, [clearCard, showMsg])
+  }, [clearCard])
 
   const handleMenuExit = useCallback(() => {
-    clearCard(); cfg()?.stopAudio(); cfg()?.onExit(); endSession()
-  }, [clearCard, endSession])
+    clearCard()
+    showCard({
+      size: 'medium', message: 'Exit session?', priority: 1,
+      buttons: [
+        { label: 'Stay', onClick: () => {} },
+        {
+          label: 'Exit', primary: true,
+          onClick: () => {
+            cfg()?.stopAudio()
+            showMsg('See you.', 2000)
+            setTimeout(() => { cfg()?.onExit(); endSession() }, 1800)
+          },
+        },
+      ],
+    })
+  }, [clearCard, showCard, showMsg, endSession])
 
   // ── Context value ─────────────────────────────────────────────────────────
 

@@ -248,21 +248,24 @@ function GuideDock() {
           className={isExit ? cardOutClass : cardInClass}
           style={{
             ...cardStyle,
-            width:           activeCard.size === 'large' ? CARD_W_LG : CARD_W,
+            width:           activeCard.isHelp ? undefined : activeCard.size === 'large' ? CARD_W_LG : CARD_W,
             background:      cardBg,
             backdropFilter:  'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
             border:          cardBorder,
             boxShadow:       cardShadow,
-            borderRadius:    activeCard.size === 'small' ? 14
-                           : activeCard.size === 'medium' ? 16 : 18,
-            padding:         activeCard.size === 'small' ? '9px 13px'
+            borderRadius:    activeCard.isHelp
+                               ? (isOnRight ? '16px 16px 4px 16px' : '16px 16px 16px 4px')
+                               : activeCard.size === 'small' ? 14
+                               : activeCard.size === 'medium' ? 16 : 18,
+            padding:         activeCard.isHelp ? '12px 13px'
+                           : activeCard.size === 'small' ? '9px 13px'
                            : activeCard.size === 'medium' ? '13px 14px' : '16px',
             pointerEvents:   'auto',
           }}
         >
           {activeCard.isHelp
-            ? <HelpMenu ctx={ctx} dark={dark} textMain={textMain} textSub={textSub} textPri={textPri} />
+            ? <HelpMenu ctx={ctx} dark={dark} />
             : <CardContent
                 card={activeCard}
                 dark={dark}
@@ -421,31 +424,44 @@ function CardContent({
 
 // ── Help Menu card content ────────────────────────────────────────────────────
 
-const HELP_ITEMS: Array<{ label: string; icon: string; action: string; dim?: boolean }> = [
-  { label: 'Repeat', icon: '↩', action: 'repeat' },
-  { label: 'Skip',   icon: '⏩', action: 'skip'   },
-  { label: 'Pause',  icon: '⏸', action: 'pause'  },
-  { label: 'Exit',   icon: '✕', action: 'exit', dim: true },
-]
-
+import { IconRefresh, IconPlayerSkipForward, IconPlayerPause, IconX } from '@tabler/icons-react'
 import type { TrainerCtx } from '@/contexts/TrainerContext'
 
-function HelpMenu({ ctx, dark, textMain, textSub, textPri }: {
-  ctx: TrainerCtx | null
-  dark: boolean; textMain: string; textSub: string; textPri: string
+type HelpAction = 'repeat' | 'skip' | 'pause' | 'exit'
+const HELP_ITEMS: Array<{
+  label: string
+  Icon:  React.ComponentType<{ size?: number; strokeWidth?: number; style?: React.CSSProperties }>
+  action: HelpAction
+  exit?:  boolean
+}> = [
+  { label: 'Repeat', Icon: IconRefresh,           action: 'repeat' },
+  { label: 'Skip',   Icon: IconPlayerSkipForward, action: 'skip'   },
+  { label: 'Pause',  Icon: IconPlayerPause,       action: 'pause'  },
+  { label: 'Exit',   Icon: IconX,                 action: 'exit', exit: true },
+]
+
+function HelpMenu({ ctx, dark }: {
+  ctx:  TrainerCtx | null
+  dark: boolean
 }) {
-  const divider = dark ? 'rgba(142,167,255,0.08)' : 'rgba(142,167,255,0.10)'
+  const iconColor   = dark ? '#A6B8FF' : '#8EA7FF'
+  const iconExit    = dark ? 'rgba(255,255,255,0.40)' : '#ccc'
+  const textColor   = dark ? '#e8e0f8' : '#1a1a2e'
+  const textExit    = dark ? 'rgba(255,255,255,0.38)' : '#aaa'
+  const headerColor = '#8EA7FF'
+  const divider     = dark ? 'rgba(142,167,255,0.12)' : 'rgba(142,167,255,0.08)'
+
   return (
-    <div>
+    <div style={{ minWidth: 140 }}>
       <p style={{
-        margin: '0 0 8px', fontSize: 9, fontWeight: 700,
-        letterSpacing: '0.12em', textTransform: 'uppercase', color: textPri,
+        margin: '0 0 6px', fontSize: 9, fontWeight: 700,
+        letterSpacing: '0.1em', textTransform: 'uppercase', color: headerColor,
       }}>
         Need help?
       </p>
       {HELP_ITEMS.map((item, i) => (
         <div key={item.action}>
-          {i > 0 && <div style={{ height: 0, borderTop: `0.5px solid ${divider}`, margin: '2px 0' }} />}
+          {i > 0 && <div style={{ height: 0, borderTop: `0.5px solid ${divider}`, margin: '1px 0' }} />}
           <button
             onClick={() => {
               if      (item.action === 'repeat') ctx?.handleMenuRepeat()
@@ -454,16 +470,20 @@ function HelpMenu({ ctx, dark, textMain, textSub, textPri }: {
               else if (item.action === 'exit')   ctx?.handleMenuExit()
             }}
             style={{
-              display: 'flex', alignItems: 'center', gap: 9,
-              width: '100%', padding: '7px 2px',
+              display: 'flex', alignItems: 'center', gap: 8,
+              width: '100%', padding: '6px 0',
               background: 'none', border: 'none', cursor: 'pointer',
-              color: item.dim ? (dark ? 'rgba(255,255,255,0.35)' : '#bbb') : textMain,
-              fontSize: 13, fontWeight: 500, fontFamily: 'inherit',
-              textAlign: 'left',
+              fontFamily: 'inherit', textAlign: 'left',
             }}
           >
-            <span style={{ width: 16, textAlign: 'center', fontSize: 11, flexShrink: 0 }}>{item.icon}</span>
-            {item.label}
+            <item.Icon
+              size={14}
+              strokeWidth={1.8}
+              style={{ color: item.exit ? iconExit : iconColor, flexShrink: 0 }}
+            />
+            <span style={{ fontSize: 12, fontWeight: 500, color: item.exit ? textExit : textColor }}>
+              {item.label}
+            </span>
           </button>
         </div>
       ))}
