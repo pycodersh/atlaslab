@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine, Dumbbell } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -12,14 +12,13 @@ import type { MagazineStory } from '@/types/magazine'
 import { getAllRecords, todayStr, addDays } from '@/lib/srs/storage'
 import { getMissionItems } from '@/lib/srs/engine'
 import { getLastPosition } from '@/lib/last-position'
-import { getStoryStatus, getTodayRecommendedStoryId } from '@/lib/srs/story-round'
+import { getStoryStatus, getTodayRecommendedStoryId, getStoryRound } from '@/lib/srs/story-round'
 import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
 import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useT } from '@/hooks/useT'
 import { useTheme } from '@/components/ThemeProvider'
-import { TrainerHomePopup } from '@/components/TrainerHomePopup'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -623,6 +622,8 @@ export default function HomePage() {
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
   const [srsTodayId, setSrsTodayId] = useState<number | null>(null)
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
+  const [hasStudied, setHasStudied] = useState(false)
+  const [trainerSheetOpen, setTrainerSheetOpen] = useState(false)
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
@@ -744,6 +745,10 @@ export default function HomePage() {
     const ids = magazineStories.map(s => s.id)
     setSrsTodayId(getTodayRecommendedStoryId(ids))
     setSrsReviewIds(new Set(ids.filter(id => getStoryStatus(id) === 'review_due')))
+
+    // Trainer: has user studied today?
+    const todayDate = new Date().toISOString().slice(0, 10)
+    setHasStudied(magazineStories.some(s => getStoryRound(s.id).lastCompletedAt === todayDate))
   }, [])
 
   useEffect(() => {
@@ -784,7 +789,6 @@ export default function HomePage() {
   return (
     <div style={{ minHeight: '100dvh' }}>
       <TopNav />
-      <TrainerHomePopup />
 
       {/* ── Desktop shell ── */}
       <div className="desktop-max">
@@ -808,6 +812,7 @@ export default function HomePage() {
 
         {/* ── Hero Cover ── */}
         <div
+          className={!hasStudied ? 'patto-card-pulse' : undefined}
           style={{ position: 'relative', margin: '12px 20px 0', borderRadius: 20, overflow: 'hidden', height: 340 }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -868,6 +873,49 @@ export default function HomePage() {
               }
             </motion.button>
           </div>
+        </div>
+
+        {/* ── Trainer button below hero ── */}
+        <div style={{ margin: '8px 20px 0' }}>
+          {!hasStudied ? (
+            <motion.button
+              type="button"
+              onClick={() => setTrainerSheetOpen(true)}
+              style={{
+                width: '100%', height: 46, borderRadius: 14, border: 'none', cursor: 'pointer',
+                background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                fontSize: 14, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
+                boxShadow: '0 4px 18px rgba(107,143,255,0.35)',
+                letterSpacing: '0.01em',
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              <Dumbbell style={{ width: 16, height: 16 }} strokeWidth={2} />
+              트레이너와 함께 시작
+            </motion.button>
+          ) : (
+            <motion.button
+              type="button"
+              onClick={() => router.push(`/patto/stories/${todayStory.id}`)}
+              style={{
+                width: '100%', height: 46, borderRadius: 14, cursor: 'pointer',
+                background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.65)',
+                border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(142,167,255,0.25)'}`,
+                backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                fontSize: 14, fontWeight: 600,
+                color: isDark ? 'rgba(255,255,255,0.75)' : 'rgba(60,70,110,0.80)',
+                fontFamily: 'inherit', letterSpacing: '0.01em',
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              이어서 학습하기
+              <ArrowRight style={{ width: 14, height: 14 }} strokeWidth={2} />
+            </motion.button>
+          )}
         </div>
 
         {/* ── Summary Cards — NEW / REVIEW ── */}
@@ -1187,6 +1235,120 @@ export default function HomePage() {
 
       {/* ── PATTO GUIDE Modal ── */}
       {guideOpen && <GuideCarousel onClose={() => setGuideOpen(false)} />}
+
+      {/* ── Trainer Bottom Sheet ── */}
+      {trainerSheetOpen && (() => {
+        const storyRound = getStoryRound(todayStory.id)
+        const roundNum   = storyRound.round + 1
+        const sheetBg    = isDark ? 'rgba(22,18,46,0.97)' : 'rgba(255,255,255,0.92)'
+        const textPri    = isDark ? 'rgba(255,255,255,0.95)' : '#1a1a2e'
+        const textSec    = isDark ? 'rgba(255,255,255,0.50)' : 'rgba(60,60,100,0.62)'
+        const cardBg     = isDark ? 'rgba(107,143,255,0.12)' : 'rgba(107,143,255,0.08)'
+        const cardBd     = isDark ? 'rgba(107,143,255,0.25)' : 'rgba(107,143,255,0.18)'
+        return (
+          <>
+            <div
+              onClick={() => setTrainerSheetOpen(false)}
+              style={{
+                position: 'fixed', inset: 0, zIndex: 300,
+                background: 'rgba(20,16,50,0.25)',
+              }}
+            />
+            <div style={{
+              position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 301,
+              background: sheetBg,
+              backdropFilter: 'blur(30px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+              borderRadius: '20px 20px 0 0',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)'}`,
+              boxShadow: '0 -6px 32px rgba(20,16,50,0.18)',
+              padding: `16px 18px calc(28px + env(safe-area-inset-bottom, 0px))`,
+            }}>
+              {/* Handle */}
+              <div style={{
+                width: 32, height: 4, borderRadius: 99,
+                background: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(142,167,255,0.25)',
+                margin: '0 auto 18px',
+              }} />
+
+              {/* Header: icon + title */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                  background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 3px 12px rgba(107,143,255,0.35)',
+                }}>
+                  <Dumbbell style={{ width: 18, height: 18, color: '#fff' }} strokeWidth={2} />
+                </div>
+                <div>
+                  <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: 'rgba(107,143,255,0.80)', textTransform: 'uppercase' }}>
+                    PATTO 트레이너
+                  </p>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: textPri }}>
+                    함께 읽고, 듣고, 따라 말해볼게요! 💪
+                  </p>
+                </div>
+              </div>
+
+              {/* Story info card */}
+              <div style={{
+                marginBottom: 16, padding: '12px 14px',
+                borderRadius: 14, background: cardBg,
+                border: `1px solid ${cardBd}`,
+                display: 'flex', alignItems: 'center', gap: 12,
+              }}>
+                <div style={{ width: 40, height: 40, borderRadius: 9, flexShrink: 0, overflow: 'hidden' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={todayStory.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: '0 0 1px', fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'rgba(107,143,255,0.80)' }}>
+                    Story {String(todayStory.id).padStart(2, '0')} · {roundNum}회차
+                  </p>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: textPri, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {todayStory.title}
+                  </p>
+                  <p style={{ margin: '2px 0 0', fontSize: 11, color: textSec }}>
+                    패턴 {todayStory.patterns.length}개
+                  </p>
+                </div>
+              </div>
+
+              {/* Start button */}
+              <button
+                type="button"
+                onClick={() => { setTrainerSheetOpen(false); router.push(`/patto/stories/${todayStory.id}`) }}
+                style={{
+                  width: '100%', height: 50, borderRadius: 14, border: 'none', cursor: 'pointer',
+                  background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
+                  fontSize: 15, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
+                  boxShadow: '0 4px 18px rgba(107,143,255,0.38)',
+                  letterSpacing: '0.01em', marginBottom: 6,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                }}
+              >
+                <Dumbbell style={{ width: 17, height: 17 }} strokeWidth={2} />
+                시작하기
+              </button>
+
+              {/* Dismiss */}
+              <button
+                type="button"
+                onClick={() => setTrainerSheetOpen(false)}
+                style={{
+                  width: '100%', height: 40, borderRadius: 12, border: 'none', cursor: 'pointer',
+                  background: 'transparent', fontSize: 13, fontWeight: 600,
+                  color: isDark ? 'rgba(255,255,255,0.30)' : 'rgba(80,80,120,0.40)',
+                  fontFamily: 'inherit',
+                }}
+              >
+                나중에 하기
+              </button>
+            </div>
+          </>
+        )
+      })()}
     </div>
   )
 }

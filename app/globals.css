@@ -105,6 +105,15 @@
   animation: patto-pulse 1.4s ease-in-out infinite;
 }
 
+@keyframes patto-card-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(107,143,255,0.40), 0 4px 20px rgba(30,40,60,0.10); }
+  50%       { box-shadow: 0 0 0 10px rgba(107,143,255,0),  0 4px 20px rgba(30,40,60,0.10); }
+}
+.patto-card-pulse {
+  animation: patto-card-pulse 2s ease-in-out infinite;
+  border: 1.5px solid rgba(107,143,255,0.45) !important;
+}
+
 
 /* ── Stable full-screen height (iOS Safari safe) ────────────────────────
    dvh changes as Safari toolbar collapses → causes layout reflow mid-scroll.
