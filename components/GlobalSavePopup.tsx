@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { subscribeSavePopup, closeSavePopup, type PopupItem } from '@/lib/words/popupStore'
 import { saveWord, savePhrase } from '@/lib/words/storage'
 import { useT } from '@/hooks/useT'
@@ -12,10 +12,18 @@ import { useTrainerSafe } from '@/contexts/TrainerContext'
  */
 export function GlobalSavePopup() {
   const trainer = useTrainerSafe()
+  const trainerRef = useRef(trainer)
   const t = useT()
+  const tRef = useRef(t)
+
+  // Update refs synchronously in render body so subscribe callback always sees latest values
+  trainerRef.current = trainer
+  tRef.current = t
 
   useEffect(() => {
     return subscribeSavePopup((item: PopupItem | null) => {
+      const trainer = trainerRef.current
+      const t = tRef.current
       if (!item || !trainer) return
 
       const wordDisplay = item.word.length > 20 ? item.word.slice(0, 18) + '…' : item.word
@@ -91,8 +99,7 @@ export function GlobalSavePopup() {
         )
       }
     })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trainer])
+  }, []) // subscribe once; trainer/t accessed via refs
 
   return null
 }
