@@ -197,14 +197,16 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     trainer?.setCardPlaying(false)
     trainer?.clearMessage()
     clearFlowTimers()
+    const doStoryDone = () => {
+      clearFlowTimers()
+      trainer?.say('Nice.', 1200)
+      setTimeout(() => {
+        patternSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 1200)
+    }
     setTimeout(() => {
-      trainer?.say('Your turn.', 3200)
-      yourTurnTimerRef.current = setTimeout(() => {
-        trainer?.say('Nice.', 1200)
-        setTimeout(() => {
-          patternSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }, 1200)
-      }, 3200)
+      trainer?.showFlow('Your turn.', [{ label: 'Done', btnVariant: 'done', onClick: doStoryDone }])
+      yourTurnTimerRef.current = setTimeout(doStoryDone, 3200)
     }, 200)
   }
 
@@ -216,24 +218,26 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     clearFlowTimers()
 
     if (phase === 'patterns') {
+      const doPatternDone = () => {
+        clearFlowTimers()
+        trainer?.say('Nice.', 1200)
+        setTimeout(() => {
+          if (isLast) {
+            trainer?.say('Great.', 1500)
+            setTimeout(() => {
+              if (flowPhaseRef.current === 'patterns') {
+                saveSessionProgress(story.id, 'hide-recall', 1)
+                setFlowPhase('hide-recall')
+              }
+            }, 1500)
+          } else {
+            patternGoNextRef.current?.()
+          }
+        }, 1400)
+      }
       setTimeout(() => {
-        trainer?.say('Your turn.', 3200)
-        yourTurnTimerRef.current = setTimeout(() => {
-          trainer?.say('Nice.', 1200)
-          setTimeout(() => {
-            if (isLast) {
-              trainer?.say('Great.', 1500)
-              setTimeout(() => {
-                if (flowPhaseRef.current === 'patterns') {
-                  saveSessionProgress(story.id, 'hide-recall', 1)
-                  setFlowPhase('hide-recall')
-                }
-              }, 1500)
-            } else {
-              patternGoNextRef.current?.()
-            }
-          }, 1400)
-        }, 3200)
+        trainer?.showFlow('Your turn.', [{ label: 'Done', btnVariant: 'done', onClick: doPatternDone }])
+        yourTurnTimerRef.current = setTimeout(doPatternDone, 3200)
       }, 200)
     } else if (phase === 'hide-recall') {
       // After replay in inactivity card — show Your Turn card again
