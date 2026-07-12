@@ -24,6 +24,21 @@ import { saveLastPosition } from '@/lib/last-position'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { getStoryRound, getRecallCount, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
+import { useTheme } from '@/components/ThemeProvider'
+
+// ── Session progress (resume mid-session) ────────────────────────────────────
+type SessionProgress = { phase: 'patterns' | 'hide-recall'; recallRound: number }
+
+function getSessionProgress(storyId: number): SessionProgress | null {
+  if (typeof window === 'undefined') return null
+  try { const v = localStorage.getItem(`patto-session-${storyId}`); return v ? JSON.parse(v) : null } catch { return null }
+}
+function saveSessionProgress(storyId: number, phase: SessionProgress['phase'], recallRound: number) {
+  try { localStorage.setItem(`patto-session-${storyId}`, JSON.stringify({ phase, recallRound })) } catch {}
+}
+function clearSessionProgress(storyId: number) {
+  try { localStorage.removeItem(`patto-session-${storyId}`) } catch {}
+}
 
 type MagazineEngineProps = {
   story: MagazineStory
@@ -35,6 +50,8 @@ type MagazineEngineProps = {
 export function MagazineEngine({ story, allStories, patternExamples }: MagazineEngineProps) {
   const router = useRouter()
   const isDesktop = useIsDesktop()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const { speakAll, stop, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
@@ -71,6 +88,11 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const [hideRecallRound,setHideRecallRound] = useState(1)
   const [toast,         setToast]         = useState<string | null>(null)
   const [completionData,setCompletionData]= useState<StoryRoundData | null>(null)
+  const [patternIdx,    setPatternIdx]    = useState(0)
+  // Exit interception popup
+  const [exitPopupVisible,    setExitPopupVisible]    = useState(false)
+  const [exitPopupPendingHref,setExitPopupPendingHref]= useState<string | null>(null)
+  const shouldBlockNavRef = useRef(false)
   const mobileScrollRef = useRef<HTMLDivElement>(null)
   const patternSectionRef = useRef<HTMLDivElement>(null)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -81,14 +103,24 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const totalRecall    = getRecallCount(currentRound)  // recall rounds this session
   const isFirstRound   = currentRound === 0
 
-  // Reset flow when story changes
+  // Reset flow when story changes (restore session progress if available)
   useEffect(() => {
-    setFlowPhase('reading')
-    setScrolledToEnd(false)
+    const saved = getSessionProgress(story.id)
+    if (saved) {
+      setFlowPhase(saved.phase)
+      setHideRecallRound(saved.recallRound)
+      setScrolledToEnd(true)
+    } else {
+      setFlowPhase('reading')
+      setScrolledToEnd(false)
+      setHideRecallRound(1)
+    }
     setShowSwipeGuide(false)
-    setHideRecallRound(1)
     setToast(null)
     setCompletionData(null)
+    setPatternIdx(0)
+    setExitPopupVisible(false)
+    setExitPopupPendingHref(null)
   }, [story.id])
 
   function showToast(msg: string) {
@@ -118,15 +150,58 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     if (scrolledToEnd && isFirstRound && flowPhase === 'reading') {
       setFlowPhase('patterns')
       setShowSwipeGuide(true)
+      saveSessionProgress(story.id, 'patterns', 1)
     } else if (scrolledToEnd && !isFirstRound && flowPhase === 'reading') {
       setFlowPhase('patterns')
+      saveSessionProgress(story.id, 'patterns', 1)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrolledToEnd])
 
+  // Keep shouldBlockNav ref in sync
+  useEffect(() => {
+    const hasProgress = isSpeaking || scrolledToEnd || flowPhase !== 'reading'
+    shouldBlockNavRef.current = hasProgress && flowPhase !== 'complete'
+  }, [isSpeaking, scrolledToEnd, flowPhase])
+
+  // Intercept browser back button
+  useEffect(() => {
+    // Push a sentinel so the first back-press fires popstate instead of leaving
+    window.history.pushState(null, '', window.location.href)
+    const handler = () => {
+      if (shouldBlockNavRef.current) {
+        window.history.pushState(null, '', window.location.href)
+        setExitPopupVisible(true)
+        setExitPopupPendingHref(null)
+      }
+    }
+    window.addEventListener('popstate', handler)
+    return () => window.removeEventListener('popstate', handler)
+  }, [story.id])
+
+  // Intercept tab-bar link clicks
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!shouldBlockNavRef.current) return
+      const a = (e.target as Element).closest('a[href]') as HTMLAnchorElement | null
+      if (!a) return
+      const href = a.getAttribute('href') ?? ''
+      // Tab destinations: /patto/home, /patto/records, /patto/essays, /patto/library
+      if (href.startsWith('/patto/') && !href.startsWith('/patto/stories')) {
+        e.preventDefault()
+        e.stopPropagation()
+        setExitPopupPendingHref(href)
+        setExitPopupVisible(true)
+      }
+    }
+    document.addEventListener('click', handler, { capture: true })
+    return () => document.removeEventListener('click', handler, { capture: true })
+  }, [])
+
   // All patterns seen → start hide-recall automatically
   const handleAllPatternsSeen = useCallback(() => {
     if (flowPhase !== 'patterns') return
+    saveSessionProgress(story.id, 'hide-recall', 1)
     if (isFirstRound) {
       showToast('이제 직접 떠올려볼게요 💪')
       setTimeout(() => setFlowPhase('hide-recall'), 1800)
@@ -134,17 +209,19 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       setTimeout(() => setFlowPhase('hide-recall'), 600)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flowPhase, isFirstRound])
+  }, [flowPhase, isFirstRound, story.id])
 
   // Recall round complete
   const handleRecallRoundComplete = useCallback(() => {
     if (hideRecallRound < totalRecall) {
       const next = hideRecallRound + 1
+      saveSessionProgress(story.id, 'hide-recall', next)
       const msgs = ['한 번 더 해볼게요 🔄', '마지막이에요! 끝까지 화이팅 🎯']
       showToast(msgs[next - 2] ?? '계속해봐요!')
       setTimeout(() => setHideRecallRound(next), 1600)
     } else {
       // All recall rounds done → complete
+      clearSessionProgress(story.id)
       const data = completeStoryRound(story.id)
       setCompletionData(data)
       setFlowPhase('complete')
@@ -222,9 +299,18 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const allStoriesRef = useRef(allStories)
   useEffect(() => { allStoriesRef.current = allStories }, [allStories])
 
+  function tryNavigate(href: string) {
+    if (shouldBlockNavRef.current) {
+      setExitPopupPendingHref(href)
+      setExitPopupVisible(true)
+    } else {
+      handleStop()
+      router.push(href)
+    }
+  }
+
   function goToStory(id: number) {
-    handleStop()
-    router.push(`/patto/stories/${id}`)
+    tryNavigate(`/patto/stories/${id}`)
   }
 
   function goNext() {
@@ -257,10 +343,10 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     const THRESHOLD = (typeof window !== 'undefined' ? window.innerWidth : 375) * 0.2
     if (dx < -THRESHOLD) {
       const next = allStoriesRef.current.find(x => x.id === story.id + 1)
-      if (next) { handleStop(); router.push(`/patto/stories/${next.id}`) }
+      if (next) tryNavigate(`/patto/stories/${next.id}`)
     } else if (dx > THRESHOLD) {
       const prev = allStoriesRef.current.find(x => x.id === story.id - 1)
-      if (prev) { handleStop(); router.push(`/patto/stories/${prev.id}`) }
+      if (prev) tryNavigate(`/patto/stories/${prev.id}`)
     }
   }
 
@@ -410,6 +496,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
           recallRound={hideRecallRound}
           totalRecallRounds={totalRecall}
           onRecallRoundComplete={handleRecallRoundComplete}
+          onPatternIndexChange={setPatternIdx}
         />
       )}
     </div>
@@ -482,6 +569,114 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     </div>
   ) : null
 
+  // ── Exit popup message by phase ─────────────────────────────────────
+  function getExitMsg(): { title: string; sub: string } {
+    if (isSpeaking) return {
+      title: '듣기가 완료되지 않았어요! 🎧',
+      sub: '끝까지 들으면 발음이 훨씬 자연스러워져요',
+    }
+    if (flowPhase === 'reading') return {
+      title: '아직 스토리를 다 읽지 않았어요! 📖',
+      sub: '조금만 더 읽으면 패턴 학습으로 넘어가요',
+    }
+    if (flowPhase === 'patterns') {
+      const remaining = story.patterns.length - patternIdx
+      return {
+        title: `패턴 ${remaining}개 남았어요! 거의 다 왔어요 💪`,
+        sub: `${story.patterns.length}개 패턴을 모두 확인해야 다음 단계로 가요`,
+      }
+    }
+    // hide-recall
+    const remaining = totalRecall - hideRecallRound + 1
+    return {
+      title: `${remaining}라운드만 더 하면 오늘 학습 완료예요! 🎯`,
+      sub: '조금만 더 힘내요, 거의 다 했어요!',
+    }
+  }
+
+  const exitMsg = getExitMsg()
+
+  function handleExitConfirm() {
+    setExitPopupVisible(false)
+    handleStop()
+    if (exitPopupPendingHref) {
+      router.push(exitPopupPendingHref)
+    } else {
+      router.push('/patto/home')
+    }
+  }
+
+  const sheetBg = isDark ? 'rgba(22,18,46,0.97)' : 'rgba(255,255,255,0.94)'
+  const textPri = isDark ? 'rgba(255,255,255,0.95)' : '#1a1a2e'
+  const textSec = isDark ? 'rgba(255,255,255,0.52)' : 'rgba(60,60,100,0.62)'
+
+  const exitPopupEl = exitPopupVisible ? (
+    <>
+      <div
+        onClick={() => setExitPopupVisible(false)}
+        style={{
+          position: 'fixed', inset: 0, zIndex: 400,
+          background: 'rgba(20,16,50,0.50)',
+          backdropFilter: 'blur(6px)',
+          WebkitBackdropFilter: 'blur(6px)',
+        }}
+      />
+      <div style={{
+        position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 401,
+        background: sheetBg,
+        backdropFilter: 'blur(30px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+        borderRadius: '24px 24px 0 0',
+        border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)'}`,
+        boxShadow: '0 -8px 40px rgba(20,16,50,0.22)',
+        padding: `24px 20px calc(36px + env(safe-area-inset-bottom, 0px))`,
+      }}>
+        <div style={{
+          width: 36, height: 4, borderRadius: 99,
+          background: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(142,167,255,0.22)',
+          margin: '0 auto 20px',
+        }} />
+        <h3 style={{
+          margin: '0 0 6px', fontSize: 17, fontWeight: 800,
+          color: textPri, lineHeight: 1.3, letterSpacing: '-0.01em',
+        }}>
+          {exitMsg.title}
+        </h3>
+        <p style={{
+          margin: '0 0 20px', fontSize: 13, lineHeight: 1.6,
+          color: textSec, fontWeight: 400,
+        }}>
+          {exitMsg.sub}
+        </p>
+        <button
+          type="button"
+          onClick={() => setExitPopupVisible(false)}
+          style={{
+            width: '100%', height: 50, borderRadius: 16, border: 'none', cursor: 'pointer',
+            background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
+            fontSize: 15, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
+            boxShadow: '0 4px 20px rgba(107,143,255,0.38)',
+            marginBottom: 8,
+          }}
+        >
+          계속 학습하기
+        </button>
+        <button
+          type="button"
+          onClick={handleExitConfirm}
+          style={{
+            width: '100%', height: 44, borderRadius: 14, border: 'none', cursor: 'pointer',
+            background: 'transparent', fontSize: 14, fontWeight: 600,
+            color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(80,80,120,0.42)',
+            fontFamily: 'inherit',
+          }}
+        >
+          나갈게요
+        </button>
+      </div>
+    </>
+  ) : null
+
   return (
     <div
       ref={mobileScrollRef}
@@ -509,6 +704,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       />
       {toastEl}
       {recoDialogEl}
+      {exitPopupEl}
       {sharedPopups}
     </div>
   )

@@ -38,6 +38,8 @@ type Props = {
   totalRecallRounds?: number
   /** Called when user has revealed+seen all cards in one recall round */
   onRecallRoundComplete?: () => void
+  /** Called whenever the visible pattern card index changes (0-based) */
+  onPatternIndexChange?: (idx: number) => void
 }
 
 function resolveExamples(
@@ -68,6 +70,7 @@ export function PatternsSectionInline({
   recallRound = 1,
   totalRecallRounds = 3,
   onRecallRoundComplete,
+  onPatternIndexChange,
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -109,6 +112,12 @@ export function PatternsSectionInline({
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hideRecallMode, recallRound])
+
+  // Report pattern index change to parent
+  useEffect(() => {
+    if (!hideRecallMode) onPatternIndexChange?.(patIdx)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [patIdx, hideRecallMode])
 
   // Fire onAllPatternsSeen (view mode) when last card reached
   useEffect(() => {
