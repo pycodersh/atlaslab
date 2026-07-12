@@ -2,7 +2,7 @@
 
 import {
   createContext, useContext, useState, useCallback,
-  useRef, useEffect, type ReactNode,
+  useRef, type ReactNode,
 } from 'react'
 import {
   type TrainerPage, type OrbState, type OrbTapMode,
@@ -14,48 +14,82 @@ import {
   waitDurationMs, recordPaceSample,
 } from '@/lib/trainer/store'
 
-// ── Public API ────────────────────────────────────────────────────────────────
+// ── Card types ────────────────────────────────────────────────────────────────
+
+export type CardSize = 'small' | 'medium' | 'large'
+
+/** Button inside a Conversation Card */
+export interface DockButton {
+  label:    string
+  onClick:  () => void
+  primary?: boolean
+}
+
+/** Backward-compat alias */
+export type BubbleButton = DockButton
+
+/** Message priority: 1 = session flow, 2 = user action, 3 = notification */
+export type MsgPriority = 1 | 2 | 3
+
+export interface CardSpec {
+  id:       number        // unique key for animation reset
+  size:     CardSize
+  message:  string
+  subtext?: string        // large card subtitle
+  buttons?: DockButton[]
+  priority: MsgPriority
+  ms?:      number        // auto-dismiss after N ms (small/medium); undefined = manual
+  isHelp?:  boolean       // help menu card (special rendering)
+}
+
+// ── Re-exports ────────────────────────────────────────────────────────────────
 
 export type { TrainerPage, OrbState, OrbTapMode, SessionPhase }
 
-/** A button rendered inside the trainer bubble */
-export interface BubbleButton { label: string; onClick: () => void; primary?: boolean }
-
-/** Message priority: 1=session flow, 2=user action confirm, 3=notification */
-export type MsgPriority = 1 | 2 | 3
-
-interface QueuedMsg { msg: string; ms: number; priority: MsgPriority; buttons?: BubbleButton[] }
+// ── Public Context API ────────────────────────────────────────────────────────
 
 export interface TrainerCtx {
-  // ── Display (unchanged API for non-story pages) ──────────────────────────
-  message: string | null
-  bubbleButtons: BubbleButton[] | null
-  isActive: boolean
-  isPulsing: boolean
-  page: TrainerPage
+  // ── Card state ───────────────────────────────────────────────────────────
+  card:         CardSpec | null
 
-  showMessage: (msg: string, ms?: number) => void
-  showAction:  (msg: string, buttons: BubbleButton[], ms?: number) => void
+  // Backward-compat derived fields
+  message:      string | null
+  bubbleButtons:DockButton[] | null
+  isActive:     boolean
+  isPulsing:    boolean
+  page:         TrainerPage
+
+  // ── New card methods ─────────────────────────────────────────────────────
+  /** Small card — text only, auto-dismiss */
+  say:      (msg: string, ms?: number) => void
+  /** Medium card — text + inline buttons */
+  ask:      (msg: string, buttons: DockButton[], subtext?: string) => void
+  /** Large card — text + subtext + full-width button */
+  announce: (msg: string, subtext: string, btnLabel: string, onAction: () => void) => void
+
+  // Backward-compat aliases
+  showMessage:  (msg: string, ms?: number) => void
+  showAction:   (msg: string, buttons: DockButton[], ms?: number) => void
   clearMessage: () => void
   setSilent:    (v: boolean) => void
   triggerPulse: () => void
   setPage:      (p: TrainerPage) => void
 
-  // ── Orb visual & interaction state ──────────────────────────────────────
+  // ── Orb state ────────────────────────────────────────────────────────────
   orbState:    OrbState
   tapMode:     OrbTapMode
-  isMenuOpen:  boolean
+  isMenuOpen:  boolean     // legacy — now replaced by isHelp card
 
-  // ── Session info (read-only, for TrainerButton) ──────────────────────────
+  // ── Session info ─────────────────────────────────────────────────────────
   sessionPhase:      SessionPhase
   currentParaIdx:    number
   currentPatternIdx: number
 
-  // ── Session control (called from MagazineEngine) ──────────────────────────
-  startSession:    (cfg: TrainerSessionConfig) => void
-  endSession:      () => void
+  // ── Session control ──────────────────────────────────────────────────────
+  startSession: (cfg: TrainerSessionConfig) => void
+  endSession:   () => void
 
-  // ── Orb tap + menu (called from TrainerButton) ───────────────────────────
+  // ── Orb interaction ──────────────────────────────────────────────────────
   handleOrbTap:     () => void
   closeMenu:        () => void
   handleMenuRepeat: () => void
@@ -64,7 +98,7 @@ export interface TrainerCtx {
   handleMenuExit:   () => void
 }
 
-// ── Context object ────────────────────────────────────────────────────────────
+// ── Context ───────────────────────────────────────────────────────────────────
 
 export const TrainerContext = createContext<TrainerCtx | null>(null)
 
@@ -73,30 +107,33 @@ export function useTrainer(): TrainerCtx {
   if (!ctx) throw new Error('useTrainer: missing TrainerProvider')
   return ctx
 }
-
 export function useTrainerSafe(): TrainerCtx | null {
   return useContext(TrainerContext)
 }
+// Alias for the new naming
+export const useGuideDock  = useTrainerSafe
 
-// ── Provider + state machine ──────────────────────────────────────────────────
+// ── Provider ──────────────────────────────────────────────────────────────────
+
+let _cardId = 0
+const nextId = () => ++_cardId
+
+type QueuedCard = Omit<CardSpec, 'id'>
 
 export function TrainerStateProvider({ children }: { children: ReactNode }) {
-  // ── Display state ────────────────────────────────────────────────────────
-  const [message,       setMessage]       = useState<string | null>(null)
-  const [bubbleButtons, setBubbleButtons] = useState<BubbleButton[] | null>(null)
-  const [isActive,      setIsActive]      = useState(false)
-  const [isPulsing,     setIsPulsing]     = useState(false)
-  const [page,          setPageState]     = useState<TrainerPage>('other')
+  // ── Display ──────────────────────────────────────────────────────────────
+  const [card,      setCard]      = useState<CardSpec | null>(null)
+  const [isPulsing, setIsPulsing] = useState(false)
+  const [page,      setPageState] = useState<TrainerPage>('other')
 
-  // ── Session state ────────────────────────────────────────────────────────
+  // ── Session ──────────────────────────────────────────────────────────────
   const [orbState,          setOrbState]          = useState<OrbState>('idle')
   const [tapMode,           setTapMode]           = useState<OrbTapMode>('menu')
-  const [isMenuOpen,        setMenuOpen]          = useState(false)
   const [sessionPhase,      setSessionPhase]      = useState<SessionPhase>('inactive')
   const [currentParaIdx,    setCurrentParaIdx]    = useState(0)
   const [currentPatternIdx, setCurrentPatternIdx] = useState(0)
 
-  // ── Internal refs ────────────────────────────────────────────────────────
+  // ── Refs ─────────────────────────────────────────────────────────────────
   const silentRef         = useRef(false)
   const dismissRef        = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pulseRef          = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -104,57 +141,72 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const waitFiresRef      = useRef(0)
   const cfgRef            = useRef<TrainerSessionConfig | null>(null)
   const tapStartRef       = useRef<number>(0)
-  const activePriorityRef = useRef<MsgPriority | 0>(0)   // 0 = nothing active
-  const msgQueueRef       = useRef<QueuedMsg[]>([])
+  const activePriorityRef = useRef<MsgPriority | 0>(0)
+  const queueRef          = useRef<QueuedCard[]>([])
 
-  // ── Helpers ──────────────────────────────────────────────────────────────
+  // ── Card helpers ─────────────────────────────────────────────────────────
 
   function clearWaitTimer() {
     if (waitTimerRef.current) { clearTimeout(waitTimerRef.current); waitTimerRef.current = null }
     waitFiresRef.current = 0
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const processQueue = useCallback(() => {
-    const next = msgQueueRef.current.shift()
-    if (!next) return
-    activePriorityRef.current = next.priority
-    setMessage(next.msg)
-    setBubbleButtons(next.buttons ?? null)
-    setIsActive(true)
-    dismissRef.current = setTimeout(() => {
-      setMessage(null); setBubbleButtons(null); setIsActive(false)
-      activePriorityRef.current = 0
-      processQueue()
-    }, next.ms)
+    const next = queueRef.current.shift()
+    if (!next) { activePriorityRef.current = 0; return }
+    const spec: CardSpec = { ...next, id: nextId() }
+    activePriorityRef.current = spec.priority
+    setCard(spec)
+    if (spec.ms) {
+      dismissRef.current = setTimeout(() => {
+        setCard(null)
+        processQueue()
+      }, spec.ms)
+    }
   }, [])
 
-  /** Internal: session-flow messages (priority 1). Always preempts lower priority. */
+  const showCard = useCallback((spec: QueuedCard) => {
+    if (silentRef.current && spec.priority === 3) return
+    if (spec.priority > activePriorityRef.current && activePriorityRef.current !== 0) {
+      queueRef.current.push(spec)
+      return
+    }
+    if (dismissRef.current) clearTimeout(dismissRef.current)
+    const full: CardSpec = { ...spec, id: nextId() }
+    activePriorityRef.current = spec.priority
+    setCard(full)
+    if (spec.ms) {
+      dismissRef.current = setTimeout(() => {
+        setCard(null)
+        processQueue()
+      }, spec.ms)
+    }
+  }, [processQueue])
+
+  /** Session-flow small card (priority 1, always preempts) */
   const showMsg = useCallback((msg: string, ms = 2500) => {
     if (silentRef.current) return
     if (dismissRef.current) clearTimeout(dismissRef.current)
+    const full: CardSpec = { id: nextId(), size: 'small', message: msg, priority: 1, ms }
     activePriorityRef.current = 1
-    setMessage(msg)
-    setBubbleButtons(null)
-    setIsActive(true)
+    setCard(full)
     dismissRef.current = setTimeout(() => {
-      setMessage(null); setBubbleButtons(null); setIsActive(false)
-      activePriorityRef.current = 0
+      setCard(null)
       processQueue()
     }, ms)
   }, [processQueue])
 
-  const clearMsg = useCallback(() => {
+  const clearCard = useCallback(() => {
     if (dismissRef.current) clearTimeout(dismissRef.current)
-    setMessage(null); setBubbleButtons(null); setIsActive(false)
+    setCard(null)
     activePriorityRef.current = 0
     processQueue()
   }, [processQueue])
 
   const setSilentFn = useCallback((v: boolean) => {
     silentRef.current = v
-    if (v) { clearMsg(); msgQueueRef.current = [] }
-  }, [clearMsg])
+    if (v) { clearCard(); queueRef.current = [] }
+  }, [clearCard])
 
   const triggerPulse = useCallback(() => {
     if (pulseRef.current) clearTimeout(pulseRef.current)
@@ -164,52 +216,66 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const setPage = useCallback((p: TrainerPage) => {
     setPageState(p)
-    clearMsg()
+    clearCard()
     silentRef.current = false
-  }, [clearMsg])
+  }, [clearCard])
+
+  // ── New card API ─────────────────────────────────────────────────────────
+
+  const say = useCallback((msg: string, ms = 2000) => {
+    showCard({ size: 'small', message: msg, priority: 3, ms })
+  }, [showCard])
+
+  const ask = useCallback((msg: string, buttons: DockButton[], subtext?: string) => {
+    showCard({ size: 'medium', message: msg, buttons, subtext, priority: 2, ms: 12000 })
+  }, [showCard])
+
+  const announce = useCallback((msg: string, subtext: string, btnLabel: string, onAction: () => void) => {
+    showCard({
+      size: 'large', message: msg, subtext, priority: 2,
+      buttons: [{ label: btnLabel, primary: true, onClick: () => { clearCard(); onAction() } }],
+    })
+  }, [showCard, clearCard])
+
+  // ── Backward-compat ──────────────────────────────────────────────────────
+
+  const showMessage = useCallback((msg: string, ms = 2500) => {
+    showCard({ size: 'small', message: msg, priority: 3, ms })
+  }, [showCard])
+
+  const showAction = useCallback((msg: string, buttons: DockButton[], ms = 12000) => {
+    showCard({ size: 'medium', message: msg, buttons, priority: 2, ms })
+  }, [showCard])
 
   // ── Session phase helpers ─────────────────────────────────────────────────
 
-  const cfg      = () => cfgRef.current
-  const tier     = (): GuidanceTier => guidanceTier(cfgRef.current?.round ?? 0)
+  const cfg  = () => cfgRef.current
+  const tier = (): GuidanceTier => guidanceTier(cfgRef.current?.round ?? 0)
 
-  /** Go to a specific phase and update persisted progress */
   const goPhase = useCallback((phase: SessionPhase, paraIdx?: number, patIdx?: number) => {
     setSessionPhase(phase)
-    const c = cfgRef.current
-    if (!c) return
-    const pi  = paraIdx    ?? currentParaIdx
-    const pti = patIdx     ?? currentPatternIdx
-    if (paraIdx    !== undefined) setCurrentParaIdx(paraIdx)
-    if (patIdx     !== undefined) setCurrentPatternIdx(patIdx)
+    const c = cfgRef.current; if (!c) return
+    if (paraIdx  !== undefined) setCurrentParaIdx(paraIdx)
+    if (patIdx   !== undefined) setCurrentPatternIdx(patIdx)
+    const pi  = paraIdx  ?? currentParaIdx
+    const pti = patIdx   ?? currentPatternIdx
     if (phase !== 'inactive' && phase !== 'paused' && phase !== 'session-done') {
       saveSessionProgress({ storyId: c.storyId, phase, paraIdx: pi, patternIdx: pti, savedAt: Date.now() })
     }
   }, [currentParaIdx, currentPatternIdx])
 
-  // ── Core flow transitions ─────────────────────────────────────────────────
+  // ── Para flow ─────────────────────────────────────────────────────────────
 
-  /** Start listening to paragraph `idx` */
   const startParaListen = useCallback((idx: number) => {
     const c = cfg(); if (!c) return
     setCurrentParaIdx(idx)
     setOrbState('guiding')
     setTapMode('menu')
     clearWaitTimer()
-
-    const t = tier()
-    if (t !== 'silent') showMsg('Listen.', 3000)
-
+    if (tier() !== 'silent') showMsg('Listen.', 3000)
     goPhase('para-listen', idx)
     c.scrollToParagraph(idx)
-
-    // Small delay so scroll settles, then play
-    setTimeout(() => {
-      c.playParagraphAudio(idx, () => {
-        // Audio ended → "Your turn."
-        startParaYourTurn(idx)
-      })
-    }, 400)
+    setTimeout(() => c.playParagraphAudio(idx, () => startParaYourTurn(idx)), 400)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goPhase, showMsg])
 
@@ -220,23 +286,16 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     setOrbState('waiting')
     setTapMode('done')
     clearWaitTimer()
-
     if (t === 'full' || t === 'lite') showMsg('Your turn.', 4000)
     goPhase('para-your-turn', idx)
-
-    // 5-second no-action timer
     const waitMs = waitDurationMs(c.storyId)
     const scheduleWait = (fires: number) => {
       waitTimerRef.current = setTimeout(() => {
         if (fires === 0) {
           showMsg('Need another listen?', 3000)
-          // Re-play after message
-          setTimeout(() => {
-            c.playParagraphAudio(idx, () => startParaYourTurn(idx))
-          }, 1500)
+          setTimeout(() => c.playParagraphAudio(idx, () => startParaYourTurn(idx)), 1500)
         } else {
           showMsg('Take your time.', 5000)
-          // Stay in waiting forever — user must tap
         }
         waitFiresRef.current = fires + 1
         if (fires === 0) scheduleWait(1)
@@ -246,21 +305,14 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goPhase, showMsg])
 
-  /** User tapped Orb to confirm para spoken */
   const confirmParaDone = useCallback(() => {
     const c = cfg(); if (!c) return
     clearWaitTimer()
-    // Record pace
-    if (tapStartRef.current) {
-      recordPaceSample(c.storyId, Date.now() - tapStartRef.current)
-    }
+    if (tapStartRef.current) recordPaceSample(c.storyId, Date.now() - tapStartRef.current)
     const t = tier()
     if (t === 'full' || t === 'lite') showMsg('Nice.', 900)
-    setOrbState('idle')
-    setTapMode('menu')
+    setOrbState('idle'); setTapMode('menu')
     goPhase('para-nice', currentParaIdx)
-
-    // Auto-advance to next para or story-done
     const delay = (t === 'full' || t === 'lite') ? 1000 : 300
     setTimeout(() => {
       const paraTotal = cfgRef.current?.paragraphs.length ?? 0
@@ -268,7 +320,6 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
       if (nextIdx < paraTotal) {
         startParaListen(nextIdx)
       } else {
-        // All paragraphs done
         setOrbState('guiding')
         showMsg('Great.', 2000)
         goPhase('story-done')
@@ -282,40 +333,25 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentParaIdx, goPhase, showMsg, startParaListen, triggerPulse])
 
-  /** Start pattern phrase listen at `idx` */
+  // ── Pattern flow ──────────────────────────────────────────────────────────
+
   const startPatternListen = useCallback((idx: number) => {
     const c = cfg(); if (!c) return
-    setCurrentPatternIdx(idx)
-    setOrbState('guiding')
-    setTapMode('menu')
-    clearWaitTimer()
-    const t = tier()
-    if (t !== 'silent') showMsg('Listen.', 3000)
+    setCurrentPatternIdx(idx); setOrbState('guiding'); setTapMode('menu'); clearWaitTimer()
+    if (tier() !== 'silent') showMsg('Listen.', 3000)
     goPhase('pat-listen', undefined, idx)
-
-    setTimeout(() => {
-      c.playPatternAudio(idx, () => {
-        startPatternYourTurn1(idx)
-      })
-    }, 400)
+    setTimeout(() => c.playPatternAudio(idx, () => startPatternYourTurn1(idx)), 400)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goPhase, showMsg])
 
   const startPatternYourTurn1 = useCallback((idx: number) => {
-    tapStartRef.current = Date.now()
-    setOrbState('waiting')
-    setTapMode('done')
-    const t = tier()
-    if (t !== 'silent') showMsg('Your turn.', 4000)
+    tapStartRef.current = Date.now(); setOrbState('waiting'); setTapMode('done')
+    if (tier() !== 'silent') showMsg('Your turn.', 4000)
     goPhase('pat-your-turn-1', undefined, idx)
-
-    // Wait timer
     const waitMs = waitDurationMs(cfgRef.current?.storyId ?? 0)
     waitTimerRef.current = setTimeout(() => {
       showMsg('Need another listen?', 3000)
-      setTimeout(() => {
-        cfgRef.current?.playPatternAudio(idx, () => startPatternYourTurn1(idx))
-      }, 1500)
+      setTimeout(() => cfgRef.current?.playPatternAudio(idx, () => startPatternYourTurn1(idx)), 1500)
     }, waitMs)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goPhase, showMsg])
@@ -324,36 +360,22 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     const c = cfg(); if (!c) return
     clearWaitTimer()
     if (tapStartRef.current) recordPaceSample(c.storyId, Date.now() - tapStartRef.current)
-
-    const t = tier()
-    // Round 2+ (lite/minimal/silent): skip "Again." step
-    if (t !== 'full') {
-      advanceToNextPattern(idx)
-      return
-    }
-    setOrbState('guiding')
-    setTapMode('menu')
+    if (tier() !== 'full') { advanceToNextPattern(idx); return }
+    setOrbState('guiding'); setTapMode('menu')
     showMsg('Again.', 2500)
     goPhase('pat-again', undefined, idx)
-    setTimeout(() => {
-      c.playPatternAudio(idx, () => startPatternYourTurn2(idx))
-    }, 600)
+    setTimeout(() => c.playPatternAudio(idx, () => startPatternYourTurn2(idx)), 600)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goPhase, showMsg])
 
   const startPatternYourTurn2 = useCallback((idx: number) => {
-    tapStartRef.current = Date.now()
-    setOrbState('waiting')
-    setTapMode('done')
+    tapStartRef.current = Date.now(); setOrbState('waiting'); setTapMode('done')
     showMsg('Your turn.', 4000)
     goPhase('pat-your-turn-2', undefined, idx)
-
     const waitMs = waitDurationMs(cfgRef.current?.storyId ?? 0)
     waitTimerRef.current = setTimeout(() => {
       showMsg('Need another listen?', 3000)
-      setTimeout(() => {
-        cfgRef.current?.playPatternAudio(idx, () => startPatternYourTurn2(idx))
-      }, 1500)
+      setTimeout(() => cfgRef.current?.playPatternAudio(idx, () => startPatternYourTurn2(idx)), 1500)
     }, waitMs)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goPhase, showMsg])
@@ -361,25 +383,17 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const advanceToNextPattern = useCallback((idx: number) => {
     const c = cfg(); if (!c) return
     clearWaitTimer()
-    const t = tier()
-    const patTotal = c.patterns.length
-    const next     = idx + 1
-
+    const t = tier(); const next = idx + 1; const patTotal = c.patterns.length
     if (t === 'full') showMsg('Next.', 1000)
-    setOrbState('idle')
-    setTapMode('menu')
+    setOrbState('idle'); setTapMode('menu')
     goPhase('pat-next', undefined, idx)
-
     setTimeout(() => {
       if (next < patTotal) {
-        c.advancePatternCard(next)
-        setTimeout(() => startPatternListen(next), 500)
+        c.advancePatternCard(next); setTimeout(() => startPatternListen(next), 500)
       } else {
-        // All patterns done
         goPhase('session-done', undefined, idx)
         showMsg('Done.', 3000)
-        setOrbState('idle')
-        triggerPulse()
+        setOrbState('idle'); triggerPulse()
         clearSessionProgress(c.storyId)
         setTimeout(() => c.onSessionComplete(), 1500)
       }
@@ -390,48 +404,29 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // ── startSession ──────────────────────────────────────────────────────────
 
   const startSession = useCallback((config: TrainerSessionConfig) => {
-    cfgRef.current = config
-    clearWaitTimer()
-
-    // Check for saved mid-session progress
+    cfgRef.current = config; clearWaitTimer()
     const saved = loadSessionProgress(config.storyId)
-    if (saved && saved.paraIdx > 0 && (saved.phase !== 'inactive' && saved.phase !== 'session-done')) {
-      setCurrentParaIdx(saved.paraIdx)
-      setCurrentPatternIdx(saved.patternIdx)
-      setOrbState('waiting')
-      setTapMode('menu')
+    if (saved && saved.paraIdx > 0 && saved.phase !== 'inactive' && saved.phase !== 'session-done') {
+      setCurrentParaIdx(saved.paraIdx); setCurrentPatternIdx(saved.patternIdx)
+      setOrbState('waiting'); setTapMode('menu')
       showMsg('Welcome back. Let\'s continue.', 3000)
       goPhase('ready')
-      // Restore to saved position after greeting
       setTimeout(() => {
-        const restoredPhase = saved.phase
-        if (restoredPhase.startsWith('para')) {
-          startParaListen(saved.paraIdx)
-        } else if (restoredPhase.startsWith('pat')) {
+        if (saved.phase.startsWith('para')) startParaListen(saved.paraIdx)
+        else if (saved.phase.startsWith('pat')) {
           config.scrollToPatterns()
           setTimeout(() => startPatternListen(saved.patternIdx), 600)
         }
       }, 2500)
       return
     }
-
-    // Fresh session
     const t = guidanceTier(config.round)
-    setCurrentParaIdx(0)
-    setCurrentPatternIdx(0)
-    setOrbState('waiting')
-    setTapMode('done')  // first tap starts session
+    setCurrentParaIdx(0); setCurrentPatternIdx(0)
+    setOrbState('waiting'); setTapMode('done')
     goPhase('ready')
-
     if (t === 'silent') {
-      // 5회차+: skip the whole ceremony
-      showMsg('Ready.', 1500)
-      setTimeout(() => {
-        startParaListen(0)
-      }, 2000)
-      return
+      showMsg('Ready.', 1500); setTimeout(() => startParaListen(0), 2000); return
     }
-
     showMsg('Ready?', 2500)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [goPhase, showMsg, startParaListen, startPatternListen])
@@ -439,172 +434,104 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // ── endSession ────────────────────────────────────────────────────────────
 
   const endSession = useCallback(() => {
-    cfgRef.current = null
-    clearWaitTimer()
-    setSessionPhase('inactive')
-    setOrbState('idle')
-    setTapMode('menu')
-    setMenuOpen(false)
-    setCurrentParaIdx(0)
-    setCurrentPatternIdx(0)
-    clearMsg()
-  }, [clearMsg])
+    cfgRef.current = null; clearWaitTimer()
+    setSessionPhase('inactive'); setOrbState('idle'); setTapMode('menu')
+    setCurrentParaIdx(0); setCurrentPatternIdx(0)
+    clearCard()
+  }, [clearCard])
 
-  // ── Orb tap handler ───────────────────────────────────────────────────────
+  // ── Orb tap ───────────────────────────────────────────────────────────────
 
   const handleOrbTap = useCallback(() => {
-    if (isMenuOpen) { setMenuOpen(false); return }
+    // If a card is open (not help), dismiss it
+    if (card && !card.isHelp) { clearCard(); return }
+    // If help card is open, close it
+    if (card?.isHelp) { clearCard(); return }
 
     if (tapMode === 'menu') {
-      // Open help menu (only when in active session)
-      if (sessionPhase !== 'inactive') setMenuOpen(true)
-      return
-    }
-
-    // tapMode === 'done': completion signal
-    if (sessionPhase === 'ready') {
-      // First tap starts session
-      const t = tier()
-      if (t === 'minimal') {
-        // 4회차: just start, minimal messages
-        showMsg('Ready.', 800)
-        setTimeout(() => startParaListen(0), 1000)
-      } else {
-        startParaListen(0)
+      if (sessionPhase !== 'inactive') {
+        // Show help menu card
+        setCard({
+          id: nextId(), size: 'medium', message: 'Need help?', priority: 1, isHelp: true,
+        })
+        activePriorityRef.current = 1
       }
-      setTapMode('menu')
       return
     }
-    if (sessionPhase === 'para-your-turn') { confirmParaDone(); return }
+    // tapMode === 'done'
+    if (sessionPhase === 'ready') {
+      const t = tier()
+      if (t === 'minimal') { showMsg('Ready.', 800); setTimeout(() => startParaListen(0), 1000) }
+      else startParaListen(0)
+      setTapMode('menu'); return
+    }
+    if (sessionPhase === 'para-your-turn')  { confirmParaDone(); return }
     if (sessionPhase === 'pat-your-turn-1') { confirmPatternYourTurn1(currentPatternIdx); return }
     if (sessionPhase === 'pat-your-turn-2') { advanceToNextPattern(currentPatternIdx); return }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMenuOpen, tapMode, sessionPhase, currentPatternIdx,
-      showMsg, startParaListen, confirmParaDone,
-      confirmPatternYourTurn1, advanceToNextPattern])
+  }, [card, tapMode, sessionPhase, currentPatternIdx, showMsg, clearCard,
+      startParaListen, confirmParaDone, confirmPatternYourTurn1, advanceToNextPattern])
 
-  // ── Menu actions ──────────────────────────────────────────────────────────
-
-  const closeMenu = useCallback(() => setMenuOpen(false), [])
+  const closeMenu = useCallback(() => {
+    if (card?.isHelp) clearCard()
+  }, [card, clearCard])
 
   const handleMenuRepeat = useCallback(() => {
-    setMenuOpen(false)
+    clearCard()
     const c = cfg(); if (!c) return
-    if (sessionPhase === 'para-your-turn' || sessionPhase === 'para-listen') {
+    if (sessionPhase === 'para-your-turn' || sessionPhase === 'para-listen')
       c.playParagraphAudio(currentParaIdx, () => startParaYourTurn(currentParaIdx))
-    } else if (sessionPhase.startsWith('pat')) {
+    else if (sessionPhase.startsWith('pat'))
       c.playPatternAudio(currentPatternIdx, () => startPatternYourTurn1(currentPatternIdx))
-    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionPhase, currentParaIdx, currentPatternIdx])
+  }, [card, sessionPhase, currentParaIdx, currentPatternIdx, clearCard])
 
   const handleMenuSkip = useCallback(() => {
-    setMenuOpen(false)
-    clearWaitTimer()
+    clearCard(); clearWaitTimer()
     if (sessionPhase === 'para-your-turn' || sessionPhase === 'para-listen' || sessionPhase === 'para-nice') {
       const paraTotal = cfgRef.current?.paragraphs.length ?? 0
       const next = currentParaIdx + 1
       if (next < paraTotal) startParaListen(next)
-      else {
-        showMsg('Great.', 2000)
-        setTimeout(() => { cfgRef.current?.scrollToPatterns(); setTimeout(() => startPatternListen(0), 800) }, 1200)
-      }
-    } else if (sessionPhase.startsWith('pat')) {
-      advanceToNextPattern(currentPatternIdx)
-    }
+      else { showMsg('Great.', 2000); setTimeout(() => { cfgRef.current?.scrollToPatterns(); setTimeout(() => startPatternListen(0), 800) }, 1200) }
+    } else if (sessionPhase.startsWith('pat')) advanceToNextPattern(currentPatternIdx)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionPhase, currentParaIdx, currentPatternIdx])
+  }, [sessionPhase, currentParaIdx, currentPatternIdx, clearCard])
 
   const handleMenuPause = useCallback(() => {
-    setMenuOpen(false)
-    cfg()?.stopAudio()
-    clearWaitTimer()
-    setOrbState('paused')
-    setTapMode('done')
-    setSessionPhase('paused')
+    clearCard(); cfg()?.stopAudio(); clearWaitTimer()
+    setOrbState('paused'); setTapMode('done'); setSessionPhase('paused')
     showMsg('Paused.', 99999)
-  }, [showMsg])
+  }, [clearCard, showMsg])
 
   const handleMenuExit = useCallback(() => {
-    setMenuOpen(false)
-    cfg()?.stopAudio()
-    cfg()?.onExit()
-    endSession()
-  }, [endSession])
+    clearCard(); cfg()?.stopAudio(); cfg()?.onExit(); endSession()
+  }, [clearCard, endSession])
 
-  /** Public: action confirmation bubble (priority 2). Shows [buttons]. */
-  const showAction = useCallback((msg: string, buttons: BubbleButton[], ms = 10000) => {
-    if (silentRef.current) return
-    const p: MsgPriority = 2
-    if (activePriorityRef.current === 1) {
-      // Session message active — queue
-      msgQueueRef.current.push({ msg, ms, priority: p, buttons })
-      return
-    }
-    if (dismissRef.current) clearTimeout(dismissRef.current)
-    activePriorityRef.current = p
-    setMessage(msg)
-    setBubbleButtons(buttons)
-    setIsActive(true)
-    dismissRef.current = setTimeout(() => {
-      setMessage(null); setBubbleButtons(null); setIsActive(false)
-      activePriorityRef.current = 0
-      processQueue()
-    }, ms)
-  }, [processQueue])
-
-  /** Public: showMessage — notification (priority 3). Queues if higher-priority active. */
-  const showMessagePub = useCallback((msg: string, ms = 2500) => {
-    if (silentRef.current) return
-    const p: MsgPriority = 3
-    if (activePriorityRef.current <= 2 && activePriorityRef.current !== 0) {
-      msgQueueRef.current.push({ msg, ms, priority: p })
-      return
-    }
-    if (dismissRef.current) clearTimeout(dismissRef.current)
-    activePriorityRef.current = p
-    setMessage(msg)
-    setBubbleButtons(null)
-    setIsActive(true)
-    dismissRef.current = setTimeout(() => {
-      setMessage(null); setBubbleButtons(null); setIsActive(false)
-      activePriorityRef.current = 0
-      processQueue()
-    }, ms)
-  }, [processQueue])
-
-  // ── Public context value ──────────────────────────────────────────────────
+  // ── Context value ─────────────────────────────────────────────────────────
 
   const value: TrainerCtx = {
-    message,
-    bubbleButtons,
-    isActive,
+    card,
+    // Backward-compat derived
+    message:       card?.message ?? null,
+    bubbleButtons: card?.buttons ?? null,
+    isActive:      card !== null,
     isPulsing,
     page,
-    showMessage:  showMessagePub,
-    showAction,
-    clearMessage: clearMsg,
+
+    say, ask, announce,
+    showMessage, showAction,
+    clearMessage: clearCard,
     setSilent:    setSilentFn,
     triggerPulse,
     setPage,
 
-    orbState,
-    tapMode,
-    isMenuOpen,
+    orbState, tapMode,
+    isMenuOpen: card?.isHelp ?? false,
 
-    sessionPhase,
-    currentParaIdx,
-    currentPatternIdx,
-
-    startSession,
-    endSession,
-
-    handleOrbTap,
-    closeMenu,
-    handleMenuRepeat,
-    handleMenuSkip,
-    handleMenuPause,
-    handleMenuExit,
+    sessionPhase, currentParaIdx, currentPatternIdx,
+    startSession, endSession,
+    handleOrbTap, closeMenu,
+    handleMenuRepeat, handleMenuSkip, handleMenuPause, handleMenuExit,
   }
 
   return (
