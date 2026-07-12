@@ -19,6 +19,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useT } from '@/hooks/useT'
 import { useTheme } from '@/components/ThemeProvider'
+import { TrainerHomePopup } from '@/components/TrainerHomePopup'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -783,6 +784,7 @@ export default function HomePage() {
   return (
     <div style={{ minHeight: '100dvh' }}>
       <TopNav />
+      <TrainerHomePopup />
 
       {/* ── Desktop shell ── */}
       <div className="desktop-max">

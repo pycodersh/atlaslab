@@ -128,7 +128,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const handleAllPatternsSeen = useCallback(() => {
     if (flowPhase !== 'patterns') return
     if (isFirstRound) {
-      showToast('이제 직접 따라말해볼게요 💪')
+      showToast('이제 직접 떠올려볼게요 💪')
       setTimeout(() => setFlowPhase('hide-recall'), 1800)
     } else {
       setTimeout(() => setFlowPhase('hide-recall'), 600)
@@ -140,7 +140,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const handleRecallRoundComplete = useCallback(() => {
     if (hideRecallRound < totalRecall) {
       const next = hideRecallRound + 1
-      const msgs = ['한 번 더 해볼게요 🔄', '마지막이에요! 💪']
+      const msgs = ['한 번 더 해볼게요 🔄', '마지막이에요! 끝까지 화이팅 🎯']
       showToast(msgs[next - 2] ?? '계속해봐요!')
       setTimeout(() => setHideRecallRound(next), 1600)
     } else {
