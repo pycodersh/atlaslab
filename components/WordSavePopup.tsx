@@ -7,7 +7,7 @@
  * 기존 인라인 팝업 + 토스트를 제거하고 TrainerContext.showAction()으로 대체.
  */
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { saveWord, canSaveWord, type WordSourceType } from '@/lib/words/storage'
 import { FREE_WORD_LIMIT } from '@/lib/subscription/storage'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
@@ -21,9 +21,14 @@ type Props = {
 
 export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }: Props) {
   const trainer = useTrainerSafe()
+  const trainerRef = useRef(trainer)
+  trainerRef.current = trainer
+
+  const cooldownRef = useRef(false)
 
   useEffect(() => {
     function onSelectionChange() {
+      if (cooldownRef.current) return
       const sel = window.getSelection()
       if (!sel || sel.isCollapsed) return
 
@@ -57,31 +62,36 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
 
         const wordDisplay = raw.length > 20 ? raw.slice(0, 18) + '…' : raw
 
-        if (!trainer) return
+        const t = trainerRef.current
+        if (!t) return
 
         if (!canSaveWord()) {
-          trainer.showMessage(`Free plan: ${FREE_WORD_LIMIT} words max`, 3000)
+          t.showMessage(`Free plan: ${FREE_WORD_LIMIT} words max`, 3000)
           window.getSelection()?.removeAllRanges()
           return
         }
 
-        trainer.showAction(
+        t.showAction(
           `Save "${wordDisplay}"?`,
           [
             {
               label: 'Not now',
               onClick: () => {
                 window.getSelection()?.removeAllRanges()
-                trainer.clearMessage()
+                trainerRef.current?.clearMessage()
               },
             },
             {
               label: 'Save',
               primary: true,
               onClick: () => {
+                cooldownRef.current = true
                 saveWord({ word: raw, sourceType, sourceId: String(storyId), storyId, originalSentence: sentence })
                 window.getSelection()?.removeAllRanges()
-                setTimeout(() => trainer.showMessage('Saved.', 1800), 100)
+                setTimeout(() => {
+                  trainerRef.current?.showMessage('Saved.', 1800)
+                  setTimeout(() => { cooldownRef.current = false }, 500)
+                }, 100)
               },
             },
           ],
@@ -91,7 +101,7 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
 
     document.addEventListener('selectionchange', onSelectionChange)
     return () => document.removeEventListener('selectionchange', onSelectionChange)
-  }, [containerRef, paragraphs, sourceType, storyId, trainer])
+  }, [containerRef, paragraphs, sourceType, storyId]) // trainer accessed via ref
 
   return null
 }
