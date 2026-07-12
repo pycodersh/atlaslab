@@ -64,13 +64,14 @@ function TrainerOrb() {
   const { theme } = useTheme()
   const isDark  = theme === 'dark'
 
-  const message      = ctx?.message      ?? null
-  const isActive     = ctx?.isActive     ?? false
-  const isPulsing    = ctx?.isPulsing    ?? false
-  const page         = ctx?.page         ?? 'other'
-  const orbState     = ctx?.orbState     ?? 'idle'
-  const isMenuOpen   = ctx?.isMenuOpen   ?? false
-  const sessionPhase = ctx?.sessionPhase ?? 'inactive'
+  const message       = ctx?.message       ?? null
+  const bubbleButtons = ctx?.bubbleButtons ?? null
+  const isActive      = ctx?.isActive      ?? false
+  const isPulsing     = ctx?.isPulsing     ?? false
+  const page          = ctx?.page          ?? 'other'
+  const orbState      = ctx?.orbState      ?? 'idle'
+  const isMenuOpen    = ctx?.isMenuOpen    ?? false
+  const sessionPhase  = ctx?.sessionPhase  ?? 'inactive'
 
   // ── Position state ──────────────────────────────────────────────────────
   const [pos, setPos]       = useState<OrbPos>(() => loadPos() ?? defaultPos())
@@ -125,8 +126,8 @@ function TrainerOrb() {
     if (wasTap) ctx?.handleOrbTap()
   }, [dragging, ctx])
 
-  // Library page = hidden
-  if (page === 'library') return null
+  // Library: show only when message is active (e.g. after remove/save)
+  if (page === 'library' && !message) return null
 
   // ── Visual tokens based on OrbState ────────────────────────────────────
   const isWaiting = orbState === 'waiting'
@@ -247,12 +248,49 @@ function TrainerOrb() {
               fontSize: 13,
               fontWeight: 500,
               color: bubbleText,
-              whiteSpace: 'nowrap',
-              pointerEvents: 'none',
+              whiteSpace: bubbleButtons ? 'normal' : 'nowrap',
+              maxWidth: bubbleButtons ? 200 : undefined,
+              pointerEvents: bubbleButtons ? 'auto' : 'none',
               letterSpacing: '0.01em',
             }}
           >
             {message}
+            {/* Action buttons */}
+            {bubbleButtons && bubbleButtons.length > 0 && (
+              <div style={{
+                display: 'flex', gap: 6, marginTop: 8,
+                flexDirection: 'row', flexWrap: 'nowrap',
+              }}>
+                {bubbleButtons.map((btn, i) => (
+                  <button
+                    key={i}
+                    onClick={(e) => { e.stopPropagation(); btn.onClick() }}
+                    style={{
+                      flex: 1,
+                      padding: '5px 8px',
+                      borderRadius: 8,
+                      border: btn.primary
+                        ? 'none'
+                        : `1px solid ${isDark ? 'rgba(255,255,255,0.18)' : 'rgba(0,0,0,0.12)'}`,
+                      background: btn.primary
+                        ? 'rgba(166,184,255,0.85)'
+                        : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'),
+                      color: btn.primary
+                        ? '#fff'
+                        : (isDark ? '#e8e0f8' : '#1a1a2e'),
+                      fontSize: 11,
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                      fontFamily: 'inherit',
+                      pointerEvents: 'auto',
+                    }}
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
+            )}
             <span style={{
               position: 'absolute',
               bottom: -5,

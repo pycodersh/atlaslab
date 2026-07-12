@@ -96,7 +96,11 @@ export default function ProgressPage() {
     setFutureSchedule(getFutureSchedule())
     setActivityMap(getActivityByDate())
     trainer?.setPage('progress')
-    const t = setTimeout(() => trainer?.showMessage('Keep going.', 2500), 1000)
+    const streakVal = getStreak()
+    const msg = streakVal > 0
+      ? `You've studied ${streakVal} day${streakVal === 1 ? '' : 's'}.`
+      : 'Next review tomorrow.'
+    const t = setTimeout(() => trainer?.showMessage(msg, 3000), 1000)
     return () => clearTimeout(t)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 

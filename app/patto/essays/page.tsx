@@ -294,7 +294,7 @@ export default function EssaysPage() {
                   setActivePanel('detail')
                   setSelectedEssayId(id)
                   trainer?.setSilent(false)
-                  setTimeout(() => trainer?.showMessage('Nice.', 2500), 400)
+                  setTimeout(() => trainer?.showMessage('Ready for feedback?', 3000), 400)
                 }}
               />
             )}

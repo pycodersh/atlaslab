@@ -222,9 +222,9 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     }
     if (flowPhase === 'complete') {
       trainer?.triggerPulse()
-      // "Great." fires from handleRecallRoundComplete; show "See you tomorrow." after screen appears
-      const t = setTimeout(() => trainerSay('See you tomorrow.', 3500), 2000)
-      return () => clearTimeout(t)
+      const t1 = setTimeout(() => trainerSay('Great work today.', 2000), 300)
+      const t2 = setTimeout(() => trainerSay('Done.', 3000), 2500)
+      return () => { clearTimeout(t1); clearTimeout(t2) }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flowPhase])
@@ -299,7 +299,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       setTimeout(() => setHideRecallRound(next), 1600)
     } else {
       // All recall rounds done → complete
-      trainerSay('Great.', 1500)
+      trainerSay('Great work today.', 1500)
       clearSessionProgress(story.id)
       const data = completeStoryRound(story.id)
       setCompletionData(data)

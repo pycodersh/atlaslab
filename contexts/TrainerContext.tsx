@@ -18,14 +18,24 @@ import {
 
 export type { TrainerPage, OrbState, OrbTapMode, SessionPhase }
 
+/** A button rendered inside the trainer bubble */
+export interface BubbleButton { label: string; onClick: () => void; primary?: boolean }
+
+/** Message priority: 1=session flow, 2=user action confirm, 3=notification */
+export type MsgPriority = 1 | 2 | 3
+
+interface QueuedMsg { msg: string; ms: number; priority: MsgPriority; buttons?: BubbleButton[] }
+
 export interface TrainerCtx {
   // ── Display (unchanged API for non-story pages) ──────────────────────────
   message: string | null
+  bubbleButtons: BubbleButton[] | null
   isActive: boolean
   isPulsing: boolean
   page: TrainerPage
 
   showMessage: (msg: string, ms?: number) => void
+  showAction:  (msg: string, buttons: BubbleButton[], ms?: number) => void
   clearMessage: () => void
   setSilent:    (v: boolean) => void
   triggerPulse: () => void
@@ -72,10 +82,11 @@ export function useTrainerSafe(): TrainerCtx | null {
 
 export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // ── Display state ────────────────────────────────────────────────────────
-  const [message,   setMessage]   = useState<string | null>(null)
-  const [isActive,  setIsActive]  = useState(false)
-  const [isPulsing, setIsPulsing] = useState(false)
-  const [page,      setPageState] = useState<TrainerPage>('other')
+  const [message,       setMessage]       = useState<string | null>(null)
+  const [bubbleButtons, setBubbleButtons] = useState<BubbleButton[] | null>(null)
+  const [isActive,      setIsActive]      = useState(false)
+  const [isPulsing,     setIsPulsing]     = useState(false)
+  const [page,          setPageState]     = useState<TrainerPage>('other')
 
   // ── Session state ────────────────────────────────────────────────────────
   const [orbState,          setOrbState]          = useState<OrbState>('idle')
@@ -86,13 +97,15 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const [currentPatternIdx, setCurrentPatternIdx] = useState(0)
 
   // ── Internal refs ────────────────────────────────────────────────────────
-  const silentRef      = useRef(false)
-  const dismissRef     = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const pulseRef       = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const waitTimerRef   = useRef<ReturnType<typeof setTimeout> | null>(null)  // 5s "Need another listen?"
-  const waitFiresRef   = useRef(0)  // how many times the wait timer has fired
-  const cfgRef         = useRef<TrainerSessionConfig | null>(null)
-  const tapStartRef    = useRef<number>(0)  // for pace tracking
+  const silentRef         = useRef(false)
+  const dismissRef        = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const pulseRef          = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const waitTimerRef      = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const waitFiresRef      = useRef(0)
+  const cfgRef            = useRef<TrainerSessionConfig | null>(null)
+  const tapStartRef       = useRef<number>(0)
+  const activePriorityRef = useRef<MsgPriority | 0>(0)   // 0 = nothing active
+  const msgQueueRef       = useRef<QueuedMsg[]>([])
 
   // ── Helpers ──────────────────────────────────────────────────────────────
 
@@ -101,23 +114,46 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     waitFiresRef.current = 0
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const processQueue = useCallback(() => {
+    const next = msgQueueRef.current.shift()
+    if (!next) return
+    activePriorityRef.current = next.priority
+    setMessage(next.msg)
+    setBubbleButtons(next.buttons ?? null)
+    setIsActive(true)
+    dismissRef.current = setTimeout(() => {
+      setMessage(null); setBubbleButtons(null); setIsActive(false)
+      activePriorityRef.current = 0
+      processQueue()
+    }, next.ms)
+  }, [])
+
+  /** Internal: session-flow messages (priority 1). Always preempts lower priority. */
   const showMsg = useCallback((msg: string, ms = 2500) => {
     if (silentRef.current) return
     if (dismissRef.current) clearTimeout(dismissRef.current)
+    activePriorityRef.current = 1
     setMessage(msg)
+    setBubbleButtons(null)
     setIsActive(true)
-    dismissRef.current = setTimeout(() => { setMessage(null); setIsActive(false) }, ms)
-  }, [])
+    dismissRef.current = setTimeout(() => {
+      setMessage(null); setBubbleButtons(null); setIsActive(false)
+      activePriorityRef.current = 0
+      processQueue()
+    }, ms)
+  }, [processQueue])
 
   const clearMsg = useCallback(() => {
     if (dismissRef.current) clearTimeout(dismissRef.current)
-    setMessage(null)
-    setIsActive(false)
-  }, [])
+    setMessage(null); setBubbleButtons(null); setIsActive(false)
+    activePriorityRef.current = 0
+    processQueue()
+  }, [processQueue])
 
   const setSilentFn = useCallback((v: boolean) => {
     silentRef.current = v
-    if (v) clearMsg()
+    if (v) { clearMsg(); msgQueueRef.current = [] }
   }, [clearMsg])
 
   const triggerPulse = useCallback(() => {
@@ -496,14 +532,57 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     endSession()
   }, [endSession])
 
+  /** Public: action confirmation bubble (priority 2). Shows [buttons]. */
+  const showAction = useCallback((msg: string, buttons: BubbleButton[], ms = 10000) => {
+    if (silentRef.current) return
+    const p: MsgPriority = 2
+    if (activePriorityRef.current === 1) {
+      // Session message active — queue
+      msgQueueRef.current.push({ msg, ms, priority: p, buttons })
+      return
+    }
+    if (dismissRef.current) clearTimeout(dismissRef.current)
+    activePriorityRef.current = p
+    setMessage(msg)
+    setBubbleButtons(buttons)
+    setIsActive(true)
+    dismissRef.current = setTimeout(() => {
+      setMessage(null); setBubbleButtons(null); setIsActive(false)
+      activePriorityRef.current = 0
+      processQueue()
+    }, ms)
+  }, [processQueue])
+
+  /** Public: showMessage — notification (priority 3). Queues if higher-priority active. */
+  const showMessagePub = useCallback((msg: string, ms = 2500) => {
+    if (silentRef.current) return
+    const p: MsgPriority = 3
+    if (activePriorityRef.current <= 2 && activePriorityRef.current !== 0) {
+      msgQueueRef.current.push({ msg, ms, priority: p })
+      return
+    }
+    if (dismissRef.current) clearTimeout(dismissRef.current)
+    activePriorityRef.current = p
+    setMessage(msg)
+    setBubbleButtons(null)
+    setIsActive(true)
+    dismissRef.current = setTimeout(() => {
+      setMessage(null); setBubbleButtons(null); setIsActive(false)
+      activePriorityRef.current = 0
+      processQueue()
+    }, ms)
+  }, [processQueue])
+
   // ── Public context value ──────────────────────────────────────────────────
 
   const value: TrainerCtx = {
     message,
+    bubbleButtons,
     isActive,
     isPulsing,
     page,
-    showMessage:  showMsg,
+    showMessage:  showMessagePub,
+    showAction,
     clearMessage: clearMsg,
     setSilent:    setSilentFn,
     triggerPulse,

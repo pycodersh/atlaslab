@@ -552,16 +552,19 @@ export default function LibraryPage() {
   function handleRemoveBookmark(patternId: string) {
     removeBookmark(patternId)
     setBookmarks(prev => prev.filter(b => b.patternId !== patternId))
+    trainer?.showMessage('Removed.', 1800)
   }
 
   function handleRemoveWord(id: string) {
     removeSavedWord(id)
     setWords(prev => prev.filter(w => w.id !== id))
+    trainer?.showMessage('Removed.', 1800)
   }
 
   function handleRemovePhrase(id: string) {
     removeSavedPhrase(id)
     setPhrases(prev => prev.filter(p => p.id !== id))
+    trainer?.showMessage('Removed.', 1800)
   }
 
   function goToWord(w: SavedWord) {

@@ -17,6 +17,7 @@ import { patternExamplesFull } from '@/data/pattern-examples-full'
 import { shimmerExamples } from '@/data/shimmer-audio-meta'
 import { TappableWordText } from '@/components/TappableWordText'
 import { useTheme } from '@/components/ThemeProvider'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 const EXAMPLE_PAUSE_MS = 1800
 const SPRING = { type: 'spring' as const, stiffness: 300, damping: 20 }
@@ -78,7 +79,8 @@ export function PatternsSectionInline({
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark  = theme === 'dark'
+  const trainer = useTrainerSafe()
   const voice = story.narratorVoice ?? prefs.voice
   const patterns = story.patterns
 
@@ -314,6 +316,7 @@ export function PatternsSectionInline({
       meaningKo: pattern.meaningKo, storyId: story.id,
     })
     setBookmarked(next)
+    trainer?.showMessage(next ? 'Added.' : 'Removed.', 1800)
   }
 
   // ── Card content (shared between stack preview and main) ──────────────

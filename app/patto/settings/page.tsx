@@ -17,6 +17,7 @@ import { AuthButtons } from '@/components/auth/AuthButtons'
 import { getLearnedStoryCount } from '@/lib/srs/storage'
 import { getSavedWordCount } from '@/lib/words/storage'
 import { getEssays } from '@/lib/essays/storage'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 const glassCard: React.CSSProperties = {
   background: 'var(--pglass)',
@@ -431,12 +432,15 @@ export default function SettingsPage() {
   const router = useRouter()
   const t = useT()
   const { user, loading } = useAuth()
+  const trainer = useTrainerSafe()
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [toast, setToast] = useState('')
 
   function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
 
   async function handleLogout() {
+    trainer?.showMessage('See you.', 2000)
+    await new Promise(r => setTimeout(r, 400))
     await signOut()
     router.refresh()
   }
