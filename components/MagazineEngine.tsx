@@ -162,12 +162,16 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrolledToEnd])
 
-  // ── Trainer: "Ready?" on mount (once per story) ───────────────────────────
+  // ── Trainer: "Ready?" on mount, then "Read." hint for 1회차 ──────────────
   useEffect(() => {
     if (isDesktop || trainerGreetedRef.current) return
     trainerGreetedRef.current = true
-    const t = setTimeout(() => trainerSay('Ready?', 2000), 800)
-    return () => clearTimeout(t)
+    const t1 = setTimeout(() => trainerSay('Ready?', 2000), 800)
+    // For 1회차: show "Read." after Ready? fades as a scroll hint
+    const t2 = isFirstRound
+      ? setTimeout(() => trainerSay('Read.', 3000), 3500)
+      : null
+    return () => { clearTimeout(t1); if (t2) clearTimeout(t2) }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [story.id])
 
@@ -218,7 +222,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     }
     if (flowPhase === 'complete') {
       trainer?.triggerPulse()
-      const t = setTimeout(() => trainerSay('See you tomorrow.', 3500), 600)
+      // "Great." fires from handleRecallRoundComplete; show "See you tomorrow." after screen appears
+      const t = setTimeout(() => trainerSay('See you tomorrow.', 3500), 2000)
       return () => clearTimeout(t)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -290,10 +295,11 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       saveSessionProgress(story.id, 'hide-recall', next)
       const isLast = next === totalRecall
       trainerSay('Nice.', 1200)
-      setTimeout(() => trainerSay(isLast ? 'Keep going.' : 'Again.', 2500), 1400)
+      setTimeout(() => trainerSay(isLast ? 'Last one.' : 'Again.', 2500), 1400)
       setTimeout(() => setHideRecallRound(next), 1600)
     } else {
       // All recall rounds done → complete
+      trainerSay('Great.', 1500)
       clearSessionProgress(story.id)
       const data = completeStoryRound(story.id)
       setCompletionData(data)

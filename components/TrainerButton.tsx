@@ -20,7 +20,8 @@ export function TrainerProvider({ children }: { children: React.ReactNode }) {
 
 const POS_KEY = 'patto-trainer-orb-pos'
 const ORB_SIZE = 52
-const DEFAULT_BOTTOM = 80
+const NAV_HEIGHT     = 72   // matches TAB_BAR_HEIGHT in MainTabBar
+const DEFAULT_BOTTOM = NAV_HEIGHT + 16   // sits just above the tab bar
 const DEFAULT_RIGHT  = 20
 
 type OrbPos = { x: number; y: number }
@@ -45,13 +46,13 @@ function defaultPos(): OrbPos {
   }
 }
 
+const DRAG_BOTTOM_MARGIN = NAV_HEIGHT + 8   // keep orb above nav bar during drag
+
 function snapToEdge(pos: OrbPos): OrbPos {
   const W = window.innerWidth
   const H = window.innerHeight
   const margin = 12
-  // Clamp vertical
-  const y = Math.max(margin, Math.min(H - ORB_SIZE - margin, pos.y))
-  // Snap to nearest horizontal edge
+  const y = Math.max(margin, Math.min(H - ORB_SIZE - DRAG_BOTTOM_MARGIN, pos.y))
   const snapLeft  = margin
   const snapRight = W - ORB_SIZE - margin
   const x = pos.x + ORB_SIZE / 2 < W / 2 ? snapLeft : snapRight
@@ -102,7 +103,7 @@ function TrainerOrb() {
     const H = window.innerHeight
     const margin = 12
     const nx = Math.max(margin, Math.min(W - ORB_SIZE - margin, ox + (e.clientX - px)))
-    const ny = Math.max(margin, Math.min(H - ORB_SIZE - margin, oy + (e.clientY - py)))
+    const ny = Math.max(margin, Math.min(H - ORB_SIZE - DRAG_BOTTOM_MARGIN, oy + (e.clientY - py)))
     setPos({ x: nx, y: ny })
   }, [dragging])
 

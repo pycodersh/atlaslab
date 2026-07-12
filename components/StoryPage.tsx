@@ -223,24 +223,7 @@ export function StoryPage({
     <>
         <TopNav />
 
-        {/* ── Reading guide chip (1회차 only) ─────────────────────────── */}
-        {showReadingGuide && (
-          <div style={{
-            margin: '8px 16px 0', padding: '6px 14px', borderRadius: 20,
-            background: 'rgba(107,143,255,0.15)',
-            border: '1px solid rgba(107,143,255,0.30)',
-            fontSize: 12, fontWeight: 600,
-            color: '#a8c0ff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-            letterSpacing: '0.01em',
-            pointerEvents: 'none',
-          }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6.5 6.5h11M6.5 12h11M6.5 17.5h11M3 6.5h.01M3 12h.01M3 17.5h.01"/>
-            </svg>
-            📖 스토리를 읽고 아래로 스크롤하세요
-          </div>
-        )}
+        {/* Reading guide chip removed — Trainer Orb handles "Read." message */}
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>
