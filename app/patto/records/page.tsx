@@ -121,7 +121,7 @@ function StatChips({ streak, totalSessions, patternsLearned, isDark }: {
   streak: number; totalSessions: number; patternsLearned: number; isDark: boolean
 }) {
   const chips = [
-    { label: 'STREAK',     value: `${streak}d`,         accent: '#F4511E' },
+    { label: 'STREAK',     value: `${streak}`,           accent: '#F4511E' },
     { label: 'SESSIONS',   value: `${totalSessions}`,   accent: '#5C6BC0' },
     { label: 'PATTERNS',   value: `${patternsLearned}`, accent: '#9575CD' },
     { label: 'CHALLENGES', value: '–',                  accent: '#F5A623' },
