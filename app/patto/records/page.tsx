@@ -74,7 +74,7 @@ function TodaySessionCard({
   ]
 
   return (
-    <div style={{ ...glassStyle(isDark), padding: '16px 20px' }}>
+    <div style={{ borderRadius: 20, background: '#EEF1FF', padding: '16px 20px' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', position: 'relative' }}>
         {/* connector line 1: from center of step1 to center of step2 */}
         <div style={{
@@ -275,20 +275,7 @@ function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, num
 function OverallAccordion({ patternsLearned, storyRounds, isDark }: {
   patternsLearned: number; storyRounds: StoryRoundData[]; isDark: boolean
 }) {
-  const [open, setOpen]           = useState(false)
-  const [mapOpen, setMapOpen]     = useState(false)
-  const contentRef                = useRef<HTMLDivElement>(null)
-  const mapRef                    = useRef<HTMLDivElement>(null)
-  const [contentH, setContentH]   = useState(0)
-  const [mapH, setMapH]           = useState(0)
-
-  useEffect(() => {
-    if (contentRef.current) setContentH(contentRef.current.scrollHeight)
-  }, [open, mapOpen, storyRounds])
-
-  useEffect(() => {
-    if (mapRef.current) setMapH(mapRef.current.scrollHeight)
-  }, [mapOpen, storyRounds])
+  const [mapOpen, setMapOpen] = useState(false)
 
   const textMuted = isDark ? '#a0a0c0' : '#5a5a7a'
   const pct       = Math.min(100, Math.round((patternsLearned / PATTERN_GOAL) * 100))
@@ -306,89 +293,68 @@ function OverallAccordion({ patternsLearned, storyRounds, isDark }: {
     return { bg: '#EEF1FF', text: '#5C6BC0', border: '1.5px solid rgba(92,107,192,0.35)' }
   }
 
-  const chevron = (rotated: boolean) => (
-    <svg width={14} height={14} viewBox="0 0 16 16" fill="none"
-      style={{ transition: 'transform 0.3s ease', transform: rotated ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
-    >
-      <path d="M4 6l4 4 4-4" stroke={textMuted} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-
   return (
-    <div style={{ ...glassStyle(isDark), overflow: 'hidden' }}>
-      {/* Main toggle — arrow only */}
-      <button
-        type="button"
-        onClick={() => setOpen(v => !v)}
-        style={{
-          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
-          padding: '12px 16px', border: 'none', background: 'transparent', cursor: 'pointer',
-        }}
-      >
-        {chevron(open)}
-      </button>
+    <div style={{ ...glassStyle(isDark), padding: '16px 16px' }}>
 
-      <div style={{ maxHeight: open ? contentH + 32 : 0, overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
-        <div ref={contentRef} style={{ padding: '0 16px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-
-          {/* Percentage + pattern count + bar */}
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
-              <span style={{ fontSize: 22, fontWeight: 700, color: '#5C6BC0', lineHeight: 1 }}>{pct}%</span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: '#5C6BC0' }}>{patternsLearned} / {PATTERN_GOAL} patterns</span>
-            </div>
-            <div style={{ height: 6, borderRadius: 99, background: '#EEF1FF', overflow: 'hidden' }}>
-              <div style={{
-                height: '100%', width: `${pct}%`,
-                background: '#5C6BC0', borderRadius: 99,
-                transition: 'width 1s cubic-bezier(0.4,0,0.2,1)',
-              }} />
-            </div>
-          </div>
-
-          {/* Story map nested accordion */}
-          <div>
-            <button
-              type="button"
-              onClick={() => setMapOpen(v => !v)}
-              style={{
-                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                padding: '6px 0', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: 'inherit',
-              }}
-            >
-              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: '#5C6BC0', textTransform: 'uppercase' }}>
-                Story Map
-              </span>
-              {chevron(mapOpen)}
-            </button>
-            <div style={{ maxHeight: mapOpen ? mapH + 8 : 0, overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
-              <div ref={mapRef} style={{ paddingTop: 8, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6 }}>
-                {magazineStories.map(s => {
-                  const c = storyColor(s.id)
-                  const r = storyRoundMap[s.id]
-                  const total = s.patterns.length
-                  const done  = r?.round > 0 ? total : 0
-                  return (
-                    <div key={s.id} style={{
-                      borderRadius: 10, padding: '7px 4px',
-                      background: c.bg, border: c.border ?? 'none',
-                      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-                    }}>
-                      <span style={{ fontSize: 11, fontWeight: 800, color: c.text, lineHeight: 1 }}>
-                        S{String(s.id).padStart(2, '0')}
-                      </span>
-                      <span style={{ fontSize: 9, color: c.text, opacity: 0.7, fontWeight: 600 }}>
-                        {r?.round > 0 ? `${done}/${total}` : '–'}
-                      </span>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-          </div>
-
+      {/* Percentage + pattern count + bar */}
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
+          <span style={{ fontSize: 22, fontWeight: 700, color: '#5C6BC0', lineHeight: 1 }}>{pct}%</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: '#5C6BC0' }}>{patternsLearned} / {PATTERN_GOAL} patterns</span>
+        </div>
+        <div style={{ height: 6, borderRadius: 99, background: '#EEF1FF', overflow: 'hidden' }}>
+          <div style={{
+            height: '100%', width: `${pct}%`,
+            background: '#5C6BC0', borderRadius: 99,
+            transition: 'width 1s cubic-bezier(0.4,0,0.2,1)',
+          }} />
         </div>
       </div>
+
+      {/* Story map accordion */}
+      <button
+        type="button"
+        onClick={() => setMapOpen(v => !v)}
+        style={{
+          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '6px 0', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: 'inherit',
+        }}
+      >
+        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: '#5C6BC0', textTransform: 'uppercase' }}>
+          Story Map
+        </span>
+        <svg width={14} height={14} viewBox="0 0 16 16" fill="none"
+          style={{ transition: 'transform 0.3s ease', transform: mapOpen ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
+        >
+          <path d="M4 6l4 4 4-4" stroke={textMuted} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <div style={{ maxHeight: mapOpen ? '2000px' : 0, overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
+        <div style={{ paddingTop: 10, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6 }}>
+          {magazineStories.map(s => {
+            const c = storyColor(s.id)
+            const r = storyRoundMap[s.id]
+            const total = s.patterns.length
+            const done  = r?.round > 0 ? total : 0
+            return (
+              <div key={s.id} style={{
+                borderRadius: 10, padding: '7px 4px',
+                background: c.bg, border: c.border ?? 'none',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
+              }}>
+                <span style={{ fontSize: 11, fontWeight: 800, color: c.text, lineHeight: 1 }}>
+                  S{String(s.id).padStart(2, '0')}
+                </span>
+                <span style={{ fontSize: 9, color: c.text, opacity: 0.7, fontWeight: 600 }}>
+                  {r?.round > 0 ? `${done}/${total}` : '–'}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
     </div>
   )
 }
