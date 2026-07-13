@@ -74,10 +74,10 @@ const ORB_TAP_MESSAGES: Record<ScenarioContext, Record<VisitorType, string>> = {
     veteran:     "할 수 있어요.",
   },
   library: {
-    first_visit: "스토리를 둘러봐요. 관심 있는 걸 골라보세요.",
-    returning:   "저장된 패턴 복습할까요?",
-    regular:     "새로운 걸 찾고 있나요?",
-    veteran:     "눈에 띄는 게 있나요?",
+    first_visit: "저장한 단어와 패턴이 여기 있어요.",
+    returning:   "저장한 단어와 패턴이 여기 있어요.",
+    regular:     "저장한 단어와 패턴이 여기 있어요.",
+    veteran:     "저장한 단어와 패턴이 여기 있어요.",
   },
   progress: {
     first_visit: "여기에 진행 상황이 표시될 거예요.",

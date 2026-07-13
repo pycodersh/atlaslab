@@ -26,6 +26,7 @@ import { EssayComposerPanel } from '@/components/essay/EssayComposerPanel'
 import { EssayDetailPanel } from '@/components/essay/EssayDetailPanel'
 import { type Essay, getEssays, getReviewsRemaining, deleteEssay } from '@/lib/essays/storage'
 import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
+import { getMySentences, removeMySentence, type MySentence } from '@/lib/sentences/storage'
 import type { MagazinePattern } from '@/types/magazine'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -402,10 +403,14 @@ function WritingStudioSection() {
   const [selectedEssayId, setSelectedEssayId] = useState<string | null>(null)
 
   useEffect(() => {
-    setEssays(getEssays())
+    const loaded = getEssays()
+    setEssays(loaded)
     setPlan(getPlan())
     setRemaining(getReviewsRemaining())
-  }, [])
+    if (loaded.length === 0) {
+      setTimeout(() => trainer?.say("오늘 배운 패턴으로 글을 써보세요.", 3000), 800)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (activePanel === 'composer') trainer?.setSilent(true)
@@ -479,7 +484,14 @@ function WritingStudioSection() {
             setActivePanel('detail')
             setSelectedEssayId(id)
             trainer?.setSilent(false)
-            setTimeout(() => trainer?.showMessage('Ready for feedback?', 3000), 400)
+            setTimeout(() => trainer?.ask("피드백 확인할까요?", [
+              { label: 'Not yet', onClick: () => trainer?.clearMessage() },
+              { label: 'Review', primary: true, onClick: () => {
+                trainer?.clearMessage()
+                setActivePanel('detail')
+                setSelectedEssayId(id)
+              }},
+            ]), 400)
           }}
         />
       )}
@@ -670,15 +682,67 @@ function SavedPatternsSection({
 
 // ── My Sentences Section ──────────────────────────────────────────────────────
 
+const SOURCE_LABEL: Record<MySentence['source'], string> = {
+  'challenge': 'Challenge',
+  'writing-studio': 'Writing Studio',
+}
+
 function MySentencesSection() {
+  const [sentences, setSentences] = useState<MySentence[]>([])
+
+  useEffect(() => {
+    setSentences(getMySentences())
+  }, [])
+
+  function handleRemove(id: string) {
+    removeMySentence(id)
+    setSentences(prev => prev.filter(s => s.id !== id))
+  }
+
+  if (sentences.length === 0) {
+    return (
+      <section style={{ marginBottom: 28 }}>
+        <SecLabel label="My Sentences" />
+        <EmptyState
+          icon={<FileText style={{ width: 24, height: 24, color: 'var(--pa)' }} strokeWidth={1.6} />}
+          title="아직 문장이 없어요."
+          body={'챌린지에서 직접 쓴 문장과\nWriting Studio의 글이 여기에 모여요.'}
+        />
+      </section>
+    )
+  }
+
   return (
     <section style={{ marginBottom: 28 }}>
-      <SecLabel label="My Sentences" />
-      <EmptyState
-        icon={<FileText style={{ width: 24, height: 24, color: 'var(--pa)' }} strokeWidth={1.6} />}
-        title="아직 문장이 없어요."
-        body={'챌린지에서 직접 쓴 문장과\nWriting Studio의 글이 여기에 모여요.'}
-      />
+      <SecLabel label="My Sentences" count={sentences.length} unit="Sentences" />
+      <div style={glassCard}>
+        {sentences.map((s, i) => (
+          <SwipeDeleteRow
+            key={s.id}
+            onDeleteRequest={() => handleRemove(s.id)}
+            containerStyle={{ borderTop: i === 0 ? 'none' : ROW_BORDER }}
+          >
+            <div style={{ padding: '13px 14px 13px 18px' }}>
+              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--pt)', margin: '0 0 5px', lineHeight: 1.5 }}>
+                {s.text}
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{
+                  fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+                  color: s.source === 'challenge' ? '#6B8FFF' : '#4A7A6A',
+                  background: s.source === 'challenge' ? 'rgba(107,143,255,0.10)' : 'rgba(74,122,106,0.10)',
+                  borderRadius: 6, padding: '2px 7px',
+                }}>
+                  {SOURCE_LABEL[s.source]}
+                </span>
+                <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 400 }}>
+                  {new Date(s.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                </span>
+              </div>
+            </div>
+          </SwipeDeleteRow>
+        ))}
+      </div>
     </section>
   )
 }

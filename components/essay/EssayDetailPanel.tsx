@@ -12,6 +12,7 @@ import {
   resetDailyReviewCount,
 } from '@/lib/essays/storage'
 import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS } from '@/lib/subscription/storage'
+import { addMySentence } from '@/lib/sentences/storage'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { AnnotatedManuscript } from '@/components/essay/EssayRenderer'
 import { useT } from '@/hooks/useT'
@@ -485,7 +486,19 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
                 </div>
                 <div style={{ ...glassCard }}>
                   {showCompare ? <DiffText original={essay.body} corrected={review.suggestedVersion} /> : <p style={{ fontSize: 15, lineHeight: 1.85, color: 'var(--pt)', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{review.suggestedVersion}</p>}
-                  <p style={{ fontSize: 10, color: 'var(--pm2)', margin: '12px 0 0', textAlign: 'right' }}>{wordCount(review.suggestedVersion)} words</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12 }}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        addMySentence({ text: review.suggestedVersion!, source: 'writing-studio' })
+                        trainer?.showMessage('⭐ My Sentences에 저장됐어요.', 2000)
+                      }}
+                      style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'none', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '4px 11px', cursor: 'pointer', fontSize: 11, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}
+                    >
+                      ⭐ 이 문장 저장
+                    </button>
+                    <p style={{ fontSize: 10, color: 'var(--pm2)', margin: 0 }}>{wordCount(review.suggestedVersion)} words</p>
+                  </div>
                 </div>
               </div>
             )}

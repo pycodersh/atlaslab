@@ -17,6 +17,7 @@ import {
   saveChallengeType,
 } from '@/lib/challenge/daily-challenge'
 import { saveDailyChallengeToSupabase } from '@/lib/challenge/supabase-sync'
+import { addMySentence } from '@/lib/sentences/storage'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -349,6 +350,10 @@ export function DailyChallengeSlide({ story, onSkip, onDone }: Props) {
         { label: 'Done', btnVariant: 'done', onClick: handleDone },
       ])
     }, 300))
+
+    if (answer.trim()) {
+      addMySentence({ text: answer.trim(), source: 'challenge', storyId: story.id })
+    }
 
     if (user?.id) {
       saveDailyChallengeToSupabase({
