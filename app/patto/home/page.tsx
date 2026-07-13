@@ -1094,8 +1094,8 @@ export default function HomePage() {
           <div style={{ margin: '12px 20px 0' }}>
             <div style={{ ...frostedCard, borderRadius: 18, overflow: 'hidden' }}>
               {/* Header */}
-              <div style={{ padding: '11px 14px 10px', borderBottom: '1px solid var(--pd)' }}>
-                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.45)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>
+              <div style={{ padding: '11px 14px 8px' }}>
+                <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', color: isDark ? 'rgba(255,255,255,0.75)' : '#5C6BC0', margin: 0, textTransform: 'uppercase' }}>
                   TODAY
                 </p>
               </div>
