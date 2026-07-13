@@ -816,12 +816,12 @@ export default function HomePage() {
           const completedCount = completedToday.size
           const nextNew = magazineStories.find(s => !completedToday.has(s.id) && getStoryStatus(s.id) === 'new')
           const nextHref = nextNew ? `/patto/session/${nextNew.id}` : '/patto/stories/all'
-          trainerRef.current?.ask(`${completedCount} done today — great work!`, [
+          trainerRef.current?.ask(`오늘 ${completedCount}개 완료했어요. 잘했어요!`, [
             { label: 'Keep going!', primary: true, onClick: () => { trainerRef.current?.clearMessage(); router.push(nextHref) } },
             { label: 'Done for today', onClick: () => trainerRef.current?.clearMessage() },
           ])
         } else {
-          trainerRef.current?.ask("Ready for today's session?", [
+          trainerRef.current?.ask("오늘 세션 시작할까요?", [
             {
               label: 'Start',
               primary: true,
