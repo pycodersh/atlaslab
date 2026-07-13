@@ -113,12 +113,8 @@ function IntroSlide({ story, currentRound }: { story: MagazineStory; currentRoun
       padding: '0 24px',
     }}>
       <div style={{
-        background: 'rgba(255,255,255,0.72)',
-        backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-        border: '0.5px solid rgba(255,255,255,0.85)',
-        borderRadius: 24, padding: '36px 28px',
+        padding: '36px 28px',
         textAlign: 'center',
-        boxShadow: '0 8px 32px rgba(107,143,255,0.12)',
         width: '100%', maxWidth: 380,
       }}>
         <p style={{
@@ -145,7 +141,7 @@ function IntroSlide({ story, currentRound }: { story: MagazineStory; currentRoun
           margin: '0 auto 18px',
         }} />
         <p style={{ fontSize: 13, fontWeight: 500, color: '#7a7a9a', margin: 0 }}>
-          Round {currentRound + 1} · 패턴 {story.patterns.length}개
+          Round {currentRound + 1}
         </p>
       </div>
     </div>
