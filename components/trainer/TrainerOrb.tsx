@@ -507,7 +507,7 @@ function ConvCard({
   if (!active) return null
 
   // Card shell colors
-  const cardBg     = isDark ? 'rgba(28,22,58,0.94)'  : 'rgba(255,255,255,0.92)'
+  const cardBg     = isDark ? 'rgba(28,22,58,0.25)'  : 'rgba(255,255,255,0.25)'
   const cardBorder = isDark
     ? '0.5px solid rgba(142,167,255,0.22)'
     : '0.5px solid rgba(200,215,245,0.60)'
