@@ -291,13 +291,22 @@ export default function AtlasLabHome() {
         {/* Nav */}
         <nav className="al-nav">
           <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img
-              src="/atlaslab_logo.png"
-              alt="Atlas Lab"
-              width={120}
-              height={48}
-              style={{ objectFit: 'contain', display: 'block', mixBlendMode: 'screen', filter: 'brightness(3) contrast(1.2)' }}
-            />
+            <svg width="106" height="44" viewBox="0 0 106 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* AL monogram — A's right stroke becomes L's vertical */}
+              <path d="M10 34 L21 7 L32 34" stroke="white" strokeWidth="2" strokeLinejoin="miter" fill="none"/>
+              {/* A crossbar */}
+              <line x1="13.5" y1="24" x2="28.5" y2="24" stroke="white" strokeWidth="1.4"/>
+              {/* A left serif */}
+              <line x1="7" y1="34" x2="13" y2="34" stroke="white" strokeWidth="1.4"/>
+              {/* A right serif + L top — shared point */}
+              <line x1="29" y1="34" x2="44" y2="34" stroke="white" strokeWidth="2"/>
+              {/* L right serif */}
+              <line x1="41" y1="34" x2="47" y2="34" stroke="white" strokeWidth="1.4"/>
+              {/* A apex serif */}
+              <line x1="18.5" y1="7" x2="23.5" y2="7" stroke="white" strokeWidth="1"/>
+              {/* ATLASLAB wordmark */}
+              <text x="29" y="43" textAnchor="middle" fontSize="6.5" fill="rgba(255,255,255,0.65)" letterSpacing="3.5" fontFamily="'DM Sans',system-ui,sans-serif" fontWeight="500">ATLASLAB</text>
+            </svg>
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>
