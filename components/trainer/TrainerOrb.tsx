@@ -204,7 +204,7 @@ function HelpMenu({ ctx, dark }: { ctx: TrainerCtx | null; dark: boolean }) {
         margin: '0 0 10px', fontSize: 10, fontWeight: 700,
         letterSpacing: '0.1em', textTransform: 'uppercase', color: '#8EA7FF',
       }}>
-        Need help?
+        도움이 필요하세요?
       </p>
       {HELP_ITEMS.map((item, i) => (
         <div key={item.action}>
@@ -454,6 +454,7 @@ function SessionCard({ card, dark, textMain, textSub, textPri, textSec, onClear 
         margin: 0, fontSize: 16, fontWeight: 600,
         color: textMain, lineHeight: 1.35, letterSpacing: '-0.01em',
         marginBottom: card.subtext ? 4 : 0,
+        fontFamily: 'var(--font-playfair, serif)',
       }}>
         {card.message}
       </p>
