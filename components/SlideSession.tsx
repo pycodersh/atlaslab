@@ -77,7 +77,7 @@ function highlightPatterns(text: string, patterns: string[]): ReactNode {
   const parts = text.split(regex)
   return parts.map((part, i) =>
     i % 2 === 1
-      ? <mark key={i} style={{ background: 'transparent', color: '#6B8FFF', fontWeight: 700 }}>{part}</mark>
+      ? <mark key={i} style={{ background: 'transparent', color: '#6B8FFF', fontWeight: 500 }}>{part}</mark>
       : part
   )
 }
@@ -810,6 +810,8 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   trainerRef.current = trainer
 
   const { user } = useAuth()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const { speakAll, stop: stopSpeech, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
   const { setProgress } = useLearningProgress()
@@ -1306,7 +1308,9 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   return (
     <div style={{
       position: 'fixed', inset: 0,
-      background: 'var(--pb)',
+      backgroundColor: 'var(--pb)',
+      backgroundImage: isDark ? undefined : "url('/bg-light.svg')",
+      backgroundSize: 'cover', backgroundPosition: 'center',
       display: 'flex', flexDirection: 'column',
       overflow: 'hidden',
     }}>
