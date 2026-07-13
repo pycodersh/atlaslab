@@ -430,27 +430,6 @@ export function PatternsSectionInline({
             ))}
           </div>
 
-          {prefs.language !== 'en' && (
-            <div style={{ display: 'inline-flex', borderRadius: 10, background: 'var(--pc)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pd)', padding: 2, marginRight: 4 }}>
-              {(['en', 'en-ko', 'ko'] as const).map(mode => (
-                <button
-                  key={mode}
-                  type="button"
-                  onClick={() => setStudyMode(mode)}
-                  style={{
-                    padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                    fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                    background: studyMode === mode ? 'var(--pw)' : 'transparent',
-                    color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
-                    boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
-                    transition: 'background 0.18s, color 0.18s',
-                  }}
-                >
-                  {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
-                </button>
-              ))}
-            </div>
-          )}
           <button
             type="button"
             onClick={handleBookmark}
@@ -494,28 +473,9 @@ export function PatternsSectionInline({
         }} />
 
         {patternMeaning ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <p style={{ fontSize: 16, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4, flex: 1 }}>
-              {patternMeaning}
-            </p>
-            {showSpeakerButton && (
-              <button
-                type="button"
-                aria-label="예문 듣기"
-                onClick={playExamples}
-                style={{
-                  width: 32, height: 32, borderRadius: 10, flexShrink: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: 'rgba(107,143,255,0.10)',
-                  border: 'none', cursor: 'pointer',
-                  color: '#6B8FFF',
-                  transition: 'background 0.15s',
-                }}
-              >
-                <Volume2 style={{ width: 14, height: 14 }} strokeWidth={1.8} />
-              </button>
-            )}
-          </div>
+          <p style={{ fontSize: 16, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+            {patternMeaning}
+          </p>
         ) : null}
       </div>
 
@@ -529,14 +489,14 @@ export function PatternsSectionInline({
             const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
             return (
               <div key={i} style={{ borderTop: i > 0 ? `1px solid ${exBoxBorder}` : 'none', paddingTop: i > 0 ? 12 : 0, paddingBottom: i < examples.length - 1 ? 12 : 0 }}>
-                {showEnglish && (
-                <TappableWordText
-                  text={ex.en}
-                  saveCandidates={safeCandidates}
-                  source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                  style={{ display: 'block', fontSize: 15, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.5, marginBottom: 2 }}
-                />
-                )}
+                <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
+                  <TappableWordText
+                    text={ex.en}
+                    saveCandidates={safeCandidates}
+                    source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
+                    style={{ display: 'block', fontSize: 15, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.5, marginBottom: 2 }}
+                  />
+                </div>
                 {showKorean && exKo && (
                   <p style={{ fontSize: 13, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
                 )}
@@ -576,6 +536,46 @@ export function PatternsSectionInline({
           </span>
         </div>
       )}
+
+      {/* ── Speaker + Language toggle (above card, top-right) ─────────── */}
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+        {showSpeakerButton && (
+          <button
+            type="button"
+            aria-label="예문 듣기"
+            onClick={playExamples}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer', padding: 4,
+              color: isDark ? 'rgba(255,255,255,0.35)' : '#b0b8cc',
+              display: 'flex', alignItems: 'center',
+              transition: 'color 0.15s',
+            }}
+          >
+            <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
+          </button>
+        )}
+        {prefs.language !== 'en' && (
+          <div style={{ display: 'inline-flex', borderRadius: 10, background: 'var(--pc)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pd)', padding: 2 }}>
+            {(['en', 'en-ko', 'ko'] as const).map(mode => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setStudyMode(mode)}
+                style={{
+                  padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                  fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                  background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                  color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
+                  boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
+                  transition: 'background 0.18s, color 0.18s',
+                }}
+              >
+                {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* ── Card stack container ─────────────────────────────────────── */}
       <motion.div

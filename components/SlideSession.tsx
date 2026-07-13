@@ -241,18 +241,18 @@ function StorySlide({
               const koText = resolveTranslation(para.koreanTranslation, prefs.language, para.translations)
               return (
                 <div key={para.id} style={{ marginBottom: pIdx < paragraphs.length - 1 ? 16 : 0 }}>
-                  {showEn && (
+                  <div style={{ opacity: showEn ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEn ? 'auto' : 'none' }}>
                     <p style={{
                       fontSize: 16, lineHeight: 1.8,
                       color: '#1a1a2e', margin: 0,
                     }}>
                       {highlightPatterns(para.english, patternTexts)}
                     </p>
-                  )}
+                  </div>
                   {showKo && koText && (
                     <p style={{
                       fontSize: 13, color: '#5a5a7a',
-                      lineHeight: 1.7, margin: showEn ? '4px 0 0' : 0,
+                      lineHeight: 1.7, margin: '4px 0 0',
                     }}>
                       {koText}
                     </p>
@@ -500,10 +500,10 @@ function PatternCardFocus({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
-      {/* Label + language toggle */}
+      {/* Label row */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '4px 24px 12px', flexShrink: 0,
+        padding: '4px 24px 4px', flexShrink: 0,
       }}>
         <p style={{
           fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
@@ -511,34 +511,50 @@ function PatternCardFocus({
         }}>
           Pattern {idx + 1} / {total}
         </p>
-        <div style={{
-          display: 'inline-flex', borderRadius: 10,
-          background: 'var(--pc)',
-          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-          border: '1px solid var(--pd)', padding: 2,
-        }}>
-          {(['en', 'en-ko', 'ko'] as const).map(mode => (
-            <button
-              key={mode}
-              type="button"
-              onClick={() => onStudyModeChange(mode)}
-              style={{
-                padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                background: studyMode === mode ? 'var(--pw)' : 'transparent',
-                color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
-                boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
-                transition: 'background 0.18s, color 0.18s',
-              }}
-            >
-              {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
-            </button>
-          ))}
+        {/* Speaker + language toggle */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <button
+            type="button"
+            aria-label="예문 듣기"
+            onClick={playExamples}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer', padding: 4,
+              color: isDark ? 'rgba(255,255,255,0.35)' : '#b0b8cc',
+              display: 'flex', alignItems: 'center',
+              transition: 'color 0.15s',
+            }}
+          >
+            <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
+          </button>
+          <div style={{
+            display: 'inline-flex', borderRadius: 10,
+            background: 'var(--pc)',
+            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+            border: '1px solid var(--pd)', padding: 2,
+          }}>
+            {(['en', 'en-ko', 'ko'] as const).map(mode => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => onStudyModeChange(mode)}
+                style={{
+                  padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                  fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                  background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                  color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
+                  boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
+                  transition: 'background 0.18s, color 0.18s',
+                }}
+              >
+                {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Pattern card */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '0 16px' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '8px 16px 0' }}>
         <div style={{
           borderRadius: 20,
           background: cardBg,
@@ -558,7 +574,7 @@ function PatternCardFocus({
               PATTERN {String(globalPatternNum).padStart(3, '0')}
             </p>
 
-            {showEn && (
+            <div style={{ opacity: showEn ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEn ? 'auto' : 'none' }}>
               <p style={{
                 fontSize: 28, fontWeight: 700, color: heroPatternColor,
                 lineHeight: 1.25, margin: '0 0 6px', letterSpacing: '-0.3px',
@@ -566,7 +582,7 @@ function PatternCardFocus({
               }}>
                 {pat.pattern}
               </p>
-            )}
+            </div>
 
             <div style={{
               width: 36, height: 3, borderRadius: 2, margin: '6px 0 10px',
@@ -574,15 +590,11 @@ function PatternCardFocus({
               opacity: isDark ? 0.7 : 1,
             }} />
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {showKo && patternMeaning && (
-                <p style={{ fontSize: 16, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4, flex: 1 }}>
-                  {patternMeaning}
-                </p>
-              )}
-              {!showKo && !patternMeaning && <div style={{ flex: 1 }} />}
-              {!showKo && patternMeaning && <div style={{ flex: 1 }} />}
-            </div>
+            {patternMeaning && (
+              <p style={{ fontSize: 16, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+                {patternMeaning}
+              </p>
+            )}
           </div>
 
           {/* Examples */}
@@ -599,15 +611,15 @@ function PatternCardFocus({
                       paddingBottom: i < examples.length - 1 ? 12 : 0,
                     }}
                   >
-                    {showEn && (
+                    <div style={{ opacity: showEn ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEn ? 'auto' : 'none' }}>
                       <p style={{
                         fontSize: 15, fontWeight: isExPlaying ? 600 : 400,
                         color: exEnColor, lineHeight: 1.5,
-                        margin: 0, marginBottom: showKo && ex.ko ? 2 : 0,
+                        margin: 0, marginBottom: ex.ko ? 2 : 0,
                       }}>
                         {ex.en}
                       </p>
-                    )}
+                    </div>
                     {showKo && ex.ko && (
                       <p style={{ fontSize: 13, color: exKoColor, margin: 0, lineHeight: 1.5 }}>
                         {ex.ko}
