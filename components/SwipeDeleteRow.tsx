@@ -153,12 +153,11 @@ export function SwipeDeleteRow({
           style={{
             background: 'none', border: 'none', cursor: 'pointer',
             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-            color: BURGUNDY, padding: '8px 0', width: '100%',
+            color: '#ccc', padding: '8px 0', width: '100%',
           }}
           aria-label="Delete"
         >
-          <Trash2 style={{ width: 22, height: 22, strokeWidth: 1.5 }} />
-          <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.01em' }}>Delete</span>
+          <Trash2 style={{ width: 20, height: 20, strokeWidth: 1.5 }} />
         </button>
       </div>
 

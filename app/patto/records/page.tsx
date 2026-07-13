@@ -44,7 +44,7 @@ const DOW_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 // ── Section label ─────────────────────────────────────────────────────────────
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p style={{ margin: '6px 0 -4px 2px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: '#5C6BC0', textTransform: 'uppercase' }}>
+    <p style={{ margin: '6px 0 -4px 2px', fontSize: 11, fontWeight: 600, letterSpacing: '0.8px', color: '#5C6BC0', textTransform: 'uppercase' }}>
       {children}
     </p>
   )
@@ -146,10 +146,10 @@ function StatChips({ streak, totalSessions, patternsLearned, isDark }: {
           boxShadow: isDark ? '0 2px 10px rgba(0,0,0,0.18)' : '0 2px 10px rgba(80,90,160,0.08)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
         }}>
-          <span style={{ fontSize: 20, fontWeight: 700, color: c.accent, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+          <span style={{ fontSize: 24, fontWeight: 700, color: c.accent, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
             {c.value}
           </span>
-          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '0.5px', color: c.accent, opacity: 0.75, textTransform: 'uppercase', textAlign: 'center' }}>
+          <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.5px', color: c.accent, opacity: 0.75, textTransform: 'uppercase', textAlign: 'center' }}>
             {c.label}
           </span>
         </div>
@@ -175,7 +175,7 @@ function RecentSessions({ storyRounds, isDark }: { storyRounds: StoryRoundData[]
   return (
     <div style={{ ...glassStyle(isDark), padding: '14px 16px' }}>
       {recent.length === 0 ? (
-        <p style={{ fontSize: 13, color: textMuted, margin: 0 }}>Complete your first session to see it here.</p>
+        <p style={{ fontSize: 14, color: textMuted, margin: 0 }}>Complete your first session to see it here.</p>
       ) : (
         <div>
           {recent.map(({ storyId, round, isMastered, lastCompletedAt, story }, i) => (
@@ -237,8 +237,8 @@ function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, num
   return (
     <div style={{ ...glassStyle(isDark), padding: '14px 14px 12px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <span style={{ fontSize: 12, fontWeight: 600, color: textMuted }}>{weekLabel}</span>
-        <span style={{ fontSize: 11, fontWeight: 700, color: '#5C6BC0' }}>{attendedDays} / 7 days</span>
+        <span style={{ fontSize: 15, fontWeight: 600, color: textMuted }}>{weekLabel}</span>
+        <span style={{ fontSize: 14, fontWeight: 600, color: '#5C6BC0' }}>{attendedDays} / 7 days</span>
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 3 }}>
         {weekDays.map((d, i) => {
@@ -248,7 +248,7 @@ function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, num
           const isFut   = d > new Date() && !isToday
           return (
             <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-              <span style={{ fontSize: 11, fontWeight: 600, color: textMuted, textTransform: 'uppercase' }}>
+              <span style={{ fontSize: 12, fontWeight: 600, color: textMuted, textTransform: 'uppercase' }}>
                 {DOW_LABELS[i]}
               </span>
               <div style={{
@@ -264,7 +264,7 @@ function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, num
                     <path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 ) : (
-                  <span style={{ fontSize: 13, fontWeight: 600, color: isToday ? '#E53935' : (isDark ? '#666' : '#aaa'), lineHeight: 1 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: isToday ? '#E53935' : (isDark ? '#888' : '#aaa'), lineHeight: 1 }}>
                     {d.getDate()}
                   </span>
                 )}
@@ -305,8 +305,8 @@ function OverallAccordion({ patternsLearned, storyRounds, isDark }: {
       {/* Percentage + pattern count + bar */}
       <div style={{ marginBottom: 12 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
-          <span style={{ fontSize: 22, fontWeight: 700, color: '#5C6BC0', lineHeight: 1 }}>{pct}%</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#5C6BC0' }}>{patternsLearned} / {PATTERN_GOAL} patterns</span>
+          <span style={{ fontSize: 28, fontWeight: 700, color: '#5C6BC0', lineHeight: 1 }}>{pct}%</span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0' }}>{patternsLearned} / {PATTERN_GOAL} patterns</span>
         </div>
         <div style={{ height: 6, borderRadius: 99, background: '#EEF1FF', overflow: 'hidden' }}>
           <div style={{
@@ -326,7 +326,7 @@ function OverallAccordion({ patternsLearned, storyRounds, isDark }: {
           padding: '6px 0', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: 'inherit',
         }}
       >
-        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: '#5C6BC0', textTransform: 'uppercase' }}>
+        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.8px', color: '#5C6BC0', textTransform: 'uppercase' }}>
           Story Map
         </span>
         <svg width={14} height={14} viewBox="0 0 16 16" fill="none"

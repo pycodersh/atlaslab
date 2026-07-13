@@ -103,8 +103,8 @@ function AccordionWordRow({ w, onRemove }: { w: SavedWord; onRemove: () => void 
         display: 'flex', alignItems: 'center', gap: 8,
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{w.word}</p>
-          {src && <p style={{ fontSize: 10, color: '#8a8aaa', margin: 0, letterSpacing: '0.04em' }}>{src}</p>}
+          <p style={{ fontSize: 16, fontWeight: 600, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{w.word}</p>
+          {src && <p style={{ fontSize: 13, color: '#8890a4', margin: 0 }}>{src}</p>}
         </div>
         {meaning && (
           <span style={{ fontSize: 12, color: '#5C6BC0', fontWeight: 500, textAlign: 'right', flexShrink: 0 }}>
@@ -128,8 +128,8 @@ function AccordionPhraseRow({ ph, onRemove }: { ph: SavedPhrase; onRemove: () =>
         display: 'flex', alignItems: 'center', gap: 8,
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{ph.phrase}</p>
-          {src && <p style={{ fontSize: 10, color: '#8a8aaa', margin: 0, letterSpacing: '0.04em' }}>{src}</p>}
+          <p style={{ fontSize: 16, fontWeight: 600, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{ph.phrase}</p>
+          {src && <p style={{ fontSize: 13, color: '#8890a4', margin: 0 }}>{src}</p>}
         </div>
         {meaning && (
           <span style={{ fontSize: 12, color: '#9575CD', fontWeight: 500, textAlign: 'right', flexShrink: 0 }}>
@@ -150,9 +150,9 @@ function AccordionPatternRow({ bm, onRemove, onPress }: { bm: BookmarkedPattern;
         display: 'block', width: '100%', textAlign: 'left', background: 'rgba(245,166,35,0.07)',
         border: 'none', cursor: 'pointer', borderRadius: 9, padding: '9px 10px',
       }}>
-        <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{bm.pattern}</p>
+        <p style={{ fontSize: 16, fontWeight: 600, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{bm.pattern}</p>
         {meaning && <p style={{ fontSize: 12, color: '#5a5a7a', margin: '0 0 1px', fontWeight: 400 }}>{meaning}</p>}
-        {storyTitle && <p style={{ fontSize: 10, color: '#8a8aaa', margin: 0, letterSpacing: '0.04em' }}>
+        {storyTitle && <p style={{ fontSize: 13, color: '#8890a4', margin: 0 }}>
           Story {String(bm.storyId).padStart(2, '0')} · {storyTitle}
         </p>}
       </button>
@@ -179,14 +179,14 @@ function WordPhrasePatternsAccordion({
 
   const TAB_TINTS: Record<string, { closed: string; open: string; border: string; color: string }> = {
     words:    { closed: 'rgba(92,107,192,0.08)',  open: 'rgba(92,107,192,0.18)',  border: 'rgba(92,107,192,0.35)',  color: '#5C6BC0' },
-    phrases:  { closed: 'rgba(149,117,205,0.08)', open: 'rgba(149,117,205,0.18)', border: 'rgba(149,117,205,0.35)', color: '#9575CD' },
-    patterns: { closed: 'rgba(245,166,35,0.08)',  open: 'rgba(245,166,35,0.18)',  border: 'rgba(245,166,35,0.35)',  color: '#F5A623' },
+    phrases:  { closed: 'rgba(92,107,192,0.08)',  open: 'rgba(92,107,192,0.18)',  border: 'rgba(92,107,192,0.35)',  color: '#5C6BC0' },
+    patterns: { closed: 'rgba(92,107,192,0.08)',  open: 'rgba(92,107,192,0.18)',  border: 'rgba(92,107,192,0.35)',  color: '#5C6BC0' },
   }
 
-  const TABS: { id: Exclude<AccordionOpen, null>; label: string; count: number; icon: React.ReactNode }[] = [
-    { id: 'words',    label: 'Words',    count: words.length,     icon: <BookOpen    style={{ width: 13, height: 13 }} strokeWidth={1.8} /> },
-    { id: 'phrases',  label: 'Phrases',  count: phrases.length,   icon: <Layers      style={{ width: 13, height: 13 }} strokeWidth={1.8} /> },
-    { id: 'patterns', label: 'Patterns', count: bookmarks.length, icon: <BookMarked  style={{ width: 13, height: 13 }} strokeWidth={1.8} /> },
+  const TABS: { id: Exclude<AccordionOpen, null>; label: string; count: number }[] = [
+    { id: 'words',    label: 'Words',    count: words.length },
+    { id: 'phrases',  label: 'Phrases',  count: phrases.length },
+    { id: 'patterns', label: 'Patterns', count: bookmarks.length },
   ]
 
   return (
@@ -201,8 +201,8 @@ function WordPhrasePatternsAccordion({
               type="button"
               onClick={() => toggle(tab.id)}
               style={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-                padding: '11px 6px',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
+                padding: '8px 6px',
                 borderRadius: isOpen ? '13px 13px 0 0' : 13,
                 background: isOpen ? tint.open : tint.closed,
                 border: isOpen ? `0.5px solid ${tint.border}` : '0.5px solid rgba(142,167,255,0.18)',
@@ -212,12 +212,8 @@ function WordPhrasePatternsAccordion({
                 boxShadow: '0 2px 10px rgba(80,90,160,0.08)',
               }}
             >
-              {tab.icon}
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.04em' }}>{tab.label}</span>
-              <span style={{
-                fontSize: 10, fontWeight: 600,
-                color: isOpen ? tint.color : 'var(--pm)',
-              }}>{tab.count}</span>
+              <span style={{ fontSize: 15, fontWeight: 600 }}>{tab.label}</span>
+              <span style={{ fontSize: 13, fontWeight: 400, color: isOpen ? tint.color : 'var(--pm)' }}>{tab.count}</span>
             </button>
           )
         })}
@@ -403,13 +399,13 @@ function EssaysSection() {
             </svg>
             <span style={{ fontSize: 14, fontWeight: 600, color: isDark ? '#e8e8f0' : '#1a1a2e' }}>Writing Studio</span>
           </div>
-          <span style={{ fontSize: 11, color: '#5C6BC0', fontWeight: 700 }}>
+          <span style={{ fontSize: 13, color: '#5C6BC0', fontWeight: 700 }}>
             AI Reviews {remaining}/{maxReviews}
           </span>
         </div>
 
         {/* Description */}
-        <p style={{ margin: '4px 0 0', fontSize: 12, color: '#5a5a7a', lineHeight: 1.5 }}>
+        <p style={{ margin: '4px 0 0', fontSize: 14, color: '#5a5a7a', lineHeight: 1.5 }}>
           작성하면 AI가 첨삭해드려요.
         </p>
 
@@ -419,13 +415,13 @@ function EssaysSection() {
           onClick={openComposer}
           style={{
             width: '100%', marginTop: 12,
-            background: 'transparent', color: '#5C6BC0',
+            background: '#5C6BC0', color: '#fff',
             borderRadius: 12, padding: '10px 0',
-            fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
-            border: '1.5px solid #5C6BC0', cursor: 'pointer',
+            fontSize: 15, fontWeight: 600, fontFamily: 'inherit',
+            border: 'none', cursor: 'pointer',
             transition: 'opacity 0.15s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.opacity = '0.85' }}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '0.88' }}
           onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
         >
           + 새 에세이 작성
