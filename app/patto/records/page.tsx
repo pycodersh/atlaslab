@@ -63,9 +63,9 @@ function glassStyle(isDark: boolean): React.CSSProperties {
 
 // ── Section 1: Today's Session ─────────────────────────────────────────────────
 function TodaySessionCard({
-  storyDone, patternDone, challengeDone, isDark,
+  storyDone, patternDone, challengeDone, isDark, motivationLine,
 }: {
-  storyDone: boolean; patternDone: boolean; challengeDone: boolean; isDark: boolean
+  storyDone: boolean; patternDone: boolean; challengeDone: boolean; isDark: boolean; motivationLine: string
 }) {
   const steps = [
     { label: 'Story',     done: storyDone,     active: !storyDone },
@@ -117,6 +117,9 @@ function TodaySessionCard({
           </div>
         ))}
       </div>
+      <p style={{ margin: '12px 0 0', fontSize: 13, fontWeight: 500, color: '#5C6BC0', lineHeight: 1.4 }}>
+        {motivationLine}
+      </p>
     </div>
   )
 }
@@ -407,6 +410,12 @@ export default function ProgressPage() {
   const patternDoneToday   = todayStats.patterns > 0
   const challengeDoneToday = false
 
+  const stepsDone = [storyDoneToday, patternDoneToday, challengeDoneToday].filter(Boolean).length
+  const motivationLine = stepsDone === 0 ? "Start your session — you're ready."
+    : stepsDone === 1 ? "Good start. Two steps to go."
+    : stepsDone === 2 ? "One step left — finish strong."
+    : "Session complete. Great work!"
+
   if (!mounted) return null
 
   return (
@@ -420,6 +429,7 @@ export default function ProgressPage() {
           patternDone={patternDoneToday}
           challengeDone={challengeDoneToday}
           isDark={isDark}
+          motivationLine={motivationLine}
         />
 
         <StatChips
