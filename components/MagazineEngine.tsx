@@ -25,6 +25,8 @@ import { saveLastPosition } from '@/lib/last-position'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { getStoryRound, getRecallCount, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
+import { syncStoryRoundToSupabase } from '@/lib/srs/supabase-sync'
+import { useAuth } from '@/contexts/AuthContext'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 
@@ -58,6 +60,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const { prefs } = usePreferences()
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
   const { progress, setProgress } = useLearningProgress()
+  const { user } = useAuth()
   const trainer = useTrainerSafe()
 
   // 위치 저장 — Continue Learning이 여기로 돌아올 수 있도록
@@ -474,6 +477,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       setTimeout(() => setFlowPhase('complete'), 1600)
       const patternIds = story.patterns.map(p => p.id)
       setProgress(completeStoryAndScheduleReview(progress, String(story.id), patternIds, 1, 1))
+      // Fire-and-forget Supabase sync (no-op if not logged in)
+      if (user?.id) syncStoryRoundToSupabase(user.id, data)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hideRecallRound, totalRecall, story.id, story.patterns, progress, setProgress, trainer])
