@@ -415,13 +415,17 @@ function EssaysSection() {
           onClick={openComposer}
           style={{
             width: '100%', marginTop: 12,
-            background: isDark ? '#A6B8FF' : '#6B8FFF', color: isDark ? '#1a1a2e' : '#fff',
+            background: isDark ? 'rgba(166,184,255,0.12)' : 'rgba(107,143,255,0.08)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: isDark ? '0.5px solid rgba(166,184,255,0.28)' : '0.5px solid rgba(107,143,255,0.28)',
+            color: isDark ? '#A6B8FF' : '#6B8FFF',
             borderRadius: 10, padding: '10px 0',
-            fontSize: 15, fontWeight: 600, fontFamily: 'inherit',
-            border: 'none', cursor: 'pointer',
-            transition: 'opacity 0.15s',
+            fontSize: 14, fontWeight: 600, fontFamily: 'inherit',
+            cursor: 'pointer',
+            transition: 'background 0.15s, opacity 0.15s',
           }}
-          onMouseEnter={e => { e.currentTarget.style.opacity = '0.88' }}
+          onMouseEnter={e => { e.currentTarget.style.opacity = '0.75' }}
           onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
         >
           + 새 글쓰기
