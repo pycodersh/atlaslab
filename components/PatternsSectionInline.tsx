@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
-import { Bookmark, Lightbulb, ChevronLeft, ChevronRight, Volume2 } from 'lucide-react'
+import { Bookmark, Info, ChevronLeft, ChevronRight, Volume2 } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import type { MagazineStory } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -327,17 +327,20 @@ export function PatternsSectionInline({
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
-  const dotActive        = isDark ? 'rgba(255,255,255,0.70)' : '#8EA7FF'
-  const dotInactive      = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(142,167,255,0.2)'
-  const cardBg           = isDark ? 'rgba(30,28,48,0.85)'    : '#FFFFFF'
-  const exBoxBg          = isDark ? 'rgba(255,255,255,0.04)' : '#F6F7FB'
-  const exBoxBorder      = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.14)'
+  const dotActive        = isDark ? '#8FABFF'                : '#6B8FFF'
+  const dotInactive      = isDark ? 'rgba(255,255,255,0.20)' : 'rgba(142,167,255,0.22)'
+  const cardBg           = isDark ? 'rgba(30,28,48,0.85)'    : 'rgba(255,255,255,0.75)'
+  const cardBackdrop     = 'blur(20px)'
+  const exBoxBg          = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(107,143,255,0.05)'
+  const exBoxBorder      = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,143,255,0.18)'
   const exEnColor        = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
-  const exKoColor        = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
+  const exKoColor        = isDark ? 'rgba(255,255,255,0.45)' : '#8a8aaa'
   const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
   const cardShadow       = isDark
     ? '0 16px 40px rgba(0,0,0,0.40)'
-    : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)'
+    : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)'
+  const noteNoteBg     = isDark ? 'rgba(215,181,109,0.06)' : 'rgba(215,181,109,0.07)'
+  const noteNoteBorder = isDark ? 'rgba(215,181,109,0.18)' : 'rgba(215,181,109,0.28)'
 
   // Pattern note
   const patternNote = pattern.explanation ?? PATTERN_NOTES[pattern.id] ?? null
@@ -369,8 +372,8 @@ export function PatternsSectionInline({
         {/* Top row */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
           <p style={{
-            margin: 0, fontSize: '0.57rem', fontWeight: 700, color: heroIconColor,
-            letterSpacing: '0.06em', flexShrink: 0,
+            margin: 0, fontSize: 8, fontWeight: 700, color: '#8EA7FF',
+            letterSpacing: '0.10em', flexShrink: 0,
             fontFamily: '"SF Mono", "Fira Mono", monospace',
           }}>
             PATTERN {String(globalPatternNum).padStart(3, '0')}
@@ -415,7 +418,7 @@ export function PatternsSectionInline({
               >
                 <motion.span
                   animate={{
-                    width: i === patIdx ? 16 : 5,
+                    width: i === patIdx ? 16 : 4,
                     background: i === patIdx ? dotActive : dotInactive,
                   }}
                   transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -453,15 +456,19 @@ export function PatternsSectionInline({
           </div>
         ) : (
           <p style={{
-            fontSize: 32, fontWeight: 800, color: heroPatternColor,
-            lineHeight: 1.2, margin: '0 0 6px', letterSpacing: '-0.5px',
-            fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+            fontSize: 28, fontWeight: 700, color: heroPatternColor,
+            lineHeight: 1.25, margin: '0 0 6px', letterSpacing: '-0.3px',
+            fontFamily: 'var(--font-playfair, "Playfair Display", Georgia, serif)',
           }}>
             {pattern.pattern}
           </p>
         )}
 
-        <div style={{ width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px', background: isDark ? 'rgba(255,255,255,0.25)' : '#8EA7FF' }} />
+        <div style={{
+          width: 36, height: 3, borderRadius: 2, margin: '6px 0 10px',
+          background: 'linear-gradient(90deg, #6B8FFF, #B8A8F0)',
+          opacity: isDark ? 0.7 : 1,
+        }} />
 
         {patternMeaning ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -474,15 +481,15 @@ export function PatternsSectionInline({
                 aria-label="예문 듣기"
                 onClick={playExamples}
                 style={{
-                  width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+                  width: 32, height: 32, borderRadius: 10, flexShrink: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: 'rgba(107,143,255,0.12)',
+                  background: 'rgba(107,143,255,0.10)',
                   border: 'none', cursor: 'pointer',
                   color: '#6B8FFF',
                   transition: 'background 0.15s',
                 }}
               >
-                <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />
+                <Volume2 style={{ width: 14, height: 14 }} strokeWidth={1.8} />
               </button>
             )}
           </div>
@@ -503,10 +510,10 @@ export function PatternsSectionInline({
                   text={ex.en}
                   saveCandidates={safeCandidates}
                   source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                  style={{ display: 'block', fontSize: 14, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55, marginBottom: 2 }}
+                  style={{ display: 'block', fontSize: 12, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.6, marginBottom: 2 }}
                 />
                 {showKorean && exKo && (
-                  <p style={{ fontSize: 12, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
+                  <p style={{ fontSize: 10, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
                 )}
               </div>
             )
@@ -514,9 +521,9 @@ export function PatternsSectionInline({
         </div>
 
         {patternNote && (
-          <div style={{ marginTop: 10, borderRadius: 8, background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(142,167,255,0.08)', padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-            <Lightbulb style={{ width: 13, height: 13, color: isDark ? '#8FABFF' : '#8EA7FF', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
-            <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.50)' : '#5a5a7a', lineHeight: 1.5 }}>{patternNote}</p>
+          <div style={{ marginTop: 10, borderRadius: 8, background: noteNoteBg, border: `0.5px solid ${noteNoteBorder}`, padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+            <Info style={{ width: 13, height: 13, color: '#D7B56D', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
+            <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.55)' : '#6a5a40', lineHeight: 1.5 }}>{patternNote}</p>
           </div>
         )}
       </div>
@@ -594,6 +601,8 @@ export function PatternsSectionInline({
             position: 'relative', zIndex: 10,
             overflow: 'hidden', borderRadius: 18,
             background: cardBg,
+            backdropFilter: cardBackdrop,
+            WebkitBackdropFilter: cardBackdrop,
             border: cardBorder,
             boxShadow: cardShadow,
             touchAction: 'pan-y',

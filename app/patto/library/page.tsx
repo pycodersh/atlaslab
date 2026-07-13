@@ -4,7 +4,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useRouter } from 'next/navigation'
 import {
-  Search, X, BookOpen,
+  Search, X, BookOpen, Plus,
   BookMarked, Layers, PenLine,
 } from 'lucide-react'
 
@@ -197,9 +197,9 @@ function WordPhrasePatternsAccordion({
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
                 padding: '11px 6px',
                 borderRadius: isOpen ? '13px 13px 0 0' : 13,
-                background: isOpen ? '#6B8FFF' : 'rgba(255,255,255,0.65)',
-                border: isOpen ? '0.5px solid #6B8FFF' : '0.5px solid rgba(255,255,255,0.8)',
-                color: isOpen ? '#fff' : 'var(--pt)',
+                background: isOpen ? 'rgba(107,143,255,0.15)' : 'rgba(255,255,255,0.60)',
+                border: isOpen ? '0.5px solid rgba(107,143,255,0.45)' : '0.5px solid rgba(142,167,255,0.18)',
+                color: isOpen ? '#6B8FFF' : 'var(--pt)',
                 cursor: 'pointer', transition: 'all 0.18s ease',
                 backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
               }}
@@ -217,9 +217,13 @@ function WordPhrasePatternsAccordion({
 
       {open && (
         <div style={{
-          background: '#6B8FFF',
+          background: 'rgba(107,143,255,0.85)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
           borderRadius: '0 0 13px 13px',
           padding: '8px 8px 10px',
+          border: '0.5px solid rgba(107,143,255,0.45)',
+          borderTop: 'none',
         }}>
           {open === 'words' && (
             words.length === 0

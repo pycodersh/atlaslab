@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Volume2, Lightbulb, Play, Pause, Square } from 'lucide-react'
+import { Volume2, Info, Play, Pause, Square } from 'lucide-react'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { useSpeech } from '@/hooks/useSpeech'
@@ -448,17 +448,19 @@ function PatternCardFocus({
   // ── Colors (mirrors PatternsSectionInline) ──
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
-  const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
   const heroBg           = isDark ? 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)' : 'transparent'
-  const cardBg           = isDark ? 'rgba(30,28,48,0.85)' : '#FFFFFF'
+  const cardBg           = isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.75)'
+  const cardBackdrop     = 'blur(20px)'
   const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
   const cardShadow       = isDark
     ? '0 16px 40px rgba(0,0,0,0.40)'
-    : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)'
-  const exBoxBg     = isDark ? 'rgba(255,255,255,0.04)' : '#F6F7FB'
-  const exBoxBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.14)'
+    : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)'
+  const exBoxBg     = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(107,143,255,0.05)'
+  const exBoxBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,143,255,0.18)'
   const exEnColor   = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
-  const exKoColor   = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
+  const exKoColor   = isDark ? 'rgba(255,255,255,0.45)' : '#8a8aaa'
+  const noteNoteBg     = isDark ? 'rgba(215,181,109,0.06)' : 'rgba(215,181,109,0.07)'
+  const noteNoteBorder = isDark ? 'rgba(215,181,109,0.18)' : 'rgba(215,181,109,0.28)'
 
   const showEn = studyMode === 'en' || studyMode === 'en-ko'
   const showKo = studyMode === 'en-ko' || studyMode === 'ko'
@@ -507,6 +509,8 @@ function PatternCardFocus({
         <div style={{
           borderRadius: 18,
           background: cardBg,
+          backdropFilter: cardBackdrop,
+          WebkitBackdropFilter: cardBackdrop,
           border: cardBorder,
           boxShadow: cardShadow,
           overflow: 'hidden',
@@ -514,8 +518,8 @@ function PatternCardFocus({
           {/* Hero section */}
           <div style={{ position: 'relative', overflow: 'hidden', padding: '12px 16px 16px', background: heroBg }}>
             <p style={{
-              margin: '0 0 10px', fontSize: '0.57rem', fontWeight: 700,
-              color: heroIconColor, letterSpacing: '0.06em',
+              margin: '0 0 10px', fontSize: 8, fontWeight: 700,
+              color: '#8EA7FF', letterSpacing: '0.10em',
               fontFamily: '"SF Mono", "Fira Mono", monospace',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
@@ -523,15 +527,19 @@ function PatternCardFocus({
 
             {showEn && (
               <p style={{
-                fontSize: 32, fontWeight: 800, color: heroPatternColor,
-                lineHeight: 1.2, margin: '0 0 6px', letterSpacing: '-0.5px',
-                fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                fontSize: 28, fontWeight: 700, color: heroPatternColor,
+                lineHeight: 1.25, margin: '0 0 6px', letterSpacing: '-0.3px',
+                fontFamily: 'var(--font-playfair, "Playfair Display", Georgia, serif)',
               }}>
                 {pat.pattern}
               </p>
             )}
 
-            <div style={{ width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px', background: isDark ? 'rgba(255,255,255,0.25)' : '#8EA7FF' }} />
+            <div style={{
+              width: 36, height: 3, borderRadius: 2, margin: '6px 0 10px',
+              background: 'linear-gradient(90deg, #6B8FFF, #B8A8F0)',
+              opacity: isDark ? 0.7 : 1,
+            }} />
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               {showKo && patternMeaning && (
@@ -547,9 +555,9 @@ function PatternCardFocus({
                   aria-label="예문 듣기"
                   onClick={playExamples}
                   style={{
-                    width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+                    width: 32, height: 32, borderRadius: 10, flexShrink: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: isPlaying ? 'rgba(107,143,255,0.25)' : 'rgba(107,143,255,0.12)',
+                    background: isPlaying ? 'rgba(107,143,255,0.22)' : 'rgba(107,143,255,0.10)',
                     border: 'none', cursor: 'pointer', color: '#6B8FFF',
                     transition: 'background 0.15s',
                   }}
@@ -576,15 +584,15 @@ function PatternCardFocus({
                   >
                     {showEn && (
                       <p style={{
-                        fontSize: 14, fontWeight: isExPlaying ? 700 : 400,
-                        color: exEnColor, lineHeight: 1.55,
+                        fontSize: 12, fontWeight: isExPlaying ? 600 : 400,
+                        color: exEnColor, lineHeight: 1.6,
                         margin: 0, marginBottom: showKo && ex.ko ? 2 : 0,
                       }}>
                         {ex.en}
                       </p>
                     )}
                     {showKo && ex.ko && (
-                      <p style={{ fontSize: 12, color: exKoColor, margin: 0, lineHeight: 1.5 }}>
+                      <p style={{ fontSize: 10, color: exKoColor, margin: 0, lineHeight: 1.5 }}>
                         {ex.ko}
                       </p>
                     )}
@@ -596,11 +604,11 @@ function PatternCardFocus({
             {patternNote && (
               <div style={{
                 marginTop: 10, borderRadius: 8,
-                background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(142,167,255,0.08)',
+                background: noteNoteBg, border: `0.5px solid ${noteNoteBorder}`,
                 padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8,
               }}>
-                <Lightbulb style={{ width: 13, height: 13, color: isDark ? '#8FABFF' : '#8EA7FF', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
-                <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.50)' : '#5a5a7a', lineHeight: 1.5 }}>
+                <Info style={{ width: 13, height: 13, color: '#D7B56D', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
+                <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.55)' : '#6a5a40', lineHeight: 1.5 }}>
                   {patternNote}
                 </p>
               </div>
