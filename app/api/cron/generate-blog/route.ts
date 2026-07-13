@@ -2,14 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import Anthropic from '@anthropic-ai/sdk'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+}
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
-})
+function getAnthropic() {
+  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
+}
 
 function generateSlug(text: string, locale: string): string {
   if (locale === 'ko') {
@@ -85,7 +87,7 @@ ${storyTitle ? `관련 스토리: "${storyTitle}"` : ''}
 }
 `
 
-  const response = await anthropic.messages.create({
+  const response = await getAnthropic().messages.create({
     model: 'claude-sonnet-4-6',
     max_tokens: 2000,
     messages: [{ role: 'user', content: prompt }],
@@ -103,6 +105,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    const supabase = getSupabase()
     // Get 5 patterns that don't have blog posts yet
     const { data: patterns, error: patternsError } = await supabase
       .from('patterns')
