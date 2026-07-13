@@ -41,6 +41,15 @@ function formatDate(isoDate: string): string {
 
 const DOW_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
+// ── Section label ─────────────────────────────────────────────────────────────
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{ margin: '6px 0 -4px 2px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: '#5C6BC0', textTransform: 'uppercase' }}>
+      {children}
+    </p>
+  )
+}
+
 // ── Glass card style helper ────────────────────────────────────────────────────
 function glassStyle(isDark: boolean): React.CSSProperties {
   return {
@@ -66,10 +75,6 @@ function TodaySessionCard({
 
   return (
     <div style={{ ...glassStyle(isDark), padding: '16px 20px' }}>
-      <p style={{ margin: '0 0 16px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: '#5C6BC0', textTransform: 'uppercase' }}>
-        Today&apos;s Session
-      </p>
-
       <div style={{ display: 'flex', alignItems: 'flex-start', position: 'relative' }}>
         {/* connector line 1: from center of step1 to center of step2 */}
         <div style={{
@@ -163,9 +168,6 @@ function RecentSessions({ storyRounds, isDark }: { storyRounds: StoryRoundData[]
 
   return (
     <div style={{ ...glassStyle(isDark), padding: '14px 16px' }}>
-      <p style={{ margin: '0 0 10px', fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: textMuted, textTransform: 'uppercase' }}>
-        Recent Sessions
-      </p>
       {recent.length === 0 ? (
         <p style={{ fontSize: 13, color: textMuted, margin: 0 }}>Complete your first session to see it here.</p>
       ) : (
@@ -228,9 +230,6 @@ function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, num
 
   return (
     <div style={{ ...glassStyle(isDark), padding: '14px 14px 12px' }}>
-      <p style={{ margin: '0 0 10px', fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: textMuted, textTransform: 'uppercase' }}>
-        This Week
-      </p>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <span style={{ fontSize: 12, fontWeight: 600, color: textMuted }}>{weekLabel}</span>
         <span style={{ fontSize: 11, fontWeight: 700, color: '#5C6BC0' }}>{attendedDays} / 7 days</span>
@@ -424,6 +423,7 @@ export default function ProgressPage() {
       <TopNav />
       <div style={{ maxWidth: 480, margin: '0 auto', padding: '10px 20px 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
+        <SectionLabel>Today&apos;s Session</SectionLabel>
         <TodaySessionCard
           storyDone={storyDoneToday}
           patternDone={patternDoneToday}
@@ -438,8 +438,10 @@ export default function ProgressPage() {
           isDark={isDark}
         />
 
+        <SectionLabel>Recent Sessions</SectionLabel>
         <RecentSessions storyRounds={storyRounds} isDark={isDark} />
 
+        <SectionLabel>This Week</SectionLabel>
         <WeekCalendar activityMap={activityMap} isDark={isDark} />
 
         <OverallAccordion
