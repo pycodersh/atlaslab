@@ -368,29 +368,6 @@ function WeeklyTab({ storyRounds, activityMap }: {
         </div>
       </div>
 
-      {/* Weekly stats */}
-      <div style={{ display: 'flex', gap: 7 }}>
-        {weekStatChips.map(c => (
-          <div key={c.label} style={{
-            flex: 1, borderRadius: 14, padding: '12px 6px',
-            background: 'rgba(255,255,255,0.72)',
-            backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-            border: '0.5px solid rgba(255,255,255,0.85)',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
-          }}>
-            <span style={{ fontSize: 22, fontWeight: 700, color: c.accent, lineHeight: 1.1, fontVariantNumeric: 'tabular-nums' }}>{c.value}</span>
-            <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.07em', color: c.accent, opacity: 0.75, textTransform: 'uppercase' }}>{c.label}</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Recent sessions */}
-      <div style={{ ...glassCard, padding: '14px 16px' }}>
-        <p style={{ margin: '0 0 10px', fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: textMuted, textTransform: 'uppercase' }}>
-          Recent Sessions
-        </p>
-        <RecentSessionList storyRounds={storyRounds} />
-      </div>
     </div>
   )
 }
@@ -578,9 +555,6 @@ function OverallAccordion({ patternsLearned, streak, storyRounds }: {
           fontFamily: 'inherit',
         }}
       >
-        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: textMuted, textTransform: 'uppercase' }}>
-          Overall
-        </span>
         <svg
           width={16} height={16} viewBox="0 0 16 16" fill="none"
           style={{ transition: 'transform 0.3s ease', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
@@ -671,9 +645,6 @@ export default function ProgressPage() {
 
         {/* Section 1: TODAY'S SESSION */}
         <section>
-          <p style={{ margin: '0 0 10px 2px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: textMuted, textTransform: 'uppercase' }}>
-            Today&apos;s Session
-          </p>
           <TodayTab
             storyRounds={storyRounds}
             streak={streak}
@@ -689,9 +660,6 @@ export default function ProgressPage() {
 
         {/* Section 2: WEEKLY */}
         <section>
-          <p style={{ margin: '0 0 10px 2px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: textMuted, textTransform: 'uppercase' }}>
-            Weekly
-          </p>
           <WeeklyTab storyRounds={storyRounds} activityMap={activityMap} />
         </section>
 
