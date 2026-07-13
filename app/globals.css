@@ -436,9 +436,10 @@ body {
 /* ── Pattern Card glass (front & back) ──────────────────────────────── */
 .pattern-card-glass {
   background: rgba(255,255,255,0.55);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 0.5px solid rgba(142,167,255,0.20);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.60);
+  border-radius: 20px;
 }
 .dark .pattern-card-glass {
   background: rgba(255,255,255,0.08);

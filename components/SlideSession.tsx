@@ -482,9 +482,9 @@ function PatternCardFocus({
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const heroBg           = 'transparent'
-  const cardBg           = isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.60)'
+  const cardBg           = isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.55)'
   const cardBackdrop     = isDark ? 'blur(20px)' : 'blur(16px)'
-  const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(255,255,255,0.80)'
+  const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(255,255,255,0.60)'
   const cardShadow       = isDark
     ? '0 16px 40px rgba(0,0,0,0.40)'
     : '0 4px 24px rgba(142,167,255,0.12)'
@@ -544,7 +544,7 @@ function PatternCardFocus({
       {/* Pattern card */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '0 16px' }}>
         <div style={{
-          borderRadius: 18,
+          borderRadius: 20,
           background: cardBg,
           backdropFilter: cardBackdrop,
           WebkitBackdropFilter: cardBackdrop,
