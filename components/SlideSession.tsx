@@ -118,20 +118,20 @@ function IntroSlide({ story, currentRound }: { story: MagazineStory; currentRoun
         width: '100%', maxWidth: 380,
       }}>
         <p style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
+          fontSize: 13, fontWeight: 700, letterSpacing: '0.14em',
           color: '#8EA7FF', margin: '0 0 12px', textTransform: 'uppercase',
         }}>
           STORY {String(story.id).padStart(2, '0')}
         </p>
         <h1 style={{
           fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
-          fontSize: 34, fontWeight: 700, color: '#1a1a2e',
+          fontSize: 37, fontWeight: 700, color: '#1a1a2e',
           margin: '0 0 8px', lineHeight: 1.15,
         }}>
           {story.title}
         </h1>
         {subtitle && (
-          <p style={{ fontSize: 15, fontWeight: 500, color: '#4a4a6a', margin: '0 0 18px', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 18, fontWeight: 500, color: '#4a4a6a', margin: '0 0 18px', lineHeight: 1.5 }}>
             {subtitle}
           </p>
         )}
@@ -140,7 +140,7 @@ function IntroSlide({ story, currentRound }: { story: MagazineStory; currentRoun
           background: 'linear-gradient(90deg, #6B8FFF, #B8A8F0)',
           margin: '0 auto 18px',
         }} />
-        <p style={{ fontSize: 13, fontWeight: 500, color: '#7a7a9a', margin: 0 }}>
+        <p style={{ fontSize: 16, fontWeight: 500, color: '#7a7a9a', margin: 0 }}>
           Round {currentRound + 1}
         </p>
       </div>
