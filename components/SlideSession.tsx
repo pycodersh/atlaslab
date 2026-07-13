@@ -20,6 +20,19 @@ import { syncStoryRoundToSupabase } from '@/lib/srs/supabase-sync'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import type { MagazineStory } from '@/types/magazine'
+import {
+  getLearnerLevel,
+  getTrainerIntensity,
+  getSlideDelay,
+  loadStats,
+  onSessionStart,
+  onSessionComplete,
+  onDoneTap,
+  recordSessionSignal,
+  getSessionAdaptAction,
+  loadSessionAdapt,
+} from '@/lib/adaptive/adaptive-engine'
+import { syncStatsToSupabase } from '@/lib/adaptive/supabase-sync'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -325,6 +338,20 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   const slideRef = useRef<Slide>(slide)
   slideRef.current = slide
 
+  // ── Adaptive engine state ──────────────────────────────────────────────────
+  const adaptStats = loadStats()
+  const level = getLearnerLevel(adaptStats)
+  const intensity = getTrainerIntensity(level)
+  const slideDelay = getSlideDelay(adaptStats)
+  // isSilent: goes true mid-session if user taps Done 3× fast
+  const isSilentRef = useRef(intensity === 'silent')
+  // timestamp of last card presentation (for response time tracking)
+  const cardShownAtRef = useRef<number | null>(null)
+
+  // ── Adaptive: call onSessionStart once on mount ────────────────────────────
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { onSessionStart() }, [])
+
   // ── Timer helpers ──────────────────────────────────────────────────────────
 
   function addTimer(t: ReturnType<typeof setTimeout>) {
@@ -353,11 +380,11 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     clearTimers()
     trainerRef.current?.clearMessage()
     if (bridgeMsg) {
-      trainerRef.current?.say(bridgeMsg, bridgeMs)
-      addTimer(setTimeout(() => goTo(next), bridgeMs + 200))
+      if (!isSilentRef.current) trainerRef.current?.say(bridgeMsg, bridgeMs)
+      addTimer(setTimeout(() => goTo(next), isSilentRef.current ? slideDelay : bridgeMs + 200))
     } else {
-      trainerRef.current?.say("좋아요.", 1000)
-      addTimer(setTimeout(() => goTo(next), 1200))
+      if (!isSilentRef.current) trainerRef.current?.say("좋아요.", 1000)
+      addTimer(setTimeout(() => goTo(next), isSilentRef.current ? slideDelay : 1200))
     }
   }
 
@@ -395,10 +422,40 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     return () => {
       trainerRef.current?.setCardPlaying(false)
       trainerRef.current?.clearMessage()
+      cardShownAtRef.current = Date.now()
+
+      const wrappedDone = () => {
+        // Track response time
+        if (cardShownAtRef.current !== null) {
+          const rt = Date.now() - cardShownAtRef.current
+          onDoneTap(rt)
+          const signal = rt < 3000 ? 'fast' : rt > 7000 ? 'slow' : null
+          if (signal) {
+            const adaptState = recordSessionSignal(signal)
+            const action = getSessionAdaptAction(adaptState)
+            if (action.type === 'go_silent') {
+              isSilentRef.current = true
+              trainerRef.current?.setSilent?.(true)
+            } else if (action.type === 'encourage_slow') {
+              trainerRef.current?.say("천천히 해도 괜찮아요.", 2000)
+            }
+          }
+          cardShownAtRef.current = null
+        }
+        doneHandler()
+      }
+
       addTimer(setTimeout(() => {
-        trainerRef.current?.ask("따라해보세요.", [{
-          label: 'Done', btnVariant: 'done', onClick: doneHandler,
-        }])
+        if (isSilentRef.current) {
+          // silent: show Done button without verbal prompt
+          trainerRef.current?.ask("", [{
+            label: 'Done', btnVariant: 'done', onClick: wrappedDone,
+          }])
+        } else {
+          trainerRef.current?.ask("따라해보세요.", [{
+            label: 'Done', btnVariant: 'done', onClick: wrappedDone,
+          }])
+        }
       }, 200))
     }
   }
@@ -436,7 +493,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       case 'intro': {
         const msg = isGuided
           ? "첫 번째 스토리예요. 먼저 들어보고 따라해볼게요."
-          : "준비됐나요?"
+          : intensity === 'silent' ? "시작할까요?" : "준비됐나요?"
         if (isGuided) {
           t?.say("안녕하세요! 함께 시작해볼게요.", 2500)
           addTimer(setTimeout(() => {
@@ -535,6 +592,8 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
           const patternIds = story.patterns.map(p => p.id)
           setProgress(prev => completeStoryAndScheduleReview(prev, String(story.id), patternIds, 1, 1))
           if (user?.id) syncStoryRoundToSupabase(user.id, data)
+          onSessionComplete(story.patterns.length)
+          if (user?.id) syncStatsToSupabase(user.id)
           if (isGuided) {
             try {
               localStorage.setItem('is_guided_session', 'false')
@@ -542,9 +601,12 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
             } catch {}
           }
         }
-        const msg = isGuided ? "첫 번째 세션을 완료했어요!" : "오늘도 잘하셨어요."
+        // silent mode: skip completion message
+        const completionMsg = isSilentRef.current
+          ? ''
+          : isGuided ? "첫 번째 세션을 완료했어요!" : "오늘도 잘하셨어요."
         addTimer(setTimeout(() => {
-          trainerRef.current?.announce(msg, '', 'Finish', () => router.push('/patto/home'))
+          trainerRef.current?.announce(completionMsg, '', 'Finish', () => router.push('/patto/home'))
         }, 800))
         break
       }

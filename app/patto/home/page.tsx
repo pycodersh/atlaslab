@@ -24,10 +24,15 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useVisitCount } from '@/hooks/useVisitCount'
 import {
   getTimeOfDay,
-  getHomeMessage,
   getFirstVisitButtons,
   getVeteranHomeButton,
 } from '@/lib/scenario/scenario-engine'
+import {
+  getLearnerLevel,
+  loadStats,
+  getAdaptiveHomeMessage,
+} from '@/lib/adaptive/adaptive-engine'
+import { loadStatsFromSupabase } from '@/lib/adaptive/supabase-sync'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -638,6 +643,11 @@ export default function HomePage() {
   const { user } = useAuth()
   const { visitorType } = useVisitCount(user?.id)
 
+  // Load adaptive stats from Supabase once on login
+  useEffect(() => {
+    if (user?.id) loadStatsFromSupabase(user.id)
+  }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
   const loadMissions = useCallback(() => {
@@ -805,12 +815,16 @@ export default function HomePage() {
     // Scenario-based home entry message
     const delay = welcomeEndMs > 0 ? welcomeEndMs : 1500
 
+    const adaptStats = loadStats()
+    const level = getLearnerLevel(adaptStats)
+    const adaptMsg = getAdaptiveHomeMessage(level, visitorType, getTimeOfDay(), adaptStats)
+
     let timer: ReturnType<typeof setTimeout>
     if (visitorType === 'first_visit') {
       timer = setTimeout(() => {
         const buttons = getFirstVisitButtons()
         trainerRef.current?.ask(
-          getHomeMessage(visitorType, getTimeOfDay()),
+          adaptMsg,
           [
             {
               label: buttons[0].label,
@@ -835,13 +849,13 @@ export default function HomePage() {
       timer = setTimeout(() => {
         const btn = getVeteranHomeButton()
         trainerRef.current?.ask(
-          getHomeMessage(visitorType, getTimeOfDay()),
+          adaptMsg,
           [{ label: btn.label, primary: true, onClick: () => router.push(`/patto/session/${todayStory.id}`) }],
         )
       }, delay)
     } else {
       timer = setTimeout(() => {
-        trainerRef.current?.say(getHomeMessage(visitorType, getTimeOfDay()), 2500)
+        trainerRef.current?.say(adaptMsg, 2500)
       }, delay)
     }
 
