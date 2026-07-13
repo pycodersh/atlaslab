@@ -290,12 +290,13 @@ export default function AtlasLabHome() {
 
         {/* Nav */}
         <nav className="al-nav">
-          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-              <rect width="30" height="30" rx="7" fill="white"/>
-              <text x="15" y="21" textAnchor="middle" fontSize="13" fontWeight="800" fill="#0d0820" fontFamily="Georgia,'Times New Roman',serif" letterSpacing="-0.5">AL</text>
-            </svg>
-            <span style={{ fontSize: 15, fontWeight: 700, color: 'white', letterSpacing: '0.08em', fontFamily: FONT_BODY }}>ATLASLAB</span>
+          <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/atlaslab_logo_white_transparent.png"
+              alt="Atlas Lab"
+              style={{ height: 52, width: 'auto', display: 'block', mixBlendMode: 'screen' }}
+            />
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>
