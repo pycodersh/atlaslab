@@ -416,7 +416,7 @@ function EssaysSection() {
           style={{
             width: '100%', marginTop: 12,
             background: isDark ? '#A6B8FF' : '#6B8FFF', color: isDark ? '#1a1a2e' : '#fff',
-            borderRadius: 12, padding: '10px 0',
+            borderRadius: 10, padding: '10px 0',
             fontSize: 15, fontWeight: 600, fontFamily: 'inherit',
             border: 'none', cursor: 'pointer',
             transition: 'opacity 0.15s',

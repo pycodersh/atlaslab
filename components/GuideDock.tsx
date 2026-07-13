@@ -255,9 +255,8 @@ function GuideDock() {
             border:          cardBorder,
             boxShadow:       cardShadow,
             borderRadius:    activeCard.isHelp
-                               ? (isOnRight ? '16px 16px 4px 16px' : '16px 16px 16px 4px')
-                               : activeCard.size === 'small' ? 14
-                               : activeCard.size === 'medium' ? 16 : 18,
+                               ? (isOnRight ? '10px 10px 4px 10px' : '10px 10px 10px 4px')
+                               : 10,
             padding:         activeCard.isHelp ? '12px 13px'
                            : activeCard.size === 'small' ? '9px 13px'
                            : activeCard.size === 'medium' ? '13px 14px' : '16px',
@@ -402,7 +401,7 @@ function CardContent({
                 border: card.size === 'large'
                   ? (dark ? '0.5px solid rgba(107,143,255,0.25)' : '0.5px solid rgba(107,143,255,0.22)')
                   : 'none',
-                borderRadius: card.size === 'large' ? 10 : 0,
+                borderRadius: card.size === 'large' ? 10 : 4,
                 padding: card.size === 'large' ? '10px 14px' : 0,
                 color:   btn.primary ? textPri : textSec,
                 fontSize: card.size === 'large' ? 13 : 13,
