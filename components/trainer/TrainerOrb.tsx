@@ -321,15 +321,15 @@ function WhisperCard({ card, dark, textMain }: {
 
 // ── 2. Action Card ────────────────────────────────────────────────────────────
 const BTN_BASE: React.CSSProperties = {
-  minWidth: 80, height: 36, borderRadius: 20,
-  fontSize: 13, fontWeight: 500, fontFamily: 'inherit',
+  flex: 1, height: 36, borderRadius: 18,
+  fontSize: 13, fontFamily: 'inherit',
   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-  cursor: 'pointer',
+  cursor: 'pointer', border: 'none',
   transition: 'transform 0.12s ease, opacity 0.12s ease',
   willChange: 'transform',
 }
-const BTN_PRIMARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1.5px solid #5C6BC0', color: '#5C6BC0' }
-const BTN_SECONDARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1px solid #e0e3f0', color: '#9098b1' }
+const BTN_PRIMARY: React.CSSProperties = { ...BTN_BASE, background: '#8B9FE8', color: '#ffffff', fontWeight: 600 }
+const BTN_SECONDARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1px solid #D0D5F0', color: '#8B9FE8', fontWeight: 500 }
 
 function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
   card: CardSpec; dark: boolean
@@ -566,7 +566,7 @@ function ConvCard({
   } else if (active.size === 'medium') {
     borderRadius = radius(16); padding = '14px 16px'; minWidth = 200; maxWidth = 260
   } else {
-    borderRadius = radius(18); padding = '18px 18px 16px'; minWidth = 240; maxWidth = 280
+    borderRadius = radius(18); padding = '14px 16px'; minWidth = 240; maxWidth = 280
   }
 
   return (

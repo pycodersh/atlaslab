@@ -44,7 +44,7 @@ function CardShell({
   const borderRadius = isRight
     ? `${baseR}px ${baseR}px ${n}px ${baseR}px`
     : `${baseR}px ${baseR}px ${baseR}px ${n}px`
-  const padding = size === 'small' ? '10px 14px' : size === 'medium' ? '14px 16px' : '18px 18px 16px'
+  const padding = size === 'small' ? '10px 14px' : '14px 16px'
   const minWidth = size === 'small' ? 120 : size === 'medium' ? 200 : 240
   const maxWidth = size === 'small' ? 220 : size === 'medium' ? 260 : 280
 
@@ -108,27 +108,28 @@ function WhisperContent({ message, ms, isDark }: { message: string; ms?: number;
 const BTN_BASE: React.CSSProperties = {
   flex: 1,
   height: 36,
-  borderRadius: 20,
+  borderRadius: 18,
   fontSize: 13,
-  fontWeight: 500,
   fontFamily: 'inherit',
   cursor: 'pointer',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   gap: 5,
+  border: 'none',
 }
 const BTN_PRIMARY: React.CSSProperties = {
   ...BTN_BASE,
-  background: '#ffffff',
-  border: '1.5px solid #5C6BC0',
-  color: '#5C6BC0',
+  background: '#8B9FE8',
+  color: '#ffffff',
+  fontWeight: 600,
 }
 const BTN_SECONDARY: React.CSSProperties = {
   ...BTN_BASE,
   background: '#ffffff',
-  border: '1px solid #e0e3f0',
-  color: '#9098b1',
+  border: '1px solid #D0D5F0',
+  color: '#8B9FE8',
+  fontWeight: 500,
 }
 
 // ── Action Card Content ───────────────────────────────────────────────────────
