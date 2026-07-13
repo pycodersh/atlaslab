@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { useSpeech } from '@/hooks/useSpeech'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { storyParaAudioUrl } from '@/lib/tts'
+import { DailyChallengeSlide } from '@/components/DailyChallengeSlide'
 import {
   getStoryRound,
   getRecallCount,
@@ -215,26 +216,6 @@ function HideRecallSlide({ story, patIdx, revealed, onReveal }: {
   )
 }
 
-function DailyChallengeSlide() {
-  return (
-    <div style={{
-      width: '100%', height: '100%',
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      padding: '0 32px',
-    }}>
-      <p style={{ fontSize: 40, margin: '0 0 16px' }}>🎯</p>
-      <p style={{
-        fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
-        color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 10px',
-      }}>
-        Daily Challenge
-      </p>
-      <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', textAlign: 'center', lineHeight: 1.6 }}>
-        오늘의 챌린지가 준비되고 있어요.
-      </p>
-    </div>
-  )
-}
 
 function CompleteSlide({ story, completionData, elapsedMin, isGuided }: {
   story: MagazineStory; completionData: StoryRoundData | null; elapsedMin: number; isGuided: boolean
@@ -539,12 +520,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       }
 
       case 'daily-challenge': {
-        addTimer(setTimeout(() => {
-          trainerRef.current?.ask("마지막으로 한 가지만요.", [
-            { label: "Let's do it", primary: true, onClick: () => goTo({ kind: 'complete' }) },
-            { label: 'Maybe later', onClick: () => goTo({ kind: 'complete' }) },
-          ])
-        }, 600))
+        // DailyChallengeSlide handles all trainer interactions internally
         break
       }
 
@@ -623,7 +599,13 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       case 'paragraph':       return <ParagraphSlide story={story} idx={slide.idx} />
       case 'pattern':         return <PatternSlide story={story} idx={slide.idx} />
       case 'hide-recall':     return <HideRecallSlide story={story} patIdx={slide.patIdx} revealed={revealed} onReveal={handleReveal} />
-      case 'daily-challenge': return <DailyChallengeSlide />
+      case 'daily-challenge': return (
+        <DailyChallengeSlide
+          story={story}
+          onSkip={() => goTo({ kind: 'complete' })}
+          onDone={() => goTo({ kind: 'complete' })}
+        />
+      )
       case 'complete':        return <CompleteSlide story={story} completionData={completionData} elapsedMin={elapsedMin} isGuided={isGuided} />
     }
   }
