@@ -301,7 +301,7 @@ export function DailyChallengeSlide({ story, onSkip, onDone }: Props) {
               }, 1600))
             },
           },
-          { label: 'Maybe later', onClick: onSkip },
+          { label: 'Later', onClick: onSkip },
         ])
       }, 2000))
     }, 400))

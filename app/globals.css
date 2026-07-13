@@ -453,9 +453,9 @@ body {
 }
 .trainer-btn:active { transform: scale(0.97); }
 .trainer-btn-primary {
-  background: rgba(128, 144, 240, 0.12);
-  border: 1px solid rgba(128, 144, 240, 0.35);
-  color: #5C6BC0;
+  background: rgba(128, 144, 240, 0.07);
+  border: 1px solid rgba(128, 144, 240, 0.22);
+  color: #8C96C8;
 }
 .dark .trainer-btn-primary {
   background: rgba(160, 176, 255, 0.25);
@@ -463,9 +463,9 @@ body {
   color: #ffffff;
 }
 .trainer-btn-primary:disabled {
-  background: rgba(128,144,240,0.06);
-  border: 1px solid rgba(128,144,240,0.15);
-  color: rgba(92,107,192,0.4);
+  background: rgba(128,144,240,0.04);
+  border: 1px solid rgba(128,144,240,0.12);
+  color: rgba(140,150,200,0.35);
   cursor: default;
 }
 .dark .trainer-btn-primary:disabled {
@@ -473,8 +473,8 @@ body {
 }
 .trainer-btn-secondary {
   background: transparent;
-  border: 1px solid rgba(128, 144, 240, 0.25);
-  color: #8890a4;
+  border: 1px solid rgba(128, 144, 240, 0.18);
+  color: #a0a8bb;
 }
 .dark .trainer-btn-secondary {
   background: rgba(255, 255, 255, 0.07);

@@ -553,7 +553,7 @@ export function TrainerUIPlayground() {
             { msg: '따라해보세요.', btns: [{ label: '✓ Done', variant: 'done' as const }] },
             { msg: '삭제할까요?', btns: [{ label: 'Cancel', variant: 'secondary' as const }, { label: 'Remove', variant: 'primary' as const }] },
             { msg: '세션을 종료할까요?', btns: [{ label: 'Stay', variant: 'secondary' as const }, { label: 'Exit', variant: 'primary' as const }] },
-            { msg: '오늘의 챌린지를 해볼까요?', btns: [{ label: 'Maybe later', variant: 'secondary' as const }, { label: "Let's do it", variant: 'primary' as const }] },
+            { msg: '오늘의 챌린지를 해볼까요?', btns: [{ label: 'Later', variant: 'secondary' as const }, { label: "Let's do it", variant: 'primary' as const }] },
             { msg: '다시 들어볼까요?', btns: [{ label: '▶ Play', variant: 'play' as const }, { label: '✓ Done', variant: 'done' as const }] },
           ].map(({ msg, btns }) => (
             <OrbWithCard key={msg} corner="br" size="medium" isDark={isDark} orbState={orbState}>
