@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, Volume2, Lightbulb, Play, Pause, Square } from 'lucide-react'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
@@ -31,6 +31,7 @@ import { syncStoryRoundToSupabase } from '@/lib/srs/supabase-sync'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import type { MagazineStory } from '@/types/magazine'
+import type { ReactNode } from 'react'
 import {
   getLearnerLevel,
   getTrainerIntensity,
@@ -64,6 +65,20 @@ export type SlideSessionProps = {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const RECALL_ROUND_MSGS = ['한 번 더 해볼게요.', '한 번 더요.', '마지막이에요.']
+
+// Highlight pattern expressions in story text
+function highlightPatterns(text: string, patterns: string[]): ReactNode {
+  if (patterns.length === 0) return text
+  const sorted = [...patterns].sort((a, b) => b.length - a.length)
+  const escaped = sorted.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  const regex = new RegExp(`(${escaped.join('|')})`, 'gi')
+  const parts = text.split(regex)
+  return parts.map((part, i) =>
+    i % 2 === 1
+      ? <mark key={i} style={{ background: 'transparent', color: '#6B8FFF', fontWeight: 700 }}>{part}</mark>
+      : part
+  )
+}
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
@@ -130,10 +145,12 @@ function StorySlide({
   part,
   totalParts,
   currentRound,
+  patternTexts,
   studyMode,
   onStudyModeChange,
   isSpeaking,
   isPaused,
+  currentParaIdx,
   onPlay,
   onPause,
   onStop,
@@ -143,10 +160,12 @@ function StorySlide({
   part: number
   totalParts: number
   currentRound: number
+  patternTexts: string[]
   studyMode: StudyMode
   onStudyModeChange: (m: StudyMode) => void
   isSpeaking: boolean
   isPaused: boolean
+  currentParaIdx: number
   onPlay: () => void
   onPause: () => void
   onStop: () => void
@@ -170,29 +189,27 @@ function StorySlide({
           {totalParts > 1 && ` · ${part + 1}/${totalParts}`}
         </p>
 
-        {prefs.language !== 'en' && (
-          <div style={{
-            display: 'inline-flex', borderRadius: 10,
-            border: '0.5px solid rgba(255,255,255,0.2)', padding: 2,
-          }}>
-            {(['en', 'en-ko', 'ko'] as const).map(mode => (
-              <button
-                key={mode}
-                type="button"
-                onClick={() => onStudyModeChange(mode)}
-                style={{
-                  padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                  fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                  background: studyMode === mode ? '#6B8FFF' : 'transparent',
-                  color: studyMode === mode ? '#fff' : 'rgba(255,255,255,0.4)',
-                  transition: 'background 0.18s, color 0.18s',
-                }}
-              >
-                {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
-              </button>
-            ))}
-          </div>
-        )}
+        <div style={{
+          display: 'inline-flex', borderRadius: 10,
+          border: '0.5px solid rgba(255,255,255,0.2)', padding: 2,
+        }}>
+          {(['en', 'en-ko', 'ko'] as const).map(mode => (
+            <button
+              key={mode}
+              type="button"
+              onClick={() => onStudyModeChange(mode)}
+              style={{
+                padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                background: studyMode === mode ? '#6B8FFF' : 'transparent',
+                color: studyMode === mode ? '#fff' : 'rgba(255,255,255,0.4)',
+                transition: 'background 0.18s, color 0.18s',
+              }}
+            >
+              {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Scrollable text area */}
@@ -210,7 +227,7 @@ function StorySlide({
                     fontSize: '0.9rem', lineHeight: 1.9,
                     color: 'var(--pt)', margin: 0,
                   }}>
-                    {para.english}
+                    {highlightPatterns(para.english, patternTexts)}
                   </p>
                 )}
                 {showKo && koText && (
@@ -290,13 +307,30 @@ function StorySlide({
             <Square style={{ width: 13, height: 13 }} fill="currentColor" />
           </button>
 
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', flex: 1 }}>
-            {isSpeaking && !isPaused
-              ? '재생 중...'
-              : isPaused
-              ? '일시정지됨'
-              : story.title}
-          </span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            {isSpeaking && !isPaused ? (
+              <>
+                <div style={{
+                  height: 3, borderRadius: 2,
+                  background: 'rgba(255,255,255,0.2)', marginBottom: 5,
+                }}>
+                  <div style={{
+                    height: '100%', borderRadius: 2,
+                    background: '#6B8FFF',
+                    width: `${paragraphs.length > 0 ? Math.round(((currentParaIdx + 1) / paragraphs.length) * 100) : 0}%`,
+                    transition: 'width 0.4s ease',
+                  }} />
+                </div>
+                <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>
+                  {currentParaIdx + 1} / {paragraphs.length}
+                </span>
+              </>
+            ) : (
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
+                {isPaused ? '일시정지됨' : story.title}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -732,7 +766,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   trainerRef.current = trainer
 
   const { user } = useAuth()
-  const { speakAll, stop: stopSpeech, isSpeaking } = useSpeech()
+  const { speakAll, stop: stopSpeech, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
   const { setProgress } = useLearningProgress()
 
@@ -743,6 +777,12 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   // Story split: 10+ paragraphs → 2 slides
   const storyParts = story.paragraphs.length >= 10 ? 2 : 1
   const splitAt = Math.ceil(story.paragraphs.length / 2)
+
+  // Pattern expressions for highlight (memoized)
+  const patternTexts = useMemo(
+    () => story.patterns.map(p => p.pattern).filter(Boolean),
+    [story.patterns]
+  )
 
   const [slide, setSlide] = useState<Slide>(() => loadSlide(story.id) ?? { kind: 'intro' })
   const [animKey, setAnimKey] = useState(0)
@@ -1121,10 +1161,12 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
             part={part}
             totalParts={storyParts}
             currentRound={currentRound}
+            patternTexts={patternTexts}
             studyMode={studyMode}
             onStudyModeChange={setStudyMode}
             isSpeaking={isSpeaking}
             isPaused={storyAudioPaused}
+            currentParaIdx={currentParagraphIdx}
             onPlay={() => handleStoryPlay(part)}
             onPause={handleStoryPause}
             onStop={handleStoryStop}
