@@ -272,16 +272,23 @@ function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, num
 }
 
 // ── Section 5: Overall Progress (accordion) ────────────────────────────────────
-function OverallAccordion({ patternsLearned, streak, storyRounds, isDark }: {
-  patternsLearned: number; streak: number; storyRounds: StoryRoundData[]; isDark: boolean
+function OverallAccordion({ patternsLearned, storyRounds, isDark }: {
+  patternsLearned: number; storyRounds: StoryRoundData[]; isDark: boolean
 }) {
-  const [open, setOpen] = useState(false)
-  const contentRef      = useRef<HTMLDivElement>(null)
-  const [contentH, setContentH] = useState(0)
+  const [open, setOpen]           = useState(false)
+  const [mapOpen, setMapOpen]     = useState(false)
+  const contentRef                = useRef<HTMLDivElement>(null)
+  const mapRef                    = useRef<HTMLDivElement>(null)
+  const [contentH, setContentH]   = useState(0)
+  const [mapH, setMapH]           = useState(0)
 
   useEffect(() => {
     if (contentRef.current) setContentH(contentRef.current.scrollHeight)
-  }, [open, storyRounds])
+  }, [open, mapOpen, storyRounds])
+
+  useEffect(() => {
+    if (mapRef.current) setMapH(mapRef.current.scrollHeight)
+  }, [mapOpen, storyRounds])
 
   const textMuted = isDark ? '#a0a0c0' : '#5a5a7a'
   const pct       = Math.min(100, Math.round((patternsLearned / PATTERN_GOAL) * 100))
@@ -299,36 +306,36 @@ function OverallAccordion({ patternsLearned, streak, storyRounds, isDark }: {
     return { bg: '#EEF1FF', text: '#5C6BC0', border: '1.5px solid rgba(92,107,192,0.35)' }
   }
 
+  const chevron = (rotated: boolean) => (
+    <svg width={14} height={14} viewBox="0 0 16 16" fill="none"
+      style={{ transition: 'transform 0.3s ease', transform: rotated ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
+    >
+      <path d="M4 6l4 4 4-4" stroke={textMuted} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+
   return (
     <div style={{ ...glassStyle(isDark), overflow: 'hidden' }}>
+      {/* Main toggle — arrow only */}
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
         style={{
-          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '14px 16px', border: 'none', background: 'transparent', cursor: 'pointer',
-          fontFamily: 'inherit',
+          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+          padding: '12px 16px', border: 'none', background: 'transparent', cursor: 'pointer',
         }}
       >
-        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: textMuted, textTransform: 'uppercase' }}>
-          Overall Progress
-        </span>
-        <svg
-          width={16} height={16} viewBox="0 0 16 16" fill="none"
-          style={{ transition: 'transform 0.3s ease', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
-        >
-          <path d="M4 6l4 4 4-4" stroke={textMuted} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+        {chevron(open)}
       </button>
 
       <div style={{ maxHeight: open ? contentH + 32 : 0, overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
-        <div ref={contentRef} style={{ padding: '0 16px 16px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div ref={contentRef} style={{ padding: '0 16px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-          {/* Progress bar */}
+          {/* Percentage + pattern count + bar */}
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
               <span style={{ fontSize: 22, fontWeight: 700, color: '#5C6BC0', lineHeight: 1 }}>{pct}%</span>
-              <span style={{ fontSize: 12, color: textMuted }}>{patternsLearned} / {PATTERN_GOAL} 패턴</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#5C6BC0' }}>{patternsLearned} / {PATTERN_GOAL} patterns</span>
             </div>
             <div style={{ height: 6, borderRadius: 99, background: '#EEF1FF', overflow: 'hidden' }}>
               <div style={{
@@ -339,28 +346,45 @@ function OverallAccordion({ patternsLearned, streak, storyRounds, isDark }: {
             </div>
           </div>
 
-          {/* Story map */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6 }}>
-            {magazineStories.map(s => {
-              const c = storyColor(s.id)
-              const r = storyRoundMap[s.id]
-              const total = s.patterns.length
-              const done  = r?.round > 0 ? total : 0
-              return (
-                <div key={s.id} style={{
-                  borderRadius: 10, padding: '7px 4px',
-                  background: c.bg, border: c.border ?? 'none',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-                }}>
-                  <span style={{ fontSize: 11, fontWeight: 800, color: c.text, lineHeight: 1 }}>
-                    S{String(s.id).padStart(2, '0')}
-                  </span>
-                  <span style={{ fontSize: 9, color: c.text, opacity: 0.7, fontWeight: 600 }}>
-                    {r?.round > 0 ? `${done}/${total}` : '–'}
-                  </span>
-                </div>
-              )
-            })}
+          {/* Story map nested accordion */}
+          <div>
+            <button
+              type="button"
+              onClick={() => setMapOpen(v => !v)}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '6px 0', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: 'inherit',
+              }}
+            >
+              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: '#5C6BC0', textTransform: 'uppercase' }}>
+                Story Map
+              </span>
+              {chevron(mapOpen)}
+            </button>
+            <div style={{ maxHeight: mapOpen ? mapH + 8 : 0, overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
+              <div ref={mapRef} style={{ paddingTop: 8, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6 }}>
+                {magazineStories.map(s => {
+                  const c = storyColor(s.id)
+                  const r = storyRoundMap[s.id]
+                  const total = s.patterns.length
+                  const done  = r?.round > 0 ? total : 0
+                  return (
+                    <div key={s.id} style={{
+                      borderRadius: 10, padding: '7px 4px',
+                      background: c.bg, border: c.border ?? 'none',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
+                    }}>
+                      <span style={{ fontSize: 11, fontWeight: 800, color: c.text, lineHeight: 1 }}>
+                        S{String(s.id).padStart(2, '0')}
+                      </span>
+                      <span style={{ fontSize: 9, color: c.text, opacity: 0.7, fontWeight: 600 }}>
+                        {r?.round > 0 ? `${done}/${total}` : '–'}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
           </div>
 
         </div>
@@ -444,9 +468,9 @@ export default function ProgressPage() {
         <SectionLabel>This Week</SectionLabel>
         <WeekCalendar activityMap={activityMap} isDark={isDark} />
 
+        <SectionLabel>Overall Progress</SectionLabel>
         <OverallAccordion
           patternsLearned={patternsLearned}
-          streak={streak}
           storyRounds={storyRounds}
           isDark={isDark}
         />
