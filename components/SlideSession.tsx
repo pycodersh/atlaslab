@@ -25,8 +25,10 @@ import {
   getRecallCount,
   completeStoryRound,
   nextReviewLabel,
+  getStoryStatus,
   type StoryRoundData,
 } from '@/lib/srs/story-round'
+import { magazineStories } from '@/data/magazine-stories'
 import { syncStoryRoundToSupabase } from '@/lib/srs/supabase-sync'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
@@ -1097,7 +1099,16 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
           ? ''
           : isGuided ? "첫 번째 세션을 완료했어요!" : "오늘도 잘하셨어요."
         addTimer(setTimeout(() => {
-          trainerRef.current?.announce(completionMsg, '', 'Finish', () => router.push('/patto/home'))
+          const reviewDue = magazineStories.filter(s => s.id !== story.id && getStoryStatus(s.id) === 'review_due')
+          if (reviewDue.length > 0) {
+            const reviewId = reviewDue[0].id
+            trainerRef.current?.ask("잘하셨어요! 오늘 복습할 스토리가 있어요.", [
+              { label: '복습하기', primary: true, onClick: () => router.push(`/patto/session/${reviewId}`) },
+              { label: '나중에', onClick: () => trainerRef.current?.announce(completionMsg, '', 'Finish', () => router.push('/patto/home')) },
+            ])
+          } else {
+            trainerRef.current?.announce(completionMsg, '', 'Finish', () => router.push('/patto/home'))
+          }
         }, 800))
         break
       }

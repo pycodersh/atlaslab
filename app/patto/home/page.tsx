@@ -638,6 +638,7 @@ export default function HomePage() {
   const [srsTodayId, setSrsTodayId] = useState<number | null>(null)
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
   const [hasStudied, setHasStudied] = useState(false)
+  const [nextIncompleteStoryId, setNextIncompleteStoryId] = useState<number>(1)
   const trainer = useTrainerSafe()
   const trainerRef = useRef(trainer)
   trainerRef.current = trainer
@@ -662,6 +663,7 @@ export default function HomePage() {
     const firstPending = missionItems.find(i => !i.done)
     if (firstPending) {
       setFirstHref(firstPending.href)
+      setNextIncompleteStoryId(firstPending.storyId)
     } else {
       const lastPos = getLastPosition()
       if (lastPos) {
@@ -808,7 +810,26 @@ export default function HomePage() {
     // 세션 완료 후 재진입 시 완료 메시지 (visitorType이 확정될 때까지 잠깐 대기)
     if (hasStudied) {
       const timer = setTimeout(() => {
-        trainerRef.current?.say("오늘 학습 완료했어요. 잘하셨어요.", 3000)
+        if (allDone) {
+          const todayDate = todayStr()
+          const completedCount = magazineStories.filter(s => getStoryRound(s.id).lastCompletedAt === todayDate).length
+          trainerRef.current?.say(`오늘 ${completedCount}개 완료했어요! 대단해요.`, 3000)
+        } else {
+          trainerRef.current?.ask("오늘 세션 진행할까요?", [
+            {
+              label: '네, 시작해요!',
+              primary: true,
+              onClick: () => {
+                trainerRef.current?.clearMessage()
+                router.push(`/patto/session/${nextIncompleteStoryId}`)
+              },
+            },
+            {
+              label: '괜찮아요',
+              onClick: () => trainerRef.current?.clearMessage(),
+            },
+          ])
+        }
       }, welcomeEndMs > 0 ? welcomeEndMs : 1500)
       return () => clearTimeout(timer)
     }
@@ -901,7 +922,7 @@ export default function HomePage() {
     }
 
     return () => clearTimeout(timer)
-  }, [user?.id, visitorType, hasStudied]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user?.id, visitorType, hasStudied, allDone, nextIncompleteStoryId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const frostedCard: React.CSSProperties = {
     background: 'var(--pglass)',
@@ -993,34 +1014,51 @@ export default function HomePage() {
               </p>
             </div>
             {/* Continue — more transparent */}
-            <motion.button
-              type="button"
-              onClick={e => {
-                e.stopPropagation()
-                trainerRef.current?.say("시작해볼게요.", 1200)
-                setTimeout(() => router.push(`/patto/session/${todayStory.id}`), 400)
-              }}
-              style={{
-                flexShrink: 0,
-                display: 'inline-flex', alignItems: 'center', gap: 5,
-                background: 'rgba(255,255,255,0.18)',
-                backdropFilter: 'blur(16px) saturate(160%)',
-                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
-                border: '1px solid rgba(255,255,255,0.45)',
-                borderRadius: 999, padding: '9px 16px',
-                cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#fff',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-                letterSpacing: '0.01em', whiteSpace: 'nowrap',
-              }}
-              whileTap={{ scale: 0.93 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-            >
-              {allDone ? t('status_done') : 'Start'}
-              {allDone
-                ? <PartyPopper style={{ width: 12, height: 12 }} strokeWidth={2.5} />
-                : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />
+            {(() => {
+              const heroStoryDone = newStoriesData.find(s => s.id === todayStory.id)?.done ?? false
+              if (heroStoryDone) {
+                return (
+                  <div style={{
+                    flexShrink: 0,
+                    display: 'inline-flex', alignItems: 'center', gap: 5,
+                    background: 'rgba(80,200,120,0.25)',
+                    border: '1px solid rgba(80,200,120,0.5)',
+                    borderRadius: 999, padding: '9px 16px',
+                    fontSize: 12, fontWeight: 700, color: '#fff',
+                    letterSpacing: '0.01em', whiteSpace: 'nowrap',
+                  }}>
+                    완료 ✓
+                  </div>
+                )
               }
-            </motion.button>
+              return (
+                <motion.button
+                  type="button"
+                  onClick={e => {
+                    e.stopPropagation()
+                    trainerRef.current?.say("시작해볼게요.", 1200)
+                    setTimeout(() => router.push(`/patto/session/${todayStory.id}`), 400)
+                  }}
+                  style={{
+                    flexShrink: 0,
+                    display: 'inline-flex', alignItems: 'center', gap: 5,
+                    background: 'rgba(255,255,255,0.18)',
+                    backdropFilter: 'blur(16px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+                    border: '1px solid rgba(255,255,255,0.45)',
+                    borderRadius: 999, padding: '9px 16px',
+                    cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#fff',
+                    boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                    letterSpacing: '0.01em', whiteSpace: 'nowrap',
+                  }}
+                  whileTap={{ scale: 0.93 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                >
+                  Start
+                  <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />
+                </motion.button>
+              )
+            })()}
           </div>
         </div>
 
@@ -1074,16 +1112,16 @@ export default function HomePage() {
                   <span style={{
                     width: 16, height: 16, borderRadius: 5, flexShrink: 0,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: item.done ? 'rgba(39,174,96,0.12)' : 'transparent',
+                    background: item.done ? 'rgba(107,143,255,0.12)' : 'transparent',
                     border: item.done ? 'none' : `1.5px solid ${isDark ? 'rgba(255,255,255,0.2)' : 'rgba(100,110,150,0.25)'}`,
                   }}>
-                    {item.done && <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />}
+                    {item.done && <Check style={{ width: 9, height: 9, color: '#6B8FFF' }} strokeWidth={2.5} />}
                   </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.35)' : 'var(--pm2)', margin: '0 0 1px', textTransform: 'uppercase' }}>
                       Story {String(item.id).padStart(2, '0')}
                     </p>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: item.done ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: item.done ? '#6B8FFF' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', opacity: item.done ? 0.5 : 1 }}>
                       {item.title}
                     </p>
                   </div>
@@ -1096,7 +1134,7 @@ export default function HomePage() {
                       border: `1px solid ${isDark ? 'rgba(192,139,48,0.25)' : 'rgba(192,139,48,0.22)'}`,
                       borderRadius: 6, padding: '2px 7px',
                     }}>
-                      복습
+                      Review
                     </span>
                   )}
                 </button>
@@ -1133,11 +1171,11 @@ export default function HomePage() {
             {scheduledList.map(({ story, label, href, done }) => {
               const isToday    = story.id === srsTodayId
               const isReview   = srsReviewIds.has(story.id)
-              const chipText   = done ? 'Done' : isToday ? '오늘' : isReview ? '복습' : label
-              const chipGradient = done ? CHIP_GRADIENT['Done']
-                : isToday  ? 'linear-gradient(135deg, rgba(91,127,212,0.85) 0%, rgba(120,155,240,0.70) 100%)'
-                : isReview ? CHIP_GRADIENT['Review']
-                : CHIP_GRADIENT[label] ?? CHIP_GRADIENT['Upcoming']
+              const chipText   = done ? 'Done' : isToday ? 'Today' : isReview ? 'Review' : label
+              const chipGradient = done ? 'rgba(80,200,120,0.85)'
+                : isToday  ? '#6B8FFF'
+                : isReview ? 'rgba(215,181,109,0.85)'
+                : 'rgba(255,255,255,0.3)'
               const cardBorder = isReview && !done
                 ? '1.5px solid rgba(192,139,48,0.55)'
                 : undefined
