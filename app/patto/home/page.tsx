@@ -878,8 +878,25 @@ export default function HomePage() {
         )
       }, delay)
     } else {
+      // returning / regular: ask + Start + Later buttons
+      const isReturning = visitorType === 'returning'
       timer = setTimeout(() => {
-        trainerRef.current?.say(adaptMsg, 2500)
+        trainerRef.current?.ask(adaptMsg, [
+          {
+            label: isReturning ? '네, 시작해요!' : 'Start',
+            primary: true,
+            onClick: () => {
+              trainerRef.current?.clearMessage()
+              router.push(`/patto/session/${todayStory.id}`)
+            },
+          },
+          {
+            label: isReturning ? '나중에 할게요' : 'Later',
+            onClick: () => {
+              trainerRef.current?.say("둘러보시고 도움이 필요하면 불러주세요.", 3000)
+            },
+          },
+        ])
       }, delay)
     }
 

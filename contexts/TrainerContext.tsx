@@ -95,8 +95,9 @@ export interface TrainerCtx {
   cardIsPlaying:     boolean
   setCardPlaying:    (v: boolean) => void
   showFlow:          (msg: string, buttons: DockButton[]) => void
-  setRepeatCallback: (fn: (() => void) | null) => void
-  setResumeCallback: (fn: (() => void) | null) => void
+  setRepeatCallback:    (fn: (() => void) | null) => void
+  setResumeCallback:    (fn: (() => void) | null) => void
+  setIdleOrbCallback:   (fn: (() => void) | null) => void
 
   // ── Orb interaction ──────────────────────────────────────────────────────
   handleOrbTap:     () => void
@@ -146,8 +147,9 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const [currentPatternIdx, setCurrentPatternIdx] = useState(0)
 
   // ── Refs ─────────────────────────────────────────────────────────────────
-  const repeatCallbackRef = useRef<(() => void) | null>(null)
-  const resumeCallbackRef = useRef<(() => void) | null>(null)
+  const repeatCallbackRef    = useRef<(() => void) | null>(null)
+  const resumeCallbackRef    = useRef<(() => void) | null>(null)
+  const idleOrbCallbackRef   = useRef<(() => void) | null>(null)
   const silentRef         = useRef(false)
   const dismissRef        = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pulseRef          = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -255,6 +257,10 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const setResumeCallback = useCallback((fn: (() => void) | null) => {
     resumeCallbackRef.current = fn
+  }, [])
+
+  const setIdleOrbCallback = useCallback((fn: (() => void) | null) => {
+    idleOrbCallbackRef.current = fn
   }, [])
 
   // ── New card API ─────────────────────────────────────────────────────────
@@ -499,6 +505,9 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
           id: nextId(), size: 'medium', message: 'Need help?', priority: 1, isHelp: true,
         })
         activePriorityRef.current = 1
+      } else {
+        // Orb tapped while idle — let the page register a custom handler
+        idleOrbCallbackRef.current?.()
       }
       return
     }
@@ -616,7 +625,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     triggerPulse,
     setPage,
 
-    cardIsPlaying, setCardPlaying, showFlow, setRepeatCallback, setResumeCallback,
+    cardIsPlaying, setCardPlaying, showFlow, setRepeatCallback, setResumeCallback, setIdleOrbCallback,
 
     orbState, tapMode,
     isMenuOpen: card?.isHelp ?? false,

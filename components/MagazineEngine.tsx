@@ -11,7 +11,6 @@ import { StoryPage } from '@/components/StoryPage'
 import { StoryCompletionScreen } from '@/components/StoryCompletionScreen'
 import { WheelPicker } from '@/components/WheelPicker'
 import { GlobalSavePopup } from '@/components/GlobalSavePopup'
-import { TodayMissionPopup } from '@/components/TodayMissionPopup'
 
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
@@ -147,13 +146,12 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
     if (!isDesktop) {
       const t = setTimeout(() => {
-        if (!saved) {
-          showStoryListenCard()
-        } else if (saved.phase === 'patterns') {
+        if (saved?.phase === 'patterns') {
           showPatternListenCard()
-        } else if (saved.phase === 'hide-recall') {
+        } else if (saved?.phase === 'hide-recall') {
           showRecallYourTurnCard()
         }
+        // No auto-card on fresh story entry — user taps Orb to start
       }, 600)
       return () => clearTimeout(t)
     }
@@ -401,7 +399,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   useEffect(() => {
     if (isDesktop) return
     trainer?.setResumeCallback?.(() => {
-      // Re-show the listen card for current phase after resume
       const phase = flowPhaseRef.current
       if (phase === 'patterns') showPatternListenCard()
       else if (phase === 'hide-recall') showRecallYourTurnCard()
@@ -410,6 +407,29 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => trainer?.setResumeCallback?.(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trainer])
+
+  // ── Trainer: idle Orb tap → "학습을 시작할까요?" card ──────────────────────
+  useEffect(() => {
+    if (isDesktop) return
+    trainer?.setIdleOrbCallback?.(() => {
+      trainer?.ask("학습을 시작할까요?", [
+        {
+          label: '네, 시작해요!',
+          primary: true,
+          onClick: () => {
+            trainer?.clearMessage()
+            router.push(`/patto/session/${story.id}`)
+          },
+        },
+        {
+          label: '괜찮아요',
+          onClick: () => trainer?.clearMessage(),
+        },
+      ])
+    })
+    return () => trainer?.setIdleOrbCallback?.(null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trainer, story.id])
 
   // ── Trainer: pattern index change → show next listen card ────────────────
   useEffect(() => {
@@ -613,7 +633,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const sharedPopups = (
     <>
       <GlobalSavePopup />
-      <TodayMissionPopup />
       {showPicker && (
         <WheelPicker
           stories={allStories}
@@ -844,48 +863,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       ref={mobileScrollRef}
       style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never }}
     >
-      {/* Focus Header — replaces tab bar in story pages */}
-      <div style={{
-        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: 'calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px',
-        background: isDark
-          ? 'linear-gradient(to bottom, rgba(12,10,28,0.92) 0%, transparent 100%)'
-          : 'linear-gradient(to bottom, rgba(250,250,255,0.90) 0%, transparent 100%)',
-        backdropFilter: 'blur(8px)',
-        WebkitBackdropFilter: 'blur(8px)',
-        pointerEvents: 'none',
-      }}>
-        <button
-          type="button"
-          aria-label="Back to home"
-          onClick={() => tryNavigate('/patto/home')}
-          style={{
-            pointerEvents: 'auto',
-            display: 'flex', alignItems: 'center', gap: 4,
-            background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0',
-            color: isDark ? 'rgba(255,255,255,0.5)' : 'rgba(40,40,80,0.45)',
-            fontSize: 12, fontWeight: 500, fontFamily: 'inherit',
-            transition: 'color 0.15s',
-          }}
-        >
-          <ChevronLeft size={14} strokeWidth={2} style={{ marginRight: 0 }} />
-          Home
-        </button>
-
-        <div style={{
-          pointerEvents: 'none',
-          background: isDark ? 'rgba(142,167,255,0.1)' : 'rgba(107,143,255,0.08)',
-          border: `0.5px solid ${isDark ? 'rgba(142,167,255,0.2)' : 'rgba(107,143,255,0.18)'}`,
-          borderRadius: 9999,
-          padding: '3px 10px',
-          fontSize: 10, fontWeight: 600, letterSpacing: '0.04em',
-          color: isDark ? 'rgba(166,184,255,0.7)' : 'rgba(107,143,255,0.65)',
-        }}>
-          Session {story.id} · Round {currentRound + 1}
-        </div>
-      </div>
-
       <StoryPage
         story={story}
         totalStories={allStories.length}
