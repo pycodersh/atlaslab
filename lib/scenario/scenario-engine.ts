@@ -15,47 +15,56 @@ export function getTimeOfDay(): TimeOfDay {
   return 'night'
 }
 
+// 경계값: first_visit(1), returning(2-3), regular(4-10), veteran(11+)
 export function classifyVisitor(visitCount: number): VisitorType {
   if (visitCount <= 1)  return 'first_visit'
-  if (visitCount <= 5)  return 'returning'
-  if (visitCount <= 20) return 'regular'
+  if (visitCount <= 3)  return 'returning'
+  if (visitCount <= 10) return 'regular'
   return 'veteran'
 }
 
 // ── Message tables ─────────────────────────────────────────────────────────────
 
-const HOME_MESSAGES: Record<VisitorType, Record<TimeOfDay, string>> = {
-  first_visit: {
-    morning:   "Good morning. Let's get started.",
-    afternoon: "Welcome. Ready to try?",
-    evening:   "Good evening. Let's begin.",
-    night:     "Late start? That's fine.",
-  },
-  returning: {
-    morning:   "Good morning. Back again.",
-    afternoon: "Welcome back.",
-    evening:   "Good evening. Ready to continue?",
-    night:     "Back for more?",
-  },
-  regular: {
-    morning:   "Morning. Let's keep the streak.",
-    afternoon: "Ready for today's session?",
-    evening:   "Good evening. One more session?",
-    night:     "Night session. Let's go.",
-  },
-  veteran: {
-    morning:   "Morning. You know what to do.",
-    afternoon: "Ready?",
-    evening:   "Evening session.",
-    night:     "Still at it.",
-  },
+// first_visit: 시간 무관 고정 메시지
+const FIRST_VISIT_MESSAGE = "Welcome to PATTO."
+
+// returning: 시간 무관 고정 메시지
+const RETURNING_MESSAGE = "Welcome back. Ready for today's session?"
+
+// regular/veteran: 시간대별 메시지
+const REGULAR_MESSAGES: Record<TimeOfDay, string> = {
+  morning:   "Good morning. Ready to practice?",
+  afternoon: "Ready for today's session?",
+  evening:   "Good evening. One more session?",
+  night:     "Night session. Let's go.",
 }
+
+const VETERAN_MESSAGES: Record<TimeOfDay, string> = {
+  morning:   "Morning.",
+  afternoon: "Ready?",
+  evening:   "Evening.",
+  night:     "Still at it.",
+}
+
+export function getHomeMessage(visitorType: VisitorType, timeOfDay: TimeOfDay): string {
+  if (visitorType === 'first_visit') return FIRST_VISIT_MESSAGE
+  if (visitorType === 'returning')   return RETURNING_MESSAGE
+  if (visitorType === 'regular')     return REGULAR_MESSAGES[timeOfDay]
+  return VETERAN_MESSAGES[timeOfDay]
+}
+
+export function getSessionCompleteMessage(visitorType: VisitorType): string {
+  if (visitorType === 'veteran') return ''  // silent
+  return "Great work today. See you next time."
+}
+
+// ── Orb tap context messages ───────────────────────────────────────────────────
 
 const ORB_TAP_MESSAGES: Record<ScenarioContext, Record<VisitorType, string>> = {
   home: {
     first_visit: "Tap a story to start reading.",
     returning:   "Pick up where you left off.",
-    regular:     "Your stories are ready.",
+    regular:     "Start today's session?",
     veteran:     "Ready when you are.",
   },
   story: {
@@ -66,19 +75,19 @@ const ORB_TAP_MESSAGES: Record<ScenarioContext, Record<VisitorType, string>> = {
   },
   library: {
     first_visit: "Browse stories. Find one that interests you.",
-    returning:   "All stories are here.",
+    returning:   "Review your saved patterns?",
     regular:     "Looking for something new?",
     veteran:     "Something catching your eye?",
   },
   progress: {
     first_visit: "Your progress will show here.",
-    returning:   "Early days — keep going.",
+    returning:   "Continue your streak?",
     regular:     "Solid progress.",
     veteran:     "Impressive.",
   },
   essays: {
     first_visit: "Write short essays to reinforce patterns.",
-    returning:   "Practice makes permanent.",
+    returning:   "Write something today?",
     regular:     "Writing cements the patterns.",
     veteran:     "Keep writing.",
   },
@@ -90,10 +99,6 @@ const ORB_TAP_MESSAGES: Record<ScenarioContext, Record<VisitorType, string>> = {
   },
 }
 
-export function getHomeMessage(visitorType: VisitorType, timeOfDay: TimeOfDay): string {
-  return HOME_MESSAGES[visitorType][timeOfDay]
-}
-
 export function getOrbTapMessage(
   context: ScenarioContext,
   visitorType: VisitorType,
@@ -101,11 +106,19 @@ export function getOrbTapMessage(
   return ORB_TAP_MESSAGES[context]?.[visitorType] ?? "Ready when you are."
 }
 
+// ── First visit onboarding ─────────────────────────────────────────────────────
+
 export function getFirstVisitButtons(): Array<{ label: string; primary?: boolean }> {
   return [
     { label: 'Explore' },
     { label: 'Try a Guided Session', primary: true },
   ]
+}
+
+// ── Veteran home button ────────────────────────────────────────────────────────
+
+export function getVeteranHomeButton(): { label: string } {
+  return { label: 'Start' }
 }
 
 // ── Visit count (localStorage fallback) ───────────────────────────────────────
@@ -122,4 +135,18 @@ export function incrementLocalVisitCount(): number {
   const next = getLocalVisitCount() + 1
   try { localStorage.setItem(LS_KEY, String(next)) } catch {}
   return next
+}
+
+// TrainerPage → ScenarioContext 매핑
+export function pageToContext(page: string): ScenarioContext {
+  const MAP: Record<string, ScenarioContext> = {
+    home:     'home',
+    library:  'library',
+    progress: 'progress',
+    essay:    'essays',
+    story:    'story',
+    pattern:  'story',
+    session:  'session',
+  }
+  return MAP[page] ?? 'home'
 }

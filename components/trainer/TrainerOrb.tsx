@@ -7,6 +7,7 @@ import { TrainerContext, type CardSpec, type TrainerCtx } from '@/contexts/Train
 import { useTheme } from '@/components/ThemeProvider'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { IconRefresh, IconPlayerSkipForward, IconPlayerPause, IconX, IconPlayerPlay, IconCheck } from '@tabler/icons-react'
+import { getOrbTapMessage, classifyVisitor, getLocalVisitCount, pageToContext } from '@/lib/scenario/scenario-engine'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const ORB_SIZE = 52
@@ -494,13 +495,19 @@ export function TrainerOrb() {
       setPos({ x: finalX, y: finalY })
       savePos(finalX, finalY)
     } else {
-      // Short tap — if paused, resume; else show/toggle help menu on study pages
-      if (trainerCtxRef.current?.sessionPhase === 'paused') {
-        trainerCtxRef.current?.resumeFromPause()
+      // Short tap — if paused, resume; else context message or help menu
+      const ctx = trainerCtxRef.current
+      if (ctx?.sessionPhase === 'paused') {
+        ctx.resumeFromPause()
       } else if (inStudyPageRef.current) {
-        trainerCtxRef.current?.showHelpMenu()
+        ctx?.showHelpMenu()
+      } else if (ctx?.sessionPhase === 'inactive') {
+        // Non-session page: show context-aware message
+        const vt = classifyVisitor(getLocalVisitCount())
+        const ctxKey = pageToContext(ctx.page ?? 'home')
+        ctx.say(getOrbTapMessage(ctxKey, vt), 2500)
       } else {
-        trainerCtxRef.current?.handleOrbTap()
+        ctx?.handleOrbTap()
       }
     }
     setIsDragging(false)

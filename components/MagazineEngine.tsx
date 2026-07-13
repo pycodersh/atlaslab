@@ -27,6 +27,7 @@ import type { PracticeExample } from '@/data/pattern-examples'
 import { getStoryRound, getRecallCount, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
 import { syncStoryRoundToSupabase } from '@/lib/srs/supabase-sync'
 import { useAuth } from '@/contexts/AuthContext'
+import { classifyVisitor, getLocalVisitCount } from '@/lib/scenario/scenario-engine'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 
@@ -332,11 +333,20 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     }
     if (flowPhase === 'complete') {
       trainer?.triggerPulse()
+      const isVeteran = classifyVisitor(getLocalVisitCount()) === 'veteran'
       const t = setTimeout(() => {
-        trainer?.announce('Great work today.', '', 'Finish', () => {
-          handleStop()
-          router.push('/patto/home')
-        })
+        if (isVeteran) {
+          // veteran: 침묵, Finish 버튼만
+          trainer?.announce('', '', 'Finish', () => {
+            handleStop()
+            router.push('/patto/home')
+          })
+        } else {
+          trainer?.announce('Great work today.', '', 'Finish', () => {
+            handleStop()
+            router.push('/patto/home')
+          })
+        }
       }, 600)
       return () => clearTimeout(t)
     }

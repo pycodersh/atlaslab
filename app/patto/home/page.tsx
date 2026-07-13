@@ -26,6 +26,7 @@ import {
   getTimeOfDay,
   getHomeMessage,
   getFirstVisitButtons,
+  getVeteranHomeButton,
 } from '@/lib/scenario/scenario-engine'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
@@ -793,20 +794,46 @@ export default function HomePage() {
       }
     }
 
+    // 세션 완료 후 재진입 시 완료 메시지 (visitorType이 확정될 때까지 잠깐 대기)
+    if (hasStudied) {
+      const timer = setTimeout(() => {
+        trainerRef.current?.say("You're done for today. Good work.", 3000)
+      }, welcomeEndMs > 0 ? welcomeEndMs : 1500)
+      return () => clearTimeout(timer)
+    }
+
     // Scenario-based home entry message
     const delay = welcomeEndMs > 0 ? welcomeEndMs : 1500
 
     let timer: ReturnType<typeof setTimeout>
     if (visitorType === 'first_visit') {
-      // First visit: show onboarding prompt with two choices
       timer = setTimeout(() => {
         const buttons = getFirstVisitButtons()
         trainerRef.current?.ask(
           getHomeMessage(visitorType, getTimeOfDay()),
           [
-            { label: buttons[0].label, onClick: () => router.push('/patto/stories/all') },
-            { label: buttons[1].label, primary: true, onClick: () => router.push('/patto/stories/1') },
+            {
+              label: buttons[0].label,
+              onClick: () => {
+                trainerRef.current?.say("Take your time. I'll be here.", 3000)
+                router.push('/patto/stories/all')
+              },
+            },
+            {
+              label: buttons[1].label,
+              primary: true,
+              onClick: () => router.push('/patto/stories/1'),
+            },
           ],
+        )
+      }, delay)
+    } else if (visitorType === 'veteran') {
+      // veteran: 짧은 메시지 + 버튼 하나
+      timer = setTimeout(() => {
+        const btn = getVeteranHomeButton()
+        trainerRef.current?.ask(
+          getHomeMessage(visitorType, getTimeOfDay()),
+          [{ label: btn.label, primary: true, onClick: () => router.push(firstHref) }],
         )
       }, delay)
     } else {
@@ -816,7 +843,7 @@ export default function HomePage() {
     }
 
     return () => clearTimeout(timer)
-  }, [user?.id, visitorType]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [user?.id, visitorType, hasStudied]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const frostedCard: React.CSSProperties = {
     background: 'var(--pglass)',
@@ -910,7 +937,11 @@ export default function HomePage() {
             {/* Continue — more transparent */}
             <motion.button
               type="button"
-              onClick={e => { e.stopPropagation(); router.push(`/patto/stories/${todayStory.id}`) }}
+              onClick={e => {
+                e.stopPropagation()
+                trainerRef.current?.say("Let's go.", 1200)
+                setTimeout(() => router.push(`/patto/stories/${todayStory.id}`), 400)
+              }}
               style={{
                 flexShrink: 0,
                 display: 'inline-flex', alignItems: 'center', gap: 5,
