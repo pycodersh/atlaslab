@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useAuth } from '@/contexts/AuthContext'
@@ -546,15 +546,68 @@ function OverallTab({ patternsLearned, streak, storyRounds }: {
   )
 }
 
+// ── Overall Accordion ─────────────────────────────────────────────────────────
+
+function OverallAccordion({ patternsLearned, streak, storyRounds }: {
+  patternsLearned: number; streak: number; storyRounds: StoryRoundData[]
+}) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const [open, setOpen] = useState(false)
+  const contentRef = useRef<HTMLDivElement>(null)
+  const [contentHeight, setContentHeight] = useState(0)
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight)
+    }
+  }, [open, storyRounds])
+
+  const textMuted = isDark ? '#a0a0c0' : '#5a5a7a'
+  const sectionBg = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.55)'
+  const sectionBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.80)'
+
+  return (
+    <div style={{ borderRadius: 20, overflow: 'hidden', background: sectionBg, border: `1px solid ${sectionBorder}`, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        style={{
+          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '14px 16px', border: 'none', background: 'transparent', cursor: 'pointer',
+          fontFamily: 'inherit',
+        }}
+      >
+        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: textMuted, textTransform: 'uppercase' }}>
+          Overall
+        </span>
+        <svg
+          width={16} height={16} viewBox="0 0 16 16" fill="none"
+          style={{ transition: 'transform 0.3s ease', transform: open ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
+        >
+          <path d="M4 6l4 4 4-4" stroke={textMuted} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <div style={{
+        maxHeight: open ? contentHeight + 24 : 0,
+        overflow: 'hidden',
+        transition: 'max-height 0.3s ease',
+      }}>
+        <div ref={contentRef} style={{ padding: '0 0 16px' }}>
+          <OverallTab patternsLearned={patternsLearned} streak={streak} storyRounds={storyRounds} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Page ───────────────────────────────────────────────────────────────────────
 export default function ProgressPage() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const { user } = useAuth()
   const trainer = useTrainerSafe()
-
-  type TabId = 'today' | 'weekly' | 'overall'
-  const [activeTab, setActiveTab] = useState<TabId>('today')
 
   const [storyRounds,    setStoryRounds]    = useState<StoryRoundData[]>([])
   const [todayStats,     setTodayStats]     = useState({ stories: 0, patterns: 0, reviews: 0 })
@@ -594,8 +647,8 @@ export default function ProgressPage() {
 
   const today = useMemo(() => toIso(new Date()), [])
 
-  const storyDoneToday   = storyRounds.some(r => r.lastCompletedAt === today)
-  const patternDoneToday = todayStats.patterns > 0
+  const storyDoneToday     = storyRounds.some(r => r.lastCompletedAt === today)
+  const patternDoneToday   = todayStats.patterns > 0
   const challengeDoneToday = false
 
   const stepsDone  = [storyDoneToday, patternDoneToday, challengeDoneToday].filter(Boolean).length
@@ -605,11 +658,7 @@ export default function ProgressPage() {
     : stepsDone === 2 ? "One step left — finish strong."
     : "Session complete. Great work!"
 
-  const TABS: { id: TabId; label: string }[] = [
-    { id: 'today',   label: 'Today' },
-    { id: 'weekly',  label: 'Weekly' },
-    { id: 'overall', label: 'Overall' },
-  ]
+  const textMuted = isDark ? '#a0a0c0' : '#5a5a7a'
 
   if (!mounted) return null
 
@@ -618,36 +667,13 @@ export default function ProgressPage() {
 
       <TopNav />
 
-      {/* Tab bar */}
-      <div style={{ display: 'flex', padding: '10px 20px 6px' }}>
-        <div style={{
-          display: 'flex', gap: 2,
-          background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(92,107,192,0.10)',
-          borderRadius: 14, padding: 3,
-          width: '100%',
-        }}>
-          {TABS.map(tab => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                flex: 1, height: 32, padding: '0 8px', borderRadius: 11,
-                border: 'none', cursor: 'pointer',
-                fontSize: 12, fontWeight: 700, fontFamily: 'inherit',
-                background: activeTab === tab.id ? (isDark ? '#fff' : '#5C6BC0') : 'transparent',
-                color: activeTab === tab.id ? (isDark ? '#1a1060' : '#fff') : (isDark ? 'rgba(255,255,255,0.5)' : '#7986CB'),
-                transition: 'all 0.18s',
-              }}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-      </div>
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: '10px 20px 0', display: 'flex', flexDirection: 'column', gap: 24 }}>
 
-      <div style={{ maxWidth: 480, margin: '0 auto', padding: '4px 20px 0' }}>
-        {activeTab === 'today' && (
+        {/* Section 1: TODAY'S SESSION */}
+        <section>
+          <p style={{ margin: '0 0 10px 2px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: textMuted, textTransform: 'uppercase' }}>
+            Today&apos;s Session
+          </p>
           <TodayTab
             storyRounds={storyRounds}
             streak={streak}
@@ -659,13 +685,21 @@ export default function ProgressPage() {
             motivationLine={motivationLine}
             sessionPct={sessionPct}
           />
-        )}
-        {activeTab === 'weekly' && (
+        </section>
+
+        {/* Section 2: WEEKLY */}
+        <section>
+          <p style={{ margin: '0 0 10px 2px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: textMuted, textTransform: 'uppercase' }}>
+            Weekly
+          </p>
           <WeeklyTab storyRounds={storyRounds} activityMap={activityMap} />
-        )}
-        {activeTab === 'overall' && (
-          <OverallTab patternsLearned={patternsLearned} streak={streak} storyRounds={storyRounds} />
-        )}
+        </section>
+
+        {/* Section 3: OVERALL (accordion) */}
+        <section>
+          <OverallAccordion patternsLearned={patternsLearned} streak={streak} storyRounds={storyRounds} />
+        </section>
+
       </div>
 
     </div>

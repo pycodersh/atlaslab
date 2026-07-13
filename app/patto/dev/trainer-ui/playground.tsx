@@ -366,7 +366,7 @@ function SlideSessionMock({ isDark, orbState }: { isDark: boolean; orbState: Orb
           {['EN', 'EN·KO', 'KO'].map((m, i) => (
             <span key={m} style={{
               padding: '4px 7px', borderRadius: 8, fontSize: 9, fontWeight: 600,
-              background: i === 1 ? '#6B8FFF' : 'transparent',
+              background: i === 1 ? '#6B8FFF' : 'rgba(0,0,0,0.06)',
               color: i === 1 ? '#fff' : '#8EA7FF',
             }}>{m}</span>
           ))}
