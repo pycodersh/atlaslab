@@ -109,44 +109,42 @@ function IntroSlide({ story, currentRound }: { story: MagazineStory; currentRoun
   return (
     <div style={{
       width: '100%', height: '100%',
-      backgroundImage: "url('/bg-light.svg')",
-      backgroundSize: 'cover', backgroundPosition: 'center',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       padding: '0 24px',
     }}>
       <div style={{
-        background: 'rgba(255,255,255,0.65)',
+        background: 'rgba(255,255,255,0.72)',
         backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
         border: '0.5px solid rgba(255,255,255,0.85)',
-        borderRadius: 24, padding: '32px 24px',
+        borderRadius: 24, padding: '36px 28px',
         textAlign: 'center',
         boxShadow: '0 8px 32px rgba(107,143,255,0.12)',
         width: '100%', maxWidth: 380,
       }}>
         <p style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-          color: '#8EA7FF', margin: '0 0 10px', textTransform: 'uppercase',
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
+          color: '#8EA7FF', margin: '0 0 12px', textTransform: 'uppercase',
         }}>
           STORY {String(story.id).padStart(2, '0')}
         </p>
         <h1 style={{
           fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
-          fontSize: 28, fontWeight: 700, color: '#1a1a2e',
-          margin: '0 0 6px', lineHeight: 1.2,
+          fontSize: 34, fontWeight: 700, color: '#1a1a2e',
+          margin: '0 0 8px', lineHeight: 1.15,
         }}>
           {story.title}
         </h1>
         {subtitle && (
-          <p style={{ fontSize: 14, color: '#5a5a7a', margin: '0 0 16px', lineHeight: 1.45 }}>
+          <p style={{ fontSize: 15, fontWeight: 500, color: '#4a4a6a', margin: '0 0 18px', lineHeight: 1.5 }}>
             {subtitle}
           </p>
         )}
         <div style={{
           width: 40, height: 2, borderRadius: 1,
           background: 'linear-gradient(90deg, #6B8FFF, #B8A8F0)',
-          margin: '0 auto 16px',
+          margin: '0 auto 18px',
         }} />
-        <p style={{ fontSize: 12, color: '#8a8aaa', margin: 0 }}>
+        <p style={{ fontSize: 13, fontWeight: 500, color: '#7a7a9a', margin: 0 }}>
           Round {currentRound + 1} · 패턴 {story.patterns.length}개
         </p>
       </div>
@@ -482,7 +480,7 @@ function PatternCardFocus({
   // ── Colors (mirrors PatternsSectionInline) ──
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
-  const heroBg           = isDark ? 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)' : 'transparent'
+  const heroBg           = 'transparent'
   const cardBg           = isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.75)'
   const cardBackdrop     = 'blur(20px)'
   const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
