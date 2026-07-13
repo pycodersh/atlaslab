@@ -235,12 +235,7 @@ function StorySlide({
         flex: 1, overflowY: 'auto', padding: '0 16px',
         WebkitOverflowScrolling: 'touch' as never,
       }}>
-        <div style={{
-          background: 'rgba(255,255,255,0.75)',
-          backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-          border: '0.5px solid rgba(255,255,255,0.9)',
-          borderRadius: 20, padding: 20,
-        }}>
+        <div style={{ padding: '4px 4px' }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             {paragraphs.map((para, pIdx) => {
               const koText = resolveTranslation(para.koreanTranslation, prefs.language, para.translations)
