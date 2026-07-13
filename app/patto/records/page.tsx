@@ -70,20 +70,24 @@ function TodaySessionCard({
         Today&apos;s Session
       </p>
 
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', position: 'relative' }}>
-        {/* connector line 1 */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', position: 'relative' }}>
+        {/* connector line 1: from center of step1 to center of step2 */}
         <div style={{
-          position: 'absolute', top: 15, left: '20%', width: '27%', height: 2,
-          background: storyDone ? '#5C6BC0' : '#e0e3f0', zIndex: 0,
+          position: 'absolute', top: 15, height: 2, zIndex: 0,
+          left: 'calc(100% / 6 + 15px)',
+          width: 'calc(100% / 3 - 30px)',
+          background: storyDone ? '#5C6BC0' : '#e0e3f0',
         }} />
-        {/* connector line 2 */}
+        {/* connector line 2: from center of step2 to center of step3 */}
         <div style={{
-          position: 'absolute', top: 15, left: '53%', width: '27%', height: 2,
-          background: patternDone ? '#5C6BC0' : '#e0e3f0', zIndex: 0,
+          position: 'absolute', top: 15, height: 2, zIndex: 0,
+          left: 'calc(100% / 2 + 15px)',
+          width: 'calc(100% / 3 - 30px)',
+          background: patternDone ? '#5C6BC0' : '#e0e3f0',
         }} />
 
         {steps.map(({ label, done, active }) => (
-          <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, zIndex: 1 }}>
+          <div key={label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, zIndex: 1 }}>
             <div style={{
               width: 30, height: 30, borderRadius: '50%',
               background: done ? '#5C6BC0' : active ? '#EEF1FF' : '#f0f1f5',
