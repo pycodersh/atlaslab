@@ -812,8 +812,14 @@ export default function HomePage() {
       const timer = setTimeout(() => {
         if (allDone) {
           const todayDate = todayStr()
-          const completedCount = magazineStories.filter(s => getStoryRound(s.id).lastCompletedAt === todayDate).length
-          trainerRef.current?.say(`오늘 ${completedCount}개 완료했어요! 대단해요.`, 3000)
+          const completedToday = new Set(magazineStories.filter(s => getStoryRound(s.id).lastCompletedAt === todayDate).map(s => s.id))
+          const completedCount = completedToday.size
+          const nextNew = magazineStories.find(s => !completedToday.has(s.id) && getStoryStatus(s.id) === 'new')
+          const nextHref = nextNew ? `/patto/session/${nextNew.id}` : '/patto/stories/all'
+          trainerRef.current?.ask(`오늘 ${completedCount}개 완료했어요! 대단해요.`, [
+            { label: '네, 계속해요!', primary: true, onClick: () => { trainerRef.current?.clearMessage(); router.push(nextHref) } },
+            { label: '오늘은 여기까지', onClick: () => trainerRef.current?.clearMessage() },
+          ])
         } else {
           trainerRef.current?.ask("오늘 세션 진행할까요?", [
             {

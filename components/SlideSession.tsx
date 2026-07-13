@@ -919,6 +919,9 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
           trainerRef.current?.ask("따라해보세요.", [{
             label: 'Done', btnVariant: 'done', onClick: wrappedDone,
           }])
+          addTimer(setTimeout(() => {
+            trainerRef.current?.say("다시 들어볼까요?", 3000)
+          }, 10000))
         }
       }, 200))
     }
@@ -932,18 +935,8 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     setRevealed(true)
   }
 
-  useEffect(() => {
-    if (slide.kind !== 'hide-recall' || !revealed) return
-    const s = slide
-    clearTimers()
-    addTimer(setTimeout(() => {
-      trainerRef.current?.ask("따라해보세요.", [{
-        label: 'Done', btnVariant: 'done',
-        onClick: () => handleRecallDone(s.round, s.patIdx),
-      }])
-    }, 400))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [revealed])
+  // Reveal tap is visual-only — Done card already shown from slide entry
+  useEffect(() => {}, [revealed])
 
   // ── Story audio controls ──────────────────────────────────────────────────
 
@@ -1061,12 +1054,17 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       case 'hide-recall': {
         const { round, patIdx } = s
         const showRecallPrompt = intensity !== 'silent'
+        const showRecallAsk = () => {
+          trainerRef.current?.ask(showRecallPrompt ? "떠올려보세요." : "", [{
+            label: 'Done', btnVariant: 'done', onClick: () => handleRecallDone(round, patIdx),
+          }])
+        }
         if (patIdx === 0 && round > 1 && intensity === 'full') {
           const msg = RECALL_ROUND_MSGS[Math.min(round - 2, 2)]
           t?.say(msg, 1500)
-          addTimer(setTimeout(() => showRecallPrompt && trainerRef.current?.say("떠올려보세요.", 2000), 1700))
+          addTimer(setTimeout(showRecallAsk, 1700))
         } else {
-          addTimer(setTimeout(() => showRecallPrompt && trainerRef.current?.say("떠올려보세요.", 2000), 400))
+          addTimer(setTimeout(showRecallAsk, 400))
         }
         break
       }
@@ -1100,14 +1098,26 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
           : isGuided ? "첫 번째 세션을 완료했어요!" : "오늘도 잘하셨어요."
         addTimer(setTimeout(() => {
           const reviewDue = magazineStories.filter(s => s.id !== story.id && getStoryStatus(s.id) === 'review_due')
+          const nextStory = magazineStories.find(s => s.id > story.id)
+
+          const showCompletionAsk = () => {
+            const buttons: Array<{ label: string; primary?: boolean; onClick: () => void }> = [
+              { label: 'Finish', onClick: () => router.push('/patto/home') },
+            ]
+            if (nextStory) {
+              buttons.push({ label: '다음 스토리 →', primary: true, onClick: () => router.push(`/patto/session/${nextStory.id}`) })
+            }
+            trainerRef.current?.ask(completionMsg, buttons)
+          }
+
           if (reviewDue.length > 0) {
             const reviewId = reviewDue[0].id
             trainerRef.current?.ask("잘하셨어요! 오늘 복습할 스토리가 있어요.", [
               { label: '복습하기', primary: true, onClick: () => router.push(`/patto/session/${reviewId}`) },
-              { label: '나중에', onClick: () => trainerRef.current?.announce(completionMsg, '', 'Finish', () => router.push('/patto/home')) },
+              { label: '나중에', onClick: showCompletionAsk },
             ])
           } else {
-            trainerRef.current?.announce(completionMsg, '', 'Finish', () => router.push('/patto/home'))
+            showCompletionAsk()
           }
         }, 800))
         break
