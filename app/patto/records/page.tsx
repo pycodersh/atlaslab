@@ -136,8 +136,9 @@ function StatChips({ streak, totalSessions, patternsLearned, isDark }: {
       {chips.map(c => (
         <div key={c.label} style={{
           flex: 1, borderRadius: 14, padding: '12px 4px',
-          background: isDark ? 'rgba(255,255,255,0.06)' : '#fff',
-          border: isDark ? '0.5px solid rgba(255,255,255,0.10)' : '0.5px solid rgba(0,0,0,0.06)',
+          background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.60)',
+          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+          border: isDark ? '0.5px solid rgba(255,255,255,0.12)' : '0.5px solid rgba(255,255,255,0.80)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
         }}>
           <span style={{ fontSize: 20, fontWeight: 700, color: c.accent, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
