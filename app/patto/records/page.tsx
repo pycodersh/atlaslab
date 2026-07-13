@@ -3,9 +3,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
+import { useAuth } from '@/contexts/AuthContext'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { TopNav } from '@/components/TopNav'
-import { getStreak, getLearnedPatternCount, getDailyStats, getActivityByDate, todayStr } from '@/lib/srs/storage'
+import { getDailyStats, getActivityByDate, todayStr } from '@/lib/srs/storage'
+import { loadStats } from '@/lib/adaptive/adaptive-engine'
+import { loadStatsFromSupabase } from '@/lib/adaptive/supabase-sync'
 import { magazineStories } from '@/data/magazine-stories'
 import { getStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
 import { LearningCalendar } from '@/components/LearningCalendar'
@@ -131,53 +134,62 @@ function StatCard({ icon, label, value, accent }: {
 export default function ProgressPage() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
+  const { user } = useAuth()
 
+  const [storyRounds,    setStoryRounds]    = useState<StoryRoundData[]>([])
+  const [todayStats,     setTodayStats]     = useState({ stories: 0, patterns: 0, reviews: 0 })
+  const [viewMode,       setViewMode]       = useState<'weekly' | 'monthly'>('weekly')
+  const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
+  const [selectedIso,    setSelectedIso]    = useState<string | null>(null)
+  const [mounted,        setMounted]        = useState(false)
+
+  // Adaptive-engine stats (currentStreak, totalSessions, totalPatternsLearned)
+  // Synced to/from Supabase user_learning_stats via loadStatsFromSupabase
   const [streak,          setStreak]          = useState(0)
-  const [storyRounds,     setStoryRounds]      = useState<StoryRoundData[]>([])
-  const [patternsLearned, setPatternsLearned]  = useState(0)
-  const [todayStats,      setTodayStats]       = useState({ stories: 0, patterns: 0, reviews: 0 })
-  const [viewMode,        setViewMode]         = useState<'weekly' | 'monthly'>('weekly')
-  const [futureSchedule,  setFutureSchedule]   = useState<Record<string, ScheduledDay>>({})
-  const [activityMap,     setActivityMap]      = useState<Record<string, number>>({})
-  const [selectedIso,     setSelectedIso]      = useState<string | null>(null)
-  const [mounted,         setMounted]          = useState(false)
+  const [totalSessions,   setTotalSessions]   = useState(0)
+  const [patternsLearned, setPatternsLearned] = useState(0)
 
   const trainer = useTrainerSafe()
 
   useEffect(() => {
-    const streakVal       = getStreak()
-    const rounds          = magazineStories.map(s => getStoryRound(s.id))
-    const patternCount    = getLearnedPatternCount()
-    const daily           = getDailyStats(todayStr())
+    async function init() {
+      // If logged in: pull Supabase stats into localStorage first, then read
+      if (user?.id) {
+        await loadStatsFromSupabase(user.id)
+      }
 
-    setStreak(streakVal)
-    setStoryRounds(rounds)
-    setPatternsLearned(patternCount)
-    setTodayStats(daily)
-    setFutureSchedule(getFutureSchedule())
-    setActivityMap(getActivityByDate())
-    setMounted(true)
+      const adaptiveStats = loadStats()
+      const rounds        = magazineStories.map(s => getStoryRound(s.id))
+      const daily         = getDailyStats(todayStr())
 
-    trainer?.setPage('progress')
-    const msg = streakVal > 0
-      ? `${streakVal} day streak. Keep it up.`
-      : "Ready when you are."
-    const t = setTimeout(() => trainer?.showMessage(msg, 3000), 900)
-    return () => clearTimeout(t)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+      setStreak(adaptiveStats.currentStreak)
+      setTotalSessions(adaptiveStats.totalSessions)
+      setPatternsLearned(adaptiveStats.totalPatternsLearned)
+      setStoryRounds(rounds)
+      setTodayStats(daily)
+      setFutureSchedule(getFutureSchedule())
+      setMounted(true)
+
+      trainer?.setPage('progress')
+      const msg = adaptiveStats.currentStreak > 0
+        ? `${adaptiveStats.currentStreak} day streak. Keep it up.`
+        : "Ready when you are."
+      const t = setTimeout(() => trainer?.showMessage(msg, 3000), 900)
+      return () => clearTimeout(t)
+    }
+    init()
+  }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const today    = useMemo(() => toIso(new Date()), [])
   const weekDays = useMemo(() => getWeekDays(), [])
   const weekIsos = useMemo(() => new Set(weekDays.map(toIso)), [weekDays])
 
-  // Completions this week
+  // Completions this week (for calendar dots — from story-round localStorage)
   const weeklyCompleted = useMemo(() =>
     storyRounds.filter(r => r.lastCompletedAt && weekIsos.has(r.lastCompletedAt)),
   [storyRounds, weekIsos])
 
-  const weeklySessionCount = weeklyCompleted.length
-
-  // Day → session count map for calendar dots
+  // Day → session count map
   const dayCountMap = useMemo(() => {
     const map: Record<string, number> = {}
     for (const r of weeklyCompleted) {
@@ -189,8 +201,8 @@ export default function ProgressPage() {
   // Today's session step completions
   const storyDoneToday   = storyRounds.some(r => r.lastCompletedAt === today)
   const patternDoneToday = todayStats.patterns > 0
-  // TODO: Challenge step — no data source yet. daily_challenges table exists in Supabase
-  // but is not queried from this page. Wire up when Challenge feature UI is built.
+  // TODO: Challenge step — daily_challenges Supabase table exists but not queried here yet.
+  // Wire up when Challenge feature UI is built (daily_challenges.is_correct).
   const challengeDoneToday = false
 
   const stepsDone      = [storyDoneToday, patternDoneToday, challengeDoneToday].filter(Boolean).length
@@ -200,7 +212,7 @@ export default function ProgressPage() {
     : stepsDone === 2 ? "One step left — finish strong."
     : "Session complete. Great work!"
 
-  // Recent sessions — up to 3 most-recent completed story rounds, sorted desc
+  // Recent sessions — up to 3 most-recent completed story rounds
   const recentSessions = useMemo(() => {
     return storyRounds
       .filter(r => r.round > 0 && r.lastCompletedAt)
@@ -212,11 +224,11 @@ export default function ProgressPage() {
       }))
   }, [storyRounds])
 
-  // Trainer message based on weekly session count
-  const trainerMsg = weeklySessionCount === 0 ? "Ready when you are."
-    : weeklySessionCount <= 3 ? "Good start. Keep going."
-    : weeklySessionCount <= 6 ? `Great work. You completed ${weeklySessionCount} sessions this week.`
-    : "Perfect week. You did it."
+  // Trainer message based on total sessions
+  const trainerMsg = totalSessions === 0 ? "Ready when you are."
+    : totalSessions <= 3 ? "Good start. Keep going."
+    : totalSessions <= 10 ? `Great work. ${totalSessions} sessions completed.`
+    : "You're on a roll. Keep it up."
 
   const glassCard: React.CSSProperties = {
     borderRadius: 20,
@@ -238,10 +250,7 @@ export default function ProgressPage() {
       <TopNav />
 
       {/* ── Weekly / Monthly toggle row ── */}
-      <div style={{
-        display: 'flex', justifyContent: 'flex-end',
-        padding: '8px 20px 4px',
-      }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px 20px 4px' }}>
         <div style={{
           display: 'flex', gap: 2,
           background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(107,143,255,0.10)',
@@ -279,19 +288,17 @@ export default function ProgressPage() {
             Today&apos;s Session
           </p>
 
-          {/* Step indicators */}
           <div style={{ display: 'flex', gap: 0, justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative', marginBottom: 16 }}>
             <div style={{
               position: 'absolute', top: 16, left: '16.6%', right: '16.6%', height: 1.5,
               background: 'rgba(255,255,255,0.16)', zIndex: 0,
             }} />
-            <StepIndicator done={storyDoneToday}     active={!storyDoneToday}                      label="Story" />
-            <StepIndicator done={patternDoneToday}   active={storyDoneToday && !patternDoneToday}   label="Pattern" />
+            <StepIndicator done={storyDoneToday}     active={!storyDoneToday}                        label="Story" />
+            <StepIndicator done={patternDoneToday}   active={storyDoneToday && !patternDoneToday}     label="Pattern" />
             {/* TODO: Challenge step — always false until daily_challenges is wired to this page */}
             <StepIndicator done={challengeDoneToday} active={patternDoneToday && !challengeDoneToday} label="Challenge" />
           </div>
 
-          {/* Progress bar */}
           <div style={{ height: 4, borderRadius: 99, background: 'rgba(255,255,255,0.12)', overflow: 'hidden' }}>
             <div style={{
               height: '100%', width: `${sessionPct}%`,
@@ -301,20 +308,23 @@ export default function ProgressPage() {
             }} />
           </div>
 
-          {/* Motivation line */}
           <p style={{ margin: '10px 0 0', fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.60)', lineHeight: 1.4 }}>
             {motivationLine}
           </p>
         </div>
 
-        {/* ── 2. Four Stat Cards ── */}
+        {/* ── 2. Four Stat Cards ──
+            Data sources:
+            · STREAK    → adaptive-engine currentStreak (synced from user_learning_stats.current_streak)
+            · SESSIONS  → adaptive-engine totalSessions (synced from user_learning_stats.total_sessions)
+            · PATTERNS  → adaptive-engine totalPatternsLearned (synced from user_learning_stats.total_patterns_learned)
+            · CHALLENGES → TODO: query daily_challenges table when Challenge UI is built
+        */}
         <div style={{ display: 'flex', gap: 8 }}>
-          <StatCard icon={<FlameIcon />}  label="Streak"     value={`${streak}d`}                         accent="#FF6B35" />
-          <StatCard icon={<BoltIcon />}   label="Sessions"   value={`${weeklySessionCount}`}              accent="#6B8FFF" />
-          <StatCard icon={<PuzzleIcon />} label="Patterns"   value={`${patternsLearned} / ${PATTERN_GOAL}`} accent="#B8A8F0" />
-          {/* TODO: Challenges — query Supabase daily_challenges table when Challenge UI is built.
-              Currently shows "–" as placeholder; is_correct count available in daily_challenges.is_correct */}
-          <StatCard icon={<TrophyIcon />} label="Challenges" value="–"                                    accent="#D7B56D" />
+          <StatCard icon={<FlameIcon />}  label="Streak"     value={`${streak}d`}                            accent="#FF6B35" />
+          <StatCard icon={<BoltIcon />}   label="Sessions"   value={`${totalSessions}`}                      accent="#6B8FFF" />
+          <StatCard icon={<PuzzleIcon />} label="Patterns"   value={`${patternsLearned} / ${PATTERN_GOAL}`}  accent="#B8A8F0" />
+          <StatCard icon={<TrophyIcon />} label="Challenges" value="–"                                       accent="#D7B56D" />
         </div>
 
         {/* ── 3. Weekly / Monthly Calendar ── */}
@@ -333,19 +343,14 @@ export default function ProgressPage() {
                 const isFut   = d > new Date() && !isToday
                 return (
                   <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-                    <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.02em', color: '#3a3a5c', textTransform: 'uppercase' }}>
+                    <span style={{ fontSize: 12, fontWeight: 500, color: '#3a3a5c', textTransform: 'uppercase' }}>
                       {DOW_LABELS[i]}
                     </span>
                     <div style={{
                       width: 30, height: 30, borderRadius: '50%',
-                      background: done
-                        ? (isDark ? 'rgba(107,143,255,0.85)' : '#6B8FFF')
-                        : isToday
-                          ? 'transparent'
-                          : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'),
-                      border: isToday && !done
-                        ? '2px solid #6B8FFF'
-                        : '2px solid transparent',
+                      background: done || (isToday && !done)
+                        ? '#6B8FFF'
+                        : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'),
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       opacity: isFut ? 0.35 : 1,
                       transition: 'background 0.2s',
@@ -355,11 +360,7 @@ export default function ProgressPage() {
                           <path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       ) : (
-                        <span style={{
-                          fontSize: 14, fontWeight: 600,
-                          color: isToday ? '#6B8FFF' : '#1a1a2e',
-                          lineHeight: 1,
-                        }}>
+                        <span style={{ fontSize: 14, fontWeight: 600, color: isToday ? '#fff' : '#1a1a2e', lineHeight: 1 }}>
                           {d.getDate()}
                         </span>
                       )}
@@ -408,7 +409,7 @@ export default function ProgressPage() {
                     border: `1px solid ${isDark ? 'rgba(107,143,255,0.22)' : 'rgba(107,143,255,0.18)'}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: isDark ? '#8EA7FF' : '#6B8FFF', letterSpacing: '-0.01em' }}>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: isDark ? '#8EA7FF' : '#6B8FFF' }}>
                       S{String(storyId).padStart(2, '0')}
                     </span>
                   </div>
@@ -450,19 +451,14 @@ export default function ProgressPage() {
 
         {/* ── 5. Trainer Message ── */}
         <div style={{
-          borderRadius: 16,
-          padding: '16px',
+          borderRadius: 16, padding: '16px',
           background: 'rgba(255,255,255,0.65)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
           border: '0.5px solid rgba(255,255,255,0.80)',
           textAlign: 'center',
         }}>
-          <p style={{
-            margin: 0, fontSize: 14, fontWeight: 500,
-            color: '#3a3a5c',
-            lineHeight: 1.5,
-          }}>
+          <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: '#3a3a5c', lineHeight: 1.5 }}>
             {trainerMsg}
           </p>
         </div>
