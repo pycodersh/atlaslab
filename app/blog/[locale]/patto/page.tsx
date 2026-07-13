@@ -25,8 +25,12 @@ export default async function BlogListPage({
     .eq('locale', locale)
     .order('published_at', { ascending: false })
 
+  const fontFamily = locale === 'ko'
+    ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
+    : '"DM Sans", "Inter", system-ui, sans-serif'
+
   return (
-    <div style={{ background: '#0a0a1a', minHeight: '100dvh', color: 'white' }}>
+    <div style={{ background: '#0a0a1a', minHeight: '100dvh', color: 'white', fontFamily }}>
       <style>{`
         .blog-card { transition: transform 0.15s, background 0.15s; }
         .blog-card:hover { transform: translateY(-2px); background: rgba(255,255,255,0.08) !important; }

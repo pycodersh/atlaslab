@@ -46,8 +46,12 @@ export default async function BlogPostPage({
 
   if (!post) notFound()
 
+  const fontFamily = locale === 'ko'
+    ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
+    : '"DM Sans", "Inter", system-ui, sans-serif'
+
   return (
-    <div style={{ background: '#0a0a1a', minHeight: '100dvh', color: 'white' }}>
+    <div style={{ background: '#0a0a1a', minHeight: '100dvh', color: 'white', fontFamily }}>
       <style>{`
         .blog-prose h2 {
           font-size: 22px; font-weight: 800; color: #fff;
@@ -81,6 +85,7 @@ export default async function BlogPostPage({
         .blog-prose a { color: #7c6fff; text-decoration: underline; text-underline-offset: 3px; }
         .blog-prose a:hover { color: #a89fff; }
         .blog-prose hr { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0; }
+        .blog-prose * { font-family: inherit; }
       `}</style>
 
       {/* Back nav */}

@@ -26,7 +26,7 @@ const PRODUCTS = [
   {
     emoji: '🧭',
     iconBg: 'rgba(29,158,117,0.15)',
-    name: '경력네비',
+    name: 'Career Navi.',
     desc: 'AI career navigation for Korean professionals',
     tag: 'Coming soon',
     tagStyle: { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)', border: '0.5px solid rgba(255,255,255,0.1)' },
