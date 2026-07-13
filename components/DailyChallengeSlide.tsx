@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useAuth } from '@/contexts/AuthContext'
 import type { MagazineStory } from '@/types/magazine'
@@ -265,6 +266,7 @@ function StoryRecallUI({ data, onResult }: {
 // ── Main component ─────────────────────────────────────────────────────────────
 
 export function DailyChallengeSlide({ story, onSkip, onDone }: Props) {
+  const router = useRouter()
   const trainer = useTrainerSafe()
   const trainerRef = useRef(trainer)
   trainerRef.current = trainer
@@ -360,8 +362,24 @@ export function DailyChallengeSlide({ story, onSkip, onDone }: Props) {
     clearTimers()
     trainerRef.current?.clearMessage()
     addTimer(setTimeout(() => {
-      trainerRef.current?.say("오늘 챌린지 완료!", 1500)
-      addTimer(setTimeout(onDone, 1700))
+      trainerRef.current?.ask("더 써보고 싶으세요?", [
+        {
+          label: 'Writing Studio 열기',
+          primary: true,
+          onClick: () => {
+            trainerRef.current?.clearMessage()
+            onDone()
+            router.push('/patto/library?tab=writing-studio')
+          },
+        },
+        {
+          label: '괜찮아요',
+          onClick: () => {
+            trainerRef.current?.say("오늘 챌린지 완료!", 1500)
+            addTimer(setTimeout(onDone, 1700))
+          },
+        },
+      ])
     }, 200))
   }
 
