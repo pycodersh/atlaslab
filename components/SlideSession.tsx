@@ -1145,7 +1145,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
               { label: 'Finish', onClick: () => router.push('/patto/home') },
             ]
             if (nextStory) {
-              buttons.push({ label: '다음 스토리 →', primary: true, onClick: () => router.push(`/patto/session/${nextStory.id}`) })
+              buttons.push({ label: 'Next', primary: true, onClick: () => router.push(`/patto/session/${nextStory.id}`) })
             }
             trainerRef.current?.ask(completionMsg, buttons)
           }

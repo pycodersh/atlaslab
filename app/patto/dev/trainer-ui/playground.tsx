@@ -581,7 +581,7 @@ export function TrainerUIPlayground() {
                 title="A New Start"
                 subtext="Round 1 · 5 patterns · 6분"
                 primaryBtns={['Finish']}
-                ghostBtns={['다음 스토리 →']}
+                ghostBtns={['Next']}
                 isDark={isDark}
               />
             </OrbWithCard>
