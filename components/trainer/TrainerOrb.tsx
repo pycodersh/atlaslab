@@ -370,7 +370,7 @@ function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
                   onClick={() => btn.onClick()}
                   disabled={cardIsPlaying}
                 >
-                  {cardIsPlaying ? <span style={{ fontSize: 10, lineHeight: 1 }}>■</span> : <PlaySvg />}
+                  {cardIsPlaying ? <span style={{ fontSize: 10, lineHeight: 1 }}></span> : <PlaySvg />}
                   {cardIsPlaying ? 'Playing...' : btn.label}
                 </button>
               )
@@ -685,16 +685,20 @@ export function TrainerOrb() {
       savePos(finalX, finalY)
     } else {
       const ctx = trainerCtxRef.current
-      if (ctx?.sessionPhase === 'paused') {
-        ctx.resumeFromPause()
-      } else if (inStudyPageRef.current) {
-        ctx?.showHelpMenu()
-      } else if (ctx?.sessionPhase === 'inactive') {
+      // Dismiss open card on first tap
+      if (ctx?.card) {
+        ctx.clearMessage()
+      } else if (ctx?.cardIsPlaying) {
+        // Case 1: audio playing → pause + show replay/continue card
+        ctx.handleOrbTapAudio()
+      } else if (ctx?.sessionPhase !== 'inactive') {
+        // Case 2: in session, not playing → exit prompt
+        ctx.handleMenuExit()
+      } else {
+        // Inactive: greeting whisper
         const vt = classifyVisitor(getLocalVisitCount())
         const ctxKey = pageToContext(ctx.page ?? 'home')
         ctx.say(getOrbTapMessage(ctxKey, vt), 2500)
-      } else {
-        ctx?.handleOrbTap()
       }
     }
     setIsDragging(false)

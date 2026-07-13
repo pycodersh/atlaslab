@@ -163,12 +163,6 @@ function StorySlide({
   patternTexts,
   studyMode,
   onStudyModeChange,
-  isSpeaking,
-  isPaused,
-  currentParaIdx,
-  onPlay,
-  onPause,
-  onStop,
 }: {
   story: MagazineStory
   paragraphs: MagazineStory['paragraphs']
@@ -178,12 +172,6 @@ function StorySlide({
   patternTexts: string[]
   studyMode: StudyMode
   onStudyModeChange: (m: StudyMode) => void
-  isSpeaking: boolean
-  isPaused: boolean
-  currentParaIdx: number
-  onPlay: () => void
-  onPause: () => void
-  onStop: () => void
 }) {
   const { prefs } = usePreferences()
   const showEn = studyMode === 'en' || studyMode === 'en-ko'
@@ -263,105 +251,6 @@ function StorySlide({
           </div>
         </div>
         <div style={{ height: 12 }} />
-      </div>
-
-      {/* Audio control bar */}
-      <div style={{
-        flexShrink: 0,
-        padding: '0 16px 12px',
-        paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
-      }}>
-        <div style={{
-          background: 'rgba(255,255,255,0.65)',
-          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-          border: '0.5px solid rgba(255,255,255,0.85)',
-          borderRadius: 20, padding: '10px 16px',
-          display: 'flex', alignItems: 'center', gap: 12,
-        }}>
-          {/* Play / Pause */}
-          {isSpeaking && !isPaused ? (
-            <button
-              type="button"
-              aria-label="일시정지"
-              onClick={onPause}
-              style={{
-                width: 38, height: 38, borderRadius: '50%',
-                background: '#6B8FFF',
-                boxShadow: '0 4px 12px rgba(107,143,255,0.35)',
-                border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0,
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
-                <rect x="6" y="4" width="4" height="16" rx="1" fill="#fff" stroke="none"/>
-                <rect x="14" y="4" width="4" height="16" rx="1" fill="#fff" stroke="none"/>
-              </svg>
-            </button>
-          ) : (
-            <button
-              type="button"
-              aria-label={isPaused ? '재개' : '재생'}
-              onClick={onPlay}
-              style={{
-                width: 38, height: 38, borderRadius: '50%',
-                background: '#6B8FFF',
-                boxShadow: '0 4px 12px rgba(107,143,255,0.35)',
-                border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0,
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="5,3 19,12 5,21"/>
-              </svg>
-            </button>
-          )}
-
-          {/* Stop */}
-          <button
-            type="button"
-            aria-label="정지"
-            onClick={onStop}
-            style={{
-              width: 32, height: 32, borderRadius: '50%',
-              background: 'rgba(107,143,255,0.1)',
-              border: '0.5px solid rgba(107,143,255,0.2)',
-              cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="#6B8FFF" stroke="none">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-            </svg>
-          </button>
-
-          <div style={{ flex: 1, minWidth: 0 }}>
-            {isSpeaking || isPaused ? (
-              <>
-                <div style={{
-                  height: 3, borderRadius: 2,
-                  background: 'rgba(107,143,255,0.1)', marginBottom: 5,
-                }}>
-                  <div style={{
-                    height: '100%', borderRadius: 2,
-                    background: '#6B8FFF',
-                    width: `${paragraphs.length > 0 ? Math.round(((currentParaIdx + 1) / paragraphs.length) * 100) : 0}%`,
-                    transition: 'width 0.4s ease',
-                  }} />
-                </div>
-                <span style={{ fontSize: 10, color: '#8a8aaa' }}>
-                  {isPaused ? '일시정지' : `${currentParaIdx + 1} / ${paragraphs.length}`}
-                </span>
-              </>
-            ) : (
-              <span style={{ fontSize: 12, color: '#8a8aaa' }}>
-                {story.title}
-              </span>
-            )}
-          </div>
-        </div>
       </div>
     </div>
   )
@@ -832,18 +721,6 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   const [completionData, setCompletionData] = useState<StoryRoundData | null>(null)
   const [elapsedMin, setElapsedMin] = useState(1)
   const [studyMode, setStudyMode] = useState<StudyMode>('en-ko')
-  const [storyAudioPaused, setStoryAudioPaused] = useState(false)
-
-  // Sync storyAudioPaused with Orb's pause/resume (Orb sets sessionPhase='paused')
-  const trainerSessionPhase = trainer?.sessionPhase
-  const prevTrainerPhaseRef = useRef(trainerSessionPhase)
-  useEffect(() => {
-    const prev = prevTrainerPhaseRef.current
-    prevTrainerPhaseRef.current = trainerSessionPhase
-    if (prev === trainerSessionPhase) return
-    if (trainerSessionPhase === 'paused') setStoryAudioPaused(true)
-    else if (prev === 'paused') setStoryAudioPaused(false)
-  }, [trainerSessionPhase])
 
   const sessionStartRef = useRef(Date.now())
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -1001,28 +878,12 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   }
 
   function handleStoryPlay(part: number) {
-    if (storyAudioPaused) {
-      ttsProvider.resume?.()
-      setStoryAudioPaused(false)
-      return
-    }
     const paras = getStoryParas(part)
     const texts = paras.map(p => p.english)
     const urls  = paras.map(p => storyParaAudioUrl(narrator, story.id, p.id, p.english))
     trainerRef.current?.setCardPlaying(true)
     trainerRef.current?.clearMessage()
     speakAll(texts, urls, { voiceKey: narrator, onEnd: makeOnEnd(() => handleStoryPartDone(part)) })
-  }
-
-  function handleStoryPause() {
-    ttsProvider.pause?.()
-    setStoryAudioPaused(true)
-  }
-
-  function handleStoryStop() {
-    stopSpeech()
-    setStoryAudioPaused(false)
-    trainerRef.current?.clearMessage()
   }
 
   // ── Pattern audio registered play fn ────────────────────────────────────
@@ -1052,6 +913,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
       case 'story': {
         const { part } = s
+        trainerRef.current?.setRepeatCallback(() => handleStoryPlay(part))
         addTimer(setTimeout(() => {
           trainerRef.current?.ask("들어보세요.", [{
             label: 'Play', btnVariant: 'play',
@@ -1063,8 +925,8 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
       case 'pattern': {
         const { idx } = s
-        // Register the audio end handler for this pattern
         patternOnEndRef.current = makeOnEnd(() => handlePatternDone(idx))
+        trainerRef.current?.setRepeatCallback(() => patternPlayRef.current?.())
 
         const progressMsgs = ['', '계속해요.', '절반 왔어요.', '거의 다 왔어요.', '마지막이에요.']
         const progressMsg = progressMsgs[idx]
@@ -1236,12 +1098,6 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
             patternTexts={patternTexts}
             studyMode={studyMode}
             onStudyModeChange={setStudyMode}
-            isSpeaking={isSpeaking}
-            isPaused={storyAudioPaused}
-            currentParaIdx={currentParagraphIdx}
-            onPlay={() => handleStoryPlay(part)}
-            onPause={handleStoryPause}
-            onStop={handleStoryStop}
           />
         )
       }

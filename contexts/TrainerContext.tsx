@@ -100,11 +100,11 @@ export interface TrainerCtx {
   setIdleOrbCallback:   (fn: (() => void) | null) => void
 
   // ── Orb interaction ──────────────────────────────────────────────────────
-  handleOrbTap:     () => void
+  handleOrbTap:      () => void
+  handleOrbTapAudio: () => void  // orb tapped while audio is playing
   showHelpMenu:     () => void   // directly show/toggle help menu (for pathname-based detection)
   closeMenu:        () => void
   handleMenuRepeat: () => void
-  handleMenuSkip:   () => void
   handleMenuPause:  () => void
   handleMenuExit:   () => void
   resumeFromPause:  () => void
@@ -571,16 +571,25 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [card, sessionPhase, currentParaIdx, currentPatternIdx, clearCard, showMsg])
 
-  const handleMenuSkip = useCallback(() => {
-    clearCard(); clearWaitTimer()
-    if (sessionPhase === 'para-your-turn' || sessionPhase === 'para-listen' || sessionPhase === 'para-nice') {
-      const paraTotal = cfgRef.current?.paragraphs.length ?? 0
-      const next = currentParaIdx + 1
-      if (next < paraTotal) startParaListen(next)
-      else { showMsg('Great.', 2000); setTimeout(() => { cfgRef.current?.scrollToPatterns(); setTimeout(() => startPatternListen(0), 800) }, 1200) }
-    } else if (sessionPhase.startsWith('pat')) advanceToNextPattern(currentPatternIdx)
+  const handleOrbTapAudio = useCallback(() => {
+    ttsProvider.pause?.()
+    clearWaitTimer()
+    setCardIsPlaying(false)
+    showCard({
+      size: 'medium', message: '다시 들을까요?', priority: 1,
+      buttons: [
+        { label: 'Replay', onClick: () => {
+          ttsProvider.stop?.()
+          repeatCallbackRef.current?.()
+        }},
+        { label: 'Continue', primary: true, onClick: () => {
+          ttsProvider.resume?.()
+          setCardIsPlaying(true)
+        }},
+      ],
+    })
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionPhase, currentParaIdx, currentPatternIdx, clearCard])
+  }, [showCard])
 
   const handleMenuPause = useCallback(() => {
     clearCard()
@@ -662,8 +671,8 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
     sessionPhase, currentParaIdx, currentPatternIdx,
     startSession, endSession,
-    handleOrbTap, showHelpMenu, closeMenu,
-    handleMenuRepeat, handleMenuSkip, handleMenuPause, handleMenuExit, resumeFromPause,
+    handleOrbTap, handleOrbTapAudio, showHelpMenu, closeMenu,
+    handleMenuRepeat, handleMenuPause, handleMenuExit, resumeFromPause,
   }
 
   return (
