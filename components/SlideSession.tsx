@@ -218,7 +218,7 @@ function StorySlide({
               style={{
                 padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                background: studyMode === mode ? '#6B8FFF' : 'transparent',
+                background: studyMode === mode ? '#6B8FFF' : 'rgba(0,0,0,0.06)',
                 color: studyMode === mode ? '#fff' : '#8EA7FF',
                 transition: 'background 0.18s, color 0.18s',
               }}
@@ -527,7 +527,7 @@ function PatternCardFocus({
               style={{
                 padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                background: studyMode === mode ? '#6B8FFF' : 'transparent',
+                background: studyMode === mode ? '#6B8FFF' : 'rgba(0,0,0,0.06)',
                 color: studyMode === mode ? '#fff' : 'rgba(255,255,255,0.4)',
                 transition: 'background 0.18s, color 0.18s',
               }}
