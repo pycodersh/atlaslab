@@ -481,18 +481,20 @@ function PatternCardFocus({
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const heroBg           = 'transparent'
-  const cardBg           = isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.75)'
-  const cardBackdrop     = 'blur(20px)'
-  const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
+  const cardBg           = isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.60)'
+  const cardBackdrop     = isDark ? 'blur(20px)' : 'blur(16px)'
+  const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(255,255,255,0.80)'
   const cardShadow       = isDark
     ? '0 16px 40px rgba(0,0,0,0.40)'
-    : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)'
-  const exBoxBg     = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(107,143,255,0.05)'
-  const exBoxBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,143,255,0.18)'
+    : '0 4px 24px rgba(142,167,255,0.12)'
+  const exBoxBg     = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.50)'
+  const exBoxBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.70)'
+  const exBoxBackdrop = isDark ? undefined : 'blur(8px)'
   const exEnColor   = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
   const exKoColor   = isDark ? 'rgba(255,255,255,0.45)' : '#8a8aaa'
-  const noteNoteBg     = isDark ? 'rgba(215,181,109,0.06)' : 'rgba(215,181,109,0.07)'
-  const noteNoteBorder = isDark ? 'rgba(215,181,109,0.18)' : 'rgba(215,181,109,0.28)'
+  const noteNoteBg     = isDark ? 'rgba(215,181,109,0.06)' : 'rgba(255,248,236,0.70)'
+  const noteNoteBorder = isDark ? 'rgba(215,181,109,0.18)' : 'rgba(245,166,35,0.30)'
+  const noteNoteBackdrop = isDark ? undefined : 'blur(8px)'
 
   const showEn = studyMode === 'en' || studyMode === 'en-ko'
   const showKo = studyMode === 'en-ko' || studyMode === 'ko'
@@ -602,7 +604,7 @@ function PatternCardFocus({
 
           {/* Examples */}
           <div style={{ padding: '14px 16px 16px' }}>
-            <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px' }}>
+            <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px', backdropFilter: exBoxBackdrop, WebkitBackdropFilter: exBoxBackdrop }}>
               {examples.map((ex, i) => {
                 const isExPlaying = isPlaying && i === exIdx
                 return (
@@ -636,7 +638,8 @@ function PatternCardFocus({
             {patternNote && (
               <div style={{
                 marginTop: 10, borderRadius: 8,
-                background: noteNoteBg, border: `0.5px solid ${noteNoteBorder}`,
+                background: noteNoteBg, border: `1px solid ${noteNoteBorder}`,
+                backdropFilter: noteNoteBackdrop, WebkitBackdropFilter: noteNoteBackdrop,
                 padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8,
               }}>
                 <Info style={{ width: 13, height: 13, color: '#D7B56D', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
