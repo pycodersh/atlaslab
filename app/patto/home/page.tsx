@@ -816,14 +816,14 @@ export default function HomePage() {
           const completedCount = completedToday.size
           const nextNew = magazineStories.find(s => !completedToday.has(s.id) && getStoryStatus(s.id) === 'new')
           const nextHref = nextNew ? `/patto/session/${nextNew.id}` : '/patto/stories/all'
-          trainerRef.current?.ask(`오늘 ${completedCount}개 완료했어요! 대단해요.`, [
-            { label: '네, 계속해요!', primary: true, onClick: () => { trainerRef.current?.clearMessage(); router.push(nextHref) } },
-            { label: '오늘은 여기까지', onClick: () => trainerRef.current?.clearMessage() },
+          trainerRef.current?.ask(`${completedCount} done today — great work!`, [
+            { label: 'Keep going!', primary: true, onClick: () => { trainerRef.current?.clearMessage(); router.push(nextHref) } },
+            { label: 'Done for today', onClick: () => trainerRef.current?.clearMessage() },
           ])
         } else {
-          trainerRef.current?.ask("오늘 세션 진행할까요?", [
+          trainerRef.current?.ask("Ready for today's session?", [
             {
-              label: '네, 시작해요!',
+              label: 'Start',
               primary: true,
               onClick: () => {
                 trainerRef.current?.clearMessage()
@@ -831,7 +831,7 @@ export default function HomePage() {
               },
             },
             {
-              label: '괜찮아요',
+              label: 'Later',
               onClick: () => trainerRef.current?.clearMessage(),
             },
           ])
@@ -855,14 +855,14 @@ export default function HomePage() {
       timer = setTimeout(() => {
         trainerRef.current?.ask(adaptMsg, [
           {
-            label: '복습하기',
+            label: 'Review',
             onClick: () => {
               trainerRef.current?.say("이어서 시작해봐요.", 2000)
               router.push(`/patto/session/${todayStory.id}`)
             },
           },
           {
-            label: '새 스토리',
+            label: 'New story',
             primary: true,
             onClick: () => {
               trainerRef.current?.clearMessage()
@@ -910,7 +910,7 @@ export default function HomePage() {
       timer = setTimeout(() => {
         trainerRef.current?.ask(adaptMsg, [
           {
-            label: isReturning ? '네, 시작해요!' : 'Start',
+            label: 'Start',
             primary: true,
             onClick: () => {
               trainerRef.current?.clearMessage()
@@ -918,7 +918,7 @@ export default function HomePage() {
             },
           },
           {
-            label: isReturning ? '나중에 할게요' : 'Later',
+            label: 'Later',
             onClick: () => {
               trainerRef.current?.say("둘러보시고 도움이 필요하면 불러주세요.", 3000)
             },
