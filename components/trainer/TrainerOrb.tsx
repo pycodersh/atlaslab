@@ -651,6 +651,9 @@ export function TrainerOrb() {
       if (exitTimerRef.current) clearTimeout(exitTimerRef.current)
       setExitCard(prev)
       exitTimerRef.current = setTimeout(() => setExitCard(null), 200)
+      setOrbCardScale(1)       // card dismissed → scale back to 1
+    } else if (!prev && card) {
+      setOrbCardScale(1.05)    // card appeared → scale up
     }
     prevCardRef.current = card
   }, [card])
@@ -666,6 +669,8 @@ export function TrainerOrb() {
     : 'br'
   const [isDragging, setIsDragging] = useState(false)
   const [dragScale, setDragScale] = useState(1)
+  // Card-active scale: 1.05 while card visible, returns to 1 after dismiss
+  const [orbCardScale, setOrbCardScale] = useState(1)
 
   useLayoutEffect(() => {
     const saved = loadSavedPos()
@@ -735,12 +740,17 @@ export function TrainerOrb() {
   const isPaused = trainerCtx?.sessionPhase === 'paused'
 
   // ── Glow based on state ───────────────────────────────────────────────────
+  const cardActive = card !== null
   const lightBoxShadow = isDragging
     ? '0 4px 20px rgba(107,143,255,0.4), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 20px rgba(142,167,255,0.9), 0 0 40px rgba(142,167,255,0.5)'
-    : '0 4px 16px rgba(107,143,255,0.25), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 14px rgba(142,167,255,0.8), 0 0 28px rgba(142,167,255,0.4)'
+    : cardActive
+      ? '0 4px 20px rgba(107,143,255,0.38), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 18px rgba(142,167,255,0.9), 0 0 36px rgba(142,167,255,0.45)'
+      : '0 4px 16px rgba(107,143,255,0.25), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 14px rgba(142,167,255,0.8), 0 0 28px rgba(142,167,255,0.4)'
   const darkBoxShadow = isDragging
     ? '0 4px 20px rgba(142,167,255,0.4), 0 0 20px rgba(142,167,255,0.3)'
-    : '0 2px 12px rgba(142,167,255,0.25)'
+    : cardActive
+      ? '0 4px 18px rgba(142,167,255,0.45), 0 0 18px rgba(142,167,255,0.35)'
+      : '0 2px 12px rgba(142,167,255,0.25)'
 
   if (!mounted) return null
 
@@ -783,10 +793,10 @@ export function TrainerOrb() {
             borderRadius: '50%', position: 'relative',
             cursor: isDragging ? 'grabbing' : 'pointer',
             boxShadow: isDark ? darkBoxShadow : lightBoxShadow,
-            transform: `scale(${dragScale})`,
+            transform: `scale(${dragScale * orbCardScale})`,
             transition: isDragging
               ? 'box-shadow 0.2s ease, transform 0.15s ease'
-              : 'box-shadow 0.4s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1)',
+              : 'box-shadow 0.20s ease, transform 0.20s ease',
             background: isDark
               ? 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.12) 0%, rgba(180,190,255,0.08) 50%, rgba(100,120,220,0.05) 100%)'
               : 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95) 0%, rgba(240,243,255,0.7) 40%, rgba(210,220,255,0.35) 70%, rgba(190,205,255,0.15) 100%)',
