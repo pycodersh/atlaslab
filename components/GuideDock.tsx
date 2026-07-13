@@ -424,20 +424,19 @@ function CardContent({
 
 // ── Help Menu card content ────────────────────────────────────────────────────
 
-import { IconRefresh, IconPlayerSkipForward, IconPlayerPause, IconX } from '@tabler/icons-react'
+import { IconRefresh, IconPlayerPause, IconX } from '@tabler/icons-react'
 import type { TrainerCtx } from '@/contexts/TrainerContext'
 
-type HelpAction = 'repeat' | 'skip' | 'pause' | 'exit'
+type HelpAction = 'repeat' | 'pause' | 'exit'
 const HELP_ITEMS: Array<{
   label: string
   Icon:  React.ComponentType<{ size?: number; strokeWidth?: number; style?: React.CSSProperties }>
   action: HelpAction
   exit?:  boolean
 }> = [
-  { label: 'Repeat', Icon: IconRefresh,           action: 'repeat' },
-  { label: 'Skip',   Icon: IconPlayerSkipForward, action: 'skip'   },
-  { label: 'Pause',  Icon: IconPlayerPause,       action: 'pause'  },
-  { label: 'Exit',   Icon: IconX,                 action: 'exit', exit: true },
+  { label: 'Repeat', Icon: IconRefresh,    action: 'repeat' },
+  { label: 'Pause',  Icon: IconPlayerPause, action: 'pause'  },
+  { label: 'Exit',   Icon: IconX,           action: 'exit', exit: true },
 ]
 
 function HelpMenu({ ctx, dark }: {
@@ -465,7 +464,6 @@ function HelpMenu({ ctx, dark }: {
           <button
             onClick={() => {
               if      (item.action === 'repeat') ctx?.handleMenuRepeat()
-              else if (item.action === 'skip')   ctx?.handleMenuSkip()
               else if (item.action === 'pause')  ctx?.handleMenuPause()
               else if (item.action === 'exit')   ctx?.handleMenuExit()
             }}

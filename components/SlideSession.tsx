@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, Volume2, Lightbulb, Play, Pause, Square } from 'lucide-react'
+import { Volume2, Lightbulb, Play, Pause, Square } from 'lucide-react'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { useSpeech } from '@/hooks/useSpeech'
@@ -1165,6 +1165,17 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     ])
   }
 
+  // Block browser back; intercept with exit ask
+  useEffect(() => {
+    window.history.pushState(null, '', window.location.href)
+    const onPopState = () => {
+      window.history.pushState(null, '', window.location.href)
+      handleExit()
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
   // ── Render ─────────────────────────────────────────────────────────────────
 
   function renderSlide() {
@@ -1250,16 +1261,9 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       {!isComplete && (
         <div style={{ flexShrink: 0, paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
             padding: '14px 20px 10px',
           }}>
-            <button type="button" onClick={handleExit} style={{
-              display: 'flex', alignItems: 'center',
-              background: 'none', border: 'none', cursor: 'pointer',
-              color: 'var(--pm)', padding: '4px 0',
-            }}>
-              <ChevronLeft style={{ width: 20, height: 20 }} strokeWidth={2} />
-            </button>
             <span style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.10em',
               color: 'var(--pm2)', textTransform: 'uppercase',
