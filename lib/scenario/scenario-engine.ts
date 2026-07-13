@@ -26,24 +26,24 @@ export function classifyVisitor(visitCount: number): VisitorType {
 // ── Message tables ─────────────────────────────────────────────────────────────
 
 // first_visit: 시간 무관 고정 메시지
-const FIRST_VISIT_MESSAGE = "Welcome to PATTO."
+const FIRST_VISIT_MESSAGE = "PATTO에 오신 걸 환영해요."
 
 // returning: 시간 무관 고정 메시지
-const RETURNING_MESSAGE = "Welcome back. Ready for today's session?"
+const RETURNING_MESSAGE = "다시 오셨네요. 오늘 세션 시작할까요?"
 
 // regular/veteran: 시간대별 메시지
 const REGULAR_MESSAGES: Record<TimeOfDay, string> = {
-  morning:   "Good morning. Ready to practice?",
-  afternoon: "Ready for today's session?",
-  evening:   "Good evening. One more session?",
-  night:     "Night session. Let's go.",
+  morning:   "좋은 아침이에요. 오늘도 연습해볼까요?",
+  afternoon: "오늘 세션 시작할까요?",
+  evening:   "좋은 저녁이에요. 오늘 한 세션 어때요?",
+  night:     "야간 세션이에요. 시작해볼게요.",
 }
 
 const VETERAN_MESSAGES: Record<TimeOfDay, string> = {
-  morning:   "Morning.",
-  afternoon: "Ready?",
-  evening:   "Evening.",
-  night:     "Still at it.",
+  morning:   "좋은 아침.",
+  afternoon: "준비됐나요?",
+  evening:   "저녁이네요.",
+  night:     "아직도 공부 중이에요.",
 }
 
 export function getHomeMessage(visitorType: VisitorType, timeOfDay: TimeOfDay): string {
@@ -62,40 +62,40 @@ export function getSessionCompleteMessage(visitorType: VisitorType): string {
 
 const ORB_TAP_MESSAGES: Record<ScenarioContext, Record<VisitorType, string>> = {
   home: {
-    first_visit: "Tap a story to start reading.",
-    returning:   "Pick up where you left off.",
-    regular:     "Start today's session?",
-    veteran:     "Ready when you are.",
+    first_visit: "스토리를 탭해서 시작해보세요.",
+    returning:   "이어서 시작해볼까요?",
+    regular:     "오늘 세션 시작할까요?",
+    veteran:     "준비됐을 때 알려주세요.",
   },
   story: {
-    first_visit: "Read through once, then we practice.",
-    returning:   "Take your time reading.",
-    regular:     "Focus on the patterns.",
-    veteran:     "You've got this.",
+    first_visit: "한 번 읽어보고 나서 연습해요.",
+    returning:   "천천히 읽어보세요.",
+    regular:     "패턴에 집중해보세요.",
+    veteran:     "할 수 있어요.",
   },
   library: {
-    first_visit: "Browse stories. Find one that interests you.",
-    returning:   "Review your saved patterns?",
-    regular:     "Looking for something new?",
-    veteran:     "Something catching your eye?",
+    first_visit: "스토리를 둘러봐요. 관심 있는 걸 골라보세요.",
+    returning:   "저장된 패턴 복습할까요?",
+    regular:     "새로운 걸 찾고 있나요?",
+    veteran:     "눈에 띄는 게 있나요?",
   },
   progress: {
-    first_visit: "Your progress will show here.",
-    returning:   "Continue your streak?",
-    regular:     "Solid progress.",
-    veteran:     "Impressive.",
+    first_visit: "여기에 진행 상황이 표시될 거예요.",
+    returning:   "오늘도 계속할까요?",
+    regular:     "착실하게 진행되고 있어요.",
+    veteran:     "대단해요.",
   },
   essays: {
-    first_visit: "Write short essays to reinforce patterns.",
-    returning:   "Write something today?",
-    regular:     "Writing cements the patterns.",
-    veteran:     "Keep writing.",
+    first_visit: "짧은 에세이로 패턴을 익혀봐요.",
+    returning:   "오늘 뭔가 써볼까요?",
+    regular:     "쓰기가 패턴을 굳혀줘요.",
+    veteran:     "계속 써요.",
   },
   session: {
-    first_visit: "I'll guide you through each pattern.",
-    returning:   "Let's practice together.",
-    regular:     "Focus on recall.",
-    veteran:     "You know the drill.",
+    first_visit: "각 패턴을 가이드해드릴게요.",
+    returning:   "함께 연습해봐요.",
+    regular:     "recall에 집중해봐요.",
+    veteran:     "방법은 알고 있죠.",
   },
 }
 

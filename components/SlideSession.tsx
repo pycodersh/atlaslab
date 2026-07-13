@@ -290,6 +290,31 @@ function CompleteSlide({ story, completionData, elapsedMin, isGuided }: {
   )
 }
 
+// ── sessionStorage helpers ─────────────────────────────────────────────────────
+
+type SavedSlide = { kind: string; idx?: number; round?: number; patIdx?: number }
+
+function ssKey(storyId: number) { return `patto_session_${storyId}` }
+
+function saveSlide(storyId: number, s: Slide) {
+  try { sessionStorage.setItem(ssKey(storyId), JSON.stringify(s)) } catch {}
+}
+
+function loadSlide(storyId: number): Slide | null {
+  try {
+    const raw = sessionStorage.getItem(ssKey(storyId))
+    if (!raw) return null
+    const s = JSON.parse(raw) as SavedSlide
+    // Don't restore complete — always restart from intro if somehow saved
+    if (s.kind === 'complete') return null
+    return s as Slide
+  } catch { return null }
+}
+
+function clearSavedSlide(storyId: number) {
+  try { sessionStorage.removeItem(ssKey(storyId)) } catch {}
+}
+
 // ── Main SlideSession ──────────────────────────────────────────────────────────
 
 export function SlideSession({ story, isGuided }: SlideSessionProps) {
@@ -301,13 +326,13 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   const { user } = useAuth()
   const { speakAll, stop: stopSpeech } = useSpeech()
   const { prefs } = usePreferences()
-  const { progress, setProgress } = useLearningProgress()
+  const { setProgress } = useLearningProgress()
 
   const narrator = story.narratorVoice ?? prefs.voice
   const currentRound = getStoryRound(story.id).round
   const totalRecallRounds = getRecallCount(currentRound)
 
-  const [slide, setSlide] = useState<Slide>({ kind: 'intro' })
+  const [slide, setSlide] = useState<Slide>(() => loadSlide(story.id) ?? { kind: 'intro' })
   const [animKey, setAnimKey] = useState(0)
   const [revealed, setRevealed] = useState(false)
   const [completionData, setCompletionData] = useState<StoryRoundData | null>(null)
@@ -336,6 +361,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     stopSpeech()
     trainerRef.current?.clearMessage()
     setRevealed(false)
+    saveSlide(story.id, next)
     setSlide(next)
     setAnimKey(k => k + 1)
   }
@@ -523,6 +549,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       }
 
       case 'complete': {
+        clearSavedSlide(story.id)
         if (!completedRef.current) {
           completedRef.current = true
           const elapsed = Math.max(1, Math.round((Date.now() - sessionStartRef.current) / 60000))
