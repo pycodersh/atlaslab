@@ -1,13 +1,11 @@
 'use client'
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useRouter } from 'next/navigation'
 import {
   Search, X, BookOpen, ChevronRight,
   BookMarked, Layers, Plus, Sparkles, PenLine,
-  MessageSquare, ChevronDown,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
