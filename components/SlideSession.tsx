@@ -898,6 +898,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
     switch (s.kind) {
       case 'intro': {
+        trainerRef.current?.clearMessage()
         if (isGuided) {
           t?.say("안녕하세요! 함께 시작해볼게요.", 2000)
         }
