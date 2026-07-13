@@ -1,13 +1,24 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, Volume2, Lightbulb, Play, Pause, Square } from 'lucide-react'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useAuth } from '@/contexts/AuthContext'
 import { useSpeech } from '@/hooks/useSpeech'
 import { usePreferences } from '@/contexts/PreferencesContext'
-import { storyParaAudioUrl } from '@/lib/tts'
+import { useTheme } from '@/components/ThemeProvider'
+import {
+  ttsProvider,
+  storyParaAudioUrl,
+  patternExampleAudioUrl,
+  getPitchForKey,
+} from '@/lib/tts'
+import { RATE_MAP } from '@/lib/settings/preferences'
+import { resolveTranslation } from '@/lib/i18n/translation'
+import { getPatternExamples } from '@/data/pattern-examples'
+import { shimmerExamples } from '@/data/shimmer-audio-meta'
+import { PATTERN_NOTES } from '@/data/pattern-notes'
 import { DailyChallengeSlide } from '@/components/DailyChallengeSlide'
 import {
   getStoryRound,
@@ -30,15 +41,16 @@ import {
   onDoneTap,
   recordSessionSignal,
   getSessionAdaptAction,
-  loadSessionAdapt,
 } from '@/lib/adaptive/adaptive-engine'
 import { syncStatsToSupabase } from '@/lib/adaptive/supabase-sync'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
+type StudyMode = 'en' | 'en-ko' | 'ko'
+
 type Slide =
   | { kind: 'intro' }
-  | { kind: 'paragraph'; idx: number }
+  | { kind: 'story'; part: number }
   | { kind: 'pattern'; idx: number }
   | { kind: 'hide-recall'; round: number; patIdx: number }
   | { kind: 'daily-challenge' }
@@ -51,7 +63,6 @@ export type SlideSessionProps = {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const PATTERN_PROGRESS = ['', '계속해요.', '절반 왔어요.', '거의 다 왔어요.', '마지막이에요.']
 const RECALL_ROUND_MSGS = ['한 번 더 해볼게요.', '한 번 더요.', '마지막이에요.']
 
 // ── Sub-components ────────────────────────────────────────────────────────────
@@ -73,94 +84,499 @@ function StatCard({ emoji, label, value, accent }: {
   )
 }
 
+// ── 1. Intro Slide ────────────────────────────────────────────────────────────
+
 function IntroSlide({ story, currentRound }: { story: MagazineStory; currentRound: number }) {
+  const { prefs } = usePreferences()
+  const subtitle = resolveTranslation(story.subtitleKo, prefs.language, story.subtitleTranslations)
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={story.imageUrl} alt={story.imageAlt}
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-      <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)' }} />
-      <div style={{ position: 'relative', textAlign: 'center', padding: '0 32px' }}>
+    <div style={{
+      width: '100%', height: '100%',
+      background: 'linear-gradient(160deg, #1a2880 0%, #3d2090 100%)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <div style={{ textAlign: 'center', padding: '0 36px' }}>
         <p style={{
-          fontSize: 10, fontWeight: 700, letterSpacing: '0.16em',
-          color: 'rgba(255,255,255,0.5)', margin: '0 0 12px', textTransform: 'uppercase',
+          fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
+          color: 'rgba(255,255,255,0.5)', margin: '0 0 18px', textTransform: 'uppercase',
         }}>
           STORY {String(story.id).padStart(2, '0')}
-          {currentRound > 0 && ` · ROUND ${currentRound + 1}`}
         </p>
         <h1 style={{
-          fontSize: 'clamp(22px, 5.5vw, 34px)', fontWeight: 900,
-          color: '#fff', margin: 0, lineHeight: 1.15,
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          letterSpacing: '-0.02em',
+          fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
+          fontSize: 28, fontWeight: 700, color: '#fff',
+          margin: '0 0 12px', lineHeight: 1.2,
         }}>
           {story.title}
         </h1>
-      </div>
-    </div>
-  )
-}
-
-function ParagraphSlide({ story, idx }: { story: MagazineStory; idx: number }) {
-  const para = story.paragraphs[idx]
-  const total = story.paragraphs.length
-  return (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', padding: '0 24px' }}>
-      <p style={{
-        fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
-        color: 'var(--pm2)', textTransform: 'uppercase', margin: '24px 0 32px',
-      }}>
-        Story · 문단 {idx + 1}/{total}
-      </p>
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-        <p style={{
-          fontSize: 'clamp(17px, 4.5vw, 24px)', fontWeight: 500,
-          color: 'var(--pt)', lineHeight: 1.65, margin: 0,
-        }}>
-          {para.english}
+        {subtitle && (
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', margin: '0 0 28px', lineHeight: 1.45 }}>
+            {subtitle}
+          </p>
+        )}
+        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
+          Round {currentRound + 1} · 패턴 {story.patterns.length}개
         </p>
       </div>
     </div>
   )
 }
 
-function PatternSlide({ story, idx }: { story: MagazineStory; idx: number }) {
-  const pat = story.patterns[idx]
-  const total = story.patterns.length
+// ── 2. Story Slide ────────────────────────────────────────────────────────────
+
+function StorySlide({
+  story,
+  paragraphs,
+  part,
+  totalParts,
+  currentRound,
+  studyMode,
+  onStudyModeChange,
+  isSpeaking,
+  isPaused,
+  onPlay,
+  onPause,
+  onStop,
+}: {
+  story: MagazineStory
+  paragraphs: MagazineStory['paragraphs']
+  part: number
+  totalParts: number
+  currentRound: number
+  studyMode: StudyMode
+  onStudyModeChange: (m: StudyMode) => void
+  isSpeaking: boolean
+  isPaused: boolean
+  onPlay: () => void
+  onPause: () => void
+  onStop: () => void
+}) {
+  const { prefs } = usePreferences()
+  const showEn = studyMode === 'en' || studyMode === 'en-ko'
+  const showKo = studyMode === 'en-ko' || studyMode === 'ko'
+
   return (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', padding: '0 24px' }}>
-      <p style={{
-        fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
-        color: 'var(--pm2)', textTransform: 'uppercase', margin: '24px 0 32px',
+    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+      {/* Header row: label + language toggle */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '4px 24px 12px', flexShrink: 0,
       }}>
-        Pattern {idx + 1} / {total}
-      </p>
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
-        <div style={{
-          background: 'var(--pglass)',
-          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid var(--pglass-border)',
-          borderRadius: 20, padding: '24px 22px', width: '100%',
+        <p style={{
+          fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
+          color: 'var(--pm2)', textTransform: 'uppercase', margin: 0,
         }}>
-          <p style={{ fontSize: 20, fontWeight: 700, color: 'var(--pt)', margin: '0 0 5px', lineHeight: 1.3 }}>
-            {pat.pattern}
-          </p>
-          <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 18px' }}>
-            {pat.meaningKo}
-          </p>
-          <div style={{ borderTop: '1px solid var(--pd)', paddingTop: 14 }}>
-            <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 4px', lineHeight: 1.55, fontWeight: 500 }}>
-              {pat.storySentence}
+          Story · Round {currentRound + 1}
+          {totalParts > 1 && ` · ${part + 1}/${totalParts}`}
+        </p>
+
+        {prefs.language !== 'en' && (
+          <div style={{
+            display: 'inline-flex', borderRadius: 10,
+            border: '0.5px solid rgba(255,255,255,0.2)', padding: 2,
+          }}>
+            {(['en', 'en-ko', 'ko'] as const).map(mode => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => onStudyModeChange(mode)}
+                style={{
+                  padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                  fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                  background: studyMode === mode ? '#6B8FFF' : 'transparent',
+                  color: studyMode === mode ? '#fff' : 'rgba(255,255,255,0.4)',
+                  transition: 'background 0.18s, color 0.18s',
+                }}
+              >
+                {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Scrollable text area */}
+      <div style={{
+        flex: 1, overflowY: 'auto', padding: '0 24px',
+        WebkitOverflowScrolling: 'touch' as never,
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {paragraphs.map(para => {
+            const koText = resolveTranslation(para.koreanTranslation, prefs.language, para.translations)
+            return (
+              <div key={para.id}>
+                {showEn && (
+                  <p style={{
+                    fontSize: '0.9rem', lineHeight: 1.9,
+                    color: 'var(--pt)', margin: 0,
+                  }}>
+                    {para.english}
+                  </p>
+                )}
+                {showKo && koText && (
+                  <p style={{
+                    fontSize: '0.8rem', color: 'var(--pm)',
+                    lineHeight: 1.6, margin: '2px 0 0',
+                  }}>
+                    {koText}
+                  </p>
+                )}
+              </div>
+            )
+          })}
+        </div>
+        <div style={{ height: 16 }} />
+      </div>
+
+      {/* Audio control bar */}
+      <div style={{
+        flexShrink: 0,
+        padding: '10px 24px',
+        paddingBottom: 'calc(10px + env(safe-area-inset-bottom, 0px))',
+      }}>
+        <div style={{
+          background: 'rgba(255,255,255,0.15)',
+          backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+          borderRadius: 16, padding: '12px 16px',
+          display: 'flex', alignItems: 'center', gap: 12,
+        }}>
+          {/* Play / Pause */}
+          {isSpeaking && !isPaused ? (
+            <button
+              type="button"
+              aria-label="일시정지"
+              onClick={onPause}
+              style={{
+                width: 36, height: 36, borderRadius: '50%',
+                background: '#6B8FFF', color: '#fff',
+                border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <Pause style={{ width: 15, height: 15 }} />
+            </button>
+          ) : (
+            <button
+              type="button"
+              aria-label={isPaused ? '재개' : '재생'}
+              onClick={onPlay}
+              style={{
+                width: 36, height: 36, borderRadius: '50%',
+                background: '#6B8FFF', color: '#fff',
+                border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+              }}
+            >
+              <Play style={{ width: 15, height: 15 }} fill="currentColor" />
+            </button>
+          )}
+
+          {/* Stop */}
+          <button
+            type="button"
+            aria-label="정지"
+            onClick={onStop}
+            style={{
+              width: 36, height: 36, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.2)',
+              color: 'rgba(255,255,255,0.7)',
+              border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <Square style={{ width: 13, height: 13 }} fill="currentColor" />
+          </button>
+
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)', flex: 1 }}>
+            {isSpeaking && !isPaused
+              ? '재생 중...'
+              : isPaused
+              ? '일시정지됨'
+              : story.title}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── 3. Pattern Card (Focus Mode) ──────────────────────────────────────────────
+
+function PatternCardFocus({
+  story,
+  idx,
+  studyMode,
+  onStudyModeChange,
+  onRegisterPlay,
+  onAudioEnd,
+}: {
+  story: MagazineStory
+  idx: number
+  studyMode: StudyMode
+  onStudyModeChange: (m: StudyMode) => void
+  onRegisterPlay: (fn: () => void) => void
+  onAudioEnd: () => void
+}) {
+  const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const pat = story.patterns[idx]
+  const voice = story.narratorVoice ?? prefs.voice
+  const total = story.patterns.length
+
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [exIdx, setExIdx] = useState(0)
+  const runningRef = useRef(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const playTokenRef = useRef(0)
+
+  const examples = (() => {
+    const fromData = getPatternExamples(pat.id)
+    if (fromData.length > 0) return fromData.slice(0, 3)
+    const r: { en: string; ko: string }[] = []
+    if (pat.storySentence) r.push({ en: pat.storySentence, ko: pat.storySentenceKo ?? '' })
+    if (pat.variationSentence) r.push({ en: pat.variationSentence, ko: pat.variationSentenceKo ?? '' })
+    return r.slice(0, 3)
+  })()
+
+  const audioUrl = patternExampleAudioUrl(voice, pat.id, 0, examples[0]?.en ?? '')
+  const hasAudio = !!audioUrl
+
+  function stopAudio() {
+    ++playTokenRef.current
+    runningRef.current = false
+    if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
+    ttsProvider.stop()
+    setIsPlaying(false)
+  }
+
+  const playExamples = useCallback(() => {
+    if (isPlaying) { stopAudio(); return }
+    const token = ++playTokenRef.current
+    runningRef.current = true
+    setIsPlaying(true)
+
+    function playOne(i: number) {
+      if (!runningRef.current || playTokenRef.current !== token) return
+      const ex = examples[i]
+      if (!ex) {
+        runningRef.current = false
+        setIsPlaying(false)
+        onAudioEnd()
+        return
+      }
+      setExIdx(i)
+      const shimmerEx = shimmerExamples[`${pat.id}-ex${i + 1}`]
+      const url = shimmerEx?.url ?? patternExampleAudioUrl(voice, pat.id, i, ex.en)
+      ttsProvider.speak({
+        texts: [ex.en],
+        audioUrls: url ? [url] : undefined,
+        voiceKey: voice, voiceKeys: [voice],
+        rate: RATE_MAP[prefs.speechRate],
+        pitch: getPitchForKey(voice),
+        volume: 1.0,
+        onEnd: () => {
+          if (!runningRef.current || playTokenRef.current !== token) return
+          if (i + 1 < examples.length) {
+            timerRef.current = setTimeout(() => playOne(i + 1), 1800)
+          } else {
+            runningRef.current = false
+            setIsPlaying(false)
+            onAudioEnd()
+          }
+        },
+        onError: () => {
+          if (playTokenRef.current !== token) return
+          runningRef.current = false
+          setIsPlaying(false)
+        },
+      })
+    }
+    playOne(0)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPlaying, pat.id, voice, prefs.speechRate, examples])
+
+  useEffect(() => {
+    onRegisterPlay(playExamples)
+  }, [playExamples, onRegisterPlay])
+
+  useEffect(() => () => {
+    runningRef.current = false
+    if (timerRef.current) clearTimeout(timerRef.current)
+    ttsProvider.stop()
+  }, [])
+
+  // ── Colors (mirrors PatternsSectionInline) ──
+  const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
+  const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
+  const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
+  const heroBg           = isDark ? 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)' : 'transparent'
+  const cardBg           = isDark ? 'rgba(30,28,48,0.85)' : '#FFFFFF'
+  const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
+  const cardShadow       = isDark
+    ? '0 16px 40px rgba(0,0,0,0.40)'
+    : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)'
+  const exBoxBg     = isDark ? 'rgba(255,255,255,0.04)' : '#F6F7FB'
+  const exBoxBorder = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.14)'
+  const exEnColor   = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
+  const exKoColor   = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
+
+  const showEn = studyMode === 'en' || studyMode === 'en-ko'
+  const showKo = studyMode === 'en-ko' || studyMode === 'ko'
+  const patternMeaning = pat.meaningKo
+  const patternNote = pat.explanation ?? PATTERN_NOTES[pat.id] ?? null
+  const globalPatternNum = (story.id - 1) * total + idx + 1
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+      {/* Label + language toggle */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '4px 24px 12px', flexShrink: 0,
+      }}>
+        <p style={{
+          fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
+          color: 'var(--pm2)', textTransform: 'uppercase', margin: 0,
+        }}>
+          Pattern {idx + 1} / {total}
+        </p>
+        <div style={{
+          display: 'inline-flex', borderRadius: 10,
+          border: '0.5px solid rgba(255,255,255,0.2)', padding: 2,
+        }}>
+          {(['en', 'en-ko', 'ko'] as const).map(mode => (
+            <button
+              key={mode}
+              type="button"
+              onClick={() => onStudyModeChange(mode)}
+              style={{
+                padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                background: studyMode === mode ? '#6B8FFF' : 'transparent',
+                color: studyMode === mode ? '#fff' : 'rgba(255,255,255,0.4)',
+                transition: 'background 0.18s, color 0.18s',
+              }}
+            >
+              {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Pattern card */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '0 16px' }}>
+        <div style={{
+          borderRadius: 18,
+          background: cardBg,
+          border: cardBorder,
+          boxShadow: cardShadow,
+          overflow: 'hidden',
+        }}>
+          {/* Hero section */}
+          <div style={{ position: 'relative', overflow: 'hidden', padding: '12px 16px 16px', background: heroBg }}>
+            <p style={{
+              margin: '0 0 10px', fontSize: '0.57rem', fontWeight: 700,
+              color: heroIconColor, letterSpacing: '0.06em',
+              fontFamily: '"SF Mono", "Fira Mono", monospace',
+            }}>
+              PATTERN {String(globalPatternNum).padStart(3, '0')}
             </p>
-            <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, lineHeight: 1.55 }}>
-              {pat.storySentenceKo}
-            </p>
+
+            {showEn && (
+              <p style={{
+                fontSize: 32, fontWeight: 800, color: heroPatternColor,
+                lineHeight: 1.2, margin: '0 0 6px', letterSpacing: '-0.5px',
+                fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+              }}>
+                {pat.pattern}
+              </p>
+            )}
+
+            <div style={{ width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px', background: isDark ? 'rgba(255,255,255,0.25)' : '#8EA7FF' }} />
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {showKo && patternMeaning && (
+                <p style={{ fontSize: 13, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4, flex: 1 }}>
+                  {patternMeaning}
+                </p>
+              )}
+              {!showKo && !patternMeaning && <div style={{ flex: 1 }} />}
+              {!showKo && patternMeaning && <div style={{ flex: 1 }} />}
+              {hasAudio && (
+                <button
+                  type="button"
+                  aria-label="예문 듣기"
+                  onClick={playExamples}
+                  style={{
+                    width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: isPlaying ? 'rgba(107,143,255,0.25)' : 'rgba(107,143,255,0.12)',
+                    border: 'none', cursor: 'pointer', color: '#6B8FFF',
+                    transition: 'background 0.15s',
+                  }}
+                >
+                  <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Examples */}
+          <div style={{ padding: '14px 16px 16px' }}>
+            <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px' }}>
+              {examples.map((ex, i) => {
+                const isExPlaying = isPlaying && i === exIdx
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      borderTop: i > 0 ? `1px solid ${exBoxBorder}` : 'none',
+                      paddingTop: i > 0 ? 12 : 0,
+                      paddingBottom: i < examples.length - 1 ? 12 : 0,
+                    }}
+                  >
+                    {showEn && (
+                      <p style={{
+                        fontSize: 14, fontWeight: isExPlaying ? 700 : 400,
+                        color: exEnColor, lineHeight: 1.55,
+                        margin: 0, marginBottom: showKo && ex.ko ? 2 : 0,
+                      }}>
+                        {ex.en}
+                      </p>
+                    )}
+                    {showKo && ex.ko && (
+                      <p style={{ fontSize: 12, color: exKoColor, margin: 0, lineHeight: 1.5 }}>
+                        {ex.ko}
+                      </p>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            {patternNote && (
+              <div style={{
+                marginTop: 10, borderRadius: 8,
+                background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(142,167,255,0.08)',
+                padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8,
+              }}>
+                <Lightbulb style={{ width: 13, height: 13, color: isDark ? '#8FABFF' : '#8EA7FF', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
+                <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.50)' : '#5a5a7a', lineHeight: 1.5 }}>
+                  {patternNote}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>
   )
 }
+
+// ── HideRecall Slide ──────────────────────────────────────────────────────────
 
 function HideRecallSlide({ story, patIdx, revealed, onReveal }: {
   story: MagazineStory; patIdx: number; revealed: boolean; onReveal: () => void
@@ -188,7 +604,6 @@ function HideRecallSlide({ story, patIdx, revealed, onReveal }: {
             transition: 'all 0.3s ease',
           }}
         >
-          {/* Pattern — hidden until revealed */}
           <div style={{ marginBottom: 8, minHeight: 32 }}>
             {revealed ? (
               <p style={{ fontSize: 20, fontWeight: 700, color: 'var(--pt)', margin: 0, lineHeight: 1.3 }}>
@@ -206,7 +621,6 @@ function HideRecallSlide({ story, patIdx, revealed, onReveal }: {
               </div>
             )}
           </div>
-          {/* Korean — always visible */}
           <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 18px' }}>
             {pat.meaningKo}
           </p>
@@ -229,6 +643,7 @@ function HideRecallSlide({ story, patIdx, revealed, onReveal }: {
   )
 }
 
+// ── Complete Slide ────────────────────────────────────────────────────────────
 
 function CompleteSlide({ story, completionData, elapsedMin, isGuided }: {
   story: MagazineStory; completionData: StoryRoundData | null; elapsedMin: number; isGuided: boolean
@@ -286,7 +701,7 @@ function CompleteSlide({ story, completionData, elapsedMin, isGuided }: {
 
 // ── sessionStorage helpers ─────────────────────────────────────────────────────
 
-type SavedSlide = { kind: string; idx?: number; round?: number; patIdx?: number }
+type SavedSlide = { kind: string; idx?: number; round?: number; patIdx?: number; part?: number }
 
 function ssKey(storyId: number) { return `patto_session_${storyId}` }
 
@@ -299,7 +714,6 @@ function loadSlide(storyId: number): Slide | null {
     const raw = sessionStorage.getItem(ssKey(storyId))
     if (!raw) return null
     const s = JSON.parse(raw) as SavedSlide
-    // Don't restore complete — always restart from intro if somehow saved
     if (s.kind === 'complete') return null
     return s as Slide
   } catch { return null }
@@ -318,7 +732,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   trainerRef.current = trainer
 
   const { user } = useAuth()
-  const { speakAll, stop: stopSpeech } = useSpeech()
+  const { speakAll, stop: stopSpeech, isSpeaking } = useSpeech()
   const { prefs } = usePreferences()
   const { setProgress } = useLearningProgress()
 
@@ -326,11 +740,17 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   const currentRound = getStoryRound(story.id).round
   const totalRecallRounds = getRecallCount(currentRound)
 
+  // Story split: 10+ paragraphs → 2 slides
+  const storyParts = story.paragraphs.length >= 10 ? 2 : 1
+  const splitAt = Math.ceil(story.paragraphs.length / 2)
+
   const [slide, setSlide] = useState<Slide>(() => loadSlide(story.id) ?? { kind: 'intro' })
   const [animKey, setAnimKey] = useState(0)
   const [revealed, setRevealed] = useState(false)
   const [completionData, setCompletionData] = useState<StoryRoundData | null>(null)
   const [elapsedMin, setElapsedMin] = useState(1)
+  const [studyMode, setStudyMode] = useState<StudyMode>('en-ko')
+  const [storyAudioPaused, setStoryAudioPaused] = useState(false)
 
   const sessionStartRef = useRef(Date.now())
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
@@ -338,21 +758,22 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   const slideRef = useRef<Slide>(slide)
   slideRef.current = slide
 
-  // ── Adaptive engine state ──────────────────────────────────────────────────
+  // Pattern audio refs
+  const patternPlayRef = useRef<(() => void) | null>(null)
+  const patternOnEndRef = useRef<(() => void) | null>(null)
+
+  // ── Adaptive engine state ────────────────────────────────────────────────
   const adaptStats = loadStats()
   const level = getLearnerLevel(adaptStats)
   const intensity = getTrainerIntensity(level)
   const slideDelay = getSlideDelay(adaptStats)
-  // isSilent: goes true mid-session if user taps Done 3× fast
   const isSilentRef = useRef(intensity === 'silent')
-  // timestamp of last card presentation (for response time tracking)
   const cardShownAtRef = useRef<number | null>(null)
 
-  // ── Adaptive: call onSessionStart once on mount ────────────────────────────
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { onSessionStart() }, [])
 
-  // ── Timer helpers ──────────────────────────────────────────────────────────
+  // ── Timer helpers ────────────────────────────────────────────────────────
 
   function addTimer(t: ReturnType<typeof setTimeout>) {
     timersRef.current.push(t)
@@ -362,11 +783,12 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     timersRef.current = []
   }
 
-  // ── Navigation primitive ───────────────────────────────────────────────────
+  // ── Navigation ───────────────────────────────────────────────────────────
 
   function goTo(next: Slide) {
     clearTimers()
     stopSpeech()
+    setStoryAudioPaused(false)
     trainerRef.current?.clearMessage()
     setRevealed(false)
     saveSlide(story.id, next)
@@ -374,7 +796,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     setAnimKey(k => k + 1)
   }
 
-  // ── After-done transitions ─────────────────────────────────────────────────
+  // ── After-done transitions ────────────────────────────────────────────────
 
   function afterDone(next: Slide, bridgeMsg?: string, bridgeMs = 1500) {
     clearTimers()
@@ -388,12 +810,14 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     }
   }
 
-  // ── Slide-specific done handlers ───────────────────────────────────────────
+  // ── Slide-specific done handlers ──────────────────────────────────────────
 
-  function handleParaDone(idx: number) {
-    const isLast = idx === story.paragraphs.length - 1
-    if (isLast) afterDone({ kind: 'pattern', idx: 0 }, "이제 패턴을 연습해볼게요.", 1800)
-    else         afterDone({ kind: 'paragraph', idx: idx + 1 })
+  function handleStoryPartDone(part: number) {
+    if (storyParts === 2 && part === 0) {
+      afterDone({ kind: 'story', part: 1 })
+    } else {
+      afterDone({ kind: 'pattern', idx: 0 }, "이제 패턴을 연습해볼게요.", 1800)
+    }
   }
 
   function handlePatternDone(idx: number) {
@@ -416,7 +840,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     }
   }
 
-  // ── Audio end → show "따라해보세요." + Done ────────────────────────────────
+  // ── Audio end → "따라해보세요." + Done ────────────────────────────────────
 
   function makeOnEnd(doneHandler: () => void): () => void {
     return () => {
@@ -425,7 +849,6 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       cardShownAtRef.current = Date.now()
 
       const wrappedDone = () => {
-        // Track response time
         if (cardShownAtRef.current !== null) {
           const rt = Date.now() - cardShownAtRef.current
           onDoneTap(rt)
@@ -447,7 +870,6 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
       addTimer(setTimeout(() => {
         if (isSilentRef.current) {
-          // silent: show Done button without verbal prompt
           trainerRef.current?.ask("", [{
             label: 'Done', btnVariant: 'done', onClick: wrappedDone,
           }])
@@ -460,7 +882,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
     }
   }
 
-  // ── Reveal (hide-recall tap) ───────────────────────────────────────────────
+  // ── Recall reveal ─────────────────────────────────────────────────────────
 
   function handleReveal() {
     if (revealed) return
@@ -481,6 +903,48 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revealed])
 
+  // ── Story audio controls ──────────────────────────────────────────────────
+
+  function getStoryParas(part: number) {
+    if (storyParts === 2) {
+      return part === 0
+        ? story.paragraphs.slice(0, splitAt)
+        : story.paragraphs.slice(splitAt)
+    }
+    return story.paragraphs
+  }
+
+  function handleStoryPlay(part: number) {
+    if (storyAudioPaused) {
+      ttsProvider.resume?.()
+      setStoryAudioPaused(false)
+      return
+    }
+    const paras = getStoryParas(part)
+    const texts = paras.map(p => p.english)
+    const urls  = paras.map(p => storyParaAudioUrl(narrator, story.id, p.id, p.english))
+    trainerRef.current?.setCardPlaying(true)
+    trainerRef.current?.clearMessage()
+    speakAll(texts, urls, { voiceKey: narrator, onEnd: makeOnEnd(() => handleStoryPartDone(part)) })
+  }
+
+  function handleStoryPause() {
+    ttsProvider.pause?.()
+    setStoryAudioPaused(true)
+  }
+
+  function handleStoryStop() {
+    stopSpeech()
+    setStoryAudioPaused(false)
+    trainerRef.current?.clearMessage()
+  }
+
+  // ── Pattern audio registered play fn ────────────────────────────────────
+
+  const handleRegisterPlay = useCallback((fn: () => void) => {
+    patternPlayRef.current = fn
+  }, [])
+
   // ── Slide init on each advance ─────────────────────────────────────────────
 
   useEffect(() => {
@@ -498,36 +962,25 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
           t?.say("안녕하세요! 함께 시작해볼게요.", 2500)
           addTimer(setTimeout(() => {
             trainerRef.current?.ask(msg, [
-              { label: 'Start', primary: true, onClick: () => goTo({ kind: 'paragraph', idx: 0 }) },
+              { label: '▶ Start', primary: true, onClick: () => goTo({ kind: 'story', part: 0 }) },
             ])
           }, 3000))
         } else {
           addTimer(setTimeout(() => {
             trainerRef.current?.ask(msg, [
-              { label: 'Start', primary: true, onClick: () => goTo({ kind: 'paragraph', idx: 0 }) },
+              { label: '▶ Start', primary: true, onClick: () => goTo({ kind: 'story', part: 0 }) },
             ])
           }, 800))
         }
         break
       }
 
-      case 'paragraph': {
-        const { idx } = s
-        const para = story.paragraphs[idx]
-        const msg = idx === 0 && isGuided
-          ? "첫 번째 문단이에요. 먼저 들어보세요."
-          : "들어보세요."
+      case 'story': {
+        const { part } = s
         addTimer(setTimeout(() => {
-          trainerRef.current?.ask(msg, [{
+          trainerRef.current?.ask("들어보세요.", [{
             label: 'Play', btnVariant: 'play',
-            onClick: () => {
-              trainerRef.current?.setCardPlaying(true)
-              speakAll(
-                [para.english],
-                [storyParaAudioUrl(narrator, story.id, para.id, para.english)],
-                { voiceKey: narrator, onEnd: makeOnEnd(() => handleParaDone(idx)) },
-              )
-            },
+            onClick: () => handleStoryPlay(part),
           }])
         }, 400))
         break
@@ -535,8 +988,11 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
       case 'pattern': {
         const { idx } = s
-        const pat = story.patterns[idx]
-        const progressMsg = PATTERN_PROGRESS[idx]
+        // Register the audio end handler for this pattern
+        patternOnEndRef.current = makeOnEnd(() => handlePatternDone(idx))
+
+        const progressMsgs = ['', '계속해요.', '절반 왔어요.', '거의 다 왔어요.', '마지막이에요.']
+        const progressMsg = progressMsgs[idx]
         const msg = idx === 0 && isGuided
           ? "스토리에서 나온 패턴이에요. 먼저 들어보세요."
           : "들어보세요."
@@ -546,16 +1002,11 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
             label: 'Play', btnVariant: 'play',
             onClick: () => {
               trainerRef.current?.setCardPlaying(true)
-              speakAll(
-                [pat.storySentence],
-                undefined,
-                { voiceKey: narrator, onEnd: makeOnEnd(() => handlePatternDone(idx)) },
-              )
+              patternPlayRef.current?.()
             },
           }])
         }
 
-        // Show encouragement messages only for full/moderate intensity
         if (progressMsg && intensity !== 'minimal' && intensity !== 'silent') {
           t?.say(progressMsg, 1500)
           addTimer(setTimeout(showCard, 1800))
@@ -579,7 +1030,6 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       }
 
       case 'daily-challenge': {
-        // DailyChallengeSlide handles all trainer interactions internally
         break
       }
 
@@ -603,7 +1053,6 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
             } catch {}
           }
         }
-        // silent mode: skip completion message
         const completionMsg = isSilentRef.current
           ? ''
           : isGuided ? "첫 번째 세션을 완료했어요!" : "오늘도 잘하셨어요."
@@ -626,17 +1075,17 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
   // ── Progress bar ───────────────────────────────────────────────────────────
 
-  const P     = story.paragraphs.length
   const PATS  = story.patterns.length
-  const total = 1 + P + PATS + PATS * totalRecallRounds + 2
+  const total = 1 + storyParts + PATS + PATS * totalRecallRounds + 2
 
   function slideNum(): number {
+    const P = storyParts
     switch (slide.kind) {
       case 'intro':           return 1
-      case 'paragraph':       return 2 + slide.idx
-      case 'pattern':         return 2 + P + slide.idx
-      case 'hide-recall':     return 2 + P + PATS + (slide.round - 1) * PATS + slide.patIdx
-      case 'daily-challenge': return 2 + P + PATS * (1 + totalRecallRounds)
+      case 'story':           return 2 + slide.part
+      case 'pattern':         return 1 + P + 1 + slide.idx
+      case 'hide-recall':     return 1 + P + PATS + (slide.round - 1) * PATS + slide.patIdx + 1
+      case 'daily-challenge': return 1 + P + PATS * (1 + totalRecallRounds) + 1
       case 'complete':        return total
     }
   }
@@ -659,18 +1108,71 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
   function renderSlide() {
     switch (slide.kind) {
-      case 'intro':           return <IntroSlide story={story} currentRound={currentRound} />
-      case 'paragraph':       return <ParagraphSlide story={story} idx={slide.idx} />
-      case 'pattern':         return <PatternSlide story={story} idx={slide.idx} />
-      case 'hide-recall':     return <HideRecallSlide story={story} patIdx={slide.patIdx} revealed={revealed} onReveal={handleReveal} />
-      case 'daily-challenge': return (
-        <DailyChallengeSlide
-          story={story}
-          onSkip={() => goTo({ kind: 'complete' })}
-          onDone={() => goTo({ kind: 'complete' })}
-        />
-      )
-      case 'complete':        return <CompleteSlide story={story} completionData={completionData} elapsedMin={elapsedMin} isGuided={isGuided} />
+      case 'intro':
+        return <IntroSlide story={story} currentRound={currentRound} />
+
+      case 'story': {
+        const part = slide.part
+        const paragraphs = getStoryParas(part)
+        return (
+          <StorySlide
+            story={story}
+            paragraphs={paragraphs}
+            part={part}
+            totalParts={storyParts}
+            currentRound={currentRound}
+            studyMode={studyMode}
+            onStudyModeChange={setStudyMode}
+            isSpeaking={isSpeaking}
+            isPaused={storyAudioPaused}
+            onPlay={() => handleStoryPlay(part)}
+            onPause={handleStoryPause}
+            onStop={handleStoryStop}
+          />
+        )
+      }
+
+      case 'pattern':
+        return (
+          <PatternCardFocus
+            key={`pattern-${slide.idx}`}
+            story={story}
+            idx={slide.idx}
+            studyMode={studyMode}
+            onStudyModeChange={setStudyMode}
+            onRegisterPlay={handleRegisterPlay}
+            onAudioEnd={() => patternOnEndRef.current?.()}
+          />
+        )
+
+      case 'hide-recall':
+        return (
+          <HideRecallSlide
+            story={story}
+            patIdx={slide.patIdx}
+            revealed={revealed}
+            onReveal={handleReveal}
+          />
+        )
+
+      case 'daily-challenge':
+        return (
+          <DailyChallengeSlide
+            story={story}
+            onSkip={() => goTo({ kind: 'complete' })}
+            onDone={() => goTo({ kind: 'complete' })}
+          />
+        )
+
+      case 'complete':
+        return (
+          <CompleteSlide
+            story={story}
+            completionData={completionData}
+            elapsedMin={elapsedMin}
+            isGuided={isGuided}
+          />
+        )
     }
   }
 
@@ -722,6 +1224,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
         style={{
           flex: 1, overflow: 'hidden',
           animation: 'ssSlideIn 0.3s ease-out both',
+          display: 'flex', flexDirection: 'column',
         }}
       >
         {renderSlide()}
