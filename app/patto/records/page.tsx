@@ -248,7 +248,7 @@ function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, num
               <div style={{
                 width: 32, height: 32, borderRadius: '50%',
                 background: done ? '#5C6BC0' : isToday ? '#EEF1FF' : (isDark ? 'rgba(255,255,255,0.05)' : '#f0f1f5'),
-                border: isToday && !done ? '2px solid #5C6BC0' : 'none',
+                border: isToday && !done ? '2px solid #E53935' : 'none',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 opacity: isFut ? 0.35 : 1,
                 transition: 'background 0.2s',
@@ -258,7 +258,7 @@ function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, num
                     <path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 ) : (
-                  <span style={{ fontSize: 13, fontWeight: 600, color: isToday ? '#5C6BC0' : (isDark ? '#666' : '#aaa'), lineHeight: 1 }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: isToday ? '#E53935' : (isDark ? '#666' : '#aaa'), lineHeight: 1 }}>
                     {d.getDate()}
                   </span>
                 )}
