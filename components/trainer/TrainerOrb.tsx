@@ -328,8 +328,8 @@ const BTN_BASE: React.CSSProperties = {
   transition: 'transform 0.12s ease, opacity 0.12s ease',
   willChange: 'transform',
 }
-const BTN_PRIMARY: React.CSSProperties = { ...BTN_BASE, background: '#8B9FE8', color: '#ffffff', fontWeight: 600 }
-const BTN_SECONDARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1px solid #D0D5F0', color: '#8B9FE8', fontWeight: 500 }
+const BTN_PRIMARY: React.CSSProperties = { ...BTN_BASE, background: '#6B8FFF', color: '#ffffff', fontWeight: 600 }
+const BTN_SECONDARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1px solid #D0D5F0', color: '#6B8FFF', fontWeight: 500 }
 
 function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
   card: CardSpec; dark: boolean

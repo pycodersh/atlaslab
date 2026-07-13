@@ -120,7 +120,7 @@ const BTN_BASE: React.CSSProperties = {
 }
 const BTN_PRIMARY: React.CSSProperties = {
   ...BTN_BASE,
-  background: '#8B9FE8',
+  background: '#6B8FFF',
   color: '#ffffff',
   fontWeight: 600,
 }
@@ -128,7 +128,7 @@ const BTN_SECONDARY: React.CSSProperties = {
   ...BTN_BASE,
   background: '#ffffff',
   border: '1px solid #D0D5F0',
-  color: '#8B9FE8',
+  color: '#6B8FFF',
   fontWeight: 500,
 }
 
