@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
-import { Bookmark, Lightbulb, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Bookmark, Lightbulb, ChevronLeft, ChevronRight, Volume2 } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import type { MagazineStory } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -39,6 +39,7 @@ type Props = {
   storyIsSpeaking?: boolean
   showNavButtons?: boolean
   showSwipeGuide?: boolean
+  showSpeakerButton?: boolean
   onAllPatternsSeen?: () => void
   hideRecallMode?: boolean
   recallRound?: number
@@ -75,6 +76,7 @@ export function PatternsSectionInline({
   storyIsSpeaking = false,
   showNavButtons = false,
   showSwipeGuide = false,
+  showSpeakerButton = false,
   onAllPatternsSeen,
   hideRecallMode = false,
   recallRound = 1,
@@ -92,6 +94,16 @@ export function PatternsSectionInline({
   const trainer = useTrainerSafe()
   const voice = story.narratorVoice ?? prefs.voice
   const patterns = story.patterns
+
+  // MD+ breakpoint detection for PC nav buttons
+  const [isMdUp, setIsMdUp] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)')
+    setIsMdUp(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsMdUp(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   // ── Core state ────────────────────────────────────────────────────────
   const [patIdx, setPatIdx]               = useState(0)
@@ -452,9 +464,28 @@ export function PatternsSectionInline({
         <div style={{ width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px', background: isDark ? 'rgba(255,255,255,0.25)' : '#8EA7FF' }} />
 
         {patternMeaning ? (
-          <p style={{ fontSize: 13, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
-            {patternMeaning}
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4, flex: 1 }}>
+              {patternMeaning}
+            </p>
+            {showSpeakerButton && (
+              <button
+                type="button"
+                aria-label="예문 듣기"
+                onClick={playExamples}
+                style={{
+                  width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: 'rgba(107,143,255,0.12)',
+                  border: 'none', cursor: 'pointer',
+                  color: '#6B8FFF',
+                  transition: 'background 0.15s',
+                }}
+              >
+                <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />
+              </button>
+            )}
+          </div>
         ) : null}
       </div>
 
@@ -503,14 +534,8 @@ export function PatternsSectionInline({
   const arrowColor = isDark ? 'rgba(255,255,255,0.70)' : '#6B8FFF'
 
   return (
-    <div style={{ padding: '0 16px' }}>
+    <div style={{ padding: isMdUp ? '0 70px' : '0 16px' }}>
 
-      {/* Swipe guide */}
-      {showSwipeGuide && !hideRecallMode && (
-        <div style={{ textAlign: 'center', marginBottom: 8, fontSize: 11.5, color: isDark ? 'rgba(255,255,255,0.45)' : '#8EA7FF', letterSpacing: '0.02em' }}>
-          👆 스와이프해서 패턴을 확인하세요
-        </div>
-      )}
 
       {/* Hide-recall round indicator */}
       {hideRecallMode && (
@@ -587,38 +612,48 @@ export function PatternsSectionInline({
           {cardContent}
         </motion.div>
 
-        {/* PC arrow buttons — left=next (like left-swipe), right=prev */}
-        {showNavButtons && (
+        {/* PC nav buttons — shown on md+ screens */}
+        {isMdUp && (
           <>
-            <button
-              type="button"
-              aria-label="다음 패턴"
-              onClick={goNextPattern}
-              style={{
-                position: 'absolute', left: -14, top: '50%', transform: 'translateY(-50%)',
-                zIndex: 20, width: 30, height: 30, borderRadius: '50%',
-                background: arrowBg, border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: arrowColor, opacity: patIdx < patterns.length - 1 ? 1 : 0.25,
-                transition: 'opacity 0.2s',
-              }}
-            >
-              <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={2.5} />
-            </button>
             <button
               type="button"
               aria-label="이전 패턴"
               onClick={goPrevPattern}
               style={{
-                position: 'absolute', right: -14, top: '50%', transform: 'translateY(-50%)',
-                zIndex: 20, width: 30, height: 30, borderRadius: '50%',
-                background: arrowBg, border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: arrowColor, opacity: patHistory.length > 0 ? 1 : 0.25,
-                transition: 'opacity 0.2s',
+                position: 'absolute', left: -54, top: '50%', transform: 'translateY(-50%)',
+                zIndex: 20, width: 36, height: 36, borderRadius: '50%',
+                background: 'rgba(255,255,255,0.8)',
+                backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+                border: '0.5px solid rgba(107,143,255,0.2)',
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: '#6B8FFF',
+                opacity: patHistory.length > 0 ? 1 : 0.3,
+                transition: 'opacity 0.2s, background 0.15s',
               }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(107,143,255,0.1)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.8)')}
             >
-              <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />
+              <ChevronLeft style={{ width: 18, height: 18 }} strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              aria-label="다음 패턴"
+              onClick={goNextPattern}
+              style={{
+                position: 'absolute', right: -54, top: '50%', transform: 'translateY(-50%)',
+                zIndex: 20, width: 36, height: 36, borderRadius: '50%',
+                background: 'rgba(255,255,255,0.8)',
+                backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
+                border: '0.5px solid rgba(107,143,255,0.2)',
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: '#6B8FFF',
+                opacity: patIdx < patterns.length - 1 ? 1 : 0.3,
+                transition: 'opacity 0.2s, background 0.15s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(107,143,255,0.1)')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.8)')}
+            >
+              <ChevronRight style={{ width: 18, height: 18 }} strokeWidth={2} />
             </button>
           </>
         )}

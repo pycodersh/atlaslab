@@ -422,21 +422,6 @@ export function StoryPage({
             <div style={{ height: 22 }} />
         </div>
 
-        {/* Divider between story body and pattern cards */}
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 8,
-          padding: '8px 20px 20px',
-        }}>
-          <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
-          <span style={{
-            fontSize: 10, color: '#7A94E8', textTransform: 'uppercase',
-            letterSpacing: '0.12em', whiteSpace: 'nowrap',
-          }}>
-            Patterns in this story
-          </span>
-          <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
-        </div>
-
         {afterContent}
 
         {/* Bottom spacer — transparent, keeps content above tab bar */}

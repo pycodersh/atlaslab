@@ -147,6 +147,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const [currentPatternIdx, setCurrentPatternIdx] = useState(0)
 
   // ── Refs ─────────────────────────────────────────────────────────────────
+  const pageRef              = useRef<TrainerPage>('other')
   const repeatCallbackRef    = useRef<(() => void) | null>(null)
   const resumeCallbackRef    = useRef<(() => void) | null>(null)
   const idleOrbCallbackRef   = useRef<(() => void) | null>(null)
@@ -233,6 +234,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const setPage = useCallback((p: TrainerPage) => {
     setPageState(p)
+    pageRef.current = p
     clearCard()
     silentRef.current = false
   }, [clearCard])
@@ -499,8 +501,8 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     }
 
     if (tapMode === 'menu') {
-      if (sessionPhase !== 'inactive') {
-        // Show help menu card
+      if (sessionPhase !== 'inactive' && pageRef.current !== 'story') {
+        // Show help menu card (session pages only, not browse mode)
         setCard({
           id: nextId(), size: 'medium', message: 'Need help?', priority: 1, isHelp: true,
         })

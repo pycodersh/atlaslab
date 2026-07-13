@@ -147,9 +147,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
     if (!isDesktop) {
       const t = setTimeout(() => {
-        if (saved?.phase === 'patterns') {
-          showPatternListenCard()
-        } else if (saved?.phase === 'hide-recall') {
+        if (saved?.phase === 'hide-recall') {
           showRecallYourTurnCard()
         }
         // No auto-card on fresh story entry — user taps Orb to start
@@ -327,8 +325,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   useEffect(() => {
     if (isDesktop) return
     if (flowPhase === 'patterns' && !skipPatternView) {
-      const t = setTimeout(() => showPatternListenCard(), 400)
-      return () => clearTimeout(t)
+      // Listen card removed from Browse mode — speaker button on card handles audio
     }
     if (flowPhase === 'complete') {
       trainer?.triggerPulse()
@@ -379,11 +376,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   useEffect(() => {
     if (isDesktop) return
     trainer?.setRepeatCallback?.(() => {
-      if (flowPhaseRef.current === 'patterns') {
-        showPatternListenCard()
-      } else {
-        showStoryListenCard()
-      }
+      showStoryListenCard()
     })
     return () => trainer?.setRepeatCallback?.(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -401,8 +394,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     if (isDesktop) return
     trainer?.setResumeCallback?.(() => {
       const phase = flowPhaseRef.current
-      if (phase === 'patterns') showPatternListenCard()
-      else if (phase === 'hide-recall') showRecallYourTurnCard()
+      if (phase === 'hide-recall') showRecallYourTurnCard()
       else showStoryListenCard()
     })
     return () => trainer?.setResumeCallback?.(null)
@@ -435,9 +427,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // ── Trainer: pattern index change → show next listen card ────────────────
   useEffect(() => {
     patternIdxRef.current = patternIdx
-    if (isDesktop || flowPhaseRef.current !== 'patterns') return
-    const t = setTimeout(() => showPatternListenCard(), 300)
-    return () => clearTimeout(t)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patternIdx])
 
@@ -773,7 +762,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
           patternExamples={patternExamples}
           storyIsSpeaking={isSpeaking}
           showNavButtons={false}
-          showSwipeGuide={showSwipeGuide && !isInRecall}
+          showSwipeGuide={false}
+          showSpeakerButton={true}
           onAllPatternsSeen={!skipPatternView ? handleAllPatternsSeen : undefined}
           hideRecallMode={isInRecall}
           recallRound={hideRecallRound}
