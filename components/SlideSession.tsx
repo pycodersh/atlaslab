@@ -583,22 +583,6 @@ function PatternCardFocus({
               )}
               {!showKo && !patternMeaning && <div style={{ flex: 1 }} />}
               {!showKo && patternMeaning && <div style={{ flex: 1 }} />}
-              {hasAudio && (
-                <button
-                  type="button"
-                  aria-label="예문 듣기"
-                  onClick={playExamples}
-                  style={{
-                    width: 32, height: 32, borderRadius: 10, flexShrink: 0,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: isPlaying ? 'rgba(107,143,255,0.22)' : 'rgba(107,143,255,0.10)',
-                    border: 'none', cursor: 'pointer', color: '#6B8FFF',
-                    transition: 'background 0.15s',
-                  }}
-                >
-                  <Volume2 style={{ width: 13, height: 13 }} strokeWidth={1.8} />
-                </button>
-              )}
             </div>
           </div>
 
