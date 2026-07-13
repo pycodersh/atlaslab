@@ -512,9 +512,16 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     }
 
     if (sessionPhase === 'paused') {
-      // Resume from pause
-      setOrbState('waiting'); setTapMode('menu'); setSessionPhase('para-your-turn')
-      showMsg('Let\'s continue.', 2500)
+      ask('이어서 할까요?', [{
+        label: 'Resume',
+        primary: true,
+        onClick: () => {
+          ttsProvider.resume?.()
+          setOrbState('idle'); setTapMode('menu'); setSessionPhase('inactive')
+          showMsg("Let's continue.", 2000)
+          resumeCallbackRef.current?.()
+        },
+      }])
       return
     }
 
@@ -542,7 +549,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     if (sessionPhase === 'pat-your-turn-1') { confirmPatternYourTurn1(currentPatternIdx); return }
     if (sessionPhase === 'pat-your-turn-2') { advanceToNextPattern(currentPatternIdx); return }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [card, tapMode, sessionPhase, currentPatternIdx, showMsg, showCard, clearCard,
+  }, [card, tapMode, sessionPhase, currentPatternIdx, showMsg, showCard, clearCard, ask,
       startParaListen, confirmParaDone, confirmPatternYourTurn1, advanceToNextPattern])
 
   const closeMenu = useCallback(() => {
@@ -551,6 +558,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const handleMenuRepeat = useCallback(() => {
     clearCard()
+    showMsg('다시 들어볼게요.', 2000)
     const c = cfg()
     if (!c) {
       repeatCallbackRef.current?.()
@@ -561,7 +569,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     else if (sessionPhase.startsWith('pat'))
       c.playPatternAudio(currentPatternIdx, () => startPatternYourTurn1(currentPatternIdx))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [card, sessionPhase, currentParaIdx, currentPatternIdx, clearCard])
+  }, [card, sessionPhase, currentParaIdx, currentPatternIdx, clearCard, showMsg])
 
   const handleMenuSkip = useCallback(() => {
     clearCard(); clearWaitTimer()
@@ -595,11 +603,11 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const handleMenuExit = useCallback(() => {
     clearCard()
     showCard({
-      size: 'medium', message: 'Exit session?', priority: 1,
+      size: 'medium', message: '세션을 종료할까요?', priority: 1,
       buttons: [
-        { label: 'Stay', onClick: () => {} },
+        { label: 'Stay', primary: true, onClick: () => {} },
         {
-          label: 'Exit', primary: true,
+          label: 'Exit',
           onClick: () => {
             cfg()?.stopAudio()
             showMsg('See you.', 2000)
