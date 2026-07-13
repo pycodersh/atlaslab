@@ -106,6 +106,7 @@ export function PatternsSectionInline({
   }, [])
 
   // ── Core state ────────────────────────────────────────────────────────
+  const [studyMode, setStudyMode]         = useState<'en' | 'en-ko' | 'ko'>('en-ko')
   const [patIdx, setPatIdx]               = useState(0)
   const [isPlaying, setIsPlaying]         = useState(false)
   const [exIdx, setExIdx]                 = useState(0)
@@ -317,7 +318,8 @@ export function PatternsSectionInline({
   }
 
   // ── Derived ───────────────────────────────────────────────────────────
-  const showKorean        = prefs.language !== 'en'
+  const showKorean        = prefs.language !== 'en' && (studyMode === 'en-ko' || studyMode === 'ko')
+  const showEnglish       = studyMode === 'en' || studyMode === 'en-ko'
   const patternMeaning    = resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations)
   const globalPatternNum  = (story.id - 1) * patterns.length + patIdx + 1
   const isCurrentRevealed = recallRevealed.has(patIdx)
@@ -428,6 +430,27 @@ export function PatternsSectionInline({
             ))}
           </div>
 
+          {prefs.language !== 'en' && (
+            <div style={{ display: 'inline-flex', borderRadius: 8, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.5)', border: '0.5px solid rgba(107,143,255,0.18)', padding: 2, marginRight: 4 }}>
+              {(['en', 'en-ko', 'ko'] as const).map(mode => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setStudyMode(mode)}
+                  style={{
+                    padding: '3px 7px', borderRadius: 6, border: 'none', cursor: 'pointer',
+                    fontSize: 8.5, fontWeight: 600, letterSpacing: '0.06em',
+                    background: studyMode === mode ? '#6B8FFF' : 'transparent',
+                    color: studyMode === mode ? '#fff' : isDark ? 'rgba(255,255,255,0.35)' : '#8EA7FF',
+                    opacity: studyMode === mode ? 1 : 0.7,
+                    transition: 'background 0.15s, color 0.15s',
+                  }}
+                >
+                  {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
+                </button>
+              ))}
+            </div>
+          )}
           <button
             type="button"
             onClick={handleBookmark}
@@ -506,12 +529,14 @@ export function PatternsSectionInline({
             const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
             return (
               <div key={i} style={{ borderTop: i > 0 ? `1px solid ${exBoxBorder}` : 'none', paddingTop: i > 0 ? 12 : 0, paddingBottom: i < examples.length - 1 ? 12 : 0 }}>
+                {showEnglish && (
                 <TappableWordText
                   text={ex.en}
                   saveCandidates={safeCandidates}
                   source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
                   style={{ display: 'block', fontSize: 12, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.6, marginBottom: 2 }}
                 />
+                )}
                 {showKorean && exKo && (
                   <p style={{ fontSize: 10, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
                 )}

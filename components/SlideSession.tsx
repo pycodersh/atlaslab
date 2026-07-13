@@ -218,9 +218,10 @@ function StorySlide({
               style={{
                 padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                background: studyMode === mode ? '#6B8FFF' : 'rgba(0,0,0,0.06)',
+                background: studyMode === mode ? '#6B8FFF' : 'transparent',
                 color: studyMode === mode ? '#fff' : '#8EA7FF',
-                transition: 'background 0.18s, color 0.18s',
+                opacity: studyMode === mode ? 1 : 0.45,
+                transition: 'background 0.18s, opacity 0.18s',
               }}
             >
               {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
@@ -517,6 +518,7 @@ function PatternCardFocus({
         </p>
         <div style={{
           display: 'inline-flex', borderRadius: 10,
+          background: 'rgba(255,255,255,0.12)',
           border: '0.5px solid rgba(255,255,255,0.2)', padding: 2,
         }}>
           {(['en', 'en-ko', 'ko'] as const).map(mode => (
@@ -527,9 +529,10 @@ function PatternCardFocus({
               style={{
                 padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                background: studyMode === mode ? '#6B8FFF' : 'rgba(0,0,0,0.06)',
-                color: studyMode === mode ? '#fff' : 'rgba(255,255,255,0.4)',
-                transition: 'background 0.18s, color 0.18s',
+                background: studyMode === mode ? '#6B8FFF' : 'transparent',
+                color: '#fff',
+                opacity: studyMode === mode ? 1 : 0.4,
+                transition: 'background 0.18s, opacity 0.18s',
               }}
             >
               {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
