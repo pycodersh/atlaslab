@@ -321,15 +321,15 @@ function WhisperCard({ card, dark, textMain }: {
 
 // ── 2. Action Card ────────────────────────────────────────────────────────────
 const BTN_BASE: React.CSSProperties = {
-  minWidth: 100, height: 40, borderRadius: 20,
-  fontSize: 14, fontWeight: 500, fontFamily: 'inherit',
+  minWidth: 80, height: 36, borderRadius: 20,
+  fontSize: 13, fontWeight: 500, fontFamily: 'inherit',
   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-  cursor: 'pointer', border: 'none',
+  cursor: 'pointer',
   transition: 'transform 0.12s ease, opacity 0.12s ease',
   willChange: 'transform',
 }
-const BTN_PRIMARY: React.CSSProperties = { ...BTN_BASE, background: '#5C6BC0', color: '#ffffff' }
-const BTN_SECONDARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1px solid #e0e3f0', color: '#5C6BC0' }
+const BTN_PRIMARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1.5px solid #5C6BC0', color: '#5C6BC0' }
+const BTN_SECONDARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1px solid #e0e3f0', color: '#9098b1' }
 
 function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
   card: CardSpec; dark: boolean
@@ -490,7 +490,7 @@ function SessionCard({ card, dark, textMain, textSub, onClear }: {
                 style={{
                   ...(isPrimary ? BTN_PRIMARY : BTN_SECONDARY),
                   ...(count === 2 ? { flex: 1 } : { width: count === 1 ? 'auto' : '100%' }),
-                  boxShadow: isPrimary ? '0 4px 12px rgba(92,107,192,0.25)' : 'none',
+                  boxShadow: 'none',
                 }}
               >
                 {btn.label}

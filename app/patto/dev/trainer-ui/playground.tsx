@@ -107,9 +107,9 @@ function WhisperContent({ message, ms, isDark }: { message: string; ms?: number;
 // ── Shared button styles ──────────────────────────────────────────────────────
 const BTN_BASE: React.CSSProperties = {
   flex: 1,
-  height: 40,
+  height: 36,
   borderRadius: 20,
-  fontSize: 14,
+  fontSize: 13,
   fontWeight: 500,
   fontFamily: 'inherit',
   cursor: 'pointer',
@@ -120,15 +120,15 @@ const BTN_BASE: React.CSSProperties = {
 }
 const BTN_PRIMARY: React.CSSProperties = {
   ...BTN_BASE,
-  background: '#5C6BC0',
-  color: '#ffffff',
-  border: 'none',
+  background: '#ffffff',
+  border: '1.5px solid #5C6BC0',
+  color: '#5C6BC0',
 }
 const BTN_SECONDARY: React.CSSProperties = {
   ...BTN_BASE,
   background: '#ffffff',
   border: '1px solid #e0e3f0',
-  color: '#5C6BC0',
+  color: '#9098b1',
 }
 
 // ── Action Card Content ───────────────────────────────────────────────────────
@@ -224,7 +224,7 @@ function SessionContent({
         {allBtns.map(({ lbl, isPrimary }, i) => (
           <button key={i} style={{
             ...(isPrimary ? BTN_PRIMARY : BTN_SECONDARY),
-            boxShadow: isPrimary ? '0 4px 12px rgba(92,107,192,0.25)' : 'none',
+            boxShadow: 'none',
           }}>
             {lbl}
           </button>
@@ -573,11 +573,11 @@ export function TrainerUIPlayground() {
         {/* ── Section 2: Action Cards ── */}
         <Section title="2. Action Card (ask() 타입)" isDark={isDark}>
           {[
-            { msg: '학습을 시작할까요?', btns: [{ label: '괜찮아요', variant: 'secondary' as const }, { label: '시작하기', variant: 'primary' as const }] },
-            { msg: "'actually' 저장할까요?", btns: [{ label: '나중에', variant: 'secondary' as const }, { label: 'Save', variant: 'primary' as const }] },
+            { msg: '학습을 시작할까요?', btns: [{ label: 'Skip', variant: 'secondary' as const }, { label: 'Start', variant: 'primary' as const }] },
+            { msg: "'actually' 저장할까요?", btns: [{ label: 'Later', variant: 'secondary' as const }, { label: 'Save', variant: 'primary' as const }] },
             { msg: '들어보세요.', btns: [{ label: '▶ Play', variant: 'play' as const }] },
             { msg: '따라해보세요.', btns: [{ label: '✓ Done', variant: 'done' as const }] },
-            { msg: '삭제할까요?', btns: [{ label: '취소', variant: 'secondary' as const }, { label: 'Remove', variant: 'primary' as const }] },
+            { msg: '삭제할까요?', btns: [{ label: 'Cancel', variant: 'secondary' as const }, { label: 'Remove', variant: 'primary' as const }] },
             { msg: '세션을 종료할까요?', btns: [{ label: 'Stay', variant: 'secondary' as const }, { label: 'Exit', variant: 'primary' as const }] },
             { msg: '오늘의 챌린지를 해볼까요?', btns: [{ label: 'Maybe later', variant: 'secondary' as const }, { label: "Let's do it", variant: 'primary' as const }] },
             { msg: '다시 들어볼까요?', btns: [{ label: '▶ Play', variant: 'play' as const }, { label: '✓ Done', variant: 'done' as const }] },
@@ -596,8 +596,8 @@ export function TrainerUIPlayground() {
                 label="오늘의 세션"
                 title="A New Start"
                 subtext="5 patterns · Round 1 · ~6분"
-                primaryBtns={['시작하기']}
-                ghostBtns={['나중에 할게요']}
+                primaryBtns={['Start']}
+                ghostBtns={['Later']}
                 isDark={isDark}
               />
             </OrbWithCard>
