@@ -11,6 +11,7 @@ import { StoryPage } from '@/components/StoryPage'
 import { StoryCompletionScreen } from '@/components/StoryCompletionScreen'
 import { WheelPicker } from '@/components/WheelPicker'
 import { GlobalSavePopup } from '@/components/GlobalSavePopup'
+import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
@@ -861,7 +862,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   return (
     <div
       ref={mobileScrollRef}
-      style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never }}
+      style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never, paddingBottom: TAB_BAR_HEIGHT }}
     >
       <StoryPage
         story={story}
