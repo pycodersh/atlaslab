@@ -455,7 +455,7 @@ body {
 .trainer-btn-primary {
   background: rgba(128, 144, 240, 0.04);
   border: 1px solid rgba(128, 144, 240, 0.14);
-  color: #a8afc8;
+  color: #5C6BC0;
 }
 .dark .trainer-btn-primary {
   background: rgba(160, 176, 255, 0.25);
@@ -474,7 +474,7 @@ body {
 .trainer-btn-secondary {
   background: transparent;
   border: 1px solid rgba(128, 144, 240, 0.12);
-  color: #b0b6c8;
+  color: #7986CB;
 }
 .dark .trainer-btn-secondary {
   background: rgba(255, 255, 255, 0.07);
