@@ -92,6 +92,7 @@ export interface TrainerCtx {
   endSession:   () => void
 
   // ── Card play state ──────────────────────────────────────────────────────
+  restorePendingAsk: () => boolean
   cardIsPlaying:     boolean
   setCardPlaying:    (v: boolean) => void
   showFlow:          (msg: string, buttons: DockButton[]) => void
@@ -664,6 +665,11 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     triggerPulse,
     setPage,
 
+    restorePendingAsk: () => {
+      if (currentAskRef.current) { showCard(currentAskRef.current); return true }
+      if (idleOrbCallbackRef.current) { idleOrbCallbackRef.current(); return true }
+      return false
+    },
     cardIsPlaying, setCardPlaying, showFlow, setRepeatCallback, setResumeCallback, setIdleOrbCallback,
 
     orbState, tapMode,

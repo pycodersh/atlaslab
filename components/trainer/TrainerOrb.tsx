@@ -695,10 +695,13 @@ export function TrainerOrb() {
         // Case 2: in session, not playing → exit prompt
         ctx.handleMenuExit()
       } else {
-        // Inactive: greeting whisper
-        const vt = classifyVisitor(getLocalVisitCount())
-        const ctxKey = pageToContext(ctx.page ?? 'home')
-        ctx.say(getOrbTapMessage(ctxKey, vt), 2500)
+        // Inactive: restore pending ask or idle callback; fall back to greeting
+        const handled = ctx?.restorePendingAsk?.()
+        if (!handled) {
+          const vt = classifyVisitor(getLocalVisitCount())
+          const ctxKey = pageToContext(ctx?.page ?? 'home')
+          ctx?.say(getOrbTapMessage(ctxKey, vt), 2500)
+        }
       }
     }
     setIsDragging(false)
