@@ -290,12 +290,13 @@ export default function AtlasLabHome() {
 
         {/* Nav */}
         <nav className="al-nav">
-          <a href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+          <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
             <img
-              src="/atlaslab_logo_white_transparent.png"
+              src="/atlaslab_logo.png"
               alt="Atlas Lab"
-              style={{ height: 52, width: 'auto', display: 'block', mixBlendMode: 'screen' }}
+              width={120}
+              height={48}
+              style={{ objectFit: 'contain', display: 'block' }}
             />
           </a>
           <div className="al-nav-right">
