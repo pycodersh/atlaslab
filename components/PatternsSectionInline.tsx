@@ -529,10 +529,6 @@ export function PatternsSectionInline({
 
   const accentBg = PATTERN_ACCENT[patIdx % PATTERN_ACCENT.length]
 
-  // Arrow button colors for PC
-  const arrowBg    = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,143,255,0.10)'
-  const arrowColor = isDark ? 'rgba(255,255,255,0.70)' : '#6B8FFF'
-
   return (
     <div style={{ padding: isMdUp ? '0 70px' : '0 16px' }}>
 
