@@ -1026,6 +1026,7 @@ export default function HomePage() {
                     borderRadius: 999, padding: '9px 16px',
                     fontSize: 12, fontWeight: 700, color: '#fff',
                     letterSpacing: '0.01em', whiteSpace: 'nowrap',
+                    cursor: 'default',
                   }}>
                     완료 ✓
                   </div>
