@@ -227,10 +227,10 @@ function WordPhrasePatternsAccordion({
           background: 'rgba(255,255,255,0.72)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: '0 0 13px 13px',
+          borderRadius: 13,
+          marginTop: 6,
           padding: '8px 8px 10px',
           border: `0.5px solid ${TAB_TINTS[open].border}`,
-          borderTop: 'none',
         }}>
           {open === 'words' && (
             words.length === 0
