@@ -58,6 +58,7 @@ function glassStyle(isDark: boolean): React.CSSProperties {
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
     border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.85)'}`,
+    boxShadow: isDark ? '0 2px 12px rgba(0,0,0,0.18)' : '0 2px 12px rgba(80,90,160,0.08)',
   }
 }
 
@@ -74,7 +75,7 @@ function TodaySessionCard({
   ]
 
   return (
-    <div style={{ borderRadius: 20, background: '#EEF1FF', padding: '16px 20px' }}>
+    <div style={{ borderRadius: 20, background: '#EEF1FF', padding: '16px 20px', boxShadow: '0 2px 12px rgba(80,90,160,0.08)' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', position: 'relative' }}>
         {/* connector line 1: from center of step1 to center of step2 */}
         <div style={{
@@ -142,6 +143,7 @@ function StatChips({ streak, totalSessions, patternsLearned, isDark }: {
           background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.60)',
           backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
           border: isDark ? '0.5px solid rgba(255,255,255,0.12)' : '0.5px solid rgba(255,255,255,0.80)',
+          boxShadow: isDark ? '0 2px 10px rgba(0,0,0,0.18)' : '0 2px 10px rgba(80,90,160,0.08)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
         }}>
           <span style={{ fontSize: 20, fontWeight: 700, color: c.accent, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>

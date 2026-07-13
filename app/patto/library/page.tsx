@@ -209,6 +209,7 @@ function WordPhrasePatternsAccordion({
                 color: isOpen ? tint.color : 'var(--pt)',
                 cursor: 'pointer', transition: 'all 0.18s ease',
                 backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                boxShadow: '0 2px 10px rgba(80,90,160,0.08)',
               }}
             >
               {tab.icon}
@@ -231,6 +232,7 @@ function WordPhrasePatternsAccordion({
           marginTop: 6,
           padding: '8px 8px 10px',
           border: `0.5px solid ${TAB_TINTS[open].border}`,
+          boxShadow: '0 2px 12px rgba(80,90,160,0.08)',
         }}>
           {open === 'words' && (
             words.length === 0
