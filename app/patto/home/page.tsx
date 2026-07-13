@@ -21,6 +21,12 @@ import { useT } from '@/hooks/useT'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useAuth } from '@/contexts/AuthContext'
+import { useVisitCount } from '@/hooks/useVisitCount'
+import {
+  getTimeOfDay,
+  getHomeMessage,
+  getFirstVisitButtons,
+} from '@/lib/scenario/scenario-engine'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -629,6 +635,7 @@ export default function HomePage() {
   const trainerRef = useRef(trainer)
   trainerRef.current = trainer
   const { user } = useAuth()
+  const { visitorType } = useVisitCount(user?.id)
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
@@ -763,39 +770,53 @@ export default function HomePage() {
     return () => document.removeEventListener('visibilitychange', onVisible)
   }, [loadMissions])
 
-  // Coordinated Welcome back → Ready? flow
-  // "Welcome back." shows first (if re-login), then "Ready?" after it finishes.
+  // Scenario Engine: home entry message 1.5s after mount
   useEffect(() => {
     const t = trainerRef.current
     if (!t) return
 
     t.setPage('home')
 
-    let welcomeEndMs = 0  // when welcome back message ends (ms from now)
-
+    // "Welcome back." on first re-login (runs before scenario message)
+    let welcomeEndMs = 0
     if (user) {
       const justLoggedIn = localStorage.getItem('patto_just_logged_in')
       if (justLoggedIn) {
         localStorage.removeItem('patto_just_logged_in')
-        // First login: created_at === last_sign_in_at (within 1 second tolerance)
         const createdAt  = user.created_at ? new Date(user.created_at).getTime() : 0
         const lastSignIn = user.last_sign_in_at ? new Date(user.last_sign_in_at).getTime() : 0
         const isFirstLogin = Math.abs(createdAt - lastSignIn) < 2000
         if (!isFirstLogin) {
-          const startMs = 500
-          const durationMs = 2000
-          welcomeEndMs = startMs + durationMs + 300  // buffer
-          setTimeout(() => trainerRef.current?.showMessage('Welcome back.', durationMs), startMs)
+          welcomeEndMs = 500 + 2000 + 300
+          setTimeout(() => trainerRef.current?.showMessage('Welcome back.', 2000), 500)
         }
       }
     }
 
-    if (!hasStudied) {
-      const delay = welcomeEndMs > 0 ? welcomeEndMs : 1200
-      const timer = setTimeout(() => trainerRef.current?.showMessage('Ready?', 2500), delay)
-      return () => clearTimeout(timer)
+    // Scenario-based home entry message
+    const delay = welcomeEndMs > 0 ? welcomeEndMs : 1500
+
+    let timer: ReturnType<typeof setTimeout>
+    if (visitorType === 'first_visit') {
+      // First visit: show onboarding prompt with two choices
+      timer = setTimeout(() => {
+        const buttons = getFirstVisitButtons()
+        trainerRef.current?.ask(
+          getHomeMessage(visitorType, getTimeOfDay()),
+          [
+            { label: buttons[0].label, onClick: () => router.push('/patto/stories/all') },
+            { label: buttons[1].label, primary: true, onClick: () => router.push('/patto/stories/1') },
+          ],
+        )
+      }, delay)
+    } else {
+      timer = setTimeout(() => {
+        trainerRef.current?.say(getHomeMessage(visitorType, getTimeOfDay()), 2500)
+      }, delay)
     }
-  }, [user?.id, hasStudied]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    return () => clearTimeout(timer)
+  }, [user?.id, visitorType]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const frostedCard: React.CSSProperties = {
     background: 'var(--pglass)',
