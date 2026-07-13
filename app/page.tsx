@@ -296,7 +296,7 @@ export default function AtlasLabHome() {
               alt="Atlas Lab"
               width={120}
               height={48}
-              style={{ objectFit: 'contain', display: 'block' }}
+              style={{ objectFit: 'contain', display: 'block', mixBlendMode: 'screen', filter: 'brightness(3) contrast(1.2)' }}
             />
           </a>
           <div className="al-nav-right">
