@@ -74,11 +74,11 @@ export function PatternCardBack({
               style={{ background: 'rgba(142, 167, 255, 0.05)', borderBottom: '0.5px solid rgba(255,255,255,0.3)' }}
               onClick={(e) => { e.stopPropagation(); speak(ex.sentence.trim()) }}
             >
-              <p className="text-[0.88rem] font-semibold leading-relaxed text-[#1C1C1E] dark:text-[#F2F2F5]">
+              <p style={{ fontSize: 15, fontWeight: 400, lineHeight: 1.5, margin: 0 }} className="text-[#1C1C1E] dark:text-[#F2F2F5]">
                 {ex.sentence}
               </p>
               {ex.translation && (
-                <p className="mt-[5px] text-[0.75rem] font-normal leading-relaxed text-[#6E6E73] dark:text-[#9090AA]">
+                <p className="mt-[5px] text-[#6E6E73] dark:text-[#9090AA]" style={{ fontSize: 13, fontWeight: 400, lineHeight: 1.5, margin: '5px 0 0' }}>
                   {ex.translation}
                 </p>
               )}

@@ -495,7 +495,7 @@ export function PatternsSectionInline({
 
         {patternMeaning ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4, flex: 1 }}>
+            <p style={{ fontSize: 16, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4, flex: 1 }}>
               {patternMeaning}
             </p>
             {showSpeakerButton && (
@@ -534,11 +534,11 @@ export function PatternsSectionInline({
                   text={ex.en}
                   saveCandidates={safeCandidates}
                   source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                  style={{ display: 'block', fontSize: 12, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.6, marginBottom: 2 }}
+                  style={{ display: 'block', fontSize: 15, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.5, marginBottom: 2 }}
                 />
                 )}
                 {showKorean && exKo && (
-                  <p style={{ fontSize: 10, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
+                  <p style={{ fontSize: 13, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
                 )}
               </div>
             )
@@ -548,7 +548,7 @@ export function PatternsSectionInline({
         {patternNote && (
           <div style={{ marginTop: 10, borderRadius: 8, background: noteNoteBg, border: `0.5px solid ${noteNoteBorder}`, padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
             <Info style={{ width: 13, height: 13, color: '#D7B56D', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
-            <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.55)' : '#6a5a40', lineHeight: 1.5 }}>{patternNote}</p>
+            <p style={{ margin: 0, fontSize: 13, color: isDark ? 'rgba(255,255,255,0.55)' : '#6a5a40', lineHeight: 1.6 }}>{patternNote}</p>
           </div>
         )}
       </div>
