@@ -40,7 +40,7 @@ function CardShell({
   const isRight  = corner.endsWith('r')
   const isBottom = corner.startsWith('b')
   const n = 4
-  const baseR = size === 'small' ? 14 : size === 'medium' ? 16 : 18
+  const baseR = 10
   const borderRadius = isRight
     ? `${baseR}px ${baseR}px ${n}px ${baseR}px`
     : `${baseR}px ${baseR}px ${baseR}px ${n}px`
@@ -511,7 +511,7 @@ export function TrainerUIPlayground() {
             </button>
           ))}
           {/* Dark toggle */}
-          <button onClick={() => setIsDark(!isDark)} style={{
+          <button onClick={() => { const next = !isDark; setIsDark(next); document.documentElement.classList.toggle('dark', next) }} style={{
             padding: '5px 14px', borderRadius: 20, border: '0.5px solid rgba(142,167,255,0.3)',
             cursor: 'pointer', fontSize: 11, fontWeight: 600,
             background: isDark ? 'rgba(142,167,255,0.15)' : 'rgba(255,255,255,0.8)',

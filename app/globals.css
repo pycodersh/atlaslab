@@ -437,7 +437,7 @@ body {
 .trainer-btn {
   flex: 1;
   height: 40px;
-  border-radius: 20px;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 600;
   font-family: inherit;
@@ -448,22 +448,38 @@ body {
   cursor: pointer;
   transition: transform 0.12s ease, opacity 0.12s ease;
   will-change: transform;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .trainer-btn:active { transform: scale(0.97); }
 .trainer-btn-primary {
-  background: linear-gradient(135deg, #A6B8FF, #8090F0);
+  background: rgba(128, 144, 240, 0.2);
+  border: 1px solid rgba(128, 144, 240, 0.4);
+  color: #4050B0;
+}
+.dark .trainer-btn-primary {
+  background: rgba(160, 176, 255, 0.25);
+  border: 1px solid rgba(160, 176, 255, 0.5);
   color: #ffffff;
-  border: none;
 }
 .trainer-btn-primary:disabled {
-  background: rgba(160,176,255,0.35);
-  color: rgba(255,255,255,0.55);
+  background: rgba(160,176,255,0.12);
+  border: 1px solid rgba(160,176,255,0.2);
+  color: rgba(64,80,176,0.4);
   cursor: default;
 }
+.dark .trainer-btn-primary:disabled {
+  color: rgba(255,255,255,0.3);
+}
 .trainer-btn-secondary {
-  background: rgba(255,255,255,0.70);
-  border: 1px solid rgba(128,144,240,0.30);
-  color: #7986CB;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #5C6BC0;
+}
+.dark .trainer-btn-secondary {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
 }
 
 /* ── Pattern Card glass (front & back) ──────────────────────────────── */
