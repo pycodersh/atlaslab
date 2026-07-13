@@ -555,7 +555,8 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
           }])
         }
 
-        if (progressMsg) {
+        // Show encouragement messages only for full/moderate intensity
+        if (progressMsg && intensity !== 'minimal' && intensity !== 'silent') {
           t?.say(progressMsg, 1500)
           addTimer(setTimeout(showCard, 1800))
         } else {
@@ -566,12 +567,13 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
       case 'hide-recall': {
         const { round, patIdx } = s
-        if (patIdx === 0 && round > 1) {
+        const showRecallPrompt = intensity !== 'silent'
+        if (patIdx === 0 && round > 1 && intensity === 'full') {
           const msg = RECALL_ROUND_MSGS[Math.min(round - 2, 2)]
           t?.say(msg, 1500)
-          addTimer(setTimeout(() => trainerRef.current?.say("떠올려보세요.", 2000), 1700))
+          addTimer(setTimeout(() => showRecallPrompt && trainerRef.current?.say("떠올려보세요.", 2000), 1700))
         } else {
-          addTimer(setTimeout(() => trainerRef.current?.say("떠올려보세요.", 2000), 400))
+          addTimer(setTimeout(() => showRecallPrompt && trainerRef.current?.say("떠올려보세요.", 2000), 400))
         }
         break
       }

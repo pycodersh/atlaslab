@@ -45,7 +45,7 @@ export async function loadStatsFromSupabase(userId: string): Promise<void> {
 
   if (error || !data) return
 
-  const merged: UserLearningStats = {
+  const merged: Partial<UserLearningStats> = {
     visitCount:           data.visit_count            ?? 0,
     totalSessions:        data.total_sessions          ?? 0,
     totalPatternsLearned: data.total_patterns_learned  ?? 0,
@@ -58,18 +58,20 @@ export async function loadStatsFromSupabase(userId: string): Promise<void> {
     weakPatterns:         data.weak_patterns           ?? [],
   }
 
-  // Merge: take higher values to avoid losing local progress
+  // Merge: take higher numeric values to avoid losing local progress
   const local = loadStats()
   saveStats({
-    visitCount:           Math.max(local.visitCount, merged.visitCount),
-    totalSessions:        Math.max(local.totalSessions, merged.totalSessions),
-    totalPatternsLearned: Math.max(local.totalPatternsLearned, merged.totalPatternsLearned),
-    currentStreak:        Math.max(local.currentStreak, merged.currentStreak),
-    longestStreak:        Math.max(local.longestStreak, merged.longestStreak),
-    avgResponseTime:      local.avgResponseTime,  // keep local EMA
+    ...local,
+    visitCount:           Math.max(local.visitCount, merged.visitCount ?? 0),
+    totalSessions:        Math.max(local.totalSessions, merged.totalSessions ?? 0),
+    totalPatternsLearned: Math.max(local.totalPatternsLearned, merged.totalPatternsLearned ?? 0),
+    currentStreak:        Math.max(local.currentStreak, merged.currentStreak ?? 0),
+    longestStreak:        Math.max(local.longestStreak, merged.longestStreak ?? 0),
+    lastSessionAt:        local.lastSessionAt ?? merged.lastSessionAt ?? null,
+    lastVisitAt:          local.lastVisitAt   ?? merged.lastVisitAt   ?? null,
+    weakPatterns:         Array.from(new Set([...local.weakPatterns, ...(merged.weakPatterns ?? [])])),
+    // Keep local EMA values — they're more accurate than synced snapshots
+    avgResponseTime:      local.avgResponseTime,
     challengeCorrectRate: local.challengeCorrectRate,
-    lastSessionAt:        local.lastSessionAt ?? merged.lastSessionAt,
-    lastVisitAt:          local.lastVisitAt   ?? merged.lastVisitAt,
-    weakPatterns:         Array.from(new Set([...local.weakPatterns, ...merged.weakPatterns])),
   })
 }

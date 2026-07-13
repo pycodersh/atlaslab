@@ -13,18 +13,17 @@ export interface UserLearningStats {
   totalPatternsLearned: number
   currentStreak: number
   longestStreak: number
-  avgResponseTime: number   // ms
-  challengeCorrectRate: number  // 0–1
-  lastSessionAt: string | null  // ISO date
-  lastVisitAt: string | null    // ISO date
+  avgResponseTime: number         // ms
+  challengeCorrectRate: number    // 0–1
+  lastSessionAt: string | null    // ISO date (YYYY-MM-DD)
+  lastVisitAt: string | null      // ISO date
   weakPatterns: string[]
+  patternCorrectCounts: Record<string, number>  // patternId → consecutive correct count
+  streakBroken: boolean           // true when streak just broke this session
+  firstChallengeComplete: boolean // true after first challenge ever
 }
 
 export type TrainerIntensity = 'full' | 'moderate' | 'minimal' | 'silent'
-
-export interface PaceConfig {
-  slideDelay: number  // ms before next auto-transition
-}
 
 // ── localStorage ───────────────────────────────────────────────────────────────
 
@@ -41,6 +40,9 @@ const DEFAULT_STATS: UserLearningStats = {
   lastSessionAt: null,
   lastVisitAt: null,
   weakPatterns: [],
+  patternCorrectCounts: {},
+  streakBroken: false,
+  firstChallengeComplete: false,
 }
 
 export function loadStats(): UserLearningStats {
@@ -98,49 +100,87 @@ export function getSlideDelay(stats: UserLearningStats): number {
 export function recordPatternResult(patternId: string, correct: boolean): void {
   const stats = loadStats()
   const weak = [...stats.weakPatterns]
+  const counts = { ...stats.patternCorrectCounts }
 
   if (!correct) {
     if (!weak.includes(patternId)) weak.push(patternId)
+    counts[patternId] = 0  // reset consecutive correct count
   } else {
-    // Remove after 3 correct would require per-pattern tracking — simplified:
-    // Just remove on correct to keep it lean
-    const idx = weak.indexOf(patternId)
-    if (idx !== -1) weak.splice(idx, 1)
+    const prev = counts[patternId] ?? 0
+    const next = prev + 1
+    counts[patternId] = next
+    // Remove from weak after 3 consecutive correct answers
+    if (next >= 3) {
+      const idx = weak.indexOf(patternId)
+      if (idx !== -1) weak.splice(idx, 1)
+      delete counts[patternId]
+    }
   }
 
-  saveStats({ ...stats, weakPatterns: weak })
+  saveStats({ ...stats, weakPatterns: weak, patternCorrectCounts: counts })
 }
 
 export function shouldRepeatPattern(patternId: string): boolean {
   return loadStats().weakPatterns.includes(patternId)
 }
 
-// ── Special situation messages ─────────────────────────────────────────────────
+// ── Special situation ──────────────────────────────────────────────────────────
 
-export function getSpecialMessage(stats: UserLearningStats): string | null {
+export type SpecialSituation =
+  | { type: 'long_absence'; days: number }
+  | { type: 'streak'; count: 3 | 7 | 30 }
+  | { type: 'streak_break' }
+  | { type: 'first_challenge' }
+  | { type: 'patterns_100' }
+  | null
+
+export function getSpecialSituation(stats: UserLearningStats): SpecialSituation {
   const now = new Date()
-  const today = now.toISOString().slice(0, 10)
 
-  // Long absence (>7 days since last session)
+  // Long absence: >7 days since last session
   if (stats.lastSessionAt) {
     const last = new Date(stats.lastSessionAt)
     const diffDays = Math.floor((now.getTime() - last.getTime()) / 86400000)
-    if (diffDays > 7) return `${diffDays}일 만이에요. 다시 시작해봐요.`
+    if (diffDays > 7) return { type: 'long_absence', days: diffDays }
   }
 
-  // First challenge ever
-  if (stats.totalSessions === 0) return null
+  // Streak just broke this session start
+  if (stats.streakBroken) return { type: 'streak_break' }
 
-  // Streak milestones
+  // First challenge ever completed
+  if (stats.firstChallengeComplete && stats.totalSessions === 1) {
+    return { type: 'first_challenge' }
+  }
+
+  // Streak milestones (exact values so they only fire once per milestone)
   const { currentStreak } = stats
-  if (currentStreak === 3)  return "3일 연속이에요! 굉장해요."
-  if (currentStreak === 7)  return "7일 연속! 대단한 일이에요."
-  if (currentStreak === 30) return "30일 연속! 정말 대단해요."
+  if (currentStreak === 3)  return { type: 'streak', count: 3 }
+  if (currentStreak === 7)  return { type: 'streak', count: 7 }
+  if (currentStreak === 30) return { type: 'streak', count: 30 }
 
   // 100 patterns milestone
-  if (stats.totalPatternsLearned === 100) return "100개 패턴을 배웠어요!"
+  if (stats.totalPatternsLearned >= 100 && stats.totalPatternsLearned < 105) {
+    return { type: 'patterns_100' }
+  }
 
   return null
+}
+
+export function getSpecialMessage(stats: UserLearningStats): string | null {
+  const situation = getSpecialSituation(stats)
+  if (!situation) return null
+
+  switch (situation.type) {
+    case 'long_absence':   return "오랜만이에요! 복습부터 시작할까요?"
+    case 'streak_break':   return "어제 못 하셨군요. 오늘 다시 시작해요!"
+    case 'first_challenge': return "첫 챌린지 완료!"
+    case 'streak':
+      if (situation.count === 3)  return "3일 연속이에요! 굉장해요."
+      if (situation.count === 7)  return "7일 연속! 대단한 일이에요."
+      if (situation.count === 30) return "30일 연속! 정말 대단해요."
+      return null
+    case 'patterns_100':   return "패턴 100개를 익혔어요!"
+  }
 }
 
 // ── Home screen message ────────────────────────────────────────────────────────
@@ -158,7 +198,12 @@ export function getAdaptiveHomeMessage(
   if (special) return special
 
   if (visitorType === 'first_visit') return "PATTO에 오신 걸 환영해요."
-  if (visitorType === 'returning')   return "다시 오셨네요. 오늘 세션 시작할까요?"
+
+  // returning: differentiate by level
+  if (visitorType === 'returning') {
+    if (level === 'beginner') return "어제 배운 내용 기억하세요?"
+    return "다시 오셨네요. 오늘 세션 시작할까요?"
+  }
 
   // Level × time-of-day
   const messages: Record<LearnerLevel, Record<TimeOfDay, string>> = {
@@ -176,13 +221,13 @@ export function getAdaptiveHomeMessage(
     },
     intermediate: {
       morning:   "오늘 리콜 집중해볼까요?",
-      afternoon: "준비됐나요?",
+      afternoon: "오늘도 시작할까요?",
       evening:   "저녁 세션 시작해봐요.",
       night:     "집중도 높은 시간이에요.",
     },
     advanced: {
       morning:   "좋은 아침.",
-      afternoon: "준비됐나요?",
+      afternoon: "안녕하세요.",
       evening:   "저녁이네요.",
       night:     "아직도 공부 중이에요.",
     },
@@ -223,7 +268,7 @@ export function recordSessionSignal(signal: SessionPaceSignal): SessionAdaptStat
 
   if (signal === 'fast') {
     next.fastDoneCount++
-    next.slowDoneCount = 0   // reset slow on fast
+    next.slowDoneCount = 0
   } else if (signal === 'slow') {
     next.slowDoneCount++
     next.fastDoneCount = 0
@@ -256,6 +301,8 @@ export function onSessionStart(): void {
 
   // Streak calculation
   let { currentStreak, longestStreak, lastVisitAt } = stats
+  let streakBroken = false
+
   if (lastVisitAt) {
     const yesterday = new Date()
     yesterday.setDate(yesterday.getDate() - 1)
@@ -265,7 +312,9 @@ export function onSessionStart(): void {
     } else if (lastVisitAt === yStr) {
       currentStreak++
     } else {
-      currentStreak = 1  // streak broken
+      // Streak broke — only flag if it was actually a streak (> 1 day)
+      if (currentStreak > 1) streakBroken = true
+      currentStreak = 1
     }
   } else {
     currentStreak = 1
@@ -279,6 +328,7 @@ export function onSessionStart(): void {
     currentStreak,
     longestStreak,
     lastVisitAt: today,
+    streakBroken,
   })
 
   resetSessionAdapt()
@@ -286,17 +336,21 @@ export function onSessionStart(): void {
 
 export function onSessionComplete(patternsLearned: number): void {
   const stats = loadStats()
+  const isFirst = stats.totalSessions === 0
   saveStats({
     ...stats,
     totalSessions: stats.totalSessions + 1,
     totalPatternsLearned: stats.totalPatternsLearned + patternsLearned,
     lastSessionAt: new Date().toISOString().slice(0, 10),
+    firstChallengeComplete: isFirst ? true : stats.firstChallengeComplete,
+    // Clear one-shot flags after session completes
+    streakBroken: false,
   })
 }
 
 export function onDoneTap(responseTimeMs: number): void {
   const stats = loadStats()
-  // Rolling average (simple EMA with α=0.3)
+  // Rolling EMA with α=0.3
   const ema = Math.round(stats.avgResponseTime * 0.7 + responseTimeMs * 0.3)
   saveStats({ ...stats, avgResponseTime: ema })
 }

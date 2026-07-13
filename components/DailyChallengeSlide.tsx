@@ -18,6 +18,7 @@ import {
 } from '@/lib/challenge/daily-challenge'
 import { saveDailyChallengeToSupabase } from '@/lib/challenge/supabase-sync'
 import { addMySentence } from '@/lib/sentences/storage'
+import { onChallengeResult, recordPatternResult } from '@/lib/adaptive/adaptive-engine'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -318,6 +319,13 @@ export function DailyChallengeSlide({ story, onSkip, onDone }: Props) {
 
   function handleMCResult(answer: string, correct: boolean, type: ChallengeType) {
     setPhase('result')
+
+    // Adaptive: update challenge correct rate + weak pattern tracking
+    onChallengeResult(correct)
+    if (type === 'complete' && challengeData?.type === 'complete') {
+      recordPatternResult(challengeData.patternLabel, correct)
+    }
+
     const msg = correct
       ? type === 'story_recall' ? "맞아요! 잘 기억하셨네요." : "정답이에요! ✓"
       : (type === 'story_recall' ? "아쉬워요." : "아쉬워요.")

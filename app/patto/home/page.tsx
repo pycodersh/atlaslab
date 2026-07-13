@@ -31,6 +31,7 @@ import {
   getLearnerLevel,
   loadStats,
   getAdaptiveHomeMessage,
+  getSpecialSituation,
 } from '@/lib/adaptive/adaptive-engine'
 import { loadStatsFromSupabase } from '@/lib/adaptive/supabase-sync'
 
@@ -818,9 +819,32 @@ export default function HomePage() {
     const adaptStats = loadStats()
     const level = getLearnerLevel(adaptStats)
     const adaptMsg = getAdaptiveHomeMessage(level, visitorType, getTimeOfDay(), adaptStats)
+    const situation = getSpecialSituation(adaptStats)
 
     let timer: ReturnType<typeof setTimeout>
-    if (visitorType === 'first_visit') {
+
+    // Long absence: special buttons regardless of visitorType
+    if (situation?.type === 'long_absence') {
+      timer = setTimeout(() => {
+        trainerRef.current?.ask(adaptMsg, [
+          {
+            label: '복습하기',
+            onClick: () => {
+              trainerRef.current?.say("이어서 시작해봐요.", 2000)
+              router.push(`/patto/session/${todayStory.id}`)
+            },
+          },
+          {
+            label: '새 스토리',
+            primary: true,
+            onClick: () => {
+              trainerRef.current?.clearMessage()
+              router.push('/patto/stories/all')
+            },
+          },
+        ])
+      }, delay)
+    } else if (visitorType === 'first_visit') {
       timer = setTimeout(() => {
         const buttons = getFirstVisitButtons()
         trainerRef.current?.ask(
