@@ -382,7 +382,7 @@ function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
                   disabled={cardIsPlaying}
                   style={{
                     ...flexStyle(true),
-                    background: cardIsPlaying ? 'rgba(92,107,192,0.3)' : '#5C6BC0',
+                    background: cardIsPlaying ? 'rgba(107,143,255,0.25)' : '#6B8FFF',
                     color: cardIsPlaying ? 'rgba(255,255,255,0.5)' : '#fff',
                     cursor: cardIsPlaying ? 'default' : 'pointer',
                   }}
