@@ -1,6 +1,6 @@
 // ── Trainer system – shared types ─────────────────────────────────────────────
 
-export type TrainerPage = 'home' | 'story' | 'pattern' | 'essay' | 'progress' | 'library' | 'other'
+export type TrainerPage = 'home' | 'story' | 'pattern' | 'essay' | 'progress' | 'library' | 'session' | 'other'
 
 /** Orb visual state */
 export type OrbState = 'idle' | 'waiting' | 'guiding' | 'paused'

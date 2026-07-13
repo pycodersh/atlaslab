@@ -797,7 +797,7 @@ export default function HomePage() {
     // 세션 완료 후 재진입 시 완료 메시지 (visitorType이 확정될 때까지 잠깐 대기)
     if (hasStudied) {
       const timer = setTimeout(() => {
-        trainerRef.current?.say("You're done for today. Good work.", 3000)
+        trainerRef.current?.say("오늘 학습 완료했어요. 잘하셨어요.", 3000)
       }, welcomeEndMs > 0 ? welcomeEndMs : 1500)
       return () => clearTimeout(timer)
     }
@@ -815,14 +815,17 @@ export default function HomePage() {
             {
               label: buttons[0].label,
               onClick: () => {
-                trainerRef.current?.say("Take your time. I'll be here.", 3000)
+                trainerRef.current?.say("천천히 둘러보세요.", 3000)
                 router.push('/patto/stories/all')
               },
             },
             {
               label: buttons[1].label,
               primary: true,
-              onClick: () => router.push('/patto/stories/1'),
+              onClick: () => {
+                try { localStorage.setItem('is_guided_session', 'true') } catch {}
+                router.push('/patto/session/1?guided=true')
+              },
             },
           ],
         )
@@ -833,7 +836,7 @@ export default function HomePage() {
         const btn = getVeteranHomeButton()
         trainerRef.current?.ask(
           getHomeMessage(visitorType, getTimeOfDay()),
-          [{ label: btn.label, primary: true, onClick: () => router.push(firstHref) }],
+          [{ label: btn.label, primary: true, onClick: () => router.push(`/patto/session/${todayStory.id}`) }],
         )
       }, delay)
     } else {
@@ -939,8 +942,8 @@ export default function HomePage() {
               type="button"
               onClick={e => {
                 e.stopPropagation()
-                trainerRef.current?.say("Let's go.", 1200)
-                setTimeout(() => router.push(`/patto/stories/${todayStory.id}`), 400)
+                trainerRef.current?.say("시작해볼게요.", 1200)
+                setTimeout(() => router.push(`/patto/session/${todayStory.id}`), 400)
               }}
               style={{
                 flexShrink: 0,

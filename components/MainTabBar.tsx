@@ -71,8 +71,9 @@ export function MainTabBar() {
   const [scrolledDown, setScrolledDown] = useState(false)
   const lastYRef = useRef(0)
 
-  // Focus mode: hide tab bar on story pages (mobile only via CSS)
-  const inStoryPage = pathname?.startsWith('/patto/stories/') ?? false
+  // Focus mode: hide tab bar on story/session pages
+  const inStoryPage =
+    (pathname?.startsWith('/patto/stories/') || pathname?.startsWith('/patto/session/')) ?? false
 
   // Restore last story/pattern position when tapping the Story tab
   const lastPos = getLastPosition()
