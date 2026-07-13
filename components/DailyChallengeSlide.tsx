@@ -284,16 +284,19 @@ export function DailyChallengeSlide({ story, onSkip, onDone }: Props) {
     if (!t || phase !== 'offer') return
 
     addTimer(setTimeout(() => {
-      t.say("잠깐이면 돼요.", 1800)
+      t.say("마지막으로 한 가지만요.", 1800)
       addTimer(setTimeout(() => {
         trainerRef.current?.ask("오늘의 챌린지를 해볼까요?", [
           {
             label: "Let's do it",
             primary: true,
             onClick: () => {
-              trainerRef.current?.clearMessage()
-              setPhase('challenge')
-              saveChallengeType(challengeType, story.id)
+              trainerRef.current?.say("잠깐이면 돼요.", 1500)
+              addTimer(setTimeout(() => {
+                trainerRef.current?.clearMessage()
+                setPhase('challenge')
+                saveChallengeType(challengeType, story.id)
+              }, 1600))
             },
           },
           { label: 'Maybe later', onClick: onSkip },
