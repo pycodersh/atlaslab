@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { getAllPosts } from '@/lib/blog'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -7,23 +7,13 @@ export const metadata: Metadata = {
   description: 'Tips, guides, and insights on English pattern learning.',
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
-)
-
 export default async function BlogListPage({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-
-  const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('slug, title, description, tags, published_at')
-    .eq('locale', locale)
-    .order('published_at', { ascending: false })
+  const posts = await getAllPosts(locale, 'patto')
 
   const fontFamily = locale === 'ko'
     ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
@@ -63,7 +53,7 @@ export default async function BlogListPage({
       </div>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px 80px' }}>
-        {!posts || posts.length === 0 ? (
+        {posts.length === 0 ? (
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>No posts yet.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -101,7 +91,7 @@ export default async function BlogListPage({
 
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>
-                      Patto Team · {new Date(post.published_at).toLocaleDateString(
+                      {post.author} · {new Date(post.date).toLocaleDateString(
                         locale === 'ko' ? 'ko-KR' : 'en-US',
                         { year: 'numeric', month: 'long', day: 'numeric' }
                       )}

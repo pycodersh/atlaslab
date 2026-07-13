@@ -250,10 +250,8 @@ export default function AtlasLabHome() {
         {/* Nav */}
         <nav className="al-nav">
           <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            <div style={{ width: 32, height: 32, background: 'white', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: 13, fontWeight: 700, color: '#0d0820', letterSpacing: '-0.5px', fontFamily: FONT_BODY }}>AL</span>
-            </div>
-            <span style={{ fontSize: 15, fontWeight: 600, color: 'white', letterSpacing: '0.05em', fontFamily: FONT_BODY }}>ATLASLAB</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/atlaslab_logo_white_transparent.png" alt="Atlas Lab" style={{ height: 36, width: 'auto', display: 'block' }} />
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>

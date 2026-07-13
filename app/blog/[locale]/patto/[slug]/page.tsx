@@ -1,13 +1,20 @@
-import { createClient } from '@supabase/supabase-js'
+import { getAllPosts, getPostBySlug } from '@/lib/blog'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
-)
+export async function generateStaticParams() {
+  const locales = ['en', 'ko']
+  const params = []
+  for (const locale of locales) {
+    const posts = await getAllPosts(locale, 'patto')
+    for (const post of posts) {
+      params.push({ locale, slug: post.slug })
+    }
+  }
+  return params
+}
 
 export async function generateMetadata({
   params,
@@ -15,13 +22,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>
 }): Promise<Metadata> {
   const { locale, slug } = await params
-  const { data: post } = await supabase
-    .from('blog_posts')
-    .select('title, description')
-    .eq('locale', locale)
-    .eq('slug', slug)
-    .single()
-
+  const post = await getPostBySlug(locale, 'patto', slug)
   if (!post) return {}
   return {
     title: `${post.title} — Patto Blog`,
@@ -36,14 +37,7 @@ export default async function BlogPostPage({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params
-
-  const { data: post } = await supabase
-    .from('blog_posts')
-    .select('*')
-    .eq('locale', locale)
-    .eq('slug', slug)
-    .single()
-
+  const post = await getPostBySlug(locale, 'patto', slug)
   if (!post) notFound()
 
   const fontFamily = locale === 'ko'
@@ -61,12 +55,13 @@ export default async function BlogPostPage({
           font-size: 17px; font-weight: 700; color: #fff; margin: 28px 0 10px;
         }
         .blog-prose p {
-          font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.7); margin: 0 0 18px;
+          font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.7); margin: 0 0 18px;
         }
         .blog-prose strong { font-weight: 700; color: #fff; }
+        .blog-prose em { font-style: italic; color: rgba(255,255,255,0.8); }
         .blog-prose ul, .blog-prose ol { padding-left: 24px; margin: 0 0 18px; }
         .blog-prose li {
-          font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.7); margin-bottom: 6px;
+          font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.7); margin-bottom: 6px;
         }
         .blog-prose blockquote {
           border-left: 3px solid #7c6fff; margin: 28px 0; padding: 14px 20px;
@@ -127,7 +122,7 @@ export default async function BlogPostPage({
         </p>
 
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', margin: 0 }}>
-          Patto Team · {new Date(post.published_at).toLocaleDateString(
+          {post.author} · {new Date(post.date).toLocaleDateString(
             locale === 'ko' ? 'ko-KR' : 'en-US',
             { year: 'numeric', month: 'long', day: 'numeric' }
           )}
