@@ -97,17 +97,17 @@ function AccordionWordRow({ w, onRemove }: { w: SavedWord; onRemove: () => void 
   const meaning = useItemTranslation('word', w.word, w.translations, w.meaning ?? lookupMeaning(w.word))
   const src = sourceLabel(w)
   return (
-    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(255,255,255,0.18)">
+    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(92,107,192,0.07)">
       <div style={{
-        background: 'rgba(255,255,255,0.18)', borderRadius: 9, padding: '9px 10px',
+        background: 'rgba(92,107,192,0.07)', borderRadius: 9, padding: '9px 10px',
         display: 'flex', alignItems: 'center', gap: 8,
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 1px', lineHeight: 1.3 }}>{w.word}</p>
-          {src && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', margin: 0, letterSpacing: '0.04em' }}>{src}</p>}
+          <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{w.word}</p>
+          {src && <p style={{ fontSize: 10, color: '#8a8aaa', margin: 0, letterSpacing: '0.04em' }}>{src}</p>}
         </div>
         {meaning && (
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
+          <span style={{ fontSize: 12, color: '#5C6BC0', fontWeight: 500, textAlign: 'right', flexShrink: 0 }}>
             {meaning}
           </span>
         )}
@@ -122,17 +122,17 @@ function AccordionPhraseRow({ ph, onRemove }: { ph: SavedPhrase; onRemove: () =>
   const meaning = useItemTranslation('phrase', ph.phrase, ph.translations, legacyMeaning)
   const src = sourceLabel(ph)
   return (
-    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(255,255,255,0.18)">
+    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(149,117,205,0.07)">
       <div style={{
-        background: 'rgba(255,255,255,0.18)', borderRadius: 9, padding: '9px 10px',
+        background: 'rgba(149,117,205,0.07)', borderRadius: 9, padding: '9px 10px',
         display: 'flex', alignItems: 'center', gap: 8,
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 1px', lineHeight: 1.3 }}>{ph.phrase}</p>
-          {src && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', margin: 0, letterSpacing: '0.04em' }}>{src}</p>}
+          <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{ph.phrase}</p>
+          {src && <p style={{ fontSize: 10, color: '#8a8aaa', margin: 0, letterSpacing: '0.04em' }}>{src}</p>}
         </div>
         {meaning && (
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
+          <span style={{ fontSize: 12, color: '#9575CD', fontWeight: 500, textAlign: 'right', flexShrink: 0 }}>
             {meaning}
           </span>
         )}
@@ -145,14 +145,14 @@ function AccordionPatternRow({ bm, onRemove, onPress }: { bm: BookmarkedPattern;
   const meaning = useItemTranslation('pattern', bm.pattern, bm.translations, bm.meaningKo)
   const storyTitle = magazineStories.find(s => s.id === bm.storyId)?.title
   return (
-    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(255,255,255,0.18)">
+    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(245,166,35,0.07)">
       <button type="button" onClick={onPress} style={{
-        display: 'block', width: '100%', textAlign: 'left', background: 'rgba(255,255,255,0.18)',
+        display: 'block', width: '100%', textAlign: 'left', background: 'rgba(245,166,35,0.07)',
         border: 'none', cursor: 'pointer', borderRadius: 9, padding: '9px 10px',
       }}>
-        <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 1px', lineHeight: 1.3 }}>{bm.pattern}</p>
-        {meaning && <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', margin: '0 0 1px', fontWeight: 400 }}>{meaning}</p>}
-        {storyTitle && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', margin: 0, letterSpacing: '0.04em' }}>
+        <p style={{ fontSize: 14, fontWeight: 700, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{bm.pattern}</p>
+        {meaning && <p style={{ fontSize: 12, color: '#5a5a7a', margin: '0 0 1px', fontWeight: 400 }}>{meaning}</p>}
+        {storyTitle && <p style={{ fontSize: 10, color: '#8a8aaa', margin: 0, letterSpacing: '0.04em' }}>
           Story {String(bm.storyId).padStart(2, '0')} · {storyTitle}
         </p>}
       </button>
@@ -224,27 +224,27 @@ function WordPhrasePatternsAccordion({
 
       {open && (
         <div style={{
-          background: 'rgba(107,143,255,0.85)',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          background: 'rgba(255,255,255,0.72)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           borderRadius: '0 0 13px 13px',
           padding: '8px 8px 10px',
-          border: '0.5px solid rgba(107,143,255,0.45)',
+          border: `0.5px solid ${TAB_TINTS[open].border}`,
           borderTop: 'none',
         }}>
           {open === 'words' && (
             words.length === 0
-              ? <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 단어가 없어요.</p>
+              ? <p style={{ fontSize: 12, color: '#8a8aaa', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 단어가 없어요.</p>
               : words.map(w => <AccordionWordRow key={w.id} w={w} onRemove={() => onRemoveWord(w.id)} />)
           )}
           {open === 'phrases' && (
             phrases.length === 0
-              ? <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 구문이 없어요.</p>
+              ? <p style={{ fontSize: 12, color: '#8a8aaa', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 구문이 없어요.</p>
               : phrases.map(ph => <AccordionPhraseRow key={ph.id} ph={ph} onRemove={() => onRemovePhrase(ph.id)} />)
           )}
           {open === 'patterns' && (
             bookmarks.length === 0
-              ? <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 패턴이 없어요.</p>
+              ? <p style={{ fontSize: 12, color: '#8a8aaa', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 패턴이 없어요.</p>
               : bookmarks.map(bm => (
                   <AccordionPatternRow
                     key={bm.patternId} bm={bm}
