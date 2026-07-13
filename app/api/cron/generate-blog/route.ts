@@ -129,6 +129,7 @@ export async function GET(request: NextRequest) {
     }
 
     const results = []
+    const publishHours = [9, 11, 13, 15, 17] // KST
 
     for (const pattern of patterns) {
       await new Promise(resolve => setTimeout(resolve, 2000))
@@ -155,6 +156,10 @@ export async function GET(request: NextRequest) {
       const storyTitle = (storyData as any)?.stories?.story_translations
         ?.find((t: any) => t.ui_lang === 'en')?.title || null
 
+      const today = new Date()
+      today.setHours(publishHours[patterns.indexOf(pattern)], 0, 0, 0)
+      const publishedAt = today.toISOString()
+
       for (const locale of ['en', 'ko'] as const) {
         try {
           await new Promise(resolve => setTimeout(resolve, 1000))
@@ -172,7 +177,7 @@ export async function GET(request: NextRequest) {
               description: post.description,
               content: post.content,
               tags: post.tags,
-              published_at: new Date().toISOString(),
+              published_at: publishedAt,
             }, { onConflict: 'pattern_id,locale' })
 
           if (insertError) throw insertError
