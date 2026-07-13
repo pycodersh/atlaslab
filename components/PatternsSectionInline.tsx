@@ -431,19 +431,19 @@ export function PatternsSectionInline({
           </div>
 
           {prefs.language !== 'en' && (
-            <div style={{ display: 'inline-flex', borderRadius: 8, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.5)', border: '0.5px solid rgba(107,143,255,0.18)', padding: 2, marginRight: 4 }}>
+            <div style={{ display: 'inline-flex', borderRadius: 10, background: 'var(--pc)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pd)', padding: 2, marginRight: 4 }}>
               {(['en', 'en-ko', 'ko'] as const).map(mode => (
                 <button
                   key={mode}
                   type="button"
                   onClick={() => setStudyMode(mode)}
                   style={{
-                    padding: '3px 7px', borderRadius: 6, border: 'none', cursor: 'pointer',
-                    fontSize: 8.5, fontWeight: 600, letterSpacing: '0.06em',
-                    background: studyMode === mode ? '#6B8FFF' : 'transparent',
-                    color: studyMode === mode ? '#fff' : isDark ? 'rgba(255,255,255,0.35)' : '#8EA7FF',
-                    opacity: studyMode === mode ? 1 : 0.7,
-                    transition: 'background 0.15s, color 0.15s',
+                    padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                    fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                    background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                    color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
+                    boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
+                    transition: 'background 0.18s, color 0.18s',
                   }}
                 >
                   {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}

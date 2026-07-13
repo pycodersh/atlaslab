@@ -206,9 +206,9 @@ function StorySlide({
 
         <div style={{
           display: 'inline-flex', borderRadius: 10,
-          background: 'rgba(255,255,255,0.5)',
-          backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-          border: '0.5px solid rgba(107,143,255,0.18)', padding: 2,
+          background: 'var(--pc)',
+          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid var(--pd)', padding: 2,
         }}>
           {(['en', 'en-ko', 'ko'] as const).map(mode => (
             <button
@@ -218,10 +218,10 @@ function StorySlide({
               style={{
                 padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                background: studyMode === mode ? '#6B8FFF' : 'transparent',
-                color: studyMode === mode ? '#fff' : '#8EA7FF',
-                opacity: studyMode === mode ? 1 : 0.45,
-                transition: 'background 0.18s, opacity 0.18s',
+                background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
+                boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
+                transition: 'background 0.18s, color 0.18s',
               }}
             >
               {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
@@ -513,8 +513,9 @@ function PatternCardFocus({
         </p>
         <div style={{
           display: 'inline-flex', borderRadius: 10,
-          background: 'rgba(255,255,255,0.12)',
-          border: '0.5px solid rgba(255,255,255,0.2)', padding: 2,
+          background: 'var(--pc)',
+          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+          border: '1px solid var(--pd)', padding: 2,
         }}>
           {(['en', 'en-ko', 'ko'] as const).map(mode => (
             <button
@@ -524,10 +525,10 @@ function PatternCardFocus({
               style={{
                 padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                background: studyMode === mode ? '#6B8FFF' : 'transparent',
-                color: '#fff',
-                opacity: studyMode === mode ? 1 : 0.4,
-                transition: 'background 0.18s, opacity 0.18s',
+                background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
+                boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
+                transition: 'background 0.18s, color 0.18s',
               }}
             >
               {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
