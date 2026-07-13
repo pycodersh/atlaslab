@@ -562,7 +562,7 @@ function ConvCard({
   if (isHelp) {
     borderRadius = radius(16); padding = '14px 14px 10px'; minWidth = 150; maxWidth = 220
   } else if (active.size === 'small') {
-    borderRadius = radius(14); padding = '10px 14px'; minWidth = 120; maxWidth = 220
+    borderRadius = radius(14); padding = '10px 14px'; minWidth = 120; maxWidth = 260
   } else if (active.size === 'medium') {
     borderRadius = radius(16); padding = '14px 16px'; minWidth = 200; maxWidth = 260
   } else {
