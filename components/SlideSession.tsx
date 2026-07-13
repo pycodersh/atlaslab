@@ -109,29 +109,44 @@ function IntroSlide({ story, currentRound }: { story: MagazineStory; currentRoun
   return (
     <div style={{
       width: '100%', height: '100%',
-      background: 'linear-gradient(160deg, #1a2880 0%, #3d2090 100%)',
+      backgroundImage: "url('/bg-light.svg')",
+      backgroundSize: 'cover', backgroundPosition: 'center',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: '0 24px',
     }}>
-      <div style={{ textAlign: 'center', padding: '0 36px' }}>
+      <div style={{
+        background: 'rgba(255,255,255,0.65)',
+        backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+        border: '0.5px solid rgba(255,255,255,0.85)',
+        borderRadius: 24, padding: '32px 24px',
+        textAlign: 'center',
+        boxShadow: '0 8px 32px rgba(107,143,255,0.12)',
+        width: '100%', maxWidth: 380,
+      }}>
         <p style={{
-          fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
-          color: 'rgba(255,255,255,0.5)', margin: '0 0 18px', textTransform: 'uppercase',
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
+          color: '#8EA7FF', margin: '0 0 10px', textTransform: 'uppercase',
         }}>
           STORY {String(story.id).padStart(2, '0')}
         </p>
         <h1 style={{
           fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
-          fontSize: 28, fontWeight: 700, color: '#fff',
-          margin: '0 0 12px', lineHeight: 1.2,
+          fontSize: 28, fontWeight: 700, color: '#1a1a2e',
+          margin: '0 0 6px', lineHeight: 1.2,
         }}>
           {story.title}
         </h1>
         {subtitle && (
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', margin: '0 0 28px', lineHeight: 1.45 }}>
+          <p style={{ fontSize: 14, color: '#5a5a7a', margin: '0 0 16px', lineHeight: 1.45 }}>
             {subtitle}
           </p>
         )}
-        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
+        <div style={{
+          width: 40, height: 2, borderRadius: 1,
+          background: 'linear-gradient(90deg, #6B8FFF, #B8A8F0)',
+          margin: '0 auto 16px',
+        }} />
+        <p style={{ fontSize: 12, color: '#8a8aaa', margin: 0 }}>
           Round {currentRound + 1} · 패턴 {story.patterns.length}개
         </p>
       </div>
@@ -181,11 +196,11 @@ function StorySlide({
       {/* Header row: label + language toggle */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '4px 24px 12px', flexShrink: 0,
+        padding: '4px 16px 10px', flexShrink: 0,
       }}>
         <p style={{
-          fontSize: 9, fontWeight: 700, letterSpacing: '0.16em',
-          color: 'var(--pm2)', textTransform: 'uppercase', margin: 0,
+          fontSize: 9, fontWeight: 600, letterSpacing: '0.10em',
+          color: '#6B8FFF', textTransform: 'uppercase', margin: 0,
         }}>
           Story · Round {currentRound + 1}
           {totalParts > 1 && ` · ${part + 1}/${totalParts}`}
@@ -193,7 +208,9 @@ function StorySlide({
 
         <div style={{
           display: 'inline-flex', borderRadius: 10,
-          border: '0.5px solid rgba(255,255,255,0.2)', padding: 2,
+          background: 'rgba(255,255,255,0.5)',
+          backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+          border: '0.5px solid rgba(107,143,255,0.18)', padding: 2,
         }}>
           {(['en', 'en-ko', 'ko'] as const).map(mode => (
             <button
@@ -204,7 +221,7 @@ function StorySlide({
                 padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
                 background: studyMode === mode ? '#6B8FFF' : 'transparent',
-                color: studyMode === mode ? '#fff' : 'rgba(255,255,255,0.4)',
+                color: studyMode === mode ? '#fff' : '#8EA7FF',
                 transition: 'background 0.18s, color 0.18s',
               }}
             >
@@ -214,49 +231,57 @@ function StorySlide({
         </div>
       </div>
 
-      {/* Scrollable text area */}
+      {/* Scrollable text area — glass card */}
       <div style={{
-        flex: 1, overflowY: 'auto', padding: '0 24px',
+        flex: 1, overflowY: 'auto', padding: '0 16px',
         WebkitOverflowScrolling: 'touch' as never,
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {paragraphs.map(para => {
-            const koText = resolveTranslation(para.koreanTranslation, prefs.language, para.translations)
-            return (
-              <div key={para.id}>
-                {showEn && (
-                  <p style={{
-                    fontSize: '0.9rem', lineHeight: 1.9,
-                    color: 'var(--pt)', margin: 0,
-                  }}>
-                    {highlightPatterns(para.english, patternTexts)}
-                  </p>
-                )}
-                {showKo && koText && (
-                  <p style={{
-                    fontSize: '0.8rem', color: 'var(--pm)',
-                    lineHeight: 1.6, margin: '2px 0 0',
-                  }}>
-                    {koText}
-                  </p>
-                )}
-              </div>
-            )
-          })}
+        <div style={{
+          background: 'rgba(255,255,255,0.75)',
+          backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+          border: '0.5px solid rgba(255,255,255,0.9)',
+          borderRadius: 20, padding: 20,
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {paragraphs.map((para, pIdx) => {
+              const koText = resolveTranslation(para.koreanTranslation, prefs.language, para.translations)
+              return (
+                <div key={para.id} style={{ marginBottom: pIdx < paragraphs.length - 1 ? 16 : 0 }}>
+                  {showEn && (
+                    <p style={{
+                      fontSize: 16, lineHeight: 1.8,
+                      color: '#1a1a2e', margin: 0,
+                    }}>
+                      {highlightPatterns(para.english, patternTexts)}
+                    </p>
+                  )}
+                  {showKo && koText && (
+                    <p style={{
+                      fontSize: 13, color: '#5a5a7a',
+                      lineHeight: 1.7, margin: showEn ? '4px 0 0' : 0,
+                    }}>
+                      {koText}
+                    </p>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         </div>
-        <div style={{ height: 16 }} />
+        <div style={{ height: 12 }} />
       </div>
 
       {/* Audio control bar */}
       <div style={{
         flexShrink: 0,
-        padding: '10px 24px',
-        paddingBottom: 'calc(10px + env(safe-area-inset-bottom, 0px))',
+        padding: '0 16px 12px',
+        paddingBottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
       }}>
         <div style={{
-          background: 'rgba(255,255,255,0.15)',
+          background: 'rgba(255,255,255,0.65)',
           backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: 16, padding: '12px 16px',
+          border: '0.5px solid rgba(255,255,255,0.85)',
+          borderRadius: 20, padding: '10px 16px',
           display: 'flex', alignItems: 'center', gap: 12,
         }}>
           {/* Play / Pause */}
@@ -266,14 +291,18 @@ function StorySlide({
               aria-label="일시정지"
               onClick={onPause}
               style={{
-                width: 36, height: 36, borderRadius: '50%',
-                background: '#6B8FFF', color: '#fff',
+                width: 38, height: 38, borderRadius: '50%',
+                background: '#6B8FFF',
+                boxShadow: '0 4px 12px rgba(107,143,255,0.35)',
                 border: 'none', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0,
               }}
             >
-              <Pause style={{ width: 15, height: 15 }} />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
+                <rect x="6" y="4" width="4" height="16" rx="1" fill="#fff" stroke="none"/>
+                <rect x="14" y="4" width="4" height="16" rx="1" fill="#fff" stroke="none"/>
+              </svg>
             </button>
           ) : (
             <button
@@ -281,14 +310,17 @@ function StorySlide({
               aria-label={isPaused ? '재개' : '재생'}
               onClick={onPlay}
               style={{
-                width: 36, height: 36, borderRadius: '50%',
-                background: '#6B8FFF', color: '#fff',
+                width: 38, height: 38, borderRadius: '50%',
+                background: '#6B8FFF',
+                boxShadow: '0 4px 12px rgba(107,143,255,0.35)',
                 border: 'none', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0,
               }}
             >
-              <Play style={{ width: 15, height: 15 }} fill="currentColor" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="5,3 19,12 5,21"/>
+              </svg>
             </button>
           )}
 
@@ -298,23 +330,25 @@ function StorySlide({
             aria-label="정지"
             onClick={onStop}
             style={{
-              width: 36, height: 36, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.2)',
-              color: 'rgba(255,255,255,0.7)',
-              border: 'none', cursor: 'pointer',
+              width: 32, height: 32, borderRadius: '50%',
+              background: 'rgba(107,143,255,0.1)',
+              border: '0.5px solid rgba(107,143,255,0.2)',
+              cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               flexShrink: 0,
             }}
           >
-            <Square style={{ width: 13, height: 13 }} fill="currentColor" />
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="#6B8FFF" stroke="none">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+            </svg>
           </button>
 
           <div style={{ flex: 1, minWidth: 0 }}>
-            {isSpeaking && !isPaused ? (
+            {isSpeaking || isPaused ? (
               <>
                 <div style={{
                   height: 3, borderRadius: 2,
-                  background: 'rgba(255,255,255,0.2)', marginBottom: 5,
+                  background: 'rgba(107,143,255,0.1)', marginBottom: 5,
                 }}>
                   <div style={{
                     height: '100%', borderRadius: 2,
@@ -323,13 +357,13 @@ function StorySlide({
                     transition: 'width 0.4s ease',
                   }} />
                 </div>
-                <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>
-                  {currentParaIdx + 1} / {paragraphs.length}
+                <span style={{ fontSize: 10, color: '#8a8aaa' }}>
+                  {isPaused ? '일시정지' : `${currentParaIdx + 1} / ${paragraphs.length}`}
                 </span>
               </>
             ) : (
-              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.55)' }}>
-                {isPaused ? '일시정지됨' : story.title}
+              <span style={{ fontSize: 12, color: '#8a8aaa' }}>
+                {story.title}
               </span>
             )}
           </div>
@@ -802,6 +836,17 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   const [studyMode, setStudyMode] = useState<StudyMode>('en-ko')
   const [storyAudioPaused, setStoryAudioPaused] = useState(false)
 
+  // Sync storyAudioPaused with Orb's pause/resume (Orb sets sessionPhase='paused')
+  const trainerSessionPhase = trainer?.sessionPhase
+  const prevTrainerPhaseRef = useRef(trainerSessionPhase)
+  useEffect(() => {
+    const prev = prevTrainerPhaseRef.current
+    prevTrainerPhaseRef.current = trainerSessionPhase
+    if (prev === trainerSessionPhase) return
+    if (trainerSessionPhase === 'paused') setStoryAudioPaused(true)
+    else if (prev === 'paused') setStoryAudioPaused(false)
+  }, [trainerSessionPhase])
+
   const sessionStartRef = useRef(Date.now())
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([])
   const completedRef = useRef(false)
@@ -1273,8 +1318,11 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
             padding: '14px 20px 10px',
           }}>
             <span style={{
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.10em',
-              color: 'var(--pm2)', textTransform: 'uppercase',
+              fontSize: 9, fontWeight: 700, letterSpacing: '0.10em',
+              color: '#8EA7FF', textTransform: 'uppercase',
+              background: 'rgba(142,167,255,0.1)',
+              border: '0.5px solid rgba(142,167,255,0.2)',
+              borderRadius: 20, padding: '3px 10px',
             }}>
               Session {currentRound + 1}
               {slide.kind === 'hide-recall' && ` · Round ${slide.round}`}
