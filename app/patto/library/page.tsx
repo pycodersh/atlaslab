@@ -424,7 +424,7 @@ function EssaysSection() {
           onMouseEnter={e => { e.currentTarget.style.opacity = '0.88' }}
           onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
         >
-          + 새 에세이 작성
+          + 새 글쓰기
         </button>
 
         {/* Divider */}
@@ -433,7 +433,7 @@ function EssaysSection() {
         {/* Essay list or empty state */}
         {essays.length === 0 ? (
           <p style={{ fontSize: 12, color: '#8a8aaa', textAlign: 'center', margin: '16px 0 0', padding: '0 0 2px' }}>
-            아직 작성한 에세이가 없어요.
+            아직 작성한 글이 없어요.
           </p>
         ) : (
           <>

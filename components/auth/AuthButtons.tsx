@@ -195,7 +195,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
           </p>
           <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.6, wordBreak: 'keep-all' }}>
             {isKorean
-              ? '로그인하면 에세이, 단어장, 학습 기록을\n모든 기기에서 이어갈 수 있어요.'
+              ? '로그인하면 글쓰기, 단어장, 학습 기록을\n모든 기기에서 이어갈 수 있어요.'
               : 'Sign in to save your progress across all devices.'}
           </p>
         </div>
