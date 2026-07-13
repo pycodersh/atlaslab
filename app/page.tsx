@@ -4,14 +4,14 @@ const FONT_DISPLAY = '"Playfair Display", Georgia, serif'
 
 const PRODUCTS = [
   {
-    emoji: '🎯',
-    iconBg: 'rgba(124,111,255,0.2)',
+    emoji: null,
+    iconBg: '#1a1240',
     name: 'patto',
     desc: 'Learn English patterns the way natives do',
     tag: 'Live',
     tagStyle: { background: 'rgba(29,158,117,0.2)', color: '#5DCAA5', border: '0.5px solid rgba(29,158,117,0.3)' },
     href: '/patto/home',
-    featured: true,
+    featured: false,
   },
   {
     emoji: '🇰🇷',
@@ -154,14 +154,6 @@ export default function AtlasLabHome() {
           border-color: rgba(124,111,255,0.4);
           background: rgba(124,111,255,0.04);
         }
-        .al-product-card-featured {
-          border-color: rgba(124,111,255,0.3) !important;
-          background: rgba(124,111,255,0.06) !important;
-        }
-        .al-product-card-featured:hover {
-          border-color: rgba(124,111,255,0.55) !important;
-          background: rgba(124,111,255,0.1) !important;
-        }
         .al-product-icon {
           width: 40px; height: 40px; border-radius: 10px;
           display: flex; align-items: center; justify-content: center;
@@ -251,7 +243,7 @@ export default function AtlasLabHome() {
         <nav className="al-nav">
           <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/atlaslab_logo_white_transparent.png" alt="Atlas Lab" style={{ height: 36, width: 'auto', display: 'block' }} />
+            <img src="/atlaslab_logo_white_transparent.png" alt="Atlas Lab" style={{ height: 48, width: 'auto', display: 'block' }} />
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>
@@ -264,7 +256,7 @@ export default function AtlasLabHome() {
         <section className="al-hero" style={{ position: 'relative', zIndex: 1 }}>
           <div className="al-badge">
             <svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3" fill="rgba(124,111,255,0.8)" /></svg>
-            AI-powered apps
+            ATLAS LAB · AI-POWERED APPS
           </div>
           <h1 className="al-hero-title">
             Tools that make you <span style={{ color: '#a89fff' }}>better</span>,<br />
@@ -282,7 +274,18 @@ export default function AtlasLabHome() {
             {PRODUCTS.map(p => {
               const inner = (
                 <>
-                  <div className="al-product-icon" style={{ background: p.iconBg }}>{p.emoji}</div>
+                  <div className="al-product-icon" style={{ background: p.iconBg }}>
+                    {p.emoji === null ? (
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <rect x="3" y="7" width="24" height="2.5" rx="1.25" fill="#6655cc"/>
+                        <rect x="3" y="13" width="18" height="2.5" rx="1.25" fill="#5544aa" opacity="0.8"/>
+                        <rect x="3" y="19" width="21" height="2.5" rx="1.25" fill="#443388" opacity="0.6"/>
+                        <circle cx="23" cy="21" r="5" fill="#2d1f6e"/>
+                        <circle cx="23" cy="21" r="5" stroke="#6655cc" strokeWidth="1"/>
+                        <text x="23" y="25" textAnchor="middle" fontSize="8" fill="#a090ff" fontWeight="700">P</text>
+                      </svg>
+                    ) : p.emoji}
+                  </div>
                   <div className="al-product-name">{p.name}</div>
                   <div className="al-product-desc">{p.desc}</div>
                   <span className="al-product-tag" style={p.tagStyle}>{p.tag}</span>
@@ -292,7 +295,7 @@ export default function AtlasLabHome() {
                 <a
                   key={p.name}
                   href={p.href}
-                  className={`al-product-card al-product-card-link ${p.featured ? 'al-product-card-featured' : ''}`}
+                  className="al-product-card al-product-card-link"
                 >
                   {inner}
                 </a>
