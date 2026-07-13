@@ -433,6 +433,39 @@ body {
 .animate-fade-in { animation: fade-in 0.9s ease forwards; }
 .animate-fade-up { animation: fade-up 0.8s cubic-bezier(0.22,1,0.36,1) forwards; }
 
+/* ── Trainer Card Buttons ────────────────────────────────────────────── */
+.trainer-btn {
+  flex: 1;
+  height: 40px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: transform 0.12s ease, opacity 0.12s ease;
+  will-change: transform;
+}
+.trainer-btn:active { transform: scale(0.97); }
+.trainer-btn-primary {
+  background: linear-gradient(135deg, #A6B8FF, #8090F0);
+  color: #ffffff;
+  border: none;
+}
+.trainer-btn-primary:disabled {
+  background: rgba(160,176,255,0.35);
+  color: rgba(255,255,255,0.55);
+  cursor: default;
+}
+.trainer-btn-secondary {
+  background: rgba(255,255,255,0.70);
+  border: 1px solid rgba(255,255,255,0.80);
+  color: #7986CB;
+}
+
 /* ── Pattern Card glass (front & back) ──────────────────────────────── */
 .pattern-card-glass {
   background: rgba(255,255,255,0.55);

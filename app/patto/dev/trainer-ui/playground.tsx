@@ -104,33 +104,9 @@ function WhisperContent({ message, ms, isDark }: { message: string; ms?: number;
   )
 }
 
-// ── Shared button styles ──────────────────────────────────────────────────────
-const BTN_BASE: React.CSSProperties = {
-  flex: 1,
-  height: 36,
-  borderRadius: 18,
-  fontSize: 13,
-  fontFamily: 'inherit',
-  cursor: 'pointer',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: 5,
-  border: 'none',
-}
-const BTN_PRIMARY: React.CSSProperties = {
-  ...BTN_BASE,
-  background: '#6B8FFF',
-  color: '#ffffff',
-  fontWeight: 600,
-}
-const BTN_SECONDARY: React.CSSProperties = {
-  ...BTN_BASE,
-  background: '#ffffff',
-  border: '1px solid #D0D5F0',
-  color: '#6B8FFF',
-  fontWeight: 500,
-}
+// ── Shared button classNames ──────────────────────────────────────────────────
+const BTN_P = 'trainer-btn trainer-btn-primary'
+const BTN_S = 'trainer-btn trainer-btn-secondary'
 
 // ── Action Card Content ───────────────────────────────────────────────────────
 type ActionBtn = {
@@ -168,20 +144,20 @@ function ActionContent({
         <div style={{ display: 'flex', gap: 8, marginTop: 10, justifyContent: count === 1 ? 'center' : 'space-between' }}>
           {sorted.map((btn, i) => {
             if (btn.variant === 'play') return (
-              <button key={i} style={BTN_PRIMARY}>
+              <button key={i} className={BTN_P}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21"/></svg>
                 {btn.label}
               </button>
             )
             if (btn.variant === 'done') return (
-              <button key={i} style={BTN_PRIMARY}>
+              <button key={i} className={BTN_P}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 {btn.label}
               </button>
             )
             const isPrimary = btn.variant === 'primary'
             return (
-              <button key={i} style={isPrimary ? BTN_PRIMARY : BTN_SECONDARY}>
+              <button key={i} className={isPrimary ? BTN_P : BTN_S}>
                 {btn.label}
               </button>
             )
@@ -223,10 +199,7 @@ function SessionContent({
       <div style={{ height: 0, borderTop: `0.5px solid ${divider}`, margin: '12px 0' }} />
       <div style={{ display: 'flex', gap: 8, justifyContent: count === 1 ? 'center' : 'space-between' }}>
         {allBtns.map(({ lbl, isPrimary }, i) => (
-          <button key={i} style={{
-            ...(isPrimary ? BTN_PRIMARY : BTN_SECONDARY),
-            boxShadow: 'none',
-          }}>
+          <button key={i} className={isPrimary ? BTN_P : BTN_S}>
             {lbl}
           </button>
         ))}

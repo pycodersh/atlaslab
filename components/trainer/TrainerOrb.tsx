@@ -320,16 +320,8 @@ function WhisperCard({ card, dark, textMain }: {
 }
 
 // ── 2. Action Card ────────────────────────────────────────────────────────────
-const BTN_BASE: React.CSSProperties = {
-  flex: 1, height: 36, borderRadius: 18,
-  fontSize: 13, fontFamily: 'inherit',
-  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-  cursor: 'pointer', border: 'none',
-  transition: 'transform 0.12s ease, opacity 0.12s ease',
-  willChange: 'transform',
-}
-const BTN_PRIMARY: React.CSSProperties = { ...BTN_BASE, background: '#6B8FFF', color: '#ffffff', fontWeight: 600 }
-const BTN_SECONDARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1px solid #D0D5F0', color: '#6B8FFF', fontWeight: 500 }
+const BTN_P = 'trainer-btn trainer-btn-primary'
+const BTN_S = 'trainer-btn trainer-btn-secondary'
 
 function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
   card: CardSpec; dark: boolean
@@ -348,11 +340,6 @@ function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
         return Number(aP) - Number(bP)
       })
     : buttons
-
-  const flexStyle = (isPrimary: boolean): React.CSSProperties => ({
-    ...(isPrimary ? BTN_PRIMARY : BTN_SECONDARY),
-    ...(count === 2 ? { flex: 1 } : {}),
-  })
 
   return (
     <>
@@ -378,14 +365,9 @@ function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
             if (btn.btnVariant === 'play') {
               return (
                 <button key={i} type="button"
+                  className={BTN_P}
                   onClick={() => btn.onClick()}
                   disabled={cardIsPlaying}
-                  style={{
-                    ...flexStyle(true),
-                    background: cardIsPlaying ? 'rgba(107,143,255,0.25)' : '#6B8FFF',
-                    color: cardIsPlaying ? 'rgba(255,255,255,0.5)' : '#fff',
-                    cursor: cardIsPlaying ? 'default' : 'pointer',
-                  }}
                 >
                   {cardIsPlaying ? <span style={{ fontSize: 10, lineHeight: 1 }}>■</span> : <PlaySvg />}
                   {cardIsPlaying ? 'Playing...' : btn.label}
@@ -395,15 +377,11 @@ function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
             const isPrimary = !!(btn.primary || btn.btnVariant === 'done')
             return (
               <button key={i} type="button"
+                className={isPrimary ? BTN_P : BTN_S}
                 onPointerDown={() => setPressedIdx(i)}
                 onPointerUp={() => setPressedIdx(null)}
                 onPointerCancel={() => setPressedIdx(null)}
                 onClick={() => { onClear(); btn.onClick() }}
-                style={{
-                  ...flexStyle(isPrimary),
-                  transform: pressedIdx === i ? 'scale(0.97)' : 'scale(1)',
-                  opacity: pressedIdx === i && !isPrimary ? 0.8 : 1,
-                }}
               >
                 {btn.btnVariant === 'done' && <CheckSvg />}
                 {btn.label}
@@ -486,12 +464,8 @@ function SessionCard({ card, dark, textMain, textSub, onClear }: {
             const isPrimary = !!btn.primary
             return (
               <button key={i} type="button"
+                className={isPrimary ? BTN_P : BTN_S}
                 onClick={() => { onClear(); btn.onClick() }}
-                style={{
-                  ...(isPrimary ? BTN_PRIMARY : BTN_SECONDARY),
-                  ...(count === 2 ? { flex: 1 } : { width: count === 1 ? 'auto' : '100%' }),
-                  boxShadow: 'none',
-                }}
               >
                 {btn.label}
               </button>
