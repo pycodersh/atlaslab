@@ -70,8 +70,8 @@ export function PatternCardBack({
           examples.map((ex) => (
             <li
               key={ex.id}
-              className="cursor-pointer rounded-xl px-2 py-1 transition-colors hover:bg-white/20 active:bg-white/30"
-              style={{ borderBottom: '0.5px solid rgba(255,255,255,0.3)' }}
+              className="cursor-pointer rounded-xl px-2 py-1 transition-colors active:bg-white/30"
+              style={{ background: 'rgba(142, 167, 255, 0.05)', borderBottom: '0.5px solid rgba(255,255,255,0.3)' }}
               onClick={(e) => { e.stopPropagation(); speak(ex.sentence.trim()) }}
             >
               <p className="text-[0.88rem] font-semibold leading-relaxed text-[#1C1C1E] dark:text-[#F2F2F5]">
@@ -106,16 +106,17 @@ export function PatternCardBack({
         )}
         <button
           aria-label={isSpeaking ? '정지' : '전체 듣기'}
-          className={cn(
-            'ml-auto rounded-full p-2 transition-colors',
-            isSpeaking
-              ? 'bg-[#FFE8E8] text-[#FF6B6B]'
-              : 'bg-[#DCEBFF] text-[#4F8CFF] hover:bg-[#C8DCFF]',
-          )}
+          className="ml-auto transition-colors"
+          style={{
+            width: 36, height: 36, borderRadius: '50%',
+            background: isSpeaking ? '#FFE8E8' : '#8EA7FF',
+            border: 'none', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}
           onClick={handleSpeakAll}
           type="button"
         >
-          <Volume2 className="h-4 w-4" />
+          <Volume2 style={{ width: 16, height: 16, color: isSpeaking ? '#FF6B6B' : '#fff' }} />
         </button>
       </div>
     </div>

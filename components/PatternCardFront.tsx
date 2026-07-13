@@ -58,12 +58,30 @@ export function PatternCardFront({
 
       {/* 패턴 텍스트 — 이미지 바로 아래 */}
       <div className="pattern-header-glass mt-3 flex-1 text-center rounded-[16px] px-3 py-3">
-        <p className="text-[2rem] font-extrabold leading-tight tracking-tight text-[#1C1C1E] dark:text-[#F2F2F5]">
+        <p
+          className="font-bold leading-tight tracking-tight text-[#1C1C1E] dark:text-[#F2F2F5]"
+          style={{
+            fontSize: 28,
+            backgroundImage: 'linear-gradient(90deg, #8EA7FF, #6B8AFF)',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: '0 100%',
+            backgroundSize: '100% 2px',
+            paddingBottom: 4,
+          }}
+        >
           {pattern.pattern_text}
         </p>
-        <p className="mt-1 text-[0.9rem] font-semibold text-[#6D8DFF]">
-          {pattern.meaning}
-        </p>
+        {pattern.meaning && (
+          <div style={{
+            marginTop: 8, display: 'inline-block',
+            background: '#FFF8EC', border: '1px solid #F5A623',
+            borderRadius: 8, padding: '4px 10px',
+          }}>
+            <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#B87820', lineHeight: 1.3 }}>
+              {pattern.meaning}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* 하트 — 우측 하단 */}

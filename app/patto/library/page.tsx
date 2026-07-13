@@ -177,6 +177,12 @@ function WordPhrasePatternsAccordion({
     setOpen(prev => prev === tab ? null : tab)
   }
 
+  const TAB_TINTS: Record<string, { closed: string; open: string; border: string; color: string }> = {
+    words:    { closed: 'rgba(92,107,192,0.08)',  open: 'rgba(92,107,192,0.18)',  border: 'rgba(92,107,192,0.35)',  color: '#5C6BC0' },
+    phrases:  { closed: 'rgba(149,117,205,0.08)', open: 'rgba(149,117,205,0.18)', border: 'rgba(149,117,205,0.35)', color: '#9575CD' },
+    patterns: { closed: 'rgba(245,166,35,0.08)',  open: 'rgba(245,166,35,0.18)',  border: 'rgba(245,166,35,0.35)',  color: '#F5A623' },
+  }
+
   const TABS: { id: Exclude<AccordionOpen, null>; label: string; count: number; icon: React.ReactNode }[] = [
     { id: 'words',    label: 'Words',    count: words.length,     icon: <BookOpen    style={{ width: 13, height: 13 }} strokeWidth={1.8} /> },
     { id: 'phrases',  label: 'Phrases',  count: phrases.length,   icon: <Layers      style={{ width: 13, height: 13 }} strokeWidth={1.8} /> },
@@ -188,6 +194,7 @@ function WordPhrasePatternsAccordion({
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
         {TABS.map(tab => {
           const isOpen = open === tab.id
+          const tint = TAB_TINTS[tab.id]
           return (
             <button
               key={tab.id}
@@ -197,9 +204,9 @@ function WordPhrasePatternsAccordion({
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
                 padding: '11px 6px',
                 borderRadius: isOpen ? '13px 13px 0 0' : 13,
-                background: isOpen ? 'rgba(107,143,255,0.15)' : 'rgba(255,255,255,0.60)',
-                border: isOpen ? '0.5px solid rgba(107,143,255,0.45)' : '0.5px solid rgba(142,167,255,0.18)',
-                color: isOpen ? '#6B8FFF' : 'var(--pt)',
+                background: isOpen ? tint.open : tint.closed,
+                border: isOpen ? `0.5px solid ${tint.border}` : '0.5px solid rgba(142,167,255,0.18)',
+                color: isOpen ? tint.color : 'var(--pt)',
                 cursor: 'pointer', transition: 'all 0.18s ease',
                 backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
               }}
@@ -208,7 +215,7 @@ function WordPhrasePatternsAccordion({
               <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.04em' }}>{tab.label}</span>
               <span style={{
                 fontSize: 10, fontWeight: 600,
-                color: isOpen ? 'rgba(255,255,255,0.75)' : 'var(--pm)',
+                color: isOpen ? tint.color : 'var(--pm)',
               }}>{tab.count}</span>
             </button>
           )
@@ -378,8 +385,10 @@ function EssaysSection() {
     <div>
       {/* Main chip */}
       <div style={{
-        background: 'linear-gradient(135deg, rgba(107,143,255,0.1), rgba(107,143,255,0.05))',
-        border: '0.5px solid rgba(107,143,255,0.25)',
+        background: 'rgba(255,255,255,0.6)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(255,255,255,0.8)',
         borderRadius: 16,
         padding: 16,
       }}>

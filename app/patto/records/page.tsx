@@ -52,25 +52,25 @@ function StepIndicator({ done, active, label }: { done: boolean; active: boolean
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
       <div style={{
         width: 32, height: 32, borderRadius: '50%',
-        background: done ? 'rgba(255,255,255,0.92)' : 'transparent',
-        border: done ? 'none' : active ? '2px solid rgba(255,255,255,0.80)' : '1.5px solid rgba(255,255,255,0.28)',
+        background: done ? '#8EA7FF' : 'transparent',
+        border: done ? 'none' : active ? '2px solid #5C6BC0' : '1.5px solid #C5CAE9',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         transition: 'all 0.3s',
       }}>
         {done ? (
           <svg width={14} height={14} viewBox="0 0 14 14" fill="none">
-            <path d="M3 7l3 3 5-5" stroke="#3d2090" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3 7l3 3 5-5" stroke="#1a1a2e" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         ) : (
           <div style={{
             width: 8, height: 8, borderRadius: '50%',
-            background: active ? 'rgba(255,255,255,0.70)' : 'rgba(255,255,255,0.20)',
+            background: active ? '#5C6BC0' : '#C5CAE9',
           }} />
         )}
       </div>
       <span style={{
         fontSize: 9, fontWeight: 700, letterSpacing: '0.08em',
-        color: done ? 'rgba(255,255,255,0.90)' : active ? 'rgba(255,255,255,0.70)' : 'rgba(255,255,255,0.35)',
+        color: done ? '#5C6BC0' : active ? '#5C6BC0' : '#C5CAE9',
         textTransform: 'uppercase',
       }}>
         {label}
@@ -82,30 +82,30 @@ function StepIndicator({ done, active, label }: { done: boolean; active: boolean
 // SVG icons for stat cards
 const FlameIcon = () => (
   <svg viewBox="0 0 24 24" width="28" height="28">
-    <path d="M12 2C12 2 8 7 8 11C8 13.5 9.5 15.5 12 16C14.5 15.5 16 13.5 16 11C16 7 12 2 12 2Z" fill="#FF6B35"/>
-    <path d="M12 16C10 16 8.5 17.5 8.5 19.5C8.5 21.5 10 23 12 23C14 23 15.5 21.5 15.5 19.5C15.5 17.5 14 16 12 16Z" fill="#FFB347"/>
+    <path d="M12 2C12 2 8 7 8 11C8 13.5 9.5 15.5 12 16C14.5 15.5 16 13.5 16 11C16 7 12 2 12 2Z" fill="#F4511E"/>
+    <path d="M12 16C10 16 8.5 17.5 8.5 19.5C8.5 21.5 10 23 12 23C14 23 15.5 21.5 15.5 19.5C15.5 17.5 14 16 12 16Z" fill="#FF8A65"/>
   </svg>
 )
 
 const BoltIcon = () => (
   <svg viewBox="0 0 24 24" width="28" height="28">
-    <path d="M13 2L4 14H11L10 22L20 9H13L13 2Z" fill="#6B8FFF" stroke="#6B8FFF" strokeWidth="0.5"/>
+    <path d="M13 2L4 14H11L10 22L20 9H13L13 2Z" fill="#5C6BC0" stroke="#5C6BC0" strokeWidth="0.5"/>
   </svg>
 )
 
 const PuzzleIcon = () => (
   <svg viewBox="0 0 24 24" width="28" height="28">
-    <path d="M4 4h6v2.5C10 7.9 11.1 9 12.5 9S15 7.9 15 6.5V4h5v6h-2.5C16.1 10 15 11.1 15 12.5S16.1 15 17.5 15H20v5h-6v-2.5C14 16.1 12.9 15 11.5 15S9 16.1 9 17.5V20H4V4Z" fill="#B8A8F0"/>
+    <path d="M4 4h6v2.5C10 7.9 11.1 9 12.5 9S15 7.9 15 6.5V4h5v6h-2.5C16.1 10 15 11.1 15 12.5S16.1 15 17.5 15H20v5h-6v-2.5C14 16.1 12.9 15 11.5 15S9 16.1 9 17.5V20H4V4Z" fill="#9575CD"/>
   </svg>
 )
 
 const TrophyIcon = () => (
   <svg viewBox="0 0 24 24" width="28" height="28">
-    <path d="M7 3H17V13C17 16 14.8 18 12 18C9.2 18 7 16 7 13V3Z" fill="#D7B56D"/>
-    <path d="M5 5H7V10C5.5 10 4 8.5 4 7C4 5.9 4.4 5 5 5Z" fill="#D7B56D"/>
-    <path d="M17 5H19C19.6 5 20 5.9 20 7C20 8.5 18.5 10 17 10V5Z" fill="#D7B56D"/>
-    <rect x="10" y="18" width="4" height="3" fill="#D7B56D"/>
-    <rect x="8" y="21" width="8" height="1.5" rx="0.75" fill="#D7B56D"/>
+    <path d="M7 3H17V13C17 16 14.8 18 12 18C9.2 18 7 16 7 13V3Z" fill="#F5A623"/>
+    <path d="M5 5H7V10C5.5 10 4 8.5 4 7C4 5.9 4.4 5 5 5Z" fill="#F5A623"/>
+    <path d="M17 5H19C19.6 5 20 5.9 20 7C20 8.5 18.5 10 17 10V5Z" fill="#F5A623"/>
+    <rect x="10" y="18" width="4" height="3" fill="#F5A623"/>
+    <rect x="8" y="21" width="8" height="1.5" rx="0.75" fill="#F5A623"/>
   </svg>
 )
 
@@ -124,7 +124,7 @@ function StatCard({ icon, label, value, accent }: {
       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
     }}>
       <div style={{ lineHeight: 1 }}>{icon}</div>
-      <span style={{ fontSize: 22, fontWeight: 700, color: accent, lineHeight: 1.1, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>{value}</span>
+      <span style={{ fontSize: 24, fontWeight: 700, color: accent, lineHeight: 1.1, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>{value}</span>
       <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', color: accent, opacity: 0.7, textTransform: 'uppercase' }}>{label}</span>
     </div>
   )
@@ -281,10 +281,10 @@ export default function ProgressPage() {
         {/* ── 1. Today's Session Card ── */}
         <div style={{
           borderRadius: 22, overflow: 'hidden',
-          background: 'linear-gradient(135deg, #1a2880, #3d2090)',
+          background: '#EEF1FF',
           padding: '16px 20px 18px',
         }}>
-          <p style={{ margin: '0 0 14px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase' }}>
+          <p style={{ margin: '0 0 14px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: '#5C6BC0', textTransform: 'uppercase' }}>
             Today&apos;s Session
           </p>
 
@@ -299,7 +299,7 @@ export default function ProgressPage() {
             <StepIndicator done={challengeDoneToday} active={patternDoneToday && !challengeDoneToday} label="Challenge" />
           </div>
 
-          <div style={{ height: 4, borderRadius: 99, background: 'rgba(255,255,255,0.12)', overflow: 'hidden' }}>
+          <div style={{ height: 4, borderRadius: 99, background: 'rgba(92,107,192,0.15)', overflow: 'hidden' }}>
             <div style={{
               height: '100%', width: `${sessionPct}%`,
               background: 'linear-gradient(90deg, #6B8FFF, #CFC4FF)',
@@ -308,7 +308,7 @@ export default function ProgressPage() {
             }} />
           </div>
 
-          <p style={{ margin: '10px 0 0', fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.60)', lineHeight: 1.4 }}>
+          <p style={{ margin: '10px 0 0', fontSize: 11, fontWeight: 500, color: '#5C6BC0', lineHeight: 1.4 }}>
             {motivationLine}
           </p>
         </div>
@@ -321,10 +321,10 @@ export default function ProgressPage() {
             · CHALLENGES → TODO: query daily_challenges table when Challenge UI is built
         */}
         <div style={{ display: 'flex', gap: 8 }}>
-          <StatCard icon={<FlameIcon />}  label="Streak"     value={`${streak}d`}                            accent="#FF6B35" />
-          <StatCard icon={<BoltIcon />}   label="Sessions"   value={`${totalSessions}`}                      accent="#6B8FFF" />
-          <StatCard icon={<PuzzleIcon />} label="Patterns"   value={`${patternsLearned} / ${PATTERN_GOAL}`}  accent="#B8A8F0" />
-          <StatCard icon={<TrophyIcon />} label="Challenges" value="–"                                       accent="#D7B56D" />
+          <StatCard icon={<FlameIcon />}  label="Streak"     value={`${streak}d`}                            accent="#F4511E" />
+          <StatCard icon={<BoltIcon />}   label="Sessions"   value={`${totalSessions}`}                      accent="#5C6BC0" />
+          <StatCard icon={<PuzzleIcon />} label="Patterns"   value={`${patternsLearned} / ${PATTERN_GOAL}`}  accent="#9575CD" />
+          <StatCard icon={<TrophyIcon />} label="Challenges" value="–"                                       accent="#F5A623" />
         </div>
 
         {/* ── 3. Weekly / Monthly Calendar ── */}
