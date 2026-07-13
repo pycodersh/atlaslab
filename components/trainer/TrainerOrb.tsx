@@ -262,6 +262,30 @@ function CheckSvg() {
   )
 }
 
+// ── Auto-wrap text ────────────────────────────────────────────────────────────
+function AutoWrapText({ text, style }: { text: string; style?: React.CSSProperties }) {
+  const ref = useRef<HTMLParagraphElement>(null)
+
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.style.whiteSpace = 'nowrap'
+    el.style.overflow = 'hidden'
+    el.style.wordBreak = 'normal'
+    if (el.scrollWidth > el.clientWidth + 1) {
+      el.style.whiteSpace = 'normal'
+      el.style.wordBreak = 'keep-all'
+      el.style.overflow = ''
+    }
+  })
+
+  return (
+    <p ref={ref} style={{ whiteSpace: 'nowrap', overflow: 'hidden', wordBreak: 'normal', ...style }}>
+      {text}
+    </p>
+  )
+}
+
 // ── 1. Whisper Card ───────────────────────────────────────────────────────────
 function WhisperCard({ card, dark, textMain }: {
   card: CardSpec; dark: boolean; textMain: string
@@ -269,13 +293,10 @@ function WhisperCard({ card, dark, textMain }: {
   const hasMs = typeof card.ms === 'number' && card.ms > 0
   return (
     <>
-      <p style={{
+      <AutoWrapText text={card.message} style={{
         margin: 0, fontSize: 14, fontWeight: 500,
         color: textMain, lineHeight: 1.4, letterSpacing: '-0.01em',
-        whiteSpace: 'pre-wrap',
-      }}>
-        {card.message}
-      </p>
+      }} />
       {hasMs && (
         <div style={{
           marginTop: 8, height: 2,
@@ -299,117 +320,92 @@ function WhisperCard({ card, dark, textMain }: {
 }
 
 // ── 2. Action Card ────────────────────────────────────────────────────────────
-function ActionCard({ card, dark, textMain, textSub, textPri, textSec, onClear, cardIsPlaying }: {
+const BTN_BASE: React.CSSProperties = {
+  minWidth: 100, height: 40, borderRadius: 20,
+  fontSize: 14, fontWeight: 500, fontFamily: 'inherit',
+  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+  cursor: 'pointer', border: 'none',
+  transition: 'transform 0.12s ease, opacity 0.12s ease',
+  willChange: 'transform',
+}
+const BTN_PRIMARY: React.CSSProperties = { ...BTN_BASE, background: '#5C6BC0', color: '#ffffff' }
+const BTN_SECONDARY: React.CSSProperties = { ...BTN_BASE, background: '#ffffff', border: '1px solid #e0e3f0', color: '#5C6BC0' }
+
+function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
   card: CardSpec; dark: boolean
-  textMain: string; textSub: string; textPri: string; textSec: string
+  textMain: string; textSub: string; textPri?: string; textSec?: string
   onClear: () => void; cardIsPlaying: boolean
 }) {
   const [pressedIdx, setPressedIdx] = useState<number | null>(null)
-  const hasButtons = card.buttons && card.buttons.length > 0
+  const buttons = card.buttons ?? []
+  const count = buttons.length
+
+  // Sort: secondary left, primary right when 2 buttons
+  const sorted = count === 2
+    ? [...buttons].sort((a, b) => {
+        const aP = !!(a.primary || a.btnVariant === 'done' || a.btnVariant === 'play')
+        const bP = !!(b.primary || b.btnVariant === 'done' || b.btnVariant === 'play')
+        return Number(aP) - Number(bP)
+      })
+    : buttons
+
+  const flexStyle = (isPrimary: boolean): React.CSSProperties => ({
+    ...(isPrimary ? BTN_PRIMARY : BTN_SECONDARY),
+    ...(count === 2 ? { flex: 1 } : {}),
+  })
 
   return (
     <>
-      <p style={{
+      <AutoWrapText text={card.message} style={{
         margin: 0, fontSize: 14, fontWeight: 500,
         color: textMain, lineHeight: 1.4, letterSpacing: '-0.01em',
-        marginBottom: (card.subtext || hasButtons) ? 4 : 0,
-        whiteSpace: 'pre-wrap',
-      }}>
-        {card.message}
-      </p>
+        marginBottom: (card.subtext || count > 0) ? 4 : 0,
+      }} />
       {card.subtext && (
         <p style={{
-          margin: 0, marginBottom: hasButtons ? 10 : 0,
+          margin: 0, marginBottom: count > 0 ? 10 : 0,
           fontSize: 12, color: textSub, lineHeight: 1.5,
         }}>
           {card.subtext}
         </p>
       )}
-      {hasButtons && (
-        <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-          {card.buttons!.map((btn, i) => {
-            // play variant
+      {count > 0 && (
+        <div style={{
+          display: 'flex', gap: 8, marginTop: 10,
+          justifyContent: count === 1 ? 'center' : 'space-between',
+        }}>
+          {sorted.map((btn, i) => {
             if (btn.btnVariant === 'play') {
               return (
-                <button
-                  key={i}
-                  type="button"
+                <button key={i} type="button"
                   onClick={() => btn.onClick()}
                   disabled={cardIsPlaying}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: 5,
-                    padding: '6px 14px', borderRadius: 8,
+                    ...flexStyle(true),
+                    background: cardIsPlaying ? 'rgba(92,107,192,0.3)' : '#5C6BC0',
+                    color: cardIsPlaying ? 'rgba(255,255,255,0.5)' : '#fff',
                     cursor: cardIsPlaying ? 'default' : 'pointer',
-                    border: cardIsPlaying
-                      ? `0.5px solid ${dark ? 'rgba(142,167,255,0.08)' : 'rgba(107,143,255,0.12)'}`
-                      : `0.5px solid rgba(107,143,255,0.25)`,
-                    background: cardIsPlaying
-                      ? 'rgba(107,143,255,0.06)'
-                      : dark ? 'rgba(142,167,255,0.15)' : 'rgba(107,143,255,0.10)',
-                    color: cardIsPlaying ? '#aaa' : dark ? '#A6B8FF' : '#6B8FFF',
-                    fontSize: 12, fontWeight: 500, fontFamily: 'inherit',
-                    transition: 'all 0.15s', willChange: 'transform, opacity',
                   }}
                 >
-                  {cardIsPlaying ? <span style={{ fontSize: 9, lineHeight: 1 }}>■</span> : <PlaySvg />}
+                  {cardIsPlaying ? <span style={{ fontSize: 10, lineHeight: 1 }}>■</span> : <PlaySvg />}
                   {cardIsPlaying ? 'Playing...' : btn.label}
                 </button>
               )
             }
-            // done variant
-            if (btn.btnVariant === 'done') {
-              return (
-                <button
-                  key={i}
-                  type="button"
-                  onPointerDown={() => setPressedIdx(i)}
-                  onPointerUp={() => setPressedIdx(null)}
-                  onPointerCancel={() => setPressedIdx(null)}
-                  onClick={() => { onClear(); btn.onClick() }}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 5,
-                    padding: '6px 14px', borderRadius: 8, cursor: 'pointer',
-                    border: 'none',
-                    background: dark ? '#7c6fd4' : '#6B8FFF',
-                    color: '#fff', fontSize: 12, fontWeight: 500, fontFamily: 'inherit',
-                    transform: pressedIdx === i ? 'scale(0.97)' : 'scale(1)',
-                    transition: 'transform 0.12s ease', willChange: 'transform',
-                  }}
-                >
-                  <CheckSvg />
-                  {btn.label}
-                </button>
-              )
-            }
-            // default: primary or secondary text button
+            const isPrimary = !!(btn.primary || btn.btnVariant === 'done')
             return (
-              <button
-                key={i}
-                type="button"
+              <button key={i} type="button"
                 onPointerDown={() => setPressedIdx(i)}
                 onPointerUp={() => setPressedIdx(null)}
                 onPointerCancel={() => setPressedIdx(null)}
                 onClick={() => { onClear(); btn.onClick() }}
                 style={{
-                  background:   btn.primary
-                    ? (dark ? 'rgba(107,143,255,0.15)' : 'rgba(107,143,255,0.08)')
-                    : 'none',
-                  border:       btn.primary
-                    ? (dark ? '0.5px solid rgba(107,143,255,0.35)' : '0.5px solid rgba(107,143,255,0.20)')
-                    : 'none',
-                  borderRadius: btn.primary ? 10 : 0,
-                  padding:      btn.primary ? '8px 16px' : '8px 4px',
-                  color:        btn.primary ? textPri : textSec,
-                  fontSize:     13, fontWeight: btn.primary ? 600 : 500,
-                  cursor: 'pointer', fontFamily: 'inherit',
-                  transform:    pressedIdx === i
-                    ? (btn.primary ? 'scale(0.97)' : 'scale(1)')
-                    : 'scale(1)',
-                  opacity:      pressedIdx === i && !btn.primary ? 0.6 : 1,
-                  transition:   'transform 0.12s ease, opacity 0.12s ease',
-                  willChange:   'transform, opacity',
+                  ...flexStyle(isPrimary),
+                  transform: pressedIdx === i ? 'scale(0.97)' : 'scale(1)',
+                  opacity: pressedIdx === i && !isPrimary ? 0.8 : 1,
                 }}
               >
+                {btn.btnVariant === 'done' && <CheckSvg />}
                 {btn.label}
               </button>
             )
@@ -421,14 +417,14 @@ function ActionCard({ card, dark, textMain, textSub, textPri, textSec, onClear, 
 }
 
 // ── 3. Session Card ───────────────────────────────────────────────────────────
-function SessionCard({ card, dark, textMain, textSub, textPri, textSec, onClear }: {
+function SessionCard({ card, dark, textMain, textSub, onClear }: {
   card: CardSpec; dark: boolean
-  textMain: string; textSub: string; textPri: string; textSec: string
+  textMain: string; textSub: string; textPri?: string; textSec?: string
   onClear: () => void
 }) {
-  const primaryBtns = card.buttons?.filter(b => b.primary) ?? []
-  const ghostBtns   = card.buttons?.filter(b => !b.primary) ?? []
-  const hasButtons  = (card.buttons?.length ?? 0) > 0
+  const buttons = card.buttons ?? []
+  const count = buttons.length
+  const hasButtons = count > 0
 
   function stagger(i: number): React.CSSProperties {
     return {
@@ -439,6 +435,11 @@ function SessionCard({ card, dark, textMain, textSub, textPri, textSec, onClear 
       animationFillMode: 'both',
     }
   }
+
+  // Sort: secondary left, primary right when 2 buttons; otherwise primary first stacked
+  const sorted = count === 2
+    ? [...buttons].sort((a, b) => Number(!!a.primary) - Number(!!b.primary))
+    : buttons
 
   return (
     <>
@@ -474,40 +475,30 @@ function SessionCard({ card, dark, textMain, textSub, textPri, textSec, onClear 
           margin: '12px 0',
         }} />
       )}
-      {primaryBtns.map((btn, i) => (
-        <button
-          key={`p${i}`}
-          type="button"
-          onClick={() => { onClear(); btn.onClick() }}
-          style={{
-            ...stagger((card.subtext ? 4 : 3) + i),
-            display: 'block', width: '100%',
-            background: '#6B8FFF', border: 'none', borderRadius: 12,
-            padding: '11px', marginBottom: ghostBtns.length ? 4 : 0,
-            color: '#fff', fontSize: 13, fontWeight: 600,
-            cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center',
-            boxShadow: '0 4px 12px rgba(107,143,255,0.30)',
-          }}
-        >
-          {btn.label}
-        </button>
-      ))}
-      {ghostBtns.map((btn, i) => (
-        <button
-          key={`g${i}`}
-          type="button"
-          onClick={() => { onClear(); btn.onClick() }}
-          style={{
-            ...stagger((card.subtext ? 4 : 3) + primaryBtns.length + i),
-            display: 'block', width: '100%',
-            background: 'none', border: 'none', padding: '8px',
-            color: textSec, fontSize: 12,
-            cursor: 'pointer', fontFamily: 'inherit', textAlign: 'center',
-          }}
-        >
-          {btn.label}
-        </button>
-      ))}
+      {hasButtons && (
+        <div style={{
+          ...stagger(card.subtext ? 4 : 3),
+          display: 'flex',
+          gap: 8,
+          justifyContent: count === 1 ? 'center' : 'space-between',
+        }}>
+          {sorted.map((btn, i) => {
+            const isPrimary = !!btn.primary
+            return (
+              <button key={i} type="button"
+                onClick={() => { onClear(); btn.onClick() }}
+                style={{
+                  ...(isPrimary ? BTN_PRIMARY : BTN_SECONDARY),
+                  ...(count === 2 ? { flex: 1 } : { width: count === 1 ? 'auto' : '100%' }),
+                  boxShadow: isPrimary ? '0 4px 12px rgba(92,107,192,0.25)' : 'none',
+                }}
+              >
+                {btn.label}
+              </button>
+            )
+          })}
+        </div>
+      )}
     </>
   )
 }

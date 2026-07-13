@@ -1045,23 +1045,12 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
     switch (s.kind) {
       case 'intro': {
-        const msg = isGuided
-          ? "첫 번째 스토리예요. 먼저 들어보고 따라해볼게요."
-          : intensity === 'silent' ? "시작할까요?" : "준비됐나요?"
         if (isGuided) {
-          t?.say("안녕하세요! 함께 시작해볼게요.", 2500)
-          addTimer(setTimeout(() => {
-            trainerRef.current?.ask(msg, [
-              { label: '▶ Start', primary: true, onClick: () => goTo({ kind: 'story', part: 0 }) },
-            ])
-          }, 3000))
-        } else {
-          addTimer(setTimeout(() => {
-            trainerRef.current?.ask(msg, [
-              { label: '▶ Start', primary: true, onClick: () => goTo({ kind: 'story', part: 0 }) },
-            ])
-          }, 800))
+          t?.say("안녕하세요! 함께 시작해볼게요.", 2000)
         }
+        addTimer(setTimeout(() => {
+          goTo({ kind: 'story', part: 0 })
+        }, isGuided ? 2200 : 1200))
         break
       }
 
