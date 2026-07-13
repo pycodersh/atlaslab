@@ -117,7 +117,7 @@ function TodaySessionCard({
           </div>
         ))}
       </div>
-      <p style={{ margin: '12px 0 0', fontSize: 13, fontWeight: 500, color: '#5C6BC0', lineHeight: 1.4 }}>
+      <p style={{ margin: '12px 0 0', fontSize: 11, fontWeight: 500, color: '#5C6BC0', lineHeight: 1.4 }}>
         {motivationLine}
       </p>
     </div>
