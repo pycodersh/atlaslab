@@ -104,6 +104,33 @@ function WhisperContent({ message, ms, isDark }: { message: string; ms?: number;
   )
 }
 
+// ── Shared button styles ──────────────────────────────────────────────────────
+const BTN_BASE: React.CSSProperties = {
+  flex: 1,
+  height: 40,
+  borderRadius: 20,
+  fontSize: 14,
+  fontWeight: 500,
+  fontFamily: 'inherit',
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 5,
+}
+const BTN_PRIMARY: React.CSSProperties = {
+  ...BTN_BASE,
+  background: '#5C6BC0',
+  color: '#ffffff',
+  border: 'none',
+}
+const BTN_SECONDARY: React.CSSProperties = {
+  ...BTN_BASE,
+  background: '#ffffff',
+  border: '1px solid #e0e3f0',
+  color: '#5C6BC0',
+}
+
 // ── Action Card Content ───────────────────────────────────────────────────────
 type ActionBtn = {
   label: string
@@ -115,57 +142,45 @@ function ActionContent({
 }: { message: string; subtext?: string; buttons?: ActionBtn[]; isDark: boolean }) {
   const textMain = isDark ? '#e8e0f8' : '#1a1a2e'
   const textSub  = isDark ? 'rgba(232,224,248,0.55)' : '#7a7a9a'
-  const textPri  = isDark ? '#A6B8FF' : '#6B8FFF'
-  const textSec  = isDark ? 'rgba(255,255,255,0.38)' : '#9a9ab8'
+  const count = buttons?.length ?? 0
+
+  // Sort: secondary left, primary right when 2 buttons
+  const sorted = count === 2
+    ? [...(buttons ?? [])].sort((a, b) => {
+        const aP = a.variant === 'primary' || a.variant === 'done' || a.variant === 'play'
+        const bP = b.variant === 'primary' || b.variant === 'done' || b.variant === 'play'
+        return Number(aP) - Number(bP)
+      })
+    : (buttons ?? [])
 
   return (
     <>
-      <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: textMain, lineHeight: 1.4, letterSpacing: '-0.01em', marginBottom: (subtext || buttons?.length) ? 4 : 0 }}>
+      <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: textMain, lineHeight: 1.4, letterSpacing: '-0.01em', whiteSpace: 'nowrap', marginBottom: (subtext || count) ? 4 : 0 }}>
         {message}
       </p>
       {subtext && (
-        <p style={{ margin: 0, marginBottom: buttons?.length ? 10 : 0, fontSize: 12, color: textSub, lineHeight: 1.5 }}>
+        <p style={{ margin: 0, marginBottom: count ? 10 : 0, fontSize: 12, color: textSub, lineHeight: 1.5 }}>
           {subtext}
         </p>
       )}
-      {buttons && buttons.length > 0 && (
-        <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-          {buttons.map((btn, i) => {
+      {count > 0 && (
+        <div style={{ display: 'flex', gap: 8, marginTop: 10, justifyContent: count === 1 ? 'center' : 'space-between' }}>
+          {sorted.map((btn, i) => {
             if (btn.variant === 'play') return (
-              <button key={i} style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                padding: '6px 14px', borderRadius: 8, cursor: 'pointer',
-                border: `0.5px solid rgba(107,143,255,0.25)`,
-                background: isDark ? 'rgba(142,167,255,0.15)' : 'rgba(107,143,255,0.10)',
-                color: isDark ? '#A6B8FF' : '#6B8FFF',
-                fontSize: 12, fontWeight: 500, fontFamily: 'inherit',
-              }}>
+              <button key={i} style={BTN_PRIMARY}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21"/></svg>
                 {btn.label}
               </button>
             )
             if (btn.variant === 'done') return (
-              <button key={i} style={{
-                display: 'flex', alignItems: 'center', gap: 5,
-                padding: '6px 14px', borderRadius: 8, cursor: 'pointer',
-                border: 'none',
-                background: isDark ? '#7c6fd4' : '#6B8FFF',
-                color: '#fff', fontSize: 12, fontWeight: 500, fontFamily: 'inherit',
-              }}>
+              <button key={i} style={BTN_PRIMARY}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 {btn.label}
               </button>
             )
             const isPrimary = btn.variant === 'primary'
             return (
-              <button key={i} style={{
-                background: isPrimary ? (isDark ? 'rgba(107,143,255,0.15)' : 'rgba(107,143,255,0.08)') : 'none',
-                border: isPrimary ? (isDark ? '0.5px solid rgba(107,143,255,0.35)' : '0.5px solid rgba(107,143,255,0.20)') : 'none',
-                borderRadius: isPrimary ? 10 : 0,
-                padding: isPrimary ? '8px 16px' : '8px 4px',
-                color: isPrimary ? textPri : textSec,
-                fontSize: 13, fontWeight: isPrimary ? 600 : 500, cursor: 'pointer', fontFamily: 'inherit',
-              }}>
+              <button key={i} style={isPrimary ? BTN_PRIMARY : BTN_SECONDARY}>
                 {btn.label}
               </button>
             )
@@ -182,8 +197,14 @@ function SessionContent({
 }: { label: string; title: string; subtext?: string; primaryBtns: string[]; ghostBtns: string[]; isDark: boolean }) {
   const textMain = isDark ? '#e8e0f8' : '#1a1a2e'
   const textSub  = isDark ? 'rgba(232,224,248,0.55)' : '#7a7a9a'
-  const textSec  = isDark ? 'rgba(255,255,255,0.38)' : '#9a9ab8'
   const divider  = isDark ? 'rgba(142,167,255,0.15)' : 'rgba(142,167,255,0.12)'
+
+  // Merge: ghost (secondary) first, primary last → secondary left / primary right
+  const allBtns = [
+    ...ghostBtns.map(lbl => ({ lbl, isPrimary: false })),
+    ...primaryBtns.map(lbl => ({ lbl, isPrimary: true })),
+  ]
+  const count = allBtns.length
 
   return (
     <>
@@ -199,24 +220,16 @@ function SessionContent({
         </p>
       )}
       <div style={{ height: 0, borderTop: `0.5px solid ${divider}`, margin: '12px 0' }} />
-      {primaryBtns.map((lbl, i) => (
-        <button key={i} style={{
-          display: 'block', width: '100%', background: '#6B8FFF', border: 'none', borderRadius: 12,
-          padding: '11px', marginBottom: ghostBtns.length ? 4 : 0,
-          color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-          boxShadow: '0 4px 12px rgba(107,143,255,0.30)',
-        }}>
-          {lbl}
-        </button>
-      ))}
-      {ghostBtns.map((lbl, i) => (
-        <button key={i} style={{
-          display: 'block', width: '100%', background: 'none', border: 'none', padding: '8px',
-          color: textSec, fontSize: 12, cursor: 'pointer', fontFamily: 'inherit',
-        }}>
-          {lbl}
-        </button>
-      ))}
+      <div style={{ display: 'flex', gap: 8, justifyContent: count === 1 ? 'center' : 'space-between' }}>
+        {allBtns.map(({ lbl, isPrimary }, i) => (
+          <button key={i} style={{
+            ...(isPrimary ? BTN_PRIMARY : BTN_SECONDARY),
+            boxShadow: isPrimary ? '0 4px 12px rgba(92,107,192,0.25)' : 'none',
+          }}>
+            {lbl}
+          </button>
+        ))}
+      </div>
     </>
   )
 }
