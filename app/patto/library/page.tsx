@@ -419,7 +419,7 @@ function EssaysSection() {
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             border: isDark ? '0.5px solid rgba(166,184,255,0.28)' : '0.5px solid rgba(107,143,255,0.28)',
-            color: isDark ? '#A6B8FF' : '#6B8FFF',
+            color: '#5a5a7a',
             borderRadius: 10, padding: '10px 0',
             fontSize: 14, fontWeight: 600, fontFamily: 'inherit',
             cursor: 'pointer',
