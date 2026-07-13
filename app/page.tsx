@@ -2,46 +2,95 @@ const BG = '#0d0820'
 const FONT_BODY = '"DM Sans", "Inter", system-ui, sans-serif'
 const FONT_DISPLAY = '"Playfair Display", Georgia, serif'
 
+const PattoIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <rect x="4" y="8" width="20" height="2.8" rx="1.4" fill="#a89fff"/>
+    <rect x="4" y="14" width="15" height="2.8" rx="1.4" fill="#7c6fff" opacity="0.85"/>
+    <rect x="4" y="20" width="18" height="2.8" rx="1.4" fill="#6655cc" opacity="0.7"/>
+    <circle cx="24" cy="22" r="6.5" fill="#150d3a"/>
+    <circle cx="24" cy="22" r="6.5" stroke="#a89fff" strokeWidth="1.2"/>
+    <text x="24" y="26" textAnchor="middle" fontSize="8.5" fill="#c4b8ff" fontWeight="800" fontFamily="Georgia,serif">P</text>
+  </svg>
+)
+
+const KPattoIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+    {/* ㄱ top-left */}
+    <rect x="5" y="7" width="9" height="2.5" rx="1.25" fill="#60a5fa"/>
+    <rect x="5" y="7" width="2.5" height="8" rx="1.25" fill="#60a5fa"/>
+    {/* ㅏ right */}
+    <rect x="20" y="7" width="2.5" height="18" rx="1.25" fill="#93c5fd" opacity="0.9"/>
+    <rect x="20" y="15" width="7" height="2.5" rx="1.25" fill="#93c5fd" opacity="0.9"/>
+    {/* ㄴ bottom-left */}
+    <rect x="5" y="19" width="2.5" height="7" rx="1.25" fill="#60a5fa" opacity="0.8"/>
+    <rect x="5" y="24" width="9" height="2.5" rx="1.25" fill="#60a5fa" opacity="0.8"/>
+  </svg>
+)
+
+const CareerNaviIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <circle cx="7" cy="25" r="2.2" fill="#5DCAA5"/>
+    <circle cx="13" cy="19" r="2.2" fill="#5DCAA5" opacity="0.85"/>
+    <circle cx="19" cy="13" r="2.2" fill="#5DCAA5" opacity="0.7"/>
+    <line x1="7" y1="25" x2="13" y2="19" stroke="#5DCAA5" strokeWidth="1.2" opacity="0.4" strokeDasharray="2 2"/>
+    <line x1="13" y1="19" x2="19" y2="13" stroke="#5DCAA5" strokeWidth="1.2" opacity="0.4" strokeDasharray="2 2"/>
+    <line x1="19" y1="13" x2="26" y2="6" stroke="#5DCAA5" strokeWidth="1.5" opacity="0.6"/>
+    <polyline points="20,6 26,6 26,12" stroke="#5DCAA5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+  </svg>
+)
+
+const KPantryIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+    {/* steam lines */}
+    <path d="M12 9 Q11 7 12 5" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
+    <path d="M16 8 Q15 6 16 4" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
+    <path d="M20 9 Q19 7 20 5" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
+    {/* bowl body */}
+    <path d="M5 14 h22 a1 1 0 0 1 1 1 L25 22 a10 10 0 0 1-18 0 L5 15 a1 1 0 0 1 1-1z" fill="#3d1f00" stroke="#f59e0b" strokeWidth="1.2"/>
+    {/* rim highlight */}
+    <rect x="5" y="14" width="22" height="3" rx="1.5" fill="#f59e0b" opacity="0.9"/>
+    {/* handles */}
+    <rect x="2" y="15" width="4" height="3" rx="1.5" fill="#d97706"/>
+    <rect x="26" y="15" width="4" height="3" rx="1.5" fill="#d97706"/>
+  </svg>
+)
+
 const PRODUCTS = [
   {
-    emoji: null,
-    iconBg: '#1a1240',
+    Icon: PattoIcon,
+    iconBg: '#130d35',
     name: 'patto',
     desc: 'Learn English patterns the way natives do',
     tag: 'Live',
     tagStyle: { background: 'rgba(29,158,117,0.2)', color: '#5DCAA5', border: '0.5px solid rgba(29,158,117,0.3)' },
     href: '/patto/home',
-    featured: false,
   },
   {
-    emoji: '🇰🇷',
-    iconBg: 'rgba(124,111,255,0.15)',
+    Icon: KPattoIcon,
+    iconBg: '#0a1628',
     name: 'k-patto',
     desc: 'Korean pattern learning for global learners',
     tag: 'Coming soon',
     tagStyle: { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)', border: '0.5px solid rgba(255,255,255,0.1)' },
     href: null,
-    featured: false,
   },
   {
-    emoji: '🧭',
-    iconBg: 'rgba(29,158,117,0.15)',
+    Icon: CareerNaviIcon,
+    iconBg: '#081a10',
     name: 'Career Navi.',
     desc: 'AI career navigation for Korean professionals',
     tag: 'Coming soon',
     tagStyle: { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)', border: '0.5px solid rgba(255,255,255,0.1)' },
     href: null,
-    featured: false,
   },
   {
-    emoji: '🥘',
-    iconBg: 'rgba(186,117,23,0.15)',
+    Icon: KPantryIcon,
+    iconBg: '#1a1000',
     name: 'k-pantry',
     desc: 'Korean recipes with what\'s in your fridge',
     tag: 'Coming soon',
     tagStyle: { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)', border: '0.5px solid rgba(255,255,255,0.1)' },
     href: null,
-    featured: false,
   },
 ]
 
@@ -155,9 +204,9 @@ export default function AtlasLabHome() {
           background: rgba(124,111,255,0.04);
         }
         .al-product-icon {
-          width: 40px; height: 40px; border-radius: 10px;
+          width: 56px; height: 56px; border-radius: 14px;
           display: flex; align-items: center; justify-content: center;
-          font-size: 20px; margin-bottom: 14px;
+          margin-bottom: 16px;
         }
         .al-product-name {
           font-family: ${FONT_BODY}; font-size: 15px; font-weight: 700;
@@ -242,8 +291,11 @@ export default function AtlasLabHome() {
         {/* Nav */}
         <nav className="al-nav">
           <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/atlaslab_logo_white_transparent.png" alt="Atlas Lab" style={{ height: 48, width: 'auto', display: 'block' }} />
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <rect width="30" height="30" rx="7" fill="white"/>
+              <text x="15" y="21" textAnchor="middle" fontSize="13" fontWeight="800" fill="#0d0820" fontFamily="Georgia,'Times New Roman',serif" letterSpacing="-0.5">AL</text>
+            </svg>
+            <span style={{ fontSize: 15, fontWeight: 700, color: 'white', letterSpacing: '0.08em', fontFamily: FONT_BODY }}>ATLASLAB</span>
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>
@@ -275,16 +327,7 @@ export default function AtlasLabHome() {
               const inner = (
                 <>
                   <div className="al-product-icon" style={{ background: p.iconBg }}>
-                    {p.emoji === null ? (
-                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-                        <rect x="3" y="7" width="24" height="2.5" rx="1.25" fill="#6655cc"/>
-                        <rect x="3" y="13" width="18" height="2.5" rx="1.25" fill="#5544aa" opacity="0.8"/>
-                        <rect x="3" y="19" width="21" height="2.5" rx="1.25" fill="#443388" opacity="0.6"/>
-                        <circle cx="23" cy="21" r="5" fill="#2d1f6e"/>
-                        <circle cx="23" cy="21" r="5" stroke="#6655cc" strokeWidth="1"/>
-                        <text x="23" y="25" textAnchor="middle" fontSize="8" fill="#a090ff" fontWeight="700">P</text>
-                      </svg>
-                    ) : p.emoji}
+                    <p.Icon />
                   </div>
                   <div className="al-product-name">{p.name}</div>
                   <div className="al-product-desc">{p.desc}</div>
