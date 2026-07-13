@@ -33,9 +33,7 @@ type Props = {
 // ── Style tokens ───────────────────────────────────────────────────────────────
 
 const card: React.CSSProperties = {
-  background: 'rgba(255,255,255,0.85)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
+  background: 'linear-gradient(135deg, rgba(107,143,255,0.08), rgba(107,143,255,0.04))',
   border: '0.5px solid rgba(107,143,255,0.2)',
   borderRadius: 20,
   padding: '24px',
@@ -411,11 +409,19 @@ export function DailyChallengeSlide({ story, onSkip, onDone }: Props) {
         {/* Offer phase: show a teaser card while trainer handles interaction */}
         {phase === 'offer' && (
           <div style={card}>
-            <p style={{ fontSize: 28, margin: '0 0 14px' }}>🎯</p>
-            <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--pt)', margin: '0 0 6px' }}>
+            <div style={{ marginBottom: 14 }}>
+              <svg viewBox="0 0 48 48" width="52" height="52">
+                <circle cx="24" cy="24" r="22" fill="rgba(107,143,255,0.12)" stroke="rgba(107,143,255,0.3)" strokeWidth="1"/>
+                <path d="M14 24L20 30L34 16" stroke="#6B8FFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                <path d="M8 10 L8.8 12.4 L11.2 12.4 L9.2 13.8 L10 16.2 L8 14.8 L6 16.2 L6.8 13.8 L4.8 12.4 L7.2 12.4 Z" fill="#D7B56D"/>
+                <path d="M40 8 L40.6 9.8 L42.4 9.8 L41 10.8 L41.6 12.6 L40 11.6 L38.4 12.6 L39 10.8 L37.6 9.8 L39.4 9.8 Z" fill="#D7B56D"/>
+                <path d="M38 36 L38.5 37.5 L40 37.5 L38.8 38.4 L39.3 39.9 L38 39 L36.7 39.9 L37.2 38.4 L36 37.5 L37.5 37.5 Z" fill="#D7B56D"/>
+              </svg>
+            </div>
+            <p style={{ fontSize: 18, fontWeight: 600, color: '#1a1a2e', margin: '0 0 6px' }}>
               {TYPE_LABEL[challengeType]}
             </p>
-            <p style={{ fontSize: 13, color: 'var(--pm)', margin: 0, lineHeight: 1.55 }}>
+            <p style={{ fontSize: 13, color: '#5a5a7a', margin: 0, lineHeight: 1.55 }}>
               오늘 배운 패턴을 직접 사용해보는 마지막 단계예요.
             </p>
           </div>
