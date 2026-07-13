@@ -132,7 +132,7 @@ function ActionContent({
 
   return (
     <>
-      <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: textMain, lineHeight: 1.4, letterSpacing: '-0.01em', whiteSpace: 'nowrap', marginBottom: (subtext || count) ? 4 : 0 }}>
+      <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: textMain, lineHeight: 1.4, letterSpacing: '-0.01em', whiteSpace: 'nowrap', textAlign: 'center', marginBottom: (subtext || count) ? 4 : 0 }}>
         {message}
       </p>
       {subtext && (

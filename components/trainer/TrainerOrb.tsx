@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
@@ -346,6 +346,7 @@ function ActionCard({ card, dark, textMain, textSub, onClear, cardIsPlaying }: {
       <AutoWrapText text={card.message} style={{
         margin: 0, fontSize: 14, fontWeight: 500,
         color: textMain, lineHeight: 1.4, letterSpacing: '-0.01em',
+        textAlign: 'center',
         marginBottom: (card.subtext || count > 0) ? 4 : 0,
       }} />
       {card.subtext && (
