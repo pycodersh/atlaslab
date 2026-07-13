@@ -384,32 +384,37 @@ function CardContent({
       {/* Buttons */}
       {hasButtons && (
         <div style={{
-          marginTop: card.size === 'small' ? 0 : 8,
-          display:   'flex',
-          gap:       card.size === 'large' ? 0 : 12,
+          marginTop: 10,
+          display: 'flex',
+          gap: 8,
           flexDirection: card.size === 'large' ? 'column' : 'row',
-          justifyContent: card.size === 'large' ? undefined : 'flex-end',
         }}>
           {card.buttons!.map((btn, i) => (
             <button
               key={i}
               onClick={() => { onClose(); btn.onClick() }}
               style={{
-                background: card.size === 'large'
-                  ? (dark ? 'rgba(107,143,255,0.12)' : 'rgba(107,143,255,0.08)')
-                  : 'none',
-                border: card.size === 'large'
-                  ? (dark ? '0.5px solid rgba(107,143,255,0.25)' : '0.5px solid rgba(107,143,255,0.22)')
-                  : 'none',
-                borderRadius: card.size === 'large' ? 10 : 4,
-                padding: card.size === 'large' ? '10px 14px' : 0,
-                color:   btn.primary ? textPri : textSec,
-                fontSize: card.size === 'large' ? 13 : 13,
-                fontWeight: btn.primary ? 600 : 500,
-                cursor:    'pointer',
+                flex: card.size !== 'large' ? 1 : undefined,
+                height: 40,
+                background: btn.primary
+                  ? (dark ? 'rgba(160,176,255,0.25)' : 'rgba(128,144,240,0.20)')
+                  : (dark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.07)'),
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                border: btn.primary
+                  ? (dark ? '1px solid rgba(160,176,255,0.50)' : '1px solid rgba(128,144,240,0.40)')
+                  : (dark ? '1px solid rgba(255,255,255,0.20)' : '1px solid rgba(255,255,255,0.15)'),
+                borderRadius: 10,
+                padding: '0 14px',
+                color: btn.primary
+                  ? (dark ? '#ffffff' : '#4050B0')
+                  : (dark ? '#ffffff' : '#5C6BC0'),
+                fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer',
                 fontFamily: 'inherit',
-                width:      card.size === 'large' ? '100%' : undefined,
-                textAlign:  card.size === 'large' ? 'center' : undefined,
+                width: card.size === 'large' ? '100%' : undefined,
+                textAlign: 'center',
               }}
             >
               {btn.label}
