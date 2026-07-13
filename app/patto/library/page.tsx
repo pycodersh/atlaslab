@@ -5,9 +5,9 @@ import { useSearchParams } from 'next/navigation'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useRouter } from 'next/navigation'
 import {
-  Search, X, BookOpen, ChevronRight, ChevronDown,
+  Search, X, BookOpen, ChevronRight,
   BookMarked, Layers, Plus, Sparkles, PenLine,
-  MessageSquare, FileText,
+  MessageSquare, ChevronDown,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
@@ -26,20 +26,16 @@ import { EssayComposerPanel } from '@/components/essay/EssayComposerPanel'
 import { EssayDetailPanel } from '@/components/essay/EssayDetailPanel'
 import { type Essay, getEssays, getReviewsRemaining, deleteEssay } from '@/lib/essays/storage'
 import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
-import { getMySentences, removeMySentence, type MySentence } from '@/lib/sentences/storage'
 import type { MagazinePattern } from '@/types/magazine'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
-type LibSection = 'writing-studio' | 'saved-words' | 'saved-patterns' | 'my-sentences'
+type AccordionOpen = 'words' | 'phrases' | 'patterns' | null
 
 // ── Constants ──────────────────────────────────────────────────────────────────
 
 const RECENT_KEY = 'patto-library-recent-searches'
-const MAX_RECENT  = 5
-const PREVIEW_WORDS    = 5
-const PREVIEW_PHRASES  = 5
-const PREVIEW_PATTERNS = 3
+const MAX_RECENT = 5
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -58,31 +54,18 @@ function readRecentSearches(): string[] {
 
 function saveRecentSearch(q: string) {
   const prev = readRecentSearches().filter(s => s !== q)
-  const next  = [q, ...prev].slice(0, MAX_RECENT)
-  localStorage.setItem(RECENT_KEY, JSON.stringify(next))
-}
-
-function buildPatternIndex() {
-  const out: { storyId: number; storyTitle: string; pattern: MagazinePattern }[] = []
-  for (const story of magazineStories) {
-    for (const pattern of story.patterns) {
-      out.push({ storyId: story.id, storyTitle: story.title, pattern })
-    }
-  }
-  return out
+  localStorage.setItem(RECENT_KEY, JSON.stringify([q, ...prev].slice(0, MAX_RECENT)))
 }
 
 function sourceLabel(item: SavedWord | SavedPhrase): string {
   const parts: string[] = []
   if (item.storyId) parts.push(`Story ${String(item.storyId).padStart(2, '0')}`)
   if (item.patternId) parts.push(`Pattern ${item.patternId}`)
-  if ((item as SavedWord).exampleIndex != null) parts.push(`Ex ${(item as SavedWord).exampleIndex! + 1}`)
   return parts.join(' · ')
 }
 
 function fmtDate(iso: string): string {
-  const d = new Date(iso)
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
 // ── Styles ────────────────────────────────────────────────────────────────────
@@ -95,11 +78,6 @@ const glassCard: React.CSSProperties = {
   border: '1px solid var(--pglass-border)',
   boxShadow: '0 4px 18px rgba(40,50,80,0.07), 0 1px 4px rgba(40,50,80,0.03)',
   overflow: 'hidden',
-}
-
-const SECTION_LABEL: React.CSSProperties = {
-  fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em',
-  color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' as const,
 }
 
 const ROW_BORDER = '1px solid var(--pglass-border)'
@@ -115,86 +93,157 @@ function cardBase(isDark: boolean): React.CSSProperties {
   }
 }
 
-// ── Word/Phrase rows ──────────────────────────────────────────────────────────
+// ── Accordion item rows (on blue background) ──────────────────────────────────
 
-function WordListRow({ w, first, onRemove }: { w: SavedWord; first: boolean; onRemove: () => void }) {
+function AccordionWordRow({ w, onRemove }: { w: SavedWord; onRemove: () => void }) {
   const meaning = useItemTranslation('word', w.word, w.translations, w.meaning ?? lookupMeaning(w.word))
+  const src = sourceLabel(w)
   return (
-    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ borderTop: first ? 'none' : ROW_BORDER }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px 12px 18px' }}>
-        <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{w.word}</span>
-        <span style={{ fontSize: 12, color: meaning ? 'var(--pm)' : 'var(--pd)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
-          {meaning ?? '—'}
-        </span>
-      </div>
-    </SwipeDeleteRow>
-  )
-}
-
-function PhraseListRow({ ph, first, onRemove }: { ph: SavedPhrase; first: boolean; onRemove: () => void }) {
-  const dictEntry = lookupPhraseMeaning(ph.phrase)
-  const legacyMeaning = dictEntry?.meaning ?? (ph.meaningSource === 'dictionary' ? ph.meaning : undefined)
-  const meaning = useItemTranslation('phrase', ph.phrase, ph.translations, legacyMeaning)
-  return (
-    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ borderTop: first ? 'none' : ROW_BORDER }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px 12px 18px' }}>
-        <span style={{ flex: 1, fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{ph.phrase}</span>
+    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(255,255,255,0.18)">
+      <div style={{
+        background: 'rgba(255,255,255,0.18)', borderRadius: 9, padding: '9px 10px',
+        display: 'flex', alignItems: 'center', gap: 8,
+      }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 1px', lineHeight: 1.3 }}>{w.word}</p>
+          {src && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', margin: 0, letterSpacing: '0.04em' }}>{src}</p>}
+        </div>
         {meaning && (
-          <span style={{ fontSize: 12, color: 'var(--pm)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>{meaning}</span>
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
+            {meaning}
+          </span>
         )}
       </div>
     </SwipeDeleteRow>
   )
 }
 
-// ── Pattern Accordion ─────────────────────────────────────────────────────────
-
-function BookmarkedPatternRow({ bm, first, onPress, onRemove }: {
-  bm: BookmarkedPattern; first: boolean; onPress: () => void; onRemove: () => void
-}) {
-  const meaning = useItemTranslation('pattern', bm.pattern, bm.translations, bm.meaningKo)
+function AccordionPhraseRow({ ph, onRemove }: { ph: SavedPhrase; onRemove: () => void }) {
+  const dictEntry = lookupPhraseMeaning(ph.phrase)
+  const legacyMeaning = dictEntry?.meaning ?? (ph.meaningSource === 'dictionary' ? ph.meaning : undefined)
+  const meaning = useItemTranslation('phrase', ph.phrase, ph.translations, legacyMeaning)
+  const src = sourceLabel(ph)
   return (
-    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ borderTop: first ? 'none' : ROW_BORDER }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-        <button type="button" onClick={onPress} style={{
-          flex: 1, textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer',
-          padding: '11px 8px 11px 16px',
-        }}>
-          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
-          {meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{meaning}</p>}
-        </button>
+    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(255,255,255,0.18)">
+      <div style={{
+        background: 'rgba(255,255,255,0.18)', borderRadius: 9, padding: '9px 10px',
+        display: 'flex', alignItems: 'center', gap: 8,
+      }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 1px', lineHeight: 1.3 }}>{ph.phrase}</p>
+          {src && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.55)', margin: 0, letterSpacing: '0.04em' }}>{src}</p>}
+        </div>
+        {meaning && (
+          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', fontWeight: 400, textAlign: 'right', flexShrink: 0 }}>
+            {meaning}
+          </span>
+        )}
       </div>
     </SwipeDeleteRow>
   )
 }
 
-function PatternAccordion({ storyId, storyTitle, patterns, onPress, onRemove }: {
-  storyId: number; storyTitle: string; patterns: BookmarkedPattern[]
-  onPress: (bm: BookmarkedPattern) => void; onRemove: (patternId: string) => void
-}) {
-  const [open, setOpen] = useState(true)
+function AccordionPatternRow({ bm, onRemove, onPress }: { bm: BookmarkedPattern; onRemove: () => void; onPress: () => void }) {
+  const meaning = useItemTranslation('pattern', bm.pattern, bm.translations, bm.meaningKo)
+  const storyTitle = magazineStories.find(s => s.id === bm.storyId)?.title
   return (
-    <div style={{ ...glassCard, overflow: 'hidden', marginBottom: 8 }}>
-      <button type="button" onClick={() => setOpen(v => !v)} style={{
-        width: '100%', background: 'none', border: 'none', cursor: 'pointer',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '12px 16px', borderBottom: open ? ROW_BORDER : 'none',
+    <SwipeDeleteRow onDeleteRequest={onRemove} containerStyle={{ marginBottom: 5 }} contentBg="rgba(255,255,255,0.18)">
+      <button type="button" onClick={onPress} style={{
+        display: 'block', width: '100%', textAlign: 'left', background: 'rgba(255,255,255,0.18)',
+        border: 'none', cursor: 'pointer', borderRadius: 9, padding: '9px 10px',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 11, fontWeight: 800, color: '#fff', background: '#2C2C32', borderRadius: 7, padding: '2px 8px', letterSpacing: '0.04em' }}>
-            S{String(storyId).padStart(2, '0')}
-          </span>
-          <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)' }}>{storyTitle}</span>
-          <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500 }}>{patterns.length}</span>
-        </div>
-        <ChevronDown style={{ width: 14, height: 14, color: '#B0B0B8', transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }} strokeWidth={2} />
+        <p style={{ fontSize: 14, fontWeight: 700, color: '#fff', margin: '0 0 1px', lineHeight: 1.3 }}>{bm.pattern}</p>
+        {meaning && <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', margin: '0 0 1px', fontWeight: 400 }}>{meaning}</p>}
+        {storyTitle && <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', margin: 0, letterSpacing: '0.04em' }}>
+          Story {String(bm.storyId).padStart(2, '0')} · {storyTitle}
+        </p>}
       </button>
+    </SwipeDeleteRow>
+  )
+}
+
+// ── Words/Phrases/Patterns Accordion ─────────────────────────────────────────
+
+function WordPhrasePatternsAccordion({
+  words, phrases, bookmarks,
+  onRemoveWord, onRemovePhrase, onRemoveBookmark,
+  onPatternPress,
+}: {
+  words: SavedWord[]; phrases: SavedPhrase[]; bookmarks: BookmarkedPattern[]
+  onRemoveWord: (id: string) => void; onRemovePhrase: (id: string) => void; onRemoveBookmark: (id: string) => void
+  onPatternPress: (bm: BookmarkedPattern) => void
+}) {
+  const [open, setOpen] = useState<AccordionOpen>(null)
+
+  function toggle(tab: AccordionOpen) {
+    setOpen(prev => prev === tab ? null : tab)
+  }
+
+  const TABS: { id: Exclude<AccordionOpen, null>; label: string; count: number; icon: React.ReactNode }[] = [
+    { id: 'words',    label: 'Words',    count: words.length,     icon: <BookOpen    style={{ width: 13, height: 13 }} strokeWidth={1.8} /> },
+    { id: 'phrases',  label: 'Phrases',  count: phrases.length,   icon: <Layers      style={{ width: 13, height: 13 }} strokeWidth={1.8} /> },
+    { id: 'patterns', label: 'Patterns', count: bookmarks.length, icon: <BookMarked  style={{ width: 13, height: 13 }} strokeWidth={1.8} /> },
+  ]
+
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
+        {TABS.map(tab => {
+          const isOpen = open === tab.id
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => toggle(tab.id)}
+              style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                padding: '11px 6px',
+                borderRadius: isOpen ? '13px 13px 0 0' : 13,
+                background: isOpen ? '#6B8FFF' : 'rgba(255,255,255,0.65)',
+                border: isOpen ? '0.5px solid #6B8FFF' : '0.5px solid rgba(255,255,255,0.8)',
+                color: isOpen ? '#fff' : 'var(--pt)',
+                cursor: 'pointer', transition: 'all 0.18s ease',
+                backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+              }}
+            >
+              {tab.icon}
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.04em' }}>{tab.label}</span>
+              <span style={{
+                fontSize: 10, fontWeight: 600,
+                color: isOpen ? 'rgba(255,255,255,0.75)' : 'var(--pm)',
+              }}>{tab.count}</span>
+            </button>
+          )
+        })}
+      </div>
+
       {open && (
-        <div>
-          {patterns.map((bm, i) => (
-            <BookmarkedPatternRow key={bm.patternId} bm={bm} first={i === 0}
-              onPress={() => onPress(bm)} onRemove={() => onRemove(bm.patternId)} />
-          ))}
+        <div style={{
+          background: '#6B8FFF',
+          borderRadius: '0 0 13px 13px',
+          padding: '8px 8px 10px',
+        }}>
+          {open === 'words' && (
+            words.length === 0
+              ? <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 단어가 없어요.</p>
+              : words.map(w => <AccordionWordRow key={w.id} w={w} onRemove={() => onRemoveWord(w.id)} />)
+          )}
+          {open === 'phrases' && (
+            phrases.length === 0
+              ? <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 구문이 없어요.</p>
+              : phrases.map(ph => <AccordionPhraseRow key={ph.id} ph={ph} onRemove={() => onRemovePhrase(ph.id)} />)
+          )}
+          {open === 'patterns' && (
+            bookmarks.length === 0
+              ? <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', textAlign: 'center', padding: '16px 0', margin: 0 }}>저장된 패턴이 없어요.</p>
+              : bookmarks.map(bm => (
+                  <AccordionPatternRow
+                    key={bm.patternId} bm={bm}
+                    onRemove={() => onRemoveBookmark(bm.patternId)}
+                    onPress={() => onPatternPress(bm)}
+                  />
+                ))
+          )}
         </div>
       )}
     </div>
@@ -270,46 +319,6 @@ function SearchStoryRow({ story, border, onPress }: { story: { id: number; title
   )
 }
 
-// ── Empty state ───────────────────────────────────────────────────────────────
-
-function EmptyState({ icon, title, body }: { icon: React.ReactNode; title: string; body: string }) {
-  return (
-    <div style={{ ...glassCard, padding: '28px 22px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-        {icon}
-        <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: 0, letterSpacing: '-0.01em' }}>{title}</p>
-      </div>
-      <p style={{ fontSize: 12, color: '#8E8E93', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
-    </div>
-  )
-}
-
-// ── SecLabel ──────────────────────────────────────────────────────────────────
-
-function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: number; unit?: string; onViewAll?: () => void }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>
-        {label}
-      </span>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        {count != null && unit != null && (
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--pm)' }}>{count} {unit}</span>
-        )}
-        {onViewAll && (
-          <button type="button" onClick={onViewAll} style={{
-            display: 'flex', alignItems: 'center', gap: 2,
-            fontSize: 11, fontWeight: 600, color: '#8E8E93',
-            background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-          }}>
-            See all <ChevronRight style={{ width: 10, height: 10 }} strokeWidth={2.2} />
-          </button>
-        )}
-      </div>
-    </div>
-  )
-}
-
 // ── Essay Card ────────────────────────────────────────────────────────────────
 
 function EssayCard({ essay, onClick, isDark }: { essay: Essay; onClick: () => void; isDark: boolean }) {
@@ -341,53 +350,9 @@ function EssayCard({ essay, onClick, isDark }: { essay: Essay; onClick: () => vo
   )
 }
 
-// ── Internal Section Tab Bar ──────────────────────────────────────────────────
+// ── Essays Section ────────────────────────────────────────────────────────────
 
-const SECTION_TABS: { id: LibSection; label: string; icon: React.ReactNode }[] = [
-  { id: 'writing-studio',  label: 'Writing Studio', icon: <PenLine style={{ width: 13, height: 13 }} strokeWidth={2} /> },
-  { id: 'saved-words',     label: 'Saved Words',    icon: <BookOpen style={{ width: 13, height: 13 }} strokeWidth={2} /> },
-  { id: 'saved-patterns',  label: 'Saved Patterns', icon: <BookMarked style={{ width: 13, height: 13 }} strokeWidth={2} /> },
-  { id: 'my-sentences',    label: 'My Sentences',   icon: <MessageSquare style={{ width: 13, height: 13 }} strokeWidth={2} /> },
-]
-
-function SectionTabBar({ active, onChange }: { active: LibSection; onChange: (s: LibSection) => void }) {
-  return (
-    <div style={{
-      display: 'flex', gap: 6, overflowX: 'auto', paddingBottom: 2,
-      scrollbarWidth: 'none',
-      marginBottom: 20,
-    }}>
-      {SECTION_TABS.map(tab => {
-        const isActive = tab.id === active
-        return (
-          <button
-            key={tab.id}
-            type="button"
-            onClick={() => onChange(tab.id)}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0,
-              padding: '7px 13px',
-              borderRadius: 999,
-              fontSize: 12, fontWeight: isActive ? 700 : 500,
-              color: isActive ? 'var(--pa)' : '#8E8E93',
-              background: isActive ? 'var(--pal)' : 'var(--pglass)',
-              border: isActive ? '1px solid var(--pacb)' : '1px solid var(--pglass-border)',
-              cursor: 'pointer', fontFamily: 'inherit',
-              transition: 'all 0.18s ease',
-            }}
-          >
-            {tab.icon}
-            {tab.label}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
-// ── Writing Studio Section ────────────────────────────────────────────────────
-
-function WritingStudioSection() {
+function EssaysSection() {
   const router = useRouter()
   const { theme } = useTheme()
   const isDark = theme === 'dark'
@@ -395,11 +360,11 @@ function WritingStudioSection() {
   const t = useT()
   const trainer = useTrainerSafe()
 
-  const [essays, setEssays]     = useState<Essay[]>([])
-  const [plan, setPlan]         = useState<'free' | 'premium'>('free')
+  const [essays, setEssays]       = useState<Essay[]>([])
+  const [plan, setPlan]           = useState<'free' | 'premium'>('free')
   const [remaining, setRemaining] = useState(0)
-  const [showAll, setShowAll]   = useState(false)
-  const [activePanel, setActivePanel] = useState<'composer' | 'detail' | null>(null)
+  const [showAll, setShowAll]     = useState(false)
+  const [activePanel, setActivePanel]   = useState<'composer' | 'detail' | null>(null)
   const [selectedEssayId, setSelectedEssayId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -441,6 +406,19 @@ function WritingStudioSection() {
 
   return (
     <div>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <PenLine style={{ width: 14, height: 14, color: '#6E6E73' }} strokeWidth={2} />
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>
+            Essays
+          </span>
+        </div>
+        <span style={{ fontSize: 12, fontWeight: 600, color: remaining === 0 ? '#B0B0B8' : '#4A7A6A' }}>
+          AI Reviews {remaining}/{maxReviews}{plan === 'premium' ? ' Today' : ''}
+        </span>
+      </div>
+
       {/* New Essay button */}
       <button
         type="button"
@@ -460,17 +438,7 @@ function WritingStudioSection() {
         </span>
       </button>
 
-      {/* AI Reviews remaining */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#6E6E73', textTransform: 'uppercase' }}>
-          AI Reviews
-        </span>
-        <span style={{ fontSize: 12, fontWeight: 600, color: remaining === 0 ? '#B0B0B8' : '#4A7A6A' }}>
-          {remaining} / {maxReviews}{plan === 'premium' ? ' Today' : ' Lifetime'}
-        </span>
-      </div>
-
-      {/* Desktop: composer/detail panel */}
+      {/* Desktop panels */}
       {isDesktop && activePanel === 'composer' && (
         <EssayComposerPanel
           onClose={closePanel}
@@ -556,221 +524,36 @@ function WritingStudioSection() {
   )
 }
 
-// ── Saved Words Section ───────────────────────────────────────────────────────
+// ── Inner page ────────────────────────────────────────────────────────────────
 
-function SavedWordsSection({
-  words, phrases, onRemoveWord, onRemovePhrase,
-}: {
-  words: SavedWord[]; phrases: SavedPhrase[];
-  onRemoveWord: (id: string) => void; onRemovePhrase: (id: string) => void;
-}) {
-  const t = useT()
-  const [showAllWords, setShowAllWords]     = useState(false)
-  const [showAllPhrases, setShowAllPhrases] = useState(false)
-
-  return (
-    <div>
-      <section style={{ marginBottom: 28 }}>
-        <SecLabel label="Saved Words" count={words.length} unit="Words" />
-        {words.length === 0 ? (
-          <EmptyState icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />} title="No saved words yet." body={t('sec_saved_words')} />
-        ) : (
-          <>
-            <div style={glassCard}>
-              {(showAllWords ? words : words.slice(0, PREVIEW_WORDS)).map((w, i) => (
-                <WordListRow key={w.id} w={w} first={i === 0} onRemove={() => onRemoveWord(w.id)} />
-              ))}
-            </div>
-            {words.length > PREVIEW_WORDS && (
-              <button type="button" onClick={() => setShowAllWords(v => !v)} style={{
-                display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: 0,
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-              }}>
-                {showAllWords ? 'Show less' : `Show all ${words.length} Words`}
-                {!showAllWords && <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />}
-              </button>
-            )}
-          </>
-        )}
-      </section>
-
-      <section style={{ marginBottom: 28 }}>
-        <SecLabel label="Saved Phrases" count={phrases.length} unit="Phrases" />
-        {phrases.length === 0 ? (
-          <EmptyState icon={<Layers style={{ width: 24, height: 24, color: '#C08040' }} strokeWidth={1.6} />} title="No saved phrases yet." body={t('sec_saved_words')} />
-        ) : (
-          <>
-            <div style={glassCard}>
-              {(showAllPhrases ? phrases : phrases.slice(0, PREVIEW_PHRASES)).map((ph, i) => (
-                <PhraseListRow key={ph.id} ph={ph} first={i === 0} onRemove={() => onRemovePhrase(ph.id)} />
-              ))}
-            </div>
-            {phrases.length > PREVIEW_PHRASES && (
-              <button type="button" onClick={() => setShowAllPhrases(v => !v)} style={{
-                display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: 0,
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-              }}>
-                {showAllPhrases ? 'Show less' : `Show all ${phrases.length} Phrases`}
-                {!showAllPhrases && <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />}
-              </button>
-            )}
-          </>
-        )}
-      </section>
-    </div>
-  )
-}
-
-// ── Saved Patterns Section ────────────────────────────────────────────────────
-
-function SavedPatternsSection({
-  bookmarks, bookmarksByStory, onPress, onRemove,
-}: {
-  bookmarks: BookmarkedPattern[];
-  bookmarksByStory: [number, BookmarkedPattern[]][];
-  onPress: (bm: BookmarkedPattern) => void;
-  onRemove: (patternId: string) => void;
-}) {
-  const [showAll, setShowAll] = useState(false)
-
-  return (
-    <section style={{ marginBottom: 28 }}>
-      <SecLabel label="Saved Patterns" count={bookmarks.length} unit="Patterns" />
-      {bookmarks.length === 0 ? (
-        <EmptyState icon={<BookMarked style={{ width: 24, height: 24, color: 'var(--pa)' }} strokeWidth={1.6} />} title="No saved patterns yet." body="패턴 카드의 북마크 버튼을 눌러 패턴을 저장해보세요." />
-      ) : showAll ? (
-        <>
-          {bookmarksByStory.map(([storyId, storyBms]) => {
-            const story = magazineStories.find(s => s.id === storyId)
-            return (
-              <PatternAccordion key={storyId} storyId={storyId}
-                storyTitle={story ? story.title : `Story ${String(storyId).padStart(2, '0')}`}
-                patterns={storyBms} onPress={onPress} onRemove={onRemove} />
-            )
-          })}
-          <button type="button" onClick={() => setShowAll(false)} style={{
-            display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: 0,
-            background: 'none', border: 'none', cursor: 'pointer',
-            fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-          }}>Show less</button>
-        </>
-      ) : (
-        <>
-          <div style={glassCard}>
-            {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => (
-              <BookmarkedPatternRow key={bm.patternId} bm={bm} first={i === 0}
-                onPress={() => onPress(bm)} onRemove={() => onRemove(bm.patternId)} />
-            ))}
-          </div>
-          {bookmarks.length > PREVIEW_PATTERNS && (
-            <button type="button" onClick={() => setShowAll(true)} style={{
-              display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: 0,
-              background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-            }}>
-              {`Show all ${bookmarks.length} Patterns`}
-              <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
-            </button>
-          )}
-        </>
-      )}
-    </section>
-  )
-}
-
-// ── My Sentences Section ──────────────────────────────────────────────────────
-
-const SOURCE_LABEL: Record<MySentence['source'], string> = {
-  'challenge': 'Challenge',
-  'writing-studio': 'Writing Studio',
-}
-
-function MySentencesSection() {
-  const [sentences, setSentences] = useState<MySentence[]>([])
-
-  useEffect(() => {
-    setSentences(getMySentences())
-  }, [])
-
-  function handleRemove(id: string) {
-    removeMySentence(id)
-    setSentences(prev => prev.filter(s => s.id !== id))
+function buildPatternIndex() {
+  const out: { storyId: number; storyTitle: string; pattern: MagazinePattern }[] = []
+  for (const story of magazineStories) {
+    for (const pattern of story.patterns) {
+      out.push({ storyId: story.id, storyTitle: story.title, pattern })
+    }
   }
-
-  if (sentences.length === 0) {
-    return (
-      <section style={{ marginBottom: 28 }}>
-        <SecLabel label="My Sentences" />
-        <EmptyState
-          icon={<FileText style={{ width: 24, height: 24, color: 'var(--pa)' }} strokeWidth={1.6} />}
-          title="아직 문장이 없어요."
-          body={'챌린지에서 직접 쓴 문장과\nWriting Studio의 글이 여기에 모여요.'}
-        />
-      </section>
-    )
-  }
-
-  return (
-    <section style={{ marginBottom: 28 }}>
-      <SecLabel label="My Sentences" count={sentences.length} unit="Sentences" />
-      <div style={glassCard}>
-        {sentences.map((s, i) => (
-          <SwipeDeleteRow
-            key={s.id}
-            onDeleteRequest={() => handleRemove(s.id)}
-            containerStyle={{ borderTop: i === 0 ? 'none' : ROW_BORDER }}
-          >
-            <div style={{ padding: '13px 14px 13px 18px' }}>
-              <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--pt)', margin: '0 0 5px', lineHeight: 1.5 }}>
-                {s.text}
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{
-                  fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-                  color: s.source === 'challenge' ? '#6B8FFF' : '#4A7A6A',
-                  background: s.source === 'challenge' ? 'rgba(107,143,255,0.10)' : 'rgba(74,122,106,0.10)',
-                  borderRadius: 6, padding: '2px 7px',
-                }}>
-                  {SOURCE_LABEL[s.source]}
-                </span>
-                <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 400 }}>
-                  {new Date(s.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                </span>
-              </div>
-            </div>
-          </SwipeDeleteRow>
-        ))}
-      </div>
-    </section>
-  )
+  return out
 }
 
-// ── Inner page (uses useSearchParams) ────────────────────────────────────────
+const SECTION_LABEL: React.CSSProperties = {
+  fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em',
+  color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' as const,
+}
 
 function LibraryPageInner() {
   const router       = useRouter()
-  const searchParams = useSearchParams()
   const inputRef     = useRef<HTMLInputElement>(null)
+  const trainer      = useTrainerSafe()
 
-  const [section, setSection]     = useState<LibSection>('writing-studio')
-  const [query, setQuery]         = useState('')
   const [bookmarks, setBookmarks] = useState<BookmarkedPattern[]>([])
   const [words, setWords]         = useState<SavedWord[]>([])
   const [phrases, setPhrases]     = useState<SavedPhrase[]>([])
+  const [query, setQuery]         = useState('')
   const [recentSearches, setRecentSearches] = useState<string[]>([])
   const [focused, setFocused]     = useState(false)
-  const trainer = useTrainerSafe()
 
   useEffect(() => { trainer?.setPage('library') }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    const tab = searchParams.get('tab') as LibSection | null
-    if (tab && ['writing-studio', 'saved-words', 'saved-patterns', 'my-sentences'].includes(tab)) {
-      setSection(tab)
-    }
-  }, [searchParams])
 
   useEffect(() => {
     setBookmarks(getBookmarks())
@@ -781,19 +564,9 @@ function LibraryPageInner() {
 
   const patternIndex = useMemo(() => buildPatternIndex(), [])
 
-  const bookmarksByStory = useMemo(() => {
-    const map = new Map<number, BookmarkedPattern[]>()
-    for (const bm of bookmarks) {
-      if (!map.has(bm.storyId)) map.set(bm.storyId, [])
-      map.get(bm.storyId)!.push(bm)
-    }
-    return [...map.entries()].sort(([a], [b]) => a - b)
-  }, [bookmarks])
-
   const isSearching = query.trim().length > 0
   const nq = normalize(query)
   const showRecent = focused && !isSearching && recentSearches.length > 0
-  const showSearchBar = section === 'saved-words' || section === 'saved-patterns'
 
   const searchResults = useMemo(() => {
     if (!nq) return { words: [], phrases: [], patterns: [], stories: [] }
@@ -848,121 +621,121 @@ function LibraryPageInner() {
       <div className="desktop-max">
         <div style={colPad}>
 
-          {/* Search bar (only on saved-words / saved-patterns tabs) */}
-          {showSearchBar && (
-            <div style={{ marginBottom: isSearching || showRecent ? 0 : 16 }}>
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: 10,
-                background: 'var(--pglass)', backdropFilter: 'blur(20px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                borderRadius: 16, padding: '14px 14px 14px 18px',
-                border: focused ? '1px solid var(--pacb)' : '1px solid var(--pglass-border)',
-                boxShadow: focused ? '0 4px 20px rgba(109,141,255,0.10)' : '0 4px 16px rgba(40,50,80,0.07)',
-                transition: 'border 0.2s, box-shadow 0.2s',
-              }}>
-                <Search style={{ width: 16, height: 16, color: '#8E8E93', flexShrink: 0 }} strokeWidth={2} />
-                <input
-                  ref={inputRef}
-                  type="search"
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  onFocus={() => setFocused(true)}
-                  onBlur={() => setTimeout(() => setFocused(false), 150)}
-                  onKeyDown={e => { if (e.key === 'Enter') submitSearch(query) }}
-                  placeholder="words, phrases, patterns, stories..."
-                  style={{ flex: 1, background: 'none', border: 'none', outline: 'none', fontSize: 14, color: 'var(--pt)', fontWeight: 400, caretColor: 'var(--pa)' }}
-                />
-                {query && (
-                  <button type="button" onClick={() => { setQuery(''); inputRef.current?.focus() }}
-                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}>
-                    <X style={{ width: 14, height: 14, color: '#8E8E93' }} strokeWidth={2} />
-                  </button>
-                )}
-              </div>
-
-              {showRecent && (
-                <div style={{ padding: '12px 4px 16px', display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-                  <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#B0B0B8', textTransform: 'uppercase', alignSelf: 'center', marginRight: 2 }}>Recent</span>
-                  {recentSearches.map(s => (
-                    <button key={s} type="button"
-                      onClick={() => { setQuery(s); submitSearch(s); inputRef.current?.focus() }}
-                      style={{ fontSize: 12, fontWeight: 500, color: 'var(--pa)', background: 'var(--pal)', border: '1px solid var(--pacb)', borderRadius: 999, padding: '4px 12px', cursor: 'pointer', fontFamily: 'inherit' }}>
-                      {s}
-                    </button>
-                  ))}
-                </div>
+          {/* Search bar */}
+          <div style={{ marginBottom: isSearching || showRecent ? 0 : 20 }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              background: 'var(--pglass)', backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              borderRadius: 16, padding: '14px 14px 14px 18px',
+              border: focused ? '1px solid var(--pacb)' : '1px solid var(--pglass-border)',
+              boxShadow: focused ? '0 4px 20px rgba(109,141,255,0.10)' : '0 4px 16px rgba(40,50,80,0.07)',
+              transition: 'border 0.2s, box-shadow 0.2s',
+            }}>
+              <Search style={{ width: 16, height: 16, color: '#8E8E93', flexShrink: 0 }} strokeWidth={2} />
+              <input
+                ref={inputRef}
+                type="search"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setTimeout(() => setFocused(false), 150)}
+                onKeyDown={e => { if (e.key === 'Enter') submitSearch(query) }}
+                placeholder="검색..."
+                style={{ flex: 1, background: 'none', border: 'none', outline: 'none', fontSize: 14, color: 'var(--pt)', fontWeight: 400, caretColor: 'var(--pa)' }}
+              />
+              {query && (
+                <button type="button" onClick={() => { setQuery(''); inputRef.current?.focus() }}
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}>
+                  <X style={{ width: 14, height: 14, color: '#8E8E93' }} strokeWidth={2} />
+                </button>
               )}
+            </div>
 
-              {isSearching && (
-                <div style={{ marginTop: 12, marginBottom: 24 }}>
-                  {!hasResults ? (
-                    <div style={{ ...glassCard, padding: '30px 22px', textAlign: 'center' }}>
-                      <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: '0 0 8px' }}>No matching results found.</p>
-                      <p style={{ fontSize: 12, color: '#8E8E93', margin: 0, lineHeight: 1.7 }}>Try a different keyword</p>
-                    </div>
-                  ) : (
-                    <>
-                      {searchResults.words.length > 0 && (
-                        <div style={{ marginBottom: 16 }}>
-                          <p style={SECTION_LABEL}>Words · {searchResults.words.length}</p>
-                          <div style={glassCard}>
-                            {searchResults.words.map((w, i) => <SearchWordRow key={w.id} w={w} border={i > 0} onPress={() => { if (w.storyId) router.push(`/patto/stories/${w.storyId}`) }} />)}
-                          </div>
-                        </div>
-                      )}
-                      {searchResults.phrases.length > 0 && (
-                        <div style={{ marginBottom: 16 }}>
-                          <p style={SECTION_LABEL}>Phrases · {searchResults.phrases.length}</p>
-                          <div style={glassCard}>
-                            {searchResults.phrases.map((ph, i) => <SearchPhraseRow key={ph.id} ph={ph} border={i > 0} onPress={() => { if (ph.storyId && ph.patternId) router.push(`/patto/stories/${ph.storyId}?v=p`); else if (ph.storyId) router.push(`/patto/stories/${ph.storyId}`) }} />)}
-                          </div>
-                        </div>
-                      )}
-                      {searchResults.patterns.length > 0 && (
-                        <div style={{ marginBottom: 16 }}>
-                          <p style={SECTION_LABEL}>Patterns · {searchResults.patterns.length}</p>
-                          <div style={glassCard}>
-                            {searchResults.patterns.map((r, i) => <SearchPatternRow key={r.pattern.id} storyId={r.storyId} storyTitle={r.storyTitle} pattern={r.pattern} border={i > 0} onPress={() => router.push(`/patto/stories/${r.storyId}?v=p`)} />)}
-                          </div>
-                        </div>
-                      )}
-                      {searchResults.stories.length > 0 && (
-                        <div>
-                          <p style={SECTION_LABEL}>Stories · {searchResults.stories.length}</p>
-                          <div style={glassCard}>
-                            {searchResults.stories.map((s, i) => <SearchStoryRow key={s.id} story={s} border={i > 0} onPress={() => router.push(`/patto/stories/${s.id}`)} />)}
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  )}
+            {showRecent && (
+              <div style={{ padding: '12px 4px 16px', display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+                <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#B0B0B8', textTransform: 'uppercase', alignSelf: 'center', marginRight: 2 }}>Recent</span>
+                {recentSearches.map(s => (
+                  <button key={s} type="button"
+                    onClick={() => { setQuery(s); submitSearch(s); inputRef.current?.focus() }}
+                    style={{ fontSize: 12, fontWeight: 500, color: 'var(--pa)', background: 'var(--pal)', border: '1px solid var(--pacb)', borderRadius: 999, padding: '4px 12px', cursor: 'pointer', fontFamily: 'inherit' }}>
+                    {s}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Search results */}
+          {isSearching && (
+            <div style={{ marginTop: 12, marginBottom: 24 }}>
+              {!hasResults ? (
+                <div style={{ ...glassCard, padding: '30px 22px', textAlign: 'center' }}>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: '0 0 8px' }}>No matching results found.</p>
+                  <p style={{ fontSize: 12, color: '#8E8E93', margin: 0, lineHeight: 1.7 }}>Try a different keyword</p>
                 </div>
+              ) : (
+                <>
+                  {searchResults.words.length > 0 && (
+                    <div style={{ marginBottom: 16 }}>
+                      <p style={SECTION_LABEL}>Words · {searchResults.words.length}</p>
+                      <div style={glassCard}>
+                        {searchResults.words.map((w, i) => <SearchWordRow key={w.id} w={w} border={i > 0} onPress={() => { if (w.storyId) router.push(`/patto/stories/${w.storyId}`) }} />)}
+                      </div>
+                    </div>
+                  )}
+                  {searchResults.phrases.length > 0 && (
+                    <div style={{ marginBottom: 16 }}>
+                      <p style={SECTION_LABEL}>Phrases · {searchResults.phrases.length}</p>
+                      <div style={glassCard}>
+                        {searchResults.phrases.map((ph, i) => <SearchPhraseRow key={ph.id} ph={ph} border={i > 0} onPress={() => { if (ph.storyId && ph.patternId) router.push(`/patto/stories/${ph.storyId}?v=p`); else if (ph.storyId) router.push(`/patto/stories/${ph.storyId}`) }} />)}
+                      </div>
+                    </div>
+                  )}
+                  {searchResults.patterns.length > 0 && (
+                    <div style={{ marginBottom: 16 }}>
+                      <p style={SECTION_LABEL}>Patterns · {searchResults.patterns.length}</p>
+                      <div style={glassCard}>
+                        {searchResults.patterns.map((r, i) => <SearchPatternRow key={r.pattern.id} storyId={r.storyId} storyTitle={r.storyTitle} pattern={r.pattern} border={i > 0} onPress={() => router.push(`/patto/stories/${r.storyId}?v=p`)} />)}
+                      </div>
+                    </div>
+                  )}
+                  {searchResults.stories.length > 0 && (
+                    <div>
+                      <p style={SECTION_LABEL}>Stories · {searchResults.stories.length}</p>
+                      <div style={glassCard}>
+                        {searchResults.stories.map((s, i) => <SearchStoryRow key={s.id} story={s} border={i > 0} onPress={() => router.push(`/patto/stories/${s.id}`)} />)}
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           )}
 
-          {/* Internal section tabs */}
-          <SectionTabBar active={section} onChange={s => { setSection(s); setQuery('') }} />
-
-          {/* Section content */}
-          {section === 'writing-studio' && <WritingStudioSection />}
-
-          {section === 'saved-words' && !isSearching && (
-            <SavedWordsSection
-              words={words} phrases={phrases}
-              onRemoveWord={handleRemoveWord} onRemovePhrase={handleRemovePhrase}
+          {/* Words / Phrases / Patterns accordion (hidden while searching) */}
+          {!isSearching && (
+            <WordPhrasePatternsAccordion
+              words={words}
+              phrases={phrases}
+              bookmarks={bookmarks}
+              onRemoveWord={handleRemoveWord}
+              onRemovePhrase={handleRemovePhrase}
+              onRemoveBookmark={handleRemoveBookmark}
+              onPatternPress={bm => router.push(`/patto/stories/${bm.storyId}?v=p`)}
             />
           )}
 
-          {section === 'saved-patterns' && !isSearching && (
-            <SavedPatternsSection
-              bookmarks={bookmarks} bookmarksByStory={bookmarksByStory}
-              onPress={bm => router.push(`/patto/stories/${bm.storyId}?v=p`)}
-              onRemove={handleRemoveBookmark}
-            />
+          {/* Divider */}
+          {!isSearching && (
+            <div style={{
+              height: 1, background: 'var(--pglass-border)',
+              margin: '4px 0 24px',
+            }} />
           )}
 
-          {section === 'my-sentences' && <MySentencesSection />}
+          {/* Essays section */}
+          {!isSearching && <EssaysSection />}
 
         </div>
       </div>
@@ -970,7 +743,7 @@ function LibraryPageInner() {
   )
 }
 
-// ── Page export (Suspense boundary for useSearchParams) ───────────────────────
+// ── Page export ───────────────────────────────────────────────────────────────
 
 export default function LibraryPage() {
   return (
