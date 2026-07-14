@@ -642,8 +642,8 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
   const dragPct = dragX / W * 100
   const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
 
-  // Match ConvCard colors exactly
-  const cardBg     = isDark ? 'rgba(28,22,58,0.25)'  : 'rgba(255,255,255,0.25)'
+  // Card colors — opaque so content is crisp above home background
+  const cardBg     = isDark ? 'rgba(22,18,48,0.97)'  : 'rgba(255,255,255,0.95)'
   const cardBorder = isDark ? '0.5px solid rgba(142,167,255,0.22)' : '0.5px solid rgba(200,215,245,0.60)'
   const textMain   = isDark ? '#e8e0f8' : '#1a1a2e'
   const subColor   = isDark ? 'rgba(232,224,248,0.45)' : '#8a8aaa'
@@ -691,32 +691,25 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
   ]
 
   return (
-    // Inert backdrop — just a subtle blur, no dark dim
-    <div style={{
-      position: 'fixed', inset: 0, zIndex: 201,
-      backdropFilter: 'blur(2px)', WebkitBackdropFilter: 'blur(2px)',
-      background: 'transparent',
-      pointerEvents: 'none',
-    }}>
-      {/* Card — positioned above orb (bottom-right), matching ConvCard br corner */}
-      <div
-        ref={containerRef}
-        style={{
-          position: 'absolute',
-          bottom: TAB_BAR_HEIGHT + 16 + INTRO_ORB_SIZE + 10,
-          right: 0,
-          width: INTRO_CARD_W,
-          height: 300,
-          pointerEvents: 'auto',
-          borderRadius: '10px 10px 4px 10px',
-          background: cardBg,
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          border: cardBorder,
-          boxShadow: '0 4px 24px rgba(107,143,255,0.10), 0 1px 4px rgba(107,143,255,0.06)',
-          display: 'flex', flexDirection: 'column',
-          overflow: 'hidden',
-        }}
+    // Card floats directly above orb — no backdrop overlay
+    <div
+      ref={containerRef}
+      style={{
+        position: 'fixed',
+        bottom: TAB_BAR_HEIGHT + 16 + INTRO_ORB_SIZE + 10,
+        right: 0,
+        width: INTRO_CARD_W,
+        height: 300,
+        zIndex: 199,
+        borderRadius: '10px 10px 4px 10px',
+        background: cardBg,
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        border: cardBorder,
+        boxShadow: '0 8px 32px rgba(92,107,192,0.2)',
+        display: 'flex', flexDirection: 'column',
+        overflow: 'hidden',
+      }}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -783,7 +776,6 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
           </div>
         </div>
       </div>
-    </div>
   )
 }
 
