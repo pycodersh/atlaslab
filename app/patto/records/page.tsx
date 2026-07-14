@@ -399,8 +399,8 @@ export default function ProgressPage() {
 
       trainer?.setPage('progress')
       const msg = adaptiveStats.currentStreak > 0
-        ? `${adaptiveStats.currentStreak} day streak. Keep it up.`
-        : "Ready when you are."
+        ? `${adaptiveStats.currentStreak}일 연속 학습 중이에요!`
+        : "오늘도 시작해볼까요?"
       const t = setTimeout(() => trainer?.showMessage(msg, 3000), 900)
       return () => clearTimeout(t)
     }
