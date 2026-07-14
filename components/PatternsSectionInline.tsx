@@ -481,25 +481,24 @@ export function PatternsSectionInline({
 
       {/* Examples */}
       <div style={{ padding: '14px 16px 16px' }}>
-        {/* Speaker + Language toggle — right-aligned, above examples */}
+        {/* Speaker + Language toggle — right column, above examples */}
         {prefs.language !== 'en' && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
-              {showSpeakerButton && (
-                <button
-                  type="button"
-                  aria-label="예문 듣기"
-                  onClick={playExamples}
-                  style={{
-                    background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-                    color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : (isDark ? 'rgba(255,255,255,0.35)' : '#b0b8cc'),
-                    display: 'flex', alignItems: 'center', flexShrink: 0,
-                    transition: 'color 0.15s',
-                  }}
-                >
-                  <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
-                </button>
-              )}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, marginBottom: 10 }}>
+            {showSpeakerButton && (
+              <button
+                type="button"
+                aria-label="예문 듣기"
+                onClick={playExamples}
+                style={{
+                  background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                  color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : (isDark ? 'rgba(255,255,255,0.35)' : '#b0b8cc'),
+                  display: 'flex', alignItems: 'center', flexShrink: 0,
+                  transition: 'color 0.15s',
+                }}
+              >
+                <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
+              </button>
+            )}
             <div style={{ display: 'inline-flex', borderRadius: 10, background: 'var(--pc)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pd)', padding: 2 }}>
               {(['en', 'en-ko', 'ko'] as const).map(mode => (
                 <button
@@ -518,7 +517,6 @@ export function PatternsSectionInline({
                   {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
                 </button>
               ))}
-            </div>
             </div>
           </div>
         )}

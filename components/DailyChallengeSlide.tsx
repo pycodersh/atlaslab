@@ -384,7 +384,7 @@ export function DailyChallengeSlide({ story, onSkip, onDone }: Props) {
           },
         },
         {
-          label: '괜찮아요',
+          label: 'Skip',
           onClick: () => {
             trainerRef.current?.say("오늘 챌린지 완료!", 1500)
             addTimer(setTimeout(onDone, 1700))

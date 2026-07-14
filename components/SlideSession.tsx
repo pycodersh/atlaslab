@@ -1000,8 +1000,8 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
           if (reviewDue.length > 0) {
             const reviewId = reviewDue[0].id
             trainerRef.current?.ask("잘하셨어요! 오늘 복습할 스토리가 있어요.", [
-              { label: '복습하기', primary: true, onClick: () => router.push(`/patto/session/${reviewId}`) },
-              { label: '나중에', onClick: showCompletionAsk },
+              { label: 'Review', primary: true, onClick: () => router.push(`/patto/session/${reviewId}`) },
+              { label: 'Later', onClick: showCompletionAsk },
             ])
           } else {
             showCompletionAsk()

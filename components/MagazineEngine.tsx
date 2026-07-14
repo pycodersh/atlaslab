@@ -388,7 +388,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     trainer?.setIdleOrbCallback?.(() => {
       trainer?.ask("학습을 시작할까요?", [
         {
-          label: '네, 시작해요!',
+          label: 'Go!',
           primary: true,
           onClick: () => {
             trainer?.clearMessage()
@@ -396,7 +396,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
           },
         },
         {
-          label: '괜찮아요',
+          label: 'Skip',
           onClick: () => trainer?.clearMessage(),
         },
       ])

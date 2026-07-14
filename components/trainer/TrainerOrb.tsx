@@ -507,15 +507,17 @@ function ConvCard({
   if (!active) return null
 
   // Card shell colors
-  const cardBg     = isDark ? 'rgba(28,22,58,0.25)'  : 'rgba(255,255,255,0.25)'
+  const cardBg     = isDark ? 'rgba(30,28,48,0.85)'  : 'rgba(255,255,255,0.75)'
   const cardBorder = isDark
-    ? '0.5px solid rgba(142,167,255,0.22)'
-    : '0.5px solid rgba(200,215,245,0.60)'
-  const cardShadow = '0 4px 24px rgba(107,143,255,0.10), 0 1px 4px rgba(107,143,255,0.06)'
+    ? '1px solid rgba(255,255,255,0.08)'
+    : '0.5px solid rgba(142,167,255,0.25)'
+  const cardShadow = isDark
+    ? '0 16px 40px rgba(0,0,0,0.40)'
+    : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)'
 
   // Shared text colors
-  const textMain = isDark ? '#e8e0f8' : '#1a1a2e'
-  const textSub  = isDark ? 'rgba(232,224,248,0.55)' : '#7a7a9a'
+  const textMain = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
+  const textSub  = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const textPri  = isDark ? '#A6B8FF' : '#6B8FFF'
   const textSec  = isDark ? 'rgba(255,255,255,0.38)' : '#9a9ab8'
 
@@ -535,13 +537,13 @@ function ConvCard({
   let maxWidth: number | undefined
 
   if (isHelp) {
-    borderRadius = radius(10); padding = '14px 14px 10px'; minWidth = 150; maxWidth = 220
+    borderRadius = radius(16); padding = '14px 14px 10px'; minWidth = 150; maxWidth = 220
   } else if (active.size === 'small') {
-    borderRadius = radius(10); padding = '10px 14px'; minWidth = 120; maxWidth = 260
+    borderRadius = radius(16); padding = '10px 14px'; minWidth = 120; maxWidth = 260
   } else if (active.size === 'medium') {
-    borderRadius = radius(10); padding = '14px 16px'; minWidth = 200; maxWidth = 260
+    borderRadius = radius(16); padding = '14px 16px'; minWidth = 200; maxWidth = 260
   } else {
-    borderRadius = radius(10); padding = '14px 16px'; minWidth = 240; maxWidth = 280
+    borderRadius = radius(16); padding = '14px 16px'; minWidth = 240; maxWidth = 280
   }
 
   return (
@@ -557,8 +559,8 @@ function ConvCard({
         borderRadius,
         padding,
         background:          cardBg,
-        backdropFilter:      'blur(24px)',
-        WebkitBackdropFilter:'blur(24px)',
+        backdropFilter:      'blur(20px)',
+        WebkitBackdropFilter:'blur(20px)',
         border:              cardBorder,
         boxShadow:           cardShadow,
         pointerEvents:       isExit ? 'none' : 'auto',

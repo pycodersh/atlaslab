@@ -640,8 +640,12 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
   const dragPct = dragX / W * 100
   const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
 
-  const textMain = '#1a1a2e'
-  const tagColor = '#8090F0'
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
+  const textMain = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
+  const textSub  = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
+  const tagColor = isDark ? '#8FABFF' : '#8090F0'
 
   const btnBase: React.CSSProperties = {
     height: 44, borderRadius: 10, fontSize: 14, fontWeight: 600,
@@ -650,15 +654,15 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
   }
   const btnPrimary: React.CSSProperties = {
     ...btnBase,
-    background: 'rgba(128,144,240,0.2)',
-    border: '1px solid rgba(128,144,240,0.4)',
-    color: '#4050B0',
+    background: isDark ? 'rgba(142,167,255,0.22)' : 'rgba(142,167,255,0.18)',
+    border: isDark ? '1px solid rgba(142,167,255,0.40)' : '1px solid rgba(142,167,255,0.35)',
+    color: isDark ? '#A6B8FF' : '#4B6FD0',
   }
   const btnSecondary: React.CSSProperties = {
     ...btnBase,
-    background: 'transparent',
-    border: '1px solid rgba(128,144,240,0.25)',
-    color: '#8890a4',
+    background: isDark ? 'rgba(255,255,255,0.06)' : 'transparent',
+    border: isDark ? '1px solid rgba(255,255,255,0.14)' : '1px solid rgba(142,167,255,0.20)',
+    color: isDark ? 'rgba(255,255,255,0.65)' : '#8a8aaa',
   }
   const btnStart: React.CSSProperties = {
     ...btnBase,
@@ -672,7 +676,7 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
         <div key={j} style={{
           borderRadius: idx === j ? 3 : '50%',
           width: idx === j ? 20 : 6, height: 6,
-          background: idx === j ? '#5C6BC0' : '#C5CAE9',
+          background: isDark ? (idx === j ? '#8FABFF' : 'rgba(255,255,255,0.20)') : (idx === j ? '#6B8FFF' : 'rgba(142,167,255,0.22)'),
           transition: 'all 0.25s ease',
         }} />
       ))}
@@ -690,7 +694,7 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       ),
       buttons: (
         <div style={{ display: 'flex' }}>
-          <button type="button" onClick={() => slide(1)} style={{ ...btnPrimary, flex: 1 }}>다음</button>
+          <button type="button" onClick={() => slide(1)} style={{ ...btnPrimary, flex: 1 }}>Next</button>
         </div>
       ),
     },
@@ -713,8 +717,8 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       ),
       buttons: (
         <div style={{ display: 'flex', gap: 8 }}>
-          <button type="button" onClick={() => slide(-1)} style={btnSecondary}>이전</button>
-          <button type="button" onClick={() => slide(1)} style={btnPrimary}>다음</button>
+          <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
+          <button type="button" onClick={() => slide(1)} style={btnPrimary}>Next</button>
         </div>
       ),
     },
@@ -732,8 +736,8 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       ),
       buttons: (
         <div style={{ display: 'flex', gap: 8 }}>
-          <button type="button" onClick={() => slide(-1)} style={btnSecondary}>이전</button>
-          <button type="button" onClick={onComplete} style={btnStart}>시작</button>
+          <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
+          <button type="button" onClick={onComplete} style={btnStart}>Start</button>
         </div>
       ),
     },
@@ -749,11 +753,11 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
         width: INTRO_CARD_W,
         zIndex: 199,
         borderRadius: 20,
-        background: 'rgba(255,255,255,0.95)',
-        backdropFilter: 'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        border: '1px solid rgba(255,255,255,0.6)',
-        boxShadow: '0 8px 32px rgba(92,107,192,0.2)',
+        background: isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.75)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)',
+        boxShadow: isDark ? '0 16px 40px rgba(0,0,0,0.40)' : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)',
         minHeight: 320,
         overflow: 'hidden',
       }}
@@ -1087,7 +1091,7 @@ export default function HomePage() {
         function showIntroAsk() {
           trainerRef.current?.ask("소개해드릴까요?", [
             {
-              label: '괜찮아요',
+              label: 'Skip',
               onClick: () => {
                 trainerRef.current?.say("필요하시면 언제든 불러주세요!", 2500)
                 // Re-register so next orb tap shows it again
@@ -1095,7 +1099,7 @@ export default function HomePage() {
               },
             },
             {
-              label: '네, 부탁해요',
+              label: 'Yes!',
               primary: true,
               onClick: () => {
                 trainerRef.current?.clearMessage()
@@ -1112,7 +1116,7 @@ export default function HomePage() {
           setTimeout(() => {
             trainerRef.current?.ask("PATTO 소개를 받아볼까요?", [
               {
-                label: '둘러볼게요',
+                label: 'Browse',
                 onClick: () => {
                   markShown()
                   trainerRef.current?.say("천천히 구경하세요! 필요하면 불러주세요.", 3000)
@@ -1120,7 +1124,7 @@ export default function HomePage() {
                 },
               },
               {
-                label: '소개받기',
+                label: 'Intro',
                 primary: true,
                 onClick: () => {
                   markShown()

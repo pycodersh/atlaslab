@@ -162,7 +162,7 @@ export function TrainerHomePopup() {
             letterSpacing: '0.01em', marginBottom: 10,
           }}
         >
-          🏋️ 오늘 학습 시작하기
+          🏋️ Start Today's Session
         </button>
 
         {/* Dismiss button */}
@@ -175,7 +175,7 @@ export function TrainerHomePopup() {
             color: laterCol, fontFamily: 'inherit',
           }}
         >
-          나중에 하기
+          Later
         </button>
       </div>
     </>

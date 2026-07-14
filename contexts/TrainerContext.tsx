@@ -559,7 +559,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const handleMenuRepeat = useCallback(() => {
     clearCard()
-    showMsg('다시 들어볼게요.', 2000)
+    showMsg('Playing again.', 2000)
     const c = cfg()
     if (!c) {
       repeatCallbackRef.current?.()
@@ -577,7 +577,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     clearWaitTimer()
     setCardIsPlaying(false)
     showCard({
-      size: 'medium', message: '다시 들을까요?', priority: 1,
+      size: 'medium', message: 'Listen again?', priority: 1,
       buttons: [
         { label: 'Replay', onClick: () => {
           ttsProvider.stop?.()
@@ -613,7 +613,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const handleMenuExit = useCallback(() => {
     clearCard()
     showCard({
-      size: 'medium', message: '세션을 종료할까요?', priority: 1,
+      size: 'medium', message: 'End session?', priority: 1,
       buttons: [
         { label: 'Stay', primary: true, onClick: () => {} },
         {
