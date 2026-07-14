@@ -682,7 +682,7 @@ function IntroOnboardingCard({
   const card1 = (
     <div style={cardInner}>
       {dots}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 10, flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 14, flexShrink: 0 }}>
         <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(232,98,74,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <IconMoodPuzzled size={20} color="#E8624A" stroke={1.8} />
         </div>
@@ -692,6 +692,10 @@ function IntroOnboardingCard({
         영어 단어를 알아도 막상 말하려면 막히죠.{'\n'}
         단어를 아는 것과 말할 수 있는 건 달라요.{'\n'}
         단어를 어떻게 조합하는지, 즉 패턴을 모르기 때문이에요.
+      </p>
+      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '10px 0 0' }}>
+        원어민은 같은 패턴을 반복해서 써요.{'\n'}
+        그 패턴을 익히면 말이 자연스럽게 나와요.
       </p>
       <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex' }}>
         <button type="button" className="trainer-btn trainer-btn-primary" style={{ flex: 1 }} onClick={() => slide(1)}>Next</button>
