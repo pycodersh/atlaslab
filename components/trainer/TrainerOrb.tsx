@@ -21,7 +21,7 @@ const STORAGE_KEY = 'orb-position'
 const BOTTOM_PAD  = 24          // bottom spacing without tab bar
 const SAT_W       = 22          // satellite diameter
 const SAT_DIST    = ORB_SIZE / 2 + 28   // orb-center → satellite-center
-const MENU_ITEM_W = 44
+const MENU_ITEM_W = 57
 const MENU_DIST   = 75
 const MENU_SPREAD = Math.PI / 5
 
@@ -129,7 +129,7 @@ function defaultPos(): { x: number; y: number } {
 // ── Nav icons ─────────────────────────────────────────────────────────────────
 function HomeIcon({ color }: { color: string }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
       <polyline points="9 22 9 12 15 12 15 22"/>
     </svg>
@@ -137,7 +137,7 @@ function HomeIcon({ color }: { color: string }) {
 }
 function BookIcon({ color }: { color: string }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
       <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
     </svg>
@@ -145,7 +145,7 @@ function BookIcon({ color }: { color: string }) {
 }
 function ChartIcon({ color }: { color: string }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round">
       <line x1="18" y1="20" x2="18" y2="10"/>
       <line x1="12" y1="20" x2="12" y2="4"/>
       <line x1="6"  y1="20" x2="6"  y2="14"/>
@@ -154,7 +154,7 @@ function ChartIcon({ color }: { color: string }) {
 }
 function BookmarkIcon({ color }: { color: string }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/>
     </svg>
   )
