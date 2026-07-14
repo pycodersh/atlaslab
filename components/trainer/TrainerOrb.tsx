@@ -1,6 +1,6 @@
 ﻿'use client'
 
-import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useContext, useEffect, useLayoutEffect, useReducer, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { TrainerOrbContext, type OrbState } from './TrainerOrbContext'
 import { TrainerContext, type CardSpec, type TrainerCtx } from '@/contexts/TrainerContext'
@@ -53,7 +53,16 @@ const STATE_CONFIGS: Record<OrbState, WaveConfig> = {
 }
 
 // ── Position helpers ──────────────────────────────────────────────────────────
-type Corner = 'br' | 'bl' | 'tr' | 'tl'
+export type Corner = 'br' | 'bl' | 'tr' | 'tl'
+
+// ── Intro card slot (module-level, no context needed) ─────────────────────────
+type IntroNodeFactory = (corner: Corner, isDark: boolean) => React.ReactNode
+let _introFactory: IntroNodeFactory | null = null
+let _introForceRerender: (() => void) | null = null
+export function setOrbIntroCard(fn: IntroNodeFactory | null) {
+  _introFactory = fn
+  _introForceRerender?.()
+}
 
 function loadSavedPos(): { x: number; y: number } | null {
   if (typeof window === 'undefined') return null
@@ -604,6 +613,12 @@ export function TrainerOrb() {
   const inStudyPageRef = useRef(inStudyPage)
   inStudyPageRef.current = inStudyPage
 
+  const [, introTick] = useReducer((x: number) => x + 1, 0)
+  useEffect(() => {
+    _introForceRerender = introTick
+    return () => { _introForceRerender = null }
+  }, [introTick])
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useWaveCanvas(canvasRef, orbState)
 
@@ -738,6 +753,9 @@ export function TrainerOrb() {
         opacity: isPaused ? 0.45 : 1, transition: 'opacity 0.3s ease',
       }}
     >
+      {/* Intro onboarding card (orb-relative) */}
+      {!isDragging && _introFactory && _introFactory(corner, isDark)}
+
       {/* Conversation Card */}
       {!isDragging && (
         <ConvCard

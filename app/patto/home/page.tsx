@@ -34,6 +34,7 @@ import {
   getSpecialSituation,
 } from '@/lib/adaptive/adaptive-engine'
 import { loadStatsFromSupabase } from '@/lib/adaptive/supabase-sync'
+import { setOrbIntroCard, type Corner } from '@/components/trainer/TrainerOrb'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -594,16 +595,24 @@ function DesktopTipInline({ onClose, initialIndex = 0 }: { onClose: () => void; 
   )
 }
 
-// ── First-Visit Onboarding Overlay ───────────────────────────────────────────
+// ── First-Visit Onboarding Card ───────────────────────────────────────────────
+const INTRO_W = 280
+const INTRO_H = 380
 const INTRO_ORB_SIZE = 52
-const INTRO_CARD_W   = 300
 
-function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
+function IntroOnboardingCard({
+  corner,
+  isDark,
+  onComplete,
+}: {
+  corner: Corner
+  isDark: boolean
+  onComplete: () => void
+}) {
   const [idx, setIdx]         = useState(0)
   const [transit, setTransit] = useState(false)
   const [tOffset, setTOffset] = useState(0)
   const [dragX, setDragX]     = useState(0)
-  const containerRef          = useRef<HTMLDivElement>(null)
   const isTransiting          = useRef(false)
   const touchStartX           = useRef(0)
   const TOTAL = 3
@@ -630,21 +639,15 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
   }
   function onTouchEnd() {
     if (isTransiting.current) return
-    const W = containerRef.current?.offsetWidth ?? INTRO_CARD_W
-    if (dragX < -W * 0.22)     slide(1)
-    else if (dragX > W * 0.22) slide(-1)
+    if (dragX < -INTRO_W * 0.22)     slide(1)
+    else if (dragX > INTRO_W * 0.22) slide(-1)
     else setDragX(0)
   }
 
-  const W = containerRef.current?.offsetWidth ?? INTRO_CARD_W
-  const dragPct = dragX / W * 100
+  const dragPct = dragX / INTRO_W * 100
   const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
 
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-
   const textMain = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
-  const textSub  = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const tagColor = isDark ? '#8FABFF' : '#8090F0'
 
   const btnBase: React.CSSProperties = {
@@ -738,43 +741,50 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
     },
   ]
 
+  const isRight  = corner.endsWith('r')
+  const isBottom = corner.startsWith('b')
+  const n = 4
+  const borderRadius = isRight
+    ? `${16}px ${16}px ${n}px ${16}px`
+    : `${16}px ${16}px ${16}px ${n}px`
+
   return (
     <div
-      ref={containerRef}
       style={{
-        position: 'fixed',
-        bottom: TAB_BAR_HEIGHT + 16 + INTRO_ORB_SIZE + 10,
-        right: 0,
-        width: INTRO_CARD_W,
+        position: 'absolute',
+        [isBottom ? 'bottom' : 'top']: INTRO_ORB_SIZE + 10,
+        [isRight  ? 'right'  : 'left']: 0,
+        width: INTRO_W,
+        height: INTRO_H,
         zIndex: 199,
-        borderRadius: 20,
+        borderRadius,
         background: isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.75)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         border: isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)',
         boxShadow: isDark ? '0 16px 40px rgba(0,0,0,0.40)' : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)',
-        minHeight: 320,
+        overflow: 'hidden',
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* Clip wrapper — clip x for slide rail, allow y to grow */}
-      <div style={{ overflowX: 'clip', overflowY: 'visible', borderRadius: 20 }}>
       {/* Slide rail */}
       <div style={{
-        display: 'flex', width: `${TOTAL * 100}%`,
+        display: 'flex', width: `${TOTAL * 100}%`, height: '100%',
         transform: `translateX(${railPct / TOTAL}%)`,
         transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
         willChange: 'transform',
-        alignItems: 'flex-start',
       }}>
         {CARDS.map((card, i) => {
           const Icon = card.Icon
           return (
             <div key={i} style={{
-              width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: '24px 20px 20px',
-              display: 'flex', flexDirection: 'column', minHeight: 320,
+              width: `${100 / TOTAL}%`, boxSizing: 'border-box',
+              padding: '24px 20px 0',
+              display: 'flex', flexDirection: 'column',
+              position: 'relative',
+              height: INTRO_H,
             }}>
               {dots}
               <div style={{
@@ -788,20 +798,28 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
               <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '1px', color: tagColor, margin: '0 0 10px', flexShrink: 0 }}>
                 {card.tag}
               </p>
-              <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 12 }}>
-                {card.body}
+              <div style={{ flex: 1, position: 'relative', minHeight: 0 }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 68, overflow: 'hidden' }}>
+                  {card.body}
+                </div>
               </div>
-              <div style={{ flexShrink: 0, paddingTop: 12 }}>
+              {/* Buttons pinned to card bottom */}
+              <div style={{
+                position: 'absolute', bottom: 20, left: 20, right: 20,
+              }}>
                 {card.buttons}
               </div>
             </div>
           )
         })}
       </div>
-      </div>
     </div>
   )
-  // end IntroOnboardingOverlay
+}
+
+function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
+  void onComplete // kept for call-site compat; actual logic via setOrbIntroCard
+  return null
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -860,6 +878,27 @@ export default function HomePage() {
   useEffect(() => {
     if (new URLSearchParams(window.location.search).has('showIntro')) setShowOnboarding(true)
   }, [])
+
+  const handleIntroComplete = useCallback(() => {
+    setShowOnboarding(false)
+    setOrbIntroCard(null)
+    trainerRef.current?.say("같이 시작해봐요!", 1500)
+    setTimeout(() => {
+      try { localStorage.setItem('is_guided_session', 'true') } catch {}
+      router.push('/patto/session/1?guided=true')
+    }, 600)
+  }, [router])
+
+  useEffect(() => {
+    if (showOnboarding) {
+      setOrbIntroCard((corner, isDark) => (
+        <IntroOnboardingCard corner={corner} isDark={isDark} onComplete={handleIntroComplete} />
+      ))
+    } else {
+      setOrbIntroCard(null)
+    }
+    return () => { setOrbIntroCard(null) }
+  }, [showOnboarding, handleIntroComplete])
 
   useEffect(() => {
     if (user?.id) loadStatsFromSupabase(user.id)
@@ -1493,19 +1532,6 @@ export default function HomePage() {
       {false && tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
       {false && guideOpen && <GuideCarousel onClose={() => setGuideOpen(false)} />}
 
-      {/* First-visit onboarding overlay */}
-      {showOnboarding && (
-        <IntroOnboardingOverlay
-          onComplete={() => {
-            setShowOnboarding(false)
-            trainerRef.current?.say("같이 시작해봐요!", 1500)
-            setTimeout(() => {
-              try { localStorage.setItem('is_guided_session', 'true') } catch {}
-              router.push('/patto/session/1?guided=true')
-            }, 600)
-          }}
-        />
-      )}
 
     </div>
   )
