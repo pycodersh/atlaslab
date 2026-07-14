@@ -421,7 +421,7 @@ export default function ProgressPage() {
   if (!mounted) return null
 
   return (
-    <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
+    <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 96 }}>
       <TopNav />
       <div style={{ maxWidth: 480, margin: '0 auto', padding: '10px 20px 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
 

@@ -77,7 +77,7 @@ function highlightPatterns(text: string, patterns: string[]): ReactNode {
   const parts = text.split(regex)
   return parts.map((part, i) =>
     i % 2 === 1
-      ? <mark key={i} style={{ background: 'transparent', color: '#6B8FFF', fontWeight: 500 }}>{part}</mark>
+      ? <mark key={i} style={{ background: 'transparent', color: '#5C6BC0', fontWeight: 600 }}>{part}</mark>
       : part
   )
 }
@@ -200,7 +200,7 @@ function StorySlide({
               type="button"
               onClick={() => onStudyModeChange(mode)}
               style={{
-                padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                padding: '7px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                 fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
                 background: studyMode === mode ? 'var(--pw)' : 'transparent',
                 color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
@@ -373,8 +373,8 @@ function PatternCardFocus({
   const exBoxBackdrop = isDark ? undefined : 'blur(8px)'
   const exEnColor   = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
   const exKoColor   = isDark ? 'rgba(255,255,255,0.45)' : '#8a8aaa'
-  const noteNoteBg     = isDark ? 'rgba(215,181,109,0.06)' : 'rgba(255,248,236,0.70)'
-  const noteNoteBorder = isDark ? 'rgba(215,181,109,0.18)' : 'rgba(245,166,35,0.30)'
+  const noteNoteBg     = isDark ? 'rgba(92,107,192,0.10)' : 'rgba(142,167,255,0.08)'
+  const noteNoteBorder = isDark ? 'rgba(142,167,255,0.22)' : 'rgba(142,167,255,0.22)'
   const noteNoteBackdrop = isDark ? undefined : 'blur(8px)'
 
   const showEn = studyMode === 'en' || studyMode === 'en-ko'
@@ -413,8 +413,8 @@ function PatternCardFocus({
           {/* Hero section */}
           <div style={{ position: 'relative', overflow: 'hidden', padding: '12px 16px 16px', background: heroBg }}>
             <p style={{
-              margin: '0 0 10px', fontSize: 8, fontWeight: 700,
-              color: '#8EA7FF', letterSpacing: '0.10em',
+              margin: '0 0 10px', fontSize: 8, fontWeight: 600,
+              color: '#5C6BC0', letterSpacing: '0.12em',
               fontFamily: '"SF Mono", "Fira Mono", monospace',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
@@ -459,7 +459,7 @@ function PatternCardFocus({
                     type="button"
                     onClick={(e) => { e.stopPropagation(); onStudyModeChange(mode) }}
                     style={{
-                      padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                      padding: '7px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
                       fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
                       background: studyMode === mode ? 'var(--pw)' : 'transparent',
                       color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
@@ -510,8 +510,8 @@ function PatternCardFocus({
                 backdropFilter: noteNoteBackdrop, WebkitBackdropFilter: noteNoteBackdrop,
                 padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8,
               }}>
-                <Info style={{ width: 13, height: 13, color: '#D7B56D', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
-                <p style={{ margin: 0, fontSize: 13, color: isDark ? 'rgba(255,255,255,0.55)' : '#6a5a40', lineHeight: 1.6 }}>
+                <Info style={{ width: 13, height: 13, color: '#5C6BC0', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
+                <p style={{ margin: 0, fontSize: 13, color: isDark ? 'rgba(142,167,255,0.80)' : '#484868', lineHeight: 1.6 }}>
                   {patternNote}
                 </p>
               </div>

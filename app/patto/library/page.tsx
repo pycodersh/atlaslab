@@ -412,7 +412,7 @@ function LibraryPageInner() {
 
   const colPad: React.CSSProperties = {
     paddingTop: 7, paddingLeft: 20, paddingRight: 20,
-    paddingBottom: TAB_BAR_HEIGHT + 32, boxSizing: 'border-box',
+    paddingBottom: TAB_BAR_HEIGHT + 104, boxSizing: 'border-box',
   }
 
   return (

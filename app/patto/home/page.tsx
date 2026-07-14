@@ -1230,7 +1230,7 @@ export default function HomePage() {
       {/* ── Left column (always) ── */}
       <div style={{
         paddingTop: 0,
-        paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)`,
+        paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 96px)`,
       }}>
 
         {/* ── Date ── */}

@@ -142,7 +142,7 @@ export function StoryImageSlider({
       {/* 하단 그라데이션 (title 가독성) */}
       <div
         className="pointer-events-none absolute inset-0"
-        style={{ zIndex: 2, background: 'linear-gradient(0deg, rgba(0,0,0,0.58) 0%, rgba(0,0,0,0.20) 40%, rgba(0,0,0,0) 65%)' }}
+        style={{ zIndex: 2, background: 'linear-gradient(0deg, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.12) 40%, rgba(0,0,0,0) 65%)' }}
       />
 
       {/* TTS 활성 표시 — 좌상단 작은 인디케이터 */}

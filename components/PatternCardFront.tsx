@@ -39,7 +39,7 @@ export function PatternCardFront({
             key={i}
             className={cn(
               'rounded-full transition-all duration-300',
-              i === cardIndex ? 'h-2 w-2 bg-[#4F8CFF]' : 'h-1.5 w-1.5 bg-[#D1D9E6]',
+              i === cardIndex ? 'h-2 w-2 bg-[#5C6BC0]' : 'h-1.5 w-1.5 bg-[#C8D0E0]',
             )}
           />
         ))}
@@ -74,10 +74,10 @@ export function PatternCardFront({
         {pattern.meaning && (
           <div style={{
             marginTop: 8, display: 'inline-block',
-            background: '#FFF8EC', border: '1px solid #F5A623',
+            background: 'rgba(142,167,255,0.10)', border: '1px solid rgba(142,167,255,0.28)',
             borderRadius: 8, padding: '4px 10px',
           }}>
-            <p style={{ margin: 0, fontSize: 16, fontWeight: 400, color: '#B87820', lineHeight: 1.3 }}>
+            <p style={{ margin: 0, fontSize: 16, fontWeight: 400, color: '#5C6BC0', lineHeight: 1.3 }}>
               {pattern.meaning}
             </p>
           </div>

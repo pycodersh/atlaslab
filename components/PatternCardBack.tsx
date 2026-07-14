@@ -54,7 +54,7 @@ export function PatternCardBack({
             key={i}
             className={cn(
               'rounded-full transition-all duration-300',
-              i === cardIndex ? 'h-2 w-2 bg-[#4F8CFF]' : 'h-1.5 w-1.5 bg-[#D1D9E6]',
+              i === cardIndex ? 'h-2 w-2 bg-[#5C6BC0]' : 'h-1.5 w-1.5 bg-[#C8D0E0]',
             )}
           />
         ))}
@@ -71,7 +71,7 @@ export function PatternCardBack({
             <li
               key={ex.id}
               className="cursor-pointer rounded-xl px-2 py-1 transition-colors active:bg-white/30"
-              style={{ background: 'rgba(142, 167, 255, 0.05)', borderBottom: '0.5px solid rgba(255,255,255,0.3)' }}
+              style={{ background: 'rgba(142, 167, 255, 0.05)', borderBottom: '0.5px solid rgba(200,210,230,0.40)' }}
               onClick={(e) => { e.stopPropagation(); speak(ex.sentence.trim()) }}
             >
               <p style={{ fontSize: 15, fontWeight: 400, lineHeight: 1.5, margin: 0 }} className="text-[#1C1C1E] dark:text-[#F2F2F5]">
@@ -109,9 +109,10 @@ export function PatternCardBack({
           className="ml-auto transition-colors"
           style={{
             width: 36, height: 36, borderRadius: '50%',
-            background: isSpeaking ? '#FFE8E8' : '#8EA7FF',
+            background: isSpeaking ? '#FFE8E8' : '#5C6BC0',
             border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: isSpeaking ? 'none' : '0 2px 8px rgba(92,107,192,0.30)',
           }}
           onClick={handleSpeakAll}
           type="button"
