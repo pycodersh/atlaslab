@@ -675,7 +675,7 @@ function IntroOnboardingCard({
   const cardInner: React.CSSProperties = {
     display: 'flex', flexDirection: 'column',
     height: INTRO_H, boxSizing: 'border-box',
-    padding: 18, wordBreak: 'keep-all',
+    padding: '26px 18px 18px', wordBreak: 'keep-all',
   }
 
   // ── Card 1 — 왜 말이 안 나올까? ──────────────────────────────────────────
