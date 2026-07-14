@@ -258,14 +258,37 @@ export function WritingStudio() {
           패턴으로 문장을 써보세요. AI가 즉시 첨삭해드려요.
         </p>
 
-        {/* ── Mode tabs (trainer-btn 스타일) ──────────────────────────── */}
-        <div style={{ display: 'flex', gap: 6, marginBottom: 14 }}>
+        {/* ── Mode tabs (sliding, trainer-btn 색상) ───────────────────── */}
+        <div style={{
+          position: 'relative', display: 'flex',
+          background: 'transparent',
+          border: '1px solid rgba(142,167,255,0.20)',
+          borderRadius: 11, padding: 3, marginBottom: 14,
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: 3, bottom: 3,
+            left: mode === 'free' ? 3 : 'calc(50% + 1.5px)',
+            width: 'calc(50% - 4.5px)',
+            borderRadius: 8,
+            background: 'rgba(142,167,255,0.18)',
+            border: '1px solid rgba(142,167,255,0.35)',
+            transition: 'left 0.22s cubic-bezier(0.34,1.2,0.64,1)',
+            pointerEvents: 'none',
+          }} />
           {(['free', 'translation'] as const).map(m => (
             <button
               key={m}
               type="button"
               onClick={() => switchMode(m)}
-              className={mode === m ? 'trainer-btn trainer-btn-primary' : 'trainer-btn trainer-btn-secondary'}
+              style={{
+                flex: 1, height: 34, borderRadius: 8,
+                border: 'none', cursor: 'pointer', position: 'relative', zIndex: 1,
+                fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
+                background: 'transparent',
+                color: mode === m ? '#4B6FD0' : '#8a8aaa',
+                transition: 'color 0.18s',
+              }}
             >
               {m === 'free' ? '자유 작성' : '한글 보고 쓰기'}
             </button>
@@ -284,6 +307,13 @@ export function WritingStudio() {
                     {p.pattern}{i < patterns.length - 1 ? ',' : ''}
                   </span>
                 ))}
+              </div>
+            )}
+
+            {/* Remaining count above textarea */}
+            {!loadingInfo && remaining !== null && (
+              <div style={{ fontSize: 11, color: limitReached ? '#e57373' : '#b0b0c0', marginBottom: 4 }}>
+                {remaining}/{dailyLimit}
               </div>
             )}
 
@@ -324,6 +354,13 @@ export function WritingStudio() {
               )}
             </div>
 
+            {/* Remaining count above textarea */}
+            {!loadingInfo && remaining !== null && (
+              <div style={{ fontSize: 11, color: limitReached ? '#e57373' : '#b0b0c0', marginBottom: 4 }}>
+                {remaining}/{dailyLimit}
+              </div>
+            )}
+
             <textarea
               value={text}
               onChange={e => { setText(e.target.value); setErrorMsg(null) }}
@@ -347,12 +384,7 @@ export function WritingStudio() {
             <span style={{ fontSize: 11, color: wc > 50 ? '#e57373' : '#b0b0c0' }}>
               {wc} / 50 단어
             </span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              {!loadingInfo && remaining !== null && (
-                <span style={{ fontSize: 11, color: '#b0b0c0' }}>
-                  {remainingStr}
-                </span>
-              )}
+            <div>
               <button
                 type="button"
                 onClick={handleSubmit}
