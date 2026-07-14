@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine, Dumbbell } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine, Dumbbell, AlertCircle, Lightbulb } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -594,6 +594,183 @@ function DesktopTipInline({ onClose, initialIndex = 0 }: { onClose: () => void; 
   )
 }
 
+// ── First-Visit Onboarding Overlay ───────────────────────────────────────────
+function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const [idx, setIdx]         = useState(0)
+  const [transit, setTransit] = useState(false)
+  const [tOffset, setTOffset] = useState(0)
+  const [dragX, setDragX]     = useState(0)
+  const containerRef          = useRef<HTMLDivElement>(null)
+  const isTransiting          = useRef(false)
+  const touchStartX           = useRef(0)
+  const TOTAL = 3
+
+  function slide(dir: 1 | -1) {
+    if (isTransiting.current) return
+    const next = idx + dir
+    if (next < 0 || next >= TOTAL) return
+    isTransiting.current = true
+    setTransit(true)
+    setTOffset(-dir)
+    setTimeout(() => {
+      setIdx(next)
+      setTransit(false)
+      setTOffset(0)
+      isTransiting.current = false
+    }, 300)
+  }
+
+  function onTouchStart(e: React.TouchEvent) { touchStartX.current = e.touches[0].clientX }
+  function onTouchMove(e: React.TouchEvent) {
+    if (isTransiting.current) return
+    setDragX(e.touches[0].clientX - touchStartX.current)
+  }
+  function onTouchEnd() {
+    if (isTransiting.current) return
+    const W = containerRef.current?.offsetWidth ?? 340
+    if (dragX < -W * 0.22)     slide(1)
+    else if (dragX > W * 0.22) slide(-1)
+    else setDragX(0)
+  }
+
+  const W = containerRef.current?.offsetWidth ?? 340
+  const dragPct = dragX / W * 100
+  const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
+
+  const textColor = isDark ? 'rgba(255,255,255,0.82)' : 'rgba(30,30,50,0.82)'
+  const subColor  = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(80,90,130,0.6)'
+  const cardBg    = isDark ? 'rgba(28,22,58,0.88)' : 'rgba(255,255,255,0.55)'
+  const cardBorderColor = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.6)'
+
+  const CARDS = [
+    {
+      iconBg: 'rgba(239,130,107,0.15)', iconColor: '#E8624A', Icon: AlertCircle,
+      tag: '왜 말이 안 나올까?',
+      body: (
+        <p style={{ fontSize: 14, lineHeight: 1.7, color: textColor, margin: 0, whiteSpace: 'pre-line' }}>
+          {'단어를 알아도 말이 안 나오는 건\n조합 방법, 즉 패턴을 모르기 때문이에요.'}
+        </p>
+      ),
+    },
+    {
+      iconBg: 'rgba(128,144,240,0.15)', iconColor: '#5C6BC0', Icon: Lightbulb,
+      tag: '핵심 패턴 500개',
+      body: (
+        <>
+          <div style={{ background: 'rgba(128,144,240,0.12)', borderRadius: 8, padding: '10px 14px', marginBottom: 12 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0', margin: '0 0 4px', fontFamily: 'monospace' }}>I ended up ~ing</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0', margin: 0, fontFamily: 'monospace' }}>I was about to ~</p>
+          </div>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textColor, margin: 0, whiteSpace: 'pre-line' }}>
+            {'이런 핵심 패턴 500개면\n일상 대화는 충분해요.'}
+          </p>
+        </>
+      ),
+    },
+    {
+      iconBg: 'rgba(76,175,144,0.15)', iconColor: '#4CAF90', Icon: RotateCcw,
+      tag: '학습 방법',
+      body: (
+        <>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textColor, margin: '0 0 8px', whiteSpace: 'pre-line' }}>
+            {'100개 스토리로 패턴을 반복해요.\n각 패턴을 트레이너와 함께'}
+          </p>
+          <p style={{ fontSize: 38, fontWeight: 800, color: '#5C6BC0', margin: '0 0 4px', lineHeight: 1.05 }}>총 10회</p>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textColor, margin: 0 }}>반복하면 자연스럽게 쌓여요.</p>
+        </>
+      ),
+    },
+  ]
+
+  const btnBase: React.CSSProperties = {
+    height: 44, borderRadius: 12, fontSize: 14, fontWeight: 600,
+    fontFamily: 'inherit', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', gap: 6, cursor: 'pointer', border: 'none',
+    transition: 'transform 0.12s ease', letterSpacing: '0.01em',
+  }
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,0.52)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
+      <div style={{ width: '100%', maxWidth: 400 }}>
+
+        {/* Dot indicator */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 20 }}>
+          {Array.from({ length: TOTAL }, (_, i) => (
+            <div key={i} style={{
+              borderRadius: idx === i ? 4 : '50%',
+              width: idx === i ? 22 : 6, height: 6,
+              background: idx === i ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.35)',
+              transition: 'all 0.28s ease',
+            }} />
+          ))}
+        </div>
+
+        {/* Card rail */}
+        <div ref={containerRef} style={{ overflow: 'hidden', borderRadius: 20 }}
+          onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+          <div style={{
+            display: 'flex', width: `${TOTAL * 100}%`,
+            transform: `translateX(${railPct / TOTAL}%)`,
+            transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
+            willChange: 'transform',
+          }}>
+            {CARDS.map((card, i) => {
+              const Icon = card.Icon
+              return (
+                <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box' }}>
+                  <div style={{
+                    height: 300,
+                    background: cardBg,
+                    backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                    border: `1px solid ${cardBorderColor}`,
+                    borderRadius: 20,
+                    padding: '28px 22px',
+                    boxSizing: 'border-box',
+                    display: 'flex', flexDirection: 'column',
+                  }}>
+                    <div style={{
+                      width: 44, height: 44, borderRadius: 12,
+                      background: card.iconBg,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      marginBottom: 14, flexShrink: 0,
+                    }}>
+                      <Icon style={{ width: 22, height: 22, color: card.iconColor }} strokeWidth={1.8} />
+                    </div>
+                    <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: subColor, margin: '0 0 12px', textTransform: 'uppercase', flexShrink: 0 }}>
+                      {card.tag}
+                    </p>
+                    <div style={{ flex: 1 }}>{card.body}</div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Navigation buttons */}
+        <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+          {idx > 0 && (
+            <button type="button" onClick={() => slide(-1)} style={{ ...btnBase, flex: 'none', width: 100, background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
+              ← 이전
+            </button>
+          )}
+          {idx < TOTAL - 1 ? (
+            <button type="button" onClick={() => slide(1)} style={{ ...btnBase, flex: 1, background: 'rgba(160,176,255,0.22)', color: '#fff' }}>
+              다음 →
+            </button>
+          ) : (
+            <button type="button" onClick={onComplete} style={{ ...btnBase, flex: 1, background: 'rgba(92,107,192,0.85)', color: '#fff' }}>
+              시작하기 →
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Types ─────────────────────────────────────────────────────────────────────
 function getDateLabel() {
   return new Date().toLocaleDateString('en-US', {
@@ -634,6 +811,7 @@ export default function HomePage() {
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
   const [guideOpen, setGuideOpen]           = useState(false)
+  const [showOnboarding, setShowOnboarding] = useState(false)
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
   const [srsTodayId, setSrsTodayId] = useState<number | null>(null)
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
@@ -872,29 +1050,65 @@ export default function HomePage() {
         ])
       }, delay)
     } else if (visitorType === 'first_visit') {
-      timer = setTimeout(() => {
-        const buttons = getFirstVisitButtons()
-        trainerRef.current?.ask(
-          adaptMsg,
-          [
+      // Skip if already shown (e.g. page refresh within same visit session)
+      const alreadyShown = (() => { try { return localStorage.getItem('patto_onboarding_shown') === '1' } catch { return false } })()
+      if (alreadyShown) {
+        // Fall through to a simple welcome
+        timer = setTimeout(() => {
+          trainerRef.current?.say("다시 오셨군요! 도움이 필요하면 불러주세요.", 3000)
+        }, delay)
+      } else {
+        const markShown = () => { try { localStorage.setItem('patto_onboarding_shown', '1') } catch {} }
+
+        // "소개해드릴까요?" — registered as idleOrbCallback after "둘러볼게요"
+        function showIntroAsk() {
+          trainerRef.current?.ask("소개해드릴까요?", [
             {
-              label: buttons[0].label,
+              label: '괜찮아요',
               onClick: () => {
-                trainerRef.current?.say("천천히 둘러보세요.", 3000)
-                router.push('/patto/stories/all')
+                trainerRef.current?.say("필요하시면 언제든 불러주세요!", 2500)
+                // Re-register so next orb tap shows it again
+                setTimeout(() => trainerRef.current?.setIdleOrbCallback(showIntroAsk), 2600)
               },
             },
             {
-              label: buttons[1].label,
+              label: '네, 부탁해요',
               primary: true,
               onClick: () => {
-                try { localStorage.setItem('is_guided_session', 'true') } catch {}
-                router.push('/patto/session/1?guided=true')
+                trainerRef.current?.clearMessage()
+                setShowOnboarding(true)
               },
             },
-          ],
-        )
-      }, delay)
+          ])
+        }
+
+        timer = setTimeout(() => {
+          // Step 1: welcome whisper
+          trainerRef.current?.say("PATTO에 오신 것을 환영해요! 저는 학습을 도와주는 트레이너입니다.", 2000)
+          // Step 2: intro offer card after whisper ends
+          setTimeout(() => {
+            trainerRef.current?.ask("PATTO 소개를 받아볼까요?", [
+              {
+                label: '둘러볼게요',
+                onClick: () => {
+                  markShown()
+                  trainerRef.current?.say("천천히 구경하세요! 필요하면 불러주세요.", 3000)
+                  trainerRef.current?.setIdleOrbCallback(showIntroAsk)
+                },
+              },
+              {
+                label: '소개받기',
+                primary: true,
+                onClick: () => {
+                  markShown()
+                  trainerRef.current?.clearMessage()
+                  setShowOnboarding(true)
+                },
+              },
+            ])
+          }, 2300)
+        }, delay)
+      }
     } else if (visitorType === 'veteran') {
       // veteran: 짧은 메시지 + 버튼 하나
       timer = setTimeout(() => {
@@ -927,7 +1141,10 @@ export default function HomePage() {
       }, delay)
     }
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      trainerRef.current?.setIdleOrbCallback(null)
+    }
   }, [user?.id, visitorType, hasStudied, allDone, nextIncompleteStoryId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const frostedCard: React.CSSProperties = {
@@ -1248,6 +1465,20 @@ export default function HomePage() {
       {/* Editor Tip / Guide modals moved to Settings → About PATTO */}
       {false && tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
       {false && guideOpen && <GuideCarousel onClose={() => setGuideOpen(false)} />}
+
+      {/* First-visit onboarding overlay */}
+      {showOnboarding && (
+        <IntroOnboardingOverlay
+          onComplete={() => {
+            setShowOnboarding(false)
+            trainerRef.current?.say("같이 시작해봐요!", 1500)
+            setTimeout(() => {
+              try { localStorage.setItem('is_guided_session', 'true') } catch {}
+              router.push('/patto/session/1?guided=true')
+            }, 600)
+          }}
+        />
+      )}
 
     </div>
   )
