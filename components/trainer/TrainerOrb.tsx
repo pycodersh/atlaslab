@@ -551,6 +551,18 @@ export function TrainerOrb() {
           ctx.dismissCard()
         } else if (ctx?.cardIsPlaying) {
           ctx.handleOrbTapAudio()
+        } else if (ctx?.page === 'library') {
+          const wsRem = Number(sessionStorage.getItem('ws-remaining') ?? '-1')
+          if (wsRem > 0) {
+            ctx?.showAction('문장 써볼까요?', [
+              { label: 'Later', onClick: () => ctx?.clearMessage() },
+              { label: 'Start', primary: true, onClick: () => ctx?.clearMessage() },
+            ])
+          } else if (wsRem === 0) {
+            ctx?.say('오늘은 여기까지예요. 내일 또 해요!', 3000)
+          } else {
+            ctx?.say('오늘 배운 패턴으로 문장 써봐요!', 2500)
+          }
         } else if (ctx?.page === 'session' || (ctx?.sessionPhase !== 'inactive' && ctx?.sessionPhase !== 'browsing')) {
           ctx?.handleMenuExit()
         } else {

@@ -527,7 +527,17 @@ function LibraryPageInner() {
           )}
 
           {/* Writing Studio */}
-          {!isSearching && <WritingStudio />}
+          {!isSearching && (
+            <>
+              <p style={{
+                fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em',
+                color: '#8E8E93', margin: '0 0 10px 4px', textTransform: 'uppercase',
+              }}>
+                Writing Studio
+              </p>
+              <WritingStudio />
+            </>
+          )}
 
         </div>
       </div>

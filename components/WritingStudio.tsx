@@ -133,10 +133,12 @@ export function WritingStudio() {
     fetch('/patto/api/writing')
       .then(r => r.json())
       .then(data => {
-        setRemaining(data.remaining ?? null)
+        const rem = data.remaining ?? null
+        setRemaining(rem)
         setDailyLimit(data.limit ?? 3)
         setPlan(data.plan ?? 'free')
         setRecords(data.records ?? [])
+        if (rem !== null) sessionStorage.setItem('ws-remaining', String(rem))
       })
       .catch(() => {})
       .finally(() => setLoadingInfo(false))
@@ -201,7 +203,9 @@ export function WritingStudio() {
       setIsValid(data.isValid ?? true)
       setInvalidReason(data.invalidReason ?? null)
       setFeedbacks(data.feedbacks ?? [])
-      setRemaining(data.remaining ?? null)
+      const newRem = data.remaining ?? null
+      setRemaining(newRem)
+      if (newRem !== null) sessionStorage.setItem('ws-remaining', String(newRem))
 
       // Add to records
       setRecords(prev => [{
