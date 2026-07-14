@@ -695,7 +695,7 @@ export function TrainerOrb() {
         ctx.handleOrbTapAudio()
       } else if (ctx?.sessionPhase !== 'inactive') {
         // Case 2: in session, not playing → exit prompt
-        ctx.handleMenuExit()
+        ctx?.handleMenuExit()
       } else {
         // Inactive: restore pending ask or idle callback; fall back to greeting
         const handled = ctx?.restorePendingAsk?.()
