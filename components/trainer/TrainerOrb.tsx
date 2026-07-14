@@ -22,8 +22,7 @@ const BOTTOM_PAD  = 24          // bottom spacing without tab bar
 const SAT_W       = 22          // satellite diameter
 const SAT_DIST    = ORB_SIZE / 2 + 28   // orb-center → satellite-center
 const MENU_ITEM_W = 44
-const MENU_DIST   = 90
-const MENU_SPREAD = Math.PI / 4
+const MENU_DIST   = 80
 
 // ── Orb visuals by state ──────────────────────────────────────────────────────
 const ORB_GRADIENT: Record<OrbState, string> = {
@@ -72,22 +71,29 @@ function computeSatPos(pos: { x: number; y: number }): { x: number; y: number; a
   }
 }
 
-function computeMenuPositions(sat: { x: number; y: number; angle: number }, storyHref: string) {
+function computeMenuPositions(sat: { x: number; y: number; angle: number }, storyHref: string, orbPos: { x: number; y: number }) {
   const W = window.innerWidth
   const H = window.innerHeight
   const scx = sat.x + SAT_W / 2
   const scy = sat.y + SAT_W / 2
-  const items = [
-    { label: 'HOME',     href: '/patto/home',    Icon: HomeIcon    },
-    { label: 'STORY',    href: storyHref,         Icon: BookIcon    },
-    { label: 'PROGRESS', href: '/patto/records',  Icon: ChartIcon   },
-    { label: 'LIBRARY',  href: '/patto/library',  Icon: BookmarkIcon },
+  const orbCX = orbPos.x + ORB_SIZE / 2
+  const orbCY = orbPos.y + ORB_SIZE / 2
+  const baseAngle = Math.atan2(orbCY - scy, orbCX - scx)
+  const angles = [
+    baseAngle + Math.PI * 0.25,
+    baseAngle + Math.PI * 0.75,
+    baseAngle + Math.PI * 1.25,
+    baseAngle + Math.PI * 1.75,
   ]
-  const half = MENU_SPREAD * 1.5
+  const items = [
+    { label: 'HOME',     href: '/patto/home',   Icon: HomeIcon     },
+    { label: 'STORY',    href: storyHref,        Icon: BookIcon     },
+    { label: 'PROGRESS', href: '/patto/records', Icon: ChartIcon    },
+    { label: 'LIBRARY',  href: '/patto/library', Icon: BookmarkIcon },
+  ]
   return items.map((item, i) => {
-    const a = sat.angle - half + MENU_SPREAD * i
-    const mx = scx + Math.cos(a) * MENU_DIST - MENU_ITEM_W / 2
-    const my = scy + Math.sin(a) * MENU_DIST - MENU_ITEM_W / 2
+    const mx = scx + Math.cos(angles[i]) * MENU_DIST - MENU_ITEM_W / 2
+    const my = scy + Math.sin(angles[i]) * MENU_DIST - MENU_ITEM_W / 2
     return {
       ...item,
       x: Math.max(4, Math.min(W - MENU_ITEM_W - 4, mx)),
@@ -597,7 +603,7 @@ export function TrainerOrb() {
   const lastPos    = getLastPosition()
   const storyHref  = lastPos ? `/patto/stories/${lastPos.storyId}` : '/patto/stories/1'
   const satPos     = mounted ? computeSatPos(pos) : { x: 0, y: 0, angle: 0 }
-  const menuItems  = mounted ? computeMenuPositions(satPos, storyHref) : []
+  const menuItems  = mounted ? computeMenuPositions(satPos, storyHref, pos) : []
 
   const base       = eyeBase(orbState)
   const eyeX       = orbState === 'idle' ? eyeLookX : base.x
