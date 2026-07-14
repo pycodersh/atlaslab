@@ -73,7 +73,7 @@ export function GlobalSavePopup() {
           `Save "${wordDisplay}"?`,
           [
             {
-              label: 'Not now',
+              label: 'No',
               onClick: () => {
                 window.getSelection()?.removeAllRanges()
                 closeSavePopup()
@@ -81,7 +81,7 @@ export function GlobalSavePopup() {
               },
             },
             {
-              label: t('save_word_btn') || 'Save',
+              label: 'Save',
               primary: true,
               onClick: () => {
                 saveWord({

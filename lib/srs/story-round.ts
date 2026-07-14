@@ -8,6 +8,8 @@
  *          5 → 마스터  (1 recall)
  */
 
+import { localDateStr } from './storage'
+
 const RECALL_COUNTS   = [3, 3, 2, 1, 1]          // index = round-1
 const REVIEW_DAYS     = [2, 3, 7, 14, null] as const
 
@@ -47,8 +49,9 @@ export function getRecallCount(currentRound: number): number {
 /** Call once all hide-recall rounds for a session are complete */
 export function completeStoryRound(storyId: number): StoryRoundData {
   const cur       = getStoryRound(storyId)
+  const today     = localDateStr()
+  if (cur.lastCompletedAt === today) return cur
   const done      = Math.min(cur.round + 1, 5)
-  const today     = new Date().toISOString().slice(0, 10)
   const daysNext  = REVIEW_DAYS[done - 1]
 
   const data: StoryRoundData = {
@@ -70,14 +73,14 @@ export function getStoryStatus(storyId: number): StoryStatus {
   const data = getStoryRound(storyId)
   if (data.isMastered) return 'mastered'
   if (data.round === 0) return 'new'
-  const today = new Date().toISOString().slice(0, 10)
+  const today = localDateStr()
   if (data.nextReviewAt && data.nextReviewAt <= today) return 'review_due'
   return 'learning'
 }
 
 export function getTodayRecommendedStoryId(allStoryIds: number[]): number | null {
   if (typeof window === 'undefined') return null
-  const today = new Date().toISOString().slice(0, 10)
+  const today = localDateStr()
   for (const id of allStoryIds) {
     const data = getStoryRound(id)
     if (!data.isMastered && data.nextReviewAt && data.nextReviewAt <= today) return id

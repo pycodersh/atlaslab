@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { getLastPosition } from '@/lib/last-position'
 
-export const TAB_BAR_HEIGHT = 72
+export const TAB_BAR_HEIGHT = 0
 
 const TABS = [
   {

@@ -729,7 +729,7 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
 
   // ── Browsing phase — enables orb tap → handleMenuExit() ─────────────────
   useEffect(() => {
-    trainer?.startBrowsing?.()
+    trainer?.startBrowsing?.(() => router.push('/patto/home'))
     return () => trainer?.endBrowsing?.()
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
