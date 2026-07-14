@@ -290,7 +290,7 @@ export function WritingStudio() {
                 transition: 'color 0.18s',
               }}
             >
-              {m === 'free' ? '자유 작성' : '한글 보고 쓰기'}
+              {m === 'free' ? 'Free Write' : 'Translate'}
             </button>
           ))}
         </div>
@@ -307,13 +307,6 @@ export function WritingStudio() {
                     {p.pattern}{i < patterns.length - 1 ? ',' : ''}
                   </span>
                 ))}
-              </div>
-            )}
-
-            {/* Remaining count above textarea */}
-            {!loadingInfo && remaining !== null && (
-              <div style={{ fontSize: 11, color: limitReached ? '#e57373' : '#b0b0c0', marginBottom: 4 }}>
-                {remaining}/{dailyLimit}
               </div>
             )}
 
@@ -354,13 +347,6 @@ export function WritingStudio() {
               )}
             </div>
 
-            {/* Remaining count above textarea */}
-            {!loadingInfo && remaining !== null && (
-              <div style={{ fontSize: 11, color: limitReached ? '#e57373' : '#b0b0c0', marginBottom: 4 }}>
-                {remaining}/{dailyLimit}
-              </div>
-            )}
-
             <textarea
               value={text}
               onChange={e => { setText(e.target.value); setErrorMsg(null) }}
@@ -378,13 +364,21 @@ export function WritingStudio() {
           </>
         )}
 
-        {/* ── Bottom row: word count + send ────────────────────────────── */}
-        {!limitReached && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-            <span style={{ fontSize: 11, color: wc > 50 ? '#e57373' : '#b0b0c0' }}>
-              {wc} / 50 단어
-            </span>
-            <div>
+        {/* ── Bottom row: word count / remaining + send ────────────────── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+          <span style={{ fontSize: 11, color: wc > 50 ? '#e57373' : '#b0b8cc' }}>
+            {wc} / 50 단어
+          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {!loadingInfo && remaining !== null && (
+              <span style={{
+                fontSize: 11, fontWeight: 500,
+                color: remaining === 0 ? '#F44336' : '#5C6BC0',
+              }}>
+                {remaining}회 남음
+              </span>
+            )}
+            {!limitReached && (
               <button
                 type="button"
                 onClick={handleSubmit}
@@ -399,9 +393,9 @@ export function WritingStudio() {
               >
                 {loading ? '분석 중...' : '첨삭 받기'}
               </button>
-            </div>
+            )}
           </div>
-        )}
+        </div>
 
         {/* ── Limit reached message ──────────────────────────────────────── */}
         {limitReached && (
