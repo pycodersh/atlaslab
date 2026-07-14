@@ -11,6 +11,7 @@ export type OrbTapMode = 'menu' | 'done'
 /** Session phase — the step-by-step flow for a story session */
 export type SessionPhase =
   | 'inactive'
+  | 'browsing'         // reading/browsing a story without a formal session
   | 'ready'            // "Ready?" — waiting for first tap
   | 'para-listen'      // paragraph audio playing
   | 'para-your-turn'   // waiting for user speech + Orb tap

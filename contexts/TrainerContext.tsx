@@ -88,8 +88,10 @@ export interface TrainerCtx {
   currentPatternIdx: number
 
   // ── Session control ──────────────────────────────────────────────────────
-  startSession: (cfg: TrainerSessionConfig) => void
-  endSession:   () => void
+  startSession:   (cfg: TrainerSessionConfig) => void
+  endSession:     () => void
+  startBrowsing:  () => void
+  endBrowsing:    () => void
 
   // ── Card play state ──────────────────────────────────────────────────────
   restorePendingAsk: () => boolean
@@ -144,6 +146,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const [orbState,          setOrbState]          = useState<OrbState>('idle')
   const [tapMode,           setTapMode]           = useState<OrbTapMode>('menu')
   const [sessionPhase,      setSessionPhase]      = useState<SessionPhase>('inactive')
+  const sessionPhaseRef = useRef<SessionPhase>('inactive')
   const [currentParaIdx,    setCurrentParaIdx]    = useState(0)
   const [currentPatternIdx, setCurrentPatternIdx] = useState(0)
 
@@ -164,7 +167,12 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // Persistent ask — survives card dismissal so Orb re-tap can restore it
   const currentAskRef     = useRef<QueuedCard | null>(null)
 
-  // ── Card helpers ─────────────────────────────────────────────────────────
+  // ── Helpers ───────────────────────────────────────────────────────────────
+
+  function setPhase(phase: SessionPhase) {
+    sessionPhaseRef.current = phase
+    setSessionPhase(phase)
+  }
 
   function clearWaitTimer() {
     if (waitTimerRef.current) { clearTimeout(waitTimerRef.current); waitTimerRef.current = null }
@@ -310,7 +318,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const tier = (): GuidanceTier => guidanceTier(cfgRef.current?.round ?? 0)
 
   const goPhase = useCallback((phase: SessionPhase, paraIdx?: number, patIdx?: number) => {
-    setSessionPhase(phase)
+    setPhase(phase)
     const c = cfgRef.current; if (!c) return
     if (paraIdx  !== undefined) setCurrentParaIdx(paraIdx)
     if (patIdx   !== undefined) setCurrentPatternIdx(patIdx)
@@ -498,6 +506,15 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     clearCard()
   }, [clearCard])
 
+  const startBrowsing = useCallback(() => {
+    setSessionPhase('browsing')
+  }, [])
+
+  const endBrowsing = useCallback(() => {
+    setSessionPhase('inactive')
+    clearCard()
+  }, [clearCard])
+
   // ── Orb tap ───────────────────────────────────────────────────────────────
 
   const handleOrbTap = useCallback(() => {
@@ -611,6 +628,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   }, [sessionPhase, showMsg])
 
   const handleMenuExit = useCallback(() => {
+    const isBrowsing = sessionPhaseRef.current === 'browsing'
     clearCard()
     showCard({
       size: 'medium', message: 'End session?', priority: 1,
@@ -619,14 +637,19 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
         {
           label: 'Exit',
           onClick: () => {
-            cfg()?.stopAudio()
-            showMsg('See you.', 2000)
-            setTimeout(() => { cfg()?.onExit(); endSession() }, 1800)
+            if (isBrowsing) {
+              showMsg('See you.', 2000)
+              setTimeout(() => endBrowsing(), 1800)
+            } else {
+              cfg()?.stopAudio()
+              showMsg('See you.', 2000)
+              setTimeout(() => { cfg()?.onExit(); endSession() }, 1800)
+            }
           },
         },
       ],
     })
-  }, [clearCard, showCard, showMsg, endSession])
+  }, [clearCard, showCard, showMsg, endSession, endBrowsing])
 
   // Directly show/toggle help menu — used by GuideDock when on study pages
   // (where startSession() isn't called, so sessionPhase stays 'inactive')
@@ -676,7 +699,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     isMenuOpen: card?.isHelp ?? false,
 
     sessionPhase, currentParaIdx, currentPatternIdx,
-    startSession, endSession,
+    startSession, endSession, startBrowsing, endBrowsing,
     handleOrbTap, handleOrbTapAudio, showHelpMenu, closeMenu,
     handleMenuRepeat, handleMenuPause, handleMenuExit, resumeFromPause,
   }

@@ -382,6 +382,14 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trainer])
 
+  // ── Trainer: browsing phase — enables orb tap → handleMenuExit() ──────────
+  useEffect(() => {
+    if (isDesktop) return
+    trainer?.startBrowsing?.()
+    return () => trainer?.endBrowsing?.()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trainer])
+
   // ── Trainer: idle Orb tap → "학습을 시작할까요?" card ──────────────────────
   useEffect(() => {
     if (isDesktop) return
