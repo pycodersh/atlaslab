@@ -472,36 +472,34 @@ export function PatternsSectionInline({
           opacity: isDark ? 0.7 : 1,
         }} />
 
-        {/* meaning line: speaker (left) + meaning text */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          {showSpeakerButton && (
-            <button
-              type="button"
-              aria-label="예문 듣기"
-              onClick={playExamples}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-                color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : (isDark ? 'rgba(255,255,255,0.35)' : '#b0b8cc'),
-                display: 'flex', alignItems: 'center', flexShrink: 0,
-                transition: 'color 0.15s',
-              }}
-            >
-              <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
-            </button>
-          )}
-          {patternMeaning && (
-            <p style={{ fontSize: 16, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
-              {patternMeaning}
-            </p>
-          )}
-        </div>
+        {patternMeaning && (
+          <p style={{ fontSize: 13, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+            {patternMeaning}
+          </p>
+        )}
       </div>
 
       {/* Examples */}
       <div style={{ padding: '14px 16px 16px' }}>
-        {/* Language toggle — right-aligned, above examples */}
+        {/* Speaker + Language toggle — right-aligned, above examples */}
         {prefs.language !== 'en' && (
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
+              {showSpeakerButton && (
+                <button
+                  type="button"
+                  aria-label="예문 듣기"
+                  onClick={playExamples}
+                  style={{
+                    background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+                    color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : (isDark ? 'rgba(255,255,255,0.35)' : '#b0b8cc'),
+                    display: 'flex', alignItems: 'center', flexShrink: 0,
+                    transition: 'color 0.15s',
+                  }}
+                >
+                  <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
+                </button>
+              )}
             <div style={{ display: 'inline-flex', borderRadius: 10, background: 'var(--pc)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pd)', padding: 2 }}>
               {(['en', 'en-ko', 'ko'] as const).map(mode => (
                 <button
@@ -521,6 +519,7 @@ export function PatternsSectionInline({
                 </button>
               ))}
             </div>
+            </div>
           </div>
         )}
         <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px' }}>
@@ -536,7 +535,7 @@ export function PatternsSectionInline({
                     text={ex.en}
                     saveCandidates={safeCandidates}
                     source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                    style={{ display: 'block', fontSize: 15, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.5, marginBottom: 2 }}
+                    style={{ display: 'block', fontSize: 16, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.5, marginBottom: 2 }}
                   />
                 </div>
                 {showKorean && exKo && (

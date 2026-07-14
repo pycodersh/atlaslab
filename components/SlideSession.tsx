@@ -437,7 +437,7 @@ function PatternCardFocus({
             }} />
 
             {patternMeaning && (
-              <p style={{ fontSize: 16, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+              <p style={{ fontSize: 13, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
                 {patternMeaning}
               </p>
             )}
@@ -486,7 +486,7 @@ function PatternCardFocus({
                   >
                     <div style={{ opacity: showEn ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEn ? 'auto' : 'none' }}>
                       <p style={{
-                        fontSize: 15, fontWeight: isExPlaying ? 600 : 400,
+                        fontSize: 16, fontWeight: isExPlaying ? 600 : 400,
                         color: exEnColor, lineHeight: 1.5,
                         margin: 0, marginBottom: ex.ko ? 2 : 0,
                       }}>
