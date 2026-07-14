@@ -595,6 +595,9 @@ function DesktopTipInline({ onClose, initialIndex = 0 }: { onClose: () => void; 
 }
 
 // ── First-Visit Onboarding Overlay ───────────────────────────────────────────
+const INTRO_ORB_SIZE = 52
+const INTRO_CARD_W   = 260
+
 function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
@@ -629,27 +632,30 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
   }
   function onTouchEnd() {
     if (isTransiting.current) return
-    const W = containerRef.current?.offsetWidth ?? 340
+    const W = containerRef.current?.offsetWidth ?? INTRO_CARD_W
     if (dragX < -W * 0.22)     slide(1)
     else if (dragX > W * 0.22) slide(-1)
     else setDragX(0)
   }
 
-  const W = containerRef.current?.offsetWidth ?? 340
+  const W = containerRef.current?.offsetWidth ?? INTRO_CARD_W
   const dragPct = dragX / W * 100
   const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
 
-  const textColor = isDark ? 'rgba(255,255,255,0.82)' : 'rgba(30,30,50,0.82)'
-  const subColor  = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(80,90,130,0.6)'
-  const cardBg    = isDark ? 'rgba(28,22,58,0.88)' : 'rgba(255,255,255,0.55)'
-  const cardBorderColor = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.6)'
+  // Match ConvCard colors exactly
+  const cardBg     = isDark ? 'rgba(28,22,58,0.25)'  : 'rgba(255,255,255,0.25)'
+  const cardBorder = isDark ? '0.5px solid rgba(142,167,255,0.22)' : '0.5px solid rgba(200,215,245,0.60)'
+  const textMain   = isDark ? '#e8e0f8' : '#1a1a2e'
+  const subColor   = isDark ? 'rgba(232,224,248,0.45)' : '#8a8aaa'
+  const dotActive  = isDark ? 'rgba(166,184,255,0.85)' : '#5C6BC0'
+  const dotInact   = isDark ? 'rgba(255,255,255,0.18)' : 'rgba(92,107,192,0.18)'
 
   const CARDS = [
     {
       iconBg: 'rgba(239,130,107,0.15)', iconColor: '#E8624A', Icon: AlertCircle,
       tag: '왜 말이 안 나올까?',
       body: (
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: textColor, margin: 0, whiteSpace: 'pre-line' }}>
+        <p style={{ fontSize: 13, lineHeight: 1.65, color: textMain, margin: 0, whiteSpace: 'pre-line' }}>
           {'단어를 알아도 말이 안 나오는 건\n조합 방법, 즉 패턴을 모르기 때문이에요.'}
         </p>
       ),
@@ -659,11 +665,11 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       tag: '핵심 패턴 500개',
       body: (
         <>
-          <div style={{ background: 'rgba(128,144,240,0.12)', borderRadius: 8, padding: '10px 14px', marginBottom: 12 }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0', margin: '0 0 4px', fontFamily: 'monospace' }}>I ended up ~ing</p>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0', margin: 0, fontFamily: 'monospace' }}>I was about to ~</p>
+          <div style={{ background: 'rgba(128,144,240,0.12)', borderRadius: 7, padding: '8px 10px', marginBottom: 9 }}>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#5C6BC0', margin: '0 0 3px', fontFamily: 'monospace' }}>I ended up ~ing</p>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#5C6BC0', margin: 0, fontFamily: 'monospace' }}>I was about to ~</p>
           </div>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textColor, margin: 0, whiteSpace: 'pre-line' }}>
+          <p style={{ fontSize: 13, lineHeight: 1.65, color: textMain, margin: 0, whiteSpace: 'pre-line' }}>
             {'이런 핵심 패턴 500개면\n일상 대화는 충분해요.'}
           </p>
         </>
@@ -674,44 +680,51 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       tag: '학습 방법',
       body: (
         <>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textColor, margin: '0 0 8px', whiteSpace: 'pre-line' }}>
+          <p style={{ fontSize: 13, lineHeight: 1.65, color: textMain, margin: '0 0 4px', whiteSpace: 'pre-line' }}>
             {'100개 스토리로 패턴을 반복해요.\n각 패턴을 트레이너와 함께'}
           </p>
-          <p style={{ fontSize: 38, fontWeight: 800, color: '#5C6BC0', margin: '0 0 4px', lineHeight: 1.05 }}>총 10회</p>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textColor, margin: 0 }}>반복하면 자연스럽게 쌓여요.</p>
+          <p style={{ fontSize: 32, fontWeight: 800, color: '#5C6BC0', margin: '0 0 2px', lineHeight: 1.1 }}>총 10회</p>
+          <p style={{ fontSize: 13, lineHeight: 1.65, color: textMain, margin: 0 }}>반복하면 자연스럽게 쌓여요.</p>
         </>
       ),
     },
   ]
 
-  const btnBase: React.CSSProperties = {
-    height: 44, borderRadius: 12, fontSize: 14, fontWeight: 600,
-    fontFamily: 'inherit', display: 'flex', alignItems: 'center',
-    justifyContent: 'center', gap: 6, cursor: 'pointer', border: 'none',
-    transition: 'transform 0.12s ease', letterSpacing: '0.01em',
-  }
-
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'rgba(0,0,0,0.52)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
-      <div style={{ width: '100%', maxWidth: 400 }}>
-
-        {/* Dot indicator */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 20 }}>
-          {Array.from({ length: TOTAL }, (_, i) => (
-            <div key={i} style={{
-              borderRadius: idx === i ? 4 : '50%',
-              width: idx === i ? 22 : 6, height: 6,
-              background: idx === i ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.35)',
-              transition: 'all 0.28s ease',
-            }} />
-          ))}
-        </div>
-
-        {/* Card rail */}
-        <div ref={containerRef} style={{ overflow: 'hidden', borderRadius: 20 }}
-          onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+    // Inert backdrop — just a subtle blur, no dark dim
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 201,
+      backdropFilter: 'blur(2px)', WebkitBackdropFilter: 'blur(2px)',
+      background: 'transparent',
+      pointerEvents: 'none',
+    }}>
+      {/* Card — positioned above orb (bottom-right), matching ConvCard br corner */}
+      <div
+        ref={containerRef}
+        style={{
+          position: 'absolute',
+          bottom: TAB_BAR_HEIGHT + 16 + INTRO_ORB_SIZE + 10,
+          right: 0,
+          width: INTRO_CARD_W,
+          height: 300,
+          pointerEvents: 'auto',
+          borderRadius: '10px 10px 4px 10px',
+          background: cardBg,
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          border: cardBorder,
+          boxShadow: '0 4px 24px rgba(107,143,255,0.10), 0 1px 4px rgba(107,143,255,0.06)',
+          display: 'flex', flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* Slide content rail */}
+        <div style={{ flex: 1, overflow: 'hidden', minHeight: 0 }}>
           <div style={{
-            display: 'flex', width: `${TOTAL * 100}%`,
+            display: 'flex', width: `${TOTAL * 100}%`, height: '100%',
             transform: `translateX(${railPct / TOTAL}%)`,
             transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
             willChange: 'transform',
@@ -719,52 +732,55 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
             {CARDS.map((card, i) => {
               const Icon = card.Icon
               return (
-                <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box' }}>
+                <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: '14px 16px 10px', display: 'flex', flexDirection: 'column' }}>
                   <div style={{
-                    height: 300,
-                    background: cardBg,
-                    backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                    border: `1px solid ${cardBorderColor}`,
-                    borderRadius: 20,
-                    padding: '28px 22px',
-                    boxSizing: 'border-box',
-                    display: 'flex', flexDirection: 'column',
+                    width: 34, height: 34, borderRadius: 9,
+                    background: card.iconBg,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    marginBottom: 9, flexShrink: 0,
                   }}>
-                    <div style={{
-                      width: 44, height: 44, borderRadius: 12,
-                      background: card.iconBg,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      marginBottom: 14, flexShrink: 0,
-                    }}>
-                      <Icon style={{ width: 22, height: 22, color: card.iconColor }} strokeWidth={1.8} />
-                    </div>
-                    <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: subColor, margin: '0 0 12px', textTransform: 'uppercase', flexShrink: 0 }}>
-                      {card.tag}
-                    </p>
-                    <div style={{ flex: 1 }}>{card.body}</div>
+                    <Icon style={{ width: 17, height: 17, color: card.iconColor }} strokeWidth={1.8} />
                   </div>
+                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: subColor, margin: '0 0 8px', textTransform: 'uppercase', flexShrink: 0 }}>
+                    {card.tag}
+                  </p>
+                  <div style={{ flex: 1 }}>{card.body}</div>
                 </div>
               )
             })}
           </div>
         </div>
 
-        {/* Navigation buttons */}
-        <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-          {idx > 0 && (
-            <button type="button" onClick={() => slide(-1)} style={{ ...btnBase, flex: 'none', width: 100, background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.8)' }}>
-              ← 이전
-            </button>
-          )}
-          {idx < TOTAL - 1 ? (
-            <button type="button" onClick={() => slide(1)} style={{ ...btnBase, flex: 1, background: 'rgba(160,176,255,0.22)', color: '#fff' }}>
-              다음 →
-            </button>
-          ) : (
-            <button type="button" onClick={onComplete} style={{ ...btnBase, flex: 1, background: 'rgba(92,107,192,0.85)', color: '#fff' }}>
-              시작하기 →
-            </button>
-          )}
+        {/* Fixed bottom: dots + nav buttons */}
+        <div style={{ padding: '0 14px 12px', flexShrink: 0 }}>
+          {/* Dot indicator */}
+          <div style={{ display: 'flex', gap: 5, marginBottom: 10 }}>
+            {Array.from({ length: TOTAL }, (_, i) => (
+              <div key={i} style={{
+                borderRadius: idx === i ? 3 : '50%',
+                width: idx === i ? 16 : 5, height: 5,
+                background: idx === i ? dotActive : dotInact,
+                transition: 'all 0.25s ease',
+              }} />
+            ))}
+          </div>
+          {/* Buttons */}
+          <div style={{ display: 'flex', gap: 6 }}>
+            {idx > 0 && (
+              <button type="button" onClick={() => slide(-1)} className="trainer-btn trainer-btn-secondary" style={{ flex: 'none', width: 72, height: 34, fontSize: 11 }}>
+                ← 이전
+              </button>
+            )}
+            {idx < TOTAL - 1 ? (
+              <button type="button" onClick={() => slide(1)} className="trainer-btn trainer-btn-primary" style={{ flex: 1, height: 34, fontSize: 11 }}>
+                다음 →
+              </button>
+            ) : (
+              <button type="button" onClick={onComplete} className="trainer-btn trainer-btn-primary" style={{ flex: 1, height: 34, fontSize: 11 }}>
+                시작하기 →
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
