@@ -1,11 +1,12 @@
-import { getAllPosts } from '@/lib/blog'
+import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
-import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Blog — Patto',
-  description: 'Tips, guides, and insights on English pattern learning.',
-}
+export const revalidate = 3600
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export default async function BlogListPage({
   params,
@@ -13,11 +14,16 @@ export default async function BlogListPage({
   params: Promise<{ locale: string }>
 }) {
   const { locale } = await params
-  const posts = await getAllPosts(locale, 'patto')
 
   const fontFamily = locale === 'ko'
     ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
     : '"DM Sans", "Inter", system-ui, sans-serif'
+
+  const { data: posts } = await supabase
+    .from('blog_posts')
+    .select('slug, title, description, tags, published_at')
+    .eq('locale', locale)
+    .order('published_at', { ascending: false })
 
   return (
     <div style={{ background: '#0a0a1a', minHeight: '100dvh', color: 'white', fontFamily }}>
@@ -48,12 +54,12 @@ export default async function BlogListPage({
           Learning Insights
         </h1>
         <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.6)', margin: 0, lineHeight: 1.6 }}>
-          Tips and guides on mastering English patterns.
+          {locale === 'ko' ? '영어 패턴 마스터를 위한 팁과 가이드' : 'Tips and guides on mastering English patterns.'}
         </p>
       </div>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px 80px' }}>
-        {posts.length === 0 ? (
+        {(!posts || posts.length === 0) ? (
           <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 14 }}>No posts yet.</p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -91,7 +97,7 @@ export default async function BlogListPage({
 
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>
-                      {post.author} · {new Date(post.date).toLocaleDateString(
+                      Patto Team · {new Date(post.published_at).toLocaleDateString(
                         locale === 'ko' ? 'ko-KR' : 'en-US',
                         { year: 'numeric', month: 'long', day: 'numeric' }
                       )}

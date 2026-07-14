@@ -1,19 +1,23 @@
-import { getAllPosts, getPostBySlug } from '@/lib/blog'
+import { createClient } from '@supabase/supabase-js'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
+export const revalidate = 3600
+export const dynamicParams = true
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
+
 export async function generateStaticParams() {
-  const locales = ['en', 'ko']
-  const params = []
-  for (const locale of locales) {
-    const posts = await getAllPosts(locale, 'patto')
-    for (const post of posts) {
-      params.push({ locale, slug: post.slug })
-    }
-  }
-  return params
+  const { data: posts } = await supabase
+    .from('blog_posts')
+    .select('locale, slug')
+
+  return (posts || []).map(p => ({ locale: p.locale, slug: p.slug }))
 }
 
 export async function generateMetadata({
@@ -22,7 +26,13 @@ export async function generateMetadata({
   params: Promise<{ locale: string; slug: string }>
 }): Promise<Metadata> {
   const { locale, slug } = await params
-  const post = await getPostBySlug(locale, 'patto', slug)
+  const { data: post } = await supabase
+    .from('blog_posts')
+    .select('title, description')
+    .eq('locale', locale)
+    .eq('slug', slug)
+    .single()
+
   if (!post) return {}
   return {
     title: `${post.title} — Patto Blog`,
@@ -37,7 +47,14 @@ export default async function BlogPostPage({
   params: Promise<{ locale: string; slug: string }>
 }) {
   const { locale, slug } = await params
-  const post = await getPostBySlug(locale, 'patto', slug)
+
+  const { data: post } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('locale', locale)
+    .eq('slug', slug)
+    .single()
+
   if (!post) notFound()
 
   const fontFamily = locale === 'ko'
@@ -83,7 +100,6 @@ export default async function BlogPostPage({
         .blog-prose * { font-family: inherit; }
       `}</style>
 
-      {/* Back nav */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '36px 24px 0' }}>
         <Link href={`/blog/${locale}/patto`} style={{
           fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.5)',
@@ -94,7 +110,6 @@ export default async function BlogPostPage({
         </Link>
       </div>
 
-      {/* Header */}
       <header style={{ maxWidth: 720, margin: '0 auto', padding: '28px 24px 32px' }}>
         {post.tags?.length > 0 && (
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
@@ -122,7 +137,7 @@ export default async function BlogPostPage({
         </p>
 
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', margin: 0 }}>
-          {post.author} · {new Date(post.date).toLocaleDateString(
+          Patto Team · {new Date(post.published_at).toLocaleDateString(
             locale === 'ko' ? 'ko-KR' : 'en-US',
             { year: 'numeric', month: 'long', day: 'numeric' }
           )}
@@ -131,7 +146,6 @@ export default async function BlogPostPage({
         <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginTop: 28 }} />
       </header>
 
-      {/* MDX content */}
       <article
         className="blog-prose"
         style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px' }}
@@ -139,7 +153,6 @@ export default async function BlogPostPage({
         <MDXRemote source={post.content} />
       </article>
 
-      {/* CTA */}
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 24px 80px' }}>
         <div style={{
           padding: '32px', textAlign: 'center',
