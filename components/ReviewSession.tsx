@@ -266,7 +266,7 @@ export function ReviewSession() {
                     <span className="font-playfair text-[0.95rem] font-bold text-[var(--pa)] w-4 shrink-0 pt-0.5">{i + 1}</span>
                     <div className="min-w-0">
                       <p className="text-[0.9rem] font-medium text-[var(--pt)] leading-relaxed">{ex.en}</p>
-                      <p className="text-[0.75rem] text-[var(--pm)] mt-0.5 leading-relaxed">{ex.ko}</p>
+                      <p className="text-[0.8rem] text-[var(--pm)] mt-0.5 leading-relaxed">{ex.ko}</p>
                     </div>
                   </div>
                 ))}
