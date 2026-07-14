@@ -754,8 +754,54 @@ export function TrainerOrb() {
       {/* Breathing wrapper — animates scale/opacity when idle; drag scale applied inside */}
       <div
         className={!isDragging ? 'dock-orb-breathe' : ''}
-        style={{ willChange: 'transform, opacity' }}
+        style={{ willChange: 'transform, opacity', position: 'relative' }}
       >
+        {/* Spinner ring */}
+        {!isDragging && (() => {
+          const ringBase: React.CSSProperties = {
+            position: 'absolute',
+            top: -4, left: -4,
+            width: ORB_SIZE + 8, height: ORB_SIZE + 8,
+            borderRadius: '50%',
+            border: '2px solid transparent',
+            pointerEvents: 'none',
+          }
+          if (orbState === 'idle') return (
+            <div style={{
+              ...ringBase,
+              borderTopColor: isDark ? 'rgba(160,176,255,0.25)' : 'rgba(160,176,255,0.4)',
+              borderRightColor: isDark ? 'rgba(160,176,255,0.05)' : 'rgba(160,176,255,0.15)',
+              animation: 'orb-spin 4s linear infinite',
+            }} />
+          )
+          if (orbState === 'speaking') return (
+            <div style={{
+              ...ringBase,
+              borderTopColor: isDark ? 'rgba(107,143,255,0.55)' : 'rgba(107,143,255,0.7)',
+              borderRightColor: isDark ? 'rgba(107,143,255,0.15)' : 'rgba(107,143,255,0.3)',
+              borderBottomColor: isDark ? 'rgba(107,143,255,0.0)' : 'rgba(107,143,255,0.1)',
+              animation: 'orb-spin 1.2s linear infinite',
+            }} />
+          )
+          if (orbState === 'waiting') return (
+            <div style={{
+              ...ringBase,
+              borderTopColor: isDark ? 'rgba(80,112,232,0.35)' : 'rgba(80,112,232,0.5)',
+              borderRightColor: isDark ? 'rgba(80,112,232,0.05)' : 'rgba(80,112,232,0.2)',
+              animation: 'orb-spin 3s linear infinite',
+            }} />
+          )
+          if (orbState === 'done') return (
+            <div style={{
+              ...ringBase,
+              borderTopColor: isDark ? 'rgba(184,144,58,0.35)' : 'rgba(184,144,58,0.5)',
+              borderRightColor: isDark ? 'rgba(184,144,58,0.05)' : 'rgba(184,144,58,0.2)',
+              animation: 'orb-spin 6s linear infinite',
+            }} />
+          )
+          return null
+        })()}
+
         {/* Orb shell */}
         <div
           ref={orbRef}
@@ -772,6 +818,13 @@ export function TrainerOrb() {
             transition: isDragging
               ? 'box-shadow 0.2s ease, transform 0.15s ease'
               : 'box-shadow 0.20s ease, transform 0.20s ease',
+            animation: !isDragging && orbState === 'speaking'
+              ? 'orb-pulse 1s ease-in-out infinite'
+              : !isDragging && orbState === 'waiting'
+              ? 'orb-blink 2s ease-in-out infinite'
+              : !isDragging && orbState === 'done'
+              ? (isDark ? 'orb-glow-dark 2s ease-in-out infinite' : 'orb-glow 2s ease-in-out infinite')
+              : undefined,
             background: isDark
               ? 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.12) 0%, rgba(180,190,255,0.08) 50%, rgba(100,120,220,0.05) 100%)'
               : 'radial-gradient(circle at 35% 30%, rgba(255,255,255,0.95) 0%, rgba(240,243,255,0.7) 40%, rgba(210,220,255,0.35) 70%, rgba(190,205,255,0.15) 100%)',

@@ -483,6 +483,28 @@ body {
   color: rgba(255,255,255,0.65);
 }
 
+/* ── Orb Spinner Ring ────────────────────────────────────────────────── */
+@keyframes orb-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.06); }
+}
+@keyframes orb-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+@keyframes orb-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(184,144,58,0.3), 0 4px 16px rgba(107,143,255,0.25), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 14px rgba(142,167,255,0.8), 0 0 28px rgba(142,167,255,0.4); }
+  50%       { box-shadow: 0 0 24px rgba(184,144,58,0.6), 0 4px 20px rgba(107,143,255,0.3), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 18px rgba(142,167,255,0.9), 0 0 36px rgba(142,167,255,0.5); }
+}
+@keyframes orb-glow-dark {
+  0%, 100% { box-shadow: 0 0 12px rgba(184,144,58,0.25), 0 2px 12px rgba(142,167,255,0.25); }
+  50%       { box-shadow: 0 0 24px rgba(184,144,58,0.5), 0 4px 18px rgba(142,167,255,0.45); }
+}
+
 /* ── Pattern Card glass (front & back) ──────────────────────────────── */
 .pattern-card-glass {
   background: rgba(255,255,255,0.55);
