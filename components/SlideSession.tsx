@@ -742,7 +742,6 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   function goTo(next: Slide) {
     clearTimers()
     stopSpeech()
-    setStoryAudioPaused(false)
     trainerRef.current?.clearMessage()
     setRevealed(false)
     saveSlide(story.id, next)
