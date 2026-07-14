@@ -727,6 +727,13 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { onSessionStart() }, [])
 
+  // ── Browsing phase — enables orb tap → handleMenuExit() ─────────────────
+  useEffect(() => {
+    trainer?.startBrowsing?.()
+    return () => trainer?.endBrowsing?.()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   // ── Timer helpers ────────────────────────────────────────────────────────
 
   function addTimer(t: ReturnType<typeof setTimeout>) {

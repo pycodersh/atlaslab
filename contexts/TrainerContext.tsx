@@ -631,9 +631,9 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     const isBrowsing = sessionPhaseRef.current === 'browsing'
     clearCard()
     showCard({
-      size: 'medium', message: 'End session?', priority: 1,
+      size: 'medium', message: '세션을 종료할까요?', priority: 1,
       buttons: [
-        { label: 'Stay', primary: true, onClick: () => {} },
+        { label: '계속하기', primary: true, onClick: () => {} },
         {
           label: 'Exit',
           onClick: () => {
