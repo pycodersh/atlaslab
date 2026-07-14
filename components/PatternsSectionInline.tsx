@@ -473,17 +473,10 @@ export function PatternsSectionInline({
         }} />
 
         {patternMeaning && (
-          <p style={{ fontSize: 13, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
-            {patternMeaning}
-          </p>
-        )}
-      </div>
-
-      {/* Examples */}
-      <div style={{ padding: '14px 16px 16px' }}>
-        {/* Speaker + Language toggle — right column, above examples */}
-        {prefs.language !== 'en' && (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6, marginBottom: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+            <p style={{ fontSize: 13, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+              {patternMeaning}
+            </p>
             {showSpeakerButton && (
               <button
                 type="button"
@@ -499,6 +492,15 @@ export function PatternsSectionInline({
                 <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
               </button>
             )}
+          </div>
+        )}
+      </div>
+
+      {/* Examples */}
+      <div style={{ padding: '14px 16px 16px' }}>
+        {/* Language toggle — right-aligned, above examples */}
+        {prefs.language !== 'en' && (
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
             <div style={{ display: 'inline-flex', borderRadius: 10, background: 'var(--pc)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pd)', padding: 2 }}>
               {(['en', 'en-ko', 'ko'] as const).map(mode => (
                 <button
