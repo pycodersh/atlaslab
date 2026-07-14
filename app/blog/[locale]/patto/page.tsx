@@ -23,6 +23,7 @@ export default async function BlogListPage({
     .from('blog_posts')
     .select('slug, title, description, tags, published_at')
     .eq('locale', locale)
+    .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
 
   return (
