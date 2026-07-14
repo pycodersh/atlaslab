@@ -535,11 +535,11 @@ export function PatternsSectionInline({
                     text={ex.en}
                     saveCandidates={safeCandidates}
                     source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                    style={{ display: 'block', fontSize: 16, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.5, marginBottom: 2 }}
+                    style={{ display: 'block', fontSize: hideRecallMode ? 14 : 16, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.5, marginBottom: 2 }}
                   />
                 </div>
                 {showKorean && exKo && (
-                  <p style={{ fontSize: 13, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
+                  <p style={{ fontSize: hideRecallMode ? 11 : 13, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
                 )}
               </div>
             )
