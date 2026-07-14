@@ -106,8 +106,20 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = getSupabase()
-    // Get 5 patterns that don't have blog posts yet
-    const { data: patterns, error: patternsError } = await supabase
+
+    // First get already-processed pattern IDs
+    const { data: existingPosts } = await supabase
+      .from('blog_posts')
+      .select('pattern_id')
+      .eq('locale', 'en')
+      .not('pattern_id', 'is', null)
+
+    const processedIds = (existingPosts || [])
+      .map(p => p.pattern_id)
+      .filter(Boolean)
+
+    // Then query patterns excluding those IDs
+    let query = supabase
       .from('patterns')
       .select(`
         id,
@@ -117,11 +129,14 @@ export async function GET(request: NextRequest) {
       `)
       .eq('is_published', true)
       .eq('pattern_translations.ui_lang', 'en')
-      .not('id', 'in',
-        supabase.from('blog_posts').select('pattern_id').eq('locale', 'en')
-      )
       .order('order_index')
       .limit(5)
+
+    if (processedIds.length > 0) {
+      query = query.not('id', 'in', `(${processedIds.join(',')})`)
+    }
+
+    const { data: patterns, error: patternsError } = await query
 
     if (patternsError) throw patternsError
     if (!patterns || patterns.length === 0) {
