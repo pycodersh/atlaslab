@@ -246,7 +246,7 @@ async function main() {
       examples(sentence, difficulty, order_index, example_translations(translation, ui_lang))
     `)
     .order('order_index')
-    .range(50, 149)
+    .range(150, 249)
 
   if (error) {
     console.error('Failed to fetch patterns:', error.message)
