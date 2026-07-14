@@ -206,6 +206,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ success: true, processed: results })
   } catch (error) {
     console.error('Blog generation error:', error)
-    return NextResponse.json({ error: String(error) }, { status: 500 })
+    return NextResponse.json({ error: error instanceof Error ? error.message : JSON.stringify(error) }, { status: 500 })
   }
 }
