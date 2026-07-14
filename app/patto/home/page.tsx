@@ -596,11 +596,9 @@ function DesktopTipInline({ onClose, initialIndex = 0 }: { onClose: () => void; 
 
 // ── First-Visit Onboarding Overlay ───────────────────────────────────────────
 const INTRO_ORB_SIZE = 52
-const INTRO_CARD_W   = 260
+const INTRO_CARD_W   = 300
 
 function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
   const [idx, setIdx]         = useState(0)
   const [transit, setTransit] = useState(false)
   const [tOffset, setTOffset] = useState(0)
@@ -642,22 +640,58 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
   const dragPct = dragX / W * 100
   const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
 
-  // Card colors — opaque so content is crisp above home background
-  const cardBg     = isDark ? 'rgba(22,18,48,0.97)'  : 'rgba(255,255,255,0.95)'
-  const cardBorder = isDark ? '0.5px solid rgba(142,167,255,0.22)' : '0.5px solid rgba(200,215,245,0.60)'
-  const textMain   = isDark ? '#e8e0f8' : '#1a1a2e'
-  const subColor   = isDark ? 'rgba(232,224,248,0.45)' : '#8a8aaa'
-  const dotActive  = isDark ? 'rgba(166,184,255,0.85)' : '#5C6BC0'
-  const dotInact   = isDark ? 'rgba(255,255,255,0.18)' : 'rgba(92,107,192,0.18)'
+  const textMain = '#1a1a2e'
+  const tagColor = '#8090F0'
+
+  const btnBase: React.CSSProperties = {
+    height: 44, borderRadius: 10, fontSize: 14, fontWeight: 600,
+    flex: 1, cursor: 'pointer', display: 'flex',
+    alignItems: 'center', justifyContent: 'center', border: 'none',
+  }
+  const btnPrimary: React.CSSProperties = {
+    ...btnBase,
+    background: 'rgba(128,144,240,0.2)',
+    border: '1px solid rgba(128,144,240,0.4)',
+    color: '#4050B0',
+  }
+  const btnSecondary: React.CSSProperties = {
+    ...btnBase,
+    background: 'transparent',
+    border: '1px solid rgba(128,144,240,0.25)',
+    color: '#8890a4',
+  }
+  const btnStart: React.CSSProperties = {
+    ...btnBase,
+    background: 'linear-gradient(135deg, #A6B8FF, #8090F0)',
+    color: '#fff',
+  }
+
+  const dots = (
+    <div style={{ display: 'flex', gap: 5, marginBottom: 16 }}>
+      {Array.from({ length: TOTAL }, (_, j) => (
+        <div key={j} style={{
+          borderRadius: idx === j ? 3 : '50%',
+          width: idx === j ? 20 : 6, height: 6,
+          background: idx === j ? '#5C6BC0' : '#C5CAE9',
+          transition: 'all 0.25s ease',
+        }} />
+      ))}
+    </div>
+  )
 
   const CARDS = [
     {
       iconBg: 'rgba(239,130,107,0.15)', iconColor: '#E8624A', Icon: AlertCircle,
       tag: '왜 말이 안 나올까?',
       body: (
-        <p style={{ fontSize: 13, lineHeight: 1.65, color: textMain, margin: 0, whiteSpace: 'pre-line' }}>
-          {'단어를 알아도 말이 안 나오는 건\n조합 방법, 즉 패턴을 모르기 때문이에요.'}
+        <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 20px', whiteSpace: 'pre-line' }}>
+          {'영어 단어는 알지만 문장이 안 만들어지는 건\n단어를 어떻게 조합하는지 모르기 때문이에요.\n그 조합 방식이 바로 패턴이에요.'}
         </p>
+      ),
+      buttons: (
+        <div style={{ display: 'flex' }}>
+          <button type="button" onClick={() => slide(1)} style={{ ...btnPrimary, flex: 1 }}>다음</button>
+        </div>
       ),
     },
     {
@@ -665,14 +699,23 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       tag: '핵심 패턴 500개',
       body: (
         <>
-          <div style={{ background: 'rgba(128,144,240,0.12)', borderRadius: 7, padding: '8px 10px', marginBottom: 9 }}>
-            <p style={{ fontSize: 12, fontWeight: 600, color: '#5C6BC0', margin: '0 0 3px', fontFamily: 'monospace' }}>I ended up ~ing</p>
-            <p style={{ fontSize: 12, fontWeight: 600, color: '#5C6BC0', margin: 0, fontFamily: 'monospace' }}>I was about to ~</p>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 12px', whiteSpace: 'pre-line' }}>
+            {'원어민이 매일 쓰는 단어는 2,000~3,000개.\n그런데 그 단어들을 담는 틀,\n즉 패턴은 500개면 충분해요.'}
+          </p>
+          <div style={{ background: 'rgba(128,144,240,0.1)', borderRadius: 8, padding: '10px 14px', marginBottom: 12 }}>
+            <p style={{ fontSize: 15, fontWeight: 700, color: '#4050B0', margin: '0 0 4px', fontFamily: 'monospace' }}>I ended up ~ing</p>
+            <p style={{ fontSize: 15, fontWeight: 700, color: '#4050B0', margin: 0, fontFamily: 'monospace' }}>I was about to ~</p>
           </div>
-          <p style={{ fontSize: 13, lineHeight: 1.65, color: textMain, margin: 0, whiteSpace: 'pre-line' }}>
-            {'이런 핵심 패턴 500개면\n일상 대화는 충분해요.'}
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 20px' }}>
+            이런 패턴들이 자연스럽게 입에 배면 영어로 말할 수 있어요.
           </p>
         </>
+      ),
+      buttons: (
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button type="button" onClick={() => slide(-1)} style={btnSecondary}>이전</button>
+          <button type="button" onClick={() => slide(1)} style={btnPrimary}>다음</button>
+        </div>
       ),
     },
     {
@@ -680,18 +723,23 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       tag: '학습 방법',
       body: (
         <>
-          <p style={{ fontSize: 13, lineHeight: 1.65, color: textMain, margin: '0 0 4px', whiteSpace: 'pre-line' }}>
-            {'100개 스토리로 패턴을 반복해요.\n각 패턴을 트레이너와 함께'}
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 6px', whiteSpace: 'pre-line' }}>
+            {'사람은 배운 것을 잊어요.\nPatto는 망각 이론을 기반으로\n각 패턴을 딱 맞는 타이밍에 다시 보여줘요.\n각 패턴을 트레이너와 함께'}
           </p>
-          <p style={{ fontSize: 32, fontWeight: 800, color: '#5C6BC0', margin: '0 0 2px', lineHeight: 1.1 }}>총 10회</p>
-          <p style={{ fontSize: 13, lineHeight: 1.65, color: textMain, margin: 0 }}>반복하면 자연스럽게 쌓여요.</p>
+          <p style={{ fontSize: 36, fontWeight: 800, color: '#5C6BC0', margin: '0 0 4px', lineHeight: 1.1 }}>총 10회</p>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 20px' }}>반복하면 자연스럽게 쌓입니다.</p>
         </>
+      ),
+      buttons: (
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button type="button" onClick={() => slide(-1)} style={btnSecondary}>이전</button>
+          <button type="button" onClick={onComplete} style={btnStart}>시작</button>
+        </div>
       ),
     },
   ]
 
   return (
-    // Card floats directly above orb — no backdrop overlay
     <div
       ref={containerRef}
       style={{
@@ -699,83 +747,50 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
         bottom: TAB_BAR_HEIGHT + 16 + INTRO_ORB_SIZE + 10,
         right: 0,
         width: INTRO_CARD_W,
-        height: 300,
         zIndex: 199,
-        borderRadius: '10px 10px 4px 10px',
-        background: cardBg,
+        borderRadius: 20,
+        background: 'rgba(255,255,255,0.95)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        border: cardBorder,
+        border: '1px solid rgba(255,255,255,0.6)',
         boxShadow: '0 8px 32px rgba(92,107,192,0.2)',
-        display: 'flex', flexDirection: 'column',
+        minHeight: 320,
         overflow: 'hidden',
       }}
-        onTouchStart={onTouchStart}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
-        {/* Slide content rail */}
-        <div style={{ flex: 1, overflow: 'hidden', minHeight: 0 }}>
-          <div style={{
-            display: 'flex', width: `${TOTAL * 100}%`, height: '100%',
-            transform: `translateX(${railPct / TOTAL}%)`,
-            transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
-            willChange: 'transform',
-          }}>
-            {CARDS.map((card, i) => {
-              const Icon = card.Icon
-              return (
-                <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: '14px 16px 10px', display: 'flex', flexDirection: 'column' }}>
-                  <div style={{
-                    width: 34, height: 34, borderRadius: 9,
-                    background: card.iconBg,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    marginBottom: 9, flexShrink: 0,
-                  }}>
-                    <Icon style={{ width: 17, height: 17, color: card.iconColor }} strokeWidth={1.8} />
-                  </div>
-                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: subColor, margin: '0 0 8px', textTransform: 'uppercase', flexShrink: 0 }}>
-                    {card.tag}
-                  </p>
-                  <div style={{ flex: 1 }}>{card.body}</div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Fixed bottom: dots + nav buttons */}
-        <div style={{ padding: '0 14px 12px', flexShrink: 0 }}>
-          {/* Dot indicator */}
-          <div style={{ display: 'flex', gap: 5, marginBottom: 10 }}>
-            {Array.from({ length: TOTAL }, (_, i) => (
-              <div key={i} style={{
-                borderRadius: idx === i ? 3 : '50%',
-                width: idx === i ? 16 : 5, height: 5,
-                background: idx === i ? dotActive : dotInact,
-                transition: 'all 0.25s ease',
-              }} />
-            ))}
-          </div>
-          {/* Buttons */}
-          <div style={{ display: 'flex', gap: 6 }}>
-            {idx > 0 && (
-              <button type="button" onClick={() => slide(-1)} className="trainer-btn trainer-btn-secondary" style={{ flex: 'none', width: 72, height: 34, fontSize: 11 }}>
-                ← 이전
-              </button>
-            )}
-            {idx < TOTAL - 1 ? (
-              <button type="button" onClick={() => slide(1)} className="trainer-btn trainer-btn-primary" style={{ flex: 1, height: 34, fontSize: 11 }}>
-                다음 →
-              </button>
-            ) : (
-              <button type="button" onClick={onComplete} className="trainer-btn trainer-btn-primary" style={{ flex: 1, height: 34, fontSize: 11 }}>
-                시작하기 →
-              </button>
-            )}
-          </div>
-        </div>
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* Slide rail */}
+      <div style={{
+        display: 'flex', width: `${TOTAL * 100}%`,
+        transform: `translateX(${railPct / TOTAL}%)`,
+        transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
+        willChange: 'transform',
+      }}>
+        {CARDS.map((card, i) => {
+          const Icon = card.Icon
+          return (
+            <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: '24px 20px' }}>
+              {dots}
+              <div style={{
+                width: 44, height: 44, borderRadius: 12,
+                background: card.iconBg,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                marginBottom: 14,
+              }}>
+                <Icon style={{ width: 22, height: 22, color: card.iconColor }} strokeWidth={1.8} />
+              </div>
+              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '1px', color: tagColor, margin: '0 0 10px' }}>
+                {card.tag}
+              </p>
+              {card.body}
+              {card.buttons}
+            </div>
+          )
+        })}
       </div>
+    </div>
   )
 }
 
