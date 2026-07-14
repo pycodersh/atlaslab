@@ -22,8 +22,8 @@ const BOTTOM_PAD  = 24          // bottom spacing without tab bar
 const SAT_W       = 22          // satellite diameter
 const SAT_DIST    = ORB_SIZE / 2 + 28   // orb-center → satellite-center
 const MENU_ITEM_W = 44
-const MENU_DIST   = 62
-const MENU_SPREAD = Math.PI / 5
+const MENU_DIST   = 90
+const MENU_SPREAD = Math.PI / 4
 
 // ── Orb visuals by state ──────────────────────────────────────────────────────
 const ORB_GRADIENT: Record<OrbState, string> = {
