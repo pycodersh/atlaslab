@@ -598,24 +598,24 @@ function DesktopTipInline({ onClose, initialIndex = 0 }: { onClose: () => void; 
 
 // ── First-Visit Onboarding Card ───────────────────────────────────────────────
 const INTRO_W = 290
-const INTRO_H = 340
+const INTRO_H = 346
 const INTRO_ORB_SIZE = 52
 
 function IntroOnboardingCard({
   corner,
-  isDark: _isDark,
+  isDark,
   onComplete,
 }: {
   corner: Corner
   isDark: boolean
   onComplete: () => void
 }) {
-  const [idx, setIdx]     = useState(0)
+  const [idx, setIdx]         = useState(0)
   const [transit, setTransit] = useState(false)
   const [tOffset, setTOffset] = useState(0)
-  const [dragX, setDragX]   = useState(0)
-  const isTransiting        = useRef(false)
-  const touchStartX         = useRef(0)
+  const [dragX, setDragX]     = useState(0)
+  const isTransiting           = useRef(false)
+  const touchStartX            = useRef(0)
   const TOTAL = 3
 
   function slide(dir: 1 | -1) {
@@ -648,145 +648,117 @@ function IntroOnboardingCard({
   const dragPct = dragX / INTRO_W * 100
   const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
 
-  // ── Shared styles ──────────────────────────────────────────────────────────
-  const textMain: React.CSSProperties['color'] = '#1a1a2e'
-  const textSub:  React.CSSProperties['color'] = '#5a5a7a'
+  // ── Card shell — mirrors TrainerOrb card colors ───────────────────────────
+  const cardBg     = isDark ? 'rgba(30,28,48,0.85)'  : 'rgba(255,255,255,0.75)'
+  const cardBorder = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
+  const cardShadow = isDark
+    ? '0 16px 40px rgba(0,0,0,0.40)'
+    : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)'
+  const textMain = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
+  const textSub  = isDark ? 'rgba(255,255,255,0.55)' : '#5a5a7a'
 
-  const btnBase: React.CSSProperties = {
-    height: 40, borderRadius: 10, fontSize: 13, fontWeight: 600,
-    flex: 1, cursor: 'pointer', display: 'flex',
-    alignItems: 'center', justifyContent: 'center',
-  }
-  const btnPrimary: React.CSSProperties = {
-    ...btnBase,
-    background: 'rgba(92,107,192,0.12)',
-    border: '1px solid rgba(92,107,192,0.25)',
-    color: '#5C6BC0',
-  }
-  const btnSecondary: React.CSSProperties = {
-    ...btnBase,
-    background: 'transparent',
-    border: '1px solid rgba(0,0,0,0.1)',
-    color: '#8a8aaa',
-  }
-  const btnStart: React.CSSProperties = {
-    ...btnBase,
-    background: '#5C6BC0',
-    border: 'none',
-    color: '#ffffff',
-  }
-
-  // ── Dots indicator ──────────────────────────────────────────────────────────
+  // ── Dots indicator ─────────────────────────────────────────────────────────
   const dots = (
     <div style={{ display: 'flex', gap: 5, marginBottom: 14 }}>
       {Array.from({ length: TOTAL }, (_, j) => (
         <div key={j} style={{
           borderRadius: idx === j ? 3 : '50%',
-          width: idx === j ? 18 : 5, height: 5,
-          background: idx === j ? '#5C6BC0' : 'rgba(0,0,0,0.12)',
+          width: idx === j ? 18 : 6, height: 6,
+          background: idx === j ? '#5C6BC0' : '#ddd',
           transition: 'all 0.25s ease',
+          flexShrink: 0,
         }} />
       ))}
     </div>
   )
 
-  // ── Card 1: 왜 말이 안 나올까? ───────────────────────────────────────────
+  const cardInner: React.CSSProperties = {
+    display: 'flex', flexDirection: 'column',
+    height: INTRO_H, boxSizing: 'border-box',
+    padding: 18, wordBreak: 'keep-all',
+  }
+
+  // ── Card 1 — 왜 말이 안 나올까? ──────────────────────────────────────────
   const card1 = (
-    <div style={{ display: 'flex', flexDirection: 'column', height: INTRO_H, boxSizing: 'border-box', padding: 18, wordBreak: 'keep-all' }}>
+    <div style={cardInner}>
       {dots}
-      {/* Icon */}
-      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(232,98,74,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, flexShrink: 0 }}>
-        <IconMoodPuzzled size={22} color="#E8624A" stroke={1.8} />
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 10, flexShrink: 0 }}>
+        <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(232,98,74,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <IconMoodPuzzled size={20} color="#E8624A" stroke={1.8} />
+        </div>
+        <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: 0, lineHeight: 1.2 }}>왜 말이 안 나올까?</p>
       </div>
-      {/* Title */}
-      <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: '0 0 6px', flexShrink: 0 }}>왜 말이 안 나올까?</p>
-      {/* Body */}
-      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '0 0 12px' }}>
-        영어 단어를 알아도 막상 말하려면 막히죠.
-        단어를 아는 것과 말할 수 있는 건 달라요.
+      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: 0 }}>
+        영어 단어를 알아도 막상 말하려면 막히죠.{'\n'}
+        단어를 아는 것과 말할 수 있는 건 달라요.{'\n'}
         단어를 어떻게 조합하는지, 즉 패턴을 모르기 때문이에요.
       </p>
-      {/* Stats */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 0 }}>
-        <div style={{ flex: 1, background: 'rgba(232,98,74,0.07)', borderRadius: 10, padding: '10px 12px' }}>
-          <p style={{ fontSize: 15, fontWeight: 800, color: '#E8624A', margin: '0 0 2px' }}>20,000</p>
-          <p style={{ fontSize: 10.5, color: textSub, margin: 0 }}>원어민 어휘</p>
-        </div>
-        <div style={{ flex: 1, background: 'rgba(92,107,192,0.07)', borderRadius: 10, padding: '10px 12px' }}>
-          <p style={{ fontSize: 15, fontWeight: 800, color: '#5C6BC0', margin: '0 0 2px' }}>2,000~</p>
-          <p style={{ fontSize: 10.5, color: textSub, margin: 0 }}>매일 쓰는 단어</p>
-        </div>
-      </div>
-      {/* Buttons */}
       <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex' }}>
-        <button type="button" onClick={() => slide(1)} style={{ ...btnPrimary, flex: 1 }}>Next</button>
+        <button type="button" className="trainer-btn trainer-btn-primary" style={{ flex: 1 }} onClick={() => slide(1)}>Next</button>
       </div>
     </div>
   )
 
-  // ── Card 2: 핵심 패턴 500개 ─────────────────────────────────────────────
+  // ── Card 2 — 핵심 패턴 500개로 시작해요 ───────────────────────────────────
   const card2 = (
-    <div style={{ display: 'flex', flexDirection: 'column', height: INTRO_H, boxSizing: 'border-box', padding: 18, wordBreak: 'keep-all' }}>
+    <div style={cardInner}>
       {dots}
-      {/* Icon */}
-      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(92,107,192,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, flexShrink: 0 }}>
-        <IconPuzzle size={22} color="#5C6BC0" stroke={1.8} />
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 10, flexShrink: 0 }}>
+        <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(92,107,192,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <IconPuzzle size={20} color="#5C6BC0" stroke={1.8} />
+        </div>
+        <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: 0, lineHeight: 1.2 }}>핵심 패턴 500개로 시작해요</p>
       </div>
-      {/* Title */}
-      <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: '0 0 6px', flexShrink: 0 }}>핵심 패턴 500개</p>
-      {/* Pattern box */}
-      <div style={{ background: 'rgba(92,107,192,0.08)', borderRadius: 9, padding: '10px 12px', marginBottom: 10, flexShrink: 0 }}>
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0', margin: '0 0 4px', fontFamily: 'monospace' }}>&apos;I ended up ~ing&apos;</p>
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0', margin: 0, fontFamily: 'monospace' }}>&apos;I was about to ~&apos;</p>
+      <div style={{ background: 'rgba(92,107,192,0.08)', borderRadius: 8, padding: '9px 12px', marginBottom: 10, flexShrink: 0 }}>
+        <p style={{ fontSize: 13, fontWeight: 500, color: '#3a4a9a', margin: '0 0 3px', fontFamily: 'monospace' }}>&#39;I ended up ~ing&#39;</p>
+        <p style={{ fontSize: 13, fontWeight: 500, color: '#3a4a9a', margin: 0, fontFamily: 'monospace' }}>&#39;I was about to ~&#39;</p>
       </div>
-      {/* Body */}
       <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: 0 }}>
-        이런 패턴 500개면 일상 대화는 충분해요.
-        Patto는 100개 스토리에 핵심 패턴 500개를 담았어요.
+        원어민이 가장 자주 쓰는 핵심 패턴 500개.{'\n'}
+        이 패턴들이 자연스럽게 입에 배면{'\n'}
+        일상 대화가 술술 나와요.
       </p>
-      {/* Buttons */}
       <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex', gap: 8 }}>
-        <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
-        <button type="button" onClick={() => slide(1)} style={btnPrimary}>Next</button>
+        <button type="button" className="trainer-btn trainer-btn-secondary" onClick={() => slide(-1)}>Back</button>
+        <button type="button" className="trainer-btn trainer-btn-primary" onClick={() => slide(1)}>Next</button>
       </div>
     </div>
   )
 
-  // ── Card 3: 반복 학습 ──────────────────────────────────────────────────
+  // ── Card 3 — 트레이너와 함께 반복해요 ────────────────────────────────────
   const card3 = (
-    <div style={{ display: 'flex', flexDirection: 'column', height: INTRO_H, boxSizing: 'border-box', padding: 18, wordBreak: 'keep-all' }}>
+    <div style={cardInner}>
       {dots}
-      {/* Icon */}
-      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(76,175,144,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, flexShrink: 0 }}>
-        <IconRepeat size={22} color="#4CAF90" stroke={1.8} />
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 10, flexShrink: 0 }}>
+        <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(76,175,144,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <IconRepeat size={20} color="#4CAF90" stroke={1.8} />
+        </div>
+        <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: 0, lineHeight: 1.2 }}>트레이너와 함께 반복해요</p>
       </div>
-      {/* Title */}
-      <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: '0 0 6px', flexShrink: 0 }}>반복 학습</p>
-      {/* Body */}
-      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '0 0 12px' }}>
-        사람은 배운 것을 잊어요. Patto는 딱 맞는 타이밍에 패턴을 다시 보여줘요.
-        각 패턴을 총 10회 반복하면 자연스럽게 장기 기억으로 쌓입니다.
+      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '0 0 10px' }}>
+        사람은 배운 것을 잊어요. Patto는 망각 이론을 기반으로{'\n'}
+        딱 맞는 타이밍에 패턴을 다시 보여줘요.{'\n'}
+        각 패턴을 총 10회 반복하면{'\n'}
+        자연스럽게 장기 기억으로 쌓입니다.
       </p>
-      {/* Repeat visualization */}
-      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', flexShrink: 0 }}>
         {Array.from({ length: 10 }, (_, k) => (
           <div key={k} style={{
-            width: 22, height: 22, borderRadius: '50%',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-            background: k < 3 ? 'rgba(76,175,144,0.15)' : k === 3 ? 'rgba(92,107,192,0.15)' : '#f0f1f5',
-            border: k === 3 ? '1.5px solid #5C6BC0' : '1.5px solid transparent',
+            width: 23, height: 23, borderRadius: '50%', flexShrink: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            background: k < 3 ? 'rgba(76,175,144,0.15)' : k === 3 ? 'rgba(92,107,192,0.12)' : '#f0f1f5',
+            border: k === 3 ? '1.5px solid #A6B8FF' : '1.5px solid transparent',
           }}>
             {k < 3
-              ? <IconCheck size={12} color="#4CAF90" stroke={2.5} />
-              : <span style={{ fontSize: 9, fontWeight: 700, color: k === 3 ? '#5C6BC0' : '#b0b0c0' }}>{k + 1}</span>
+              ? <IconCheck size={12} color="#2e7d32" stroke={2.5} />
+              : <span style={{ fontSize: 9, fontWeight: 700, color: k === 3 ? '#5C6BC0' : '#bbb' }}>{k + 1}</span>
             }
           </div>
         ))}
       </div>
-      {/* Buttons */}
       <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex', gap: 8 }}>
-        <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
-        <button type="button" onClick={onComplete} style={btnStart}>Start</button>
+        <button type="button" className="trainer-btn trainer-btn-secondary" onClick={() => slide(-1)}>Back</button>
+        <button type="button" className="trainer-btn trainer-btn-primary" onClick={onComplete}>Start</button>
       </div>
     </div>
   )
@@ -808,16 +780,17 @@ function IntroOnboardingCard({
         height: INTRO_H,
         zIndex: 199,
         borderRadius: 16,
-        background: '#ffffff',
-        border: '0.5px solid rgba(0,0,0,0.08)',
-        boxShadow: '0 4px 20px rgba(80,80,160,0.1)',
+        background: cardBg,
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: cardBorder,
+        boxShadow: cardShadow,
         overflow: 'hidden',
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* Slide rail */}
       <div style={{
         display: 'flex', width: `${TOTAL * 100}%`, height: '100%',
         transform: `translateX(${railPct / TOTAL}%)`,
