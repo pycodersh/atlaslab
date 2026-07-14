@@ -396,46 +396,7 @@ function PatternCardFocus({
         }}>
           Pattern {idx + 1} / {total}
         </p>
-        {/* Speaker + language toggle */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <button
-            type="button"
-            aria-label="예문 듣기"
-            onClick={playExamples}
-            style={{
-              background: 'none', border: 'none', cursor: 'pointer', padding: 4,
-              color: isDark ? 'rgba(255,255,255,0.35)' : '#b0b8cc',
-              display: 'flex', alignItems: 'center',
-              transition: 'color 0.15s',
-            }}
-          >
-            <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
-          </button>
-          <div style={{
-            display: 'inline-flex', borderRadius: 10,
-            background: 'var(--pc)',
-            backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-            border: '1px solid var(--pd)', padding: 2,
-          }}>
-            {(['en', 'en-ko', 'ko'] as const).map(mode => (
-              <button
-                key={mode}
-                type="button"
-                onClick={() => onStudyModeChange(mode)}
-                style={{
-                  padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                  fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                  background: studyMode === mode ? 'var(--pw)' : 'transparent',
-                  color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
-                  boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
-                  transition: 'background 0.18s, color 0.18s',
-                }}
-              >
-                {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
-              </button>
-            ))}
-          </div>
-        </div>
+        <div />
       </div>
 
       {/* Pattern card */}
@@ -484,6 +445,33 @@ function PatternCardFocus({
 
           {/* Examples */}
           <div style={{ padding: '14px 16px 16px' }}>
+            {/* Language toggle — right-aligned above examples */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
+              <div style={{
+                display: 'inline-flex', borderRadius: 10,
+                background: 'var(--pc)',
+                backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                border: '1px solid var(--pd)', padding: 2,
+              }}>
+                {(['en', 'en-ko', 'ko'] as const).map(mode => (
+                  <button
+                    key={mode}
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onStudyModeChange(mode) }}
+                    style={{
+                      padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
+                      fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
+                      background: studyMode === mode ? 'var(--pw)' : 'transparent',
+                      color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
+                      boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
+                      transition: 'background 0.18s, color 0.18s',
+                    }}
+                  >
+                    {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px', backdropFilter: exBoxBackdrop, WebkitBackdropFilter: exBoxBackdrop }}>
               {examples.map((ex, i) => {
                 const isExPlaying = isPlaying && i === exIdx

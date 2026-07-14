@@ -555,14 +555,8 @@ export function PatternsPageV2({
                   position: 'relative', zIndex: 1,
                 }} />
 
-                {/* Row 3: meaning (left) + sequential speaker (right) */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative', zIndex: 1 }}>
-                  {patternMeaning ? (
-                    <p style={{ fontSize: 12, fontWeight: 600, color: heroTheme.meaningColor, margin: 0, letterSpacing: '0.01em', flex: 1, paddingRight: 8 }}>
-                      {patternMeaning}
-                    </p>
-                  ) : <div />}
-
+                {/* Row 3: speaker (left) + meaning (right) */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, position: 'relative', zIndex: 1 }}>
                   {/* Sequential examples play — icon only */}
                   <button
                     type="button"
@@ -570,10 +564,10 @@ export function PatternsPageV2({
                     aria-label={isPlaying ? '정지' : '예문 듣기'}
                     style={{
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                      padding: 6, cursor: 'pointer',
+                      padding: 4, cursor: 'pointer', flexShrink: 0,
                       background: 'none', border: 'none',
-                      color: isPlaying ? isDark ? '#8FABFF' : '#8EA7FF' : heroTheme.iconColor, flexShrink: 0,
-                      transition: 'opacity 0.15s, transform 180ms cubic-bezier(0.34,1.56,0.64,1)',
+                      color: isPlaying ? isDark ? '#8FABFF' : '#8EA7FF' : heroTheme.iconColor,
+                      transition: 'opacity 0.15s',
                     }}
                     onPointerDown={e => { e.currentTarget.style.opacity = '0.6' }}
                     onPointerUp={e => { e.currentTarget.style.opacity = '1' }}
@@ -583,6 +577,11 @@ export function PatternsPageV2({
                       ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
                       : <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.6} />}
                   </button>
+                  {patternMeaning && (
+                    <p style={{ fontSize: 12, fontWeight: 600, color: heroTheme.meaningColor, margin: 0, letterSpacing: '0.01em' }}>
+                      {patternMeaning}
+                    </p>
+                  )}
                 </div>
               </div>
 
