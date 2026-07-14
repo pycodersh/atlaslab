@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine, Dumbbell, AlertCircle, Lightbulb } from 'lucide-react'
+import { IconMoodPuzzled, IconPuzzle, IconRepeat, IconCheck } from '@tabler/icons-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -596,25 +597,25 @@ function DesktopTipInline({ onClose, initialIndex = 0 }: { onClose: () => void; 
 }
 
 // ── First-Visit Onboarding Card ───────────────────────────────────────────────
-const INTRO_W = 280
-const INTRO_H = 380
+const INTRO_W = 290
+const INTRO_H = 340
 const INTRO_ORB_SIZE = 52
 
 function IntroOnboardingCard({
   corner,
-  isDark,
+  isDark: _isDark,
   onComplete,
 }: {
   corner: Corner
   isDark: boolean
   onComplete: () => void
 }) {
-  const [idx, setIdx]         = useState(0)
+  const [idx, setIdx]     = useState(0)
   const [transit, setTransit] = useState(false)
   const [tOffset, setTOffset] = useState(0)
-  const [dragX, setDragX]     = useState(0)
-  const isTransiting          = useRef(false)
-  const touchStartX           = useRef(0)
+  const [dragX, setDragX]   = useState(0)
+  const isTransiting        = useRef(false)
+  const touchStartX         = useRef(0)
   const TOTAL = 3
 
   function slide(dir: 1 | -1) {
@@ -629,7 +630,7 @@ function IntroOnboardingCard({
       setTransit(false)
       setTOffset(0)
       isTransiting.current = false
-    }, 300)
+    }, 280)
   }
 
   function onTouchStart(e: React.TouchEvent) { touchStartX.current = e.touches[0].clientX }
@@ -647,122 +648,169 @@ function IntroOnboardingCard({
   const dragPct = dragX / INTRO_W * 100
   const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
 
-  const textMain = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
-  const tagColor = isDark ? '#8FABFF' : '#8090F0'
+  // ── Shared styles ──────────────────────────────────────────────────────────
+  const textMain: React.CSSProperties['color'] = '#1a1a2e'
+  const textSub:  React.CSSProperties['color'] = '#5a5a7a'
 
   const btnBase: React.CSSProperties = {
-    height: 44, borderRadius: 10, fontSize: 14, fontWeight: 600,
+    height: 40, borderRadius: 10, fontSize: 13, fontWeight: 600,
     flex: 1, cursor: 'pointer', display: 'flex',
-    alignItems: 'center', justifyContent: 'center', border: 'none',
+    alignItems: 'center', justifyContent: 'center',
   }
   const btnPrimary: React.CSSProperties = {
     ...btnBase,
-    background: isDark ? 'rgba(142,167,255,0.22)' : 'rgba(142,167,255,0.18)',
-    border: isDark ? '1px solid rgba(142,167,255,0.40)' : '1px solid rgba(142,167,255,0.35)',
-    color: isDark ? '#A6B8FF' : '#4B6FD0',
+    background: 'rgba(92,107,192,0.12)',
+    border: '1px solid rgba(92,107,192,0.25)',
+    color: '#5C6BC0',
   }
   const btnSecondary: React.CSSProperties = {
     ...btnBase,
-    background: isDark ? 'rgba(255,255,255,0.06)' : 'transparent',
-    border: isDark ? '1px solid rgba(255,255,255,0.14)' : '1px solid rgba(142,167,255,0.20)',
-    color: isDark ? 'rgba(255,255,255,0.65)' : '#8a8aaa',
+    background: 'transparent',
+    border: '1px solid rgba(0,0,0,0.1)',
+    color: '#8a8aaa',
+  }
+  const btnStart: React.CSSProperties = {
+    ...btnBase,
+    background: '#5C6BC0',
+    border: 'none',
+    color: '#ffffff',
   }
 
+  // ── Dots indicator ──────────────────────────────────────────────────────────
   const dots = (
-    <div style={{ display: 'flex', gap: 5, marginBottom: 16 }}>
+    <div style={{ display: 'flex', gap: 5, marginBottom: 14 }}>
       {Array.from({ length: TOTAL }, (_, j) => (
         <div key={j} style={{
           borderRadius: idx === j ? 3 : '50%',
-          width: idx === j ? 20 : 6, height: 6,
-          background: isDark ? (idx === j ? '#8FABFF' : 'rgba(255,255,255,0.20)') : (idx === j ? '#6B8FFF' : 'rgba(142,167,255,0.22)'),
+          width: idx === j ? 18 : 5, height: 5,
+          background: idx === j ? '#5C6BC0' : 'rgba(0,0,0,0.12)',
           transition: 'all 0.25s ease',
         }} />
       ))}
     </div>
   )
 
-  const CARDS = [
-    {
-      iconBg: 'rgba(239,130,107,0.15)', iconColor: '#E8624A', Icon: AlertCircle,
-      tag: '왜 말이 안 나올까?',
-      body: (
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: 0, whiteSpace: 'pre-line' }}>
-          {'영어 단어는 알지만 문장이 안 만들어지는 건\n단어를 어떻게 조합하는지 모르기 때문이에요.\n그 조합 방식이 바로 패턴이에요.'}
-        </p>
-      ),
-      buttons: (
-        <div style={{ display: 'flex' }}>
-          <button type="button" onClick={() => slide(1)} style={{ ...btnPrimary, flex: 1 }}>Next</button>
+  // ── Card 1: 왜 말이 안 나올까? ───────────────────────────────────────────
+  const card1 = (
+    <div style={{ display: 'flex', flexDirection: 'column', height: INTRO_H, boxSizing: 'border-box', padding: 18, wordBreak: 'keep-all' }}>
+      {dots}
+      {/* Icon */}
+      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(232,98,74,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, flexShrink: 0 }}>
+        <IconMoodPuzzled size={22} color="#E8624A" stroke={1.8} />
+      </div>
+      {/* Title */}
+      <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: '0 0 6px', flexShrink: 0 }}>왜 말이 안 나올까?</p>
+      {/* Body */}
+      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '0 0 12px' }}>
+        영어 단어를 알아도 막상 말하려면 막히죠.
+        단어를 아는 것과 말할 수 있는 건 달라요.
+        단어를 어떻게 조합하는지, 즉 패턴을 모르기 때문이에요.
+      </p>
+      {/* Stats */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 0 }}>
+        <div style={{ flex: 1, background: 'rgba(232,98,74,0.07)', borderRadius: 10, padding: '10px 12px' }}>
+          <p style={{ fontSize: 15, fontWeight: 800, color: '#E8624A', margin: '0 0 2px' }}>20,000</p>
+          <p style={{ fontSize: 10.5, color: textSub, margin: 0 }}>원어민 어휘</p>
         </div>
-      ),
-    },
-    {
-      iconBg: 'rgba(128,144,240,0.15)', iconColor: '#5C6BC0', Icon: Lightbulb,
-      tag: '핵심 패턴 500개',
-      body: (
-        <>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 12px', whiteSpace: 'pre-line' }}>
-            {'원어민이 매일 쓰는 단어는 2,000~3,000개.\n그런데 그 단어들을 담는 틀,\n즉 패턴은 500개면 충분해요.'}
-          </p>
-          <div style={{ background: 'rgba(128,144,240,0.1)', borderRadius: 8, padding: '10px 14px', marginBottom: 12 }}>
-            <p style={{ fontSize: 15, fontWeight: 700, color: '#4050B0', margin: '0 0 4px', fontFamily: 'monospace' }}>I ended up ~ing</p>
-            <p style={{ fontSize: 15, fontWeight: 700, color: '#4050B0', margin: 0, fontFamily: 'monospace' }}>I was about to ~</p>
+        <div style={{ flex: 1, background: 'rgba(92,107,192,0.07)', borderRadius: 10, padding: '10px 12px' }}>
+          <p style={{ fontSize: 15, fontWeight: 800, color: '#5C6BC0', margin: '0 0 2px' }}>2,000~</p>
+          <p style={{ fontSize: 10.5, color: textSub, margin: 0 }}>매일 쓰는 단어</p>
+        </div>
+      </div>
+      {/* Buttons */}
+      <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex' }}>
+        <button type="button" onClick={() => slide(1)} style={{ ...btnPrimary, flex: 1 }}>Next</button>
+      </div>
+    </div>
+  )
+
+  // ── Card 2: 핵심 패턴 500개 ─────────────────────────────────────────────
+  const card2 = (
+    <div style={{ display: 'flex', flexDirection: 'column', height: INTRO_H, boxSizing: 'border-box', padding: 18, wordBreak: 'keep-all' }}>
+      {dots}
+      {/* Icon */}
+      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(92,107,192,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, flexShrink: 0 }}>
+        <IconPuzzle size={22} color="#5C6BC0" stroke={1.8} />
+      </div>
+      {/* Title */}
+      <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: '0 0 6px', flexShrink: 0 }}>핵심 패턴 500개</p>
+      {/* Pattern box */}
+      <div style={{ background: 'rgba(92,107,192,0.08)', borderRadius: 9, padding: '10px 12px', marginBottom: 10, flexShrink: 0 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0', margin: '0 0 4px', fontFamily: 'monospace' }}>&apos;I ended up ~ing&apos;</p>
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#5C6BC0', margin: 0, fontFamily: 'monospace' }}>&apos;I was about to ~&apos;</p>
+      </div>
+      {/* Body */}
+      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: 0 }}>
+        이런 패턴 500개면 일상 대화는 충분해요.
+        Patto는 100개 스토리에 핵심 패턴 500개를 담았어요.
+      </p>
+      {/* Buttons */}
+      <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex', gap: 8 }}>
+        <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
+        <button type="button" onClick={() => slide(1)} style={btnPrimary}>Next</button>
+      </div>
+    </div>
+  )
+
+  // ── Card 3: 반복 학습 ──────────────────────────────────────────────────
+  const card3 = (
+    <div style={{ display: 'flex', flexDirection: 'column', height: INTRO_H, boxSizing: 'border-box', padding: 18, wordBreak: 'keep-all' }}>
+      {dots}
+      {/* Icon */}
+      <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(76,175,144,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 10, flexShrink: 0 }}>
+        <IconRepeat size={22} color="#4CAF90" stroke={1.8} />
+      </div>
+      {/* Title */}
+      <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: '0 0 6px', flexShrink: 0 }}>반복 학습</p>
+      {/* Body */}
+      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '0 0 12px' }}>
+        사람은 배운 것을 잊어요. Patto는 딱 맞는 타이밍에 패턴을 다시 보여줘요.
+        각 패턴을 총 10회 반복하면 자연스럽게 장기 기억으로 쌓입니다.
+      </p>
+      {/* Repeat visualization */}
+      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+        {Array.from({ length: 10 }, (_, k) => (
+          <div key={k} style={{
+            width: 22, height: 22, borderRadius: '50%',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+            background: k < 3 ? 'rgba(76,175,144,0.15)' : k === 3 ? 'rgba(92,107,192,0.15)' : '#f0f1f5',
+            border: k === 3 ? '1.5px solid #5C6BC0' : '1.5px solid transparent',
+          }}>
+            {k < 3
+              ? <IconCheck size={12} color="#4CAF90" stroke={2.5} />
+              : <span style={{ fontSize: 9, fontWeight: 700, color: k === 3 ? '#5C6BC0' : '#b0b0c0' }}>{k + 1}</span>
+            }
           </div>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: 0 }}>
-            이런 패턴들이 자연스럽게 입에 배면 영어로 말할 수 있어요.
-          </p>
-        </>
-      ),
-      buttons: (
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
-          <button type="button" onClick={() => slide(1)} style={btnPrimary}>Next</button>
-        </div>
-      ),
-    },
-    {
-      iconBg: 'rgba(76,175,144,0.15)', iconColor: '#4CAF90', Icon: RotateCcw,
-      tag: '학습 방법',
-      body: (
-        <>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 6px', whiteSpace: 'pre-line' }}>
-            {'사람은 배운 것을 잊어요.\nPatto는 망각 이론을 기반으로\n각 패턴을 딱 맞는 타이밍에 다시 보여줘요.\n각 패턴을 트레이너와 함께'}
-          </p>
-          <p style={{ fontSize: 36, fontWeight: 800, color: '#5C6BC0', margin: '0 0 4px', lineHeight: 1.1 }}>총 10회</p>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: 0 }}>반복하면 자연스럽게 쌓입니다.</p>
-        </>
-      ),
-      buttons: (
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
-          <button type="button" onClick={onComplete} style={btnPrimary}>Start</button>
-        </div>
-      ),
-    },
-  ]
+        ))}
+      </div>
+      {/* Buttons */}
+      <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex', gap: 8 }}>
+        <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
+        <button type="button" onClick={onComplete} style={btnStart}>Start</button>
+      </div>
+    </div>
+  )
+
+  const CARDS = [card1, card2, card3]
 
   const isRight  = corner.endsWith('r')
   const isBottom = corner.startsWith('b')
-  const n = 4
-  const borderRadius = isRight
-    ? `${16}px ${16}px ${n}px ${16}px`
-    : `${16}px ${16}px ${16}px ${n}px`
+  const vPos = isBottom ? { bottom: INTRO_ORB_SIZE + 10 } : { top: INTRO_ORB_SIZE + 10 }
+  const hPos = isRight  ? { right: 0 }                   : { left: 0 }
 
   return (
     <div
       style={{
         position: 'absolute',
-        [isBottom ? 'bottom' : 'top']: INTRO_ORB_SIZE + 10,
-        [isRight  ? 'right'  : 'left']: 0,
+        ...vPos,
+        ...hPos,
         width: INTRO_W,
         height: INTRO_H,
         zIndex: 199,
-        borderRadius,
-        background: isDark ? 'rgba(30,28,48,0.85)' : 'rgba(255,255,255,0.75)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)',
-        boxShadow: isDark ? '0 16px 40px rgba(0,0,0,0.40)' : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)',
+        borderRadius: 16,
+        background: '#ffffff',
+        border: '0.5px solid rgba(0,0,0,0.08)',
+        boxShadow: '0 4px 20px rgba(80,80,160,0.1)',
         overflow: 'hidden',
       }}
       onTouchStart={onTouchStart}
@@ -773,45 +821,14 @@ function IntroOnboardingCard({
       <div style={{
         display: 'flex', width: `${TOTAL * 100}%`, height: '100%',
         transform: `translateX(${railPct / TOTAL}%)`,
-        transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
+        transition: transit ? 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
         willChange: 'transform',
       }}>
-        {CARDS.map((card, i) => {
-          const Icon = card.Icon
-          return (
-            <div key={i} style={{
-              width: `${100 / TOTAL}%`, boxSizing: 'border-box',
-              padding: '24px 20px 0',
-              display: 'flex', flexDirection: 'column',
-              position: 'relative',
-              height: INTRO_H,
-            }}>
-              {dots}
-              <div style={{
-                width: 44, height: 44, borderRadius: 12,
-                background: card.iconBg,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: 14, flexShrink: 0,
-              }}>
-                <Icon style={{ width: 22, height: 22, color: card.iconColor }} strokeWidth={1.8} />
-              </div>
-              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '1px', color: tagColor, margin: '0 0 10px', flexShrink: 0 }}>
-                {card.tag}
-              </p>
-              <div style={{ flex: 1, position: 'relative', minHeight: 0 }}>
-                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 68, overflow: 'hidden' }}>
-                  {card.body}
-                </div>
-              </div>
-              {/* Buttons pinned to card bottom */}
-              <div style={{
-                position: 'absolute', bottom: 20, left: 20, right: 20,
-              }}>
-                {card.buttons}
-              </div>
-            </div>
-          )
-        })}
+        {CARDS.map((card, i) => (
+          <div key={i} style={{ width: `${100 / TOTAL}%`, height: '100%', flexShrink: 0, overflow: 'hidden' }}>
+            {card}
+          </div>
+        ))}
       </div>
     </div>
   )
