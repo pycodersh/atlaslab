@@ -708,8 +708,8 @@ export function TrainerOrb() {
       } else if (ctx?.cardIsPlaying) {
         // Case 1: audio playing → pause + show replay/continue card
         ctx.handleOrbTapAudio()
-      } else if (ctx?.sessionPhase !== 'inactive') {
-        // Case 2: in session, not playing → exit prompt
+      } else if (ctx?.sessionPhase !== 'inactive' || ctx?.page === 'session' || ctx?.page === 'story') {
+        // Case 2: in session/story page, not playing → exit prompt
         ctx?.handleMenuExit()
       } else {
         // Inactive: restore pending ask or idle callback; fall back to greeting
