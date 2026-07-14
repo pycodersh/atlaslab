@@ -253,14 +253,6 @@ export function WritingStudio() {
     <div>
       {/* ── Header card ─────────────────────────────────────────────────── */}
       <div style={cardBg}>
-        {/* Remaining count (top right only) */}
-        {!loadingInfo && remaining !== null && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 6 }}>
-            <span style={{ fontSize: 12, color: limitReached ? '#e57373' : '#5C6BC0', fontWeight: 600 }}>
-              {remainingStr}
-            </span>
-          </div>
-        )}
 
         <p style={{ margin: '0 0 12px', fontSize: 13, color: '#5a5a7a', lineHeight: 1.5 }}>
           패턴으로 문장을 써보세요. AI가 즉시 첨삭해드려요.
@@ -289,17 +281,13 @@ export function WritingStudio() {
         {/* ── Mode: 자유 작성 ────────────────────────────────────────────── */}
         {mode === 'free' && (
           <>
-            {/* Today's pattern chips */}
+            {/* Today's pattern list */}
             {patterns.length > 0 && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 10 }}>
-                <span style={{ fontSize: 11, color: '#8a8aaa', alignSelf: 'center' }}>오늘 패턴:</span>
-                {patterns.map(p => (
-                  <span key={p.id} style={{
-                    fontSize: 11, fontWeight: 600, color: '#5C6BC0',
-                    background: 'rgba(92,107,192,0.08)', borderRadius: 999,
-                    padding: '2px 9px', border: '0.5px solid rgba(92,107,192,0.18)',
-                  }}>
-                    {p.pattern}
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10, alignItems: 'center' }}>
+                <span style={{ fontSize: 11, color: '#8a8aaa' }}>오늘 패턴:</span>
+                {patterns.map((p, i) => (
+                  <span key={p.id} style={{ fontSize: 11, fontWeight: 600, color: '#5C6BC0' }}>
+                    {p.pattern}{i < patterns.length - 1 ? ',' : ''}
                   </span>
                 ))}
               </div>
@@ -362,29 +350,36 @@ export function WritingStudio() {
         {/* ── Bottom row: word count + send ────────────────────────────── */}
         {!limitReached && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-            <span style={{ fontSize: 12, color: wc > 50 ? '#e57373' : '#8a8aaa' }}>
+            <span style={{ fontSize: 11, color: wc > 50 ? '#e57373' : '#b0b0c0' }}>
               {wc} / 50 단어
             </span>
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={!canSubmit}
-              style={{
-                padding: '8px 18px', borderRadius: 10, border: 'none', cursor: canSubmit ? 'pointer' : 'not-allowed',
-                fontSize: 13, fontWeight: 700, fontFamily: 'inherit',
-                background: canSubmit ? '#5C6BC0' : 'rgba(92,107,192,0.2)',
-                color: canSubmit ? '#fff' : '#9a9ab8',
-                transition: 'background 0.15s, color 0.15s',
-              }}
-            >
-              {loading ? '분석 중...' : '첨삭 받기'}
-            </button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {!loadingInfo && remaining !== null && (
+                <span style={{ fontSize: 11, color: '#b0b0c0' }}>
+                  {remainingStr}
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={handleSubmit}
+                disabled={!canSubmit}
+                style={{
+                  padding: '8px 18px', borderRadius: 10, border: 'none', cursor: canSubmit ? 'pointer' : 'not-allowed',
+                  fontSize: 13, fontWeight: 700, fontFamily: 'inherit',
+                  background: canSubmit ? '#5C6BC0' : 'rgba(92,107,192,0.2)',
+                  color: canSubmit ? '#fff' : '#9a9ab8',
+                  transition: 'background 0.15s, color 0.15s',
+                }}
+              >
+                {loading ? '분석 중...' : '첨삭 받기'}
+              </button>
+            </div>
           </div>
         )}
 
         {/* ── Limit reached message ──────────────────────────────────────── */}
         {limitReached && (
-          <p style={{ margin: '8px 0 0', fontSize: 13, color: '#e57373', lineHeight: 1.5, textAlign: 'center' }}>
+          <p style={{ margin: '8px 0 0', fontSize: 11, color: '#e57373', lineHeight: 1.5 }}>
             {limitMsg}
           </p>
         )}
