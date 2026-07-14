@@ -1,11 +1,9 @@
 'use client'
 
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useRouter } from 'next/navigation'
 import {
-  Search, X, BookOpen, Plus,
-  BookMarked, Layers, PenLine,
+  Search, X,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
@@ -14,16 +12,11 @@ import { SwipeDeleteRow } from '@/components/SwipeDeleteRow'
 import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
-import { useT } from '@/hooks/useT'
 import { useItemTranslation } from '@/hooks/useItemTranslation'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
 import { lookupMeaning } from '@/data/patto-dictionary'
-import { useIsDesktop } from '@/hooks/useIsDesktop'
-import { useTheme } from '@/components/ThemeProvider'
-import { EssayComposerPanel } from '@/components/essay/EssayComposerPanel'
-import { EssayDetailPanel } from '@/components/essay/EssayDetailPanel'
-import { type Essay, getEssays, getReviewsRemaining } from '@/lib/essays/storage'
-import { getPlan, FREE_REVIEW_LIFETIME, PREMIUM_REVIEW_DAILY } from '@/lib/subscription/storage'
+import { WritingStudio } from '@/components/WritingStudio'
+import { useTrainerSafe } from '@/contexts/TrainerContext'
 import type { MagazinePattern } from '@/types/magazine'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -60,10 +53,6 @@ function sourceLabel(item: SavedWord | SavedPhrase): string {
   if (item.storyId) parts.push(`Story ${String(item.storyId).padStart(2, '0')}`)
   if (item.patternId) parts.push(`Pattern ${item.patternId}`)
   return parts.join(' · ')
-}
-
-function fmtDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
 }
 
 // ── Styles ────────────────────────────────────────────────────────────────────
@@ -326,194 +315,6 @@ function SearchStoryRow({ story, border, onPress }: { story: { id: number; title
   )
 }
 
-// ── Essays Section ────────────────────────────────────────────────────────────
-
-function EssaysSection() {
-  const router = useRouter()
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-  const isDesktop = useIsDesktop()
-  const trainer = useTrainerSafe()
-
-  const [essays, setEssays]             = useState<Essay[]>([])
-  const [plan, setPlan]                 = useState<'free' | 'premium'>('free')
-  const [remaining, setRemaining]       = useState(0)
-  const [showAll, setShowAll]           = useState(false)
-  const [activePanel, setActivePanel]   = useState<'composer' | 'detail' | null>(null)
-  const [selectedEssayId, setSelectedEssayId] = useState<string | null>(null)
-
-  useEffect(() => {
-    const loaded = getEssays()
-    setEssays(loaded)
-    setPlan(getPlan())
-    setRemaining(getReviewsRemaining())
-    if (loaded.length === 0) {
-      setTimeout(() => trainer?.say("오늘 배운 패턴으로 글을 써보세요.", 3000), 800)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (activePanel === 'composer') trainer?.setSilent(true)
-    else trainer?.setSilent(false)
-  }, [activePanel]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  function refreshEssays() {
-    setEssays(getEssays())
-    setRemaining(getReviewsRemaining())
-  }
-
-  function openComposer() {
-    if (isDesktop) { setActivePanel('composer'); setSelectedEssayId(null) }
-    else router.push('/patto/essays/new')
-  }
-
-  function openDetail(id: string) {
-    if (isDesktop) { setActivePanel('detail'); setSelectedEssayId(id) }
-    else router.push(`/patto/essays/${id}`)
-  }
-
-  function closePanel() { setActivePanel(null); setSelectedEssayId(null) }
-
-  const INITIAL_SHOW = 2
-  const maxReviews = plan === 'premium' ? PREMIUM_REVIEW_DAILY : FREE_REVIEW_LIFETIME
-  const displayed = showAll ? essays : essays.slice(0, INITIAL_SHOW)
-  const hasMore = essays.length > INITIAL_SHOW
-
-  return (
-    <div>
-      {/* Main chip */}
-      <div style={{
-        background: 'rgba(255,255,255,0.6)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255,255,255,0.8)',
-        borderRadius: 16,
-        padding: 16,
-      }}>
-        {/* Top row */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke={isDark ? '#e8e8f0' : '#1a1a2e'} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 20h9" />
-              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-            </svg>
-            <span style={{ fontSize: 14, fontWeight: 600, color: isDark ? '#e8e8f0' : '#1a1a2e' }}>Writing Studio</span>
-          </div>
-          <span style={{ fontSize: 13, color: '#5C6BC0', fontWeight: 700 }}>
-            AI Reviews {remaining}/{maxReviews}
-          </span>
-        </div>
-
-        {/* Description */}
-        <p style={{ margin: '4px 0 0', fontSize: 14, color: '#5a5a7a', lineHeight: 1.5 }}>
-          작성하면 AI가 첨삭해드려요.
-        </p>
-
-        {/* New essay button */}
-        <button
-          type="button"
-          onClick={openComposer}
-          style={{
-            width: '100%', marginTop: 12,
-            background: isDark ? 'rgba(166,184,255,0.12)' : 'rgba(107,143,255,0.08)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)',
-            border: isDark ? '0.5px solid rgba(166,184,255,0.28)' : '0.5px solid rgba(107,143,255,0.28)',
-            color: '#5a5a7a',
-            borderRadius: 10, padding: '10px 0',
-            fontSize: 14, fontWeight: 600, fontFamily: 'inherit',
-            cursor: 'pointer',
-            transition: 'background 0.15s, opacity 0.15s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.opacity = '0.75' }}
-          onMouseLeave={e => { e.currentTarget.style.opacity = '1' }}
-        >
-          + 새 글쓰기
-        </button>
-
-        {/* Divider */}
-        <div style={{ height: '0.5px', background: 'rgba(142,167,255,0.15)', marginTop: 12 }} />
-
-        {/* Essay list or empty state */}
-        {essays.length === 0 ? (
-          <p style={{ fontSize: 12, color: '#8a8aaa', textAlign: 'center', margin: '16px 0 0', padding: '0 0 2px' }}>
-            아직 작성한 글이 없어요.
-          </p>
-        ) : (
-          <>
-            {displayed.map(essay => {
-              const isReviewed = Boolean(essay.review)
-              return (
-                <div
-                  key={essay.id}
-                  role="button" tabIndex={0}
-                  onClick={() => openDetail(essay.id)}
-                  onKeyDown={e => e.key === 'Enter' && openDetail(essay.id)}
-                  style={{
-                    background: 'rgba(255,255,255,0.7)',
-                    borderRadius: 10,
-                    padding: '10px 12px',
-                    marginTop: 8,
-                    cursor: 'pointer',
-                  }}
-                >
-                  <p style={{ margin: 0, fontSize: 12, fontWeight: 500, color: '#1a1a2e', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                    {essay.title || 'Untitled'}
-                  </p>
-                  <p style={{ margin: '3px 0 0', fontSize: 10, color: '#8a8aaa' }}>
-                    {fmtDate(essay.createdAt)} · {isReviewed ? 'AI 첨삭 완료' : 'Draft'}
-                  </p>
-                </div>
-              )
-            })}
-            {hasMore && (
-              <button
-                type="button"
-                onClick={() => setShowAll(v => !v)}
-                style={{
-                  display: 'block', width: '100%', marginTop: 8, padding: '6px 0',
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 11, color: '#6B8FFF', fontFamily: 'inherit', textAlign: 'center',
-                }}
-              >
-                {showAll ? '접기 ∧' : '더 보기 ∨'}
-              </button>
-            )}
-          </>
-        )}
-      </div>
-
-      {/* Desktop panels */}
-      {isDesktop && activePanel === 'composer' && (
-        <EssayComposerPanel
-          onClose={closePanel}
-          onSaved={(essay) => {
-            refreshEssays()
-            setActivePanel('detail')
-            setSelectedEssayId(essay.id)
-          }}
-          onReviewed={(id) => {
-            refreshEssays()
-            setActivePanel('detail')
-            setSelectedEssayId(id)
-            trainer?.setSilent(false)
-            setTimeout(() => trainer?.ask("피드백 확인할까요?", [
-              { label: 'Not yet', onClick: () => trainer?.clearMessage() },
-              { label: 'Review', primary: true, onClick: () => {
-                trainer?.clearMessage()
-                setActivePanel('detail')
-                setSelectedEssayId(id)
-              }},
-            ]), 400)
-          }}
-        />
-      )}
-      {isDesktop && activePanel === 'detail' && selectedEssayId && (
-        <EssayDetailPanel id={selectedEssayId} onClose={closePanel} onDeleted={refreshEssays} />
-      )}
-    </div>
-  )
-}
 
 // ── Inner page ────────────────────────────────────────────────────────────────
 
@@ -725,8 +526,8 @@ function LibraryPageInner() {
             }} />
           )}
 
-          {/* Essays section */}
-          {!isSearching && <EssaysSection />}
+          {/* Writing Studio */}
+          {!isSearching && <WritingStudio />}
 
         </div>
       </div>
