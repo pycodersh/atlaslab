@@ -499,8 +499,17 @@ export function TrainerOrb() {
 
   useLayoutEffect(() => {
     const saved = loadSavedPos()
-    if (saved) setPos({ x: saved.x, y: saved.y })
-    else       setPos(defaultPos())
+    if (saved) {
+      // Clamp to current viewport so the orb never starts off-screen
+      const W = window.innerWidth
+      const H = window.innerHeight
+      setPos({
+        x: Math.max(0, Math.min(W - ORB_SIZE, saved.x)),
+        y: Math.max(0, Math.min(H - ORB_SIZE - BOTTOM_PAD, saved.y)),
+      })
+    } else {
+      setPos(defaultPos())
+    }
     setMounted(true)
   }, [])
 
