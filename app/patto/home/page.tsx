@@ -688,7 +688,7 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       iconBg: 'rgba(239,130,107,0.15)', iconColor: '#E8624A', Icon: AlertCircle,
       tag: '왜 말이 안 나올까?',
       body: (
-        <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 20px', whiteSpace: 'pre-line' }}>
+        <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: 0, whiteSpace: 'pre-line' }}>
           {'영어 단어는 알지만 문장이 안 만들어지는 건\n단어를 어떻게 조합하는지 모르기 때문이에요.\n그 조합 방식이 바로 패턴이에요.'}
         </p>
       ),
@@ -710,7 +710,7 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
             <p style={{ fontSize: 15, fontWeight: 700, color: '#4050B0', margin: '0 0 4px', fontFamily: 'monospace' }}>I ended up ~ing</p>
             <p style={{ fontSize: 15, fontWeight: 700, color: '#4050B0', margin: 0, fontFamily: 'monospace' }}>I was about to ~</p>
           </div>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 20px' }}>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: 0 }}>
             이런 패턴들이 자연스럽게 입에 배면 영어로 말할 수 있어요.
           </p>
         </>
@@ -731,7 +731,7 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
             {'사람은 배운 것을 잊어요.\nPatto는 망각 이론을 기반으로\n각 패턴을 딱 맞는 타이밍에 다시 보여줘요.\n각 패턴을 트레이너와 함께'}
           </p>
           <p style={{ fontSize: 36, fontWeight: 800, color: '#5C6BC0', margin: '0 0 4px', lineHeight: 1.1 }}>총 10회</p>
-          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: '0 0 20px' }}>반복하면 자연스럽게 쌓입니다.</p>
+          <p style={{ fontSize: 14, lineHeight: 1.7, color: textMain, margin: 0 }}>반복하면 자연스럽게 쌓입니다.</p>
         </>
       ),
       buttons: (
@@ -758,7 +758,7 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
         WebkitBackdropFilter: 'blur(20px)',
         border: isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)',
         boxShadow: isDark ? '0 16px 40px rgba(0,0,0,0.40)' : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)',
-        minHeight: 320,
+        height: 320,
         overflow: 'hidden',
       }}
       onTouchStart={onTouchStart}
@@ -767,29 +767,37 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
     >
       {/* Slide rail */}
       <div style={{
-        display: 'flex', width: `${TOTAL * 100}%`,
+        display: 'flex', width: `${TOTAL * 100}%`, height: '100%',
         transform: `translateX(${railPct / TOTAL}%)`,
         transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
         willChange: 'transform',
+        alignItems: 'stretch',
       }}>
         {CARDS.map((card, i) => {
           const Icon = card.Icon
           return (
-            <div key={i} style={{ width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: '24px 20px' }}>
+            <div key={i} style={{
+              width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: '24px 20px',
+              display: 'flex', flexDirection: 'column',
+            }}>
               {dots}
               <div style={{
                 width: 44, height: 44, borderRadius: 12,
                 background: card.iconBg,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: 14,
+                marginBottom: 14, flexShrink: 0,
               }}>
                 <Icon style={{ width: 22, height: 22, color: card.iconColor }} strokeWidth={1.8} />
               </div>
-              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '1px', color: tagColor, margin: '0 0 10px' }}>
+              <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '1px', color: tagColor, margin: '0 0 10px', flexShrink: 0 }}>
                 {card.tag}
               </p>
-              {card.body}
-              {card.buttons}
+              <div style={{ flex: 1, overflow: 'hidden' }}>
+                {card.body}
+              </div>
+              <div style={{ marginTop: 'auto', paddingTop: 12 }}>
+                {card.buttons}
+              </div>
             </div>
           )
         })}
@@ -838,7 +846,9 @@ export default function HomePage() {
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
   const [guideOpen, setGuideOpen]           = useState(false)
-  const [showOnboarding, setShowOnboarding] = useState(false)
+  const [showOnboarding, setShowOnboarding] = useState(() =>
+    typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('showIntro')
+  )
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
   const [srsTodayId, setSrsTodayId] = useState<number | null>(null)
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
