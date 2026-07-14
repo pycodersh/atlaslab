@@ -258,19 +258,36 @@ export function WritingStudio() {
           패턴으로 문장을 써보세요. AI가 즉시 첨삭해드려요.
         </p>
 
-        {/* ── Mode tabs ───────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', gap: 6, marginBottom: 14 }}>
+        {/* ── Mode tabs (sliding pill) ─────────────────────────────────── */}
+        <div style={{
+          position: 'relative', display: 'flex',
+          background: 'rgba(168,180,255,0.13)', borderRadius: 12,
+          padding: 3, marginBottom: 14,
+        }}>
+          {/* sliding indicator */}
+          <div style={{
+            position: 'absolute',
+            top: 3, bottom: 3,
+            left: mode === 'free' ? 3 : 'calc(50% + 1.5px)',
+            width: 'calc(50% - 4.5px)',
+            borderRadius: 9,
+            background: 'radial-gradient(circle at 35% 28%, #E8F0FF, #C8D4FF 40%, #A6B8FF 65%, #8090F0)',
+            boxShadow: '0 2px 10px rgba(128,144,240,0.30)',
+            transition: 'left 0.22s cubic-bezier(0.34,1.2,0.64,1)',
+            pointerEvents: 'none',
+          }} />
           {(['free', 'translation'] as const).map(m => (
             <button
               key={m}
               type="button"
               onClick={() => switchMode(m)}
               style={{
-                flex: 1, padding: '7px 0', borderRadius: 10, border: 'none', cursor: 'pointer',
+                flex: 1, padding: '7px 0', borderRadius: 9,
+                border: 'none', cursor: 'pointer', position: 'relative', zIndex: 1,
                 fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
-                background: mode === m ? '#5C6BC0' : 'rgba(92,107,192,0.10)',
-                color: mode === m ? '#fff' : '#5a5a7a',
-                transition: 'background 0.15s, color 0.15s',
+                background: 'transparent',
+                color: mode === m ? '#3040A0' : '#8a8aaa',
+                transition: 'color 0.18s',
               }}
             >
               {m === 'free' ? '자유 작성' : '한글 보고 쓰기'}
