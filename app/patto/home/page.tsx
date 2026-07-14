@@ -664,11 +664,6 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
     border: isDark ? '1px solid rgba(255,255,255,0.14)' : '1px solid rgba(142,167,255,0.20)',
     color: isDark ? 'rgba(255,255,255,0.65)' : '#8a8aaa',
   }
-  const btnStart: React.CSSProperties = {
-    ...btnBase,
-    background: 'linear-gradient(135deg, #A6B8FF, #8090F0)',
-    color: '#fff',
-  }
 
   const dots = (
     <div style={{ display: 'flex', gap: 5, marginBottom: 16 }}>
@@ -737,7 +732,7 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
       buttons: (
         <div style={{ display: 'flex', gap: 8 }}>
           <button type="button" onClick={() => slide(-1)} style={btnSecondary}>Back</button>
-          <button type="button" onClick={onComplete} style={btnStart}>Start</button>
+          <button type="button" onClick={onComplete} style={btnPrimary}>Start</button>
         </div>
       ),
     },
@@ -758,27 +753,28 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
         WebkitBackdropFilter: 'blur(20px)',
         border: isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)',
         boxShadow: isDark ? '0 16px 40px rgba(0,0,0,0.40)' : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)',
-        height: 320,
-        overflow: 'hidden',
+        minHeight: 320,
       }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
+      {/* Clip wrapper — clip x for slide rail, allow y to grow */}
+      <div style={{ overflowX: 'clip', overflowY: 'visible', borderRadius: 20 }}>
       {/* Slide rail */}
       <div style={{
-        display: 'flex', width: `${TOTAL * 100}%`, height: '100%',
+        display: 'flex', width: `${TOTAL * 100}%`,
         transform: `translateX(${railPct / TOTAL}%)`,
         transition: transit ? 'transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
         willChange: 'transform',
-        alignItems: 'stretch',
+        alignItems: 'flex-start',
       }}>
         {CARDS.map((card, i) => {
           const Icon = card.Icon
           return (
             <div key={i} style={{
-              width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: '24px 20px',
-              display: 'flex', flexDirection: 'column',
+              width: `${100 / TOTAL}%`, boxSizing: 'border-box', padding: '24px 20px 20px',
+              display: 'flex', flexDirection: 'column', minHeight: 320,
             }}>
               {dots}
               <div style={{
@@ -792,18 +788,20 @@ function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
               <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: '1px', color: tagColor, margin: '0 0 10px', flexShrink: 0 }}>
                 {card.tag}
               </p>
-              <div style={{ flex: 1, overflow: 'hidden' }}>
+              <div style={{ flex: 1, overflowY: 'auto', paddingBottom: 12 }}>
                 {card.body}
               </div>
-              <div style={{ marginTop: 'auto', paddingTop: 12 }}>
+              <div style={{ flexShrink: 0, paddingTop: 12 }}>
                 {card.buttons}
               </div>
             </div>
           )
         })}
       </div>
+      </div>
     </div>
   )
+  // end IntroOnboardingOverlay
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -846,9 +844,7 @@ export default function HomePage() {
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
   const [guideOpen, setGuideOpen]           = useState(false)
-  const [showOnboarding, setShowOnboarding] = useState(() =>
-    typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('showIntro')
-  )
+  const [showOnboarding, setShowOnboarding] = useState(false)
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
   const [srsTodayId, setSrsTodayId] = useState<number | null>(null)
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
@@ -861,6 +857,10 @@ export default function HomePage() {
   const { visitorType } = useVisitCount(user?.id)
 
   // Load adaptive stats from Supabase once on login
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).has('showIntro')) setShowOnboarding(true)
+  }, [])
+
   useEffect(() => {
     if (user?.id) loadStatsFromSupabase(user.id)
   }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
