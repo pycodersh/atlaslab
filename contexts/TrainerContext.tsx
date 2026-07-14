@@ -633,7 +633,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     showCard({
       size: 'medium', message: '세션을 종료할까요?', priority: 1,
       buttons: [
-        { label: '계속하기', primary: true, onClick: () => {} },
+        { label: 'Stay', primary: true, onClick: () => {} },
         {
           label: 'Exit',
           onClick: () => {
