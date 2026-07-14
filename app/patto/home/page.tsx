@@ -1136,32 +1136,22 @@ export default function HomePage() {
           }, 2300)
         }, delay)
       }
-    } else if (visitorType === 'veteran') {
-      // veteran: 짧은 메시지 + 버튼 하나
-      timer = setTimeout(() => {
-        const btn = getVeteranHomeButton()
-        trainerRef.current?.ask(
-          adaptMsg,
-          [{ label: btn.label, primary: true, onClick: () => router.push(`/patto/session/${todayStory.id}`) }],
-        )
-      }, delay)
     } else {
-      // returning / regular: ask + Start + Later buttons
-      const isReturning = visitorType === 'returning'
+      // veteran / returning / regular: "오늘 세션 시작할까요?" + Later + Start
       timer = setTimeout(() => {
-        trainerRef.current?.ask(adaptMsg, [
+        trainerRef.current?.ask('오늘 세션 시작할까요?', [
+          {
+            label: 'Later',
+            onClick: () => {
+              trainerRef.current?.clearMessage()
+            },
+          },
           {
             label: 'Start',
             primary: true,
             onClick: () => {
               trainerRef.current?.clearMessage()
               router.push(`/patto/session/${todayStory.id}`)
-            },
-          },
-          {
-            label: 'Later',
-            onClick: () => {
-              trainerRef.current?.say("둘러보시고 도움이 필요하면 불러주세요.", 3000)
             },
           },
         ])
