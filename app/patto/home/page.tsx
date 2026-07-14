@@ -715,8 +715,8 @@ function IntroOnboardingCard({
         <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: 0, lineHeight: 1.2 }}>핵심 패턴 500개로 시작해요</p>
       </div>
       <div style={{ background: 'rgba(92,107,192,0.08)', borderRadius: 8, padding: '9px 12px', marginBottom: 10, flexShrink: 0 }}>
-        <p style={{ fontSize: 13, fontWeight: 500, color: '#3a4a9a', margin: '0 0 3px', fontFamily: 'monospace' }}>&#39;I ended up ~ing&#39;</p>
-        <p style={{ fontSize: 13, fontWeight: 500, color: '#3a4a9a', margin: 0, fontFamily: 'monospace' }}>&#39;I was about to ~&#39;</p>
+        <p style={{ fontSize: 13, fontWeight: 500, color: '#3a4a9a', margin: '0 0 3px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>&#39;I ended up ~ing&#39;</p>
+        <p style={{ fontSize: 13, fontWeight: 500, color: '#3a4a9a', margin: 0, fontFamily: 'system-ui, -apple-system, sans-serif' }}>&#39;I was about to ~&#39;</p>
       </div>
       <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: 0 }}>
         원어민이 가장 자주 쓰는 핵심 패턴 500개.{'\n'}
@@ -734,7 +734,7 @@ function IntroOnboardingCard({
   const card3 = (
     <div style={cardInner}>
       {dots}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 10, flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 20, flexShrink: 0 }}>
         <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(76,175,144,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <IconRepeat size={20} color="#4CAF90" stroke={1.8} />
         </div>
@@ -746,18 +746,22 @@ function IntroOnboardingCard({
         각 패턴을 총 10회 반복하면{'\n'}
         자연스럽게 장기 기억으로 쌓입니다.
       </p>
-      <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', flexShrink: 0 }}>
-        {Array.from({ length: 10 }, (_, k) => (
-          <div key={k} style={{
-            width: 23, height: 23, borderRadius: '50%', flexShrink: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: k < 3 ? 'rgba(76,175,144,0.15)' : k === 3 ? 'rgba(92,107,192,0.12)' : '#f0f1f5',
-            border: k === 3 ? '1.5px solid #A6B8FF' : '1.5px solid transparent',
-          }}>
-            {k < 3
-              ? <IconCheck size={12} color="#2e7d32" stroke={2.5} />
-              : <span style={{ fontSize: 9, fontWeight: 700, color: k === 3 ? '#5C6BC0' : '#bbb' }}>{k + 1}</span>
-            }
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'center', flexShrink: 0 }}>
+        {[0, 1].map(row => (
+          <div key={row} style={{ display: 'flex', gap: 5 }}>
+            {Array.from({ length: 5 }, (_, col) => col + row * 5).map(k => (
+              <div key={k} style={{
+                width: 23, height: 23, borderRadius: '50%', flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: k < 3 ? 'rgba(76,175,144,0.15)' : k === 3 ? 'rgba(92,107,192,0.12)' : '#f0f1f5',
+                border: k === 3 ? '1.5px solid #A6B8FF' : '1.5px solid transparent',
+              }}>
+                {k < 3
+                  ? <IconCheck size={12} color="#2e7d32" stroke={2.5} />
+                  : <span style={{ fontSize: 9, fontWeight: 700, color: k === 3 ? '#5C6BC0' : '#bbb' }}>{k + 1}</span>
+                }
+              </div>
+            ))}
           </div>
         ))}
       </div>
