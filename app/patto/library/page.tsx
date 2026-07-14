@@ -19,6 +19,16 @@ import { WritingStudio } from '@/components/WritingStudio'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import type { MagazinePattern } from '@/types/magazine'
 
+// ── Section label (Progress 화면과 동일) ──────────────────────────────────────
+
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{ margin: '0 0 10px 2px', fontSize: 11, fontWeight: 600, letterSpacing: '0.8px', color: '#5C6BC0', textTransform: 'uppercase' }}>
+      {children}
+    </p>
+  )
+}
+
 // ── Types ──────────────────────────────────────────────────────────────────────
 
 type AccordionOpen = 'words' | 'phrases' | 'patterns' | null
@@ -166,43 +176,41 @@ function WordPhrasePatternsAccordion({
     setOpen(prev => prev === tab ? null : tab)
   }
 
-  const TAB_TINTS: Record<string, { closed: string; open: string; border: string; color: string }> = {
-    words:    { closed: 'rgba(92,107,192,0.08)',  open: 'rgba(92,107,192,0.18)',  border: 'rgba(92,107,192,0.35)',  color: '#5C6BC0' },
-    phrases:  { closed: 'rgba(92,107,192,0.08)',  open: 'rgba(92,107,192,0.18)',  border: 'rgba(92,107,192,0.35)',  color: '#5C6BC0' },
-    patterns: { closed: 'rgba(92,107,192,0.08)',  open: 'rgba(92,107,192,0.18)',  border: 'rgba(92,107,192,0.35)',  color: '#5C6BC0' },
-  }
-
-  const TABS: { id: Exclude<AccordionOpen, null>; label: string; count: number }[] = [
-    { id: 'words',    label: 'Words',    count: words.length },
-    { id: 'phrases',  label: 'Phrases',  count: phrases.length },
-    { id: 'patterns', label: 'Patterns', count: bookmarks.length },
+  // Progress StatChips와 동일한 accent color
+  const TABS: { id: Exclude<AccordionOpen, null>; label: string; count: number; accent: string }[] = [
+    { id: 'words',    label: 'WORDS',    count: words.length,     accent: '#5C6BC0' },
+    { id: 'phrases',  label: 'PHRASES',  count: phrases.length,   accent: '#9575CD' },
+    { id: 'patterns', label: 'PATTERNS', count: bookmarks.length, accent: '#F5A623' },
   ]
 
   return (
-    <div style={{ marginBottom: 24 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
+    <div style={{ marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: 7 }}>
         {TABS.map(tab => {
           const isOpen = open === tab.id
-          const tint = TAB_TINTS[tab.id]
           return (
             <button
               key={tab.id}
               type="button"
               onClick={() => toggle(tab.id)}
               style={{
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-                padding: '8px 6px',
-                borderRadius: isOpen ? '13px 13px 0 0' : 13,
-                background: isOpen ? tint.open : tint.closed,
-                border: isOpen ? `0.5px solid ${tint.border}` : '0.5px solid rgba(142,167,255,0.18)',
-                color: isOpen ? tint.color : 'var(--pt)',
-                cursor: 'pointer', transition: 'all 0.18s ease',
+                flex: 1, borderRadius: 14, padding: '12px 4px',
+                background: isOpen ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.60)',
                 backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                boxShadow: '0 2px 10px rgba(80,90,160,0.08)',
+                border: isOpen ? `0.5px solid ${tab.accent}40` : '0.5px solid rgba(255,255,255,0.80)',
+                boxShadow: isOpen
+                  ? `0 2px 12px ${tab.accent}22`
+                  : '0 2px 10px rgba(80,90,160,0.08)',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                cursor: 'pointer', transition: 'all 0.18s ease',
               }}
             >
-              <span style={{ fontSize: 15, fontWeight: 600 }}>{tab.label}</span>
-              <span style={{ fontSize: 13, fontWeight: 400, color: isOpen ? tint.color : 'var(--pm)' }}>{tab.count}</span>
+              <span style={{ fontSize: 24, fontWeight: 700, color: tab.accent, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+                {tab.count}
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.5px', color: tab.accent, opacity: 0.75, textTransform: 'uppercase', textAlign: 'center' }}>
+                {tab.label}
+              </span>
             </button>
           )
         })}
@@ -213,10 +221,10 @@ function WordPhrasePatternsAccordion({
           background: 'rgba(255,255,255,0.72)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderRadius: 13,
+          borderRadius: 14,
           marginTop: 6,
           padding: '8px 8px 10px',
-          border: `0.5px solid ${TAB_TINTS[open].border}`,
+          border: '0.5px solid rgba(255,255,255,0.80)',
           boxShadow: '0 2px 12px rgba(80,90,160,0.08)',
         }}>
           {open === 'words' && (
@@ -413,8 +421,11 @@ function LibraryPageInner() {
       <div className="desktop-max">
         <div style={colPad}>
 
+          {/* Search & Save section label */}
+          {!isSearching && <SectionLabel>Search &amp; Save</SectionLabel>}
+
           {/* Search bar */}
-          <div style={{ marginBottom: isSearching || showRecent ? 0 : 20 }}>
+          <div style={{ marginBottom: isSearching || showRecent ? 0 : 16 }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: 10,
               background: 'var(--pglass)', backdropFilter: 'blur(20px) saturate(180%)',
@@ -518,23 +529,11 @@ function LibraryPageInner() {
             />
           )}
 
-          {/* Divider */}
-          {!isSearching && (
-            <div style={{
-              height: 1, background: 'var(--pglass-border)',
-              margin: '4px 0 24px',
-            }} />
-          )}
-
           {/* Writing Studio */}
           {!isSearching && (
             <>
-              <p style={{
-                fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em',
-                color: '#8E8E93', margin: '0 0 10px 4px', textTransform: 'uppercase',
-              }}>
-                Writing Studio
-              </p>
+              <div style={{ marginTop: 24 }} />
+              <SectionLabel>Writing Studio</SectionLabel>
               <WritingStudio />
             </>
           )}

@@ -253,18 +253,14 @@ export function WritingStudio() {
     <div>
       {/* ── Header card ─────────────────────────────────────────────────── */}
       <div style={cardBg}>
-        {/* Top row */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 15 }}>✏️</span>
-            <span style={{ fontSize: 14, fontWeight: 600, color: '#1a1a2e' }}>Writing Studio</span>
-          </div>
-          {!loadingInfo && remaining !== null && (
+        {/* Remaining count (top right only) */}
+        {!loadingInfo && remaining !== null && (
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 6 }}>
             <span style={{ fontSize: 12, color: limitReached ? '#e57373' : '#5C6BC0', fontWeight: 600 }}>
               {remainingStr}
             </span>
-          )}
-        </div>
+          </div>
+        )}
 
         <p style={{ margin: '0 0 12px', fontSize: 13, color: '#5a5a7a', lineHeight: 1.5 }}>
           패턴으로 문장을 써보세요. AI가 즉시 첨삭해드려요.
