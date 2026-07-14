@@ -68,8 +68,8 @@ export function WelcomeCover() {
   const pattoSize = 35
 
   const bgGradient   = isDark
-    ? 'linear-gradient(160deg, #2a2040 0%, #1e2a40 50%, #251830 100%)'
-    : 'linear-gradient(160deg, #d8d0ee 0%, #e8d8f0 45%, #d0e0f0 100%)'
+    ? 'linear-gradient(135deg, #1A2040 0%, #1E2848 50%, #1C2444 100%)'
+    : 'linear-gradient(135deg, #D8E4F4 0%, #C8D8F0 50%, #BED0EE 100%)'
 
   const textPrimary   = isDark ? 'rgba(255,255,255,0.92)' : 'rgba(40,30,70,0.88)'
   const textSecondary = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(40,30,70,0.5)'
@@ -101,27 +101,37 @@ export function WelcomeCover() {
       {isDark ? (
         <>
           <div style={{
-            position: 'absolute', top: 20, right: -50,
-            width: 200, height: 200, pointerEvents: 'none',
-            background: 'radial-gradient(circle, rgba(150,120,220,0.3) 0%, transparent 70%)',
+            position: 'absolute', top: -60, right: -80,
+            width: 340, height: 340, pointerEvents: 'none',
+            background: 'radial-gradient(circle, rgba(120,160,255,0.22) 0%, transparent 70%)',
           }} />
           <div style={{
-            position: 'absolute', bottom: 80, left: -40,
-            width: 160, height: 160, pointerEvents: 'none',
-            background: 'radial-gradient(circle, rgba(100,160,220,0.2) 0%, transparent 70%)',
+            position: 'absolute', bottom: -40, left: -60,
+            width: 300, height: 300, pointerEvents: 'none',
+            background: 'radial-gradient(circle, rgba(100,130,220,0.18) 0%, transparent 70%)',
+          }} />
+          <div style={{
+            position: 'absolute', top: '40%', left: '20%',
+            width: 200, height: 200, pointerEvents: 'none',
+            background: 'radial-gradient(circle, rgba(140,180,255,0.12) 0%, transparent 70%)',
           }} />
         </>
       ) : (
         <>
           <div style={{
-            position: 'absolute', top: -20, right: -40,
-            width: 180, height: 180, pointerEvents: 'none',
-            background: 'radial-gradient(circle, rgba(200,180,240,0.55) 0%, transparent 70%)',
+            position: 'absolute', top: -60, right: -80,
+            width: 340, height: 340, pointerEvents: 'none',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.70) 0%, rgba(200,220,240,0.4) 40%, transparent 70%)',
           }} />
           <div style={{
-            position: 'absolute', bottom: 60, left: -30,
-            width: 140, height: 140, pointerEvents: 'none',
-            background: 'radial-gradient(circle, rgba(180,210,240,0.45) 0%, transparent 70%)',
+            position: 'absolute', bottom: -40, left: -60,
+            width: 300, height: 300, pointerEvents: 'none',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.65) 0%, rgba(190,210,235,0.35) 40%, transparent 70%)',
+          }} />
+          <div style={{
+            position: 'absolute', top: '35%', right: '10%',
+            width: 180, height: 180, pointerEvents: 'none',
+            background: 'radial-gradient(circle, rgba(255,255,255,0.55) 0%, rgba(195,215,238,0.28) 40%, transparent 70%)',
           }} />
         </>
       )}
