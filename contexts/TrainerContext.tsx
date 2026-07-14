@@ -90,17 +90,19 @@ export interface TrainerCtx {
   // ── Session control ──────────────────────────────────────────────────────
   startSession:   (cfg: TrainerSessionConfig) => void
   endSession:     () => void
-  startBrowsing:  () => void
+  startBrowsing:  (onExit?: () => void) => void
   endBrowsing:    () => void
 
   // ── Card play state ──────────────────────────────────────────────────────
+  dismissCard:       () => void        // dismiss current card + clear pending ask
   restorePendingAsk: () => boolean
   cardIsPlaying:     boolean
   setCardPlaying:    (v: boolean) => void
   showFlow:          (msg: string, buttons: DockButton[]) => void
-  setRepeatCallback:    (fn: (() => void) | null) => void
-  setResumeCallback:    (fn: (() => void) | null) => void
-  setIdleOrbCallback:   (fn: (() => void) | null) => void
+  setRepeatCallback:       (fn: (() => void) | null) => void
+  setResumeCallback:       (fn: (() => void) | null) => void
+  setIdleOrbCallback:      (fn: (() => void) | null) => void
+  triggerIdleOrbCallback:  () => boolean
 
   // ── Orb interaction ──────────────────────────────────────────────────────
   handleOrbTap:      () => void
@@ -161,11 +163,14 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const waitTimerRef      = useRef<ReturnType<typeof setTimeout> | null>(null)
   const waitFiresRef      = useRef(0)
   const cfgRef            = useRef<TrainerSessionConfig | null>(null)
+  const browsingExitRef   = useRef<(() => void) | null>(null)
+  const cardRef           = useRef<CardSpec | null>(null)
   const tapStartRef       = useRef<number>(0)
   const activePriorityRef = useRef<MsgPriority | 0>(0)
   const queueRef          = useRef<QueuedCard[]>([])
   // Persistent ask — survives card dismissal so Orb re-tap can restore it
   const currentAskRef     = useRef<QueuedCard | null>(null)
+  cardRef.current = card
 
   // ── Helpers ───────────────────────────────────────────────────────────────
 
@@ -506,12 +511,14 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     clearCard()
   }, [clearCard])
 
-  const startBrowsing = useCallback(() => {
-    setSessionPhase('browsing')
+  const startBrowsing = useCallback((onExit?: () => void) => {
+    browsingExitRef.current = onExit ?? null
+    setPhase('browsing')
   }, [])
 
   const endBrowsing = useCallback(() => {
-    setSessionPhase('inactive')
+    browsingExitRef.current = null
+    setPhase('inactive')
     clearCard()
   }, [clearCard])
 
@@ -629,15 +636,28 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const handleMenuExit = useCallback(() => {
     const isBrowsing = sessionPhaseRef.current === 'browsing'
+    const savedCard = cardRef.current
     clearCard()
     showCard({
       size: 'medium', message: '세션을 종료할까요?', priority: 1,
       buttons: [
-        { label: 'Stay', primary: true, onClick: () => {} },
+        {
+          label: 'Stay',
+          primary: true,
+          onClick: () => {
+            if (savedCard) {
+              const { id: _id, ...rest } = savedCard
+              showCard(rest)
+            }
+          },
+        },
         {
           label: 'Exit',
           onClick: () => {
-            if (isBrowsing) {
+            if (browsingExitRef.current) {
+              clearCard()
+              browsingExitRef.current()
+            } else if (isBrowsing) {
               showMsg('See you.', 2000)
               setTimeout(() => endBrowsing(), 1800)
             } else {
@@ -688,12 +708,13 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     triggerPulse,
     setPage,
 
+    dismissCard: () => { currentAskRef.current = null; clearCard() },
     restorePendingAsk: () => {
       if (currentAskRef.current) { showCard(currentAskRef.current); return true }
-      if (idleOrbCallbackRef.current) { idleOrbCallbackRef.current(); return true }
       return false
     },
     cardIsPlaying, setCardPlaying, showFlow, setRepeatCallback, setResumeCallback, setIdleOrbCallback,
+    triggerIdleOrbCallback: () => { if (idleOrbCallbackRef.current) { idleOrbCallbackRef.current(); return true } return false },
 
     orbState, tapMode,
     isMenuOpen: card?.isHelp ?? false,

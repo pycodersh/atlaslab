@@ -1060,29 +1060,6 @@ export default function HomePage() {
       }
     }
 
-    // ── Later 선택 후 idle 대기 흐름 ────────────────────────────────────────
-    function registerLaterIdle(onStart: () => void) {
-      trainerRef.current?.setIdleOrbCallback(() => {
-        trainerRef.current?.ask('시작할까요?', [
-          {
-            label: 'Later',
-            onClick: () => {
-              trainerRef.current?.say('준비됐을 때 알려주세요!', 1500)
-              setTimeout(() => registerLaterIdle(onStart), 1600)
-            },
-          },
-          {
-            label: 'Start',
-            primary: true,
-            onClick: () => {
-              trainerRef.current?.clearMessage()
-              onStart()
-            },
-          },
-        ])
-      })
-    }
-
     // 세션 완료 후 재진입 시 완료 메시지 (visitorType이 확정될 때까지 잠깐 대기)
     if (hasStudied) {
       const timer = setTimeout(() => {
@@ -1110,7 +1087,6 @@ export default function HomePage() {
               label: 'Later',
               onClick: () => {
                 trainerRef.current?.say('준비됐을 때 알려주세요!', 1500)
-                setTimeout(() => registerLaterIdle(() => router.push(`/patto/session/${nextIncompleteStoryId}`)), 1600)
               },
             },
           ])
@@ -1161,28 +1137,6 @@ export default function HomePage() {
       } else {
         const markShown = () => { try { localStorage.setItem('patto_onboarding_shown', '1') } catch {} }
 
-        // "소개해드릴까요?" — registered as idleOrbCallback after "둘러볼게요"
-        function showIntroAsk() {
-          trainerRef.current?.ask("소개해드릴까요?", [
-            {
-              label: 'Skip',
-              onClick: () => {
-                trainerRef.current?.say("필요하시면 언제든 불러주세요!", 2500)
-                // Re-register so next orb tap shows it again
-                setTimeout(() => trainerRef.current?.setIdleOrbCallback(showIntroAsk), 2600)
-              },
-            },
-            {
-              label: 'Yes!',
-              primary: true,
-              onClick: () => {
-                trainerRef.current?.clearMessage()
-                setShowOnboarding(true)
-              },
-            },
-          ])
-        }
-
         timer = setTimeout(() => {
           // Step 1: welcome whisper
           trainerRef.current?.say("PATTO에 오신 것을 환영해요! 저는 학습을 도와주는 트레이너입니다.", 2000)
@@ -1194,7 +1148,6 @@ export default function HomePage() {
                 onClick: () => {
                   markShown()
                   trainerRef.current?.say("천천히 구경하세요! 필요하면 불러주세요.", 3000)
-                  trainerRef.current?.setIdleOrbCallback(showIntroAsk)
                 },
               },
               {
@@ -1218,7 +1171,6 @@ export default function HomePage() {
             label: 'Later',
             onClick: () => {
               trainerRef.current?.say('준비됐을 때 알려주세요!', 1500)
-              setTimeout(() => registerLaterIdle(() => router.push(`/patto/session/${todayStory.id}`)), 1600)
             },
           },
           {

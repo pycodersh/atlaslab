@@ -383,35 +383,14 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   }, [trainer])
 
   // ── Trainer: browsing phase — enables orb tap → handleMenuExit() ──────────
+  const trainerRef = useRef(trainer)
+  trainerRef.current = trainer
   useEffect(() => {
     if (isDesktop) return
-    trainer?.startBrowsing?.()
-    return () => trainer?.endBrowsing?.()
+    trainerRef.current?.startBrowsing?.()
+    return () => trainerRef.current?.endBrowsing?.()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trainer])
-
-  // ── Trainer: idle Orb tap → "학습을 시작할까요?" card ──────────────────────
-  useEffect(() => {
-    if (isDesktop) return
-    trainer?.setIdleOrbCallback?.(() => {
-      trainer?.ask("학습을 시작할까요?", [
-        {
-          label: 'Go!',
-          primary: true,
-          onClick: () => {
-            trainer?.clearMessage()
-            router.push(`/patto/session/${story.id}`)
-          },
-        },
-        {
-          label: 'Skip',
-          onClick: () => trainer?.clearMessage(),
-        },
-      ])
-    })
-    return () => trainer?.setIdleOrbCallback?.(null)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trainer, story.id])
+  }, [])
 
   // ── Trainer: pattern index change → show next listen card ────────────────
   useEffect(() => {
@@ -444,23 +423,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => window.removeEventListener('popstate', handler)
   }, [story.id])
 
-  // Intercept tab-bar link clicks
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (!shouldBlockNavRef.current) return
-      const a = (e.target as Element).closest('a[href]') as HTMLAnchorElement | null
-      if (!a) return
-      const href = a.getAttribute('href') ?? ''
-      // Tab destinations: /patto/home, /patto/records, /patto/essays, /patto/library
-      if (href.startsWith('/patto/') && !href.startsWith('/patto/stories')) {
-        e.preventDefault()
-        e.stopPropagation()
-        showExitCard(href)
-      }
-    }
-    document.addEventListener('click', handler, { capture: true })
-    return () => document.removeEventListener('click', handler, { capture: true })
-  }, [])
 
   // All patterns seen → start hide-recall automatically
   const handleAllPatternsSeen = useCallback(() => {

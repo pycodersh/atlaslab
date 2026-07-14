@@ -7,6 +7,10 @@ import { TrainerContext, type CardSpec, type TrainerCtx } from '@/contexts/Train
 import { useTheme } from '@/components/ThemeProvider'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { getOrbTapMessage, classifyVisitor, getLocalVisitCount, pageToContext } from '@/lib/scenario/scenario-engine'
+import { useRouter } from 'next/navigation'
+import { getMissionItems } from '@/lib/srs/engine'
+import { getTodayRecommendedStoryId } from '@/lib/srs/story-round'
+import { magazineStories } from '@/data/magazine-stories'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 const ORB_SIZE = 52
@@ -605,6 +609,9 @@ export function TrainerOrb() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const pathname = usePathname()
+  const router = useRouter()
+  const routerRef = useRef(router)
+  routerRef.current = router
 
   const inStudyPage = pathname?.includes('/patto/stories/') ?? false
 
@@ -702,22 +709,44 @@ export function TrainerOrb() {
       savePos(finalX, finalY)
     } else {
       const ctx = trainerCtxRef.current
-      // Dismiss open card on first tap
+      // Dismiss open card on first tap (also clears pending ask so next tap shows session card)
       if (ctx?.card) {
-        ctx.clearMessage()
+        ctx.dismissCard()
       } else if (ctx?.cardIsPlaying) {
-        // Case 1: audio playing → pause + show replay/continue card
+        // Audio playing → pause + show replay/continue card
         ctx.handleOrbTapAudio()
-      } else if (ctx?.sessionPhase !== 'inactive' || ctx?.page === 'session' || ctx?.page === 'story') {
-        // Case 2: in session/story page, not playing → exit prompt
+      } else if (ctx?.page === 'session' || (ctx?.sessionPhase !== 'inactive' && ctx?.sessionPhase !== 'browsing')) {
+        // Focus mode session → exit prompt
         ctx?.handleMenuExit()
       } else {
-        // Inactive: restore pending ask or idle callback; fall back to greeting
-        const handled = ctx?.restorePendingAsk?.()
-        if (!handled) {
-          const vt = classifyVisitor(getLocalVisitCount())
-          const ctxKey = pageToContext(ctx?.page ?? 'home')
-          ctx?.say(getOrbTapMessage(ctxKey, vt), 2500)
+        // Restore pending ask (e.g. home entry card user dismissed) — or show unified session card
+        const hasAsk = ctx?.restorePendingAsk?.()
+        if (!hasAsk) {
+          const items = getMissionItems()
+          const nextIncomplete = items.find(i => !i.done)
+          if (nextIncomplete) {
+            ctx?.showAction('세션을 시작할까요?', [
+              { label: 'Later', onClick: () => ctx?.clearMessage() },
+              { label: 'Start', primary: true, onClick: () => {
+                ctx?.clearMessage()
+                routerRef.current.push(`/patto/session/${nextIncomplete.storyId}`)
+              }},
+            ])
+          } else {
+            const allStoryIds = magazineStories.map(s => s.id)
+            const nextId = getTodayRecommendedStoryId(allStoryIds)
+            if (nextId) {
+              ctx?.showAction('추가 세션을 진행할까요?', [
+                { label: 'Later', onClick: () => ctx?.clearMessage() },
+                { label: 'Start', primary: true, onClick: () => {
+                  ctx?.clearMessage()
+                  routerRef.current.push(`/patto/session/${nextId}`)
+                }},
+              ])
+            } else {
+              ctx?.say('오늘 학습 완료! 잘했어요.', 2500)
+            }
+          }
         }
       }
     }
