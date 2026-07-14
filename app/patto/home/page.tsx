@@ -1060,6 +1060,29 @@ export default function HomePage() {
       }
     }
 
+    // ── Later 선택 후 idle 대기 흐름 ────────────────────────────────────────
+    function registerLaterIdle(onStart: () => void) {
+      trainerRef.current?.setIdleOrbCallback(() => {
+        trainerRef.current?.ask('시작할까요?', [
+          {
+            label: 'Later',
+            onClick: () => {
+              trainerRef.current?.say('준비됐을 때 알려주세요!', 1500)
+              setTimeout(() => registerLaterIdle(onStart), 1600)
+            },
+          },
+          {
+            label: 'Start',
+            primary: true,
+            onClick: () => {
+              trainerRef.current?.clearMessage()
+              onStart()
+            },
+          },
+        ])
+      })
+    }
+
     // 세션 완료 후 재진입 시 완료 메시지 (visitorType이 확정될 때까지 잠깐 대기)
     if (hasStudied) {
       const timer = setTimeout(() => {
@@ -1085,7 +1108,10 @@ export default function HomePage() {
             },
             {
               label: 'Later',
-              onClick: () => trainerRef.current?.clearMessage(),
+              onClick: () => {
+                trainerRef.current?.say('준비됐을 때 알려주세요!', 1500)
+                setTimeout(() => registerLaterIdle(() => router.push(`/patto/session/${nextIncompleteStoryId}`)), 1600)
+              },
             },
           ])
         }
@@ -1191,7 +1217,8 @@ export default function HomePage() {
           {
             label: 'Later',
             onClick: () => {
-              trainerRef.current?.clearMessage()
+              trainerRef.current?.say('준비됐을 때 알려주세요!', 1500)
+              setTimeout(() => registerLaterIdle(() => router.push(`/patto/session/${todayStory.id}`)), 1600)
             },
           },
           {
