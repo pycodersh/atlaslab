@@ -708,7 +708,7 @@ function IntroOnboardingCard({
   const card2 = (
     <div style={cardInner}>
       {dots}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 10, flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 20, flexShrink: 0 }}>
         <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(92,107,192,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <IconPuzzle size={20} color="#5C6BC0" stroke={1.8} />
         </div>
@@ -740,7 +740,7 @@ function IntroOnboardingCard({
         </div>
         <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: 0, lineHeight: 1.2 }}>트레이너와 함께 반복해요</p>
       </div>
-      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '0 0 10px' }}>
+      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '0 0 20px' }}>
         사람은 배운 것을 잊어요. Patto는 망각 이론을 기반으로{'\n'}
         딱 맞는 타이밍에 패턴을 다시 보여줘요.{'\n'}
         각 패턴을 총 10회 반복하면{'\n'}
