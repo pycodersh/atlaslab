@@ -42,7 +42,7 @@ export default function VideosPage() {
           }}>
             <div style={{ position: 'relative', paddingTop: '177%' }}>
               <iframe
-                src={`https://www.youtube.com/embed/${video.id}`}
+                src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0`}
                 title={video.title}
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
