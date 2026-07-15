@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Lock } from 'lucide-react'
 import { MagazineEngine } from '@/components/MagazineEngine'
 import { getPlan, FREE_STORY_LIMIT } from '@/lib/subscription/storage'
 import type { MagazineStory } from '@/types/magazine'
@@ -44,11 +45,12 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
       {/* Icon */}
       <div style={{
         width: 72, height: 72, borderRadius: 22, marginBottom: 20,
-        background: 'rgba(0,0,0,0.05)',
-        border: '1px solid rgba(0,0,0,0.08)',
+        background: 'rgba(142,167,255,0.10)',
+        border: '1px solid rgba(142,167,255,0.22)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 32,
-      }}>🔒</div>
+      }}>
+        <Lock size={28} strokeWidth={1.8} color="#5C6BC0" />
+      </div>
 
       {/* Eyebrow */}
       <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm)', margin: '0 0 8px' }}>
@@ -67,11 +69,21 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
 
       {/* Buttons */}
       <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <button type="button" onClick={() => router.push('/patto/settings/subscription')} style={FS_PRIMARY}>
+        <button
+          type="button"
+          onClick={() => router.push('/patto/settings/subscription')}
+          className="trainer-btn trainer-btn-primary"
+          style={{ height: 52, fontSize: 15, fontWeight: 700, borderRadius: 14, flex: 'none', width: '100%' }}
+        >
           Upgrade to Premium
         </button>
-        <button type="button" onClick={() => router.back()} style={FS_SECONDARY}>
-          ← Go back
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="trainer-btn trainer-btn-secondary"
+          style={{ height: 44, fontSize: 14, borderRadius: 14, flex: 'none', width: '100%' }}
+        >
+          Go back
         </button>
       </div>
     </div>
