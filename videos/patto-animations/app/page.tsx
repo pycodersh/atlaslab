@@ -42,7 +42,7 @@ const REMOTION_EPISODES = [
     title: "오브 소개",
     subtitle: "AI Trainer",
     emoji: "🤖",
-    href: "/watch/01-episode1",
+    href: "/episode/1",
   },
 ];
 
