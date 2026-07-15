@@ -350,28 +350,20 @@ export default function AtlasLabHome() {
           </div>
         </section>
 
-        <hr className="al-divider" />
-
-        {/* Video */}
-        <div style={{ padding: '2rem 1.5rem', textAlign: 'center' }}>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
-            SEE IT IN ACTION
-          </p>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: 'white' }}>
-            Watch how Patto works
-          </h2>
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <iframe
-              width="315"
-              height="560"
-              src="https://www.youtube.com/embed/Utq4_wlb_BA"
-              title="Patto Onboarding"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              style={{ borderRadius: '12px' }}
-            />
-          </div>
+        <div style={{ textAlign: 'center', padding: '1rem 0 2rem' }}>
+          <a href="/videos" style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            color: '#a89fff',
+            fontSize: '0.9rem',
+            textDecoration: 'none',
+            border: '1px solid rgba(124,111,255,0.3)',
+            padding: '0.5rem 1.25rem',
+            borderRadius: '999px',
+          }}>
+            ▶ Watch Patto in action
+          </a>
         </div>
 
         <hr className="al-divider" />
