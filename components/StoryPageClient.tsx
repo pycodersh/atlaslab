@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Lock } from 'lucide-react'
 import { MagazineEngine } from '@/components/MagazineEngine'
 import { getPlan, FREE_STORY_LIMIT } from '@/lib/subscription/storage'
+import { getLastPosition } from '@/lib/last-position'
 import type { MagazineStory } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
 
@@ -35,7 +36,8 @@ const FS_SECONDARY: React.CSSProperties = {
 
 function UpgradeWall({ storyTitle, storyId }: { storyTitle: string; storyId: number }) {
   const router = useRouter()
-  const prevId = storyId > 1 ? storyId - 1 : null
+  const lastPos = getLastPosition()
+  const backId = (lastPos && lastPos.storyId !== storyId) ? lastPos.storyId : Math.max(1, storyId - 1)
   return (
     <div style={{
       minHeight: '100dvh', display: 'flex', flexDirection: 'column',
@@ -80,7 +82,7 @@ function UpgradeWall({ storyTitle, storyId }: { storyTitle: string; storyId: num
         </button>
         <button
           type="button"
-          onClick={() => router.push(prevId ? `/patto/stories/${prevId}` : '/patto/stories/1')}
+          onClick={() => router.push(`/patto/stories/${backId}`)}
           className="trainer-btn trainer-btn-secondary"
           style={{ height: 44, fontSize: 14, borderRadius: 14, flex: 'none', width: '100%' }}
         >
