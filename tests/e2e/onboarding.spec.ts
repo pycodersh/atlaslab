@@ -7,16 +7,11 @@ import { HOME, collectConsoleErrors, checkNoHorizontalScroll } from './helpers'
 
 test.describe('온보딩 — first_visit', () => {
   test.beforeEach(async ({ page }) => {
-    // 1단계: 홈에 접속해 localStorage 초기화
-    await page.goto(HOME, { waitUntil: 'domcontentloaded' })
-    await page.evaluate(() => {
-      localStorage.clear()
-      // 커버 완료 플래그 재설정: 없으면 커버 페이지로 리다이렉트됨
+    // addInitScript: 첫 navigate 이전에 localStorage 세팅 (goto 1회만)
+    await page.addInitScript(() => {
       localStorage.setItem('patto_cover_done_v1', 'true')
-      // visit count 초기화 (first_visit 시뮬레이션)
       localStorage.removeItem('patto_visit_count')
     })
-    // 2단계: 같은 URL로 다시 goto (reload 대신 — Turbopack rebuild 방지)
     await page.goto(HOME, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(500)
   })
