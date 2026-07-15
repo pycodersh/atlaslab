@@ -23,7 +23,7 @@ import type { MagazinePattern } from '@/types/magazine'
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p style={{ margin: '0 0 10px 2px', fontSize: 11, fontWeight: 600, letterSpacing: '0.8px', color: '#5C6BC0', textTransform: 'uppercase' }}>
+    <p style={{ margin: '0 0 10px 2px', fontSize: 11, fontWeight: 700, letterSpacing: '0.8px', color: '#2C3470', textTransform: 'uppercase' }}>
       {children}
     </p>
   )
@@ -103,7 +103,7 @@ function AccordionWordRow({ w, onRemove }: { w: SavedWord; onRemove: () => void 
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 16, fontWeight: 600, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{w.word}</p>
-          {src && <p style={{ fontSize: 13, color: '#8890a4', margin: 0 }}>{src}</p>}
+          {src && <p style={{ fontSize: 13, color: '#6b7090', margin: 0 }}>{src}</p>}
         </div>
         {meaning && (
           <span style={{ fontSize: 12, color: '#5C6BC0', fontWeight: 500, textAlign: 'right', flexShrink: 0 }}>
@@ -128,7 +128,7 @@ function AccordionPhraseRow({ ph, onRemove }: { ph: SavedPhrase; onRemove: () =>
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <p style={{ fontSize: 16, fontWeight: 600, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{ph.phrase}</p>
-          {src && <p style={{ fontSize: 13, color: '#8890a4', margin: 0 }}>{src}</p>}
+          {src && <p style={{ fontSize: 13, color: '#6b7090', margin: 0 }}>{src}</p>}
         </div>
         {meaning && (
           <span style={{ fontSize: 12, color: '#9575CD', fontWeight: 500, textAlign: 'right', flexShrink: 0 }}>
@@ -150,8 +150,8 @@ function AccordionPatternRow({ bm, onRemove, onPress }: { bm: BookmarkedPattern;
         border: 'none', cursor: 'pointer', borderRadius: 9, padding: '9px 10px',
       }}>
         <p style={{ fontSize: 16, fontWeight: 600, color: '#1a1a2e', margin: '0 0 1px', lineHeight: 1.3 }}>{bm.pattern}</p>
-        {meaning && <p style={{ fontSize: 12, color: '#5a5a7a', margin: '0 0 1px', fontWeight: 400 }}>{meaning}</p>}
-        {storyTitle && <p style={{ fontSize: 13, color: '#8890a4', margin: 0 }}>
+        {meaning && <p style={{ fontSize: 12, color: '#3d3d60', margin: '0 0 1px', fontWeight: 500 }}>{meaning}</p>}
+        {storyTitle && <p style={{ fontSize: 13, color: '#6b7090', margin: 0 }}>
           Story {String(bm.storyId).padStart(2, '0')} · {storyTitle}
         </p>}
       </button>
@@ -208,7 +208,7 @@ function WordPhrasePatternsAccordion({
               <span style={{ fontSize: 24, fontWeight: 700, color: tab.accent, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
                 {tab.count}
               </span>
-              <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.5px', color: tab.accent, opacity: 0.75, textTransform: 'uppercase', textAlign: 'center' }}>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.5px', color: tab.accent, textTransform: 'uppercase', textAlign: 'center' }}>
                 {tab.label}
               </span>
             </button>
