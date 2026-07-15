@@ -36,6 +36,7 @@ import {
 } from '@/lib/adaptive/adaptive-engine'
 import { loadStatsFromSupabase } from '@/lib/adaptive/supabase-sync'
 import { setOrbIntroCard, type Corner } from '@/components/trainer/TrainerOrb'
+import { OnboardingModal } from '@/components/onboarding/OnboardingModal'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -889,13 +890,8 @@ export default function HomePage() {
   }, [router])
 
   useEffect(() => {
-    if (showOnboarding) {
-      setOrbIntroCard((corner, isDark) => (
-        <IntroOnboardingCard corner={corner} isDark={isDark} onComplete={handleIntroComplete} />
-      ))
-    } else {
-      setOrbIntroCard(null)
-    }
+    // OnboardingModal is rendered directly in JSX — clear any orb card
+    setOrbIntroCard(null)
     return () => { setOrbIntroCard(null) }
   }, [showOnboarding, handleIntroComplete])
 
@@ -1221,6 +1217,7 @@ export default function HomePage() {
 
   return (
     <div style={{ minHeight: '100dvh' }}>
+      <OnboardingModal visible={showOnboarding} onComplete={handleIntroComplete} />
       <TopNav />
 
       {/* ── Desktop shell ── */}
