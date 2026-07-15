@@ -352,6 +352,30 @@ export default function AtlasLabHome() {
 
         <hr className="al-divider" />
 
+        {/* Video */}
+        <div style={{ padding: '2rem 1.5rem', textAlign: 'center' }}>
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.75rem' }}>
+            SEE IT IN ACTION
+          </p>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1.5rem', color: 'white' }}>
+            Watch how Patto works
+          </h2>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <iframe
+              width="315"
+              height="560"
+              src="https://www.youtube.com/embed/Utq4_wlb_BA"
+              title="Patto Onboarding"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              style={{ borderRadius: '12px' }}
+            />
+          </div>
+        </div>
+
+        <hr className="al-divider" />
+
         {/* Blog */}
         <section className="al-section" id="blog" style={{ position: 'relative', zIndex: 1 }}>
           <p className="al-section-label">From the Blog</p>
