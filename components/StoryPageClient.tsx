@@ -33,8 +33,9 @@ const FS_SECONDARY: React.CSSProperties = {
   cursor: 'pointer', fontFamily: 'inherit',
 }
 
-function UpgradeWall({ storyTitle }: { storyTitle: string }) {
+function UpgradeWall({ storyTitle, storyId }: { storyTitle: string; storyId: number }) {
   const router = useRouter()
+  const prevId = storyId > 1 ? storyId - 1 : null
   return (
     <div style={{
       minHeight: '100dvh', display: 'flex', flexDirection: 'column',
@@ -79,7 +80,7 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
         </button>
         <button
           type="button"
-          onClick={() => router.back()}
+          onClick={() => router.push(prevId ? `/patto/stories/${prevId}` : '/patto/stories/1')}
           className="trainer-btn trainer-btn-secondary"
           style={{ height: 44, fontSize: 14, borderRadius: 14, flex: 'none', width: '100%' }}
         >
@@ -99,7 +100,7 @@ export function StoryPageClient({ story, allStories, initialView = 'story', patt
     }
   }, [story.id])
 
-  if (locked) return <UpgradeWall storyTitle={story.title} />
+  if (locked) return <UpgradeWall storyTitle={story.title} storyId={story.id} />
 
   return (
     <MagazineEngine
