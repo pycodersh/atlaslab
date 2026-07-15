@@ -254,7 +254,7 @@ export function WritingStudio() {
       {/* ── Header card ─────────────────────────────────────────────────── */}
       <div style={cardBg}>
 
-        <p style={{ margin: '0 0 12px', fontSize: 13, color: '#5a5a7a', lineHeight: 1.5 }}>
+        <p style={{ margin: '0 0 12px', fontSize: 13, fontWeight: 500, color: '#3d3d60', lineHeight: 1.5 }}>
           패턴으로 문장을 써보세요. AI가 즉시 첨삭해드려요.
         </p>
 
@@ -286,7 +286,7 @@ export function WritingStudio() {
                 border: 'none', cursor: 'pointer', position: 'relative', zIndex: 1,
                 fontSize: 13, fontWeight: 600, fontFamily: 'inherit',
                 background: 'transparent',
-                color: mode === m ? '#4B6FD0' : '#8a8aaa',
+                color: mode === m ? '#4B6FD0' : '#5a5a7a',
                 transition: 'color 0.18s',
               }}
             >
@@ -301,7 +301,7 @@ export function WritingStudio() {
             {/* Today's pattern list */}
             {patterns.length > 0 && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10, alignItems: 'center' }}>
-                <span style={{ fontSize: 11, color: '#8a8aaa' }}>오늘 패턴:</span>
+                <span style={{ fontSize: 11, fontWeight: 600, color: '#5a5a7a' }}>오늘 패턴:</span>
                 {patterns.map((p, i) => (
                   <span key={p.id} style={{ fontSize: 11, fontWeight: 600, color: '#5C6BC0' }}>
                     {p.pattern}{i < patterns.length - 1 ? ',' : ''}
@@ -366,7 +366,7 @@ export function WritingStudio() {
 
         {/* ── Bottom row: word count / remaining + send ────────────────── */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
-          <span style={{ fontSize: 11, color: wc > 50 ? '#e57373' : '#b0b8cc' }}>
+          <span style={{ fontSize: 11, color: wc > 50 ? '#e57373' : '#8890a4' }}>
             {wc} / 50 단어
           </span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
