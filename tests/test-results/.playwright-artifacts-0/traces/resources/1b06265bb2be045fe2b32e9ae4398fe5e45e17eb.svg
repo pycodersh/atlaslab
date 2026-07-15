@@ -1,0 +1,68 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 390 844" width="390" height="844">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d8dce8"/>
+      <stop offset="50%" stop-color="#e2e6f0"/>
+      <stop offset="100%" stop-color="#d0d6e4"/>
+    </linearGradient>
+
+    <!-- 구체 1 — 크고 왼쪽 하단 -->
+    <radialGradient id="s1" cx="32%" cy="28%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.70"/>
+      <stop offset="20%" stop-color="#f5f7fc" stop-opacity="0.68"/>
+      <stop offset="45%" stop-color="#dde4f2" stop-opacity="0.55"/>
+      <stop offset="70%" stop-color="#bfcce0" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#b0c0d8" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 구체 2 — 중간 오른쪽 -->
+    <radialGradient id="s2" cx="30%" cy="25%" r="48%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.70"/>
+      <stop offset="18%" stop-color="#f6f8fd" stop-opacity="0.68"/>
+      <stop offset="42%" stop-color="#dfe6f3" stop-opacity="0.58"/>
+      <stop offset="68%" stop-color="#c2d0e4" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#b2c2da" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 구체 3 — 작은 우상단 -->
+    <radialGradient id="s3" cx="28%" cy="22%" r="46%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.70"/>
+      <stop offset="16%" stop-color="#f7f9fd" stop-opacity="0.69"/>
+      <stop offset="38%" stop-color="#e2e8f4" stop-opacity="0.60"/>
+      <stop offset="65%" stop-color="#c5d2e6" stop-opacity="0.36"/>
+      <stop offset="100%" stop-color="#b5c5dc" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 구체 4 — 중간 왼쪽 -->
+    <radialGradient id="s4" cx="34%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.68"/>
+      <stop offset="22%" stop-color="#f4f6fb" stop-opacity="0.65"/>
+      <stop offset="46%" stop-color="#dbe2f0" stop-opacity="0.52"/>
+      <stop offset="72%" stop-color="#bdc9de" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#adbcd4" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="gloss" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="390" height="844" fill="url(#bg)"/>
+
+  <!-- 구체 1 — 크고 왼쪽 하단 -->
+  <ellipse cx="55" cy="760" rx="240" ry="240" fill="url(#s1)"/>
+
+  <!-- 구체 2 — 중간 오른쪽 -->
+  <ellipse cx="375" cy="310" rx="175" ry="175" fill="url(#s2)"/>
+
+  <!-- 구체 3 — 작은 우상단 -->
+  <ellipse cx="305" cy="35" rx="88" ry="88" fill="url(#s3)"/>
+
+  <!-- 구체 4 — 중간 왼쪽 -->
+  <ellipse cx="20" cy="490" rx="140" ry="140" fill="url(#s4)"/>
+
+  <!-- 광택 오버레이 -->
+  <rect width="390" height="844" fill="url(#gloss)"/>
+</svg>
