@@ -1,6 +1,6 @@
 # PATTO QA 알려진 이슈 — 2026-07-15
 
-## BUG-001: 영어 모드에서 로그인 버튼 한국어 하드코딩
+## ~~BUG-001~~ (종결 — 오탐): 영어 모드에서 로그인 버튼 한국어 하드코딩
 
 | 항목 | 내용 |
 |---|---|
@@ -17,21 +17,17 @@
 - "이메일로 계속하기" (기대: "Continue with Email")
 - "카카오로 계속하기" (기대: "Continue with Kakao")
 
-**추정 원인**
-`components/auth/AuthButtons.tsx` 내 버튼 텍스트가 i18n 훅을 사용하지 않고 한국어 문자열로 하드코딩됨.
+**실제 원인 (오탐)**
+테스트가 `localStorage.setItem('patto-lang', 'en')` (존재하지 않는 키)를 설정했음.
+앱의 실제 키는 `patto-user-preferences` + `{ language: 'en' }` 구조.
+언어 변경이 적용되지 않아 기본값 한국어가 유지된 것이며 앱 자체는 정상.
+번역 키 `auth_continue_google` 등 영어 번역이 `lib/i18n/strings.ts`에 올바르게 존재함.
 
-**수정 방향**
-```tsx
-// Before
-<button>Google로 계속하기</button>
-
-// After
-<button>{t('auth.continueWithGoogle')}</button>
-```
+**상태:** 테스트 수정 완료 (`addInitScript` + 올바른 키 적용), 영어 모드 PASS 확인
 
 ---
 
-## BUG-002: 영어 모드에서 PWA 설치 배너 한국어 하드코딩
+## ~~BUG-002~~ (종결 — 오탐): 영어 모드에서 PWA 설치 배너 한국어 하드코딩
 
 | 항목 | 내용 |
 |---|---|
@@ -49,11 +45,11 @@
 - "나중에" (기대: "Later")
 - "추가하기" (기대: "Add")
 
-**추정 원인**
-PWA 설치 배너 컴포넌트가 번역 시스템 밖에 있음.
+**실제 원인 (오탐)**
+BUG-001과 동일한 원인. 잘못된 localStorage 키로 인해 언어 변경 미적용.
+`install_android_modal_title` 등 영어 번역이 `lib/i18n/strings.ts`에 올바르게 존재함.
 
-**수정 방향**
-번역 키 추가 후 `useT()` 또는 `usePreferences().lang` 적용.
+**상태:** 테스트 수정으로 해결됨, 영어 모드 PASS 확인
 
 ---
 

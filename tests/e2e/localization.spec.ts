@@ -17,12 +17,12 @@ const PAGES = [
 
 test.describe('다국어 — 하드코딩 검사', () => {
   test('#13 모든 핵심 페이지 한국어 모드에서 번역 키 미노출', async ({ page }) => {
-    // 한국어 설정
-    await page.goto(`${PATTO}/home`, { waitUntil: 'domcontentloaded' })
-    await page.evaluate(() => {
-      localStorage.setItem('patto-lang', 'ko')
-      localStorage.setItem('patto-preferences', JSON.stringify({ lang: 'ko' }))
+    // 한국어 설정 — 앱 실제 키: patto-user-preferences { language: 'ko' }
+    await page.addInitScript(() => {
+      const existing = JSON.parse(localStorage.getItem('patto-user-preferences') || '{}')
+      localStorage.setItem('patto-user-preferences', JSON.stringify({ ...existing, language: 'ko' }))
     })
+    await page.goto(`${PATTO}/home`, { waitUntil: 'domcontentloaded' })
 
     for (const url of PAGES) {
       await page.goto(url, { waitUntil: 'domcontentloaded' })
@@ -40,12 +40,12 @@ test.describe('다국어 — 하드코딩 검사', () => {
   })
 
   test('#13 모든 핵심 페이지 영어 모드에서 한국어 하드코딩 없음', async ({ page }) => {
-    // 영어 설정
-    await page.goto(`${PATTO}/home`, { waitUntil: 'domcontentloaded' })
-    await page.evaluate(() => {
-      localStorage.setItem('patto-lang', 'en')
-      localStorage.setItem('patto-preferences', JSON.stringify({ lang: 'en' }))
+    // 영어 설정 — 앱 실제 키: patto-user-preferences { language: 'en' }
+    await page.addInitScript(() => {
+      const existing = JSON.parse(localStorage.getItem('patto-user-preferences') || '{}')
+      localStorage.setItem('patto-user-preferences', JSON.stringify({ ...existing, language: 'en' }))
     })
+    await page.goto(`${PATTO}/home`, { waitUntil: 'domcontentloaded' })
 
     const KOREAN_REGEX = /[가-힣]{3,}/  // 3자 이상 연속 한글
 
@@ -57,18 +57,12 @@ test.describe('다국어 — 하드코딩 검사', () => {
       // 참고: 학습 콘텐츠(스토리 제목 등)는 의도적으로 한글일 수 있음
       // UI 요소(버튼, 레이블)에만 집중
       const buttons = await page.locator('button').allTextContents()
-      for (const btn of buttons) {
-        if (btn.trim().length > 0) {
-          // 핵심 UI 버튼에 한글 없어야 함
-          const hasKorean = KOREAN_REGEX.test(btn)
-          if (hasKorean) {
-            console.warn(`[WARN] 영어 모드에서 한글 버튼 발견: "${btn}" at ${url}`)
-          }
-        }
+      const koreanButtons = buttons.filter(btn => btn.trim().length > 0 && KOREAN_REGEX.test(btn))
+      if (koreanButtons.length > 0) {
+        console.warn(`[WARN] 영어 모드에서 한글 버튼 발견 at ${url}:`, koreanButtons)
       }
+      expect(koreanButtons, `영어 모드 한글 버튼 @ ${url}`).toHaveLength(0)
     }
-    // WARN만 남기고 테스트는 통과 (BUG-001, BUG-002로 별도 추적)
-    expect(true).toBe(true)
   })
 
   test('#13 소스 코드에 하드코딩 alert/toast 영어 문자열 검사', async () => {
