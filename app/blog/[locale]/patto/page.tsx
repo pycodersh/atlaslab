@@ -166,7 +166,7 @@ export default async function BlogListPage({
 
       {totalPages > 1 && (
         <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem', marginTop: '1rem' }}>
-          {currentPage} / {totalPages} 페이지 · 총 {count}개 글
+          {currentPage} / {totalPages} 페이지 · 총 {totalCount}개 글
         </p>
       )}
     </div>
