@@ -900,7 +900,7 @@ export default function HomePage() {
     trainerRef.current?.say("같이 시작해봐요!", 1500)
     setTimeout(() => {
       try { localStorage.setItem('is_guided_session', 'true') } catch {}
-      router.push('/patto/session/1?guided=true')
+      router.push('/patto/focus/1?guided=true')
     }, 600)
   }, [router])
 
@@ -1079,7 +1079,7 @@ export default function HomePage() {
           const completedToday = new Set(magazineStories.filter(s => getStoryRound(s.id).lastCompletedAt === todayDate).map(s => s.id))
           const completedCount = completedToday.size
           const nextNew = magazineStories.find(s => !completedToday.has(s.id) && getStoryStatus(s.id) === 'new')
-          const nextHref = nextNew ? `/patto/session/${nextNew.id}` : '/patto/stories/all'
+          const nextHref = nextNew ? `/patto/focus/${nextNew.id}` : '/patto/stories/all'
           trainerRef.current?.ask(`오늘 ${completedCount}개 완료했어요. 잘했어요!`, [
             { label: 'Keep going!', primary: true, onClick: () => { trainerRef.current?.clearMessage(); router.push(nextHref) } },
             { label: 'Done for today', onClick: () => trainerRef.current?.clearMessage() },
@@ -1091,7 +1091,7 @@ export default function HomePage() {
               primary: true,
               onClick: () => {
                 trainerRef.current?.clearMessage()
-                router.push(`/patto/session/${nextIncompleteStoryId}`)
+                router.push(`/patto/focus/${nextIncompleteStoryId}`)
               },
             },
             {
@@ -1124,7 +1124,7 @@ export default function HomePage() {
             label: 'Review',
             onClick: () => {
               trainerRef.current?.say("이어서 시작해봐요.", 2000)
-              router.push(`/patto/session/${todayStory.id}`)
+              router.push(`/patto/focus/${todayStory.id}`)
             },
           },
           {
@@ -1189,7 +1189,7 @@ export default function HomePage() {
             primary: true,
             onClick: () => {
               trainerRef.current?.clearMessage()
-              router.push(`/patto/session/${todayStory.id}`)
+              router.push(`/patto/focus/${todayStory.id}`)
             },
           },
         ])
@@ -1317,7 +1317,7 @@ export default function HomePage() {
                   onClick={e => {
                     e.stopPropagation()
                     trainerRef.current?.say("시작해볼게요.", 1200)
-                    setTimeout(() => router.push(`/patto/session/${todayStory.id}`), 400)
+                    setTimeout(() => router.push(`/patto/focus/${todayStory.id}`), 400)
                   }}
                   style={{
                     flexShrink: 0,
@@ -1526,3 +1526,4 @@ export default function HomePage() {
     </div>
   )
 }
+

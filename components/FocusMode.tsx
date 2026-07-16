@@ -20,15 +20,17 @@ import { useAuth } from '@/contexts/AuthContext'
 import type { MagazineStory } from '@/types/magazine'
 
 // ── Constants ────────────────────────────────────────────────────────────────
-// All timing values are named constants — no raw magic numbers in logic
 
-const PATTERN_EXAMPLE_WAIT_MS = 2000  // User speaking wait after each example audio
-const STORY_ADVANCE_DELAY_MS  = 500   // Wait after story paragraph audio ends before advancing
-const TRANSITION_MS           = 300   // Content fade duration (also audio fade-out on swipe-next)
-const COMPLETE_EXIT_DELAY_MS  = 2500  // Auto-navigate back after completion screen
+const PATTERN_EXAMPLE_WAIT_MS = 2000
+const STORY_ADVANCE_DELAY_MS  = 500
+const TRANSITION_MS           = 300
+const COMPLETE_EXIT_DELAY_MS  = 2500
+
+// ── Language mode ────────────────────────────────────────────────────────────
+
+type LangMode = 'en' | 'en-ko' | 'ko'
 
 // ── Position persistence (sessionStorage) ───────────────────────────────────
-// Saves last reached position so abnormal exits can resume from the same point.
 
 type FocusSavedPos = {
   phase:      'story' | 'pattern'
@@ -54,18 +56,16 @@ function clearPos(storyId: number) {
   try { sessionStorage.removeItem(posKey(storyId)) } catch {}
 }
 
-// ── Types ────────────────────────────────────────────────────────────────────
+// ── State machine ────────────────────────────────────────────────────────────
 
-// State machine — matches the scenario table exactly.
-// No extra states beyond what the table specifies.
 type FocusState =
-  | 'loading'          // Audio loading → all input blocked
-  | 'story-playing'    // Story paragraph audio playing
-  | 'paused'           // Audio paused, orb menu shown
-  | 'transition'       // Content fade in progress → all input blocked
-  | 'pattern-ready'    // Pattern displayed, waiting for user tap
-  | 'pattern-playing'  // Pattern example audio playing
-  | 'complete'         // All content finished
+  | 'loading'
+  | 'story-playing'
+  | 'paused'
+  | 'transition'
+  | 'pattern-ready'
+  | 'pattern-playing'
+  | 'complete'
 
 type ExItem = { en: string; ko: string }
 
@@ -73,7 +73,7 @@ function getExamples(pat: MagazineStory['patterns'][0]): ExItem[] {
   const fromData = getPatternExamples(pat.id)
   if (fromData.length > 0) return fromData.slice(0, 3)
   const r: ExItem[] = []
-  if (pat.storySentence)    r.push({ en: pat.storySentence,    ko: pat.storySentenceKo    ?? '' })
+  if (pat.storySentence)     r.push({ en: pat.storySentence,     ko: pat.storySentenceKo     ?? '' })
   if (pat.variationSentence) r.push({ en: pat.variationSentence, ko: pat.variationSentenceKo ?? '' })
   return r.slice(0, 3)
 }
@@ -83,54 +83,44 @@ function getExamples(pat: MagazineStory['patterns'][0]): ExItem[] {
 export type FocusModeProps = { story: MagazineStory }
 
 export function FocusMode({ story }: FocusModeProps) {
-  const router       = useRouter()
-  const { user }     = useAuth()
-  const { prefs }    = usePreferences()
-  const { setProgress } = useLearningProgress()
-  const voice        = story.narratorVoice ?? prefs.voice
+  const router              = useRouter()
+  const { user }            = useAuth()
+  const { prefs }           = usePreferences()
+  const { setProgress }     = useLearningProgress()
+  const voice               = story.narratorVoice ?? prefs.voice
 
   // ── UI state ────────────────────────────────────────────────────────────
 
-  const [focusState,    setFocusState]    = useState<FocusState>('loading')
-  const [phase,         setPhase]         = useState<'story' | 'pattern'>('story')
-  const [paraIdx,       setParaIdx]       = useState(0)
-  const [patternIdx,    setPatternIdx]    = useState(0)
-  const [exIdx,         setExIdx]         = useState(0)
-  const [showOrbMenu,   setShowOrbMenu]   = useState(false)
+  const [focusState,     setFocusState]     = useState<FocusState>('loading')
+  const [phase,          setPhase]          = useState<'story' | 'pattern'>('story')
+  const [paraIdx,        setParaIdx]        = useState(0)
+  const [patternIdx,     setPatternIdx]     = useState(0)
+  const [exIdx,          setExIdx]          = useState(0)
+  const [showOrbMenu,    setShowOrbMenu]    = useState(false)
   const [contentVisible, setContentVisible] = useState(true)
+  const [langMode,       setLangMode]       = useState<LangMode>('en-ko')
 
-  // ── Refs (stable across renders for use inside async callbacks) ──────────
+  // ── Refs ─────────────────────────────────────────────────────────────────
 
-  const focusStateRef        = useRef<FocusState>('loading')
-  const phaseRef             = useRef<'story' | 'pattern'>('story')
-  const paraIdxRef           = useRef(0)
-  const patternIdxRef        = useRef(0)
-  const exIdxRef             = useRef(0)
-  const stateBeforePauseRef  = useRef<'story-playing' | 'pattern-playing'>('story-playing')
-  const timerRef             = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const progressSavedRef     = useRef(false)
-  // Transition guard: blocks repeated inputs — only first triggers, rest ignored
-  const inTransitionRef      = useRef(false)
+  const focusStateRef       = useRef<FocusState>('loading')
+  const phaseRef            = useRef<'story' | 'pattern'>('story')
+  const paraIdxRef          = useRef(0)
+  const patternIdxRef       = useRef(0)
+  const exIdxRef            = useRef(0)
+  const stateBeforePauseRef = useRef<'story-playing' | 'pattern-playing'>('story-playing')
+  const timerRef            = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const progressSavedRef    = useRef(false)
+  const inTransitionRef     = useRef(false)
 
   // ── Sync helpers ─────────────────────────────────────────────────────────
 
-  function setFocusStateSync(s: FocusState) {
-    focusStateRef.current = s
-    setFocusState(s)
-  }
-
-  function setPhaseSync(p: 'story' | 'pattern') {
-    phaseRef.current = p
-    setPhase(p)
-  }
-
+  function setFocusStateSync(s: FocusState) { focusStateRef.current = s; setFocusState(s) }
+  function setPhaseSync(p: 'story' | 'pattern') { phaseRef.current = p; setPhase(p) }
   function clearTimer() {
     if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
   }
 
   // ── Progress save ─────────────────────────────────────────────────────────
-  // completeStoryRound is idempotent (guards on lastCompletedAt === today),
-  // so calling it twice on the same day (e.g. after a restored session) is safe.
 
   function saveProgress() {
     if (progressSavedRef.current) return
@@ -141,14 +131,10 @@ export function FocusMode({ story }: FocusModeProps) {
     if (user?.id) syncStoryRoundToSupabase(user.id, data)
   }
 
-  // ── Transition (0.3s content fade) ───────────────────────────────────────
-  // Spec: Transition 연속 입력 시 첫 번째만 처리, 나머지 무시
-  // Enforced by inTransitionRef: the ref is set before the timeout and cleared
-  // inside the callback — any concurrent call sees inTransitionRef.current = true
-  // and returns immediately.
+  // ── Transition ────────────────────────────────────────────────────────────
 
   function doTransitionTo(cb: () => void) {
-    if (inTransitionRef.current) return   // Consecutive input: ignore (spec: 무시)
+    if (inTransitionRef.current) return
     inTransitionRef.current = true
     setFocusStateSync('transition')
     setContentVisible(false)
@@ -168,7 +154,6 @@ export function FocusMode({ story }: FocusModeProps) {
     paraIdxRef.current = idx
     setParaIdx(idx)
     setFocusStateSync('loading')
-    // Save position immediately — if user exits here, we resume at this paragraph
     savePos(story.id, { phase: 'story', paraIdx: idx, patternIdx: 0, exIdx: 0 })
 
     const url = storyParaAudioUrl(voice, story.id, para.id, para.english)
@@ -181,7 +166,6 @@ export function FocusMode({ story }: FocusModeProps) {
       pitch:     getPitchForKey(voice),
       volume:    1.0,
       onStart: () => {
-        // loading → story-playing once audio actually starts
         if (focusStateRef.current === 'loading') setFocusStateSync('story-playing')
       },
       onEnd: () => {
@@ -190,7 +174,6 @@ export function FocusMode({ story }: FocusModeProps) {
         timerRef.current = setTimeout(() => {
           const next = paraIdxRef.current + 1
           if (next >= story.paragraphs.length) {
-            // Story complete → save progress immediately (spec: Progress 즉시 저장)
             saveProgress()
             doTransitionTo(() => {
               patternIdxRef.current = 0
@@ -206,7 +189,6 @@ export function FocusMode({ story }: FocusModeProps) {
           }
         }, STORY_ADVANCE_DELAY_MS)
       },
-      // ttsProvider handles DB→TTS fallback internally; onError fires only if both fail
       onError: () => {
         if (focusStateRef.current === 'loading') setFocusStateSync('story-playing')
       },
@@ -227,7 +209,6 @@ export function FocusMode({ story }: FocusModeProps) {
     setPatternIdx(pIdx)
     setExIdx(eIdx)
     setFocusStateSync('loading')
-    // Save position so resume starts at this exact example
     savePos(story.id, { phase: 'pattern', paraIdx: paraIdxRef.current, patternIdx: pIdx, exIdx: eIdx })
 
     const shimmerEx = shimmerExamples[`${pat.id}-ex${eIdx + 1}`]
@@ -246,12 +227,11 @@ export function FocusMode({ story }: FocusModeProps) {
       onEnd: () => {
         if (focusStateRef.current !== 'pattern-playing') return
         clearTimer()
-        // Spec: 설정된 사용자 발화 대기 시간 후 → 다음 예문으로 Transition
         timerRef.current = setTimeout(() => {
-          const pat      = story.patterns[patternIdxRef.current]
-          const examples = getExamples(pat)
+          const p        = story.patterns[patternIdxRef.current]
+          const exs      = getExamples(p)
           const nextEx   = exIdxRef.current + 1
-          if (nextEx >= examples.length) {
+          if (nextEx >= exs.length) {
             advancePattern(patternIdxRef.current)
           } else {
             doTransitionTo(() => playPatternExample(patternIdxRef.current, nextEx))
@@ -281,53 +261,41 @@ export function FocusMode({ story }: FocusModeProps) {
   }
 
   function finishFocusMode() {
-    // Pattern Set complete → save immediately (spec: Progress 즉시 저장)
     saveProgress()
-    clearPos(story.id)  // Position no longer needed — fully completed
+    clearPos(story.id)
     setFocusStateSync('complete')
   }
 
-  // ── Entry: restore saved position or start from beginning ─────────────────
+  // ── Entry ─────────────────────────────────────────────────────────────────
 
   useEffect(() => {
     const saved = loadPos(story.id)
-
     if (saved) {
-      // Restore refs and state first
       paraIdxRef.current    = saved.paraIdx
       patternIdxRef.current = saved.patternIdx
       exIdxRef.current      = saved.exIdx
       setParaIdx(saved.paraIdx)
       setPatternIdx(saved.patternIdx)
       setExIdx(saved.exIdx)
-
       if (saved.phase === 'story') {
         setPhaseSync('story')
         playStoryPara(saved.paraIdx)
       } else {
-        // Story was already completed in a previous session; mark saved
         progressSavedRef.current = true
         setPhaseSync('pattern')
-        // Show pattern-ready — user taps to play from the saved example
         setFocusStateSync('pattern-ready')
       }
     } else {
       playStoryPara(0)
     }
-
-    return () => {
-      ttsProvider.stop()
-      clearTimer()
-    }
+    return () => { ttsProvider.stop(); clearTimer() }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // ── Background → pause; foreground → no auto-resume ───────────────────────
-  // Spec: 앱 백그라운드 이동 → 오디오 즉시 Pause → Paused 상태 유지
-  //       앱 포그라운드 복귀 → 자동 재생 없음. Paused 유지.
+  // ── Background → pause ────────────────────────────────────────────────────
 
   useEffect(() => {
-    const onVisibilityChange = () => {
+    const onVis = () => {
       if (document.hidden) {
         const s = focusStateRef.current
         if (s === 'story-playing' || s === 'pattern-playing') {
@@ -337,21 +305,21 @@ export function FocusMode({ story }: FocusModeProps) {
           setFocusStateSync('paused')
         }
       }
-      // Foreground return: intentionally no action (spec: 자동 재생 없음)
+      // Foreground: no auto-resume (spec)
     }
-    document.addEventListener('visibilitychange', onVisibilityChange)
-    return () => document.removeEventListener('visibilitychange', onVisibilityChange)
+    document.addEventListener('visibilitychange', onVis)
+    return () => document.removeEventListener('visibilitychange', onVis)
   }, [])
 
-  // ── Complete: show completion screen, then auto-navigate back ─────────────
+  // ── Complete auto-navigate ────────────────────────────────────────────────
 
   useEffect(() => {
     if (focusState !== 'complete') return
-    const t = setTimeout(() => router.back(), COMPLETE_EXIT_DELAY_MS)
+    const t = setTimeout(() => router.push('/patto/home'), COMPLETE_EXIT_DELAY_MS)
     return () => clearTimeout(t)
   }, [focusState, router])
 
-  // ── Touch: swipe detection (story phase only) ─────────────────────────────
+  // ── Touch swipe (story phase) ─────────────────────────────────────────────
 
   const touchStartRef = useRef<{ x: number; y: number } | null>(null)
 
@@ -366,23 +334,17 @@ export function FocusMode({ story }: FocusModeProps) {
     touchStartRef.current = null
 
     const s = focusStateRef.current
-    // Spec: Loading/Transition 상태에서 모든 입력 무시
     if (s === 'loading' || s === 'transition' || s === 'paused') return
-    // Swipe only in story phase
     if (phaseRef.current !== 'story') return
-    // Must be a clear horizontal gesture
     if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx) * 0.8) return
 
     if (dx < 0) {
-      // Spec: 스와이프 Next → Transition 시작 → 오디오 페이드아웃(0.3s) → 다음 단락 표시
       const next = paraIdxRef.current + 1
       if (next >= story.paragraphs.length) return
-      // Audio fade-out runs concurrently with the content transition (both 0.3s)
       ttsProvider.fadeOut?.(TRANSITION_MS)
       clearTimer()
       doTransitionTo(() => playStoryPara(next))
     } else {
-      // Spec: 스와이프 Prev → 오디오 즉시 중단 → 이전 단락 표시 → 이전 오디오 처음부터 재생
       ttsProvider.stop()
       clearTimer()
       doTransitionTo(() => playStoryPara(Math.max(0, paraIdxRef.current - 1)))
@@ -390,21 +352,18 @@ export function FocusMode({ story }: FocusModeProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [story.paragraphs.length])
 
-  // ── Content tap (pattern-ready → start playing) ───────────────────────────
-  // Spec: PatternReady | 화면 탭 | 예문 오디오 재생 → PatternPlaying 상태
+  // ── Content tap (pattern-ready) ───────────────────────────────────────────
 
   function handleContentTap() {
     if (focusStateRef.current !== 'pattern-ready') return
-    // exIdxRef holds the restored/current position — resume from there
     playPatternExample(patternIdxRef.current, exIdxRef.current)
   }
 
-  // ── Orb tap ───────────────────────────────────────────────────────────────
-  // Spec: Playing (any) | 오브 탭 → 오디오 즉시 일시정지 → 오브 메뉴 표시 → Paused
+  // ── Orb ──────────────────────────────────────────────────────────────────
 
   function handleOrbClick(e: React.MouseEvent) {
     const s = focusStateRef.current
-    if (s === 'loading' || s === 'transition') return   // Spec: 무시
+    if (s === 'loading' || s === 'transition') return
     if (s === 'story-playing' || s === 'pattern-playing') {
       e.stopPropagation()
       stateBeforePauseRef.current = s
@@ -415,18 +374,13 @@ export function FocusMode({ story }: FocusModeProps) {
     }
   }
 
-  // ── Orb menu actions ──────────────────────────────────────────────────────
-  // Spec: 오브 메뉴 3개만 — 계속 / 처음부터 / 나가기
-
   function handleMenuContinue() {
-    // Spec: 일시정지된 정확한 위치부터 Resume (처음부터 재생 아님)
     setShowOrbMenu(false)
     ttsProvider.resume?.()
     setFocusStateSync(stateBeforePauseRef.current)
   }
 
   function handleMenuRestart() {
-    // Spec: 현재 단락/예문 오디오 처음부터 재시작
     setShowOrbMenu(false)
     ttsProvider.stop()
     clearTimer()
@@ -438,15 +392,12 @@ export function FocusMode({ story }: FocusModeProps) {
   }
 
   function handleMenuExit() {
-    // Spec: 오디오 중단 → 포커스 모드 종료 → 이전 화면으로 이동
     ttsProvider.stop()
     clearTimer()
-    router.back()
+    router.push('/patto/home')
   }
 
   // ── Progress bar ──────────────────────────────────────────────────────────
-  // Spec: 스토리 단위 / 예문 세트 단위로만 증가 (예문 하나하나 쪼개지 않음)
-  // → one step per paragraph, one step per pattern (not per individual example)
 
   const totalSteps  = story.paragraphs.length + story.patterns.length
   const currentStep = phase === 'story'
@@ -454,7 +405,7 @@ export function FocusMode({ story }: FocusModeProps) {
     : story.paragraphs.length + patternIdx
   const progressPct = totalSteps > 0 ? Math.min(100, (currentStep / totalSteps) * 100) : 0
 
-  // ── Derived render values ─────────────────────────────────────────────────
+  // ── Derived ───────────────────────────────────────────────────────────────
 
   const currentPara     = story.paragraphs[paraIdx]
   const currentPattern  = story.patterns[patternIdx]
@@ -463,6 +414,7 @@ export function FocusMode({ story }: FocusModeProps) {
   const isBlocked       = focusState === 'loading' || focusState === 'transition'
   const isPatternPhase  = phase === 'pattern'
   const isPatternReady  = focusState === 'pattern-ready'
+  const isPlaying       = focusState === 'story-playing' || focusState === 'pattern-playing'
 
   // ── Complete screen ───────────────────────────────────────────────────────
 
@@ -470,15 +422,9 @@ export function FocusMode({ story }: FocusModeProps) {
     return (
       <div style={S.root}>
         <div style={S.completeWrap}>
-          <div style={S.completeIcon}>
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none"
-              stroke="rgba(215,181,109,0.9)" strokeWidth={2.5}
-              strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-          </div>
+          <div style={S.completeIcon}>✓</div>
           <p style={S.completeTitle}>완료했어요</p>
-          <p style={S.completeSubtitle}>{story.title}</p>
+          <p style={S.completeSub}>{story.title}</p>
         </div>
       </div>
     )
@@ -493,19 +439,33 @@ export function FocusMode({ story }: FocusModeProps) {
       onTouchEnd={handleTouchEnd}
       onClick={isPatternPhase ? handleContentTap : undefined}
     >
-      {/* Progress bar — fixed at top */}
+      {/* Progress bar */}
       <div style={S.progressTrack}>
         <div style={{ ...S.progressFill, width: `${progressPct}%` }} />
       </div>
 
-      {/* Phase + position label */}
-      <p style={S.phaseLabel}>
-        {isPatternPhase
-          ? `PATTERN ${patternIdx + 1} / ${story.patterns.length}`
-          : `STORY · ${paraIdx + 1} / ${story.paragraphs.length}`}
-      </p>
+      {/* Header: phase label + lang switcher */}
+      <div style={S.header}>
+        <span style={S.phaseLabel}>
+          {isPatternPhase
+            ? `PATTERN ${patternIdx + 1} / ${story.patterns.length}`
+            : `STORY  ${paraIdx + 1} / ${story.paragraphs.length}`}
+        </span>
+        <div style={S.langGroup}>
+          {(['en', 'en-ko', 'ko'] as LangMode[]).map(m => (
+            <button
+              key={m}
+              type="button"
+              style={{ ...S.langBtn, ...(langMode === m ? S.langBtnActive : {}) }}
+              onClick={e => { e.stopPropagation(); setLangMode(m) }}
+            >
+              {m === 'en' ? 'EN' : m === 'en-ko' ? 'EN·KO' : 'KO'}
+            </button>
+          ))}
+        </div>
+      </div>
 
-      {/* Content — fades during transition */}
+      {/* Content */}
       <div
         style={{
           ...S.content,
@@ -514,13 +474,18 @@ export function FocusMode({ story }: FocusModeProps) {
         }}
       >
         {!isPatternPhase ? (
-          // ── Story: one paragraph, centered, large ──────────────────────
-          <div style={S.storyWrap}>
-            <p style={S.storyText}>{currentPara?.english}</p>
+          // ── Story paragraph ──────────────────────────────────────────────
+          <div style={S.paraWrap}>
+            {(langMode === 'en' || langMode === 'en-ko') && (
+              <p style={S.paraEn}>{currentPara?.english}</p>
+            )}
+            {(langMode === 'ko' || langMode === 'en-ko') && currentPara?.koreanTranslation && (
+              <p style={S.paraKo}>{currentPara.koreanTranslation}</p>
+            )}
             {focusState === 'loading' && <p style={S.loadingDots}>· · ·</p>}
           </div>
         ) : (
-          // ── Pattern: pattern fixed at top (20px), example large (36px) ─
+          // ── Pattern + example ────────────────────────────────────────────
           <div style={S.patternWrap}>
             <div style={S.patternHeader}>
               <p style={S.patternText}>{currentPattern?.pattern}</p>
@@ -530,9 +495,13 @@ export function FocusMode({ story }: FocusModeProps) {
             </div>
 
             {currentEx && (
-              <div>
-                <p style={S.exampleText}>{currentEx.en}</p>
-                {currentEx.ko && <p style={S.exampleKo}>{currentEx.ko}</p>}
+              <div style={S.exWrap}>
+                {(langMode === 'en' || langMode === 'en-ko') && (
+                  <p style={S.exEn}>{currentEx.en}</p>
+                )}
+                {(langMode === 'ko' || langMode === 'en-ko') && currentEx.ko && (
+                  <p style={S.exKo}>{currentEx.ko}</p>
+                )}
               </div>
             )}
 
@@ -542,54 +511,57 @@ export function FocusMode({ story }: FocusModeProps) {
         )}
       </div>
 
-      {/* Orb button */}
+      {/* Orb — sole control, fixed bottom */}
       <div style={S.orbContainer}>
         <button
           type="button"
           style={{
             ...S.orb,
-            opacity:   isBlocked ? 0.35 : 1,
-            ...(isPatternReady ? { animation: 'orbPulse 2s ease-in-out infinite' } : {}),
+            opacity:   isBlocked ? 0.4 : 1,
+            ...(isPatternReady ? { animation: 'fmOrbPulse 2s ease-in-out infinite' } : {}),
           }}
           onClick={handleOrbClick}
         >
           {focusState === 'loading' ? (
             <div style={S.spinner} />
           ) : focusState === 'paused' ? (
-            // Pause state: show play icon (not used as click target — menu overlays everything)
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
             </svg>
-          ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+          ) : isPlaying ? (
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <rect x="6" y="4" width="4" height="16" rx="1"/>
               <rect x="14" y="4" width="4" height="16" rx="1"/>
+            </svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
             </svg>
           )}
         </button>
       </div>
 
-      {/* Orb menu overlay — Spec: 계속 / 처음부터 / 나가기 3개만 */}
+      {/* Orb menu */}
       {showOrbMenu && (
-        <div style={S.menuOverlay}>
+        <div style={S.menuOverlay} onClick={e => e.stopPropagation()}>
           <div style={S.menuBox}>
             <button type="button" style={S.menuBtn} onClick={handleMenuContinue}>계속</button>
             <div style={S.menuDivider} />
             <button type="button" style={S.menuBtn} onClick={handleMenuRestart}>처음부터</button>
             <div style={S.menuDivider} />
-            <button type="button" style={{ ...S.menuBtn, color: 'rgba(255,100,100,0.85)' }} onClick={handleMenuExit}>나가기</button>
+            <button type="button" style={{ ...S.menuBtn, color: '#E05252' }} onClick={handleMenuExit}>나가기</button>
           </div>
         </div>
       )}
 
       <style>{`
-        @keyframes orbPulse {
-          0%, 100% { box-shadow: 0 0 0 0 rgba(107,143,255,0.5), 0 0 20px rgba(107,143,255,0.3); }
-          50%       { box-shadow: 0 0 0 12px rgba(107,143,255,0), 0 0 32px rgba(107,143,255,0.5); }
+        @keyframes fmOrbPulse {
+          0%,100% { box-shadow: 0 0 0 0 rgba(107,143,255,0.35), 0 2px 12px rgba(107,143,255,0.18); }
+          50%      { box-shadow: 0 0 0 10px rgba(107,143,255,0), 0 2px 20px rgba(107,143,255,0.32); }
         }
-        @keyframes fmSpin   { to { transform: rotate(360deg); } }
+        @keyframes fmSpin { to { transform: rotate(360deg); } }
         @keyframes fmFadeIn {
-          from { opacity: 0; transform: translateY(12px); }
+          from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
@@ -598,215 +570,255 @@ export function FocusMode({ story }: FocusModeProps) {
 }
 
 // ── Styles ────────────────────────────────────────────────────────────────────
-// Spec: 배경 #0A0F1E (dark immersive), 카드 UI 완전 제거
-// Spec: 스토리 32px+, 패턴 20px (fixed top), 예문 36px
-
-const BG = '#0A0F1E'
+// Light mode: #F2F7FF background, dark text — matches app theme
 
 const S = {
   root: {
-    position:         'fixed'  as const,
-    inset:            0,
-    backgroundColor:  BG,
-    display:          'flex',
-    flexDirection:    'column' as const,
-    paddingTop:       'env(safe-area-inset-top, 0px)',
-    paddingBottom:    'env(safe-area-inset-bottom, 0px)',
-    overflow:         'hidden',
-    userSelect:       'none'   as const,
-    animation:        'fmFadeIn 0.3s ease-out both',
+    position:        'fixed' as const,
+    inset:           0,
+    backgroundColor: '#F2F7FF',
+    display:         'flex',
+    flexDirection:   'column' as const,
+    paddingTop:      'env(safe-area-inset-top, 0px)',
+    paddingBottom:   'env(safe-area-inset-bottom, 0px)',
+    overflow:        'hidden',
+    userSelect:      'none' as const,
+    animation:       'fmFadeIn 0.25s ease-out both',
   },
   progressTrack: {
-    height:     2,
-    background: 'rgba(255,255,255,0.07)',
+    height:     3,
+    background: 'rgba(107,143,255,0.12)',
     flexShrink: 0,
   },
   progressFill: {
-    height:     '100%',
-    background: 'linear-gradient(90deg, #6B8FFF, #B8A8F0)',
-    borderRadius: 1,
-    transition: 'width 0.45s ease',
+    height:       '100%',
+    background:   'linear-gradient(90deg, #6B8FFF, #A78BFA)',
+    borderRadius: 2,
+    transition:   'width 0.45s ease',
+  },
+  header: {
+    display:        'flex',
+    alignItems:     'center',
+    justifyContent: 'space-between',
+    padding:        '12px 20px 8px',
+    flexShrink:     0,
   },
   phaseLabel: {
-    margin:        '12px 24px 0',
     fontSize:      10,
     fontWeight:    700,
-    letterSpacing: '0.14em',
-    color:         'rgba(107,143,255,0.55)',
+    letterSpacing: '0.13em',
+    color:         'rgba(107,143,255,0.7)',
     textTransform: 'uppercase' as const,
-    flexShrink:    0,
+    margin:        0,
+  },
+  langGroup: {
+    display:       'flex',
+    gap:           4,
+    background:    'rgba(107,143,255,0.07)',
+    borderRadius:  20,
+    padding:       '3px 4px',
+  },
+  langBtn: {
+    background:    'transparent',
+    border:        'none',
+    borderRadius:  16,
+    padding:       '3px 9px',
+    fontSize:      10,
+    fontWeight:    600,
+    color:         'rgba(80,100,160,0.55)',
+    cursor:        'pointer',
+    letterSpacing: '0.04em',
+    transition:    'all 0.15s',
+  },
+  langBtnActive: {
+    background: '#fff',
+    color:      '#5C72B0',
+    boxShadow:  '0 1px 4px rgba(107,143,255,0.18)',
   },
   content: {
-    flex:            1,
-    display:         'flex',
-    alignItems:      'center',
-    justifyContent:  'center',
-    padding:         '0 28px',
-    overflow:        'hidden',
+    flex:           1,
+    display:        'flex',
+    alignItems:     'center',
+    justifyContent: 'center',
+    padding:        '0 28px',
+    overflow:       'hidden',
   },
   // ── Story ──────────────────────────────────────────────────────────────
-  storyWrap: {
-    maxWidth:  420,
+  paraWrap: {
+    maxWidth:  480,
     width:     '100%',
-    textAlign: 'center' as const,
+    textAlign: 'left' as const,
   },
-  storyText: {
-    fontSize:    32,           // Spec: 32px 이상
-    fontWeight:  500,
-    lineHeight:  1.65,
-    color:       'rgba(255,255,255,0.93)',
-    margin:      0,
-    fontFamily:  'var(--font-playfair, "Playfair Display", Georgia, serif)',
-    letterSpacing: '-0.3px',
+  paraEn: {
+    fontSize:      28,
+    fontWeight:    500,
+    lineHeight:    1.65,
+    color:         '#1A1F36',
+    margin:        '0 0 14px',
+    letterSpacing: '-0.2px',
+  },
+  paraKo: {
+    fontSize:   18,
+    fontWeight: 400,
+    lineHeight: 1.65,
+    color:      'rgba(80,100,160,0.55)',
+    margin:     0,
   },
   loadingDots: {
-    textAlign:     'center' as const,
-    color:         'rgba(255,255,255,0.18)',
-    fontSize:      22,
-    margin:        '16px 0 0',
+    color:         'rgba(107,143,255,0.35)',
+    fontSize:      20,
     letterSpacing: '0.3em',
+    margin:        '14px 0 0',
   },
   // ── Pattern ────────────────────────────────────────────────────────────
   patternWrap: {
-    maxWidth:       420,
-    width:          '100%',
-    display:        'flex',
-    flexDirection:  'column' as const,
-    gap:            28,
+    maxWidth:      480,
+    width:         '100%',
+    display:       'flex',
+    flexDirection: 'column' as const,
+    gap:           24,
   },
   patternHeader: {
-    paddingBottom: 20,
-    borderBottom:  '1px solid rgba(255,255,255,0.08)',
+    paddingBottom: 18,
+    borderBottom:  '1px solid rgba(107,143,255,0.12)',
   },
   patternText: {
-    fontSize:    20,           // Spec: 패턴 20px (상단 고정)
-    fontWeight:  700,
-    color:       '#8EA7FF',
-    margin:      '0 0 6px',
-    lineHeight:  1.3,
-    fontFamily:  'var(--font-playfair, "Playfair Display", Georgia, serif)',
+    fontSize:   20,
+    fontWeight: 700,
+    color:      '#5C72B0',
+    margin:     '0 0 4px',
+    lineHeight: 1.3,
   },
   patternMeaning: {
     fontSize:   14,
-    color:      'rgba(255,255,255,0.4)',
+    color:      'rgba(80,100,160,0.5)',
     margin:     0,
     lineHeight: 1.4,
   },
-  exampleText: {
-    fontSize:      36,         // Spec: 예문 36px
-    fontWeight:    500,
-    color:         'rgba(255,255,255,0.93)',
-    margin:        '0 0 10px',
-    lineHeight:    1.45,
-    letterSpacing: '-0.4px',
+  exWrap: {
+    display:       'flex',
+    flexDirection: 'column' as const,
+    gap:           10,
   },
-  exampleKo: {
-    fontSize:   17,
-    color:      'rgba(255,255,255,0.30)',
+  exEn: {
+    fontSize:      26,
+    fontWeight:    500,
+    color:         '#1A1F36',
+    margin:        0,
+    lineHeight:    1.5,
+    letterSpacing: '-0.2px',
+  },
+  exKo: {
+    fontSize:   18,
+    color:      'rgba(80,100,160,0.5)',
     margin:     0,
     lineHeight: 1.5,
   },
   tapHint: {
     fontSize:      13,
-    color:         'rgba(107,143,255,0.5)',
+    color:         'rgba(107,143,255,0.6)',
     margin:        0,
-    letterSpacing: '0.05em',
+    letterSpacing: '0.04em',
   },
   // ── Orb ────────────────────────────────────────────────────────────────
   orbContainer: {
-    display:       'flex',
+    display:        'flex',
     justifyContent: 'center',
-    paddingBottom: 40,
-    flexShrink:    0,
+    paddingBottom:  44,
+    flexShrink:     0,
   },
   orb: {
-    width:        56,
-    height:       56,
-    borderRadius: '50%',
-    background:   'linear-gradient(135deg, #5C6BC0, #7E57C2)',
-    border:       '1px solid rgba(142,167,255,0.25)',
-    boxShadow:    '0 0 20px rgba(107,143,255,0.25)',
-    cursor:       'pointer',
-    display:      'flex',
-    alignItems:   'center',
+    width:          56,
+    height:         56,
+    borderRadius:   '50%',
+    background:     'linear-gradient(135deg, #6B8FFF, #A78BFA)',
+    border:         'none',
+    boxShadow:      '0 2px 12px rgba(107,143,255,0.30)',
+    cursor:         'pointer',
+    display:        'flex',
+    alignItems:     'center',
     justifyContent: 'center',
-    transition:   'opacity 0.2s',
-    touchAction:  'manipulation' as const,
+    color:          '#fff',
+    transition:     'opacity 0.2s, transform 0.15s',
+    touchAction:    'manipulation' as const,
   },
   spinner: {
-    width:        18,
-    height:       18,
-    borderRadius: '50%',
-    border:       '2px solid rgba(255,255,255,0.25)',
-    borderTopColor: 'white',
-    animation:    'fmSpin 0.8s linear infinite',
+    width:          18,
+    height:         18,
+    borderRadius:   '50%',
+    border:         '2px solid rgba(255,255,255,0.3)',
+    borderTopColor: '#fff',
+    animation:      'fmSpin 0.8s linear infinite',
   },
   // ── Orb menu ───────────────────────────────────────────────────────────
   menuOverlay: {
     position:             'absolute' as const,
     inset:                0,
-    background:           'rgba(0,0,0,0.72)',
-    backdropFilter:       'blur(10px)',
-    WebkitBackdropFilter: 'blur(10px)',
+    background:           'rgba(242,247,255,0.75)',
+    backdropFilter:       'blur(12px)',
+    WebkitBackdropFilter: 'blur(12px)',
     display:              'flex',
     alignItems:           'center',
     justifyContent:       'center',
   },
   menuBox: {
-    background:   'rgba(18,16,38,0.97)',
-    border:       '1px solid rgba(255,255,255,0.10)',
+    background:   '#fff',
+    border:       '1px solid rgba(107,143,255,0.14)',
     borderRadius: 20,
     overflow:     'hidden',
     width:        240,
+    boxShadow:    '0 8px 32px rgba(80,100,160,0.12)',
   },
   menuBtn: {
     width:         '100%',
     padding:       '18px 24px',
     background:    'transparent',
     border:        'none',
-    color:         'rgba(255,255,255,0.90)',
+    color:         '#1A1F36',
     fontSize:      17,
     fontWeight:    500,
     cursor:        'pointer',
     display:       'block',
+    textAlign:     'center' as const,
     letterSpacing: '0.01em',
   },
   menuDivider: {
     height:     1,
-    background: 'rgba(255,255,255,0.07)',
+    background: 'rgba(107,143,255,0.08)',
     margin:     '0 12px',
   },
-  // ── Complete screen ─────────────────────────────────────────────────────
+  // ── Complete ────────────────────────────────────────────────────────────
   completeWrap: {
     flex:           1,
     display:        'flex',
     flexDirection:  'column' as const,
     alignItems:     'center',
     justifyContent: 'center',
-    gap:            14,
-    animation:      'fmFadeIn 0.4s ease-out both',
+    gap:            12,
+    animation:      'fmFadeIn 0.35s ease-out both',
+    backgroundColor: '#F2F7FF',
   },
   completeIcon: {
-    width:        64,
-    height:       64,
-    borderRadius: 22,
-    background:   'linear-gradient(135deg, rgba(215,181,109,0.18), rgba(215,181,109,0.06))',
-    border:       '0.5px solid rgba(215,181,109,0.3)',
-    display:      'flex',
-    alignItems:   'center',
+    width:          64,
+    height:         64,
+    borderRadius:   22,
+    background:     'linear-gradient(135deg, #6B8FFF, #A78BFA)',
+    display:        'flex',
+    alignItems:     'center',
     justifyContent: 'center',
-    marginBottom: 4,
+    fontSize:       28,
+    color:          '#fff',
+    marginBottom:   8,
   },
   completeTitle: {
     fontSize:   22,
     fontWeight: 700,
-    color:      'rgba(255,255,255,0.90)',
+    color:      '#1A1F36',
     margin:     0,
-    fontFamily: 'var(--font-playfair, "Playfair Display", Georgia, serif)',
   },
-  completeSubtitle: {
+  completeSub: {
     fontSize: 14,
-    color:    'rgba(255,255,255,0.35)',
+    color:    'rgba(80,100,160,0.55)',
     margin:   0,
   },
 } as const

@@ -1154,19 +1154,6 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             padding: '14px 20px 10px',
           }}>
-            <Link
-              href={`/patto/focus/${story.id}`}
-              style={{
-                fontSize: 9, fontWeight: 700, letterSpacing: '0.10em',
-                color: '#8EA7FF', textTransform: 'uppercase',
-                background: 'rgba(142,167,255,0.08)',
-                border: '0.5px solid rgba(142,167,255,0.18)',
-                borderRadius: 20, padding: '3px 10px',
-                textDecoration: 'none',
-              }}
-            >
-              Focus
-            </Link>
             <span style={{
               fontSize: 9, fontWeight: 700, letterSpacing: '0.10em',
               color: '#8EA7FF', textTransform: 'uppercase',
