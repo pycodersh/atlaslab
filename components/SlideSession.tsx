@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Volume2, Info, Play, Pause, Square } from 'lucide-react'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useAuth } from '@/contexts/AuthContext'
@@ -1150,9 +1151,22 @@ export function SlideSession({ story, isGuided }: SlideSessionProps) {
       {!isComplete && (
         <div style={{ flexShrink: 0, paddingTop: 'env(safe-area-inset-top, 0px)' }}>
           <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             padding: '14px 20px 10px',
           }}>
+            <Link
+              href={`/patto/focus/${story.id}`}
+              style={{
+                fontSize: 9, fontWeight: 700, letterSpacing: '0.10em',
+                color: '#8EA7FF', textTransform: 'uppercase',
+                background: 'rgba(142,167,255,0.08)',
+                border: '0.5px solid rgba(142,167,255,0.18)',
+                borderRadius: 20, padding: '3px 10px',
+                textDecoration: 'none',
+              }}
+            >
+              Focus
+            </Link>
             <span style={{
               fontSize: 9, fontWeight: 700, letterSpacing: '0.10em',
               color: '#8EA7FF', textTransform: 'uppercase',
