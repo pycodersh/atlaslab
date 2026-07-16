@@ -1,4 +1,4 @@
-import { Logo } from '@/components/Logo'
+import AtlasLabLogo from '@/components/AtlasLabLogo'
 
 const BG = '#0d0820'
 const FONT_BODY = '"DM Sans", "Inter", system-ui, sans-serif'
@@ -114,6 +114,12 @@ const BLOG_POSTS = [
     title: '패토가 문법 대신 패턴을 가르치는 이유',
     link: '/blog/ko/patto →',
     href: '/blog/ko/patto',
+  },
+  {
+    flag: 'k-pantry · EN',
+    title: 'Complete Guide to Korean Pantry Essentials',
+    link: '/blog/en/k-pantry →',
+    href: '/blog/en/k-pantry',
   },
 ]
 
@@ -299,7 +305,7 @@ export default function AtlasLabHome() {
         {/* Nav */}
         <nav className="al-nav">
           <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <Logo variant="full" width={148} dark={true} />
+            <AtlasLabLogo variant="nav" />
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>
