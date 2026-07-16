@@ -104,6 +104,7 @@ export function FocusMode({ story }: FocusModeProps) {
   const exIdxRef            = useRef(0)
   const stateBeforePauseRef = useRef<'story-playing' | 'pattern-playing'>('story-playing')
   const timerRef            = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const loadTimerRef        = useRef<ReturnType<typeof setTimeout> | null>(null)
   const progressSavedRef    = useRef(false)
   const inTransitionRef     = useRef(false)
 
@@ -113,6 +114,12 @@ export function FocusMode({ story }: FocusModeProps) {
   function setPhaseSync(p: 'story' | 'pattern') { phaseRef.current = p; setPhase(p) }
   function clearTimer() {
     if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
+  }
+  function armLoadTimer(fallbackState: 'story-playing' | 'pattern-playing') {
+    if (loadTimerRef.current) clearTimeout(loadTimerRef.current)
+    loadTimerRef.current = setTimeout(() => {
+      if (focusStateRef.current === 'loading') setFocusStateSync(fallbackState)
+    }, 4000)
   }
 
   // ── Progress save ─────────────────────────────────────────────────────────
@@ -149,6 +156,7 @@ export function FocusMode({ story }: FocusModeProps) {
     paraIdxRef.current = idx
     setParaIdx(idx)
     setFocusStateSync('loading')
+    armLoadTimer('story-playing')
     savePos(story.id, { phase: 'story', paraIdx: idx, patternIdx: 0, exIdx: 0 })
 
     const url = storyParaAudioUrl(voice, story.id, para.id, para.english)
@@ -202,6 +210,7 @@ export function FocusMode({ story }: FocusModeProps) {
     patternIdxRef.current = pIdx; exIdxRef.current = eIdx
     setPatternIdx(pIdx); setExIdx(eIdx)
     setFocusStateSync('loading')
+    armLoadTimer('pattern-playing')
     savePos(story.id, { phase: 'pattern', paraIdx: paraIdxRef.current, patternIdx: pIdx, exIdx: eIdx })
 
     const shimmerEx = shimmerExamples[`${pat.id}-ex${eIdx + 1}`]
@@ -278,7 +287,11 @@ export function FocusMode({ story }: FocusModeProps) {
     } else {
       playStoryPara(0)
     }
-    return () => { ttsProvider.stop(); clearTimer() }
+    return () => {
+      ttsProvider.stop()
+      clearTimer()
+      if (loadTimerRef.current) clearTimeout(loadTimerRef.current)
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -356,8 +369,10 @@ export function FocusMode({ story }: FocusModeProps) {
   // Loading/Transition → ignore (spec)
   // "세션을 시작할까요?" popup: never shown here
 
-  function handleOrbClick(e: React.MouseEvent) {
+  // Unified orb handler — works for both onClick and onTouchEnd
+  function triggerOrb(e: React.MouseEvent | React.TouchEvent) {
     e.stopPropagation()
+    e.preventDefault()   // prevent ghost-click after touchend
     const s = focusStateRef.current
     if (s === 'loading' || s === 'transition') return
 
@@ -371,7 +386,6 @@ export function FocusMode({ story }: FocusModeProps) {
     }
 
     if (s === 'paused') {
-      // Already paused (e.g. returned from background) → show menu
       setShowOrbMenu(true)
     }
   }
@@ -528,7 +542,8 @@ export function FocusMode({ story }: FocusModeProps) {
             opacity: isBlocked ? 0.4 : 1,
             ...(isPatternReady ? { animation: 'fmOrbPulse 2s ease-in-out infinite' } : {}),
           }}
-          onClick={handleOrbClick}
+          onClick={triggerOrb}
+          onTouchEnd={triggerOrb}
         >
           {focusState === 'loading' ? (
             <div style={S.spinner} />
@@ -643,12 +658,14 @@ const S = {
     boxShadow:  '0 1px 4px rgba(107,143,255,0.18)',
   },
   content: {
-    flex:           1,
-    display:        'flex',
-    alignItems:     'center',
-    justifyContent: 'center',
-    padding:        '0 28px',
-    overflow:       'hidden',
+    flex:          1,
+    display:       'flex',
+    alignItems:    'center',
+    justifyContent:'center',
+    padding:       '0 28px',
+    overflow:      'hidden',
+    // Prevent content area from intercepting orb touches below it
+    pointerEvents: 'none' as const,
   },
   // ── Shared body wrap (story + pattern example) ──────────────────────────
   bodyWrap: {
@@ -718,6 +735,8 @@ const S = {
   },
   // ── Orb ────────────────────────────────────────────────────────────────
   orbContainer: {
+    position:       'relative' as const,
+    zIndex:         10,
     display:        'flex',
     justifyContent: 'center',
     paddingBottom:  44,
