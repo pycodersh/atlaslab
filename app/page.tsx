@@ -1,4 +1,3 @@
-import AtlasLabLogo from '@/components/AtlasLabLogo'
 
 const BG = '#0d0820'
 const FONT_BODY = '"DM Sans", "Inter", system-ui, sans-serif'
@@ -305,7 +304,7 @@ export default function AtlasLabHome() {
         {/* Nav */}
         <nav className="al-nav">
           <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <AtlasLabLogo variant="nav" />
+            <img src="/atlaslab_nav_logo.png" alt="Atlas Lab" style={{ height: '36px', width: 'auto' }} />
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>
