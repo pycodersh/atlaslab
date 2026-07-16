@@ -876,7 +876,22 @@ export default function HomePage() {
 
   // Load adaptive stats from Supabase once on login
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).has('showIntro')) setShowOnboarding(true)
+    const params = new URLSearchParams(window.location.search)
+
+    if (params.get('reset') === 'onboarding') {
+      const ONBOARDING_KEYS = [
+        'patto_onboarding_shown',
+        'patto_visit_count',
+        'patto_just_logged_in',
+      ]
+      ONBOARDING_KEYS.forEach(k => { try { localStorage.removeItem(k) } catch {} })
+      window.history.replaceState({}, '', window.location.pathname)
+      // show onboarding immediately after reset
+      setShowOnboarding(true)
+      return
+    }
+
+    if (params.has('showIntro')) setShowOnboarding(true)
   }, [])
 
   const handleIntroComplete = useCallback(() => {
