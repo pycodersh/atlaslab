@@ -379,18 +379,123 @@ export default function AtlasLabHome() {
         <hr className="al-divider" />
 
         {/* Blog */}
-        <section className="al-section" id="blog" style={{ position: 'relative', zIndex: 1 }}>
-          <p className="al-section-label">From the Blog</p>
-          <div className="al-blog-grid">
-            {BLOG_POSTS.map(post => (
-              <a key={post.href} href={post.href} className="al-blog-card">
-                <div className="al-blog-flag">{post.flag}</div>
-                <div className="al-blog-title">{post.title}</div>
-                <div className="al-blog-link">{post.link}</div>
+        {/* Blog Section */}
+        <div id="blog" style={{ padding: '2rem 1.5rem' }}>
+          <p style={{
+            fontSize: '11px',
+            color: 'rgba(255,255,255,0.3)',
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            textAlign: 'center',
+            marginBottom: '2rem',
+          }}>From the blog</p>
+
+          {/* patto */}
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.75rem' }}>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: 'white' }}>patto</span>
+              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>English pattern learning</span>
+              <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+              <a href="/blog/en/patto" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '12px',
+                  padding: '1rem',
+                  cursor: 'pointer',
+                  transition: 'border-color 0.2s',
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(124,111,255,0.4)'}
+                onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)'}
+                >
+                  <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
+                    Why Patto teaches patterns, not grammar rules
+                  </p>
+                  <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/patto →</span>
+                </div>
               </a>
-            ))}
+              <a href="/blog/ko/patto" style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: 'rgba(255,255,255,0.04)',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '12px',
+                  padding: '1rem',
+                  cursor: 'pointer',
+                  transition: 'border-color 0.2s',
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(124,111,255,0.4)'}
+                onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)'}
+                >
+                  <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>KO</span>
+                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
+                    패토가 문법 대신 패턴을 가르치는 이유
+                  </p>
+                  <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/ko/patto →</span>
+                </div>
+              </a>
+            </div>
           </div>
-        </section>
+
+          {/* k-patto */}
+          <div style={{ marginBottom: '2rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.75rem' }}>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: 'white' }}>k-patto</span>
+              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Korean pattern learning</span>
+              <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
+            </div>
+            <a href="/blog/en/k-patto" style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '12px',
+                padding: '1rem',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s',
+              }}
+              onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(124,111,255,0.4)'}
+              onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)'}
+              >
+                <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
+                  Why Korean patterns are the fastest path to fluency
+                </p>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/k-patto →</span>
+              </div>
+            </a>
+          </div>
+
+          {/* k-pantry */}
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.75rem' }}>
+              <span style={{ fontSize: '13px', fontWeight: 600, color: 'white' }}>k-pantry</span>
+              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Korean food & cooking</span>
+              <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
+            </div>
+            <a href="/blog/en/k-pantry" style={{ textDecoration: 'none' }}>
+              <div style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '12px',
+                padding: '1rem',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s',
+              }}
+              onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(124,111,255,0.4)'}
+              onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)'}
+              >
+                <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
+                  Complete guide to Korean pantry essentials
+                </p>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/k-pantry →</span>
+              </div>
+            </a>
+          </div>
+
+        </div>
 
         <hr className="al-divider" />
 
