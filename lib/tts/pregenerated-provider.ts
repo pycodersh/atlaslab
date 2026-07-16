@@ -80,6 +80,27 @@ export class PregeneratedTTSProvider implements ITTSProvider {
     this.browser.stop()
   }
 
+  fadeOut(durationMs: number) {
+    if (!sharedAudio || sharedAudio.paused || this.stopped) { this.stop(); return }
+    const startTime = performance.now()
+    const self = this
+    const tick = () => {
+      if (!sharedAudio || sharedAudio.paused) {
+        if (sharedAudio) sharedAudio.volume = 1
+        return
+      }
+      const elapsed = performance.now() - startTime
+      if (elapsed >= durationMs) {
+        sharedAudio.volume = 1
+        self.stop()
+        return
+      }
+      sharedAudio.volume = Math.max(0, 1 - elapsed / durationMs)
+      requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }
+
   speak(options: SpeakOptions) {
     const { texts, audioUrls, voiceKey, voiceKeys, rate, pitch, volume, onStart, onEnd, onError } = options
 
@@ -120,6 +141,7 @@ export class PregeneratedTTSProvider implements ITTSProvider {
       // Detach old handlers before configuring for new segment
       clearHandlers(audio)
       audio.pause()
+      audio.volume = 1  // reset after any previous fadeOut()
       audio.src = blobUrl
       audio.playbackRate = Math.min(Math.max(rate ?? 1, 0.5), 2.0)
       audio.load()
