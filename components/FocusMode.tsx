@@ -17,11 +17,12 @@ import { syncStoryRoundToSupabase } from '@/lib/srs/supabase-sync'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import { useAuth } from '@/contexts/AuthContext'
+import { focusTypo } from '@/lib/design/typography'
 import type { MagazineStory } from '@/types/magazine'
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const PATTERN_EXAMPLE_WAIT_MS = 2000
+const PATTERN_EXAMPLE_WAIT_MS = 2000  // wait after each example before auto-advancing
 const STORY_ADVANCE_DELAY_MS  = 500
 const TRANSITION_MS           = 300
 const COMPLETE_EXIT_DELAY_MS  = 2500
@@ -40,18 +41,12 @@ type FocusSavedPos = {
 }
 
 function posKey(storyId: number) { return `fm_pos_${storyId}` }
-
 function loadPos(storyId: number): FocusSavedPos | null {
-  try {
-    const raw = sessionStorage.getItem(posKey(storyId))
-    return raw ? (JSON.parse(raw) as FocusSavedPos) : null
-  } catch { return null }
+  try { const r = sessionStorage.getItem(posKey(storyId)); return r ? JSON.parse(r) : null } catch { return null }
 }
-
 function savePos(storyId: number, pos: FocusSavedPos) {
   try { sessionStorage.setItem(posKey(storyId), JSON.stringify(pos)) } catch {}
 }
-
 function clearPos(storyId: number) {
   try { sessionStorage.removeItem(posKey(storyId)) } catch {}
 }
@@ -63,7 +58,7 @@ type FocusState =
   | 'story-playing'
   | 'paused'
   | 'transition'
-  | 'pattern-ready'
+  | 'pattern-ready'   // first entry only — tap to start
   | 'pattern-playing'
   | 'complete'
 
@@ -83,11 +78,11 @@ function getExamples(pat: MagazineStory['patterns'][0]): ExItem[] {
 export type FocusModeProps = { story: MagazineStory }
 
 export function FocusMode({ story }: FocusModeProps) {
-  const router              = useRouter()
-  const { user }            = useAuth()
-  const { prefs }           = usePreferences()
-  const { setProgress }     = useLearningProgress()
-  const voice               = story.narratorVoice ?? prefs.voice
+  const router          = useRouter()
+  const { user }        = useAuth()
+  const { prefs }       = usePreferences()
+  const { setProgress } = useLearningProgress()
+  const voice           = story.narratorVoice ?? prefs.voice
 
   // ── UI state ────────────────────────────────────────────────────────────
 
@@ -134,7 +129,7 @@ export function FocusMode({ story }: FocusModeProps) {
   // ── Transition ────────────────────────────────────────────────────────────
 
   function doTransitionTo(cb: () => void) {
-    if (inTransitionRef.current) return
+    if (inTransitionRef.current) return   // first input only; rest ignored
     inTransitionRef.current = true
     setFocusStateSync('transition')
     setContentVisible(false)
@@ -160,8 +155,7 @@ export function FocusMode({ story }: FocusModeProps) {
     ttsProvider.speak({
       texts:     [para.english],
       audioUrls: url ? [url] : undefined,
-      voiceKey:  voice,
-      voiceKeys: [voice],
+      voiceKey:  voice, voiceKeys: [voice],
       rate:      RATE_MAP[prefs.speechRate],
       pitch:     getPitchForKey(voice),
       volume:    1.0,
@@ -174,14 +168,12 @@ export function FocusMode({ story }: FocusModeProps) {
         timerRef.current = setTimeout(() => {
           const next = paraIdxRef.current + 1
           if (next >= story.paragraphs.length) {
-            saveProgress()
+            saveProgress()  // story complete → save immediately
             doTransitionTo(() => {
-              patternIdxRef.current = 0
-              exIdxRef.current      = 0
-              setPatternIdx(0)
-              setExIdx(0)
+              patternIdxRef.current = 0; exIdxRef.current = 0
+              setPatternIdx(0); setExIdx(0)
               setPhaseSync('pattern')
-              setFocusStateSync('pattern-ready')
+              setFocusStateSync('pattern-ready')  // first pattern: tap to start
               savePos(story.id, { phase: 'pattern', paraIdx: paraIdxRef.current, patternIdx: 0, exIdx: 0 })
             })
           } else {
@@ -196,18 +188,19 @@ export function FocusMode({ story }: FocusModeProps) {
   }
 
   // ── Pattern playback ──────────────────────────────────────────────────────
+  // Examples 1→2→3 auto-advance (PATTERN_EXAMPLE_WAIT_MS gap between each).
+  // Only first entry to a pattern card shows pattern-ready (tap-to-start).
+  // Subsequent examples within the same pattern auto-play.
 
   function playPatternExample(pIdx: number, eIdx: number) {
     const pat = story.patterns[pIdx]
     if (!pat) { finishFocusMode(); return }
     const examples = getExamples(pat)
     const ex       = examples[eIdx]
-    if (!ex)  { advancePattern(pIdx); return }
+    if (!ex) { advancePattern(pIdx); return }
 
-    patternIdxRef.current = pIdx
-    exIdxRef.current      = eIdx
-    setPatternIdx(pIdx)
-    setExIdx(eIdx)
+    patternIdxRef.current = pIdx; exIdxRef.current = eIdx
+    setPatternIdx(pIdx); setExIdx(eIdx)
     setFocusStateSync('loading')
     savePos(story.id, { phase: 'pattern', paraIdx: paraIdxRef.current, patternIdx: pIdx, exIdx: eIdx })
 
@@ -216,8 +209,7 @@ export function FocusMode({ story }: FocusModeProps) {
     ttsProvider.speak({
       texts:     [ex.en],
       audioUrls: url ? [url] : undefined,
-      voiceKey:  voice,
-      voiceKeys: [voice],
+      voiceKey:  voice, voiceKeys: [voice],
       rate:      RATE_MAP[prefs.speechRate],
       pitch:     getPitchForKey(voice),
       volume:    1.0,
@@ -227,10 +219,11 @@ export function FocusMode({ story }: FocusModeProps) {
       onEnd: () => {
         if (focusStateRef.current !== 'pattern-playing') return
         clearTimer()
+        // Auto-advance to next example after wait
         timerRef.current = setTimeout(() => {
-          const p        = story.patterns[patternIdxRef.current]
-          const exs      = getExamples(p)
-          const nextEx   = exIdxRef.current + 1
+          const p     = story.patterns[patternIdxRef.current]
+          const exs   = getExamples(p)
+          const nextEx = exIdxRef.current + 1
           if (nextEx >= exs.length) {
             advancePattern(patternIdxRef.current)
           } else {
@@ -250,10 +243,9 @@ export function FocusMode({ story }: FocusModeProps) {
       finishFocusMode()
     } else {
       doTransitionTo(() => {
-        patternIdxRef.current = next
-        exIdxRef.current      = 0
-        setPatternIdx(next)
-        setExIdx(0)
+        patternIdxRef.current = next; exIdxRef.current = 0
+        setPatternIdx(next); setExIdx(0)
+        // Next pattern: also tap-to-start (same as first entry)
         setFocusStateSync('pattern-ready')
         savePos(story.id, { phase: 'pattern', paraIdx: paraIdxRef.current, patternIdx: next, exIdx: 0 })
       })
@@ -261,12 +253,12 @@ export function FocusMode({ story }: FocusModeProps) {
   }
 
   function finishFocusMode() {
-    saveProgress()
+    saveProgress()  // pattern set complete → save immediately
     clearPos(story.id)
     setFocusStateSync('complete')
   }
 
-  // ── Entry ─────────────────────────────────────────────────────────────────
+  // ── Entry: restore saved position or start fresh ──────────────────────────
 
   useEffect(() => {
     const saved = loadPos(story.id)
@@ -274,9 +266,7 @@ export function FocusMode({ story }: FocusModeProps) {
       paraIdxRef.current    = saved.paraIdx
       patternIdxRef.current = saved.patternIdx
       exIdxRef.current      = saved.exIdx
-      setParaIdx(saved.paraIdx)
-      setPatternIdx(saved.patternIdx)
-      setExIdx(saved.exIdx)
+      setParaIdx(saved.paraIdx); setPatternIdx(saved.patternIdx); setExIdx(saved.exIdx)
       if (saved.phase === 'story') {
         setPhaseSync('story')
         playStoryPara(saved.paraIdx)
@@ -292,7 +282,7 @@ export function FocusMode({ story }: FocusModeProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // ── Background → pause ────────────────────────────────────────────────────
+  // ── Background → pause; foreground → no auto-resume ──────────────────────
 
   useEffect(() => {
     const onVis = () => {
@@ -303,15 +293,16 @@ export function FocusMode({ story }: FocusModeProps) {
           clearTimer()
           ttsProvider.pause?.()
           setFocusStateSync('paused')
+          // Do NOT show menu automatically — user taps orb to see menu
         }
       }
-      // Foreground: no auto-resume (spec)
+      // Foreground: stay paused, no auto-resume (spec)
     }
     document.addEventListener('visibilitychange', onVis)
     return () => document.removeEventListener('visibilitychange', onVis)
   }, [])
 
-  // ── Complete auto-navigate ────────────────────────────────────────────────
+  // ── Complete: auto-navigate to home ──────────────────────────────────────
 
   useEffect(() => {
     if (focusState !== 'complete') return
@@ -352,27 +343,40 @@ export function FocusMode({ story }: FocusModeProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [story.paragraphs.length])
 
-  // ── Content tap (pattern-ready) ───────────────────────────────────────────
+  // ── Content tap (pattern-ready → start) ──────────────────────────────────
 
   function handleContentTap() {
     if (focusStateRef.current !== 'pattern-ready') return
     playPatternExample(patternIdxRef.current, exIdxRef.current)
   }
 
-  // ── Orb ──────────────────────────────────────────────────────────────────
+  // ── Orb: unified control ──────────────────────────────────────────────────
+  // Playing  → pause + show menu
+  // Paused   → show menu (계속 / 처음부터 / 나가기)
+  // Loading/Transition → ignore (spec)
+  // "세션을 시작할까요?" popup: never shown here
 
   function handleOrbClick(e: React.MouseEvent) {
+    e.stopPropagation()
     const s = focusStateRef.current
     if (s === 'loading' || s === 'transition') return
+
     if (s === 'story-playing' || s === 'pattern-playing') {
-      e.stopPropagation()
       stateBeforePauseRef.current = s
       clearTimer()
       ttsProvider.pause?.()
       setFocusStateSync('paused')
       setShowOrbMenu(true)
+      return
+    }
+
+    if (s === 'paused') {
+      // Already paused (e.g. returned from background) → show menu
+      setShowOrbMenu(true)
     }
   }
+
+  // ── Orb menu actions ──────────────────────────────────────────────────────
 
   function handleMenuContinue() {
     setShowOrbMenu(false)
@@ -397,24 +401,26 @@ export function FocusMode({ story }: FocusModeProps) {
     router.push('/patto/home')
   }
 
-  // ── Progress bar ──────────────────────────────────────────────────────────
+  // ── Progress ──────────────────────────────────────────────────────────────
 
   const totalSteps  = story.paragraphs.length + story.patterns.length
-  const currentStep = phase === 'story'
-    ? paraIdx
-    : story.paragraphs.length + patternIdx
+  const currentStep = phase === 'story' ? paraIdx : story.paragraphs.length + patternIdx
   const progressPct = totalSteps > 0 ? Math.min(100, (currentStep / totalSteps) * 100) : 0
 
   // ── Derived ───────────────────────────────────────────────────────────────
 
-  const currentPara     = story.paragraphs[paraIdx]
-  const currentPattern  = story.patterns[patternIdx]
-  const currentExamples = currentPattern ? getExamples(currentPattern) : []
-  const currentEx       = currentExamples[exIdx]
-  const isBlocked       = focusState === 'loading' || focusState === 'transition'
-  const isPatternPhase  = phase === 'pattern'
-  const isPatternReady  = focusState === 'pattern-ready'
-  const isPlaying       = focusState === 'story-playing' || focusState === 'pattern-playing'
+  const currentPara    = story.paragraphs[paraIdx]
+  const currentPattern = story.patterns[patternIdx]
+  const currentEx      = currentPattern ? getExamples(currentPattern)[exIdx] : null
+  const isBlocked      = focusState === 'loading' || focusState === 'transition'
+  const isPatternPhase = phase === 'pattern'
+  const isPatternReady = focusState === 'pattern-ready'
+
+  // Lang visibility — always render both slots; hide via opacity+visibility to keep layout fixed
+  const showEn = langMode === 'en' || langMode === 'en-ko'
+  const showKo = langMode === 'ko' || langMode === 'en-ko'
+
+  const hideStyle = { opacity: 0, visibility: 'hidden' as const }
 
   // ── Complete screen ───────────────────────────────────────────────────────
 
@@ -423,8 +429,8 @@ export function FocusMode({ story }: FocusModeProps) {
       <div style={S.root}>
         <div style={S.completeWrap}>
           <div style={S.completeIcon}>✓</div>
-          <p style={S.completeTitle}>완료했어요</p>
-          <p style={S.completeSub}>{story.title}</p>
+          <p style={{ ...focusTypo.bodyEn, margin: 0 }}>완료했어요</p>
+          <p style={{ ...focusTypo.desc,   margin: 0 }}>{story.title}</p>
         </div>
       </div>
     )
@@ -439,7 +445,7 @@ export function FocusMode({ story }: FocusModeProps) {
       onTouchEnd={handleTouchEnd}
       onClick={isPatternPhase ? handleContentTap : undefined}
     >
-      {/* Progress bar */}
+      {/* Progress bar — fixed top */}
       <div style={S.progressTrack}>
         <div style={{ ...S.progressFill, width: `${progressPct}%` }} />
       </div>
@@ -449,7 +455,7 @@ export function FocusMode({ story }: FocusModeProps) {
         <span style={S.phaseLabel}>
           {isPatternPhase
             ? `PATTERN ${patternIdx + 1} / ${story.patterns.length}`
-            : `STORY  ${paraIdx + 1} / ${story.paragraphs.length}`}
+            : `STORY ${paraIdx + 1} / ${story.paragraphs.length}`}
         </span>
         <div style={S.langGroup}>
           {(['en', 'en-ko', 'ko'] as LangMode[]).map(m => (
@@ -465,7 +471,7 @@ export function FocusMode({ story }: FocusModeProps) {
         </div>
       </div>
 
-      {/* Content */}
+      {/* Content — fades on transition */}
       <div
         style={{
           ...S.content,
@@ -474,34 +480,36 @@ export function FocusMode({ story }: FocusModeProps) {
         }}
       >
         {!isPatternPhase ? (
-          // ── Story paragraph ──────────────────────────────────────────────
-          <div style={S.paraWrap}>
-            {(langMode === 'en' || langMode === 'en-ko') && (
-              <p style={S.paraEn}>{currentPara?.english}</p>
-            )}
-            {(langMode === 'ko' || langMode === 'en-ko') && currentPara?.koreanTranslation && (
-              <p style={S.paraKo}>{currentPara.koreanTranslation}</p>
-            )}
+          // ── Story: always reserve both EN + KO slots ──────────────────
+          <div style={S.bodyWrap}>
+            <p style={{ ...S.enText, ...(showEn ? {} : hideStyle) }}>
+              {currentPara?.english}
+            </p>
+            <p style={{ ...S.koText, ...(showKo ? {} : hideStyle) }}>
+              {currentPara?.koreanTranslation}
+            </p>
             {focusState === 'loading' && <p style={S.loadingDots}>· · ·</p>}
           </div>
         ) : (
-          // ── Pattern + example ────────────────────────────────────────────
+          // ── Pattern: pattern keyword + example EN + KO ────────────────
           <div style={S.patternWrap}>
+            {/* Pattern header — always visible */}
             <div style={S.patternHeader}>
-              <p style={S.patternText}>{currentPattern?.pattern}</p>
+              <p style={S.patternKeyword}>{currentPattern?.pattern}</p>
               {currentPattern?.meaningKo && (
                 <p style={S.patternMeaning}>{currentPattern.meaningKo}</p>
               )}
             </div>
 
+            {/* Example — always reserve both slots */}
             {currentEx && (
-              <div style={S.exWrap}>
-                {(langMode === 'en' || langMode === 'en-ko') && (
-                  <p style={S.exEn}>{currentEx.en}</p>
-                )}
-                {(langMode === 'ko' || langMode === 'en-ko') && currentEx.ko && (
-                  <p style={S.exKo}>{currentEx.ko}</p>
-                )}
+              <div style={S.bodyWrap}>
+                <p style={{ ...S.enText, ...(showEn ? {} : hideStyle) }}>
+                  {currentEx.en}
+                </p>
+                <p style={{ ...S.koText, ...(showKo ? {} : hideStyle) }}>
+                  {currentEx.ko}
+                </p>
               </div>
             )}
 
@@ -511,13 +519,13 @@ export function FocusMode({ story }: FocusModeProps) {
         )}
       </div>
 
-      {/* Orb — sole control, fixed bottom */}
+      {/* Orb — sole control, no other play/pause button */}
       <div style={S.orbContainer}>
         <button
           type="button"
           style={{
             ...S.orb,
-            opacity:   isBlocked ? 0.4 : 1,
+            opacity: isBlocked ? 0.4 : 1,
             ...(isPatternReady ? { animation: 'fmOrbPulse 2s ease-in-out infinite' } : {}),
           }}
           onClick={handleOrbClick}
@@ -525,23 +533,21 @@ export function FocusMode({ story }: FocusModeProps) {
           {focusState === 'loading' ? (
             <div style={S.spinner} />
           ) : focusState === 'paused' ? (
+            // Paused: show play icon to indicate tap = see menu / resume
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
               <path d="M8 5v14l11-7z"/>
             </svg>
-          ) : isPlaying ? (
+          ) : (
+            // Playing / ready: show pause icon
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <rect x="6" y="4" width="4" height="16" rx="1"/>
               <rect x="14" y="4" width="4" height="16" rx="1"/>
-            </svg>
-          ) : (
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 5v14l11-7z"/>
             </svg>
           )}
         </button>
       </div>
 
-      {/* Orb menu */}
+      {/* Orb menu — 계속 / 처음부터 / 나가기 only */}
       {showOrbMenu && (
         <div style={S.menuOverlay} onClick={e => e.stopPropagation()}>
           <div style={S.menuBox}>
@@ -557,10 +563,10 @@ export function FocusMode({ story }: FocusModeProps) {
       <style>{`
         @keyframes fmOrbPulse {
           0%,100% { box-shadow: 0 0 0 0 rgba(107,143,255,0.35), 0 2px 12px rgba(107,143,255,0.18); }
-          50%      { box-shadow: 0 0 0 10px rgba(107,143,255,0), 0 2px 20px rgba(107,143,255,0.32); }
+          50%      { box-shadow: 0 0 0 10px rgba(107,143,255,0), 0 2px 24px rgba(107,143,255,0.32); }
         }
-        @keyframes fmSpin { to { transform: rotate(360deg); } }
-        @keyframes fmFadeIn {
+        @keyframes fmSpin    { to { transform: rotate(360deg); } }
+        @keyframes fmFadeIn  {
           from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
         }
@@ -570,7 +576,7 @@ export function FocusMode({ story }: FocusModeProps) {
 }
 
 // ── Styles ────────────────────────────────────────────────────────────────────
-// Light mode: #F2F7FF background, dark text — matches app theme
+// All text sizes/weights/colors sourced from focusTypo tokens (lib/design/typography.ts)
 
 const S = {
   root: {
@@ -604,28 +610,29 @@ const S = {
     flexShrink:     0,
   },
   phaseLabel: {
-    fontSize:      10,
-    fontWeight:    700,
-    letterSpacing: '0.13em',
-    color:         'rgba(107,143,255,0.7)',
+    // ui token
+    fontSize:      focusTypo.ui.fontSize,
+    fontWeight:    focusTypo.ui.fontWeight,
+    color:         focusTypo.ui.color,
+    letterSpacing: '0.08em',
     textTransform: 'uppercase' as const,
     margin:        0,
   },
   langGroup: {
-    display:       'flex',
-    gap:           4,
-    background:    'rgba(107,143,255,0.07)',
-    borderRadius:  20,
-    padding:       '3px 4px',
+    display:    'flex',
+    gap:        4,
+    background: 'rgba(107,143,255,0.07)',
+    borderRadius: 20,
+    padding:    '3px 4px',
   },
   langBtn: {
     background:    'transparent',
     border:        'none',
     borderRadius:  16,
     padding:       '3px 9px',
-    fontSize:      10,
-    fontWeight:    600,
-    color:         'rgba(80,100,160,0.55)',
+    fontSize:      focusTypo.ui.fontSize,
+    fontWeight:    focusTypo.ui.fontWeight,
+    color:         'rgba(80,100,160,0.45)',
     cursor:        'pointer',
     letterSpacing: '0.04em',
     transition:    'all 0.15s',
@@ -643,79 +650,68 @@ const S = {
     padding:        '0 28px',
     overflow:       'hidden',
   },
-  // ── Story ──────────────────────────────────────────────────────────────
-  paraWrap: {
-    maxWidth:  480,
-    width:     '100%',
-    textAlign: 'left' as const,
+  // ── Shared body wrap (story + pattern example) ──────────────────────────
+  bodyWrap: {
+    maxWidth:      480,
+    width:         '100%',
+    display:       'flex',
+    flexDirection: 'column' as const,
+    gap:           16,
   },
-  paraEn: {
-    fontSize:      28,
-    fontWeight:    500,
-    lineHeight:    1.65,
-    color:         '#1A1F36',
-    margin:        '0 0 14px',
-    letterSpacing: '-0.2px',
+  // 34px SemiBold — story paragraph EN and pattern example EN (unified)
+  enText: {
+    fontSize:      focusTypo.bodyEn.fontSize,
+    fontWeight:    focusTypo.bodyEn.fontWeight,
+    color:         focusTypo.bodyEn.color,
+    lineHeight:    focusTypo.bodyEn.lineHeight,
+    letterSpacing: focusTypo.bodyEn.letterSpacing,
+    margin:        0,
   },
-  paraKo: {
-    fontSize:   18,
-    fontWeight: 400,
-    lineHeight: 1.65,
-    color:      'rgba(80,100,160,0.55)',
+  // 22px Medium — KO translation (unified)
+  koText: {
+    fontSize:   focusTypo.bodyKo.fontSize,
+    fontWeight: focusTypo.bodyKo.fontWeight,
+    color:      focusTypo.bodyKo.color,
+    lineHeight: focusTypo.bodyKo.lineHeight,
     margin:     0,
   },
   loadingDots: {
     color:         'rgba(107,143,255,0.35)',
     fontSize:      20,
     letterSpacing: '0.3em',
-    margin:        '14px 0 0',
+    margin:        0,
   },
-  // ── Pattern ────────────────────────────────────────────────────────────
+  // ── Pattern-specific ────────────────────────────────────────────────────
   patternWrap: {
     maxWidth:      480,
     width:         '100%',
     display:       'flex',
     flexDirection: 'column' as const,
-    gap:           24,
+    gap:           28,
   },
   patternHeader: {
-    paddingBottom: 18,
+    paddingBottom: 20,
     borderBottom:  '1px solid rgba(107,143,255,0.12)',
   },
-  patternText: {
-    fontSize:   20,
-    fontWeight: 700,
-    color:      '#5C72B0',
-    margin:     '0 0 4px',
-    lineHeight: 1.3,
+  // 42px Bold — pattern keyword
+  patternKeyword: {
+    fontSize:   focusTypo.pattern.fontSize,
+    fontWeight: focusTypo.pattern.fontWeight,
+    color:      focusTypo.pattern.color,
+    lineHeight: focusTypo.pattern.lineHeight,
+    margin:     '0 0 6px',
   },
+  // 18px — pattern meaning (desc token)
   patternMeaning: {
-    fontSize:   14,
-    color:      'rgba(80,100,160,0.5)',
+    fontSize:   focusTypo.desc.fontSize,
+    fontWeight: focusTypo.desc.fontWeight,
+    color:      focusTypo.desc.color,
+    lineHeight: focusTypo.desc.lineHeight,
     margin:     0,
-    lineHeight: 1.4,
-  },
-  exWrap: {
-    display:       'flex',
-    flexDirection: 'column' as const,
-    gap:           10,
-  },
-  exEn: {
-    fontSize:      26,
-    fontWeight:    500,
-    color:         '#1A1F36',
-    margin:        0,
-    lineHeight:    1.5,
-    letterSpacing: '-0.2px',
-  },
-  exKo: {
-    fontSize:   18,
-    color:      'rgba(80,100,160,0.5)',
-    margin:     0,
-    lineHeight: 1.5,
   },
   tapHint: {
-    fontSize:      13,
+    fontSize:      focusTypo.desc.fontSize,
+    fontWeight:    focusTypo.desc.fontWeight,
     color:         'rgba(107,143,255,0.6)',
     margin:        0,
     letterSpacing: '0.04em',
@@ -739,7 +735,7 @@ const S = {
     alignItems:     'center',
     justifyContent: 'center',
     color:          '#fff',
-    transition:     'opacity 0.2s, transform 0.15s',
+    transition:     'opacity 0.2s',
     touchAction:    'manipulation' as const,
   },
   spinner: {
@@ -754,7 +750,7 @@ const S = {
   menuOverlay: {
     position:             'absolute' as const,
     inset:                0,
-    background:           'rgba(242,247,255,0.75)',
+    background:           'rgba(242,247,255,0.80)',
     backdropFilter:       'blur(12px)',
     WebkitBackdropFilter: 'blur(12px)',
     display:              'flex',
@@ -780,7 +776,6 @@ const S = {
     cursor:        'pointer',
     display:       'block',
     textAlign:     'center' as const,
-    letterSpacing: '0.01em',
   },
   menuDivider: {
     height:     1,
@@ -789,13 +784,13 @@ const S = {
   },
   // ── Complete ────────────────────────────────────────────────────────────
   completeWrap: {
-    flex:           1,
-    display:        'flex',
-    flexDirection:  'column' as const,
-    alignItems:     'center',
-    justifyContent: 'center',
-    gap:            12,
-    animation:      'fmFadeIn 0.35s ease-out both',
+    flex:            1,
+    display:         'flex',
+    flexDirection:   'column' as const,
+    alignItems:      'center',
+    justifyContent:  'center',
+    gap:             12,
+    animation:       'fmFadeIn 0.35s ease-out both',
     backgroundColor: '#F2F7FF',
   },
   completeIcon: {
@@ -809,16 +804,5 @@ const S = {
     fontSize:       28,
     color:          '#fff',
     marginBottom:   8,
-  },
-  completeTitle: {
-    fontSize:   22,
-    fontWeight: 700,
-    color:      '#1A1F36',
-    margin:     0,
-  },
-  completeSub: {
-    fontSize: 14,
-    color:    'rgba(80,100,160,0.55)',
-    margin:   0,
   },
 } as const
