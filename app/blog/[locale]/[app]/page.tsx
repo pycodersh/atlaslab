@@ -21,6 +21,11 @@ const APP_LABELS: Record<string, { en: string; ko: string; desc: string }> = {
     ko: 'Patto 블로그',
     desc: 'Tips and guides on mastering English patterns.',
   },
+  'k-pantry': {
+    en: 'K-Pantry Blog',
+    ko: 'K-Pantry 블로그',
+    desc: 'Korean recipes, ingredients, and cooking guides for home cooks everywhere.',
+  },
 }
 
 export default async function AppBlogListPage({
@@ -38,14 +43,15 @@ export default async function AppBlogListPage({
 
   const label = APP_LABELS[app] ?? { en: `${app} Blog`, ko: `${app} 블로그`, desc: '' }
 
-  const { count } = await supabase
+  const { data: countRows } = await supabase
     .from('blog_posts')
-    .select('*', { count: 'exact', head: true })
+    .select('id')
     .eq('locale', locale)
     .eq('app', app)
     .lte('published_at', new Date().toISOString())
 
-  const totalPages = Math.ceil((count || 0) / POSTS_PER_PAGE)
+  const totalCount = countRows?.length || 0
+  const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE)
 
   const { data: posts } = await supabase
     .from('blog_posts')
@@ -154,7 +160,7 @@ export default async function AppBlogListPage({
       )}
       {totalPages > 1 && (
         <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem', marginTop: '1rem' }}>
-          {currentPage} / {totalPages} 페이지 · 총 {count}개 글
+          {currentPage} / {totalPages} 페이지 · 총 {totalCount}개 글
         </p>
       )}
     </div>
