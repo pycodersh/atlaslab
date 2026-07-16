@@ -398,43 +398,19 @@ export default function AtlasLabHome() {
               <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-              <a href="/blog/en/patto" style={{ textDecoration: 'none' }}>
-                <div style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: '12px',
-                  padding: '1rem',
-                  cursor: 'pointer',
-                  transition: 'border-color 0.2s',
-                }}
-                onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(124,111,255,0.4)'}
-                onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)'}
-                >
-                  <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
-                    Why Patto teaches patterns, not grammar rules
-                  </p>
-                  <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/patto →</span>
-                </div>
+              <a href="/blog/en/patto" className="al-blog-card">
+                <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
+                  Why Patto teaches patterns, not grammar rules
+                </p>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/patto →</span>
               </a>
-              <a href="/blog/ko/patto" style={{ textDecoration: 'none' }}>
-                <div style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: '12px',
-                  padding: '1rem',
-                  cursor: 'pointer',
-                  transition: 'border-color 0.2s',
-                }}
-                onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(124,111,255,0.4)'}
-                onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)'}
-                >
-                  <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>KO</span>
-                  <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
-                    패토가 문법 대신 패턴을 가르치는 이유
-                  </p>
-                  <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/ko/patto →</span>
-                </div>
+              <a href="/blog/ko/patto" className="al-blog-card">
+                <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>KO</span>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
+                  패토가 문법 대신 패턴을 가르치는 이유
+                </p>
+                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/ko/patto →</span>
               </a>
             </div>
           </div>
@@ -446,24 +422,12 @@ export default function AtlasLabHome() {
               <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Korean pattern learning</span>
               <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
             </div>
-            <a href="/blog/en/k-patto" style={{ textDecoration: 'none' }}>
-              <div style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '12px',
-                padding: '1rem',
-                cursor: 'pointer',
-                transition: 'border-color 0.2s',
-              }}
-              onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(124,111,255,0.4)'}
-              onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)'}
-              >
-                <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
-                  Why Korean patterns are the fastest path to fluency
-                </p>
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/k-patto →</span>
-              </div>
+            <a href="/blog/en/k-patto" className="al-blog-card">
+              <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
+              <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
+                Why Korean patterns are the fastest path to fluency
+              </p>
+              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/k-patto →</span>
             </a>
           </div>
 
@@ -474,24 +438,12 @@ export default function AtlasLabHome() {
               <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Korean food & cooking</span>
               <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
             </div>
-            <a href="/blog/en/k-pantry" style={{ textDecoration: 'none' }}>
-              <div style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '12px',
-                padding: '1rem',
-                cursor: 'pointer',
-                transition: 'border-color 0.2s',
-              }}
-              onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(124,111,255,0.4)'}
-              onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.08)'}
-              >
-                <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
-                  Complete guide to Korean pantry essentials
-                </p>
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/k-pantry →</span>
-              </div>
+            <a href="/blog/en/k-pantry" className="al-blog-card">
+              <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
+              <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
+                Complete guide to Korean pantry essentials
+              </p>
+              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/k-pantry →</span>
             </a>
           </div>
 
