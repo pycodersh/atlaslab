@@ -1,4 +1,4 @@
-import AtlasLabLogo from '@/components/AtlasLabLogo'
+import { Logo } from '@/components/Logo'
 
 const BG = '#0d0820'
 const FONT_BODY = '"DM Sans", "Inter", system-ui, sans-serif'
@@ -97,6 +97,12 @@ const PRODUCTS = [
 ]
 
 const BLOG_POSTS = [
+  {
+    flag: 'k-patto · EN',
+    title: 'Why Korean Patterns Are the Fastest Path to Fluency',
+    link: '/blog/en/k-patto →',
+    href: '/blog/en/k-patto',
+  },
   {
     flag: 'patto · EN',
     title: 'Why Patto teaches patterns, not grammar rules',
@@ -293,8 +299,7 @@ export default function AtlasLabHome() {
         {/* Nav */}
         <nav className="al-nav">
           <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/atlaslab_nav_logo.png" alt="Atlas Lab" width={77} height={60} style={{ display: 'block' }} />
+            <Logo variant="full" width={148} dark={true} />
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>
