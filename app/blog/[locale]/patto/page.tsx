@@ -23,20 +23,23 @@ export default async function BlogListPage({
   const from = (currentPage - 1) * POSTS_PER_PAGE
   const to = from + POSTS_PER_PAGE - 1
 
-  // Get total count
-  const { count } = await supabase
+  // Get total count (select id only; head:true can return null with publishable key)
+  const { data: countRows } = await supabase
     .from('blog_posts')
-    .select('*', { count: 'exact', head: true })
+    .select('id')
     .eq('locale', locale)
+    .is('app', null)
     .lte('published_at', new Date().toISOString())
 
-  const totalPages = Math.ceil((count || 0) / POSTS_PER_PAGE)
+  const totalCount = countRows?.length || 0
+  const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE)
 
   // Get posts for current page
   const { data: posts } = await supabase
     .from('blog_posts')
     .select('slug, title, description, tags, published_at')
     .eq('locale', locale)
+    .is('app', null)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
     .range(from, to)
