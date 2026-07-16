@@ -28,7 +28,7 @@ export default async function BlogListPage({
     .from('blog_posts')
     .select('id')
     .eq('locale', locale)
-    .is('app', null)
+    .eq('app', 'patto')
     .lte('published_at', new Date().toISOString())
 
   const totalCount = countRows?.length || 0
@@ -39,7 +39,7 @@ export default async function BlogListPage({
     .from('blog_posts')
     .select('slug, title, description, tags, published_at')
     .eq('locale', locale)
-    .is('app', null)
+    .eq('app', 'patto')
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
     .range(from, to)
