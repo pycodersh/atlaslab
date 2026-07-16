@@ -304,7 +304,7 @@ export default function AtlasLabHome() {
         {/* Nav */}
         <nav className="al-nav">
           <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src="/atlaslab_nav_logo.png" alt="Atlas Lab" style={{ height: '36px', width: 'auto' }} />
+            <img src="/atlaslab_nav_logo.png" alt="Atlas Lab" style={{ height: '47px', width: 'auto' }} />
           </a>
           <div className="al-nav-right">
             <a href="#products" className="al-nav-link">Products</a>
