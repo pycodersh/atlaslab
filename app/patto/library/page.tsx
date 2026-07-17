@@ -1,11 +1,10 @@
 ﻿'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useRouter } from 'next/navigation'
 import {
   Search, X, BookOpen, ChevronRight, ChevronDown,
-  BookMarked, Layers,
+  BookMarked, Layers, PenLine,
 } from 'lucide-react'
 
 import { TopNav } from '@/components/TopNav'
@@ -15,7 +14,7 @@ import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
-import { getStoryStatus, type StoryStatus } from '@/lib/srs/story-round'
+import { getEssays, type Essay } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
 import { useItemTranslation } from '@/hooks/useItemTranslation'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
@@ -381,98 +380,6 @@ function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: nu
   )
 }
 
-// ── Story status ─────────────────────────────────────────────────────────────
-
-const STATUS_LABEL: Record<StoryStatus, string> = {
-  new:        '새로운 스토리',
-  learning:   '학습 중',
-  review_due: '복습 예정',
-  mastered:   '마스터 ✅',
-}
-
-const STATUS_COLOR: Record<StoryStatus, string> = {
-  new:        '#8E8E93',
-  learning:   '#5B7FD4',
-  review_due: '#C08B30',
-  mastered:   '#27AE60',
-}
-
-function StoriesStatusSection({ router }: { router: ReturnType<typeof import('next/navigation').useRouter> }) {
-  const [statuses, setStatuses] = useState<Record<number, StoryStatus>>({})
-
-  useEffect(() => {
-    const map: Record<number, StoryStatus> = {}
-    for (const s of magazineStories) map[s.id] = getStoryStatus(s.id)
-    setStatuses(map)
-  }, [])
-
-  const grouped = useMemo(() => {
-    const order: StoryStatus[] = ['review_due', 'learning', 'new', 'mastered']
-    const buckets: Record<StoryStatus, typeof magazineStories> = {
-      review_due: [], learning: [], new: [], mastered: [],
-    }
-    for (const s of magazineStories) {
-      const st = statuses[s.id] ?? 'new'
-      buckets[st].push(s)
-    }
-    return order.map(st => ({ status: st, stories: buckets[st] })).filter(g => g.stories.length > 0)
-  }, [statuses])
-
-  return (
-    <section style={{ marginBottom: 28 }}>
-      <SecLabel label="Stories" count={magazineStories.length} unit="Stories" />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {grouped.map(({ status, stories }) => (
-          <div key={status} style={{ ...glassCard, overflow: 'hidden' }}>
-            {/* Group header */}
-            <div style={{
-              padding: '10px 16px 8px',
-              display: 'flex', alignItems: 'center', gap: 8,
-              borderBottom: ROW_BORDER,
-            }}>
-              <span style={{
-                display: 'inline-block', width: 7, height: 7, borderRadius: '50%',
-                background: STATUS_COLOR[status], flexShrink: 0,
-              }} />
-              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: STATUS_COLOR[status] }}>
-                {STATUS_LABEL[status]}
-              </span>
-              <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500, marginLeft: 2 }}>
-                {stories.length}
-              </span>
-            </div>
-            {/* Story rows */}
-            {stories.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => router.push(`/patto/stories/${s.id}`)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  width: '100%', textAlign: 'left', background: 'none', border: 'none',
-                  cursor: 'pointer', padding: '10px 16px',
-                  borderTop: i === 0 ? 'none' : ROW_BORDER,
-                  fontFamily: 'inherit',
-                }}
-              >
-                <span style={{
-                  fontSize: 9, fontWeight: 700, letterSpacing: '0.08em',
-                  color: '#8E8E93', flexShrink: 0, minWidth: 40,
-                }}>
-                  S{String(s.id).padStart(2, '0')}
-                </span>
-                <span style={{ flex: 1, fontSize: 13, fontWeight: 600, color: 'var(--pt)', lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {s.title}
-                </span>
-                <ChevronRight style={{ width: 12, height: 12, color: '#C0C0C8', flexShrink: 0 }} strokeWidth={2} />
-              </button>
-            ))}
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -490,8 +397,7 @@ export default function LibraryPage() {
   const [showAllWords, setShowAllWords]       = useState(false)
   const [showAllPhrases, setShowAllPhrases]   = useState(false)
   const [showAllPatterns, setShowAllPatterns] = useState(false)
-  const trainer = useTrainerSafe()
-  useEffect(() => { trainer?.setPage('library') }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const [essays, setEssays]             = useState<Essay[]>([])
 
   useEffect(() => {
     setBookmarks(getBookmarks())
@@ -499,6 +405,7 @@ export default function LibraryPage() {
     setPhrases(getSavedPhrases())
     getTotalRepeatCount()
     setRecentSearches(readRecentSearches())
+    setEssays(getEssays())
   }, [])
 
   const patternIndex = useMemo(() => buildPatternIndex(), [])
@@ -552,19 +459,16 @@ export default function LibraryPage() {
   function handleRemoveBookmark(patternId: string) {
     removeBookmark(patternId)
     setBookmarks(prev => prev.filter(b => b.patternId !== patternId))
-    trainer?.showMessage('Removed.', 1800)
   }
 
   function handleRemoveWord(id: string) {
     removeSavedWord(id)
     setWords(prev => prev.filter(w => w.id !== id))
-    trainer?.showMessage('Removed.', 1800)
   }
 
   function handleRemovePhrase(id: string) {
     removeSavedPhrase(id)
     setPhrases(prev => prev.filter(p => p.id !== id))
-    trainer?.showMessage('Removed.', 1800)
   }
 
   function goToWord(w: SavedWord) {
@@ -582,9 +486,6 @@ export default function LibraryPage() {
 
   const savedItemsPanel = (
     <>
-      {/* Stories status */}
-      <StoriesStatusSection router={router} />
-
       {/* Saved Words */}
       <section style={{ marginBottom: 28 }}>
         <SecLabel label="Saved Words" count={words.length} unit="Words" />
@@ -682,16 +583,7 @@ export default function LibraryPage() {
                 )
               })}
             </div>
-            <button
-              type="button"
-              onClick={() => setShowAllPatterns(false)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 4,
-                marginTop: 10, padding: 0,
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-              }}
-            >
+            <button type="button" onClick={() => setShowAllPatterns(false)} style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit' }}>
               Show less
             </button>
           </>
@@ -699,31 +591,72 @@ export default function LibraryPage() {
           <>
             <div style={glassCard}>
               {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => (
-                <BookmarkedPatternRow
-                  key={bm.patternId}
-                  bm={bm}
-                  first={i === 0}
-                  onPress={() => router.push(`/patto/stories/${bm.storyId}?v=p`)}
-                  onRemove={() => handleRemoveBookmark(bm.patternId)}
-                />
+                <BookmarkedPatternRow key={bm.patternId} bm={bm} first={i === 0} onPress={() => router.push(`/patto/stories/${bm.storyId}?v=p`)} onRemove={() => handleRemoveBookmark(bm.patternId)} />
               ))}
             </div>
             {bookmarks.length > PREVIEW_PATTERNS && (
-              <button
-                type="button"
-                onClick={() => setShowAllPatterns(true)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 4,
-                  marginTop: 10, padding: 0,
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
-                }}
-              >
+              <button type="button" onClick={() => setShowAllPatterns(true)} style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit' }}>
                 {`Show all ${bookmarks.length} Patterns`}
                 <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
               </button>
             )}
           </>
+        )}
+      </section>
+
+      {/* Essays */}
+      <section style={{ marginBottom: 28 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>Essays</span>
+          <button
+            type="button"
+            onClick={() => router.push('/patto/essays/new')}
+            style={{ fontSize: 12, fontWeight: 600, color: 'var(--pa)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 3 }}
+          >
+            <PenLine style={{ width: 12, height: 12 }} strokeWidth={2} />
+            New
+          </button>
+        </div>
+        {essays.length === 0 ? (
+          <EmptyState
+            icon={<PenLine style={{ width: 24, height: 24, color: '#8B6FA0' }} strokeWidth={1.6} />}
+            iconColor="#8B6FA0"
+            title="No essays yet."
+            body={'영어로 글을 써보세요. 패턴을 실제로 사용하는 가장 빠른 방법입니다.'}
+          />
+        ) : (
+          <div style={glassCard}>
+            {essays.slice(0, 5).map((essay, i) => (
+              <button
+                key={essay.id}
+                type="button"
+                onClick={() => router.push(`/patto/essays/${essay.id}`)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 10,
+                  width: '100%', textAlign: 'left', background: 'none', border: 'none',
+                  cursor: 'pointer', padding: '12px 16px',
+                  borderTop: i === 0 ? 'none' : ROW_BORDER,
+                  fontFamily: 'inherit',
+                }}
+              >
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {essay.title || 'Untitled'}
+                  </p>
+                  <p style={{ fontSize: 11, color: '#8E8E93', margin: 0 }}>
+                    {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
+                    {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
+                  </p>
+                </div>
+                <ChevronRight style={{ width: 12, height: 12, color: '#C0C0C8', flexShrink: 0 }} strokeWidth={2} />
+              </button>
+            ))}
+            {essays.length > 5 && (
+              <button type="button" onClick={() => router.push('/patto/essays')} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: '12px 16px', borderTop: ROW_BORDER, background: 'none', border: 'none', borderTop: ROW_BORDER, cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit' } as React.CSSProperties}>
+                전체 {essays.length}개 보기 <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
+              </button>
+            )}
+          </div>
         )}
       </section>
     </>
@@ -874,27 +807,6 @@ export default function LibraryPage() {
               )}
             </div>
 
-            {/* ── Summary cards ── */}
-            <div style={{ display: 'flex', gap: 9, marginBottom: 24 }}>
-              <SummaryCard
-                icon={<BookOpen style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.8} />}
-                label="Words"
-                value={words.length}
-                accent="#3A7A4A"
-              />
-              <SummaryCard
-                icon={<Layers style={{ width: 16, height: 16, color: '#C08040' }} strokeWidth={1.8} />}
-                label="Phrases"
-                value={phrases.length}
-                accent="#C08040"
-              />
-              <SummaryCard
-                icon={<BookMarked style={{ width: 16, height: 16, color: 'var(--pa)' }} strokeWidth={1.8} />}
-                label="Patterns"
-                value={bookmarks.length}
-                accent="var(--pa)"
-              />
-            </div>
           </div>
 
           {/* Right column: saved items (stacks below on mobile) */}

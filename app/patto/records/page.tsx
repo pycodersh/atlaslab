@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useTheme } from '@/components/ThemeProvider'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
+import { TopNav } from '@/components/TopNav'
 import { getStreak } from '@/lib/srs/storage'
 import { magazineStories } from '@/data/magazine-stories'
 import { getStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
@@ -88,21 +88,12 @@ export default function ProgressPage() {
   const [activityMap, setActivityMap]       = useState<Record<string, number>>({})
   const [selectedIso, setSelectedIso]       = useState<string | null>(null)
 
-  const trainer = useTrainerSafe()
-
   useEffect(() => {
     setStreak(getStreak())
     setStoryRounds(magazineStories.map(s => getStoryRound(s.id)))
     setFutureSchedule(getFutureSchedule())
     setActivityMap(getActivityByDate())
-    trainer?.setPage('progress')
-    const streakVal = getStreak()
-    const msg = streakVal > 0
-      ? `You've studied ${streakVal} day${streakVal === 1 ? '' : 's'}.`
-      : 'Next review tomorrow.'
-    const t = setTimeout(() => trainer?.showMessage(msg, 3000), 1000)
-    return () => clearTimeout(t)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
 
   const today    = useMemo(() => toIso(new Date()), [])
   const weekDays = useMemo(() => getWeekDays(), [])
@@ -158,27 +149,23 @@ export default function ProgressPage() {
   return (
     <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
 
-      {/* ── Sticky Header ── */}
-      <div style={{
-        position: 'sticky', top: 0, zIndex: 50,
-        background: 'linear-gradient(180deg, rgba(26,16,96,0.95) 0%, rgba(26,16,96,0) 100%)',
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        padding: '52px 20px 18px',
-        display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
-      }}>
+      <TopNav />
+
+      {/* ── Sub-header: title + toggle ── */}
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: '12px 20px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <p style={{ margin: 0, fontSize: 24, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1 }}>
+          <p style={{ margin: 0, fontSize: 22, fontWeight: 800, color: 'var(--pt)', letterSpacing: '-0.02em', lineHeight: 1 }}>
             Progress
           </p>
-          <p style={{ margin: '3px 0 0', fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.5)' }}>
+          <p style={{ margin: '3px 0 0', fontSize: 12, fontWeight: 500, color: 'var(--pm)' }}>
             {getMonthLabel()}
           </p>
         </div>
         {/* Weekly / Monthly toggle */}
         <div style={{
           display: 'flex', gap: 2,
-          background: 'rgba(255,255,255,0.13)',
+          background: 'var(--pglass)',
+          border: '1px solid var(--pglass-border)',
           borderRadius: 12, padding: 3,
         }}>
           {(['weekly', 'monthly'] as const).map(v => (
@@ -190,8 +177,8 @@ export default function ProgressPage() {
                 height: 30, padding: '0 13px', borderRadius: 9,
                 border: 'none', cursor: 'pointer',
                 fontSize: 11, fontWeight: 700, fontFamily: 'inherit',
-                background: viewMode === v ? '#fff' : 'transparent',
-                color: viewMode === v ? '#1a1060' : 'rgba(255,255,255,0.55)',
+                background: viewMode === v ? 'var(--pa)' : 'transparent',
+                color: viewMode === v ? '#fff' : 'var(--pm)',
                 transition: 'all 0.18s',
               }}
             >

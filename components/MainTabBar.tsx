@@ -43,17 +43,6 @@ const TABS = [
     ),
   },
   {
-    label: 'ESSAYS',
-    href: '/patto/essays',
-    active: (p: string) => p.startsWith('/patto/essays') || p.startsWith('/editor'),
-    icon: (active: boolean) => (
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 20h9"/>
-        <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-      </svg>
-    ),
-  },
-  {
     label: 'LIBRARY',
     href: '/patto/library',
     active: (p: string) => p.startsWith('/patto/library'),
