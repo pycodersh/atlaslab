@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Volume2, Square, Bookmark, Info, X } from 'lucide-react'
+import { Volume2, Square, Bookmark, Info, X, CheckCircle2 } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import type { MagazineStory, MagazinePattern } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -68,12 +68,18 @@ type CardProps = {
   hideRecallMode: boolean
   isRevealed: boolean
   onReveal: () => void
+  isActive?: boolean
+  isCompleted?: boolean
+  onActivate?: () => void
+  onComplete?: () => void
 }
 
 function PatternCardItem({
   pattern, story, patternExamples, storyIsSpeaking,
   globalPatternNum, showKorean, showEnglish, isDark,
   hideRecallMode, isRevealed, onReveal,
+  isActive = false, isCompleted = false,
+  onActivate, onComplete,
 }: CardProps) {
   const { prefs } = usePreferences()
   const voice = story.narratorVoice ?? prefs.voice
@@ -123,6 +129,7 @@ function PatternCardItem({
 
   const playExamples = useCallback(() => {
     if (isPlaying) { stop(); return }
+    onActivate?.()
     const token = ++playTokenRef.current
     runningRef.current = true
     startedAtRef.current = Date.now()
@@ -147,13 +154,14 @@ function PatternCardItem({
             const rec = recordPatternPractice(pattern.id, story.id, pattern.pattern, story.title, dur)
             if (rec.lastReviewedAt?.slice(0, 10) !== todayStr()) applyReview('pattern', pattern.id, true)
             runningRef.current = false; setIsPlaying(false)
+            onComplete?.()
           }
         },
         onError: () => { if (playTokenRef.current !== token) return; runningRef.current = false; setIsPlaying(false) },
       })
     }
     playOne(0)
-  }, [isPlaying, stop, examples, voice, prefs.speechRate, pattern, story])
+  }, [isPlaying, stop, examples, voice, prefs.speechRate, pattern, story, onActivate, onComplete])
 
   function handleBookmark() {
     const next = toggleBookmark({
@@ -165,16 +173,28 @@ function PatternCardItem({
 
   // ── Colors ────────────────────────────────────────────────────────────────
   const heroBg          = isDark ? 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)' : 'transparent'
-  const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
-  const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
-  const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
-  const cardBg    = isDark ? 'rgba(30,28,48,0.85)' : '#FFFFFF'
-  const exEnColor = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
-  const exKoColor = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
-  const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
-  const cardShadow       = isDark
-    ? '0 16px 40px rgba(0,0,0,0.40)'
-    : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)'
+  const heroPatternColor = isCompleted
+    ? (isDark ? '#999' : '#999')
+    : isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
+  const heroMeaningColor = isCompleted
+    ? (isDark ? '#777' : '#aaa')
+    : isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
+  const heroIconColor    = isCompleted
+    ? (isDark ? 'rgba(255,255,255,0.30)' : '#bbb')
+    : isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
+  const cardBg    = isDark ? 'rgba(30,28,48,0.85)' : '#F8F9FF'
+  const exEnColor = isCompleted
+    ? '#999'
+    : isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
+  const exKoColor = isCompleted
+    ? '#bbb'
+    : isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
+  const cardBorder = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
+  const baseGlow  = isActive ? ', 0 0 0 1.5px rgba(107,124,255,0.30)' : ''
+  const cardShadow = isDark
+    ? `0 16px 40px rgba(0,0,0,0.40)${baseGlow}`
+    : `0 2px 12px rgba(0,0,0,0.06)${baseGlow}`
+  const cardOpacity = isCompleted ? 0.7 : (isActive ? 1 : 0.93)
   const noteBg  = isDark ? 'rgba(255,220,80,0.12)' : '#FFFBEA'
   const noteBorder = isDark ? 'rgba(255,220,80,0.25)' : '#F5E58A'
   const noteText = isDark ? 'rgba(255,230,120,0.90)' : '#7A6200'
@@ -184,9 +204,12 @@ function PatternCardItem({
   return (
     <div
       style={{
-        borderRadius: 18, background: cardBg, border: cardBorder, boxShadow: cardShadow,
-        overflow: 'hidden',
+        borderRadius: 18, background: cardBg, backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+        border: cardBorder, boxShadow: cardShadow,
+        overflow: 'hidden', opacity: cardOpacity,
+        transition: 'opacity 0.25s, box-shadow 0.25s',
         cursor: isHidden ? 'pointer' : 'default',
+        position: 'relative',
       }}
       onClick={isHidden ? onReveal : undefined}
     >
@@ -231,8 +254,11 @@ function PatternCardItem({
             )}
           </div>
 
-          {/* Right: audio + note + bookmark */}
+          {/* Right: completed check + audio + note + bookmark */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0, marginTop: 2 }}>
+            {isCompleted && (
+              <CheckCircle2 style={{ width: 13, height: 13, color: isDark ? '#555' : '#c0c0d0', marginRight: 2 }} strokeWidth={1.8} />
+            )}
             <button
               type="button"
               onClick={e => { e.stopPropagation(); playExamples() }}
@@ -355,6 +381,8 @@ export function PatternsSectionInline({
   const showEnglish = showEnglishProp !== undefined ? showEnglishProp : true
 
   const [recallRevealed, setRecallRevealed] = useState<Set<number>>(new Set())
+  const [activeIdx, setActiveIdx] = useState<number | null>(null)
+  const [completedSet, setCompletedSet] = useState<Set<number>>(new Set())
   const allSeenFiredRef = useRef(false)
 
   // Reset recall state on new round
@@ -421,6 +449,10 @@ export function PatternsSectionInline({
             hideRecallMode={hideRecallMode}
             isRevealed={recallRevealed.has(idx)}
             onReveal={() => handleReveal(idx)}
+            isActive={activeIdx === idx}
+            isCompleted={completedSet.has(idx)}
+            onActivate={() => setActiveIdx(idx)}
+            onComplete={() => setCompletedSet(prev => new Set(prev).add(idx))}
           />
         ))}
       </div>
