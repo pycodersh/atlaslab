@@ -202,7 +202,7 @@ function PatternCardItem({
       }}
     >
       {/* Header: pattern num + meaning + icons */}
-      <div style={{ padding: '10px 14px 10px', background: heroBg }}>
+      <div style={{ padding: '16px 14px 10px', background: heroBg }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
           {/* Left: num + pattern + meaning */}
           <div style={{ flex: 1, minWidth: 0 }}>
