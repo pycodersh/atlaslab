@@ -2,44 +2,10 @@
 
 import Link from 'next/link'
 import { User } from 'lucide-react'
-import { useTheme } from '@/components/ThemeProvider'
 import { useAuth } from '@/contexts/AuthContext'
 
 export const NAV_HEIGHT = 50
 
-function PattoIcon() {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-  return (
-    <>
-      {/* SVG filter: removes white background from PNG by keying on brightness */}
-      <svg width={0} height={0} style={{ position: 'absolute' }}>
-        <defs>
-          <filter id="patto-remove-white">
-            <feColorMatrix type="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -1 -1 -1 3 0" />
-          </filter>
-          <filter id="patto-remove-dark">
-            <feColorMatrix type="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  1 1 1 0 -2" />
-          </filter>
-        </defs>
-      </svg>
-      <img
-        src="/PATTO.png"
-        alt="PATTO"
-        width={34}
-        height={34}
-        style={{
-          flexShrink: 0, display: 'block',
-          filter: isDark
-            ? 'url(#patto-remove-white) invert(1) opacity(0.88)'
-            : 'url(#patto-remove-white)',
-        }}
-      />
-    </>
-  )
-}
 
 function UserButton() {
   const { user, loading } = useAuth()
@@ -103,21 +69,17 @@ export function TopNav() {
           paddingTop: 'env(safe-area-inset-top, 0px)',
         }}
       >
-        {/* Left: PATTO logo — tapping navigates home */}
-        <Link href="/patto/home" style={{ display: 'flex', alignItems: 'flex-end', gap: 4, textDecoration: 'none' }}>
-          <PattoIcon />
-          <p
-            style={{
-              fontSize: 15,
-              fontWeight: 500,
-              letterSpacing: '-0.03em',
-              color: 'var(--pt)',
-              margin: 0,
-              paddingBottom: 2,
-              lineHeight: 1,
-              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-            }}
-          >
+        {/* Left: PATTO text title */}
+        <Link href="/patto/home" style={{ textDecoration: 'none' }}>
+          <p style={{
+            fontSize: 17,
+            fontWeight: 700,
+            letterSpacing: '-0.03em',
+            color: 'var(--pt)',
+            margin: 0,
+            lineHeight: 1,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+          }}>
             PATTO
           </p>
         </Link>
