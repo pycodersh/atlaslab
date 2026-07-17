@@ -216,7 +216,7 @@ function PatternCardItem({
             ) : (
               <>
                 <p style={{
-                  fontSize: 22, fontWeight: 800, color: heroPatternColor,
+                  fontSize: 15.5, fontWeight: 800, color: heroPatternColor,
                   lineHeight: 1.25, margin: '2px 0 3px', letterSpacing: '-0.3px',
                   fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
                 }}>
