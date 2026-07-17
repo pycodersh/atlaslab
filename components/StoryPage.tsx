@@ -101,8 +101,10 @@ export function StoryPage({
   // Reset per-story state when story changes
   useEffect(() => {
     setStudyMode('en')
+    onStudyModeChange?.(false)
     setPlayingParaId(null)
     setRevealedParas(new Set())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [story.id])
 
   // If speakAll starts (isSpeaking=true), clear single-para indicator

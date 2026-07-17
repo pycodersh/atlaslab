@@ -166,11 +166,9 @@ function PatternCardItem({
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
-  const cardBg           = isDark ? 'rgba(30,28,48,0.85)'    : '#FFFFFF'
-  const exBoxBg          = isDark ? 'rgba(255,255,255,0.04)' : '#F6F7FB'
-  const exBoxBorder      = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.14)'
-  const exEnColor        = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
-  const exKoColor        = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
+  const cardBg    = isDark ? 'rgba(30,28,48,0.85)' : '#FFFFFF'
+  const exEnColor = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
+  const exKoColor = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
   const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
   const cardShadow       = isDark
     ? '0 16px 40px rgba(0,0,0,0.40)'
@@ -190,25 +188,66 @@ function PatternCardItem({
       }}
       onClick={isHidden ? onReveal : undefined}
     >
-      {/* Hero section */}
-      <div style={{ position: 'relative', overflow: 'hidden', padding: '12px 16px 16px', background: heroBg }}>
-        {/* Top row: pattern num | bookmark + note icon */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <p style={{
-            margin: 0, fontSize: '0.57rem', fontWeight: 700, color: heroIconColor,
-            letterSpacing: '0.06em', fontFamily: '"SF Mono", "Fira Mono", monospace',
-          }}>
-            PATTERN {String(globalPatternNum).padStart(3, '0')}
-          </p>
+      {/* Header: pattern num + meaning + icons */}
+      <div style={{ padding: '10px 14px 10px', background: heroBg }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+          {/* Left: num + pattern + meaning */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{
+              margin: '0 0 1px', fontSize: '0.54rem', fontWeight: 700, color: heroIconColor,
+              letterSpacing: '0.06em', fontFamily: '"SF Mono", "Fira Mono", monospace',
+            }}>
+              PATTERN {String(globalPatternNum).padStart(3, '0')}
+            </p>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            {isHidden ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                <span style={{
+                  flex: 1, height: 24, borderRadius: 6, maxWidth: 180,
+                  background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(142,167,255,0.15)',
+                  display: 'block',
+                }} />
+                <span style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.40)' : '#8EA7FF', fontWeight: 500, flexShrink: 0 }}>
+                  탭하여 확인
+                </span>
+              </div>
+            ) : (
+              <>
+                <p style={{
+                  fontSize: 22, fontWeight: 800, color: heroPatternColor,
+                  lineHeight: 1.25, margin: '2px 0 3px', letterSpacing: '-0.3px',
+                  fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                }}>
+                  {pattern.pattern}
+                </p>
+                {patternMeaning && (
+                  <p style={{ fontSize: 12, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+                    {patternMeaning}
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+
+          {/* Right: audio + note + bookmark */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0, marginTop: 2 }}>
+            <button
+              type="button"
+              onClick={e => { e.stopPropagation(); playExamples() }}
+              aria-label={isPlaying ? '정지' : '예문 듣기'}
+              style={{ background: 'none', border: 'none', padding: 5, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s' }}
+            >
+              {isPlaying
+                ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
+                : <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.6} />}
+            </button>
             {patternNote && (
               <button
                 type="button"
                 onClick={e => { e.stopPropagation(); setNoteOpen(v => !v) }}
                 aria-label="패턴 노트"
                 style={{
-                  background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0,
+                  background: 'none', border: 'none', padding: 5, cursor: 'pointer',
                   color: noteOpen ? (isDark ? '#FFE050' : '#C09900') : heroIconColor,
                   transition: 'color 0.15s',
                 }}
@@ -221,68 +260,26 @@ function PatternCardItem({
               onClick={e => { e.stopPropagation(); handleBookmark() }}
               aria-label={bookmarked ? '북마크 해제' : '북마크'}
               style={{
-                background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0,
+                background: 'none', border: 'none', padding: 5, cursor: 'pointer',
                 color: bookmarked ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor,
                 transition: 'color 0.15s',
               }}
             >
-              <Bookmark style={{ width: 15, height: 15 }} strokeWidth={1.8} fill={bookmarked ? 'currentColor' : 'none'} />
+              <Bookmark style={{ width: 14, height: 14 }} strokeWidth={1.8} fill={bookmarked ? 'currentColor' : 'none'} />
             </button>
           </div>
-        </div>
-
-        {/* Pattern text or hidden block */}
-        {isHidden ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-            <span style={{
-              flex: 1, height: 36, borderRadius: 8,
-              background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(142,167,255,0.15)',
-              display: 'block',
-            }} />
-            <span style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.40)' : '#8EA7FF', fontWeight: 500, flexShrink: 0, letterSpacing: '0.02em' }}>
-              탭하여 확인
-            </span>
-          </div>
-        ) : (
-          <p style={{
-            fontSize: 32, fontWeight: 800, color: heroPatternColor,
-            lineHeight: 1.2, margin: '0 0 6px', letterSpacing: '-0.5px',
-            fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-          }}>
-            {pattern.pattern}
-          </p>
-        )}
-
-        <div style={{ width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px', background: isDark ? 'rgba(255,255,255,0.25)' : '#8EA7FF' }} />
-
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          {patternMeaning ? (
-            <p style={{ fontSize: 13, fontWeight: 600, color: heroMeaningColor, margin: 0, flex: 1, paddingRight: 8, lineHeight: 1.4 }}>
-              {patternMeaning}
-            </p>
-          ) : <div />}
-          <button
-            type="button"
-            onClick={e => { e.stopPropagation(); playExamples() }}
-            aria-label={isPlaying ? '정지' : '예문 듣기'}
-            style={{ background: 'none', border: 'none', padding: 6, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
-          >
-            {isPlaying
-              ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
-              : <Volume2 style={{ width: 17, height: 17 }} strokeWidth={1.6} />}
-          </button>
         </div>
       </div>
 
       {/* Note popup */}
       {noteOpen && patternNote && (
         <div style={{
-          margin: '0 16px',
-          borderRadius: 10,
+          margin: '0 12px',
+          borderRadius: 8,
           background: noteBg,
           border: `1px solid ${noteBorder}`,
-          padding: '10px 12px 10px 12px',
-          display: 'flex', alignItems: 'flex-start', gap: 8,
+          padding: '8px 10px 8px 12px',
+          display: 'flex', alignItems: 'flex-start', gap: 6,
         }}>
           <p style={{ margin: 0, flex: 1, fontSize: 12, color: noteText, lineHeight: 1.6 }}>{patternNote}</p>
           <button
@@ -290,35 +287,36 @@ function PatternCardItem({
             onClick={e => { e.stopPropagation(); setNoteOpen(false) }}
             style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', color: noteText, flexShrink: 0, marginTop: 1 }}
           >
-            <X style={{ width: 12, height: 12 }} strokeWidth={2} />
+            <X style={{ width: 11, height: 11 }} strokeWidth={2} />
           </button>
         </div>
       )}
 
-      {/* Examples */}
+      {/* Examples — bullet list, no box */}
       {!isHidden && (
-        <div style={{ padding: noteOpen ? '10px 16px 16px' : '14px 16px 16px' }}>
-          <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px' }}>
-            {examples.map((ex, i) => {
-              const isExPlaying = isPlaying && i === exIdx
-              const fullEx = patternExamplesFull[pattern.id]?.[i]
-              const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
-              const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
-              return (
-                <div key={i} style={{ borderTop: i > 0 ? `1px solid ${exBoxBorder}` : 'none', paddingTop: i > 0 ? 12 : 0, paddingBottom: i < examples.length - 1 ? 12 : 0 }}>
+        <div style={{ padding: '8px 14px 12px' }}>
+          {examples.map((ex, i) => {
+            const isExPlaying = isPlaying && i === exIdx
+            const fullEx = patternExamplesFull[pattern.id]?.[i]
+            const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
+            const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
+            return (
+              <div key={i} style={{ display: 'flex', gap: 6, marginTop: i === 0 ? 0 : 5 }}>
+                <span style={{ fontSize: 12, color: heroIconColor, flexShrink: 0, lineHeight: '1.55', marginTop: 1 }}>•</span>
+                <div>
                   <TappableWordText
                     text={ex.en}
                     saveCandidates={safeCandidates}
                     source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                    style={{ display: 'block', fontSize: 14, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55, marginBottom: 2 }}
+                    style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55 }}
                   />
                   {showKorean && exKo && (
-                    <p style={{ fontSize: 12, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
+                    <p style={{ fontSize: 11.5, color: exKoColor, margin: '1px 0 0', lineHeight: 1.45 }}>{exKo}</p>
                   )}
                 </div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
