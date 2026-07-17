@@ -88,6 +88,11 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const [scrolledToEnd, setScrolledToEnd] = useState(false)
   const [showSwipeGuide,setShowSwipeGuide]= useState(false)
   const [patternShowKo, setPatternShowKo] = useState(false)
+  const [patternShowEn, setPatternShowEn] = useState(true)
+  function handleStudyModeChange(mode: 'en' | 'en-ko' | 'ko') {
+    setPatternShowKo(mode === 'en-ko' || mode === 'ko')
+    setPatternShowEn(mode !== 'ko')
+  }
   const [hideRecallRound,setHideRecallRound] = useState(1)
   const [completionData,setCompletionData]= useState<StoryRoundData | null>(null)
   const [patternIdx,    setPatternIdx]    = useState(0)
@@ -572,6 +577,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
           onRecallRoundComplete={handleRecallRoundComplete}
           onPatternIndexChange={setPatternIdx}
           showKorean={patternShowKo}
+          showEnglish={patternShowEn}
         />
       )}
     </div>
@@ -671,7 +677,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         onStoryAreaTouchEnd={handleStoryTouchEnd}
         showReadingGuide={isFirstRound && flowPhase === 'reading' && !scrolledToEnd}
         audioPulse={isFirstRound && !isSpeaking && flowPhase === 'reading'}
-        onStudyModeChange={setPatternShowKo}
+        onStudyModeChange={handleStudyModeChange}
       />
       {recoDialogEl}
       {sharedPopups}

@@ -33,6 +33,8 @@ type Props = {
   onPatternIndexChange?: (idx: number) => void
   /** Override prefs-based showKorean (e.g. tied to story's language toggle) */
   showKorean?: boolean
+  /** When true, English is faded out (opacity 0) like KO mode in story */
+  showEnglish?: boolean
 }
 
 function resolveExamples(
@@ -61,16 +63,16 @@ type CardProps = {
   storyIsSpeaking: boolean
   globalPatternNum: number
   showKorean: boolean
+  showEnglish: boolean
   isDark: boolean
   hideRecallMode: boolean
   isRevealed: boolean
   onReveal: () => void
-  onBookmarkChange?: () => void
 }
 
 function PatternCardItem({
   pattern, story, patternExamples, storyIsSpeaking,
-  globalPatternNum, showKorean, isDark,
+  globalPatternNum, showKorean, showEnglish, isDark,
   hideRecallMode, isRevealed, onReveal,
 }: CardProps) {
   const { prefs } = usePreferences()
@@ -304,12 +306,14 @@ function PatternCardItem({
               <div key={i} style={{ display: 'flex', gap: 6, marginTop: i === 0 ? 0 : 5 }}>
                 <span style={{ fontSize: 12, color: heroIconColor, flexShrink: 0, lineHeight: '1.55', marginTop: 1 }}>•</span>
                 <div>
-                  <TappableWordText
-                    text={ex.en}
-                    saveCandidates={safeCandidates}
-                    source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                    style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55 }}
-                  />
+                  <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
+                    <TappableWordText
+                      text={ex.en}
+                      saveCandidates={safeCandidates}
+                      source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
+                      style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55 }}
+                    />
+                  </div>
                   {showKorean && exKo && (
                     <p style={{ fontSize: 11.5, color: exKoColor, margin: '1px 0 0', lineHeight: 1.45 }}>{exKo}</p>
                   )}
@@ -338,6 +342,7 @@ export function PatternsSectionInline({
   onRecallRoundComplete,
   onPatternIndexChange,
   showKorean: showKoreanProp,
+  showEnglish: showEnglishProp,
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -346,6 +351,8 @@ export function PatternsSectionInline({
 
   // showKorean: use prop if provided, else fall back to prefs
   const showKorean = showKoreanProp !== undefined ? showKoreanProp : prefs.language !== 'en'
+  // showEnglish: use prop if provided, else always true
+  const showEnglish = showEnglishProp !== undefined ? showEnglishProp : true
 
   const [recallRevealed, setRecallRevealed] = useState<Set<number>>(new Set())
   const allSeenFiredRef = useRef(false)
@@ -409,6 +416,7 @@ export function PatternsSectionInline({
             storyIsSpeaking={storyIsSpeaking}
             globalPatternNum={(story.id - 1) * patterns.length + idx + 1}
             showKorean={showKorean}
+            showEnglish={showEnglish}
             isDark={isDark}
             hideRecallMode={hideRecallMode}
             isRevealed={recallRevealed.has(idx)}

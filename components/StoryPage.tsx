@@ -37,8 +37,8 @@ type StoryPageProps = {
   noScroll?: boolean
   /** Content rendered after the story card, inside the scroll area */
   afterContent?: React.ReactNode
-  /** Called whenever the story-level show-Korean toggle changes */
-  onStudyModeChange?: (showKorean: boolean) => void
+  /** Called whenever the story-level language toggle changes */
+  onStudyModeChange?: (mode: 'en' | 'en-ko' | 'ko') => void
   /** Story-zone swipe handlers (only fires in story text area, not pattern section) */
   onStoryAreaTouchStart?: React.TouchEventHandler<HTMLDivElement>
   onStoryAreaTouchEnd?: React.TouchEventHandler<HTMLDivElement>
@@ -89,7 +89,7 @@ export function StoryPage({
   }
 
   useEffect(() => {
-    onStudyModeChange?.(studyMode === 'en-ko' || studyMode === 'ko')
+    onStudyModeChange?.(studyMode)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studyMode])
   const [playingParaId, setPlayingParaId] = useState<string | null>(null)
@@ -102,7 +102,7 @@ export function StoryPage({
   // Reset per-story state when story changes
   useEffect(() => {
     setStudyMode('en')
-    onStudyModeChange?.(false)
+    onStudyModeChange?.('en')
     setPlayingParaId(null)
     setRevealedParas(new Set())
   // eslint-disable-next-line react-hooks/exhaustive-deps
