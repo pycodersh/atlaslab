@@ -23,19 +23,19 @@ import type { MagazineStory } from '@/types/magazine'
 import { saveLastPosition } from '@/lib/last-position'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
-import { getStoryRound, getRecallCount, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
+import { getStoryRound, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 // ── Session progress (resume mid-session) ────────────────────────────────────
-type SessionProgress = { phase: 'patterns' | 'hide-recall'; recallRound: number }
+type SessionProgress = { phase: 'patterns' }
 
 function getSessionProgress(storyId: number): SessionProgress | null {
   if (typeof window === 'undefined') return null
   try { const v = localStorage.getItem(`patto-session-${storyId}`); return v ? JSON.parse(v) : null } catch { return null }
 }
-function saveSessionProgress(storyId: number, phase: SessionProgress['phase'], recallRound: number) {
-  try { localStorage.setItem(`patto-session-${storyId}`, JSON.stringify({ phase, recallRound })) } catch {}
+function saveSessionProgress(storyId: number) {
+  try { localStorage.setItem(`patto-session-${storyId}`, JSON.stringify({ phase: 'patterns' })) } catch {}
 }
 function clearSessionProgress(storyId: number) {
   try { localStorage.removeItem(`patto-session-${storyId}`) } catch {}
@@ -83,7 +83,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   }
 
   // ── Study flow state (mobile only) ────────────────────────────────────
-  type FlowPhase = 'reading' | 'patterns' | 'hide-recall' | 'complete'
+  type FlowPhase = 'reading' | 'patterns' | 'complete'
   const [flowPhase,     setFlowPhase]     = useState<FlowPhase>('reading')
   const [scrolledToEnd, setScrolledToEnd] = useState(false)
   const [showSwipeGuide,setShowSwipeGuide]= useState(false)
@@ -93,7 +93,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     setPatternShowKo(mode === 'en-ko' || mode === 'ko')
     setPatternShowEn(mode !== 'ko')
   }
-  const [hideRecallRound,setHideRecallRound] = useState(1)
   const [completionData,setCompletionData]= useState<StoryRoundData | null>(null)
   const [patternIdx,    setPatternIdx]    = useState(0)
   const [exitPopupPendingHref,setExitPopupPendingHref]= useState<string | null>(null)
@@ -107,7 +106,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // SRS round for this story
   const [storyRoundData] = useState<StoryRoundData>(() => getStoryRound(story.id))
   const currentRound   = storyRoundData.round          // completed rounds so far
-  const totalRecall    = getRecallCount(currentRound)  // recall rounds this session
   const isFirstRound   = currentRound === 0
 
   // Reset flow when story changes (restore session progress if available)
@@ -115,12 +113,10 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     const saved = getSessionProgress(story.id)
     if (saved) {
       setFlowPhase(saved.phase)
-      setHideRecallRound(saved.recallRound)
       setScrolledToEnd(true)
     } else {
       setFlowPhase('reading')
       setScrolledToEnd(false)
-      setHideRecallRound(1)
     }
     setShowSwipeGuide(false)
     setCompletionData(null)
@@ -157,10 +153,10 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     if (scrolledToEnd && isFirstRound && flowPhase === 'reading') {
       setFlowPhase('patterns')
       setShowSwipeGuide(true)
-      saveSessionProgress(story.id, 'patterns', 1)
+      saveSessionProgress(story.id)
     } else if (scrolledToEnd && !isFirstRound && flowPhase === 'reading') {
       setFlowPhase('patterns')
-      saveSessionProgress(story.id, 'patterns', 1)
+      saveSessionProgress(story.id)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrolledToEnd])
@@ -203,14 +199,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     if (isDesktop || !scrolledToEnd) return
     if (!isSpeaking) {
       if (currentRound < 2) {
-        // Show "Listen." to prompt audio
         trainerSay('Listen.', 2500)
-      } else if (currentRound >= 3) {
-        // Round 4+ skip pattern view → "Again." shortly after
-        if (skipPatternView) {
-          const t = setTimeout(() => trainerSay('Again.', 2500), 800)
-          return () => clearTimeout(t)
-        }
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -219,10 +208,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // ── Trainer: flowPhase changes ────────────────────────────────────────────
   useEffect(() => {
     if (isDesktop) return
-    if (flowPhase === 'hide-recall') {
-      const t = setTimeout(() => trainerSay('Again.', 2500), 400)
-      return () => clearTimeout(t)
-    }
     if (flowPhase === 'complete') {
       trainer?.triggerPulse()
       const t1 = setTimeout(() => trainerSay('Great work today.', 2000), 300)
@@ -281,36 +266,18 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => document.removeEventListener('click', handler, { capture: true })
   }, [])
 
-  // All patterns seen → start hide-recall automatically
+  // All patterns seen → complete
   const handleAllPatternsSeen = useCallback(() => {
     if (flowPhase !== 'patterns') return
-    saveSessionProgress(story.id, 'hide-recall', 1)
-    setTimeout(() => setFlowPhase('hide-recall'), isFirstRound ? 800 : 600)
+    trainerSay('Great work today.', 1500)
+    clearSessionProgress(story.id)
+    const data = completeStoryRound(story.id)
+    setCompletionData(data)
+    setTimeout(() => setFlowPhase('complete'), isFirstRound ? 800 : 600)
+    const patternIds = story.patterns.map(p => p.id)
+    setProgress(completeStoryAndScheduleReview(progress, String(story.id), patternIds, 1, 1))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flowPhase, isFirstRound, story.id])
-
-  // Recall round complete
-  const handleRecallRoundComplete = useCallback(() => {
-    if (hideRecallRound < totalRecall) {
-      const next = hideRecallRound + 1
-      saveSessionProgress(story.id, 'hide-recall', next)
-      const isLast = next === totalRecall
-      trainerSay('Nice.', 1200)
-      setTimeout(() => trainerSay(isLast ? 'Last one.' : 'Again.', 2500), 1400)
-      setTimeout(() => setHideRecallRound(next), 1600)
-    } else {
-      // All recall rounds done → complete
-      trainerSay('Great work today.', 1500)
-      clearSessionProgress(story.id)
-      const data = completeStoryRound(story.id)
-      setCompletionData(data)
-      setFlowPhase('complete')
-      // Also update legacy learning progress
-      const patternIds = story.patterns.map(p => p.id)
-      setProgress(completeStoryAndScheduleReview(progress, String(story.id), patternIds, 1, 1))
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hideRecallRound, totalRecall, story.id, story.patterns, progress, setProgress])
+  }, [flowPhase, isFirstRound, story.id, story.patterns, progress, setProgress])
 
   // Story 변경 시 per-story override 초기화
   const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
@@ -536,11 +503,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   }
 
   // ── Mobile: single scroll — story then patterns inline ──────────────
-  const isInRecall   = flowPhase === 'hide-recall'
   const isComplete   = flowPhase === 'complete'
-
-  // 4회차+는 패턴 카드 뷰 없이 바로 hide-recall 시작
-  const skipPatternView = currentRound >= 3  // round 4+ (0-indexed: completed>=3)
 
   const inlinePatterns = (
     <div ref={patternSectionRef}>
@@ -551,7 +514,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       }}>
         <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
         <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm)', textTransform: 'uppercase' }}>
-          {isInRecall ? `Hide Recall · Round ${hideRecallRound}/${totalRecall}` : 'Patterns in this story'}
+          Patterns in this story
         </span>
         <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
       </div>
@@ -560,21 +523,16 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         <StoryCompletionScreen
           story={story}
           roundData={completionData}
-          recallRounds={totalRecall}
         />
       ) : (
         <PatternsSectionInline
-          key={isInRecall ? `recall-${hideRecallRound}` : 'view'}
+          key="view"
           story={story}
           patternExamples={patternExamples}
           storyIsSpeaking={isSpeaking}
           showNavButtons={false}
-          showSwipeGuide={showSwipeGuide && !isInRecall}
-          onAllPatternsSeen={!skipPatternView ? handleAllPatternsSeen : undefined}
-          hideRecallMode={isInRecall}
-          recallRound={hideRecallRound}
-          totalRecallRounds={totalRecall}
-          onRecallRoundComplete={handleRecallRoundComplete}
+          showSwipeGuide={showSwipeGuide}
+          onAllPatternsSeen={handleAllPatternsSeen}
           onPatternIndexChange={setPatternIdx}
           showKorean={patternShowKo}
           showEnglish={patternShowEn}

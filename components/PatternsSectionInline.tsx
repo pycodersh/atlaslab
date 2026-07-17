@@ -26,10 +26,6 @@ type Props = {
   showNavButtons?: boolean
   showSwipeGuide?: boolean
   onAllPatternsSeen?: () => void
-  hideRecallMode?: boolean
-  recallRound?: number
-  totalRecallRounds?: number
-  onRecallRoundComplete?: () => void
   onPatternIndexChange?: (idx: number) => void
   /** Override prefs-based showKorean (e.g. tied to story's language toggle) */
   showKorean?: boolean
@@ -65,9 +61,6 @@ type CardProps = {
   showKorean: boolean
   showEnglish: boolean
   isDark: boolean
-  hideRecallMode: boolean
-  isRevealed: boolean
-  onReveal: () => void
   isActive?: boolean
   isCompleted?: boolean
   onActivate?: () => void
@@ -77,7 +70,6 @@ type CardProps = {
 function PatternCardItem({
   pattern, story, patternExamples, storyIsSpeaking,
   globalPatternNum, showKorean, showEnglish, isDark,
-  hideRecallMode, isRevealed, onReveal,
   isActive = false, isCompleted = false,
   onActivate, onComplete,
 }: CardProps) {
@@ -199,8 +191,6 @@ function PatternCardItem({
   const noteBorder = isDark ? 'rgba(255,220,80,0.25)' : '#F5E58A'
   const noteText = isDark ? 'rgba(255,230,120,0.90)' : '#7A6200'
 
-  const isHidden = hideRecallMode && !isRevealed
-
   return (
     <div
       style={{
@@ -208,10 +198,8 @@ function PatternCardItem({
         border: cardBorder, boxShadow: cardShadow,
         overflow: 'hidden', opacity: cardOpacity,
         transition: 'opacity 0.25s, box-shadow 0.25s',
-        cursor: isHidden ? 'pointer' : 'default',
         position: 'relative',
       }}
-      onClick={isHidden ? onReveal : undefined}
     >
       {/* Header: pattern num + meaning + icons */}
       <div style={{ padding: '10px 14px 10px', background: heroBg }}>
@@ -225,33 +213,20 @@ function PatternCardItem({
               PATTERN {String(globalPatternNum).padStart(3, '0')}
             </p>
 
-            {isHidden ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
-                <span style={{
-                  flex: 1, height: 24, borderRadius: 6, maxWidth: 180,
-                  background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(142,167,255,0.15)',
-                  display: 'block',
-                }} />
-                <span style={{ fontSize: 10, color: isDark ? 'rgba(255,255,255,0.40)' : '#8EA7FF', fontWeight: 500, flexShrink: 0 }}>
-                  탭하여 확인
-                </span>
-              </div>
-            ) : (
-              <>
-                <p style={{
-                  fontSize: 15.5, fontWeight: 800, color: heroPatternColor,
-                  lineHeight: 1.25, margin: '2px 0 3px', letterSpacing: '-0.3px',
-                  fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-                }}>
-                  {pattern.pattern}
+            <>
+              <p style={{
+                fontSize: 15.5, fontWeight: 800, color: heroPatternColor,
+                lineHeight: 1.25, margin: '2px 0 3px', letterSpacing: '-0.3px',
+                fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+              }}>
+                {pattern.pattern}
+              </p>
+              {patternMeaning && (
+                <p style={{ fontSize: 12, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+                  {patternMeaning}
                 </p>
-                {patternMeaning && (
-                  <p style={{ fontSize: 12, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
-                    {patternMeaning}
-                  </p>
-                )}
-              </>
-            )}
+              )}
+            </>
           </div>
 
           {/* Right: completed check + audio + note + bookmark */}
@@ -320,35 +295,34 @@ function PatternCardItem({
         </div>
       )}
 
-      {/* Examples — bullet list, no box */}
-      {!isHidden && (
-        <div style={{ padding: '8px 14px 12px' }}>
-          {examples.map((ex, i) => {
-            const isExPlaying = isPlaying && i === exIdx
-            const fullEx = patternExamplesFull[pattern.id]?.[i]
-            const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
-            const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
-            return (
-              <div key={i} style={{ display: 'flex', gap: 6, marginTop: i === 0 ? 0 : 5 }}>
-                <span style={{ fontSize: 12, color: heroIconColor, flexShrink: 0, lineHeight: '1.55', marginTop: 1 }}>•</span>
-                <div>
-                  <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
-                    <TappableWordText
-                      text={ex.en}
-                      saveCandidates={safeCandidates}
-                      source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                      style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55 }}
-                    />
-                  </div>
-                  {showKorean && exKo && (
-                    <p style={{ fontSize: 11.5, color: exKoColor, margin: '1px 0 0', lineHeight: 1.45 }}>{exKo}</p>
-                  )}
+      {/* Examples — bullet list */}
+      <div style={{ padding: '8px 14px 12px' }}>
+        {examples.map((ex, i) => {
+          const isExPlaying = isPlaying && i === exIdx
+          const fullEx = patternExamplesFull[pattern.id]?.[i]
+          const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
+          const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
+          return (
+            <div key={i} style={{ display: 'flex', gap: 6, marginTop: i === 0 ? 0 : 5 }}>
+              <span style={{ fontSize: 12, color: heroIconColor, flexShrink: 0, lineHeight: '1.55', marginTop: 1 }}>•</span>
+              <div>
+                <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
+                  <TappableWordText
+                    text={ex.en}
+                    highlightPhrases={[pattern.pattern]}
+                    saveCandidates={safeCandidates}
+                    source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
+                    style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55 }}
+                  />
                 </div>
+                {showKorean && exKo && (
+                  <p style={{ fontSize: 11.5, color: exKoColor, margin: '1px 0 0', lineHeight: 1.45 }}>{exKo}</p>
+                )}
               </div>
-            )
-          })}
-        </div>
-      )}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -362,10 +336,6 @@ export function PatternsSectionInline({
   showSwipeGuide: _showSwipeGuide,
   showNavButtons: _showNavButtons,
   onAllPatternsSeen,
-  hideRecallMode = false,
-  recallRound = 1,
-  totalRecallRounds = 3,
-  onRecallRoundComplete,
   onPatternIndexChange,
   showKorean: showKoreanProp,
   showEnglish: showEnglishProp,
@@ -375,69 +345,29 @@ export function PatternsSectionInline({
   const isDark = theme === 'dark'
   const patterns = story.patterns
 
-  // showKorean: use prop if provided, else fall back to prefs
   const showKorean = showKoreanProp !== undefined ? showKoreanProp : prefs.language !== 'en'
-  // showEnglish: use prop if provided, else always true
   const showEnglish = showEnglishProp !== undefined ? showEnglishProp : true
 
-  const [recallRevealed, setRecallRevealed] = useState<Set<number>>(new Set())
   const [activeIdx, setActiveIdx] = useState<number | null>(null)
   const [completedSet, setCompletedSet] = useState<Set<number>>(new Set())
   const allSeenFiredRef = useRef(false)
 
-  // Reset recall state on new round
+  // All patterns visible immediately → fire callback
   useEffect(() => {
-    if (hideRecallMode) {
-      setRecallRevealed(new Set())
-    }
-  }, [hideRecallMode, recallRound])
-
-  // In normal (non-recall) mode, all patterns are visible immediately → fire callback
-  useEffect(() => {
-    if (!hideRecallMode && !allSeenFiredRef.current) {
+    if (!allSeenFiredRef.current) {
       allSeenFiredRef.current = true
       onAllPatternsSeen?.()
       onPatternIndexChange?.(patterns.length - 1)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hideRecallMode])
-
-  useEffect(() => {
-    if (!hideRecallMode) allSeenFiredRef.current = false
-  }, [hideRecallMode])
-
-  function handleReveal(idx: number) {
-    const next = new Set(recallRevealed).add(idx)
-    setRecallRevealed(next)
-    onPatternIndexChange?.(idx)
-    if (next.size === patterns.length) {
-      setTimeout(() => onRecallRoundComplete?.(), 600)
-    }
-    if (!allSeenFiredRef.current && next.size === patterns.length) {
-      allSeenFiredRef.current = true
-      onAllPatternsSeen?.()
-    }
-  }
+  }, [])
 
   return (
     <div style={{ padding: '0 16px 8px' }}>
-      {/* Hide-recall round indicator */}
-      {hideRecallMode && (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <span style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.45)' : '#8EA7FF', fontWeight: 600 }}>
-            Round {recallRound}/{totalRecallRounds}
-          </span>
-          <span style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.35)' : '#9a9ab0' }}>
-            떠올랐으면 탭해서 확인하세요
-          </span>
-        </div>
-      )}
-
-      {/* Vertical list of all pattern cards */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {patterns.map((pat, idx) => (
           <PatternCardItem
-            key={`${pat.id}-${recallRound}`}
+            key={pat.id}
             pattern={pat}
             story={story}
             patternExamples={patternExamples}
@@ -446,9 +376,6 @@ export function PatternsSectionInline({
             showKorean={showKorean}
             showEnglish={showEnglish}
             isDark={isDark}
-            hideRecallMode={hideRecallMode}
-            isRevealed={recallRevealed.has(idx)}
-            onReveal={() => handleReveal(idx)}
             isActive={activeIdx === idx}
             isCompleted={completedSet.has(idx)}
             onActivate={() => setActiveIdx(idx)}

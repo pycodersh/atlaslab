@@ -233,7 +233,23 @@ export function StoryPage({
     <>
         <TopNav />
 
-        {/* Reading guide chip removed — Trainer Orb handles "Read." message */}
+        {/* Reading guide — Glass Capsule */}
+        {showReadingGuide && (
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 16px 4px' }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              padding: '7px 18px',
+              background: 'rgba(255,255,255,0.6)',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              border: '1px solid rgba(255,255,255,0.8)',
+              borderRadius: 20,
+            }}>
+              <span style={{ fontSize: 14 }}>📖</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: '#3a3a5a' }}>Read the story</span>
+            </div>
+          </div>
+        )}
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>

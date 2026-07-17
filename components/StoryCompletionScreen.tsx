@@ -9,10 +9,9 @@ import { useTheme } from '@/components/ThemeProvider'
 type Props = {
   story: MagazineStory
   roundData: StoryRoundData
-  recallRounds: number
 }
 
-export function StoryCompletionScreen({ story, roundData, recallRounds }: Props) {
+export function StoryCompletionScreen({ story, roundData }: Props) {
   const router   = useRouter()
   const { theme } = useTheme()
   const isDark   = theme === 'dark'
@@ -39,7 +38,7 @@ export function StoryCompletionScreen({ story, roundData, recallRounds }: Props)
       </h2>
 
       <p style={{ margin: '4px 0 0', fontSize: 13, color: textSecondary, textAlign: 'center' }}>
-        {story.title} · 패턴 {story.patterns.length}개 · {recallRounds}라운드
+        {story.title} · 패턴 {story.patterns.length}개
       </p>
 
       {!isMastered && reviewLabel && (
