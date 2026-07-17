@@ -2,10 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Lock } from 'lucide-react'
 import { MagazineEngine } from '@/components/MagazineEngine'
 import { getPlan, FREE_STORY_LIMIT } from '@/lib/subscription/storage'
-import { getLastPosition } from '@/lib/last-position'
 import type { MagazineStory } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
 
@@ -34,10 +32,8 @@ const FS_SECONDARY: React.CSSProperties = {
   cursor: 'pointer', fontFamily: 'inherit',
 }
 
-function UpgradeWall({ storyTitle, storyId }: { storyTitle: string; storyId: number }) {
+function UpgradeWall({ storyTitle }: { storyTitle: string }) {
   const router = useRouter()
-  const lastPos = getLastPosition()
-  const backId = (lastPos && lastPos.storyId !== storyId) ? lastPos.storyId : Math.max(1, storyId - 1)
   return (
     <div style={{
       minHeight: '100dvh', display: 'flex', flexDirection: 'column',
@@ -48,12 +44,11 @@ function UpgradeWall({ storyTitle, storyId }: { storyTitle: string; storyId: num
       {/* Icon */}
       <div style={{
         width: 72, height: 72, borderRadius: 22, marginBottom: 20,
-        background: 'rgba(142,167,255,0.10)',
-        border: '1px solid rgba(142,167,255,0.22)',
+        background: 'rgba(0,0,0,0.05)',
+        border: '1px solid rgba(0,0,0,0.08)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        <Lock size={28} strokeWidth={1.8} color="#5C6BC0" />
-      </div>
+        fontSize: 32,
+      }}>🔒</div>
 
       {/* Eyebrow */}
       <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm)', margin: '0 0 8px' }}>
@@ -72,21 +67,11 @@ function UpgradeWall({ storyTitle, storyId }: { storyTitle: string; storyId: num
 
       {/* Buttons */}
       <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <button
-          type="button"
-          onClick={() => router.push('/patto/settings/subscription')}
-          className="trainer-btn trainer-btn-primary"
-          style={{ height: 52, fontSize: 15, fontWeight: 700, borderRadius: 14, flex: 'none', width: '100%' }}
-        >
+        <button type="button" onClick={() => router.push('/patto/settings/subscription')} style={FS_PRIMARY}>
           Upgrade to Premium
         </button>
-        <button
-          type="button"
-          onClick={() => router.push(`/patto/stories/${backId}`)}
-          className="trainer-btn trainer-btn-secondary"
-          style={{ height: 44, fontSize: 14, borderRadius: 14, flex: 'none', width: '100%' }}
-        >
-          Go back
+        <button type="button" onClick={() => router.back()} style={FS_SECONDARY}>
+          ← Go back
         </button>
       </div>
     </div>
@@ -102,7 +87,7 @@ export function StoryPageClient({ story, allStories, initialView = 'story', patt
     }
   }, [story.id])
 
-  if (locked) return <UpgradeWall storyTitle={story.title} storyId={story.id} />
+  if (locked) return <UpgradeWall storyTitle={story.title} />
 
   return (
     <MagazineEngine

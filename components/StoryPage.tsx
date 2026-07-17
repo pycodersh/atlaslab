@@ -301,7 +301,7 @@ export function StoryPage({
                 type="button"
                 aria-label={isSpeaking ? '정지' : '전체 읽기'}
                 onClick={handleSpeakAll}
-                className={undefined}
+                className={audioPulse && !isSpeaking ? 'patto-audio-pulse' : undefined}
                 style={{
                   width: 32, height: 32, borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -420,6 +420,21 @@ export function StoryPage({
             </div>
 
             <div style={{ height: 22 }} />
+        </div>
+
+        {/* Divider between story body and pattern cards */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '8px 20px 20px',
+        }}>
+          <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
+          <span style={{
+            fontSize: 10, color: '#7A94E8', textTransform: 'uppercase',
+            letterSpacing: '0.12em', whiteSpace: 'nowrap',
+          }}>
+            Patterns in this story
+          </span>
+          <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
         </div>
 
         {afterContent}

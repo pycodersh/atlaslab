@@ -45,31 +45,13 @@ function clearHandlers(a: HTMLAudioElement) {
 export class PregeneratedTTSProvider implements ITTSProvider {
   private browser = new BrowserTTSProvider()
   private stopped = false
-  private paused = false
   private fetchAbort = new AbortController()
   private _playId = 0
 
   isAvailable() { return true }
 
-  pause() {
-    if (sharedAudio && !sharedAudio.paused) {
-      sharedAudio.pause()
-      this.paused = true
-    }
-    if (typeof window !== 'undefined') window.speechSynthesis?.pause()
-  }
-
-  resume() {
-    if (this.paused && sharedAudio) {
-      sharedAudio.play().catch(() => {})
-      this.paused = false
-    }
-    if (typeof window !== 'undefined') window.speechSynthesis?.resume()
-  }
-
   stop() {
     this.stopped = true
-    this.paused = false
     this.fetchAbort.abort()
     this.fetchAbort = new AbortController()
     if (sharedAudio) {
@@ -78,27 +60,6 @@ export class PregeneratedTTSProvider implements ITTSProvider {
       // Do NOT null sharedAudio or clear src — keeps iOS activation alive
     }
     this.browser.stop()
-  }
-
-  fadeOut(durationMs: number) {
-    if (!sharedAudio || sharedAudio.paused || this.stopped) { this.stop(); return }
-    const startTime = performance.now()
-    const self = this
-    const tick = () => {
-      if (!sharedAudio || sharedAudio.paused) {
-        if (sharedAudio) sharedAudio.volume = 1
-        return
-      }
-      const elapsed = performance.now() - startTime
-      if (elapsed >= durationMs) {
-        sharedAudio.volume = 1
-        self.stop()
-        return
-      }
-      sharedAudio.volume = Math.max(0, 1 - elapsed / durationMs)
-      requestAnimationFrame(tick)
-    }
-    requestAnimationFrame(tick)
   }
 
   speak(options: SpeakOptions) {
@@ -141,7 +102,6 @@ export class PregeneratedTTSProvider implements ITTSProvider {
       // Detach old handlers before configuring for new segment
       clearHandlers(audio)
       audio.pause()
-      audio.volume = 1  // reset after any previous fadeOut()
       audio.src = blobUrl
       audio.playbackRate = Math.min(Math.max(rate ?? 1, 0.5), 2.0)
       audio.load()

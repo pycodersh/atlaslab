@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
-import { Bookmark, Info, ChevronLeft, ChevronRight, Volume2 } from 'lucide-react'
+import { Volume2, Square, Bookmark, Lightbulb, ChevronLeft, ChevronRight } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import type { MagazineStory } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -39,18 +39,12 @@ type Props = {
   storyIsSpeaking?: boolean
   showNavButtons?: boolean
   showSwipeGuide?: boolean
-  showSpeakerButton?: boolean
   onAllPatternsSeen?: () => void
   hideRecallMode?: boolean
   recallRound?: number
   totalRecallRounds?: number
   onRecallRoundComplete?: () => void
   onPatternIndexChange?: (idx: number) => void
-  // Trainer audio flow callbacks
-  onRegisterPlay?:        (fn: (() => void) | null) => void
-  onRegisterGoNext?:      (fn: (() => void) | null) => void
-  onRegisterRevealOnly?:  (fn: (() => void) | null) => void
-  onPlayingChange?:       (playing: boolean) => void
 }
 
 function resolveExamples(
@@ -76,17 +70,12 @@ export function PatternsSectionInline({
   storyIsSpeaking = false,
   showNavButtons = false,
   showSwipeGuide = false,
-  showSpeakerButton = false,
   onAllPatternsSeen,
   hideRecallMode = false,
   recallRound = 1,
   totalRecallRounds = 3,
   onRecallRoundComplete,
   onPatternIndexChange,
-  onRegisterPlay,
-  onRegisterGoNext,
-  onRegisterRevealOnly,
-  onPlayingChange,
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -95,18 +84,7 @@ export function PatternsSectionInline({
   const voice = story.narratorVoice ?? prefs.voice
   const patterns = story.patterns
 
-  // MD+ breakpoint detection for PC nav buttons
-  const [isMdUp, setIsMdUp] = useState(false)
-  useEffect(() => {
-    const mq = window.matchMedia('(min-width: 768px)')
-    setIsMdUp(mq.matches)
-    const handler = (e: MediaQueryListEvent) => setIsMdUp(e.matches)
-    mq.addEventListener('change', handler)
-    return () => mq.removeEventListener('change', handler)
-  }, [])
-
   // ── Core state ────────────────────────────────────────────────────────
-  const [studyMode, setStudyMode]         = useState<'en' | 'en-ko' | 'ko'>('en-ko')
   const [patIdx, setPatIdx]               = useState(0)
   const [isPlaying, setIsPlaying]         = useState(false)
   const [exIdx, setExIdx]                 = useState(0)
@@ -284,27 +262,6 @@ export function PatternsSectionInline({
     animate(cardX, 0, SPRING).then(() => { animatingRef.current = false })
   }, [stop, navigateTo, cardX])
 
-  // ── Trainer audio flow callbacks ──────────────────────────────────────
-  useEffect(() => {
-    onRegisterPlay?.(playExamples)
-  }, [playExamples, onRegisterPlay])
-
-  useEffect(() => {
-    onRegisterGoNext?.(goNextPattern)
-  }, [goNextPattern, onRegisterGoNext])
-
-  const revealOnly = useCallback(() => {
-    setRecallRevealed(prev => new Set(prev).add(patIdxRef.current))
-  }, [])
-
-  useEffect(() => {
-    onRegisterRevealOnly?.(revealOnly)
-  }, [revealOnly, onRegisterRevealOnly])
-
-  useEffect(() => {
-    onPlayingChange?.(isPlaying)
-  }, [isPlaying, onPlayingChange])
-
   // ── Drag handling ─────────────────────────────────────────────────────
   function handleDragEnd(_: unknown, info: { offset: { x: number }; velocity: { x: number } }) {
     const { offset, velocity } = info
@@ -318,8 +275,7 @@ export function PatternsSectionInline({
   }
 
   // ── Derived ───────────────────────────────────────────────────────────
-  const showKorean        = prefs.language !== 'en' && (studyMode === 'en-ko' || studyMode === 'ko')
-  const showEnglish       = studyMode === 'en' || studyMode === 'en-ko'
+  const showKorean        = prefs.language !== 'en'
   const patternMeaning    = resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations)
   const globalPatternNum  = (story.id - 1) * patterns.length + patIdx + 1
   const isCurrentRevealed = recallRevealed.has(patIdx)
@@ -329,20 +285,17 @@ export function PatternsSectionInline({
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
-  const dotActive        = isDark ? '#8FABFF'                : '#6B8FFF'
-  const dotInactive      = isDark ? 'rgba(255,255,255,0.20)' : 'rgba(142,167,255,0.22)'
-  const cardBg           = isDark ? 'rgba(30,28,48,0.85)'    : 'rgba(255,255,255,0.75)'
-  const cardBackdrop     = 'blur(20px)'
-  const exBoxBg          = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(107,143,255,0.05)'
-  const exBoxBorder      = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,143,255,0.18)'
+  const dotActive        = isDark ? 'rgba(255,255,255,0.70)' : '#8EA7FF'
+  const dotInactive      = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(142,167,255,0.2)'
+  const cardBg           = isDark ? 'rgba(30,28,48,0.85)'    : '#FFFFFF'
+  const exBoxBg          = isDark ? 'rgba(255,255,255,0.04)' : '#F6F7FB'
+  const exBoxBorder      = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.14)'
   const exEnColor        = isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
-  const exKoColor        = isDark ? 'rgba(255,255,255,0.45)' : '#8a8aaa'
+  const exKoColor        = isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
   const cardBorder       = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
   const cardShadow       = isDark
     ? '0 16px 40px rgba(0,0,0,0.40)'
-    : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)'
-  const noteNoteBg     = isDark ? 'rgba(215,181,109,0.06)' : 'rgba(215,181,109,0.07)'
-  const noteNoteBorder = isDark ? 'rgba(215,181,109,0.18)' : 'rgba(215,181,109,0.28)'
+    : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)'
 
   // Pattern note
   const patternNote = pattern.explanation ?? PATTERN_NOTES[pattern.id] ?? null
@@ -374,8 +327,8 @@ export function PatternsSectionInline({
         {/* Top row */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
           <p style={{
-            margin: 0, fontSize: 8, fontWeight: 700, color: '#8EA7FF',
-            letterSpacing: '0.10em', flexShrink: 0,
+            margin: 0, fontSize: '0.57rem', fontWeight: 700, color: heroIconColor,
+            letterSpacing: '0.06em', flexShrink: 0,
             fontFamily: '"SF Mono", "Fira Mono", monospace',
           }}>
             PATTERN {String(globalPatternNum).padStart(3, '0')}
@@ -420,7 +373,7 @@ export function PatternsSectionInline({
               >
                 <motion.span
                   animate={{
-                    width: i === patIdx ? 16 : 4,
+                    width: i === patIdx ? 16 : 5,
                     background: i === patIdx ? dotActive : dotInactive,
                   }}
                   transition={{ type: 'spring', stiffness: 400, damping: 28 }}
@@ -458,70 +411,37 @@ export function PatternsSectionInline({
           </div>
         ) : (
           <p style={{
-            fontSize: 28, fontWeight: 700, color: heroPatternColor,
-            lineHeight: 1.25, margin: '0 0 6px', letterSpacing: '-0.3px',
-            fontFamily: 'var(--font-playfair, "Playfair Display", Georgia, serif)',
+            fontSize: 32, fontWeight: 800, color: heroPatternColor,
+            lineHeight: 1.2, margin: '0 0 6px', letterSpacing: '-0.5px',
+            fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
           }}>
             {pattern.pattern}
           </p>
         )}
 
-        <div style={{
-          width: 36, height: 3, borderRadius: 2, margin: '6px 0 10px',
-          background: 'linear-gradient(90deg, #6B8FFF, #B8A8F0)',
-          opacity: isDark ? 0.7 : 1,
-        }} />
+        <div style={{ width: 28, height: 2, borderRadius: 2, margin: '6px 0 10px', background: isDark ? 'rgba(255,255,255,0.25)' : '#8EA7FF' }} />
 
-        {patternMeaning && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
-            <p style={{ fontSize: 13, fontWeight: 400, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          {patternMeaning ? (
+            <p style={{ fontSize: 13, fontWeight: 600, color: heroMeaningColor, margin: 0, flex: 1, paddingRight: 8, lineHeight: 1.4 }}>
               {patternMeaning}
             </p>
-            {showSpeakerButton && (
-              <button
-                type="button"
-                aria-label="예문 듣기"
-                onClick={playExamples}
-                style={{
-                  background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-                  color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : (isDark ? 'rgba(255,255,255,0.35)' : '#b0b8cc'),
-                  display: 'flex', alignItems: 'center', flexShrink: 0,
-                  transition: 'color 0.15s',
-                }}
-              >
-                <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.8} />
-              </button>
-            )}
-          </div>
-        )}
+          ) : <div />}
+          <button
+            type="button"
+            onClick={playExamples}
+            aria-label={isPlaying ? '정지' : '예문 듣기'}
+            style={{ background: 'none', border: 'none', padding: 6, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
+          >
+            {isPlaying
+              ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
+              : <Volume2 style={{ width: 17, height: 17 }} strokeWidth={1.6} />}
+          </button>
+        </div>
       </div>
 
       {/* Examples */}
       <div style={{ padding: '14px 16px 16px' }}>
-        {/* Language toggle — right-aligned, above examples */}
-        {prefs.language !== 'en' && (
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-            <div style={{ display: 'inline-flex', borderRadius: 10, background: 'var(--pc)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pd)', padding: 2 }}>
-              {(['en', 'en-ko', 'ko'] as const).map(mode => (
-                <button
-                  key={mode}
-                  type="button"
-                  onClick={() => setStudyMode(mode)}
-                  style={{
-                    padding: '4px 9px', borderRadius: 8, border: 'none', cursor: 'pointer',
-                    fontSize: 9, fontWeight: 600, letterSpacing: '0.06em',
-                    background: studyMode === mode ? 'var(--pw)' : 'transparent',
-                    color: studyMode === mode ? 'var(--pt)' : 'var(--pm)',
-                    boxShadow: studyMode === mode ? '0 1px 4px rgba(0,0,0,0.12)' : 'none',
-                    transition: 'background 0.18s, color 0.15s',
-                  }}
-                >
-                  {mode === 'en' ? 'EN' : mode === 'en-ko' ? 'EN·KO' : 'KO'}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
         <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px' }}>
           {examples.map((ex, i) => {
             const isExPlaying = isPlaying && i === exIdx
@@ -530,16 +450,14 @@ export function PatternsSectionInline({
             const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
             return (
               <div key={i} style={{ borderTop: i > 0 ? `1px solid ${exBoxBorder}` : 'none', paddingTop: i > 0 ? 12 : 0, paddingBottom: i < examples.length - 1 ? 12 : 0 }}>
-                <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
-                  <TappableWordText
-                    text={ex.en}
-                    saveCandidates={safeCandidates}
-                    source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                    style={{ display: 'block', fontSize: '0.9rem', fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.5, marginBottom: 2 }}
-                  />
-                </div>
+                <TappableWordText
+                  text={ex.en}
+                  saveCandidates={safeCandidates}
+                  source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
+                  style={{ display: 'block', fontSize: 14, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55, marginBottom: 2 }}
+                />
                 {showKorean && exKo && (
-                  <p style={{ fontSize: '0.8rem', color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
+                  <p style={{ fontSize: 12, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
                 )}
               </div>
             )
@@ -547,9 +465,9 @@ export function PatternsSectionInline({
         </div>
 
         {patternNote && (
-          <div style={{ marginTop: 10, borderRadius: 8, background: noteNoteBg, border: `0.5px solid ${noteNoteBorder}`, padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-            <Info style={{ width: 13, height: 13, color: '#D7B56D', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
-            <p style={{ margin: 0, fontSize: 13, color: isDark ? 'rgba(255,255,255,0.55)' : '#6a5a40', lineHeight: 1.6 }}>{patternNote}</p>
+          <div style={{ marginTop: 10, borderRadius: 8, background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(142,167,255,0.08)', padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+            <Lightbulb style={{ width: 13, height: 13, color: isDark ? '#8FABFF' : '#8EA7FF', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
+            <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.50)' : '#5a5a7a', lineHeight: 1.5 }}>{patternNote}</p>
           </div>
         )}
       </div>
@@ -562,9 +480,19 @@ export function PatternsSectionInline({
 
   const accentBg = PATTERN_ACCENT[patIdx % PATTERN_ACCENT.length]
 
-  return (
-    <div style={{ padding: isMdUp ? '0 70px' : '0 16px' }}>
+  // Arrow button colors for PC
+  const arrowBg    = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,143,255,0.10)'
+  const arrowColor = isDark ? 'rgba(255,255,255,0.70)' : '#6B8FFF'
 
+  return (
+    <div style={{ padding: '0 16px' }}>
+
+      {/* Swipe guide */}
+      {showSwipeGuide && !hideRecallMode && (
+        <div style={{ textAlign: 'center', marginBottom: 8, fontSize: 11.5, color: isDark ? 'rgba(255,255,255,0.45)' : '#8EA7FF', letterSpacing: '0.02em' }}>
+          👆 스와이프해서 패턴을 확인하세요
+        </div>
+      )}
 
       {/* Hide-recall round indicator */}
       {hideRecallMode && (
@@ -577,7 +505,6 @@ export function PatternsSectionInline({
           </span>
         </div>
       )}
-
 
       {/* ── Card stack container ─────────────────────────────────────── */}
       <motion.div
@@ -628,8 +555,6 @@ export function PatternsSectionInline({
             position: 'relative', zIndex: 10,
             overflow: 'hidden', borderRadius: 18,
             background: cardBg,
-            backdropFilter: cardBackdrop,
-            WebkitBackdropFilter: cardBackdrop,
             border: cardBorder,
             boxShadow: cardShadow,
             touchAction: 'pan-y',
@@ -644,48 +569,38 @@ export function PatternsSectionInline({
           {cardContent}
         </motion.div>
 
-        {/* PC nav buttons — shown on md+ screens */}
-        {isMdUp && (
+        {/* PC arrow buttons — left=next (like left-swipe), right=prev */}
+        {showNavButtons && (
           <>
-            <button
-              type="button"
-              aria-label="이전 패턴"
-              onClick={goPrevPattern}
-              style={{
-                position: 'absolute', left: -54, top: '50%', transform: 'translateY(-50%)',
-                zIndex: 20, width: 36, height: 36, borderRadius: '50%',
-                background: 'rgba(255,255,255,0.8)',
-                backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-                border: '0.5px solid rgba(107,143,255,0.2)',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#6B8FFF',
-                opacity: patHistory.length > 0 ? 1 : 0.3,
-                transition: 'opacity 0.2s, background 0.15s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(107,143,255,0.1)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.8)')}
-            >
-              <ChevronLeft style={{ width: 18, height: 18 }} strokeWidth={2} />
-            </button>
             <button
               type="button"
               aria-label="다음 패턴"
               onClick={goNextPattern}
               style={{
-                position: 'absolute', right: -54, top: '50%', transform: 'translateY(-50%)',
-                zIndex: 20, width: 36, height: 36, borderRadius: '50%',
-                background: 'rgba(255,255,255,0.8)',
-                backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)',
-                border: '0.5px solid rgba(107,143,255,0.2)',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#6B8FFF',
-                opacity: patIdx < patterns.length - 1 ? 1 : 0.3,
-                transition: 'opacity 0.2s, background 0.15s',
+                position: 'absolute', left: -14, top: '50%', transform: 'translateY(-50%)',
+                zIndex: 20, width: 30, height: 30, borderRadius: '50%',
+                background: arrowBg, border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: arrowColor, opacity: patIdx < patterns.length - 1 ? 1 : 0.25,
+                transition: 'opacity 0.2s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.background = 'rgba(107,143,255,0.1)')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'rgba(255,255,255,0.8)')}
             >
-              <ChevronRight style={{ width: 18, height: 18 }} strokeWidth={2} />
+              <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={2.5} />
+            </button>
+            <button
+              type="button"
+              aria-label="이전 패턴"
+              onClick={goPrevPattern}
+              style={{
+                position: 'absolute', right: -14, top: '50%', transform: 'translateY(-50%)',
+                zIndex: 20, width: 30, height: 30, borderRadius: '50%',
+                background: arrowBg, border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: arrowColor, opacity: patHistory.length > 0 ? 1 : 0.25,
+                transition: 'opacity 0.2s',
+              }}
+            >
+              <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />
             </button>
           </>
         )}

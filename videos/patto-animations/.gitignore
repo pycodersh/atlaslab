@@ -7,3 +7,6 @@ out/
 *.webm
 !public/videos/*.mp4
 !public/videos/*.webm
+
+.vercel
+.env*

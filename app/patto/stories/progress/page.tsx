@@ -25,11 +25,8 @@ function StoryActivityDetail({ storyId, storyTitle }: { storyId: number; storyTi
 
   return (
     <div style={{
-      margin: '0 0 8px', padding: '12px 14px',
-      background: 'rgba(107,143,255,0.05)',
-      borderRadius: '0 0 12px 12px',
-      border: '0.5px solid rgba(107,143,255,0.22)',
-      borderTop: 'none',
+      margin: '4px 0 10px', padding: '12px 14px',
+      background: 'var(--pc)', borderRadius: 10,
     }}>
       <div style={{ display: 'flex', gap: 16, marginBottom: 8, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 11, color: 'var(--pm2)' }}>
@@ -140,13 +137,10 @@ export default function AllStoriesProgressPage() {
                 onClick={() => setFilter(key)}
                 style={{
                   padding: '6px 14px', borderRadius: 20, fontSize: 11, fontWeight: 700,
-                  cursor: 'pointer',
-                  background: filter === key ? 'rgba(107,143,255,0.12)' : 'rgba(255,255,255,0.5)',
-                  backdropFilter: 'blur(12px)',
-                  WebkitBackdropFilter: 'blur(12px)',
-                  border: filter === key ? '0.5px solid rgba(107,143,255,0.4)' : '0.5px solid rgba(142,167,255,0.18)',
-                  color: filter === key ? '#6B8FFF' : 'var(--pm2)',
-                  transition: 'all 0.18s ease',
+                  cursor: 'pointer', border: 'none',
+                  background: filter === key ? 'var(--pa)' : 'var(--pc)',
+                  color: filter === key ? '#fff' : 'var(--pm2)',
+                  transition: 'background 0.2s, color 0.2s',
                 }}
               >
                 {label}
@@ -173,20 +167,13 @@ export default function AllStoriesProgressPage() {
                     onClick={() => setExpanded(isExpanded ? null : item.storyId)}
                     style={{
                       display: 'flex', alignItems: 'center', gap: 10, width: '100%',
-                      padding: '11px 14px',
-                      marginBottom: isExpanded ? 0 : 4,
-                      borderRadius: isExpanded ? '12px 12px 0 0' : 12,
-                      background: isExpanded ? 'rgba(107,143,255,0.07)' : 'rgba(255,255,255,0.55)',
-                      backdropFilter: 'blur(12px)',
-                      WebkitBackdropFilter: 'blur(12px)',
-                      border: isExpanded ? '0.5px solid rgba(107,143,255,0.22)' : '0.5px solid rgba(142,167,255,0.15)',
-                      cursor: 'pointer', textAlign: 'left',
-                      transition: 'background 0.18s, border-color 0.18s',
+                      padding: '13px 0', borderBottom: '1px solid var(--pd)',
+                      background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
                     }}
                   >
                     <span style={{
                       fontSize: 9, fontWeight: 700, letterSpacing: '0.12em',
-                      color: isMastered ? '#27AE60' : '#8EA7FF', width: 22, flexShrink: 0,
+                      color: 'var(--pm2)', width: 22, flexShrink: 0,
                     }}>
                       {String(item.storyId).padStart(2, '0')}
                     </span>
@@ -198,13 +185,13 @@ export default function AllStoriesProgressPage() {
                       {item.storyTitle}
                     </span>
 
-                    <div style={{ display: 'flex', gap: 3, flexShrink: 0, alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
                       {[1, 2, 3, 4, 5].map(n => (
                         <span key={n} style={{
-                          width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
+                          width: 7, height: 7, borderRadius: '50%', flexShrink: 0,
                           background: n <= item.dots
-                            ? (STATUS_COLOR[item.status] ?? '#6B8FFF')
-                            : 'rgba(142,167,255,0.18)',
+                            ? (STATUS_COLOR[item.status] ?? 'var(--pa)')
+                            : 'var(--pd)',
                           transition: 'background 0.3s',
                         }} />
                       ))}
@@ -212,17 +199,15 @@ export default function AllStoriesProgressPage() {
 
                     {isMastered ? (
                       <span style={{
-                        fontSize: 8, fontWeight: 700, color: '#27AE60',
-                        letterSpacing: '0.08em', flexShrink: 0,
-                        background: 'rgba(39,174,96,0.1)', borderRadius: 6,
-                        padding: '2px 6px',
+                        fontSize: 9, fontWeight: 700, color: '#27AE60',
+                        letterSpacing: '0.1em', width: 54, textAlign: 'right', flexShrink: 0,
                       }}>
                         MASTERED
                       </span>
                     ) : (
                       <span style={{
-                        fontSize: 9, fontWeight: 700, color: '#8EA7FF',
-                        fontVariantNumeric: 'tabular-nums', flexShrink: 0,
+                        fontSize: 10, fontWeight: 700, color: 'var(--pm2)',
+                        fontVariantNumeric: 'tabular-nums', width: 22, textAlign: 'right', flexShrink: 0,
                       }}>
                         {item.dots}/5
                       </span>

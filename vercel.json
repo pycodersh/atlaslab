@@ -3,10 +3,6 @@
     {
       "path": "/api/notifications/daily",
       "schedule": "0 9 * * *"
-    },
-    {
-      "path": "/api/cron/generate-blog",
-      "schedule": "0 2 * * *"
     }
   ],
   "functions": {

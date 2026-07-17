@@ -1,7 +1,6 @@
 ﻿'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight, Sun, Moon, Mic, Globe, Check, Waves, Bell, Clock } from 'lucide-react'
 import OneSignal from 'react-onesignal'
@@ -271,13 +270,14 @@ export default function PreferencesPage() {
   const isDesktop = useIsDesktop()
   const { theme, setTheme } = useTheme()
   const { prefs, update }   = usePreferences()
-  const trainer = useTrainerSafe()
   const [sheet, setSheet]   = useState<Sheet>(null)
   const t = useT()
 
   const [notifEnabled, setNotifEnabled] = useState(false)
   const [reminderTime, setReminderTime] = useState('09:00')
   const [osReady, setOsReady] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
+
   useEffect(() => {
     const saved = getNotifPrefs()
     setNotifEnabled(saved.enabled ?? false)
@@ -300,11 +300,16 @@ export default function PreferencesPage() {
     return () => clearInterval(id)
   }, [])
 
+  function showToast(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(null), 3500)
+  }
+
   async function handleNotifToggle(on: boolean) {
     if (!osReady) return
     if (on) {
       if (OneSignal.Notifications.permissionNative === 'denied') {
-        trainer?.showMessage('알림이 차단되어 있습니다. 브라우저 설정에서 허용해 주세요.', 4000)
+        showToast('알림이 차단되어 있습니다. 브라우저 설정에서 patto 알림을 허용해 주세요.')
         return
       }
       try {
@@ -490,6 +495,21 @@ export default function PreferencesPage() {
           v1.0.0
         </p>
       </div>
+
+      {/* Toast */}
+      {toast && (
+        <div style={{
+          position: 'fixed', bottom: 100, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 200, maxWidth: 320,
+          background: 'rgba(30,30,40,0.92)',
+          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+          borderRadius: 14, padding: '12px 18px',
+          color: '#fff', fontSize: 13, lineHeight: 1.5, textAlign: 'center',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.28)',
+        }}>
+          {toast}
+        </div>
+      )}
 
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
 

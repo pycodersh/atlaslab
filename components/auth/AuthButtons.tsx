@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { signInWithGoogle, signInWithKakao, signInWithEmail } from '@/lib/auth-actions'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 const GoogleIcon = () => (
   <svg viewBox="0 0 24 24" width={20} height={20} style={{ flexShrink: 0 }}>
@@ -98,8 +97,13 @@ interface AuthButtonsProps {
 export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
   const t = useT()
   const { prefs } = usePreferences()
-  const trainer = useTrainerSafe()
 
+  // Provider visibility policy:
+  // - Google + Email: always shown (global defaults).
+  // - Kakao: shown only when UI locale is 'ko' or 'ko-KR'.
+  //   Kakao is a Korean regional convenience provider, not a global option.
+  //   PATTO is a global English learning app — Kakao is not exposed to non-Korean users.
+  // - Apple, Naver: excluded from this version entirely.
   const isKorean = prefs.language === 'ko'
 
   const [emailMode, setEmailMode] = useState(false)
@@ -107,15 +111,21 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState('')
+
+  function showToast(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(''), 2800)
+  }
 
   async function handleGoogle() {
     const err = await signInWithGoogle()
-    if (err) trainer?.showMessage(isKorean ? '로그인에 실패했습니다.' : 'Sign in failed.', 2500)
+    if (err) showToast(isKorean ? '로그인에 실패했습니다.' : 'Sign in failed.')
   }
 
   async function handleKakao() {
     const err = await signInWithKakao()
-    if (err) trainer?.showMessage(isKorean ? '로그인에 실패했습니다.' : 'Sign in failed.', 2500)
+    if (err) showToast(isKorean ? '로그인에 실패했습니다.' : 'Sign in failed.')
   }
 
   async function handleEmailSubmit(e: React.FormEvent) {
@@ -125,9 +135,9 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
     const err = await signInWithEmail(email, password, isSignUp)
     setLoading(false)
     if (err) {
-      trainer?.showMessage(isKorean ? '로그인에 실패했습니다. 다시 시도해주세요.' : 'Sign in failed. Please try again.', 3000)
+      showToast(isKorean ? '로그인에 실패했습니다. 다시 시도해주세요.' : 'Sign in failed. Please try again.')
     } else if (isSignUp) {
-      trainer?.showMessage(isKorean ? '가입 완료! 로그인해주세요.' : 'Signed up! Please sign in.', 3000)
+      showToast(isKorean ? '가입 완료! 로그인해주세요.' : 'Signed up! Please sign in.')
       setIsSignUp(false)
     } else {
       if (onSuccess) {
@@ -182,6 +192,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
             </button>
           </form>
         </div>
+        <Toast msg={toast} />
       </>
     )
   }
@@ -195,7 +206,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
           </p>
           <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.6, wordBreak: 'keep-all' }}>
             {isKorean
-              ? '로그인하면 글쓰기, 단어장, 학습 기록을\n모든 기기에서 이어갈 수 있어요.'
+              ? '로그인하면 에세이, 단어장, 학습 기록을\n모든 기기에서 이어갈 수 있어요.'
               : 'Sign in to save your progress across all devices.'}
           </p>
         </div>
@@ -234,6 +245,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
         {t('auth_agree_post')}
       </p>
 
+      <Toast msg={toast} />
     </>
   )
 }

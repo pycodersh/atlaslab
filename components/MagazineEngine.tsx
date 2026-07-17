@@ -11,12 +11,11 @@ import { StoryPage } from '@/components/StoryPage'
 import { StoryCompletionScreen } from '@/components/StoryCompletionScreen'
 import { WheelPicker } from '@/components/WheelPicker'
 import { GlobalSavePopup } from '@/components/GlobalSavePopup'
-import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
+import { TodayMissionPopup } from '@/components/TodayMissionPopup'
 
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
 import { usePreferences } from '@/contexts/PreferencesContext'
-import { storyParaAudioUrl } from '@/lib/tts'
 import { useLearningProgress } from '@/hooks/useLearningProgress'
 import type { AmbienceId } from '@/types/magazine'
 import { ambienceGain, type VoiceKey } from '@/lib/settings/preferences'
@@ -24,10 +23,7 @@ import type { MagazineStory } from '@/types/magazine'
 import { saveLastPosition } from '@/lib/last-position'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
-import { getStoryRound, getRecallCount, completeStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
-import { syncStoryRoundToSupabase } from '@/lib/srs/supabase-sync'
-import { useAuth } from '@/contexts/AuthContext'
-import { classifyVisitor, getLocalVisitCount } from '@/lib/scenario/scenario-engine'
+import { getStoryRound, getRecallCount, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 
@@ -61,12 +57,30 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const { prefs } = usePreferences()
   const { play: playAmbience, stop: stopAmbience } = useAmbience()
   const { progress, setProgress } = useLearningProgress()
-  const { user } = useAuth()
   const trainer = useTrainerSafe()
 
   // 위치 저장 — Continue Learning이 여기로 돌아올 수 있도록
   useEffect(() => { saveLastPosition(story.id, 'story') }, [story.id])
   const [showPicker, setShowPicker] = useState(false)
+
+  // ── Story recommendation dialog ────────────────────────────────────────
+  const [recoStoryId, setRecoStoryId] = useState<number | null>(null)
+
+  useEffect(() => {
+    const sessionKey = `patto-reco-dismissed-${story.id}`
+    if (sessionStorage.getItem(sessionKey)) return
+    const ids = allStories.map(s => s.id)
+    const recId = getTodayRecommendedStoryId(ids)
+    if (recId !== null && recId !== story.id) {
+      setRecoStoryId(recId)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [story.id])
+
+  function dismissReco() {
+    sessionStorage.setItem(`patto-reco-dismissed-${story.id}`, '1')
+    setRecoStoryId(null)
+  }
 
   // ── Study flow state (mobile only) ────────────────────────────────────
   type FlowPhase = 'reading' | 'patterns' | 'hide-recall' | 'complete'
@@ -83,18 +97,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const prevIsSpeakingRef = useRef(false)
   const trainerGreetedRef = useRef(false)
-  const sessionStartRef = useRef(Date.now())
-  const [showBridge, setShowBridge] = useState(false)
-
-  // ── Trainer audio flow refs ───────────────────────────────────────────────
-  const patternPlayRef        = useRef<(() => void) | null>(null)
-  const patternGoNextRef      = useRef<(() => void) | null>(null)
-  const patternRevealOnlyRef  = useRef<(() => void) | null>(null)
-  const flowPhaseRef          = useRef<FlowPhase>('reading')
-  const patternIdxRef         = useRef(0)
-  const yourTurnTimerRef      = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const inactivityTimerRef    = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const prevPatternPlayingRef = useRef(false)
 
   // SRS round for this story
   const [storyRoundData] = useState<StoryRoundData>(() => getStoryRound(story.id))
@@ -117,150 +119,15 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     setShowSwipeGuide(false)
     setCompletionData(null)
     setPatternIdx(0)
-    setShowBridge(false)
-    sessionStartRef.current = Date.now()
-    patternIdxRef.current = 0
     setExitPopupPendingHref(null)
     trainerGreetedRef.current = false
-    clearFlowTimers()
     trainer?.setPage?.('story')
     trainer?.clearMessage?.()
-
-    if (!isDesktop) {
-      const t = setTimeout(() => {
-        if (saved?.phase === 'hide-recall') {
-          showRecallYourTurnCard()
-        }
-        // No auto-card on fresh story entry — user taps Orb to start
-      }, 600)
-      return () => clearTimeout(t)
-    }
   }, [story.id]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Narrator voice for this story
-  const narrator = story.narratorVoice ?? prefs.voice
 
   // Trainer helper — sends message only on mobile (trainer is UI-only, desktop skips)
   function trainerSay(msg: string, ms = 2500) {
     if (!isDesktop) trainer?.showMessage(msg, ms)
-  }
-
-  // ── Trainer audio flow helpers ────────────────────────────────────────────
-
-  function clearFlowTimers() {
-    if (yourTurnTimerRef.current) { clearTimeout(yourTurnTimerRef.current); yourTurnTimerRef.current = null }
-    if (inactivityTimerRef.current) { clearTimeout(inactivityTimerRef.current); inactivityTimerRef.current = null }
-  }
-
-  function showStoryListenCard() {
-    if (isDesktop) return
-    trainer?.showFlow('Listen.', [{
-      label: 'Play', btnVariant: 'play',
-      onClick: () => {
-        if (isSpeaking) return
-        trainer?.setCardPlaying(true)
-        const texts = story.paragraphs.map(p => p.english)
-        const urls  = story.paragraphs.map(p => storyParaAudioUrl(narrator, story.id, p.id, p.english))
-        handleSpeakAll(texts, urls, { voiceKey: narrator, voiceKeys: [narrator] })
-      },
-    }])
-  }
-
-  function showPatternListenCard() {
-    if (isDesktop) return
-    trainer?.showFlow('Listen.', [{
-      label: 'Play', btnVariant: 'play',
-      onClick: () => {
-        const play = patternPlayRef.current
-        if (!play) return
-        trainer?.setCardPlaying(true)
-        play()
-      },
-    }])
-  }
-
-  function afterStoryAudioEnds() {
-    trainer?.setCardPlaying(false)
-    trainer?.clearMessage()
-    clearFlowTimers()
-    const doStoryDone = () => {
-      clearFlowTimers()
-      trainer?.say('Nice.', 1200)
-      setShowBridge(true)
-      setTimeout(() => {
-        patternSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        setTimeout(() => setShowBridge(false), 1800)
-      }, 800)
-    }
-    setTimeout(() => {
-      trainer?.showFlow('Your turn.', [{ label: 'Done', btnVariant: 'done', onClick: doStoryDone }])
-      yourTurnTimerRef.current = setTimeout(doStoryDone, 3200)
-    }, 200)
-  }
-
-  function afterPatternAudioEnds() {
-    const phase  = flowPhaseRef.current
-    const isLast = patternIdxRef.current === story.patterns.length - 1
-    trainer?.setCardPlaying(false)
-    trainer?.clearMessage()
-    clearFlowTimers()
-
-    if (phase === 'patterns') {
-      const doPatternDone = () => {
-        clearFlowTimers()
-        trainer?.say('Nice.', 1200)
-        setTimeout(() => {
-          if (isLast) {
-            trainer?.say('Great.', 1500)
-            setTimeout(() => {
-              if (flowPhaseRef.current === 'patterns') {
-                saveSessionProgress(story.id, 'hide-recall', 1)
-                setFlowPhase('hide-recall')
-              }
-            }, 1500)
-          } else {
-            patternGoNextRef.current?.()
-          }
-        }, 1400)
-      }
-      setTimeout(() => {
-        trainer?.showFlow('Your turn.', [{ label: 'Done', btnVariant: 'done', onClick: doPatternDone }])
-        yourTurnTimerRef.current = setTimeout(doPatternDone, 3200)
-      }, 200)
-    } else if (phase === 'hide-recall') {
-      // After replay in inactivity card — show Your Turn card again
-      setTimeout(() => showRecallYourTurnCard(), 400)
-    }
-  }
-
-  function showRecallYourTurnCard() {
-    if (isDesktop) return
-    clearFlowTimers()
-    const doRecallDone = () => {
-      clearFlowTimers()
-      trainer?.clearMessage()
-      patternRevealOnlyRef.current?.()
-      trainer?.say('Nice.', 1200)
-      const isLastCard = patternIdxRef.current === story.patterns.length - 1
-      if (isLastCard) {
-        setTimeout(() => handleRecallRoundComplete(), 1400)
-      } else {
-        setTimeout(() => patternGoNextRef.current?.(), 1400)
-      }
-    }
-    trainer?.showFlow('Your turn.', [{
-      label: 'Done', btnVariant: 'done',
-      onClick: doRecallDone,
-    }])
-    inactivityTimerRef.current = setTimeout(() => {
-      trainer?.showFlow('Need another\nlisten?', [
-        { label: 'Play', btnVariant: 'play', onClick: () => {
-          trainer?.setCardPlaying(true)
-          patternPlayRef.current?.()
-        }},
-        { label: 'Done', btnVariant: 'done', onClick: doRecallDone },
-      ])
-    }, 10000)
   }
 
   // Scroll-to-end detection (mobile container)
@@ -292,111 +159,72 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrolledToEnd])
 
-  // ── Trainer: story audio ended → "Your turn." → "Nice." → scroll ────────
+  // ── Trainer: "Ready?" on mount, then "Read." hint for 1회차 ──────────────
+  useEffect(() => {
+    if (isDesktop || trainerGreetedRef.current) return
+    trainerGreetedRef.current = true
+    const t1 = setTimeout(() => trainerSay('Ready?', 2000), 800)
+    // For 1회차: show "Read." after Ready? fades as a scroll hint
+    const t2 = isFirstRound
+      ? setTimeout(() => trainerSay('Read.', 3000), 3500)
+      : null
+    return () => { clearTimeout(t1); if (t2) clearTimeout(t2) }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [story.id])
+
+  // ── Trainer: silence while audio plays; "Your turn." / "Listen." on end ──
   useEffect(() => {
     if (isDesktop) return
-    if (prevIsSpeakingRef.current && !isSpeaking && flowPhaseRef.current === 'reading') {
-      afterStoryAudioEnds()
+    if (isSpeaking) {
+      trainer?.setSilent(true)
+    } else {
+      trainer?.setSilent(false)
+      if (prevIsSpeakingRef.current) {
+        // Audio just finished
+        if (currentRound < 3 && flowPhase === 'reading') {
+          // Round 1-2: audio finished before scroll → show "Your turn."
+          trainerSay('Your turn.', 2000)
+        } else if (currentRound < 3 && flowPhase === 'patterns') {
+          trainerSay('Your turn.', 2000)
+        }
+      }
     }
-    prevIsSpeakingRef.current = isSpeaking
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSpeaking])
 
-  // ── Trainer: flowPhase transitions ───────────────────────────────────────
+  // ── Trainer: scroll done — show "Listen." for round 1-2 ──────────────────
+  useEffect(() => {
+    if (isDesktop || !scrolledToEnd) return
+    if (!isSpeaking) {
+      if (currentRound < 2) {
+        // Show "Listen." to prompt audio
+        trainerSay('Listen.', 2500)
+      } else if (currentRound >= 3) {
+        // Round 4+ skip pattern view → "Again." shortly after
+        if (skipPatternView) {
+          const t = setTimeout(() => trainerSay('Again.', 2500), 800)
+          return () => clearTimeout(t)
+        }
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scrolledToEnd])
+
+  // ── Trainer: flowPhase changes ────────────────────────────────────────────
   useEffect(() => {
     if (isDesktop) return
-    if (flowPhase === 'patterns' && !skipPatternView) {
-      // Listen card removed from Browse mode — speaker button on card handles audio
+    if (flowPhase === 'hide-recall') {
+      const t = setTimeout(() => trainerSay('Again.', 2500), 400)
+      return () => clearTimeout(t)
     }
     if (flowPhase === 'complete') {
       trainer?.triggerPulse()
-      const isVeteran = classifyVisitor(getLocalVisitCount()) === 'veteran'
-      const t = setTimeout(() => {
-        if (isVeteran) {
-          // veteran: 침묵, Finish 버튼만
-          trainer?.announce('', '', 'Finish', () => {
-            handleStop()
-            router.push('/patto/home')
-          })
-        } else {
-          trainer?.announce('Great work today.', '', 'Finish', () => {
-            handleStop()
-            router.push('/patto/home')
-          })
-        }
-      }, 600)
-      return () => clearTimeout(t)
+      const t1 = setTimeout(() => trainerSay('Great work today.', 2000), 300)
+      const t2 = setTimeout(() => trainerSay('Done.', 3000), 2500)
+      return () => { clearTimeout(t1); clearTimeout(t2) }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flowPhase])
-
-  // ── Trainer: hide-recall round (fires on phase change and round increments) ─
-  useEffect(() => {
-    if (isDesktop || flowPhase !== 'hide-recall') return
-    patternIdxRef.current = 0
-    clearFlowTimers()
-    const roundMsg = hideRecallRound === 1 ? 'Again.'
-      : hideRecallRound === 2 ? 'One more.'
-      : 'Last one.'
-    const t1 = setTimeout(() => trainer?.say(roundMsg, 1500), 400)
-    const t2 = setTimeout(() => showRecallYourTurnCard(), 2000)
-    return () => { clearTimeout(t1); clearTimeout(t2) }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flowPhase, hideRecallRound])
-
-  // ── Trainer: pattern playing state → afterPatternAudioEnds ───────────────
-  const handlePatternPlayingChange = useCallback((playing: boolean) => {
-    if (!playing && prevPatternPlayingRef.current) {
-      afterPatternAudioEnds()
-    }
-    prevPatternPlayingRef.current = playing
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // ── Trainer: register repeat callback (Help menu Repeat) ─────────────────
-  useEffect(() => {
-    if (isDesktop) return
-    trainer?.setRepeatCallback?.(() => {
-      showStoryListenCard()
-    })
-    return () => trainer?.setRepeatCallback?.(null)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trainer])
-
-  // ── Trainer: Pause → stop story audio when Orb enters paused state ─────────
-  useEffect(() => {
-    if (isDesktop) return
-    if (trainer?.orbState === 'paused') handleStop()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trainer?.orbState, isDesktop])
-
-  // ── Trainer: register resume callback (Help menu Pause → Orb tap) ─────────
-  useEffect(() => {
-    if (isDesktop) return
-    trainer?.setResumeCallback?.(() => {
-      const phase = flowPhaseRef.current
-      if (phase === 'hide-recall') showRecallYourTurnCard()
-      else showStoryListenCard()
-    })
-    return () => trainer?.setResumeCallback?.(null)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trainer])
-
-  // ── Trainer: browsing phase — enables orb tap → handleMenuExit() ──────────
-  const trainerRef = useRef(trainer)
-  trainerRef.current = trainer
-  useEffect(() => {
-    if (isDesktop) return
-    trainerRef.current?.startBrowsing?.()
-    return () => trainerRef.current?.endBrowsing?.()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  // ── Trainer: pattern index change → show next listen card ────────────────
-  useEffect(() => {
-    patternIdxRef.current = patternIdx
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [patternIdx])
 
   // Keep shouldBlockNav ref in sync
   useEffect(() => {
@@ -404,10 +232,16 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     shouldBlockNavRef.current = hasProgress && flowPhase !== 'complete'
   }, [isSpeaking, scrolledToEnd, flowPhase])
 
-  // Keep flowPhaseRef in sync (used in closures inside callbacks)
-  useEffect(() => { flowPhaseRef.current = flowPhase }, [flowPhase])
-
-  // (auto-scroll to patterns is now handled in afterStoryAudioEnds)
+  // 1회차: 오디오 완료 시 패턴 섹션으로 자동 스크롤
+  useEffect(() => {
+    if (!isDesktop && prevIsSpeakingRef.current && !isSpeaking && isFirstRound && flowPhase === 'reading') {
+      setTimeout(() => {
+        patternSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 400)
+    }
+    prevIsSpeakingRef.current = isSpeaking
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSpeaking])
 
   // Intercept browser back button
   useEffect(() => {
@@ -423,6 +257,23 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => window.removeEventListener('popstate', handler)
   }, [story.id])
 
+  // Intercept tab-bar link clicks
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!shouldBlockNavRef.current) return
+      const a = (e.target as Element).closest('a[href]') as HTMLAnchorElement | null
+      if (!a) return
+      const href = a.getAttribute('href') ?? ''
+      // Tab destinations: /patto/home, /patto/records, /patto/essays, /patto/library
+      if (href.startsWith('/patto/') && !href.startsWith('/patto/stories')) {
+        e.preventDefault()
+        e.stopPropagation()
+        showExitCard(href)
+      }
+    }
+    document.addEventListener('click', handler, { capture: true })
+    return () => document.removeEventListener('click', handler, { capture: true })
+  }, [])
 
   // All patterns seen → start hide-recall automatically
   const handleAllPatternsSeen = useCallback(() => {
@@ -437,22 +288,23 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     if (hideRecallRound < totalRecall) {
       const next = hideRecallRound + 1
       saveSessionProgress(story.id, 'hide-recall', next)
-      setTimeout(() => setHideRecallRound(next), 300)
+      const isLast = next === totalRecall
+      trainerSay('Nice.', 1200)
+      setTimeout(() => trainerSay(isLast ? 'Last one.' : 'Again.', 2500), 1400)
+      setTimeout(() => setHideRecallRound(next), 1600)
     } else {
       // All recall rounds done → complete
-      clearFlowTimers()
-      trainer?.say('Done.', 1500)
+      trainerSay('Great work today.', 1500)
       clearSessionProgress(story.id)
       const data = completeStoryRound(story.id)
       setCompletionData(data)
-      setTimeout(() => setFlowPhase('complete'), 1600)
+      setFlowPhase('complete')
+      // Also update legacy learning progress
       const patternIds = story.patterns.map(p => p.id)
       setProgress(completeStoryAndScheduleReview(progress, String(story.id), patternIds, 1, 1))
-      // Fire-and-forget Supabase sync (no-op if not logged in)
-      if (user?.id) syncStoryRoundToSupabase(user.id, data)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hideRecallRound, totalRecall, story.id, story.patterns, progress, setProgress, trainer])
+  }, [hideRecallRound, totalRecall, story.id, story.patterns, progress, setProgress])
 
   // Story 변경 시 per-story override 초기화
   const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
@@ -574,6 +426,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const sharedPopups = (
     <>
       <GlobalSavePopup />
+      <TodayMissionPopup />
       {showPicker && (
         <WheelPicker
           stories={allStories}
@@ -683,8 +536,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // 4회차+는 패턴 카드 뷰 없이 바로 hide-recall 시작
   const skipPatternView = currentRound >= 3  // round 4+ (0-indexed: completed>=3)
 
-  const elapsedMinutes = Math.max(1, Math.round((Date.now() - sessionStartRef.current) / 60000))
-
   const inlinePatterns = (
     <div ref={patternSectionRef}>
       {/* Section label */}
@@ -704,7 +555,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
           story={story}
           roundData={completionData}
           recallRounds={totalRecall}
-          elapsedMinutes={elapsedMinutes}
         />
       ) : (
         <PatternsSectionInline
@@ -713,27 +563,73 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
           patternExamples={patternExamples}
           storyIsSpeaking={isSpeaking}
           showNavButtons={false}
-          showSwipeGuide={false}
-          showSpeakerButton={true}
+          showSwipeGuide={showSwipeGuide && !isInRecall}
           onAllPatternsSeen={!skipPatternView ? handleAllPatternsSeen : undefined}
           hideRecallMode={isInRecall}
           recallRound={hideRecallRound}
           totalRecallRounds={totalRecall}
           onRecallRoundComplete={handleRecallRoundComplete}
           onPatternIndexChange={setPatternIdx}
-          onRegisterPlay={(fn) => { patternPlayRef.current = fn }}
-          onRegisterGoNext={(fn) => { patternGoNextRef.current = fn }}
-          onRegisterRevealOnly={(fn) => { patternRevealOnlyRef.current = fn }}
-          onPlayingChange={handlePatternPlayingChange}
         />
       )}
     </div>
   )
 
 
+  const recoStory = recoStoryId ? allStories.find(s => s.id === recoStoryId) : null
+  const recoDialogEl = recoStory ? (
+    <div style={{
+      position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 300,
+      padding: '0 16px 32px',
+      background: 'linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)',
+      pointerEvents: 'none',
+    }}>
+      <div style={{
+        background: 'rgba(255,255,255,0.88)',
+        backdropFilter: 'blur(28px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+        borderRadius: 20,
+        border: '1px solid rgba(255,255,255,0.7)',
+        boxShadow: '0 8px 32px rgba(30,40,60,0.18)',
+        padding: '18px 18px 16px',
+        pointerEvents: 'auto',
+      }}>
+        <p style={{ margin: '0 0 12px', fontSize: 13, fontWeight: 600, color: '#1a1a2e', lineHeight: 1.45 }}>
+          오늘 추천 스토리는 <span style={{ fontWeight: 800, color: '#5B7FD4' }}>Story {String(recoStory.id).padStart(2, '0')}</span>이에요!<br />
+          <span style={{ fontSize: 12, fontWeight: 400, color: 'rgba(0,0,0,0.5)' }}>그래도 계속할까요?</span>
+        </p>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            type="button"
+            onClick={() => { dismissReco(); router.push(`/patto/stories/${recoStory.id}`) }}
+            style={{
+              flex: 1, height: 44, borderRadius: 12, cursor: 'pointer',
+              background: '#5B7FD4', border: 'none',
+              fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
+            }}
+          >
+            추천 스토리로 가기
+          </button>
+          <button
+            type="button"
+            onClick={dismissReco}
+            style={{
+              flex: 1, height: 44, borderRadius: 12, cursor: 'pointer',
+              background: 'transparent',
+              border: '1px solid rgba(0,0,0,0.12)',
+              fontSize: 13, fontWeight: 600, color: '#1a1a2e', fontFamily: 'inherit',
+            }}
+          >
+            여기서 계속
+          </button>
+        </div>
+      </div>
+    </div>
+  ) : null
+
   function showExitCard(href: string | null) {
     setExitPopupPendingHref(href)
-    trainer?.ask('Exit session?', [
+    trainer?.ask('One more.', [
       {
         label: 'Exit',
         onClick: () => {
@@ -742,7 +638,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         },
       },
       {
-        label: 'Stay',
+        label: 'Keep going',
         primary: true,
         onClick: () => { /* card closes automatically */ },
       },
@@ -752,7 +648,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   return (
     <div
       ref={mobileScrollRef}
-      style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never, paddingBottom: TAB_BAR_HEIGHT }}
+      style={{ height: '100dvh', overflowY: 'auto', WebkitOverflowScrolling: 'touch' as never }}
     >
       <StoryPage
         story={story}
@@ -768,33 +664,13 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         ambienceOn={effectiveAmbienceOn}
         onAmbienceToggle={toggleAmbience}
         noScroll={true}
-        afterContent={
-          <>
-            {/* "Let's practice." bridge pill */}
-            {showBridge && (
-              <div style={{
-                display: 'flex', justifyContent: 'center',
-                padding: '12px 0 4px',
-                animation: 'fadeIn 0.25s ease',
-              }}>
-                <span style={{
-                  background: 'rgba(107,143,255,0.08)',
-                  border: '0.5px solid rgba(107,143,255,0.15)',
-                  borderRadius: 20, padding: '6px 16px',
-                  fontSize: 12, color: '#8EA7FF',
-                  fontWeight: 500, letterSpacing: '0.02em',
-                }}>
-                  Let&apos;s practice.
-                </span>
-              </div>
-            )}
-            {inlinePatterns}
-          </>
-        }
+        afterContent={inlinePatterns}
         onStoryAreaTouchStart={handleStoryTouchStart}
         onStoryAreaTouchEnd={handleStoryTouchEnd}
         showReadingGuide={isFirstRound && flowPhase === 'reading' && !scrolledToEnd}
+        audioPulse={isFirstRound && !isSpeaking && flowPhase === 'reading'}
       />
+      {recoDialogEl}
       {sharedPopups}
     </div>
   )

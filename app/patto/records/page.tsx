@@ -1,26 +1,32 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
-import { useAuth } from '@/contexts/AuthContext'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
-import { TopNav } from '@/components/TopNav'
-import { getDailyStats, getActivityByDate, todayStr } from '@/lib/srs/storage'
-import { loadStats } from '@/lib/adaptive/adaptive-engine'
-import { loadStatsFromSupabase } from '@/lib/adaptive/supabase-sync'
+import { getStreak } from '@/lib/srs/storage'
 import { magazineStories } from '@/data/magazine-stories'
-import { getStoryRound, getStoryStatus, type StoryRoundData } from '@/lib/srs/story-round'
+import { getStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
+import { LearningCalendar } from '@/components/LearningCalendar'
+import { getFutureSchedule, type ScheduledDay } from '@/lib/srs/engine'
+import { getActivityByDate } from '@/lib/srs/storage'
 
-const PATTERN_GOAL = 500
+// ── Constants ──────────────────────────────────────────────────────────────────
+const WEEKLY_GOAL = 10
+const DAILY_GOAL  = 1
 
+// ── Helpers ────────────────────────────────────────────────────────────────────
 function toIso(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
+function getMonthLabel(): string {
+  return new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+}
+
 function getWeekDays(): Date[] {
   const today = new Date()
-  const dow = today.getDay()
+  const dow   = today.getDay()
   const monday = new Date(today)
   monday.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1))
   return Array.from({ length: 7 }, (_, i) => {
@@ -30,337 +36,42 @@ function getWeekDays(): Date[] {
   })
 }
 
-function formatDate(isoDate: string): string {
-  const today = todayStr()
-  const yesterday = (() => { const d = new Date(); d.setDate(d.getDate() - 1); return toIso(d) })()
-  if (isoDate === today)     return 'Today'
-  if (isoDate === yesterday) return 'Yesterday'
-  const d = new Date(isoDate + 'T00:00:00')
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-}
-
 const DOW_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
-// ── Section label ─────────────────────────────────────────────────────────────
-function SectionLabel({ children }: { children: React.ReactNode }) {
+// ── Ring Chart ─────────────────────────────────────────────────────────────────
+function RingChart({ pct, size = 96, stroke = 8, color = '#6B8FFF' }: {
+  pct: number; size?: number; stroke?: number; color?: string
+}) {
+  const r    = (size - stroke) / 2
+  const circ = 2 * Math.PI * r
+  const offset = circ * (1 - Math.min(pct, 100) / 100)
   return (
-    <p style={{ margin: '6px 0 -4px 2px', fontSize: 11, fontWeight: 700, letterSpacing: '0.8px', color: '#2C3470', textTransform: 'uppercase' }}>
-      {children}
-    </p>
+    <svg width={size} height={size} style={{ flexShrink: 0, transform: 'rotate(-90deg)' }}>
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={stroke} />
+      <circle
+        cx={size / 2} cy={size / 2} r={r} fill="none"
+        stroke={color} strokeWidth={stroke} strokeLinecap="round"
+        strokeDasharray={circ} strokeDashoffset={offset}
+        style={{ transition: 'stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)' }}
+      />
+    </svg>
   )
 }
 
-// ── Glass card style helper ────────────────────────────────────────────────────
-function glassStyle(isDark: boolean): React.CSSProperties {
-  return {
-    borderRadius: 20,
-    background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.75)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.85)'}`,
-    boxShadow: isDark ? '0 2px 12px rgba(0,0,0,0.18)' : '0 2px 12px rgba(80,90,160,0.08)',
-  }
-}
-
-// ── Section 1: Today's Session ─────────────────────────────────────────────────
-function TodaySessionCard({
-  storyDone, patternDone, challengeDone, isDark, motivationLine,
-}: {
-  storyDone: boolean; patternDone: boolean; challengeDone: boolean; isDark: boolean; motivationLine: string
-}) {
-  const steps = [
-    { label: 'Story',     done: storyDone,     active: !storyDone },
-    { label: 'Pattern',   done: patternDone,   active: storyDone && !patternDone },
-    { label: 'Challenge', done: challengeDone, active: patternDone && !challengeDone },
-  ]
-
+// ── Story Dots ─────────────────────────────────────────────────────────────────
+function StoryDots({ round, isMastered }: { round: number; isMastered: boolean }) {
   return (
-    <div style={{ borderRadius: 20, background: '#EEF1FF', padding: '16px 20px', boxShadow: '0 2px 12px rgba(80,90,160,0.08)' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-start', position: 'relative' }}>
-        {/* connector line 1: from center of step1 to center of step2 */}
-        <div style={{
-          position: 'absolute', top: 15, height: 2, zIndex: 0,
-          left: 'calc(100% / 6 + 15px)',
-          width: 'calc(100% / 3 - 30px)',
-          background: storyDone ? '#5C6BC0' : '#e0e3f0',
+    <div style={{ display: 'flex', gap: 3 }}>
+      {[1, 2, 3, 4, 5].map(n => (
+        <div key={n} style={{
+          width: 8, height: 8, borderRadius: '50%',
+          background: n <= round
+            ? (isMastered ? '#D7B56D' : 'rgba(107,143,255,0.85)')
+            : 'rgba(100,100,150,0.18)',
+          flexShrink: 0,
+          transition: 'background 0.2s',
         }} />
-        {/* connector line 2: from center of step2 to center of step3 */}
-        <div style={{
-          position: 'absolute', top: 15, height: 2, zIndex: 0,
-          left: 'calc(100% / 2 + 15px)',
-          width: 'calc(100% / 3 - 30px)',
-          background: patternDone ? '#5C6BC0' : '#e0e3f0',
-        }} />
-
-        {steps.map(({ label, done, active }) => (
-          <div key={label} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, zIndex: 1 }}>
-            <div style={{
-              width: 30, height: 30, borderRadius: '50%',
-              background: done ? '#5C6BC0' : active ? '#EEF1FF' : '#f0f1f5',
-              border: done ? 'none' : active ? '2px solid #5C6BC0' : '1.5px solid #e0e0e0',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'all 0.3s',
-            }}>
-              {done ? (
-                <svg width={13} height={13} viewBox="0 0 13 13" fill="none">
-                  <path d="M2.5 6.5l3 3 5-5" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              ) : (
-                <div style={{ width: 7, height: 7, borderRadius: '50%', background: active ? '#5C6BC0' : '#d0d0d0' }} />
-              )}
-            </div>
-            <span style={{
-              fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
-              color: done || active ? '#2C3470' : '#999',
-            }}>
-              {label}
-            </span>
-          </div>
-        ))}
-      </div>
-      <p style={{ margin: '12px 0 0', fontSize: 11, fontWeight: 600, color: '#2C3470', lineHeight: 1.4 }}>
-        {motivationLine}
-      </p>
-    </div>
-  )
-}
-
-// ── Section 2: Stat chips ──────────────────────────────────────────────────────
-function StatChips({ streak, totalSessions, patternsLearned, isDark }: {
-  streak: number; totalSessions: number; patternsLearned: number; isDark: boolean
-}) {
-  const chips = [
-    { label: 'STREAK',     value: `${streak}`,           accent: '#F4511E' },
-    { label: 'SESSIONS',   value: `${totalSessions}`,   accent: '#5C6BC0' },
-    { label: 'PATTERNS',   value: `${patternsLearned}`, accent: '#9575CD' },
-    { label: 'CHALLENGES', value: '–',                  accent: '#F5A623' },
-  ]
-  return (
-    <div style={{ display: 'flex', gap: 7 }}>
-      {chips.map(c => (
-        <div key={c.label} style={{
-          flex: 1, borderRadius: 14, padding: '12px 4px',
-          background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.60)',
-          backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-          border: isDark ? '0.5px solid rgba(255,255,255,0.12)' : '0.5px solid rgba(255,255,255,0.80)',
-          boxShadow: isDark ? '0 2px 10px rgba(0,0,0,0.18)' : '0 2px 10px rgba(80,90,160,0.08)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-        }}>
-          <span style={{ fontSize: 24, fontWeight: 700, color: c.accent, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
-            {c.value}
-          </span>
-          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.5px', color: c.accent, textTransform: 'uppercase', textAlign: 'center' }}>
-            {c.label}
-          </span>
-        </div>
       ))}
-    </div>
-  )
-}
-
-// ── Section 3: Recent Sessions ─────────────────────────────────────────────────
-function RecentSessions({ storyRounds, isDark }: { storyRounds: StoryRoundData[]; isDark: boolean }) {
-  const textMuted  = isDark ? '#a0a0c0' : '#3d3d60'
-  const textStrong = isDark ? '#e8e8f0' : '#1a1a2e'
-  const divider    = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'
-
-  const recent = useMemo(() =>
-    storyRounds
-      .filter(r => r.round > 0 && r.lastCompletedAt)
-      .sort((a, b) => (b.lastCompletedAt ?? '').localeCompare(a.lastCompletedAt ?? ''))
-      .slice(0, 5)
-      .map(r => ({ ...r, story: magazineStories.find(s => s.id === r.storyId) })),
-  [storyRounds])
-
-  return (
-    <div style={{ ...glassStyle(isDark), padding: '14px 16px' }}>
-      {recent.length === 0 ? (
-        <p style={{ fontSize: 14, fontWeight: 500, color: textMuted, margin: 0 }}>Complete your first session to see it here.</p>
-      ) : (
-        <div>
-          {recent.map(({ storyId, round, isMastered, lastCompletedAt, story }, i) => (
-            <div key={storyId} style={{
-              display: 'flex', alignItems: 'center', gap: 10,
-              padding: '9px 0',
-              borderTop: i === 0 ? 'none' : `1px solid ${divider}`,
-            }}>
-              <div style={{
-                width: 34, height: 34, borderRadius: 10, flexShrink: 0,
-                background: '#EEF1FF',
-                border: '1px solid rgba(92,107,192,0.20)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <span style={{ fontSize: 10, fontWeight: 800, color: '#5C6BC0' }}>
-                  S{String(storyId).padStart(2, '0')}
-                </span>
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: textStrong, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {story?.title ?? `Story ${storyId}`}
-                </p>
-                <p style={{ margin: '2px 0 0', fontSize: 11, color: textMuted }}>
-                  {lastCompletedAt ? formatDate(lastCompletedAt) : '—'}
-                </p>
-              </div>
-              {isMastered ? (
-                <span style={{ fontSize: 9, fontWeight: 700, color: '#4CAF50', background: 'rgba(76,175,80,0.10)', border: '1px solid rgba(76,175,80,0.28)', borderRadius: 7, padding: '2px 8px', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                  Mastered
-                </span>
-              ) : (
-                <span style={{ fontSize: 9, fontWeight: 700, color: '#5C6BC0', background: '#EEF1FF', border: '1px solid rgba(92,107,192,0.25)', borderRadius: 7, padding: '2px 8px', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                  Round {round}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
-
-// ── Section 4: This Week Calendar ─────────────────────────────────────────────
-function WeekCalendar({ activityMap, isDark }: { activityMap: Record<string, number>; isDark: boolean }) {
-  const textMuted = isDark ? '#a0a0c0' : '#5a5a7a'
-  const today     = useMemo(() => toIso(new Date()), [])
-  const weekDays  = useMemo(() => getWeekDays(), [])
-
-  const attendedDays = weekDays.filter(d => (activityMap[toIso(d)] ?? 0) > 0).length
-
-  const weekLabel = useMemo(() => {
-    const first = weekDays[0]
-    const last  = weekDays[6]
-    const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-    return `${fmt(first)} – ${fmt(last).replace(/\w+ /, '')}`
-  }, [weekDays])
-
-  return (
-    <div style={{ ...glassStyle(isDark), padding: '14px 14px 12px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <span style={{ fontSize: 15, fontWeight: 700, color: textMuted }}>{weekLabel}</span>
-        <span style={{ fontSize: 14, fontWeight: 700, color: '#2C3470' }}>{attendedDays} / 7 days</span>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 3 }}>
-        {weekDays.map((d, i) => {
-          const iso     = toIso(d)
-          const done    = (activityMap[iso] ?? 0) > 0
-          const isToday = iso === today
-          const isFut   = d > new Date() && !isToday
-          return (
-            <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: textMuted, textTransform: 'uppercase' }}>
-                {DOW_LABELS[i]}
-              </span>
-              <div style={{
-                width: 32, height: 32, borderRadius: '50%',
-                background: done ? '#5C6BC0' : isToday ? '#EEF1FF' : (isDark ? 'rgba(255,255,255,0.05)' : '#f0f1f5'),
-                border: isToday && !done ? '2px solid #E53935' : 'none',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                opacity: isFut ? 0.35 : 1,
-                transition: 'background 0.2s',
-              }}>
-                {done ? (
-                  <svg width={12} height={12} viewBox="0 0 12 12" fill="none">
-                    <path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                ) : (
-                  <span style={{ fontSize: 13, fontWeight: 600, color: isToday ? '#E53935' : (isDark ? '#888' : '#666'), lineHeight: 1 }}>
-                    {d.getDate()}
-                  </span>
-                )}
-              </div>
-            </div>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-// ── Section 5: Overall Progress (accordion) ────────────────────────────────────
-function OverallAccordion({ patternsLearned, storyRounds, isDark }: {
-  patternsLearned: number; storyRounds: StoryRoundData[]; isDark: boolean
-}) {
-  const [mapOpen, setMapOpen] = useState(false)
-
-  const textMuted = isDark ? '#a0a0c0' : '#5a5a7a'
-  const pct       = Math.min(100, Math.round((patternsLearned / PATTERN_GOAL) * 100))
-
-  const storyRoundMap = useMemo(() => {
-    const m: Record<number, StoryRoundData> = {}
-    for (const r of storyRounds) m[r.storyId] = r
-    return m
-  }, [storyRounds])
-
-  function storyColor(storyId: number): { bg: string; text: string; border?: string } {
-    const r = storyRoundMap[storyId]
-    if (!r || r.round === 0) return { bg: isDark ? 'rgba(255,255,255,0.05)' : '#f0f1f5', text: '#ccc' }
-    if (r.isMastered)         return { bg: '#E8F5E9', text: '#4CAF50' }
-    return { bg: '#EEF1FF', text: '#5C6BC0', border: '1.5px solid rgba(92,107,192,0.35)' }
-  }
-
-  return (
-    <div style={{ ...glassStyle(isDark), padding: '16px 16px' }}>
-
-      {/* Percentage + pattern count + bar */}
-      <div style={{ marginBottom: 12 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
-          <span style={{ fontSize: 28, fontWeight: 700, color: '#2C3470', lineHeight: 1 }}>{pct}%</span>
-          <span style={{ fontSize: 13, fontWeight: 600, color: '#2C3470' }}>{patternsLearned} / {PATTERN_GOAL} patterns</span>
-        </div>
-        <div style={{ height: 6, borderRadius: 99, background: '#EEF1FF', overflow: 'hidden' }}>
-          <div style={{
-            height: '100%', width: `${pct}%`,
-            background: '#5C6BC0', borderRadius: 99,
-            transition: 'width 1s cubic-bezier(0.4,0,0.2,1)',
-          }} />
-        </div>
-      </div>
-
-      {/* Story map accordion */}
-      <button
-        type="button"
-        onClick={() => setMapOpen(v => !v)}
-        style={{
-          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '6px 0', border: 'none', background: 'transparent', cursor: 'pointer', fontFamily: 'inherit',
-        }}
-      >
-        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.8px', color: '#2C3470', textTransform: 'uppercase' }}>
-          Story Map
-        </span>
-        <svg width={14} height={14} viewBox="0 0 16 16" fill="none"
-          style={{ transition: 'transform 0.3s ease', transform: mapOpen ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }}
-        >
-          <path d="M4 6l4 4 4-4" stroke={textMuted} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
-
-      <div style={{ maxHeight: mapOpen ? '2000px' : 0, overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
-        <div style={{ paddingTop: 10, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 6 }}>
-          {magazineStories.map(s => {
-            const c = storyColor(s.id)
-            const r = storyRoundMap[s.id]
-            const total = s.patterns.length
-            const done  = r?.round > 0 ? total : 0
-            return (
-              <div key={s.id} style={{
-                borderRadius: 10, padding: '7px 4px',
-                background: c.bg, border: c.border ?? 'none',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2,
-              }}>
-                <span style={{ fontSize: 11, fontWeight: 800, color: c.text, lineHeight: 1 }}>
-                  S{String(s.id).padStart(2, '0')}
-                </span>
-                <span style={{ fontSize: 9, color: c.text, opacity: 0.7, fontWeight: 600 }}>
-                  {r?.round > 0 ? `${done}/${total}` : '–'}
-                </span>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
     </div>
   )
 }
@@ -368,91 +79,371 @@ function OverallAccordion({ patternsLearned, storyRounds, isDark }: {
 // ── Page ───────────────────────────────────────────────────────────────────────
 export default function ProgressPage() {
   const { theme } = useTheme()
-  const isDark    = theme === 'dark'
-  const { user }  = useAuth()
-  const trainer   = useTrainerSafe()
+  const isDark = theme === 'dark'
 
-  const [storyRounds,    setStoryRounds]    = useState<StoryRoundData[]>([])
-  const [todayStats,     setTodayStats]     = useState({ stories: 0, patterns: 0, reviews: 0 })
-  const [activityMap,    setActivityMap]    = useState<Record<string, number>>({})
-  const [mounted,        setMounted]        = useState(false)
-  const [streak,         setStreak]         = useState(0)
-  const [totalSessions,  setTotalSessions]  = useState(0)
-  const [patternsLearned,setPatternsLearned]= useState(0)
+  const [streak,      setStreak]      = useState(0)
+  const [storyRounds, setStoryRounds] = useState<StoryRoundData[]>([])
+  const [viewMode,    setViewMode]    = useState<'weekly' | 'monthly'>('weekly')
+  const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
+  const [activityMap, setActivityMap]       = useState<Record<string, number>>({})
+  const [selectedIso, setSelectedIso]       = useState<string | null>(null)
+
+  const trainer = useTrainerSafe()
 
   useEffect(() => {
-    async function init() {
-      if (user?.id) await loadStatsFromSupabase(user.id)
+    setStreak(getStreak())
+    setStoryRounds(magazineStories.map(s => getStoryRound(s.id)))
+    setFutureSchedule(getFutureSchedule())
+    setActivityMap(getActivityByDate())
+    trainer?.setPage('progress')
+    const streakVal = getStreak()
+    const msg = streakVal > 0
+      ? `You've studied ${streakVal} day${streakVal === 1 ? '' : 's'}.`
+      : 'Next review tomorrow.'
+    const t = setTimeout(() => trainer?.showMessage(msg, 3000), 1000)
+    return () => clearTimeout(t)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-      const adaptiveStats = loadStats()
-      const rounds        = magazineStories.map(s => getStoryRound(s.id))
-      const daily         = getDailyStats(todayStr())
-      const activity      = getActivityByDate()
+  const today    = useMemo(() => toIso(new Date()), [])
+  const weekDays = useMemo(() => getWeekDays(), [])
+  const weekIsos = useMemo(() => new Set(weekDays.map(toIso)), [weekDays])
 
-      setStreak(adaptiveStats.currentStreak)
-      setTotalSessions(adaptiveStats.totalSessions)
-      setPatternsLearned(adaptiveStats.totalPatternsLearned)
-      setStoryRounds(rounds)
-      setTodayStats(daily)
-      setActivityMap(activity)
-      setMounted(true)
+  // Completions this week (lastCompletedAt is within Mon–Sun)
+  const weeklyCompleted = useMemo(() =>
+    storyRounds.filter(r => r.lastCompletedAt && weekIsos.has(r.lastCompletedAt)),
+  [storyRounds, weekIsos])
 
-      trainer?.setPage('progress')
-      const msg = adaptiveStats.currentStreak > 0
-        ? `${adaptiveStats.currentStreak}일 연속 학습 중이에요!`
-        : "오늘도 시작해볼까요?"
-      const t = setTimeout(() => trainer?.showMessage(msg, 3000), 900)
-      return () => clearTimeout(t)
+  const weeklyStoryCount   = weeklyCompleted.length
+  const weeklyPatternCount = useMemo(() =>
+    weeklyCompleted.reduce((sum, r) => {
+      const s = magazineStories.find(ms => ms.id === r.storyId)
+      return sum + (s?.patterns.length ?? 5)
+    }, 0),
+  [weeklyCompleted])
+
+  const dayCountMap = useMemo(() => {
+    const map: Record<string, number> = {}
+    for (const r of weeklyCompleted) {
+      if (r.lastCompletedAt) map[r.lastCompletedAt] = (map[r.lastCompletedAt] ?? 0) + 1
     }
-    init()
-  }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
+    return map
+  }, [weeklyCompleted])
 
-  const today              = useMemo(() => toIso(new Date()), [])
-  const storyDoneToday     = storyRounds.some(r => r.lastCompletedAt === today)
-  const patternDoneToday   = todayStats.patterns > 0
-  const challengeDoneToday = false
+  const todayCount         = storyRounds.filter(r => r.lastCompletedAt === today).length
+  const isOutperform       = todayCount > DAILY_GOAL
+  const outperformMult     = isOutperform ? Math.floor(todayCount / DAILY_GOAL) : 0
+  const weeklyPct          = Math.min(Math.round((weeklyStoryCount / WEEKLY_GOAL) * 100), 100)
+  const ringColor          = isOutperform ? '#D7B56D' : '#6B8FFF'
+  const bannerGradient     = isOutperform
+    ? 'linear-gradient(135deg, #1a2060, #3d1560)'
+    : 'linear-gradient(135deg, #1a2880, #3d2090)'
 
-  const stepsDone = [storyDoneToday, patternDoneToday, challengeDoneToday].filter(Boolean).length
-  const motivationLine = stepsDone === 0 ? "Start your session — you're ready."
-    : stepsDone === 1 ? "Good start. Two steps to go."
-    : stepsDone === 2 ? "One step left — finish strong."
-    : "Session complete. Great work!"
+  // My stories — started at least 1 round
+  const myStoriesData = useMemo(() =>
+    storyRounds
+      .filter(r => r.round > 0)
+      .map(r => ({ ...r, story: magazineStories.find(s => s.id === r.storyId)! }))
+      .sort((a, b) => a.storyId - b.storyId),
+  [storyRounds])
 
-  if (!mounted) return null
+  // Shared glass card style (adapts to theme)
+  const glassCard: React.CSSProperties = {
+    borderRadius: 20,
+    background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.68)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.82)'}`,
+  }
 
   return (
-    <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 96 }}>
-      <TopNav />
-      <div style={{ maxWidth: 480, margin: '0 auto', padding: '10px 20px 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
+    <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
 
-        <SectionLabel>Today&apos;s Session</SectionLabel>
-        <TodaySessionCard
-          storyDone={storyDoneToday}
-          patternDone={patternDoneToday}
-          challengeDone={challengeDoneToday}
-          isDark={isDark}
-          motivationLine={motivationLine}
-        />
+      {/* ── Sticky Header ── */}
+      <div style={{
+        position: 'sticky', top: 0, zIndex: 50,
+        background: 'linear-gradient(180deg, rgba(26,16,96,0.95) 0%, rgba(26,16,96,0) 100%)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        padding: '52px 20px 18px',
+        display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
+      }}>
+        <div>
+          <p style={{ margin: 0, fontSize: 24, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', lineHeight: 1 }}>
+            Progress
+          </p>
+          <p style={{ margin: '3px 0 0', fontSize: 12, fontWeight: 500, color: 'rgba(255,255,255,0.5)' }}>
+            {getMonthLabel()}
+          </p>
+        </div>
+        {/* Weekly / Monthly toggle */}
+        <div style={{
+          display: 'flex', gap: 2,
+          background: 'rgba(255,255,255,0.13)',
+          borderRadius: 12, padding: 3,
+        }}>
+          {(['weekly', 'monthly'] as const).map(v => (
+            <button
+              key={v}
+              type="button"
+              onClick={() => setViewMode(v)}
+              style={{
+                height: 30, padding: '0 13px', borderRadius: 9,
+                border: 'none', cursor: 'pointer',
+                fontSize: 11, fontWeight: 700, fontFamily: 'inherit',
+                background: viewMode === v ? '#fff' : 'transparent',
+                color: viewMode === v ? '#1a1060' : 'rgba(255,255,255,0.55)',
+                transition: 'all 0.18s',
+              }}
+            >
+              {v === 'weekly' ? 'Weekly' : 'Monthly'}
+            </button>
+          ))}
+        </div>
+      </div>
 
-        <StatChips
-          streak={streak}
-          totalSessions={totalSessions}
-          patternsLearned={patternsLearned}
-          isDark={isDark}
-        />
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-        <SectionLabel>Recent Sessions</SectionLabel>
-        <RecentSessions storyRounds={storyRounds} isDark={isDark} />
+        {/* ── Banner ── */}
+        <div style={{
+          borderRadius: 24, overflow: 'hidden',
+          background: bannerGradient,
+          padding: '20px 22px 18px',
+        }}>
+          {/* Outperform badge */}
+          {isOutperform && (
+            <div style={{
+              marginBottom: 14,
+              display: 'inline-flex', alignItems: 'center',
+              background: 'rgba(215,181,109,0.18)',
+              border: '1px solid rgba(215,181,109,0.40)',
+              borderRadius: 12, padding: '7px 12px',
+            }}>
+              <span style={{ fontSize: 11.5, fontWeight: 700, color: '#D7B56D', lineHeight: 1.3 }}>
+                🔥 오늘 목표의 {outperformMult}배 달성! · 오늘 {todayCount}스토리 완료 · 대단해요!
+              </span>
+            </div>
+          )}
 
-        <SectionLabel>This Week</SectionLabel>
-        <WeekCalendar activityMap={activityMap} isDark={isDark} />
+          {/* Ring + text row */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+            <div style={{ position: 'relative', flexShrink: 0 }}>
+              <RingChart pct={weeklyPct} size={96} stroke={8} color={ringColor} />
+              <div style={{
+                position: 'absolute', inset: 0,
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: '-0.03em' }}>
+                  {weeklyPct}%
+                </span>
+              </div>
+            </div>
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0, fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase' }}>
+                THIS WEEK
+              </p>
+              <p style={{ margin: '5px 0 3px', fontSize: 19, fontWeight: 800, color: '#fff', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
+                {weeklyStoryCount} / {WEEKLY_GOAL} 스토리{isOutperform ? ' 🎉' : ''}
+              </p>
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.50)' }}>
+                {isOutperform
+                  ? '주간 목표 초과 달성!'
+                  : `목표까지 ${Math.max(WEEKLY_GOAL - weeklyStoryCount, 0)}개 남았어요`}
+              </p>
+            </div>
+          </div>
 
-        <SectionLabel>Overall Progress</SectionLabel>
-        <OverallAccordion
-          patternsLearned={patternsLearned}
-          storyRounds={storyRounds}
-          isDark={isDark}
-        />
+          {/* Progress bar */}
+          <div style={{ marginTop: 18 }}>
+            <div style={{ height: 5, borderRadius: 99, background: 'rgba(255,255,255,0.12)', position: 'relative' }}>
+              <div style={{
+                height: '100%', width: `${weeklyPct}%`,
+                background: 'linear-gradient(90deg, #6B8FFF, #D7B56D)',
+                borderRadius: 99,
+                transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)',
+                position: 'relative',
+              }}>
+                {isOutperform && weeklyPct > 0 && (
+                  <div style={{
+                    position: 'absolute', right: -3, top: '50%', transform: 'translateY(-50%)',
+                    width: 11, height: 11, borderRadius: '50%',
+                    background: '#D7B56D',
+                    boxShadow: '0 0 10px 4px rgba(215,181,109,0.55)',
+                  }} />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 3 Chips ── */}
+        <div style={{ display: 'flex', gap: 8 }}>
+          {/* 🔥 Streak */}
+          <div style={{
+            flex: 1, borderRadius: 16, padding: '14px 10px',
+            background: isOutperform
+              ? 'linear-gradient(135deg, rgba(215,181,109,0.22), rgba(215,181,109,0.10))'
+              : 'linear-gradient(135deg, rgba(215,181,109,0.14), rgba(192,139,48,0.07))',
+            border: `1px solid ${isOutperform ? 'rgba(215,181,109,0.45)' : 'rgba(215,181,109,0.20)'}`,
+            boxShadow: isOutperform ? '0 0 16px rgba(215,181,109,0.22)' : 'none',
+            textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 18, lineHeight: 1 }}>🔥</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#D7B56D', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{streak}</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(215,181,109,0.65)', marginTop: 3, textTransform: 'uppercase' }}>Streak</div>
+          </div>
+
+          {/* 📚 이번 주 스토리 */}
+          <div style={{
+            flex: 1, borderRadius: 16, padding: '14px 10px',
+            background: 'linear-gradient(135deg, rgba(107,143,255,0.16), rgba(74,122,200,0.07))',
+            border: '1px solid rgba(107,143,255,0.20)',
+            textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 18, lineHeight: 1 }}>📚</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#8EA7FF', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{weeklyStoryCount}</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(142,167,255,0.60)', marginTop: 3, textTransform: 'uppercase' }}>이번 주</div>
+          </div>
+
+          {/* ⚡ 이번 주 패턴 */}
+          <div style={{
+            flex: 1, borderRadius: 16, padding: '14px 10px',
+            background: 'linear-gradient(135deg, rgba(178,143,255,0.16), rgba(140,107,200,0.07))',
+            border: '1px solid rgba(178,143,255,0.20)',
+            textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 18, lineHeight: 1 }}>⚡</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#CFC4FF', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{weeklyPatternCount}</div>
+            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(178,143,255,0.60)', marginTop: 3, textTransform: 'uppercase' }}>패턴</div>
+          </div>
+        </div>
+
+        {/* ── Weekly / Monthly section ── */}
+        <div style={{ ...glassCard, padding: '18px 16px 16px' }}>
+          <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(60,60,100,0.42)', textTransform: 'uppercase' }}>
+            {viewMode === 'weekly' ? 'WEEKLY' : 'MONTHLY'}
+          </p>
+
+          {viewMode === 'weekly' ? (
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>
+              {weekDays.map((d, i) => {
+                const iso     = toIso(d)
+                const count   = dayCountMap[iso] ?? 0
+                const done    = count > 0
+                const isToday = iso === today
+                const isFut   = d > new Date() && !isToday
+                return (
+                  <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                    <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', color: isDark ? 'rgba(255,255,255,0.32)' : 'rgba(60,60,100,0.38)', textTransform: 'uppercase' }}>
+                      {DOW_LABELS[i]}
+                    </span>
+                    <div style={{
+                      width: 34, height: 34, borderRadius: '50%',
+                      background: done
+                        ? 'linear-gradient(135deg, #4A7AC8, #6B8FFF)'
+                        : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'),
+                      border: isToday && !done
+                        ? '2px solid rgba(107,143,255,0.65)'
+                        : '2px solid transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      opacity: isFut ? 0.28 : 1,
+                      transition: 'background 0.2s',
+                    }}>
+                      {done ? (
+                        <svg width={14} height={14} viewBox="0 0 14 14" fill="none">
+                          <path d="M3 7l3 3 5-5" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      ) : (
+                        <span style={{ fontSize: 10, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(40,40,80,0.38)' }}>
+                          {d.getDate()}
+                        </span>
+                      )}
+                    </div>
+                    {done && (
+                      <span style={{ fontSize: 9, fontWeight: 700, color: '#6B8FFF', lineHeight: 1 }}>+{count}</span>
+                    )}
+                    {!done && <span style={{ fontSize: 9, color: 'transparent' }}>·</span>}
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <LearningCalendar
+              onDaySelect={(iso) => {
+                setSelectedIso(prev => prev === iso ? null : iso)
+              }}
+              selectedIso={selectedIso}
+              futureSchedule={futureSchedule}
+              streak={streak}
+            />
+          )}
+        </div>
+
+        {/* ── My Stories ── */}
+        {myStoriesData.length > 0 && (
+          <div style={{ ...glassCard, padding: '18px 16px 16px' }}>
+            <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(60,60,100,0.42)', textTransform: 'uppercase' }}>
+              MY STORIES
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {myStoriesData.map(({ storyId, round, isMastered, story }, i) => (
+                <div
+                  key={storyId}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 10,
+                    padding: '11px 0',
+                    borderTop: i === 0 ? 'none' : `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}`,
+                  }}
+                >
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', color: isDark ? 'rgba(255,255,255,0.30)' : 'rgba(60,60,100,0.38)', flexShrink: 0 }}>
+                        S{String(storyId).padStart(2, '0')}
+                      </span>
+                      <span style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : '#1a1a2e', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {story?.title ?? ''}
+                      </span>
+                    </div>
+                    <StoryDots round={round} isMastered={isMastered} />
+                  </div>
+                  <div style={{ flexShrink: 0 }}>
+                    {isMastered ? (
+                      <span style={{
+                        fontSize: 9.5, fontWeight: 700, color: '#D7B56D',
+                        background: 'rgba(215,181,109,0.12)',
+                        border: '1px solid rgba(215,181,109,0.28)',
+                        borderRadius: 7, padding: '2px 8px', whiteSpace: 'nowrap',
+                      }}>
+                        마스터 ✅
+                      </span>
+                    ) : (
+                      <span style={{
+                        fontSize: 9.5, fontWeight: 700,
+                        color: isDark ? 'rgba(142,167,255,0.85)' : 'rgba(107,143,255,0.9)',
+                        background: 'rgba(107,143,255,0.10)',
+                        border: '1px solid rgba(107,143,255,0.18)',
+                        borderRadius: 7, padding: '2px 8px', whiteSpace: 'nowrap',
+                      }}>
+                        {round}회차
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Empty state when no stories started */}
+        {myStoriesData.length === 0 && (
+          <div style={{ ...glassCard, padding: '28px 20px', textAlign: 'center' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(60,60,100,0.6)', margin: '0 0 6px' }}>
+              아직 시작한 스토리가 없어요
+            </p>
+            <p style={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.4)', margin: 0, lineHeight: 1.6 }}>
+              스토리를 완료하면 여기에 기록돼요
+            </p>
+          </div>
+        )}
 
       </div>
     </div>

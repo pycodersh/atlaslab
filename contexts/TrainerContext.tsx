@@ -4,7 +4,6 @@ import {
   createContext, useContext, useState, useCallback,
   useRef, type ReactNode,
 } from 'react'
-import { ttsProvider } from '@/lib/tts'
 import {
   type TrainerPage, type OrbState, type OrbTapMode,
   type SessionPhase, type TrainerSessionConfig, type GuidanceTier,
@@ -21,10 +20,9 @@ export type CardSize = 'small' | 'medium' | 'large'
 
 /** Button inside a Conversation Card */
 export interface DockButton {
-  label:       string
-  onClick:     () => void
-  primary?:    boolean
-  btnVariant?: 'play' | 'done'   // special styled buttons
+  label:    string
+  onClick:  () => void
+  primary?: boolean
 }
 
 /** Backward-compat alias */
@@ -88,31 +86,16 @@ export interface TrainerCtx {
   currentPatternIdx: number
 
   // ── Session control ──────────────────────────────────────────────────────
-  startSession:   (cfg: TrainerSessionConfig) => void
-  endSession:     () => void
-  startBrowsing:  (onExit?: () => void) => void
-  endBrowsing:    () => void
-
-  // ── Card play state ──────────────────────────────────────────────────────
-  dismissCard:       () => void        // dismiss current card + clear pending ask
-  restorePendingAsk: () => boolean
-  cardIsPlaying:     boolean
-  setCardPlaying:    (v: boolean) => void
-  showFlow:          (msg: string, buttons: DockButton[]) => void
-  setRepeatCallback:       (fn: (() => void) | null) => void
-  setResumeCallback:       (fn: (() => void) | null) => void
-  setIdleOrbCallback:      (fn: (() => void) | null) => void
-  triggerIdleOrbCallback:  () => boolean
+  startSession: (cfg: TrainerSessionConfig) => void
+  endSession:   () => void
 
   // ── Orb interaction ──────────────────────────────────────────────────────
-  handleOrbTap:      () => void
-  handleOrbTapAudio: () => void  // orb tapped while audio is playing
-  showHelpMenu:     () => void   // directly show/toggle help menu (for pathname-based detection)
+  handleOrbTap:     () => void
   closeMenu:        () => void
   handleMenuRepeat: () => void
+  handleMenuSkip:   () => void
   handleMenuPause:  () => void
   handleMenuExit:   () => void
-  resumeFromPause:  () => void
 }
 
 // ── Context ───────────────────────────────────────────────────────────────────
@@ -139,45 +122,29 @@ type QueuedCard = Omit<CardSpec, 'id'>
 
 export function TrainerStateProvider({ children }: { children: ReactNode }) {
   // ── Display ──────────────────────────────────────────────────────────────
-  const [card,          setCard]          = useState<CardSpec | null>(null)
-  const [isPulsing,     setIsPulsing]     = useState(false)
-  const [page,          setPageState]     = useState<TrainerPage>('other')
-  const [cardIsPlaying, setCardIsPlaying] = useState(false)
+  const [card,      setCard]      = useState<CardSpec | null>(null)
+  const [isPulsing, setIsPulsing] = useState(false)
+  const [page,      setPageState] = useState<TrainerPage>('other')
 
   // ── Session ──────────────────────────────────────────────────────────────
   const [orbState,          setOrbState]          = useState<OrbState>('idle')
   const [tapMode,           setTapMode]           = useState<OrbTapMode>('menu')
   const [sessionPhase,      setSessionPhase]      = useState<SessionPhase>('inactive')
-  const sessionPhaseRef = useRef<SessionPhase>('inactive')
   const [currentParaIdx,    setCurrentParaIdx]    = useState(0)
   const [currentPatternIdx, setCurrentPatternIdx] = useState(0)
 
   // ── Refs ─────────────────────────────────────────────────────────────────
-  const pageRef              = useRef<TrainerPage>('other')
-  const repeatCallbackRef    = useRef<(() => void) | null>(null)
-  const resumeCallbackRef    = useRef<(() => void) | null>(null)
-  const idleOrbCallbackRef   = useRef<(() => void) | null>(null)
   const silentRef         = useRef(false)
   const dismissRef        = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pulseRef          = useRef<ReturnType<typeof setTimeout> | null>(null)
   const waitTimerRef      = useRef<ReturnType<typeof setTimeout> | null>(null)
   const waitFiresRef      = useRef(0)
   const cfgRef            = useRef<TrainerSessionConfig | null>(null)
-  const browsingExitRef   = useRef<(() => void) | null>(null)
-  const cardRef           = useRef<CardSpec | null>(null)
   const tapStartRef       = useRef<number>(0)
   const activePriorityRef = useRef<MsgPriority | 0>(0)
   const queueRef          = useRef<QueuedCard[]>([])
-  // Persistent ask — survives card dismissal so Orb re-tap can restore it
-  const currentAskRef     = useRef<QueuedCard | null>(null)
-  cardRef.current = card
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
-
-  function setPhase(phase: SessionPhase) {
-    sessionPhaseRef.current = phase
-    setSessionPhase(phase)
-  }
+  // ── Card helpers ─────────────────────────────────────────────────────────
 
   function clearWaitTimer() {
     if (waitTimerRef.current) { clearTimeout(waitTimerRef.current); waitTimerRef.current = null }
@@ -232,7 +199,6 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const clearCard = useCallback(() => {
     if (dismissRef.current) clearTimeout(dismissRef.current)
     setCard(null)
-    setCardIsPlaying(false)
     activePriorityRef.current = 0
     processQueue()
   }, [processQueue])
@@ -250,37 +216,9 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const setPage = useCallback((p: TrainerPage) => {
     setPageState(p)
-    pageRef.current = p
-    currentAskRef.current = null
     clearCard()
     silentRef.current = false
   }, [clearCard])
-
-  // ── Play card helpers ────────────────────────────────────────────────────
-
-  const setCardPlaying = useCallback((v: boolean) => {
-    setCardIsPlaying(v)
-  }, [])
-
-  /** Session-flow medium card with buttons, no auto-dismiss */
-  const showFlow = useCallback((msg: string, buttons: DockButton[]) => {
-    if (dismissRef.current) clearTimeout(dismissRef.current)
-    const full: CardSpec = { id: nextId(), size: 'medium', message: msg, buttons, priority: 1 }
-    activePriorityRef.current = 1
-    setCard(full)
-  }, [])
-
-  const setRepeatCallback = useCallback((fn: (() => void) | null) => {
-    repeatCallbackRef.current = fn
-  }, [])
-
-  const setResumeCallback = useCallback((fn: (() => void) | null) => {
-    resumeCallbackRef.current = fn
-  }, [])
-
-  const setIdleOrbCallback = useCallback((fn: (() => void) | null) => {
-    idleOrbCallbackRef.current = fn
-  }, [])
 
   // ── New card API ─────────────────────────────────────────────────────────
 
@@ -289,18 +227,10 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   }, [showCard])
 
   const ask = useCallback((msg: string, buttons: DockButton[], subtext?: string) => {
-    // Wrap each button onClick to clear currentAsk when user makes a choice
-    const wrappedButtons: DockButton[] = buttons.map(b => ({
-      ...b,
-      onClick: () => { currentAskRef.current = null; b.onClick() },
-    }))
-    const spec: QueuedCard = { size: 'medium', message: msg, buttons: wrappedButtons, subtext, priority: 2 }
-    currentAskRef.current = spec   // save so Orb re-tap can restore it
-    showCard(spec)                 // no ms — ask cards never auto-dismiss
+    showCard({ size: 'medium', message: msg, buttons, subtext, priority: 2, ms: 12000 })
   }, [showCard])
 
   const announce = useCallback((msg: string, subtext: string, btnLabel: string, onAction: () => void) => {
-    currentAskRef.current = null   // advancing past any pending ask
     showCard({
       size: 'large', message: msg, subtext, priority: 2,
       buttons: [{ label: btnLabel, primary: true, onClick: () => { clearCard(); onAction() } }],
@@ -313,7 +243,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     showCard({ size: 'small', message: msg, priority: 3, ms })
   }, [showCard])
 
-  const showAction = useCallback((msg: string, buttons: DockButton[], ms?: number) => {
+  const showAction = useCallback((msg: string, buttons: DockButton[], ms = 12000) => {
     showCard({ size: 'medium', message: msg, buttons, priority: 2, ms })
   }, [showCard])
 
@@ -323,7 +253,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
   const tier = (): GuidanceTier => guidanceTier(cfgRef.current?.round ?? 0)
 
   const goPhase = useCallback((phase: SessionPhase, paraIdx?: number, patIdx?: number) => {
-    setPhase(phase)
+    setSessionPhase(phase)
     const c = cfgRef.current; if (!c) return
     if (paraIdx  !== undefined) setCurrentParaIdx(paraIdx)
     if (patIdx   !== undefined) setCurrentPatternIdx(patIdx)
@@ -505,61 +435,26 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const endSession = useCallback(() => {
     cfgRef.current = null; clearWaitTimer()
-    currentAskRef.current = null
     setSessionPhase('inactive'); setOrbState('idle'); setTapMode('menu')
     setCurrentParaIdx(0); setCurrentPatternIdx(0)
-    clearCard()
-  }, [clearCard])
-
-  const startBrowsing = useCallback((onExit?: () => void) => {
-    browsingExitRef.current = onExit ?? null
-    setPhase('browsing')
-  }, [])
-
-  const endBrowsing = useCallback(() => {
-    browsingExitRef.current = null
-    setPhase('inactive')
     clearCard()
   }, [clearCard])
 
   // ── Orb tap ───────────────────────────────────────────────────────────────
 
   const handleOrbTap = useCallback(() => {
-    // If a card is open (not help), dismiss it (but keep currentAskRef so re-tap restores it)
+    // If a card is open (not help), dismiss it
     if (card && !card.isHelp) { clearCard(); return }
     // If help card is open, close it
     if (card?.isHelp) { clearCard(); return }
 
-    // No card visible — restore a persistent ask if one is pending
-    if (currentAskRef.current) {
-      showCard(currentAskRef.current)
-      return
-    }
-
-    if (sessionPhase === 'paused') {
-      ask('이어서 할까요?', [{
-        label: 'Resume',
-        primary: true,
-        onClick: () => {
-          ttsProvider.resume?.()
-          setOrbState('idle'); setTapMode('menu'); setSessionPhase('inactive')
-          showMsg("Let's continue.", 2000)
-          resumeCallbackRef.current?.()
-        },
-      }])
-      return
-    }
-
     if (tapMode === 'menu') {
-      if (sessionPhase !== 'inactive' && pageRef.current !== 'story') {
-        // Show help menu card (session pages only, not browse mode)
+      if (sessionPhase !== 'inactive') {
+        // Show help menu card
         setCard({
           id: nextId(), size: 'medium', message: 'Need help?', priority: 1, isHelp: true,
         })
         activePriorityRef.current = 1
-      } else {
-        // Orb tapped while idle — let the page register a custom handler
-        idleOrbCallbackRef.current?.()
       }
       return
     }
@@ -574,7 +469,7 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     if (sessionPhase === 'pat-your-turn-1') { confirmPatternYourTurn1(currentPatternIdx); return }
     if (sessionPhase === 'pat-your-turn-2') { advanceToNextPattern(currentPatternIdx); return }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [card, tapMode, sessionPhase, currentPatternIdx, showMsg, showCard, clearCard, ask,
+  }, [card, tapMode, sessionPhase, currentPatternIdx, showMsg, clearCard,
       startParaListen, confirmParaDone, confirmPatternYourTurn1, advanceToNextPattern])
 
   const closeMenu = useCallback(() => {
@@ -583,112 +478,34 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
 
   const handleMenuRepeat = useCallback(() => {
     clearCard()
-    showMsg('Playing again.', 2000)
-    const c = cfg()
-    if (!c) {
-      repeatCallbackRef.current?.()
-      return
-    }
+    const c = cfg(); if (!c) return
     if (sessionPhase === 'para-your-turn' || sessionPhase === 'para-listen')
       c.playParagraphAudio(currentParaIdx, () => startParaYourTurn(currentParaIdx))
     else if (sessionPhase.startsWith('pat'))
       c.playPatternAudio(currentPatternIdx, () => startPatternYourTurn1(currentPatternIdx))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [card, sessionPhase, currentParaIdx, currentPatternIdx, clearCard, showMsg])
+  }, [card, sessionPhase, currentParaIdx, currentPatternIdx, clearCard])
 
-  const handleOrbTapAudio = useCallback(() => {
-    ttsProvider.pause?.()
-    clearWaitTimer()
-    setCardIsPlaying(false)
-    showCard({
-      size: 'medium', message: 'Listen again?', priority: 1,
-      buttons: [
-        { label: 'Replay', onClick: () => {
-          ttsProvider.stop?.()
-          repeatCallbackRef.current?.()
-        }},
-        { label: 'Continue', primary: true, onClick: () => {
-          ttsProvider.resume?.()
-          setCardIsPlaying(true)
-        }},
-      ],
-    })
+  const handleMenuSkip = useCallback(() => {
+    clearCard(); clearWaitTimer()
+    if (sessionPhase === 'para-your-turn' || sessionPhase === 'para-listen' || sessionPhase === 'para-nice') {
+      const paraTotal = cfgRef.current?.paragraphs.length ?? 0
+      const next = currentParaIdx + 1
+      if (next < paraTotal) startParaListen(next)
+      else { showMsg('Great.', 2000); setTimeout(() => { cfgRef.current?.scrollToPatterns(); setTimeout(() => startPatternListen(0), 800) }, 1200) }
+    } else if (sessionPhase.startsWith('pat')) advanceToNextPattern(currentPatternIdx)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showCard])
+  }, [sessionPhase, currentParaIdx, currentPatternIdx, clearCard])
 
   const handleMenuPause = useCallback(() => {
-    clearCard()
-    ttsProvider.pause?.()
-    cfg()?.stopAudio?.()
-    clearWaitTimer()
+    clearCard(); cfg()?.stopAudio(); clearWaitTimer()
     setOrbState('paused'); setTapMode('done'); setSessionPhase('paused')
-    showMsg('Paused.', 2000)
+    showMsg('Paused.', 99999)
   }, [clearCard, showMsg])
 
-  const resumeFromPause = useCallback(() => {
-    if (sessionPhase !== 'paused') return
-    ttsProvider.resume?.()
-    setOrbState('idle'); setTapMode('menu'); setSessionPhase('inactive')
-    showMsg("Let's continue.", 2000)
-    resumeCallbackRef.current?.()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionPhase, showMsg])
-
   const handleMenuExit = useCallback(() => {
-    const isBrowsing = sessionPhaseRef.current === 'browsing'
-    const savedCard = cardRef.current
-    clearCard()
-    showCard({
-      size: 'medium', message: '세션을 종료할까요?', priority: 1,
-      buttons: [
-        {
-          label: 'Stay',
-          primary: true,
-          onClick: () => {
-            if (savedCard) {
-              const { id: _id, ...rest } = savedCard
-              showCard(rest)
-            }
-          },
-        },
-        {
-          label: 'Exit',
-          onClick: () => {
-            if (browsingExitRef.current) {
-              clearCard()
-              browsingExitRef.current()
-            } else if (isBrowsing) {
-              showMsg('See you.', 2000)
-              setTimeout(() => endBrowsing(), 1800)
-            } else {
-              cfg()?.stopAudio()
-              showMsg('See you.', 2000)
-              setTimeout(() => { cfg()?.onExit(); endSession() }, 1800)
-            }
-          },
-        },
-      ],
-    })
-  }, [clearCard, showCard, showMsg, endSession, endBrowsing])
-
-  // Directly show/toggle help menu — used by GuideDock when on study pages
-  // (where startSession() isn't called, so sessionPhase stays 'inactive')
-  const showHelpMenu = useCallback(() => {
-    // Any open card → close it
-    if (card) { clearCard(); return }
-    // No card — restore pending ask if one exists
-    if (currentAskRef.current) { showCard(currentAskRef.current); return }
-    // Paused → resume
-    if (sessionPhase === 'paused') {
-      setOrbState('waiting'); setTapMode('menu'); setSessionPhase('para-your-turn')
-      showMsg("Let's continue.", 2500)
-      return
-    }
-    // Show help menu
-    const spec: CardSpec = { id: nextId(), size: 'medium', message: 'Need help?', priority: 1, isHelp: true }
-    activePriorityRef.current = 1
-    setCard(spec)
-  }, [card, sessionPhase, showCard, clearCard, showMsg])
+    clearCard(); cfg()?.stopAudio(); cfg()?.onExit(); endSession()
+  }, [clearCard, endSession])
 
   // ── Context value ─────────────────────────────────────────────────────────
 
@@ -708,21 +525,13 @@ export function TrainerStateProvider({ children }: { children: ReactNode }) {
     triggerPulse,
     setPage,
 
-    dismissCard: () => { currentAskRef.current = null; clearCard() },
-    restorePendingAsk: () => {
-      if (currentAskRef.current) { showCard(currentAskRef.current); return true }
-      return false
-    },
-    cardIsPlaying, setCardPlaying, showFlow, setRepeatCallback, setResumeCallback, setIdleOrbCallback,
-    triggerIdleOrbCallback: () => { if (idleOrbCallbackRef.current) { idleOrbCallbackRef.current(); return true } return false },
-
     orbState, tapMode,
     isMenuOpen: card?.isHelp ?? false,
 
     sessionPhase, currentParaIdx, currentPatternIdx,
-    startSession, endSession, startBrowsing, endBrowsing,
-    handleOrbTap, handleOrbTapAudio, showHelpMenu, closeMenu,
-    handleMenuRepeat, handleMenuPause, handleMenuExit, resumeFromPause,
+    startSession, endSession,
+    handleOrbTap, closeMenu,
+    handleMenuRepeat, handleMenuSkip, handleMenuPause, handleMenuExit,
   }
 
   return (

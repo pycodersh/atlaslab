@@ -29,8 +29,4 @@ export interface ITTSProvider {
   speak(options: SpeakOptions): void
   stop(): void
   isAvailable(): boolean
-  pause?(): void
-  resume?(): void
-  /** Linearly fade audio volume to 0 over durationMs, then stop. */
-  fadeOut?(durationMs: number): void
 }

@@ -1,6 +1,6 @@
 // ── Trainer system – shared types ─────────────────────────────────────────────
 
-export type TrainerPage = 'home' | 'story' | 'pattern' | 'essay' | 'progress' | 'library' | 'session' | 'other'
+export type TrainerPage = 'home' | 'story' | 'pattern' | 'essay' | 'progress' | 'library' | 'other'
 
 /** Orb visual state */
 export type OrbState = 'idle' | 'waiting' | 'guiding' | 'paused'
@@ -11,7 +11,6 @@ export type OrbTapMode = 'menu' | 'done'
 /** Session phase — the step-by-step flow for a story session */
 export type SessionPhase =
   | 'inactive'
-  | 'browsing'         // reading/browsing a story without a formal session
   | 'ready'            // "Ready?" — waiting for first tap
   | 'para-listen'      // paragraph audio playing
   | 'para-your-turn'   // waiting for user speech + Orb tap

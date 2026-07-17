@@ -73,6 +73,7 @@ export function TrainerProvider({ children }: { children: React.ReactNode }) {
   return (
     <TrainerStateProvider>
       {children}
+      <GuideDock />
     </TrainerStateProvider>
   )
 }
@@ -248,23 +249,21 @@ function GuideDock() {
           className={isExit ? cardOutClass : cardInClass}
           style={{
             ...cardStyle,
-            width:           activeCard.isHelp ? undefined : activeCard.size === 'large' ? CARD_W_LG : CARD_W,
+            width:           activeCard.size === 'large' ? CARD_W_LG : CARD_W,
             background:      cardBg,
             backdropFilter:  'blur(24px)',
             WebkitBackdropFilter: 'blur(24px)',
             border:          cardBorder,
             boxShadow:       cardShadow,
-            borderRadius:    activeCard.isHelp
-                               ? (isOnRight ? '10px 10px 4px 10px' : '10px 10px 10px 4px')
-                               : 10,
-            padding:         activeCard.isHelp ? '12px 13px'
-                           : activeCard.size === 'small' ? '9px 13px'
+            borderRadius:    activeCard.size === 'small' ? 14
+                           : activeCard.size === 'medium' ? 16 : 18,
+            padding:         activeCard.size === 'small' ? '9px 13px'
                            : activeCard.size === 'medium' ? '13px 14px' : '16px',
             pointerEvents:   'auto',
           }}
         >
           {activeCard.isHelp
-            ? <HelpMenu ctx={ctx} dark={dark} />
+            ? <HelpMenu ctx={ctx} dark={dark} textMain={textMain} textSub={textSub} textPri={textPri} />
             : <CardContent
                 card={activeCard}
                 dark={dark}
@@ -384,37 +383,32 @@ function CardContent({
       {/* Buttons */}
       {hasButtons && (
         <div style={{
-          marginTop: 10,
-          display: 'flex',
-          gap: 8,
+          marginTop: card.size === 'small' ? 0 : 8,
+          display:   'flex',
+          gap:       card.size === 'large' ? 0 : 12,
           flexDirection: card.size === 'large' ? 'column' : 'row',
+          justifyContent: card.size === 'large' ? undefined : 'flex-end',
         }}>
           {card.buttons!.map((btn, i) => (
             <button
               key={i}
               onClick={() => { onClose(); btn.onClick() }}
               style={{
-                flex: card.size !== 'large' ? 1 : undefined,
-                height: 40,
-                background: btn.primary
-                  ? (dark ? 'rgba(160,176,255,0.25)' : 'rgba(128,144,240,0.20)')
-                  : (dark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.07)'),
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-                border: btn.primary
-                  ? (dark ? '1px solid rgba(160,176,255,0.50)' : '1px solid rgba(128,144,240,0.40)')
-                  : (dark ? '1px solid rgba(255,255,255,0.20)' : '1px solid rgba(255,255,255,0.15)'),
-                borderRadius: 10,
-                padding: '0 14px',
-                color: btn.primary
-                  ? (dark ? '#ffffff' : '#4050B0')
-                  : (dark ? '#ffffff' : '#5C6BC0'),
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: 'pointer',
+                background: card.size === 'large'
+                  ? (dark ? 'rgba(107,143,255,0.12)' : 'rgba(107,143,255,0.08)')
+                  : 'none',
+                border: card.size === 'large'
+                  ? (dark ? '0.5px solid rgba(107,143,255,0.25)' : '0.5px solid rgba(107,143,255,0.22)')
+                  : 'none',
+                borderRadius: card.size === 'large' ? 10 : 0,
+                padding: card.size === 'large' ? '10px 14px' : 0,
+                color:   btn.primary ? textPri : textSec,
+                fontSize: card.size === 'large' ? 13 : 13,
+                fontWeight: btn.primary ? 600 : 500,
+                cursor:    'pointer',
                 fontFamily: 'inherit',
-                width: card.size === 'large' ? '100%' : undefined,
-                textAlign: 'center',
+                width:      card.size === 'large' ? '100%' : undefined,
+                textAlign:  card.size === 'large' ? 'center' : undefined,
               }}
             >
               {btn.label}
@@ -428,64 +422,49 @@ function CardContent({
 
 // ── Help Menu card content ────────────────────────────────────────────────────
 
-import { IconRefresh, IconPlayerPause, IconX } from '@tabler/icons-react'
-import type { TrainerCtx } from '@/contexts/TrainerContext'
-
-type HelpAction = 'repeat' | 'pause' | 'exit'
-const HELP_ITEMS: Array<{
-  label: string
-  Icon:  React.ComponentType<{ size?: number; strokeWidth?: number; style?: React.CSSProperties }>
-  action: HelpAction
-  exit?:  boolean
-}> = [
-  { label: 'Repeat', Icon: IconRefresh,    action: 'repeat' },
-  { label: 'Pause',  Icon: IconPlayerPause, action: 'pause'  },
-  { label: 'Exit',   Icon: IconX,           action: 'exit', exit: true },
+const HELP_ITEMS: Array<{ label: string; icon: string; action: string; dim?: boolean }> = [
+  { label: 'Repeat', icon: '↩', action: 'repeat' },
+  { label: 'Skip',   icon: '⏩', action: 'skip'   },
+  { label: 'Pause',  icon: '⏸', action: 'pause'  },
+  { label: 'Exit',   icon: '✕', action: 'exit', dim: true },
 ]
 
-function HelpMenu({ ctx, dark }: {
-  ctx:  TrainerCtx | null
-  dark: boolean
-}) {
-  const iconColor   = dark ? '#A6B8FF' : '#8EA7FF'
-  const iconExit    = dark ? 'rgba(255,255,255,0.40)' : '#ccc'
-  const textColor   = dark ? '#e8e0f8' : '#1a1a2e'
-  const textExit    = dark ? 'rgba(255,255,255,0.38)' : '#aaa'
-  const headerColor = '#8EA7FF'
-  const divider     = dark ? 'rgba(142,167,255,0.12)' : 'rgba(142,167,255,0.08)'
+import type { TrainerCtx } from '@/contexts/TrainerContext'
 
+function HelpMenu({ ctx, dark, textMain, textSub, textPri }: {
+  ctx: TrainerCtx | null
+  dark: boolean; textMain: string; textSub: string; textPri: string
+}) {
+  const divider = dark ? 'rgba(142,167,255,0.08)' : 'rgba(142,167,255,0.10)'
   return (
-    <div style={{ minWidth: 140 }}>
+    <div>
       <p style={{
-        margin: '0 0 6px', fontSize: 9, fontWeight: 700,
-        letterSpacing: '0.1em', textTransform: 'uppercase', color: headerColor,
+        margin: '0 0 8px', fontSize: 9, fontWeight: 700,
+        letterSpacing: '0.12em', textTransform: 'uppercase', color: textPri,
       }}>
         Need help?
       </p>
       {HELP_ITEMS.map((item, i) => (
         <div key={item.action}>
-          {i > 0 && <div style={{ height: 0, borderTop: `0.5px solid ${divider}`, margin: '1px 0' }} />}
+          {i > 0 && <div style={{ height: 0, borderTop: `0.5px solid ${divider}`, margin: '2px 0' }} />}
           <button
             onClick={() => {
               if      (item.action === 'repeat') ctx?.handleMenuRepeat()
+              else if (item.action === 'skip')   ctx?.handleMenuSkip()
               else if (item.action === 'pause')  ctx?.handleMenuPause()
               else if (item.action === 'exit')   ctx?.handleMenuExit()
             }}
             style={{
-              display: 'flex', alignItems: 'center', gap: 8,
-              width: '100%', padding: '6px 0',
+              display: 'flex', alignItems: 'center', gap: 9,
+              width: '100%', padding: '7px 2px',
               background: 'none', border: 'none', cursor: 'pointer',
-              fontFamily: 'inherit', textAlign: 'left',
+              color: item.dim ? (dark ? 'rgba(255,255,255,0.35)' : '#bbb') : textMain,
+              fontSize: 13, fontWeight: 500, fontFamily: 'inherit',
+              textAlign: 'left',
             }}
           >
-            <item.Icon
-              size={14}
-              strokeWidth={1.8}
-              style={{ color: item.exit ? iconExit : iconColor, flexShrink: 0 }}
-            />
-            <span style={{ fontSize: 12, fontWeight: 500, color: item.exit ? textExit : textColor }}>
-              {item.label}
-            </span>
+            <span style={{ width: 16, textAlign: 'center', fontSize: 11, flexShrink: 0 }}>{item.icon}</span>
+            {item.label}
           </button>
         </div>
       ))}

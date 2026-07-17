@@ -10,7 +10,6 @@ import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { usePaddle } from '@/hooks/usePaddle'
 import { useSubscription } from '@/hooks/useSubscription'
 import { getCurrentUser } from '@/lib/auth-actions'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 const MONTHLY_PRICE_ID = process.env.NEXT_PUBLIC_PADDLE_MONTHLY_PRICE_ID!
 const ANNUAL_PRICE_ID  = process.env.NEXT_PUBLIC_PADDLE_ANNUAL_PRICE_ID!
@@ -33,12 +32,17 @@ export default function SubscriptionPage() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const { isPro } = useSubscription()
-  const trainer = useTrainerSafe()
   const [billing, setBilling] = useState<'monthly' | 'annual'>('annual')
   const [loading, setLoading] = useState(false)
+  const [toast, setToast] = useState('')
+
+  function showToast(msg: string) {
+    setToast(msg)
+    setTimeout(() => setToast(''), 2800)
+  }
 
   async function handleUpgrade() {
-    if (!paddle) { trainer?.showMessage('결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.', 3000); return }
+    if (!paddle) { showToast('결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.'); return }
 
     setLoading(true)
     try {
@@ -48,6 +52,7 @@ export default function SubscriptionPage() {
       paddle.Checkout.open({
         items: [{ priceId, quantity: 1 }],
         customer: user?.email ? { email: user.email } : undefined,
+        // Pass user_id so webhook can link subscription to Supabase user
         customData: user?.id ? { user_id: user.id } : undefined,
         settings: {
           displayMode: 'overlay',
@@ -56,7 +61,7 @@ export default function SubscriptionPage() {
         },
       })
     } catch {
-      trainer?.showMessage('결제 창을 열 수 없습니다. 다시 시도해주세요.', 3000)
+      showToast('결제 창을 열 수 없습니다. 다시 시도해주세요.')
     } finally {
       setLoading(false)
     }
@@ -226,6 +231,17 @@ export default function SubscriptionPage() {
         </p>
       </div>
 
+      {toast && (
+        <div style={{
+          position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)',
+          background: 'var(--pt)', color: 'var(--pb)',
+          fontSize: 12, padding: '10px 22px', borderRadius: 999,
+          boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+          zIndex: 50, whiteSpace: 'nowrap', letterSpacing: '0.04em',
+        }}>
+          {toast}
+        </div>
+      )}
     </div>
   )
 }

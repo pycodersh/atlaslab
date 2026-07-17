@@ -12,8 +12,6 @@ import {
   resetDailyReviewCount,
 } from '@/lib/essays/storage'
 import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS } from '@/lib/subscription/storage'
-import { addMySentence } from '@/lib/sentences/storage'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { AnnotatedManuscript } from '@/components/essay/EssayRenderer'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -188,7 +186,6 @@ type Props = {
 export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
   const t = useT()
   const { prefs } = usePreferences()
-  const trainer = useTrainerSafe()
 
   const [essay, setEssay]                   = useState<Essay | null>(null)
   const [title, setTitle]                   = useState('')
@@ -197,10 +194,11 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
   const [loading, setLoading]               = useState(false)
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [error, setError]                   = useState<ValidationError>(null)
-
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [showCompare, setShowCompare]       = useState(false)
   const [showAllFeedback, setShowAllFeedback] = useState(false)
   const [devMsg, setDevMsg]                 = useState('')
+  const [cacheToast, setCacheToast]         = useState(false)
 
   const titleManuallyEdited = useRef(false)
 
@@ -267,7 +265,7 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
       const updated = saveReview(id, data.review as Parameters<typeof saveReview>[1])
       if (updated) { setEssay(updated); setTitle(updated.title); setBody(updated.body) }
       if (!data.cached) recordReviewUsed()
-      if (data.cached) { trainer?.showMessage(t('essays_no_change'), 3500) }
+      if (data.cached) { setCacheToast(true); setTimeout(() => setCacheToast(false), 3500) }
       setIsEditing(false)
     } catch { await minDelay; setOverlayVisible(false); setError('service_unavailable') }
     setLoading(false)
@@ -289,15 +287,8 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
 
   function handleDelete() {
     deleteEssay(id)
-    trainer?.showMessage('Removed.', 1500)
-    setTimeout(() => { onDeleted(); onClose() }, 300)
-  }
-
-  function confirmDelete() {
-    trainer?.ask('Remove this item?', [
-      { label: 'Cancel', onClick: () => {} },
-      { label: 'Remove', primary: true, onClick: handleDelete },
-    ])
+    onDeleted()
+    onClose()
   }
 
   function handleEditClick() {
@@ -341,7 +332,7 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
               Edit Essay
             </button>
           )}
-          <button type="button" onClick={confirmDelete}
+          <button type="button" onClick={() => setShowDeleteConfirm(true)}
             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Trash2 style={{ width: 14, height: 14, color: 'var(--pm2)' }} strokeWidth={1.8} />
           </button>
@@ -486,19 +477,7 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
                 </div>
                 <div style={{ ...glassCard }}>
                   {showCompare ? <DiffText original={essay.body} corrected={review.suggestedVersion} /> : <p style={{ fontSize: 15, lineHeight: 1.85, color: 'var(--pt)', margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{review.suggestedVersion}</p>}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 12 }}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        addMySentence({ text: review.suggestedVersion!, source: 'writing-studio' })
-                        trainer?.showMessage('⭐ My Sentences에 저장됐어요.', 2000)
-                      }}
-                      style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'none', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '4px 11px', cursor: 'pointer', fontSize: 11, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}
-                    >
-                      ⭐ 이 문장 저장
-                    </button>
-                    <p style={{ fontSize: 10, color: 'var(--pm2)', margin: 0 }}>{wordCount(review.suggestedVersion)} words</p>
-                  </div>
+                  <p style={{ fontSize: 10, color: 'var(--pm2)', margin: '12px 0 0', textAlign: 'right' }}>{wordCount(review.suggestedVersion)} words</p>
                 </div>
               </div>
             )}
@@ -570,6 +549,26 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
       </div>
 
       <ReviewOverlay visible={overlayVisible} />
+
+      {cacheToast && (
+        <div style={{ position: 'fixed', bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))', left: '50%', transform: 'translateX(-50%)', background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pd)', borderRadius: 12, padding: '10px 18px', fontSize: 12.5, color: 'var(--pt)', whiteSpace: 'nowrap', zIndex: 200, boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}>
+          {t('essays_no_change')}
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.38)', zIndex: 50, display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }} onClick={() => setShowDeleteConfirm(false)}>
+          <div style={{ background: 'var(--pc)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderRadius: '22px 22px 0 0', padding: '32px 28px calc(36px + env(safe-area-inset-bottom, 0px))', width: '100%', maxWidth: 540 }} onClick={e => e.stopPropagation()}>
+            <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--pd)', margin: '0 auto 28px' }} />
+            <p style={{ fontSize: 17, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px' }}>{t('essays_delete_title')}</p>
+            <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 32px', lineHeight: 1.65 }}>{t('essays_delete_desc')}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <button type="button" onClick={handleDelete} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit' }}>{t('essays_delete_confirm')}</button>
+              <button type="button" onClick={() => setShowDeleteConfirm(false)} style={{ width: '100%', padding: '15px 0', borderRadius: 14, border: '1.5px solid var(--pd)', background: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>{t('essays_cancel')}</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }

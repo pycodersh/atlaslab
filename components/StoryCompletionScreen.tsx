@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import type { MagazineStory } from '@/types/magazine'
 import type { StoryRoundData } from '@/lib/srs/story-round'
 import { nextReviewLabel } from '@/lib/srs/story-round'
@@ -9,128 +10,75 @@ type Props = {
   story: MagazineStory
   roundData: StoryRoundData
   recallRounds: number
-  elapsedMinutes?: number
 }
 
-export function StoryCompletionScreen({ story, roundData, recallRounds, elapsedMinutes = 1 }: Props) {
+export function StoryCompletionScreen({ story, roundData, recallRounds }: Props) {
+  const router   = useRouter()
   const { theme } = useTheme()
-  const isDark = theme === 'dark'
+  const isDark   = theme === 'dark'
 
   const isMastered   = roundData.isMastered
   const reviewLabel  = nextReviewLabel(roundData)
-  const nextDays     = reviewLabel ? reviewLabel.replace('후', '').trim() : null
-
-  const textPrimary  = isDark ? 'rgba(255,255,255,0.92)' : '#14142a'
-  const textMuted    = isDark ? 'rgba(255,255,255,0.38)' : 'rgba(40,40,80,0.42)'
-  const cardBg       = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(107,143,255,0.05)'
-  const cardBorder   = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,143,255,0.12)'
-
-  const streak = roundData.round + 1
+  const textPrimary  = isDark ? 'rgba(255,255,255,0.95)' : '#1a1a2e'
+  const textSecondary= isDark ? 'rgba(255,255,255,0.55)' : '#5a5a7a'
+  const accent       = isDark ? '#8FABFF' : '#8EA7FF'
 
   return (
     <div style={{
-      padding: '40px 20px 56px',
-      display: 'flex', flexDirection: 'column', alignItems: 'center',
-      gap: 0,
+      padding: '36px 24px 48px',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
     }}>
-      {/* Gold check icon */}
-      <div style={{
-        width: 64, height: 64, borderRadius: 22,
-        background: 'linear-gradient(135deg, rgba(215,181,109,0.2), rgba(215,181,109,0.08))',
-        border: '0.5px solid rgba(215,181,109,0.35)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        marginBottom: 20,
-      }}>
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"
-          stroke="#D7B56D" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
+      <div style={{ fontSize: 44, lineHeight: 1, marginBottom: 6 }}>
+        {isMastered ? '🎉' : '✅'}
       </div>
 
-      {/* Session Complete label */}
-      <p style={{ margin: '0 0 6px', fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: textMuted, textTransform: 'uppercase' }}>
-        {isMastered ? 'Mastered' : 'Session Complete'}
-      </p>
-
-      {/* Story title */}
       <h2 style={{
-        margin: '0 0 6px',
-        fontFamily: 'var(--font-playfair), Georgia, serif',
-        fontSize: 20, fontWeight: 700,
-        color: textPrimary, textAlign: 'center', lineHeight: 1.3,
+        margin: 0, fontSize: 20, fontWeight: 800, color: textPrimary, textAlign: 'center',
       }}>
-        {story.title}
+        {isMastered ? '이 스토리 완전 마스터!' : '오늘 학습 완료!'}
       </h2>
 
-      {/* Meta line */}
-      <p style={{ margin: '0 0 28px', fontSize: 10, color: textMuted, letterSpacing: '0.03em' }}>
-        Round {roundData.round + 1} · {story.patterns.length} patterns · {elapsedMinutes} min
+      <p style={{ margin: '4px 0 0', fontSize: 13, color: textSecondary, textAlign: 'center' }}>
+        {story.title} · 패턴 {story.patterns.length}개 · {recallRounds}라운드
       </p>
 
-      {/* Stat cards */}
-      <div style={{ display: 'flex', gap: 8, width: '100%', marginBottom: 20 }}>
-        <StatCard
-          emoji="🔥"
-          label="Streak"
-          value={String(streak)}
-          accent={isDark ? '#D7B56D' : '#C9A84C'}
-          bg={isDark ? 'rgba(215,181,109,0.08)' : 'rgba(215,181,109,0.06)'}
-          border={isDark ? 'rgba(215,181,109,0.2)' : 'rgba(215,181,109,0.22)'}
-          textPrimary={textPrimary}
-        />
-        <StatCard
-          emoji="⚡"
-          label="Patterns"
-          value={String(story.patterns.length * recallRounds)}
-          accent={isDark ? '#8FABFF' : '#6B8FFF'}
-          bg={isDark ? 'rgba(107,143,255,0.08)' : 'rgba(107,143,255,0.06)'}
-          border={isDark ? 'rgba(107,143,255,0.2)' : 'rgba(107,143,255,0.18)'}
-          textPrimary={textPrimary}
-        />
-        <StatCard
-          emoji="⏱"
-          label="Time"
-          value={`${elapsedMinutes}m`}
-          accent={isDark ? '#C4AAFF' : '#9B7FE8'}
-          bg={isDark ? 'rgba(164,120,255,0.08)' : 'rgba(164,120,255,0.06)'}
-          border={isDark ? 'rgba(164,120,255,0.2)' : 'rgba(164,120,255,0.18)'}
-          textPrimary={textPrimary}
-        />
+      {!isMastered && reviewLabel && (
+        <div style={{
+          marginTop: 14, padding: '10px 22px', borderRadius: 12,
+          background: isDark ? 'rgba(143,171,255,0.14)' : 'rgba(142,167,255,0.10)',
+          border: `1px solid ${accent}44`,
+        }}>
+          <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: accent, textAlign: 'center' }}>
+            다음 복습: {reviewLabel}
+          </p>
+        </div>
+      )}
+
+      <div style={{ display: 'flex', gap: 10, marginTop: 22, width: '100%' }}>
+        <button
+          type="button"
+          onClick={() => router.push('/patto/home')}
+          style={{
+            flex: 1, height: 48, borderRadius: 14, cursor: 'pointer',
+            border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(142,167,255,0.28)'}`,
+            background: 'transparent',
+            fontSize: 14, fontWeight: 600, color: textPrimary, fontFamily: 'inherit',
+          }}
+        >
+          홈으로
+        </button>
+        <button
+          type="button"
+          onClick={() => router.push('/patto/essays')}
+          style={{
+            flex: 1, height: 48, borderRadius: 14, cursor: 'pointer',
+            border: 'none', background: accent,
+            fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: 'inherit',
+          }}
+        >
+          에세이 써보기
+        </button>
       </div>
-
-      {/* Next review */}
-      {!isMastered && nextDays && (
-        <p style={{ fontSize: 10, color: textMuted, marginBottom: 0 }}>
-          Next review in {nextDays}
-        </p>
-      )}
-      {isMastered && (
-        <p style={{ fontSize: 10, color: textMuted, marginBottom: 0 }}>
-          Fully mastered ·  no review needed
-        </p>
-      )}
-
-      {/* Bottom padding for trainer card clearance */}
-      <div style={{ height: 120 }} />
-    </div>
-  )
-}
-
-function StatCard({
-  emoji, label, value, accent, bg, border, textPrimary,
-}: {
-  emoji: string; label: string; value: string
-  accent: string; bg: string; border: string; textPrimary: string
-}) {
-  return (
-    <div style={{
-      flex: 1, borderRadius: 14, padding: '14px 10px',
-      background: bg, border: `0.5px solid ${border}`,
-      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-    }}>
-      <span style={{ fontSize: 18 }}>{emoji}</span>
-      <span style={{ fontSize: 16, fontWeight: 700, color: accent, fontVariantNumeric: 'tabular-nums' }}>{value}</span>
-      <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.1em', color: textPrimary, opacity: 0.45, textTransform: 'uppercase' }}>{label}</span>
     </div>
   )
 }

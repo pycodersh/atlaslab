@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine, Dumbbell, AlertCircle, Lightbulb } from 'lucide-react'
-import { IconMoodPuzzled, IconPuzzle, IconRepeat, IconCheck } from '@tabler/icons-react'
+import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, BookOpen, RotateCcw, Check, PartyPopper, Clock, EyeOff, PenLine, Dumbbell } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -21,22 +20,6 @@ import { useIsDesktop } from '@/hooks/useIsDesktop'
 import { useT } from '@/hooks/useT'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
-import { useAuth } from '@/contexts/AuthContext'
-import { useVisitCount } from '@/hooks/useVisitCount'
-import {
-  getTimeOfDay,
-  getFirstVisitButtons,
-  getVeteranHomeButton,
-} from '@/lib/scenario/scenario-engine'
-import {
-  getLearnerLevel,
-  loadStats,
-  getAdaptiveHomeMessage,
-  getSpecialSituation,
-} from '@/lib/adaptive/adaptive-engine'
-import { loadStatsFromSupabase } from '@/lib/adaptive/supabase-sync'
-import { setOrbIntroCard, type Corner } from '@/components/trainer/TrainerOrb'
-import { OnboardingModal } from '@/components/onboarding/OnboardingModal'
 
 // ── All Stories panel (desktop right column) ──────────────────────────────────
 type AllStoryLabel = 'Today' | 'Reading' | 'Review' | 'Done' | 'New'
@@ -597,231 +580,6 @@ function DesktopTipInline({ onClose, initialIndex = 0 }: { onClose: () => void; 
   )
 }
 
-// ── First-Visit Onboarding Card ───────────────────────────────────────────────
-const INTRO_W = 290
-const INTRO_H = 346
-const INTRO_ORB_SIZE = 52
-
-function IntroOnboardingCard({
-  corner,
-  isDark,
-  onComplete,
-}: {
-  corner: Corner
-  isDark: boolean
-  onComplete: () => void
-}) {
-  const [idx, setIdx]         = useState(0)
-  const [transit, setTransit] = useState(false)
-  const [tOffset, setTOffset] = useState(0)
-  const [dragX, setDragX]     = useState(0)
-  const isTransiting           = useRef(false)
-  const touchStartX            = useRef(0)
-  const TOTAL = 3
-
-  function slide(dir: 1 | -1) {
-    if (isTransiting.current) return
-    const next = idx + dir
-    if (next < 0 || next >= TOTAL) return
-    isTransiting.current = true
-    setTransit(true)
-    setTOffset(-dir)
-    setTimeout(() => {
-      setIdx(next)
-      setTransit(false)
-      setTOffset(0)
-      isTransiting.current = false
-    }, 280)
-  }
-
-  function onTouchStart(e: React.TouchEvent) { touchStartX.current = e.touches[0].clientX }
-  function onTouchMove(e: React.TouchEvent) {
-    if (isTransiting.current) return
-    setDragX(e.touches[0].clientX - touchStartX.current)
-  }
-  function onTouchEnd() {
-    if (isTransiting.current) return
-    if (dragX < -INTRO_W * 0.22)     slide(1)
-    else if (dragX > INTRO_W * 0.22) slide(-1)
-    else setDragX(0)
-  }
-
-  const dragPct = dragX / INTRO_W * 100
-  const railPct = -(idx * 100) + (transit ? tOffset * 100 : dragPct)
-
-  // ── Card shell — mirrors TrainerOrb card colors ───────────────────────────
-  const cardBg     = isDark ? 'rgba(30,28,48,0.85)'  : 'rgba(255,255,255,0.75)'
-  const cardBorder = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
-  const cardShadow = isDark
-    ? '0 16px 40px rgba(0,0,0,0.40)'
-    : '0 -3px 16px rgba(142,167,255,0.12), 0 8px 24px rgba(142,167,255,0.10)'
-  const textMain = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
-  const textSub  = isDark ? 'rgba(255,255,255,0.55)' : '#5a5a7a'
-
-  // ── Dots indicator ─────────────────────────────────────────────────────────
-  const dots = (
-    <div style={{ display: 'flex', gap: 5, marginBottom: 14 }}>
-      {Array.from({ length: TOTAL }, (_, j) => (
-        <div key={j} style={{
-          borderRadius: idx === j ? 3 : '50%',
-          width: idx === j ? 18 : 6, height: 6,
-          background: idx === j ? '#5C6BC0' : '#ddd',
-          transition: 'all 0.25s ease',
-          flexShrink: 0,
-        }} />
-      ))}
-    </div>
-  )
-
-  const cardInner: React.CSSProperties = {
-    display: 'flex', flexDirection: 'column',
-    height: INTRO_H, boxSizing: 'border-box',
-    padding: '26px 18px 18px', wordBreak: 'keep-all',
-  }
-
-  // ── Card 1 — 왜 말이 안 나올까? ──────────────────────────────────────────
-  const card1 = (
-    <div style={cardInner}>
-      {dots}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 20, flexShrink: 0 }}>
-        <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(232,98,74,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <IconMoodPuzzled size={20} color="#E8624A" stroke={1.8} />
-        </div>
-        <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: 0, lineHeight: 1.2 }}>왜 말이 안 나올까?</p>
-      </div>
-      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: 0 }}>
-        영어 단어를 알아도 막상 말하려면 막히죠.{'\n'}
-        단어를 아는 것과 말할 수 있는 건 달라요.{'\n'}
-        단어를 어떻게 조합하는지, 즉 패턴을 모르기 때문이에요.
-      </p>
-      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '10px 0 0' }}>
-        원어민은 같은 패턴을 반복해서 써요.{'\n'}
-        그 패턴을 익히면 말이 자연스럽게 나오고,{'\n'}
-        원어민의 말도 훨씬 잘 들려요.
-      </p>
-      <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex' }}>
-        <button type="button" className="trainer-btn trainer-btn-primary" style={{ flex: 1 }} onClick={() => slide(1)}>Next</button>
-      </div>
-    </div>
-  )
-
-  // ── Card 2 — 핵심 패턴 500개로 시작해요 ───────────────────────────────────
-  const card2 = (
-    <div style={cardInner}>
-      {dots}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 20, flexShrink: 0 }}>
-        <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(92,107,192,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <IconPuzzle size={20} color="#5C6BC0" stroke={1.8} />
-        </div>
-        <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: 0, lineHeight: 1.2 }}>핵심 패턴 500개로 시작해요</p>
-      </div>
-      <div style={{ background: 'rgba(92,107,192,0.08)', borderRadius: 8, padding: '9px 12px', marginBottom: 10, flexShrink: 0 }}>
-        <p style={{ fontSize: 13, fontWeight: 500, color: '#3a4a9a', margin: '0 0 3px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>&#39;I ended up ~ing&#39;</p>
-        <p style={{ fontSize: 13, fontWeight: 500, color: '#3a4a9a', margin: 0, fontFamily: 'system-ui, -apple-system, sans-serif' }}>&#39;I was about to ~&#39;</p>
-      </div>
-      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: 0 }}>
-        원어민이 가장 자주 쓰는 핵심 패턴 500개.{'\n'}
-        이 패턴들이 자연스럽게 입에 배면{'\n'}
-        일상 대화가 술술 나와요.
-      </p>
-      <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex', gap: 8 }}>
-        <button type="button" className="trainer-btn trainer-btn-secondary" onClick={() => slide(-1)}>Back</button>
-        <button type="button" className="trainer-btn trainer-btn-primary" onClick={() => slide(1)}>Next</button>
-      </div>
-    </div>
-  )
-
-  // ── Card 3 — 트레이너와 함께 반복해요 ────────────────────────────────────
-  const card3 = (
-    <div style={cardInner}>
-      {dots}
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 20, flexShrink: 0 }}>
-        <div style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(76,175,144,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <IconRepeat size={20} color="#4CAF90" stroke={1.8} />
-        </div>
-        <p style={{ fontSize: 13, fontWeight: 700, color: textMain, margin: 0, lineHeight: 1.2 }}>트레이너와 함께 반복해요</p>
-      </div>
-      <p style={{ fontSize: 12.5, lineHeight: 1.65, color: textSub, margin: '0 0 20px' }}>
-        사람은 배운 것을 잊어요. Patto는 망각 이론을 기반으로{'\n'}
-        딱 맞는 타이밍에 패턴을 다시 보여줘요.{'\n'}
-        각 패턴을 총 10회 반복하면{'\n'}
-        자연스럽게 장기 기억으로 쌓입니다.
-      </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'center', flexShrink: 0 }}>
-        {[0, 1].map(row => (
-          <div key={row} style={{ display: 'flex', gap: 5 }}>
-            {Array.from({ length: 5 }, (_, col) => col + row * 5).map(k => (
-              <div key={k} style={{
-                width: 23, height: 23, borderRadius: '50%', flexShrink: 0,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: k < 3 ? 'rgba(76,175,144,0.15)' : k === 3 ? 'rgba(92,107,192,0.12)' : '#f0f1f5',
-                border: k === 3 ? '1.5px solid #A6B8FF' : '1.5px solid transparent',
-              }}>
-                {k < 3
-                  ? <IconCheck size={12} color="#2e7d32" stroke={2.5} />
-                  : <span style={{ fontSize: 9, fontWeight: 700, color: k === 3 ? '#5C6BC0' : '#bbb' }}>{k + 1}</span>
-                }
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      <div style={{ marginTop: 'auto', paddingTop: 10, display: 'flex', gap: 8 }}>
-        <button type="button" className="trainer-btn trainer-btn-secondary" onClick={() => slide(-1)}>Back</button>
-        <button type="button" className="trainer-btn trainer-btn-primary" onClick={onComplete}>Start</button>
-      </div>
-    </div>
-  )
-
-  const CARDS = [card1, card2, card3]
-
-  const isRight  = corner.endsWith('r')
-  const isBottom = corner.startsWith('b')
-  const vPos = isBottom ? { bottom: INTRO_ORB_SIZE + 10 } : { top: INTRO_ORB_SIZE + 10 }
-  const hPos = isRight  ? { right: 0 }                   : { left: 0 }
-
-  return (
-    <div
-      style={{
-        position: 'absolute',
-        ...vPos,
-        ...hPos,
-        width: INTRO_W,
-        height: INTRO_H,
-        zIndex: 199,
-        borderRadius: 16,
-        background: cardBg,
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border: cardBorder,
-        boxShadow: cardShadow,
-        overflow: 'hidden',
-      }}
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-    >
-      <div style={{
-        display: 'flex', width: `${TOTAL * 100}%`, height: '100%',
-        transform: `translateX(${railPct / TOTAL}%)`,
-        transition: transit ? 'transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none',
-        willChange: 'transform',
-      }}>
-        {CARDS.map((card, i) => (
-          <div key={i} style={{ width: `${100 / TOTAL}%`, height: '100%', flexShrink: 0, overflow: 'hidden' }}>
-            {card}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function IntroOnboardingOverlay({ onComplete }: { onComplete: () => void }) {
-  void onComplete // kept for call-site compat; actual logic via setOrbIntroCard
-  return null
-}
-
 // ── Types ─────────────────────────────────────────────────────────────────────
 function getDateLabel() {
   return new Date().toLocaleDateString('en-US', {
@@ -856,63 +614,18 @@ export default function HomePage() {
   const [todayStory, setTodayStory]         = useState<MagazineStory>(magazineStories[0])
   const [newDone, setNewDone]               = useState(false)
   const [reviewDone, setReviewDone]         = useState(false)
-  const [newStoriesData,    setNewStoriesData]    = useState<Array<{ id: number; title: string; done: boolean }>>([])
+  const [newStoriesData,    setNewStoriesData]    = useState<Array<{ id: number; title: string }>>([])
   const [reviewStoriesData, setReviewStoriesData] = useState<Array<{ id: number; title: string; reviewCount: number; done: boolean }>>([])
   const [scheduledList, setScheduledList]   = useState<ScheduledStory[]>([])
   const [allDone, setAllDone]               = useState(false)
   const [tipOpen, setTipOpen]               = useState(false)
   const [guideOpen, setGuideOpen]           = useState(false)
-  const [showOnboarding, setShowOnboarding] = useState(false)
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
   const [srsTodayId, setSrsTodayId] = useState<number | null>(null)
   const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
   const [hasStudied, setHasStudied] = useState(false)
-  const [nextIncompleteStoryId, setNextIncompleteStoryId] = useState<number>(1)
+  const [trainerSheetOpen, setTrainerSheetOpen] = useState(false)
   const trainer = useTrainerSafe()
-  const trainerRef = useRef(trainer)
-  trainerRef.current = trainer
-  const { user } = useAuth()
-  const { visitorType } = useVisitCount(user?.id)
-
-  // Load adaptive stats from Supabase once on login
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-
-    if (params.get('reset') === 'onboarding') {
-      const ONBOARDING_KEYS = [
-        'patto_onboarding_shown',
-        'patto_visit_count',
-        'patto_just_logged_in',
-      ]
-      ONBOARDING_KEYS.forEach(k => { try { localStorage.removeItem(k) } catch {} })
-      window.history.replaceState({}, '', window.location.pathname)
-      // show onboarding immediately after reset
-      setShowOnboarding(true)
-      return
-    }
-
-    if (params.has('showIntro')) setShowOnboarding(true)
-  }, [])
-
-  const handleIntroComplete = useCallback(() => {
-    setShowOnboarding(false)
-    setOrbIntroCard(null)
-    trainerRef.current?.say("같이 시작해봐요!", 1500)
-    setTimeout(() => {
-      try { localStorage.setItem('is_guided_session', 'true') } catch {}
-      router.push('/patto/focus/1?guided=true')
-    }, 600)
-  }, [router])
-
-  useEffect(() => {
-    // OnboardingModal is rendered directly in JSX — clear any orb card
-    setOrbIntroCard(null)
-    return () => { setOrbIntroCard(null) }
-  }, [showOnboarding, handleIntroComplete])
-
-  useEffect(() => {
-    if (user?.id) loadStatsFromSupabase(user.id)
-  }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
@@ -927,7 +640,6 @@ export default function HomePage() {
     const firstPending = missionItems.find(i => !i.done)
     if (firstPending) {
       setFirstHref(firstPending.href)
-      setNextIncompleteStoryId(firstPending.storyId)
     } else {
       const lastPos = getLastPosition()
       if (lastPos) {
@@ -957,7 +669,7 @@ export default function HomePage() {
 
     setNewStoriesData(newMissions.map(i => {
       const s = magazineStories.find(ms => ms.id === i.storyId)
-      return { id: i.storyId, title: s?.title ?? '', done: i.done }
+      return { id: i.storyId, title: s?.title ?? '' }
     }))
     const patByStory = new Map<number, number[]>()
     for (const r of records) {
@@ -1048,159 +760,15 @@ export default function HomePage() {
     return () => document.removeEventListener('visibilitychange', onVisible)
   }, [loadMissions])
 
-  // Scenario Engine: home entry message 1.5s after mount
+  // Trainer: show "Ready?" on home page when not yet studied today
   useEffect(() => {
-    const t = trainerRef.current
-    if (!t) return
-
-    t.setPage('home')
-
-    // "Welcome back." on first re-login (runs before scenario message)
-    let welcomeEndMs = 0
-    if (user) {
-      const justLoggedIn = localStorage.getItem('patto_just_logged_in')
-      if (justLoggedIn) {
-        localStorage.removeItem('patto_just_logged_in')
-        const createdAt  = user.created_at ? new Date(user.created_at).getTime() : 0
-        const lastSignIn = user.last_sign_in_at ? new Date(user.last_sign_in_at).getTime() : 0
-        const isFirstLogin = Math.abs(createdAt - lastSignIn) < 2000
-        if (!isFirstLogin) {
-          welcomeEndMs = 500 + 2000 + 300
-          setTimeout(() => trainerRef.current?.showMessage('Welcome back.', 2000), 500)
-        }
-      }
+    if (!trainer) return
+    trainer.setPage('home')
+    if (!hasStudied) {
+      const t = setTimeout(() => trainer.showMessage('Ready?', 2500), 1200)
+      return () => clearTimeout(t)
     }
-
-    // 세션 완료 후 재진입 시 완료 메시지 (visitorType이 확정될 때까지 잠깐 대기)
-    if (hasStudied) {
-      const timer = setTimeout(() => {
-        if (allDone) {
-          const todayDate = todayStr()
-          const completedToday = new Set(magazineStories.filter(s => getStoryRound(s.id).lastCompletedAt === todayDate).map(s => s.id))
-          const completedCount = completedToday.size
-          const nextNew = magazineStories.find(s => !completedToday.has(s.id) && getStoryStatus(s.id) === 'new')
-          const nextHref = nextNew ? `/patto/focus/${nextNew.id}` : '/patto/stories/all'
-          trainerRef.current?.ask(`오늘 ${completedCount}개 완료했어요. 잘했어요!`, [
-            { label: 'Keep going!', primary: true, onClick: () => { trainerRef.current?.clearMessage(); router.push(nextHref) } },
-            { label: 'Done for today', onClick: () => trainerRef.current?.clearMessage() },
-          ])
-        } else {
-          trainerRef.current?.ask("오늘 세션 시작할까요?", [
-            {
-              label: 'Start',
-              primary: true,
-              onClick: () => {
-                trainerRef.current?.clearMessage()
-                router.push(`/patto/focus/${nextIncompleteStoryId}`)
-              },
-            },
-            {
-              label: 'Later',
-              onClick: () => {
-                trainerRef.current?.say('준비됐을 때 알려주세요!', 1500)
-              },
-            },
-          ])
-        }
-      }, welcomeEndMs > 0 ? welcomeEndMs : 1500)
-      return () => clearTimeout(timer)
-    }
-
-    // Scenario-based home entry message
-    const delay = welcomeEndMs > 0 ? welcomeEndMs : 1500
-
-    const adaptStats = loadStats()
-    const level = getLearnerLevel(adaptStats)
-    const adaptMsg = getAdaptiveHomeMessage(level, visitorType, getTimeOfDay(), adaptStats)
-    const situation = getSpecialSituation(adaptStats)
-
-    let timer: ReturnType<typeof setTimeout>
-
-    // Long absence: special buttons regardless of visitorType
-    if (situation?.type === 'long_absence') {
-      timer = setTimeout(() => {
-        trainerRef.current?.ask(adaptMsg, [
-          {
-            label: 'Review',
-            onClick: () => {
-              trainerRef.current?.say("이어서 시작해봐요.", 2000)
-              router.push(`/patto/focus/${todayStory.id}`)
-            },
-          },
-          {
-            label: 'New story',
-            primary: true,
-            onClick: () => {
-              trainerRef.current?.clearMessage()
-              router.push('/patto/stories/all')
-            },
-          },
-        ])
-      }, delay)
-    } else if (visitorType === 'first_visit') {
-      // Skip if already shown (e.g. page refresh within same visit session)
-      const alreadyShown = (() => { try { return localStorage.getItem('patto_onboarding_shown') === '1' } catch { return false } })()
-      if (alreadyShown) {
-        // Fall through to a simple welcome
-        timer = setTimeout(() => {
-          trainerRef.current?.say("다시 오셨군요! 도움이 필요하면 불러주세요.", 3000)
-        }, delay)
-      } else {
-        const markShown = () => { try { localStorage.setItem('patto_onboarding_shown', '1') } catch {} }
-
-        timer = setTimeout(() => {
-          // Step 1: welcome whisper
-          trainerRef.current?.say("PATTO에 오신 것을 환영해요! 저는 학습을 도와주는 트레이너입니다.", 2000)
-          // Step 2: intro offer card after whisper ends
-          setTimeout(() => {
-            trainerRef.current?.ask("PATTO 소개를 받아볼까요?", [
-              {
-                label: 'Browse',
-                onClick: () => {
-                  markShown()
-                  trainerRef.current?.say("천천히 구경하세요! 필요하면 불러주세요.", 3000)
-                },
-              },
-              {
-                label: 'Intro',
-                primary: true,
-                onClick: () => {
-                  markShown()
-                  trainerRef.current?.clearMessage()
-                  setShowOnboarding(true)
-                },
-              },
-            ])
-          }, 2300)
-        }, delay)
-      }
-    } else {
-      // veteran / returning / regular: "오늘 세션 시작할까요?" + Later + Start
-      timer = setTimeout(() => {
-        trainerRef.current?.ask('오늘 세션 시작할까요?', [
-          {
-            label: 'Later',
-            onClick: () => {
-              trainerRef.current?.say('준비됐을 때 알려주세요!', 1500)
-            },
-          },
-          {
-            label: 'Start',
-            primary: true,
-            onClick: () => {
-              trainerRef.current?.clearMessage()
-              router.push(`/patto/focus/${todayStory.id}`)
-            },
-          },
-        ])
-      }, delay)
-    }
-
-    return () => {
-      clearTimeout(timer)
-      trainerRef.current?.setIdleOrbCallback(null)
-    }
-  }, [user?.id, visitorType, hasStudied, allDone, nextIncompleteStoryId]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [hasStudied]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const frostedCard: React.CSSProperties = {
     background: 'var(--pglass)',
@@ -1232,7 +800,6 @@ export default function HomePage() {
 
   return (
     <div style={{ minHeight: '100dvh' }}>
-      <OnboardingModal visible={showOnboarding} onComplete={handleIntroComplete} />
       <TopNav />
 
       {/* ── Desktop shell ── */}
@@ -1242,7 +809,7 @@ export default function HomePage() {
       {/* ── Left column (always) ── */}
       <div style={{
         paddingTop: 0,
-        paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 96px)`,
+        paddingBottom: `calc(${TAB_BAR_HEIGHT}px + 24px)`,
       }}>
 
         {/* ── Date ── */}
@@ -1293,58 +860,79 @@ export default function HomePage() {
               </p>
             </div>
             {/* Continue — more transparent */}
-            {(() => {
-              const heroStoryDone = newStoriesData.find(s => s.id === todayStory.id)?.done ?? false
-              if (heroStoryDone) {
-                return (
-                  <div style={{
-                    flexShrink: 0,
-                    display: 'inline-flex', alignItems: 'center', gap: 5,
-                    background: 'rgba(80,200,120,0.25)',
-                    border: '1px solid rgba(80,200,120,0.5)',
-                    borderRadius: 999, padding: '9px 16px',
-                    fontSize: 12, fontWeight: 700, color: '#fff',
-                    letterSpacing: '0.01em', whiteSpace: 'nowrap',
-                    cursor: 'default',
-                  }}>
-                    완료 ✓
-                  </div>
-                )
+            <motion.button
+              type="button"
+              onClick={e => { e.stopPropagation(); router.push(`/patto/stories/${todayStory.id}`) }}
+              style={{
+                flexShrink: 0,
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                background: 'rgba(255,255,255,0.18)',
+                backdropFilter: 'blur(16px) saturate(160%)',
+                WebkitBackdropFilter: 'blur(16px) saturate(160%)',
+                border: '1px solid rgba(255,255,255,0.45)',
+                borderRadius: 999, padding: '9px 16px',
+                cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#fff',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                letterSpacing: '0.01em', whiteSpace: 'nowrap',
+              }}
+              whileTap={{ scale: 0.93 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              {allDone ? t('status_done') : 'Start'}
+              {allDone
+                ? <PartyPopper style={{ width: 12, height: 12 }} strokeWidth={2.5} />
+                : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />
               }
-              return (
-                <motion.button
-                  type="button"
-                  onClick={e => {
-                    e.stopPropagation()
-                    trainerRef.current?.say("시작해볼게요.", 1200)
-                    setTimeout(() => router.push(`/patto/focus/${todayStory.id}`), 400)
-                  }}
-                  style={{
-                    flexShrink: 0,
-                    display: 'inline-flex', alignItems: 'center', gap: 5,
-                    background: 'rgba(255,255,255,0.18)',
-                    backdropFilter: 'blur(16px) saturate(160%)',
-                    WebkitBackdropFilter: 'blur(16px) saturate(160%)',
-                    border: '1px solid rgba(255,255,255,0.45)',
-                    borderRadius: 999, padding: '9px 16px',
-                    cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#fff',
-                    boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-                    letterSpacing: '0.01em', whiteSpace: 'nowrap',
-                  }}
-                  whileTap={{ scale: 0.93 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                >
-                  Start
-                  <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />
-                </motion.button>
-              )
-            })()}
+            </motion.button>
           </div>
         </div>
 
+        {/* ── Trainer button below hero ── */}
+        <div style={{ margin: '8px 20px 0' }}>
+          {!hasStudied ? (
+            <motion.button
+              type="button"
+              onClick={() => setTrainerSheetOpen(true)}
+              style={{
+                width: '100%', height: 46, borderRadius: 14, border: 'none', cursor: 'pointer',
+                background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                fontSize: 14, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
+                boxShadow: '0 4px 18px rgba(107,143,255,0.35)',
+                letterSpacing: '0.01em',
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              <Dumbbell style={{ width: 16, height: 16 }} strokeWidth={2} />
+              트레이너와 함께 시작
+            </motion.button>
+          ) : (
+            <motion.button
+              type="button"
+              onClick={() => router.push(`/patto/stories/${todayStory.id}`)}
+              style={{
+                width: '100%', height: 46, borderRadius: 14, cursor: 'pointer',
+                background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.65)',
+                border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(142,167,255,0.25)'}`,
+                backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                fontSize: 14, fontWeight: 600,
+                color: isDark ? 'rgba(255,255,255,0.75)' : 'rgba(60,70,110,0.80)',
+                fontFamily: 'inherit', letterSpacing: '0.01em',
+              }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              이어서 학습하기
+              <ArrowRight style={{ width: 14, height: 14 }} strokeWidth={2} />
+            </motion.button>
+          )}
+        </div>
 
-        {/* ── TODAY card ── */}
+        {/* ── Summary Cards — NEW / REVIEW ── */}
         {allDone ? (
+          /* ── All Done Banner ── */
           <div style={{
             margin: '12px 20px 0',
             padding: '16px 18px',
@@ -1353,7 +941,13 @@ export default function HomePage() {
             border: `1px solid ${isDark ? 'rgba(90,184,106,0.25)' : 'rgba(110,201,122,0.3)'}`,
             display: 'flex', alignItems: 'center', gap: 14,
           }}>
-            <PartyPopper style={{ width: 20, height: 20, flexShrink: 0, color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)' }} strokeWidth={1.8} />
+            <PartyPopper
+              style={{
+                width: 20, height: 20, flexShrink: 0,
+                color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)',
+              }}
+              strokeWidth={1.8}
+            />
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 13, fontWeight: 800, color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)', margin: '0 0 3px', letterSpacing: '-0.01em' }}>
                 {t('home_done_title')}
@@ -1363,64 +957,194 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-        ) : (newStoriesData.length > 0 || reviewStoriesData.length > 0) && (
-          <div style={{ margin: '12px 20px 0' }}>
-            <div style={{ ...frostedCard, borderRadius: 18, overflow: 'hidden' }}>
-              {/* Header */}
-              <div style={{ padding: '11px 14px 8px' }}>
-                <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.08em', color: isDark ? 'rgba(255,255,255,0.75)' : '#5C6BC0', margin: 0, textTransform: 'uppercase' }}>
-                  TODAY
+        ) : (
+          <>
+            {/* ── Top 2-column grid ── */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, margin: '12px 20px 0' }}>
+
+              {/* LEARN TODAY */}
+              <motion.div
+                className="glass-card-sm"
+                style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative', cursor: newStoriesData.length > 0 ? 'pointer' : 'default' }}
+                onClick={() => newStoriesData.length > 0 && router.push(`/patto/stories/${newStoriesData[0].id}`)}
+                whileTap={newStoriesData.length > 0 ? { scale: 0.93 } : {}}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+              >
+                {newDone && (
+                  <span style={{
+                    position: 'absolute', top: 7, right: 9,
+                    width: 14, height: 14, borderRadius: '50%',
+                    background: 'rgba(39,174,96,0.12)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
+                  </span>
+                )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 8 }}>
+                  <BookOpen style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
+                  <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>LEARN TODAY</p>
+                </div>
+                {newStoriesData.length > 0 ? (
+                  <>
+                    <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: newDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.45)' : 'var(--pm2)'), margin: '0 0 2px', textTransform: 'uppercase' }}>
+                      Story {String(newStoriesData[0].id).padStart(2, '0')}
+                    </p>
+                    <p style={{ fontSize: 12, fontWeight: 700, color: newDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, lineHeight: 1.3, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                      {newStoriesData[0].title}
+                    </p>
+                  </>
+                ) : (
+                  <p style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400, margin: 0 }}>—</p>
+                )}
+              </motion.div>
+
+              {/* REVIEW */}
+              <motion.div
+                className="glass-card-sm"
+                style={{ ...frostedCard, padding: chipPad, display: 'flex', flexDirection: 'column', position: 'relative', cursor: reviewStoriesData.length > 0 ? 'pointer' : 'default' }}
+                onClick={() => reviewStoriesData.length > 0 && router.push(reviewStoriesData[0] ? `/patto/stories/${reviewStoriesData[0].id}?v=p` : firstHref)}
+                whileTap={reviewStoriesData.length > 0 ? { scale: 0.93 } : {}}
+                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+              >
+                {reviewDone && reviewStoriesData.length > 0 && (
+                  <span style={{
+                    position: 'absolute', top: 7, right: 9,
+                    width: 14, height: 14, borderRadius: '50%',
+                    background: 'rgba(39,174,96,0.12)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Check style={{ width: 9, height: 9, color: '#27AE60' }} strokeWidth={2.5} />
+                  </span>
+                )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 3, marginBottom: 8 }}>
+                  <RotateCcw style={{ width: 9, height: 9, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)' }} strokeWidth={2} />
+                  <p style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: 0, textTransform: 'uppercase' }}>REVIEW</p>
+                </div>
+                {reviewStoriesData.length > 0 ? (
+                  <>
+                    <p style={{ fontSize: 13, fontWeight: 800, color: reviewDone ? '#27AE60' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: '0 0 4px', lineHeight: 1, letterSpacing: '-0.01em' }}>
+                      {reviewStoriesData.length} {reviewStoriesData.length === 1 ? 'Story' : 'Stories'}
+                    </p>
+                    <p style={{ fontSize: 9.5, fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.4)' : 'var(--pm2)', margin: 0, lineHeight: 1.4, fontVariantNumeric: 'tabular-nums' }}>
+                      {reviewStoriesData.slice(0, 3).map(s => `Story ${String(s.id).padStart(2, '0')}`).join(' · ')}
+                      {reviewStoriesData.length > 3 ? ` +${reviewStoriesData.length - 3}` : ''}
+                    </p>
+                  </>
+                ) : (
+                  <p style={{ fontSize: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', fontWeight: 400, margin: 0 }}>—</p>
+                )}
+              </motion.div>
+            </div>
+
+            {/* ── Review list ── */}
+            {reviewStoriesData.length > 0 && (
+              <div style={{ margin: '8px 20px 0', display: 'flex', flexDirection: 'column', gap: 0 }}>
+                {reviewStoriesData.map(s => (
+                  <div
+                    key={s.id}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      padding: '9px 14px',
+                      borderRadius: 14,
+                      background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.55)',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.7)'}`,
+                      marginBottom: 5,
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                    }}
+                  >
+                    <div style={{
+                      width: 5, height: 5, borderRadius: '50%', flexShrink: 0,
+                      background: s.done ? '#27AE60' : (isDark ? 'rgba(180,190,220,0.5)' : 'rgba(100,110,150,0.35)'),
+                    }} />
+                    <p style={{ flex: 1, fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt)', margin: 0, lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      Story {String(s.id).padStart(2, '0')} · {s.title}
+                    </p>
+                    {s.done ? (
+                      <span style={{
+                        flexShrink: 0,
+                        width: 18, height: 18, borderRadius: '50%',
+                        background: 'rgba(39,174,96,0.12)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <Check style={{ width: 10, height: 10, color: '#27AE60' }} strokeWidth={2.5} />
+                      </span>
+                    ) : (
+                      <span style={{
+                        flexShrink: 0, whiteSpace: 'nowrap',
+                        fontSize: 9, fontWeight: 700,
+                        color: isDark ? 'rgba(140,160,255,0.9)' : 'rgba(142,167,255,0.90)',
+                        background: isDark ? 'rgba(140,160,255,0.12)' : 'rgba(142,167,255,0.10)',
+                        border: `1px solid ${isDark ? 'rgba(140,160,255,0.22)' : 'rgba(142,167,255,0.20)'}`,
+                        borderRadius: 6, padding: '2px 7px',
+                      }}>
+                        Round {s.reviewCount + 1}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ── Editor Tip chip — same height as summary chips ── */}
+        {dailyTip && (
+          <div style={{ padding: '10px 20px 0' }}>
+            <button
+              type="button"
+              onClick={() => setTipOpen(true)}
+              className="glass-card-sm"
+              style={{
+                ...frostedCard,
+                width: '100%', textAlign: 'left', cursor: 'pointer',
+                padding: chipPad,
+                display: 'flex', alignItems: 'center', gap: 10,
+              }}
+            >
+              <Pencil style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
+                  Editor Tip
+                </p>
+                <p style={{
+                  fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)',
+                  margin: 0, lineHeight: 1.35,
+                  overflow: 'hidden', display: '-webkit-box',
+                  WebkitLineClamp: 1, WebkitBoxOrient: 'vertical',
+                }}>
+                  {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
                 </p>
               </div>
-              {/* Items: new stories first, review stories after */}
-              {[
-                ...newStoriesData.map(s => ({ id: s.id, title: s.title, done: s.done, isReview: false, href: `/patto/stories/${s.id}` })),
-                ...reviewStoriesData.map(s => ({ id: s.id, title: s.title, done: s.done, isReview: true, href: `/patto/stories/${s.id}?v=p` })),
-              ].map((item, idx, arr) => (
-                <button
-                  key={`${item.isReview ? 'r' : 'n'}-${item.id}`}
-                  type="button"
-                  onClick={() => router.push(item.href)}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 10,
-                    padding: '11px 14px',
-                    width: '100%', textAlign: 'left', border: 'none', cursor: 'pointer',
-                    background: 'transparent', fontFamily: 'inherit',
-                    borderBottom: idx < arr.length - 1 ? '1px solid var(--pd)' : 'none',
-                  }}
-                >
-                  <span style={{
-                    width: 16, height: 16, borderRadius: 5, flexShrink: 0,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: item.done ? 'rgba(107,143,255,0.12)' : 'transparent',
-                    border: item.done ? 'none' : `1.5px solid ${isDark ? 'rgba(255,255,255,0.2)' : 'rgba(100,110,150,0.25)'}`,
-                  }}>
-                    {item.done && <Check style={{ width: 9, height: 9, color: '#6B8FFF' }} strokeWidth={2.5} />}
-                  </span>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: isDark ? 'rgba(255,255,255,0.35)' : 'var(--pm2)', margin: '0 0 1px', textTransform: 'uppercase' }}>
-                      Story {String(item.id).padStart(2, '0')}
-                    </p>
-                    <p style={{ fontSize: 13, fontWeight: 600, color: item.done ? '#6B8FFF' : (isDark ? 'rgba(255,255,255,0.9)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', opacity: item.done ? 0.5 : 1 }}>
-                      {item.title}
-                    </p>
-                  </div>
-                  {item.isReview && (
-                    <span style={{
-                      flexShrink: 0,
-                      fontSize: 9, fontWeight: 700,
-                      color: isDark ? 'rgba(192,139,48,0.9)' : 'rgba(150,105,25,0.9)',
-                      background: isDark ? 'rgba(192,139,48,0.12)' : 'rgba(192,139,48,0.10)',
-                      border: `1px solid ${isDark ? 'rgba(192,139,48,0.25)' : 'rgba(192,139,48,0.22)'}`,
-                      borderRadius: 6, padding: '2px 7px',
-                    }}>
-                      Review
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
+              <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+            </button>
           </div>
+        )}
+
+        {/* ── PATTO GUIDE card ── */}
+        <div style={{ padding: '8px 20px 0' }}>
+          <button
+            type="button"
+            onClick={() => setGuideOpen(true)}
+            className="glass-card-sm"
+            style={{ ...frostedCard, width: '100%', textAlign: 'left', cursor: 'pointer', padding: chipPad, display: 'flex', alignItems: 'center', gap: 10 }}
+          >
+            <Clock style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
+                PATTO GUIDE
+              </p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)', margin: 0, lineHeight: 1.35 }}>
+                How to use PATTO
+              </p>
+            </div>
+            <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+          </button>
+        </div>
+
+        {/* ── Desktop Editor Tip inline panel ── */}
+        {isDesktop && tipOpen && (
+          <DesktopTipInline onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />
         )}
 
         {/* ── STORIES (mobile only — desktop shows All Stories panel on right) ── */}
@@ -1451,11 +1175,11 @@ export default function HomePage() {
             {scheduledList.map(({ story, label, href, done }) => {
               const isToday    = story.id === srsTodayId
               const isReview   = srsReviewIds.has(story.id)
-              const chipText   = done ? 'Done' : isToday ? 'Today' : isReview ? 'Review' : label
-              const chipGradient = done ? 'rgba(80,200,120,0.85)'
-                : isToday  ? '#6B8FFF'
-                : isReview ? 'rgba(215,181,109,0.85)'
-                : 'rgba(255,255,255,0.3)'
+              const chipText   = done ? 'Done' : isToday ? '오늘' : isReview ? '복습' : label
+              const chipGradient = done ? CHIP_GRADIENT['Done']
+                : isToday  ? 'linear-gradient(135deg, rgba(91,127,212,0.85) 0%, rgba(120,155,240,0.70) 100%)'
+                : isReview ? CHIP_GRADIENT['Review']
+                : CHIP_GRADIENT[label] ?? CHIP_GRADIENT['Upcoming']
               const cardBorder = isReview && !done
                 ? '1.5px solid rgba(192,139,48,0.55)'
                 : undefined
@@ -1518,12 +1242,125 @@ export default function HomePage() {
       </div>{/* end desktop-two-col */}
       </div>{/* end desktop-max */}
 
-      {/* Editor Tip / Guide modals moved to Settings → About PATTO */}
-      {false && tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
-      {false && guideOpen && <GuideCarousel onClose={() => setGuideOpen(false)} />}
+      {/* ── Editor Tip Carousel Modal (mobile only) ── */}
+      {!isDesktop && tipOpen && <TipCarousel onClose={() => setTipOpen(false)} initialIndex={getDailyTipIndex()} />}
 
+      {/* ── PATTO GUIDE Modal ── */}
+      {guideOpen && <GuideCarousel onClose={() => setGuideOpen(false)} />}
 
+      {/* ── Trainer Bottom Sheet ── */}
+      {trainerSheetOpen && (() => {
+        const storyRound = getStoryRound(todayStory.id)
+        const roundNum   = storyRound.round + 1
+        const sheetBg    = isDark ? 'rgba(22,18,46,0.97)' : 'rgba(255,255,255,0.92)'
+        const textPri    = isDark ? 'rgba(255,255,255,0.95)' : '#1a1a2e'
+        const textSec    = isDark ? 'rgba(255,255,255,0.50)' : 'rgba(60,60,100,0.62)'
+        const cardBg     = isDark ? 'rgba(107,143,255,0.12)' : 'rgba(107,143,255,0.08)'
+        const cardBd     = isDark ? 'rgba(107,143,255,0.25)' : 'rgba(107,143,255,0.18)'
+        return (
+          <>
+            <div
+              onClick={() => setTrainerSheetOpen(false)}
+              style={{
+                position: 'fixed', inset: 0, zIndex: 300,
+                background: 'rgba(20,16,50,0.25)',
+              }}
+            />
+            <div style={{
+              position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 301,
+              background: sheetBg,
+              backdropFilter: 'blur(30px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+              borderRadius: '20px 20px 0 0',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)'}`,
+              boxShadow: '0 -6px 32px rgba(20,16,50,0.18)',
+              padding: `16px 18px calc(28px + env(safe-area-inset-bottom, 0px))`,
+            }}>
+              {/* Handle */}
+              <div style={{
+                width: 32, height: 4, borderRadius: 99,
+                background: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(142,167,255,0.25)',
+                margin: '0 auto 18px',
+              }} />
+
+              {/* Header: icon + title */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                  background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 3px 12px rgba(107,143,255,0.35)',
+                }}>
+                  <Dumbbell style={{ width: 18, height: 18, color: '#fff' }} strokeWidth={2} />
+                </div>
+                <div>
+                  <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: 'rgba(107,143,255,0.80)', textTransform: 'uppercase' }}>
+                    PATTO 트레이너
+                  </p>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: textPri }}>
+                    함께 읽고, 듣고, 따라 말해볼게요! 💪
+                  </p>
+                </div>
+              </div>
+
+              {/* Story info card */}
+              <div style={{
+                marginBottom: 16, padding: '12px 14px',
+                borderRadius: 14, background: cardBg,
+                border: `1px solid ${cardBd}`,
+                display: 'flex', alignItems: 'center', gap: 12,
+              }}>
+                <div style={{ width: 40, height: 40, borderRadius: 9, flexShrink: 0, overflow: 'hidden' }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={todayStory.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ margin: '0 0 1px', fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'rgba(107,143,255,0.80)' }}>
+                    Story {String(todayStory.id).padStart(2, '0')} · {roundNum}회차
+                  </p>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: textPri, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {todayStory.title}
+                  </p>
+                  <p style={{ margin: '2px 0 0', fontSize: 11, color: textSec }}>
+                    패턴 {todayStory.patterns.length}개
+                  </p>
+                </div>
+              </div>
+
+              {/* Start button */}
+              <button
+                type="button"
+                onClick={() => { setTrainerSheetOpen(false); router.push(`/patto/stories/${todayStory.id}`) }}
+                style={{
+                  width: '100%', height: 50, borderRadius: 14, border: 'none', cursor: 'pointer',
+                  background: 'linear-gradient(135deg, #6B8FFF 0%, #B8A8F0 100%)',
+                  fontSize: 15, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
+                  boxShadow: '0 4px 18px rgba(107,143,255,0.38)',
+                  letterSpacing: '0.01em', marginBottom: 6,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                }}
+              >
+                <Dumbbell style={{ width: 17, height: 17 }} strokeWidth={2} />
+                시작하기
+              </button>
+
+              {/* Dismiss */}
+              <button
+                type="button"
+                onClick={() => setTrainerSheetOpen(false)}
+                style={{
+                  width: '100%', height: 40, borderRadius: 12, border: 'none', cursor: 'pointer',
+                  background: 'transparent', fontSize: 13, fontWeight: 600,
+                  color: isDark ? 'rgba(255,255,255,0.30)' : 'rgba(80,80,120,0.40)',
+                  fontFamily: 'inherit',
+                }}
+              >
+                나중에 하기
+              </button>
+            </div>
+          </>
+        )
+      })()}
     </div>
   )
 }
-

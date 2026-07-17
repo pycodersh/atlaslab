@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { getLastPosition } from '@/lib/last-position'
 
-export const TAB_BAR_HEIGHT = 0
+export const TAB_BAR_HEIGHT = 72
 
 const TABS = [
   {
@@ -43,12 +43,24 @@ const TABS = [
     ),
   },
   {
-    label: 'LIBRARY',
-    href: '/patto/library',
-    active: (p: string) => p.startsWith('/patto/library') || p.startsWith('/editor'),
+    label: 'ESSAYS',
+    href: '/patto/essays',
+    active: (p: string) => p.startsWith('/patto/essays') || p.startsWith('/editor'),
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
-        <path d="M9 4h6a2 2 0 0 1 2 2v14l-5-3l-5 3V6a2 2 0 0 1 2-2"/>
+        <path d="M12 20h9"/>
+        <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+      </svg>
+    ),
+  },
+  {
+    label: 'LIBRARY',
+    href: '/patto/library',
+    active: (p: string) => p.startsWith('/patto/library'),
+    icon: (active: boolean) => (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
     ),
   },
@@ -58,9 +70,6 @@ export function MainTabBar() {
   const pathname = usePathname()
   const [scrolledDown, setScrolledDown] = useState(false)
   const lastYRef = useRef(0)
-
-  // Focus mode: hide tab bar only on session pages (story pages keep tab bar)
-  const inStoryPage = pathname?.startsWith('/patto/session/') ?? false
 
   // Restore last story/pattern position when tapping the Story tab
   const lastPos = getLastPosition()
@@ -92,10 +101,7 @@ export function MainTabBar() {
         justifyContent: 'center',
         paddingBottom: 'calc(14px + env(safe-area-inset-bottom, 0px))',
         paddingTop: 8,
-        pointerEvents: inStoryPage ? 'none' : undefined,
-        opacity: inStoryPage ? 0 : 1,
-        transform: inStoryPage ? 'translateY(12px)' : 'translateY(0)',
-        transition: 'opacity 0.22s ease, transform 0.22s ease',
+        pointerEvents: 'none',
       }}
     >
       <nav

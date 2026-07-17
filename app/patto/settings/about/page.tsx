@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, ScrollText, Shield, ReceiptText, Mail, Info, BookOpen, Pencil } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ScrollText, Shield, ReceiptText, Mail, Info } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { useT } from '@/hooks/useT'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
@@ -90,19 +90,6 @@ export default function AboutPage() {
   const isDesktop = useIsDesktop()
   const t = useT()
 
-  const LEARN: RowItem[] = [
-    {
-      icon: BookOpen, iconColor: '#6B8FFF',
-      label: 'Patto Guide', desc: 'How to use PATTO',
-      href: '/patto/settings/about/guide',
-    },
-    {
-      icon: Pencil, iconColor: '#6B8FFF',
-      label: 'Editor Tips', desc: 'Practical tips for pattern learning',
-      href: '/patto/settings/about/tips', last: true,
-    },
-  ]
-
   const LEGAL: RowItem[] = [
     {
       icon: ScrollText, iconColor: '#8E8E93',
@@ -156,12 +143,6 @@ export default function AboutPage() {
             Profile
           </button>
         )}
-
-        {/* Learn */}
-        <SecTitle label="PATTO" />
-        <div style={glassCard}>
-          {LEARN.map(item => <AboutRow key={item.label} item={item} />)}
-        </div>
 
         {/* Legal */}
         <SecTitle label="Legal" />

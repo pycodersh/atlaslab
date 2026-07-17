@@ -119,6 +119,30 @@ function MenuCard({
   )
 }
 
+// ── Confirm Dialog ────────────────────────────────────────────────────────────
+function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel }: {
+  message: string; cancelLabel: string; confirmLabel: string
+  onConfirm: () => void; onCancel: () => void
+}) {
+  return (
+    <div
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}
+      onClick={e => { if (e.target === e.currentTarget) onCancel() }}
+    >
+      <div style={{ background: 'var(--pb)', borderRadius: 20, padding: '28px 24px 20px', maxWidth: 340, width: '100%', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
+        <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 20px', lineHeight: 1.6 }}>{message}</p>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button type="button" onClick={onCancel} style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--pd)', background: 'transparent', color: 'var(--pt)', fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
+            {cancelLabel}
+          </button>
+          <button type="button" onClick={onConfirm} style={{ flex: 1, height: 44, borderRadius: 12, border: 'none', background: '#B04060', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
+            {confirmLabel}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 // ── User profile card (logged-in) ─────────────────────────────────────────────
 function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void }) {
@@ -409,6 +433,11 @@ export default function SettingsPage() {
   const t = useT()
   const { user, loading } = useAuth()
   const trainer = useTrainerSafe()
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [toast, setToast] = useState('')
+
+  function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2800) }
+
   async function handleLogout() {
     trainer?.showMessage('See you.', 2000)
     await new Promise(r => setTimeout(r, 400))
@@ -416,15 +445,9 @@ export default function SettingsPage() {
     router.refresh()
   }
 
-  function handleDeleteAccount() {
-    trainer?.showMessage(t('account_delete_preparing'), 3000)
-  }
-
-  function confirmDeleteAccount() {
-    trainer?.ask('Delete account?', [
-      { label: 'Cancel', onClick: () => {} },
-      { label: 'Delete', primary: true, onClick: handleDeleteAccount },
-    ])
+  async function handleDeleteAccount() {
+    setShowDeleteConfirm(false)
+    showToast(t('account_delete_preparing'))
   }
 
   return (
@@ -469,7 +492,7 @@ export default function SettingsPage() {
         {user && (
           <button
             type="button"
-            onClick={confirmDeleteAccount}
+            onClick={() => setShowDeleteConfirm(true)}
             style={{
               background: 'none', border: 'none', padding: '4px 0 0',
               color: '#C08898', fontSize: 11.5, cursor: 'pointer',
@@ -490,6 +513,21 @@ export default function SettingsPage() {
         </p>
       </div>
 
+      {showDeleteConfirm && (
+        <ConfirmDialog
+          message={t('account_delete_message')}
+          cancelLabel={t('delete_cancel')}
+          confirmLabel={t('delete_confirm')}
+          onConfirm={handleDeleteAccount}
+          onCancel={() => setShowDeleteConfirm(false)}
+        />
+      )}
+
+      {toast && (
+        <div style={{ position: 'fixed', bottom: 32, left: '50%', transform: 'translateX(-50%)', background: 'var(--pt)', color: 'var(--pb)', fontSize: 12, padding: '10px 20px', borderRadius: 999, boxShadow: '0 4px 16px rgba(0,0,0,0.15)', zIndex: 50, whiteSpace: 'nowrap' }}>
+          {toast}
+        </div>
+      )}
     </div>
   )
 }
