@@ -652,7 +652,7 @@ export default function LibraryPage() {
               </button>
             ))}
             {essays.length > 5 && (
-              <button type="button" onClick={() => router.push('/patto/essays')} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: '12px 16px', borderTop: ROW_BORDER, background: 'none', border: 'none', borderTop: ROW_BORDER, cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit' } as React.CSSProperties}>
+              <button type="button" onClick={() => router.push('/patto/essays')} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: '12px 16px', borderTop: ROW_BORDER, background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit' }}>
                 전체 {essays.length}개 보기 <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
               </button>
             )}

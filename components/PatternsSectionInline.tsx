@@ -1,10 +1,9 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion, useMotionValue, useTransform, animate } from 'framer-motion'
-import { Volume2, Square, Bookmark, Lightbulb, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Volume2, Square, Bookmark, Info, X } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
-import type { MagazineStory } from '@/types/magazine'
+import type { MagazineStory, MagazinePattern } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { resolveTranslation } from '@/lib/i18n/translation'
@@ -17,21 +16,8 @@ import { patternExamplesFull } from '@/data/pattern-examples-full'
 import { shimmerExamples } from '@/data/shimmer-audio-meta'
 import { TappableWordText } from '@/components/TappableWordText'
 import { useTheme } from '@/components/ThemeProvider'
-import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 const EXAMPLE_PAUSE_MS = 1800
-const SPRING = { type: 'spring' as const, stiffness: 300, damping: 20 }
-const SWIPE_THRESHOLD = 80
-const VELOCITY_THRESHOLD = 500
-
-// Per-pattern background accent colors
-const PATTERN_ACCENT = [
-  'rgba(107,143,255,0.06)',
-  'rgba(184,168,240,0.08)',
-  'rgba(107,143,255,0.06)',
-  'rgba(184,168,240,0.08)',
-  'rgba(215,181,109,0.06)',
-]
 
 type Props = {
   story: MagazineStory
@@ -45,6 +31,8 @@ type Props = {
   totalRecallRounds?: number
   onRecallRoundComplete?: () => void
   onPatternIndexChange?: (idx: number) => void
+  /** Override prefs-based showKorean (e.g. tied to story's language toggle) */
+  showKorean?: boolean
 }
 
 function resolveExamples(
@@ -64,112 +52,65 @@ function resolveExamples(
   return result
 }
 
-export function PatternsSectionInline({
-  story,
-  patternExamples,
-  storyIsSpeaking = false,
-  showNavButtons = false,
-  showSwipeGuide = false,
-  onAllPatternsSeen,
-  hideRecallMode = false,
-  recallRound = 1,
-  totalRecallRounds = 3,
-  onRecallRoundComplete,
-  onPatternIndexChange,
-}: Props) {
+// ── Per-pattern card ─────────────────────────────────────────────────────────
+
+type CardProps = {
+  pattern: MagazinePattern
+  story: MagazineStory
+  patternExamples?: Record<string, PracticeExample[]>
+  storyIsSpeaking: boolean
+  globalPatternNum: number
+  showKorean: boolean
+  isDark: boolean
+  hideRecallMode: boolean
+  isRevealed: boolean
+  onReveal: () => void
+  onBookmarkChange?: () => void
+}
+
+function PatternCardItem({
+  pattern, story, patternExamples, storyIsSpeaking,
+  globalPatternNum, showKorean, isDark,
+  hideRecallMode, isRevealed, onReveal,
+}: CardProps) {
   const { prefs } = usePreferences()
-  const { theme } = useTheme()
-  const isDark  = theme === 'dark'
-  const trainer = useTrainerSafe()
   const voice = story.narratorVoice ?? prefs.voice
-  const patterns = story.patterns
 
-  // ── Core state ────────────────────────────────────────────────────────
-  const [patIdx, setPatIdx]               = useState(0)
-  const [isPlaying, setIsPlaying]         = useState(false)
-  const [exIdx, setExIdx]                 = useState(0)
-  const [bookmarked, setBookmarked]       = useState(false)
-  const [recallRevealed, setRecallRevealed] = useState<Set<number>>(new Set())
-  const allSeenFiredRef                   = useRef(false)
+  const [isPlaying, setIsPlaying]   = useState(false)
+  const [exIdx, setExIdx]           = useState(0)
+  const [bookmarked, setBookmarked] = useState(() => isBookmarked(pattern.id))
+  const [noteOpen, setNoteOpen]     = useState(false)
 
-  // ── Swipe card state ──────────────────────────────────────────────────
-  const [patHistory, setPatHistory]       = useState<number[]>([])
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const animatingRef                      = useRef(false)
-  const patHistoryRef                     = useRef<number[]>([])
-
-  // ── Motion values ─────────────────────────────────────────────────────
-  const cardX      = useMotionValue(0)
-  const cardRotate = useTransform(cardX, [-200, 200], [-8, 8])
-
-  // ── Refs ──────────────────────────────────────────────────────────────
-  const patIdxRef    = useRef(0)
   const runningRef   = useRef(false)
   const timerRef     = useRef<ReturnType<typeof setTimeout> | null>(null)
   const playTokenRef = useRef(0)
   const startedAtRef = useRef(0)
 
-  const pattern  = patterns[patIdx]
   const examples = resolveExamples(
     patternExamples, pattern.id,
     pattern.storySentence, pattern.storySentenceKo,
     pattern.variationSentence, pattern.variationSentenceKo,
   ).slice(0, 3)
 
-  // Keep history ref in sync
-  useEffect(() => { patHistoryRef.current = patHistory }, [patHistory])
+  const patternNote = pattern.explanation ?? PATTERN_NOTES[pattern.id] ?? null
+  const patternMeaning = resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations)
 
-  useEffect(() => { setBookmarked(isBookmarked(pattern.id)) }, [pattern.id])
-
-  // Reset recall state on new round
-  useEffect(() => {
-    if (hideRecallMode) {
-      setRecallRevealed(new Set())
-      setPatIdx(0)
-      patIdxRef.current = 0
-      cardX.set(0)
-      setPatHistory([])
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hideRecallMode, recallRound])
-
-  // Report pattern index change to parent
-  useEffect(() => {
-    if (!hideRecallMode) onPatternIndexChange?.(patIdx)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [patIdx, hideRecallMode])
-
-  // Fire onAllPatternsSeen when last card reached
-  useEffect(() => {
-    if (!hideRecallMode && !allSeenFiredRef.current && patIdx === patterns.length - 1) {
-      allSeenFiredRef.current = true
-      onAllPatternsSeen?.()
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [patIdx, hideRecallMode, patterns.length])
-
-  useEffect(() => {
-    if (!hideRecallMode) allSeenFiredRef.current = false
-  }, [hideRecallMode])
-
-  // Stop audio when story speaks
+  // Stop when story speaks
   useEffect(() => {
     if (storyIsSpeaking && isPlaying) {
       playTokenRef.current++
       runningRef.current = false
       if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
+      ttsProvider.stop()
       setIsPlaying(false)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storyIsSpeaking])
+  }, [storyIsSpeaking, isPlaying])
 
   useEffect(() => () => {
     runningRef.current = false
     if (timerRef.current) clearTimeout(timerRef.current)
-    ttsProvider.stop()
   }, [])
 
-  // ── Audio ─────────────────────────────────────────────────────────────
   const stop = useCallback(() => {
     playTokenRef.current++
     runningRef.current = false
@@ -181,34 +122,28 @@ export function PatternsSectionInline({
   const playExamples = useCallback(() => {
     if (isPlaying) { stop(); return }
     const token = ++playTokenRef.current
-    const pat = patterns[patIdxRef.current]
-    const exs = resolveExamples(
-      patternExamples, pat.id,
-      pat.storySentence, pat.storySentenceKo,
-      pat.variationSentence, pat.variationSentenceKo,
-    ).slice(0, 3)
     runningRef.current = true
     startedAtRef.current = Date.now()
     setIsPlaying(true)
     function playOne(idx: number) {
       if (!runningRef.current || playTokenRef.current !== token) return
-      const ex = exs[idx]
+      const ex = examples[idx]
       if (!ex) { runningRef.current = false; setIsPlaying(false); return }
       setExIdx(idx)
-      const shimmerEx = shimmerExamples[`${pat.id}-ex${idx + 1}`]
-      const url = shimmerEx?.url ?? patternExampleAudioUrl(voice, pat.id, idx, ex.en)
+      const shimmerEx = shimmerExamples[`${pattern.id}-ex${idx + 1}`]
+      const url = shimmerEx?.url ?? patternExampleAudioUrl(voice, pattern.id, idx, ex.en)
       ttsProvider.speak({
         texts: [ex.en], audioUrls: url ? [url] : undefined,
         voiceKey: voice, voiceKeys: [voice],
         rate: RATE_MAP[prefs.speechRate], pitch: getPitchForKey(voice), volume: 1.0,
         onEnd: () => {
           if (!runningRef.current || playTokenRef.current !== token) return
-          if (idx + 1 < exs.length) {
+          if (idx + 1 < examples.length) {
             timerRef.current = setTimeout(() => playOne(idx + 1), EXAMPLE_PAUSE_MS)
           } else {
             const dur = Date.now() - startedAtRef.current
-            const rec = recordPatternPractice(pat.id, story.id, pat.pattern, story.title, dur)
-            if (rec.lastReviewedAt?.slice(0, 10) !== todayStr()) applyReview('pattern', pat.id, true)
+            const rec = recordPatternPractice(pattern.id, story.id, pattern.pattern, story.title, dur)
+            if (rec.lastReviewedAt?.slice(0, 10) !== todayStr()) applyReview('pattern', pattern.id, true)
             runningRef.current = false; setIsPlaying(false)
           }
         },
@@ -216,77 +151,21 @@ export function PatternsSectionInline({
       })
     }
     playOne(0)
-  }, [isPlaying, stop, patterns, patternExamples, voice, prefs.speechRate, story.id, story.title])
+  }, [isPlaying, stop, examples, voice, prefs.speechRate, pattern, story])
 
-  // ── Navigation (internal state only, no animation) ────────────────────
-  const navigateTo = useCallback((idx: number) => {
-    stop()
-    setPatIdx(idx)
-    patIdxRef.current = idx
-    setExIdx(0)
-  }, [stop])
-
-  // ── Animated swipe navigation ─────────────────────────────────────────
-  const goNextPattern = useCallback(async () => {
-    const cur = patIdxRef.current
-    if (cur >= patterns.length - 1 || animatingRef.current) return
-    animatingRef.current = true
-    setIsTransitioning(true)
-    stop()
-    setPatHistory(prev => [...prev, cur])
-    await animate(cardX, -420, SPRING)
-    cardX.set(420)
-    setIsTransitioning(false)
-    navigateTo(cur + 1)
-    animate(cardX, 0, SPRING).then(() => { animatingRef.current = false })
-  }, [patterns.length, stop, navigateTo, cardX])
-
-  const goPrevPattern = useCallback(async () => {
-    if (animatingRef.current) return
-    if (patHistoryRef.current.length === 0) {
-      // Resistance bounce at first card
-      const snap = Math.min(cardX.get() * 0.25 + 28, 36)
-      await animate(cardX, snap, { type: 'spring', stiffness: 600, damping: 22 })
-      animate(cardX, 0, SPRING)
-      return
-    }
-    animatingRef.current = true
-    setIsTransitioning(true)
-    stop()
-    const prev = patHistoryRef.current[patHistoryRef.current.length - 1]
-    setPatHistory(h => h.slice(0, -1))
-    await animate(cardX, 420, SPRING)
-    cardX.set(-420)
-    setIsTransitioning(false)
-    navigateTo(prev)
-    animate(cardX, 0, SPRING).then(() => { animatingRef.current = false })
-  }, [stop, navigateTo, cardX])
-
-  // ── Drag handling ─────────────────────────────────────────────────────
-  function handleDragEnd(_: unknown, info: { offset: { x: number }; velocity: { x: number } }) {
-    const { offset, velocity } = info
-    if (offset.x < -SWIPE_THRESHOLD || velocity.x < -VELOCITY_THRESHOLD) {
-      goNextPattern()
-    } else if (offset.x > SWIPE_THRESHOLD || velocity.x > VELOCITY_THRESHOLD) {
-      goPrevPattern()
-    } else {
-      animate(cardX, 0, SPRING)
-    }
+  function handleBookmark() {
+    const next = toggleBookmark({
+      patternId: pattern.id, pattern: pattern.pattern,
+      meaningKo: pattern.meaningKo, storyId: story.id,
+    })
+    setBookmarked(next)
   }
 
-  // ── Derived ───────────────────────────────────────────────────────────
-  const showKorean        = prefs.language !== 'en'
-  const patternMeaning    = resolveTranslation(pattern.meaningKo, prefs.language, pattern.meaningTranslations)
-  const globalPatternNum  = (story.id - 1) * patterns.length + patIdx + 1
-  const isCurrentRevealed = recallRevealed.has(patIdx)
-
-  // Colors
+  // ── Colors ────────────────────────────────────────────────────────────────
   const heroBg          = isDark ? 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)' : 'transparent'
   const heroPatternColor = isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
   const heroMeaningColor = isDark ? 'rgba(255,255,255,0.75)' : '#5a5a7a'
   const heroIconColor    = isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
-  const dotActive        = isDark ? 'rgba(255,255,255,0.70)' : '#8EA7FF'
-  const dotInactive      = isDark ? 'rgba(255,255,255,0.25)' : 'rgba(142,167,255,0.2)'
   const cardBg           = isDark ? 'rgba(30,28,48,0.85)'    : '#FFFFFF'
   const exBoxBg          = isDark ? 'rgba(255,255,255,0.04)' : '#F6F7FB'
   const exBoxBorder      = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.14)'
@@ -296,110 +175,65 @@ export function PatternsSectionInline({
   const cardShadow       = isDark
     ? '0 16px 40px rgba(0,0,0,0.40)'
     : '0 -3px 16px rgba(142,167,255,0.12), 0 4px 12px rgba(142,167,255,0.08)'
+  const noteBg  = isDark ? 'rgba(255,220,80,0.12)' : '#FFFBEA'
+  const noteBorder = isDark ? 'rgba(255,220,80,0.25)' : '#F5E58A'
+  const noteText = isDark ? 'rgba(255,230,120,0.90)' : '#7A6200'
 
-  // Pattern note
-  const patternNote = pattern.explanation ?? PATTERN_NOTES[pattern.id] ?? null
+  const isHidden = hideRecallMode && !isRevealed
 
-  // ── Recall handlers ───────────────────────────────────────────────────
-  function handleRecallReveal() {
-    if (!hideRecallMode) return
-    const next = new Set(recallRevealed).add(patIdx)
-    setRecallRevealed(next)
-    if (patIdx === patterns.length - 1) {
-      setTimeout(() => onRecallRoundComplete?.(), 600)
-    }
-  }
-
-  function handleBookmark() {
-    const next = toggleBookmark({
-      patternId: pattern.id, pattern: pattern.pattern,
-      meaningKo: pattern.meaningKo, storyId: story.id,
-    })
-    setBookmarked(next)
-    trainer?.showMessage(next ? 'Added.' : 'Removed.', 1800)
-  }
-
-  // ── Card content (shared between stack preview and main) ──────────────
-  const cardContent = (
-    <>
-      {/* Hero */}
+  return (
+    <div
+      style={{
+        borderRadius: 18, background: cardBg, border: cardBorder, boxShadow: cardShadow,
+        overflow: 'hidden',
+        cursor: isHidden ? 'pointer' : 'default',
+      }}
+      onClick={isHidden ? onReveal : undefined}
+    >
+      {/* Hero section */}
       <div style={{ position: 'relative', overflow: 'hidden', padding: '12px 16px 16px', background: heroBg }}>
-        {/* Top row */}
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 10 }}>
+        {/* Top row: pattern num | bookmark + note icon */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <p style={{
             margin: 0, fontSize: '0.57rem', fontWeight: 700, color: heroIconColor,
-            letterSpacing: '0.06em', flexShrink: 0,
-            fontFamily: '"SF Mono", "Fira Mono", monospace',
+            letterSpacing: '0.06em', fontFamily: '"SF Mono", "Fira Mono", monospace',
           }}>
             PATTERN {String(globalPatternNum).padStart(3, '0')}
           </p>
 
-          {/* Dot indicators */}
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 4 }}>
-            {patterns.map((_, i) => (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            {patternNote && (
               <button
-                key={i}
                 type="button"
-                aria-label={`패턴 ${i + 1}`}
-                onClick={() => {
-                  if (animatingRef.current) return
-                  const dir = i > patIdx ? 'next' : 'prev'
-                  if (dir === 'next') {
-                    setPatHistory(prev => [...prev, patIdx])
-                    setIsTransitioning(true)
-                    animatingRef.current = true
-                    stop()
-                    animate(cardX, -420, SPRING).then(() => {
-                      cardX.set(420)
-                      setIsTransitioning(false)
-                      navigateTo(i)
-                      animate(cardX, 0, SPRING).then(() => { animatingRef.current = false })
-                    })
-                  } else if (i < patIdx) {
-                    setIsTransitioning(true)
-                    animatingRef.current = true
-                    stop()
-                    // trim history to not include i and everything after
-                    setPatHistory(prev => prev.filter(h => h < i))
-                    animate(cardX, 420, SPRING).then(() => {
-                      cardX.set(-420)
-                      setIsTransitioning(false)
-                      navigateTo(i)
-                      animate(cardX, 0, SPRING).then(() => { animatingRef.current = false })
-                    })
-                  }
+                onClick={e => { e.stopPropagation(); setNoteOpen(v => !v) }}
+                aria-label="패턴 노트"
+                style={{
+                  background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0,
+                  color: noteOpen ? (isDark ? '#FFE050' : '#C09900') : heroIconColor,
+                  transition: 'color 0.15s',
                 }}
-                style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer' }}
               >
-                <motion.span
-                  animate={{
-                    width: i === patIdx ? 16 : 5,
-                    background: i === patIdx ? dotActive : dotInactive,
-                  }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 28 }}
-                  style={{ display: 'block', height: 5, borderRadius: 999 }}
-                />
+                <Info style={{ width: 15, height: 15 }} strokeWidth={1.8} />
               </button>
-            ))}
+            )}
+            <button
+              type="button"
+              onClick={e => { e.stopPropagation(); handleBookmark() }}
+              aria-label={bookmarked ? '북마크 해제' : '북마크'}
+              style={{
+                background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0,
+                color: bookmarked ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor,
+                transition: 'color 0.15s',
+              }}
+            >
+              <Bookmark style={{ width: 15, height: 15 }} strokeWidth={1.8} fill={bookmarked ? 'currentColor' : 'none'} />
+            </button>
           </div>
-
-          <button
-            type="button"
-            onClick={handleBookmark}
-            aria-label={bookmarked ? '북마크 해제' : '북마크'}
-            style={{
-              background: 'none', border: 'none', padding: 4, cursor: 'pointer', flexShrink: 0,
-              color: bookmarked ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor,
-              transition: 'color 0.15s',
-            }}
-          >
-            <Bookmark style={{ width: 15, height: 15 }} strokeWidth={1.8} fill={bookmarked ? 'currentColor' : 'none'} />
-          </button>
         </div>
 
-        {/* Pattern */}
-        {hideRecallMode && !isCurrentRevealed ? (
-          <div style={{ fontSize: 32, fontWeight: 800, lineHeight: 1.2, margin: '0 0 6px', display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* Pattern text or hidden block */}
+        {isHidden ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
             <span style={{
               flex: 1, height: 36, borderRadius: 8,
               background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(142,167,255,0.15)',
@@ -429,7 +263,7 @@ export function PatternsSectionInline({
           ) : <div />}
           <button
             type="button"
-            onClick={playExamples}
+            onClick={e => { e.stopPropagation(); playExamples() }}
             aria-label={isPlaying ? '정지' : '예문 듣기'}
             style={{ background: 'none', border: 'none', padding: 6, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
           >
@@ -440,63 +274,123 @@ export function PatternsSectionInline({
         </div>
       </div>
 
-      {/* Examples */}
-      <div style={{ padding: '14px 16px 16px' }}>
-        <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px' }}>
-          {examples.map((ex, i) => {
-            const isExPlaying = isPlaying && i === exIdx
-            const fullEx = patternExamplesFull[pattern.id]?.[i]
-            const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
-            const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
-            return (
-              <div key={i} style={{ borderTop: i > 0 ? `1px solid ${exBoxBorder}` : 'none', paddingTop: i > 0 ? 12 : 0, paddingBottom: i < examples.length - 1 ? 12 : 0 }}>
-                <TappableWordText
-                  text={ex.en}
-                  saveCandidates={safeCandidates}
-                  source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                  style={{ display: 'block', fontSize: 14, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55, marginBottom: 2 }}
-                />
-                {showKorean && exKo && (
-                  <p style={{ fontSize: 12, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
-                )}
-              </div>
-            )
-          })}
-        </div>
-
-        {patternNote && (
-          <div style={{ marginTop: 10, borderRadius: 8, background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(142,167,255,0.08)', padding: '10px 12px', display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-            <Lightbulb style={{ width: 13, height: 13, color: isDark ? '#8FABFF' : '#8EA7FF', flexShrink: 0, marginTop: 1 }} strokeWidth={1.8} />
-            <p style={{ margin: 0, fontSize: 11, color: isDark ? 'rgba(255,255,255,0.50)' : '#5a5a7a', lineHeight: 1.5 }}>{patternNote}</p>
-          </div>
-        )}
-      </div>
-    </>
-  )
-
-  // ── Stack depth styles ────────────────────────────────────────────────
-  const stackBorder = isDark ? '1px solid rgba(255,255,255,0.06)' : '0.5px solid rgba(142,167,255,0.18)'
-  const stackShadow = isDark ? '0 8px 24px rgba(0,0,0,0.30)' : '0 4px 16px rgba(142,167,255,0.10)'
-
-  const accentBg = PATTERN_ACCENT[patIdx % PATTERN_ACCENT.length]
-
-  // Arrow button colors for PC
-  const arrowBg    = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(107,143,255,0.10)'
-  const arrowColor = isDark ? 'rgba(255,255,255,0.70)' : '#6B8FFF'
-
-  return (
-    <div style={{ padding: '0 16px' }}>
-
-      {/* Swipe guide */}
-      {showSwipeGuide && !hideRecallMode && (
-        <div style={{ textAlign: 'center', marginBottom: 8, fontSize: 11.5, color: isDark ? 'rgba(255,255,255,0.45)' : '#8EA7FF', letterSpacing: '0.02em' }}>
-          👆 스와이프해서 패턴을 확인하세요
+      {/* Note popup */}
+      {noteOpen && patternNote && (
+        <div style={{
+          margin: '0 16px',
+          borderRadius: 10,
+          background: noteBg,
+          border: `1px solid ${noteBorder}`,
+          padding: '10px 12px 10px 12px',
+          display: 'flex', alignItems: 'flex-start', gap: 8,
+        }}>
+          <p style={{ margin: 0, flex: 1, fontSize: 12, color: noteText, lineHeight: 1.6 }}>{patternNote}</p>
+          <button
+            type="button"
+            onClick={e => { e.stopPropagation(); setNoteOpen(false) }}
+            style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', color: noteText, flexShrink: 0, marginTop: 1 }}
+          >
+            <X style={{ width: 12, height: 12 }} strokeWidth={2} />
+          </button>
         </div>
       )}
 
+      {/* Examples */}
+      {!isHidden && (
+        <div style={{ padding: noteOpen ? '10px 16px 16px' : '14px 16px 16px' }}>
+          <div style={{ borderRadius: 12, background: exBoxBg, border: `1px solid ${exBoxBorder}`, padding: '12px 14px' }}>
+            {examples.map((ex, i) => {
+              const isExPlaying = isPlaying && i === exIdx
+              const fullEx = patternExamplesFull[pattern.id]?.[i]
+              const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
+              const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
+              return (
+                <div key={i} style={{ borderTop: i > 0 ? `1px solid ${exBoxBorder}` : 'none', paddingTop: i > 0 ? 12 : 0, paddingBottom: i < examples.length - 1 ? 12 : 0 }}>
+                  <TappableWordText
+                    text={ex.en}
+                    saveCandidates={safeCandidates}
+                    source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
+                    style={{ display: 'block', fontSize: 14, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55, marginBottom: 2 }}
+                  />
+                  {showKorean && exKo && (
+                    <p style={{ fontSize: 12, color: exKoColor, margin: 0, lineHeight: 1.5 }}>{exKo}</p>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Main component ────────────────────────────────────────────────────────────
+
+export function PatternsSectionInline({
+  story,
+  patternExamples,
+  storyIsSpeaking = false,
+  showSwipeGuide: _showSwipeGuide,
+  showNavButtons: _showNavButtons,
+  onAllPatternsSeen,
+  hideRecallMode = false,
+  recallRound = 1,
+  totalRecallRounds = 3,
+  onRecallRoundComplete,
+  onPatternIndexChange,
+  showKorean: showKoreanProp,
+}: Props) {
+  const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+  const patterns = story.patterns
+
+  // showKorean: use prop if provided, else fall back to prefs
+  const showKorean = showKoreanProp !== undefined ? showKoreanProp : prefs.language !== 'en'
+
+  const [recallRevealed, setRecallRevealed] = useState<Set<number>>(new Set())
+  const allSeenFiredRef = useRef(false)
+
+  // Reset recall state on new round
+  useEffect(() => {
+    if (hideRecallMode) {
+      setRecallRevealed(new Set())
+    }
+  }, [hideRecallMode, recallRound])
+
+  // In normal (non-recall) mode, all patterns are visible immediately → fire callback
+  useEffect(() => {
+    if (!hideRecallMode && !allSeenFiredRef.current) {
+      allSeenFiredRef.current = true
+      onAllPatternsSeen?.()
+      onPatternIndexChange?.(patterns.length - 1)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hideRecallMode])
+
+  useEffect(() => {
+    if (!hideRecallMode) allSeenFiredRef.current = false
+  }, [hideRecallMode])
+
+  function handleReveal(idx: number) {
+    const next = new Set(recallRevealed).add(idx)
+    setRecallRevealed(next)
+    onPatternIndexChange?.(idx)
+    if (next.size === patterns.length) {
+      setTimeout(() => onRecallRoundComplete?.(), 600)
+    }
+    if (!allSeenFiredRef.current && next.size === patterns.length) {
+      allSeenFiredRef.current = true
+      onAllPatternsSeen?.()
+    }
+  }
+
+  return (
+    <div style={{ padding: '0 16px 8px' }}>
       {/* Hide-recall round indicator */}
       {hideRecallMode && (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <span style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.45)' : '#8EA7FF', fontWeight: 600 }}>
             Round {recallRound}/{totalRecallRounds}
           </span>
@@ -506,106 +400,24 @@ export function PatternsSectionInline({
         </div>
       )}
 
-      {/* ── Card stack container ─────────────────────────────────────── */}
-      <motion.div
-        animate={{ backgroundColor: accentBg }}
-        transition={{ duration: 0.5 }}
-        style={{ position: 'relative', borderRadius: 22, paddingBottom: 20 }}
-      >
-
-        {/* Stack card: depth 2 (furthest back) */}
-        {patIdx + 2 < patterns.length && (
-          <motion.div
-            key="stack-2"
-            animate={isTransitioning
-              ? { scale: 0.925, y: 12, opacity: 0.55 }
-              : { scale: 0.90,  y: 16, opacity: 0.4  }
-            }
-            transition={SPRING}
-            style={{
-              position: 'absolute', left: 0, right: 0, top: 0, bottom: 0,
-              borderRadius: 18, background: cardBg, border: stackBorder,
-              boxShadow: stackShadow, zIndex: 1,
-            }}
+      {/* Vertical list of all pattern cards */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {patterns.map((pat, idx) => (
+          <PatternCardItem
+            key={`${pat.id}-${recallRound}`}
+            pattern={pat}
+            story={story}
+            patternExamples={patternExamples}
+            storyIsSpeaking={storyIsSpeaking}
+            globalPatternNum={(story.id - 1) * patterns.length + idx + 1}
+            showKorean={showKorean}
+            isDark={isDark}
+            hideRecallMode={hideRecallMode}
+            isRevealed={recallRevealed.has(idx)}
+            onReveal={() => handleReveal(idx)}
           />
-        )}
-
-        {/* Stack card: depth 1 */}
-        {patIdx + 1 < patterns.length && (
-          <motion.div
-            key="stack-1"
-            animate={isTransitioning
-              ? { scale: 0.975, y: 4, opacity: 0.85 }
-              : { scale: 0.95,  y: 8, opacity: 0.7  }
-            }
-            transition={SPRING}
-            style={{
-              position: 'absolute', left: 0, right: 0, top: 0, bottom: 0,
-              borderRadius: 18, background: cardBg, border: stackBorder,
-              boxShadow: stackShadow, zIndex: 2,
-            }}
-          />
-        )}
-
-        {/* ── Draggable main card ──────────────────────────────────────── */}
-        <motion.div
-          style={{
-            x: cardX,
-            rotate: cardRotate,
-            position: 'relative', zIndex: 10,
-            overflow: 'hidden', borderRadius: 18,
-            background: cardBg,
-            border: cardBorder,
-            boxShadow: cardShadow,
-            touchAction: 'pan-y',
-            cursor: hideRecallMode && !isCurrentRevealed ? 'pointer' : 'grab',
-          }}
-          drag="x"
-          dragMomentum={false}
-          whileDrag={{ cursor: 'grabbing' }}
-          onDragEnd={handleDragEnd}
-          onClick={hideRecallMode && !isCurrentRevealed ? handleRecallReveal : undefined}
-        >
-          {cardContent}
-        </motion.div>
-
-        {/* PC arrow buttons — left=next (like left-swipe), right=prev */}
-        {showNavButtons && (
-          <>
-            <button
-              type="button"
-              aria-label="다음 패턴"
-              onClick={goNextPattern}
-              style={{
-                position: 'absolute', left: -14, top: '50%', transform: 'translateY(-50%)',
-                zIndex: 20, width: 30, height: 30, borderRadius: '50%',
-                background: arrowBg, border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: arrowColor, opacity: patIdx < patterns.length - 1 ? 1 : 0.25,
-                transition: 'opacity 0.2s',
-              }}
-            >
-              <ChevronLeft style={{ width: 14, height: 14 }} strokeWidth={2.5} />
-            </button>
-            <button
-              type="button"
-              aria-label="이전 패턴"
-              onClick={goPrevPattern}
-              style={{
-                position: 'absolute', right: -14, top: '50%', transform: 'translateY(-50%)',
-                zIndex: 20, width: 30, height: 30, borderRadius: '50%',
-                background: arrowBg, border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: arrowColor, opacity: patHistory.length > 0 ? 1 : 0.25,
-                transition: 'opacity 0.2s',
-              }}
-            >
-              <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />
-            </button>
-          </>
-        )}
-      </motion.div>
-
+        ))}
+      </div>
     </div>
   )
 }
