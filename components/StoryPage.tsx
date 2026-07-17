@@ -85,12 +85,13 @@ export function StoryPage({
   const showKorean  = studyMode === 'en-ko' || studyMode === 'ko'
 
   function cycleStudyMode() {
-    setStudyMode(prev => {
-      const next = STUDY_CYCLE[(STUDY_CYCLE.indexOf(prev) + 1) % STUDY_CYCLE.length]
-      onStudyModeChange?.(next === 'en-ko' || next === 'ko')
-      return next
-    })
+    setStudyMode(prev => STUDY_CYCLE[(STUDY_CYCLE.indexOf(prev) + 1) % STUDY_CYCLE.length])
   }
+
+  useEffect(() => {
+    onStudyModeChange?.(studyMode === 'en-ko' || studyMode === 'ko')
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [studyMode])
   const [playingParaId, setPlayingParaId] = useState<string | null>(null)
   const [revealedParas, setRevealedParas] = useState<Set<string>>(new Set())
 
