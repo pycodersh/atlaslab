@@ -202,7 +202,7 @@ function PatternCardItem({
       }}
     >
       {/* Header: pattern num + meaning + icons */}
-      <div style={{ padding: '18px 18px 12px', background: heroBg }}>
+      <div style={{ padding: '22px 18px 14px', background: heroBg }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
           {/* Left: num + pattern */}
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -258,7 +258,7 @@ function PatternCardItem({
         {/* Meaning + speaker full-width row */}
         {patternMeaning && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
-            <p style={{ fontSize: 13, fontWeight: 500, color: heroMeaningColor, margin: 0, lineHeight: 1.45 }}>
+            <p style={{ fontSize: 11, fontWeight: 500, color: heroMeaningColor, margin: 0, lineHeight: 1.45 }}>
               {patternMeaning}
             </p>
             <button
@@ -297,7 +297,7 @@ function PatternCardItem({
       )}
 
       {/* Examples — bullet list */}
-      <div style={{ padding: '0 18px 18px' }}>
+      <div style={{ padding: '0 18px 22px' }}>
         {/* Thin divider above examples */}
         <div style={{
           height: '0.5px',
@@ -370,7 +370,7 @@ export function PatternsSectionInline({
 
   return (
     <div style={{ padding: '0 16px 8px' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 17 }}>
         {patterns.map((pat, idx) => (
           <PatternCardItem
             key={pat.id}
