@@ -258,6 +258,7 @@ export default function ProgressPage() {
   const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
   const [activityMap,    setActivityMap]    = useState<Record<string, number>>({})
   const [selectedIso,    setSelectedIso]    = useState<string | null>(null)
+  const [mapExpanded,    setMapExpanded]    = useState(false)
 
   useEffect(() => {
     setStreak(getStreak())
@@ -401,16 +402,15 @@ export default function ProgressPage() {
         </div>
 
         {/* ?? Stats: 4 cards ????????????????????????????????????????????????? */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
           {([
-            { value: String(displayStreak), label: 'STREAK',     color: '#E8914A' },
-            { value: String(todayCount),    label: 'SESSIONS',   color: '#6B8FFF' },
-            { value: String(displayPattern),label: 'PATTERNS',   color: '#9B8FE8' },
-            { value: '—',                   label: 'CHALLENGES', color: '#D7B56D' },
+            { value: String(displayStreak),  label: 'STREAK',   color: '#E8914A' },
+            { value: String(todayCount),     label: 'SESSIONS', color: '#6B8FFF' },
+            { value: String(displayPattern), label: 'PATTERNS', color: '#9B8FE8' },
           ] as const).map(({ value, label, color }) => (
-            <div key={label} style={{ ...surface, borderRadius: 16, padding: '12px 4px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-              <span style={{ fontSize: 22, fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
-              <span style={{ fontSize: 7, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.09em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>{label}</span>
+            <div key={label} style={{ ...surface, borderRadius: 20, padding: '14px 12px 12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.35rem)', fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+              <span style={{ fontSize: 9, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.10em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>{label}</span>
             </div>
           ))}
         </div>
@@ -487,13 +487,61 @@ export default function ProgressPage() {
         {/* ?? OVERALL PROGRESS ??????????????????????????????????????????????? */}
         <div>
           <p style={SEC}>OVERALL PROGRESS</p>
-          <div style={{ ...surface, padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 44, fontWeight: 800, color: 'var(--pt)', letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
-              {mapPct}%
-            </span>
-            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)', textAlign: 'right', lineHeight: 1.5 }}>
-              {masteredCount} / {totalPatterns} patterns
-            </span>
+          <div style={{ ...surface, overflow: 'hidden' }}>
+            <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 31, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
+                {mapPct}%
+              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)', lineHeight: 1.5 }}>
+                  {masteredCount} / {totalPatterns} patterns
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setMapExpanded(v => !v)}
+                  style={{
+                    background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px',
+                    fontSize: 11, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit',
+                  }}
+                >
+                  {mapExpanded ? 'Hide' : 'Map'}
+                </button>
+              </div>
+            </div>
+            {mapExpanded && (
+              <div style={{ padding: '0 16px 16px', borderTop: `1px solid ${dividerC}` }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: 3, paddingTop: 14 }}>
+                  {magazineStories.map((ms, i) => {
+                    const rd = storyRounds[i]
+                    const round = rd?.round ?? 0
+                    const isMastered = rd?.isMastered ?? false
+                    const bg = isMastered
+                      ? '#D7B56D'
+                      : round >= 3 ? (isDark ? '#8FABFF' : '#6B8FFF')
+                      : round >= 1 ? (isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)')
+                      : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.05)')
+                    return (
+                      <div key={ms.id} title={`Story ${ms.id}`} style={{
+                        aspectRatio: '1', borderRadius: 3, background: bg,
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.06)'}`,
+                      }} />
+                    )
+                  })}
+                </div>
+                <div style={{ display: 'flex', gap: 16, marginTop: 10, justifyContent: 'flex-end' }}>
+                  {([
+                    { color: '#D7B56D', label: 'Mastered' },
+                    { color: isDark ? '#8FABFF' : '#6B8FFF', label: 'Round 3+' },
+                    { color: isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)', label: 'Started' },
+                  ] as const).map(({ color, label }) => (
+                    <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{ width: 8, height: 8, borderRadius: 2, background: color }} />
+                      <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--pm)' }}>{label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
