@@ -125,9 +125,19 @@ export default function ProgressPage() {
   const outperformMult     = isOutperform ? Math.floor(todayCount / DAILY_GOAL) : 0
   const weeklyPct          = Math.min(Math.round((weeklyStoryCount / WEEKLY_GOAL) * 100), 100)
   const ringColor          = isOutperform ? '#D7B56D' : '#6B8FFF'
-  const bannerGradient     = isOutperform
-    ? 'linear-gradient(135deg, #1a2060, #3d1560)'
-    : 'linear-gradient(135deg, #1a2880, #3d2090)'
+  const bannerStyle: React.CSSProperties = {
+    background: isDark
+      ? (isOutperform ? 'rgba(215,181,109,0.14)' : 'rgba(255,255,255,0.07)')
+      : (isOutperform ? 'linear-gradient(135deg, rgba(215,181,109,0.13), rgba(215,181,109,0.06))' : 'rgba(255,255,255,0.88)'),
+    border: `1px solid ${isDark
+      ? (isOutperform ? 'rgba(215,181,109,0.28)' : 'rgba(255,255,255,0.10)')
+      : (isOutperform ? 'rgba(215,181,109,0.32)' : 'rgba(200,212,240,0.60)')}`,
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    boxShadow: isDark
+      ? '0 8px 32px rgba(0,0,0,0.28)'
+      : (isOutperform ? '0 4px 28px rgba(215,181,109,0.10)' : '0 4px 28px rgba(100,120,200,0.08)'),
+  }
 
   // My stories — started at least 1 round
   const myStoriesData = useMemo(() =>
@@ -140,10 +150,11 @@ export default function ProgressPage() {
   // Shared glass card style (adapts to theme)
   const glassCard: React.CSSProperties = {
     borderRadius: 20,
-    background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.68)',
+    background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.84)',
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
-    border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.82)'}`,
+    border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(200,212,240,0.55)'}`,
+    boxShadow: isDark ? '0 4px 24px rgba(0,0,0,0.28)' : '0 4px 28px rgba(100,120,200,0.06)',
   }
 
   return (
@@ -192,8 +203,8 @@ export default function ProgressPage() {
 
         {/* ── Banner ── */}
         <div style={{
-          borderRadius: 24, overflow: 'hidden',
-          background: bannerGradient,
+          borderRadius: 24,
+          ...bannerStyle,
           padding: '20px 22px 18px',
         }}>
           {/* Outperform badge */}

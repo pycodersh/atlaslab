@@ -164,7 +164,7 @@ function PatternCardItem({
   }
 
   // ── Colors ────────────────────────────────────────────────────────────────
-  const heroBg          = isDark ? 'linear-gradient(160deg, #3a2858 0%, #2a3050 54%, #351828 100%)' : 'transparent'
+  const heroBg          = 'transparent'
   const heroPatternColor = isCompleted
     ? (isDark ? '#999' : '#999')
     : isDark ? 'rgba(255,255,255,0.97)' : '#1a1a2e'
@@ -174,7 +174,7 @@ function PatternCardItem({
   const heroIconColor    = isCompleted
     ? (isDark ? 'rgba(255,255,255,0.30)' : '#bbb')
     : isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
-  const cardBg    = isDark ? 'rgba(30,28,48,0.85)' : '#F8F9FF'
+  const cardBg    = isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.84)'
   const exEnColor = isCompleted
     ? '#999'
     : isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
@@ -184,8 +184,8 @@ function PatternCardItem({
   const cardBorder = isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(142,167,255,0.20)'
   const baseGlow  = isActive ? ', 0 0 0 1.5px rgba(107,124,255,0.35)' : ''
   const cardShadow = isDark
-    ? `0 8px 32px rgba(0,0,0,0.45)${baseGlow}`
-    : `0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04)${baseGlow}`
+    ? `0 4px 28px rgba(0,0,0,0.40)${baseGlow}`
+    : `0 4px 28px rgba(100,120,200,0.07), 0 1px 4px rgba(0,0,0,0.03)${baseGlow}`
   const cardOpacity = isCompleted ? 0.7 : (isActive ? 1 : 0.93)
   const noteBg  = isDark ? 'rgba(255,220,80,0.12)' : '#FFFBEA'
   const noteBorder = isDark ? 'rgba(255,220,80,0.25)' : '#F5E58A'
