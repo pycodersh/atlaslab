@@ -94,9 +94,8 @@ function GuideDock() {
   const inSession  = sessionPhase !== 'inactive'
 
   // ── Position ──────────────────────────────────────────────────────────────
-  const saved = typeof window !== 'undefined' ? loadSavedPos() : null
-  const [pos,    setPos]    = useState<Pos>(saved?.pos ?? defaultPos())
-  const [corner, setCorner] = useState<Corner>(saved?.corner ?? 'br')
+  const [pos,    setPos]    = useState<Pos>({ x: 0, y: 0 })
+  const [corner, setCorner] = useState<Corner>('br')
 
   useEffect(() => {
     const s = loadSavedPos()
