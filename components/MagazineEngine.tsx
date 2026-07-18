@@ -99,6 +99,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const [patternIdx,    setPatternIdx]    = useState(0)
   const [exitPopupPendingHref,setExitPopupPendingHref]= useState<string | null>(null)
   const shouldBlockNavRef = useRef(false)
+  const trainerRef = useRef(trainer)
   const mobileScrollRef = useRef<HTMLDivElement>(null)
   const patternSectionRef = useRef<HTMLDivElement>(null)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -250,6 +251,9 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => window.removeEventListener('popstate', handler)
   }, [story.id])
 
+  // Keep trainerRef current so the click handler below sees the live value
+  useEffect(() => { trainerRef.current = trainer }, [trainer])
+
   // Intercept tab-bar link clicks
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -259,6 +263,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       const href = a.getAttribute('href') ?? ''
       // Tab destinations: /patto/home, /patto/records, /patto/essays, /patto/library
       if (href.startsWith('/patto/') && !href.startsWith('/patto/stories')) {
+        // TrainerProvider가 없으면 exit dialog를 표시할 수 없으므로 바로 통과
+        if (!trainerRef.current) return
         e.preventDefault()
         e.stopPropagation()
         showExitCard(href)
@@ -618,8 +624,14 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   ) : null
 
   function showExitCard(href: string | null) {
+    // ORB/Trainer가 없으면 바로 이동 (trainer 없으면 dialog 표시 불가)
+    if (!trainer) {
+      handleStop()
+      router.push(href ?? '/patto/home')
+      return
+    }
     setExitPopupPendingHref(href)
-    trainer?.ask('One more.', [
+    trainer.ask('One more.', [
       {
         label: 'Exit',
         onClick: () => {

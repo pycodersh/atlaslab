@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Volume2, Square, Bookmark, Info, X, CheckCircle2 } from 'lucide-react'
+import { Volume2, Square, Bookmark, Info, X, CheckCircle2, Headphones, BookOpen } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import type { MagazineStory, MagazinePattern } from '@/types/magazine'
 import type { PracticeExample } from '@/data/pattern-examples'
@@ -18,6 +18,16 @@ import { TappableWordText } from '@/components/TappableWordText'
 import { useTheme } from '@/components/ThemeProvider'
 
 const EXAMPLE_PAUSE_MS = 1800
+
+// ── Per-pattern check state (localStorage) ───────────────────────────────────
+type PatternChecks = { listening: boolean; reading: boolean }
+function getPatternChecks(patternId: string): PatternChecks {
+  if (typeof window === 'undefined') return { listening: false, reading: false }
+  try { const v = localStorage.getItem(`patto-pcheck-${patternId}`); return v ? JSON.parse(v) : { listening: false, reading: false } } catch { return { listening: false, reading: false } }
+}
+function savePatternChecks(patternId: string, checks: PatternChecks) {
+  try { localStorage.setItem(`patto-pcheck-${patternId}`, JSON.stringify(checks)) } catch {}
+}
 
 type Props = {
   story: MagazineStory
@@ -80,6 +90,7 @@ function PatternCardItem({
   const [exIdx, setExIdx]           = useState(0)
   const [bookmarked, setBookmarked] = useState(() => isBookmarked(pattern.id))
   const [noteOpen, setNoteOpen]     = useState(false)
+  const [checks, setChecks]         = useState<PatternChecks>(() => getPatternChecks(pattern.id))
 
   const runningRef   = useRef(false)
   const timerRef     = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -146,6 +157,13 @@ function PatternCardItem({
             const rec = recordPatternPractice(pattern.id, story.id, pattern.pattern, story.title, dur)
             if (rec.lastReviewedAt?.slice(0, 10) !== todayStr()) applyReview('pattern', pattern.id, true)
             runningRef.current = false; setIsPlaying(false)
+            // 오디오 완료 → Listening 자동 체크
+            setChecks(prev => {
+              if (prev.listening) return prev
+              const next = { ...prev, listening: true }
+              savePatternChecks(pattern.id, next)
+              return next
+            })
             onComplete?.()
           }
         },
@@ -154,6 +172,14 @@ function PatternCardItem({
     }
     playOne(0)
   }, [isPlaying, stop, examples, voice, prefs.speechRate, pattern, story, onActivate, onComplete])
+
+  function toggleCheck(type: 'listening' | 'reading') {
+    setChecks(prev => {
+      const next = { ...prev, [type]: !prev[type] }
+      savePatternChecks(pattern.id, next)
+      return next
+    })
+  }
 
   function handleBookmark() {
     const next = toggleBookmark({
@@ -296,7 +322,7 @@ function PatternCardItem({
       )}
 
       {/* Examples — bullet list */}
-      <div style={{ padding: '10px 18px 18px' }}>
+      <div style={{ padding: '10px 18px 0' }}>
         {examples.map((ex, i) => {
           const isExPlaying = isPlaying && i === exIdx
           const fullEx = patternExamplesFull[pattern.id]?.[i]
@@ -320,6 +346,41 @@ function PatternCardItem({
                 )}
               </div>
             </div>
+          )
+        })}
+      </div>
+
+      {/* Listening / Reading check buttons */}
+      <div style={{ padding: '12px 18px 16px', display: 'flex', gap: 8 }}>
+        {(['listening', 'reading'] as const).map(type => {
+          const checked = checks[type]
+          const Icon = type === 'listening' ? Headphones : BookOpen
+          const label = type === 'listening' ? 'Listening' : 'Reading'
+          return (
+            <button
+              key={type}
+              type="button"
+              onClick={e => { e.stopPropagation(); toggleCheck(type) }}
+              style={{
+                flex: 1, height: 36, borderRadius: 10, cursor: 'pointer',
+                background: checked
+                  ? (isDark ? 'rgba(143,171,255,0.20)' : 'rgba(142,167,255,0.14)')
+                  : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)'),
+                border: checked
+                  ? `1px solid ${isDark ? 'rgba(143,171,255,0.40)' : 'rgba(142,167,255,0.38)'}`
+                  : `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.07)'}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
+                fontSize: 12, fontWeight: 600,
+                color: checked
+                  ? (isDark ? '#8FABFF' : '#5B7FD4')
+                  : (isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.35)'),
+                transition: 'all 0.2s', fontFamily: 'inherit',
+              }}
+            >
+              <Icon style={{ width: 13, height: 13 }} strokeWidth={1.8} />
+              {label}
+              {checked && <CheckCircle2 style={{ width: 11, height: 11, marginLeft: 1 }} strokeWidth={2} />}
+            </button>
           )
         })}
       </div>
