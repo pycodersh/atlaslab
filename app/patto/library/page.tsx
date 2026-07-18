@@ -20,6 +20,8 @@ import {
   type Essay, type EditorReview,
 } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
+import { useTheme } from '@/components/ThemeProvider'
+import { usePreferences } from '@/contexts/PreferencesContext'
 import { useItemTranslation } from '@/hooks/useItemTranslation'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
 import { lookupMeaning } from '@/data/patto-dictionary'
@@ -405,6 +407,9 @@ function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: nu
 export default function LibraryPage() {
   const router   = useRouter()
   const t        = useT()
+  const { theme } = useTheme()
+  const isDark     = theme === 'dark'
+  const { prefs }  = usePreferences()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const [query, setQuery]               = useState('')
@@ -757,7 +762,6 @@ export default function LibraryPage() {
 
             <Btn
               variant="primary"
-              size="md"
               disabled={wsWordCount === 0 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0}
               onClick={handleGetFeedback}
               style={{ marginTop: 12, width: '100%' }}
@@ -796,11 +800,10 @@ export default function LibraryPage() {
                     <span style={{ fontSize: 13, color: 'var(--pt)' }}>{wsFeedback.editorComment}</span>
                   </div>
                 )}
-                <Btn variant="primary" size="md" onClick={handleWsSave} style={{ marginTop: 12, width: '100%' }}>Save</Btn>
+                <Btn variant="primary" onClick={handleWsSave} style={{ marginTop: 12, width: '100%' }}>Save</Btn>
               </div>
             )}
           </div>
-        )}
 
         {/* Saved writings list */}
         {essays.length === 0 ? (

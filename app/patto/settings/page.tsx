@@ -132,8 +132,8 @@ function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel
       <div style={{ background: 'var(--pb)', borderRadius: 20, padding: '28px 24px 20px', maxWidth: 340, width: '100%', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
         <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 20px', lineHeight: 1.6 }}>{message}</p>
         <div style={{ display: 'flex', gap: 10 }}>
-          <Btn variant="ghost" size="md" onClick={onCancel} style={{ flex: 1 }}>{cancelLabel}</Btn>
-          <Btn variant="danger" size="md" onClick={onConfirm} style={{ flex: 1 }}>{confirmLabel}</Btn>
+          <Btn variant="ghost" onClick={onCancel} style={{ flex: 1 }}>{cancelLabel}</Btn>
+          <Btn variant="danger" onClick={onConfirm} style={{ flex: 1 }}>{confirmLabel}</Btn>
         </div>
       </div>
     </div>

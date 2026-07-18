@@ -51,8 +51,8 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
 
       {/* Buttons */}
       <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <Btn variant="primary" size="md" onClick={() => router.push('/patto/settings/subscription')} style={{ width: '100%' }}>Upgrade</Btn>
-        <Btn variant="ghost" size="md" onClick={() => router.back()} style={{ width: '100%' }}>Go back</Btn>
+        <Btn variant="primary" onClick={() => router.push('/patto/settings/subscription')} style={{ width: '100%' }}>Upgrade</Btn>
+        <Btn variant="ghost" onClick={() => router.back()} style={{ width: '100%' }}>Go back</Btn>
       </div>
     </div>
   )

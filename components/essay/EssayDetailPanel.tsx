@@ -327,7 +327,7 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
             <span style={{ fontSize: 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s', letterSpacing: '0.02em' }}>{wc} words</span>
           )}
           {!isEditing && review && (
-            <Btn variant="secondary" size="sm" onClick={handleEditClick}>
+            <Btn variant="secondary" onClick={handleEditClick}>
               <Pencil style={{ width: 10, height: 10 }} strokeWidth={2} />Edit
             </Btn>
           )}
@@ -373,10 +373,10 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
             )}
             {error && <p style={{ fontSize: 12, color: 'var(--pa)', marginBottom: 8, fontStyle: 'italic' }}>{errorMessages[error]}</p>}
             <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
-              <Btn variant="secondary" size="md" onClick={autoSave} disabled={loading} style={{ flex: 1 }}>Save</Btn>
+              <Btn variant="secondary" onClick={autoSave} disabled={loading} style={{ flex: 1 }}>Save</Btn>
               {loading
-                ? <Btn variant="primary" size="md" disabled style={{ flex: 1 }}>Reviewing…</Btn>
-                : <Btn variant="primary" size="md" onClick={handleReview} disabled={loading || wc < MIN_WORDS} style={{ flex: 1 }}>Review</Btn>
+                ? <Btn variant="primary" disabled style={{ flex: 1 }}>Reviewing…</Btn>
+                : <Btn variant="primary" onClick={handleReview} disabled={loading || wc < MIN_WORDS} style={{ flex: 1 }}>Review</Btn>
               }
             </div>
           </div>
@@ -559,8 +559,8 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
             <p style={{ fontSize: 17, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px' }}>{t('essays_delete_title')}</p>
             <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 32px', lineHeight: 1.65 }}>{t('essays_delete_desc')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <Btn variant="danger" size="md" onClick={handleDelete} style={{ width: '100%' }}>Delete</Btn>
-              <Btn variant="ghost" size="md" onClick={() => setShowDeleteConfirm(false)} style={{ width: '100%' }}>Cancel</Btn>
+              <Btn variant="danger" onClick={handleDelete} style={{ width: '100%' }}>Delete</Btn>
+              <Btn variant="ghost" onClick={() => setShowDeleteConfirm(false)} style={{ width: '100%' }}>Cancel</Btn>
             </div>
           </div>
         </div>

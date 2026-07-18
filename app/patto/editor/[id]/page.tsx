@@ -132,8 +132,8 @@ function NotePicker({ currentId, lang, onSelect, onClose }: NotePickerProps) {
 
         {/* Actions */}
         <div style={{ display:'flex', borderTop:'1px solid var(--pd)' }}>
-          <Btn variant="ghost" size="md" onClick={onClose} style={{ flex: 1 }}>Cancel</Btn>
-          <Btn variant="primary" size="md" onClick={() => { onSelect(selId); onClose() }} style={{ flex: 1 }}>Select</Btn>
+          <Btn variant="ghost" onClick={onClose} style={{ flex: 1 }}>Cancel</Btn>
+          <Btn variant="primary" onClick={() => { onSelect(selId); onClose() }} style={{ flex: 1 }}>Select</Btn>
         </div>
       </div>
     </div>

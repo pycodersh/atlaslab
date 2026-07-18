@@ -3,11 +3,10 @@
 import { forwardRef, ButtonHTMLAttributes } from 'react'
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
-type Size    = 'md' | 'sm' | 'pill'
 
 interface BtnProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant
-  size?: Size
+  pill?: boolean
 }
 
 const BASE: React.CSSProperties = {
@@ -25,54 +24,39 @@ const BASE: React.CSSProperties = {
   userSelect: 'none',
 }
 
+const DEFAULT_SHAPE: React.CSSProperties = {
+  fontSize: 15,
+  borderRadius: 14,
+  padding: '13px 28px',
+}
+
+const PILL_SHAPE: React.CSSProperties = {
+  fontSize: 14,
+  borderRadius: 999,
+  padding: '11px 24px',
+}
+
 const VARIANT: Record<Variant, React.CSSProperties> = {
-  primary: {
-    background: '#6366F1',
-    color: '#ffffff',
-    border: 'none',
-  },
-  secondary: {
-    background: 'transparent',
-    color: '#6366F1',
-    border: '1.5px solid #6366F1',
-  },
-  ghost: {
-    background: 'transparent',
-    color: 'var(--pm)',
-    border: 'none',
-  },
-  danger: {
-    background: '#FEF2F2',
-    color: '#DC2626',
-    border: '1.5px solid #FECACA',
-  },
+  primary:   { background: '#6366F1', color: '#ffffff', border: 'none' },
+  secondary: { background: 'transparent', color: '#6366F1', border: '1.5px solid #6366F1' },
+  ghost:     { background: 'transparent', color: 'var(--pm)', border: 'none' },
+  danger:    { background: '#FEF2F2', color: '#DC2626', border: '1.5px solid #FECACA' },
 }
 
-const SIZE_STYLE: Record<Size, React.CSSProperties> = {
-  md:   { fontSize: 15, borderRadius: 14, padding: '13px 28px' },
-  sm:   { fontSize: 13, borderRadius: 10, padding: '8px 18px' },
-  pill: { fontSize: 14, borderRadius: 999, padding: '10px 22px' },
-}
-
-const SIZE_SECONDARY_PAD: Record<Size, string> = {
-  md:   '12px 28px',
-  sm:   '8px 18px',
-  pill: '10px 22px',
-}
-
-// Active/hover colors
 const PRESS: Record<Variant, string> = {
   primary:   '#4338CA',
   secondary: '#EEF2FF',
   ghost:     'transparent',
   danger:    '#FEE2E2',
 }
+
 const HOVER: Record<Variant, string> = {
   primary:   '#4F46E5',
   secondary: '#EEF2FF',
   ghost:     'transparent',
   danger:    '#FEE2E2',
 }
+
 const REST: Record<Variant, string> = {
   primary:   '#6366F1',
   secondary: 'transparent',
@@ -81,19 +65,14 @@ const REST: Record<Variant, string> = {
 }
 
 export const Btn = forwardRef<HTMLButtonElement, BtnProps>(
-  ({ variant = 'primary', size = 'md', style, children, disabled, onMouseDown, onMouseUp, onMouseLeave, onMouseEnter, ...rest }, ref) => {
+  ({ variant = 'primary', pill = false, style, children, disabled, onMouseDown, onMouseUp, onMouseLeave, onMouseEnter, ...rest }, ref) => {
     const v = VARIANT[variant]
-    const s = SIZE_STYLE[size]
-
-    const padding = variant === 'secondary' || variant === 'danger' || variant === 'ghost'
-      ? SIZE_SECONDARY_PAD[size]
-      : s.padding
+    const shape = pill ? PILL_SHAPE : DEFAULT_SHAPE
 
     const computed: React.CSSProperties = {
       ...BASE,
       ...v,
-      ...s,
-      padding,
+      ...shape,
       opacity: disabled ? 0.45 : 1,
       pointerEvents: disabled ? 'none' : undefined,
       ...style,

@@ -153,7 +153,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
     return (
       <>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <Btn variant="ghost" size="sm" onClick={() => setEmailMode(false)} style={{ alignSelf: 'flex-start' }}>Back</Btn>
+          <Btn variant="ghost" onClick={() => setEmailMode(false)} style={{ alignSelf: 'flex-start' }}>Back</Btn>
           <form onSubmit={handleEmailSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <input
               type="email" required
@@ -169,7 +169,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
               onChange={e => setPassword(e.target.value)}
               style={{ ...btnStyle, height: 48, fontSize: 13.5, color: 'var(--pt)', outline: 'none' }}
             />
-            <Btn variant="primary" size="md" type="submit" disabled={loading} style={{ width: '100%' }}>
+            <Btn variant="primary" type="submit" disabled={loading} style={{ width: '100%' }}>
               {isSignUp ? 'Sign up' : 'Sign in'}
             </Btn>
             <button

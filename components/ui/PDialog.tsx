@@ -89,7 +89,6 @@ function ActionButton({ action }: { action: PDialogAction; isOnly: boolean }) {
   return (
     <Btn
       variant={btnVariant}
-      size="md"
       onClick={action.disabled ? undefined : action.onClick}
       disabled={action.disabled}
       style={{ flex: 1 }}

@@ -99,8 +99,8 @@ export function StoryCompletePopup({ storyNumber, patternsInStory, onContinue, o
 
         {/* Buttons */}
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <Btn variant="primary" size="md" onClick={onContinue}>Continue</Btn>
-          <Btn variant="ghost" size="md" onClick={onHome}>Home</Btn>
+          <Btn variant="primary" onClick={onContinue}>Continue</Btn>
+          <Btn variant="ghost" onClick={onHome}>Home</Btn>
         </div>
       </div>
     </div>

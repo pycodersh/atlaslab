@@ -820,7 +820,7 @@ export function UIPlaygroundClient() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
               <Btn variant="primary">Continue</Btn>
               <Btn variant="primary">Save</Btn>
-              <Btn variant="primary" size="sm">Review</Btn>
+              <Btn variant="primary">Review</Btn>
               <Btn variant="primary" disabled>Disabled</Btn>
             </div>
           </Sub>
@@ -829,7 +829,7 @@ export function UIPlaygroundClient() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
               <Btn variant="secondary">Skip</Btn>
               <Btn variant="secondary">Records</Btn>
-              <Btn variant="secondary" size="sm">See All</Btn>
+              <Btn variant="secondary">See All</Btn>
               <Btn variant="secondary" disabled>Disabled</Btn>
             </div>
           </Sub>
@@ -838,7 +838,7 @@ export function UIPlaygroundClient() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
               <Btn variant="ghost">Cancel</Btn>
               <Btn variant="ghost">Go back</Btn>
-              <Btn variant="ghost" size="sm">Not now</Btn>
+              <Btn variant="ghost">Not now</Btn>
             </div>
           </Sub>
 
@@ -846,15 +846,15 @@ export function UIPlaygroundClient() {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
               <Btn variant="danger">Delete</Btn>
               <Btn variant="danger">Reset</Btn>
-              <Btn variant="danger" size="sm">Sign out</Btn>
+              <Btn variant="danger">Sign out</Btn>
             </div>
           </Sub>
 
           <Sub title="Pill size">
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
-              <Btn variant="primary" size="pill">Start</Btn>
-              <Btn variant="secondary" size="pill">Later</Btn>
-              <Btn variant="ghost" size="pill">Dismiss</Btn>
+              <Btn variant="primary" pill>Start</Btn>
+              <Btn variant="secondary" pill>Later</Btn>
+              <Btn variant="ghost" pill>Dismiss</Btn>
             </div>
           </Sub>
 

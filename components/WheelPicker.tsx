@@ -107,8 +107,8 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
 
         {/* Actions */}
         <div className="flex border-t border-[#E8E0D8] gap-2 p-2">
-          <Btn variant="ghost" size="md" onClick={onClose} style={{ flex: 1 }}>Cancel</Btn>
-          <Btn variant="primary" size="md" onClick={() => { onSelect(selectedId); onClose() }} style={{ flex: 1 }}>Done</Btn>
+          <Btn variant="ghost" onClick={onClose} style={{ flex: 1 }}>Cancel</Btn>
+          <Btn variant="primary" onClick={() => { onSelect(selectedId); onClose() }} style={{ flex: 1 }}>Done</Btn>
         </div>
       </div>
     </div>

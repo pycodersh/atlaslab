@@ -106,13 +106,13 @@ export function GlobalSavePopup() {
             {/* Action buttons */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20 }}>
               {item.chunk && (
-                <Btn variant="primary" size="md" onClick={handleSavePhrase}>Save phrase</Btn>
+                <Btn variant="primary" onClick={handleSavePhrase}>Save phrase</Btn>
               )}
               {item.chunk
-                ? <Btn variant="secondary" size="md" onClick={handleSaveWord}>Save word</Btn>
-                : <Btn variant="primary" size="md" onClick={handleSaveWord}>Save</Btn>
+                ? <Btn variant="secondary" onClick={handleSaveWord}>Save word</Btn>
+                : <Btn variant="primary" onClick={handleSaveWord}>Save</Btn>
               }
-              <Btn variant="ghost" size="md" onClick={dismiss}>Cancel</Btn>
+              <Btn variant="ghost" onClick={dismiss}>Cancel</Btn>
             </div>
           </div>
         </div>

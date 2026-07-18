@@ -211,7 +211,7 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
               <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm)' }}>STUCK? GET AN EXPRESSION</span>
             </div>
             {!suggestion && (
-              <Btn variant="secondary" size="sm" disabled={suggestLoading} onClick={handleSuggest}>
+              <Btn variant="secondary" disabled={suggestLoading} onClick={handleSuggest}>
                 {suggestLoading ? <Loader2 style={{ width: 11, height: 11, animation: 'spin 1s linear infinite' }} /> : 'Suggest'}
               </Btn>
             )}
@@ -225,8 +225,8 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
               <p style={{ fontSize: 11, color: 'var(--pa)', margin: '0 0 4px', letterSpacing: '0.06em', fontWeight: 700 }}>IN ENGLISH</p>
               <p style={{ fontSize: 15, color: 'var(--pt)', margin: '0 0 12px', lineHeight: 1.6, fontWeight: 500 }}>{suggestion}</p>
               <div style={{ display: 'flex', gap: 8 }}>
-                <Btn variant="secondary" size="sm" onClick={handleInsert} style={{ flex: 1 }}>Insert</Btn>
-                <Btn variant="ghost" size="sm" onClick={handleCopy}>
+                <Btn variant="secondary" onClick={handleInsert} style={{ flex: 1 }}>Insert</Btn>
+                <Btn variant="ghost" onClick={handleCopy}>
                   {copied ? <><Check style={{ width: 11, height: 11 }} /> Copied</> : <><Copy style={{ width: 11, height: 11 }} /> Copy</>}
                 </Btn>
               </div>
@@ -239,12 +239,12 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
 
       {/* Actions */}
       <div style={{ marginTop: 28, display: 'flex', gap: 10 }}>
-        <Btn variant="secondary" size="md" onClick={handleSave} disabled={!body.trim() || loading} style={{ flex: 1 }}>
+        <Btn variant="secondary" onClick={handleSave} disabled={!body.trim() || loading} style={{ flex: 1 }}>
           {saveFlash ? '✓ Saved' : 'Save'}
         </Btn>
         {loading
-          ? <Btn variant="primary" size="md" disabled style={{ flex: 1 }}>Reviewing…</Btn>
-          : <Btn variant="primary" size="md" onClick={handleReview} disabled={loading || wc < MIN_WORDS} style={{ flex: 1 }}>Review</Btn>
+          ? <Btn variant="primary" disabled style={{ flex: 1 }}>Reviewing…</Btn>
+          : <Btn variant="primary" onClick={handleReview} disabled={loading || wc < MIN_WORDS} style={{ flex: 1 }}>Review</Btn>
         }
       </div>
 

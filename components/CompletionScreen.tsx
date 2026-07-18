@@ -45,8 +45,8 @@ export function CompletionScreen() {
 
       {/* Buttons */}
       <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 12 }}>
-        <Btn variant="primary" size="md" onClick={() => router.push('/patto/learn/1')}>Restart</Btn>
-        <Btn variant="secondary" size="md" onClick={() => router.push('/patto/records')}>Records</Btn>
+        <Btn variant="primary" onClick={() => router.push('/patto/learn/1')}>Restart</Btn>
+        <Btn variant="secondary" onClick={() => router.push('/patto/records')}>Records</Btn>
       </div>
     </div>
   )
