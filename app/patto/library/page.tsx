@@ -525,7 +525,7 @@ export default function LibraryPage() {
       </div>
 
       {/* Saved Words */}
-      {(activeSection === null || activeSection === 'words') && (
+      {activeSection === 'words' && (
       <section style={{ marginBottom: 20 }}>
         {words.length === 0 ? (
           <EmptyState
@@ -563,7 +563,7 @@ export default function LibraryPage() {
       )}
 
       {/* Saved Phrases */}
-      {(activeSection === null || activeSection === 'phrases') && (
+      {activeSection === 'phrases' && (
       <section style={{ marginBottom: 20 }}>
         {phrases.length === 0 ? (
           <EmptyState
@@ -601,7 +601,7 @@ export default function LibraryPage() {
       )}
 
       {/* Saved Patterns */}
-      {(activeSection === null || activeSection === 'patterns') && (
+      {activeSection === 'patterns' && (
       <section style={{ marginBottom: 20 }}>
         {bookmarks.length === 0 ? (
           <EmptyState
