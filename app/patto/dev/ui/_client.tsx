@@ -591,71 +591,7 @@ export function UIPlaygroundClient() {
         </div>
       </Section>
 
-      {/* 2. Mission Popup */}
-      <Section title="Mission Popup — TodayMissionPopup">
-        <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 20, lineHeight: 1.6 }}>
-          홈 최초 접속 시 표시. localStorage의 오늘 날짜 체크 후 1회만 노출. 미션이 모두 완료된 날은 표시 안 함.
-        </p>
-        <div style={{ maxWidth: 360 }}>
-          {/* TodayMissionPopup 실물 재현 */}
-          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 28, boxShadow: '0 8px 48px rgba(0,0,0,0.16)' }}>
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
-              <p style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--pt)', margin: 0 }}>Today&apos;s Mission</p>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, borderRadius: '50%', background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
-                <X size={13} style={{ color: 'var(--pm)' }} strokeWidth={2} />
-              </div>
-            </div>
-            <div style={{ padding: '18px 20px 20px' }}>
-              {/* LEARN TODAY */}
-              <div style={{ marginBottom: 16 }}>
-                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 7px' }}>LEARN TODAY</p>
-                {[{ id: '03', title: 'BUILDING UP' }, { id: '04', title: 'MOVING ON' }].map(s => (
-                  <div key={s.id} style={{ display: 'flex', gap: 4, alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Story {s.id} ·</span>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>{s.title}</span>
-                  </div>
-                ))}
-              </div>
-              {/* REVIEW */}
-              <div style={{ marginBottom: 20 }}>
-                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 7px' }}>REVIEW</p>
-                {[{ id: '01', title: 'A NEW START' }, { id: '02', title: 'FIRST STEPS' }].map(s => (
-                  <div key={s.id} style={{ display: 'flex', gap: 4, alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Story {s.id} ·</span>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: 'var(--pt)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>{s.title}</span>
-                  </div>
-                ))}
-              </div>
-              {/* CTA glass button */}
-              <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, width: '100%', padding: '13px 0', background: '#2C2C32', border: 'none', borderRadius: 12, fontSize: 13, fontWeight: 700, color: '#FFFFFF', fontFamily: 'inherit', cursor: 'default', letterSpacing: '0.03em' }}>
-                Start Learning <ChevronRight size={14} strokeWidth={2.5} />
-              </button>
-            </div>
-          </div>
-          {/* Review-only variant */}
-          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--pm2)', margin: '20px 0 10px' }}>Review Only (no new stories)</p>
-          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 28, boxShadow: '0 8px 48px rgba(0,0,0,0.16)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
-              <p style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--pt)', margin: 0 }}>Today&apos;s Mission</p>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 28, height: 28, borderRadius: '50%', background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
-                <X size={13} style={{ color: 'var(--pm)' }} strokeWidth={2} />
-              </div>
-            </div>
-            <div style={{ padding: '18px 20px 20px' }}>
-              <div style={{ marginBottom: 20 }}>
-                <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.18em', color: 'var(--pm2)', textTransform: 'uppercase', margin: '0 0 7px' }}>REVIEW</p>
-                <p style={{ fontSize: 13, color: 'var(--pm2)', margin: 0 }}>No review patterns due today.</p>
-              </div>
-              <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, width: '100%', padding: '13px 0', background: '#2C2C32', border: 'none', borderRadius: 12, fontSize: 13, fontWeight: 700, color: '#FFFFFF', fontFamily: 'inherit', cursor: 'default', letterSpacing: '0.03em' }}>
-                Start Learning <ChevronRight size={14} strokeWidth={2.5} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* 3. Bottom Sheet */}
+      {/* 2. Bottom Sheet */}
       <Section title="Bottom Sheet">
         <Sub title="StoryJumpSheet — 학습 목록">
           <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>StoryCardEngine 상단 목록 버튼 → 전체 스토리 점프 시트. rounded-t-3xl, max-h-75dvh, translate-y 애니메이션.</p>
@@ -1113,7 +1049,7 @@ export function UIPlaygroundClient() {
                     </div>
                   </div>
                 ),
-                usage: 'All PDialog modals, TodayMissionPopup',
+                usage: 'All PDialog modals',
               },
               {
                 label: 'FAB', value: '0 4px 20px rgba(0,0,0,0.18)',
@@ -1151,7 +1087,7 @@ export function UIPlaygroundClient() {
                     <div style={{ fontSize: 11, color: 'var(--pm)' }}>Add to your Home Screen for quick access.</div>
                   </div>
                 ),
-                usage: 'PDialog, TodayMissionPopup — strongest glass, depth over content',
+                usage: 'PDialog — strongest glass, depth over content',
               },
               {
                 label: 'Nav / Card Glass', blur: 'blur(24px) saturate(180%)',
@@ -1350,7 +1286,7 @@ export function UIPlaygroundClient() {
         <Sub title="Animation">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {[
-              { label: 'Dialog open',  val: '220ms cubic-bezier(0.34,1.56,0.64,1)', usage: 'PDialog card scale+fade, TodayMissionPopup', note: 'Spring bounce — feels snappy and alive' },
+              { label: 'Dialog open',  val: '220ms cubic-bezier(0.34,1.56,0.64,1)', usage: 'PDialog card scale+fade', note: 'Spring bounce — feels snappy and alive' },
               { label: 'Toast fade',   val: '200ms ease',                             usage: 'Toast notification appear/disappear', note: 'Fast linear fade, unobtrusive' },
               { label: 'Button press', val: '150ms ease',                             usage: 'opacity on tap, background on hover', note: 'Instant feedback, sub-100ms perceived' },
               { label: 'Tab switch',   val: '250ms cubic-bezier(0.25,0.1,0.25,1)',   usage: 'Bottom nav icon color transition', note: 'Smooth standard ease-out' },
