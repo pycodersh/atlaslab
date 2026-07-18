@@ -650,25 +650,16 @@ export default function HomePage() {
                 onClick={() => router.push(m.href)}
                 onKeyDown={e => e.key === 'Enter' && router.push(m.href)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
+                  display: 'flex', alignItems: 'center',
                   padding: '8px 0', cursor: 'pointer',
                   borderTop: idx > 0 ? `0.5px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(180,195,240,0.35)'}` : undefined,
                 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
-                {m.done ? (
-                  <span style={{ width: 18, height: 18, borderRadius: '50%', background: 'rgba(39,174,96,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Check style={{ width: 10, height: 10, color: '#27AE60' }} strokeWidth={2.5} />
-                  </span>
-                ) : (
-                  <span style={{ width: 18, height: 18, borderRadius: '50%', border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.22)' : 'rgba(100,110,160,0.25)'}`, flexShrink: 0 }} />
-                )}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: m.done ? (isDark ? 'rgba(39,174,96,0.75)' : 'rgba(39,174,96,0.85)') : (isDark ? 'rgba(255,255,255,0.88)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    Story {String(m.id).padStart(2, '0')} · {m.title}
-                  </p>
-                </div>
+                <p style={{ flex: 1, minWidth: 0, paddingLeft: 16, fontSize: 13, fontWeight: 600, color: m.done ? (isDark ? 'rgba(39,174,96,0.75)' : 'rgba(39,174,96,0.85)') : (isDark ? 'rgba(255,255,255,0.88)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  Story {String(m.id).padStart(2, '0')} · {m.title}
+                </p>
                 {!m.done && <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(100,110,160,0.35)', flexShrink: 0 }} strokeWidth={2} />}
               </motion.div>
             ))}
@@ -689,7 +680,7 @@ export default function HomePage() {
                   <Pencil style={{ width: 11, height: 11, flexShrink: 0 }} strokeWidth={2} />
                   Editor Tip
                 </p>
-                <p style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)', margin: 0, lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
+                <p style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)', margin: 0, lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', paddingLeft: 16 }}>
                   {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
                 </p>
               </div>
