@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { motion } from 'motion/react'
 import { useTheme } from '@/components/ThemeProvider'
 
 const COVER_KEY    = 'patto_cover_done_v1'
@@ -22,12 +23,33 @@ function consumeCoverReplay(): boolean {
   return had
 }
 
+function AnimatedLetters({ text, delay = 0, style }: { text: string; delay?: number; style?: React.CSSProperties }) {
+  return (
+    <span style={{ display: 'inline-flex', ...style }}>
+      {text.split('').map((char, i) => (
+        <motion.span
+          key={i}
+          style={{ display: 'inline-block' }}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.55,
+            delay: delay + i * 0.07,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          {char}
+        </motion.span>
+      ))}
+    </span>
+  )
+}
+
 export function WelcomeCover() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
   const [visible, setVisible] = useState(false)
-  const [fading, setFading]   = useState(false)
-  const [stage, setStage]     = useState(0)
+  const [dismissing, setDismissing] = useState(false)
 
   useEffect(() => {
     const isReplay = consumeCoverReplay()
@@ -42,142 +64,133 @@ export function WelcomeCover() {
 
   useEffect(() => {
     if (!visible) return
-    const t2          = setTimeout(() => setStage(2), 350)
-    const t3          = setTimeout(() => setStage(3), 1100)
-    const autoDismiss = setTimeout(() => dismiss(), 2500)
-    return () => { clearTimeout(t2); clearTimeout(t3); clearTimeout(autoDismiss) }
+    const t = setTimeout(dismiss, 3000)
+    return () => clearTimeout(t)
   }, [visible])
 
   function dismiss() {
-    if (fading) return
-    setFading(true)
+    if (dismissing) return
+    setDismissing(true)
     localStorage.setItem(COVER_KEY, 'true')
     setTimeout(() => {
       setVisible(false)
-      setFading(false)
-      document.body.style.overflow  = ''
-      document.body.style.position  = ''
-      document.body.style.width     = ''
-      document.body.style.top       = ''
-    }, 400)
+      document.body.style.overflow = ''
+      document.body.style.position = ''
+      document.body.style.width    = ''
+      document.body.style.top      = ''
+    }, 600)
   }
 
   if (!visible) return null
 
-  const logoH     = 52
-  const pattoSize = 35
-
-  const bgGradient   = isDark
-    ? 'linear-gradient(160deg, #2a2040 0%, #1e2a40 50%, #251830 100%)'
-    : 'linear-gradient(160deg, #d8d0ee 0%, #e8d8f0 45%, #d0e0f0 100%)'
-
-  const textPrimary   = isDark ? 'rgba(255,255,255,0.92)' : 'rgba(40,30,70,0.88)'
-  const textSecondary = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(40,30,70,0.5)'
-  const dividerColor  = isDark ? 'rgba(255,255,255,0.2)'  : 'rgba(40,30,70,0.2)'
-
-  function sloganStyle(active: boolean): React.CSSProperties {
-    return {
-      opacity:    active ? 1 : 0,
-      filter:     active ? 'blur(0px)' : 'blur(12px)',
-      transform:  active ? 'translateY(0px)' : 'translateY(8px)',
-      transition: active
-        ? 'opacity 600ms ease-out, filter 600ms ease-out, transform 600ms ease-out'
-        : 'none',
-    }
-  }
+  const bg   = isDark ? '#0A0A0F' : '#FAFAFA'
+  const text = isDark ? '#FFFFFF' : '#0A0A0F'
+  const muted = isDark ? 'rgba(255,255,255,0.30)' : 'rgba(10,10,15,0.32)'
+  const rule  = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(10,10,15,0.12)'
 
   return (
-    <div
+    <motion.div
+      onClick={dismiss}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: dismissing ? 0 : 1 }}
+      transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
       style={{
         position: 'fixed', inset: 0, zIndex: 9999,
-        overflow: 'hidden', touchAction: 'none',
-        background: bgGradient,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        opacity:    fading ? 0 : 1,
-        transition: fading ? 'opacity 400ms cubic-bezier(0.4,0,0.2,1)' : 'none',
+        touchAction: 'none', overflow: 'hidden',
+        background: bg,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      {/* Orbs */}
-      {isDark ? (
-        <>
-          <div style={{
-            position: 'absolute', top: 20, right: -50,
-            width: 200, height: 200, pointerEvents: 'none',
-            background: 'radial-gradient(circle, rgba(150,120,220,0.3) 0%, transparent 70%)',
-          }} />
-          <div style={{
-            position: 'absolute', bottom: 80, left: -40,
-            width: 160, height: 160, pointerEvents: 'none',
-            background: 'radial-gradient(circle, rgba(100,160,220,0.2) 0%, transparent 70%)',
-          }} />
-        </>
-      ) : (
-        <>
-          <div style={{
-            position: 'absolute', top: -20, right: -40,
-            width: 180, height: 180, pointerEvents: 'none',
-            background: 'radial-gradient(circle, rgba(200,180,240,0.55) 0%, transparent 70%)',
-          }} />
-          <div style={{
-            position: 'absolute', bottom: 60, left: -30,
-            width: 140, height: 140, pointerEvents: 'none',
-            background: 'radial-gradient(circle, rgba(180,210,240,0.45) 0%, transparent 70%)',
-          }} />
-        </>
-      )}
-
       {/* Center content */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', paddingBottom: '15%' }}>
+      <div style={{
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', textAlign: 'center',
+        marginBottom: '10%',
+      }}>
 
-        {/* Logo + PATTO */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 20 }}>
-          <img
-            src={isDark ? '/PATTO Dark.png' : '/PATTO.png'}
-            alt="PT"
-            style={{
-              display: 'block', height: logoH, width: 'auto',
-              mixBlendMode: isDark ? 'screen' : 'multiply',
-              opacity: isDark ? 0.92 : 1,
-            }}
-          />
-          <div style={{
-            width: 1, height: Math.round(pattoSize * 0.85),
-            background: isDark ? 'rgba(255,255,255,0.22)' : 'rgba(0,0,0,0.16)',
-            flexShrink: 0,
-          }} />
-          <span style={{
-            fontSize: pattoSize, fontWeight: 800,
-            letterSpacing: '-0.02em', lineHeight: 1,
-            color: isDark ? '#FFFFFF' : '#161616',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif',
-          }}>
-            PATTO
-          </span>
+        {/* PATTO */}
+        <div style={{
+          fontSize: 52,
+          fontWeight: 700,
+          letterSpacing: '0.22em',
+          color: text,
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, sans-serif',
+          marginBottom: 20,
+        }}>
+          <AnimatedLetters text="PATTO" delay={0.1} />
         </div>
 
         {/* Divider */}
-        <div style={{ width: 24, height: 1, background: dividerColor, marginBottom: 16 }} />
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.5, delay: 0.6, ease: 'easeOut' }}
+          style={{
+            width: 28, height: 1,
+            background: rule,
+            marginBottom: 20,
+            borderRadius: 1,
+          }}
+        />
 
-        {/* Slogans */}
-        <p style={{
-          ...sloganStyle(stage >= 2),
-          fontSize: 20, fontStyle: 'italic', fontWeight: 400,
-          color: textPrimary, margin: '0 0 6px', lineHeight: 1.3,
-          fontFamily: 'var(--font-playfair), "Playfair Display", "Cormorant Garamond", Georgia, serif',
-          letterSpacing: '0.008em',
-        }}>
+        {/* Slogan */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            margin: '0 0 7px',
+            fontSize: 18,
+            fontStyle: 'italic',
+            fontWeight: 400,
+            color: isDark ? 'rgba(255,255,255,0.80)' : 'rgba(10,10,15,0.75)',
+            letterSpacing: '0.01em',
+            lineHeight: 1.3,
+            fontFamily: 'var(--font-playfair), "Playfair Display", Georgia, serif',
+          }}
+        >
           Repeat Patterns.
-        </p>
-        <p style={{
-          ...sloganStyle(stage >= 3),
-          fontSize: 13, fontWeight: 400,
-          color: textSecondary, margin: 0,
-          letterSpacing: '0.04em', lineHeight: 1.5,
-          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
-        }}>
-          Build Fluency.
-        </p>
+        </motion.p>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.05, ease: 'easeOut' }}
+          style={{
+            margin: 0,
+            fontSize: 10.5,
+            fontWeight: 500,
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+            color: muted,
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
+          }}
+        >
+          Build Fluency
+        </motion.p>
       </div>
-    </div>
+
+      {/* Bottom hint */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6, duration: 0.5 }}
+        style={{
+          position: 'absolute', bottom: 52,
+          margin: 0,
+          fontSize: 10,
+          fontWeight: 500,
+          letterSpacing: '0.12em',
+          textTransform: 'uppercase',
+          color: muted,
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, sans-serif',
+        }}
+      >
+        Tap to continue
+      </motion.p>
+    </motion.div>
   )
 }
