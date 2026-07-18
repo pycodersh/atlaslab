@@ -102,16 +102,13 @@ function SummaryCard({ icon, label, value, accent: _accent, onClick, isActive }:
         padding: '14px 12px 12px',
         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
         cursor: onClick ? 'pointer' : undefined,
-        background: isActive ? 'var(--pal)' : 'var(--pglass)',
-        border: isActive ? '1.5px solid var(--pa)' : '1px solid var(--pglass-border)',
-        transition: 'background 0.18s, border 0.18s',
       }}
     >
       {icon}
       <span style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.35rem)', fontWeight: 800, color: 'var(--pt)', lineHeight: 1 }}>
         {value}
       </span>
-      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: isActive ? 'var(--pa)' : 'var(--pm)', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
+      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm)', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
         {label}
       </span>
     </div>
@@ -506,7 +503,7 @@ export default function LibraryPage() {
   const savedItemsPanel = (
     <>
       {/* Summary strip — tappable chips */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: activeSection ? 0 : 20 }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
         <SummaryCard
           icon={<BookOpen style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.6} />}
           label="Words" value={words.length} accent="#3A7A4A"
@@ -526,26 +523,6 @@ export default function LibraryPage() {
           isActive={activeSection === 'patterns'}
         />
       </div>
-
-      {/* Secondary filter chip */}
-      {activeSection && (
-        <div style={{ display: 'flex', gap: 8, padding: '10px 0 16px' }}>
-          <button
-            type="button"
-            onClick={() => setActiveSection(null)}
-            style={{
-              display: 'flex', alignItems: 'center', gap: 5,
-              fontSize: 12, fontWeight: 600, color: 'var(--pa)',
-              background: 'var(--pal)', border: '1px solid var(--pacb)',
-              borderRadius: 999, padding: '5px 12px',
-              cursor: 'pointer', fontFamily: 'inherit',
-            }}
-          >
-            {activeSection === 'words' ? 'Saved Words' : activeSection === 'phrases' ? 'Saved Phrases' : 'Saved Patterns'}
-            <X style={{ width: 10, height: 10 }} strokeWidth={2.5} />
-          </button>
-        </div>
-      )}
 
       {/* Saved Words */}
       {(activeSection === null || activeSection === 'words') && (
