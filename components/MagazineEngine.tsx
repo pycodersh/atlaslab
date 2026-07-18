@@ -85,7 +85,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   }
 
   // ── Study flow state (mobile only) ────────────────────────────────────
-  type FlowPhase = 'reading' | 'patterns' | 'challenge' | 'complete'
+  type FlowPhase = 'reading' | 'patterns' | 'complete'
   const [flowPhase,     setFlowPhase]     = useState<FlowPhase>('reading')
   const [scrolledToEnd, setScrolledToEnd] = useState(false)
   const [showSwipeGuide,setShowSwipeGuide]= useState(false)
@@ -268,16 +268,13 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => document.removeEventListener('click', handler, { capture: true })
   }, [])
 
-  // When flowPhase reaches 'patterns', auto-advance to challenge after delay
+  // When flowPhase reaches 'patterns', clear session progress (no more auto-advance)
   useEffect(() => {
     if (flowPhase !== 'patterns') return
     clearSessionProgress(story.id)
-    const timer = setTimeout(() => setFlowPhase('challenge'), isFirstRound ? 2200 : 1400)
-    return () => clearTimeout(timer)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flowPhase, story.id])
 
-  // Keep callback for compatibility — now unused but harmless
   const handleAllPatternsSeen = useCallback(() => {}, [])
 
   // Challenge complete → story complete
@@ -518,47 +515,51 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     )
   }
 
-  // ── Mobile: single scroll — story then patterns inline ──────────────
-  const isChallenge  = flowPhase === 'challenge'
-  const isComplete   = flowPhase === 'complete'
+  // ── Mobile: single scroll — story then patterns + challenge inline ────
+  const isComplete = flowPhase === 'complete'
+
+  const sectionDivider = (label: string) => (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 10,
+      padding: '28px 16px 12px',
+    }}>
+      <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
+      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm)', textTransform: 'uppercase' }}>
+        {label}
+      </span>
+      <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
+    </div>
+  )
 
   const inlinePatterns = (
     <div ref={patternSectionRef}>
-      {/* Section label */}
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 10,
-        padding: '24px 16px 12px',
-      }}>
-        <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
-        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm)', textTransform: 'uppercase' }}>
-          Patterns in this story
-        </span>
-        <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
-      </div>
+      {sectionDivider('Patterns in this story')}
+
+      <PatternsSectionInline
+        key="view"
+        story={story}
+        patternExamples={patternExamples}
+        storyIsSpeaking={isSpeaking}
+        showNavButtons={false}
+        showSwipeGuide={showSwipeGuide}
+        onAllPatternsSeen={handleAllPatternsSeen}
+        onPatternIndexChange={setPatternIdx}
+        showKorean={patternShowKo}
+        showEnglish={patternShowEn}
+      />
+
+      {sectionDivider('Challenges in this story')}
 
       {isComplete && completionData ? (
         <StoryCompletionScreen
           story={story}
           roundData={completionData}
         />
-      ) : isChallenge ? (
+      ) : (
         <ChallengeMode
           patterns={story.patterns}
           storyId={story.id}
           onComplete={handleChallengeComplete}
-        />
-      ) : (
-        <PatternsSectionInline
-          key="view"
-          story={story}
-          patternExamples={patternExamples}
-          storyIsSpeaking={isSpeaking}
-          showNavButtons={false}
-          showSwipeGuide={showSwipeGuide}
-          onAllPatternsSeen={handleAllPatternsSeen}
-          onPatternIndexChange={setPatternIdx}
-          showKorean={patternShowKo}
-          showEnglish={patternShowEn}
         />
       )}
     </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { CheckCircle2, XCircle, Trophy, ChevronRight } from 'lucide-react'
 import type { MagazinePattern } from '@/types/magazine'
@@ -422,19 +422,26 @@ export function ChallengeMode({ patterns, storyId, onComplete }: Props) {
 
   const [questions] = useState<ChallengeQuestion[]>(() => buildQuestions(patterns))
   const [qIdx,    setQIdx]    = useState(0)
-  const [scores,  setScores]  = useState<boolean[]>([])
+  const [answers, setAnswers] = useState<boolean[]>([])
   const [done,    setDone]    = useState(false)
 
-  const handleAnswer = useCallback((correct: boolean) => {
-    setScores(prev => {
-      const next = [...prev, correct]
-      if (next.length >= questions.length) setDone(true)
-      else setQIdx(i => i + 1)
-      return next
-    })
-  }, [questions.length])
+  // Advance qIdx after each answer — separated from setAnswers to avoid
+  // Strict Mode double-invocation incrementing qIdx twice
+  useEffect(() => {
+    if (answers.length === 0) return
+    if (answers.length >= questions.length) {
+      setDone(true)
+    } else {
+      setQIdx(answers.length)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answers.length])
 
-  const totalScore = scores.filter(Boolean).length
+  const handleAnswer = useCallback((correct: boolean) => {
+    setAnswers(prev => [...prev, correct])
+  }, [])
+
+  const totalScore = answers.filter(Boolean).length
 
   return (
     <motion.div
