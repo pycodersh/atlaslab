@@ -55,3 +55,7 @@ public/voice-validation/
 # other large generated assets
 public/videos/*.mp4
 public/videos/*.mov
+
+# videos sub-project — node_modules and build cache excluded
+videos/patto-animations/node_modules/
+videos/patto-animations/.next/

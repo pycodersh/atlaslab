@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { signInWithGoogle, signInWithKakao, signInWithEmail } from '@/lib/auth-actions'
+import { Btn } from '@/components/ui/Btn'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
 
@@ -152,13 +153,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
     return (
       <>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <button
-            type="button"
-            onClick={() => setEmailMode(false)}
-            style={{ background: 'none', border: 'none', color: 'var(--pm)', fontSize: 12, cursor: 'pointer', padding: '0 0 4px', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 4, alignSelf: 'flex-start' }}
-          >
-            ← {isKorean ? '뒤로' : 'Back'}
-          </button>
+          <Btn variant="ghost" size="sm" onClick={() => setEmailMode(false)} style={{ alignSelf: 'flex-start' }}>Back</Btn>
           <form onSubmit={handleEmailSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <input
               type="email" required
@@ -174,13 +169,9 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
               onChange={e => setPassword(e.target.value)}
               style={{ ...btnStyle, height: 48, fontSize: 13.5, color: 'var(--pt)', outline: 'none' }}
             />
-            <button
-              type="submit"
-              disabled={loading}
-              style={{ ...btnStyle, justifyContent: 'center', background: 'var(--pa)', color: '#fff', border: 'none', opacity: loading ? 0.6 : 1 }}
-            >
-              {loading ? '...' : isSignUp ? (isKorean ? '회원가입' : 'Sign Up') : (isKorean ? '로그인' : 'Sign In')}
-            </button>
+            <Btn variant="primary" size="md" type="submit" disabled={loading} style={{ width: '100%' }}>
+              {isSignUp ? 'Sign up' : 'Sign in'}
+            </Btn>
             <button
               type="button"
               onClick={() => setIsSignUp(v => !v)}

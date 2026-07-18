@@ -13,6 +13,7 @@ import {
 } from '@/lib/subscription/storage'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { useT } from '@/hooks/useT'
+import { Btn } from '@/components/ui/Btn'
 
 const MIN_WORDS = 30
 const NATIVE_RATIO_WARN = 0.35
@@ -210,9 +211,9 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
               <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm)' }}>STUCK? GET AN EXPRESSION</span>
             </div>
             {!suggestion && (
-              <button type="button" onClick={handleSuggest} disabled={suggestLoading} style={{ background: 'var(--pglass)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', border: '1px solid var(--pglass-border)', borderRadius: 8, padding: '5px 12px', cursor: suggestLoading ? 'default' : 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
-                {suggestLoading ? <Loader2 style={{ width: 11, height: 11, color: 'var(--pa)', animation: 'spin 1s linear infinite' }} /> : <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pa)' }}>Suggest →</span>}
-              </button>
+              <Btn variant="secondary" size="sm" disabled={suggestLoading} onClick={handleSuggest}>
+                {suggestLoading ? <Loader2 style={{ width: 11, height: 11, animation: 'spin 1s linear infinite' }} /> : 'Suggest'}
+              </Btn>
             )}
           </div>
           <div style={{ padding: '8px 14px 0', background: 'transparent' }}>
@@ -224,10 +225,10 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
               <p style={{ fontSize: 11, color: 'var(--pa)', margin: '0 0 4px', letterSpacing: '0.06em', fontWeight: 700 }}>IN ENGLISH</p>
               <p style={{ fontSize: 15, color: 'var(--pt)', margin: '0 0 12px', lineHeight: 1.6, fontWeight: 500 }}>{suggestion}</p>
               <div style={{ display: 'flex', gap: 8 }}>
-                <button type="button" onClick={handleInsert} style={{ flex: 1, padding: '9px 0', borderRadius: 9, background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: '1px solid var(--pglass-border)', fontSize: 12, fontWeight: 700, color: 'var(--pa)', cursor: 'pointer', fontFamily: 'inherit' }}>Insert into Essay</button>
-                <button type="button" onClick={handleCopy} style={{ padding: '9px 14px', borderRadius: 9, border: '1.5px solid var(--pd)', background: 'none', fontSize: 12, fontWeight: 600, color: 'var(--pm)', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 5 }}>
+                <Btn variant="secondary" size="sm" onClick={handleInsert} style={{ flex: 1 }}>Insert</Btn>
+                <Btn variant="ghost" size="sm" onClick={handleCopy}>
                   {copied ? <><Check style={{ width: 11, height: 11 }} /> Copied</> : <><Copy style={{ width: 11, height: 11 }} /> Copy</>}
-                </button>
+                </Btn>
               </div>
             </div>
           )}
@@ -238,14 +239,13 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
 
       {/* Actions */}
       <div style={{ marginTop: 28, display: 'flex', gap: 10 }}>
-        <button type="button" onClick={handleSave} disabled={!body.trim() || loading}
-          style={{ flex: 1, padding: '13px 0', borderRadius: 14, ...glass, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', cursor: !body.trim() || loading ? 'default' : 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 600, color: '#8E8E93', opacity: !body.trim() || loading ? 0.4 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Btn variant="secondary" size="md" onClick={handleSave} disabled={!body.trim() || loading} style={{ flex: 1 }}>
           {saveFlash ? '✓ Saved' : 'Save'}
-        </button>
-        <button type="button" onClick={handleReview} disabled={loading || wc < MIN_WORDS}
-          style={{ flex: 1, padding: '13px 0', borderRadius: 14, ...glass, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer', fontFamily: 'inherit', fontSize: 13, fontWeight: 700, color: '#5A5A62', opacity: loading || wc < MIN_WORDS ? 0.45 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
-          {loading ? <><Loader2 style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />{t('essays_reviewing')}</> : <><Sparkles style={{ width: 13, height: 13, strokeWidth: 1.8 }} />{t('essays_submit')}</>}
-        </button>
+        </Btn>
+        {loading
+          ? <Btn variant="primary" size="md" disabled style={{ flex: 1 }}>Reviewing…</Btn>
+          : <Btn variant="primary" size="md" onClick={handleReview} disabled={loading || wc < MIN_WORDS} style={{ flex: 1 }}>Review</Btn>
+        }
       </div>
 
       <style>{`

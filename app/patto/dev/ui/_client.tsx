@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { X, Search, Eye, EyeOff, ChevronDown, RefreshCw, Plus, ArrowLeft, Home, BookOpen, PenLine, BarChart2, BookMarked, User, FileText, Bookmark, Layers, SearchX, WifiOff, ChevronRight, CheckCircle2, Circle, PlayCircle, Lock, Loader2, Mail, Pencil, Clock, RotateCcw } from 'lucide-react'
+import { Btn } from '@/components/ui/Btn'
 
 const BURGUNDY = '#B44A5A'
 
@@ -54,21 +55,19 @@ function DialogCard({
         {hint && <div style={{ margin: '14px 20px 0', padding: '10px 13px', borderRadius: 12, background: 'rgba(88,86,214,0.08)', border: '1px solid rgba(88,86,214,0.15)' }}>{hint}</div>}
         {children && <div style={{ padding: '0 20px' }}>{children}</div>}
         {actions.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: actions.length === 2 ? 'row' : 'column', gap: actions.length === 2 ? 8 : 10, padding: '20px 20px 22px' }}>
+          <div style={{ display: 'flex', flexDirection: actions.length === 2 ? 'row' : 'column', gap: 8, padding: '20px 20px 22px' }}>
             {actions.map((a, i) => {
               const v = a.variant ?? 'confirm'
-              const GLASS_BTN: React.CSSProperties = { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }
-              const s: React.CSSProperties =
-                v === 'confirm'  ? { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pt)' }
-                : v === 'cancel' ? { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pm)' }
-                : v === 'danger' ? { ...GLASS_BTN, color: BURGUNDY, border: '1px solid rgba(180,74,90,0.28)' }
-                : v === 'primary'? { background: '#2C2C32', border: 'none', color: '#FFFFFF' }
-                : v === 'accent' ? { ...GLASS_BTN, border: '1px solid rgba(109,141,255,0.30)', color: 'var(--pa)' }
-                : { ...GLASS_BTN, border: '1px solid var(--pd)', color: 'var(--pm)' }
+              const variant =
+                v === 'cancel'  ? 'ghost'
+                : v === 'danger' ? 'danger'
+                : v === 'primary' ? 'primary'
+                : v === 'accent'  ? 'secondary'
+                : 'primary'
               return (
-                <button key={i} type="button" style={{ flex: 1, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 16, fontSize: 14, fontWeight: v === 'cancel' ? 500 : 700, fontFamily: 'inherit', cursor: 'default', minWidth: 0, ...s }}>
+                <Btn key={i} variant={variant} style={{ flex: 1 }}>
                   {a.label}
-                </button>
+                </Btn>
               )
             })}
           </div>
@@ -105,57 +104,6 @@ function ToastDemo() {
         </div>
       )}
     </div>
-  )
-}
-
-// ── Buttons ───────────────────────────────────────────────────────────────────
-
-// Shared button dimensions — all variants use identical size tokens
-const BTN_H      = 52                                    // height px
-const BTN_R      = 16                                    // borderRadius px
-const BTN_FONT   = 14                                    // fontSize px
-const CHARCOAL   = '#2C2C32'                             // Primary filled color
-
-type BtnVariant  = 'primary' | 'secondary' | 'danger' | 'text'
-
-function Btn({
-  label, variant = 'primary', disabled = false, loading = false,
-  pressed = false, iconOnly = false,
-}: {
-  label?: string; variant?: BtnVariant; disabled?: boolean;
-  loading?: boolean; pressed?: boolean; iconOnly?: boolean;
-}) {
-  const variantStyle: Record<BtnVariant, React.CSSProperties> = {
-    primary:   { background: CHARCOAL, color: '#FFFFFF', border: 'none' },
-    secondary: { background: 'var(--pglass)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', color: 'var(--pm)', border: '1px solid rgba(0,0,0,0.12)' },
-    danger:    { background: 'transparent', color: BURGUNDY, border: `1px solid rgba(180,74,90,0.26)` },
-    text:      { background: 'transparent', color: 'var(--pm)', border: 'none' },
-  }
-  const fontWeight = variant === 'text' ? 500 : variant === 'secondary' ? 600 : 700
-  return (
-    <button
-      type="button"
-      disabled={disabled}
-      style={{
-        height: BTN_H,
-        padding: iconOnly ? `0 ${BTN_H / 4}px` : '0 20px',
-        borderRadius: BTN_R,
-        fontSize: BTN_FONT,
-        fontWeight,
-        fontFamily: 'inherit',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.40 : pressed ? 0.72 : 1,
-        transform: pressed ? 'scale(0.97)' : 'none',
-        minWidth: iconOnly ? BTN_H : 100,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-        ...variantStyle[variant],
-      }}
-    >
-      {loading
-        ? <><Loader2 size={14} style={{ animation: 'spin 0.8s linear infinite', flexShrink: 0 }} />{label && <span>{label}</span>}</>
-        : iconOnly ? <Plus size={16} />
-        : label}
-    </button>
   )
 }
 
@@ -621,24 +569,6 @@ export function UIPlaygroundClient() {
             </div>
           </DialogCard>
 
-          <DialogCard tag="Mastery Info · Info"
-            title="Review Mastery"
-            description="How mastery levels work"
-            actions={[{ label: 'OK', variant: 'confirm' }]}
-          >
-            <div style={{ paddingTop: 4 }}>
-              <div style={{ height: 1, background: 'var(--pd)', marginBottom: 12 }} />
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-                {[{ step: 'New', color: '#C87A3A', desc: 'First time seeing this pattern.' }, { step: 'Learning', color: '#C8913A', desc: 'Building familiarity through repetition.' }, { step: 'Review', color: '#7A6AC8', desc: 'Consolidating memory over time.' }, { step: 'Mastered', color: '#2A7A3A', desc: 'Long-term retention achieved.' }].map(({ step, color, desc }) => (
-                  <div key={step} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                    <span style={{ fontSize: 10, fontWeight: 700, color, background: `${color}12`, border: `1px solid ${color}28`, borderRadius: 6, padding: '2px 8px', flexShrink: 0 }}>{step}</span>
-                    <span style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1.55 }}>{desc}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </DialogCard>
-
           <DialogCard tag="Subscription · Upgrade"
             title="Upgrade to Premium"
             description="Unlock unlimited reviews, all patterns, and advanced features."
@@ -647,7 +577,7 @@ export function UIPlaygroundClient() {
 
           <DialogCard tag="Discard Draft · 3-option"
             title="Discard draft?"
-            description="저장하지 않으면 이 글은 사라집니다."
+            description="Your unsaved changes will be lost."
             actions={[{ label: 'Save Draft', variant: 'cancel' }, { label: 'Discard', variant: 'danger' }, { label: 'Cancel', variant: 'cancel' }]}
           />
 
@@ -823,61 +753,27 @@ export function UIPlaygroundClient() {
 
       {/* 4. Popover */}
       <Section title="Popover">
-        <Sub title="GlobalSavePopup — Mode A (단어 + 추천 표현)">
+        <Sub title="GlobalSavePopup — Mode A (word + phrase)">
           <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
             Story 본문에서 단어 탭 → chunk(표현)가 있을 때. popupStore 싱글톤으로 화면 중앙에 표시.
           </p>
-          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'flex-start' }}>
-            <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '20px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.18)', minWidth: 260, maxWidth: 300 }}>
-              {/* 탭한 단어 — muted */}
-              <p style={{ fontSize: 12, color: 'var(--pm2)', margin: '0 0 12px', textAlign: 'center' }}>&ldquo;decided&rdquo;</p>
-              {/* 추천 표현 카드 — accent tint, bigger padding */}
-              <div style={{ background: 'rgba(109,141,255,0.06)', border: '1px solid rgba(109,141,255,0.20)', borderRadius: 14, padding: '12px 16px', marginBottom: 16, textAlign: 'center' }}>
-                <p style={{ fontSize: 10, color: 'var(--pa)', margin: '0 0 6px', letterSpacing: '0.10em', fontWeight: 700, textTransform: 'uppercase' }}>추천 표현</p>
-                <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: 0, lineHeight: 1.35 }}>decided to try</p>
-              </div>
-              {/* Primary + Secondary */}
-              <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
-                <button type="button" style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: 'none', background: '#2C2C32', fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: 'inherit', cursor: 'default' }}>표현 저장</button>
-                <button type="button" style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: '1px solid rgba(0,0,0,0.10)', background: 'rgba(0,0,0,0.03)', fontSize: 13, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>단어만</button>
-              </div>
-              {/* Text Cancel */}
-              <button type="button" style={{ width: '100%', padding: '8px 0 2px', border: 'none', background: 'transparent', fontSize: 12, fontWeight: 500, color: 'var(--pm2)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '24px 20px 20px', boxShadow: '0 8px 40px rgba(0,0,0,0.18)', maxWidth: 300 }}>
+            <p style={{ fontSize: 20, fontWeight: 700, color: 'var(--pt)', margin: '0 0 4px', textAlign: 'center', lineHeight: 1.25 }}>decided to try</p>
+            <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 20px', textAlign: 'center', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Phrasal Verb</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <Btn variant="primary" style={{ width: '100%' }}>Save phrase</Btn>
+              <Btn variant="secondary" style={{ width: '100%' }}>Save word</Btn>
+              <Btn variant="ghost" style={{ width: '100%' }}>Cancel</Btn>
             </div>
           </div>
         </Sub>
 
-        <Sub title="GlobalSavePopup — Mode B (단어만)">
-          <div style={{ maxWidth: 280 }}>
-            <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '20px 20px 16px', boxShadow: '0 8px 40px rgba(0,0,0,0.18)' }}>
-              <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 16px', textAlign: 'center' }}>&ldquo;perseverance&rdquo;</p>
-              {/* Primary */}
-              <button type="button" style={{ width: '100%', padding: '11px 14px', borderRadius: 12, border: 'none', background: '#2C2C32', fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: 'inherit', cursor: 'default', marginBottom: 4 }}>단어 저장</button>
-              {/* Text Cancel */}
-              <button type="button" style={{ width: '100%', padding: '8px 0 2px', border: 'none', background: 'transparent', fontSize: 12, fontWeight: 500, color: 'var(--pm2)', fontFamily: 'inherit', cursor: 'default' }}>취소</button>
-            </div>
-          </div>
-        </Sub>
-
-        <Sub title="WordSavePopup — 텍스트 선택 저장">
-          <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>
-            Story 본문 long-press 텍스트 선택 → 선택 영역 바로 아래에 앵커링. 6단어 이하 선택 시에만 표시.
-          </p>
-          <div style={{ position: 'relative', maxWidth: 340, padding: '20px 20px 100px', background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 16 }}>
-            <p style={{ fontSize: 14, color: 'var(--pt)', lineHeight: 1.7, margin: 0 }}>
-              I decided to{' '}
-              <span style={{ background: 'rgba(109,141,255,0.18)', borderRadius: 3 }}>try something new</span>
-              {' '}this week, even though it felt difficult at first.
-            </p>
-            {/* WordSavePopup anchored below selection — new hierarchy design */}
-            <div style={{ position: 'absolute', bottom: 12, left: '50%', transform: 'translateX(-50%)', background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', borderRadius: 14, boxShadow: '0 4px 24px rgba(0,0,0,0.14)', padding: '14px 14px 10px', width: 180 }}>
-              {/* 화살표 */}
-              <div style={{ position: 'absolute', top: -7, left: '50%', width: 12, height: 12, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderBottom: 'none', borderRight: 'none', transform: 'translateX(-50%) rotate(45deg)' }} />
-              <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--pt)', margin: '0 0 12px', textAlign: 'center' }}>&ldquo;try something&rdquo;</p>
-              {/* Primary: Save */}
-              <button type="button" style={{ width: '100%', padding: '9px 14px', borderRadius: 10, border: 'none', background: '#2C2C32', fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: 'inherit', cursor: 'default', marginBottom: 4 }}>Save</button>
-              {/* Text Cancel */}
-              <button type="button" style={{ width: '100%', padding: '6px 0', border: 'none', background: 'transparent', fontSize: 12, fontWeight: 500, color: 'var(--pm2)', fontFamily: 'inherit', cursor: 'default' }}>Cancel</button>
+        <Sub title="GlobalSavePopup — Mode B (word only)">
+          <div style={{ background: 'var(--pglass)', backdropFilter: 'blur(32px) saturate(180%)', WebkitBackdropFilter: 'blur(32px) saturate(180%)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '24px 20px 20px', boxShadow: '0 8px 40px rgba(0,0,0,0.18)', maxWidth: 280 }}>
+            <p style={{ fontSize: 20, fontWeight: 700, color: 'var(--pt)', margin: '0 0 20px', textAlign: 'center', lineHeight: 1.25 }}>&ldquo;perseverance&rdquo;</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <Btn variant="primary" style={{ width: '100%' }}>Save</Btn>
+              <Btn variant="ghost" style={{ width: '100%' }}>Cancel</Btn>
             </div>
           </div>
         </Sub>
@@ -891,19 +787,13 @@ export function UIPlaygroundClient() {
           </p>
           {/* Full-screen State 공통 패턴: Icon → Eyebrow → Title → Desc → Primary → Secondary */}
           <div style={{ border: '1px solid var(--pd)', borderRadius: 20, padding: '48px 24px', textAlign: 'center', maxWidth: 360 }}>
-            {/* Icon 72×72, radius 22, accent tint */}
             <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 20px' }}>🎉</div>
-            {/* Eyebrow */}
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm)', margin: '0 0 8px' }}>Level Complete</p>
-            {/* Title */}
-            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>모든 스토리 완료!</h2>
-            {/* Description */}
-            <p style={{ fontSize: 13.5, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 36px' }}>Level 1의 모든 패턴을 학습했습니다.<br />복습을 통해 패턴을 확실히 익혀보세요.</p>
+            <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>All stories done!</h2>
+            <p style={{ fontSize: 13.5, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 36px' }}>You've completed all patterns in Level 1.<br />Keep reviewing to lock them in.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 320, margin: '0 auto' }}>
-              {/* Primary: dark fill, h56, r18 */}
-              <button type="button" style={{ width: '100%', height: 56, borderRadius: 18, border: 'none', background: '#2C2C32', fontSize: 15, fontWeight: 700, color: '#FFFFFF', fontFamily: 'inherit', cursor: 'default' }}>처음부터 다시 학습</button>
-              {/* Secondary: text only, h48 */}
-              <button type="button" style={{ width: '100%', height: 48, border: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>학습 기록 보기</button>
+              <Btn variant="primary" style={{ width: '100%' }}>Restart</Btn>
+              <Btn variant="ghost" style={{ width: '100%' }}>Records</Btn>
             </div>
           </div>
         </Sub>
@@ -914,29 +804,23 @@ export function UIPlaygroundClient() {
           </p>
           {/* Full-screen State 공통 패턴: Icon → Eyebrow → Title → Desc → Primary → Secondary */}
           <div style={{ border: '1px solid var(--pd)', borderRadius: 20, padding: '48px 24px', textAlign: 'center', maxWidth: 360 }}>
-            {/* Icon 72×72, radius 22, accent tint */}
             <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, margin: '0 auto 20px' }}>🔒</div>
-            {/* Eyebrow */}
             <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--pm)', margin: '0 0 8px' }}>Premium Story</p>
-            {/* Title */}
             <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px', letterSpacing: '-0.02em' }}>&ldquo;Moving On&rdquo;</h2>
-            {/* Description */}
             <p style={{ fontSize: 13.5, color: 'var(--pm)', lineHeight: 1.7, margin: '0 0 36px' }}>Free plan includes the first 3 stories.<br />Upgrade to unlock all stories.</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 320, margin: '0 auto' }}>
-              {/* Primary: dark fill, h56, r18 */}
-              <button type="button" style={{ width: '100%', height: 56, borderRadius: 18, border: 'none', background: '#2C2C32', fontSize: 15, fontWeight: 700, color: '#FFFFFF', fontFamily: 'inherit', cursor: 'default' }}>Upgrade to Premium</button>
-              {/* Secondary: text only, h48 */}
-              <button type="button" style={{ width: '100%', height: 48, border: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 500, color: 'var(--pm)', fontFamily: 'inherit', cursor: 'default' }}>← Go back</button>
+              <Btn variant="primary" style={{ width: '100%' }}>Upgrade</Btn>
+              <Btn variant="ghost" style={{ width: '100%' }}>Go back</Btn>
             </div>
           </div>
         </Sub>
 
         <Sub title="Essay Loading — AI 리뷰 진행 중">
           <p style={{ fontSize: 12, color: 'var(--pm)', marginBottom: 16, lineHeight: 1.6 }}>에세이 제출 후 AI 리뷰 처리 중 상태. Submit 버튼이 disabled + Loader2 스피너로 교체.</p>
-          <button type="button" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 28px', borderRadius: 14, background: 'var(--pt)', color: 'var(--pb)', fontSize: 14, fontWeight: 700, border: 'none', fontFamily: 'inherit', cursor: 'not-allowed', opacity: 0.75 }}>
-            <Loader2 size={16} style={{ color: 'var(--pb)', animation: 'spin 1s linear infinite' }} />
+          <Btn variant="primary" disabled>
+            <Loader2 size={14} style={{ animation: 'spin 0.8s linear infinite', flexShrink: 0 }} />
             Reviewing…
-          </button>
+          </Btn>
           <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
         </Sub>
       </Section>
@@ -990,96 +874,51 @@ export function UIPlaygroundClient() {
 
       {/* 3. Buttons */}
       <Section title="Buttons">
-        {/* Design tokens: h52, r16, fs14 — all variants share same dimensions */}
         <p style={{ fontSize: 11.5, color: 'var(--pm)', marginBottom: 24, lineHeight: 1.7 }}>
-          모든 버튼: <code style={{ background: 'var(--pglass)', padding: '1px 6px', borderRadius: 4, fontSize: 11 }}>height 52 · radius 16 · fontSize 14</code><br />
-          Primary <code style={{ background: 'var(--pglass)', padding: '1px 6px', borderRadius: 4, fontSize: 11 }}>#2C2C32</code> · Secondary glass · Danger glass+burgundy border · Text transparent
+          <code style={{ background: 'var(--pglass)', padding: '1px 6px', borderRadius: 4, fontSize: 11 }}>components/ui/Btn.tsx</code> —
+          variant: primary / secondary / ghost / danger · size: md / sm / pill
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
 
-          {/* Primary */}
-          <Sub title="Primary — 페이지 레벨 메인 CTA">
-            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>Start Learning · Review Essay · Save Essay · Upgrade Premium · Continue with Google</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-              {([
-                { label: 'Start Learning',  state: 'Default'  },
-                { label: 'Review Essay',    state: 'Pressed',  pressed: true },
-                { label: 'Reviewing…',      state: 'Loading',  loading: true },
-                { label: 'Save Essay',      state: 'Disabled', disabled: true },
-              ] as const).map(({ label, state, ...rest }) => (
-                <div key={state} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <Btn label={label} variant="primary" {...rest} />
-                  <span style={{ fontSize: 9.5, color: 'var(--pm2)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{state}</span>
-                </div>
-              ))}
+          <Sub title="Primary — Continue, Start, Save, Done, Review">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+              <Btn variant="primary">Continue</Btn>
+              <Btn variant="primary">Save</Btn>
+              <Btn variant="primary" size="sm">Review</Btn>
+              <Btn variant="primary" disabled>Disabled</Btn>
             </div>
           </Sub>
 
-          {/* Secondary */}
-          <Sub title="Secondary — 덜 중요한 보조 액션">
-            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>Save Draft · View Result · Cancel · Not now</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-              {([
-                { label: 'Save Draft',  state: 'Default'  },
-                { label: 'View Result', state: 'Pressed',  pressed: true },
-                { label: 'Cancel',      state: 'Disabled', disabled: true },
-              ] as const).map(({ label, state, ...rest }) => (
-                <div key={state} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <Btn label={label} variant="secondary" {...rest} />
-                  <span style={{ fontSize: 9.5, color: 'var(--pm2)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{state}</span>
-                </div>
-              ))}
+          <Sub title="Secondary — Skip, Records, See All">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+              <Btn variant="secondary">Skip</Btn>
+              <Btn variant="secondary">Records</Btn>
+              <Btn variant="secondary" size="sm">See All</Btn>
+              <Btn variant="secondary" disabled>Disabled</Btn>
             </div>
           </Sub>
 
-          {/* Danger */}
-          <Sub title="Danger — 파괴적 액션 (Dialog 전용)">
-            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>Delete · Sign out · Remove · Discard</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-              {([
-                { label: 'Delete',   state: 'Default' },
-                { label: 'Sign out', state: 'Pressed', pressed: true },
-              ] as const).map(({ label, state, ...rest }) => (
-                <div key={state} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <Btn label={label} variant="danger" {...rest} />
-                  <span style={{ fontSize: 9.5, color: 'var(--pm2)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{state}</span>
-                </div>
-              ))}
+          <Sub title="Ghost — Cancel, Close, Go back">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+              <Btn variant="ghost">Cancel</Btn>
+              <Btn variant="ghost">Go back</Btn>
+              <Btn variant="ghost" size="sm">Not now</Btn>
             </div>
           </Sub>
 
-          {/* Text */}
-          <Sub title="Text — 배경/테두리 없는 가장 가벼운 액션">
-            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>Got it · OK · Maybe later · 취소 — 터치 영역만 확보, 시각적으로 링크처럼</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16 }}>
-              {([
-                { label: 'Got it',       state: 'Default' },
-                { label: 'OK',           state: 'Default' },
-                { label: 'Maybe later',  state: 'Default' },
-                { label: 'Got it',       state: 'Pressed', pressed: true },
-              ] as const).map(({ label, state, ...rest }, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  <Btn label={label} variant="text" {...rest} />
-                  <span style={{ fontSize: 9.5, color: 'var(--pm2)', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{state}</span>
-                </div>
-              ))}
+          <Sub title="Danger — Delete, Reset, Sign out">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+              <Btn variant="danger">Delete</Btn>
+              <Btn variant="danger">Reset</Btn>
+              <Btn variant="danger" size="sm">Sign out</Btn>
             </div>
           </Sub>
 
-          {/* Loading full example */}
-          <Sub title="Loading — Spinner + Label + 클릭 비활성">
-            <p style={{ fontSize: 11, color: 'var(--pm2)', marginBottom: 12, lineHeight: 1.6 }}>AI Review 등 오래 걸리는 작업. Spinner + 진행 중 텍스트 + disabled 상태 동시 표시.</p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-              <Btn label="Reviewing…"     variant="primary"   loading disabled />
-              <Btn label="Saving…"        variant="secondary" loading disabled />
-            </div>
-          </Sub>
-
-          {/* Icon button */}
-          <Sub title="Icon Button (FAB)">
-            <div style={{ display: 'flex', gap: 10 }}>
-              <Btn iconOnly variant="primary" />
-              <Btn iconOnly variant="secondary" />
+          <Sub title="Pill size">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center' }}>
+              <Btn variant="primary" size="pill">Start</Btn>
+              <Btn variant="secondary" size="pill">Later</Btn>
+              <Btn variant="ghost" size="pill">Dismiss</Btn>
             </div>
           </Sub>
 

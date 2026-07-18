@@ -15,6 +15,7 @@ import { getPlan, FREE_MAX_ESSAY_WORDS, PREMIUM_MAX_ESSAY_WORDS } from '@/lib/su
 import { AnnotatedManuscript } from '@/components/essay/EssayRenderer'
 import { useT } from '@/hooks/useT'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { Btn } from '@/components/ui/Btn'
 
 const IS_DEV = process.env.NODE_ENV === 'development'
 const MIN_WORDS = 30
@@ -326,11 +327,9 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
             <span style={{ fontSize: 10, fontWeight: 600, color: wcColor, transition: 'color 0.2s', letterSpacing: '0.02em' }}>{wc} words</span>
           )}
           {!isEditing && review && (
-            <button type="button" onClick={handleEditClick}
-              style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', borderRadius: 20, padding: '5px 12px', cursor: 'pointer', fontSize: 11, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>
-              <Pencil style={{ width: 10, height: 10 }} strokeWidth={2} />
-              Edit Essay
-            </button>
+            <Btn variant="secondary" size="sm" onClick={handleEditClick}>
+              <Pencil style={{ width: 10, height: 10 }} strokeWidth={2} />Edit
+            </Btn>
           )}
           <button type="button" onClick={() => setShowDeleteConfirm(true)}
             style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -374,14 +373,11 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
             )}
             {error && <p style={{ fontSize: 12, color: 'var(--pa)', marginBottom: 8, fontStyle: 'italic' }}>{errorMessages[error]}</p>}
             <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
-              <button type="button" onClick={autoSave} disabled={loading}
-                style={{ flex: 1, padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', border: '1px solid var(--pglass-border)', cursor: loading ? 'default' : 'pointer', opacity: loading ? 0.45 : 1, fontSize: 14, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit', transition: 'all 0.2s' }}>
-                Save
-              </button>
-              <button type="button" onClick={handleReview} disabled={loading || wc < MIN_WORDS}
-                style={{ flex: 1, padding: '15px 0', borderRadius: 14, background: loading || wc < MIN_WORDS ? 'var(--pglass)' : 'var(--pa)', border: loading || wc < MIN_WORDS ? '1px solid var(--pglass-border)' : '1px solid transparent', cursor: loading || wc < MIN_WORDS ? 'default' : 'pointer', opacity: loading || wc < MIN_WORDS ? 0.45 : 1, fontSize: 14, fontWeight: 700, color: loading || wc < MIN_WORDS ? 'var(--pm)' : '#fff', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, transition: 'all 0.2s' }}>
-                {loading ? <><Loader2 style={{ width: 14, height: 14, animation: 'spin 1s linear infinite' }} />{t('essays_reviewing')}</> : <><Sparkles style={{ width: 13, height: 13, strokeWidth: 1.8 }} />{t('essays_submit')}</>}
-              </button>
+              <Btn variant="secondary" size="md" onClick={autoSave} disabled={loading} style={{ flex: 1 }}>Save</Btn>
+              {loading
+                ? <Btn variant="primary" size="md" disabled style={{ flex: 1 }}>Reviewing…</Btn>
+                : <Btn variant="primary" size="md" onClick={handleReview} disabled={loading || wc < MIN_WORDS} style={{ flex: 1 }}>Review</Btn>
+              }
             </div>
           </div>
         )}
@@ -563,8 +559,8 @@ export function EssayDetailPanel({ id, onClose, onDeleted }: Props) {
             <p style={{ fontSize: 17, fontWeight: 800, color: 'var(--pt)', margin: '0 0 10px' }}>{t('essays_delete_title')}</p>
             <p style={{ fontSize: 13, color: 'var(--pm)', margin: '0 0 32px', lineHeight: 1.65 }}>{t('essays_delete_desc')}</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <button type="button" onClick={handleDelete} style={{ width: '100%', padding: '15px 0', borderRadius: 14, background: 'var(--pglass)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', border: '1px solid var(--pglass-border)', cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit' }}>{t('essays_delete_confirm')}</button>
-              <button type="button" onClick={() => setShowDeleteConfirm(false)} style={{ width: '100%', padding: '15px 0', borderRadius: 14, border: '1.5px solid var(--pd)', background: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>{t('essays_cancel')}</button>
+              <Btn variant="danger" size="md" onClick={handleDelete} style={{ width: '100%' }}>Delete</Btn>
+              <Btn variant="ghost" size="md" onClick={() => setShowDeleteConfirm(false)} style={{ width: '100%' }}>Cancel</Btn>
             </div>
           </div>
         </div>

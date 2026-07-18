@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Btn } from '@/components/ui/Btn'
 import { MagazineEngine } from '@/components/MagazineEngine'
 import { getPlan, FREE_STORY_LIMIT } from '@/lib/subscription/storage'
 import type { MagazineStory } from '@/types/magazine'
@@ -14,23 +15,6 @@ type Props = {
   patternExamples?: Record<string, PracticeExample[]>
 }
 
-// Shared Full-screen State button tokens (mirrors CompletionScreen)
-const FS_PRIMARY: React.CSSProperties = {
-  width: '100%', height: 56, borderRadius: 18,
-  border: 'none',
-  background: '#2C2C32',
-  fontSize: 15, fontWeight: 700,
-  color: '#FFFFFF',
-  cursor: 'pointer', fontFamily: 'inherit',
-}
-
-const FS_SECONDARY: React.CSSProperties = {
-  width: '100%', height: 48,
-  border: 'none', background: 'transparent',
-  fontSize: 13.5, fontWeight: 500,
-  color: 'var(--pm)',
-  cursor: 'pointer', fontFamily: 'inherit',
-}
 
 function UpgradeWall({ storyTitle }: { storyTitle: string }) {
   const router = useRouter()
@@ -67,12 +51,8 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
 
       {/* Buttons */}
       <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <button type="button" onClick={() => router.push('/patto/settings/subscription')} style={FS_PRIMARY}>
-          Upgrade to Premium
-        </button>
-        <button type="button" onClick={() => router.back()} style={FS_SECONDARY}>
-          ← Go back
-        </button>
+        <Btn variant="primary" size="md" onClick={() => router.push('/patto/settings/subscription')} style={{ width: '100%' }}>Upgrade</Btn>
+        <Btn variant="ghost" size="md" onClick={() => router.back()} style={{ width: '100%' }}>Go back</Btn>
       </div>
     </div>
   )

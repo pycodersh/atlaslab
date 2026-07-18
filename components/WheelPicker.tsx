@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react'
 import type { MagazineStory } from '@/types/magazine'
 import { useT } from '@/hooks/useT'
+import { Btn } from '@/components/ui/Btn'
 
 type WheelPickerProps = {
   stories: MagazineStory[]
@@ -105,25 +106,9 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
         </div>
 
         {/* Actions */}
-        <div className="flex border-t border-[#E8E0D8]">
-          <button
-            className="flex-1 py-3.5 text-sm text-[#9B9490] cursor-pointer hover:bg-[#FAF8F4] transition-colors"
-            onClick={onClose}
-            type="button"
-          >
-            {t('picker_cancel')}
-          </button>
-          <button
-            className="flex-1 py-3.5 font-semibold border-l border-[#E8E0D8] cursor-pointer transition-colors"
-            style={{ fontSize: 16, color: 'var(--pt)' }}
-            onClick={() => {
-              onSelect(selectedId)
-              onClose()
-            }}
-            type="button"
-          >
-            {t('picker_confirm')}
-          </button>
+        <div className="flex border-t border-[#E8E0D8] gap-2 p-2">
+          <Btn variant="ghost" size="md" onClick={onClose} style={{ flex: 1 }}>Cancel</Btn>
+          <Btn variant="primary" size="md" onClick={() => { onSelect(selectedId); onClose() }} style={{ flex: 1 }}>Done</Btn>
         </div>
       </div>
     </div>

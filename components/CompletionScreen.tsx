@@ -2,24 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useT } from '@/hooks/useT'
-
-// Shared Full-screen State button tokens
-const PRIMARY_BTN: React.CSSProperties = {
-  width: '100%', height: 56, borderRadius: 18,
-  border: 'none',
-  background: '#2C2C32',
-  fontSize: 15, fontWeight: 700,
-  color: '#FFFFFF',
-  cursor: 'pointer', fontFamily: 'inherit',
-}
-
-const SECONDARY_BTN: React.CSSProperties = {
-  width: '100%', height: 48,
-  border: 'none', background: 'transparent',
-  fontSize: 13.5, fontWeight: 500,
-  color: 'var(--pm)',
-  cursor: 'pointer', fontFamily: 'inherit',
-}
+import { Btn } from '@/components/ui/Btn'
 
 export function CompletionScreen() {
   const router = useRouter()
@@ -61,13 +44,9 @@ export function CompletionScreen() {
       </p>
 
       {/* Buttons */}
-      <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <button type="button" onClick={() => router.push('/patto/learn/1')} style={PRIMARY_BTN}>
-          {t('completion_restart')}
-        </button>
-        <button type="button" onClick={() => router.push('/patto/records')} style={SECONDARY_BTN}>
-          {t('completion_records')}
-        </button>
+      <div style={{ width: '100%', maxWidth: 320, display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <Btn variant="primary" size="md" onClick={() => router.push('/patto/learn/1')}>Restart</Btn>
+        <Btn variant="secondary" size="md" onClick={() => router.push('/patto/records')}>Records</Btn>
       </div>
     </div>
   )

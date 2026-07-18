@@ -30,6 +30,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { X } from 'lucide-react'
+import { Btn } from '@/components/ui/Btn'
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 
@@ -79,41 +80,22 @@ const GLASS: React.CSSProperties = {
 // ── Button renderer ───────────────────────────────────────────────────────────
 
 function ActionButton({ action }: { action: PDialogAction; isOnly: boolean }) {
-  const v = action.variant ?? 'confirm'
-
-  const style: React.CSSProperties = (() => {
-    const base: React.CSSProperties = {
-      flex: 1,
-      height: 56,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      borderRadius: 16,
-      border: 'none',
-      cursor: action.disabled ? 'not-allowed' : 'pointer',
-      fontSize: 14,
-      fontFamily: 'inherit',
-      opacity: action.disabled ? 0.45 : 1,
-      transition: 'opacity 0.15s',
-      minWidth: 0,
-    }
-
-    if (v === 'confirm') return { ...base, ...GLASS, border: '1px solid var(--pd)', color: 'var(--pt)',  fontWeight: 700 }
-    if (v === 'cancel')  return { ...base, ...GLASS, border: '1px solid var(--pd)', color: 'var(--pm)',  fontWeight: 500 }
-    if (v === 'danger')  return { ...base, ...GLASS, border: `1px solid ${DANGER_BORDER}`, color: DANGER, fontWeight: 700 }
-    if (v === 'primary') return { ...base, background: '#2C2C32', border: 'none', color: '#FFFFFF', fontWeight: 700 }
-    // accent
-    return { ...base, ...GLASS, border: `1px solid ${ACCENT_BORDER}`, color: 'var(--pa)', fontWeight: 700 }
-  })()
+  const label = action.label
+  const btnVariant: 'ghost' | 'danger' | 'primary' =
+    /cancel|close|dismiss|not now/i.test(label) ? 'ghost'
+    : /delete|reset|remove|clear/i.test(label) ? 'danger'
+    : 'primary'
 
   return (
-    <button
-      type="button"
+    <Btn
+      variant={btnVariant}
+      size="md"
       onClick={action.disabled ? undefined : action.onClick}
-      style={style}
+      disabled={action.disabled}
+      style={{ flex: 1 }}
     >
-      {action.label}
-    </button>
+      {label}
+    </Btn>
   )
 }
 

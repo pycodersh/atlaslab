@@ -3,6 +3,7 @@
 import { use, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Share2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Btn } from '@/components/ui/Btn'
 import { TopNav, NAV_HEIGHT } from '@/components/TopNav'
 import { EDITOR_NOTES, TOTAL_NOTES, type LangMap } from '@/data/editor-notes'
 import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
@@ -131,20 +132,8 @@ function NotePicker({ currentId, lang, onSelect, onClose }: NotePickerProps) {
 
         {/* Actions */}
         <div style={{ display:'flex', borderTop:'1px solid var(--pd)' }}>
-          <button
-            type="button"
-            onClick={onClose}
-            style={{ flex:1, padding:'14px 0', fontSize:13, color:'var(--pm)', background:'none', border:'none', cursor:'pointer', fontFamily:'inherit' }}
-          >
-            취소
-          </button>
-          <button
-            type="button"
-            onClick={() => { onSelect(selId); onClose() }}
-            style={{ flex:1, padding:'14px 0', fontSize:13, fontWeight:700, color:'var(--pa)', background:'none', border:'none', borderLeft:'1px solid var(--pd)', cursor:'pointer', fontFamily:'inherit' }}
-          >
-            선택
-          </button>
+          <Btn variant="ghost" size="md" onClick={onClose} style={{ flex: 1 }}>Cancel</Btn>
+          <Btn variant="primary" size="md" onClick={() => { onSelect(selId); onClose() }} style={{ flex: 1 }}>Select</Btn>
         </div>
       </div>
     </div>

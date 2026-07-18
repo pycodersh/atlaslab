@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, Trash2, BookOpen, Type, PenLine } from 'lucide-react'
 import { requestCoverReplay } from '@/components/WelcomeCover'
+import { Btn } from '@/components/ui/Btn'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
 import { useTheme } from '@/components/ThemeProvider'
@@ -131,12 +132,8 @@ function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel
       <div style={{ background: 'var(--pb)', borderRadius: 20, padding: '28px 24px 20px', maxWidth: 340, width: '100%', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
         <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 20px', lineHeight: 1.6 }}>{message}</p>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button type="button" onClick={onCancel} style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--pd)', background: 'transparent', color: 'var(--pt)', fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {cancelLabel}
-          </button>
-          <button type="button" onClick={onConfirm} style={{ flex: 1, height: 44, borderRadius: 12, border: 'none', background: '#B04060', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {confirmLabel}
-          </button>
+          <Btn variant="ghost" size="md" onClick={onCancel} style={{ flex: 1 }}>{cancelLabel}</Btn>
+          <Btn variant="danger" size="md" onClick={onConfirm} style={{ flex: 1 }}>{confirmLabel}</Btn>
         </div>
       </div>
     </div>

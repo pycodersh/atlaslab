@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "MultiEdit(*)"
+    ]
+  },
+  "mcpServers": {
+    "magic": {
+      "command": "npx",
+      "args": ["-y", "@21st-dev/magic@latest", "API_KEY=21st_sk_d14f3367cf6458d3555c67d17caac6933bd3631ce8e5439d57c5d65cdc2acc7d"]
+    }
+  }
+}

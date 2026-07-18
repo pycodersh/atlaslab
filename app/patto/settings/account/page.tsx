@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Trash2, ChevronLeft } from 'lucide-react'
+import { Btn } from '@/components/ui/Btn'
 import { TopNav } from '@/components/TopNav'
 import { useAuth } from '@/contexts/AuthContext'
 import { useT } from '@/hooks/useT'
@@ -20,12 +21,8 @@ function ConfirmDialog({ message, cancelLabel, confirmLabel, onConfirm, onCancel
       <div style={{ background: 'var(--pb)', borderRadius: 20, padding: '28px 24px 20px', maxWidth: 340, width: '100%', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
         <p style={{ fontSize: 14, color: 'var(--pt)', margin: '0 0 20px', lineHeight: 1.6 }}>{message}</p>
         <div style={{ display: 'flex', gap: 10 }}>
-          <button type="button" onClick={onCancel} style={{ flex: 1, height: 44, borderRadius: 12, border: '1px solid var(--pd)', background: 'transparent', color: 'var(--pt)', fontSize: 14, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {cancelLabel}
-          </button>
-          <button type="button" onClick={onConfirm} style={{ flex: 1, height: 44, borderRadius: 12, border: 'none', background: '#B04060', color: '#fff', fontSize: 14, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
-            {confirmLabel}
-          </button>
+          <Btn variant="ghost" size="md" onClick={onCancel} style={{ flex: 1 }}>Cancel</Btn>
+          <Btn variant="danger" size="md" onClick={onConfirm} style={{ flex: 1 }}>Delete</Btn>
         </div>
       </div>
     </div>
@@ -113,24 +110,9 @@ export default function AccountPage() {
         <div>
           <p style={{ fontSize: 10, letterSpacing: '0.22em', color: '#B04060', fontWeight: 700, margin: '0 0 10px' }}>DANGER ZONE</p>
           <div style={{ border: '1px solid rgba(176,64,96,0.25)', borderRadius: 16, overflow: 'hidden', background: 'rgba(176,64,96,0.04)' }}>
-            <button
-              type="button"
-              onClick={() => setShowDeleteConfirm(true)}
-              style={{
-                width: '100%', padding: '14px 16px',
-                background: 'transparent', border: 'none',
-                display: 'flex', alignItems: 'center', gap: 12,
-                cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left',
-              }}
-            >
-              <div style={{ width: 32, height: 32, borderRadius: 8, background: '#FFF0F3', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <Trash2 style={{ width: 14, height: 14, color: '#B04060' }} strokeWidth={1.6} />
-              </div>
-              <div>
-                <p style={{ fontSize: 13.5, fontWeight: 600, color: '#B04060', margin: '0 0 2px' }}>Delete Account</p>
-                <p style={{ fontSize: 12, color: '#C08898', margin: 0 }}>{t('account_delete_desc')}</p>
-              </div>
-            </button>
+            <div style={{ padding: '14px 16px' }}>
+              <Btn variant="danger" size="md" onClick={() => setShowDeleteConfirm(true)}>Delete account</Btn>
+            </div>
           </div>
         </div>
       </div>

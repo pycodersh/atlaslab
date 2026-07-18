@@ -7,6 +7,7 @@ import {
   BookMarked, Layers, PenLine,
 } from 'lucide-react'
 
+import { Btn } from '@/components/ui/Btn'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { SwipeDeleteRow } from '@/components/SwipeDeleteRow'
@@ -754,20 +755,15 @@ export default function LibraryPage() {
               </p>
             )}
 
-            <button
-              type="button"
+            <Btn
+              variant="primary"
+              size="md"
               disabled={wsWordCount === 0 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0}
               onClick={handleGetFeedback}
-              style={{
-                marginTop: 12, width: '100%', padding: '10px 0', borderRadius: 12,
-                background: (wsWordCount === 0 || wsWordCount > 50 || reviewsRemaining === 0) ? 'var(--pglass-border)' : 'var(--pa)',
-                color: (wsWordCount === 0 || wsWordCount > 50 || reviewsRemaining === 0) ? 'var(--pm)' : '#fff',
-                fontWeight: 600, fontSize: 14, border: 'none', cursor: wsLoading ? 'wait' : 'pointer',
-                fontFamily: 'inherit', transition: 'background 0.2s',
-              }}
+              style={{ marginTop: 12, width: '100%' }}
             >
-              {wsLoading ? 'Getting feedback...' : reviewsRemaining === 0 ? 'No feedback remaining today' : 'Get Feedback'}
-            </button>
+              Start
+            </Btn>
 
             {/* Feedback result */}
             {wsFeedback && (
@@ -800,18 +796,7 @@ export default function LibraryPage() {
                     <span style={{ fontSize: 13, color: 'var(--pt)' }}>{wsFeedback.editorComment}</span>
                   </div>
                 )}
-                <button
-                  type="button"
-                  onClick={handleWsSave}
-                  style={{
-                    marginTop: 12, width: '100%', padding: '10px 0', borderRadius: 12,
-                    background: 'transparent', border: '1px solid var(--pa)',
-                    color: 'var(--pa)', fontWeight: 600, fontSize: 14, cursor: 'pointer',
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  Save & Close
-                </button>
+                <Btn variant="primary" size="md" onClick={handleWsSave} style={{ marginTop: 12, width: '100%' }}>Save</Btn>
               </div>
             )}
           </div>

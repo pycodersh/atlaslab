@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { subscribeSavePopup, closeSavePopup, type PopupItem } from '@/lib/words/popupStore'
 import { saveWord, savePhrase } from '@/lib/words/storage'
+import { Btn } from '@/components/ui/Btn'
 
 export function GlobalSavePopup() {
   const [item, setItem] = useState<PopupItem | null>(null)
@@ -105,46 +106,13 @@ export function GlobalSavePopup() {
             {/* Action buttons */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20 }}>
               {item.chunk && (
-                <button
-                  type="button"
-                  onClick={handleSavePhrase}
-                  style={{
-                    width: '100%', padding: '12px 0', borderRadius: 12,
-                    background: 'var(--pa)', color: '#fff',
-                    fontWeight: 700, fontSize: 14, border: 'none',
-                    cursor: 'pointer', fontFamily: 'inherit',
-                  }}
-                >
-                  Save phrase
-                </button>
+                <Btn variant="primary" size="md" onClick={handleSavePhrase}>Save phrase</Btn>
               )}
-              <button
-                type="button"
-                onClick={handleSaveWord}
-                style={{
-                  width: '100%', padding: '12px 0', borderRadius: 12,
-                  background: item.chunk ? 'transparent' : 'var(--pa)',
-                  color: item.chunk ? 'var(--pt)' : '#fff',
-                  fontWeight: item.chunk ? 600 : 700,
-                  fontSize: 14,
-                  border: item.chunk ? '1px solid var(--pglass-border)' : 'none',
-                  cursor: 'pointer', fontFamily: 'inherit',
-                }}
-              >
-                {item.chunk ? `Save word "${item.word}"` : `Save "${item.word}"`}
-              </button>
-              <button
-                type="button"
-                onClick={dismiss}
-                style={{
-                  width: '100%', padding: '10px 0', borderRadius: 12,
-                  background: 'transparent', color: 'var(--pm)',
-                  fontWeight: 500, fontSize: 13, border: 'none',
-                  cursor: 'pointer', fontFamily: 'inherit',
-                }}
-              >
-                Cancel
-              </button>
+              {item.chunk
+                ? <Btn variant="secondary" size="md" onClick={handleSaveWord}>Save word</Btn>
+                : <Btn variant="primary" size="md" onClick={handleSaveWord}>Save</Btn>
+              }
+              <Btn variant="ghost" size="md" onClick={dismiss}>Cancel</Btn>
             </div>
           </div>
         </div>

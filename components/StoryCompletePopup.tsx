@@ -2,6 +2,7 @@
 
 import { Star } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
+import { Btn } from '@/components/ui/Btn'
 import { magazineStories } from '@/data/magazine-stories'
 import { getLearnedPatternCount } from '@/lib/srs/storage'
 
@@ -98,29 +99,8 @@ export function StoryCompletePopup({ storyNumber, patternsInStory, onContinue, o
 
         {/* Buttons */}
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <button
-            type="button"
-            onClick={onContinue}
-            style={{
-              height: 52, borderRadius: 16, fontSize: 14, fontWeight: 600,
-              background: '#2C2C32', color: '#fff', border: 'none',
-              cursor: 'pointer', fontFamily: 'inherit', width: '100%',
-            }}
-          >
-            Continue learning
-          </button>
-          <button
-            type="button"
-            onClick={onHome}
-            style={{
-              height: 52, borderRadius: 16, fontSize: 14, fontWeight: 600,
-              background: 'transparent', color: mutedColor,
-              border: `0.5px solid ${secBorder}`,
-              cursor: 'pointer', fontFamily: 'inherit', width: '100%',
-            }}
-          >
-            Go to home
-          </button>
+          <Btn variant="primary" size="md" onClick={onContinue}>Continue</Btn>
+          <Btn variant="ghost" size="md" onClick={onHome}>Home</Btn>
         </div>
       </div>
     </div>

@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { X, ChevronRight } from 'lucide-react'
+import { X } from 'lucide-react'
+import { Btn } from '@/components/ui/Btn'
 import { getMissionItems } from '@/lib/srs/engine'
 
 const POPUP_KEY = 'patto-mission-popup-shown'
@@ -141,24 +142,8 @@ export function TodayMissionPopup() {
             )}
           </div>
 
-          {/* Glass button */}
-          <button
-            type="button"
-            onClick={handleStart}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-              width: '100%', padding: '13px 0',
-              background: '#2C2C32',
-              border: 'none',
-              borderRadius: 12, cursor: 'pointer',
-              fontSize: 13, fontWeight: 700,
-              color: '#FFFFFF', letterSpacing: '0.03em',
-              transition: 'opacity 0.15s',
-            }}
-          >
-            Start
-            <ChevronRight style={{ width: 14, height: 14 }} strokeWidth={2.5} />
-          </button>
+          {/* CTA button */}
+          <Btn variant="primary" size="md" onClick={handleStart}>Start</Btn>
         </div>
       </div>
     </>
