@@ -419,7 +419,7 @@ export default function LibraryPage() {
   const [activeSection, setActiveSection] = useState<'words' | 'phrases' | 'patterns' | null>(null)
 
   // Writing Studio state
-  const [wsOpen, setWsOpen]         = useState(false)
+  // wsOpen removed — composer always visible
   const [wsText, setWsText]         = useState('')
   const [wsFeedback, setWsFeedback] = useState<EditorReview | null>(null)
   const [wsLoading, setWsLoading]   = useState(false)
@@ -548,7 +548,6 @@ export default function LibraryPage() {
   }
 
   function handleWsSave() {
-    setWsOpen(false)
     setWsText('')
     setWsFeedback(null)
     setWsError(null)
@@ -708,24 +707,15 @@ export default function LibraryPage() {
       )}
 
       {/* Writing Studio */}
-      <section style={{ marginBottom: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+      <section style={{ marginBottom: 20, marginTop: 48 }}>
+        <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', marginBottom: 16 }} />
+        <div style={{ marginBottom: 10 }}>
           <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase' }}>Writing Studio</span>
-          <button
-            type="button"
-            onClick={() => { setWsOpen(v => !v); setWsFeedback(null); setWsError(null) }}
-            style={{ fontSize: 12, fontWeight: 600, color: 'var(--pa)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 3 }}
-          >
-            <PenLine style={{ width: 12, height: 12 }} strokeWidth={2} />
-            {wsOpen ? 'Close' : 'New'}
-          </button>
         </div>
 
-        {/* Inline composer */}
-        {wsOpen && (
-          <div style={{ ...glassCard, borderRadius: 20, padding: 16, marginBottom: 10, overflow: 'visible' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm)' }}>WRITING STUDIO</span>
+        {/* Inline composer — always open */}
+        <div style={{ ...glassCard, borderRadius: 20, padding: 16, marginBottom: 10, overflow: 'visible' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 8 }}>
               <span style={{ fontSize: 12, color: wsWordCount > 50 ? '#E05555' : 'var(--pm)' }}>
                 {wsWordCount} / 50 words
               </span>
@@ -733,7 +723,11 @@ export default function LibraryPage() {
             <textarea
               value={wsText}
               onChange={e => { setWsText(e.target.value); setWsFeedback(null); setWsError(null) }}
-              placeholder="Write using the patterns you've learned..."
+              placeholder={
+                prefs.language === 'ko' ? '오늘 배운 표현으로 문장을 작성하고 첨삭받으세요.'
+                : prefs.language === 'ja' ? '今日学んだ表現で文章を書いて、添削を受けましょう。'
+                : "Write sentences using today's expressions and get feedback."
+              }
               maxLength={400}
               rows={5}
               style={{
@@ -824,7 +818,7 @@ export default function LibraryPage() {
         )}
 
         {/* Saved writings list */}
-        {essays.length === 0 && !wsOpen ? (
+        {essays.length === 0 ? (
           <EmptyState
             icon={<PenLine style={{ width: 22, height: 22, color: '#8B6FA0' }} strokeWidth={1.6} />}
             iconColor="#8B6FA0"
@@ -915,9 +909,9 @@ export default function LibraryPage() {
           {/* Left column: search + summary cards */}
           <div style={{ ...colPad, paddingBottom: 0 }}>
             {/* ── Header ── */}
-            <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--pt)', letterSpacing: -0.3, marginBottom: 12, marginTop: 4 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--pt)', opacity: 0.80, margin: '4px 0 12px' }}>
               Search &amp; Save
-            </h1>
+            </p>
 
             {/* ── Search bar ── */}
             <div style={{ marginBottom: isSearching || showRecent ? 0 : 10, position: 'relative' }}>

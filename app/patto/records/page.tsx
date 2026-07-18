@@ -453,6 +453,7 @@ export default function ProgressPage() {
 
         {/* ?? THIS WEEK ?????????????????????????????????????????????????????? */}
         <div>
+          <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', margin: '4px 0 16px' }} />
           <p style={SEC}>THIS WEEK</p>
           <div style={{ ...surface, padding: '16px 16px 14px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
@@ -486,6 +487,7 @@ export default function ProgressPage() {
 
         {/* ?? OVERALL PROGRESS ??????????????????????????????????????????????? */}
         <div>
+          <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', margin: '4px 0 16px' }} />
           <p style={SEC}>OVERALL PROGRESS</p>
           <div style={{ ...surface, overflow: 'hidden' }}>
             <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
