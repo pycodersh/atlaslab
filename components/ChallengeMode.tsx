@@ -465,12 +465,6 @@ export function ChallengeMode({ patterns, storyId, onComplete }: Props) {
           textTransform: 'uppercase', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.42)' }}>
           Challenge
         </p>
-        <p style={{
-          margin: '3px 0 0', fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em',
-          color: isDark ? '#fff' : '#1a1a2e',
-        }}>
-          실력 확인하기
-        </p>
       </div>
 
       {/* Card */}

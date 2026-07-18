@@ -207,7 +207,7 @@ function PatternCardItem({
           {/* Left: num + pattern + meaning */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{
-              margin: '0 0 3px', fontSize: '0.62rem', fontWeight: 700, color: heroIconColor,
+              margin: '0 0 8px', fontSize: '0.62rem', fontWeight: 700, color: heroIconColor,
               letterSpacing: '0.10em', fontFamily: '"SF Mono", "Fira Mono", monospace',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
@@ -229,21 +229,11 @@ function PatternCardItem({
             </>
           </div>
 
-          {/* Right: completed check + audio + note + bookmark */}
+          {/* Right: completed check + note + bookmark */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0, marginTop: 2 }}>
             {isCompleted && (
               <CheckCircle2 style={{ width: 13, height: 13, color: isDark ? '#555' : '#c0c0d0', marginRight: 2 }} strokeWidth={1.8} />
             )}
-            <button
-              type="button"
-              onClick={e => { e.stopPropagation(); playExamples() }}
-              aria-label={isPlaying ? '정지' : '예문 듣기'}
-              style={{ background: 'none', border: 'none', padding: 5, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s' }}
-            >
-              {isPlaying
-                ? <Square style={{ width: 11, height: 11 }} fill="currentColor" strokeWidth={0} />
-                : <Volume2 style={{ width: 16, height: 16 }} strokeWidth={1.6} />}
-            </button>
             {patternNote && (
               <button
                 type="button"
@@ -296,28 +286,63 @@ function PatternCardItem({
       )}
 
       {/* Examples — bullet list */}
-      <div style={{ padding: '10px 18px 18px' }}>
+      <div style={{ padding: '0 18px 18px' }}>
+        {/* Thin divider above examples */}
+        <div style={{
+          height: '0.5px',
+          background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.18)',
+          marginBottom: 10,
+        }} />
         {examples.map((ex, i) => {
           const isExPlaying = isPlaying && i === exIdx
           const fullEx = patternExamplesFull[pattern.id]?.[i]
           const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
           const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
           const patternCore = pattern.pattern.replace(/~.*$/, '').trim().replace(/[.,!?]+$/, '').trim()
+          const isFirstEx = i === 0
           return (
             <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 10 }}>
               <span style={{ fontSize: 14, color: heroIconColor, flexShrink: 0, lineHeight: '1.65', marginTop: 0 }}>•</span>
-              <div>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
                   <TappableWordText
                     text={ex.en}
                     highlightPhrases={patternCore ? [patternCore] : undefined}
                     saveCandidates={safeCandidates}
                     source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                    style={{ display: 'block', fontSize: 15, fontWeight: isExPlaying ? 700 : 500, color: exEnColor, lineHeight: 1.65 }}
+                    style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 500, color: exEnColor, lineHeight: 1.65 }}
                   />
                 </div>
                 {showKorean && exKo && (
-                  <p style={{ fontSize: 13, color: exKoColor, margin: '3px 0 0', lineHeight: 1.5 }}>{exKo}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+                    <p style={{ fontSize: 12, color: exKoColor, margin: '3px 0 0', lineHeight: 1.5, flex: 1 }}>{exKo}</p>
+                    {isFirstEx && (
+                      <button
+                        type="button"
+                        onClick={e => { e.stopPropagation(); playExamples() }}
+                        aria-label={isPlaying ? '정지' : '예문 듣기'}
+                        style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0, marginTop: 3 }}
+                      >
+                        {isPlaying
+                          ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
+                          : <Volume2 style={{ width: 14, height: 14 }} strokeWidth={1.6} />}
+                      </button>
+                    )}
+                  </div>
+                )}
+                {(!showKorean || !exKo) && isFirstEx && (
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <button
+                      type="button"
+                      onClick={e => { e.stopPropagation(); playExamples() }}
+                      aria-label={isPlaying ? '정지' : '예문 듣기'}
+                      style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
+                    >
+                      {isPlaying
+                        ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
+                        : <Volume2 style={{ width: 14, height: 14 }} strokeWidth={1.6} />}
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
