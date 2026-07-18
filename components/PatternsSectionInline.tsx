@@ -222,14 +222,26 @@ function PatternCardItem({
                 {pattern.pattern}
               </p>
               {patternMeaning && (
-                <p style={{ fontSize: 13, fontWeight: 500, color: heroMeaningColor, margin: 0, lineHeight: 1.45 }}>
-                  {patternMeaning}
-                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: heroMeaningColor, margin: 0, lineHeight: 1.45, flex: 1 }}>
+                    {patternMeaning}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={e => { e.stopPropagation(); playExamples() }}
+                    aria-label={isPlaying ? '정지' : '예문 듣기'}
+                    style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
+                  >
+                    {isPlaying
+                      ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
+                      : <Volume2 style={{ width: 15, height: 15 }} strokeWidth={1.6} />}
+                  </button>
+                </div>
               )}
             </>
           </div>
 
-          {/* Right: completed check + note + bookmark */}
+          {/* Right: completed check + note + bookmark (speaker moved to meaning row) */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 2, flexShrink: 0, marginTop: 2 }}>
             {isCompleted && (
               <CheckCircle2 style={{ width: 13, height: 13, color: isDark ? '#555' : '#c0c0d0', marginRight: 2 }} strokeWidth={1.8} />
@@ -299,7 +311,6 @@ function PatternCardItem({
           const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
           const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
           const patternCore = pattern.pattern.replace(/~.*$/, '').trim().replace(/[.,!?]+$/, '').trim()
-          const isFirstEx = i === 0
           return (
             <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 10 }}>
               <span style={{ fontSize: 14, color: heroIconColor, flexShrink: 0, lineHeight: '1.65', marginTop: 0 }}>•</span>
@@ -314,35 +325,7 @@ function PatternCardItem({
                   />
                 </div>
                 {showKorean && exKo && (
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
-                    <p style={{ fontSize: 12, color: exKoColor, margin: '3px 0 0', lineHeight: 1.5, flex: 1 }}>{exKo}</p>
-                    {isFirstEx && (
-                      <button
-                        type="button"
-                        onClick={e => { e.stopPropagation(); playExamples() }}
-                        aria-label={isPlaying ? '정지' : '예문 듣기'}
-                        style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0, marginTop: 3 }}
-                      >
-                        {isPlaying
-                          ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
-                          : <Volume2 style={{ width: 14, height: 14 }} strokeWidth={1.6} />}
-                      </button>
-                    )}
-                  </div>
-                )}
-                {(!showKorean || !exKo) && isFirstEx && (
-                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button
-                      type="button"
-                      onClick={e => { e.stopPropagation(); playExamples() }}
-                      aria-label={isPlaying ? '정지' : '예문 듣기'}
-                      style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
-                    >
-                      {isPlaying
-                        ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
-                        : <Volume2 style={{ width: 14, height: 14 }} strokeWidth={1.6} />}
-                    </button>
-                  </div>
+                  <p style={{ fontSize: 12, color: exKoColor, margin: '3px 0 0', lineHeight: 1.5 }}>{exKo}</p>
                 )}
               </div>
             </div>
