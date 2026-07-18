@@ -24,8 +24,9 @@ import { saveLastPosition } from '@/lib/last-position'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { getStoryRound, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
-import { updateStorySessionState } from '@/lib/srs/story-session'
+import { getStorySessionState, updateStorySessionState } from '@/lib/srs/story-session'
 import { useTheme } from '@/components/ThemeProvider'
+import { StoryProgressTracker } from '@/components/StoryProgressTracker'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { ChallengeMode } from '@/components/ChallengeMode'
 
@@ -111,6 +112,11 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const currentRound   = storyRoundData.round          // completed rounds so far
   const isFirstRound   = currentRound === 0
 
+  // Session-level listening/reading state (persisted per story+round)
+  const [sessionState, setSessionState] = useState(() =>
+    getStorySessionState(story.id, storyRoundData.round)
+  )
+
   // Reset flow when story changes (restore session progress if available)
   useEffect(() => {
     const saved = getSessionProgress(story.id)
@@ -128,6 +134,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     trainerGreetedRef.current = false
     trainer?.setPage?.('story')
     trainer?.clearMessage?.()
+    setSessionState(getStorySessionState(story.id, getStoryRound(story.id).round))
   }, [story.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Trainer helper — sends message only on mobile (trainer is UI-only, desktop skips)
@@ -336,9 +343,10 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     const p = progressRef.current
     const patternIds = s.patterns.map(pat => pat.id)
     setProgress(completeStoryAndScheduleReview(p, String(s.id), patternIds, 1, 1))
-    // Mark listening completed in session
+    // Mark listening completed in session (cap: max 1)
     const roundData = getStoryRound(s.id)
-    updateStorySessionState(s.id, roundData.round, { listeningCompleted: true })
+    const next = updateStorySessionState(s.id, roundData.round, { listeningCompleted: true })
+    setSessionState(next)
   }, [setProgress])
 
   // 낭독 시작 시 환경음도 같이 시작 (활성화 상태일 때)
@@ -552,6 +560,18 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         onPatternIndexChange={setPatternIdx}
         showKorean={patternShowKo}
         showEnglish={patternShowEn}
+      />
+
+      {sectionDivider('Study Record')}
+
+      <StoryProgressTracker
+        story={story}
+        round={storyRoundData.round}
+        listeningCompleted={sessionState.listeningCompleted}
+        readingCount={Math.min(2, sessionState.readingCount)}
+        onReadingCheck={(newCount) =>
+          setSessionState(prev => ({ ...prev, readingCount: Math.min(2, newCount) }))
+        }
       />
 
       {sectionDivider('Challenges in this story')}
