@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, Trash2 } from 'lucide-react'
+import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, Trash2, BookOpen, Type, PenLine } from 'lucide-react'
 import { requestCoverReplay } from '@/components/WelcomeCover'
 import { PDialog } from '@/components/ui/PDialog'
 import { TopNav } from '@/components/TopNav'
@@ -152,10 +152,12 @@ function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void 
 
   return (
     <div style={{ ...glassCard, padding: 0, overflow: 'hidden' }}>
+      {/* Accent gradient strip */}
+      <div style={{ height: 4, background: 'linear-gradient(90deg, #6B8FFF, #A78BFF)', borderRadius: '20px 20px 0 0' }} />
       {/* Avatar + info */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '22px 20px 20px' }}>
         <div style={{
-          width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
+          width: 68, height: 68, borderRadius: '50%', flexShrink: 0,
           background: 'var(--pc)', border: '1px solid var(--pglass-border)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           overflow: 'hidden',
@@ -167,7 +169,7 @@ function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void 
           )}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', margin: '0 0 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p style={{ fontSize: 17, fontWeight: 800, color: 'var(--pt)', margin: '0 0 3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {name}
           </p>
           {email && (
@@ -214,9 +216,9 @@ function LearningStatsCard() {
   }, [])
 
   const items = [
-    { label: 'Stories', value: stats.stories },
-    { label: 'Words', value: stats.words },
-    { label: 'Essays', value: stats.essays },
+    { label: 'Stories', value: stats.stories, icon: <BookOpen style={{ width: 14, height: 14, color: '#6B8FFF' }} strokeWidth={1.8} /> },
+    { label: 'Words', value: stats.words, icon: <Type style={{ width: 14, height: 14, color: '#3A7A4A' }} strokeWidth={1.8} /> },
+    { label: 'Essays', value: stats.essays, icon: <PenLine style={{ width: 14, height: 14, color: '#8B6FA0' }} strokeWidth={1.8} /> },
   ]
 
   return (
@@ -229,8 +231,10 @@ function LearningStatsCard() {
           <div key={item.label} style={{
             flex: 1, textAlign: 'center',
             borderRight: i < 2 ? '1px solid var(--pglass-border)' : 'none',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
           }}>
-            <p style={{ fontSize: 24, fontWeight: 800, color: 'var(--pa)', margin: '0 0 3px', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+            {item.icon}
+            <p style={{ fontSize: 28, fontWeight: 800, color: 'var(--pa)', margin: '0 0 3px', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
               {item.value}
             </p>
             <p style={{ fontSize: 10.5, color: 'var(--pm)', margin: 0, fontWeight: 500 }}>{item.label}</p>
@@ -464,6 +468,7 @@ export default function SettingsPage() {
       }}>
 
         {/* Profile card */}
+        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#8E8E93', textTransform: 'uppercase', margin: '4px 0 8px 4px' }}>계정</p>
         {!loading && (
           user
             ? <UserProfileCard user={user} onLogout={handleLogout} />
@@ -474,6 +479,7 @@ export default function SettingsPage() {
         {user && <LearningStatsCard />}
 
         {/* Menu list — single glass-card */}
+        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#8E8E93', textTransform: 'uppercase', margin: '4px 0 8px 4px' }}>앱 설정</p>
         <div style={{ ...glassCard, overflow: 'hidden' }}>
           {[
             <MenuCard key="sub"   icon={Sparkles}          label={t('hub_subscription')} desc={t('hub_subscription_desc')} href="/patto/settings/subscription" />,

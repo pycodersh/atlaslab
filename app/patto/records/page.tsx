@@ -40,15 +40,16 @@ function getWeekDays(): Date[] {
 const DOW_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
 // ── Ring Chart ─────────────────────────────────────────────────────────────────
-function RingChart({ pct, size = 96, stroke = 8, color = '#6B8FFF' }: {
-  pct: number; size?: number; stroke?: number; color?: string
+function RingChart({ pct, size = 96, stroke = 8, color = '#6B8FFF', isDark = true }: {
+  pct: number; size?: number; stroke?: number; color?: string; isDark?: boolean
 }) {
   const r    = (size - stroke) / 2
   const circ = 2 * Math.PI * r
   const offset = circ * (1 - Math.min(pct, 100) / 100)
+  const trackColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)'
   return (
     <svg width={size} height={size} style={{ flexShrink: 0, transform: 'rotate(-90deg)' }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth={stroke} />
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={trackColor} strokeWidth={stroke} />
       <circle
         cx={size / 2} cy={size / 2} r={r} fill="none"
         stroke={color} strokeWidth={stroke} strokeLinecap="round"
@@ -126,18 +127,23 @@ export default function ProgressPage() {
   const outperformMult     = isOutperform ? Math.floor(todayCount / DAILY_GOAL) : 0
   const weeklyPct          = Math.min(Math.round((weeklyStoryCount / WEEKLY_GOAL) * 100), 100)
   const ringColor          = isOutperform ? '#D7B56D' : '#6B8FFF'
+
+  const bannerBg = isDark
+    ? (isOutperform ? 'rgba(215,181,109,0.14)' : 'rgba(255,255,255,0.07)')
+    : (isOutperform ? 'linear-gradient(135deg, rgba(215,181,109,0.13), rgba(215,181,109,0.06))' : 'rgba(255,255,255,0.88)')
+  const bannerBorder = isDark
+    ? (isOutperform ? 'rgba(215,181,109,0.28)' : 'rgba(255,255,255,0.10)')
+    : (isOutperform ? 'rgba(215,181,109,0.32)' : 'rgba(200,212,240,0.60)')
+  const bannerShadow = isDark
+    ? '0 8px 32px rgba(0,0,0,0.28)'
+    : (isOutperform ? '0 4px 28px rgba(215,181,109,0.10)' : '0 4px 28px rgba(100,120,200,0.08)')
+
   const bannerStyle: React.CSSProperties = {
-    background: isDark
-      ? (isOutperform ? 'rgba(215,181,109,0.14)' : 'rgba(255,255,255,0.07)')
-      : (isOutperform ? 'linear-gradient(135deg, rgba(215,181,109,0.13), rgba(215,181,109,0.06))' : 'rgba(255,255,255,0.88)'),
-    border: `1px solid ${isDark
-      ? (isOutperform ? 'rgba(215,181,109,0.28)' : 'rgba(255,255,255,0.10)')
-      : (isOutperform ? 'rgba(215,181,109,0.32)' : 'rgba(200,212,240,0.60)')}`,
+    background: bannerBg,
+    border: `1px solid ${bannerBorder}`,
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
-    boxShadow: isDark
-      ? '0 8px 32px rgba(0,0,0,0.28)'
-      : (isOutperform ? '0 4px 28px rgba(215,181,109,0.10)' : '0 4px 28px rgba(100,120,200,0.08)'),
+    boxShadow: bannerShadow,
   }
 
   // My stories — started at least 1 round
@@ -148,6 +154,14 @@ export default function ProgressPage() {
       .sort((a, b) => a.storyId - b.storyId),
   [storyRounds])
 
+  // Story map stats
+  const storyMapStats = useMemo(() => {
+    const completed   = storyRounds.filter(r => r.isMastered).length
+    const inProgress  = storyRounds.filter(r => r.round > 0 && !r.isMastered).length
+    const total       = magazineStories.length
+    return { completed, inProgress, total }
+  }, [storyRounds])
+
   // Shared glass card style (adapts to theme)
   const glassCard: React.CSSProperties = {
     borderRadius: 20,
@@ -157,6 +171,11 @@ export default function ProgressPage() {
     border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(200,212,240,0.55)'}`,
     boxShadow: isDark ? '0 4px 24px rgba(0,0,0,0.28)' : '0 4px 28px rgba(100,120,200,0.06)',
   }
+
+  // Text color for banner (theme-adaptive)
+  const bannerTextPrimary   = isDark ? '#fff' : '#1a1a2e'
+  const bannerTextSecondary = isDark ? 'rgba(255,255,255,0.50)' : 'rgba(30,30,80,0.52)'
+  const bannerTextMuted     = isDark ? 'rgba(255,255,255,0.38)' : 'rgba(30,30,80,0.40)'
 
   return (
     <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
@@ -205,8 +224,8 @@ export default function ProgressPage() {
         {/* ── Banner ── */}
         <div style={{
           borderRadius: 24,
+          padding: '22px 20px 20px',
           ...bannerStyle,
-          padding: '20px 22px 18px',
         }}>
           {/* Outperform badge */}
           {isOutperform && (
@@ -223,87 +242,91 @@ export default function ProgressPage() {
             </div>
           )}
 
-          {/* Ring + text row */}
+          {/* Split layout: left fraction text + right ring chart */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+            {/* Left: big fraction */}
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0, fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: bannerTextMuted, textTransform: 'uppercase' }}>
+                THIS WEEK
+              </p>
+              <p style={{ margin: '6px 0 2px', fontSize: 38, fontWeight: 800, color: bannerTextPrimary, lineHeight: 1, letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums' }}>
+                {weeklyStoryCount}<span style={{ fontSize: 22, fontWeight: 700, opacity: 0.55 }}>/{WEEKLY_GOAL}</span>
+              </p>
+              <p style={{ margin: '4px 0 2px', fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: bannerTextMuted, textTransform: 'uppercase' }}>
+                STORIES THIS WEEK
+              </p>
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 500, color: bannerTextSecondary }}>
+                {isOutperform
+                  ? '주간 목표 초과 달성! 🎉'
+                  : `목표까지 ${Math.max(WEEKLY_GOAL - weeklyStoryCount, 0)}개 남았어요`}
+              </p>
+            </div>
+
+            {/* Right: ring chart with centered percentage */}
             <div style={{ position: 'relative', flexShrink: 0 }}>
-              <RingChart pct={weeklyPct} size={96} stroke={8} color={ringColor} />
+              <RingChart pct={weeklyPct} size={96} stroke={8} color={ringColor} isDark={isDark} />
               <div style={{
                 position: 'absolute', inset: 0,
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
               }}>
-                <span style={{ fontSize: 20, fontWeight: 800, color: '#fff', lineHeight: 1, letterSpacing: '-0.03em' }}>
+                <span style={{ fontSize: 20, fontWeight: 800, color: isDark ? '#fff' : '#1a1a2e', lineHeight: 1, letterSpacing: '-0.03em' }}>
                   {weeklyPct}%
                 </span>
-              </div>
-            </div>
-            <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(255,255,255,0.45)', textTransform: 'uppercase' }}>
-                THIS WEEK
-              </p>
-              <p style={{ margin: '5px 0 3px', fontSize: 19, fontWeight: 800, color: '#fff', lineHeight: 1.15, letterSpacing: '-0.02em' }}>
-                {weeklyStoryCount} / {WEEKLY_GOAL} 스토리{isOutperform ? ' 🎉' : ''}
-              </p>
-              <p style={{ margin: 0, fontSize: 11, fontWeight: 500, color: 'rgba(255,255,255,0.50)' }}>
-                {isOutperform
-                  ? '주간 목표 초과 달성!'
-                  : `목표까지 ${Math.max(WEEKLY_GOAL - weeklyStoryCount, 0)}개 남았어요`}
-              </p>
-            </div>
-          </div>
-
-          {/* Progress bar */}
-          <div style={{ marginTop: 18 }}>
-            <div style={{ height: 5, borderRadius: 99, background: 'rgba(255,255,255,0.12)', position: 'relative' }}>
-              <div style={{
-                height: '100%', width: `${weeklyPct}%`,
-                background: 'linear-gradient(90deg, #6B8FFF, #D7B56D)',
-                borderRadius: 99,
-                transition: 'width 1.2s cubic-bezier(0.4,0,0.2,1)',
-                position: 'relative',
-              }}>
-                {isOutperform && weeklyPct > 0 && (
-                  <div style={{
-                    position: 'absolute', right: -3, top: '50%', transform: 'translateY(-50%)',
-                    width: 11, height: 11, borderRadius: '50%',
-                    background: '#D7B56D',
-                    boxShadow: '0 0 10px 4px rgba(215,181,109,0.55)',
-                  }} />
-                )}
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── 3 Metrics — unified glass row ── */}
-        <div style={{ ...glassCard, display: 'flex' }}>
+        {/* ── 3 Metrics — individual stat tiles ── */}
+        <div style={{ display: 'flex', gap: 8 }}>
           {[
             {
               icon: <Flame style={{ width: 14, height: 14, color: '#D7B56D' }} strokeWidth={1.8} />,
-              value: streak, label: 'Streak', color: '#D7B56D',
+              value: streak, label: 'STREAK', accentColor: '#D7B56D',
             },
             {
-              icon: <BookOpen style={{ width: 14, height: 14, color: isDark ? '#8EA7FF' : '#6B8FFF' }} strokeWidth={1.8} />,
-              value: weeklyStoryCount, label: '이번 주', color: isDark ? '#8EA7FF' : '#6B8FFF',
+              icon: <BookOpen style={{ width: 14, height: 14, color: '#6B8FFF' }} strokeWidth={1.8} />,
+              value: weeklyStoryCount, label: '이번 주', accentColor: '#6B8FFF',
             },
             {
-              icon: <Zap style={{ width: 14, height: 14, color: isDark ? '#CFC4FF' : '#9B8FE8' }} strokeWidth={1.8} />,
-              value: weeklyPatternCount, label: '패턴', color: isDark ? '#CFC4FF' : '#9B8FE8',
+              icon: <Zap style={{ width: 14, height: 14, color: '#9B8FE8' }} strokeWidth={1.8} />,
+              value: weeklyPatternCount, label: '패턴', accentColor: '#9B8FE8',
             },
           ].map((m, i) => (
-            <div key={i} style={{
-              flex: 1, textAlign: 'center', padding: '14px 8px',
-              borderRight: i < 2
-                ? `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)'}`
-                : 'none',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-            }}>
-              {m.icon}
-              <span style={{ fontSize: 22, fontWeight: 800, color: m.color, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+            <div
+              key={i}
+              style={{
+                flex: 1,
+                borderRadius: 18,
+                background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.84)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(200,212,240,0.55)'}`,
+                boxShadow: isDark ? '0 4px 24px rgba(0,0,0,0.28)' : '0 4px 28px rgba(100,120,200,0.06)',
+                padding: '14px 8px 12px',
+                display: 'flex', flexDirection: 'column', alignItems: 'center',
+                position: 'relative', overflow: 'hidden',
+              }}
+            >
+              {/* Accent icon top-left */}
+              <div style={{ position: 'absolute', top: 10, left: 10 }}>
+                {m.icon}
+              </div>
+              {/* Big value */}
+              <span style={{ fontSize: 28, fontWeight: 800, color: m.accentColor, lineHeight: 1, fontVariantNumeric: 'tabular-nums', marginTop: 10 }}>
                 {m.value}
               </span>
-              <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.07em', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.40)', textTransform: 'uppercase' }}>
+              {/* Label */}
+              <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.07em', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.40)', textTransform: 'uppercase', marginTop: 5 }}>
                 {m.label}
               </span>
+              {/* Bottom accent bar */}
+              <div style={{
+                position: 'absolute', bottom: 0, left: 12, right: 12,
+                height: 3, borderRadius: 99,
+                background: m.accentColor,
+                opacity: 0.45,
+              }} />
             </div>
           ))}
         </div>
@@ -315,44 +338,41 @@ export default function ProgressPage() {
           </p>
 
           {viewMode === 'weekly' ? (
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4 }}>
+            /* ── Weekly Activity Bars ── */
+            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4, alignItems: 'flex-end' }}>
               {weekDays.map((d, i) => {
                 const iso     = toIso(d)
                 const count   = dayCountMap[iso] ?? 0
-                const done    = count > 0
                 const isToday = iso === today
                 const isFut   = d > new Date() && !isToday
+                const barH    = count > 0 ? Math.min(Math.max(28, count * 20), 64) : 6
+
                 return (
-                  <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                    <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', color: isDark ? 'rgba(255,255,255,0.32)' : 'rgba(60,60,100,0.38)', textTransform: 'uppercase' }}>
+                  <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, opacity: isFut ? 0.3 : 1 }}>
+                    {/* Day letter */}
+                    <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', color: isToday ? '#6B8FFF' : (isDark ? 'rgba(255,255,255,0.32)' : 'rgba(60,60,100,0.38)'), textTransform: 'uppercase' }}>
                       {DOW_LABELS[i]}
                     </span>
-                    <div style={{
-                      width: 34, height: 34, borderRadius: '50%',
-                      background: done
-                        ? 'linear-gradient(135deg, #4A7AC8, #6B8FFF)'
-                        : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'),
-                      border: isToday && !done
-                        ? '2px solid rgba(107,143,255,0.65)'
-                        : '2px solid transparent',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      opacity: isFut ? 0.28 : 1,
-                      transition: 'background 0.2s',
-                    }}>
-                      {done ? (
-                        <svg width={14} height={14} viewBox="0 0 14 14" fill="none">
-                          <path d="M3 7l3 3 5-5" stroke="#fff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      ) : (
-                        <span style={{ fontSize: 10, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(40,40,80,0.38)' }}>
-                          {d.getDate()}
-                        </span>
-                      )}
+                    {/* Bar wrapper (fixed height container for bottom-alignment) */}
+                    <div style={{ height: 64, display: 'flex', alignItems: 'flex-end', width: '100%' }}>
+                      <div style={{
+                        width: '100%',
+                        height: barH,
+                        borderRadius: 4,
+                        background: count > 0
+                          ? 'linear-gradient(180deg, #8FABFF, #6B8FFF)'
+                          : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'),
+                        border: isToday
+                          ? `1.5px solid ${count > 0 ? '#8FABFF' : 'rgba(107,143,255,0.55)'}`
+                          : '1.5px solid transparent',
+                        transition: 'height 0.5s cubic-bezier(0.4,0,0.2,1)',
+                        flexShrink: 0,
+                      }} />
                     </div>
-                    {done && (
-                      <span style={{ fontSize: 9, fontWeight: 700, color: '#6B8FFF', lineHeight: 1 }}>+{count}</span>
-                    )}
-                    {!done && <span style={{ fontSize: 9, color: 'transparent' }}>·</span>}
+                    {/* Date number */}
+                    <span style={{ fontSize: 9, fontWeight: 600, color: isToday ? '#6B8FFF' : (isDark ? 'rgba(255,255,255,0.28)' : 'rgba(40,40,80,0.35)') }}>
+                      {d.getDate()}
+                    </span>
                   </div>
                 )
               })}
@@ -461,7 +481,7 @@ export default function ProgressPage() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(10, 1fr)',
-            gap: 5,
+            gap: 8,
           }}>
             {magazineStories.map((ms, i) => {
               const rd = storyRounds[i]
@@ -485,7 +505,7 @@ export default function ProgressPage() {
                   title={`S${String(ms.id).padStart(2, '0')}: ${ms.title} (${round}회차${isMastered ? ' ✓' : ''})`}
                   style={{
                     aspectRatio: '1 / 1',
-                    borderRadius: 6,
+                    borderRadius: 8,
                     background: cellBg,
                     position: 'relative',
                     transition: 'opacity 0.15s',
@@ -495,6 +515,11 @@ export default function ProgressPage() {
               )
             })}
           </div>
+
+          {/* Story map footer */}
+          <p style={{ margin: '12px 0 0', textAlign: 'center', fontSize: 10, fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.28)' : 'rgba(60,60,100,0.38)' }}>
+            완료 {storyMapStats.completed}개 · 진행중 {storyMapStats.inProgress}개 · 전체 {storyMapStats.total}개
+          </p>
         </div>
 
       </div>

@@ -343,7 +343,13 @@ function SearchStoryRow({ story, border, onPress }: {
 function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '14px 16px', borderRadius: 18, background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
-      <div style={{ flexShrink: 0, marginTop: 1, opacity: 0.65 }}>{icon}</div>
+      <div style={{
+        width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+        background: 'var(--pal)', border: '1px solid var(--pacb)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        {icon}
+      </div>
       <div>
         <p style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--pt)', margin: '0 0 3px', opacity: 0.75 }}>{title}</p>
         <p style={{ fontSize: 11.5, color: '#8E8E93', lineHeight: 1.6, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
@@ -361,9 +367,13 @@ function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: nu
         {label}
       </span>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-        {count != null && unit != null && (
-          <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--pm)' }}>
-            {count} {unit}
+        {count != null && (
+          <span style={{
+            fontSize: 10.5, fontWeight: 700, color: 'var(--pa)',
+            background: 'var(--pal)', border: '1px solid var(--pacb)',
+            borderRadius: 99, padding: '2px 9px',
+          }}>
+            {count}
           </span>
         )}
         {onViewAll && (
@@ -486,6 +496,13 @@ export default function LibraryPage() {
 
   const savedItemsPanel = (
     <>
+      {/* Summary strip */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+        <SummaryCard icon={<BookOpen style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.6} />} label="Words" value={words.length} accent="#3A7A4A" />
+        <SummaryCard icon={<Layers style={{ width: 16, height: 16, color: '#C08040' }} strokeWidth={1.6} />} label="Phrases" value={phrases.length} accent="#C08040" />
+        <SummaryCard icon={<BookMarked style={{ width: 16, height: 16, color: 'var(--pa)' }} strokeWidth={1.6} />} label="Patterns" value={bookmarks.length} accent="var(--pa)" />
+      </div>
+
       {/* Saved Words */}
       <section style={{ marginBottom: 20 }}>
         <SecLabel label="Saved Words" count={words.length} unit="Words" />
@@ -508,9 +525,11 @@ export default function LibraryPage() {
                 onClick={() => setShowAllWords(v => !v)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 4,
-                  marginTop: 10, padding: 0,
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                  marginTop: 10, padding: '6px 14px',
+                  background: 'var(--pal)', border: '1px solid var(--pacb)',
+                  borderRadius: 99, cursor: 'pointer',
+                  fontSize: 11.5, fontWeight: 600, color: 'var(--pa)',
+                  fontFamily: 'inherit',
                 }}
               >
                 {showAllWords ? 'Show less' : `Show all ${words.length} Words`}
@@ -543,9 +562,11 @@ export default function LibraryPage() {
                 onClick={() => setShowAllPhrases(v => !v)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 4,
-                  marginTop: 10, padding: 0,
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit',
+                  marginTop: 10, padding: '6px 14px',
+                  background: 'var(--pal)', border: '1px solid var(--pacb)',
+                  borderRadius: 99, cursor: 'pointer',
+                  fontSize: 11.5, fontWeight: 600, color: 'var(--pa)',
+                  fontFamily: 'inherit',
                 }}
               >
                 {showAllPhrases ? 'Show less' : `Show all ${phrases.length} Phrases`}
@@ -583,7 +604,7 @@ export default function LibraryPage() {
                 )
               })}
             </div>
-            <button type="button" onClick={() => setShowAllPatterns(false)} style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit' }}>
+            <button type="button" onClick={() => setShowAllPatterns(false)} style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: '6px 14px', background: 'var(--pal)', border: '1px solid var(--pacb)', borderRadius: 99, cursor: 'pointer', fontSize: 11.5, fontWeight: 600, color: 'var(--pa)', fontFamily: 'inherit' }}>
               Show less
             </button>
           </>
@@ -595,7 +616,7 @@ export default function LibraryPage() {
               ))}
             </div>
             {bookmarks.length > PREVIEW_PATTERNS && (
-              <button type="button" onClick={() => setShowAllPatterns(true)} style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit' }}>
+              <button type="button" onClick={() => setShowAllPatterns(true)} style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 10, padding: '6px 14px', background: 'var(--pal)', border: '1px solid var(--pacb)', borderRadius: 99, cursor: 'pointer', fontSize: 11.5, fontWeight: 600, color: 'var(--pa)', fontFamily: 'inherit' }}>
                 {`Show all ${bookmarks.length} Patterns`}
                 <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
               </button>
