@@ -59,46 +59,41 @@ export function GlobalSavePopup() {
 
   return (
     <>
-      {/* Bottom sheet */}
+      {/* Center popup */}
       {item && (
         <div
           onClick={dismiss}
           style={{
             position: 'fixed', inset: 0, zIndex: 9000,
             background: 'rgba(0,0,0,0.28)',
-            display: 'flex', alignItems: 'flex-end',
+            display: 'flex', alignItems: 'center',
             justifyContent: 'center',
+            padding: '0 32px',
           }}
         >
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              width: '100%', maxWidth: 480,
+              width: '100%', maxWidth: 320,
               background: 'var(--pglass)',
               backdropFilter: 'blur(28px) saturate(180%)',
               WebkitBackdropFilter: 'blur(28px) saturate(180%)',
               border: '1px solid var(--pglass-border)',
-              borderRadius: '20px 20px 0 0',
-              padding: `20px 20px calc(20px + env(safe-area-inset-bottom, 0px))`,
+              borderRadius: 20,
+              padding: '24px 20px 20px',
+              boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
             }}
           >
-            {/* Handle */}
-            <div style={{
-              width: 36, height: 4, borderRadius: 2,
-              background: 'var(--pglass-border)',
-              margin: '0 auto 20px',
-            }} />
-
             {/* Selected text display */}
             <p style={{
-              fontSize: 19, fontWeight: 700, color: 'var(--pt)',
+              fontSize: 20, fontWeight: 700, color: 'var(--pt)',
               margin: '0 0 4px', textAlign: 'center', lineHeight: 1.25,
             }}>
               {item.chunk ? item.chunk.text : item.word}
             </p>
             {item.chunk && (
               <p style={{
-                fontSize: 11, color: 'var(--pm)', margin: '0 0 20px',
+                fontSize: 11, color: 'var(--pm)', margin: '0 0 4px',
                 textAlign: 'center', letterSpacing: '0.08em', textTransform: 'uppercase',
               }}>
                 {item.chunk.type === 'phrasalVerb' ? 'Phrasal Verb'
@@ -108,15 +103,15 @@ export function GlobalSavePopup() {
             )}
 
             {/* Action buttons */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: item.chunk ? 0 : 20 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20 }}>
               {item.chunk && (
                 <button
                   type="button"
                   onClick={handleSavePhrase}
                   style={{
-                    width: '100%', padding: '13px 0', borderRadius: 14,
+                    width: '100%', padding: '12px 0', borderRadius: 12,
                     background: 'var(--pa)', color: '#fff',
-                    fontWeight: 700, fontSize: 15, border: 'none',
+                    fontWeight: 700, fontSize: 14, border: 'none',
                     cursor: 'pointer', fontFamily: 'inherit',
                   }}
                 >
@@ -127,11 +122,11 @@ export function GlobalSavePopup() {
                 type="button"
                 onClick={handleSaveWord}
                 style={{
-                  width: '100%', padding: '13px 0', borderRadius: 14,
+                  width: '100%', padding: '12px 0', borderRadius: 12,
                   background: item.chunk ? 'transparent' : 'var(--pa)',
                   color: item.chunk ? 'var(--pt)' : '#fff',
                   fontWeight: item.chunk ? 600 : 700,
-                  fontSize: 15,
+                  fontSize: 14,
                   border: item.chunk ? '1px solid var(--pglass-border)' : 'none',
                   cursor: 'pointer', fontFamily: 'inherit',
                 }}
@@ -142,10 +137,10 @@ export function GlobalSavePopup() {
                 type="button"
                 onClick={dismiss}
                 style={{
-                  width: '100%', padding: '12px 0', borderRadius: 14,
+                  width: '100%', padding: '10px 0', borderRadius: 12,
                   background: 'transparent', color: 'var(--pm)',
-                  fontWeight: 500, fontSize: 14, border: 'none',
-                  cursor: 'pointer', fontFamily: 'inherit', marginTop: 2,
+                  fontWeight: 500, fontSize: 13, border: 'none',
+                  cursor: 'pointer', fontFamily: 'inherit',
                 }}
               >
                 Cancel
