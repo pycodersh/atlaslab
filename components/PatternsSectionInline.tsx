@@ -202,12 +202,12 @@ function PatternCardItem({
       }}
     >
       {/* Header: pattern num + meaning + icons */}
-      <div style={{ padding: '22px 18px 14px', background: heroBg }}>
+      <div style={{ padding: '22px 18px 22px', background: heroBg }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
           {/* Left: num + pattern */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{
-              margin: '0 0 8px', fontSize: '0.62rem', fontWeight: 700, color: heroIconColor,
+              margin: '0 0 11px', fontSize: '0.62rem', fontWeight: 700, color: heroIconColor,
               letterSpacing: '0.10em', fontFamily: '"SF Mono", "Fira Mono", monospace',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
@@ -297,12 +297,12 @@ function PatternCardItem({
       )}
 
       {/* Examples — bullet list */}
-      <div style={{ padding: '0 18px 22px' }}>
+      <div style={{ padding: '4px 18px 36px' }}>
         {/* Thin divider above examples */}
         <div style={{
           height: '0.5px',
           background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(142,167,255,0.18)',
-          marginBottom: 10,
+          marginBottom: 14,
         }} />
         {examples.map((ex, i) => {
           const isExPlaying = isPlaying && i === exIdx
@@ -310,7 +310,7 @@ function PatternCardItem({
           const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
           const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
           return (
-            <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 10 }}>
+            <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 17 }}>
               <span style={{ fontSize: 14, color: heroIconColor, flexShrink: 0, lineHeight: '1.65', marginTop: 0 }}>•</span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
