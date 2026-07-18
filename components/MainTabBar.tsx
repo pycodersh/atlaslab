@@ -123,13 +123,19 @@ export function MainTabBar() {
                 gap: scrolledDown ? 2 : 3,
                 textDecoration: 'none',
                 color: isActive ? 'var(--pa)' : 'var(--pm)',
-                transition: 'color 0.15s ease',
+                transition: 'color 0.15s ease, background 0.18s ease, transform 80ms var(--ease-spring)',
                 padding: scrolledDown ? '4px 10px' : '6px 14px',
                 borderRadius: 9999,
-                background: 'transparent',
+                background: isActive ? 'rgba(142,167,255,0.10)' : 'transparent',
                 boxShadow: 'none',
                 minWidth: scrolledDown ? 44 : 52,
+                cursor: 'pointer',
+                WebkitTapHighlightColor: 'transparent',
               }}
+              onMouseDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.90)' }}
+              onMouseUp={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
+              onTouchStart={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.90)' }}
+              onTouchEnd={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
             >
               {tab.icon(isActive)}
               <span style={{

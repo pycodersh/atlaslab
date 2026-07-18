@@ -2,6 +2,40 @@
 
 /* ── PATTO Design Tokens ─────────────────────────────────────────────── */
 :root {
+  /* ── Typography Scale ──────────────────────────────────────────────── */
+  --fs-2xs:  10px;
+  --fs-xs:   12px;
+  --fs-sm:   13px;
+  --fs-base: 15px;
+  --fs-md:   17px;
+  --fs-lg:   20px;
+  --fs-xl:   24px;
+  --fs-2xl:  30px;
+
+  /* ── Radius Scale ───────────────────────────────────────────────────── */
+  --r-sm:   10px;
+  --r-md:   14px;
+  --r-lg:   20px;
+  --r-xl:   24px;
+  --r-2xl:  32px;
+  --r-full: 9999px;
+
+  /* ── Shadow / Elevation ─────────────────────────────────────────────── */
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-sm: 0 2px 10px rgba(100,120,200,0.06), 0 1px 3px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 20px rgba(100,120,200,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 8px 32px rgba(100,120,200,0.10), 0 2px 8px rgba(0,0,0,0.05);
+
+  /* ── Motion ─────────────────────────────────────────────────────────── */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-std:    cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --dur-xs:  80ms;
+  --dur-sm:  150ms;
+  --dur-md:  220ms;
+  --dur-lg:  320ms;
+
   /* Soft Indigo — Light */
   --pb:   #F8FAFC;                          /* primary background */
   --pb2:  #F5F7FB;                          /* secondary background */
@@ -198,7 +232,24 @@ body {
   background-color: transparent;
   color: var(--pt);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Inter", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Reduce motion for accessibility ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Interactive element press feedback ────────────────────────────── */
+button, [role="button"], a {
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ── App background (fixed div in layout.tsx) ───────────────────────── */

@@ -338,24 +338,29 @@ function BuildQuestion({
 
       {/* Check button */}
       {checked === null && (
-        <button
+        <motion.button
           type="button"
           onClick={handleCheck}
           disabled={built.length === 0}
+          whileTap={built.length > 0 ? { scale: 0.97 } : {}}
+          transition={{ duration: 0.08, ease: [0.34, 1.56, 0.64, 1] }}
           style={{
-            width: '100%', height: 44, borderRadius: 12,
+            width: '100%', height: 48, borderRadius: 14,
             background: built.length > 0
               ? 'linear-gradient(135deg, #6B8FFF, #A78BFF)'
               : (isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)'),
             border: 'none',
             color: built.length > 0 ? '#fff' : (isDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.25)'),
-            fontSize: 13, fontWeight: 700, cursor: built.length > 0 ? 'pointer' : 'not-allowed',
+            fontSize: 14, fontWeight: 700, cursor: built.length > 0 ? 'pointer' : 'not-allowed',
             fontFamily: 'inherit',
             transition: 'background 0.2s, color 0.2s',
+            boxShadow: built.length > 0
+              ? (isDark ? '0 4px 20px rgba(107,143,255,0.30)' : '0 4px 16px rgba(107,143,255,0.24)')
+              : 'none',
           }}
         >
           확인
-        </button>
+        </motion.button>
       )}
     </div>
   )
@@ -396,20 +401,23 @@ function CompleteScreen({ isDark, score, total, onNext }: {
         {score}/{total} 정답
       </p>
 
-      <button
+      <motion.button
         type="button"
         onClick={onNext}
+        whileTap={{ scale: 0.96 }}
+        transition={{ duration: 0.08, ease: [0.34, 1.56, 0.64, 1] }}
         style={{
-          display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 5,
-          padding: '0 28px', height: 48, borderRadius: 14,
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          padding: '0 32px', height: 52, borderRadius: 16,
           background: 'linear-gradient(135deg, #6B8FFF, #A78BFF)',
           border: 'none', cursor: 'pointer',
-          color: '#fff', fontSize: 14, fontWeight: 700, fontFamily: 'inherit',
+          color: '#fff', fontSize: 15, fontWeight: 700, fontFamily: 'inherit',
+          boxShadow: '0 6px 24px rgba(107,143,255,0.34)',
         }}
       >
         스토리 완료
-        <ChevronRight style={{ width: 16, height: 16 }} strokeWidth={2.2} />
-      </button>
+        <ChevronRight style={{ width: 17, height: 17 }} strokeWidth={2.2} />
+      </motion.button>
     </motion.div>
   )
 }
