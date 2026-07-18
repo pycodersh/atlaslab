@@ -11,7 +11,6 @@ import { StoryPage } from '@/components/StoryPage'
 import { StoryCompletionScreen } from '@/components/StoryCompletionScreen'
 import { WheelPicker } from '@/components/WheelPicker'
 import { GlobalSavePopup } from '@/components/GlobalSavePopup'
-import { TodayMissionPopup } from '@/components/TodayMissionPopup'
 
 import { useSpeech } from '@/hooks/useSpeech'
 import { useAmbience } from '@/hooks/useAmbience'
@@ -426,7 +425,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const sharedPopups = (
     <>
       <GlobalSavePopup />
-      <TodayMissionPopup />
       {showPicker && (
         <WheelPicker
           stories={allStories}
