@@ -309,7 +309,6 @@ function PatternCardItem({
           const fullEx = patternExamplesFull[pattern.id]?.[i]
           const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
           const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
-          const patternCore = pattern.pattern.replace(/~.*$/, '').trim().replace(/[.,!?]+$/, '').trim()
           return (
             <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 10 }}>
               <span style={{ fontSize: 14, color: heroIconColor, flexShrink: 0, lineHeight: '1.65', marginTop: 0 }}>•</span>
@@ -317,7 +316,6 @@ function PatternCardItem({
                 <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
                   <TappableWordText
                     text={ex.en}
-                    highlightPhrases={patternCore ? [patternCore] : undefined}
                     saveCandidates={safeCandidates}
                     source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
                     style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 500, color: exEnColor, lineHeight: 1.65 }}
