@@ -432,6 +432,77 @@ export default function ProgressPage() {
           </div>
         )}
 
+        {/* ── S1-S100 Story Matrix ── */}
+        <div style={{ ...glassCard, padding: '18px 16px 20px' }}>
+          <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(60,60,100,0.42)', textTransform: 'uppercase' }}>
+            STORY MAP · S01–S{magazineStories.length.toString().padStart(2, '0')}
+          </p>
+
+          {/* Legend */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14, flexWrap: 'wrap' }}>
+            {[
+              { label: '미시작', bg: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' },
+              { label: '1–2회', bg: isDark ? 'rgba(107,143,255,0.30)' : 'rgba(107,143,255,0.22)' },
+              { label: '3–4회', bg: isDark ? 'rgba(107,143,255,0.65)' : 'rgba(107,143,255,0.55)' },
+              { label: '마스터', bg: 'linear-gradient(135deg, #D7B56D, #C09900)' },
+            ].map(({ label, bg }) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                <div style={{ width: 10, height: 10, borderRadius: 3, background: bg, flexShrink: 0 }} />
+                <span style={{ fontSize: 9.5, color: isDark ? 'rgba(255,255,255,0.38)' : 'rgba(60,60,100,0.45)', fontWeight: 600 }}>{label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* 10×10 grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(10, 1fr)',
+            gap: 4,
+          }}>
+            {magazineStories.map((ms, i) => {
+              const rd = storyRounds[i]
+              const round      = rd?.round ?? 0
+              const isMastered = rd?.isMastered ?? false
+
+              let cellBg: string
+              if (isMastered) {
+                cellBg = 'linear-gradient(135deg, #D7B56D, #C09900)'
+              } else if (round >= 3) {
+                cellBg = isDark ? 'rgba(107,143,255,0.65)' : 'rgba(107,143,255,0.55)'
+              } else if (round >= 1) {
+                cellBg = isDark ? 'rgba(107,143,255,0.30)' : 'rgba(107,143,255,0.22)'
+              } else {
+                cellBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'
+              }
+
+              return (
+                <div
+                  key={ms.id}
+                  title={`S${String(ms.id).padStart(2, '0')}: ${ms.title} (${round}회차${isMastered ? ' ✅' : ''})`}
+                  style={{
+                    aspectRatio: '1 / 1',
+                    borderRadius: 4,
+                    background: cellBg,
+                    position: 'relative',
+                    transition: 'transform 0.1s',
+                    cursor: 'default',
+                  }}
+                >
+                  {isMastered && (
+                    <div style={{
+                      position: 'absolute', inset: 0,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 6, lineHeight: 1,
+                    }}>
+                      ✓
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
       </div>
     </div>
   )

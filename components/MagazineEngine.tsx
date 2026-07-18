@@ -24,8 +24,10 @@ import { saveLastPosition } from '@/lib/last-position'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
 import { getStoryRound, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
+import { updateStorySessionState } from '@/lib/srs/story-session'
 import { useTheme } from '@/components/ThemeProvider'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
+import { ChallengeMode } from '@/components/ChallengeMode'
 
 // ── Session progress (resume mid-session) ────────────────────────────────────
 type SessionProgress = { phase: 'patterns' }
@@ -83,7 +85,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   }
 
   // ── Study flow state (mobile only) ────────────────────────────────────
-  type FlowPhase = 'reading' | 'patterns' | 'complete'
+  type FlowPhase = 'reading' | 'patterns' | 'challenge' | 'complete'
   const [flowPhase,     setFlowPhase]     = useState<FlowPhase>('reading')
   const [scrolledToEnd, setScrolledToEnd] = useState(false)
   const [showSwipeGuide,setShowSwipeGuide]= useState(false)
@@ -266,18 +268,29 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     return () => document.removeEventListener('click', handler, { capture: true })
   }, [])
 
-  // All patterns seen → complete
-  const handleAllPatternsSeen = useCallback(() => {
+  // When flowPhase reaches 'patterns', auto-advance to challenge after delay
+  useEffect(() => {
     if (flowPhase !== 'patterns') return
-    trainerSay('Great work today.', 1500)
     clearSessionProgress(story.id)
+    const timer = setTimeout(() => setFlowPhase('challenge'), isFirstRound ? 2200 : 1400)
+    return () => clearTimeout(timer)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flowPhase, story.id])
+
+  // Keep callback for compatibility — now unused but harmless
+  const handleAllPatternsSeen = useCallback(() => {}, [])
+
+  // Challenge complete → story complete
+  const handleChallengeComplete = useCallback(() => {
+    trainerSay('Great work today.', 1500)
     const data = completeStoryRound(story.id)
     setCompletionData(data)
-    setTimeout(() => setFlowPhase('complete'), isFirstRound ? 800 : 600)
+    updateStorySessionState(story.id, data.round, { challengeCompleted: true })
+    setTimeout(() => setFlowPhase('complete'), 600)
     const patternIds = story.patterns.map(p => p.id)
     setProgress(completeStoryAndScheduleReview(progress, String(story.id), patternIds, 1, 1))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flowPhase, isFirstRound, story.id, story.patterns, progress, setProgress])
+  }, [story.id, story.patterns, progress, setProgress])
 
   // Story 변경 시 per-story override 초기화
   const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
@@ -320,6 +333,9 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     const p = progressRef.current
     const patternIds = s.patterns.map(pat => pat.id)
     setProgress(completeStoryAndScheduleReview(p, String(s.id), patternIds, 1, 1))
+    // Mark listening completed in session
+    const roundData = getStoryRound(s.id)
+    updateStorySessionState(s.id, roundData.round, { listeningCompleted: true })
   }, [setProgress])
 
   // 낭독 시작 시 환경음도 같이 시작 (활성화 상태일 때)
@@ -503,6 +519,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   }
 
   // ── Mobile: single scroll — story then patterns inline ──────────────
+  const isChallenge  = flowPhase === 'challenge'
   const isComplete   = flowPhase === 'complete'
 
   const inlinePatterns = (
@@ -523,6 +540,12 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         <StoryCompletionScreen
           story={story}
           roundData={completionData}
+        />
+      ) : isChallenge ? (
+        <ChallengeMode
+          patterns={story.patterns}
+          storyId={story.id}
+          onComplete={handleChallengeComplete}
         />
       ) : (
         <PatternsSectionInline
