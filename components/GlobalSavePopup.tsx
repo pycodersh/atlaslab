@@ -58,6 +58,37 @@ export function GlobalSavePopup() {
     showToast('Saved to Library')
   }
 
+  const CHUNK_TYPE_KO: Record<string, string> = {
+    chunk:       '청크 표현',
+    collocation: '연어 표현',
+    phrasalVerb: '구동사',
+    idiom:       '이디엄',
+  }
+
+  function renderChunkTitle(chunkText: string, tappedWord: string) {
+    const lower = tappedWord.toLowerCase()
+    return chunkText.split(' ').map((w, i) => {
+      const isHighlighted = w.toLowerCase().replace(/[^a-z]/g, '') === lower.replace(/[^a-z]/g, '')
+      return (
+        <span key={i} style={isHighlighted ? {
+          color: '#6366F1',
+          textDecoration: 'underline',
+          textUnderlineOffset: 3,
+        } : { color: '#111827' }}>
+          {i > 0 ? ' ' : ''}{w}
+        </span>
+      )
+    })
+  }
+
+  const btnBase: React.CSSProperties = {
+    width: '100%', borderRadius: 14,
+    padding: '13px 20px', fontSize: 15, fontWeight: 700,
+    cursor: 'pointer', fontFamily: 'inherit',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    border: 'none', outline: 'none',
+  }
+
   return (
     <>
       {/* Center popup */}
@@ -85,34 +116,65 @@ export function GlobalSavePopup() {
               boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
             }}
           >
-            {/* Selected text display */}
+            {/* Title */}
             <p style={{
-              fontSize: 20, fontWeight: 700, color: 'var(--pt)',
-              margin: '0 0 4px', textAlign: 'center', lineHeight: 1.25,
+              fontSize: 20, fontWeight: 700,
+              margin: '0 0 4px', textAlign: 'center', lineHeight: 1.3,
             }}>
-              {item.chunk ? item.chunk.text : item.word}
+              {item.chunk
+                ? renderChunkTitle(item.chunk.text, item.word)
+                : <span style={{ color: '#111827' }}>{item.word}</span>
+              }
             </p>
+
+            {/* Subtitle — chunk type in Korean */}
             {item.chunk && (
               <p style={{
-                fontSize: 11, color: 'var(--pm)', margin: '0 0 4px',
-                textAlign: 'center', letterSpacing: '0.08em', textTransform: 'uppercase',
+                fontSize: 12, color: '#9CA3AF', margin: '0 0 4px',
+                textAlign: 'center',
               }}>
-                {item.chunk.type === 'phrasalVerb' ? 'Phrasal Verb'
-                  : item.chunk.type === 'idiom' ? 'Idiom'
-                  : item.chunk.type}
+                {CHUNK_TYPE_KO[item.chunk.type] ?? item.chunk.type}
               </p>
             )}
 
             {/* Action buttons */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20 }}>
               {item.chunk && (
-                <Btn variant="primary" onClick={handleSavePhrase}>Save phrase</Btn>
+                <button
+                  type="button"
+                  style={{ ...btnBase, background: '#6366F1', color: '#fff', border: '1.5px solid #6366F1' }}
+                  onClick={handleSavePhrase}
+                >
+                  Save phrase
+                </button>
               )}
               {item.chunk
-                ? <Btn variant="secondary" onClick={handleSaveWord}>Save word</Btn>
-                : <Btn variant="primary" onClick={handleSaveWord}>Save</Btn>
+                ? (
+                  <button
+                    type="button"
+                    style={{ ...btnBase, background: 'transparent', color: '#6366F1', border: '1.5px solid #6366F1' }}
+                    onClick={handleSaveWord}
+                  >
+                    Save word only
+                  </button>
+                )
+                : (
+                  <button
+                    type="button"
+                    style={{ ...btnBase, background: '#6366F1', color: '#fff', border: '1.5px solid #6366F1' }}
+                    onClick={handleSaveWord}
+                  >
+                    Save
+                  </button>
+                )
               }
-              <Btn variant="ghost" onClick={dismiss}>Cancel</Btn>
+              <button
+                type="button"
+                style={{ ...btnBase, background: 'transparent', color: '#6B7280', border: '1.5px solid #E5E7EB', fontWeight: 500 }}
+                onClick={dismiss}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
