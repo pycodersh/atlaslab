@@ -386,14 +386,9 @@ export default function ProgressPage() {
         padding: '12px 20px 4px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <div>
-          <p style={{ margin: 0, fontSize: 22, fontWeight: 800, color: 'var(--pt)', letterSpacing: '-0.02em', lineHeight: 1 }}>
-            Progress
-          </p>
-          <p style={{ margin: '3px 0 0', fontSize: 12, fontWeight: 500, color: 'var(--pm)' }}>
-            {getMonthLabel()}
-          </p>
-        </div>
+        <p style={{ margin: 0, fontSize: 12, fontWeight: 500, color: 'var(--pm)' }}>
+          {getMonthLabel()}
+        </p>
 
         {/* iOS segmented pill */}
         <div style={{
