@@ -221,7 +221,7 @@ function LearningStatsCard() {
 
   return (
     <div style={{ ...glassCard, padding: '16px 20px 18px' }}>
-      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: '#8E8E93', textTransform: 'uppercase', margin: '0 0 14px' }}>
+      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#8E8E93', textTransform: 'uppercase', margin: '0 0 14px' }}>
         Learning Stats
       </p>
       <div style={{ display: 'flex' }}>

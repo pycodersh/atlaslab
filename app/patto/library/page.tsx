@@ -81,7 +81,7 @@ const glassCard: React.CSSProperties = {
 }
 
 const SECTION_LABEL: React.CSSProperties = {
-  fontSize: 9.5, fontWeight: 700, letterSpacing: '0.16em',
+  fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
   color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' as const,
 }
 
@@ -342,7 +342,7 @@ function SearchStoryRow({ story, border, onPress }: {
 
 function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '14px 16px', borderRadius: 16, background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '14px 16px', borderRadius: 18, background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
       <div style={{ flexShrink: 0, marginTop: 1, opacity: 0.65 }}>{icon}</div>
       <div>
         <p style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--pt)', margin: '0 0 3px', opacity: 0.75 }}>{title}</p>
