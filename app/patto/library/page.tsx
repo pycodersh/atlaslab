@@ -82,7 +82,7 @@ const glassCard: React.CSSProperties = {
 
 const SECTION_LABEL: React.CSSProperties = {
   fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-  color: '#8E8E93', margin: '0 0 8px 4px', textTransform: 'uppercase' as const,
+  color: 'var(--pm)', margin: '0 0 8px 4px', textTransform: 'uppercase' as const,
 }
 
 const ROW_BORDER = '1px solid var(--pglass-border)'
@@ -103,7 +103,7 @@ function SummaryCard({ icon, label, value, accent: _accent }: {
       <span style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.35rem)', fontWeight: 800, color: 'var(--pt)', lineHeight: 1 }}>
         {value}
       </span>
-      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: '#8E8E93', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
+      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm)', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>
         {label}
       </span>
     </div>
@@ -197,7 +197,7 @@ function BookmarkedPatternRow({ bm, first, onPress, onRemove }: {
         >
           <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', lineHeight: 1.35 }}>{bm.pattern}</p>
           {meaning && (
-            <p style={{ fontSize: 11, color: '#8E8E93', margin: 0, fontWeight: 400 }}>{meaning}</p>
+            <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0, fontWeight: 400 }}>{meaning}</p>
           )}
         </button>
       </div>
@@ -233,10 +233,10 @@ function PatternAccordion({
             S{String(storyId).padStart(2, '0')}
           </span>
           <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)' }}>{storyTitle}</span>
-          <span style={{ fontSize: 10, color: '#B0B0B8', fontWeight: 500 }}>{patterns.length}</span>
+          <span style={{ fontSize: 10, color: 'var(--pm)', fontWeight: 500 }}>{patterns.length}</span>
         </div>
         <ChevronDown
-          style={{ width: 14, height: 14, color: '#B0B0B8', transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          style={{ width: 14, height: 14, color: 'var(--pm)', transition: 'transform 0.2s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
           strokeWidth={2}
         />
       </button>
@@ -270,8 +270,8 @@ function SearchWordRow({ w, border, onPress }: { w: SavedWord; border: boolean; 
       borderTop: border ? ROW_BORDER : 'none',
     }}>
       <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px' }}>{w.word}</p>
-      {meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 3px' }}>{meaning}</p>}
-      <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
+      {meaning && <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 3px' }}>{meaning}</p>}
+      <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0, letterSpacing: '0.04em' }}>
         {src || w.originalSentence.slice(0, 50)}
       </p>
     </button>
@@ -293,7 +293,7 @@ function SearchPhraseRow({ ph, border, onPress }: { ph: SavedPhrase; border: boo
           {ph.phraseType === 'phrasalVerb' ? 'PHRASAL' : ph.phraseType === 'idiom' ? 'IDIOM' : ph.phraseType.toUpperCase()}
         </span>
       </div>
-      <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>{src}</p>
+      <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0, letterSpacing: '0.04em' }}>{src}</p>
     </button>
   )
 }
@@ -311,8 +311,8 @@ function SearchPatternRow({ storyId, storyTitle, pattern, border, onPress }: {
       cursor: 'pointer',
     }}>
       <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px' }}>{pattern.pattern}</p>
-      {meaning && <p style={{ fontSize: 11, color: '#8E8E93', margin: '0 0 3px' }}>{meaning}</p>}
-      <p style={{ fontSize: 10, color: '#B0B0B8', margin: 0, letterSpacing: '0.04em' }}>
+      {meaning && <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 3px' }}>{meaning}</p>}
+      <p style={{ fontSize: 10, color: 'var(--pm)', margin: 0, letterSpacing: '0.04em' }}>
         Story {String(storyId).padStart(2, '0')} · {storyTitle}
       </p>
     </button>
@@ -330,7 +330,7 @@ function SearchStoryRow({ story, border, onPress }: {
       borderTop: border ? ROW_BORDER : 'none',
       cursor: 'pointer',
     }}>
-      <p style={{ fontSize: 11, fontWeight: 700, color: '#8E8E93', margin: '0 0 2px', letterSpacing: '0.06em' }}>
+      <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', margin: '0 0 2px', letterSpacing: '0.06em' }}>
         STORY {String(story.id).padStart(2, '0')}
       </p>
       <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: 0 }}>{story.title}</p>
@@ -351,8 +351,8 @@ function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: s
         {icon}
       </div>
       <div>
-        <p style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--pt)', margin: '0 0 3px', opacity: 0.75 }}>{title}</p>
-        <p style={{ fontSize: 11.5, color: '#8E8E93', lineHeight: 1.6, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
+        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 3px' }}>{title}</p>
+        <p style={{ fontSize: 12, color: 'var(--pt)', opacity: 0.65, lineHeight: 1.6, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
       </div>
     </div>
   )
@@ -363,13 +363,13 @@ function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: s
 function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: number; unit?: string; onViewAll?: () => void }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>
+      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase' }}>
         {label}
       </span>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         {count != null && (
           <span style={{
-            fontSize: 10.5, fontWeight: 700, color: 'var(--pa)',
+            fontSize: 12, fontWeight: 700, color: 'var(--pa)',
             background: 'var(--pal)', border: '1px solid var(--pacb)',
             borderRadius: 99, padding: '2px 9px',
           }}>
@@ -379,7 +379,7 @@ function SecLabel({ label, count, unit, onViewAll }: { label: string; count?: nu
         {onViewAll && (
           <button type="button" onClick={onViewAll} style={{
             display: 'flex', alignItems: 'center', gap: 2,
-            fontSize: 11, fontWeight: 600, color: '#8E8E93',
+            fontSize: 11, fontWeight: 600, color: 'var(--pm)',
             background: 'none', border: 'none', cursor: 'pointer', padding: 0,
           }}>
             See all <ChevronRight style={{ width: 10, height: 10 }} strokeWidth={2.2} />
@@ -508,7 +508,7 @@ export default function LibraryPage() {
         <SecLabel label="Saved Words" count={words.length} unit="Words" />
         {words.length === 0 ? (
           <EmptyState
-            icon={<BookOpen style={{ width: 18, height: 18, color: '#3A7A4A' }} strokeWidth={1.6} />}
+            icon={<BookOpen style={{ width: 22, height: 22, color: '#3A7A4A' }} strokeWidth={1.6} />}
             iconColor="#3A7A4A"
             title="No saved words yet."
             body={t('sec_saved_words')}
@@ -545,7 +545,7 @@ export default function LibraryPage() {
         <SecLabel label="Saved Phrases" count={phrases.length} unit="Phrases" />
         {phrases.length === 0 ? (
           <EmptyState
-            icon={<Layers style={{ width: 18, height: 18, color: '#C08040' }} strokeWidth={1.6} />}
+            icon={<Layers style={{ width: 22, height: 22, color: '#C08040' }} strokeWidth={1.6} />}
             iconColor="#C08040"
             title="No saved phrases yet."
             body={t('sec_saved_words')}
@@ -582,7 +582,7 @@ export default function LibraryPage() {
         <SecLabel label="Saved Patterns" count={bookmarks.length} unit="Patterns" />
         {bookmarks.length === 0 ? (
           <EmptyState
-            icon={<BookMarked style={{ width: 18, height: 18, color: 'var(--pa)' }} strokeWidth={1.6} />}
+            icon={<BookMarked style={{ width: 22, height: 22, color: 'var(--pa)' }} strokeWidth={1.6} />}
             iconColor="var(--pa)"
             title="No saved patterns yet."
             body={t('no_bookmarks')}
@@ -628,7 +628,7 @@ export default function LibraryPage() {
       {/* Essays */}
       <section style={{ marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>Essays</span>
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase' }}>Essays</span>
           <button
             type="button"
             onClick={() => router.push('/patto/essays/new')}
@@ -640,7 +640,7 @@ export default function LibraryPage() {
         </div>
         {essays.length === 0 ? (
           <EmptyState
-            icon={<PenLine style={{ width: 18, height: 18, color: '#8B6FA0' }} strokeWidth={1.6} />}
+            icon={<PenLine style={{ width: 22, height: 22, color: '#8B6FA0' }} strokeWidth={1.6} />}
             iconColor="#8B6FA0"
             title="No essays yet."
             body={'영어로 글을 써보세요. 패턴을 실제로 사용하는 가장 빠른 방법입니다.'}
@@ -664,7 +664,7 @@ export default function LibraryPage() {
                   <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {essay.title || 'Untitled'}
                   </p>
-                  <p style={{ fontSize: 11, color: '#8E8E93', margin: 0 }}>
+                  <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>
                     {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
                     {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
                   </p>
@@ -673,7 +673,7 @@ export default function LibraryPage() {
               </button>
             ))}
             {essays.length > 5 && (
-              <button type="button" onClick={() => router.push('/patto/essays')} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: '12px 16px', borderTop: ROW_BORDER, background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: '#8E8E93', fontFamily: 'inherit' }}>
+              <button type="button" onClick={() => router.push('/patto/essays')} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: '12px 16px', borderTop: ROW_BORDER, background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>
                 전체 {essays.length}개 보기 <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
               </button>
             )}
@@ -710,7 +710,7 @@ export default function LibraryPage() {
                 boxShadow: focused ? '0 4px 20px rgba(109,141,255,0.10)' : '0 4px 16px rgba(40,50,80,0.07)',
                 transition: 'border 0.2s, box-shadow 0.2s',
               }}>
-                <Search style={{ width: 16, height: 16, color: '#8E8E93', flexShrink: 0 }} strokeWidth={2} />
+                <Search style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2} />
                 <input
                   ref={inputRef}
                   type="search"
@@ -729,7 +729,7 @@ export default function LibraryPage() {
                 {query && (
                   <button type="button" onClick={() => { setQuery(''); inputRef.current?.focus() }}
                     style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}>
-                    <X style={{ width: 14, height: 14, color: '#8E8E93' }} strokeWidth={2} />
+                    <X style={{ width: 14, height: 14, color: 'var(--pm)' }} strokeWidth={2} />
                   </button>
                 )}
               </div>
@@ -737,7 +737,7 @@ export default function LibraryPage() {
               {/* Recent searches */}
               {showRecent && (
                 <div style={{ padding: '12px 4px 16px', display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-                  <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: '#B0B0B8', textTransform: 'uppercase', alignSelf: 'center', marginRight: 2 }}>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm)', textTransform: 'uppercase', alignSelf: 'center', marginRight: 2 }}>
                     Recent
                   </span>
                   {recentSearches.map(s => (
@@ -764,7 +764,7 @@ export default function LibraryPage() {
                       <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: '0 0 8px' }}>
                         No matching results found.
                       </p>
-                      <p style={{ fontSize: 12, color: '#8E8E93', margin: 0, lineHeight: 1.7 }}>
+                      <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, lineHeight: 1.7 }}>
                         Try a different keyword
                       </p>
                     </div>

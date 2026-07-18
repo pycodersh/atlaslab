@@ -310,24 +310,25 @@ export default function ProgressPage() {
     background:   isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.92)',
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(20px)',
-    border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(180,195,240,0.45)'}`,
+    border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(180,195,240,0.70)'}`,
     boxShadow: isDark
       ? '0 4px 24px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.05)'
       : '0 2px 20px rgba(80,100,200,0.06)',
   }
 
   const textPri   = isDark ? '#ffffff' : '#16162a'
-  const textSec   = isDark ? 'rgba(255,255,255,0.50)' : 'rgba(30,30,80,0.52)'
-  const textMuted = isDark ? 'rgba(255,255,255,0.28)' : 'rgba(50,50,90,0.36)'
+  const textSec   = isDark ? 'rgba(255,255,255,0.75)' : 'rgba(30,30,80,0.80)'
+  const textMuted = isDark ? 'rgba(255,255,255,0.60)' : 'rgba(50,50,90,0.70)'
+  const textLabel = isDark ? 'rgba(255,255,255,0.80)' : 'rgba(30,30,80,0.80)'
   const dividerC  = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'
   const trackColor = isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.06)'
 
   // Heatmap colors
   const hmColors = {
-    empty:   isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)',
-    lvl1:    isDark ? 'rgba(107,143,255,0.20)' : 'rgba(107,143,255,0.14)',
-    lvl2:    isDark ? 'rgba(107,143,255,0.48)' : 'rgba(107,143,255,0.40)',
-    master:  isDark ? 'rgba(215,181,109,0.82)' : 'rgba(215,181,109,0.78)',
+    empty:   isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.08)',
+    lvl1:    isDark ? 'rgba(107,143,255,0.25)' : 'rgba(107,143,255,0.20)',
+    lvl2:    isDark ? 'rgba(107,143,255,0.52)' : 'rgba(107,143,255,0.44)',
+    master:  isDark ? 'rgba(215,181,109,0.88)' : 'rgba(215,181,109,0.82)',
   }
 
   return (
@@ -394,8 +395,8 @@ export default function ProgressPage() {
             {/* Left */}
             <div style={{ flex: 1 }}>
               <p style={{
-                margin: '0 0 8px', fontSize: 9.5, fontWeight: 700,
-                letterSpacing: '0.13em', textTransform: 'uppercase', color: textMuted,
+                margin: '0 0 8px', fontSize: 11, fontWeight: 700,
+                letterSpacing: '0.12em', textTransform: 'uppercase', color: textLabel,
               }}>
                 THIS WEEK
               </p>
@@ -509,8 +510,8 @@ export default function ProgressPage() {
             justifyContent: 'space-between', marginBottom: 12,
           }}>
             <span style={{
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-              textTransform: 'uppercase', color: textMuted,
+              fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
+              textTransform: 'uppercase', color: textLabel,
             }}>
               {viewMode === 'weekly' ? 'WEEKLY ACTIVITY' : 'MONTHLY VIEW'}
             </span>
@@ -547,8 +548,8 @@ export default function ProgressPage() {
               justifyContent: 'space-between', marginBottom: 10,
             }}>
               <span style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-                textTransform: 'uppercase', color: textMuted,
+                fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
+                textTransform: 'uppercase', color: textLabel,
               }}>
                 MY STORIES
               </span>
@@ -616,11 +617,11 @@ export default function ProgressPage() {
 
         {myStoriesData.length === 0 && (
           <div style={{ padding: '24px 4px', textAlign: 'center' }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: textMuted, margin: '0 0 3px' }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: textLabel, margin: '0 0 3px' }}>
               아직 시작한 스토리가 없어요
             </p>
             <p style={{
-              fontSize: 11, color: isDark ? 'rgba(255,255,255,0.16)' : 'rgba(60,60,100,0.20)',
+              fontSize: 11, color: textMuted,
               margin: 0, lineHeight: 1.5,
             }}>
               스토리를 완료하면 여기에 기록돼요
@@ -637,8 +638,8 @@ export default function ProgressPage() {
           }}>
             <div>
               <span style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
-                textTransform: 'uppercase', color: textMuted, display: 'block', marginBottom: 1,
+                fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
+                textTransform: 'uppercase', color: textLabel, display: 'block', marginBottom: 1,
               }}>
                 STORY MAP
               </span>
@@ -720,6 +721,7 @@ export default function ProgressPage() {
                     aspectRatio: '1 / 1',
                     borderRadius: 4,
                     background: bg,
+                    border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(180,195,240,0.60)'}`,
                     cursor: 'default',
                     transition: 'opacity 0.12s',
                   }}
