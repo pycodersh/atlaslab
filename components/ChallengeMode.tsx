@@ -5,13 +5,15 @@ import { motion, AnimatePresence } from 'motion/react'
 import { CheckCircle2, XCircle, Trophy, ChevronRight } from 'lucide-react'
 import type { MagazinePattern } from '@/types/magazine'
 import { useTheme } from '@/components/ThemeProvider'
+import { usePreferences } from '@/contexts/PreferencesContext'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 type FillQuestion = {
   type: 'fill'
+  hard: boolean             // true = Q1 (harder distractors)
   pattern: MagazinePattern
-  displaySentence: string  // with ___ for the blank
+  displaySentence: string   // with ___ for the blank
   correctAnswer:   string
   options:         string[] // 4 shuffled choices
 }
@@ -20,7 +22,8 @@ type BuildQuestion = {
   type: 'build'
   pattern: MagazinePattern
   targetSentence: string
-  words:          string[] // shuffled source words
+  translation:    string    // shown before word blocks
+  words:          string[]  // shuffled source words
 }
 
 type ChallengeQuestion = FillQuestion | BuildQuestion
@@ -45,22 +48,37 @@ function shuffle<T>(arr: T[]): T[] {
 /** Extract the trigger phrase from pattern text like "I should ~." → "I should" */
 function triggerPhrase(patternText: string): string {
   return patternText
-    .replace(/\s*~\w*\.?$/, '')   // remove trailing ~ing. / ~. / ~
-    .replace(/\s*~[^~]*$/, '')     // any remaining ~...
+    .replace(/\s*~\w*\.?$/, '')
+    .replace(/\s*~[^~]*$/, '')
     .trim()
 }
 
-function buildQuestions(patterns: MagazinePattern[]): ChallengeQuestion[] {
+/** Get a sentence-start fragment (first 2 words) for harder distractors */
+function sentenceFragment(sentence: string): string {
+  return sentence.trim().split(/\s+/).slice(0, 2).join(' ')
+}
+
+function getTranslation(pat: MagazinePattern, lang: string, usesVariation: boolean): string {
+  if (usesVariation) {
+    return pat.variationSentenceTranslations?.[lang]
+      ?? pat.variationSentenceKo
+  }
+  return pat.storySentenceTranslations?.[lang]
+    ?? pat.storySentenceKo
+}
+
+function buildQuestions(patterns: MagazinePattern[], lang: string): ChallengeQuestion[] {
   const pool = shuffle([...patterns])
   const questions: ChallengeQuestion[] = []
 
-  // Q0, Q1 — Fill in the Blank: blank out the pattern trigger phrase in the storySentence
+  // Q0 — Fill in the Blank (Recognition): clean trigger-phrase distractors
+  // Q1 — Fill in the Blank (Recall): harder sentence-fragment distractors
   for (let qi = 0; qi < 2 && qi < pool.length; qi++) {
-    const pat = pool[qi]
-    const sentence    = pat.storySentence
-    const trigger     = triggerPhrase(pat.pattern)
+    const pat     = pool[qi]
+    const sentence = pat.storySentence
+    const trigger  = triggerPhrase(pat.pattern)
+    const hard     = qi === 1
 
-    // Find trigger in sentence (case-insensitive, at start or after punctuation)
     const escapedTrigger = trigger.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const regex  = new RegExp(escapedTrigger, 'i')
     const match  = regex.exec(sentence)
@@ -69,22 +87,26 @@ function buildQuestions(patterns: MagazinePattern[]): ChallengeQuestion[] {
       ? sentence.slice(0, match.index) + '___' + sentence.slice(match.index + match[0].length)
       : `___ ${sentence}`
 
-    // Options: correct trigger + 3 distractors (trigger phrases from other patterns)
-    const distractors = shuffle(
-      pool.filter((_, i) => i !== qi).map(p => triggerPhrase(p.pattern))
-    ).slice(0, 3)
-    const options = shuffle([...distractors, correctAnswer])
+    const otherPats = pool.filter((_, i) => i !== qi)
+    const distractors = hard
+      // Q1: use sentence-start fragments — harder to distinguish from trigger phrases
+      ? shuffle(otherPats.map(p => sentenceFragment(p.storySentence))).slice(0, 3)
+      // Q0: use clean trigger phrases
+      : shuffle(otherPats.map(p => triggerPhrase(p.pattern))).slice(0, 3)
 
-    questions.push({ type: 'fill', pattern: pat, displaySentence, correctAnswer, options })
+    const options = shuffle([...distractors, correctAnswer])
+    questions.push({ type: 'fill', hard, pattern: pat, displaySentence, correctAnswer, options })
   }
 
-  // Q2, Q3 — Build the Sentence (tap-to-place)
+  // Q2, Q3 — Build the Sentence (Production): translation shown first
   for (let qi = 2; qi < 4 && qi < pool.length; qi++) {
-    const pat      = pool[qi]
-    const sentence = pat.variationSentence || pat.storySentence
-    const rawWords = sentence.trim().split(/\s+/).filter(Boolean)
-    const words    = shuffle(rawWords)
-    questions.push({ type: 'build', pattern: pat, targetSentence: sentence, words })
+    const pat          = pool[qi]
+    const usesVariation = !!pat.variationSentence
+    const sentence     = usesVariation ? pat.variationSentence : pat.storySentence
+    const translation  = getTranslation(pat, lang, usesVariation)
+    const rawWords     = sentence.trim().split(/\s+/).filter(Boolean)
+    const words        = shuffle(rawWords)
+    questions.push({ type: 'build', pattern: pat, targetSentence: sentence, translation, words })
   }
 
   return questions
@@ -119,22 +141,6 @@ function ProgressBar({ current, total, isDark }: { current: number; total: numbe
   )
 }
 
-function PatternChip({ text, isDark }: { text: string; isDark: boolean }) {
-  return (
-    <span style={{
-      display: 'inline-block',
-      fontSize: 10, fontWeight: 700,
-      letterSpacing: '0.04em',
-      color: isDark ? 'rgba(167,139,255,0.90)' : '#6B4EFF',
-      background: isDark ? 'rgba(107,78,255,0.16)' : 'rgba(107,78,255,0.09)',
-      border: `1px solid ${isDark ? 'rgba(167,139,255,0.24)' : 'rgba(107,78,255,0.20)'}`,
-      borderRadius: 6, padding: '2px 7px',
-    }}>
-      {text}
-    </span>
-  )
-}
-
 // ── Fill Question ─────────────────────────────────────────────────────────────
 
 function FillQuestion({
@@ -153,17 +159,15 @@ function FillQuestion({
 
   return (
     <div>
-      {/* Question label */}
-      <p style={{ margin: '0 0 5px', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
+      {/* Question label — no pattern chip (would reveal the answer) */}
+      <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
         textTransform: 'uppercase', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.45)' }}>
-        Fill in the Blank
+        {q.hard ? 'Recall the Pattern' : 'Fill in the Blank'}
       </p>
-
-      <PatternChip text={q.pattern.pattern} isDark={isDark} />
 
       {/* Sentence */}
       <p style={{
-        margin: '14px 0 18px',
+        margin: '0 0 18px',
         fontSize: 15, lineHeight: 1.65,
         color: isDark ? 'rgba(255,255,255,0.88)' : '#1a1a2e',
         fontWeight: 500,
@@ -241,37 +245,51 @@ function BuildQuestion({
 
   function handleCheck() {
     if (built.length === 0 || checked !== null) return
-    const userSentence    = built.join(' ')
-    const targetNorm      = q.targetSentence.replace(/[.,!?;:]+$/, '').toLowerCase()
-    const userNorm        = userSentence.replace(/[.,!?;:]+$/, '').toLowerCase()
+    const userSentence = built.join(' ')
+    const targetNorm   = q.targetSentence.replace(/[.,!?;:]+$/, '').toLowerCase()
+    const userNorm     = userSentence.replace(/[.,!?;:]+$/, '').toLowerCase()
     const correct = userNorm === targetNorm
     setChecked(correct)
     setTimeout(() => onAnswer(correct), 1000)
   }
 
   const resultColor  = checked === true ? '#34C759' : '#FF3B30'
-  const buildBg = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'
-  const buildBorder = `1px dashed ${isDark ? 'rgba(255,255,255,0.14)' : 'rgba(0,0,0,0.14)'}`
+  const buildBg      = isDark ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.03)'
+  const buildBorder  = `1px dashed ${isDark ? 'rgba(255,255,255,0.14)' : 'rgba(0,0,0,0.14)'}`
 
   return (
     <div>
-      <p style={{ margin: '0 0 5px', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
+      <p style={{ margin: '0 0 12px', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
         textTransform: 'uppercase', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.45)' }}>
         Build the Sentence
       </p>
 
-      <PatternChip text={q.pattern.pattern} isDark={isDark} />
+      {/* Translation — shown first, no pattern chip */}
+      <div style={{
+        marginBottom: 14, padding: '10px 14px',
+        borderRadius: 12,
+        background: isDark ? 'rgba(107,143,255,0.08)' : 'rgba(107,143,255,0.06)',
+        border: `1px solid ${isDark ? 'rgba(107,143,255,0.18)' : 'rgba(107,143,255,0.16)'}`,
+      }}>
+        <p style={{
+          margin: 0, fontSize: 14, lineHeight: 1.55,
+          color: isDark ? 'rgba(255,255,255,0.75)' : '#2a2a4a',
+          fontWeight: 500,
+        }}>
+          {q.translation}
+        </p>
+      </div>
 
       {/* Build area */}
       <div style={{
         minHeight: 60, borderRadius: 12,
         background: buildBg, border: buildBorder,
-        padding: '10px 12px', marginTop: 14, marginBottom: 10,
+        padding: '10px 12px', marginBottom: 10,
         display: 'flex', flexWrap: 'wrap', gap: 6, alignContent: 'flex-start',
       }}>
         {built.length === 0 ? (
           <span style={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.20)' : 'rgba(0,0,0,0.20)', alignSelf: 'center' }}>
-            아래 단어를 탭해 문장을 만드세요
+            Tap words below to build the sentence
           </span>
         ) : built.map((w, i) => (
           <motion.button
@@ -427,14 +445,14 @@ function CompleteScreen({ isDark, score, total, onNext }: {
 export function ChallengeMode({ patterns, storyId, onComplete }: Props) {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
+  const { prefs } = usePreferences()
+  const lang = prefs.language ?? 'ko'
 
-  const [questions] = useState<ChallengeQuestion[]>(() => buildQuestions(patterns))
+  const [questions] = useState<ChallengeQuestion[]>(() => buildQuestions(patterns, lang))
   const [qIdx,    setQIdx]    = useState(0)
   const [answers, setAnswers] = useState<boolean[]>([])
   const [done,    setDone]    = useState(false)
 
-  // Advance qIdx after each answer — separated from setAnswers to avoid
-  // Strict Mode double-invocation incrementing qIdx twice
   useEffect(() => {
     if (answers.length === 0) return
     if (answers.length >= questions.length) {
@@ -459,15 +477,7 @@ export function ChallengeMode({ patterns, storyId, onComplete }: Props) {
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       style={{ padding: '0 16px 32px' }}
     >
-      {/* Header */}
-      <div style={{ paddingTop: 8, paddingBottom: 4, marginBottom: 16 }}>
-        <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: '0.16em',
-          textTransform: 'uppercase', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.42)' }}>
-          Challenge
-        </p>
-      </div>
-
-      {/* Card */}
+      {/* Card — no redundant "Challenge" header; section title comes from sectionDivider above */}
       <div style={{
         borderRadius: 22,
         background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.72)',
