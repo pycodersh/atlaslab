@@ -181,11 +181,11 @@ function PatternCardItem({
   const exKoColor = isCompleted
     ? '#bbb'
     : isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
-  const cardBorder = isDark ? '1px solid rgba(255,255,255,0.08)' : '0.5px solid rgba(142,167,255,0.25)'
-  const baseGlow  = isActive ? ', 0 0 0 1.5px rgba(107,124,255,0.30)' : ''
+  const cardBorder = isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(142,167,255,0.20)'
+  const baseGlow  = isActive ? ', 0 0 0 1.5px rgba(107,124,255,0.35)' : ''
   const cardShadow = isDark
-    ? `0 16px 40px rgba(0,0,0,0.40)${baseGlow}`
-    : `0 2px 12px rgba(0,0,0,0.06)${baseGlow}`
+    ? `0 8px 32px rgba(0,0,0,0.45)${baseGlow}`
+    : `0 4px 20px rgba(0,0,0,0.07), 0 1px 4px rgba(0,0,0,0.04)${baseGlow}`
   const cardOpacity = isCompleted ? 0.7 : (isActive ? 1 : 0.93)
   const noteBg  = isDark ? 'rgba(255,220,80,0.12)' : '#FFFBEA'
   const noteBorder = isDark ? 'rgba(255,220,80,0.25)' : '#F5E58A'
@@ -194,7 +194,7 @@ function PatternCardItem({
   return (
     <div
       style={{
-        borderRadius: 18, background: cardBg, backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)',
+        borderRadius: 22, background: cardBg, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
         border: cardBorder, boxShadow: cardShadow,
         overflow: 'hidden', opacity: cardOpacity,
         transition: 'opacity 0.25s, box-shadow 0.25s',
@@ -202,27 +202,27 @@ function PatternCardItem({
       }}
     >
       {/* Header: pattern num + meaning + icons */}
-      <div style={{ padding: '16px 14px 10px', background: heroBg }}>
+      <div style={{ padding: '18px 18px 12px', background: heroBg }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
           {/* Left: num + pattern + meaning */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{
-              margin: '0 0 1px', fontSize: '0.54rem', fontWeight: 700, color: heroIconColor,
-              letterSpacing: '0.06em', fontFamily: '"SF Mono", "Fira Mono", monospace',
+              margin: '0 0 3px', fontSize: '0.62rem', fontWeight: 700, color: heroIconColor,
+              letterSpacing: '0.10em', fontFamily: '"SF Mono", "Fira Mono", monospace',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
             </p>
 
             <>
               <p style={{
-                fontSize: 15.5, fontWeight: 800, color: heroPatternColor,
-                lineHeight: 1.25, margin: '2px 0 3px', letterSpacing: '-0.3px',
-                fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
+                fontSize: 20, fontWeight: 800, color: heroPatternColor,
+                lineHeight: 1.2, margin: '0 0 4px', letterSpacing: '-0.5px',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif',
               }}>
                 {pattern.pattern}
               </p>
               {patternMeaning && (
-                <p style={{ fontSize: 12, fontWeight: 600, color: heroMeaningColor, margin: 0, lineHeight: 1.4 }}>
+                <p style={{ fontSize: 13, fontWeight: 500, color: heroMeaningColor, margin: 0, lineHeight: 1.45 }}>
                   {patternMeaning}
                 </p>
               )}
@@ -296,15 +296,15 @@ function PatternCardItem({
       )}
 
       {/* Examples — bullet list */}
-      <div style={{ padding: '8px 14px 12px' }}>
+      <div style={{ padding: '10px 18px 18px' }}>
         {examples.map((ex, i) => {
           const isExPlaying = isPlaying && i === exIdx
           const fullEx = patternExamplesFull[pattern.id]?.[i]
           const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
           const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
           return (
-            <div key={i} style={{ display: 'flex', gap: 6, marginTop: i === 0 ? 0 : 5 }}>
-              <span style={{ fontSize: 12, color: heroIconColor, flexShrink: 0, lineHeight: '1.55', marginTop: 1 }}>•</span>
+            <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 10 }}>
+              <span style={{ fontSize: 14, color: heroIconColor, flexShrink: 0, lineHeight: '1.6', marginTop: 0 }}>•</span>
               <div>
                 <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
                   <TappableWordText
@@ -312,11 +312,11 @@ function PatternCardItem({
                     highlightPhrases={[pattern.pattern]}
                     saveCandidates={safeCandidates}
                     source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                    style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 400, color: exEnColor, lineHeight: 1.55 }}
+                    style={{ display: 'block', fontSize: 16, fontWeight: isExPlaying ? 600 : 400, color: exEnColor, lineHeight: 1.6 }}
                   />
                 </div>
                 {showKorean && exKo && (
-                  <p style={{ fontSize: 11.5, color: exKoColor, margin: '1px 0 0', lineHeight: 1.45 }}>{exKo}</p>
+                  <p style={{ fontSize: 13, color: exKoColor, margin: '3px 0 0', lineHeight: 1.5 }}>{exKo}</p>
                 )}
               </div>
             </div>
@@ -364,7 +364,7 @@ export function PatternsSectionInline({
 
   return (
     <div style={{ padding: '0 16px 8px' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {patterns.map((pat, idx) => (
           <PatternCardItem
             key={pat.id}
