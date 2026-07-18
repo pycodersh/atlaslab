@@ -204,7 +204,7 @@ function PatternCardItem({
       {/* Header: pattern num + meaning + icons */}
       <div style={{ padding: '18px 18px 12px', background: heroBg }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
-          {/* Left: num + pattern + meaning */}
+          {/* Left: num + pattern */}
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{
               margin: '0 0 8px', fontSize: '0.62rem', fontWeight: 700, color: heroIconColor,
@@ -212,33 +212,13 @@ function PatternCardItem({
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
             </p>
-
-            <>
-              <p style={{
-                fontSize: 20, fontWeight: 800, color: heroPatternColor,
-                lineHeight: 1.2, margin: '0 0 4px', letterSpacing: '-0.5px',
-                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif',
-              }}>
-                {pattern.pattern}
-              </p>
-              {patternMeaning && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <p style={{ fontSize: 13, fontWeight: 500, color: heroMeaningColor, margin: 0, lineHeight: 1.45, flex: 1 }}>
-                    {patternMeaning}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={e => { e.stopPropagation(); playExamples() }}
-                    aria-label={isPlaying ? '정지' : '예문 듣기'}
-                    style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
-                  >
-                    {isPlaying
-                      ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
-                      : <Volume2 style={{ width: 15, height: 15 }} strokeWidth={1.6} />}
-                  </button>
-                </div>
-              )}
-            </>
+            <p style={{
+              fontSize: 20, fontWeight: 800, color: heroPatternColor,
+              lineHeight: 1.2, margin: 0, letterSpacing: '-0.5px',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif',
+            }}>
+              {pattern.pattern}
+            </p>
           </div>
 
           {/* Right: completed check + note + bookmark (speaker moved to meaning row) */}
@@ -274,6 +254,25 @@ function PatternCardItem({
             </button>
           </div>
         </div>
+
+        {/* Meaning + speaker full-width row */}
+        {patternMeaning && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
+            <p style={{ fontSize: 13, fontWeight: 500, color: heroMeaningColor, margin: 0, lineHeight: 1.45 }}>
+              {patternMeaning}
+            </p>
+            <button
+              type="button"
+              onClick={e => { e.stopPropagation(); playExamples() }}
+              aria-label={isPlaying ? '정지' : '예문 듣기'}
+              style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', color: isPlaying ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor, transition: 'color 0.15s', flexShrink: 0 }}
+            >
+              {isPlaying
+                ? <Square style={{ width: 10, height: 10 }} fill="currentColor" strokeWidth={0} />
+                : <Volume2 style={{ width: 15, height: 15 }} strokeWidth={1.6} />}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Note popup */}
