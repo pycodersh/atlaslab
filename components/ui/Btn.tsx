@@ -27,14 +27,14 @@ const BASE: React.CSSProperties = {
 
 const VARIANT: Record<Variant, React.CSSProperties> = {
   primary: {
-    background: '#1A3FAA',
+    background: '#6366F1',
     color: '#ffffff',
     border: 'none',
   },
   secondary: {
     background: 'transparent',
-    color: '#1A3FAA',
-    border: '1.5px solid #1A3FAA',
+    color: '#6366F1',
+    border: '1.5px solid #6366F1',
   },
   ghost: {
     background: 'transparent',
@@ -42,9 +42,9 @@ const VARIANT: Record<Variant, React.CSSProperties> = {
     border: 'none',
   },
   danger: {
-    background: '#fff0f0',
-    color: '#c0392b',
-    border: '1.5px solid #f5c6c6',
+    background: '#FEF2F2',
+    color: '#DC2626',
+    border: '1.5px solid #FECACA',
   },
 }
 
@@ -60,8 +60,28 @@ const SIZE_SECONDARY_PAD: Record<Size, string> = {
   pill: '10px 22px',
 }
 
+// Active/hover colors
+const PRESS: Record<Variant, string> = {
+  primary:   '#4338CA',
+  secondary: '#EEF2FF',
+  ghost:     'transparent',
+  danger:    '#FEE2E2',
+}
+const HOVER: Record<Variant, string> = {
+  primary:   '#4F46E5',
+  secondary: '#EEF2FF',
+  ghost:     'transparent',
+  danger:    '#FEE2E2',
+}
+const REST: Record<Variant, string> = {
+  primary:   '#6366F1',
+  secondary: 'transparent',
+  ghost:     'transparent',
+  danger:    '#FEF2F2',
+}
+
 export const Btn = forwardRef<HTMLButtonElement, BtnProps>(
-  ({ variant = 'primary', size = 'md', style, children, disabled, onMouseDown, onMouseUp, onMouseLeave, ...rest }, ref) => {
+  ({ variant = 'primary', size = 'md', style, children, disabled, onMouseDown, onMouseUp, onMouseLeave, onMouseEnter, ...rest }, ref) => {
     const v = VARIANT[variant]
     const s = SIZE_STYLE[size]
 
@@ -81,25 +101,24 @@ export const Btn = forwardRef<HTMLButtonElement, BtnProps>(
 
     function handleMouseDown(e: React.MouseEvent<HTMLButtonElement>) {
       e.currentTarget.style.transform = 'scale(0.97)'
-      if (variant === 'primary') e.currentTarget.style.background = '#122d7a'
-      if (variant === 'danger')  e.currentTarget.style.background = '#ffe0e0'
-      if (variant === 'secondary') e.currentTarget.style.background = '#eef1fb'
+      e.currentTarget.style.background = PRESS[variant]
       onMouseDown?.(e)
     }
 
     function handleMouseUp(e: React.MouseEvent<HTMLButtonElement>) {
       e.currentTarget.style.transform = ''
-      if (variant === 'primary') e.currentTarget.style.background = '#1A3FAA'
-      if (variant === 'danger')  e.currentTarget.style.background = '#fff0f0'
-      if (variant === 'secondary') e.currentTarget.style.background = 'transparent'
+      e.currentTarget.style.background = HOVER[variant]
       onMouseUp?.(e)
+    }
+
+    function handleMouseEnter(e: React.MouseEvent<HTMLButtonElement>) {
+      e.currentTarget.style.background = HOVER[variant]
+      onMouseEnter?.(e)
     }
 
     function handleMouseLeave(e: React.MouseEvent<HTMLButtonElement>) {
       e.currentTarget.style.transform = ''
-      if (variant === 'primary') e.currentTarget.style.background = '#1A3FAA'
-      if (variant === 'danger')  e.currentTarget.style.background = '#fff0f0'
-      if (variant === 'secondary') e.currentTarget.style.background = 'transparent'
+      e.currentTarget.style.background = REST[variant]
       onMouseLeave?.(e)
     }
 
@@ -110,6 +129,7 @@ export const Btn = forwardRef<HTMLButtonElement, BtnProps>(
         style={computed}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         {...rest}
       >

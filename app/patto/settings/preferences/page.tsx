@@ -155,7 +155,7 @@ function SliderRow({ icon: Icon, iconColor = '#6E6E73', label, desc, value, onCh
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 2 }}>
           <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: 0 }}>{label}</p>
-          <span style={{ fontSize: 12, color: '#4A6FA8', fontWeight: 700, flexShrink: 0, marginLeft: 8 }}>
+          <span style={{ fontSize: 12, color: '#6366F1', fontWeight: 700, flexShrink: 0, marginLeft: 8 }}>
             {value}%
           </span>
         </div>
@@ -164,7 +164,7 @@ function SliderRow({ icon: Icon, iconColor = '#6E6E73', label, desc, value, onCh
           type="range" min={0} max={100} step={5}
           value={value}
           onChange={e => onChange(Number(e.target.value))}
-          style={{ width: '100%', accentColor: '#4A6FA8', cursor: 'pointer', height: 4 }}
+          style={{ width: '100%', accentColor: '#6366F1', cursor: 'pointer', height: 4 }}
         />
       </div>
     </div>
@@ -235,12 +235,12 @@ function BottomSheet<T extends string>({
               >
                 <span style={{
                   fontSize: 14, fontWeight: opt.value === value ? 600 : 400,
-                  color: opt.value === value ? '#4A6FA8' : 'var(--pt)',
+                  color: opt.value === value ? '#6366F1' : 'var(--pt)',
                 }}>
                   {opt.label}
                 </span>
                 {opt.value === value && (
-                  <Check style={{ width: 15, height: 15, color: '#4A6FA8', flexShrink: 0 }} strokeWidth={2.5} />
+                  <Check style={{ width: 15, height: 15, color: '#6366F1', flexShrink: 0 }} strokeWidth={2.5} />
                 )}
               </button>
             </div>
@@ -380,7 +380,7 @@ export default function PreferencesPage() {
         <div style={glassCard}>
           <ToggleRow
             icon={ThemeIcon}
-            iconColor={theme === 'dark' ? '#4A6FA8' : '#6E6E73'}
+            iconColor={theme === 'dark' ? '#6366F1' : '#6E6E73'}
             label={t('theme')}
             desc={t('theme_desc')}
             on={theme === 'dark'}
@@ -438,7 +438,7 @@ export default function PreferencesPage() {
             borderBottom: notifEnabled ? '1px solid var(--pd)' : 'none',
           }}>
             <IconCircle>
-              <Bell style={{ width: 17, height: 17, color: theme === 'dark' ? '#A6B8FF' : '#4A6FA8' }} strokeWidth={1.6} />
+              <Bell style={{ width: 17, height: 17, color: theme === 'dark' ? '#A6B8FF' : '#6366F1' }} strokeWidth={1.6} />
             </IconCircle>
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>Daily Reminder</p>
@@ -463,7 +463,7 @@ export default function PreferencesPage() {
               borderTop: '1px solid var(--pd)',
             }}>
               <IconCircle>
-                <Clock style={{ width: 17, height: 17, color: theme === 'dark' ? '#A6B8FF' : '#4A6FA8' }} strokeWidth={1.6} />
+                <Clock style={{ width: 17, height: 17, color: theme === 'dark' ? '#A6B8FF' : '#6366F1' }} strokeWidth={1.6} />
               </IconCircle>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 1px' }}>Reminder Time</p>
