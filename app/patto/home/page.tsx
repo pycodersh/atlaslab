@@ -634,79 +634,78 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* ── Unified Mission List ── */}
-        {!allDone && missions.length > 0 && (
-          <div style={{ margin: '12px 20px 0', display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm2)', margin: '0 0 4px', textTransform: 'uppercase' }}>
-              TODAY&apos;S LIST
-            </p>
-            {missions.map(m => (
-              <motion.div
-                key={`${m.type}-${m.id}`}
-                role="button" tabIndex={0}
-                onClick={() => router.push(m.href)}
-                onKeyDown={e => e.key === 'Enter' && router.push(m.href)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 12,
-                  padding: '11px 14px', borderRadius: 14, cursor: 'pointer',
-                  background: m.done
-                    ? (isDark ? 'rgba(39,174,96,0.08)' : 'rgba(39,174,96,0.07)')
-                    : (isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.65)'),
-                  border: `1px solid ${m.done
-                    ? (isDark ? 'rgba(39,174,96,0.20)' : 'rgba(39,174,96,0.25)')
-                    : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.75)')}`,
-                  backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-              >
-                {/* Check indicator */}
-                {m.done ? (
-                  <span style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(39,174,96,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Check style={{ width: 11, height: 11, color: '#27AE60' }} strokeWidth={2.5} />
-                  </span>
-                ) : (
-                  <span style={{ width: 20, height: 20, borderRadius: '50%', border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.22)' : 'rgba(100,110,160,0.25)'}`, flexShrink: 0 }} />
-                )}
+        {/* ── TODAY'S LIST + Editor Tip — unified glass card ── */}
+        {(!allDone && missions.length > 0) || dailyTip ? (
+          <div style={{ margin: '12px 20px 0', ...frostedCard, borderRadius: 16, padding: 14, display: 'flex', flexDirection: 'column', gap: 0 }}>
 
-                {/* Text */}
+            {/* TODAY'S LIST */}
+            {!allDone && missions.length > 0 && (
+              <>
+                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: isDark ? 'rgba(255,255,255,0.38)' : 'rgba(30,30,80,0.55)', margin: '0 0 10px' }}>
+                  Today&apos;s List
+                </p>
+                {missions.map((m, idx) => (
+                  <motion.div
+                    key={`${m.type}-${m.id}`}
+                    role="button" tabIndex={0}
+                    onClick={() => router.push(m.href)}
+                    onKeyDown={e => e.key === 'Enter' && router.push(m.href)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 10,
+                      padding: '8px 0', cursor: 'pointer',
+                      borderTop: idx > 0 ? `0.5px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(180,195,240,0.35)'}` : undefined,
+                    }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                  >
+                    {/* Circle indicator */}
+                    {m.done ? (
+                      <span style={{ width: 18, height: 18, borderRadius: '50%', background: 'rgba(39,174,96,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <Check style={{ width: 10, height: 10, color: '#27AE60' }} strokeWidth={2.5} />
+                      </span>
+                    ) : (
+                      <span style={{ width: 18, height: 18, borderRadius: '50%', border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.22)' : 'rgba(100,110,160,0.25)'}`, flexShrink: 0 }} />
+                    )}
+
+                    {/* Text */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ fontSize: 13, fontWeight: 600, color: m.done ? (isDark ? 'rgba(39,174,96,0.75)' : 'rgba(39,174,96,0.85)') : (isDark ? 'rgba(255,255,255,0.88)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        Story {String(m.id).padStart(2, '0')} · {m.title}
+                      </p>
+                    </div>
+
+                    {!m.done && <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(100,110,160,0.35)', flexShrink: 0 }} strokeWidth={2} />}
+                  </motion.div>
+                ))}
+              </>
+            )}
+
+            {/* Divider between list and tip */}
+            {!allDone && missions.length > 0 && dailyTip && (
+              <div style={{ height: 0.5, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(180,195,240,0.45)', margin: '6px 0' }} />
+            )}
+
+            {/* Editor Tip row */}
+            {dailyTip && (
+              <button
+                type="button"
+                onClick={() => setTipOpen(true)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '6px 0', display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left' }}
+              >
+                <Pencil style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', margin: '0 0 1px', color: m.done ? '#27AE60' : (m.type === 'review' ? (isDark ? 'rgba(192,139,48,0.9)' : 'rgba(150,100,20,0.85)') : (isDark ? 'rgba(142,167,255,0.8)' : 'rgba(80,100,200,0.7)')) }}>
-                    {m.type === 'learn' ? 'Learn' : `Review · Round ${(m.reviewCount ?? 0) + 1}`}
+                  <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
+                    Editor Tip
                   </p>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: m.done ? (isDark ? 'rgba(39,174,96,0.75)' : 'rgba(39,174,96,0.85)') : (isDark ? 'rgba(255,255,255,0.88)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    Story {String(m.id).padStart(2, '0')} · {m.title}
+                  <p style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)', margin: 0, lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
+                    {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
                   </p>
                 </div>
-
-                {!m.done && <ArrowRight style={{ width: 13, height: 13, color: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(100,110,160,0.35)', flexShrink: 0 }} strokeWidth={2} />}
-              </motion.div>
-            ))}
+                <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+              </button>
+            )}
           </div>
-        )}
-
-        {/* ── Editor Tip chip ── */}
-        {dailyTip && (
-          <div style={{ padding: '10px 20px 0' }}>
-            <button
-              type="button"
-              onClick={() => setTipOpen(true)}
-              className="glass-card-sm"
-              style={{ ...frostedCard, width: '100%', textAlign: 'left', cursor: 'pointer', padding: '13px 12px 14px', display: 'flex', alignItems: 'center', gap: 10 }}
-            >
-              <Pencil style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0, marginRight: 4 }} strokeWidth={1.8} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', margin: '0 0 6px', textTransform: 'uppercase' }}>
-                  Editor Tip
-                </p>
-                <p style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)', margin: 0, lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical' }}>
-                  {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
-                </p>
-              </div>
-              <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
-            </button>
-          </div>
-        )}
+        ) : null}
 
         {/* ── Desktop Editor Tip inline panel ── */}
         {isDesktop && tipOpen && (
