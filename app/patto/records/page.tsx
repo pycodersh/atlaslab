@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { Flame, BookOpen, Zap } from 'lucide-react'
 import { useTheme } from '@/components/ThemeProvider'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { TopNav } from '@/components/TopNav'
@@ -273,46 +274,38 @@ export default function ProgressPage() {
           </div>
         </div>
 
-        {/* ── 3 Chips ── */}
-        <div style={{ display: 'flex', gap: 8 }}>
-          {/* 🔥 Streak */}
-          <div style={{
-            flex: 1, borderRadius: 16, padding: '14px 10px',
-            background: isOutperform
-              ? 'linear-gradient(135deg, rgba(215,181,109,0.22), rgba(215,181,109,0.10))'
-              : 'linear-gradient(135deg, rgba(215,181,109,0.14), rgba(192,139,48,0.07))',
-            border: `1px solid ${isOutperform ? 'rgba(215,181,109,0.45)' : 'rgba(215,181,109,0.20)'}`,
-            boxShadow: isOutperform ? '0 0 16px rgba(215,181,109,0.22)' : 'none',
-            textAlign: 'center',
-          }}>
-            <div style={{ fontSize: 18, lineHeight: 1 }}>🔥</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#D7B56D', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{streak}</div>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(215,181,109,0.65)', marginTop: 3, textTransform: 'uppercase' }}>Streak</div>
-          </div>
-
-          {/* 📚 이번 주 스토리 */}
-          <div style={{
-            flex: 1, borderRadius: 16, padding: '14px 10px',
-            background: 'linear-gradient(135deg, rgba(107,143,255,0.16), rgba(74,122,200,0.07))',
-            border: '1px solid rgba(107,143,255,0.20)',
-            textAlign: 'center',
-          }}>
-            <div style={{ fontSize: 18, lineHeight: 1 }}>📚</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#8EA7FF', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{weeklyStoryCount}</div>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(142,167,255,0.60)', marginTop: 3, textTransform: 'uppercase' }}>이번 주</div>
-          </div>
-
-          {/* ⚡ 이번 주 패턴 */}
-          <div style={{
-            flex: 1, borderRadius: 16, padding: '14px 10px',
-            background: 'linear-gradient(135deg, rgba(178,143,255,0.16), rgba(140,107,200,0.07))',
-            border: '1px solid rgba(178,143,255,0.20)',
-            textAlign: 'center',
-          }}>
-            <div style={{ fontSize: 18, lineHeight: 1 }}>⚡</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#CFC4FF', lineHeight: 1.15, marginTop: 4, fontVariantNumeric: 'tabular-nums' }}>{weeklyPatternCount}</div>
-            <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', color: 'rgba(178,143,255,0.60)', marginTop: 3, textTransform: 'uppercase' }}>패턴</div>
-          </div>
+        {/* ── 3 Metrics — unified glass row ── */}
+        <div style={{ ...glassCard, display: 'flex' }}>
+          {[
+            {
+              icon: <Flame style={{ width: 14, height: 14, color: '#D7B56D' }} strokeWidth={1.8} />,
+              value: streak, label: 'Streak', color: '#D7B56D',
+            },
+            {
+              icon: <BookOpen style={{ width: 14, height: 14, color: isDark ? '#8EA7FF' : '#6B8FFF' }} strokeWidth={1.8} />,
+              value: weeklyStoryCount, label: '이번 주', color: isDark ? '#8EA7FF' : '#6B8FFF',
+            },
+            {
+              icon: <Zap style={{ width: 14, height: 14, color: isDark ? '#CFC4FF' : '#9B8FE8' }} strokeWidth={1.8} />,
+              value: weeklyPatternCount, label: '패턴', color: isDark ? '#CFC4FF' : '#9B8FE8',
+            },
+          ].map((m, i) => (
+            <div key={i} style={{
+              flex: 1, textAlign: 'center', padding: '14px 8px',
+              borderRight: i < 2
+                ? `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)'}`
+                : 'none',
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+            }}>
+              {m.icon}
+              <span style={{ fontSize: 22, fontWeight: 800, color: m.color, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
+                {m.value}
+              </span>
+              <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.07em', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.40)', textTransform: 'uppercase' }}>
+                {m.label}
+              </span>
+            </div>
+          ))}
         </div>
 
         {/* ── Weekly / Monthly section ── */}
@@ -433,11 +426,11 @@ export default function ProgressPage() {
 
         {/* Empty state when no stories started */}
         {myStoriesData.length === 0 && (
-          <div style={{ ...glassCard, padding: '28px 20px', textAlign: 'center' }}>
-            <p style={{ fontSize: 14, fontWeight: 700, color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(60,60,100,0.6)', margin: '0 0 6px' }}>
+          <div style={{ padding: '6px 4px 2px', textAlign: 'center' }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.30)' : 'rgba(60,60,100,0.32)', margin: '0 0 4px' }}>
               아직 시작한 스토리가 없어요
             </p>
-            <p style={{ fontSize: 12, color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.4)', margin: 0, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.20)' : 'rgba(60,60,100,0.25)', margin: 0, lineHeight: 1.5 }}>
               스토리를 완료하면 여기에 기록돼요
             </p>
           </div>
@@ -468,7 +461,7 @@ export default function ProgressPage() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(10, 1fr)',
-            gap: 4,
+            gap: 5,
           }}>
             {magazineStories.map((ms, i) => {
               const rd = storyRounds[i]
@@ -479,36 +472,26 @@ export default function ProgressPage() {
               if (isMastered) {
                 cellBg = 'linear-gradient(135deg, #D7B56D, #C09900)'
               } else if (round >= 3) {
-                cellBg = isDark ? 'rgba(107,143,255,0.65)' : 'rgba(107,143,255,0.55)'
+                cellBg = isDark ? 'rgba(107,143,255,0.60)' : 'rgba(107,143,255,0.50)'
               } else if (round >= 1) {
-                cellBg = isDark ? 'rgba(107,143,255,0.30)' : 'rgba(107,143,255,0.22)'
+                cellBg = isDark ? 'rgba(107,143,255,0.28)' : 'rgba(107,143,255,0.20)'
               } else {
-                cellBg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'
+                cellBg = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.055)'
               }
 
               return (
                 <div
                   key={ms.id}
-                  title={`S${String(ms.id).padStart(2, '0')}: ${ms.title} (${round}회차${isMastered ? ' ✅' : ''})`}
+                  title={`S${String(ms.id).padStart(2, '0')}: ${ms.title} (${round}회차${isMastered ? ' ✓' : ''})`}
                   style={{
                     aspectRatio: '1 / 1',
-                    borderRadius: 4,
+                    borderRadius: 6,
                     background: cellBg,
                     position: 'relative',
-                    transition: 'transform 0.1s',
+                    transition: 'opacity 0.15s',
                     cursor: 'default',
                   }}
-                >
-                  {isMastered && (
-                    <div style={{
-                      position: 'absolute', inset: 0,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 6, lineHeight: 1,
-                    }}>
-                      ✓
-                    </div>
-                  )}
-                </div>
+                />
               )
             })}
           </div>

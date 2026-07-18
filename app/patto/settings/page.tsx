@@ -48,26 +48,25 @@ function MenuCard({
   const inner = (
     <>
       <div style={{
-        width: 28, height: 28, borderRadius: 8,
-        background: isDark ? 'rgba(255,255,255,0.15)' : 'var(--pc)',
-        border: isDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid var(--pglass-border)',
+        width: 34, height: 34, borderRadius: 10,
+        background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(107,143,255,0.08)',
+        border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(107,143,255,0.14)'}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         flexShrink: 0,
       }}>
-        <Icon style={{ width: 13, height: 13, color: isDark ? 'rgba(255,255,255,0.75)' : '#6E6E73' }} strokeWidth={1.6} />
+        <Icon style={{ width: 15, height: 15, color: isDark ? 'rgba(255,255,255,0.70)' : '#6B8FFF' }} strokeWidth={1.6} />
       </div>
 
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{
-          fontSize: 11.5, fontWeight: 700,
-          color: 'var(--pt)', margin: '0 0 1px',
-          letterSpacing: '0.07em', textTransform: 'uppercase',
+          fontSize: 14, fontWeight: 600,
+          color: 'var(--pt)', margin: '0 0 2px',
         }}>
           {label}
         </p>
         <p style={{
-          fontSize: 11.5, color: '#C0C0C5',
-          margin: 0, fontWeight: 400, lineHeight: 1.35,
+          fontSize: 12, color: 'var(--pm)',
+          margin: 0, fontWeight: 400, lineHeight: 1.4,
         }}>
           {desc}
         </p>
@@ -403,12 +402,12 @@ function InstallCard() {
         onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = '0.70' }}
         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
       >
-        <div style={{ width: 28, height: 28, borderRadius: 8, background: isDark ? 'rgba(255,255,255,0.15)' : 'var(--pc)', border: isDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid var(--pglass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          {isIOS ? <AppleSvg /> : <Smartphone style={{ width: 14, height: 14, color: isDark ? 'rgba(255,255,255,0.75)' : 'var(--pt)' }} strokeWidth={1.6} />}
+        <div style={{ width: 34, height: 34, borderRadius: 10, background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(107,143,255,0.08)', border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(107,143,255,0.14)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          {isIOS ? <AppleSvg /> : <Smartphone style={{ width: 15, height: 15, color: isDark ? 'rgba(255,255,255,0.70)' : '#6B8FFF' }} strokeWidth={1.6} />}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 11.5, fontWeight: 700, color: 'var(--pt)', margin: '0 0 1px', letterSpacing: '0.07em', textTransform: 'uppercase' }}>{label}</p>
-          <p style={{ fontSize: 11.5, color: '#C0C0C5', margin: 0, fontWeight: 400, lineHeight: 1.35 }}>{desc}</p>
+          <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px' }}>{label}</p>
+          <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, fontWeight: 400, lineHeight: 1.4 }}>{desc}</p>
         </div>
         <ChevronRight style={{ width: 11, height: 11, color: '#D1D1D6', flexShrink: 0 }} strokeWidth={2} />
       </button>
@@ -482,7 +481,7 @@ export default function SettingsPage() {
             <InstallCard key="install" />,
             <MenuCard key="about" icon={Info}              label={t('hub_about')}         desc={t('hub_about_desc')}        href="/patto/settings/about" />,
           ].map((item, i, arr) => (
-            <div key={i} style={{ borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.3)' : 'none' }}>
+            <div key={i} style={{ borderBottom: i < arr.length - 1 ? '1px solid var(--pglass-border)' : 'none' }}>
               {item}
             </div>
           ))}

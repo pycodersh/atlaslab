@@ -342,12 +342,12 @@ function SearchStoryRow({ story, border, onPress }: {
 
 function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
   return (
-    <div style={{ ...glassCard, padding: '28px 22px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-        {icon}
-        <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: 0, letterSpacing: '-0.01em' }}>{title}</p>
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '14px 16px', borderRadius: 16, background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
+      <div style={{ flexShrink: 0, marginTop: 1, opacity: 0.65 }}>{icon}</div>
+      <div>
+        <p style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--pt)', margin: '0 0 3px', opacity: 0.75 }}>{title}</p>
+        <p style={{ fontSize: 11.5, color: '#8E8E93', lineHeight: 1.6, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
       </div>
-      <p style={{ fontSize: 12, color: '#8E8E93', lineHeight: 1.7, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
     </div>
   )
 }
@@ -487,11 +487,11 @@ export default function LibraryPage() {
   const savedItemsPanel = (
     <>
       {/* Saved Words */}
-      <section style={{ marginBottom: 28 }}>
+      <section style={{ marginBottom: 20 }}>
         <SecLabel label="Saved Words" count={words.length} unit="Words" />
         {words.length === 0 ? (
           <EmptyState
-            icon={<BookOpen style={{ width: 24, height: 24, color: '#3A7A4A' }} strokeWidth={1.6} />}
+            icon={<BookOpen style={{ width: 18, height: 18, color: '#3A7A4A' }} strokeWidth={1.6} />}
             iconColor="#3A7A4A"
             title="No saved words yet."
             body={t('sec_saved_words')}
@@ -522,11 +522,11 @@ export default function LibraryPage() {
       </section>
 
       {/* Saved Phrases */}
-      <section style={{ marginBottom: 28 }}>
+      <section style={{ marginBottom: 20 }}>
         <SecLabel label="Saved Phrases" count={phrases.length} unit="Phrases" />
         {phrases.length === 0 ? (
           <EmptyState
-            icon={<Layers style={{ width: 24, height: 24, color: '#C08040' }} strokeWidth={1.6} />}
+            icon={<Layers style={{ width: 18, height: 18, color: '#C08040' }} strokeWidth={1.6} />}
             iconColor="#C08040"
             title="No saved phrases yet."
             body={t('sec_saved_words')}
@@ -557,11 +557,11 @@ export default function LibraryPage() {
       </section>
 
       {/* Saved Patterns */}
-      <section style={{ marginBottom: 28 }}>
+      <section style={{ marginBottom: 20 }}>
         <SecLabel label="Saved Patterns" count={bookmarks.length} unit="Patterns" />
         {bookmarks.length === 0 ? (
           <EmptyState
-            icon={<BookMarked style={{ width: 24, height: 24, color: 'var(--pa)' }} strokeWidth={1.6} />}
+            icon={<BookMarked style={{ width: 18, height: 18, color: 'var(--pa)' }} strokeWidth={1.6} />}
             iconColor="var(--pa)"
             title="No saved patterns yet."
             body={t('no_bookmarks')}
@@ -605,7 +605,7 @@ export default function LibraryPage() {
       </section>
 
       {/* Essays */}
-      <section style={{ marginBottom: 28 }}>
+      <section style={{ marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
           <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: '#6E6E73', textTransform: 'uppercase' }}>Essays</span>
           <button
@@ -619,7 +619,7 @@ export default function LibraryPage() {
         </div>
         {essays.length === 0 ? (
           <EmptyState
-            icon={<PenLine style={{ width: 24, height: 24, color: '#8B6FA0' }} strokeWidth={1.6} />}
+            icon={<PenLine style={{ width: 18, height: 18, color: '#8B6FA0' }} strokeWidth={1.6} />}
             iconColor="#8B6FA0"
             title="No essays yet."
             body={'영어로 글을 써보세요. 패턴을 실제로 사용하는 가장 빠른 방법입니다.'}
