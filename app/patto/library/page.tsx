@@ -14,7 +14,10 @@ import { magazineStories } from '@/data/magazine-stories'
 import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/bookmarks/storage'
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
-import { getEssays, type Essay } from '@/lib/essays/storage'
+import {
+  getEssays, saveEssay, saveReview, getReviewsRemaining, recordReviewUsed,
+  type Essay, type EditorReview,
+} from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
 import { useItemTranslation } from '@/hooks/useItemTranslation'
 import { lookupPhraseMeaning } from '@/data/patto-phrase-dictionary'
@@ -415,6 +418,16 @@ export default function LibraryPage() {
   const [essays, setEssays]             = useState<Essay[]>([])
   const [activeSection, setActiveSection] = useState<'words' | 'phrases' | 'patterns' | null>(null)
 
+  // Writing Studio state
+  const [wsOpen, setWsOpen]         = useState(false)
+  const [wsText, setWsText]         = useState('')
+  const [wsFeedback, setWsFeedback] = useState<EditorReview | null>(null)
+  const [wsLoading, setWsLoading]   = useState(false)
+  const [wsError, setWsError]       = useState<string | null>(null)
+  const [wsExpandedId, setWsExpandedId] = useState<string | null>(null)
+  const [wsShowAll, setWsShowAll]   = useState(false)
+  const [reviewsRemaining, setReviewsRemaining] = useState(0)
+
   useEffect(() => {
     setBookmarks(getBookmarks())
     setWords(getSavedWords())
@@ -422,6 +435,7 @@ export default function LibraryPage() {
     getTotalRepeatCount()
     setRecentSearches(readRecentSearches())
     setEssays(getEssays())
+    setReviewsRemaining(getReviewsRemaining())
   }, [])
 
   const patternIndex = useMemo(() => buildPatternIndex(), [])
@@ -496,6 +510,50 @@ export default function LibraryPage() {
     else if (ph.storyId) router.push(`/patto/stories/${ph.storyId}`)
   }
 
+  const wsWordCount = wsText.trim() ? wsText.trim().split(/\s+/).filter(Boolean).length : 0
+
+  async function handleGetFeedback() {
+    if (wsWordCount === 0 || wsWordCount > 50 || wsLoading) return
+    setWsLoading(true)
+    setWsError(null)
+    setWsFeedback(null)
+    try {
+      const essay = saveEssay({ title: '', body: wsText })
+      setEssays(getEssays())
+      const res = await fetch('/patto/api/essays/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ essayId: essay.id, essayBody: essay.body, essayTitle: essay.title, language: 'ko' }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        if (data.error === 'daily_limit') setWsError('오늘 피드백 횟수를 모두 사용했습니다.')
+        else if (data.error === 'too_short') setWsError('최소 30단어 이상 작성해주세요.')
+        else if (data.error === 'not_english') setWsError('영어로 작성해주세요.')
+        else setWsError('피드백을 가져오지 못했습니다. 다시 시도해주세요.')
+        return
+      }
+      const review: EditorReview = data.review
+      saveReview(essay.id, review)
+      recordReviewUsed()
+      setWsFeedback(review)
+      setWsExpandedId(essay.id)
+      setEssays(getEssays())
+      setReviewsRemaining(getReviewsRemaining())
+    } catch {
+      setWsError('네트워크 오류가 발생했습니다.')
+    } finally {
+      setWsLoading(false)
+    }
+  }
+
+  function handleWsSave() {
+    setWsOpen(false)
+    setWsText('')
+    setWsFeedback(null)
+    setWsError(null)
+  }
+
   const showRecent = focused && !isSearching && recentSearches.length > 0
   const hasResults = searchResults.words.length > 0 || searchResults.phrases.length > 0
     || searchResults.patterns.length > 0 || searchResults.stories.length > 0
@@ -503,7 +561,7 @@ export default function LibraryPage() {
   const savedItemsPanel = (
     <>
       {/* Summary strip — tappable chips */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
         <SummaryCard
           icon={<BookOpen style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.6} />}
           label="Words" value={words.length} accent="#3A7A4A"
@@ -649,60 +707,195 @@ export default function LibraryPage() {
       </section>
       )}
 
-      {/* Essays */}
+      {/* Writing Studio */}
       <section style={{ marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase' }}>Essays</span>
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase' }}>Writing Studio</span>
           <button
             type="button"
-            onClick={() => router.push('/patto/essays/new')}
+            onClick={() => { setWsOpen(v => !v); setWsFeedback(null); setWsError(null) }}
             style={{ fontSize: 12, fontWeight: 600, color: 'var(--pa)', background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 3 }}
           >
             <PenLine style={{ width: 12, height: 12 }} strokeWidth={2} />
-            New
+            {wsOpen ? 'Close' : 'New'}
           </button>
         </div>
-        {essays.length === 0 ? (
-          <EmptyState
-            icon={<PenLine style={{ width: 22, height: 22, color: '#8B6FA0' }} strokeWidth={1.6} />}
-            iconColor="#8B6FA0"
-            title="No essays yet."
-            body={'영어로 글을 써보세요. 패턴을 실제로 사용하는 가장 빠른 방법입니다.'}
-          />
-        ) : (
-          <div style={glassCard}>
-            {essays.slice(0, 5).map((essay, i) => (
-              <button
-                key={essay.id}
-                type="button"
-                onClick={() => router.push(`/patto/essays/${essay.id}`)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 10,
-                  width: '100%', textAlign: 'left', background: 'none', border: 'none',
-                  cursor: 'pointer', padding: '12px 16px',
-                  borderTop: i === 0 ? 'none' : ROW_BORDER,
-                  fontFamily: 'inherit',
-                }}
-              >
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {essay.title || 'Untitled'}
-                  </p>
-                  <p style={{ fontSize: 11, color: 'var(--pm)', margin: 0 }}>
-                    {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
-                    {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
-                  </p>
-                </div>
-                <ChevronRight style={{ width: 12, height: 12, color: '#C0C0C8', flexShrink: 0 }} strokeWidth={2} />
-              </button>
-            ))}
-            {essays.length > 5 && (
-              <button type="button" onClick={() => router.push('/patto/essays')} style={{ display: 'flex', alignItems: 'center', gap: 4, width: '100%', padding: '12px 16px', borderTop: ROW_BORDER, background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600, color: 'var(--pm)', fontFamily: 'inherit' }}>
-                전체 {essays.length}개 보기 <ChevronRight style={{ width: 11, height: 11 }} strokeWidth={2.2} />
-              </button>
+
+        {/* Inline composer */}
+        {wsOpen && (
+          <div style={{ ...glassCard, borderRadius: 20, padding: 16, marginBottom: 10, overflow: 'visible' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm)' }}>WRITING STUDIO</span>
+              <span style={{ fontSize: 12, color: wsWordCount > 50 ? '#E05555' : 'var(--pm)' }}>
+                {wsWordCount} / 50 words
+              </span>
+            </div>
+            <textarea
+              value={wsText}
+              onChange={e => { setWsText(e.target.value); setWsFeedback(null); setWsError(null) }}
+              placeholder="Write using the patterns you've learned..."
+              maxLength={400}
+              rows={5}
+              style={{
+                width: '100%', boxSizing: 'border-box',
+                border: '1px solid var(--pglass-border)', borderRadius: 12,
+                padding: 12, fontSize: 14, lineHeight: 1.6, resize: 'none',
+                background: 'transparent', color: 'var(--pt)',
+                fontFamily: 'inherit', outline: 'none',
+              }}
+            />
+            {wsWordCount > 50 && (
+              <p style={{ fontSize: 12, color: '#E05555', margin: '4px 0 0' }}>
+                Maximum 50 words. Please shorten your writing.
+              </p>
+            )}
+            {wsError && (
+              <p style={{ fontSize: 12, color: '#E05555', margin: '4px 0 0' }}>{wsError}</p>
+            )}
+
+            {/* Remaining count */}
+            {reviewsRemaining > 0 && (
+              <p style={{ fontSize: 11, color: 'var(--pm)', margin: '8px 0 0', textAlign: 'right' }}>
+                {reviewsRemaining} / 3 feedback remaining today
+              </p>
+            )}
+
+            <button
+              type="button"
+              disabled={wsWordCount === 0 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0}
+              onClick={handleGetFeedback}
+              style={{
+                marginTop: 12, width: '100%', padding: '10px 0', borderRadius: 12,
+                background: (wsWordCount === 0 || wsWordCount > 50 || reviewsRemaining === 0) ? 'var(--pglass-border)' : 'var(--pa)',
+                color: (wsWordCount === 0 || wsWordCount > 50 || reviewsRemaining === 0) ? 'var(--pm)' : '#fff',
+                fontWeight: 600, fontSize: 14, border: 'none', cursor: wsLoading ? 'wait' : 'pointer',
+                fontFamily: 'inherit', transition: 'background 0.2s',
+              }}
+            >
+              {wsLoading ? 'Getting feedback...' : reviewsRemaining === 0 ? 'No feedback remaining today' : 'Get Feedback'}
+            </button>
+
+            {/* Feedback result */}
+            {wsFeedback && (
+              <div style={{ marginTop: 16, borderTop: '0.5px solid var(--pglass-border)', paddingTop: 12 }}>
+                {wsFeedback.suggestedVersion && (
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pm)', marginBottom: 6 }}>
+                      CORRECTED VERSION
+                    </div>
+                    <div style={{ fontSize: 14, lineHeight: 1.6, color: 'var(--pt)', background: 'rgba(107,143,255,0.08)', borderRadius: 10, padding: 10 }}>
+                      {wsFeedback.suggestedVersion}
+                    </div>
+                  </div>
+                )}
+                {wsFeedback.commentStrengths && wsFeedback.commentStrengths.length > 0 && (
+                  <div style={{ marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pa)' }}>Strengths </span>
+                    <span style={{ fontSize: 13, color: 'var(--pt)' }}>{wsFeedback.commentStrengths[0]}</span>
+                  </div>
+                )}
+                {wsFeedback.commentImprovements && wsFeedback.commentImprovements.length > 0 && (
+                  <div style={{ marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pa)' }}>Improve </span>
+                    <span style={{ fontSize: 13, color: 'var(--pt)' }}>{wsFeedback.commentImprovements[0]}</span>
+                  </div>
+                )}
+                {wsFeedback.editorComment && (
+                  <div style={{ marginBottom: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pa)' }}>Overall </span>
+                    <span style={{ fontSize: 13, color: 'var(--pt)' }}>{wsFeedback.editorComment}</span>
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={handleWsSave}
+                  style={{
+                    marginTop: 12, width: '100%', padding: '10px 0', borderRadius: 12,
+                    background: 'transparent', border: '1px solid var(--pa)',
+                    color: 'var(--pa)', fontWeight: 600, fontSize: 14, cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
+                >
+                  Save & Close
+                </button>
+              </div>
             )}
           </div>
         )}
+
+        {/* Saved writings list */}
+        {essays.length === 0 && !wsOpen ? (
+          <EmptyState
+            icon={<PenLine style={{ width: 22, height: 22, color: '#8B6FA0' }} strokeWidth={1.6} />}
+            iconColor="#8B6FA0"
+            title="No writings yet."
+            body={'패턴을 사용해 짧은 글을 써보세요. 50단어 이내로 작성하면 AI 피드백을 받을 수 있습니다.'}
+          />
+        ) : essays.length > 0 ? (
+          <>
+            <div style={glassCard}>
+              {(wsShowAll ? essays : essays.slice(0, 3)).map((essay, i) => {
+                const isExpanded = wsExpandedId === essay.id
+                return (
+                  <div
+                    key={essay.id}
+                    style={{ borderTop: i === 0 ? 'none' : ROW_BORDER }}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setWsExpandedId(isExpanded ? null : essay.id)}
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 10,
+                        width: '100%', textAlign: 'left', background: 'none', border: 'none',
+                        cursor: 'pointer', padding: '12px 16px', fontFamily: 'inherit',
+                      }}
+                    >
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 2px' }}>
+                          {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
+                          {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
+                        </p>
+                        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
+                          {essay.body}
+                        </p>
+                      </div>
+                      <ChevronDown
+                        style={{ width: 14, height: 14, color: 'var(--pm)', flexShrink: 0, transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                        strokeWidth={2}
+                      />
+                    </button>
+                    {isExpanded && (
+                      <div style={{ padding: '0 16px 14px', borderTop: '0.5px solid var(--pglass-border)' }}>
+                        <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', margin: '12px 0 4px' }}>ORIGINAL</div>
+                        <div style={{ fontSize: 13, color: 'var(--pt)', lineHeight: 1.6, marginBottom: 12 }}>{essay.body}</div>
+                        {essay.review?.suggestedVersion && (
+                          <>
+                            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', marginBottom: 4 }}>AI FEEDBACK</div>
+                            <div style={{ fontSize: 13, color: 'var(--pt)', background: 'rgba(107,143,255,0.08)', borderRadius: 10, padding: 10, lineHeight: 1.6 }}>
+                              {essay.review.suggestedVersion}
+                            </div>
+                            {essay.review.editorComment && (
+                              <p style={{ fontSize: 12, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>{essay.review.editorComment}</p>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+            {essays.length > 3 && (
+              <button
+                type="button"
+                onClick={() => setWsShowAll(v => !v)}
+                style={{ fontSize: 13, color: 'var(--pa)', background: 'none', border: 'none', cursor: 'pointer', padding: '8px 4px', fontFamily: 'inherit' }}
+              >
+                {wsShowAll ? 'Show less' : `Show all (${essays.length})`}
+              </button>
+            )}
+          </>
+        ) : null}
       </section>
     </>
   )
@@ -720,9 +913,14 @@ export default function LibraryPage() {
         <div className="desktop-two-col">
 
           {/* Left column: search + summary cards */}
-          <div style={colPad}>
+          <div style={{ ...colPad, paddingBottom: 0 }}>
+            {/* ── Header ── */}
+            <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--pt)', letterSpacing: -0.3, marginBottom: 12, marginTop: 4 }}>
+              Search &amp; Save
+            </h1>
+
             {/* ── Search bar ── */}
-            <div style={{ marginBottom: isSearching || showRecent ? 0 : 24, position: 'relative' }}>
+            <div style={{ marginBottom: isSearching || showRecent ? 0 : 10, position: 'relative' }}>
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 10,
                 background: 'var(--pglass)',
