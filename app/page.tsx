@@ -1,10 +1,9 @@
 
-const BG = '#0d0820'
 const FONT_BODY = '"DM Sans", "Inter", system-ui, sans-serif'
 const FONT_DISPLAY = '"Playfair Display", Georgia, serif'
 
 const PattoIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
     <rect x="4" y="8" width="20" height="2.8" rx="1.4" fill="#a89fff"/>
     <rect x="4" y="14" width="15" height="2.8" rx="1.4" fill="#7c6fff" opacity="0.85"/>
     <rect x="4" y="20" width="18" height="2.8" rx="1.4" fill="#6655cc" opacity="0.7"/>
@@ -15,21 +14,18 @@ const PattoIcon = () => (
 )
 
 const KPattoIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    {/* ㄱ top-left */}
+  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
     <rect x="5" y="7" width="9" height="2.5" rx="1.25" fill="#60a5fa"/>
     <rect x="5" y="7" width="2.5" height="8" rx="1.25" fill="#60a5fa"/>
-    {/* ㅏ right */}
     <rect x="20" y="7" width="2.5" height="18" rx="1.25" fill="#93c5fd" opacity="0.9"/>
     <rect x="20" y="15" width="7" height="2.5" rx="1.25" fill="#93c5fd" opacity="0.9"/>
-    {/* ㄴ bottom-left */}
     <rect x="5" y="19" width="2.5" height="7" rx="1.25" fill="#60a5fa" opacity="0.8"/>
     <rect x="5" y="24" width="9" height="2.5" rx="1.25" fill="#60a5fa" opacity="0.8"/>
   </svg>
 )
 
 const CareerNaviIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
     <circle cx="7" cy="25" r="2.2" fill="#5DCAA5"/>
     <circle cx="13" cy="19" r="2.2" fill="#5DCAA5" opacity="0.85"/>
     <circle cx="19" cy="13" r="2.2" fill="#5DCAA5" opacity="0.7"/>
@@ -41,16 +37,12 @@ const CareerNaviIcon = () => (
 )
 
 const KPantryIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-    {/* steam lines */}
+  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
     <path d="M12 9 Q11 7 12 5" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
     <path d="M16 8 Q15 6 16 4" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
     <path d="M20 9 Q19 7 20 5" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
-    {/* bowl body */}
     <path d="M5 14 h22 a1 1 0 0 1 1 1 L25 22 a10 10 0 0 1-18 0 L5 15 a1 1 0 0 1 1-1z" fill="#3d1f00" stroke="#f59e0b" strokeWidth="1.2"/>
-    {/* rim highlight */}
     <rect x="5" y="14" width="22" height="3" rx="1.5" fill="#f59e0b" opacity="0.9"/>
-    {/* handles */}
     <rect x="2" y="15" width="4" height="3" rx="1.5" fill="#d97706"/>
     <rect x="26" y="15" width="4" height="3" rx="1.5" fill="#d97706"/>
   </svg>
@@ -59,66 +51,51 @@ const KPantryIcon = () => (
 const PRODUCTS = [
   {
     Icon: PattoIcon,
-    iconBg: '#130d35',
+    iconBg: 'linear-gradient(135deg, #1a0f4a, #0d0820)',
+    iconGlow: 'rgba(124,111,255,0.3)',
     name: 'patto',
     desc: 'Learn English patterns the way natives do',
     tag: 'Live',
-    tagStyle: { background: 'rgba(29,158,117,0.2)', color: '#5DCAA5', border: '0.5px solid rgba(29,158,117,0.3)' },
+    tagStyle: { background: 'rgba(29,158,117,0.15)', color: '#5DCAA5', border: '0.5px solid rgba(29,158,117,0.4)' },
+    accentColor: 'rgba(124,111,255,0.15)',
+    borderHover: 'rgba(124,111,255,0.5)',
     href: '/patto/home',
   },
   {
     Icon: KPattoIcon,
-    iconBg: '#0a1628',
+    iconBg: 'linear-gradient(135deg, #0a1628, #060e1c)',
+    iconGlow: 'rgba(96,165,250,0.3)',
     name: 'k-patto',
     desc: 'Korean pattern learning for global learners',
     tag: 'Coming soon',
-    tagStyle: { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)', border: '0.5px solid rgba(255,255,255,0.1)' },
+    tagStyle: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '0.5px solid rgba(255,255,255,0.1)' },
+    accentColor: 'rgba(96,165,250,0.08)',
+    borderHover: 'rgba(96,165,250,0.4)',
     href: null,
   },
   {
     Icon: CareerNaviIcon,
-    iconBg: '#081a10',
+    iconBg: 'linear-gradient(135deg, #081a10, #040d08)',
+    iconGlow: 'rgba(93,202,165,0.3)',
     name: 'Career Navi.',
     desc: 'AI career navigation for Korean professionals',
     tag: 'Coming soon',
-    tagStyle: { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)', border: '0.5px solid rgba(255,255,255,0.1)' },
+    tagStyle: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '0.5px solid rgba(255,255,255,0.1)' },
+    accentColor: 'rgba(93,202,165,0.08)',
+    borderHover: 'rgba(93,202,165,0.4)',
     href: null,
   },
   {
     Icon: KPantryIcon,
-    iconBg: '#1a1000',
+    iconBg: 'linear-gradient(135deg, #1a1000, #0d0800)',
+    iconGlow: 'rgba(251,191,36,0.3)',
     name: 'k-pantry',
     desc: 'Korean recipes with what\'s in your fridge',
     tag: 'Coming soon',
-    tagStyle: { background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)', border: '0.5px solid rgba(255,255,255,0.1)' },
+    tagStyle: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '0.5px solid rgba(255,255,255,0.1)' },
+    accentColor: 'rgba(251,191,36,0.08)',
+    borderHover: 'rgba(251,191,36,0.4)',
     href: null,
-  },
-]
-
-const BLOG_POSTS = [
-  {
-    flag: 'k-patto · EN',
-    title: 'Why Korean Patterns Are the Fastest Path to Fluency',
-    link: '/blog/en/k-patto →',
-    href: '/blog/en/k-patto',
-  },
-  {
-    flag: 'patto · EN',
-    title: 'Why Patto teaches patterns, not grammar rules',
-    link: '/blog/en/patto →',
-    href: '/blog/en/patto',
-  },
-  {
-    flag: 'patto · KO',
-    title: '패토가 문법 대신 패턴을 가르치는 이유',
-    link: '/blog/ko/patto →',
-    href: '/blog/ko/patto',
-  },
-  {
-    flag: 'k-pantry · EN',
-    title: 'Complete Guide to Korean Pantry Essentials',
-    link: '/blog/en/k-pantry →',
-    href: '/blog/en/k-pantry',
   },
 ]
 
@@ -128,331 +105,536 @@ export default function AtlasLabHome() {
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { background: ${BG}; }
+        body { background: #080614; overflow-x: hidden; }
 
-        .al-nav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+        /* ── Animations ─────────────────────────────── */
+        @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,80px) scale(1.08); } }
+        @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,-60px) scale(1.05); } }
+        @keyframes float3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-40px) scale(1.1); } }
+        @keyframes gradShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes particleDrift {
+          0% { transform: translateY(0) translateX(0); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(-120px) translateX(20px); opacity: 0; }
+        }
+        @keyframes glowPulse { 0%,100% { box-shadow: 0 0 20px var(--glow,rgba(124,111,255,0.2)); } 50% { box-shadow: 0 0 40px var(--glow,rgba(124,111,255,0.4)), 0 0 80px var(--glow,rgba(124,111,255,0.1)); } }
+        @keyframes borderGlow { 0%,100% { border-color: rgba(124,111,255,0.2); } 50% { border-color: rgba(124,111,255,0.5); } }
+        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
+
+        /* ── Background orbs ─────────────────────────── */
+        .orb {
+          position: fixed; border-radius: 50%;
+          filter: blur(90px); pointer-events: none; z-index: 0; will-change: transform;
+        }
+        .orb-1 {
+          width: 600px; height: 600px;
+          background: radial-gradient(circle, rgba(100,80,220,0.18) 0%, transparent 70%);
+          top: -150px; left: -120px;
+          animation: float1 22s ease-in-out infinite;
+        }
+        .orb-2 {
+          width: 500px; height: 500px;
+          background: radial-gradient(circle, rgba(60,40,180,0.14) 0%, transparent 70%);
+          bottom: -80px; right: -100px;
+          animation: float2 28s ease-in-out infinite;
+        }
+        .orb-3 {
+          width: 350px; height: 350px;
+          background: radial-gradient(circle, rgba(180,100,255,0.1) 0%, transparent 70%);
+          top: 40%; left: 50%; transform: translate(-50%,-50%);
+          animation: float3 18s ease-in-out infinite;
+        }
+
+        /* ── Noise texture ───────────────────────────── */
+        .noise {
+          position: fixed; inset: 0; pointer-events: none; z-index: 1;
+          opacity: 0.025;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+          background-size: 200px;
+        }
+
+        /* ── Nav ─────────────────────────────────────── */
+        .nav {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
           display: flex; align-items: center; justify-content: space-between;
-          padding: 0 24px; height: 60px;
-          background: rgba(13,8,32,0.80);
-          backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-          border-bottom: 0.5px solid rgba(255,255,255,0.07);
+          padding: 0 28px; height: 62px;
+          background: rgba(8,6,20,0.7);
+          backdrop-filter: blur(24px) saturate(180%);
+          -webkit-backdrop-filter: blur(24px) saturate(180%);
+          border-bottom: 0.5px solid rgba(255,255,255,0.06);
+          animation: fadeIn 0.6s ease both;
         }
-        .al-nav-right { display: flex; align-items: center; gap: 24px; }
-        .al-nav-link {
-          font-family: ${FONT_BODY}; font-size: 13.5px; font-weight: 500;
-          color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.15s;
+        .nav-right { display: flex; align-items: center; gap: 28px; }
+        .nav-link {
+          font-family: ${FONT_BODY}; font-size: 13px; font-weight: 500;
+          color: rgba(255,255,255,0.45); text-decoration: none;
+          transition: color 0.2s; letter-spacing: 0.01em;
         }
-        .al-nav-link:hover { color: white; }
-        .al-nav-btn {
+        .nav-link:hover { color: rgba(255,255,255,0.9); }
+        .nav-btn {
           font-family: ${FONT_BODY}; font-size: 13px; font-weight: 600;
-          color: #a89fff;
-          background: rgba(124,111,255,0.2);
-          border: 1px solid rgba(124,111,255,0.4);
-          border-radius: 999px; padding: 7px 16px;
-          text-decoration: none; transition: background 0.15s;
+          color: white;
+          background: linear-gradient(135deg, rgba(124,111,255,0.9), rgba(168,143,255,0.9));
+          border: none; border-radius: 999px; padding: 8px 18px;
+          text-decoration: none;
+          box-shadow: 0 0 20px rgba(124,111,255,0.3);
+          transition: all 0.2s;
         }
-        .al-nav-btn:hover { background: rgba(124,111,255,0.3); }
+        .nav-btn:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 30px rgba(124,111,255,0.5);
+        }
         @media (max-width: 600px) {
-          .al-nav-right { gap: 14px; }
-          .al-nav-link { display: none; }
+          .nav-right { gap: 16px; }
+          .nav-link { display: none; }
         }
 
-        .al-hero {
+        /* ── Hero ────────────────────────────────────── */
+        .hero {
+          position: relative; z-index: 2;
           display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
-          text-align: center;
-          padding: 140px 24px 80px;
+          align-items: center; text-align: center;
+          padding: 160px 24px 100px;
+          overflow: hidden;
         }
-        .al-badge {
-          display: inline-flex; align-items: center; gap: 6px;
-          background: rgba(255,255,255,0.06);
-          border: 0.5px solid rgba(255,255,255,0.12);
-          border-radius: 999px; padding: 5px 14px;
+        .hero-badge {
+          display: inline-flex; align-items: center; gap: 8px;
+          background: rgba(124,111,255,0.08);
+          border: 0.5px solid rgba(124,111,255,0.3);
+          border-radius: 999px; padding: 6px 16px;
           font-family: ${FONT_BODY}; font-size: 11px; font-weight: 600;
-          color: rgba(255,255,255,0.45); letter-spacing: 0.1em; text-transform: uppercase;
-          margin-bottom: 28px;
+          color: rgba(168,143,255,0.8); letter-spacing: 0.12em; text-transform: uppercase;
+          margin-bottom: 36px;
+          animation: fadeUp 0.8s 0.1s ease both;
         }
-        .al-hero-title {
+        .badge-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: #a89fff;
+          animation: pulse 2s ease-in-out infinite;
+        }
+        .hero-title {
           font-family: ${FONT_DISPLAY};
-          font-size: clamp(32px, 5.5vw, 58px);
-          font-weight: 700; line-height: 1.18;
-          color: white; letter-spacing: -0.025em;
-          max-width: 700px; margin-bottom: 20px;
+          font-size: clamp(38px, 6.5vw, 72px);
+          font-weight: 700; line-height: 1.12;
+          letter-spacing: -0.03em;
+          max-width: 780px; margin-bottom: 24px;
+          color: white;
+          animation: fadeUp 0.8s 0.2s ease both;
         }
-        .al-hero-sub {
-          font-family: ${FONT_BODY}; font-size: clamp(14px, 2vw, 17px);
-          color: rgba(255,255,255,0.5); line-height: 1.7;
-          max-width: 500px;
+        .hero-title-accent {
+          background: linear-gradient(135deg, #c4b8ff 0%, #a89fff 40%, #7c6fff 80%, #c084fc 100%);
+          background-size: 200% auto;
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shimmer 4s linear infinite;
+        }
+        .hero-sub {
+          font-family: ${FONT_BODY}; font-size: clamp(15px, 2.2vw, 18px);
+          color: rgba(255,255,255,0.45); line-height: 1.75;
+          max-width: 480px; margin-bottom: 48px;
+          animation: fadeUp 0.8s 0.3s ease both;
+        }
+        .hero-cta {
+          display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+          animation: fadeUp 0.8s 0.4s ease both;
+        }
+        .btn-primary {
+          font-family: ${FONT_BODY}; font-size: 14px; font-weight: 700;
+          color: white;
+          background: linear-gradient(135deg, #7c6fff, #a855f7);
+          border: none; border-radius: 999px; padding: 13px 28px;
+          text-decoration: none; cursor: pointer;
+          box-shadow: 0 4px 30px rgba(124,111,255,0.4);
+          transition: all 0.25s;
+        }
+        .btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 40px rgba(124,111,255,0.6);
+        }
+        .btn-ghost {
+          font-family: ${FONT_BODY}; font-size: 14px; font-weight: 600;
+          color: rgba(255,255,255,0.7);
+          background: rgba(255,255,255,0.05);
+          border: 0.5px solid rgba(255,255,255,0.15);
+          border-radius: 999px; padding: 13px 28px;
+          text-decoration: none; cursor: pointer;
+          transition: all 0.25s;
+        }
+        .btn-ghost:hover {
+          background: rgba(255,255,255,0.08);
+          border-color: rgba(255,255,255,0.25);
+          transform: translateY(-2px);
         }
 
-        .al-section { max-width: 960px; margin: 0 auto; padding: 80px 24px; }
-        .al-section-label {
+        /* Hero grid lines */
+        .hero-grid {
+          position: absolute; inset: 0; pointer-events: none;
+          background-image:
+            linear-gradient(rgba(124,111,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(124,111,255,0.03) 1px, transparent 1px);
+          background-size: 60px 60px;
+          mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+        }
+
+        /* ── Section labels ──────────────────────────── */
+        .section-wrap {
+          max-width: 960px; margin: 0 auto; padding: 80px 24px;
+          position: relative; z-index: 2;
+        }
+        .section-label {
           font-family: ${FONT_BODY}; font-size: 11px; font-weight: 700;
-          letter-spacing: 0.15em; text-transform: uppercase;
-          color: rgba(255,255,255,0.3); text-align: center;
-          margin-bottom: 32px;
+          letter-spacing: 0.18em; text-transform: uppercase;
+          color: rgba(255,255,255,0.25); text-align: center;
+          margin-bottom: 40px;
+          display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+        .section-label::before, .section-label::after {
+          content: ''; flex: 1; max-width: 80px;
+          height: 0.5px; background: rgba(255,255,255,0.08);
         }
 
-        /* Product grid */
-        .al-products-grid {
+        /* ── Product cards ───────────────────────────── */
+        .products-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
+          gap: 14px;
         }
         @media (min-width: 720px) {
-          .al-products-grid { grid-template-columns: repeat(4, 1fr); }
+          .products-grid { grid-template-columns: repeat(4, 1fr); }
         }
-        .al-product-card {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 14px; padding: 20px 16px;
+        .product-card {
+          position: relative; overflow: hidden;
+          background: rgba(255,255,255,0.03);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 20px; padding: 22px 18px 20px;
           text-decoration: none; display: block;
-          transition: border-color 0.15s, background 0.15s;
+          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                      border-color 0.3s, background 0.3s, box-shadow 0.3s;
           cursor: default;
         }
-        .al-product-card-link { cursor: pointer; }
-        .al-product-card-link:hover {
+        .product-card-link { cursor: pointer; }
+        .product-card-link:hover {
+          transform: translateY(-4px) scale(1.01);
           border-color: rgba(124,111,255,0.4);
-          background: rgba(124,111,255,0.04);
+          background: rgba(124,111,255,0.06);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,111,255,0.1);
         }
-        .al-product-icon {
-          width: 56px; height: 56px; border-radius: 14px;
+        /* Shine overlay on hover */
+        .product-card::before {
+          content: '';
+          position: absolute; inset: 0;
+          background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
+          opacity: 0; transition: opacity 0.3s; border-radius: inherit;
+        }
+        .product-card-link:hover::before { opacity: 1; }
+        /* Glow bottom edge */
+        .product-card::after {
+          content: '';
+          position: absolute; bottom: 0; left: 20%; right: 20%; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.4), transparent);
+          opacity: 0; transition: opacity 0.3s;
+        }
+        .product-card-link:hover::after { opacity: 1; }
+
+        .product-icon-wrap {
+          width: 52px; height: 52px; border-radius: 14px;
           display: flex; align-items: center; justify-content: center;
-          margin-bottom: 16px;
+          margin-bottom: 18px;
+          position: relative;
+          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
         }
-        .al-product-name {
-          font-family: ${FONT_BODY}; font-size: 15px; font-weight: 700;
-          color: white; margin-bottom: 6px;
+        .product-card-link:hover .product-icon-wrap { transform: scale(1.1) rotate(-3deg); }
+        .product-name {
+          font-family: ${FONT_BODY}; font-size: 14.5px; font-weight: 700;
+          color: white; margin-bottom: 7px; letter-spacing: -0.01em;
         }
-        .al-product-desc {
-          font-family: ${FONT_BODY}; font-size: 12.5px;
-          color: rgba(255,255,255,0.45); line-height: 1.55; margin-bottom: 14px;
+        .product-desc {
+          font-family: ${FONT_BODY}; font-size: 12px;
+          color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: 16px;
         }
-        .al-product-tag {
+        .product-tag {
           display: inline-block;
-          font-family: ${FONT_BODY}; font-size: 10px; font-weight: 600;
-          letter-spacing: 0.05em; border-radius: 999px; padding: 2px 8px;
+          font-family: ${FONT_BODY}; font-size: 10px; font-weight: 700;
+          letter-spacing: 0.06em; border-radius: 999px; padding: 3px 9px;
         }
 
-        /* Blog grid */
-        .al-blog-grid {
-          display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+        /* ── Video button ────────────────────────────── */
+        .video-wrap {
+          text-align: center; padding: 0 0 60px; position: relative; z-index: 2;
         }
-        @media (max-width: 600px) { .al-blog-grid { grid-template-columns: 1fr; } }
-        .al-blog-card {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 12px; padding: 20px;
-          text-decoration: none; display: block;
-          transition: border-color 0.15s, background 0.15s;
+        .video-btn {
+          display: inline-flex; align-items: center; gap: 10px;
+          font-family: ${FONT_BODY}; font-size: 13.5px; font-weight: 600;
+          color: rgba(168,143,255,0.9);
+          background: rgba(124,111,255,0.08);
+          border: 1px solid rgba(124,111,255,0.25);
+          border-radius: 999px; padding: 10px 22px;
+          text-decoration: none;
+          transition: all 0.25s;
+          animation: borderGlow 3s ease-in-out infinite;
         }
-        .al-blog-card:hover {
-          border-color: rgba(255,255,255,0.15);
-          background: rgba(255,255,255,0.06);
+        .video-btn:hover {
+          background: rgba(124,111,255,0.15);
+          border-color: rgba(124,111,255,0.5);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(124,111,255,0.2);
         }
-        .al-blog-flag {
-          font-family: ${FONT_BODY}; font-size: 10px; font-weight: 700;
-          letter-spacing: 0.1em; text-transform: uppercase;
-          color: #a89fff; margin-bottom: 10px;
+        .play-icon {
+          width: 28px; height: 28px; border-radius: 50%;
+          background: rgba(124,111,255,0.2);
+          display: flex; align-items: center; justify-content: center;
+          flex-shrink: 0;
         }
-        .al-blog-title {
-          font-family: ${FONT_DISPLAY}; font-size: 16px; font-weight: 700;
-          color: white; line-height: 1.4; margin-bottom: 14px;
+
+        /* ── Divider ─────────────────────────────────── */
+        .divider {
+          max-width: 960px; margin: 0 auto 0;
+          border: none; border-top: 0.5px solid rgba(255,255,255,0.05);
+          position: relative; z-index: 2;
         }
-        .al-blog-link {
-          font-family: ${FONT_BODY}; font-size: 12px;
+        .divider-glow {
+          max-width: 400px; margin: 0 auto;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.3), transparent);
+          position: relative; z-index: 2;
+        }
+
+        /* ── Blog section ────────────────────────────── */
+        .blog-wrap {
+          max-width: 960px; margin: 0 auto;
+          padding: 60px 24px 80px; position: relative; z-index: 2;
+        }
+        .blog-app-group { margin-bottom: 28px; }
+        .blog-app-header {
+          display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+        }
+        .blog-app-name {
+          font-family: ${FONT_BODY}; font-size: 12px; font-weight: 700;
+          color: white; letter-spacing: 0.02em;
+        }
+        .blog-app-desc {
+          font-family: ${FONT_BODY}; font-size: 11px;
           color: rgba(255,255,255,0.3);
         }
-
-        .al-divider {
-          max-width: 960px; margin: 0 auto;
-          border: none; border-top: 0.5px solid rgba(255,255,255,0.07);
+        .blog-app-line {
+          flex: 1; height: 0.5px;
+          background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent);
         }
-
-        .al-footer {
-          padding: 32px 24px calc(32px + env(safe-area-inset-bottom, 0px));
-          text-align: center;
+        .blog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+        .blog-card {
+          position: relative; overflow: hidden;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 14px; padding: 18px;
+          text-decoration: none; display: block;
+          transition: all 0.25s;
+        }
+        .blog-card:hover {
+          background: rgba(255,255,255,0.055);
+          border-color: rgba(124,111,255,0.25);
+          transform: translateY(-2px);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        .blog-card::before {
+          content: '';
+          position: absolute; top: 0; left: 0; right: 0; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.3), transparent);
+          opacity: 0; transition: opacity 0.25s;
+        }
+        .blog-card:hover::before { opacity: 1; }
+        .blog-locale {
+          font-family: ${FONT_BODY}; font-size: 9.5px; font-weight: 700;
+          color: #a89fff; text-transform: uppercase; letter-spacing: 0.1em;
+          margin-bottom: 8px;
+        }
+        .blog-title {
+          font-family: ${FONT_DISPLAY}; font-size: 14px; font-weight: 700;
+          color: rgba(255,255,255,0.9); line-height: 1.45; margin-bottom: 12px;
+        }
+        .blog-link {
           font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.2); letter-spacing: 0.02em;
+          color: rgba(255,255,255,0.25);
         }
+        .blog-single .blog-card { max-width: 480px; }
 
-        .al-orb {
-          position: fixed; border-radius: 50%;
-          filter: blur(110px); pointer-events: none; z-index: 0;
+        /* ── Footer ──────────────────────────────────── */
+        .footer {
+          padding: 28px 24px calc(28px + env(safe-area-inset-bottom,0px));
+          text-align: center; position: relative; z-index: 2;
+          font-family: ${FONT_BODY}; font-size: 11px;
+          color: rgba(255,255,255,0.15); letter-spacing: 0.04em;
         }
-        .al-orb-1 {
-          width: 480px; height: 480px;
-          background: radial-gradient(circle, rgba(124,111,212,0.16), transparent 70%);
-          top: -100px; left: -80px;
-          animation: alFloat1 20s ease-in-out infinite alternate;
+        .footer-links {
+          display: flex; justify-content: center; gap: 20px;
+          margin-bottom: 10px;
         }
-        .al-orb-2 {
-          width: 380px; height: 380px;
-          background: radial-gradient(circle, rgba(80,50,180,0.12), transparent 70%);
-          bottom: 0; right: -60px;
-          animation: alFloat2 24s ease-in-out infinite alternate;
+        .footer-link {
+          font-family: ${FONT_BODY}; font-size: 11px;
+          color: rgba(255,255,255,0.2); text-decoration: none;
+          transition: color 0.2s;
         }
-        @keyframes alFloat1 { from { transform: translate(0,0); } to { transform: translate(50px,70px); } }
-        @keyframes alFloat2 { from { transform: translate(0,0); } to { transform: translate(-40px,-50px); } }
+        .footer-link:hover { color: rgba(255,255,255,0.5); }
       `}</style>
 
-      <div style={{ background: BG, minHeight: '100svh', color: 'white', position: 'relative', overflow: 'hidden' }}>
-        <div className="al-orb al-orb-1" />
-        <div className="al-orb al-orb-2" />
+      {/* Background */}
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="orb orb-3" />
+      <div className="noise" />
+
+      <div style={{ background: '#080614', minHeight: '100svh', color: 'white', position: 'relative', overflowX: 'hidden' }}>
 
         {/* Nav */}
-        <nav className="al-nav">
+        <nav className="nav">
           <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
             <img src="/atlaslab_nav_logo.png" alt="Atlas Lab" style={{ height: '47px', width: 'auto' }} />
           </a>
-          <div className="al-nav-right">
-            <a href="#products" className="al-nav-link">Products</a>
-            <a href="#blog" className="al-nav-link">Blog</a>
-            <a href="/patto/home" className="al-nav-btn">Get started</a>
+          <div className="nav-right">
+            <a href="#products" className="nav-link">Products</a>
+            <a href="#blog" className="nav-link">Blog</a>
+            <a href="/patto/home" className="nav-btn">Get started</a>
           </div>
         </nav>
 
         {/* Hero */}
-        <section className="al-hero" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="al-badge">
-            <svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3" fill="rgba(124,111,255,0.8)" /></svg>
+        <section className="hero">
+          <div className="hero-grid" />
+          <div className="hero-badge">
+            <span className="badge-dot" />
             ATLAS LAB · AI-POWERED APPS
           </div>
-          <h1 className="al-hero-title">
-            Tools that make you <span style={{ color: '#a89fff' }}>better</span>,<br />
+          <h1 className="hero-title">
+            Tools that make you{' '}
+            <span className="hero-title-accent">better</span>,<br />
             one skill at a time.
           </h1>
-          <p className="al-hero-sub">
-            Atlas Lab builds AI-powered apps for language learning, career growth, and daily life.
+          <p className="hero-sub">
+            Atlas Lab builds AI-powered apps for language learning,<br />
+            career growth, and daily life.
           </p>
+          <div className="hero-cta">
+            <a href="/patto/home" className="btn-primary">Start learning free →</a>
+            <a href="#products" className="btn-ghost">Explore products</a>
+          </div>
         </section>
 
         {/* Products */}
-        <section className="al-section" id="products" style={{ position: 'relative', zIndex: 1, paddingTop: 0 }}>
-          <p className="al-section-label">Our Products</p>
-          <div className="al-products-grid">
+        <div className="section-wrap" id="products" style={{ paddingTop: 20 }}>
+          <p className="section-label">Our Products</p>
+          <div className="products-grid">
             {PRODUCTS.map(p => {
               const inner = (
                 <>
-                  <div className="al-product-icon" style={{ background: p.iconBg }}>
+                  <div className="product-icon-wrap" style={{ background: p.iconBg }}>
                     <p.Icon />
                   </div>
-                  <div className="al-product-name">{p.name}</div>
-                  <div className="al-product-desc">{p.desc}</div>
-                  <span className="al-product-tag" style={p.tagStyle}>{p.tag}</span>
+                  <div className="product-name">{p.name}</div>
+                  <div className="product-desc">{p.desc}</div>
+                  <span className="product-tag" style={p.tagStyle}>{p.tag}</span>
                 </>
               )
               return p.href ? (
-                <a
-                  key={p.name}
-                  href={p.href}
-                  className="al-product-card al-product-card-link"
-                >
+                <a key={p.name} href={p.href} className="product-card product-card-link">
                   {inner}
                 </a>
               ) : (
-                <div key={p.name} className="al-product-card">
+                <div key={p.name} className="product-card">
                   {inner}
                 </div>
               )
             })}
           </div>
-        </section>
+        </div>
 
-        <div style={{ textAlign: 'center', padding: '1rem 0 2rem' }}>
-          <a href="/videos" style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            color: '#a89fff',
-            fontSize: '0.9rem',
-            textDecoration: 'none',
-            border: '1px solid rgba(124,111,255,0.3)',
-            padding: '0.5rem 1.25rem',
-            borderRadius: '999px',
-          }}>
-            ▶ Watch Patto in action
+        {/* Video CTA */}
+        <div className="video-wrap">
+          <a href="/videos" className="video-btn">
+            <span className="play-icon">
+              <svg width="10" height="11" viewBox="0 0 10 11" fill="none">
+                <path d="M2 2l7 3.5L2 9V2z" fill="#a89fff"/>
+              </svg>
+            </span>
+            Watch Patto in action
           </a>
         </div>
 
-        <hr className="al-divider" />
+        {/* Divider */}
+        <div className="divider-glow" />
 
         {/* Blog */}
-        {/* Blog Section */}
-        <div id="blog" style={{ padding: '2rem 1.5rem' }}>
-          <p style={{
-            fontSize: '11px',
-            color: 'rgba(255,255,255,0.3)',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-            marginBottom: '2rem',
-          }}>From the blog</p>
+        <div className="blog-wrap" id="blog">
+          <p className="section-label" style={{ marginBottom: '32px' }}>From the blog</p>
 
           {/* patto */}
-          <div style={{ marginBottom: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.75rem' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: 'white' }}>patto</span>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>English pattern learning</span>
-              <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
+          <div className="blog-app-group">
+            <div className="blog-app-header">
+              <span className="blog-app-name">patto</span>
+              <span className="blog-app-desc">English pattern learning</span>
+              <div className="blog-app-line" />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-              <a href="/blog/en/patto" className="al-blog-card">
-                <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
-                  Why Patto teaches patterns, not grammar rules
-                </p>
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/patto →</span>
+            <div className="blog-grid">
+              <a href="/blog/en/patto" className="blog-card">
+                <div className="blog-locale">EN</div>
+                <div className="blog-title">Why Patto teaches patterns, not grammar rules</div>
+                <div className="blog-link">/blog/en/patto →</div>
               </a>
-              <a href="/blog/ko/patto" className="al-blog-card">
-                <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>KO</span>
-                <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
-                  패토가 문법 대신 패턴을 가르치는 이유
-                </p>
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/ko/patto →</span>
+              <a href="/blog/ko/patto" className="blog-card">
+                <div className="blog-locale">KO</div>
+                <div className="blog-title">패토가 문법 대신 패턴을 가르치는 이유</div>
+                <div className="blog-link">/blog/ko/patto →</div>
               </a>
             </div>
           </div>
 
           {/* k-patto */}
-          <div style={{ marginBottom: '2rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.75rem' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: 'white' }}>k-patto</span>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Korean pattern learning</span>
-              <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
+          <div className="blog-app-group">
+            <div className="blog-app-header">
+              <span className="blog-app-name">k-patto</span>
+              <span className="blog-app-desc">Korean pattern learning</span>
+              <div className="blog-app-line" />
             </div>
-            <a href="/blog/en/k-patto" className="al-blog-card">
-              <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
-              <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
-                Why Korean patterns are the fastest path to fluency
-              </p>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/k-patto →</span>
-            </a>
+            <div className="blog-single">
+              <a href="/blog/en/k-patto" className="blog-card">
+                <div className="blog-locale">EN</div>
+                <div className="blog-title">Why Korean patterns are the fastest path to fluency</div>
+                <div className="blog-link">/blog/en/k-patto →</div>
+              </a>
+            </div>
           </div>
 
           {/* k-pantry */}
-          <div style={{ marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '0.75rem' }}>
-              <span style={{ fontSize: '13px', fontWeight: 600, color: 'white' }}>k-pantry</span>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>Korean food & cooking</span>
-              <div style={{ flex: 1, height: '0.5px', background: 'rgba(255,255,255,0.08)' }} />
+          <div className="blog-app-group" style={{ marginBottom: 0 }}>
+            <div className="blog-app-header">
+              <span className="blog-app-name">k-pantry</span>
+              <span className="blog-app-desc">Korean food & cooking</span>
+              <div className="blog-app-line" />
             </div>
-            <a href="/blog/en/k-pantry" className="al-blog-card">
-              <span style={{ fontSize: '10px', color: '#a89fff', textTransform: 'uppercase', letterSpacing: '0.08em' }}>EN</span>
-              <p style={{ fontSize: '13px', fontWeight: 600, color: 'white', margin: '0.3rem 0 0.5rem', lineHeight: 1.4 }}>
-                Complete guide to Korean pantry essentials
-              </p>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.3)' }}>/blog/en/k-pantry →</span>
-            </a>
+            <div className="blog-single">
+              <a href="/blog/en/k-pantry" className="blog-card">
+                <div className="blog-locale">EN</div>
+                <div className="blog-title">Complete guide to Korean pantry essentials</div>
+                <div className="blog-link">/blog/en/k-pantry →</div>
+              </a>
+            </div>
           </div>
-
         </div>
 
-        <hr className="al-divider" />
-
         {/* Footer */}
-        <footer className="al-footer">
+        <hr className="divider" />
+        <footer className="footer">
+          <div className="footer-links">
+            <a href="/patto/home" className="footer-link">patto</a>
+            <a href="/blog/en/patto" className="footer-link">blog</a>
+            <a href="/videos" className="footer-link">videos</a>
+          </div>
           © 2025 Atlas Lab Studios · atlaslabstudios.com
         </footer>
       </div>

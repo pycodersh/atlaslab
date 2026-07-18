@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Flame, BookOpen, Zap } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useTheme } from '@/components/ThemeProvider'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { TopNav } from '@/components/TopNav'
@@ -12,11 +12,11 @@ import { LearningCalendar } from '@/components/LearningCalendar'
 import { getFutureSchedule, type ScheduledDay } from '@/lib/srs/engine'
 import { getActivityByDate } from '@/lib/srs/storage'
 
-// ── Constants ──────────────────────────────────────────────────────────────────
+// ?? Constants ??????????????????????????????????????????????????????????????????
 const WEEKLY_GOAL = 10
 const DAILY_GOAL  = 1
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
+// ?? Helpers ????????????????????????????????????????????????????????????????????
 function toIso(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
@@ -38,8 +38,19 @@ function getWeekDays(): Date[] {
 }
 
 const DOW_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+const MONTHS     = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
-// ── CountUp hook ───────────────────────────────────────────────────────────────
+function getRelativeDateLabel(iso: string | null): string {
+  if (!iso) return ''
+  const todayIso     = toIso(new Date())
+  const yesterdayIso = toIso(new Date(Date.now() - 86400000))
+  if (iso === todayIso)     return 'Today'
+  if (iso === yesterdayIso) return 'Yesterday'
+  const d = new Date(iso + 'T12:00:00')
+  return `${MONTHS[d.getMonth()]} ${d.getDate()}`
+}
+
+// ?? CountUp hook ???????????????????????????????????????????????????????????????
 function useCountUp(target: number, duration = 900, enabled = true): number {
   const [count, setCount] = useState(0)
   const rafRef = useRef<number>(0)
@@ -61,7 +72,7 @@ function useCountUp(target: number, duration = 900, enabled = true): number {
   return count
 }
 
-// ── Animated Ring (Animated Radial Chart pattern) ─────────────────────────────
+// ?? Animated Ring (Animated Radial Chart pattern) ?????????????????????????????
 function AnimatedRing({
   pct, size = 96, stroke = 8,
   color = '#6B8FFF', trackColor = 'rgba(0,0,0,0.07)',
@@ -108,7 +119,7 @@ function AnimatedRing({
   )
 }
 
-// ── Animated Bar Chart (Activity Chart Card pattern) ──────────────────────────
+// ?? Animated Bar Chart (Activity Chart Card pattern) ??????????????????????????
 function AnimatedBarChart({
   weekDays, dayCountMap, today, isDark, reducedMotion,
 }: {
@@ -152,7 +163,7 @@ function AnimatedBarChart({
               alignItems: 'center', height: '100%', justifyContent: 'flex-end', gap: 4,
             }}
           >
-            {/* Count label — only for days with activity */}
+            {/* Count label ??only for days with activity */}
             <span style={{
               fontSize: 8, fontWeight: 700, lineHeight: 1,
               color: isToday ? accent : textMuted,
@@ -162,7 +173,7 @@ function AnimatedBarChart({
               {count > 0 ? count : ''}
             </span>
 
-            {/* Bar wrapper — fixed height for track */}
+            {/* Bar wrapper ??fixed height for track */}
             <div style={{ width: '100%', height: 56, display: 'flex', alignItems: 'flex-end', position: 'relative' }}>
               {/* Track (subtle baseline) */}
               <div style={{
@@ -183,7 +194,7 @@ function AnimatedBarChart({
               }} />
             </div>
 
-            {/* Day label — circle for today */}
+            {/* Day label ??circle for today */}
             {isToday ? (
               <div style={{
                 width: 22, height: 22, borderRadius: 11,
@@ -210,7 +221,7 @@ function AnimatedBarChart({
   )
 }
 
-// ── Story Dots (for My Stories list) ──────────────────────────────────────────
+// ?? Story Dots (for My Stories list) ??????????????????????????????????????????
 function StoryDots({ round, isMastered }: { round: number; isMastered: boolean }) {
   const filled = isMastered ? '#D7B56D' : '#6B8FFF'
   return (
@@ -226,8 +237,9 @@ function StoryDots({ round, isMastered }: { round: number; isMastered: boolean }
   )
 }
 
-// ── Page ───────────────────────────────────────────────────────────────────────
+// ?? Page ???????????????????????????????????????????????????????????????????????
 export default function ProgressPage() {
+  const router = useRouter()
   const { theme } = useTheme()
   const isDark = theme === 'dark'
 
@@ -304,7 +316,26 @@ export default function ProgressPage() {
   const masteredCount = storyMapStats.completed
   const mapPct        = Math.round((masteredCount / storyMapStats.total) * 100)
 
-  // ── Design tokens ────────────────────────────────────────────────────────────
+  const weekRangeLabel = useMemo(() => {
+    const s = weekDays[0], e = weekDays[6]
+    return `${MONTHS[s.getMonth()]} ${s.getDate()} – ${e.getDate()}`
+  }, [weekDays])
+
+  const activeDaysThisWeek = useMemo(() =>
+    weekDays.filter(d => (dayCountMap[toIso(d)] ?? 0) > 0).length,
+  [weekDays, dayCountMap])
+
+  const recentSessions = useMemo(() =>
+    [...myStoriesData]
+      .filter(r => r.lastCompletedAt)
+      .sort((a, b) => (b.lastCompletedAt ?? '').localeCompare(a.lastCompletedAt ?? ''))
+      .slice(0, 3),
+  [myStoriesData])
+
+  const totalPatterns = useMemo(() =>
+    magazineStories.reduce((sum, s) => sum + s.patterns.length, 0), [])
+
+  // ?? Design tokens ????????????????????????????????????????????????????????????
   const surface: React.CSSProperties = {
     borderRadius: 20,
     background:   'var(--pglass)',
@@ -315,431 +346,159 @@ export default function ProgressPage() {
       ? '0 4px 24px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.05)'
       : '0 2px 20px rgba(80,100,200,0.06)',
   }
+  const dividerC = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'
 
-  const textPri   = 'var(--pt)'
-  const textSec   = 'var(--pt)'
-  const textMuted = 'var(--pm)'
-  const textLabel = 'var(--pm)'
-  const dividerC  = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)'
-  const trackColor = isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.06)'
-
-  // Heatmap colors
-  const hmColors = {
-    empty:   isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.08)',
-    lvl1:    isDark ? 'rgba(107,143,255,0.25)' : 'rgba(107,143,255,0.20)',
-    lvl2:    isDark ? 'rgba(107,143,255,0.52)' : 'rgba(107,143,255,0.44)',
-    master:  isDark ? 'rgba(215,181,109,0.88)' : 'rgba(215,181,109,0.82)',
+  const SEC: React.CSSProperties = {
+    fontSize: 11.5, fontWeight: 800, letterSpacing: '0.08em',
+    color: 'var(--pt)', textTransform: 'uppercase', margin: '0 0 10px 2px',
   }
+
+  const storyDone = todayCount > 0
+
+  // ?? Step circle helper ????????????????????????????????????????????????????????
+  const stepCircle = (active: boolean) => (
+    <div style={{
+      width: 26, height: 26, borderRadius: '50%',
+      border: `2px solid ${active ? '#6B8FFF' : 'rgba(180,185,220,0.45)'}`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <div style={{ width: 8, height: 8, borderRadius: '50%', background: active ? '#6B8FFF' : 'rgba(180,185,220,0.45)' }} />
+    </div>
+  )
 
   return (
     <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
       <TopNav />
 
-      {/* ── Sub-header ─────────────────────────────────────────────────────── */}
-      <div style={{
-        maxWidth: 480, margin: '0 auto',
-        padding: '10px 20px 2px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      }}>
-        <span style={{ fontSize: 12, fontWeight: 600, color: textSec }}>
-          {getMonthLabel()}
-        </span>
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: '12px 20px', display: 'flex', flexDirection: 'column', gap: 20 }}>
 
-        {/* iOS segmented control */}
-        <div style={{
-          display: 'flex', gap: 2,
-          background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.055)',
-          border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.06)'}`,
-          borderRadius: 13, padding: 3,
-        }}>
-          {(['weekly', 'monthly'] as const).map(v => (
-            <button
-              key={v}
-              type="button"
-              onClick={() => setViewMode(v)}
-              style={{
-                height: 28, padding: '0 13px', borderRadius: 10,
-                border: 'none', cursor: 'pointer',
-                fontSize: 11, fontWeight: 700, fontFamily: 'inherit',
-                background: viewMode === v
-                  ? (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.96)')
-                  : 'transparent',
-                color: viewMode === v ? textPri : textMuted,
-                boxShadow: viewMode === v
-                  ? (isDark ? '0 1px 6px rgba(0,0,0,0.28)' : '0 1px 6px rgba(0,0,0,0.09)')
-                  : 'none',
-                transition: 'background 0.15s, color 0.15s, box-shadow 0.15s',
-              }}
-            >
-              {v === 'weekly' ? 'Weekly' : 'Monthly'}
-            </button>
+        {/* ?? TODAY'S SESSION ???????????????????????????????????????????????? */}
+        <div>
+          <p style={SEC}>TODAY&apos;S SESSION</p>
+          <div style={{ ...surface, padding: '20px 20px 18px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 14 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                {stepCircle(true)}
+                <span style={{ fontSize: 8.5, fontWeight: 700, color: '#6B8FFF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>STORY</span>
+              </div>
+              <div style={{ flex: 1, height: 1.5, background: 'rgba(142,167,255,0.28)', alignSelf: 'flex-start', marginTop: 12, marginLeft: 3, marginRight: 3 }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                {stepCircle(false)}
+                <span style={{ fontSize: 8.5, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>PATTERN</span>
+              </div>
+              <div style={{ flex: 1, height: 1.5, background: 'rgba(142,167,255,0.28)', alignSelf: 'flex-start', marginTop: 12, marginLeft: 3, marginRight: 3 }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                {stepCircle(false)}
+                <span style={{ fontSize: 8.5, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>CHALLENGE</span>
+              </div>
+            </div>
+            <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--pt)' }}>
+              {storyDone
+                ? `Good work today! ${todayCount} ${todayCount === 1 ? 'story' : 'stories'} done.`
+                : "Start your session when you're ready."}
+            </p>
+          </div>
+        </div>
+
+        {/* ?? Stats: 4 cards ????????????????????????????????????????????????? */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+          {([
+            { value: String(displayStreak), label: 'STREAK',     color: '#E8914A' },
+            { value: String(todayCount),    label: 'SESSIONS',   color: '#6B8FFF' },
+            { value: String(displayPattern),label: 'PATTERNS',   color: '#9B8FE8' },
+            { value: '—',                   label: 'CHALLENGES', color: '#D7B56D' },
+          ] as const).map(({ value, label, color }) => (
+            <div key={label} style={{ ...surface, borderRadius: 16, padding: '12px 4px 10px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+              <span style={{ fontSize: 22, fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+              <span style={{ fontSize: 7, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.09em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>{label}</span>
+            </div>
           ))}
         </div>
-      </div>
 
-      <div style={{ maxWidth: 480, margin: '0 auto', padding: '6px 20px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-
-        {/* ── Hero: Animated Radial Progress ─────────────────────────────── */}
-        <div style={{
-          ...surface,
-          borderRadius: 24,
-          padding: '20px 20px 18px',
-          background: isDark
-            ? (isOutperform ? 'rgba(215,181,109,0.07)' : 'rgba(107,143,255,0.07)')
-            : (isOutperform ? 'rgba(255,252,245,0.95)' : 'rgba(248,250,255,0.95)'),
-          border: `1px solid ${isDark
-            ? (isOutperform ? 'rgba(215,181,109,0.18)' : 'rgba(107,143,255,0.16)')
-            : (isOutperform ? 'rgba(215,181,109,0.22)' : 'rgba(107,143,255,0.14)')}`,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {/* Left */}
-            <div style={{ flex: 1 }}>
-              <p style={{
-                margin: '0 0 8px', fontSize: 11, fontWeight: 700,
-                letterSpacing: '0.12em', textTransform: 'uppercase', color: textLabel,
-              }}>
-                THIS WEEK
-              </p>
-              <p style={{
-                margin: 0, fontSize: 44, fontWeight: 800, color: textPri,
-                lineHeight: 1, letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums',
-              }}>
-                {displayWeekly}
-                <span style={{ fontSize: 20, fontWeight: 600, color: textSec }}>
-                  /{WEEKLY_GOAL}
-                </span>
-              </p>
-              <p style={{
-                margin: '4px 0 0', fontSize: 10, fontWeight: 600,
-                letterSpacing: '0.06em', textTransform: 'uppercase', color: textSec,
-              }}>
-                STORIES
-              </p>
-
-              {/* Progress bar */}
-              <div style={{
-                marginTop: 14, height: 3, borderRadius: 99,
-                background: isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.06)',
-                overflow: 'hidden',
-              }}>
-                <div style={{
-                  height: '100%', borderRadius: 99,
-                  width: `${weeklyPct}%`,
-                  background: ringColor,
-                  opacity: 0.72,
-                  transition: reducedMotion ? 'none' : 'width 1.1s cubic-bezier(0.22,1,0.36,1)',
-                }} />
-              </div>
-
-              <p style={{ margin: '8px 0 0', fontSize: 11, color: textSec, fontWeight: 500 }}>
-                {isOutperform
-                  ? `목표 초과 달성 · 오늘 ${todayCount}개`
-                  : `${Math.max(WEEKLY_GOAL - weeklyStoryCount, 0)}개 남았어요`}
-              </p>
-            </div>
-
-            {/* Right: Animated ring + countup */}
-            <div style={{ position: 'relative', flexShrink: 0, width: 92, height: 92 }}>
-              <AnimatedRing
-                pct={weeklyPct}
-                size={92} stroke={7}
-                color={ringColor}
-                trackColor={trackColor}
-                reducedMotion={reducedMotion}
-              />
-              <div style={{
-                position: 'absolute', inset: 0,
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'center', gap: 0,
-              }}>
-                <span style={{
-                  fontSize: 22, fontWeight: 800, color: ringColor,
-                  lineHeight: 1, letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums',
-                }}>
-                  {displayPct}%
-                </span>
-                <span style={{
-                  fontSize: 7, fontWeight: 700, letterSpacing: '0.10em',
-                  textTransform: 'uppercase', color: textMuted, marginTop: 2,
-                }}>
-                  DONE
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ── Compact Stats Row (single card, 3 columns) ─────────────────── */}
-        <div style={{ ...surface, padding: '14px 16px' }}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {[
-              { icon: <Flame style={{ width: 12, height: 12 }} strokeWidth={2} />, value: displayStreak,  label: 'Streak',  color: '#E8914A' },
-              { icon: <BookOpen style={{ width: 12, height: 12 }} strokeWidth={2} />, value: displayWeekly,  label: '이번 주', color: '#6B8FFF' },
-              { icon: <Zap style={{ width: 12, height: 12 }} strokeWidth={2} />,     value: displayPattern, label: '패턴',    color: '#9B8FE8' },
-            ].map((m, i) => (
-              <div key={i} style={{
-                flex: 1,
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', gap: 4, padding: '2px 0',
-                borderLeft: i > 0 ? `1px solid ${dividerC}` : 'none',
-              }}>
-                <span style={{
-                  fontSize: 28, fontWeight: 800, color: m.color,
-                  lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums',
-                }}>
-                  {m.value}
-                </span>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                  <span style={{ color: m.color, display: 'flex' }}>{m.icon}</span>
-                  <span style={{
-                    fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
-                    letterSpacing: '0.06em', color: textMuted,
-                  }}>
-                    {m.label}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Activity Chart ──────────────────────────────────────────────── */}
-        <div style={{ ...surface, padding: '14px 16px 16px' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center',
-            justifyContent: 'space-between', marginBottom: 12,
-          }}>
-            <span style={{
-              fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
-              textTransform: 'uppercase', color: textLabel,
-            }}>
-              {viewMode === 'weekly' ? 'WEEKLY ACTIVITY' : 'MONTHLY VIEW'}
-            </span>
-            {viewMode === 'weekly' && weeklyStoryCount > 0 && (
-              <span style={{ fontSize: 10, fontWeight: 600, color: textMuted }}>
-                {weeklyStoryCount}개 완료
-              </span>
-            )}
-          </div>
-
-          {viewMode === 'weekly' ? (
-            <AnimatedBarChart
-              weekDays={weekDays}
-              dayCountMap={dayCountMap}
-              today={today}
-              isDark={isDark}
-              reducedMotion={reducedMotion}
-            />
-          ) : (
-            <LearningCalendar
-              onDaySelect={(iso) => setSelectedIso(prev => prev === iso ? null : iso)}
-              selectedIso={selectedIso}
-              futureSchedule={futureSchedule}
-              streak={streak}
-            />
-          )}
-        </div>
-
-        {/* ── My Stories ──────────────────────────────────────────────────── */}
-        {myStoriesData.length > 0 && (
-          <div style={{ ...surface, padding: '14px 16px' }}>
-            <div style={{
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'space-between', marginBottom: 10,
-            }}>
-              <span style={{
-                fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
-                textTransform: 'uppercase', color: textLabel,
-              }}>
-                MY STORIES
-              </span>
-              <span style={{ fontSize: 10, fontWeight: 600, color: textMuted }}>
-                {myStoriesData.length}개
-              </span>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {myStoriesData.map(({ storyId, round, isMastered, story }, i) => (
-                <div key={storyId} style={{
-                  display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0',
-                  borderTop: i === 0 ? 'none' : `1px solid ${dividerC}`,
-                }}>
+        {/* ?? RECENT SESSIONS ???????????????????????????????????????????????? */}
+        {recentSessions.length > 0 && (
+          <div>
+            <p style={SEC}>RECENT SESSIONS</p>
+            <div style={surface}>
+              {recentSessions.map(({ storyId, round, lastCompletedAt, story }, i) => (
+                <button
+                  key={storyId} type="button"
+                  onClick={() => router.push(`/patto/stories/${storyId}`)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 12, width: '100%',
+                    textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer',
+                    padding: '13px 16px', fontFamily: 'inherit',
+                    borderTop: i === 0 ? 'none' : `1px solid ${dividerC}`,
+                  }}
+                >
                   <div style={{
-                    width: 32, height: 32, borderRadius: 9, flexShrink: 0,
-                    background: isMastered
-                      ? 'rgba(215,181,109,0.13)'
-                      : (isDark ? 'rgba(107,143,255,0.10)' : 'rgba(107,143,255,0.07)'),
-                    border: `1px solid ${isMastered ? 'rgba(215,181,109,0.26)' : 'rgba(107,143,255,0.14)'}`,
+                    width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+                    background: 'rgba(107,143,255,0.10)', border: '1px solid rgba(107,143,255,0.18)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <span style={{
-                      fontSize: 8, fontWeight: 800,
-                      color: isMastered ? '#D7B56D' : (isDark ? 'rgba(142,167,255,0.88)' : '#6B8FFF'),
-                    }}>
-                      S{String(storyId).padStart(2, '0')}
-                    </span>
+                    <span style={{ fontSize: 9, fontWeight: 800, color: '#6B8FFF' }}>S{String(storyId).padStart(2, '0')}</span>
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{
-                      display: 'block', fontSize: 12.5, fontWeight: 600,
-                      color: 'var(--pt)',
-                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      marginBottom: 4,
-                    }}>
-                      {story?.title ?? ''}
-                    </span>
-                    <StoryDots round={round} isMastered={isMastered} />
+                    <p style={{ margin: '0 0 2px', fontSize: 13, fontWeight: 600, color: 'var(--pt)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{story?.title ?? ''}</p>
+                    <p style={{ margin: 0, fontSize: 11, color: 'var(--pm)' }}>{getRelativeDateLabel(lastCompletedAt)}</p>
                   </div>
-                  {isMastered ? (
-                    <span style={{
-                      fontSize: 9, fontWeight: 700, color: '#D7B56D',
-                      background: 'rgba(215,181,109,0.10)',
-                      border: '1px solid rgba(215,181,109,0.20)',
-                      borderRadius: 7, padding: '3px 8px', flexShrink: 0,
-                    }}>
-                      마스터
-                    </span>
-                  ) : (
-                    <span style={{
-                      fontSize: 9, fontWeight: 700,
-                      color: isDark ? 'rgba(142,167,255,0.88)' : '#6B8FFF',
-                      background: 'rgba(107,143,255,0.08)',
-                      border: '1px solid rgba(107,143,255,0.14)',
-                      borderRadius: 7, padding: '3px 8px', flexShrink: 0,
-                    }}>
-                      {round}회차
-                    </span>
-                  )}
-                </div>
+                  <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--pm)', border: '1px solid var(--pglass-border)', borderRadius: 8, padding: '3px 8px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                    Round {round}
+                  </span>
+                </button>
               ))}
             </div>
           </div>
         )}
 
-        {myStoriesData.length === 0 && (
-          <div style={{ padding: '24px 4px', textAlign: 'center' }}>
-            <p style={{ fontSize: 12.5, fontWeight: 600, color: 'var(--pt)', margin: '0 0 3px' }}>
-              아직 시작한 스토리가 없어요
-            </p>
-            <p style={{
-              fontSize: 11.5, color: 'var(--pm)',
-              margin: 0, lineHeight: 1.5,
-            }}>
-              스토리를 완료하면 여기에 기록돼요
-            </p>
-          </div>
-        )}
-
-        {/* ── Story Map Heatmap ───────────────────────────────────────────── */}
-        <div style={{ ...surface, padding: '14px 16px 16px' }}>
-          {/* Header */}
-          <div style={{
-            display: 'flex', alignItems: 'flex-start',
-            justifyContent: 'space-between', marginBottom: 10,
-          }}>
-            <div>
-              <span style={{
-                fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
-                textTransform: 'uppercase', color: textLabel, display: 'block', marginBottom: 1,
-              }}>
-                STORY MAP
-              </span>
-              <span style={{ fontSize: 11, fontWeight: 600, color: textSec }}>
-                S01 – S{magazineStories.length.toString().padStart(2, '0')}
-              </span>
+        {/* ?? THIS WEEK ?????????????????????????????????????????????????????? */}
+        <div>
+          <p style={SEC}>THIS WEEK</p>
+          <div style={{ ...surface, padding: '16px 16px 14px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+              <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.01em' }}>{weekRangeLabel}</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)' }}>{activeDaysThisWeek} / 7 days</span>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <span style={{
-                fontSize: 20, fontWeight: 800, color: '#D7B56D',
-                lineHeight: 1, letterSpacing: '-0.02em',
-              }}>
-                {masteredCount}
-              </span>
-              <span style={{ fontSize: 9, fontWeight: 600, color: textMuted }}>/{storyMapStats.total}</span>
-              <span style={{
-                display: 'block', fontSize: 8, fontWeight: 700,
-                textTransform: 'uppercase', letterSpacing: '0.06em', color: textMuted,
-              }}>
-                MASTERED
-              </span>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
+              {weekDays.map((d, i) => {
+                const iso = toIso(d)
+                const isToday = iso === today
+                const hasActivity = (dayCountMap[iso] ?? 0) > 0
+                return (
+                  <div key={iso} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--pm)' }}>{DOW_LABELS[i]}</span>
+                    <div style={{
+                      width: 28, height: 28, borderRadius: '50%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: hasActivity && !isToday ? 'rgba(107,143,255,0.12)' : 'transparent',
+                      border: isToday ? '2px solid #6B8FFF' : 'none',
+                    }}>
+                      <span style={{ fontSize: 11, fontWeight: isToday ? 700 : 500, color: isToday ? '#6B8FFF' : (hasActivity ? '#6B8FFF' : 'var(--pt)') }}>
+                        {d.getDate()}
+                      </span>
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
+        </div>
 
-          {/* Legend */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-            {[
-              { dot: hmColors.empty,  label: '미시작' },
-              { dot: hmColors.lvl1,   label: '1–2회' },
-              { dot: hmColors.lvl2,   label: '3–4회' },
-              { dot: hmColors.master, label: '마스터' },
-            ].map(({ dot, label }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                <div style={{
-                  width: 8, height: 8, borderRadius: 2,
-                  background: dot, flexShrink: 0,
-                }} />
-                <span style={{ fontSize: 8.5, fontWeight: 600, color: textMuted }}>{label}</span>
-              </div>
-            ))}
+        {/* ?? OVERALL PROGRESS ??????????????????????????????????????????????? */}
+        <div>
+          <p style={SEC}>OVERALL PROGRESS</p>
+          <div style={{ ...surface, padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 44, fontWeight: 800, color: 'var(--pt)', letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
+              {mapPct}%
+            </span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)', textAlign: 'right', lineHeight: 1.5 }}>
+              {masteredCount} / {totalPatterns} patterns
+            </span>
           </div>
-
-          {/* Progress bar */}
-          <div style={{
-            marginBottom: 10, height: 3, borderRadius: 99,
-            background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              height: '100%', borderRadius: 99,
-              width: `${mapPct}%`,
-              background: 'linear-gradient(90deg, rgba(215,181,109,0.6), #D7B56D)',
-              transition: reducedMotion ? 'none' : 'width 1.2s cubic-bezier(0.22,1,0.36,1)',
-            }} />
-          </div>
-
-          {/* Heatmap grid — compact 10×10 */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(10, 1fr)',
-            gap: 3,
-          }}>
-            {magazineStories.map((ms, i) => {
-              const rd         = storyRounds[i]
-              const round      = rd?.round ?? 0
-              const isMastered = rd?.isMastered ?? false
-
-              let bg: string
-              if (isMastered)  bg = hmColors.master
-              else if (round >= 3) bg = hmColors.lvl2
-              else if (round >= 1) bg = hmColors.lvl1
-              else                 bg = hmColors.empty
-
-              return (
-                <div
-                  key={ms.id}
-                  title={`S${String(ms.id).padStart(2, '0')} · ${ms.title}${isMastered ? ' ✓' : ` · ${round}회`}`}
-                  style={{
-                    aspectRatio: '1 / 1',
-                    borderRadius: 4,
-                    background: bg,
-                    border: '1px solid var(--pglass-border)',
-                    cursor: 'default',
-                    transition: 'opacity 0.12s',
-                  }}
-                />
-              )
-            })}
-          </div>
-
-          {/* Footer */}
-          <p style={{
-            margin: '10px 0 0', textAlign: 'center',
-            fontSize: 9.5, fontWeight: 500, color: textMuted,
-          }}>
-            완료 {masteredCount} · 진행중 {storyMapStats.inProgress} · 전체 {storyMapStats.total}
-          </p>
         </div>
 
       </div>
     </div>
   )
 }
+
