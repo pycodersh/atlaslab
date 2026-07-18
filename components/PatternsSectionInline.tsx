@@ -369,7 +369,7 @@ export function PatternsSectionInline({
   }, [])
 
   return (
-    <div style={{ padding: '0 16px 8px' }}>
+    <div style={{ padding: '0 16px 4px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 17 }}>
         {patterns.map((pat, idx) => (
           <PatternCardItem
