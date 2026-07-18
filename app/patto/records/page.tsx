@@ -40,21 +40,27 @@ function getWeekDays(): Date[] {
 const DOW_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
 // ── Ring Chart ─────────────────────────────────────────────────────────────────
-function RingChart({ pct, size = 96, stroke = 8, color = '#6B8FFF', isDark = true }: {
-  pct: number; size?: number; stroke?: number; color?: string; isDark?: boolean
+function RingChart({ pct, size = 108, stroke = 10, color = '#6B8FFF', isDark = true, reducedMotion = false }: {
+  pct: number; size?: number; stroke?: number; color?: string; isDark?: boolean; reducedMotion?: boolean
 }) {
-  const r    = (size - stroke) / 2
-  const circ = 2 * Math.PI * r
+  const r      = (size - stroke) / 2
+  const circ   = 2 * Math.PI * r
   const offset = circ * (1 - Math.min(pct, 100) / 100)
-  const trackColor = isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)'
+  const track  = isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.07)'
   return (
     <svg width={size} height={size} style={{ flexShrink: 0, transform: 'rotate(-90deg)' }}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={trackColor} strokeWidth={stroke} />
+      <defs>
+        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor={color} stopOpacity="0.50" />
+          <stop offset="100%" stopColor={color} stopOpacity="1" />
+        </linearGradient>
+      </defs>
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={track} strokeWidth={stroke} />
       <circle
         cx={size / 2} cy={size / 2} r={r} fill="none"
-        stroke={color} strokeWidth={stroke} strokeLinecap="round"
+        stroke="url(#ringGrad)" strokeWidth={stroke} strokeLinecap="round"
         strokeDasharray={circ} strokeDashoffset={offset}
-        style={{ transition: 'stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1)' }}
+        style={{ transition: reducedMotion ? 'none' : 'stroke-dashoffset 1.4s cubic-bezier(0.34,1.56,0.64,1)' }}
       />
     </svg>
   )
@@ -62,19 +68,175 @@ function RingChart({ pct, size = 96, stroke = 8, color = '#6B8FFF', isDark = tru
 
 // ── Story Dots ─────────────────────────────────────────────────────────────────
 function StoryDots({ round, isMastered }: { round: number; isMastered: boolean }) {
+  const filled = isMastered ? '#D7B56D' : '#6B8FFF'
   return (
     <div style={{ display: 'flex', gap: 3 }}>
       {[1, 2, 3, 4, 5].map(n => (
         <div key={n} style={{
-          width: 8, height: 8, borderRadius: '50%',
-          background: n <= round
-            ? (isMastered ? '#D7B56D' : 'rgba(107,143,255,0.85)')
-            : 'rgba(100,100,150,0.18)',
+          width: 7, height: 7, borderRadius: '50%',
+          background: n <= round ? filled : 'rgba(100,100,150,0.15)',
           flexShrink: 0,
-          transition: 'background 0.2s',
+          boxShadow: n <= round ? (isMastered ? '0 0 5px rgba(215,181,109,0.45)' : '0 0 5px rgba(107,143,255,0.38)') : 'none',
         }} />
       ))}
     </div>
+  )
+}
+
+// ── Weekly Activity SVG Chart (21st Weekly KPI Chart pattern) ──────────────────
+function WeeklyActivityChart({
+  weekDays, dayCountMap, today, isDark,
+}: {
+  weekDays: Date[]
+  dayCountMap: Record<string, number>
+  today: string
+  isDark: boolean
+}) {
+  const todayIdx = weekDays.findIndex(d => toIso(d) === today)
+  const [sel, setSel] = useState(todayIdx >= 0 ? todayIdx : 0)
+
+  const counts  = weekDays.map(d => dayCountMap[toIso(d)] ?? 0)
+  const maxCount = Math.max(...counts, 1)
+
+  // SVG viewBox dimensions
+  const W = 320, H = 128
+  const colW    = W / 7
+  const BAR_MAX = 62      // max line height
+  const baseY   = H - 24  // y where day-letter circles sit (center)
+  const lineBaseY = baseY - 16  // bottom of bars (above day labels)
+
+  const accent     = '#6B8FFF'
+  const trackFill  = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.055)'
+  const accentDim  = isDark ? 'rgba(107,143,255,0.55)' : 'rgba(107,143,255,0.45)'
+
+  return (
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      style={{ width: '100%', height: 'auto', display: 'block', overflow: 'visible' }}
+      aria-label="Weekly activity chart"
+    >
+      {weekDays.map((d, i) => {
+        const iso    = toIso(d)
+        const count  = counts[i]
+        const isFut  = d > new Date() && iso !== today
+        const isToday = iso === today
+        const isSel  = i === sel
+
+        const cx   = colW * i + colW / 2
+        const barH = count > 0 ? Math.max(14, Math.round((count / maxCount) * BAR_MAX)) : 4
+        const lineTop = lineBaseY - barH
+        const op = isFut ? 0.25 : 1
+
+        return (
+          <g
+            key={iso}
+            onClick={() => setSel(i)}
+            style={{ cursor: 'pointer' }}
+            role="button"
+            aria-label={`${DOW_LABELS[i]}: ${count} stories`}
+          >
+            {/* Full-column invisible tap target (44px+ touch target) */}
+            <rect
+              x={cx - colW / 2} y={0}
+              width={colW} height={H}
+              fill="transparent"
+            />
+            {/* Column hover background */}
+            {isSel && (
+              <rect
+                x={cx - colW / 2 + 3} y={6}
+                width={colW - 6} height={lineBaseY - 6}
+                rx={10}
+                fill={isDark ? 'rgba(107,143,255,0.10)' : 'rgba(107,143,255,0.07)'}
+              />
+            )}
+
+            {/* Track (background line) */}
+            <line
+              x1={cx} y1={lineBaseY}
+              x2={cx} y2={lineBaseY - BAR_MAX}
+              stroke={trackFill}
+              strokeWidth={3} strokeLinecap="round"
+              opacity={op}
+            />
+
+            {/* Active bar */}
+            {count > 0 && (
+              <line
+                x1={cx} y1={lineBaseY}
+                x2={cx} y2={lineTop}
+                stroke={isToday ? accent : accentDim}
+                strokeWidth={3} strokeLinecap="round"
+                opacity={op}
+              />
+            )}
+
+            {/* Value pill above bar (selected) */}
+            {isSel && count > 0 && (
+              <>
+                <rect
+                  x={cx - 13} y={lineTop - 22}
+                  width={26} height={17}
+                  rx={8.5}
+                  fill={accent}
+                />
+                <text
+                  x={cx} y={lineTop - 13}
+                  textAnchor="middle" dominantBaseline="middle"
+                  fontSize={9} fontWeight={700} fill="white"
+                >
+                  {count}
+                </text>
+              </>
+            )}
+
+            {/* Dot for non-selected active bars */}
+            {!isSel && count > 0 && (
+              <circle cx={cx} cy={lineTop} r={3} fill={accentDim} opacity={op} />
+            )}
+
+            {/* Day label — circle for selected, plain text otherwise */}
+            {isSel ? (
+              <>
+                <circle cx={cx} cy={baseY} r={12} fill={accent} />
+                <text
+                  x={cx} y={baseY}
+                  textAnchor="middle" dominantBaseline="middle"
+                  fontSize={9.5} fontWeight={700} fill="white"
+                >
+                  {DOW_LABELS[i]}
+                </text>
+              </>
+            ) : (
+              <text
+                x={cx} y={baseY}
+                textAnchor="middle" dominantBaseline="middle"
+                fontSize={9.5} fontWeight={600}
+                fill={isToday
+                  ? accent
+                  : (isDark ? 'rgba(255,255,255,0.28)' : 'rgba(60,60,100,0.35)')}
+                opacity={op}
+              >
+                {DOW_LABELS[i]}
+              </text>
+            )}
+
+            {/* Date number below day label */}
+            <text
+              x={cx} y={H - 2}
+              textAnchor="middle" dominantBaseline="auto"
+              fontSize={8} fontWeight={600}
+              fill={isToday
+                ? accent
+                : (isDark ? 'rgba(255,255,255,0.20)' : 'rgba(60,60,100,0.28)')}
+              opacity={op}
+            >
+              {d.getDate()}
+            </text>
+          </g>
+        )
+      })}
+    </svg>
   )
 }
 
@@ -83,12 +245,21 @@ export default function ProgressPage() {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
 
-  const [streak,      setStreak]      = useState(0)
-  const [storyRounds, setStoryRounds] = useState<StoryRoundData[]>([])
-  const [viewMode,    setViewMode]    = useState<'weekly' | 'monthly'>('weekly')
+  const [reducedMotion, setReducedMotion] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setReducedMotion(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setReducedMotion(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
+  const [streak,         setStreak]         = useState(0)
+  const [storyRounds,    setStoryRounds]    = useState<StoryRoundData[]>([])
+  const [viewMode,       setViewMode]       = useState<'weekly' | 'monthly'>('weekly')
   const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
-  const [activityMap, setActivityMap]       = useState<Record<string, number>>({})
-  const [selectedIso, setSelectedIso]       = useState<string | null>(null)
+  const [activityMap,    setActivityMap]    = useState<Record<string, number>>({})
+  const [selectedIso,    setSelectedIso]    = useState<string | null>(null)
 
   useEffect(() => {
     setStreak(getStreak())
@@ -101,7 +272,6 @@ export default function ProgressPage() {
   const weekDays = useMemo(() => getWeekDays(), [])
   const weekIsos = useMemo(() => new Set(weekDays.map(toIso)), [weekDays])
 
-  // Completions this week (lastCompletedAt is within Mon–Sun)
   const weeklyCompleted = useMemo(() =>
     storyRounds.filter(r => r.lastCompletedAt && weekIsos.has(r.lastCompletedAt)),
   [storyRounds, weekIsos])
@@ -122,31 +292,12 @@ export default function ProgressPage() {
     return map
   }, [weeklyCompleted])
 
-  const todayCount         = storyRounds.filter(r => r.lastCompletedAt === today).length
-  const isOutperform       = todayCount > DAILY_GOAL
-  const outperformMult     = isOutperform ? Math.floor(todayCount / DAILY_GOAL) : 0
-  const weeklyPct          = Math.min(Math.round((weeklyStoryCount / WEEKLY_GOAL) * 100), 100)
-  const ringColor          = isOutperform ? '#D7B56D' : '#6B8FFF'
+  const todayCount     = storyRounds.filter(r => r.lastCompletedAt === today).length
+  const isOutperform   = todayCount > DAILY_GOAL
+  const outperformMult = isOutperform ? Math.floor(todayCount / DAILY_GOAL) : 0
+  const weeklyPct      = Math.min(Math.round((weeklyStoryCount / WEEKLY_GOAL) * 100), 100)
+  const ringColor      = isOutperform ? '#D7B56D' : '#6B8FFF'
 
-  const bannerBg = isDark
-    ? (isOutperform ? 'rgba(215,181,109,0.14)' : 'rgba(255,255,255,0.07)')
-    : (isOutperform ? 'linear-gradient(135deg, rgba(215,181,109,0.13), rgba(215,181,109,0.06))' : 'rgba(255,255,255,0.88)')
-  const bannerBorder = isDark
-    ? (isOutperform ? 'rgba(215,181,109,0.28)' : 'rgba(255,255,255,0.10)')
-    : (isOutperform ? 'rgba(215,181,109,0.32)' : 'rgba(200,212,240,0.60)')
-  const bannerShadow = isDark
-    ? '0 8px 32px rgba(0,0,0,0.28)'
-    : (isOutperform ? '0 4px 28px rgba(215,181,109,0.10)' : '0 4px 28px rgba(100,120,200,0.08)')
-
-  const bannerStyle: React.CSSProperties = {
-    background: bannerBg,
-    border: `1px solid ${bannerBorder}`,
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    boxShadow: bannerShadow,
-  }
-
-  // My stories — started at least 1 round
   const myStoriesData = useMemo(() =>
     storyRounds
       .filter(r => r.round > 0)
@@ -154,36 +305,87 @@ export default function ProgressPage() {
       .sort((a, b) => a.storyId - b.storyId),
   [storyRounds])
 
-  // Story map stats
   const storyMapStats = useMemo(() => {
-    const completed   = storyRounds.filter(r => r.isMastered).length
-    const inProgress  = storyRounds.filter(r => r.round > 0 && !r.isMastered).length
-    const total       = magazineStories.length
+    const completed  = storyRounds.filter(r => r.isMastered).length
+    const inProgress = storyRounds.filter(r => r.round > 0 && !r.isMastered).length
+    const total      = magazineStories.length
     return { completed, inProgress, total }
   }, [storyRounds])
 
-  // Shared glass card style (adapts to theme)
+  // ── Design tokens ──────────────────────────────────────────────────────────
   const glassCard: React.CSSProperties = {
-    borderRadius: 20,
-    background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.84)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(200,212,240,0.55)'}`,
-    boxShadow: isDark ? '0 4px 24px rgba(0,0,0,0.28)' : '0 4px 28px rgba(100,120,200,0.06)',
+    borderRadius: 22,
+    background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.90)',
+    backdropFilter: 'blur(24px)',
+    WebkitBackdropFilter: 'blur(24px)',
+    border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(200,212,240,0.52)'}`,
+    boxShadow: isDark
+      ? '0 4px 32px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.06)'
+      : '0 2px 24px rgba(100,120,200,0.06)',
   }
 
-  // Text color for banner (theme-adaptive)
-  const bannerTextPrimary   = isDark ? '#fff' : '#1a1a2e'
-  const bannerTextSecondary = isDark ? 'rgba(255,255,255,0.50)' : 'rgba(30,30,80,0.52)'
-  const bannerTextMuted     = isDark ? 'rgba(255,255,255,0.38)' : 'rgba(30,30,80,0.40)'
+  const textPri   = isDark ? '#fff' : '#1a1a2e'
+  const textSec   = isDark ? 'rgba(255,255,255,0.52)' : 'rgba(30,30,80,0.54)'
+  const textMuted = isDark ? 'rgba(255,255,255,0.30)' : 'rgba(30,30,80,0.36)'
+  const divider   = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'
+
+  // Banner
+  const bannerBg = isDark
+    ? (isOutperform
+        ? 'linear-gradient(140deg, rgba(215,181,109,0.20) 0%, rgba(255,255,255,0.04) 100%)'
+        : 'linear-gradient(140deg, rgba(107,143,255,0.18) 0%, rgba(255,255,255,0.04) 100%)')
+    : (isOutperform
+        ? 'linear-gradient(140deg, rgba(215,181,109,0.12) 0%, rgba(255,255,255,0.94) 100%)'
+        : 'linear-gradient(140deg, rgba(107,143,255,0.10) 0%, rgba(255,255,255,0.94) 100%)')
+
+  const bannerBorder = isDark
+    ? (isOutperform ? 'rgba(215,181,109,0.28)' : 'rgba(107,143,255,0.22)')
+    : (isOutperform ? 'rgba(215,181,109,0.26)' : 'rgba(107,143,255,0.16)')
+
+  // Metric tiles config
+  const metrics = [
+    {
+      icon: <Flame style={{ width: 15, height: 15 }} strokeWidth={1.8} />,
+      value: streak,
+      label: 'Streak',
+      sub: 'days',
+      color: '#E8914A',
+      glow: 'rgba(232,145,74,0.15)',
+      pct: Math.min((streak / 30) * 100, 100),  // 30일 기준
+    },
+    {
+      icon: <BookOpen style={{ width: 15, height: 15 }} strokeWidth={1.8} />,
+      value: weeklyStoryCount,
+      label: '이번 주',
+      sub: 'stories',
+      color: '#6B8FFF',
+      glow: 'rgba(107,143,255,0.15)',
+      pct: weeklyPct,
+    },
+    {
+      icon: <Zap style={{ width: 15, height: 15 }} strokeWidth={1.8} />,
+      value: weeklyPatternCount,
+      label: '패턴',
+      sub: 'learned',
+      color: '#9B8FE8',
+      glow: 'rgba(155,143,232,0.15)',
+      pct: Math.min((weeklyPatternCount / 50) * 100, 100),  // 50개 기준
+    },
+  ]
+
+  const masteredCount = storyMapStats.completed
+  const mapPct = Math.round((masteredCount / storyMapStats.total) * 100)
 
   return (
     <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
-
       <TopNav />
 
-      {/* ── Sub-header: title + toggle ── */}
-      <div style={{ maxWidth: 480, margin: '0 auto', padding: '12px 20px 4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      {/* ── Sub-header ── */}
+      <div style={{
+        maxWidth: 480, margin: '0 auto',
+        padding: '12px 20px 4px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
         <div>
           <p style={{ margin: 0, fontSize: 22, fontWeight: 800, color: 'var(--pt)', letterSpacing: '-0.02em', lineHeight: 1 }}>
             Progress
@@ -192,12 +394,13 @@ export default function ProgressPage() {
             {getMonthLabel()}
           </p>
         </div>
-        {/* Weekly / Monthly toggle */}
+
+        {/* iOS segmented pill */}
         <div style={{
           display: 'flex', gap: 2,
-          background: 'var(--pglass)',
-          border: '1px solid var(--pglass-border)',
-          borderRadius: 12, padding: 3,
+          background: isDark ? 'rgba(255,255,255,0.09)' : 'rgba(0,0,0,0.06)',
+          border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.07)'}`,
+          borderRadius: 14, padding: 3,
         }}>
           {(['weekly', 'monthly'] as const).map(v => (
             <button
@@ -205,12 +408,17 @@ export default function ProgressPage() {
               type="button"
               onClick={() => setViewMode(v)}
               style={{
-                height: 30, padding: '0 13px', borderRadius: 9,
+                height: 30, padding: '0 14px', borderRadius: 11,
                 border: 'none', cursor: 'pointer',
                 fontSize: 11, fontWeight: 700, fontFamily: 'inherit',
-                background: viewMode === v ? 'var(--pa)' : 'transparent',
-                color: viewMode === v ? '#fff' : 'var(--pm)',
-                transition: 'all 0.18s',
+                background: viewMode === v
+                  ? (isDark ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.96)')
+                  : 'transparent',
+                color: viewMode === v ? (isDark ? '#fff' : '#1a1a2e') : 'var(--pm)',
+                boxShadow: viewMode === v
+                  ? (isDark ? '0 1px 8px rgba(0,0,0,0.32)' : '0 1px 8px rgba(0,0,0,0.10)')
+                  : 'none',
+                transition: 'all 0.18s cubic-bezier(0.4,0,0.2,1)',
               }}
             >
               {v === 'weekly' ? 'Weekly' : 'Monthly'}
@@ -219,169 +427,162 @@ export default function ProgressPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 480, margin: '0 auto', padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: '0 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
-        {/* ── Banner ── */}
+        {/* ── Hero Banner ── */}
         <div style={{
-          borderRadius: 24,
-          padding: '22px 20px 20px',
-          ...bannerStyle,
+          borderRadius: 26, padding: '20px',
+          background: bannerBg,
+          border: `1px solid ${bannerBorder}`,
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          boxShadow: isDark
+            ? '0 8px 40px rgba(0,0,0,0.30)'
+            : (isOutperform ? '0 4px 32px rgba(215,181,109,0.12)' : '0 4px 32px rgba(107,143,255,0.09)'),
         }}>
-          {/* Outperform badge */}
           {isOutperform && (
             <div style={{
-              marginBottom: 14,
-              display: 'inline-flex', alignItems: 'center',
-              background: 'rgba(215,181,109,0.18)',
-              border: '1px solid rgba(215,181,109,0.40)',
-              borderRadius: 12, padding: '7px 12px',
+              display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14,
+              background: 'rgba(215,181,109,0.14)',
+              border: '1px solid rgba(215,181,109,0.32)',
+              borderRadius: 10, padding: '6px 12px',
             }}>
-              <span style={{ fontSize: 11.5, fontWeight: 700, color: '#D7B56D', lineHeight: 1.3 }}>
-                🔥 오늘 목표의 {outperformMult}배 달성! · 오늘 {todayCount}스토리 완료 · 대단해요!
+              <Flame style={{ width: 11, height: 11, color: '#D7B56D' }} strokeWidth={2} />
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#D7B56D' }}>
+                오늘 목표 {outperformMult}배 달성 · {todayCount} 스토리 완료
               </span>
             </div>
           )}
 
-          {/* Split layout: left fraction text + right ring chart */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-            {/* Left: big fraction */}
+            {/* Left */}
             <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', color: bannerTextMuted, textTransform: 'uppercase' }}>
+              <p style={{ margin: 0, fontSize: 9, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: textMuted }}>
                 THIS WEEK
               </p>
-              <p style={{ margin: '6px 0 2px', fontSize: 38, fontWeight: 800, color: bannerTextPrimary, lineHeight: 1, letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums' }}>
-                {weeklyStoryCount}<span style={{ fontSize: 22, fontWeight: 700, opacity: 0.55 }}>/{WEEKLY_GOAL}</span>
+              <p style={{ margin: '7px 0 0', fontSize: 48, fontWeight: 800, color: textPri, lineHeight: 1, letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums' }}>
+                {weeklyStoryCount}
+                <span style={{ fontSize: 22, fontWeight: 600, color: textSec }}>/{WEEKLY_GOAL}</span>
               </p>
-              <p style={{ margin: '4px 0 2px', fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: bannerTextMuted, textTransform: 'uppercase' }}>
-                STORIES THIS WEEK
+              <p style={{ margin: '2px 0 12px', fontSize: 9.5, fontWeight: 600, letterSpacing: '0.06em', color: textSec }}>
+                STORIES
               </p>
-              <p style={{ margin: 0, fontSize: 11, fontWeight: 500, color: bannerTextSecondary }}>
-                {isOutperform
-                  ? '주간 목표 초과 달성! 🎉'
-                  : `목표까지 ${Math.max(WEEKLY_GOAL - weeklyStoryCount, 0)}개 남았어요`}
-              </p>
+
+              {/* Progress bar */}
+              <div style={{ height: 4, borderRadius: 99, background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.07)', overflow: 'hidden' }}>
+                <div style={{
+                  height: '100%', width: `${weeklyPct}%`, borderRadius: 99,
+                  background: `linear-gradient(90deg, ${ringColor}70, ${ringColor})`,
+                  transition: 'width 1.3s cubic-bezier(0.34,1.56,0.64,1)',
+                }} />
+              </div>
+
+              {/* Sub-stats row */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 10 }}>
+                <span style={{ fontSize: 10.5, fontWeight: 500, color: textSec }}>
+                  {isOutperform ? '주간 목표 초과!' : `${Math.max(WEEKLY_GOAL - weeklyStoryCount, 0)}개 남았어요`}
+                </span>
+                {masteredCount > 0 && (
+                  <>
+                    <span style={{ fontSize: 9, color: textMuted }}>·</span>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: '#D7B56D' }}>
+                      {masteredCount} 마스터
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
 
-            {/* Right: ring chart with centered percentage */}
+            {/* Ring */}
             <div style={{ position: 'relative', flexShrink: 0 }}>
-              <RingChart pct={weeklyPct} size={96} stroke={8} color={ringColor} isDark={isDark} />
+              <RingChart pct={weeklyPct} size={100} stroke={9} color={ringColor} isDark={isDark} reducedMotion={reducedMotion} />
               <div style={{
                 position: 'absolute', inset: 0,
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 1,
               }}>
-                <span style={{ fontSize: 20, fontWeight: 800, color: isDark ? '#fff' : '#1a1a2e', lineHeight: 1, letterSpacing: '-0.03em' }}>
+                <span style={{ fontSize: 21, fontWeight: 800, color: ringColor, lineHeight: 1, letterSpacing: '-0.03em' }}>
                   {weeklyPct}%
+                </span>
+                <span style={{ fontSize: 7, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: textMuted }}>
+                  DONE
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── 3 Metrics — individual stat tiles ── */}
-        <div style={{ display: 'flex', gap: 8 }}>
-          {[
-            {
-              icon: <Flame style={{ width: 14, height: 14, color: '#D7B56D' }} strokeWidth={1.8} />,
-              value: streak, label: 'STREAK', accentColor: '#D7B56D',
-            },
-            {
-              icon: <BookOpen style={{ width: 14, height: 14, color: '#6B8FFF' }} strokeWidth={1.8} />,
-              value: weeklyStoryCount, label: '이번 주', accentColor: '#6B8FFF',
-            },
-            {
-              icon: <Zap style={{ width: 14, height: 14, color: '#9B8FE8' }} strokeWidth={1.8} />,
-              value: weeklyPatternCount, label: '패턴', accentColor: '#9B8FE8',
-            },
-          ].map((m, i) => (
-            <div
-              key={i}
-              style={{
-                flex: 1,
-                borderRadius: 18,
-                background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.84)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(200,212,240,0.55)'}`,
-                boxShadow: isDark ? '0 4px 24px rgba(0,0,0,0.28)' : '0 4px 28px rgba(100,120,200,0.06)',
-                padding: '14px 8px 12px',
-                display: 'flex', flexDirection: 'column', alignItems: 'center',
-                position: 'relative', overflow: 'hidden',
-              }}
-            >
-              {/* Accent icon top-left */}
-              <div style={{ position: 'absolute', top: 10, left: 10 }}>
+        {/* ── 3 Metric tiles with progress track ── */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+          {metrics.map((m, i) => (
+            <div key={i} style={{
+              borderRadius: 20,
+              background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.92)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(200,212,240,0.50)'}`,
+              boxShadow: isDark
+                ? '0 4px 24px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.05)'
+                : `0 2px 20px ${m.glow}`,
+              padding: '14px 10px 0',
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              overflow: 'hidden',
+            }}>
+              {/* Icon badge */}
+              <div style={{
+                width: 32, height: 32, borderRadius: 10,
+                background: `${m.color}16`,
+                border: `1px solid ${m.color}28`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: m.color, marginBottom: 9, flexShrink: 0,
+              }}>
                 {m.icon}
               </div>
-              {/* Big value */}
-              <span style={{ fontSize: 28, fontWeight: 800, color: m.accentColor, lineHeight: 1, fontVariantNumeric: 'tabular-nums', marginTop: 10 }}>
+              {/* Value */}
+              <span style={{ fontSize: 28, fontWeight: 800, color: m.color, lineHeight: 1, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.02em' }}>
                 {m.value}
               </span>
               {/* Label */}
-              <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '0.07em', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.40)', textTransform: 'uppercase', marginTop: 5 }}>
+              <span style={{ fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: textMuted, marginTop: 4, marginBottom: 12 }}>
                 {m.label}
               </span>
-              {/* Bottom accent bar */}
-              <div style={{
-                position: 'absolute', bottom: 0, left: 12, right: 12,
-                height: 3, borderRadius: 99,
-                background: m.accentColor,
-                opacity: 0.45,
-              }} />
+              {/* Bottom progress track (Progress Metric Card pattern) */}
+              <div style={{ width: '100%', height: 3, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.055)' }}>
+                <div style={{
+                  height: '100%',
+                  width: `${m.pct}%`,
+                  background: m.color,
+                  opacity: 0.65,
+                  transition: 'width 1.2s cubic-bezier(0.34,1.56,0.64,1)',
+                }} />
+              </div>
             </div>
           ))}
         </div>
 
-        {/* ── Weekly / Monthly section ── */}
-        <div style={{ ...glassCard, padding: '18px 16px 16px' }}>
-          <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(60,60,100,0.42)', textTransform: 'uppercase' }}>
-            {viewMode === 'weekly' ? 'WEEKLY' : 'MONTHLY'}
-          </p>
+        {/* ── Weekly / Monthly Activity ── */}
+        <div style={{ ...glassCard, padding: '16px 16px 14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: textMuted }}>
+              {viewMode === 'weekly' ? 'WEEKLY ACTIVITY' : 'MONTHLY VIEW'}
+            </p>
+            {viewMode === 'weekly' && (
+              <span style={{ fontSize: 10, fontWeight: 600, color: textMuted }}>
+                이번 주 {weeklyStoryCount}개
+              </span>
+            )}
+          </div>
 
           {viewMode === 'weekly' ? (
-            /* ── Weekly Activity Bars ── */
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: 4, alignItems: 'flex-end' }}>
-              {weekDays.map((d, i) => {
-                const iso     = toIso(d)
-                const count   = dayCountMap[iso] ?? 0
-                const isToday = iso === today
-                const isFut   = d > new Date() && !isToday
-                const barH    = count > 0 ? Math.min(Math.max(28, count * 20), 64) : 6
-
-                return (
-                  <div key={iso} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, opacity: isFut ? 0.3 : 1 }}>
-                    {/* Day letter */}
-                    <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', color: isToday ? '#6B8FFF' : (isDark ? 'rgba(255,255,255,0.32)' : 'rgba(60,60,100,0.38)'), textTransform: 'uppercase' }}>
-                      {DOW_LABELS[i]}
-                    </span>
-                    {/* Bar wrapper (fixed height container for bottom-alignment) */}
-                    <div style={{ height: 64, display: 'flex', alignItems: 'flex-end', width: '100%' }}>
-                      <div style={{
-                        width: '100%',
-                        height: barH,
-                        borderRadius: 4,
-                        background: count > 0
-                          ? 'linear-gradient(180deg, #8FABFF, #6B8FFF)'
-                          : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)'),
-                        border: isToday
-                          ? `1.5px solid ${count > 0 ? '#8FABFF' : 'rgba(107,143,255,0.55)'}`
-                          : '1.5px solid transparent',
-                        transition: 'height 0.5s cubic-bezier(0.4,0,0.2,1)',
-                        flexShrink: 0,
-                      }} />
-                    </div>
-                    {/* Date number */}
-                    <span style={{ fontSize: 9, fontWeight: 600, color: isToday ? '#6B8FFF' : (isDark ? 'rgba(255,255,255,0.28)' : 'rgba(40,40,80,0.35)') }}>
-                      {d.getDate()}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
+            /* 21st Weekly KPI Chart pattern: SVG line chart with interactive selection */
+            <WeeklyActivityChart
+              weekDays={weekDays}
+              dayCountMap={dayCountMap}
+              today={today}
+              isDark={isDark}
+            />
           ) : (
             <LearningCalendar
-              onDaySelect={(iso) => {
-                setSelectedIso(prev => prev === iso ? null : iso)
-              }}
+              onDaySelect={(iso) => setSelectedIso(prev => prev === iso ? null : iso)}
               selectedIso={selectedIso}
               futureSchedule={futureSchedule}
               streak={streak}
@@ -391,112 +592,142 @@ export default function ProgressPage() {
 
         {/* ── My Stories ── */}
         {myStoriesData.length > 0 && (
-          <div style={{ ...glassCard, padding: '18px 16px 16px' }}>
-            <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(60,60,100,0.42)', textTransform: 'uppercase' }}>
-              MY STORIES
-            </p>
+          <div style={{ ...glassCard, padding: '16px 16px 14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+              <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: textMuted }}>
+                MY STORIES
+              </p>
+              <span style={{ fontSize: 10, fontWeight: 600, color: textMuted }}>
+                {myStoriesData.length}개
+              </span>
+            </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {myStoriesData.map(({ storyId, round, isMastered, story }, i) => (
-                <div
-                  key={storyId}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: 10,
-                    padding: '11px 0',
-                    borderTop: i === 0 ? 'none' : `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}`,
-                  }}
-                >
+                <div key={storyId} style={{
+                  display: 'flex', alignItems: 'center', gap: 11,
+                  padding: '11px 0',
+                  borderTop: i === 0 ? 'none' : `1px solid ${divider}`,
+                }}>
+                  {/* S-number badge */}
+                  <div style={{
+                    width: 34, height: 34, borderRadius: 10, flexShrink: 0,
+                    background: isMastered
+                      ? 'linear-gradient(135deg, rgba(215,181,109,0.18), rgba(215,181,109,0.08))'
+                      : (isDark ? 'rgba(107,143,255,0.11)' : 'rgba(107,143,255,0.08)'),
+                    border: `1px solid ${isMastered ? 'rgba(215,181,109,0.28)' : 'rgba(107,143,255,0.16)'}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <span style={{ fontSize: 8.5, fontWeight: 800, color: isMastered ? '#D7B56D' : (isDark ? 'rgba(142,167,255,0.90)' : '#6B8FFF') }}>
+                      S{String(storyId).padStart(2, '0')}
+                    </span>
+                  </div>
+
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', color: isDark ? 'rgba(255,255,255,0.30)' : 'rgba(60,60,100,0.38)', flexShrink: 0 }}>
-                        S{String(storyId).padStart(2, '0')}
-                      </span>
-                      <span style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : '#1a1a2e', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {story?.title ?? ''}
-                      </span>
-                    </div>
+                    <span style={{ display: 'block', fontSize: 12.5, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : '#1a1a2e', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 5 }}>
+                      {story?.title ?? ''}
+                    </span>
                     <StoryDots round={round} isMastered={isMastered} />
                   </div>
-                  <div style={{ flexShrink: 0 }}>
-                    {isMastered ? (
-                      <span style={{
-                        fontSize: 9.5, fontWeight: 700, color: '#D7B56D',
-                        background: 'rgba(215,181,109,0.12)',
-                        border: '1px solid rgba(215,181,109,0.28)',
-                        borderRadius: 7, padding: '2px 8px', whiteSpace: 'nowrap',
-                      }}>
-                        마스터 ✅
-                      </span>
-                    ) : (
-                      <span style={{
-                        fontSize: 9.5, fontWeight: 700,
-                        color: isDark ? 'rgba(142,167,255,0.85)' : 'rgba(107,143,255,0.9)',
-                        background: 'rgba(107,143,255,0.10)',
-                        border: '1px solid rgba(107,143,255,0.18)',
-                        borderRadius: 7, padding: '2px 8px', whiteSpace: 'nowrap',
-                      }}>
-                        {round}회차
-                      </span>
-                    )}
-                  </div>
+
+                  {isMastered ? (
+                    <span style={{ fontSize: 9, fontWeight: 700, color: '#D7B56D', background: 'rgba(215,181,109,0.11)', border: '1px solid rgba(215,181,109,0.22)', borderRadius: 8, padding: '3px 9px', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                      마스터
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: 9, fontWeight: 700, color: isDark ? 'rgba(142,167,255,0.90)' : '#6B8FFF', background: 'rgba(107,143,255,0.09)', border: '1px solid rgba(107,143,255,0.15)', borderRadius: 8, padding: '3px 9px', whiteSpace: 'nowrap', flexShrink: 0 }}>
+                      {round}회차
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* Empty state when no stories started */}
+        {/* Empty state */}
         {myStoriesData.length === 0 && (
-          <div style={{ padding: '6px 4px 2px', textAlign: 'center' }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.30)' : 'rgba(60,60,100,0.32)', margin: '0 0 4px' }}>
+          <div style={{ padding: '28px 4px', textAlign: 'center' }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: textMuted, margin: '0 0 4px' }}>
               아직 시작한 스토리가 없어요
             </p>
-            <p style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.20)' : 'rgba(60,60,100,0.25)', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: 11, color: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(60,60,100,0.22)', margin: 0, lineHeight: 1.5 }}>
               스토리를 완료하면 여기에 기록돼요
             </p>
           </div>
         )}
 
-        {/* ── S1-S100 Story Matrix ── */}
-        <div style={{ ...glassCard, padding: '18px 16px 20px' }}>
-          <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.40)' : 'rgba(60,60,100,0.42)', textTransform: 'uppercase' }}>
-            STORY MAP · S01–S{magazineStories.length.toString().padStart(2, '0')}
-          </p>
+        {/* ── Story Map (GitHub Heatmap contribution pattern) ── */}
+        <div style={{ ...glassCard, padding: '16px 16px 18px' }}>
+          {/* Header */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
+            <div>
+              <p style={{ margin: '0 0 1px', fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: textMuted }}>
+                STORY MAP
+              </p>
+              <p style={{ margin: 0, fontSize: 11, fontWeight: 600, color: textSec }}>
+                S01 – S{magazineStories.length.toString().padStart(2, '0')}
+              </p>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <span style={{ fontSize: 22, fontWeight: 800, color: '#D7B56D', lineHeight: 1, letterSpacing: '-0.02em' }}>
+                {masteredCount}
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 600, color: textMuted }}>/{storyMapStats.total}</span>
+              <p style={{ margin: '1px 0 0', fontSize: 8.5, fontWeight: 700, color: textMuted, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                MASTERED
+              </p>
+            </div>
+          </div>
+
+          {/* Completion progress bar (GitHub contribution bar pattern) */}
+          <div style={{ marginBottom: 12 }}>
+            <div style={{ height: 4, borderRadius: 99, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.055)', overflow: 'hidden' }}>
+              <div style={{
+                height: '100%', borderRadius: 99,
+                width: `${mapPct}%`,
+                background: 'linear-gradient(90deg, rgba(215,181,109,0.70), #D7B56D)',
+                transition: 'width 1.4s cubic-bezier(0.34,1.56,0.64,1)',
+              }} />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5 }}>
+              <span style={{ fontSize: 9, fontWeight: 600, color: textMuted }}>{mapPct}% 완료</span>
+              <span style={{ fontSize: 9, fontWeight: 600, color: textMuted }}>진행중 {storyMapStats.inProgress}</span>
+            </div>
+          </div>
 
           {/* Legend */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
             {[
-              { label: '미시작', bg: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' },
-              { label: '1–2회', bg: isDark ? 'rgba(107,143,255,0.30)' : 'rgba(107,143,255,0.22)' },
-              { label: '3–4회', bg: isDark ? 'rgba(107,143,255,0.65)' : 'rgba(107,143,255,0.55)' },
+              { label: '미시작',  bg: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.05)' },
+              { label: '1–2회',  bg: isDark ? 'rgba(107,143,255,0.26)' : 'rgba(107,143,255,0.18)' },
+              { label: '3–4회',  bg: isDark ? 'rgba(107,143,255,0.56)' : 'rgba(107,143,255,0.48)' },
               { label: '마스터', bg: 'linear-gradient(135deg, #D7B56D, #C09900)' },
             ].map(({ label, bg }) => (
-              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-                <div style={{ width: 10, height: 10, borderRadius: 3, background: bg, flexShrink: 0 }} />
-                <span style={{ fontSize: 9.5, color: isDark ? 'rgba(255,255,255,0.38)' : 'rgba(60,60,100,0.45)', fontWeight: 600 }}>{label}</span>
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div style={{ width: 8, height: 8, borderRadius: 2.5, background: bg, flexShrink: 0 }} />
+                <span style={{ fontSize: 8.5, fontWeight: 600, color: textMuted }}>{label}</span>
               </div>
             ))}
           </div>
 
-          {/* 10×10 grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(10, 1fr)',
-            gap: 8,
-          }}>
+          {/* 10×10 grid with number overlay */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: 4 }}>
             {magazineStories.map((ms, i) => {
-              const rd = storyRounds[i]
+              const rd         = storyRounds[i]
               const round      = rd?.round ?? 0
               const isMastered = rd?.isMastered ?? false
 
               let cellBg: string
               if (isMastered) {
-                cellBg = 'linear-gradient(135deg, #D7B56D, #C09900)'
-              } else if (round >= 3) {
-                cellBg = isDark ? 'rgba(107,143,255,0.60)' : 'rgba(107,143,255,0.50)'
+                cellBg = 'linear-gradient(135deg, #D7B56D 0%, #C09900 100%)'
+              } else if (round >= 4) {
+                cellBg = isDark ? 'rgba(107,143,255,0.66)' : 'rgba(107,143,255,0.56)'
+              } else if (round >= 2) {
+                cellBg = isDark ? 'rgba(107,143,255,0.38)' : 'rgba(107,143,255,0.30)'
               } else if (round >= 1) {
-                cellBg = isDark ? 'rgba(107,143,255,0.28)' : 'rgba(107,143,255,0.20)'
+                cellBg = isDark ? 'rgba(107,143,255,0.18)' : 'rgba(107,143,255,0.13)'
               } else {
-                cellBg = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.055)'
+                cellBg = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.052)'
               }
 
               return (
@@ -504,21 +735,30 @@ export default function ProgressPage() {
                   key={ms.id}
                   title={`S${String(ms.id).padStart(2, '0')}: ${ms.title} (${round}회차${isMastered ? ' ✓' : ''})`}
                   style={{
-                    aspectRatio: '1 / 1',
-                    borderRadius: 8,
+                    aspectRatio: '1 / 1', borderRadius: 6,
                     background: cellBg,
-                    position: 'relative',
-                    transition: 'opacity 0.15s',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
                     cursor: 'default',
                   }}
-                />
+                >
+                  <span style={{
+                    fontSize: 6, fontWeight: 700, lineHeight: 1, userSelect: 'none',
+                    color: isMastered
+                      ? 'rgba(255,255,255,0.65)'
+                      : (round > 0
+                          ? (isDark ? 'rgba(255,255,255,0.50)' : 'rgba(107,143,255,0.72)')
+                          : (isDark ? 'rgba(255,255,255,0.16)' : 'rgba(0,0,0,0.16)')),
+                  }}>
+                    {ms.id}
+                  </span>
+                </div>
               )
             })}
           </div>
 
-          {/* Story map footer */}
-          <p style={{ margin: '12px 0 0', textAlign: 'center', fontSize: 10, fontWeight: 500, color: isDark ? 'rgba(255,255,255,0.28)' : 'rgba(60,60,100,0.38)' }}>
-            완료 {storyMapStats.completed}개 · 진행중 {storyMapStats.inProgress}개 · 전체 {storyMapStats.total}개
+          {/* Footer */}
+          <p style={{ margin: '12px 0 0', textAlign: 'center', fontSize: 9.5, fontWeight: 500, color: textMuted }}>
+            완료 {masteredCount} · 진행중 {storyMapStats.inProgress} · 전체 {storyMapStats.total}
           </p>
         </div>
 
