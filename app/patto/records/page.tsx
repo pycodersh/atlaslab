@@ -488,18 +488,11 @@ export default function ProgressPage() {
                       {icon}
                       <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--pm)' }}>{label}</span>
                     </div>
-                    <span style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.45rem)', fontWeight: 800, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums', lineHeight: 1, color: complete ? '#22C55E' : 'var(--pt)' }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', fontVariantNumeric: 'tabular-nums', lineHeight: 1, color: complete ? '#22C55E' : 'var(--pm)' }}>
                       {done} / {target}
                     </span>
                   </div>
-                  <div style={{ background: 'var(--pglass)', borderRadius: 999, height: 5, border: '1px solid var(--pglass-border)' }}>
-                    <div style={{
-                      height: '100%', borderRadius: 999,
-                      background: complete ? '#22C55E' : '#6366F1',
-                      width: `${pct * 100}%`,
-                      transition: 'width 0.6s cubic-bezier(0.22,1,0.36,1), background 0.3s ease',
-                    }} />
-                  </div>
+                  <div style={{ borderTop: `0.5px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(30,30,80,0.10)'}` }} />
                 </div>
               )
             })}
@@ -643,6 +636,7 @@ export default function ProgressPage() {
           </div>
 
           {/* View pattern map button */}
+          <div style={{ borderTop: `0.5px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(30,30,80,0.10)'}`, margin: '14px 0' }} />
           <button
             type="button"
             onClick={() => setMapExpanded(v => !v)}
