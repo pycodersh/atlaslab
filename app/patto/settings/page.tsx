@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, SlidersHorizontal, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, Trash2, BookOpen, Type, PenLine } from 'lucide-react'
+import { ChevronRight, Settings, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, Trash2, BookOpen, Type, PenLine } from 'lucide-react'
 import { requestCoverReplay } from '@/components/WelcomeCover'
 import { Btn } from '@/components/ui/Btn'
 import { PDialog } from '@/components/ui/PDialog'
@@ -490,7 +490,7 @@ export default function SettingsPage() {
         <div>
           {[
             <MenuCard key="sub"   icon={Sparkles}          label={t('hub_subscription')} desc={t('hub_subscription_desc')} href="/patto/settings/subscription" />,
-            <MenuCard key="pref"  icon={SlidersHorizontal} label={t('hub_preferences')}  desc={t('hub_preferences_desc')}  href="/patto/settings/preferences" />,
+            <MenuCard key="pref"  icon={Settings} label="Settings"  desc="테마, 오디오, 언어 설정을 관리합니다."  href="/patto/settings/preferences" />,
             <InstallCard key="install" />,
             <MenuCard key="about" icon={Info}              label={t('hub_about')}         desc={t('hub_about_desc')}        href="/patto/settings/about" />,
           ].map((item, i, arr) => (
