@@ -615,15 +615,6 @@ export default function ProgressPage() {
             ))}
           </div>
 
-          {/* Progress bar */}
-          <div style={{ background: 'var(--pglass)', borderRadius: 999, height: 5, marginBottom: 0, border: '1px solid var(--pglass-border)' }}>
-            <div style={{
-              height: '100%', borderRadius: 999, background: '#6366F1',
-              width: `${Math.min(100, (masteredCount / 500) * 100)}%`,
-              transition: 'width 0.8s cubic-bezier(0.22,1,0.36,1)',
-            }} />
-          </div>
-
           {/* View pattern map button */}
           <button
             type="button"
@@ -632,12 +623,12 @@ export default function ProgressPage() {
               width: '100%', background: 'transparent', border: 'none',
               color: '#6366F1', fontSize: 13, fontWeight: 500,
               padding: '10px 0', cursor: 'pointer', fontFamily: 'inherit',
-              textAlign: 'center', opacity: 1, transition: 'opacity 0.15s',
+              textAlign: 'left', opacity: 1, transition: 'opacity 0.15s',
             }}
             onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
-            {mapExpanded ? 'Hide pattern map ↑' : 'View pattern map →'}
+            {mapExpanded ? 'Hide pattern map' : 'View pattern map'}
           </button>
 
           {/* Inline pattern map */}
