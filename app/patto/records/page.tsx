@@ -415,8 +415,8 @@ export default function ProgressPage() {
       boxShadow: '0 2px 16px rgba(99,102,241,0.15)', marginBottom: 14,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ color: isDark ? '#FFFFFF' : '#000000', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
-        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
+        <span style={{ color: isDark ? '#FFFFFF' : '#000000', display: 'flex', alignItems: 'center', flexShrink: 0, fontSize: 16 }}>{icon}</span>
+        <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
       </div>
       <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: isDark ? '#FFFFFF' : '#000000', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{counter}</span>
     </div>
@@ -436,7 +436,7 @@ export default function ProgressPage() {
         {/* TODAY'S SESSION */}
         <div style={{ width: '100%' }}>
           {sectionChip(
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/>
               <rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>
             </svg>,
@@ -540,7 +540,7 @@ export default function ProgressPage() {
         <div style={{ width: '100%' }}>
           <div style={sectionDivider} />
           {sectionChip(
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="4" y="5" width="16" height="16" rx="2"/>
               <path d="M16 3v4M8 3v4M4 11h16"/><path d="M8 16h.01M12 16h.01M16 16h.01"/>
             </svg>,
@@ -590,7 +590,7 @@ export default function ProgressPage() {
         <div style={{ width: '100%' }}>
           <div style={sectionDivider} />
           {sectionChip(
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 3v18h18"/>
               <rect x="7" y="10" width="3" height="9" rx="1"/><rect x="13" y="6" width="3" height="13" rx="1"/>
             </svg>,
