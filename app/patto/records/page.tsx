@@ -258,6 +258,7 @@ export default function ProgressPage() {
   const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
   const [activityMap,    setActivityMap]    = useState<Record<string, number>>({})
   const [selectedIso,    setSelectedIso]    = useState<string | null>(null)
+  const [mapExpanded,    setMapExpanded]    = useState(false)
 
   useEffect(() => {
     setStreak(getStreak())
@@ -521,15 +522,56 @@ export default function ProgressPage() {
           {/* View pattern map button */}
           <button
             type="button"
-            onClick={() => router.push('/patto/records/patterns')}
+            onClick={() => setMapExpanded(v => !v)}
             style={{
               width: '100%', background: 'var(--pglass)', border: '0.5px solid var(--pglass-border)',
               borderRadius: 10, color: '#6366F1', fontSize: 14, fontWeight: 500,
               padding: '11px 0', cursor: 'pointer', fontFamily: 'inherit',
             }}
           >
-            View pattern map →
+            {mapExpanded ? 'Hide pattern map ↑' : 'View pattern map →'}
           </button>
+
+          {/* Inline pattern map */}
+          <div style={{
+            maxHeight: mapExpanded ? 2000 : 0,
+            opacity: mapExpanded ? 1 : 0,
+            overflow: 'hidden',
+            transition: 'max-height 0.3s ease, opacity 0.3s ease',
+          }}>
+            <div style={{ paddingTop: 16 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: 3 }}>
+                {magazineStories.map((ms, i) => {
+                  const rd = storyRounds[i]
+                  const round = rd?.round ?? 0
+                  const isMastered = rd?.isMastered ?? false
+                  const bg = isMastered
+                    ? '#D7B56D'
+                    : round >= 3 ? (isDark ? '#8FABFF' : '#6B8FFF')
+                    : round >= 1 ? (isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)')
+                    : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.05)')
+                  return (
+                    <div key={ms.id} title={`Story ${ms.id}`} style={{
+                      aspectRatio: '1', borderRadius: 3, background: bg,
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.06)'}`,
+                    }} />
+                  )
+                })}
+              </div>
+              <div style={{ display: 'flex', gap: 16, marginTop: 10, justifyContent: 'flex-end' }}>
+                {([
+                  { color: '#D7B56D', label: 'Mastered' },
+                  { color: isDark ? '#8FABFF' : '#6B8FFF', label: 'Round 3+' },
+                  { color: isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)', label: 'Started' },
+                ] as const).map(({ color, label }) => (
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: 2, background: color }} />
+                    <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--pm)' }}>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
