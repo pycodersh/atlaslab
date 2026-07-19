@@ -419,7 +419,7 @@ export default function ProgressPage() {
         <span style={{ color: isDark ? '#FFFFFF' : '#000000', display: 'flex', alignItems: 'center', flexShrink: 0, fontSize: 13 }}>{icon}</span>
         <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
       </div>
-      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: isDark ? '#FFFFFF' : '#000000', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{counter}</span>
+      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: isDark ? '#FFFFFF' : '#000000', letterSpacing: '0.05em', whiteSpace: 'nowrap', flexShrink: 0, textAlign: 'right' }}>{counter}</span>
     </div>
   )
 
