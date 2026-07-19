@@ -85,8 +85,8 @@ function ToggleRow({ icon: Icon, iconColor = '#6E6E73', label, desc, on, onChang
   return (
     <div style={{
       display: 'flex', alignItems: 'center', gap: 14,
-      padding: '16px 18px',
-      borderBottom: last ? 'none' : '1px solid var(--pd)',
+      padding: '14px 0',
+      borderBottom: last ? 'none' : '0.5px solid var(--pglass-border)',
     }}>
       <IconCircle>
         <Icon style={{ width: 17, height: 17, color: effectiveIconColor }} strokeWidth={1.6} />
@@ -114,9 +114,9 @@ function NavRow({ icon: Icon, iconColor = '#6E6E73', label, desc, displayValue, 
       onClick={onClick}
       style={{
         display: 'flex', alignItems: 'center', gap: 14,
-        padding: '16px 18px', width: '100%',
+        padding: '14px 0', width: '100%',
         background: 'none', border: 'none',
-        borderBottom: last ? 'none' : '1px solid var(--pd)',
+        borderBottom: last ? 'none' : '0.5px solid var(--pglass-border)',
         cursor: 'pointer', textAlign: 'left',
       }}
     >
@@ -146,8 +146,8 @@ function SliderRow({ icon: Icon, iconColor = '#6E6E73', label, desc, value, onCh
   return (
     <div style={{
       display: 'flex', alignItems: 'flex-start', gap: 14,
-      padding: '16px 18px',
-      borderBottom: last ? 'none' : '1px solid var(--pd)',
+      padding: '14px 0',
+      borderBottom: last ? 'none' : '0.5px solid var(--pglass-border)',
     }}>
       <IconCircle>
         <Icon style={{ width: 17, height: 17, color: effectiveIconColor }} strokeWidth={1.6} />
@@ -173,15 +173,16 @@ function SliderRow({ icon: Icon, iconColor = '#6E6E73', label, desc, value, onCh
 
 // ── Section title ─────────────────────────────────────────────────────────────
 
-function SecTitle({ label, noUppercase }: { label: string; noUppercase?: boolean }) {
+function SecTitle({ label, icon }: { label: string; icon: React.ReactNode }) {
   return (
-    <p style={{
-      fontSize: 9.5, fontWeight: 700, letterSpacing: '0.20em',
-      color: '#8E8E93', textTransform: noUppercase ? 'none' : 'uppercase',
-      margin: '24px 0 8px 2px',
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 8,
+      background: '#1E293B', borderRadius: 10,
+      padding: '10px 16px', marginTop: 24, marginBottom: 12,
     }}>
-      {label}
-    </p>
+      <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
+      <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>{label}</span>
+    </div>
   )
 }
 
@@ -376,8 +377,8 @@ export default function PreferencesPage() {
         )}
 
         {/* ── DISPLAY ── */}
-        <SecTitle label={t('display')} />
-        <div style={glassCard}>
+        <SecTitle label={t('display')} icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>} />
+        <div>
           <ToggleRow
             icon={ThemeIcon}
             iconColor={theme === 'dark' ? '#6366F1' : '#6E6E73'}
@@ -390,8 +391,8 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── AUDIO ── */}
-        <SecTitle label={t('audio')} />
-        <div style={glassCard}>
+        <SecTitle label={t('audio')} icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>} />
+        <div>
           <NavRow
             icon={Mic}
             label={t('speech_rate')}
@@ -417,8 +418,8 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── LANGUAGE ── */}
-        <SecTitle label={t('language')} />
-        <div style={glassCard}>
+        <SecTitle label={t('language')} icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>} />
+        <div>
           <NavRow
             icon={Globe}
             label={t('language')}
@@ -430,12 +431,12 @@ export default function PreferencesPage() {
         </div>
 
         {/* ── NOTIFICATIONS ── */}
-        <SecTitle label="Notifications" />
-        <div style={glassCard}>
+        <SecTitle label="Notifications" icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>} />
+        <div>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 14,
-            padding: '16px 18px',
-            borderBottom: notifEnabled ? '1px solid var(--pd)' : 'none',
+            padding: '14px 0',
+            borderBottom: notifEnabled ? '0.5px solid var(--pglass-border)' : 'none',
           }}>
             <IconCircle>
               <Bell style={{ width: 17, height: 17, color: theme === 'dark' ? '#A6B8FF' : '#6366F1' }} strokeWidth={1.6} />
@@ -459,8 +460,7 @@ export default function PreferencesPage() {
           {notifEnabled && (
             <div style={{
               display: 'flex', alignItems: 'center', gap: 14,
-              padding: '14px 18px',
-              borderTop: '1px solid var(--pd)',
+              padding: '14px 0',
             }}>
               <IconCircle>
                 <Clock style={{ width: 17, height: 17, color: theme === 'dark' ? '#A6B8FF' : '#6366F1' }} strokeWidth={1.6} />
