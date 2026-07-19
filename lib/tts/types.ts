@@ -28,5 +28,7 @@ export interface SpeakOptions {
 export interface ITTSProvider {
   speak(options: SpeakOptions): void
   stop(): void
+  pause?(): void
+  resume?(): void
   isAvailable(): boolean
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Info, X } from 'lucide-react'
+import { Info, X, Headphones, BookOpen } from 'lucide-react'
 import { updateStorySessionState } from '@/lib/srs/story-session'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -194,8 +194,8 @@ export function StoryProgressTracker({
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ flex: 1, overflow: 'visible' }}>
             <span style={{
-              display: 'inline-block',
-              fontSize: 12,
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 13,
               fontWeight: listeningActive ? 700 : 600,
               color: listeningCompleted
                 ? accentOn
@@ -204,6 +204,7 @@ export function StoryProgressTracker({
               transformOrigin: 'left center',
               transition: 'transform 260ms ease-out, color 260ms ease-out',
             }}>
+              <Headphones style={{ width: 13, height: 13, flexShrink: 0 }} strokeWidth={1.8} />
               Listening · 1회
             </span>
           </div>
@@ -223,8 +224,8 @@ export function StoryProgressTracker({
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ flex: 1, overflow: 'visible' }}>
             <span style={{
-              display: 'inline-block',
-              fontSize: 12,
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 13,
               fontWeight: readingActive ? 700 : 600,
               color: readingDone
                 ? accentOn
@@ -233,6 +234,7 @@ export function StoryProgressTracker({
               transformOrigin: 'left center',
               transition: 'transform 260ms ease-out, color 260ms ease-out',
             }}>
+              <BookOpen style={{ width: 13, height: 13, flexShrink: 0 }} strokeWidth={1.8} />
               Reading · 2회
             </span>
           </div>

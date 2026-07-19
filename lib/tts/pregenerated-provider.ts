@@ -62,6 +62,18 @@ export class PregeneratedTTSProvider implements ITTSProvider {
     this.browser.stop()
   }
 
+  pause() {
+    if (sharedAudio && !sharedAudio.paused) sharedAudio.pause()
+    this.browser.pause?.()
+  }
+
+  resume() {
+    if (sharedAudio && sharedAudio.paused && sharedAudio.src) {
+      sharedAudio.play().catch(() => {})
+    }
+    this.browser.resume?.()
+  }
+
   speak(options: SpeakOptions) {
     const { texts, audioUrls, voiceKey, voiceKeys, rate, pitch, volume, onStart, onEnd, onError } = options
 

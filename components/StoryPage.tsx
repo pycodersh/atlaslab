@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { Volume2, Waves, Square } from 'lucide-react'
+import { Volume2, Waves, Pause } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
 import { STORY_MOOD_MAP } from '@/data/story-moods'
@@ -93,6 +93,12 @@ export function StoryPage({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studyMode])
   const [playingParaId, setPlayingParaId] = useState<string | null>(null)
+  const [isPaused, setIsPaused] = useState(false)
+
+  // Reset pause state when audio ends naturally
+  useEffect(() => {
+    if (!isSpeaking) setIsPaused(false)
+  }, [isSpeaking])
   const [revealedParas, setRevealedParas] = useState<Set<string>>(new Set())
 
   function revealPara(paraId: string) {
@@ -174,7 +180,17 @@ export function StoryPage({
 
   // ── Full-story audio ─────────────────────────────────────────────────────
   function handleSpeakAll() {
-    if (isSpeaking) { stop(); return }
+    if (isSpeaking && isPaused) {
+      ttsProvider.resume?.()
+      setIsPaused(false)
+      return
+    }
+    if (isSpeaking) {
+      ttsProvider.pause?.()
+      setIsPaused(true)
+      return
+    }
+    setIsPaused(false)
     setPlayingParaId(null)
     const texts     = story.paragraphs.map(p => p.english)
     const audioUrls = story.paragraphs.map(p => storyParaAudioUrl(narrator, story.id, p.id, p.english))
@@ -340,8 +356,8 @@ export function StoryPage({
                   filter: isSpeaking ? 'brightness(1.1)' : 'brightness(1)',
                 }}
               >
-                {isSpeaking
-                  ? <Square style={{ width: 12, height: 12 }} />
+                {isSpeaking && !isPaused
+                  ? <Pause style={{ width: 13, height: 13 }} />
                   : <Volume2 style={{ width: 14, height: 14 }} />}
               </button>
             </div>
@@ -412,7 +428,7 @@ export function StoryPage({
                               koreanSentence:   koText ?? undefined,
                             }}
                             highlightPhrases={patternHighlightMap.get(para.id)}
-                            className="text-[0.9rem] leading-[1.9] text-[var(--pt)] block text-justify"
+                            className="text-[15px] leading-[1.9] text-[var(--pt)] block text-justify"
                           />
                         </div>
                       ) : (

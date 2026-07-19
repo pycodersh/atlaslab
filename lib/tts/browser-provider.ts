@@ -92,6 +92,8 @@ export class BrowserTTSProvider implements ITTSProvider {
   isAvailable() { return !!this.synth }
 
   stop() { this.synth?.cancel() }
+  pause() { this.synth?.pause() }
+  resume() { this.synth?.resume() }
 
   speak(options: SpeakOptions) {
     const s = this.synth

@@ -186,6 +186,19 @@ function FillQuestion({
         {parts[1]}
       </p>
 
+      {/* Korean translation */}
+      {q.pattern.storySentenceKo && (
+        <p style={{
+          margin: '0 0 14px',
+          fontSize: 13,
+          color: '#9CA3AF',
+          textAlign: 'center',
+          lineHeight: 1.5,
+        }}>
+          {q.pattern.storySentenceKo}
+        </p>
+      )}
+
       {/* Options */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
         {q.options.map(opt => {
