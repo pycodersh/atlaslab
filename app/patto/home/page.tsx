@@ -580,7 +580,12 @@ export default function HomePage() {
         </div>
 
         {/* ── Hero Cover ── */}
-        <div style={{ position: 'relative', margin: '12px 20px 0', borderRadius: 20, overflow: 'hidden', height: 340 }}>
+        <div
+          role="button" tabIndex={0}
+          onClick={() => router.push(`/patto/stories/${todayStory.id}`)}
+          onKeyDown={e => e.key === 'Enter' && router.push(`/patto/stories/${todayStory.id}`)}
+          style={{ position: 'relative', margin: '12px 20px 0', borderRadius: 20, overflow: 'hidden', height: 340, cursor: 'pointer' }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={todayStory.imageUrl} alt={todayStory.imageAlt}
             style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }} />
