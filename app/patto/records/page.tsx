@@ -410,7 +410,7 @@ export default function ProgressPage() {
         {/* TODAY'S SESSION */}
         <div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
-            <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', margin: 0 }}>Today&apos;s session</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase', margin: 0 }}>TODAY&apos;S SESSION</p>
             <span style={{ fontSize: 12, color: 'var(--pm)' }}>
               {todaySessionStats.fullyDone} / {todaySessionStats.m} stories done
             </span>
@@ -459,7 +459,7 @@ export default function ProgressPage() {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                       {icon}
-                      <span style={{ fontSize: 12, color: 'var(--pm)' }}>{label}</span>
+                      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--pm)' }}>{label}</span>
                     </div>
                     <span style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.45rem)', fontWeight: 800, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums', lineHeight: 1, color: complete ? '#22C55E' : 'var(--pt)' }}>
                       {done} / {target}
@@ -534,11 +534,10 @@ export default function ProgressPage() {
         <div>
           <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', margin: '4px 0 16px' }} />
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
-            <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', margin: 0 }}>This week</p>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase', margin: 0 }}>THIS WEEK</p>
             <span style={{ fontSize: 12, color: 'var(--pm)' }}>{activeDaysThisWeek} / 7 days</span>
           </div>
           <div style={{ ...surface, padding: '16px 16px 14px' }}>
-            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', letterSpacing: '-0.01em', display: 'block', marginBottom: 14 }}>{weekRangeLabel}</span>
             {/* Bar chart */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
               {(() => {
@@ -580,7 +579,7 @@ export default function ProgressPage() {
         {/* OVERALL PROGRESS */}
         <div>
           <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', margin: '4px 0 16px' }} />
-          <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', margin: '0 0 12px 2px' }}>Overall progress</p>
+          <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase', margin: '0 0 12px 2px' }}>OVERALL PROGRESS</p>
 
           {/* 3-column stat cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 14 }}>
