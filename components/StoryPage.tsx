@@ -471,9 +471,7 @@ export function StoryPage({
                           : (isAnyActive ? 'rgba(255,255,255,0.35)' : 'transparent'),
                         backdropFilter: isCenterActive ? 'blur(12px)' : 'none',
                         WebkitBackdropFilter: isCenterActive ? 'blur(12px)' : 'none',
-                        border: isCenterActive
-                          ? '1px solid rgba(199,210,254,0.8)'
-                          : (isAnyActive ? '1px solid rgba(255,255,255,0.3)' : '1px solid transparent'),
+                        border: 'none',
                         boxShadow: isCenterActive
                           ? '0 4px 24px rgba(99,102,241,0.18), 0 1px 3px rgba(0,0,0,0.05)'
                           : 'none',
