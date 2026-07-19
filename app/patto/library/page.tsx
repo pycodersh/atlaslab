@@ -731,9 +731,12 @@ export default function LibraryPage() {
 
       {/* Writing Studio */}
       <section style={{ marginBottom: 20, marginTop: 48 }}>
-        <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', marginBottom: 16 }} />
-        <div style={{ marginBottom: 10 }}>
-          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase' }}>Writing Studio</span>
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          background: '#1E293B', border: 'none', borderRadius: 10,
+          padding: '10px 16px', marginBottom: 16,
+        }}>
+          <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>Writing Studio</span>
         </div>
 
         {/* Inline composer — always open */}
@@ -912,9 +915,13 @@ export default function LibraryPage() {
           {/* Left column: search + summary cards */}
           <div style={{ ...colPad, paddingBottom: 0 }}>
             {/* ── Header ── */}
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--pt)', opacity: 0.80, margin: '4px 0 12px' }}>
-              Search &amp; Save
-            </p>
+            <div style={{
+              display: 'flex', alignItems: 'center',
+              background: '#1E293B', border: 'none', borderRadius: 10,
+              padding: '10px 16px', marginBottom: 12,
+            }}>
+              <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>Search &amp; Save</span>
+            </div>
 
             {/* ── Search bar ── */}
             <div style={{ marginBottom: isSearching || showRecent ? 0 : 10, position: 'relative' }}>
