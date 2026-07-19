@@ -402,8 +402,8 @@ export default function ProgressPage() {
     return { m, listeningDone, readingDone, challengeDone, fullyDone }
   }, [storyRounds])
 
-  const chipBg     = isDark ? 'rgba(99,102,241,0.12)'  : 'rgba(238,242,255,0.75)'
-  const chipBorder = isDark ? 'rgba(99,102,241,0.25)'  : 'rgba(199,210,254,0.8)'
+  const chipBg     = isDark ? 'rgba(255,255,255,0.06)' : '#FFFFFF'
+  const chipBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5E7EB'
   const chipTitle  = isDark ? '#FFFFFF'                : '#000000'
 
   const sectionChip = (icon: React.ReactNode, title: string, counter: string) => (
@@ -411,9 +411,9 @@ export default function ProgressPage() {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       width: 'calc(100% + 24px)', boxSizing: 'border-box',
       marginLeft: -12, marginRight: -12,
-      background: chipBg, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-      border: `1px solid ${chipBorder}`, borderRadius: 8, padding: '8px 28px 8px 8px',
-      boxShadow: '0 2px 16px rgba(99,102,241,0.15)', marginBottom: 14,
+      background: chipBg,
+      border: `1px solid ${chipBorder}`, borderRadius: 12, padding: '10px 28px 10px 12px',
+      marginBottom: 14,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span style={{ color: isDark ? '#FFFFFF' : '#000000', display: 'flex', alignItems: 'center', flexShrink: 0, fontSize: 13 }}>{icon}</span>
