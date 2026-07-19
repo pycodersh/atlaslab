@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type RefObject } from 'react'
 import { motion } from 'motion/react'
 import { Volume2, Square, Bookmark, Info, X, CheckCircle2 } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
@@ -37,6 +37,8 @@ type Props = {
   showKorean?: boolean
   /** When true, English is faded out (opacity 0) like KO mode in story */
   showEnglish?: boolean
+  /** Ref to the patterns section boundary div — activates pattern highlight only when at/below it */
+  boundaryRef?: RefObject<HTMLElement | null>
 }
 
 function resolveExamples(
@@ -414,6 +416,7 @@ export function PatternsSectionInline({
   onPatternIndexChange,
   showKorean: showKoreanProp,
   showEnglish: showEnglishProp,
+  boundaryRef,
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -430,7 +433,7 @@ export function PatternsSectionInline({
 
   const cardElemsRef = useRef<(HTMLDivElement | null)[]>([])
   const cardMode = playingIdx !== null ? 'listening' : 'reading'
-  const centerIdx = useCenterCard(cardElemsRef, patterns.length, cardMode, playingIdx)
+  const centerIdx = useCenterCard(cardElemsRef, patterns.length, cardMode, playingIdx, boundaryRef, 'below')
 
   // All patterns visible immediately → fire callback
   useEffect(() => {
