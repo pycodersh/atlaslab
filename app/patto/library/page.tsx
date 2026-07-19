@@ -746,7 +746,7 @@ export default function LibraryPage() {
       {/* Writing Studio */}
       <section style={{ marginBottom: 20, marginTop: 48 }}>
         <div style={{
-          display: 'inline-flex', alignItems: 'center',
+          display: 'flex', alignItems: 'center',
           background: '#1E293B', border: 'none', borderRadius: 10,
           padding: '10px 16px', marginBottom: 16,
         }}>
@@ -938,7 +938,7 @@ export default function LibraryPage() {
           <div style={{ ...colPad, paddingBottom: 0 }}>
             {/* ── Header ── */}
             <div style={{
-              display: 'inline-flex', alignItems: 'center',
+              display: 'flex', alignItems: 'center',
               background: '#1E293B', border: 'none', borderRadius: 10,
               padding: '10px 16px', marginBottom: 12,
             }}>
