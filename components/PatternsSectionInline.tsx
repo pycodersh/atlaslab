@@ -225,8 +225,10 @@ function PatternCardItem({
     ? (isDark ? 'rgba(255,255,255,0.30)' : '#bbb')
     : isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
   const cardBg    = isCenterActive
-    ? (isDark ? 'rgba(99,102,241,0.10)' : '#FAFAFE')
-    : isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.84)'
+    ? (isDark ? 'rgba(99,102,241,0.13)' : 'rgba(238,242,255,0.85)')
+    : anyActive
+      ? 'rgba(255,255,255,0.35)'
+      : isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.84)'
   const exEnColor = isCompleted
     ? '#999'
     : isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
@@ -234,11 +236,13 @@ function PatternCardItem({
     ? '#bbb'
     : isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
   const cardBorder = isCenterActive
-    ? '1.5px solid #6366F1'
-    : isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(142,167,255,0.20)'
+    ? '1px solid rgba(199,210,254,0.8)'
+    : anyActive
+      ? '1px solid rgba(255,255,255,0.3)'
+      : isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(142,167,255,0.20)'
   const baseGlow  = isActive ? ', 0 0 0 1.5px rgba(107,124,255,0.35)' : ''
   const cardShadow = isCenterActive
-    ? '0 0 0 3px rgba(99,102,241,0.12), 0 4px 28px rgba(100,120,200,0.10)'
+    ? '0 4px 24px rgba(99,102,241,0.18), 0 1px 3px rgba(0,0,0,0.05)'
     : isDark
       ? `0 4px 28px rgba(0,0,0,0.40)${baseGlow}`
       : `0 4px 28px rgba(100,120,200,0.07), 0 1px 4px rgba(0,0,0,0.03)${baseGlow}`
@@ -258,7 +262,7 @@ function PatternCardItem({
         border: cardBorder, boxShadow: cardShadow,
         overflow: 'hidden', opacity: cardOpacity,
         transform: cardTransform,
-        transition: 'all 0.2s ease',
+        transition: 'all 0.25s ease',
         position: 'relative',
       }}
     >

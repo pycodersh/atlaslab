@@ -466,9 +466,17 @@ export function StoryPage({
                       className="rounded-xl px-2 py-1 -mx-2"
                       ref={el => { paraElemsRef.current[i] = el }}
                       style={{
-                        border: isCenterActive ? '1.5px solid #6366F1' : '1.5px solid transparent',
-                        boxShadow: isCenterActive ? '0 0 0 3px rgba(99,102,241,0.12)' : 'none',
-                        background: isCenterActive ? (isDark ? 'rgba(99,102,241,0.10)' : '#FAFAFE') : 'transparent',
+                        background: isCenterActive
+                          ? (isDark ? 'rgba(99,102,241,0.13)' : 'rgba(238,242,255,0.85)')
+                          : (isAnyActive ? 'rgba(255,255,255,0.35)' : 'transparent'),
+                        backdropFilter: isCenterActive ? 'blur(12px)' : 'none',
+                        WebkitBackdropFilter: isCenterActive ? 'blur(12px)' : 'none',
+                        border: isCenterActive
+                          ? '1px solid rgba(199,210,254,0.8)'
+                          : (isAnyActive ? '1px solid rgba(255,255,255,0.3)' : '1px solid transparent'),
+                        boxShadow: isCenterActive
+                          ? '0 4px 24px rgba(99,102,241,0.18), 0 1px 3px rgba(0,0,0,0.05)'
+                          : 'none',
                         transform: isCenterActive ? 'scale(1.01)' : 'scale(1)',
                         opacity: isAnyActive && !isCenterActive ? 0.55 : 1,
                         transition: 'all 0.25s ease',
