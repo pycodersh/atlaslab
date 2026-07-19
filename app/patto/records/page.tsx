@@ -408,9 +408,10 @@ export default function ProgressPage() {
   const sectionChip = (icon: React.ReactNode, title: string, counter: string) => (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      width: '100%', boxSizing: 'border-box',
+      width: 'calc(100% + 40px)', boxSizing: 'border-box',
+      marginLeft: -20, marginRight: -20,
       background: chipBg, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-      border: `1px solid ${chipBorder}`, borderRadius: 10, padding: '8px 16px',
+      border: `1px solid ${chipBorder}`, borderRadius: 0, padding: '8px 36px',
       boxShadow: '0 2px 16px rgba(99,102,241,0.15)', marginBottom: 14,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
