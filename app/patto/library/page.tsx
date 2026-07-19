@@ -582,27 +582,6 @@ export default function LibraryPage() {
 
   const savedItemsPanel = (
     <>
-      {/* Summary strip — tappable chips */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
-        <SummaryCard
-          icon={<BookOpen style={{ width: 16, height: 16, color: '#3A7A4A' }} strokeWidth={1.6} />}
-          label="Words" value={words.length} accent="#3A7A4A"
-          onClick={() => setActiveSection(prev => prev === 'words' ? null : 'words')}
-          isActive={activeSection === 'words'}
-        />
-        <SummaryCard
-          icon={<Layers style={{ width: 16, height: 16, color: '#C08040' }} strokeWidth={1.6} />}
-          label="Phrases" value={phrases.length} accent="#C08040"
-          onClick={() => setActiveSection(prev => prev === 'phrases' ? null : 'phrases')}
-          isActive={activeSection === 'phrases'}
-        />
-        <SummaryCard
-          icon={<BookMarked style={{ width: 16, height: 16, color: 'var(--pa)' }} strokeWidth={1.6} />}
-          label="Patterns" value={bookmarks.length} accent="var(--pa)"
-          onClick={() => setActiveSection(prev => prev === 'patterns' ? null : 'patterns')}
-          isActive={activeSection === 'patterns'}
-        />
-      </div>
 
       {/* Saved Words */}
       {activeSection === 'words' && (
@@ -937,14 +916,10 @@ export default function LibraryPage() {
             <div style={{ marginBottom: isSearching || showRecent ? 0 : 10, position: 'relative' }}>
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 10,
-                background: 'var(--pglass)',
-                backdropFilter: 'blur(20px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                borderRadius: 16,
-                padding: '14px 14px 14px 18px',
-                border: focused ? '1px solid var(--pacb)' : '1px solid var(--pglass-border)',
-                boxShadow: focused ? '0 4px 20px rgba(109,141,255,0.10)' : '0 4px 16px rgba(40,50,80,0.07)',
-                transition: 'border 0.2s, box-shadow 0.2s',
+                background: 'none',
+                borderBottom: focused ? '1.5px solid var(--pa)' : '1px solid var(--pglass-border)',
+                padding: '10px 4px',
+                transition: 'border-color 0.2s',
               }}>
                 <Search style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2} />
                 <input
