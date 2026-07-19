@@ -872,11 +872,11 @@ export default function LibraryPage() {
                         }}
                       >
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ fontSize: 12, color: 'var(--pm)', margin: '0 0 2px' }}>
+                          <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 2px' }}>
                             {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
                             {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
                           </p>
-                          <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
+                          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
                             {essay.body}
                           </p>
                         </div>
