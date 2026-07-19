@@ -81,7 +81,7 @@ function MenuCard({
     display: 'flex',
     alignItems: 'center',
     gap: 13,
-    padding: '13px 16px',
+    padding: '14px 0',
     textDecoration: 'none',
     transition: 'opacity 0.15s',
     width: '100%',
@@ -395,7 +395,7 @@ function InstallCard() {
         onClick={handleClick}
         style={{
           display: 'flex', alignItems: 'center', gap: 13,
-          padding: '13px 16px', width: '100%', boxSizing: 'border-box',
+          padding: '14px 0', width: '100%', boxSizing: 'border-box',
           cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
           transition: 'opacity 0.15s',
           background: 'none', border: 'none',
@@ -487,14 +487,14 @@ export default function SettingsPage() {
           </span>
           <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>앱 설정</span>
         </div>
-        <div style={{ ...glassCard, overflow: 'hidden' }}>
+        <div>
           {[
             <MenuCard key="sub"   icon={Sparkles}          label={t('hub_subscription')} desc={t('hub_subscription_desc')} href="/patto/settings/subscription" />,
             <MenuCard key="pref"  icon={SlidersHorizontal} label={t('hub_preferences')}  desc={t('hub_preferences_desc')}  href="/patto/settings/preferences" />,
             <InstallCard key="install" />,
             <MenuCard key="about" icon={Info}              label={t('hub_about')}         desc={t('hub_about_desc')}        href="/patto/settings/about" />,
           ].map((item, i, arr) => (
-            <div key={i} style={{ borderBottom: i < arr.length - 1 ? '1px solid var(--pglass-border)' : 'none' }}>
+            <div key={i} style={{ borderBottom: i < arr.length - 1 ? '0.5px solid var(--pglass-border)' : 'none' }}>
               {item}
             </div>
           ))}
