@@ -461,7 +461,7 @@ export default function ProgressPage() {
                       {icon}
                       <span style={{ fontSize: 12, color: 'var(--pm)' }}>{label}</span>
                     </div>
-                    <span style={{ fontSize: 12, color: complete ? '#22C55E' : 'var(--pm)' }}>
+                    <span style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.45rem)', fontWeight: 800, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums', lineHeight: 1, color: complete ? '#22C55E' : 'var(--pt)' }}>
                       {done} / {target}
                     </span>
                   </div>
@@ -597,7 +597,7 @@ export default function ProgressPage() {
           </div>
 
           {/* Progress bar */}
-          <div style={{ background: 'var(--pglass)', borderRadius: 999, height: 5, marginBottom: 14, border: '1px solid var(--pglass-border)' }}>
+          <div style={{ background: 'var(--pglass)', borderRadius: 999, height: 5, marginBottom: 0, border: '1px solid var(--pglass-border)' }}>
             <div style={{
               height: '100%', borderRadius: 999, background: '#6366F1',
               width: `${Math.min(100, (masteredCount / 500) * 100)}%`,
