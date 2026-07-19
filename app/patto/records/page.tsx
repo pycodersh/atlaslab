@@ -405,22 +405,21 @@ export default function ProgressPage() {
   const chipBorder = isDark ? 'rgba(99,102,241,0.25)'  : 'rgba(199,210,254,0.8)'
   const chipTitle  = isDark ? '#818CF8'                : '#4338CA'
 
-  function SectionChip({ icon, title, counter }: { icon: React.ReactNode; title: string; counter: string }) {
-    return (
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%',
-        background: chipBg, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-        border: `1px solid ${chipBorder}`, borderRadius: 10, padding: '8px 16px',
-        boxShadow: '0 2px 16px rgba(99,102,241,0.15)', marginBottom: 14,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ color: '#6366F1', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
-          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
-        </div>
-        <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#6366F1', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{counter}</span>
+  const sectionChip = (icon: React.ReactNode, title: string, counter: string) => (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      width: '100%', boxSizing: 'border-box',
+      background: chipBg, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+      border: `1px solid ${chipBorder}`, borderRadius: 10, padding: '8px 16px',
+      boxShadow: '0 2px 16px rgba(99,102,241,0.15)', marginBottom: 14,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span style={{ color: '#6366F1', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
+        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
       </div>
-    )
-  }
+      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#6366F1', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{counter}</span>
+    </div>
+  )
 
   const sectionDivider: React.CSSProperties = {
     borderTop: `0.5px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.09)'}`,
@@ -435,16 +434,14 @@ export default function ProgressPage() {
 
         {/* TODAY'S SESSION */}
         <div>
-          <SectionChip
-            icon={
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/>
-                <rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>
-              </svg>
-            }
-            title="Today's Session"
-            counter={`${todaySessionStats.fullyDone} / ${todaySessionStats.m} done`}
-          />
+          {sectionChip(
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/>
+              <rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>
+            </svg>,
+            "Today's Session",
+            `${todaySessionStats.fullyDone} / ${todaySessionStats.m} done`,
+          )}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {([
               {
@@ -563,16 +560,14 @@ export default function ProgressPage() {
         {/* THIS WEEK */}
         <div>
           <div style={sectionDivider} />
-          <SectionChip
-            icon={
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="4" y="5" width="16" height="16" rx="2"/>
-                <path d="M16 3v4M8 3v4M4 11h16"/><path d="M8 16h.01M12 16h.01M16 16h.01"/>
-              </svg>
-            }
-            title="This Week"
-            counter={`${activeDaysThisWeek} / 7 days`}
-          />
+          {sectionChip(
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="4" y="5" width="16" height="16" rx="2"/>
+              <path d="M16 3v4M8 3v4M4 11h16"/><path d="M8 16h.01M12 16h.01M16 16h.01"/>
+            </svg>,
+            'This Week',
+            `${activeDaysThisWeek} / 7 days`,
+          )}
           <div>
             {/* Bar chart */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
@@ -615,16 +610,14 @@ export default function ProgressPage() {
         {/* OVERALL PROGRESS */}
         <div>
           <div style={sectionDivider} />
-          <SectionChip
-            icon={
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 3v18h18"/>
-                <rect x="7" y="10" width="3" height="9" rx="1"/><rect x="13" y="6" width="3" height="13" rx="1"/>
-              </svg>
-            }
-            title="Overall Progress"
-            counter={`${masteredCount} / 500 patterns`}
-          />
+          {sectionChip(
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 3v18h18"/>
+              <rect x="7" y="10" width="3" height="9" rx="1"/><rect x="13" y="6" width="3" height="13" rx="1"/>
+            </svg>,
+            'Overall Progress',
+            `${masteredCount} / 500 patterns`,
+          )}
 
           {/* 3-column stat text-only */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 14 }}>
