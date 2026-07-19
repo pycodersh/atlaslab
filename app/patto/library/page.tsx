@@ -16,7 +16,7 @@ import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/book
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
 import {
-  getEssays, saveEssay, saveReview, getReviewsRemaining, recordReviewUsed, canReview,
+  getEssays, saveEssay, saveReview, deleteEssay, getReviewsRemaining, recordReviewUsed, canReview,
   type Essay, type EditorReview,
 } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
@@ -510,6 +510,11 @@ export default function LibraryPage() {
     setPhrases(prev => prev.filter(p => p.id !== id))
   }
 
+  function handleDeleteEssay(id: string) {
+    deleteEssay(id)
+    setEssays(prev => prev.filter(e => e.id !== id))
+  }
+
   function goToWord(w: SavedWord) {
     if (w.storyId) router.push(`/patto/stories/${w.storyId}`)
   }
@@ -825,51 +830,55 @@ export default function LibraryPage() {
               {(wsShowAll ? essays : essays.slice(0, 3)).map((essay, i) => {
                 const isExpanded = wsExpandedId === essay.id
                 return (
-                  <div
+                  <SwipeDeleteRow
                     key={essay.id}
-                    style={{ borderTop: i === 0 ? 'none' : ROW_BORDER }}
+                    onDeleteRequest={() => handleDeleteEssay(essay.id)}
+                    containerStyle={{ borderTop: i === 0 ? 'none' : ROW_BORDER }}
+                    contentBg="transparent"
                   >
-                    <button
-                      type="button"
-                      onClick={() => setWsExpandedId(isExpanded ? null : essay.id)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 10,
-                        width: '100%', textAlign: 'left', background: 'none', border: 'none',
-                        cursor: 'pointer', padding: '12px 16px', fontFamily: 'inherit',
-                      }}
-                    >
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 2px' }}>
-                          {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
-                          {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
-                        </p>
-                        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
-                          {essay.body}
-                        </p>
-                      </div>
-                      <ChevronDown
-                        style={{ width: 14, height: 14, color: 'var(--pm)', flexShrink: 0, transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                        strokeWidth={2}
-                      />
-                    </button>
-                    {isExpanded && (
-                      <div style={{ padding: '0 16px 14px', borderTop: '0.5px solid var(--pglass-border)' }}>
-                        <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', margin: '12px 0 4px' }}>ORIGINAL</div>
-                        <div style={{ fontSize: 13, color: 'var(--pt)', lineHeight: 1.6, marginBottom: 12 }}>{essay.body}</div>
-                        {essay.review?.suggestedVersion && (
-                          <>
-                            <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', marginBottom: 4 }}>AI FEEDBACK</div>
-                            <div style={{ fontSize: 13, color: 'var(--pt)', background: 'rgba(107,143,255,0.08)', borderRadius: 10, padding: 10, lineHeight: 1.6 }}>
-                              {essay.review.suggestedVersion}
-                            </div>
-                            {essay.review.editorComment && (
-                              <p style={{ fontSize: 12, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>{essay.review.editorComment}</p>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => setWsExpandedId(isExpanded ? null : essay.id)}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 10,
+                          width: '100%', textAlign: 'left', background: 'none', border: 'none',
+                          cursor: 'pointer', padding: '12px 16px', fontFamily: 'inherit',
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 2px' }}>
+                            {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
+                            {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
+                          </p>
+                          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
+                            {essay.body}
+                          </p>
+                        </div>
+                        <ChevronDown
+                          style={{ width: 14, height: 14, color: 'var(--pm)', flexShrink: 0, transition: 'transform 0.2s', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                          strokeWidth={2}
+                        />
+                      </button>
+                      {isExpanded && (
+                        <div style={{ padding: '0 16px 14px', borderTop: '0.5px solid var(--pglass-border)' }}>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', margin: '12px 0 4px' }}>ORIGINAL</div>
+                          <div style={{ fontSize: 13, color: 'var(--pt)', lineHeight: 1.6, marginBottom: 12 }}>{essay.body}</div>
+                          {essay.review?.suggestedVersion && (
+                            <>
+                              <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', marginBottom: 4 }}>AI FEEDBACK</div>
+                              <div style={{ fontSize: 13, color: 'var(--pt)', background: 'rgba(107,143,255,0.08)', borderRadius: 10, padding: 10, lineHeight: 1.6 }}>
+                                {essay.review.suggestedVersion}
+                              </div>
+                              {essay.review.editorComment && (
+                                <p style={{ fontSize: 12, color: 'var(--pm)', marginTop: 8, lineHeight: 1.5 }}>{essay.review.editorComment}</p>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </SwipeDeleteRow>
                 )
               })}
             </div>
