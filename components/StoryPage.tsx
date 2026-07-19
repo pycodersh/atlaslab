@@ -54,8 +54,6 @@ type StoryPageProps = {
   showReadingGuide?: boolean
   /** Pulse animation on the audio button (after scroll complete) */
   audioPulse?: boolean
-  /** Ref to the patterns section boundary div — disables story paragraph highlight when below it */
-  patternBoundaryRef?: React.RefObject<HTMLElement | null>
 }
 
 
@@ -78,7 +76,6 @@ export function StoryPage({
   showReadingGuide = false,
   audioPulse = false,
   onStudyModeChange,
-  patternBoundaryRef,
 }: StoryPageProps) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -130,7 +127,7 @@ export function StoryPage({
   const absParaIdx = isSpeaking ? currentParagraphIdx + paraOffsetRef.current : null
   const paraElemsRef = useRef<(HTMLDivElement | null)[]>([])
   const paraMode = isSpeaking ? 'listening' : 'reading'
-  const paraCenterIdx = useCenterCard(paraElemsRef, story.paragraphs.length, paraMode, absParaIdx, patternBoundaryRef, 'above')
+  const paraCenterIdx = useCenterCard(paraElemsRef, story.paragraphs.length, paraMode, absParaIdx)
 
   // Reset pause state when audio ends naturally
   useEffect(() => {

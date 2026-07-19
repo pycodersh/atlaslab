@@ -559,7 +559,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         onPatternIndexChange={setPatternIdx}
         showKorean={patternShowKo}
         showEnglish={patternShowEn}
-        boundaryRef={patternSectionRef}
       />
 
       {sectionDivider('Study Record')}
@@ -692,7 +691,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         showReadingGuide={isFirstRound && flowPhase === 'reading' && !scrolledToEnd}
         audioPulse={isFirstRound && !isSpeaking && flowPhase === 'reading'}
         onStudyModeChange={handleStudyModeChange}
-        patternBoundaryRef={patternSectionRef}
       />
       {recoDialogEl}
       {sharedPopups}
