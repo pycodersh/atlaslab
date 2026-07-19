@@ -652,8 +652,8 @@ export default function HomePage() {
               <motion.div
                 key={`${m.type}-${m.id}`}
                 role="button" tabIndex={0}
-                onClick={() => router.push(m.href)}
-                onKeyDown={e => e.key === 'Enter' && router.push(m.href)}
+                onClick={() => router.push(`/patto/stories/${m.id}`)}
+                onKeyDown={e => e.key === 'Enter' && router.push(`/patto/stories/${m.id}`)}
                 style={{
                   display: 'flex', alignItems: 'center',
                   padding: '8px 0', cursor: 'pointer',

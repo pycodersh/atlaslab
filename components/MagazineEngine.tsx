@@ -22,7 +22,7 @@ import type { MagazineStory } from '@/types/magazine'
 import { saveLastPosition } from '@/lib/last-position'
 import { completeStoryAndScheduleReview } from '@/lib/learning-progress'
 import type { PracticeExample } from '@/data/pattern-examples'
-import { getStoryRound, completeStoryRound, getTodayRecommendedStoryId, type StoryRoundData } from '@/lib/srs/story-round'
+import { getStoryRound, completeStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
 import { getStorySessionState, updateStorySessionState } from '@/lib/srs/story-session'
 import { useTheme } from '@/components/ThemeProvider'
 import { StoryProgressTracker } from '@/components/StoryProgressTracker'
@@ -64,25 +64,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   // 위치 저장 — Continue Learning이 여기로 돌아올 수 있도록
   useEffect(() => { saveLastPosition(story.id, 'story') }, [story.id])
   const [showPicker, setShowPicker] = useState(false)
-
-  // ── Story recommendation dialog ────────────────────────────────────────
-  const [recoStoryId, setRecoStoryId] = useState<number | null>(null)
-
-  useEffect(() => {
-    const sessionKey = `patto-reco-dismissed-${story.id}`
-    if (sessionStorage.getItem(sessionKey)) return
-    const ids = allStories.map(s => s.id)
-    const recId = getTodayRecommendedStoryId(ids)
-    if (recId !== null && recId !== story.id) {
-      setRecoStoryId(recId)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [story.id])
-
-  function dismissReco() {
-    sessionStorage.setItem(`patto-reco-dismissed-${story.id}`, '1')
-    setRecoStoryId(null)
-  }
 
   // ── Study flow state (mobile only) ────────────────────────────────────
   type FlowPhase = 'reading' | 'patterns' | 'complete'
@@ -592,57 +573,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   )
 
 
-  const recoStory = recoStoryId ? allStories.find(s => s.id === recoStoryId) : null
-  const recoDialogEl = recoStory ? (
-    <div style={{
-      position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 300,
-      padding: '0 16px 32px',
-      background: 'linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)',
-      pointerEvents: 'none',
-    }}>
-      <div style={{
-        background: 'rgba(255,255,255,0.88)',
-        backdropFilter: 'blur(28px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-        borderRadius: 20,
-        border: '1px solid rgba(255,255,255,0.7)',
-        boxShadow: '0 8px 32px rgba(30,40,60,0.18)',
-        padding: '18px 18px 16px',
-        pointerEvents: 'auto',
-      }}>
-        <p style={{ margin: '0 0 12px', fontSize: 13, fontWeight: 600, color: '#1a1a2e', lineHeight: 1.45 }}>
-          오늘 추천 스토리는 <span style={{ fontWeight: 800, color: '#5B7FD4' }}>Story {String(recoStory.id).padStart(2, '0')}</span>이에요!<br />
-          <span style={{ fontSize: 12, fontWeight: 400, color: 'rgba(0,0,0,0.5)' }}>그래도 계속할까요?</span>
-        </p>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button
-            type="button"
-            onClick={() => { dismissReco(); router.push(`/patto/stories/${recoStory.id}`) }}
-            style={{
-              flex: 1, height: 44, borderRadius: 12, cursor: 'pointer',
-              background: '#5B7FD4', border: 'none',
-              fontSize: 13, fontWeight: 700, color: '#fff', fontFamily: 'inherit',
-            }}
-          >
-            추천 스토리로 가기
-          </button>
-          <button
-            type="button"
-            onClick={dismissReco}
-            style={{
-              flex: 1, height: 44, borderRadius: 12, cursor: 'pointer',
-              background: 'transparent',
-              border: '1px solid rgba(0,0,0,0.12)',
-              fontSize: 13, fontWeight: 600, color: '#1a1a2e', fontFamily: 'inherit',
-            }}
-          >
-            여기서 계속
-          </button>
-        </div>
-      </div>
-    </div>
-  ) : null
-
   function showExitCard(href: string | null) {
     // ORB/Trainer가 없으면 바로 이동 (trainer 없으면 dialog 표시 불가)
     if (!trainer) {
@@ -694,7 +624,6 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         onStudyModeChange={handleStudyModeChange}
         patternSectionRef={patternSectionRef}
       />
-      {recoDialogEl}
       {sharedPopups}
     </div>
   )
