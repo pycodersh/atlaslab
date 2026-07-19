@@ -8,6 +8,7 @@ import { TopNav } from '@/components/TopNav'
 import { getStreak } from '@/lib/srs/storage'
 import { magazineStories } from '@/data/magazine-stories'
 import { getStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
+import { getStorySessionState } from '@/lib/srs/story-session'
 import { LearningCalendar } from '@/components/LearningCalendar'
 import { getFutureSchedule, type ScheduledDay } from '@/lib/srs/engine'
 import { getActivityByDate } from '@/lib/srs/storage'
@@ -19,6 +20,14 @@ const DAILY_GOAL  = 1
 // ?? Helpers ????????????????????????????????????????????????????????????????????
 function toIso(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+// Session date resets at 04:00 KST (not midnight)
+function getSessionDate(): string {
+  const now = new Date()
+  const kst = new Date(now.getTime() + 9 * 60 * 60000)
+  if (kst.getUTCHours() < 4) kst.setUTCDate(kst.getUTCDate() - 1)
+  return kst.toISOString().slice(0, 10)
 }
 
 function getMonthLabel(): string {
@@ -356,16 +365,30 @@ export default function ProgressPage() {
 
   const storyDone = todayCount > 0
 
-  // ?? Step circle helper ????????????????????????????????????????????????????????
-  const stepCircle = (active: boolean) => (
-    <div style={{
-      width: 26, height: 26, borderRadius: '50%',
-      border: `2px solid ${active ? '#6B8FFF' : 'rgba(180,185,220,0.45)'}`,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-    }}>
-      <div style={{ width: 8, height: 8, borderRadius: '50%', background: active ? '#6B8FFF' : 'rgba(180,185,220,0.45)' }} />
-    </div>
-  )
+  // Today session stats (04:00 KST reset, L/R/C per story)
+  const todaySessionStats = useMemo(() => {
+    const sessionDate = getSessionDate()
+    const completedToday = storyRounds.filter(r => r.lastCompletedAt === sessionDate)
+    const inProgress = storyRounds.filter(
+      r => !r.isMastered &&
+        r.nextReviewAt !== null &&
+        r.nextReviewAt <= sessionDate &&
+        r.lastCompletedAt !== sessionDate,
+    )
+    const m = Math.max(DAILY_GOAL, completedToday.length + inProgress.length)
+    let listeningDone = completedToday.length
+    let readingDone   = completedToday.length * 2
+    let challengeDone = completedToday.length
+    let fullyDone     = completedToday.length
+    for (const r of inProgress) {
+      const sess = getStorySessionState(r.storyId, r.round)
+      if (sess.listeningCompleted) listeningDone++
+      readingDone += Math.min(2, sess.readingCount)
+      if (sess.challengeCompleted) challengeDone++
+      if (sess.listeningCompleted && sess.readingCount >= 2 && sess.challengeCompleted) fullyDone++
+    }
+    return { m, listeningDone, readingDone, challengeDone, fullyDone }
+  }, [storyRounds])
 
   return (
     <div style={{ minHeight: '100dvh', paddingBottom: TAB_BAR_HEIGHT + 24 }}>
@@ -373,31 +396,75 @@ export default function ProgressPage() {
 
       <div style={{ maxWidth: 480, margin: '0 auto', padding: '12px 20px', display: 'flex', flexDirection: 'column', gap: 20 }}>
 
-        {/* ?? TODAY'S SESSION ???????????????????????????????????????????????? */}
+        {/* TODAY'S SESSION */}
         <div>
-          <p style={SEC}>TODAY&apos;S SESSION</p>
-          <div style={{ ...surface, padding: '20px 20px 18px' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 14 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                {stepCircle(true)}
-                <span style={{ fontSize: 9.5, fontWeight: 700, color: '#6B8FFF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>STORY</span>
-              </div>
-              <div style={{ flex: 1, height: 1.5, background: 'rgba(142,167,255,0.28)', alignSelf: 'flex-start', marginTop: 12, marginLeft: 3, marginRight: 3 }} />
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                {stepCircle(false)}
-                <span style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>PATTERN</span>
-              </div>
-              <div style={{ flex: 1, height: 1.5, background: 'rgba(142,167,255,0.28)', alignSelf: 'flex-start', marginTop: 12, marginLeft: 3, marginRight: 3 }} />
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                {stepCircle(false)}
-                <span style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>CHALLENGE</span>
-              </div>
-            </div>
-            {storyDone && (
-              <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--pt)' }}>
-                {`Good work today! ${todayCount} ${todayCount === 1 ? 'story' : 'stories'} done.`}
-              </p>
-            )}
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
+            <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', margin: 0 }}>Today&apos;s session</p>
+            <span style={{ fontSize: 12, color: 'var(--pm)' }}>
+              {todaySessionStats.fullyDone} / {todaySessionStats.m} stories done
+            </span>
+          </div>
+          <div style={{ ...surface, padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {([
+              {
+                label: 'Listening',
+                icon: (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+                  </svg>
+                ),
+                done: todaySessionStats.listeningDone,
+                target: todaySessionStats.m * 1,
+              },
+              {
+                label: 'Reading',
+                icon: (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                  </svg>
+                ),
+                done: todaySessionStats.readingDone,
+                target: todaySessionStats.m * 2,
+              },
+              {
+                label: 'Challenge',
+                icon: (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366F1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 2h6l2 3H2z"/><path d="M22 22h-6l-2-3h8z"/>
+                    <path d="M7 2v2a5 5 0 0 0 5 5h0a5 5 0 0 1 5 5v2"/>
+                    <path d="M17 22v-2a5 5 0 0 0-5-5h0a5 5 0 0 1-5-5V7"/>
+                  </svg>
+                ),
+                done: todaySessionStats.challengeDone,
+                target: todaySessionStats.m * 1,
+              },
+            ] as const).map(({ label, icon, done, target }) => {
+              const pct = target === 0 ? 0 : Math.min(1, done / target)
+              const complete = pct >= 1
+              return (
+                <div key={label}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {icon}
+                      <span style={{ fontSize: 12, color: 'var(--pm)' }}>{label}</span>
+                    </div>
+                    <span style={{ fontSize: 12, color: complete ? '#22C55E' : 'var(--pm)' }}>
+                      {done} / {target}
+                    </span>
+                  </div>
+                  <div style={{ background: 'var(--pglass)', borderRadius: 999, height: 5, border: '1px solid var(--pglass-border)' }}>
+                    <div style={{
+                      height: '100%', borderRadius: 999,
+                      background: complete ? '#22C55E' : '#6366F1',
+                      width: `${pct * 100}%`,
+                      transition: 'width 0.6s cubic-bezier(0.22,1,0.36,1), background 0.3s ease',
+                    }} />
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
 
