@@ -165,12 +165,26 @@ function FillQuestion({
         {q.hard ? 'Recall the Pattern' : 'Fill in the Blank'}
       </p>
 
+      {/* Korean translation */}
+      {q.pattern.storySentenceKo && (
+        <p style={{
+          margin: '0 0 12px',
+          fontSize: 13,
+          color: '#9CA3AF',
+          textAlign: 'justify',
+          lineHeight: 1.5,
+        }}>
+          {q.pattern.storySentenceKo}
+        </p>
+      )}
+
       {/* Sentence */}
       <p style={{
         margin: '0 0 18px',
         fontSize: 15, lineHeight: 1.65,
         color: isDark ? 'rgba(255,255,255,0.88)' : '#1a1a2e',
         fontWeight: 500,
+        textAlign: 'justify',
       }}>
         {parts[0]}
         <span style={{
@@ -185,19 +199,6 @@ function FillQuestion({
         </span>
         {parts[1]}
       </p>
-
-      {/* Korean translation */}
-      {q.pattern.storySentenceKo && (
-        <p style={{
-          margin: '0 0 14px',
-          fontSize: 13,
-          color: '#9CA3AF',
-          textAlign: 'center',
-          lineHeight: 1.5,
-        }}>
-          {q.pattern.storySentenceKo}
-        </p>
-      )}
 
       {/* Options */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>

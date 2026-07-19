@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Volume2, Waves, Pause } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
@@ -15,6 +15,14 @@ import { RATE_MAP } from '@/lib/settings/preferences'
 import { ttsProvider, getPitchForKey, storyParaAudioUrl } from '@/lib/tts'
 import { storyChunks } from '@/data/story-chunks'
 import { openSavePopup } from '@/lib/words/popupStore'
+import { useCenterCard } from '@/hooks/useCenterCard'
+import {
+  coordinatorClaim,
+  coordinatorEnded,
+  coordinatorPaused,
+  coordinatorResumed,
+  coordinatorReset,
+} from '@/lib/audio/coordinator'
 
 type StoryPageProps = {
   story: MagazineStory
@@ -26,7 +34,7 @@ type StoryPageProps = {
   speakAll: (
     texts: string[],
     audioUrls?: (string | null | undefined)[],
-    opts?: { voiceKey?: import('@/lib/settings/preferences').VoiceKey; voiceKeys?: import('@/lib/settings/preferences').VoiceKey[] },
+    opts?: { voiceKey?: import('@/lib/settings/preferences').VoiceKey; voiceKeys?: import('@/lib/settings/preferences').VoiceKey[]; onEnd?: () => void },
   ) => void
   stop: () => void
   isSpeaking: boolean
@@ -95,9 +103,38 @@ export function StoryPage({
   const [playingParaId, setPlayingParaId] = useState<string | null>(null)
   const [isPaused, setIsPaused] = useState(false)
 
+  // ── Coordinator: story audio ownership ──────────────────────────────────────
+  const STORY_AUDIO_ID = `story-${story.id}`
+  // Paragraph offset when resuming from an interrupted position
+  const paraOffsetRef      = useRef(0)
+  const interruptedAtParaRef = useRef<number | null>(null)
+  // Stable interrupt callback — always calls the latest closure via ref
+  const interruptImplRef   = useRef<() => void>(() => {})
+  useEffect(() => {
+    interruptImplRef.current = () => {
+      const absIdx = currentParagraphIdx >= 0
+        ? currentParagraphIdx + paraOffsetRef.current
+        : null
+      if (absIdx !== null && isSpeaking) interruptedAtParaRef.current = absIdx
+      stop()
+      setIsPaused(false)
+    }
+  }, [currentParagraphIdx, isSpeaking, stop])
+  // useCallback gives a stable reference that the coordinator can store
+  const stableStoryInterrupt = useCallback(() => interruptImplRef.current(), [])
+
+  // ── Absolute paragraph index (relative idx + offset after slice) ──────────
+  const absParaIdx = isSpeaking ? currentParagraphIdx + paraOffsetRef.current : null
+  const paraElemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const paraMode = isSpeaking ? 'listening' : 'reading'
+  const paraCenterIdx = useCenterCard(paraElemsRef, story.paragraphs.length, paraMode, absParaIdx)
+
   // Reset pause state when audio ends naturally
   useEffect(() => {
-    if (!isSpeaking) setIsPaused(false)
+    if (!isSpeaking) {
+      setIsPaused(false)
+      if (paraOffsetRef.current !== 0) paraOffsetRef.current = 0
+    }
   }, [isSpeaking])
   const [revealedParas, setRevealedParas] = useState<Set<string>>(new Set())
 
@@ -107,6 +144,9 @@ export function StoryPage({
 
   // Reset per-story state when story changes
   useEffect(() => {
+    coordinatorReset()
+    interruptedAtParaRef.current = null
+    paraOffsetRef.current = 0
     setStudyMode('en')
     onStudyModeChange?.('en')
     setPlayingParaId(null)
@@ -119,8 +159,17 @@ export function StoryPage({
     if (isSpeaking) setPlayingParaId(null)
   }, [isSpeaking])
 
+  // Tab visibility reset
+  useEffect(() => {
+    function onVisibilityChange() {
+      if (document.hidden) coordinatorReset()
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', onVisibilityChange)
+  }, [])
+
   // Cleanup on unmount
-  useEffect(() => () => { ttsProvider.stop() }, [])
+  useEffect(() => () => { coordinatorReset() }, [])
 
   // ── Phrase selection via native long-press + drag ────────────────────────
   useEffect(() => {
@@ -183,18 +232,28 @@ export function StoryPage({
     if (isSpeaking && isPaused) {
       ttsProvider.resume?.()
       setIsPaused(false)
+      coordinatorResumed(STORY_AUDIO_ID)
       return
     }
     if (isSpeaking) {
       ttsProvider.pause?.()
       setIsPaused(true)
+      coordinatorPaused(STORY_AUDIO_ID)
       return
     }
+    // Start (or resume from interrupted position)
     setIsPaused(false)
     setPlayingParaId(null)
-    const texts     = story.paragraphs.map(p => p.english)
-    const audioUrls = story.paragraphs.map(p => storyParaAudioUrl(narrator, story.id, p.id, p.english))
-    speakAll(texts, audioUrls, { voiceKey: narrator })
+    const fromIdx = interruptedAtParaRef.current ?? 0
+    interruptedAtParaRef.current = null
+    paraOffsetRef.current = fromIdx
+    const texts     = story.paragraphs.slice(fromIdx).map(p => p.english)
+    const audioUrls = story.paragraphs.slice(fromIdx).map(p => storyParaAudioUrl(narrator, story.id, p.id, p.english))
+    coordinatorClaim(STORY_AUDIO_ID, stableStoryInterrupt)
+    speakAll(texts, audioUrls, {
+      voiceKey: narrator,
+      onEnd: () => { coordinatorEnded(STORY_AUDIO_ID); paraOffsetRef.current = 0 },
+    })
   }
 
   // ── Per-paragraph audio ─────────────────────────────────────────────────
@@ -249,23 +308,6 @@ export function StoryPage({
     <>
         <TopNav />
 
-        {/* Reading guide — Glass Capsule */}
-        {showReadingGuide && (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 16px 4px' }}>
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              padding: '7px 18px',
-              background: 'rgba(255,255,255,0.6)',
-              backdropFilter: 'blur(8px)',
-              WebkitBackdropFilter: 'blur(8px)',
-              border: '1px solid rgba(255,255,255,0.8)',
-              borderRadius: 20,
-            }}>
-              <span style={{ fontSize: 14 }}>📖</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#3a3a5a' }}>Read the story</span>
-            </div>
-          </div>
-        )}
 
         {/* ── Hero Image — same width as card below ── */}
         <div style={{ padding: '0 16px', position: 'relative' }}>
@@ -411,8 +453,24 @@ export function StoryPage({
                   const isRevealed = showEnglish || isKoOnly || revealedParas.has(para.id)
                   const koText = resolveTranslation(para.koreanTranslation, prefs.language, para.translations)
 
+                  const isCenterActive = paraCenterIdx === i
+                  const isAnyActive = paraCenterIdx !== null
+
                   return (
-                    <div key={para.id} data-para-id={para.id} className="rounded-xl px-2 py-1 -mx-2">
+                    <div
+                      key={para.id}
+                      data-para-id={para.id}
+                      className="rounded-xl px-2 py-1 -mx-2"
+                      ref={el => { paraElemsRef.current[i] = el }}
+                      style={{
+                        border: isCenterActive ? '1.5px solid #6366F1' : '1.5px solid transparent',
+                        boxShadow: isCenterActive ? '0 0 0 3px rgba(99,102,241,0.12)' : 'none',
+                        background: isCenterActive ? (isDark ? 'rgba(99,102,241,0.10)' : '#FAFAFE') : 'transparent',
+                        transform: isCenterActive ? 'scale(1.01)' : 'scale(1)',
+                        opacity: isAnyActive && !isCenterActive ? 0.55 : 1,
+                        transition: 'all 0.25s ease',
+                      }}
+                    >
                       {/* English — KO 모드에서는 투명(위치 유지) */}
                       {isRevealed ? (
                         <div style={{ opacity: isKoOnly ? 0 : 1, transition: 'opacity 0.2s', pointerEvents: isKoOnly ? 'none' : 'auto' }}>

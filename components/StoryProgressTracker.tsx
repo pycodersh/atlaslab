@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Info, X, Headphones, BookOpen } from 'lucide-react'
+import { Info, X, Headphones, BookOpen, CheckCircle } from 'lucide-react'
 import { updateStorySessionState } from '@/lib/srs/story-session'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -20,15 +20,15 @@ type Props = {
   story: MagazineStory
   round: number
   listeningCompleted: boolean
-  readingCount: number           // 0, 1, or 2
+  readingCount: number           // 0, 1, 2, or more
   onReadingCheck: (newCount: number) => void
 }
 
 const INFO: Record<string, string> = {
-  ko: '오디오를 끝까지 들으면 Listening이 자동으로 완료됩니다. Story를 읽은 뒤 ✓를 눌러 Reading을 기록하세요. 2회 완료하면 Reading이 완성됩니다.',
-  en: 'Listening completes automatically when you finish the audio. Tap ✓ after reading to record each session. Complete twice to finish Reading.',
-  ja: 'オーディオを最後まで聞くとListeningが自動完了します。読み終えたら✓をタップしてReadingを記録してください。2回完了でReadingが完成します。',
-  zh: '听完音频后Listening自动完成。阅读后点击✓记录，完成两次即完成Reading。',
+  ko: '오디오를 끝까지 들으면 Listening이 자동으로 완료됩니다. Story를 읽은 뒤 + 버튼을 눌러 Reading을 기록하세요. 2회 완료하면 Reading이 완성됩니다.',
+  en: 'Listening completes automatically when you finish the audio. Tap + after reading to record each session. Complete twice to finish Reading.',
+  ja: 'オーディオを最後まで聞くとListeningが自動完了します。読み終えたら+をタップしてReadingを記録してください。2回完了でReadingが完成します。',
+  zh: '听完音频后Listening自动完成。阅读后点击+记录，完成两次即完成Reading。',
 }
 
 // Keyframes injected once — dot pop-in when it transitions to filled
@@ -58,20 +58,9 @@ export function StoryProgressTracker({
   const [processing,    setProcessing]    = useState(false)
   const [showInfo,      setShowInfo]      = useState(false)
 
-  // Dot pop-in animation triggers (true for one animation frame, then cleared)
-  const [animListening, setAnimListening] = useState(false)
+  // Dot pop-in animation triggers
   const [animReading1,  setAnimReading1]  = useState(false)
   const [animReading2,  setAnimReading2]  = useState(false)
-
-  // Trigger dot pop when listening transitions to completed
-  useEffect(() => {
-    if (!prevListeningRef.current && listeningCompleted) {
-      setAnimListening(true)
-      const t = setTimeout(() => setAnimListening(false), 400)
-      return () => clearTimeout(t)
-    }
-    prevListeningRef.current = listeningCompleted
-  }, [listeningCompleted])
 
   // Trigger dot pop when reading count increments
   useEffect(() => {
@@ -80,16 +69,21 @@ export function StoryProgressTracker({
       if (prev < 1 && readingCount >= 1) {
         setAnimReading1(true)
         const t = setTimeout(() => setAnimReading1(false), 400)
-        setTimeout(() => clearTimeout(t), 450)
+        return () => clearTimeout(t)
       }
       if (prev < 2 && readingCount >= 2) {
         setAnimReading2(true)
         const t = setTimeout(() => setAnimReading2(false), 400)
-        setTimeout(() => clearTimeout(t), 450)
+        return () => clearTimeout(t)
       }
     }
     prevReadingRef.current = readingCount
   }, [readingCount])
+
+  // Unused — kept for side-effect-free ref sync on listeningCompleted changes
+  useEffect(() => {
+    prevListeningRef.current = listeningCompleted
+  }, [listeningCompleted])
 
   // Unlock check after sufficient reading time
   useEffect(() => {
@@ -107,7 +101,7 @@ export function StoryProgressTracker({
   function handleReadingCheck() {
     if (processing || readingCount >= 2 || !readyToCheck) return
     setProcessing(true)
-    const newCount = Math.min(2, readingCount + 1)
+    const newCount = readingCount + 1
     updateStorySessionState(story.id, round, { readingCount: newCount })
     onReadingCheck(newCount)
     sessionStartedAt.current = Date.now()
@@ -119,9 +113,8 @@ export function StoryProgressTracker({
   const cardBg     = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.78)'
   const cardBorder = isDark ? '1px solid rgba(255,255,255,0.09)' : '1px solid rgba(142,167,255,0.18)'
   const labelMuted = isDark ? 'rgba(255,255,255,0.50)' : '#6a6a8a'
-  const labelFocus = isDark ? 'rgba(255,255,255,0.92)' : '#2c2c52'  // one level stronger
+  const labelFocus = isDark ? 'rgba(255,255,255,0.92)' : '#2c2c52'
   const accentOn   = isDark ? '#8FABFF' : '#5B7FD4'
-  const accentOff  = isDark ? 'rgba(255,255,255,0.18)' : 'rgba(142,167,255,0.30)'
 
   const noteBg     = isDark ? 'rgba(255,220,80,0.12)' : '#FFFBEA'
   const noteBorder = isDark ? 'rgba(255,220,80,0.25)' : '#F5E58A'
@@ -131,29 +124,21 @@ export function StoryProgressTracker({
     ? (isDark ? '#FFE050' : '#C09900')
     : (isDark ? 'rgba(255,255,255,0.28)' : 'rgba(100,100,160,0.38)')
 
-  const readingDone = readingCount >= 2
-  const btnActive   = !readingDone && readyToCheck && !processing
-
-  // ── Focus states (which row is currently "active") ──────────────────────────
-  // Listening active  = not yet completed (draw user's attention to listen first)
-  // Reading active    = listening done but reading not yet complete
+  const readingDone    = readingCount >= 2
+  const btnActive      = !readingDone && readyToCheck && !processing
   const listeningActive = !listeningCompleted
   const readingActive   = listeningCompleted && !readingDone
 
-  // ── Dot component ────────────────────────────────────────────────────────────
+  // ── Dot (read-only, no click) ──────────────────────────────────────────────
   const dot = (filled: boolean, animate: boolean) => (
     <div style={{
       width: 7, height: 7, borderRadius: '50%',
-      background: filled ? accentOn : accentOff,
+      background: filled ? '#6366F1' : '#D1D5DB',
       flexShrink: 0,
       transition: 'background 0.25s ease-out',
       animation: animate ? 'sptDotPop 360ms ease-out' : 'none',
     }} />
   )
-
-  // Fixed column widths — both rows share same DOTS_W so dots align on same X
-  const DOTS_W   = 48
-  const ACTION_W = 36
 
   const infoText = INFO[lang] ?? INFO['en']
 
@@ -161,7 +146,7 @@ export function StoryProgressTracker({
     <div style={{ padding: '0 16px 4px' }}>
       <style>{DOT_KEYFRAMES}</style>
 
-      {/* ── Info button (right-aligned, reads as part of STUDY RECORD header) ── */}
+      {/* ── Info button ── */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 6, paddingRight: 2 }}>
         <button
           type="button"
@@ -195,23 +180,22 @@ export function StoryProgressTracker({
           <div style={{ flex: 1, overflow: 'visible' }}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              fontSize: 13,
-              fontWeight: listeningActive ? 700 : 600,
-              color: listeningCompleted
-                ? accentOn
-                : (listeningActive ? labelFocus : labelMuted),
+              fontSize: 13, fontWeight: 700,
+              color: listeningCompleted ? accentOn : (listeningActive ? labelFocus : labelMuted),
               transform: listeningActive ? 'scale(1.04)' : 'scale(1)',
               transformOrigin: 'left center',
               transition: 'transform 260ms ease-out, color 260ms ease-out',
             }}>
               <Headphones style={{ width: 13, height: 13, flexShrink: 0 }} strokeWidth={1.8} />
-              Listening · 1회
+              {`Listening · ${listeningCompleted ? 1 : 0}회`}
             </span>
           </div>
-          <div style={{ width: DOTS_W, display: 'flex', alignItems: 'center', gap: 4 }}>
-            {dot(listeningCompleted, animListening)}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', minWidth: 44 }}>
+            {listeningCompleted
+              ? <CheckCircle style={{ width: 20, height: 20, color: '#6366F1', flexShrink: 0 }} strokeWidth={1.8} />
+              : dot(false, false)
+            }
           </div>
-          <div style={{ width: ACTION_W }} />
         </div>
 
         {/* Divider */}
@@ -225,54 +209,59 @@ export function StoryProgressTracker({
           <div style={{ flex: 1, overflow: 'visible' }}>
             <span style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              fontSize: 13,
-              fontWeight: readingActive ? 700 : 600,
-              color: readingDone
-                ? accentOn
-                : (readingActive ? labelFocus : labelMuted),
+              fontSize: 13, fontWeight: 700,
+              color: readingDone ? accentOn : (readingActive ? labelFocus : labelMuted),
               transform: readingActive ? 'scale(1.04)' : 'scale(1)',
               transformOrigin: 'left center',
               transition: 'transform 260ms ease-out, color 260ms ease-out',
             }}>
               <BookOpen style={{ width: 13, height: 13, flexShrink: 0 }} strokeWidth={1.8} />
-              Reading · 2회
+              {`Reading · ${readingCount}회`}
             </span>
           </div>
-          <div style={{ width: DOTS_W, display: 'flex', alignItems: 'center', gap: 4 }}>
-            {dot(readingCount >= 1, animReading1)}
-            {dot(readingCount >= 2, animReading2)}
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+            {/* Progress dots */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              {dot(readingCount >= 1, animReading1)}
+              {dot(readingCount >= 2, animReading2)}
+            </div>
+
+            {/* + button or ✓ icon */}
+            {readingDone ? (
+              <CheckCircle style={{ width: 20, height: 20, color: '#6366F1', flexShrink: 0 }} strokeWidth={1.8} />
+            ) : (
+              <button
+                type="button"
+                onClick={handleReadingCheck}
+                disabled={!btnActive}
+                aria-label="Reading 기록"
+                style={{
+                  width: 32, height: 32,
+                  borderRadius: 999,
+                  background: '#EEF2FF',
+                  color: '#6366F1',
+                  fontSize: 18,
+                  border: '1.5px solid #C7D2FE',
+                  cursor: btnActive ? 'pointer' : 'default',
+                  opacity: btnActive ? 1 : 0.4,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                  fontFamily: 'inherit',
+                  lineHeight: 1,
+                  transition: 'opacity 0.2s',
+                  padding: 0,
+                }}
+              >
+                +
+              </button>
+            )}
           </div>
-          {readingDone ? (
-            <div style={{ width: ACTION_W }} />
-          ) : (
-            <button
-              type="button"
-              onClick={handleReadingCheck}
-              disabled={!btnActive}
-              aria-label="Reading 체크"
-              style={{
-                width: ACTION_W,
-                height: 36,
-                background: 'none',
-                border: 'none',
-                cursor: btnActive ? 'pointer' : 'default',
-                padding: 0,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 15, fontWeight: 500, lineHeight: 1,
-                color: btnActive ? accentOn : accentOff,
-                transition: 'color 0.2s',
-                fontFamily: 'inherit',
-                flexShrink: 0,
-              }}
-            >
-              ✓
-            </button>
-          )}
         </div>
 
       </div>
 
-      {/* ── Inline info panel (Pattern Card note style) ──────────────────────── */}
+      {/* ── Inline info panel ──────────────────────────────────────────────── */}
       {showInfo && (
         <div style={{
           marginTop: 6,

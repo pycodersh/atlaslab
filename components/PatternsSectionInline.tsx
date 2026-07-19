@@ -17,6 +17,11 @@ import { patternExamplesFull } from '@/data/pattern-examples-full'
 import { shimmerExamples } from '@/data/shimmer-audio-meta'
 import { TappableWordText } from '@/components/TappableWordText'
 import { useTheme } from '@/components/ThemeProvider'
+import { useCenterCard } from '@/hooks/useCenterCard'
+import {
+  coordinatorClaim,
+  coordinatorEnded,
+} from '@/lib/audio/coordinator'
 
 const EXAMPLE_PAUSE_MS = 1800
 
@@ -64,7 +69,8 @@ type CardProps = {
   isDark: boolean
   isActive?: boolean
   isCompleted?: boolean
-  anyPlaying?: boolean
+  isCenterActive?: boolean
+  anyActive?: boolean
   cardIndex?: number
   onActivate?: () => void
   onComplete?: () => void
@@ -74,7 +80,7 @@ type CardProps = {
 function PatternCardItem({
   pattern, story, patternExamples, storyIsSpeaking,
   globalPatternNum, showKorean, showEnglish, isDark,
-  isActive = false, isCompleted = false, anyPlaying = false,
+  isActive = false, isCompleted = false, isCenterActive = false, anyActive = false,
   onActivate, onComplete, onPlayingChange,
 }: CardProps) {
   const { prefs } = usePreferences()
@@ -89,6 +95,24 @@ function PatternCardItem({
   const timerRef     = useRef<ReturnType<typeof setTimeout> | null>(null)
   const playTokenRef = useRef(0)
   const startedAtRef = useRef(0)
+  // Resume support: saved example index when interrupted by another audio source
+  const pausedExIdxRef    = useRef(0)
+  const wasInterruptedRef = useRef(false)
+  // Stable interrupt callback for coordinator (always runs latest closure via ref)
+  const interruptImplRef  = useRef<() => void>(() => {})
+  useEffect(() => {
+    interruptImplRef.current = () => {
+      playTokenRef.current++
+      runningRef.current = false
+      if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
+      ttsProvider.stop()
+      pausedExIdxRef.current = exIdx
+      wasInterruptedRef.current = true
+      setIsPlaying(false)
+      onPlayingChange?.(false)
+    }
+  }, [exIdx, onPlayingChange])
+  const stableInterrupt = useCallback(() => interruptImplRef.current(), [])
 
   const examples = resolveExamples(
     patternExamples, pattern.id,
@@ -120,22 +144,33 @@ function PatternCardItem({
     runningRef.current = false
     if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
     ttsProvider.stop()
+    wasInterruptedRef.current = false
     setIsPlaying(false)
     onPlayingChange?.(false)
-  }, [onPlayingChange])
+    coordinatorEnded(`pattern-${pattern.id}`)
+  }, [onPlayingChange, pattern.id])
 
   const playExamples = useCallback(() => {
     if (isPlaying) { stop(); return }
+
+    // Resume from saved index if this card was interrupted by another audio source
+    const startIdx = wasInterruptedRef.current ? pausedExIdxRef.current : 0
+    wasInterruptedRef.current = false
+
+    const PATTERN_AUDIO_ID = `pattern-${pattern.id}`
+    coordinatorClaim(PATTERN_AUDIO_ID, stableInterrupt)
+
     onActivate?.()
     onPlayingChange?.(true)
     const token = ++playTokenRef.current
     runningRef.current = true
     startedAtRef.current = Date.now()
     setIsPlaying(true)
+
     function playOne(idx: number) {
       if (!runningRef.current || playTokenRef.current !== token) return
       const ex = examples[idx]
-      if (!ex) { runningRef.current = false; setIsPlaying(false); onPlayingChange?.(false); return }
+      if (!ex) { runningRef.current = false; setIsPlaying(false); onPlayingChange?.(false); coordinatorEnded(PATTERN_AUDIO_ID); return }
       setExIdx(idx)
       const shimmerEx = shimmerExamples[`${pattern.id}-ex${idx + 1}`]
       const url = shimmerEx?.url ?? patternExampleAudioUrl(voice, pattern.id, idx, ex.en)
@@ -154,17 +189,19 @@ function PatternCardItem({
             runningRef.current = false; setIsPlaying(false)
             onPlayingChange?.(false)
             onComplete?.()
+            coordinatorEnded(PATTERN_AUDIO_ID)
           }
         },
         onError: () => {
           if (playTokenRef.current !== token) return
           runningRef.current = false; setIsPlaying(false)
           onPlayingChange?.(false)
+          coordinatorEnded(PATTERN_AUDIO_ID)
         },
       })
     }
-    playOne(0)
-  }, [isPlaying, stop, examples, voice, prefs.speechRate, pattern, story, onActivate, onComplete, onPlayingChange])
+    playOne(startIdx)
+  }, [isPlaying, stop, stableInterrupt, examples, voice, prefs.speechRate, pattern, story, onActivate, onComplete, onPlayingChange])
 
   function handleBookmark() {
     const next = toggleBookmark({
@@ -185,7 +222,7 @@ function PatternCardItem({
   const heroIconColor    = isCompleted
     ? (isDark ? 'rgba(255,255,255,0.30)' : '#bbb')
     : isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
-  const cardBg    = isPlaying
+  const cardBg    = isCenterActive
     ? (isDark ? 'rgba(99,102,241,0.10)' : '#FAFAFE')
     : isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.84)'
   const exEnColor = isCompleted
@@ -194,19 +231,19 @@ function PatternCardItem({
   const exKoColor = isCompleted
     ? '#bbb'
     : isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
-  const cardBorder = isPlaying
+  const cardBorder = isCenterActive
     ? '1.5px solid #6366F1'
     : isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(142,167,255,0.20)'
   const baseGlow  = isActive ? ', 0 0 0 1.5px rgba(107,124,255,0.35)' : ''
-  const cardShadow = isPlaying
+  const cardShadow = isCenterActive
     ? '0 0 0 3px rgba(99,102,241,0.12), 0 4px 28px rgba(100,120,200,0.10)'
     : isDark
       ? `0 4px 28px rgba(0,0,0,0.40)${baseGlow}`
       : `0 4px 28px rgba(100,120,200,0.07), 0 1px 4px rgba(0,0,0,0.03)${baseGlow}`
-  const cardTransform = isPlaying ? 'scale(1.01)' : 'scale(1)'
-  const cardOpacity = isPlaying ? 1
+  const cardTransform = isCenterActive ? 'scale(1.01)' : 'scale(1)'
+  const cardOpacity = isCenterActive ? 1
     : isCompleted ? 0.7
-    : (anyPlaying && !isPlaying) ? 0.6
+    : (anyActive && !isCenterActive) ? 0.55
     : (isActive ? 1 : 0.93)
   const noteBg  = isDark ? 'rgba(255,220,80,0.12)' : '#FFFBEA'
   const noteBorder = isDark ? 'rgba(255,220,80,0.25)' : '#F5E58A'
@@ -223,14 +260,6 @@ function PatternCardItem({
         position: 'relative',
       }}
     >
-      {/* Accent bar */}
-      <div style={{
-        position: 'absolute', left: 0, top: 0, bottom: 0,
-        width: 3, borderRadius: 999,
-        background: '#6366F1',
-        opacity: isPlaying ? 1 : 0.25,
-        transition: 'opacity 0.2s ease',
-      }} />
 
       {/* Header: pattern num + meaning + icons */}
       <div style={{ padding: '22px 18px 22px', background: heroBg }}>
@@ -399,6 +428,10 @@ export function PatternsSectionInline({
   const [playingIdx, setPlayingIdx] = useState<number | null>(null)
   const allSeenFiredRef = useRef(false)
 
+  const cardElemsRef = useRef<(HTMLDivElement | null)[]>([])
+  const cardMode = playingIdx !== null ? 'listening' : 'reading'
+  const centerIdx = useCenterCard(cardElemsRef, patterns.length, cardMode, playingIdx)
+
   // All patterns visible immediately → fire callback
   useEffect(() => {
     if (!allSeenFiredRef.current) {
@@ -415,6 +448,7 @@ export function PatternsSectionInline({
         {patterns.map((pat, idx) => (
           <motion.div
             key={pat.id}
+            ref={el => { cardElemsRef.current[idx] = el }}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
@@ -430,7 +464,8 @@ export function PatternsSectionInline({
               isDark={isDark}
               isActive={activeIdx === idx}
               isCompleted={completedSet.has(idx)}
-              anyPlaying={playingIdx !== null}
+              isCenterActive={centerIdx === idx}
+              anyActive={centerIdx !== null}
               cardIndex={idx}
               onActivate={() => setActiveIdx(idx)}
               onComplete={() => setCompletedSet(prev => new Set(prev).add(idx))}
