@@ -465,7 +465,12 @@ export default function SettingsPage() {
       }}>
 
         {/* Profile card */}
-        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#8E8E93', textTransform: 'uppercase', margin: '4px 0 8px 4px' }}>계정</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#1E293B', borderRadius: 10, padding: '10px 16px', marginBottom: 0 }}>
+          <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>계정</span>
+        </div>
         {!loading && (
           user
             ? <UserProfileCard user={user} onLogout={handleLogout} />
@@ -476,7 +481,12 @@ export default function SettingsPage() {
         {user && <LearningStatsCard />}
 
         {/* Menu list — single glass-card */}
-        <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#8E8E93', textTransform: 'uppercase', margin: '4px 0 8px 4px' }}>앱 설정</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#1E293B', borderRadius: 10, padding: '10px 16px', marginBottom: 0 }}>
+          <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
+          </span>
+          <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>앱 설정</span>
+        </div>
         <div style={{ ...glassCard, overflow: 'hidden' }}>
           {[
             <MenuCard key="sub"   icon={Sparkles}          label={t('hub_subscription')} desc={t('hub_subscription_desc')} href="/patto/settings/subscription" />,
