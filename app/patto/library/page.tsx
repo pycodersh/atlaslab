@@ -761,11 +761,6 @@ export default function LibraryPage() {
 
         {/* Inline composer — always open */}
         <div style={{ padding: '4px 0', marginBottom: 10 }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 8 }}>
-              <span style={{ fontSize: 12, color: wsWordCount > 50 ? '#E05555' : 'var(--pm)' }}>
-                {wsWordCount} / 50 words
-              </span>
-            </div>
             <textarea
               value={wsText}
               onChange={e => { setWsText(e.target.value); setWsFeedback(null); setWsError(null) }}
@@ -780,6 +775,9 @@ export default function LibraryPage() {
                 fontFamily: 'inherit', outline: 'none',
               }}
             />
+            <p style={{ fontSize: 12, color: wsWordCount > 50 ? '#E05555' : 'var(--pm)', margin: '4px 0 0', textAlign: 'right' }}>
+              {wsWordCount} / 50 words
+            </p>
             {wsWordCount > 50 && (
               <p style={{ fontSize: 12, color: '#E05555', margin: '4px 0 0' }}>
                 Maximum 50 words. Please shorten your writing.
@@ -794,14 +792,22 @@ export default function LibraryPage() {
               {reviewsRemaining} / {reviewsLimit} remaining today
             </p>
 
-            <Btn
-              variant="primary"
+            <button
+              type="button"
               disabled={wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0}
               onClick={handleGetFeedback}
-              style={{ marginTop: 12, width: '100%' }}
+              style={{
+                marginTop: 12, width: '100%',
+                background: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#A5B4FC' : '#6366F1',
+                border: `1.5px solid ${(wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#A5B4FC' : '#6366F1'}`,
+                borderRadius: 12, color: '#ffffff',
+                fontSize: 15, fontWeight: 600, padding: '13px 0',
+                cursor: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? 'default' : 'pointer',
+                fontFamily: 'inherit', transition: 'background 0.15s, border-color 0.15s',
+              }}
             >
               Start
-            </Btn>
+            </button>
 
             {/* Feedback result */}
             {wsFeedback && (
