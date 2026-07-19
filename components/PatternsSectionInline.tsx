@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { motion } from 'motion/react'
 import { Volume2, Square, Bookmark, Info, X, CheckCircle2 } from 'lucide-react'
 import { PATTERN_NOTES } from '@/data/pattern-notes'
 import type { MagazineStory, MagazinePattern } from '@/types/magazine'
@@ -63,15 +64,18 @@ type CardProps = {
   isDark: boolean
   isActive?: boolean
   isCompleted?: boolean
+  anyPlaying?: boolean
+  cardIndex?: number
   onActivate?: () => void
   onComplete?: () => void
+  onPlayingChange?: (playing: boolean) => void
 }
 
 function PatternCardItem({
   pattern, story, patternExamples, storyIsSpeaking,
   globalPatternNum, showKorean, showEnglish, isDark,
-  isActive = false, isCompleted = false,
-  onActivate, onComplete,
+  isActive = false, isCompleted = false, anyPlaying = false,
+  onActivate, onComplete, onPlayingChange,
 }: CardProps) {
   const { prefs } = usePreferences()
   const voice = story.narratorVoice ?? prefs.voice
@@ -117,11 +121,13 @@ function PatternCardItem({
     if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null }
     ttsProvider.stop()
     setIsPlaying(false)
-  }, [])
+    onPlayingChange?.(false)
+  }, [onPlayingChange])
 
   const playExamples = useCallback(() => {
     if (isPlaying) { stop(); return }
     onActivate?.()
+    onPlayingChange?.(true)
     const token = ++playTokenRef.current
     runningRef.current = true
     startedAtRef.current = Date.now()
@@ -129,7 +135,7 @@ function PatternCardItem({
     function playOne(idx: number) {
       if (!runningRef.current || playTokenRef.current !== token) return
       const ex = examples[idx]
-      if (!ex) { runningRef.current = false; setIsPlaying(false); return }
+      if (!ex) { runningRef.current = false; setIsPlaying(false); onPlayingChange?.(false); return }
       setExIdx(idx)
       const shimmerEx = shimmerExamples[`${pattern.id}-ex${idx + 1}`]
       const url = shimmerEx?.url ?? patternExampleAudioUrl(voice, pattern.id, idx, ex.en)
@@ -146,14 +152,19 @@ function PatternCardItem({
             const rec = recordPatternPractice(pattern.id, story.id, pattern.pattern, story.title, dur)
             if (rec.lastReviewedAt?.slice(0, 10) !== todayStr()) applyReview('pattern', pattern.id, true)
             runningRef.current = false; setIsPlaying(false)
+            onPlayingChange?.(false)
             onComplete?.()
           }
         },
-        onError: () => { if (playTokenRef.current !== token) return; runningRef.current = false; setIsPlaying(false) },
+        onError: () => {
+          if (playTokenRef.current !== token) return
+          runningRef.current = false; setIsPlaying(false)
+          onPlayingChange?.(false)
+        },
       })
     }
     playOne(0)
-  }, [isPlaying, stop, examples, voice, prefs.speechRate, pattern, story, onActivate, onComplete])
+  }, [isPlaying, stop, examples, voice, prefs.speechRate, pattern, story, onActivate, onComplete, onPlayingChange])
 
   function handleBookmark() {
     const next = toggleBookmark({
@@ -174,19 +185,28 @@ function PatternCardItem({
   const heroIconColor    = isCompleted
     ? (isDark ? 'rgba(255,255,255,0.30)' : '#bbb')
     : isDark ? 'rgba(255,255,255,0.60)' : '#8EA7FF'
-  const cardBg    = isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.84)'
+  const cardBg    = isPlaying
+    ? (isDark ? 'rgba(99,102,241,0.10)' : '#FAFAFE')
+    : isDark ? 'rgba(255,255,255,0.09)' : 'rgba(255,255,255,0.84)'
   const exEnColor = isCompleted
     ? '#999'
     : isDark ? 'rgba(255,255,255,0.90)' : '#1a1a2e'
   const exKoColor = isCompleted
     ? '#bbb'
     : isDark ? 'rgba(255,255,255,0.45)' : '#9a9ab0'
-  const cardBorder = isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(142,167,255,0.20)'
+  const cardBorder = isPlaying
+    ? '1.5px solid #6366F1'
+    : isDark ? '1px solid rgba(255,255,255,0.10)' : '1px solid rgba(142,167,255,0.20)'
   const baseGlow  = isActive ? ', 0 0 0 1.5px rgba(107,124,255,0.35)' : ''
-  const cardShadow = isDark
-    ? `0 4px 28px rgba(0,0,0,0.40)${baseGlow}`
-    : `0 4px 28px rgba(100,120,200,0.07), 0 1px 4px rgba(0,0,0,0.03)${baseGlow}`
-  const cardOpacity = isCompleted ? 0.7 : (isActive ? 1 : 0.93)
+  const cardShadow = isPlaying
+    ? '0 0 0 3px rgba(99,102,241,0.12), 0 4px 28px rgba(100,120,200,0.10)'
+    : isDark
+      ? `0 4px 28px rgba(0,0,0,0.40)${baseGlow}`
+      : `0 4px 28px rgba(100,120,200,0.07), 0 1px 4px rgba(0,0,0,0.03)${baseGlow}`
+  const cardTransform = isPlaying ? 'scale(1.01)' : 'scale(1)'
+  const cardOpacity = isCompleted ? 0.7
+    : (anyPlaying && !isPlaying) ? 0.6
+    : (isActive ? 1 : 0.93)
   const noteBg  = isDark ? 'rgba(255,220,80,0.12)' : '#FFFBEA'
   const noteBorder = isDark ? 'rgba(255,220,80,0.25)' : '#F5E58A'
   const noteText = isDark ? 'rgba(255,230,120,0.90)' : '#7A6200'
@@ -197,21 +217,35 @@ function PatternCardItem({
         borderRadius: 22, background: cardBg, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
         border: cardBorder, boxShadow: cardShadow,
         overflow: 'hidden', opacity: cardOpacity,
-        transition: 'opacity 0.25s, box-shadow 0.25s',
+        transform: cardTransform,
+        transition: 'all 0.2s ease',
         position: 'relative',
       }}
     >
+      {/* Accent bar */}
+      <div style={{
+        position: 'absolute', left: 0, top: 0, bottom: 0,
+        width: 3, borderRadius: 999,
+        background: '#6366F1',
+        opacity: isPlaying ? 1 : 0,
+        transition: 'opacity 0.2s ease',
+      }} />
+
       {/* Header: pattern num + meaning + icons */}
       <div style={{ padding: '22px 18px 22px', background: heroBg }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
           {/* Left: num + pattern */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{
-              margin: '0 0 11px', fontSize: '0.62rem', fontWeight: 700, color: heroIconColor,
-              letterSpacing: '0.10em', fontFamily: '"SF Mono", "Fira Mono", monospace',
+            <span style={{
+              display: 'inline-block',
+              marginBottom: 11,
+              background: '#EEF2FF', color: '#6366F1',
+              borderRadius: 6, padding: '2px 8px',
+              fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
+              fontFamily: '"SF Mono", "Fira Mono", monospace',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
-            </p>
+            </span>
             <p style={{
               fontSize: 20, fontWeight: 800, color: heroPatternColor,
               lineHeight: 1.2, margin: 0, letterSpacing: '-0.5px',
@@ -318,7 +352,12 @@ function PatternCardItem({
                     text={ex.en}
                     saveCandidates={safeCandidates}
                     source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
-                    style={{ display: 'block', fontSize: 13, fontWeight: isExPlaying ? 700 : 500, color: exEnColor, lineHeight: 1.65 }}
+                    style={{
+                      display: 'block', fontSize: 13, lineHeight: 1.65,
+                      fontWeight: isExPlaying ? 600 : 500,
+                      color: isExPlaying ? '#6366F1' : exEnColor,
+                      transition: 'color 0.15s ease',
+                    }}
                   />
                 </div>
                 {showKorean && exKo && (
@@ -356,6 +395,7 @@ export function PatternsSectionInline({
 
   const [activeIdx, setActiveIdx] = useState<number | null>(null)
   const [completedSet, setCompletedSet] = useState<Set<number>>(new Set())
+  const [playingIdx, setPlayingIdx] = useState<number | null>(null)
   const allSeenFiredRef = useRef(false)
 
   // All patterns visible immediately → fire callback
@@ -372,21 +412,30 @@ export function PatternsSectionInline({
     <div style={{ padding: '0 16px 4px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 17 }}>
         {patterns.map((pat, idx) => (
-          <PatternCardItem
+          <motion.div
             key={pat.id}
-            pattern={pat}
-            story={story}
-            patternExamples={patternExamples}
-            storyIsSpeaking={storyIsSpeaking}
-            globalPatternNum={(story.id - 1) * patterns.length + idx + 1}
-            showKorean={showKorean}
-            showEnglish={showEnglish}
-            isDark={isDark}
-            isActive={activeIdx === idx}
-            isCompleted={completedSet.has(idx)}
-            onActivate={() => setActiveIdx(idx)}
-            onComplete={() => setCompletedSet(prev => new Set(prev).add(idx))}
-          />
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: idx * 0.08, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <PatternCardItem
+              pattern={pat}
+              story={story}
+              patternExamples={patternExamples}
+              storyIsSpeaking={storyIsSpeaking}
+              globalPatternNum={(story.id - 1) * patterns.length + idx + 1}
+              showKorean={showKorean}
+              showEnglish={showEnglish}
+              isDark={isDark}
+              isActive={activeIdx === idx}
+              isCompleted={completedSet.has(idx)}
+              anyPlaying={playingIdx !== null}
+              cardIndex={idx}
+              onActivate={() => setActiveIdx(idx)}
+              onComplete={() => setCompletedSet(prev => new Set(prev).add(idx))}
+              onPlayingChange={(playing) => setPlayingIdx(playing ? idx : null)}
+            />
+          </motion.div>
         ))}
       </div>
     </div>
