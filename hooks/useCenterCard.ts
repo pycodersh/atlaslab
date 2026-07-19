@@ -12,6 +12,11 @@ export function useCenterCard(
 ): number | null {
   const [centerIndex, setCenterIndex] = useState<number | null>(null)
 
+  // Reset immediately when story changes (count or mode flip)
+  useEffect(() => {
+    setCenterIndex(null)
+  }, [count])
+
   useEffect(() => {
     if (mode === 'listening') return
 

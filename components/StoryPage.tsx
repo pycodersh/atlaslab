@@ -476,7 +476,7 @@ export function StoryPage({
                           ? '0 4px 24px rgba(99,102,241,0.18), 0 1px 3px rgba(0,0,0,0.05)'
                           : 'none',
                         transform: isCenterActive ? 'scale(1.01)' : 'scale(1)',
-                        opacity: isAnyActive && !isCenterActive ? 0.55 : 1,
+                        opacity: isSpeaking && isAnyActive && !isCenterActive ? 0.55 : 1,
                         transition: 'all 0.25s ease',
                       }}
                     >

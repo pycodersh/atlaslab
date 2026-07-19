@@ -61,8 +61,11 @@ export function MainTabBar() {
   const lastYRef = useRef(0)
 
   // Restore last story/pattern position when tapping the Story tab
-  const lastPos = getLastPosition()
-  const storyHref = lastPos ? `/patto/stories/${lastPos.storyId}` : '/patto/stories/1'
+  const [storyHref, setStoryHref] = useState('/patto/stories/1')
+  useEffect(() => {
+    const pos = getLastPosition()
+    if (pos) setStoryHref(`/patto/stories/${pos.storyId}`)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
