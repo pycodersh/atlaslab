@@ -411,8 +411,8 @@ export default function ProgressPage() {
         <div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pt)', opacity: 0.80, textTransform: 'uppercase', margin: 0 }}>TODAY&apos;S SESSION</p>
-            <span style={{ fontSize: 12, color: 'var(--pm)' }}>
-              {todaySessionStats.fullyDone} / {todaySessionStats.m} stories done
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--pm)' }}>
+              {todaySessionStats.fullyDone} / {todaySessionStats.m} done
             </span>
           </div>
           <div style={{ ...surface, padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
