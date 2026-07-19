@@ -560,21 +560,16 @@ export default function ProgressPage() {
 
           {/* 3-column stat cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 14 }}>
-            {/* Mastered */}
-            <div style={{ background: '#EEF2FF', borderRadius: 10, padding: 10, textAlign: 'center' }}>
-              <div style={{ fontSize: 20, fontWeight: 500, color: '#4338CA', lineHeight: 1.2, fontVariantNumeric: 'tabular-nums' }}>{masteredCount}</div>
-              <div style={{ fontSize: 11, color: '#6366F1', marginTop: 3 }}>Mastered</div>
-            </div>
-            {/* Learning */}
-            <div style={{ background: 'var(--pglass)', borderRadius: 10, padding: 10, textAlign: 'center', border: '1px solid var(--pglass-border)' }}>
-              <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--pt)', lineHeight: 1.2, fontVariantNumeric: 'tabular-nums' }}>{storyMapStats.inProgress}</div>
-              <div style={{ fontSize: 11, color: 'var(--pm)', marginTop: 3 }}>Learning</div>
-            </div>
-            {/* Remaining */}
-            <div style={{ background: 'var(--pglass)', borderRadius: 10, padding: 10, textAlign: 'center', border: '1px solid var(--pglass-border)' }}>
-              <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--pt)', lineHeight: 1.2, fontVariantNumeric: 'tabular-nums' }}>{Math.max(0, 500 - masteredCount - storyMapStats.inProgress)}</div>
-              <div style={{ fontSize: 11, color: 'var(--pm)', marginTop: 3 }}>Remaining</div>
-            </div>
+            {([
+              { value: masteredCount, label: 'MASTERED', numColor: '#4338CA', labelColor: '#6366F1' },
+              { value: storyMapStats.inProgress, label: 'LEARNING', numColor: 'var(--pt)', labelColor: 'var(--pm)' },
+              { value: Math.max(0, 500 - masteredCount - storyMapStats.inProgress), label: 'REMAINING', numColor: 'var(--pt)', labelColor: 'var(--pm)' },
+            ] as const).map(({ value, label, numColor, labelColor }) => (
+              <div key={label} style={{ ...surface, borderRadius: 20, padding: '14px 12px 12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.45rem)', fontWeight: 800, color: numColor, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+                <span style={{ fontSize: 10, fontWeight: 700, color: labelColor, letterSpacing: '0.10em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>{label}</span>
+              </div>
+            ))}
           </div>
 
           {/* Progress bar */}
