@@ -411,7 +411,7 @@ export default function ProgressPage() {
       width: 'calc(100% + 24px)', boxSizing: 'border-box',
       marginLeft: -12, marginRight: -12,
       background: chipBg, backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-      border: `1px solid ${chipBorder}`, borderRadius: 8, padding: '8px 28px',
+      border: `1px solid ${chipBorder}`, borderRadius: 8, padding: '8px 28px 8px 8px',
       boxShadow: '0 2px 16px rgba(99,102,241,0.15)', marginBottom: 14,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
