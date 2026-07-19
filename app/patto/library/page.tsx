@@ -583,6 +583,34 @@ export default function LibraryPage() {
   const savedItemsPanel = (
     <>
 
+      {/* Summary strip — text-only tabs */}
+      <div style={{ display: 'flex', gap: 0, marginBottom: 14, borderBottom: '1px solid var(--pglass-border)' }}>
+        {([
+          { key: 'words' as const, label: 'Words', value: words.length },
+          { key: 'phrases' as const, label: 'Phrases', value: phrases.length },
+          { key: 'patterns' as const, label: 'Patterns', value: bookmarks.length },
+        ]).map(({ key, label, value }) => {
+          const active = activeSection === key
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setActiveSection(prev => prev === key ? null : key)}
+              style={{
+                flex: 1, background: 'none', border: 'none', cursor: 'pointer',
+                padding: '8px 4px 10px', fontFamily: 'inherit',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
+                borderBottom: active ? '2px solid #6366F1' : '2px solid transparent',
+                marginBottom: -1,
+              }}
+            >
+              <span style={{ fontSize: 13, fontWeight: 700, color: active ? '#6366F1' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: active ? '#6366F1' : 'var(--pm)' }}>{label}</span>
+            </button>
+          )
+        })}
+      </div>
+
       {/* Saved Words */}
       {activeSection === 'words' && (
       <section style={{ marginBottom: 20 }}>
