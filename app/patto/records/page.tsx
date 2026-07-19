@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -258,7 +258,6 @@ export default function ProgressPage() {
   const [futureSchedule, setFutureSchedule] = useState<Record<string, ScheduledDay>>({})
   const [activityMap,    setActivityMap]    = useState<Record<string, number>>({})
   const [selectedIso,    setSelectedIso]    = useState<string | null>(null)
-  const [mapExpanded,    setMapExpanded]    = useState(false)
 
   useEffect(() => {
     setStreak(getStreak())
@@ -486,68 +485,51 @@ export default function ProgressPage() {
           </div>
         </div>
 
-        {/* ?? OVERALL PROGRESS ??????????????????????????????????????????????? */}
+        {/* OVERALL PROGRESS */}
         <div>
           <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', margin: '4px 0 16px' }} />
-          <p style={SEC}>OVERALL PROGRESS</p>
-          <div style={{ ...surface, overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              {mapPct > 0 && (
-                <span style={{ fontSize: 32, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
-                  {mapPct}%
-                </span>
-              )}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginLeft: mapPct > 0 ? 0 : 'auto' }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pm)', lineHeight: 1.5 }}>
-                  {masteredCount} / {totalPatterns} patterns
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setMapExpanded(v => !v)}
-                  style={{
-                    background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px',
-                    fontSize: 12, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit',
-                  }}
-                >
-                  {mapExpanded ? 'Hide' : 'Map'}
-                </button>
-              </div>
+          <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', margin: '0 0 12px 2px' }}>Overall progress</p>
+
+          {/* 3-column stat cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 14 }}>
+            {/* Mastered */}
+            <div style={{ background: '#EEF2FF', borderRadius: 10, padding: 10, textAlign: 'center' }}>
+              <div style={{ fontSize: 20, fontWeight: 500, color: '#4338CA', lineHeight: 1.2, fontVariantNumeric: 'tabular-nums' }}>{masteredCount}</div>
+              <div style={{ fontSize: 11, color: '#6366F1', marginTop: 3 }}>Mastered</div>
             </div>
-            {mapExpanded && (
-              <div style={{ padding: '0 16px 16px', borderTop: `1px solid ${dividerC}` }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(10, 1fr)', gap: 3, paddingTop: 14 }}>
-                  {magazineStories.map((ms, i) => {
-                    const rd = storyRounds[i]
-                    const round = rd?.round ?? 0
-                    const isMastered = rd?.isMastered ?? false
-                    const bg = isMastered
-                      ? '#D7B56D'
-                      : round >= 3 ? (isDark ? '#8FABFF' : '#6B8FFF')
-                      : round >= 1 ? (isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)')
-                      : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.05)')
-                    return (
-                      <div key={ms.id} title={`Story ${ms.id}`} style={{
-                        aspectRatio: '1', borderRadius: 3, background: bg,
-                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.06)'}`,
-                      }} />
-                    )
-                  })}
-                </div>
-                <div style={{ display: 'flex', gap: 16, marginTop: 10, justifyContent: 'flex-end' }}>
-                  {([
-                    { color: '#D7B56D', label: 'Mastered' },
-                    { color: isDark ? '#8FABFF' : '#6B8FFF', label: 'Round 3+' },
-                    { color: isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)', label: 'Started' },
-                  ] as const).map(({ color, label }) => (
-                    <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <div style={{ width: 8, height: 8, borderRadius: 2, background: color }} />
-                      <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--pm)' }}>{label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            {/* Learning */}
+            <div style={{ background: 'var(--pglass)', borderRadius: 10, padding: 10, textAlign: 'center', border: '1px solid var(--pglass-border)' }}>
+              <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--pt)', lineHeight: 1.2, fontVariantNumeric: 'tabular-nums' }}>{storyMapStats.inProgress}</div>
+              <div style={{ fontSize: 11, color: 'var(--pm)', marginTop: 3 }}>Learning</div>
+            </div>
+            {/* Remaining */}
+            <div style={{ background: 'var(--pglass)', borderRadius: 10, padding: 10, textAlign: 'center', border: '1px solid var(--pglass-border)' }}>
+              <div style={{ fontSize: 20, fontWeight: 500, color: 'var(--pt)', lineHeight: 1.2, fontVariantNumeric: 'tabular-nums' }}>{Math.max(0, 500 - masteredCount - storyMapStats.inProgress)}</div>
+              <div style={{ fontSize: 11, color: 'var(--pm)', marginTop: 3 }}>Remaining</div>
+            </div>
           </div>
+
+          {/* Progress bar */}
+          <div style={{ background: 'var(--pglass)', borderRadius: 999, height: 5, marginBottom: 14, border: '1px solid var(--pglass-border)' }}>
+            <div style={{
+              height: '100%', borderRadius: 999, background: '#6366F1',
+              width: `${Math.min(100, (masteredCount / 500) * 100)}%`,
+              transition: 'width 0.8s cubic-bezier(0.22,1,0.36,1)',
+            }} />
+          </div>
+
+          {/* View pattern map button */}
+          <button
+            type="button"
+            onClick={() => router.push('/patto/records/patterns')}
+            style={{
+              width: '100%', background: 'var(--pglass)', border: '0.5px solid var(--pglass-border)',
+              borderRadius: 10, color: '#6366F1', fontSize: 14, fontWeight: 500,
+              padding: '11px 0', cursor: 'pointer', fontFamily: 'inherit',
+            }}
+          >
+            View pattern map →
+          </button>
         </div>
 
       </div>
