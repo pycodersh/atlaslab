@@ -16,7 +16,7 @@ import { getBookmarks, removeBookmark, type BookmarkedPattern } from '@/lib/book
 import { getSavedWords, getSavedPhrases, removeSavedWord, removeSavedPhrase, type SavedWord, type SavedPhrase } from '@/lib/words/storage'
 import { getTotalRepeatCount } from '@/lib/srs/storage'
 import {
-  getEssays, saveEssay, saveReview, getReviewsRemaining, recordReviewUsed,
+  getEssays, saveEssay, saveReview, getReviewsRemaining, recordReviewUsed, canReview,
   type Essay, type EditorReview,
 } from '@/lib/essays/storage'
 import { useT } from '@/hooks/useT'
@@ -433,6 +433,7 @@ export default function LibraryPage() {
   const [wsExpandedId, setWsExpandedId] = useState<string | null>(null)
   const [wsShowAll, setWsShowAll]   = useState(false)
   const [reviewsRemaining, setReviewsRemaining] = useState(0)
+  const [reviewsLimit, setReviewsLimit]         = useState(2)
 
   useEffect(() => {
     setBookmarks(getBookmarks())
@@ -441,7 +442,9 @@ export default function LibraryPage() {
     getTotalRepeatCount()
     setRecentSearches(readRecentSearches())
     setEssays(getEssays())
+    const rv = canReview()
     setReviewsRemaining(getReviewsRemaining())
+    setReviewsLimit(rv.limit)
   }, [])
 
   const patternIndex = useMemo(() => buildPatternIndex(), [])
@@ -519,7 +522,12 @@ export default function LibraryPage() {
   const wsWordCount = wsText.trim() ? wsText.trim().split(/\s+/).filter(Boolean).length : 0
 
   async function handleGetFeedback() {
-    if (wsWordCount === 0 || wsWordCount > 50 || wsLoading) return
+    if (wsLoading) return
+    // Client-side validation
+    if (/[가-힣]/.test(wsText)) { setWsError('Please write in English.'); return }
+    if (/(.)\1{3,}/.test(wsText)) { setWsError('Please write a proper sentence.'); return }
+    if (wsWordCount < 5) { setWsError('Write at least one sentence (5+ words).'); return }
+    if (wsWordCount > 50) { setWsError('Keep it under 50 words.'); return }
     setWsLoading(true)
     setWsError(null)
     setWsFeedback(null)
@@ -533,10 +541,10 @@ export default function LibraryPage() {
       })
       const data = await res.json()
       if (!res.ok) {
-        if (data.error === 'daily_limit') setWsError('오늘 피드백 횟수를 모두 사용했습니다.')
-        else if (data.error === 'too_short') setWsError('최소 30단어 이상 작성해주세요.')
-        else if (data.error === 'not_english') setWsError('영어로 작성해주세요.')
-        else setWsError('피드백을 가져오지 못했습니다. 다시 시도해주세요.')
+        if (data.error === 'daily_limit') setWsError("You've used all your feedback for today.")
+        else if (data.error === 'too_short') setWsError('Write at least one sentence (5+ words).')
+        else if (data.error === 'not_english') setWsError('Please write in English.')
+        else setWsError('Could not get feedback. Please try again.')
         return
       }
       const review: EditorReview = data.review
@@ -545,9 +553,11 @@ export default function LibraryPage() {
       setWsFeedback(review)
       setWsExpandedId(essay.id)
       setEssays(getEssays())
+      const rv = canReview()
       setReviewsRemaining(getReviewsRemaining())
+      setReviewsLimit(rv.limit)
     } catch {
-      setWsError('네트워크 오류가 발생했습니다.')
+      setWsError('Network error. Please try again.')
     } finally {
       setWsLoading(false)
     }
@@ -729,11 +739,7 @@ export default function LibraryPage() {
             <textarea
               value={wsText}
               onChange={e => { setWsText(e.target.value); setWsFeedback(null); setWsError(null) }}
-              placeholder={
-                prefs.language === 'ko' ? '오늘 배운 표현으로 문장을 작성하고 첨삭받으세요.'
-                : prefs.language === 'ja' ? '今日学んだ表現で文章を書いて、添削を受けましょう。'
-                : "Write sentences using today's expressions and get feedback."
-              }
+              placeholder="오늘 배운 표현으로 짧은 문장을 써보세요."
               maxLength={400}
               rows={5}
               style={{
@@ -754,15 +760,13 @@ export default function LibraryPage() {
             )}
 
             {/* Remaining count */}
-            {reviewsRemaining > 0 && (
-              <p style={{ fontSize: 11, color: 'var(--pm)', margin: '8px 0 0', textAlign: 'right' }}>
-                {reviewsRemaining} / 3 feedback remaining today
-              </p>
-            )}
+            <p style={{ fontSize: 11, color: 'var(--pm)', margin: '8px 0 0', textAlign: 'right' }}>
+              {reviewsRemaining} / {reviewsLimit} remaining today
+            </p>
 
             <Btn
               variant="primary"
-              disabled={wsWordCount === 0 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0}
+              disabled={wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0}
               onClick={handleGetFeedback}
               style={{ marginTop: 12, width: '100%' }}
             >
@@ -811,7 +815,7 @@ export default function LibraryPage() {
             icon={<PenLine style={{ width: 22, height: 22, color: '#8B6FA0' }} strokeWidth={1.6} />}
             iconColor="#8B6FA0"
             title="No writings yet."
-            body={'패턴을 사용해 짧은 글을 써보세요. 50단어 이내로 작성하면 AI 피드백을 받을 수 있습니다.'}
+            body={'Write a short sentence using today\'s patterns. Keep it under 50 words to get AI feedback.'}
           />
         ) : essays.length > 0 ? (
           <>

@@ -287,7 +287,7 @@ export async function POST(request: Request) {
     }
     const wc       = wordCount(essayBody)
     const maxWords = plan === 'premium' ? PREM_MAX : FREE_MAX
-    if (wc < 30) {
+    if (wc < 5) {
       return Response.json({ error: 'too_short' }, { status: 422 })
     }
     if (wc > maxWords) {

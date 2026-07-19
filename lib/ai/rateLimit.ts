@@ -7,8 +7,8 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 
 // ── Limits ─────────────────────────────────────────────────────────────────────
 
-export const REVIEW_DAILY_FREE    = 3
-export const REVIEW_DAILY_PREMIUM = 20
+export const REVIEW_DAILY_FREE    = 2
+export const REVIEW_DAILY_PREMIUM = 10
 
 // ── Estimated cost per 1 000 tokens (USD) ─────────────────────────────────────
 
