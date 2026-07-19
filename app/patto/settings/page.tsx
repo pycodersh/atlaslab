@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ChevronRight, Settings, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, Trash2, BookOpen, Type, PenLine } from 'lucide-react'
+import { ChevronRight, Settings, Sparkles, Info, User as UserIcon, LogOut, Compass, Smartphone, Trash2 } from 'lucide-react'
 import { requestCoverReplay } from '@/components/WelcomeCover'
 import { Btn } from '@/components/ui/Btn'
 import { PDialog } from '@/components/ui/PDialog'
@@ -15,9 +15,6 @@ import { useT } from '@/hooks/useT'
 import { useAuth } from '@/contexts/AuthContext'
 import { signOut } from '@/lib/auth-actions'
 import { AuthButtons } from '@/components/auth/AuthButtons'
-import { getLearnedStoryCount } from '@/lib/srs/storage'
-import { getSavedWordCount } from '@/lib/words/storage'
-import { getEssays } from '@/lib/essays/storage'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 
 const glassCard: React.CSSProperties = {
@@ -149,10 +146,8 @@ function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void 
 
   return (
     <div style={{ ...glassCard, padding: 0, overflow: 'hidden' }}>
-      {/* Accent gradient strip */}
-      <div style={{ height: 4, background: 'linear-gradient(90deg, #6B8FFF, #A78BFF)', borderRadius: '20px 20px 0 0' }} />
       {/* Avatar + info */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '22px 20px 20px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '20px 20px 20px' }}>
         <div style={{
           width: 68, height: 68, borderRadius: '50%', flexShrink: 0,
           background: 'var(--pc)', border: '1px solid var(--pglass-border)',
@@ -196,48 +191,6 @@ function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void 
         <LogOut style={{ width: 13, height: 13 }} strokeWidth={2} />
         Logout
       </button>
-    </div>
-  )
-}
-
-// ── Learning Stats Card ───────────────────────────────────────────────────────
-function LearningStatsCard() {
-  const [stats, setStats] = useState({ stories: 0, words: 0, essays: 0 })
-
-  useEffect(() => {
-    setStats({
-      stories: getLearnedStoryCount(),
-      words: getSavedWordCount(),
-      essays: getEssays().length,
-    })
-  }, [])
-
-  const items = [
-    { label: 'Stories', value: stats.stories, icon: <BookOpen style={{ width: 14, height: 14, color: '#6B8FFF' }} strokeWidth={1.8} /> },
-    { label: 'Words', value: stats.words, icon: <Type style={{ width: 14, height: 14, color: '#3A7A4A' }} strokeWidth={1.8} /> },
-    { label: 'Essays', value: stats.essays, icon: <PenLine style={{ width: 14, height: 14, color: '#8B6FA0' }} strokeWidth={1.8} /> },
-  ]
-
-  return (
-    <div style={{ ...glassCard, padding: '16px 20px 18px' }}>
-      <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', color: '#8E8E93', textTransform: 'uppercase', margin: '0 0 14px' }}>
-        Learning Stats
-      </p>
-      <div style={{ display: 'flex' }}>
-        {items.map((item, i) => (
-          <div key={item.label} style={{
-            flex: 1, textAlign: 'center',
-            borderRight: i < 2 ? '1px solid var(--pglass-border)' : 'none',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-          }}>
-            {item.icon}
-            <p style={{ fontSize: 28, fontWeight: 800, color: 'var(--pa)', margin: '0 0 3px', lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>
-              {item.value}
-            </p>
-            <p style={{ fontSize: 10.5, color: 'var(--pm)', margin: 0, fontWeight: 500 }}>{item.label}</p>
-          </div>
-        ))}
-      </div>
     </div>
   )
 }
@@ -469,7 +422,7 @@ export default function SettingsPage() {
           <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </span>
-          <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>계정</span>
+          <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>Account</span>
         </div>
         {!loading && (
           user
@@ -477,15 +430,13 @@ export default function SettingsPage() {
             : <GuestProfileCard />
         )}
 
-        {/* Learning Stats — only when logged in */}
-        {user && <LearningStatsCard />}
 
         {/* Menu list — single glass-card */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#1E293B', borderRadius: 10, padding: '10px 16px', marginBottom: 0 }}>
           <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', flexShrink: 0 }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
           </span>
-          <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>앱 설정</span>
+          <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>App Settings</span>
         </div>
         <div>
           {[
