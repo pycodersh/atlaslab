@@ -41,6 +41,7 @@ export function SwipeDeleteRow({
   const [isPointerFine,  setIsPointerFine]  = useState(false)
   const [isHovered,      setIsHovered]      = useState(false)
   const [showConfirm,    setShowConfirm]    = useState(false)
+  const [panelVisible,   setPanelVisible]   = useState(false)
 
   useEffect(() => {
     const mq = window.matchMedia('(hover: hover) and (pointer: fine)')
@@ -59,7 +60,9 @@ export function SwipeDeleteRow({
     if (!el) return
     el.style.transition = animate ? 'transform 0.22s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none'
     el.style.transform  = `translateX(${x}px)`
+    const wasOpen = isOpen.current
     isOpen.current = x <= -(REVEAL - 2)
+    if (isOpen.current !== wasOpen) setPanelVisible(isOpen.current)
     if (isOpen.current) {
       _globalClose = closeThis
     } else if (_globalClose === closeThis) {
@@ -151,6 +154,9 @@ export function SwipeDeleteRow({
         <div style={{
           position: 'absolute', right: 0, top: 0, bottom: 0, width: REVEAL,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
+          opacity: panelVisible ? 1 : 0,
+          pointerEvents: panelVisible ? 'auto' : 'none',
+          transition: 'opacity 0.15s',
         }}>
           <button
             type="button"
