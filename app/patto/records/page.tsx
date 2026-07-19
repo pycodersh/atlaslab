@@ -595,7 +595,7 @@ export default function ProgressPage() {
               <rect x="7" y="10" width="3" height="9" rx="1"/><rect x="13" y="6" width="3" height="13" rx="1"/>
             </svg>,
             'Overall Progress',
-            `${masteredCount} / 500 patterns`,
+            '',
           )}
 
           {/* 3-column stat text-only */}
