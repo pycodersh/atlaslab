@@ -416,8 +416,8 @@ export default function ProgressPage() {
       boxShadow: '0 2px 16px rgba(99,102,241,0.15)', marginBottom: 14,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ color: isDark ? '#FFFFFF' : '#000000', display: 'flex', alignItems: 'center', flexShrink: 0, fontSize: 15 }}>{icon}</span>
-        <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
+        <span style={{ color: isDark ? '#FFFFFF' : '#000000', display: 'flex', alignItems: 'center', flexShrink: 0, fontSize: 13 }}>{icon}</span>
+        <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
       </div>
       <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: isDark ? '#FFFFFF' : '#000000', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{counter}</span>
     </div>
@@ -658,7 +658,10 @@ export default function ProgressPage() {
                     <div key={ms.id} title={`Story ${ms.id}`} style={{
                       aspectRatio: '1', borderRadius: 3, background: bg,
                       border: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.06)'}`,
-                    }} />
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <span style={{ fontSize: 7, fontWeight: 600, color: isMastered ? 'rgba(0,0,0,0.5)' : round >= 1 ? 'rgba(255,255,255,0.8)' : (isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.25)'), lineHeight: 1 }}>{ms.id}</span>
+                    </div>
                   )
                 })}
               </div>
