@@ -3,6 +3,8 @@
 import { Heart, Volume2 } from 'lucide-react'
 
 import { StoryLabel } from '@/components/StoryLabel'
+import { TappableWordText } from '@/components/TappableWordText'
+import { patternExamplesFull } from '@/data/pattern-examples-full'
 import { useSpeech } from '@/hooks/useSpeech'
 import { cn } from '@/lib/utils'
 import type { Difficulty, PatternWithExamples } from '@/types/pattern'
@@ -67,23 +69,39 @@ export function PatternCardBack({
             {t('no_examples')}
           </li>
         ) : (
-          examples.map((ex) => (
-            <li
-              key={ex.id}
-              className="cursor-pointer rounded-xl px-2 py-1 transition-colors hover:bg-white/20 active:bg-white/30"
-              style={{ borderBottom: '0.5px solid rgba(255,255,255,0.3)' }}
-              onClick={(e) => { e.stopPropagation(); speak(ex.sentence.trim()) }}
-            >
-              <p className="text-[0.88rem] font-semibold leading-relaxed text-[#1C1C1E] dark:text-[#F2F2F5]">
-                {ex.sentence}
-              </p>
-              {ex.translation && (
-                <p className="mt-[5px] text-[0.75rem] font-normal leading-relaxed text-[#6E6E73] dark:text-[#9090AA]">
-                  {ex.translation}
-                </p>
-              )}
-            </li>
-          ))
+          examples.map((ex) => {
+            const fullExamples = patternExamplesFull[pattern.id] ?? []
+            const fullEx = fullExamples.find(f => f.example === ex.order_index)
+            return (
+              <li
+                key={ex.id}
+                className="cursor-pointer rounded-xl px-2 py-1 transition-colors hover:bg-white/20 active:bg-white/30"
+                style={{ borderBottom: '0.5px solid rgba(255,255,255,0.3)' }}
+                onClick={(e) => { e.stopPropagation(); speak(ex.sentence.trim()) }}
+              >
+                <TappableWordText
+                  text={ex.sentence}
+                  source={{
+                    sourceType: 'pattern',
+                    sourceId: ex.id,
+                    storyId: storyNumber,
+                    patternId: pattern.id,
+                    exampleIndex: ex.order_index,
+                    originalSentence: ex.sentence,
+                    koreanSentence: ex.translation ?? undefined,
+                  }}
+                  saveCandidates={fullEx?.saveCandidates}
+                  className="text-[0.88rem] font-semibold leading-relaxed text-[#1C1C1E] dark:text-[#F2F2F5]"
+                  style={{ display: 'block' }}
+                />
+                {ex.translation && (
+                  <p className="mt-[5px] text-[0.75rem] font-normal leading-relaxed text-[#6E6E73] dark:text-[#9090AA]">
+                    {ex.translation}
+                  </p>
+                )}
+              </li>
+            )
+          })
         )}
       </ol>
 
