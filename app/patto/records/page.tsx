@@ -622,7 +622,6 @@ export default function ProgressPage() {
           </div>
 
           {/* View pattern map button */}
-          <div style={{ borderTop: `0.5px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(30,30,80,0.10)'}`, margin: '14px 0' }} />
           <button
             type="button"
             onClick={() => setMapExpanded(v => !v)}
