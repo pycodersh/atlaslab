@@ -221,11 +221,13 @@ export function StoryProgressTracker({
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-            {/* Progress dots */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              {dot(readingCount >= 1, animReading1)}
-              {dot(readingCount >= 2, animReading2)}
-            </div>
+            {/* Progress dots — hidden when complete */}
+            {!readingDone && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                {dot(readingCount >= 1, animReading1)}
+                {dot(readingCount >= 2, animReading2)}
+              </div>
+            )}
 
             {/* + button or ✓ icon */}
             {readingDone ? (
