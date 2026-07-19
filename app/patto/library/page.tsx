@@ -850,14 +850,15 @@ export default function LibraryPage() {
           />
         ) : essays.length > 0 ? (
           <>
-            <div style={glassCard}>
-              {(wsShowAll ? essays : essays.slice(0, 3)).map((essay, i) => {
+            <div>
+              {(wsShowAll ? essays : essays.slice(0, 3)).map((essay, i, arr) => {
                 const isExpanded = wsExpandedId === essay.id
+                const isLast = i === arr.length - 1
                 return (
                   <SwipeDeleteRow
                     key={essay.id}
                     onDeleteRequest={() => handleDeleteEssay(essay.id)}
-                    containerStyle={{ borderTop: i === 0 ? 'none' : ROW_BORDER }}
+                    containerStyle={{ borderBottom: isLast ? 'none' : '0.5px solid var(--pglass-border)' }}
                     contentBg="transparent"
                   >
                     <div>
@@ -867,15 +868,15 @@ export default function LibraryPage() {
                         style={{
                           display: 'flex', alignItems: 'center', gap: 10,
                           width: '100%', textAlign: 'left', background: 'none', border: 'none',
-                          cursor: 'pointer', padding: '12px 16px', fontFamily: 'inherit',
+                          cursor: 'pointer', padding: '12px 0', fontFamily: 'inherit',
                         }}
                       >
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 2px' }}>
+                          <p style={{ fontSize: 12, color: 'var(--pm)', margin: '0 0 2px' }}>
                             {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
                             {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
                           </p>
-                          <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
+                          <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
                             {essay.body}
                           </p>
                         </div>
@@ -885,7 +886,7 @@ export default function LibraryPage() {
                         />
                       </button>
                       {isExpanded && (
-                        <div style={{ padding: '0 16px 14px', borderTop: '0.5px solid var(--pglass-border)' }}>
+                        <div style={{ padding: '0 0 14px', borderTop: '0.5px solid var(--pglass-border)' }}>
                           <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', margin: '12px 0 4px' }}>ORIGINAL</div>
                           <div style={{ fontSize: 13, color: 'var(--pt)', lineHeight: 1.6, marginBottom: 12 }}>{essay.body}</div>
                           {essay.review?.suggestedVersion && (
