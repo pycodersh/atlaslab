@@ -544,7 +544,9 @@ export default function LibraryPage() {
         if (data.error === 'daily_limit') setWsError("You've used all your feedback for today.")
         else if (data.error === 'too_short') setWsError('Write at least one sentence (5+ words).')
         else if (data.error === 'not_english') setWsError('Please write in English.')
-        else setWsError('Could not get feedback. Please try again.')
+        else if (data.error === 'unauthenticated') setWsError('Please sign in to get feedback.')
+        else if (data.error === 'openai_error') setWsError(`AI service error. Please try again. (${res.status})`)
+        else setWsError(`Could not get feedback. (${data.error ?? res.status})`)
         return
       }
       const review: EditorReview = data.review
