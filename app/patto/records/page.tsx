@@ -300,6 +300,17 @@ export default function ProgressPage() {
     return map
   }, [weeklyCompleted])
 
+  const dayPatternMap = useMemo(() => {
+    const map: Record<string, number> = {}
+    for (const r of weeklyCompleted) {
+      if (!r.lastCompletedAt) continue
+      const story = magazineStories.find(s => s.id === r.storyId)
+      const pCount = story?.patterns.length ?? 5
+      map[r.lastCompletedAt] = (map[r.lastCompletedAt] ?? 0) + pCount
+    }
+    return map
+  }, [weeklyCompleted])
+
   const todayCount   = storyRounds.filter(r => r.lastCompletedAt === today).length
   const isOutperform = todayCount > DAILY_GOAL
   const weeklyPct    = Math.min(Math.round((weeklyStoryCount / WEEKLY_GOAL) * 100), 100)
@@ -519,36 +530,49 @@ export default function ProgressPage() {
           </div>
         )}
 
-        {/* ?? THIS WEEK ?????????????????????????????????????????????????????? */}
+        {/* THIS WEEK */}
         <div>
           <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', margin: '4px 0 16px' }} />
-          <p style={SEC}>THIS WEEK</p>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 12 }}>
+            <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--pt)', margin: 0 }}>This week</p>
+            <span style={{ fontSize: 12, color: 'var(--pm)' }}>{activeDaysThisWeek} / 7 days</span>
+          </div>
           <div style={{ ...surface, padding: '16px 16px 14px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <span style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.01em' }}>{weekRangeLabel}</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pm)' }}>{activeDaysThisWeek} / 7 days</span>
-            </div>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--pt)', letterSpacing: '-0.01em', display: 'block', marginBottom: 14 }}>{weekRangeLabel}</span>
+            {/* Bar chart */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
-              {weekDays.map((d, i) => {
-                const iso = toIso(d)
-                const isToday = iso === today
-                const hasActivity = (dayCountMap[iso] ?? 0) > 0
-                return (
-                  <div key={iso} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)' }}>{DOW_LABELS[i]}</span>
-                    <div style={{
-                      width: 28, height: 28, borderRadius: '50%',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: hasActivity && !isToday ? 'rgba(107,143,255,0.12)' : 'transparent',
-                      border: isToday ? '2px solid #6B8FFF' : 'none',
-                    }}>
-                      <span style={{ fontSize: 12, fontWeight: isToday ? 700 : 500, color: isToday ? '#6B8FFF' : (hasActivity ? '#6B8FFF' : 'var(--pt)') }}>
-                        {d.getDate()}
-                      </span>
+              {(() => {
+                const maxP = Math.max(...weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0), 1)
+                return weekDays.map((d, i) => {
+                  const iso        = toIso(d)
+                  const isToday    = iso === today
+                  const isFuture   = d > new Date() && !isToday
+                  const patterns   = dayPatternMap[iso] ?? 0
+                  const hasActivity = patterns > 0
+                  const barH = hasActivity ? Math.max(4, Math.round((patterns / maxP) * 76)) : 4
+                  const barBg = hasActivity ? '#6366F1' : isToday ? '#EEF2FF' : 'var(--pglass)'
+                  const barBorder = hasActivity ? 'none' : isToday ? '1.5px solid #6366F1' : '0.5px solid var(--pglass-border)'
+                  const labelColor = (hasActivity || isToday) ? '#6366F1' : 'var(--pm)'
+                  const labelWeight = (hasActivity || isToday) ? 500 : 400
+                  return (
+                    <div key={iso} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <div style={{ width: '100%', height: 80, display: 'flex', alignItems: 'flex-end' }}>
+                        <div style={{
+                          width: '100%', height: barH,
+                          borderRadius: '4px 4px 0 0',
+                          background: barBg, border: barBorder,
+                          opacity: isFuture ? 0.35 : 1,
+                          transition: 'height 0.4s cubic-bezier(0.22,1,0.36,1)',
+                        }} />
+                      </div>
+                      <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                        <span style={{ fontSize: 11, fontWeight: labelWeight, color: labelColor, lineHeight: 1 }}>{DOW_LABELS[i]}</span>
+                        <span style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1 }}>{d.getDate()}</span>
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })
+              })()}
             </div>
           </div>
         </div>
