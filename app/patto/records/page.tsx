@@ -499,20 +499,6 @@ export default function ProgressPage() {
           </div>
         </div>
 
-        {/* ?? Stats: 4 cards ????????????????????????????????????????????????? */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-          {([
-            { value: String(displayStreak),  label: 'STREAK',   color: '#E8914A' },
-            { value: String(todayCount),     label: 'SESSIONS', color: '#6B8FFF' },
-            { value: String(displayPattern), label: 'PATTERNS', color: '#9B8FE8' },
-          ] as const).map(({ value, label, color }) => (
-            <div key={label} style={{ ...surface, borderRadius: 20, padding: '14px 12px 12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.45rem)', fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
-              <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.10em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>{label}</span>
-            </div>
-          ))}
-        </div>
-
         {/* ?? RECENT SESSIONS ???????????????????????????????????????????????? */}
         {recentSessions.length > 0 && (
           <div>
