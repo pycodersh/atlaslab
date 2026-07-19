@@ -629,10 +629,13 @@ export default function ProgressPage() {
             type="button"
             onClick={() => setMapExpanded(v => !v)}
             style={{
-              width: '100%', background: 'transparent', border: '0.5px solid var(--pglass-border)',
-              borderRadius: 10, color: '#6366F1', fontSize: 14, fontWeight: 500,
-              padding: '11px 0', cursor: 'pointer', fontFamily: 'inherit',
+              width: '100%', background: 'transparent', border: 'none',
+              color: '#6366F1', fontSize: 13, fontWeight: 500,
+              padding: '10px 0', cursor: 'pointer', fontFamily: 'inherit',
+              textAlign: 'center', opacity: 1, transition: 'opacity 0.15s',
             }}
+            onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
           >
             {mapExpanded ? 'Hide pattern map ↑' : 'View pattern map →'}
           </button>
