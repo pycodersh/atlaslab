@@ -407,8 +407,7 @@ export default function ProgressPage() {
   const sectionChip = (icon: React.ReactNode, title: string, counter: string) => (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      width: 'calc(100% + 12px)', boxSizing: 'border-box',
-      marginLeft: -6, marginRight: -6,
+      width: '100%', boxSizing: 'border-box',
       background: '#1E293B', border: 'none', borderRadius: 10, padding: '10px 16px',
       marginBottom: 14,
     }}>
@@ -441,7 +440,7 @@ export default function ProgressPage() {
             "Today's Session",
             `${todaySessionStats.fullyDone} / ${todaySessionStats.m} done`,
           )}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingLeft: 16 }}>
             {([
               {
                 label: 'Listening',
@@ -483,7 +482,7 @@ export default function ProgressPage() {
               return (
                 <div key={label}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       {icon}
                       <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--pm)' }}>{label}</span>
                     </div>
