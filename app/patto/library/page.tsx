@@ -736,6 +736,11 @@ export default function LibraryPage() {
           background: '#1E293B', border: 'none', borderRadius: 10,
           padding: '10px 16px', marginBottom: 16,
         }}>
+          <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', marginRight: 8, flexShrink: 0 }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+            </svg>
+          </span>
           <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>Writing Studio</span>
         </div>
 
@@ -920,6 +925,11 @@ export default function LibraryPage() {
               background: '#1E293B', border: 'none', borderRadius: 10,
               padding: '10px 16px', marginBottom: 12,
             }}>
+              <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', marginRight: 8, flexShrink: 0 }}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                </svg>
+              </span>
               <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>Search &amp; Save</span>
             </div>
 
