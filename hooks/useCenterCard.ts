@@ -5,11 +5,13 @@ import { type RefObject, useEffect, useState } from 'react'
 /**
  * Tracks which card is "centered" in the viewport using IntersectionObserver.
  * - rootMargin is computed from window.innerHeight (25% top+bottom exclusion).
- * - Edge-case: null if scrolled to the very top or bottom of the page.
  * - Observer is recreated on window resize to pick up the new viewport height.
  * - boundaryRef + side: section isolation. 'above' = active only when viewport
  *   center is above the boundary element; 'below' = active only when at/below.
  *   Prevents simultaneous highlight across story paragraphs and pattern cards.
+ * - No window.scrollY edge-case: scroll container is an overflow:auto div, not
+ *   window, so scrollY is always 0. The ratioMap naturally returns null when
+ *   nothing sits inside the rootMargin zone.
  * In listening mode, defers to the provided listeningIndex instead.
  */
 export function useCenterCard(
@@ -28,8 +30,6 @@ export function useCenterCard(
     const elems = elemsRef.current ?? []
     if (!elems.length) return
 
-    const EDGE_PX = 50
-
     /** Returns true when this hook's section is the active viewport zone. */
     function isInZone(): boolean {
       if (!boundaryRef?.current || !side) return true
@@ -47,14 +47,6 @@ export function useCenterCard(
         (entries) => {
           // Section isolation — yield to the other zone
           if (!isInZone()) {
-            setCenterIndex(null)
-            return
-          }
-
-          // Edge-case: at very top or bottom — clear all highlights
-          const atTop    = window.scrollY < EDGE_PX
-          const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - EDGE_PX
-          if (atTop || atBottom) {
             setCenterIndex(null)
             return
           }
