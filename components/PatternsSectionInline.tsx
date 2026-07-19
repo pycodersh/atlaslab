@@ -204,7 +204,8 @@ function PatternCardItem({
       ? `0 4px 28px rgba(0,0,0,0.40)${baseGlow}`
       : `0 4px 28px rgba(100,120,200,0.07), 0 1px 4px rgba(0,0,0,0.03)${baseGlow}`
   const cardTransform = isPlaying ? 'scale(1.01)' : 'scale(1)'
-  const cardOpacity = isCompleted ? 0.7
+  const cardOpacity = isPlaying ? 1
+    : isCompleted ? 0.7
     : (anyPlaying && !isPlaying) ? 0.6
     : (isActive ? 1 : 0.93)
   const noteBg  = isDark ? 'rgba(255,220,80,0.12)' : '#FFFBEA'
@@ -227,7 +228,7 @@ function PatternCardItem({
         position: 'absolute', left: 0, top: 0, bottom: 0,
         width: 3, borderRadius: 999,
         background: '#6366F1',
-        opacity: isPlaying ? 1 : 0,
+        opacity: isPlaying ? 1 : 0.25,
         transition: 'opacity 0.2s ease',
       }} />
 
