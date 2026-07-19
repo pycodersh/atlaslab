@@ -774,17 +774,17 @@ export default function LibraryPage() {
                 fontFamily: 'inherit', outline: 'none',
               }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '4px 0 0' }}>
-              <span style={{ fontSize: 11, color: 'var(--pm)' }}>{reviewsRemaining} / {reviewsLimit} remaining today</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 6, marginBottom: 8 }}>
+              <span style={{ fontSize: 12, color: 'var(--pm)' }}>{reviewsRemaining} / {reviewsLimit} remaining today</span>
               <span style={{ fontSize: 12, color: wsWordCount > 50 ? '#E05555' : 'var(--pm)' }}>{wsWordCount} / 50 words</span>
             </div>
             {wsWordCount > 50 && (
-              <p style={{ fontSize: 12, color: '#E05555', margin: '4px 0 0' }}>
+              <p style={{ fontSize: 12, color: '#E05555', margin: '0 0 8px' }}>
                 Maximum 50 words. Please shorten your writing.
               </p>
             )}
             {wsError && (
-              <p style={{ fontSize: 12, color: '#E05555', margin: '4px 0 0' }}>{wsError}</p>
+              <p style={{ fontSize: 12, color: '#E05555', margin: '0 0 8px' }}>{wsError}</p>
             )}
 
             <button
@@ -792,11 +792,11 @@ export default function LibraryPage() {
               disabled={wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0}
               onClick={handleGetFeedback}
               style={{
-                marginTop: 12, width: '100%',
+                width: '100%',
                 background: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#A5B4FC' : '#6366F1',
                 border: `1.5px solid ${(wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#A5B4FC' : '#6366F1'}`,
-                borderRadius: 12, color: '#ffffff',
-                fontSize: 15, fontWeight: 600, padding: '13px 0',
+                borderRadius: 14, color: '#ffffff',
+                fontSize: 15, fontWeight: 500, padding: '13px 0',
                 cursor: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? 'default' : 'pointer',
                 fontFamily: 'inherit', transition: 'background 0.15s, border-color 0.15s',
               }}
