@@ -402,24 +402,21 @@ export default function ProgressPage() {
     return { m, listeningDone, readingDone, challengeDone, fullyDone }
   }, [storyRounds])
 
-  const chipBg     = isDark ? 'rgba(255,255,255,0.06)' : '#FFFFFF'
-  const chipBorder = isDark ? 'rgba(255,255,255,0.12)' : '#E5E7EB'
-  const chipTitle  = isDark ? '#FFFFFF'                : '#000000'
+  const chipTitle  = '#FFFFFF'
 
   const sectionChip = (icon: React.ReactNode, title: string, counter: string) => (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       width: 'calc(100% + 24px)', boxSizing: 'border-box',
       marginLeft: -12, marginRight: -12,
-      background: chipBg,
-      border: `1px solid ${chipBorder}`, borderRadius: 12, padding: '10px 28px 10px 12px',
+      background: '#1E293B', border: 'none', borderRadius: 10, padding: '10px 16px',
       marginBottom: 14,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ color: isDark ? '#FFFFFF' : '#000000', display: 'flex', alignItems: 'center', flexShrink: 0, fontSize: 13 }}>{icon}</span>
-        <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
+        <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', flexShrink: 0, fontSize: 16 }}>{icon}</span>
+        <span style={{ fontSize: 16, fontWeight: 500, color: '#FFFFFF' }}>{title}</span>
       </div>
-      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: isDark ? '#FFFFFF' : '#000000', letterSpacing: '0.05em', whiteSpace: 'nowrap', flexShrink: 0, textAlign: 'right' }}>{counter}</span>
+      <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: '#818CF8', letterSpacing: '0.05em', whiteSpace: 'nowrap', flexShrink: 0 }}>{counter}</span>
     </div>
   )
 
