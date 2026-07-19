@@ -224,14 +224,14 @@ function PatternAccordion({
 }) {
   const [open, setOpen] = useState(true)
   return (
-    <div style={{ ...glassCard, overflow: 'hidden', marginBottom: 8 }}>
+    <div style={{ overflow: 'hidden', marginBottom: 8 }}>
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
         style={{
           width: '100%', background: 'none', border: 'none', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '12px 16px',
+          padding: '12px 0',
           borderBottom: open ? ROW_BORDER : 'none',
         }}
       >
