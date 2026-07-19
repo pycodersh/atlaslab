@@ -414,10 +414,10 @@ export default function ProgressPage() {
       boxShadow: '0 2px 16px rgba(99,102,241,0.15)', marginBottom: 14,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ color: '#6366F1', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
+        <span style={{ color: isDark ? '#FFFFFF' : '#000000', display: 'flex', alignItems: 'center', flexShrink: 0 }}>{icon}</span>
         <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: chipTitle }}>{title}</span>
       </div>
-      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: '#6366F1', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{counter}</span>
+      <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', color: isDark ? '#FFFFFF' : '#000000', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>{counter}</span>
     </div>
   )
 
