@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from 'react'
 import { Volume2, Waves, Pause } from 'lucide-react'
 import type { MagazineStory } from '@/types/magazine'
 import { getMoodImages } from '@/data/mood-images'
@@ -54,6 +54,8 @@ type StoryPageProps = {
   showReadingGuide?: boolean
   /** Pulse animation on the audio button (after scroll complete) */
   audioPulse?: boolean
+  /** Ref to the pattern section start element — used to prevent dual-highlight at section boundary */
+  patternSectionRef?: RefObject<HTMLElement | null>
 }
 
 
@@ -76,6 +78,7 @@ export function StoryPage({
   showReadingGuide = false,
   audioPulse = false,
   onStudyModeChange,
+  patternSectionRef,
 }: StoryPageProps) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -127,7 +130,7 @@ export function StoryPage({
   const absParaIdx = isSpeaking ? currentParagraphIdx + paraOffsetRef.current : null
   const paraElemsRef = useRef<(HTMLDivElement | null)[]>([])
   const paraMode = isSpeaking ? 'listening' : 'reading'
-  const paraCenterIdx = useCenterCard(paraElemsRef, story.paragraphs.length, paraMode, absParaIdx)
+  const paraCenterIdx = useCenterCard(paraElemsRef, story.paragraphs.length, paraMode, absParaIdx, patternSectionRef, 'story')
 
   // Reset pause state when audio ends naturally
   useEffect(() => {

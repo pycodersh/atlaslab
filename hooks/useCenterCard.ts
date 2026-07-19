@@ -7,6 +7,8 @@ export function useCenterCard(
   count: number,
   mode: 'reading' | 'listening',
   listeningIndex?: number | null,
+  patternSectionRef?: RefObject<HTMLElement | null>,
+  role?: 'story' | 'pattern',
 ): number | null {
   const [centerIndex, setCenterIndex] = useState<number | null>(null)
 
@@ -28,6 +30,14 @@ export function useCenterCard(
       }
 
       const centerY = window.innerHeight / 2
+
+      // Boundary guard: only one section is active at a time
+      if (patternSectionRef?.current && role) {
+        const patternTop = patternSectionRef.current.getBoundingClientRect().top
+        if (role === 'story' && patternTop < centerY) { setCenterIndex(null); return }
+        if (role === 'pattern' && patternTop >= centerY) { setCenterIndex(null); return }
+      }
+
       let minDist = Infinity
       let closestIdx: number | null = null
 
@@ -51,7 +61,7 @@ export function useCenterCard(
     return () => {
       window.removeEventListener('scroll', findCenterCard, { capture: true })
     }
-  }, [elemsRef, count, mode])
+  }, [elemsRef, count, mode, patternSectionRef, role])
 
   return mode === 'listening' ? (listeningIndex ?? null) : centerIndex
 }

@@ -557,6 +557,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         showSwipeGuide={showSwipeGuide}
         onAllPatternsSeen={handleAllPatternsSeen}
         onPatternIndexChange={setPatternIdx}
+        patternSectionRef={patternSectionRef}
         showKorean={patternShowKo}
         showEnglish={patternShowEn}
       />
@@ -691,6 +692,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         showReadingGuide={isFirstRound && flowPhase === 'reading' && !scrolledToEnd}
         audioPulse={isFirstRound && !isSpeaking && flowPhase === 'reading'}
         onStudyModeChange={handleStudyModeChange}
+        patternSectionRef={patternSectionRef}
       />
       {recoDialogEl}
       {sharedPopups}
