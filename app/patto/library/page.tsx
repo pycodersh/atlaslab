@@ -746,10 +746,9 @@ export default function LibraryPage() {
       {/* Writing Studio */}
       <section style={{ marginBottom: 20, marginTop: 48 }}>
         <div style={{
-          display: 'flex', alignItems: 'center',
+          display: 'inline-flex', alignItems: 'center',
           background: '#1E293B', border: 'none', borderRadius: 10,
           padding: '10px 16px', marginBottom: 16,
-          width: 'calc(100% + 24px)', marginLeft: -12, marginRight: -12, boxSizing: 'border-box',
         }}>
           <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', marginRight: 8, flexShrink: 0 }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -775,9 +774,10 @@ export default function LibraryPage() {
                 fontFamily: 'inherit', outline: 'none',
               }}
             />
-            <p style={{ fontSize: 12, color: wsWordCount > 50 ? '#E05555' : 'var(--pm)', margin: '4px 0 0', textAlign: 'right' }}>
-              {wsWordCount} / 50 words
-            </p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '4px 0 0' }}>
+              <span style={{ fontSize: 11, color: 'var(--pm)' }}>{reviewsRemaining} / {reviewsLimit} remaining today</span>
+              <span style={{ fontSize: 12, color: wsWordCount > 50 ? '#E05555' : 'var(--pm)' }}>{wsWordCount} / 50 words</span>
+            </div>
             {wsWordCount > 50 && (
               <p style={{ fontSize: 12, color: '#E05555', margin: '4px 0 0' }}>
                 Maximum 50 words. Please shorten your writing.
@@ -786,11 +786,6 @@ export default function LibraryPage() {
             {wsError && (
               <p style={{ fontSize: 12, color: '#E05555', margin: '4px 0 0' }}>{wsError}</p>
             )}
-
-            {/* Remaining count */}
-            <p style={{ fontSize: 11, color: 'var(--pm)', margin: '8px 0 0', textAlign: 'right' }}>
-              {reviewsRemaining} / {reviewsLimit} remaining today
-            </p>
 
             <button
               type="button"
@@ -942,10 +937,9 @@ export default function LibraryPage() {
           <div style={{ ...colPad, paddingBottom: 0 }}>
             {/* ── Header ── */}
             <div style={{
-              display: 'flex', alignItems: 'center',
+              display: 'inline-flex', alignItems: 'center',
               background: '#1E293B', border: 'none', borderRadius: 10,
               padding: '10px 16px', marginBottom: 12,
-              width: 'calc(100% + 24px)', marginLeft: -12, marginRight: -12, boxSizing: 'border-box',
             }}>
               <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', marginRight: 8, flexShrink: 0 }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
