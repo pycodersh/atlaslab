@@ -584,7 +584,7 @@ export default function LibraryPage() {
     <>
 
       {/* Summary strip — text-only tabs */}
-      <div style={{ display: 'flex', gap: 0, marginBottom: 14, borderBottom: '1px solid var(--pglass-border)' }}>
+      <div style={{ display: 'flex', gap: 0, marginBottom: 14 }}>
         {([
           { key: 'words' as const, label: 'Words', value: words.length,
             icon: <BookOpen style={{ width: 14, height: 14 }} strokeWidth={1.8} /> },
@@ -604,7 +604,7 @@ export default function LibraryPage() {
                 flex: 1, background: 'none', border: 'none', cursor: 'pointer',
                 padding: '8px 4px 10px', fontFamily: 'inherit',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
-                borderBottom: active ? '2px solid #6366F1' : '2px solid transparent',
+                borderBottom: 'none',
                 borderLeft: isPhrase ? '1px solid var(--pglass-border)' : 'none',
                 borderRight: isPhrase ? '1px solid var(--pglass-border)' : 'none',
                 marginBottom: -1,
@@ -749,6 +749,7 @@ export default function LibraryPage() {
           display: 'flex', alignItems: 'center',
           background: '#1E293B', border: 'none', borderRadius: 10,
           padding: '10px 16px', marginBottom: 16,
+          width: 'calc(100% + 24px)', marginLeft: -12, marginRight: -12, boxSizing: 'border-box',
         }}>
           <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', marginRight: 8, flexShrink: 0 }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -938,6 +939,7 @@ export default function LibraryPage() {
               display: 'flex', alignItems: 'center',
               background: '#1E293B', border: 'none', borderRadius: 10,
               padding: '10px 16px', marginBottom: 12,
+              width: 'calc(100% + 24px)', marginLeft: -12, marginRight: -12, boxSizing: 'border-box',
             }}>
               <span style={{ color: '#818CF8', display: 'flex', alignItems: 'center', marginRight: 8, flexShrink: 0 }}>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
