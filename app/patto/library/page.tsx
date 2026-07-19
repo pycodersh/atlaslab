@@ -142,7 +142,7 @@ function WordListRow({ w, first, onRemove }: { w: SavedWord; first: boolean; onR
 
 function DictWordList({ words, onRemove }: { words: SavedWord[]; onRemove: (id: string) => void }) {
   return (
-    <div style={glassCard}>
+    <div>
       {words.map((w, i) => (
         <WordListRow key={w.id} w={w} first={i === 0} onRemove={() => onRemove(w.id)} />
       ))}
@@ -176,7 +176,7 @@ function DictPhraseList({ phrases, onRemove }: {
   onRemove: (id: string) => void
 }) {
   return (
-    <div style={glassCard}>
+    <div>
       {phrases.map((ph, i) => (
         <PhraseListRow key={ph.id} ph={ph} first={i === 0} onRemove={() => onRemove(ph.id)} />
       ))}
@@ -727,7 +727,7 @@ export default function LibraryPage() {
           </>
         ) : (
           <>
-            <div style={glassCard}>
+            <div>
               {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => (
                 <BookmarkedPatternRow key={bm.patternId} bm={bm} first={i === 0} onPress={() => router.push(`/patto/stories/${bm.storyId}?v=p`)} onRemove={() => handleRemoveBookmark(bm.patternId)} />
               ))}
@@ -760,7 +760,7 @@ export default function LibraryPage() {
         </div>
 
         {/* Inline composer — always open */}
-        <div style={{ ...glassCard, borderRadius: 20, padding: 16, marginBottom: 10, overflow: 'visible' }}>
+        <div style={{ padding: '4px 0', marginBottom: 10 }}>
             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 8 }}>
               <span style={{ fontSize: 12, color: wsWordCount > 50 ? '#E05555' : 'var(--pm)' }}>
                 {wsWordCount} / 50 words
