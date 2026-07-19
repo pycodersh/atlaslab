@@ -407,8 +407,8 @@ export default function ProgressPage() {
   const sectionChip = (icon: React.ReactNode, title: string, counter: string) => (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      width: 'calc(100% + 24px)', boxSizing: 'border-box',
-      marginLeft: -12, marginRight: -12,
+      width: 'calc(100% + 12px)', boxSizing: 'border-box',
+      marginLeft: -6, marginRight: -6,
       background: '#1E293B', border: 'none', borderRadius: 10, padding: '10px 16px',
       marginBottom: 14,
     }}>
@@ -485,9 +485,9 @@ export default function ProgressPage() {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                       {icon}
-                      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--pm)' }}>{label}</span>
+                      <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--pm)' }}>{label}</span>
                     </div>
-                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', fontVariantNumeric: 'tabular-nums', lineHeight: 1, color: complete ? '#22C55E' : 'var(--pm)' }}>
+                    <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.10em', fontVariantNumeric: 'tabular-nums', lineHeight: 1, color: complete ? '#22C55E' : 'var(--pm)' }}>
                       {done} / {target}
                     </span>
                   </div>
@@ -501,8 +501,14 @@ export default function ProgressPage() {
         {recentSessions.length > 0 && (
           <div>
             <div style={sectionDivider} />
-            <p style={SEC}>RECENT SESSIONS</p>
-            <div style={surface}>
+            {sectionChip(
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>,
+              'Recent Sessions',
+              `${recentSessions.length} stories`,
+            )}
+            <div>
               {recentSessions.map(({ storyId, round, lastCompletedAt, story }, i) => (
                 <button
                   key={storyId} type="button"
@@ -510,8 +516,8 @@ export default function ProgressPage() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: 12, width: '100%',
                     textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer',
-                    padding: '13px 16px', fontFamily: 'inherit',
-                    borderTop: i === 0 ? 'none' : `1px solid ${dividerC}`,
+                    padding: '13px 0', fontFamily: 'inherit',
+                    borderBottom: i === recentSessions.length - 1 ? 'none' : '0.5px solid var(--pglass-border)',
                   }}
                 >
                   <div style={{
