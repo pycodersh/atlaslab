@@ -380,24 +380,24 @@ export default function ProgressPage() {
             <div style={{ display: 'flex', alignItems: 'flex-start', marginBottom: 14 }}>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 {stepCircle(true)}
-                <span style={{ fontSize: 8.5, fontWeight: 700, color: '#6B8FFF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>STORY</span>
+                <span style={{ fontSize: 9.5, fontWeight: 700, color: '#6B8FFF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>STORY</span>
               </div>
               <div style={{ flex: 1, height: 1.5, background: 'rgba(142,167,255,0.28)', alignSelf: 'flex-start', marginTop: 12, marginLeft: 3, marginRight: 3 }} />
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 {stepCircle(false)}
-                <span style={{ fontSize: 8.5, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>PATTERN</span>
+                <span style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>PATTERN</span>
               </div>
               <div style={{ flex: 1, height: 1.5, background: 'rgba(142,167,255,0.28)', alignSelf: 'flex-start', marginTop: 12, marginLeft: 3, marginRight: 3 }} />
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 {stepCircle(false)}
-                <span style={{ fontSize: 8.5, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>CHALLENGE</span>
+                <span style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>CHALLENGE</span>
               </div>
             </div>
-            <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--pt)' }}>
-              {storyDone
-                ? `Good work today! ${todayCount} ${todayCount === 1 ? 'story' : 'stories'} done.`
-                : "Start your session when you're ready."}
-            </p>
+            {storyDone && (
+              <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--pt)' }}>
+                {`Good work today! ${todayCount} ${todayCount === 1 ? 'story' : 'stories'} done.`}
+              </p>
+            )}
           </div>
         </div>
 
@@ -409,8 +409,8 @@ export default function ProgressPage() {
             { value: String(displayPattern), label: 'PATTERNS', color: '#9B8FE8' },
           ] as const).map(({ value, label, color }) => (
             <div key={label} style={{ ...surface, borderRadius: 20, padding: '14px 12px 12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-              <span style={{ fontSize: 'clamp(1.1rem, 4.5vw, 1.35rem)', fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
-              <span style={{ fontSize: 9, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.10em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>{label}</span>
+              <span style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.45rem)', fontWeight: 800, color, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+              <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.10em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>{label}</span>
             </div>
           ))}
         </div>
@@ -418,6 +418,7 @@ export default function ProgressPage() {
         {/* ?? RECENT SESSIONS ???????????????????????????????????????????????? */}
         {recentSessions.length > 0 && (
           <div>
+            <div style={{ height: 1, background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(30,30,80,0.07)', margin: '4px 0 16px' }} />
             <p style={SEC}>RECENT SESSIONS</p>
             <div style={surface}>
               {recentSessions.map(({ storyId, round, lastCompletedAt, story }, i) => (
@@ -436,13 +437,13 @@ export default function ProgressPage() {
                     background: 'rgba(107,143,255,0.10)', border: '1px solid rgba(107,143,255,0.18)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
-                    <span style={{ fontSize: 9, fontWeight: 800, color: '#6B8FFF' }}>S{String(storyId).padStart(2, '0')}</span>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: '#6B8FFF' }}>S{String(storyId).padStart(2, '0')}</span>
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: '0 0 2px', fontSize: 13, fontWeight: 600, color: 'var(--pt)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{story?.title ?? ''}</p>
-                    <p style={{ margin: 0, fontSize: 11, color: 'var(--pm)' }}>{getRelativeDateLabel(lastCompletedAt)}</p>
+                    <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: 'var(--pt)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{story?.title ?? ''}</p>
+                    <p style={{ margin: 0, fontSize: 12, color: 'var(--pm)' }}>{getRelativeDateLabel(lastCompletedAt)}</p>
                   </div>
-                  <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--pm)', border: '1px solid var(--pglass-border)', borderRadius: 8, padding: '3px 8px', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--pm)', border: '1px solid var(--pglass-border)', borderRadius: 8, padding: '3px 8px', flexShrink: 0, whiteSpace: 'nowrap' }}>
                     Round {round}
                   </span>
                 </button>
@@ -457,8 +458,8 @@ export default function ProgressPage() {
           <p style={SEC}>THIS WEEK</p>
           <div style={{ ...surface, padding: '16px 16px 14px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-              <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.01em' }}>{weekRangeLabel}</span>
-              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)' }}>{activeDaysThisWeek} / 7 days</span>
+              <span style={{ fontSize: 16, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.01em' }}>{weekRangeLabel}</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pm)' }}>{activeDaysThisWeek} / 7 days</span>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
               {weekDays.map((d, i) => {
@@ -467,14 +468,14 @@ export default function ProgressPage() {
                 const hasActivity = (dayCountMap[iso] ?? 0) > 0
                 return (
                   <div key={iso} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                    <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--pm)' }}>{DOW_LABELS[i]}</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)' }}>{DOW_LABELS[i]}</span>
                     <div style={{
                       width: 28, height: 28, borderRadius: '50%',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       background: hasActivity && !isToday ? 'rgba(107,143,255,0.12)' : 'transparent',
                       border: isToday ? '2px solid #6B8FFF' : 'none',
                     }}>
-                      <span style={{ fontSize: 11, fontWeight: isToday ? 700 : 500, color: isToday ? '#6B8FFF' : (hasActivity ? '#6B8FFF' : 'var(--pt)') }}>
+                      <span style={{ fontSize: 12, fontWeight: isToday ? 700 : 500, color: isToday ? '#6B8FFF' : (hasActivity ? '#6B8FFF' : 'var(--pt)') }}>
                         {d.getDate()}
                       </span>
                     </div>
@@ -491,11 +492,13 @@ export default function ProgressPage() {
           <p style={SEC}>OVERALL PROGRESS</p>
           <div style={{ ...surface, overflow: 'hidden' }}>
             <div style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 31, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
-                {mapPct}%
-              </span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)', lineHeight: 1.5 }}>
+              {mapPct > 0 && (
+                <span style={{ fontSize: 32, fontWeight: 700, color: 'var(--pt)', letterSpacing: '-0.04em', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>
+                  {mapPct}%
+                </span>
+              )}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginLeft: mapPct > 0 ? 0 : 'auto' }}>
+                <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--pm)', lineHeight: 1.5 }}>
                   {masteredCount} / {totalPatterns} patterns
                 </span>
                 <button
@@ -503,7 +506,7 @@ export default function ProgressPage() {
                   onClick={() => setMapExpanded(v => !v)}
                   style={{
                     background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px',
-                    fontSize: 11, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit',
+                    fontSize: 12, fontWeight: 700, color: 'var(--pa)', fontFamily: 'inherit',
                   }}
                 >
                   {mapExpanded ? 'Hide' : 'Map'}
