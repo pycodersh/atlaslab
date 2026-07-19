@@ -403,7 +403,7 @@ export default function ProgressPage() {
 
   const chipBg     = isDark ? 'rgba(99,102,241,0.12)'  : 'rgba(238,242,255,0.75)'
   const chipBorder = isDark ? 'rgba(99,102,241,0.25)'  : 'rgba(199,210,254,0.8)'
-  const chipTitle  = isDark ? '#818CF8'                : '#4338CA'
+  const chipTitle  = isDark ? '#FFFFFF'                : '#000000'
 
   const sectionChip = (icon: React.ReactNode, title: string, counter: string) => (
     <div style={{
