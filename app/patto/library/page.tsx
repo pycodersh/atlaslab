@@ -611,8 +611,8 @@ export default function LibraryPage() {
               }}
             >
               <span style={{ color: active ? '#6366F1' : 'var(--pm)', display: 'flex' }}>{icon}</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: active ? '#6366F1' : 'var(--pt)', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
-              <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: active ? '#6366F1' : 'var(--pm)' }}>{label}</span>
+              <span style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.45rem)', fontWeight: 800, color: active ? '#6366F1' : 'var(--pt)', lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+              <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: active ? '#6366F1' : 'var(--pm)' }}>{label}</span>
             </button>
           )
         })}
