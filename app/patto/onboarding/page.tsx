@@ -258,17 +258,20 @@ function PatternScene() {
   )
 }
 
+const IMG = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=400&q=80`
+
 function StoryScene() {
   const cards = [
-    ['A New Start', 'STORY 01', 'linear-gradient(135deg,#D9E1F0,#F2E8DE)', 6, 28, -2, 3, .10],
-    ['An Old Friend', 'STORY 02', 'linear-gradient(135deg,#2C2B33,#8B5F3D)', 116, 58, 0, 2, .18],
-    ['An Ordinary Morning', 'STORY 03', 'linear-gradient(135deg,#9BA7A0,#444C55)', 220, 92, 3, 1, .26],
-  ] as const
+    { title: 'A New Start',        label: 'STORY 01', img: IMG('1506784983877-45594efa4cbe'), chip: 'Review', left: 0,   top: 20,  rotate: -2, z: 3, delay: .10 },
+    { title: 'An Old Friend',      label: 'STORY 02', img: IMG('1543007630-9710e4a00a20'),   chip: 'New',    left: 106, top: 54,  rotate: 0,  z: 2, delay: .18 },
+    { title: 'An Ordinary Morning',label: 'STORY 03', img: IMG('1525610553991-2bede1a236e2'),chip: 'New',    left: 200, top: 88,  rotate: 3,  z: 1, delay: .26 },
+  ]
 
   return (
     <div style={{ width: 340, maxWidth: '100%', height: '100%', minHeight: 320, position: 'relative' }}>
       <div style={{ position: 'relative', height: 300 }}>
-        {cards.map(([title, label, bg, left, top, rotate, z, delay]) => (
+        {cards.map(({ title, label, img, chip, left, top, rotate, z, delay }) => (
           <motion.div
             key={label}
             initial={{ opacity: 0, y: 36, scale: .94 }}
@@ -276,23 +279,28 @@ function StoryScene() {
             transition={{ delay }}
             style={{
               position: 'absolute', left, top, width: 132, zIndex: z,
-              borderRadius: 22, overflow: 'hidden', background: '#fff',
-              border: '1px solid rgba(99,102,241,.12)',
-              boxShadow: '0 18px 42px rgba(45,55,100,.14)',
+              borderRadius: 18, overflow: 'hidden', background: '#fff',
+              border: '1px solid rgba(0,0,0,.06)',
+              boxShadow: '0 8px 28px rgba(0,0,0,.13)',
             }}
           >
-            <div style={{ height: 126, background: bg, position: 'relative' }}>
+            <div style={{ height: 106, position: 'relative', overflow: 'hidden' }}>
+              <img
+                src={img} alt={title}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
               <div style={{
-                position: 'absolute', left: 10, top: 10, padding: '5px 8px',
-                borderRadius: 999, background: 'rgba(255,255,255,.76)',
-                fontSize: 10, fontWeight: 750,
+                position: 'absolute', left: 8, top: 8, padding: '4px 8px',
+                borderRadius: 999, background: 'rgba(255,255,255,.82)',
+                fontSize: 9, fontWeight: 700, letterSpacing: '.02em',
+                backdropFilter: 'blur(6px)',
               }}>
-                {label === 'STORY 01' ? 'Review' : 'New'}
+                {chip}
               </div>
             </div>
-            <div style={{ padding: '12px 12px 14px' }}>
-              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '.08em', color: 'var(--pm)' }}>{label}</div>
-              <div style={{ marginTop: 5, fontSize: 14, fontWeight: 850, lineHeight: 1.25 }}>{title}</div>
+            <div style={{ padding: '10px 10px 12px' }}>
+              <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: '.07em', color: 'var(--pm)', textTransform: 'uppercase' }}>{label}</div>
+              <div style={{ marginTop: 4, fontSize: 13, fontWeight: 700, lineHeight: 1.25, color: 'var(--pt)' }}>{title}</div>
             </div>
           </motion.div>
         ))}
@@ -350,7 +358,12 @@ function RepeatScene() {
           </div>
           <Volume2 size={18} color={ACCENT} />
         </div>
-        <div style={{ height: 146, background: 'linear-gradient(135deg,#D8E1EF,#EFE9E2 50%,#D8D2C7)' }} />
+        <div style={{ height: 120, overflow: 'hidden' }}>
+          <img
+            src={IMG('1506784983877-45594efa4cbe')} alt="A New Start"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
         <div style={{ padding: '14px 18px 18px', fontSize: 13, lineHeight: 1.6 }}>
           <div style={{ fontSize: 10, color: 'var(--pm)' }}>EN &nbsp;&nbsp; EN·KO &nbsp;&nbsp; KO</div>
           <div style={{ marginTop: 12 }}>
