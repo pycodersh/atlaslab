@@ -83,6 +83,7 @@ export function StoryProgressTracker({
   const labelColor  = isDark ? 'rgba(255,255,255,0.80)' : '#2c2c52'
   const mutedColor  = isDark ? 'rgba(255,255,255,0.40)' : '#9CA3AF'
   const tooltipColor = isDark ? 'rgba(255,255,255,0.45)' : '#9CA3AF'
+  const btnColor    = isDark ? 'rgba(255,255,255,0.85)' : '#1a1a2e'
 
   // Progress bar fill color
   const listeningFill = listeningCompleted ? '#22C55E' : '#6366F1'
@@ -105,12 +106,12 @@ export function StoryProgressTracker({
         display: 'flex', flexDirection: 'column', gap: 12,
       }}>
 
-        {/* ── Listening row: [icon] [label] [spacer] [bar] [count] ── */}
+        {/* ── Listening row: [icon] [label] [spacer 20px] [bar] [check/count] ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Headphones style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
           <span style={{ fontSize: 13, fontWeight: 700, color: labelColor, flexShrink: 0 }}>Listening</span>
-          <div style={{ width: 26, flexShrink: 0 }} />
-          <div style={{ flex: 1, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden' }}>
+          <div style={{ width: 20, flexShrink: 0 }} />
+          <div style={{ width: 80, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
             <div style={{
               height: '100%', borderRadius: 999,
               background: listeningFill,
@@ -119,7 +120,7 @@ export function StoryProgressTracker({
             }} />
           </div>
           {listeningCompleted
-            ? <CheckCircle style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={2} />
+            ? <CheckCircle style={{ width: 15, height: 15, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
             : <span style={{ fontSize: 12, color: mutedColor, flexShrink: 0, fontVariantNumeric: 'tabular-nums' }}>0 / 1</span>
           }
         </div>
@@ -127,12 +128,12 @@ export function StoryProgressTracker({
         {/* Divider */}
         <div style={{ height: 0.5, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(142,167,255,0.15)' }} />
 
-        {/* ── Reading row: [icon] [label] [+ btn] [bar] [count] ── */}
+        {/* ── Reading row: [icon] [label] [+ btn or spacer] [bar] [check/count] ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <BookOpen style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
           <span style={{ fontSize: 13, fontWeight: 700, color: labelColor, flexShrink: 0 }}>Reading</span>
           {readingDone
-            ? <div style={{ width: 26, flexShrink: 0 }} />
+            ? <div style={{ width: 20, flexShrink: 0 }} />
             : (
               <button
                 type="button"
@@ -140,22 +141,22 @@ export function StoryProgressTracker({
                 disabled={!btnActive}
                 aria-label="Done reading"
                 style={{
-                  width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
-                  border: `1.5px solid ${btnActive ? '#6366F1' : mutedColor}`,
+                  width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
+                  border: `1.5px solid ${btnActive ? btnColor : mutedColor}`,
                   background: 'transparent',
-                  color: btnActive ? '#6366F1' : mutedColor,
+                  color: btnActive ? btnColor : mutedColor,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   cursor: btnActive ? 'pointer' : 'default',
-                  opacity: btnActive ? 1 : 0.35,
+                  opacity: btnActive ? 1 : 0.30,
                   transition: 'opacity 0.2s, border-color 0.2s, color 0.2s',
                   padding: 0,
                 }}
               >
-                <Plus style={{ width: 14, height: 14 }} strokeWidth={2.5} />
+                <Plus style={{ width: 11, height: 11 }} strokeWidth={2.5} />
               </button>
             )
           }
-          <div style={{ flex: 1, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden' }}>
+          <div style={{ width: 80, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
             <div style={{
               height: '100%', borderRadius: 999,
               background: readingFill,
@@ -164,7 +165,7 @@ export function StoryProgressTracker({
             }} />
           </div>
           {readingDone
-            ? <CheckCircle style={{ width: 16, height: 16, color: '#22C55E', flexShrink: 0 }} strokeWidth={2} />
+            ? <CheckCircle style={{ width: 15, height: 15, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
             : <span style={{ fontSize: 12, color: mutedColor, flexShrink: 0, fontVariantNumeric: 'tabular-nums' }}>{readingCount} / 2</span>
           }
         </div>
