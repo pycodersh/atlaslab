@@ -36,7 +36,12 @@ const ACTIVITY_KEY = 'patto-srs-activity'
 
 // ── 날짜 헬퍼 ───────────────────────────────────────────────────────────────
 export function todayStr(): string {
-  return new Date().toISOString().slice(0, 10)
+  const now = new Date()
+  const kst = new Date(now.getTime() + 9 * 60 * 60000)
+  if (kst.getUTCHours() < 4) {
+    kst.setUTCDate(kst.getUTCDate() - 1)
+  }
+  return kst.toISOString().slice(0, 10)
 }
 
 /** 로컬 타임존 기준 날짜 문자열 (YYYY-MM-DD) — 활동/캘린더/스트릭용 */

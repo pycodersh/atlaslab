@@ -20,6 +20,7 @@ import {
   getReviewedTodayCount, getDueCount, getEventsByStory,
   type LearningRecord,
 } from './storage'
+import { getStoryRound } from './story-round'
 import { magazineStories } from '@/data/magazine-stories'
 
 // ── 상수 ─────────────────────────────────────────────────────────────────────
@@ -231,7 +232,10 @@ export function getMissionItems(): MissionItem[] {
     const done = patternCountByStory[s.id] ?? 0
     return done > 0 && done < s.patterns.length
   })
-  const newStoryData = !inProgressData
+  const completedAStoryToday = magazineStories.some(
+    s => getStoryRound(s.id).lastCompletedAt === today
+  )
+  const newStoryData = !inProgressData && !completedAStoryToday
     ? (magazineStories.find(s => !learnedStoryIds.has(s.id)) ?? null)
     : null
   const storyTarget = inProgressData ?? newStoryData

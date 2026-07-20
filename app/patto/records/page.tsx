@@ -52,10 +52,6 @@ const MONTHS     = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct',
 
 function getRelativeDateLabel(iso: string | null): string {
   if (!iso) return ''
-  const todayIso     = toIso(new Date())
-  const yesterdayIso = toIso(new Date(Date.now() - 86400000))
-  if (iso === todayIso)     return 'Today'
-  if (iso === yesterdayIso) return 'Yesterday'
   const d = new Date(iso + 'T12:00:00')
   return `${MONTHS[d.getMonth()]} ${d.getDate()}`
 }
@@ -351,7 +347,7 @@ export default function ProgressPage() {
     [...myStoriesData]
       .filter(r => r.lastCompletedAt)
       .sort((a, b) => (b.lastCompletedAt ?? '').localeCompare(a.lastCompletedAt ?? ''))
-      .slice(0, 3),
+      .slice(0, 30),
   [myStoriesData])
 
   const totalPatterns = useMemo(() =>
@@ -513,26 +509,18 @@ export default function ProgressPage() {
                   key={storyId} type="button"
                   onClick={() => router.push(`/patto/stories/${storyId}`)}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: 12, width: '100%',
-                    textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer',
-                    padding: '13px 0', fontFamily: 'inherit',
-                    borderBottom: i === recentSessions.length - 1 ? 'none' : '0.5px solid var(--pglass-border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    width: '100%', textAlign: 'left', background: 'none', border: 'none',
+                    cursor: 'pointer', padding: '10px 0', fontFamily: 'inherit',
+                    borderBottom: '0.5px solid var(--pglass-border)',
+                    gap: 8,
                   }}
                 >
-                  <div style={{
-                    width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                    background: 'rgba(107,143,255,0.10)', border: '1px solid rgba(107,143,255,0.18)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  }}>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: '#6B8FFF' }}>S{String(storyId).padStart(2, '0')}</span>
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: 'var(--pt)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{story?.title ?? ''}</p>
-                    <p style={{ margin: 0, fontSize: 12, color: 'var(--pm)' }}>{getRelativeDateLabel(lastCompletedAt)}</p>
-                  </div>
-                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--pm)', border: '1px solid var(--pglass-border)', borderRadius: 8, padding: '3px 8px', flexShrink: 0, whiteSpace: 'nowrap' }}>
-                    Round {round}
+                  <span style={{ fontSize: 14, color: 'var(--pt)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>
+                    <span style={{ color: 'var(--pm)' }}>S{String(storyId).padStart(2, '0')} · </span>
+                    {story?.title ?? ''}
                   </span>
+                  <span style={{ fontSize: 12, color: 'var(--pm)', flexShrink: 0 }}>{getRelativeDateLabel(lastCompletedAt)}</span>
                 </button>
               ))}
             </div>
@@ -551,36 +539,30 @@ export default function ProgressPage() {
             `${activeDaysThisWeek} / 7 days`,
           )}
           <div>
-            {/* Best row — top right */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
-              {(() => {
-                const best = Math.max(...weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0), 0)
-                return best > 0 ? <span style={{ fontSize: 11, color: 'var(--pm)' }}>Best: {best}</span> : null
-              })()}
-            </div>
             {/* Bar chart */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
               {(() => {
-                const maxP = Math.max(...weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0), 1)
+                const rawCounts = weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0)
+                const maxP = Math.max(...rawCounts, 0)
                 return weekDays.map((d, i) => {
                   const iso         = toIso(d)
                   const isToday     = iso === today
                   const isFuture    = d > new Date() && !isToday
-                  const patterns    = dayPatternMap[iso] ?? 0
+                  const patterns    = rawCounts[i]
                   const hasActivity = patterns > 0
-                  const barH        = hasActivity ? Math.max(4, Math.round((patterns / maxP) * 76)) : 4
+                  const barH        = maxP > 0 && hasActivity ? Math.max(4, Math.round((patterns / maxP) * 100)) : 4
                   const barBg       = hasActivity ? '#6366F1' : isToday ? '#EEF2FF' : 'var(--pglass)'
                   const barBorder   = hasActivity ? 'none' : isToday ? '1.5px solid #6366F1' : '0.5px solid var(--pglass-border)'
-                  const hlColor     = (hasActivity || isToday) ? '#6366F1' : 'var(--pm)'
                   return (
                     <div key={iso} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      {/* Label above bar: date on top, dow below */}
-                      <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                        <span style={{ fontSize: 12, fontWeight: (hasActivity || isToday) ? 700 : 500, color: (hasActivity || isToday) ? '#6366F1' : 'var(--ps)', lineHeight: 1 }}>{d.getDate()}</span>
-                        <span style={{ fontSize: 10, fontWeight: (hasActivity || isToday) ? 600 : 400, color: (hasActivity || isToday) ? '#6366F1' : 'var(--pm)', lineHeight: 1 }}>{DOW_LABELS[i]}</span>
+                      {/* Number above bar */}
+                      <div style={{ height: 18, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', marginBottom: 4 }}>
+                        {hasActivity && (
+                          <span style={{ fontSize: 11, fontWeight: 600, color: '#6366F1', lineHeight: 1 }}>{patterns}</span>
+                        )}
                       </div>
                       {/* Bar */}
-                      <div style={{ width: '100%', height: 80, display: 'flex', alignItems: 'flex-end', marginTop: 10, marginBottom: 12 }}>
+                      <div style={{ width: '100%', height: 100, display: 'flex', alignItems: 'flex-end' }}>
                         <div style={{
                           width: '100%', height: barH,
                           borderRadius: '4px 4px 0 0',
@@ -588,6 +570,11 @@ export default function ProgressPage() {
                           opacity: isFuture ? 0.35 : 1,
                           transition: 'height 0.4s cubic-bezier(0.22,1,0.36,1)',
                         }} />
+                      </div>
+                      {/* Date + DOW below bar */}
+                      <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                        <span style={{ fontSize: 11, fontWeight: 500, color: isToday ? '#6366F1' : 'var(--pm)', lineHeight: 1 }}>{d.getDate()}</span>
+                        <span style={{ fontSize: 10, fontWeight: hasActivity ? 600 : 400, color: hasActivity ? '#6366F1' : 'var(--pm)', lineHeight: 1 }}>{DOW_LABELS[i]}</span>
                       </div>
                     </div>
                   )
