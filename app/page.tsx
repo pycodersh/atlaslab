@@ -60,6 +60,7 @@ const PRODUCTS = [
     accentColor: 'rgba(124,111,255,0.15)',
     borderHover: 'rgba(124,111,255,0.5)',
     href: '/patto/home',
+    blogLinks: [{ href: '/blog/en/patto', label: '📰 Blog — EN · KO' }],
   },
   {
     Icon: KPattoIcon,
@@ -72,6 +73,7 @@ const PRODUCTS = [
     accentColor: 'rgba(96,165,250,0.08)',
     borderHover: 'rgba(96,165,250,0.4)',
     href: null,
+    blogLinks: [{ href: '/blog/en/k-patto', label: '📰 Blog — EN' }],
   },
   {
     Icon: CareerNaviIcon,
@@ -84,6 +86,7 @@ const PRODUCTS = [
     accentColor: 'rgba(93,202,165,0.08)',
     borderHover: 'rgba(93,202,165,0.4)',
     href: null,
+    blogLinks: [],
   },
   {
     Icon: KPantryIcon,
@@ -96,6 +99,7 @@ const PRODUCTS = [
     accentColor: 'rgba(251,191,36,0.08)',
     borderHover: 'rgba(251,191,36,0.4)',
     href: null,
+    blogLinks: [{ href: '/blog/en/k-pantry', label: '📰 Blog — EN' }],
   },
 ]
 
@@ -499,7 +503,6 @@ export default function AtlasLabHome() {
           </a>
           <div className="nav-right">
             <a href="#products" className="nav-link">Products</a>
-            <a href="#blog" className="nav-link">Blog</a>
             <a href="/patto/home" className="nav-btn">Get started</a>
           </div>
         </nav>
@@ -521,7 +524,6 @@ export default function AtlasLabHome() {
             career growth, and daily life.
           </p>
           <div className="hero-cta">
-            <a href="/patto/home" className="btn-primary">Start learning free →</a>
             <a href="#products" className="btn-ghost">Explore products</a>
           </div>
         </section>
@@ -530,27 +532,38 @@ export default function AtlasLabHome() {
         <div className="section-wrap" id="products" style={{ paddingTop: 20 }}>
           <p className="section-label">Our Products</p>
           <div className="products-grid">
-            {PRODUCTS.map(p => {
-              const inner = (
-                <>
-                  <div className="product-icon-wrap" style={{ background: p.iconBg }}>
-                    <p.Icon />
-                  </div>
-                  <div className="product-name">{p.name}</div>
-                  <div className="product-desc">{p.desc}</div>
-                  <span className="product-tag" style={p.tagStyle}>{p.tag}</span>
-                </>
-              )
-              return p.href ? (
-                <a key={p.name} href={p.href} className="product-card product-card-link">
-                  {inner}
-                </a>
-              ) : (
-                <div key={p.name} className="product-card">
-                  {inner}
+            {PRODUCTS.map(p => (
+              <div key={p.name} className="product-card" style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className="product-icon-wrap" style={{ background: p.iconBg }}>
+                  <p.Icon />
                 </div>
-              )
-            })}
+                <div className="product-name">{p.name}</div>
+                <div className="product-desc">{p.desc}</div>
+                <span className="product-tag" style={p.tagStyle}>{p.tag}</span>
+                {(p.href || p.blogLinks.length > 0) && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '12px' }}>
+                    {p.href && (
+                      <a href={p.href} style={{
+                        background: '#7c6fff', color: 'white',
+                        fontSize: '13px', fontWeight: 600,
+                        padding: '8px 12px', borderRadius: '8px',
+                        textAlign: 'center', textDecoration: 'none',
+                      }}>Start for free →</a>
+                    )}
+                    {p.blogLinks.map(b => (
+                      <a key={b.href} href={b.href} style={{
+                        background: 'transparent',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: 'rgba(255,255,255,0.5)',
+                        fontSize: '12px', padding: '6px 12px', borderRadius: '8px',
+                        textAlign: 'center', textDecoration: 'none',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                      }}>{b.label}</a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -564,67 +577,6 @@ export default function AtlasLabHome() {
             </span>
             Watch Patto in action
           </a>
-        </div>
-
-        {/* Divider */}
-        <div className="divider-glow" />
-
-        {/* Blog */}
-        <div className="blog-wrap" id="blog">
-          <p className="section-label" style={{ marginBottom: '32px' }}>From the blog</p>
-
-          {/* patto */}
-          <div className="blog-app-group">
-            <div className="blog-app-header">
-              <span className="blog-app-name">patto</span>
-              <span className="blog-app-desc">English pattern learning</span>
-              <div className="blog-app-line" />
-            </div>
-            <div className="blog-grid">
-              <a href="/blog/en/patto" className="blog-card">
-                <div className="blog-locale">EN</div>
-                <div className="blog-title">Why Patto teaches patterns, not grammar rules</div>
-                <div className="blog-link">/blog/en/patto →</div>
-              </a>
-              <a href="/blog/ko/patto" className="blog-card">
-                <div className="blog-locale">KO</div>
-                <div className="blog-title">패토가 문법 대신 패턴을 가르치는 이유</div>
-                <div className="blog-link">/blog/ko/patto →</div>
-              </a>
-            </div>
-          </div>
-
-          {/* k-patto */}
-          <div className="blog-app-group">
-            <div className="blog-app-header">
-              <span className="blog-app-name">k-patto</span>
-              <span className="blog-app-desc">Korean pattern learning</span>
-              <div className="blog-app-line" />
-            </div>
-            <div className="blog-single">
-              <a href="/blog/en/k-patto" className="blog-card">
-                <div className="blog-locale">EN</div>
-                <div className="blog-title">Why Korean patterns are the fastest path to fluency</div>
-                <div className="blog-link">/blog/en/k-patto →</div>
-              </a>
-            </div>
-          </div>
-
-          {/* k-pantry */}
-          <div className="blog-app-group" style={{ marginBottom: 0 }}>
-            <div className="blog-app-header">
-              <span className="blog-app-name">k-pantry</span>
-              <span className="blog-app-desc">Korean food & cooking</span>
-              <div className="blog-app-line" />
-            </div>
-            <div className="blog-single">
-              <a href="/blog/en/k-pantry" className="blog-card">
-                <div className="blog-locale">EN</div>
-                <div className="blog-title">Complete guide to Korean pantry essentials</div>
-                <div className="blog-link">/blog/en/k-pantry →</div>
-              </a>
-            </div>
-          </div>
         </div>
 
         {/* Footer */}
