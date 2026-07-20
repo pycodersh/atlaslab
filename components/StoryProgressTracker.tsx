@@ -132,29 +132,28 @@ export function StoryProgressTracker({
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <BookOpen style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
           <span style={{ fontSize: 13, fontWeight: 700, color: labelColor, flexShrink: 0 }}>Reading</span>
-          <div style={{ flex: 1 }} />
           {!readingDone && (
-              <button
-                type="button"
-                onClick={handleReadingCheck}
-                disabled={!btnActive}
-                aria-label="Done reading"
-                style={{
-                  width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
-                  border: `1.5px solid ${btnActive ? btnColor : mutedColor}`,
-                  background: 'transparent',
-                  color: btnActive ? btnColor : mutedColor,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: btnActive ? 'pointer' : 'default',
-                  opacity: btnActive ? 1 : 0.30,
-                  transition: 'opacity 0.2s, border-color 0.2s, color 0.2s',
-                  padding: 0,
-                }}
-              >
-                <Plus style={{ width: 11, height: 11 }} strokeWidth={2.5} />
-              </button>
-            )
-          }
+            <button
+              type="button"
+              onClick={handleReadingCheck}
+              disabled={!btnActive}
+              aria-label="Done reading"
+              style={{
+                width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
+                border: `1.5px solid ${mutedColor}`,
+                background: 'transparent',
+                color: mutedColor,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: btnActive ? 'pointer' : 'default',
+                opacity: btnActive ? 0.55 : 0.22,
+                transition: 'opacity 0.2s',
+                padding: 0,
+              }}
+            >
+              <Plus style={{ width: 11, height: 11 }} strokeWidth={2.5} />
+            </button>
+          )}
+          <div style={{ flex: 1 }} />
           <div style={{ width: 160, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
             <div style={{
               height: '100%', borderRadius: 999,
