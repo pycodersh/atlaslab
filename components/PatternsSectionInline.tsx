@@ -50,9 +50,6 @@ function resolveExamples(
   variationSentenceKo?: string,
 ): PracticeExample[] {
   if (patternExamples?.[patternId]?.length) return patternExamples[patternId]
-  // Prefer patternExamplesFull — sentences and saveCandidates are always aligned in the same file
-  const fromFull = patternExamplesFull[patternId]
-  if (fromFull?.length) return fromFull.map(f => ({ en: f.en, ko: f.ko }))
   const fromData = getPatternExamples(patternId)
   if (fromData.length > 0) return fromData
   const result: PracticeExample[] = []
@@ -379,7 +376,8 @@ function PatternCardItem({
         }} />
         {examples.map((ex, i) => {
           const isExPlaying = isPlaying && i === exIdx
-          const saveCandidates = patternExamplesFull[pattern.id]?.[i]?.saveCandidates
+          const fullEx = patternExamplesFull[pattern.id]?.[i]
+          const saveCandidates = fullEx?.saveCandidates
           const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
           return (
             <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 17 }}>

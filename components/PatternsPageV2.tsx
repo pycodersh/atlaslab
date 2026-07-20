@@ -100,8 +100,6 @@ function resolveExamples(
   variationSentenceKo?: string,
 ): PracticeExample[] {
   if (patternExamples?.[patternId]?.length) return patternExamples[patternId]
-  const fromFull = patternExamplesFull[patternId]
-  if (fromFull?.length) return fromFull.map(f => ({ en: f.en, ko: f.ko }))
   const fromData = getPatternExamples(patternId)
   if (fromData.length > 0) return fromData
   const result: PracticeExample[] = []
@@ -632,9 +630,10 @@ export function PatternsPageV2({
                     const isExPlaying = phase === 'speaking' && i === exIdx
                     const exRev       = revealedExSet.has(`${patIdx}-${i}`)
                     const showExEn    = studyMode === 'en' || studyMode === 'en-ko' || exRev
+                    const fullEx         = patternExamplesFull[pattern.id]?.[i]
                     const displayEn      = ex.en
                     const displayKo      = ex.ko
-                    const safeCandidates = patternExamplesFull[pattern.id]?.[i]?.saveCandidates
+                    const safeCandidates = fullEx?.saveCandidates
                     const exKo          = resolveTranslation(displayKo, prefs.language, ex.translations)
                     return (
                       <div
