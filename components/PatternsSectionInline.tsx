@@ -275,9 +275,10 @@ function PatternCardItem({
             <span style={{
               display: 'inline-block',
               marginBottom: 11,
+              marginLeft: -2,
               background: '#EEF2FF', color: '#6366F1',
-              borderRadius: 6, padding: '2px 8px',
-              fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
+              borderRadius: 6, padding: '2px 7px',
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.06em',
               fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
