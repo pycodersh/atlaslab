@@ -99,14 +99,6 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
   const t = useT()
   const { prefs } = usePreferences()
 
-  // Provider visibility policy:
-  // - Google + Email: always shown (global defaults).
-  // - Kakao: shown only when UI locale is 'ko' or 'ko-KR'.
-  //   Kakao is a Korean regional convenience provider, not a global option.
-  //   PATTO is a global English learning app — Kakao is not exposed to non-Korean users.
-  // - Apple, Naver: excluded from this version entirely.
-  const isKorean = prefs.language === 'ko'
-
   const [emailMode, setEmailMode] = useState(false)
   const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
@@ -121,12 +113,12 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
 
   async function handleGoogle() {
     const err = await signInWithGoogle()
-    if (err) showToast(isKorean ? '로그인에 실패했습니다.' : 'Sign in failed.')
+    if (err) showToast(t('loginFailed'))
   }
 
   async function handleKakao() {
     const err = await signInWithKakao()
-    if (err) showToast(isKorean ? '로그인에 실패했습니다.' : 'Sign in failed.')
+    if (err) showToast(t('loginFailed'))
   }
 
   async function handleEmailSubmit(e: React.FormEvent) {
@@ -136,9 +128,9 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
     const err = await signInWithEmail(email, password, isSignUp)
     setLoading(false)
     if (err) {
-      showToast(isKorean ? '로그인에 실패했습니다. 다시 시도해주세요.' : 'Sign in failed. Please try again.')
+      showToast(t('loginFailed'))
     } else if (isSignUp) {
-      showToast(isKorean ? '가입 완료! 로그인해주세요.' : 'Signed up! Please sign in.')
+      showToast('Signed up! Please sign in.')
       setIsSignUp(false)
     } else {
       if (onSuccess) {
@@ -157,14 +149,14 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
           <form onSubmit={handleEmailSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <input
               type="email" required
-              placeholder={isKorean ? '이메일' : 'Email'}
+              placeholder="Email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               style={{ ...btnStyle, height: 48, fontSize: 13.5, color: 'var(--pt)', outline: 'none' }}
             />
             <input
               type="password" required minLength={6}
-              placeholder={isKorean ? '비밀번호 (6자 이상)' : 'Password (6+ chars)'}
+              placeholder="Password (6+ chars)"
               value={password}
               onChange={e => setPassword(e.target.value)}
               style={{ ...btnStyle, height: 48, fontSize: 13.5, color: 'var(--pt)', outline: 'none' }}
@@ -177,9 +169,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
               onClick={() => setIsSignUp(v => !v)}
               style={{ background: 'none', border: 'none', color: 'var(--pm)', fontSize: 11.5, cursor: 'pointer', fontFamily: 'inherit', padding: '2px 0' }}
             >
-              {isSignUp
-                ? (isKorean ? '이미 계정이 있어요 → 로그인' : 'Already have an account? Sign In')
-                : (isKorean ? '계정이 없어요 → 회원가입' : "No account? Sign Up")}
+              {isSignUp ? 'Already have an account? Sign In' : 'No account? Sign Up'}
             </button>
           </form>
         </div>
@@ -196,9 +186,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
             Welcome to PATTO
           </p>
           <p style={{ fontSize: 12.5, color: 'var(--pm)', margin: 0, lineHeight: 1.6, wordBreak: 'keep-all' }}>
-            {isKorean
-              ? '로그인하면 에세이, 단어장, 학습 기록을\n모든 기기에서 이어갈 수 있어요.'
-              : 'Sign in to save your progress across all devices.'}
+            {t('syncData')}
           </p>
         </div>
       )}
@@ -218,7 +206,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
           <span style={{ flex: 1, textAlign: 'center', marginRight: 20 }}>{t('auth_continue_email')}</span>
         </button>
 
-        {isKorean && (
+        {prefs.language === 'ko' && (
           <button type="button" onClick={handleKakao} style={kakaoBtnStyle}
             onMouseEnter={e => (e.currentTarget.style.opacity = '0.82')}
             onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>

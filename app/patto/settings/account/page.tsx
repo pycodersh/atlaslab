@@ -50,7 +50,7 @@ export default function AccountPage() {
       <div className="min-h-dvh bg-transparent">
         <TopNav />
         <div style={{ padding: '60px 24px', textAlign: 'center', color: 'var(--pm)', fontSize: 14 }}>
-          로그인이 필요합니다.
+          {t('loginRequired')}
         </div>
       </div>
     )

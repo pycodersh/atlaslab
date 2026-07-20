@@ -5,6 +5,7 @@ import type { MagazineStory } from '@/types/magazine'
 import type { StoryRoundData } from '@/lib/srs/story-round'
 import { nextReviewLabel } from '@/lib/srs/story-round'
 import { useTheme } from '@/components/ThemeProvider'
+import { useT } from '@/hooks/useT'
 
 type Props = {
   story: MagazineStory
@@ -13,6 +14,7 @@ type Props = {
 
 export function StoryCompletionScreen({ story, roundData }: Props) {
   const router   = useRouter()
+  const t        = useT()
   const { theme } = useTheme()
   const isDark   = theme === 'dark'
 
@@ -34,7 +36,7 @@ export function StoryCompletionScreen({ story, roundData }: Props) {
       <h2 style={{
         margin: 0, fontSize: 20, fontWeight: 800, color: textPrimary, textAlign: 'center',
       }}>
-        {isMastered ? '이 스토리 완전 마스터!' : '오늘 학습 완료!'}
+        {isMastered ? t('storyComplete') : t('home_done_title')}
       </h2>
 
       <p style={{ margin: '4px 0 0', fontSize: 13, color: textSecondary, textAlign: 'center' }}>
@@ -48,7 +50,7 @@ export function StoryCompletionScreen({ story, roundData }: Props) {
           border: `1px solid ${accent}44`,
         }}>
           <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: accent, textAlign: 'center' }}>
-            다음 복습: {reviewLabel}
+            {t('nextReview')}: {reviewLabel}
           </p>
         </div>
       )}
@@ -64,7 +66,7 @@ export function StoryCompletionScreen({ story, roundData }: Props) {
             fontSize: 14, fontWeight: 600, color: textPrimary, fontFamily: 'inherit',
           }}
         >
-          홈으로
+          {t('goHome')}
         </button>
         <button
           type="button"
@@ -75,7 +77,7 @@ export function StoryCompletionScreen({ story, roundData }: Props) {
             fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: 'inherit',
           }}
         >
-          에세이 써보기
+          {t('tryWriting')}
         </button>
       </div>
     </div>

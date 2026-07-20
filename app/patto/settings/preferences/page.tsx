@@ -310,7 +310,7 @@ export default function PreferencesPage() {
     if (!osReady) return
     if (on) {
       if (OneSignal.Notifications.permissionNative === 'denied') {
-        showToast('알림이 차단되어 있습니다. 브라우저 설정에서 patto 알림을 허용해 주세요.')
+        showToast(t('notificationBlocked'))
         return
       }
       try {

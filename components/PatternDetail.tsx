@@ -20,6 +20,7 @@ import type { PracticeExample } from '@/data/pattern-examples'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { type VoiceKey } from '@/lib/settings/preferences'
 import { PatternPracticeCard } from '@/components/PatternPracticeCard'
+import { useT } from '@/hooks/useT'
 
 type Props = {
   storyId: number
@@ -38,6 +39,7 @@ export function PatternDetail({
   patternIndex, patternTotal, prevPid, nextPid,
 }: Props) {
   const router = useRouter()
+  const t = useT()
   const { prefs } = usePreferences()
   const voice: VoiceKey = narratorVoice ?? prefs.voice
 
@@ -168,7 +170,7 @@ export function PatternDetail({
             transition: 'all 0.15s ease',
           }}
         >
-          <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={1.8} /> 이전 패턴
+          <ChevronLeft style={{ width: 16, height: 16 }} strokeWidth={1.8} /> {t('prevPattern')}
         </button>
 
         <span style={{
@@ -200,7 +202,7 @@ export function PatternDetail({
             transition: 'all 0.15s ease',
           }}
         >
-          다음 패턴 <ChevronRight style={{ width: 16, height: 16 }} strokeWidth={1.8} />
+          {t('nextPattern')} <ChevronRight style={{ width: 16, height: 16 }} strokeWidth={1.8} />
         </button>
         </div>
       </div>

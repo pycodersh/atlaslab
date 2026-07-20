@@ -6,6 +6,7 @@ import { CheckCircle2, XCircle, Trophy, ChevronRight } from 'lucide-react'
 import type { MagazinePattern } from '@/types/magazine'
 import { useTheme } from '@/components/ThemeProvider'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { useT } from '@/hooks/useT'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -146,6 +147,7 @@ function ProgressBar({ current, total, isDark }: { current: number; total: numbe
 function FillQuestion({
   q, isDark, onAnswer,
 }: { q: FillQuestion; isDark: boolean; onAnswer: (correct: boolean) => void }) {
+  const t = useT()
   const [selected, setSelected] = useState<string | null>(null)
 
   function handleSelect(opt: string) {
@@ -252,7 +254,7 @@ function FillQuestion({
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
         >
-          Got it
+          {t('gotIt')}
         </button>
       )}
     </div>
@@ -264,6 +266,7 @@ function FillQuestion({
 function BuildQuestion({
   q, isDark, onAnswer,
 }: { q: BuildQuestion; isDark: boolean; onAnswer: (correct: boolean) => void }) {
+  const t = useT()
   const [bank,  setBank]  = useState<string[]>(q.words)
   const [built, setBuilt] = useState<string[]>([])
   const [checked, setChecked] = useState<boolean | null>(null)
@@ -386,7 +389,7 @@ function BuildQuestion({
           animate={{ opacity: 1, y: 0 }}
           style={{ margin: '0 0 10px', fontSize: 12, fontWeight: 600, color: resultColor }}
         >
-          {checked ? '정답! ✓' : `정답: ${q.targetSentence}`}
+          {checked ? `${t('correct')} ✓` : `${t('correct')}: ${q.targetSentence}`}
         </motion.p>
       )}
 
@@ -413,7 +416,7 @@ function BuildQuestion({
               : 'none',
           }}
         >
-          확인
+          {t('gotIt')}
         </motion.button>
       )}
     </div>
@@ -425,6 +428,7 @@ function BuildQuestion({
 function CompleteScreen({ isDark, score, total, onNext }: {
   isDark: boolean; score: number; total: number; onNext: () => void
 }) {
+  const t = useT()
   const allCorrect = score === total
   return (
     <motion.div
@@ -452,7 +456,7 @@ function CompleteScreen({ isDark, score, total, onNext }: {
         {allCorrect ? 'Perfect!' : 'Challenge Complete!'}
       </p>
       <p style={{ margin: '0 0 20px', fontSize: 13, color: isDark ? 'rgba(255,255,255,0.45)' : 'rgba(60,60,100,0.55)' }}>
-        {score}/{total} 정답
+        {score}/{total} {t('correct')}
       </p>
 
       <motion.button
@@ -469,7 +473,7 @@ function CompleteScreen({ isDark, score, total, onNext }: {
           boxShadow: '0 6px 24px rgba(107,143,255,0.34)',
         }}
       >
-        스토리 완료
+        {t('storyComplete')}
         <ChevronRight style={{ width: 17, height: 17 }} strokeWidth={2.2} />
       </motion.button>
     </motion.div>

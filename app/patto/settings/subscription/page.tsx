@@ -42,7 +42,7 @@ export default function SubscriptionPage() {
   }
 
   async function handleUpgrade() {
-    if (!paddle) { showToast('결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.'); return }
+    if (!paddle) { showToast(t('paymentLoading')); return }
 
     setLoading(true)
     try {
@@ -61,7 +61,7 @@ export default function SubscriptionPage() {
         },
       })
     } catch {
-      showToast('결제 창을 열 수 없습니다. 다시 시도해주세요.')
+      showToast(t('paymentError'))
     } finally {
       setLoading(false)
     }

@@ -197,6 +197,7 @@ function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void 
 
 // ── Guest card (not logged in) ────────────────────────────────────────────────
 function GuestProfileCard() {
+  const t = useT()
   return (
     <div style={{ ...glassCard, padding: '24px 24px 20px' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 20 }}>
@@ -209,10 +210,10 @@ function GuestProfileCard() {
           <UserIcon style={{ width: 22, height: 22, color: 'var(--pm)' }} strokeWidth={1.5} />
         </div>
         <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--pt)', margin: '0 0 4px' }}>
-          로그인이 필요합니다
+          {t('loginRequired')}
         </p>
         <p style={{ fontSize: 12, color: 'var(--pm)', margin: 0, textAlign: 'center', lineHeight: 1.5 }}>
-          로그인하면 학습 데이터가 동기화됩니다.
+          {t('syncData')}
         </p>
       </div>
       <AuthButtons showTitle={false} />

@@ -618,7 +618,7 @@ export default function HomePage() {
               whileTap={{ scale: 0.93 }}
               transition={{ type: 'spring', stiffness: 400, damping: 17 }}
             >
-              {(allDone || missions.length === 0) ? '완료' : 'Start'}
+              {(allDone || missions.length === 0) ? t('status_done') : 'Start'}
               {(allDone || missions.length === 0) ? <Check style={{ width: 12, height: 12 }} strokeWidth={2.5} /> : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />}
             </motion.button>
           </div>

@@ -123,7 +123,7 @@ export function StoryLibrary() {
                     </ul>
                   ) : (
                     <p className="text-sm font-semibold text-[#7a839f]">
-                      다시 만나기 카드에서 새 AI 예문이 쌓입니다.
+                      New AI examples build up from review cards.
                     </p>
                   )}
                 </section>
@@ -156,7 +156,7 @@ export function StoryLibrary() {
                     </ul>
                   ) : (
                     <p className="text-sm font-semibold text-[#7a839f]">
-                      마음에 드는 문장 옆의 하트를 누르면 저장됩니다.
+                      Tap the heart next to a sentence to save your favorites.
                     </p>
                   )}
                 </section>

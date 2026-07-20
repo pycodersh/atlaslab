@@ -6,8 +6,10 @@ import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 import { TopNav } from '@/components/TopNav'
 import { AuthButtons } from '@/components/auth/AuthButtons'
+import { useT } from '@/hooks/useT'
 
 function AuthContent() {
+  const t = useT()
   const params = useSearchParams()
   const hasError = params.get('error') === 'auth_failed'
 
@@ -24,7 +26,7 @@ function AuthContent() {
 
       <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--pt)', margin: '0 0 2px', letterSpacing: '-0.01em' }}>Account</p>
       <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 28px' }}>
-        로그인하여 학습 기록을 모든 기기에서 동기화하세요.
+        {t('syncData')}
       </p>
 
       {hasError && (
@@ -33,7 +35,7 @@ function AuthContent() {
           borderRadius: 12, padding: '10px 14px', marginBottom: 20,
           fontSize: 12.5, color: '#dc2626', lineHeight: 1.5,
         }}>
-          로그인에 실패했습니다. 다시 시도해주세요.
+          {t('loginFailed')}
         </div>
       )}
 

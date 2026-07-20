@@ -758,7 +758,7 @@ export default function LibraryPage() {
             <textarea
               value={wsText}
               onChange={e => { setWsText(e.target.value); setWsFeedback(null); setWsError(null) }}
-              placeholder="오늘 배운 표현으로 짧은 문장을 써보세요."
+              placeholder={t('writingPlaceholder')}
               maxLength={400}
               rows={5}
               style={{
@@ -892,7 +892,7 @@ export default function LibraryPage() {
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <p style={{ fontSize: 11, color: 'var(--pm)', margin: '0 0 2px' }}>
                             {new Date(essay.createdAt).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}
-                            {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· 검토 완료</span>}
+                            {essay.status === 'reviewed' && <span style={{ marginLeft: 6, color: '#27AE60', fontWeight: 600 }}>· {t('reviewDone')}</span>}
                           </p>
                           <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 220 }}>
                             {essay.body}
