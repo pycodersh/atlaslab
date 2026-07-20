@@ -140,7 +140,7 @@ export function GlobalSavePopup() {
                   style={{ ...btnBase, background: '#1E293B', color: '#fff', border: '1.5px solid #1E293B' }}
                   onClick={handleSavePhrase}
                 >
-                  {t('savePhrase')}
+                  Save phrase
                 </button>
               )}
               {item.chunk
@@ -150,7 +150,7 @@ export function GlobalSavePopup() {
                     style={{ ...btnBase, background: 'transparent', color: '#1E293B', border: '1.5px solid #1E293B' }}
                     onClick={handleSaveWord}
                   >
-                    {t('saveWordOnly')}
+                    Save word only
                   </button>
                 )
                 : (
@@ -159,7 +159,7 @@ export function GlobalSavePopup() {
                     style={{ ...btnBase, background: '#1E293B', color: '#fff', border: '1.5px solid #1E293B' }}
                     onClick={handleSaveWord}
                   >
-                    {t('save')}
+                    Save
                   </button>
                 )
               }
@@ -168,7 +168,7 @@ export function GlobalSavePopup() {
                 style={{ ...btnBase, background: 'transparent', color: '#6B7280', border: '1.5px solid #E5E7EB', fontWeight: 500 }}
                 onClick={dismiss}
               >
-                {t('cancel')}
+                Cancel
               </button>
             </div>
           </div>
