@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { subscribeSavePopup, closeSavePopup, type PopupItem } from '@/lib/words/popupStore'
-import { saveWord, savePhrase } from '@/lib/words/storage'
+import { saveWord, savePhrase, isSavedWord, isSavedPhrase } from '@/lib/words/storage'
 import { Btn } from '@/components/ui/Btn'
 
 export function GlobalSavePopup() {
@@ -26,6 +26,11 @@ export function GlobalSavePopup() {
 
   function handleSaveWord() {
     if (!item) return
+    if (isSavedWord(item.word)) {
+      dismiss()
+      showToast('Already saved')
+      return
+    }
     saveWord({
       word: item.word,
       sourceType: item.sourceType,
@@ -42,6 +47,11 @@ export function GlobalSavePopup() {
 
   function handleSavePhrase() {
     if (!item?.chunk) return
+    if (isSavedPhrase(item.chunk.text)) {
+      dismiss()
+      showToast('Already saved')
+      return
+    }
     savePhrase({
       phrase: item.chunk.text,
       phraseType: item.chunk.type,
