@@ -278,13 +278,13 @@ function PatternCardItem({
               background: '#EEF2FF', color: '#6366F1',
               borderRadius: 6, padding: '2px 8px',
               fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
-              fontFamily: '"SF Mono", "Fira Mono", monospace',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
             </span>
             <p style={{
               fontSize: 20, fontWeight: 800, color: heroPatternColor,
-              lineHeight: 1.2, margin: 0, letterSpacing: '-0.5px',
+              lineHeight: 1.2, margin: '0 0 0 -1px', letterSpacing: '-0.5px',
               fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif',
             }}>
               {pattern.pattern}

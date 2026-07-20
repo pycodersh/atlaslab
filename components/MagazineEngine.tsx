@@ -515,7 +515,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     <div style={{
       display: 'flex', alignItems: 'center', gap: 10,
       padding: '0 16px',
-      marginTop: 24, marginBottom: 20,
+      marginTop: 48, marginBottom: 40,
     }}>
       <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
       <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm)', textTransform: 'uppercase' }}>
