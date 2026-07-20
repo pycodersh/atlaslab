@@ -131,6 +131,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     const el = mobileScrollRef.current
     if (!el || isDesktop) return
     const onScroll = () => {
+      // pattern-end detection
       const patEl = patternSectionRef.current
       if (!patEl || scrolledToEnd) return
       const patTop = patEl.getBoundingClientRect().top
@@ -138,8 +139,16 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         setScrolledToEnd(true)
       }
     }
+    // Forward scroll position to window so MainTabBar can respond
+    const onScrollForNav = () => {
+      window.dispatchEvent(new CustomEvent('patto-container-scroll', { detail: { scrollTop: el.scrollTop } }))
+    }
     el.addEventListener('scroll', onScroll, { passive: true })
-    return () => el.removeEventListener('scroll', onScroll)
+    el.addEventListener('scroll', onScrollForNav, { passive: true })
+    return () => {
+      el.removeEventListener('scroll', onScroll)
+      el.removeEventListener('scroll', onScrollForNav)
+    }
   }, [isDesktop, scrolledToEnd])
 
   // When patterns section reached → show swipe guide (1회차)

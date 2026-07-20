@@ -49,7 +49,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
           duration: 0.26,
           ease: [0.32, 0, 0.67, 0],
         }}
-        style={{ width: '100%', minHeight: '100%', overflowX: 'hidden' }}
+        style={{ width: '100%', minHeight: '100%', overflowX: 'clip' }}
       >
         {children}
       </motion.div>

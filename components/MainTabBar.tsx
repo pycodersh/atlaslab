@@ -80,8 +80,22 @@ export function MainTabBar() {
       }
       lastYRef.current = y
     }
+    // patto-container-scroll: story page uses its own scroll container
+    const handleContainerScroll = (e: Event) => {
+      const y = (e as CustomEvent<{ scrollTop: number }>).detail.scrollTop
+      if (y > lastYRef.current && y > 60) {
+        setScrolledDown(true)
+      } else if (y < lastYRef.current) {
+        setScrolledDown(false)
+      }
+      lastYRef.current = y
+    }
     window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('patto-container-scroll', handleContainerScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('patto-container-scroll', handleContainerScroll)
+    }
   }, [])
 
   return (
