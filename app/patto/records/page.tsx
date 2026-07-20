@@ -551,33 +551,40 @@ export default function ProgressPage() {
             `${activeDaysThisWeek} / 7 days`,
           )}
           <div>
-            {/* Bar chart header: Best value */}
-            {(() => {
-              const best = Math.max(...weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0), 0)
-              return best > 0 ? (
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
-                  <span style={{ fontSize: 11, color: 'var(--pm)' }}>Best: {best}</span>
-                </div>
-              ) : null
-            })()}
+            {/* Legend + Best row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div style={{ width: 8, height: 8, borderRadius: 2, background: '#6366F1', flexShrink: 0 }} />
+                <span style={{ fontSize: 11, color: 'var(--pm)' }}>Patterns learned</span>
+              </div>
+              {(() => {
+                const best = Math.max(...weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0), 0)
+                return best > 0 ? <span style={{ fontSize: 11, color: 'var(--pm)' }}>Best: {best}</span> : null
+              })()}
+            </div>
             {/* Bar chart */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
               {(() => {
                 const maxP = Math.max(...weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0), 1)
                 return weekDays.map((d, i) => {
-                  const iso        = toIso(d)
-                  const isToday    = iso === today
-                  const isFuture   = d > new Date() && !isToday
-                  const patterns   = dayPatternMap[iso] ?? 0
+                  const iso         = toIso(d)
+                  const isToday     = iso === today
+                  const isFuture    = d > new Date() && !isToday
+                  const patterns    = dayPatternMap[iso] ?? 0
                   const hasActivity = patterns > 0
-                  const barH = hasActivity ? Math.max(4, Math.round((patterns / maxP) * 76)) : 4
-                  const barBg = hasActivity ? '#6366F1' : isToday ? '#EEF2FF' : 'var(--pglass)'
-                  const barBorder = hasActivity ? 'none' : isToday ? '1.5px solid #6366F1' : '0.5px solid var(--pglass-border)'
-                  const labelColor = (hasActivity || isToday) ? '#6366F1' : 'var(--pm)'
-                  const labelWeight = (hasActivity || isToday) ? 500 : 400
+                  const barH        = hasActivity ? Math.max(4, Math.round((patterns / maxP) * 76)) : 4
+                  const barBg       = hasActivity ? '#6366F1' : isToday ? '#EEF2FF' : 'var(--pglass)'
+                  const barBorder   = hasActivity ? 'none' : isToday ? '1.5px solid #6366F1' : '0.5px solid var(--pglass-border)'
+                  const hlColor     = (hasActivity || isToday) ? '#6366F1' : 'var(--pm)'
                   return (
                     <div key={iso} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <div style={{ width: '100%', height: 80, display: 'flex', alignItems: 'flex-end' }}>
+                      {/* Label above bar */}
+                      <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                        <span style={{ fontSize: 11, fontWeight: (hasActivity || isToday) ? 700 : 400, color: hlColor, lineHeight: 1 }}>{DOW_LABELS[i]}</span>
+                        <span style={{ fontSize: 11, fontWeight: isToday ? 600 : 400, color: hlColor, lineHeight: 1 }}>{d.getDate()}</span>
+                      </div>
+                      {/* Bar */}
+                      <div style={{ width: '100%', height: 80, display: 'flex', alignItems: 'flex-end', marginTop: 8, marginBottom: 12 }}>
                         <div style={{
                           width: '100%', height: barH,
                           borderRadius: '4px 4px 0 0',
@@ -586,19 +593,10 @@ export default function ProgressPage() {
                           transition: 'height 0.4s cubic-bezier(0.22,1,0.36,1)',
                         }} />
                       </div>
-                      <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                        <span style={{ fontSize: 11, fontWeight: labelWeight, color: labelColor, lineHeight: 1 }}>{DOW_LABELS[i]}</span>
-                        <span style={{ fontSize: 11, color: 'var(--pm)', lineHeight: 1 }}>{d.getDate()}</span>
-                      </div>
                     </div>
                   )
                 })
               })()}
-            </div>
-            {/* Legend */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
-              <div style={{ width: 10, height: 10, borderRadius: 2, background: '#6366F1', flexShrink: 0 }} />
-              <span style={{ fontSize: 11, color: 'var(--pm)' }}>patterns learned</span>
             </div>
           </div>
         </div>
