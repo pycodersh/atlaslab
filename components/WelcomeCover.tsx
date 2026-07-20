@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { motion } from 'motion/react'
 import { useTheme } from '@/components/ThemeProvider'
@@ -55,6 +55,7 @@ export function WelcomeCover() {
   const isDark = theme === 'dark'
   const [visible, setVisible] = useState(false)
   const [dismissing, setDismissing] = useState(false)
+  const navigatingRef = useRef(false)
 
   useEffect(() => {
     // 언어 선택 페이지에서는 스플래시 억제
@@ -69,6 +70,14 @@ export function WelcomeCover() {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  // 커버가 navigating 중이고 pathname이 바뀌면 그때 숨김 (홈 화면 노출 방지)
+  useEffect(() => {
+    if (navigatingRef.current && visible) {
+      setVisible(false)
+      navigatingRef.current = false
+    }
+  }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     if (!visible) return
     const t = setTimeout(dismiss, 3000)
@@ -80,17 +89,20 @@ export function WelcomeCover() {
     setDismissing(true)
     localStorage.setItem(COVER_KEY, 'true')
     setTimeout(() => {
-      setVisible(false)
       document.body.style.overflow = ''
       document.body.style.position = ''
       document.body.style.width    = ''
       document.body.style.top      = ''
-      const hasLang       = !!localStorage.getItem(APP_LANGUAGE_KEY)
+      const hasLang        = !!localStorage.getItem(APP_LANGUAGE_KEY)
       const doneOnboarding = localStorage.getItem('patto_onboarding_done_v1') === 'true'
       if (!hasLang) {
+        navigatingRef.current = true
         router.push(LANG_PAGE)               // 언어 미설정 → 언어 선택
       } else if (!doneOnboarding) {
+        navigatingRef.current = true
         router.push('/patto/onboarding')     // 언어 있음 + 온보딩 미완료 → 온보딩
+      } else {
+        setVisible(false)                    // 홈 유지 시에는 즉시 숨김
       }
     }, 600)
   }
