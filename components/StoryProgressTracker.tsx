@@ -32,7 +32,7 @@ export function StoryProgressTracker({
   const minReadingMs = calcMinReadingMs(story)
   const sessionStartedAt = useRef(Date.now())
 
-  const [readyToCheck, setReadyToCheck] = useState(false)
+  const [readyToCheck, setReadyToCheck] = useState(true)
   const [processing,   setProcessing]   = useState(false)
   const [showTooltip,  setShowTooltip]  = useState(false)
 
@@ -69,8 +69,6 @@ export function StoryProgressTracker({
     const newCount = readingCount + 1
     updateStorySessionState(story.id, round, { readingCount: newCount })
     onReadingCheck(newCount)
-    sessionStartedAt.current = Date.now()
-    setReadyToCheck(false)
     setProcessing(false)
   }
 

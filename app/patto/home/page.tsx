@@ -618,7 +618,7 @@ export default function HomePage() {
 
 
         {/* ── Card 1: TODAY'S MISSION ── */}
-        {!allDone && missions.length > 0 && (
+        {missions.length > 0 && (
           <div style={{ margin: '12px 20px 0', ...frostedCard, borderRadius: 16, padding: 14 }}>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: isDark ? 'rgba(255,255,255,0.38)' : 'rgba(30,30,80,0.55)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 5 }}>
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
@@ -635,15 +635,19 @@ export default function HomePage() {
                 style={{
                   display: 'flex', alignItems: 'center',
                   padding: '8px 0', cursor: 'pointer',
+                  opacity: m.done ? 0.6 : 1,
                   borderTop: idx > 0 ? `0.5px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(180,195,240,0.35)'}` : undefined,
                 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
-                <p style={{ flex: 1, minWidth: 0, paddingLeft: 16, fontSize: 13, fontWeight: 600, color: m.done ? (isDark ? 'rgba(39,174,96,0.75)' : 'rgba(39,174,96,0.85)') : (isDark ? 'rgba(255,255,255,0.88)' : 'var(--pt)'), margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <p style={{ flex: 1, minWidth: 0, paddingLeft: 16, fontSize: 13, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.88)' : 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   Story {String(m.id).padStart(2, '0')} · {m.title}
                 </p>
-                {!m.done && <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(100,110,160,0.35)', flexShrink: 0 }} strokeWidth={2} />}
+                {m.done
+                  ? <span style={{ fontSize: 12, fontWeight: 500, color: '#16A34A', background: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: 999, padding: '3px 10px', flexShrink: 0 }}>Done</span>
+                  : <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(100,110,160,0.35)', flexShrink: 0 }} strokeWidth={2} />
+                }
               </motion.div>
             ))}
           </div>
@@ -651,7 +655,7 @@ export default function HomePage() {
 
         {/* ── Card 2: Editor Tip ── */}
         {dailyTip && (
-          <div style={{ margin: `${!allDone && missions.length > 0 ? '8px' : '12px'} 20px 0` }}>
+          <div style={{ margin: `${missions.length > 0 ? '8px' : '12px'} 20px 0` }}>
             <button
               type="button"
               onClick={() => setTipOpen(true)}
