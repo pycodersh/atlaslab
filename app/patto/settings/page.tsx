@@ -315,7 +315,7 @@ function InstallCard() {
   if (!installType) return null
 
   const isIOS = installType === 'ios'
-  const label = isIOS ? t('hub_install_ios') : t('hub_install')
+  const label = 'Install PATTO'
   const desc  = isIOS ? t('hub_install_ios_desc') : t('hub_install_desc')
   const AppleSvg = () => (
     <svg viewBox="0 0 24 24" width={15} height={15} fill="currentColor" style={{ color: 'var(--pt)' }}>
