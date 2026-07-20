@@ -237,7 +237,7 @@ function generate(keys: string[]): Record<string, OutputExample[]> {
     const patternText = patternTextMap.get(key) ?? ''
     const anchors = extractAnchors(patternText)
 
-    const outputExamples: OutputExample[] = examples.map(ex => {
+    const outputExamples: OutputExample[] = examples.slice(0, 3).map(ex => {
       const candidates = extractCandidates(ex.en, anchors)
       totalGenerated++
       if (candidates.length > 0) totalWithChunks++

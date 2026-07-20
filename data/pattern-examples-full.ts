@@ -42,17 +42,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "window seat", type: 'collocation', start: 19, end: 30 },
       ],
     },
-    {
-      en: "We want to grab dinner before you leave town.",
-      saveCandidates: [
-        { text: "want to", type: 'chunk', start: 3, end: 10 },
-        { text: "grab dinner", type: 'collocation', start: 11, end: 22 },
-      ],
-    },
-    {
-      en: "He doesn't want a refund — he just wants an exchange.",
-      saveCandidates: [],
-    },
   ],
   'pt1-2': [
     {
@@ -72,18 +61,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "thinking about", type: 'chunk', start: 6, end: 20 },
         { text: "window seat", type: 'collocation', start: 31, end: 42 },
-      ],
-    },
-    {
-      en: "We're thinking about getting Mom flowers for her birthday.",
-      saveCandidates: [
-        { text: "thinking about", type: 'chunk', start: 6, end: 20 },
-      ],
-    },
-    {
-      en: "He's thinking about calling a plumber before the leak gets worse.",
-      saveCandidates: [
-        { text: "thinking about", type: 'chunk', start: 5, end: 19 },
       ],
     },
   ],
@@ -108,19 +85,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "in case", type: 'fixedExpression', start: 35, end: 42 },
       ],
     },
-    {
-      en: "We should text her back before she thinks we're ignoring her.",
-      saveCandidates: [
-        { text: "should", type: 'chunk', start: 3, end: 9 },
-      ],
-    },
-    {
-      en: "They should grab the spare key before locking the door.",
-      saveCandidates: [
-        { text: "should", type: 'chunk', start: 5, end: 11 },
-        { text: "spare key", type: 'collocation', start: 21, end: 30 },
-      ],
-    },
   ],
   'pt1-4': [
     {
@@ -137,19 +101,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "That's because our connecting flight got delayed two hours.",
-      saveCandidates: [
-        { text: "That's because", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "That's because I didn't want to cancel on you last minute.",
-      saveCandidates: [
-        { text: "That's because", type: 'chunk', start: 0, end: 14 },
-        { text: "last minute", type: 'collocation', start: 46, end: 57 },
-      ],
-    },
-    {
-      en: "That's because the elevator broke and I took the stairs.",
       saveCandidates: [
         { text: "That's because", type: 'chunk', start: 0, end: 14 },
       ],
@@ -175,18 +126,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "free breakfast", type: 'collocation', start: 32, end: 46 },
       ],
     },
-    {
-      en: "It turns out we grew up just a few blocks apart.",
-      saveCandidates: [
-        { text: "It turns out", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "It turns out I left my umbrella on the subway again.",
-      saveCandidates: [
-        { text: "It turns out", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
   ],
   'pt2-1': [
     {
@@ -207,20 +146,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "planning to", type: 'chunk', start: 6, end: 17 },
       ],
     },
-    {
-      en: "We're planning to drop off the dry cleaning on the way home.",
-      saveCandidates: [
-        { text: "planning to", type: 'chunk', start: 6, end: 17 },
-        { text: "drop off", type: 'phrasalVerb', start: 18, end: 26 },
-        { text: "on the way", type: 'prepPhrase', start: 44, end: 54 },
-      ],
-    },
-    {
-      en: "He's not planning to go to the pharmacy — he ordered it online.",
-      saveCandidates: [
-        { text: "planning to", type: 'chunk', start: 9, end: 20 },
-      ],
-    },
   ],
   'pt2-2': [
     {
@@ -237,16 +162,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Did you use to lose your passport the night before every trip?",
-      saveCandidates: [],
-    },
-    {
-      en: "He used to forget his umbrella every single time it rained.",
-      saveCandidates: [
-        { text: "used to", type: 'chunk', start: 3, end: 10 },
-      ],
-    },
-    {
-      en: "They didn't use to panic when their card got declined.",
       saveCandidates: [],
     },
   ],
@@ -269,18 +184,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "sorry for", type: 'chunk', start: 5, end: 14 },
       ],
     },
-    {
-      en: "We're sorry for leaving the dishes in the sink again.",
-      saveCandidates: [
-        { text: "sorry for", type: 'chunk', start: 6, end: 15 },
-      ],
-    },
-    {
-      en: "Are you sorry for the mess, or were you hoping I wouldn't notice?",
-      saveCandidates: [
-        { text: "sorry for", type: 'chunk', start: 8, end: 17 },
-      ],
-    },
   ],
   'pt2-4': [
     {
@@ -297,18 +200,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It seems like our flight is going to be delayed.",
-      saveCandidates: [
-        { text: "It seems like", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "It seems like the package got delivered to the wrong address.",
-      saveCandidates: [
-        { text: "It seems like", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "It seems like the Wi-Fi is down across the whole building.",
       saveCandidates: [
         { text: "It seems like", type: 'chunk', start: 0, end: 13 },
       ],
@@ -333,18 +224,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "looking forward to", type: 'chunk', start: 6, end: 24 },
       ],
     },
-    {
-      en: "We're looking forward to sleeping in and skipping our alarms.",
-      saveCandidates: [
-        { text: "looking forward to", type: 'chunk', start: 6, end: 24 },
-      ],
-    },
-    {
-      en: "He's really looking forward to getting his car back from the mechanic.",
-      saveCandidates: [
-        { text: "looking forward to", type: 'chunk', start: 12, end: 30 },
-      ],
-    },
   ],
   'pt3-1': [
     {
@@ -365,18 +244,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "check out", type: 'phrasalVerb', start: 11, end: 20 },
       ],
     },
-    {
-      en: "We have to drop the kids off at school first.",
-      saveCandidates: [
-        { text: "have to", type: 'chunk', start: 3, end: 10 },
-      ],
-    },
-    {
-      en: "He doesn't have to call the landlord — the heat started working again.",
-      saveCandidates: [
-        { text: "have to", type: 'chunk', start: 11, end: 18 },
-      ],
-    },
   ],
   'pt3-2': [
     {
@@ -392,18 +259,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "He doesn't have any cash — only his card.",
       saveCandidates: [],
-    },
-    {
-      en: "They don't really like making plans too far in advance.",
-      saveCandidates: [
-        { text: "don't", type: 'chunk', start: 5, end: 10 },
-      ],
-    },
-    {
-      en: "We don't think the elevator's working — let's take the stairs.",
-      saveCandidates: [
-        { text: "don't", type: 'chunk', start: 3, end: 8 },
-      ],
     },
   ],
   'pt3-3': [
@@ -421,18 +276,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let me grab us a couple of waters for the road.",
-      saveCandidates: [
-        { text: "Let me", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
-    {
-      en: "Let me get this round — you got the last one.",
-      saveCandidates: [
-        { text: "Let me", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
-    {
-      en: "Let me call the front desk about the broken AC.",
       saveCandidates: [
         { text: "Let me", type: 'chunk', start: 0, end: 6 },
       ],
@@ -458,18 +301,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "at the airport", type: 'prepPhrase', start: 30, end: 44 },
       ],
     },
-    {
-      en: "Thank you for grabbing my package from the front door.",
-      saveCandidates: [
-        { text: "Thank you for", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Thank you for lending me your charger when mine died.",
-      saveCandidates: [
-        { text: "Thank you for", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt3-5': [
     {
@@ -489,17 +320,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "just wanted to", type: 'chunk', start: 3, end: 17 },
       ],
-    },
-    {
-      en: "We just wanted to check in and see how you're doing.",
-      saveCandidates: [
-        { text: "just wanted to", type: 'chunk', start: 3, end: 17 },
-        { text: "check in", type: 'phrasalVerb', start: 18, end: 26 },
-      ],
-    },
-    {
-      en: "Did you just want to grab a coffee, or were you looking for something?",
-      saveCandidates: [],
     },
   ],
   'pt4-1': [
@@ -521,18 +341,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can", type: 'chunk', start: 0, end: 3 },
       ],
     },
-    {
-      en: "We can give you a ride to your dentist appointment.",
-      saveCandidates: [
-        { text: "can", type: 'chunk', start: 3, end: 6 },
-      ],
-    },
-    {
-      en: "He can't lend you any cash — he's out too.",
-      saveCandidates: [
-        { text: "can", type: 'chunk', start: 3, end: 6 },
-      ],
-    },
   ],
   'pt4-2': [
     {
@@ -552,18 +360,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "still", type: 'chunk', start: 8, end: 13 },
         { text: "figure out", type: 'phrasalVerb', start: 24, end: 34 },
-      ],
-    },
-    {
-      en: "We're still a little upset, but we'll get over it.",
-      saveCandidates: [
-        { text: "still", type: 'chunk', start: 6, end: 11 },
-      ],
-    },
-    {
-      en: "He's still on hold with customer service after forty minutes.",
-      saveCandidates: [
-        { text: "still", type: 'chunk', start: 5, end: 10 },
       ],
     },
   ],
@@ -588,18 +384,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "keep", type: 'chunk', start: 3, end: 7 },
       ],
     },
-    {
-      en: "We keep meaning to return the book but never get around to it.",
-      saveCandidates: [
-        { text: "keep", type: 'chunk', start: 3, end: 7 },
-      ],
-    },
-    {
-      en: "They keep getting an error every time they try to pay online.",
-      saveCandidates: [
-        { text: "keep", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
   ],
   'pt4-4': [
     {
@@ -618,19 +402,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "He's about to board, so he'll call you when he lands.",
       saveCandidates: [
         { text: "about to", type: 'chunk', start: 5, end: 13 },
-      ],
-    },
-    {
-      en: "Are you about to head out? Want me to grab you anything?",
-      saveCandidates: [
-        { text: "about to", type: 'chunk', start: 8, end: 16 },
-      ],
-    },
-    {
-      en: "We're about to run out of battery — we should find a plug.",
-      saveCandidates: [
-        { text: "about to", type: 'chunk', start: 6, end: 14 },
-        { text: "run out of", type: 'phrasalVerb', start: 15, end: 25 },
       ],
     },
   ],
@@ -654,18 +425,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "pick up", type: 'phrasalVerb', start: 17, end: 24 },
       ],
     },
-    {
-      en: "Are you supposed to meet her for coffee? You're running late.",
-      saveCandidates: [
-        { text: "supposed to", type: 'chunk', start: 8, end: 19 },
-      ],
-    },
-    {
-      en: "They're supposed to water the neighbor's plants while she's away.",
-      saveCandidates: [
-        { text: "supposed to", type: 'chunk', start: 8, end: 19 },
-      ],
-    },
   ],
   'pt5-1': [
     {
@@ -684,18 +443,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "She's going to book a table for two near the window.",
       saveCandidates: [
         { text: "going to", type: 'chunk', start: 6, end: 14 },
-      ],
-    },
-    {
-      en: "We're going to swing by my parents' place this weekend.",
-      saveCandidates: [
-        { text: "going to", type: 'chunk', start: 6, end: 14 },
-      ],
-    },
-    {
-      en: "They're going to call the plumber about the leak under the sink.",
-      saveCandidates: [
-        { text: "going to", type: 'chunk', start: 8, end: 16 },
       ],
     },
   ],
@@ -719,18 +466,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "going to try", type: 'chunk', start: 5, end: 17 },
       ],
     },
-    {
-      en: "Are you going to try calling her instead of just texting?",
-      saveCandidates: [
-        { text: "going to try", type: 'chunk', start: 8, end: 20 },
-      ],
-    },
-    {
-      en: "We're going to try restarting the router before calling support.",
-      saveCandidates: [
-        { text: "going to try", type: 'chunk', start: 6, end: 18 },
-      ],
-    },
   ],
   'pt5-3': [
     {
@@ -750,18 +485,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "He's been saving up for a trip to Japan this fall.",
       saveCandidates: [
         { text: "been", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
-    {
-      en: "We've been meaning to call you back all day, sorry.",
-      saveCandidates: [
-        { text: "been", type: 'chunk', start: 6, end: 10 },
-      ],
-    },
-    {
-      en: "They've been on hold with the bank for half an hour.",
-      saveCandidates: [
-        { text: "been", type: 'chunk', start: 8, end: 12 },
       ],
     },
   ],
@@ -784,18 +507,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "think", type: 'chunk', start: 4, end: 9 },
       ],
     },
-    {
-      en: "We think he's just tired, not actually mad at you.",
-      saveCandidates: [
-        { text: "think", type: 'chunk', start: 3, end: 8 },
-      ],
-    },
-    {
-      en: "He doesn't think the milk's gone bad, but check the date.",
-      saveCandidates: [
-        { text: "think", type: 'chunk', start: 11, end: 16 },
-      ],
-    },
   ],
   'pt5-5': [
     {
@@ -814,18 +525,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "feel like", type: 'chunk', start: 7, end: 16 },
       ],
     },
-    {
-      en: "We feel like we haven't really talked in ages.",
-      saveCandidates: [
-        { text: "feel like", type: 'chunk', start: 3, end: 12 },
-      ],
-    },
-    {
-      en: "He doesn't feel like he forgot anything, but let him check.",
-      saveCandidates: [
-        { text: "feel like", type: 'chunk', start: 11, end: 20 },
-      ],
-    },
   ],
   'pt6-1': [
     {
@@ -840,18 +539,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "She's not sure which gate the flight is leaving from.",
-      saveCandidates: [
-        { text: "not sure", type: 'chunk', start: 6, end: 14 },
-      ],
-    },
-    {
-      en: "He's not sure if she's still upset about yesterday.",
-      saveCandidates: [
-        { text: "not sure", type: 'chunk', start: 5, end: 13 },
-      ],
-    },
-    {
-      en: "We're not sure where we parked — this garage all looks the same.",
       saveCandidates: [
         { text: "not sure", type: 'chunk', start: 6, end: 14 },
       ],
@@ -874,18 +561,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "end up", type: 'phrasalVerb', start: 26, end: 32 },
       ],
     },
-    {
-      en: "Do you tend to forget birthdays unless you set a reminder?",
-      saveCandidates: [
-        { text: "tend to", type: 'chunk', start: 7, end: 14 },
-      ],
-    },
-    {
-      en: "They tend to panic when their phone hits one percent.",
-      saveCandidates: [
-        { text: "tend to", type: 'chunk', start: 5, end: 12 },
-      ],
-    },
   ],
   'pt6-3': [
     {
@@ -902,18 +577,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It depends on how much the hotel charges for late checkout.",
-      saveCandidates: [
-        { text: "It depends on", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "It depends on whether she's free this weekend.",
-      saveCandidates: [
-        { text: "It depends on", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "It depends on how long the repair is going to take.",
       saveCandidates: [
         { text: "It depends on", type: 'chunk', start: 0, end: 13 },
       ],
@@ -938,18 +601,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "trying to", type: 'chunk', start: 5, end: 14 },
       ],
     },
-    {
-      en: "Are you trying to use up the leftovers before they go bad?",
-      saveCandidates: [
-        { text: "trying to", type: 'chunk', start: 8, end: 17 },
-      ],
-    },
-    {
-      en: "We're trying to reach the landlord about the broken heater.",
-      saveCandidates: [
-        { text: "trying to", type: 'chunk', start: 6, end: 15 },
-      ],
-    },
   ],
   'pt6-5': [
     {
@@ -966,18 +617,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Even though it poured all day, the trip was worth it.",
-      saveCandidates: [
-        { text: "Even though", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Even though the elevator was out, I didn't mind the stairs.",
-      saveCandidates: [
-        { text: "Even though", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Even though my flight got cancelled, they rebooked me quickly.",
       saveCandidates: [
         { text: "Even though", type: 'chunk', start: 0, end: 11 },
       ],
@@ -1002,18 +641,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "As long as", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "As long as the landlord fixes the heat, I'm happy to stay.",
-      saveCandidates: [
-        { text: "As long as", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "As long as we have a spare tire, we'll be fine.",
-      saveCandidates: [
-        { text: "As long as", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt7-2': [
     {
@@ -1030,18 +657,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "No wonder the line is so long — it's a holiday weekend.",
-      saveCandidates: [
-        { text: "No wonder", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "No wonder she was upset — you forgot her birthday again.",
-      saveCandidates: [
-        { text: "No wonder", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "No wonder the sink is clogged — look at all this hair.",
       saveCandidates: [
         { text: "No wonder", type: 'chunk', start: 0, end: 9 },
       ],
@@ -1066,18 +681,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "rather", type: 'chunk', start: 5, end: 11 },
       ],
     },
-    {
-      en: "We'd rather pay a little more and get it delivered.",
-      saveCandidates: [
-        { text: "rather", type: 'chunk', start: 5, end: 11 },
-      ],
-    },
-    {
-      en: "Would you rather wait for the next train than squeeze onto this one?",
-      saveCandidates: [
-        { text: "rather", type: 'chunk', start: 10, end: 16 },
-      ],
-    },
   ],
   'pt7-4': [
     {
@@ -1096,18 +699,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "We ended up talking on the phone until two in the morning.",
       saveCandidates: [
         { text: "ended up", type: 'chunk', start: 3, end: 11 },
-      ],
-    },
-    {
-      en: "I ended up returning the shirt because it didn't fit.",
-      saveCandidates: [
-        { text: "ended up", type: 'chunk', start: 2, end: 10 },
-      ],
-    },
-    {
-      en: "I ended up taking a taxi after I missed the last bus.",
-      saveCandidates: [
-        { text: "ended up", type: 'chunk', start: 2, end: 10 },
       ],
     },
   ],
@@ -1130,18 +721,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can you", type: 'chunk', start: 0, end: 7 },
       ],
     },
-    {
-      en: "Can you give me a heads-up if you're running late?",
-      saveCandidates: [
-        { text: "Can you", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "Can you call the front desk? The AC isn't working.",
-      saveCandidates: [
-        { text: "Can you", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
   ],
   'pt8-1': [
     {
@@ -1158,18 +737,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Could you keep it down a little? It's getting late.",
-      saveCandidates: [
-        { text: "Could you", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Could you give me a hand moving this couch?",
-      saveCandidates: [
-        { text: "Could you", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Could you check the address? I think the package went missing.",
       saveCandidates: [
         { text: "Could you", type: 'chunk', start: 0, end: 9 },
       ],
@@ -1195,18 +762,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "like to", type: 'chunk', start: 5, end: 12 },
       ],
     },
-    {
-      en: "Would you like to introduce us to your friend?",
-      saveCandidates: [
-        { text: "like to", type: 'chunk', start: 10, end: 17 },
-      ],
-    },
-    {
-      en: "We'd like to report a leak coming from the apartment upstairs.",
-      saveCandidates: [
-        { text: "like to", type: 'chunk', start: 5, end: 12 },
-      ],
-    },
   ],
   'pt8-3': [
     {
@@ -1227,18 +782,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Why don't we", type: 'chunk', start: 0, end: 12 },
       ],
     },
-    {
-      en: "Why don't we just order in and watch a movie?",
-      saveCandidates: [
-        { text: "Why don't we", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Why don't we take the stairs since the elevator's stuck?",
-      saveCandidates: [
-        { text: "Why don't we", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
   ],
   'pt8-4': [
     {
@@ -1255,18 +798,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Would you mind keeping an eye on my groceries for a sec?",
-      saveCandidates: [
-        { text: "Would you mind", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Would you mind giving us a minute to talk?",
-      saveCandidates: [
-        { text: "Would you mind", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Would you mind helping me jump-start my car?",
       saveCandidates: [
         { text: "Would you mind", type: 'chunk', start: 0, end: 14 },
       ],
@@ -1292,18 +823,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "check in", type: 'phrasalVerb', start: 17, end: 25 },
       ],
     },
-    {
-      en: "Is it okay if I bring my roommate to dinner?",
-      saveCandidates: [
-        { text: "Is it okay if", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Is it okay if I use your charger? Mine just died.",
-      saveCandidates: [
-        { text: "Is it okay if", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt9-1': [
     {
@@ -1324,19 +843,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Make sure", type: 'chunk', start: 0, end: 9 },
       ],
     },
-    {
-      en: "Make sure you call your grandmother on her birthday.",
-      saveCandidates: [
-        { text: "Make sure", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Make sure you keep a spare key with a neighbor.",
-      saveCandidates: [
-        { text: "Make sure", type: 'chunk', start: 0, end: 9 },
-        { text: "spare key", type: 'collocation', start: 21, end: 30 },
-      ],
-    },
   ],
   'pt9-2': [
     {
@@ -1353,18 +859,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "How do you get this stain out of a shirt?",
-      saveCandidates: [
-        { text: "How do you", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "How do you two know each other, by the way?",
-      saveCandidates: [
-        { text: "How do you", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "How do you say 'pharmacy' in the local language?",
       saveCandidates: [
         { text: "How do you", type: 'chunk', start: 0, end: 10 },
       ],
@@ -1389,18 +883,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Have you ever", type: 'chunk', start: 0, end: 13 },
       ],
     },
-    {
-      en: "Have you ever just shown up at a friend's door?",
-      saveCandidates: [
-        { text: "Have you ever", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Have you ever had a flight cancelled at the last second?",
-      saveCandidates: [
-        { text: "Have you ever", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt9-4': [
     {
@@ -1417,18 +899,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Do you know a good plumber? My sink keeps leaking.",
-      saveCandidates: [
-        { text: "Do you know", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Do you know if she's still mad about last night?",
-      saveCandidates: [
-        { text: "Do you know", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Do you know where the nearest ATM is? I'm out of cash.",
       saveCandidates: [
         { text: "Do you know", type: 'chunk', start: 0, end: 11 },
       ],
@@ -1453,18 +923,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "What if", type: 'chunk', start: 0, end: 7 },
       ],
     },
-    {
-      en: "What if I came over and we talked it through?",
-      saveCandidates: [
-        { text: "What if", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "What if the landlord doesn't return our deposit?",
-      saveCandidates: [
-        { text: "What if", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
   ],
   'pt10-1': [
     {
@@ -1481,18 +939,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What do you think about splitting an Airbnb to save money?",
-      saveCandidates: [
-        { text: "What do you think about", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
-    {
-      en: "What do you think about getting a haircut before the wedding?",
-      saveCandidates: [
-        { text: "What do you think about", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
-    {
-      en: "What do you think about leaving early to beat the storm?",
       saveCandidates: [
         { text: "What do you think about", type: 'chunk', start: 0, end: 23 },
       ],
@@ -1517,18 +963,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "wonder", type: 'chunk', start: 12, end: 18 },
       ],
     },
-    {
-      en: "He wonders if the package will get there before the weekend.",
-      saveCandidates: [
-        { text: "wonder", type: 'chunk', start: 3, end: 9 },
-      ],
-    },
-    {
-      en: "We all wonder why the heater keeps shutting off at night.",
-      saveCandidates: [
-        { text: "wonder", type: 'chunk', start: 7, end: 13 },
-      ],
-    },
   ],
   'pt10-3': [
     {
@@ -1550,16 +984,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "check in", type: 'phrasalVerb', start: 17, end: 25 },
       ],
     },
-    {
-      en: "We can't wait to see everyone at the reunion next month.",
-      saveCandidates: [
-        { text: "can't wait to", type: 'chunk', start: 3, end: 16 },
-      ],
-    },
-    {
-      en: "They can't wait for the repairs to be done so they can move back.",
-      saveCandidates: [],
-    },
   ],
   'pt10-4': [
     {
@@ -1578,18 +1002,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "He's glad they booked the hotel before the prices went up.",
       saveCandidates: [
         { text: "glad", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
-    {
-      en: "Are you glad you grabbed an umbrella before it started pouring?",
-      saveCandidates: [
-        { text: "glad", type: 'chunk', start: 8, end: 12 },
-      ],
-    },
-    {
-      en: "We're glad the landlord fixed the heater before the cold snap.",
-      saveCandidates: [
-        { text: "glad", type: 'chunk', start: 6, end: 10 },
       ],
     },
   ],
@@ -1612,18 +1024,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "worried about", type: 'chunk', start: 5, end: 18 },
       ],
     },
-    {
-      en: "Are you worried about the rent going up again next year?",
-      saveCandidates: [
-        { text: "worried about", type: 'chunk', start: 8, end: 21 },
-      ],
-    },
-    {
-      en: "They're worried about the leak spreading to the neighbor downstairs.",
-      saveCandidates: [
-        { text: "worried about", type: 'chunk', start: 8, end: 21 },
-      ],
-    },
   ],
   'pt11-1': [
     {
@@ -1642,18 +1042,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "He's afraid our flight has been delayed again.",
       saveCandidates: [
         { text: "afraid", type: 'chunk', start: 5, end: 11 },
-      ],
-    },
-    {
-      en: "I'm afraid I forgot to pay the rent this month.",
-      saveCandidates: [
-        { text: "afraid", type: 'chunk', start: 4, end: 10 },
-      ],
-    },
-    {
-      en: "We're afraid your package was sent to the wrong address.",
-      saveCandidates: [
-        { text: "afraid", type: 'chunk', start: 6, end: 12 },
       ],
     },
   ],
@@ -1677,18 +1065,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "To be honest", type: 'chunk', start: 0, end: 12 },
       ],
     },
-    {
-      en: "To be honest, I don't really enjoy cooking that much.",
-      saveCandidates: [
-        { text: "To be honest", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "To be honest, I have no idea what just happened.",
-      saveCandidates: [
-        { text: "To be honest", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
   ],
   'pt11-3': [
     {
@@ -1704,16 +1080,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "Do you think this train stops at our station?",
       saveCandidates: [],
-    },
-    {
-      en: "He doesn't think the milk is still good.",
-      saveCandidates: [],
-    },
-    {
-      en: "We don't think the elevator is working — let's check.",
-      saveCandidates: [
-        { text: "don't think", type: 'chunk', start: 3, end: 14 },
-      ],
     },
   ],
   'pt11-4': [
@@ -1731,18 +1097,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "The thing is, the hotel doesn't allow early check-in.",
-      saveCandidates: [
-        { text: "The thing is", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "The thing is, I already used up all the groceries.",
-      saveCandidates: [
-        { text: "The thing is", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "The thing is, my phone died before I could call.",
       saveCandidates: [
         { text: "The thing is", type: 'chunk', start: 0, end: 12 },
       ],
@@ -1767,18 +1121,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "hope", type: 'chunk', start: 7, end: 11 },
       ],
     },
-    {
-      en: "We hope the package gets here before the weekend.",
-      saveCandidates: [
-        { text: "hope", type: 'chunk', start: 3, end: 7 },
-      ],
-    },
-    {
-      en: "He hopes the landlord fixes the heater soon.",
-      saveCandidates: [
-        { text: "hope", type: 'chunk', start: 3, end: 7 },
-      ],
-    },
   ],
   'pt12-1': [
     {
@@ -1798,14 +1140,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "was wondering if", type: 'chunk', start: 3, end: 19 },
       ],
-    },
-    {
-      en: "We were wondering if you could grab some groceries.",
-      saveCandidates: [],
-    },
-    {
-      en: "They were wondering if anyone has a spare charger.",
-      saveCandidates: [],
     },
   ],
   'pt12-2': [
@@ -1827,18 +1161,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "appreciate", type: 'chunk', start: 3, end: 13 },
       ],
     },
-    {
-      en: "We appreciate you grabbing our package while we were out.",
-      saveCandidates: [
-        { text: "appreciate", type: 'chunk', start: 3, end: 13 },
-      ],
-    },
-    {
-      en: "They appreciate you staying calm through the whole mess.",
-      saveCandidates: [
-        { text: "appreciate", type: 'chunk', start: 5, end: 15 },
-      ],
-    },
   ],
   'pt12-3': [
     {
@@ -1855,18 +1177,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Feel free to use the Wi-Fi password on the desk.",
-      saveCandidates: [
-        { text: "Feel free to", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Feel free to help yourself to the leftovers.",
-      saveCandidates: [
-        { text: "Feel free to", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Feel free to call me if it gets any worse.",
       saveCandidates: [
         { text: "Feel free to", type: 'chunk', start: 0, end: 12 },
       ],
@@ -1892,18 +1202,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "on time", type: 'prepPhrase', start: 28, end: 35 },
       ],
     },
-    {
-      en: "Let me know if we're out of milk.",
-      saveCandidates: [
-        { text: "me know if", type: 'chunk', start: 4, end: 14 },
-      ],
-    },
-    {
-      en: "Let me know if the heater stops working again.",
-      saveCandidates: [
-        { text: "me know if", type: 'chunk', start: 4, end: 14 },
-      ],
-    },
   ],
   'pt12-5': [
     {
@@ -1924,18 +1222,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "owe you one", type: 'chunk', start: 36, end: 47 },
       ],
     },
-    {
-      en: "You walked my dog? I really owe you one.",
-      saveCandidates: [
-        { text: "owe you one", type: 'chunk', start: 28, end: 39 },
-      ],
-    },
-    {
-      en: "You lent me cash for the cab — I owe you one.",
-      saveCandidates: [
-        { text: "owe you one", type: 'chunk', start: 33, end: 44 },
-      ],
-    },
   ],
   'pt13-1': [
     {
@@ -1952,18 +1238,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'll get back to you after I confirm the booking.",
-      saveCandidates: [
-        { text: "get back to you", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "I'll get back to you once the landlord replies.",
-      saveCandidates: [
-        { text: "get back to you", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "I'll get back to you as soon as the Wi-Fi is fixed.",
       saveCandidates: [
         { text: "get back to you", type: 'chunk', start: 5, end: 20 },
       ],
@@ -1988,19 +1262,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "go over", type: 'chunk', start: 6, end: 13 },
       ],
     },
-    {
-      en: "Let's go over the bills before they're due.",
-      saveCandidates: [
-        { text: "go over", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's go over the plan in case something goes wrong.",
-      saveCandidates: [
-        { text: "go over", type: 'chunk', start: 6, end: 13 },
-        { text: "in case", type: 'fixedExpression', start: 23, end: 30 },
-      ],
-    },
   ],
   'pt13-3': [
     {
@@ -2017,18 +1278,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Just to confirm, checkout is at eleven?",
-      saveCandidates: [
-        { text: "Just to confirm", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Just to confirm, the rent is due on the first?",
-      saveCandidates: [
-        { text: "Just to confirm", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Just to confirm, you already called the plumber?",
       saveCandidates: [
         { text: "Just to confirm", type: 'chunk', start: 0, end: 15 },
       ],
@@ -2053,18 +1302,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "take care of", type: 'chunk', start: 5, end: 17 },
       ],
     },
-    {
-      en: "I'll take care of the groceries on my way home.",
-      saveCandidates: [
-        { text: "take care of", type: 'chunk', start: 5, end: 17 },
-      ],
-    },
-    {
-      en: "You go ahead — I'll take care of the leak.",
-      saveCandidates: [
-        { text: "take care of", type: 'chunk', start: 20, end: 32 },
-      ],
-    },
   ],
   'pt13-5': [
     {
@@ -2081,19 +1318,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can you walk me through how to buy a transit pass?",
-      saveCandidates: [
-        { text: "Can you walk me through", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
-    {
-      en: "Can you walk me through how to set up the router?",
-      saveCandidates: [
-        { text: "Can you walk me through", type: 'chunk', start: 0, end: 23 },
-        { text: "set up", type: 'phrasalVerb', start: 31, end: 37 },
-      ],
-    },
-    {
-      en: "Can you walk me through what to do if it breaks again?",
       saveCandidates: [
         { text: "Can you walk me through", type: 'chunk', start: 0, end: 23 },
       ],
@@ -2118,18 +1342,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can we reschedule", type: 'chunk', start: 0, end: 17 },
       ],
     },
-    {
-      en: "Can we reschedule the delivery to the weekend?",
-      saveCandidates: [
-        { text: "Can we reschedule", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Can we reschedule? My car just broke down.",
-      saveCandidates: [
-        { text: "Can we reschedule", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
   ],
   'pt14-2': [
     {
@@ -2146,18 +1358,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "He'll follow up with the hotel about the late checkout.",
-      saveCandidates: [
-        { text: "follow up", type: 'chunk', start: 6, end: 15 },
-      ],
-    },
-    {
-      en: "Can you follow up with the landlord about the deposit?",
-      saveCandidates: [
-        { text: "follow up", type: 'chunk', start: 8, end: 17 },
-      ],
-    },
-    {
-      en: "We'll follow up with the bank about the declined card.",
       saveCandidates: [
         { text: "follow up", type: 'chunk', start: 6, end: 15 },
       ],
@@ -2182,18 +1382,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "circle back to", type: 'chunk', start: 6, end: 20 },
       ],
     },
-    {
-      en: "Let's circle back to the bills this weekend.",
-      saveCandidates: [
-        { text: "circle back to", type: 'chunk', start: 6, end: 20 },
-      ],
-    },
-    {
-      en: "Let's circle back to it once the power's back.",
-      saveCandidates: [
-        { text: "circle back to", type: 'chunk', start: 6, end: 20 },
-      ],
-    },
   ],
   'pt14-4': [
     {
@@ -2207,16 +1395,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "He'll have everything packed by tonight.",
       saveCandidates: [],
-    },
-    {
-      en: "Will you have the laundry done by the morning?",
-      saveCandidates: [],
-    },
-    {
-      en: "We'll have it fixed by the time you get back.",
-      saveCandidates: [
-        { text: "by the time", type: 'fixedExpression', start: 20, end: 31 },
-      ],
     },
   ],
   'pt14-5': [
@@ -2236,18 +1414,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "You grab the bags, I'm on the tickets.",
       saveCandidates: [],
     },
-    {
-      en: "The dishes? Don't worry, I'm on it.",
-      saveCandidates: [
-        { text: "on it", type: 'chunk', start: 29, end: 34 },
-      ],
-    },
-    {
-      en: "The alarm's going off — I'm on it.",
-      saveCandidates: [
-        { text: "on it", type: 'chunk', start: 28, end: 33 },
-      ],
-    },
   ],
   'pt15-1': [
     {
@@ -2266,19 +1432,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "Bring your passport in case they ask for ID.",
       saveCandidates: [
         { text: "in case", type: 'chunk', start: 20, end: 27 },
-      ],
-    },
-    {
-      en: "I keep a spare key in case I lock myself out.",
-      saveCandidates: [
-        { text: "spare key", type: 'collocation', start: 9, end: 18 },
-        { text: "in case", type: 'chunk', start: 19, end: 26 },
-      ],
-    },
-    {
-      en: "Text me in case you can't find the place.",
-      saveCandidates: [
-        { text: "in case", type: 'chunk', start: 8, end: 15 },
       ],
     },
   ],
@@ -2301,18 +1454,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "as soon as", type: 'chunk', start: 18, end: 28 },
       ],
     },
-    {
-      en: "Call me as soon as you hear any news.",
-      saveCandidates: [
-        { text: "as soon as", type: 'chunk', start: 8, end: 18 },
-      ],
-    },
-    {
-      en: "We left as soon as the alarm went off.",
-      saveCandidates: [
-        { text: "as soon as", type: 'chunk', start: 8, end: 18 },
-      ],
-    },
   ],
   'pt15-3': [
     {
@@ -2329,18 +1470,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "By the time I got home, the package was gone.",
-      saveCandidates: [
-        { text: "By the time", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "By the time she called back, I'd already left.",
-      saveCandidates: [
-        { text: "By the time", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "By the time help arrived, the rain had stopped.",
       saveCandidates: [
         { text: "By the time", type: 'chunk', start: 0, end: 11 },
       ],
@@ -2366,18 +1495,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "check in", type: 'phrasalVerb', start: 8, end: 16 },
       ],
     },
-    {
-      en: "Once the laundry's done, I'll start cooking.",
-      saveCandidates: [
-        { text: "Once", type: 'chunk', start: 0, end: 4 },
-      ],
-    },
-    {
-      en: "Once you meet her, you'll see why I like her.",
-      saveCandidates: [
-        { text: "Once", type: 'chunk', start: 0, end: 4 },
-      ],
-    },
   ],
   'pt15-5': [
     {
@@ -2395,18 +1512,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "That's why I always book an aisle seat.",
-      saveCandidates: [
-        { text: "That's why", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "That's why I keep an umbrella by the door.",
-      saveCandidates: [
-        { text: "That's why", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "That's why she means so much to me.",
       saveCandidates: [
         { text: "That's why", type: 'chunk', start: 0, end: 10 },
       ],
@@ -2431,18 +1536,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Now that", type: 'chunk', start: 0, end: 8 },
       ],
     },
-    {
-      en: "Now that the rent's paid, I can relax a little.",
-      saveCandidates: [
-        { text: "Now that", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Now that the power's back, let's reset everything.",
-      saveCandidates: [
-        { text: "Now that", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
   ],
   'pt16-2': [
     {
@@ -2459,18 +1552,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Either way, we should book the hotel tonight.",
-      saveCandidates: [
-        { text: "Either way", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Either way, I'll need to do groceries this week.",
-      saveCandidates: [
-        { text: "Either way", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Either way, we should keep a spare charger handy.",
       saveCandidates: [
         { text: "Either way", type: 'chunk', start: 0, end: 10 },
       ],
@@ -2495,19 +1576,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "say", type: 'chunk', start: 6, end: 9 },
       ],
     },
-    {
-      en: "Let's say we run out of milk; I'll grab some.",
-      saveCandidates: [
-        { text: "say", type: 'chunk', start: 6, end: 9 },
-        { text: "run out of", type: 'phrasalVerb', start: 13, end: 23 },
-      ],
-    },
-    {
-      en: "Let's say the car won't start; who do we call?",
-      saveCandidates: [
-        { text: "say", type: 'chunk', start: 6, end: 9 },
-      ],
-    },
   ],
   'pt16-4': [
     {
@@ -2524,19 +1592,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "He'd suggest booking the early train to be safe.",
-      saveCandidates: [
-        { text: "suggest", type: 'chunk', start: 5, end: 12 },
-      ],
-    },
-    {
-      en: "Would you suggest keeping the receipt just in case?",
-      saveCandidates: [
-        { text: "suggest", type: 'chunk', start: 10, end: 17 },
-        { text: "in case", type: 'fixedExpression', start: 43, end: 50 },
-      ],
-    },
-    {
-      en: "We'd suggest calling the plumber before it floods.",
       saveCandidates: [
         { text: "suggest", type: 'chunk', start: 5, end: 12 },
       ],
@@ -2562,18 +1617,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "rush hour", type: 'collocation', start: 35, end: 44 },
       ],
     },
-    {
-      en: "It might be better to order in tonight.",
-      saveCandidates: [
-        { text: "It might be better to", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
-    {
-      en: "It might be better to take the stairs — the elevator's stuck.",
-      saveCandidates: [
-        { text: "It might be better to", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
   ],
   'pt17-1': [
     {
@@ -2590,18 +1633,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Sounds like a long flight — get some rest.",
-      saveCandidates: [
-        { text: "Sounds like", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Sounds like the perfect night to stay in.",
-      saveCandidates: [
-        { text: "Sounds like", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Sounds like the heater's acting up again.",
       saveCandidates: [
         { text: "Sounds like", type: 'chunk', start: 0, end: 11 },
       ],
@@ -2627,19 +1658,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "It makes sense to", type: 'chunk', start: 0, end: 17 },
       ],
     },
-    {
-      en: "It makes sense to do the groceries on Sunday.",
-      saveCandidates: [
-        { text: "It makes sense to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "It makes sense to keep a spare key with a neighbor.",
-      saveCandidates: [
-        { text: "It makes sense to", type: 'chunk', start: 0, end: 17 },
-        { text: "spare key", type: 'collocation', start: 25, end: 34 },
-      ],
-    },
   ],
   'pt17-3': [
     {
@@ -2659,19 +1677,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "all set with", type: 'chunk', start: 5, end: 17 },
         { text: "boarding pass", type: 'collocation', start: 22, end: 35 },
-      ],
-    },
-    {
-      en: "Are you all set with the groceries for the week?",
-      saveCandidates: [
-        { text: "all set with", type: 'chunk', start: 8, end: 20 },
-      ],
-    },
-    {
-      en: "We're all set with backup chargers, just in case.",
-      saveCandidates: [
-        { text: "all set with", type: 'chunk', start: 6, end: 18 },
-        { text: "in case", type: 'fixedExpression', start: 41, end: 48 },
       ],
     },
   ],
@@ -2694,18 +1699,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "up to", type: 'chunk', start: 30, end: 35 },
       ],
     },
-    {
-      en: "Takeout or cooking — it's up to you tonight.",
-      saveCandidates: [
-        { text: "up to", type: 'chunk', start: 26, end: 31 },
-      ],
-    },
-    {
-      en: "Whether we wait or go, it's up to you.",
-      saveCandidates: [
-        { text: "up to", type: 'chunk', start: 28, end: 33 },
-      ],
-    },
   ],
   'pt17-5': [
     {
@@ -2726,18 +1719,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "down for", type: 'chunk', start: 5, end: 13 },
       ],
     },
-    {
-      en: "Are you down for takeout instead of cooking?",
-      saveCandidates: [
-        { text: "down for", type: 'chunk', start: 8, end: 16 },
-      ],
-    },
-    {
-      en: "We're down for the stairs since the elevator's out.",
-      saveCandidates: [
-        { text: "down for", type: 'chunk', start: 6, end: 14 },
-      ],
-    },
   ],
   'pt18-1': [
     {
@@ -2754,18 +1735,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I guess we missed the last train home.",
-      saveCandidates: [
-        { text: "guess", type: 'chunk', start: 2, end: 7 },
-      ],
-    },
-    {
-      en: "I guess she just needs some time.",
-      saveCandidates: [
-        { text: "guess", type: 'chunk', start: 2, end: 7 },
-      ],
-    },
-    {
-      en: "I guess the power's out for the whole block.",
       saveCandidates: [
         { text: "guess", type: 'chunk', start: 2, end: 7 },
       ],
@@ -2790,18 +1759,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "bet", type: 'chunk', start: 2, end: 5 },
       ],
     },
-    {
-      en: "I bet she'd love that little café.",
-      saveCandidates: [
-        { text: "bet", type: 'chunk', start: 2, end: 5 },
-      ],
-    },
-    {
-      en: "I bet the Wi-Fi went down across the whole building.",
-      saveCandidates: [
-        { text: "bet", type: 'chunk', start: 2, end: 5 },
-      ],
-    },
   ],
   'pt18-3': [
     {
@@ -2818,18 +1775,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Chances are the flight will be delayed in this weather.",
-      saveCandidates: [
-        { text: "Chances are", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Chances are he's just running a little late.",
-      saveCandidates: [
-        { text: "Chances are", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Chances are the package is stuck at the warehouse.",
       saveCandidates: [
         { text: "Chances are", type: 'chunk', start: 0, end: 11 },
       ],
@@ -2854,18 +1799,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "As far as I know", type: 'chunk', start: 0, end: 16 },
       ],
     },
-    {
-      en: "As far as I know, they're still together.",
-      saveCandidates: [
-        { text: "As far as I know", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "As far as I know, the elevator's been fixed.",
-      saveCandidates: [
-        { text: "As far as I know", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
   ],
   'pt18-5': [
     {
@@ -2882,18 +1815,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "On second thought, let's take the earlier flight.",
-      saveCandidates: [
-        { text: "On second thought", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "On second thought, I should just call her.",
-      saveCandidates: [
-        { text: "On second thought", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "On second thought, let's grab a spare charger first.",
       saveCandidates: [
         { text: "On second thought", type: 'chunk', start: 0, end: 17 },
       ],
@@ -2918,18 +1839,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Long story short", type: 'chunk', start: 0, end: 16 },
       ],
     },
-    {
-      en: "Long story short, the sink flooded the kitchen.",
-      saveCandidates: [
-        { text: "Long story short", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Long story short, my card got declined and a stranger helped.",
-      saveCandidates: [
-        { text: "Long story short", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
   ],
   'pt19-2': [
     {
@@ -2946,18 +1855,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Speaking of the trip, did you book the hotel yet?",
-      saveCandidates: [
-        { text: "Speaking of", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Speaking of groceries, we're almost out of milk.",
-      saveCandidates: [
-        { text: "Speaking of", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Speaking of the leak, did you call the landlord?",
       saveCandidates: [
         { text: "Speaking of", type: 'chunk', start: 0, end: 11 },
       ],
@@ -2982,18 +1879,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "The next thing I knew", type: 'chunk', start: 0, end: 21 },
       ],
     },
-    {
-      en: "The next thing I knew, the whole weekend was gone.",
-      saveCandidates: [
-        { text: "The next thing I knew", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
-    {
-      en: "The next thing I knew, the lights went out.",
-      saveCandidates: [
-        { text: "The next thing I knew", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
   ],
   'pt19-4': [
     {
@@ -3010,18 +1895,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It's like the whole town shuts down on Sundays.",
-      saveCandidates: [
-        { text: "like", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
-    {
-      en: "It's like the week just flew by.",
-      saveCandidates: [
-        { text: "like", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
-    {
-      en: "It's like everything broke down on the same day.",
       saveCandidates: [
         { text: "like", type: 'chunk', start: 5, end: 9 },
       ],
@@ -3047,18 +1920,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "boarding pass", type: 'collocation', start: 39, end: 52 },
       ],
     },
-    {
-      en: "That reminds me, the rent is due tomorrow.",
-      saveCandidates: [
-        { text: "That reminds me", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "That reminds me, I should grab a spare charger.",
-      saveCandidates: [
-        { text: "That reminds me", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
   ],
   'pt20-1': [
     {
@@ -3075,19 +1936,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's grab a bite before we catch the train.",
-      saveCandidates: [
-        { text: "grab", type: 'chunk', start: 6, end: 10 },
-      ],
-    },
-    {
-      en: "Let's grab some groceries on the way home.",
-      saveCandidates: [
-        { text: "grab", type: 'chunk', start: 6, end: 10 },
-        { text: "on the way", type: 'prepPhrase', start: 26, end: 36 },
-      ],
-    },
-    {
-      en: "Let's grab a cab — we're going to be late.",
       saveCandidates: [
         { text: "grab", type: 'chunk', start: 6, end: 10 },
       ],
@@ -3112,18 +1960,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "let you know", type: 'chunk', start: 6, end: 18 },
       ],
     },
-    {
-      en: "We'll let you know if the package arrives today.",
-      saveCandidates: [
-        { text: "let you know", type: 'chunk', start: 6, end: 18 },
-      ],
-    },
-    {
-      en: "They'll let you know the second the plan changes.",
-      saveCandidates: [
-        { text: "let you know", type: 'chunk', start: 8, end: 20 },
-      ],
-    },
   ],
   'pt20-3': [
     {
@@ -3144,18 +1980,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "works for me", type: 'chunk', start: 16, end: 28 },
       ],
     },
-    {
-      en: "Saturday morning works for me for the delivery.",
-      saveCandidates: [
-        { text: "works for me", type: 'chunk', start: 17, end: 29 },
-      ],
-    },
-    {
-      en: "Whatever's fastest works for me right now.",
-      saveCandidates: [
-        { text: "works for me", type: 'chunk', start: 19, end: 31 },
-      ],
-    },
   ],
   'pt20-4': [
     {
@@ -3172,18 +1996,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Don't worry about the bags, I've got them.",
-      saveCandidates: [
-        { text: "Don't worry about", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Don't worry about the bill, it's on me.",
-      saveCandidates: [
-        { text: "Don't worry about", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Don't worry about the car — I called a mechanic.",
       saveCandidates: [
         { text: "Don't worry about", type: 'chunk', start: 0, end: 17 },
       ],
@@ -3208,18 +2020,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "catch you later", type: 'chunk', start: 33, end: 48 },
       ],
     },
-    {
-      en: "I'll catch you later, I've got to start dinner.",
-      saveCandidates: [
-        { text: "catch you later", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "Gotta run — I'll catch you later!",
-      saveCandidates: [
-        { text: "catch you later", type: 'chunk', start: 17, end: 32 },
-      ],
-    },
   ],
   'pt21-1': [
     {
@@ -3235,16 +2035,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "Do you have this room with an ocean view?",
       saveCandidates: [],
-    },
-    {
-      en: "Do you have this photo in a bigger size?",
-      saveCandidates: [],
-    },
-    {
-      en: "Do you have this in stock, or is it sold out?",
-      saveCandidates: [
-        { text: "Do you have this in", type: 'chunk', start: 0, end: 19 },
-      ],
     },
   ],
   'pt21-2': [
@@ -3267,20 +2057,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can I try", type: 'chunk', start: 0, end: 9 },
       ],
     },
-    {
-      en: "Can I try on your new sunglasses for a second?",
-      saveCandidates: [
-        { text: "Can I try", type: 'chunk', start: 0, end: 9 },
-        { text: "for a second", type: 'prepPhrase', start: 33, end: 45 },
-      ],
-    },
-    {
-      en: "Can I try these shoes on? One feels tight.",
-      saveCandidates: [
-        { text: "Can I try", type: 'chunk', start: 0, end: 9 },
-        { text: "on?", type: 'chunk', start: 22, end: 25 },
-      ],
-    },
   ],
   'pt21-3': [
     {
@@ -3297,18 +2073,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It's a bit too far to walk with these bags.",
-      saveCandidates: [
-        { text: "a bit too", type: 'chunk', start: 5, end: 14 },
-      ],
-    },
-    {
-      en: "It's a bit too loud in here to really chat.",
-      saveCandidates: [
-        { text: "a bit too", type: 'chunk', start: 5, end: 14 },
-      ],
-    },
-    {
-      en: "It's a bit too spicy — can I get some water?",
       saveCandidates: [
         { text: "a bit too", type: 'chunk', start: 5, end: 14 },
       ],
@@ -3333,18 +2097,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "How much is", type: 'chunk', start: 0, end: 11 },
       ],
     },
-    {
-      en: "How much is the gift you two split?",
-      saveCandidates: [
-        { text: "How much is", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "How much is it to fix a cracked screen?",
-      saveCandidates: [
-        { text: "How much is", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
   ],
   'pt21-5': [
     {
@@ -3365,18 +2117,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "take it", type: 'chunk', start: 26, end: 33 },
       ],
     },
-    {
-      en: "You recommend the red one? I'll take it.",
-      saveCandidates: [
-        { text: "take it", type: 'chunk', start: 32, end: 39 },
-      ],
-    },
-    {
-      en: "The last one? I'll take it before it's gone.",
-      saveCandidates: [
-        { text: "take it", type: 'chunk', start: 19, end: 26 },
-      ],
-    },
   ],
   'pt22-1': [
     {
@@ -3393,18 +2133,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can I get a receipt for the hotel, please?",
-      saveCandidates: [
-        { text: "Can I get", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Can I get your number so I can text you?",
-      saveCandidates: [
-        { text: "Can I get", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Can I get someone to look at this right now?",
       saveCandidates: [
         { text: "Can I get", type: 'chunk', start: 0, end: 9 },
       ],
@@ -3430,19 +2158,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "How long does", type: 'chunk', start: 0, end: 13 },
       ],
     },
-    {
-      en: "How long does it take you to get ready?",
-      saveCandidates: [
-        { text: "How long does", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "How long does a quick repair like this take?",
-      saveCandidates: [
-        { text: "How long does", type: 'chunk', start: 0, end: 13 },
-        { text: "take?", type: 'chunk', start: 39, end: 44 },
-      ],
-    },
   ],
   'pt22-3': [
     {
@@ -3463,18 +2178,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "hasn't arrived yet", type: 'chunk', start: 15, end: 33 },
       ],
     },
-    {
-      en: "Your gift hasn't arrived yet, sorry!",
-      saveCandidates: [
-        { text: "hasn't arrived yet", type: 'chunk', start: 10, end: 28 },
-      ],
-    },
-    {
-      en: "The plumber hasn't arrived yet and it's leaking.",
-      saveCandidates: [
-        { text: "hasn't arrived yet", type: 'chunk', start: 12, end: 30 },
-      ],
-    },
   ],
   'pt22-4': [
     {
@@ -3491,18 +2194,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Do you offer airport pickup at the hotel?",
-      saveCandidates: [
-        { text: "Do you offer", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Do you offer to help, or should I ask someone?",
-      saveCandidates: [
-        { text: "Do you offer", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Do you offer repairs, or just replacements?",
       saveCandidates: [
         { text: "Do you offer", type: 'chunk', start: 0, end: 12 },
       ],
@@ -3527,18 +2218,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "When will", type: 'chunk', start: 0, end: 9 },
       ],
     },
-    {
-      en: "When will you finally come visit us?",
-      saveCandidates: [
-        { text: "When will", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "When will the power come back on?",
-      saveCandidates: [
-        { text: "When will", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
   ],
   'pt23-1': [
     {
@@ -3559,18 +2238,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "have", type: 'chunk', start: 5, end: 9 },
       ],
     },
-    {
-      en: "I'll have what you're having, it looks great.",
-      saveCandidates: [
-        { text: "have", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
-    {
-      en: "I'll have it boxed up — I'm too full now.",
-      saveCandidates: [
-        { text: "have", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
   ],
   'pt23-2': [
     {
@@ -3583,14 +2250,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What do you recommend seeing in one day?",
-      saveCandidates: [],
-    },
-    {
-      en: "What do you recommend I get her for her birthday?",
-      saveCandidates: [],
-    },
-    {
-      en: "What do you recommend if I'm allergic to nuts?",
       saveCandidates: [],
     },
   ],
@@ -3608,17 +2267,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "Does this tour come with hotel pickup?",
       saveCandidates: [],
-    },
-    {
-      en: "Does this set come with one for me too?",
-      saveCandidates: [],
-    },
-    {
-      en: "Does this come with a warranty, just in case?",
-      saveCandidates: [
-        { text: "Does this come with", type: 'chunk', start: 0, end: 19 },
-        { text: "in case", type: 'fixedExpression', start: 37, end: 44 },
-      ],
     },
   ],
   'pt23-4': [
@@ -3640,18 +2288,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "allergic to", type: 'chunk', start: 4, end: 15 },
       ],
     },
-    {
-      en: "Remember I'm allergic to peanuts at dinner.",
-      saveCandidates: [
-        { text: "allergic to", type: 'chunk', start: 13, end: 24 },
-      ],
-    },
-    {
-      en: "I'm allergic to this — my face is getting red.",
-      saveCandidates: [
-        { text: "allergic to", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
   ],
   'pt23-5': [
     {
@@ -3667,16 +2303,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "Can we get the check?", type: 'chunk', start: 0, end: 21 },
       ],
-    },
-    {
-      en: "Can we get the check? It's my treat tonight.",
-      saveCandidates: [
-        { text: "Can we get the check?", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
-    {
-      en: "Can we get the check fast? The baby's crying.",
-      saveCandidates: [],
     },
   ],
   'pt24-1': [
@@ -3698,18 +2324,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "have a", type: 'chunk', start: 2, end: 8 },
       ],
     },
-    {
-      en: "I have a small favor to ask you.",
-      saveCandidates: [
-        { text: "have a", type: 'chunk', start: 2, end: 8 },
-      ],
-    },
-    {
-      en: "I have a sharp pain right here when I move.",
-      saveCandidates: [
-        { text: "have a", type: 'chunk', start: 2, end: 8 },
-      ],
-    },
   ],
   'pt24-2': [
     {
@@ -3726,18 +2340,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It hurts when I walk in these new shoes.",
-      saveCandidates: [
-        { text: "It hurts when", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "It hurts when you say it like that.",
-      saveCandidates: [
-        { text: "It hurts when", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "It hurts when I touch it — is it sprained?",
       saveCandidates: [
         { text: "It hurts when", type: 'chunk', start: 0, end: 13 },
       ],
@@ -3765,20 +2367,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "for", type: 'chunk', start: 17, end: 20 },
       ],
     },
-    {
-      en: "I've had a crush on her for ages.",
-      saveCandidates: [
-        { text: "had", type: 'chunk', start: 5, end: 8 },
-        { text: "for", type: 'chunk', start: 24, end: 27 },
-      ],
-    },
-    {
-      en: "I've had this rash for a couple of hours.",
-      saveCandidates: [
-        { text: "had", type: 'chunk', start: 5, end: 8 },
-        { text: "for", type: 'chunk', start: 19, end: 22 },
-      ],
-    },
   ],
   'pt24-4': [
     {
@@ -3795,18 +2383,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Should I book the train or rent a car?",
-      saveCandidates: [
-        { text: "Should I", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Should I call her first, or text?",
-      saveCandidates: [
-        { text: "Should I", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Should I go to the ER if it gets worse?",
       saveCandidates: [
         { text: "Should I", type: 'chunk', start: 0, end: 8 },
       ],
@@ -3831,18 +2407,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "How long until", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "How long until you get here? I'm waiting.",
-      saveCandidates: [
-        { text: "How long until", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "How long until the medicine starts working?",
-      saveCandidates: [
-        { text: "How long until", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt25-1': [
     {
@@ -3859,18 +2423,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Do you have anything for a sunburn?",
-      saveCandidates: [
-        { text: "Do you have anything for", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "Do you have anything for my kid's cough?",
-      saveCandidates: [
-        { text: "Do you have anything for", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "Do you have anything for a sudden allergy?",
       saveCandidates: [
         { text: "Do you have anything for", type: 'chunk', start: 0, end: 24 },
       ],
@@ -3895,18 +2447,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "looking for", type: 'chunk', start: 4, end: 15 },
       ],
     },
-    {
-      en: "I'm looking for a gift my dad would like.",
-      saveCandidates: [
-        { text: "looking for", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'm looking for a pharmacy that's open late.",
-      saveCandidates: [
-        { text: "looking for", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
   ],
   'pt25-3': [
     {
@@ -3923,18 +2463,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I think I'm coming down with a fever on this trip.",
-      saveCandidates: [
-        { text: "think I'm coming down with", type: 'chunk', start: 2, end: 28 },
-      ],
-    },
-    {
-      en: "I think I'm coming down with whatever you had.",
-      saveCandidates: [
-        { text: "think I'm coming down with", type: 'chunk', start: 2, end: 28 },
-      ],
-    },
-    {
-      en: "I think I'm coming down with it fast — I feel awful.",
       saveCandidates: [
         { text: "think I'm coming down with", type: 'chunk', start: 2, end: 28 },
       ],
@@ -3959,18 +2487,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Is it safe to", type: 'chunk', start: 0, end: 13 },
       ],
     },
-    {
-      en: "Is it safe to give this to a six-year-old?",
-      saveCandidates: [
-        { text: "Is it safe to", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Is it safe to take two if one isn't enough?",
-      saveCandidates: [
-        { text: "Is it safe to", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt25-5': [
     {
@@ -3991,19 +2507,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "might want to", type: 'chunk', start: 4, end: 17 },
       ],
     },
-    {
-      en: "You might want to call her before she leaves.",
-      saveCandidates: [
-        { text: "might want to", type: 'chunk', start: 4, end: 17 },
-      ],
-    },
-    {
-      en: "You might want to grab an umbrella just in case.",
-      saveCandidates: [
-        { text: "might want to", type: 'chunk', start: 4, end: 17 },
-        { text: "in case", type: 'fixedExpression', start: 40, end: 47 },
-      ],
-    },
   ],
   'pt26-1': [
     {
@@ -4021,18 +2524,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm here to exchange some money for my trip.",
-      saveCandidates: [
-        { text: "here to", type: 'chunk', start: 4, end: 11 },
-      ],
-    },
-    {
-      en: "I'm here to surprise you for your birthday!",
-      saveCandidates: [
-        { text: "here to", type: 'chunk', start: 4, end: 11 },
-      ],
-    },
-    {
-      en: "I'm here to report a card I think I lost.",
       saveCandidates: [
         { text: "here to", type: 'chunk', start: 4, end: 11 },
       ],
@@ -4057,18 +2548,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Could you break", type: 'chunk', start: 0, end: 15 },
       ],
     },
-    {
-      en: "Could you break a fifty? I'll pay you back.",
-      saveCandidates: [
-        { text: "Could you break", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Could you break this quickly? My meter's running.",
-      saveCandidates: [
-        { text: "Could you break", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
   ],
   'pt26-3': [
     {
@@ -4085,18 +2564,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Is there a fee for changing my flight date?",
-      saveCandidates: [
-        { text: "Is there a fee for", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "Is there a fee for the tickets, or are they free?",
-      saveCandidates: [
-        { text: "Is there a fee for", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "Is there a fee for a replacement card today?",
       saveCandidates: [
         { text: "Is there a fee for", type: 'chunk', start: 0, end: 18 },
       ],
@@ -4121,18 +2588,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "How much do I owe", type: 'chunk', start: 0, end: 17 },
       ],
     },
-    {
-      en: "How much do I owe you for covering me?",
-      saveCandidates: [
-        { text: "How much do I owe", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "How much do I owe for the late payment?",
-      saveCandidates: [
-        { text: "How much do I owe", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
   ],
   'pt26-5': [
     {
@@ -4153,18 +2608,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can I pay by", type: 'chunk', start: 0, end: 12 },
       ],
     },
-    {
-      en: "Can I pay by sending you the money later?",
-      saveCandidates: [
-        { text: "Can I pay by", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Can I pay by phone if my card won't scan?",
-      saveCandidates: [
-        { text: "Can I pay by", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
   ],
   'pt27-1': [
     {
@@ -4181,18 +2624,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm checking in for the family suite tonight.",
-      saveCandidates: [
-        { text: "checking in for", type: 'chunk', start: 4, end: 19 },
-      ],
-    },
-    {
-      en: "I'm checking in for two — my friend's parking.",
-      saveCandidates: [
-        { text: "checking in for", type: 'chunk', start: 4, end: 19 },
-      ],
-    },
-    {
-      en: "I'm checking in for a flight that boards soon!",
       saveCandidates: [
         { text: "checking in for", type: 'chunk', start: 4, end: 19 },
       ],
@@ -4218,18 +2649,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Where do I", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "Where do I meet you after you land?",
-      saveCandidates: [
-        { text: "Where do I", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Where do I go if I miss my connection?",
-      saveCandidates: [
-        { text: "Where do I", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt27-3': [
     {
@@ -4246,18 +2665,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Do I have time to swing by the pharmacy?",
-      saveCandidates: [
-        { text: "Do I have time to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Do I have time to call you back before dinner?",
-      saveCandidates: [
-        { text: "Do I have time to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Do I have time to make it, or is it too late?",
       saveCandidates: [
         { text: "Do I have time to", type: 'chunk', start: 0, end: 17 },
       ],
@@ -4282,18 +2689,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "What time does", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "What time does the party actually start?",
-      saveCandidates: [
-        { text: "What time does", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "What time does the last bus leave tonight?",
-      saveCandidates: [
-        { text: "What time does", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt27-5': [
     {
@@ -4310,18 +2705,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm at the wrong address — the app misled me.",
-      saveCandidates: [
-        { text: "at the wrong", type: 'chunk', start: 4, end: 16 },
-      ],
-    },
-    {
-      en: "I'm at the wrong exit — where are you standing?",
-      saveCandidates: [
-        { text: "at the wrong", type: 'chunk', start: 4, end: 16 },
-      ],
-    },
-    {
-      en: "I'm at the wrong platform and the train's leaving!",
       saveCandidates: [
         { text: "at the wrong", type: 'chunk', start: 4, end: 16 },
       ],
@@ -4346,16 +2729,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "have a reservation under", type: 'chunk', start: 2, end: 26 },
       ],
     },
-    {
-      en: "I have a reservation under both of our names.",
-      saveCandidates: [
-        { text: "have a reservation under", type: 'chunk', start: 2, end: 26 },
-      ],
-    },
-    {
-      en: "I have a reservation, but I can't find the email.",
-      saveCandidates: [],
-    },
   ],
   'pt28-2': [
     {
@@ -4369,17 +2742,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "Is delivery included, or is it extra?",
       saveCandidates: [],
-    },
-    {
-      en: "Is my plus-one included on the guest list?",
-      saveCandidates: [],
-    },
-    {
-      en: "Is a spare key included, just in case?",
-      saveCandidates: [
-        { text: "spare key", type: 'collocation', start: 5, end: 14 },
-        { text: "in case", type: 'fixedExpression', start: 30, end: 37 },
-      ],
     },
   ],
   'pt28-3': [
@@ -4398,18 +2760,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Is it possible to get this delivered today?",
-      saveCandidates: [
-        { text: "Is it possible to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Is it possible to bring a friend along?",
-      saveCandidates: [
-        { text: "Is it possible to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Is it possible to switch rooms? Mine's noisy.",
       saveCandidates: [
         { text: "Is it possible to", type: 'chunk', start: 0, end: 17 },
       ],
@@ -4437,20 +2787,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "isn't work", type: 'chunk', start: 14, end: 24 },
       ],
     },
-    {
-      en: "The link you sent isn't working for me.",
-      saveCandidates: [
-        { text: "The", type: 'chunk', start: 0, end: 3 },
-        { text: "isn't work", type: 'chunk', start: 18, end: 28 },
-      ],
-    },
-    {
-      en: "The elevator isn't working and I'm on the tenth floor.",
-      saveCandidates: [
-        { text: "The", type: 'chunk', start: 0, end: 3 },
-        { text: "isn't work", type: 'chunk', start: 13, end: 23 },
-      ],
-    },
   ],
   'pt28-5': [
     {
@@ -4472,19 +2808,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Is there", type: 'chunk', start: 0, end: 8 },
       ],
     },
-    {
-      en: "Is there a café nearby where we can catch up?",
-      saveCandidates: [
-        { text: "Is there", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Is there a hospital nearby? It's an emergency.",
-      saveCandidates: [
-        { text: "Is there", type: 'chunk', start: 0, end: 8 },
-        { text: "nearby?", type: 'chunk', start: 20, end: 27 },
-      ],
-    },
   ],
   'pt29-1': [
     {
@@ -4501,18 +2824,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I need to get to the pharmacy before it closes.",
-      saveCandidates: [
-        { text: "need to get to", type: 'chunk', start: 2, end: 16 },
-      ],
-    },
-    {
-      en: "I need to get to you as soon as I can.",
-      saveCandidates: [
-        { text: "need to get to", type: 'chunk', start: 2, end: 16 },
-      ],
-    },
-    {
-      en: "I need to get to a hospital right now.",
       saveCandidates: [
         { text: "need to get to", type: 'chunk', start: 2, end: 16 },
       ],
@@ -4537,18 +2848,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Is it far to", type: 'chunk', start: 0, end: 12 },
       ],
     },
-    {
-      en: "Is it far to your new place from the station?",
-      saveCandidates: [
-        { text: "Is it far to", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Is it far to a gas station? We're almost empty.",
-      saveCandidates: [
-        { text: "Is it far to", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
   ],
   'pt29-3': [
     {
@@ -4565,18 +2864,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Which way is the restroom in this place?",
-      saveCandidates: [
-        { text: "Which way is", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Which way is your house from the park?",
-      saveCandidates: [
-        { text: "Which way is", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Which way is out? The signs are all gone.",
       saveCandidates: [
         { text: "Which way is", type: 'chunk', start: 0, end: 12 },
       ],
@@ -4601,18 +2888,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Do you take", type: 'chunk', start: 0, end: 11 },
       ],
     },
-    {
-      en: "Do you take requests, or is it a set menu?",
-      saveCandidates: [
-        { text: "Do you take", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Do you take walk-ins, or do I need a booking?",
-      saveCandidates: [
-        { text: "Do you take", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
   ],
   'pt29-5': [
     {
@@ -4629,18 +2904,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Keep the change and have a good one.",
-      saveCandidates: [
-        { text: "Keep the change", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Keep the change, you really helped me out.",
-      saveCandidates: [
-        { text: "Keep the change", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Keep the change — I'm in a real hurry!",
       saveCandidates: [
         { text: "Keep the change", type: 'chunk', start: 0, end: 15 },
       ],
@@ -4665,18 +2928,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "running out of", type: 'chunk', start: 6, end: 20 },
       ],
     },
-    {
-      en: "I'm running out of excuses to give them.",
-      saveCandidates: [
-        { text: "running out of", type: 'chunk', start: 4, end: 18 },
-      ],
-    },
-    {
-      en: "My phone's running out of battery — call you back.",
-      saveCandidates: [
-        { text: "running out of", type: 'chunk', start: 11, end: 25 },
-      ],
-    },
   ],
   'pt30-2': [
     {
@@ -4693,18 +2944,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "We're stuck in the airport till the storm passes.",
-      saveCandidates: [
-        { text: "We're stuck in", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "We're stuck in the same old argument.",
-      saveCandidates: [
-        { text: "We're stuck in", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "We're stuck in the elevator — call the front desk.",
       saveCandidates: [
         { text: "We're stuck in", type: 'chunk', start: 0, end: 14 },
       ],
@@ -4729,18 +2968,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Watch out for", type: 'chunk', start: 0, end: 13 },
       ],
     },
-    {
-      en: "Watch out for what you say around her.",
-      saveCandidates: [
-        { text: "Watch out for", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Watch out for the wet floor right there!",
-      saveCandidates: [
-        { text: "Watch out for", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt30-4': [
     {
@@ -4757,18 +2984,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's pull over — that view is amazing.",
-      saveCandidates: [
-        { text: "pull over", type: 'chunk', start: 6, end: 15 },
-      ],
-    },
-    {
-      en: "Let's pull over and talk this out calmly.",
-      saveCandidates: [
-        { text: "pull over", type: 'chunk', start: 6, end: 15 },
-      ],
-    },
-    {
-      en: "Let's pull over now — something smells like smoke.",
       saveCandidates: [
         { text: "pull over", type: 'chunk', start: 6, end: 15 },
       ],
@@ -4793,18 +3008,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "We'd better", type: 'chunk', start: 0, end: 11 },
       ],
     },
-    {
-      en: "We'd better apologize before it gets worse.",
-      saveCandidates: [
-        { text: "We'd better", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "We'd better call a tow truck for this.",
-      saveCandidates: [
-        { text: "We'd better", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
   ],
   'pt31-1': [
     {
@@ -4821,18 +3024,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It looks like it's going to snow on the trip.",
-      saveCandidates: [
-        { text: "It looks like it's going to", type: 'chunk', start: 0, end: 27 },
-      ],
-    },
-    {
-      en: "It looks like it's going to be just us two.",
-      saveCandidates: [
-        { text: "It looks like it's going to", type: 'chunk', start: 0, end: 27 },
-      ],
-    },
-    {
-      en: "It looks like it's going to storm — let's hurry.",
       saveCandidates: [
         { text: "It looks like it's going to", type: 'chunk', start: 0, end: 27 },
       ],
@@ -4860,20 +3051,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "out there", type: 'chunk', start: 15, end: 24 },
       ],
     },
-    {
-      en: "It's quiet out there without the kids around.",
-      saveCandidates: [
-        { text: "It's", type: 'chunk', start: 0, end: 4 },
-        { text: "out there", type: 'chunk', start: 11, end: 20 },
-      ],
-    },
-    {
-      en: "It's icy out there — drive carefully.",
-      saveCandidates: [
-        { text: "It's", type: 'chunk', start: 0, end: 4 },
-        { text: "out there", type: 'chunk', start: 9, end: 18 },
-      ],
-    },
   ],
   'pt31-3': [
     {
@@ -4890,19 +3067,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What's the food like in that city?",
-      saveCandidates: [
-        { text: "What's", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
-    {
-      en: "What's her family like? You met them, right?",
-      saveCandidates: [
-        { text: "What's", type: 'chunk', start: 0, end: 6 },
-        { text: "like?", type: 'chunk', start: 18, end: 23 },
-      ],
-    },
-    {
-      en: "What's the traffic like at this hour?",
       saveCandidates: [
         { text: "What's", type: 'chunk', start: 0, end: 6 },
       ],
@@ -4927,18 +3091,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "can't stand", type: 'chunk', start: 2, end: 13 },
       ],
     },
-    {
-      en: "I can't stand it when people are late.",
-      saveCandidates: [
-        { text: "can't stand", type: 'chunk', start: 2, end: 13 },
-      ],
-    },
-    {
-      en: "I can't stand this noise — what is that?",
-      saveCandidates: [
-        { text: "can't stand", type: 'chunk', start: 2, end: 13 },
-      ],
-    },
   ],
   'pt31-5': [
     {
@@ -4955,18 +3107,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's make the most of our last day abroad.",
-      saveCandidates: [
-        { text: "make the most of", type: 'chunk', start: 6, end: 22 },
-      ],
-    },
-    {
-      en: "Let's make the most of the time we have together.",
-      saveCandidates: [
-        { text: "make the most of", type: 'chunk', start: 6, end: 22 },
-      ],
-    },
-    {
-      en: "Let's make the most of it before the rain hits.",
       saveCandidates: [
         { text: "make the most of", type: 'chunk', start: 6, end: 22 },
       ],
@@ -4991,18 +3131,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "work out", type: 'chunk', start: 2, end: 10 },
       ],
     },
-    {
-      en: "I work out with my brother on weekends.",
-      saveCandidates: [
-        { text: "work out", type: 'chunk', start: 2, end: 10 },
-      ],
-    },
-    {
-      en: "I work out at home when the gym is packed.",
-      saveCandidates: [
-        { text: "work out", type: 'chunk', start: 2, end: 10 },
-      ],
-    },
   ],
   'pt32-2': [
     {
@@ -5019,18 +3147,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm sore from walking all over the city.",
-      saveCandidates: [
-        { text: "sore from", type: 'chunk', start: 4, end: 13 },
-      ],
-    },
-    {
-      en: "I'm sore from that hike we did together.",
-      saveCandidates: [
-        { text: "sore from", type: 'chunk', start: 4, end: 13 },
-      ],
-    },
-    {
-      en: "I'm sore from a fall I took on the ice.",
       saveCandidates: [
         { text: "sore from", type: 'chunk', start: 4, end: 13 },
       ],
@@ -5055,18 +3171,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "warm up", type: 'chunk', start: 6, end: 13 },
       ],
     },
-    {
-      en: "Let's warm up together — it's more fun.",
-      saveCandidates: [
-        { text: "warm up", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's warm up first so nobody pulls a muscle.",
-      saveCandidates: [
-        { text: "warm up", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
   ],
   'pt32-4': [
     {
@@ -5087,18 +3191,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "been meaning to", type: 'chunk', start: 5, end: 20 },
       ],
     },
-    {
-      en: "I've been meaning to thank you for last week.",
-      saveCandidates: [
-        { text: "been meaning to", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "I've been meaning to fix that leak for days.",
-      saveCandidates: [
-        { text: "been meaning to", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
   ],
   'pt32-5': [
     {
@@ -5115,18 +3207,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It's worth taking the scenic route there.",
-      saveCandidates: [
-        { text: "worth", type: 'chunk', start: 5, end: 10 },
-      ],
-    },
-    {
-      en: "It's worth making time for old friends.",
-      saveCandidates: [
-        { text: "worth", type: 'chunk', start: 5, end: 10 },
-      ],
-    },
-    {
-      en: "It's worth checking twice before you sign.",
       saveCandidates: [
         { text: "worth", type: 'chunk', start: 5, end: 10 },
       ],
@@ -5152,18 +3232,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "really into", type: 'chunk', start: 4, end: 15 },
       ],
     },
-    {
-      en: "I'm really into the band you showed me.",
-      saveCandidates: [
-        { text: "really into", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'm really into this puzzle I can't put down.",
-      saveCandidates: [
-        { text: "really into", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
   ],
   'pt33-2': [
     {
@@ -5180,18 +3248,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I've always wanted to see the northern lights.",
-      saveCandidates: [
-        { text: "always wanted to", type: 'chunk', start: 5, end: 21 },
-      ],
-    },
-    {
-      en: "I've always wanted to introduce you two.",
-      saveCandidates: [
-        { text: "always wanted to", type: 'chunk', start: 5, end: 21 },
-      ],
-    },
-    {
-      en: "I've always wanted to try this, but never dared.",
       saveCandidates: [
         { text: "always wanted to", type: 'chunk', start: 5, end: 21 },
       ],
@@ -5216,18 +3272,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "not very good at", type: 'chunk', start: 4, end: 20 },
       ],
     },
-    {
-      en: "I'm not very good at saying how I feel.",
-      saveCandidates: [
-        { text: "not very good at", type: 'chunk', start: 4, end: 20 },
-      ],
-    },
-    {
-      en: "I'm not very good at fixing things, honestly.",
-      saveCandidates: [
-        { text: "not very good at", type: 'chunk', start: 4, end: 20 },
-      ],
-    },
   ],
   'pt33-4': [
     {
@@ -5242,14 +3286,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "A slow morning helps me enjoy a new city.",
-      saveCandidates: [],
-    },
-    {
-      en: "Talking to you helps me feel better.",
-      saveCandidates: [],
-    },
-    {
-      en: "Deep breathing helps me calm down fast.",
       saveCandidates: [],
     },
   ],
@@ -5268,18 +3304,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I picked up some local words on the trip.",
-      saveCandidates: [
-        { text: "picked up", type: 'chunk', start: 2, end: 11 },
-      ],
-    },
-    {
-      en: "I picked up this habit from my mom.",
-      saveCandidates: [
-        { text: "picked up", type: 'chunk', start: 2, end: 11 },
-      ],
-    },
-    {
-      en: "I picked up a cheap umbrella when it started raining.",
       saveCandidates: [
         { text: "picked up", type: 'chunk', start: 2, end: 11 },
       ],
@@ -5304,18 +3328,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "your turn to", type: 'chunk', start: 5, end: 17 },
       ],
     },
-    {
-      en: "It's your turn to host dinner this time.",
-      saveCandidates: [
-        { text: "your turn to", type: 'chunk', start: 5, end: 17 },
-      ],
-    },
-    {
-      en: "It's your turn to deal with the noisy neighbor.",
-      saveCandidates: [
-        { text: "your turn to", type: 'chunk', start: 5, end: 17 },
-      ],
-    },
   ],
   'pt34-2': [
     {
@@ -5336,14 +3348,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can you give me a hand with", type: 'chunk', start: 0, end: 27 },
       ],
     },
-    {
-      en: "Can you give me a hand moving this weekend?",
-      saveCandidates: [],
-    },
-    {
-      en: "Can you give me a hand? The shelf is falling!",
-      saveCandidates: [],
-    },
   ],
   'pt34-3': [
     {
@@ -5362,19 +3366,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "Don't forget to bring your passport.",
       saveCandidates: [
         { text: "Don't forget to", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Don't forget to wish her a happy birthday.",
-      saveCandidates: [
-        { text: "Don't forget to", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Don't forget to unplug the iron, just in case.",
-      saveCandidates: [
-        { text: "Don't forget to", type: 'chunk', start: 0, end: 15 },
-        { text: "in case", type: 'fixedExpression', start: 38, end: 45 },
       ],
     },
   ],
@@ -5398,19 +3389,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "the", type: 'chunk', start: 28, end: 31 },
       ],
     },
-    {
-      en: "Our schedule is a mess this week.",
-      saveCandidates: [
-        { text: "is a mess", type: 'chunk', start: 13, end: 22 },
-      ],
-    },
-    {
-      en: "The basement is a mess after the leak.",
-      saveCandidates: [
-        { text: "The", type: 'chunk', start: 0, end: 3 },
-        { text: "is a mess", type: 'chunk', start: 13, end: 22 },
-      ],
-    },
   ],
   'pt34-5': [
     {
@@ -5427,18 +3405,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I just finished packing for the trip.",
-      saveCandidates: [
-        { text: "just finished", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I just finished reading the book you lent me.",
-      saveCandidates: [
-        { text: "just finished", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I just finished mopping — watch the wet floor.",
       saveCandidates: [
         { text: "just finished", type: 'chunk', start: 2, end: 15 },
       ],
@@ -5463,18 +3429,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "time to", type: 'chunk', start: 5, end: 12 },
       ],
     },
-    {
-      en: "It's time to call your grandma back.",
-      saveCandidates: [
-        { text: "time to", type: 'chunk', start: 5, end: 12 },
-      ],
-    },
-    {
-      en: "It's time to go — the alarm just went off.",
-      saveCandidates: [
-        { text: "time to", type: 'chunk', start: 5, end: 12 },
-      ],
-    },
   ],
   'pt35-2': [
     {
@@ -5491,18 +3445,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Did you pack your charger this time?",
-      saveCandidates: [
-        { text: "Did you", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "Did you call your mom back yet?",
-      saveCandidates: [
-        { text: "Did you", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "Did you lock the front door before bed?",
       saveCandidates: [
         { text: "Did you", type: 'chunk', start: 0, end: 7 },
       ],
@@ -5528,18 +3470,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "boarding pass", type: 'collocation', start: 28, end: 41 },
       ],
     },
-    {
-      en: "Be careful not to hurt her feelings.",
-      saveCandidates: [
-        { text: "Be careful not to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Be careful not to touch that — it's hot!",
-      saveCandidates: [
-        { text: "Be careful not to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
   ],
   'pt35-4': [
     {
@@ -5556,18 +3486,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Good job finding the gate so fast.",
-      saveCandidates: [
-        { text: "Good job", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Good job apologizing first — that's mature.",
-      saveCandidates: [
-        { text: "Good job", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Good job staying calm when it broke.",
       saveCandidates: [
         { text: "Good job", type: 'chunk', start: 0, end: 8 },
       ],
@@ -5592,18 +3510,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "need to", type: 'chunk', start: 4, end: 11 },
       ],
     },
-    {
-      en: "You need to talk to her, not about her.",
-      saveCandidates: [
-        { text: "need to", type: 'chunk', start: 4, end: 11 },
-      ],
-    },
-    {
-      en: "You need to see someone about that cough.",
-      saveCandidates: [
-        { text: "need to", type: 'chunk', start: 4, end: 11 },
-      ],
-    },
   ],
   'pt36-1': [
     {
@@ -5620,18 +3526,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm majoring in history and love old cities.",
-      saveCandidates: [
-        { text: "majoring in", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'm majoring in the same thing as my sister.",
-      saveCandidates: [
-        { text: "majoring in", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'm majoring in biology, but chemistry is killing me.",
       saveCandidates: [
         { text: "majoring in", type: 'chunk', start: 4, end: 15 },
       ],
@@ -5656,18 +3550,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "don't get", type: 'chunk', start: 2, end: 11 },
       ],
     },
-    {
-      en: "I don't get why he's upset with me.",
-      saveCandidates: [
-        { text: "don't get", type: 'chunk', start: 2, end: 11 },
-      ],
-    },
-    {
-      en: "I don't get this error — it just popped up.",
-      saveCandidates: [
-        { text: "don't get", type: 'chunk', start: 2, end: 11 },
-      ],
-    },
   ],
   'pt36-3': [
     {
@@ -5688,18 +3570,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "is due", type: 'chunk', start: 21, end: 27 },
       ],
     },
-    {
-      en: "Her birthday gift is due any day now.",
-      saveCandidates: [
-        { text: "is due", type: 'chunk', start: 18, end: 24 },
-      ],
-    },
-    {
-      en: "The payment is due today — I almost forgot!",
-      saveCandidates: [
-        { text: "is due", type: 'chunk', start: 12, end: 18 },
-      ],
-    },
   ],
   'pt36-4': [
     {
@@ -5716,18 +3586,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Want to explore the old town this afternoon?",
-      saveCandidates: [
-        { text: "Want to", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "Want to come over and watch a movie?",
-      saveCandidates: [
-        { text: "Want to", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "Want to head out now before it rains?",
       saveCandidates: [
         { text: "Want to", type: 'chunk', start: 0, end: 7 },
       ],
@@ -5752,18 +3610,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "behind on", type: 'chunk', start: 4, end: 13 },
       ],
     },
-    {
-      en: "I'm behind on replying to everyone.",
-      saveCandidates: [
-        { text: "behind on", type: 'chunk', start: 4, end: 13 },
-      ],
-    },
-    {
-      en: "I'm behind on the bills this month, somehow.",
-      saveCandidates: [
-        { text: "behind on", type: 'chunk', start: 4, end: 13 },
-      ],
-    },
   ],
   'pt37-1': [
     {
@@ -5780,18 +3626,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can I speak to the front desk, please?",
-      saveCandidates: [
-        { text: "Can I speak to", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Can I speak to Mom if she's around?",
-      saveCandidates: [
-        { text: "Can I speak to", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Can I speak to someone now? It's urgent.",
       saveCandidates: [
         { text: "Can I speak to", type: 'chunk', start: 0, end: 14 },
       ],
@@ -5816,18 +3650,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can you hear me", type: 'chunk', start: 0, end: 15 },
       ],
     },
-    {
-      en: "Can you hear me, or should I call back?",
-      saveCandidates: [
-        { text: "Can you hear me", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Can you hear me? The line keeps cutting out.",
-      saveCandidates: [
-        { text: "Can you hear me", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
   ],
   'pt37-3': [
     {
@@ -5844,18 +3666,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Sorry, I missed your call — I was boarding.",
-      saveCandidates: [
-        { text: "Sorry, I missed your", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "Sorry, I missed your birthday call!",
-      saveCandidates: [
-        { text: "Sorry, I missed your", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "Sorry, I missed your call — my phone died.",
       saveCandidates: [
         { text: "Sorry, I missed your", type: 'chunk', start: 0, end: 20 },
       ],
@@ -5880,18 +3690,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "You're breaking up", type: 'chunk', start: 0, end: 18 },
       ],
     },
-    {
-      en: "You're breaking up, but I miss you too.",
-      saveCandidates: [
-        { text: "You're breaking up", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "You're breaking up — I'll call you right back.",
-      saveCandidates: [
-        { text: "You're breaking up", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
   ],
   'pt37-5': [
     {
@@ -5910,18 +3708,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "Hold on a sec, I'm finding my ticket.",
       saveCandidates: [
         { text: "Hold on a", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Hold on a minute, I want to hear this.",
-      saveCandidates: [
-        { text: "Hold on a", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Hold on — I think something's burning!",
-      saveCandidates: [
-        { text: "Hold on", type: 'phrasalVerb', start: 0, end: 7 },
       ],
     },
   ],
@@ -5944,19 +3730,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "get started", type: 'chunk', start: 6, end: 17 },
       ],
     },
-    {
-      en: "Let's get started — everyone's finally here.",
-      saveCandidates: [
-        { text: "get started", type: 'chunk', start: 6, end: 17 },
-      ],
-    },
-    {
-      en: "Let's get started quickly; we're short on time.",
-      saveCandidates: [
-        { text: "get started", type: 'chunk', start: 6, end: 17 },
-        { text: "on time", type: 'prepPhrase', start: 39, end: 46 },
-      ],
-    },
   ],
   'pt38-2': [
     {
@@ -5977,16 +3750,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Moving on to", type: 'chunk', start: 0, end: 12 },
       ],
     },
-    {
-      en: "Moving on to who's bringing what to the party.",
-      saveCandidates: [
-        { text: "Moving on to", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Moving on — we'll circle back if there's time.",
-      saveCandidates: [],
-    },
   ],
   'pt38-3': [
     {
@@ -6003,18 +3766,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "To sum up, three cities in five days.",
-      saveCandidates: [
-        { text: "To sum up", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "To sum up, we both want the same thing.",
-      saveCandidates: [
-        { text: "To sum up", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "To sum up, we'll decide once the results are in.",
       saveCandidates: [
         { text: "To sum up", type: 'chunk', start: 0, end: 9 },
       ],
@@ -6039,18 +3790,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "make sense", type: 'collocation', start: 10, end: 20 },
       ],
     },
-    {
-      en: "Does that make sense to you, honestly?",
-      saveCandidates: [
-        { text: "make sense", type: 'collocation', start: 10, end: 20 },
-      ],
-    },
-    {
-      en: "Does that make sense? We're almost out of time.",
-      saveCandidates: [
-        { text: "Does that make sense?", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
   ],
   'pt38-5': [
     {
@@ -6067,18 +3806,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's wrap up dinner and catch the last train.",
-      saveCandidates: [
-        { text: "wrap up", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's wrap up this chat — it's getting late.",
-      saveCandidates: [
-        { text: "wrap up", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's wrap up fast; the fire alarm's going off.",
       saveCandidates: [
         { text: "wrap up", type: 'chunk', start: 6, end: 13 },
       ],
@@ -6103,18 +3830,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Would it be possible to", type: 'chunk', start: 0, end: 23 },
       ],
     },
-    {
-      en: "Would it be possible to meet a little earlier?",
-      saveCandidates: [
-        { text: "Would it be possible to", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
-    {
-      en: "Would it be possible to fix it by today?",
-      saveCandidates: [
-        { text: "Would it be possible to", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
   ],
   'pt39-2': [
     {
@@ -6131,18 +3846,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I see your point, but that detour costs a day.",
-      saveCandidates: [
-        { text: "see your point, but", type: 'chunk', start: 2, end: 21 },
-      ],
-    },
-    {
-      en: "I see your point, but I still feel hurt.",
-      saveCandidates: [
-        { text: "see your point, but", type: 'chunk', start: 2, end: 21 },
-      ],
-    },
-    {
-      en: "I see your point, but we're out of time for that.",
       saveCandidates: [
         { text: "see your point, but", type: 'chunk', start: 2, end: 21 },
       ],
@@ -6167,18 +3870,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "meet halfway", type: 'chunk', start: 6, end: 18 },
       ],
     },
-    {
-      en: "Let's meet halfway so we both feel heard.",
-      saveCandidates: [
-        { text: "meet halfway", type: 'chunk', start: 6, end: 18 },
-      ],
-    },
-    {
-      en: "Let's meet halfway before this gets worse.",
-      saveCandidates: [
-        { text: "meet halfway", type: 'chunk', start: 6, end: 18 },
-      ],
-    },
   ],
   'pt39-4': [
     {
@@ -6191,14 +3882,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can we work something out about the room rate?",
-      saveCandidates: [],
-    },
-    {
-      en: "Can we work something out instead of fighting?",
-      saveCandidates: [],
-    },
-    {
-      en: "Can we work something out before the store closes?",
       saveCandidates: [],
     },
   ],
@@ -6222,18 +3905,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "in time", type: 'prepPhrase', start: 36, end: 43 },
       ],
     },
-    {
-      en: "Let's find a way to spend more time together.",
-      saveCandidates: [
-        { text: "find a way to", type: 'chunk', start: 6, end: 19 },
-      ],
-    },
-    {
-      en: "Let's find a way to fix it before it spreads.",
-      saveCandidates: [
-        { text: "find a way to", type: 'chunk', start: 6, end: 19 },
-      ],
-    },
   ],
   'pt40-1': [
     {
@@ -6250,18 +3921,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I can't believe how blue the water is here.",
-      saveCandidates: [
-        { text: "can't believe", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I can't believe you came all this way for me.",
-      saveCandidates: [
-        { text: "can't believe", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I can't believe the train left a minute early.",
       saveCandidates: [
         { text: "can't believe", type: 'chunk', start: 2, end: 15 },
       ],
@@ -6284,16 +3943,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "That view makes me want to stay another day.",
       saveCandidates: [],
     },
-    {
-      en: "That makes me feel really lucky to know you.",
-      saveCandidates: [
-        { text: "That makes me", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "That noise makes me a little nervous, honestly.",
-      saveCandidates: [],
-    },
   ],
   'pt40-3': [
     {
@@ -6310,18 +3959,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm so proud of us for planning this trip.",
-      saveCandidates: [
-        { text: "so proud of", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'm so proud of you for speaking up.",
-      saveCandidates: [
-        { text: "so proud of", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'm so proud of how calm you stayed.",
       saveCandidates: [
         { text: "so proud of", type: 'chunk', start: 4, end: 15 },
       ],
@@ -6346,18 +3983,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "It drives me crazy", type: 'chunk', start: 0, end: 18 },
       ],
     },
-    {
-      en: "It drives me crazy when you don't text back.",
-      saveCandidates: [
-        { text: "It drives me crazy", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "It drives me crazy when the alarm won't stop.",
-      saveCandidates: [
-        { text: "It drives me crazy", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
   ],
   'pt40-5': [
     {
@@ -6376,18 +4001,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "that's a relief", type: 'chunk', start: 19, end: 34 },
       ],
     },
-    {
-      en: "You're feeling better? That's a relief.",
-      saveCandidates: [
-        { text: "That's a relief", type: 'chunk', start: 23, end: 38 },
-      ],
-    },
-    {
-      en: "The leak stopped on its own — that's a relief.",
-      saveCandidates: [
-        { text: "that's a relief", type: 'chunk', start: 30, end: 45 },
-      ],
-    },
   ],
   'pt41-1': [
     {
@@ -6404,18 +4017,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Is it too late to return the rental car?",
-      saveCandidates: [
-        { text: "Is it too late to return", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "Is it too late to return the book I borrowed?",
-      saveCandidates: [
-        { text: "Is it too late to return", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "Is it too late to return this? It just broke.",
       saveCandidates: [
         { text: "Is it too late to return", type: 'chunk', start: 0, end: 24 },
       ],
@@ -6440,18 +4041,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "It doesn't", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "It doesn't feel like you anymore, honestly.",
-      saveCandidates: [
-        { text: "It doesn't", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "It doesn't turn on at all — is it broken?",
-      saveCandidates: [
-        { text: "It doesn't", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt41-3': [
     {
@@ -6468,18 +4057,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can I exchange my ticket for a later train?",
-      saveCandidates: [
-        { text: "Can I exchange", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Can I exchange gifts with you this year?",
-      saveCandidates: [
-        { text: "Can I exchange", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Can I exchange it? It arrived damaged.",
       saveCandidates: [
         { text: "Can I exchange", type: 'chunk', start: 0, end: 14 },
       ],
@@ -6504,18 +4081,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Here's", type: 'chunk', start: 0, end: 6 },
       ],
     },
-    {
-      en: "Here's the book — thanks for lending it.",
-      saveCandidates: [
-        { text: "Here's", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
-    {
-      en: "Here's the broken part I told you about.",
-      saveCandidates: [
-        { text: "Here's", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
   ],
   'pt41-5': [
     {
@@ -6532,18 +4097,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What's your cancellation policy for rooms?",
-      saveCandidates: [
-        { text: "What's your", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "What's your policy on bringing a guest?",
-      saveCandidates: [
-        { text: "What's your", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "What's your policy if it breaks next week?",
       saveCandidates: [
         { text: "What's your", type: 'chunk', start: 0, end: 11 },
       ],
@@ -6568,16 +4121,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Do you deliver to", type: 'chunk', start: 0, end: 17 },
       ],
     },
-    {
-      en: "Do you deliver to my friend's place tonight?",
-      saveCandidates: [
-        { text: "Do you deliver to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Do you deliver this late? It's almost midnight.",
-      saveCandidates: [],
-    },
   ],
   'pt42-2': [
     {
@@ -6594,18 +4137,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "My order is going to the wrong hotel room.",
-      saveCandidates: [
-        { text: "My order is", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "My order is big — we're feeding everyone.",
-      saveCandidates: [
-        { text: "My order is", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "My order is cold and an hour late.",
       saveCandidates: [
         { text: "My order is", type: 'chunk', start: 0, end: 11 },
       ],
@@ -6630,18 +4161,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can you leave it", type: 'chunk', start: 0, end: 16 },
       ],
     },
-    {
-      en: "Can you leave it with my neighbor next door?",
-      saveCandidates: [
-        { text: "Can you leave it", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Can you leave it outside? The baby's asleep.",
-      saveCandidates: [
-        { text: "Can you leave it", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
   ],
   'pt42-4': [
     {
@@ -6662,18 +4181,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "It says", type: 'chunk', start: 0, end: 7 },
       ],
     },
-    {
-      en: "It says you read my message an hour ago.",
-      saveCandidates: [
-        { text: "It says", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "It says payment failed — try another card.",
-      saveCandidates: [
-        { text: "It says", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
   ],
   'pt42-5': [
     {
@@ -6686,16 +4193,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "After all that walking, lunch hit the spot.",
-      saveCandidates: [],
-    },
-    {
-      en: "Thanks for cooking — that hit the spot.",
-      saveCandidates: [
-        { text: "that hit the spot", type: 'chunk', start: 21, end: 38 },
-      ],
-    },
-    {
-      en: "I was starving, so it really hit the spot.",
       saveCandidates: [],
     },
   ],
@@ -6714,18 +4211,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Is this seat okay, or should I move?",
-      saveCandidates: [
-        { text: "Is this seat", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Is this seat saved for someone you know?",
-      saveCandidates: [
-        { text: "Is this seat", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Is this seat broken? It won't recline.",
       saveCandidates: [
         { text: "Is this seat", type: 'chunk', start: 0, end: 12 },
       ],
@@ -6750,18 +4235,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Do you mind if I", type: 'chunk', start: 0, end: 16 },
       ],
     },
-    {
-      en: "Do you mind if I bring a friend along?",
-      saveCandidates: [
-        { text: "Do you mind if I", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Do you mind if I switch seats? Mine's wet.",
-      saveCandidates: [
-        { text: "Do you mind if I", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
   ],
   'pt43-3': [
     {
@@ -6782,18 +4255,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "When do we", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "When do we get to see you again?",
-      saveCandidates: [
-        { text: "When do we", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "When do we get off if we miss this stop?",
-      saveCandidates: [
-        { text: "When do we", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt43-4': [
     {
@@ -6810,18 +4271,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I feel a bit tired after the long day.",
-      saveCandidates: [
-        { text: "feel a bit", type: 'chunk', start: 2, end: 12 },
-      ],
-    },
-    {
-      en: "I feel a bit awkward bringing it up.",
-      saveCandidates: [
-        { text: "feel a bit", type: 'chunk', start: 2, end: 12 },
-      ],
-    },
-    {
-      en: "I feel a bit dizzy — could I get water?",
       saveCandidates: [
         { text: "feel a bit", type: 'chunk', start: 2, end: 12 },
       ],
@@ -6847,18 +4296,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "We're about to", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "We're about to head out — you coming?",
-      saveCandidates: [
-        { text: "We're about to", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "We're about to lose signal in the tunnel.",
-      saveCandidates: [
-        { text: "We're about to", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt44-1': [
     {
@@ -6875,18 +4312,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Where can I buy a transit card?",
-      saveCandidates: [
-        { text: "Where can I", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Where can I meet you after the show?",
-      saveCandidates: [
-        { text: "Where can I", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Where can I find a restroom quickly?",
       saveCandidates: [
         { text: "Where can I", type: 'chunk', start: 0, end: 11 },
       ],
@@ -6911,19 +4336,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Am I allowed to", type: 'chunk', start: 0, end: 15 },
       ],
     },
-    {
-      en: "Am I allowed to tag along to the party?",
-      saveCandidates: [
-        { text: "Am I allowed to", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Am I allowed to stop here for a second?",
-      saveCandidates: [
-        { text: "Am I allowed to", type: 'chunk', start: 0, end: 15 },
-        { text: "for a second", type: 'prepPhrase', start: 26, end: 38 },
-      ],
-    },
   ],
   'pt44-3': [
     {
@@ -6940,19 +4352,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "You can't bring liquids through security.",
-      saveCandidates: [
-        { text: "can't", type: 'chunk', start: 4, end: 9 },
-      ],
-    },
-    {
-      en: "You can't just cancel on her last minute.",
-      saveCandidates: [
-        { text: "can't", type: 'chunk', start: 4, end: 9 },
-        { text: "last minute", type: 'collocation', start: 29, end: 40 },
-      ],
-    },
-    {
-      en: "You can't touch that — it's still wet.",
       saveCandidates: [
         { text: "can't", type: 'chunk', start: 4, end: 9 },
       ],
@@ -6977,19 +4376,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "got", type: 'chunk', start: 2, end: 5 },
       ],
     },
-    {
-      en: "I got a sweet birthday card from her.",
-      saveCandidates: [
-        { text: "got", type: 'chunk', start: 2, end: 5 },
-      ],
-    },
-    {
-      en: "I got a flat tire on the way here.",
-      saveCandidates: [
-        { text: "got", type: 'chunk', start: 2, end: 5 },
-        { text: "on the way", type: 'prepPhrase', start: 18, end: 28 },
-      ],
-    },
   ],
   'pt44-5': [
     {
@@ -7006,18 +4392,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "There's no direct train to the coast.",
-      saveCandidates: [
-        { text: "There's no", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "There's no reason to be upset with me.",
-      saveCandidates: [
-        { text: "There's no", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "There's no signal out here at all.",
       saveCandidates: [
         { text: "There's no", type: 'chunk', start: 0, end: 10 },
       ],
@@ -7042,18 +4416,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "What's the", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "What's the name of that show you mentioned?",
-      saveCandidates: [
-        { text: "What's the", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "What's the number for tech support?",
-      saveCandidates: [
-        { text: "What's the", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt45-2': [
     {
@@ -7074,18 +4436,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "can't connect to", type: 'chunk', start: 2, end: 18 },
       ],
     },
-    {
-      en: "I can't connect to you lately, and it worries me.",
-      saveCandidates: [
-        { text: "can't connect to", type: 'chunk', start: 2, end: 18 },
-      ],
-    },
-    {
-      en: "I can't connect to anything — is it down?",
-      saveCandidates: [
-        { text: "can't connect to", type: 'chunk', start: 2, end: 18 },
-      ],
-    },
   ],
   'pt45-3': [
     {
@@ -7098,16 +4448,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Is the booking site down at the moment?",
-      saveCandidates: [],
-    },
-    {
-      en: "Is your phone down? I couldn't reach you.",
-      saveCandidates: [
-        { text: "down?", type: 'chunk', start: 14, end: 19 },
-      ],
-    },
-    {
-      en: "Is the power down for the whole block?",
       saveCandidates: [],
     },
   ],
@@ -7126,18 +4466,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Have you tried switching to airplane mode?",
-      saveCandidates: [
-        { text: "Have you tried", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Have you tried just talking to him about it?",
-      saveCandidates: [
-        { text: "Have you tried", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Have you tried unplugging it for a minute?",
       saveCandidates: [
         { text: "Have you tried", type: 'chunk', start: 0, end: 14 },
       ],
@@ -7162,18 +4490,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "It won't", type: 'chunk', start: 0, end: 8 },
       ],
     },
-    {
-      en: "It won't stop, he keeps texting me.",
-      saveCandidates: [
-        { text: "It won't", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "It won't start — the engine just clicks.",
-      saveCandidates: [
-        { text: "It won't", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
   ],
   'pt46-1': [
     {
@@ -7190,18 +4506,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Is this going to clear customs quickly?",
-      saveCandidates: [
-        { text: "Is this going to", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Is this going to surprise her, you think?",
-      saveCandidates: [
-        { text: "Is this going to", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Is this going to be okay shipped like that?",
       saveCandidates: [
         { text: "Is this going to", type: 'chunk', start: 0, end: 16 },
       ],
@@ -7226,18 +4530,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "It needs to", type: 'chunk', start: 0, end: 11 },
       ],
     },
-    {
-      en: "It needs to come from the heart, not the wallet.",
-      saveCandidates: [
-        { text: "It needs to", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "It needs to be fixed before it gets worse.",
-      saveCandidates: [
-        { text: "It needs to", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
   ],
   'pt46-3': [
     {
@@ -7254,18 +4546,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Do I need to declare this at customs?",
-      saveCandidates: [
-        { text: "Do I need to", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Do I need to bring anything to the dinner?",
-      saveCandidates: [
-        { text: "Do I need to", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Do I need to call back if it gets lost?",
       saveCandidates: [
         { text: "Do I need to", type: 'chunk', start: 0, end: 12 },
       ],
@@ -7290,18 +4570,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "What's the cheapest way to", type: 'chunk', start: 0, end: 26 },
       ],
     },
-    {
-      en: "What's the cheapest way to treat everyone?",
-      saveCandidates: [
-        { text: "What's the cheapest way to", type: 'chunk', start: 0, end: 26 },
-      ],
-    },
-    {
-      en: "What's the cheapest way to fix this fast?",
-      saveCandidates: [
-        { text: "What's the cheapest way to", type: 'chunk', start: 0, end: 26 },
-      ],
-    },
   ],
   'pt46-5': [
     {
@@ -7318,18 +4586,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It should be a short layover, an hour.",
-      saveCandidates: [
-        { text: "It should", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "It should mean a lot coming from you.",
-      saveCandidates: [
-        { text: "It should", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "It should hold until the repair guy comes.",
       saveCandidates: [
         { text: "It should", type: 'chunk', start: 0, end: 9 },
       ],
@@ -7354,18 +4610,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Do you have any openings", type: 'chunk', start: 0, end: 24 },
       ],
     },
-    {
-      en: "Do you have any openings to catch up soon?",
-      saveCandidates: [
-        { text: "Do you have any openings", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "Do you have any openings sooner? It's urgent.",
-      saveCandidates: [
-        { text: "Do you have any openings", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
   ],
   'pt47-2': [
     {
@@ -7384,14 +4628,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "available?", type: 'chunk', start: 23, end: 33 },
       ],
     },
-    {
-      en: "Is your evening available for dinner?",
-      saveCandidates: [],
-    },
-    {
-      en: "Is anyone available right now? It's urgent.",
-      saveCandidates: [],
-    },
   ],
   'pt47-3': [
     {
@@ -7408,18 +4644,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "How far in advance should we reserve seats?",
-      saveCandidates: [
-        { text: "How far in advance", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "How far in advance should I invite everyone?",
-      saveCandidates: [
-        { text: "How far in advance", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "How far in advance can I cancel for free?",
       saveCandidates: [
         { text: "How far in advance", type: 'chunk', start: 0, end: 18 },
       ],
@@ -7444,18 +4668,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Do I need a", type: 'chunk', start: 0, end: 11 },
       ],
     },
-    {
-      en: "Do I need a gift, or is showing up enough?",
-      saveCandidates: [
-        { text: "Do I need a", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Do I need a prescription for this?",
-      saveCandidates: [
-        { text: "Do I need a", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
   ],
   'pt47-5': [
     {
@@ -7470,18 +4682,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can you fit me in on the morning tour?",
-      saveCandidates: [
-        { text: "Can you fit me in", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Can you fit me in for coffee this week?",
-      saveCandidates: [
-        { text: "Can you fit me in", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Can you fit me in today? It really hurts.",
       saveCandidates: [
         { text: "Can you fit me in", type: 'chunk', start: 0, end: 17 },
       ],
@@ -7506,18 +4706,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Something came up", type: 'chunk', start: 0, end: 17 },
       ],
     },
-    {
-      en: "Something came up — can we meet tomorrow?",
-      saveCandidates: [
-        { text: "Something came up", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Something came up suddenly — I have to run.",
-      saveCandidates: [
-        { text: "Something came up", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
   ],
   'pt48-2': [
     {
@@ -7536,19 +4724,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "Can we push the tour back to the afternoon?",
       saveCandidates: [
         { text: "Can we push", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Can we push our call back a bit?",
-      saveCandidates: [
-        { text: "Can we push", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Can we push it back? The roads are flooded.",
-      saveCandidates: [
-        { text: "Can we push", type: 'chunk', start: 0, end: 11 },
-        { text: "back?", type: 'chunk', start: 15, end: 20 },
       ],
     },
   ],
@@ -7574,19 +4749,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "still work for you?", type: 'chunk', start: 22, end: 41 },
       ],
     },
-    {
-      en: "Does our usual spot still work for you?",
-      saveCandidates: [
-        { text: "Does", type: 'chunk', start: 0, end: 4 },
-        { text: "still work for you?", type: 'chunk', start: 20, end: 39 },
-      ],
-    },
-    {
-      en: "Does later today still work, given the delay?",
-      saveCandidates: [
-        { text: "Does", type: 'chunk', start: 0, end: 4 },
-      ],
-    },
   ],
   'pt48-4': [
     {
@@ -7603,18 +4765,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I won't be able to catch the early train.",
-      saveCandidates: [
-        { text: "won't be able to", type: 'chunk', start: 2, end: 18 },
-      ],
-    },
-    {
-      en: "I won't be able to come to the wedding.",
-      saveCandidates: [
-        { text: "won't be able to", type: 'chunk', start: 2, end: 18 },
-      ],
-    },
-    {
-      en: "I won't be able to drive in this storm.",
       saveCandidates: [
         { text: "won't be able to", type: 'chunk', start: 2, end: 18 },
       ],
@@ -7639,18 +4789,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "aim for", type: 'chunk', start: 6, end: 13 },
       ],
     },
-    {
-      en: "Let's aim for dinner once you're back.",
-      saveCandidates: [
-        { text: "aim for", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's aim for today if the parts arrive.",
-      saveCandidates: [
-        { text: "aim for", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
   ],
   'pt49-1': [
     {
@@ -7667,16 +4805,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "We're moving to a city by the coast.",
-      saveCandidates: [
-        { text: "We're moving to", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "We're moving closer to your parents.",
-      saveCandidates: [],
-    },
-    {
-      en: "We're moving to a new place — it's chaos.",
       saveCandidates: [
         { text: "We're moving to", type: 'chunk', start: 0, end: 15 },
       ],
@@ -7701,18 +4829,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Where should we put", type: 'chunk', start: 0, end: 19 },
       ],
     },
-    {
-      en: "Where should we put the photos of us?",
-      saveCandidates: [
-        { text: "Where should we put", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "Where should we put this until it's fixed?",
-      saveCandidates: [
-        { text: "Where should we put", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
   ],
   'pt49-3': [
     {
@@ -7733,18 +4849,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Be careful with", type: 'chunk', start: 0, end: 15 },
       ],
     },
-    {
-      en: "Be careful with how you word that to her.",
-      saveCandidates: [
-        { text: "Be careful with", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Be careful with the wire — it's frayed.",
-      saveCandidates: [
-        { text: "Be careful with", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
   ],
   'pt49-4': [
     {
@@ -7760,16 +4864,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "Let's get check-in over with, then relax.",
       saveCandidates: [],
-    },
-    {
-      en: "Let's get the awkward talk over with.",
-      saveCandidates: [],
-    },
-    {
-      en: "Let's get this over with before it rains.",
-      saveCandidates: [
-        { text: "get this over with", type: 'chunk', start: 6, end: 24 },
-      ],
     },
   ],
   'pt49-5': [
@@ -7787,18 +4881,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "We're almost done planning the itinerary.",
-      saveCandidates: [
-        { text: "We're almost done", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "We're almost done — thanks for helping out.",
-      saveCandidates: [
-        { text: "We're almost done", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "We're almost done, but the lift just broke.",
       saveCandidates: [
         { text: "We're almost done", type: 'chunk', start: 0, end: 17 },
       ],
@@ -7823,16 +4905,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "something wrong with", type: 'chunk', start: 8, end: 28 },
       ],
     },
-    {
-      en: "There's something wrong, you've been quiet.",
-      saveCandidates: [],
-    },
-    {
-      en: "There's something wrong with the brakes.",
-      saveCandidates: [
-        { text: "something wrong with", type: 'chunk', start: 8, end: 28 },
-      ],
-    },
   ],
   'pt50-2': [
     {
@@ -7849,18 +4921,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can you take a look at this map for me?",
-      saveCandidates: [
-        { text: "Can you take a look at", type: 'chunk', start: 0, end: 22 },
-      ],
-    },
-    {
-      en: "Can you take a look at this text I wrote?",
-      saveCandidates: [
-        { text: "Can you take a look at", type: 'chunk', start: 0, end: 22 },
-      ],
-    },
-    {
-      en: "Can you take a look at the engine? It's smoking.",
       saveCandidates: [
         { text: "Can you take a look at", type: 'chunk', start: 0, end: 22 },
       ],
@@ -7885,18 +4945,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "been", type: 'chunk', start: 5, end: 9 },
       ],
     },
-    {
-      en: "It's been bothering me, so let's talk.",
-      saveCandidates: [
-        { text: "been", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
-    {
-      en: "It's been smoking a little since this morning.",
-      saveCandidates: [
-        { text: "been", type: 'chunk', start: 5, end: 9 },
-      ],
-    },
   ],
   'pt50-4': [
     {
@@ -7913,18 +4961,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "How soon can you check us in?",
-      saveCandidates: [
-        { text: "How soon can you", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "How soon can you get here? I miss you.",
-      saveCandidates: [
-        { text: "How soon can you", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "How soon can you tow it? I'm stuck.",
       saveCandidates: [
         { text: "How soon can you", type: 'chunk', start: 0, end: 16 },
       ],
@@ -7949,18 +4985,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "just my luck", type: 'chunk', start: 43, end: 55 },
       ],
     },
-    {
-      en: "She called the moment I left — just my luck.",
-      saveCandidates: [
-        { text: "just my luck", type: 'chunk', start: 31, end: 43 },
-      ],
-    },
-    {
-      en: "Flat tire in the rain — just my luck.",
-      saveCandidates: [
-        { text: "just my luck", type: 'chunk', start: 24, end: 36 },
-      ],
-    },
   ],
   'pt51-1': [
     {
@@ -7977,18 +5001,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm writing to request a late checkout.",
-      saveCandidates: [
-        { text: "writing to", type: 'chunk', start: 4, end: 14 },
-      ],
-    },
-    {
-      en: "I'm writing to say how much last night meant.",
-      saveCandidates: [
-        { text: "writing to", type: 'chunk', start: 4, end: 14 },
-      ],
-    },
-    {
-      en: "I'm writing to report a problem with my account.",
       saveCandidates: [
         { text: "writing to", type: 'chunk', start: 4, end: 14 },
       ],
@@ -8016,20 +5028,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "attached", type: 'chunk', start: 37, end: 45 },
       ],
     },
-    {
-      en: "Please find the photos from the trip attached.",
-      saveCandidates: [
-        { text: "Please find", type: 'chunk', start: 0, end: 11 },
-        { text: "attached", type: 'chunk', start: 37, end: 45 },
-      ],
-    },
-    {
-      en: "Please find the screenshot of the error attached.",
-      saveCandidates: [
-        { text: "Please find", type: 'chunk', start: 0, end: 11 },
-        { text: "attached", type: 'chunk', start: 40, end: 48 },
-      ],
-    },
   ],
   'pt51-3': [
     {
@@ -8046,18 +5044,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Sorry for the late cancellation of the room.",
-      saveCandidates: [
-        { text: "Sorry for the late", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "Sorry for the late birthday wish!",
-      saveCandidates: [
-        { text: "Sorry for the late", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "Sorry for the late heads-up about the change.",
       saveCandidates: [
         { text: "Sorry for the late", type: 'chunk', start: 0, end: 18 },
       ],
@@ -8082,18 +5068,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Just a quick note to", type: 'chunk', start: 0, end: 20 },
       ],
     },
-    {
-      en: "Just a quick note to say I'm proud of you.",
-      saveCandidates: [
-        { text: "Just a quick note to", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "Just a quick note to flag a small issue.",
-      saveCandidates: [
-        { text: "Just a quick note to", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
   ],
   'pt51-5': [
     {
@@ -8114,18 +5088,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "keep you posted", type: 'chunk', start: 5, end: 20 },
       ],
     },
-    {
-      en: "I'll keep you posted, don't worry too much.",
-      saveCandidates: [
-        { text: "keep you posted", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "I'll keep you posted if anything changes.",
-      saveCandidates: [
-        { text: "keep you posted", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
   ],
   'pt52-1': [
     {
@@ -8142,16 +5104,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "This town takes after the one in my photos.",
-      saveCandidates: [
-        { text: "takes after", type: 'chunk', start: 10, end: 21 },
-      ],
-    },
-    {
-      en: "You take after your sister, you know.",
-      saveCandidates: [],
-    },
-    {
-      en: "The puppy takes after its grumpy mother.",
       saveCandidates: [
         { text: "takes after", type: 'chunk', start: 10, end: 21 },
       ],
@@ -8179,20 +5131,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "over", type: 'chunk', start: 21, end: 25 },
       ],
     },
-    {
-      en: "We're having your family over this weekend.",
-      saveCandidates: [
-        { text: "We're hav", type: 'chunk', start: 0, end: 9 },
-        { text: "over", type: 'chunk', start: 25, end: 29 },
-      ],
-    },
-    {
-      en: "We're having people over and the oven died.",
-      saveCandidates: [
-        { text: "We're hav", type: 'chunk', start: 0, end: 9 },
-        { text: "over", type: 'chunk', start: 20, end: 24 },
-      ],
-    },
   ],
   'pt52-3': [
     {
@@ -8211,16 +5149,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "This street reminds me of home.",
       saveCandidates: [
         { text: "reminds me of", type: 'chunk', start: 12, end: 25 },
-      ],
-    },
-    {
-      en: "You remind me of someone I really trust.",
-      saveCandidates: [],
-    },
-    {
-      en: "That smell reminds me of something burning.",
-      saveCandidates: [
-        { text: "reminds me of", type: 'chunk', start: 11, end: 24 },
       ],
     },
   ],
@@ -8243,18 +5171,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "grew up", type: 'chunk', start: 2, end: 9 },
       ],
     },
-    {
-      en: "I grew up with three noisy brothers.",
-      saveCandidates: [
-        { text: "grew up", type: 'chunk', start: 2, end: 9 },
-      ],
-    },
-    {
-      en: "I grew up never trusting old wiring.",
-      saveCandidates: [
-        { text: "grew up", type: 'chunk', start: 2, end: 9 },
-      ],
-    },
   ],
   'pt52-5': [
     {
@@ -8269,14 +5185,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "A love of travel runs in the family.",
-      saveCandidates: [],
-    },
-    {
-      en: "Loud laughter runs in the family, sorry!",
-      saveCandidates: [],
-    },
-    {
-      en: "A weak stomach runs in the family, sadly.",
       saveCandidates: [],
     },
   ],
@@ -8299,18 +5207,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "hit it off", type: 'chunk', start: 3, end: 13 },
       ],
     },
-    {
-      en: "You two hit it off faster than I expected.",
-      saveCandidates: [
-        { text: "hit it off", type: 'chunk', start: 8, end: 18 },
-      ],
-    },
-    {
-      en: "We hit it off, then I never heard back.",
-      saveCandidates: [
-        { text: "hit it off", type: 'chunk', start: 3, end: 13 },
-      ],
-    },
   ],
   'pt53-2': [
     {
@@ -8326,16 +5222,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I had a crush on our tour guide, ha.",
-      saveCandidates: [],
-    },
-    {
-      en: "I've had a crush on you for a while.",
-      saveCandidates: [
-        { text: "for a while", type: 'prepPhrase', start: 24, end: 35 },
-      ],
-    },
-    {
-      en: "I have a crush, but I keep chickening out.",
       saveCandidates: [],
     },
   ],
@@ -8354,18 +5240,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Are you seeing the same forecast I am?",
-      saveCandidates: [
-        { text: "Are you see", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Are you seeing someone, or still single?",
-      saveCandidates: [
-        { text: "Are you see", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Are you seeing this? My screen just glitched.",
       saveCandidates: [
         { text: "Are you see", type: 'chunk', start: 0, end: 11 },
       ],
@@ -8390,18 +5264,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "We've been together", type: 'chunk', start: 0, end: 19 },
       ],
     },
-    {
-      en: "We've been together through a lot, honestly.",
-      saveCandidates: [
-        { text: "We've been together", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "We've been together long enough to argue well.",
-      saveCandidates: [
-        { text: "We've been together", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
   ],
   'pt53-5': [
     {
@@ -8418,18 +5280,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "We just clicked with our travel buddies.",
-      saveCandidates: [
-        { text: "just clicked", type: 'chunk', start: 3, end: 15 },
-      ],
-    },
-    {
-      en: "We just clicked, like we'd always known each other.",
-      saveCandidates: [
-        { text: "just clicked", type: 'chunk', start: 3, end: 15 },
-      ],
-    },
-    {
-      en: "We just clicked, then life got complicated.",
       saveCandidates: [
         { text: "just clicked", type: 'chunk', start: 3, end: 15 },
       ],
@@ -8454,18 +5304,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Long time no see", type: 'chunk', start: 0, end: 16 },
       ],
     },
-    {
-      en: "Long time no see, we really should fix that.",
-      saveCandidates: [
-        { text: "Long time no see", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Long time no see — sorry I went off-grid.",
-      saveCandidates: [
-        { text: "Long time no see", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
   ],
   'pt54-2': [
     {
@@ -8482,18 +5320,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What have you been up to on your travels?",
-      saveCandidates: [
-        { text: "What have you been up to", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "What have you been up to without me?",
-      saveCandidates: [
-        { text: "What have you been up to", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "What have you been up to? You vanished!",
       saveCandidates: [
         { text: "What have you been up to", type: 'chunk', start: 0, end: 24 },
       ],
@@ -8518,18 +5344,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "should", type: 'chunk', start: 3, end: 9 },
       ],
     },
-    {
-      en: "We should call your mom this weekend.",
-      saveCandidates: [
-        { text: "should", type: 'chunk', start: 3, end: 9 },
-      ],
-    },
-    {
-      en: "We should leave now before the rain starts.",
-      saveCandidates: [
-        { text: "should", type: 'chunk', start: 3, end: 9 },
-      ],
-    },
   ],
   'pt54-4': [
     {
@@ -8546,18 +5360,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It's been ages since I went abroad.",
-      saveCandidates: [
-        { text: "been ages since", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "It's been ages since the whole gang met up.",
-      saveCandidates: [
-        { text: "been ages since", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "It's been ages since it rained like this.",
       saveCandidates: [
         { text: "been ages since", type: 'chunk', start: 5, end: 20 },
       ],
@@ -8582,18 +5384,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Same here", type: 'chunk', start: 0, end: 9 },
       ],
     },
-    {
-      en: "Same here, I've missed you a lot.",
-      saveCandidates: [
-        { text: "Same here", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Same here — my phone died too.",
-      saveCandidates: [
-        { text: "Same here", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
   ],
   'pt55-1': [
     {
@@ -8610,18 +5400,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Have you heard about the flight strikes?",
-      saveCandidates: [
-        { text: "Have you heard about", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "Have you heard about what happened to Mia?",
-      saveCandidates: [
-        { text: "Have you heard about", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "Have you heard about the power outage downtown?",
       saveCandidates: [
         { text: "Have you heard about", type: 'chunk', start: 0, end: 20 },
       ],
@@ -8646,18 +5424,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "In my opinion", type: 'chunk', start: 0, end: 13 },
       ],
     },
-    {
-      en: "In my opinion, you should just talk to her.",
-      saveCandidates: [
-        { text: "In my opinion", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "In my opinion, we should leave before it floods.",
-      saveCandidates: [
-        { text: "In my opinion", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt55-3': [
     {
@@ -8674,18 +5440,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I couldn't agree more — let's go early.",
-      saveCandidates: [
-        { text: "couldn't agree more", type: 'chunk', start: 2, end: 21 },
-      ],
-    },
-    {
-      en: "I couldn't agree more, you deserve better.",
-      saveCandidates: [
-        { text: "couldn't agree more", type: 'chunk', start: 2, end: 21 },
-      ],
-    },
-    {
-      en: "I couldn't agree more — let's evacuate now.",
       saveCandidates: [
         { text: "couldn't agree more", type: 'chunk', start: 2, end: 21 },
       ],
@@ -8710,18 +5464,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Personally", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "Personally, I think you two are great together.",
-      saveCandidates: [
-        { text: "Personally", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Personally, I'd unplug it just to be safe.",
-      saveCandidates: [
-        { text: "Personally", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt55-5': [
     {
@@ -8738,18 +5480,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I see it differently — I'd skip that city.",
-      saveCandidates: [
-        { text: "see it differently", type: 'chunk', start: 2, end: 20 },
-      ],
-    },
-    {
-      en: "I see it differently, but I respect your call.",
-      saveCandidates: [
-        { text: "see it differently", type: 'chunk', start: 2, end: 20 },
-      ],
-    },
-    {
-      en: "I see it differently — that risk is too big.",
       saveCandidates: [
         { text: "see it differently", type: 'chunk', start: 2, end: 20 },
       ],
@@ -8774,16 +5504,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "think I'm lost", type: 'chunk', start: 2, end: 16 },
       ],
     },
-    {
-      en: "I think I'm a bit lost about us lately.",
-      saveCandidates: [],
-    },
-    {
-      en: "I think I'm lost and my phone just died.",
-      saveCandidates: [
-        { text: "think I'm lost", type: 'chunk', start: 2, end: 16 },
-      ],
-    },
   ],
   'pt56-2': [
     {
@@ -8800,18 +5520,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Could you point me toward the old town?",
-      saveCandidates: [
-        { text: "Could you point me toward", type: 'chunk', start: 0, end: 25 },
-      ],
-    },
-    {
-      en: "Could you point me toward where you're sitting?",
-      saveCandidates: [
-        { text: "Could you point me toward", type: 'chunk', start: 0, end: 25 },
-      ],
-    },
-    {
-      en: "Could you point me toward the nearest hospital?",
       saveCandidates: [
         { text: "Could you point me toward", type: 'chunk', start: 0, end: 25 },
       ],
@@ -8836,18 +5544,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Is everyth", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "Is everything okay? You seem a bit off.",
-      saveCandidates: [
-        { text: "Is everyth", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Is everything alright? I heard a loud crash.",
-      saveCandidates: [
-        { text: "Is everyth", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt56-4': [
     {
@@ -8864,18 +5560,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Someone call the front desk about the leak!",
-      saveCandidates: [
-        { text: "Someone call", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Someone call her parents right now!",
-      saveCandidates: [
-        { text: "Someone call", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Someone call the fire department, hurry!",
       saveCandidates: [
         { text: "Someone call", type: 'chunk', start: 0, end: 12 },
       ],
@@ -8900,18 +5584,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Hang in there", type: 'chunk', start: 0, end: 13 },
       ],
     },
-    {
-      en: "Hang in there, I'm coming as fast as I can.",
-      saveCandidates: [
-        { text: "Hang in there", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Hang in there, the tow truck is five minutes out.",
-      saveCandidates: [
-        { text: "Hang in there", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt57-1': [
     {
@@ -8928,18 +5600,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What goes into a proper local stew here?",
-      saveCandidates: [
-        { text: "What goes into", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "What goes into keeping you two so happy?",
-      saveCandidates: [
-        { text: "What goes into", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "What goes into this? I have allergies.",
       saveCandidates: [
         { text: "What goes into", type: 'chunk', start: 0, end: 14 },
       ],
@@ -8964,18 +5624,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Could you pass me", type: 'chunk', start: 0, end: 17 },
       ],
     },
-    {
-      en: "Could you pass me your plate? I'll refill it.",
-      saveCandidates: [
-        { text: "Could you pass me", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Could you pass me a towel? It spilled!",
-      saveCandidates: [
-        { text: "Could you pass me", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
   ],
   'pt57-3': [
     {
@@ -8988,14 +5636,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "The plan needs more buffer time between stops.",
-      saveCandidates: [],
-    },
-    {
-      en: "This needs more honesty between us.",
-      saveCandidates: [],
-    },
-    {
-      en: "The tire needs more air before we drive.",
       saveCandidates: [],
     },
   ],
@@ -9014,18 +5654,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let it charge while we explore the town.",
-      saveCandidates: [
-        { text: "Let it", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
-    {
-      en: "Let it go — it's really not worth a fight.",
-      saveCandidates: [
-        { text: "Let it", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
-    {
-      en: "Let it dry before you touch the paint.",
       saveCandidates: [
         { text: "Let it", type: 'chunk', start: 0, end: 6 },
       ],
@@ -9050,18 +5678,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "dig in!", type: 'chunk', start: 28, end: 35 },
       ],
     },
-    {
-      en: "I made your favorite, so dig in!",
-      saveCandidates: [
-        { text: "dig in!", type: 'chunk', start: 25, end: 32 },
-      ],
-    },
-    {
-      en: "It's getting cold — hurry and dig in!",
-      saveCandidates: [
-        { text: "dig in!", type: 'chunk', start: 30, end: 37 },
-      ],
-    },
   ],
   'pt58-1': [
     {
@@ -9078,19 +5694,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "I'm saving up for a month in Europe.",
       saveCandidates: [
         { text: "saving up for", type: 'chunk', start: 4, end: 17 },
-      ],
-    },
-    {
-      en: "I'm saving up for a ring, actually.",
-      saveCandidates: [
-        { text: "saving up for", type: 'chunk', start: 4, end: 17 },
-      ],
-    },
-    {
-      en: "I'm saving up for emergencies, just in case.",
-      saveCandidates: [
-        { text: "saving up for", type: 'chunk', start: 4, end: 17 },
-        { text: "in case", type: 'fixedExpression', start: 36, end: 43 },
       ],
     },
   ],
@@ -9113,18 +5716,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "can't afford", type: 'chunk', start: 2, end: 14 },
       ],
     },
-    {
-      en: "I can't afford to lose a friend like you.",
-      saveCandidates: [
-        { text: "can't afford", type: 'chunk', start: 2, end: 14 },
-      ],
-    },
-    {
-      en: "I can't afford a big repair this month.",
-      saveCandidates: [
-        { text: "can't afford", type: 'chunk', start: 2, end: 14 },
-      ],
-    },
   ],
   'pt58-3': [
     {
@@ -9141,16 +5732,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "The cab to the airport is on me.",
       saveCandidates: [
         { text: "is on me", type: 'chunk', start: 23, end: 31 },
-      ],
-    },
-    {
-      en: "Your birthday meal is totally on me.",
-      saveCandidates: [],
-    },
-    {
-      en: "The repair is on me — it was my fault.",
-      saveCandidates: [
-        { text: "is on me", type: 'chunk', start: 11, end: 19 },
       ],
     },
   ],
@@ -9173,18 +5754,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "split", type: 'chunk', start: 6, end: 11 },
       ],
     },
-    {
-      en: "Let's split it — no need to treat me.",
-      saveCandidates: [
-        { text: "split", type: 'chunk', start: 6, end: 11 },
-      ],
-    },
-    {
-      en: "Let's split the towing fee, it's fair.",
-      saveCandidates: [
-        { text: "split", type: 'chunk', start: 6, end: 11 },
-      ],
-    },
   ],
   'pt58-5': [
     {
@@ -9197,16 +5766,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "The airport taxi was a real rip-off.",
-      saveCandidates: [],
-    },
-    {
-      en: "Don't let them charge you — that's a rip-off.",
-      saveCandidates: [
-        { text: "that's a rip-off", type: 'chunk', start: 28, end: 44 },
-      ],
-    },
-    {
-      en: "The repair quote felt like a rip-off.",
       saveCandidates: [],
     },
   ],
@@ -9229,16 +5788,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "can't log in to", type: 'chunk', start: 2, end: 17 },
       ],
     },
-    {
-      en: "I can't log in to our shared photo album.",
-      saveCandidates: [
-        { text: "can't log in to", type: 'chunk', start: 2, end: 17 },
-      ],
-    },
-    {
-      en: "I can't log in and the deadline's in an hour.",
-      saveCandidates: [],
-    },
   ],
   'pt59-2': [
     {
@@ -9258,16 +5807,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "an update for", type: 'chunk', start: 8, end: 21 },
       ],
-    },
-    {
-      en: "There's an update for the game we play together.",
-      saveCandidates: [
-        { text: "an update for", type: 'chunk', start: 8, end: 21 },
-      ],
-    },
-    {
-      en: "There's an update, and now nothing opens.",
-      saveCandidates: [],
     },
   ],
   'pt59-3': [
@@ -9291,18 +5830,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "boarding pass", type: 'collocation', start: 29, end: 42 },
       ],
     },
-    {
-      en: "My phone died, that's why I missed your call.",
-      saveCandidates: [
-        { text: "died", type: 'chunk', start: 9, end: 13 },
-      ],
-    },
-    {
-      en: "My phone died with the map still loading.",
-      saveCandidates: [
-        { text: "died", type: 'chunk', start: 9, end: 13 },
-      ],
-    },
   ],
   'pt59-4': [
     {
@@ -9322,18 +5849,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "not letting me", type: 'chunk', start: 5, end: 19 },
         { text: "check in", type: 'phrasalVerb', start: 20, end: 28 },
-      ],
-    },
-    {
-      en: "It's not letting me tag you in the photo.",
-      saveCandidates: [
-        { text: "not letting me", type: 'chunk', start: 5, end: 19 },
-      ],
-    },
-    {
-      en: "It's not letting me pay — try cash?",
-      saveCandidates: [
-        { text: "not letting me", type: 'chunk', start: 5, end: 19 },
       ],
     },
   ],
@@ -9356,18 +5871,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "acting up", type: 'chunk', start: 11, end: 20 },
       ],
     },
-    {
-      en: "My phone's acting up, so texts are delayed.",
-      saveCandidates: [
-        { text: "acting up", type: 'chunk', start: 11, end: 20 },
-      ],
-    },
-    {
-      en: "The car's acting up — let's not risk the trip.",
-      saveCandidates: [
-        { text: "acting up", type: 'chunk', start: 10, end: 19 },
-      ],
-    },
   ],
   'pt60-1': [
     {
@@ -9386,18 +5889,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "An early start sounds good to me.",
       saveCandidates: [
         { text: "sounds good to me", type: 'chunk', start: 15, end: 32 },
-      ],
-    },
-    {
-      en: "Dinner at your place sounds good to me.",
-      saveCandidates: [
-        { text: "sounds good to me", type: 'chunk', start: 21, end: 38 },
-      ],
-    },
-    {
-      en: "Whatever's fastest sounds good to me.",
-      saveCandidates: [
-        { text: "sounds good to me", type: 'chunk', start: 19, end: 36 },
       ],
     },
   ],
@@ -9420,18 +5911,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "No worries", type: 'chunk', start: 16, end: 26 },
       ],
     },
-    {
-      en: "No worries, you can pay me back later.",
-      saveCandidates: [
-        { text: "No worries", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "No worries, we'll figure it out somehow.",
-      saveCandidates: [
-        { text: "No worries", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt60-3': [
     {
@@ -9452,18 +5931,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Fair enough", type: 'chunk', start: 12, end: 23 },
       ],
     },
-    {
-      en: "Fair enough, I shouldn't have assumed.",
-      saveCandidates: [
-        { text: "Fair enough", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Fair enough, safety first in this weather.",
-      saveCandidates: [
-        { text: "Fair enough", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
   ],
   'pt60-4': [
     {
@@ -9480,18 +5947,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "My bad, I read the gate number wrong.",
-      saveCandidates: [
-        { text: "My bad", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
-    {
-      en: "My bad, I totally forgot to text back.",
-      saveCandidates: [
-        { text: "My bad", type: 'chunk', start: 0, end: 6 },
-      ],
-    },
-    {
-      en: "My bad, I left the stove on again.",
       saveCandidates: [
         { text: "My bad", type: 'chunk', start: 0, end: 6 },
       ],
@@ -9516,18 +5971,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Suit yourself", type: 'chunk', start: 21, end: 34 },
       ],
     },
-    {
-      en: "Suit yourself, but the offer still stands.",
-      saveCandidates: [
-        { text: "Suit yourself", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Suit yourself, but I warned you it's risky.",
-      saveCandidates: [
-        { text: "Suit yourself", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt61-1': [
     {
@@ -9547,16 +5990,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "swamped with", type: 'chunk', start: 4, end: 16 },
       ],
-    },
-    {
-      en: "I'm swamped, but let's still grab dinner.",
-      saveCandidates: [
-        { text: "grab dinner", type: 'collocation', start: 29, end: 40 },
-      ],
-    },
-    {
-      en: "I'm swamped and the system just crashed.",
-      saveCandidates: [],
     },
   ],
   'pt61-2': [
@@ -9581,18 +6014,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "for me?", type: 'chunk', start: 32, end: 39 },
       ],
     },
-    {
-      en: "Can you cover for me at dinner? I'll be late.",
-      saveCandidates: [
-        { text: "Can you cover", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Can you cover the desk? I have to run.",
-      saveCandidates: [
-        { text: "Can you cover", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt61-3': [
     {
@@ -9613,16 +6034,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "loop you in on", type: 'chunk', start: 5, end: 19 },
       ],
     },
-    {
-      en: "I'll loop you in once I hear from her.",
-      saveCandidates: [
-        { text: "loop you in on", type: 'chunk', start: 5, end: 19 },
-      ],
-    },
-    {
-      en: "I'll loop you in if the schedule shifts.",
-      saveCandidates: [],
-    },
   ],
   'pt61-4': [
     {
@@ -9639,18 +6050,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'll touch base with the hotel before we go.",
-      saveCandidates: [
-        { text: "touch base with", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "I'll touch base with her and smooth it over.",
-      saveCandidates: [
-        { text: "touch base with", type: 'chunk', start: 5, end: 20 },
-      ],
-    },
-    {
-      en: "I'll touch base with support about the outage.",
       saveCandidates: [
         { text: "touch base with", type: 'chunk', start: 5, end: 20 },
       ],
@@ -9675,18 +6074,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "been one of those", type: 'chunk', start: 5, end: 22 },
       ],
     },
-    {
-      en: "It's been one of those weeks — I need a friend.",
-      saveCandidates: [
-        { text: "been one of those", type: 'chunk', start: 5, end: 22 },
-      ],
-    },
-    {
-      en: "It's been one of those days — everything broke.",
-      saveCandidates: [
-        { text: "been one of those", type: 'chunk', start: 5, end: 22 },
-      ],
-    },
   ],
   'pt62-1': [
     {
@@ -9706,16 +6093,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "Do you have a minute to", type: 'chunk', start: 0, end: 23 },
       ],
-    },
-    {
-      en: "Do you have a minute to talk, just us?",
-      saveCandidates: [
-        { text: "Do you have a minute to", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
-    {
-      en: "Do you have a minute? It's kind of urgent.",
-      saveCandidates: [],
     },
   ],
   'pt62-2': [
@@ -9740,20 +6117,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "by you", type: 'chunk', start: 26, end: 32 },
       ],
     },
-    {
-      en: "I wanted to run an idea by you, honestly.",
-      saveCandidates: [
-        { text: "wanted to run", type: 'chunk', start: 2, end: 15 },
-        { text: "by you", type: 'chunk', start: 24, end: 30 },
-      ],
-    },
-    {
-      en: "I wanted to run a quick fix by you now.",
-      saveCandidates: [
-        { text: "wanted to run", type: 'chunk', start: 2, end: 15 },
-        { text: "by you", type: 'chunk', start: 28, end: 34 },
-      ],
-    },
   ],
   'pt62-3': [
     {
@@ -9770,18 +6133,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "How am I doing on the driving so far?",
-      saveCandidates: [
-        { text: "How am I doing on", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "How am I doing on being a better listener?",
-      saveCandidates: [
-        { text: "How am I doing on", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "How am I doing on time? Are we late?",
       saveCandidates: [
         { text: "How am I doing on", type: 'chunk', start: 0, end: 17 },
       ],
@@ -9807,18 +6158,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Keep up the", type: 'chunk', start: 0, end: 11 },
       ],
     },
-    {
-      en: "Keep up the kindness — people notice it.",
-      saveCandidates: [
-        { text: "Keep up the", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Keep up the pace; we're behind schedule.",
-      saveCandidates: [
-        { text: "Keep up the", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
   ],
   'pt62-5': [
     {
@@ -9839,19 +6178,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "set up", type: 'chunk', start: 6, end: 12 },
       ],
     },
-    {
-      en: "Let's set up a proper catch-up soon.",
-      saveCandidates: [
-        { text: "set up", type: 'chunk', start: 6, end: 12 },
-      ],
-    },
-    {
-      en: "Let's set up a backup plan, just in case.",
-      saveCandidates: [
-        { text: "set up", type: 'chunk', start: 6, end: 12 },
-        { text: "in case", type: 'fixedExpression', start: 33, end: 40 },
-      ],
-    },
   ],
   'pt63-1': [
     {
@@ -9868,18 +6194,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Tell me about the best place you've visited.",
-      saveCandidates: [
-        { text: "Tell me about", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Tell me about how you two first met.",
-      saveCandidates: [
-        { text: "Tell me about", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Tell me about what went wrong, step by step.",
       saveCandidates: [
         { text: "Tell me about", type: 'chunk', start: 0, end: 13 },
       ],
@@ -9904,18 +6218,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "have experience in", type: 'chunk', start: 2, end: 20 },
       ],
     },
-    {
-      en: "I have experience in helping friends move.",
-      saveCandidates: [
-        { text: "have experience in", type: 'chunk', start: 2, end: 20 },
-      ],
-    },
-    {
-      en: "I have experience in handling sudden issues.",
-      saveCandidates: [
-        { text: "have experience in", type: 'chunk', start: 2, end: 20 },
-      ],
-    },
   ],
   'pt63-3': [
     {
@@ -9932,18 +6234,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "My biggest fear is missing the connection.",
-      saveCandidates: [
-        { text: "My biggest", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "My biggest regret is not calling sooner.",
-      saveCandidates: [
-        { text: "My biggest", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "My biggest problem is this constant error.",
       saveCandidates: [
         { text: "My biggest", type: 'chunk', start: 0, end: 10 },
       ],
@@ -9968,19 +6258,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "confident that", type: 'chunk', start: 4, end: 18 },
       ],
     },
-    {
-      en: "I'm confident that you'll do great today.",
-      saveCandidates: [
-        { text: "confident that", type: 'chunk', start: 4, end: 18 },
-      ],
-    },
-    {
-      en: "I'm confident that we can fix it in time.",
-      saveCandidates: [
-        { text: "confident that", type: 'chunk', start: 4, end: 18 },
-        { text: "in time", type: 'prepPhrase', start: 33, end: 40 },
-      ],
-    },
   ],
   'pt63-5': [
     {
@@ -10001,18 +6278,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "When can I expect", type: 'chunk', start: 0, end: 17 },
       ],
     },
-    {
-      en: "When can I expect to see you again?",
-      saveCandidates: [
-        { text: "When can I expect", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "When can I expect the repair to be done?",
-      saveCandidates: [
-        { text: "When can I expect", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
   ],
   'pt64-1': [
     {
@@ -10029,18 +6294,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "May I ask who's leading the tour today?",
-      saveCandidates: [
-        { text: "May I ask who's", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "May I ask who's coming with you tonight?",
-      saveCandidates: [
-        { text: "May I ask who's", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "May I ask who's handling this complaint?",
       saveCandidates: [
         { text: "May I ask who's", type: 'chunk', start: 0, end: 15 },
       ],
@@ -10067,19 +6320,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Could you spell", type: 'chunk', start: 0, end: 15 },
       ],
     },
-    {
-      en: "Could you spell her name? I'll save it.",
-      saveCandidates: [
-        { text: "Could you spell", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Could you spell the error code for me?",
-      saveCandidates: [
-        { text: "Could you spell", type: 'chunk', start: 0, end: 15 },
-        { text: "for me?", type: 'chunk', start: 31, end: 38 },
-      ],
-    },
   ],
   'pt64-3': [
     {
@@ -10100,18 +6340,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "put you through to", type: 'chunk', start: 5, end: 23 },
       ],
     },
-    {
-      en: "I'll put you through to her, hang on.",
-      saveCandidates: [
-        { text: "put you through to", type: 'chunk', start: 5, end: 23 },
-      ],
-    },
-    {
-      en: "I'll put you through to support right away.",
-      saveCandidates: [
-        { text: "put you through to", type: 'chunk', start: 5, end: 23 },
-      ],
-    },
   ],
   'pt64-4': [
     {
@@ -10128,18 +6356,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can I take a message for the guide?",
-      saveCandidates: [
-        { text: "Can I take a message", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "Can I take a message? She'll call you back.",
-      saveCandidates: [
-        { text: "Can I take a message", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "Can I take a message? The line's terrible.",
       saveCandidates: [
         { text: "Can I take a message", type: 'chunk', start: 0, end: 20 },
       ],
@@ -10166,18 +6382,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "call you back?", type: 'chunk', start: 21, end: 35 },
       ],
     },
-    {
-      en: "Can I have her call you back tonight?",
-      saveCandidates: [
-        { text: "Can I have", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Can I have a tech call you back urgently?",
-      saveCandidates: [
-        { text: "Can I have", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt65-1': [
     {
@@ -10194,18 +6398,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "How can I help you with your booking?",
-      saveCandidates: [
-        { text: "How can I help you", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "How can I help you feel better tonight?",
-      saveCandidates: [
-        { text: "How can I help you", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "How can I help you sort this out fast?",
       saveCandidates: [
         { text: "How can I help you", type: 'chunk', start: 0, end: 18 },
       ],
@@ -10230,18 +6422,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "look into", type: 'chunk', start: 5, end: 14 },
       ],
     },
-    {
-      en: "I'll look into it and let you know.",
-      saveCandidates: [
-        { text: "look into", type: 'chunk', start: 5, end: 14 },
-      ],
-    },
-    {
-      en: "I'll look into the error and call back.",
-      saveCandidates: [
-        { text: "look into", type: 'chunk', start: 5, end: 14 },
-      ],
-    },
   ],
   'pt65-3': [
     {
@@ -10258,18 +6438,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I apologize for the room not being ready.",
-      saveCandidates: [
-        { text: "apologize for", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I apologize for snapping at you earlier.",
-      saveCandidates: [
-        { text: "apologize for", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I apologize for the sudden outage.",
       saveCandidates: [
         { text: "apologize for", type: 'chunk', start: 2, end: 15 },
       ],
@@ -10294,18 +6462,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Is there anything else", type: 'chunk', start: 0, end: 22 },
       ],
     },
-    {
-      en: "Is there anything else on your mind?",
-      saveCandidates: [
-        { text: "Is there anything else", type: 'chunk', start: 0, end: 22 },
-      ],
-    },
-    {
-      en: "Is there anything else broken I should know?",
-      saveCandidates: [
-        { text: "Is there anything else", type: 'chunk', start: 0, end: 22 },
-      ],
-    },
   ],
   'pt65-5': [
     {
@@ -10322,18 +6478,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Thanks for your tips about the city.",
-      saveCandidates: [
-        { text: "Thanks for your", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Thanks for your honesty, it means a lot.",
-      saveCandidates: [
-        { text: "Thanks for your", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Thanks for your quick help with the leak.",
       saveCandidates: [
         { text: "Thanks for your", type: 'chunk', start: 0, end: 15 },
       ],
@@ -10358,18 +6502,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "As you can see", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "As you can see, I kept every photo of us.",
-      saveCandidates: [
-        { text: "As you can see", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "As you can see, the wire is completely frayed.",
-      saveCandidates: [
-        { text: "As you can see", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt66-2': [
     {
@@ -10386,18 +6518,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's take a look at the map before we go.",
-      saveCandidates: [
-        { text: "take a look at", type: 'chunk', start: 6, end: 20 },
-      ],
-    },
-    {
-      en: "Let's take a look at our old photos.",
-      saveCandidates: [
-        { text: "take a look at", type: 'chunk', start: 6, end: 20 },
-      ],
-    },
-    {
-      en: "Let's take a look at what went wrong.",
       saveCandidates: [
         { text: "take a look at", type: 'chunk', start: 6, end: 20 },
       ],
@@ -10422,18 +6542,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "The key takeaway is", type: 'chunk', start: 0, end: 19 },
       ],
     },
-    {
-      en: "The key takeaway is that you matter to me.",
-      saveCandidates: [
-        { text: "The key takeaway is", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "The key takeaway is to back up everything.",
-      saveCandidates: [
-        { text: "The key takeaway is", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
   ],
   'pt66-4': [
     {
@@ -10450,18 +6558,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Bear with me while I check the tickets.",
-      saveCandidates: [
-        { text: "Bear with me", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Bear with me, this is hard to say.",
-      saveCandidates: [
-        { text: "Bear with me", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Bear with me, the system is loading slowly.",
       saveCandidates: [
         { text: "Bear with me", type: 'chunk', start: 0, end: 12 },
       ],
@@ -10486,18 +6582,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "That brings me to", type: 'chunk', start: 0, end: 17 },
       ],
     },
-    {
-      en: "That brings me to what I've wanted to say.",
-      saveCandidates: [
-        { text: "That brings me to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "That brings me to the real cause of the bug.",
-      saveCandidates: [
-        { text: "That brings me to", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
   ],
   'pt67-1': [
     {
@@ -10514,18 +6598,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "The best I can do is a partial refund.",
-      saveCandidates: [
-        { text: "The best I can do is", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "The best I can do is hear you out fully.",
-      saveCandidates: [
-        { text: "The best I can do is", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "The best I can do is patch it for now.",
       saveCandidates: [
         { text: "The best I can do is", type: 'chunk', start: 0, end: 20 },
       ],
@@ -10550,18 +6622,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Could you throw in", type: 'chunk', start: 0, end: 18 },
       ],
     },
-    {
-      en: "Could you throw in your famous cookies?",
-      saveCandidates: [
-        { text: "Could you throw in", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "Could you throw in a quick fix today?",
-      saveCandidates: [
-        { text: "Could you throw in", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
   ],
   'pt67-3': [
     {
@@ -10576,16 +6636,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "The resort fee is a bit steep, right?",
-      saveCandidates: [],
-    },
-    {
-      en: "That's a bit steep for a casual gift.",
-      saveCandidates: [
-        { text: "That's a bit steep", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "The repair quote is a bit steep, honestly.",
       saveCandidates: [],
     },
   ],
@@ -10604,18 +6654,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's call it a half-day tour, then.",
-      saveCandidates: [
-        { text: "call it", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's call it even — we both messed up.",
-      saveCandidates: [
-        { text: "call it", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's call it quits before it breaks more.",
       saveCandidates: [
         { text: "call it", type: 'chunk', start: 6, end: 13 },
       ],
@@ -10640,18 +6678,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "have a deal", type: 'chunk', start: 26, end: 37 },
       ],
     },
-    {
-      en: "You cook, I clean — we have a deal.",
-      saveCandidates: [
-        { text: "have a deal", type: 'chunk', start: 23, end: 34 },
-      ],
-    },
-    {
-      en: "Fix it today and we have a deal.",
-      saveCandidates: [
-        { text: "have a deal", type: 'chunk', start: 20, end: 31 },
-      ],
-    },
   ],
   'pt68-1': [
     {
@@ -10668,18 +6694,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Who's taking the lead on planning the trip?",
-      saveCandidates: [
-        { text: "Who's taking the lead on", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "Who's taking the lead on the surprise party?",
-      saveCandidates: [
-        { text: "Who's taking the lead on", type: 'chunk', start: 0, end: 24 },
-      ],
-    },
-    {
-      en: "Who's taking the lead on the outage fix?",
       saveCandidates: [
         { text: "Who's taking the lead on", type: 'chunk', start: 0, end: 24 },
       ],
@@ -10707,20 +6721,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "off your plate", type: 'chunk', start: 24, end: 38 },
       ],
     },
-    {
-      en: "I can take some worry off your plate.",
-      saveCandidates: [
-        { text: "can take", type: 'chunk', start: 2, end: 10 },
-        { text: "off your plate", type: 'chunk', start: 22, end: 36 },
-      ],
-    },
-    {
-      en: "I can take the urgent ticket off your plate.",
-      saveCandidates: [
-        { text: "can take", type: 'chunk', start: 2, end: 10 },
-        { text: "off your plate", type: 'chunk', start: 29, end: 43 },
-      ],
-    },
   ],
   'pt68-3': [
     {
@@ -10737,18 +6737,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Where are we on booking the flights?",
-      saveCandidates: [
-        { text: "Where are we on", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Where are we on planning her gift?",
-      saveCandidates: [
-        { text: "Where are we on", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Where are we on fixing the server?",
       saveCandidates: [
         { text: "Where are we on", type: 'chunk', start: 0, end: 15 },
       ],
@@ -10773,18 +6761,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Are we all on the same", type: 'chunk', start: 0, end: 22 },
       ],
     },
-    {
-      en: "Are we all on the same page about this?",
-      saveCandidates: [
-        { text: "Are we all on the same", type: 'chunk', start: 0, end: 22 },
-      ],
-    },
-    {
-      en: "Are we all on the same version of the file?",
-      saveCandidates: [
-        { text: "Are we all on the same", type: 'chunk', start: 0, end: 22 },
-      ],
-    },
   ],
   'pt68-5': [
     {
@@ -10805,18 +6781,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Count me in", type: 'chunk', start: 24, end: 35 },
       ],
     },
-    {
-      en: "Her birthday surprise? Count me in.",
-      saveCandidates: [
-        { text: "Count me in", type: 'chunk', start: 23, end: 34 },
-      ],
-    },
-    {
-      en: "An all-nighter to fix it? Count me in.",
-      saveCandidates: [
-        { text: "Count me in", type: 'chunk', start: 26, end: 37 },
-      ],
-    },
   ],
   'pt69-1': [
     {
@@ -10833,18 +6797,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can we talk about the budget tonight?",
-      saveCandidates: [
-        { text: "Can we talk about", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Can we talk about changing the plan?",
-      saveCandidates: [
-        { text: "Can we talk about", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Can we talk about this before it blows up?",
       saveCandidates: [
         { text: "Can we talk about", type: 'chunk', start: 0, end: 17 },
       ],
@@ -10869,19 +6821,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "didn't mean to", type: 'chunk', start: 2, end: 16 },
       ],
     },
-    {
-      en: "I didn't mean to rush you at the airport.",
-      saveCandidates: [
-        { text: "didn't mean to", type: 'chunk', start: 2, end: 16 },
-        { text: "at the airport", type: 'prepPhrase', start: 26, end: 40 },
-      ],
-    },
-    {
-      en: "I didn't mean to break it, I swear.",
-      saveCandidates: [
-        { text: "didn't mean to", type: 'chunk', start: 2, end: 16 },
-      ],
-    },
   ],
   'pt69-3': [
     {
@@ -10898,18 +6837,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's not overspend on the first day.",
-      saveCandidates: [
-        { text: "not", type: 'chunk', start: 6, end: 9 },
-      ],
-    },
-    {
-      en: "Let's not change the whole plan now.",
-      saveCandidates: [
-        { text: "not", type: 'chunk', start: 6, end: 9 },
-      ],
-    },
-    {
-      en: "Let's not panic until we know more.",
       saveCandidates: [
         { text: "not", type: 'chunk', start: 6, end: 9 },
       ],
@@ -10934,18 +6861,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "been a", type: 'chunk', start: 8, end: 14 },
       ],
     },
-    {
-      en: "There's been a delay with the connecting flight.",
-      saveCandidates: [
-        { text: "been a", type: 'chunk', start: 8, end: 14 },
-      ],
-    },
-    {
-      en: "There's been a problem with the payment.",
-      saveCandidates: [
-        { text: "been a", type: 'chunk', start: 8, end: 14 },
-      ],
-    },
   ],
   'pt69-5': [
     {
@@ -10962,18 +6877,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's put this behind us and enjoy dinner.",
-      saveCandidates: [
-        { text: "put this behind us", type: 'chunk', start: 6, end: 24 },
-      ],
-    },
-    {
-      en: "Let's put this behind us and enjoy the trip.",
-      saveCandidates: [
-        { text: "put this behind us", type: 'chunk', start: 6, end: 24 },
-      ],
-    },
-    {
-      en: "Let's put this behind us once it's fixed.",
       saveCandidates: [
         { text: "put this behind us", type: 'chunk', start: 6, end: 24 },
       ],
@@ -10998,18 +6901,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Are you free", type: 'chunk', start: 0, end: 12 },
       ],
     },
-    {
-      en: "Are you free to travel next month?",
-      saveCandidates: [
-        { text: "Are you free", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Are you free now? Something just came up.",
-      saveCandidates: [
-        { text: "Are you free", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
   ],
   'pt70-2': [
     {
@@ -11026,18 +6917,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What are you doing for dinner tonight?",
-      saveCandidates: [
-        { text: "What are you do", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "What are you doing on your last day there?",
-      saveCandidates: [
-        { text: "What are you do", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "What are you doing? The power's out here.",
       saveCandidates: [
         { text: "What are you do", type: 'chunk', start: 0, end: 15 },
       ],
@@ -11062,18 +6941,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "make plans for", type: 'chunk', start: 6, end: 20 },
       ],
     },
-    {
-      en: "Let's make plans for that island trip.",
-      saveCandidates: [
-        { text: "make plans for", type: 'chunk', start: 6, end: 20 },
-      ],
-    },
-    {
-      en: "Let's make plans for a rainy-day backup.",
-      saveCandidates: [
-        { text: "make plans for", type: 'chunk', start: 6, end: 20 },
-      ],
-    },
   ],
   'pt70-4': [
     {
@@ -11090,18 +6957,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm free once the chores are done.",
-      saveCandidates: [
-        { text: "free", type: 'chunk', start: 4, end: 8 },
-      ],
-    },
-    {
-      en: "I'm free on the first night there.",
-      saveCandidates: [
-        { text: "free", type: 'chunk', start: 4, end: 8 },
-      ],
-    },
-    {
-      en: "I'm free now if you need help fast.",
       saveCandidates: [
         { text: "free", type: 'chunk', start: 4, end: 8 },
       ],
@@ -11126,16 +6981,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Pencil me in for", type: 'chunk', start: 0, end: 16 },
       ],
     },
-    {
-      en: "Pencil me in for the day tour, maybe.",
-      saveCandidates: [
-        { text: "Pencil me in for", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Pencil me in, but the storm might change things.",
-      saveCandidates: [],
-    },
   ],
   'pt71-1': [
     {
@@ -11152,18 +6997,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Thanks for having me for the weekend.",
-      saveCandidates: [
-        { text: "Thanks for hav", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Thanks for having us at your beach house.",
-      saveCandidates: [
-        { text: "Thanks for hav", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Thanks for having me despite the short notice.",
       saveCandidates: [
         { text: "Thanks for hav", type: 'chunk', start: 0, end: 14 },
       ],
@@ -11188,18 +7021,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can I br", type: 'chunk', start: 0, end: 8 },
       ],
     },
-    {
-      en: "Can I bring an extra bag on the trip?",
-      saveCandidates: [
-        { text: "Can I br", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Can I bring my umbrella? It might rain.",
-      saveCandidates: [
-        { text: "Can I br", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
   ],
   'pt71-3': [
     {
@@ -11220,16 +7041,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Help yourself to", type: 'chunk', start: 0, end: 16 },
       ],
     },
-    {
-      en: "Help yourself to the welcome drinks.",
-      saveCandidates: [
-        { text: "Help yourself to", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Help yourself, but the spicy one's really hot!",
-      saveCandidates: [],
-    },
   ],
   'pt71-4': [
     {
@@ -11246,18 +7057,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Make yourself at home while I cook.",
-      saveCandidates: [
-        { text: "Make yourself at", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Make yourself at home — the room's all yours.",
-      saveCandidates: [
-        { text: "Make yourself at", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Make yourself at home; I'll grab a mop.",
       saveCandidates: [
         { text: "Make yourself at", type: 'chunk', start: 0, end: 16 },
       ],
@@ -11282,18 +7081,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "should get go", type: 'chunk', start: 2, end: 15 },
       ],
     },
-    {
-      en: "I should get going to catch my train.",
-      saveCandidates: [
-        { text: "should get go", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I should get going, it's starting to pour.",
-      saveCandidates: [
-        { text: "should get go", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
   ],
   'pt72-1': [
     {
@@ -11314,18 +7101,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "overwhelmed with", type: 'chunk', start: 4, end: 20 },
       ],
     },
-    {
-      en: "I'm overwhelmed with planning this whole trip.",
-      saveCandidates: [
-        { text: "overwhelmed with", type: 'chunk', start: 4, end: 20 },
-      ],
-    },
-    {
-      en: "I'm overwhelmed with everything breaking at once.",
-      saveCandidates: [
-        { text: "overwhelmed with", type: 'chunk', start: 4, end: 20 },
-      ],
-    },
   ],
   'pt72-2': [
     {
@@ -11342,18 +7117,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Take it easy after such a long day.",
-      saveCandidates: [
-        { text: "Take it easy", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Take it easy on the first day abroad.",
-      saveCandidates: [
-        { text: "Take it easy", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Take it easy, panicking won't help now.",
       saveCandidates: [
         { text: "Take it easy", type: 'chunk', start: 0, end: 12 },
       ],
@@ -11379,18 +7142,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "It'll be", type: 'chunk', start: 0, end: 8 },
       ],
     },
-    {
-      en: "It'll be worth it when we get there.",
-      saveCandidates: [
-        { text: "It'll be", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "It'll be fixed by tomorrow, hang in there.",
-      saveCandidates: [
-        { text: "It'll be", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
   ],
   'pt72-4': [
     {
@@ -11407,18 +7158,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Don't be so hard on yourself about the mess.",
-      saveCandidates: [
-        { text: "Don't be so hard on", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "Don't be so hard on yourself for the wrong turn.",
-      saveCandidates: [
-        { text: "Don't be so hard on", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "Don't be so hard on yourself — it just broke.",
       saveCandidates: [
         { text: "Don't be so hard on", type: 'chunk', start: 0, end: 19 },
       ],
@@ -11443,18 +7182,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "here for", type: 'chunk', start: 4, end: 12 },
       ],
     },
-    {
-      en: "I'm here for you, even from miles away.",
-      saveCandidates: [
-        { text: "here for", type: 'chunk', start: 4, end: 12 },
-      ],
-    },
-    {
-      en: "I'm here for you through this whole mess.",
-      saveCandidates: [
-        { text: "here for", type: 'chunk', start: 4, end: 12 },
-      ],
-    },
   ],
   'pt73-1': [
     {
@@ -11474,14 +7201,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "did a great job on", type: 'chunk', start: 4, end: 22 },
       ],
-    },
-    {
-      en: "You did a great job handling that talk.",
-      saveCandidates: [],
-    },
-    {
-      en: "You did a great job staying calm in there.",
-      saveCandidates: [],
     },
   ],
   'pt73-2': [
@@ -11503,18 +7222,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "love your", type: 'chunk', start: 2, end: 11 },
       ],
     },
-    {
-      en: "I love your photos from the trip.",
-      saveCandidates: [
-        { text: "love your", type: 'chunk', start: 2, end: 11 },
-      ],
-    },
-    {
-      en: "I love your calm in a crisis like that.",
-      saveCandidates: [
-        { text: "love your", type: 'chunk', start: 2, end: 11 },
-      ],
-    },
   ],
   'pt73-3': [
     {
@@ -11531,18 +7238,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "You're really good at finding hidden spots.",
-      saveCandidates: [
-        { text: "You're really good at", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
-    {
-      en: "You're really good at listening to people.",
-      saveCandidates: [
-        { text: "You're really good at", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
-    {
-      en: "You're really good at staying cool in a crisis.",
       saveCandidates: [
         { text: "You're really good at", type: 'chunk', start: 0, end: 21 },
       ],
@@ -11568,18 +7263,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "on you", type: 'chunk', start: 24, end: 30 },
       ],
     },
-    {
-      en: "That apron looks good on you, chef.",
-      saveCandidates: [
-        { text: "on you", type: 'chunk', start: 22, end: 28 },
-      ],
-    },
-    {
-      en: "That helmet looks safe on you, finally.",
-      saveCandidates: [
-        { text: "on you", type: 'chunk', start: 23, end: 29 },
-      ],
-    },
   ],
   'pt73-5': [
     {
@@ -11592,14 +7275,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Way to go, you cooked the whole meal!",
-      saveCandidates: [],
-    },
-    {
-      en: "Way to go, you navigated the whole city!",
-      saveCandidates: [],
-    },
-    {
-      en: "Way to go fixing that under pressure!",
       saveCandidates: [],
     },
   ],
@@ -11618,18 +7293,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I owe you an apology for the mess I left.",
-      saveCandidates: [
-        { text: "owe you an apology for", type: 'chunk', start: 2, end: 24 },
-      ],
-    },
-    {
-      en: "I owe you an apology for the wrong booking.",
-      saveCandidates: [
-        { text: "owe you an apology for", type: 'chunk', start: 2, end: 24 },
-      ],
-    },
-    {
-      en: "I owe you an apology for the broken vase.",
       saveCandidates: [
         { text: "owe you an apology for", type: 'chunk', start: 2, end: 24 },
       ],
@@ -11654,18 +7317,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "it won't happen again", type: 'chunk', start: 27, end: 48 },
       ],
     },
-    {
-      en: "I lost the tickets once; it won't happen again.",
-      saveCandidates: [
-        { text: "it won't happen again", type: 'chunk', start: 25, end: 46 },
-      ],
-    },
-    {
-      en: "I overloaded the outlet — it won't happen again.",
-      saveCandidates: [
-        { text: "it won't happen again", type: 'chunk', start: 26, end: 47 },
-      ],
-    },
   ],
   'pt74-3': [
     {
@@ -11686,18 +7337,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "didn't realize", type: 'chunk', start: 2, end: 16 },
       ],
     },
-    {
-      en: "I didn't realize the gate had changed.",
-      saveCandidates: [
-        { text: "didn't realize", type: 'chunk', start: 2, end: 16 },
-      ],
-    },
-    {
-      en: "I didn't realize it was already broken.",
-      saveCandidates: [
-        { text: "didn't realize", type: 'chunk', start: 2, end: 16 },
-      ],
-    },
   ],
   'pt74-4': [
     {
@@ -11710,14 +7349,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Buying milk slipped my mind again.",
-      saveCandidates: [],
-    },
-    {
-      en: "Booking the cab slipped my mind, sorry.",
-      saveCandidates: [],
-    },
-    {
-      en: "Charging the phone slipped my mind, oops.",
       saveCandidates: [],
     },
   ],
@@ -11736,18 +7367,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'll make it up to you with dinner.",
-      saveCandidates: [
-        { text: "make it up to", type: 'chunk', start: 5, end: 18 },
-      ],
-    },
-    {
-      en: "I'll make it up to you on the next trip.",
-      saveCandidates: [
-        { text: "make it up to", type: 'chunk', start: 5, end: 18 },
-      ],
-    },
-    {
-      en: "I'll make it up to you after I fix this.",
       saveCandidates: [
         { text: "make it up to", type: 'chunk', start: 5, end: 18 },
       ],
@@ -11772,18 +7391,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Would you be able to", type: 'chunk', start: 0, end: 20 },
       ],
     },
-    {
-      en: "Would you be able to recommend a hotel?",
-      saveCandidates: [
-        { text: "Would you be able to", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "Would you be able to come now? It's urgent.",
-      saveCandidates: [
-        { text: "Would you be able to", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
   ],
   'pt75-2': [
     {
@@ -11800,18 +7407,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Do you think you could feed my cat?",
-      saveCandidates: [
-        { text: "Do you think you could", type: 'chunk', start: 0, end: 22 },
-      ],
-    },
-    {
-      en: "Do you think you could swap seats with me?",
-      saveCandidates: [
-        { text: "Do you think you could", type: 'chunk', start: 0, end: 22 },
-      ],
-    },
-    {
-      en: "Do you think you could fix it tonight?",
       saveCandidates: [
         { text: "Do you think you could", type: 'chunk', start: 0, end: 22 },
       ],
@@ -11837,18 +7432,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "pick up", type: 'phrasalVerb', start: 11, end: 18 },
       ],
     },
-    {
-      en: "Want me to book the tickets for us?",
-      saveCandidates: [
-        { text: "Want me to", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Want me to call someone to look at it?",
-      saveCandidates: [
-        { text: "Want me to", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt75-4': [
     {
@@ -11865,18 +7448,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'd be happy to cook tonight.",
-      saveCandidates: [
-        { text: "be happy to", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'd be happy to be your tour guide.",
-      saveCandidates: [
-        { text: "be happy to", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'd be happy to wait until it's fixed.",
       saveCandidates: [
         { text: "be happy to", type: 'chunk', start: 4, end: 15 },
       ],
@@ -11901,18 +7472,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Why don't I", type: 'chunk', start: 0, end: 11 },
       ],
     },
-    {
-      en: "Why don't I call her and smooth it over?",
-      saveCandidates: [
-        { text: "Why don't I", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Why don't I restart it and see?",
-      saveCandidates: [
-        { text: "Why don't I", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
   ],
   'pt76-1': [
     {
@@ -11929,18 +7488,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "You have a point — let's eat in tonight.",
-      saveCandidates: [
-        { text: "have a point", type: 'chunk', start: 4, end: 16 },
-      ],
-    },
-    {
-      en: "You have a point about skipping that city.",
-      saveCandidates: [
-        { text: "have a point", type: 'chunk', start: 4, end: 16 },
-      ],
-    },
-    {
-      en: "You have a point; let's not risk it.",
       saveCandidates: [
         { text: "have a point", type: 'chunk', start: 4, end: 16 },
       ],
@@ -11966,18 +7513,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "with", type: 'chunk', start: 4, end: 8 },
       ],
     },
-    {
-      en: "I'm with you on giving her space.",
-      saveCandidates: [
-        { text: "with", type: 'chunk', start: 4, end: 8 },
-      ],
-    },
-    {
-      en: "I'm with you on calling it off today.",
-      saveCandidates: [
-        { text: "with", type: 'chunk', start: 4, end: 8 },
-      ],
-    },
   ],
   'pt76-3': [
     {
@@ -11994,18 +7529,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I beg to differ — the bus is faster here.",
-      saveCandidates: [
-        { text: "beg to differ", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I beg to differ; she did try her best.",
-      saveCandidates: [
-        { text: "beg to differ", type: 'chunk', start: 2, end: 15 },
-      ],
-    },
-    {
-      en: "I beg to differ — that's not the real cause.",
       saveCandidates: [
         { text: "beg to differ", type: 'chunk', start: 2, end: 15 },
       ],
@@ -12030,18 +7553,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "That's exactly", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "That's exactly the view I came to see.",
-      saveCandidates: [
-        { text: "That's exactly", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "That's exactly when it started glitching.",
-      saveCandidates: [
-        { text: "That's exactly", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt76-5': [
     {
@@ -12058,18 +7569,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Not necessarily — earlier isn't always cheaper.",
-      saveCandidates: [
-        { text: "Not necessarily", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Not necessarily; maybe she just got busy.",
-      saveCandidates: [
-        { text: "Not necessarily", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Not necessarily; it could be a loose cable.",
       saveCandidates: [
         { text: "Not necessarily", type: 'chunk', start: 0, end: 15 },
       ],
@@ -12094,18 +7593,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "have a feel", type: 'chunk', start: 2, end: 13 },
       ],
     },
-    {
-      en: "I have a feeling this trip will be special.",
-      saveCandidates: [
-        { text: "have a feel", type: 'chunk', start: 2, end: 13 },
-      ],
-    },
-    {
-      en: "I have a feeling something's about to break.",
-      saveCandidates: [
-        { text: "have a feel", type: 'chunk', start: 2, end: 13 },
-      ],
-    },
   ],
   'pt77-2': [
     {
@@ -12122,18 +7609,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It must be the famous bakery everyone mentions.",
-      saveCandidates: [
-        { text: "It must be", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "It must be hard for her right now.",
-      saveCandidates: [
-        { text: "It must be", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "It must be a loose wire causing it.",
       saveCandidates: [
         { text: "It must be", type: 'chunk', start: 0, end: 10 },
       ],
@@ -12158,18 +7633,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "no way", type: 'chunk', start: 8, end: 14 },
       ],
     },
-    {
-      en: "There's no way we'll make that connection.",
-      saveCandidates: [
-        { text: "no way", type: 'chunk', start: 8, end: 14 },
-      ],
-    },
-    {
-      en: "There's no way it broke on its own.",
-      saveCandidates: [
-        { text: "no way", type: 'chunk', start: 8, end: 14 },
-      ],
-    },
   ],
   'pt77-4': [
     {
@@ -12186,18 +7649,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm pretty sure the museum opens at nine.",
-      saveCandidates: [
-        { text: "pretty sure", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'm pretty sure she'd love that gift.",
-      saveCandidates: [
-        { text: "pretty sure", type: 'chunk', start: 4, end: 15 },
-      ],
-    },
-    {
-      en: "I'm pretty sure the fuse just blew.",
       saveCandidates: [
         { text: "pretty sure", type: 'chunk', start: 4, end: 15 },
       ],
@@ -12222,19 +7673,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "mark my words", type: 'chunk', start: 28, end: 41 },
       ],
     },
-    {
-      en: "You two will end up together, mark my words.",
-      saveCandidates: [
-        { text: "end up", type: 'phrasalVerb', start: 13, end: 19 },
-        { text: "mark my words", type: 'chunk', start: 30, end: 43 },
-      ],
-    },
-    {
-      en: "That cheap charger will fail, mark my words.",
-      saveCandidates: [
-        { text: "mark my words", type: 'chunk', start: 30, end: 43 },
-      ],
-    },
   ],
   'pt78-1': [
     {
@@ -12251,18 +7689,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I should have booked the hotel sooner.",
-      saveCandidates: [
-        { text: "should have", type: 'chunk', start: 2, end: 13 },
-      ],
-    },
-    {
-      en: "I should have called her back that night.",
-      saveCandidates: [
-        { text: "should have", type: 'chunk', start: 2, end: 13 },
-      ],
-    },
-    {
-      en: "I should have backed up the files first.",
       saveCandidates: [
         { text: "should have", type: 'chunk', start: 2, end: 13 },
       ],
@@ -12287,18 +7713,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "wish I", type: 'chunk', start: 2, end: 8 },
       ],
     },
-    {
-      en: "I wish I could see you more often.",
-      saveCandidates: [
-        { text: "wish I", type: 'chunk', start: 2, end: 8 },
-      ],
-    },
-    {
-      en: "I wish I'd noticed the leak sooner.",
-      saveCandidates: [
-        { text: "wish I", type: 'chunk', start: 2, end: 8 },
-      ],
-    },
   ],
   'pt78-3': [
     {
@@ -12319,19 +7733,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "If only", type: 'chunk', start: 0, end: 7 },
       ],
     },
-    {
-      en: "If only I'd said how I really felt.",
-      saveCandidates: [
-        { text: "If only", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "If only we'd kept a spare key.",
-      saveCandidates: [
-        { text: "If only", type: 'chunk', start: 0, end: 7 },
-        { text: "spare key", type: 'collocation', start: 20, end: 29 },
-      ],
-    },
   ],
   'pt78-4': [
     {
@@ -12348,18 +7749,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What would you do if the flight got canceled?",
-      saveCandidates: [
-        { text: "What would you do if", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "What would you do if you had a free day?",
-      saveCandidates: [
-        { text: "What would you do if", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
-    {
-      en: "What would you do if the power went out?",
       saveCandidates: [
         { text: "What would you do if", type: 'chunk', start: 0, end: 20 },
       ],
@@ -12384,18 +7773,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "knew it", type: 'chunk', start: 2, end: 9 },
       ],
     },
-    {
-      en: "I knew it — this was the best stop.",
-      saveCandidates: [
-        { text: "knew it", type: 'chunk', start: 2, end: 9 },
-      ],
-    },
-    {
-      en: "I knew it would break eventually.",
-      saveCandidates: [
-        { text: "knew it", type: 'chunk', start: 2, end: 9 },
-      ],
-    },
   ],
   'pt79-1': [
     {
@@ -12414,19 +7791,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "I always pack a small first-aid kit.",
       saveCandidates: [
         { text: "always", type: 'chunk', start: 2, end: 8 },
-      ],
-    },
-    {
-      en: "I always text my mom on Sundays.",
-      saveCandidates: [
-        { text: "always", type: 'chunk', start: 2, end: 8 },
-      ],
-    },
-    {
-      en: "I always keep a spare key with a neighbor.",
-      saveCandidates: [
-        { text: "always", type: 'chunk', start: 2, end: 8 },
-        { text: "spare key", type: 'collocation', start: 16, end: 25 },
       ],
     },
   ],
@@ -12449,18 +7813,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "usually", type: 'chunk', start: 2, end: 9 },
       ],
     },
-    {
-      en: "I usually call my family on the weekend.",
-      saveCandidates: [
-        { text: "usually", type: 'chunk', start: 2, end: 9 },
-      ],
-    },
-    {
-      en: "I usually keep cash for emergencies.",
-      saveCandidates: [
-        { text: "usually", type: 'chunk', start: 2, end: 9 },
-      ],
-    },
   ],
   'pt79-3': [
     {
@@ -12477,18 +7829,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Every now and then, I take a solo trip.",
-      saveCandidates: [
-        { text: "Every now and then", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "Every now and then, we have a long catch-up.",
-      saveCandidates: [
-        { text: "Every now and then", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "Every now and then, the wifi just drops.",
       saveCandidates: [
         { text: "Every now and then", type: 'chunk', start: 0, end: 18 },
       ],
@@ -12516,18 +7856,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "on my own", type: 'prepPhrase', start: 25, end: 34 },
       ],
     },
-    {
-      en: "I'm used to her teasing by now.",
-      saveCandidates: [
-        { text: "used to", type: 'chunk', start: 4, end: 11 },
-      ],
-    },
-    {
-      en: "I'm used to the power flickering here.",
-      saveCandidates: [
-        { text: "used to", type: 'chunk', start: 4, end: 11 },
-      ],
-    },
   ],
   'pt79-5': [
     {
@@ -12544,18 +7872,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I can't go a day without my travel journal.",
-      saveCandidates: [
-        { text: "can't go a day without", type: 'chunk', start: 2, end: 24 },
-      ],
-    },
-    {
-      en: "I can't go a day without texting you.",
-      saveCandidates: [
-        { text: "can't go a day without", type: 'chunk', start: 2, end: 24 },
-      ],
-    },
-    {
-      en: "I can't go a day without my phone charger.",
       saveCandidates: [
         { text: "can't go a day without", type: 'chunk', start: 2, end: 24 },
       ],
@@ -12580,18 +7896,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "know what?", type: 'chunk', start: 4, end: 14 },
       ],
     },
-    {
-      en: "You know what? Let's take the scenic route.",
-      saveCandidates: [
-        { text: "know what?", type: 'chunk', start: 4, end: 14 },
-      ],
-    },
-    {
-      en: "You know what? Let's just call a repair guy.",
-      saveCandidates: [
-        { text: "know what?", type: 'chunk', start: 4, end: 14 },
-      ],
-    },
   ],
   'pt80-2': [
     {
@@ -12608,18 +7912,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Come to think of it, we passed that café already.",
-      saveCandidates: [
-        { text: "Come to think of it", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "Come to think of it, she did mention this.",
-      saveCandidates: [
-        { text: "Come to think of it", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "Come to think of it, it acted up last week too.",
       saveCandidates: [
         { text: "Come to think of it", type: 'chunk', start: 0, end: 19 },
       ],
@@ -12644,18 +7936,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "By the way", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "By the way, the museum closes early today.",
-      saveCandidates: [
-        { text: "By the way", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "By the way, the heater's making that noise again.",
-      saveCandidates: [
-        { text: "By the way", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt80-4': [
     {
@@ -12676,18 +7956,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Now you're talk", type: 'chunk', start: 14, end: 29 },
       ],
     },
-    {
-      en: "Tacos tonight? Now you're talking.",
-      saveCandidates: [
-        { text: "Now you're talk", type: 'chunk', start: 15, end: 30 },
-      ],
-    },
-    {
-      en: "A full refund? Now you're talking.",
-      saveCandidates: [
-        { text: "Now you're talk", type: 'chunk', start: 15, end: 30 },
-      ],
-    },
   ],
   'pt80-5': [
     {
@@ -12704,18 +7972,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Go ahead and order, I'll catch up.",
-      saveCandidates: [
-        { text: "Go ahead", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Go ahead and board; I'll be right there.",
-      saveCandidates: [
-        { text: "Go ahead", type: 'chunk', start: 0, end: 8 },
-      ],
-    },
-    {
-      en: "Go ahead and restart it; I'll watch.",
       saveCandidates: [
         { text: "Go ahead", type: 'chunk', start: 0, end: 8 },
       ],
@@ -12740,16 +7996,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "plan a trip to", type: 'chunk', start: 6, end: 20 },
       ],
     },
-    {
-      en: "Let's plan a trip to visit your parents.",
-      saveCandidates: [
-        { text: "plan a trip to", type: 'chunk', start: 6, end: 20 },
-      ],
-    },
-    {
-      en: "Let's plan a trip before the weather turns.",
-      saveCandidates: [],
-    },
   ],
   'pt81-2': [
     {
@@ -12766,14 +8012,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "What's there to do around here on a Sunday?",
       saveCandidates: [],
     },
-    {
-      en: "What's there to do for couples nearby?",
-      saveCandidates: [],
-    },
-    {
-      en: "What's there to do if it rains all day?",
-      saveCandidates: [],
-    },
   ],
   'pt81-3': [
     {
@@ -12788,14 +8026,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "How long should we stay out tonight?",
-      saveCandidates: [],
-    },
-    {
-      en: "How long should we stay at the party?",
-      saveCandidates: [],
-    },
-    {
-      en: "How long should we stay if the storm hits?",
       saveCandidates: [],
     },
   ],
@@ -12818,19 +8048,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Should we book", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "Should we book dinner for four or six?",
-      saveCandidates: [
-        { text: "Should we book", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Should we book a backup in case it's full?",
-      saveCandidates: [
-        { text: "Should we book", type: 'chunk', start: 0, end: 14 },
-        { text: "in case", type: 'fixedExpression', start: 24, end: 31 },
-      ],
-    },
   ],
   'pt81-5': [
     {
@@ -12851,18 +8068,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "on my bucket list", type: 'chunk', start: 25, end: 42 },
       ],
     },
-    {
-      en: "A road trip with you is on my bucket list.",
-      saveCandidates: [
-        { text: "on my bucket list", type: 'chunk', start: 24, end: 41 },
-      ],
-    },
-    {
-      en: "Storm chasing is oddly on my bucket list.",
-      saveCandidates: [
-        { text: "on my bucket list", type: 'chunk', start: 23, end: 40 },
-      ],
-    },
   ],
   'pt82-1': [
     {
@@ -12879,18 +8084,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "How do I get to the recycling center?",
-      saveCandidates: [
-        { text: "How do I get to", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "How do I get to your new place?",
-      saveCandidates: [
-        { text: "How do I get to", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "How do I get to a hospital from here?",
       saveCandidates: [
         { text: "How do I get to", type: 'chunk', start: 0, end: 15 },
       ],
@@ -12915,18 +8108,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "just past", type: 'chunk', start: 5, end: 14 },
       ],
     },
-    {
-      en: "It's just past your favorite café.",
-      saveCandidates: [
-        { text: "just past", type: 'chunk', start: 5, end: 14 },
-      ],
-    },
-    {
-      en: "It's just past the construction, watch your step.",
-      saveCandidates: [
-        { text: "just past", type: 'chunk', start: 5, end: 14 },
-      ],
-    },
   ],
   'pt82-3': [
     {
@@ -12946,16 +8127,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "Take a left at", type: 'chunk', start: 0, end: 14 },
       ],
-    },
-    {
-      en: "Take a left at the park; I'll be waiting.",
-      saveCandidates: [
-        { text: "Take a left at", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Take a left now — the road ahead is closed.",
-      saveCandidates: [],
     },
   ],
   'pt82-4': [
@@ -12977,16 +8148,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "can't miss it", type: 'chunk', start: 30, end: 43 },
       ],
     },
-    {
-      en: "I'll wear red — you can't miss me.",
-      saveCandidates: [],
-    },
-    {
-      en: "Follow the sirens — you can't miss it.",
-      saveCandidates: [
-        { text: "can't miss it", type: 'chunk', start: 24, end: 37 },
-      ],
-    },
   ],
   'pt82-5': [
     {
@@ -13003,18 +8164,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Am I headed the right way to the market?",
-      saveCandidates: [
-        { text: "Am I headed the right", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
-    {
-      en: "Am I headed the right way to meet you?",
-      saveCandidates: [
-        { text: "Am I headed the right", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
-    {
-      en: "Am I headed the right way? My GPS just died.",
       saveCandidates: [
         { text: "Am I headed the right", type: 'chunk', start: 0, end: 21 },
       ],
@@ -13039,18 +8188,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "How old is", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "How old is your friendship with her?",
-      saveCandidates: [
-        { text: "How old is", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "How old is this wiring? It looks risky.",
-      saveCandidates: [
-        { text: "How old is", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt83-2': [
     {
@@ -13067,18 +8204,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What's the story behind that old photo?",
-      saveCandidates: [
-        { text: "What's the story behind", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
-    {
-      en: "What's the story behind you two meeting?",
-      saveCandidates: [
-        { text: "What's the story behind", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
-    {
-      en: "What's the story behind that crack in the wall?",
       saveCandidates: [
         { text: "What's the story behind", type: 'chunk', start: 0, end: 23 },
       ],
@@ -13103,18 +8228,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Don't miss", type: 'chunk', start: 0, end: 10 },
       ],
     },
-    {
-      en: "Don't miss her show this weekend.",
-      saveCandidates: [
-        { text: "Don't miss", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Don't miss the last train, it's at eleven.",
-      saveCandidates: [
-        { text: "Don't miss", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
   ],
   'pt83-4': [
     {
@@ -13135,18 +8248,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "wander around", type: 'chunk', start: 6, end: 19 },
       ],
     },
-    {
-      en: "Let's wander around and just talk.",
-      saveCandidates: [
-        { text: "wander around", type: 'chunk', start: 6, end: 19 },
-      ],
-    },
-    {
-      en: "Let's wander around until the rain stops.",
-      saveCandidates: [
-        { text: "wander around", type: 'chunk', start: 6, end: 19 },
-      ],
-    },
   ],
   'pt83-5': [
     {
@@ -13159,14 +8260,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "That little gallery is a must-see.",
-      saveCandidates: [],
-    },
-    {
-      en: "Her new place is a must-see, trust me.",
-      saveCandidates: [],
-    },
-    {
-      en: "The storm rolling in is a must-see, honestly.",
       saveCandidates: [],
     },
   ],
@@ -13189,18 +8282,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "I'll be", type: 'chunk', start: 0, end: 7 },
       ],
     },
-    {
-      en: "I'll be waiting by the gate for you.",
-      saveCandidates: [
-        { text: "I'll be", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "I'll be stuck here until the tow arrives.",
-      saveCandidates: [
-        { text: "I'll be", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
   ],
   'pt84-2': [
     {
@@ -13217,14 +8298,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can I drop it off near my apartment?",
-      saveCandidates: [],
-    },
-    {
-      en: "Can I drop it off and ride back with you?",
-      saveCandidates: [],
-    },
-    {
-      en: "Can I drop it off early if it breaks down?",
       saveCandidates: [],
     },
   ],
@@ -13247,19 +8320,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can I add", type: 'chunk', start: 0, end: 9 },
       ],
     },
-    {
-      en: "Can I add a plus-one to the invite?",
-      saveCandidates: [
-        { text: "Can I add", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Can I add roadside help just in case?",
-      saveCandidates: [
-        { text: "Can I add", type: 'chunk', start: 0, end: 9 },
-        { text: "in case", type: 'fixedExpression', start: 29, end: 36 },
-      ],
-    },
   ],
   'pt84-4': [
     {
@@ -13276,18 +8336,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "What happens if the package is damaged?",
-      saveCandidates: [
-        { text: "What happens if", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "What happens if you can't make it?",
-      saveCandidates: [
-        { text: "What happens if", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "What happens if the battery dies out there?",
       saveCandidates: [
         { text: "What happens if", type: 'chunk', start: 0, end: 15 },
       ],
@@ -13312,18 +8360,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "not familiar with", type: 'chunk', start: 4, end: 21 },
       ],
     },
-    {
-      en: "I'm not familiar with your friends yet.",
-      saveCandidates: [
-        { text: "not familiar with", type: 'chunk', start: 4, end: 21 },
-      ],
-    },
-    {
-      en: "I'm not familiar with this warning light.",
-      saveCandidates: [
-        { text: "not familiar with", type: 'chunk', start: 4, end: 21 },
-      ],
-    },
   ],
   'pt85-1': [
     {
@@ -13340,18 +8376,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "How much is this in total with tax?",
-      saveCandidates: [
-        { text: "How much is this in", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "How much is this in your home currency?",
-      saveCandidates: [
-        { text: "How much is this in", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "How much is this in cash if my card fails?",
       saveCandidates: [
         { text: "How much is this in", type: 'chunk', start: 0, end: 19 },
       ],
@@ -13376,18 +8400,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Any chance of", type: 'chunk', start: 0, end: 13 },
       ],
     },
-    {
-      en: "Any chance of you joining us tonight?",
-      saveCandidates: [
-        { text: "Any chance of", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Any chance of a quick fix before I go?",
-      saveCandidates: [
-        { text: "Any chance of", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
   ],
   'pt85-3': [
     {
@@ -13408,18 +8420,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "think about it", type: 'chunk', start: 29, end: 43 },
       ],
     },
-    {
-      en: "I'll think about it and let you know.",
-      saveCandidates: [
-        { text: "think about it", type: 'chunk', start: 5, end: 19 },
-      ],
-    },
-    {
-      en: "I'll think about it, but I'm low on cash.",
-      saveCandidates: [
-        { text: "think about it", type: 'chunk', start: 5, end: 19 },
-      ],
-    },
   ],
   'pt85-4': [
     {
@@ -13436,18 +8436,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Do you ship furniture to apartments?",
-      saveCandidates: [
-        { text: "Do you ship", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Do you ship gifts straight to the person?",
-      saveCandidates: [
-        { text: "Do you ship", type: 'chunk', start: 0, end: 11 },
-      ],
-    },
-    {
-      en: "Do you ship overnight if it's urgent?",
       saveCandidates: [
         { text: "Do you ship", type: 'chunk', start: 0, end: 11 },
       ],
@@ -13472,18 +8460,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "That's all for", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "That's all for my news — your turn!",
-      saveCandidates: [
-        { text: "That's all for", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "That's all for the parts; the rest is labor.",
-      saveCandidates: [
-        { text: "That's all for", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt86-1': [
     {
@@ -13500,18 +8476,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Stay calm — the smoke alarm is just dusty.",
-      saveCandidates: [
-        { text: "Stay calm", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Stay calm, I'm right here with you.",
-      saveCandidates: [
-        { text: "Stay calm", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Stay calm and pull over to the side.",
       saveCandidates: [
         { text: "Stay calm", type: 'chunk', start: 0, end: 9 },
       ],
@@ -13536,18 +8500,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "need", type: 'chunk', start: 3, end: 7 },
       ],
     },
-    {
-      en: "We need to talk, just the two of us.",
-      saveCandidates: [
-        { text: "need", type: 'chunk', start: 3, end: 7 },
-      ],
-    },
-    {
-      en: "We need a doctor here right now!",
-      saveCandidates: [
-        { text: "need", type: 'chunk', start: 3, end: 7 },
-      ],
-    },
   ],
   'pt86-3': [
     {
@@ -13560,14 +8512,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Get back from the stove, it's hot!",
-      saveCandidates: [],
-    },
-    {
-      en: "Get back, sweetie, let them through.",
-      saveCandidates: [],
-    },
-    {
-      en: "Get back from the edge of the platform!",
       saveCandidates: [],
     },
   ],
@@ -13586,18 +8530,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Does anyone know whose car this is?",
-      saveCandidates: [
-        { text: "Does anyone know", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Does anyone know how to reach her family?",
-      saveCandidates: [
-        { text: "Does anyone know", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Does anyone know the way to the hospital?",
       saveCandidates: [
         { text: "Does anyone know", type: 'chunk', start: 0, end: 16 },
       ],
@@ -13622,18 +8554,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "an emergency", type: 'chunk', start: 23, end: 35 },
       ],
     },
-    {
-      en: "Call me back, it's an emergency.",
-      saveCandidates: [
-        { text: "an emergency", type: 'chunk', start: 19, end: 31 },
-      ],
-    },
-    {
-      en: "We need the nearest hospital — it's an emergency.",
-      saveCandidates: [
-        { text: "an emergency", type: 'chunk', start: 36, end: 48 },
-      ],
-    },
   ],
   'pt87-1': [
     {
@@ -13651,18 +8571,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It's starting to warm up for the trip.",
-      saveCandidates: [
-        { text: "starting to", type: 'chunk', start: 5, end: 16 },
-      ],
-    },
-    {
-      en: "You're starting to sound just like your dad.",
-      saveCandidates: [
-        { text: "starting to", type: 'chunk', start: 7, end: 18 },
-      ],
-    },
-    {
-      en: "It's starting to leak again over here.",
       saveCandidates: [
         { text: "starting to", type: 'chunk', start: 5, end: 16 },
       ],
@@ -13687,18 +8595,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "We're in for", type: 'chunk', start: 0, end: 12 },
       ],
     },
-    {
-      en: "We're in for a fun night with this crew.",
-      saveCandidates: [
-        { text: "We're in for", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "We're in for a heat wave this week.",
-      saveCandidates: [
-        { text: "We're in for", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
   ],
   'pt87-3': [
     {
@@ -13715,18 +8611,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Bundle up; the mountain gets cold fast.",
-      saveCandidates: [
-        { text: "Bundle up", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Bundle up the kids before the walk.",
-      saveCandidates: [
-        { text: "Bundle up", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Bundle up — the heating just went out.",
       saveCandidates: [
         { text: "Bundle up", type: 'chunk', start: 0, end: 9 },
       ],
@@ -13752,18 +8636,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "supposed to", type: 'chunk', start: 5, end: 16 },
       ],
     },
-    {
-      en: "It's supposed to be a surprise, so shh.",
-      saveCandidates: [
-        { text: "supposed to", type: 'chunk', start: 5, end: 16 },
-      ],
-    },
-    {
-      en: "It's supposed to storm right when we leave.",
-      saveCandidates: [
-        { text: "supposed to", type: 'chunk', start: 5, end: 16 },
-      ],
-    },
   ],
   'pt87-5': [
     {
@@ -13780,18 +8652,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "There's nothing like sunrise over the sea.",
-      saveCandidates: [
-        { text: "nothing like", type: 'chunk', start: 8, end: 20 },
-      ],
-    },
-    {
-      en: "There's nothing like an old friend's laugh.",
-      saveCandidates: [
-        { text: "nothing like", type: 'chunk', start: 8, end: 20 },
-      ],
-    },
-    {
-      en: "There's nothing like heat after a power cut.",
       saveCandidates: [
         { text: "nothing like", type: 'chunk', start: 8, end: 20 },
       ],
@@ -13816,18 +8676,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "cutting back on", type: 'chunk', start: 4, end: 19 },
       ],
     },
-    {
-      en: "I'm cutting back on canceling plans.",
-      saveCandidates: [
-        { text: "cutting back on", type: 'chunk', start: 4, end: 19 },
-      ],
-    },
-    {
-      en: "I'm cutting back on screen time before bed.",
-      saveCandidates: [
-        { text: "cutting back on", type: 'chunk', start: 4, end: 19 },
-      ],
-    },
   ],
   'pt88-2': [
     {
@@ -13844,18 +8692,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I feel better after a long walk abroad.",
-      saveCandidates: [
-        { text: "feel better after", type: 'chunk', start: 2, end: 19 },
-      ],
-    },
-    {
-      en: "I feel better after talking it out with you.",
-      saveCandidates: [
-        { text: "feel better after", type: 'chunk', start: 2, end: 19 },
-      ],
-    },
-    {
-      en: "I feel better after the dizziness passes.",
       saveCandidates: [
         { text: "feel better after", type: 'chunk', start: 2, end: 19 },
       ],
@@ -13880,18 +8716,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Listen to your", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "Listen to your heart, not the gossip.",
-      saveCandidates: [
-        { text: "Listen to your", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Listen to your body if you feel faint.",
-      saveCandidates: [
-        { text: "Listen to your", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt88-4': [
     {
@@ -13908,18 +8732,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's go for a hike up the trail.",
-      saveCandidates: [
-        { text: "go for", type: 'chunk', start: 6, end: 12 },
-      ],
-    },
-    {
-      en: "Let's go for a walk and just talk.",
-      saveCandidates: [
-        { text: "go for", type: 'chunk', start: 6, end: 12 },
-      ],
-    },
-    {
-      en: "Let's go for help before it gets dark.",
       saveCandidates: [
         { text: "go for", type: 'chunk', start: 6, end: 12 },
       ],
@@ -13944,18 +8756,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "no pain, no gain", type: 'chunk', start: 21, end: 37 },
       ],
     },
-    {
-      en: "Apologizing is hard, but no pain, no gain.",
-      saveCandidates: [
-        { text: "no pain, no gain", type: 'chunk', start: 25, end: 41 },
-      ],
-    },
-    {
-      en: "Rebuilding it is tedious — no pain, no gain.",
-      saveCandidates: [
-        { text: "no pain, no gain", type: 'chunk', start: 27, end: 43 },
-      ],
-    },
   ],
   'pt89-1': [
     {
@@ -13976,16 +8776,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Do you have a table for", type: 'chunk', start: 0, end: 23 },
       ],
     },
-    {
-      en: "Do you have a table for a birthday dinner?",
-      saveCandidates: [
-        { text: "Do you have a table for", type: 'chunk', start: 0, end: 23 },
-      ],
-    },
-    {
-      en: "Do you have a table sooner? We're starving.",
-      saveCandidates: [],
-    },
   ],
   'pt89-2': [
     {
@@ -14002,18 +8792,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Could I see the lease before I sign?",
-      saveCandidates: [
-        { text: "Could I see the", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Could I see the photos from your trip?",
-      saveCandidates: [
-        { text: "Could I see the", type: 'chunk', start: 0, end: 15 },
-      ],
-    },
-    {
-      en: "Could I see the receipt? This seems high.",
       saveCandidates: [
         { text: "Could I see the", type: 'chunk', start: 0, end: 15 },
       ],
@@ -14038,16 +8816,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "How's the", type: 'chunk', start: 0, end: 9 },
       ],
     },
-    {
-      en: "How's your mom doing these days?",
-      saveCandidates: [],
-    },
-    {
-      en: "How's the car running after the repair?",
-      saveCandidates: [
-        { text: "How's the", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
   ],
   'pt89-4': [
     {
@@ -14068,18 +8836,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "have the same", type: 'chunk', start: 30, end: 43 },
       ],
     },
-    {
-      en: "Whatever you're having, I'll have the same.",
-      saveCandidates: [
-        { text: "have the same", type: 'chunk', start: 29, end: 42 },
-      ],
-    },
-    {
-      en: "I can't decide, so I'll have the same.",
-      saveCandidates: [
-        { text: "have the same", type: 'chunk', start: 24, end: 37 },
-      ],
-    },
   ],
   'pt89-5': [
     {
@@ -14096,18 +8852,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Everything was fresh from the market.",
-      saveCandidates: [
-        { text: "Everything was", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Everything was perfect because you were there.",
-      saveCandidates: [
-        { text: "Everything was", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Everything was fine until the lights went out.",
       saveCandidates: [
         { text: "Everything was", type: 'chunk', start: 0, end: 14 },
       ],
@@ -14133,18 +8877,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "window seat", type: 'collocation', start: 10, end: 21 },
       ],
     },
-    {
-      en: "Make it a table for three, my friend's coming.",
-      saveCandidates: [
-        { text: "Make it a", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Make it a quick one — I'm in a rush.",
-      saveCandidates: [
-        { text: "Make it a", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
   ],
   'pt90-2': [
     {
@@ -14161,18 +8893,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Mind if I take this empty seat?",
-      saveCandidates: [
-        { text: "Mind if I", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Mind if I bring a friend next time?",
-      saveCandidates: [
-        { text: "Mind if I", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Mind if I charge my phone here for a sec?",
       saveCandidates: [
         { text: "Mind if I", type: 'chunk', start: 0, end: 9 },
       ],
@@ -14197,18 +8917,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "be at", type: 'chunk', start: 5, end: 10 },
       ],
     },
-    {
-      en: "I'll be at the usual spot, see you soon.",
-      saveCandidates: [
-        { text: "be at", type: 'chunk', start: 5, end: 10 },
-      ],
-    },
-    {
-      en: "I'll be at the entrance if the power's out.",
-      saveCandidates: [
-        { text: "be at", type: 'chunk', start: 5, end: 10 },
-      ],
-    },
   ],
   'pt90-4': [
     {
@@ -14225,18 +8933,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Is it always this crowded with tourists?",
-      saveCandidates: [
-        { text: "Is it always this", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Is it always this fun when you host?",
-      saveCandidates: [
-        { text: "Is it always this", type: 'chunk', start: 0, end: 17 },
-      ],
-    },
-    {
-      en: "Is it always this glitchy, or just today?",
       saveCandidates: [
         { text: "Is it always this", type: 'chunk', start: 0, end: 17 },
       ],
@@ -14261,18 +8957,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Same as", type: 'chunk', start: 0, end: 7 },
       ],
     },
-    {
-      en: "Same as what she's having, please.",
-      saveCandidates: [
-        { text: "Same as", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "Same as before, but decaf this time.",
-      saveCandidates: [
-        { text: "Same as", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
   ],
   'pt91-1': [
     {
@@ -14289,18 +8973,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "You're on the wrong link for the tour.",
-      saveCandidates: [
-        { text: "You're on", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "You're on my mind a lot lately.",
-      saveCandidates: [
-        { text: "You're on", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "You're on the old version — please refresh.",
       saveCandidates: [
         { text: "You're on", type: 'chunk', start: 0, end: 9 },
       ],
@@ -14325,18 +8997,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can everyone see", type: 'chunk', start: 0, end: 16 },
       ],
     },
-    {
-      en: "Can everyone see the photo I just shared?",
-      saveCandidates: [
-        { text: "Can everyone see", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Can everyone see the error on their end?",
-      saveCandidates: [
-        { text: "Can everyone see", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
   ],
   'pt91-3': [
     {
@@ -14353,18 +9013,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's wait for the rain to ease up.",
-      saveCandidates: [
-        { text: "wait for", type: 'chunk', start: 6, end: 14 },
-      ],
-    },
-    {
-      en: "Let's wait for her before we order.",
-      saveCandidates: [
-        { text: "wait for", type: 'chunk', start: 6, end: 14 },
-      ],
-    },
-    {
-      en: "Let's wait for the system to come back.",
       saveCandidates: [
         { text: "wait for", type: 'chunk', start: 6, end: 14 },
       ],
@@ -14392,20 +9040,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "in the chat", type: 'chunk', start: 28, end: 39 },
       ],
     },
-    {
-      en: "I'll drop the photos in the chat later.",
-      saveCandidates: [
-        { text: "drop", type: 'chunk', start: 5, end: 9 },
-        { text: "in the chat", type: 'chunk', start: 21, end: 32 },
-      ],
-    },
-    {
-      en: "I'll drop the error log in the chat now.",
-      saveCandidates: [
-        { text: "drop", type: 'chunk', start: 5, end: 9 },
-        { text: "in the chat", type: 'chunk', start: 24, end: 35 },
-      ],
-    },
   ],
   'pt91-5': [
     {
@@ -14423,18 +9057,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's take this offline once we land.",
-      saveCandidates: [
-        { text: "take this offline", type: 'chunk', start: 6, end: 23 },
-      ],
-    },
-    {
-      en: "Let's take this offline, just you and me.",
-      saveCandidates: [
-        { text: "take this offline", type: 'chunk', start: 6, end: 23 },
-      ],
-    },
-    {
-      en: "Let's take this offline; the call keeps dropping.",
       saveCandidates: [
         { text: "take this offline", type: 'chunk', start: 6, end: 23 },
       ],
@@ -14459,18 +9081,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Did you see my", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "Did you see my post from the trip?",
-      saveCandidates: [
-        { text: "Did you see my", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Did you see my missed calls? It's urgent.",
-      saveCandidates: [
-        { text: "Did you see my", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt92-2': [
     {
@@ -14487,18 +9097,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'll DM you the recipe I used.",
-      saveCandidates: [
-        { text: "DM you", type: 'chunk', start: 5, end: 11 },
-      ],
-    },
-    {
-      en: "I'll DM you the map to the hostel.",
-      saveCandidates: [
-        { text: "DM you", type: 'chunk', start: 5, end: 11 },
-      ],
-    },
-    {
-      en: "I'll DM you the screenshot of the error.",
       saveCandidates: [
         { text: "DM you", type: 'chunk', start: 5, end: 11 },
       ],
@@ -14524,18 +9122,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Hit me up", type: 'chunk', start: 0, end: 9 },
       ],
     },
-    {
-      en: "Hit me up when you land, okay?",
-      saveCandidates: [
-        { text: "Hit me up", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Hit me up right away if it breaks again.",
-      saveCandidates: [
-        { text: "Hit me up", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
   ],
   'pt92-4': [
     {
@@ -14552,18 +9138,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Tag me in the event so I remember.",
-      saveCandidates: [
-        { text: "Tag me in", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Tag me in the travel photos later.",
-      saveCandidates: [
-        { text: "Tag me in", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Tag me in case I lose the thread.",
       saveCandidates: [
         { text: "Tag me in", type: 'chunk', start: 0, end: 9 },
       ],
@@ -14588,18 +9162,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "talk later?", type: 'chunk', start: 17, end: 28 },
       ],
     },
-    {
-      en: "We're boarding now — talk later?",
-      saveCandidates: [
-        { text: "talk later?", type: 'chunk', start: 21, end: 32 },
-      ],
-    },
-    {
-      en: "My phone's dying — talk later?",
-      saveCandidates: [
-        { text: "talk later?", type: 'chunk', start: 19, end: 30 },
-      ],
-    },
   ],
   'pt93-1': [
     {
@@ -14616,18 +9178,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Is this on the tourist discount?",
-      saveCandidates: [
-        { text: "Is this on", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Is this on your wish list, by the way?",
-      saveCandidates: [
-        { text: "Is this on", type: 'chunk', start: 0, end: 10 },
-      ],
-    },
-    {
-      en: "Is this on backorder, or in stock?",
       saveCandidates: [
         { text: "Is this on", type: 'chunk', start: 0, end: 10 },
       ],
@@ -14652,16 +9202,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Can you do better on", type: 'chunk', start: 0, end: 20 },
       ],
     },
-    {
-      en: "Can you do better than that, pretty please?",
-      saveCandidates: [],
-    },
-    {
-      en: "Can you do better on the repair quote?",
-      saveCandidates: [
-        { text: "Can you do better on", type: 'chunk', start: 0, end: 20 },
-      ],
-    },
   ],
   'pt93-3': [
     {
@@ -14677,18 +9217,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "This flight deal is an absolute steal.",
       saveCandidates: [],
-    },
-    {
-      en: "She got it as a gift — what a steal.",
-      saveCandidates: [
-        { text: "a steal", type: 'chunk', start: 28, end: 35 },
-      ],
-    },
-    {
-      en: "A free loaner while it's fixed? A steal.",
-      saveCandidates: [
-        { text: "A steal", type: 'chunk', start: 32, end: 39 },
-      ],
     },
   ],
   'pt93-4': [
@@ -14707,16 +9235,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       saveCandidates: [
         { text: "They're having a", type: 'chunk', start: 0, end: 16 },
       ],
-    },
-    {
-      en: "They're having a housewarming on Friday.",
-      saveCandidates: [
-        { text: "They're having a", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "They're having outages all over the city.",
-      saveCandidates: [],
     },
   ],
   'pt93-5': [
@@ -14738,14 +9256,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "marked down to", type: 'chunk', start: 11, end: 25 },
       ],
     },
-    {
-      en: "Her favorite's marked down — let's grab it.",
-      saveCandidates: [],
-    },
-    {
-      en: "It's marked down because the box is damaged.",
-      saveCandidates: [],
-    },
   ],
   'pt94-1': [
     {
@@ -14762,18 +9272,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's hang a little art from the trip.",
-      saveCandidates: [
-        { text: "hang", type: 'chunk', start: 6, end: 10 },
-      ],
-    },
-    {
-      en: "Let's hang that photo of us up front.",
-      saveCandidates: [
-        { text: "hang", type: 'chunk', start: 6, end: 10 },
-      ],
-    },
-    {
-      en: "Let's hang it higher so it doesn't fall.",
       saveCandidates: [
         { text: "hang", type: 'chunk', start: 6, end: 10 },
       ],
@@ -14801,20 +9299,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "match", type: 'chunk', start: 16, end: 21 },
       ],
     },
-    {
-      en: "Does my tie match what you're wearing?",
-      saveCandidates: [
-        { text: "Does", type: 'chunk', start: 0, end: 4 },
-        { text: "match", type: 'chunk', start: 12, end: 17 },
-      ],
-    },
-    {
-      en: "Does this paint match the old patch?",
-      saveCandidates: [
-        { text: "Does", type: 'chunk', start: 0, end: 4 },
-        { text: "match", type: 'chunk', start: 16, end: 21 },
-      ],
-    },
   ],
   'pt94-3': [
     {
@@ -14831,18 +9315,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It would look nice as a travel keepsake.",
-      saveCandidates: [
-        { text: "It would look nice", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "It would look nice in your new place.",
-      saveCandidates: [
-        { text: "It would look nice", type: 'chunk', start: 0, end: 18 },
-      ],
-    },
-    {
-      en: "It would look nice once we patch the crack.",
       saveCandidates: [
         { text: "It would look nice", type: 'chunk', start: 0, end: 18 },
       ],
@@ -14867,18 +9339,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "could use", type: 'chunk', start: 3, end: 12 },
       ],
     },
-    {
-      en: "We could use a quiet night in, just us.",
-      saveCandidates: [
-        { text: "could use", type: 'chunk', start: 3, end: 12 },
-      ],
-    },
-    {
-      en: "We could use a backup heater for winter.",
-      saveCandidates: [
-        { text: "could use", type: 'chunk', start: 3, end: 12 },
-      ],
-    },
   ],
   'pt94-5': [
     {
@@ -14895,18 +9355,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's move our seats to the shade.",
-      saveCandidates: [
-        { text: "move", type: 'chunk', start: 6, end: 10 },
-      ],
-    },
-    {
-      en: "Let's move this chat somewhere quieter.",
-      saveCandidates: [
-        { text: "move", type: 'chunk', start: 6, end: 10 },
-      ],
-    },
-    {
-      en: "Let's move it away from the wet floor.",
       saveCandidates: [
         { text: "move", type: 'chunk', start: 6, end: 10 },
       ],
@@ -14933,19 +9381,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "for a walk", type: 'chunk', start: 15, end: 25 },
       ],
     },
-    {
-      en: "I'm taking your dog for a walk too.",
-      saveCandidates: [
-        { text: "tak", type: 'chunk', start: 4, end: 7 },
-        { text: "for a walk", type: 'chunk', start: 20, end: 30 },
-      ],
-    },
-    {
-      en: "I'm taking him out before the storm hits.",
-      saveCandidates: [
-        { text: "tak", type: 'chunk', start: 4, end: 7 },
-      ],
-    },
   ],
   'pt95-2': [
     {
@@ -14966,18 +9401,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "won't stop", type: 'chunk', start: 9, end: 19 },
       ],
     },
-    {
-      en: "He won't stop talking about you, cute.",
-      saveCandidates: [
-        { text: "won't stop", type: 'chunk', start: 3, end: 13 },
-      ],
-    },
-    {
-      en: "The alarm won't stop going off randomly.",
-      saveCandidates: [
-        { text: "won't stop", type: 'chunk', start: 10, end: 20 },
-      ],
-    },
   ],
   'pt95-3': [
     {
@@ -14994,18 +9417,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Have you fed the parking meter yet?",
-      saveCandidates: [
-        { text: "Have you fed", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Have you fed the baby, or should I?",
-      saveCandidates: [
-        { text: "Have you fed", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Have you fed him? He looks really restless.",
       saveCandidates: [
         { text: "Have you fed", type: 'chunk', start: 0, end: 12 },
       ],
@@ -15030,18 +9441,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Does he", type: 'chunk', start: 0, end: 7 },
       ],
     },
-    {
-      en: "Does he always make you laugh like that?",
-      saveCandidates: [
-        { text: "Does he", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
-    {
-      en: "Does he get anxious during thunderstorms?",
-      saveCandidates: [
-        { text: "Does he", type: 'chunk', start: 0, end: 7 },
-      ],
-    },
   ],
   'pt95-5': [
     {
@@ -15058,18 +9457,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Can I pet the horses at the ranch?",
-      saveCandidates: [
-        { text: "Can I pet", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Can I pet your new puppy this weekend?",
-      saveCandidates: [
-        { text: "Can I pet", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Can I pet him, or is he scared right now?",
       saveCandidates: [
         { text: "Can I pet", type: 'chunk', start: 0, end: 9 },
       ],
@@ -15094,18 +9481,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "fell through", type: 'chunk', start: 18, end: 30 },
       ],
     },
-    {
-      en: "Their setup fell through, so they split.",
-      saveCandidates: [
-        { text: "fell through", type: 'chunk', start: 12, end: 24 },
-      ],
-    },
-    {
-      en: "The repair plan fell through; parts are out.",
-      saveCandidates: [
-        { text: "fell through", type: 'chunk', start: 16, end: 28 },
-      ],
-    },
   ],
   'pt96-2': [
     {
@@ -15122,18 +9497,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's take a rain check on the day trip.",
-      saveCandidates: [
-        { text: "take a rain check", type: 'chunk', start: 6, end: 23 },
-      ],
-    },
-    {
-      en: "Let's take a rain check, I'm wiped out.",
-      saveCandidates: [
-        { text: "take a rain check", type: 'chunk', start: 6, end: 23 },
-      ],
-    },
-    {
-      en: "Let's take a rain check; the roads are icy.",
       saveCandidates: [
         { text: "take a rain check", type: 'chunk', start: 6, end: 23 },
       ],
@@ -15158,18 +9521,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Plan B is", type: 'chunk', start: 0, end: 9 },
       ],
     },
-    {
-      en: "Plan B is just us two, low-key.",
-      saveCandidates: [
-        { text: "Plan B is", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
-    {
-      en: "Plan B is a backup generator for outages.",
-      saveCandidates: [
-        { text: "Plan B is", type: 'chunk', start: 0, end: 9 },
-      ],
-    },
   ],
   'pt96-4': [
     {
@@ -15186,18 +9537,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "We'll have to cook with what's left.",
-      saveCandidates: [
-        { text: "We'll have to", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "We'll have to agree to disagree on this.",
-      saveCandidates: [
-        { text: "We'll have to", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "We'll have to wait until the power's back.",
       saveCandidates: [
         { text: "We'll have to", type: 'chunk', start: 0, end: 13 },
       ],
@@ -15222,18 +9561,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Better luck next", type: 'chunk', start: 20, end: 36 },
       ],
     },
-    {
-      en: "She said no? Better luck next time, buddy.",
-      saveCandidates: [
-        { text: "Better luck next", type: 'chunk', start: 13, end: 29 },
-      ],
-    },
-    {
-      en: "Part's out of stock — better luck next week.",
-      saveCandidates: [
-        { text: "better luck next", type: 'chunk', start: 22, end: 38 },
-      ],
-    },
   ],
   'pt97-1': [
     {
@@ -15250,18 +9577,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I'm running late for the airport, hurry!",
-      saveCandidates: [
-        { text: "running late", type: 'chunk', start: 4, end: 16 },
-      ],
-    },
-    {
-      en: "I'm running late, but I'm definitely coming.",
-      saveCandidates: [
-        { text: "running late", type: 'chunk', start: 4, end: 16 },
-      ],
-    },
-    {
-      en: "I'm running late — the train was delayed.",
       saveCandidates: [
         { text: "running late", type: 'chunk', start: 4, end: 16 },
       ],
@@ -15289,20 +9604,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "to spare", type: 'chunk', start: 14, end: 22 },
       ],
     },
-    {
-      en: "We have a little time to spare, let's talk.",
-      saveCandidates: [
-        { text: "have", type: 'chunk', start: 3, end: 7 },
-        { text: "to spare", type: 'chunk', start: 22, end: 30 },
-      ],
-    },
-    {
-      en: "We have no time to spare — let's move!",
-      saveCandidates: [
-        { text: "have", type: 'chunk', start: 3, end: 7 },
-        { text: "to spare", type: 'chunk', start: 16, end: 24 },
-      ],
-    },
   ],
   'pt97-3': [
     {
@@ -15319,18 +9620,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Let's give it till noon to clear up.",
-      saveCandidates: [
-        { text: "give it", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's give it some time and talk later.",
-      saveCandidates: [
-        { text: "give it", type: 'chunk', start: 6, end: 13 },
-      ],
-    },
-    {
-      en: "Let's give it a minute and restart it.",
       saveCandidates: [
         { text: "give it", type: 'chunk', start: 6, end: 13 },
       ],
@@ -15355,18 +9644,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "about time", type: 'chunk', start: 5, end: 15 },
       ],
     },
-    {
-      en: "It's about time you two made up.",
-      saveCandidates: [
-        { text: "about time", type: 'chunk', start: 5, end: 15 },
-      ],
-    },
-    {
-      en: "It's about time we replaced that old fuse.",
-      saveCandidates: [
-        { text: "about time", type: 'chunk', start: 5, end: 15 },
-      ],
-    },
   ],
   'pt97-5': [
     {
@@ -15385,18 +9662,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "We made the gate just in time.",
       saveCandidates: [
         { text: "just in time", type: 'chunk', start: 17, end: 29 },
-      ],
-    },
-    {
-      en: "You called just in time, I missed you.",
-      saveCandidates: [
-        { text: "just in time", type: 'chunk', start: 11, end: 23 },
-      ],
-    },
-    {
-      en: "The repair guy came just in time.",
-      saveCandidates: [
-        { text: "just in time", type: 'chunk', start: 20, end: 32 },
       ],
     },
   ],
@@ -15420,18 +9685,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "on time", type: 'prepPhrase', start: 34, end: 41 },
       ],
     },
-    {
-      en: "More often than not, she's right about people.",
-      saveCandidates: [
-        { text: "More often than not", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
-    {
-      en: "More often than not, it fixes itself.",
-      saveCandidates: [
-        { text: "More often than not", type: 'chunk', start: 0, end: 19 },
-      ],
-    },
   ],
   'pt98-2': [
     {
@@ -15448,18 +9701,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "I hardly ever travel during peak season.",
-      saveCandidates: [
-        { text: "hardly ever", type: 'chunk', start: 2, end: 13 },
-      ],
-    },
-    {
-      en: "I hardly ever fight with my sister now.",
-      saveCandidates: [
-        { text: "hardly ever", type: 'chunk', start: 2, end: 13 },
-      ],
-    },
-    {
-      en: "I hardly ever lose my keys these days.",
       saveCandidates: [
         { text: "hardly ever", type: 'chunk', start: 2, end: 13 },
       ],
@@ -15484,18 +9725,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "not as", type: 'chunk', start: 5, end: 11 },
       ],
     },
-    {
-      en: "It's not as awkward as I feared with them.",
-      saveCandidates: [
-        { text: "not as", type: 'chunk', start: 5, end: 11 },
-      ],
-    },
-    {
-      en: "It's not as broken as it first looked.",
-      saveCandidates: [
-        { text: "not as", type: 'chunk', start: 5, end: 11 },
-      ],
-    },
   ],
   'pt98-4': [
     {
@@ -15512,18 +9741,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It's kind of out of the way, but worth it.",
-      saveCandidates: [
-        { text: "kind of", type: 'chunk', start: 5, end: 12 },
-      ],
-    },
-    {
-      en: "It's kind of sweet how he worries about you.",
-      saveCandidates: [
-        { text: "kind of", type: 'chunk', start: 5, end: 12 },
-      ],
-    },
-    {
-      en: "It's kind of making a weird sound again.",
       saveCandidates: [
         { text: "kind of", type: 'chunk', start: 5, end: 12 },
       ],
@@ -15548,18 +9765,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Nine times out of ten", type: 'chunk', start: 0, end: 21 },
       ],
     },
-    {
-      en: "Nine times out of ten, she texts back fast.",
-      saveCandidates: [
-        { text: "Nine times out of ten", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
-    {
-      en: "Nine times out of ten, restarting fixes it.",
-      saveCandidates: [
-        { text: "Nine times out of ten", type: 'chunk', start: 0, end: 21 },
-      ],
-    },
   ],
   'pt99-1': [
     {
@@ -15576,18 +9781,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "It was great having you stay with us.",
-      saveCandidates: [
-        { text: "It was great", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "It was great traveling alongside you.",
-      saveCandidates: [
-        { text: "It was great", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "It was great meeting despite the chaos.",
       saveCandidates: [
         { text: "It was great", type: 'chunk', start: 0, end: 12 },
       ],
@@ -15612,18 +9805,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "do this again", type: 'chunk', start: 6, end: 19 },
       ],
     },
-    {
-      en: "Let's do this again on the next trip.",
-      saveCandidates: [
-        { text: "do this again", type: 'chunk', start: 6, end: 19 },
-      ],
-    },
-    {
-      en: "Let's do this again, minus the fire alarm.",
-      saveCandidates: [
-        { text: "do this again", type: 'chunk', start: 6, end: 19 },
-      ],
-    },
   ],
   'pt99-3': [
     {
@@ -15640,19 +9821,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Take care of the plants while I'm away.",
-      saveCandidates: [
-        { text: "Take care of", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Take care of your passport on the way.",
-      saveCandidates: [
-        { text: "Take care of", type: 'chunk', start: 0, end: 12 },
-        { text: "on the way", type: 'prepPhrase', start: 27, end: 37 },
-      ],
-    },
-    {
-      en: "Take care of that cut, keep it clean.",
       saveCandidates: [
         { text: "Take care of", type: 'chunk', start: 0, end: 12 },
       ],
@@ -15677,18 +9845,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Safe travels", type: 'chunk', start: 0, end: 12 },
       ],
     },
-    {
-      en: "Safe travels — the roads might be icy.",
-      saveCandidates: [
-        { text: "Safe travels", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
-    {
-      en: "Safe travels, and call if anything happens.",
-      saveCandidates: [
-        { text: "Safe travels", type: 'chunk', start: 0, end: 12 },
-      ],
-    },
   ],
   'pt99-5': [
     {
@@ -15709,19 +9865,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Keep in touch", type: 'chunk', start: 0, end: 13 },
       ],
     },
-    {
-      en: "Keep in touch and share your trip photos.",
-      saveCandidates: [
-        { text: "Keep in touch", type: 'chunk', start: 0, end: 13 },
-      ],
-    },
-    {
-      en: "Keep in touch in case plans change.",
-      saveCandidates: [
-        { text: "Keep in touch", type: 'chunk', start: 0, end: 13 },
-        { text: "in case", type: 'fixedExpression', start: 14, end: 21 },
-      ],
-    },
   ],
   'pt100-1': [
     {
@@ -15738,18 +9881,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Give me a second to grab my ticket.",
-      saveCandidates: [
-        { text: "Give me a second", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Give me a second, I want to hear this.",
-      saveCandidates: [
-        { text: "Give me a second", type: 'chunk', start: 0, end: 16 },
-      ],
-    },
-    {
-      en: "Give me a second — something's beeping.",
       saveCandidates: [
         { text: "Give me a second", type: 'chunk', start: 0, end: 16 },
       ],
@@ -15774,18 +9905,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "Take your time", type: 'chunk', start: 0, end: 14 },
       ],
     },
-    {
-      en: "Take your time at the museum, no rush.",
-      saveCandidates: [
-        { text: "Take your time", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
-    {
-      en: "Take your time, but the timer's running.",
-      saveCandidates: [
-        { text: "Take your time", type: 'chunk', start: 0, end: 14 },
-      ],
-    },
   ],
   'pt100-3': [
     {
@@ -15804,18 +9923,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "How I got this scar? It's a long story.",
       saveCandidates: [
         { text: "a long story", type: 'chunk', start: 26, end: 38 },
-      ],
-    },
-    {
-      en: "Why we missed the flight? It's a long story.",
-      saveCandidates: [
-        { text: "a long story", type: 'chunk', start: 31, end: 43 },
-      ],
-    },
-    {
-      en: "Why the car's in the shop? It's a long story.",
-      saveCandidates: [
-        { text: "a long story", type: 'chunk', start: 32, end: 44 },
       ],
     },
   ],
@@ -15838,18 +9945,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
         { text: "can say that again", type: 'chunk', start: 26, end: 44 },
       ],
     },
-    {
-      en: "The lines are long? You can say that again.",
-      saveCandidates: [
-        { text: "can say that again", type: 'chunk', start: 24, end: 42 },
-      ],
-    },
-    {
-      en: "Tech never cooperates? You can say that again.",
-      saveCandidates: [
-        { text: "can say that again", type: 'chunk', start: 27, end: 45 },
-      ],
-    },
   ],
   'pt100-5': [
     {
@@ -15868,18 +9963,6 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
       en: "Cooking it yourself? That's the spirit.",
       saveCandidates: [
         { text: "That's the spirit", type: 'chunk', start: 21, end: 38 },
-      ],
-    },
-    {
-      en: "Up for the early hike? That's the spirit.",
-      saveCandidates: [
-        { text: "That's the spirit", type: 'chunk', start: 23, end: 40 },
-      ],
-    },
-    {
-      en: "Trying again after it broke? That's the spirit.",
-      saveCandidates: [
-        { text: "That's the spirit", type: 'chunk', start: 29, end: 46 },
       ],
     },
   ],
