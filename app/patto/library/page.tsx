@@ -354,6 +354,7 @@ function SearchStoryRow({ story, border, onPress }: {
 function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '10px 4px' }}>
+      <div style={{ marginTop: 1, flexShrink: 0 }}>{icon}</div>
       <div>
         <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 3px' }}>{title}</p>
         <p style={{ fontSize: 12, color: 'var(--pt)', opacity: 0.65, lineHeight: 1.6, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
