@@ -619,38 +619,29 @@ export default function HomePage() {
 
         {/* ── Card 1: TODAY'S MISSION ── */}
         {missions.length > 0 && (
-          <div style={{ margin: '12px 20px 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ margin: '12px 20px 0' }}>
+            {/* 소제목 칩 */}
+            <div style={{ background: '#1E293B', borderRadius: 10, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Target style={{ width: 14, height: 14, color: '#818CF8', flexShrink: 0 }} strokeWidth={2} />
+              <span style={{ fontSize: 14, fontWeight: 500, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Today&apos;s Mission</span>
+            </div>
+            {/* 내용 */}
             {missions.map((m) => (
               <motion.div
                 key={`${m.type}-${m.id}`}
                 role="button" tabIndex={0}
                 onClick={() => router.push(`/patto/stories/${m.id}`)}
                 onKeyDown={e => e.key === 'Enter' && router.push(`/patto/stories/${m.id}`)}
-                style={{
-                  background: 'var(--pc)',
-                  border: `0.5px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(142,167,255,0.22)'}`,
-                  borderRadius: 12,
-                  padding: '14px 16px',
-                  display: 'flex', alignItems: 'center', gap: 14,
-                  cursor: 'pointer',
-                  opacity: m.done ? 0.6 : 1,
-                }}
-                whileTap={{ scale: 0.97 }}
+                style={{ padding: '12px 4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', opacity: m.done ? 0.6 : 1 }}
+                whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
-                <div style={{ width: 36, height: 36, borderRadius: 10, background: isDark ? 'rgba(99,102,241,0.15)' : '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Target style={{ width: 18, height: 18, color: '#6366F1' }} strokeWidth={1.8} />
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 3px' }}>Today&apos;s Mission</p>
-                  <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    Story {String(m.id).padStart(2, '0')} · {m.title}
-                  </p>
-                </div>
-                {m.done
-                  ? <span style={{ fontSize: 12, fontWeight: 500, color: '#16A34A', background: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: 999, padding: '3px 10px', flexShrink: 0 }}>Done</span>
-                  : <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2} />
-                }
+                <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+                  Story {String(m.id).padStart(2, '0')} · {m.title}
+                </p>
+                {m.done && (
+                  <span style={{ fontSize: 12, fontWeight: 500, color: '#16A34A', background: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: 999, padding: '3px 10px', flexShrink: 0, marginLeft: 8 }}>Done</span>
+                )}
               </motion.div>
             ))}
           </div>
@@ -658,28 +649,21 @@ export default function HomePage() {
 
         {/* ── Card 2: Editor Tip ── */}
         {dailyTip && (
-          <div style={{ margin: `${missions.length > 0 ? '8px' : '12px'} 20px 0` }}>
+          <div style={{ margin: `${missions.length > 0 ? '16px' : '12px'} 20px 0` }}>
+            {/* 소제목 칩 */}
+            <div style={{ background: '#1E293B', borderRadius: 10, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Pencil style={{ width: 14, height: 14, color: '#818CF8', flexShrink: 0 }} strokeWidth={2} />
+              <span style={{ fontSize: 14, fontWeight: 500, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Editor Tip</span>
+            </div>
+            {/* 내용 */}
             <button
               type="button"
               onClick={() => setTipOpen(true)}
-              style={{
-                background: 'var(--pc)',
-                border: `0.5px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(142,167,255,0.22)'}`,
-                borderRadius: 12,
-                padding: '14px 16px',
-                width: '100%', textAlign: 'left', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', gap: 14,
-              }}
+              style={{ padding: '12px 4px', width: '100%', textAlign: 'left', cursor: 'pointer', background: 'transparent', border: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}
             >
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: isDark ? 'rgba(99,102,241,0.15)' : '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <Pencil style={{ width: 18, height: 18, color: '#6366F1' }} strokeWidth={1.8} />
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 3px' }}>Editor Tip</p>
-                <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
-                </p>
-              </div>
+              <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+                {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
+              </p>
               <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2} />
             </button>
           </div>
