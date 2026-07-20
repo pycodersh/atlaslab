@@ -117,10 +117,12 @@ export function StoryProgressTracker({
               transition: 'width 0.4s ease, background 0.3s ease',
             }} />
           </div>
-          {listeningCompleted
-            ? <CheckCircle style={{ width: 15, height: 15, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
-            : <span style={{ fontSize: 12, color: mutedColor, flexShrink: 0, fontVariantNumeric: 'tabular-nums' }}>0 / 1</span>
-          }
+          <div style={{ width: 36, flexShrink: 0, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            {listeningCompleted
+              ? <CheckCircle style={{ width: 15, height: 15, color: '#22C55E' }} strokeWidth={2.5} />
+              : <span style={{ fontSize: 12, color: mutedColor, fontVariantNumeric: 'tabular-nums' }}>0 / 1</span>
+            }
+          </div>
         </div>
 
         {/* Divider */}
@@ -160,10 +162,12 @@ export function StoryProgressTracker({
               transition: 'width 0.4s ease, background 0.3s ease',
             }} />
           </div>
-          {readingDone
-            ? <CheckCircle style={{ width: 15, height: 15, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
-            : <span style={{ fontSize: 12, color: mutedColor, flexShrink: 0, fontVariantNumeric: 'tabular-nums' }}>{readingCount} / 2</span>
-          }
+          <div style={{ width: 36, flexShrink: 0, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            {readingDone
+              ? <CheckCircle style={{ width: 15, height: 15, color: '#22C55E' }} strokeWidth={2.5} />
+              : <span style={{ fontSize: 12, color: mutedColor, fontVariantNumeric: 'tabular-nums' }}>{readingCount} / 2</span>
+            }
+          </div>
         </div>
 
       </div>
