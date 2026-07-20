@@ -481,7 +481,7 @@ export default function ProgressPage() {
               const complete = pct >= 1
               return (
                 <div key={label}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5, paddingRight: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                       {icon}
                       <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: 'var(--pm)' }}>{label}</span>
