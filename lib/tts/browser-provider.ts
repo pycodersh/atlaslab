@@ -162,7 +162,8 @@ export class BrowserTTSProvider implements ITTSProvider {
         if (index < segments.length) {
           setTimeout(next, PARAGRAPH_PAUSE_MS)
         } else {
-          onEnd?.()
+          // Last segment errored — do NOT treat as completion
+          onError?.()
         }
       }
 

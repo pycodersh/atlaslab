@@ -348,12 +348,15 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const handleSpeakAll = useCallback((
     texts: string[],
     audioUrls?: (string | null | undefined)[],
-    opts?: { voiceKey?: VoiceKey; voiceKeys?: VoiceKey[] },
+    opts?: { voiceKey?: VoiceKey; voiceKeys?: VoiceKey[]; onEnd?: () => void; fromStart?: boolean },
   ) => {
     if (effectiveAmbienceOn && story.ambienceId && !story.sceneVideo) {
       playAmbience(story.ambienceId as AmbienceId, userVolume)
     }
-    speakAll(texts, audioUrls, { ...opts, onEnd: handleStoryComplete })
+    const composedOnEnd = opts?.fromStart
+      ? () => { opts?.onEnd?.(); handleStoryComplete() }
+      : opts?.onEnd
+    speakAll(texts, audioUrls, { ...opts, onEnd: composedOnEnd })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [effectiveAmbienceOn, story.ambienceId, story.sceneVideo, userVolume, speakAll, handleStoryComplete])
 

@@ -34,7 +34,7 @@ type StoryPageProps = {
   speakAll: (
     texts: string[],
     audioUrls?: (string | null | undefined)[],
-    opts?: { voiceKey?: import('@/lib/settings/preferences').VoiceKey; voiceKeys?: import('@/lib/settings/preferences').VoiceKey[]; onEnd?: () => void },
+    opts?: { voiceKey?: import('@/lib/settings/preferences').VoiceKey; voiceKeys?: import('@/lib/settings/preferences').VoiceKey[]; onEnd?: () => void; fromStart?: boolean },
   ) => void
   stop: () => void
   isSpeaking: boolean
@@ -255,6 +255,7 @@ export function StoryPage({
     coordinatorClaim(STORY_AUDIO_ID, stableStoryInterrupt)
     speakAll(texts, audioUrls, {
       voiceKey: narrator,
+      fromStart: fromIdx === 0,
       onEnd: () => { coordinatorEnded(STORY_AUDIO_ID); paraOffsetRef.current = 0 },
     })
   }
