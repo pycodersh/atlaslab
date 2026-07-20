@@ -112,6 +112,150 @@ const KNOWN_CHUNKS: Array<{ text: string; type: SaveCandidateType }> = [
   { text: 'for a while',      type: 'prepPhrase' },
 ]
 
+// ── 동사 굴절형 ───────────────────────────────────────────────────────────────
+
+const IRREGULARS: Record<string, string[]> = {
+  go:         ['go', 'goes', 'went', 'gone', 'going'],
+  be:         ['be', 'is', 'am', 'are', 'was', 'were', 'been', 'being'],
+  have:       ['have', 'has', 'had', 'having'],
+  do:         ['do', 'does', 'did', 'done', 'doing'],
+  make:       ['make', 'makes', 'made', 'making'],
+  take:       ['take', 'takes', 'took', 'taken', 'taking'],
+  come:       ['come', 'comes', 'came', 'coming'],
+  get:        ['get', 'gets', 'got', 'gotten', 'getting'],
+  give:       ['give', 'gives', 'gave', 'given', 'giving'],
+  know:       ['know', 'knows', 'knew', 'known', 'knowing'],
+  think:      ['think', 'thinks', 'thought', 'thinking'],
+  see:        ['see', 'sees', 'saw', 'seen', 'seeing'],
+  say:        ['say', 'says', 'said', 'saying'],
+  tell:       ['tell', 'tells', 'told', 'telling'],
+  feel:       ['feel', 'feels', 'felt', 'feeling'],
+  find:       ['find', 'finds', 'found', 'finding'],
+  keep:       ['keep', 'keeps', 'kept', 'keeping'],
+  run:        ['run', 'runs', 'ran', 'running'],
+  put:        ['put', 'puts', 'putting'],
+  let:        ['let', 'lets', 'letting'],
+  begin:      ['begin', 'begins', 'began', 'begun', 'beginning'],
+  show:       ['show', 'shows', 'showed', 'shown', 'showing'],
+  hear:       ['hear', 'hears', 'heard', 'hearing'],
+  leave:      ['leave', 'leaves', 'left', 'leaving'],
+  hold:       ['hold', 'holds', 'held', 'holding'],
+  lose:       ['lose', 'loses', 'lost', 'losing'],
+  bring:      ['bring', 'brings', 'brought', 'bringing'],
+  sit:        ['sit', 'sits', 'sat', 'sitting'],
+  stand:      ['stand', 'stands', 'stood', 'standing'],
+  meet:       ['meet', 'meets', 'met', 'meeting'],
+  set:        ['set', 'sets', 'setting'],
+  pay:        ['pay', 'pays', 'paid', 'paying'],
+  send:       ['send', 'sends', 'sent', 'sending'],
+  buy:        ['buy', 'buys', 'bought', 'buying'],
+  cut:        ['cut', 'cuts', 'cutting'],
+  read:       ['read', 'reads', 'reading'],
+  write:      ['write', 'writes', 'wrote', 'written', 'writing'],
+  drive:      ['drive', 'drives', 'drove', 'driven', 'driving'],
+  fall:       ['fall', 'falls', 'fell', 'fallen', 'falling'],
+  grow:       ['grow', 'grows', 'grew', 'grown', 'growing'],
+  build:      ['build', 'builds', 'built', 'building'],
+  speak:      ['speak', 'speaks', 'spoke', 'spoken', 'speaking'],
+  spend:      ['spend', 'spends', 'spent', 'spending'],
+  break:      ['break', 'breaks', 'broke', 'broken', 'breaking'],
+  choose:     ['choose', 'chooses', 'chose', 'chosen', 'choosing'],
+  win:        ['win', 'wins', 'won', 'winning'],
+  eat:        ['eat', 'eats', 'ate', 'eaten', 'eating'],
+  sleep:      ['sleep', 'sleeps', 'slept', 'sleeping'],
+  understand: ['understand', 'understands', 'understood', 'understanding'],
+  catch:      ['catch', 'catches', 'caught', 'catching'],
+  throw:      ['throw', 'throws', 'threw', 'thrown', 'throwing'],
+  forget:     ['forget', 'forgets', 'forgot', 'forgotten', 'forgetting'],
+  turn:       ['turn', 'turns', 'turned', 'turning'],
+  wish:       ['wish', 'wishes', 'wished', 'wishing'],
+  try:        ['try', 'tries', 'tried', 'trying'],
+  carry:      ['carry', 'carries', 'carried', 'carrying'],
+  worry:      ['worry', 'worries', 'worried', 'worrying'],
+  study:      ['study', 'studies', 'studied', 'studying'],
+  apply:      ['apply', 'applies', 'applied', 'applying'],
+  reply:      ['reply', 'replies', 'replied', 'replying'],
+  plan:       ['plan', 'plans', 'planned', 'planning'],
+  stop:       ['stop', 'stops', 'stopped', 'stopping'],
+  shop:       ['shop', 'shops', 'shopped', 'shopping'],
+  drop:       ['drop', 'drops', 'dropped', 'dropping'],
+  grab:       ['grab', 'grabs', 'grabbed', 'grabbing'],
+  beg:        ['beg', 'begs', 'begged', 'begging'],
+  hit:        ['hit', 'hits', 'hitting'],
+  fit:        ['fit', 'fits', 'fitting'],
+  permit:     ['permit', 'permits', 'permitted', 'permitting'],
+}
+
+function getVerbForms(verb: string): string[] {
+  const lower = verb.toLowerCase()
+  if (IRREGULARS[lower]) return IRREGULARS[lower]
+
+  const forms: string[] = [verb]
+
+  // 3인칭 단수
+  if (/(?:ch|sh|ss|x|z|o)$/.test(lower)) {
+    forms.push(verb + 'es')
+  } else if (/[^aeiou]y$/.test(lower)) {
+    forms.push(verb.slice(0, -1) + 'ies')
+  } else {
+    forms.push(verb + 's')
+  }
+
+  // 과거형
+  if (/[^aeiou]y$/.test(lower)) {
+    forms.push(verb.slice(0, -1) + 'ied')
+  } else if (/e$/.test(lower)) {
+    forms.push(verb + 'd')
+  } else {
+    forms.push(verb + 'ed')
+  }
+
+  // 현재분사
+  if (/[^aeiou]e$/.test(lower) && !lower.endsWith('ee')) {
+    forms.push(verb.slice(0, -1) + 'ing')
+  } else {
+    forms.push(verb + 'ing')
+  }
+
+  return [...new Set(forms)]
+}
+
+// 부정 보조동사 접두사 (동사 원형 앞에 붙음)
+const NEG_PREFIXES = ["don't ", "doesn't ", "didn't ", "can't ", "couldn't ", "won't ", "wouldn't "]
+
+/** anchor의 첫 단어(핵심동사) 굴절형 + rest 조합으로 문장 내 매칭
+ *  "want to" → "wants to" / "wanted to" / "don't want to" 등 매칭
+ *  실제 문장에서 발견된 텍스트(대소문자 원본) 반환
+ */
+function matchAnchorInflected(
+  sentence: string,
+  anchor: string,
+): { text: string; start: number } | null {
+  const words  = anchor.trim().split(/\s+/)
+  const first  = words[0].toLowerCase()
+  const rest   = words.length > 1 ? ' ' + words.slice(1).join(' ') : ''
+  const forms  = getVerbForms(first)
+  const sentL  = sentence.toLowerCase()
+
+  for (const form of forms) {
+    const candidate = form + rest
+
+    // 일반 매칭 (3인칭/과거/진행 등)
+    const idx = sentL.indexOf(candidate.toLowerCase())
+    if (idx !== -1) return { text: sentence.slice(idx, idx + candidate.length), start: idx }
+
+    // 부정형 매칭: "don't want to", "doesn't want to" 등
+    for (const neg of NEG_PREFIXES) {
+      // 부정형에는 동사 원형만 사용 (don't + base)
+      const negCandidate = neg + first + rest
+      const negIdx = sentL.indexOf(negCandidate.toLowerCase())
+      if (negIdx !== -1) return { text: sentence.slice(negIdx, negIdx + negCandidate.length), start: negIdx }
+    }
+  }
+
+  return null
+}
+
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
 
 function findCaseInsensitive(sentence: string, phrase: string): number {
@@ -179,13 +323,11 @@ function extractCandidates(
     candidates.push({ text, type, start, end })
   }
 
-  // 1. 패턴 앵커 매칭 (가장 중요)
+  // 1. 패턴 앵커 매칭 (가장 중요) — 동사 굴절형 + 부정형 포함
   for (const anchor of patternAnchors) {
-    const idx = findCaseInsensitive(sentence, anchor)
-    if (idx !== -1) {
-      // 실제 문장 텍스트(대소문자 원본) 사용
-      const actual = sentence.slice(idx, idx + anchor.length)
-      addCandidate(actual, 'chunk', idx)
+    const match = matchAnchorInflected(sentence, anchor)
+    if (match) {
+      addCandidate(match.text, 'chunk', match.start)
     }
   }
 

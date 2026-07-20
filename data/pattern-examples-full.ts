@@ -39,6 +39,7 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "She wants to get a window seat on the flight.",
       saveCandidates: [
+        { text: "wants to", type: 'chunk', start: 4, end: 12 },
         { text: "window seat", type: 'collocation', start: 19, end: 30 },
       ],
     },
@@ -241,6 +242,7 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     {
       en: "She has to check out by eleven or they charge another night.",
       saveCandidates: [
+        { text: "has to", type: 'chunk', start: 4, end: 10 },
         { text: "check out", type: 'phrasalVerb', start: 11, end: 20 },
       ],
     },
@@ -517,7 +519,9 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "She feels like she's finally getting the hang of this job.",
-      saveCandidates: [],
+      saveCandidates: [
+        { text: "feels like", type: 'chunk', start: 4, end: 14 },
+      ],
     },
     {
       en: "Do you feel like grabbing some street food before the bus comes?",
@@ -553,11 +557,14 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "She tends to leave the dishes until the next morning.",
-      saveCandidates: [],
+      saveCandidates: [
+        { text: "tends to", type: 'chunk', start: 4, end: 12 },
+      ],
     },
     {
       en: "He tends to over-pack and end up paying for extra luggage.",
       saveCandidates: [
+        { text: "tends to", type: 'chunk', start: 3, end: 11 },
         { text: "end up", type: 'phrasalVerb', start: 26, end: 32 },
       ],
     },
@@ -5218,11 +5225,15 @@ export const patternExamplesFull: Record<string, PatternExampleSlim[]> = {
     },
     {
       en: "Half the team has a crush on the intern.",
-      saveCandidates: [],
+      saveCandidates: [
+        { text: "has a crush on", type: 'chunk', start: 14, end: 28 },
+      ],
     },
     {
       en: "I had a crush on our tour guide, ha.",
-      saveCandidates: [],
+      saveCandidates: [
+        { text: "had a crush on", type: 'chunk', start: 2, end: 16 },
+      ],
     },
   ],
   'pt53-3': [
