@@ -24,6 +24,7 @@ import type { PracticeExample } from '@/data/pattern-examples'
 import { getStoryRound, completeStoryRound, type StoryRoundData } from '@/lib/srs/story-round'
 import { getStorySessionState, updateStorySessionState } from '@/lib/srs/story-session'
 import { useTheme } from '@/components/ThemeProvider'
+import { useT } from '@/hooks/useT'
 import { StoryProgressTracker } from '@/components/StoryProgressTracker'
 import { useTrainerSafe } from '@/contexts/TrainerContext'
 import { ChallengeMode } from '@/components/ChallengeMode'
@@ -53,6 +54,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   const router = useRouter()
   const isDesktop = useIsDesktop()
   const { theme } = useTheme()
+  const t = useT()
   const isDark = theme === 'dark'
   const { speakAll, stop, isSpeaking, currentParagraphIdx } = useSpeech()
   const { prefs } = usePreferences()
@@ -577,7 +579,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
             fontSize: 13, color: 'var(--text-muted)',
             margin: 0,
           }}>
-            Complete Listening and Reading first.
+            {t('challenge_locked')}
           </p>
           <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
             <ChallengeMode
