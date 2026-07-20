@@ -55,8 +55,11 @@ const TABS = [
   },
 ] as const
 
+const HIDE_PATHS = ['/patto/onboarding', '/patto/onboarding/language']
+
 export function MainTabBar() {
   const pathname = usePathname()
+  if (HIDE_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))) return null
   const [scrolledDown, setScrolledDown] = useState(false)
   const lastYRef = useRef(0)
 
