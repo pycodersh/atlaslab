@@ -2,13 +2,12 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, CheckCircle, Home } from 'lucide-react'
 import { useIsDesktop } from '@/hooks/useIsDesktop'
 
 import { PatternsPageV2 } from '@/components/PatternsPageV2'
 import { PatternsSectionInline } from '@/components/PatternsSectionInline'
 import { StoryPage } from '@/components/StoryPage'
-import { StoryCompletionScreen } from '@/components/StoryCompletionScreen'
 import { WheelPicker } from '@/components/WheelPicker'
 import { GlobalSavePopup } from '@/components/GlobalSavePopup'
 
@@ -111,6 +110,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     setCompletionData(null)
     setPatternIdx(0)
     setExitPopupPendingHref(null)
+    storyCompletedRef.current = false
     trainerGreetedRef.current = false
     trainer?.setPage?.('story')
     trainer?.clearMessage?.()
@@ -270,17 +270,30 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
   const handleAllPatternsSeen = useCallback(() => {}, [])
 
-  // Challenge complete → story complete
+  // Challenge complete → mark session only; full completion fires via isStoreDone effect
   const handleChallengeComplete = useCallback(() => {
+    const next = updateStorySessionState(story.id, storyRoundData.round, { challengeCompleted: true })
+    setSessionState(next)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [story.id, storyRoundData.round])
+
+  // L + R×2 + C 모두 완료 시 story round 완료 처리
+  const isStoreDone =
+    sessionState.listeningCompleted &&
+    sessionState.readingCount >= 2 &&
+    sessionState.challengeCompleted
+
+  const storyCompletedRef = useRef(false)
+  useEffect(() => {
+    if (!isStoreDone || storyCompletedRef.current) return
+    storyCompletedRef.current = true
     trainerSay('Great work today.', 1500)
     const data = completeStoryRound(story.id)
     setCompletionData(data)
-    updateStorySessionState(story.id, data.round, { challengeCompleted: true })
-    setTimeout(() => setFlowPhase('complete'), 600)
     const patternIds = story.patterns.map(p => p.id)
-    setProgress(completeStoryAndScheduleReview(progress, String(story.id), patternIds, 1, 1))
+    setProgress(completeStoryAndScheduleReview(progressRef.current, String(story.id), patternIds, 1, 1))
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [story.id, story.patterns, progress, setProgress])
+  }, [isStoreDone])
 
   // Story 변경 시 per-story override 초기화
   const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
@@ -509,7 +522,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
   }
 
   // ── Mobile: single scroll — story then patterns + challenge inline ────
-  const isComplete = flowPhase === 'complete'
+  const lrDone = sessionState.listeningCompleted && sessionState.readingCount >= 2
 
   const sectionDivider = (label: string) => (
     <div style={{
@@ -557,17 +570,74 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
       {sectionDivider('Challenges in this story')}
 
-      {isComplete && completionData ? (
-        <StoryCompletionScreen
-          story={story}
-          roundData={completionData}
-        />
+      {!lrDone ? (
+        <>
+          <p style={{
+            textAlign: 'center', padding: '16px 0',
+            fontSize: 13, color: 'var(--text-muted)',
+            margin: 0,
+          }}>
+            Complete Listening and Reading first.
+          </p>
+          <div style={{ opacity: 0.4, pointerEvents: 'none' }}>
+            <ChallengeMode
+              patterns={story.patterns}
+              storyId={story.id}
+              onComplete={handleChallengeComplete}
+            />
+          </div>
+        </>
       ) : (
         <ChallengeMode
           patterns={story.patterns}
           storyId={story.id}
           onComplete={handleChallengeComplete}
         />
+      )}
+
+      {/* ── Story Complete section ── */}
+      {isStoreDone && (
+        <div style={{
+          margin: '32px 16px 40px',
+          background: '#F0FDF4',
+          border: '1px solid #86EFAC',
+          borderRadius: 16,
+          padding: '20px 16px',
+          display: 'flex', flexDirection: 'column',
+          alignItems: 'center', gap: 12,
+        }}>
+          <CheckCircle style={{ width: 32, height: 32, color: '#22C55E' }} strokeWidth={1.8} />
+          <p style={{ margin: 0, fontSize: 17, fontWeight: 500, color: 'var(--text-primary)' }}>
+            Story complete
+          </p>
+          {!isLast ? (
+            <button
+              type="button"
+              onClick={goNext}
+              style={{
+                width: '100%', background: '#1E293B', color: '#ffffff',
+                border: 'none', borderRadius: 14, padding: '13px',
+                fontSize: 15, fontWeight: 500, cursor: 'pointer',
+              }}
+            >
+              Next story →
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => tryNavigate('/patto/home')}
+              style={{
+                width: '100%', background: '#1E293B', color: '#ffffff',
+                border: 'none', borderRadius: 14, padding: '13px',
+                fontSize: 15, fontWeight: 500, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              }}
+            >
+              Done for today
+              <Home style={{ width: 16, height: 16 }} strokeWidth={2} />
+            </button>
+          )}
+        </div>
       )}
     </div>
   )

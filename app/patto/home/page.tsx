@@ -3,16 +3,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, Check, PartyPopper } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, Check } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
 import { magazineStories } from '@/data/magazine-stories'
 import type { MagazineStory } from '@/types/magazine'
 import { getAllRecords, todayStr, addDays } from '@/lib/srs/storage'
+import { getStoryRound } from '@/lib/srs/story-round'
 import { getMissionItems } from '@/lib/srs/engine'
 import { getLastPosition } from '@/lib/last-position'
-import { getStoryStatus, getTodayRecommendedStoryId, getStoryRound } from '@/lib/srs/story-round'
 import { EDITOR_NOTES, type EditorNote } from '@/data/editor-notes'
 import { editorTipTranslations, type TipLang } from '@/data/editor-tips-translations'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -418,8 +418,6 @@ export default function HomePage() {
   const [missions, setMissions]       = useState<UnifiedMission[]>([])
   const [scheduledList, setScheduledList] = useState<ScheduledStory[]>([])
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
-  const [srsTodayId, setSrsTodayId]   = useState<number | null>(null)
-  const [srsReviewIds, setSrsReviewIds] = useState<Set<number>>(new Set())
 
   const dailyTip = EDITOR_NOTES[getDailyTipIndex()]
 
@@ -512,22 +510,16 @@ export default function HomePage() {
     }
     setScheduledList(list.slice(0, 8))
 
-    // All Stories label map
-    const learnedSet = new Set(
-      records.filter(r => r.itemType === 'pattern' && r.repeatCount > 0).map(r => r.storyId).filter(Boolean)
-    )
+    // All Stories label map — Done only when completeStoryRound() was called (L+R+C all done)
     const allMap: Record<number, AllStoryLabel> = {}
     for (const s of magazineStories) {
       const mi = missionMap.get(s.id)
       if (mi) allMap[s.id] = mi.type === 'review_pattern' ? 'Review' : mi.type === 'in_progress_story' ? 'Reading' : 'Today'
-      else if (learnedSet.has(s.id)) allMap[s.id] = 'Done'
+      else if (getStoryRound(s.id).round > 0) allMap[s.id] = 'Done'
       else allMap[s.id] = 'New'
     }
     setAllStoriesLabelMap(allMap)
 
-    const ids = magazineStories.map(s => s.id)
-    setSrsTodayId(getTodayRecommendedStoryId(ids))
-    setSrsReviewIds(new Set(ids.filter(id => getStoryStatus(id) === 'review_due')))
   }, [])
 
   useEffect(() => {
@@ -618,26 +610,12 @@ export default function HomePage() {
               whileTap={{ scale: 0.93 }}
               transition={{ type: 'spring', stiffness: 400, damping: 17 }}
             >
-              {allDone ? t('status_done') : 'Start'}
-              {allDone ? <PartyPopper style={{ width: 12, height: 12 }} strokeWidth={2.5} /> : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />}
+              {allDone ? 'Done' : 'Start'}
+              {allDone ? <Check style={{ width: 12, height: 12 }} strokeWidth={2.5} /> : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />}
             </motion.button>
           </div>
         </div>
 
-        {/* ── All Done Banner ── */}
-        {allDone && (
-          <div style={{ margin: '12px 20px 0', padding: '16px 18px', borderRadius: 18, background: isDark ? 'rgba(90,184,106,0.12)' : 'rgba(110,201,122,0.15)', border: `1px solid ${isDark ? 'rgba(90,184,106,0.25)' : 'rgba(110,201,122,0.3)'}`, display: 'flex', alignItems: 'center', gap: 14 }}>
-            <PartyPopper style={{ width: 20, height: 20, flexShrink: 0, color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)' }} strokeWidth={1.8} />
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 13, fontWeight: 800, color: isDark ? 'rgba(100,210,130,0.9)' : 'rgba(35,130,60,0.9)', margin: '0 0 3px', letterSpacing: '-0.01em' }}>
-                {t('home_done_title')}
-              </p>
-              <p style={{ fontSize: 11, fontWeight: 400, color: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(60,90,70,0.75)', margin: 0, lineHeight: 1.4 }}>
-                {t('home_done_next', { n: String(Math.min(todayStory.id + 1, 100)).padStart(2, '0') })}
-              </p>
-            </div>
-          </div>
-        )}
 
         {/* ── Card 1: TODAY'S MISSION ── */}
         {!allDone && missions.length > 0 && (
@@ -712,14 +690,9 @@ export default function HomePage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {scheduledList.map(({ story, label, href, done }) => {
-              const isToday  = story.id === srsTodayId
-              const isReview = srsReviewIds.has(story.id)
-              const chipText = done ? 'Done' : isToday ? '오늘' : isReview ? '복습' : label
-              const chipGradient = done ? CHIP_GRADIENT['Done']
-                : isToday  ? 'linear-gradient(135deg, rgba(91,127,212,0.85) 0%, rgba(120,155,240,0.70) 100%)'
-                : isReview ? CHIP_GRADIENT['Review']
-                : CHIP_GRADIENT[label] ?? CHIP_GRADIENT['Upcoming']
-              const cardBorder = isReview && !done ? '1.5px solid rgba(192,139,48,0.55)' : undefined
+              const chipText = label
+              const chipGradient = CHIP_GRADIENT[label] ?? CHIP_GRADIENT['Upcoming']
+              const cardBorder = label === 'Review' && !done ? '1.5px solid rgba(192,139,48,0.55)' : undefined
               return (
                 <div
                   key={story.id}
@@ -733,11 +706,29 @@ export default function HomePage() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={story.imageUrl} alt={story.imageAlt} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                     <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%)', pointerEvents: 'none' }} />
-                    <div style={{ position: 'absolute', top: 8, left: 8 }}>
-                      <span style={{ ...glassChip, background: chipGradient, border: '1px solid rgba(255,255,255,0.45)', color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.18)' }}>
-                        {chipText}
-                      </span>
-                    </div>
+                    {!done && (
+                      <div style={{ position: 'absolute', top: 8, left: 8 }}>
+                        <span style={{ ...glassChip, background: chipGradient, border: '1px solid rgba(255,255,255,0.45)', color: '#fff', textShadow: '0 1px 2px rgba(0,0,0,0.18)' }}>
+                          {chipText}
+                        </span>
+                      </div>
+                    )}
+                    {done && (
+                      <div style={{ position: 'absolute', bottom: 8, right: 8 }}>
+                        <span style={{
+                          display: 'inline-flex', alignItems: 'center',
+                          background: 'rgba(34,197,94,0.15)',
+                          color: '#16A34A',
+                          border: '1px solid rgba(34,197,94,0.3)',
+                          borderRadius: 999,
+                          padding: '4px 12px',
+                          fontSize: 12,
+                          fontWeight: 500,
+                        }}>
+                          Done
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div style={{ padding: '10px 12px 12px' }}>
                     <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', color: 'var(--pm2)', margin: '0 0 3px', textTransform: 'uppercase' }}>
