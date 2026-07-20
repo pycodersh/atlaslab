@@ -1,11 +1,14 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
 import { motion } from 'motion/react'
 import { useTheme } from '@/components/ThemeProvider'
+import { APP_LANGUAGE_KEY } from '@/lib/settings/preferences'
 
 const COVER_KEY    = 'patto_cover_done_v1'
 const COVER_REPLAY = 'patto_cover_replay_v1'
+const LANG_PAGE    = '/patto/onboarding/language'
 
 export function requestCoverReplay() {
   if (typeof window !== 'undefined') localStorage.setItem(COVER_REPLAY, 'true')
@@ -47,11 +50,15 @@ function AnimatedLetters({ text, delay = 0, style }: { text: string; delay?: num
 
 export function WelcomeCover() {
   const { theme } = useTheme()
+  const router   = useRouter()
+  const pathname = usePathname()
   const isDark = theme === 'dark'
   const [visible, setVisible] = useState(false)
   const [dismissing, setDismissing] = useState(false)
 
   useEffect(() => {
+    // 언어 선택 페이지에서는 스플래시 억제
+    if (pathname === LANG_PAGE) return
     const isReplay = consumeCoverReplay()
     if (isReplay || !isCoverDone()) {
       setVisible(true)
@@ -60,13 +67,13 @@ export function WelcomeCover() {
       document.body.style.width    = '100%'
       document.body.style.top      = '0'
     }
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (!visible) return
     const t = setTimeout(dismiss, 3000)
     return () => clearTimeout(t)
-  }, [visible])
+  }, [visible]) // eslint-disable-line react-hooks/exhaustive-deps
 
   function dismiss() {
     if (dismissing) return
@@ -78,6 +85,10 @@ export function WelcomeCover() {
       document.body.style.position = ''
       document.body.style.width    = ''
       document.body.style.top      = ''
+      // 언어 미설정 첫 방문 → 언어 선택 페이지로 이동
+      if (!localStorage.getItem(APP_LANGUAGE_KEY)) {
+        router.push(LANG_PAGE)
+      }
     }, 600)
   }
 

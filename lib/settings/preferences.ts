@@ -20,16 +20,17 @@ export const DEFAULTS: UserPreferences = {
   ambienceVolume:  50,
 }
 
-const KEY = 'patto-user-preferences'
+const KEY         = 'patto-user-preferences'
+export const APP_LANGUAGE_KEY = 'appLanguage'
 
 export function getPreferences(): UserPreferences {
   if (typeof window === 'undefined') return DEFAULTS
   try {
     const raw = localStorage.getItem(KEY)
-    if (!raw) return DEFAULTS
-    const stored = JSON.parse(raw) as Record<string, unknown>
-    // Migration: appLang / translationLang → language
-    const language = (stored.language ?? stored.appLang ?? DEFAULTS.language) as Language
+    const stored = raw ? JSON.parse(raw) as Record<string, unknown> : {}
+    // appLanguage key is canonical; fall back to preferences JSON, then legacy keys
+    const appLangRaw = localStorage.getItem(APP_LANGUAGE_KEY)
+    const language = (appLangRaw ?? stored.language ?? stored.appLang ?? DEFAULTS.language) as Language
     // Migration: ambienceVolume 'low'/'medium'/'high' → number
     const legacyVolMap: Record<string, number> = { low: 25, medium: 50, high: 75 }
     const rawVol = stored.ambienceVolume
@@ -45,6 +46,10 @@ export function getPreferences(): UserPreferences {
 export function savePreferences(patch: Partial<UserPreferences>): UserPreferences {
   const next = { ...getPreferences(), ...patch }
   localStorage.setItem(KEY, JSON.stringify(next))
+  // Keep appLanguage key in sync whenever language changes
+  if (patch.language !== undefined) {
+    localStorage.setItem(APP_LANGUAGE_KEY, next.language)
+  }
   return next
 }
 
