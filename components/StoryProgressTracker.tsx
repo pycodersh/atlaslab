@@ -104,12 +104,14 @@ export function StoryProgressTracker({
         display: 'flex', flexDirection: 'column', gap: 12,
       }}>
 
-        {/* ── Listening row: [icon] [label] [flex spacer] [bar] [check/count] ── */}
+        {/* ── Listening row ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Headphones style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
-          <span style={{ fontSize: 13, fontWeight: 700, color: labelColor, flexShrink: 0 }}>Listening</span>
-          <div style={{ flex: 1 }} />
-          <div style={{ width: 160, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
+          {/* 고정 너비 레이블 영역 — bar 좌측 정렬 기준 */}
+          <div style={{ width: 110, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Headphones style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: labelColor }}>Listening</span>
+          </div>
+          <div style={{ flex: 1, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden' }}>
             <div style={{
               height: '100%', borderRadius: 999,
               background: listeningFill,
@@ -128,33 +130,35 @@ export function StoryProgressTracker({
         {/* Divider */}
         <div style={{ height: 0.5, background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(142,167,255,0.15)' }} />
 
-        {/* ── Reading row: [icon] [label] [+ btn or spacer] [bar] [check/count] ── */}
+        {/* ── Reading row ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <BookOpen style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
-          <span style={{ fontSize: 13, fontWeight: 700, color: labelColor, flexShrink: 0 }}>Reading</span>
-          {!readingDone && (
-            <button
-              type="button"
-              onClick={handleReadingCheck}
-              disabled={!btnActive}
-              aria-label="Done reading"
-              style={{
-                width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
-                border: `1.5px solid ${mutedColor}`,
-                background: 'transparent',
-                color: mutedColor,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                cursor: btnActive ? 'pointer' : 'default',
-                opacity: btnActive ? 0.55 : 0.22,
-                transition: 'opacity 0.2s',
-                padding: 0,
-              }}
-            >
-              <Plus style={{ width: 11, height: 11 }} strokeWidth={2.5} />
-            </button>
-          )}
-          <div style={{ flex: 1 }} />
-          <div style={{ width: 160, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
+          {/* 고정 너비 레이블 영역 — Listening과 동일 너비로 bar 정렬 */}
+          <div style={{ width: 110, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <BookOpen style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: labelColor }}>Reading</span>
+            {!readingDone && (
+              <button
+                type="button"
+                onClick={handleReadingCheck}
+                disabled={!btnActive}
+                aria-label="Done reading"
+                style={{
+                  width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
+                  border: `1.5px solid ${mutedColor}`,
+                  background: 'transparent',
+                  color: mutedColor,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: btnActive ? 'pointer' : 'default',
+                  opacity: btnActive ? 0.55 : 0.22,
+                  transition: 'opacity 0.2s',
+                  padding: 0,
+                }}
+              >
+                <Plus style={{ width: 11, height: 11 }} strokeWidth={2.5} />
+              </button>
+            )}
+          </div>
+          <div style={{ flex: 1, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden' }}>
             <div style={{
               height: '100%', borderRadius: 999,
               background: readingFill,
