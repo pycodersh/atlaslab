@@ -50,6 +50,9 @@ function resolveExamples(
   variationSentenceKo?: string,
 ): PracticeExample[] {
   if (patternExamples?.[patternId]?.length) return patternExamples[patternId]
+  // Prefer patternExamplesFull — sentences and saveCandidates are always aligned in the same file
+  const fromFull = patternExamplesFull[patternId]
+  if (fromFull?.length) return fromFull.map(f => ({ en: f.en, ko: f.ko }))
   const fromData = getPatternExamples(patternId)
   if (fromData.length > 0) return fromData
   const result: PracticeExample[] = []
@@ -376,8 +379,7 @@ function PatternCardItem({
         }} />
         {examples.map((ex, i) => {
           const isExPlaying = isPlaying && i === exIdx
-          const fullEx = patternExamplesFull[pattern.id]?.[i]
-          const safeCandidates = (fullEx?.en === ex.en) ? fullEx?.saveCandidates : undefined
+          const saveCandidates = patternExamplesFull[pattern.id]?.[i]?.saveCandidates
           const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
           return (
             <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 17 }}>
@@ -386,7 +388,7 @@ function PatternCardItem({
                 <div style={{ opacity: showEnglish ? 1 : 0, transition: 'opacity 0.2s', pointerEvents: showEnglish ? 'auto' : 'none' }}>
                   <TappableWordText
                     text={ex.en}
-                    saveCandidates={safeCandidates}
+                    saveCandidates={saveCandidates}
                     source={{ sourceType: 'example', sourceId: `${pattern.id}-ex${i + 1}`, patternId: pattern.id, storyId: story.id, exampleIndex: i, originalSentence: ex.en }}
                     style={{
                       display: 'block', fontSize: 13, lineHeight: 1.65,
