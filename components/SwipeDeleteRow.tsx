@@ -25,7 +25,7 @@ export function SwipeDeleteRow({
   children,
   onDeleteRequest,
   containerStyle,
-  contentBg = 'var(--pw)',
+  contentBg = 'transparent',
 }: {
   children: React.ReactNode
   onDeleteRequest: () => void

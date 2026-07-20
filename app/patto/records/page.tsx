@@ -511,8 +511,9 @@ export default function ProgressPage() {
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     width: '100%', textAlign: 'left', background: 'none', border: 'none',
-                    cursor: 'pointer', padding: '10px 0', fontFamily: 'inherit',
-                    borderBottom: '0.5px solid var(--pglass-border)',
+                    cursor: 'pointer', padding: '10px 0', paddingLeft: 16, paddingRight: 16,
+                    fontFamily: 'inherit',
+                    borderBottom: i === recentSessions.length - 1 ? 'none' : '0.5px solid var(--pglass-border)',
                     gap: 8,
                   }}
                 >
