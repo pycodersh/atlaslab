@@ -39,6 +39,18 @@ export const metadata: Metadata = {
   title: "Patto — 영어 패턴 학습",
   description: "100개의 짧은 Story로 영어 핵심 패턴을 자동화하는 앱",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/icons/patto/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/icons/patto/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/patto/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/icons/patto/icon-192x192.png",  sizes: "192x192", type: "image/png" },
+      { url: "/icons/patto/favicon.ico",        rel: "shortcut icon" },
+    ],
+    apple: [
+      { url: "/icons/patto/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",

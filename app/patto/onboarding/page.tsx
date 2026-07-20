@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { AnimatePresence, motion } from 'motion/react'
 import {
   ArrowRight, BookOpen, CheckCircle2, Headphones, Heart,
-  MapPin, MessageCircle, Puzzle, Sparkles, Star, Volume2
+  MapPin, MessageCircle, Puzzle, Star, Volume2
 } from 'lucide-react'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { ONBOARDING_COPY } from '@/lib/i18n/onboarding'
@@ -13,6 +13,8 @@ import { ONBOARDING_COPY } from '@/lib/i18n/onboarding'
 const DONE_KEY = 'patto_onboarding_done_v1'
 const ACCENT = '#6366F1'
 const NAVY = '#1F2A3F'
+const IMG = (id: string) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=400&q=80`
 
 export default function PattoOnboardingPage() {
   const router = useRouter()
@@ -65,24 +67,38 @@ export default function PattoOnboardingPage() {
   const isLast = index === slides.length - 1
 
   return (
-    <main style={{ height: '100dvh', overflow: 'hidden', display: 'flex', justifyContent: 'center', padding: 12, color: 'var(--pt)' }}>
+    <main style={{
+      height: '100dvh', overflow: 'hidden', overflowX: 'hidden',
+      display: 'flex', justifyContent: 'center',
+      padding: 10, color: 'var(--pt)', boxSizing: 'border-box',
+    }}>
       <section
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
         style={{
           width: '100%', maxWidth: 480, height: '100%',
           display: 'flex', flexDirection: 'column', overflow: 'hidden',
-          borderRadius: 30, border: '1px solid var(--pglass-border)',
+          borderRadius: 28, border: '1px solid var(--pglass-border)',
           background: 'var(--pglass)', backdropFilter: 'blur(18px)',
           boxShadow: '0 24px 80px rgba(64,72,160,.10)',
         }}
       >
-        <header style={{ display: 'flex', justifyContent: 'space-between', padding: '22px 24px 0', color: NAVY }}>
-          <strong style={{ fontSize: 18 }}>PATTO</strong>
-          <strong style={{ fontSize: 14 }}>{index + 1} / 4</strong>
+        {/* Header */}
+        <header style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          padding: 'clamp(14px,2.5dvh,20px) 22px 0',
+          color: NAVY, flexShrink: 0,
+        }}>
+          <strong style={{ fontSize: 'clamp(15px,4vw,18px)' }}>PATTO</strong>
+          <strong style={{ fontSize: 'clamp(12px,3vw,14px)' }}>{index + 1} / 4</strong>
         </header>
 
-        <div style={{ padding: '30px 28px 0', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Slide content */}
+        <div style={{
+          flex: 1, minHeight: 0,
+          padding: 'clamp(14px,3dvh,26px) clamp(16px,5vw,26px) 0',
+          display: 'flex', flexDirection: 'column', overflow: 'hidden',
+        }}>
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={index}
@@ -90,15 +106,16 @@ export default function PattoOnboardingPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -24 }}
               transition={{ duration: .24, ease: 'easeOut' }}
-              style={{ display: 'flex', flexDirection: 'column', flex: 1 }}
+              style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}
             >
               <motion.h1
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 style={{
-                  margin: 0, fontSize: 'clamp(34px,8.8vw,46px)',
-                  lineHeight: 1.1, letterSpacing: '-.045em',
-                  whiteSpace: 'pre-line', maxWidth: 390,
+                  margin: 0,
+                  fontSize: 'clamp(24px,6.2vw,42px)',
+                  lineHeight: 1.08, letterSpacing: '-.04em',
+                  whiteSpace: 'pre-line', flexShrink: 0,
                 }}
               >
                 {slide.title}
@@ -108,19 +125,34 @@ export default function PattoOnboardingPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: .08 }}
-                style={{ margin: '16px 0 0', fontSize: 16, lineHeight: 1.62, color: 'var(--pm)', whiteSpace: 'pre-line' }}
+                style={{
+                  margin: 'clamp(8px,1.8dvh,14px) 0 0',
+                  fontSize: 'clamp(13px,3.4vw,15px)',
+                  lineHeight: 1.58, color: 'var(--pm)',
+                  whiteSpace: 'pre-line', flexShrink: 0,
+                }}
               >
                 {slide.body}
               </motion.p>
 
-              <div style={{ flex: 1, minHeight: 0, display: 'grid', placeItems: 'center', padding: '24px 0 8px', overflow: 'hidden' }}>
+              {/* Visual area — takes all remaining space */}
+              <div style={{
+                flex: 1, minHeight: 0, overflow: 'hidden',
+                display: 'flex', alignItems: 'stretch',
+                padding: 'clamp(10px,2dvh,18px) 0 0',
+              }}>
                 {slide.visual}
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        <footer style={{ padding: '0 24px 24px', display: 'grid', gap: 18 }}>
+        {/* Footer */}
+        <footer style={{
+          flexShrink: 0,
+          padding: 'clamp(8px,1.5dvh,12px) clamp(16px,5vw,22px) clamp(14px,2.8dvh,22px)',
+          display: 'flex', flexDirection: 'column', gap: 'clamp(10px,1.8dvh,16px)',
+        }}>
           {isLast && (
             <motion.button
               type="button"
@@ -129,13 +161,15 @@ export default function PattoOnboardingPage() {
               animate={{ opacity: 1, y: 0 }}
               whileTap={{ scale: .985 }}
               style={{
-                width: '100%', minHeight: 58, border: 0, borderRadius: 18,
-                background: NAVY, color: '#fff', fontSize: 18, fontWeight: 800,
+                width: '100%', minHeight: 'clamp(50px,7dvh,58px)',
+                border: 0, borderRadius: 16,
+                background: NAVY, color: '#fff',
+                fontSize: 'clamp(15px,4vw,18px)', fontWeight: 800,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 boxShadow: '0 14px 32px rgba(31,42,63,.24)', cursor: 'pointer',
               }}
             >
-              {copy.start}<ArrowRight size={20} />
+              {copy.start}<ArrowRight size={18} />
             </motion.button>
           )}
 
@@ -147,9 +181,9 @@ export default function PattoOnboardingPage() {
                 aria-label={`Go to slide ${i + 1}`}
                 onClick={() => setIndex(i)}
                 style={{
-                  width: i === index ? 24 : 8, height: 8, borderRadius: 999, border: 0,
+                  width: i === index ? 22 : 7, height: 7, borderRadius: 999, border: 0,
                   background: i === index ? ACCENT : 'rgba(99,102,241,.16)',
-                  transition: 'all 180ms ease', padding: 0,
+                  transition: 'all 180ms ease', padding: 0, cursor: 'pointer',
                 }}
               />
             ))}
@@ -160,97 +194,129 @@ export default function PattoOnboardingPage() {
   )
 }
 
-function PatternScene() {
-  const chips = [
-    ['go there', <MapPin size={15} />, '8%', '10%', .18],
-    ['try it', <Star size={15} />, '63%', '8%', .24],
-    ['ask you', <MessageCircle size={15} />, '0%', '58%', .30],
-    ['tell you', <Heart size={15} />, '68%', '56%', .36],
-    ['thank you', <CheckCircle2 size={15} />, '36%', '76%', .42],
-  ] as const
+// ─── Scene 1: Pattern ────────────────────────────────────
 
+function PChip({ label, icon, delay = 0 }: { label: string; icon: React.ReactNode; delay?: number }) {
   return (
-    <div style={{ width: 340, maxWidth: '100%', height: '100%', minHeight: 320, position: 'relative' }}>
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        style={{
-          position: 'absolute', width: 264, height: 264, borderRadius: '50%',
-          left: '50%', top: 34, marginLeft: -132,
-          border: '1px dashed rgba(99,102,241,.24)',
-          background: 'radial-gradient(circle, rgba(99,102,241,.10), rgba(99,102,241,.03) 58%, transparent 74%)',
-        }}
-      />
+    <motion.div
+      initial={{ opacity: 0, scale: .84, y: 4 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ delay }}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 5,
+        padding: 'clamp(6px,1.2dvh,9px) clamp(10px,2.8vw,13px)',
+        borderRadius: 999,
+        background: 'rgba(255,255,255,.94)',
+        border: '1px solid rgba(99,102,241,.15)',
+        boxShadow: '0 6px 18px rgba(70,75,150,.10)',
+        fontSize: 'clamp(10px,2.6vw,12px)', fontWeight: 700, color: NAVY,
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <span style={{ color: ACCENT, display: 'grid', lineHeight: 0 }}>{icon}</span>
+      {label}
+    </motion.div>
+  )
+}
 
-      {chips.map(([label, icon, left, top, delay]) => (
+function PatternScene() {
+  return (
+    <div style={{
+      width: '100%', height: '100%',
+      display: 'flex', flexDirection: 'column',
+      gap: 'clamp(4px,0.8dvh,8px)',
+      overflow: 'hidden',
+    }}>
+      {/* Top chips */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+        <PChip label="go there" icon={<MapPin size={12} />} delay={.18} />
+        <PChip label="try it"   icon={<Star size={12} />}   delay={.24} />
+      </div>
+
+      {/* Center: rotating ring + pattern card */}
+      <div style={{
+        flex: 1, minHeight: 0,
+        position: 'relative',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        overflow: 'hidden',
+      }}>
         <motion.div
-          key={label}
-          initial={{ opacity: 0, scale: .84, y: 6 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ delay }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           style={{
-            position: 'absolute', left, top, zIndex: 3,
-            display: 'flex', alignItems: 'center', gap: 7,
-            padding: '10px 14px', borderRadius: 999,
-            background: 'rgba(255,255,255,.94)',
-            border: '1px solid rgba(99,102,241,.15)',
-            boxShadow: '0 10px 28px rgba(70,75,150,.10)',
-            fontSize: 13, fontWeight: 750, color: NAVY,
+            position: 'absolute',
+            width: 'min(72%,220px)', aspectRatio: '1',
+            borderRadius: '50%',
+            border: '1px dashed rgba(99,102,241,.22)',
+            background: 'radial-gradient(circle, rgba(99,102,241,.09), rgba(99,102,241,.02) 60%, transparent 76%)',
+          }}
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: .92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          style={{
+            position: 'relative', zIndex: 4,
+            width: 'min(70%,210px)',
+            padding: 'clamp(14px,2.8dvh,20px) clamp(14px,3.8vw,20px)',
+            borderRadius: 22, background: 'rgba(255,255,255,.96)',
+            border: '1px solid rgba(99,102,241,.16)',
+            boxShadow: '0 16px 40px rgba(70,75,150,.14)',
           }}
         >
-          <span style={{ color: ACCENT, display: 'grid' }}>{icon}</span>{label}
-        </motion.div>
-      ))}
-
-      <motion.div
-        initial={{ opacity: 0, scale: .92 }}
-        animate={{ opacity: 1, scale: 1 }}
-        style={{
-          position: 'absolute', left: '50%', top: 116, marginLeft: -105,
-          width: 210, padding: '22px 20px', zIndex: 4,
-          borderRadius: 24, background: 'rgba(255,255,255,.96)',
-          border: '1px solid rgba(99,102,241,.16)',
-          boxShadow: '0 18px 46px rgba(70,75,150,.13)',
-        }}
-      >
-        <div style={{ fontSize: 12, fontWeight: 800, color: ACCENT, letterSpacing: '.08em' }}>PATTERN 001</div>
-        <div style={{ marginTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <div style={{ fontSize: 24, fontWeight: 850 }}>I want to ~.</div>
-            <div style={{ marginTop: 5, color: 'var(--pm)', fontSize: 14 }}>~하고 싶어</div>
+          <div style={{ fontSize: 'clamp(9px,2.3vw,11px)', fontWeight: 800, color: ACCENT, letterSpacing: '.08em' }}>
+            PATTERN 001
           </div>
-          <Volume2 size={21} color={ACCENT} />
-        </div>
-      </motion.div>
+          <div style={{ marginTop: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+            <div>
+              <div style={{ fontSize: 'clamp(18px,5vw,24px)', fontWeight: 850 }}>I want to ~.</div>
+              <div style={{ marginTop: 4, color: 'var(--pm)', fontSize: 'clamp(11px,2.8vw,13px)' }}>~하고 싶어</div>
+            </div>
+            <Volume2 size={18} color={ACCENT} style={{ flexShrink: 0 }} />
+          </div>
+        </motion.div>
+      </div>
 
+      {/* Bottom chips */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
+        <PChip label="ask you"  icon={<MessageCircle size={12} />} delay={.30} />
+        <PChip label="tell you" icon={<Heart size={12} />}         delay={.36} />
+      </div>
+
+      {/* Patterns in this story */}
       <motion.div
-        initial={{ opacity: 0, y: 28 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: .48 }}
+        transition={{ delay: .44 }}
         style={{
-          position: 'absolute', left: '6%', right: '6%', bottom: 10,
-          padding: 18, borderRadius: 24,
+          flexShrink: 0,
+          padding: 'clamp(10px,1.8dvh,14px) clamp(12px,3.2vw,16px)',
+          borderRadius: 18,
           background: 'rgba(247,248,255,.96)',
-          border: '1px solid rgba(99,102,241,.14)',
-          boxShadow: '0 16px 36px rgba(70,75,150,.10)',
+          border: '1px solid rgba(99,102,241,.13)',
+          boxShadow: '0 10px 24px rgba(70,75,150,.09)',
         }}
       >
-        <div style={{ fontSize: 11, fontWeight: 850, letterSpacing: '.08em', color: ACCENT }}>
+        <div style={{ fontSize: 'clamp(8px,2vw,10px)', fontWeight: 850, letterSpacing: '.07em', color: ACCENT }}>
           PATTERNS IN THIS STORY
         </div>
         {[
           'I want to start something new this time.',
           'Do you want to swap shifts this weekend?',
-          'She wants to get a window seat on the flight.',
         ].map((t, i) => (
           <motion.div
             key={t}
-            initial={{ opacity: 0, x: -10 }}
+            initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: .56 + i * .08 }}
-            style={{ display: 'flex', gap: 10, marginTop: i ? 10 : 14, fontSize: 13, lineHeight: 1.45 }}
+            transition={{ delay: .52 + i * .07 }}
+            style={{
+              display: 'flex', gap: 8,
+              marginTop: i ? 'clamp(5px,1dvh,8px)' : 'clamp(6px,1.2dvh,10px)',
+              fontSize: 'clamp(11px,2.8vw,13px)', lineHeight: 1.4,
+            }}
           >
-            <span style={{ color: ACCENT }}>•</span><span>{t}</span>
+            <span style={{ color: ACCENT, flexShrink: 0 }}>•</span>
+            <span>{t}</span>
           </motion.div>
         ))}
       </motion.div>
@@ -258,218 +324,275 @@ function PatternScene() {
   )
 }
 
-const IMG = (id: string) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=400&q=80`
+// ─── Scene 2: Stories ────────────────────────────────────
 
-function StoryScene() {
-  const cards = [
-    { title: 'A New Start',        label: 'STORY 01', img: IMG('1506784983877-45594efa4cbe'), chip: 'Review', left: 0,   top: 20,  rotate: -2, z: 3, delay: .10 },
-    { title: 'An Old Friend',      label: 'STORY 02', img: IMG('1543007630-9710e4a00a20'),   chip: 'New',    left: 106, top: 54,  rotate: 0,  z: 2, delay: .18 },
-    { title: 'An Ordinary Morning',label: 'STORY 03', img: IMG('1525610553991-2bede1a236e2'),chip: 'New',    left: 200, top: 88,  rotate: 3,  z: 1, delay: .26 },
-  ]
-
-  return (
-    <div style={{ width: 340, maxWidth: '100%', height: '100%', minHeight: 320, position: 'relative' }}>
-      <div style={{ position: 'relative', height: 300 }}>
-        {cards.map(({ title, label, img, chip, left, top, rotate, z, delay }) => (
-          <motion.div
-            key={label}
-            initial={{ opacity: 0, y: 36, scale: .94 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotate }}
-            transition={{ delay }}
-            style={{
-              position: 'absolute', left, top, width: 132, zIndex: z,
-              borderRadius: 18, overflow: 'hidden', background: '#fff',
-              border: '1px solid rgba(0,0,0,.06)',
-              boxShadow: '0 8px 28px rgba(0,0,0,.13)',
-            }}
-          >
-            <div style={{ height: 106, position: 'relative', overflow: 'hidden' }}>
-              <img
-                src={img} alt={title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-              <div style={{
-                position: 'absolute', left: 8, top: 8, padding: '4px 8px',
-                borderRadius: 999, background: 'rgba(255,255,255,.82)',
-                fontSize: 9, fontWeight: 700, letterSpacing: '.02em',
-                backdropFilter: 'blur(6px)',
-              }}>
-                {chip}
-              </div>
-            </div>
-            <div style={{ padding: '10px 10px 12px' }}>
-              <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: '.07em', color: 'var(--pm)', textTransform: 'uppercase' }}>{label}</div>
-              <div style={{ marginTop: 4, fontSize: 13, fontWeight: 700, lineHeight: 1.25, color: 'var(--pt)' }}>{title}</div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <div style={{ position: 'absolute', left: 0, right: 0, bottom: 16, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        <Metric icon={<BookOpen size={22} color={ACCENT} />} value="100" label="stories" />
-        <Metric icon={<Puzzle size={22} color="#4AAE80" />} value="500" label="patterns" />
-      </div>
-    </div>
-  )
-}
-
-function Metric({ icon, value, label }: { icon: React.ReactNode, value: string, label: string }) {
+function Metric({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: .36 }}
       style={{
-        padding: 16, borderRadius: 22,
+        padding: 'clamp(10px,1.8dvh,14px) clamp(12px,3vw,16px)',
+        borderRadius: 18,
         border: '1px solid rgba(99,102,241,.12)',
         background: 'rgba(255,255,255,.74)',
-        display: 'flex', alignItems: 'center', gap: 12,
+        display: 'flex', alignItems: 'center', gap: 10,
       }}
     >
-      <div style={{ width: 46, height: 46, borderRadius: 16, display: 'grid', placeItems: 'center', background: 'rgba(99,102,241,.08)' }}>
+      <div style={{
+        width: 'clamp(36px,9vw,44px)', height: 'clamp(36px,9vw,44px)',
+        borderRadius: 14, display: 'grid', placeItems: 'center',
+        background: 'rgba(99,102,241,.08)', flexShrink: 0,
+      }}>
         {icon}
       </div>
       <div>
-        <div style={{ fontSize: 28, lineHeight: 1, fontWeight: 850, color: ACCENT }}>{value}</div>
-        <div style={{ marginTop: 4, fontSize: 13, fontWeight: 700, color: 'var(--pm)' }}>{label}</div>
+        <div style={{ fontSize: 'clamp(22px,6vw,28px)', lineHeight: 1, fontWeight: 850, color: ACCENT }}>{value}</div>
+        <div style={{ marginTop: 3, fontSize: 'clamp(11px,2.8vw,13px)', fontWeight: 700, color: 'var(--pm)' }}>{label}</div>
       </div>
     </motion.div>
   )
 }
 
+function StoryScene() {
+  const cards = [
+    { title: 'A New Start',         label: 'STORY 01', img: IMG('1506784983877-45594efa4cbe'), chip: 'Review', left: '0%',  top: '0%',  rotate: -2, z: 3, delay: .10 },
+    { title: 'An Old Friend',       label: 'STORY 02', img: IMG('1543007630-9710e4a00a20'),   chip: 'New',    left: '28%', top: '10%', rotate: 0,  z: 2, delay: .18 },
+    { title: 'An Ordinary Morning', label: 'STORY 03', img: IMG('1525610553991-2bede1a236e2'),chip: 'New',    left: '54%', top: '20%', rotate: 3,  z: 1, delay: .26 },
+  ]
+
+  return (
+    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: 'clamp(8px,1.5dvh,14px)', overflow: 'hidden' }}>
+      {/* Card fan stack */}
+      <div style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden' }}>
+        {cards.map(({ title, label, img, chip, left, top, rotate, z, delay }) => (
+          <motion.div
+            key={label}
+            initial={{ opacity: 0, y: 30, scale: .94 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotate }}
+            transition={{ delay }}
+            style={{
+              position: 'absolute', left, top, width: 'min(38%,136px)', zIndex: z,
+              borderRadius: 16, overflow: 'hidden', background: '#fff',
+              border: '1px solid rgba(0,0,0,.06)',
+              boxShadow: '0 8px 24px rgba(0,0,0,.13)',
+            }}
+          >
+            <div style={{ height: 'clamp(78px,13dvh,108px)', overflow: 'hidden', position: 'relative' }}>
+              <img src={img} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div style={{
+                position: 'absolute', left: 7, top: 7,
+                padding: '3px 7px', borderRadius: 999,
+                background: 'rgba(255,255,255,.82)',
+                fontSize: 'clamp(8px,2vw,9px)', fontWeight: 700,
+                backdropFilter: 'blur(6px)',
+              }}>{chip}</div>
+            </div>
+            <div style={{ padding: 'clamp(8px,1.5dvh,10px)' }}>
+              <div style={{ fontSize: 'clamp(8px,2vw,9px)', fontWeight: 800, letterSpacing: '.06em', color: 'var(--pm)', textTransform: 'uppercase' }}>{label}</div>
+              <div style={{ marginTop: 3, fontSize: 'clamp(11px,3vw,13px)', fontWeight: 700, lineHeight: 1.2 }}>{title}</div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Metrics */}
+      <div style={{ flexShrink: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(8px,2vw,12px)' }}>
+        <Metric icon={<BookOpen size={20} color={ACCENT} />} value="100" label="stories" />
+        <Metric icon={<Puzzle size={20} color="#4AAE80" />}  value="500" label="patterns" />
+      </div>
+    </div>
+  )
+}
+
+// ─── Scene 3: Repeat ─────────────────────────────────────
+
 function RepeatScene() {
   return (
-    <div style={{ width: 340, maxWidth: '100%', height: '100%', minHeight: 320, position: 'relative' }}>
+    <div style={{
+      width: '100%', height: '100%',
+      display: 'flex', flexDirection: 'column',
+      gap: 'clamp(8px,1.5dvh,14px)', overflow: 'hidden',
+    }}>
+      {/* Story card */}
       <motion.div
-        initial={{ opacity: 0, y: 28 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         style={{
-          position: 'absolute', left: '4%', right: '4%', top: 10,
-          borderRadius: 26, overflow: 'hidden', background: 'rgba(255,255,255,.96)',
+          flex: 1, minHeight: 0, overflow: 'hidden',
+          borderRadius: 22, background: 'rgba(255,255,255,.96)',
           border: '1px solid rgba(99,102,241,.14)',
-          boxShadow: '0 20px 44px rgba(70,75,150,.12)',
+          boxShadow: '0 16px 40px rgba(70,75,150,.12)',
+          display: 'flex', flexDirection: 'column',
         }}
       >
-        <div style={{ padding: '16px 18px 12px', display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{
+          flexShrink: 0,
+          padding: 'clamp(12px,2dvh,16px) clamp(14px,4vw,18px) clamp(8px,1.2dvh,10px)',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        }}>
           <div>
-            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '.08em', color: 'var(--pm)' }}>STORY 01</div>
-            <div style={{ marginTop: 4, fontSize: 18, fontWeight: 850 }}>A New Start</div>
+            <div style={{ fontSize: 'clamp(8px,2vw,10px)', fontWeight: 800, letterSpacing: '.07em', color: 'var(--pm)' }}>STORY 01</div>
+            <div style={{ marginTop: 3, fontSize: 'clamp(15px,4vw,18px)', fontWeight: 850 }}>A New Start</div>
           </div>
-          <Volume2 size={18} color={ACCENT} />
+          <Volume2 size={16} color={ACCENT} />
         </div>
-        <div style={{ height: 120, overflow: 'hidden' }}>
+
+        {/* Image with Listen badge overlaid */}
+        <div style={{ flexShrink: 0, height: 'clamp(90px,15dvh,130px)', position: 'relative', overflow: 'hidden' }}>
           <img
             src={IMG('1506784983877-45594efa4cbe')} alt="A New Start"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
+          <motion.div
+            initial={{ opacity: 0, scale: .88, x: 12 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ delay: .18 }}
+            style={{
+              position: 'absolute', right: 10, bottom: 8,
+              padding: 'clamp(9px,1.6dvh,13px) clamp(12px,3vw,16px)',
+              borderRadius: 14, background: ACCENT, color: '#fff',
+              boxShadow: '0 10px 26px rgba(99,102,241,.32)',
+              display: 'flex', alignItems: 'center', gap: 8,
+            }}
+          >
+            <Headphones size={18} />
+            <div>
+              <div style={{ fontSize: 'clamp(10px,2.5vw,12px)' }}>Listen</div>
+              <div style={{ fontSize: 'clamp(20px,5.5vw,26px)', fontWeight: 850, lineHeight: 1 }}>×5</div>
+            </div>
+          </motion.div>
         </div>
-        <div style={{ padding: '14px 18px 18px', fontSize: 13, lineHeight: 1.6 }}>
-          <div style={{ fontSize: 10, color: 'var(--pm)' }}>EN &nbsp;&nbsp; EN·KO &nbsp;&nbsp; KO</div>
-          <div style={{ marginTop: 12 }}>
-            It's Sunday night, and a new week is almost here.<br />
+
+        {/* Text body */}
+        <div style={{
+          flex: 1, overflow: 'hidden',
+          padding: 'clamp(10px,1.8dvh,14px) clamp(14px,4vw,18px)',
+          fontSize: 'clamp(12px,3vw,13px)', lineHeight: 1.55,
+        }}>
+          <div style={{ fontSize: 'clamp(8px,2vw,10px)', color: 'var(--pm)' }}>EN &nbsp;&nbsp; EN·KO &nbsp;&nbsp; KO</div>
+          <div style={{ marginTop: 8 }}>
+            It&rsquo;s Sunday night, and a new week is almost here.<br />
             I <strong style={{ color: '#2C4EB8' }}>want to</strong> start something new this time.
           </div>
         </div>
       </motion.div>
 
+      {/* Read badge below card */}
       <motion.div
-        initial={{ opacity: 0, scale: .88, x: 14 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
-        transition={{ delay: .18 }}
-        style={{
-          position: 'absolute', right: -2, top: 118,
-          padding: '15px 18px', borderRadius: 20,
-          background: ACCENT, color: '#fff',
-          boxShadow: '0 14px 32px rgba(99,102,241,.30)',
-          display: 'flex', alignItems: 'center', gap: 10,
-        }}
-      >
-        <Headphones size={24} />
-        <div><div style={{ fontSize: 12 }}>Listen</div><div style={{ fontSize: 27, fontWeight: 850 }}>×5</div></div>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: .88, x: -14 }}
+        initial={{ opacity: 0, scale: .88, x: -12 }}
         animate={{ opacity: 1, scale: 1, x: 0 }}
         transition={{ delay: .30 }}
         style={{
-          position: 'absolute', left: 12, bottom: 24,
-          padding: '15px 18px', borderRadius: 20,
+          flexShrink: 0, alignSelf: 'flex-start',
+          padding: 'clamp(9px,1.6dvh,13px) clamp(12px,3vw,16px)',
+          borderRadius: 14,
           background: 'rgba(221,245,232,.96)', color: '#378463',
-          boxShadow: '0 14px 32px rgba(70,130,100,.16)',
-          display: 'flex', alignItems: 'center', gap: 10,
+          boxShadow: '0 10px 24px rgba(70,130,100,.16)',
+          display: 'flex', alignItems: 'center', gap: 8,
         }}
       >
-        <BookOpen size={24} />
-        <div><div style={{ fontSize: 12 }}>Read</div><div style={{ fontSize: 27, fontWeight: 850 }}>×10</div></div>
+        <BookOpen size={18} />
+        <div>
+          <div style={{ fontSize: 'clamp(10px,2.5vw,12px)' }}>Read</div>
+          <div style={{ fontSize: 'clamp(20px,5.5vw,26px)', fontWeight: 850, lineHeight: 1 }}>×10</div>
+        </div>
       </motion.div>
     </div>
   )
 }
 
+// ─── Scene 4: Challenge ──────────────────────────────────
+
 function ChallengeScene() {
   const steps = [
-    [<Headphones size={28} color={ACCENT} />, 'Listening', 'rgba(99,102,241,.09)', .08],
-    [<BookOpen size={28} color="#4AAE80" />, 'Reading', 'rgba(74,174,128,.10)', .18],
-    [<Puzzle size={28} color={ACCENT} />, 'Challenge', 'rgba(99,102,241,.09)', .28],
-  ] as const
+    { icon: <Headphones size={22} color={ACCENT} />, label: 'Listening', bg: 'rgba(99,102,241,.09)', delay: .08 },
+    { icon: <BookOpen size={22} color="#4AAE80" />,  label: 'Reading',   bg: 'rgba(74,174,128,.10)', delay: .18 },
+    { icon: <Puzzle size={22} color={ACCENT} />,     label: 'Challenge', bg: 'rgba(99,102,241,.09)', delay: .28 },
+  ]
 
   return (
-    <div style={{ width: 340, maxWidth: '100%', height: '100%', minHeight: 320 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6, marginTop: 8 }}>
-        {steps.map(([icon, label, bg, delay], i) => (
-          <motion.div key={label} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay }} style={{ textAlign: 'center' }}>
-            <div style={{ width: 74, height: 74, borderRadius: '50%', margin: '0 auto', background: bg, display: 'grid', placeItems: 'center', position: 'relative' }}>
+    <div style={{
+      width: '100%', height: '100%',
+      display: 'flex', flexDirection: 'column',
+      gap: 'clamp(12px,2dvh,20px)', overflow: 'hidden',
+    }}>
+      {/* Step circles */}
+      <div style={{ flexShrink: 0, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
+        {steps.map(({ icon, label, bg, delay }, i) => (
+          <motion.div
+            key={label}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay }}
+            style={{ textAlign: 'center' }}
+          >
+            <div style={{
+              width: 'clamp(54px,14vw,68px)', height: 'clamp(54px,14vw,68px)',
+              borderRadius: '50%', margin: '0 auto', background: bg,
+              display: 'grid', placeItems: 'center', position: 'relative',
+            }}>
               {icon}
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: delay + .18, type: 'spring' }}
                 style={{
-                  position: 'absolute', right: -2, top: -2, width: 22, height: 22,
-                  borderRadius: '50%', background: i === 1 ? '#4AAE80' : ACCENT,
+                  position: 'absolute', right: -2, top: -2,
+                  width: 19, height: 19, borderRadius: '50%',
+                  background: i === 1 ? '#4AAE80' : ACCENT,
                   display: 'grid', placeItems: 'center', border: '2px solid #fff',
                 }}
               >
-                <CheckCircle2 size={14} color="#fff" strokeWidth={2.8} />
+                <CheckCircle2 size={12} color="#fff" strokeWidth={2.8} />
               </motion.div>
             </div>
-            <div style={{ marginTop: 9, fontSize: 13, fontWeight: 750, color: 'var(--pm)' }}>{label}</div>
+            <div style={{ marginTop: 7, fontSize: 'clamp(10px,2.6vw,13px)', fontWeight: 750, color: 'var(--pm)' }}>
+              {label}
+            </div>
           </motion.div>
         ))}
       </div>
 
+      {/* Challenge card */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: .34 }}
         style={{
-          marginTop: 30, borderRadius: 24, padding: 18,
+          flex: 1, minHeight: 0, overflow: 'hidden',
+          borderRadius: 22,
+          padding: 'clamp(14px,2.5dvh,18px)',
           background: 'rgba(255,255,255,.96)',
           border: '1px solid rgba(99,102,241,.14)',
-          boxShadow: '0 18px 40px rgba(70,75,150,.10)',
+          boxShadow: '0 16px 36px rgba(70,75,150,.10)',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <div style={{ fontSize: 11, fontWeight: 850, color: ACCENT, letterSpacing: '.08em' }}>CHALLENGE</div>
-          <div style={{ fontSize: 11, color: 'var(--pm)' }}>1 / 4</div>
+          <div style={{ fontSize: 'clamp(9px,2.3vw,11px)', fontWeight: 850, color: ACCENT, letterSpacing: '.08em' }}>CHALLENGE</div>
+          <div style={{ fontSize: 'clamp(9px,2.3vw,11px)', color: 'var(--pm)' }}>1 / 4</div>
         </div>
-        <div style={{ marginTop: 8, fontSize: 13, color: 'var(--pm)' }}>Fill in the blank.</div>
-        <div style={{ marginTop: 18, fontSize: 16, fontWeight: 700 }}>I want to ______ something new this time.</div>
-        <div style={{ marginTop: 16, display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }}>
-          {['start','try','begin','do'].map((word, i) => (
+        <div style={{ marginTop: 6, fontSize: 'clamp(11px,2.8vw,13px)', color: 'var(--pm)' }}>Fill in the blank.</div>
+        <div style={{ marginTop: 'clamp(12px,2dvh,16px)', fontSize: 'clamp(13px,3.5vw,16px)', fontWeight: 700 }}>
+          I want to ______ something new this time.
+        </div>
+        <div style={{
+          marginTop: 'clamp(10px,1.8dvh,14px)',
+          display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6,
+        }}>
+          {['start', 'try', 'begin', 'do'].map((word, i) => (
             <motion.div
               key={word}
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: .42 + i * .05 }}
               style={{
-                minHeight: 38, borderRadius: 999,
+                minHeight: 'clamp(32px,4.5dvh,38px)', borderRadius: 999,
                 border: '1px solid rgba(99,102,241,.12)',
                 background: i === 0 ? 'rgba(99,102,241,.08)' : '#fff',
                 display: 'grid', placeItems: 'center',
-                fontSize: 12, fontWeight: 750,
+                fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 750,
               }}
             >
               {word}

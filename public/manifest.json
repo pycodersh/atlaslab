@@ -2,23 +2,45 @@
   "name": "Patto — 영어 패턴 학습",
   "short_name": "Patto",
   "description": "100개의 짧은 Story로 영어 핵심 패턴을 자동화하는 앱",
-  "start_url": "/learn",
+  "start_url": "/patto/home",
+  "scope": "/patto/",
   "display": "standalone",
-  "background_color": "#F5F8FF",
-  "theme_color": "#4F8CFF",
+  "background_color": "#ffffff",
+  "theme_color": "#6366F1",
   "orientation": "portrait",
+  "lang": "ko",
+  "categories": ["education", "lifestyle"],
   "icons": [
     {
-      "src": "/patto-logo.png",
-      "sizes": "any",
+      "src": "/icons/patto/icon-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/patto-logo.png",
-      "sizes": "any",
+      "src": "/icons/patto/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/patto/icon-maskable-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/icons/patto/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "오늘 학습 시작",
+      "url": "/patto/home",
+      "icons": [{ "src": "/icons/patto/icon-192x192.png", "sizes": "192x192" }]
     }
   ]
 }
