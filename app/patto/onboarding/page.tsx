@@ -106,7 +106,7 @@ export default function PattoOnboardingPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -24 }}
               transition={{ duration: .24, ease: 'easeOut' }}
-              style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(10px,1.8dvh,16px)' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(12px,2.2dvh,19px)' }}
             >
               {/* Title + body grouped */}
               <div>
@@ -127,7 +127,7 @@ export default function PattoOnboardingPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: .08 }}
                   style={{
-                    margin: 'clamp(7px,1.3dvh,11px) 0 0',
+                    margin: 'clamp(8px,1.6dvh,13px) 0 0',
                     fontSize: 'clamp(13px,3.4vw,15px)',
                     lineHeight: 1.58, color: 'var(--pm)',
                     whiteSpace: 'pre-line',
@@ -294,8 +294,8 @@ function PatternScene() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: .50 }}
         style={{
-          marginTop: 'clamp(6px,1dvh,10px)',
-          padding: 'clamp(10px,1.5dvh,13px) clamp(12px,3.2vw,15px)',
+          marginTop: 'clamp(8px,1.3dvh,13px)',
+          padding: 'clamp(11px,1.7dvh,14px) clamp(12px,3.2vw,15px)',
           borderRadius: 15,
           background: 'rgba(247,248,255,.96)',
           border: '1px solid rgba(99,102,241,.13)',
@@ -316,7 +316,7 @@ function PatternScene() {
             transition={{ delay: .58 + i * .07 }}
             style={{
               display: 'flex', gap: 8,
-              marginTop: i ? 'clamp(4px,0.8dvh,7px)' : 'clamp(6px,1dvh,9px)',
+              marginTop: i ? 'clamp(5px,1dvh,8px)' : 'clamp(7px,1.2dvh,11px)',
               fontSize: 'clamp(11px,2.8vw,13px)', lineHeight: 1.42,
             }}
           >
@@ -405,7 +405,7 @@ function StoryScene() {
 
       {/* Stats — directly below cards */}
       <div style={{
-        marginTop: 'clamp(10px,1.5dvh,16px)',
+        marginTop: 'clamp(12px,1.9dvh,19px)',
         display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(8px,2vw,12px)',
       }}>
         <Metric icon={<BookOpen size={19} color={ACCENT} />} value="100" label="stories" delay={.36} />
@@ -433,7 +433,7 @@ function RepeatScene() {
       >
         {/* Card header */}
         <div style={{
-          padding: 'clamp(12px,1.8dvh,15px) clamp(14px,4vw,18px) clamp(7px,1dvh,9px)',
+          padding: 'clamp(13px,2dvh,16px) clamp(14px,4vw,18px) clamp(8px,1.2dvh,10px)',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div>
@@ -470,7 +470,7 @@ function RepeatScene() {
         </div>
 
         {/* Text body */}
-        <div style={{ padding: 'clamp(10px,1.5dvh,13px) clamp(14px,4vw,18px) clamp(6px,1dvh,8px)' }}>
+        <div style={{ padding: 'clamp(11px,1.7dvh,15px) clamp(14px,4vw,18px) clamp(7px,1.1dvh,10px)' }}>
           <div style={{ fontSize: 'clamp(8px,2vw,10px)', color: 'var(--pm)' }}>EN &nbsp;&nbsp; EN·KO &nbsp;&nbsp; KO</div>
           <div style={{ marginTop: 6, fontSize: 'clamp(12px,3.1vw,14px)', lineHeight: 1.55 }}>
             It&rsquo;s Sunday night, and a new week is almost here.<br />
@@ -479,7 +479,7 @@ function RepeatScene() {
         </div>
 
         {/* Read ×10 — inside card, directly below body */}
-        <div style={{ padding: 'clamp(4px,0.7dvh,7px) clamp(14px,4vw,18px) clamp(12px,1.8dvh,15px)' }}>
+        <div style={{ padding: 'clamp(6px,1dvh,9px) clamp(14px,4vw,18px) clamp(13px,2dvh,17px)' }}>
           <motion.div
             initial={{ opacity: 0, scale: .88, x: -10 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -558,22 +558,22 @@ function ChallengeScene() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: .32 }}
         style={{
-          marginTop: 'clamp(12px,1.8dvh,16px)',
+          marginTop: 'clamp(14px,2.2dvh,20px)',
           borderRadius: 20,
-          padding: 'clamp(13px,1.9dvh,17px) clamp(14px,4vw,18px)',
+          padding: 'clamp(14px,2.1dvh,19px) clamp(14px,4vw,18px)',
           background: 'rgba(255,255,255,.96)',
           border: '1px solid rgba(99,102,241,.14)',
           boxShadow: '0 14px 32px rgba(70,75,150,.10)',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 7 }}>
           <div style={{ fontSize: 'clamp(9px,2.3vw,11px)', fontWeight: 850, color: ACCENT, letterSpacing: '.08em' }}>CHALLENGE</div>
           <div style={{ fontSize: 'clamp(9px,2.3vw,11px)', color: 'var(--pm)' }}>1 / 4</div>
         </div>
-        <div style={{ fontSize: 'clamp(11px,2.8vw,13px)', color: 'var(--pm)', marginBottom: 'clamp(9px,1.4dvh,13px)' }}>
+        <div style={{ fontSize: 'clamp(11px,2.8vw,13px)', color: 'var(--pm)', marginBottom: 'clamp(10px,1.6dvh,15px)' }}>
           Fill in the blank.
         </div>
-        <div style={{ fontSize: 'clamp(13px,3.5vw,16px)', fontWeight: 700, lineHeight: 1.4, marginBottom: 'clamp(10px,1.5dvh,14px)' }}>
+        <div style={{ fontSize: 'clamp(13px,3.5vw,16px)', fontWeight: 700, lineHeight: 1.4, marginBottom: 'clamp(11px,1.7dvh,16px)' }}>
           I want to ______ something new this time.
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6 }}>
