@@ -54,7 +54,7 @@ export function WheelPicker({ stories, currentId, onSelect, onClose }: WheelPick
       >
         {/* Label */}
         <div className="px-5 pt-4 pb-1">
-          <p className="text-[11px] tracking-[0.3em] text-[#1C1C1E] font-semibold text-center" style={{ color: 'var(--pt)' }}>
+          <p style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.01em', textTransform: 'none', color: 'var(--pt)', textAlign: 'center' }}>
             SELECT STORY
           </p>
         </div>

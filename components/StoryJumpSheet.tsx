@@ -77,7 +77,7 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
         <div className="flex shrink-0 flex-col items-center px-5 pb-3 pt-3">
           <div className="h-1 w-10 rounded-full bg-black/[0.08]" />
           <div className="mt-4 flex w-full items-center justify-between">
-            <h2 className="text-base font-bold text-[var(--pt)]">{t('story_list_title')}</h2>
+            <h2 style={{ fontSize: 18, fontWeight: 700, letterSpacing: '-0.01em', textTransform: 'none', color: 'var(--pt)', textAlign: 'center', flex: 1 }}>{t('story_list_title')}</h2>
             <button
               aria-label="닫기"
               className="rounded-full p-1.5 text-[var(--pm2)] hover:bg-[var(--pal)]"
