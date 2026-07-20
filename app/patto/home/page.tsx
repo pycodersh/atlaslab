@@ -416,6 +416,7 @@ export default function HomePage() {
   const [allDone, setAllDone]         = useState(false)
   const [tipOpen, setTipOpen]         = useState(false)
   const [missions, setMissions]       = useState<UnifiedMission[]>([])
+  const [todayDoneStories, setTodayDoneStories] = useState<{ id: number; title: string }[]>([])
   const [scheduledList, setScheduledList] = useState<ScheduledStory[]>([])
   const [allStoriesLabelMap, setAllStoriesLabelMap] = useState<Record<number, AllStoryLabel>>({})
 
@@ -475,6 +476,13 @@ export default function HomePage() {
       }),
     ]
     setMissions(unified)
+
+    // Today's completed stories (for empty-mission state)
+    const today2 = todayStr()
+    const doneToday = magazineStories
+      .filter(s => getStoryRound(s.id).lastCompletedAt === today2)
+      .map(s => ({ id: s.id, title: s.title }))
+    setTodayDoneStories(doneToday)
 
     // Scheduled list (for mobile stories grid)
     const heroIds = new Set(newMissions.map(i => i.storyId))
@@ -610,8 +618,8 @@ export default function HomePage() {
               whileTap={{ scale: 0.93 }}
               transition={{ type: 'spring', stiffness: 400, damping: 17 }}
             >
-              {allDone ? 'Done' : 'Start'}
-              {allDone ? <Check style={{ width: 12, height: 12 }} strokeWidth={2.5} /> : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />}
+              {(allDone || missions.length === 0) ? '완료' : 'Start'}
+              {(allDone || missions.length === 0) ? <Check style={{ width: 12, height: 12 }} strokeWidth={2.5} /> : <ArrowRight style={{ width: 12, height: 12 }} strokeWidth={2.5} />}
             </motion.button>
           </div>
         </div>
@@ -626,12 +634,19 @@ export default function HomePage() {
           </div>
           {/* 내용 */}
           {missions.length === 0 ? (
-            <div style={{ padding: '14px 4px', display: 'flex', alignItems: 'center', gap: 10 }}>
-              <Check style={{ width: 18, height: 18, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
-              <p style={{ fontSize: 13, color: 'var(--pt2)', margin: 0 }}>
-                {t('home_done_title')}
-              </p>
-            </div>
+            todayDoneStories.length > 0 ? todayDoneStories.map(s => (
+              <div key={s.id} style={{ padding: '12px 4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p style={{ fontSize: 13, color: 'var(--pt2)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+                  Story {String(s.id).padStart(2, '0')} · {s.title}
+                </p>
+                <Check style={{ width: 20, height: 20, color: '#22C55E', flexShrink: 0, marginLeft: 8 }} strokeWidth={2} />
+              </div>
+            )) : (
+              <div style={{ padding: '14px 4px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <Check style={{ width: 18, height: 18, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
+                <p style={{ fontSize: 13, color: 'var(--pt2)', margin: 0 }}>{t('home_done_title')}</p>
+              </div>
+            )
           ) : missions.map((m) => (
             <motion.div
               key={`${m.type}-${m.id}`}
