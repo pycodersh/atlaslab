@@ -106,12 +106,12 @@ export function StoryProgressTracker({
         display: 'flex', flexDirection: 'column', gap: 12,
       }}>
 
-        {/* ── Listening row: [icon] [label] [spacer 20px] [bar] [check/count] ── */}
+        {/* ── Listening row: [icon] [label] [flex spacer] [bar] [check/count] ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <Headphones style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
           <span style={{ fontSize: 13, fontWeight: 700, color: labelColor, flexShrink: 0 }}>Listening</span>
-          <div style={{ width: 20, flexShrink: 0 }} />
-          <div style={{ width: 80, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
+          <div style={{ flex: 1 }} />
+          <div style={{ width: 160, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
             <div style={{
               height: '100%', borderRadius: 999,
               background: listeningFill,
@@ -132,9 +132,8 @@ export function StoryProgressTracker({
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <BookOpen style={{ width: 13, height: 13, flexShrink: 0, color: labelColor }} strokeWidth={1.8} />
           <span style={{ fontSize: 13, fontWeight: 700, color: labelColor, flexShrink: 0 }}>Reading</span>
-          {readingDone
-            ? <div style={{ width: 20, flexShrink: 0 }} />
-            : (
+          <div style={{ flex: 1 }} />
+          {!readingDone && (
               <button
                 type="button"
                 onClick={handleReadingCheck}
@@ -156,7 +155,7 @@ export function StoryProgressTracker({
               </button>
             )
           }
-          <div style={{ width: 80, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
+          <div style={{ width: 160, height: 4, borderRadius: 999, background: barBg, overflow: 'hidden', flexShrink: 0 }}>
             <div style={{
               height: '100%', borderRadius: 999,
               background: readingFill,
