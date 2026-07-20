@@ -74,7 +74,7 @@ export function PatternCardBack({
           </li>
         ) : (
           examples.map((ex) => {
-            const fullEx = fullExamples.find(f => f.example === ex.order_index)
+            const fullEx = fullExamples[ex.order_index]
             return (
               <li
                 key={ex.id}
