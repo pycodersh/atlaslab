@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, Check } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight, X, Pencil, Check, Target } from 'lucide-react'
 import Link from 'next/link'
 import { TopNav } from '@/components/TopNav'
 import { TAB_BAR_HEIGHT } from '@/components/MainTabBar'
@@ -619,34 +619,37 @@ export default function HomePage() {
 
         {/* ── Card 1: TODAY'S MISSION ── */}
         {missions.length > 0 && (
-          <div style={{ margin: '12px 20px 0', ...frostedCard, borderRadius: 16, padding: 14 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: isDark ? 'rgba(255,255,255,0.38)' : 'rgba(30,30,80,0.55)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 5 }}>
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
-              </svg>
-              Today&apos;s Mission
-            </p>
-            {missions.map((m, idx) => (
+          <div style={{ margin: '12px 20px 0', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {missions.map((m) => (
               <motion.div
                 key={`${m.type}-${m.id}`}
                 role="button" tabIndex={0}
                 onClick={() => router.push(`/patto/stories/${m.id}`)}
                 onKeyDown={e => e.key === 'Enter' && router.push(`/patto/stories/${m.id}`)}
                 style={{
-                  display: 'flex', alignItems: 'center',
-                  padding: '8px 0', cursor: 'pointer',
+                  background: 'var(--pc)',
+                  border: `0.5px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(142,167,255,0.22)'}`,
+                  borderRadius: 12,
+                  padding: '14px 16px',
+                  display: 'flex', alignItems: 'center', gap: 14,
+                  cursor: 'pointer',
                   opacity: m.done ? 0.6 : 1,
-                  borderTop: idx > 0 ? `0.5px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(180,195,240,0.35)'}` : undefined,
                 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
-                <p style={{ flex: 1, minWidth: 0, paddingLeft: 16, fontSize: 13, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.88)' : 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  Story {String(m.id).padStart(2, '0')} · {m.title}
-                </p>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: isDark ? 'rgba(99,102,241,0.15)' : '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Target style={{ width: 18, height: 18, color: '#6366F1' }} strokeWidth={1.8} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 3px' }}>Today&apos;s Mission</p>
+                  <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    Story {String(m.id).padStart(2, '0')} · {m.title}
+                  </p>
+                </div>
                 {m.done
                   ? <span style={{ fontSize: 12, fontWeight: 500, color: '#16A34A', background: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: 999, padding: '3px 10px', flexShrink: 0 }}>Done</span>
-                  : <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.25)' : 'rgba(100,110,160,0.35)', flexShrink: 0 }} strokeWidth={2} />
+                  : <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2} />
                 }
               </motion.div>
             ))}
@@ -659,19 +662,25 @@ export default function HomePage() {
             <button
               type="button"
               onClick={() => setTipOpen(true)}
-              className="glass-card-sm"
-              style={{ ...frostedCard, width: '100%', textAlign: 'left', cursor: 'pointer', padding: '13px 14px 14px', display: 'flex', alignItems: 'center', gap: 10, borderRadius: 16 }}
+              style={{
+                background: 'var(--pc)',
+                border: `0.5px solid ${isDark ? 'rgba(255,255,255,0.09)' : 'rgba(142,167,255,0.22)'}`,
+                borderRadius: 12,
+                padding: '14px 16px',
+                width: '100%', textAlign: 'left', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 14,
+              }}
             >
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: isDark ? 'rgba(99,102,241,0.15)' : '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <Pencil style={{ width: 18, height: 18, color: '#6366F1' }} strokeWidth={1.8} />
+              </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: isDark ? 'rgba(255,255,255,0.38)' : 'rgba(30,30,80,0.55)', margin: '0 0 6px', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 5 }}>
-                  <Pencil style={{ width: 11, height: 11, flexShrink: 0 }} strokeWidth={2} />
-                  Editor Tip
-                </p>
-                <p style={{ fontSize: 12, fontWeight: 600, color: isDark ? 'rgba(255,255,255,0.85)' : 'var(--pt2)', margin: 0, lineHeight: 1.35, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', paddingLeft: 16 }}>
+                <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)', letterSpacing: '0.06em', textTransform: 'uppercase', margin: '0 0 3px' }}>Editor Tip</p>
+                <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
                 </p>
               </div>
-              <ChevronRight style={{ width: 12, height: 12, color: isDark ? 'rgba(255,255,255,0.5)' : 'var(--pm2)', flexShrink: 0 }} strokeWidth={2} />
+              <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2} />
             </button>
           </div>
         )}
