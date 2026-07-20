@@ -377,7 +377,7 @@ function PatternCardItem({
         {examples.map((ex, i) => {
           const isExPlaying = isPlaying && i === exIdx
           const fullEx = patternExamplesFull[pattern.id]?.[i]
-          const saveCandidates = fullEx?.saveCandidates
+          const saveCandidates = fullEx?.en === ex.en ? fullEx?.saveCandidates : undefined
           const exKo = resolveTranslation(ex.ko, prefs.language, ex.translations)
           return (
             <div key={i} style={{ display: 'flex', gap: 8, marginTop: i === 0 ? 0 : 17 }}>
