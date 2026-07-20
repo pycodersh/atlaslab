@@ -835,37 +835,39 @@ export default function LibraryPage() {
             )}
           </div>
 
+        {/* History toggle button — always visible below Start */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
+          <button
+            type="button"
+            onClick={() => setWsHistoryOpen(v => !v)}
+            style={{
+              background: 'transparent', border: 'none', color: 'var(--pm)',
+              fontSize: 13, cursor: 'pointer', fontFamily: 'inherit',
+              display: 'flex', alignItems: 'center', gap: 4,
+            }}
+          >
+            History
+            <ChevronDown
+              style={{ width: 14, height: 14, transition: 'transform 0.2s', transform: wsHistoryOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              strokeWidth={2}
+            />
+          </button>
+        </div>
+
         {/* Saved writings list */}
-        {essays.length === 0 ? (
-          <EmptyState
-            icon={<PenLine style={{ width: 22, height: 22, color: '#8B6FA0' }} strokeWidth={1.6} />}
-            iconColor="#8B6FA0"
-            title="No writings yet."
-            body={t('no_writings')}
-          />
-        ) : essays.length > 0 ? (
-          <>
-            {/* History toggle header */}
-            <button
-              type="button"
-              onClick={() => setWsHistoryOpen(v => !v)}
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                width: '100%', background: 'none', border: 'none', cursor: 'pointer',
-                padding: '10px 0', fontFamily: 'inherit',
-                borderTop: '0.5px solid var(--pglass-border)',
-              }}
-            >
-              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pt)', opacity: 0.7, textTransform: 'uppercase' }}>
-                History
-              </span>
-              <ChevronDown
-                style={{ width: 14, height: 14, color: 'var(--pm)', transition: 'transform 0.2s', transform: wsHistoryOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                strokeWidth={2}
+        {wsHistoryOpen && (
+          essays.length === 0 ? (
+            <div style={{ marginTop: 12 }}>
+              <EmptyState
+                icon={<PenLine style={{ width: 22, height: 22, color: '#8B6FA0' }} strokeWidth={1.6} />}
+                iconColor="#8B6FA0"
+                title="No writings yet."
+                body={t('no_writings')}
               />
-            </button>
-            {wsHistoryOpen && (
-            <>
+            </div>
+          ) : (
+          <>
+            <div style={{ marginTop: 8 }}>
             <div>
               {(wsShowAll ? essays : essays.slice(0, 3)).map((essay, i, arr) => {
                 const isExpanded = wsExpandedId === essay.id
@@ -932,10 +934,10 @@ export default function LibraryPage() {
                 {wsShowAll ? 'Show less' : `Show all (${essays.length})`}
               </button>
             )}
-            </>
-            )}
+            </div>
           </>
-        ) : null}
+          )
+        )}
       </section>
     </>
   )
