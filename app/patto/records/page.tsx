@@ -677,7 +677,10 @@ export default function ProgressPage() {
                       border: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.06)'}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}>
-                      <span style={{ fontSize: 7, fontWeight: 600, color: isMastered ? 'rgba(0,0,0,0.5)' : round >= 1 ? 'rgba(255,255,255,0.8)' : (isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.25)'), lineHeight: 1 }}>{ms.id}</span>
+                      {isMastered
+                        ? <span style={{ fontSize: 10, fontWeight: 900, color: '#EF4444', lineHeight: 1 }}>✓</span>
+                        : <span style={{ fontSize: 7, fontWeight: 600, color: round >= 1 ? 'rgba(255,255,255,0.8)' : (isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.25)'), lineHeight: 1 }}>{ms.id}</span>
+                      }
                     </div>
                   )
                 })}
