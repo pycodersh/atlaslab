@@ -55,10 +55,10 @@ export function WelcomeCover() {
   const isDark = theme === 'dark'
   const [visible, setVisible] = useState(false)
   const [dismissing, setDismissing] = useState(false)
+  // navigating=true이면 fade-out 없이 불투명 유지하다가 pathname 변경 시 제거
   const navigatingRef = useRef(false)
 
   useEffect(() => {
-    // 언어 선택 페이지에서는 스플래시 억제
     if (pathname === LANG_PAGE) return
     const isReplay = consumeCoverReplay()
     if (isReplay || !isCoverDone()) {
@@ -70,11 +70,18 @@ export function WelcomeCover() {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // 커버가 navigating 중이고 pathname이 바뀌면 그때 숨김 (홈 화면 노출 방지)
+  // pathname이 바뀌는 순간(새 페이지 렌더 시작) 커버 제거
   useEffect(() => {
     if (navigatingRef.current && visible) {
-      setVisible(false)
       navigatingRef.current = false
+      setDismissing(true)
+      setTimeout(() => {
+        setVisible(false)
+        document.body.style.overflow = ''
+        document.body.style.position = ''
+        document.body.style.width    = ''
+        document.body.style.top      = ''
+      }, 400)
     }
   }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -86,25 +93,28 @@ export function WelcomeCover() {
 
   function dismiss() {
     if (dismissing) return
-    setDismissing(true)
     localStorage.setItem(COVER_KEY, 'true')
-    setTimeout(() => {
+    const hasLang        = !!localStorage.getItem(APP_LANGUAGE_KEY)
+    const doneOnboarding = localStorage.getItem('patto_onboarding_done_v1') === 'true'
+    if (!hasLang || !doneOnboarding) {
+      // 다른 페이지로 이동 — 커버를 불투명하게 유지하다가 pathname 변경 시 fade-out
       document.body.style.overflow = ''
       document.body.style.position = ''
       document.body.style.width    = ''
       document.body.style.top      = ''
-      const hasLang        = !!localStorage.getItem(APP_LANGUAGE_KEY)
-      const doneOnboarding = localStorage.getItem('patto_onboarding_done_v1') === 'true'
-      if (!hasLang) {
-        navigatingRef.current = true
-        router.push(LANG_PAGE)               // 언어 미설정 → 언어 선택
-      } else if (!doneOnboarding) {
-        navigatingRef.current = true
-        router.push('/patto/onboarding')     // 언어 있음 + 온보딩 미완료 → 온보딩
-      } else {
-        setVisible(false)                    // 홈 유지 시에는 즉시 숨김
-      }
-    }, 600)
+      navigatingRef.current = true
+      router.push(!hasLang ? LANG_PAGE : '/patto/onboarding')
+    } else {
+      // 홈 유지 — 정상 fade-out
+      setDismissing(true)
+      setTimeout(() => {
+        setVisible(false)
+        document.body.style.overflow = ''
+        document.body.style.position = ''
+        document.body.style.width    = ''
+        document.body.style.top      = ''
+      }, 600)
+    }
   }
 
   if (!visible) return null
