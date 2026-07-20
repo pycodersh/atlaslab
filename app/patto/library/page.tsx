@@ -353,14 +353,7 @@ function SearchStoryRow({ story, border, onPress }: {
 
 function EmptyState({ icon, title, body }: { icon: React.ReactNode; iconColor: string; title: string; body: string }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '14px 16px', borderRadius: 18, background: 'var(--pglass)', border: '1px solid var(--pglass-border)' }}>
-      <div style={{
-        width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-        background: 'var(--pal)', border: '1px solid var(--pacb)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-      }}>
-        {icon}
-      </div>
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '10px 4px' }}>
       <div>
         <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--pt)', margin: '0 0 3px' }}>{title}</p>
         <p style={{ fontSize: 12, color: 'var(--pt)', opacity: 0.65, lineHeight: 1.6, margin: 0, whiteSpace: 'pre-line' }}>{body}</p>
@@ -432,6 +425,7 @@ export default function LibraryPage() {
   const [wsError, setWsError]       = useState<string | null>(null)
   const [wsExpandedId, setWsExpandedId] = useState<string | null>(null)
   const [wsShowAll, setWsShowAll]   = useState(false)
+  const [wsHistoryOpen, setWsHistoryOpen] = useState(false)
   const [reviewsRemaining, setReviewsRemaining] = useState(0)
   const [reviewsLimit, setReviewsLimit]         = useState(2)
 
@@ -850,6 +844,26 @@ export default function LibraryPage() {
           />
         ) : essays.length > 0 ? (
           <>
+            {/* History toggle header */}
+            <button
+              type="button"
+              onClick={() => setWsHistoryOpen(v => !v)}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                width: '100%', background: 'none', border: 'none', cursor: 'pointer',
+                padding: '10px 0', fontFamily: 'inherit',
+                borderTop: '0.5px solid var(--pglass-border)',
+              }}
+            >
+              <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pt)', opacity: 0.7, textTransform: 'uppercase' }}>
+                Writing History ({essays.length})
+              </span>
+              <ChevronDown
+                style={{ width: 14, height: 14, color: 'var(--pm)', transition: 'transform 0.2s', transform: wsHistoryOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                strokeWidth={2}
+              />
+            </button>
+            {wsHistoryOpen && (
             <div>
               {(wsShowAll ? essays : essays.slice(0, 3)).map((essay, i, arr) => {
                 const isExpanded = wsExpandedId === essay.id
@@ -915,6 +929,8 @@ export default function LibraryPage() {
               >
                 {wsShowAll ? 'Show less' : `Show all (${essays.length})`}
               </button>
+            )}
+            </div>
             )}
           </>
         ) : null}
