@@ -4,80 +4,10 @@ import { useEffect, useState } from 'react'
 import { subscribeSavePopup, closeSavePopup, type PopupItem } from '@/lib/words/popupStore'
 import { saveWord, savePhrase, isSavedWord, isSavedPhrase } from '@/lib/words/storage'
 import { Btn } from '@/components/ui/Btn'
-import { usePreferences } from '@/contexts/PreferencesContext'
-
-const CHUNK_TYPE_LABELS: Record<string, Record<string, string>> = {
-  ko: {
-    chunk:           '청크 표현',
-    collocation:     '연어 표현',
-    phrasalVerb:     '구동사',
-    idiom:           '이디엄',
-    fixedExpression: '고정 표현',
-    prepPhrase:      '전치사 표현',
-  },
-  en: {
-    chunk:           'Chunk',
-    collocation:     'Collocation',
-    phrasalVerb:     'Phrasal verb',
-    idiom:           'Idiom',
-    fixedExpression: 'Fixed expression',
-    prepPhrase:      'Prep phrase',
-  },
-  es: {
-    chunk:           'Expresión',
-    collocation:     'Colocación',
-    phrasalVerb:     'Verbo frasal',
-    idiom:           'Modismo',
-    fixedExpression: 'Expresión fija',
-    prepPhrase:      'Frase prep.',
-  },
-  ja: {
-    chunk:           'チャンク',
-    collocation:     'コロケーション',
-    phrasalVerb:     '句動詞',
-    idiom:           'イディオム',
-    fixedExpression: '定型表現',
-    prepPhrase:      '前置詞句',
-  },
-  'zh-CN': {
-    chunk:           '语块',
-    collocation:     '搭配',
-    phrasalVerb:     '短语动词',
-    idiom:           '习语',
-    fixedExpression: '固定表达',
-    prepPhrase:      '介词短语',
-  },
-  'zh-TW': {
-    chunk:           '語塊',
-    collocation:     '搭配',
-    phrasalVerb:     '片語動詞',
-    idiom:           '慣用語',
-    fixedExpression: '固定表達',
-    prepPhrase:      '介詞片語',
-  },
-  fr: {
-    chunk:           'Bloc',
-    collocation:     'Collocation',
-    phrasalVerb:     'Verbe à particule',
-    idiom:           'Idiome',
-    fixedExpression: 'Expression fixe',
-    prepPhrase:      'Syntagme prép.',
-  },
-  de: {
-    chunk:           'Chunk',
-    collocation:     'Kollokation',
-    phrasalVerb:     'Phrasenverb',
-    idiom:           'Redewendung',
-    fixedExpression: 'Feste Wendung',
-    prepPhrase:      'Präpositionalphrase',
-  },
-}
 
 export function GlobalSavePopup() {
   const [item, setItem] = useState<PopupItem | null>(null)
   const [toast, setToast] = useState<string | null>(null)
-  const { prefs } = usePreferences()
-  const userLang = prefs.language ?? 'ko'
 
   useEffect(() => {
     return subscribeSavePopup(setItem)
@@ -136,11 +66,6 @@ export function GlobalSavePopup() {
     })
     dismiss()
     showToast('Saved to Library')
-  }
-
-  function getChunkLabel(type: string): string {
-    const langMap = CHUNK_TYPE_LABELS[userLang] ?? CHUNK_TYPE_LABELS['en']
-    return langMap[type] ?? (CHUNK_TYPE_LABELS['en'][type] ?? type)
   }
 
   function renderChunkTitle(chunkText: string, tappedWord: string) {
@@ -204,16 +129,6 @@ export function GlobalSavePopup() {
                 : <span style={{ color: '#111827' }}>{item.word}</span>
               }
             </p>
-
-            {/* Subtitle — chunk type in Korean */}
-            {item.chunk && (
-              <p style={{
-                fontSize: 12, color: '#9CA3AF', margin: '0 0 4px',
-                textAlign: 'center',
-              }}>
-                {getChunkLabel(item.chunk.type)}
-              </p>
-            )}
 
             {/* Action buttons */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20 }}>
