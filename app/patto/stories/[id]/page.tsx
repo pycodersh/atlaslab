@@ -11,7 +11,7 @@ import { getPatternExamples, type PracticeExample } from '@/data/pattern-example
 
 type Props = {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ v?: string }>
+  searchParams: Promise<{ v?: string; pid?: string }>
 }
 
 export function generateStaticParams() {
@@ -45,7 +45,7 @@ function normalLang(lang: Lang): string {
 
 export default async function StoryDetailPage({ params, searchParams }: Props) {
   const { id } = await params
-  const { v }  = await searchParams
+  const { v, pid } = await searchParams
   const storyId = Number(id)
   const story   = magazineStories.find((s) => s.id === storyId)
 
@@ -117,6 +117,7 @@ export default async function StoryDetailPage({ params, searchParams }: Props) {
       story={enrichedStory}
       allStories={magazineStories}
       initialView={v === 'p' ? 'patterns' : 'story'}
+      initialPatternId={pid}
       patternExamples={patternExamples}
     />
   )

@@ -39,6 +39,8 @@ type Props = {
   showEnglish?: boolean
   /** Ref to this section's start element — used to prevent dual-highlight at section boundary */
   patternSectionRef?: RefObject<HTMLElement | null>
+  /** If set, scroll to this pattern and activate it on mount */
+  initialPatternId?: string
 }
 
 function resolveExamples(
@@ -422,6 +424,7 @@ export function PatternsSectionInline({
   showKorean: showKoreanProp,
   showEnglish: showEnglishProp,
   patternSectionRef,
+  initialPatternId,
 }: Props) {
   const { prefs } = usePreferences()
   const { theme } = useTheme()
@@ -431,7 +434,11 @@ export function PatternsSectionInline({
   const showKorean = showKoreanProp !== undefined ? showKoreanProp : prefs.language !== 'en'
   const showEnglish = showEnglishProp !== undefined ? showEnglishProp : true
 
-  const [activeIdx, setActiveIdx] = useState<number | null>(null)
+  const initialIdx = initialPatternId != null
+    ? patterns.findIndex(p => String(p.id) === String(initialPatternId))
+    : -1
+
+  const [activeIdx, setActiveIdx] = useState<number | null>(initialIdx >= 0 ? initialIdx : null)
   const [completedSet, setCompletedSet] = useState<Set<number>>(new Set())
   const [playingIdx, setPlayingIdx] = useState<number | null>(null)
   const allSeenFiredRef = useRef(false)
@@ -439,6 +446,20 @@ export function PatternsSectionInline({
   const cardElemsRef = useRef<(HTMLDivElement | null)[]>([])
   const cardMode = playingIdx !== null ? 'listening' : 'reading'
   const centerIdx = useCenterCard(cardElemsRef, patterns.length, cardMode, playingIdx, patternSectionRef, 'pattern')
+
+  // Scroll to and activate the initial pattern (from library deep-link)
+  useEffect(() => {
+    if (initialIdx < 0) return
+    const tryScroll = () => {
+      const el = cardElemsRef.current[initialIdx]
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      } else {
+        setTimeout(tryScroll, 100)
+      }
+    }
+    setTimeout(tryScroll, 300)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // All patterns visible immediately → fire callback
   useEffect(() => {

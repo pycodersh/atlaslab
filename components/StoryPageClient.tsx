@@ -12,6 +12,7 @@ type Props = {
   story: MagazineStory
   allStories: MagazineStory[]
   initialView?: 'story' | 'patterns'  // kept for backwards compat, unused
+  initialPatternId?: string
   patternExamples?: Record<string, PracticeExample[]>
 }
 
@@ -58,7 +59,7 @@ function UpgradeWall({ storyTitle }: { storyTitle: string }) {
   )
 }
 
-export function StoryPageClient({ story, allStories, initialView = 'story', patternExamples }: Props) {
+export function StoryPageClient({ story, allStories, initialView = 'story', initialPatternId, patternExamples }: Props) {
   const [locked, setLocked] = useState(false)
 
   useEffect(() => {
@@ -73,6 +74,7 @@ export function StoryPageClient({ story, allStories, initialView = 'story', patt
     <MagazineEngine
       story={story}
       allStories={allStories}
+      initialPatternId={initialPatternId}
       patternExamples={patternExamples}
     />
   )

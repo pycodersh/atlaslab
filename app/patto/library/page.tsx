@@ -515,7 +515,7 @@ export default function LibraryPage() {
   }
 
   function goToPhrase(ph: SavedPhrase) {
-    if (ph.storyId && ph.patternId) router.push(`/patto/stories/${ph.storyId}?v=p`)
+    if (ph.storyId && ph.patternId) router.push(`/patto/stories/${ph.storyId}?v=p&pid=${ph.patternId}`)
     else if (ph.storyId) router.push(`/patto/stories/${ph.storyId}`)
   }
 
@@ -710,7 +710,7 @@ export default function LibraryPage() {
                     storyId={storyId}
                     storyTitle={story ? story.title : `Story ${String(storyId).padStart(2, '0')}`}
                     patterns={storyBms}
-                    onPress={bm => router.push(`/patto/stories/${bm.storyId}?v=p`)}
+                    onPress={bm => router.push(`/patto/stories/${bm.storyId}?v=p&pid=${bm.patternId}`)}
                     onRemove={handleRemoveBookmark}
                   />
                 )
@@ -724,7 +724,7 @@ export default function LibraryPage() {
           <>
             <div>
               {bookmarks.slice(0, PREVIEW_PATTERNS).map((bm, i) => (
-                <BookmarkedPatternRow key={bm.patternId} bm={bm} first={i === 0} onPress={() => router.push(`/patto/stories/${bm.storyId}?v=p`)} onRemove={() => handleRemoveBookmark(bm.patternId)} />
+                <BookmarkedPatternRow key={bm.patternId} bm={bm} first={i === 0} onPress={() => router.push(`/patto/stories/${bm.storyId}?v=p&pid=${bm.patternId}`)} onRemove={() => handleRemoveBookmark(bm.patternId)} />
               ))}
             </div>
             {bookmarks.length > PREVIEW_PATTERNS && (
@@ -1070,7 +1070,7 @@ export default function LibraryPage() {
                                 storyTitle={r.storyTitle}
                                 pattern={r.pattern}
                                 border={i > 0}
-                                onPress={() => router.push(`/patto/stories/${r.storyId}?v=p`)}
+                                onPress={() => router.push(`/patto/stories/${r.storyId}?v=p&pid=${r.pattern.id}`)}
                               />
                             ))}
                           </div>

@@ -47,10 +47,11 @@ type MagazineEngineProps = {
   story: MagazineStory
   allStories: MagazineStory[]
   initialView?: 'story' | 'patterns'
+  initialPatternId?: string
   patternExamples?: Record<string, PracticeExample[]>
 }
 
-export function MagazineEngine({ story, allStories, patternExamples }: MagazineEngineProps) {
+export function MagazineEngine({ story, allStories, initialPatternId, patternExamples }: MagazineEngineProps) {
   const router = useRouter()
   const isDesktop = useIsDesktop()
   const { theme } = useTheme()
@@ -580,6 +581,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
         patternSectionRef={patternSectionRef}
         showKorean={patternShowKo}
         showEnglish={patternShowEn}
+        initialPatternId={initialPatternId}
       />
 
       {sectionDivider('Study Record')}
