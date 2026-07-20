@@ -181,7 +181,7 @@ function FillQuestion({
       {/* Sentence */}
       <p style={{
         margin: '0 0 18px',
-        fontSize: 15, lineHeight: 1.65,
+        fontSize: 14, lineHeight: 1.65,
         color: isDark ? 'rgba(255,255,255,0.88)' : '#1a1a2e',
         fontWeight: 500,
         textAlign: 'justify',
@@ -193,7 +193,7 @@ function FillQuestion({
           textAlign: 'center',
           color: isDark ? '#A78BFF' : '#6B4EFF',
           fontWeight: 700,
-          fontSize: 15,
+          fontSize: 14,
         }}>
           {selected ?? ''}
         </span>
