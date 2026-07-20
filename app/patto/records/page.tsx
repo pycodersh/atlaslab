@@ -47,7 +47,7 @@ function getWeekDays(): Date[] {
   })
 }
 
-const DOW_LABELS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+const DOW_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const MONTHS     = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
 
 function getRelativeDateLabel(iso: string | null): string {
@@ -574,13 +574,13 @@ export default function ProgressPage() {
                   const hlColor     = (hasActivity || isToday) ? '#6366F1' : 'var(--pm)'
                   return (
                     <div key={iso} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      {/* Label above bar */}
-                      <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                        <span style={{ fontSize: 11, fontWeight: (hasActivity || isToday) ? 700 : 400, color: hlColor, lineHeight: 1 }}>{DOW_LABELS[i]}</span>
-                        <span style={{ fontSize: 11, fontWeight: isToday ? 600 : 400, color: hlColor, lineHeight: 1 }}>{d.getDate()}</span>
+                      {/* Label above bar: date on top, dow below */}
+                      <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+                        <span style={{ fontSize: 12, fontWeight: (hasActivity || isToday) ? 700 : 500, color: (hasActivity || isToday) ? '#6366F1' : 'var(--ps)', lineHeight: 1 }}>{d.getDate()}</span>
+                        <span style={{ fontSize: 10, fontWeight: (hasActivity || isToday) ? 600 : 400, color: (hasActivity || isToday) ? '#6366F1' : 'var(--pm)', lineHeight: 1 }}>{DOW_LABELS[i]}</span>
                       </div>
                       {/* Bar */}
-                      <div style={{ width: '100%', height: 80, display: 'flex', alignItems: 'flex-end', marginTop: 8, marginBottom: 12 }}>
+                      <div style={{ width: '100%', height: 80, display: 'flex', alignItems: 'flex-end', marginTop: 10, marginBottom: 12 }}>
                         <div style={{
                           width: '100%', height: barH,
                           borderRadius: '4px 4px 0 0',
