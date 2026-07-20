@@ -513,15 +513,13 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
   const sectionDivider = (label: string) => (
     <div style={{
-      display: 'flex', alignItems: 'center', gap: 10,
-      padding: '0 16px',
-      marginTop: 24, marginBottom: 20,
+      padding: '24px 16px 0',
+      marginTop: 32, marginBottom: 20,
+      borderTop: '0.5px solid rgba(142,167,255,0.25)',
     }}>
-      <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
-      <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', color: 'var(--pm)', textTransform: 'uppercase' }}>
+      <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', textTransform: 'uppercase' }}>
         {label}
       </span>
-      <div style={{ flex: 1, height: 0.5, background: 'rgba(142,167,255,0.2)' }} />
     </div>
   )
 

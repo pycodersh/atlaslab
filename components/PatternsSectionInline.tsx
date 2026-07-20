@@ -276,8 +276,9 @@ function PatternCardItem({
               display: 'inline-block',
               marginBottom: 11,
               background: '#EEF2FF', color: '#6366F1',
-              borderRadius: 6, padding: '2px 8px',
-              fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
+              borderRadius: 6, padding: '4px 12px',
+              fontSize: 13, fontWeight: 700, letterSpacing: '0.05em',
+              border: '1.5px solid #C7D2FE',
               fontFamily: '"SF Mono", "Fira Mono", monospace',
             }}>
               PATTERN {String(globalPatternNum).padStart(3, '0')}
