@@ -38,6 +38,10 @@ export function PatternCardBack({
   const sentences = examples.map((ex) => ex.sentence)
   const t = useT()
 
+  // patternExamplesFull uses legacy keys like 'pt1-1'; pattern.id is a Supabase UUID
+  const legacyKey = `pt${storyNumber}-${pattern.order_index}`
+  const fullExamples = patternExamplesFull[legacyKey] ?? []
+
   function handleSpeakAll(e: React.MouseEvent) {
     e.stopPropagation()
     if (isSpeaking) { stop(); return }
@@ -70,7 +74,6 @@ export function PatternCardBack({
           </li>
         ) : (
           examples.map((ex) => {
-            const fullExamples = patternExamplesFull[pattern.id] ?? []
             const fullEx = fullExamples.find(f => f.example === ex.order_index)
             return (
               <li
