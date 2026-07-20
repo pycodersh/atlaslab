@@ -551,12 +551,8 @@ export default function ProgressPage() {
             `${activeDaysThisWeek} / 7 days`,
           )}
           <div>
-            {/* Legend + Best row */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <div style={{ width: 8, height: 8, borderRadius: 2, background: '#6366F1', flexShrink: 0 }} />
-                <span style={{ fontSize: 11, color: 'var(--pm)' }}>Patterns learned</span>
-              </div>
+            {/* Best row — top right */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
               {(() => {
                 const best = Math.max(...weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0), 0)
                 return best > 0 ? <span style={{ fontSize: 11, color: 'var(--pm)' }}>Best: {best}</span> : null
@@ -597,6 +593,13 @@ export default function ProgressPage() {
                   )
                 })
               })()}
+            </div>
+            {/* Legend — bottom right */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <div style={{ width: 8, height: 8, borderRadius: 2, background: '#6366F1', flexShrink: 0 }} />
+                <span style={{ fontSize: 11, color: 'var(--pm)' }}>Patterns learned</span>
+              </div>
             </div>
           </div>
         </div>
