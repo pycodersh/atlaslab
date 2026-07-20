@@ -40,7 +40,7 @@ type ValidationError = 'not_english' | 'too_short' | 'too_long' | 'limit_reached
 
 function glassBtn(extra?: React.CSSProperties): React.CSSProperties {
   return {
-    width: '100%', padding: '13px 0', borderRadius: 14,
+    width: '100%', padding: '11px 0', borderRadius: 14,
     background: 'var(--pglass)',
     backdropFilter: 'blur(24px) saturate(180%)',
     WebkitBackdropFilter: 'blur(24px) saturate(180%)',

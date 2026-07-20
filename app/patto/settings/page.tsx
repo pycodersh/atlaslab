@@ -177,7 +177,7 @@ function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void 
         type="button"
         onClick={onLogout}
         style={{
-          width: '100%', padding: '13px 20px',
+          width: '100%', padding: '11px 20px',
           border: 'none', borderTop: '1px solid var(--pglass-border)',
           background: 'transparent',
           color: 'var(--pm)', fontSize: 13.5, fontWeight: 600,

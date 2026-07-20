@@ -25,15 +25,15 @@ const BASE: React.CSSProperties = {
 }
 
 const DEFAULT_SHAPE: React.CSSProperties = {
-  fontSize: 15,
+  fontSize: 14,
   borderRadius: 14,
-  padding: '13px 28px',
+  padding: '11px 24px',
 }
 
 const PILL_SHAPE: React.CSSProperties = {
-  fontSize: 14,
+  fontSize: 13,
   borderRadius: 999,
-  padding: '11px 24px',
+  padding: '9px 20px',
 }
 
 const VARIANT: Record<Variant, React.CSSProperties> = {

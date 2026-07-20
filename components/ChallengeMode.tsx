@@ -245,7 +245,7 @@ function FillQuestion({
           onClick={() => onAnswer(false)}
           style={{
             width: '100%', borderRadius: 14,
-            padding: '13px 20px', fontSize: 15, fontWeight: 700,
+            padding: '11px 20px', fontSize: 14, fontWeight: 700,
             cursor: 'pointer', fontFamily: 'inherit',
             background: '#1E293B', color: '#fff',
             border: '1.5px solid #1E293B',

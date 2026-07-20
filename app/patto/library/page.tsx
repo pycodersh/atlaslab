@@ -791,7 +791,7 @@ export default function LibraryPage() {
                 background: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#94A3B8' : '#1E293B',
                 border: `1.5px solid ${(wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#94A3B8' : '#1E293B'}`,
                 borderRadius: 14, color: '#ffffff',
-                fontSize: 15, fontWeight: 500, padding: '13px 0',
+                fontSize: 14, fontWeight: 500, padding: '11px 0',
                 cursor: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? 'default' : 'pointer',
                 fontFamily: 'inherit', transition: 'background 0.15s, border-color 0.15s',
               }}

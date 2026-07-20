@@ -618,8 +618,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
               onClick={goNext}
               style={{
                 width: '100%', background: '#1E293B', color: '#ffffff',
-                border: 'none', borderRadius: 14, padding: '13px',
-                fontSize: 15, fontWeight: 500, cursor: 'pointer',
+                border: 'none', borderRadius: 14, padding: '11px',
+                fontSize: 14, fontWeight: 500, cursor: 'pointer',
               }}
             >
               Next story →
@@ -630,8 +630,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
               onClick={() => tryNavigate('/patto/home')}
               style={{
                 width: '100%', background: '#1E293B', color: '#ffffff',
-                border: 'none', borderRadius: 14, padding: '13px',
-                fontSize: 15, fontWeight: 500, cursor: 'pointer',
+                border: 'none', borderRadius: 14, padding: '11px',
+                fontSize: 14, fontWeight: 500, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               }}
             >

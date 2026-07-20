@@ -174,7 +174,7 @@ export default function EssaysPage() {
             justifyContent: 'center',
             gap: 8,
             width: '100%',
-            padding: '13px 0',
+            padding: '11px 0',
             marginTop: 12,
             marginBottom: 10,
             cursor: 'pointer',
