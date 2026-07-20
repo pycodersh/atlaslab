@@ -130,7 +130,7 @@ export function AuthButtons({ onSuccess, showTitle = true }: AuthButtonsProps) {
     if (err) {
       showToast(t('loginFailed'))
     } else if (isSignUp) {
-      showToast('Signed up! Please sign in.')
+      showToast(t('signedUp'))
       setIsSignUp(false)
     } else {
       if (onSuccess) {

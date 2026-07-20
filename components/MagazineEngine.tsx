@@ -596,7 +596,7 @@ export function MagazineEngine({ story, allStories, initialPatternId, patternExa
         }
       />
 
-      {sectionDivider('Challenges in this story')}
+      {sectionDivider(t('challengesTitle'))}
 
       {!lrDone ? (
         <>
@@ -636,7 +636,7 @@ export function MagazineEngine({ story, allStories, initialPatternId, patternExa
         }}>
           <CheckCircle style={{ width: 32, height: 32, color: '#22C55E' }} strokeWidth={1.8} />
           <p style={{ margin: 0, fontSize: 17, fontWeight: 500, color: 'var(--text-primary)' }}>
-            Story complete
+            {t('storyComplete')}
           </p>
           {!isLast ? (
             <button
@@ -648,7 +648,7 @@ export function MagazineEngine({ story, allStories, initialPatternId, patternExa
                 fontSize: 14, fontWeight: 500, cursor: 'pointer',
               }}
             >
-              Next story →
+              {t('nextStory')} →
             </button>
           ) : (
             <button
@@ -661,7 +661,7 @@ export function MagazineEngine({ story, allStories, initialPatternId, patternExa
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               }}
             >
-              Done for today
+              {t('doneForToday')}
               <Home style={{ width: 16, height: 16 }} strokeWidth={2} />
             </button>
           )}
@@ -681,14 +681,14 @@ export function MagazineEngine({ story, allStories, initialPatternId, patternExa
     setExitPopupPendingHref(href)
     trainer.ask('One more.', [
       {
-        label: 'Exit',
+        label: t('exitLabel'),
         onClick: () => {
           handleStop()
           router.push(href ?? '/patto/home')
         },
       },
       {
-        label: 'Keep going',
+        label: t('keepGoingLabel'),
         primary: true,
         onClick: () => { /* card closes automatically */ },
       },

@@ -227,7 +227,7 @@ export function EssayComposerPanel({ onClose, onSaved, onReviewed }: Props) {
               <div style={{ display: 'flex', gap: 8 }}>
                 <Btn variant="secondary" onClick={handleInsert} style={{ flex: 1 }}>Insert</Btn>
                 <Btn variant="ghost" onClick={handleCopy}>
-                  {copied ? <><Check style={{ width: 11, height: 11 }} /> Copied</> : <><Copy style={{ width: 11, height: 11 }} /> Copy</>}
+                  {copied ? <><Check style={{ width: 11, height: 11 }} /> {t('copied')}</> : <><Copy style={{ width: 11, height: 11 }} /> Copy</>}
                 </Btn>
               </div>
             </div>

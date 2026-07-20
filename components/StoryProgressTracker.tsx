@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Headphones, BookOpen, CheckCircle, Plus } from 'lucide-react'
 import { updateStorySessionState } from '@/lib/srs/story-session'
 import { useTheme } from '@/components/ThemeProvider'
+import { useT } from '@/hooks/useT'
 import type { MagazineStory } from '@/types/magazine'
 
 function calcMinReadingMs(story: MagazineStory): number {
@@ -28,6 +29,7 @@ export function StoryProgressTracker({
 }: Props) {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
+  const t = useT()
 
   const minReadingMs = calcMinReadingMs(story)
   const sessionStartedAt = useRef(Date.now())
@@ -88,9 +90,9 @@ export function StoryProgressTracker({
   const readingFill   = readingDone        ? '#22C55E' : '#6366F1'
 
   const tooltipText = !listeningCompleted
-    ? 'Listen to the full story to complete'
+    ? t('listenToComplete')
     : readingCount === 1
-      ? 'Read once more to complete'
+      ? t('readOnceMore')
       : null
 
   return (

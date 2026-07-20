@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react'
 import { subscribeSavePopup, closeSavePopup, type PopupItem } from '@/lib/words/popupStore'
 import { saveWord, savePhrase, isSavedWord, isSavedPhrase } from '@/lib/words/storage'
 import { Btn } from '@/components/ui/Btn'
+import { useT } from '@/hooks/useT'
 
 export function GlobalSavePopup() {
   const [item, setItem] = useState<PopupItem | null>(null)
   const [toast, setToast] = useState<string | null>(null)
+  const t = useT()
 
   useEffect(() => {
     return subscribeSavePopup(setItem)
@@ -28,7 +30,7 @@ export function GlobalSavePopup() {
     if (!item) return
     if (isSavedWord(item.word)) {
       dismiss()
-      showToast('Already saved')
+      showToast(t('alreadySaved'))
       return
     }
     saveWord({
@@ -42,14 +44,14 @@ export function GlobalSavePopup() {
       originalSentence: item.originalSentence,
     })
     dismiss()
-    showToast('Saved to Library')
+    showToast(t('savedToLibrary'))
   }
 
   function handleSavePhrase() {
     if (!item?.chunk) return
     if (isSavedPhrase(item.chunk.text)) {
       dismiss()
-      showToast('Already saved')
+      showToast(t('alreadySaved'))
       return
     }
     savePhrase({
@@ -65,7 +67,7 @@ export function GlobalSavePopup() {
       meaning: item.koreanSentence,
     })
     dismiss()
-    showToast('Saved to Library')
+    showToast(t('savedToLibrary'))
   }
 
   function renderChunkTitle(chunkText: string, tappedWord: string) {
@@ -138,7 +140,7 @@ export function GlobalSavePopup() {
                   style={{ ...btnBase, background: '#1E293B', color: '#fff', border: '1.5px solid #1E293B' }}
                   onClick={handleSavePhrase}
                 >
-                  Save phrase
+                  {t('savePhrase')}
                 </button>
               )}
               {item.chunk
@@ -148,7 +150,7 @@ export function GlobalSavePopup() {
                     style={{ ...btnBase, background: 'transparent', color: '#1E293B', border: '1.5px solid #1E293B' }}
                     onClick={handleSaveWord}
                   >
-                    Save word only
+                    {t('saveWordOnly')}
                   </button>
                 )
                 : (
@@ -157,7 +159,7 @@ export function GlobalSavePopup() {
                     style={{ ...btnBase, background: '#1E293B', color: '#fff', border: '1.5px solid #1E293B' }}
                     onClick={handleSaveWord}
                   >
-                    Save
+                    {t('save')}
                   </button>
                 )
               }
@@ -166,7 +168,7 @@ export function GlobalSavePopup() {
                 style={{ ...btnBase, background: 'transparent', color: '#6B7280', border: '1.5px solid #E5E7EB', fontWeight: 500 }}
                 onClick={dismiss}
               >
-                Cancel
+                {t('cancel')}
               </button>
             </div>
           </div>

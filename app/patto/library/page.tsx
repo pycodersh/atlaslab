@@ -559,7 +559,7 @@ export default function LibraryPage() {
       setReviewsRemaining(getReviewsRemaining())
       setReviewsLimit(rv.limit)
     } catch {
-      setWsError('Network error. Please try again.')
+      setWsError(t('networkError'))
     } finally {
       setWsLoading(false)
     }

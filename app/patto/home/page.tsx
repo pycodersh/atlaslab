@@ -743,7 +743,7 @@ export default function HomePage() {
                           fontSize: 12,
                           fontWeight: 500,
                         }}>
-                          Done
+                          {t('status_done')}
                         </span>
                       </div>
                     )}

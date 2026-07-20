@@ -28,6 +28,7 @@
 import { useRef, useState } from 'react'
 import { Copy, Check, ChevronDown } from 'lucide-react'
 import type { Annotation, AnnotationSubType } from '@/lib/essays/storage'
+import { useT } from '@/hooks/useT'
 
 // ── Ink palette — CSS custom properties (light/dark auto via globals.css) ─────
 
@@ -619,6 +620,7 @@ export function EditorNotes({ annotations }: { annotations: Annotation[] }) {
 export function SuggestedVersion({ text }: { text: string }) {
   const [copied, setCopied] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const t = useT()
 
   function handleCopy() {
     navigator.clipboard.writeText(text).then(() => {
@@ -651,7 +653,7 @@ export function SuggestedVersion({ text }: { text: string }) {
           }}
         >
           {copied
-            ? <><Check style={{ width: 11, height: 11 }} strokeWidth={2} /> Copied</>
+            ? <><Check style={{ width: 11, height: 11 }} strokeWidth={2} /> {t('copied')}</>
             : <><Copy style={{ width: 11, height: 11 }} strokeWidth={1.8} /> Copy</>
           }
         </button>

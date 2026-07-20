@@ -382,7 +382,7 @@ export default function NewEssayPage() {
                   </button>
                   <button type="button" onClick={handleCopy}
                     style={{ padding: '9px 14px', borderRadius: 9, border: '1.5px solid var(--pd)', background: 'none', fontSize: 12, fontWeight: 600, color: 'var(--pm)', cursor: 'pointer', fontFamily: 'inherit', display: 'flex', alignItems: 'center', gap: 5 }}>
-                    {copied ? <><Check style={{ width: 11, height: 11 }} /> Copied</> : <><Copy style={{ width: 11, height: 11 }} /> Copy</>}
+                    {copied ? <><Check style={{ width: 11, height: 11 }} /> {t('copied')}</> : <><Copy style={{ width: 11, height: 11 }} /> Copy</>}
                   </button>
                 </div>
               </div>
