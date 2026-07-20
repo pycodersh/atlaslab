@@ -632,16 +632,17 @@ export default function HomePage() {
                 role="button" tabIndex={0}
                 onClick={() => router.push(`/patto/stories/${m.id}`)}
                 onKeyDown={e => e.key === 'Enter' && router.push(`/patto/stories/${m.id}`)}
-                style={{ padding: '12px 4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', opacity: m.done ? 0.6 : 1 }}
+                style={{ padding: '12px 4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
-                <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 13, color: 'var(--pt2)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
                   Story {String(m.id).padStart(2, '0')} · {m.title}
                 </p>
-                {m.done && (
-                  <span style={{ fontSize: 12, fontWeight: 500, color: '#16A34A', background: '#F0FDF4', border: '1px solid #86EFAC', borderRadius: 999, padding: '3px 10px', flexShrink: 0, marginLeft: 8 }}>Done</span>
-                )}
+                {m.done
+                  ? <Check style={{ width: 20, height: 20, color: '#22C55E', flexShrink: 0, marginLeft: 8 }} strokeWidth={2} />
+                  : <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0, marginLeft: 8 }} strokeWidth={2} />
+                }
               </motion.div>
             ))}
           </div>
@@ -661,7 +662,7 @@ export default function HomePage() {
               onClick={() => setTipOpen(true)}
               style={{ padding: '12px 4px', width: '100%', textAlign: 'left', cursor: 'pointer', background: 'transparent', border: 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}
             >
-              <p style={{ fontSize: 14, color: 'var(--pt)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+              <p style={{ fontSize: 13, color: 'var(--pt2)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
                 {getTipEntry(dailyTip.id, prefs.language)?.title ?? (dailyTip.title as Record<string,string>)?.ko ?? ''}
               </p>
               <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0 }} strokeWidth={2} />
