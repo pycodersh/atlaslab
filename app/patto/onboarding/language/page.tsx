@@ -54,7 +54,7 @@ export default function LanguageSelectPage() {
   function handleContinue() {
     localStorage.setItem(APP_LANGUAGE_KEY, selected)
     update({ language: selected })
-    router.replace('/patto/home')
+    router.replace('/patto/onboarding')
   }
 
   if (!mounted) return null

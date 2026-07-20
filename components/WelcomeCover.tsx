@@ -85,9 +85,12 @@ export function WelcomeCover() {
       document.body.style.position = ''
       document.body.style.width    = ''
       document.body.style.top      = ''
-      // 언어 미설정 첫 방문 → 언어 선택 페이지로 이동
-      if (!localStorage.getItem(APP_LANGUAGE_KEY)) {
-        router.push(LANG_PAGE)
+      const hasLang       = !!localStorage.getItem(APP_LANGUAGE_KEY)
+      const doneOnboarding = localStorage.getItem('patto_onboarding_done_v1') === 'true'
+      if (!hasLang) {
+        router.push(LANG_PAGE)               // 언어 미설정 → 언어 선택
+      } else if (!doneOnboarding) {
+        router.push('/patto/onboarding')     // 언어 있음 + 온보딩 미완료 → 온보딩
       }
     }, 600)
   }
