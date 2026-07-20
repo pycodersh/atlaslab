@@ -152,14 +152,18 @@ function FillQuestion({
     if (selected !== null) return
     const correct = opt.toLowerCase() === q.correctAnswer.toLowerCase()
     setSelected(opt)
-    setTimeout(() => onAnswer(correct), 900)
+    if (correct) {
+      setTimeout(() => onAnswer(true), 800)
+    }
+    // If wrong: wait for "Got it" button tap
   }
 
+  const isWrong = selected !== null && selected.toLowerCase() !== q.correctAnswer.toLowerCase()
   const parts = q.displaySentence.split('___')
 
   return (
     <div>
-      {/* Question label — no pattern chip (would reveal the answer) */}
+      {/* Question label */}
       <p style={{ margin: '0 0 14px', fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
         textTransform: 'uppercase', color: isDark ? 'rgba(255,255,255,0.35)' : 'rgba(60,60,100,0.45)' }}>
         {q.hard ? 'Recall the Pattern' : 'Fill in the Blank'}
@@ -201,16 +205,16 @@ function FillQuestion({
       </p>
 
       {/* Options */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: isWrong ? 14 : 0 }}>
         {q.options.map(opt => {
-          const isSelected  = selected === opt
-          const isCorrect   = opt.toLowerCase() === q.correctAnswer.toLowerCase()
-          let bg = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'
+          const isSelected = selected === opt
+          const isCorrect  = opt.toLowerCase() === q.correctAnswer.toLowerCase()
+          let bg     = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'
           let border = `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.08)'}`
           let color  = isDark ? 'rgba(255,255,255,0.80)' : '#1a1a2e'
           if (selected !== null) {
-            if (isCorrect)  { bg = isDark ? 'rgba(52,199,89,0.18)' : 'rgba(52,199,89,0.12)'; border = '1px solid rgba(52,199,89,0.40)'; color = '#34C759' }
-            if (isSelected && !isCorrect) { bg = isDark ? 'rgba(255,59,48,0.18)' : 'rgba(255,59,48,0.10)'; border = '1px solid rgba(255,59,48,0.40)'; color = '#FF3B30' }
+            if (isCorrect)                { bg = '#F0FDF4'; border = '1.5px solid #86EFAC'; color = '#16A34A' }
+            if (isSelected && !isCorrect) { bg = '#FEF2F2'; border = '1.5px solid #FECACA'; color = '#DC2626' }
           }
           return (
             <motion.button
@@ -233,6 +237,24 @@ function FillQuestion({
           )
         })}
       </div>
+
+      {/* Got it button — wrong answer only */}
+      {isWrong && (
+        <button
+          type="button"
+          onClick={() => onAnswer(false)}
+          style={{
+            width: '100%', borderRadius: 14,
+            padding: '13px 20px', fontSize: 15, fontWeight: 700,
+            cursor: 'pointer', fontFamily: 'inherit',
+            background: '#6366F1', color: '#fff',
+            border: '1.5px solid #6366F1',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}
+        >
+          Got it
+        </button>
+      )}
     </div>
   )
 }
