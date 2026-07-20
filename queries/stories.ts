@@ -85,6 +85,7 @@ export async function getStoryByOrder(orderIndex: number): Promise<StoryWithPatt
       id: p.id,
       level: p.level as 1 | 2 | 3,
       order_index: p.order_index,
+      story_position: sp.order_index,
       pattern_text: trans.pattern_text,
       meaning: trans.meaning,
       image_url: image

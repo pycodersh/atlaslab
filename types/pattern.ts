@@ -30,4 +30,5 @@ export type Pattern = {
 // 예문을 난이도별로 그룹화한 패턴 (카드 렌더링용)
 export type PatternWithExamples = Pattern & {
   examples: Record<Difficulty, PatternExample[]>
+  story_position: number  // story_patterns.order_index (1~5), patternExamplesFull 키 조합용
 }

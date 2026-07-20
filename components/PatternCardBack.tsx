@@ -38,8 +38,8 @@ export function PatternCardBack({
   const sentences = examples.map((ex) => ex.sentence)
   const t = useT()
 
-  // patternExamplesFull uses legacy keys like 'pt1-1'; pattern.id is a Supabase UUID
-  const legacyKey = `pt${storyNumber}-${pattern.order_index}`
+  // patternExamplesFull keys: pt{storyNumber}-{story_position (1~5)}
+  const legacyKey = `pt${storyNumber}-${pattern.story_position}`
   const fullExamples = patternExamplesFull[legacyKey] ?? []
 
   function handleSpeakAll(e: React.MouseEvent) {
