@@ -633,7 +633,7 @@ export function PatternsPageV2({
                     const fullEx         = patternExamplesFull[pattern.id]?.[i]
                     const displayEn      = ex.en
                     const displayKo      = ex.ko
-                    const safeCandidates = fullEx?.en === ex.en ? fullEx?.saveCandidates : undefined
+                    const safeCandidates = fullEx?.saveCandidates
                     const exKo          = resolveTranslation(displayKo, prefs.language, ex.translations)
                     return (
                       <div
