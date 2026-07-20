@@ -9,6 +9,7 @@ import {
   MapPin, MessageCircle, Puzzle, Star, Volume2
 } from 'lucide-react'
 import { usePreferences } from '@/contexts/PreferencesContext'
+import { useTheme } from '@/components/ThemeProvider'
 import { ONBOARDING_COPY } from '@/lib/i18n/onboarding'
 
 const DONE_KEY = 'patto_onboarding_done_v1'
@@ -20,6 +21,8 @@ const IMG = (id: string) =>
 export default function PattoOnboardingPage() {
   const router = useRouter()
   const { prefs } = usePreferences()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const [index, setIndex] = useState(0)
   const touchStartX = useRef<number | null>(null)
 
@@ -88,7 +91,7 @@ export default function PattoOnboardingPage() {
         <header style={{
           flexShrink: 0,
           padding: 'clamp(16px,2.5dvh,22px) 22px 0',
-          color: NAVY,
+          color: 'var(--pt)',
         }}>
           <strong style={{ fontSize: 'clamp(15px,4vw,18px)' }}>PATTO</strong>
         </header>
@@ -159,7 +162,7 @@ export default function PattoOnboardingPage() {
               style={{
                 width: '100%', minHeight: 'clamp(50px,7dvh,58px)',
                 border: 0, borderRadius: 16,
-                background: NAVY, color: '#fff',
+                background: isDark ? ACCENT : NAVY, color: '#fff',
                 fontSize: 'clamp(15px,4vw,18px)', fontWeight: 800,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 boxShadow: '0 14px 32px rgba(31,42,63,.24)', cursor: 'pointer',
@@ -193,6 +196,8 @@ export default function PattoOnboardingPage() {
 // ─── Scene 1: Pattern Network ────────────────────────────────────────────────
 
 function PChip({ label, icon, delay = 0 }: { label: string; icon: React.ReactNode; delay?: number }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   return (
     <motion.div
       initial={{ opacity: 0, scale: .84, y: 4 }}
@@ -202,10 +207,11 @@ function PChip({ label, icon, delay = 0 }: { label: string; icon: React.ReactNod
         display: 'inline-flex', alignItems: 'center', gap: 5,
         padding: 'clamp(6px,1dvh,8px) clamp(9px,2.3vw,12px)',
         borderRadius: 999,
-        background: 'rgba(255,255,255,.94)',
-        border: '1px solid rgba(99,102,241,.15)',
+        background: isDark ? 'rgba(255,255,255,.10)' : 'rgba(255,255,255,.94)',
+        border: `1px solid ${isDark ? 'rgba(99,102,241,.30)' : 'rgba(99,102,241,.15)'}`,
         boxShadow: '0 4px 14px rgba(70,75,150,.10)',
-        fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 700, color: NAVY,
+        fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 700,
+        color: isDark ? 'var(--pt)' : NAVY,
         whiteSpace: 'nowrap',
       }}
     >
@@ -216,6 +222,8 @@ function PChip({ label, icon, delay = 0 }: { label: string; icon: React.ReactNod
 }
 
 function PatternScene() {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const RING = 172
   const CARD_W = 160
 
@@ -249,8 +257,8 @@ function PatternScene() {
             left: `calc(50% - ${CARD_W / 2}px)`,
             top: 'calc(50% - 50px)',
             padding: 'clamp(12px,1.8dvh,15px) clamp(13px,3.4vw,16px)',
-            borderRadius: 20, background: 'rgba(255,255,255,.96)',
-            border: '1px solid rgba(99,102,241,.16)',
+            borderRadius: 20, background: isDark ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.96)',
+            border: `1px solid ${isDark ? 'rgba(99,102,241,.25)' : 'rgba(99,102,241,.16)'}`,
             boxShadow: '0 16px 40px rgba(70,75,150,.14)',
           }}
         >
@@ -297,8 +305,8 @@ function PatternScene() {
           marginTop: 'clamp(8px,1.3dvh,13px)',
           padding: 'clamp(11px,1.7dvh,14px) clamp(12px,3.2vw,15px)',
           borderRadius: 15,
-          background: 'rgba(247,248,255,.96)',
-          border: '1px solid rgba(99,102,241,.13)',
+          background: isDark ? 'rgba(99,102,241,.10)' : 'rgba(247,248,255,.96)',
+          border: `1px solid ${isDark ? 'rgba(99,102,241,.25)' : 'rgba(99,102,241,.13)'}`,
           boxShadow: '0 8px 20px rgba(70,75,150,.08)',
         }}
       >
@@ -332,6 +340,8 @@ function PatternScene() {
 // ─── Scene 2: Story Collection ────────────────────────────────────────────────
 
 function Metric({ icon, value, label, delay }: { icon: React.ReactNode; value: string; label: string; delay: number }) {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -340,8 +350,8 @@ function Metric({ icon, value, label, delay }: { icon: React.ReactNode; value: s
       style={{
         padding: 'clamp(10px,1.5dvh,14px) clamp(12px,3vw,16px)',
         borderRadius: 16,
-        border: '1px solid rgba(99,102,241,.12)',
-        background: 'rgba(255,255,255,.74)',
+        border: `1px solid ${isDark ? 'rgba(99,102,241,.25)' : 'rgba(99,102,241,.12)'}`,
+        background: isDark ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.74)',
         display: 'flex', alignItems: 'center', gap: 10,
       }}
     >
@@ -361,6 +371,8 @@ function Metric({ icon, value, label, delay }: { icon: React.ReactNode; value: s
 }
 
 function StoryScene() {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const cards = [
     { title: 'A New Start',         label: 'STORY 01', img: IMG('1506784983877-45594efa4cbe'), chip: 'Review', left: '0%',  top: '14%', rotate: -4, z: 3, delay: .10 },
     { title: 'An Old Friend',       label: 'STORY 02', img: IMG('1543007630-9710e4a00a20'),   chip: 'New',    left: '27%', top: '7%',  rotate: 1,  z: 2, delay: .18 },
@@ -380,8 +392,8 @@ function StoryScene() {
             style={{
               position: 'absolute', left, top,
               width: 'min(44%, 155px)', zIndex: z,
-              borderRadius: 17, overflow: 'hidden', background: '#fff',
-              border: '1px solid rgba(0,0,0,.06)',
+              borderRadius: 17, overflow: 'hidden', background: isDark ? 'rgba(255,255,255,.08)' : '#fff',
+              border: `1px solid ${isDark ? 'rgba(255,255,255,.12)' : 'rgba(0,0,0,.06)'}`,
               boxShadow: `0 ${6 + (3 - z) * 5}px ${20 + (3 - z) * 10}px rgba(0,0,0,${.10 + (3 - z) * .04})`,
             }}
           >
@@ -418,6 +430,8 @@ function StoryScene() {
 // ─── Scene 3: Repetition System ───────────────────────────────────────────────
 
 function RepeatScene() {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   return (
     <div>
       {/* Story card — auto height, Read ×10 inside */}
@@ -425,8 +439,8 @@ function RepeatScene() {
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         style={{
-          borderRadius: 22, background: 'rgba(255,255,255,.96)',
-          border: '1px solid rgba(99,102,241,.14)',
+          borderRadius: 22, background: isDark ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.96)',
+          border: `1px solid ${isDark ? 'rgba(99,102,241,.25)' : 'rgba(99,102,241,.14)'}`,
           boxShadow: '0 16px 40px rgba(70,75,150,.12)',
           overflow: 'hidden',
         }}
@@ -507,6 +521,8 @@ function RepeatScene() {
 // ─── Scene 4: Learning Completion ─────────────────────────────────────────────
 
 function ChallengeScene() {
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   const steps = [
     { icon: <Headphones size={21} color={ACCENT} />, label: 'Listening', bg: 'rgba(99,102,241,.09)', delay: .08 },
     { icon: <BookOpen size={21} color="#4AAE80" />,  label: 'Reading',   bg: 'rgba(74,174,128,.10)', delay: .16 },
@@ -561,8 +577,8 @@ function ChallengeScene() {
           marginTop: 'clamp(14px,2.2dvh,20px)',
           borderRadius: 20,
           padding: 'clamp(14px,2.1dvh,19px) clamp(14px,4vw,18px)',
-          background: 'rgba(255,255,255,.96)',
-          border: '1px solid rgba(99,102,241,.14)',
+          background: isDark ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.96)',
+          border: `1px solid ${isDark ? 'rgba(99,102,241,.25)' : 'rgba(99,102,241,.14)'}`,
           boxShadow: '0 14px 32px rgba(70,75,150,.10)',
         }}
       >
@@ -586,7 +602,7 @@ function ChallengeScene() {
               style={{
                 height: 'clamp(33px,4.5dvh,40px)', borderRadius: 999,
                 border: '1px solid rgba(99,102,241,.12)',
-                background: i === 0 ? 'rgba(99,102,241,.08)' : '#fff',
+                background: i === 0 ? 'rgba(99,102,241,.18)' : (isDark ? 'rgba(255,255,255,.07)' : '#fff'),
                 display: 'grid', placeItems: 'center',
                 fontSize: 'clamp(11px,2.8vw,13px)', fontWeight: 750,
               }}

@@ -35,7 +35,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
 
   // Tab switches (non-story routes): skip visual transition to avoid flash
   if (!inStoryTree) {
-    return <div style={{ width: '100%', minHeight: '100%' }}>{children}</div>
+    return <div style={{ width: '100%', minHeight: '100dvh' }}>{children}</div>
   }
 
   return (
