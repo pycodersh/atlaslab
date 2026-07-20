@@ -113,6 +113,8 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     setPatternIdx(0)
     setExitPopupPendingHref(null)
     storyCompletedRef.current = false
+    isStoreDoneEffectRanRef.current = false
+    setStoryCelebrated(false)
     trainerGreetedRef.current = false
     trainer?.setPage?.('story')
     trainer?.clearMessage?.()
@@ -272,23 +274,26 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
 
   const handleAllPatternsSeen = useCallback(() => {}, [])
 
-  // Challenge complete → mark session only; full completion fires via isStoreDone effect
-  const handleChallengeComplete = useCallback(() => {
-    const next = updateStorySessionState(story.id, storyRoundData.round, { challengeCompleted: true })
-    setSessionState(next)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [story.id, storyRoundData.round])
-
   // L + R×2 + C 모두 완료 시 story round 완료 처리
   const isStoreDone =
     sessionState.listeningCompleted &&
     sessionState.readingCount >= 2 &&
     sessionState.challengeCompleted
 
+  // "Story complete" UI는 이번 세션에서 실제로 완료한 경우에만 표시
+  // (localStorage stale 데이터로 인한 마운트 즉시 표시 방지)
+  const [storyCelebrated, setStoryCelebrated] = useState(false)
   const storyCompletedRef = useRef(false)
+  const isStoreDoneEffectRanRef = useRef(false)
   useEffect(() => {
+    // 첫 번째 effect 실행(마운트)은 건너뜀 — stale localStorage 방어
+    if (!isStoreDoneEffectRanRef.current) {
+      isStoreDoneEffectRanRef.current = true
+      return
+    }
     if (!isStoreDone || storyCompletedRef.current) return
     storyCompletedRef.current = true
+    setStoryCelebrated(true)
     trainerSay('Great work today.', 1500)
     const data = completeStoryRound(story.id)
     setCompletionData(data)
@@ -296,6 +301,13 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
     setProgress(completeStoryAndScheduleReview(progressRef.current, String(story.id), patternIds, 1, 1))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStoreDone])
+
+  // Challenge complete → mark session; isStoreDone effect가 최종 완료 처리
+  const handleChallengeComplete = useCallback(() => {
+    const next = updateStorySessionState(story.id, storyRoundData.round, { challengeCompleted: true })
+    setSessionState(next)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [story.id, storyRoundData.round])
 
   // Story 변경 시 per-story override 초기화
   const [ambienceOverride, setAmbienceOverride] = useState<boolean | null>(null)
@@ -601,7 +613,7 @@ export function MagazineEngine({ story, allStories, patternExamples }: MagazineE
       )}
 
       {/* ── Story Complete section ── */}
-      {isStoreDone && (
+      {storyCelebrated && (
         <div style={{
           margin: '32px 16px 40px',
           background: '#F0FDF4',
