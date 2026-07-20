@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
-  Search, X, BookOpen, ChevronRight, ChevronDown,
+  Search, X, BookOpen, ChevronRight, ChevronDown, ChevronsDown, ChevronsUp,
   BookMarked, Layers, PenLine,
 } from 'lucide-react'
 
@@ -836,7 +836,7 @@ export default function LibraryPage() {
           </div>
 
         {/* History toggle button — always visible below Start */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
           <button
             type="button"
             onClick={() => setWsHistoryOpen(v => !v)}
@@ -847,10 +847,10 @@ export default function LibraryPage() {
             }}
           >
             History
-            <ChevronDown
-              style={{ width: 14, height: 14, transition: 'transform 0.2s', transform: wsHistoryOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-              strokeWidth={2}
-            />
+            {wsHistoryOpen
+              ? <ChevronsUp style={{ width: 14, height: 14 }} strokeWidth={2} />
+              : <ChevronsDown style={{ width: 14, height: 14 }} strokeWidth={2} />
+            }
           </button>
         </div>
 
