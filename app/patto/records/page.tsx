@@ -551,6 +551,15 @@ export default function ProgressPage() {
             `${activeDaysThisWeek} / 7 days`,
           )}
           <div>
+            {/* Bar chart header: Best value */}
+            {(() => {
+              const best = Math.max(...weekDays.map(wd => dayPatternMap[toIso(wd)] ?? 0), 0)
+              return best > 0 ? (
+                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
+                  <span style={{ fontSize: 11, color: 'var(--pm)' }}>Best: {best}</span>
+                </div>
+              ) : null
+            })()}
             {/* Bar chart */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
               {(() => {
@@ -585,6 +594,11 @@ export default function ProgressPage() {
                   )
                 })
               })()}
+            </div>
+            {/* Legend */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
+              <div style={{ width: 10, height: 10, borderRadius: 2, background: '#6366F1', flexShrink: 0 }} />
+              <span style={{ fontSize: 11, color: 'var(--pm)' }}>patterns learned</span>
             </div>
           </div>
         </div>
