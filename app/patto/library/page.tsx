@@ -864,6 +864,7 @@ export default function LibraryPage() {
               />
             </button>
             {wsHistoryOpen && (
+            <>
             <div>
               {(wsShowAll ? essays : essays.slice(0, 3)).map((essay, i, arr) => {
                 const isExpanded = wsExpandedId === essay.id
@@ -930,7 +931,7 @@ export default function LibraryPage() {
                 {wsShowAll ? 'Show less' : `Show all (${essays.length})`}
               </button>
             )}
-            </div>
+            </>
             )}
           </>
         ) : null}
