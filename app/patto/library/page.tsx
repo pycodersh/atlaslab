@@ -857,7 +857,7 @@ export default function LibraryPage() {
               }}
             >
               <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.10em', color: 'var(--pt)', opacity: 0.7, textTransform: 'uppercase' }}>
-                Writing History ({essays.length})
+                History
               </span>
               <ChevronDown
                 style={{ width: 14, height: 14, color: 'var(--pm)', transition: 'transform 0.2s', transform: wsHistoryOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
