@@ -618,39 +618,44 @@ export default function HomePage() {
 
 
         {/* ── Card 1: TODAY'S MISSION ── */}
-        {missions.length > 0 && (
-          <div style={{ margin: '12px 20px 0' }}>
-            {/* 소제목 칩 */}
-            <div style={{ background: '#1E293B', borderRadius: 10, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Target style={{ width: 14, height: 14, color: '#818CF8', flexShrink: 0 }} strokeWidth={2} />
-              <span style={{ fontSize: 14, fontWeight: 500, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Today&apos;s Mission</span>
-            </div>
-            {/* 내용 */}
-            {missions.map((m) => (
-              <motion.div
-                key={`${m.type}-${m.id}`}
-                role="button" tabIndex={0}
-                onClick={() => router.push(`/patto/stories/${m.id}`)}
-                onKeyDown={e => e.key === 'Enter' && router.push(`/patto/stories/${m.id}`)}
-                style={{ padding: '12px 4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-              >
-                <p style={{ fontSize: 13, color: 'var(--pt2)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
-                  Story {String(m.id).padStart(2, '0')} · {m.title}
-                </p>
-                {m.done
-                  ? <Check style={{ width: 20, height: 20, color: '#22C55E', flexShrink: 0, marginLeft: 8 }} strokeWidth={2} />
-                  : <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0, marginLeft: 8 }} strokeWidth={2} />
-                }
-              </motion.div>
-            ))}
+        <div style={{ margin: '12px 20px 0' }}>
+          {/* 소제목 칩 */}
+          <div style={{ background: '#1E293B', borderRadius: 10, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Target style={{ width: 14, height: 14, color: '#818CF8', flexShrink: 0 }} strokeWidth={2} />
+            <span style={{ fontSize: 14, fontWeight: 500, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Today&apos;s Mission</span>
           </div>
-        )}
+          {/* 내용 */}
+          {missions.length === 0 ? (
+            <div style={{ padding: '14px 4px', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <Check style={{ width: 18, height: 18, color: '#22C55E', flexShrink: 0 }} strokeWidth={2.5} />
+              <p style={{ fontSize: 13, color: 'var(--pt2)', margin: 0 }}>
+                {t('home_done_title')}
+              </p>
+            </div>
+          ) : missions.map((m) => (
+            <motion.div
+              key={`${m.type}-${m.id}`}
+              role="button" tabIndex={0}
+              onClick={() => router.push(`/patto/stories/${m.id}`)}
+              onKeyDown={e => e.key === 'Enter' && router.push(`/patto/stories/${m.id}`)}
+              style={{ padding: '12px 4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+            >
+              <p style={{ fontSize: 13, color: 'var(--pt2)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}>
+                Story {String(m.id).padStart(2, '0')} · {m.title}
+              </p>
+              {m.done
+                ? <Check style={{ width: 20, height: 20, color: '#22C55E', flexShrink: 0, marginLeft: 8 }} strokeWidth={2} />
+                : <ChevronRight style={{ width: 16, height: 16, color: 'var(--pm)', flexShrink: 0, marginLeft: 8 }} strokeWidth={2} />
+              }
+            </motion.div>
+          ))}
+        </div>
 
         {/* ── Card 2: Editor Tip ── */}
         {dailyTip && (
-          <div style={{ margin: `${missions.length > 0 ? '16px' : '12px'} 20px 0` }}>
+          <div style={{ margin: '16px 20px 0' }}>
             {/* 소제목 칩 */}
             <div style={{ background: '#1E293B', borderRadius: 10, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Pencil style={{ width: 14, height: 14, color: '#818CF8', flexShrink: 0 }} strokeWidth={2} />
