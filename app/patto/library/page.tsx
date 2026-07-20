@@ -841,7 +841,7 @@ export default function LibraryPage() {
             icon={<PenLine style={{ width: 22, height: 22, color: '#8B6FA0' }} strokeWidth={1.6} />}
             iconColor="#8B6FA0"
             title="No writings yet."
-            body={'Write a short sentence using today\'s patterns. Keep it under 50 words to get AI feedback.'}
+            body={t('no_writings')}
           />
         ) : essays.length > 0 ? (
           <>
