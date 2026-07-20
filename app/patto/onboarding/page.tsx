@@ -1,3 +1,4 @@
+/* ─── REDESIGNED: dense/centered layout, no page counter, natural visual heights ─── */
 'use client'
 
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -83,21 +84,20 @@ export default function PattoOnboardingPage() {
           boxShadow: '0 24px 80px rgba(64,72,160,.10)',
         }}
       >
-        {/* Header */}
+        {/* Header: PATTO only — no page counter */}
         <header style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          padding: 'clamp(14px,2.5dvh,20px) 22px 0',
-          color: NAVY, flexShrink: 0,
+          flexShrink: 0,
+          padding: 'clamp(16px,2.5dvh,22px) 22px 0',
+          color: NAVY,
         }}>
           <strong style={{ fontSize: 'clamp(15px,4vw,18px)' }}>PATTO</strong>
-          <strong style={{ fontSize: 'clamp(12px,3vw,14px)' }}>{index + 1} / 4</strong>
         </header>
 
-        {/* Slide content */}
+        {/* Content area — vertically centers the slide group */}
         <div style={{
-          flex: 1, minHeight: 0,
-          padding: 'clamp(14px,3dvh,26px) clamp(16px,5vw,26px) 0',
-          display: 'flex', flexDirection: 'column', overflow: 'hidden',
+          flex: 1, minHeight: 0, overflow: 'hidden',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+          padding: 'clamp(8px,1.5dvh,16px) clamp(16px,5vw,24px)',
         }}>
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
@@ -106,43 +106,39 @@ export default function PattoOnboardingPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -24 }}
               transition={{ duration: .24, ease: 'easeOut' }}
-              style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(10px,1.8dvh,16px)' }}
             >
-              <motion.h1
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                style={{
-                  margin: 0,
-                  fontSize: 'clamp(24px,6.2vw,42px)',
-                  lineHeight: 1.08, letterSpacing: '-.04em',
-                  whiteSpace: 'pre-line', flexShrink: 0,
-                }}
-              >
-                {slide.title}
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: .08 }}
-                style={{
-                  margin: 'clamp(8px,1.8dvh,14px) 0 0',
-                  fontSize: 'clamp(13px,3.4vw,15px)',
-                  lineHeight: 1.58, color: 'var(--pm)',
-                  whiteSpace: 'pre-line', flexShrink: 0,
-                }}
-              >
-                {slide.body}
-              </motion.p>
-
-              {/* Visual area — takes all remaining space */}
-              <div style={{
-                flex: 1, minHeight: 0, overflow: 'hidden',
-                display: 'flex', alignItems: 'stretch',
-                padding: 'clamp(10px,2dvh,18px) 0 0',
-              }}>
-                {slide.visual}
+              {/* Title + body grouped */}
+              <div>
+                <motion.h1
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{
+                    margin: 0,
+                    fontSize: 'clamp(24px,6.2vw,42px)',
+                    lineHeight: 1.08, letterSpacing: '-.04em',
+                    whiteSpace: 'pre-line',
+                  }}
+                >
+                  {slide.title}
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: .08 }}
+                  style={{
+                    margin: 'clamp(7px,1.3dvh,11px) 0 0',
+                    fontSize: 'clamp(13px,3.4vw,15px)',
+                    lineHeight: 1.58, color: 'var(--pm)',
+                    whiteSpace: 'pre-line',
+                  }}
+                >
+                  {slide.body}
+                </motion.p>
               </div>
+
+              {/* Visual — natural height, NOT flex: 1 */}
+              {slide.visual}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -194,7 +190,7 @@ export default function PattoOnboardingPage() {
   )
 }
 
-// ─── Scene 1: Pattern ────────────────────────────────────
+// ─── Scene 1: Pattern Network ────────────────────────────────────────────────
 
 function PChip({ label, icon, delay = 0 }: { label: string; icon: React.ReactNode; delay?: number }) {
   return (
@@ -204,12 +200,12 @@ function PChip({ label, icon, delay = 0 }: { label: string; icon: React.ReactNod
       transition={{ delay }}
       style={{
         display: 'inline-flex', alignItems: 'center', gap: 5,
-        padding: 'clamp(6px,1.2dvh,9px) clamp(10px,2.8vw,13px)',
+        padding: 'clamp(6px,1dvh,8px) clamp(9px,2.3vw,12px)',
         borderRadius: 999,
         background: 'rgba(255,255,255,.94)',
         border: '1px solid rgba(99,102,241,.15)',
-        boxShadow: '0 6px 18px rgba(70,75,150,.10)',
-        fontSize: 'clamp(10px,2.6vw,12px)', fontWeight: 700, color: NAVY,
+        boxShadow: '0 4px 14px rgba(70,75,150,.10)',
+        fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 700, color: NAVY,
         whiteSpace: 'nowrap',
       }}
     >
@@ -220,46 +216,40 @@ function PChip({ label, icon, delay = 0 }: { label: string; icon: React.ReactNod
 }
 
 function PatternScene() {
-  return (
-    <div style={{
-      width: '100%', height: '100%',
-      display: 'flex', flexDirection: 'column',
-      gap: 'clamp(4px,0.8dvh,8px)',
-      overflow: 'hidden',
-    }}>
-      {/* Top chips */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-        <PChip label="go there" icon={<MapPin size={12} />} delay={.18} />
-        <PChip label="try it"   icon={<Star size={12} />}   delay={.24} />
-      </div>
+  const RING = 172
+  const CARD_W = 160
 
-      {/* Center: rotating ring + pattern card */}
-      <div style={{
-        flex: 1, minHeight: 0,
-        position: 'relative',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        overflow: 'hidden',
-      }}>
+  return (
+    <div>
+      {/* Network: fixed-height container with absolute chips around ring */}
+      <div style={{ position: 'relative', height: 'clamp(205px,31dvh,245px)' }}>
+
+        {/* Rotating ring */}
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
           style={{
             position: 'absolute',
-            width: 'min(72%,220px)', aspectRatio: '1',
+            width: RING, height: RING,
+            left: `calc(50% - ${RING / 2}px)`,
+            top: `calc(50% - ${RING / 2}px - 6px)`,
             borderRadius: '50%',
             border: '1px dashed rgba(99,102,241,.22)',
             background: 'radial-gradient(circle, rgba(99,102,241,.09), rgba(99,102,241,.02) 60%, transparent 76%)',
           }}
         />
 
+        {/* Pattern 001 card — centered on ring */}
         <motion.div
           initial={{ opacity: 0, scale: .92 }}
           animate={{ opacity: 1, scale: 1 }}
           style={{
-            position: 'relative', zIndex: 4,
-            width: 'min(70%,210px)',
-            padding: 'clamp(14px,2.8dvh,20px) clamp(14px,3.8vw,20px)',
-            borderRadius: 22, background: 'rgba(255,255,255,.96)',
+            position: 'absolute', zIndex: 4,
+            width: CARD_W,
+            left: `calc(50% - ${CARD_W / 2}px)`,
+            top: 'calc(50% - 50px)',
+            padding: 'clamp(12px,1.8dvh,15px) clamp(13px,3.4vw,16px)',
+            borderRadius: 20, background: 'rgba(255,255,255,.96)',
             border: '1px solid rgba(99,102,241,.16)',
             boxShadow: '0 16px 40px rgba(70,75,150,.14)',
           }}
@@ -267,34 +257,49 @@ function PatternScene() {
           <div style={{ fontSize: 'clamp(9px,2.3vw,11px)', fontWeight: 800, color: ACCENT, letterSpacing: '.08em' }}>
             PATTERN 001
           </div>
-          <div style={{ marginTop: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+          <div style={{ marginTop: 7, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
             <div>
-              <div style={{ fontSize: 'clamp(18px,5vw,24px)', fontWeight: 850 }}>I want to ~.</div>
-              <div style={{ marginTop: 4, color: 'var(--pm)', fontSize: 'clamp(11px,2.8vw,13px)' }}>~하고 싶어</div>
+              <div style={{ fontSize: 'clamp(17px,4.6vw,21px)', fontWeight: 850 }}>I want to ~.</div>
+              <div style={{ marginTop: 3, color: 'var(--pm)', fontSize: 'clamp(11px,2.8vw,13px)' }}>~하고 싶어</div>
             </div>
-            <Volume2 size={18} color={ACCENT} style={{ flexShrink: 0 }} />
+            <Volume2 size={16} color={ACCENT} style={{ flexShrink: 0 }} />
           </div>
         </motion.div>
+
+        {/* Top-left chip */}
+        <div style={{ position: 'absolute', left: 8, top: 8, zIndex: 5 }}>
+          <PChip label="go there" icon={<MapPin size={11} />} delay={.18} />
+        </div>
+        {/* Top-right chip */}
+        <div style={{ position: 'absolute', right: 8, top: 8, zIndex: 5 }}>
+          <PChip label="try it" icon={<Star size={11} />} delay={.24} />
+        </div>
+        {/* Mid-left chip */}
+        <div style={{ position: 'absolute', left: 6, top: '44%', marginTop: -16, zIndex: 5 }}>
+          <PChip label="ask you" icon={<MessageCircle size={11} />} delay={.30} />
+        </div>
+        {/* Mid-right chip */}
+        <div style={{ position: 'absolute', right: 6, top: '44%', marginTop: -16, zIndex: 5 }}>
+          <PChip label="tell you" icon={<Heart size={11} />} delay={.36} />
+        </div>
+        {/* Bottom-center chip */}
+        <div style={{ position: 'absolute', left: 0, right: 0, bottom: 8, display: 'flex', justifyContent: 'center', zIndex: 5 }}>
+          <PChip label="thank you" icon={<CheckCircle2 size={11} />} delay={.42} />
+        </div>
       </div>
 
-      {/* Bottom chips */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexShrink: 0 }}>
-        <PChip label="ask you"  icon={<MessageCircle size={12} />} delay={.30} />
-        <PChip label="tell you" icon={<Heart size={12} />}         delay={.36} />
-      </div>
-
-      {/* Patterns in this story */}
+      {/* PATTERNS IN THIS STORY — tightly below the network */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: .44 }}
+        transition={{ delay: .50 }}
         style={{
-          flexShrink: 0,
-          padding: 'clamp(10px,1.8dvh,14px) clamp(12px,3.2vw,16px)',
-          borderRadius: 18,
+          marginTop: 'clamp(6px,1dvh,10px)',
+          padding: 'clamp(10px,1.5dvh,13px) clamp(12px,3.2vw,15px)',
+          borderRadius: 15,
           background: 'rgba(247,248,255,.96)',
           border: '1px solid rgba(99,102,241,.13)',
-          boxShadow: '0 10px 24px rgba(70,75,150,.09)',
+          boxShadow: '0 8px 20px rgba(70,75,150,.08)',
         }}
       >
         <div style={{ fontSize: 'clamp(8px,2vw,10px)', fontWeight: 850, letterSpacing: '.07em', color: ACCENT }}>
@@ -308,11 +313,11 @@ function PatternScene() {
             key={t}
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: .52 + i * .07 }}
+            transition={{ delay: .58 + i * .07 }}
             style={{
               display: 'flex', gap: 8,
-              marginTop: i ? 'clamp(5px,1dvh,8px)' : 'clamp(6px,1.2dvh,10px)',
-              fontSize: 'clamp(11px,2.8vw,13px)', lineHeight: 1.4,
+              marginTop: i ? 'clamp(4px,0.8dvh,7px)' : 'clamp(6px,1dvh,9px)',
+              fontSize: 'clamp(11px,2.8vw,13px)', lineHeight: 1.42,
             }}
           >
             <span style={{ color: ACCENT, flexShrink: 0 }}>•</span>
@@ -324,32 +329,32 @@ function PatternScene() {
   )
 }
 
-// ─── Scene 2: Stories ────────────────────────────────────
+// ─── Scene 2: Story Collection ────────────────────────────────────────────────
 
-function Metric({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
+function Metric({ icon, value, label, delay }: { icon: React.ReactNode; value: string; label: string; delay: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 14 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: .36 }}
+      transition={{ delay }}
       style={{
-        padding: 'clamp(10px,1.8dvh,14px) clamp(12px,3vw,16px)',
-        borderRadius: 18,
+        padding: 'clamp(10px,1.5dvh,14px) clamp(12px,3vw,16px)',
+        borderRadius: 16,
         border: '1px solid rgba(99,102,241,.12)',
         background: 'rgba(255,255,255,.74)',
         display: 'flex', alignItems: 'center', gap: 10,
       }}
     >
       <div style={{
-        width: 'clamp(36px,9vw,44px)', height: 'clamp(36px,9vw,44px)',
-        borderRadius: 14, display: 'grid', placeItems: 'center',
+        width: 'clamp(34px,8.5vw,42px)', height: 'clamp(34px,8.5vw,42px)',
+        borderRadius: 12, display: 'grid', placeItems: 'center',
         background: 'rgba(99,102,241,.08)', flexShrink: 0,
       }}>
         {icon}
       </div>
       <div>
-        <div style={{ fontSize: 'clamp(22px,6vw,28px)', lineHeight: 1, fontWeight: 850, color: ACCENT }}>{value}</div>
-        <div style={{ marginTop: 3, fontSize: 'clamp(11px,2.8vw,13px)', fontWeight: 700, color: 'var(--pm)' }}>{label}</div>
+        <div style={{ fontSize: 'clamp(20px,5.5vw,26px)', lineHeight: 1, fontWeight: 850, color: ACCENT }}>{value}</div>
+        <div style={{ marginTop: 2, fontSize: 'clamp(11px,2.8vw,13px)', fontWeight: 700, color: 'var(--pm)' }}>{label}</div>
       </div>
     </motion.div>
   )
@@ -357,39 +362,40 @@ function Metric({ icon, value, label }: { icon: React.ReactNode; value: string; 
 
 function StoryScene() {
   const cards = [
-    { title: 'A New Start',         label: 'STORY 01', img: IMG('1506784983877-45594efa4cbe'), chip: 'Review', left: '0%',  top: '0%',  rotate: -2, z: 3, delay: .10 },
-    { title: 'An Old Friend',       label: 'STORY 02', img: IMG('1543007630-9710e4a00a20'),   chip: 'New',    left: '28%', top: '10%', rotate: 0,  z: 2, delay: .18 },
-    { title: 'An Ordinary Morning', label: 'STORY 03', img: IMG('1525610553991-2bede1a236e2'),chip: 'New',    left: '54%', top: '20%', rotate: 3,  z: 1, delay: .26 },
+    { title: 'A New Start',         label: 'STORY 01', img: IMG('1506784983877-45594efa4cbe'), chip: 'Review', left: '0%',  top: '14%', rotate: -4, z: 3, delay: .10 },
+    { title: 'An Old Friend',       label: 'STORY 02', img: IMG('1543007630-9710e4a00a20'),   chip: 'New',    left: '27%', top: '7%',  rotate: 1,  z: 2, delay: .18 },
+    { title: 'An Ordinary Morning', label: 'STORY 03', img: IMG('1525610553991-2bede1a236e2'),chip: 'New',    left: '54%', top: '0%',  rotate: 5,  z: 1, delay: .26 },
   ]
 
   return (
-    <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: 'clamp(8px,1.5dvh,14px)', overflow: 'hidden' }}>
-      {/* Card fan stack */}
-      <div style={{ flex: 1, minHeight: 0, position: 'relative', overflow: 'hidden' }}>
+    <div>
+      {/* Card fan — fixed height, larger cards, stronger overlap */}
+      <div style={{ position: 'relative', height: 'clamp(190px,29dvh,230px)' }}>
         {cards.map(({ title, label, img, chip, left, top, rotate, z, delay }) => (
           <motion.div
             key={label}
-            initial={{ opacity: 0, y: 30, scale: .94 }}
+            initial={{ opacity: 0, y: 32, scale: .92 }}
             animate={{ opacity: 1, y: 0, scale: 1, rotate }}
             transition={{ delay }}
             style={{
-              position: 'absolute', left, top, width: 'min(38%,136px)', zIndex: z,
-              borderRadius: 16, overflow: 'hidden', background: '#fff',
+              position: 'absolute', left, top,
+              width: 'min(44%, 155px)', zIndex: z,
+              borderRadius: 17, overflow: 'hidden', background: '#fff',
               border: '1px solid rgba(0,0,0,.06)',
-              boxShadow: '0 8px 24px rgba(0,0,0,.13)',
+              boxShadow: `0 ${6 + (3 - z) * 5}px ${20 + (3 - z) * 10}px rgba(0,0,0,${.10 + (3 - z) * .04})`,
             }}
           >
-            <div style={{ height: 'clamp(78px,13dvh,108px)', overflow: 'hidden', position: 'relative' }}>
+            <div style={{ height: 'clamp(92px,14dvh,115px)', overflow: 'hidden', position: 'relative' }}>
               <img src={img} alt={title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               <div style={{
                 position: 'absolute', left: 7, top: 7,
                 padding: '3px 7px', borderRadius: 999,
-                background: 'rgba(255,255,255,.82)',
+                background: 'rgba(255,255,255,.85)',
                 fontSize: 'clamp(8px,2vw,9px)', fontWeight: 700,
                 backdropFilter: 'blur(6px)',
               }}>{chip}</div>
             </div>
-            <div style={{ padding: 'clamp(8px,1.5dvh,10px)' }}>
+            <div style={{ padding: 'clamp(8px,1.2dvh,10px) clamp(9px,2.3vw,11px) clamp(9px,1.4dvh,12px)' }}>
               <div style={{ fontSize: 'clamp(8px,2vw,9px)', fontWeight: 800, letterSpacing: '.06em', color: 'var(--pm)', textTransform: 'uppercase' }}>{label}</div>
               <div style={{ marginTop: 3, fontSize: 'clamp(11px,3vw,13px)', fontWeight: 700, lineHeight: 1.2 }}>{title}</div>
             </div>
@@ -397,39 +403,37 @@ function StoryScene() {
         ))}
       </div>
 
-      {/* Metrics */}
-      <div style={{ flexShrink: 0, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(8px,2vw,12px)' }}>
-        <Metric icon={<BookOpen size={20} color={ACCENT} />} value="100" label="stories" />
-        <Metric icon={<Puzzle size={20} color="#4AAE80" />}  value="500" label="patterns" />
+      {/* Stats — directly below cards */}
+      <div style={{
+        marginTop: 'clamp(10px,1.5dvh,16px)',
+        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'clamp(8px,2vw,12px)',
+      }}>
+        <Metric icon={<BookOpen size={19} color={ACCENT} />} value="100" label="stories" delay={.36} />
+        <Metric icon={<Puzzle size={19} color="#4AAE80" />}  value="500" label="patterns" delay={.42} />
       </div>
     </div>
   )
 }
 
-// ─── Scene 3: Repeat ─────────────────────────────────────
+// ─── Scene 3: Repetition System ───────────────────────────────────────────────
 
 function RepeatScene() {
   return (
-    <div style={{
-      width: '100%', height: '100%',
-      display: 'flex', flexDirection: 'column',
-      gap: 'clamp(8px,1.5dvh,14px)', overflow: 'hidden',
-    }}>
-      {/* Story card */}
+    <div>
+      {/* Story card — auto height, Read ×10 inside */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
         style={{
-          flex: 1, minHeight: 0, overflow: 'hidden',
           borderRadius: 22, background: 'rgba(255,255,255,.96)',
           border: '1px solid rgba(99,102,241,.14)',
           boxShadow: '0 16px 40px rgba(70,75,150,.12)',
-          display: 'flex', flexDirection: 'column',
+          overflow: 'hidden',
         }}
       >
+        {/* Card header */}
         <div style={{
-          flexShrink: 0,
-          padding: 'clamp(12px,2dvh,16px) clamp(14px,4vw,18px) clamp(8px,1.2dvh,10px)',
+          padding: 'clamp(12px,1.8dvh,15px) clamp(14px,4vw,18px) clamp(7px,1dvh,9px)',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div>
@@ -439,8 +443,8 @@ function RepeatScene() {
           <Volume2 size={16} color={ACCENT} />
         </div>
 
-        {/* Image with Listen badge overlaid */}
-        <div style={{ flexShrink: 0, height: 'clamp(90px,15dvh,130px)', position: 'relative', overflow: 'hidden' }}>
+        {/* Image with Listen ×5 overlay */}
+        <div style={{ height: 'clamp(92px,14dvh,120px)', position: 'relative', overflow: 'hidden' }}>
           <img
             src={IMG('1506784983877-45594efa4cbe')} alt="A New Start"
             style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -451,75 +455,68 @@ function RepeatScene() {
             transition={{ delay: .18 }}
             style={{
               position: 'absolute', right: 10, bottom: 8,
-              padding: 'clamp(9px,1.6dvh,13px) clamp(12px,3vw,16px)',
-              borderRadius: 14, background: ACCENT, color: '#fff',
+              padding: 'clamp(8px,1.3dvh,11px) clamp(11px,2.8vw,14px)',
+              borderRadius: 13, background: ACCENT, color: '#fff',
               boxShadow: '0 10px 26px rgba(99,102,241,.32)',
-              display: 'flex', alignItems: 'center', gap: 8,
+              display: 'flex', alignItems: 'center', gap: 7,
             }}
           >
-            <Headphones size={18} />
+            <Headphones size={17} />
             <div>
-              <div style={{ fontSize: 'clamp(10px,2.5vw,12px)' }}>Listen</div>
-              <div style={{ fontSize: 'clamp(20px,5.5vw,26px)', fontWeight: 850, lineHeight: 1 }}>×5</div>
+              <div style={{ fontSize: 'clamp(9px,2.3vw,11px)' }}>Listen</div>
+              <div style={{ fontSize: 'clamp(19px,5.2vw,24px)', fontWeight: 850, lineHeight: 1 }}>×5</div>
             </div>
           </motion.div>
         </div>
 
         {/* Text body */}
-        <div style={{
-          flex: 1, overflow: 'hidden',
-          padding: 'clamp(10px,1.8dvh,14px) clamp(14px,4vw,18px)',
-          fontSize: 'clamp(12px,3vw,13px)', lineHeight: 1.55,
-        }}>
+        <div style={{ padding: 'clamp(10px,1.5dvh,13px) clamp(14px,4vw,18px) clamp(6px,1dvh,8px)' }}>
           <div style={{ fontSize: 'clamp(8px,2vw,10px)', color: 'var(--pm)' }}>EN &nbsp;&nbsp; EN·KO &nbsp;&nbsp; KO</div>
-          <div style={{ marginTop: 8 }}>
+          <div style={{ marginTop: 6, fontSize: 'clamp(12px,3.1vw,14px)', lineHeight: 1.55 }}>
             It&rsquo;s Sunday night, and a new week is almost here.<br />
             I <strong style={{ color: '#2C4EB8' }}>want to</strong> start something new this time.
           </div>
         </div>
-      </motion.div>
 
-      {/* Read badge below card */}
-      <motion.div
-        initial={{ opacity: 0, scale: .88, x: -12 }}
-        animate={{ opacity: 1, scale: 1, x: 0 }}
-        transition={{ delay: .30 }}
-        style={{
-          flexShrink: 0, alignSelf: 'flex-start',
-          padding: 'clamp(9px,1.6dvh,13px) clamp(12px,3vw,16px)',
-          borderRadius: 14,
-          background: 'rgba(221,245,232,.96)', color: '#378463',
-          boxShadow: '0 10px 24px rgba(70,130,100,.16)',
-          display: 'flex', alignItems: 'center', gap: 8,
-        }}
-      >
-        <BookOpen size={18} />
-        <div>
-          <div style={{ fontSize: 'clamp(10px,2.5vw,12px)' }}>Read</div>
-          <div style={{ fontSize: 'clamp(20px,5.5vw,26px)', fontWeight: 850, lineHeight: 1 }}>×10</div>
+        {/* Read ×10 — inside card, directly below body */}
+        <div style={{ padding: 'clamp(4px,0.7dvh,7px) clamp(14px,4vw,18px) clamp(12px,1.8dvh,15px)' }}>
+          <motion.div
+            initial={{ opacity: 0, scale: .88, x: -10 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ delay: .30 }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 7,
+              padding: 'clamp(8px,1.2dvh,11px) clamp(11px,2.8vw,14px)',
+              borderRadius: 12,
+              background: 'rgba(221,245,232,.96)', color: '#378463',
+              boxShadow: '0 8px 18px rgba(70,130,100,.14)',
+            }}
+          >
+            <BookOpen size={17} />
+            <div>
+              <div style={{ fontSize: 'clamp(9px,2.3vw,11px)' }}>Read</div>
+              <div style={{ fontSize: 'clamp(19px,5.2vw,24px)', fontWeight: 850, lineHeight: 1 }}>×10</div>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </div>
   )
 }
 
-// ─── Scene 4: Challenge ──────────────────────────────────
+// ─── Scene 4: Learning Completion ─────────────────────────────────────────────
 
 function ChallengeScene() {
   const steps = [
-    { icon: <Headphones size={22} color={ACCENT} />, label: 'Listening', bg: 'rgba(99,102,241,.09)', delay: .08 },
-    { icon: <BookOpen size={22} color="#4AAE80" />,  label: 'Reading',   bg: 'rgba(74,174,128,.10)', delay: .18 },
-    { icon: <Puzzle size={22} color={ACCENT} />,     label: 'Challenge', bg: 'rgba(99,102,241,.09)', delay: .28 },
+    { icon: <Headphones size={21} color={ACCENT} />, label: 'Listening', bg: 'rgba(99,102,241,.09)', delay: .08 },
+    { icon: <BookOpen size={21} color="#4AAE80" />,  label: 'Reading',   bg: 'rgba(74,174,128,.10)', delay: .16 },
+    { icon: <Puzzle size={21} color={ACCENT} />,     label: 'Challenge', bg: 'rgba(99,102,241,.09)', delay: .24 },
   ]
 
   return (
-    <div style={{
-      width: '100%', height: '100%',
-      display: 'flex', flexDirection: 'column',
-      gap: 'clamp(12px,2dvh,20px)', overflow: 'hidden',
-    }}>
+    <div>
       {/* Step circles */}
-      <div style={{ flexShrink: 0, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
         {steps.map(({ icon, label, bg, delay }, i) => (
           <motion.div
             key={label}
@@ -529,7 +526,7 @@ function ChallengeScene() {
             style={{ textAlign: 'center' }}
           >
             <div style={{
-              width: 'clamp(54px,14vw,68px)', height: 'clamp(54px,14vw,68px)',
+              width: 'clamp(52px,13vw,64px)', height: 'clamp(52px,13vw,64px)',
               borderRadius: '50%', margin: '0 auto', background: bg,
               display: 'grid', placeItems: 'center', position: 'relative',
             }}>
@@ -537,62 +534,61 @@ function ChallengeScene() {
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ delay: delay + .18, type: 'spring' }}
+                transition={{ delay: delay + .16, type: 'spring' }}
                 style={{
                   position: 'absolute', right: -2, top: -2,
-                  width: 19, height: 19, borderRadius: '50%',
+                  width: 18, height: 18, borderRadius: '50%',
                   background: i === 1 ? '#4AAE80' : ACCENT,
                   display: 'grid', placeItems: 'center', border: '2px solid #fff',
                 }}
               >
-                <CheckCircle2 size={12} color="#fff" strokeWidth={2.8} />
+                <CheckCircle2 size={11} color="#fff" strokeWidth={2.8} />
               </motion.div>
             </div>
-            <div style={{ marginTop: 7, fontSize: 'clamp(10px,2.6vw,13px)', fontWeight: 750, color: 'var(--pm)' }}>
+            <div style={{ marginTop: 6, fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 750, color: 'var(--pm)' }}>
               {label}
             </div>
           </motion.div>
         ))}
       </div>
 
-      {/* Challenge card */}
+      {/* Challenge card — auto height, no flex: 1 filler */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: .34 }}
+        transition={{ delay: .32 }}
         style={{
-          flex: 1, minHeight: 0, overflow: 'hidden',
-          borderRadius: 22,
-          padding: 'clamp(14px,2.5dvh,18px)',
+          marginTop: 'clamp(12px,1.8dvh,16px)',
+          borderRadius: 20,
+          padding: 'clamp(13px,1.9dvh,17px) clamp(14px,4vw,18px)',
           background: 'rgba(255,255,255,.96)',
           border: '1px solid rgba(99,102,241,.14)',
-          boxShadow: '0 16px 36px rgba(70,75,150,.10)',
+          boxShadow: '0 14px 32px rgba(70,75,150,.10)',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
           <div style={{ fontSize: 'clamp(9px,2.3vw,11px)', fontWeight: 850, color: ACCENT, letterSpacing: '.08em' }}>CHALLENGE</div>
           <div style={{ fontSize: 'clamp(9px,2.3vw,11px)', color: 'var(--pm)' }}>1 / 4</div>
         </div>
-        <div style={{ marginTop: 6, fontSize: 'clamp(11px,2.8vw,13px)', color: 'var(--pm)' }}>Fill in the blank.</div>
-        <div style={{ marginTop: 'clamp(12px,2dvh,16px)', fontSize: 'clamp(13px,3.5vw,16px)', fontWeight: 700 }}>
+        <div style={{ fontSize: 'clamp(11px,2.8vw,13px)', color: 'var(--pm)', marginBottom: 'clamp(9px,1.4dvh,13px)' }}>
+          Fill in the blank.
+        </div>
+        <div style={{ fontSize: 'clamp(13px,3.5vw,16px)', fontWeight: 700, lineHeight: 1.4, marginBottom: 'clamp(10px,1.5dvh,14px)' }}>
           I want to ______ something new this time.
         </div>
-        <div style={{
-          marginTop: 'clamp(10px,1.8dvh,14px)',
-          display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6,
-        }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6 }}>
           {['start', 'try', 'begin', 'do'].map((word, i) => (
             <motion.div
               key={word}
               initial={{ opacity: 0, y: 6 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: .42 + i * .05 }}
+              transition={{ delay: .40 + i * .05 }}
               style={{
-                minHeight: 'clamp(32px,4.5dvh,38px)', borderRadius: 999,
+                height: 'clamp(33px,4.5dvh,40px)', borderRadius: 999,
                 border: '1px solid rgba(99,102,241,.12)',
                 background: i === 0 ? 'rgba(99,102,241,.08)' : '#fff',
                 display: 'grid', placeItems: 'center',
-                fontSize: 'clamp(10px,2.5vw,12px)', fontWeight: 750,
+                fontSize: 'clamp(11px,2.8vw,13px)', fontWeight: 750,
               }}
             >
               {word}
