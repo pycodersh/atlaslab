@@ -788,8 +788,8 @@ export default function LibraryPage() {
               onClick={handleGetFeedback}
               style={{
                 width: '100%',
-                background: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#A5B4FC' : '#6366F1',
-                border: `1.5px solid ${(wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#A5B4FC' : '#6366F1'}`,
+                background: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#94A3B8' : '#1E293B',
+                border: `1.5px solid ${(wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? '#94A3B8' : '#1E293B'}`,
                 borderRadius: 14, color: '#ffffff',
                 fontSize: 15, fontWeight: 500, padding: '13px 0',
                 cursor: (wsWordCount < 5 || wsWordCount > 50 || wsLoading || reviewsRemaining === 0) ? 'default' : 'pointer',

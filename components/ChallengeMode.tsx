@@ -247,8 +247,8 @@ function FillQuestion({
             width: '100%', borderRadius: 14,
             padding: '13px 20px', fontSize: 15, fontWeight: 700,
             cursor: 'pointer', fontFamily: 'inherit',
-            background: '#6366F1', color: '#fff',
-            border: '1.5px solid #6366F1',
+            background: '#1E293B', color: '#fff',
+            border: '1.5px solid #1E293B',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
         >

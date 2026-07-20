@@ -74,7 +74,7 @@ export function GlobalSavePopup() {
       const isHighlighted = w.toLowerCase().replace(/[^a-z]/g, '') === lower.replace(/[^a-z]/g, '')
       return (
         <span key={i} style={isHighlighted ? {
-          color: '#6366F1',
+          color: '#1E293B',
           textDecoration: 'underline',
           textUnderlineOffset: 3,
         } : { color: '#111827' }}>
@@ -135,7 +135,7 @@ export function GlobalSavePopup() {
               {item.chunk && (
                 <button
                   type="button"
-                  style={{ ...btnBase, background: '#6366F1', color: '#fff', border: '1.5px solid #6366F1' }}
+                  style={{ ...btnBase, background: '#1E293B', color: '#fff', border: '1.5px solid #1E293B' }}
                   onClick={handleSavePhrase}
                 >
                   Save phrase
@@ -145,7 +145,7 @@ export function GlobalSavePopup() {
                 ? (
                   <button
                     type="button"
-                    style={{ ...btnBase, background: 'transparent', color: '#6366F1', border: '1.5px solid #6366F1' }}
+                    style={{ ...btnBase, background: 'transparent', color: '#1E293B', border: '1.5px solid #1E293B' }}
                     onClick={handleSaveWord}
                   >
                     Save word only
@@ -154,7 +154,7 @@ export function GlobalSavePopup() {
                 : (
                   <button
                     type="button"
-                    style={{ ...btnBase, background: '#6366F1', color: '#fff', border: '1.5px solid #6366F1' }}
+                    style={{ ...btnBase, background: '#1E293B', color: '#fff', border: '1.5px solid #1E293B' }}
                     onClick={handleSaveWord}
                   >
                     Save

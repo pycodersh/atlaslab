@@ -37,28 +37,28 @@ const PILL_SHAPE: React.CSSProperties = {
 }
 
 const VARIANT: Record<Variant, React.CSSProperties> = {
-  primary:   { background: '#6366F1', color: '#ffffff', border: 'none' },
-  secondary: { background: 'transparent', color: '#6366F1', border: '1.5px solid #6366F1' },
-  ghost:     { background: 'transparent', color: 'var(--pm)', border: 'none' },
+  primary:   { background: '#1E293B', color: '#ffffff', border: '1.5px solid #1E293B' },
+  secondary: { background: 'transparent', color: '#1E293B', border: '1.5px solid #1E293B' },
+  ghost:     { background: 'transparent', color: '#6B7280', border: '1.5px solid #E5E7EB' },
   danger:    { background: '#FEF2F2', color: '#DC2626', border: '1.5px solid #FECACA' },
 }
 
 const PRESS: Record<Variant, string> = {
-  primary:   '#4338CA',
-  secondary: '#EEF2FF',
-  ghost:     'transparent',
+  primary:   '#0F172A',
+  secondary: '#F1F5F9',
+  ghost:     '#F9FAFB',
   danger:    '#FEE2E2',
 }
 
 const HOVER: Record<Variant, string> = {
-  primary:   '#4F46E5',
-  secondary: '#EEF2FF',
-  ghost:     'transparent',
+  primary:   '#0F172A',
+  secondary: '#F1F5F9',
+  ghost:     '#F9FAFB',
   danger:    '#FEE2E2',
 }
 
 const REST: Record<Variant, string> = {
-  primary:   '#6366F1',
+  primary:   '#1E293B',
   secondary: 'transparent',
   ghost:     'transparent',
   danger:    '#FEF2F2',
@@ -69,12 +69,18 @@ export const Btn = forwardRef<HTMLButtonElement, BtnProps>(
     const v = VARIANT[variant]
     const shape = pill ? PILL_SHAPE : DEFAULT_SHAPE
 
+    const disabledOverride: React.CSSProperties = (disabled && variant === 'primary')
+      ? { background: '#94A3B8', border: '1.5px solid #94A3B8' }
+      : {}
+
     const computed: React.CSSProperties = {
       ...BASE,
       ...v,
       ...shape,
-      opacity: disabled ? 0.45 : 1,
+      ...disabledOverride,
+      opacity: disabled ? 1 : 1,
       pointerEvents: disabled ? 'none' : undefined,
+      cursor: disabled ? 'default' : 'pointer',
       ...style,
     }
 
