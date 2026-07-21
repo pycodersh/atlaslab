@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import type { StackAnimStep } from '@/data/kpatto/precourse/types'
 import type { KPattoLanguage } from '@/data/kpatto/types'
+import { precourseAudioUrl } from '@/lib/kpatto/audio-url'
+import { AudioButton } from './AudioButton'
 
-interface Props { step: StackAnimStep; lang: KPattoLanguage }
+interface Props { step: StackAnimStep; lang: KPattoLanguage; lessonId: number }
 
-export function StackAnimation({ step, lang }: Props) {
+export function StackAnimation({ step, lang, lessonId }: Props) {
   const [showCoda, setShowCoda] = useState(false)
   const [exIdx, setExIdx] = useState(0)
   const ex = step.examples[exIdx]
@@ -180,13 +182,14 @@ export function StackAnimation({ step, lang }: Props) {
             }}>
               {coda.char}
             </div>
-            <div>
+            <div style={{ flex: 1 }}>
               <span style={{ fontSize: 12, color: '#22C55E', fontWeight: 700 }}>[{coda.sound}] </span>
               <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--pt)' }}>{coda.example} </span>
               <span style={{ fontSize: 13, color: 'var(--pm)' }}>
                 {coda.meaning[lang] ?? coda.meaning.en}
               </span>
             </div>
+            <AudioButton id={`coda-${lessonId}-${coda.example}`} audioUrl={precourseAudioUrl(lessonId, coda.example)} size="sm" />
           </div>
         ))}
       </div>

@@ -3,10 +3,12 @@
 import { useState } from 'react'
 import type { CardFlipGridStep } from '@/data/kpatto/precourse/types'
 import type { KPattoLanguage } from '@/data/kpatto/types'
+import { precourseAudioUrl } from '@/lib/kpatto/audio-url'
+import { AudioButton } from './AudioButton'
 
-interface Props { step: CardFlipGridStep; lang: KPattoLanguage; onAllFlipped?: () => void }
+interface Props { step: CardFlipGridStep; lang: KPattoLanguage; lessonId: number; onAllFlipped?: () => void }
 
-export function CardFlipGrid({ step, lang, onAllFlipped }: Props) {
+export function CardFlipGrid({ step, lang, lessonId, onAllFlipped }: Props) {
   const [flipped, setFlipped] = useState<Set<number>>(new Set())
 
   const toggle = (i: number) => {
@@ -34,6 +36,7 @@ export function CardFlipGrid({ step, lang, onAllFlipped }: Props) {
       }}>
         {step.cards.map((card, i) => {
           const isFlipped = flipped.has(i)
+          const audioUrl = precourseAudioUrl(lessonId, card.front)
           return (
             <div
               key={i}
@@ -92,6 +95,10 @@ export function CardFlipGrid({ step, lang, onAllFlipped }: Props) {
                       {card.sub}
                     </div>
                   )}
+                  {/* stop propagation so click on AudioButton doesn't flip the card back */}
+                  <div onClick={e => e.stopPropagation()} style={{ marginTop: 4 }}>
+                    <AudioButton id={`card-${lessonId}-${card.front}`} audioUrl={audioUrl} size="sm" />
+                  </div>
                 </div>
               </div>
             </div>

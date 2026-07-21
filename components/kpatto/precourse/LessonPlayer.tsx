@@ -5,6 +5,8 @@ import type { LessonConfig, LessonStep } from '@/data/kpatto/precourse/types'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import { usePreferences } from '@/contexts/PreferencesContext'
 
+import { precourseAudioUrl } from '@/lib/kpatto/audio-url'
+import { AudioButton } from './AudioButton'
 import { ProgressBar } from './ProgressBar'
 import { LessonCard } from './LessonCard'
 import { QuizCard } from './QuizCard'
@@ -113,7 +115,7 @@ function RoadmapStepView({ step, lang }: { step: Extract<LessonStep, { type: 'ro
   )
 }
 
-function WordPracticeView({ step, lang }: { step: Extract<LessonStep, { type: 'word-practice' }>; lang: KPattoLanguage }) {
+function WordPracticeView({ step, lang, lessonId }: { step: Extract<LessonStep, { type: 'word-practice' }>; lang: KPattoLanguage; lessonId: number }) {
   const [revealedIdx, setRevealedIdx] = useState<Set<number>>(new Set())
   const toggle = (i: number) => {
     const s = new Set(revealedIdx)
@@ -128,38 +130,52 @@ function WordPracticeView({ step, lang }: { step: Extract<LessonStep, { type: 'w
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {step.words.map((w, i) => {
           const shown = revealedIdx.has(i)
+          const audioUrl = precourseAudioUrl(lessonId, w.korean)
           return (
-            <button
+            <div
               key={i}
-              onClick={() => toggle(i)}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                gap: 10,
                 background: shown ? 'rgba(79,140,255,0.06)' : 'var(--pb)',
                 border: `1.5px solid ${shown ? 'rgba(79,140,255,0.3)' : 'var(--border, rgba(0,0,0,0.08))'}`,
                 borderRadius: 14,
-                padding: '14px 16px',
-                cursor: 'pointer',
-                textAlign: 'left',
+                padding: '12px 16px',
               }}
             >
-              <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>{w.korean}</span>
-              <span style={{
-                fontSize: 14,
-                color: '#4F8CFF',
-                opacity: shown ? 1 : 0,
-                fontWeight: 600,
-                transition: 'opacity 0.2s',
-              }}>
-                {w.meaning[lang] ?? w.meaning.en}
-              </span>
-            </button>
+              <button
+                onClick={() => toggle(i)}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  padding: 0,
+                }}
+              >
+                <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>{w.korean}</span>
+                <span style={{
+                  fontSize: 14,
+                  color: '#4F8CFF',
+                  opacity: shown ? 1 : 0,
+                  fontWeight: 600,
+                  transition: 'opacity 0.2s',
+                }}>
+                  {w.meaning[lang] ?? w.meaning.en}
+                </span>
+              </button>
+              <AudioButton id={`word-${lessonId}-${w.korean}`} audioUrl={audioUrl} size="sm" />
+            </div>
           )
         })}
       </div>
       <p style={{ marginTop: 10, fontSize: 11, color: 'var(--pm)', textAlign: 'center' }}>
-        탭해서 뜻 확인
+        탭해서 뜻 확인 · 🔊 로 발음 듣기
       </p>
     </div>
   )
@@ -167,16 +183,16 @@ function WordPracticeView({ step, lang }: { step: Extract<LessonStep, { type: 'w
 
 // ── Step router ───────────────────────────────────────────────────────────────
 
-function StepRenderer({ step, lang, onInteract }: { step: LessonStep; lang: KPattoLanguage; onInteract?: () => void }) {
+function StepRenderer({ step, lang, lessonId, onInteract }: { step: LessonStep; lang: KPattoLanguage; lessonId: number; onInteract?: () => void }) {
   switch (step.type) {
     case 'info':         return <InfoStepView step={step} lang={lang} />
     case 'roadmap':      return <RoadmapStepView step={step} lang={lang} />
     case 'combine-anim': return <CombineAnimation step={step} lang={lang} />
-    case 'card-flip-grid': return <CardFlipGrid step={step} lang={lang} onAllFlipped={onInteract} />
+    case 'card-flip-grid': return <CardFlipGrid step={step} lang={lang} lessonId={lessonId} onAllFlipped={onInteract} />
     case 'stroke-grid':  return <StrokeGrid step={step} lang={lang} />
-    case 'word-practice': return <WordPracticeView step={step} lang={lang} />
-    case 'diphthong-grid': return <DiphthongGrid step={step} lang={lang} />
-    case 'stack-anim':   return <StackAnimation step={step} lang={lang} />
+    case 'word-practice': return <WordPracticeView step={step} lang={lang} lessonId={lessonId} />
+    case 'diphthong-grid': return <DiphthongGrid step={step} lang={lang} lessonId={lessonId} />
+    case 'stack-anim':   return <StackAnimation step={step} lang={lang} lessonId={lessonId} />
     case 'liaison-demo': return <LiaisonArrow step={step} lang={lang} />
     case 'scene':        return <SceneInteractive step={step} lang={lang} />
     case 'interactive-combine':
@@ -319,6 +335,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
         <StepRenderer
           step={currentStep}
           lang={lang}
+          lessonId={lesson.id}
           onInteract={() => setInteracted(true)}
         />
       </LessonCard>
