@@ -178,6 +178,37 @@ function PanelSection({ section }: { section: WebtoonPanelSection }) {
   )
 }
 
+// ── Override merge helper ────────────────────────────────────────────────────
+type OverrideMap = Record<string, {
+  bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number
+  tail?: import('@/data/kpatto/webtoon-types').BubbleTailData
+}>
+
+function applyOverrides(base: WebtoonEpisodeData, overrides: OverrideMap): WebtoonEpisodeData {
+  if (!Object.keys(overrides).length) return base
+  return {
+    ...base,
+    sections: base.sections.map(s => {
+      if (s.type !== 'gap') return s
+      return {
+        ...s,
+        bubbles: s.bubbles.map(b => {
+          const o = overrides[b.id]
+          if (!o) return b
+          return {
+            ...b,
+            bubbleKey: o.bubbleKey ?? b.bubbleKey,
+            xPct:      o.xPct      ?? b.xPct,
+            yPct:      o.yPct      ?? b.yPct,
+            widthPct:  o.widthPct  ?? b.widthPct,
+            tail:      o.tail      ?? b.tail,
+          }
+        }),
+      }
+    }),
+  }
+}
+
 // ── Main exported component ──────────────────────────────────────────────────
 export function WebtoonEpisode({ episode }: { episode: WebtoonEpisodeData }) {
   const [showKo, setShowKo] = useState(true)
@@ -185,14 +216,27 @@ export function WebtoonEpisode({ episode }: { episode: WebtoonEpisodeData }) {
   const [playingId, setPlayingId] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const playIdxRef = useRef(0)
+  const [resolvedEpisode, setResolvedEpisode] = useState(episode)
+
+  // Load saved layout overrides and merge with base episode data
+  useEffect(() => {
+    fetch(`/api/admin/episode-layout?id=${episode.id}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(data => {
+        if (data?.overrides && Object.keys(data.overrides).length > 0) {
+          setResolvedEpisode(applyOverrides(episode, data.overrides))
+        }
+      })
+      .catch(() => {})
+  }, [episode])
 
   const allBubbles = useMemo(() => {
     const result: WebtoonBubble[] = []
-    for (const s of episode.sections) {
+    for (const s of resolvedEpisode.sections) {
       if (s.type === 'gap') result.push(...s.bubbles)
     }
     return result
-  }, [episode])
+  }, [resolvedEpisode])
 
   const handlePlayAll = useCallback(() => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return
@@ -291,7 +335,7 @@ export function WebtoonEpisode({ episode }: { episode: WebtoonEpisodeData }) {
       </div>
 
       {/* Sections */}
-      {episode.sections.map(section => {
+      {resolvedEpisode.sections.map(section => {
         if (section.type === 'gap') {
           return (
             <GapSection
