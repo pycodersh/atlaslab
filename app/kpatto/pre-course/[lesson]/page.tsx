@@ -7,6 +7,9 @@ import { LESSONS } from '@/data/kpatto/precourse/lessons'
 import { useKPrecourseProgress } from '@/hooks/useKPrecourseProgress'
 import { LessonPlayer } from '@/components/kpatto/precourse/LessonPlayer'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
+import { usePreferences } from '@/contexts/PreferencesContext'
+import { getUI } from '@/lib/kpatto/ui-strings'
+import type { KPattoLanguage } from '@/data/kpatto/types'
 
 interface PageProps {
   params: Promise<{ lesson: string }>
@@ -17,6 +20,9 @@ export default function LessonPage({ params }: PageProps) {
   const lessonId = parseInt(lessonParam, 10)
   const router = useRouter()
   const { markLessonComplete } = useKPrecourseProgress()
+  const { prefs } = usePreferences()
+  const ui = getUI(prefs.language)
+  const lang = (prefs.language ?? 'en') as KPattoLanguage
 
   const lesson = LESSONS.find(l => l.id === lessonId)
   if (!lesson) notFound()
@@ -24,7 +30,6 @@ export default function LessonPage({ params }: PageProps) {
   const handleComplete = (quizPassed: boolean) => {
     markLessonComplete(lessonId, quizPassed)
     if (lessonId === 6 && quizPassed) {
-      // Story unlock flow
       router.push('/kpatto/story/kp-ep-001?welcome=1')
     } else {
       router.push('/kpatto/pre-course')
@@ -71,7 +76,7 @@ export default function LessonPage({ params }: PageProps) {
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 10, color: 'var(--pm)', fontWeight: 700, letterSpacing: '0.06em' }}>
             LESSON {String(lessonId).padStart(2, '0')} · {lesson.duration}
-            {lesson.required ? ' · REQUIRED' : ' · OPTIONAL'}
+            {lesson.required ? ` · ${ui.lp_meta_required}` : ` · ${ui.lp_meta_optional}`}
           </div>
           <div style={{
             fontSize: 15,
@@ -81,7 +86,7 @@ export default function LessonPage({ params }: PageProps) {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
           }}>
-            {lesson.title.en}
+            {lesson.title[lang] ?? lesson.title.en}
           </div>
         </div>
       </div>
@@ -89,7 +94,7 @@ export default function LessonPage({ params }: PageProps) {
       {/* Subtitle */}
       <div style={{ padding: '16px 20px 20px' }}>
         <p style={{ margin: 0, fontSize: 14, color: 'var(--pm)' }}>
-          {lesson.subtitle.en}
+          {lesson.subtitle[lang] ?? lesson.subtitle.en}
         </p>
       </div>
 

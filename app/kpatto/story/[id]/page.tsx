@@ -8,6 +8,7 @@ import { StoryPanel } from '@/components/kpatto/StoryPanel'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
+import { getUI } from '@/lib/kpatto/ui-strings'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 
 // Build a pattern lookup map
@@ -18,6 +19,8 @@ interface PageProps {
 }
 
 function WelcomeBanner() {
+  const { prefs } = usePreferences()
+  const ui = getUI(prefs.language)
   return (
     <div style={{
       margin: '0 16px 16px',
@@ -31,8 +34,8 @@ function WelcomeBanner() {
     }}>
       <span style={{ fontSize: 22 }}>🎉</span>
       <div>
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#15803D' }}>한글 기초 완료!</div>
-        <div style={{ fontSize: 12, color: '#16A34A' }}>이제 웹툰 스토리로 한국어를 배워요.</div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: '#15803D' }}>{ui.sv_welcome_heading}</div>
+        <div style={{ fontSize: 12, color: '#16A34A' }}>{ui.sv_welcome_body}</div>
       </div>
     </div>
   )
@@ -41,6 +44,7 @@ function WelcomeBanner() {
 export default function KPattoStoryPage({ params }: PageProps) {
   const { id } = use(params)
   const { prefs } = usePreferences()
+  const ui = getUI(prefs.language)
   const searchParams = useSearchParams()
   const showWelcome = searchParams.get('welcome') === '1'
   const story = ALL_STORIES.find(s => s.id === id)
@@ -130,9 +134,9 @@ export default function KPattoStoryPage({ params }: PageProps) {
         color: '#fff',
       }}>
         <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
-        <h3 style={{ margin: '0 0 6px', fontSize: 18, fontWeight: 800 }}>에피소드 완료!</h3>
+        <h3 style={{ margin: '0 0 6px', fontSize: 18, fontWeight: 800 }}>{ui.sv_ep_complete}</h3>
         <p style={{ margin: '0 0 16px', fontSize: 13, opacity: 0.85 }}>
-          패턴 {story.tags.length}개를 학습했어요
+          {ui.sv_patterns_learned(story.tags.length)}
         </p>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
           <Link
@@ -148,7 +152,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
               textDecoration: 'none',
             }}
           >
-            목록으로
+            {ui.sv_back}
           </Link>
           <Link
             href="/kpatto/progress"
@@ -162,7 +166,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
               textDecoration: 'none',
             }}
           >
-            진행현황 보기
+            {ui.sv_view_progress}
           </Link>
         </div>
       </div>

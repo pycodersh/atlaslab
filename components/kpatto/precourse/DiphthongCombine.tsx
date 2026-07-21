@@ -4,11 +4,15 @@ import { useState } from 'react'
 import type { DiphthongGridStep } from '@/data/kpatto/precourse/types'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import { precourseAudioUrl } from '@/lib/kpatto/audio-url'
+import { getUI } from '@/lib/kpatto/ui-strings'
+import { usePreferences } from '@/contexts/PreferencesContext'
 import { AudioButton } from './AudioButton'
 
 interface Props { step: DiphthongGridStep; lang: KPattoLanguage; lessonId: number }
 
 export function DiphthongGrid({ step, lang, lessonId }: Props) {
+  const { prefs } = usePreferences()
+  const ui = getUI(prefs.language)
   const [tab, setTab] = useState<'primary' | 'secondary'>('primary')
 
   return (
@@ -40,7 +44,7 @@ export function DiphthongGrid({ step, lang, lessonId }: Props) {
                 cursor: 'pointer',
               }}
             >
-              {t === 'primary' ? '핵심' : '참고'}
+              {t === 'primary' ? ui.dg_tab_core : ui.dg_tab_ref}
             </button>
           ))}
         </div>

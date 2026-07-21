@@ -6,6 +6,7 @@ import type { KPattoLanguage } from '@/data/kpatto/types'
 import { usePreferences } from '@/contexts/PreferencesContext'
 
 import { precourseAudioUrl } from '@/lib/kpatto/audio-url'
+import { getUI } from '@/lib/kpatto/ui-strings'
 import { AudioButton } from './AudioButton'
 import { ProgressBar } from './ProgressBar'
 import { LessonCard } from './LessonCard'
@@ -116,6 +117,7 @@ function RoadmapStepView({ step, lang }: { step: Extract<LessonStep, { type: 'ro
 }
 
 function WordPracticeView({ step, lang, lessonId }: { step: Extract<LessonStep, { type: 'word-practice' }>; lang: KPattoLanguage; lessonId: number }) {
+  const { prefs } = usePreferences()
   const [revealedIdx, setRevealedIdx] = useState<Set<number>>(new Set())
   const toggle = (i: number) => {
     const s = new Set(revealedIdx)
@@ -175,7 +177,7 @@ function WordPracticeView({ step, lang, lessonId }: { step: Extract<LessonStep, 
         })}
       </div>
       <p style={{ marginTop: 10, fontSize: 11, color: 'var(--pm)', textAlign: 'center' }}>
-        탭해서 뜻 확인 · 🔊 로 발음 듣기
+        {getUI(prefs.language).lp_tap_hint}
       </p>
     </div>
   )
@@ -209,6 +211,8 @@ function QuizRunner({ lesson, lang, onDone }: {
   lang: KPattoLanguage
   onDone: (score: number) => void
 }) {
+  const { prefs } = usePreferences()
+  const ui = getUI(prefs.language)
   const [qIdx, setQIdx] = useState(0)
   const [score, setScore] = useState(0)
   const questions = lesson.quiz!.questions
@@ -227,7 +231,7 @@ function QuizRunner({ lesson, lang, onDone }: {
     <div style={{ paddingTop: 8 }}>
       <div style={{ padding: '0 20px 12px' }}>
         <div style={{ fontSize: 11, fontWeight: 700, color: '#FF6B8C', letterSpacing: '0.06em', marginBottom: 4 }}>
-          QUIZ
+          {ui.lp_quiz_label}
         </div>
         <ProgressBar value={((qIdx) / questions.length) * 100} />
       </div>
@@ -254,6 +258,7 @@ interface LessonPlayerProps {
 export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
   const { prefs } = usePreferences()
   const lang = (prefs.language ?? 'en') as KPattoLanguage
+  const ui = getUI(prefs.language)
 
   const [stepIdx, setStepIdx] = useState(0)
   const [quizActive, setQuizActive] = useState(false)
@@ -361,12 +366,12 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
           }}
         >
           {isLastStep
-            ? hasQuiz ? '퀴즈 시작하기 →' : '완료!'
-            : '다음 →'}
+            ? hasQuiz ? ui.lp_start_quiz : ui.lp_done
+            : ui.lp_next}
         </button>
         {needsInteract && !interacted && (
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--pm)', marginTop: 8 }}>
-            3회 이상 시도해야 다음으로 진행할 수 있어요
+            {ui.lp_try_hint}
           </p>
         )}
       </div>

@@ -4,11 +4,15 @@ import { useState } from 'react'
 import type { StackAnimStep } from '@/data/kpatto/precourse/types'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import { precourseAudioUrl } from '@/lib/kpatto/audio-url'
+import { getUI } from '@/lib/kpatto/ui-strings'
+import { usePreferences } from '@/contexts/PreferencesContext'
 import { AudioButton } from './AudioButton'
 
 interface Props { step: StackAnimStep; lang: KPattoLanguage; lessonId: number }
 
 export function StackAnimation({ step, lang, lessonId }: Props) {
+  const { prefs } = usePreferences()
+  const t = getUI(prefs.language)
   const [showCoda, setShowCoda] = useState(false)
   const [exIdx, setExIdx] = useState(0)
   const ex = step.examples[exIdx]
@@ -134,7 +138,7 @@ export function StackAnimation({ step, lang, lessonId }: Props) {
               cursor: 'pointer',
             }}
           >
-            {showCoda ? '받침 숨기기' : '받침 추가하기 ↓'}
+            {showCoda ? t.sa_hide_coda : t.sa_add_coda}
           </button>
           <button
             onClick={nextExample}
@@ -149,7 +153,7 @@ export function StackAnimation({ step, lang, lessonId }: Props) {
               color: 'var(--pm)',
             }}
           >
-            다음 예시
+            {t.sa_next_example}
           </button>
         </div>
       </div>

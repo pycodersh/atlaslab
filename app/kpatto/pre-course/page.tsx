@@ -4,9 +4,13 @@ import Link from 'next/link'
 import { LESSONS } from '@/data/kpatto/precourse/lessons'
 import { useKPrecourseProgress } from '@/hooks/useKPrecourseProgress'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
+import { usePreferences } from '@/contexts/PreferencesContext'
+import { getUI } from '@/lib/kpatto/ui-strings'
 
 export default function PreCoursePage() {
   const { isLessonComplete, isLessonUnlocked, storyUnlocked } = useKPrecourseProgress()
+  const { prefs } = usePreferences()
+  const ui = getUI(prefs.language)
 
   const required = LESSONS.filter(l => l.required)
   const optional = LESSONS.filter(l => !l.required)
@@ -19,7 +23,7 @@ export default function PreCoursePage() {
         <Link href="/kpatto/home" style={{ color: 'var(--pt)', textDecoration: 'none', fontSize: 20 }}>‹</Link>
         <div>
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--pm)' }}>K-PATTO</div>
-          <h1 style={{ margin: '2px 0 0', fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>PRE-COURSE</h1>
+          <h1 style={{ margin: '2px 0 0', fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>{ui.pc_title}</h1>
         </div>
       </div>
 
@@ -36,8 +40,8 @@ export default function PreCoursePage() {
           {storyUnlocked ? (
             <>
               <div style={{ fontSize: 24, marginBottom: 6 }}>🎉</div>
-              <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 4 }}>한글 기초 완료!</div>
-              <div style={{ fontSize: 13, opacity: 0.9, marginBottom: 14 }}>스토리를 시작할 수 있어요.</div>
+              <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 4 }}>{ui.pc_hero_done_heading}</div>
+              <div style={{ fontSize: 13, opacity: 0.9, marginBottom: 14 }}>{ui.pc_hero_done_body}</div>
               <Link
                 href="/kpatto/story/kp-ep-001"
                 style={{
@@ -52,14 +56,14 @@ export default function PreCoursePage() {
                   textDecoration: 'none',
                 }}
               >
-                스토리 1화 보기 →
+                {ui.pc_hero_done_cta}
               </Link>
             </>
           ) : (
             <>
-              <div style={{ fontSize: 13, opacity: 0.85, marginBottom: 4 }}>한글 읽기 기초 마스터</div>
+              <div style={{ fontSize: 13, opacity: 0.85, marginBottom: 4 }}>{ui.pc_hero_label}</div>
               <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 8 }}>
-                레슨 {requiredDone}/{required.length} 완료
+                {ui.pc_hero_progress(requiredDone, required.length)}
               </div>
               <div style={{
                 height: 6,
@@ -75,9 +79,7 @@ export default function PreCoursePage() {
                   transition: 'width 0.5s ease',
                 }} />
               </div>
-              <div style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>
-                레슨 6 완료 시 스토리 진입 가능
-              </div>
+              <div style={{ fontSize: 12, opacity: 0.8, marginTop: 6 }}>{ui.pc_hero_hint}</div>
             </>
           )}
         </div>
@@ -86,46 +88,38 @@ export default function PreCoursePage() {
       {/* Required lessons */}
       <div style={{ padding: '20px 20px 0' }}>
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', marginBottom: 10 }}>
-          REQUIRED — 스토리 진입 필수
+          {ui.pc_section_required}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {required.map(lesson => {
-            const done = isLessonComplete(lesson.id)
-            const unlocked = isLessonUnlocked(lesson.id)
-            return (
-              <LessonRow
-                key={lesson.id}
-                lesson={lesson}
-                done={done}
-                unlocked={unlocked}
-                badge="REQUIRED"
-                badgeColor="#FF6B8C"
-              />
-            )
-          })}
+          {required.map(lesson => (
+            <LessonRow
+              key={lesson.id}
+              lesson={lesson}
+              done={isLessonComplete(lesson.id)}
+              unlocked={isLessonUnlocked(lesson.id)}
+              badge={ui.pc_badge_required}
+              badgeColor="#FF6B8C"
+            />
+          ))}
         </div>
       </div>
 
       {/* Optional lessons */}
       <div style={{ padding: '16px 20px 0' }}>
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', marginBottom: 10 }}>
-          OPTIONAL — 스토리와 병행 가능
+          {ui.pc_section_optional}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {optional.map(lesson => {
-            const done = isLessonComplete(lesson.id)
-            const unlocked = isLessonUnlocked(lesson.id)
-            return (
-              <LessonRow
-                key={lesson.id}
-                lesson={lesson}
-                done={done}
-                unlocked={unlocked}
-                badge="OPTIONAL"
-                badgeColor="#6366F1"
-              />
-            )
-          })}
+          {optional.map(lesson => (
+            <LessonRow
+              key={lesson.id}
+              lesson={lesson}
+              done={isLessonComplete(lesson.id)}
+              unlocked={isLessonUnlocked(lesson.id)}
+              badge={ui.pc_badge_optional}
+              badgeColor="#6366F1"
+            />
+          ))}
         </div>
       </div>
     </div>
@@ -139,6 +133,9 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor }: {
   badge: string
   badgeColor: string
 }) {
+  const { prefs } = usePreferences()
+  const lang = prefs.language ?? 'en'
+
   const el = (
     <div style={{
       display: 'flex',
@@ -157,7 +154,7 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor }: {
         width: 40,
         height: 40,
         borderRadius: 12,
-        background: done ? '#22C55E18' : unlocked ? 'rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.05)',
+        background: done ? '#22C55E18' : 'rgba(0,0,0,0.05)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -192,11 +189,10 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor }: {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
         }}>
-          {lesson.id}. {lesson.title.en}
+          {lesson.id}. {(lesson.title as Record<string, string>)[lang] ?? lesson.title.en}
         </div>
       </div>
 
-      {/* Chevron */}
       {unlocked && !done && (
         <span style={{ color: 'var(--pm)', fontSize: 18, flexShrink: 0 }}>›</span>
       )}
@@ -204,7 +200,6 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor }: {
   )
 
   if (!unlocked) return <div key={lesson.id}>{el}</div>
-
   return (
     <Link href={`/kpatto/pre-course/${lesson.id}`} key={lesson.id} style={{ textDecoration: 'none' }}>
       {el}

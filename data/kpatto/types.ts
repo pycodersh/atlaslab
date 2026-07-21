@@ -1,7 +1,9 @@
 // K-PATTO content data types
 // Designed to support 100 episodes with multilingual content
 
-export type KPattoLanguage = 'ko' | 'en' | 'ja' | 'zh-cn' | 'zh-tw' | 'es' | 'fr' | 'de'
+// Supported display languages — ko is the source language (Korean content base)
+// Launch order: 1st EN, 2nd ES+PT, 3rd ZH-CN
+export type KPattoLanguage = 'ko' | 'en' | 'es' | 'pt' | 'zh-cn'
 
 export type MultiLangText = Partial<Record<KPattoLanguage, string>>
 

@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { usePreferences } from '@/contexts/PreferencesContext'
+import { getUI } from '@/lib/kpatto/ui-strings'
 
 interface LessonCompleteProps {
   lessonId: number
@@ -12,12 +14,14 @@ interface LessonCompleteProps {
 }
 
 export function LessonComplete({ lessonId, passed, score, total, onRetry, onContinue }: LessonCompleteProps) {
+  const { prefs } = usePreferences()
+  const t = getUI(prefs.language)
+
   const isStoryUnlock = lessonId === 6 && passed
   const hasQuiz = total !== undefined && total > 0
 
   return (
     <div style={{ textAlign: 'center', padding: '40px 24px' }}>
-      {/* Particle emojis */}
       {passed && (
         <div style={{ fontSize: 32, marginBottom: 16, animation: 'kp-bounce 0.6s ease' }}>
           {isStoryUnlock ? '🎊' : '🎉'}
@@ -27,7 +31,6 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
         <div style={{ fontSize: 32, marginBottom: 16 }}>😅</div>
       )}
 
-      {/* Score */}
       {hasQuiz && (
         <div style={{
           display: 'inline-flex',
@@ -44,19 +47,20 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
 
       <h2 style={{ margin: '0 0 8px', fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>
         {passed
-          ? isStoryUnlock ? '한글 마스터! 🇰🇷' : '레슨 완료!'
-          : '아쉬워요, 다시 도전해요!'}
+          ? isStoryUnlock ? t.lc_master : t.lc_passed
+          : t.lc_failed}
       </h2>
 
-      <p style={{ margin: '0 0 28px', fontSize: 14, color: 'var(--pm)', lineHeight: 1.6 }}>
+      <p style={{ margin: '0 0 28px', fontSize: 14, color: 'var(--pm)', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
         {passed
           ? isStoryUnlock
-            ? '레슨 1~6을 완료했어요!\n이제 한글을 읽을 수 있어요. 스토리 1화를 시작해봐요!'
-            : '잘 했어요! 다음 레슨으로 넘어가요.'
-          : `${total}문제 중 ${score}개 정답 — ${hasQuiz ? `${total! - (score ?? 0)}개`  : ''} 더 맞혀야 해요.`}
+            ? t.lc_body_unlock
+            : t.lc_body_passed
+          : hasQuiz
+            ? t.lc_body_failed(score ?? 0, total!)
+            : t.lc_body_passed}
       </p>
 
-      {/* CTA buttons */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, maxWidth: 300, margin: '0 auto' }}>
         {isStoryUnlock && (
           <Link
@@ -73,7 +77,7 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
               textAlign: 'center',
             }}
           >
-            🎬 스토리 1화 시작하기
+            {t.lc_cta_story}
           </Link>
         )}
 
@@ -91,7 +95,7 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
               cursor: 'pointer',
             }}
           >
-            다음 레슨으로 →
+            {t.lc_cta_next}
           </button>
         )}
 
@@ -109,7 +113,7 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
               cursor: 'pointer',
             }}
           >
-            다시 도전하기 🔄
+            {t.lc_cta_retry}
           </button>
         )}
 
@@ -126,7 +130,7 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
             fontWeight: 600,
           }}
         >
-          레슨 목록으로
+          {t.lc_cta_list}
         </button>
       </div>
 
