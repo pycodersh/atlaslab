@@ -480,7 +480,7 @@ function PanelSection({ section }: { section: WebtoonPanelSection }) {
   const isWide = section.layout === 'wide'
   const isMedRight = section.layout === 'medium-right'
   return (
-    <div style={{ width: '100%', display: 'flex', justifyContent: isWide ? 'center' : isMedRight ? 'flex-end' : 'flex-start', background: '#fff' }}>
+    <div style={{ width: '100%', display: 'flex', justifyContent: isWide ? 'center' : isMedRight ? 'flex-end' : 'flex-start' }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={section.imageUrl} alt={section.id} style={{ display: 'block', width: isWide ? '100%' : '78%', height: 'auto' }} />
     </div>
@@ -595,7 +595,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
   } as React.CSSProperties)
 
   return (
-    <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#fff' }}>
+    <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#fffdf8' }}>
       {/* Viewer control bar */}
       <div style={{ display: 'flex', gap: 8, padding: '8px 16px', background: 'var(--pb,#fff)', borderBottom: '1px solid rgba(0,0,0,0.07)', position: 'sticky', top: 52, zIndex: editMode ? 8 : 9 }}>
         <button style={chipStyle(showKo, '#1a1a1a')} onClick={() => setShowKo(v => !v)}>한국어 {showKo ? '✓' : '—'}</button>
@@ -631,8 +631,6 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
             style={{
               position: 'relative', width: '100%',
               paddingBottom: `${gap.heightRatio * 100}%`,
-              background: '#fdfdf9',
-              zIndex: 1,
               overflow: 'visible',
             }}
           >

@@ -137,8 +137,6 @@ function GapSection({
         position: 'relative',
         width: '100%',
         paddingBottom: `${section.heightRatio * 100}%`,
-        background: '#fdfdf9',
-        zIndex: 1,
         overflow: 'visible',
       }}
     >
@@ -168,7 +166,6 @@ function PanelSection({ section }: { section: WebtoonPanelSection }) {
         width: '100%',
         display: 'flex',
         justifyContent: isWide ? 'center' : isMedRight ? 'flex-end' : 'flex-start',
-        background: '#fff',
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -245,7 +242,7 @@ export function WebtoonEpisode({ episode }: { episode: WebtoonEpisodeData }) {
   } as React.CSSProperties)
 
   return (
-    <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#fff' }}>
+    <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#fffdf8' }}>
       {/* Control bar */}
       <div
         style={{
