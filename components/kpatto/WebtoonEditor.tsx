@@ -447,7 +447,7 @@ function EditableBubble({
                 title="꼬리 시작점"
                 onPointerDown={e => { e.stopPropagation(); handleAnchorDown(e) }}
                 onPointerMove={e => { e.stopPropagation(); handleAnchorMove(e) }}
-                onPointerUp={e => { e.stopPropagation(); handleAnchorUp(e) }}
+                onPointerUp={e => { e.stopPropagation(); handleAnchorUp() }}
               />
 
               {/* Tip handle — red, at tail tip */}
@@ -465,7 +465,7 @@ function EditableBubble({
                 title="꼬리 끝점"
                 onPointerDown={e => { e.stopPropagation(); handleTipDown(e) }}
                 onPointerMove={e => { e.stopPropagation(); handleTipMove(e) }}
-                onPointerUp={e => { e.stopPropagation(); handleTipUp(e) }}
+                onPointerUp={e => { e.stopPropagation(); handleTipUp() }}
               />
             </>
           )}
