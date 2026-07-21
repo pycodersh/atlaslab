@@ -682,12 +682,14 @@ export default function ProgressPage() {
               </div>
               <div style={{ display: 'flex', gap: 16, marginTop: 10, justifyContent: 'flex-end' }}>
                 {([
-                  { color: '#D7B56D', label: 'Mastered' },
-                  { color: isDark ? '#8FABFF' : '#6B8FFF', label: 'Round 3+' },
-                  { color: isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)', label: 'Started' },
-                ] as const).map(({ color, label }) => (
+                  { color: '#D7B56D', label: 'Mastered', check: true },
+                  { color: isDark ? '#8FABFF' : '#6B8FFF', label: 'Round 3+', check: false },
+                  { color: isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)', label: 'Started', check: false },
+                ] as const).map(({ color, label, check }) => (
                   <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <div style={{ width: 8, height: 8, borderRadius: 2, background: color }} />
+                    <div style={{ width: 10, height: 10, borderRadius: 2, background: color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {check && <span style={{ fontSize: 8, fontWeight: 900, color: '#8B1A2E', lineHeight: 1 }}>✓</span>}
+                    </div>
                     <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--pm)' }}>{label}</span>
                   </div>
                 ))}
