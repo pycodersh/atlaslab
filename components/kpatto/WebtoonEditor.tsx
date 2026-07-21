@@ -426,7 +426,7 @@ function EditableBubble({
             }}
             onPointerDown={e => { e.stopPropagation(); handleResizeDown(e) }}
             onPointerMove={e => { e.stopPropagation(); handleResizeMove(e) }}
-            onPointerUp={e => { e.stopPropagation(); handleResizeUp(e) }}
+            onPointerUp={e => { e.stopPropagation(); handleResizeUp() }}
           />
 
           {/* Tail handles — only for bodyOnly bubbles with tail data */}
@@ -595,9 +595,9 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
   } as React.CSSProperties)
 
   return (
-    <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#fffdf8' }}>
+    <div style={{ width: '100%' }}>
       {/* Viewer control bar */}
-      <div style={{ display: 'flex', gap: 8, padding: '8px 16px', background: 'var(--pb,#fff)', borderBottom: '1px solid rgba(0,0,0,0.07)', position: 'sticky', top: 52, zIndex: editMode ? 8 : 9 }}>
+      <div style={{ display: 'flex', gap: 8, padding: '8px 16px', background: '#fffdf8', borderBottom: '1px solid rgba(0,0,0,0.07)', position: 'sticky', top: 52, zIndex: editMode ? 8 : 9 }}>
         <button style={chipStyle(showKo, '#1a1a1a')} onClick={() => setShowKo(v => !v)}>한국어 {showKo ? '✓' : '—'}</button>
         <button style={chipStyle(showTrans, '#6366f1')} onClick={() => setShowTrans(v => !v)}>English {showTrans ? '✓' : '—'}</button>
       </div>
