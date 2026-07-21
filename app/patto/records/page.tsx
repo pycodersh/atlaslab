@@ -579,10 +579,16 @@ export default function ProgressPage() {
                           transition: 'height 0.4s cubic-bezier(0.22,1,0.36,1)',
                         }} />
                       </div>
-                      {/* Date + DOW below bar */}
-                      <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-                        <span style={{ fontSize: 11, fontWeight: 500, color: isToday ? '#6366F1' : 'var(--pm)', lineHeight: 1 }}>{d.getDate()}</span>
-                        <span style={{ fontSize: 10, fontWeight: hasActivity ? 600 : 400, color: hasActivity ? '#6366F1' : 'var(--pm)', lineHeight: 1 }}>{DOW_LABELS[i]}</span>
+                      {/* DOW above, date below bar */}
+                      <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: isToday ? '#6366F1' : 'var(--pm)', lineHeight: 1, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{DOW_LABELS[i]}</span>
+                        {isToday ? (
+                          <div style={{ width: 22, height: 22, borderRadius: 11, background: '#6366F1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: 'white' }}>{d.getDate()}</span>
+                          </div>
+                        ) : (
+                          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)', lineHeight: 1, opacity: isFuture ? 0.4 : 1 }}>{d.getDate()}</span>
+                        )}
                       </div>
                     </div>
                   )

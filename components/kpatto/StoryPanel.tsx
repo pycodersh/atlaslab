@@ -37,16 +37,14 @@ function PanelPlaceholder({ panelIndex }: { panelIndex: number }) {
 }
 
 // Strip image cropped to the correct panel via CSS
-function StripPanel({ stripUrl, stripIndex, aspect, alt, panelIdx }: {
+function StripPanel({ stripUrl, stripIndex, aspect, alt }: {
   stripUrl: string
   stripIndex: number
   aspect: string
   alt: string
-  panelIdx: number
 }) {
   return (
     <div
-      data-panel-idx={panelIdx}
       style={{
         position: 'relative',
         width: '100%',
@@ -98,7 +96,6 @@ export function StoryPanel({ panel, panelIndex, patterns, displayLang }: StoryPa
               stripIndex={panel.strip_index ?? 0}
               aspect={aspect}
               alt={`컷 ${panelIndex + 1}`}
-              panelIdx={panelIndex}
             />
             {hasBubbles && (
               // Absolute within the strip container — must overlay exactly
