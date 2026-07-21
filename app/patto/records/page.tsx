@@ -686,12 +686,12 @@ export default function ProgressPage() {
                   { color: isDark ? '#8FABFF' : '#6B8FFF', label: 'Round 3+', check: false },
                   { color: isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)', label: 'Started', check: false },
                 ] as const).map(({ color, label, check }) => (
-                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                     {check
-                      ? <span style={{ fontSize: 11, fontWeight: 900, color: '#8B1A2E', lineHeight: 1 }}>✓</span>
-                      : <div style={{ width: 8, height: 8, borderRadius: 2, background: color }} />
+                      ? <span style={{ fontSize: 14, fontWeight: 900, color: '#8B1A2E', lineHeight: 1 }}>✓</span>
+                      : <div style={{ width: 11, height: 11, borderRadius: 3, background: color }} />
                     }
-                    <span style={{ fontSize: 9, fontWeight: 600, color: 'var(--pm)' }}>{label}</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--pm)' }}>{label}</span>
                   </div>
                 ))}
               </div>
