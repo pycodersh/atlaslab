@@ -1,0 +1,72 @@
+{
+  "bubble-01-oval-bottom-left": {
+    "src": "/assets/bubbles/bubble-01-oval-bottom-left.svg",
+    "viewBox": "0 0 320 200",
+    "label": "타원 · 꼬리 아래왼쪽",
+    "category": "speech",
+    "safeArea": { "left": 0.11, "top": 0.14, "right": 0.09, "bottom": 0.28 }
+  },
+  "bubble-02-oval-bottom-center": {
+    "src": "/assets/bubbles/bubble-02-oval-bottom-center.svg",
+    "viewBox": "0 0 320 210",
+    "label": "타원 · 꼬리 아래중앙",
+    "category": "speech",
+    "safeArea": { "left": 0.10, "top": 0.13, "right": 0.10, "bottom": 0.28 }
+  },
+  "bubble-03-oval-bottom-right": {
+    "src": "/assets/bubbles/bubble-03-oval-bottom-right.svg",
+    "viewBox": "0 0 320 200",
+    "label": "타원 · 꼬리 아래오른쪽",
+    "category": "speech",
+    "safeArea": { "left": 0.09, "top": 0.14, "right": 0.11, "bottom": 0.28 }
+  },
+  "bubble-04-oval-top-left": {
+    "src": "/assets/bubbles/bubble-04-oval-top-left.svg",
+    "viewBox": "0 0 320 200",
+    "label": "타원 · 꼬리 위왼쪽",
+    "category": "speech",
+    "safeArea": { "left": 0.11, "top": 0.28, "right": 0.09, "bottom": 0.14 }
+  },
+  "bubble-05-oval-top-center": {
+    "src": "/assets/bubbles/bubble-05-oval-top-center.svg",
+    "viewBox": "0 0 320 210",
+    "label": "타원 · 꼬리 위중앙",
+    "category": "speech",
+    "safeArea": { "left": 0.10, "top": 0.29, "right": 0.10, "bottom": 0.13 }
+  },
+  "bubble-06-oval-top-right": {
+    "src": "/assets/bubbles/bubble-06-oval-top-right.svg",
+    "viewBox": "0 0 320 200",
+    "label": "타원 · 꼬리 위오른쪽",
+    "category": "speech",
+    "safeArea": { "left": 0.09, "top": 0.28, "right": 0.11, "bottom": 0.14 }
+  },
+  "bubble-07-wide": {
+    "src": "/assets/bubbles/bubble-07-wide.svg",
+    "viewBox": "0 0 400 180",
+    "label": "가로형 · 꼬리 아래오른쪽",
+    "category": "speech",
+    "safeArea": { "left": 0.08, "top": 0.14, "right": 0.10, "bottom": 0.26 }
+  },
+  "bubble-08-tall": {
+    "src": "/assets/bubbles/bubble-08-tall.svg",
+    "viewBox": "0 0 280 260",
+    "label": "세로형 · 꼬리 아래왼쪽",
+    "category": "speech",
+    "safeArea": { "left": 0.12, "top": 0.10, "right": 0.12, "bottom": 0.22 }
+  },
+  "bubble-09-short": {
+    "src": "/assets/bubbles/bubble-09-short.svg",
+    "viewBox": "0 0 320 150",
+    "label": "짧은형 · 꼬리 아래왼쪽",
+    "category": "speech",
+    "safeArea": { "left": 0.12, "top": 0.16, "right": 0.10, "bottom": 0.32 }
+  },
+  "bubble-10-shout": {
+    "src": "/assets/bubbles/bubble-10-shout.svg",
+    "viewBox": "0 0 320 210",
+    "label": "외침 · 꼬리 아래왼쪽",
+    "category": "shout",
+    "safeArea": { "left": 0.22, "top": 0.18, "right": 0.22, "bottom": 0.24 }
+  }
+}
