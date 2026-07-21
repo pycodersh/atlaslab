@@ -1,7 +1,7 @@
 import type { KPattoStory, KPattoVocabulary } from './types'
 
 const STRIP = '/kpatto/ep-001/strip.png'
-const ASPECT = '720/220'
+const ASPECT = '5/2'
 
 export const SAMPLE_EPISODE_1: KPattoStory = {
   id: 'kp-ep-001',
