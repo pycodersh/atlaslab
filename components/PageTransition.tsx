@@ -21,7 +21,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
   const prevDepth = pathDepth(prevPathRef.current)
   const currDepth = pathDepth(pathname)
 
-  const inStoryTree = isStoryPatternRoute(pathname) || isStoryPatternRoute(prevPathRef.current)
+  const inStoryTree = isStoryPatternRoute(pathname) && isStoryPatternRoute(prevPathRef.current)
 
   // Direction: going deeper → slide from right (+100%), going shallower → slide from left (−100%)
   const xEnter  = !inStoryTree ? 0 : currDepth >= prevDepth ?  '100%' : '-100%'

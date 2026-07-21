@@ -469,15 +469,15 @@ export function StoryPage({
                       style={{
                         background: isCenterActive
                           ? (isDark ? 'rgba(99,102,241,0.13)' : 'rgba(238,242,255,0.85)')
-                          : (isAnyActive ? 'rgba(255,255,255,0.35)' : 'transparent'),
+                          : 'transparent',
                         backdropFilter: isCenterActive ? 'blur(12px)' : 'none',
                         WebkitBackdropFilter: isCenterActive ? 'blur(12px)' : 'none',
                         border: 'none',
                         boxShadow: isCenterActive
                           ? '0 4px 24px rgba(99,102,241,0.18), 0 1px 3px rgba(0,0,0,0.05)'
                           : 'none',
-                        transform: isCenterActive ? 'scale(1.01)' : 'scale(1)',
-                        opacity: isSpeaking && isAnyActive && !isCenterActive ? 0.55 : 1,
+                        transform: isCenterActive ? 'scale(1.03)' : 'scale(1)',
+                        opacity: 1,
                         transition: 'all 0.25s ease',
                       }}
                     >

@@ -580,15 +580,17 @@ export default function ProgressPage() {
                         }} />
                       </div>
                       {/* DOW above, date below bar */}
-                      <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
+                      <div style={{ marginTop: 6, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                         <span style={{ fontSize: 11, fontWeight: 700, color: isToday ? '#6366F1' : 'var(--pm)', lineHeight: 1, letterSpacing: '0.05em', textTransform: 'uppercase' }}>{DOW_LABELS[i]}</span>
-                        {isToday ? (
-                          <div style={{ width: 22, height: 22, borderRadius: 11, background: '#6366F1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: 'white' }}>{d.getDate()}</span>
-                          </div>
-                        ) : (
-                          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)', lineHeight: 1, opacity: isFuture ? 0.4 : 1 }}>{d.getDate()}</span>
-                        )}
+                        <div style={{ height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          {isToday ? (
+                            <div style={{ width: 22, height: 22, borderRadius: 11, background: '#6366F1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              <span style={{ fontSize: 11, fontWeight: 700, color: 'white' }}>{d.getDate()}</span>
+                            </div>
+                          ) : (
+                            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)', lineHeight: 1, opacity: isFuture ? 0.4 : 1 }}>{d.getDate()}</span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   )
@@ -640,13 +642,13 @@ export default function ProgressPage() {
               type="button"
               onClick={() => setMapExpanded(v => !v)}
               style={{
-                background: '#EEF2FF', border: 'none', borderRadius: 999,
-                padding: '6px 20px', cursor: 'pointer',
+                background: 'none', border: 'none', borderRadius: 999,
+                padding: '6px 12px', cursor: 'pointer',
                 display: 'inline-flex', alignItems: 'center',
-                opacity: 1, transition: 'opacity 0.15s',
+                opacity: 0.7, transition: 'opacity 0.15s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '0.7')}
             >
               {mapExpanded
                 ? <ChevronsUp size={18} color="#6366F1" />
@@ -671,7 +673,7 @@ export default function ProgressPage() {
                     ? '#D7B56D'
                     : round >= 3 ? (isDark ? '#8FABFF' : '#6B8FFF')
                     : round >= 1 ? (isDark ? 'rgba(107,143,255,0.35)' : 'rgba(107,143,255,0.25)')
-                    : (isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,20,0.05)')
+                    : (isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,20,0.12)')
                   return (
                     <div key={ms.id} title={`Story ${ms.id}`} style={{
                       aspectRatio: '1', borderRadius: 3, background: bg,
