@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
-import { BubbleTailSvg } from './BubbleTail'
+import { BubbleSvg } from './BubbleSvg'
 
 // ── bubbles.json helpers ─────────────────────────────────────────────────────
 type BubbleKey = keyof typeof bubblesData
@@ -34,14 +34,41 @@ function WebtoonBubbleEl({
 }) {
   const meta = getBubbleMeta(bubble.bubbleKey)
   const sa = meta.safeArea
-  const hasTail = !!bubble.tail && !!meta.ovalParams
+  const isBodyOnly = !!meta.bodyOnly && !!meta.ovalParams
   const vbParts = meta.viewBox.split(' ').map(Number)
   const viewBoxW = vbParts[2]
   const viewBoxH = vbParts[3]
 
   const lines = bubble.lines ?? 1
-  const koFontSize  = lines === 1 ? 'clamp(12px,3.8vw,16px)' : lines === 2 ? 'clamp(11px,3.4vw,14px)' : 'clamp(10px,3.0vw,13px)'
-  const trFontSize  = 'clamp(9px,2.4vw,11px)'
+  const koFontSize = lines === 1 ? 'clamp(12px,3.8vw,16px)' : lines === 2 ? 'clamp(11px,3.4vw,14px)' : 'clamp(10px,3.0vw,13px)'
+  const trFontSize = 'clamp(9px,2.4vw,11px)'
+
+  const textOverlay = (
+    <div
+      style={{
+        position: 'absolute',
+        left:   `${sa.left   * 100}%`,
+        top:    `${sa.top    * 100}%`,
+        right:  `${sa.right  * 100}%`,
+        bottom: `${sa.bottom * 100}%`,
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        textAlign: 'center', gap: '0.3em',
+        overflow: 'hidden', padding: '0 2px',
+      }}
+    >
+      {showKo && (
+        <div style={{ fontSize: koFontSize, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, whiteSpace: 'pre-line', letterSpacing: '-0.01em' }}>
+          {bubble.korean}
+        </div>
+      )}
+      {showTrans && (
+        <div style={{ fontSize: trFontSize, color: '#555', lineHeight: 1.3, whiteSpace: 'pre-line' }}>
+          {bubble.translation}
+        </div>
+      )}
+    </div>
+  )
 
   return (
     <div
@@ -58,73 +85,36 @@ function WebtoonBubbleEl({
         transition: 'filter 0.2s ease',
       }}
     >
-      {/* Dynamic tail (behind body) */}
-      {hasTail && bubble.tail && meta.ovalParams && (
-        <BubbleTailSvg
-          tail={bubble.tail}
-          viewBoxW={viewBoxW}
-          viewBoxH={viewBoxH}
-          oval={meta.ovalParams}
-        />
-      )}
-
-      {/* SVG bubble body */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={meta.src}
-        alt=""
-        aria-hidden="true"
-        style={{
-          display: 'block',
-          width: '100%',
-          height: 'auto',
-          position: hasTail ? 'relative' : undefined,
-          zIndex: hasTail ? 1 : undefined,
-          transform: [meta.flipY && 'scaleY(-1)', bubble.flip && 'scaleX(-1)'].filter(Boolean).join(' ') || undefined,
-          userSelect: 'none',
-          pointerEvents: 'none',
-        }}
-      />
-
-      {/* Text overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          zIndex: hasTail ? 2 : undefined,
-          left:   `${sa.left   * 100}%`,
-          top:    `${sa.top    * 100}%`,
-          right:  `${sa.right  * 100}%`,
-          bottom: `${sa.bottom * 100}%`,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          textAlign: 'center',
-          gap: '0.3em',
-          overflow: 'hidden',
-          padding: '0 2px',
-        }}
-      >
-        {showKo && (
-          <div
+      {isBodyOnly && meta.ovalParams ? (
+        /* ── Merged body+tail: single SVG path ── */
+        <div style={{ position: 'relative', paddingBottom: `${(viewBoxH / viewBoxW) * 100}%`, overflow: 'visible' }}>
+          <BubbleSvg
+            viewBoxW={viewBoxW}
+            viewBoxH={viewBoxH}
+            oval={meta.ovalParams}
+            tail={bubble.tail}
+            flip={bubble.flip}
+            flipY={meta.flipY}
+          />
+          {textOverlay}
+        </div>
+      ) : (
+        /* ── Legacy: img body (tail baked into SVG file) ── */
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={meta.src}
+            alt=""
+            aria-hidden="true"
             style={{
-              fontSize: koFontSize,
-              fontWeight: 700,
-              color: '#1a1a1a',
-              lineHeight: 1.35,
-              whiteSpace: 'pre-line',
-              letterSpacing: '-0.01em',
+              display: 'block', width: '100%', height: 'auto',
+              transform: [meta.flipY && 'scaleY(-1)', bubble.flip && 'scaleX(-1)'].filter(Boolean).join(' ') || undefined,
+              userSelect: 'none', pointerEvents: 'none',
             }}
-          >
-            {bubble.korean}
-          </div>
-        )}
-        {showTrans && (
-          <div style={{ fontSize: trFontSize, color: '#555', lineHeight: 1.3, whiteSpace: 'pre-line' }}>
-            {bubble.translation}
-          </div>
-        )}
-      </div>
+          />
+          {textOverlay}
+        </>
+      )}
     </div>
   )
 }

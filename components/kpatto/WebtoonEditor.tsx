@@ -9,7 +9,7 @@ import type {
   BubbleTailData,
 } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
-import { BubbleTailSvg } from './BubbleTail'
+import { BubbleSvg } from './BubbleSvg'
 
 // ── Bubble metadata ──────────────────────────────────────────────────────────
 type BubbleMetaKey = keyof typeof bubblesData
@@ -191,7 +191,6 @@ function EditableBubble({
   const koSize = lines === 1 ? 'clamp(12px,3.8vw,16px)' : lines === 2 ? 'clamp(11px,3.4vw,14px)' : 'clamp(10px,3.0vw,13px)'
   const trSize = 'clamp(9px,2.4vw,11px)'
 
-  const hasTail = !!b.tail && !!meta.ovalParams
   const vbParts = meta.viewBox.split(' ').map(Number)
   const viewBoxW = vbParts[2], viewBoxH = vbParts[3]
 
@@ -310,14 +309,37 @@ function EditableBubble({
     onCommit()
   }, [onCommit])
 
-  const imgTransform = [meta.flipY && 'scaleY(-1)'].filter(Boolean).join(' ') || undefined
+  const isBodyOnly = !!meta.bodyOnly && !!meta.ovalParams
   const HANDLE = 10  // resize handle px
 
-  // Precompute anchor handle position (on oval perimeter)
+  // Anchor handle position (% of bubble dimensions, for edit-mode overlay)
   const ovalP = meta.ovalParams
   const anchorθ = (b.tail?.anchor ?? 0) * 2 * Math.PI
   const anchorHandleX = ovalP ? (ovalP.cx + ovalP.rx * Math.cos(anchorθ)) * 100 : 50
   const anchorHandleY = ovalP ? (ovalP.cy + ovalP.ry * Math.sin(anchorθ)) * 100 : 50
+
+  // Text overlay (shared between bodyOnly and legacy rendering)
+  const textOverlay = (
+    <div style={{
+      position: 'absolute',
+      left: `${sa.left * 100}%`, top: `${sa.top * 100}%`,
+      right: `${sa.right * 100}%`, bottom: `${sa.bottom * 100}%`,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      textAlign: 'center', gap: '0.3em', overflow: 'hidden', padding: '0 2px',
+      pointerEvents: 'none',
+    }}>
+      {showKo && (
+        <div style={{ fontSize: koSize, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, whiteSpace: 'pre-line', letterSpacing: '-0.01em' }}>
+          {b.korean}
+        </div>
+      )}
+      {showTrans && (
+        <div style={{ fontSize: trSize, color: '#555', lineHeight: 1.3, whiteSpace: 'pre-line' }}>
+          {b.translation}
+        </div>
+      )}
+    </div>
+  )
 
   return (
     <div
@@ -336,47 +358,35 @@ function EditableBubble({
       onPointerUp={editMode ? handlePointerUp : undefined}
       onClick={editMode ? (e) => { e.stopPropagation(); onSelect(b.id) } : undefined}
     >
-      {/* Dynamic tail behind body */}
-      {hasTail && b.tail && meta.ovalParams && (
-        <BubbleTailSvg tail={b.tail} viewBoxW={viewBoxW} viewBoxH={viewBoxH} oval={meta.ovalParams} />
+      {isBodyOnly && meta.ovalParams ? (
+        /* ── Merged body+tail: single SVG path ── */
+        <div style={{ position: 'relative', paddingBottom: `${(viewBoxH / viewBoxW) * 100}%`, overflow: 'visible' }}>
+          <BubbleSvg
+            viewBoxW={viewBoxW} viewBoxH={viewBoxH}
+            oval={meta.ovalParams}
+            tail={b.tail}
+            flipY={meta.flipY}
+          />
+          {textOverlay}
+        </div>
+      ) : (
+        /* ── Legacy: SVG image file (tail baked in) ── */
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={meta.src} alt="" aria-hidden
+            style={{
+              display: 'block', width: '100%', height: 'auto',
+              transform: meta.flipY ? 'scaleY(-1)' : undefined,
+              pointerEvents: 'none', userSelect: 'none',
+            }}
+            draggable={false}
+          />
+          {textOverlay}
+        </>
       )}
 
-      {/* SVG body */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={meta.src} alt="" aria-hidden
-        style={{
-          display: 'block', width: '100%', height: 'auto',
-          position: hasTail ? 'relative' : undefined,
-          zIndex: hasTail ? 1 : undefined,
-          transform: imgTransform, pointerEvents: 'none', userSelect: 'none',
-        }}
-        draggable={false}
-      />
-
-      {/* Text overlay */}
-      <div style={{
-        position: 'absolute',
-        zIndex: hasTail ? 2 : undefined,
-        left: `${sa.left * 100}%`, top: `${sa.top * 100}%`,
-        right: `${sa.right * 100}%`, bottom: `${sa.bottom * 100}%`,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-        textAlign: 'center', gap: '0.3em', overflow: 'hidden', padding: '0 2px',
-        pointerEvents: 'none',
-      }}>
-        {showKo && (
-          <div style={{ fontSize: koSize, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, whiteSpace: 'pre-line', letterSpacing: '-0.01em' }}>
-            {b.korean}
-          </div>
-        )}
-        {showTrans && (
-          <div style={{ fontSize: trSize, color: '#555', lineHeight: 1.3, whiteSpace: 'pre-line' }}>
-            {b.translation}
-          </div>
-        )}
-      </div>
-
-      {/* ── Edit-mode overlays ── */}
+      {/* ── Edit-mode overlays (all relative to bubble wrapper) ── */}
       {isSelected && editMode && (
         <>
           {/* Type dropdown */}
@@ -419,8 +429,8 @@ function EditableBubble({
             onPointerUp={e => { e.stopPropagation(); handleResizeUp(e) }}
           />
 
-          {/* ── Tail handles (only for body-only bubbles with tail data) ── */}
-          {hasTail && b.tail && (
+          {/* Tail handles — only for bodyOnly bubbles with tail data */}
+          {isBodyOnly && b.tail && (
             <>
               {/* Anchor handle — blue, on oval perimeter */}
               <div
@@ -440,7 +450,7 @@ function EditableBubble({
                 onPointerUp={e => { e.stopPropagation(); handleAnchorUp(e) }}
               />
 
-              {/* Tip handle — red, at tail end point */}
+              {/* Tip handle — red, at tail tip */}
               <div
                 style={{
                   position: 'absolute',
