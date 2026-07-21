@@ -54,8 +54,9 @@ function WebtoonBubbleEl({
   }, [bubble.korean])
 
   const lines = bubble.lines ?? 1
-  const koFontSize  = lines === 1 ? '4.2vw' : lines === 2 ? '3.8vw' : '3.2vw'
-  const trFontSize  = lines === 1 ? '2.9vw' : '2.6vw'
+  // clamp prevents vw from becoming too large on desktop while still scaling on mobile
+  const koFontSize  = lines === 1 ? 'clamp(12px,3.8vw,16px)' : lines === 2 ? 'clamp(11px,3.4vw,14px)' : 'clamp(10px,3.0vw,13px)'
+  const trFontSize  = lines === 1 ? 'clamp(9px,2.4vw,11px)' : 'clamp(9px,2.2vw,10px)'
 
   return (
     <div
