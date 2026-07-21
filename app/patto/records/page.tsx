@@ -622,7 +622,7 @@ export default function ProgressPage() {
                 padding: '10px 12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
                 ...(label === 'LEARNING' ? { borderLeft: `0.5px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(30,30,80,0.10)'}`, borderRight: `0.5px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(30,30,80,0.10)'}` } : {}),
               }}>
-                <span style={{ fontSize: 'clamp(1.2rem, 4.5vw, 1.45rem)', fontWeight: 800, color: numColor, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
+                <span style={{ fontSize: 'clamp(1.3rem, 4.7vw, 1.55rem)', fontWeight: 800, color: numColor, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}>{value}</span>
                 <span style={{ fontSize: 10, fontWeight: 700, color: labelColor, letterSpacing: '0.10em', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.3 }}>{label}</span>
               </div>
             ))}
@@ -673,7 +673,7 @@ export default function ProgressPage() {
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}>
                       {isMastered
-                        ? <span style={{ fontSize: 10, fontWeight: 900, color: '#EF4444', lineHeight: 1 }}>✓</span>
+                        ? <span style={{ fontSize: 12, fontWeight: 900, color: '#8B1A2E', lineHeight: 1 }}>✓</span>
                         : <span style={{ fontSize: 7, fontWeight: 600, color: round >= 1 ? 'rgba(255,255,255,0.8)' : (isDark ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.25)'), lineHeight: 1 }}>{ms.id}</span>
                       }
                     </div>
