@@ -200,32 +200,32 @@ function AnimatedBarChart({
               }} />
             </div>
 
-            {/* Day label + date */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flexShrink: 0 }}>
-              <span style={{
-                fontSize: 10, fontWeight: 700, color: isToday ? accent : textMuted, lineHeight: 1,
-                opacity: isFut ? 0.4 : 1, letterSpacing: '0.04em',
-              }}>
-                {DOW_LABELS[i]}
-              </span>
+            {/* Date on top, day label below */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, flexShrink: 0 }}>
               {isToday ? (
                 <div style={{
-                  width: 20, height: 20, borderRadius: 10,
+                  width: 22, height: 22, borderRadius: 11,
                   background: accent,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <span style={{ fontSize: 10, fontWeight: 700, color: 'white' }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: 'white' }}>
                     {d.getDate()}
                   </span>
                 </div>
               ) : (
                 <span style={{
-                  fontSize: 10, fontWeight: 600, color: textMuted, lineHeight: 1,
+                  fontSize: 11, fontWeight: 600, color: textMuted, lineHeight: 1,
                   opacity: isFut ? 0.4 : 1,
                 }}>
                   {d.getDate()}
                 </span>
               )}
+              <span style={{
+                fontSize: 10, fontWeight: 700, color: isToday ? accent : textMuted, lineHeight: 1,
+                opacity: isFut ? 0.4 : 1, letterSpacing: '0.04em', textTransform: 'uppercase',
+              }}>
+                {DOW_LABELS[i]}
+              </span>
             </div>
           </div>
         )
@@ -590,7 +590,7 @@ export default function ProgressPage() {
               })()}
             </div>
             {/* Legend — bottom right */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <div style={{ width: 8, height: 8, borderRadius: 2, background: '#6366F1', flexShrink: 0 }} />
                 <span style={{ fontSize: 11, color: 'var(--pm)' }}>Patterns learned</span>
