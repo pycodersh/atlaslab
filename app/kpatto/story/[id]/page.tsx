@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { StoryPanel } from '@/components/kpatto/StoryPanel'
 import { WebtoonEpisode } from '@/components/kpatto/WebtoonEpisode'
+import { WebtoonEditor } from '@/components/kpatto/WebtoonEditor'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { WEBTOON_EPISODES } from '@/data/kpatto/episode-001-webtoon'
@@ -49,6 +50,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const ui = getUI(prefs.language)
   const searchParams = useSearchParams()
   const showWelcome = searchParams.get('welcome') === '1'
+  const editMode = searchParams.get('edit') === '1'
   const story = ALL_STORIES.find(s => s.id === id)
 
   if (!story) notFound()
@@ -116,7 +118,9 @@ export default function KPattoStoryPage({ params }: PageProps) {
       {/* Story panels — webtoon or classic layout */}
       <div style={{ paddingTop: showWelcome ? 0 : 0 }}>
         {WEBTOON_EPISODES[id] ? (
-          <WebtoonEpisode episode={WEBTOON_EPISODES[id]} />
+          editMode
+            ? <WebtoonEditor episode={WEBTOON_EPISODES[id]} initialEditMode />
+            : <WebtoonEpisode episode={WEBTOON_EPISODES[id]} />
         ) : (
           <div style={{ paddingTop: 16 }}>
             {story.panels.map((panel, index) => (
