@@ -88,13 +88,14 @@ export default function KPattoEditorPage() {
   useEffect(() => {
     const iframe = iframeRef.current
     if (!iframe) return
+    const el = iframe
     function handleLoad() {
       updatePanelRects()
-      try { iframe.contentWindow?.addEventListener('scroll', updatePanelRects, { passive: true }) } catch { /* noop */ }
+      try { el.contentWindow?.addEventListener('scroll', updatePanelRects, { passive: true }) } catch { /* noop */ }
     }
-    if (iframe.contentDocument?.readyState === 'complete') handleLoad()
-    iframe.addEventListener('load', handleLoad)
-    return () => iframe.removeEventListener('load', handleLoad)
+    if (el.contentDocument?.readyState === 'complete') handleLoad()
+    el.addEventListener('load', handleLoad)
+    return () => el.removeEventListener('load', handleLoad)
   }, [updatePanelRects])
 
   // ── Bubble CRUD ────────────────────────────────────────────────────────────
