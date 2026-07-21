@@ -336,16 +336,18 @@ export default function AtlasLabHome() {
           position: absolute; inset: 0;
           background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
           opacity: 0; transition: opacity 0.3s; border-radius: inherit;
+          pointer-events: none;
         }
-        .product-card-link:hover::before { opacity: 1; }
+        .product-card:hover::before { opacity: 1; }
         /* Glow bottom edge */
         .product-card::after {
           content: '';
           position: absolute; bottom: 0; left: 20%; right: 20%; height: 1px;
           background: linear-gradient(90deg, transparent, rgba(124,111,255,0.4), transparent);
           opacity: 0; transition: opacity 0.3s;
+          pointer-events: none;
         }
-        .product-card-link:hover::after { opacity: 1; }
+        .product-card:hover::after { opacity: 1; }
 
         .product-icon-wrap {
           width: 52px; height: 52px; border-radius: 14px;
