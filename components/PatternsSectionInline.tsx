@@ -319,7 +319,7 @@ function PatternCardItem({
               aria-label={bookmarked ? '북마크 해제' : '북마크'}
               style={{
                 background: 'none', border: 'none', padding: 5, cursor: 'pointer',
-                color: bookmarked ? (isDark ? '#8FABFF' : '#8EA7FF') : heroIconColor,
+                color: bookmarked ? '#8B1A2E' : heroIconColor,
                 transition: 'color 0.15s',
               }}
             >
