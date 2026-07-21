@@ -200,26 +200,33 @@ function AnimatedBarChart({
               }} />
             </div>
 
-            {/* Day label ??circle for today */}
-            {isToday ? (
-              <div style={{
-                width: 22, height: 22, borderRadius: 11,
-                background: accent,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0,
-              }}>
-                <span style={{ fontSize: 9, fontWeight: 700, color: 'white' }}>
-                  {DOW_LABELS[i]}
-                </span>
-              </div>
-            ) : (
+            {/* Day label + date */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, flexShrink: 0 }}>
               <span style={{
-                fontSize: 9, fontWeight: 600, color: textMuted, lineHeight: 1,
-                opacity: isFut ? 0.4 : 1,
+                fontSize: 10, fontWeight: 700, color: isToday ? accent : textMuted, lineHeight: 1,
+                opacity: isFut ? 0.4 : 1, letterSpacing: '0.04em',
               }}>
                 {DOW_LABELS[i]}
               </span>
-            )}
+              {isToday ? (
+                <div style={{
+                  width: 20, height: 20, borderRadius: 10,
+                  background: accent,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: 'white' }}>
+                    {d.getDate()}
+                  </span>
+                </div>
+              ) : (
+                <span style={{
+                  fontSize: 10, fontWeight: 600, color: textMuted, lineHeight: 1,
+                  opacity: isFut ? 0.4 : 1,
+                }}>
+                  {d.getDate()}
+                </span>
+              )}
+            </div>
           </div>
         )
       })}
