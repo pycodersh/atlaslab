@@ -75,6 +75,17 @@
   --ann-purple-border: rgba(108,45,130,0.22);
   /* Pattern highlight — Deep Navy */
   --pattern-hl: #1A3FAA;
+  /* Onboarding scene cards */
+  --ob-card:        rgba(255,255,255,.96);
+  --ob-card-border: rgba(99,102,241,.16);
+  --ob-chip:        rgba(255,255,255,.94);
+  --ob-chip-color:  #1F2A3F;
+  --ob-patterns:    rgba(247,248,255,.96);
+  --ob-metric:      rgba(255,255,255,.74);
+  --ob-word-sel:    rgba(99,102,241,.10);
+  --ob-word:        #ffffff;
+  --ob-story:       #ffffff;
+  --ob-story-border: rgba(0,0,0,.06);
 }
 
 .dark {
@@ -109,6 +120,17 @@
   --pc2:  rgba(255,255,255,0.07);
   --pglass: rgba(255,255,255,0.09);
   --pglass-border: rgba(255,255,255,0.12);
+  /* Onboarding scene cards */
+  --ob-card:        rgba(255,255,255,.08);
+  --ob-card-border: rgba(99,102,241,.30);
+  --ob-chip:        rgba(255,255,255,.12);
+  --ob-chip-color:  var(--pt);
+  --ob-patterns:    rgba(99,102,241,.12);
+  --ob-metric:      rgba(255,255,255,.08);
+  --ob-word-sel:    rgba(99,102,241,.25);
+  --ob-word:        rgba(255,255,255,.10);
+  --ob-story:       rgba(255,255,255,.08);
+  --ob-story-border: rgba(255,255,255,.12);
   /* Heatmap */
   --ph1: #3A4E8A;
   --ph2: #5577CC;
