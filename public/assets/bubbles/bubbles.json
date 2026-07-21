@@ -1,4 +1,40 @@
 {
+  "bubble-oval": {
+    "src": "/assets/bubbles/bubble-oval-body.svg",
+    "viewBox": "0 0 320 200",
+    "label": "타원 본체 (꼬리 동적)",
+    "category": "speech",
+    "bodyOnly": true,
+    "ovalParams": { "cx": 0.5, "cy": 0.475, "rx": 0.4625, "ry": 0.40 },
+    "safeArea": { "left": 0.09, "top": 0.11, "right": 0.09, "bottom": 0.15 }
+  },
+  "bubble-wide": {
+    "src": "/assets/bubbles/bubble-wide-body.svg",
+    "viewBox": "0 0 400 180",
+    "label": "가로형 본체 (꼬리 동적)",
+    "category": "speech",
+    "bodyOnly": true,
+    "ovalParams": { "cx": 0.5, "cy": 0.456, "rx": 0.4625, "ry": 0.378 },
+    "safeArea": { "left": 0.08, "top": 0.12, "right": 0.08, "bottom": 0.15 }
+  },
+  "bubble-tall": {
+    "src": "/assets/bubbles/bubble-tall-body.svg",
+    "viewBox": "0 0 220 320",
+    "label": "세로형 본체 (꼬리 동적)",
+    "category": "speech",
+    "bodyOnly": true,
+    "ovalParams": { "cx": 0.5, "cy": 0.469, "rx": 0.445, "ry": 0.4125 },
+    "safeArea": { "left": 0.10, "top": 0.12, "right": 0.10, "bottom": 0.20 }
+  },
+  "bubble-short": {
+    "src": "/assets/bubbles/bubble-short-body.svg",
+    "viewBox": "0 0 320 130",
+    "label": "짧은형 본체 (꼬리 동적)",
+    "category": "speech",
+    "bodyOnly": true,
+    "ovalParams": { "cx": 0.5, "cy": 0.462, "rx": 0.4625, "ry": 0.369 },
+    "safeArea": { "left": 0.09, "top": 0.13, "right": 0.09, "bottom": 0.23 }
+  },
   "bubble-01-oval-bottom-left": {
     "src": "/assets/bubbles/bubble-01-oval-bottom-left.svg",
     "viewBox": "0 0 320 200",

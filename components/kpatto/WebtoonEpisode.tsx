@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react'
 import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
+import { BubbleTailSvg } from './BubbleTail'
 
 // ── Character colours ────────────────────────────────────────────────────────
 const SPEAKER_COLORS: Record<string, string> = {
@@ -19,6 +20,8 @@ function getBubbleMeta(key: string) {
     viewBox: string
     label: string
     flipY?: boolean
+    bodyOnly?: boolean
+    ovalParams?: { cx: number; cy: number; rx: number; ry: number }
     safeArea: { left: number; top: number; right: number; bottom: number }
   }
 }
@@ -58,6 +61,11 @@ function WebtoonBubbleEl({
   const koFontSize  = lines === 1 ? 'clamp(12px,3.8vw,16px)' : lines === 2 ? 'clamp(11px,3.4vw,14px)' : 'clamp(10px,3.0vw,13px)'
   const trFontSize  = lines === 1 ? 'clamp(9px,2.4vw,11px)' : 'clamp(9px,2.2vw,10px)'
 
+  const hasTail = !!bubble.tail && !!meta.ovalParams
+  const vbParts = meta.viewBox.split(' ').map(Number)
+  const viewBoxW = vbParts[2]
+  const viewBoxH = vbParts[3]
+
   return (
     <div
       style={{
@@ -66,9 +74,20 @@ function WebtoonBubbleEl({
         top: `${bubble.yPct}%`,
         width: `${bubble.widthPct}%`,
         transform: bubble.rotation ? `rotate(${bubble.rotation}deg)` : undefined,
+        overflow: 'visible',
       }}
     >
-      {/* SVG bubble background */}
+      {/* Dynamic tail (behind body) */}
+      {hasTail && bubble.tail && meta.ovalParams && (
+        <BubbleTailSvg
+          tail={bubble.tail}
+          viewBoxW={viewBoxW}
+          viewBoxH={viewBoxH}
+          oval={meta.ovalParams}
+        />
+      )}
+
+      {/* SVG bubble body */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={meta.src}
@@ -78,6 +97,8 @@ function WebtoonBubbleEl({
           display: 'block',
           width: '100%',
           height: 'auto',
+          position: hasTail ? 'relative' : undefined,
+          zIndex: hasTail ? 1 : undefined,
           transform: [meta.flipY && 'scaleY(-1)', bubble.flip && 'scaleX(-1)'].filter(Boolean).join(' ') || undefined,
           userSelect: 'none',
           pointerEvents: 'none',
@@ -88,6 +109,7 @@ function WebtoonBubbleEl({
       <div
         style={{
           position: 'absolute',
+          zIndex: hasTail ? 2 : undefined,
           left:   `${sa.left   * 100}%`,
           top:    `${sa.top    * 100}%`,
           right:  `${sa.right  * 100}%`,
@@ -136,6 +158,7 @@ function WebtoonBubbleEl({
         aria-label={`${bubble.speaker} 발음 듣기`}
         style={{
           position: 'absolute',
+          zIndex: hasTail ? 2 : undefined,
           bottom: `${(sa.bottom * 100 * 0.25)}%`,
           right: `${(sa.right * 100 * 0.25)}%`,
           width: '5.5vw',

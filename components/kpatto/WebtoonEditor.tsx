@@ -6,14 +6,17 @@ import type {
   WebtoonBubble,
   WebtoonGapSection,
   WebtoonPanelSection,
+  BubbleTailData,
 } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
+import { BubbleTailSvg } from './BubbleTail'
 
 // ── Bubble metadata ──────────────────────────────────────────────────────────
 type BubbleMetaKey = keyof typeof bubblesData
 function bmeta(key: string) {
   return bubblesData[key as BubbleMetaKey] as {
-    src: string; viewBox: string; flipY?: boolean
+    src: string; viewBox: string; flipY?: boolean; bodyOnly?: boolean
+    ovalParams?: { cx: number; cy: number; rx: number; ry: number }
     safeArea: { left: number; top: number; right: number; bottom: number }
   }
 }
@@ -23,7 +26,7 @@ function bubbleHeightPct(widthPct: number, key: string, heightRatio: number): nu
 }
 
 // ── State ────────────────────────────────────────────────────────────────────
-type Override = { bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number }
+type Override = { bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number; tail?: BubbleTailData }
 type Overrides = Record<string, Override>
 type S = { overrides: Overrides; history: Overrides[]; idx: number; selected: string | null }
 type A =
@@ -31,6 +34,7 @@ type A =
   | { type: 'MOVE'; id: string; xPct: number; yPct: number }
   | { type: 'RESIZE'; id: string; widthPct: number }
   | { type: 'SET_KEY'; id: string; key: string }
+  | { type: 'SET_TAIL'; id: string; tail: BubbleTailData }
   | { type: 'COMMIT' }
   | { type: 'UNDO' }
   | { type: 'REDO' }
@@ -53,6 +57,10 @@ function reducer(s: S, a: A): S {
       const o = { ...(s.overrides[a.id] ?? {}), bubbleKey: a.key }
       const ov = { ...s.overrides, [a.id]: o }
       return { ...s, overrides: ov, history: [...s.history.slice(0, s.idx + 1), ov], idx: s.idx + 1 }
+    }
+    case 'SET_TAIL': {
+      const o = { ...(s.overrides[a.id] ?? {}), tail: a.tail }
+      return { ...s, overrides: { ...s.overrides, [a.id]: o } }
     }
     case 'COMMIT': {
       const h = [...s.history.slice(0, s.idx + 1), { ...s.overrides }]
@@ -78,17 +86,18 @@ function reducer(s: S, a: A): S {
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 const BUBBLE_TYPES = [
-  { key: 'bubble-01-oval-bottom-left',   label: '아래 왼쪽' },
-  { key: 'bubble-02-oval-bottom-center', label: '아래 중앙' },
-  { key: 'bubble-03-oval-bottom-right',  label: '아래 오른쪽' },
-  { key: 'bubble-04-oval-top-left',      label: '위 왼쪽' },
-  { key: 'bubble-05-oval-top-center',    label: '위 중앙' },
-  { key: 'bubble-06-oval-top-right',     label: '위 오른쪽' },
-  { key: 'bubble-07-wide',               label: '가로형' },
-  { key: 'bubble-08-tall',               label: '세로형' },
-  { key: 'bubble-09-short',              label: '짧은형' },
-  { key: 'bubble-10-shout',              label: '외침형' },
-  { key: 'bubble-11-narration',          label: '나레이션' },
+  { key: 'bubble-oval',  label: '타원 (동적 꼬리)' },
+  { key: 'bubble-wide',  label: '가로형 (동적 꼬리)' },
+  { key: 'bubble-tall',  label: '세로형 (동적 꼬리)' },
+  { key: 'bubble-short', label: '짧은형 (동적 꼬리)' },
+  { key: 'bubble-01-oval-bottom-left',   label: '레거시: 아래 왼쪽' },
+  { key: 'bubble-02-oval-bottom-center', label: '레거시: 아래 중앙' },
+  { key: 'bubble-03-oval-bottom-right',  label: '레거시: 아래 오른쪽' },
+  { key: 'bubble-04-oval-top-left',      label: '레거시: 위 왼쪽' },
+  { key: 'bubble-05-oval-top-center',    label: '레거시: 위 중앙' },
+  { key: 'bubble-06-oval-top-right',     label: '레거시: 위 오른쪽' },
+  { key: 'bubble-10-shout',              label: '레거시: 외침형' },
+  { key: 'bubble-11-narration',          label: '나레이션 박스' },
 ]
 const SPEAKER_COLORS: Record<string, string> = { emma: '#E85D6E', jisoo: '#3B82F6' }
 const SPEAKER_AVATAR: Record<string, string> = { emma: '🙋‍♀️', jisoo: '👩‍💼' }
@@ -101,6 +110,7 @@ function eff(base: WebtoonBubble, o?: Override): WebtoonBubble {
     xPct:     o.xPct     ?? base.xPct,
     yPct:     o.yPct     ?? base.yPct,
     widthPct: o.widthPct ?? base.widthPct,
+    tail:     o.tail     ?? base.tail,
   }
 }
 
@@ -159,7 +169,7 @@ function Toolbar({
 function EditableBubble({
   base, override, gapSection, isSelected, editMode,
   showKo, showTrans,
-  onSelect, onMove, onResize, onCommit, onTypeChange,
+  onSelect, onMove, onResize, onCommit, onTypeChange, onTailChange,
   gapRef,
 }: {
   base: WebtoonBubble
@@ -174,6 +184,7 @@ function EditableBubble({
   onResize: (id: string, widthPct: number) => void
   onCommit: () => void
   onTypeChange: (id: string, key: string) => void
+  onTailChange: (id: string, tail: BubbleTailData) => void
   gapRef: React.RefObject<HTMLDivElement | null>
 }) {
   const b = eff(base, override)
@@ -186,9 +197,15 @@ function EditableBubble({
   const koSize = lines === 1 ? 'clamp(12px,3.8vw,16px)' : lines === 2 ? 'clamp(11px,3.4vw,14px)' : 'clamp(10px,3.0vw,13px)'
   const trSize = 'clamp(9px,2.4vw,11px)'
 
+  const hasTail = !!b.tail && !!meta.ovalParams
+  const vbParts = meta.viewBox.split(' ').map(Number)
+  const viewBoxW = vbParts[2], viewBoxH = vbParts[3]
+
   // Drag state (refs to avoid re-renders during drag)
   const dragRef = useRef<{ startPX: number; startPY: number; startXPct: number; startYPct: number } | null>(null)
   const resizeRef = useRef<{ startPX: number; startW: number; startX: number } | null>(null)
+  const tipDragRef = useRef<{ startPX: number; startPY: number; startTipX: number; startTipY: number } | null>(null)
+  const anchorDragRef = useRef<true | null>(null)
 
   const getGapRect = () => gapRef.current?.getBoundingClientRect()
 
@@ -250,8 +267,75 @@ function EditableBubble({
     window.speechSynthesis.speak(u)
   }, [b.korean])
 
+  // ── Tail tip drag ─────────────────────────────────────────────────────────
+  const handleTipDown = useCallback((e: React.PointerEvent) => {
+    e.stopPropagation()
+    e.currentTarget.setPointerCapture(e.pointerId)
+    tipDragRef.current = {
+      startPX: e.clientX, startPY: e.clientY,
+      startTipX: b.tail?.tipX ?? 0.5,
+      startTipY: b.tail?.tipY ?? 1.0,
+    }
+  }, [b.tail])
+
+  const handleTipMove = useCallback((e: React.PointerEvent) => {
+    if (!tipDragRef.current || !b.tail) return
+    const rect = getGapRect()
+    if (!rect) return
+    const bubbleW = rect.width * b.widthPct / 100
+    const bubbleH = bubbleW * viewBoxH / viewBoxW
+    const dx = (e.clientX - tipDragRef.current.startPX) / bubbleW
+    const dy = (e.clientY - tipDragRef.current.startPY) / bubbleH
+    onTailChange(b.id, { ...b.tail, tipX: tipDragRef.current.startTipX + dx, tipY: tipDragRef.current.startTipY + dy })
+  }, [b.id, b.tail, b.widthPct, viewBoxW, viewBoxH, onTailChange])
+
+  const handleTipUp = useCallback(() => {
+    if (!tipDragRef.current) return
+    tipDragRef.current = null
+    onCommit()
+  }, [onCommit])
+
+  // ── Tail anchor drag (projects mouse onto oval perimeter) ─────────────────
+  const handleAnchorDown = useCallback((e: React.PointerEvent) => {
+    e.stopPropagation()
+    e.currentTarget.setPointerCapture(e.pointerId)
+    anchorDragRef.current = true
+  }, [])
+
+  const handleAnchorMove = useCallback((e: React.PointerEvent) => {
+    if (!anchorDragRef.current || !b.tail || !meta.ovalParams) return
+    const rect = getGapRect()
+    if (!rect) return
+    const { cx, cy, rx, ry } = meta.ovalParams
+    const bubbleW = rect.width * b.widthPct / 100
+    const bubbleH = bubbleW * viewBoxH / viewBoxW
+    // Bubble top-left in viewport px
+    const bubbleLeft = rect.left + rect.width * b.xPct / 100
+    const bubbleTop  = rect.top  + rect.height * b.yPct / 100
+    // Mouse relative to oval center
+    const mx = e.clientX - (bubbleLeft + cx * bubbleW)
+    const my = e.clientY - (bubbleTop  + cy * bubbleH)
+    // Project angle: normalize by oval radii
+    let θ = Math.atan2(my / (ry * bubbleH), mx / (rx * bubbleW))
+    let anchor = θ / (2 * Math.PI)
+    if (anchor < 0) anchor += 1
+    onTailChange(b.id, { ...b.tail, anchor })
+  }, [b.id, b.tail, b.xPct, b.yPct, b.widthPct, meta.ovalParams, viewBoxW, viewBoxH, onTailChange])
+
+  const handleAnchorUp = useCallback(() => {
+    if (!anchorDragRef.current) return
+    anchorDragRef.current = null
+    onCommit()
+  }, [onCommit])
+
   const imgTransform = [meta.flipY && 'scaleY(-1)'].filter(Boolean).join(' ') || undefined
   const HANDLE = 10  // resize handle px
+
+  // Precompute anchor handle position (on oval perimeter)
+  const ovalP = meta.ovalParams
+  const anchorθ = (b.tail?.anchor ?? 0) * 2 * Math.PI
+  const anchorHandleX = ovalP ? (ovalP.cx + ovalP.rx * Math.cos(anchorθ)) * 100 : 50
+  const anchorHandleY = ovalP ? (ovalP.cy + ovalP.ry * Math.sin(anchorθ)) * 100 : 50
 
   return (
     <div
@@ -263,23 +347,35 @@ function EditableBubble({
         outlineOffset: 2,
         userSelect: 'none',
         touchAction: editMode ? 'none' : 'auto',
+        overflow: 'visible',
       }}
       onPointerDown={editMode ? handlePointerDown : undefined}
       onPointerMove={editMode ? handlePointerMove : undefined}
       onPointerUp={editMode ? handlePointerUp : undefined}
       onClick={editMode ? (e) => { e.stopPropagation(); onSelect(b.id) } : undefined}
     >
-      {/* SVG background */}
+      {/* Dynamic tail behind body */}
+      {hasTail && b.tail && meta.ovalParams && (
+        <BubbleTailSvg tail={b.tail} viewBoxW={viewBoxW} viewBoxH={viewBoxH} oval={meta.ovalParams} />
+      )}
+
+      {/* SVG body */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={meta.src} alt="" aria-hidden
-        style={{ display: 'block', width: '100%', height: 'auto', transform: imgTransform, pointerEvents: 'none', userSelect: 'none' }}
+        style={{
+          display: 'block', width: '100%', height: 'auto',
+          position: hasTail ? 'relative' : undefined,
+          zIndex: hasTail ? 1 : undefined,
+          transform: imgTransform, pointerEvents: 'none', userSelect: 'none',
+        }}
         draggable={false}
       />
 
       {/* Text overlay */}
       <div style={{
         position: 'absolute',
+        zIndex: hasTail ? 2 : undefined,
         left: `${sa.left * 100}%`, top: `${sa.top * 100}%`,
         right: `${sa.right * 100}%`, bottom: `${sa.bottom * 100}%`,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -304,6 +400,7 @@ function EditableBubble({
         aria-label={`${b.speaker} 발음 듣기`}
         style={{
           position: 'absolute',
+          zIndex: hasTail ? 2 : undefined,
           bottom: `${sa.bottom * 100 * 0.25}%`, right: `${sa.right * 100 * 0.25}%`,
           width: '5.5vw', height: '5.5vw', maxWidth: 26, maxHeight: 26, minWidth: 18, minHeight: 18,
           borderRadius: '50%',
@@ -361,6 +458,47 @@ function EditableBubble({
             onPointerMove={e => { e.stopPropagation(); handleResizeMove(e) }}
             onPointerUp={e => { e.stopPropagation(); handleResizeUp(e) }}
           />
+
+          {/* ── Tail handles (only for body-only bubbles with tail data) ── */}
+          {hasTail && b.tail && (
+            <>
+              {/* Anchor handle — blue, on oval perimeter */}
+              <div
+                style={{
+                  position: 'absolute',
+                  left: `${anchorHandleX}%`, top: `${anchorHandleY}%`,
+                  width: 14, height: 14, borderRadius: '50%',
+                  background: '#3b82f6', border: '2px solid #fff',
+                  transform: 'translate(-50%, -50%)',
+                  cursor: 'grab', zIndex: 20,
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
+                  touchAction: 'none',
+                }}
+                title="꼬리 시작점"
+                onPointerDown={e => { e.stopPropagation(); handleAnchorDown(e) }}
+                onPointerMove={e => { e.stopPropagation(); handleAnchorMove(e) }}
+                onPointerUp={e => { e.stopPropagation(); handleAnchorUp(e) }}
+              />
+
+              {/* Tip handle — red, at tail end point */}
+              <div
+                style={{
+                  position: 'absolute',
+                  left: `${b.tail.tipX * 100}%`, top: `${b.tail.tipY * 100}%`,
+                  width: 14, height: 14, borderRadius: '50%',
+                  background: '#ef4444', border: '2px solid #fff',
+                  transform: 'translate(-50%, -50%)',
+                  cursor: 'crosshair', zIndex: 20,
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
+                  touchAction: 'none',
+                }}
+                title="꼬리 끝점"
+                onPointerDown={e => { e.stopPropagation(); handleTipDown(e) }}
+                onPointerMove={e => { e.stopPropagation(); handleTipMove(e) }}
+                onPointerUp={e => { e.stopPropagation(); handleTipUp(e) }}
+              />
+            </>
+          )}
         </>
       )}
     </div>
@@ -542,6 +680,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
                   onResize={(id, w) => dispatch({ type: 'RESIZE', id, widthPct: w })}
                   onCommit={() => dispatch({ type: 'COMMIT' })}
                   onTypeChange={(id, key) => dispatch({ type: 'SET_KEY', id, key })}
+                  onTailChange={(id, tail) => dispatch({ type: 'SET_TAIL', id, tail })}
                   gapRef={gapRef}
                 />
               ))}
