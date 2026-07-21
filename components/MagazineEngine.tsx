@@ -596,7 +596,7 @@ export function MagazineEngine({ story, allStories, initialPatternId, patternExa
         }
       />
 
-      {sectionDivider(t('challengesTitle'))}
+      {sectionDivider('Challenges in this story')}
 
       {!lrDone ? (
         <>
