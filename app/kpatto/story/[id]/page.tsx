@@ -5,8 +5,10 @@ import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { StoryPanel } from '@/components/kpatto/StoryPanel'
+import { WebtoonEpisode } from '@/components/kpatto/WebtoonEpisode'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
+import { WEBTOON_EPISODES } from '@/data/kpatto/episode-001-webtoon'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
 import { getUI } from '@/lib/kpatto/ui-strings'
 import type { KPattoLanguage } from '@/data/kpatto/types'
@@ -111,17 +113,23 @@ export default function KPattoStoryPage({ params }: PageProps) {
       {/* Welcome banner (shown after pre-course completion) */}
       {showWelcome && <WelcomeBanner />}
 
-      {/* Story panels — vertical scroll */}
-      <div style={{ paddingTop: showWelcome ? 0 : 16 }}>
-        {story.panels.map((panel, index) => (
-          <StoryPanel
-            key={panel.id}
-            panel={panel}
-            panelIndex={index}
-            patterns={PATTERN_MAP}
-            displayLang={displayLang}
-          />
-        ))}
+      {/* Story panels — webtoon or classic layout */}
+      <div style={{ paddingTop: showWelcome ? 0 : 0 }}>
+        {WEBTOON_EPISODES[id] ? (
+          <WebtoonEpisode episode={WEBTOON_EPISODES[id]} />
+        ) : (
+          <div style={{ paddingTop: 16 }}>
+            {story.panels.map((panel, index) => (
+              <StoryPanel
+                key={panel.id}
+                panel={panel}
+                panelIndex={index}
+                patterns={PATTERN_MAP}
+                displayLang={displayLang}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Completion footer */}
