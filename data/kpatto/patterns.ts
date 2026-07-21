@@ -8,8 +8,6 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     translations: {
       en: 'I want to ~',
       ja: '〜したいです',
-      'zh-cn': '想要〜',
-      'zh-tw': '想要〜',
       es: 'Quiero ~',
     },
     examples: [
@@ -18,20 +16,16 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
         translations: {
           en: 'I want to drink coffee.',
           ja: 'コーヒーを飲みたいです。',
-          'zh-cn': '我想喝咖啡。',
           es: 'Quiero tomar café.',
         },
-        audio_url: undefined,
       },
       {
         korean: '집에 가고 싶어요.',
         translations: {
           en: 'I want to go home.',
           ja: '家に帰りたいです。',
-          'zh-cn': '我想回家。',
           es: 'Quiero ir a casa.',
         },
-        audio_url: undefined,
       },
     ],
     level: 'beginner',
@@ -43,8 +37,6 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     translations: {
       en: 'Try ~ing',
       ja: '〜してみてください',
-      'zh-cn': '试试〜',
-      'zh-tw': '試試〜',
       es: 'Intenta ~',
     },
     examples: [
@@ -53,10 +45,82 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
         translations: {
           en: 'Try eating it.',
           ja: '食べてみてください。',
-          'zh-cn': '试着吃吃看。',
           es: 'Pruébalo.',
         },
-        audio_url: undefined,
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-003',
+    korean: 'N 주세요',
+    structure: '명사 + 주세요',
+    translations: {
+      en: 'Please give me N',
+      ja: 'Nをください',
+      es: 'Por favor, deme N',
+    },
+    examples: [
+      {
+        korean: '카페라떼 주세요.',
+        translations: {
+          en: 'Café latte, please.',
+          ja: 'カフェラテをください。',
+          es: 'Un café con leche, por favor.',
+        },
+      },
+      {
+        korean: '물 주세요.',
+        translations: {
+          en: 'Water, please.',
+          ja: 'お水をください。',
+          es: 'Agua, por favor.',
+        },
+      },
+      {
+        korean: '메뉴 주세요.',
+        translations: {
+          en: 'The menu, please.',
+          ja: 'メニューをください。',
+          es: 'El menú, por favor.',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-004',
+    korean: '이거 뭐예요?',
+    structure: '이거 / 저거 + 뭐예요?',
+    translations: {
+      en: 'What is this?',
+      ja: 'これは何ですか？',
+      es: '¿Qué es esto?',
+    },
+    examples: [
+      {
+        korean: '이거 뭐예요?',
+        translations: {
+          en: 'What is this?',
+          ja: 'これは何ですか？',
+          es: '¿Qué es esto?',
+        },
+      },
+      {
+        korean: '저거 뭐예요?',
+        translations: {
+          en: 'What is that?',
+          ja: 'あれは何ですか？',
+          es: '¿Qué es eso?',
+        },
+      },
+      {
+        korean: '이름이 뭐예요?',
+        translations: {
+          en: "What's your name?",
+          ja: 'お名前は何ですか？',
+          es: '¿Cuál es tu nombre?',
+        },
       },
     ],
     level: 'beginner',

@@ -2,8 +2,8 @@
 // Designed to support 100 episodes with multilingual content
 
 // Supported display languages — ko is the source language (Korean content base)
-// Launch order: 1st EN, 2nd ES+PT, 3rd ZH-CN
-export type KPattoLanguage = 'ko' | 'en' | 'es' | 'pt' | 'zh-cn'
+// Launch order: 1st EN, 2nd JA, 3rd ES
+export type KPattoLanguage = 'ko' | 'en' | 'ja' | 'es'
 
 export type MultiLangText = Partial<Record<KPattoLanguage, string>>
 
@@ -20,9 +20,26 @@ export interface KPattoPatternCard {
   pattern_id: string
 }
 
+export type TailDirection = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left'
+
+export interface SpeechBubbleConfig {
+  speaker: string
+  korean: string
+  x: number            // % from left (top-left corner of bubble box)
+  y: number            // % from top
+  width: number        // % of panel width
+  tailDirection: TailDirection
+  tailTarget: { x: number; y: number }  // % coordinates where tail tip points
+}
+
 export interface KPattoPanel {
   id: string
-  image_url?: string
+  image_url?: string       // individual panel image
+  strip_url?: string       // vertical strip containing multiple panels
+  strip_index?: number     // 0-based index within strip
+  strip_total?: number     // total panels in strip
+  panel_aspect?: string    // CSS aspect-ratio value e.g. '720/220'
+  speech_bubbles?: SpeechBubbleConfig[]
   dialogues: KPattoDialogue[]
   pattern_card?: KPattoPatternCard
 }

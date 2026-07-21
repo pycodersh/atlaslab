@@ -1,92 +1,204 @@
 import type { KPattoStory, KPattoVocabulary } from './types'
 
-// Episode 1 — 샘플. 실제 웹툰 이미지 없이 전체 흐름 확인용.
+const STRIP = '/kpatto/ep-001/strip.png'
+const ASPECT = '720/220'
+
 export const SAMPLE_EPISODE_1: KPattoStory = {
   id: 'kp-ep-001',
   episode: 1,
   title: '카페에서',
   level: 'beginner',
   theme: '일상 / 카페',
-  tags: ['kp-001', 'kp-002'],
+  tags: ['kp-003', 'kp-004'],
   vocabulary_ids: ['kp-v-001', 'kp-v-002', 'kp-v-003'],
   thumbnail_url: undefined,
   panels: [
+    // ── CUT 1 ─ 카페 앞 ──────────────────────────────────────────────
     {
       id: 'panel-1',
-      image_url: undefined, // placeholder — actual webtoon image goes here
+      strip_url: STRIP,
+      strip_index: 0,
+      strip_total: 5,
+      panel_aspect: ASPECT,
+      speech_bubbles: [
+        {
+          speaker: 'emma',
+          korean: '여기 카페예요?',
+          x: 7, y: 8, width: 34,
+          tailDirection: 'bottom-right',
+          tailTarget: { x: 33, y: 50 },
+        },
+      ],
       dialogues: [
         {
           id: 'd-1-1',
-          character: '지민',
-          korean: '안녕하세요! 뭐 드시겠어요?',
+          character: 'Emma',
+          korean: '여기 카페예요?',
           translations: {
-            en: 'Hello! What would you like?',
-            ja: 'いらっしゃいませ！何にしますか？',
-            'zh-cn': '你好！您想要什么？',
-            es: '¡Hola! ¿Qué desea?',
+            en: 'Is this a café?',
+            ja: 'ここはカフェですか？',
+            es: '¿Aquí hay un café?',
           },
-          audio_url: undefined,
         },
       ],
     },
+
+    // ── CUT 2 ─ 첫 만남 ──────────────────────────────────────────────
     {
       id: 'panel-2',
-      image_url: undefined,
+      strip_url: STRIP,
+      strip_index: 1,
+      strip_total: 5,
+      panel_aspect: ASPECT,
+      speech_bubbles: [
+        {
+          speaker: 'jisoo',
+          korean: '어서 오세요.',
+          x: 58, y: 8, width: 30,
+          tailDirection: 'bottom-left',
+          tailTarget: { x: 68, y: 42 },
+        },
+        {
+          speaker: 'emma',
+          korean: '안녕하세요.',
+          x: 7, y: 54, width: 28,
+          tailDirection: 'top-right',
+          tailTarget: { x: 34, y: 49 },
+        },
+      ],
       dialogues: [
         {
           id: 'd-2-1',
-          character: '손님',
-          korean: '아메리카노 마시고 싶어요.',
+          character: 'Jisoo',
+          korean: '어서 오세요.',
           translations: {
-            en: 'I want to drink an Americano.',
-            ja: 'アメリカーノが飲みたいです。',
-            'zh-cn': '我想喝美式咖啡。',
-            es: 'Quiero tomar un americano.',
+            en: 'Welcome.',
+            ja: 'いらっしゃいませ。',
+            es: 'Bienvenida.',
           },
-          audio_url: undefined,
-          pattern_id: 'kp-001',
+        },
+        {
+          id: 'd-2-2',
+          character: 'Emma',
+          korean: '안녕하세요.',
+          translations: {
+            en: 'Hello.',
+            ja: 'こんにちは。',
+            es: 'Hola.',
+          },
         },
       ],
-      // Pattern card shown after this panel
-      pattern_card: { pattern_id: 'kp-001' },
     },
+
+    // ── CUT 3 ─ 메뉴를 보며 질문 ─────────────────────────────────────
     {
       id: 'panel-3',
-      image_url: undefined,
+      strip_url: STRIP,
+      strip_index: 2,
+      strip_total: 5,
+      panel_aspect: ASPECT,
+      speech_bubbles: [
+        {
+          speaker: 'emma',
+          korean: '이거 뭐예요?',
+          x: 55, y: 8, width: 36,
+          tailDirection: 'bottom-left',
+          tailTarget: { x: 54, y: 51 },
+        },
+      ],
       dialogues: [
         {
           id: 'd-3-1',
-          character: '지민',
-          korean: '케이크도 한번 먹어 보세요. 오늘 새로 나왔어요!',
+          character: 'Emma',
+          korean: '이거 뭐예요?',
           translations: {
-            en: 'Try the cake too. It just came out today!',
-            ja: 'ケーキも食べてみてください。今日の新作ですよ！',
-            'zh-cn': '也试试蛋糕吧，今天刚出炉的！',
-            es: 'También prueba el pastel. ¡Salió hoy!',
+            en: 'What is this?',
+            ja: 'これは何ですか？',
+            es: '¿Qué es esto?',
           },
-          audio_url: undefined,
-          pattern_id: 'kp-002',
+          pattern_id: 'kp-004',
         },
       ],
+      pattern_card: { pattern_id: 'kp-004' },
     },
+
+    // ── CUT 4 ─ 주문하기 ──────────────────────────────────────────────
     {
       id: 'panel-4',
-      image_url: undefined,
+      strip_url: STRIP,
+      strip_index: 3,
+      strip_total: 5,
+      panel_aspect: ASPECT,
+      speech_bubbles: [
+        {
+          speaker: 'emma',
+          korean: '카페라떼 주세요.',
+          x: 4, y: 8, width: 36,
+          tailDirection: 'bottom-right',
+          tailTarget: { x: 34, y: 48 },
+        },
+        {
+          speaker: 'jisoo',
+          korean: '네, 알겠습니다.',
+          x: 60, y: 10, width: 32,
+          tailDirection: 'bottom-left',
+          tailTarget: { x: 67, y: 45 },
+        },
+      ],
       dialogues: [
         {
           id: 'd-4-1',
-          character: '손님',
-          korean: '정말요? 그럼 같이 주세요!',
+          character: 'Emma',
+          korean: '카페라떼 주세요.',
           translations: {
-            en: 'Really? Then please give me both!',
-            ja: '本当ですか？じゃあ一緒にください！',
-            'zh-cn': '真的吗？那一起来一个吧！',
-            es: '¿De verdad? ¡Entonces deme los dos!',
+            en: 'Café latte, please.',
+            ja: 'カフェラテをください。',
+            es: 'Un café con leche, por favor.',
           },
-          audio_url: undefined,
+          pattern_id: 'kp-003',
+        },
+        {
+          id: 'd-4-2',
+          character: 'Jisoo',
+          korean: '네, 알겠습니다.',
+          translations: {
+            en: 'Sure, got it!',
+            ja: 'はい、かしこまりました。',
+            es: 'Sí, de acuerdo.',
+          },
         },
       ],
-      pattern_card: { pattern_id: 'kp-002' },
+      pattern_card: { pattern_id: 'kp-003' },
+    },
+
+    // ── CUT 5 ─ 음료를 마신 후 ───────────────────────────────────────
+    {
+      id: 'panel-5',
+      strip_url: STRIP,
+      strip_index: 4,
+      strip_total: 5,
+      panel_aspect: ASPECT,
+      speech_bubbles: [
+        {
+          speaker: 'emma',
+          korean: '맛있어요!',
+          x: 56, y: 8, width: 30,
+          tailDirection: 'bottom-left',
+          tailTarget: { x: 57, y: 47 },
+        },
+      ],
+      dialogues: [
+        {
+          id: 'd-5-1',
+          character: 'Emma',
+          korean: '맛있어요!',
+          translations: {
+            en: "It's delicious!",
+            ja: 'おいしい！',
+            es: '¡Está delicioso!',
+          },
+        },
+      ],
     },
   ],
 }
@@ -94,38 +206,35 @@ export const SAMPLE_EPISODE_1: KPattoStory = {
 export const SAMPLE_VOCABULARY: KPattoVocabulary[] = [
   {
     id: 'kp-v-001',
-    korean: '아메리카노',
+    korean: '카페라떼',
     translations: {
-      en: 'Americano (coffee)',
-      ja: 'アメリカーノ',
-      'zh-cn': '美式咖啡',
-      es: 'Americano',
+      en: 'Café latte',
+      ja: 'カフェラテ',
+      es: 'Café con leche',
     },
     category: '음료',
     level: 'beginner',
   },
   {
     id: 'kp-v-002',
-    korean: '케이크',
-    translations: {
-      en: 'Cake',
-      ja: 'ケーキ',
-      'zh-cn': '蛋糕',
-      es: 'Pastel',
-    },
-    category: '음식',
-    level: 'beginner',
-  },
-  {
-    id: 'kp-v-003',
     korean: '카페',
     translations: {
       en: 'Café',
       ja: 'カフェ',
-      'zh-cn': '咖啡厅',
       es: 'Cafetería',
     },
     category: '장소',
+    level: 'beginner',
+  },
+  {
+    id: 'kp-v-003',
+    korean: '맛있어요',
+    translations: {
+      en: 'It\'s delicious',
+      ja: 'おいしい',
+      es: 'Está delicioso',
+    },
+    category: '형용사',
     level: 'beginner',
   },
 ]

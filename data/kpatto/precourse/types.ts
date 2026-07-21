@@ -62,7 +62,7 @@ export interface DiphthongGridStep {
   title: MultiLangText
   note?: MultiLangText
   primary: { char: string; romanization: string; composition?: string }[]
-  secondary?: { char: string; romanization: string }[]
+  secondary?: { char: string; romanization: string; composition?: string }[]
 }
 
 export interface LiaisonDemoStep {
