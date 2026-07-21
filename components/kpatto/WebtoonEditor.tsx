@@ -99,9 +99,6 @@ const BUBBLE_TYPES = [
   { key: 'bubble-10-shout',              label: '레거시: 외침형' },
   { key: 'bubble-11-narration',          label: '나레이션 박스' },
 ]
-const SPEAKER_COLORS: Record<string, string> = { emma: '#E85D6E', jisoo: '#3B82F6' }
-const SPEAKER_AVATAR: Record<string, string> = { emma: '🙋‍♀️', jisoo: '👩‍💼' }
-
 function eff(base: WebtoonBubble, o?: Override): WebtoonBubble {
   if (!o) return base
   return {
@@ -190,9 +187,6 @@ function EditableBubble({
   const b = eff(base, override)
   const meta = bmeta(b.bubbleKey)
   const sa = meta.safeArea
-  const speakerColor = SPEAKER_COLORS[b.speaker] ?? '#444'
-  const [speaking, setSpeaking] = useState(false)
-
   const lines = b.lines ?? 1
   const koSize = lines === 1 ? 'clamp(12px,3.8vw,16px)' : lines === 2 ? 'clamp(11px,3.4vw,14px)' : 'clamp(10px,3.0vw,13px)'
   const trSize = 'clamp(9px,2.4vw,11px)'
@@ -223,11 +217,10 @@ function EditableBubble({
     if (!rect) return
     const dx = (e.clientX - dragRef.current.startPX) / rect.width * 100
     const dy = (e.clientY - dragRef.current.startPY) / rect.height * 100
-    const hPct = bubbleHeightPct(b.widthPct, b.bubbleKey, gapSection.heightRatio)
-    const newX = Math.max(0, Math.min(100 - b.widthPct, dragRef.current.startXPct + dx))
-    const newY = Math.max(0, Math.min(100 - hPct, dragRef.current.startYPct + dy))
+    const newX = dragRef.current.startXPct + dx
+    const newY = dragRef.current.startYPct + dy
     onMove(b.id, newX, newY)
-  }, [b.id, b.widthPct, b.bubbleKey, gapSection.heightRatio, onMove])
+  }, [b.id, onMove])
 
   const handlePointerUp = useCallback(() => {
     if (!dragRef.current) return
@@ -255,17 +248,6 @@ function EditableBubble({
     resizeRef.current = null
     onCommit()
   }, [onCommit])
-
-  const handleSpeak = useCallback(() => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return
-    window.speechSynthesis.cancel()
-    const u = new SpeechSynthesisUtterance(b.korean)
-    u.lang = 'ko-KR'; u.rate = 0.85
-    setSpeaking(true)
-    u.onend = () => setSpeaking(false)
-    u.onerror = () => setSpeaking(false)
-    window.speechSynthesis.speak(u)
-  }, [b.korean])
 
   // ── Tail tip drag ─────────────────────────────────────────────────────────
   const handleTipDown = useCallback((e: React.PointerEvent) => {
@@ -393,28 +375,6 @@ function EditableBubble({
           </div>
         )}
       </div>
-
-      {/* Speaker button */}
-      <button
-        onClick={(e) => { e.stopPropagation(); if (!editMode) handleSpeak() }}
-        aria-label={`${b.speaker} 발음 듣기`}
-        style={{
-          position: 'absolute',
-          zIndex: hasTail ? 2 : undefined,
-          bottom: `${sa.bottom * 100 * 0.25}%`, right: `${sa.right * 100 * 0.25}%`,
-          width: '5.5vw', height: '5.5vw', maxWidth: 26, maxHeight: 26, minWidth: 18, minHeight: 18,
-          borderRadius: '50%',
-          background: speaking ? speakerColor : 'rgba(255,255,255,0.92)',
-          border: `1.5px solid ${speakerColor}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: editMode ? 'default' : 'pointer',
-          fontSize: '2.8vw', padding: 0,
-          boxShadow: '0 1px 3px rgba(0,0,0,0.15)', transition: 'all 0.15s',
-          pointerEvents: editMode ? 'none' : 'auto',
-        }}
-      >
-        {SPEAKER_AVATAR[b.speaker] ?? '🔊'}
-      </button>
 
       {/* ── Edit-mode overlays ── */}
       {isSelected && editMode && (
@@ -662,9 +622,11 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
               position: 'relative', width: '100%',
               paddingBottom: `${gap.heightRatio * 100}%`,
               background: '#fdfdf9',
+              zIndex: 1,
+              overflow: 'visible',
             }}
           >
-            <div style={{ position: 'absolute', inset: 0 }}>
+            <div style={{ position: 'absolute', inset: 0, overflow: 'visible' }}>
               {gap.bubbles.map(base => (
                 <EditableBubble
                   key={base.id}
