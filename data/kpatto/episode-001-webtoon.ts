@@ -17,8 +17,12 @@ import type { WebtoonEpisodeData, BubbleTailData } from './webtoon-types'
 // widthPct    : gap 컨테이너 너비에 대한 %
 // heightRatio : gap 높이(px) / 430
 
-const tailL: BubbleTailData = { anchor: 0.28, tipX: 0.15, tipY: 0.97, baseWidth: 0.09 }
-const tailR: BubbleTailData = { anchor: 0.22, tipX: 0.85, tipY: 0.97, baseWidth: 0.09 }
+// 아래쪽 꼬리 (화자가 말풍선 아래에 위치)
+const tailL:    BubbleTailData = { anchor: 0.28, tipX: 0.15, tipY:  0.97, baseWidth: 0.09 }
+const tailR:    BubbleTailData = { anchor: 0.22, tipX: 0.85, tipY:  0.97, baseWidth: 0.09 }
+// 위쪽 꼬리 (화자가 말풍선 위에 위치)
+const tailLTop: BubbleTailData = { anchor: 0.72, tipX: 0.15, tipY: -0.20, baseWidth: 0.09 }
+const tailRTop: BubbleTailData = { anchor: 0.78, tipX: 0.85, tipY: -0.20, baseWidth: 0.09 }
 
 export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
   id: 'kp-ep-001',
