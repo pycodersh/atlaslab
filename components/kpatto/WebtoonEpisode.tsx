@@ -18,6 +18,7 @@ function getBubbleMeta(key: string) {
     src: string
     viewBox: string
     label: string
+    flipY?: boolean
     safeArea: { left: number; top: number; right: number; bottom: number }
   }
 }
@@ -76,7 +77,7 @@ function WebtoonBubbleEl({
           display: 'block',
           width: '100%',
           height: 'auto',
-          transform: bubble.flip ? 'scaleX(-1)' : undefined,
+          transform: [meta.flipY && 'scaleY(-1)', bubble.flip && 'scaleX(-1)'].filter(Boolean).join(' ') || undefined,
           userSelect: 'none',
           pointerEvents: 'none',
         }}

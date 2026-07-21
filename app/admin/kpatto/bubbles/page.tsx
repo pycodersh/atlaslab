@@ -36,7 +36,7 @@ interface CardProps {
 }
 
 function BubbleCard({ bKey, width, lines, showSafe, flipped }: CardProps) {
-  const meta = bubblesData[bKey] as { src: string; viewBox: string; safeArea: Record<string, number> }
+  const meta = bubblesData[bKey] as { src: string; viewBox: string; flipY?: boolean; safeArea: Record<string, number> }
   const [vbW, vbH] = parseViewBox(bKey)
   const height = (width / vbW) * vbH
   const sa = meta.safeArea
@@ -54,7 +54,7 @@ function BubbleCard({ bKey, width, lines, showSafe, flipped }: CardProps) {
         alt={bKey}
         style={{
           display: 'block', width, height,
-          transform: flipped ? 'scaleX(-1)' : undefined,
+          transform: [meta.flipY && 'scaleY(-1)', flipped && 'scaleX(-1)'].filter(Boolean).join(' ') || undefined,
           userSelect: 'none', pointerEvents: 'none',
         }}
       />
@@ -131,7 +131,7 @@ export default function BubblesPreviewPage() {
       {/* ── Content ── */}
       <div style={{ maxWidth: mobile ? 375 : undefined, margin: mobile ? '0 auto' : undefined, padding: '24px 20px' }}>
         {KEYS.map(key => {
-          const meta = bubblesData[key] as { label: string; category: string }
+          const meta = bubblesData[key] as { label: string; category: string; flipY?: boolean }
           return (
             <div key={key} style={{ marginBottom: 48 }}>
               {/* Row label */}
@@ -139,6 +139,8 @@ export default function BubblesPreviewPage() {
                 <span style={{ fontWeight: 700, fontSize: 13, color: '#a5b4fc' }}>{key}</span>
                 <span style={{ fontSize: 11, color: '#555', background: '#1a1a2e', padding: '2px 8px', borderRadius: 10 }}>{meta.label}</span>
                 {meta.category === 'shout' && <span style={{ fontSize: 10, color: '#f59e0b', background: 'rgba(245,158,11,0.1)', padding: '2px 8px', borderRadius: 10 }}>외침형</span>}
+                {meta.category === 'narration' && <span style={{ fontSize: 10, color: '#10b981', background: 'rgba(16,185,129,0.1)', padding: '2px 8px', borderRadius: 10 }}>나레이션</span>}
+                {meta.flipY && <span style={{ fontSize: 10, color: '#6366f1', background: 'rgba(99,102,241,0.1)', padding: '2px 8px', borderRadius: 10 }}>flipY</span>}
               </div>
 
               {/* 3 sizes side by side */}
