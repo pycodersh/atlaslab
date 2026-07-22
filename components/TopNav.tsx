@@ -103,7 +103,7 @@ function UserButton() {
 
 export function TopNav() {
   return (
-    <nav style={{ background: 'var(--pb)', borderBottom: 'none', position: 'sticky', top: 0, zIndex: 50 }}>
+    <nav style={{ background: 'transparent', borderBottom: 'none' }}>
       <div
         className="flex items-center justify-between px-5"
         style={{

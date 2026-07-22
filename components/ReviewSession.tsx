@@ -184,7 +184,7 @@ export function ReviewSession() {
 
   // ── 카드 진행 화면 ──
   return (
-    <div className="min-h-dvh bg-transparent flex flex-col">
+    <div className="min-h-dvh bg-transparent flex flex-col" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
       {/* 상단: 오늘 복습 진행률 */}
       <div className="px-6 pt-5">
         <div className="flex items-center justify-between mb-2">

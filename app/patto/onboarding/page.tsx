@@ -74,7 +74,8 @@ export default function PattoOnboardingPage() {
     <main style={{
       height: '100dvh', overflow: 'hidden', overflowX: 'hidden',
       display: 'flex', justifyContent: 'center',
-      padding: 10, color: 'var(--pt)', boxSizing: 'border-box',
+      padding: 10, paddingTop: 'calc(10px + env(safe-area-inset-top, 0px))',
+      color: 'var(--pt)', boxSizing: 'border-box',
     }}>
       <section
         onTouchStart={onTouchStart}
