@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import type { User } from '@supabase/supabase-js'
-import { ChevronRight, Info, User as UserIcon, LogOut, FileText, Shield, ReceiptText, Mail, Bell, CreditCard, Globe } from 'lucide-react'
+import { ChevronRight, Info, User as UserIcon, LogOut, FileText, Shield, ReceiptText, Bell, CreditCard, Globe, X } from 'lucide-react'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { useAuth } from '@/contexts/AuthContext'
@@ -232,6 +232,157 @@ function GuestCard() {
   )
 }
 
+// ── Legal docs ────────────────────────────────────────────────────────────────
+const LEGAL: Record<string, { title: string; updated: string; body: string }> = {
+  terms: {
+    title: 'Terms of Service',
+    updated: 'Last updated: June 25, 2026',
+    body: `1. About the Service
+K-PATTO ("Service") is a mobile and web application that helps you build natural Korean skills through webtoon-style stories and pattern learning. The Service is operated by Atlas Lab Studios and is available to users worldwide.
+
+By accessing or using the Service, you agree to be bound by these Terms of Service. If you do not agree, please do not use the Service.
+
+2. User Responsibilities
+You must use K-PATTO in compliance with applicable laws and in accordance with these Terms. The following actions are prohibited:
+• Using the Service in any way that violates applicable laws
+• Attempting unauthorized access to any part of the Service
+• Reproducing, distributing, or creating derivative works without written permission
+• Using automated tools to scrape or crawl content
+• Interfering with or degrading the performance of the Service
+
+3. Subscription Policy
+K-PATTO offers a free plan and a premium subscription plan. Premium subscriptions are billed on a monthly or annual basis as selected at the time of purchase.
+
+Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current billing period. You may cancel your subscription at any time in your account settings.
+
+Prices may change with 30 days' advance notice. Continued use of the Service after a price change constitutes acceptance of the new price.
+
+4. Intellectual Property
+All content within K-PATTO — including stories, patterns, illustrations, audio, and software — is owned by Atlas Lab Studios or its licensors and is protected by copyright and other intellectual property laws.
+
+You are granted a limited, non-exclusive license to access and use the content for personal, non-commercial purposes.
+
+5. Limitation of Liability
+To the maximum extent permitted by applicable law, Atlas Lab Studios shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of or inability to use the Service.
+
+The Service is provided "as is" and "as available" without warranties of any kind.
+
+6. Account Termination
+We may suspend or terminate your account at our sole discretion if you violate these Terms or engage in behavior harmful to the Service or other users.
+
+7. Contact
+Website: atlaslabstudios.com`,
+  },
+  privacy: {
+    title: 'Privacy Policy',
+    updated: 'Last updated: June 25, 2026',
+    body: `1. Information We Collect
+We collect the following information you provide directly:
+• Account information (email address, username, profile photo)
+• Usage data (stories read, patterns learned, study streaks)
+• Device information (device type, operating system, browser type)
+• Inquiries and feedback
+
+We do not collect sensitive personal information such as payment details directly.
+
+2. How We Use Your Information
+We use collected information to:
+• Provide, maintain, and improve the Service
+• Deliver personalized learning experiences and track progress
+• Send transactional emails (account verification, subscription receipts)
+• Respond to inquiries and support requests
+• Analyze usage patterns to improve the Service
+• Comply with legal obligations
+
+We do not sell your personal information to third parties.
+
+3. Data Storage
+Data is stored on secure servers provided by Supabase, Inc. Your data may be stored and processed in the United States or in countries where our service providers operate.
+
+Account data is retained while your account is active. Upon account deletion, personal information is deleted within 30 days, subject to legal retention requirements.
+
+4. Cookies
+K-PATTO uses cookies and similar technologies:
+• Session cookies — maintain your login state
+• Preference cookies — remember settings like language
+• Analytics cookies — understand usage patterns
+
+5. Third-Party Services
+• Supabase — database and authentication
+• Vercel — hosting and content delivery
+• Web Speech API — on-device TTS (no data transmitted)
+
+6. Your Rights
+Depending on your location, you may have the right to access, correct, delete, or export your personal data. Contact us at atlaslabstudios.com to exercise these rights.
+
+7. Contact
+Website: atlaslabstudios.com`,
+  },
+  refund: {
+    title: 'Refund Policy',
+    updated: 'Last updated: July 8, 2026',
+    body: `1. Our Commitment
+K-PATTO operates a fair and transparent refund policy for all subscription payments.
+
+2. Refund Eligibility
+You may request a refund within 14 days of your initial subscription payment.
+
+Refunds may be limited in the following cases:
+• A substantial portion of the premium content has been accessed
+• A refund has already been issued for the same account
+
+3. Auto-Renewing Subscriptions
+Monthly and annual subscriptions automatically renew unless cancelled at least 24 hours before the end of the current billing period.
+
+Payments made after automatic renewal are non-refundable. You may cancel at any time in your account settings and will retain access until the end of the billing period.
+
+4. How to Request a Refund
+Contact us at atlaslabstudios.com with your account email. We will respond within 5 business days. Approved refunds will be processed within 7–14 business days.
+
+5. Technical Issues
+If a technical failure caused by K-PATTO prevents normal use of the Service, we will offer a full refund or subscription extension.
+
+6. Contact
+Website: atlaslabstudios.com`,
+  },
+}
+
+function LegalModal({ docKey, onClose }: { docKey: string; onClose: () => void }) {
+  const doc = LEGAL[docKey]
+  const scrollRef = useRef<HTMLDivElement>(null)
+  if (!doc) return null
+  return (
+    <div
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+      onClick={onClose}
+    >
+      <div
+        style={{ width: '100%', maxWidth: 480, background: '#FFFFFF', borderRadius: '20px 20px 0 0', maxHeight: '85vh', display: 'flex', flexDirection: 'column' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 12px', borderBottom: '1px solid #F0EDE8', flexShrink: 0 }}>
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: T1 }}>{doc.title}</div>
+            <div style={{ fontSize: 11, color: T2, marginTop: 2 }}>{doc.updated}</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+            <X size={18} color={T2} strokeWidth={2} />
+          </button>
+        </div>
+        {/* Body */}
+        <div ref={scrollRef} style={{ overflowY: 'auto', padding: '20px 20px 40px', flex: 1 }}>
+          {doc.body.split('\n\n').map((para, i) => (
+            <p key={i} style={{ fontSize: 13.5, color: para.match(/^\d+\./) ? T1 : T2, fontWeight: para.match(/^\d+\./) ? 700 : 400, lineHeight: 1.75, margin: '0 0 14px', whiteSpace: 'pre-line' }}>
+              {para}
+            </p>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── Language selector ─────────────────────────────────────────────────────────
 const LANG_LABELS: Record<string, string> = { en: 'English', ja: '日本語', es: 'Español' }
 
@@ -296,6 +447,7 @@ function LanguageRow({ lang, onSelect }: { lang: KPattoLanguage; onSelect: (l: K
 export default function KPattoProfilePage() {
   const { user, loading } = useAuth()
   const { prefs, update } = usePreferences()
+  const [legalModal, setLegalModal] = useState<string | null>(null)
 
   return (
     <div style={{ minHeight: '100vh', background: '#F9F9F9', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
@@ -318,18 +470,32 @@ export default function KPattoProfilePage() {
       {/* ABOUT K-PATTO */}
       <SectionHeader label="About K-PATTO" />
       <Card>
-        <RowItem icon={FileText} label="Terms of Service" onClick={() => {}} />
+        <RowItem icon={FileText} label="Terms of Service" onClick={() => setLegalModal('terms')} />
         <RowDivider />
-        <RowItem icon={Shield} label="Privacy Policy" onClick={() => {}} />
+        <RowItem icon={Shield} label="Privacy Policy" onClick={() => setLegalModal('privacy')} />
         <RowDivider />
-        <RowItem icon={ReceiptText} label="Refund Policy" onClick={() => {}} />
+        <RowItem icon={ReceiptText} label="Refund Policy" onClick={() => setLegalModal('refund')} />
         <RowDivider />
-        <RowItem icon={Mail} label="Contact Us" onClick={() => {}} />
+        {/* Contact Us — amber link, no chevron */}
+        <a
+          href="https://atlaslabstudios.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', textDecoration: 'none' }}
+        >
+          <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+            <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          <span style={{ flex: 1, fontSize: 15, fontWeight: 500, color: T1 }}>Contact Us</span>
+          <span style={{ fontSize: 13, color: ACCENT, fontWeight: 500 }}>atlaslabstudios.com</span>
+        </a>
         <RowDivider />
         <RowItem icon={Info} label="Version" value="1.0.0" />
       </Card>
 
       <div style={{ height: 24 }} />
+
+      {legalModal && <LegalModal docKey={legalModal} onClose={() => setLegalModal(null)} />}
     </div>
   )
 }
