@@ -73,7 +73,7 @@ function RowItem({
       }}
     >
       <Icon size={18} color={danger ? '#EF4444' : ACCENT} strokeWidth={1.8} style={{ flexShrink: 0 }} />
-      <span style={{ flex: 1, fontSize: 15, fontWeight: 500, color: danger ? '#EF4444' : T1 }}>{label}</span>
+      <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: danger ? '#EF4444' : T1 }}>{label}</span>
       {value && <span style={{ fontSize: 13, color: T2, marginRight: 4 }}>{value}</span>}
       {onClick && <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />}
     </button>
@@ -403,7 +403,7 @@ function LanguageRow({ lang, onSelect }: { lang: KPattoLanguage; onSelect: (l: K
         }}
       >
         <Globe size={18} color={ACCENT} strokeWidth={1.8} style={{ flexShrink: 0 }} />
-        <span style={{ flex: 1, fontSize: 15, fontWeight: 500, color: T1 }}>Language</span>
+        <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Language</span>
         <span style={{ fontSize: 13, color: T2, marginRight: 4 }}>{LANG_LABELS[lang]}</span>
         <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />
       </button>
@@ -486,7 +486,7 @@ export default function KPattoProfilePage() {
           <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
             <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
           </svg>
-          <span style={{ flex: 1, fontSize: 15, fontWeight: 500, color: T1 }}>Contact Us</span>
+          <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Contact Us</span>
           <span style={{ fontSize: 13, color: ACCENT, fontWeight: 500 }}>atlaslabstudios.com</span>
         </a>
         <RowDivider />
