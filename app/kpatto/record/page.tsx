@@ -22,6 +22,7 @@ const CARD: React.CSSProperties = {
   border: `1px solid ${BORDER}`,
   borderRadius: 12,
   overflow: 'hidden',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
 }
 
 function SectionLabel({ text }: { text: string }) {

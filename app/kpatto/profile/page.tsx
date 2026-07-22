@@ -37,6 +37,7 @@ function Card({ children }: { children: React.ReactNode }) {
       border: `1px solid ${BORDER}`,
       borderRadius: 12,
       overflow: 'hidden',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
     }}>
       {children}
     </div>
