@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Volume2 } from 'lucide-react'
-import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection } from '@/data/kpatto/webtoon-types'
+import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection, WebtoonCropSection } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
 
@@ -180,6 +180,27 @@ function PanelSection({ section }: { section: WebtoonPanelSection }) {
   )
 }
 
+// ── Crop panel section ───────────────────────────────────────────────────────
+function CropPanelSection({ section }: { section: WebtoonCropSection }) {
+  const { imageUrl, imageAspect, cropLeftPct, cropTopPct, cropWidthPct, cropHeightPct } = section
+  const containerPb = (cropHeightPct / cropWidthPct) * imageAspect * 100
+  const imgWidth  = `${(100 / cropWidthPct) * 100}%`
+  const imgLeft   = `${-(cropLeftPct / cropWidthPct) * 100}%`
+  const imgTop    = `${-(cropTopPct / cropWidthPct) * imageAspect * 100}%`
+
+  return (
+    <div style={{ position: 'relative', width: '100%', paddingBottom: `${containerPb}%`, overflow: 'hidden', background: '#fff' }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={imageUrl}
+        alt=""
+        aria-hidden="true"
+        style={{ position: 'absolute', width: imgWidth, height: 'auto', left: imgLeft, top: imgTop, display: 'block', userSelect: 'none', pointerEvents: 'none' }}
+      />
+    </div>
+  )
+}
+
 // ── Override merge helper ────────────────────────────────────────────────────
 type OverrideMap = Record<string, {
   bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number
@@ -341,6 +362,9 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
               playingId={playingId}
             />
           )
+        }
+        if (section.type === 'crop-panel') {
+          return <CropPanelSection key={section.id} section={section} />
         }
         return <PanelSection key={section.id} section={section} />
       })}

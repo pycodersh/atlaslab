@@ -240,6 +240,9 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
   ],
 }
 
+import { EPISODE_002_WEBTOON } from './episode-002-webtoon'
+
 export const WEBTOON_EPISODES: Record<string, WebtoonEpisodeData> = {
   'kp-ep-001': EPISODE_001_WEBTOON,
+  'kp-ep-002': EPISODE_002_WEBTOON,
 }

@@ -239,4 +239,16 @@ export const SAMPLE_VOCABULARY: KPattoVocabulary[] = [
   },
 ]
 
-export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1]
+export const SAMPLE_EPISODE_2: KPattoStory = {
+  id: 'kp-ep-002',
+  episode: 2,
+  title: '지하철에서',
+  level: 'beginner',
+  theme: '일상 / 지하철',
+  tags: ['kp-005', 'kp-003', 'kp-006'],
+  vocabulary_ids: [],
+  thumbnail_url: '/kpatto/ep-002/kpatto_ep02.png',
+  panels: [],
+}
+
+export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2]

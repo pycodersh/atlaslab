@@ -42,7 +42,23 @@ export interface WebtoonPanelSection {
   layout: 'wide' | 'medium-right' | 'medium-left'
 }
 
-export type WebtoonSection = WebtoonGapSection | WebtoonPanelSection
+/**
+ * Single-image CSS-crop panel. All panels in an episode share one source image.
+ * Crop values are percentages of the image's natural dimensions.
+ * imageAspect = imgHeight / imgWidth (e.g. 1.5 for 1024×1536)
+ */
+export interface WebtoonCropSection {
+  type: 'crop-panel'
+  id: string
+  imageUrl: string
+  imageAspect: number   // H/W of the source image
+  cropLeftPct: number   // left edge of crop window (% of image width)
+  cropTopPct: number    // top edge of crop window (% of image height)
+  cropWidthPct: number  // width of crop window (% of image width)
+  cropHeightPct: number // height of crop window (% of image height)
+}
+
+export type WebtoonSection = WebtoonGapSection | WebtoonPanelSection | WebtoonCropSection
 
 export interface WebtoonEpisodeData {
   id: string
