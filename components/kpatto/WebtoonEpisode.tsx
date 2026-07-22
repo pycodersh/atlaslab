@@ -182,20 +182,31 @@ function PanelSection({ section }: { section: WebtoonPanelSection }) {
 
 // ── Crop panel section ───────────────────────────────────────────────────────
 function CropPanelSection({ section }: { section: WebtoonCropSection }) {
-  const { imageUrl, imageAspect, cropLeftPct, cropTopPct, cropWidthPct, cropHeightPct } = section
-  const containerPb = (cropHeightPct / cropWidthPct) * imageAspect * 100
-  const imgWidth  = `${(100 / cropWidthPct) * 100}%`
-  const imgLeft   = `${-(cropLeftPct / cropWidthPct) * 100}%`
-  const imgTop    = `${-(cropTopPct / cropWidthPct) * imageAspect * 100}%`
+  const { imageUrl, srcW, cropX, cropY, cropW, cropH } = section
+  // All values are % of containerWidth — aspect ratio works out regardless of imageAspect
+  const pb       = (cropH / cropW) * 100
+  const imgWidth = (srcW  / cropW) * 100
+  const imgLeft  = -(cropX / cropW) * 100
+  const imgTop   = -(cropY / cropW) * 100
 
   return (
-    <div style={{ position: 'relative', width: '100%', paddingBottom: `${containerPb}%`, overflow: 'hidden', background: '#fff' }}>
+    <div style={{ position: 'relative', width: '100%', paddingBottom: `${pb}%`, overflow: 'hidden', background: '#fff' }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageUrl}
         alt=""
         aria-hidden="true"
-        style={{ position: 'absolute', width: imgWidth, height: 'auto', left: imgLeft, top: imgTop, display: 'block', userSelect: 'none', pointerEvents: 'none' }}
+        style={{
+          position: 'absolute',
+          width: `${imgWidth}%`,
+          maxWidth: 'none',
+          height: 'auto',
+          left: `${imgLeft}%`,
+          top: `${imgTop}%`,
+          display: 'block',
+          userSelect: 'none',
+          pointerEvents: 'none',
+        }}
       />
     </div>
   )

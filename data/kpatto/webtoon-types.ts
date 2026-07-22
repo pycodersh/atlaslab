@@ -44,18 +44,23 @@ export interface WebtoonPanelSection {
 
 /**
  * Single-image CSS-crop panel. All panels in an episode share one source image.
- * Crop values are percentages of the image's natural dimensions.
- * imageAspect = imgHeight / imgWidth (e.g. 1.5 for 1024×1536)
+ * Crop values are natural pixel coordinates of the source image.
+ *
+ * CSS formulae (containerWidth = 100%):
+ *   imgWidth  = (srcW / cropW) × 100%
+ *   imgLeft   = -(cropX / cropW) × 100%
+ *   imgTop    = -(cropY / cropW) × 100%   ← NOT cropH; aspect is handled by imgWidth
+ *   pb        = (cropH / cropW) × 100%
  */
 export interface WebtoonCropSection {
   type: 'crop-panel'
   id: string
   imageUrl: string
-  imageAspect: number   // H/W of the source image
-  cropLeftPct: number   // left edge of crop window (% of image width)
-  cropTopPct: number    // top edge of crop window (% of image height)
-  cropWidthPct: number  // width of crop window (% of image width)
-  cropHeightPct: number // height of crop window (% of image height)
+  srcW: number   // natural width of source image in px
+  cropX: number  // left edge of crop region in px
+  cropY: number  // top edge of crop region in px
+  cropW: number  // width of crop region in px
+  cropH: number  // height of crop region in px
 }
 
 export type WebtoonSection = WebtoonGapSection | WebtoonPanelSection | WebtoonCropSection
