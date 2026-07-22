@@ -29,7 +29,7 @@ export function KPattoHeader() {
             alt="K-PATTO"
             width={28}
             height={28}
-            style={{ borderRadius: 7, background: 'transparent', mixBlendMode: 'multiply' }}
+            style={{ background: 'transparent' }}
           />
           <span style={{
             fontSize: 18,
