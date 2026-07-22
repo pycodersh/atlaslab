@@ -450,7 +450,7 @@ export default function KPattoProfilePage() {
   const [legalModal, setLegalModal] = useState<string | null>(null)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F9F9F9', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
+    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
       <KPattoHeader />
 
       {/* ACCOUNT */}

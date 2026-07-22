@@ -52,7 +52,7 @@ const QUESTIONS: Question[] = [
   },
   {
     type: 'build',
-    prompt: '"카페라떼 주세요" 를 만들어보세요',
+    prompt: '"A café latte, please."',
     words: ['카페라떼', '있어요', '주세요', '뭐예요'],
     answer: ['카페라떼', '주세요'],
   },
@@ -242,8 +242,9 @@ function BuildCard({ q, onCorrect }: {
 
   return (
     <div>
-      <div style={{ fontSize: 16, fontWeight: 700, color: T1, marginBottom: 16, textAlign: 'center' }}>
-        {q.prompt}
+      <div style={{ textAlign: 'center', marginBottom: 20 }}>
+        <div style={{ fontSize: 13, color: '#999999', marginBottom: 6 }}>How do you say this in Korean?</div>
+        <div style={{ fontSize: 18, fontWeight: 800, color: '#1A1A1A', lineHeight: 1.4 }}>{q.prompt}</div>
       </div>
 
       {/* Assembly area */}
