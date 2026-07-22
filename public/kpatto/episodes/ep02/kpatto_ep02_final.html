@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>K-PATTO EP02 · 지하철에서</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
+    }
+    .story {
+      width: min(100%, 430px);
+      margin: 0 auto;
+      background: #fff;
+    }
+    .top-space    { height: 80px; }
+    .bottom-space { height: 160px; }
+    .gap          { height: 60px; }
+
+    /* ── 컷 크롭 ──
+       원본 1024×1536 실측 기준
+       cut1~4: 약 502×514 (정사각형에 가까움)
+       cut5:   1005×490  (와이드)
+       
+       방식: 컨테이너 = 컷 비율로 고정,
+             img를 컨테이너 너비 기준으로 확대 후 offset으로 크롭
+    */
+    .cut {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    /* 컷1~4: aspect 502:514 ≈ 1:1.024 */
+    .cut-half { aspect-ratio: 502 / 514; }
+    /* 컷5: aspect 1005:490 ≈ 2.05:1 */
+    .cut-wide { aspect-ratio: 1005 / 490; }
+
+    .cut img {
+      position: absolute;
+      display: block;
+      /* scale, translate는 인라인 style로 */
+    }
+
+    /* ── 말풍선 ── */
+    .dlayer { position: absolute; inset: 0; pointer-events: none; }
+
+    .bubble {
+      position: absolute;
+      background: #fff;
+      border: 2.5px solid #111;
+      border-radius: 50%;
+      padding: 10px 14px;
+      text-align: center;
+      line-height: 1.45;
+    }
+    .ko { display: block; font-size: 13px; font-weight: 700; color: #111; }
+    .en { display: block; font-size: 10px; color: #D4873A; margin-top: 2px; }
+
+    /* 꼬리 아래 */
+    .tb::after  { content:''; position:absolute; bottom:-13px; left:50%; transform:translateX(-50%); border:7px solid transparent; border-top-color:#111; }
+    .tb::before { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top-color:#fff; z-index:1; }
+    /* 꼬리 위 */
+    .tt::after  { content:''; position:absolute; top:-13px; left:50%; transform:translateX(-50%); border:7px solid transparent; border-bottom-color:#111; }
+    .tt::before { content:''; position:absolute; top:-10px; left:50%; transform:translateX(-50%); border:6px solid transparent; border-bottom-color:#fff; z-index:1; }
+    /* 꼬리 오른쪽 아래 */
+    .tr::after  { content:''; position:absolute; bottom:-8px; right:18%; border:7px solid transparent; border-top-color:#111; transform:rotate(20deg); }
+    .tr::before { content:''; position:absolute; bottom:-5px; right:19%; border:6px solid transparent; border-top-color:#fff; z-index:1; transform:rotate(20deg); }
+  </style>
+</head>
+<body>
+<main class="story">
+  <div class="top-space"></div>
+
+  <!-- 컷1: 지하철역 입구, 에마 혼자 -->
+  <section class="cut cut-half" id="c1" data-x="9" data-y="9" data-cw="502" data-ch="514">
+    <img src="kpatto_ep02_single_image.png" alt="컷1">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:7%;left:28%;width:60%;">
+        <span class="ko">와... 사람이<br>너무 많다!</span>
+        <span class="en">Wow... so many people!</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="gap"></div>
+
+  <!-- 컷2: 노선도 앞, 행인에게 길 물어봄 -->
+  <section class="cut cut-half" id="c2" data-x="513" data-y="9" data-cw="501" data-ch="514">
+    <img src="kpatto_ep02_single_image.png" alt="컷2">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:6%;left:4%;width:55%;">
+        <span class="ko">저기요, 홍대<br>어떻게 가요?</span>
+        <span class="en">Excuse me, how do<br>I get to Hongdae?</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="gap"></div>
+
+  <!-- 컷3: 지수 등장 -->
+  <section class="cut cut-half" id="c3" data-x="9" data-y="529" data-cw="502" data-ch="502">
+    <img src="kpatto_ep02_single_image.png" alt="컷3">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:5%;right:4%;width:55%;">
+        <span class="ko">지수야! 홍대<br>가고 싶어요...<br>어디예요?</span>
+        <span class="en">Jisu! I want to go<br>to Hongdae...<br>where is it?</span>
+      </div>
+      <div class="bubble tt" style="bottom:7%;left:4%;width:50%;">
+        <span class="ko">에마야!<br>여기서 뭐 해?</span>
+        <span class="en">Emma! What are<br>you doing here?</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="gap"></div>
+
+  <!-- 컷4: 티켓 기계 앞 -->
+  <section class="cut cut-half" id="c4" data-x="513" data-y="529" data-cw="501" data-ch="502">
+    <img src="kpatto_ep02_single_image.png" alt="컷4">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:5%;left:4%;width:55%;">
+        <span class="ko">표 두 장 주세요!</span>
+        <span class="en">Two tickets, please!</span>
+      </div>
+      <div class="bubble tt" style="bottom:7%;right:4%;width:44%;">
+        <span class="ko">완벽해!</span>
+        <span class="en">Perfect!</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="gap"></div>
+
+  <!-- 컷5: 지하철 안, 서울 야경 -->
+  <section class="cut cut-wide" id="c5" data-x="9" data-y="1037" data-cw="1005" data-ch="490">
+    <img src="kpatto_ep02_single_image.png" alt="컷5">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:8%;left:3%;width:42%;">
+        <span class="ko">와, 서울<br>진짜 좋아요!</span>
+        <span class="en">Wow, I really<br>like Seoul!</span>
+      </div>
+      <div class="bubble tr" style="top:8%;right:3%;width:38%;">
+        <span class="ko">그치? 나도 좋아!</span>
+        <span class="en">Right? Me too!</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="bottom-space"></div>
+</main>
+
+<script>
+  // 원본 이미지 크기
+  const IW = 1024, IH = 1536;
+
+  function crop(section) {
+    const x  = +section.dataset.x;
+    const y  = +section.dataset.y;
+    const cw = +section.dataset.cw;
+    const ch = +section.dataset.ch;
+
+    const containerW = section.offsetWidth;
+    const scale = containerW / cw;
+
+    const img = section.querySelector('img');
+    img.style.width  = (IW * scale) + 'px';
+    img.style.height = (IH * scale) + 'px';
+    img.style.left   = -(x * scale) + 'px';
+    img.style.top    = -(y * scale) + 'px';
+  }
+
+  function init() { document.querySelectorAll('.cut').forEach(crop); }
+
+  // 이미지 로드 후 실행
+  const img = document.querySelector('img');
+  if (img.complete) init();
+  else img.addEventListener('load', init);
+
+  window.addEventListener('resize', init);
+</script>
+</body>
+</html>
