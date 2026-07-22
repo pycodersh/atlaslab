@@ -21,7 +21,7 @@ function SectionHeader({ label }: { label: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '24px 16px 10px' }}>
       <div style={{ width: 3, height: 18, borderRadius: 99, background: ACCENT, flexShrink: 0 }} />
-      <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.04em', color: T1, textTransform: 'uppercase' }}>
+      <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.04em', color: T1, textTransform: 'uppercase' }}>
         {label}
       </div>
     </div>
