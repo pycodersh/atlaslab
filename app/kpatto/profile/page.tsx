@@ -20,7 +20,7 @@ const ROW_DIV = '#F0EDE8'
 function SectionHeader({ label }: { label: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '24px 16px 10px' }}>
-      <div style={{ width: 3, height: 18, borderRadius: 99, background: ACCENT, flexShrink: 0 }} />
+
       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#999999', textTransform: 'uppercase' }}>
         {label}
       </div>

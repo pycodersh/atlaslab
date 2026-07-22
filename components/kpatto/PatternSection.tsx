@@ -99,7 +99,7 @@ export function PatternSection({
     <div style={{ margin: '32px 0 0', padding: '0 16px' }}>
       {/* Section title */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-        <div style={{ width: 3, height: 18, borderRadius: 99, background: ACCENT, flexShrink: 0 }} />
+
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#999999', textTransform: 'uppercase' }}>
           Patterns in this episode
         </div>
