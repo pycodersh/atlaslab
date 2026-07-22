@@ -5,7 +5,7 @@
   "start_url": "/patto/home",
   "scope": "/patto/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#F8FAFC",
   "theme_color": "#6366F1",
   "orientation": "portrait",
   "lang": "ko",
