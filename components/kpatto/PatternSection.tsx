@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Volume2, Bookmark } from 'lucide-react'
 import type { KPattoPattern, KPattoLanguage } from '@/data/kpatto/types'
+import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
 
 const ACCENT = '#D4873A'
 const T1     = '#111111'
@@ -47,14 +48,36 @@ function SpeakAllBtn({ sentences, size, color, activeColor }: { sentences: strin
   )
 }
 
+function BookmarkBtn({ pattern, storyId }: { pattern: KPattoPattern; storyId: number }) {
+  const [saved, setSaved] = useState(() =>
+    typeof window !== 'undefined' ? isBookmarked(pattern.id) : false
+  )
+  const handle = () => {
+    const next = toggleBookmark({
+      patternId: pattern.id,
+      pattern: pattern.korean,
+      meaningKo: pattern.structure ?? '',
+      storyId,
+    })
+    setSaved(next)
+  }
+  return (
+    <button onClick={handle} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}>
+      <Bookmark size={15} color={saved ? ACCENT : '#CCCCCC'} fill={saved ? ACCENT : 'none'} strokeWidth={1.8} />
+    </button>
+  )
+}
+
 export function PatternSection({
   tags,
   patternMap,
   lang,
+  storyId,
 }: {
   tags: string[]
   patternMap: Record<string, KPattoPattern>
   lang: KPattoLanguage
+  storyId: number
 }) {
   const patterns = tags.map(id => patternMap[id]).filter(Boolean)
   if (patterns.length === 0) return null
@@ -95,7 +118,7 @@ export function PatternSection({
                     <div style={{ fontSize: 13, color: '#999999' }}>{desc}</div>
                   </div>
                 </div>
-                <Bookmark size={15} color="#CCCCCC" strokeWidth={1.8} style={{ cursor: 'pointer', flexShrink: 0 }} />
+                <BookmarkBtn pattern={p} storyId={storyId} />
               </div>
 
               {/* Examples */}
