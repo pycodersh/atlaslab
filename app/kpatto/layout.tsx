@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Baloo_2, Plus_Jakarta_Sans } from 'next/font/google'
+import './kpatto.css'
 
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { PreferencesProvider } from '@/contexts/PreferencesContext'
@@ -32,7 +33,7 @@ export const viewport: Viewport = {
 
 export default function KPattoLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`antialiased ${jakartaSans.variable} ${baloo2.variable}`}>
+    <div className={`antialiased kpatto-root ${jakartaSans.variable} ${baloo2.variable}`}>
       <ThemeProvider>
         <PreferencesProvider>
           <AuthProvider>
