@@ -49,8 +49,8 @@ export function KPattoTabBar() {
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY
-      if (y > lastScrollY.current + 6) setCompact(true)
-      else if (y < lastScrollY.current - 6) setCompact(false)
+      if (y > lastScrollY.current + 6) setCompact(false)
+      else if (y < lastScrollY.current - 6) setCompact(true)
       lastScrollY.current = y
     }
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -74,6 +74,8 @@ export function KPattoTabBar() {
         pointerEvents: 'auto',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'center',
+        gap: 0,
         background: 'rgba(255,255,255,0.88)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
@@ -92,7 +94,7 @@ export function KPattoTabBar() {
               key={tab.key}
               href={tab.href}
               style={{
-                flex: 1,
+                width: 72,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
