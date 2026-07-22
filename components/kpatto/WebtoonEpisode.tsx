@@ -286,7 +286,7 @@ export function WebtoonEpisode({ episode }: { episode: WebtoonEpisodeData }) {
   } as React.CSSProperties)
 
   return (
-    <div style={{ width: '100%', maxWidth: 430, margin: '0 auto', background: '#fffdf8' }}>
+    <div style={{ width: '100%' }}>
       {/* Control bar */}
       <div
         style={{
@@ -294,7 +294,7 @@ export function WebtoonEpisode({ episode }: { episode: WebtoonEpisodeData }) {
           alignItems: 'center',
           gap: 8,
           padding: '8px 16px',
-          background: 'var(--pb, #fff)',
+          background: '#fffdf8',
           borderBottom: '1px solid rgba(0,0,0,0.07)',
           position: 'sticky',
           top: 52,

@@ -62,16 +62,17 @@ export default function KPattoStoryPage({ params }: PageProps) {
     <div style={{
       minHeight: '100vh',
       paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32,
-      maxWidth: 600,
+      maxWidth: 430,
       margin: '0 auto',
+      background: '#fffdf8',
     }}>
       {/* Top bar */}
       <div style={{
         position: 'sticky',
         top: 0,
         zIndex: 10,
-        background: 'var(--pb)',
-        borderBottom: '1px solid var(--border, rgba(0,0,0,0.06))',
+        background: '#fffdf8',
+        borderBottom: '1px solid rgba(0,0,0,0.06)',
         padding: '12px 16px',
         display: 'flex',
         alignItems: 'center',

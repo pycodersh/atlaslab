@@ -12,14 +12,6 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 )
 
-export async function generateStaticParams() {
-  const { data: posts } = await supabase
-    .from('blog_posts')
-    .select('locale, slug')
-
-  return (posts || []).map(p => ({ locale: p.locale, slug: p.slug }))
-}
-
 export async function generateMetadata({
   params,
 }: {

@@ -1,0 +1,248 @@
+{
+  "episodeId": "kp-ep-001",
+  "overrides": {
+    "g0-b1": {
+      "xPct": 30.59688976199127,
+      "yPct": 53.028822678786064,
+      "tail": {
+        "anchor": 0.27162613815601894,
+        "tipX": 0.255026256564141,
+        "tipY": 1.1140360090022505,
+        "baseWidth": 0.09
+      },
+      "widthPct": 48.82174327761628,
+      "bubbleKey": "bubble-01-oval-bottom-left"
+    },
+    "g1-b2": {
+      "xPct": 2.9457411655159893,
+      "yPct": 76.90102577209473,
+      "tail": {
+        "anchor": 0.28,
+        "tipX": 0.7313953488372094,
+        "tipY": 1.4518130520460644,
+        "baseWidth": 0.09
+      },
+      "widthPct": 44.55813953488372,
+      "bubbleKey": "bubble-03-oval-bottom-right"
+    },
+    "g1-b1": {
+      "xPct": 49.93023255813954,
+      "yPct": 63.209638595581055,
+      "tail": {
+        "anchor": 0.22,
+        "tipX": 0.5824823256882694,
+        "tipY": 1.1256470516985864,
+        "baseWidth": 0.09
+      },
+      "bubbleKey": "bubble-02-oval-bottom-center"
+    },
+    "g2-b1": {
+      "xPct": 47.00773301235464,
+      "yPct": -23.859670538651322,
+      "tail": {
+        "anchor": 0.22,
+        "tipX": 0.5855723827472199,
+        "tipY": 1.1108969846154748,
+        "baseWidth": 0.09
+      },
+      "widthPct": 50.99226698764536,
+      "bubbleKey": "bubble-05-oval-top-center"
+    },
+    "g2-b3": {
+      "xPct": 52.89921534338663,
+      "yPct": 64.08773000616776,
+      "tail": {
+        "anchor": 0.1723890594743738,
+        "tipX": 0.79362248426764,
+        "tipY": 1.0827558056950317,
+        "baseWidth": 0.09
+      }
+    },
+    "g2-b2": {
+      "xPct": 1.069781636082849,
+      "yPct": 62.84210526315789,
+      "tail": {
+        "anchor": 0.28,
+        "tipX": 0.6292108193008391,
+        "tipY": 1.1898731501057083,
+        "baseWidth": 0.09
+      },
+      "widthPct": 47.72093023255814
+    },
+    "g3-b1": {
+      "xPct": 4.70543581940407,
+      "yPct": -8.000020345052084,
+      "tail": {
+        "anchor": 0.28,
+        "tipX": 0.7895348837209303,
+        "tipY": -0.47496105105377917,
+        "baseWidth": 0.09
+      },
+      "bubbleKey": "bubble-05-oval-top-center",
+      "widthPct": 49.76744186046511
+    },
+    "g3-b2": {
+      "xPct": 56.635639989098834,
+      "yPct": -7.333333333333333,
+      "tail": {
+        "anchor": 0.22,
+        "tipX": 0.5927761731137685,
+        "tipY": 0.8403313912196088,
+        "baseWidth": 0.09
+      },
+      "bubbleKey": "bubble-06-oval-top-right"
+    },
+    "g3-b3": {
+      "xPct": 7.651134402252907,
+      "yPct": 47.5555419921875,
+      "tail": {
+        "anchor": 0.20400023786798577,
+        "tipX": 0.48960893700685215,
+        "tipY": 1.23578073089701,
+        "baseWidth": 0.09
+      },
+      "widthPct": 51.14729628452035
+    },
+    "g3-b4": {
+      "xPct": 61.596918150436046,
+      "yPct": 68.80556233723958,
+      "tail": {
+        "anchor": 0.22,
+        "tipX": 0.33555363661139004,
+        "tipY": 1.156046511627907,
+        "baseWidth": 0.09
+      },
+      "widthPct": 30.511656295421517,
+      "bubbleKey": "bubble-01-oval-bottom-left"
+    },
+    "g4-b1": {
+      "xPct": 2.0697816360828485,
+      "yPct": -13.88888888888889,
+      "tail": {
+        "anchor": 0.28,
+        "tipX": 0.32718715393134,
+        "tipY": -0.8254961326827244,
+        "baseWidth": 0.09
+      },
+      "bubbleKey": "bubble-05-oval-top-center"
+    },
+    "g4-b2": {
+      "xPct": 56.480610692223834,
+      "yPct": -27.96298556857639,
+      "tail": {
+        "anchor": 0.22,
+        "tipX": 0.22632135306553902,
+        "tipY": -0.9468430191265857,
+        "baseWidth": 0.09
+      },
+      "bubbleKey": "bubble-04-oval-top-left"
+    },
+    "g4-b3": {
+      "xPct": 13.0775146484375,
+      "yPct": 64.62960137261285,
+      "tail": {
+        "anchor": 0.28,
+        "tipX": 1.0064043520296926,
+        "tipY": 1.4484058563468993,
+        "baseWidth": 0.09
+      },
+      "bubbleKey": "bubble-03-oval-bottom-right"
+    },
+    "g4-b4": {
+      "tail": {
+        "anchor": 0.22,
+        "tipX": 0.6632491968650898,
+        "tipY": 1.1729598308668077,
+        "baseWidth": 0.09
+      },
+      "xPct": 53.53485533248546,
+      "yPct": 62.740746392144096
+    }
+  },
+  "bubbles": {
+    "g0-b1": {
+      "bubbleKey": "bubble-01-oval-bottom-left",
+      "xPct": 30.59688976199127,
+      "yPct": 53.028822678786064,
+      "widthPct": 48.82174327761628
+    },
+    "g1-b1": {
+      "bubbleKey": "bubble-02-oval-bottom-center",
+      "xPct": 49.93023255813954,
+      "yPct": 63.209638595581055,
+      "widthPct": 51
+    },
+    "g1-b2": {
+      "bubbleKey": "bubble-03-oval-bottom-right",
+      "xPct": 2.9457411655159893,
+      "yPct": 76.90102577209473,
+      "widthPct": 44.55813953488372
+    },
+    "g2-b1": {
+      "bubbleKey": "bubble-05-oval-top-center",
+      "xPct": 47.00773301235464,
+      "yPct": -23.859670538651322,
+      "widthPct": 50.99226698764536
+    },
+    "g2-b2": {
+      "bubbleKey": "bubble-oval",
+      "xPct": 1.069781636082849,
+      "yPct": 62.84210526315789,
+      "widthPct": 47.72093023255814
+    },
+    "g2-b3": {
+      "bubbleKey": "bubble-oval",
+      "xPct": 52.89921534338663,
+      "yPct": 64.08773000616776,
+      "widthPct": 44
+    },
+    "g3-b1": {
+      "bubbleKey": "bubble-05-oval-top-center",
+      "xPct": 4.70543581940407,
+      "yPct": -8.000020345052084,
+      "widthPct": 49.76744186046511
+    },
+    "g3-b2": {
+      "bubbleKey": "bubble-06-oval-top-right",
+      "xPct": 56.635639989098834,
+      "yPct": -7.333333333333333,
+      "widthPct": 44
+    },
+    "g3-b3": {
+      "bubbleKey": "bubble-oval",
+      "xPct": 7.651134402252907,
+      "yPct": 47.5555419921875,
+      "widthPct": 51.14729628452035
+    },
+    "g3-b4": {
+      "bubbleKey": "bubble-01-oval-bottom-left",
+      "xPct": 61.596918150436046,
+      "yPct": 68.80556233723958,
+      "widthPct": 30.511656295421517
+    },
+    "g4-b1": {
+      "bubbleKey": "bubble-05-oval-top-center",
+      "xPct": 2.0697816360828485,
+      "yPct": -13.88888888888889,
+      "widthPct": 42
+    },
+    "g4-b2": {
+      "bubbleKey": "bubble-04-oval-top-left",
+      "xPct": 56.480610692223834,
+      "yPct": -27.96298556857639,
+      "widthPct": 44
+    },
+    "g4-b3": {
+      "bubbleKey": "bubble-03-oval-bottom-right",
+      "xPct": 13.0775146484375,
+      "yPct": 64.62960137261285,
+      "widthPct": 42
+    },
+    "g4-b4": {
+      "bubbleKey": "bubble-oval",
+      "xPct": 53.53485533248546,
+      "yPct": 62.740746392144096,
+      "widthPct": 44
+    }
+  }
+}
