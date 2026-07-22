@@ -285,17 +285,14 @@ export default function KPattoHomePage() {
               return (
                 <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                   <div style={{
-                    width: 22, height: 22, borderRadius: '50%',
-                    background: done ? ACCENT : '#F2F2F2',
+                    width: 28, height: 28, borderRadius: '50%',
+                    background: done ? ACCENT : isToday ? '#1A1A1A' : '#F2F2F2',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     {done
                       ? <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                      : null
+                      : <span style={{ fontSize: 13, fontWeight: 600, color: isToday ? '#FFFFFF' : '#1A1A1A' }}>{day}</span>
                     }
-                  </div>
-                  <div style={{ fontSize: 9, fontWeight: isToday ? 700 : 500, color: isToday ? ACCENT : T2 }}>
-                    {isToday ? '▼' : day}
                   </div>
                 </div>
               )
