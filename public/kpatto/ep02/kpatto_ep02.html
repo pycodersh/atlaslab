@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>K-PATTO EP02 · 지하철에서</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
+    }
+    .story {
+      width: min(100%, 430px);
+      margin: 0 auto;
+      background: #fff;
+    }
+    .top-space    { height: 160px; }
+    .bottom-space { height: 320px; }
+    .gap          { height: min(100vw, 430px); }
+
+    /* 컷: 이미지 100% 너비, 비율 자동 */
+    .cut {
+      position: relative;
+      width: 100%;
+    }
+    .cut img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* 말풍선 레이어 */
+    .dlayer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .bubble {
+      position: absolute;
+      background: #fff;
+      border: 2.5px solid #111;
+      border-radius: 50%;
+      padding: 10px 14px;
+      text-align: center;
+      line-height: 1.45;
+    }
+    .ko { display: block; font-size: 13px; font-weight: 700; color: #111; }
+    .en { display: block; font-size: 10px; color: #D4873A; margin-top: 2px; }
+
+    /* 꼬리 아래 */
+    .tb::after  { content:''; position:absolute; bottom:-13px; left:50%; transform:translateX(-50%); border:7px solid transparent; border-top-color:#111; }
+    .tb::before { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top-color:#fff; z-index:1; }
+    /* 꼬리 위 */
+    .tt::after  { content:''; position:absolute; top:-13px; left:50%; transform:translateX(-50%); border:7px solid transparent; border-bottom-color:#111; }
+    .tt::before { content:''; position:absolute; top:-10px; left:50%; transform:translateX(-50%); border:6px solid transparent; border-bottom-color:#fff; z-index:1; }
+    /* 꼬리 오른쪽 아래 */
+    .tr::after  { content:''; position:absolute; bottom:-8px; right:18%; border:7px solid transparent; border-top-color:#111; transform:rotate(20deg); }
+    .tr::before { content:''; position:absolute; bottom:-5px; right:19%; border:6px solid transparent; border-top-color:#fff; z-index:1; transform:rotate(20deg); }
+
+    /* 대사 로드 전 숨김 */
+    .bubble { visibility: hidden; }
+    .bubble.loaded { visibility: visible; }
+  </style>
+</head>
+<body>
+<main class="story">
+  <div class="top-space"></div>
+
+  <!-- 컷1: 지하철역 입구, 에마 혼자 -->
+  <section class="cut">
+    <img src="ep02_c1.png" alt="컷1">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:7%;left:28%;width:60%;" data-dialogue="ep02-c1-b1"></div>
+    </div>
+  </section>
+
+  <div class="gap"></div>
+
+  <!-- 컷2: 노선도 앞, 행인에게 길 물어봄 -->
+  <section class="cut">
+    <img src="ep02_c2.png" alt="컷2">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:6%;left:4%;width:55%;" data-dialogue="ep02-c2-b1"></div>
+    </div>
+  </section>
+
+  <div class="gap"></div>
+
+  <!-- 컷3: 지수 등장 -->
+  <section class="cut">
+    <img src="ep02_c3.png" alt="컷3">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:5%;right:4%;width:55%;" data-dialogue="ep02-c3-b1"></div>
+      <div class="bubble tt" style="bottom:7%;left:4%;width:50%;" data-dialogue="ep02-c3-b2"></div>
+    </div>
+  </section>
+
+  <div class="gap"></div>
+
+  <!-- 컷4: 티켓 기계 앞 -->
+  <section class="cut">
+    <img src="ep02_c4.png" alt="컷4">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:5%;left:4%;width:55%;" data-dialogue="ep02-c4-b1"></div>
+      <div class="bubble tt" style="bottom:7%;right:4%;width:44%;" data-dialogue="ep02-c4-b2"></div>
+    </div>
+  </section>
+
+  <div class="gap"></div>
+
+  <!-- 컷5: 지하철 안, 서울 야경 -->
+  <section class="cut">
+    <img src="ep02_c5.png" alt="컷5">
+    <div class="dlayer">
+      <div class="bubble tb" style="top:8%;left:3%;width:42%;" data-dialogue="ep02-c5-b1"></div>
+      <div class="bubble tr" style="top:8%;right:3%;width:38%;" data-dialogue="ep02-c5-b2"></div>
+    </div>
+  </section>
+
+  <div class="bottom-space"></div>
+</main>
+
+<script>
+  async function loadDialogues() {
+    const bubbles = document.querySelectorAll('[data-dialogue]');
+    const keys = Array.from(bubbles).map(b => b.dataset.dialogue);
+
+    const res = await fetch('/api/kpatto/dialogues?keys=' + keys.join(','));
+    if (!res.ok) { console.error('dialogue fetch failed', res.status); return; }
+
+    const rows = await res.json();
+    const map = {};
+    rows.forEach(r => { map[r.key] = r; });
+
+    bubbles.forEach(bubble => {
+      const row = map[bubble.dataset.dialogue];
+      if (!row) return;
+      bubble.innerHTML =
+        '<span class="ko">' + row.ko.replace(/\n/g, '<br>') + '</span>' +
+        '<span class="en">' + row.en.replace(/\n/g, '<br>') + '</span>';
+      bubble.classList.add('loaded');
+    });
+  }
+
+  loadDialogues();
+</script>
+</body>
+</html>
