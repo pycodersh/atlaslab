@@ -131,7 +131,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
       </div>
 
       {/* Patterns section */}
-      <PatternSection tags={story.tags} patternMap={PATTERN_MAP} lang={displayLang} storyId={story.episode} />
+      <PatternSection tags={story.tags} patternMap={PATTERN_MAP} lang={displayLang} storyId={story.episode} episodeId={id} />
 
       {/* Challenge section */}
       {!challengeDone && (

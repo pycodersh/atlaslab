@@ -1,11 +1,13 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Bookmark } from 'lucide-react'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
 import { getDueItems, getAllRecords, localDateStr } from '@/lib/srs/storage'
-import { getBookmarks } from '@/lib/bookmarks/storage'
+import { getSavedPatterns, unsavePattern, type SavedPattern } from '@/lib/kpatto/savedPatterns'
+import { useAuth } from '@/contexts/AuthContext'
 
 const T1     = '#111111'
 const T2     = '#999999'
@@ -13,7 +15,7 @@ const DIV    = '#F2F2F2'
 const ACCENT = '#D4873A'
 const TOTAL_PATTERNS = 500
 
-function sectionLabel(text: string) {
+function SectionLabel({ text }: { text: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '20px 16px 10px' }}>
       <div style={{ width: 3, height: 18, borderRadius: 99, background: ACCENT, flexShrink: 0 }} />
@@ -28,7 +30,6 @@ function Divider() {
   return <div style={{ height: 1, background: DIV, margin: '0 16px' }} />
 }
 
-// ── Donut chart ───────────────────────────────────────────────────────────────
 function DonutChart({ mastered, total }: { mastered: number; total: number }) {
   const size = 160
   const strokeWidth = 14
@@ -36,15 +37,13 @@ function DonutChart({ mastered, total }: { mastered: number; total: number }) {
   const circumference = 2 * Math.PI * r
   const progress = total > 0 ? Math.min(mastered / total, 1) : 0
   const dashOffset = circumference * (1 - progress)
+  const pct = total > 0 ? Math.round((mastered / total) * 100) : 0
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 0 20px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 0 24px' }}>
       <div style={{ position: 'relative', width: size, height: size }}>
         <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-          <circle
-            cx={size / 2} cy={size / 2} r={r}
-            fill="none" stroke="#F0EDE8" strokeWidth={strokeWidth}
-          />
+          <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#F0EDE8" strokeWidth={strokeWidth} />
           <circle
             cx={size / 2} cy={size / 2} r={r}
             fill="none" stroke={ACCENT} strokeWidth={strokeWidth}
@@ -58,47 +57,61 @@ function DonutChart({ mastered, total }: { mastered: number; total: number }) {
           position: 'absolute', inset: 0,
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         }}>
-          <div style={{ fontSize: 22, fontWeight: 800, color: T1, letterSpacing: '-0.02em' }}>
-            {mastered} <span style={{ fontSize: 16, fontWeight: 500, color: T2 }}>/ {total}</span>
+          <div style={{ fontSize: 22, fontWeight: 800, color: T1, letterSpacing: '-0.02em', lineHeight: 1 }}>
+            {mastered} <span style={{ fontSize: 14, fontWeight: 500, color: T2 }}>/ {total}</span>
           </div>
-          <div style={{ fontSize: 11, color: T2, marginTop: 2 }}>Patterns Mastered</div>
+          <div style={{ fontSize: 12, color: ACCENT, fontWeight: 600, marginTop: 4 }}>{pct}%</div>
         </div>
       </div>
     </div>
   )
 }
 
-// ── Page ─────────────────────────────────────────────────────────────────────
 export default function KPattoRecordPage() {
+  const { user } = useAuth()
   const [query, setQuery] = useState('')
+  const [savedPatterns, setSavedPatterns] = useState<SavedPattern[]>([])
   const inputRef = useRef<HTMLInputElement>(null)
 
   const allRecords = typeof window !== 'undefined' ? getAllRecords() : []
   const dueItems   = typeof window !== 'undefined' ? getDueItems() : []
-  const bookmarks  = typeof window !== 'undefined' ? getBookmarks() : []
-
   const masteredCount = allRecords.filter(r => r.itemType === 'pattern').length
+
+  useEffect(() => {
+    if (user) {
+      getSavedPatterns().then(setSavedPatterns)
+    } else {
+      setSavedPatterns([])
+    }
+  }, [user])
 
   const nq = query.toLowerCase().trim()
 
-  // Bookmarked patterns, filtered by search
-  const savedPatternIds = new Set(bookmarks.map(b => b.patternId))
-  const savedPatterns = KPATTO_PATTERNS.filter(p => savedPatternIds.has(p.id))
-  const filteredPatterns = nq
-    ? savedPatterns.filter(p =>
-        p.korean.toLowerCase().includes(nq) ||
-        p.structure?.toLowerCase().includes(nq)
-      )
-    : savedPatterns
+  const filteredSaved = savedPatterns
+    .map(s => {
+      const pattern = KPATTO_PATTERNS.find(p => p.id === s.pattern_id)
+      return pattern ? { saved: s, pattern } : null
+    })
+    .filter((x): x is { saved: SavedPattern; pattern: typeof KPATTO_PATTERNS[0] } => !!x)
+    .filter(({ pattern }) =>
+      !nq ||
+      pattern.korean.toLowerCase().includes(nq) ||
+      pattern.structure?.toLowerCase().includes(nq)
+    )
+
+  const handleUnsave = async (patternId: string) => {
+    await unsavePattern(patternId)
+    setSavedPatterns(prev => prev.filter(s => s.pattern_id !== patternId))
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
       <KPattoHeader />
 
-      {/* ── Today's Review ── */}
-      {sectionLabel("Today's Review")}
+      {/* ── TODAY'S REVIEW ── */}
+      <SectionLabel text="Today's Review" />
       {dueItems.length === 0 ? (
-        <div style={{ padding: '12px 16px 4px', display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ padding: '12px 16px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 22 }}>🎉</span>
           <div>
             <div style={{ fontSize: 14, fontWeight: 700, color: T1 }}>All caught up!</div>
@@ -127,13 +140,16 @@ export default function KPattoRecordPage() {
         </div>
       )}
 
-      {/* ── Patterns Mastered donut ── */}
+      <div style={{ height: 1, background: DIV }} />
+
+      {/* ── PATTERNS MASTERED ── */}
+      <SectionLabel text="Patterns Mastered" />
       <DonutChart mastered={masteredCount} total={TOTAL_PATTERNS} />
 
       <div style={{ height: 1, background: DIV }} />
 
-      {/* ── Patterns (bookmarked) ── */}
-      {sectionLabel('Patterns')}
+      {/* ── SEARCH & SAVE ── */}
+      <SectionLabel text="Search & Save" />
 
       <div style={{ padding: '0 16px 12px' }}>
         <div style={{
@@ -153,34 +169,42 @@ export default function KPattoRecordPage() {
         </div>
       </div>
 
-      {filteredPatterns.length === 0 ? (
+      {!user ? (
         <div style={{ padding: '8px 16px 16px', fontSize: 13, color: T2 }}>
-          {nq ? 'No patterns found.' : 'No learned patterns yet.'}
+          Sign in to save patterns.
+        </div>
+      ) : filteredSaved.length === 0 ? (
+        <div style={{ padding: '8px 16px 16px', fontSize: 13, color: T2 }}>
+          {nq ? 'No patterns found.' : 'No saved patterns yet.'}
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {filteredPatterns.map((p, i) => {
-            const bm = bookmarks.find(b => b.patternId === p.id)
-            return (
-              <div key={p.id}>
-                {i > 0 && <Divider />}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px' }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: T1 }}>{p.korean}</div>
-                    {bm?.meaningKo && (
-                      <div style={{ fontSize: 12, color: T2, marginTop: 2 }}>{bm.meaningKo}</div>
-                    )}
-                  </div>
-                  <span style={{
-                    fontSize: 10, fontWeight: 700, color: T2,
-                    background: DIV, padding: '2px 8px', borderRadius: 99, letterSpacing: '0.04em', flexShrink: 0,
-                  }}>
-                    EP {String(bm?.storyId ?? '').padStart(2, '0')}
-                  </span>
+          {filteredSaved.map(({ saved, pattern }, i) => (
+            <div key={saved.pattern_id}>
+              {i > 0 && <Divider />}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: T1 }}>{pattern.korean}</div>
+                  {pattern.structure && (
+                    <div style={{ fontSize: 12, color: T2, marginTop: 2 }}>{pattern.structure}</div>
+                  )}
                 </div>
+                <span style={{
+                  fontSize: 10, fontWeight: 700, color: T2,
+                  background: DIV, padding: '2px 8px', borderRadius: 99,
+                  letterSpacing: '0.04em', flexShrink: 0,
+                }}>
+                  {`EP ${parseInt(saved.episode_id.replace(/\D/g, ''), 10)}`}
+                </span>
+                <button
+                  onClick={() => handleUnsave(saved.pattern_id)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}
+                >
+                  <Bookmark size={15} color={ACCENT} fill={ACCENT} strokeWidth={1.8} />
+                </button>
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
       )}
 

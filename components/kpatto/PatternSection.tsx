@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Volume2, Bookmark } from 'lucide-react'
 import type { KPattoPattern, KPattoLanguage } from '@/data/kpatto/types'
-import { isBookmarked, toggleBookmark } from '@/lib/bookmarks/storage'
+import { isPatternSaved, savePattern, unsavePattern } from '@/lib/kpatto/savedPatterns'
+import { useAuth } from '@/contexts/AuthContext'
 
 const ACCENT = '#D4873A'
 const T1     = '#111111'
@@ -48,21 +49,31 @@ function SpeakAllBtn({ sentences, size, color, activeColor }: { sentences: strin
   )
 }
 
-function BookmarkBtn({ pattern, storyId }: { pattern: KPattoPattern; storyId: number }) {
-  const [saved, setSaved] = useState(() =>
-    typeof window !== 'undefined' ? isBookmarked(pattern.id) : false
-  )
-  const handle = () => {
-    const next = toggleBookmark({
-      patternId: pattern.id,
-      pattern: pattern.korean,
-      meaningKo: pattern.structure ?? '',
-      storyId,
-    })
-    setSaved(next)
+function BookmarkBtn({ pattern, episodeId }: { pattern: KPattoPattern; episodeId: string }) {
+  const { user } = useAuth()
+  const [saved, setSaved] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!user) { setSaved(false); return }
+    isPatternSaved(pattern.id).then(setSaved)
+  }, [user, pattern.id])
+
+  const handle = async () => {
+    if (!user || loading) return
+    setLoading(true)
+    if (saved) {
+      await unsavePattern(pattern.id)
+      setSaved(false)
+    } else {
+      await savePattern(pattern.id, episodeId)
+      setSaved(true)
+    }
+    setLoading(false)
   }
+
   return (
-    <button onClick={handle} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}>
+    <button onClick={handle} style={{ background: 'none', border: 'none', cursor: user ? 'pointer' : 'default', padding: 0, flexShrink: 0 }}>
       <Bookmark size={15} color={saved ? ACCENT : '#CCCCCC'} fill={saved ? ACCENT : 'none'} strokeWidth={1.8} />
     </button>
   )
@@ -73,11 +84,13 @@ export function PatternSection({
   patternMap,
   lang,
   storyId,
+  episodeId,
 }: {
   tags: string[]
   patternMap: Record<string, KPattoPattern>
   lang: KPattoLanguage
   storyId: number
+  episodeId: string
 }) {
   const patterns = tags.map(id => patternMap[id]).filter(Boolean)
   if (patterns.length === 0) return null
@@ -120,7 +133,7 @@ export function PatternSection({
                     <div style={{ fontSize: 13, color: '#999999' }}>{desc}</div>
                   </div>
                 </div>
-                <BookmarkBtn pattern={p} storyId={storyId} />
+                <BookmarkBtn pattern={p} episodeId={episodeId} />
               </div>
 
               {/* Examples */}
