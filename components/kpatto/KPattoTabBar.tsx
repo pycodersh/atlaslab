@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 
-export const KPATTO_TAB_BAR_HEIGHT = 60
+export const KPATTO_TAB_BAR_HEIGHT = 80  // bottom padding for content
 
 const ACCENT = '#D4873A'
 const MUTED  = '#BBBBBB'
@@ -11,7 +12,7 @@ const MUTED  = '#BBBBBB'
 const TABS = [
   {
     key: 'home',
-    label: 'HOME',
+    label: 'Home',
     href: '/kpatto/home',
     active: (p: string) => p === '/kpatto' || p === '/kpatto/home',
     icon: (active: boolean) => (
@@ -23,19 +24,19 @@ const TABS = [
   },
   {
     key: 'story',
-    label: 'STORY',
+    label: 'Story',
     href: '/kpatto/story',
     active: (p: string) => p.startsWith('/kpatto/story'),
     icon: (active: boolean) => (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <path d="M8 21h8M12 17v4"/>
+        <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
       </svg>
     ),
   },
   {
     key: 'progress',
-    label: 'PROGRESS',
+    label: 'Progress',
     href: '/kpatto/progress',
     active: (p: string) => p.startsWith('/kpatto/progress'),
     icon: (active: boolean) => (
@@ -48,7 +49,7 @@ const TABS = [
   },
   {
     key: 'library',
-    label: 'LIBRARY',
+    label: 'Library',
     href: '/kpatto/library',
     active: (p: string) => p.startsWith('/kpatto/library'),
     icon: (active: boolean) => (
@@ -58,26 +59,63 @@ const TABS = [
       </svg>
     ),
   },
+  {
+    key: 'profile',
+    label: 'Profile',
+    href: '/kpatto/profile',
+    active: (p: string) => p.startsWith('/kpatto/profile'),
+    icon: (active: boolean) => (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    ),
+  },
 ] as const
 
 export function KPattoTabBar() {
   const pathname = usePathname()
+  const [compact, setCompact] = useState(false)
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY
+      if (y > lastScrollY.current + 6) setCompact(true)
+      else if (y < lastScrollY.current - 6) setCompact(false)
+      lastScrollY.current = y
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const h = compact ? 52 : 64
 
   return (
     <div style={{
       position: 'fixed',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      zIndex: 40,
-      background: '#FFFFFF',
-      borderTop: '1px solid #F2F2F2',
-      paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+      bottom: 16,
+      left: '50%',
+      transform: 'translateX(-50%)',
+      width: 'calc(100% - 32px)',
+      maxWidth: 420,
+      zIndex: 50,
+      pointerEvents: 'none',
     }}>
       <nav style={{
+        pointerEvents: 'auto',
         display: 'flex',
-        maxWidth: 430,
-        margin: '0 auto',
+        alignItems: 'center',
+        background: 'rgba(255,255,255,0.88)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        borderRadius: 9999,
+        border: '1px solid rgba(0,0,0,0.07)',
+        boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+        height: h,
+        padding: '0 8px',
+        transition: 'height 0.25s ease',
+        overflow: 'hidden',
       }}>
         {TABS.map((tab) => {
           const isActive = tab.active(pathname)
@@ -91,11 +129,12 @@ export function KPattoTabBar() {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: 3,
-                height: KPATTO_TAB_BAR_HEIGHT,
+                gap: compact ? 0 : 3,
+                height: '100%',
                 textDecoration: 'none',
                 color: isActive ? ACCENT : MUTED,
                 WebkitTapHighlightColor: 'transparent',
+                transition: 'gap 0.25s ease',
               }}
             >
               {tab.icon(isActive)}
@@ -104,6 +143,11 @@ export function KPattoTabBar() {
                 fontWeight: isActive ? 700 : 500,
                 letterSpacing: '0.04em',
                 lineHeight: 1,
+                opacity: compact ? 0 : 1,
+                transition: 'opacity 0.2s ease',
+                height: compact ? 0 : 'auto',
+                overflow: 'hidden',
+                color: isActive ? ACCENT : MUTED,
               }}>
                 {tab.label}
               </span>
