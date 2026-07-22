@@ -103,7 +103,9 @@ export function PatternSection({
         {patterns.map((p, i) => {
           const desc = PATTERN_DESCS[p.id] ?? p.structure
           return (
-            <div key={p.id} style={{ padding: '20px 20px', paddingTop: i === 0 ? 20 : 0 }}>
+            <div key={p.id}>
+            {i > 0 && <div style={{ height: 1, background: '#F0EDE8', margin: '0 20px' }} />}
+            <div style={{ padding: '20px 20px' }}>
               {/* Header: left green line + text + bookmark */}
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 14 }}>
                 <div style={{ display: 'flex', gap: 10, flex: 1, minWidth: 0 }}>
@@ -122,29 +124,25 @@ export function PatternSection({
               </div>
 
               {/* Examples */}
-              <div style={{ paddingBottom: i < patterns.length - 1 ? 20 : 0 }}>
+              <div>
                 {p.examples.map((ex, j) => {
                   const translation = (ex.translations as Record<string, string>)[lang] ?? ex.translations.en
                   return (
-                    <div key={j}>
-                      {j > 0 && (
-                        <div style={{ height: 1, background: '#EDE9E3', margin: '16px 0' }} />
-                      )}
-                      <div style={{ paddingLeft: 8 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A1A', paddingLeft: 6 }}>
-                            {ex.korean}
-                          </div>
-                          {j === 0 && <span style={{ marginRight: 12 }}><SpeakAllBtn sentences={p.examples.map(e => e.korean)} size={14} color="#CCCCCC" activeColor={ACCENT} /></span>}
+                    <div key={j} style={{ paddingLeft: 8, marginBottom: j < p.examples.length - 1 ? 12 : 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A1A', paddingLeft: 6 }}>
+                          {ex.korean}
                         </div>
-                        <div style={{ fontSize: 12, color: '#999999', marginTop: 2, paddingLeft: 14 }}>
-                          {translation}
-                        </div>
+                        {j === 0 && <span style={{ marginRight: 12 }}><SpeakAllBtn sentences={p.examples.map(e => e.korean)} size={14} color="#CCCCCC" activeColor={ACCENT} /></span>}
+                      </div>
+                      <div style={{ fontSize: 12, color: '#999999', marginTop: 2, paddingLeft: 14 }}>
+                        {translation}
                       </div>
                     </div>
                   )
                 })}
               </div>
+            </div>
             </div>
           )
         })}
