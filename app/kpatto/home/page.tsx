@@ -154,55 +154,55 @@ export default function KPattoHomePage() {
           Today's Episode
         </div>
 
-        <Link href={`/kpatto/story/${featured.id}`} style={{ textDecoration: 'none', display: 'block' }}>
-          <div style={{
-            display: 'flex', alignItems: 'stretch',
-            borderRadius: 16,
-            border: '1px solid #E0E0E0',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-            background: '#FFFFFF',
-            overflow: 'hidden',
-            minHeight: 90,
-          }}>
-            {/* Thumbnail */}
-            <div style={{ padding: '10px 0 10px 10px', flexShrink: 0 }}>
-              <div style={{ position: 'relative', width: 120, height: 80, borderRadius: 12, overflow: 'hidden', background: '#F7F7F7' }}>
-                <Image
-                  src="/kpatto/banners/ep1.png"
-                  alt={featured.title}
-                  fill
-                  style={{ objectFit: 'cover', objectPosition: 'center center' }}
-                  sizes="120px"
-                />
+        <div style={{
+          display: 'flex', alignItems: 'stretch',
+          borderRadius: 16,
+          border: '1px solid #E0E0E0',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+          background: '#FFFFFF',
+          overflow: 'hidden',
+          minHeight: 100,
+        }}>
+          {/* Thumbnail */}
+          <div style={{ padding: '10px 0 10px 10px', flexShrink: 0 }}>
+            <div style={{ position: 'relative', width: 120, height: 80, borderRadius: 12, overflow: 'hidden', background: '#F7F7F7' }}>
+              <Image
+                src="/kpatto/banners/ep1.png"
+                alt={featured.title}
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center center' }}
+                sizes="120px"
+              />
+            </div>
+          </div>
+
+          {/* Info */}
+          <div style={{ flex: 1, minWidth: 0, padding: '12px 12px 12px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+            <div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT, letterSpacing: '0.06em', marginBottom: 4 }}>
+                EP {String(featured.episode).padStart(2, '0')}
+              </div>
+              <div style={{ fontSize: 15, fontWeight: 800, color: T1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {featured.title}
               </div>
             </div>
 
-            {/* Info */}
-            <div style={{ flex: 1, minWidth: 0, padding: '12px 12px 12px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
-                <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT, letterSpacing: '0.06em', marginBottom: 4 }}>
-                  EP {String(featured.episode).padStart(2, '0')}
-                </div>
-                <div style={{ fontSize: 15, fontWeight: 800, color: T1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {featured.title}
-                </div>
+            <div>
+              {/* Progress bar */}
+              <div style={{ height: 3, background: DIV, borderRadius: 2, overflow: 'hidden', marginBottom: 6 }}>
+                <div style={{ height: '100%', width: epViews > 0 ? '60%' : '0%', background: ACCENT, borderRadius: 2, transition: 'width 0.4s ease' }} />
               </div>
-
-              <div>
-                {/* Progress bar */}
-                <div style={{ height: 3, background: DIV, borderRadius: 2, overflow: 'hidden', marginBottom: 6 }}>
-                  <div style={{ height: '100%', width: epViews > 0 ? '60%' : '0%', background: ACCENT, borderRadius: 2, transition: 'width 0.4s ease' }} />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <span style={{ fontSize: 10, color: T2 }}>
-                    {epViews > 0 ? 'In progress' : 'Not started yet'}
-                  </span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontSize: 10, color: T2 }}>
+                  {epViews > 0 ? 'In progress' : 'Not started yet'}
+                </span>
+                <Link href={`/kpatto/story/${featured.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
                   <ChevronRight size={20} color="#999999" />
-                </div>
+                </Link>
               </div>
             </div>
           </div>
-        </Link>
+        </div>
       </div>
 
       {/* ── Pre-Course ── */}
@@ -211,49 +211,52 @@ export default function KPattoHomePage() {
           Pre-Course · Hangeul
         </div>
 
-        <Link href="/kpatto/pre-course" style={{ textDecoration: 'none', display: 'block' }}>
-          <div style={{
-            padding: '14px 16px 16px',
-            borderRadius: 16,
-            border: '1px solid #E0E0E0',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-            background: '#FFFFFF',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-              <div>
-                <div style={{ fontSize: 15, fontWeight: 800, color: T1, marginBottom: 2 }}>
-                  Master Hangeul Reading
-                </div>
-                <div style={{ fontSize: 12, color: T2 }}>
-                  {lessonsCompleted} / {TOTAL_LESSONS} lessons complete
-                </div>
-              </div>
-              <div style={{
-                width: 44, height: 44, borderRadius: '50%',
-                border: `3px solid ${lessonsCompleted >= REQUIRED_LESSONS ? ACCENT : DIV}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 12, fontWeight: 800,
-                color: lessonsCompleted >= REQUIRED_LESSONS ? ACCENT : T2,
-                flexShrink: 0,
-              }}>
-                {precoursePercent}%
-              </div>
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          borderRadius: 16,
+          border: '1px solid #E0E0E0',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+          background: '#FFFFFF',
+          padding: '10px 12px 10px 16px',
+          minHeight: 100,
+        }}>
+          {/* Left: text + progress bar */}
+          <div style={{ flex: 1, minWidth: 0, marginRight: 12 }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: T1, marginBottom: 2 }}>
+              Master Hangeul Reading
             </div>
-
-            {/* Progress bar */}
-            <div style={{ height: 4, background: DIV, borderRadius: 2, overflow: 'hidden', marginBottom: 12 }}>
+            <div style={{ fontSize: 12, color: T2, marginBottom: 10 }}>
+              {lessonsCompleted} / {TOTAL_LESSONS} lessons complete
+            </div>
+            <div style={{ height: 4, background: DIV, borderRadius: 2, overflow: 'hidden' }}>
               <div style={{ height: '100%', width: `${precoursePercent}%`, background: ACCENT, borderRadius: 2, transition: 'width 0.4s ease' }} />
             </div>
-
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <ChevronRight size={20} color="#999999" />
-            </div>
           </div>
-        </Link>
+          {/* Right: circle + chevron */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+            <div style={{
+              width: 44, height: 44, borderRadius: '50%',
+              border: `3px solid ${lessonsCompleted >= REQUIRED_LESSONS ? ACCENT : DIV}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 12, fontWeight: 800,
+              color: lessonsCompleted >= REQUIRED_LESSONS ? ACCENT : T2,
+            }}>
+              {precoursePercent}%
+            </div>
+            <Link href="/kpatto/pre-course" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+              <ChevronRight size={20} color="#999999" />
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* ── Streak widget ── */}
-      <div style={{ margin: '20px 16px 0', borderRadius: 16, border: '1px solid #E0E0E0',
+      <div style={{ padding: '20px 16px 0' }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: T2, textTransform: 'uppercase', marginBottom: 12 }}>
+          Streak · This Week
+        </div>
+      </div>
+      <div style={{ margin: '0 16px 0', borderRadius: 16, border: '1px solid #E0E0E0',
             boxShadow: '0 1px 4px rgba(0,0,0,0.08)', background: '#FFFFFF', padding: '16px 20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
           {/* Fire + count */}
@@ -266,7 +269,7 @@ export default function KPattoHomePage() {
             }}>🔥</div>
             <div>
               <div style={{ fontSize: 22, fontWeight: 800, color: T1, letterSpacing: '-0.03em', lineHeight: 1 }}>
-                {streak}<span style={{ fontSize: 12, fontWeight: 600, marginLeft: 2 }}>days</span>
+                {streak}
               </div>
             </div>
           </div>

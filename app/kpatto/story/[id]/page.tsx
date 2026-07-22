@@ -1,17 +1,21 @@
 'use client'
 
-import { use } from 'react'
+import { use, useState, useCallback } from 'react'
 import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { ChevronLeft } from 'lucide-react'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { StoryPanel } from '@/components/kpatto/StoryPanel'
 import { WebtoonEpisode } from '@/components/kpatto/WebtoonEpisode'
 import { WebtoonEditor } from '@/components/kpatto/WebtoonEditor'
+import { ChallengeSection } from '@/components/kpatto/ChallengeSection'
+import { PatternSection } from '@/components/kpatto/PatternSection'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { WEBTOON_EPISODES } from '@/data/kpatto/episode-001-webtoon'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
 import { getUI } from '@/lib/kpatto/ui-strings'
+import { onStoryComplete } from '@/lib/srs/storage'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 
 // Build a pattern lookup map
@@ -52,6 +56,15 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const showWelcome = searchParams.get('welcome') === '1'
   const editMode = searchParams.get('edit') === '1'
   const story = ALL_STORIES.find(s => s.id === id)
+  const [challengeDone, setChallengeDone] = useState(false)
+
+  const handleChallengeComplete = useCallback(() => {
+    if (story) onStoryComplete(story.episode, story.title)
+    setChallengeDone(true)
+    setTimeout(() => {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+    }, 300)
+  }, [story])
 
   if (!story) notFound()
 
@@ -64,64 +77,44 @@ export default function KPattoStoryPage({ params }: PageProps) {
       paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32,
       maxWidth: 430,
       margin: '0 auto',
-      background: '#fffdf8',
+      background: '#FFFFFF',
     }}>
-      {/* Top bar */}
-      <div style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 10,
-        background: '#fffdf8',
-        borderBottom: '1px solid rgba(0,0,0,0.06)',
-        padding: '12px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-      }}>
-        <Link
-          href="/kpatto/story"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: 34,
-            height: 34,
-            borderRadius: 10,
-            background: 'var(--pb-alt, rgba(0,0,0,0.05))',
-            textDecoration: 'none',
-            color: 'var(--pt)',
-            fontSize: 18,
-            flexShrink: 0,
-          }}
-        >
-          ‹
-        </Link>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 10, color: 'var(--pm)', fontWeight: 700, letterSpacing: '0.06em' }}>
-            EP {String(story.episode).padStart(2, '0')} · {story.theme}
-          </div>
-          <div style={{
-            fontSize: 15,
-            fontWeight: 700,
-            color: 'var(--pt)',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}>
-            {story.title}
+      {/* Top bar — only for non-webtoon (classic) layout */}
+      {!WEBTOON_EPISODES[id] && (
+        <div style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 10,
+          background: '#FFFFFF',
+          borderBottom: '1px solid #F2F2F2',
+          padding: '0 16px',
+          height: 52,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+        }}>
+          <Link href="/kpatto/story" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#111111', flexShrink: 0 }}>
+            <ChevronLeft size={22} strokeWidth={2} />
+          </Link>
+          <div style={{ fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            EP {String(story.episode).padStart(2, '0')} · {story.title}
           </div>
         </div>
-      </div>
+      )}
 
       {/* Welcome banner (shown after pre-course completion) */}
       {showWelcome && <WelcomeBanner />}
 
       {/* Story panels — webtoon or classic layout */}
-      <div style={{ paddingTop: showWelcome ? 0 : 0 }}>
+      <div>
         {WEBTOON_EPISODES[id] ? (
           editMode
             ? <WebtoonEditor episode={WEBTOON_EPISODES[id]} initialEditMode />
-            : <WebtoonEpisode episode={WEBTOON_EPISODES[id]} />
+            : <WebtoonEpisode
+                episode={WEBTOON_EPISODES[id]}
+                episodeLabel={`EP ${String(story.episode).padStart(2, '0')}`}
+                storyTitle={story.title}
+              />
         ) : (
           <div style={{ paddingTop: 16 }}>
             {story.panels.map((panel, index) => (
@@ -137,8 +130,16 @@ export default function KPattoStoryPage({ params }: PageProps) {
         )}
       </div>
 
-      {/* Completion footer */}
-      <div style={{
+      {/* Patterns section */}
+      <PatternSection tags={story.tags} patternMap={PATTERN_MAP} lang={displayLang} />
+
+      {/* Challenge section */}
+      {!challengeDone && (
+        <ChallengeSection onComplete={handleChallengeComplete} />
+      )}
+
+      {/* Completion footer — only after challenge */}
+      {challengeDone && <div style={{
         margin: '24px 16px 0',
         background: 'linear-gradient(135deg, #FF6B8C 0%, #FF8C6B 100%)',
         borderRadius: 20,
@@ -182,7 +183,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
             {ui.sv_view_progress}
           </Link>
         </div>
-      </div>
+      </div>}
     </div>
   )
 }

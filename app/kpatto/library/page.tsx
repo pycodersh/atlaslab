@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
+import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
 import { SAMPLE_VOCABULARY } from '@/data/kpatto/sample-episode'
 import { getUI } from '@/lib/kpatto/ui-strings'
@@ -54,12 +55,10 @@ export default function KPattoLibraryPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
+      <KPattoHeader />
 
-      {/* Header */}
-      <div style={{ padding: '52px 20px 16px' }}>
-        <div style={{ fontSize: 11, letterSpacing: '0.10em', color: T2, fontWeight: 600, textTransform: 'uppercase', marginBottom: 4 }}>
-          K-PATTO
-        </div>
+      {/* Page title */}
+      <div style={{ padding: '20px 20px 0' }}>
         <div style={{ fontSize: 26, fontWeight: 800, color: T1, letterSpacing: '-0.03em', marginBottom: 20 }}>
           Library
         </div>

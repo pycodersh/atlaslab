@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
+import Link from 'next/link'
+import { ChevronLeft, Volume2 } from 'lucide-react'
 import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
@@ -210,7 +212,7 @@ function applyOverrides(base: WebtoonEpisodeData, overrides: OverrideMap): Webto
 }
 
 // ── Main exported component ──────────────────────────────────────────────────
-export function WebtoonEpisode({ episode }: { episode: WebtoonEpisodeData }) {
+export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode: WebtoonEpisodeData; episodeLabel?: string; storyTitle?: string }) {
   const [showKo, setShowKo] = useState(true)
   const [showTrans, setShowTrans] = useState(true)
   const [playingId, setPlayingId] = useState<string | null>(null)
@@ -272,65 +274,58 @@ export function WebtoonEpisode({ episode }: { episode: WebtoonEpisodeData }) {
 
   useEffect(() => () => { window.speechSynthesis?.cancel() }, [])
 
-  const chipStyle = (active: boolean, color: string) => ({
-    padding: '5px 12px',
-    borderRadius: 20,
-    border: `1.5px solid ${active ? color : 'rgba(0,0,0,0.12)'}`,
-    background: active ? color : 'transparent',
-    color: active ? '#fff' : 'var(--pm, #888)',
+  const langBtnStyle = (active: boolean) => ({
+    background: active ? '#1A1A1A' : 'none',
+    border: 'none',
+    borderRadius: 4,
+    padding: '3px 7px',
     cursor: 'pointer',
     fontSize: 12,
-    fontWeight: 600,
-    letterSpacing: '0.02em',
-    transition: 'all 0.15s',
+    fontWeight: active ? 700 : 400,
+    color: active ? '#FFFFFF' : '#999999',
+    lineHeight: 1.4,
+    transition: 'background 0.15s, color 0.15s',
   } as React.CSSProperties)
 
   return (
     <div style={{ width: '100%' }}>
-      {/* Control bar */}
+      {/* Unified header */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: 8,
-          padding: '8px 16px',
-          background: '#fffdf8',
-          borderBottom: '1px solid rgba(0,0,0,0.07)',
+          padding: '0 12px 0 8px',
+          background: '#FFFFFF',
+          borderBottom: '1px solid #F2F2F2',
           position: 'sticky',
-          top: 52,
-          zIndex: 9,
+          top: 0,
+          zIndex: 20,
+          height: 52,
         }}
       >
-        <button style={chipStyle(showKo, '#1a1a1a')} onClick={() => setShowKo(v => !v)}>
-          한국어 {showKo ? '✓' : '—'}
-        </button>
-        <button style={chipStyle(showTrans, '#6366f1')} onClick={() => setShowTrans(v => !v)}>
-          English {showTrans ? '✓' : '—'}
-        </button>
+        {/* Back */}
+        <Link href="/kpatto/story" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#111111', flexShrink: 0 }}>
+          <ChevronLeft size={22} strokeWidth={2} />
+        </Link>
 
-        <div style={{ flex: 1 }} />
+        {/* Title */}
+        <div style={{ flex: 1, minWidth: 0, fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {episodeLabel && storyTitle ? `${episodeLabel} · ${storyTitle}` : ''}
+        </div>
 
-        {/* Global play button */}
+        {/* KO / EN toggles */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
+          <button style={langBtnStyle(showKo)} onClick={() => setShowKo(v => !v)}>KO</button>
+          <button style={langBtnStyle(showTrans)} onClick={() => setShowTrans(v => !v)}>EN</button>
+        </div>
+
+        {/* Volume */}
         <button
           onClick={handlePlayAll}
-          title={isPlaying ? '재생 중지' : '전체 대사 순서대로 듣기'}
-          style={{
-            width: 36, height: 36,
-            borderRadius: '50%',
-            border: 'none',
-            background: isPlaying ? '#ef4444' : '#6366f1',
-            color: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer',
-            fontSize: isPlaying ? 11 : 13,
-            boxShadow: isPlaying
-              ? '0 0 0 3px rgba(239,68,68,0.25), 0 2px 8px rgba(239,68,68,0.3)'
-              : '0 2px 8px rgba(99,102,241,0.35)',
-            transition: 'all 0.2s',
-            flexShrink: 0,
-          }}
+          style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', color: isPlaying ? '#ef4444' : '#999999', flexShrink: 0 }}
         >
-          {isPlaying ? '■' : '▶'}
+          <Volume2 size={18} />
         </button>
       </div>
 

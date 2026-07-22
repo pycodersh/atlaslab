@@ -2,11 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useAuth } from '@/contexts/AuthContext'
+import { User } from 'lucide-react'
 
 export function KPattoHeader() {
-  const { user } = useAuth()
-
   return (
     <div style={{
       position: 'sticky',
@@ -31,7 +29,7 @@ export function KPattoHeader() {
             alt="K-PATTO"
             width={28}
             height={28}
-            style={{ borderRadius: 7 }}
+            style={{ borderRadius: 7, background: 'transparent', mixBlendMode: 'multiply' }}
           />
           <span style={{
             fontSize: 18,
@@ -43,25 +41,18 @@ export function KPattoHeader() {
           </span>
         </Link>
 
-        {/* Profile avatar */}
+        {/* Profile icon */}
         <Link
           href="/kpatto/profile"
           style={{
-            width: 34,
-            height: 34,
-            borderRadius: '50%',
-            background: '#111111',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#FFFFFF',
-            fontSize: 13,
-            fontWeight: 700,
             textDecoration: 'none',
             flexShrink: 0,
           }}
         >
-          {user ? (user.email?.[0].toUpperCase() ?? '?') : '?'}
+          <User size={22} color="#111111" strokeWidth={1.8} />
         </Link>
       </div>
     </div>

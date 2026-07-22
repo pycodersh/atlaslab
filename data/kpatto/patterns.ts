@@ -53,7 +53,7 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
   },
   {
     id: 'kp-003',
-    korean: 'N 주세요',
+    korean: '~ 주세요',
     structure: '명사 + 주세요',
     translations: {
       en: 'Please give me N',
@@ -90,7 +90,7 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
   },
   {
     id: 'kp-004',
-    korean: '이거 뭐예요?',
+    korean: '~ 뭐예요?',
     structure: '이거 / 저거 + 뭐예요?',
     translations: {
       en: 'What is this?',
@@ -120,6 +120,85 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
           en: "What's your name?",
           ja: 'お名前は何ですか？',
           es: '¿Cuál es tu nombre?',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-005',
+    korean: '~이에요 / 예요',
+    structure: '[명사] + 이에요 / 예요',
+    translations: {
+      en: 'It is ~',
+      ja: '〜です',
+      es: 'Es ~',
+    },
+    examples: [
+      {
+        korean: '이게 김치예요.',
+        translations: {
+          en: 'This is kimchi.',
+          ja: 'これはキムチです。',
+          es: 'Esto es kimchi.',
+        },
+      },
+      {
+        korean: '저는 학생이에요.',
+        translations: {
+          en: "I'm a student.",
+          ja: '私は学生です。',
+          es: 'Soy estudiante.',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-006',
+    korean: '~있어요 / 없어요',
+    structure: '[명사] + 있어요 / 없어요',
+    translations: {
+      en: 'There is / There is no ~',
+      ja: '〜があります / 〜がありません',
+      es: 'Hay / No hay ~',
+    },
+    examples: [
+      {
+        korean: '자리 있어요?',
+        translations: {
+          en: 'Is there a seat?',
+          ja: '席はありますか？',
+          es: '¿Hay un asiento disponible?',
+        },
+      },
+      {
+        korean: '와이파이 있어요?',
+        translations: {
+          en: 'Is there Wi-Fi?',
+          ja: 'Wi-Fiはありますか？',
+          es: '¿Hay Wi-Fi?',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-007',
+    korean: '~얼마예요?',
+    structure: '[명사] + 얼마예요?',
+    translations: {
+      en: 'How much is ~?',
+      ja: '〜はいくらですか？',
+      es: '¿Cuánto cuesta ~?',
+    },
+    examples: [
+      {
+        korean: '이거 얼마예요?',
+        translations: {
+          en: 'How much is this?',
+          ja: 'これはいくらですか？',
+          es: '¿Cuánto cuesta esto?',
         },
       },
     ],
