@@ -24,7 +24,7 @@ export function KPattoHeader() {
         {/* Logo */}
         <Link href="/kpatto/home" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
           <Image
-            src="/kpatto/banners/KPatto Icon.png"
+            src="/kpatto/banners/KPatto_Icon_transparent.png"
             alt="K-PATTO"
             width={28}
             height={28}
