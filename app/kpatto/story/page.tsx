@@ -1,87 +1,85 @@
 'use client'
 
 import Link from 'next/link'
+import { usePreferences } from '@/contexts/PreferencesContext'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
+import { getUI } from '@/lib/kpatto/ui-strings'
 
-const LEVEL_COLORS = {
-  beginner: { bg: '#E8F5E9', text: '#388E3C' },
-  intermediate: { bg: '#FFF3E0', text: '#F57C00' },
-  advanced: { bg: '#FCE4EC', text: '#C62828' },
+const T1  = '#111111'
+const T2  = '#999999'
+const DIV = '#F2F2F2'
+
+const LEVEL_LABEL: Record<string, string> = {
+  beginner:     'BEG',
+  intermediate: 'INT',
+  advanced:     'ADV',
 }
 
 export default function KPattoStoryListPage() {
+  const { prefs } = usePreferences()
+  const ui = getUI(prefs.language)
+
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
+    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
+
       {/* Header */}
-      <div style={{ padding: '20px 20px 16px' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--pm)' }}>
+      <div style={{ padding: '52px 20px 20px' }}>
+        <div style={{ fontSize: 11, letterSpacing: '0.10em', color: T2, fontWeight: 600, textTransform: 'uppercase', marginBottom: 4 }}>
           K-PATTO
         </div>
-        <h1 style={{ margin: '2px 0 0', fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>
-          STORY
-        </h1>
+        <div style={{ fontSize: 26, fontWeight: 800, color: T1, letterSpacing: '-0.03em' }}>
+          Story
+        </div>
       </div>
+
+      <div style={{ height: 1, background: DIV }} />
 
       {/* Story list */}
-      <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {ALL_STORIES.map((story) => {
-          const level = LEVEL_COLORS[story.level]
-          return (
-            <Link
-              key={story.id}
-              href={`/kpatto/story/${story.id}`}
-              style={{
-                display: 'block',
-                background: 'var(--pb)',
-                border: '1px solid var(--border, rgba(0,0,0,0.08))',
-                borderRadius: 16,
-                overflow: 'hidden',
-                textDecoration: 'none',
-                color: 'var(--pt)',
-              }}
-            >
-              {/* Thumbnail placeholder */}
-              {!story.thumbnail_url && (
-                <div style={{
-                  width: '100%',
-                  height: 120,
-                  background: 'linear-gradient(135deg, #FFE4EC 0%, #FFD0DE 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: 40,
-                }}>
-                  🎬
-                </div>
-              )}
+      {ALL_STORIES.map((story, i) => (
+        <Link
+          key={story.id}
+          href={`/kpatto/story/${story.id}`}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 16,
+            padding: '18px 20px',
+            borderBottom: i < ALL_STORIES.length - 1 ? `1px solid ${DIV}` : 'none',
+            textDecoration: 'none', color: T1,
+          }}
+        >
+          {/* Episode number */}
+          <div style={{
+            width: 44, height: 44, borderRadius: 10, flexShrink: 0,
+            background: '#F7F7F7',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.06em', color: T2 }}>EP</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: T1, lineHeight: 1.1 }}>
+              {String(story.episode).padStart(2, '0')}
+            </div>
+          </div>
 
-              <div style={{ padding: '14px 16px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--pm)' }}>
-                    EP {String(story.episode).padStart(2, '0')}
-                  </span>
-                  <span style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    padding: '2px 7px',
-                    borderRadius: 99,
-                    background: level.bg,
-                    color: level.text,
-                  }}>
-                    {story.level.toUpperCase()}
-                  </span>
-                  <span style={{ fontSize: 11, color: 'var(--pm)' }}>{story.theme}</span>
-                </div>
-                <div style={{ fontSize: 17, fontWeight: 700 }}>{story.title}</div>
-                <div style={{ fontSize: 12, color: 'var(--pm)', marginTop: 4 }}>
-                  패턴 {story.tags.length}개 · 단어 {story.vocabulary_ids.length}개 · {story.panels.length}컷
-                </div>
-              </div>
-            </Link>
-          )
-        })}
-      </div>
+          {/* Info */}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: T1, marginBottom: 4, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {story.title}
+            </div>
+            <div style={{ fontSize: 12, color: T2 }}>
+              {ui.st_meta(story.tags.length, story.vocabulary_ids.length, story.panels.length)}
+            </div>
+          </div>
+
+          {/* Level badge */}
+          <span style={{
+            fontSize: 9, fontWeight: 700, letterSpacing: '0.06em',
+            color: T2, border: `1px solid ${DIV}`,
+            padding: '3px 7px', borderRadius: 4, flexShrink: 0,
+          }}>
+            {LEVEL_LABEL[story.level] ?? story.level.toUpperCase()}
+          </span>
+        </Link>
+      ))}
+
     </div>
   )
 }

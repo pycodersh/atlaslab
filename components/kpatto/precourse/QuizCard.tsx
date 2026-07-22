@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import type { QuizQuestion } from '@/data/kpatto/precourse/types'
 import type { KPattoLanguage } from '@/data/kpatto/types'
+import { usePreferences } from '@/contexts/PreferencesContext'
+import { getUI } from '@/lib/kpatto/ui-strings'
 
 interface QuizCardProps {
   question: QuizQuestion
@@ -13,6 +15,8 @@ interface QuizCardProps {
 }
 
 export function QuizCard({ question, questionNumber, total, lang, onAnswer }: QuizCardProps) {
+  const { prefs } = usePreferences()
+  const ui = getUI(prefs.language)
   const [selected, setSelected] = useState<number | null>(null)
   const [locked, setLocked] = useState(false)
 
@@ -116,10 +120,25 @@ export function QuizCard({ question, questionNumber, total, lang, onAnswer }: Qu
         })}
       </div>
 
+      {/* Correct / wrong feedback */}
+      {locked && (
+        <div style={{
+          marginTop: 14,
+          padding: '10px 14px',
+          background: selected === question.correct ? '#E8F5E9' : '#FFEBEE',
+          borderRadius: 10,
+          fontSize: 13,
+          fontWeight: 700,
+          color: selected === question.correct ? '#2E7D32' : '#C62828',
+        }}>
+          {selected === question.correct ? ui.lp_correct : ui.lp_wrong}
+        </div>
+      )}
+
       {/* Explanation */}
       {locked && question.explanation && (
         <div style={{
-          marginTop: 14,
+          marginTop: 8,
           padding: '10px 14px',
           background: 'rgba(107,140,255,0.08)',
           borderRadius: 10,

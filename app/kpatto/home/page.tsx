@@ -1,168 +1,154 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
+import { usePreferences } from '@/contexts/PreferencesContext'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
-import { usePreferences } from '@/contexts/PreferencesContext'
 import { getUI } from '@/lib/kpatto/ui-strings'
+import { getStreak, getPracticedTodayCount, getAllRecords } from '@/lib/srs/storage'
+
+const T1 = '#111111'
+const T2 = '#999999'
+const DIV = '#F2F2F2'
+
+function getDateLabel() {
+  return new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+}
 
 export default function KPattoHomePage() {
+  const router = useRouter()
   const { user } = useAuth()
   const { prefs } = usePreferences()
   const ui = getUI(prefs.language)
-  const totalStories = ALL_STORIES.length
 
-  const quickLinks = [
-    { href: '/kpatto/pre-course', label: ui.home_link_precourse, emoji: '🔤' },
-    { href: '/kpatto/story', label: ui.home_link_stories, emoji: '📚' },
-    { href: '/kpatto/library/patterns', label: ui.home_link_patterns, emoji: '✏️' },
-    { href: '/kpatto/library/vocabulary', label: ui.home_link_vocab, emoji: '📖' },
-  ]
+  const [streak, setStreak]     = useState(0)
+  const [patternsDone, setPatternsDone] = useState(0)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    setStreak(getStreak())
+    getPracticedTodayCount()
+    const records = getAllRecords()
+    setPatternsDone(new Set(records.filter(r => r.repeatCount > 0).map(r => r.itemId)).size)
+  }, [])
+
+  const featured = ALL_STORIES[0]
 
   const stats = [
-    { label: ui.home_stat_episodes, value: '0', unit: `/ ${totalStories}` },
-    { label: ui.home_stat_patterns, value: '0', unit: '' },
-    { label: ui.home_stat_streak, value: '0', unit: '' },
+    { label: ui.home_stat_episodes, value: `0 / ${ALL_STORIES.length}` },
+    { label: ui.home_stat_patterns, value: String(patternsDone) },
+    { label: ui.home_stat_streak,   value: String(streak) },
+  ]
+
+  const links = [
+    { href: '/kpatto/pre-course',         label: ui.home_link_precourse, emoji: '🔤' },
+    { href: '/kpatto/story',              label: ui.home_link_stories,   emoji: '📚' },
+    { href: '/kpatto/library/patterns',   label: ui.home_link_patterns,  emoji: '✏️' },
+    { href: '/kpatto/library/vocabulary', label: ui.home_link_vocab,     emoji: '📖' },
   ]
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24,
-      paddingTop: 'env(safe-area-inset-top, 0px)',
-    }}>
-      {/* Header */}
-      <div style={{
-        padding: '20px 20px 0',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
+    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
+
+      {/* Top bar */}
+      <div style={{ padding: '52px 20px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', color: 'var(--pm)' }}>
-            K-PATTO
-          </div>
-          <h1 style={{ margin: '2px 0 0', fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>
-            {ui.home_today}
-          </h1>
+          <div style={{ fontSize: 11, letterSpacing: '0.10em', color: T2, fontWeight: 600, textTransform: 'uppercase' }}>K-PATTO</div>
+          <div style={{ fontSize: 11, color: T2, marginTop: 2 }}>{getDateLabel()}</div>
         </div>
         <Link
           href="/kpatto/profile"
           style={{
-            width: 38,
-            height: 38,
-            borderRadius: '50%',
-            background: 'var(--pk, #FF6B8C)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff',
-            fontSize: 16,
-            textDecoration: 'none',
+            width: 36, height: 36, borderRadius: '50%',
+            background: T1,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#FFFFFF', fontSize: 14, textDecoration: 'none', fontWeight: 700,
           }}
         >
-          {user ? (user.email?.[0].toUpperCase() ?? '👤') : '👤'}
+          {user ? (user.email?.[0].toUpperCase() ?? '?') : '?'}
         </Link>
       </div>
 
-      {/* Today's story card */}
-      <div style={{ padding: '20px 20px 0' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, #FF6B8C 0%, #FF8C6B 100%)',
-          borderRadius: 20,
-          padding: '24px 20px',
-          color: '#fff',
-        }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', opacity: 0.8 }}>
-            {ui.home_today}
+      <div style={{ height: 1, background: DIV }} />
+
+      {/* Featured episode */}
+      <div
+        role="button" tabIndex={0}
+        onClick={() => router.push(`/kpatto/story/${featured.id}`)}
+        onKeyDown={e => e.key === 'Enter' && router.push(`/kpatto/story/${featured.id}`)}
+        style={{ padding: '24px 20px', cursor: 'pointer' }}
+      >
+        <div style={{ fontSize: 10, letterSpacing: '0.10em', color: T2, fontWeight: 600, textTransform: 'uppercase', marginBottom: 10 }}>
+          {ui.home_today} · EP {String(featured.episode).padStart(2, '0')}
+        </div>
+        <div style={{ fontSize: 24, fontWeight: 800, color: T1, letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 8 }}>
+          {featured.title}
+        </div>
+        <div style={{ fontSize: 12, color: T2, marginBottom: 20 }}>
+          {ui.st_meta(featured.tags.length, featured.vocabulary_ids.length, featured.panels.length)}
+        </div>
+        <button
+          type="button"
+          onClick={e => { e.stopPropagation(); router.push(`/kpatto/story/${featured.id}`) }}
+          style={{
+            background: T1, color: '#FFFFFF',
+            border: 'none', borderRadius: 10,
+            fontSize: 14, fontWeight: 700,
+            padding: '13px 28px', cursor: 'pointer',
+          }}
+        >
+          {ui.home_start}
+        </button>
+      </div>
+
+      <div style={{ height: 1, background: DIV }} />
+
+      {/* Stats strip */}
+      <div style={{ display: 'flex' }}>
+        {stats.map(({ label, value }, i) => (
+          <div key={label} style={{
+            flex: 1, textAlign: 'center', padding: '20px 0',
+            borderRight: i < stats.length - 1 ? `1px solid ${DIV}` : 'none',
+          }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: T1, letterSpacing: '-0.03em' }}>{value}</div>
+            <div style={{ fontSize: 10, color: T2, marginTop: 4, letterSpacing: '0.04em' }}>{label}</div>
           </div>
-          <h2 style={{ margin: '6px 0 4px', fontSize: 20, fontWeight: 800 }}>
-            Episode 1 — 카페에서
-          </h2>
-          <p style={{ margin: '0 0 16px', fontSize: 13, opacity: 0.85 }}>
-            2 patterns · 3 words · 4 panels
-          </p>
-          <Link
-            href="/kpatto/story/kp-ep-001"
-            style={{
-              display: 'inline-block',
-              background: 'rgba(255,255,255,0.22)',
-              backdropFilter: 'blur(8px)',
-              border: '1.5px solid rgba(255,255,255,0.4)',
-              color: '#fff',
-              fontWeight: 700,
-              fontSize: 14,
-              padding: '10px 20px',
-              borderRadius: 99,
-              textDecoration: 'none',
-            }}
-          >
-            {ui.home_start}
-          </Link>
-        </div>
+        ))}
       </div>
 
-      {/* Progress summary */}
-      <div style={{ padding: '20px 20px 0' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', marginBottom: 10 }}>
-          {ui.home_progress}
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              style={{
-                background: 'var(--pb)',
-                border: '1px solid var(--border, rgba(0,0,0,0.08))',
-                borderRadius: 14,
-                padding: '14px 12px',
-                textAlign: 'center',
-              }}
-            >
-              <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>
-                {stat.value}
-                {stat.unit && (
-                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--pm)' }}>{stat.unit}</span>
-                )}
-              </div>
-              <div style={{ fontSize: 10, color: 'var(--pm)', marginTop: 2 }}>{stat.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <div style={{ height: 1, background: DIV }} />
 
-      {/* Quick links */}
+      {/* Quick access */}
       <div style={{ padding: '20px 20px 0' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', marginBottom: 10 }}>
+        <div style={{ fontSize: 10, letterSpacing: '0.10em', color: T2, fontWeight: 600, textTransform: 'uppercase', marginBottom: 4 }}>
           {ui.home_quick_access}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {quickLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                background: 'var(--pb)',
-                border: '1px solid var(--border, rgba(0,0,0,0.08))',
-                borderRadius: 14,
-                padding: '14px 16px',
-                textDecoration: 'none',
-                color: 'var(--pt)',
-                fontWeight: 600,
-                fontSize: 14,
-              }}
-            >
-              <span style={{ fontSize: 20 }}>{link.emoji}</span>
-              {link.label}
-              <span style={{ marginLeft: 'auto', color: 'var(--pm)', fontSize: 16 }}>›</span>
-            </Link>
-          ))}
-        </div>
       </div>
+      <div>
+        {links.map((link, i) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 14,
+              padding: '16px 20px',
+              borderBottom: i < links.length - 1 ? `1px solid ${DIV}` : 'none',
+              textDecoration: 'none', color: T1,
+              fontWeight: 500, fontSize: 14,
+            }}
+          >
+            <span style={{ fontSize: 18, width: 24, textAlign: 'center' }}>{link.emoji}</span>
+            {link.label}
+            <svg style={{ marginLeft: 'auto', color: DIV }} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BBBBBB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6"/>
+            </svg>
+          </Link>
+        ))}
+      </div>
+
     </div>
   )
 }

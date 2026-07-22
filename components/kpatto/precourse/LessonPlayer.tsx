@@ -332,7 +332,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
       {/* Progress */}
       <ProgressBar
         value={baseProgress}
-        label={`${stepIdx + 1} / ${totalSteps}${hasQuiz ? ' + 퀴즈' : ''}`}
+        label={`${stepIdx + 1} / ${totalSteps}${hasQuiz ? ` · ${ui.lp_quiz_suffix}` : ''}`}
       />
 
       {/* Step content */}

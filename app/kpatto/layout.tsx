@@ -36,7 +36,7 @@ export default function KPattoLayout({ children }: { children: React.ReactNode }
       <ThemeProvider>
         <PreferencesProvider>
           <AuthProvider>
-            <div style={{ position: 'relative', minHeight: '100vh', background: '#f4f4f4' }}>
+            <div style={{ position: 'relative', minHeight: '100vh', background: '#FFFFFF' }}>
               {children}
               <KPattoTabBar />
             </div>
