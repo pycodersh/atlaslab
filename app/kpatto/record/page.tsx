@@ -29,7 +29,7 @@ function SectionLabel({ text }: { text: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '20px 16px 10px' }}>
       <div style={{ width: 3, height: 18, borderRadius: 99, background: ACCENT, flexShrink: 0 }} />
-      <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.04em', color: T1, textTransform: 'uppercase' }}>
+      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: T2, textTransform: 'uppercase' }}>
         {text}
       </div>
     </div>

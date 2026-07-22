@@ -337,7 +337,7 @@ export function ChallengeSection({ onComplete }: { onComplete: () => void }) {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
         <div style={{ width: 3, height: 18, borderRadius: 99, background: ACCENT, flexShrink: 0 }} />
-        <div style={{ fontSize: 13, fontWeight: 800, letterSpacing: '0.04em', color: T1, textTransform: 'uppercase' }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#999999', textTransform: 'uppercase' }}>
           Challenge what you've learned
         </div>
       </div>
