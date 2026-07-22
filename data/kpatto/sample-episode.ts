@@ -247,7 +247,7 @@ export const SAMPLE_EPISODE_2: KPattoStory = {
   theme: '일상 / 지하철',
   tags: ['kp-005', 'kp-003', 'kp-006'],
   vocabulary_ids: [],
-  thumbnail_url: '/kpatto/ep-002/kpatto_ep02.png',
+  thumbnail_url: '/kpatto/banners/ep2.png',
   panels: [],
 }
 

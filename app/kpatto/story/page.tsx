@@ -97,7 +97,7 @@ export default function KPattoStoryListPage() {
               <div style={{ padding: '10px 0 10px 10px', flexShrink: 0 }}>
                 <div style={{ position: 'relative', width: 120, height: 80, borderRadius: 12, overflow: 'hidden', background: '#F7F7F7' }}>
                   <Image
-                    src="/kpatto/banners/ep1.png"
+                    src={story.thumbnail_url ?? '/kpatto/banners/ep1.png'}
                     alt={story.title}
                     fill
                     style={{ objectFit: 'cover', objectPosition: 'center center' }}
