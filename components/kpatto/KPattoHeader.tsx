@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { User } from 'lucide-react'
 
 export function KPattoHeader() {
   return (
@@ -41,19 +40,7 @@ export function KPattoHeader() {
           </span>
         </Link>
 
-        {/* Profile icon */}
-        <Link
-          href="/kpatto/profile"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textDecoration: 'none',
-            flexShrink: 0,
-          }}
-        >
-          <User size={22} color="#111111" strokeWidth={1.8} />
-        </Link>
+
       </div>
     </div>
   )
