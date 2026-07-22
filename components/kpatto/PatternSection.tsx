@@ -119,21 +119,23 @@ export function PatternSection({
             <div key={p.id}>
             {i > 0 && <div style={{ height: 1, background: '#F0EDE8', margin: '0 20px' }} />}
             <div style={{ padding: '20px 20px' }}>
-              {/* Header: left green line + text + bookmark */}
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 14 }}>
-                <div style={{ display: 'flex', gap: 10, flex: 1, minWidth: 0 }}>
-                  <div style={{ width: 3, borderRadius: 2, background: '#16A34A', flexShrink: 0, alignSelf: 'stretch' }} />
+              {/* Header chip */}
+              <div style={{
+                background: '#EEF8EC', border: '1px solid #C9EAC4', borderRadius: 12,
+                padding: '12px 14px', marginBottom: 14,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 11, fontWeight: 500, color: '#16A34A', letterSpacing: '0.5px', marginBottom: 4 }}>
+                    <div style={{ fontSize: 11, fontWeight: 600, color: '#16A34A', letterSpacing: '0.5px', marginBottom: 6 }}>
                       PATTERN {String(i + 1).padStart(3, '0')}
                     </div>
                     <div style={{ fontSize: 22, fontWeight: 700, color: '#1A1A1A', lineHeight: 1.2, marginBottom: 6 }}>
                       {p.korean}
                     </div>
-                    <div style={{ fontSize: 13, color: '#999999' }}>{desc}</div>
+                    <div style={{ fontSize: 13, color: '#666666' }}>{desc}</div>
                   </div>
+                  <BookmarkBtn pattern={p} episodeId={episodeId} />
                 </div>
-                <BookmarkBtn pattern={p} episodeId={episodeId} />
               </div>
 
               {/* Examples */}
