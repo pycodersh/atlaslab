@@ -162,7 +162,7 @@ export default function KPattoRecordPage() {
       <SectionLabel text="Search & Save" />
       <div style={CARD}>
         {/* Search bar */}
-        <div style={{ padding: '12px 16px', borderBottom: `1px solid ${DIV}` }}>
+        <div style={{ padding: '12px 16px' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
             background: '#F7F7F7', borderRadius: 10, padding: '9px 12px',
