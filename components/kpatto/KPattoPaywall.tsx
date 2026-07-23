@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Lock } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { usePaddle } from '@/hooks/usePaddle'
@@ -27,11 +27,23 @@ export function KPattoPaywall({ onDismiss }: Props) {
   const paddle = usePaddle()
   const [loading, setLoading] = useState(false)
 
+  useEffect(() => {
+    console.log('[KPattoPaywall] mounted. paddle=', paddle, 'loading=', loading)
+  }, [])
+
+  useEffect(() => {
+    console.log('[KPattoPaywall] paddle changed:', paddle)
+  }, [paddle])
+
   async function handleSubscribe() {
-    alert('clicked: loading=' + loading + ' priceId=' + process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID)
+    console.log('[KPattoPaywall] handleSubscribe called')
+    alert('handleSubscribe called! paddle=' + (paddle ? 'ready' : 'null') + ' loading=' + loading)
     if (loading) return
     const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
-    if (!priceId || priceId.includes('REPLACE')) return
+    if (!priceId || priceId.includes('REPLACE')) {
+      alert('priceId missing or invalid: ' + priceId)
+      return
+    }
 
     let p = paddle
     if (!p) {
@@ -65,7 +77,9 @@ export function KPattoPaywall({ onDismiss }: Props) {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 200,
+      position: 'fixed',
+      top: 0, right: 0, bottom: 0, left: 0,
+      zIndex: 200,
       background: 'rgba(0,0,0,0.55)',
       display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
     }}>
@@ -109,6 +123,7 @@ export function KPattoPaywall({ onDismiss }: Props) {
 
         {/* CTA */}
         <button
+          onPointerDown={() => { console.log('[KPattoPaywall] pointerdown'); alert('POINTER DOWN!') }}
           onClick={handleSubscribe}
           disabled={loading}
           style={{
