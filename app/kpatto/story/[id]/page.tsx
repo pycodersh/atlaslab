@@ -7,7 +7,6 @@ import { ChevronLeft } from 'lucide-react'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { StoryPanel } from '@/components/kpatto/StoryPanel'
 import { WebtoonEpisode } from '@/components/kpatto/WebtoonEpisode'
-import { WebtoonEditor } from '@/components/kpatto/WebtoonEditor'
 import { ChallengeSection } from '@/components/kpatto/ChallengeSection'
 import { PatternSection } from '@/components/kpatto/PatternSection'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
@@ -54,7 +53,6 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const ui = getUI(prefs.language)
   const searchParams = useSearchParams()
   const showWelcome = searchParams.get('welcome') === '1'
-  const editMode = searchParams.get('edit') === '1'
   const story = ALL_STORIES.find(s => s.id === id)
   const [challengeDone, setChallengeDone] = useState(false)
 
@@ -108,13 +106,11 @@ export default function KPattoStoryPage({ params }: PageProps) {
       {/* Story panels — webtoon or classic layout */}
       <div>
         {WEBTOON_EPISODES[id] ? (
-          editMode
-            ? <WebtoonEditor episode={WEBTOON_EPISODES[id]} initialEditMode />
-            : <WebtoonEpisode
-                episode={WEBTOON_EPISODES[id]}
-                episodeLabel={`EP ${String(story.episode).padStart(2, '0')}`}
-                storyTitle={story.title}
-              />
+          <WebtoonEpisode
+            episode={WEBTOON_EPISODES[id]}
+            episodeLabel={`EP ${String(story.episode).padStart(2, '0')}`}
+            storyTitle={story.title}
+          />
         ) : (
           <div style={{ paddingTop: 16 }}>
             {story.panels.map((panel, index) => (

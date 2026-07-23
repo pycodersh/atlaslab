@@ -216,7 +216,7 @@ function EditableBubble({
     if (!rect) return
     const dx = (e.clientX - dragRef.current.startPX) / rect.width * 100
     const dy = (e.clientY - dragRef.current.startPY) / rect.height * 100
-    const newX = dragRef.current.startXPct + dx
+    const newX = Math.max(-40, Math.min(100, dragRef.current.startXPct + dx))
     const newY = dragRef.current.startYPct + dy
     onMove(b.id, newX, newY)
   }, [b.id, onMove])
@@ -440,7 +440,7 @@ function EditableBubble({
                   width: 14, height: 14, borderRadius: '50%',
                   background: '#3b82f6', border: '2px solid #fff',
                   transform: 'translate(-50%, -50%)',
-                  cursor: 'grab', zIndex: 20,
+                  cursor: 'grab', zIndex: 40,
                   boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
                   touchAction: 'none',
                 }}
@@ -458,7 +458,7 @@ function EditableBubble({
                   width: 14, height: 14, borderRadius: '50%',
                   background: '#ef4444', border: '2px solid #fff',
                   transform: 'translate(-50%, -50%)',
-                  cursor: 'crosshair', zIndex: 20,
+                  cursor: 'crosshair', zIndex: 40,
                   boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
                   touchAction: 'none',
                 }}
@@ -496,6 +496,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
   const [showKo, setShowKo] = useState(true)
   const [showTrans, setShowTrans] = useState(true)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const [showBubbleList, setShowBubbleList] = useState(false)
   const [state, dispatch] = useReducer(reducer, { overrides: {}, history: [{}], idx: 0, selected: null })
 
   // Gap container refs (for coordinate conversion)
@@ -617,19 +618,74 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
         selectedId={state.selected}
       />
 
+      {/* Bubble list panel */}
+      {editMode && (
+        <div style={{ background: '#1e1b4b', borderBottom: '1px solid #4338ca' }}>
+          <button
+            onClick={() => setShowBubbleList(v => !v)}
+            style={{ width: '100%', padding: '6px 16px', textAlign: 'left', fontSize: 11, color: '#a5b4fc', background: 'transparent', border: 'none', cursor: 'pointer', fontWeight: 700 }}
+          >
+            📋 말풍선 목록 {showBubbleList ? '▲' : '▼'} ({episode.sections.filter(s => s.type === 'gap').flatMap(s => (s as WebtoonGapSection).bubbles).length}개)
+          </button>
+          {showBubbleList && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, padding: '0 12px 10px' }}>
+              {episode.sections.filter(s => s.type === 'gap').flatMap(s => (s as WebtoonGapSection).bubbles).map(b => {
+                const ov = state.overrides[b.id]
+                const yPct = ov?.yPct ?? b.yPct ?? 0
+                const isSelected = state.selected === b.id
+                return (
+                  <button
+                    key={b.id}
+                    onClick={() => {
+                      dispatch({ type: 'SELECT', id: b.id })
+                      const gap = bubbleToGap.get(b.id)
+                      if (gap) gapRefs.current.get(gap.id)?.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                    }}
+                    style={{
+                      padding: '4px 10px', borderRadius: 12, fontSize: 11, cursor: 'pointer', fontWeight: isSelected ? 700 : 400,
+                      background: isSelected ? '#6366f1' : 'rgba(99,102,241,0.2)',
+                      border: `1.5px solid ${isSelected ? '#818cf8' : '#4338ca'}`,
+                      color: isSelected ? '#fff' : '#c7d2fe',
+                      maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                    }}
+                    title={`${b.korean} (y:${Math.round(yPct)}%)`}
+                  >
+                    {b.korean.replace(/\n/g, ' ')}
+                  </button>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Webtoon content */}
       {episode.sections.map(section => {
         if (section.type === 'panel') return <PanelSection key={section.id} section={section} />
+        if (section.type === 'crop-panel') {
+          const cs = section as import('@/data/kpatto/webtoon-types').WebtoonCropSection
+          const pb = (cs.cropH / cs.cropW) * 100
+          const imgWidth = (cs.srcW / cs.cropW) * 100
+          const imgLeft = -(cs.cropX / cs.cropW) * 100
+          const imgTop = -(cs.cropY / cs.cropW) * 100
+          return (
+            <div key={cs.id} style={{ position: 'relative', zIndex: 0, width: '100%', paddingBottom: `${pb}%`, overflow: 'hidden' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={cs.imageUrl} alt={cs.id} style={{ position: 'absolute', top: `${imgTop}%`, left: `${imgLeft}%`, width: `${imgWidth}%`, maxWidth: 'none' }} />
+            </div>
+          )
+        }
 
         const gap = section as WebtoonGapSection
         const gapRef = getGapRef(gap.id)
         return (
+          // 뷰어와 동일한 구조. z-index:20으로 overflow 말풍선이 이후 패널 위에 표시됨
           <div
             key={gap.id}
             ref={el => { gapRef.current = el }}
             onClick={handleGapClick}
             style={{
-              position: 'relative', width: '100%',
+              position: 'relative', zIndex: 20, width: '100%',
               paddingBottom: `${gap.heightRatio * 100}%`,
               overflow: 'visible',
             }}

@@ -47,8 +47,6 @@ function EpisodeStatus({ views, done }: { views: number; done: boolean }) {
 }
 
 const COMING_SOON_EPISODES = [
-  { episode: 2, title: '편의점에서' },
-  { episode: 3, title: '지하철에서' },
   { episode: 4, title: '식당에서' },
 ]
 

@@ -70,7 +70,7 @@ export const EPISODE_002_WEBTOON: WebtoonEpisodeData = {
       ],
     },
     { type: 'crop-panel', id: 'cut-3', imageUrl: '/kpatto/ep-002/kpatto_ep02.png',
-      srcW: 1024, cropX: 8, cropY: 528, cropW: 472, cropH: 502 },
+      srcW: 1024, cropX: 8, cropY: 528, cropW: 472, cropH: 472 },
 
     // ── Gap + CUT 4: 티켓 기계 ─────────────────────────────────────────────
     {

@@ -45,8 +45,8 @@
       text-align: center;
       line-height: 1.45;
     }
-    .ko { display: block; font-size: 13px; font-weight: 700; color: #111; }
-    .en { display: block; font-size: 10px; color: #D4873A; margin-top: 2px; }
+    .ko { display: block; font-size: clamp(11px, 3.4vw, 14px); font-weight: 700; color: #111; }
+    .en { display: block; font-size: clamp(9px, 2.4vw, 11px); color: #D4873A; margin-top: 2px; }
 
     /* 꼬리 아래 */
     .tb::after  { content:''; position:absolute; bottom:-13px; left:50%; transform:translateX(-50%); border:7px solid transparent; border-top-color:#111; }

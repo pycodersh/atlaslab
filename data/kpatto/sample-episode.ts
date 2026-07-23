@@ -251,4 +251,16 @@ export const SAMPLE_EPISODE_2: KPattoStory = {
   panels: [],
 }
 
-export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2]
+export const SAMPLE_EPISODE_3: KPattoStory = {
+  id: 'kp-ep-003',
+  episode: 3,
+  title: '편의점에서',
+  level: 'beginner',
+  theme: '일상 / 편의점',
+  tags: [],
+  vocabulary_ids: [],
+  thumbnail_url: '/kpatto/banners/ep3.png',
+  panels: [],
+}
+
+export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2, SAMPLE_EPISODE_3]
