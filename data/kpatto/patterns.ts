@@ -574,4 +574,128 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     ],
     level: 'beginner',
   },
+
+  // ── EP08 ──────────────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-008-p001',
+    korean: '피부에 좋아요?',
+    structure: '[제품] + 피부에 좋아요?',
+    translations: { en: 'Is it good for skin?' },
+    examples: [
+      { korean: '이거 피부에 좋아요?', translations: { en: 'Is this good for skin?' } },
+      { korean: '민감한 피부에 좋아요?', translations: { en: 'Is it good for sensitive skin?' } },
+      { korean: '건성 피부에 좋아요?', translations: { en: 'Is it good for dry skin?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-008-p002',
+    korean: '~써봤어요?',
+    structure: '[제품] + 써봤어요?',
+    translations: { en: 'Have you tried ~?' },
+    examples: [
+      { korean: '이 크림 써봤어요?', translations: { en: 'Have you tried this cream?' } },
+      { korean: '마스크팩 써봤어요?', translations: { en: 'Have you tried sheet masks?' } },
+      { korean: '이 세럼 써봤어요?', translations: { en: 'Have you tried this serum?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-008-p003',
+    korean: '어떤 게 좋아요?',
+    structure: '어떤 게 좋아요?',
+    translations: { en: 'Which one is good?' },
+    examples: [
+      { korean: '어떤 게 좋아요?', translations: { en: 'Which one is good?' } },
+      { korean: '제 피부엔 어떤 게 좋아요?', translations: { en: 'Which is good for my skin type?' } },
+      { korean: '선물로 어떤 게 좋아요?', translations: { en: 'Which one is good as a gift?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-008-p004',
+    korean: '~선물하려고요',
+    structure: '[사람] + 한테 선물하려고요',
+    translations: { en: "I'm planning to give it as a gift" },
+    examples: [
+      { korean: '친구한테 선물하려고요.', translations: { en: "I'm planning to give it to my friend." } },
+      { korean: '엄마한테 선물하려고요.', translations: { en: "I'm planning to give it to my mom." } },
+      { korean: '언니한테 선물하려고요.', translations: { en: "I'm planning to give it to my sister." } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-008-p005',
+    korean: '제 피부 타입에 맞는 거 추천해 주세요',
+    structure: '[피부 타입] + 에 맞는 거 추천해 주세요',
+    translations: { en: 'Please recommend something for my skin type' },
+    examples: [
+      { korean: '제 피부 타입에 맞는 거 추천해 주세요.', translations: { en: 'Please recommend something for my skin type.' } },
+      { korean: '건성 피부에 맞는 거 추천해 주세요.', translations: { en: 'Please recommend something for dry skin.' } },
+      { korean: '민감한 피부에 맞는 거 추천해 주세요.', translations: { en: 'Please recommend something for sensitive skin.' } },
+    ],
+    level: 'beginner',
+  },
+
+  // ── EP09 ──────────────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-009-p001',
+    korean: '같이 ~해요',
+    structure: '같이 + [동사] + 아요/어요',
+    translations: { en: "Let's ~ together" },
+    examples: [
+      { korean: '같이 먹어요!', translations: { en: "Let's eat together!" } },
+      { korean: '같이 앉아요!', translations: { en: "Let's sit together!" } },
+      { korean: '같이 가요!', translations: { en: "Let's go together!" } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-009-p002',
+    korean: '날씨 좋다!',
+    structure: '날씨 + 좋다! (casual) / 좋아요! (polite)',
+    translations: { en: 'The weather is great!' },
+    examples: [
+      { korean: '날씨 좋다!', translations: { en: 'The weather is great!' } },
+      { korean: '오늘 날씨 너무 좋다!', translations: { en: "Today's weather is so nice!" } },
+      { korean: '날씨 진짜 좋다!', translations: { en: "The weather is really great!" } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-009-p003',
+    korean: '생각보다 ~',
+    structure: '생각보다 + [형용사]',
+    translations: { en: '~ than I expected' },
+    examples: [
+      { korean: '생각보다 맛있어요.', translations: { en: "It's more delicious than I expected." } },
+      { korean: '생각보다 넓어요.', translations: { en: "It's bigger than I expected." } },
+      { korean: '생각보다 빨라요.', translations: { en: "It's faster than I expected." } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-009-p004',
+    korean: '~처음이에요',
+    structure: '[명사/경험] + 처음이에요',
+    translations: { en: "It's my first time ~" },
+    examples: [
+      { korean: '한강 피크닉 처음이에요.', translations: { en: "It's my first Han River picnic." } },
+      { korean: '한국 치킨 처음이에요.', translations: { en: "It's my first Korean fried chicken." } },
+      { korean: '한국 처음이에요.', translations: { en: "It's my first time in Korea." } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-009-p005',
+    korean: '이런 거 너무 좋아요',
+    structure: '이런 [명사] + 너무 좋아요',
+    translations: { en: 'I love this kind of thing' },
+    examples: [
+      { korean: '이런 거 너무 좋아요.', translations: { en: 'I love this kind of thing.' } },
+      { korean: '이런 순간 너무 좋아요.', translations: { en: 'I love moments like this.' } },
+      { korean: '이런 날 너무 좋아요.', translations: { en: 'I love days like this.' } },
+    ],
+    level: 'beginner',
+  },
 ]

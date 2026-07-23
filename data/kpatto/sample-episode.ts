@@ -311,4 +311,28 @@ export const SAMPLE_EPISODE_7: KPattoStory = {
   panels: [],
 }
 
-export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2, SAMPLE_EPISODE_3, SAMPLE_EPISODE_4, SAMPLE_EPISODE_5, SAMPLE_EPISODE_6, SAMPLE_EPISODE_7]
+export const SAMPLE_EPISODE_8: KPattoStory = {
+  id: 'kp-ep-008',
+  episode: 8,
+  title: '뷰티숍에서',
+  level: 'beginner',
+  theme: '일상 / K-뷰티',
+  tags: ['kp-ep-008-p001', 'kp-ep-008-p002', 'kp-ep-008-p003', 'kp-ep-008-p004', 'kp-ep-008-p005'],
+  vocabulary_ids: [],
+  thumbnail_url: '/kpatto/banners/ep8.png',
+  panels: [],
+}
+
+export const SAMPLE_EPISODE_9: KPattoStory = {
+  id: 'kp-ep-009',
+  episode: 9,
+  title: '한강에서',
+  level: 'beginner',
+  theme: '일상 / 한강 피크닉',
+  tags: ['kp-ep-009-p001', 'kp-ep-009-p002', 'kp-ep-009-p003', 'kp-ep-009-p004', 'kp-ep-009-p005'],
+  vocabulary_ids: [],
+  thumbnail_url: '/kpatto/banners/ep9.png',
+  panels: [],
+}
+
+export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2, SAMPLE_EPISODE_3, SAMPLE_EPISODE_4, SAMPLE_EPISODE_5, SAMPLE_EPISODE_6, SAMPLE_EPISODE_7, SAMPLE_EPISODE_8, SAMPLE_EPISODE_9]
