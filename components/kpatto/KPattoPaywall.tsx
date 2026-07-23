@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Lock } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
-import { getPaddle } from '@/lib/paddle/client'
+import { usePaddle } from '@/hooks/usePaddle'
 
 const ACCENT = '#D4873A'
 const T1 = '#111111'
@@ -23,16 +23,16 @@ interface Props {
 
 export function KPattoPaywall({ onDismiss }: Props) {
   const { user } = useAuth()
+  const paddle = usePaddle()
   const [loading, setLoading] = useState(false)
 
   async function handleSubscribe() {
     const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
     if (!priceId || priceId.includes('REPLACE')) return
+    if (!paddle) return
 
     setLoading(true)
     try {
-      const paddle = await getPaddle()
-      if (!paddle) return
       await paddle.Checkout.open({
         items: [{ priceId, quantity: 1 }],
         customer: user?.email ? { email: user.email } : undefined,
@@ -106,19 +106,22 @@ export function KPattoPaywall({ onDismiss }: Props) {
             fontFamily: 'inherit',
           }}
         >
-          {loading ? '...' : 'Start for ₩3,900/month'}
+          {loading ? '...' : 'Start for $2.99/month'}
         </button>
 
         <button
           onClick={onDismiss}
           style={{
-            width: '100%', height: 44,
-            background: 'none', border: 'none',
-            fontSize: 14, color: T2,
+            width: '100%', height: 52,
+            background: 'transparent',
+            border: `1px solid ${ACCENT}`,
+            borderRadius: 14,
+            fontSize: 16, fontWeight: 700,
+            color: ACCENT,
             cursor: 'pointer', fontFamily: 'inherit',
           }}
         >
-          Maybe later
+          Later
         </button>
       </div>
     </div>
