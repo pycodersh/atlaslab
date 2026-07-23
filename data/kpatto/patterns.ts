@@ -512,4 +512,66 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     ],
     level: 'beginner',
   },
+
+  // ── EP07 ──────────────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-007-p001',
+    korean: '조금만 더 주세요',
+    structure: '[명사] + 조금만 더 주세요',
+    translations: { en: 'A little more, please' },
+    examples: [
+      { korean: '조금만 더 주세요.', translations: { en: 'A little more, please.' } },
+      { korean: '이거 조금만 더 주세요.', translations: { en: 'Just a little more of this, please.' } },
+      { korean: '김치 조금만 더 주세요.', translations: { en: 'A little more kimchi, please.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-007-p002',
+    korean: '~깎아 주세요',
+    structure: '좀 깎아 주세요',
+    translations: { en: 'Please give me a discount' },
+    examples: [
+      { korean: '좀 깎아 주세요.', translations: { en: 'Please give me a discount.' } },
+      { korean: '조금만 깎아 주세요.', translations: { en: 'Just a small discount, please.' } },
+      { korean: '더 깎아 주세요.', translations: { en: 'Please give me a bigger discount.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-007-p003',
+    korean: '같이 ~해요',
+    structure: '같이 + [동사] + 아요/어요',
+    translations: { en: "Let's ~ together" },
+    examples: [
+      { korean: '같이 먹어요.', translations: { en: "Let's eat together." } },
+      { korean: '같이 가요.', translations: { en: "Let's go together." } },
+      { korean: '같이 구경해요.', translations: { en: "Let's look around together." } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-007-p004',
+    korean: '~신기해요!',
+    structure: '[명사] + 신기해요!',
+    translations: { en: '~ is so interesting/unique!' },
+    examples: [
+      { korean: '이거 신기해요!', translations: { en: 'This is so interesting/unique!' } },
+      { korean: '한국 시장 신기해요!', translations: { en: 'Korean markets are so unique!' } },
+      { korean: '진짜 신기해요!', translations: { en: "It's really fascinating!" } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-007-p005',
+    korean: '다 해서 얼마예요?',
+    structure: '다 해서 얼마예요?',
+    translations: { en: 'How much is it all together?' },
+    examples: [
+      { korean: '다 해서 얼마예요?', translations: { en: 'How much is it all together?' } },
+      { korean: '이거 다 해서 얼마예요?', translations: { en: 'How much is all of this?' } },
+      { korean: '두 개 다 해서 얼마예요?', translations: { en: 'How much for both?' } },
+    ],
+    level: 'beginner',
+  },
 ]
