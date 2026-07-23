@@ -121,9 +121,13 @@ export function KPattoPaywall({ onDismiss }: Props) {
           ))}
         </div>
 
+        {/* DEBUG: show priceId */}
+        <div style={{ fontSize: 10, color: '#999', textAlign: 'center', marginBottom: 8, wordBreak: 'break-all' }}>
+          priceId: {process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID ?? 'UNDEFINED'}
+        </div>
+
         {/* CTA */}
         <button
-          onPointerDown={() => { console.log('[KPattoPaywall] pointerdown'); alert('POINTER DOWN!') }}
           onClick={handleSubscribe}
           disabled={loading}
           style={{
