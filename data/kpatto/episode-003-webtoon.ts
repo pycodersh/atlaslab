@@ -30,31 +30,31 @@ export const EPISODE_003_WEBTOON: WebtoonEpisodeData = {
           translation: 'Wow, what\'s that?',
           speaker: 'emma', lines: 1, tail: tailL,
         },
-        {
-          id: 'b-0-2', bubbleKey: 'bubble-oval',
-          xPct: 56, yPct: 8, widthPct: 40,
-          korean: '떡볶이야!\n진짜 맛있어.',
-          translation: 'That\'s tteokbokki!\nIt\'s really delicious.',
-          speaker: 'jisu', lines: 2, tail: tailR,
-        },
       ],
     },
     { type: 'panel', id: 'cut-1', imageUrl: C1, layout: 'wide' },
 
     // ── Gap + CUT 2: 에마가 떡볶이 먹을지 고민 ───────────────────────────
     {
-      type: 'gap', id: 'gap-1', heightRatio: 0.72,
+      type: 'gap', id: 'gap-1', heightRatio: 0.88,
       bubbles: [
         {
+          id: 'b-0-2', bubbleKey: 'bubble-oval',
+          xPct: 52, yPct: 4, widthPct: 44,
+          korean: '떡볶이야!\n진짜 맛있어.',
+          translation: 'That\'s tteokbokki!\nIt\'s really delicious.',
+          speaker: 'jisu', lines: 2, tail: tailR,
+        },
+        {
           id: 'b-1-1', bubbleKey: 'bubble-oval',
-          xPct: 4, yPct: 8, widthPct: 48,
+          xPct: 4, yPct: 48, widthPct: 48,
           korean: '저거 먹고 싶어요!\n근데 매워요?',
           translation: 'I want to eat that!\nBut is it spicy?',
           speaker: 'emma', lines: 2, tail: tailL,
         },
         {
           id: 'b-1-2', bubbleKey: 'bubble-oval',
-          xPct: 54, yPct: 8, widthPct: 42,
+          xPct: 50, yPct: 48, widthPct: 44,
           korean: '매운 거\n먹을 수 있어요?',
           translation: 'Can you eat\nspicy food?',
           speaker: 'jisu', lines: 2, tail: tailR,
@@ -105,7 +105,8 @@ export const EPISODE_003_WEBTOON: WebtoonEpisodeData = {
         },
       ],
     },
-    { type: 'panel', id: 'cut-4', imageUrl: C4, layout: 'wide' },
+    { type: 'crop-panel', id: 'cut-4', imageUrl: C4,
+      srcW: 504, cropX: 35, cropY: 0, cropW: 469, cropH: 383 },
 
     // ── Gap + CUT 5: 둘이 나란히 먹으며 행복한 장면 ─────────────────────
     {
