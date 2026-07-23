@@ -6,6 +6,7 @@ import { ChevronLeft, Volume2 } from 'lucide-react'
 import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection, WebtoonCropSection } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
+import { bubbleAudioUrl, playWithFallback } from '@/lib/kpatto/audio'
 
 // ── bubbles.json helpers ─────────────────────────────────────────────────────
 type BubbleKey = keyof typeof bubblesData
@@ -278,37 +279,30 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
     return result
   }, [resolvedEpisode])
 
-  const handlePlayAll = useCallback(() => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return
+  const stopRef = useRef(false)
+
+  const handlePlayAll = useCallback(async () => {
     if (isPlaying) {
-      window.speechSynthesis.cancel()
+      stopRef.current = true
+      window.speechSynthesis?.cancel()
       setIsPlaying(false)
       setPlayingId(null)
       return
     }
+    stopRef.current = false
     setIsPlaying(true)
-    playIdxRef.current = 0
 
-    const next = () => {
-      const i = playIdxRef.current
-      if (i >= allBubbles.length) {
-        setIsPlaying(false)
-        setPlayingId(null)
-        return
-      }
-      playIdxRef.current++
+    for (let i = 0; i < allBubbles.length; i++) {
+      if (stopRef.current) break
       const b = allBubbles[i]
       setPlayingId(b.id)
-      const u = new SpeechSynthesisUtterance(b.korean)
-      u.lang = 'ko-KR'
-      u.rate = 0.85
-      u.onend = next
-      u.onerror = () => { setIsPlaying(false); setPlayingId(null) }
-      window.speechSynthesis.speak(u)
+      const url = bubbleAudioUrl(episode.id, b.id)
+      await playWithFallback(url, b.korean)
     }
 
-    next()
-  }, [isPlaying, allBubbles])
+    setIsPlaying(false)
+    setPlayingId(null)
+  }, [isPlaying, allBubbles, episode.id])
 
   useEffect(() => () => { window.speechSynthesis?.cancel() }, [])
 

@@ -6,6 +6,7 @@ import { Volume2, Bookmark, Lightbulb, ChevronUp, ChevronDown } from 'lucide-rea
 import type { KPattoPattern, KPattoLanguage } from '@/data/kpatto/types'
 import { isPatternSaved, savePattern, unsavePattern } from '@/lib/kpatto/savedPatterns'
 import { useAuth } from '@/contexts/AuthContext'
+import { patternAudioUrl, playWithFallback, speakTTS } from '@/lib/kpatto/audio'
 
 const ACCENT = '#D4873A'
 
@@ -664,26 +665,35 @@ function renderExplanation(text: string) {
 }
 
 // ── Audio ─────────────────────────────────────────────────────────────────────
-function speakAll(sentences: string[], onDone: () => void) {
-  if (typeof window === 'undefined' || !window.speechSynthesis) return
-  window.speechSynthesis.cancel()
-  let idx = 0
-  const next = () => {
-    if (idx >= sentences.length) { onDone(); return }
-    const utt = new SpeechSynthesisUtterance(sentences[idx++])
-    utt.lang = 'ko-KR'; utt.rate = 0.9; utt.onend = next
-    window.speechSynthesis.speak(utt)
-  }
-  next()
-}
-
-function SpeakAllBtn({ sentences, size, color, activeColor }: { sentences: string[]; size: number; color: string; activeColor: string }) {
+function SpeakAllBtn({ sentences, audioUrls, size, color, activeColor }: {
+  sentences: string[]
+  audioUrls?: (string | null)[]
+  size: number
+  color: string
+  activeColor: string
+}) {
   const [playing, setPlaying] = useState(false)
-  const handle = () => {
-    if (playing) { window.speechSynthesis.cancel(); setPlaying(false); return }
+  const stopRef = useRef(false)
+
+  const handle = async () => {
+    if (playing) {
+      stopRef.current = true
+      window.speechSynthesis?.cancel()
+      setPlaying(false)
+      return
+    }
+    stopRef.current = false
     setPlaying(true)
-    speakAll(sentences, () => setPlaying(false))
+
+    for (let i = 0; i < sentences.length; i++) {
+      if (stopRef.current) break
+      const url = audioUrls?.[i] ?? null
+      await playWithFallback(url, sentences[i])
+    }
+
+    setPlaying(false)
   }
+
   return (
     <button onClick={handle} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', flexShrink: 0 }}>
       <Volume2 size={size} color={playing ? activeColor : color} strokeWidth={1.8} />
@@ -778,6 +788,7 @@ function PatternCard({ p, i, lang, episodeId, highlight }: {
                 <div style={{ fontSize: 13, color: '#666666' }}>{desc}</div>
                 <SpeakAllBtn
                   sentences={[p.korean, ...p.examples.map(ex => ex.korean)]}
+                  audioUrls={[patternAudioUrl(episodeId, p.id), ...p.examples.map(() => null)]}
                   size={16}
                   color="#AAAAAA"
                   activeColor={ACCENT}
