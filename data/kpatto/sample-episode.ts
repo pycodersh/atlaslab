@@ -275,4 +275,16 @@ export const SAMPLE_EPISODE_4: KPattoStory = {
   panels: [],
 }
 
-export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2, SAMPLE_EPISODE_3, SAMPLE_EPISODE_4]
+export const SAMPLE_EPISODE_5: KPattoStory = {
+  id: 'kp-ep-005',
+  episode: 5,
+  title: '식당에서',
+  level: 'beginner',
+  theme: '일상 / 한식당',
+  tags: ['kp-ep-005-p001', 'kp-ep-005-p002', 'kp-ep-005-p003', 'kp-ep-005-p004', 'kp-ep-005-p005'],
+  vocabulary_ids: [],
+  thumbnail_url: '/kpatto/banners/ep5.png',
+  panels: [],
+}
+
+export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2, SAMPLE_EPISODE_3, SAMPLE_EPISODE_4, SAMPLE_EPISODE_5]

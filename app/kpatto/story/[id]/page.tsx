@@ -17,6 +17,7 @@ import { EP001_POOL, type RawQuestion } from '@/data/kpatto/challenge-pool-ep001
 import { EP002_POOL } from '@/data/kpatto/challenge-pool-ep002'
 import { EP003_POOL } from '@/data/kpatto/challenge-pool-ep003'
 import { EP004_POOL } from '@/data/kpatto/challenge-pool-ep004'
+import { EP005_POOL } from '@/data/kpatto/challenge-pool-ep005'
 import { getUI } from '@/lib/kpatto/ui-strings'
 import { onStoryComplete } from '@/lib/srs/storage'
 import type { KPattoLanguage } from '@/data/kpatto/types'
@@ -31,6 +32,7 @@ const EPISODE_POOLS: Record<string, RawQuestion[]> = {
   'kp-ep-002': EP002_POOL,
   'kp-ep-003': EP003_POOL,
   'kp-ep-004': EP004_POOL,
+  'kp-ep-005': EP005_POOL,
 }
 
 interface PageProps {
