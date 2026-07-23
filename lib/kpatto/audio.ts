@@ -3,7 +3,7 @@
 // episodeId 'kp-ep-001' → 'ep01'
 function epCode(episodeId: string): string | null {
   const m = episodeId.match(/kp-ep-(\d+)/)
-  return m ? `ep${m[1].padStart(2, '0')}` : null
+  return m ? `ep${String(parseInt(m[1], 10)).padStart(2, '0')}` : null
 }
 
 // bubbleId 'g0-b1' + episodeId 'kp-ep-001' → '/kpatto/audio/ep01/ep01-c1-b1.wav'

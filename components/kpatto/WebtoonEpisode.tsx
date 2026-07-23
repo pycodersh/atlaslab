@@ -292,6 +292,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
     stopRef.current = false
     setIsPlaying(true)
 
+
     for (let i = 0; i < allBubbles.length; i++) {
       if (stopRef.current) break
       const b = allBubbles[i]
