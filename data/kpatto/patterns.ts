@@ -388,4 +388,66 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     ],
     level: 'beginner',
   },
+
+  // ── EP05 ──────────────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-005-p001',
+    korean: '~주실 수 있어요?',
+    structure: '[동사 어간] + 주실 수 있어요?',
+    translations: { en: 'Could you ~, please?' },
+    examples: [
+      { korean: '천천히 말해주실 수 있어요?',   translations: { en: 'Could you speak slowly?' } },
+      { korean: '물 더 주실 수 있어요?',         translations: { en: 'Could you bring more water?' } },
+      { korean: '다시 한번 말해주실 수 있어요?', translations: { en: 'Could you say that again?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-005-p002',
+    korean: '~추천해 주세요',
+    structure: '[명사] + 추천해 주세요',
+    translations: { en: 'Please recommend ~' },
+    examples: [
+      { korean: '메뉴 추천해 주세요.',         translations: { en: 'Please recommend a menu item.' } },
+      { korean: '맛있는 거 추천해 주세요.',     translations: { en: 'Please recommend something delicious.' } },
+      { korean: '이 근처 카페 추천해 주세요.',  translations: { en: 'Please recommend a café nearby.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-005-p003',
+    korean: '~해 본 적 있어요?',
+    structure: '[동사 어간] + 아/어 본 적 있어요?',
+    translations: { en: 'Have you ever ~?' },
+    examples: [
+      { korean: '삼겹살 먹어 본 적 있어요?', translations: { en: 'Have you ever had samgyeopsal?' } },
+      { korean: '한국 와 본 적 있어요?',      translations: { en: 'Have you ever been to Korea?' } },
+      { korean: '노래방 가 본 적 있어요?',    translations: { en: 'Have you ever been to a noraebang?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-005-p004',
+    korean: '~어디서 살 수 있어요?',
+    structure: '[명사] + 어디서 살 수 있어요?',
+    translations: { en: 'Where can I buy ~?' },
+    examples: [
+      { korean: '이거 어디서 살 수 있어요?',  translations: { en: 'Where can I buy this?' } },
+      { korean: '김치 어디서 살 수 있어요?',  translations: { en: 'Where can I buy kimchi?' } },
+      { korean: '이 책 어디서 살 수 있어요?', translations: { en: 'Where can I buy this book?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-005-p005',
+    korean: '~맛있어요 / 맛없어요',
+    structure: '[음식] + 맛있어요 / 맛없어요',
+    translations: { en: "It's delicious / not good" },
+    examples: [
+      { korean: '진짜 맛있어요!',     translations: { en: "It's really delicious!" } },
+      { korean: '생각보다 맛없어요.', translations: { en: "It's not as good as I expected." } },
+      { korean: '너무 맛있어요!',     translations: { en: "It's so delicious!" } },
+    ],
+    level: 'beginner',
+  },
 ]
