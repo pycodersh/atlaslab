@@ -310,7 +310,7 @@ function EditableBubble({
   }, [onCommit])
 
   const isBodyOnly = !!meta.bodyOnly && !!meta.ovalParams
-  const HANDLE = 10  // resize handle px
+  const HANDLE = 24  // resize handle px
 
   // Anchor handle position (% of bubble dimensions, for edit-mode overlay)
   const ovalP = meta.ovalParams
@@ -420,9 +420,11 @@ function EditableBubble({
           <div
             style={{
               position: 'absolute', bottom: -HANDLE / 2, right: -HANDLE / 2,
-              width: HANDLE, height: HANDLE, borderRadius: 3,
-              background: '#6366f1', border: '1.5px solid #fff',
-              cursor: 'ew-resize', zIndex: 10,
+              width: HANDLE, height: HANDLE, borderRadius: 4,
+              background: '#6366f1', border: '2px solid #fff',
+              cursor: 'ew-resize', zIndex: 40,
+              boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
+              touchAction: 'none',
             }}
             onPointerDown={e => { e.stopPropagation(); handleResizeDown(e) }}
             onPointerMove={e => { e.stopPropagation(); handleResizeMove(e) }}
