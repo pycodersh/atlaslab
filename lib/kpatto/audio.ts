@@ -23,13 +23,45 @@ export function patternAudioUrl(episodeId: string, patternIndex: number): string
   return `/kpatto/audio/${ep}/${ep}-p${String(patternIndex + 1).padStart(3, '0')}.wav`
 }
 
-// Try playing a WAV file. Returns true if it played successfully.
-export function tryPlayAudio(url: string): Promise<boolean> {
+// Cache of confirmed-existing URLs to avoid repeated HEAD requests
+const existsCache = new Map<string, boolean>()
+
+async function fileExists(url: string): Promise<boolean> {
+  if (existsCache.has(url)) return existsCache.get(url)!
+  try {
+    const res = await fetch(url, { method: 'HEAD' })
+    const ok = res.ok
+    existsCache.set(url, ok)
+    return ok
+  } catch {
+    return false
+  }
+}
+
+// Currently playing Audio element — stop before starting a new one
+let currentAudio: HTMLAudioElement | null = null
+
+function stopCurrent() {
+  if (currentAudio) {
+    currentAudio.pause()
+    currentAudio.src = ''
+    currentAudio = null
+  }
+}
+
+// Play a WAV file. Returns true only after it plays to completion.
+// Returns false immediately if file doesn't exist (HEAD 404).
+export async function tryPlayAudio(url: string): Promise<boolean> {
+  const exists = await fileExists(url)
+  if (!exists) return false
+
   return new Promise(resolve => {
+    stopCurrent()
     const audio = new Audio(url)
-    audio.onended = () => resolve(true)
-    audio.onerror = () => resolve(false)
-    audio.play().catch(() => resolve(false))
+    currentAudio = audio
+    audio.onended = () => { if (currentAudio === audio) currentAudio = null; resolve(true) }
+    audio.onerror = () => { if (currentAudio === audio) currentAudio = null; resolve(false) }
+    audio.play().catch(() => { if (currentAudio === audio) currentAudio = null; resolve(false) })
   })
 }
 
@@ -37,6 +69,7 @@ export function tryPlayAudio(url: string): Promise<boolean> {
 export function speakTTS(text: string, rate = 0.9): Promise<void> {
   return new Promise(resolve => {
     if (typeof window === 'undefined' || !window.speechSynthesis) { resolve(); return }
+    window.speechSynthesis.cancel()
     const utt = new SpeechSynthesisUtterance(text)
     utt.lang = 'ko-KR'
     utt.rate = rate
@@ -46,11 +79,18 @@ export function speakTTS(text: string, rate = 0.9): Promise<void> {
   })
 }
 
-// Play WAV if available, fallback to TTS.
+// Stop all audio (WAV + TTS)
+export function stopAllAudio() {
+  stopCurrent()
+  if (typeof window !== 'undefined') window.speechSynthesis?.cancel()
+}
+
+// Play WAV if file exists, fallback to TTS only when confirmed missing.
 export async function playWithFallback(url: string | null, text: string): Promise<void> {
   if (url) {
     const ok = await tryPlayAudio(url)
     if (ok) return
   }
+  stopCurrent()
   await speakTTS(text)
 }

@@ -6,7 +6,7 @@ import { Volume2, Bookmark, Lightbulb, ChevronUp, ChevronDown } from 'lucide-rea
 import type { KPattoPattern, KPattoLanguage } from '@/data/kpatto/types'
 import { isPatternSaved, savePattern, unsavePattern } from '@/lib/kpatto/savedPatterns'
 import { useAuth } from '@/contexts/AuthContext'
-import { patternAudioUrl, playWithFallback, speakTTS } from '@/lib/kpatto/audio'
+import { patternAudioUrl, playWithFallback, stopAllAudio } from '@/lib/kpatto/audio'
 
 const ACCENT = '#D4873A'
 
@@ -678,7 +678,7 @@ function SpeakAllBtn({ sentences, audioUrls, size, color, activeColor }: {
   const handle = async () => {
     if (playing) {
       stopRef.current = true
-      window.speechSynthesis?.cancel()
+      stopAllAudio()
       setPlaying(false)
       return
     }

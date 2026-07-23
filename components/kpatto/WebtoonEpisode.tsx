@@ -6,7 +6,7 @@ import { ChevronLeft, Volume2 } from 'lucide-react'
 import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection, WebtoonCropSection } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
-import { bubbleAudioUrl, playWithFallback } from '@/lib/kpatto/audio'
+import { bubbleAudioUrl, playWithFallback, stopAllAudio } from '@/lib/kpatto/audio'
 
 // ── bubbles.json helpers ─────────────────────────────────────────────────────
 type BubbleKey = keyof typeof bubblesData
@@ -284,7 +284,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
   const handlePlayAll = useCallback(async () => {
     if (isPlaying) {
       stopRef.current = true
-      window.speechSynthesis?.cancel()
+      stopAllAudio()
       setIsPlaying(false)
       setPlayingId(null)
       return
@@ -305,7 +305,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
     setPlayingId(null)
   }, [isPlaying, allBubbles, episode.id])
 
-  useEffect(() => () => { window.speechSynthesis?.cancel() }, [])
+  useEffect(() => () => { stopAllAudio() }, [])
 
   const langBtnStyle = (active: boolean) => ({
     background: active ? '#1A1A1A' : 'none',
