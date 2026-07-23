@@ -335,4 +335,16 @@ export const SAMPLE_EPISODE_9: KPattoStory = {
   panels: [],
 }
 
-export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2, SAMPLE_EPISODE_3, SAMPLE_EPISODE_4, SAMPLE_EPISODE_5, SAMPLE_EPISODE_6, SAMPLE_EPISODE_7, SAMPLE_EPISODE_8, SAMPLE_EPISODE_9]
+export const SAMPLE_EPISODE_10: KPattoStory = {
+  id: 'kp-ep-010',
+  episode: 10,
+  title: '학교에서',
+  level: 'beginner',
+  theme: '일상 / 대학교',
+  tags: ['kp-ep-010-p001', 'kp-ep-010-p002', 'kp-ep-010-p003', 'kp-ep-010-p004', 'kp-ep-010-p005'],
+  vocabulary_ids: [],
+  thumbnail_url: '/kpatto/banners/ep10.png',
+  panels: [],
+}
+
+export const ALL_STORIES: KPattoStory[] = [SAMPLE_EPISODE_1, SAMPLE_EPISODE_2, SAMPLE_EPISODE_3, SAMPLE_EPISODE_4, SAMPLE_EPISODE_5, SAMPLE_EPISODE_6, SAMPLE_EPISODE_7, SAMPLE_EPISODE_8, SAMPLE_EPISODE_9, SAMPLE_EPISODE_10]

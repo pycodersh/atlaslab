@@ -248,6 +248,7 @@ import { EPISODE_006_WEBTOON } from './episode-006-webtoon'
 import { EPISODE_007_WEBTOON } from './episode-007-webtoon'
 import { EPISODE_008_WEBTOON } from './episode-008-webtoon'
 import { EPISODE_009_WEBTOON } from './episode-009-webtoon'
+import { EPISODE_010_WEBTOON } from './episode-010-webtoon'
 
 export const WEBTOON_EPISODES: Record<string, WebtoonEpisodeData> = {
   'kp-ep-001': EPISODE_001_WEBTOON,
@@ -259,4 +260,5 @@ export const WEBTOON_EPISODES: Record<string, WebtoonEpisodeData> = {
   'kp-ep-007': EPISODE_007_WEBTOON,
   'kp-ep-008': EPISODE_008_WEBTOON,
   'kp-ep-009': EPISODE_009_WEBTOON,
+  'kp-ep-010': EPISODE_010_WEBTOON,
 }
