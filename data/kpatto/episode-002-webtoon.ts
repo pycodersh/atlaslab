@@ -56,7 +56,7 @@ export const EPISODE_002_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'b-2-1', bubbleKey: 'bubble-oval',
           xPct: 28, yPct: 6, widthPct: 64,
-          korean: '지수야! 홍대\n가고 싶어요... 어디예요?',
+          korean: '지수! 홍대\n가고 싶어요... 어디예요?',
           translation: 'Jisu! I want to go\nto Hongdae... where is it?',
           speaker: 'emma', lines: 2, tail: tailR,
         },

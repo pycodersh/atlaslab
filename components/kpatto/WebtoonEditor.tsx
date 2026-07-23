@@ -680,15 +680,25 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
 
         const gap = section as WebtoonGapSection
         const gapRef = getGapRef(gap.id)
+        // In edit mode, extend gap height to contain all overflow bubbles so they remain hittable
+        const maxYPct = editMode
+          ? Math.max(100, ...gap.bubbles.map(b => {
+              const ov = state.overrides[b.id]
+              const yPct = ov?.yPct ?? b.yPct
+              const wPct = ov?.widthPct ?? b.widthPct
+              const key  = ov?.bubbleKey ?? b.bubbleKey
+              return yPct + bubbleHeightPct(wPct, key, gap.heightRatio) + 10
+            }))
+          : 100
+        const editorPb = gap.heightRatio * maxYPct
         return (
-          // 뷰어와 동일한 구조. z-index:20으로 overflow 말풍선이 이후 패널 위에 표시됨
           <div
             key={gap.id}
             ref={el => { gapRef.current = el }}
             onClick={handleGapClick}
             style={{
               position: 'relative', zIndex: 20, width: '100%',
-              paddingBottom: `${gap.heightRatio * 100}%`,
+              paddingBottom: `${editorPb}%`,
               overflow: 'visible',
             }}
           >
