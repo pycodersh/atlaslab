@@ -72,6 +72,8 @@ function WebtoonBubbleEl({
     </div>
   )
 
+  const heightScale = (bubble as { heightScale?: number }).heightScale ?? 1
+
   return (
     <div
       style={{
@@ -89,7 +91,7 @@ function WebtoonBubbleEl({
     >
       {isBodyOnly && meta.ovalParams ? (
         /* ── Merged body+tail: single SVG path ── */
-        <div style={{ position: 'relative', paddingBottom: `${(viewBoxH / viewBoxW) * 100}%`, overflow: 'visible' }}>
+        <div style={{ position: 'relative', paddingBottom: `${(viewBoxH / viewBoxW) * heightScale * 100}%`, overflow: 'visible' }}>
           <BubbleSvg
             viewBoxW={viewBoxW}
             viewBoxH={viewBoxH}
@@ -215,7 +217,7 @@ function CropPanelSection({ section }: { section: WebtoonCropSection }) {
 
 // ── Override merge helper ────────────────────────────────────────────────────
 type OverrideMap = Record<string, {
-  bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number
+  bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number; heightScale?: number
   tail?: import('@/data/kpatto/webtoon-types').BubbleTailData
 }>
 
@@ -232,11 +234,12 @@ function applyOverrides(base: WebtoonEpisodeData, overrides: OverrideMap): Webto
           if (!o) return b
           return {
             ...b,
-            bubbleKey: o.bubbleKey ?? b.bubbleKey,
-            xPct:      o.xPct      ?? b.xPct,
-            yPct:      o.yPct      ?? b.yPct,
-            widthPct:  o.widthPct  ?? b.widthPct,
-            tail:      o.tail      ?? b.tail,
+            bubbleKey:   o.bubbleKey   ?? b.bubbleKey,
+            xPct:        o.xPct        ?? b.xPct,
+            yPct:        o.yPct        ?? b.yPct,
+            widthPct:    o.widthPct    ?? b.widthPct,
+            heightScale: o.heightScale ?? (b as { heightScale?: number }).heightScale,
+            tail:        o.tail        ?? b.tail,
           }
         }),
       }

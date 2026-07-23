@@ -26,13 +26,14 @@ function bubbleHeightPct(widthPct: number, key: string, heightRatio: number): nu
 }
 
 // ── State ────────────────────────────────────────────────────────────────────
-type Override = { bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number; tail?: BubbleTailData }
+type Override = { bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number; heightScale?: number; tail?: BubbleTailData }
 type Overrides = Record<string, Override>
 type S = { overrides: Overrides; history: Overrides[]; idx: number; selected: string | null }
 type A =
   | { type: 'SELECT'; id: string | null }
   | { type: 'MOVE'; id: string; xPct: number; yPct: number }
   | { type: 'RESIZE'; id: string; widthPct: number }
+  | { type: 'RESIZE_H'; id: string; heightScale: number }
   | { type: 'SET_KEY'; id: string; key: string }
   | { type: 'SET_TAIL'; id: string; tail: BubbleTailData }
   | { type: 'COMMIT' }
@@ -51,6 +52,10 @@ function reducer(s: S, a: A): S {
     }
     case 'RESIZE': {
       const o = { ...(s.overrides[a.id] ?? {}), widthPct: a.widthPct }
+      return { ...s, overrides: { ...s.overrides, [a.id]: o } }
+    }
+    case 'RESIZE_H': {
+      const o = { ...(s.overrides[a.id] ?? {}), heightScale: a.heightScale }
       return { ...s, overrides: { ...s.overrides, [a.id]: o } }
     }
     case 'SET_KEY': {
@@ -99,15 +104,15 @@ const BUBBLE_TYPES = [
   { key: 'bubble-10-shout',              label: '레거시: 외침형' },
   { key: 'bubble-11-narration',          label: '나레이션 박스' },
 ]
-function eff(base: WebtoonBubble, o?: Override): WebtoonBubble {
-  if (!o) return base
+function eff(base: WebtoonBubble, o?: Override): WebtoonBubble & { heightScale: number } {
   return {
     ...base,
-    bubbleKey: o.bubbleKey ?? base.bubbleKey,
-    xPct:     o.xPct     ?? base.xPct,
-    yPct:     o.yPct     ?? base.yPct,
-    widthPct: o.widthPct ?? base.widthPct,
-    tail:     o.tail     ?? base.tail,
+    bubbleKey:   o?.bubbleKey   ?? base.bubbleKey,
+    xPct:        o?.xPct        ?? base.xPct,
+    yPct:        o?.yPct        ?? base.yPct,
+    widthPct:    o?.widthPct    ?? base.widthPct,
+    tail:        o?.tail        ?? base.tail,
+    heightScale: o?.heightScale ?? 1,
   }
 }
 
@@ -166,7 +171,7 @@ function Toolbar({
 function EditableBubble({
   base, override, gapSection, isSelected, editMode,
   showKo, showTrans,
-  onSelect, onMove, onResize, onCommit, onTypeChange, onTailChange,
+  onSelect, onMove, onResize, onResizeH, onCommit, onTypeChange, onTailChange,
   gapRef,
 }: {
   base: WebtoonBubble
@@ -179,6 +184,7 @@ function EditableBubble({
   onSelect: (id: string) => void
   onMove: (id: string, xPct: number, yPct: number) => void
   onResize: (id: string, widthPct: number) => void
+  onResizeH: (id: string, heightScale: number) => void
   onCommit: () => void
   onTypeChange: (id: string, key: string) => void
   onTailChange: (id: string, tail: BubbleTailData) => void
@@ -197,6 +203,7 @@ function EditableBubble({
   // Drag state (refs to avoid re-renders during drag)
   const dragRef = useRef<{ startPX: number; startPY: number; startXPct: number; startYPct: number } | null>(null)
   const resizeRef = useRef<{ startPX: number; startW: number; startX: number } | null>(null)
+  const resizeHRef = useRef<{ startPY: number; startScale: number } | null>(null)
   const tipDragRef = useRef<{ startPX: number; startPY: number; startTipX: number; startTipY: number } | null>(null)
   const anchorDragRef = useRef<true | null>(null)
 
@@ -245,6 +252,28 @@ function EditableBubble({
   const handleResizeUp = useCallback(() => {
     if (!resizeRef.current) return
     resizeRef.current = null
+    onCommit()
+  }, [onCommit])
+
+  const handleResizeHDown = useCallback((e: React.PointerEvent) => {
+    e.stopPropagation()
+    e.currentTarget.setPointerCapture(e.pointerId)
+    resizeHRef.current = { startPY: e.clientY, startScale: b.heightScale }
+  }, [b.heightScale])
+
+  const handleResizeHMove = useCallback((e: React.PointerEvent) => {
+    if (!resizeHRef.current) return
+    const rect = getGapRect()
+    if (!rect) return
+    const bubbleH = rect.width * b.widthPct / 100 * viewBoxH / viewBoxW
+    const dy = (e.clientY - resizeHRef.current.startPY) / bubbleH
+    const newScale = Math.max(0.4, Math.min(3.0, resizeHRef.current.startScale + dy))
+    onResizeH(b.id, newScale)
+  }, [b.id, b.widthPct, viewBoxW, viewBoxH, onResizeH])
+
+  const handleResizeHUp = useCallback(() => {
+    if (!resizeHRef.current) return
+    resizeHRef.current = null
     onCommit()
   }, [onCommit])
 
@@ -360,7 +389,7 @@ function EditableBubble({
     >
       {isBodyOnly && meta.ovalParams ? (
         /* ── Merged body+tail: single SVG path ── */
-        <div style={{ position: 'relative', paddingBottom: `${(viewBoxH / viewBoxW) * 100}%`, overflow: 'visible' }}>
+        <div style={{ position: 'relative', paddingBottom: `${(viewBoxH / viewBoxW) * b.heightScale * 100}%`, overflow: 'visible' }}>
           <BubbleSvg
             viewBoxW={viewBoxW} viewBoxH={viewBoxH}
             oval={meta.ovalParams}
@@ -416,19 +445,35 @@ function EditableBubble({
             ))}
           </div>
 
-          {/* Resize handle — bottom-right */}
+          {/* Resize handle — right center (width) */}
           <div
             style={{
-              position: 'absolute', bottom: -HANDLE / 2, right: -HANDLE / 2,
+              position: 'absolute', top: '50%', right: -HANDLE / 2,
               width: HANDLE, height: HANDLE, borderRadius: 4,
               background: '#6366f1', border: '2px solid #fff',
               cursor: 'ew-resize', zIndex: 40,
+              transform: 'translateY(-50%)',
               boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
               touchAction: 'none',
             }}
             onPointerDown={e => { e.stopPropagation(); handleResizeDown(e) }}
             onPointerMove={e => { e.stopPropagation(); handleResizeMove(e) }}
             onPointerUp={e => { e.stopPropagation(); handleResizeUp() }}
+          />
+          {/* Resize handle — bottom center (height) */}
+          <div
+            style={{
+              position: 'absolute', bottom: -HANDLE / 2, left: '50%',
+              width: HANDLE, height: HANDLE, borderRadius: 4,
+              background: '#10b981', border: '2px solid #fff',
+              cursor: 'ns-resize', zIndex: 40,
+              transform: 'translateX(-50%)',
+              boxShadow: '0 2px 6px rgba(0,0,0,0.35)',
+              touchAction: 'none',
+            }}
+            onPointerDown={e => { e.stopPropagation(); handleResizeHDown(e) }}
+            onPointerMove={e => { e.stopPropagation(); handleResizeHMove(e) }}
+            onPointerUp={e => { e.stopPropagation(); handleResizeHUp() }}
           />
 
           {/* Tail handles — only for bodyOnly bubbles with tail data */}
@@ -478,11 +523,11 @@ function EditableBubble({
 }
 
 // ── Panel image ───────────────────────────────────────────────────────────────
-function PanelSection({ section }: { section: WebtoonPanelSection }) {
+function PanelSection({ section, editMode }: { section: WebtoonPanelSection; editMode: boolean }) {
   const isWide = section.layout === 'wide'
   const isMedRight = section.layout === 'medium-right'
   return (
-    <div style={{ width: '100%', display: 'flex', justifyContent: isWide ? 'center' : isMedRight ? 'flex-end' : 'flex-start' }}>
+    <div style={{ width: '100%', display: 'flex', justifyContent: isWide ? 'center' : isMedRight ? 'flex-end' : 'flex-start', pointerEvents: editMode ? 'none' : 'auto' }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={section.imageUrl} alt={section.id} style={{ display: 'block', width: isWide ? '100%' : '78%', height: 'auto' }} />
     </div>
@@ -567,12 +612,12 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
     setSaveStatus('saving')
     try {
       // Build full bubble list for output
-      const bubbles: Record<string, { bubbleKey: string; xPct: number; yPct: number; widthPct: number }> = {}
+      const bubbles: Record<string, { bubbleKey: string; xPct: number; yPct: number; widthPct: number; heightScale: number }> = {}
       for (const s of episode.sections) {
         if (s.type !== 'gap') continue
         for (const b of s.bubbles) {
           const e2 = eff(b, state.overrides[b.id])
-          bubbles[b.id] = { bubbleKey: e2.bubbleKey, xPct: e2.xPct, yPct: e2.yPct, widthPct: e2.widthPct }
+          bubbles[b.id] = { bubbleKey: e2.bubbleKey, xPct: e2.xPct, yPct: e2.yPct, widthPct: e2.widthPct, heightScale: e2.heightScale }
         }
       }
       const r = await fetch('/api/admin/episode-layout', {
@@ -663,7 +708,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
 
       {/* Webtoon content */}
       {episode.sections.map(section => {
-        if (section.type === 'panel') return <PanelSection key={section.id} section={section} />
+        if (section.type === 'panel') return <PanelSection key={section.id} section={section} editMode={editMode} />
         if (section.type === 'crop-panel') {
           const cs = section as import('@/data/kpatto/webtoon-types').WebtoonCropSection
           const pb = (cs.cropH / cs.cropW) * 100
@@ -671,7 +716,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
           const imgLeft = -(cs.cropX / cs.cropW) * 100
           const imgTop = -(cs.cropY / cs.cropW) * 100
           return (
-            <div key={cs.id} style={{ position: 'relative', zIndex: 0, width: '100%', paddingBottom: `${pb}%`, overflow: 'hidden' }}>
+            <div key={cs.id} style={{ position: 'relative', zIndex: 0, width: '100%', paddingBottom: `${pb}%`, overflow: 'hidden', pointerEvents: editMode ? 'none' : 'auto' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={cs.imageUrl} alt={cs.id} style={{ position: 'absolute', top: `${imgTop}%`, left: `${imgLeft}%`, width: `${imgWidth}%`, maxWidth: 'none' }} />
             </div>
@@ -680,17 +725,6 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
 
         const gap = section as WebtoonGapSection
         const gapRef = getGapRef(gap.id)
-        // In edit mode, extend gap height to contain all overflow bubbles so they remain hittable
-        const maxYPct = editMode
-          ? Math.max(100, ...gap.bubbles.map(b => {
-              const ov = state.overrides[b.id]
-              const yPct = ov?.yPct ?? b.yPct
-              const wPct = ov?.widthPct ?? b.widthPct
-              const key  = ov?.bubbleKey ?? b.bubbleKey
-              return yPct + bubbleHeightPct(wPct, key, gap.heightRatio) + 10
-            }))
-          : 100
-        const editorPb = gap.heightRatio * maxYPct
         return (
           <div
             key={gap.id}
@@ -698,7 +732,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
             onClick={handleGapClick}
             style={{
               position: 'relative', zIndex: 20, width: '100%',
-              paddingBottom: `${editorPb}%`,
+              paddingBottom: `${gap.heightRatio * 100}%`,
               overflow: 'visible',
             }}
           >
@@ -716,6 +750,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
                   onSelect={id => dispatch({ type: 'SELECT', id })}
                   onMove={(id, x, y) => dispatch({ type: 'MOVE', id, xPct: x, yPct: y })}
                   onResize={(id, w) => dispatch({ type: 'RESIZE', id, widthPct: w })}
+                  onResizeH={(id, h) => dispatch({ type: 'RESIZE_H', id, heightScale: h })}
                   onCommit={() => dispatch({ type: 'COMMIT' })}
                   onTypeChange={(id, key) => dispatch({ type: 'SET_KEY', id, key })}
                   onTailChange={(id, tail) => dispatch({ type: 'SET_TAIL', id, tail })}
