@@ -255,6 +255,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
   const [isPlaying, setIsPlaying] = useState(false)
   const playIdxRef = useRef(0)
   const [resolvedEpisode, setResolvedEpisode] = useState(episode)
+  const [bubblesReady, setBubblesReady] = useState(false)
 
   // Load saved layout overrides and merge with base episode data
   useEffect(() => {
@@ -266,6 +267,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
         }
       })
       .catch(() => {})
+      .finally(() => setBubblesReady(true))
   }, [episode])
 
   const allBubbles = useMemo(() => {
@@ -363,6 +365,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
       </div>
 
       {/* Sections */}
+      <div style={{ opacity: bubblesReady ? 1 : 0, transition: bubblesReady ? 'opacity 0.3s' : 'none', visibility: bubblesReady ? 'visible' : 'hidden' }}>
       {resolvedEpisode.sections.map(section => {
         if (section.type === 'gap') {
           return (
@@ -380,6 +383,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
         }
         return <PanelSection key={section.id} section={section} />
       })}
+      </div>
     </div>
   )
 }
