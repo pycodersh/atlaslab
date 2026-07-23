@@ -1,7 +1,7 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
-import { Volume2, Bookmark } from 'lucide-react'
+import { Volume2, Bookmark, Lightbulb, ChevronDown, ChevronUp } from 'lucide-react'
 import type { KPattoPattern, KPattoLanguage } from '@/data/kpatto/types'
 import { isPatternSaved, savePattern, unsavePattern } from '@/lib/kpatto/savedPatterns'
 import { useAuth } from '@/contexts/AuthContext'
@@ -256,61 +256,13 @@ export function PatternSection({
                     <div style={{ fontSize: 13, color: '#666666' }}>{desc}</div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
-                    {explanation && (
-                      <button
-                        onClick={() => setOpenExplain(isOpen ? null : p.id)}
-                        title="How to use"
-                        style={{
-                          background: isOpen ? '#16A34A' : 'transparent',
-                          border: `1.5px solid ${isOpen ? '#16A34A' : '#A7D9A2'}`,
-                          borderRadius: 6, width: 24, height: 24,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          cursor: 'pointer', fontSize: 13, lineHeight: 1,
-                          color: isOpen ? '#fff' : '#16A34A',
-                          transition: 'all 0.15s',
-                        }}
-                      >
-                        ❗
-                      </button>
-                    )}
                     <BookmarkBtn pattern={p} episodeId={episodeId} />
                   </div>
                 </div>
               </div>
 
-              {/* Explanation accordion */}
-              {explanation && isOpen && (
-                <div style={{
-                  background: '#F0FDF4',
-                  border: '1px solid #BBF7D0',
-                  borderRadius: 10,
-                  padding: '12px 14px',
-                  marginBottom: 14,
-                  fontSize: 12.5,
-                  color: '#166534',
-                  lineHeight: 1.7,
-                  whiteSpace: 'pre-line',
-                  fontFamily: 'ui-monospace, SFMono-Regular, monospace',
-                }}>
-                  {explanation.split('\n').map((line, li) => {
-                    // Bold lines that contain slot formula brackets [ ]
-                    const isSlot = line.includes('[') && line.includes(']')
-                    const isHeading = line.startsWith('💡')
-                    return (
-                      <div key={li} style={{
-                        fontWeight: isSlot || isHeading ? 700 : 400,
-                        color: isHeading ? '#15803D' : '#166534',
-                        fontFamily: isSlot ? 'ui-monospace, SFMono-Regular, monospace' : 'inherit',
-                      }}>
-                        {line || ' '}
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
-
               {/* Examples */}
-              <div>
+              <div style={{ marginBottom: explanation ? 14 : 0 }}>
                 {p.examples.map((ex, j) => {
                   const translation = (ex.translations as Record<string, string>)[lang] ?? ex.translations.en
                   return (
@@ -328,6 +280,54 @@ export function PatternSection({
                   )
                 })}
               </div>
+
+              {/* How to use accordion */}
+              {explanation && (
+                <div style={{ marginTop: 14 }}>
+                  <button
+                    onClick={() => setOpenExplain(isOpen ? null : p.id)}
+                    style={{
+                      width: '100%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      background: '#F5F5F5', border: 'none',
+                      borderRadius: isOpen ? '10px 10px 0 0' : 10,
+                      padding: '10px 14px', cursor: 'pointer',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                      <Lightbulb size={14} color="#888888" strokeWidth={1.8} />
+                      <span style={{ fontSize: 12, color: '#888888', fontWeight: 600 }}>How to use</span>
+                    </div>
+                    {isOpen
+                      ? <ChevronUp size={14} color="#AAAAAA" strokeWidth={2} />
+                      : <ChevronDown size={14} color="#AAAAAA" strokeWidth={2} />
+                    }
+                  </button>
+                  {isOpen && (
+                    <div style={{
+                      background: '#F5F5F5',
+                      borderRadius: '0 0 10px 10px',
+                      padding: '2px 14px 12px',
+                      fontSize: 12,
+                      color: '#999999',
+                      lineHeight: 1.75,
+                    }}>
+                      {explanation.split('\n').map((line, li) => {
+                        const isSlot = line.includes('[') && line.includes(']')
+                        const isHeading = line.startsWith('💡')
+                        return (
+                          <div key={li} style={{
+                            fontWeight: isSlot || isHeading ? 700 : 400,
+                            color: isHeading ? '#666666' : '#999999',
+                          }}>
+                            {line || ' '}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
             </div>
           )
