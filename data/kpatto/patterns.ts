@@ -450,4 +450,66 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     ],
     level: 'beginner',
   },
+
+  // ── EP06 ──────────────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-006-p001',
+    korean: '~좋아해요 / 싫어해요',
+    structure: '[명사] + 좋아해요 / 싫어해요',
+    translations: { en: 'I like / don\'t like ~' },
+    examples: [
+      { korean: '케이팝 좋아해요.', translations: { en: 'I like K-pop.' } },
+      { korean: '매운 거 싫어해요.', translations: { en: "I don't like spicy food." } },
+      { korean: '한국어 좋아해요.', translations: { en: 'I like Korean.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-006-p002',
+    korean: '~알아요?',
+    structure: '[명사] + 알아요?',
+    translations: { en: 'Do you know ~?' },
+    examples: [
+      { korean: '이 노래 알아요?', translations: { en: 'Do you know this song?' } },
+      { korean: '한국 알아요?', translations: { en: 'Do you know Korea?' } },
+      { korean: '이 가수 알아요?', translations: { en: 'Do you know this singer?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-006-p003',
+    korean: '~가르쳐 주세요',
+    structure: '[목적어] + 가르쳐 주세요',
+    translations: { en: 'Please teach me ~' },
+    examples: [
+      { korean: '이 노래 가르쳐 주세요.', translations: { en: 'Please teach me this song.' } },
+      { korean: '한국어 가르쳐 주세요.', translations: { en: 'Please teach me Korean.' } },
+      { korean: '이거 가르쳐 주세요.', translations: { en: 'Please teach me this.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-006-p004',
+    korean: '같이 ~해도 돼요?',
+    structure: '같이 + [동사 어간] + 아/어도 돼요?',
+    translations: { en: 'Can we ~ together?' },
+    examples: [
+      { korean: '같이 불러도 돼요?', translations: { en: 'Can we sing together?' } },
+      { korean: '같이 가도 돼요?', translations: { en: 'Can I come with you?' } },
+      { korean: '같이 먹어도 돼요?', translations: { en: 'Can we eat together?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-006-p005',
+    korean: '~너무 좋아요!',
+    structure: '[명사] + 너무 좋아요!',
+    translations: { en: 'I love ~ so much!' },
+    examples: [
+      { korean: '이 노래 너무 좋아요!', translations: { en: 'I love this song so much!' } },
+      { korean: '한국 너무 좋아요!', translations: { en: 'I love Korea so much!' } },
+      { korean: '노래방 너무 좋아요!', translations: { en: 'I love noraebang so much!' } },
+    ],
+    level: 'beginner',
+  },
 ]
