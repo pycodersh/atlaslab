@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
 import { ChevronRight, Info, User as UserIcon, LogOut, FileText, Shield, ReceiptText, Bell, CreditCard, Globe, X } from 'lucide-react'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
@@ -446,6 +447,7 @@ function LanguageRow({ lang, onSelect }: { lang: KPattoLanguage; onSelect: (l: K
 
 // ── Page ─────────────────────────────────────────────────────────────────────
 export default function KPattoProfilePage() {
+  const router = useRouter()
   const { user, loading } = useAuth()
   const { prefs, update } = usePreferences()
   const [legalModal, setLegalModal] = useState<string | null>(null)
@@ -461,11 +463,11 @@ export default function KPattoProfilePage() {
       {/* APP SETTINGS */}
       <SectionHeader label="App Settings" />
       <Card>
-        <RowItem icon={CreditCard} label="Subscription" value="Free" onClick={() => {}} />
+        <RowItem icon={CreditCard} label="Subscription" value="Free" onClick={() => router.push('/kpatto/subscription')} />
         <RowDivider />
         <LanguageRow lang={(prefs.language ?? 'en') as KPattoLanguage} onSelect={l => update({ language: l })} />
         <RowDivider />
-        <RowItem icon={Bell} label="Notifications" onClick={() => {}} />
+        <RowItem icon={Bell} label="Notifications" onClick={() => router.push('/kpatto/notifications')} />
       </Card>
 
       {/* ABOUT K-PATTO */}
