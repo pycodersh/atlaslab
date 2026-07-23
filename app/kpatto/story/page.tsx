@@ -3,18 +3,20 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, Lock } from 'lucide-react'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { getRecord } from '@/lib/srs/storage'
+import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 
 const T1    = '#111111'
 const T2    = '#999999'
 const DIV   = '#F2F2F2'
 const ACCENT = '#D4873A'
 const MAX_VIEWS = 10
+const FREE_EPISODES = 5
 
 function EpisodeStatus({ views, done }: { views: number; done: boolean }) {
   if (views >= MAX_VIEWS) {
@@ -48,6 +50,7 @@ function EpisodeStatus({ views, done }: { views: number; done: boolean }) {
 
 export default function KPattoStoryListPage() {
   const { prefs } = usePreferences()
+  const { isPro } = useKPattoSubscription()
 
   const [storyStates, setStoryStates] = useState<Record<string, { views: number; done: boolean }>>({})
 
@@ -73,6 +76,7 @@ export default function KPattoStoryListPage() {
         {ALL_STORIES.map((story) => {
           const state = storyStates[story.id]
           const views = state?.views ?? 0
+          const locked = story.episode > FREE_EPISODES && !isPro
 
           return (
             <div
@@ -82,9 +86,10 @@ export default function KPattoStoryListPage() {
                 borderRadius: 16,
                 border: '1px solid #E0E0E0',
                 boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                background: '#FFFFFF',
+                background: locked ? '#FAFAFA' : '#FFFFFF',
                 overflow: 'hidden',
                 minHeight: 100,
+                opacity: locked ? 0.75 : 1,
               }}
             >
               {/* Thumbnail */}
@@ -94,23 +99,35 @@ export default function KPattoStoryListPage() {
                     src={story.thumbnail_url ?? '/kpatto/banners/ep1.png'}
                     alt={story.title}
                     fill
-                    style={{ objectFit: 'cover', objectPosition: 'center center' }}
+                    style={{ objectFit: 'cover', objectPosition: 'center center', filter: locked ? 'grayscale(0.4)' : 'none' }}
                     sizes="120px"
                   />
+                  {locked && (
+                    <div style={{
+                      position: 'absolute', inset: 0,
+                      background: 'rgba(0,0,0,0.18)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <Lock size={20} color="#FFFFFF" strokeWidth={2} />
+                    </div>
+                  )}
                 </div>
               </div>
 
               {/* Info */}
               <div style={{ flex: 1, minWidth: 0, padding: '12px 8px 12px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6 }}>
                 <div style={{ fontSize: 15, fontWeight: 800, color: T1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  <span style={{ color: ACCENT }}>EP {String(story.episode).padStart(2, '0')}</span>
+                  <span style={{ color: locked ? T2 : ACCENT }}>EP {String(story.episode).padStart(2, '0')}</span>
                   <span style={{ color: T2, fontWeight: 400 }}> · </span>
                   {story.title}
                 </div>
-                <EpisodeStatus views={views} done={state?.done ?? false} />
+                {locked
+                  ? <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>Pro 전용</span>
+                  : <EpisodeStatus views={views} done={state?.done ?? false} />
+                }
               </div>
 
-              {/* Chevron */}
+              {/* Chevron or Lock */}
               <Link
                 href={`/kpatto/story/${story.id}`}
                 style={{ display: 'flex', alignItems: 'center', padding: '0 12px', textDecoration: 'none', flexShrink: 0 }}

@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/client'
 
 const GOOGLE_CALLBACK = 'https://atlaslabstudios.com/patto/auth/callback'
 const KAKAO_CALLBACK  = 'https://atlaslabstudios.com/patto/auth/callback/kakao'
+const KPATTO_GOOGLE_CALLBACK = 'https://atlaslabstudios.com/kpatto/auth/callback'
 
 export async function signInWithGoogle() {
   try {
@@ -11,6 +12,19 @@ export async function signInWithGoogle() {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: GOOGLE_CALLBACK },
+    })
+    return error?.message ?? null
+  } catch (e) {
+    return e instanceof Error ? e.message : '네트워크 오류가 발생했습니다.'
+  }
+}
+
+export async function signInWithGoogleKpatto() {
+  try {
+    const supabase = createClient()
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: KPATTO_GOOGLE_CALLBACK },
     })
     return error?.message ?? null
   } catch (e) {

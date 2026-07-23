@@ -7,7 +7,7 @@ import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { useAuth } from '@/contexts/AuthContext'
 import { usePreferences } from '@/contexts/PreferencesContext'
-import { signOut, signInWithGoogle, signInWithEmail } from '@/lib/auth-actions'
+import { signOut, signInWithGoogleKpatto, signInWithEmail } from '@/lib/auth-actions'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 
 const T1     = '#111111'
@@ -162,7 +162,7 @@ function GuestCard() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  async function handleGoogle() { await signInWithGoogle() }
+  async function handleGoogle() { await signInWithGoogleKpatto() }
 
   async function handleEmailSubmit(e: React.FormEvent) {
     e.preventDefault()

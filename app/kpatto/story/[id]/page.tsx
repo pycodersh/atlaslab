@@ -4,13 +4,16 @@ import { use, useState, useCallback, useEffect } from 'react'
 import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { StoryPanel } from '@/components/kpatto/StoryPanel'
 import { WebtoonEpisode } from '@/components/kpatto/WebtoonEpisode'
 import { ChallengeSection } from '@/components/kpatto/ChallengeSection'
 import { PatternSection } from '@/components/kpatto/PatternSection'
+import { KPattoPaywall } from '@/components/kpatto/KPattoPaywall'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
+import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { WEBTOON_EPISODES } from '@/data/kpatto/episode-001-webtoon'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
 import { EP001_POOL, type RawQuestion } from '@/data/kpatto/challenge-pool-ep001'
@@ -72,15 +75,20 @@ function WelcomeBanner() {
   )
 }
 
+const FREE_EPISODES = 5 // EP01~05 무료
+
 export default function KPattoStoryPage({ params }: PageProps) {
   const { id } = use(params)
   const { prefs } = usePreferences()
   const ui = getUI(prefs.language)
+  const router = useRouter()
   const searchParams = useSearchParams()
   const showWelcome = searchParams.get('welcome') === '1'
   const story = ALL_STORIES.find(s => s.id === id)
   const [challengeDone, setChallengeDone] = useState(false)
   const [challengeQuestions, setChallengeQuestions] = useState<Question[] | null>(null)
+  const [showPaywall, setShowPaywall] = useState(false)
+  const { isPro, loading: subLoading } = useKPattoSubscription()
 
   useEffect(() => {
     const pool = EPISODE_POOLS[id]
@@ -97,6 +105,12 @@ export default function KPattoStoryPage({ params }: PageProps) {
 
   if (!story) notFound()
 
+  const isLocked = story.episode > FREE_EPISODES && !subLoading && !isPro
+
+  useEffect(() => {
+    if (isLocked) setShowPaywall(true)
+  }, [isLocked])
+
   // Map PATTO's Language type to KPattoLanguage (they share the same values)
   const displayLang = (prefs.language ?? 'en') as KPattoLanguage
 
@@ -108,6 +122,9 @@ export default function KPattoStoryPage({ params }: PageProps) {
       margin: '0 auto',
       background: '#FFFFFF',
     }}>
+      {showPaywall && (
+        <KPattoPaywall onDismiss={() => { setShowPaywall(false); router.back() }} />
+      )}
       {/* Top bar — only for non-webtoon (classic) layout */}
       {!WEBTOON_EPISODES[id] && (
         <div style={{
