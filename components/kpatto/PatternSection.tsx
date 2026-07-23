@@ -599,9 +599,7 @@ function renderInline(text: string): React.ReactNode {
             <span key={i} style={{
               display: 'inline-block',
               background: 'none',
-              border: '1px solid #4caf82',
-              borderRadius: 4,
-              padding: '1px 6px',
+              padding: '1px 0',
               fontSize: 11,
               fontWeight: 700,
               color: '#2a7a52',
