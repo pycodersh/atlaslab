@@ -21,7 +21,7 @@ export const EPISODE_003_WEBTOON: WebtoonEpisodeData = {
   sections: [
     // ── Gap + CUT 1: 길거리 분식 가게, 에마와 지수 ───────────────────────
     {
-      type: 'gap', id: 'gap-0', heightRatio: 0.56,
+      type: 'gap', id: 'gap-0', heightRatio: 0.96,
       bubbles: [
         {
           id: 'b-0-1', bubbleKey: 'bubble-oval',
@@ -29,6 +29,13 @@ export const EPISODE_003_WEBTOON: WebtoonEpisodeData = {
           korean: '와, 저거 뭐예요?',
           translation: 'Wow, what\'s that?',
           speaker: 'emma', lines: 1, tail: tailL,
+        },
+        {
+          id: 'b-0-2', bubbleKey: 'bubble-oval',
+          xPct: 52, yPct: 52, widthPct: 44,
+          korean: '떡볶이야!\n진짜 맛있어.',
+          translation: 'That\'s tteokbokki!\nIt\'s really delicious.',
+          speaker: 'jisu', lines: 2, tail: tailR,
         },
       ],
     },
@@ -39,22 +46,15 @@ export const EPISODE_003_WEBTOON: WebtoonEpisodeData = {
       type: 'gap', id: 'gap-1', heightRatio: 0.88,
       bubbles: [
         {
-          id: 'b-0-2', bubbleKey: 'bubble-oval',
-          xPct: 52, yPct: 4, widthPct: 44,
-          korean: '떡볶이야!\n진짜 맛있어.',
-          translation: 'That\'s tteokbokki!\nIt\'s really delicious.',
-          speaker: 'jisu', lines: 2, tail: tailR,
-        },
-        {
           id: 'b-1-1', bubbleKey: 'bubble-oval',
-          xPct: 4, yPct: 48, widthPct: 48,
+          xPct: 4, yPct: 10, widthPct: 48,
           korean: '저거 먹고 싶어요!\n근데 매워요?',
           translation: 'I want to eat that!\nBut is it spicy?',
           speaker: 'emma', lines: 2, tail: tailL,
         },
         {
           id: 'b-1-2', bubbleKey: 'bubble-oval',
-          xPct: 50, yPct: 48, widthPct: 44,
+          xPct: 50, yPct: 54, widthPct: 44,
           korean: '매운 거\n먹을 수 있어요?',
           translation: 'Can you eat\nspicy food?',
           speaker: 'jisu', lines: 2, tail: tailR,
