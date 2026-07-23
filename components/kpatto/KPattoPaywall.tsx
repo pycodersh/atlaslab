@@ -10,11 +10,11 @@ const T1 = '#111111'
 const T2 = '#666666'
 
 const PERKS = [
-  'EP06~ 전체 에피소드 무제한',
-  '신규 에피소드 자동 해금',
-  '챌린지 전체 이용',
-  '북마크 무제한',
-  '음성 전체 이용',
+  'Unlimited access to EP06 and beyond',
+  'New episodes unlocked automatically',
+  'Full access to all challenges',
+  'Unlimited bookmarks',
+  'Full audio access',
 ]
 
 interface Props {
@@ -74,10 +74,10 @@ export function KPattoPaywall({ onDismiss }: Props) {
         {/* Heading */}
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <div style={{ fontSize: 20, fontWeight: 800, color: T1, marginBottom: 6 }}>
-            EP06부터는 Pro 멤버십이 필요해요
+            You need Pro membership from EP06
           </div>
           <div style={{ fontSize: 14, color: T2, lineHeight: 1.6 }}>
-            K-PATTO Pro로 모든 에피소드를 제한 없이 학습하세요
+            Learn all episodes without limits with K-PATTO Pro
           </div>
         </div>
 
@@ -106,7 +106,7 @@ export function KPattoPaywall({ onDismiss }: Props) {
             fontFamily: 'inherit',
           }}
         >
-          {loading ? '...' : '월 3,900원으로 시작하기'}
+          {loading ? '...' : 'Start for ₩3,900/month'}
         </button>
 
         <button
@@ -118,7 +118,7 @@ export function KPattoPaywall({ onDismiss }: Props) {
             cursor: 'pointer', fontFamily: 'inherit',
           }}
         >
-          나중에 할게요
+          Maybe later
         </button>
       </div>
     </div>
