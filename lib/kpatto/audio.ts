@@ -6,12 +6,14 @@ function epCode(episodeId: string): string | null {
   return m ? `ep${m[1].padStart(2, '0')}` : null
 }
 
-// bubbleId 'g1-b2' + episodeId 'kp-ep-001' → '/kpatto/audio/ep01/ep01-c1-b2.wav'
+// bubbleId 'g0-b1' + episodeId 'kp-ep-001' → '/kpatto/audio/ep01/ep01-c1-b1.wav'
+// gap number is 0-indexed in data but 1-indexed in filenames
 export function bubbleAudioUrl(episodeId: string, bubbleId: string): string | null {
   const ep = epCode(episodeId)
   const m = bubbleId.match(/^g(\d+)-b(\d+)$/)
   if (!ep || !m) return null
-  return `/kpatto/audio/${ep}/${ep}-c${m[1]}-b${m[2]}.wav`
+  const cutNum = parseInt(m[1], 10) + 1
+  return `/kpatto/audio/${ep}/${ep}-c${cutNum}-b${m[2]}.wav`
 }
 
 // patternId 'kp-001' + episodeId 'kp-ep-001' → '/kpatto/audio/ep01/ep01-p001.wav'
