@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import type { LessonConfig, LessonStep } from '@/data/kpatto/precourse/types'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import { usePreferences } from '@/contexts/PreferencesContext'
@@ -257,8 +258,8 @@ interface LessonPlayerProps {
 
 export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
   const { prefs } = usePreferences()
-  const lang = (prefs.language ?? 'en') as KPattoLanguage
-  const ui = getUI(prefs.language)
+  const lang = 'en' as KPattoLanguage
+  const ui = getUI('en')
 
   const [stepIdx, setStepIdx] = useState(0)
   const [quizActive, setQuizActive] = useState(false)
@@ -328,7 +329,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
   }
 
   return (
-    <div>
+    <div style={{ paddingBottom: 100 }}>
       {/* Progress */}
       <ProgressBar
         value={baseProgress}
@@ -345,8 +346,17 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
         />
       </LessonCard>
 
-      {/* Navigation */}
-      <div style={{ padding: '24px 20px 0' }}>
+      {/* Navigation — fixed bottom */}
+      <div style={{
+        position: 'fixed',
+        bottom: KPATTO_TAB_BAR_HEIGHT,
+        left: 0,
+        right: 0,
+        padding: '16px',
+        paddingBottom: 'calc(16px + env(safe-area-inset-bottom))',
+        background: 'linear-gradient(to bottom, transparent, var(--pb, #fff) 40%)',
+        zIndex: 10,
+      }}>
         <button
           onClick={handleNext}
           disabled={needsInteract && !interacted}

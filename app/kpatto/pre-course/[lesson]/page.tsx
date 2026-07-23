@@ -21,8 +21,8 @@ export default function LessonPage({ params }: PageProps) {
   const router = useRouter()
   const { markLessonComplete } = useKPrecourseProgress()
   const { prefs } = usePreferences()
-  const ui = getUI(prefs.language)
-  const lang = (prefs.language ?? 'en') as KPattoLanguage
+  const ui = getUI('en')
+  const lang = 'en' as KPattoLanguage
 
   const lesson = LESSONS.find(l => l.id === lessonId)
   if (!lesson) notFound()
