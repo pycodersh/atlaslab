@@ -279,55 +279,37 @@ Ask how long something takes.
 
   // ── EP05 ──────────────────────────────────────────────────────────────────
   'kp-ep-005-p001': `💡 How to use
-Make a polite request — more respectful than 주세요.
-
 [action] + 주실 수 있어요?
 
-천천히 말해주실 수 있어요? → Could you speak slowly?
-물 더 주실 수 있어요?      → Could you bring more water?
-
-주실 수 있어요 = "would you be able to give/do" — very polite!
-Use this with staff, elders, or anyone you want to be extra respectful with.`,
+받침 규칙 없음 — 동사 뒤에 그대로 붙임
+주세요보다 더 정중한 표현 → 직원, 어른, 처음 만나는 사람에게 사용`,
 
   'kp-ep-005-p002': `💡 How to use
-Ask for a recommendation — put the category first.
-
 [category] + 추천해 주세요
 
-메뉴 추천해 주세요     → Please recommend a menu item
-맛있는 거 추천해 주세요 → Please recommend something delicious
-
-Works at restaurants, shops, cafés — anywhere!`,
+추천하다 = to recommend
+추천해 주세요 = please recommend (for me) → 식당, 카페, 숍 어디서나 사용 가능`,
 
   'kp-ep-005-p003': `💡 How to use
-Ask if someone has ever experienced something.
-
 [verb stem] + 아/어 본 적 있어요?
 
-먹다 → 먹어 본 적 있어요? → Have you ever eaten ~?
-가다 → 가 본 적 있어요?   → Have you ever been to ~?
-
-본 적 있어요 = "have the experience of having done"
-본 적 없어요 = never done it`,
+먹다 → 먹어 본 적 있어요? (stem ends in consonant)
+가다 → 가 본 적 있어요? (stem ends in vowel)
+본 적 없어요 = I've never done it`,
 
   'kp-ep-005-p004': `💡 How to use
-Ask where you can buy something.
-
 [noun] + 어디서 살 수 있어요?
 
-이거 어디서 살 수 있어요? → Where can I buy this?
-
 어디서 = where (at/from)
-살 수 있어요 = can buy (사다 + ㄹ 수 있어요)`,
+살 수 있어요 = can buy
+사다(to buy) + ㄹ 수 있어요 → 살 수 있어요`,
 
   'kp-ep-005-p005': `💡 How to use
-Say how food tastes — the two most useful food words!
-
-[food] + 맛있어요 → It's delicious!
-[food] + 맛없어요 → It's not good.
+[food] + 맛있어요 → delicious
+[food] + 맛없어요 → not good
 
 맛 = taste / 있어요 = exists / 없어요 = doesn't exist
-Literally: "taste exists" vs "taste doesn't exist" — poetic, right?`,
+"taste exists" vs "taste doesn't exist" — 한국어다운 표현!`,
 
   // ── EP06 ──────────────────────────────────────────────────────────────────
   'kp-ep-006-p001': `💡 How to use
@@ -623,7 +605,7 @@ function renderInline(text: string): React.ReactNode {
               fontSize: 11,
               fontWeight: 700,
               color: '#2a7a52',
-              fontFamily: 'ui-monospace, SFMono-Regular, monospace',
+              fontFamily: 'inherit',
               lineHeight: 1.6,
             }}>
               {part}
