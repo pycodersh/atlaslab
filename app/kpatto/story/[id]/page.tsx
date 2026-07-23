@@ -1,6 +1,6 @@
 'use client'
 
-import { use, useState, useCallback } from 'react'
+import { use, useState, useCallback, useEffect } from 'react'
 import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
@@ -13,17 +13,22 @@ import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { WEBTOON_EPISODES } from '@/data/kpatto/episode-001-webtoon'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
-import { EP002_QUESTIONS } from '@/data/kpatto/challenge-ep002'
+import { EP001_POOL, type RawQuestion } from '@/data/kpatto/challenge-pool-ep001'
+import { EP002_POOL } from '@/data/kpatto/challenge-pool-ep002'
+import { EP003_POOL } from '@/data/kpatto/challenge-pool-ep003'
 import { getUI } from '@/lib/kpatto/ui-strings'
 import { onStoryComplete } from '@/lib/srs/storage'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import type { Question } from '@/components/kpatto/ChallengeSection'
+import { generateChallenge } from '@/lib/kpatto/generate-challenge'
 
 // Build a pattern lookup map
 const PATTERN_MAP = Object.fromEntries(KPATTO_PATTERNS.map(p => [p.id, p]))
 
-const EPISODE_QUESTIONS: Record<string, Question[]> = {
-  'kp-ep-002': EP002_QUESTIONS,
+const EPISODE_POOLS: Record<string, RawQuestion[]> = {
+  'kp-ep-001': EP001_POOL,
+  'kp-ep-002': EP002_POOL,
+  'kp-ep-003': EP003_POOL,
 }
 
 interface PageProps {
@@ -61,6 +66,12 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const showWelcome = searchParams.get('welcome') === '1'
   const story = ALL_STORIES.find(s => s.id === id)
   const [challengeDone, setChallengeDone] = useState(false)
+  const [challengeQuestions, setChallengeQuestions] = useState<Question[] | null>(null)
+
+  useEffect(() => {
+    const pool = EPISODE_POOLS[id]
+    if (pool) setChallengeQuestions(generateChallenge(pool))
+  }, [id])
 
   const handleChallengeComplete = useCallback(() => {
     if (story) onStoryComplete(story.episode, story.title)
@@ -136,8 +147,8 @@ export default function KPattoStoryPage({ params }: PageProps) {
       <PatternSection tags={story.tags} patternMap={PATTERN_MAP} lang={displayLang} storyId={story.episode} episodeId={id} />
 
       {/* Challenge section */}
-      {!challengeDone && (
-        <ChallengeSection onComplete={handleChallengeComplete} questions={EPISODE_QUESTIONS[id]} />
+      {!challengeDone && challengeQuestions && (
+        <ChallengeSection onComplete={handleChallengeComplete} questions={challengeQuestions} />
       )}
 
       {/* Completion footer — only after challenge */}

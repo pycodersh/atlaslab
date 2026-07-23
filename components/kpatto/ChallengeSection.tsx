@@ -351,7 +351,7 @@ export function ChallengeSection({ onComplete, questions: customQuestions }: { o
         background: '#FFFFFF',
         boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
       }}>
-        <ProgressBar current={qIdx} total={QUESTIONS.length} />
+        <ProgressBar current={qIdx} total={questions.length} />
 
         {q.type === 'mc' ? (
           <MCCard key={cardKey} q={q} onCorrect={advance} onAdvance={advance} />

@@ -265,4 +265,65 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     ],
     level: 'beginner',
   },
+  // ── EP03 패턴 ─────────────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-003-p001',
+    korean: '~하고 싶어요',
+    structure: '[동사 어간] + 고 싶어요',
+    translations: { en: 'I want to ~' },
+    examples: [
+      { korean: '먹고 싶어요.',    translations: { en: 'I want to eat.' } },
+      { korean: '해보고 싶어요.',  translations: { en: 'I want to try it.' } },
+      { korean: '가고 싶어요.',    translations: { en: 'I want to go.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-003-p002',
+    korean: '~할 수 있어요 / 없어요',
+    structure: '[동사 어간] + ㄹ/을 수 있어요/없어요',
+    translations: { en: 'I can / can\'t ~' },
+    examples: [
+      { korean: '매운 거 먹을 수 있어요?', translations: { en: 'Can you eat spicy food?' } },
+      { korean: '젓가락 쓸 수 있어요.',    translations: { en: 'I can use chopsticks.' } },
+      { korean: '한국어 할 수 있어요.',     translations: { en: 'I can speak Korean.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-003-p003',
+    korean: '~이/가 아니에요',
+    structure: '[명사] + 이/가 아니에요',
+    translations: { en: 'It\'s not ~' },
+    examples: [
+      { korean: '이거 제 거 아니에요.',  translations: { en: 'This isn\'t mine.' } },
+      { korean: '저 학생 아니에요.',      translations: { en: 'I\'m not a student.' } },
+      { korean: '이게 떡볶이 아니에요.', translations: { en: 'This isn\'t tteokbokki.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-003-p004',
+    korean: '~못해요',
+    structure: '못 + [동사]',
+    translations: { en: 'I can\'t ~' },
+    examples: [
+      { korean: '매운 거 못 먹어요.', translations: { en: 'I can\'t eat spicy food.' } },
+      { korean: '운전 못 해요.',      translations: { en: 'I can\'t drive.' } },
+      { korean: '수영 못 해요.',      translations: { en: 'I can\'t swim.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-003-p005',
+    korean: '~맞아요?',
+    structure: '[명사/장소] + 맞아요?',
+    translations: { en: 'Is this ~ right?' },
+    examples: [
+      { korean: '이게 떡볶이 맞아요?', translations: { en: 'Is this tteokbokki?' } },
+      { korean: '여기 홍대 맞아요?',   translations: { en: 'Is this Hongdae?' } },
+      { korean: '이거 맞아요?',        translations: { en: 'Is this right?' } },
+    ],
+    level: 'beginner',
+  },
 ]
