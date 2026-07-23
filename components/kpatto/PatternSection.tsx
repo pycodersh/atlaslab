@@ -774,7 +774,15 @@ function PatternCard({ p, i, lang, episodeId, highlight }: {
               <div style={{ fontSize: 22, fontWeight: 700, color: '#1A1A1A', lineHeight: 1.2, marginBottom: 6 }}>
                 {p.korean}
               </div>
-              <div style={{ fontSize: 13, color: '#666666' }}>{desc}</div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ fontSize: 13, color: '#666666' }}>{desc}</div>
+                <SpeakAllBtn
+                  sentences={[p.korean, ...p.examples.map(ex => ex.korean)]}
+                  size={16}
+                  color="#AAAAAA"
+                  activeColor={ACCENT}
+                />
+              </div>
             </div>
             <BookmarkBtn pattern={p} episodeId={episodeId} />
           </div>
@@ -813,13 +821,8 @@ function PatternCard({ p, i, lang, episodeId, highlight }: {
             const translation = (ex.translations as Record<string, string>)[lang] ?? ex.translations.en
             return (
               <div key={j} style={{ paddingLeft: 8, marginBottom: j < p.examples.length - 1 ? 12 : 0 }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A1A', paddingLeft: 6 }}>
-                    {ex.korean}
-                  </div>
-                  <span style={{ marginRight: 12, flexShrink: 0 }}>
-                    <SpeakAllBtn sentences={[ex.korean]} size={14} color="#CCCCCC" activeColor={ACCENT} />
-                  </span>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A1A', paddingLeft: 6 }}>
+                  {ex.korean}
                 </div>
                 <div style={{ fontSize: 12, color: '#999999', marginTop: 2, paddingLeft: 14 }}>
                   {translation}
