@@ -481,16 +481,14 @@ export default function KPattoProfilePage() {
         <RowDivider />
         {/* Contact Us — amber link, no chevron */}
         <a
-          href="https://atlaslabstudios.com"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="mailto:contact@atlaslabstudios.com"
           style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', textDecoration: 'none' }}
         >
           <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke={ACCENT} strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-            <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            <rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 7 10-7"/>
           </svg>
           <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Contact Us</span>
-          <span style={{ fontSize: 13, color: ACCENT, fontWeight: 500 }}>atlaslabstudios.com</span>
+          <span style={{ fontSize: 13, color: ACCENT, fontWeight: 500 }}>contact@atlaslabstudios.com</span>
         </a>
         <RowDivider />
         <RowItem icon={Info} label="Version" value="1.0.0" />
