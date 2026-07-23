@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Volume2, Bookmark } from 'lucide-react'
+import { Volume2, Bookmark, Lightbulb, ChevronUp, ChevronDown } from 'lucide-react'
 import type { KPattoPattern, KPattoLanguage } from '@/data/kpatto/types'
 import { isPatternSaved, savePattern, unsavePattern } from '@/lib/kpatto/savedPatterns'
 import { useAuth } from '@/contexts/AuthContext'
@@ -616,12 +616,13 @@ function renderInline(text: string): React.ReactNode {
           return (
             <span key={i} style={{
               display: 'inline-block',
-              background: '#E8E8E8',
+              background: 'none',
+              border: '1px solid #4caf82',
               borderRadius: 4,
-              padding: '0 5px',
+              padding: '1px 6px',
               fontSize: 11,
               fontWeight: 700,
-              color: '#444',
+              color: '#2a7a52',
               fontFamily: 'ui-monospace, SFMono-Regular, monospace',
               lineHeight: 1.6,
             }}>
@@ -650,17 +651,30 @@ function renderInline(text: string): React.ReactNode {
 }
 
 function renderExplanation(text: string) {
-  return text.split('\n').map((line, li) => {
-    if (!line) return <div key={li} style={{ height: 8 }} />
-    const isHeading = line.startsWith('💡')
-    const isMeta = line.startsWith('Tip:') || line.startsWith('Note:') || line.startsWith('Rule:') || line.startsWith('Why') || line.startsWith('How to') || line.startsWith('Together') || line.startsWith('Literally') || line.startsWith('Use this') || line.startsWith('More casual') || line.startsWith('Works') || line.startsWith('In formal') || line.startsWith('In everyday') || line.startsWith('but in')
+  // Split lines; skip the heading line (starts with 💡) and the first non-empty description line after it
+  const lines = text.split('\n')
+  let skipNext = false
+  const filtered: { line: string; li: number }[] = []
+  for (let li = 0; li < lines.length; li++) {
+    const line = lines[li]
+    if (line.startsWith('💡')) { skipNext = true; continue } // skip heading
+    if (skipNext) {
+      if (line === '') { skipNext = false; continue } // skip blank after heading too
+      skipNext = false; continue // skip the one-liner description
+    }
+    filtered.push({ line, li })
+  }
+
+  return filtered.map(({ line, li }) => {
+    if (line === '') return <div key={li} style={{ height: 6 }} />
+    const isTip = line.startsWith('Tip:') || line.startsWith('Note:')
     return (
       <div key={li} style={{
-        fontSize: isHeading ? 12 : 12,
-        fontWeight: isHeading ? 700 : 400,
-        color: isHeading ? '#555555' : '#999999',
+        fontSize: 12,
+        fontWeight: 400,
+        fontStyle: isTip ? 'italic' : 'normal',
+        color: isTip ? '#AAAAAA' : '#888888',
         lineHeight: 1.75,
-        marginTop: isHeading ? 0 : undefined,
       }}>
         {renderInline(line)}
       </div>
@@ -722,6 +736,92 @@ function BookmarkBtn({ pattern, episodeId }: { pattern: KPattoPattern; episodeId
   )
 }
 
+// ── Pattern card with collapsible How to use ─────────────────────────────────
+function PatternCard({ p, i, lang, episodeId }: {
+  p: KPattoPattern
+  i: number
+  lang: KPattoLanguage
+  episodeId: string
+}) {
+  const [open, setOpen] = useState(true)
+  const desc = PATTERN_DESCS[p.id] ?? p.structure
+  const explanation = PATTERN_EXPLANATIONS[p.id]
+
+  return (
+    <div>
+      {i > 0 && <div style={{ height: 1, background: '#F0EDE8', margin: '0 20px' }} />}
+      <div style={{ padding: '20px 20px' }}>
+
+        {/* Header chip */}
+        <div style={{ background: '#EEF8EC', border: '1px solid #C9EAC4', borderRadius: 12, padding: '12px 14px', marginBottom: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#16A34A', letterSpacing: '0.5px', marginBottom: 6 }}>
+                PATTERN {String(i + 1).padStart(3, '0')}
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 700, color: '#1A1A1A', lineHeight: 1.2, marginBottom: 6 }}>
+                {p.korean}
+              </div>
+              <div style={{ fontSize: 13, color: '#666666' }}>{desc}</div>
+            </div>
+            <BookmarkBtn pattern={p} episodeId={episodeId} />
+          </div>
+        </div>
+
+        {/* How to use — collapsible, default open */}
+        {explanation && (
+          <div style={{ marginBottom: 16 }}>
+            {/* Section header with toggle */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: open ? 8 : 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                <Lightbulb size={16} color={ACCENT} strokeWidth={1.8} />
+                <span style={{ fontSize: 12, fontWeight: 700, color: '#555555' }}>How to use</span>
+              </div>
+              <button
+                onClick={() => setOpen(v => !v)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 2, display: 'flex', alignItems: 'center', color: '#BBBBBB' }}
+              >
+                {open ? <ChevronUp size={15} strokeWidth={2} /> : <ChevronDown size={15} strokeWidth={2} />}
+              </button>
+            </div>
+            {open && (
+              <div>
+                {renderExplanation(explanation)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Divider */}
+        <div style={{ height: 1, background: '#D8D4CF', margin: '0 0 14px' }} />
+
+        {/* Examples */}
+        <div>
+          {p.examples.map((ex, j) => {
+            const translation = (ex.translations as Record<string, string>)[lang] ?? ex.translations.en
+            return (
+              <div key={j} style={{ paddingLeft: 8, marginBottom: j < p.examples.length - 1 ? 12 : 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A1A', paddingLeft: 6 }}>
+                    {ex.korean}
+                  </div>
+                  <span style={{ marginRight: 12, flexShrink: 0 }}>
+                    <SpeakAllBtn sentences={[ex.korean]} size={14} color="#CCCCCC" activeColor={ACCENT} />
+                  </span>
+                </div>
+                <div style={{ fontSize: 12, color: '#999999', marginTop: 2, paddingLeft: 14 }}>
+                  {translation}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 export function PatternSection({
   tags, patternMap, lang, storyId, episodeId,
@@ -748,66 +848,9 @@ export function PatternSection({
         overflow: 'hidden',
         boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
       }}>
-        {patterns.map((p, i) => {
-          const desc = PATTERN_DESCS[p.id] ?? p.structure
-          const explanation = PATTERN_EXPLANATIONS[p.id]
-          return (
-            <div key={p.id}>
-              {i > 0 && <div style={{ height: 1, background: '#F0EDE8', margin: '0 20px' }} />}
-              <div style={{ padding: '20px 20px' }}>
-
-                {/* Header chip */}
-                <div style={{ background: '#EEF8EC', border: '1px solid #C9EAC4', borderRadius: 12, padding: '12px 14px', marginBottom: 16 }}>
-                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 11, fontWeight: 600, color: '#16A34A', letterSpacing: '0.5px', marginBottom: 6 }}>
-                        PATTERN {String(i + 1).padStart(3, '0')}
-                      </div>
-                      <div style={{ fontSize: 22, fontWeight: 700, color: '#1A1A1A', lineHeight: 1.2, marginBottom: 6 }}>
-                        {p.korean}
-                      </div>
-                      <div style={{ fontSize: 13, color: '#666666' }}>{desc}</div>
-                    </div>
-                    <BookmarkBtn pattern={p} episodeId={episodeId} />
-                  </div>
-                </div>
-
-                {/* How to use — inline, always visible */}
-                {explanation && (
-                  <div style={{ marginBottom: 16 }}>
-                    {renderExplanation(explanation)}
-                  </div>
-                )}
-
-                {/* Divider */}
-                <div style={{ height: 1, background: '#EEEEEE', margin: '0 0 14px' }} />
-
-                {/* Examples */}
-                <div>
-                  {p.examples.map((ex, j) => {
-                    const translation = (ex.translations as Record<string, string>)[lang] ?? ex.translations.en
-                    return (
-                      <div key={j} style={{ paddingLeft: 8, marginBottom: j < p.examples.length - 1 ? 12 : 0 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A1A', paddingLeft: 6 }}>
-                            {ex.korean}
-                          </div>
-                          <span style={{ marginRight: 12, flexShrink: 0 }}>
-                            <SpeakAllBtn sentences={[ex.korean]} size={14} color="#CCCCCC" activeColor={ACCENT} />
-                          </span>
-                        </div>
-                        <div style={{ fontSize: 12, color: '#999999', marginTop: 2, paddingLeft: 14 }}>
-                          {translation}
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-
-              </div>
-            </div>
-          )
-        })}
+        {patterns.map((p, i) => (
+          <PatternCard key={p.id} p={p} i={i} lang={lang} episodeId={episodeId} />
+        ))}
       </div>
     </div>
   )
