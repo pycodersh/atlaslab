@@ -1,9 +1,9 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
-import { ChevronRight, Info, User as UserIcon, LogOut, FileText, Shield, ReceiptText, Bell, CreditCard, Globe, X } from 'lucide-react'
+import { ChevronRight, Info, User as UserIcon, LogOut, FileText, Shield, ReceiptText, CreditCard, Globe, X, Smartphone, Compass } from 'lucide-react'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { useAuth } from '@/contexts/AuthContext'
@@ -385,6 +385,181 @@ function LegalModal({ docKey, onClose }: { docKey: string; onClose: () => void }
   )
 }
 
+// ── PWA Install ───────────────────────────────────────────────────────────────
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
+}
+
+function InstallGuideSheet({ open, onClose, installType }: { open: boolean; onClose: () => void; installType: 'ios' | 'android' }) {
+  if (!open) return null
+  const isIOS = installType === 'ios'
+  const title = isIOS ? 'Install K-PATTO on iPhone' : 'Install K-PATTO on Android'
+  const hint  = isIOS ? 'Open in Safari to add to Home Screen' : 'Use Chrome browser menu to install'
+  const steps = isIOS
+    ? ['Tap the Share button (□↑) at the bottom of Safari.', 'Select "Add to Home Screen" from the menu.', 'Tap "Add" in the top right to finish.']
+    : ['Tap the ⋮ menu at the top right of Chrome.', 'Select "Add to Home Screen".', 'Tap "Add" to confirm.']
+
+  return (
+    <div
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+      onClick={onClose}
+    >
+      <div
+        style={{ width: '100%', maxWidth: 480, background: '#FFFFFF', borderRadius: '20px 20px 0 0', padding: '24px 20px 40px', boxSizing: 'border-box' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <div style={{ fontSize: 16, fontWeight: 800, color: T1 }}>{title}</div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
+            <X size={18} color={T2} strokeWidth={2} />
+          </button>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 20 }}>
+          <Compass size={13} color="#5856D6" strokeWidth={1.8} />
+          <span style={{ fontSize: 12.5, color: '#5856D6', fontWeight: 500 }}>{hint}</span>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 13, marginBottom: 24 }}>
+          {steps.map((text, i) => (
+            <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: 13.5, color: T2, flexShrink: 0, lineHeight: 1.55 }}>{i + 1}.</span>
+              <p style={{ fontSize: 13.5, color: T1, margin: 0, lineHeight: 1.55 }}>{text}</p>
+            </div>
+          ))}
+        </div>
+        <button
+          onClick={onClose}
+          style={{ width: '100%', height: 48, background: ACCENT, color: '#FFFFFF', border: 'none', borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
+        >
+          OK
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function AndroidConfirmSheet({ open, onInstall, onCancel }: { open: boolean; onInstall: () => void; onCancel: () => void }) {
+  if (!open) return null
+  return (
+    <div
+      style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+      onClick={onCancel}
+    >
+      <div
+        style={{ width: '100%', maxWidth: 480, background: '#FFFFFF', borderRadius: '20px 20px 0 0', padding: '24px 20px 40px', boxSizing: 'border-box' }}
+        onClick={e => e.stopPropagation()}
+      >
+        <div style={{ fontSize: 16, fontWeight: 800, color: T1, marginBottom: 8 }}>Add K-PATTO to Home Screen</div>
+        <p style={{ fontSize: 14, color: T2, margin: '0 0 24px', lineHeight: 1.6 }}>
+          Launch instantly like a native app, directly from your home screen.
+        </p>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <button
+            onClick={onCancel}
+            style={{ flex: 1, height: 48, background: 'transparent', border: `1.5px solid ${BORDER}`, borderRadius: 12, fontSize: 15, fontWeight: 600, color: T2, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Not Now
+          </button>
+          <button
+            onClick={onInstall}
+            style={{ flex: 1, height: 48, background: ACCENT, color: '#FFFFFF', border: 'none', borderRadius: 12, fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Install
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function InstallCard() {
+  const [installType, setInstallType] = useState<'android' | 'ios' | null>(null)
+  const [showAndroidConfirm, setShowAndroidConfirm] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
+  const [guideType, setGuideType] = useState<'ios' | 'android'>('ios')
+  const deferredPromptRef = useRef<BeforeInstallPromptEvent | null>(null)
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') { setInstallType('android'); return }
+    const ua = navigator.userAgent
+    const isIOS = /iphone|ipad|ipod/i.test(ua)
+    const isAndroid = /android/i.test(ua)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || (navigator as { standalone?: boolean }).standalone === true
+    if (isStandalone) return
+    if (isAndroid) setInstallType('android')
+    else if (isIOS) setInstallType('ios')
+    const handler = (e: Event) => { e.preventDefault(); deferredPromptRef.current = e as BeforeInstallPromptEvent }
+    window.addEventListener('beforeinstallprompt', handler)
+    return () => window.removeEventListener('beforeinstallprompt', handler)
+  }, [])
+
+  if (!installType) return null
+
+  const isIOS = installType === 'ios'
+
+  function handleClick() {
+    if (isIOS) { setGuideType('ios'); setShowGuide(true); return }
+    setShowAndroidConfirm(true)
+  }
+
+  async function handleAndroidInstall() {
+    setShowAndroidConfirm(false)
+    if (deferredPromptRef.current) {
+      deferredPromptRef.current.prompt()
+      const { outcome } = await deferredPromptRef.current.userChoice
+      deferredPromptRef.current = null
+      if (outcome === 'accepted') setInstallType(null)
+    } else {
+      setGuideType('android')
+      setShowGuide(true)
+    }
+  }
+
+  const AppleSvg = () => (
+    <svg viewBox="0 0 24 24" width={16} height={16} fill={ACCENT}>
+      <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.53 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
+    </svg>
+  )
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={handleClick}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 14,
+          width: '100%', padding: '14px 16px',
+          background: 'none', border: 'none', cursor: 'pointer',
+          fontFamily: 'inherit', textAlign: 'left',
+        }}
+      >
+        <div style={{ width: 34, height: 34, borderRadius: 10, background: `${ACCENT}12`, border: `1px solid ${ACCENT}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          {isIOS ? <AppleSvg /> : <Smartphone size={16} color={ACCENT} strokeWidth={1.6} />}
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{ fontSize: 14, fontWeight: 600, color: T1, margin: '0 0 2px' }}>Install K-PATTO</p>
+          <p style={{ fontSize: 12, color: T2, margin: 0, lineHeight: 1.4 }}>
+            {isIOS ? 'Add to Home Screen via Safari' : 'Add to Home Screen'}
+          </p>
+        </div>
+        <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />
+      </button>
+
+      <AndroidConfirmSheet
+        open={showAndroidConfirm}
+        onInstall={handleAndroidInstall}
+        onCancel={() => setShowAndroidConfirm(false)}
+      />
+      <InstallGuideSheet
+        open={showGuide}
+        onClose={() => setShowGuide(false)}
+        installType={guideType}
+      />
+    </>
+  )
+}
+
 // ── Language selector ─────────────────────────────────────────────────────────
 const LANG_LABELS: Record<string, string> = { en: 'English', ja: '日本語', es: 'Español' }
 
@@ -467,7 +642,7 @@ export default function KPattoProfilePage() {
         <RowDivider />
         <LanguageRow lang={(prefs.language ?? 'en') as KPattoLanguage} onSelect={l => update({ language: l })} />
         <RowDivider />
-        <RowItem icon={Bell} label="Notifications" onClick={() => router.push('/kpatto/notifications')} />
+        <InstallCard />
       </Card>
 
       {/* ABOUT K-PATTO */}
