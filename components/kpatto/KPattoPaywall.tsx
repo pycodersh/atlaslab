@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Lock } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { usePaddle } from '@/hooks/usePaddle'
+import { getPaddle } from '@/lib/paddle/client'
 
 const ACCENT = '#D4873A'
 const T1 = '#111111'
@@ -27,13 +28,27 @@ export function KPattoPaywall({ onDismiss }: Props) {
   const [loading, setLoading] = useState(false)
 
   async function handleSubscribe() {
+    if (loading) return
     const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
     if (!priceId || priceId.includes('REPLACE')) return
-    if (!paddle) return
+
+    let p = paddle
+    if (!p) {
+      for (let i = 0; i < 30; i++) {
+        await new Promise(r => setTimeout(r, 100))
+        p = await getPaddle()
+        if (p) break
+      }
+    }
+
+    if (!p) {
+      alert('결제 시스템을 불러오는 중입니다. 잠시 후 다시 시도해주세요.')
+      return
+    }
 
     setLoading(true)
     try {
-      await paddle.Checkout.open({
+      await p.Checkout.open({
         items: [{ priceId, quantity: 1 }],
         customer: user?.email ? { email: user.email } : undefined,
         customData: user?.id ? { user_id: user.id } : undefined,
@@ -94,21 +109,21 @@ export function KPattoPaywall({ onDismiss }: Props) {
         {/* CTA */}
         <button
           onClick={handleSubscribe}
-          disabled={loading || !paddle}
+          disabled={loading}
           style={{
             width: '100%', height: 52,
             background: ACCENT, color: '#FFFFFF',
             border: 'none', borderRadius: 14,
             fontSize: 16, fontWeight: 700,
-            cursor: (loading || !paddle) ? 'not-allowed' : 'pointer',
-            opacity: (loading || !paddle) ? 0.7 : 1,
+            cursor: loading ? 'not-allowed' : 'pointer',
+            opacity: loading ? 0.7 : 1,
             marginBottom: 12,
             fontFamily: 'inherit',
             WebkitTapHighlightColor: 'transparent',
             touchAction: 'manipulation',
           }}
         >
-          {loading ? '...' : !paddle ? 'Loading...' : 'Start for $2.99/month'}
+          {loading ? '...' : 'Start for $2.99/month'}
         </button>
 
         <button
