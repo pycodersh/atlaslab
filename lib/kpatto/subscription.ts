@@ -18,7 +18,7 @@ export function useKPattoSubscription() {
 
     const supabase = createClient()
     supabase
-      .from('profiles')
+      .from('user_profiles')
       .select('kpatto_pro')
       .eq('id', user.id)
       .single()

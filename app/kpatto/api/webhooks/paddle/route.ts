@@ -52,7 +52,7 @@ export async function POST(request: Request) {
     ) {
       const isActive = data.status === 'active' || data.status === 'trialing'
       const { error } = await supabase
-        .from('profiles')
+        .from('user_profiles')
         .update({
           kpatto_pro: isActive,
           kpatto_subscription_id: data.id,
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
       event_type === 'subscription.past_due'
     ) {
       const { error } = await supabase
-        .from('profiles')
+        .from('user_profiles')
         .update({
           kpatto_pro: false,
           kpatto_subscription_status: data.status,
