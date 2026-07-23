@@ -218,7 +218,20 @@ export default function KPattoProgressPage() {
   const activityMap    = typeof window !== 'undefined' ? getActivityByDate() : {}
   const allRecords     = typeof window !== 'undefined' ? getAllRecords() : []
   const kpattoIds      = useMemo(() => new Set(KPATTO_PATTERNS.map(p => p.id)), [])
-  const masteredCount  = allRecords.filter(r => r.itemType === 'pattern' && kpattoIds.has(r.itemId)).length
+  const kpattoRecords  = allRecords.filter(r => r.itemType === 'pattern' && kpattoIds.has(r.itemId))
+  const masteredCount  = kpattoRecords.length
+  const statusCounts   = useMemo(() => {
+    const out = { new: 0, learning: 0, review: 0, mastered: 0 }
+    for (const r of kpattoRecords) {
+      const days = r.intervalDays ?? 1
+      if (r.repeatCount === 0) out.new++
+      else if (days <= 1) out.learning++
+      else if (days <= 7) out.review++
+      else out.mastered++
+    }
+    return out
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allRecords])
   const completedEp   = 1
   const todayDone     = practicedToday > 0
 

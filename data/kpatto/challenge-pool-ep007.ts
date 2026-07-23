@@ -1,6 +1,6 @@
-import type { ChallengeQuestion } from './types'
+﻿import type { RawQuestion } from './challenge-pool-ep001'
 
-export const EP007_POOL: ChallengeQuestion[] = [
+export const EP007_POOL: RawQuestion[] = [
   // ── PATTERN 001: 조금만 더 주세요 ────────────────────────────────────
   {
     id: 'ep007-p001-mc1', type: 'mc', patternId: 'kp-ep-007-p001',

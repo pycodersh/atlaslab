@@ -22,12 +22,9 @@ export function useKPattoSubscription() {
       .select('kpatto_pro')
       .eq('id', user.id)
       .single()
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (error) { setIsPro(false); setLoading(false); return }
         setIsPro(data?.kpatto_pro === true)
-        setLoading(false)
-      })
-      .catch(() => {
-        setIsPro(false)
         setLoading(false)
       })
   }, [user])
