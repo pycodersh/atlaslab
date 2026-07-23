@@ -17,8 +17,8 @@ export const EP006_POOL: ChallengeQuestion[] = [
   {
     id: 'ep006-p001-wb1', type: 'wb', patternId: 'kp-ep-006-p001',
     prompt: '"I like Korean."',
-    answer: '한국어 좋아해요.',
-    blocks: ['한국어', '좋아해요', '싫어해요', '알아요', '좋아요'],
+    answerBlocks: ['한국어', '좋아해요.'],
+    extraBlocks: ['싫어해요', '알아요', '좋아요'],
   },
 
   // ── PATTERN 002: ~알아요? ─────────────────────────────────────────────
@@ -37,8 +37,8 @@ export const EP006_POOL: ChallengeQuestion[] = [
   {
     id: 'ep006-p002-wb1', type: 'wb', patternId: 'kp-ep-006-p002',
     prompt: '"Do you know Korea?"',
-    answer: '한국 알아요?',
-    blocks: ['한국', '알아요', '좋아해요', '뭐예요', '있어요'],
+    answerBlocks: ['한국', '알아요?'],
+    extraBlocks: ['좋아해요', '뭐예요', '있어요'],
   },
 
   // ── PATTERN 003: ~가르쳐 주세요 ──────────────────────────────────────
@@ -57,8 +57,8 @@ export const EP006_POOL: ChallengeQuestion[] = [
   {
     id: 'ep006-p003-wb1', type: 'wb', patternId: 'kp-ep-006-p003',
     prompt: '"Please teach me this."',
-    answer: '이거 가르쳐 주세요.',
-    blocks: ['이거', '가르쳐', '주세요', '알아요', '좋아해요', '주실 수 있어요'],
+    answerBlocks: ['이거', '가르쳐', '주세요.'],
+    extraBlocks: ['알아요', '좋아해요', '주실 수 있어요'],
   },
 
   // ── PATTERN 004: 같이 ~해도 돼요? ────────────────────────────────────
@@ -77,8 +77,8 @@ export const EP006_POOL: ChallengeQuestion[] = [
   {
     id: 'ep006-p004-wb1', type: 'wb', patternId: 'kp-ep-006-p004',
     prompt: '"Can we eat together?"',
-    answer: '같이 먹어도 돼요?',
-    blocks: ['같이', '먹어도', '돼요', '가르쳐', '주세요', '알아요'],
+    answerBlocks: ['같이', '먹어도', '돼요?'],
+    extraBlocks: ['가르쳐', '주세요', '알아요'],
   },
 
   // ── PATTERN 005: ~너무 좋아요! ───────────────────────────────────────
@@ -97,7 +97,7 @@ export const EP006_POOL: ChallengeQuestion[] = [
   {
     id: 'ep006-p005-wb1', type: 'wb', patternId: 'kp-ep-006-p005',
     prompt: '"I love noraebang so much!"',
-    answer: '노래방 너무 좋아요!',
-    blocks: ['노래방', '너무', '좋아요', '좋아해요', '알아요', '싫어해요'],
+    answerBlocks: ['노래방', '너무', '좋아요!'],
+    extraBlocks: ['좋아해요', '알아요', '싫어해요'],
   },
 ]
