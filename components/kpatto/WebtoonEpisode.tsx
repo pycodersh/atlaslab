@@ -331,9 +331,6 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
           padding: '0 12px 0 8px',
           background: '#FFFFFF',
           borderBottom: '1px solid #F2F2F2',
-          position: 'sticky',
-          top: 0,
-          zIndex: 20,
           height: 52,
         }}
       >

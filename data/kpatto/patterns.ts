@@ -204,4 +204,65 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     ],
     level: 'beginner',
   },
+  // ── EP02 패턴 ─────────────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-002-p001',
+    korean: '~어디예요?',
+    structure: '[장소] + 어디예요?',
+    translations: { en: 'Where is ~?' },
+    examples: [
+      { korean: '화장실 어디예요?', translations: { en: 'Where is the bathroom?' } },
+      { korean: '출구 어디예요?',   translations: { en: 'Where is the exit?' } },
+      { korean: '홍대 어디예요?',   translations: { en: 'Where is Hongdae?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-002-p002',
+    korean: '~에 가고 싶어요',
+    structure: '[장소] + 에 가고 싶어요',
+    translations: { en: 'I want to go to ~' },
+    examples: [
+      { korean: '홍대에 가고 싶어요.',  translations: { en: 'I want to go to Hongdae.' } },
+      { korean: '명동에 가고 싶어요.',  translations: { en: 'I want to go to Myeongdong.' } },
+      { korean: '한강에 가고 싶어요.',  translations: { en: 'I want to go to Hangang.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-002-p003',
+    korean: '~어떻게 가요?',
+    structure: '[장소] + 어떻게 가요?',
+    translations: { en: 'How do I get to ~?' },
+    examples: [
+      { korean: '홍대 어떻게 가요?', translations: { en: 'How do I get to Hongdae?' } },
+      { korean: '여기 어떻게 가요?', translations: { en: 'How do I get here?' } },
+      { korean: '공항 어떻게 가요?', translations: { en: 'How do I get to the airport?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-002-p004',
+    korean: '[수량] ~ 주세요',
+    structure: '[수량] + [명사] + 주세요',
+    translations: { en: '[quantity] ~, please' },
+    examples: [
+      { korean: '표 두 장 주세요.',  translations: { en: 'Two tickets, please.' } },
+      { korean: '물 한 병 주세요.',  translations: { en: 'One bottle of water, please.' } },
+      { korean: '봉투 하나 주세요.', translations: { en: 'One bag, please.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-002-p005',
+    korean: '~좋아요',
+    structure: '[명사] + 좋아요',
+    translations: { en: 'I like ~ / ~ is good' },
+    examples: [
+      { korean: '서울 좋아요.',   translations: { en: 'I like Seoul.' } },
+      { korean: '지하철 좋아요.', translations: { en: 'I like the subway.' } },
+      { korean: '한국 좋아요.',   translations: { en: 'I like Korea.' } },
+    ],
+    level: 'beginner',
+  },
 ]

@@ -9,21 +9,21 @@ const T1     = '#111111'
 const T2     = '#999999'
 const DIV    = '#F2F2F2'
 
-type MCQuestion = {
+export type MCQuestion = {
   type: 'mc'
   prompt: string        // English meaning shown
   choices: string[]     // Korean options
   correctIdx: number
 }
 
-type BuildQuestion = {
+export type BuildQuestion = {
   type: 'build'
   prompt: string
   words: string[]
   answer: string[]
 }
 
-type Question = MCQuestion | BuildQuestion
+export type Question = MCQuestion | BuildQuestion
 
 const QUESTIONS: Question[] = [
   {
@@ -317,20 +317,21 @@ function BuildCard({ q, onCorrect }: {
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
-export function ChallengeSection({ onComplete }: { onComplete: () => void }) {
+export function ChallengeSection({ onComplete, questions: customQuestions }: { onComplete: () => void; questions?: Question[] }) {
+  const questions = customQuestions ?? QUESTIONS
   const [qIdx, setQIdx] = useState(0)
   const [cardKey, setCardKey] = useState(0)
 
   const advance = useCallback(() => {
-    if (qIdx + 1 >= QUESTIONS.length) {
+    if (qIdx + 1 >= questions.length) {
       onComplete()
     } else {
       setQIdx(i => i + 1)
       setCardKey(k => k + 1)
     }
-  }, [qIdx, onComplete])
+  }, [qIdx, questions.length, onComplete])
 
-  const q = QUESTIONS[qIdx]
+  const q = questions[qIdx]
 
   return (
     <div style={{ margin: '32px 0 0', padding: '0 16px' }}>

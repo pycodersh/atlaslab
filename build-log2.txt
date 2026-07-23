@@ -1,0 +1,100 @@
+﻿
+> patto@0.1.0 build
+> next build
+
+▲ Next.js 16.2.9 (Turbopack)
+- Environments: .env.local
+
+node.exe : ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org
+/docs/messages/middleware-to-proxy
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Program Files\nodejs/node_mo ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (⚠ The "middlewa...leware-to-proxy:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  Creating an optimized production build ...
+✓ Compiled successfully in 23.3s
+  Running TypeScript ...
+  Finished TypeScript in 15.9s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/1152) ...
+  Generating static pages using 11 workers (288/1152) 
+  Generating static pages using 11 workers (576/1152) 
+  Generating static pages using 11 workers (864/1152) 
+✓ Generating static pages using 11 workers (1152/1152) in 13.2s
+  Finalizing page optimization ...
+
+Route (app)                                                                      Revalidate  Expire
+┌ ○ /
+├ ○ /_not-found
+├ ○ /admin/kpatto/bubbles
+├ ƒ /api/admin/episode-layout
+├ ƒ /blog/[locale]/[app]
+├ ƒ /blog/[locale]/[app]/[slug]
+├ ƒ /blog/[locale]/patto
+├ ● /blog/[locale]/patto/[slug]                                                          1h      1y
+│ ├ /blog/en/patto/5-mistakes-western-learners-make-when-studying-korean                 1h      1y
+│ ├ /blog/en/patto/active-vs-passive-vocabulary-in-korean-what-you-need-to-know          1h      1y
+│ ├ /blog/en/patto/aegyo-korean-cute-speech-and-how-it-works                             1h      1y
+│ └ [+997 more paths]
+├ ○ /kpatto
+├ ○ /kpatto/home
+├ ○ /kpatto/library
+├ ○ /kpatto/library/patterns
+├ ○ /kpatto/library/vocabulary
+├ ○ /kpatto/pre-course
+├ ƒ /kpatto/pre-course/[lesson]
+├ ○ /kpatto/profile
+├ ○ /kpatto/progress
+├ ○ /kpatto/story
+├ ƒ /kpatto/story/[id]
+├ ○ /patto
+├ ƒ /patto/api/essays/review
+├ ƒ /patto/api/essays/suggest
+├ ƒ /patto/api/notifications/daily
+├ ƒ /patto/api/notifications/send
+├ ƒ /patto/api/translate
+├ ƒ /patto/api/webhooks/paddle
+├ ƒ /patto/auth/callback
+├ ƒ /patto/auth/callback/kakao
+├ ○ /patto/dev/screens
+├ ○ /patto/dev/theme
+├ ○ /patto/dev/ui
+├ ○ /patto/editor
+├ ƒ /patto/editor/[id]
+├ ○ /patto/essays
+├ ƒ /patto/essays/[id]
+├ ○ /patto/essays/new
+├ ○ /patto/home
+├ ○ /patto/learn
+├ ƒ /patto/learn/[order]
+├ ○ /patto/library
+├ ○ /patto/library/words
+├ ○ /patto/onboarding
+├ ○ /patto/onboarding/language
+├ ○ /patto/records
+├ ○ /patto/records/patterns
+├ ○ /patto/review
+├ ○ /patto/settings
+├ ○ /patto/settings/about
+├ ○ /patto/settings/about/privacy
+├ ○ /patto/settings/about/refunds
+├ ○ /patto/settings/about/terms
+├ ○ /patto/settings/account
+├ ○ /patto/settings/auth
+├ ○ /patto/settings/preferences
+├ ○ /patto/settings/subscription
+├ ○ /patto/stories
+├ ƒ /patto/stories/[id]
+├ ○ /patto/stories/all
+├ ○ /patto/stories/progress
+└ ○ /videos
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

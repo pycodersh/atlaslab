@@ -245,7 +245,7 @@ export const SAMPLE_EPISODE_2: KPattoStory = {
   title: '지하철에서',
   level: 'beginner',
   theme: '일상 / 지하철',
-  tags: ['kp-005', 'kp-003', 'kp-006'],
+  tags: ['kp-ep-002-p001', 'kp-ep-002-p002', 'kp-ep-002-p003', 'kp-ep-002-p004', 'kp-ep-002-p005'],
   vocabulary_ids: [],
   thumbnail_url: '/kpatto/banners/ep2.png',
   panels: [],

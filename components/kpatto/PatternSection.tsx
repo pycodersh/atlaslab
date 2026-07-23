@@ -15,6 +15,11 @@ const PATTERN_DESCS: Record<string, string> = {
   'kp-004': 'Use this to ask what something is',
   'kp-006': 'Use this to ask if something exists',
   'kp-007': 'Use this to ask the price',
+  'kp-ep-002-p001': 'Use this to ask where something is',
+  'kp-ep-002-p002': 'Use this to say where you want to go',
+  'kp-ep-002-p003': 'Use this to ask how to get somewhere',
+  'kp-ep-002-p004': 'Use this to ask for a quantity of something',
+  'kp-ep-002-p005': 'Use this to say you like something',
 }
 
 function speakAll(sentences: string[], onDone: () => void) {

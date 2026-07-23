@@ -13,12 +13,18 @@ import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { WEBTOON_EPISODES } from '@/data/kpatto/episode-001-webtoon'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
+import { EP002_QUESTIONS } from '@/data/kpatto/challenge-ep002'
 import { getUI } from '@/lib/kpatto/ui-strings'
 import { onStoryComplete } from '@/lib/srs/storage'
 import type { KPattoLanguage } from '@/data/kpatto/types'
+import type { Question } from '@/components/kpatto/ChallengeSection'
 
 // Build a pattern lookup map
 const PATTERN_MAP = Object.fromEntries(KPATTO_PATTERNS.map(p => [p.id, p]))
+
+const EPISODE_QUESTIONS: Record<string, Question[]> = {
+  'kp-ep-002': EP002_QUESTIONS,
+}
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -131,7 +137,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
 
       {/* Challenge section */}
       {!challengeDone && (
-        <ChallengeSection onComplete={handleChallengeComplete} />
+        <ChallengeSection onComplete={handleChallengeComplete} questions={EPISODE_QUESTIONS[id]} />
       )}
 
       {/* Completion footer — only after challenge */}
