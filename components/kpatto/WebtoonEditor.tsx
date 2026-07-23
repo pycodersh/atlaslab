@@ -188,8 +188,8 @@ function EditableBubble({
   const meta = bmeta(b.bubbleKey)
   const sa = meta.safeArea
   const lines = b.lines ?? 1
-  const koSize = lines === 1 ? 'clamp(12px,3.8vw,16px)' : lines === 2 ? 'clamp(11px,3.4vw,14px)' : 'clamp(10px,3.0vw,13px)'
-  const trSize = 'clamp(9px,2.4vw,11px)'
+  const koSize = lines === 1 ? 'clamp(16px,5.0vw,22px)' : lines === 2 ? 'clamp(15px,4.6vw,20px)' : 'clamp(14px,4.2vw,18px)'
+  const trSize = 'clamp(11px,2.9vw,13px)'
 
   const vbParts = meta.viewBox.split(' ').map(Number)
   const viewBoxW = vbParts[2], viewBoxH = vbParts[3]
