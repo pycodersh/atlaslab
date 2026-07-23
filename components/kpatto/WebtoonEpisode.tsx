@@ -137,6 +137,7 @@ function GapSection({
     <div
       style={{
         position: 'relative',
+        zIndex: 20,
         width: '100%',
         paddingBottom: `${section.heightRatio * 100}%`,
         overflow: 'visible',
