@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Volume2, Bookmark, Lightbulb, ChevronUp, ChevronDown } from 'lucide-react'
 import type { KPattoPattern, KPattoLanguage } from '@/data/kpatto/types'
 import { isPatternSaved, savePattern, unsavePattern } from '@/lib/kpatto/savedPatterns'
@@ -690,45 +691,76 @@ function SpeakAllBtn({ sentences, size, color, activeColor }: { sentences: strin
   )
 }
 
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function Toast({ msg, visible }: { msg: string; visible: boolean }) {
+  return (
+    <div style={{
+      position: 'fixed', bottom: 100, left: '50%', transform: 'translateX(-50%)',
+      background: 'rgba(30,30,30,0.88)', color: '#fff', fontSize: 13, fontWeight: 600,
+      padding: '10px 20px', borderRadius: 99, zIndex: 999, whiteSpace: 'nowrap',
+      pointerEvents: 'none',
+      opacity: visible ? 1 : 0, transition: 'opacity 0.25s ease',
+    }}>
+      {msg}
+    </div>
+  )
+}
+
 // ── Bookmark ──────────────────────────────────────────────────────────────────
 function BookmarkBtn({ pattern, episodeId }: { pattern: KPattoPattern; episodeId: string }) {
   const { user } = useAuth()
   const [saved, setSaved] = useState(false)
   const [loading, setLoading] = useState(false)
-
+  const [toast, setToast] = useState<{ msg: string; visible: boolean }>({ msg: '', visible: false })
   useEffect(() => {
     if (!user) { setSaved(false); return }
     isPatternSaved(pattern.id).then(setSaved)
   }, [user, pattern.id])
 
+  const showToast = (msg: string) => {
+    setToast({ msg, visible: true })
+    setTimeout(() => setToast(t => ({ ...t, visible: false })), 1800)
+  }
+
   const handle = async () => {
     if (!user || loading) return
     setLoading(true)
-    if (saved) { await unsavePattern(pattern.id); setSaved(false) }
-    else { await savePattern(pattern.id, episodeId); setSaved(true) }
+    if (saved) {
+      await unsavePattern(pattern.id)
+      setSaved(false)
+      showToast('북마크에서 삭제됐어요.')
+    } else {
+      await savePattern(pattern.id, episodeId)
+      setSaved(true)
+      showToast('북마크에 저장됐어요!')
+    }
     setLoading(false)
   }
 
   return (
-    <button onClick={handle} style={{ background: 'none', border: 'none', cursor: user ? 'pointer' : 'default', padding: 0, flexShrink: 0 }}>
-      <Bookmark size={15} color={saved ? '#D4873A' : '#CCCCCC'} fill={saved ? '#D4873A' : 'none'} strokeWidth={1.8} />
-    </button>
+    <>
+      <button onClick={handle} style={{ background: 'none', border: 'none', cursor: user ? 'pointer' : 'default', padding: 0, flexShrink: 0 }}>
+        <Bookmark size={15} color={saved ? '#D4873A' : '#CCCCCC'} fill={saved ? '#D4873A' : 'none'} strokeWidth={1.8} />
+      </button>
+      <Toast msg={toast.msg} visible={toast.visible} />
+    </>
   )
 }
 
 // ── Pattern card with collapsible How to use ─────────────────────────────────
-function PatternCard({ p, i, lang, episodeId }: {
+function PatternCard({ p, i, lang, episodeId, highlight }: {
   p: KPattoPattern
   i: number
   lang: KPattoLanguage
   episodeId: string
+  highlight?: boolean
 }) {
   const [open, setOpen] = useState(true)
   const desc = PATTERN_DESCS[p.id] ?? p.structure
   const explanation = PATTERN_EXPLANATIONS[p.id]
 
   return (
-    <div>
+    <div style={highlight ? { background: 'rgba(212,135,58,0.06)', borderLeft: '3px solid #D4873A' } : undefined}>
       {i > 0 && <div style={{ height: 1, background: '#F0EDE8', margin: '0 20px' }} />}
       <div style={{ padding: '20px 20px' }}>
 
@@ -813,6 +845,18 @@ export function PatternSection({
   episodeId: string
 }) {
   const patterns = tags.map(id => patternMap[id]).filter(Boolean)
+  const searchParams = useSearchParams()
+  const targetPatternId = searchParams.get('pattern')
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({})
+
+  useEffect(() => {
+    if (!targetPatternId) return
+    const el = cardRefs.current[targetPatternId]
+    if (el) {
+      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400)
+    }
+  }, [targetPatternId])
+
   if (patterns.length === 0) return null
 
   return (
@@ -829,7 +873,9 @@ export function PatternSection({
         boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
       }}>
         {patterns.map((p, i) => (
-          <PatternCard key={p.id} p={p} i={i} lang={lang} episodeId={episodeId} />
+          <div key={p.id} ref={el => { cardRefs.current[p.id] = el }}>
+            <PatternCard p={p} i={i} lang={lang} episodeId={episodeId} highlight={p.id === targetPatternId} />
+          </div>
         ))}
       </div>
     </div>

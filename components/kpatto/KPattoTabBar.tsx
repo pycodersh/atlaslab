@@ -93,6 +93,7 @@ export function KPattoTabBar() {
             <Link
               key={tab.key}
               href={tab.href}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'instant' })}
               style={{
                 width: 72,
                 display: 'flex',

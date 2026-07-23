@@ -1,7 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Bookmark } from 'lucide-react'
+import { Bookmark, ChevronDown, ChevronUp } from 'lucide-react'
+import Link from 'next/link'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
@@ -81,6 +82,7 @@ export default function KPattoRecordPage() {
   const { user } = useAuth()
   const [query, setQuery] = useState('')
   const [savedPatterns, setSavedPatterns] = useState<SavedPattern[]>([])
+  const [bookmarksExpanded, setBookmarksExpanded] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const allRecords = typeof window !== 'undefined' ? getAllRecords() : []
@@ -187,38 +189,66 @@ export default function KPattoRecordPage() {
           </div>
         ) : filteredSaved.length === 0 ? (
           <div style={{ padding: '14px 16px', fontSize: 13, color: T2 }}>
-            {nq ? 'No patterns found.' : 'No saved patterns yet.'}
+            {nq ? 'No patterns found.' : '저장한 패턴이 없어요. 패턴카드의 🔖를 눌러보세요!'}
           </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {filteredSaved.map(({ saved, pattern }, i) => (
-              <div key={saved.pattern_id}>
-                {i > 0 && <RowDivider />}
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px' }}>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 15, fontWeight: 700, color: T1 }}>{pattern.korean}</div>
-                    {pattern.structure && (
-                      <div style={{ fontSize: 12, color: T2, marginTop: 2 }}>{pattern.structure}</div>
-                    )}
+        ) : (() => {
+          const LIMIT = 3
+          const visible = bookmarksExpanded ? filteredSaved : filteredSaved.slice(0, LIMIT)
+          const hiddenCount = filteredSaved.length - LIMIT
+          return (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {visible.map(({ saved, pattern }, i) => {
+                const epNum = parseInt(saved.episode_id.replace(/\D/g, ''), 10)
+                const href = `/kpatto/story/${saved.episode_id}?pattern=${saved.pattern_id}`
+                return (
+                  <div key={saved.pattern_id}>
+                    {i > 0 && <RowDivider />}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px' }}>
+                      <Link href={href} style={{ flex: 1, minWidth: 0, textDecoration: 'none' }}>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: T1 }}>{pattern.korean}</div>
+                        {pattern.structure && (
+                          <div style={{ fontSize: 12, color: T2, marginTop: 2 }}>{pattern.structure}</div>
+                        )}
+                      </Link>
+                      <span style={{
+                        fontSize: 10, fontWeight: 700, color: '#16A34A',
+                        background: '#EEF8EC', border: '1px solid #C9EAC4',
+                        padding: '2px 8px', borderRadius: 99,
+                        letterSpacing: '0.04em', flexShrink: 0,
+                      }}>
+                        {`EP${String(epNum).padStart(2, '0')}`}
+                      </span>
+                      <button
+                        onClick={() => handleUnsave(saved.pattern_id)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}
+                      >
+                        <Bookmark size={15} color={ACCENT} fill={ACCENT} strokeWidth={1.8} />
+                      </button>
+                    </div>
                   </div>
-                  <span style={{
-                    fontSize: 10, fontWeight: 700, color: T2,
-                    background: '#F2F2F2', padding: '2px 8px', borderRadius: 99,
-                    letterSpacing: '0.04em', flexShrink: 0,
-                  }}>
-                    {`EP ${parseInt(saved.episode_id.replace(/\D/g, ''), 10)}`}
-                  </span>
+                )
+              })}
+              {filteredSaved.length > LIMIT && (
+                <>
+                  <RowDivider />
                   <button
-                    onClick={() => handleUnsave(saved.pattern_id)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, flexShrink: 0 }}
+                    onClick={() => setBookmarksExpanded(v => !v)}
+                    style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
+                      padding: '12px 16px', background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: 13, fontWeight: 600, color: T2, width: '100%',
+                    }}
                   >
-                    <Bookmark size={15} color={ACCENT} fill={ACCENT} strokeWidth={1.8} />
+                    {bookmarksExpanded
+                      ? <><ChevronUp size={14} strokeWidth={2} /> 접기</>
+                      : <><ChevronDown size={14} strokeWidth={2} /> {hiddenCount}개 더 보기</>
+                    }
                   </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
+                </>
+              )}
+            </div>
+          )
+        })()}
       </div>
 
       <div style={{ height: 16 }} />
