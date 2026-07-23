@@ -87,7 +87,8 @@ export default function KPattoRecordPage() {
 
   const allRecords = typeof window !== 'undefined' ? getAllRecords() : []
   const dueItems   = typeof window !== 'undefined' ? getDueItems() : []
-  const masteredCount = allRecords.filter(r => r.itemType === 'pattern').length
+  const kpattoIds = new Set(KPATTO_PATTERNS.map(p => p.id))
+  const masteredCount = allRecords.filter(r => r.itemType === 'pattern' && kpattoIds.has(r.itemId)).length
 
   useEffect(() => {
     if (user) {

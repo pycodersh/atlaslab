@@ -13,7 +13,6 @@ import {
   getPracticedTodayCount,
   getAllRecords,
 } from '@/lib/srs/storage'
-import { getStatusCounts } from '@/lib/srs/engine'
 import { getUI } from '@/lib/kpatto/ui-strings'
 import { usePreferences } from '@/contexts/PreferencesContext'
 
@@ -218,9 +217,8 @@ export default function KPattoProgressPage() {
   const dueItems       = typeof window !== 'undefined' ? getDueItems().slice(0, 5) : []
   const activityMap    = typeof window !== 'undefined' ? getActivityByDate() : {}
   const allRecords     = typeof window !== 'undefined' ? getAllRecords() : []
-  const statusCounts   = typeof window !== 'undefined' ? getStatusCounts() : { new: 0, learning: 0, review: 0, mastered: 0 }
-
-  const masteredCount = statusCounts.mastered + statusCounts.review
+  const kpattoIds      = useMemo(() => new Set(KPATTO_PATTERNS.map(p => p.id)), [])
+  const masteredCount  = allRecords.filter(r => r.itemType === 'pattern' && kpattoIds.has(r.itemId)).length
   const completedEp   = 1
   const todayDone     = practicedToday > 0
 
