@@ -94,19 +94,21 @@ export function KPattoPaywall({ onDismiss }: Props) {
         {/* CTA */}
         <button
           onClick={handleSubscribe}
-          disabled={loading}
+          disabled={loading || !paddle}
           style={{
             width: '100%', height: 52,
             background: ACCENT, color: '#FFFFFF',
             border: 'none', borderRadius: 14,
             fontSize: 16, fontWeight: 700,
-            cursor: loading ? 'not-allowed' : 'pointer',
-            opacity: loading ? 0.7 : 1,
+            cursor: (loading || !paddle) ? 'not-allowed' : 'pointer',
+            opacity: (loading || !paddle) ? 0.7 : 1,
             marginBottom: 12,
             fontFamily: 'inherit',
+            WebkitTapHighlightColor: 'transparent',
+            touchAction: 'manipulation',
           }}
         >
-          {loading ? '...' : 'Start for $2.99/month'}
+          {loading ? '...' : !paddle ? 'Loading...' : 'Start for $2.99/month'}
         </button>
 
         <button
