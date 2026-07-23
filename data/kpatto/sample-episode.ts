@@ -11,7 +11,7 @@ export const SAMPLE_EPISODE_1: KPattoStory = {
   theme: '일상 / 카페',
   tags: ['kp-005', 'kp-003', 'kp-004', 'kp-006', 'kp-007'],
   vocabulary_ids: ['kp-v-001', 'kp-v-002', 'kp-v-003'],
-  thumbnail_url: undefined,
+  thumbnail_url: '/kpatto/banners/ep1.png',
   panels: [
     // ── CUT 1 ─ 카페 앞 ──────────────────────────────────────────────
     {

@@ -1,9 +1,9 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronRight, Lock } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
@@ -45,10 +45,6 @@ function EpisodeStatus({ views, done }: { views: number; done: boolean }) {
   }
   return <span style={{ fontSize: 12, color: T2 }}>Not started yet</span>
 }
-
-const COMING_SOON_EPISODES = [
-  { episode: 4, title: '식당에서' },
-]
 
 export default function KPattoStoryListPage() {
   const { prefs } = usePreferences()
@@ -125,46 +121,6 @@ export default function KPattoStoryListPage() {
           )
         })}
 
-        {/* ── 잠금 에피소드 ── */}
-        {COMING_SOON_EPISODES.map((ep) => (
-          <div
-            key={ep.episode}
-            style={{
-              display: 'flex', alignItems: 'stretch',
-              borderRadius: 16,
-              border: '1px solid #E0E0E0',
-              boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-              background: '#FAFAFA',
-              overflow: 'hidden',
-              minHeight: 100,
-              opacity: 0.55,
-            }}
-          >
-            {/* Lock thumbnail */}
-            <div style={{ padding: '10px 0 10px 10px', flexShrink: 0 }}>
-              <div style={{
-                width: 80, height: 80, borderRadius: 12,
-                background: '#F2F2F2',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}>
-                <Lock size={20} color="#CCCCCC" />
-              </div>
-            </div>
-
-            {/* Info */}
-            <div style={{ flex: 1, minWidth: 0, padding: '12px 8px 12px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
-                <div style={{ fontSize: 10, fontWeight: 700, color: T2, letterSpacing: '0.06em', marginBottom: 4 }}>
-                  EP {String(ep.episode).padStart(2, '0')}
-                </div>
-                <div style={{ fontSize: 15, fontWeight: 800, color: T2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {ep.title}
-                </div>
-              </div>
-              <div style={{ fontSize: 11, color: T2 }}>Coming Soon</div>
-            </div>
-          </div>
-        ))}
 
         <div style={{ height: 4 }} />
       </div>
