@@ -788,7 +788,7 @@ function PatternCard({ p, i, lang, episodeId, highlight }: {
                 <div style={{ fontSize: 13, color: '#666666' }}>{desc}</div>
                 <SpeakAllBtn
                   sentences={[p.korean, ...p.examples.map(ex => ex.korean)]}
-                  audioUrls={[patternAudioUrl(episodeId, p.id), ...p.examples.map(() => null)]}
+                  audioUrls={[patternAudioUrl(episodeId, i), ...p.examples.map(() => null)]}
                   size={16}
                   color="#AAAAAA"
                   activeColor={ACCENT}

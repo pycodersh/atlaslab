@@ -16,12 +16,11 @@ export function bubbleAudioUrl(episodeId: string, bubbleId: string): string | nu
   return `/kpatto/audio/${ep}/${ep}-c${cutNum}-b${m[2]}.wav`
 }
 
-// patternId 'kp-001' + episodeId 'kp-ep-001' → '/kpatto/audio/ep01/ep01-p001.wav'
-export function patternAudioUrl(episodeId: string, patternId: string): string | null {
+// patternIndex is 0-based position within the episode (p001 = index 0, p002 = index 1, ...)
+export function patternAudioUrl(episodeId: string, patternIndex: number): string | null {
   const ep = epCode(episodeId)
-  const m = patternId.match(/kp-(\d+)/)
-  if (!ep || !m) return null
-  return `/kpatto/audio/${ep}/${ep}-p${m[1].padStart(3, '0')}.wav`
+  if (!ep) return null
+  return `/kpatto/audio/${ep}/${ep}-p${String(patternIndex + 1).padStart(3, '0')}.wav`
 }
 
 // Try playing a WAV file. Returns true if it played successfully.
