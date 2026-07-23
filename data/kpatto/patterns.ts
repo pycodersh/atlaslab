@@ -1,4 +1,4 @@
-import type { KPattoPattern } from './types'
+﻿import type { KPattoPattern } from './types'
 
 export const KPATTO_PATTERNS: KPattoPattern[] = [
   {
@@ -323,6 +323,68 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
       { korean: '이게 떡볶이 맞아요?', translations: { en: 'Is this tteokbokki?' } },
       { korean: '여기 홍대 맞아요?',   translations: { en: 'Is this Hongdae?' } },
       { korean: '이거 맞아요?',        translations: { en: 'Is this right?' } },
+    ],
+    level: 'beginner',
+  },
+
+  // ── EP04 ──────────────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-004-p001',
+    korean: '~해도 돼요?',
+    structure: '[동사 어간] + 아/어도 돼요?',
+    translations: { en: 'Is it okay to ~?' },
+    examples: [
+      { korean: '여기서 먹어도 돼요?',     translations: { en: 'Is it okay to eat here?' } },
+      { korean: '사진 찍어도 돼요?',       translations: { en: 'May I take a photo?' } },
+      { korean: '카드로 해도 돼요?',       translations: { en: 'Is it okay to pay by card?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-004-p002',
+    korean: '~하면 안 돼요',
+    structure: '[동사 어간] + 으면/면 안 돼요',
+    translations: { en: 'You cannot ~' },
+    examples: [
+      { korean: '여기서 담배 피우면 안 돼요.', translations: { en: 'You cannot smoke here.' } },
+      { korean: '사진 찍으면 안 돼요.',        translations: { en: 'You cannot take photos.' } },
+      { korean: '여기서 뛰면 안 돼요.',        translations: { en: 'You cannot run here.' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-004-p003',
+    korean: '~는/은 어때요?',
+    structure: '[명사] + 는/은 어때요?',
+    translations: { en: 'How about ~?' },
+    examples: [
+      { korean: '이거 어때요?',                  translations: { en: 'How about this?' } },
+      { korean: '삼각김밥이랑 라면은 어때요?',   translations: { en: 'How about triangle gimbap and ramen?' } },
+      { korean: '이 카페 어때요?',               translations: { en: 'How about this café?' } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-004-p004',
+    korean: '~로 할게요',
+    structure: '[명사] + 로/으로 할게요',
+    translations: { en: "I'll go with ~" },
+    examples: [
+      { korean: '카드로 할게요.',   translations: { en: "I'll pay by card." } },
+      { korean: '그걸로 할게요.',   translations: { en: "I'll go with that." } },
+      { korean: '현금으로 할게요.', translations: { en: "I'll pay in cash." } },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-004-p005',
+    korean: '~얼마나 걸려요?',
+    structure: '[대상] + 얼마나 걸려요?',
+    translations: { en: 'How long does ~ take?' },
+    examples: [
+      { korean: '배달 얼마나 걸려요?',    translations: { en: 'How long does delivery take?' } },
+      { korean: '홍대까지 얼마나 걸려요?', translations: { en: 'How long does it take to get to Hongdae?' } },
+      { korean: '지하철로 얼마나 걸려요?', translations: { en: 'How long does it take by subway?' } },
     ],
     level: 'beginner',
   },

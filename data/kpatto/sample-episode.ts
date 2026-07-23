@@ -1,4 +1,4 @@
-import type { KPattoStory, KPattoVocabulary } from './types'
+﻿import type { KPattoStory, KPattoVocabulary } from './types'
 
 const STRIP = '/kpatto/ep-001/strip.png'
 const ASPECT = '5/2'
@@ -269,7 +269,7 @@ export const SAMPLE_EPISODE_4: KPattoStory = {
   title: '편의점에서',
   level: 'beginner',
   theme: '일상 / 편의점',
-  tags: [],
+  tags: ['kp-ep-004-p001', 'kp-ep-004-p002', 'kp-ep-004-p003', 'kp-ep-004-p004', 'kp-ep-004-p005'],
   vocabulary_ids: [],
   thumbnail_url: '/kpatto/banners/ep4.png',
   panels: [],
