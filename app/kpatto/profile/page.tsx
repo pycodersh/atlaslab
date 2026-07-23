@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
-import { ChevronRight, Info, User as UserIcon, LogOut, FileText, Shield, ReceiptText, CreditCard, Globe, X, Smartphone, Compass } from 'lucide-react'
+import { ChevronRight, Info, User as UserIcon, LogOut, FileText, Shield, ReceiptText, CreditCard, Globe, X, Smartphone, Compass, Check } from 'lucide-react'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { useAuth } from '@/contexts/AuthContext'
@@ -517,7 +517,7 @@ function InstallCard() {
   }
 
   const AppleSvg = () => (
-    <svg viewBox="0 0 24 24" width={16} height={16} fill={ACCENT}>
+    <svg viewBox="0 0 24 24" width={18} height={18} fill={ACCENT}>
       <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.4c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.39-1.32 2.76-2.53 3.99zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
     </svg>
   )
@@ -534,15 +534,8 @@ function InstallCard() {
           fontFamily: 'inherit', textAlign: 'left',
         }}
       >
-        <div style={{ width: 34, height: 34, borderRadius: 10, background: `${ACCENT}12`, border: `1px solid ${ACCENT}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          {isIOS ? <AppleSvg /> : <Smartphone size={16} color={ACCENT} strokeWidth={1.6} />}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontSize: 14, fontWeight: 600, color: T1, margin: '0 0 2px' }}>Install K-PATTO</p>
-          <p style={{ fontSize: 12, color: T2, margin: 0, lineHeight: 1.4 }}>
-            {isIOS ? 'Add to Home Screen via Safari' : 'Add to Home Screen'}
-          </p>
-        </div>
+        {isIOS ? <AppleSvg /> : <Smartphone size={18} color={ACCENT} strokeWidth={1.8} style={{ flexShrink: 0 }} />}
+        <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Install K-PATTO</span>
         <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />
       </button>
 
@@ -561,11 +554,15 @@ function InstallCard() {
 }
 
 // ── Language selector ─────────────────────────────────────────────────────────
-const LANG_LABELS: Record<string, string> = { en: 'English', ja: '日本語', es: 'Español' }
+const LANG_OPTIONS: { value: KPattoLanguage; flag: string; label: string }[] = [
+  { value: 'en', flag: '🇺🇸', label: 'English' },
+  { value: 'ja', flag: '🇯🇵', label: '日本語' },
+  { value: 'es', flag: '🇪🇸', label: 'Español' },
+]
 
 function LanguageRow({ lang, onSelect }: { lang: KPattoLanguage; onSelect: (l: KPattoLanguage) => void }) {
   const [open, setOpen] = useState(false)
-  const langs: KPattoLanguage[] = ['en', 'ja', 'es']
+  const current = LANG_OPTIONS.find(o => o.value === lang)
 
   return (
     <>
@@ -581,38 +578,52 @@ function LanguageRow({ lang, onSelect }: { lang: KPattoLanguage; onSelect: (l: K
       >
         <Globe size={18} color={ACCENT} strokeWidth={1.8} style={{ flexShrink: 0 }} />
         <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Language</span>
-        <span style={{ fontSize: 13, color: T2, marginRight: 4 }}>{LANG_LABELS[lang]}</span>
+        <span style={{ fontSize: 13, color: T2, marginRight: 4 }}>{current?.flag} {current?.label}</span>
         <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />
       </button>
 
       {open && (
         <div
-          style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.35)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+          style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.45)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
           onClick={() => setOpen(false)}
         >
           <div
-            style={{ width: '100%', maxWidth: 480, background: '#FFFFFF', borderRadius: '20px 20px 0 0', padding: '24px 16px 40px', boxSizing: 'border-box' }}
+            style={{ width: '100%', maxWidth: 480, background: '#FFFFFF', borderRadius: '20px 20px 0 0', paddingBottom: 32, boxSizing: 'border-box' }}
             onClick={e => e.stopPropagation()}
           >
-            <div style={{ fontSize: 12, fontWeight: 700, color: T2, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 16, textAlign: 'center' }}>
-              Select Language
+            {/* Handle bar */}
+            <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 12, paddingBottom: 16 }}>
+              <div style={{ width: 36, height: 4, borderRadius: 2, background: '#D1D5DB' }} />
             </div>
-            {langs.map((l, i) => (
-              <div key={l}>
-                {i > 0 && <div style={{ height: 1, background: ROW_DIV, margin: '0 16px' }} />}
-                <button
-                  type="button"
-                  onClick={() => { onSelect(l); setOpen(false) }}
-                  style={{
-                    width: '100%', padding: '16px', background: 'none', border: 'none',
-                    fontFamily: 'inherit', fontSize: 16, fontWeight: l === lang ? 700 : 400,
-                    color: l === lang ? ACCENT : T1, cursor: 'pointer', textAlign: 'center',
-                  }}
-                >
-                  {LANG_LABELS[l]}
-                </button>
-              </div>
-            ))}
+            {/* Title */}
+            <div style={{ fontSize: 14, fontWeight: 700, color: T1, paddingLeft: 20, marginBottom: 8 }}>
+              Language
+            </div>
+            {LANG_OPTIONS.map((o, i) => {
+              const selected = o.value === lang
+              return (
+                <div key={o.value}>
+                  {i > 0 && <div style={{ height: 1, background: ROW_DIV, margin: '0 20px' }} />}
+                  <button
+                    type="button"
+                    onClick={() => { onSelect(o.value); setOpen(false) }}
+                    style={{
+                      width: '100%', height: 56,
+                      display: 'flex', alignItems: 'center', gap: 12,
+                      padding: '0 20px', background: selected ? `${ACCENT}08` : 'none',
+                      border: 'none', cursor: 'pointer', fontFamily: 'inherit', textAlign: 'left',
+                      WebkitTapHighlightColor: `${ACCENT}22`,
+                    } as React.CSSProperties}
+                  >
+                    <span style={{ fontSize: 22 }}>{o.flag}</span>
+                    <span style={{ flex: 1, fontSize: 15, fontWeight: selected ? 700 : 400, color: selected ? ACCENT : T1 }}>
+                      {o.label}
+                    </span>
+                    {selected && <Check size={16} color={ACCENT} strokeWidth={2.5} />}
+                  </button>
+                </div>
+              )
+            })}
           </div>
         </div>
       )}

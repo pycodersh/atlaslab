@@ -28,6 +28,7 @@ export function KPattoPaywall({ onDismiss }: Props) {
   const [loading, setLoading] = useState(false)
 
   async function handleSubscribe() {
+    alert('clicked: loading=' + loading + ' priceId=' + process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID)
     if (loading) return
     const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
     if (!priceId || priceId.includes('REPLACE')) return
