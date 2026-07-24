@@ -70,6 +70,9 @@ export function KPattoPaywall({ onDismiss }: Props) {
           locale: 'ko',
         },
       })
+    } catch (err) {
+      alert('Checkout.open error: ' + String(err))
+      console.error('[KPattoPaywall] Checkout.open error:', err)
     } finally {
       setLoading(false)
     }
