@@ -87,7 +87,6 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const story = ALL_STORIES.find(s => s.id === id)
   const [challengeDone, setChallengeDone] = useState(false)
   const [challengeQuestions, setChallengeQuestions] = useState<Question[] | null>(null)
-  const [showPaywall, setShowPaywall] = useState(false)
   const { isPro, loading: subLoading } = useKPattoSubscription()
 
   useEffect(() => {
@@ -105,14 +104,26 @@ export default function KPattoStoryPage({ params }: PageProps) {
 
   if (!story) notFound()
 
-  const isLocked = story.episode > FREE_EPISODES && !subLoading && !isPro
-
-  useEffect(() => {
-    if (isLocked) setShowPaywall(true)
-  }, [isLocked])
+  const isProEpisode = story.episode > FREE_EPISODES
+  const isLocked = isProEpisode && !subLoading && !isPro
 
   // Map PATTO's Language type to KPattoLanguage (they share the same values)
   const displayLang = (prefs.language ?? 'en') as KPattoLanguage
+
+  // Loading state — don't expose content before subscription is confirmed
+  if (isProEpisode && subLoading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 32, height: 32, border: '3px solid #F2F2F2', borderTop: '3px solid #D4873A', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+      </div>
+    )
+  }
+
+  // Locked — show paywall only, no content in DOM
+  if (isLocked) {
+    return <KPattoPaywall onDismiss={() => router.back()} />
+  }
 
   return (
     <div style={{
@@ -122,9 +133,6 @@ export default function KPattoStoryPage({ params }: PageProps) {
       margin: '0 auto',
       background: '#FFFFFF',
     }}>
-      {showPaywall && (
-        <KPattoPaywall onDismiss={() => { setShowPaywall(false); router.back() }} />
-      )}
       {/* Top bar — only for non-webtoon (classic) layout */}
       {!WEBTOON_EPISODES[id] && (
         <div style={{
