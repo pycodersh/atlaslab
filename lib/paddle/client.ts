@@ -13,12 +13,9 @@ export async function getPaddle(): Promise<Paddle | null> {
     return null
   }
 
-  // Force production — NEXT_PUBLIC_PADDLE_SANDBOX must be explicitly 'true' for sandbox
-  const isSandbox = process.env.NEXT_PUBLIC_PADDLE_SANDBOX === 'true'
-  const environment = isSandbox ? 'sandbox' : 'production'
-  console.log('[paddle] initializing with environment:', environment, 'token prefix:', token.slice(0, 8))
+  console.log('[paddle] initializing with environment: production, token prefix:', token.slice(0, 8))
 
-  const instance = await initializePaddle({ token, environment })
+  const instance = await initializePaddle({ token, environment: 'production' })
 
   paddleInstance = instance ?? null
   return paddleInstance
