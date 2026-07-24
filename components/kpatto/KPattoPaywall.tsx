@@ -59,6 +59,8 @@ export function KPattoPaywall({ onDismiss }: Props) {
       return
     }
 
+    console.log('[KPattoPaywall] About to open checkout. priceId=', priceId, ' token prefix=', process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN?.slice(0, 12))
+    alert('Opening checkout: priceId=' + priceId)
     setLoading(true)
     try {
       await p.Checkout.open({
