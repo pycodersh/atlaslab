@@ -39,11 +39,14 @@ export function KPattoPaywall({ onDismiss }: Props) {
     console.log('[KPattoPaywall] handleSubscribe called')
     alert('handleSubscribe called! paddle=' + (paddle ? 'ready' : 'null') + ' loading=' + loading)
     if (loading) return
-    const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
-    if (!priceId || priceId.includes('REPLACE')) {
-      alert('priceId missing or invalid: ' + priceId)
-      return
-    }
+    const TEST_PRICE_ID = 'pri_01ky74gvff7x82ehk7csbaztx1'
+    const priceId = TEST_PRICE_ID
+    console.log({
+      priceId,
+      length: priceId?.length,
+      json: JSON.stringify(priceId),
+      chars: [...(priceId || '')].map(c => ({ char: c, code: c.charCodeAt(0) }))
+    })
 
     let p = paddle
     if (!p) {
