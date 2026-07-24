@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Lock } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { usePaddle } from '@/hooks/usePaddle'
@@ -9,6 +9,8 @@ import { getPaddle } from '@/lib/paddle/client'
 const ACCENT = '#D4873A'
 const T1 = '#111111'
 const T2 = '#666666'
+
+const KPATTO_PRICE_ID = 'pri_01ky74gvff7x82ehk7csbaztx1'
 
 const PERKS = [
   'Unlimited access to EP06 and beyond',
@@ -27,26 +29,8 @@ export function KPattoPaywall({ onDismiss }: Props) {
   const paddle = usePaddle()
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    console.log('[KPattoPaywall] mounted. paddle=', paddle, 'loading=', loading)
-  }, [])
-
-  useEffect(() => {
-    console.log('[KPattoPaywall] paddle changed:', paddle)
-  }, [paddle])
-
   async function handleSubscribe() {
-    console.log('[KPattoPaywall] handleSubscribe called')
-    alert('handleSubscribe called! paddle=' + (paddle ? 'ready' : 'null') + ' loading=' + loading)
     if (loading) return
-    const TEST_PRICE_ID = 'pri_01ky74gvff7x82ehk7csbaztx1'
-    const priceId = TEST_PRICE_ID
-    console.log({
-      priceId,
-      length: priceId?.length,
-      json: JSON.stringify(priceId),
-      chars: [...(priceId || '')].map(c => ({ char: c, code: c.charCodeAt(0) }))
-    })
 
     let p = paddle
     if (!p) {
@@ -62,12 +46,10 @@ export function KPattoPaywall({ onDismiss }: Props) {
       return
     }
 
-    console.log('[KPattoPaywall] About to open checkout. priceId=', priceId, ' token prefix=', process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN?.slice(0, 12))
-    alert('Opening checkout: priceId=' + priceId)
     setLoading(true)
     try {
       await p.Checkout.open({
-        items: [{ priceId, quantity: 1 }],
+        items: [{ priceId: KPATTO_PRICE_ID, quantity: 1 }],
         customer: user?.email ? { email: user.email } : undefined,
         customData: user?.id ? { user_id: user.id } : undefined,
         settings: {
@@ -76,7 +58,6 @@ export function KPattoPaywall({ onDismiss }: Props) {
         },
       })
     } catch (err) {
-      alert('Checkout.open error: ' + String(err))
       console.error('[KPattoPaywall] Checkout.open error:', err)
     } finally {
       setLoading(false)
@@ -127,11 +108,6 @@ export function KPattoPaywall({ onDismiss }: Props) {
               <span style={{ fontSize: 14, color: T1 }}>{perk}</span>
             </div>
           ))}
-        </div>
-
-        {/* DEBUG: show priceId */}
-        <div style={{ fontSize: 10, color: '#999', textAlign: 'center', marginBottom: 8, wordBreak: 'break-all' }}>
-          priceId: {process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID ?? 'UNDEFINED'}
         </div>
 
         {/* CTA */}
