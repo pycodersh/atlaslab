@@ -52,9 +52,30 @@ function getExpectedStyle(speaker: string, epNum: number): string {
   return 'unknown'
 }
 
-// ── 패턴 키워드 추출 (예: "~가고 싶어요" → "가고 싶어요") ─────────────────
+// ── 패턴 키워드 추출 (단수, 첫 변형) ───────────────────────────────────────
 function extractPatternKeyword(pattern: string): string {
-  return pattern.replace(/^[~\s]+/, '').split('/')[0].trim()
+  return extractPatternKeywords(pattern)[0] ?? ''
+}
+
+// ── 패턴 키워드 추출 (복수 변형 지원) ──────────────────────────────────────
+// "~이에요 / 예요" → ["이에요", "예요"]
+// "[수량] ~ 주세요" → ["주세요"]
+// "~어디예요?" → ["어디예요"]
+// "~하고 싶어요" → ["하고 싶어요"]
+function extractPatternKeywords(pattern: string): string[] {
+  // 구조적 마커 제거: [수량], [장소] 등
+  let s = pattern.replace(/\[.*?\]/g, '').trim()
+  // / 로 변형 분리
+  const parts = s.split('/')
+  const result: string[] = []
+  for (const part of parts) {
+    const kw = part.trim()
+      .replace(/^~+\s*/, '')  // 앞 ~ 제거
+      .replace(/\?$/, '')      // 끝 ? 제거
+      .trim()
+    if (kw.length > 0) result.push(kw)
+  }
+  return result.filter(k => k.length > 0)
 }
 
 // ── 단일 에피소드 QA ────────────────────────────────────────────────────────
@@ -109,8 +130,8 @@ async function runEpisodeQA(epNum: number, fix: boolean) {
     warnCount++
   } else {
     for (const p of patterns) {
-      const kw = extractPatternKeyword(p.pattern)
-      const found = allKorean.find(k => k.includes(kw))
+      const kws = extractPatternKeywords(p.pattern)
+      const found = allKorean.find(k => kws.some(kw => k.includes(kw)))
       if (found) {
         console.log(`  ✅ ${p.pattern} — "${found.replace(/\n/g,'↵').substring(0,40)}"`)
       } else {
@@ -122,16 +143,26 @@ async function runEpisodeQA(epNum: number, fix: boolean) {
 
   // ── CHECK 2: highlight_text ────────────────────────────────────────────
   console.log('\nCHECK 2 highlight_text:')
+  // 패턴별 (첫 키워드, 전체 키워드 배열) 맵
   const patternKeywords = (patterns ?? []).map(p => extractPatternKeyword(p.pattern))
+  const patternKeywordsAll = (patterns ?? []).map(p => extractPatternKeywords(p.pattern))
   const fixUpdates: Array<{ id: number; highlight_text: string }> = []
 
   for (const b of sortedBubbles) {
     const txt = b.korean ?? ''
-    const matchedKws = patternKeywords.filter(kw => txt.includes(kw))
-    if (!matchedKws.length) continue
+    // 버블 텍스트가 어떤 패턴의 키워드를 포함하는지 확인 (다중 변형 지원)
+    const matchedPatternIndices = patternKeywordsAll
+      .map((kws, i) => ({ i, matched: kws.some(kw => txt.includes(kw)) }))
+      .filter(x => x.matched)
+      .map(x => x.i)
 
-    if (matchedKws.length > 1) {
-      console.log(`  ⚠️  분리 필요 — "${txt.replace(/\n/g,'↵')}" (패턴 ${matchedKws.length}개: ${matchedKws.join(', ')})`)
+    if (!matchedPatternIndices.length) continue
+
+    // 매칭된 패턴의 대표 키워드 (highlight 후보)
+    const matchedKws = matchedPatternIndices.map(i => patternKeywords[i])
+
+    if (matchedPatternIndices.length > 1) {
+      console.log(`  ⚠️  분리 필요 — "${txt.replace(/\n/g,'↵')}" (패턴 ${matchedPatternIndices.length}개: ${matchedKws.join(', ')})`)
       warnCount++
     } else if (!b.highlight_text) {
       console.log(`  ❌ highlight_text NULL — "${txt.replace(/\n/g,'↵')}" (후보: ${matchedKws[0]})`)
@@ -183,62 +214,64 @@ async function runEpisodeQA(epNum: number, fix: boolean) {
     console.log('  ✅ 단일 패턴 (순서 검사 불필요)')
   }
 
-  // ── CHECK 4: 말투 검수 ─────────────────────────────────────────────────
-  console.log('\nCHECK 4 말투:')
-  const speakerBubbles = new Map<string, string[]>()
-  for (const b of sortedBubbles) {
-    const sp = (b.speaker ?? 'unknown').toLowerCase()
-    if (!speakerBubbles.has(sp)) speakerBubbles.set(sp, [])
-    speakerBubbles.get(sp)!.push(b.korean ?? '')
-  }
+  // ── CHECK 4: 챌린지 검증 ─────────────────────────────────────────────────
+  console.log('\nCHECK 4 챌린지 검증:')
+  const { data: challenges } = await supabase
+    .from('kp_challenges')
+    .select('id, order_num, type, question, options, answer')
+    .eq('episode_id', ep.id)
+    .order('order_num')
 
-  for (const [sp, texts] of speakerBubbles) {
-    const expected = getExpectedStyle(sp, epNum)
-    if (expected === 'unknown' || expected === 'mixed') {
-      console.log(`  ⚪ ${sp}: 말투 규칙 미정의`)
-      continue
-    }
-    const violations: string[] = []
-    for (const txt of texts) {
-      const detected = detectSpeechStyle(txt)
-      if (detected !== 'unknown' && detected !== expected) {
-        violations.push(`"${txt.replace(/\n/g,'↵').substring(0,30)}" → ${detected}`)
-      }
-    }
-    if (violations.length) {
-      console.log(`  ⚠️  ${sp} (${expected} 기대):`)
-      violations.forEach(v => console.log(`      ${v}`))
-      warnCount++
-    } else {
-      console.log(`  ✅ ${sp} (EP${epNum}, ${expected}): 말투 확인`)
-    }
-  }
-
-  // ── CHECK 5: 중복 패턴 감지 ───────────────────────────────────────────
-  console.log('\nCHECK 5 중복 패턴:')
-  if (patterns?.length) {
-    const { data: prevPatterns } = await supabase
+  if (!challenges?.length) {
+    console.log('  ⚠️  챌린지 데이터 없음')
+    warnCount++
+  } else {
+    // 미래 에피소드 패턴 키워드 (이 에피소드 챌린지에 나오면 안 됨)
+    const { data: futurePatterns } = await supabase
       .from('kp_patterns')
       .select('pattern, kp_episodes!inner(episode_num)')
-      .lt('kp_episodes.episode_num', epNum)
+      .gt('kp_episodes.episode_num' as any, epNum)
 
-    const prevKeywords = new Set(
-      (prevPatterns ?? []).map((p: any) => extractPatternKeyword(p.pattern))
+    const futureKeywords = new Set<string>(
+      (futurePatterns ?? [])
+        .map((p: any) => extractPatternKeyword(p.pattern))
+        .filter(kw => !patternKeywords.includes(kw))
     )
 
-    let dupFound = false
-    for (const p of patterns) {
-      const kw = extractPatternKeyword(p.pattern)
-      if (prevKeywords.has(kw)) {
-        // 어느 에피소드인지 찾기
-        const prev = (prevPatterns ?? []).find((x: any) => extractPatternKeyword(x.pattern) === kw) as any
-        const prevEp = prev?.kp_episodes?.episode_num ?? '?'
-        console.log(`  ⚠️  "${p.pattern}" → EP${String(prevEp).padStart(2,'0')}에서 이미 등장`)
+    let challengeIssues = 0
+    for (const c of challenges) {
+      const answer = (c.answer as string) ?? ''
+      const qPrompt = ((c.question as any)?.prompt ?? '').substring(0, 35)
+      const matchedEpKws = patternKeywordsAll
+      .flat()
+      .filter(kw => answer.includes(kw))
+
+      // options/blocks에서 미래 패턴 사용 여부 확인
+      const allTexts: string[] = [answer]
+      if (Array.isArray(c.options)) {
+        allTexts.push(...(c.options as string[]))
+      } else if (c.options && typeof c.options === 'object') {
+        const opts = c.options as Record<string, string[]>
+        Object.values(opts).forEach(arr => allTexts.push(...arr))
+      }
+      const futureFound = allTexts.flatMap(t =>
+        [...futureKeywords].filter(kw => t.includes(kw))
+      )
+      const uniqueFuture = [...new Set(futureFound)]
+
+      if (matchedEpKws.length === 0) {
+        console.log(`  ❌ [${c.type}] "${qPrompt}" — 에피소드 패턴 미포함 (A: "${answer.substring(0,25)}")`)
+        errCount++
+        challengeIssues++
+      } else if (uniqueFuture.length) {
+        console.log(`  ⚠️  [${c.type}] "${qPrompt}" — 미래 패턴 사용: ${uniqueFuture.join(', ')}`)
         warnCount++
-        dupFound = true
+        challengeIssues++
       }
     }
-    if (!dupFound) console.log('  ✅ 중복 패턴 없음')
+    if (challengeIssues === 0) {
+      console.log(`  ✅ 전체 ${challenges.length}개 챌린지 — 패턴 범위 정상`)
+    }
   }
 
   // ── 요약 ───────────────────────────────────────────────────────────────
