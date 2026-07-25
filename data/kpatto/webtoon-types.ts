@@ -40,7 +40,7 @@ export interface WebtoonPanelSection {
   type: 'panel'
   id: string
   imageUrl: string
-  layout: 'wide' | 'medium-right' | 'medium-left' | 'small-center'
+  layout: 'wide' | 'medium-right' | 'medium-left' | 'small-center' | 'small-center-l'
 }
 
 /**

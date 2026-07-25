@@ -86,7 +86,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         type: 'panel' as const,
         id: `cut-${panelCount}`,
         imageUrl: p.image_url ?? '',
-        layout: (p.layout ?? 'wide') as 'wide' | 'medium-right' | 'medium-left' | 'small-center',
+        layout: (p.layout ?? 'wide') as 'wide' | 'medium-right' | 'medium-left' | 'small-center' | 'small-center-l',
       }
     } else {
       return {

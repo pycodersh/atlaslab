@@ -196,6 +196,21 @@ function PanelSection({ section }: { section: WebtoonPanelSection }) {
     )
   }
 
+  if (section.layout === 'small-center-l') {
+    return (
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: '80%', overflow: 'hidden' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={section.imageUrl}
+            alt={`컷 ${section.id}`}
+            style={{ display: 'block', width: '106%', maxWidth: 'none', height: 'auto', marginLeft: '-6%' }}
+          />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       style={{

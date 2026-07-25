@@ -175,8 +175,8 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
       ],
     },
 
-    // ── cut-4 (wide) — 주문 장면 (세로형) ───────────────────────────────
-    { type: 'panel', id: 'panel-4', imageUrl: '/kpatto/ep-001/ep01_c4.png', layout: 'wide' },
+    // ── cut-4 (small-center-l 80%) — 주문 장면 (세로형) ─────────────────
+    { type: 'panel', id: 'panel-4', imageUrl: '/kpatto/ep-001/ep01_c4.png', layout: 'small-center-l' },
 
     // ── gap-4 (480px) ────────────────────────────────────────────────────
     {
