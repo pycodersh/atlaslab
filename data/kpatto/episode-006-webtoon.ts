@@ -123,9 +123,18 @@ export const EPISODE_006_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'b-4-1', bubbleKey: 'bubble-oval',
           xPct: 4, yPct: 6, widthPct: 60,
-          korean: '케이팝 진짜 좋아해요!\n또 오고 싶어요!',
-          translation: 'I really love K-pop!\nI want to come again!',
-          speaker: 'emma', lines: 2, tail: tailL,
+          korean: '케이팝 진짜 좋아해요!',
+          translation: 'I really love K-pop!',
+          speaker: 'emma', lines: 1, tail: tailL,
+          highlight_text: '좋아해요',
+        },
+        {
+          id: 'b-4-1b', bubbleKey: 'bubble-oval',
+          xPct: 4, yPct: 30, widthPct: 60,
+          korean: '또 오고 싶어요!',
+          translation: 'I want to come again!',
+          speaker: 'emma', lines: 1, tail: tailL,
+          highlight_text: '또 오고 싶어요',
         },
         {
           id: 'b-4-2', bubbleKey: 'bubble-oval',

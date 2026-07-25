@@ -79,23 +79,46 @@ export const EPISODE_004_WEBTOON: WebtoonEpisodeData = {
     },
     { type: 'panel', id: 'cut-3', imageUrl: C3, layout: 'wide' },
 
-    // ── Gap + CUT 4: 민준이 삼각김밥+라면 추천 ──────────────────────────
+    // ── Gap + CUT 4: 민준이 삼각김밥+라면 추천, 컵라면 조리 시간 ─────────
     {
-      type: 'gap', id: 'gap-3', heightRatio: 0.88,
+      type: 'gap', id: 'gap-3', heightRatio: 1.35,
       bubbles: [
         {
           id: 'b-3-1', bubbleKey: 'bubble-oval',
-          xPct: 48, yPct: 6, widthPct: 54,
+          xPct: 48, yPct: 5, widthPct: 54,
           korean: '이거 어때요?\n삼각김밥이랑 라면!',
           translation: 'How about this?\nTriangle gimbap and ramen!',
           speaker: 'minjun', lines: 2, tail: tailR,
         },
         {
           id: 'b-3-2', bubbleKey: 'bubble-oval',
-          xPct: 4, yPct: 56, widthPct: 56,
-          korean: '오! 그걸로 할게요.\n카드로 해도 돼요?',
-          translation: "Oh! I'll go with that.\nIs it okay to pay by card?",
-          speaker: 'emma', lines: 2, tail: tailLTop,
+          xPct: 4, yPct: 35, widthPct: 56,
+          korean: '오! 그걸로 할게요.',
+          translation: "Oh! I'll go with that.",
+          speaker: 'emma', lines: 1, tail: tailLTop,
+          highlight_text: '할게요',
+        },
+        {
+          id: 'b-3-2b', bubbleKey: 'bubble-oval',
+          xPct: 4, yPct: 48, widthPct: 56,
+          korean: '카드로 해도 돼요?',
+          translation: 'Is it okay to pay by card?',
+          speaker: 'emma', lines: 1, tail: tailL,
+          highlight_text: '해도 돼요',
+        },
+        {
+          id: 'b-3-3', bubbleKey: 'bubble-oval',
+          xPct: 4, yPct: 63, widthPct: 52,
+          korean: '이거 얼마나 걸려요?',
+          translation: 'How long does this take?',
+          speaker: 'emma', lines: 1, tail: tailL,
+        },
+        {
+          id: 'b-3-4', bubbleKey: 'bubble-oval',
+          xPct: 44, yPct: 80, widthPct: 44,
+          korean: '3분이요!',
+          translation: 'Three minutes!',
+          speaker: 'minjun', lines: 1, tail: tailRTop,
         },
       ],
     },
