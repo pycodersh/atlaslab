@@ -26,6 +26,7 @@ export interface WebtoonBubble {
   speaker: string       // character name (lowercase) e.g. "emma"
   lines?: 1 | 2 | 3    // hint for font size
   tail?: BubbleTailData // if present, renders dynamic tail (body-only bubble keys)
+  highlight_text?: string // substring of korean to render in orange (#D4873A)
 }
 
 export interface WebtoonGapSection {
@@ -39,7 +40,7 @@ export interface WebtoonPanelSection {
   type: 'panel'
   id: string
   imageUrl: string
-  layout: 'wide' | 'medium-right' | 'medium-left'
+  layout: 'wide' | 'medium-right' | 'medium-left' | 'small-center'
 }
 
 /**

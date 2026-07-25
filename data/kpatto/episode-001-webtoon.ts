@@ -30,16 +30,16 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
   title: '카페에서',
   theme: '일상 / 카페',
   sections: [
-    // ── gap-top (260px) ─────────────────────────────────────────────────
+    // ── gap-top (240px) ──────────────────────────────────────────────────
     {
       type: 'gap',
       id: 'gap-top',
-      heightRatio: 260 / 430,
+      heightRatio: 240 / 430,
       bubbles: [
         {
           id: 'g0-b1',
           bubbleKey: 'bubble-oval',
-          xPct: 3,  yPct: 14,  widthPct: 62,
+          xPct: 3,  yPct: 5,  widthPct: 62,
           korean: '와, 예쁘다!',
           translation: "Wow, it's so pretty!",
           speaker: 'emma',
@@ -49,19 +49,19 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
       ],
     },
 
-    // ── cut-1 (wide) ─────────────────────────────────────────────────────
-    { type: 'panel', id: 'panel-1', imageUrl: '/kpatto/ep-001/cut-1.jpg', layout: 'wide' },
+    // ── cut-1 (wide) — 카페 외관 ─────────────────────────────────────────
+    { type: 'panel', id: 'panel-1', imageUrl: '/kpatto/ep-001/ep01_c1.png', layout: 'wide' },
 
-    // ── gap-1 (320px) ────────────────────────────────────────────────────
+    // ── gap-1 (240px) ────────────────────────────────────────────────────
     {
       type: 'gap',
       id: 'gap-1',
-      heightRatio: 320 / 430,
+      heightRatio: 240 / 430,
       bubbles: [
         {
           id: 'g1-b1',
           bubbleKey: 'bubble-oval',
-          xPct: 46,  yPct: 4,   widthPct: 51,
+          xPct: 46,  yPct: 5,  widthPct: 51,
           korean: '어서 오세요!\n주문하시겠어요?',
           translation: 'Welcome!\nCan I take your order?',
           speaker: 'jisoo',
@@ -71,7 +71,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g1-b2',
           bubbleKey: 'bubble-oval',
-          xPct: 3,   yPct: 52,  widthPct: 52,
+          xPct: 3,   yPct: 52, widthPct: 52,
           korean: '저기요...\n이거 뭐예요?',
           translation: "Excuse me...\nWhat's this?",
           speaker: 'emma',
@@ -81,19 +81,19 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
       ],
     },
 
-    // ── cut-2 (medium-right) ─────────────────────────────────────────────
-    { type: 'panel', id: 'panel-2', imageUrl: '/kpatto/ep-001/cut-2.jpg', layout: 'medium-right' },
+    // ── cut-2 (wide) — 카운터 ────────────────────────────────────────────
+    { type: 'panel', id: 'panel-2', imageUrl: '/kpatto/ep-001/ep01_c2.png', layout: 'wide' },
 
-    // ── gap-2 (380px) ────────────────────────────────────────────────────
+    // ── gap-2 (480px) ────────────────────────────────────────────────────
     {
       type: 'gap',
       id: 'gap-2',
-      heightRatio: 380 / 430,
+      heightRatio: 480 / 430,
       bubbles: [
         {
           id: 'g2-b1',
           bubbleKey: 'bubble-oval',
-          xPct: 54,  yPct: 3,   widthPct: 44,
+          xPct: 54,  yPct: 5,  widthPct: 44,
           korean: '이건 아메리카노예요.',
           translation: 'This is an Americano.',
           speaker: 'jisoo',
@@ -103,7 +103,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g2-b2',
           bubbleKey: 'bubble-oval',
-          xPct: 2,   yPct: 36,  widthPct: 44,
+          xPct: 2,   yPct: 35, widthPct: 44,
           korean: '달고나 라떼...\n뭐예요?',
           translation: 'Dalgona latte...\nWhat is that?',
           speaker: 'emma',
@@ -113,7 +113,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g2-b3',
           bubbleKey: 'bubble-oval',
-          xPct: 54,  yPct: 69,  widthPct: 44,
+          xPct: 54,  yPct: 60, widthPct: 44,
           korean: '달달하고 맛있어요.',
           translation: "It's sweet and delicious.",
           speaker: 'jisoo',
@@ -123,19 +123,19 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
       ],
     },
 
-    // ── cut-3 (wide) ─────────────────────────────────────────────────────
-    { type: 'panel', id: 'panel-3', imageUrl: '/kpatto/ep-001/cut-3.jpg', layout: 'wide' },
+    // ── cut-3 (small-center 70%) — 에마 클로즈업 (세로형) ───────────────
+    { type: 'panel', id: 'panel-3', imageUrl: '/kpatto/ep-001/ep01_c3.png', layout: 'small-center' },
 
-    // ── gap-3 (300px) — 4 bubbles, 2×2 지그재그 ─────────────────────────
+    // ── gap-3 (480px) ────────────────────────────────────────────────────
     {
       type: 'gap',
       id: 'gap-3',
-      heightRatio: 300 / 430,
+      heightRatio: 480 / 430,
       bubbles: [
         {
           id: 'g3-b1',
           bubbleKey: 'bubble-oval',
-          xPct: 3,   yPct: 2,   widthPct: 40,
+          xPct: 3,   yPct: 5,  widthPct: 40,
           korean: '달고나 라떼 주세요!',
           translation: 'Dalgona latte, please!',
           speaker: 'emma',
@@ -145,7 +145,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g3-b2',
           bubbleKey: 'bubble-oval',
-          xPct: 54,  yPct: 8,   widthPct: 44,
+          xPct: 54,  yPct: 5,  widthPct: 44,
           korean: '사이즈는요?',
           translation: 'What size?',
           speaker: 'jisoo',
@@ -155,7 +155,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g3-b3',
           bubbleKey: 'bubble-oval',
-          xPct: 3,   yPct: 50,  widthPct: 42,
+          xPct: 3,   yPct: 50, widthPct: 42,
           korean: '큰 거 주세요.\n와이파이 있어요?',
           translation: 'Large, please.\nDo you have Wi-Fi?',
           speaker: 'emma',
@@ -165,7 +165,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g3-b4',
           bubbleKey: 'bubble-oval',
-          xPct: 54,  yPct: 58,  widthPct: 44,
+          xPct: 54,  yPct: 58, widthPct: 44,
           korean: '네, 있어요!',
           translation: 'Yes, we do!',
           speaker: 'jisoo',
@@ -175,19 +175,19 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
       ],
     },
 
-    // ── cut-4 (medium-left) ───────────────────────────────────────────────
-    { type: 'panel', id: 'panel-4', imageUrl: '/kpatto/ep-001/cut-4.jpg', layout: 'medium-left' },
+    // ── cut-4 (wide) — 주문 장면 (세로형) ───────────────────────────────
+    { type: 'panel', id: 'panel-4', imageUrl: '/kpatto/ep-001/ep01_c4.png', layout: 'wide' },
 
-    // ── gap-4 (360px) — 4 bubbles, 2×2 지그재그 ─────────────────────────
+    // ── gap-4 (480px) ────────────────────────────────────────────────────
     {
       type: 'gap',
       id: 'gap-4',
-      heightRatio: 360 / 430,
+      heightRatio: 480 / 430,
       bubbles: [
         {
           id: 'g4-b1',
           bubbleKey: 'bubble-oval',
-          xPct: 3,   yPct: 2,   widthPct: 42,
+          xPct: 3,   yPct: 5,  widthPct: 42,
           korean: '이거 얼마예요?',
           translation: 'How much is this?',
           speaker: 'emma',
@@ -197,7 +197,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g4-b2',
           bubbleKey: 'bubble-oval',
-          xPct: 54,  yPct: 8,   widthPct: 44,
+          xPct: 54,  yPct: 5,  widthPct: 44,
           korean: '오천오백 원이에요.',
           translation: "It's 5,500 won.",
           speaker: 'jisoo',
@@ -207,7 +207,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g4-b3',
           bubbleKey: 'bubble-oval',
-          xPct: 3,   yPct: 50,  widthPct: 42,
+          xPct: 3,   yPct: 45, widthPct: 42,
           korean: '너무 맛있어요!',
           translation: "It's so delicious!",
           speaker: 'emma',
@@ -217,7 +217,7 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
         {
           id: 'g4-b4',
           bubbleKey: 'bubble-oval',
-          xPct: 54,  yPct: 57,  widthPct: 44,
+          xPct: 54,  yPct: 50, widthPct: 44,
           korean: '감사합니다.\n또 오세요.',
           translation: 'Thank you.\nPlease come again!',
           speaker: 'jisoo',
@@ -227,14 +227,14 @@ export const EPISODE_001_WEBTOON: WebtoonEpisodeData = {
       ],
     },
 
-    // ── cut-5 (wide) ─────────────────────────────────────────────────────
-    { type: 'panel', id: 'panel-5', imageUrl: '/kpatto/ep-001/cut-5.jpg', layout: 'wide' },
+    // ── cut-5 (wide) — 에마 음료 + 직원 마무리 합체 ─────────────────────
+    { type: 'panel', id: 'panel-5', imageUrl: '/kpatto/ep-001/ep01_c5.png', layout: 'wide' },
 
-    // ── gap-bottom — spacer ───────────────────────────────────────────────
+    // ── gap-bottom (240px) ───────────────────────────────────────────────
     {
       type: 'gap',
       id: 'gap-bottom',
-      heightRatio: 80 / 430,
+      heightRatio: 240 / 430,
       bubbles: [],
     },
   ],

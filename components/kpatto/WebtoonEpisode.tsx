@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Volume2 } from 'lucide-react'
 import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection, WebtoonCropSection } from '@/data/kpatto/webtoon-types'
@@ -21,6 +21,20 @@ function getBubbleMeta(key: string) {
     ovalParams?: { cx: number; cy: number; rx: number; ry: number }
     safeArea: { left: number; top: number; right: number; bottom: number }
   }
+}
+
+// ── Highlight helper ─────────────────────────────────────────────────────────
+function renderKorean(text: string, highlight?: string): React.ReactNode {
+  if (!highlight) return text
+  const idx = text.indexOf(highlight)
+  if (idx === -1) return text
+  return (
+    <>
+      {text.slice(0, idx)}
+      <span style={{ color: '#D4873A' }}>{highlight}</span>
+      {text.slice(idx + highlight.length)}
+    </>
+  )
 }
 
 // ── Single speech bubble ─────────────────────────────────────────────────────
@@ -62,7 +76,7 @@ function WebtoonBubbleEl({
     >
       {showKo && (
         <div style={{ fontSize: koFontSize, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, whiteSpace: 'pre-line', letterSpacing: '-0.01em' }}>
-          {bubble.korean}
+          {renderKorean(bubble.korean, bubble.highlight_text)}
         </div>
       )}
       {showTrans && (
@@ -165,6 +179,22 @@ function GapSection({
 function PanelSection({ section }: { section: WebtoonPanelSection }) {
   const isWide = section.layout === 'wide'
   const isMedRight = section.layout === 'medium-right'
+  const isSmallCenter = section.layout === 'small-center'
+
+  if (isSmallCenter) {
+    return (
+      <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: '70%', overflow: 'hidden' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={section.imageUrl}
+            alt={`컷 ${section.id}`}
+            style={{ display: 'block', width: '106%', maxWidth: 'none', height: 'auto' }}
+          />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
