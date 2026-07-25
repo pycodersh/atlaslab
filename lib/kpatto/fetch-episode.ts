@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
+import type { KPattoPattern } from '@/data/kpatto/types'
 import type {
   WebtoonEpisodeData,
   WebtoonSection,
@@ -105,4 +106,33 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     theme: ep.theme ?? '',
     sections,
   }
+}
+
+export async function fetchEpisodePatterns(episodeId: string): Promise<KPattoPattern[]> {
+  const match = episodeId.match(/kp-ep-(\d+)/)
+  if (!match) return []
+
+  const supabase = createClient()
+  const { data: ep } = await supabase
+    .from('kp_episodes')
+    .select('id')
+    .eq('episode_num', parseInt(match[1]))
+    .single()
+  if (!ep) return []
+
+  const { data, error } = await supabase
+    .from('kp_patterns')
+    .select('code, pattern, structure, examples, level')
+    .eq('episode_id', ep.id)
+    .order('order_num')
+  if (error) throw error
+
+  return (data ?? []).map(row => ({
+    id: row.code as string,
+    korean: row.pattern as string,
+    structure: (row.structure ?? '') as string,
+    translations: {},
+    examples: (row.examples ?? []) as KPattoPattern['examples'],
+    level: (row.level ?? 'beginner') as KPattoPattern['level'],
+  }))
 }

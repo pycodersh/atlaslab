@@ -850,15 +850,13 @@ function PatternCard({ p, i, lang, episodeId, highlight }: {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export function PatternSection({
-  tags, patternMap, lang, storyId, episodeId,
+  patterns, lang, storyId, episodeId,
 }: {
-  tags: string[]
-  patternMap: Record<string, KPattoPattern>
+  patterns: KPattoPattern[]
   lang: KPattoLanguage
   storyId: number
   episodeId: string
 }) {
-  const patterns = tags.map(id => patternMap[id]).filter(Boolean)
   const searchParams = useSearchParams()
   const targetPatternId = searchParams.get('pattern')
   const cardRefs = useRef<Record<string, HTMLDivElement | null>>({})

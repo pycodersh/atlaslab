@@ -14,8 +14,9 @@ import { KPattoPaywall } from '@/components/kpatto/KPattoPaywall'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
-import { WEBTOON_EPISODES } from '@/data/kpatto/episode-001-webtoon'
-import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
+import { fetchWebtoonEpisode, fetchEpisodePatterns } from '@/lib/kpatto/fetch-episode'
+import type { WebtoonEpisodeData } from '@/data/kpatto/webtoon-types'
+import type { KPattoPattern } from '@/data/kpatto/types'
 import { EP001_POOL, type RawQuestion } from '@/data/kpatto/challenge-pool-ep001'
 import { EP002_POOL } from '@/data/kpatto/challenge-pool-ep002'
 import { EP003_POOL } from '@/data/kpatto/challenge-pool-ep003'
@@ -31,9 +32,6 @@ import { onStoryComplete } from '@/lib/srs/storage'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import type { Question } from '@/components/kpatto/ChallengeSection'
 import { generateChallenge } from '@/lib/kpatto/generate-challenge'
-
-// Build a pattern lookup map
-const PATTERN_MAP = Object.fromEntries(KPATTO_PATTERNS.map(p => [p.id, p]))
 
 const EPISODE_POOLS: Record<string, RawQuestion[]> = {
   'kp-ep-001': EP001_POOL,
@@ -87,11 +85,19 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const story = ALL_STORIES.find(s => s.id === id)
   const [challengeDone, setChallengeDone] = useState(false)
   const [challengeQuestions, setChallengeQuestions] = useState<Question[] | null>(null)
+  const [webtoonEpisode, setWebtoonEpisode] = useState<WebtoonEpisodeData | null>(null)
+  const [webtoonLoading, setWebtoonLoading] = useState(true)
+  const [episodePatterns, setEpisodePatterns] = useState<KPattoPattern[]>([])
   const { isPro, loading: subLoading } = useKPattoSubscription()
 
   useEffect(() => {
     const pool = EPISODE_POOLS[id]
     if (pool) setChallengeQuestions(generateChallenge(pool))
+    fetchWebtoonEpisode(id).then(ep => {
+      setWebtoonEpisode(ep)
+      setWebtoonLoading(false)
+    })
+    fetchEpisodePatterns(id).then(setEpisodePatterns).catch(console.error)
   }, [id])
 
   const handleChallengeComplete = useCallback(() => {
@@ -134,7 +140,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
       background: '#FFFFFF',
     }}>
       {/* Top bar — only for non-webtoon (classic) layout */}
-      {!WEBTOON_EPISODES[id] && (
+      {!webtoonLoading && !webtoonEpisode && (
         <div style={{
           position: 'sticky',
           top: 0,
@@ -161,9 +167,14 @@ export default function KPattoStoryPage({ params }: PageProps) {
 
       {/* Story panels — webtoon or classic layout */}
       <div>
-        {WEBTOON_EPISODES[id] ? (
+        {webtoonLoading ? (
+          <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 28, height: 28, border: '3px solid #F2F2F2', borderTop: '3px solid #D4873A', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+            <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+          </div>
+        ) : webtoonEpisode ? (
           <WebtoonEpisode
-            episode={WEBTOON_EPISODES[id]}
+            episode={webtoonEpisode}
             episodeLabel={`EP ${String(story.episode).padStart(2, '0')}`}
             storyTitle={story.title}
           />
@@ -174,7 +185,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
                 key={panel.id}
                 panel={panel}
                 panelIndex={index}
-                patterns={PATTERN_MAP}
+                patterns={Object.fromEntries(episodePatterns.map(p => [p.id, p]))}
                 displayLang={displayLang}
               />
             ))}
@@ -183,7 +194,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
       </div>
 
       {/* Patterns section */}
-      <PatternSection tags={story.tags} patternMap={PATTERN_MAP} lang={displayLang} storyId={story.episode} episodeId={id} />
+      <PatternSection patterns={episodePatterns} lang={displayLang} storyId={story.episode} episodeId={id} />
 
       {/* Challenge section */}
       {!challengeDone && challengeQuestions && (
@@ -202,7 +213,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
         <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
         <h3 style={{ margin: '0 0 6px', fontSize: 18, fontWeight: 800 }}>{ui.sv_ep_complete}</h3>
         <p style={{ margin: '0 0 16px', fontSize: 13, opacity: 0.85 }}>
-          {ui.sv_patterns_learned(story.tags.length)}
+          {ui.sv_patterns_learned(episodePatterns.length)}
         </p>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
           <Link
