@@ -78,6 +78,19 @@ export interface KPattoVocabulary {
   level: 'beginner' | 'intermediate' | 'advanced'
 }
 
+export interface KPattoExpression {
+  id: number
+  korean: string
+  english: string
+  description: string | null
+  structure: string | null
+  category: string | null
+  examples: Array<{ ko: string; en: string }> | null
+  tip: string | null
+  first_episode: number | null
+  created_at: string
+}
+
 // User progress types
 export interface KPattoStoryProgress {
   story_id: string

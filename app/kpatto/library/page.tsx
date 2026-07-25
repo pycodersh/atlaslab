@@ -1,19 +1,21 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
-import Link from 'next/link'
+import { useMemo, useRef, useState, useEffect, useCallback } from 'react'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
-import { KPATTO_PATTERNS } from '@/data/kpatto/patterns'
 import { SAMPLE_VOCABULARY } from '@/data/kpatto/sample-episode'
 import { getUI } from '@/lib/kpatto/ui-strings'
-import type { KPattoLanguage } from '@/data/kpatto/types'
+import { fetchAllExpressions } from '@/lib/kpatto/fetch-episode'
+import { ExpressionPopup, getSavedExpressionIds } from '@/components/kpatto/ExpressionPopup'
+import type { KPattoLanguage, KPattoExpression } from '@/data/kpatto/types'
 
 const T1     = '#111111'
 const T2     = '#999999'
 const DIV    = '#F2F2F2'
 const ACCENT = '#D4873A'
+
+const CATEGORIES = ['요청', '질문', '감정', '가능', '희망', '경험', '확인', '자기소개', '기타'] as const
 
 function normalize(s: string) {
   return s.toLowerCase().replace(/\s+/g, ' ').trim()
@@ -24,21 +26,40 @@ export default function KPattoLibraryPage() {
   const ui   = getUI(prefs.language)
   const lang = (prefs.language ?? 'en') as KPattoLanguage
 
-  const [query, setQuery]     = useState('')
-  const [tab, setTab]         = useState<'patterns' | 'vocabulary'>('patterns')
-  const [focused, setFocused] = useState(false)
+  const [query, setQuery]       = useState('')
+  const [tab, setTab]           = useState<'expressions' | 'vocabulary'>('expressions')
+  const [focused, setFocused]   = useState(false)
+  const [category, setCategory] = useState<string>('전체')
+  const [showSaved, setShowSaved] = useState(false)
+  const [expressions, setExpressions] = useState<KPattoExpression[]>([])
+  const [exprLoading, setExprLoading] = useState(true)
+  const [savedIds, setSavedIds] = useState<Set<number>>(new Set())
+  const [popup, setPopup]       = useState<KPattoExpression | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const refreshSaved = useCallback(() => setSavedIds(getSavedExpressionIds()), [])
+
+  useEffect(() => {
+    refreshSaved()
+    fetchAllExpressions().then(data => {
+      setExpressions(data)
+      setExprLoading(false)
+    })
+  }, [refreshSaved])
 
   const nq = normalize(query)
 
-  const filteredPatterns = useMemo(() => {
-    if (!nq) return KPATTO_PATTERNS
-    return KPATTO_PATTERNS.filter(p =>
-      normalize(p.korean).includes(nq) ||
-      normalize(p.structure).includes(nq) ||
-      Object.values(p.translations).some(t => t && normalize(t).includes(nq))
+  const filteredExpressions = useMemo(() => {
+    let list = expressions
+    if (showSaved) list = list.filter(e => savedIds.has(e.id))
+    if (category !== '전체') list = list.filter(e => e.category === category)
+    if (nq) list = list.filter(e =>
+      normalize(e.korean).includes(nq) ||
+      normalize(e.english).includes(nq) ||
+      (e.description && normalize(e.description).includes(nq))
     )
-  }, [nq])
+    return list
+  }, [expressions, nq, category, showSaved, savedIds])
 
   const filteredVocab = useMemo(() => {
     if (!nq) return SAMPLE_VOCABULARY
@@ -49,9 +70,14 @@ export default function KPattoLibraryPage() {
   }, [nq])
 
   const TABS_DATA = [
-    { key: 'patterns'  as const, label: ui.lb_patterns,   count: filteredPatterns.length },
-    { key: 'vocabulary'as const, label: ui.lb_vocabulary, count: filteredVocab.length },
+    { key: 'expressions' as const, label: '표현 사전', count: filteredExpressions.length },
+    { key: 'vocabulary'  as const, label: ui.lb_vocabulary, count: filteredVocab.length },
   ]
+
+  const handlePopupClose = () => {
+    setPopup(null)
+    refreshSaved()
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
@@ -81,7 +107,7 @@ export default function KPattoLibraryPage() {
             onChange={e => setQuery(e.target.value)}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            placeholder="Search patterns, vocabulary..."
+            placeholder="Search expressions, vocabulary..."
             style={{
               flex: 1, background: 'none', border: 'none', outline: 'none',
               fontSize: 14, color: T1, fontWeight: 400,
@@ -126,33 +152,89 @@ export default function KPattoLibraryPage() {
         })}
       </div>
 
+      {/* Expressions tab filters */}
+      {tab === 'expressions' && (
+        <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', padding: '10px 20px', borderBottom: `1px solid ${DIV}`, display: 'flex', gap: 6 } as React.CSSProperties}>
+          {/* Saved toggle */}
+          <button
+            type="button"
+            onClick={() => setShowSaved(v => !v)}
+            style={{
+              flexShrink: 0, padding: '5px 12px', borderRadius: 20,
+              border: showSaved ? `1.5px solid ${ACCENT}` : `1px solid ${DIV}`,
+              background: showSaved ? '#FFF4EA' : '#fff',
+              color: showSaved ? ACCENT : T2,
+              fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {showSaved ? '저장됨 ✓' : '저장한 것'}
+          </button>
+
+          {/* Category divider */}
+          <div style={{ width: 1, background: DIV, flexShrink: 0, alignSelf: 'stretch' }} />
+
+          {/* Category chips */}
+          {['전체', ...CATEGORIES].map(cat => {
+            const active = category === cat && !showSaved
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => { setCategory(cat); setShowSaved(false) }}
+                style={{
+                  flexShrink: 0, padding: '5px 12px', borderRadius: 20,
+                  border: active ? `1.5px solid ${T1}` : `1px solid ${DIV}`,
+                  background: active ? T1 : '#fff',
+                  color: active ? '#fff' : T2,
+                  fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {cat}
+              </button>
+            )
+          })}
+        </div>
+      )}
+
       {/* Content */}
       <div>
-        {tab === 'patterns' && (
-          filteredPatterns.length === 0
-            ? <div style={{ textAlign: 'center', padding: '48px 20px', color: T2, fontSize: 14 }}>No patterns found.</div>
-            : filteredPatterns.map((pattern, i) => (
-              <div key={pattern.id} style={{ padding: '18px 20px', borderBottom: i < filteredPatterns.length - 1 ? `1px solid ${DIV}` : 'none' }}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }}>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: T1 }}>{pattern.korean}</div>
-                  <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', color: T2, border: `1px solid ${DIV}`, padding: '2px 6px', borderRadius: 4 }}>
-                    {pattern.level.toUpperCase().slice(0, 3)}
+        {tab === 'expressions' && (
+          exprLoading ? (
+            <div style={{ textAlign: 'center', padding: '48px 20px', color: T2, fontSize: 14 }}>Loading...</div>
+          ) : filteredExpressions.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '48px 20px', color: T2, fontSize: 14 }}>No expressions found.</div>
+          ) : filteredExpressions.map((expr, i) => (
+            <button
+              key={expr.id}
+              type="button"
+              onClick={() => setPopup(expr)}
+              style={{
+                width: '100%', textAlign: 'left',
+                padding: '16px 20px',
+                borderBottom: i < filteredExpressions.length - 1 ? `1px solid ${DIV}` : 'none',
+                background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+                display: 'block',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 3 }}>
+                <div style={{ fontSize: 17, fontWeight: 800, color: ACCENT }}>{expr.korean}</div>
+                {expr.category && (
+                  <span style={{ fontSize: 10, fontWeight: 700, color: T2, letterSpacing: '0.06em', border: `1px solid ${DIV}`, padding: '2px 6px', borderRadius: 4 }}>
+                    {expr.category}
                   </span>
-                </div>
-                <div style={{ fontSize: 12, color: T2, marginBottom: 4 }}>{pattern.structure}</div>
-                {pattern.translations[lang] && (
-                  <div style={{ fontSize: 13, color: T1, fontWeight: 500 }}>{pattern.translations[lang]}</div>
                 )}
-                {pattern.examples[0] && (
-                  <div style={{ marginTop: 10, padding: '10px 12px', background: '#F7F7F7', borderRadius: 8 }}>
-                    <div style={{ fontSize: 13, color: T1 }}>{pattern.examples[0].korean}</div>
-                    {pattern.examples[0].translations?.[lang] && (
-                      <div style={{ fontSize: 12, color: T2, marginTop: 2 }}>{pattern.examples[0].translations[lang]}</div>
-                    )}
-                  </div>
+                {savedIds.has(expr.id) && (
+                  <span style={{ fontSize: 10, color: ACCENT, fontWeight: 700 }}>✓</span>
                 )}
               </div>
-            ))
+              <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginBottom: 2 }}>{expr.english}</div>
+              {expr.examples && expr.examples[0] && (
+                <div style={{ fontSize: 12, color: T2 }}>{expr.examples[0].ko}</div>
+              )}
+            </button>
+          ))
         )}
 
         {tab === 'vocabulary' && (
@@ -178,21 +260,10 @@ export default function KPattoLibraryPage() {
         )}
       </div>
 
-      {/* Browse all link */}
-      <div style={{ padding: '20px 20px 0' }}>
-        <Link
-          href={tab === 'patterns' ? '/kpatto/library/patterns' : '/kpatto/library/vocabulary'}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-            padding: '14px', borderRadius: 10,
-            border: `1px solid ${T1}`, background: 'transparent',
-            color: T1, fontWeight: 600, fontSize: 13, textDecoration: 'none',
-          }}
-        >
-          {tab === 'patterns' ? ui.lb_pattern_browse : ui.lb_vocab_browse}
-        </Link>
-      </div>
-
+      {/* Expression popup */}
+      {popup && (
+        <ExpressionPopup expression={popup} onClose={handlePopupClose} />
+      )}
     </div>
   )
 }

@@ -9,14 +9,12 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { StoryPanel } from '@/components/kpatto/StoryPanel'
 import { WebtoonEpisode } from '@/components/kpatto/WebtoonEpisode'
 import { ChallengeSection } from '@/components/kpatto/ChallengeSection'
-import { PatternSection } from '@/components/kpatto/PatternSection'
 import { KPattoPaywall } from '@/components/kpatto/KPattoPaywall'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
-import { fetchWebtoonEpisode, fetchEpisodePatterns } from '@/lib/kpatto/fetch-episode'
+import { fetchWebtoonEpisode } from '@/lib/kpatto/fetch-episode'
 import type { WebtoonEpisodeData } from '@/data/kpatto/webtoon-types'
-import type { KPattoPattern } from '@/data/kpatto/types'
 import { EP001_POOL, type RawQuestion } from '@/data/kpatto/challenge-pool-ep001'
 import { EP002_POOL } from '@/data/kpatto/challenge-pool-ep002'
 import { EP003_POOL } from '@/data/kpatto/challenge-pool-ep003'
@@ -87,7 +85,6 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const [challengeQuestions, setChallengeQuestions] = useState<Question[] | null>(null)
   const [webtoonEpisode, setWebtoonEpisode] = useState<WebtoonEpisodeData | null>(null)
   const [webtoonLoading, setWebtoonLoading] = useState(true)
-  const [episodePatterns, setEpisodePatterns] = useState<KPattoPattern[]>([])
   const { isPro, loading: subLoading } = useKPattoSubscription()
 
   useEffect(() => {
@@ -97,7 +94,6 @@ export default function KPattoStoryPage({ params }: PageProps) {
       setWebtoonEpisode(ep)
       setWebtoonLoading(false)
     })
-    fetchEpisodePatterns(id).then(setEpisodePatterns).catch(console.error)
   }, [id])
 
   const handleChallengeComplete = useCallback(() => {
@@ -185,7 +181,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
                 key={panel.id}
                 panel={panel}
                 panelIndex={index}
-                patterns={Object.fromEntries(episodePatterns.map(p => [p.id, p]))}
+                patterns={{}}
                 displayLang={displayLang}
               />
             ))}
@@ -193,60 +189,107 @@ export default function KPattoStoryPage({ params }: PageProps) {
         )}
       </div>
 
-      {/* Patterns section */}
-      <PatternSection patterns={episodePatterns} lang={displayLang} storyId={story.episode} episodeId={id} />
-
       {/* Challenge section */}
       {!challengeDone && challengeQuestions && (
         <ChallengeSection onComplete={handleChallengeComplete} questions={challengeQuestions} />
       )}
 
       {/* Completion footer — only after challenge */}
-      {challengeDone && <div style={{
-        margin: '24px 16px 0',
-        background: 'linear-gradient(135deg, #FF6B8C 0%, #FF8C6B 100%)',
-        borderRadius: 20,
-        padding: '24px 20px',
-        textAlign: 'center',
-        color: '#fff',
-      }}>
-        <div style={{ fontSize: 28, marginBottom: 8 }}>🎉</div>
-        <h3 style={{ margin: '0 0 6px', fontSize: 18, fontWeight: 800 }}>{ui.sv_ep_complete}</h3>
-        <p style={{ margin: '0 0 16px', fontSize: 13, opacity: 0.85 }}>
-          {ui.sv_patterns_learned(episodePatterns.length)}
-        </p>
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-          <Link
-            href="/kpatto/story"
-            style={{
-              background: 'rgba(255,255,255,0.2)',
-              border: '1.5px solid rgba(255,255,255,0.4)',
-              color: '#fff',
-              fontWeight: 700,
-              fontSize: 13,
-              padding: '9px 18px',
-              borderRadius: 99,
-              textDecoration: 'none',
-            }}
-          >
-            {ui.sv_back}
-          </Link>
-          <Link
-            href="/kpatto/progress"
-            style={{
-              background: '#fff',
-              color: '#FF6B8C',
-              fontWeight: 700,
-              fontSize: 13,
-              padding: '9px 18px',
-              borderRadius: 99,
-              textDecoration: 'none',
-            }}
-          >
-            {ui.sv_view_progress}
-          </Link>
+      {challengeDone && (
+        <div style={{
+          margin: '24px 16px 0',
+          borderRadius: 20,
+          overflow: 'hidden',
+          boxShadow: '0 2px 20px rgba(0,0,0,0.07)',
+        }}>
+          {/* Upper — cream background */}
+          <div style={{
+            background: '#faf8f5',
+            padding: '14px 20px 0',
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+            <span style={{
+              position: 'absolute', top: 14, left: 16,
+              fontSize: 11, fontWeight: 600, color: '#aaa',
+              letterSpacing: '0.06em',
+            }}>
+              EP {String(story.episode).padStart(2, '0')}
+            </span>
+            <svg width="160" height="190" viewBox="0 0 160 190">
+              <ellipse cx="80" cy="178" rx="52" ry="10" fill="#e8e2d8" opacity="0.6"/>
+              <rect x="54" y="112" width="52" height="68" rx="8" fill="#f5e6d0"/>
+              <rect x="44" y="120" width="18" height="48" rx="8" fill="#f5e6d0"/>
+              <rect x="98" y="120" width="18" height="48" rx="8" fill="#f5e6d0"/>
+              <rect x="57" y="148" width="46" height="36" rx="6" fill="#fff3e6" opacity="0.7"/>
+              <rect x="54" y="110" width="52" height="10" rx="4" fill="#e8d5b8"/>
+              <ellipse cx="80" cy="88" rx="30" ry="32" fill="#f5c89a"/>
+              <path d="M50 78 Q52 50 80 47 Q108 50 110 78" fill="#6b3a1f"/>
+              <path d="M54 74 Q57 60 62 66" fill="#7a4020" stroke="#5a2e10" strokeWidth="1"/>
+              <path d="M106 74 Q103 60 98 66" fill="#7a4020" stroke="#5a2e10" strokeWidth="1"/>
+              <ellipse cx="68" cy="85" rx="4.5" ry="5" fill="white"/>
+              <ellipse cx="92" cy="85" rx="4.5" ry="5" fill="white"/>
+              <ellipse cx="68" cy="86" rx="2.8" ry="3.2" fill="#3d2010"/>
+              <ellipse cx="92" cy="86" rx="2.8" ry="3.2" fill="#3d2010"/>
+              <ellipse cx="69" cy="85" rx="1" ry="1" fill="white"/>
+              <ellipse cx="93" cy="85" rx="1" ry="1" fill="white"/>
+              <path d="M74 96 Q80 101 86 96" stroke="#c47a5a" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+              <ellipse cx="65" cy="94" rx="4.5" ry="2.5" fill="#f0a080" opacity="0.4"/>
+              <ellipse cx="95" cy="94" rx="4.5" ry="2.5" fill="#f0a080" opacity="0.4"/>
+              <rect x="62" y="112" width="36" height="4" rx="2" fill="#D4873A" opacity="0.5"/>
+              <path d="M118 96 L133 83 L135 88 L139 82 L137 92 L132 89 Z" fill="#D4873A" opacity="0.9"/>
+              <path d="M126 80 L130 67 L132 73 L136 67 L134 76 L129 73 Z" fill="#D4873A" opacity="0.7"/>
+              <path d="M136 92 L149 83 L148 89 L153 85 L150 94 L145 91 Z" fill="#D4873A" opacity="0.6"/>
+            </svg>
+          </div>
+
+          {/* Lower — white */}
+          <div style={{
+            background: '#fff',
+            padding: '20px 20px 24px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 6,
+          }}>
+            <h3 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: '#1a1a1a', textAlign: 'center' }}>
+              {ui.sv_ep_complete}
+            </h3>
+            <p style={{ margin: '0 0 16px', fontSize: 13, color: '#aaa', textAlign: 'center' }}>
+              {story.title} · {story.theme}
+            </p>
+            <div style={{ display: 'flex', gap: 10, width: '100%' }}>
+              <Link
+                href="/kpatto/story"
+                style={{
+                  flex: 1, height: 46, borderRadius: 12,
+                  border: '1.5px solid #e0e0e0',
+                  background: '#fff',
+                  fontSize: 13, fontWeight: 600, color: '#444',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  textDecoration: 'none',
+                }}
+              >
+                {ui.sv_back}
+              </Link>
+              <Link
+                href="/kpatto/progress"
+                style={{
+                  flex: 1, height: 46, borderRadius: 12,
+                  border: 'none', background: '#D4873A',
+                  fontSize: 13, fontWeight: 600, color: '#fff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  textDecoration: 'none',
+                }}
+              >
+                {ui.sv_view_progress}
+              </Link>
+            </div>
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   )
 }

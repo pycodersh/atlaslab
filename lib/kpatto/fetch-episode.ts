@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/client'
-import type { KPattoPattern } from '@/data/kpatto/types'
+import type { KPattoPattern, KPattoExpression } from '@/data/kpatto/types'
 import type {
   WebtoonEpisodeData,
   WebtoonSection,
@@ -28,7 +28,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
       .order('order_num'),
     supabase
       .from('kp_bubbles')
-      .select('panel_id, order_num, speaker, korean, translations, position, tail, highlight_text')
+      .select('panel_id, order_num, speaker, korean, translations, position, tail, highlight_text, expression_id')
       .eq('episode_id', ep.id)
       .order('order_num'),
   ])
@@ -43,6 +43,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     position: Record<string, unknown> | null
     tail: BubbleTailData | null
     highlight_text: string | null
+    expression_id: number | null
   }
 
   const byPanel = new Map<number, DBBubble[]>()
@@ -74,6 +75,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         lines: ((b.position?.lines as 1 | 2 | 3) ?? 1),
         tail: b.tail ?? undefined,
         highlight_text: b.highlight_text ?? undefined,
+        expression_id: b.expression_id ?? undefined,
       }))
       return {
         type: 'gap' as const,
@@ -135,4 +137,25 @@ export async function fetchEpisodePatterns(episodeId: string): Promise<KPattoPat
     examples: (row.examples ?? []) as KPattoPattern['examples'],
     level: (row.level ?? 'beginner') as KPattoPattern['level'],
   }))
+}
+
+export async function fetchExpression(expressionId: number): Promise<KPattoExpression | null> {
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('kp_expressions')
+    .select('*')
+    .eq('id', expressionId)
+    .single()
+  if (error) return null
+  return data as KPattoExpression
+}
+
+export async function fetchAllExpressions(): Promise<KPattoExpression[]> {
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('kp_expressions')
+    .select('*')
+    .order('first_episode', { ascending: true })
+  if (error) return []
+  return (data ?? []) as KPattoExpression[]
 }

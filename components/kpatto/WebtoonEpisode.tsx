@@ -4,9 +4,12 @@ import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Volume2 } from 'lucide-react'
 import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection, WebtoonCropSection } from '@/data/kpatto/webtoon-types'
+import type { KPattoExpression } from '@/data/kpatto/types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
 import { bubbleAudioUrl, playWithFallback, stopAllAudio } from '@/lib/kpatto/audio'
+import { fetchExpression } from '@/lib/kpatto/fetch-episode'
+import { ExpressionPopup } from './ExpressionPopup'
 
 // ── bubbles.json helpers ─────────────────────────────────────────────────────
 type BubbleKey = keyof typeof bubblesData
@@ -43,11 +46,13 @@ function WebtoonBubbleEl({
   showKo,
   showTrans,
   isActive,
+  onHighlightTap,
 }: {
   bubble: WebtoonBubble
   showKo: boolean
   showTrans: boolean
   isActive: boolean
+  onHighlightTap?: (expressionId: number) => void
 }) {
   const meta = getBubbleMeta(bubble.bubbleKey)
   const sa = meta.safeArea
@@ -89,8 +94,11 @@ function WebtoonBubbleEl({
 
   const heightScale = (bubble as { heightScale?: number }).heightScale ?? 1
 
+  const tappable = !!(bubble.expression_id && onHighlightTap)
+
   return (
     <div
+      onClick={tappable ? () => onHighlightTap!(bubble.expression_id!) : undefined}
       style={{
         position: 'absolute',
         left: `${bubble.xPct}%`,
@@ -98,8 +106,11 @@ function WebtoonBubbleEl({
         width: `${bubble.widthPct}%`,
         transform: bubble.rotation ? `rotate(${bubble.rotation}deg)` : undefined,
         overflow: 'visible',
+        cursor: tappable ? 'pointer' : undefined,
         filter: isActive
           ? 'drop-shadow(0 0 6px #f59e0b) drop-shadow(0 0 12px rgba(245,158,11,0.5))'
+          : tappable && bubble.highlight_text
+          ? 'drop-shadow(0 0 3px rgba(212,135,58,0.35))'
           : undefined,
         transition: 'filter 0.2s ease',
       }}
@@ -144,11 +155,13 @@ function GapSection({
   showKo,
   showTrans,
   playingId,
+  onHighlightTap,
 }: {
   section: WebtoonGapSection
   showKo: boolean
   showTrans: boolean
   playingId: string | null
+  onHighlightTap?: (expressionId: number) => void
 }) {
   return (
     <div
@@ -168,6 +181,7 @@ function GapSection({
             showKo={showKo}
             showTrans={showTrans}
             isActive={b.id === playingId}
+            onHighlightTap={onHighlightTap}
           />
         ))}
       </div>
@@ -302,6 +316,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
   const playIdxRef = useRef(0)
   const [resolvedEpisode, setResolvedEpisode] = useState(episode)
   const [bubblesReady, setBubblesReady] = useState(false)
+  const [activeExpression, setActiveExpression] = useState<KPattoExpression | null>(null)
 
   // Load saved layout overrides and merge with base episode data
   useEffect(() => {
@@ -351,6 +366,11 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
   }, [isPlaying, allBubbles, episode.id])
 
   useEffect(() => () => { stopAllAudio() }, [])
+
+  const handleHighlightTap = useCallback(async (expressionId: number) => {
+    const expr = await fetchExpression(expressionId)
+    if (expr) setActiveExpression(expr)
+  }, [])
 
   const langBtnStyle = (active: boolean) => ({
     background: active ? '#1A1A1A' : 'none',
@@ -415,6 +435,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
               showKo={showKo}
               showTrans={showTrans}
               playingId={playingId}
+              onHighlightTap={handleHighlightTap}
             />
           )
         }
@@ -424,6 +445,13 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
         return <PanelSection key={section.id} section={section} />
       })}
       </div>
+
+      {activeExpression && (
+        <ExpressionPopup
+          expression={activeExpression}
+          onClose={() => setActiveExpression(null)}
+        />
+      )}
     </div>
   )
 }

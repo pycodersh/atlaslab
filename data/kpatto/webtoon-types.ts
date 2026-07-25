@@ -27,6 +27,7 @@ export interface WebtoonBubble {
   lines?: 1 | 2 | 3    // hint for font size
   tail?: BubbleTailData // if present, renders dynamic tail (body-only bubble keys)
   highlight_text?: string // substring of korean to render in orange (#D4873A)
+  expression_id?: number  // foreign key to kp_expressions; set when tap popup is available
 }
 
 export interface WebtoonGapSection {
