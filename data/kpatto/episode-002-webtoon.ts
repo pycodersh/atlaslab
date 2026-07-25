@@ -69,7 +69,7 @@ export const EPISODE_002_WEBTOON: WebtoonEpisodeData = {
         },
       ],
     },
-    { type: 'panel', id: 'cut-3', imageUrl: C3, layout: 'wide' },
+    { type: 'panel', id: 'cut-3', imageUrl: C3, layout: 'small-center' },
 
     // ── Gap + CUT 4: 티켓 기계 ─────────────────────────────────────────────
     {
