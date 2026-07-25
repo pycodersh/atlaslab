@@ -42,9 +42,9 @@ export const EPISODE_005_WEBTOON: WebtoonEpisodeData = {
     },
     { type: 'panel', id: 'cut-1', imageUrl: C1, layout: 'wide' },
 
-    // ── Gap + CUT 2: 메뉴판, 에마가 추천 요청 + 마트 질문 ──────────────
+    // ── Gap + CUT 2: 메뉴판, 에마가 추천 요청 ──────────────────────────
     {
-      type: 'gap', id: 'gap-1', heightRatio: 1.35,
+      type: 'gap', id: 'gap-1', heightRatio: 0.88,
       bubbles: [
         {
           id: 'b-1-1', bubbleKey: 'bubble-oval',
@@ -56,7 +56,7 @@ export const EPISODE_005_WEBTOON: WebtoonEpisodeData = {
         },
         {
           id: 'b-1-1b', bubbleKey: 'bubble-oval',
-          xPct: 4, yPct: 18, widthPct: 58,
+          xPct: 4, yPct: 30, widthPct: 58,
           korean: '추천해 주세요!',
           translation: 'Please recommend something!',
           speaker: 'emma', lines: 1, tail: tailL,
@@ -64,23 +64,9 @@ export const EPISODE_005_WEBTOON: WebtoonEpisodeData = {
         },
         {
           id: 'b-1-2', bubbleKey: 'bubble-oval',
-          xPct: 46, yPct: 32, widthPct: 50,
+          xPct: 46, yPct: 60, widthPct: 50,
           korean: '여기는 삼겹살이 유명해.',
           translation: 'The samgyeopsal is famous here.',
-          speaker: 'minjun', lines: 1, tail: tailRTop,
-        },
-        {
-          id: 'b-1-3', bubbleKey: 'bubble-oval',
-          xPct: 4, yPct: 56, widthPct: 66,
-          korean: '한국 마트에서 이런 거 살 수 있어요?',
-          translation: 'Can you buy things like this at Korean marts?',
-          speaker: 'emma', lines: 1, tail: tailLTop,
-        },
-        {
-          id: 'b-1-4', bubbleKey: 'bubble-oval',
-          xPct: 44, yPct: 76, widthPct: 44,
-          korean: '당연하죠!',
-          translation: 'Of course!',
           speaker: 'minjun', lines: 1, tail: tailRTop,
         },
       ],

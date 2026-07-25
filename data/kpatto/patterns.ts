@@ -451,250 +451,937 @@ export const KPATTO_PATTERNS: KPattoPattern[] = [
     level: 'beginner',
   },
 
-  // ── EP06 ──────────────────────────────────────────────────────────────
+  // ── EP06 (노래방) ─────────────────────────────────────────────────────
   {
     id: 'kp-ep-006-p001',
-    korean: '~좋아해요 / 싫어해요',
-    structure: '[명사] + 좋아해요 / 싫어해요',
-    translations: { en: 'I like / don\'t like ~' },
+    korean: '~좋아해요 / ~진짜 좋아해요',
+    structure: '[명사] + 좋아해요 / 진짜 좋아해요',
+    translations: {
+      en: 'I like ~ / I really love ~',
+      ja: '〜好きです / 〜本当に好きです',
+      es: 'Me gusta ~ / Me encanta ~',
+    },
     examples: [
-      { korean: '케이팝 좋아해요.', translations: { en: 'I like K-pop.' } },
-      { korean: '매운 거 싫어해요.', translations: { en: "I don't like spicy food." } },
-      { korean: '한국어 좋아해요.', translations: { en: 'I like Korean.' } },
+      {
+        korean: '케이팝 진짜 좋아해요!',
+        translations: {
+          en: 'I really love K-pop!',
+          ja: 'ケーポップが本当に好きです！',
+          es: '¡Me encanta el K-pop de verdad!',
+        },
+      },
+      {
+        korean: '한국 음식 좋아해요.',
+        translations: {
+          en: 'I like Korean food.',
+          ja: '韓国料理が好きです。',
+          es: 'Me gusta la comida coreana.',
+        },
+      },
+      {
+        korean: '이 가수 진짜 좋아해요!',
+        translations: {
+          en: 'I really love this singer!',
+          ja: 'この歌手が本当に好きです！',
+          es: '¡Me encanta este cantante de verdad!',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-006-p002',
-    korean: '~알아요?',
-    structure: '[명사] + 알아요?',
-    translations: { en: 'Do you know ~?' },
+    korean: '진짜요? / 대박!',
+    structure: '진짜요? (Really?) / 대박! (Amazing!)',
+    translations: {
+      en: 'Really? / No way! / Amazing!',
+      ja: '本当ですか？/ すごい！',
+      es: '¿De verdad? / ¡Increíble!',
+    },
     examples: [
-      { korean: '이 노래 알아요?', translations: { en: 'Do you know this song?' } },
-      { korean: '한국 알아요?', translations: { en: 'Do you know Korea?' } },
-      { korean: '이 가수 알아요?', translations: { en: 'Do you know this singer?' } },
+      {
+        korean: '에마 잘한다!! 진짜요?',
+        translations: {
+          en: "Emma is so good!! Really?",
+          ja: 'エマ、上手だ！！本当ですか？',
+          es: '¡Emma lo hace muy bien!! ¿De verdad?',
+        },
+      },
+      {
+        korean: '공짜예요? 대박!',
+        translations: {
+          en: "It's free? No way!",
+          ja: '無料ですか？すごい！',
+          es: '¿Es gratis? ¡Increíble!',
+        },
+      },
+      {
+        korean: '한국어 잘해요? 진짜요?',
+        translations: {
+          en: 'You speak Korean well? Really?',
+          ja: '韓国語が上手ですか？本当ですか？',
+          es: '¿Hablas bien coreano? ¿De verdad?',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-006-p003',
-    korean: '~가르쳐 주세요',
-    structure: '[목적어] + 가르쳐 주세요',
-    translations: { en: 'Please teach me ~' },
+    korean: '너무 ~해요',
+    structure: '너무 + [형용사/동사]',
+    translations: {
+      en: 'So ~ / Too ~',
+      ja: 'とても〜 / すごく〜',
+      es: 'Muy ~ / Demasiado ~',
+    },
     examples: [
-      { korean: '이 노래 가르쳐 주세요.', translations: { en: 'Please teach me this song.' } },
-      { korean: '한국어 가르쳐 주세요.', translations: { en: 'Please teach me Korean.' } },
-      { korean: '이거 가르쳐 주세요.', translations: { en: 'Please teach me this.' } },
+      {
+        korean: '이 노래 너무 좋아요!!',
+        translations: {
+          en: 'I love this song so much!!',
+          ja: 'この歌がとても好きです！！',
+          es: '¡¡Me encanta esta canción!!',
+        },
+      },
+      {
+        korean: '너무 재미있어요!',
+        translations: {
+          en: "It's so fun!",
+          ja: 'とても楽しいです！',
+          es: '¡Es muy divertido!',
+        },
+      },
+      {
+        korean: '너무 피곤해요.',
+        translations: {
+          en: "I'm so tired.",
+          ja: 'とても疲れています。',
+          es: 'Estoy muy cansado/a.',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-006-p004',
-    korean: '같이 ~해도 돼요?',
-    structure: '같이 + [동사 어간] + 아/어도 돼요?',
-    translations: { en: 'Can we ~ together?' },
+    korean: '~잘해요 / 못해요',
+    structure: '[동사/명사] + 잘해요 / 못해요',
+    translations: {
+      en: "~ well / can't ~ well",
+      ja: '〜が上手です / 〜が下手です',
+      es: 'Soy bueno/a en ~ / No soy bueno/a en ~',
+    },
     examples: [
-      { korean: '같이 불러도 돼요?', translations: { en: 'Can we sing together?' } },
-      { korean: '같이 가도 돼요?', translations: { en: 'Can I come with you?' } },
-      { korean: '같이 먹어도 돼요?', translations: { en: 'Can we eat together?' } },
+      {
+        korean: '노래 잘해요?',
+        translations: {
+          en: 'Are you good at singing?',
+          ja: '歌が上手ですか？',
+          es: '¿Cantas bien?',
+        },
+      },
+      {
+        korean: '춤 잘 못해요.',
+        translations: {
+          en: "I'm not good at dancing.",
+          ja: 'ダンスが得意じゃないです。',
+          es: 'No soy bueno/a bailando.',
+        },
+      },
+      {
+        korean: '한국어 잘해요!',
+        translations: {
+          en: 'Your Korean is great!',
+          ja: '韓国語が上手ですね！',
+          es: '¡Hablas muy bien coreano!',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-006-p005',
-    korean: '~너무 좋아요!',
-    structure: '[명사] + 너무 좋아요!',
-    translations: { en: 'I love ~ so much!' },
+    korean: '또 오고 싶어요',
+    structure: '또 + [장소/활동] + 오고 싶어요',
+    translations: {
+      en: 'I want to come again',
+      ja: 'またここに来たいです',
+      es: 'Quiero volver',
+    },
     examples: [
-      { korean: '이 노래 너무 좋아요!', translations: { en: 'I love this song so much!' } },
-      { korean: '한국 너무 좋아요!', translations: { en: 'I love Korea so much!' } },
-      { korean: '노래방 너무 좋아요!', translations: { en: 'I love noraebang so much!' } },
+      {
+        korean: '노래방 또 오고 싶어요!',
+        translations: {
+          en: 'I want to come to noraebang again!',
+          ja: 'またカラオケに来たいです！',
+          es: '¡Quiero volver al noraebang!',
+        },
+      },
+      {
+        korean: '이 식당 또 오고 싶어요.',
+        translations: {
+          en: 'I want to come to this restaurant again.',
+          ja: 'このレストランにまた来たいです。',
+          es: 'Quiero volver a este restaurante.',
+        },
+      },
+      {
+        korean: '한국 또 오고 싶어요!',
+        translations: {
+          en: 'I want to come to Korea again!',
+          ja: 'また韓国に来たいです！',
+          es: '¡Quiero volver a Corea!',
+        },
+      },
     ],
     level: 'beginner',
   },
 
-  // ── EP07 ──────────────────────────────────────────────────────────────
+  // ── EP07 (전통시장) ───────────────────────────────────────────────────
   {
     id: 'kp-ep-007-p001',
-    korean: '조금만 더 주세요',
-    structure: '[명사] + 조금만 더 주세요',
-    translations: { en: 'A little more, please' },
+    korean: '좀 깎아 주세요',
+    structure: '좀 깎아 주세요 / 조금만 깎아 주세요',
+    translations: {
+      en: 'Please give me a discount',
+      ja: '少し安くしてください',
+      es: 'Por favor, hágame un descuento',
+    },
     examples: [
-      { korean: '조금만 더 주세요.', translations: { en: 'A little more, please.' } },
-      { korean: '이거 조금만 더 주세요.', translations: { en: 'Just a little more of this, please.' } },
-      { korean: '김치 조금만 더 주세요.', translations: { en: 'A little more kimchi, please.' } },
+      {
+        korean: '저기요... 좀 깎아 주세요!',
+        translations: {
+          en: 'Excuse me... please give me a discount!',
+          ja: 'すみません…少し安くしてください！',
+          es: 'Disculpe... ¡por favor hágame un descuento!',
+        },
+      },
+      {
+        korean: '조금만 깎아 주세요.',
+        translations: {
+          en: 'Just a small discount, please.',
+          ja: 'ちょっとだけ安くしてください。',
+          es: 'Solo un pequeño descuento, por favor.',
+        },
+      },
+      {
+        korean: '두 개 사면 깎아 주세요.',
+        translations: {
+          en: 'Please give me a discount if I buy two.',
+          ja: '二つ買ったら安くしてください。',
+          es: 'Por favor hágame descuento si compro dos.',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-007-p002',
-    korean: '~깎아 주세요',
-    structure: '좀 깎아 주세요',
-    translations: { en: 'Please give me a discount' },
+    korean: '다 해서 얼마예요?',
+    structure: '다 해서 얼마예요?',
+    translations: {
+      en: 'How much is it all together?',
+      ja: '全部でいくらですか？',
+      es: '¿Cuánto es todo junto?',
+    },
     examples: [
-      { korean: '좀 깎아 주세요.', translations: { en: 'Please give me a discount.' } },
-      { korean: '조금만 깎아 주세요.', translations: { en: 'Just a small discount, please.' } },
-      { korean: '더 깎아 주세요.', translations: { en: 'Please give me a bigger discount.' } },
+      {
+        korean: '다 해서 얼마예요?',
+        translations: {
+          en: 'How much is it all together?',
+          ja: '全部でいくらですか？',
+          es: '¿Cuánto es todo junto?',
+        },
+      },
+      {
+        korean: '이거랑 저거 다 해서 얼마예요?',
+        translations: {
+          en: 'How much is this and that together?',
+          ja: 'これとあれで全部でいくらですか？',
+          es: '¿Cuánto es esto y aquello juntos?',
+        },
+      },
+      {
+        korean: '세 개 다 해서 얼마예요?',
+        translations: {
+          en: 'How much for all three?',
+          ja: '三つ全部でいくらですか？',
+          es: '¿Cuánto por los tres?',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-007-p003',
-    korean: '같이 ~해요',
-    structure: '같이 + [동사] + 아요/어요',
-    translations: { en: "Let's ~ together" },
+    korean: '조금만 더 주세요',
+    structure: '[명사] + 조금만 더 주세요',
+    translations: {
+      en: 'A little more, please',
+      ja: 'もう少しください',
+      es: 'Un poco más, por favor',
+    },
     examples: [
-      { korean: '같이 먹어요.', translations: { en: "Let's eat together." } },
-      { korean: '같이 가요.', translations: { en: "Let's go together." } },
-      { korean: '같이 구경해요.', translations: { en: "Let's look around together." } },
+      {
+        korean: '감사합니다! 맛있어요! 조금만 더 주세요!',
+        translations: {
+          en: 'Thank you! It\'s delicious! A little more, please!',
+          ja: 'ありがとうございます！美味しい！もう少しください！',
+          es: '¡Gracias! ¡Está delicioso! ¡Un poco más, por favor!',
+        },
+      },
+      {
+        korean: '이거 조금만 더 주세요.',
+        translations: {
+          en: 'Just a little more of this, please.',
+          ja: 'これをもう少しください。',
+          es: 'Un poco más de esto, por favor.',
+        },
+      },
+      {
+        korean: '소스 조금만 더 주세요.',
+        translations: {
+          en: 'A little more sauce, please.',
+          ja: 'ソースをもう少しください。',
+          es: 'Un poco más de salsa, por favor.',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-007-p004',
-    korean: '~신기해요!',
-    structure: '[명사] + 신기해요!',
-    translations: { en: '~ is so interesting/unique!' },
+    korean: '맛봐요!',
+    structure: '맛봐요! / 맛봐, 맛봐!',
+    translations: {
+      en: 'Try it! / Have a taste!',
+      ja: '味見してみて！',
+      es: '¡Pruébalo! / ¡Prueba, prueba!',
+    },
     examples: [
-      { korean: '이거 신기해요!', translations: { en: 'This is so interesting/unique!' } },
-      { korean: '한국 시장 신기해요!', translations: { en: 'Korean markets are so unique!' } },
-      { korean: '진짜 신기해요!', translations: { en: "It's really fascinating!" } },
+      {
+        korean: '맛봐요, 맛봐!',
+        translations: {
+          en: 'Try it, try it!',
+          ja: '味見して、味見して！',
+          es: '¡Prueba, prueba!',
+        },
+      },
+      {
+        korean: '이거 맛봐요! 진짜 맛있어요.',
+        translations: {
+          en: 'Try this! It\'s really delicious.',
+          ja: 'これ、味見してみて！本当においしいよ。',
+          es: '¡Prueba esto! Está realmente delicioso.',
+        },
+      },
+      {
+        korean: '한번 맛봐요!',
+        translations: {
+          en: 'Give it a taste!',
+          ja: 'ちょっと味見してみてください！',
+          es: '¡Dale un bocado!',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-007-p005',
-    korean: '다 해서 얼마예요?',
-    structure: '다 해서 얼마예요?',
-    translations: { en: 'How much is it all together?' },
+    korean: '신기해요',
+    structure: '[명사] + 신기해요 / 진짜 신기해요',
+    translations: {
+      en: "It's so interesting / fascinating / unique",
+      ja: '不思議ですね / 面白いですね',
+      es: 'Es muy curioso / fascinante / único',
+    },
     examples: [
-      { korean: '다 해서 얼마예요?', translations: { en: 'How much is it all together?' } },
-      { korean: '이거 다 해서 얼마예요?', translations: { en: 'How much is all of this?' } },
-      { korean: '두 개 다 해서 얼마예요?', translations: { en: 'How much for both?' } },
+      {
+        korean: '이거 뭐예요? 저거도 신기해요!',
+        translations: {
+          en: "What's this? That's interesting too!",
+          ja: 'これは何ですか？あれも不思議ですね！',
+          es: '¿Qué es esto? ¡Eso también es curioso!',
+        },
+      },
+      {
+        korean: '한국 전통 시장 진짜 신기해요!',
+        translations: {
+          en: 'Korean traditional markets are really fascinating!',
+          ja: '韓国の伝統市場、本当に不思議ですね！',
+          es: '¡Los mercados tradicionales coreanos son realmente fascinantes!',
+        },
+      },
+      {
+        korean: '이 문화 너무 신기해요.',
+        translations: {
+          en: 'This culture is so unique.',
+          ja: 'この文化、とても不思議ですね。',
+          es: 'Esta cultura es muy única.',
+        },
+      },
     ],
     level: 'beginner',
   },
 
-  // ── EP08 ──────────────────────────────────────────────────────────────
+  // ── EP08 (K-뷰티) ─────────────────────────────────────────────────────
   {
     id: 'kp-ep-008-p001',
-    korean: '피부에 좋아요?',
-    structure: '[제품] + 피부에 좋아요?',
-    translations: { en: 'Is it good for skin?' },
+    korean: '~추천해 주세요',
+    structure: '[명사/조건] + 추천해 주세요',
+    translations: {
+      en: 'Please recommend ~',
+      ja: '〜をおすすめしてください',
+      es: 'Por favor recomiéndame ~',
+    },
     examples: [
-      { korean: '이거 피부에 좋아요?', translations: { en: 'Is this good for skin?' } },
-      { korean: '민감한 피부에 좋아요?', translations: { en: 'Is it good for sensitive skin?' } },
-      { korean: '건성 피부에 좋아요?', translations: { en: 'Is it good for dry skin?' } },
+      {
+        korean: '제 피부 타입에 맞는 거 추천해 주세요.',
+        translations: {
+          en: 'Please recommend something for my skin type.',
+          ja: '私の肌タイプに合うものをおすすめしてください。',
+          es: 'Por favor recomiéndame algo para mi tipo de piel.',
+        },
+      },
+      {
+        korean: '초보자한테 맞는 거 추천해 주세요.',
+        translations: {
+          en: 'Please recommend something for a beginner.',
+          ja: '初心者向けのものをおすすめしてください。',
+          es: 'Por favor recomiéndame algo para principiantes.',
+        },
+      },
+      {
+        korean: '선물로 좋은 거 추천해 주세요.',
+        translations: {
+          en: 'Please recommend something good as a gift.',
+          ja: 'プレゼントに良いものをおすすめしてください。',
+          es: 'Por favor recomiéndame algo bueno como regalo.',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-008-p002',
-    korean: '~써봤어요?',
-    structure: '[제품] + 써봤어요?',
-    translations: { en: 'Have you tried ~?' },
+    korean: '~뭐 써요?',
+    structure: '[제품 종류] + 뭐 써요?',
+    translations: {
+      en: 'What do you use for ~?',
+      ja: '〜は何を使っていますか？',
+      es: '¿Qué usas para ~?',
+    },
     examples: [
-      { korean: '이 크림 써봤어요?', translations: { en: 'Have you tried this cream?' } },
-      { korean: '마스크팩 써봤어요?', translations: { en: 'Have you tried sheet masks?' } },
-      { korean: '이 세럼 써봤어요?', translations: { en: 'Have you tried this serum?' } },
+      {
+        korean: '선크림 뭐 써요?',
+        translations: {
+          en: 'What sunscreen do you use?',
+          ja: '日焼け止めは何を使っていますか？',
+          es: '¿Qué protector solar usas?',
+        },
+      },
+      {
+        korean: '토너 뭐 써요?',
+        translations: {
+          en: 'What toner do you use?',
+          ja: '化粧水は何を使っていますか？',
+          es: '¿Qué tónico usas?',
+        },
+      },
+      {
+        korean: '마스크팩 뭐 써요?',
+        translations: {
+          en: 'What sheet mask do you use?',
+          ja: 'マスクパックは何を使っていますか？',
+          es: '¿Qué mascarilla usas?',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-008-p003',
-    korean: '어떤 게 좋아요?',
-    structure: '어떤 게 좋아요?',
-    translations: { en: 'Which one is good?' },
+    korean: '~어떤 게 좋아요?',
+    structure: '[상황/목적] + 어떤 게 좋아요?',
+    translations: {
+      en: 'Which one is good for ~?',
+      ja: '〜にはどれがいいですか？',
+      es: '¿Cuál es bueno para ~?',
+    },
     examples: [
-      { korean: '어떤 게 좋아요?', translations: { en: 'Which one is good?' } },
-      { korean: '제 피부엔 어떤 게 좋아요?', translations: { en: 'Which is good for my skin type?' } },
-      { korean: '선물로 어떤 게 좋아요?', translations: { en: 'Which one is good as a gift?' } },
+      {
+        korean: '친구 선물로 어떤 게 좋아요?',
+        translations: {
+          en: 'Which one is good as a gift for a friend?',
+          ja: '友達へのプレゼントにはどれがいいですか？',
+          es: '¿Cuál es bueno como regalo para un amigo?',
+        },
+      },
+      {
+        korean: '건성 피부엔 어떤 게 좋아요?',
+        translations: {
+          en: 'Which one is good for dry skin?',
+          ja: '乾燥肌にはどれがいいですか？',
+          es: '¿Cuál es bueno para la piel seca?',
+        },
+      },
+      {
+        korean: '요즘 어떤 게 인기 있어요?',
+        translations: {
+          en: 'Which one is popular these days?',
+          ja: '最近どれが人気ですか？',
+          es: '¿Cuál es popular hoy en día?',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-008-p004',
-    korean: '~선물하려고요',
-    structure: '[사람] + 한테 선물하려고요',
-    translations: { en: "I'm planning to give it as a gift" },
+    korean: '~써봤어요?',
+    structure: '[제품] + 써봤어요?',
+    translations: {
+      en: 'Have you tried (using) ~?',
+      ja: '〜を使ってみましたか？',
+      es: '¿Has probado ~?',
+    },
     examples: [
-      { korean: '친구한테 선물하려고요.', translations: { en: "I'm planning to give it to my friend." } },
-      { korean: '엄마한테 선물하려고요.', translations: { en: "I'm planning to give it to my mom." } },
-      { korean: '언니한테 선물하려고요.', translations: { en: "I'm planning to give it to my sister." } },
+      {
+        korean: '이거 써봤어요? 진짜 좋아요!',
+        translations: {
+          en: "Have you tried this? It's really good!",
+          ja: 'これ、使ってみましたか？本当に良いですよ！',
+          es: '¿Has probado esto? ¡Es realmente bueno!',
+        },
+      },
+      {
+        korean: '이 세럼 써봤어요?',
+        translations: {
+          en: 'Have you tried this serum?',
+          ja: 'このセラム、使ってみましたか？',
+          es: '¿Has probado este sérum?',
+        },
+      },
+      {
+        korean: '한국 화장품 써봤어요?',
+        translations: {
+          en: 'Have you tried Korean cosmetics?',
+          ja: '韓国コスメ、使ってみましたか？',
+          es: '¿Has probado los cosméticos coreanos?',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-008-p005',
-    korean: '제 피부 타입에 맞는 거 추천해 주세요',
-    structure: '[피부 타입] + 에 맞는 거 추천해 주세요',
-    translations: { en: 'Please recommend something for my skin type' },
+    korean: '~피부에 좋아요',
+    structure: '[제품/성분] + 피부에 좋아요',
+    translations: {
+      en: '~ is good for your skin',
+      ja: '〜は肌に良いです',
+      es: '~ es bueno para la piel',
+    },
     examples: [
-      { korean: '제 피부 타입에 맞는 거 추천해 주세요.', translations: { en: 'Please recommend something for my skin type.' } },
-      { korean: '건성 피부에 맞는 거 추천해 주세요.', translations: { en: 'Please recommend something for dry skin.' } },
-      { korean: '민감한 피부에 맞는 거 추천해 주세요.', translations: { en: 'Please recommend something for sensitive skin.' } },
+      {
+        korean: 'K-뷰티 피부에 다 좋아요!',
+        translations: {
+          en: 'K-beauty is all good for your skin!',
+          ja: 'K-コスメは全部肌に良いです！',
+          es: '¡Todos los productos de K-beauty son buenos para la piel!',
+        },
+      },
+      {
+        korean: '이 크림 피부에 진짜 좋아요.',
+        translations: {
+          en: 'This cream is really good for your skin.',
+          ja: 'このクリームは本当に肌に良いです。',
+          es: 'Esta crema es realmente buena para la piel.',
+        },
+      },
+      {
+        korean: '마스크팩이 피부에 좋아요.',
+        translations: {
+          en: 'Sheet masks are good for your skin.',
+          ja: 'マスクパックは肌に良いです。',
+          es: 'Las mascarillas son buenas para la piel.',
+        },
+      },
     ],
     level: 'beginner',
   },
 
-  // ── EP09 ──────────────────────────────────────────────────────────────
+  // ── EP09 (한강) ───────────────────────────────────────────────────────
   {
     id: 'kp-ep-009-p001',
-    korean: '같이 ~해요',
-    structure: '같이 + [동사] + 아요/어요',
-    translations: { en: "Let's ~ together" },
+    korean: '날씨 너무 좋다',
+    structure: '날씨 + 너무 좋다 (casual) / 너무 좋아요 (polite)',
+    translations: {
+      en: 'The weather is so great!',
+      ja: '天気がとても良い！',
+      es: '¡El clima está muy bien!',
+    },
     examples: [
-      { korean: '같이 먹어요!', translations: { en: "Let's eat together!" } },
-      { korean: '같이 앉아요!', translations: { en: "Let's sit together!" } },
-      { korean: '같이 가요!', translations: { en: "Let's go together!" } },
+      {
+        korean: '오늘 날씨 너무 좋다!',
+        translations: {
+          en: "Today's weather is so great!",
+          ja: '今日の天気はとても良い！',
+          es: '¡El clima de hoy está muy bien!',
+        },
+      },
+      {
+        korean: '날씨가 너무 좋아요. 나가고 싶어요.',
+        translations: {
+          en: "The weather is so nice. I want to go out.",
+          ja: '天気がとても良いです。外に出たいです。',
+          es: 'El clima está muy bien. Quiero salir.',
+        },
+      },
+      {
+        korean: '오늘 날씨 좋다! 한강 가자.',
+        translations: {
+          en: "The weather's great today! Let's go to Hangang.",
+          ja: '今日いい天気だね！漢江に行こう。',
+          es: '¡Hoy hace buen tiempo! Vamos al Han Gang.',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-009-p002',
-    korean: '날씨 좋다!',
-    structure: '날씨 + 좋다! (casual) / 좋아요! (polite)',
-    translations: { en: 'The weather is great!' },
+    korean: '배달 돼요?',
+    structure: '[장소/서비스] + 배달 돼요? / 배달이 이렇게 빨라요?',
+    translations: {
+      en: 'Do you deliver? / Is delivery this fast?',
+      ja: '配達できますか？/ こんなに早いですか？',
+      es: '¿Hacen delivery? / ¿El delivery es tan rápido?',
+    },
     examples: [
-      { korean: '날씨 좋다!', translations: { en: 'The weather is great!' } },
-      { korean: '오늘 날씨 너무 좋다!', translations: { en: "Today's weather is so nice!" } },
-      { korean: '날씨 진짜 좋다!', translations: { en: "The weather is really great!" } },
+      {
+        korean: '배달이 이렇게 빨라요?!',
+        translations: {
+          en: 'Delivery is this fast?!',
+          ja: '配達がこんなに早いですか？！',
+          es: '¿El delivery es tan rápido?!',
+        },
+      },
+      {
+        korean: '여기도 배달 돼요?',
+        translations: {
+          en: 'Can they deliver here too?',
+          ja: 'ここにも配達できますか？',
+          es: '¿También hacen delivery aquí?',
+        },
+      },
+      {
+        korean: '배달 얼마나 걸려요?',
+        translations: {
+          en: 'How long does delivery take?',
+          ja: '配達どのくらいかかりますか？',
+          es: '¿Cuánto tarda el delivery?',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-009-p003',
-    korean: '생각보다 ~',
-    structure: '생각보다 + [형용사]',
-    translations: { en: '~ than I expected' },
+    korean: '생각보다 ~해요',
+    structure: '생각보다 + [형용사]해요',
+    translations: {
+      en: '~ than I expected',
+      ja: '思ったより〜です',
+      es: 'Más ~ de lo que esperaba',
+    },
     examples: [
-      { korean: '생각보다 맛있어요.', translations: { en: "It's more delicious than I expected." } },
-      { korean: '생각보다 넓어요.', translations: { en: "It's bigger than I expected." } },
-      { korean: '생각보다 빨라요.', translations: { en: "It's faster than I expected." } },
+      {
+        korean: '생각보다 진짜 맛있어요!!',
+        translations: {
+          en: "It's really more delicious than I expected!!",
+          ja: '思ったより本当においしいです！！',
+          es: '¡¡Está mucho más delicioso de lo que esperaba!!',
+        },
+      },
+      {
+        korean: '생각보다 훨씬 빠르지?',
+        translations: {
+          en: "It's much faster than you expected, right?",
+          ja: '思ったよりずっと早いでしょう？',
+          es: '¿Es mucho más rápido de lo que esperabas, verdad?',
+        },
+      },
+      {
+        korean: '한국어 생각보다 어려워요.',
+        translations: {
+          en: 'Korean is harder than I expected.',
+          ja: '韓国語は思ったより難しいです。',
+          es: 'El coreano es más difícil de lo que esperaba.',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-009-p004',
-    korean: '~처음이에요',
-    structure: '[명사/경험] + 처음이에요',
-    translations: { en: "It's my first time ~" },
+    korean: '다 같이 있어서 좋아요',
+    structure: '다 같이 + [동사/상태] + 어서/아서 좋아요',
+    translations: {
+      en: "I love that we're all here together",
+      ja: 'みんな一緒にいられて嬉しいです',
+      es: 'Me alegra que todos estemos juntos',
+    },
     examples: [
-      { korean: '한강 피크닉 처음이에요.', translations: { en: "It's my first Han River picnic." } },
-      { korean: '한국 치킨 처음이에요.', translations: { en: "It's my first Korean fried chicken." } },
-      { korean: '한국 처음이에요.', translations: { en: "It's my first time in Korea." } },
+      {
+        korean: '이런 거 너무 좋아요. 다 같이 있어서 좋아요.',
+        translations: {
+          en: "I love this kind of thing. I love that we're all here together.",
+          ja: 'こういうのが好きです。みんな一緒にいられて嬉しいです。',
+          es: 'Me encanta esto. Me alegra que todos estemos juntos.',
+        },
+      },
+      {
+        korean: '다 같이 먹어서 더 맛있어요.',
+        translations: {
+          en: 'It tastes even better because we\'re all eating together.',
+          ja: 'みんなで食べるとさらにおいしいです。',
+          es: 'Está más rico porque comemos todos juntos.',
+        },
+      },
+      {
+        korean: '다 같이 있어서 너무 행복해요.',
+        translations: {
+          en: "I'm so happy we're all together.",
+          ja: 'みんな一緒にいられてとても幸せです。',
+          es: 'Estoy muy feliz de que estemos todos juntos.',
+        },
+      },
     ],
     level: 'beginner',
   },
   {
     id: 'kp-ep-009-p005',
-    korean: '이런 거 너무 좋아요',
-    structure: '이런 [명사] + 너무 좋아요',
-    translations: { en: 'I love this kind of thing' },
+    korean: '이미 ~해요',
+    structure: '이미 + [형용사/동사]해요',
+    translations: {
+      en: 'Already ~',
+      ja: 'もう〜です',
+      es: 'Ya ~',
+    },
     examples: [
-      { korean: '이런 거 너무 좋아요.', translations: { en: 'I love this kind of thing.' } },
-      { korean: '이런 순간 너무 좋아요.', translations: { en: 'I love moments like this.' } },
-      { korean: '이런 날 너무 좋아요.', translations: { en: 'I love days like this.' } },
+      {
+        korean: '한국에 온 지 얼마 안 됐는데 이미 너무 좋아요.',
+        translations: {
+          en: "I haven't been in Korea long but I already love it so much.",
+          ja: '韓国に来てまだ日が浅いのに、もうとても好きです。',
+          es: 'No llevo mucho tiempo en Corea pero ya me encanta.',
+        },
+      },
+      {
+        korean: '이미 다 먹었어요.',
+        translations: {
+          en: 'I already ate it all.',
+          ja: 'もう全部食べました。',
+          es: 'Ya me lo comí todo.',
+        },
+      },
+      {
+        korean: '이미 알고 있었어요.',
+        translations: {
+          en: 'I already knew.',
+          ja: 'もう知っていました。',
+          es: 'Ya lo sabía.',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+
+  // ── EP10 (첫 수업) ────────────────────────────────────────────────────
+  {
+    id: 'kp-ep-010-p001',
+    korean: '~에서 왔어요',
+    structure: '[나라/도시] + 에서 왔어요',
+    translations: {
+      en: "I'm from ~",
+      ja: '〜から来ました',
+      es: 'Soy de ~',
+    },
+    examples: [
+      {
+        korean: '미국에서 왔어요.',
+        translations: {
+          en: "I'm from the United States.",
+          ja: 'アメリカから来ました。',
+          es: 'Soy de Estados Unidos.',
+        },
+      },
+      {
+        korean: '어디에서 왔어요?',
+        translations: {
+          en: 'Where are you from?',
+          ja: 'どこから来ましたか？',
+          es: '¿De dónde eres?',
+        },
+      },
+      {
+        korean: '영국에서 왔어요.',
+        translations: {
+          en: "I'm from the UK.",
+          ja: 'イギリスから来ました。',
+          es: 'Soy del Reino Unido.',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-010-p002',
+    korean: '~전공이에요',
+    structure: '[전공 분야] + 전공이에요',
+    translations: {
+      en: 'My major is ~',
+      ja: '〜専攻です',
+      es: 'Mi especialidad es ~',
+    },
+    examples: [
+      {
+        korean: '경영학 전공이에요.',
+        translations: {
+          en: 'My major is business administration.',
+          ja: '経営学専攻です。',
+          es: 'Mi especialidad es administración de empresas.',
+        },
+      },
+      {
+        korean: '한국어 전공이에요.',
+        translations: {
+          en: 'My major is Korean language.',
+          ja: '韓国語専攻です。',
+          es: 'Mi especialidad es coreano.',
+        },
+      },
+      {
+        korean: '전공이 뭐예요?',
+        translations: {
+          en: "What's your major?",
+          ja: '専攻は何ですか？',
+          es: '¿Cuál es tu especialidad?',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-010-p003',
+    korean: '잘 부탁드려요',
+    structure: '잘 부탁드려요 (formal) / 잘 부탁해요 (casual)',
+    translations: {
+      en: 'Please take care of me / Nice to meet you',
+      ja: 'よろしくお願いします',
+      es: 'Encantado/a, espero que me traten bien',
+    },
+    examples: [
+      {
+        korean: '저는 에마예요. 잘 부탁드려요!',
+        translations: {
+          en: "I'm Emma. Please take care of me!",
+          ja: '私はエマです。よろしくお願いします！',
+          es: 'Soy Emma. ¡Encantada, espero que me traten bien!',
+        },
+      },
+      {
+        korean: '앞으로 잘 부탁드려요.',
+        translations: {
+          en: 'I look forward to working with you.',
+          ja: 'これからよろしくお願いします。',
+          es: 'Espero que trabajemos bien juntos.',
+        },
+      },
+      {
+        korean: '처음 뵙겠습니다. 잘 부탁드려요.',
+        translations: {
+          en: 'Nice to meet you. Please take care of me.',
+          ja: 'はじめまして。よろしくお願いします。',
+          es: 'Encantado/a de conocerle. Espero que me trate bien.',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-010-p004',
+    korean: '떨려요',
+    structure: '조금 떨려요 / 너무 떨려요',
+    translations: {
+      en: "I'm nervous / I'm trembling",
+      ja: 'ドキドキします / 緊張します',
+      es: 'Estoy nervioso/a',
+    },
+    examples: [
+      {
+        korean: '오늘 첫 수업이에요. 조금 떨려요.',
+        translations: {
+          en: "Today is my first class. I'm a little nervous.",
+          ja: '今日は初めての授業です。少しドキドキします。',
+          es: 'Hoy es mi primera clase. Estoy un poco nervioso/a.',
+        },
+      },
+      {
+        korean: '발표가 너무 떨려요.',
+        translations: {
+          en: "I'm so nervous about the presentation.",
+          ja: '発表がとても緊張します。',
+          es: 'Estoy muy nervioso/a por la presentación.',
+        },
+      },
+      {
+        korean: '처음이라 떨려요.',
+        translations: {
+          en: "I'm nervous because it's my first time.",
+          ja: '初めてなのでドキドキします。',
+          es: 'Estoy nervioso/a porque es la primera vez.',
+        },
+      },
+    ],
+    level: 'beginner',
+  },
+  {
+    id: 'kp-ep-010-p005',
+    korean: '할 수 있었어요',
+    structure: '[동사 어간] + ㄹ/을 수 있었어요',
+    translations: {
+      en: 'I was able to ~ / I did it!',
+      ja: '〜できました / やった！',
+      es: 'Pude ~ / ¡Lo logré!',
+    },
+    examples: [
+      {
+        korean: '할 수 있었어요. 한국어로요.',
+        translations: {
+          en: 'I did it. In Korean.',
+          ja: 'できました。韓国語で。',
+          es: 'Lo logré. En coreano.',
+        },
+      },
+      {
+        korean: '혼자서 할 수 있었어요!',
+        translations: {
+          en: 'I was able to do it by myself!',
+          ja: '一人でできました！',
+          es: '¡Pude hacerlo yo solo/a!',
+        },
+      },
+      {
+        korean: '드디어 할 수 있었어요.',
+        translations: {
+          en: 'I was finally able to do it.',
+          ja: 'ついにできました。',
+          es: 'Por fin pude lograrlo.',
+        },
+      },
     ],
     level: 'beginner',
   },

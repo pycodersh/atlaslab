@@ -1,11 +1,12 @@
 'use client'
 
-import { use } from 'react'
+import { use, useState, useEffect } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 import { WebtoonEditor } from '@/components/kpatto/WebtoonEditor'
-import { WEBTOON_EPISODES } from '@/data/kpatto/episode-001-webtoon'
+import { fetchWebtoonEpisode } from '@/lib/kpatto/fetch-episode'
+import type { WebtoonEpisodeData } from '@/data/kpatto/webtoon-types'
 
 interface PageProps {
   params: Promise<{ episodeId: string }>
@@ -13,7 +14,25 @@ interface PageProps {
 
 export default function KPattoEditorPage({ params }: PageProps) {
   const { episodeId } = use(params)
-  const episode = WEBTOON_EPISODES[episodeId]
+  const [episode, setEpisode] = useState<WebtoonEpisodeData | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchWebtoonEpisode(episodeId).then(ep => {
+      setEpisode(ep)
+      setLoading(false)
+    })
+  }, [episodeId])
+
+  if (loading) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#0f0f22', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 28, height: 28, border: '3px solid #1e1b4b', borderTop: '3px solid #a5b4fc', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+      </div>
+    )
+  }
+
   if (!episode) notFound()
 
   return (

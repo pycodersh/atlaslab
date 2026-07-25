@@ -55,23 +55,15 @@ export const EPISODE_002_WEBTOON: WebtoonEpisodeData = {
       bubbles: [
         {
           id: 'b-2-1', bubbleKey: 'bubble-oval',
-          xPct: 28, yPct: 3, widthPct: 64,
+          xPct: 28, yPct: 6, widthPct: 64,
           korean: '지수! 홍대\n가고 싶어요...',
           translation: 'Jisu! I want to go\nto Hongdae...',
           speaker: 'emma', lines: 2, tail: tailR,
           highlight_text: '가고 싶어요',
         },
         {
-          id: 'b-2-1b', bubbleKey: 'bubble-oval',
-          xPct: 6, yPct: 30, widthPct: 40,
-          korean: '어디예요?',
-          translation: 'Where is it?',
-          speaker: 'emma', lines: 1, tail: tailL,
-          highlight_text: '어디예요',
-        },
-        {
           id: 'b-2-2', bubbleKey: 'bubble-oval',
-          xPct: 6, yPct: 54, widthPct: 56,
+          xPct: 6, yPct: 56, widthPct: 56,
           korean: '에마야!\n여기서 뭐 해?',
           translation: 'Emma! What are\nyou doing here?',
           speaker: 'jisu', lines: 2, tail: tailLTop,
