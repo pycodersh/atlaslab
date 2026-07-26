@@ -6,6 +6,7 @@ import type {
   WebtoonBubble,
   BubbleTailData,
 } from '@/data/kpatto/webtoon-types'
+import type { Question, TranslationQuestion, FillBlankQuestion, WordOrderQuestion } from '@/components/kpatto/ChallengeSection'
 
 export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpisodeData | null> {
   const match = episodeId.match(/kp-ep-(\d+)/)
@@ -177,4 +178,76 @@ export async function fetchAllExpressions(): Promise<KPattoExpression[]> {
     .order('first_episode', { ascending: true })
   if (error) return []
   return (data ?? []) as KPattoExpression[]
+}
+
+function pickN<T>(arr: T[], n: number): T[] {
+  return [...arr].sort(() => Math.random() - 0.5).slice(0, n)
+}
+
+type DBChallenge = {
+  id: number
+  challenge_type: string
+  question: { prompt: string }
+  options: string[] | null
+  answer: string
+  word_pieces: string[] | null
+}
+
+/** Fetches challenges from DB and returns 5 randomly selected (2 translation + 2 fill_blank + 1 word_order). */
+export async function fetchEpisodeChallenges(episodeId: string): Promise<Question[]> {
+  const match = episodeId.match(/kp-ep-(\d+)/)
+  if (!match) return []
+
+  const supabase = createClient()
+
+  const { data: ep } = await supabase
+    .from('kp_episodes')
+    .select('id')
+    .eq('episode_num', parseInt(match[1]))
+    .single()
+  if (!ep) return []
+
+  const { data: rows } = await supabase
+    .from('kp_challenges')
+    .select('id, challenge_type, question, options, answer, word_pieces')
+    .eq('episode_id', ep.id)
+    .not('challenge_type', 'is', null)
+  if (!rows || rows.length === 0) return []
+
+  const byType: Record<string, DBChallenge[]> = {
+    translation: [],
+    fill_blank: [],
+    word_order: [],
+  }
+  for (const row of rows as DBChallenge[]) {
+    if (byType[row.challenge_type]) byType[row.challenge_type].push(row)
+  }
+
+  const selected = [
+    ...pickN(byType.translation, 2),
+    ...pickN(byType.fill_blank, 2),
+    ...pickN(byType.word_order, 1),
+  ].sort(() => Math.random() - 0.5)
+
+  return selected.map((c): Question => {
+    if (c.challenge_type === 'translation' || c.challenge_type === 'fill_blank') {
+      const opts = c.options ?? []
+      const correctIdx = opts.indexOf(c.answer)
+      const q: TranslationQuestion | FillBlankQuestion = {
+        type: c.challenge_type as 'translation' | 'fill_blank',
+        prompt: c.question.prompt,
+        choices: opts,
+        correctIdx: correctIdx >= 0 ? correctIdx : 0,
+      }
+      return q
+    } else {
+      const q: WordOrderQuestion = {
+        type: 'word_order',
+        prompt: c.question.prompt,
+        pieces: c.word_pieces ?? [],
+        answer: c.answer.split(' '),
+      }
+      return q
+    }
+  })
 }

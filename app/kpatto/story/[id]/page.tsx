@@ -13,7 +13,7 @@ import { KPattoPaywall } from '@/components/kpatto/KPattoPaywall'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
-import { fetchWebtoonEpisode } from '@/lib/kpatto/fetch-episode'
+import { fetchWebtoonEpisode, fetchEpisodeChallenges } from '@/lib/kpatto/fetch-episode'
 import type { WebtoonEpisodeData } from '@/data/kpatto/webtoon-types'
 import { EP001_POOL, type RawQuestion } from '@/data/kpatto/challenge-pool-ep001'
 import { EP002_POOL } from '@/data/kpatto/challenge-pool-ep002'
@@ -88,8 +88,15 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const { isPro, loading: subLoading } = useKPattoSubscription()
 
   useEffect(() => {
+    // Static pool as immediate fallback
     const pool = EPISODE_POOLS[id]
     if (pool) setChallengeQuestions(generateChallenge(pool))
+
+    // DB challenges override static pool when available
+    fetchEpisodeChallenges(id).then(dbQ => {
+      if (dbQ.length > 0) setChallengeQuestions(dbQ)
+    })
+
     fetchWebtoonEpisode(id).then(ep => {
       setWebtoonEpisode(ep)
       setWebtoonLoading(false)

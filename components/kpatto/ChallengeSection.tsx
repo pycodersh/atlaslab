@@ -9,13 +9,17 @@ const T1     = '#111111'
 const T2     = '#999999'
 const DIV    = '#F2F2F2'
 
+// ── Question types ─────────────────────────────────────────────────────────────
+
+/** Legacy static-pool type */
 export type MCQuestion = {
   type: 'mc'
-  prompt: string        // English meaning shown
-  choices: string[]     // Korean options
+  prompt: string
+  choices: string[]
   correctIdx: number
 }
 
+/** Legacy static-pool type */
 export type BuildQuestion = {
   type: 'build'
   prompt: string
@@ -23,8 +27,33 @@ export type BuildQuestion = {
   answer: string[]
 }
 
-export type Question = MCQuestion | BuildQuestion
+/** DB type: show English meaning → choose correct Korean sentence */
+export type TranslationQuestion = {
+  type: 'translation'
+  prompt: string
+  choices: string[]
+  correctIdx: number
+}
 
+/** DB type: Korean sentence with blank → choose the missing word/phrase */
+export type FillBlankQuestion = {
+  type: 'fill_blank'
+  prompt: string
+  choices: string[]
+  correctIdx: number
+}
+
+/** DB type: arrange Korean word chips in the correct order */
+export type WordOrderQuestion = {
+  type: 'word_order'
+  prompt: string
+  pieces: string[]
+  answer: string[]
+}
+
+export type Question = MCQuestion | BuildQuestion | TranslationQuestion | FillBlankQuestion | WordOrderQuestion
+
+// Default fallback questions shown when no pool or DB challenges are available
 const QUESTIONS: Question[] = [
   {
     type: 'mc',
@@ -80,15 +109,17 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
   )
 }
 
-// ── MC card ───────────────────────────────────────────────────────────────────
+// ── MC card — handles mc, translation, fill_blank ─────────────────────────────
 function MCCard({ q, onCorrect, onAdvance }: {
-  q: MCQuestion
+  q: MCQuestion | TranslationQuestion | FillBlankQuestion
   onCorrect: () => void
   onAdvance: () => void
 }) {
   const [selected, setSelected] = useState<number | null>(null)
   const [wrongCount, setWrongCount] = useState(0)
   const [state, setState] = useState<'idle' | 'wrong' | 'correct' | 'revealed'>('idle')
+
+  const label = q.type === 'fill_blank' ? 'Fill in the blank.' : 'How do you say this in Korean?'
 
   const handleChoice = useCallback((idx: number) => {
     if (state === 'correct' || state === 'revealed') return
@@ -138,13 +169,11 @@ function MCCard({ q, onCorrect, onAdvance }: {
 
   return (
     <div>
-      {/* Prompt */}
       <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <div style={{ fontSize: 13, color: '#999999', marginBottom: 6 }}>How do you say this in Korean?</div>
+        <div style={{ fontSize: 13, color: '#999999', marginBottom: 6 }}>{label}</div>
         <div style={{ fontSize: 18, fontWeight: 800, color: '#1A1A1A', lineHeight: 1.4 }}>{q.prompt}</div>
       </div>
 
-      {/* Choices */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {q.choices.map((c, i) => (
           <button
@@ -170,7 +199,6 @@ function MCCard({ q, onCorrect, onAdvance }: {
         ))}
       </div>
 
-      {/* Feedback */}
       {state === 'correct' && (
         <div style={{ marginTop: 16, textAlign: 'center', fontSize: 14, fontWeight: 700, color: GREEN }}>
           ✓ Correct!
@@ -210,11 +238,12 @@ function MCCard({ q, onCorrect, onAdvance }: {
   )
 }
 
-// ── Build card ────────────────────────────────────────────────────────────────
-function BuildCard({ q, onCorrect }: {
-  q: BuildQuestion
+// ── Word-order card — handles build and word_order ────────────────────────────
+function WordOrderCard({ q, onCorrect }: {
+  q: BuildQuestion | WordOrderQuestion
   onCorrect: () => void
 }) {
+  const allWords = q.type === 'word_order' ? q.pieces : q.words
   const [assembled, setAssembled] = useState<string[]>([])
   const [shakeWord, setShakeWord] = useState<string | null>(null)
   const [done, setDone] = useState(false)
@@ -243,7 +272,7 @@ function BuildCard({ q, onCorrect }: {
   return (
     <div>
       <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <div style={{ fontSize: 13, color: '#999999', marginBottom: 6 }}>How do you say this in Korean?</div>
+        <div style={{ fontSize: 13, color: '#999999', marginBottom: 6 }}>Put the words in order.</div>
         <div style={{ fontSize: 18, fontWeight: 800, color: '#1A1A1A', lineHeight: 1.4 }}>{q.prompt}</div>
       </div>
 
@@ -276,9 +305,9 @@ function BuildCard({ q, onCorrect }: {
         ))}
       </div>
 
-      {/* Word buttons */}
+      {/* Word chips */}
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
-        {q.words.map(w => {
+        {allWords.map(w => {
           const used = assembled.includes(w)
           const shaking = shakeWord === w
           return (
@@ -317,7 +346,10 @@ function BuildCard({ q, onCorrect }: {
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
-export function ChallengeSection({ onComplete, questions: customQuestions }: { onComplete: () => void; questions?: Question[] }) {
+export function ChallengeSection({ onComplete, questions: customQuestions }: {
+  onComplete: () => void
+  questions?: Question[]
+}) {
   const questions = customQuestions ?? QUESTIONS
   const [qIdx, setQIdx] = useState(0)
   const [cardKey, setCardKey] = useState(0)
@@ -332,18 +364,16 @@ export function ChallengeSection({ onComplete, questions: customQuestions }: { o
   }, [qIdx, questions.length, onComplete])
 
   const q = questions[qIdx]
+  const isMC = q.type === 'mc' || q.type === 'translation' || q.type === 'fill_blank'
 
   return (
     <div style={{ margin: '32px 0 0', padding: '0 16px' }}>
-      {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
-
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#999999', textTransform: 'uppercase' }}>
           Challenge what you've learned
         </div>
       </div>
 
-      {/* Card */}
       <div style={{
         border: '1px solid #E0E0E0',
         borderRadius: 20,
@@ -353,10 +383,19 @@ export function ChallengeSection({ onComplete, questions: customQuestions }: { o
       }}>
         <ProgressBar current={qIdx} total={questions.length} />
 
-        {q.type === 'mc' ? (
-          <MCCard key={cardKey} q={q} onCorrect={advance} onAdvance={advance} />
+        {isMC ? (
+          <MCCard
+            key={cardKey}
+            q={q as MCQuestion | TranslationQuestion | FillBlankQuestion}
+            onCorrect={advance}
+            onAdvance={advance}
+          />
         ) : (
-          <BuildCard key={cardKey} q={q} onCorrect={advance} />
+          <WordOrderCard
+            key={cardKey}
+            q={q as BuildQuestion | WordOrderQuestion}
+            onCorrect={advance}
+          />
         )}
       </div>
     </div>
