@@ -36,23 +36,26 @@ export default function KPattoSubscriptionPage() {
   async function handleUpgrade() {
     if (loading) return
     const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
-    if (!priceId || priceId.includes('REPLACE')) return
-
-    let p = paddle
-    if (!p) {
-      for (let i = 0; i < 30; i++) {
-        await new Promise(r => setTimeout(r, 100))
-        p = await getPaddle()
-        if (p) break
-      }
-    }
-    if (!p) {
-      alert('결제 시스템을 불러오는 중입니다. 잠시 후 다시 시도해주세요.')
+    if (!priceId || priceId.includes('REPLACE')) {
+      alert('결제 설정 오류. 잠시 후 다시 시도해주세요.')
       return
     }
 
     setLoading(true)
     try {
+      let p = paddle
+      if (!p) {
+        for (let i = 0; i < 30; i++) {
+          await new Promise(r => setTimeout(r, 100))
+          p = await getPaddle()
+          if (p) break
+        }
+      }
+      if (!p) {
+        alert('결제 시스템을 불러오는 중입니다. 잠시 후 다시 시도해주세요.')
+        return
+      }
+
       await p.Checkout.open({
         items: [{ priceId, quantity: 1 }],
         customer: user?.email ? { email: user.email } : undefined,
