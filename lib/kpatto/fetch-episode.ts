@@ -28,7 +28,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
       .order('order_num'),
     supabase
       .from('kp_bubbles')
-      .select('panel_id, order_num, speaker, korean, translations, position, tail, highlight_text, expression_id')
+      .select('panel_id, order_num, speaker, korean, translations, position, tail, highlight_text, expression_id, dialogue_id')
       .eq('episode_id', ep.id)
       .order('order_num'),
   ])
@@ -44,10 +44,27 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     tail: BubbleTailData | null
     highlight_text: string | null
     expression_id: number | null
+    dialogue_id: number | null
+  }
+
+  const bubbleList = (bubbles ?? []) as DBBubble[]
+
+  // Fetch matched_text from focus mappings (authoritative highlight source)
+  const dialogueIds = [...new Set(bubbleList.filter(b => b.dialogue_id != null).map(b => b.dialogue_id as number))]
+  const focusMap = new Map<number, string>()
+  if (dialogueIds.length > 0) {
+    const { data: focusMappings } = await supabase
+      .from('kp_dialogue_expressions')
+      .select('dialogue_id, matched_text')
+      .in('dialogue_id', dialogueIds)
+      .eq('role', 'focus')
+    for (const m of (focusMappings ?? [])) {
+      focusMap.set(m.dialogue_id as number, m.matched_text as string)
+    }
   }
 
   const byPanel = new Map<number, DBBubble[]>()
-  for (const b of (bubbles ?? []) as DBBubble[]) {
+  for (const b of bubbleList) {
     if (!byPanel.has(b.panel_id)) byPanel.set(b.panel_id, [])
     byPanel.get(b.panel_id)!.push(b)
   }
@@ -74,7 +91,9 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         speaker: b.speaker,
         lines: ((b.position?.lines as 1 | 2 | 3) ?? 1),
         tail: b.tail ?? undefined,
-        highlight_text: b.highlight_text ?? undefined,
+        highlight_text: b.expression_id != null
+          ? (b.dialogue_id != null ? focusMap.get(b.dialogue_id) : undefined) ?? b.highlight_text ?? undefined
+          : undefined,
         expression_id: b.expression_id ?? undefined,
       }))
       return {

@@ -96,7 +96,7 @@ export function ExpressionPopup({
             {expression.korean}
           </div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>
-            {expression.english}
+            {expression.description ?? expression.english}
           </div>
         </div>
 
@@ -154,7 +154,7 @@ export function ExpressionPopup({
               transition: 'all 0.15s',
             }}
           >
-            {isSaved ? '저장됨 ✓' : '저장하기'}
+            {isSaved ? 'Saved ✓' : 'Save'}
           </button>
           <button
             onClick={onClose}
@@ -164,7 +164,7 @@ export function ExpressionPopup({
               color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
             }}
           >
-            닫기
+            Close
           </button>
         </div>
       </div>

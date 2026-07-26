@@ -65,6 +65,8 @@ function WebtoonBubbleEl({
   const koFontSize = lines === 1 ? 'clamp(16px,5.0vw,22px)' : lines === 2 ? 'clamp(15px,4.6vw,20px)' : 'clamp(14px,4.2vw,18px)'
   const trFontSize = 'clamp(11px,2.9vw,13px)'
 
+  const tappable = !!(bubble.expression_id && onHighlightTap)
+
   const textOverlay = (
     <div
       style={{
@@ -81,7 +83,7 @@ function WebtoonBubbleEl({
     >
       {showKo && (
         <div style={{ fontSize: koFontSize, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, whiteSpace: 'pre-line', letterSpacing: '-0.01em' }}>
-          {renderKorean(bubble.korean, bubble.highlight_text)}
+          {renderKorean(bubble.korean, tappable ? bubble.highlight_text : undefined)}
         </div>
       )}
       {showTrans && (
@@ -93,8 +95,6 @@ function WebtoonBubbleEl({
   )
 
   const heightScale = (bubble as { heightScale?: number }).heightScale ?? 1
-
-  const tappable = !!(bubble.expression_id && onHighlightTap)
 
   return (
     <div
