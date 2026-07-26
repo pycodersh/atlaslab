@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Gift, Sparkles, Check } from 'lucide-react'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { useAuth } from '@/contexts/AuthContext'
@@ -32,9 +33,17 @@ export default function KPattoSubscriptionPage() {
   const { isPro, loading: subLoading } = useKPattoSubscription()
   const paddle = usePaddle()
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   async function handleUpgrade() {
     if (loading) return
+
+    // 로그인 필수 — user_id 없으면 웹훅에서 구독 처리 불가
+    if (!user?.id) {
+      router.push('/kpatto/onboarding')
+      return
+    }
+
     const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
     if (!priceId || priceId.includes('REPLACE')) {
       alert('결제 설정 오류. 잠시 후 다시 시도해주세요.')
@@ -58,8 +67,8 @@ export default function KPattoSubscriptionPage() {
 
       await p.Checkout.open({
         items: [{ priceId, quantity: 1 }],
-        customer: user?.email ? { email: user.email } : undefined,
-        customData: user?.id ? { user_id: user.id } : undefined,
+        customer: user.email ? { email: user.email } : undefined,
+        customData: { user_id: user.id },
         settings: { displayMode: 'overlay', locale: 'ko' },
       })
     } finally {
