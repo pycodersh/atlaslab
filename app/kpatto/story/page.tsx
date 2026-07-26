@@ -139,6 +139,24 @@ export default function KPattoStoryListPage() {
         })}
 
 
+        {/* Coming soon notice */}
+        <div style={{
+          margin: '4px 0 0',
+          padding: '14px 16px',
+          background: '#FFFBF2',
+          border: '1px solid #F0D9A8',
+          borderRadius: 14,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+        }}>
+          <span style={{ fontSize: 20, flexShrink: 0 }}>📅</span>
+          <div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#8B6914' }}>EP 11+ Coming July 31</div>
+            <div style={{ fontSize: 12, color: '#B38A30', marginTop: 2 }}>New episodes drop every week. Stay tuned!</div>
+          </div>
+        </div>
+
         <div style={{ height: 4 }} />
       </div>
     </div>
