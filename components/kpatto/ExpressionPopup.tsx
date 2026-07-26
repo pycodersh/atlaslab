@@ -16,6 +16,12 @@ function persistSavedIds(ids: Set<number>) {
   try { localStorage.setItem(SAVED_KEY, JSON.stringify([...ids])) } catch { /* noop */ }
 }
 
+function firstSentence(text: string | null | undefined): string {
+  if (!text) return ''
+  const idx = text.indexOf('. ')
+  return idx > 0 ? text.slice(0, idx + 1) : text
+}
+
 export function ExpressionPopup({
   expression,
   onClose,
@@ -96,7 +102,7 @@ export function ExpressionPopup({
             {expression.korean}
           </div>
           <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>
-            {expression.description ?? expression.english}
+            {firstSentence(expression.description) || expression.english}
           </div>
         </div>
 
