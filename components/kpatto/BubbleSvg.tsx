@@ -11,6 +11,7 @@ interface BubbleSvgProps {
   tail?: BubbleTailData
   flip?: boolean
   flipY?: boolean
+  highlighted?: boolean
 }
 
 /**
@@ -103,6 +104,7 @@ export function BubbleSvg({
   tail,
   flip,
   flipY,
+  highlighted,
 }: BubbleSvgProps) {
   const d = computePath(viewBoxW, viewBoxH, oval, tail)
 
@@ -127,9 +129,9 @@ export function BubbleSvg({
     >
       <path
         d={d}
-        fill="#ffffff"
-        stroke="#242424"
-        strokeWidth="2.5"
+        fill={highlighted ? '#FFF7EE' : '#ffffff'}
+        stroke={highlighted ? '#D4873A' : '#242424'}
+        strokeWidth={highlighted ? 3 : 2.5}
         strokeLinejoin="round"
         strokeLinecap="round"
         transform={transform}
