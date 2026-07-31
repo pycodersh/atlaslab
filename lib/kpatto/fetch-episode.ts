@@ -237,7 +237,7 @@ export async function fetchEpisodeChallenges(episodeId: string): Promise<Questio
     ...pickN(byType.translation, 2),
     ...pickN(byType.fill_blank, 2),
     ...pickN(byType.word_order, 1),
-  ].sort(() => Math.random() - 0.5)
+  ]
 
   return selected.map((c): Question => {
     if (c.challenge_type === 'translation' || c.challenge_type === 'fill_blank') {
