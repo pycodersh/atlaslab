@@ -187,7 +187,7 @@ function pickN<T>(arr: T[], n: number): T[] {
 type DBChallenge = {
   id: number
   challenge_type: string
-  question: { prompt: string }
+  question: { prompt: string; hint_en?: string }
   options: string[] | null
   answer: string
   word_pieces: string[] | null
@@ -238,6 +238,9 @@ export async function fetchEpisodeChallenges(episodeId: string): Promise<Questio
         prompt: c.question.prompt,
         choices: opts,
         correctIdx: correctIdx >= 0 ? correctIdx : 0,
+        ...(c.challenge_type === 'fill_blank' && c.question.hint_en
+          ? { hint_en: c.question.hint_en }
+          : {}),
       }
       return q
     } else {

@@ -39,6 +39,7 @@ export type TranslationQuestion = {
 export type FillBlankQuestion = {
   type: 'fill_blank'
   prompt: string
+  hint_en?: string
   choices: string[]
   correctIdx: number
 }
@@ -120,6 +121,7 @@ function MCCard({ q, onCorrect, onAdvance }: {
   const [state, setState] = useState<'idle' | 'wrong' | 'correct' | 'revealed'>('idle')
 
   const label = q.type === 'fill_blank' ? 'Fill in the blank.' : 'How do you say this in Korean?'
+  const hintEn = q.type === 'fill_blank' ? (q as FillBlankQuestion).hint_en : undefined
 
   const handleChoice = useCallback((idx: number) => {
     if (state === 'correct' || state === 'revealed') return
@@ -171,6 +173,9 @@ function MCCard({ q, onCorrect, onAdvance }: {
     <div>
       <div style={{ textAlign: 'center', marginBottom: 20 }}>
         <div style={{ fontSize: 13, color: '#999999', marginBottom: 6 }}>{label}</div>
+        {hintEn && (
+          <div style={{ fontSize: 14, color: '#666666', marginBottom: 6, fontStyle: 'italic' }}>{hintEn}</div>
+        )}
         <div style={{ fontSize: 18, fontWeight: 800, color: '#1A1A1A', lineHeight: 1.4 }}>{q.prompt}</div>
       </div>
 
