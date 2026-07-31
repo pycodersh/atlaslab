@@ -152,7 +152,7 @@ export default function KPattoStoryListPage() {
         }}>
           <span style={{ fontSize: 20, flexShrink: 0 }}>📅</span>
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#8B6914' }}>EP 11+ Coming July 31</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#8B6914' }}>EP 31+ Coming Soon</div>
             <div style={{ fontSize: 12, color: '#B38A30', marginTop: 2 }}>New episodes drop every week. Stay tuned!</div>
           </div>
         </div>
