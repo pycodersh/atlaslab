@@ -94,7 +94,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         tail: b.tail ?? undefined,
         highlight_text: b.expression_id != null
           ? (b.dialogue_id != null ? focusMap.get(b.dialogue_id) : undefined) ?? b.highlight_text ?? undefined
-          : undefined,
+          : b.highlight_text ?? undefined,
         expression_id: b.expression_id ?? undefined,
       }))
       return {
