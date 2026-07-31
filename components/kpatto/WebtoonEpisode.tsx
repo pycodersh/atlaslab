@@ -88,7 +88,7 @@ function WebtoonBubbleEl({
     >
       {showKo && (
         <div style={{ fontSize: koFontSize, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, whiteSpace: 'pre-line', letterSpacing: '-0.01em' }}>
-          {renderKorean(bubble.korean, bubble.highlight_text)}
+          {renderKorean(bubble.korean, tappable ? bubble.highlight_text : undefined)}
         </div>
       )}
       {showTrans && (
