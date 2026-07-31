@@ -129,7 +129,7 @@ export function BubbleSvg({
     >
       <path
         d={d}
-        fill={highlighted ? '#FFF7EE' : '#ffffff'}
+        fill={highlighted ? '#FFF8F0' : '#ffffff'}
         stroke={highlighted ? '#D4873A' : '#242424'}
         strokeWidth={highlighted ? 3 : 2.5}
         strokeLinejoin="round"
