@@ -50,17 +50,19 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
 
   const bubbleList = (bubbles ?? []) as DBBubble[]
 
-  // Fetch matched_text from focus mappings (authoritative highlight source)
+  // Fetch expression_id from focus mappings (for dialogue_id → expression chain)
   const dialogueIds = [...new Set(bubbleList.filter(b => b.dialogue_id != null).map(b => b.dialogue_id as number))]
-  const focusMap = new Map<number, string>()
+  const dialogueExpressionMap = new Map<number, number>() // dialogue_id → expression_id
   if (dialogueIds.length > 0) {
     const { data: focusMappings } = await supabase
       .from('kp_dialogue_expressions')
-      .select('dialogue_id, matched_text')
+      .select('dialogue_id, matched_text, expression_id')
       .in('dialogue_id', dialogueIds)
       .eq('role', 'focus')
     for (const m of (focusMappings ?? [])) {
-      focusMap.set(m.dialogue_id as number, m.matched_text as string)
+      if (m.expression_id != null) {
+        dialogueExpressionMap.set(m.dialogue_id as number, m.expression_id as number)
+      }
     }
   }
 
@@ -92,10 +94,10 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         speaker: b.speaker,
         lines: ((b.position?.lines as 1 | 2 | 3) ?? 1),
         tail: b.tail ?? undefined,
-        highlight_text: b.expression_id != null
-          ? (b.dialogue_id != null ? focusMap.get(b.dialogue_id) : undefined) ?? b.highlight_text ?? undefined
-          : b.highlight_text ?? undefined,
-        expression_id: b.expression_id ?? undefined,
+        highlight_text: b.highlight_text ?? undefined,
+        expression_id: b.expression_id ??
+          (b.dialogue_id != null ? dialogueExpressionMap.get(b.dialogue_id) : undefined) ??
+          undefined,
       }))
       return {
         type: 'gap' as const,
