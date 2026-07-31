@@ -8,6 +8,7 @@ const C2 = '/kpatto/ep-019/ep19_c2.png'
 const C3 = '/kpatto/ep-019/ep19_c3.png'
 const C4 = '/kpatto/ep-019/ep19_c4.png'
 const C5 = '/kpatto/ep-019/ep19_c5.png'
+const C6 = '/kpatto/ep-019/ep19_c6.png'
 
 const tailL:    BubbleTailData = { anchor: 0.28, tipX: 0.15, tipY:  0.97, baseWidth: 0.09 }
 const tailR:    BubbleTailData = { anchor: 0.22, tipX: 0.85, tipY:  0.97, baseWidth: 0.09 }
@@ -135,7 +136,29 @@ export const EPISODE_019_WEBTOON: WebtoonEpisodeData = {
     },
     { type: 'panel', id: 'cut-5', imageUrl: C5, layout: 'wide' },
 
-    { type: 'gap', id: 'gap-5', heightRatio: 0.55, bubbles: [] },
+    // ── Gap + CUT 6: 다음 약속 ────────────────────────────────────────
+    {
+      type: 'gap', id: 'gap-5', heightRatio: 0.88,
+      bubbles: [
+        {
+          id: 'b-5-1', bubbleKey: 'bubble-oval',
+          xPct: 22, yPct: 6, widthPct: 74,
+          korean: '인스타 좋아요가 엄청 많아!',
+          translation: 'So many Instagram likes!',
+          speaker: 'sophie', lines: 1, tail: tailR,
+        },
+        {
+          id: 'b-5-2', bubbleKey: 'bubble-oval',
+          xPct: 4, yPct: 56, widthPct: 82,
+          korean: '다음엔 창덕궁도 가자!',
+          translation: 'Let\'s go to Changdeokgung next time!',
+          speaker: 'emma', lines: 1, tail: tailLTop,
+        },
+      ],
+    },
+    { type: 'panel', id: 'cut-6', imageUrl: C6, layout: 'wide' },
+
+    { type: 'gap', id: 'gap-6', heightRatio: 0.55, bubbles: [] },
   ],
 }
 

@@ -1,13 +1,10 @@
 import type { WebtoonEpisodeData, BubbleTailData } from './webtoon-types'
 
-// EP24: 의견 나누기 — 2열 x 3행 레이아웃 (가로2분할 + 세로3컷)
-// c1=좌상, c2=우상, c3=좌중, c4=우중, c5=좌하, c6=우하
 const C1 = '/kpatto/ep-024/ep24_c1.png'
 const C2 = '/kpatto/ep-024/ep24_c2.png'
 const C3 = '/kpatto/ep-024/ep24_c3.png'
 const C4 = '/kpatto/ep-024/ep24_c4.png'
 const C5 = '/kpatto/ep-024/ep24_c5.png'
-const C6 = '/kpatto/ep-024/ep24_c6.png'
 
 const tailL:    BubbleTailData = { anchor: 0.28, tipX: 0.15, tipY:  0.97, baseWidth: 0.09 }
 const tailR:    BubbleTailData = { anchor: 0.22, tipX: 0.85, tipY:  0.97, baseWidth: 0.09 }
@@ -20,7 +17,7 @@ export const EPISODE_024_WEBTOON: WebtoonEpisodeData = {
   title: '의견 나누기',
   theme: '의견 / 음식 토론',
   sections: [
-    // Row 1
+    // ── Gap + CUT 1 ───────────────────────────────────────────────────
     {
       type: 'gap', id: 'gap-0', heightRatio: 0.88,
       bubbles: [
@@ -42,9 +39,8 @@ export const EPISODE_024_WEBTOON: WebtoonEpisodeData = {
       ],
     },
     { type: 'panel', id: 'cut-1', imageUrl: C1, layout: 'wide' },
-    { type: 'panel', id: 'cut-2', imageUrl: C2, layout: 'wide' },
 
-    // Row 2
+    // ── Gap + CUT 2 ───────────────────────────────────────────────────
     {
       type: 'gap', id: 'gap-1', heightRatio: 0.88,
       bubbles: [
@@ -66,10 +62,9 @@ export const EPISODE_024_WEBTOON: WebtoonEpisodeData = {
         },
       ],
     },
-    { type: 'panel', id: 'cut-3', imageUrl: C3, layout: 'wide' },
-    { type: 'panel', id: 'cut-4', imageUrl: C4, layout: 'wide' },
+    { type: 'panel', id: 'cut-2', imageUrl: C2, layout: 'wide' },
 
-    // Row 3
+    // ── Gap + CUT 3 ───────────────────────────────────────────────────
     {
       type: 'gap', id: 'gap-2', heightRatio: 0.88,
       bubbles: [
@@ -89,10 +84,23 @@ export const EPISODE_024_WEBTOON: WebtoonEpisodeData = {
         },
       ],
     },
-    { type: 'panel', id: 'cut-5', imageUrl: C5, layout: 'wide' },
-    { type: 'panel', id: 'cut-6', imageUrl: C6, layout: 'wide' },
+    { type: 'panel', id: 'cut-3', imageUrl: C3, layout: 'wide' },
 
-    { type: 'gap', id: 'gap-6', heightRatio: 0.55, bubbles: [] },
+    // ── Gap + CUT 4 ───────────────────────────────────────────────────
+    {
+      type: 'gap', id: 'gap-3', heightRatio: 0.88,
+      bubbles: [],
+    },
+    { type: 'panel', id: 'cut-4', imageUrl: C4, layout: 'wide' },
+
+    // ── Gap + CUT 5 ───────────────────────────────────────────────────
+    {
+      type: 'gap', id: 'gap-4', heightRatio: 0.88,
+      bubbles: [],
+    },
+    { type: 'panel', id: 'cut-5', imageUrl: C5, layout: 'wide' },
+
+    { type: 'gap', id: 'gap-5', heightRatio: 0.55, bubbles: [] },
   ],
 }
 

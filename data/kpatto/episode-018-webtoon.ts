@@ -8,6 +8,7 @@ const C2 = '/kpatto/ep-018/ep18_c2.png'
 const C3 = '/kpatto/ep-018/ep18_c3.png'
 const C4 = '/kpatto/ep-018/ep18_c4.png'
 const C5 = '/kpatto/ep-018/ep18_c5.png'
+const C6 = '/kpatto/ep-018/ep18_c6.png'
 
 const tailL:    BubbleTailData = { anchor: 0.28, tipX: 0.15, tipY:  0.97, baseWidth: 0.09 }
 const tailR:    BubbleTailData = { anchor: 0.22, tipX: 0.85, tipY:  0.97, baseWidth: 0.09 }
@@ -134,7 +135,29 @@ export const EPISODE_018_WEBTOON: WebtoonEpisodeData = {
     },
     { type: 'panel', id: 'cut-5', imageUrl: C5, layout: 'wide' },
 
-    { type: 'gap', id: 'gap-5', heightRatio: 0.55, bubbles: [] },
+    // ── Gap + CUT 6: 카메라 준비 ──────────────────────────────────────
+    {
+      type: 'gap', id: 'gap-5', heightRatio: 0.88,
+      bubbles: [
+        {
+          id: 'b-5-1', bubbleKey: 'bubble-oval',
+          xPct: 4, yPct: 6, widthPct: 80,
+          korean: '제 카메라 가져올까요?',
+          translation: 'Should I bring my camera?',
+          speaker: 'emma', lines: 1, tail: tailL,
+        },
+        {
+          id: 'b-5-2', bubbleKey: 'bubble-oval',
+          xPct: 22, yPct: 56, widthPct: 76,
+          korean: '당연히! 완전 필수야.',
+          translation: 'Of course! It\'s a must.',
+          speaker: 'minjun', lines: 1, tail: tailRTop,
+        },
+      ],
+    },
+    { type: 'panel', id: 'cut-6', imageUrl: C6, layout: 'wide' },
+
+    { type: 'gap', id: 'gap-6', heightRatio: 0.55, bubbles: [] },
   ],
 }
 
