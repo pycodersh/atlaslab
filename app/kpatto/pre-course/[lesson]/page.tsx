@@ -39,6 +39,7 @@ export default function LessonPage({ params }: PageProps) {
   return (
     <div style={{
       minHeight: '100vh',
+      background: '#FFFFFF',
       paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32,
       maxWidth: 600,
       margin: '0 auto',
@@ -48,54 +49,62 @@ export default function LessonPage({ params }: PageProps) {
         position: 'sticky',
         top: 0,
         zIndex: 10,
-        background: 'var(--pb)',
-        borderBottom: '1px solid var(--border, rgba(0,0,0,0.06))',
-        padding: '12px 16px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
+        background: '#FFFFFF',
+        borderBottom: '1px solid rgba(0,0,0,0.06)',
+        padding: '14px 20px',
       }}>
-        <Link
-          href="/kpatto/pre-course"
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: 10,
-            background: 'var(--pb-alt, rgba(0,0,0,0.05))',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textDecoration: 'none',
-            color: 'var(--pt)',
-            fontSize: 18,
-            flexShrink: 0,
-          }}
-        >
-          ‹
-        </Link>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 10, color: 'var(--pm)', fontWeight: 700, letterSpacing: '0.06em' }}>
-            LESSON {String(lessonId).padStart(2, '0')} · {lesson.duration}
-            {lesson.required ? ` · ${ui.lp_meta_required}` : ` · ${ui.lp_meta_optional}`}
-          </div>
-          <div style={{
-            fontSize: 15,
-            fontWeight: 700,
-            color: 'var(--pt)',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}>
-            {lesson.title[lang] ?? lesson.title.en}
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+          <Link
+            href="/kpatto/pre-course"
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 10,
+              background: 'rgba(0,0,0,0.05)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textDecoration: 'none',
+              color: '#555555',
+              fontSize: 20,
+              flexShrink: 0,
+              marginTop: 2,
+            }}
+          >
+            ‹
+          </Link>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#999999', letterSpacing: '0.04em' }}>
+                LESSON {String(lessonId).padStart(2, '0')} · {lesson.duration}
+              </span>
+              <span style={{
+                fontSize: 9,
+                fontWeight: 800,
+                color: lesson.required ? '#D4873A' : '#6366F1',
+                background: lesson.required ? 'rgba(212,135,58,0.10)' : 'rgba(99,102,241,0.10)',
+                border: `1px solid ${lesson.required ? 'rgba(212,135,58,0.25)' : 'rgba(99,102,241,0.25)'}`,
+                padding: '2px 7px',
+                borderRadius: 99,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase' as const,
+              }}>
+                {lesson.required ? ui.lp_meta_required : ui.lp_meta_optional}
+              </span>
+            </div>
+            <div style={{
+              fontSize: 17,
+              fontWeight: 700,
+              color: '#1a1a2e',
+              lineHeight: 1.3,
+            }}>
+              {lesson.title[lang] ?? lesson.title.en}
+            </div>
+            <div style={{ fontSize: 13, color: '#AAAAAA', marginTop: 3, lineHeight: 1.4 }}>
+              {lesson.subtitle[lang] ?? lesson.subtitle.en}
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Subtitle */}
-      <div style={{ padding: '16px 20px 20px' }}>
-        <p style={{ margin: 0, fontSize: 14, color: 'var(--pm)' }}>
-          {lesson.subtitle[lang] ?? lesson.subtitle.en}
-        </p>
       </div>
 
       {/* Player */}

@@ -21,15 +21,30 @@ import { StackAnimation } from './StackAnimation'
 import { LiaisonArrow } from './LiaisonArrow'
 import { SceneInteractive } from './SceneInteractive'
 import { InteractiveCombine } from './InteractiveCombine'
+import {
+  Languages, BookOpen, Zap, Mic2, Type, GitMerge, Wand2, Layers,
+  BookText, Link2, Wind, Shuffle, VolumeX, MapPin, Lightbulb,
+  type LucideIcon,
+} from 'lucide-react'
+
+const STEP_ICON_MAP: Record<string, LucideIcon> = {
+  Languages, BookOpen, Zap, Mic2, Type, GitMerge, Wand2, Layers,
+  BookText, Link2, Wind, Shuffle, VolumeX, MapPin, Lightbulb,
+}
 
 // ── Step content renderers ────────────────────────────────────────────────────
 
 function InfoStepView({ step, lang }: { step: Extract<LessonStep, { type: 'info' }>; lang: KPattoLanguage }) {
+  const StepIcon = step.icon ? STEP_ICON_MAP[step.icon] : undefined
   return (
     <div style={{ padding: '0 20px' }}>
-      {step.emoji && <div style={{ fontSize: 40, marginBottom: 16 }}>{step.emoji}</div>}
+      {StepIcon && (
+        <div style={{ marginBottom: 14 }}>
+          <StepIcon size={26} strokeWidth={1.8} color="#1A1A1A" />
+        </div>
+      )}
       {step.title && (
-        <h3 style={{ margin: '0 0 10px', fontSize: 18, fontWeight: 800, color: 'var(--pt)' }}>
+        <h3 style={{ margin: '0 0 12px', fontSize: 20, fontWeight: 700, color: '#1a1a2e' }}>
           {step.title[lang] ?? step.title.en}
         </h3>
       )}
@@ -37,7 +52,7 @@ function InfoStepView({ step, lang }: { step: Extract<LessonStep, { type: 'info'
         <div style={{
           fontSize: 60,
           fontWeight: 800,
-          color: '#FF6B8C',
+          color: '#D4873A',
           margin: '16px 0',
           lineHeight: 1.1,
         }}>
@@ -46,16 +61,17 @@ function InfoStepView({ step, lang }: { step: Extract<LessonStep, { type: 'info'
       )}
       <p style={{
         margin: 0,
-        fontSize: 15,
-        lineHeight: 1.7,
-        color: 'var(--pt)',
+        fontSize: 18,
+        lineHeight: 1.85,
+        fontWeight: 500,
+        color: '#1a1a2e',
         whiteSpace: 'pre-line',
         wordBreak: 'keep-all',
       }}>
         {step.body[lang] ?? step.body.en}
       </p>
       {step.note && (
-        <p style={{ marginTop: 12, fontSize: 12, color: 'var(--pm)' }}>
+        <p style={{ marginTop: 14, fontSize: 14, color: '#888888', lineHeight: 1.6 }}>
           {step.note[lang] ?? step.note.en}
         </p>
       )}
@@ -66,7 +82,7 @@ function InfoStepView({ step, lang }: { step: Extract<LessonStep, { type: 'info'
 function RoadmapStepView({ step, lang }: { step: Extract<LessonStep, { type: 'roadmap' }>; lang: KPattoLanguage }) {
   return (
     <div style={{ padding: '0 20px' }}>
-      <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 700, color: 'var(--pt)' }}>
+      <h3 style={{ margin: '0 0 16px', fontSize: 17, fontWeight: 700, color: '#1a1a2e' }}>
         {step.title[lang] ?? step.title.en}
       </h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -127,7 +143,7 @@ function WordPracticeView({ step, lang, lessonId }: { step: Extract<LessonStep, 
   }
   return (
     <div style={{ padding: '0 20px' }}>
-      <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 700, color: 'var(--pt)' }}>
+      <h3 style={{ margin: '0 0 16px', fontSize: 17, fontWeight: 700, color: '#1a1a2e' }}>
         {step.title[lang] ?? step.title.en}
       </h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -354,7 +370,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
         right: 0,
         padding: '16px',
         paddingBottom: 'calc(16px + env(safe-area-inset-bottom))',
-        background: 'linear-gradient(to bottom, transparent, var(--pb, #fff) 40%)',
+        background: 'linear-gradient(to bottom, transparent, #ffffff 40%)',
         zIndex: 10,
       }}>
         <button
@@ -362,17 +378,16 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
           disabled={needsInteract && !interacted}
           style={{
             width: '100%',
-            padding: '14px',
-            borderRadius: 14,
+            padding: '15px',
+            borderRadius: 12,
             border: 'none',
-            background: needsInteract && !interacted
-              ? 'rgba(0,0,0,0.08)'
-              : 'linear-gradient(135deg, #FF6B8C, #FF8C6B)',
-            color: needsInteract && !interacted ? 'var(--pm)' : '#fff',
+            background: needsInteract && !interacted ? 'rgba(0,0,0,0.07)' : '#D4873A',
+            color: needsInteract && !interacted ? '#BBBBBB' : '#fff',
             fontWeight: 800,
-            fontSize: 16,
+            fontSize: 17,
             cursor: needsInteract && !interacted ? 'not-allowed' : 'pointer',
-            transition: 'background 0.3s',
+            transition: 'background 0.2s, opacity 0.2s',
+            letterSpacing: '0.01em',
           }}
         >
           {isLastStep

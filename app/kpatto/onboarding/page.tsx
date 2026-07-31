@@ -217,7 +217,7 @@ export default function KPattoOnboardingPage() {
         >
           <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 16 }}>
             <Image
-              src="/kpatto/banners/KPatto Icon New.png"
+              src="/kpatto/kpatto-icon.png"
               alt="K-PATTO"
               width={80}
               height={80}

@@ -19,7 +19,7 @@ export default function PreCoursePage() {
   const requiredDone = required.filter(l => isLessonComplete(l.id)).length
 
   return (
-    <div style={{ minHeight: '100vh', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
+    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
       {/* Top header row */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 16px 10px' }}>
         <Link href="/kpatto/home" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#111111', flexShrink: 0 }}>
@@ -55,7 +55,7 @@ export default function PreCoursePage() {
           <div style={{ position: 'relative', zIndex: 1, padding: '20px 20px 20px', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', minHeight: 180 }}>
             {storyUnlocked ? (
               <>
-                <div style={{ fontSize: 24, marginBottom: 6 }}>🎉</div>
+                <CheckCircle2 size={28} strokeWidth={1.8} color="#D4873A" style={{ marginBottom: 6 }} />
                 <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 4 }}>{ui.pc_hero_done_heading}</div>
                 <div style={{ fontSize: 13, opacity: 0.75, marginBottom: 14 }}>{ui.pc_hero_done_body}</div>
                 <Link
@@ -102,11 +102,14 @@ export default function PreCoursePage() {
       </div>
 
       {/* Required lessons */}
-      <div style={{ padding: '20px 20px 0' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', marginBottom: 10 }}>
-          {ui.pc_section_required}
+      <div style={{ padding: '24px 20px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+          <div style={{ width: 3, height: 14, borderRadius: 99, background: '#D4873A' }} />
+          <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.1em', color: '#D4873A', textTransform: 'uppercase' }}>
+            {ui.pc_section_required}
+          </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {required.map(lesson => (
             <LessonRow
               key={lesson.id}
@@ -122,11 +125,14 @@ export default function PreCoursePage() {
       </div>
 
       {/* Optional lessons */}
-      <div style={{ padding: '16px 20px 0' }}>
-        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: 'var(--pm)', marginBottom: 10 }}>
-          {ui.pc_section_optional}
+      <div style={{ padding: '24px 20px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+          <div style={{ width: 3, height: 14, borderRadius: 99, background: '#6366F1' }} />
+          <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.1em', color: '#6366F1', textTransform: 'uppercase' }}>
+            {ui.pc_section_optional}
+          </div>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {optional.map(lesson => (
             <LessonRow
               key={lesson.id}
@@ -159,55 +165,69 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor, titleOverride }:
     <div style={{
       display: 'flex',
       alignItems: 'center',
-      gap: 12,
-      background: 'var(--pb)',
-      border: `1.5px solid ${done ? '#22C55E40' : 'var(--border, rgba(0,0,0,0.08))'}`,
-      borderRadius: 16,
-      padding: '14px 16px',
+      gap: 14,
+      background: '#FFFFFF',
+      border: `1.5px solid ${done ? 'rgba(212,135,58,0.25)' : 'rgba(0,0,0,0.07)'}`,
+      borderRadius: 18,
+      padding: '16px 18px',
       opacity: unlocked ? 1 : 0.5,
       textDecoration: 'none',
-      color: 'var(--pt)',
+      color: '#1a1a2e',
+      boxShadow: done
+        ? '0 2px 12px rgba(212,135,58,0.08)'
+        : unlocked
+          ? '0 1px 6px rgba(0,0,0,0.04)'
+          : 'none',
+      transition: 'box-shadow 0.2s, border-color 0.2s',
     }}>
       {/* Number / status */}
       <div style={{
-        width: 40,
-        height: 40,
-        borderRadius: 12,
-        background: done ? '#D4873A18' : 'rgba(0,0,0,0.05)',
+        width: 46,
+        height: 46,
+        borderRadius: 14,
+        background: done
+          ? 'rgba(212,135,58,0.10)'
+          : !unlocked
+            ? 'rgba(0,0,0,0.04)'
+            : `${badgeColor}12`,
+        border: done ? '1px solid rgba(212,135,58,0.20)' : '1px solid transparent',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexShrink: 0,
       }}>
         {done
-          ? <CheckCircle2 size={20} color="#D4873A" />
+          ? <CheckCircle2 size={22} color="#D4873A" />
           : !unlocked
-            ? <Lock size={16} color="#CCCCCC" />
-            : <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--pm)' }}>{String(lesson.id).padStart(2, '0')}</span>
+            ? <Lock size={17} color="#C0C0C0" strokeWidth={2} />
+            : <span style={{ fontSize: 15, fontWeight: 800, color: badgeColor }}>{String(lesson.id).padStart(2, '0')}</span>
         }
       </div>
 
       {/* Info */}
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 5 }}>
           <span style={{
             fontSize: 9,
-            fontWeight: 700,
+            fontWeight: 800,
             color: badgeColor,
-            background: `${badgeColor}18`,
-            padding: '1px 6px',
+            background: `${badgeColor}12`,
+            border: `1px solid ${badgeColor}30`,
+            padding: '2px 8px',
             borderRadius: 99,
-            letterSpacing: '0.04em',
+            letterSpacing: '0.07em',
+            textTransform: 'uppercase' as const,
           }}>
             {badge}
           </span>
-          <span style={{ fontSize: 11, color: 'var(--pm)' }}>
-            {lesson.duration.replace('분', ' min.')}
+          <span style={{ fontSize: 12, color: '#888888', fontWeight: 500 }}>
+            {lesson.duration}
           </span>
         </div>
         <div style={{
-          fontSize: 15,
+          fontSize: 16,
           fontWeight: 700,
+          color: '#1a1a2e',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -217,7 +237,18 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor, titleOverride }:
       </div>
 
       {unlocked && !done && (
-        <span style={{ color: 'var(--pm)', fontSize: 18, flexShrink: 0 }}>›</span>
+        <div style={{
+          width: 28,
+          height: 28,
+          borderRadius: 99,
+          background: `${badgeColor}12`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+        }}>
+          <span style={{ color: badgeColor, fontSize: 16, lineHeight: 1, marginLeft: 2 }}>›</span>
+        </div>
       )}
     </div>
   )

@@ -10,6 +10,12 @@ export function useKPattoSubscription() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    if (process.env.NEXT_PUBLIC_DEV_PRO === 'true') {
+      setIsPro(true)
+      setLoading(false)
+      return
+    }
+
     if (!user) {
       setIsPro(false)
       setLoading(false)

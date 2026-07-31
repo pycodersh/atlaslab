@@ -88,7 +88,7 @@ export function CombineAnimation({ step, lang }: Props) {
         </div>
 
         <div style={{ fontSize: 12, color: 'var(--pm)', marginTop: 8 }}>
-          {pairIdx + 1} / {step.pairs.length} — 탭해서 다음
+          {pairIdx + 1} / {step.pairs.length} — Tap to continue
         </div>
       </div>
 

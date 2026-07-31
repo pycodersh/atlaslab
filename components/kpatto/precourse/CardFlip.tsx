@@ -107,7 +107,7 @@ export function CardFlipGrid({ step, lang, lessonId, onAllFlipped }: Props) {
       </div>
 
       <div style={{ marginTop: 12, fontSize: 11, color: 'var(--pm)', textAlign: 'center' }}>
-        {flipped.size}/{step.cards.length} 카드 확인
+        {flipped.size}/{step.cards.length} cards revealed
       </div>
     </div>
   )

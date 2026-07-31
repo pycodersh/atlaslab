@@ -4,7 +4,7 @@ import type { MultiLangText } from '../types'
 
 export interface InfoStep {
   type: 'info'
-  emoji?: string
+  icon?: string
   title?: MultiLangText
   body: MultiLangText
   highlight?: string   // large Korean display

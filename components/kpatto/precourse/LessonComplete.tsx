@@ -1,5 +1,6 @@
 'use client'
 
+import { CheckCircle2, Unlock, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { getUI } from '@/lib/kpatto/ui-strings'
@@ -22,14 +23,14 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
 
   return (
     <div style={{ textAlign: 'center', padding: '40px 24px' }}>
-      {passed && (
-        <div style={{ fontSize: 32, marginBottom: 16, animation: 'kp-bounce 0.6s ease' }}>
-          {isStoryUnlock ? '🎊' : '🎉'}
-        </div>
-      )}
-      {!passed && (
-        <div style={{ fontSize: 32, marginBottom: 16 }}>😅</div>
-      )}
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+        {passed
+          ? isStoryUnlock
+            ? <Unlock size={44} strokeWidth={1.8} color="#D4873A" />
+            : <CheckCircle2 size={44} strokeWidth={1.8} color="#D4873A" />
+          : <RefreshCw size={44} strokeWidth={1.8} color="#888888" />
+        }
+      </div>
 
       {hasQuiz && (
         <div style={{
@@ -38,20 +39,20 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
           gap: 4,
           marginBottom: 12,
         }}>
-          <span style={{ fontSize: 48, fontWeight: 800, color: passed ? '#4CAF50' : '#EF5350' }}>
+          <span style={{ fontSize: 48, fontWeight: 800, color: passed ? '#D4873A' : '#888888' }}>
             {score}
           </span>
-          <span style={{ fontSize: 22, color: 'var(--pm)' }}>/ {total}</span>
+          <span style={{ fontSize: 22, color: '#AAAAAA' }}>/ {total}</span>
         </div>
       )}
 
-      <h2 style={{ margin: '0 0 8px', fontSize: 22, fontWeight: 800, color: 'var(--pt)' }}>
+      <h2 style={{ margin: '0 0 8px', fontSize: 22, fontWeight: 800, color: '#1a1a2e' }}>
         {passed
           ? isStoryUnlock ? t.lc_master : t.lc_passed
           : t.lc_failed}
       </h2>
 
-      <p style={{ margin: '0 0 28px', fontSize: 14, color: 'var(--pm)', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
+      <p style={{ margin: '0 0 28px', fontSize: 14, color: '#888888', lineHeight: 1.6, whiteSpace: 'pre-line' }}>
         {passed
           ? isStoryUnlock
             ? t.lc_body_unlock
@@ -67,12 +68,12 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
             href="/kpatto/story/kp-ep-001?welcome=1"
             style={{
               display: 'block',
-              background: 'linear-gradient(135deg, #FF6B8C, #FF8C6B)',
+              background: '#D4873A',
               color: '#fff',
               fontWeight: 800,
               fontSize: 15,
               padding: '14px 20px',
-              borderRadius: 14,
+              borderRadius: 12,
               textDecoration: 'none',
               textAlign: 'center',
             }}
@@ -85,12 +86,12 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
           <button
             onClick={onContinue}
             style={{
-              background: 'linear-gradient(135deg, #FF6B8C, #FF8C6B)',
+              background: '#D4873A',
               color: '#fff',
               fontWeight: 800,
               fontSize: 15,
               padding: '14px 20px',
-              borderRadius: 14,
+              borderRadius: 12,
               border: 'none',
               cursor: 'pointer',
             }}
@@ -103,12 +104,12 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
           <button
             onClick={onRetry}
             style={{
-              background: 'linear-gradient(135deg, #FF6B8C, #FF8C6B)',
+              background: '#D4873A',
               color: '#fff',
               fontWeight: 800,
               fontSize: 15,
               padding: '14px 20px',
-              borderRadius: 14,
+              borderRadius: 12,
               border: 'none',
               cursor: 'pointer',
             }}
@@ -121,11 +122,11 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
           onClick={onContinue}
           style={{
             background: 'none',
-            border: '1.5px solid var(--border, rgba(0,0,0,0.1))',
-            borderRadius: 14,
+            border: '1.5px solid rgba(0,0,0,0.10)',
+            borderRadius: 12,
             padding: '12px 20px',
             cursor: 'pointer',
-            color: 'var(--pm)',
+            color: '#888888',
             fontSize: 14,
             fontWeight: 600,
           }}
@@ -133,14 +134,6 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
           {t.lc_cta_list}
         </button>
       </div>
-
-      <style>{`
-        @keyframes kp-bounce {
-          0% { transform: scale(0.5); opacity: 0; }
-          60% { transform: scale(1.2); }
-          100% { transform: scale(1); opacity: 1; }
-        }
-      `}</style>
     </div>
   )
 }

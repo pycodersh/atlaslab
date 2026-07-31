@@ -5,13 +5,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 1,
     required: true,
-    duration: '3분',
+    duration: '3 min',
     title: { en: 'What is Hangul?', ko: '한글이란?' },
     subtitle: { en: 'The world\'s most learnable writing system', ko: '세계에서 가장 배우기 쉬운 문자예요' },
     steps: [
       {
         type: 'info',
-        emoji: '👋',
+        icon: 'Languages',
         body: {
           en: 'When you learn English, you start with the alphabet.\nFor Korean, you start with Hangul.\nYou can learn to read Hangul in one day!',
           ko: '영어를 배울 때 알파벳을 먼저 배우죠?\n한국어는 한글을 먼저 배워요.\n한글은 하루면 읽을 수 있어요.',
@@ -19,7 +19,7 @@ export const LESSONS: LessonConfig[] = [
       },
       {
         type: 'info',
-        emoji: '👑',
+        icon: 'BookOpen',
         title: { en: 'King Sejong, 1443', ko: '세종대왕, 1443년' },
         body: {
           en: 'King Sejong created Hangul so that everyone could easily read and write. It\'s a scientific writing system based on the shape of the mouth.',
@@ -52,7 +52,7 @@ export const LESSONS: LessonConfig[] = [
       },
       {
         type: 'info',
-        emoji: '🚀',
+        icon: 'Zap',
         body: {
           en: 'Ready? Let\'s start with vowels!',
           ko: '준비됐어요? 모음부터 시작해요!',
@@ -66,13 +66,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 2,
     required: true,
-    duration: '7분',
+    duration: '7 min',
     title: { en: 'Basic Vowels', ko: '기본 모음 8개' },
     subtitle: { en: 'The backbone of Hangul', ko: '한글의 뼈대, 모음부터 시작해요' },
     steps: [
       {
         type: 'info',
-        emoji: '🔵',
+        icon: 'Mic2',
         body: {
           en: 'Korean has 8 basic vowels. Vowels are the core of every syllable.\nHangul vowels were inspired by heaven (·), earth (ㅡ), and human (ㅣ).',
           ko: '한글 모음은 8개예요. 모음은 소리의 핵심이에요.\n하늘(·), 땅(ㅡ), 사람(ㅣ)을 본떠 만들었어요.',
@@ -164,13 +164,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 3,
     required: true,
-    duration: '8분',
+    duration: '8 min',
     title: { en: 'Basic Consonants', ko: '기본 자음 14개' },
     subtitle: { en: 'The start of every sound', ko: '자음은 소리의 시작이에요' },
     steps: [
       {
         type: 'info',
-        emoji: '🔤',
+        icon: 'Type',
         body: {
           en: 'Korean has 14 basic consonants — far fewer than English\'s 26 letters!\nWe\'ll split them into 2 groups.',
           ko: '한글 자음은 14개예요 — 영어 알파벳 26개보다 훨씬 적어요!\n2그룹으로 나눠서 배울게요.',
@@ -269,13 +269,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 4,
     required: true,
-    duration: '8분',
+    duration: '8 min',
     title: { en: 'Consonant + Vowel', ko: '자음 + 모음 결합' },
     subtitle: { en: 'Now let\'s build syllables', ko: '이제 글자를 만들어요' },
     steps: [
       {
         type: 'info',
-        emoji: '✨',
+        icon: 'GitMerge',
         body: {
           en: 'Just two rules let you build every Korean syllable.\nThe shape of the vowel decides where the consonant goes.',
           ko: '딱 두 가지 규칙만 알면 모든 글자를 만들 수 있어요.\n모음 모양을 보면 자음이 어디 갈지 알 수 있어요.',
@@ -363,13 +363,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 5,
     required: true,
-    duration: '8분',
+    duration: '8 min',
     title: { en: 'Diphthongs', ko: '이중모음 11개' },
     subtitle: { en: 'When vowels combine, new sounds emerge', ko: '모음이 합쳐지면 새로운 소리가 나요' },
     steps: [
       {
         type: 'info',
-        emoji: '🌀',
+        icon: 'Wand2',
         body: {
           en: 'Some vowels combine to make new sounds.\nDon\'t overthink it — just say the two sounds fast together!',
           ko: '모음끼리 합쳐지면 새로운 소리가 나요.\n어렵게 생각하지 말고, 두 소리를 빠르게 이어서 읽으면 돼요.',
@@ -448,13 +448,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 6,
     required: true,
-    duration: '8분',
+    duration: '8 min',
     title: { en: 'Final Consonants (받침)', ko: '받침' },
     subtitle: { en: 'The consonant at the bottom of a syllable', ko: '글자 아래에 자음이 오면 받침이에요' },
     steps: [
       {
         type: 'info',
-        emoji: '🏗️',
+        icon: 'Layers',
         body: {
           en: 'Korean syllables can have up to 3 layers:\n① Consonant\n② Vowel\n③ Final consonant (받침)\n\n받침 is the consonant at the bottom.',
           ko: '한글 글자는 최대 3층 구조예요:\n① 자음\n② 모음\n③ 받침\n\n받침은 3층에 오는 자음이에요.',
@@ -541,13 +541,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 7,
     required: false,
-    duration: '7분',
+    duration: '7 min',
     title: { en: 'Reading Practice', ko: '단어로 읽기 연습' },
     subtitle: { en: 'Real Korean words you already know', ko: '이미 알고 있는 한국어 단어를 읽어요' },
     steps: [
       {
         type: 'info',
-        emoji: '📖',
+        icon: 'BookText',
         body: {
           en: 'You already know some Korean words! Let\'s read them in Hangul.',
           ko: '이미 알고 있는 한국어 단어들을 한글로 읽어봐요.',
@@ -596,13 +596,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 8,
     required: false,
-    duration: '6분',
+    duration: '6 min',
     title: { en: 'Pronunciation Rule 1', ko: '발음 규칙 1 — 연음' },
     subtitle: { en: 'When letters blend across syllables', ko: '글자대로 읽으면 안 될 때가 있어요' },
     steps: [
       {
         type: 'info',
-        emoji: '🔗',
+        icon: 'Link2',
         body: {
           en: 'In Korean, written form and spoken form can differ.\nWhen a coda meets a vowel, the coda moves to the next syllable.',
           ko: '한국어는 쓰는 것과 읽는 것이 조금 달라요.\n받침 뒤에 모음이 오면 받침이 다음 글자로 넘어가요.',
@@ -655,13 +655,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 9,
     required: false,
-    duration: '6분',
+    duration: '6 min',
     title: { en: 'Pronunciation Rule 2', ko: '발음 규칙 2 — 격음화·ㅎ 약화' },
     subtitle: { en: 'ㅎ changes the sounds around it', ko: 'ㅎ이 옆 소리를 바꿔요' },
     steps: [
       {
         type: 'info',
-        emoji: '💨',
+        icon: 'Wind',
         body: {
           en: 'ㅎ is a special consonant — it transforms nearby sounds.\nNo need to memorize — you\'ll pick it up as you listen!',
           ko: 'ㅎ은 옆에 오는 자음을 바꾸는 특별한 소리예요.\n외울 필요 없어요, 들으면서 익히면 돼요.',
@@ -669,7 +669,7 @@ export const LESSONS: LessonConfig[] = [
       },
       {
         type: 'info',
-        emoji: '🔀',
+        icon: 'Shuffle',
         title: { en: 'Aspiration (격음화)', ko: '격음화' },
         body: {
           en: 'ㄱ + ㅎ → [ㅋ]  예: 축하 → [추카]\nㄷ + ㅎ → [ㅌ]  예: 좋다 → [조타]\nㅂ + ㅎ → [ㅍ]  예: 입학 → [이팍]\nㅈ + ㅎ → [ㅊ]  예: 좋지 → [조치]',
@@ -678,7 +678,7 @@ export const LESSONS: LessonConfig[] = [
       },
       {
         type: 'info',
-        emoji: '🌫️',
+        icon: 'VolumeX',
         title: { en: 'ㅎ weakening', ko: 'ㅎ 약화/탈락' },
         body: {
           en: 'When ㅎ appears between vowels, it weakens or disappears:\n좋아요 → [조아요]\n많아요 → [마나요]',
@@ -717,13 +717,13 @@ export const LESSONS: LessonConfig[] = [
   {
     id: 10,
     required: false,
-    duration: '9분',
+    duration: '9 min',
     title: { en: 'Real-World Reading', ko: '실전 읽기' },
     subtitle: { en: 'Read Korean in the wild', ko: '한국 거리에서 바로 읽어봐요' },
     steps: [
       {
         type: 'info',
-        emoji: '🏙️',
+        icon: 'MapPin',
         body: {
           en: 'Time to take Hangul into the real world!\nCafé menus, subway signs, K-pop album covers — let\'s go!',
           ko: '이제 한국 거리로 나가봐요!\n카페 메뉴판, 지하철 역명, K-pop 앨범까지!',
@@ -755,7 +755,7 @@ export const LESSONS: LessonConfig[] = [
       },
       {
         type: 'info',
-        emoji: '🎵',
+        icon: 'Lightbulb',
         title: { en: 'Consonant cluster hint (겹받침)', ko: '겹받침 맛보기' },
         body: {
           en: 'Some words have TWO final consonants — only one is pronounced:\n닭 → [닥] (chicken)\n삶 → [삼] (life)\n읽다 → [익따] (to read)\n\nTip: When in doubt, pronounce the first one!',
