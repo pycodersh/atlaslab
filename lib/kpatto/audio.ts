@@ -23,21 +23,6 @@ export function patternAudioUrl(episodeId: string, patternIndex: number): string
   return `/kpatto/audio/${ep}/${ep}-p${String(patternIndex + 1).padStart(3, '0')}.wav`
 }
 
-// Cache of confirmed-existing URLs to avoid repeated HEAD requests
-const existsCache = new Map<string, boolean>()
-
-async function fileExists(url: string): Promise<boolean> {
-  if (existsCache.has(url)) return existsCache.get(url)!
-  try {
-    const res = await fetch(url, { method: 'HEAD' })
-    const ok = res.ok
-    existsCache.set(url, ok)
-    return ok
-  } catch {
-    return false
-  }
-}
-
 // Currently playing Audio element — stop before starting a new one
 let currentAudio: HTMLAudioElement | null = null
 
@@ -49,12 +34,15 @@ function stopCurrent() {
   }
 }
 
-// Play a WAV file. Returns true only after it plays to completion.
-// Returns false immediately if file doesn't exist (HEAD 404).
-export async function tryPlayAudio(url: string): Promise<boolean> {
-  const exists = await fileExists(url)
-  if (!exists) return false
+// Stop all audio (no browser TTS — DB audio only)
+export function stopAllAudio() {
+  stopCurrent()
+  if (typeof window !== 'undefined') window.speechSynthesis?.cancel()
+}
 
+// Play a URL directly. No HEAD pre-check, no TTS fallback.
+// Returns true on successful playback, false on error/skip.
+export async function tryPlayAudio(url: string): Promise<boolean> {
   return new Promise(resolve => {
     stopCurrent()
     const audio = new Audio(url)
@@ -65,32 +53,8 @@ export async function tryPlayAudio(url: string): Promise<boolean> {
   })
 }
 
-// Play text via browser TTS.
-export function speakTTS(text: string, rate = 0.9): Promise<void> {
-  return new Promise(resolve => {
-    if (typeof window === 'undefined' || !window.speechSynthesis) { resolve(); return }
-    window.speechSynthesis.cancel()
-    const utt = new SpeechSynthesisUtterance(text)
-    utt.lang = 'ko-KR'
-    utt.rate = rate
-    utt.onend = () => resolve()
-    utt.onerror = () => resolve()
-    window.speechSynthesis.speak(utt)
-  })
-}
-
-// Stop all audio (WAV + TTS)
-export function stopAllAudio() {
-  stopCurrent()
-  if (typeof window !== 'undefined') window.speechSynthesis?.cancel()
-}
-
-// Play WAV if file exists, fallback to TTS only when confirmed missing.
-export async function playWithFallback(url: string | null, text: string): Promise<void> {
-  if (url) {
-    const ok = await tryPlayAudio(url)
-    if (ok) return
-  }
-  stopCurrent()
-  await speakTTS(text)
+// Play DB audio if URL is available. Never falls back to browser TTS.
+export async function playWithFallback(url: string | null, _text: string): Promise<void> {
+  if (!url) return
+  await tryPlayAudio(url)
 }

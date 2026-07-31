@@ -16,10 +16,15 @@ function persistSavedIds(ids: Set<number>) {
   try { localStorage.setItem(SAVED_KEY, JSON.stringify([...ids])) } catch { /* noop */ }
 }
 
-function firstSentence(text: string | null | undefined): string {
-  if (!text) return ''
-  const idx = text.indexOf('. ')
-  return idx > 0 ? text.slice(0, idx + 1) : text
+// Strip leading sentence from description when it duplicates the gloss meaning.
+// Returns description without the first sentence if the first sentence ends with '. '
+function descriptionBody(description: string | null | undefined, gloss: string | null | undefined): string {
+  if (!description) return ''
+  if (!gloss) return description
+  const idx = description.indexOf('. ')
+  if (idx < 0) return description
+  // Always strip first sentence when gloss is present — the gloss replaces it
+  return description.slice(idx + 2).trim()
 }
 
 export function ExpressionPopup({
@@ -101,16 +106,18 @@ export function ExpressionPopup({
           <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: 4, paddingRight: 32 }}>
             {expression.korean}
           </div>
-          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', fontWeight: 500 }}>
-            {firstSentence(expression.description) || expression.english}
-          </div>
+          {expression.english && expression.english !== expression.korean && (
+            <div style={{ fontSize: 13, color: '#FFF0DC', fontWeight: 600 }}>
+              {expression.english}
+            </div>
+          )}
         </div>
 
         {/* Body */}
         <div style={{ padding: '14px 16px 0' }}>
           {expression.description && (
             <p style={{ fontSize: 14, color: '#444', lineHeight: 1.6, margin: '0 0 10px' }}>
-              {expression.description}
+              {descriptionBody(expression.description, expression.english !== expression.korean ? expression.english : null)}
             </p>
           )}
 

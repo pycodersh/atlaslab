@@ -3,11 +3,11 @@
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { ChevronLeft, Volume2 } from 'lucide-react'
-import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection, WebtoonCropSection } from '@/data/kpatto/webtoon-types'
+import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection, WebtoonCropSection, WebtoonSection } from '@/data/kpatto/webtoon-types'
 import type { KPattoExpression } from '@/data/kpatto/types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
-import { bubbleAudioUrl, playWithFallback, stopAllAudio } from '@/lib/kpatto/audio'
+import { playWithFallback, stopAllAudio } from '@/lib/kpatto/audio'
 import { fetchExpression } from '@/lib/kpatto/fetch-episode'
 import { ExpressionPopup } from './ExpressionPopup'
 
@@ -195,6 +195,75 @@ function GapSection({
   )
 }
 
+// ── Split / stack group helpers ───────────────────────────────────────────────
+type SectionGroup =
+  | { kind: 'single'; section: WebtoonSection }
+  | { kind: 'split'; panels: WebtoonPanelSection[] }
+  | { kind: 'stack'; left: WebtoonPanelSection; rightTop: WebtoonPanelSection; rightBottom: WebtoonPanelSection }
+
+function groupSections(sections: WebtoonSection[]): SectionGroup[] {
+  const result: SectionGroup[] = []
+  let i = 0
+  while (i < sections.length) {
+    const s = sections[i]
+    if (s.type === 'panel' && s.layout.startsWith('split:')) {
+      const next = sections[i + 1]
+      if (next && next.type === 'panel' && next.layout.startsWith('stack-t:')) {
+        const nn = sections[i + 2]
+        if (nn && nn.type === 'panel' && nn.layout === 'stack-b') {
+          result.push({ kind: 'stack', left: s, rightTop: next, rightBottom: nn })
+          i += 3
+          continue
+        }
+      }
+      const splitPanels: WebtoonPanelSection[] = [s]
+      i++
+      while (i < sections.length) {
+        const ns = sections[i]
+        if (ns.type === 'panel' && ns.layout.startsWith('split:')) {
+          splitPanels.push(ns)
+          i++
+        } else break
+      }
+      result.push({ kind: 'split', panels: splitPanels })
+      continue
+    }
+    result.push({ kind: 'single', section: s })
+    i++
+  }
+  return result
+}
+
+function SplitGroup({ group }: { group: Exclude<SectionGroup, { kind: 'single' }> }) {
+  if (group.kind === 'stack') {
+    const leftW  = parseFloat(group.left.layout.replace('split:', ''))
+    const rightW = parseFloat(group.rightTop.layout.replace('stack-t:', ''))
+    return (
+      <div style={{ display: 'flex', width: '100%' }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={group.left.imageUrl} alt="" style={{ width: `${leftW}%`, height: 'auto', display: 'block' }} />
+        <div style={{ width: `${rightW}%`, display: 'flex', flexDirection: 'column' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={group.rightTop.imageUrl}    alt="" style={{ width: '100%', height: 'auto', display: 'block' }} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={group.rightBottom.imageUrl} alt="" style={{ width: '100%', height: 'auto', display: 'block' }} />
+        </div>
+      </div>
+    )
+  }
+  return (
+    <div style={{ display: 'flex', width: '100%' }}>
+      {group.panels.map(panel => {
+        const w = parseFloat(panel.layout.replace('split:', ''))
+        return (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={panel.id} src={panel.imageUrl} alt="" style={{ width: `${w}%`, height: 'auto', display: 'block' }} />
+        )
+      })}
+    </div>
+  )
+}
+
 // ── Panel section ────────────────────────────────────────────────────────────
 function PanelSection({ section }: { section: WebtoonPanelSection }) {
   const isWide = section.layout === 'wide'
@@ -363,8 +432,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
       if (stopRef.current) break
       const b = allBubbles[i]
       setPlayingId(b.id)
-      const url = bubbleAudioUrl(episode.id, b.id)
-      await playWithFallback(url, b.korean)
+      await playWithFallback(b.audio_url ?? null, b.korean)
     }
 
     setIsPlaying(false)
@@ -432,7 +500,11 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
 
       {/* Sections */}
       <div style={{ opacity: bubblesReady ? 1 : 0, transition: bubblesReady ? 'opacity 0.3s' : 'none', visibility: bubblesReady ? 'visible' : 'hidden' }}>
-      {resolvedEpisode.sections.map(section => {
+      {groupSections(resolvedEpisode.sections).map((group, gi) => {
+        if (group.kind !== 'single') {
+          return <SplitGroup key={`sg-${gi}`} group={group} />
+        }
+        const section = group.section
         if (section.type === 'gap') {
           return (
             <GapSection

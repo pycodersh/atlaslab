@@ -29,7 +29,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
       .order('order_num'),
     supabase
       .from('kp_bubbles')
-      .select('panel_id, order_num, speaker, korean, translations, position, tail, highlight_text, expression_id, dialogue_id')
+      .select('panel_id, order_num, speaker, korean, translations, position, tail, dialogue_id, audio_url')
       .eq('episode_id', ep.id)
       .order('order_num'),
   ])
@@ -43,30 +43,29 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     translations: Record<string, string> | null
     position: Record<string, unknown> | null
     tail: BubbleTailData | null
-    highlight_text: string | null
-    expression_id: number | null
     dialogue_id: number | null
+    audio_url: string | null
   }
 
   const bubbleList = (bubbles ?? []) as DBBubble[]
 
-  // Build dialogue_id → expression_id + matched_text maps via kp_dialogue_expressions(role='focus')
+  // kp_dialogues is the single source of truth for dialogue text.
+  // Fetch text_ko for all linked bubbles; fall back to kp_bubbles.korean for unlinked ones (dialogue_id = null).
   const dialogueIds = [...new Set(bubbleList.filter(b => b.dialogue_id != null).map(b => b.dialogue_id as number))]
+  const dialogueTextMap = new Map<number, string>()     // dialogue_id → text_ko
   const dialogueExpressionMap = new Map<number, number>() // dialogue_id → expression_id
-  const highlightMap = new Map<number, string>()          // dialogue_id → matched_text (for orange text)
+  const highlightMap = new Map<number, string>()           // dialogue_id → matched_text (for orange text)
   if (dialogueIds.length > 0) {
-    const { data: focusMappings } = await supabase
-      .from('kp_dialogue_expressions')
-      .select('dialogue_id, matched_text, expression_id')
-      .in('dialogue_id', dialogueIds)
-      .eq('role', 'focus')
+    const [{ data: dialogueRows }, { data: focusMappings }] = await Promise.all([
+      supabase.from('kp_dialogues').select('id, text_ko').in('id', dialogueIds),
+      supabase.from('kp_dialogue_expressions').select('dialogue_id, matched_text, expression_id').in('dialogue_id', dialogueIds).eq('role', 'focus'),
+    ])
+    for (const d of (dialogueRows ?? [])) {
+      if (d.text_ko != null) dialogueTextMap.set(d.id as number, d.text_ko as string)
+    }
     for (const m of (focusMappings ?? [])) {
-      if (m.expression_id != null) {
-        dialogueExpressionMap.set(m.dialogue_id as number, m.expression_id as number)
-      }
-      if (m.matched_text != null) {
-        highlightMap.set(m.dialogue_id as number, m.matched_text as string)
-      }
+      if (m.expression_id != null) dialogueExpressionMap.set(m.dialogue_id as number, m.expression_id as number)
+      if (m.matched_text != null) highlightMap.set(m.dialogue_id as number, m.matched_text as string)
     }
   }
 
@@ -93,19 +92,16 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         xPct: (b.position?.xPct as number) ?? 0,
         yPct: (b.position?.yPct as number) ?? 0,
         widthPct: (b.position?.widthPct as number) ?? 50,
-        korean: b.korean,
+        korean: (b.dialogue_id != null ? dialogueTextMap.get(b.dialogue_id) : undefined) ?? b.korean,
         translation: b.translations?.en ?? '',
         speaker: b.speaker,
         lines: ((b.position?.lines as 1 | 2 | 3) ?? 1),
         tail: b.tail ?? undefined,
-        // highlight_text: dialogue chain matched_text takes priority; fall back to
-        // b.highlight_text only when dialogue_id is absent but expression_id is set (e.g. EP11).
-        highlight_text: b.dialogue_id != null
-          ? (highlightMap.get(b.dialogue_id) ?? undefined)
-          : (b.expression_id != null ? (b.highlight_text ?? undefined) : undefined),
-        expression_id: b.expression_id ??
-          (b.dialogue_id != null ? dialogueExpressionMap.get(b.dialogue_id) : undefined) ??
-          undefined,
+        // highlight_text and expression_id come solely from kp_dialogue_expressions via dialogue_id.
+        // matched_text is searched as a substring in the displayed korean text to render orange.
+        highlight_text: b.dialogue_id != null ? (highlightMap.get(b.dialogue_id) ?? undefined) : undefined,
+        expression_id: b.dialogue_id != null ? (dialogueExpressionMap.get(b.dialogue_id) ?? undefined) : undefined,
+        audio_url: b.audio_url ?? undefined,
       }))
       return {
         type: 'gap' as const,
@@ -119,7 +115,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         type: 'panel' as const,
         id: `cut-${panelCount}`,
         imageUrl: p.image_url ?? '',
-        layout: (p.layout ?? 'wide') as 'wide' | 'medium-right' | 'medium-left' | 'small-center' | 'small-center-l',
+        layout: (p.layout ?? 'wide') as string,
       }
     } else {
       return {

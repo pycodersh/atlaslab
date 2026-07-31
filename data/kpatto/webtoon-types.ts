@@ -28,6 +28,7 @@ export interface WebtoonBubble {
   tail?: BubbleTailData // if present, renders dynamic tail (body-only bubble keys)
   highlight_text?: string // substring of korean to render in orange (#D4873A)
   expression_id?: number  // foreign key to kp_expressions; set when tap popup is available
+  audio_url?: string      // Supabase Storage URL for pre-generated TTS mp3
 }
 
 export interface WebtoonGapSection {
@@ -41,7 +42,7 @@ export interface WebtoonPanelSection {
   type: 'panel'
   id: string
   imageUrl: string
-  layout: 'wide' | 'medium-right' | 'medium-left' | 'small-center' | 'small-center-l'
+  layout: 'wide' | 'medium-right' | 'medium-left' | 'small-center' | 'small-center-l' | string
 }
 
 /**
