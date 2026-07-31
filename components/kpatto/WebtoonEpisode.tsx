@@ -27,10 +27,15 @@ function getBubbleMeta(key: string) {
 }
 
 // ── Highlight helper ─────────────────────────────────────────────────────────
+const KOREAN_RE = /[가-힣]/
+
 function renderKorean(text: string, highlight?: string): React.ReactNode {
   if (!highlight) return text
   const idx = text.indexOf(highlight)
   if (idx === -1) return text
+  // Reject mid-word partial match: if highlight has no space and the preceding
+  // character is a Korean syllable, it's embedded inside another word.
+  if (!highlight.includes(' ') && idx > 0 && KOREAN_RE.test(text[idx - 1])) return text
   return (
     <>
       {text.slice(0, idx)}
