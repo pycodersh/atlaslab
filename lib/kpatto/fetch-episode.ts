@@ -75,57 +75,95 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     byPanel.get(b.panel_id)!.push(b)
   }
 
+  type DBPanel = {
+    id: number; order_num: number; type: string
+    image_url: string | null; layout: string | null; height_ratio: number | null
+  }
+  const panelList = (panels ?? []) as DBPanel[]
+  const hasGaps = panelList.some(p => p.type === 'gap')
+
   let gapCount = 0
   let panelCount = 0
-  const sections: WebtoonSection[] = (panels as Array<{
-    id: number
-    order_num: number
-    type: string
-    image_url: string | null
-    layout: string | null
-    height_ratio: number | null
-  }>).map(p => {
-    if (p.type === 'gap') {
-      const panelBubbles: WebtoonBubble[] = (byPanel.get(p.id) ?? []).map((b, i) => ({
-        id: `b-${p.order_num}-${i + 1}`,
-        bubbleKey: (b.position?.bubbleKey as string) ?? 'bubble-oval',
-        xPct: (b.position?.xPct as number) ?? 0,
-        yPct: (b.position?.yPct as number) ?? 0,
-        widthPct: (b.position?.widthPct as number) ?? 50,
-        korean: (b.dialogue_id != null ? dialogueTextMap.get(b.dialogue_id) : undefined) ?? b.korean,
-        translation: b.translations?.en ?? '',
-        speaker: b.speaker,
-        lines: ((b.position?.lines as 1 | 2 | 3) ?? 1),
-        tail: b.tail ?? undefined,
-        // highlight_text and expression_id come solely from kp_dialogue_expressions via dialogue_id.
-        // matched_text is searched as a substring in the displayed korean text to render orange.
-        highlight_text: b.dialogue_id != null ? (highlightMap.get(b.dialogue_id) ?? undefined) : undefined,
-        expression_id: b.dialogue_id != null ? (dialogueExpressionMap.get(b.dialogue_id) ?? undefined) : undefined,
-        audio_url: b.audio_url ?? undefined,
-      }))
-      return {
-        type: 'gap' as const,
-        id: `gap-${gapCount++}`,
-        heightRatio: p.height_ratio ?? 0.88,
-        bubbles: panelBubbles,
+
+  const mapBubble = (b: DBBubble, id: string): WebtoonBubble => ({
+    id,
+    bubbleKey:      (b.position?.bubbleKey as string) ?? 'bubble-oval',
+    xPct:           (b.position?.xPct     as number) ?? 0,
+    yPct:           (b.position?.yPct     as number) ?? 0,
+    widthPct:       (b.position?.widthPct as number) ?? 50,
+    korean:         (b.dialogue_id != null ? dialogueTextMap.get(b.dialogue_id) : undefined) ?? b.korean,
+    translation:    b.translations?.en ?? '',
+    speaker:        b.speaker,
+    lines:          ((b.position?.lines as 1 | 2 | 3) ?? 1),
+    tail:           b.tail ?? undefined,
+    highlight_text: b.dialogue_id != null ? (highlightMap.get(b.dialogue_id)          ?? undefined) : undefined,
+    expression_id:  b.dialogue_id != null ? (dialogueExpressionMap.get(b.dialogue_id) ?? undefined) : undefined,
+    audio_url:      b.audio_url ?? undefined,
+  })
+
+  let sections: WebtoonSection[]
+
+  if (hasGaps) {
+    // Legacy (EP1-30): gap rows stored in kp_panels
+    sections = panelList.map(p => {
+      if (p.type === 'gap') {
+        return {
+          type: 'gap' as const,
+          id: `gap-${gapCount++}`,
+          heightRatio: p.height_ratio ?? 0.88,
+          bubbles: (byPanel.get(p.id) ?? []).map((b, i) => mapBubble(b, `b-${p.order_num}-${i + 1}`)),
+        }
+      } else if (p.type === 'panel') {
+        panelCount++
+        return { type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: p.image_url ?? '', layout: (p.layout ?? 'wide') as string }
+      } else {
+        return { type: 'crop-panel' as const, id: `crop-${p.order_num}`, imageUrl: p.image_url ?? '', srcW: 0, cropX: 0, cropY: 0, cropW: 0, cropH: 0 }
       }
-    } else if (p.type === 'panel') {
-      panelCount++
-      return {
-        type: 'panel' as const,
-        id: `cut-${panelCount}`,
-        imageUrl: p.image_url ?? '',
-        layout: (p.layout ?? 'wide') as string,
-      }
-    } else {
-      return {
-        type: 'crop-panel' as const,
-        id: `crop-${p.order_num}`,
-        imageUrl: p.image_url ?? '',
-        srcW: 0, cropX: 0, cropY: 0, cropW: 0, cropH: 0,
+    })
+  } else {
+    // New style (EP31+): image panels only; generate gap sections dynamically.
+    // Group consecutive panels into visual rows using layout-width accumulation:
+    //   wide      → 1-panel row
+    //   split:X   → accumulate; end row when sum ≥ 99%
+    //   stack-t:X → accumulate; don't end (stack-b follows)
+    //   stack-b   → end row
+    const rows: DBPanel[][] = []
+    let cur: DBPanel[] = [], wSum = 0
+    for (const p of panelList) {
+      const lay = (p.layout ?? 'wide') as string
+      if (lay === 'wide') {
+        if (cur.length) { rows.push(cur); cur = []; wSum = 0 }
+        rows.push([p])
+      } else if (lay.startsWith('split:')) {
+        cur.push(p); wSum += parseFloat(lay.slice(6))
+        if (wSum >= 99) { rows.push(cur); cur = []; wSum = 0 }
+      } else if (lay.startsWith('stack-t:')) {
+        cur.push(p); wSum += parseFloat(lay.slice(8))
+      } else if (lay === 'stack-b') {
+        cur.push(p); rows.push(cur); cur = []; wSum = 0
       }
     }
-  })
+    if (cur.length) rows.push(cur)
+
+    sections = []
+    sections.push({ type: 'gap' as const, id: `gap-${gapCount++}`, heightRatio: 0.55, bubbles: [] })
+
+    for (const row of rows) {
+      for (const rp of row) {
+        panelCount++
+        sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: (rp.layout ?? 'wide') as string })
+      }
+      const rowDbBubbles = row.flatMap(rp => (byPanel.get(rp.id) ?? []).sort((a, b) => a.order_num - b.order_num))
+      const n = row.filter(rp => (byPanel.get(rp.id)?.length ?? 0) > 0).length
+      const gapId = `gap-${gapCount++}`
+      sections.push({
+        type: 'gap' as const,
+        id: gapId,
+        heightRatio: n === 0 ? 0.55 : 0.88 * n,
+        bubbles: rowDbBubbles.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
+      })
+    }
+  }
 
   return {
     id: episodeId,
