@@ -81,6 +81,13 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const searchParams = useSearchParams()
   const showWelcome = searchParams.get('welcome') === '1'
   const story = ALL_STORIES.find(s => s.id === id)
+  const epNumFromId = parseInt(id.match(/kp-ep-(\d+)/)?.[1] ?? '0')
+
+  // Completely invalid ID (not kp-ep-NNN format and not in static list)
+  if (!story && !epNumFromId) notFound()
+
+  const epNum = story?.episode ?? epNumFromId
+
   const [challengeDone, setChallengeDone] = useState(false)
   const [challengeQuestions, setChallengeQuestions] = useState<Question[] | null>(null)
   const [webtoonEpisode, setWebtoonEpisode] = useState<WebtoonEpisodeData | null>(null)
@@ -111,9 +118,10 @@ export default function KPattoStoryPage({ params }: PageProps) {
     }, 300)
   }, [story])
 
-  if (!story) notFound()
+  // After loading: if no static story and DB also returned nothing, 404
+  if (!webtoonLoading && !story && !webtoonEpisode) notFound()
 
-  const isProEpisode = story.episode > FREE_EPISODES
+  const isProEpisode = epNum > FREE_EPISODES
   const isLocked = isProEpisode && !subLoading && !isPro
 
   // Map PATTO's Language type to KPattoLanguage (they share the same values)
@@ -160,7 +168,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
             <ChevronLeft size={22} strokeWidth={2} />
           </Link>
           <div style={{ fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            EP {String(story.episode).padStart(2, '0')} · {story.title}
+            EP {String(epNum).padStart(2, '0')} · {story?.title ?? webtoonEpisode?.title ?? ''}
           </div>
         </div>
       )}
@@ -178,8 +186,8 @@ export default function KPattoStoryPage({ params }: PageProps) {
         ) : webtoonEpisode ? (
           <WebtoonEpisode
             episode={webtoonEpisode}
-            episodeLabel={`EP ${String(story.episode).padStart(2, '0')}`}
-            storyTitle={story.title}
+            episodeLabel={`EP ${String(epNum).padStart(2, '0')}`}
+            storyTitle={story?.title ?? webtoonEpisode?.title ?? ''}
           />
         ) : (
           <div style={{ paddingTop: 16 }}>
@@ -223,7 +231,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
               fontSize: 11, fontWeight: 600, color: '#aaa',
               letterSpacing: '0.06em',
             }}>
-              EP {String(story.episode).padStart(2, '0')}
+              EP {String(epNum).padStart(2, '0')}
             </span>
             <svg width="160" height="190" viewBox="0 0 160 190">
               <ellipse cx="80" cy="178" rx="52" ry="10" fill="#e8e2d8" opacity="0.6"/>
@@ -265,7 +273,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
               {ui.sv_ep_complete}
             </h3>
             <p style={{ margin: '0 0 16px', fontSize: 13, color: '#aaa', textAlign: 'center' }}>
-              {story.title} · {story.theme}
+              {story?.title ?? webtoonEpisode?.title ?? ''} · {story?.theme ?? webtoonEpisode?.theme ?? ''}
             </p>
             <div style={{ display: 'flex', gap: 10, width: '100%' }}>
               <Link
