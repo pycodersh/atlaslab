@@ -10,6 +10,9 @@ import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { getRecord } from '@/lib/srs/storage'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
+import { createClient } from '@/lib/supabase/client'
+
+type EpItem = { id: string; episode: number; title: string; theme: string; thumbnail_url: string }
 
 const T1    = '#111111'
 const T2    = '#999999'
@@ -53,17 +56,35 @@ export default function KPattoStoryListPage() {
   const { isPro } = useKPattoSubscription()
 
   const [storyStates, setStoryStates] = useState<Record<string, { views: number; done: boolean }>>({})
+  const [dbEpisodes, setDbEpisodes] = useState<EpItem[]>([])
 
   useEffect(() => {
     const next: Record<string, { views: number; done: boolean }> = {}
     for (const s of ALL_STORIES) {
       const rec = getRecord('story', String(s.episode))
-      next[s.id] = {
-        views: rec?.repeatCount ?? 0,
-        done: !!(rec?.lastPracticedAt),
-      }
+      next[s.id] = { views: rec?.repeatCount ?? 0, done: !!(rec?.lastPracticedAt) }
     }
     setStoryStates(next)
+  }, [])
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase
+      .from('kp_episodes')
+      .select('episode_num, title, theme')
+      .gte('episode_num', 31)
+      .lte('episode_num', 100)
+      .order('episode_num')
+      .then(({ data }) => {
+        if (!data) return
+        setDbEpisodes(data.map(r => ({
+          id: `kp-ep-${String(r.episode_num).padStart(3, '0')}`,
+          episode: r.episode_num as number,
+          title: r.title as string,
+          theme: (r.theme ?? '') as string,
+          thumbnail_url: `/kpatto/ep-${String(r.episode_num).padStart(3, '0')}/ep${r.episode_num}_c1.png`,
+        })))
+      })
   }, [])
 
   return (
@@ -72,8 +93,8 @@ export default function KPattoStoryListPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '16px 16px 0' }}>
 
-        {/* ── 공개 에피소드 ── */}
-        {ALL_STORIES.map((story) => {
+        {/* ── 에피소드 목록 (EP1-30 정적 + EP31-100 DB) ── */}
+        {[...ALL_STORIES.map(s => ({ ...s, thumbnail_url: s.thumbnail_url ?? '/kpatto/banners/ep1.png' })), ...dbEpisodes].map((story) => {
           const state = storyStates[story.id]
           const views = state?.views ?? 0
           const locked = story.episode > FREE_EPISODES && !isPro
@@ -96,7 +117,7 @@ export default function KPattoStoryListPage() {
               <div style={{ padding: '10px 0 10px 10px', flexShrink: 0 }}>
                 <div style={{ position: 'relative', width: 120, height: 80, borderRadius: 12, overflow: 'hidden', background: '#F7F7F7' }}>
                   <Image
-                    src={story.thumbnail_url ?? '/kpatto/banners/ep1.png'}
+                    src={story.thumbnail_url}
                     alt={story.title}
                     fill
                     style={{ objectFit: 'cover', objectPosition: 'center center', filter: locked ? 'grayscale(0.4)' : 'none' }}
@@ -127,7 +148,7 @@ export default function KPattoStoryListPage() {
                 }
               </div>
 
-              {/* Chevron or Lock */}
+              {/* Chevron */}
               <Link
                 href={`/kpatto/story/${story.id}`}
                 style={{ display: 'flex', alignItems: 'center', padding: '0 12px', textDecoration: 'none', flexShrink: 0 }}
@@ -137,25 +158,6 @@ export default function KPattoStoryListPage() {
             </div>
           )
         })}
-
-
-        {/* Coming soon notice */}
-        <div style={{
-          margin: '4px 0 0',
-          padding: '14px 16px',
-          background: '#FFFBF2',
-          border: '1px solid #F0D9A8',
-          borderRadius: 14,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-        }}>
-          <span style={{ fontSize: 20, flexShrink: 0 }}>📅</span>
-          <div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#8B6914' }}>EP 31+ Coming Soon</div>
-            <div style={{ fontSize: 12, color: '#B38A30', marginTop: 2 }}>New episodes drop every week. Stay tuned!</div>
-          </div>
-        </div>
 
         <div style={{ height: 4 }} />
       </div>
