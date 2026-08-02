@@ -383,7 +383,12 @@ function applyOverrides(base: WebtoonEpisodeData, overrides: OverrideMap): Webto
 }
 
 // ── Main exported component ──────────────────────────────────────────────────
-export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode: WebtoonEpisodeData; episodeLabel?: string; storyTitle?: string }) {
+export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn }: {
+  episode: WebtoonEpisodeData
+  episodeLabel?: string
+  storyTitle?: string
+  singleColumn?: boolean
+}) {
   const [showKo, setShowKo] = useState(true)
   const [showTrans, setShowTrans] = useState(true)
   const [playingId, setPlayingId] = useState<string | null>(null)
@@ -500,28 +505,63 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle }: { episode:
 
       {/* Sections */}
       <div style={{ opacity: bubblesReady ? 1 : 0, transition: bubblesReady ? 'opacity 0.3s' : 'none', visibility: bubblesReady ? 'visible' : 'hidden' }}>
-      {groupSections(resolvedEpisode.sections).map((group, gi) => {
-        if (group.kind !== 'single') {
-          return <SplitGroup key={`sg-${gi}`} group={group} />
-        }
-        const section = group.section
-        if (section.type === 'gap') {
-          return (
-            <GapSection
-              key={section.id}
-              section={section}
-              showKo={showKo}
-              showTrans={showTrans}
-              playingId={playingId}
-              onHighlightTap={handleHighlightTap}
-            />
-          )
-        }
-        if (section.type === 'crop-panel') {
-          return <CropPanelSection key={section.id} section={section} />
-        }
-        return <PanelSection key={section.id} section={section} />
-      })}
+        {groupSections(resolvedEpisode.sections).map((group, gi) => {
+          if (group.kind !== 'single') {
+            if (singleColumn) {
+              // EP31 test: each panel → 73% wide, aligned by original position in group
+              // first panel in split → left, subsequent → right
+              // gap sections remain full-width so bubble positions stay correct
+              const panels = group.kind === 'split'
+                ? group.panels
+                : [group.left, group.rightTop, group.rightBottom]
+              return (
+                <React.Fragment key={`sc-${gi}`}>
+                  {panels.map((p, idx) => {
+                    const justify = idx === 0 ? 'flex-start' : 'flex-end'
+                    return (
+                      <React.Fragment key={p.id}>
+                        <div style={{ width: '100%', display: 'flex', justifyContent: justify }}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={p.imageUrl} alt="" style={{ width: '73%', height: 'auto', display: 'block' }} />
+                        </div>
+                        {idx < panels.length - 1 && (
+                          <div style={{ minHeight: 160 }} />
+                        )}
+                      </React.Fragment>
+                    )
+                  })}
+                </React.Fragment>
+              )
+            }
+            return <SplitGroup key={`sg-${gi}`} group={group} />
+          }
+          const section = group.section
+          if (section.type === 'gap') {
+            return (
+              <GapSection
+                key={section.id}
+                section={section}
+                showKo={showKo}
+                showTrans={showTrans}
+                playingId={playingId}
+                onHighlightTap={handleHighlightTap}
+              />
+            )
+          }
+          if (section.type === 'crop-panel') {
+            return <CropPanelSection key={section.id} section={section} />
+          }
+          // EP31 singleColumn: wide panels → 73% centered
+          if (singleColumn && section.type === 'panel') {
+            return (
+              <div key={section.id} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={section.imageUrl} alt="" style={{ width: '73%', height: 'auto', display: 'block' }} />
+              </div>
+            )
+          }
+          return <PanelSection key={section.id} section={section} />
+        })}
       </div>
 
       {activeExpression && (
