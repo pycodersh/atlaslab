@@ -162,12 +162,14 @@ function GapSection({
   showTrans,
   playingId,
   onHighlightTap,
+  fixedHeight,
 }: {
   section: WebtoonGapSection
   showKo: boolean
   showTrans: boolean
   playingId: string | null
   onHighlightTap?: (expressionId: number) => void
+  fixedHeight?: number
 }) {
   return (
     <div
@@ -175,7 +177,9 @@ function GapSection({
         position: 'relative',
         zIndex: 20,
         width: '100%',
-        paddingBottom: `${section.heightRatio * 100}%`,
+        ...(fixedHeight != null
+          ? { height: fixedHeight }
+          : { paddingBottom: `${section.heightRatio * 100}%` }),
         overflow: 'visible',
       }}
     >
@@ -508,16 +512,18 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
         {groupSections(resolvedEpisode.sections).map((group, gi) => {
           if (group.kind !== 'single') {
             if (singleColumn) {
-              // EP31 test: each panel → 73% wide, aligned by original position in group
-              // first panel in split → left, subsequent → right
-              // gap sections remain full-width so bubble positions stay correct
+              // EP31+: each panel → 73% wide, aligned by original position in group
+              // 2-panel: first=left, last=right
+              // 3-panel (split×3 or stack): first=left, middle=center, last=right
               const panels = group.kind === 'split'
                 ? group.panels
                 : [group.left, group.rightTop, group.rightBottom]
               return (
                 <React.Fragment key={`sc-${gi}`}>
                   {panels.map((p, idx) => {
-                    const justify = idx === 0 ? 'flex-start' : 'flex-end'
+                    const justify = idx === 0 ? 'flex-start'
+                      : idx === panels.length - 1 ? 'flex-end'
+                      : 'center'
                     return (
                       <React.Fragment key={p.id}>
                         <div style={{ width: '100%', display: 'flex', justifyContent: justify }}>
@@ -525,7 +531,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
                           <img src={p.imageUrl} alt="" style={{ width: '73%', height: 'auto', display: 'block' }} />
                         </div>
                         {idx < panels.length - 1 && (
-                          <div style={{ minHeight: 200 }} />
+                          <div style={{ height: 200 }} />
                         )}
                       </React.Fragment>
                     )
@@ -537,6 +543,9 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
           }
           const section = group.section
           if (section.type === 'gap') {
+            const fixedHeight = singleColumn
+              ? (section.bubbles.length === 0 ? 100 : 200)
+              : undefined
             return (
               <GapSection
                 key={section.id}
@@ -545,6 +554,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
                 showTrans={showTrans}
                 playingId={playingId}
                 onHighlightTap={handleHighlightTap}
+                fixedHeight={fixedHeight}
               />
             )
           }

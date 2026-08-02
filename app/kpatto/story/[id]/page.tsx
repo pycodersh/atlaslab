@@ -188,7 +188,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
             episode={webtoonEpisode}
             episodeLabel={`EP ${String(epNum).padStart(2, '0')}`}
             storyTitle={story?.title ?? webtoonEpisode?.title ?? ''}
-            singleColumn={epNum === 31}
+            singleColumn={epNum >= 31}
           />
         ) : (
           <div style={{ paddingTop: 16 }}>
