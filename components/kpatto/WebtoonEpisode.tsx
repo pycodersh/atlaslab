@@ -162,14 +162,12 @@ function GapSection({
   showTrans,
   playingId,
   onHighlightTap,
-  fixedHeight,
 }: {
   section: WebtoonGapSection
   showKo: boolean
   showTrans: boolean
   playingId: string | null
   onHighlightTap?: (expressionId: number) => void
-  fixedHeight?: number
 }) {
   return (
     <div
@@ -177,9 +175,7 @@ function GapSection({
         position: 'relative',
         zIndex: 20,
         width: '100%',
-        ...(fixedHeight != null
-          ? { minHeight: fixedHeight }
-          : { paddingBottom: `${section.heightRatio * 100}%` }),
+        paddingBottom: `${section.heightRatio * 100}%`,
         overflow: 'visible',
       }}
     >
@@ -423,11 +419,6 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
     return result
   }, [resolvedEpisode])
 
-  const { firstGapId, lastGapId } = useMemo(() => {
-    const gaps = resolvedEpisode.sections.filter(s => s.type === 'gap')
-    return { firstGapId: gaps[0]?.id, lastGapId: gaps[gaps.length - 1]?.id }
-  }, [resolvedEpisode])
-
   const stopRef = useRef(false)
 
   const handlePlayAll = useCallback(async () => {
@@ -546,9 +537,6 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
           }
           const section = group.section
           if (section.type === 'gap') {
-            const fixedHeight = singleColumn
-              ? (section.id === firstGapId || section.id === lastGapId ? 100 : 200)
-              : undefined
             return (
               <GapSection
                 key={section.id}
@@ -557,7 +545,6 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
                 showTrans={showTrans}
                 playingId={playingId}
                 onHighlightTap={handleHighlightTap}
-                fixedHeight={fixedHeight}
               />
             )
           }
