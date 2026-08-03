@@ -402,6 +402,16 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
   const [resolvedEpisode, setResolvedEpisode] = useState(episode)
   const [bubblesReady, setBubblesReady] = useState(false)
   const [activeExpression, setActiveExpression] = useState<KPattoExpression | null>(null)
+  const [landscapeIds, setLandscapeIds] = useState<Set<string>>(new Set())
+  const onPanelLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>, id: string) => {
+    const img = e.currentTarget
+    if (img.naturalWidth > img.naturalHeight) {
+      setLandscapeIds(prev => {
+        if (prev.has(id)) return prev
+        const next = new Set(prev); next.add(id); return next
+      })
+    }
+  }, [])
 
   // Load saved layout overrides and merge with base episode data
   useEffect(() => {
@@ -533,14 +543,16 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
               return (
                 <React.Fragment key={`sc-${gi}`}>
                   {panels.map((p, idx) => {
-                    const justify = idx === 0 ? 'flex-start'
+                    const isLandscape = landscapeIds.has(p.id)
+                    const justify = isLandscape ? 'flex-start'
+                      : idx === 0 ? 'flex-start'
                       : idx === panels.length - 1 ? 'flex-end'
                       : 'center'
                     return (
                       <React.Fragment key={p.id}>
                         <div style={{ width: '100%', display: 'flex', justifyContent: justify }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={p.imageUrl} alt="" style={{ width: '73%', height: 'auto', display: 'block' }} />
+                          <img src={p.imageUrl} alt="" style={{ width: isLandscape ? '100%' : '73%', height: 'auto', display: 'block' }} onLoad={(e) => onPanelLoad(e, p.id)} />
                         </div>
                         {idx < panels.length - 1 && (
                           <div style={{ height: 200 }} />
@@ -573,10 +585,11 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
             return <CropPanelSection key={section.id} section={section} />
           }
           if (singleColumn && section.type === 'panel') {
+            const isLandscape = landscapeIds.has(section.id)
             return (
-              <div key={section.id} style={{ width: '100%', display: 'flex', justifyContent: panelJustify(section.layout, true) }}>
+              <div key={section.id} style={{ width: '100%', display: 'flex', justifyContent: isLandscape ? 'flex-start' : panelJustify(section.layout, true) }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={section.imageUrl} alt="" style={{ width: panelImageWidth(section.layout, true), height: 'auto', display: 'block' }} />
+                <img src={section.imageUrl} alt="" style={{ width: isLandscape ? '100%' : panelImageWidth(section.layout, true), height: 'auto', display: 'block' }} onLoad={(e) => onPanelLoad(e, section.id)} />
               </div>
             )
           }
