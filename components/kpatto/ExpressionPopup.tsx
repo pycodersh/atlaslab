@@ -16,14 +16,16 @@ function persistSavedIds(ids: Set<number>) {
   try { localStorage.setItem(SAVED_KEY, JSON.stringify([...ids])) } catch { /* noop */ }
 }
 
-// Strip leading sentence from description when it duplicates the gloss meaning.
-// Returns description without the first sentence if the first sentence ends with '. '
+// Strip leading paragraph from description when it duplicates the gloss meaning.
+// If gloss is present and there are multiple \n\n-separated paragraphs, skip the first.
 function descriptionBody(description: string | null | undefined, gloss: string | null | undefined): string {
   if (!description) return ''
   if (!gloss) return description
+  const parts = description.split('\n\n')
+  if (parts.length > 1) return parts.slice(1).join('\n\n').trim()
+  // Fallback: strip first sentence for single-paragraph descriptions
   const idx = description.indexOf('. ')
   if (idx < 0) return description
-  // Always strip first sentence when gloss is present — the gloss replaces it
   return description.slice(idx + 2).trim()
 }
 
@@ -115,11 +117,11 @@ export function ExpressionPopup({
 
         {/* Body */}
         <div style={{ padding: '14px 16px 0' }}>
-          {expression.description && (
-            <p style={{ fontSize: 14, color: '#444', lineHeight: 1.6, margin: '0 0 10px' }}>
-              {descriptionBody(expression.description, expression.english !== expression.korean ? expression.english : null)}
+          {expression.description && descriptionBody(expression.description, expression.english !== expression.korean ? expression.english : null).split('\n\n').map((para, i) => (
+            <p key={i} style={{ fontSize: 14, color: '#444', lineHeight: 1.6, margin: '0 0 10px' }}>
+              {para}
             </p>
-          )}
+          ))}
 
           {expression.structure && (
             <div style={{ marginBottom: 12 }}>

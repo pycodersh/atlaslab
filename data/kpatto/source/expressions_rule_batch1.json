@@ -1,0 +1,262 @@
+[
+  {
+    "id": 1301,
+    "usage_en": "Used to list two or more actions or states when either one is possible.\n\nRule: Attach -거나 to a verb or adjective stem (먹거나, 좋거나). For nouns, use (이)나 instead — 커피나 차 (vowel), 물이나 주스 (consonant)."
+  },
+  {
+    "id": 1305,
+    "usage_en": "Used when something finally happens, usually with regret, or to show firm determination.\n\nRule: Attach -고 말다 to an action verb only. It normally appears in the past tense (울고 말았어요). The regret meaning is far more common than the determination meaning."
+  },
+  {
+    "id": 1306,
+    "usage_en": "Used to show that the first action was completed before the second one began.\n\nRule: Both clauses must have the same subject. Never add a tense marker before -고서 — say 먹고서, not 먹었고서."
+  },
+  {
+    "id": 1310,
+    "usage_en": "Used to guess about something based on evidence you can see or hear.\n\nRule: Verbs take -나 보다 (비가 오나 봐요). Adjectives take -은가/-ㄴ가 보다 instead — 좋은가 봐요 (consonant), 바쁜가 봐요 (vowel). Nouns take -인가 보다."
+  },
+  {
+    "id": 1312,
+    "usage_en": "Used when something you were doing prevented you from doing something else.\n\nRule: Both clauses must have the same subject, and the result is always negative. Use it with action verbs only, and never with a command or suggestion."
+  },
+  {
+    "id": 1313,
+    "usage_en": "Used to soften an opinion when you are not fully sure.\n\nRule: Verbs take -는 것 같기도 (가는 것 같기도 해요). Adjectives take -은/-ㄴ 것 같기도 (좋은 것 같기도, 바쁜 것 같기도). For the past, use -은 것 같기도."
+  },
+  {
+    "id": 1315,
+    "usage_en": "Used to add a second action you can do conveniently while doing the first.\n\nRule: The first action is the main reason you are there; the second is the extra one. Verbs take -는 김에 for something you are doing now, and -은/-ㄴ 김에 for something already done (온 김에)."
+  },
+  {
+    "id": 1318,
+    "usage_en": "Used when an unexpected event caused a bad or unintended result.\n\nRule: The result is always negative and always in the past. Never add a tense marker before it — say 늦는 바람에, not 늦었는 바람에. Do not use it with commands or suggestions."
+  },
+  {
+    "id": 1319,
+    "usage_en": "Used when you believed something that turned out not to be true.\n\nRule: Verbs take -는 줄 알았다 (오는 줄 알았어요). Adjectives take -은/-ㄴ 줄 알았다 (좋은 줄 알았어요). Nouns take -인 줄 알았다."
+  },
+  {
+    "id": 1320,
+    "usage_en": "Used to describe a general tendency without stating it too strongly.\n\nRule: Verbs take -는 편이다 (자주 먹는 편이에요). Adjectives take -은/-ㄴ 편이다 — 좋은 편이에요 (consonant), 바쁜 편이에요 (vowel)."
+  },
+  {
+    "id": 1321,
+    "usage_en": "Used to report what someone else said or what you heard.\n\nRule: The ending changes with the word type. Verbs ending in a consonant take -는다고 (먹는다고), verbs ending in a vowel take -ㄴ다고 (간다고), adjectives take -다고 (좋다고), and nouns take -(이)라고 (학생이라고)."
+  },
+  {
+    "id": 1322,
+    "usage_en": "Used to check something you heard about the listener.\n\nRule: Same form changes as -는다고. Verbs take -는다면서/-ㄴ다면서 (먹는다면서, 간다면서), adjectives take -다면서 (좋다면서), nouns take -(이)라면서. This is casual speech — use -는다면서요? with people you are not close to."
+  },
+  {
+    "id": 1323,
+    "usage_en": "Used to put a question inside a larger sentence.\n\nRule: Verbs take -는지 (뭐 먹는지 몰라요). Adjectives take -은/-ㄴ지 (좋은지, 바쁜지). For the past, use -았/었는지."
+  },
+  {
+    "id": 1324,
+    "usage_en": "Used to ask a question in a warm, casual way, often to someone younger or close to you.\n\nRule: This is 반말. Use it only with close friends, younger people, or family. With anyone else, use -아요/어요? instead."
+  },
+  {
+    "id": 1326,
+    "usage_en": "Used to report something you personally observed and found notable.\n\nRule: This is 반말 and sounds slightly bookish. In everyday speech -더라 is more natural, and -더군요 is the polite form. You cannot use it about your own feelings or actions."
+  },
+  {
+    "id": 1327,
+    "usage_en": "Used to tell a friend about something you experienced yourself.\n\nRule: This is 반말; the polite form is -더라고요. You must have witnessed it yourself, and you cannot use it to describe your own feelings — say 좋더라 about a place, not about yourself."
+  },
+  {
+    "id": 1329,
+    "usage_en": "Used to describe something you did repeatedly in the past or left unfinished.\n\nRule: Attach -던 to any verb or adjective stem (가던 길, 읽던 책). Use -던 for something repeated or unfinished, and -았/었던 for a single completed event (갔던 곳)."
+  },
+  {
+    "id": 1330,
+    "usage_en": "Used to mention something you saw and leave the response to the listener.\n\nRule: You must have witnessed it yourself, so it cannot describe your own feelings. The polite form is -던데요. For the past, use -았/었던데."
+  },
+  {
+    "id": 1332,
+    "usage_en": "Used to ask a question in formal settings such as service, announcements, or interviews.\n\nRule: After a stem ending in a consonant, use -습니까 (먹습니까?). After a stem ending in a vowel, use -ㅂ니까 (갑니까?). Stems ending in ㄹ drop the ㄹ (만들다 → 만듭니까?)."
+  },
+  {
+    "id": 1333,
+    "usage_en": "Used to make statements in formal settings such as introductions, presentations, or work.\n\nRule: After a stem ending in a consonant, use -습니다 (먹습니다). After a stem ending in a vowel, use -ㅂ니다 (갑니다). Stems ending in ㄹ drop the ㄹ (살다 → 삽니다)."
+  },
+  {
+    "id": 1334,
+    "usage_en": "Used to talk about something that already happened.\n\nRule: Use -았- after a stem with ㅏ or ㅗ (가다 → 갔어요, 좋다 → 좋았어요), and -었- after any other vowel (먹다 → 먹었어요). Verbs ending in 하다 become 했- (공부하다 → 공부했어요)."
+  },
+  {
+    "id": 1335,
+    "usage_en": "Used when something is gradually progressing toward a point in the future.\n\nRule: Choose -아 가다 after a stem with ㅏ or ㅗ (살아 가다), -어 가다 elsewhere (되어 가다), and 해 가다 for 하다 verbs. Compare with -어 오다, which looks from the past up to now."
+  },
+  {
+    "id": 1336,
+    "usage_en": "Used when you finish something ahead of time and leave it in that state.\n\nRule: Choose -아 놓다 after a stem with ㅏ or ㅗ (닫아 놓다), -어 놓다 elsewhere (열어 놓다), and 해 놓다 for 하다 verbs. Action verbs only."
+  },
+  {
+    "id": 1337,
+    "usage_en": "Used when you do something now and keep the result for later use.\n\nRule: Choose -아 두다 after a stem with ㅏ or ㅗ (사 두다), -어 두다 elsewhere (넣어 두다), and 해 두다 for 하다 verbs. Very close to -어 놓다; -어 두다 stresses keeping it for later."
+  },
+  {
+    "id": 1338,
+    "usage_en": "Used to offer to do something for a customer or someone older or senior.\n\nRule: This is the humble form of -어 주다. Choose -아 드리다 after a stem with ㅏ or ㅗ (닦아 드리다), -어 드리다 elsewhere (들어 드리다), and 해 드리다 for 하다 verbs. Never use it about what someone does for you."
+  },
+  {
+    "id": 1339,
+    "usage_en": "Used when an action is finished off entirely, with relief or regret.\n\nRule: Choose -아 버리다 after a stem with ㅏ or ㅗ (팔아 버리다), -어 버리다 elsewhere (먹어 버리다), and 해 버리다 for 하다 verbs. Action verbs only."
+  },
+  {
+    "id": 1340,
+    "usage_en": "Used to suggest trying something, or to say you have experienced it.\n\nRule: Choose -아 보다 after a stem with ㅏ or ㅗ (가 보다), -어 보다 elsewhere (먹어 보다), and 해 보다 for 하다 verbs. For past experience, use -아/어 봤어요."
+  },
+  {
+    "id": 1341,
+    "usage_en": "Used for something you have continued doing from the past up to the present.\n\nRule: Choose -아 오다 after a stem with ㅏ or ㅗ (살아 오다), -어 오다 elsewhere (배워 오다), and 해 오다 for 하다 verbs. Compare with -어 가다, which looks toward the future."
+  },
+  {
+    "id": 1342,
+    "usage_en": "Used to describe the state that remains after an action is finished.\n\nRule: Choose -아 있다 after a stem with ㅏ or ㅗ (앉아 있다), -어 있다 elsewhere (열려 있다). Use it with verbs that have no object — say 앉아 있어요, but 책을 읽고 있어요 for an ongoing action."
+  },
+  {
+    "id": 1343,
+    "usage_en": "Used when you do something for another person's benefit, or ask them to.\n\nRule: Choose -아 주다 after a stem with ㅏ or ㅗ (도와주다), -어 주다 elsewhere (만들어 주다), and 해 주다 for 하다 verbs. When the other person is older or a customer, use -어 드리다 instead."
+  },
+  {
+    "id": 1344,
+    "usage_en": "Used to give a reason, or to connect two actions in order.\n\nRule: Choose -아서 after a stem with ㅏ or ㅗ (가서, 좋아서), -어서 elsewhere (먹어서), and 해서 for 하다 verbs. Never add a tense marker before it, and never use it before a command or suggestion — use -으니까 for those."
+  },
+  {
+    "id": 1345,
+    "usage_en": "Used for a decision you have just made about what you need to do.\n\nRule: Choose -아야겠다 after a stem with ㅏ or ㅗ (가야겠다), -어야겠다 elsewhere (먹어야겠다), and 해야겠다 for 하다 verbs. The subject is almost always 'I'; the polite form is -아/어야겠어요."
+  },
+  {
+    "id": 1346,
+    "usage_en": "Used when a state gradually changes into another state.\n\nRule: Attach it to an adjective stem. Choose -아지다 after a stem with ㅏ or ㅗ (좋아지다), -어지다 elsewhere (예뻐지다), and 해지다 for 하다 adjectives (편해지다)."
+  },
+  {
+    "id": 1347,
+    "usage_en": "Used to give a reason, especially before a command, suggestion, or invitation.\n\nRule: After a stem ending in a consonant, use -으니까 (먹으니까). After a vowel, drop the 으 (가니까). Stems ending in ㄹ also drop it (만들다 → 만드니까). Unlike -어서, this one can come before a command."
+  },
+  {
+    "id": 1348,
+    "usage_en": "Used when you move somewhere with a purpose.\n\nRule: After a stem ending in a consonant, use -으러 (먹으러 가요). After a vowel or ㄹ, drop the 으 (보러 가요, 놀러 가요). Only use it with verbs of movement such as 가다, 오다, 다니다."
+  },
+  {
+    "id": 1349,
+    "usage_en": "Used to say something is not allowed or not advisable.\n\nRule: After a stem ending in a consonant, use -으면 (먹으면 안 돼요). After a vowel or ㄹ, drop the 으 (가면 안 돼요, 만들면 안 돼요)."
+  },
+  {
+    "id": 1350,
+    "usage_en": "Used when one person does two things at the same time.\n\nRule: After a stem ending in a consonant, use -으면서 (먹으면서). After a vowel or ㄹ, drop the 으 (보면서, 만들면서). Both actions must have the same subject."
+  },
+  {
+    "id": 1351,
+    "usage_en": "Used for polite instructions in announcements, notices, and customer service.\n\nRule: After a stem ending in a consonant, use -으십시오 (앉으십시오). After a vowel or ㄹ, drop the 으 (가십시오). This is very formal — in everyday conversation use -으세요 instead."
+  },
+  {
+    "id": 1352,
+    "usage_en": "Used to say one action happens after another is finished.\n\nRule: After a stem ending in a consonant, use -은 다음에 (먹은 다음에). After a vowel or ㄹ, drop the 은 (간 다음에, 만든 다음에). Action verbs only."
+  },
+  {
+    "id": 1353,
+    "usage_en": "Used to say how much time has passed since something happened.\n\nRule: After a stem ending in a consonant, use -은 지 (먹은 지). After a vowel or ㄹ, drop the 은 (온 지, 산 지). It is followed by a time expression plus 됐어요 or 지났어요."
+  },
+  {
+    "id": 1354,
+    "usage_en": "Used to put two events in order, with the first one finished.\n\nRule: After a stem ending in a consonant, use -은 후에 (먹은 후에). After a vowel or ㄹ, drop the 은 (간 후에). Almost the same as -은 다음에; 후에 sounds slightly more formal."
+  },
+  {
+    "id": 1355,
+    "usage_en": "Used for a plan you have already decided, or a prediction about the future.\n\nRule: After a stem ending in a consonant, use -을 거예요 (먹을 거예요). After a vowel or ㄹ, drop the 을 (갈 거예요, 만들 거예요)."
+  },
+  {
+    "id": 1356,
+    "usage_en": "Used when something happens without fail on each occasion.\n\nRule: After a stem ending in a consonant, use -을 때마다 (먹을 때마다). After a vowel or ㄹ, drop the 을 (갈 때마다). For nouns, use 마다 directly (날마다)."
+  },
+  {
+    "id": 1357,
+    "usage_en": "Used when there is no other option, or when a result is completely natural.\n\nRule: After a stem ending in a consonant, use -을 수밖에 없다 (먹을 수밖에 없어요). After a vowel or ㄹ, drop the 을 (갈 수밖에 없어요)."
+  },
+  {
+    "id": 1358,
+    "usage_en": "Used to state your own intention and then ask or suggest something.\n\nRule: After a stem ending in a consonant, use -을 테니 (먹을 테니). After a vowel or ㄹ, drop the 을 (갈 테니). The first clause is what the speaker will do, so the subject is normally 'I'. -을 테니까 is the more conversational form."
+  },
+  {
+    "id": 1359,
+    "usage_en": "Used to guess about someone's situation while showing concern or regret.\n\nRule: After a stem ending in a consonant, use -을 텐데 (먹을 텐데). After a vowel or ㄹ, drop the 을 (갈 텐데). For a past guess, use -았/었을 텐데 (힘들었을 텐데)."
+  },
+  {
+    "id": 1360,
+    "usage_en": "Used for a casual guess, or to express regret about something you didn't do.\n\nRule: This is 반말; the polite form is -을걸요. After a consonant use -을걸 (먹을걸), after a vowel or ㄹ drop the 을 (갈걸). For regret about the past, it usually appears as -을걸 그랬어."
+  },
+  {
+    "id": 1361,
+    "usage_en": "Used to promise the listener that you will do something.\n\nRule: This is 반말; the polite form is -을게요. After a consonant use -을게 (먹을게), after a vowel or ㄹ drop the 을 (갈게). The subject is always 'I', and it is never used as a question."
+  },
+  {
+    "id": 1362,
+    "usage_en": "Used to suggest doing something together or to offer to do something.\n\nRule: After a stem ending in a consonant, use -을까요 (먹을까요?). After a vowel or ㄹ, drop the 을 (갈까요?, 만들까요?)."
+  },
+  {
+    "id": 1363,
+    "usage_en": "Used when one thing increases as another increases.\n\nRule: After a stem ending in a consonant, use -을수록 (먹을수록). After a vowel or ㄹ, drop the 을 (갈수록). It is often paired with -으면 in front: 보면 볼수록."
+  },
+  {
+    "id": 1364,
+    "usage_en": "Used to suggest doing something together in a formal or group setting.\n\nRule: After a stem ending in a consonant, use -읍시다 (먹읍시다). After a vowel or ㄹ, use -ㅂ시다 (갑시다). Do not use it toward someone older or senior — use -으시겠어요? instead."
+  },
+  {
+    "id": 1365,
+    "usage_en": "Used when the second action happens immediately after the first.\n\nRule: Attach -자마자 directly to the verb stem and never add a tense marker before it — say 도착하자마자, not 도착했자마자. The tense is shown in the second clause."
+  },
+  {
+    "id": 1366,
+    "usage_en": "Used to remind the listener of something you both already know.\n\nRule: This is 반말; the polite form is -잖아요. Only use it for information the listener already has — using it for something new sounds rude."
+  },
+  {
+    "id": 1368,
+    "usage_en": "Used to join two nouns or to say you did something together with someone.\n\nRule: After a noun ending in a consonant, use 과 (책과). After a vowel, use 와 (커피와). This pair sounds written or formal; in everyday speech use 하고 or (이)랑."
+  },
+  {
+    "id": 1369,
+    "usage_en": "Used when giving or saying something to someone you should show respect to.\n\nRule: 께 is the honorific form of 에게/한테. Use it for someone older or senior (선생님께), and use 한테 for friends or people your age."
+  },
+  {
+    "id": 1370,
+    "usage_en": "Used to mark the subject when that person deserves respect.\n\nRule: 께서 replaces 이/가 for an honored subject (선생님께서 오셨어요). The verb should also take the honorific -으시- when you use it."
+  },
+  {
+    "id": 1374,
+    "usage_en": "Used to say there is nothing more than this; always followed by a negative.\n\nRule: The verb must be negative — say 물밖에 없어요, never 물밖에 있어요. It replaces 이/가 and 을/를, so do not stack particles."
+  },
+  {
+    "id": 1377,
+    "usage_en": "Used to mark the person who receives something or is spoken to.\n\nRule: 한테 is for everyday speech, 에게 is for writing and formal speech, and 께 is the honorific form. For animals use 한테/에게; for places or organizations use 에 instead."
+  },
+  {
+    "id": 1379,
+    "usage_en": "Used to mark a direction, a means of doing something, or a material.\n\nRule: After a noun ending in a consonant, use 으로 (손으로). After a vowel or ㄹ, use 로 (버스로, 지하철로)."
+  },
+  {
+    "id": 1380,
+    "usage_en": "Used to casually ask what the other person wants to do.\n\nRule: After a stem ending in a consonant, use -을래요 (먹을래요?). After a vowel or ㄹ, drop the 을 (갈래요?). It is friendly rather than formal, so avoid it with someone senior."
+  },
+  {
+    "id": 1381,
+    "usage_en": "Used when something is not enough but is still better than nothing.\n\nRule: After a noun ending in a consonant, use 이나마 (조금이나마). After a vowel, drop the 이 (잠시나마)."
+  },
+  {
+    "id": 1382,
+    "usage_en": "Used to raise a topic or to define what something really is.\n\nRule: After a noun ending in a consonant, use 이란 (사랑이란). After a vowel, drop the 이 (친구란). It sounds thoughtful or literary, so it fits reflections more than casual chat."
+  },
+  {
+    "id": 1383,
+    "usage_en": "Used to say what something or someone is; the most basic way to make a statement.\n\nRule: After a noun ending in a consonant, use 이에요 (학생 → 학생이에요). After a noun ending in a vowel, use 예요 (커피 → 커피예요)."
+  },
+  {
+    "id": 1385,
+    "usage_en": "Used to say that not only the bigger thing but even the smaller thing was impossible.\n\nRule: With nouns it appears as 은커녕 after a consonant (밥은커녕) and 는커녕 after a vowel (커피는커녕). With verbs, use -기는커녕 (쉬기는커녕). The second clause is always negative."
+  },
+  {
+    "id": 1386,
+    "usage_en": "Used in everyday speech to join nouns or to say you did something with someone.\n\nRule: 하고 attaches the same way to any noun, with no consonant rule. It is the most conversational option; (이)랑 is even more casual and 과/와 is formal."
+  }
+]
