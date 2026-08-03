@@ -8,6 +8,7 @@ import type { KPattoExpression } from '@/data/kpatto/types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
 import { playWithFallback, stopAllAudio } from '@/lib/kpatto/audio'
+import { gapContainerStyle, panelImageWidth, panelJustify } from '@/lib/kpatto/webtoon-layout'
 import { fetchExpression } from '@/lib/kpatto/fetch-episode'
 import { ExpressionPopup } from './ExpressionPopup'
 
@@ -39,7 +40,7 @@ function renderKorean(text: string, highlight?: string): React.ReactNode {
   return (
     <>
       {text.slice(0, idx)}
-      <span style={{ color: '#D4873A' }}>{highlight}</span>
+      <span style={{ color: '#D4873A', fontWeight: 800, textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px' }}>{highlight}</span>
       {text.slice(idx + highlight.length)}
     </>
   )
@@ -508,7 +509,18 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
       </div>
 
       {/* Sections */}
-      <div style={{ opacity: bubblesReady ? 1 : 0, transition: bubblesReady ? 'opacity 0.3s' : 'none', visibility: bubblesReady ? 'visible' : 'hidden' }}>
+      {/* paddingBottom mirrors the first gap's height so the last bubble clears the challenge card */}
+      <div style={{
+        opacity: bubblesReady ? 1 : 0,
+        transition: bubblesReady ? 'opacity 0.3s' : 'none',
+        visibility: bubblesReady ? 'visible' : 'hidden',
+        paddingBottom: singleColumn
+          ? 200
+          : (() => {
+              const firstGap = resolvedEpisode.sections.find(s => s.type === 'gap') as WebtoonGapSection | undefined
+              return firstGap ? `${firstGap.heightRatio * 100}%` : 80
+            })(),
+      }}>
         {groupSections(resolvedEpisode.sections).map((group, gi) => {
           if (group.kind !== 'single') {
             if (singleColumn) {
@@ -543,9 +555,8 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
           }
           const section = group.section
           if (section.type === 'gap') {
-            const fixedHeight = singleColumn
-              ? (section.bubbles.length === 0 ? 100 : 200)
-              : undefined
+            const gapSt = gapContainerStyle(section.heightRatio, section.bubbles.length > 0, singleColumn)
+            const fixedHeight = 'height' in gapSt ? (gapSt.height as number) : undefined
             return (
               <GapSection
                 key={section.id}
@@ -561,12 +572,11 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
           if (section.type === 'crop-panel') {
             return <CropPanelSection key={section.id} section={section} />
           }
-          // EP31 singleColumn: wide panels → 73% centered
           if (singleColumn && section.type === 'panel') {
             return (
-              <div key={section.id} style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <div key={section.id} style={{ width: '100%', display: 'flex', justifyContent: panelJustify(section.layout, true) }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={section.imageUrl} alt="" style={{ width: '73%', height: 'auto', display: 'block' }} />
+                <img src={section.imageUrl} alt="" style={{ width: panelImageWidth(section.layout, true), height: 'auto', display: 'block' }} />
               </div>
             )
           }
