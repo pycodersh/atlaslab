@@ -29,15 +29,11 @@ function getBubbleMeta(key: string) {
 }
 
 // ── Highlight helper ─────────────────────────────────────────────────────────
-const KOREAN_RE = /[가-힣]/
 
 function renderKorean(text: string, highlight?: string): React.ReactNode {
   if (!highlight) return text
   const idx = text.indexOf(highlight)
   if (idx === -1) return text
-  // Reject mid-word partial match: if highlight has no space and the preceding
-  // character is a Korean syllable, it's embedded inside another word.
-  if (!highlight.includes(' ') && idx > 0 && KOREAN_RE.test(text[idx - 1])) return text
   return (
     <>
       {text.slice(0, idx)}
@@ -114,6 +110,7 @@ function WebtoonBubbleEl({
         transform: bubble.rotation ? `rotate(${bubble.rotation}deg)` : undefined,
         overflow: 'visible',
         cursor: tappable ? 'pointer' : undefined,
+        pointerEvents: tappable ? 'auto' : 'none',
         filter: isActive
           ? 'drop-shadow(0 0 6px #f59e0b) drop-shadow(0 0 12px rgba(245,158,11,0.5))'
           : tappable && !isBodyOnly
@@ -184,9 +181,10 @@ function GapSection({
           ? { height: fixedHeight }
           : { paddingBottom: `${section.heightRatio * 100}%` }),
         overflow: 'visible',
+        pointerEvents: 'none',
       }}
     >
-      <div style={{ position: 'absolute', inset: 0, overflow: 'visible' }}>
+      <div style={{ position: 'absolute', inset: 0, overflow: 'visible', pointerEvents: 'none' }}>
         {section.bubbles.map(b => (
           <WebtoonBubbleEl
             key={b.id}
