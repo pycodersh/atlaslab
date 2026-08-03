@@ -132,8 +132,9 @@ function getFilePaths(epFrom: number, epTo: number): string[] {
 }
 
 // ── 신규 bubble 기본 위치 ─────────────────────────────────────────────────────
-function defaultPosition(orderNum: number): object {
-  return { xPct: 5, yPct: 5 + (orderNum - 1) * 40, widthPct: 85, bubbleKey: 'bubble-oval', lines: 2 }
+function defaultPosition(orderNum: number, type: 'speech' | 'thought' = 'speech'): object {
+  const bubbleKey = type === 'thought' ? 'bubble-thought-down' : 'bubble-oval'
+  return { xPct: 5, yPct: 5 + (orderNum - 1) * 40, widthPct: 85, bubbleKey, lines: 2 }
 }
 
 // ── 메인 ─────────────────────────────────────────────────────────────────────
@@ -325,8 +326,8 @@ async function main() {
         const hlText  = firstHl?.matchedText ?? null
         const savedPos = posMap.get(`${cut.cutNum}:${seq}`)
         const position = savedPos
-          ? { ...(defaultPosition(seq) as object), xPct: savedPos.xPct, yPct: savedPos.yPct }
-          : defaultPosition(seq)
+          ? { ...(defaultPosition(seq, dlg.type) as object), xPct: savedPos.xPct, yPct: savedPos.yPct }
+          : defaultPosition(seq, dlg.type)
         const { error } = await sb.from('kp_bubbles').insert({
           panel_id:       panelId,
           episode_id:     epId,

@@ -1,6 +1,6 @@
 'use client'
 
-import { useReducer, useRef, useMemo, useEffect, useState, useCallback } from 'react'
+import React, { useReducer, useRef, useMemo, useEffect, useState, useCallback } from 'react'
 import type {
   WebtoonEpisodeData,
   WebtoonBubble,
@@ -10,6 +10,7 @@ import type {
 } from '@/data/kpatto/webtoon-types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
+import { isSingleColumn, gapContainerStyle, panelImageWidth, panelJustify } from '@/lib/kpatto/webtoon-layout'
 
 // ── Bubble metadata ──────────────────────────────────────────────────────────
 type BubbleMetaKey = keyof typeof bubblesData
@@ -91,10 +92,12 @@ function reducer(s: S, a: A): S {
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 const BUBBLE_TYPES = [
-  { key: 'bubble-oval',  label: '타원 (동적 꼬리)' },
-  { key: 'bubble-wide',  label: '가로형 (동적 꼬리)' },
-  { key: 'bubble-tall',  label: '세로형 (동적 꼬리)' },
-  { key: 'bubble-short', label: '짧은형 (동적 꼬리)' },
+  { key: 'bubble-oval',         label: '타원 (동적 꼬리)' },
+  { key: 'bubble-wide',         label: '가로형 (동적 꼬리)' },
+  { key: 'bubble-tall',         label: '세로형 (동적 꼬리)' },
+  { key: 'bubble-short',        label: '짧은형 (동적 꼬리)' },
+  { key: 'bubble-thought-down', label: '생각 말풍선 (꼬리 아래)' },
+  { key: 'bubble-thought-up',   label: '생각 말풍선 (꼬리 위)' },
   { key: 'bubble-01-oval-bottom-left',   label: '레거시: 아래 왼쪽' },
   { key: 'bubble-02-oval-bottom-center', label: '레거시: 아래 중앙' },
   { key: 'bubble-03-oval-bottom-right',  label: '레거시: 아래 오른쪽' },
@@ -523,13 +526,11 @@ function EditableBubble({
 }
 
 // ── Panel image ───────────────────────────────────────────────────────────────
-function PanelSection({ section, editMode }: { section: WebtoonPanelSection; editMode: boolean }) {
-  const isWide = section.layout === 'wide'
-  const isMedRight = section.layout === 'medium-right'
+function PanelSection({ section, editMode, sc }: { section: WebtoonPanelSection; editMode: boolean; sc: boolean }) {
   return (
-    <div style={{ width: '100%', display: 'flex', justifyContent: isWide ? 'center' : isMedRight ? 'flex-end' : 'flex-start', pointerEvents: editMode ? 'none' : 'auto' }}>
+    <div style={{ width: '100%', display: 'flex', justifyContent: panelJustify(section.layout, sc), pointerEvents: editMode ? 'none' : 'auto' }}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={section.imageUrl} alt={section.id} style={{ display: 'block', width: isWide ? '100%' : '78%', height: 'auto' }} />
+      <img src={section.imageUrl} alt={section.id} style={{ display: 'block', width: panelImageWidth(section.layout, sc), height: 'auto' }} />
     </div>
   )
 }
@@ -539,6 +540,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
   episode: WebtoonEpisodeData
   initialEditMode?: boolean
 }) {
+  const sc = isSingleColumn(episode.episode)
   const [editMode, setEditMode] = useState(initialEditMode)
   const [showKo, setShowKo] = useState(true)
   const [showTrans, setShowTrans] = useState(true)
@@ -707,8 +709,28 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
       )}
 
       {/* Webtoon content */}
-      {episode.sections.map(section => {
-        if (section.type === 'panel') return <PanelSection key={section.id} section={section} editMode={editMode} />
+      {episode.sections.map((section, idx) => {
+        if (section.type === 'panel') {
+          const ps = section as WebtoonPanelSection
+          const prevSec = idx > 0 ? episode.sections[idx - 1] : null
+          const nextSec = idx < episode.sections.length - 1 ? episode.sections[idx + 1] : null
+          const isMulti = (lay: string) => lay.startsWith('split:') || lay.startsWith('stack-t:') || lay === 'stack-b'
+          const isThisMulti = sc && isMulti(ps.layout)
+          const prevIsMulti = sc && prevSec?.type === 'panel' && isMulti((prevSec as WebtoonPanelSection).layout)
+          const nextIsMulti = sc && nextSec?.type === 'panel' && isMulti((nextSec as WebtoonPanelSection).layout)
+          const justify: 'flex-start' | 'flex-end' | 'center' = isThisMulti
+            ? (!prevIsMulti ? 'flex-start' : !nextIsMulti ? 'flex-end' : 'center')
+            : panelJustify(ps.layout, sc)
+          return (
+            <React.Fragment key={ps.id}>
+              {isThisMulti && prevIsMulti && <div style={{ height: 200 }} />}
+              <div style={{ width: '100%', display: 'flex', justifyContent: justify, pointerEvents: editMode ? 'none' : 'auto' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={ps.imageUrl} alt={ps.id} style={{ display: 'block', width: panelImageWidth(ps.layout, sc), height: 'auto' }} />
+              </div>
+            </React.Fragment>
+          )
+        }
         if (section.type === 'crop-panel') {
           const cs = section as import('@/data/kpatto/webtoon-types').WebtoonCropSection
           const pb = (cs.cropH / cs.cropW) * 100
@@ -732,7 +754,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
             onClick={handleGapClick}
             style={{
               position: 'relative', zIndex: 20, width: '100%',
-              paddingBottom: `${gap.heightRatio * 100}%`,
+              ...gapContainerStyle(gap.heightRatio, gap.bubbles.length > 0, sc),
               overflow: 'visible',
             }}
           >

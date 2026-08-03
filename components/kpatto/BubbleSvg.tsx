@@ -1,3 +1,4 @@
+import React from 'react'
 import type { BubbleTailData } from '@/data/kpatto/webtoon-types'
 
 interface OvalParams {
@@ -12,6 +13,7 @@ interface BubbleSvgProps {
   flip?: boolean
   flipY?: boolean
   highlighted?: boolean
+  thought?: boolean
 }
 
 /**
@@ -97,6 +99,15 @@ function f(n: number) {
   return n.toFixed(2)
 }
 
+const SVG_STYLE: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  width: '100%',
+  height: '100%',
+  overflow: 'visible',
+  pointerEvents: 'none',
+}
+
 export function BubbleSvg({
   viewBoxW = 320,
   viewBoxH = 200,
@@ -105,33 +116,69 @@ export function BubbleSvg({
   flip,
   flipY,
   highlighted,
+  thought = false,
 }: BubbleSvgProps) {
-  const d = computePath(viewBoxW, viewBoxH, oval, tail)
+  const fill = highlighted ? '#FFF8F0' : '#ffffff'
+  const stroke = highlighted ? '#D4873A' : '#242424'
+  const sw = highlighted ? 3 : 2.5
 
-  // Build SVG transform for flip/flipY (applied to the path)
   const parts: string[] = []
   if (flip)  parts.push(`scale(-1,1) translate(${-viewBoxW},0)`)
   if (flipY) parts.push(`scale(1,-1) translate(0,${-viewBoxH})`)
   const transform = parts.length ? parts.join(' ') : undefined
 
+  if (thought) {
+    const { cx, cy, rx, ry } = oval
+    const oRx = rx * viewBoxW
+    const oRy = ry * viewBoxH
+    const oCx = cx * viewBoxW
+    const oCy = cy * viewBoxH
+
+    const ovalPath = [
+      `M ${f(oCx + oRx)},${f(oCy)}`,
+      `A ${f(oRx)},${f(oRy)},0,1,1,${f(oCx - oRx)},${f(oCy)}`,
+      `A ${f(oRx)},${f(oRy)},0,1,1,${f(oCx + oRx)},${f(oCy)}`,
+      `Z`,
+    ].join(' ')
+
+    // Compute 3 decreasing circles along the tail direction (r=8→5→3)
+    let circles: Array<{ cx: number; cy: number; r: number }> = []
+    const t = tail ?? { anchor: 0.25, tipX: 0.5, tipY: 1.3, baseWidth: 0.12 }
+    const θ = t.anchor * 2 * Math.PI
+    const anchorX = oCx + oRx * Math.cos(θ)
+    const anchorY = oCy + oRy * Math.sin(θ)
+    const dx = t.tipX * viewBoxW - anchorX
+    const dy = t.tipY * viewBoxH - anchorY
+    const dist = Math.sqrt(dx * dx + dy * dy)
+    const ux = dist > 0 ? dx / dist : 0
+    const uy = dist > 0 ? dy / dist : 1
+    circles = [
+      { cx: anchorX + ux * 18, cy: anchorY + uy * 18, r: 8 },
+      { cx: anchorX + ux * 32, cy: anchorY + uy * 32, r: 5 },
+      { cx: anchorX + ux * 43, cy: anchorY + uy * 43, r: 3 },
+    ]
+
+    return (
+      <svg viewBox={`0 0 ${viewBoxW} ${viewBoxH}`} style={SVG_STYLE} xmlns="http://www.w3.org/2000/svg">
+        <g transform={transform}>
+          <path d={ovalPath} fill={fill} stroke={stroke} strokeWidth={sw} strokeLinejoin="round" />
+          {circles.map((c, i) => (
+            <circle key={i} cx={f(c.cx)} cy={f(c.cy)} r={c.r} fill={fill} stroke={stroke} strokeWidth={sw} />
+          ))}
+        </g>
+      </svg>
+    )
+  }
+
+  const d = computePath(viewBoxW, viewBoxH, oval, tail)
+
   return (
-    <svg
-      viewBox={`0 0 ${viewBoxW} ${viewBoxH}`}
-      style={{
-        position: 'absolute',
-        inset: 0,
-        width: '100%',
-        height: '100%',
-        overflow: 'visible',
-        pointerEvents: 'none',
-      }}
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg viewBox={`0 0 ${viewBoxW} ${viewBoxH}`} style={SVG_STYLE} xmlns="http://www.w3.org/2000/svg">
       <path
         d={d}
-        fill={highlighted ? '#FFF8F0' : '#ffffff'}
-        stroke={highlighted ? '#D4873A' : '#242424'}
-        strokeWidth={highlighted ? 3 : 2.5}
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={sw}
         strokeLinejoin="round"
         strokeLinecap="round"
         transform={transform}

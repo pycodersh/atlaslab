@@ -22,6 +22,7 @@ function getBubbleMeta(key: string) {
     label: string
     flipY?: boolean
     bodyOnly?: boolean
+    thought?: boolean
     ovalParams?: { cx: number; cy: number; rx: number; ry: number }
     safeArea: { left: number; top: number; right: number; bottom: number }
   }
@@ -132,6 +133,7 @@ function WebtoonBubbleEl({
             flip={bubble.flip}
             flipY={meta.flipY}
             highlighted={tappable}
+            thought={meta.thought}
           />
           {textOverlay}
         </div>
