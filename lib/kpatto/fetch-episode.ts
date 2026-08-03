@@ -29,7 +29,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
       .order('order_num'),
     supabase
       .from('kp_bubbles')
-      .select('panel_id, order_num, speaker, korean, translations, position, tail, dialogue_id, audio_url')
+      .select('panel_id, order_num, speaker, korean, translations, position, tail, dialogue_id, audio_url, highlight_text, expression_id')
       .eq('episode_id', ep.id)
       .order('order_num'),
   ])
@@ -45,6 +45,8 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     tail: BubbleTailData | null
     dialogue_id: number | null
     audio_url: string | null
+    highlight_text: string | null
+    expression_id: number | null
   }
 
   const bubbleList = (bubbles ?? []) as DBBubble[]
@@ -96,8 +98,8 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     speaker:        b.speaker,
     lines:          ((b.position?.lines as 1 | 2 | 3) ?? 1),
     tail:           b.tail ?? undefined,
-    highlight_text: b.dialogue_id != null ? (highlightMap.get(b.dialogue_id)          ?? undefined) : undefined,
-    expression_id:  b.dialogue_id != null ? (dialogueExpressionMap.get(b.dialogue_id) ?? undefined) : undefined,
+    highlight_text: (b.dialogue_id != null ? highlightMap.get(b.dialogue_id) : undefined) ?? b.highlight_text ?? undefined,
+    expression_id:  (b.dialogue_id != null ? dialogueExpressionMap.get(b.dialogue_id) : undefined) ?? b.expression_id ?? undefined,
     audio_url:      b.audio_url ?? undefined,
   })
 
@@ -224,77 +226,115 @@ export async function fetchAllExpressions(): Promise<KPattoExpression[]> {
   return (data ?? []) as KPattoExpression[]
 }
 
-function pickN<T>(arr: T[], n: number): T[] {
-  return [...arr].sort(() => Math.random() - 0.5).slice(0, n)
-}
-
-type DBChallenge = {
+type NewDBChallenge = {
   id: number
-  challenge_type: string
-  question: { prompt: string; hint_en?: string }
-  options: string[] | null
+  type: string
+  slot: string
+  round_no: number
+  question: string
+  hint: string | null
   answer: string
-  word_pieces: string[] | null
+  options: string[] | null
+  tokens: string[] | null
+  variant: string | null
 }
 
-/** Fetches challenges from DB and returns 5 randomly selected (2 translation + 2 fill_blank + 1 word_order). */
+/** Returns 5 challenges for the current round (MC×2, FB×2, SB×1).
+ *  Round is read from kp_challenge_progress; defaults to 1 when no record exists. */
 export async function fetchEpisodeChallenges(episodeId: string): Promise<Question[]> {
   const match = episodeId.match(/kp-ep-(\d+)/)
   if (!match) return []
+  const epNo = parseInt(match[1])
 
   const supabase = createClient()
 
-  const { data: ep } = await supabase
-    .from('kp_episodes')
-    .select('id')
-    .eq('episode_num', parseInt(match[1]))
-    .single()
-  if (!ep) return []
+  let roundNo = 1
+  const { data: { user } } = await supabase.auth.getUser()
+  if (user) {
+    const { data: progress } = await supabase
+      .from('kp_challenge_progress')
+      .select('round_no')
+      .eq('user_id', user.id)
+      .eq('ep_no', epNo)
+      .maybeSingle()
+    if (progress) roundNo = progress.round_no
+  }
 
   const { data: rows } = await supabase
     .from('kp_challenges')
-    .select('id, challenge_type, question, options, answer, word_pieces')
-    .eq('episode_id', ep.id)
-    .not('challenge_type', 'is', null)
+    .select('id, type, slot, round_no, question, hint, answer, options, tokens, variant')
+    .eq('ep_no', epNo)
+    .eq('round_no', roundNo)
+    .order('slot')
   if (!rows || rows.length === 0) return []
 
-  const byType: Record<string, DBChallenge[]> = {
-    translation: [],
-    fill_blank: [],
-    word_order: [],
-  }
-  for (const row of rows as DBChallenge[]) {
-    if (byType[row.challenge_type]) byType[row.challenge_type].push(row)
-  }
+  // Render order: multiple_choice → fill_blank → sentence_build
+  const typeOrder: Record<string, number> = { multiple_choice: 0, fill_blank: 1, sentence_build: 2 }
+  const sorted = [...rows].sort((a, b) => {
+    const ca = a as NewDBChallenge
+    const cb = b as NewDBChallenge
+    const ta = typeOrder[ca.type] ?? 3
+    const tb = typeOrder[cb.type] ?? 3
+    return ta !== tb ? ta - tb : ca.slot.localeCompare(cb.slot)
+  })
 
-  const selected = [
-    ...pickN(byType.translation, 2),
-    ...pickN(byType.fill_blank, 2),
-    ...pickN(byType.word_order, 1),
-  ]
-
-  return selected.map((c): Question => {
-    if (c.challenge_type === 'translation' || c.challenge_type === 'fill_blank') {
+  return (sorted as NewDBChallenge[]).map((c): Question => {
+    if (c.type === 'multiple_choice') {
       const opts = c.options ?? []
       const correctIdx = opts.indexOf(c.answer)
-      const q: TranslationQuestion | FillBlankQuestion = {
-        type: c.challenge_type as 'translation' | 'fill_blank',
-        prompt: c.question.prompt,
+      const q: TranslationQuestion = {
+        type: 'translation',
+        prompt: c.question,
         choices: opts,
         correctIdx: correctIdx >= 0 ? correctIdx : 0,
-        ...(c.challenge_type === 'fill_blank' && c.question.hint_en
-          ? { hint_en: c.question.hint_en }
-          : {}),
+      }
+      return q
+    } else if (c.type === 'fill_blank') {
+      const opts = c.options ?? []
+      const correctIdx = opts.indexOf(c.answer)
+      const q: FillBlankQuestion = {
+        type: 'fill_blank',
+        prompt: c.question,
+        choices: opts,
+        correctIdx: correctIdx >= 0 ? correctIdx : 0,
+        ...(c.hint ? { hint_en: c.hint } : {}),
       }
       return q
     } else {
       const q: WordOrderQuestion = {
         type: 'word_order',
-        prompt: c.question.prompt,
-        pieces: c.word_pieces ?? [],
+        prompt: c.question,
+        pieces: c.tokens ?? [],
         answer: c.answer.split(' '),
       }
       return q
     }
   })
+}
+
+/** Advances kp_challenge_progress to the next round after completing current round. */
+export async function advanceEpisodeRound(episodeId: string): Promise<void> {
+  const match = episodeId.match(/kp-ep-(\d+)/)
+  if (!match) return
+  const epNo = parseInt(match[1])
+
+  const supabase = createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return
+
+  const { data: progress } = await supabase
+    .from('kp_challenge_progress')
+    .select('round_no')
+    .eq('user_id', user.id)
+    .eq('ep_no', epNo)
+    .maybeSingle()
+
+  const nextRound = ((progress?.round_no ?? 1) % 3) + 1
+
+  await supabase
+    .from('kp_challenge_progress')
+    .upsert(
+      { user_id: user.id, ep_no: epNo, round_no: nextRound, cleared_at: new Date().toISOString() },
+      { onConflict: 'user_id,ep_no' },
+    )
 }

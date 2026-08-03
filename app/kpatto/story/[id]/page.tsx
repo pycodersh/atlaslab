@@ -13,7 +13,7 @@ import { KPattoPaywall } from '@/components/kpatto/KPattoPaywall'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
-import { fetchWebtoonEpisode, fetchEpisodeChallenges } from '@/lib/kpatto/fetch-episode'
+import { fetchWebtoonEpisode, fetchEpisodeChallenges, advanceEpisodeRound } from '@/lib/kpatto/fetch-episode'
 import type { WebtoonEpisodeData } from '@/data/kpatto/webtoon-types'
 import { EP001_POOL, type RawQuestion } from '@/data/kpatto/challenge-pool-ep001'
 import { EP002_POOL } from '@/data/kpatto/challenge-pool-ep002'
@@ -112,11 +112,12 @@ export default function KPattoStoryPage({ params }: PageProps) {
 
   const handleChallengeComplete = useCallback(() => {
     if (story) onStoryComplete(story.episode, story.title)
+    advanceEpisodeRound(id)
     setChallengeDone(true)
     setTimeout(() => {
       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
     }, 300)
-  }, [story])
+  }, [story, id])
 
   // After loading: if no static story and DB also returned nothing, 404
   if (!webtoonLoading && !story && !webtoonEpisode) notFound()
@@ -168,7 +169,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
             <ChevronLeft size={22} strokeWidth={2} />
           </Link>
           <div style={{ fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            EP {String(epNum).padStart(2, '0')} · {story?.title ?? webtoonEpisode?.title ?? ''}
+            EP {String(epNum).padStart(2, '0')} · {story?.title ?? ''}
           </div>
         </div>
       )}
@@ -192,7 +193,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
           />
         ) : (
           <div style={{ paddingTop: 16 }}>
-            {story.panels.map((panel, index) => (
+            {story?.panels.map((panel, index) => (
               <StoryPanel
                 key={panel.id}
                 panel={panel}
