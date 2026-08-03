@@ -35,6 +35,7 @@ export interface WebtoonGapSection {
   type: 'gap'
   id: string
   heightRatio: number   // gap height / 430 — used as padding-bottom % to scale with width
+  fixedHeightPx?: number // when set, singleColumn uses this px height instead of 200px default
   bubbles: WebtoonBubble[]
 }
 

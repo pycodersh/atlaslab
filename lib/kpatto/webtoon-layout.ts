@@ -19,9 +19,10 @@ export function gapContainerStyle(
   heightRatio: number,
   hasBubbles: boolean,
   singleColumn: boolean,
+  fixedHeightPx?: number,
 ): React.CSSProperties {
   if (singleColumn) {
-    return { height: 200 }
+    return { height: fixedHeightPx ?? 200 }
   }
   return { paddingBottom: `${heightRatio * 100}%` }
 }

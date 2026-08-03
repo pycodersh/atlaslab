@@ -153,17 +153,20 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     for (const row of rows) {
       for (const rp of row) {
         panelCount++
-        sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: (rp.layout ?? 'wide') as string })
+        const lay = (rp.layout ?? 'wide') as string
+        sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: lay })
+
+        const panelBubbles = (byPanel.get(rp.id) ?? []).sort((a, b) => a.order_num - b.order_num)
+        const isWide = lay === 'wide'
+        const gapId = `gap-${gapCount++}`
+        sections.push({
+          type: 'gap' as const,
+          id: gapId,
+          heightRatio: isWide ? 200 / 430 : 160 / 430,
+          fixedHeightPx: isWide ? 200 : 160,
+          bubbles: panelBubbles.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
+        })
       }
-      const rowDbBubbles = row.flatMap(rp => (byPanel.get(rp.id) ?? []).sort((a, b) => a.order_num - b.order_num))
-      const n = row.filter(rp => (byPanel.get(rp.id)?.length ?? 0) > 0).length
-      const gapId = `gap-${gapCount++}`
-      sections.push({
-        type: 'gap' as const,
-        id: gapId,
-        heightRatio: n === 0 ? 0.55 : 0.88 * n,
-        bubbles: rowDbBubbles.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
-      })
     }
   }
 
