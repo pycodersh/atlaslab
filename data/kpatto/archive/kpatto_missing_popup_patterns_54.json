@@ -1,0 +1,519 @@
+[
+  {
+    "episode": 3,
+    "pattern_ko": "~먹을 수 있어요?",
+    "source_dialogues": [
+      "에마: 매운 거 못 먹어요... 근데 맛있어요!!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 8,
+    "pattern_ko": "~아/어야 할지 모르겠어요",
+    "source_dialogues": [
+      "에마: 뭘 사야 할지 모르겠어요. 다 신기해 보여요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 12,
+    "pattern_ko": "~이/가 들어가 있어요?",
+    "source_dialogues": [
+      "에마: 이거 뭐가 들어가 있어요?",
+      "에마: 아, 조개가 들어가 있어요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 16,
+    "pattern_ko": "~아/어야겠다",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 17,
+    "pattern_ko": "~이/가 아파요",
+    "source_dialogues": [
+      "에마: (전화로) 지수야, 저 많이 아파요...",
+      "약사: 어디 아파요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 21,
+    "pattern_ko": "~었어/았어",
+    "source_dialogues": [
+      "에마: 진짜 좋았어요! 사진도 많이 찍었어요.",
+      "에마: 근데 치킨 못 먹었어요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 22,
+    "pattern_ko": "~ㄹ/을 거야",
+    "source_dialogues": [
+      "민준: 한 30분 걸릴 거야."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 33,
+    "pattern_ko": "한국 친구를 사귀고 싶어요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 41,
+    "pattern_ko": "~거든요",
+    "source_dialogues": [
+      "에마: 저 사실 한국어 배우거든요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 41,
+    "pattern_ko": "~더라고요",
+    "source_dialogues": [
+      "에마: 가 봤는데 생각보다 좋더라고요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 45,
+    "pattern_ko": "~아/어 줄게요",
+    "source_dialogues": [
+      "에마: 제가 도와줄게요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 50,
+    "pattern_ko": "~이/가 제일 좋아",
+    "source_dialogues": [
+      "에마: 너무 좋아요!",
+      "지수: 뭐가 제일 좋아?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 51,
+    "pattern_ko": "~ㄹ/을 거예요",
+    "source_dialogues": [
+      "소피: 에마, 앞으로 뭐 할 거예요?",
+      "에마: 한국어 더 열심히 공부할 거예요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 53,
+    "pattern_ko": "~어/아 봤어?",
+    "source_dialogues": [
+      "지수: 에마야, 순대 먹어봤어?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 54,
+    "pattern_ko": "~가르쳐 줄 수 있어?",
+    "source_dialogues": [
+      "지수: 응! 가르쳐줄 수 있어?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 54,
+    "pattern_ko": "~어떻게 해요?",
+    "source_dialogues": [
+      "에마: 지수, 이거 한국어로 어떻게 해요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 57,
+    "pattern_ko": "~해봤어요?",
+    "source_dialogues": [
+      "에마: 지수야, 알바 해봤어요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 57,
+    "pattern_ko": "어땠어요?",
+    "source_dialogues": [
+      "에마: 어땠어요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 57,
+    "pattern_ko": "도전해 볼게요",
+    "source_dialogues": [
+      "에마: 도전해 볼게요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 61,
+    "pattern_ko": "나쁘지 않은데요",
+    "source_dialogues": [
+      "에마: 나쁘지 않은데요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 61,
+    "pattern_ko": "저도 그렇게 생각해요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 67,
+    "pattern_ko": "~이/가 이렇게 ~해요?",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 67,
+    "pattern_ko": "이때가 제일 좋아요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 67,
+    "pattern_ko": "~은/는 어때요?",
+    "source_dialogues": [
+      "에마: 여름은 어때요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 68,
+    "pattern_ko": "제가 잘못했어요",
+    "source_dialogues": [
+      "에마: 마음은 알아요. 제가 잘못했어요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 68,
+    "pattern_ko": "~려고 할게요",
+    "source_dialogues": [
+      "에마: 다음엔 꼭 연락할게요!",
+      "소피: 저도 이해하려고 할게요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 70,
+    "pattern_ko": "~어디에 버려요?",
+    "source_dialogues": [
+      "에마: 지수야, 이거 어디에 버려요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 70,
+    "pattern_ko": "~철저히 해요?",
+    "source_dialogues": [
+      "에마: 한국은 분리수거 철저히 해요?",
+      "에마: 환경 생각하는 게 중요해요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 70,
+    "pattern_ko": "~신경 써야겠어요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 71,
+    "pattern_ko": "뭔가 설레요",
+    "source_dialogues": [
+      "소피: 맞아요. 뭔가 설레요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 71,
+    "pattern_ko": "이런 순간이 소중해요",
+    "source_dialogues": [
+      "에마: 이런 순간이 소중해요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 72,
+    "pattern_ko": "오해가 있었던 것 같아요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 72,
+    "pattern_ko": "~뜻이 아니었어요",
+    "source_dialogues": [
+      "에마: 제 말이 그런 뜻이 아니었어요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 72,
+    "pattern_ko": "충분히 이해해요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 73,
+    "pattern_ko": "~지 않길 잘했어요",
+    "source_dialogues": [
+      "에마: 포기하지 않길 잘했어요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 76,
+    "pattern_ko": "알고 보면 ~해요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 76,
+    "pattern_ko": "~차이가 뭐예요?",
+    "source_dialogues": [
+      "에마: 이 두 개 차이가 뭐예요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 76,
+    "pattern_ko": "이게 포인트예요",
+    "source_dialogues": [
+      "에마: 아, 이게 포인트예요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 78,
+    "pattern_ko": "~고 싶긴 해요",
+    "source_dialogues": [
+      "에마: 일 년 더 연장하려고 해요.",
+      "에마: 그러고 보니 가족들이 보고 싶긴 해요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 78,
+    "pattern_ko": "~을/를 위해 ~할 거예요",
+    "source_dialogues": [
+      "에마: 그래도 꿈을 위해 열심히 할 거예요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 81,
+    "pattern_ko": "~다고 하던데요",
+    "source_dialogues": [
+      "에마: 거기 맛있다고 하던데요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 81,
+    "pattern_ko": "~다더라고요",
+    "source_dialogues": [
+      "에마: 좋다더라고요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 81,
+    "pattern_ko": "~(으)ㄹ 줄 몰랐어요",
+    "source_dialogues": [
+      "에마: 그럴 줄 몰랐어요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 86,
+    "pattern_ko": "흔한 일이에요?",
+    "source_dialogues": [
+      "에마: 한국에서는 흔한 일이에요?"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 86,
+    "pattern_ko": "생각보다 훨씬 ~해요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 91,
+    "pattern_ko": "좀 그렇긴 한데요",
+    "source_dialogues": [
+      "에마: 좀 그렇긴 한데요..."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 91,
+    "pattern_ko": "아니라고 할 순 없죠",
+    "source_dialogues": [
+      "에마: 아니라고 할 순 없죠."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 91,
+    "pattern_ko": "꼭 그런 건 아니에요",
+    "source_dialogues": [
+      "에마: 꼭 그런 건 아니에요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 94,
+    "pattern_ko": "상대방 입장에서 생각해 봐요",
+    "source_dialogues": [],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 94,
+    "pattern_ko": "제가 옆에 있을게요",
+    "source_dialogues": [
+      "에마: 제가 옆에 있을게요."
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 100,
+    "pattern_ko": "제 ~은/는 이제 시작이에요",
+    "source_dialogues": [
+      "에마: 제 한국어 공부는 이제 시작이에요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 100,
+    "pattern_ko": "~로 꿈을 이룰 거예요",
+    "source_dialogues": [
+      "에마: 앞으로도 계속 공부할 거예요.",
+      "에마: 한국어로 꿈을 이룰 거예요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  },
+  {
+    "episode": 100,
+    "pattern_ko": "~은/는 계속돼요",
+    "source_dialogues": [
+      "에마: 한국어 여정은 계속돼요!"
+    ],
+    "literal_en": "",
+    "usage_en": "",
+    "examples": []
+  }
+]

@@ -1,0 +1,1623 @@
+[
+  {
+    "episode_num": 33,
+    "expression_id": 1248,
+    "type": "translation",
+    "question": "I want to make Korean friends.",
+    "answer": "한국 친구를 사귀고 싶어요.",
+    "choices": [
+      "한국 친구를 사귀고 싶어요.",
+      "사진 올렸더니 댓글이 많이 달렸어.",
+      "설탕 얼마나 넣어? 너무 달 것 같아."
+    ],
+    "hint": "I want to make Korean friends."
+  },
+  {
+    "episode_num": 33,
+    "expression_id": 1248,
+    "type": "word_order",
+    "question": "I want to make friends from different countries.",
+    "answer": "다양한 나라의 친구를 사귀고 싶어요",
+    "choices": [
+      "싶어요",
+      "사귀고",
+      "나라의",
+      "다양한",
+      "친구를"
+    ],
+    "hint": "한국 친구를 사귀고 싶어요"
+  },
+  {
+    "episode_num": 41,
+    "expression_id": 1249,
+    "type": "translation",
+    "question": "You see, I'm learning Korean.",
+    "answer": "저는 한국어를 배우거든요.",
+    "choices": [
+      "저는 한국어를 배우거든요.",
+      "우산을 챙겨야겠다.",
+      "생각보다 훨씬 맛있어."
+    ],
+    "hint": "You see, ~. / Because ~."
+  },
+  {
+    "episode_num": 41,
+    "expression_id": 1249,
+    "type": "fill_blank",
+    "question": "오늘 약속이 있___.",
+    "answer": "거든요",
+    "choices": [
+      "거든요"
+    ],
+    "hint": "I have plans today, you see."
+  },
+  {
+    "episode_num": 41,
+    "expression_id": 1249,
+    "type": "word_order",
+    "question": "I come to this restaurant often, you see.",
+    "answer": "이 식당에 자주 오거든요",
+    "choices": [
+      "이",
+      "오거든요",
+      "식당에",
+      "자주"
+    ],
+    "hint": "~거든요"
+  },
+  {
+    "episode_num": 41,
+    "expression_id": 1250,
+    "type": "translation",
+    "question": "I found it tastier than expected.",
+    "answer": "생각보다 맛있더라고요.",
+    "choices": [
+      "여기 사진 찍기 좋아요.",
+      "생각보다 맛있더라고요.",
+      "다음에는 일찍 오려고 할게요."
+    ],
+    "hint": "I noticed that ~. / It turned out that ~."
+  },
+  {
+    "episode_num": 41,
+    "expression_id": 1250,
+    "type": "fill_blank",
+    "question": "사람이 정말 많___.",
+    "answer": "더라고요",
+    "choices": [
+      "더라고요"
+    ],
+    "hint": "I noticed there were a lot of people."
+  },
+  {
+    "episode_num": 41,
+    "expression_id": 1250,
+    "type": "word_order",
+    "question": "I found that it was cold at night.",
+    "answer": "밤에는 춥더라고요",
+    "choices": [
+      "밤에는",
+      "춥더라고요"
+    ],
+    "hint": "~더라고요"
+  },
+  {
+    "episode_num": 45,
+    "expression_id": 1251,
+    "type": "translation",
+    "question": "I'll help you.",
+    "answer": "제가 도와줄게요.",
+    "choices": [
+      "제가 도와줄게요.",
+      "메뉴 추천해 주세요.",
+      "거기 맛있다고 하던데."
+    ],
+    "hint": "I'll ~ for you."
+  },
+  {
+    "episode_num": 45,
+    "expression_id": 1251,
+    "type": "word_order",
+    "question": "I'll tell you later.",
+    "answer": "나중에 알려 줄게요",
+    "choices": [
+      "나중에",
+      "알려",
+      "줄게요"
+    ],
+    "hint": "~아/어 줄게요"
+  },
+  {
+    "episode_num": 50,
+    "expression_id": 1252,
+    "type": "translation",
+    "question": "I like spring the most.",
+    "answer": "나는 봄이 제일 좋아.",
+    "choices": [
+      "계속 연습하다 보면 늘어요.",
+      "나는 봄이 제일 좋아.",
+      "분리수거 철저히 해? 중요한 것 같아."
+    ],
+    "hint": "I like ~ the most."
+  },
+  {
+    "episode_num": 50,
+    "expression_id": 1252,
+    "type": "word_order",
+    "question": "I like bulgogi the most among Korean foods.",
+    "answer": "한국 음식 중에는 불고기가 제일 좋아",
+    "choices": [
+      "중에는",
+      "음식",
+      "제일",
+      "좋아",
+      "불고기가",
+      "한국"
+    ],
+    "hint": "~이/가 제일 좋아"
+  },
+  {
+    "episode_num": 51,
+    "expression_id": 1253,
+    "type": "translation",
+    "question": "I'm going to study tomorrow.",
+    "answer": "내일 공부할 거예요.",
+    "choices": [
+      "이야기가 앞뒤가 안 맞아요.",
+      "내일 공부할 거예요.",
+      "얼마나 걸려요?"
+    ],
+    "hint": "I will ~. / I'm going to ~."
+  },
+  {
+    "episode_num": 51,
+    "expression_id": 1253,
+    "type": "word_order",
+    "question": "I'm going to Korea next month.",
+    "answer": "다음 달에 한국에 갈 거예요",
+    "choices": [
+      "거예요",
+      "달에",
+      "다음",
+      "한국에",
+      "갈"
+    ],
+    "hint": "~ㄹ/을 거예요"
+  },
+  {
+    "episode_num": 53,
+    "expression_id": 1254,
+    "type": "translation",
+    "question": "Have you tried kimchi?",
+    "answer": "김치 먹어 봤어?",
+    "choices": [
+      "꿈을 위해 열심히 공부할 거예요.",
+      "왼쪽으로 꺾으면 돼요.",
+      "김치 먹어 봤어?"
+    ],
+    "hint": "Have you tried ~?"
+  },
+  {
+    "episode_num": 53,
+    "expression_id": 1254,
+    "type": "word_order",
+    "question": "Have you been to Jeju Island?",
+    "answer": "제주도에 가 봤어",
+    "choices": [
+      "봤어",
+      "가",
+      "제주도에"
+    ],
+    "hint": "~어/아 봤어?"
+  },
+  {
+    "episode_num": 54,
+    "expression_id": 1255,
+    "type": "translation",
+    "question": "Can you teach me English?",
+    "answer": "영어 가르쳐 줄 수 있어?",
+    "choices": [
+      "이거 먹어도 돼요?",
+      "영어 가르쳐 줄 수 있어?",
+      "인사하는 방법이 나라마다 달라요."
+    ],
+    "hint": "Can you teach me ~?"
+  },
+  {
+    "episode_num": 54,
+    "expression_id": 1255,
+    "type": "fill_blank",
+    "question": "이 춤 ___ 줄 수 있어?",
+    "answer": "가르쳐",
+    "choices": [
+      "가르쳐"
+    ],
+    "hint": "Can you teach me this dance?"
+  },
+  {
+    "episode_num": 54,
+    "expression_id": 1255,
+    "type": "word_order",
+    "question": "Can you show me how to use it?",
+    "answer": "사용법을 가르쳐 줄 수 있어",
+    "choices": [
+      "줄",
+      "수",
+      "있어",
+      "사용법을",
+      "가르쳐"
+    ],
+    "hint": "~가르쳐 줄 수 있어?"
+  },
+  {
+    "episode_num": 54,
+    "expression_id": 1256,
+    "type": "translation",
+    "question": "How do you say this in Korean?",
+    "answer": "이거 한국어로 어떻게 해요?",
+    "choices": [
+      "생일에 꽃 받고 싶어요.",
+      "이거 한국어로 어떻게 해요?",
+      "카드로 할게요. 현금은 없어요."
+    ],
+    "hint": "How do you say/do ~?"
+  },
+  {
+    "episode_num": 54,
+    "expression_id": 1256,
+    "type": "fill_blank",
+    "question": "주문은 ___ 해요?",
+    "answer": "어떻게",
+    "choices": [
+      "어떻게"
+    ],
+    "hint": "How do I order?"
+  },
+  {
+    "episode_num": 54,
+    "expression_id": 1256,
+    "type": "word_order",
+    "question": "How do I use this app?",
+    "answer": "이 앱은 어떻게 사용해요",
+    "choices": [
+      "사용해요",
+      "이",
+      "어떻게",
+      "앱은"
+    ],
+    "hint": "~어떻게 해요?"
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1257,
+    "type": "translation",
+    "question": "Have you worked at a café?",
+    "answer": "카페에서 일해봤어요?",
+    "choices": [
+      "어제 영화를 봤어.",
+      "이번 주에 요리 도전해요.",
+      "카페에서 일해봤어요?"
+    ],
+    "hint": "Have you tried ~? / Have you ever done ~?"
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1257,
+    "type": "fill_blank",
+    "question": "혼자 여행___",
+    "answer": "해봤어요?",
+    "choices": [
+      "해봤어요?"
+    ],
+    "hint": "Have you traveled alone?"
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1257,
+    "type": "word_order",
+    "question": "Have you made Korean food?",
+    "answer": "한국 음식을 만들어봤어요",
+    "choices": [
+      "한국",
+      "만들어봤어요",
+      "음식을"
+    ],
+    "hint": "~해봤어요?"
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1258,
+    "type": "translation",
+    "question": "How was the trip?",
+    "answer": "여행 어땠어요?",
+    "choices": [
+      "여행 어땠어요?",
+      "생각보다 맛있어요.",
+      "힘들어도 내가 옆에 있을게."
+    ],
+    "hint": "How was it?"
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1258,
+    "type": "fill_blank",
+    "question": "첫 수업 ___",
+    "answer": "어땠어요?",
+    "choices": [
+      "어땠어요?"
+    ],
+    "hint": "How was your first class?"
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1258,
+    "type": "word_order",
+    "question": "How was your new job?",
+    "answer": "새 직장 어땠어요",
+    "choices": [
+      "어땠어요",
+      "새",
+      "직장"
+    ],
+    "hint": "어땠어요?"
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1259,
+    "type": "translation",
+    "question": "I'll give it a try too.",
+    "answer": "저도 도전해 볼게요.",
+    "choices": [
+      "이번 여름에 여행 계획 있어요?",
+      "같이 밥 먹는 이런 일상이 소중해요.",
+      "저도 도전해 볼게요."
+    ],
+    "hint": "I'll give it a try."
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1259,
+    "type": "fill_blank",
+    "question": "이번에는 혼자 ___ 볼게요.",
+    "answer": "도전해",
+    "choices": [
+      "도전해"
+    ],
+    "hint": "I'll try it by myself this time."
+  },
+  {
+    "episode_num": 57,
+    "expression_id": 1259,
+    "type": "word_order",
+    "question": "I'll give it a try even if it's difficult.",
+    "answer": "어려워도 도전해 볼게요",
+    "choices": [
+      "볼게요",
+      "도전해",
+      "어려워도"
+    ],
+    "hint": "도전해 볼게요"
+  },
+  {
+    "episode_num": 61,
+    "expression_id": 1260,
+    "type": "translation",
+    "question": "This design isn't bad.",
+    "answer": "이 디자인 나쁘지 않은데요.",
+    "choices": [
+      "이 디자인 나쁘지 않은데요.",
+      "한국어 문법, 알고 보면 쉬워.",
+      "비가 올 것 같아요. 우산 챙기세요."
+    ],
+    "hint": "It's not bad."
+  },
+  {
+    "episode_num": 61,
+    "expression_id": 1260,
+    "type": "fill_blank",
+    "question": "맛이 ___ 않은데요.",
+    "answer": "나쁘지",
+    "choices": [
+      "나쁘지"
+    ],
+    "hint": "The taste isn't bad."
+  },
+  {
+    "episode_num": 61,
+    "expression_id": 1260,
+    "type": "word_order",
+    "question": "It's not as bad as I expected.",
+    "answer": "생각보다 나쁘지 않은데요",
+    "choices": [
+      "나쁘지",
+      "않은데요",
+      "생각보다"
+    ],
+    "hint": "나쁘지 않은데요"
+  },
+  {
+    "episode_num": 61,
+    "expression_id": 1261,
+    "type": "translation",
+    "question": "I think so too.",
+    "answer": "저도 그렇게 생각해요.",
+    "choices": [
+      "매운 거 못 먹어요.",
+      "네 상황 충분히 이해해.",
+      "저도 그렇게 생각해요."
+    ],
+    "hint": "I think so too."
+  },
+  {
+    "episode_num": 61,
+    "expression_id": 1261,
+    "type": "fill_blank",
+    "question": "좋은 생각이에요. ___ 그렇게 생각해요.",
+    "answer": "저도",
+    "choices": [
+      "저도"
+    ],
+    "hint": "That's a good idea. I think so too."
+  },
+  {
+    "episode_num": 61,
+    "expression_id": 1261,
+    "type": "word_order",
+    "question": "That's right. I think so too.",
+    "answer": "맞아요. 저도 그렇게 생각해요",
+    "choices": [
+      "맞아요.",
+      "저도",
+      "그렇게",
+      "생각해요"
+    ],
+    "hint": "저도 그렇게 생각해요"
+  },
+  {
+    "episode_num": 67,
+    "expression_id": 1262,
+    "type": "translation",
+    "question": "Is spring in Korea this beautiful?",
+    "answer": "한국 봄이 이렇게 예뻐요?",
+    "choices": [
+      "어떤 색이 좋아요?",
+      "한국 봄이 이렇게 예뻐요?",
+      "자기 전에 핸드폰 보지 마세요."
+    ],
+    "hint": "Is ~ this ...?"
+  },
+  {
+    "episode_num": 67,
+    "expression_id": 1262,
+    "type": "word_order",
+    "question": "Is the subway this fast?",
+    "answer": "지하철이 이렇게 빨라요",
+    "choices": [
+      "이렇게",
+      "빨라요",
+      "지하철이"
+    ],
+    "hint": "~이/가 이렇게 ~해요?"
+  },
+  {
+    "episode_num": 67,
+    "expression_id": 1263,
+    "type": "translation",
+    "question": "I like it most when the cherry blossoms bloom.",
+    "answer": "벚꽃이 필 때가 제일 좋아요.",
+    "choices": [
+      "벚꽃이 필 때가 제일 좋아요.",
+      "내일 친구를 만날 거예요.",
+      "이 게임 재미있어요."
+    ],
+    "hint": "I like this time the most."
+  },
+  {
+    "episode_num": 67,
+    "expression_id": 1263,
+    "type": "fill_blank",
+    "question": "저는 아침 ___ 제일 좋아요.",
+    "answer": "이때가",
+    "choices": [
+      "이때가"
+    ],
+    "hint": "I like this time in the morning the most."
+  },
+  {
+    "episode_num": 67,
+    "expression_id": 1263,
+    "type": "word_order",
+    "question": "I like this cool time of year the most.",
+    "answer": "날씨가 선선한 이때가 제일 좋아요",
+    "choices": [
+      "선선한",
+      "제일",
+      "날씨가",
+      "좋아요",
+      "이때가"
+    ],
+    "hint": "이때가 제일 좋아요"
+  },
+  {
+    "episode_num": 67,
+    "expression_id": 1264,
+    "type": "translation",
+    "question": "What is summer like?",
+    "answer": "여름은 어때요?",
+    "choices": [
+      "제가 잘못했어요.",
+      "여름은 어때요?",
+      "한국어 배우는데 한국 친구 사귀고 싶어요."
+    ],
+    "hint": "How about ~? / What is ~ like?"
+  },
+  {
+    "episode_num": 67,
+    "expression_id": 1264,
+    "type": "word_order",
+    "question": "How about the weekend?",
+    "answer": "주말은 어때요",
+    "choices": [
+      "어때요",
+      "주말은"
+    ],
+    "hint": "~은/는 어때요?"
+  },
+  {
+    "episode_num": 68,
+    "expression_id": 1265,
+    "type": "translation",
+    "question": "It was my fault.",
+    "answer": "제가 잘못했어요.",
+    "choices": [
+      "제가 잘못했어요.",
+      "제 한국어 공부는 이제 시작이에요.",
+      "한국 음식 중에 삼겹살이 제일 좋아."
+    ],
+    "hint": "It was my fault."
+  },
+  {
+    "episode_num": 68,
+    "expression_id": 1265,
+    "type": "fill_blank",
+    "question": "정말 미안해요. ___ 잘못했어요.",
+    "answer": "제가",
+    "choices": [
+      "제가"
+    ],
+    "hint": "I'm really sorry. It was my fault."
+  },
+  {
+    "episode_num": 68,
+    "expression_id": 1265,
+    "type": "word_order",
+    "question": "This was my mistake.",
+    "answer": "이번 일은 제가 잘못했어요",
+    "choices": [
+      "잘못했어요",
+      "제가",
+      "일은",
+      "이번"
+    ],
+    "hint": "제가 잘못했어요"
+  },
+  {
+    "episode_num": 68,
+    "expression_id": 1266,
+    "type": "translation",
+    "question": "I'll try to come early next time.",
+    "answer": "다음에는 일찍 오려고 할게요.",
+    "choices": [
+      "음료 리필 돼요?",
+      "이 영화, 보고 나서도 여운이 남아요.",
+      "다음에는 일찍 오려고 할게요."
+    ],
+    "hint": "I'll try to ~."
+  },
+  {
+    "episode_num": 68,
+    "expression_id": 1266,
+    "type": "fill_blank",
+    "question": "더 자주 연락하___ 할게요.",
+    "answer": "려고",
+    "choices": [
+      "려고"
+    ],
+    "hint": "I'll try to contact you more often."
+  },
+  {
+    "episode_num": 68,
+    "expression_id": 1266,
+    "type": "word_order",
+    "question": "I'll try to understand the other person.",
+    "answer": "상대방을 이해하려고 할게요",
+    "choices": [
+      "할게요",
+      "상대방을",
+      "이해하려고"
+    ],
+    "hint": "~려고 할게요"
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1267,
+    "type": "translation",
+    "question": "Where do I throw away this bottle?",
+    "answer": "이 병은 어디에 버려요?",
+    "choices": [
+      "몸이 안 좋으면 무리하지 마세요.",
+      "이 병은 어디에 버려요?",
+      "아직 밥 먹는 중이에요. 조금만 기다려요."
+    ],
+    "hint": "Where do I throw away ~?"
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1267,
+    "type": "fill_blank",
+    "question": "음식물 쓰레기는 ___ 버려요?",
+    "answer": "어디에",
+    "choices": [
+      "어디에"
+    ],
+    "hint": "Where do I throw away food waste?"
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1267,
+    "type": "word_order",
+    "question": "Where do I throw away paper?",
+    "answer": "종이는 어디에 버려요",
+    "choices": [
+      "버려요",
+      "어디에",
+      "종이는"
+    ],
+    "hint": "~어디에 버려요?"
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1268,
+    "type": "translation",
+    "question": "Do you sort recycling carefully?",
+    "answer": "분리수거를 철저히 해요?",
+    "choices": [
+      "음악 듣는 게 좋아요.",
+      "분리수거를 철저히 해요?",
+      "왠지 모르게 오늘 기분이 좋아요."
+    ],
+    "hint": "Do you do ~ strictly?"
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1268,
+    "type": "fill_blank",
+    "question": "위생 관리를 ___ 해요?",
+    "answer": "철저히",
+    "choices": [
+      "철저히"
+    ],
+    "hint": "Do you manage hygiene strictly?"
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1268,
+    "type": "word_order",
+    "question": "Do you carry out security checks thoroughly?",
+    "answer": "보안 검사를 철저히 해요",
+    "choices": [
+      "검사를",
+      "해요",
+      "보안",
+      "철저히"
+    ],
+    "hint": "~철저히 해요?"
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1269,
+    "type": "translation",
+    "question": "I should pay more attention to recycling.",
+    "answer": "분리수거에 신경 써야겠어요.",
+    "choices": [
+      "처음엔 힘들었는데 이제 한국말이 편해요.",
+      "이 옷 입어 봤어? 너한테 잘 어울릴 것 같아.",
+      "분리수거에 신경 써야겠어요."
+    ],
+    "hint": "I should pay attention to ~."
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1269,
+    "type": "fill_blank",
+    "question": "건강에 ___ 써야겠어요.",
+    "answer": "신경",
+    "choices": [
+      "신경"
+    ],
+    "hint": "I should pay more attention to my health."
+  },
+  {
+    "episode_num": 70,
+    "expression_id": 1269,
+    "type": "word_order",
+    "question": "I should pay more attention to my pronunciation.",
+    "answer": "발음에 더 신경 써야겠어요",
+    "choices": [
+      "더",
+      "발음에",
+      "신경",
+      "써야겠어요"
+    ],
+    "hint": "~신경 써야겠어요"
+  },
+  {
+    "episode_num": 71,
+    "expression_id": 1270,
+    "type": "translation",
+    "question": "Something feels exciting today.",
+    "answer": "오늘은 뭔가 설레요.",
+    "choices": [
+      "미국에서 왔어요.",
+      "오늘은 뭔가 설레요.",
+      "얼마나 걸려요?"
+    ],
+    "hint": "Something feels exciting."
+  },
+  {
+    "episode_num": 71,
+    "expression_id": 1270,
+    "type": "fill_blank",
+    "question": "여행 전날이라 ___ 설레요.",
+    "answer": "뭔가",
+    "choices": [
+      "뭔가"
+    ],
+    "hint": "I feel excited because it's the day before the trip."
+  },
+  {
+    "episode_num": 71,
+    "expression_id": 1270,
+    "type": "word_order",
+    "question": "Being here makes me feel excited.",
+    "answer": "이곳에 오니까 뭔가 설레요",
+    "choices": [
+      "오니까",
+      "뭔가",
+      "설레요",
+      "이곳에"
+    ],
+    "hint": "뭔가 설레요"
+  },
+  {
+    "episode_num": 71,
+    "expression_id": 1271,
+    "type": "translation",
+    "question": "Moments like this are precious.",
+    "answer": "이런 순간이 소중해요.",
+    "choices": [
+      "아침 루틴 있어요? 어떻게 시작해요?",
+      "뭘 사야 할지 모르겠어요.",
+      "이런 순간이 소중해요."
+    ],
+    "hint": "Moments like this are precious."
+  },
+  {
+    "episode_num": 71,
+    "expression_id": 1271,
+    "type": "fill_blank",
+    "question": "친구들과 함께하는 ___ 순간이 소중해요.",
+    "answer": "이런",
+    "choices": [
+      "이런"
+    ],
+    "hint": "Moments like this with friends are precious."
+  },
+  {
+    "episode_num": 71,
+    "expression_id": 1271,
+    "type": "word_order",
+    "question": "It's ordinary, but moments like this are precious.",
+    "answer": "평범하지만 이런 순간이 소중해요",
+    "choices": [
+      "이런",
+      "소중해요",
+      "평범하지만",
+      "순간이"
+    ],
+    "hint": "이런 순간이 소중해요"
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1272,
+    "type": "translation",
+    "question": "I think there was a misunderstanding between us.",
+    "answer": "우리 사이에 오해가 있었던 것 같아요.",
+    "choices": [
+      "한국어가 생각보다 어려워요.",
+      "한국어 선생님이 되고 싶어요.",
+      "우리 사이에 오해가 있었던 것 같아요."
+    ],
+    "hint": "I think there was a misunderstanding."
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1272,
+    "type": "fill_blank",
+    "question": "제 말에 ___ 있었던 것 같아요.",
+    "answer": "오해가",
+    "choices": [
+      "오해가"
+    ],
+    "hint": "I think there was a misunderstanding about what I said."
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1272,
+    "type": "word_order",
+    "question": "I think we misunderstood each other.",
+    "answer": "서로 오해가 있었던 것 같아요",
+    "choices": [
+      "같아요",
+      "것",
+      "서로",
+      "오해가",
+      "있었던"
+    ],
+    "hint": "오해가 있었던 것 같아요"
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1273,
+    "type": "translation",
+    "question": "I didn't mean that.",
+    "answer": "그런 뜻이 아니었어요.",
+    "choices": [
+      "덜 맵게 해 주세요.",
+      "그런 뜻이 아니었어요.",
+      "힘들어도 내가 옆에 있을게."
+    ],
+    "hint": "I didn't mean ~."
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1273,
+    "type": "fill_blank",
+    "question": "무시하려는 ___ 아니었어요.",
+    "answer": "뜻이",
+    "choices": [
+      "뜻이"
+    ],
+    "hint": "I didn't mean to ignore you."
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1273,
+    "type": "word_order",
+    "question": "I didn't mean to get angry.",
+    "answer": "화내려는 뜻이 아니었어요",
+    "choices": [
+      "뜻이",
+      "아니었어요",
+      "화내려는"
+    ],
+    "hint": "~뜻이 아니었어요"
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1274,
+    "type": "translation",
+    "question": "I completely understand what you mean.",
+    "answer": "무슨 말인지 충분히 이해해요.",
+    "choices": [
+      "무슨 말인지 충분히 이해해요.",
+      "이 앱 써봤어요?",
+      "취미가 뭐예요?"
+    ],
+    "hint": "I completely understand."
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1274,
+    "type": "fill_blank",
+    "question": "그 마음 ___ 이해해요.",
+    "answer": "충분히",
+    "choices": [
+      "충분히"
+    ],
+    "hint": "I completely understand how you feel."
+  },
+  {
+    "episode_num": 72,
+    "expression_id": 1274,
+    "type": "word_order",
+    "question": "I fully understand the situation.",
+    "answer": "상황을 충분히 이해해요",
+    "choices": [
+      "상황을",
+      "이해해요",
+      "충분히"
+    ],
+    "hint": "충분히 이해해요"
+  },
+  {
+    "episode_num": 73,
+    "expression_id": 1275,
+    "type": "translation",
+    "question": "I'm glad I didn't give up.",
+    "answer": "포기하지 않길 잘했어요.",
+    "choices": [
+      "사진 찍어 드릴까요?",
+      "포기하지 않길 잘했어요.",
+      "한국어 꼭 잘하기로 마음먹었어요."
+    ],
+    "hint": "I'm glad I didn't ~."
+  },
+  {
+    "episode_num": 73,
+    "expression_id": 1275,
+    "type": "fill_blank",
+    "question": "약속을 취소하___ 않길 잘했어요.",
+    "answer": "지",
+    "choices": [
+      "지"
+    ],
+    "hint": "I'm glad I didn't cancel the plan."
+  },
+  {
+    "episode_num": 73,
+    "expression_id": 1275,
+    "type": "word_order",
+    "question": "I'm glad I didn't leave too early.",
+    "answer": "너무 일찍 가지 않길 잘했어요",
+    "choices": [
+      "일찍",
+      "가지",
+      "않길",
+      "너무",
+      "잘했어요"
+    ],
+    "hint": "~지 않길 잘했어요"
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1276,
+    "type": "translation",
+    "question": "Korean is easy once you understand it.",
+    "answer": "한국어도 알고 보면 쉬워요.",
+    "choices": [
+      "한국어도 알고 보면 쉬워요.",
+      "이 식당이 맛있다고 하던데요.",
+      "힘들었지만 포기 안 하길 잘했어."
+    ],
+    "hint": "Once you understand it, it is ~."
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1276,
+    "type": "fill_blank",
+    "question": "이 규칙도 ___ 보면 간단해요.",
+    "answer": "알고",
+    "choices": [
+      "알고"
+    ],
+    "hint": "This rule is simple once you understand it."
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1276,
+    "type": "word_order",
+    "question": "That person is kind once you get to know them.",
+    "answer": "그 사람도 알고 보면 친절해요",
+    "choices": [
+      "사람도",
+      "알고",
+      "친절해요",
+      "보면",
+      "그"
+    ],
+    "hint": "알고 보면 ~해요"
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1277,
+    "type": "translation",
+    "question": "What is the difference between these two words?",
+    "answer": "이 두 단어의 차이가 뭐예요?",
+    "choices": [
+      "여기서 유명한 게 뭐예요? 음식 추천해 주세요.",
+      "이 두 단어의 차이가 뭐예요?",
+      "힘들었지만 포기 안 하길 잘했어."
+    ],
+    "hint": "What is the difference between ~?"
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1277,
+    "type": "fill_blank",
+    "question": "존댓말과 반말의 ___ 뭐예요?",
+    "answer": "차이가",
+    "choices": [
+      "차이가"
+    ],
+    "hint": "What is the difference between polite and casual speech?"
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1277,
+    "type": "word_order",
+    "question": "What is the difference between these two menu items?",
+    "answer": "이 두 메뉴의 차이가 뭐예요",
+    "choices": [
+      "차이가",
+      "두",
+      "메뉴의",
+      "뭐예요",
+      "이"
+    ],
+    "hint": "~차이가 뭐예요?"
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1278,
+    "type": "translation",
+    "question": "This is the key point.",
+    "answer": "이게 포인트예요.",
+    "choices": [
+      "이게 포인트예요.",
+      "일단은 먹어요. 이야기는 나중에.",
+      "왼쪽으로 꺾으면 돼요."
+    ],
+    "hint": "This is the key point."
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1278,
+    "type": "fill_blank",
+    "question": "발음에서는 ___ 포인트예요.",
+    "answer": "이게",
+    "choices": [
+      "이게"
+    ],
+    "hint": "This is the key point in pronunciation."
+  },
+  {
+    "episode_num": 76,
+    "expression_id": 1278,
+    "type": "word_order",
+    "question": "This part is the most important. This is the key point.",
+    "answer": "이 부분이 가장 중요해요. 이게 포인트예요",
+    "choices": [
+      "이",
+      "중요해요.",
+      "포인트예요",
+      "이게",
+      "가장",
+      "부분이"
+    ],
+    "hint": "이게 포인트예요"
+  },
+  {
+    "episode_num": 78,
+    "expression_id": 1279,
+    "type": "translation",
+    "question": "I do want to stay in Korea longer, though.",
+    "answer": "한국에 더 있고 싶긴 해요.",
+    "choices": [
+      "한국에 더 있고 싶긴 해요.",
+      "이번 여름에 여행 계획 있어요?",
+      "이 음식 별로예요."
+    ],
+    "hint": "I do want to ~, though."
+  },
+  {
+    "episode_num": 78,
+    "expression_id": 1279,
+    "type": "fill_blank",
+    "question": "같이 가___ 싶긴 해요.",
+    "answer": "고",
+    "choices": [
+      "고"
+    ],
+    "hint": "I do want to go together, though."
+  },
+  {
+    "episode_num": 78,
+    "expression_id": 1279,
+    "type": "word_order",
+    "question": "I do want to buy it, though.",
+    "answer": "사고 싶긴 해요",
+    "choices": [
+      "싶긴",
+      "사고",
+      "해요"
+    ],
+    "hint": "~고 싶긴 해요"
+  },
+  {
+    "episode_num": 78,
+    "expression_id": 1280,
+    "type": "translation",
+    "question": "I will study hard for my dream.",
+    "answer": "꿈을 위해 열심히 공부할 거예요.",
+    "choices": [
+      "저는 관광지보다 로컬이 좋아요.",
+      "꼭 그런 건 아니에요.",
+      "꿈을 위해 열심히 공부할 거예요."
+    ],
+    "hint": "I will ~ for ~."
+  },
+  {
+    "episode_num": 78,
+    "expression_id": 1280,
+    "type": "word_order",
+    "question": "I will do my best for my family.",
+    "answer": "가족을 위해 최선을 다할 거예요",
+    "choices": [
+      "위해",
+      "가족을",
+      "다할",
+      "거예요",
+      "최선을"
+    ],
+    "hint": "~을/를 위해 ~할 거예요"
+  },
+  {
+    "episode_num": 81,
+    "expression_id": 1281,
+    "type": "translation",
+    "question": "I heard that this restaurant is good.",
+    "answer": "이 식당이 맛있다고 하던데요.",
+    "choices": [
+      "여기서 얼마나 걸려요?",
+      "너무 좋았어. 꼭 다시 올게.",
+      "이 식당이 맛있다고 하던데요."
+    ],
+    "hint": "I heard that ~."
+  },
+  {
+    "episode_num": 81,
+    "expression_id": 1281,
+    "type": "fill_blank",
+    "question": "내일 비가 온___ 하던데요.",
+    "answer": "다고",
+    "choices": [
+      "다고"
+    ],
+    "hint": "I heard that it will rain tomorrow."
+  },
+  {
+    "episode_num": 81,
+    "expression_id": 1281,
+    "type": "word_order",
+    "question": "I heard that the movie is interesting.",
+    "answer": "그 영화가 재미있다고 하던데요",
+    "choices": [
+      "영화가",
+      "그",
+      "하던데요",
+      "재미있다고"
+    ],
+    "hint": "~다고 하던데요"
+  },
+  {
+    "episode_num": 81,
+    "expression_id": 1282,
+    "type": "translation",
+    "question": "I heard that café is good.",
+    "answer": "그 카페가 좋다더라고요.",
+    "choices": [
+      "이런 순간이 소중해요.",
+      "그 카페가 좋다더라고요.",
+      "한국 봄이 이렇게 예뻐요?"
+    ],
+    "hint": "I heard that ~. / I found out that ~."
+  },
+  {
+    "episode_num": 81,
+    "expression_id": 1282,
+    "type": "fill_blank",
+    "question": "주말에는 사람이 많___.",
+    "answer": "다더라고요",
+    "choices": [
+      "다더라고요"
+    ],
+    "hint": "I heard that it's crowded on weekends."
+  },
+  {
+    "episode_num": 81,
+    "expression_id": 1282,
+    "type": "word_order",
+    "question": "I heard that Korean winters are cold.",
+    "answer": "한국 겨울이 춥다더라고요",
+    "choices": [
+      "겨울이",
+      "한국",
+      "춥다더라고요"
+    ],
+    "hint": "~다더라고요"
+  },
+  {
+    "episode_num": 81,
+    "expression_id": 1283,
+    "type": "translation",
+    "question": "I didn't know it would be this delicious.",
+    "answer": "이렇게 맛있을 줄 몰랐어요.",
+    "choices": [
+      "경복궁은 꼭 와봐야 할 곳이에요.",
+      "건강 더 신경 써야겠어.",
+      "이렇게 맛있을 줄 몰랐어요."
+    ],
+    "hint": "I didn't know that ~ would/could happen."
+  },
+  {
+    "episode_num": 81,
+    "expression_id": 1283,
+    "type": "word_order",
+    "question": "I didn't know I would be able to have a conversation in Korean.",
+    "answer": "한국어로 대화할 수 있을 줄 몰랐어요",
+    "choices": [
+      "한국어로",
+      "수",
+      "몰랐어요",
+      "있을",
+      "대화할",
+      "줄"
+    ],
+    "hint": "~(으)ㄹ 줄 몰랐어요"
+  },
+  {
+    "episode_num": 86,
+    "expression_id": 1284,
+    "type": "translation",
+    "question": "Is this kind of thing common?",
+    "answer": "이런 일이 흔한 일이에요?",
+    "choices": [
+      "이런 일이 흔한 일이에요?",
+      "사진 찍어 드릴까요?",
+      "제가 도와줄게요."
+    ],
+    "hint": "Is that common?"
+  },
+  {
+    "episode_num": 86,
+    "expression_id": 1284,
+    "type": "fill_blank",
+    "question": "지하철이 늦는 게 ___ 일이에요?",
+    "answer": "흔한",
+    "choices": [
+      "흔한"
+    ],
+    "hint": "Is it common for the subway to be late?"
+  },
+  {
+    "episode_num": 86,
+    "expression_id": 1284,
+    "type": "word_order",
+    "question": "Is heavy snow common in winter?",
+    "answer": "겨울에 눈이 많이 오는 게 흔한 일이에요",
+    "choices": [
+      "일이에요",
+      "게",
+      "흔한",
+      "많이",
+      "오는",
+      "눈이",
+      "겨울에"
+    ],
+    "hint": "흔한 일이에요?"
+  },
+  {
+    "episode_num": 86,
+    "expression_id": 1285,
+    "type": "translation",
+    "question": "It's much tastier than I expected.",
+    "answer": "생각보다 훨씬 맛있어요.",
+    "choices": [
+      "오늘은 제가 살게요. 지난번에 사 줬잖아요.",
+      "생각보다 훨씬 맛있어요.",
+      "한국 음식 중에 삼겹살이 제일 좋아."
+    ],
+    "hint": "It is much more ~ than expected."
+  },
+  {
+    "episode_num": 86,
+    "expression_id": 1285,
+    "type": "fill_blank",
+    "question": "___ 훨씬 가까워요.",
+    "answer": "생각보다",
+    "choices": [
+      "생각보다"
+    ],
+    "hint": "It's much closer than I expected."
+  },
+  {
+    "episode_num": 86,
+    "expression_id": 1285,
+    "type": "word_order",
+    "question": "It's much harder than I expected.",
+    "answer": "생각보다 훨씬 어려워요",
+    "choices": [
+      "훨씬",
+      "생각보다",
+      "어려워요"
+    ],
+    "hint": "생각보다 훨씬 ~해요"
+  },
+  {
+    "episode_num": 91,
+    "expression_id": 1286,
+    "type": "translation",
+    "question": "The design is a little questionable, though.",
+    "answer": "디자인은 좀 그렇긴 한데요.",
+    "choices": [
+      "저랑 같이 사진 찍어요!",
+      "오랜만에 다 같이 모이니까 좋아요.",
+      "디자인은 좀 그렇긴 한데요."
+    ],
+    "hint": "It's a little ..., though."
+  },
+  {
+    "episode_num": 91,
+    "expression_id": 1286,
+    "type": "fill_blank",
+    "question": "가격이 ___ 그렇긴 한데요.",
+    "answer": "좀",
+    "choices": [
+      "좀"
+    ],
+    "hint": "The price is a bit much, though."
+  },
+  {
+    "episode_num": 91,
+    "expression_id": 1286,
+    "type": "word_order",
+    "question": "The taste isn't quite for me, though.",
+    "answer": "맛은 좀 그렇긴 한데요",
+    "choices": [
+      "좀",
+      "그렇긴",
+      "한데요",
+      "맛은"
+    ],
+    "hint": "좀 그렇긴 한데요"
+  },
+  {
+    "episode_num": 91,
+    "expression_id": 1287,
+    "type": "translation",
+    "question": "I can't say that's not true.",
+    "answer": "아니라고 할 순 없죠.",
+    "choices": [
+      "아니라고 할 순 없죠.",
+      "한국어 여정은 계속돼요.",
+      "내 잘못이 아닌데 혼나서 억울했어요."
+    ],
+    "hint": "I can't say that's not true."
+  },
+  {
+    "episode_num": 91,
+    "expression_id": 1287,
+    "type": "fill_blank",
+    "question": "비싸다는 말을 ___ 할 순 없죠.",
+    "answer": "아니라고",
+    "choices": [
+      "아니라고"
+    ],
+    "hint": "I can't say it isn't expensive."
+  },
+  {
+    "episode_num": 91,
+    "expression_id": 1287,
+    "type": "word_order",
+    "question": "I can't deny that it's a little difficult.",
+    "answer": "조금 어렵다는 건 아니라고 할 순 없죠",
+    "choices": [
+      "할",
+      "건",
+      "없죠",
+      "조금",
+      "아니라고",
+      "순",
+      "어렵다는"
+    ],
+    "hint": "아니라고 할 순 없죠"
+  },
+  {
+    "episode_num": 91,
+    "expression_id": 1288,
+    "type": "translation",
+    "question": "That's not always the case.",
+    "answer": "꼭 그런 건 아니에요.",
+    "choices": [
+      "요즘 이제 한국어로 생각해요.",
+      "꼭 그런 건 아니에요.",
+      "우산을 챙겨야겠다."
+    ],
+    "hint": "That's not always the case."
+  },
+  {
+    "episode_num": 91,
+    "expression_id": 1288,
+    "type": "word_order",
+    "question": "Expensive things are not always good.",
+    "answer": "비싸다고 꼭 좋은 건 아니에요",
+    "choices": [
+      "비싸다고",
+      "좋은",
+      "아니에요",
+      "건",
+      "꼭"
+    ],
+    "hint": "꼭 그런 건 아니에요"
+  },
+  {
+    "episode_num": 94,
+    "expression_id": 1289,
+    "type": "translation",
+    "question": "Try thinking from the other person's point of view.",
+    "answer": "상대방 입장에서 생각해 봐요.",
+    "choices": [
+      "조금만 기다려요. 거의 다 됐어요.",
+      "상대방 입장에서 생각해 봐요.",
+      "한국어 여정은 계속돼요."
+    ],
+    "hint": "Try thinking from the other person's point of view."
+  },
+  {
+    "episode_num": 94,
+    "expression_id": 1289,
+    "type": "word_order",
+    "question": "Try thinking from your parents' point of view too.",
+    "answer": "부모님 입장에서도 생각해 봐요",
+    "choices": [
+      "입장에서도",
+      "생각해",
+      "부모님",
+      "봐요"
+    ],
+    "hint": "상대방 입장에서 생각해 봐요"
+  },
+  {
+    "episode_num": 94,
+    "expression_id": 1290,
+    "type": "translation",
+    "question": "I'll be by your side.",
+    "answer": "제가 옆에 있을게요.",
+    "choices": [
+      "제가 옆에 있을게요.",
+      "다음 화가 너무 기대돼요. 빨리 보고 싶어요.",
+      "비싼 게 다 좋은 건 꼭 그런 건 아니야."
+    ],
+    "hint": "I'll be by your side."
+  },
+  {
+    "episode_num": 94,
+    "expression_id": 1290,
+    "type": "fill_blank",
+    "question": "힘들 때 ___ 옆에 있을게요.",
+    "answer": "제가",
+    "choices": [
+      "제가"
+    ],
+    "hint": "I'll be by your side when things are hard."
+  },
+  {
+    "episode_num": 94,
+    "expression_id": 1290,
+    "type": "word_order",
+    "question": "Don't worry. I'll be by your side.",
+    "answer": "걱정하지 마세요. 제가 옆에 있을게요",
+    "choices": [
+      "옆에",
+      "마세요.",
+      "있을게요",
+      "제가",
+      "걱정하지"
+    ],
+    "hint": "제가 옆에 있을게요"
+  },
+  {
+    "episode_num": 100,
+    "expression_id": 1291,
+    "type": "translation",
+    "question": "My Korean studies are just beginning.",
+    "answer": "제 한국어 공부는 이제 시작이에요.",
+    "choices": [
+      "지금 어디 살아요? 서울이에요?",
+      "제 한국어 공부는 이제 시작이에요.",
+      "집 근처에 뭐 있어? 카페 있어?"
+    ],
+    "hint": "My ~ is just beginning."
+  },
+  {
+    "episode_num": 100,
+    "expression_id": 1291,
+    "type": "fill_blank",
+    "question": "___ 새로운 도전은 이제 시작이에요.",
+    "answer": "제",
+    "choices": [
+      "제"
+    ],
+    "hint": "My new challenge is just beginning."
+  },
+  {
+    "episode_num": 100,
+    "expression_id": 1291,
+    "type": "word_order",
+    "question": "My life in Korea is just beginning.",
+    "answer": "제 한국 생활은 이제 시작이에요",
+    "choices": [
+      "생활은",
+      "한국",
+      "시작이에요",
+      "제",
+      "이제"
+    ],
+    "hint": "제 ~은/는 이제 시작이에요"
+  },
+  {
+    "episode_num": 100,
+    "expression_id": 1292,
+    "type": "translation",
+    "question": "I will achieve my dream through Korean.",
+    "answer": "한국어로 꿈을 이룰 거예요.",
+    "choices": [
+      "친구가 이 식당 추천해줬어. 맛있대.",
+      "오늘은 뭔가 설레요.",
+      "한국어로 꿈을 이룰 거예요."
+    ],
+    "hint": "I will achieve my dream through ~."
+  },
+  {
+    "episode_num": 100,
+    "expression_id": 1292,
+    "type": "fill_blank",
+    "question": "음악으___ 꿈을 이룰 거예요.",
+    "answer": "로",
+    "choices": [
+      "로"
+    ],
+    "hint": "I will achieve my dream through music."
+  },
+  {
+    "episode_num": 100,
+    "expression_id": 1292,
+    "type": "word_order",
+    "question": "I will achieve my dream through steady effort.",
+    "answer": "꾸준한 노력으로 꿈을 이룰 거예요",
+    "choices": [
+      "노력으로",
+      "꿈을",
+      "꾸준한",
+      "거예요",
+      "이룰"
+    ],
+    "hint": "~로 꿈을 이룰 거예요"
+  },
+  {
+    "episode_num": 100,
+    "expression_id": 1293,
+    "type": "translation",
+    "question": "The Korean journey continues.",
+    "answer": "한국어 여정은 계속돼요.",
+    "choices": [
+      "한국어 여정은 계속돼요.",
+      "한국에 며칠이나 있을 거예요?",
+      "매운 거 안 먹는 게 나아요."
+    ],
+    "hint": "~ continues."
+  },
+  {
+    "episode_num": 100,
+    "expression_id": 1293,
+    "type": "word_order",
+    "question": "Learning continues.",
+    "answer": "배움은 계속돼요",
+    "choices": [
+      "계속돼요",
+      "배움은"
+    ],
+    "hint": "~은/는 계속돼요"
+  }
+]

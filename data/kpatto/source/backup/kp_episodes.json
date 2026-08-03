@@ -1,0 +1,1326 @@
+[
+  {
+    "id": 1,
+    "episode_num": 1,
+    "title": "카페에서",
+    "theme": "일상 / 카페",
+    "is_free": true,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "카페 (지수 알바 중)",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 2,
+    "episode_num": 2,
+    "title": "지하철에서",
+    "theme": "일상 / 지하철",
+    "is_free": true,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "지하철역",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 3,
+    "episode_num": 3,
+    "title": "떡볶이 가게에서",
+    "theme": "일상 / 분식",
+    "is_free": true,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "떡볶이 가게",
+    "characters": [
+      "emma",
+      "jisu",
+      "merchant"
+    ]
+  },
+  {
+    "id": 4,
+    "episode_num": 4,
+    "title": "편의점에서",
+    "theme": "일상 / 편의점",
+    "is_free": true,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "편의점",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 5,
+    "episode_num": 5,
+    "title": "식당에서",
+    "theme": "일상 / 한식당",
+    "is_free": true,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "삼겹살 식당",
+    "characters": [
+      "emma",
+      "jisu",
+      "minjun",
+      "staff"
+    ]
+  },
+  {
+    "id": 6,
+    "episode_num": 6,
+    "title": "노래방에서",
+    "theme": "일상 / 노래방",
+    "is_free": false,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "노래방",
+    "characters": [
+      "emma",
+      "jisu",
+      "sophie"
+    ]
+  },
+  {
+    "id": 7,
+    "episode_num": 7,
+    "title": "시장에서",
+    "theme": "일상 / 전통시장",
+    "is_free": false,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "전통시장",
+    "characters": [
+      "emma",
+      "minjun",
+      "merchant"
+    ]
+  },
+  {
+    "id": 8,
+    "episode_num": 8,
+    "title": "뷰티숍에서",
+    "theme": "일상 / K-뷰티",
+    "is_free": false,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "뷰티숍",
+    "characters": [
+      "emma",
+      "sophie",
+      "staff"
+    ]
+  },
+  {
+    "id": 9,
+    "episode_num": 9,
+    "title": "한강에서",
+    "theme": "일상 / 한강 피크닉",
+    "is_free": false,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "한강공원",
+    "characters": [
+      "emma",
+      "jisu",
+      "sophie"
+    ]
+  },
+  {
+    "id": 10,
+    "episode_num": 10,
+    "title": "학교에서",
+    "theme": "일상 / 대학교",
+    "is_free": false,
+    "created_at": "2026-07-25T00:37:09.324752+00:00",
+    "location": "대학교 강의실",
+    "characters": [
+      "emma",
+      "jisu",
+      "professor",
+      "students"
+    ]
+  },
+  {
+    "id": 11,
+    "episode_num": 11,
+    "title": "지하철에서",
+    "theme": "교통 / 이동",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "지하철역 / 지하철 / 택시",
+    "characters": [
+      "emma",
+      "jisu",
+      "driver"
+    ]
+  },
+  {
+    "id": 12,
+    "episode_num": 12,
+    "title": "식당에서 (심화)",
+    "theme": "음식 / 주문",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한식당",
+    "characters": [
+      "emma",
+      "minjun",
+      "staff"
+    ]
+  },
+  {
+    "id": 13,
+    "episode_num": 13,
+    "title": "약속 잡기",
+    "theme": "약속 / 일정",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카카오톡 / 카페",
+    "characters": [
+      "emma",
+      "jisu",
+      "sophie"
+    ]
+  },
+  {
+    "id": 14,
+    "episode_num": 14,
+    "title": "길 잃은 에마",
+    "theme": "길 찾기 / 방향",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "인사동 골목",
+    "characters": [
+      "emma",
+      "stranger"
+    ]
+  },
+  {
+    "id": 15,
+    "episode_num": 15,
+    "title": "드라마 추천",
+    "theme": "K-드라마 / 추천",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 16,
+    "episode_num": 16,
+    "title": "날씨 이야기",
+    "theme": "날씨 / 계절",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "학교 앞",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 17,
+    "episode_num": 17,
+    "title": "약국에서",
+    "theme": "건강 / 약국",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "약국",
+    "characters": [
+      "emma",
+      "jisu",
+      "pharmacist"
+    ]
+  },
+  {
+    "id": 18,
+    "episode_num": 18,
+    "title": "취미 이야기",
+    "theme": "취미 / 관심사",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 19,
+    "episode_num": 19,
+    "title": "경복궁 여행",
+    "theme": "관광 / 문화",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "경복궁",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 20,
+    "episode_num": 20,
+    "title": "오랜만에 만남",
+    "theme": "만남 / 안부",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 21,
+    "episode_num": 21,
+    "title": "어제 뭐 했어?",
+    "theme": "과거 / 일상 대화",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "학교 복도 / 한강",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 22,
+    "episode_num": 22,
+    "title": "추측하기",
+    "theme": "추측 / 맛집",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "맛집 앞 / 식당",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 23,
+    "episode_num": 23,
+    "title": "해야 해요",
+    "theme": "의무 / 도서관",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "도서관",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 24,
+    "episode_num": 24,
+    "title": "의견 나누기",
+    "theme": "의견 / 음식 토론",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 25,
+    "episode_num": 25,
+    "title": "경험 이야기",
+    "theme": "경험 / 여행",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한강공원 / 제주도(회상)",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 26,
+    "episode_num": 26,
+    "title": "K-드라마 이야기",
+    "theme": "드라마 / 관심사",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "소피 방",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 27,
+    "episode_num": 27,
+    "title": "K-POP",
+    "theme": "K-POP / 음악",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "지수 방",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 28,
+    "episode_num": 28,
+    "title": "K-뷰티 쇼핑",
+    "theme": "쇼핑 / K-뷰티",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "뷰티숍",
+    "characters": [
+      "emma",
+      "sophie",
+      "staff"
+    ]
+  },
+  {
+    "id": 29,
+    "episode_num": 29,
+    "title": "건강과 운동",
+    "theme": "건강 / 운동",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "공원",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 30,
+    "episode_num": 30,
+    "title": "어디 살아요?",
+    "theme": "거주 / 동네 소개",
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "지하철 / 홍대 동네",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 31,
+    "episode_num": 31,
+    "title": "감정 표현",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 32,
+    "episode_num": 32,
+    "title": "위로하기",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "공원 벤치",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 33,
+    "episode_num": 33,
+    "title": "SNS 친구",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 34,
+    "episode_num": 34,
+    "title": "밥 한번 먹어요",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "식당",
+    "characters": [
+      "emma",
+      "jisu",
+      "minjun"
+    ]
+  },
+  {
+    "id": 35,
+    "episode_num": 35,
+    "title": "한국 문화",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한복 체험관",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 36,
+    "episode_num": 36,
+    "title": "음주 문화",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "포장마차",
+    "characters": [
+      "emma",
+      "jisu",
+      "minjun"
+    ]
+  },
+  {
+    "id": 37,
+    "episode_num": 37,
+    "title": "노래방",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "노래방",
+    "characters": [
+      "emma",
+      "jisu",
+      "sophie"
+    ]
+  },
+  {
+    "id": 38,
+    "episode_num": 38,
+    "title": "K-댄스",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "댄스 스튜디오",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 39,
+    "episode_num": 39,
+    "title": "카페 공부",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 40,
+    "episode_num": 40,
+    "title": "문화 적응",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한강",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 41,
+    "episode_num": 41,
+    "title": "연결 표현",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "학교 앞",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 42,
+    "episode_num": 42,
+    "title": "조건과 제안",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 43,
+    "episode_num": 43,
+    "title": "이유와 비교",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "식당",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 44,
+    "episode_num": 44,
+    "title": "시간 순서",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "공원",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 45,
+    "episode_num": 45,
+    "title": "도움 주기",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 46,
+    "episode_num": 46,
+    "title": "기간과 진행",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 47,
+    "episode_num": 47,
+    "title": "패션",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "쇼핑몰",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 48,
+    "episode_num": 48,
+    "title": "배달 음식",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "소피 방",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 49,
+    "episode_num": 49,
+    "title": "여행 계획",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 50,
+    "episode_num": 50,
+    "title": "한국 생활 절반",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한강",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 51,
+    "episode_num": 51,
+    "title": "계획 세우기",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 52,
+    "episode_num": 52,
+    "title": "결심",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "공원",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 53,
+    "episode_num": 53,
+    "title": "경험 나누기",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "식당",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 54,
+    "episode_num": 54,
+    "title": "언어 교환",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 55,
+    "episode_num": 55,
+    "title": "음식 만들기",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "지수 집 주방",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 56,
+    "episode_num": 56,
+    "title": "쇼핑",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "동대문 쇼핑몰",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 57,
+    "episode_num": 57,
+    "title": "카페 알바",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 58,
+    "episode_num": 58,
+    "title": "병원",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "병원",
+    "characters": [
+      "emma",
+      "receptionist",
+      "doctor"
+    ]
+  },
+  {
+    "id": 59,
+    "episode_num": 59,
+    "title": "독서 카페",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "독서 카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 60,
+    "episode_num": 60,
+    "title": "음식 문화",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "식당",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 61,
+    "episode_num": 61,
+    "title": "뉘앙스",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 62,
+    "episode_num": 62,
+    "title": "직장 생활",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 63,
+    "episode_num": 63,
+    "title": "SNS 트렌드",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 64,
+    "episode_num": 64,
+    "title": "요리 도전",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "에마 방",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 65,
+    "episode_num": 65,
+    "title": "K-뷰티 루틴",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "소피 방",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 66,
+    "episode_num": 66,
+    "title": "한국어 실력",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "공원",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 67,
+    "episode_num": 67,
+    "title": "날씨와 계절",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "거리",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 68,
+    "episode_num": 68,
+    "title": "갈등 해소",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 69,
+    "episode_num": 69,
+    "title": "목표와 꿈",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한강",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 70,
+    "episode_num": 70,
+    "title": "환경과 분리수거",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "아파트 앞",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 71,
+    "episode_num": 71,
+    "title": "감성 대화",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한강 야경",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 72,
+    "episode_num": 72,
+    "title": "갈등과 오해",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 73,
+    "episode_num": 73,
+    "title": "목표 달성",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 74,
+    "episode_num": 74,
+    "title": "한국 음식 탐험",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "광장시장",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 75,
+    "episode_num": 75,
+    "title": "일상의 즐거움",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "동네 산책",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 76,
+    "episode_num": 76,
+    "title": "한국어 고민",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 77,
+    "episode_num": 77,
+    "title": "친구와 시간",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한강",
+    "characters": [
+      "emma",
+      "jisu",
+      "minjun",
+      "sophie"
+    ]
+  },
+  {
+    "id": 78,
+    "episode_num": 78,
+    "title": "꿈을 향해",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 79,
+    "episode_num": 79,
+    "title": "맛집 탐방",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "맛집",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 80,
+    "episode_num": 80,
+    "title": "성장을 느끼며",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "학교",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 81,
+    "episode_num": 81,
+    "title": "간접 전달",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 82,
+    "episode_num": 82,
+    "title": "자연스러운 변화",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "공원",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 83,
+    "episode_num": 83,
+    "title": "뉘앙스 심화",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 84,
+    "episode_num": 84,
+    "title": "신중한 판단",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 85,
+    "episode_num": 85,
+    "title": "직관과 감각",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "식당",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 86,
+    "episode_num": 86,
+    "title": "문화 이해",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "거리",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 87,
+    "episode_num": 87,
+    "title": "솔직한 감정",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 88,
+    "episode_num": 88,
+    "title": "유창함",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 89,
+    "episode_num": 89,
+    "title": "로컬 여행",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "골목 맛집",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 90,
+    "episode_num": 90,
+    "title": "트렌드",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 91,
+    "episode_num": 91,
+    "title": "완곡한 표현",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 92,
+    "episode_num": 92,
+    "title": "논리와 결론",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 93,
+    "episode_num": 93,
+    "title": "깊은 감정",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "공원",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 94,
+    "episode_num": 94,
+    "title": "깊은 위로",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 95,
+    "episode_num": 95,
+    "title": "드라마 감상",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "소피 방",
+    "characters": [
+      "emma",
+      "sophie"
+    ]
+  },
+  {
+    "id": 96,
+    "episode_num": 96,
+    "title": "설명하기 어려운 감정",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한강",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 97,
+    "episode_num": 97,
+    "title": "이별과 그리움",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "공항",
+    "characters": [
+      "emma",
+      "jisu"
+    ]
+  },
+  {
+    "id": 98,
+    "episode_num": 98,
+    "title": "유창함의 완성",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "minjun"
+    ]
+  },
+  {
+    "id": 99,
+    "episode_num": 99,
+    "title": "감사와 관계",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "카페",
+    "characters": [
+      "emma",
+      "jisu",
+      "minjun",
+      "sophie"
+    ]
+  },
+  {
+    "id": 100,
+    "episode_num": 100,
+    "title": "한국어 여정의 시작",
+    "theme": null,
+    "is_free": false,
+    "created_at": "2026-07-25T10:47:34.074944+00:00",
+    "location": "한강",
+    "characters": [
+      "emma",
+      "jisu",
+      "minjun",
+      "sophie"
+    ]
+  }
+]

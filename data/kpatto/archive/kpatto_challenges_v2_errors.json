@@ -1,0 +1,47 @@
+[
+  {
+    "episode": 4,
+    "challenge_id": "EP004-C0013",
+    "issue": "중복 문제: 여기서 ___"
+  },
+  {
+    "episode": 9,
+    "challenge_id": "EP009-C0008",
+    "issue": "중복 문제: 생각보다 ___"
+  },
+  {
+    "episode": 9,
+    "challenge_id": "EP009-C0014",
+    "issue": "중복 문제: 이미 ___"
+  },
+  {
+    "episode": 15,
+    "challenge_id": "EP015-C0014",
+    "issue": "중복 문제: 이 영화 ___"
+  },
+  {
+    "episode": 39,
+    "challenge_id": "EP039-C0004",
+    "issue": "중복 문제: 이 카페 ___"
+  },
+  {
+    "episode": 44,
+    "challenge_id": "EP044-C0014",
+    "issue": "중복 문제: 밥 먹___"
+  },
+  {
+    "episode": 74,
+    "challenge_id": "EP074-C0013",
+    "issue": "중복 문제: 생각보다 훨씬 ___"
+  },
+  {
+    "episode": 78,
+    "challenge_id": "EP078-C0009",
+    "issue": "중복 문제: 꿈을 위해 열심히 공부할 ___"
+  },
+  {
+    "episode": 89,
+    "challenge_id": "EP089-C0009",
+    "issue": "중복 문제: 여기 ___"
+  }
+]

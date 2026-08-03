@@ -1,0 +1,2379 @@
+[
+  {
+    "id": 3536,
+    "episode_id": 33,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "I want to make Korean friends."
+    },
+    "options": [
+      "한국 친구를 사귀고 싶어요.",
+      "사진 올렸더니 댓글이 많이 달렸어.",
+      "설탕 얼마나 넣어? 너무 달 것 같아."
+    ],
+    "answer": "한국 친구를 사귀고 싶어요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3537,
+    "episode_id": 33,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "I want to make friends from different countries."
+    },
+    "options": null,
+    "answer": "다양한 나라의 친구를 사귀고 싶어요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "싶어요",
+      "사귀고",
+      "나라의",
+      "다양한",
+      "친구를"
+    ]
+  },
+  {
+    "id": 3538,
+    "episode_id": 41,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "You see, I'm learning Korean."
+    },
+    "options": [
+      "저는 한국어를 배우거든요.",
+      "우산을 챙겨야겠다.",
+      "생각보다 훨씬 맛있어."
+    ],
+    "answer": "저는 한국어를 배우거든요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3539,
+    "episode_id": 41,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "오늘 약속이 있___."
+    },
+    "options": [
+      "거든요"
+    ],
+    "answer": "거든요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3540,
+    "episode_id": 41,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "I come to this restaurant often, you see."
+    },
+    "options": null,
+    "answer": "이 식당에 자주 오거든요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "이",
+      "오거든요",
+      "식당에",
+      "자주"
+    ]
+  },
+  {
+    "id": 3541,
+    "episode_id": 41,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "I found it tastier than expected."
+    },
+    "options": [
+      "여기 사진 찍기 좋아요.",
+      "생각보다 맛있더라고요.",
+      "다음에는 일찍 오려고 할게요."
+    ],
+    "answer": "생각보다 맛있더라고요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3542,
+    "episode_id": 41,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "사람이 정말 많___."
+    },
+    "options": [
+      "더라고요"
+    ],
+    "answer": "더라고요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3543,
+    "episode_id": 41,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "I found that it was cold at night."
+    },
+    "options": null,
+    "answer": "밤에는 춥더라고요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "밤에는",
+      "춥더라고요"
+    ]
+  },
+  {
+    "id": 3544,
+    "episode_id": 45,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "I'll help you."
+    },
+    "options": [
+      "제가 도와줄게요.",
+      "메뉴 추천해 주세요.",
+      "거기 맛있다고 하던데."
+    ],
+    "answer": "제가 도와줄게요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3545,
+    "episode_id": 45,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "I'll tell you later."
+    },
+    "options": null,
+    "answer": "나중에 알려 줄게요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "나중에",
+      "알려",
+      "줄게요"
+    ]
+  },
+  {
+    "id": 3546,
+    "episode_id": 50,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "I like spring the most."
+    },
+    "options": [
+      "계속 연습하다 보면 늘어요.",
+      "나는 봄이 제일 좋아.",
+      "분리수거 철저히 해? 중요한 것 같아."
+    ],
+    "answer": "나는 봄이 제일 좋아.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3547,
+    "episode_id": 50,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "I like bulgogi the most among Korean foods."
+    },
+    "options": null,
+    "answer": "한국 음식 중에는 불고기가 제일 좋아",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "중에는",
+      "음식",
+      "제일",
+      "좋아",
+      "불고기가",
+      "한국"
+    ]
+  },
+  {
+    "id": 3548,
+    "episode_id": 51,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "I'm going to study tomorrow."
+    },
+    "options": [
+      "이야기가 앞뒤가 안 맞아요.",
+      "내일 공부할 거예요.",
+      "얼마나 걸려요?"
+    ],
+    "answer": "내일 공부할 거예요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3549,
+    "episode_id": 51,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "I'm going to Korea next month."
+    },
+    "options": null,
+    "answer": "다음 달에 한국에 갈 거예요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "거예요",
+      "달에",
+      "다음",
+      "한국에",
+      "갈"
+    ]
+  },
+  {
+    "id": 3550,
+    "episode_id": 53,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Have you tried kimchi?"
+    },
+    "options": [
+      "꿈을 위해 열심히 공부할 거예요.",
+      "왼쪽으로 꺾으면 돼요.",
+      "김치 먹어 봤어?"
+    ],
+    "answer": "김치 먹어 봤어?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3551,
+    "episode_id": 53,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "Have you been to Jeju Island?"
+    },
+    "options": null,
+    "answer": "제주도에 가 봤어",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "봤어",
+      "가",
+      "제주도에"
+    ]
+  },
+  {
+    "id": 3552,
+    "episode_id": 54,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Can you teach me English?"
+    },
+    "options": [
+      "이거 먹어도 돼요?",
+      "영어 가르쳐 줄 수 있어?",
+      "인사하는 방법이 나라마다 달라요."
+    ],
+    "answer": "영어 가르쳐 줄 수 있어?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3553,
+    "episode_id": 54,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "이 춤 ___ 줄 수 있어?"
+    },
+    "options": [
+      "가르쳐"
+    ],
+    "answer": "가르쳐",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3554,
+    "episode_id": 54,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "Can you show me how to use it?"
+    },
+    "options": null,
+    "answer": "사용법을 가르쳐 줄 수 있어",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "줄",
+      "수",
+      "있어",
+      "사용법을",
+      "가르쳐"
+    ]
+  },
+  {
+    "id": 3555,
+    "episode_id": 54,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "How do you say this in Korean?"
+    },
+    "options": [
+      "생일에 꽃 받고 싶어요.",
+      "이거 한국어로 어떻게 해요?",
+      "카드로 할게요. 현금은 없어요."
+    ],
+    "answer": "이거 한국어로 어떻게 해요?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3556,
+    "episode_id": 54,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "주문은 ___ 해요?"
+    },
+    "options": [
+      "어떻게"
+    ],
+    "answer": "어떻게",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3557,
+    "episode_id": 54,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "How do I use this app?"
+    },
+    "options": null,
+    "answer": "이 앱은 어떻게 사용해요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "사용해요",
+      "이",
+      "어떻게",
+      "앱은"
+    ]
+  },
+  {
+    "id": 3558,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Have you worked at a café?"
+    },
+    "options": [
+      "어제 영화를 봤어.",
+      "이번 주에 요리 도전해요.",
+      "카페에서 일해봤어요?"
+    ],
+    "answer": "카페에서 일해봤어요?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3559,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "혼자 여행___"
+    },
+    "options": [
+      "해봤어요?"
+    ],
+    "answer": "해봤어요?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3560,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "Have you made Korean food?"
+    },
+    "options": null,
+    "answer": "한국 음식을 만들어봤어요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "한국",
+      "만들어봤어요",
+      "음식을"
+    ]
+  },
+  {
+    "id": 3561,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "How was the trip?"
+    },
+    "options": [
+      "여행 어땠어요?",
+      "생각보다 맛있어요.",
+      "힘들어도 내가 옆에 있을게."
+    ],
+    "answer": "여행 어땠어요?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3562,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "첫 수업 ___"
+    },
+    "options": [
+      "어땠어요?"
+    ],
+    "answer": "어땠어요?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3563,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "How was your new job?"
+    },
+    "options": null,
+    "answer": "새 직장 어땠어요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "어땠어요",
+      "새",
+      "직장"
+    ]
+  },
+  {
+    "id": 3564,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 7,
+    "type": null,
+    "question": {
+      "prompt": "I'll give it a try too."
+    },
+    "options": [
+      "이번 여름에 여행 계획 있어요?",
+      "같이 밥 먹는 이런 일상이 소중해요.",
+      "저도 도전해 볼게요."
+    ],
+    "answer": "저도 도전해 볼게요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3565,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 8,
+    "type": null,
+    "question": {
+      "prompt": "이번에는 혼자 ___ 볼게요."
+    },
+    "options": [
+      "도전해"
+    ],
+    "answer": "도전해",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3566,
+    "episode_id": 57,
+    "pattern_id": null,
+    "order_num": 9,
+    "type": null,
+    "question": {
+      "prompt": "I'll give it a try even if it's difficult."
+    },
+    "options": null,
+    "answer": "어려워도 도전해 볼게요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "볼게요",
+      "도전해",
+      "어려워도"
+    ]
+  },
+  {
+    "id": 3567,
+    "episode_id": 61,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "This design isn't bad."
+    },
+    "options": [
+      "이 디자인 나쁘지 않은데요.",
+      "한국어 문법, 알고 보면 쉬워.",
+      "비가 올 것 같아요. 우산 챙기세요."
+    ],
+    "answer": "이 디자인 나쁘지 않은데요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3568,
+    "episode_id": 61,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "맛이 ___ 않은데요."
+    },
+    "options": [
+      "나쁘지"
+    ],
+    "answer": "나쁘지",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3569,
+    "episode_id": 61,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "It's not as bad as I expected."
+    },
+    "options": null,
+    "answer": "생각보다 나쁘지 않은데요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "나쁘지",
+      "않은데요",
+      "생각보다"
+    ]
+  },
+  {
+    "id": 3570,
+    "episode_id": 61,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "I think so too."
+    },
+    "options": [
+      "매운 거 못 먹어요.",
+      "네 상황 충분히 이해해.",
+      "저도 그렇게 생각해요."
+    ],
+    "answer": "저도 그렇게 생각해요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3571,
+    "episode_id": 61,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "좋은 생각이에요. ___ 그렇게 생각해요."
+    },
+    "options": [
+      "저도"
+    ],
+    "answer": "저도",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3572,
+    "episode_id": 61,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "That's right. I think so too."
+    },
+    "options": null,
+    "answer": "맞아요. 저도 그렇게 생각해요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "맞아요.",
+      "저도",
+      "그렇게",
+      "생각해요"
+    ]
+  },
+  {
+    "id": 3573,
+    "episode_id": 67,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Is spring in Korea this beautiful?"
+    },
+    "options": [
+      "어떤 색이 좋아요?",
+      "한국 봄이 이렇게 예뻐요?",
+      "자기 전에 핸드폰 보지 마세요."
+    ],
+    "answer": "한국 봄이 이렇게 예뻐요?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3574,
+    "episode_id": 67,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "Is the subway this fast?"
+    },
+    "options": null,
+    "answer": "지하철이 이렇게 빨라요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "이렇게",
+      "빨라요",
+      "지하철이"
+    ]
+  },
+  {
+    "id": 3575,
+    "episode_id": 67,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "I like it most when the cherry blossoms bloom."
+    },
+    "options": [
+      "벚꽃이 필 때가 제일 좋아요.",
+      "내일 친구를 만날 거예요.",
+      "이 게임 재미있어요."
+    ],
+    "answer": "벚꽃이 필 때가 제일 좋아요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3576,
+    "episode_id": 67,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "저는 아침 ___ 제일 좋아요."
+    },
+    "options": [
+      "이때가"
+    ],
+    "answer": "이때가",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3577,
+    "episode_id": 67,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "I like this cool time of year the most."
+    },
+    "options": null,
+    "answer": "날씨가 선선한 이때가 제일 좋아요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "선선한",
+      "제일",
+      "날씨가",
+      "좋아요",
+      "이때가"
+    ]
+  },
+  {
+    "id": 3578,
+    "episode_id": 67,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "What is summer like?"
+    },
+    "options": [
+      "제가 잘못했어요.",
+      "여름은 어때요?",
+      "한국어 배우는데 한국 친구 사귀고 싶어요."
+    ],
+    "answer": "여름은 어때요?",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3579,
+    "episode_id": 67,
+    "pattern_id": null,
+    "order_num": 7,
+    "type": null,
+    "question": {
+      "prompt": "How about the weekend?"
+    },
+    "options": null,
+    "answer": "주말은 어때요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "어때요",
+      "주말은"
+    ]
+  },
+  {
+    "id": 3580,
+    "episode_id": 68,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "It was my fault."
+    },
+    "options": [
+      "제가 잘못했어요.",
+      "제 한국어 공부는 이제 시작이에요.",
+      "한국 음식 중에 삼겹살이 제일 좋아."
+    ],
+    "answer": "제가 잘못했어요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3581,
+    "episode_id": 68,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "정말 미안해요. ___ 잘못했어요."
+    },
+    "options": [
+      "제가"
+    ],
+    "answer": "제가",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3582,
+    "episode_id": 68,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "This was my mistake."
+    },
+    "options": null,
+    "answer": "이번 일은 제가 잘못했어요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "잘못했어요",
+      "제가",
+      "일은",
+      "이번"
+    ]
+  },
+  {
+    "id": 3583,
+    "episode_id": 68,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "I'll try to come early next time."
+    },
+    "options": [
+      "음료 리필 돼요?",
+      "이 영화, 보고 나서도 여운이 남아요.",
+      "다음에는 일찍 오려고 할게요."
+    ],
+    "answer": "다음에는 일찍 오려고 할게요.",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3584,
+    "episode_id": 68,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "더 자주 연락하___ 할게요."
+    },
+    "options": [
+      "려고"
+    ],
+    "answer": "려고",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3585,
+    "episode_id": 68,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "I'll try to understand the other person."
+    },
+    "options": null,
+    "answer": "상대방을 이해하려고 할게요",
+    "created_at": "2026-08-01T11:29:55.78975+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "할게요",
+      "상대방을",
+      "이해하려고"
+    ]
+  },
+  {
+    "id": 3586,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Where do I throw away this bottle?"
+    },
+    "options": [
+      "몸이 안 좋으면 무리하지 마세요.",
+      "이 병은 어디에 버려요?",
+      "아직 밥 먹는 중이에요. 조금만 기다려요."
+    ],
+    "answer": "이 병은 어디에 버려요?",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3587,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "음식물 쓰레기는 ___ 버려요?"
+    },
+    "options": [
+      "어디에"
+    ],
+    "answer": "어디에",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3588,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "Where do I throw away paper?"
+    },
+    "options": null,
+    "answer": "종이는 어디에 버려요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "버려요",
+      "어디에",
+      "종이는"
+    ]
+  },
+  {
+    "id": 3589,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "Do you sort recycling carefully?"
+    },
+    "options": [
+      "음악 듣는 게 좋아요.",
+      "분리수거를 철저히 해요?",
+      "왠지 모르게 오늘 기분이 좋아요."
+    ],
+    "answer": "분리수거를 철저히 해요?",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3590,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "위생 관리를 ___ 해요?"
+    },
+    "options": [
+      "철저히"
+    ],
+    "answer": "철저히",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3591,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "Do you carry out security checks thoroughly?"
+    },
+    "options": null,
+    "answer": "보안 검사를 철저히 해요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "검사를",
+      "해요",
+      "보안",
+      "철저히"
+    ]
+  },
+  {
+    "id": 3592,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 7,
+    "type": null,
+    "question": {
+      "prompt": "I should pay more attention to recycling."
+    },
+    "options": [
+      "처음엔 힘들었는데 이제 한국말이 편해요.",
+      "이 옷 입어 봤어? 너한테 잘 어울릴 것 같아.",
+      "분리수거에 신경 써야겠어요."
+    ],
+    "answer": "분리수거에 신경 써야겠어요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3593,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 8,
+    "type": null,
+    "question": {
+      "prompt": "건강에 ___ 써야겠어요."
+    },
+    "options": [
+      "신경"
+    ],
+    "answer": "신경",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3594,
+    "episode_id": 70,
+    "pattern_id": null,
+    "order_num": 9,
+    "type": null,
+    "question": {
+      "prompt": "I should pay more attention to my pronunciation."
+    },
+    "options": null,
+    "answer": "발음에 더 신경 써야겠어요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "더",
+      "발음에",
+      "신경",
+      "써야겠어요"
+    ]
+  },
+  {
+    "id": 3595,
+    "episode_id": 71,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Something feels exciting today."
+    },
+    "options": [
+      "미국에서 왔어요.",
+      "오늘은 뭔가 설레요.",
+      "얼마나 걸려요?"
+    ],
+    "answer": "오늘은 뭔가 설레요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3596,
+    "episode_id": 71,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "여행 전날이라 ___ 설레요."
+    },
+    "options": [
+      "뭔가"
+    ],
+    "answer": "뭔가",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3597,
+    "episode_id": 71,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "Being here makes me feel excited."
+    },
+    "options": null,
+    "answer": "이곳에 오니까 뭔가 설레요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "오니까",
+      "뭔가",
+      "설레요",
+      "이곳에"
+    ]
+  },
+  {
+    "id": 3598,
+    "episode_id": 71,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "Moments like this are precious."
+    },
+    "options": [
+      "아침 루틴 있어요? 어떻게 시작해요?",
+      "뭘 사야 할지 모르겠어요.",
+      "이런 순간이 소중해요."
+    ],
+    "answer": "이런 순간이 소중해요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3599,
+    "episode_id": 71,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "친구들과 함께하는 ___ 순간이 소중해요."
+    },
+    "options": [
+      "이런"
+    ],
+    "answer": "이런",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3600,
+    "episode_id": 71,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "It's ordinary, but moments like this are precious."
+    },
+    "options": null,
+    "answer": "평범하지만 이런 순간이 소중해요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "이런",
+      "소중해요",
+      "평범하지만",
+      "순간이"
+    ]
+  },
+  {
+    "id": 3601,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "I think there was a misunderstanding between us."
+    },
+    "options": [
+      "한국어가 생각보다 어려워요.",
+      "한국어 선생님이 되고 싶어요.",
+      "우리 사이에 오해가 있었던 것 같아요."
+    ],
+    "answer": "우리 사이에 오해가 있었던 것 같아요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3602,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "제 말에 ___ 있었던 것 같아요."
+    },
+    "options": [
+      "오해가"
+    ],
+    "answer": "오해가",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3603,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "I think we misunderstood each other."
+    },
+    "options": null,
+    "answer": "서로 오해가 있었던 것 같아요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "같아요",
+      "것",
+      "서로",
+      "오해가",
+      "있었던"
+    ]
+  },
+  {
+    "id": 3604,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "I didn't mean that."
+    },
+    "options": [
+      "덜 맵게 해 주세요.",
+      "그런 뜻이 아니었어요.",
+      "힘들어도 내가 옆에 있을게."
+    ],
+    "answer": "그런 뜻이 아니었어요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3605,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "무시하려는 ___ 아니었어요."
+    },
+    "options": [
+      "뜻이"
+    ],
+    "answer": "뜻이",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3606,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "I didn't mean to get angry."
+    },
+    "options": null,
+    "answer": "화내려는 뜻이 아니었어요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "뜻이",
+      "아니었어요",
+      "화내려는"
+    ]
+  },
+  {
+    "id": 3607,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 7,
+    "type": null,
+    "question": {
+      "prompt": "I completely understand what you mean."
+    },
+    "options": [
+      "무슨 말인지 충분히 이해해요.",
+      "이 앱 써봤어요?",
+      "취미가 뭐예요?"
+    ],
+    "answer": "무슨 말인지 충분히 이해해요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3608,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 8,
+    "type": null,
+    "question": {
+      "prompt": "그 마음 ___ 이해해요."
+    },
+    "options": [
+      "충분히"
+    ],
+    "answer": "충분히",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3609,
+    "episode_id": 72,
+    "pattern_id": null,
+    "order_num": 9,
+    "type": null,
+    "question": {
+      "prompt": "I fully understand the situation."
+    },
+    "options": null,
+    "answer": "상황을 충분히 이해해요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "상황을",
+      "이해해요",
+      "충분히"
+    ]
+  },
+  {
+    "id": 3610,
+    "episode_id": 73,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "I'm glad I didn't give up."
+    },
+    "options": [
+      "사진 찍어 드릴까요?",
+      "포기하지 않길 잘했어요.",
+      "한국어 꼭 잘하기로 마음먹었어요."
+    ],
+    "answer": "포기하지 않길 잘했어요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3611,
+    "episode_id": 73,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "약속을 취소하___ 않길 잘했어요."
+    },
+    "options": [
+      "지"
+    ],
+    "answer": "지",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3612,
+    "episode_id": 73,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "I'm glad I didn't leave too early."
+    },
+    "options": null,
+    "answer": "너무 일찍 가지 않길 잘했어요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "일찍",
+      "가지",
+      "않길",
+      "너무",
+      "잘했어요"
+    ]
+  },
+  {
+    "id": 3613,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Korean is easy once you understand it."
+    },
+    "options": [
+      "한국어도 알고 보면 쉬워요.",
+      "이 식당이 맛있다고 하던데요.",
+      "힘들었지만 포기 안 하길 잘했어."
+    ],
+    "answer": "한국어도 알고 보면 쉬워요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3614,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "이 규칙도 ___ 보면 간단해요."
+    },
+    "options": [
+      "알고"
+    ],
+    "answer": "알고",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3615,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "That person is kind once you get to know them."
+    },
+    "options": null,
+    "answer": "그 사람도 알고 보면 친절해요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "사람도",
+      "알고",
+      "친절해요",
+      "보면",
+      "그"
+    ]
+  },
+  {
+    "id": 3616,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "What is the difference between these two words?"
+    },
+    "options": [
+      "여기서 유명한 게 뭐예요? 음식 추천해 주세요.",
+      "이 두 단어의 차이가 뭐예요?",
+      "힘들었지만 포기 안 하길 잘했어."
+    ],
+    "answer": "이 두 단어의 차이가 뭐예요?",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3617,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "존댓말과 반말의 ___ 뭐예요?"
+    },
+    "options": [
+      "차이가"
+    ],
+    "answer": "차이가",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3618,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "What is the difference between these two menu items?"
+    },
+    "options": null,
+    "answer": "이 두 메뉴의 차이가 뭐예요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "차이가",
+      "두",
+      "메뉴의",
+      "뭐예요",
+      "이"
+    ]
+  },
+  {
+    "id": 3619,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 7,
+    "type": null,
+    "question": {
+      "prompt": "This is the key point."
+    },
+    "options": [
+      "이게 포인트예요.",
+      "일단은 먹어요. 이야기는 나중에.",
+      "왼쪽으로 꺾으면 돼요."
+    ],
+    "answer": "이게 포인트예요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3620,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 8,
+    "type": null,
+    "question": {
+      "prompt": "발음에서는 ___ 포인트예요."
+    },
+    "options": [
+      "이게"
+    ],
+    "answer": "이게",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3621,
+    "episode_id": 76,
+    "pattern_id": null,
+    "order_num": 9,
+    "type": null,
+    "question": {
+      "prompt": "This part is the most important. This is the key point."
+    },
+    "options": null,
+    "answer": "이 부분이 가장 중요해요. 이게 포인트예요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "이",
+      "중요해요.",
+      "포인트예요",
+      "이게",
+      "가장",
+      "부분이"
+    ]
+  },
+  {
+    "id": 3622,
+    "episode_id": 78,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "I do want to stay in Korea longer, though."
+    },
+    "options": [
+      "한국에 더 있고 싶긴 해요.",
+      "이번 여름에 여행 계획 있어요?",
+      "이 음식 별로예요."
+    ],
+    "answer": "한국에 더 있고 싶긴 해요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3623,
+    "episode_id": 78,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "같이 가___ 싶긴 해요."
+    },
+    "options": [
+      "고"
+    ],
+    "answer": "고",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3624,
+    "episode_id": 78,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "I do want to buy it, though."
+    },
+    "options": null,
+    "answer": "사고 싶긴 해요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "싶긴",
+      "사고",
+      "해요"
+    ]
+  },
+  {
+    "id": 3625,
+    "episode_id": 78,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "I will study hard for my dream."
+    },
+    "options": [
+      "저는 관광지보다 로컬이 좋아요.",
+      "꼭 그런 건 아니에요.",
+      "꿈을 위해 열심히 공부할 거예요."
+    ],
+    "answer": "꿈을 위해 열심히 공부할 거예요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3626,
+    "episode_id": 78,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "I will do my best for my family."
+    },
+    "options": null,
+    "answer": "가족을 위해 최선을 다할 거예요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "위해",
+      "가족을",
+      "다할",
+      "거예요",
+      "최선을"
+    ]
+  },
+  {
+    "id": 3627,
+    "episode_id": 81,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "I heard that this restaurant is good."
+    },
+    "options": [
+      "여기서 얼마나 걸려요?",
+      "너무 좋았어. 꼭 다시 올게.",
+      "이 식당이 맛있다고 하던데요."
+    ],
+    "answer": "이 식당이 맛있다고 하던데요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3628,
+    "episode_id": 81,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "내일 비가 온___ 하던데요."
+    },
+    "options": [
+      "다고"
+    ],
+    "answer": "다고",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3629,
+    "episode_id": 81,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "I heard that the movie is interesting."
+    },
+    "options": null,
+    "answer": "그 영화가 재미있다고 하던데요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "영화가",
+      "그",
+      "하던데요",
+      "재미있다고"
+    ]
+  },
+  {
+    "id": 3630,
+    "episode_id": 81,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "I heard that café is good."
+    },
+    "options": [
+      "이런 순간이 소중해요.",
+      "그 카페가 좋다더라고요.",
+      "한국 봄이 이렇게 예뻐요?"
+    ],
+    "answer": "그 카페가 좋다더라고요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3631,
+    "episode_id": 81,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "주말에는 사람이 많___."
+    },
+    "options": [
+      "다더라고요"
+    ],
+    "answer": "다더라고요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3632,
+    "episode_id": 81,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "I heard that Korean winters are cold."
+    },
+    "options": null,
+    "answer": "한국 겨울이 춥다더라고요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "겨울이",
+      "한국",
+      "춥다더라고요"
+    ]
+  },
+  {
+    "id": 3633,
+    "episode_id": 81,
+    "pattern_id": null,
+    "order_num": 7,
+    "type": null,
+    "question": {
+      "prompt": "I didn't know it would be this delicious."
+    },
+    "options": [
+      "경복궁은 꼭 와봐야 할 곳이에요.",
+      "건강 더 신경 써야겠어.",
+      "이렇게 맛있을 줄 몰랐어요."
+    ],
+    "answer": "이렇게 맛있을 줄 몰랐어요.",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3634,
+    "episode_id": 81,
+    "pattern_id": null,
+    "order_num": 8,
+    "type": null,
+    "question": {
+      "prompt": "I didn't know I would be able to have a conversation in Korean."
+    },
+    "options": null,
+    "answer": "한국어로 대화할 수 있을 줄 몰랐어요",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "한국어로",
+      "수",
+      "몰랐어요",
+      "있을",
+      "대화할",
+      "줄"
+    ]
+  },
+  {
+    "id": 3635,
+    "episode_id": 86,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Is this kind of thing common?"
+    },
+    "options": [
+      "이런 일이 흔한 일이에요?",
+      "사진 찍어 드릴까요?",
+      "제가 도와줄게요."
+    ],
+    "answer": "이런 일이 흔한 일이에요?",
+    "created_at": "2026-08-01T11:29:55.916996+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3636,
+    "episode_id": 86,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "지하철이 늦는 게 ___ 일이에요?"
+    },
+    "options": [
+      "흔한"
+    ],
+    "answer": "흔한",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3637,
+    "episode_id": 86,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "Is heavy snow common in winter?"
+    },
+    "options": null,
+    "answer": "겨울에 눈이 많이 오는 게 흔한 일이에요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "일이에요",
+      "게",
+      "흔한",
+      "많이",
+      "오는",
+      "눈이",
+      "겨울에"
+    ]
+  },
+  {
+    "id": 3638,
+    "episode_id": 86,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "It's much tastier than I expected."
+    },
+    "options": [
+      "오늘은 제가 살게요. 지난번에 사 줬잖아요.",
+      "생각보다 훨씬 맛있어요.",
+      "한국 음식 중에 삼겹살이 제일 좋아."
+    ],
+    "answer": "생각보다 훨씬 맛있어요.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3639,
+    "episode_id": 86,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "___ 훨씬 가까워요."
+    },
+    "options": [
+      "생각보다"
+    ],
+    "answer": "생각보다",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3640,
+    "episode_id": 86,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "It's much harder than I expected."
+    },
+    "options": null,
+    "answer": "생각보다 훨씬 어려워요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "훨씬",
+      "생각보다",
+      "어려워요"
+    ]
+  },
+  {
+    "id": 3641,
+    "episode_id": 91,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "The design is a little questionable, though."
+    },
+    "options": [
+      "저랑 같이 사진 찍어요!",
+      "오랜만에 다 같이 모이니까 좋아요.",
+      "디자인은 좀 그렇긴 한데요."
+    ],
+    "answer": "디자인은 좀 그렇긴 한데요.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3642,
+    "episode_id": 91,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "가격이 ___ 그렇긴 한데요."
+    },
+    "options": [
+      "좀"
+    ],
+    "answer": "좀",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3643,
+    "episode_id": 91,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "The taste isn't quite for me, though."
+    },
+    "options": null,
+    "answer": "맛은 좀 그렇긴 한데요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "좀",
+      "그렇긴",
+      "한데요",
+      "맛은"
+    ]
+  },
+  {
+    "id": 3644,
+    "episode_id": 91,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "I can't say that's not true."
+    },
+    "options": [
+      "아니라고 할 순 없죠.",
+      "한국어 여정은 계속돼요.",
+      "내 잘못이 아닌데 혼나서 억울했어요."
+    ],
+    "answer": "아니라고 할 순 없죠.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3645,
+    "episode_id": 91,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "비싸다는 말을 ___ 할 순 없죠."
+    },
+    "options": [
+      "아니라고"
+    ],
+    "answer": "아니라고",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3646,
+    "episode_id": 91,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "I can't deny that it's a little difficult."
+    },
+    "options": null,
+    "answer": "조금 어렵다는 건 아니라고 할 순 없죠",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "할",
+      "건",
+      "없죠",
+      "조금",
+      "아니라고",
+      "순",
+      "어렵다는"
+    ]
+  },
+  {
+    "id": 3647,
+    "episode_id": 91,
+    "pattern_id": null,
+    "order_num": 7,
+    "type": null,
+    "question": {
+      "prompt": "That's not always the case."
+    },
+    "options": [
+      "요즘 이제 한국어로 생각해요.",
+      "꼭 그런 건 아니에요.",
+      "우산을 챙겨야겠다."
+    ],
+    "answer": "꼭 그런 건 아니에요.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3648,
+    "episode_id": 91,
+    "pattern_id": null,
+    "order_num": 8,
+    "type": null,
+    "question": {
+      "prompt": "Expensive things are not always good."
+    },
+    "options": null,
+    "answer": "비싸다고 꼭 좋은 건 아니에요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "비싸다고",
+      "좋은",
+      "아니에요",
+      "건",
+      "꼭"
+    ]
+  },
+  {
+    "id": 3649,
+    "episode_id": 94,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "Try thinking from the other person's point of view."
+    },
+    "options": [
+      "조금만 기다려요. 거의 다 됐어요.",
+      "상대방 입장에서 생각해 봐요.",
+      "한국어 여정은 계속돼요."
+    ],
+    "answer": "상대방 입장에서 생각해 봐요.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3650,
+    "episode_id": 94,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "Try thinking from your parents' point of view too."
+    },
+    "options": null,
+    "answer": "부모님 입장에서도 생각해 봐요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "입장에서도",
+      "생각해",
+      "부모님",
+      "봐요"
+    ]
+  },
+  {
+    "id": 3651,
+    "episode_id": 94,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "I'll be by your side."
+    },
+    "options": [
+      "제가 옆에 있을게요.",
+      "다음 화가 너무 기대돼요. 빨리 보고 싶어요.",
+      "비싼 게 다 좋은 건 꼭 그런 건 아니야."
+    ],
+    "answer": "제가 옆에 있을게요.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3652,
+    "episode_id": 94,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "힘들 때 ___ 옆에 있을게요."
+    },
+    "options": [
+      "제가"
+    ],
+    "answer": "제가",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3653,
+    "episode_id": 94,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "Don't worry. I'll be by your side."
+    },
+    "options": null,
+    "answer": "걱정하지 마세요. 제가 옆에 있을게요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "옆에",
+      "마세요.",
+      "있을게요",
+      "제가",
+      "걱정하지"
+    ]
+  },
+  {
+    "id": 3654,
+    "episode_id": 100,
+    "pattern_id": null,
+    "order_num": 1,
+    "type": null,
+    "question": {
+      "prompt": "My Korean studies are just beginning."
+    },
+    "options": [
+      "지금 어디 살아요? 서울이에요?",
+      "제 한국어 공부는 이제 시작이에요.",
+      "집 근처에 뭐 있어? 카페 있어?"
+    ],
+    "answer": "제 한국어 공부는 이제 시작이에요.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3655,
+    "episode_id": 100,
+    "pattern_id": null,
+    "order_num": 2,
+    "type": null,
+    "question": {
+      "prompt": "___ 새로운 도전은 이제 시작이에요."
+    },
+    "options": [
+      "제"
+    ],
+    "answer": "제",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3656,
+    "episode_id": 100,
+    "pattern_id": null,
+    "order_num": 3,
+    "type": null,
+    "question": {
+      "prompt": "My life in Korea is just beginning."
+    },
+    "options": null,
+    "answer": "제 한국 생활은 이제 시작이에요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "생활은",
+      "한국",
+      "시작이에요",
+      "제",
+      "이제"
+    ]
+  },
+  {
+    "id": 3657,
+    "episode_id": 100,
+    "pattern_id": null,
+    "order_num": 4,
+    "type": null,
+    "question": {
+      "prompt": "I will achieve my dream through Korean."
+    },
+    "options": [
+      "친구가 이 식당 추천해줬어. 맛있대.",
+      "오늘은 뭔가 설레요.",
+      "한국어로 꿈을 이룰 거예요."
+    ],
+    "answer": "한국어로 꿈을 이룰 거예요.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3658,
+    "episode_id": 100,
+    "pattern_id": null,
+    "order_num": 5,
+    "type": null,
+    "question": {
+      "prompt": "음악으___ 꿈을 이룰 거예요."
+    },
+    "options": [
+      "로"
+    ],
+    "answer": "로",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "fill_blank",
+    "word_pieces": null
+  },
+  {
+    "id": 3659,
+    "episode_id": 100,
+    "pattern_id": null,
+    "order_num": 6,
+    "type": null,
+    "question": {
+      "prompt": "I will achieve my dream through steady effort."
+    },
+    "options": null,
+    "answer": "꾸준한 노력으로 꿈을 이룰 거예요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "노력으로",
+      "꿈을",
+      "꾸준한",
+      "거예요",
+      "이룰"
+    ]
+  },
+  {
+    "id": 3660,
+    "episode_id": 100,
+    "pattern_id": null,
+    "order_num": 7,
+    "type": null,
+    "question": {
+      "prompt": "The Korean journey continues."
+    },
+    "options": [
+      "한국어 여정은 계속돼요.",
+      "한국에 며칠이나 있을 거예요?",
+      "매운 거 안 먹는 게 나아요."
+    ],
+    "answer": "한국어 여정은 계속돼요.",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "translation",
+    "word_pieces": null
+  },
+  {
+    "id": 3661,
+    "episode_id": 100,
+    "pattern_id": null,
+    "order_num": 8,
+    "type": null,
+    "question": {
+      "prompt": "Learning continues."
+    },
+    "options": null,
+    "answer": "배움은 계속돼요",
+    "created_at": "2026-08-01T11:29:55.977971+00:00",
+    "challenge_type": "word_order",
+    "word_pieces": [
+      "계속돼요",
+      "배움은"
+    ]
+  }
+]

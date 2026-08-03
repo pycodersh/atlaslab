@@ -1,0 +1,4474 @@
+[
+  {
+    "id": 4637,
+    "dialogue_id": 9959,
+    "expression_id": 770,
+    "matched_text": "주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4638,
+    "dialogue_id": 9961,
+    "expression_id": 770,
+    "matched_text": "주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4639,
+    "dialogue_id": 9973,
+    "expression_id": 770,
+    "matched_text": "주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4640,
+    "dialogue_id": 9999,
+    "expression_id": 778,
+    "matched_text": "추천해 주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4641,
+    "dialogue_id": 10025,
+    "expression_id": 783,
+    "matched_text": "깎아 주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4642,
+    "dialogue_id": 10026,
+    "expression_id": 783,
+    "matched_text": "깎아 주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4643,
+    "dialogue_id": 10033,
+    "expression_id": 778,
+    "matched_text": "추천해 주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4644,
+    "dialogue_id": 10069,
+    "expression_id": 800,
+    "matched_text": "까지 가 주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4645,
+    "dialogue_id": 10075,
+    "expression_id": 801,
+    "matched_text": "게 해 주세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4646,
+    "dialogue_id": 9435,
+    "expression_id": 913,
+    "matched_text": "꼭 봐야 할 게 뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4647,
+    "dialogue_id": 9701,
+    "expression_id": 1277,
+    "matched_text": "차이가 뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4648,
+    "dialogue_id": 9705,
+    "expression_id": 1277,
+    "matched_text": "차이가 뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4649,
+    "dialogue_id": 9955,
+    "expression_id": 771,
+    "matched_text": "뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4650,
+    "dialogue_id": 9957,
+    "expression_id": 771,
+    "matched_text": "뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4651,
+    "dialogue_id": 9977,
+    "expression_id": 771,
+    "matched_text": "뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4652,
+    "dialogue_id": 10021,
+    "expression_id": 771,
+    "matched_text": "뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4653,
+    "dialogue_id": 10032,
+    "expression_id": 771,
+    "matched_text": "뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4654,
+    "dialogue_id": 10144,
+    "expression_id": 821,
+    "matched_text": "여기서 유명한 게 뭐예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4655,
+    "dialogue_id": 9258,
+    "expression_id": 772,
+    "matched_text": "있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4656,
+    "dialogue_id": 9313,
+    "expression_id": 877,
+    "matched_text": "신청곡 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4657,
+    "dialogue_id": 9333,
+    "expression_id": 883,
+    "matched_text": "달달한 거 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4658,
+    "dialogue_id": 9393,
+    "expression_id": 779,
+    "matched_text": "주실 수 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4659,
+    "dialogue_id": 9424,
+    "expression_id": 910,
+    "matched_text": "가성비 좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4660,
+    "dialogue_id": 9431,
+    "expression_id": 911,
+    "matched_text": "여행 계획 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4661,
+    "dialogue_id": 9451,
+    "expression_id": 772,
+    "matched_text": "있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4662,
+    "dialogue_id": 9483,
+    "expression_id": 772,
+    "matched_text": "있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4663,
+    "dialogue_id": 9536,
+    "expression_id": 810,
+    "matched_text": "재미있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4664,
+    "dialogue_id": 9582,
+    "expression_id": 772,
+    "matched_text": "있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4665,
+    "dialogue_id": 9591,
+    "expression_id": 956,
+    "matched_text": "루틴 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4666,
+    "dialogue_id": 9598,
+    "expression_id": 849,
+    "matched_text": "효과 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4667,
+    "dialogue_id": 9899,
+    "expression_id": 1229,
+    "matched_text": "시즌2 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4668,
+    "dialogue_id": 9962,
+    "expression_id": 772,
+    "matched_text": "있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4669,
+    "dialogue_id": 9998,
+    "expression_id": 772,
+    "matched_text": "있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4670,
+    "dialogue_id": 10001,
+    "expression_id": 779,
+    "matched_text": "주실 수 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4671,
+    "dialogue_id": 10076,
+    "expression_id": 772,
+    "matched_text": "있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4672,
+    "dialogue_id": 10078,
+    "expression_id": 772,
+    "matched_text": "있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4673,
+    "dialogue_id": 10106,
+    "expression_id": 810,
+    "matched_text": "재미있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4674,
+    "dialogue_id": 10108,
+    "expression_id": 1078,
+    "matched_text": "어디서 볼 수 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4675,
+    "dialogue_id": 10128,
+    "expression_id": 816,
+    "matched_text": "약 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4676,
+    "dialogue_id": 10239,
+    "expression_id": 849,
+    "matched_text": "효과 있어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4677,
+    "dialogue_id": 9970,
+    "expression_id": 773,
+    "matched_text": "어떻게 가요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4678,
+    "dialogue_id": 9971,
+    "expression_id": 773,
+    "matched_text": "어떻게 가요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4679,
+    "dialogue_id": 10095,
+    "expression_id": 773,
+    "matched_text": "어떻게 가요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4680,
+    "dialogue_id": 9437,
+    "expression_id": 774,
+    "matched_text": "가고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4681,
+    "dialogue_id": 10172,
+    "expression_id": 774,
+    "matched_text": "가고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4682,
+    "dialogue_id": 10228,
+    "expression_id": 1102,
+    "matched_text": "콘서트 가고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4683,
+    "dialogue_id": 9361,
+    "expression_id": 775,
+    "matched_text": "어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4684,
+    "dialogue_id": 9363,
+    "expression_id": 891,
+    "matched_text": "면 어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4685,
+    "dialogue_id": 9413,
+    "expression_id": 933,
+    "matched_text": "이거 어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4686,
+    "dialogue_id": 9423,
+    "expression_id": 775,
+    "matched_text": "어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4687,
+    "dialogue_id": 9503,
+    "expression_id": 933,
+    "matched_text": "이거 어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4688,
+    "dialogue_id": 9561,
+    "expression_id": 775,
+    "matched_text": "어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4689,
+    "dialogue_id": 9617,
+    "expression_id": 775,
+    "matched_text": "어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4690,
+    "dialogue_id": 10122,
+    "expression_id": 812,
+    "matched_text": "날씨 어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4691,
+    "dialogue_id": 10149,
+    "expression_id": 775,
+    "matched_text": "어때요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4692,
+    "dialogue_id": 9505,
+    "expression_id": 934,
+    "matched_text": "카드로 할게요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4693,
+    "dialogue_id": 9993,
+    "expression_id": 776,
+    "matched_text": "로 할게요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4694,
+    "dialogue_id": 10073,
+    "expression_id": 776,
+    "matched_text": "로 할게요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4695,
+    "dialogue_id": 9412,
+    "expression_id": 780,
+    "matched_text": "좋아해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4696,
+    "dialogue_id": 10016,
+    "expression_id": 780,
+    "matched_text": "좋아해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4697,
+    "dialogue_id": 10226,
+    "expression_id": 1101,
+    "matched_text": "누구 좋아해요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4698,
+    "dialogue_id": 9298,
+    "expression_id": 781,
+    "matched_text": "신기해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4699,
+    "dialogue_id": 9532,
+    "expression_id": 1060,
+    "matched_text": "처음이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4700,
+    "dialogue_id": 9809,
+    "expression_id": 781,
+    "matched_text": "신기해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4701,
+    "dialogue_id": 9834,
+    "expression_id": 781,
+    "matched_text": "신기해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4702,
+    "dialogue_id": 10019,
+    "expression_id": 781,
+    "matched_text": "신기해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4703,
+    "dialogue_id": 10121,
+    "expression_id": 781,
+    "matched_text": "신기해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4704,
+    "dialogue_id": 10031,
+    "expression_id": 784,
+    "matched_text": "써봤어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4705,
+    "dialogue_id": 10035,
+    "expression_id": 785,
+    "matched_text": "어떤 게 좋아요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4706,
+    "dialogue_id": 10051,
+    "expression_id": 789,
+    "matched_text": "떨려요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4707,
+    "dialogue_id": 10054,
+    "expression_id": 790,
+    "matched_text": "에서 왔어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4708,
+    "dialogue_id": 10056,
+    "expression_id": 791,
+    "matched_text": "잘 부탁드려요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4709,
+    "dialogue_id": 9547,
+    "expression_id": 793,
+    "matched_text": "먹고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4710,
+    "dialogue_id": 9979,
+    "expression_id": 793,
+    "matched_text": "먹고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4711,
+    "dialogue_id": 9985,
+    "expression_id": 794,
+    "matched_text": "못 먹어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4712,
+    "dialogue_id": 9990,
+    "expression_id": 795,
+    "matched_text": "먹어도 돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4713,
+    "dialogue_id": 10011,
+    "expression_id": 796,
+    "matched_text": "불러도 돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4714,
+    "dialogue_id": 9318,
+    "expression_id": 797,
+    "matched_text": "또 오고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4715,
+    "dialogue_id": 9689,
+    "expression_id": 797,
+    "matched_text": "또 오고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4716,
+    "dialogue_id": 9739,
+    "expression_id": 797,
+    "matched_text": "또 오고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4717,
+    "dialogue_id": 9839,
+    "expression_id": 797,
+    "matched_text": "또 오고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4718,
+    "dialogue_id": 10017,
+    "expression_id": 797,
+    "matched_text": "또 오고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4719,
+    "dialogue_id": 10150,
+    "expression_id": 797,
+    "matched_text": "또 오고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4720,
+    "dialogue_id": 10062,
+    "expression_id": 1070,
+    "matched_text": "갈아타요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4721,
+    "dialogue_id": 10079,
+    "expression_id": 802,
+    "matched_text": "리필 돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4722,
+    "dialogue_id": 10088,
+    "expression_id": 805,
+    "matched_text": "조금 늦을 것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4723,
+    "dialogue_id": 10093,
+    "expression_id": 806,
+    "matched_text": "길을 잃었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4724,
+    "dialogue_id": 10096,
+    "expression_id": 807,
+    "matched_text": "쭉 가면 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4725,
+    "dialogue_id": 10097,
+    "expression_id": 808,
+    "matched_text": "으로 꺾으면 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4726,
+    "dialogue_id": 9293,
+    "expression_id": 809,
+    "matched_text": "봤어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4727,
+    "dialogue_id": 9492,
+    "expression_id": 809,
+    "matched_text": "봤어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4728,
+    "dialogue_id": 9515,
+    "expression_id": 1257,
+    "matched_text": "해봤어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4729,
+    "dialogue_id": 9531,
+    "expression_id": 940,
+    "matched_text": "와 봤어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4730,
+    "dialogue_id": 9535,
+    "expression_id": 809,
+    "matched_text": "봤어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4731,
+    "dialogue_id": 10104,
+    "expression_id": 809,
+    "matched_text": "봤어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4732,
+    "dialogue_id": 9317,
+    "expression_id": 810,
+    "matched_text": "재미있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4733,
+    "dialogue_id": 9324,
+    "expression_id": 880,
+    "matched_text": "어렵지만 재미있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4734,
+    "dialogue_id": 9345,
+    "expression_id": 885,
+    "matched_text": "나라마다 달라요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4735,
+    "dialogue_id": 9507,
+    "expression_id": 810,
+    "matched_text": "재미있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4736,
+    "dialogue_id": 9709,
+    "expression_id": 810,
+    "matched_text": "재미있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4737,
+    "dialogue_id": 9894,
+    "expression_id": 810,
+    "matched_text": "재미있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4738,
+    "dialogue_id": 10107,
+    "expression_id": 810,
+    "matched_text": "재미있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4739,
+    "dialogue_id": 10105,
+    "expression_id": 811,
+    "matched_text": "강추예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4740,
+    "dialogue_id": 10116,
+    "expression_id": 813,
+    "matched_text": "올 것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4741,
+    "dialogue_id": 9526,
+    "expression_id": 815,
+    "matched_text": "이 아파요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4742,
+    "dialogue_id": 10124,
+    "expression_id": 815,
+    "matched_text": "이 아파요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4743,
+    "dialogue_id": 10130,
+    "expression_id": 817,
+    "matched_text": "안 먹는 게 나아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4744,
+    "dialogue_id": 9340,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4745,
+    "dialogue_id": 9368,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4746,
+    "dialogue_id": 9370,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4747,
+    "dialogue_id": 9506,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4748,
+    "dialogue_id": 9540,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4749,
+    "dialogue_id": 9628,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4750,
+    "dialogue_id": 9654,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4751,
+    "dialogue_id": 9658,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4752,
+    "dialogue_id": 9660,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4753,
+    "dialogue_id": 9668,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4754,
+    "dialogue_id": 9696,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4755,
+    "dialogue_id": 9740,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4756,
+    "dialogue_id": 9818,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4757,
+    "dialogue_id": 9880,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4758,
+    "dialogue_id": 9896,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4759,
+    "dialogue_id": 9898,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4760,
+    "dialogue_id": 9932,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4761,
+    "dialogue_id": 9942,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4762,
+    "dialogue_id": 10137,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4763,
+    "dialogue_id": 10151,
+    "expression_id": 819,
+    "matched_text": "저도요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4764,
+    "dialogue_id": 10139,
+    "expression_id": 820,
+    "matched_text": "별로예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4765,
+    "dialogue_id": 10196,
+    "expression_id": 820,
+    "matched_text": "별로예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4766,
+    "dialogue_id": 9299,
+    "expression_id": 822,
+    "matched_text": "같이 사진 찍어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4767,
+    "dialogue_id": 10146,
+    "expression_id": 822,
+    "matched_text": "같이 사진 찍어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4768,
+    "dialogue_id": 10154,
+    "expression_id": 824,
+    "matched_text": "오랜만이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4769,
+    "dialogue_id": 10155,
+    "expression_id": 824,
+    "matched_text": "오랜만이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4770,
+    "dialogue_id": 10156,
+    "expression_id": 825,
+    "matched_text": "잘 지냈어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4771,
+    "dialogue_id": 10162,
+    "expression_id": 826,
+    "matched_text": "다음에 또 봐요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4772,
+    "dialogue_id": 9294,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4773,
+    "dialogue_id": 9329,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4774,
+    "dialogue_id": 9352,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4775,
+    "dialogue_id": 9372,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4776,
+    "dialogue_id": 9373,
+    "expression_id": 894,
+    "matched_text": "때문에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4777,
+    "dialogue_id": 9408,
+    "expression_id": 959,
+    "matched_text": "많이 늘었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4778,
+    "dialogue_id": 9448,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4779,
+    "dialogue_id": 9455,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4780,
+    "dialogue_id": 9465,
+    "expression_id": 921,
+    "matched_text": "마음먹었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4781,
+    "dialogue_id": 9467,
+    "expression_id": 959,
+    "matched_text": "많이 늘었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4782,
+    "dialogue_id": 9490,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4783,
+    "dialogue_id": 9513,
+    "expression_id": 1158,
+    "matched_text": "처음엔 힘들었는데",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4784,
+    "dialogue_id": 9572,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4785,
+    "dialogue_id": 9575,
+    "expression_id": 959,
+    "matched_text": "많이 늘었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4786,
+    "dialogue_id": 9601,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4787,
+    "dialogue_id": 9625,
+    "expression_id": 1273,
+    "matched_text": "뜻이 아니었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4788,
+    "dialogue_id": 9663,
+    "expression_id": 1273,
+    "matched_text": "뜻이 아니었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4789,
+    "dialogue_id": 9752,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4790,
+    "dialogue_id": 9756,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4791,
+    "dialogue_id": 9828,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4792,
+    "dialogue_id": 9897,
+    "expression_id": 1228,
+    "matched_text": "보다가 울었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4793,
+    "dialogue_id": 9925,
+    "expression_id": 1051,
+    "matched_text": "실력이 많이 늘었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4794,
+    "dialogue_id": 10059,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4795,
+    "dialogue_id": 10081,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4796,
+    "dialogue_id": 10101,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4797,
+    "dialogue_id": 10167,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4798,
+    "dialogue_id": 10169,
+    "expression_id": 827,
+    "matched_text": "었어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4799,
+    "dialogue_id": 10213,
+    "expression_id": 843,
+    "matched_text": "완전 빠져들었어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4800,
+    "dialogue_id": 10232,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4801,
+    "dialogue_id": 10166,
+    "expression_id": 828,
+    "matched_text": "어땠어?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4802,
+    "dialogue_id": 9364,
+    "expression_id": 1162,
+    "matched_text": "재미있을 것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4803,
+    "dialogue_id": 9504,
+    "expression_id": 1157,
+    "matched_text": "잘 어울릴 것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4804,
+    "dialogue_id": 9788,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4805,
+    "dialogue_id": 9847,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4806,
+    "dialogue_id": 9869,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4807,
+    "dialogue_id": 9915,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4808,
+    "dialogue_id": 9933,
+    "expression_id": 1052,
+    "matched_text": "같이 성장한 것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4809,
+    "dialogue_id": 10068,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4810,
+    "dialogue_id": 10174,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4811,
+    "dialogue_id": 10175,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4812,
+    "dialogue_id": 10178,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4813,
+    "dialogue_id": 10206,
+    "expression_id": 1162,
+    "matched_text": "재미있을 것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4814,
+    "dialogue_id": 10249,
+    "expression_id": 830,
+    "matched_text": "것 같아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4815,
+    "dialogue_id": 9595,
+    "expression_id": 958,
+    "matched_text": "해야 해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4816,
+    "dialogue_id": 9643,
+    "expression_id": 833,
+    "matched_text": "해야 해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4817,
+    "dialogue_id": 9865,
+    "expression_id": 833,
+    "matched_text": "해야 해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4818,
+    "dialogue_id": 10184,
+    "expression_id": 833,
+    "matched_text": "해야 해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4819,
+    "dialogue_id": 10185,
+    "expression_id": 833,
+    "matched_text": "해야 해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4820,
+    "dialogue_id": 9266,
+    "expression_id": 834,
+    "matched_text": "하지 마",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4821,
+    "dialogue_id": 9565,
+    "expression_id": 949,
+    "matched_text": "무리하지 마세요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4822,
+    "dialogue_id": 10186,
+    "expression_id": 834,
+    "matched_text": "하지 마",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4823,
+    "dialogue_id": 10191,
+    "expression_id": 835,
+    "matched_text": "잊지 마",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4824,
+    "dialogue_id": 9781,
+    "expression_id": 836,
+    "matched_text": "어떻게 생각해요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4825,
+    "dialogue_id": 10194,
+    "expression_id": 836,
+    "matched_text": "어떻게 생각해요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4826,
+    "dialogue_id": 10199,
+    "expression_id": 837,
+    "matched_text": "맞는 말이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4827,
+    "dialogue_id": 10203,
+    "expression_id": 841,
+    "matched_text": "언제 시간 돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4828,
+    "dialogue_id": 10210,
+    "expression_id": 842,
+    "matched_text": "요즘 뭐 봐요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4829,
+    "dialogue_id": 10223,
+    "expression_id": 846,
+    "matched_text": "가사가 무슨 뜻이에요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4830,
+    "dialogue_id": 9687,
+    "expression_id": 847,
+    "matched_text": "중독성 있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4831,
+    "dialogue_id": 10225,
+    "expression_id": 847,
+    "matched_text": "중독성 있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4832,
+    "dialogue_id": 10234,
+    "expression_id": 848,
+    "matched_text": "관리 어떻게 해요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4833,
+    "dialogue_id": 10243,
+    "expression_id": 852,
+    "matched_text": "건강에 좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4834,
+    "dialogue_id": 10245,
+    "expression_id": 853,
+    "matched_text": "꾸준히 하고 있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4835,
+    "dialogue_id": 9251,
+    "expression_id": 857,
+    "matched_text": "기분이 어때?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4836,
+    "dialogue_id": 9254,
+    "expression_id": 858,
+    "matched_text": "라서 행복해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4837,
+    "dialogue_id": 9252,
+    "expression_id": 1270,
+    "matched_text": "뭔가 설레요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4838,
+    "dialogue_id": 9653,
+    "expression_id": 1270,
+    "matched_text": "뭔가 설레요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4839,
+    "dialogue_id": 9261,
+    "expression_id": 860,
+    "matched_text": "괜찮아요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4840,
+    "dialogue_id": 9262,
+    "expression_id": 861,
+    "matched_text": "요즘 좀 힘들어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4841,
+    "dialogue_id": 9267,
+    "expression_id": 862,
+    "matched_text": "언제든지 연락해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4842,
+    "dialogue_id": 9271,
+    "expression_id": 863,
+    "matched_text": "카카오톡 해요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4843,
+    "dialogue_id": 9273,
+    "expression_id": 864,
+    "matched_text": "팔로우해도 돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4844,
+    "dialogue_id": 9287,
+    "expression_id": 866,
+    "matched_text": "제가 살게요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4845,
+    "dialogue_id": 9289,
+    "expression_id": 867,
+    "matched_text": "더치페이 해요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4846,
+    "dialogue_id": 9421,
+    "expression_id": 869,
+    "matched_text": "배달 시켜요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4847,
+    "dialogue_id": 9297,
+    "expression_id": 872,
+    "matched_text": "이게 무슨 뜻이야?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4848,
+    "dialogue_id": 9305,
+    "expression_id": 873,
+    "matched_text": "술 마셔요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4849,
+    "dialogue_id": 9303,
+    "expression_id": 874,
+    "matched_text": "건배해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4850,
+    "dialogue_id": 9309,
+    "expression_id": 875,
+    "matched_text": "오늘은 여기까지만 해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4851,
+    "dialogue_id": 9312,
+    "expression_id": 876,
+    "matched_text": "이 노래 같이 불러요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4852,
+    "dialogue_id": 9316,
+    "expression_id": 878,
+    "matched_text": "한 곡 더 해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4853,
+    "dialogue_id": 9321,
+    "expression_id": 879,
+    "matched_text": "같이 춰요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4854,
+    "dialogue_id": 9326,
+    "expression_id": 881,
+    "matched_text": "하다 보면 늘어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4855,
+    "dialogue_id": 9538,
+    "expression_id": 881,
+    "matched_text": "하다 보면 늘어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4856,
+    "dialogue_id": 9331,
+    "expression_id": 882,
+    "matched_text": "분위기 좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4857,
+    "dialogue_id": 9335,
+    "expression_id": 884,
+    "matched_text": "오래 있어도 돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4858,
+    "dialogue_id": 9343,
+    "expression_id": 887,
+    "matched_text": "처음엔 낯설었는데",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4859,
+    "dialogue_id": 9330,
+    "expression_id": 888,
+    "matched_text": "는데",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4860,
+    "dialogue_id": 9583,
+    "expression_id": 888,
+    "matched_text": "는데",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4861,
+    "dialogue_id": 9782,
+    "expression_id": 1012,
+    "matched_text": "잘 모르겠는데요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4862,
+    "dialogue_id": 10048,
+    "expression_id": 888,
+    "matched_text": "는데",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4863,
+    "dialogue_id": 9355,
+    "expression_id": 1249,
+    "matched_text": "거든요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4864,
+    "dialogue_id": 9279,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4865,
+    "dialogue_id": 9302,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4866,
+    "dialogue_id": 9320,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4867,
+    "dialogue_id": 9334,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4868,
+    "dialogue_id": 9336,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4869,
+    "dialogue_id": 9348,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4870,
+    "dialogue_id": 9394,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4871,
+    "dialogue_id": 9416,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4872,
+    "dialogue_id": 9450,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4873,
+    "dialogue_id": 9452,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4874,
+    "dialogue_id": 9558,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4875,
+    "dialogue_id": 9592,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4876,
+    "dialogue_id": 9596,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4877,
+    "dialogue_id": 9644,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4878,
+    "dialogue_id": 9680,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4879,
+    "dialogue_id": 9714,
+    "expression_id": 1127,
+    "matched_text": "잖아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4880,
+    "dialogue_id": 9734,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4881,
+    "dialogue_id": 9762,
+    "expression_id": 1204,
+    "matched_text": "어쩌다 보니",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4882,
+    "dialogue_id": 9792,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4883,
+    "dialogue_id": 9861,
+    "expression_id": 1034,
+    "matched_text": "말이 되네요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4884,
+    "dialogue_id": 9912,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4885,
+    "dialogue_id": 9924,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4886,
+    "dialogue_id": 9928,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4887,
+    "dialogue_id": 9963,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4888,
+    "dialogue_id": 10002,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4889,
+    "dialogue_id": 10006,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4890,
+    "dialogue_id": 10028,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4891,
+    "dialogue_id": 10053,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4892,
+    "dialogue_id": 10066,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4893,
+    "dialogue_id": 10070,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4894,
+    "dialogue_id": 10080,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4895,
+    "dialogue_id": 10118,
+    "expression_id": 1080,
+    "matched_text": "날씨 좋네요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4896,
+    "dialogue_id": 10129,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4897,
+    "dialogue_id": 10131,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4898,
+    "dialogue_id": 10133,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4899,
+    "dialogue_id": 10141,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4900,
+    "dialogue_id": 10157,
+    "expression_id": 1087,
+    "matched_text": "요즘 바빠요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4901,
+    "dialogue_id": 10231,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4902,
+    "dialogue_id": 10233,
+    "expression_id": 1069,
+    "matched_text": "할 수 있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4903,
+    "dialogue_id": 10248,
+    "expression_id": 890,
+    "matched_text": "네",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4904,
+    "dialogue_id": 9367,
+    "expression_id": 892,
+    "matched_text": "면 좋겠어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4905,
+    "dialogue_id": 9369,
+    "expression_id": 892,
+    "matched_text": "면 좋겠어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4906,
+    "dialogue_id": 9338,
+    "expression_id": 893,
+    "matched_text": "면 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4907,
+    "dialogue_id": 9366,
+    "expression_id": 893,
+    "matched_text": "면 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4908,
+    "dialogue_id": 9395,
+    "expression_id": 893,
+    "matched_text": "면 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4909,
+    "dialogue_id": 9494,
+    "expression_id": 893,
+    "matched_text": "면 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4910,
+    "dialogue_id": 9495,
+    "expression_id": 893,
+    "matched_text": "면 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4911,
+    "dialogue_id": 9562,
+    "expression_id": 894,
+    "matched_text": "때문에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4912,
+    "dialogue_id": 9268,
+    "expression_id": 895,
+    "matched_text": "덕분에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4913,
+    "dialogue_id": 9378,
+    "expression_id": 895,
+    "matched_text": "덕분에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4914,
+    "dialogue_id": 9397,
+    "expression_id": 895,
+    "matched_text": "덕분에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4915,
+    "dialogue_id": 9489,
+    "expression_id": 895,
+    "matched_text": "덕분에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4916,
+    "dialogue_id": 9568,
+    "expression_id": 895,
+    "matched_text": "덕분에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4917,
+    "dialogue_id": 9767,
+    "expression_id": 895,
+    "matched_text": "덕분에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4918,
+    "dialogue_id": 9768,
+    "expression_id": 1152,
+    "matched_text": "덕분에 배웠어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4919,
+    "dialogue_id": 9935,
+    "expression_id": 1053,
+    "matched_text": "덕분에 정말 많이 배웠어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4920,
+    "dialogue_id": 9375,
+    "expression_id": 896,
+    "matched_text": "보다",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4921,
+    "dialogue_id": 9377,
+    "expression_id": 896,
+    "matched_text": "보다",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4922,
+    "dialogue_id": 9407,
+    "expression_id": 896,
+    "matched_text": "보다",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4923,
+    "dialogue_id": 9475,
+    "expression_id": 1151,
+    "matched_text": "생각보다 맛있어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4924,
+    "dialogue_id": 9683,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4925,
+    "dialogue_id": 9805,
+    "expression_id": 896,
+    "matched_text": "보다",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4926,
+    "dialogue_id": 9831,
+    "expression_id": 1026,
+    "matched_text": "관광지보다 로컬이 좋아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4927,
+    "dialogue_id": 10043,
+    "expression_id": 896,
+    "matched_text": "보다",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4928,
+    "dialogue_id": 10044,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4929,
+    "dialogue_id": 9382,
+    "expression_id": 897,
+    "matched_text": "는 동안",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4930,
+    "dialogue_id": 9383,
+    "expression_id": 957,
+    "matched_text": "하고 나서",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4931,
+    "dialogue_id": 9593,
+    "expression_id": 898,
+    "matched_text": "고 나서",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4932,
+    "dialogue_id": 9385,
+    "expression_id": 899,
+    "matched_text": "기 전에",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4933,
+    "dialogue_id": 9398,
+    "expression_id": 901,
+    "matched_text": "해 드릴까요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4934,
+    "dialogue_id": 9401,
+    "expression_id": 903,
+    "matched_text": "지 얼마나 됐어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4935,
+    "dialogue_id": 9404,
+    "expression_id": 904,
+    "matched_text": "는 중이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4936,
+    "dialogue_id": 9405,
+    "expression_id": 905,
+    "matched_text": "거의 다 됐어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4937,
+    "dialogue_id": 9417,
+    "expression_id": 908,
+    "matched_text": "요즘 유행이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4938,
+    "dialogue_id": 9425,
+    "expression_id": 909,
+    "matched_text": "배달 얼마나 걸려요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4939,
+    "dialogue_id": 9433,
+    "expression_id": 912,
+    "matched_text": "며칠이나 있을 거예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4940,
+    "dialogue_id": 9441,
+    "expression_id": 914,
+    "matched_text": "한국 생활 어때?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4941,
+    "dialogue_id": 9341,
+    "expression_id": 915,
+    "matched_text": "이제 익숙해졌어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4942,
+    "dialogue_id": 9447,
+    "expression_id": 915,
+    "matched_text": "이제 익숙해졌어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4943,
+    "dialogue_id": 9446,
+    "expression_id": 916,
+    "matched_text": "이 제일 좋아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4944,
+    "dialogue_id": 9542,
+    "expression_id": 916,
+    "matched_text": "이 제일 좋아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4945,
+    "dialogue_id": 9612,
+    "expression_id": 916,
+    "matched_text": "이 제일 좋아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4946,
+    "dialogue_id": 9619,
+    "expression_id": 916,
+    "matched_text": "이 제일 좋아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4947,
+    "dialogue_id": 9909,
+    "expression_id": 916,
+    "matched_text": "이 제일 좋아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4948,
+    "dialogue_id": 9453,
+    "expression_id": 918,
+    "matched_text": "려고 해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4949,
+    "dialogue_id": 9883,
+    "expression_id": 918,
+    "matched_text": "려고 해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4950,
+    "dialogue_id": 9265,
+    "expression_id": 970,
+    "matched_text": "포기하고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4951,
+    "dialogue_id": 9275,
+    "expression_id": 1248,
+    "matched_text": "한국 친구를 사귀고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4952,
+    "dialogue_id": 9454,
+    "expression_id": 919,
+    "matched_text": "고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4953,
+    "dialogue_id": 9514,
+    "expression_id": 919,
+    "matched_text": "고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4954,
+    "dialogue_id": 9521,
+    "expression_id": 937,
+    "matched_text": "받고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4955,
+    "dialogue_id": 9590,
+    "expression_id": 919,
+    "matched_text": "고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4956,
+    "dialogue_id": 9632,
+    "expression_id": 969,
+    "matched_text": "가 되고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4957,
+    "dialogue_id": 9633,
+    "expression_id": 970,
+    "matched_text": "포기하고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4958,
+    "dialogue_id": 9639,
+    "expression_id": 919,
+    "matched_text": "고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4959,
+    "dialogue_id": 10201,
+    "expression_id": 919,
+    "matched_text": "고 싶어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4960,
+    "dialogue_id": 9463,
+    "expression_id": 920,
+    "matched_text": "기로 했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4961,
+    "dialogue_id": 9357,
+    "expression_id": 1008,
+    "matched_text": "다 보니까",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4962,
+    "dialogue_id": 9763,
+    "expression_id": 1008,
+    "matched_text": "다 보니까",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4963,
+    "dialogue_id": 9799,
+    "expression_id": 1008,
+    "matched_text": "다 보니까",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4964,
+    "dialogue_id": 9485,
+    "expression_id": 927,
+    "matched_text": "맞아?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4965,
+    "dialogue_id": 9493,
+    "expression_id": 930,
+    "matched_text": "얼마나 넣어?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4966,
+    "dialogue_id": 9488,
+    "expression_id": 931,
+    "matched_text": "하면 돼",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4967,
+    "dialogue_id": 9860,
+    "expression_id": 931,
+    "matched_text": "하면 돼",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4968,
+    "dialogue_id": 9501,
+    "expression_id": 932,
+    "matched_text": "살 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4969,
+    "dialogue_id": 9502,
+    "expression_id": 932,
+    "matched_text": "살 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4970,
+    "dialogue_id": 9522,
+    "expression_id": 938,
+    "matched_text": "어디가 아파요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4971,
+    "dialogue_id": 9524,
+    "expression_id": 939,
+    "matched_text": "언제부터 아팠어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4972,
+    "dialogue_id": 9533,
+    "expression_id": 941,
+    "matched_text": "하기 좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4973,
+    "dialogue_id": 9541,
+    "expression_id": 942,
+    "matched_text": "중에 뭐가 제일 좋아요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4974,
+    "dialogue_id": 9543,
+    "expression_id": 944,
+    "matched_text": "이랑 달라요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4975,
+    "dialogue_id": 9852,
+    "expression_id": 1286,
+    "matched_text": "좀 그렇긴 한데요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4976,
+    "dialogue_id": 9571,
+    "expression_id": 951,
+    "matched_text": "유행이야?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4977,
+    "dialogue_id": 9573,
+    "expression_id": 1170,
+    "matched_text": "반응이 좋아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4978,
+    "dialogue_id": 9581,
+    "expression_id": 953,
+    "matched_text": "도전해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4979,
+    "dialogue_id": 9587,
+    "expression_id": 955,
+    "matched_text": "다음엔 더 잘할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4980,
+    "dialogue_id": 9605,
+    "expression_id": 961,
+    "matched_text": "이 헷갈려요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4981,
+    "dialogue_id": 9613,
+    "expression_id": 1263,
+    "matched_text": "이때가 제일 좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4982,
+    "dialogue_id": 9615,
+    "expression_id": 964,
+    "matched_text": "은 어때?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4983,
+    "dialogue_id": 9621,
+    "expression_id": 965,
+    "matched_text": "서운했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4984,
+    "dialogue_id": 9882,
+    "expression_id": 966,
+    "matched_text": "마음은 알아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4985,
+    "dialogue_id": 9877,
+    "expression_id": 967,
+    "matched_text": "말하고 나니까 후련해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4986,
+    "dialogue_id": 9645,
+    "expression_id": 1269,
+    "matched_text": "신경 써야겠어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4987,
+    "dialogue_id": 9903,
+    "expression_id": 974,
+    "matched_text": "말로 표현하기 어려워요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4988,
+    "dialogue_id": 9652,
+    "expression_id": 977,
+    "matched_text": "딱 이 느낌이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4989,
+    "dialogue_id": 9665,
+    "expression_id": 1274,
+    "matched_text": "충분히 이해해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4990,
+    "dialogue_id": 9671,
+    "expression_id": 981,
+    "matched_text": "합격했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4991,
+    "dialogue_id": 9673,
+    "expression_id": 982,
+    "matched_text": "드디어 해냈어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4992,
+    "dialogue_id": 9478,
+    "expression_id": 984,
+    "matched_text": "먹어봐",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4993,
+    "dialogue_id": 9681,
+    "expression_id": 984,
+    "matched_text": "먹어봐",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4994,
+    "dialogue_id": 9685,
+    "expression_id": 986,
+    "matched_text": "중독성 있어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4995,
+    "dialogue_id": 9546,
+    "expression_id": 986,
+    "matched_text": "중독성 있어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4996,
+    "dialogue_id": 9442,
+    "expression_id": 987,
+    "matched_text": "행복해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4997,
+    "dialogue_id": 9656,
+    "expression_id": 987,
+    "matched_text": "행복해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4998,
+    "dialogue_id": 9695,
+    "expression_id": 987,
+    "matched_text": "행복해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 4999,
+    "dialogue_id": 9697,
+    "expression_id": 988,
+    "matched_text": "하는 게 좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5000,
+    "dialogue_id": 9702,
+    "expression_id": 990,
+    "matched_text": "알고 보면 쉬워",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5001,
+    "dialogue_id": 9711,
+    "expression_id": 992,
+    "matched_text": "다 같이 모이니까 좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5002,
+    "dialogue_id": 9713,
+    "expression_id": 993,
+    "matched_text": "처음 만났을 때",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5003,
+    "dialogue_id": 9717,
+    "expression_id": 994,
+    "matched_text": "여러분 덕분이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5004,
+    "dialogue_id": 9769,
+    "expression_id": 995,
+    "matched_text": "앞으로도 잘 부탁해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5005,
+    "dialogue_id": 9889,
+    "expression_id": 995,
+    "matched_text": "앞으로도 잘 부탁해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5006,
+    "dialogue_id": 9931,
+    "expression_id": 995,
+    "matched_text": "앞으로도 잘 부탁해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5007,
+    "dialogue_id": 9725,
+    "expression_id": 996,
+    "matched_text": "얼마나 있을 거예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5008,
+    "dialogue_id": 9743,
+    "expression_id": 1001,
+    "matched_text": "믿기지 않아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5009,
+    "dialogue_id": 9747,
+    "expression_id": 1003,
+    "matched_text": "포기 안 하길 잘했어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5010,
+    "dialogue_id": 9765,
+    "expression_id": 1009,
+    "matched_text": "하다 보면",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5011,
+    "dialogue_id": 9772,
+    "expression_id": 1010,
+    "matched_text": "한 것치고는",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5012,
+    "dialogue_id": 9773,
+    "expression_id": 1011,
+    "matched_text": "아무리 그래도",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5013,
+    "dialogue_id": 9783,
+    "expression_id": 1013,
+    "matched_text": "좀 더 생각해 봐야겠어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5014,
+    "dialogue_id": 9793,
+    "expression_id": 1016,
+    "matched_text": "감이 잡혀요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5015,
+    "dialogue_id": 9795,
+    "expression_id": 1017,
+    "matched_text": "딱 봐도 알겠어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5016,
+    "dialogue_id": 9811,
+    "expression_id": 1020,
+    "matched_text": "부담스러워요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5017,
+    "dialogue_id": 9813,
+    "expression_id": 1020,
+    "matched_text": "부담스러워요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5018,
+    "dialogue_id": 9552,
+    "expression_id": 1021,
+    "matched_text": "솔직하게 말해도 돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5019,
+    "dialogue_id": 9816,
+    "expression_id": 1022,
+    "matched_text": "이제 많이 편해졌어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5020,
+    "dialogue_id": 9821,
+    "expression_id": 1023,
+    "matched_text": "외국인 티 나요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5021,
+    "dialogue_id": 9823,
+    "expression_id": 1024,
+    "matched_text": "이제 한국말이 편해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5022,
+    "dialogue_id": 9825,
+    "expression_id": 1025,
+    "matched_text": "한국어로 꿈도 꿔요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5023,
+    "dialogue_id": 9833,
+    "expression_id": 1027,
+    "matched_text": "현지인들이 가는 곳이야",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5024,
+    "dialogue_id": 9835,
+    "expression_id": 1028,
+    "matched_text": "숨겨진 명소야",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5025,
+    "dialogue_id": 9841,
+    "expression_id": 1029,
+    "matched_text": "요즘 핫해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5026,
+    "dialogue_id": 9843,
+    "expression_id": 1030,
+    "matched_text": "완전 대세예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5027,
+    "dialogue_id": 9845,
+    "expression_id": 1031,
+    "matched_text": "떠오르는 중이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5028,
+    "dialogue_id": 9359,
+    "expression_id": 1036,
+    "matched_text": "결국엔",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5029,
+    "dialogue_id": 9871,
+    "expression_id": 1037,
+    "matched_text": "속상했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5030,
+    "dialogue_id": 9872,
+    "expression_id": 1037,
+    "matched_text": "속상했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5031,
+    "dialogue_id": 9873,
+    "expression_id": 1038,
+    "matched_text": "억울했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5032,
+    "dialogue_id": 9891,
+    "expression_id": 1042,
+    "matched_text": "반전 있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5033,
+    "dialogue_id": 9895,
+    "expression_id": 1043,
+    "matched_text": "여운이 남아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5034,
+    "dialogue_id": 9893,
+    "expression_id": 1044,
+    "matched_text": "몰입이 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5035,
+    "dialogue_id": 9905,
+    "expression_id": 1045,
+    "matched_text": "어딘가 모르게 끌려요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5036,
+    "dialogue_id": 9913,
+    "expression_id": 1046,
+    "matched_text": "떠나기 싫어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5037,
+    "dialogue_id": 9917,
+    "expression_id": 1048,
+    "matched_text": "꼭 다시 올게",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5038,
+    "dialogue_id": 9921,
+    "expression_id": 1049,
+    "matched_text": "이제 한국어로 생각해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5039,
+    "dialogue_id": 9923,
+    "expression_id": 1050,
+    "matched_text": "번역 안 해도 이해돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5040,
+    "dialogue_id": 9263,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5041,
+    "dialogue_id": 9332,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5042,
+    "dialogue_id": 9449,
+    "expression_id": 1189,
+    "matched_text": "덕분이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5043,
+    "dialogue_id": 9472,
+    "expression_id": 1060,
+    "matched_text": "처음이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5044,
+    "dialogue_id": 9563,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5045,
+    "dialogue_id": 9608,
+    "expression_id": 1189,
+    "matched_text": "덕분이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5046,
+    "dialogue_id": 9657,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5047,
+    "dialogue_id": 9669,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5048,
+    "dialogue_id": 9679,
+    "expression_id": 1189,
+    "matched_text": "덕분이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5049,
+    "dialogue_id": 9692,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5050,
+    "dialogue_id": 9733,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5051,
+    "dialogue_id": 9801,
+    "expression_id": 1284,
+    "matched_text": "흔한 일이에요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5052,
+    "dialogue_id": 9842,
+    "expression_id": 1060,
+    "matched_text": "처음이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5053,
+    "dialogue_id": 9876,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5054,
+    "dialogue_id": 9878,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5055,
+    "dialogue_id": 9927,
+    "expression_id": 1189,
+    "matched_text": "덕분이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5056,
+    "dialogue_id": 9943,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5057,
+    "dialogue_id": 9965,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5058,
+    "dialogue_id": 9997,
+    "expression_id": 1060,
+    "matched_text": "처음이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5059,
+    "dialogue_id": 10007,
+    "expression_id": 1060,
+    "matched_text": "처음이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5060,
+    "dialogue_id": 10013,
+    "expression_id": 1084,
+    "matched_text": "완전 제 스타일이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5061,
+    "dialogue_id": 10029,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5062,
+    "dialogue_id": 10034,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5063,
+    "dialogue_id": 10040,
+    "expression_id": 1060,
+    "matched_text": "처음이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5064,
+    "dialogue_id": 10055,
+    "expression_id": 1068,
+    "matched_text": "전공이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5065,
+    "dialogue_id": 10113,
+    "expression_id": 1054,
+    "matched_text": "이에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5066,
+    "dialogue_id": 9282,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5067,
+    "dialogue_id": 9349,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5068,
+    "dialogue_id": 9362,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5069,
+    "dialogue_id": 9389,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5070,
+    "dialogue_id": 9422,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5071,
+    "dialogue_id": 9479,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5072,
+    "dialogue_id": 9508,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5073,
+    "dialogue_id": 9549,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5074,
+    "dialogue_id": 9559,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5075,
+    "dialogue_id": 9599,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5076,
+    "dialogue_id": 9691,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5077,
+    "dialogue_id": 9700,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5078,
+    "dialogue_id": 9786,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5079,
+    "dialogue_id": 9820,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5080,
+    "dialogue_id": 9844,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5081,
+    "dialogue_id": 9850,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5082,
+    "dialogue_id": 9901,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5083,
+    "dialogue_id": 9952,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5084,
+    "dialogue_id": 9975,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5085,
+    "dialogue_id": 9994,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5086,
+    "dialogue_id": 10018,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5087,
+    "dialogue_id": 10030,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5088,
+    "dialogue_id": 10037,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5089,
+    "dialogue_id": 10038,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5090,
+    "dialogue_id": 10046,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5091,
+    "dialogue_id": 10049,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5092,
+    "dialogue_id": 10072,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5093,
+    "dialogue_id": 10086,
+    "expression_id": 1074,
+    "matched_text": "몇 시에 만날까요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5094,
+    "dialogue_id": 10143,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5095,
+    "dialogue_id": 10147,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5096,
+    "dialogue_id": 10195,
+    "expression_id": 1055,
+    "matched_text": "좋아요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5097,
+    "dialogue_id": 9983,
+    "expression_id": 1056,
+    "matched_text": "맞아요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5098,
+    "dialogue_id": 9415,
+    "expression_id": 1058,
+    "matched_text": "돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5099,
+    "dialogue_id": 9812,
+    "expression_id": 1059,
+    "matched_text": "해도 돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5100,
+    "dialogue_id": 10189,
+    "expression_id": 1058,
+    "matched_text": "돼요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5101,
+    "dialogue_id": 9285,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5102,
+    "dialogue_id": 9379,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5103,
+    "dialogue_id": 9429,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5104,
+    "dialogue_id": 9499,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5105,
+    "dialogue_id": 9588,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5106,
+    "dialogue_id": 9837,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5107,
+    "dialogue_id": 9958,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5108,
+    "dialogue_id": 9966,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5109,
+    "dialogue_id": 10005,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5110,
+    "dialogue_id": 10024,
+    "expression_id": 1061,
+    "matched_text": "맛있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5111,
+    "dialogue_id": 10015,
+    "expression_id": 1063,
+    "matched_text": "진짜요? 대박!",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5112,
+    "dialogue_id": 10023,
+    "expression_id": 1064,
+    "matched_text": "맛봐요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5113,
+    "dialogue_id": 10027,
+    "expression_id": 1065,
+    "matched_text": "다 해서 얼마예요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5114,
+    "dialogue_id": 10064,
+    "expression_id": 1071,
+    "matched_text": "얼마나 걸려요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5115,
+    "dialogue_id": 10099,
+    "expression_id": 1076,
+    "matched_text": "걸어서 얼마나 걸려요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5116,
+    "dialogue_id": 10092,
+    "expression_id": 1075,
+    "matched_text": "다음에 해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5117,
+    "dialogue_id": 10110,
+    "expression_id": 1079,
+    "matched_text": "올라와요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5118,
+    "dialogue_id": 9616,
+    "expression_id": 1177,
+    "matched_text": "습해서 힘들어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5119,
+    "dialogue_id": 10126,
+    "expression_id": 1082,
+    "matched_text": "어디 아파요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5120,
+    "dialogue_id": 10148,
+    "expression_id": 1086,
+    "matched_text": "선물로 뭐가 좋을까요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5121,
+    "dialogue_id": 10159,
+    "expression_id": 1088,
+    "matched_text": "하나도 안 변했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5122,
+    "dialogue_id": 10170,
+    "expression_id": 1090,
+    "matched_text": "안 했어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5123,
+    "dialogue_id": 9439,
+    "expression_id": 1094,
+    "matched_text": "조심해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5124,
+    "dialogue_id": 10192,
+    "expression_id": 1094,
+    "matched_text": "조심해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5125,
+    "dialogue_id": 10198,
+    "expression_id": 1095,
+    "matched_text": "그럴 수도 있어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5126,
+    "dialogue_id": 10205,
+    "expression_id": 1098,
+    "matched_text": "다음에 꼭 같이 가요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5127,
+    "dialogue_id": 10212,
+    "expression_id": 1099,
+    "matched_text": "어디서 봐요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5128,
+    "dialogue_id": 10247,
+    "expression_id": 1105,
+    "matched_text": "스트레스 해소가 돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5129,
+    "dialogue_id": 9255,
+    "expression_id": 1111,
+    "matched_text": "걱정돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5130,
+    "dialogue_id": 9822,
+    "expression_id": 1111,
+    "matched_text": "걱정돼요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5131,
+    "dialogue_id": 9259,
+    "expression_id": 1112,
+    "matched_text": "응원해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5132,
+    "dialogue_id": 9456,
+    "expression_id": 1112,
+    "matched_text": "응원해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5133,
+    "dialogue_id": 10163,
+    "expression_id": 1113,
+    "matched_text": "연락해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5134,
+    "dialogue_id": 9276,
+    "expression_id": 1127,
+    "matched_text": "잖아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5135,
+    "dialogue_id": 9310,
+    "expression_id": 1127,
+    "matched_text": "잖아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5136,
+    "dialogue_id": 9676,
+    "expression_id": 1127,
+    "matched_text": "잖아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.561156+00:00"
+  },
+  {
+    "id": 5137,
+    "dialogue_id": 9868,
+    "expression_id": 1127,
+    "matched_text": "잖아",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5138,
+    "dialogue_id": 9353,
+    "expression_id": 1128,
+    "matched_text": "더라",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5139,
+    "dialogue_id": 9358,
+    "expression_id": 1128,
+    "matched_text": "더라",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5140,
+    "dialogue_id": 9755,
+    "expression_id": 1128,
+    "matched_text": "더라",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5141,
+    "dialogue_id": 9757,
+    "expression_id": 1282,
+    "matched_text": "다더라고요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5142,
+    "dialogue_id": 9564,
+    "expression_id": 1131,
+    "matched_text": "아서",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5143,
+    "dialogue_id": 9497,
+    "expression_id": 1137,
+    "matched_text": "다 됐어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5144,
+    "dialogue_id": 9443,
+    "expression_id": 1144,
+    "matched_text": "힘든 점도 있어?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5145,
+    "dialogue_id": 9409,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5146,
+    "dialogue_id": 9469,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5147,
+    "dialogue_id": 9600,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5148,
+    "dialogue_id": 9609,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5149,
+    "dialogue_id": 9637,
+    "expression_id": 1182,
+    "matched_text": "절대 포기 안 할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5150,
+    "dialogue_id": 9723,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5151,
+    "dialogue_id": 9727,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5152,
+    "dialogue_id": 9729,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5153,
+    "dialogue_id": 9749,
+    "expression_id": 1149,
+    "matched_text": "앞으로도 계속",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5154,
+    "dialogue_id": 9829,
+    "expression_id": 1146,
+    "matched_text": "할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5155,
+    "dialogue_id": 9929,
+    "expression_id": 1239,
+    "matched_text": "앞으로도 계속 공부할 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5156,
+    "dialogue_id": 9486,
+    "expression_id": 1153,
+    "matched_text": "더 자연스러워",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5157,
+    "dialogue_id": 9498,
+    "expression_id": 1155,
+    "matched_text": "맛봐봐",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5158,
+    "dialogue_id": 9528,
+    "expression_id": 1160,
+    "matched_text": "하루에 몇 번이요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5159,
+    "dialogue_id": 9529,
+    "expression_id": 1161,
+    "matched_text": "많이 나았어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5160,
+    "dialogue_id": 9774,
+    "expression_id": 1163,
+    "matched_text": "어떻게 달라요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5161,
+    "dialogue_id": 9604,
+    "expression_id": 1175,
+    "matched_text": "매일 조금씩",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5162,
+    "dialogue_id": 9623,
+    "expression_id": 1265,
+    "matched_text": "제가 잘못했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5163,
+    "dialogue_id": 9815,
+    "expression_id": 1179,
+    "matched_text": "미안해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5164,
+    "dialogue_id": 10089,
+    "expression_id": 1179,
+    "matched_text": "미안해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5165,
+    "dialogue_id": 9647,
+    "expression_id": 1184,
+    "matched_text": "갖고 다녀",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5166,
+    "dialogue_id": 9374,
+    "expression_id": 1186,
+    "matched_text": "그랬구나",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5167,
+    "dialogue_id": 9874,
+    "expression_id": 1186,
+    "matched_text": "그랬구나",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5168,
+    "dialogue_id": 9627,
+    "expression_id": 1187,
+    "matched_text": "앞으로 더 솔직하게",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5169,
+    "dialogue_id": 9675,
+    "expression_id": 1188,
+    "matched_text": "포기하지 않길 잘했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5170,
+    "dialogue_id": 9682,
+    "expression_id": 1190,
+    "matched_text": "이거 뭐야?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5171,
+    "dialogue_id": 9693,
+    "expression_id": 1192,
+    "matched_text": "새로 생겼어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5172,
+    "dialogue_id": 10158,
+    "expression_id": 1196,
+    "matched_text": "많이 변했어요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5173,
+    "dialogue_id": 9737,
+    "expression_id": 1200,
+    "matched_text": "올 때마다 만족해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5174,
+    "dialogue_id": 9386,
+    "expression_id": 1201,
+    "matched_text": "대단해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5175,
+    "dialogue_id": 9406,
+    "expression_id": 1201,
+    "matched_text": "대단해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5176,
+    "dialogue_id": 9748,
+    "expression_id": 1201,
+    "matched_text": "대단해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5177,
+    "dialogue_id": 9780,
+    "expression_id": 1201,
+    "matched_text": "대단해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5178,
+    "dialogue_id": 9732,
+    "expression_id": 1217,
+    "matched_text": "줄 서야 해",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5179,
+    "dialogue_id": 9875,
+    "expression_id": 1226,
+    "matched_text": "그럴 수 있어",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5180,
+    "dialogue_id": 9337,
+    "expression_id": 1256,
+    "matched_text": "어떻게 해요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5181,
+    "dialogue_id": 9487,
+    "expression_id": 1256,
+    "matched_text": "어떻게 해요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5182,
+    "dialogue_id": 9512,
+    "expression_id": 1258,
+    "matched_text": "어땠어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5183,
+    "dialogue_id": 10218,
+    "expression_id": 1258,
+    "matched_text": "어땠어요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5184,
+    "dialogue_id": 9517,
+    "expression_id": 1259,
+    "matched_text": "도전해 볼게요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5185,
+    "dialogue_id": 9553,
+    "expression_id": 1260,
+    "matched_text": "나쁘지 않은데요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5186,
+    "dialogue_id": 9555,
+    "expression_id": 1261,
+    "matched_text": "저도 그렇게 생각해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5187,
+    "dialogue_id": 9641,
+    "expression_id": 1267,
+    "matched_text": "어디에 버려요?",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5188,
+    "dialogue_id": 9655,
+    "expression_id": 1271,
+    "matched_text": "이런 순간이 소중해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5189,
+    "dialogue_id": 9703,
+    "expression_id": 1278,
+    "matched_text": "이게 포인트예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5190,
+    "dialogue_id": 9721,
+    "expression_id": 1279,
+    "matched_text": "고 싶긴 해요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5191,
+    "dialogue_id": 9751,
+    "expression_id": 1281,
+    "matched_text": "다고 하던데요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5192,
+    "dialogue_id": 9854,
+    "expression_id": 1287,
+    "matched_text": "아니라고 할 순 없죠",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5193,
+    "dialogue_id": 9855,
+    "expression_id": 1288,
+    "matched_text": "꼭 그런 건 아니에요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5194,
+    "dialogue_id": 9885,
+    "expression_id": 1290,
+    "matched_text": "제가 옆에 있을게요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  },
+  {
+    "id": 5195,
+    "dialogue_id": 9945,
+    "expression_id": 1292,
+    "matched_text": "로 꿈을 이룰 거예요",
+    "role": "focus",
+    "created_at": "2026-08-02T01:17:57.673467+00:00"
+  }
+]

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>K-PATTO EP100</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f0eb; display: flex; justify-content: center; }
+    .episode { width: 100%; max-width: 430px; display: flex; flex-direction: column; }
+    .gap-top    { min-height: 100px; }
+    .gap-xl     { min-height: 200px; }
+    .gap-lg     { min-height: 160px; }
+    .gap-bottom { min-height: 100px; }
+    .panel img  { width: 100%; height: auto; display: block; }
+    .panel-split { width: 100%; display: flex; align-items: flex-start; }
+    .panel-split img { width: 100%; height: auto; display: block; }
+    .stack { display: flex; flex-direction: column; }
+  </style>
+</head>
+<body>
+<div class="episode">
+  <div class="gap-top"></div>
+
+  <!-- 세로 컷 -->
+  <div class="panel"><img src="ep100_c1.png" alt="컷1"></div>
+  <div class="gap-lg"></div>
+
+  <!-- 가로2 컷 -->
+  <div class="panel-split">
+    <img src="ep100_c2.png" alt="컷2" style="width: 47.92%;">
+    <img src="ep100_c3.png" alt="컷3" style="width: 52.08%;">
+  </div>
+  <div class="gap-xl"></div>
+
+  <!-- 세로 컷 -->
+  <div class="panel"><img src="ep100_c4.png" alt="컷4"></div>
+  <div class="gap-lg"></div>
+
+  <!-- 세로 컷 -->
+  <div class="panel"><img src="ep100_c5.png" alt="컷5"></div>
+
+  <div class="gap-bottom"></div>
+</div>
+</body>
+</html>

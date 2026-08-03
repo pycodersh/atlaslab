@@ -1,410 +1,268 @@
 /**
- * 규칙 기반 챌린지 생성 — Claude API 없음
- * kp_dialogues + kp_dialogue_expressions(role='focus') + kp_expressions 데이터 사용
+ * scripts/generate-challenges.ts
+ * K-PATTO 챌린지 1,500문제 생성 (재실행 가능)
+ * 스펙: kpatto_challenge_spec.md
  *
- * 에피소드당 focus 표현 최대 3개 × 최대 5문제 = 최대 15개 (99 ep × 15 ≈ 1485)
- *   translation × 2 : expression.examples[0].en → 한국어 4지선다
- *   fill_blank  × 2 : 한국어 빈칸 → 4지선다
- *   word_order  × 1 : 영어 힌트 + 단어 카드 순서 맞추기
- *
- * 실행: npx tsx scripts/generate-challenges.ts
+ * 사용법:
+ *   npx tsx scripts/generate-challenges.ts --dry-run   # 검증만
+ *   npx tsx scripts/generate-challenges.ts             # 실제 DB 쓰기
  */
-import { createClient } from '@supabase/supabase-js'
 import * as dotenv from 'dotenv'
-dotenv.config({ path: '.env.local' })
+import * as path from 'path'
+import { createClient } from '@supabase/supabase-js'
 
-const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SECRET_KEY!)
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+)
 
-// ─── Static fallback pools ────────────────────────────────────────────────────
+const DRY_RUN = process.argv.includes('--dry-run')
 
-const FALLBACK_SENTENCES: { ko: string; en: string }[] = [
-  { ko: '감사합니다.', en: 'Thank you.' },
-  { ko: '괜찮아요.', en: "It's okay." },
-  { ko: '잘 모르겠어요.', en: "I'm not sure." },
-  { ko: '안녕하세요.', en: 'Hello.' },
-  { ko: '맞아요.', en: "That's right." },
+// ── 타입 ────────────────────────────────────────────────────────────────────
+type Sentence = { ko: string; en: string }
+type Expr     = { id: number; korean: string; examples: Sentence[] }
+
+interface Row {
+  ep_no:         number
+  slot:          string
+  round_no:      number
+  type:          string
+  question:      string
+  hint:          string | null
+  answer:        string
+  options:       string[] | null
+  tokens:        string[] | null
+  expression_id: number
+  example_index: number
+}
+
+// ── 슬롯 → 회차 ──────────────────────────────────────────────────────────────
+// 1회차: MC1, MC2, FB1, FB2, SB1
+// 2회차: MC3, MC4, FB3, FB4, SB2
+// 3회차: MC5, MC6, FB5, FB6, SB3
+const SLOT_ROUND: Record<string, number> = {
+  MC1: 1, MC2: 1, FB1: 1, FB2: 1, SB1: 1,
+  MC3: 2, MC4: 2, FB3: 2, FB4: 2, SB2: 2,
+  MC5: 3, MC6: 3, FB5: 3, FB6: 3, SB3: 3,
+}
+
+// ── 12문장 배열 인덱스: [A1,A2,A3, B1,B2,B3, C1,C2,C3, D1,D2,D3] ──────────
+//                         0   1   2   3   4   5   6   7   8   9  10  11
+const MC_SLOTS: [string, number][] = [
+  ['MC1', 0], ['MC2', 3], ['MC3', 6], ['MC4', 9], ['MC5', 1], ['MC6', 4],
+]
+const FB_SLOTS: [string, number][] = [
+  ['FB1', 7], ['FB2', 10], ['FB3', 2], ['FB4', 5], ['FB5', 8], ['FB6', 11],
+]
+const SB_SLOTS: [string, number][] = [
+  ['SB1', 0], ['SB2', 4], ['SB3', 8],
 ]
 
-const FALLBACK_WORDS = ['없어요', '안 돼요', '몰라요', '봐요', '해요']
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface EpisodeRow { id: number; episode_num: number; title: string }
-interface ExpressionRow {
-  id: number
-  korean: string
-  description: string | null
-  examples: Array<{ ko: string; en: string }> | null
-}
-interface DialogueRow {
-  id: number
-  episode_id: number
-  text_ko: string
-  text_en: string | null
-}
-interface FocusMapping { dialogue_id: number; expression_id: number; matched_text: string }
-
-interface ChallengeRow {
-  episode_id: number
-  order_num: number
-  challenge_type: string
-  question: { prompt: string }
-  options: string[] | null
-  answer: string
-  word_pieces: string[] | null
+// ── 유틸 ─────────────────────────────────────────────────────────────────────
+function makeBlank(ko: string, patternKo: string): string | null {
+  // ~와 - 제거, 남은 문자열이 '/'를 포함하면 대안별로 시도
+  const cleaned = patternKo.replace(/[~\-]/g, '').trim()
+  if (!cleaned) return null
+  const candidates = cleaned.split('/').map(s => s.trim()).filter(Boolean)
+  for (const key of candidates) {
+    const idx = ko.indexOf(key)
+    if (idx !== -1) return ko.slice(0, idx) + '___' + ko.slice(idx + key.length)
+  }
+  return null
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
+function buildMCOptions(answer: string, wrongs: string[], answerPos: number): string[] {
+  const opts = ['', '', '', '']
+  opts[answerPos] = answer
+  const remaining = [0, 1, 2, 3].filter(p => p !== answerPos)
+  wrongs.forEach((w, j) => { opts[remaining[j]] = w })
+  return opts
 }
 
-/** Remove leading ~ and trailing punctuation to get the core grammar word */
-function patternCore(exprKorean: string): string {
-  return exprKorean.replace(/^~/, '').replace(/[?！？.。!？]+$/, '').trim()
-}
-
-/** Replace the LAST occurrence of target in sentence with ___ */
-function makeFillBlank(sentence: string, target: string): string | null {
-  if (!sentence || !target) return null
-  const idx = sentence.lastIndexOf(target)
-  if (idx === -1) return null
-  const result = sentence.slice(0, idx) + '___' + sentence.slice(idx + target.length)
-  return result.includes('___') ? result : null
-}
-
-/** Pick n unique wrong options from pool, pad with fallback if needed */
-function pickWrongOptions(pool: string[], exclude: string[], n: number, fallback: string[]): string[] {
-  const used = new Set(exclude)
-  const wrongs: string[] = []
-  for (const item of shuffle(pool)) {
-    if (!used.has(item) && !wrongs.includes(item)) {
-      wrongs.push(item)
-      if (wrongs.length === n) break
-    }
-  }
-  for (const item of fallback) {
-    if (wrongs.length >= n) break
-    if (!used.has(item) && !wrongs.includes(item)) wrongs.push(item)
-  }
-  // Last resort: repeat from fallback
-  while (wrongs.length < n) {
-    wrongs.push(fallback[wrongs.length % fallback.length] ?? '없어요')
-  }
-  return wrongs.slice(0, n)
-}
-
-// ─── Per-expression question generator ───────────────────────────────────────
-
-function buildQuestions(
-  epDbId: number,
-  expr: ExpressionRow,
-  focusDlg: DialogueRow,          // primary dialogue containing this expression
-  matchedText: string,
-  secondDlg: DialogueRow | null,  // another dialogue using same expression
-  sentencePool: string[],          // other episode text_ko for wrong options
-  matchedTextPool: string[],       // other expressions' matched_text for fill_blank wrongs
-  startOrder: number
-): ChallengeRow[] {
-  const rows: ChallengeRow[] = []
-  let order = startOrder
-
-  const normalize = (s: string) => s.replace(/\s+/g, ' ').trim()
-  const ko1 = normalize(focusDlg.text_ko)
-  const core = patternCore(expr.korean)
-
-  // For fill_blank: prefer core word when matched_text is the whole sentence or too long
-  const fillTarget = (matchedText === ko1 || matchedText.length > 20)
-    ? core
-    : matchedText
-
-  // For fill_blank wrong options: single words only
-  const shortMatchedTexts = matchedTextPool
-    .map(t => t.replace(/[?！？.。!？]+$/, '').trim())
-    .filter(t => !t.includes(' '))
-  const wrongWords = [
-    ...shortMatchedTexts,
-    ...FALLBACK_WORDS,
-  ].filter(w => w !== fillTarget && w !== core)
-
-  const makeRow = (
-    type: string,
-    prompt: string,
-    options: string[] | null,
-    answer: string,
-    pieces: string[] | null,
-  ): ChallengeRow => ({
-    episode_id: epDbId,
-    order_num: order++,
-    challenge_type: type,
-    question: { prompt },
-    options,
-    answer,
-    word_pieces: pieces,
-  })
-
-  // ── Translation Q1: expression example[0] EN → KO (the actual dialogue sentence) ──
-  const ex0 = expr.examples?.[0]
-  if (ex0?.en && ko1) {
-    const wrongs = pickWrongOptions(sentencePool, [ko1], 3, FALLBACK_SENTENCES.map(s => s.ko))
-    rows.push(makeRow('translation', `"${ex0.en}"`, shuffle([ko1, ...wrongs]), ko1, null))
-  }
-
-  // ── Translation Q2: expression example[1] EN → KO (example sentence) ────────────
-  const ex1 = expr.examples?.[1]
-  if (ex1?.en && ex1.ko && ex1.ko !== ko1) {
-    const wrongs = pickWrongOptions(sentencePool, [ex1.ko, ko1], 3, FALLBACK_SENTENCES.map(s => s.ko))
-    rows.push(makeRow('translation', `"${ex1.en}"`, shuffle([ex1.ko, ...wrongs]), ex1.ko, null))
-  } else if (secondDlg && secondDlg.text_ko !== ko1) {
-    // Fallback: second dialogue + example[0] as English hint
-    const ko2 = normalize(secondDlg.text_ko)
-    const en2 = ex0?.en ?? `How do you say: ${core}?`
-    const wrongs = pickWrongOptions(sentencePool, [ko2, ko1], 3, FALLBACK_SENTENCES.map(s => s.ko))
-    rows.push(makeRow('translation', `"${en2}"`, shuffle([ko2, ...wrongs]), ko2, null))
-  }
-
-  // ── Fill blank Q1: dialogue sentence with fillTarget → ___ ────────────────────────
-  const fb1 = makeFillBlank(ko1, fillTarget) ?? makeFillBlank(ko1, core)
-  if (fb1 && fb1 !== '___') {
-    const correct1 = ko1.includes(fillTarget) ? fillTarget : core
-    const wrongs1 = pickWrongOptions(wrongWords, [correct1], 3, FALLBACK_WORDS)
-    rows.push(makeRow('fill_blank', fb1, shuffle([correct1, ...wrongs1]), correct1, null))
-  }
-
-  // ── Fill blank Q2: expression example sentence with core → ___ ───────────────────
-  const ex2 = expr.examples?.[1] ?? expr.examples?.[0]
-  let fb2Added = false
-  if (ex2) {
-    const fb2 = makeFillBlank(ex2.ko, core) ?? makeFillBlank(ex2.ko, fillTarget)
-    if (fb2 && fb2 !== '___' && fb2 !== fb1) {
-      const correct2 = ex2.ko.includes(core) ? core : fillTarget
-      const wrongs2 = pickWrongOptions(wrongWords, [correct2], 3, FALLBACK_WORDS)
-      rows.push(makeRow('fill_blank', fb2, shuffle([correct2, ...wrongs2]), correct2, null))
-      fb2Added = true
-    }
-  }
-  // Fallback: second dialogue sentence
-  if (!fb2Added && secondDlg && secondDlg.text_ko !== ko1) {
-    const ko2 = normalize(secondDlg.text_ko)
-    const fb2b = makeFillBlank(ko2, fillTarget) ?? makeFillBlank(ko2, core)
-    if (fb2b && fb2b !== '___' && fb2b !== fb1) {
-      const correct2b = ko2.includes(fillTarget) ? fillTarget : core
-      const wrongs2b = pickWrongOptions(wrongWords, [correct2b], 3, FALLBACK_WORDS)
-      rows.push(makeRow('fill_blank', fb2b, shuffle([correct2b, ...wrongs2b]), correct2b, null))
-    }
-  }
-
-  // ── Word order: dialogue sentence split into chips + 1 distractor ─────────────────
-  const cleanKo = ko1.replace(/[!?！？。.…]+$/, '').trim()
-  const words = cleanKo.split(/\s+/)
-    .map(w => w.replace(/[!?！？。.…,，]+$/, '').trim())
-    .filter(Boolean)
-  const wordHint = ex0?.en ?? `"${core}"`
-  if (words.length >= 2) {
-    const singleWordPool = matchedTextPool.filter(t => !t.includes(' '))
-    const distractor =
-      singleWordPool.find(t => !words.includes(t)) ??
-      FALLBACK_WORDS.find(d => !words.includes(d)) ??
-      '없어요'
-    rows.push(makeRow('word_order', `"${wordHint}"`, null, words.join(' '), shuffle([...words, distractor])))
-  }
-
-  return rows
-}
-
-// ─── Per-episode processor ────────────────────────────────────────────────────
-
-const MAX_EXPRESSIONS = 3
-
-async function processEpisode(ep: EpisodeRow): Promise<number> {
-  // 1. Fetch all dialogues for the episode
-  const { data: dlgsRaw } = await sb
-    .from('kp_dialogues')
-    .select('id, episode_id, text_ko, text_en')
-    .eq('episode_id', ep.id)
-    .order('order_num')
-
-  const dlgList = (dlgsRaw ?? []) as DialogueRow[]
-  if (dlgList.length === 0) return 0
-
-  const dlgIds = dlgList.map(d => d.id)
-
-  // 2. Fetch focus mappings for these dialogues
-  const { data: mappingsRaw } = await sb
-    .from('kp_dialogue_expressions')
-    .select('dialogue_id, expression_id, matched_text')
-    .in('dialogue_id', dlgIds)
-    .eq('role', 'focus')
-
-  const mappings = (mappingsRaw ?? []) as FocusMapping[]
-  if (mappings.length === 0) return 0
-
-  // 3. Build dialogue_id → dialogue lookup
-  const dlgById = new Map<number, DialogueRow>()
-  for (const d of dlgList) {
-    if (d.text_ko) dlgById.set(d.id, d)
-  }
-
-  // 4. Group mappings by expression_id
-  const byExpr = new Map<number, FocusMapping[]>()
-  for (const m of mappings) {
-    if (!byExpr.has(m.expression_id)) byExpr.set(m.expression_id, [])
-    byExpr.get(m.expression_id)!.push(m)
-  }
-
-  // 5. Pick top MAX_EXPRESSIONS by occurrence count
-  const exprIds = [...byExpr.keys()]
-    .sort((a, b) => (byExpr.get(b)?.length ?? 0) - (byExpr.get(a)?.length ?? 0))
-    .slice(0, MAX_EXPRESSIONS)
-
-  if (exprIds.length === 0) return 0
-
-  // 6. Fetch expression metadata
-  const { data: exprRaw } = await sb
-    .from('kp_expressions')
-    .select('id, korean, description, examples')
-    .in('id', exprIds)
-
-  const exprMap = new Map<number, ExpressionRow>()
-  for (const e of (exprRaw ?? []) as ExpressionRow[]) {
-    exprMap.set(e.id, e)
-  }
-
-  // 7. Sentence pool = all episode text_ko sentences (for wrong options in translation)
-  const normalize = (s: string) => s.replace(/\s+/g, ' ').trim()
-  const allKoSentences: string[] = dlgList
-    .filter(d => d.text_ko)
-    .map(d => normalize(d.text_ko))
-
-  // 8. Matched_text pool for fill_blank wrong options
-  const allMatchedTexts = [...new Set(mappings.map(m => m.matched_text))]
-
-  // 9. Generate questions per expression
-  const allRows: ChallengeRow[] = []
-  let orderCounter = 1
-
-  for (const exprId of exprIds) {
-    const expr = exprMap.get(exprId)
-    if (!expr) continue
-
-    const exprMappings = byExpr.get(exprId) ?? []
-    const firstDlg = dlgById.get(exprMappings[0].dialogue_id)
-    if (!firstDlg) continue
-
-    const secondDlg = exprMappings[1] ? (dlgById.get(exprMappings[1].dialogue_id) ?? null) : null
-    const matchedText = exprMappings[0].matched_text
-
-    // Sentence pool = all episode sentences EXCLUDING this expression's dialogues
-    const exprDlgKo = new Set(exprMappings
-      .map(m => dlgById.get(m.dialogue_id)?.text_ko)
-      .filter(Boolean)
-      .map(s => normalize(s!)))
-    const sentencePool = allKoSentences.filter(s => !exprDlgKo.has(s))
-
-    // Matched_text pool = other expressions' matched_text
-    const matchedTextPool = allMatchedTexts.filter(t => t !== matchedText)
-
-    const questions = buildQuestions(
-      ep.id, expr, firstDlg, matchedText,
-      secondDlg, sentencePool, matchedTextPool, orderCounter
-    )
-
-    allRows.push(...questions)
-    orderCounter += questions.length
-
-    if (questions.length > 0) {
-      console.log(`    EP${ep.episode_num} / "${expr.korean}" → ${questions.length}q`)
-    }
-  }
-
-  if (allRows.length === 0) return 0
-
-  const { error } = await sb.from('kp_challenges').insert(allRows)
-  if (error) throw new Error(`Insert EP${ep.episode_num}: ${error.message}`)
-  return allRows.length
-}
-
-// ─── Main ─────────────────────────────────────────────────────────────────────
-
+// ── 메인 ─────────────────────────────────────────────────────────────────────
 async function main() {
-  console.log('=== Rule-based challenge generation (no API) ===\n')
+  console.log(`\nK-PATTO 챌린지 생성${DRY_RUN ? '  [DRY-RUN]' : ''}`)
 
-  // Clear existing challenges
-  const { count: existing } = await sb
-    .from('kp_challenges')
-    .select('id', { count: 'exact', head: true })
-
-  if ((existing ?? 0) > 0) {
-    console.log(`Clearing ${existing} existing challenges...`)
-    const { error } = await sb.from('kp_challenges').delete().gte('id', 1)
-    if (error) { console.error('Clear failed:', error.message); process.exit(1) }
-    console.log('✓ Cleared\n')
-  }
-
-  // Get all episodes
-  const { data: episodes } = await sb
-    .from('kp_episodes')
-    .select('id, episode_num, title')
-    .order('episode_num')
-
-  if (!episodes || episodes.length === 0) {
-    console.log('No episodes found'); return
-  }
-
-  const epList = episodes as EpisodeRow[]
-  console.log(`Processing ${epList.length} episodes...\n`)
-
-  let totalInserted = 0
-  let totalSkipped = 0
-
-  for (const ep of epList) {
-    try {
-      const n = await processEpisode(ep)
-      if (n > 0) {
-        console.log(`  EP${ep.episode_num} ✓ ${n} challenges`)
-        totalInserted += n
-      } else {
-        totalSkipped++
-      }
-    } catch (err) {
-      console.error(`  EP${ep.episode_num} ✗`, (err as Error).message)
-    }
-  }
-
-  // Final count
-  const { count: finalCount } = await sb
-    .from('kp_challenges')
-    .select('id', { count: 'exact', head: true })
-    .not('challenge_type', 'is', null)
-
-  console.log(`\n=== Done ===`)
-  console.log(`Inserted: ${totalInserted} challenges`)
-  console.log(`Skipped:  ${totalSkipped} episodes (no focus data)`)
-  console.log(`DB total: ${finalCount} challenges`)
-
-  // Sample
-  const { data: sample } = await sb
-    .from('kp_challenges')
-    .select('episode_id, challenge_type, question, options, answer, word_pieces')
+  // kp_expressions 전체 로드 (id 오름차순)
+  const { data: allExprs, error: exprErr } = await supabase
+    .from('kp_expressions')
+    .select('id, korean, examples, episodes')
     .order('id')
-    .limit(6)
+  if (exprErr || !allExprs) {
+    console.error('표현 로드 실패:', exprErr?.message)
+    process.exit(1)
+  }
 
-  if (sample && sample.length > 0) {
-    console.log('\n--- Sample ---')
-    for (const r of sample) {
-      const q = r as { episode_id: number; challenge_type: string; question: { prompt: string }; options: string[] | null; answer: string; word_pieces: string[] | null }
-      console.log(`[${q.challenge_type}] ${q.question.prompt}`)
-      if (q.options) console.log(`  opts: ${q.options.join(' | ')}`)
-      console.log(`  ans:  ${q.answer}`)
-      if (q.word_pieces) console.log(`  pcs:  ${q.word_pieces.join(' ')}`)
+  const rows: Row[]       = []
+  const fbFails: string[] = []
+  let ep15count = 0
+
+  for (let ep = 1; ep <= 100; ep++) {
+    // 해당 EP 표현: episodes 배열에 ep 포함, id 오름차순, 최대 4개
+    const epExprs: Expr[] = allExprs
+      .filter(e => Array.isArray(e.episodes) && (e.episodes as number[]).includes(ep))
+      .slice(0, 4)
+      .map(e => ({
+        id:       e.id,
+        korean:   e.korean,
+        examples: (e.examples ?? []) as Sentence[],
+      }))
+
+    if (epExprs.length < 4) {
+      console.warn(`  ⚠ EP${String(ep).padStart(2, '0')}: 표현 ${epExprs.length}개 (4개 필요) — 스킵`)
+      continue
     }
+
+    // 12문장 구성: [A1,A2,A3, B1,B2,B3, C1,C2,C3, D1,D2,D3]
+    type S12 = { ko: string; en: string; exprIdx: number; exIdx: number }
+    const s12: S12[] = []
+    for (let ei = 0; ei < 4; ei++) {
+      for (let si = 0; si < 3; si++) {
+        const ex = epExprs[ei].examples[si] ?? { ko: '', en: '' }
+        s12.push({ ko: ex.ko, en: ex.en, exprIdx: ei, exIdx: si })
+      }
+    }
+
+    const epRows: Row[] = []
+
+    // ── MC (6문제) ──────────────────────────────────────────────────────────
+    // question=ko, answer=en, 오답=(i+3)%12/(i+6)%12/(i+9)%12의 en
+    // 정답 위치=i%4
+    for (const [slot, idx] of MC_SLOTS) {
+      const s = s12[idx]
+      const wrongs = [
+        s12[(idx + 3) % 12].en,
+        s12[(idx + 6) % 12].en,
+        s12[(idx + 9) % 12].en,
+      ]
+      epRows.push({
+        ep_no: ep, slot, round_no: SLOT_ROUND[slot], type: 'multiple_choice',
+        question: s.ko, hint: null, answer: s.en,
+        options: buildMCOptions(s.en, wrongs, idx % 4), tokens: null,
+        expression_id: epExprs[s.exprIdx].id, example_index: s.exIdx,
+      })
+    }
+
+    // ── FB (6문제) ──────────────────────────────────────────────────────────
+    // question=ko(빈칸), hint=en, answer=pattern_ko, options=4개 pattern_ko (A,B,C,D 순)
+    const fbOptions = epExprs.map(e => e.korean)
+    for (const [slot, idx] of FB_SLOTS) {
+      const s    = s12[idx]
+      const expr = epExprs[s.exprIdx]
+      const blanked = makeBlank(s.ko, expr.korean)
+      if (blanked === null) {
+        fbFails.push(
+          `  EP${String(ep).padStart(2, '0')} ${slot}  표현="${expr.korean}"  예문="${s.ko}"`,
+        )
+        continue
+      }
+      epRows.push({
+        ep_no: ep, slot, round_no: SLOT_ROUND[slot], type: 'fill_blank',
+        question: blanked, hint: s.en, answer: expr.korean,
+        options: fbOptions, tokens: null,
+        expression_id: expr.id, example_index: s.exIdx,
+      })
+    }
+
+    // ── SB (3문제) ──────────────────────────────────────────────────────────
+    // tokens=ko 공백 분리, hint=en, answer=ko
+    // 토큰 2개 이하이면 다음 인덱스로 순환 탐색
+    for (const [slot, defIdx] of SB_SLOTS) {
+      let placed = false
+      for (let off = 0; off < 12; off++) {
+        const s    = s12[(defIdx + off) % 12]
+        const toks = s.ko.split(' ').filter(Boolean)
+        if (toks.length >= 3) {
+          epRows.push({
+            ep_no: ep, slot, round_no: SLOT_ROUND[slot], type: 'sentence_build',
+            question: s.ko, hint: s.en, answer: s.ko,
+            options: null, tokens: toks,
+            expression_id: epExprs[s.exprIdx].id, example_index: s.exIdx,
+          })
+          placed = true
+          break
+        }
+      }
+      if (!placed) console.warn(`  ⚠ EP${ep} ${slot}: 토큰 3개 이상 예문 없음`)
+    }
+
+    if (epRows.length === 15) ep15count++
+    rows.push(...epRows)
+  }
+
+  // ── DB 쓰기 ──────────────────────────────────────────────────────────────
+  if (!DRY_RUN) {
+    process.stdout.write('\n  DB 삭제...')
+    const { error: delErr } = await supabase
+      .from('kp_challenges')
+      .delete()
+      .gte('ep_no', 1)
+      .lte('ep_no', 100)
+    if (delErr) {
+      console.error('\n  삭제 오류:', delErr.message)
+      process.exit(1)
+    }
+    process.stdout.write(' ✓\n  삽입')
+    const BATCH = 100
+    for (let i = 0; i < rows.length; i += BATCH) {
+      const { error } = await supabase.from('kp_challenges').insert(rows.slice(i, i + BATCH))
+      if (error) {
+        console.error(`\n  삽입 오류 [${i}..${i + BATCH}]:`, error.message)
+        process.exit(1)
+      }
+      process.stdout.write('.')
+    }
+    console.log(` ✓  (${rows.length}행)`)
+  }
+
+  // ── §6 리포트 ────────────────────────────────────────────────────────────
+  const mcRows = rows.filter(r => r.type === 'multiple_choice')
+  const fbRows = rows.filter(r => r.type === 'fill_blank')
+  const sbRows = rows.filter(r => r.type === 'sentence_build')
+
+  const rt = (rs: Row[], t: string) => rs.filter(r => r.type === t).length
+  const r1 = rows.filter(r => r.round_no === 1)
+  const r2 = rows.filter(r => r.round_no === 2)
+  const r3 = rows.filter(r => r.round_no === 3)
+
+  const optNot4  = mcRows.filter(r => (r.options?.length ?? 0) !== 4).length
+  const ansNotIn = mcRows.filter(r => !r.options?.includes(r.answer)).length
+  const tokFew   = sbRows.filter(r => (r.tokens?.length ?? 0) < 3).length
+
+  const dupSet = new Set<string>()
+  let dups = 0
+  for (const r of rows) {
+    const k = `${r.ep_no}:${r.slot}`
+    if (dupSet.has(k)) dups++
+    else dupSet.add(k)
+  }
+
+  console.log(`
+=== §6 리포트${DRY_RUN ? '  [DRY-RUN]' : ''} ===
+
+kp_challenges          ${rows.length}행
+  EP당 15문제인 EP 수    ${ep15count} / 100
+  multiple_choice        ${mcRows.length}
+  fill_blank             ${fbRows.length}
+  sentence_build         ${sbRows.length}
+
+회차별 분포
+  round 1                ${r1.length}  (MC ${rt(r1, 'multiple_choice')} / FB ${rt(r1, 'fill_blank')} / SB ${rt(r1, 'sentence_build')})
+  round 2                ${r2.length}  (MC ${rt(r2, 'multiple_choice')} / FB ${rt(r2, 'fill_blank')} / SB ${rt(r2, 'sentence_build')})
+  round 3                ${r3.length}  (MC ${rt(r3, 'multiple_choice')} / FB ${rt(r3, 'fill_blank')} / SB ${rt(r3, 'sentence_build')})
+
+무결성
+  options 4개 아닌 문제       ${optNot4}건
+  정답이 options에 없는 문제  ${ansNotIn}건
+  tokens 3개 미만 문제        ${tokFew}건
+  빈칸 치환 실패              ${fbFails.length}건${fbFails.length > 0 ? '  ← 수정 필요' : ''}
+  중복 문제 (ep_no:slot)      ${dups}건`)
+
+  if (fbFails.length > 0) {
+    console.log('\n빈칸 치환 실패 목록:')
+    for (const f of fbFails) console.log(f)
   }
 }
 
-main().catch(console.error)
+main().catch(e => { console.error(e); process.exit(1) })

@@ -1,0 +1,343 @@
+EP11 | 지하철에서
+
+[컷1]
+  지수: 여기에서부터 두 정거장이야.
+  EN: It's two stops from here.
+  ▸ ~에서부터 → "에서부터"
+  에마: 그럼 2호선 타요?
+  EN: So we take Line 2?
+  ▸ ~타요 → "타요"
+
+[컷2]
+  에마: 창밖이 캄캄해요!
+  EN: It's pitch dark outside!
+  지수: 여기는 지하 구간이라서 그래.
+  EN: That's because this part is underground.
+
+[컷3]
+  안내방송: 안전선 밖으로 물러서 주십시오.
+  EN: Please stand back from the safety line.
+  ▸ -으십시오 → "주십시오"
+  에마: 홍대입구에서 내려요?
+  EN: Do we get off at Hongik University?
+  ▸ ~에서 내려요 → "에서 내려요"
+
+[컷4]
+  지수: 여기서 택시 타자!
+  EN: Let's grab a taxi here!
+  에마: 제가 말해 볼게요.
+  EN: Let me try saying it.
+
+[컷5]
+  에마: 경복궁까지 가 주세요.
+  EN: Please take us to Gyeongbokgung.
+  ▸ ~까지 가 주세요 → "까지 가 주세요"
+  지수: 오, 잘하는데?
+  EN: Oh, not bad!
+
+
+EP12 | 식당에서 (심화)
+
+[컷1]
+  민준: 여기 순두부찌개가 진짜 유명해.
+  EN: The sundubu jjigae here is really famous.
+  에마: 냄새부터 좋아요!
+  EN: It smells great already!
+
+[컷2]
+  에마: 저는 순두부찌개로 할게요.
+  EN: I'll go with the sundubu jjigae.
+  ▸ ~로 할게요 → "로 할게요"
+  에마: 덜 맵게 해 주세요.
+  EN: Could you make it less spicy?
+  ▸ 덜 ~게 해 주세요 → "덜 맵게 해 주세요"
+
+[컷3]
+  에마: 딱 좋아요! 조금만 매워요.
+  EN: It's just right! Only a little spicy.
+  ▸ ~만 → "조금만"
+
+[컷4]
+  에마: 이 반찬 리필 돼요?
+  EN: Can I get a refill on this side dish?
+  ▸ ~리필 돼요? → "리필 돼요?"
+  점원: 네, 반찬은 셀프예요!
+  EN: Yes, side dishes are self-serve!
+
+[컷5]
+  에마: 남은 건 포장할게요.
+  EN: I'll take the leftovers to go.
+  민준: 다음엔 매운맛으로 도전해 보자.
+  EN: Next time let's try the spicy one.
+
+
+EP13 | 약속 잡기
+
+[컷1]
+  지수: 에마야, 주말에 뭐 해?
+  EN: Emma, what are you doing this weekend?
+  ▸ ~에 뭐 해요? → "뭐 해?"
+  에마: 아직 아무것도 없어요!
+  EN: Nothing yet!
+  지수: 소피랑 같이 영화 볼래?
+  EN: Want to watch a movie with Sophie?
+  ▸ 같이 ~ㄹ래요? → "같이 영화 볼래?"
+  소피: 좋아요! 몇 시에 만날까요?
+  EN: Sounds good! What time shall we meet?
+
+[컷2]
+  에마: 조금 늦을 것 같아요!
+  EN: I think I'll be a little late!
+  ▸ 조금 늦을 것 같아요 → "조금 늦을 것 같아요"
+
+[컷3]
+  지수: 에마! 여기야!
+  EN: Emma! Over here!
+  소피: 천천히 와요!
+  EN: Take your time!
+
+[컷4]
+  소피: 저는 수업 끝나자마자 왔어요.
+  EN: I came as soon as class ended.
+  ▸ -자마자 → "끝나자마자"
+  에마: 죄송해요, 지하철을 잘못 탔어요.
+  EN: Sorry, I took the wrong subway.
+
+[컷5]
+  지수: 다음엔 우리 집에서 보자!
+  EN: Next time let's meet at my place!
+  에마: 좋아요!
+  EN: Sounds great!
+
+
+EP14 | 길 잃은 에마
+
+[컷1]
+  에마(생각): 여기가 어디지? 완전히 길을 잃었다.
+  EN: Where am I? I'm completely lost.
+
+[컷2]
+  에마: 저기요, 길을 잃었어요.
+  EN: Excuse me, I'm lost.
+  ▸ 길을 잃었어요 → "길을 잃었어요"
+  에마: 경복궁에 어떻게 가요?
+  EN: How do I get to Gyeongbokgung?
+
+[컷3]
+  행인: 이 길로 쭉 가면 돼요.
+  EN: Just go straight down this road.
+  ▸ 쭉 가면 돼요 → "쭉 가면 돼요"
+  행인: 저기 끝에서 왼쪽으로 꺾으면 돼요.
+  EN: At the end there, turn left.
+  ▸ ~으로 꺾으면 돼요 → "으로 꺾으면 돼요"
+
+[컷4]
+  에마(생각): 알아들었어! 이제 경복궁 보러 가자.
+  EN: I understood! Now let's go see Gyeongbokgung.
+  ▸ -으러 가다 → "보러 가"
+
+[컷5]
+  에마: 우와, 진짜 크다!
+  EN: Wow, it's huge!
+  에마(생각): 혼자서도 찾아왔어.
+  EN: I found it on my own.
+
+
+EP15 | 드라마 추천
+
+[컷1]
+  지수: 에마, 요즘 뭐 봐?
+  EN: Emma, what are you watching these days?
+  에마: 요즘은 아무것도 안 봐요.
+  EN: Nothing at the moment.
+
+[컷2]
+  에마: 지수 씨는 이 드라마 봤어요?
+  EN: Jisu, have you watched this drama?
+  ▸ ~봤어요? → "봤어요?"
+  지수: 두 번 봤어! 이거 진짜야.
+  EN: I watched it twice! It's the real deal.
+
+[컷3]
+  에마: 어… 이거 너무 재미있어요!
+  EN: Whoa... this is so much fun!
+  ▸ 재미있어요 → "재미있어요"
+
+[컷4]
+  에마(생각): 소피한테도 알려 줘야지.
+  EN: I should tell Sophie about this too.
+  ▸ ~에게/한테 → "한테"
+
+[컷5]
+  에마: 지수 씨, 이 드라마 강추예요!
+  EN: Jisu, I totally recommend this drama!
+  ▸ 강추예요 → "강추예요"
+  지수: 내가 추천했잖아!
+  EN: I'm the one who recommended it!
+
+
+EP16 | 날씨 이야기
+
+[컷1]
+  에마: 지수 씨, 내일 날씨 어때요?
+  EN: Jisu, how's the weather tomorrow?
+  ▸ ~날씨 어때요? → "날씨 어때요?"
+  지수: 더 추워진대.
+  EN: They say it'll get colder.
+
+[컷2]
+  에마: 눈이 올 것 같아요!
+  EN: I think it's going to snow!
+  ▸ ~올 것 같아요 → "올 것 같아요"
+  지수: 벌써 오는데?
+  EN: It's already snowing.
+
+[컷3]
+  지수: 벚꽃이 폈네!
+  EN: The cherry blossoms are out!
+  에마: 꽃 보면서 걸으니까 정말 좋아요.
+  EN: Walking while looking at the flowers is wonderful.
+  ▸ -으면서 → "보면서"
+
+[컷4]
+  지수: 오늘 30도래.
+  EN: They say it's 30 degrees today.
+  에마: 진짜 덥겠어요!
+  EN: That must be really hot!
+  ▸ -겠- → "덥겠어요"
+
+[컷5]
+  에마: 노을이 예뻐요.
+  EN: The sunset is beautiful.
+
+[컷6]
+  에마(생각): 한국의 사계절을 다 봤어.
+  EN: I've seen all four seasons in Korea.
+
+
+EP17 | 약국에서
+
+[컷1]
+  에마(생각): 머리가 아프다. 약국에 가 보자.
+  EN: My head hurts. Let me go to a pharmacy.
+
+[컷2]
+  에마: 목이 아픈데, 감기약 있어요?
+  EN: My throat hurts — do you have cold medicine?
+  ▸ ~약 있어요? → "약 있어요?"
+
+[컷3]
+  약사: 이건 졸려요. 운전하시면 안 돼요.
+  EN: This makes you drowsy. You mustn't drive.
+  ▸ -으면 안 되다 → "하시면 안 돼요"
+
+[컷4]
+  약사: 커피랑 같이 안 먹는 게 나아요.
+  EN: It's better not to take it with coffee.
+  ▸ 안 먹는 게 나아요 → "안 먹는 게 나아요"
+  에마: 알겠습니다. 감사합니다!
+  EN: Understood. Thank you!
+
+[컷5]
+  에마(생각): 소피한테서 들었는데, 여기 진짜 편하다.
+  EN: I heard about this from Sophie — it really is convenient.
+  ▸ ~한테서 → "한테서"
+
+
+EP18 | 취미 이야기
+
+[컷1]
+  에마: 민준 씨는 취미가 뭐예요?
+  EN: Minjun, what's your hobby?
+  ▸ 취미가 뭐예요? → "취미가 뭐예요?"
+
+[컷2]
+  민준: 사진. 주말마다 찍으러 다녀.
+  EN: Photography. I go shooting every weekend.
+  ▸ ~마다 → "주말마다"
+
+[컷3]
+  에마: 저도요! 저도 사진 좋아해요.
+  EN: Me too! I like photography as well.
+  ▸ 저도요 → "저도요"
+
+[컷4]
+  에마: 근데 저는 실내 사진은 별로예요.
+  EN: But indoor photos aren't really my thing.
+  ▸ ~별로예요 → "별로예요"
+
+[컷5]
+  민준: 나도 그래. 밖이 훨씬 좋지.
+  EN: Same here. Outside is much better.
+
+[컷6]
+  민준: 다음 주에 같이 찍으러 가자.
+  EN: Let's go shooting together next week.
+  에마: 좋아요!
+  EN: Sounds great!
+
+
+EP19 | 경복궁 여행
+
+[컷1]
+  에마: 여기서 유명한 게 뭐예요?
+  EN: What's famous here?
+  ▸ 여기서 유명한 게 뭐예요? → "여기서 유명한 게 뭐예요?"
+  지수: 저 문이 제일 유명해.
+  EN: That gate is the most famous.
+
+[컷2]
+  지수: 내가 찍어 줄게!
+  EN: I'll take a picture for you!
+
+[컷3]
+  에마: 우리 같이 사진 찍어요!
+  EN: Let's take a photo together!
+  ▸ 같이 사진 찍어요 → "같이 사진 찍어요"
+
+[컷4]
+  에마: 이거 예쁘다. 할머니께서 좋아하실 것 같아요.
+  EN: This is pretty. I think my grandmother would like it.
+  ▸ ~께서 → "께서"
+
+[컷5]
+  지수: 이건 어때?
+  EN: How about this one?
+  에마: 그럼 이걸로 살게요.
+  EN: Then I'll take this one.
+
+[컷6]
+  에마: 사진이 잘 나왔어요?
+  EN: Did the photo come out well?
+  ▸ 사진이 잘 나왔어요? → "사진이 잘 나왔어요?"
+  지수: 완벽해!
+  EN: Perfect!
+
+
+EP20 | 오랜만에 만남
+
+[컷1]
+  지수: 에마! 진짜 에마 맞아?
+  EN: Emma! Is that really you?
+
+[컷2]
+  에마: 오랜만이에요!
+  EN: It's been so long!
+  ▸ 오랜만이에요 → "오랜만이에요"
+
+[컷3]
+  에마: 잘 지냈어요?
+  EN: How have you been?
+  ▸ 잘 지냈어요? → "잘 지냈어요?"
+  지수: 응, 잘 지냈어. 너는?
+  EN: Yeah, I've been good. You?
+
+[컷4]
+  에마: 우리 만난 지 벌써 1년 됐어요.
+  EN: It's already been a year since we met.
+  ▸ -은 지 → "만난 지"
+
+[컷5]
+  에마: 다음에 또 봐요!
+  EN: See you again soon!
+  ▸ 다음에 또 봐요 → "다음에 또 봐요"

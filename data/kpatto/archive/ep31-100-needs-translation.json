@@ -1,0 +1,6320 @@
+[
+  {
+    "id": 1928,
+    "ep": 31,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "근데 짐이 많아서 좀 걱정돼요.",
+    "dialogue_text": "근데 짐이 많아서 좀 걱정돼요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1926,
+    "ep": 31,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "왜?",
+    "dialogue_text": "왜?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1930,
+    "ep": 31,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "나는 요즘 좀 힘들어.",
+    "dialogue_text": "나는 요즘 좀 힘들어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1932,
+    "ep": 31,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "잘 될 거예요! 응원해요!",
+    "dialogue_text": "잘 될 거예요! 응원해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1924,
+    "ep": 31,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마야, 기분이 어때?",
+    "dialogue_text": "에마야, 기분이 어때?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1931,
+    "ep": 31,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "왜요? 무슨 일 있어요?",
+    "dialogue_text": "왜요? 무슨 일 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1933,
+    "ep": 31,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "고마워!",
+    "dialogue_text": "고마워!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1925,
+    "ep": 31,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "너무 좋아요! 뭔가 설레요.",
+    "dialogue_text": "너무 좋아요! 뭔가 설레요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1927,
+    "ep": 31,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "내일 여행이라서 행복해요!",
+    "dialogue_text": "내일 여행이라서 행복해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1929,
+    "ep": 31,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "괜찮아, 별거 아니야!",
+    "dialogue_text": "괜찮아, 별거 아니야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1938,
+    "ep": 32,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "포기하고 싶어요.",
+    "dialogue_text": "포기하고 싶어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1936,
+    "ep": 32,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "무슨 일이에요?",
+    "dialogue_text": "무슨 일이에요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1940,
+    "ep": 32,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "언제든지 연락해요!",
+    "dialogue_text": "언제든지 연락해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1942,
+    "ep": 32,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "같이 잘 될 거예요!",
+    "dialogue_text": "같이 잘 될 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1934,
+    "ep": 32,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "소피, 괜찮아요?",
+    "dialogue_text": "소피, 괜찮아요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1937,
+    "ep": 32,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "공부가 너무 어려워요.",
+    "dialogue_text": "공부가 너무 어려워요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1939,
+    "ep": 32,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "그런 말 하지 마요!",
+    "dialogue_text": "그런 말 하지 마요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1941,
+    "ep": 32,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "에마 덕분에 힘이 나요.",
+    "dialogue_text": "에마 덕분에 힘이 나요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1943,
+    "ep": 32,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "고마워요.",
+    "dialogue_text": "고마워요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1935,
+    "ep": 32,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "사실 요즘 좀 힘들어요.",
+    "dialogue_text": "사실 요즘 좀 힘들어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1952,
+    "ep": 33,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "네! 자주 연락할게요.",
+    "dialogue_text": "네! 자주 연락할게요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1944,
+    "ep": 33,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "민준 씨, 카카오톡 해요?",
+    "dialogue_text": "민준 씨, 카카오톡 해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1946,
+    "ep": 33,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저 인스타 팔로우해도 돼요?",
+    "dialogue_text": "저 인스타 팔로우해도 돼요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1948,
+    "ep": 33,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 친구를 사귀고 싶어요!",
+    "dialogue_text": "한국 친구를 사귀고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1950,
+    "ep": 33,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "맞다! 감사해요.",
+    "dialogue_text": "맞다! 감사해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1947,
+    "ep": 33,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "물론이지! 나도 팔로우해.",
+    "dialogue_text": "물론이지! 나도 팔로우해.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1953,
+    "ep": 33,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1951,
+    "ep": 33,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "앞으로 자주 연락하자!",
+    "dialogue_text": "앞으로 자주 연락하자!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1945,
+    "ep": 33,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "응, 해. 아이디 알려줄게!",
+    "dialogue_text": "응, 해. 아이디 알려줄게!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1949,
+    "ep": 33,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "이미 친구잖아!",
+    "dialogue_text": "이미 친구잖아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1960,
+    "ep": 34,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "오늘은 제가 살게요!",
+    "dialogue_text": "오늘은 제가 살게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1962,
+    "ep": 34,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "더치페이 해요?",
+    "dialogue_text": "더치페이 해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1954,
+    "ep": 34,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "배고파! 뭐 먹을까?",
+    "dialogue_text": "배고파! 뭐 먹을까?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1956,
+    "ep": 34,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "여기 삼계탕 어때?",
+    "dialogue_text": "여기 삼계탕 어때?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1958,
+    "ep": 34,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "너무 맛있어요!",
+    "dialogue_text": "너무 맛있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1957,
+    "ep": 34,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "오, 좋아!",
+    "dialogue_text": "오, 좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1955,
+    "ep": 34,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "저 뭐든 다 좋아요!",
+    "dialogue_text": "저 뭐든 다 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1963,
+    "ep": 34,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "아니야, 내가 낼게!",
+    "dialogue_text": "아니야, 내가 낼게!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1961,
+    "ep": 34,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "감사해요! 다음엔 제가 낼게요.",
+    "dialogue_text": "감사해요! 다음엔 제가 낼게요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1959,
+    "ep": 34,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "그치? 여기 맛집이야.",
+    "dialogue_text": "그치? 여기 맛집이야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1964,
+    "ep": 35,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "와, 한복이 이렇게 예뻐요!",
+    "dialogue_text": "와, 한복이 이렇게 예뻐요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1968,
+    "ep": 35,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저도 입어 볼게요!",
+    "dialogue_text": "저도 입어 볼게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1972,
+    "ep": 35,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "같이 사진 찍어요!",
+    "dialogue_text": "같이 사진 찍어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1970,
+    "ep": 35,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "이게 무슨 뜻이야? 설명해줄게.",
+    "dialogue_text": "이게 무슨 뜻이야? 설명해줄게.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1966,
+    "ep": 35,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한복 입어 봤어요?",
+    "dialogue_text": "한복 입어 봤어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1971,
+    "ep": 35,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "와, 신기해요!",
+    "dialogue_text": "와, 신기해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1973,
+    "ep": 35,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "좋아!",
+    "dialogue_text": "좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1965,
+    "ep": 35,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "입어봐! 잘 어울릴 거야.",
+    "dialogue_text": "입어봐! 잘 어울릴 거야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1967,
+    "ep": 35,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응, 어렸을 때 많이 입었어!",
+    "dialogue_text": "응, 어렸을 때 많이 입었어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1969,
+    "ep": 35,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "진짜 예쁘다!",
+    "dialogue_text": "진짜 예쁘다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1974,
+    "ep": 36,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "여기 앉자! 포장마차 분위기 좋지?",
+    "dialogue_text": "여기 앉자! 포장마차 분위기 좋지?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1976,
+    "ep": 36,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "자, 건배해요!",
+    "dialogue_text": "자, 건배해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1978,
+    "ep": 36,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "술 마셔요? 저는 조금만요!",
+    "dialogue_text": "술 마셔요? 저는 조금만요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1980,
+    "ep": 36,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "발그레해요!",
+    "dialogue_text": "발그레해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1982,
+    "ep": 36,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "오늘은 여기까지만 해요!",
+    "dialogue_text": "오늘은 여기까지만 해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1981,
+    "ep": 36,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "귀엽다, 괜찮아?",
+    "dialogue_text": "귀엽다, 괜찮아?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1979,
+    "ep": 36,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "에마 많이 취했어?",
+    "dialogue_text": "에마 많이 취했어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1975,
+    "ep": 36,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 너무 좋아요.",
+    "dialogue_text": "네! 너무 좋아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1977,
+    "ep": 36,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "건배!",
+    "dialogue_text": "건배!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1983,
+    "ep": 36,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 내일 수업 있잖아!",
+    "dialogue_text": "맞아, 내일 수업 있잖아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1990,
+    "ep": 37,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "너무 재미있어요!",
+    "dialogue_text": "너무 재미있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1986,
+    "ep": 37,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "신청곡 있어요?",
+    "dialogue_text": "신청곡 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1988,
+    "ep": 37,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마 노래 잘한다!",
+    "dialogue_text": "에마 노래 잘한다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1984,
+    "ep": 37,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "와, 노래방 진짜 신나요!",
+    "dialogue_text": "와, 노래방 진짜 신나요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1992,
+    "ep": 37,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "다음에 또 오자!",
+    "dialogue_text": "다음에 또 오자!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1993,
+    "ep": 37,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 진짜 좋았어요.",
+    "dialogue_text": "네! 진짜 좋았어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1991,
+    "ep": 37,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "또 오고 싶어요!",
+    "dialogue_text": "또 오고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1989,
+    "ep": 37,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "감사해요! 한 곡 더 해요!",
+    "dialogue_text": "감사해요! 한 곡 더 해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1987,
+    "ep": 37,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저는 이 노래요!",
+    "dialogue_text": "저는 이 노래요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1985,
+    "ep": 37,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "이 노래 같이 불러요!",
+    "dialogue_text": "이 노래 같이 불러요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1994,
+    "ep": 38,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "자, 같이 춰요!",
+    "dialogue_text": "자, 같이 춰요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1996,
+    "ep": 38,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "괜찮아, 따라 해봐!",
+    "dialogue_text": "괜찮아, 따라 해봐!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1998,
+    "ep": 38,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "아, 또 틀렸어요!",
+    "dialogue_text": "아, 또 틀렸어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2000,
+    "ep": 38,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "진짜요?",
+    "dialogue_text": "진짜요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2002,
+    "ep": 38,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "조금 늘었어요!",
+    "dialogue_text": "조금 늘었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1999,
+    "ep": 38,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "하다 보면 늘어요!",
+    "dialogue_text": "하다 보면 늘어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2003,
+    "ep": 38,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 생각보다 잘하는데?",
+    "dialogue_text": "맞아, 생각보다 잘하는데?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1997,
+    "ep": 38,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "어렵지만 재미있어요!",
+    "dialogue_text": "어렵지만 재미있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 1995,
+    "ep": 38,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "저 춤 잘 못 춰요!",
+    "dialogue_text": "저 춤 잘 못 춰요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2001,
+    "ep": 38,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응, 연습이 필요해!",
+    "dialogue_text": "응, 연습이 필요해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2004,
+    "ep": 39,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여기 분위기 좋아요!",
+    "dialogue_text": "여기 분위기 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2012,
+    "ep": 39,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여기 자주 와요!",
+    "dialogue_text": "여기 자주 와요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2010,
+    "ep": 39,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "소피, 이거 어떻게 해요?",
+    "dialogue_text": "소피, 이거 어떻게 해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2008,
+    "ep": 39,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "오래 있어도 돼요?",
+    "dialogue_text": "오래 있어도 돼요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2006,
+    "ep": 39,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "달달한 거 있어요?",
+    "dialogue_text": "달달한 거 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2013,
+    "ep": 39,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요! 완전 좋아요.",
+    "dialogue_text": "저도요! 완전 좋아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2005,
+    "ep": 39,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "그치? 공부하기 딱이에요.",
+    "dialogue_text": "그치? 공부하기 딱이에요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2011,
+    "ep": 39,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "이렇게 하면 돼요!",
+    "dialogue_text": "이렇게 하면 돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2007,
+    "ep": 39,
+    "order": 2,
+    "speaker": "staff",
+    "korean": "네, 카라멜 라떼 있어요!",
+    "dialogue_text": "네, 카라멜 라떼 있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2009,
+    "ep": 39,
+    "order": 2,
+    "speaker": "staff",
+    "korean": "네, 괜찮아요!",
+    "dialogue_text": "네, 괜찮아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2018,
+    "ep": 40,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "나라마다 달라요, 그게 재미있어요!",
+    "dialogue_text": "나라마다 달라요, 그게 재미있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2020,
+    "ep": 40,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이제 혼자도 잘 다녀요!",
+    "dialogue_text": "이제 혼자도 잘 다녀요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2016,
+    "ep": 40,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "처음엔 낯설었는데 이제 괜찮아요.",
+    "dialogue_text": "처음엔 낯설었는데 이제 괜찮아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2022,
+    "ep": 40,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한강이 진짜 좋아요!",
+    "dialogue_text": "한강이 진짜 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2014,
+    "ep": 40,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 생활이 이제 익숙해졌어요!",
+    "dialogue_text": "한국 생활이 이제 익숙해졌어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2019,
+    "ep": 40,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 그래서 여행이 좋은 거야.",
+    "dialogue_text": "맞아, 그래서 여행이 좋은 거야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2015,
+    "ep": 40,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "진짜? 벌써 적응했어?",
+    "dialogue_text": "진짜? 벌써 적응했어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2023,
+    "ep": 40,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "나도! 자주 오자.",
+    "dialogue_text": "나도! 자주 오자.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2021,
+    "ep": 40,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "완전 한국 사람 다 됐네!",
+    "dialogue_text": "완전 한국 사람 다 됐네!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2017,
+    "ep": 40,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "대단하다!",
+    "dialogue_text": "대단하다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2026,
+    "ep": 41,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "근데 말이야, 좀 어색하더라고.",
+    "dialogue_text": "근데 말이야, 좀 어색하더라고.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2028,
+    "ep": 41,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저도 그런 적 있거든요!",
+    "dialogue_text": "저도 그런 적 있거든요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2024,
+    "ep": 41,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "지수, 어제 뭐 했어요?",
+    "dialogue_text": "지수, 어제 뭐 했어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2032,
+    "ep": 41,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "맞아요, 결국엔 다 잘 돼요!",
+    "dialogue_text": "맞아요, 결국엔 다 잘 돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2030,
+    "ep": 41,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이야기하다 보니까 다시 친해졌어요!",
+    "dialogue_text": "이야기하다 보니까 다시 친해졌어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2029,
+    "ep": 41,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "진짜? 어떻게 됐어?",
+    "dialogue_text": "진짜? 어떻게 됐어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2031,
+    "ep": 41,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "역시 그렇더라고!",
+    "dialogue_text": "역시 그렇더라고!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2033,
+    "ep": 41,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아!",
+    "dialogue_text": "맞아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2025,
+    "ep": 41,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "친구 만났는데 진짜 오랜만이었어.",
+    "dialogue_text": "친구 만났는데 진짜 오랜만이었어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2027,
+    "ep": 41,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "왜요? 오래 못 봐서요?",
+    "dialogue_text": "왜요? 오래 못 봐서요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2038,
+    "ep": 42,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "비가 오면 어떡해요?",
+    "dialogue_text": "비가 오면 어떡해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2040,
+    "ep": 42,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "그럼 그렇게 하면 좋겠어요!",
+    "dialogue_text": "그럼 그렇게 하면 좋겠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2034,
+    "ep": 42,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "에마, 이번 주말에 같이 어때요?",
+    "dialogue_text": "에마, 이번 주말에 같이 어때요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2036,
+    "ep": 42,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "전시회 가면 어때요?",
+    "dialogue_text": "전시회 가면 어때요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2042,
+    "ep": 42,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "주말이 빨리 왔으면 좋겠어요!",
+    "dialogue_text": "주말이 빨리 왔으면 좋겠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2039,
+    "ep": 42,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "비 오면 카페 가면 돼요!",
+    "dialogue_text": "비 오면 카페 가면 돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2035,
+    "ep": 42,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "좋아요! 뭐 할까요?",
+    "dialogue_text": "좋아요! 뭐 할까요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2041,
+    "ep": 42,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요! 기대돼요.",
+    "dialogue_text": "저도요! 기대돼요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2043,
+    "ep": 42,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2037,
+    "ep": 42,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "재미있을 것 같아요!",
+    "dialogue_text": "재미있을 것 같아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2048,
+    "ep": 43,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이 메뉴가 저 메뉴보다 나아요?",
+    "dialogue_text": "이 메뉴가 저 메뉴보다 나아요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2044,
+    "ep": 43,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "민준 씨, 늦어서 죄송해요!",
+    "dialogue_text": "민준 씨, 늦어서 죄송해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2046,
+    "ep": 43,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "버스 때문에 늦었어요.",
+    "dialogue_text": "버스 때문에 늦었어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2050,
+    "ep": 43,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 음식이 우리나라보다 매워요!",
+    "dialogue_text": "한국 음식이 우리나라보다 매워요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2052,
+    "ep": 43,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "너무 맛있어요!",
+    "dialogue_text": "너무 맛있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2047,
+    "ep": 43,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "아, 그랬구나.",
+    "dialogue_text": "아, 그랬구나.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2053,
+    "ep": 43,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "다음엔 일찍 와!",
+    "dialogue_text": "다음엔 일찍 와!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2051,
+    "ep": 43,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "덕분에 더 맛있는 거야!",
+    "dialogue_text": "덕분에 더 맛있는 거야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2049,
+    "ep": 43,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "응, 이게 더 맛있어!",
+    "dialogue_text": "응, 이게 더 맛있어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2045,
+    "ep": 43,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "괜찮아, 왜 늦었어?",
+    "dialogue_text": "괜찮아, 왜 늦었어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2062,
+    "ep": 44,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "오늘도 기분 좋아요!",
+    "dialogue_text": "오늘도 기분 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2056,
+    "ep": 44,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "공부하고 나서 산책해요.",
+    "dialogue_text": "공부하고 나서 산책해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2060,
+    "ep": 44,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "기분이 좋을 때 공원 와요.",
+    "dialogue_text": "기분이 좋을 때 공원 와요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2058,
+    "ep": 44,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "자기 전에 일기 써요!",
+    "dialogue_text": "자기 전에 일기 써요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2054,
+    "ep": 44,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마 하루 루틴이 뭐야?",
+    "dialogue_text": "에마 하루 루틴이 뭐야?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2061,
+    "ep": 44,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도 그래!",
+    "dialogue_text": "나도 그래!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2063,
+    "ep": 44,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2055,
+    "ep": 44,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "일어나는 동안 음악 들어요!",
+    "dialogue_text": "일어나는 동안 음악 들어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2057,
+    "ep": 44,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "규칙적이다!",
+    "dialogue_text": "규칙적이다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2059,
+    "ep": 44,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "대단해!",
+    "dialogue_text": "대단해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2064,
+    "ep": 45,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "도와줄게요!",
+    "dialogue_text": "도와줄게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2072,
+    "ep": 45,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "진짜 고마워!",
+    "dialogue_text": "진짜 고마워!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2070,
+    "ep": 45,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "에마 덕분에 해결했어!",
+    "dialogue_text": "에마 덕분에 해결했어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2068,
+    "ep": 45,
+    "order": 1,
+    "speaker": "staff",
+    "korean": "이렇게 하면 돼요!",
+    "dialogue_text": "이렇게 하면 돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2066,
+    "ep": 45,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "죄송한데요, 혹시 도와주실 수 있어요?",
+    "dialogue_text": "죄송한데요, 혹시 도와주실 수 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2067,
+    "ep": 45,
+    "order": 2,
+    "speaker": "staff",
+    "korean": "네, 물론이죠!",
+    "dialogue_text": "네, 물론이죠!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2065,
+    "ep": 45,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "고마워, 부탁해.",
+    "dialogue_text": "고마워, 부탁해.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2069,
+    "ep": 45,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "감사합니다!",
+    "dialogue_text": "감사합니다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2071,
+    "ep": 45,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "해 드릴까요? 더 도와드릴게요!",
+    "dialogue_text": "해 드릴까요? 더 도와드릴게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2073,
+    "ep": 45,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "별말씀을요!",
+    "dialogue_text": "별말씀을요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2074,
+    "ep": 46,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "에마, 한국에 온 지 얼마나 됐어요?",
+    "dialogue_text": "에마, 한국에 온 지 얼마나 됐어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2082,
+    "ep": 46,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 열심히 할 거예요!",
+    "dialogue_text": "앞으로도 열심히 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2078,
+    "ep": 46,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "거의 다 됐어요, 이제 자신 있어요!",
+    "dialogue_text": "거의 다 됐어요, 이제 자신 있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2076,
+    "ep": 46,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "빠르다!",
+    "dialogue_text": "빠르다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2080,
+    "ep": 46,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "처음보다 훨씬 나아졌어요!",
+    "dialogue_text": "처음보다 훨씬 나아졌어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2075,
+    "ep": 46,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "벌써 6개월이 됐어요!",
+    "dialogue_text": "벌써 6개월이 됐어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2083,
+    "ep": 46,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "같이 화이팅해요!",
+    "dialogue_text": "같이 화이팅해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2077,
+    "ep": 46,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "그치? 아직 배우는 중이에요!",
+    "dialogue_text": "그치? 아직 배우는 중이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2079,
+    "ep": 46,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "진짜 대단해요!",
+    "dialogue_text": "진짜 대단해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2081,
+    "ep": 46,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요, 많이 늘었어요!",
+    "dialogue_text": "맞아요, 많이 늘었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2092,
+    "ep": 47,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "살게요!",
+    "dialogue_text": "살게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2090,
+    "ep": 47,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "요즘 유행이에요, 그 스타일!",
+    "dialogue_text": "요즘 유행이에요, 그 스타일!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2084,
+    "ep": 47,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마야, 어떤 스타일 좋아해?",
+    "dialogue_text": "에마야, 어떤 스타일 좋아해?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2086,
+    "ep": 47,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이거 어때요?",
+    "dialogue_text": "이거 어때요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2088,
+    "ep": 47,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저기요, 입어봐도 돼요?",
+    "dialogue_text": "저기요, 입어봐도 돼요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2087,
+    "ep": 47,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "잘 어울려! 입어봐.",
+    "dialogue_text": "잘 어울려! 입어봐.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2093,
+    "ep": 47,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "완전 잘 어울려!",
+    "dialogue_text": "완전 잘 어울려!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2091,
+    "ep": 47,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜요? 마음에 들어요!",
+    "dialogue_text": "진짜요? 마음에 들어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2085,
+    "ep": 47,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "저는 캐주얼 스타일 좋아해요!",
+    "dialogue_text": "저는 캐주얼 스타일 좋아해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2089,
+    "ep": 47,
+    "order": 2,
+    "speaker": "staff",
+    "korean": "네, 피팅룸 저쪽이에요!",
+    "dialogue_text": "네, 피팅룸 저쪽이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2102,
+    "ep": 48,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "너무 맛있어요!",
+    "dialogue_text": "너무 맛있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2094,
+    "ep": 48,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "오늘 배달 시켜요!",
+    "dialogue_text": "오늘 배달 시켜요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2100,
+    "ep": 48,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "왔어요!",
+    "dialogue_text": "왔어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2096,
+    "ep": 48,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "치킨 어때요?",
+    "dialogue_text": "치킨 어때요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2098,
+    "ep": 48,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "배달 얼마나 걸려요?",
+    "dialogue_text": "배달 얼마나 걸려요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2095,
+    "ep": 48,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "좋아요! 뭐 시킬까요?",
+    "dialogue_text": "좋아요! 뭐 시킬까요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2097,
+    "ep": 48,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "가성비 좋아요? 맛있어요?",
+    "dialogue_text": "가성비 좋아요? 맛있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2103,
+    "ep": 48,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "역시 치킨이 최고야!",
+    "dialogue_text": "역시 치킨이 최고야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2101,
+    "ep": 48,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "빨리 먹자!",
+    "dialogue_text": "빨리 먹자!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2099,
+    "ep": 48,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "30분이래요!",
+    "dialogue_text": "30분이래요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2104,
+    "ep": 49,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "민준 씨, 여행 계획 있어요?",
+    "dialogue_text": "민준 씨, 여행 계획 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2106,
+    "ep": 49,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "며칠이나 있을 거예요?",
+    "dialogue_text": "며칠이나 있을 거예요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2112,
+    "ep": 49,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "조심해서 다녀와요!",
+    "dialogue_text": "조심해서 다녀와요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2110,
+    "ep": 49,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저도 가고 싶어요!",
+    "dialogue_text": "저도 가고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2108,
+    "ep": 49,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "꼭 봐야 할 게 뭐예요?",
+    "dialogue_text": "꼭 봐야 할 게 뭐예요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2111,
+    "ep": 49,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "다음에 같이 가자!",
+    "dialogue_text": "다음에 같이 가자!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2105,
+    "ep": 49,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "응, 제주도 가려고!",
+    "dialogue_text": "응, 제주도 가려고!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2109,
+    "ep": 49,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "성산일출봉이야! 진짜 예뻐.",
+    "dialogue_text": "성산일출봉이야! 진짜 예뻐.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2107,
+    "ep": 49,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "3박 4일이야!",
+    "dialogue_text": "3박 4일이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2113,
+    "ep": 49,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "고마워!",
+    "dialogue_text": "고마워!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2120,
+    "ep": 50,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이제 익숙해졌어요!",
+    "dialogue_text": "이제 익숙해졌어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2114,
+    "ep": 50,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마야, 한국 생활 어때?",
+    "dialogue_text": "에마야, 한국 생활 어때?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2116,
+    "ep": 50,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "아직 힘든 점도 있어?",
+    "dialogue_text": "아직 힘든 점도 있어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2122,
+    "ep": 50,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "고마워요, 지수 덕분이에요!",
+    "dialogue_text": "고마워요, 지수 덕분이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2118,
+    "ep": 50,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "그래도 좋은 점은?",
+    "dialogue_text": "그래도 좋은 점은?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2119,
+    "ep": 50,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "음식이 제일 좋아요!",
+    "dialogue_text": "음식이 제일 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2121,
+    "ep": 50,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 많이 늘었어!",
+    "dialogue_text": "맞아, 많이 늘었어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2123,
+    "ep": 50,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "무슨 소리야, 네가 잘한 거지!",
+    "dialogue_text": "무슨 소리야, 네가 잘한 거지!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2115,
+    "ep": 50,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜 좋아요! 너무 행복해요.",
+    "dialogue_text": "진짜 좋아요! 너무 행복해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2117,
+    "ep": 50,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "언어가 아직 어려워요.",
+    "dialogue_text": "언어가 아직 어려워요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2130,
+    "ep": 51,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "저도 같이 할게요!",
+    "dialogue_text": "저도 같이 할게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2126,
+    "ep": 51,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "어떻게 하려고 해요?",
+    "dialogue_text": "어떻게 하려고 해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2128,
+    "ep": 51,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "노트에 목표 적었어요!",
+    "dialogue_text": "노트에 목표 적었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2124,
+    "ep": 51,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "에마, 이번 학기 계획 있어요?",
+    "dialogue_text": "에마, 이번 학기 계획 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2132,
+    "ep": 51,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "꼭 잘 될 거예요!",
+    "dialogue_text": "꼭 잘 될 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2131,
+    "ep": 51,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜요? 같이 화이팅해요!",
+    "dialogue_text": "진짜요? 같이 화이팅해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2133,
+    "ep": 51,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "파이팅!",
+    "dialogue_text": "파이팅!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2129,
+    "ep": 51,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "대단해요, 응원해요!",
+    "dialogue_text": "대단해요, 응원해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2125,
+    "ep": 51,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 한국어 더 열심히 할 거예요!",
+    "dialogue_text": "네! 한국어 더 열심히 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2127,
+    "ep": 51,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "매일 1시간씩 공부하고 싶어요!",
+    "dialogue_text": "매일 1시간씩 공부하고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2138,
+    "ep": 52,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "마음먹었어요, 포기 안 할 거예요!",
+    "dialogue_text": "마음먹었어요, 포기 안 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2134,
+    "ep": 52,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저 결심했어요!",
+    "dialogue_text": "저 결심했어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2136,
+    "ep": 52,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국어 통역사가 되기로 했어요!",
+    "dialogue_text": "한국어 통역사가 되기로 했어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2140,
+    "ep": 52,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "예전보다 많이 늘었어요!",
+    "dialogue_text": "예전보다 많이 늘었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2142,
+    "ep": 52,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 열심히 할 거예요!",
+    "dialogue_text": "앞으로도 열심히 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2137,
+    "ep": 52,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "진짜? 대단한데!",
+    "dialogue_text": "진짜? 대단한데!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2143,
+    "ep": 52,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "응원해!",
+    "dialogue_text": "응원해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2135,
+    "ep": 52,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "뭘?",
+    "dialogue_text": "뭘?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2141,
+    "ep": 52,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 진짜 달라졌어!",
+    "dialogue_text": "맞아, 진짜 달라졌어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2139,
+    "ep": 52,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 할 수 있어!",
+    "dialogue_text": "맞아, 할 수 있어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2148,
+    "ep": 53,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "어? 생각보다 맛있어요!",
+    "dialogue_text": "어? 생각보다 맛있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2152,
+    "ep": 53,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 음식 다 좋아요!",
+    "dialogue_text": "한국 음식 다 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2146,
+    "ep": 53,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "조심스럽게 한 입 먹어볼게요!",
+    "dialogue_text": "조심스럽게 한 입 먹어볼게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2150,
+    "ep": 53,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "지수가 추천해줬더니 정말 좋았어요!",
+    "dialogue_text": "지수가 추천해줬더니 정말 좋았어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2144,
+    "ep": 53,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마야, 순대 먹어봤어?",
+    "dialogue_text": "에마야, 순대 먹어봤어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2153,
+    "ep": 53,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "역시!",
+    "dialogue_text": "역시!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2145,
+    "ep": 53,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "아직요! 처음이에요.",
+    "dialogue_text": "아직요! 처음이에요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2151,
+    "ep": 53,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "더 먹어봐, 이것도 맛있어.",
+    "dialogue_text": "더 먹어봐, 이것도 맛있어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2149,
+    "ep": 53,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "봐봐, 맛있지?",
+    "dialogue_text": "봐봐, 맛있지?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2147,
+    "ep": 53,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "어때?",
+    "dialogue_text": "어때?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2158,
+    "ep": 54,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "이거 맞아? 영어로?",
+    "dialogue_text": "이거 맞아? 영어로?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2156,
+    "ep": 54,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이 표현 가르쳐 줄 수 있어요?",
+    "dialogue_text": "이 표현 가르쳐 줄 수 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2154,
+    "ep": 54,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "오늘 언어 교환 해요!",
+    "dialogue_text": "오늘 언어 교환 해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2162,
+    "ep": 54,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "덕분에 많이 배웠어요!",
+    "dialogue_text": "덕분에 많이 배웠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2160,
+    "ep": 54,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이거 어떻게 해요?",
+    "dialogue_text": "이거 어떻게 해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2159,
+    "ep": 54,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "거의 맞아요! 이렇게 하면 더 자연스러워요.",
+    "dialogue_text": "거의 맞아요! 이렇게 하면 더 자연스러워요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2161,
+    "ep": 54,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "이렇게 하면 돼!",
+    "dialogue_text": "이렇게 하면 돼!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2163,
+    "ep": 54,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도! 재미있었어.",
+    "dialogue_text": "나도! 재미있었어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2155,
+    "ep": 54,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "좋아!",
+    "dialogue_text": "좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2157,
+    "ep": 54,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응! 이렇게 해.",
+    "dialogue_text": "응! 이렇게 해.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2168,
+    "ep": 55,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이렇게 하면 돼요?",
+    "dialogue_text": "이렇게 하면 돼요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2170,
+    "ep": 55,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "다 됐어요!",
+    "dialogue_text": "다 됐어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2172,
+    "ep": 55,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "맛있어요!",
+    "dialogue_text": "맛있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2164,
+    "ep": 55,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "오늘 김치찌개 만들어봐!",
+    "dialogue_text": "오늘 김치찌개 만들어봐!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2166,
+    "ep": 55,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "파 얼마나 넣어?",
+    "dialogue_text": "파 얼마나 넣어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2169,
+    "ep": 55,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응, 잘하고 있어!",
+    "dialogue_text": "응, 잘하고 있어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2167,
+    "ep": 55,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "이 정도면 돼요!",
+    "dialogue_text": "이 정도면 돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2171,
+    "ep": 55,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맛봐봐!",
+    "dialogue_text": "맛봐봐!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2173,
+    "ep": 55,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "잘했어!",
+    "dialogue_text": "잘했어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2165,
+    "ep": 55,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "만들어봤어요? 어렵지 않아요?",
+    "dialogue_text": "만들어봤어요? 어렵지 않아요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2182,
+    "ep": 56,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "많이 샀어요!",
+    "dialogue_text": "많이 샀어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2174,
+    "ep": 56,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여기서 뭐 살 거예요?",
+    "dialogue_text": "여기서 뭐 살 거예요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2176,
+    "ep": 56,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이거 어때요?",
+    "dialogue_text": "이거 어때요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2178,
+    "ep": 56,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "카드로 할게요!",
+    "dialogue_text": "카드로 할게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2180,
+    "ep": 56,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "쇼핑 진짜 재미있어요!",
+    "dialogue_text": "쇼핑 진짜 재미있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2179,
+    "ep": 56,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2177,
+    "ep": 56,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "잘 어울릴 것 같아요!",
+    "dialogue_text": "잘 어울릴 것 같아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2175,
+    "ep": 56,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "옷 살 거예요! 에마는요?",
+    "dialogue_text": "옷 살 거예요! 에마는요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2183,
+    "ep": 56,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "오늘 진짜 즐거웠어요!",
+    "dialogue_text": "오늘 진짜 즐거웠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2181,
+    "ep": 56,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요, 여기 진짜 좋아요!",
+    "dialogue_text": "맞아요, 여기 진짜 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2184,
+    "ep": 57,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "나 예전에 카페 알바 해봤어.",
+    "dialogue_text": "나 예전에 카페 알바 해봤어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2192,
+    "ep": 57,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "감사해요!",
+    "dialogue_text": "감사해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2190,
+    "ep": 57,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저도 도전해 볼게요!",
+    "dialogue_text": "저도 도전해 볼게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2188,
+    "ep": 57,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "카페 알바 해봤어요?",
+    "dialogue_text": "카페 알바 해봤어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2186,
+    "ep": 57,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "처음엔 힘들었는데 재미있었어!",
+    "dialogue_text": "처음엔 힘들었는데 재미있었어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2185,
+    "ep": 57,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜요? 어땠어요?",
+    "dialogue_text": "진짜요? 어땠어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2187,
+    "ep": 57,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "저도 해보고 싶어요!",
+    "dialogue_text": "저도 해보고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2189,
+    "ep": 57,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응, 1년 했어!",
+    "dialogue_text": "응, 1년 했어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2191,
+    "ep": 57,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응원해!",
+    "dialogue_text": "응원해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2193,
+    "ep": 57,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "잘 할 수 있을 거야!",
+    "dialogue_text": "잘 할 수 있을 거야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2194,
+    "ep": 58,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "진찰 받고 싶어요.",
+    "dialogue_text": "진찰 받고 싶어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2202,
+    "ep": 58,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "많이 나았어요!",
+    "dialogue_text": "많이 나았어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2198,
+    "ep": 58,
+    "order": 1,
+    "speaker": "doctor",
+    "korean": "여기 아파요?",
+    "dialogue_text": "여기 아파요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2196,
+    "ep": 58,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "배가 아파요.",
+    "dialogue_text": "배가 아파요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2200,
+    "ep": 58,
+    "order": 1,
+    "speaker": "doctor",
+    "korean": "이 약 드세요.",
+    "dialogue_text": "이 약 드세요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2201,
+    "ep": 58,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "하루에 몇 번이요?",
+    "dialogue_text": "하루에 몇 번이요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2199,
+    "ep": 58,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네, 많이 아파요.",
+    "dialogue_text": "네, 많이 아파요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2203,
+    "ep": 58,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "약이 효과 있어요!",
+    "dialogue_text": "약이 효과 있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2197,
+    "ep": 58,
+    "order": 2,
+    "speaker": "doctor",
+    "korean": "언제부터 아팠어요?",
+    "dialogue_text": "언제부터 아팠어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2195,
+    "ep": 58,
+    "order": 2,
+    "speaker": "receptionist",
+    "korean": "어디가 아파요?",
+    "dialogue_text": "어디가 아파요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2212,
+    "ep": 59,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여기 자주 와요!",
+    "dialogue_text": "여기 자주 와요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2206,
+    "ep": 59,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여기 공부하기 좋아요!",
+    "dialogue_text": "여기 공부하기 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2208,
+    "ep": 59,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "이 책 읽어봤어요?",
+    "dialogue_text": "이 책 읽어봤어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2204,
+    "ep": 59,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "독서 카페에 와 봤어요?",
+    "dialogue_text": "독서 카페에 와 봤어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2210,
+    "ep": 59,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국어 책이라 어려워요.",
+    "dialogue_text": "한국어 책이라 어려워요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2205,
+    "ep": 59,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "처음이에요! 신기해요.",
+    "dialogue_text": "처음이에요! 신기해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2213,
+    "ep": 59,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2211,
+    "ep": 59,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "하다 보면 늘어요!",
+    "dialogue_text": "하다 보면 늘어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2209,
+    "ep": 59,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "아직요! 재미있어요?",
+    "dialogue_text": "아직요! 재미있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2207,
+    "ep": 59,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요, 조용해요.",
+    "dialogue_text": "맞아요, 조용해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2222,
+    "ep": 60,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 음식이라서 제일 좋아요!",
+    "dialogue_text": "한국 음식이라서 제일 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2218,
+    "ep": 60,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 음식이 더 매워요!",
+    "dialogue_text": "한국 음식이 더 매워요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2220,
+    "ep": 60,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "매워도 자꾸 먹고 싶어요!",
+    "dialogue_text": "매워도 자꾸 먹고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2216,
+    "ep": 60,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "우리나라 음식이랑 달라요!",
+    "dialogue_text": "우리나라 음식이랑 달라요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2214,
+    "ep": 60,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 음식 중에 뭐가 제일 좋아요?",
+    "dialogue_text": "한국 음식 중에 뭐가 제일 좋아요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2215,
+    "ep": 60,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "나는 삼겹살이 제일 좋아!",
+    "dialogue_text": "나는 삼겹살이 제일 좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2221,
+    "ep": 60,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 중독이야!",
+    "dialogue_text": "맞아, 중독이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2219,
+    "ep": 60,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "그래서 더 중독성 있어!",
+    "dialogue_text": "그래서 더 중독성 있어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2223,
+    "ep": 60,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아!",
+    "dialogue_text": "맞아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2217,
+    "ep": 60,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "어떻게 달라?",
+    "dialogue_text": "어떻게 달라?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2226,
+    "ep": 61,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "사실 나쁘지 않은데요...",
+    "dialogue_text": "사실 나쁘지 않은데요...",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2224,
+    "ep": 61,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "이거 어때? 솔직하게 말해봐.",
+    "dialogue_text": "이거 어때? 솔직하게 말해봐.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2228,
+    "ep": 61,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저도 그렇게 생각해요!",
+    "dialogue_text": "저도 그렇게 생각해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2230,
+    "ep": 61,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "항상 솔직하게 말해줘.",
+    "dialogue_text": "항상 솔직하게 말해줘.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2232,
+    "ep": 61,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "솔직한 친구가 좋아요!",
+    "dialogue_text": "솔직한 친구가 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2227,
+    "ep": 61,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "근데?",
+    "dialogue_text": "근데?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2231,
+    "ep": 61,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 저도 솔직하게 말해줘요.",
+    "dialogue_text": "네! 저도 솔직하게 말해줘요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2233,
+    "ep": 61,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2225,
+    "ep": 61,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "솔직하게 말해도 돼요?",
+    "dialogue_text": "솔직하게 말해도 돼요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2229,
+    "ep": 61,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞지? 역시!",
+    "dialogue_text": "맞지? 역시!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2234,
+    "ep": 62,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "민준 씨, 요즘 어때요?",
+    "dialogue_text": "민준 씨, 요즘 어때요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2242,
+    "ep": 62,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "건강이 제일 중요해요!",
+    "dialogue_text": "건강이 제일 중요해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2240,
+    "ep": 62,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "힘내요! 잘 될 거예요.",
+    "dialogue_text": "힘내요! 잘 될 거예요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2238,
+    "ep": 62,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "무리하지 마세요!",
+    "dialogue_text": "무리하지 마세요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2236,
+    "ep": 62,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "왜요? 무슨 일이에요?",
+    "dialogue_text": "왜요? 무슨 일이에요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2237,
+    "ep": 62,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "야근이 너무 많아서 힘들어.",
+    "dialogue_text": "야근이 너무 많아서 힘들어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2243,
+    "ep": 62,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 고마워.",
+    "dialogue_text": "맞아, 고마워.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2235,
+    "ep": 62,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "요즘 일 때문에 바빠.",
+    "dialogue_text": "요즘 일 때문에 바빠.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2239,
+    "ep": 62,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "고마워.",
+    "dialogue_text": "고마워.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2241,
+    "ep": 62,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "덕분에 힘이 나.",
+    "dialogue_text": "덕분에 힘이 나.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2250,
+    "ep": 63,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 음식 사진이요!",
+    "dialogue_text": "한국 음식 사진이요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2252,
+    "ep": 63,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "다음엔 뭐 올릴까요?",
+    "dialogue_text": "다음엔 뭐 올릴까요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2244,
+    "ep": 63,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "지수, 요즘 뭐가 유행이야?",
+    "dialogue_text": "지수, 요즘 뭐가 유행이야?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2246,
+    "ep": 63,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "이 필터 올렸더니 반응이 좋아!",
+    "dialogue_text": "이 필터 올렸더니 반응이 좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2248,
+    "ep": 63,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저 팔로워가 많이 늘었어요!",
+    "dialogue_text": "저 팔로워가 많이 늘었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2251,
+    "ep": 63,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "역시!",
+    "dialogue_text": "역시!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2249,
+    "ep": 63,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "대박! 무슨 사진 올렸어?",
+    "dialogue_text": "대박! 무슨 사진 올렸어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2247,
+    "ep": 63,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜요? 어떻게 찍어요?",
+    "dialogue_text": "진짜요? 어떻게 찍어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2245,
+    "ep": 63,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "이 필터! 팔로워도 많이 늘었어.",
+    "dialogue_text": "이 필터! 팔로워도 많이 늘었어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2253,
+    "ep": 63,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "한강 어때?",
+    "dialogue_text": "한강 어때?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2256,
+    "ep": 64,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "양파가 없는데요!",
+    "dialogue_text": "양파가 없는데요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2260,
+    "ep": 64,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "다음엔 더 잘할 거예요!",
+    "dialogue_text": "다음엔 더 잘할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2254,
+    "ep": 64,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "오늘 불고기 도전해요!",
+    "dialogue_text": "오늘 불고기 도전해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2262,
+    "ep": 64,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "뿌듯해요!",
+    "dialogue_text": "뿌듯해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2258,
+    "ep": 64,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "그냥 해볼게요!",
+    "dialogue_text": "그냥 해볼게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2259,
+    "ep": 64,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "잘 할 수 있을 거예요!",
+    "dialogue_text": "잘 할 수 있을 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2263,
+    "ep": 64,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도 해보고 싶어요!",
+    "dialogue_text": "저도 해보고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2261,
+    "ep": 64,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "이것도 맛있어요!",
+    "dialogue_text": "이것도 맛있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2255,
+    "ep": 64,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "재료가 다 있어요?",
+    "dialogue_text": "재료가 다 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2257,
+    "ep": 64,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "어떡해요!",
+    "dialogue_text": "어떡해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2272,
+    "ep": 65,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "꾸준히 하면 좋아요!",
+    "dialogue_text": "꾸준히 하면 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2264,
+    "ep": 65,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "에마, 스킨케어 루틴 있어요?",
+    "dialogue_text": "에마, 스킨케어 루틴 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2266,
+    "ep": 65,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "세럼 바르고 나서 크림 발라요!",
+    "dialogue_text": "세럼 바르고 나서 크림 발라요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2268,
+    "ep": 65,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "꼭 이 순서로 해야 해요?",
+    "dialogue_text": "꼭 이 순서로 해야 해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2270,
+    "ep": 65,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "마스크팩도 해요!",
+    "dialogue_text": "마스크팩도 해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2273,
+    "ep": 65,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도 매일 할 거예요!",
+    "dialogue_text": "저도 매일 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2265,
+    "ep": 65,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 아침 저녁으로 해요!",
+    "dialogue_text": "네! 아침 저녁으로 해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2271,
+    "ep": 65,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "진짜요? 효과 있어요?",
+    "dialogue_text": "진짜요? 효과 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2269,
+    "ep": 65,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 순서가 중요해요.",
+    "dialogue_text": "네! 순서가 중요해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2267,
+    "ep": 65,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도 따라해 볼게요!",
+    "dialogue_text": "저도 따라해 볼게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2274,
+    "ep": 66,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "에마 한국어 많이 늘었어!",
+    "dialogue_text": "에마 한국어 많이 늘었어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2276,
+    "ep": 66,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "비결이 뭐야?",
+    "dialogue_text": "비결이 뭐야?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2282,
+    "ep": 66,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "더 열심히 할 거예요!",
+    "dialogue_text": "더 열심히 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2280,
+    "ep": 66,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "잘하고 있어!",
+    "dialogue_text": "잘하고 있어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2278,
+    "ep": 66,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "존댓말이랑 반말이 헷갈려요!",
+    "dialogue_text": "존댓말이랑 반말이 헷갈려요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2283,
+    "ep": 66,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "화이팅!",
+    "dialogue_text": "화이팅!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2279,
+    "ep": 66,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "괜찮아, 익숙해지면 돼!",
+    "dialogue_text": "괜찮아, 익숙해지면 돼!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2275,
+    "ep": 66,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜요? 감사해요!",
+    "dialogue_text": "진짜요? 감사해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2281,
+    "ep": 66,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "덕분이에요!",
+    "dialogue_text": "덕분이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2277,
+    "ep": 66,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "매일 조금씩 공부했어요!",
+    "dialogue_text": "매일 조금씩 공부했어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2290,
+    "ep": 67,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 날씨는 어때요?",
+    "dialogue_text": "한국 날씨는 어때요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2286,
+    "ep": 67,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이때가 제일 좋아요!",
+    "dialogue_text": "이때가 제일 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2292,
+    "ep": 67,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "역시 봄이 제일 좋아요!",
+    "dialogue_text": "역시 봄이 제일 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2284,
+    "ep": 67,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "벚꽃이 이렇게 예뻐요?",
+    "dialogue_text": "벚꽃이 이렇게 예뻐요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2288,
+    "ep": 67,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "여름은 어때?",
+    "dialogue_text": "여름은 어때?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2287,
+    "ep": 67,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 매년 기다려!",
+    "dialogue_text": "맞아, 매년 기다려!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2289,
+    "ep": 67,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "너무 더워요! 습해서 힘들어요.",
+    "dialogue_text": "너무 더워요! 습해서 힘들어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2285,
+    "ep": 67,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "봄이 제일 좋아!",
+    "dialogue_text": "봄이 제일 좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2291,
+    "ep": 67,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "사계절이 뚜렷해!",
+    "dialogue_text": "사계절이 뚜렷해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2293,
+    "ep": 67,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2300,
+    "ep": 68,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로 더 솔직하게 말하려고 할게요!",
+    "dialogue_text": "앞으로 더 솔직하게 말하려고 할게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2294,
+    "ep": 68,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "소피, 혹시 서운했어요?",
+    "dialogue_text": "소피, 혹시 서운했어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2298,
+    "ep": 68,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "그런 뜻이 아니었어요!",
+    "dialogue_text": "그런 뜻이 아니었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2296,
+    "ep": 68,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "제가 잘못했어요, 미안해요!",
+    "dialogue_text": "제가 잘못했어요, 미안해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2302,
+    "ep": 68,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "우리 앞으로도 잘 지내요!",
+    "dialogue_text": "우리 앞으로도 잘 지내요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2303,
+    "ep": 68,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "당연하죠!",
+    "dialogue_text": "당연하죠!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2297,
+    "ep": 68,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "괜찮아요.",
+    "dialogue_text": "괜찮아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2295,
+    "ep": 68,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "사실 좀 그랬어요.",
+    "dialogue_text": "사실 좀 그랬어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2301,
+    "ep": 68,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2299,
+    "ep": 68,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "알아요, 오해했어요.",
+    "dialogue_text": "알아요, 오해했어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2306,
+    "ep": 69,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "가끔 포기하고 싶어요.",
+    "dialogue_text": "가끔 포기하고 싶어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2312,
+    "ep": 69,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "꿈을 이루고 싶어요!",
+    "dialogue_text": "꿈을 이루고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2308,
+    "ep": 69,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "너무 어려울 때가 있어요.",
+    "dialogue_text": "너무 어려울 때가 있어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2310,
+    "ep": 69,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "절대 포기 안 할 거예요!",
+    "dialogue_text": "절대 포기 안 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2304,
+    "ep": 69,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "에마 꿈이 뭐야?",
+    "dialogue_text": "에마 꿈이 뭐야?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2311,
+    "ep": 69,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 그 마음이 중요해!",
+    "dialogue_text": "맞아, 그 마음이 중요해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2305,
+    "ep": 69,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "통역사가 되고 싶어요!",
+    "dialogue_text": "통역사가 되고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2307,
+    "ep": 69,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "왜?",
+    "dialogue_text": "왜?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2313,
+    "ep": 69,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "반드시 될 거야!",
+    "dialogue_text": "반드시 될 거야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2309,
+    "ep": 69,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "그래도 할 수 있어!",
+    "dialogue_text": "그래도 할 수 있어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2320,
+    "ep": 70,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저 텀블러 갖고 다녀요!",
+    "dialogue_text": "저 텀블러 갖고 다녀요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2322,
+    "ep": 70,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "같이 환경 지켜요!",
+    "dialogue_text": "같이 환경 지켜요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2318,
+    "ep": 70,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "환경 신경 써야겠어요!",
+    "dialogue_text": "환경 신경 써야겠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2314,
+    "ep": 70,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "지수, 이거 어디에 버려요?",
+    "dialogue_text": "지수, 이거 어디에 버려요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2316,
+    "ep": 70,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "한국은 분리수거 철저히 해야 해!",
+    "dialogue_text": "한국은 분리수거 철저히 해야 해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2319,
+    "ep": 70,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 나도 그래!",
+    "dialogue_text": "맞아, 나도 그래!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2321,
+    "ep": 70,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도! 환경 생각해야지.",
+    "dialogue_text": "나도! 환경 생각해야지.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2323,
+    "ep": 70,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "좋아!",
+    "dialogue_text": "좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2315,
+    "ep": 70,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "여기는 플라스틱 통이야!",
+    "dialogue_text": "여기는 플라스틱 통이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2317,
+    "ep": 70,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 중요한 거 알아요.",
+    "dialogue_text": "네! 중요한 거 알아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2330,
+    "ep": 71,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "한국에 있어서 다행이에요!",
+    "dialogue_text": "한국에 있어서 다행이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2332,
+    "ep": 71,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이 순간 절대 못 잊을 거예요!",
+    "dialogue_text": "이 순간 절대 못 잊을 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2326,
+    "ep": 71,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "뭔가 설레요!",
+    "dialogue_text": "뭔가 설레요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2324,
+    "ep": 71,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한강 야경이 이렇게 예뻐요!",
+    "dialogue_text": "한강 야경이 이렇게 예뻐요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2328,
+    "ep": 71,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이런 순간이 소중해요.",
+    "dialogue_text": "이런 순간이 소중해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2333,
+    "ep": 71,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2325,
+    "ep": 71,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "딱 이 느낌이에요!",
+    "dialogue_text": "딱 이 느낌이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2327,
+    "ep": 71,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요, 말로 표현이 안 돼요.",
+    "dialogue_text": "저도요, 말로 표현이 안 돼요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2329,
+    "ep": 71,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요, 진짜 행복해요.",
+    "dialogue_text": "맞아요, 진짜 행복해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2331,
+    "ep": 71,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2334,
+    "ep": 72,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마야, 오해가 있었던 것 같아.",
+    "dialogue_text": "에마야, 오해가 있었던 것 같아.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2340,
+    "ep": 72,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "앞으로 솔직하게 얘기하자!",
+    "dialogue_text": "앞으로 솔직하게 얘기하자!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2342,
+    "ep": 72,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "오해가 풀려서 다행이에요!",
+    "dialogue_text": "오해가 풀려서 다행이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2338,
+    "ep": 72,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "충분히 이해해요!",
+    "dialogue_text": "충분히 이해해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2336,
+    "ep": 72,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "그런 뜻이 아니었어요!",
+    "dialogue_text": "그런 뜻이 아니었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2335,
+    "ep": 72,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "저도 그랬어요.",
+    "dialogue_text": "저도 그랬어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2337,
+    "ep": 72,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "알아, 나도 잘못 이해했어.",
+    "dialogue_text": "알아, 나도 잘못 이해했어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2339,
+    "ep": 72,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "고마워.",
+    "dialogue_text": "고마워.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2343,
+    "ep": 72,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2341,
+    "ep": 72,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 저도요.",
+    "dialogue_text": "네! 저도요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2352,
+    "ep": 73,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "민준 씨 덕분이에요!",
+    "dialogue_text": "민준 씨 덕분이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2350,
+    "ep": 73,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "축하해! 자랑스럽다.",
+    "dialogue_text": "축하해! 자랑스럽다.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2344,
+    "ep": 73,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "민준 씨! 합격했어요!",
+    "dialogue_text": "민준 씨! 합격했어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2348,
+    "ep": 73,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "포기하지 않길 잘했어요!",
+    "dialogue_text": "포기하지 않길 잘했어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2346,
+    "ep": 73,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "드디어 해냈어요!",
+    "dialogue_text": "드디어 해냈어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2347,
+    "ep": 73,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "너무 잘했어!",
+    "dialogue_text": "너무 잘했어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2353,
+    "ep": 73,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "아니야, 네가 잘한 거야!",
+    "dialogue_text": "아니야, 네가 잘한 거야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2345,
+    "ep": 73,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "진짜? 대박이다!",
+    "dialogue_text": "진짜? 대박이다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2349,
+    "ep": 73,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 열심히 했잖아!",
+    "dialogue_text": "맞아, 열심히 했잖아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2351,
+    "ep": 73,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "감사해요!",
+    "dialogue_text": "감사해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2362,
+    "ep": 74,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "또 오고 싶어요!",
+    "dialogue_text": "또 오고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2356,
+    "ep": 74,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "생각보다 훨씬 맛있어요!",
+    "dialogue_text": "생각보다 훨씬 맛있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2358,
+    "ep": 74,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "이것도 먹어봐, 중독성 있어!",
+    "dialogue_text": "이것도 먹어봐, 중독성 있어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2354,
+    "ep": 74,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "여기 빈대떡 먹어봐!",
+    "dialogue_text": "여기 빈대떡 먹어봐!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2360,
+    "ep": 74,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "와, 진짜 중독성 있어요!",
+    "dialogue_text": "와, 진짜 중독성 있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2359,
+    "ep": 74,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜로요?",
+    "dialogue_text": "진짜로요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2361,
+    "ep": 74,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "그래서 마약김밥이야!",
+    "dialogue_text": "그래서 마약김밥이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2363,
+    "ep": 74,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2357,
+    "ep": 74,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "그치? 최고야!",
+    "dialogue_text": "그치? 최고야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2355,
+    "ep": 74,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "이거 뭐야?",
+    "dialogue_text": "이거 뭐야?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2368,
+    "ep": 75,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이런 일상이 행복해요!",
+    "dialogue_text": "이런 일상이 행복해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2364,
+    "ep": 75,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "오늘 날씨 진짜 좋아요!",
+    "dialogue_text": "오늘 날씨 진짜 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2366,
+    "ep": 75,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "와, 여기 새로 생겼어요!",
+    "dialogue_text": "와, 여기 새로 생겼어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2370,
+    "ep": 75,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이렇게 하는 게 좋아요.",
+    "dialogue_text": "이렇게 하는 게 좋아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2372,
+    "ep": 75,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "자주 이렇게 해요!",
+    "dialogue_text": "자주 이렇게 해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2365,
+    "ep": 75,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요, 산책하기 딱이에요!",
+    "dialogue_text": "맞아요, 산책하기 딱이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2373,
+    "ep": 75,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "좋아요!",
+    "dialogue_text": "좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2371,
+    "ep": 75,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "단순한 게 최고예요!",
+    "dialogue_text": "단순한 게 최고예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2369,
+    "ep": 75,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2367,
+    "ep": 75,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "들어가봐요!",
+    "dialogue_text": "들어가봐요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2376,
+    "ep": 76,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "이게 포인트예요!",
+    "dialogue_text": "이게 포인트예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2382,
+    "ep": 76,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국어 알고 보면 재미있어요!",
+    "dialogue_text": "한국어 알고 보면 재미있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2380,
+    "ep": 76,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이제 알겠어요!",
+    "dialogue_text": "이제 알겠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2374,
+    "ep": 76,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이 표현 차이가 뭐예요?",
+    "dialogue_text": "이 표현 차이가 뭐예요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2378,
+    "ep": 76,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이 두 개 차이가 뭐예요?",
+    "dialogue_text": "이 두 개 차이가 뭐예요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2379,
+    "ep": 76,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "뉘앙스가 좀 달라.",
+    "dialogue_text": "뉘앙스가 좀 달라.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2377,
+    "ep": 76,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "아, 그렇구나!",
+    "dialogue_text": "아, 그렇구나!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2375,
+    "ep": 76,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "알고 보면 쉬워!",
+    "dialogue_text": "알고 보면 쉬워!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2381,
+    "ep": 76,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 그거야!",
+    "dialogue_text": "맞아, 그거야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2383,
+    "ep": 76,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아!",
+    "dialogue_text": "맞아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2390,
+    "ep": 77,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여러분 덕분이에요!",
+    "dialogue_text": "여러분 덕분이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2392,
+    "ep": 77,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 자주 만나요!",
+    "dialogue_text": "앞으로도 자주 만나요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2384,
+    "ep": 77,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "다 같이 모이니까 좋아요!",
+    "dialogue_text": "다 같이 모이니까 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2386,
+    "ep": 77,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "처음 만났을 때 기억해?",
+    "dialogue_text": "처음 만났을 때 기억해?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2388,
+    "ep": 77,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "그때 에마 한국어 진짜 어설펐어!",
+    "dialogue_text": "그때 에마 한국어 진짜 어설펐어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2385,
+    "ep": 77,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "오랜만에 다 모였다!",
+    "dialogue_text": "오랜만에 다 모였다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2389,
+    "ep": 77,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "맞아요! 부끄러워요.",
+    "dialogue_text": "맞아요! 부끄러워요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2391,
+    "ep": 77,
+    "order": 2,
+    "speaker": "all",
+    "korean": "우리도 에마 덕분이야!",
+    "dialogue_text": "우리도 에마 덕분이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2393,
+    "ep": 77,
+    "order": 2,
+    "speaker": "all",
+    "korean": "좋아!",
+    "dialogue_text": "좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2387,
+    "ep": 77,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 카페에서였잖아요.",
+    "dialogue_text": "네! 카페에서였잖아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2402,
+    "ep": 78,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "포기 안 할 거예요!",
+    "dialogue_text": "포기 안 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2396,
+    "ep": 78,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "꿈을 위해 더 공부할 거예요!",
+    "dialogue_text": "꿈을 위해 더 공부할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2394,
+    "ep": 78,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "저 한국에 더 있고 싶긴 해요.",
+    "dialogue_text": "저 한국에 더 있고 싶긴 해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2398,
+    "ep": 78,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "얼마나 있을 거예요?",
+    "dialogue_text": "얼마나 있을 거예요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2400,
+    "ep": 78,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "목표를 위해 열심히 할 거예요!",
+    "dialogue_text": "목표를 위해 열심히 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2399,
+    "ep": 78,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "그건 나도 모르지!",
+    "dialogue_text": "그건 나도 모르지!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2395,
+    "ep": 78,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "진짜? 왜?",
+    "dialogue_text": "진짜? 왜?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2401,
+    "ep": 78,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "응원해!",
+    "dialogue_text": "응원해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2403,
+    "ep": 78,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "그래, 할 수 있어!",
+    "dialogue_text": "그래, 할 수 있어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2397,
+    "ep": 78,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "대단하다!",
+    "dialogue_text": "대단하다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2408,
+    "ep": 79,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "드디어 들어왔어요!",
+    "dialogue_text": "드디어 들어왔어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2404,
+    "ep": 79,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "줄이 진짜 길어요!",
+    "dialogue_text": "줄이 진짜 길어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2406,
+    "ep": 79,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "꼭 가봐야 할 곳이에요?",
+    "dialogue_text": "꼭 가봐야 할 곳이에요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2410,
+    "ep": 79,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "올 때마다 만족해요!",
+    "dialogue_text": "올 때마다 만족해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2412,
+    "ep": 79,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "또 오고 싶어요!",
+    "dialogue_text": "또 오고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2407,
+    "ep": 79,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "네! 진짜 맛있대요.",
+    "dialogue_text": "네! 진짜 맛있대요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2405,
+    "ep": 79,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "줄 서야 해! 유명한 집이야.",
+    "dialogue_text": "줄 서야 해! 유명한 집이야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2413,
+    "ep": 79,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2411,
+    "ep": 79,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요, 최고예요!",
+    "dialogue_text": "맞아요, 최고예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2409,
+    "ep": 79,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "기대돼요!",
+    "dialogue_text": "기대돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2414,
+    "ep": 80,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "발표 잘 마쳤어요!",
+    "dialogue_text": "발표 잘 마쳤어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2420,
+    "ep": 80,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "힘들 때 포기 안 하길 잘했어요!",
+    "dialogue_text": "힘들 때 포기 안 하길 잘했어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2422,
+    "ep": 80,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 계속 성장할 거예요!",
+    "dialogue_text": "앞으로도 계속 성장할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2418,
+    "ep": 80,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "처음이랑 많이 달라졌어요!",
+    "dialogue_text": "처음이랑 많이 달라졌어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2416,
+    "ep": 80,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "제가 해낸 게 믿기지 않아요!",
+    "dialogue_text": "제가 해낸 게 믿기지 않아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2415,
+    "ep": 80,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "진짜 잘했어!",
+    "dialogue_text": "진짜 잘했어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2417,
+    "ep": 80,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "많이 변했어!",
+    "dialogue_text": "많이 변했어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2419,
+    "ep": 80,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 한국어도 실력이야.",
+    "dialogue_text": "맞아, 한국어도 실력이야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2423,
+    "ep": 80,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응원해!",
+    "dialogue_text": "응원해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2421,
+    "ep": 80,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 대단해!",
+    "dialogue_text": "맞아, 대단해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2432,
+    "ep": 81,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "다음에 또 와요!",
+    "dialogue_text": "다음에 또 와요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2428,
+    "ep": 81,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "여기 유명하다더라고.",
+    "dialogue_text": "여기 유명하다더라고.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2426,
+    "ep": 81,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이렇게 맛있을 줄 몰랐어요!",
+    "dialogue_text": "이렇게 맛있을 줄 몰랐어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2430,
+    "ep": 81,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "좋다더라고요!",
+    "dialogue_text": "좋다더라고요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2424,
+    "ep": 81,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여기 맛있다고 하던데요!",
+    "dialogue_text": "여기 맛있다고 하던데요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2425,
+    "ep": 81,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 나도 들었어!",
+    "dialogue_text": "맞아, 나도 들었어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2427,
+    "ep": 81,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "봐봐, 맛있지?",
+    "dialogue_text": "봐봐, 맛있지?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2429,
+    "ep": 81,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜요? 어디서 들었어요?",
+    "dialogue_text": "진짜요? 어디서 들었어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2433,
+    "ep": 81,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응!",
+    "dialogue_text": "응!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2431,
+    "ep": 81,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 소문대로야!",
+    "dialogue_text": "맞아, 소문대로야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2440,
+    "ep": 82,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "민준 씨 덕분에 많이 배웠어요!",
+    "dialogue_text": "민준 씨 덕분에 많이 배웠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2438,
+    "ep": 82,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "하다 보면 다 되더라고요!",
+    "dialogue_text": "하다 보면 다 되더라고요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2434,
+    "ep": 82,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "에마, 한국 생활이 자연스러워졌어?",
+    "dialogue_text": "에마, 한국 생활이 자연스러워졌어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2436,
+    "ep": 82,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국에 살다 보니까 적응됐어요!",
+    "dialogue_text": "한국에 살다 보니까 적응됐어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2442,
+    "ep": 82,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 잘 부탁해요!",
+    "dialogue_text": "앞으로도 잘 부탁해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2441,
+    "ep": 82,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "나도 에마 덕분에 배웠어.",
+    "dialogue_text": "나도 에마 덕분에 배웠어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2437,
+    "ep": 82,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 많이 변했어.",
+    "dialogue_text": "맞아, 많이 변했어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2435,
+    "ep": 82,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 어쩌다 보니 그렇게 됐어요.",
+    "dialogue_text": "네! 어쩌다 보니 그렇게 됐어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2439,
+    "ep": 82,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "역시!",
+    "dialogue_text": "역시!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2443,
+    "ep": 82,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "나야말로!",
+    "dialogue_text": "나야말로!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2444,
+    "ep": 83,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이 표현 이상한가요?",
+    "dialogue_text": "이 표현 이상한가요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2446,
+    "ep": 83,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "아무리 그래도 이 부분은 달라.",
+    "dialogue_text": "아무리 그래도 이 부분은 달라.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2448,
+    "ep": 83,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "은근히 어려운 부분이야.",
+    "dialogue_text": "은근히 어려운 부분이야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2450,
+    "ep": 83,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이제 알겠어요!",
+    "dialogue_text": "이제 알겠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2452,
+    "ep": 83,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "점점 자연스러워지고 있어요!",
+    "dialogue_text": "점점 자연스러워지고 있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2451,
+    "ep": 83,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 그거야!",
+    "dialogue_text": "맞아, 그거야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2445,
+    "ep": 83,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "한국어 한 것치고는 자연스러워!",
+    "dialogue_text": "한국어 한 것치고는 자연스러워!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2447,
+    "ep": 83,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "어떻게 달라요?",
+    "dialogue_text": "어떻게 달라요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2449,
+    "ep": 83,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "그렇군요!",
+    "dialogue_text": "그렇군요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2453,
+    "ep": 83,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "대단해!",
+    "dialogue_text": "대단해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2458,
+    "ep": 84,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "일단은 이렇게 해봐요!",
+    "dialogue_text": "일단은 이렇게 해봐요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2460,
+    "ep": 84,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "결정했어요?",
+    "dialogue_text": "결정했어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2462,
+    "ep": 84,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "신중하게 생각하길 잘했어요!",
+    "dialogue_text": "신중하게 생각하길 잘했어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2456,
+    "ep": 84,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "좀 더 생각해 봐야겠어요.",
+    "dialogue_text": "좀 더 생각해 봐야겠어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2454,
+    "ep": 84,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "에마, 이거 어떻게 생각해요?",
+    "dialogue_text": "에마, 이거 어떻게 생각해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2461,
+    "ep": 84,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 이게 나을 것 같아요.",
+    "dialogue_text": "네! 이게 나을 것 같아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2455,
+    "ep": 84,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "잘 모르겠는데요...",
+    "dialogue_text": "잘 모르겠는데요...",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2457,
+    "ep": 84,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요, 천천히 생각해요.",
+    "dialogue_text": "맞아요, 천천히 생각해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2459,
+    "ep": 84,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "좋아요!",
+    "dialogue_text": "좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2463,
+    "ep": 84,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요!",
+    "dialogue_text": "맞아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2464,
+    "ep": 85,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "에마, 뭔가 이상한 거 눈치챘어?",
+    "dialogue_text": "에마, 뭔가 이상한 거 눈치챘어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2470,
+    "ep": 85,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "어떻게 알았어?",
+    "dialogue_text": "어떻게 알았어?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2472,
+    "ep": 85,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 생활하다 보니까 감이 생겼어요!",
+    "dialogue_text": "한국 생활하다 보니까 감이 생겼어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2468,
+    "ep": 85,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "딱 봐도 알겠어요!",
+    "dialogue_text": "딱 봐도 알겠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2466,
+    "ep": 85,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "감이 잡혀요!",
+    "dialogue_text": "감이 잡혀요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2471,
+    "ep": 85,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "그냥 느낌이요!",
+    "dialogue_text": "그냥 느낌이요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2467,
+    "ep": 85,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "역시 에마야!",
+    "dialogue_text": "역시 에마야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2465,
+    "ep": 85,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네! 바로 알았어요.",
+    "dialogue_text": "네! 바로 알았어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2473,
+    "ep": 85,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "이제 진짜 한국 사람이야!",
+    "dialogue_text": "이제 진짜 한국 사람이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2469,
+    "ep": 85,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 대단하다.",
+    "dialogue_text": "맞아, 대단하다.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2480,
+    "ep": 86,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이제 이해돼요!",
+    "dialogue_text": "이제 이해돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2482,
+    "ep": 86,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국 문화 진짜 신기해요!",
+    "dialogue_text": "한국 문화 진짜 신기해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2478,
+    "ep": 86,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "생각보다 훨씬 달라요!",
+    "dialogue_text": "생각보다 훨씬 달라요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2476,
+    "ep": 86,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이렇게 다를 줄 몰랐어요!",
+    "dialogue_text": "이렇게 다를 줄 몰랐어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2474,
+    "ep": 86,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이게 한국에서 흔한 일이에요?",
+    "dialogue_text": "이게 한국에서 흔한 일이에요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2475,
+    "ep": 86,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응, 여기선 당연해!",
+    "dialogue_text": "응, 여기선 당연해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2481,
+    "ep": 86,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "알고 보면 재미있지?",
+    "dialogue_text": "알고 보면 재미있지?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2479,
+    "ep": 86,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 문화 차이야.",
+    "dialogue_text": "맞아, 문화 차이야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2477,
+    "ep": 86,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나라마다 다 달라.",
+    "dialogue_text": "나라마다 다 달라.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2483,
+    "ep": 86,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아!",
+    "dialogue_text": "맞아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2486,
+    "ep": 87,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "사실 조금 부담스러워요.",
+    "dialogue_text": "사실 조금 부담스러워요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2484,
+    "ep": 87,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "에마, 혹시 부담스러워요?",
+    "dialogue_text": "에마, 혹시 부담스러워요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2488,
+    "ep": 87,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "저도 몰랐어요. 미안해요!",
+    "dialogue_text": "저도 몰랐어요. 미안해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2490,
+    "ep": 87,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "솔직하게 말하길 잘했어요!",
+    "dialogue_text": "솔직하게 말하길 잘했어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2492,
+    "ep": 87,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 솔직하게 얘기해요!",
+    "dialogue_text": "앞으로도 솔직하게 얘기해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2493,
+    "ep": 87,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "좋아요!",
+    "dialogue_text": "좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2485,
+    "ep": 87,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "솔직히 말해도 돼요?",
+    "dialogue_text": "솔직히 말해도 돼요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2487,
+    "ep": 87,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "말해줘서 고마워요!",
+    "dialogue_text": "말해줘서 고마워요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2491,
+    "ep": 87,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2489,
+    "ep": 87,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "이제 많이 편해졌어요!",
+    "dialogue_text": "이제 많이 편해졌어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2498,
+    "ep": 88,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국어로 꿈도 꿔요!",
+    "dialogue_text": "한국어로 꿈도 꿔요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2496,
+    "ep": 88,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이제 한국말이 편해요!",
+    "dialogue_text": "이제 한국말이 편해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2494,
+    "ep": 88,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "에마, 외국인 티 나요?",
+    "dialogue_text": "에마, 외국인 티 나요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2500,
+    "ep": 88,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "이제 현지인 같아!",
+    "dialogue_text": "이제 현지인 같아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2502,
+    "ep": 88,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "더 열심히 할 거예요!",
+    "dialogue_text": "더 열심히 할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2495,
+    "ep": 88,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "아직 좀 나요? 걱정돼요!",
+    "dialogue_text": "아직 좀 나요? 걱정돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2497,
+    "ep": 88,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "진짜 달라졌어!",
+    "dialogue_text": "진짜 달라졌어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2501,
+    "ep": 88,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "아직 멀었어요!",
+    "dialogue_text": "아직 멀었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2499,
+    "ep": 88,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "진짜? 대박이다!",
+    "dialogue_text": "진짜? 대박이다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2503,
+    "ep": 88,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "이미 충분해!",
+    "dialogue_text": "이미 충분해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2512,
+    "ep": 89,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "또 오고 싶어요!",
+    "dialogue_text": "또 오고 싶어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2510,
+    "ep": 89,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "진짜 맛있어요!",
+    "dialogue_text": "진짜 맛있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2506,
+    "ep": 89,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "현지인들이 가는 곳이야!",
+    "dialogue_text": "현지인들이 가는 곳이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2504,
+    "ep": 89,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "관광지보다 로컬이 좋아!",
+    "dialogue_text": "관광지보다 로컬이 좋아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2508,
+    "ep": 89,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "여기 숨겨진 명소야!",
+    "dialogue_text": "여기 숨겨진 명소야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2507,
+    "ep": 89,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "진짜요? 신기해요!",
+    "dialogue_text": "진짜요? 신기해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2509,
+    "ep": 89,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "어떻게 알았어요?",
+    "dialogue_text": "어떻게 알았어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2513,
+    "ep": 89,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "다음엔 다른 곳 데려갈게!",
+    "dialogue_text": "다음엔 다른 곳 데려갈게!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2511,
+    "ep": 89,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "그치? 여기가 진짜야.",
+    "dialogue_text": "그치? 여기가 진짜야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2505,
+    "ep": 89,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "맞아요! 여기 어디예요?",
+    "dialogue_text": "맞아요! 여기 어디예요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2518,
+    "ep": 90,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "떠오르는 중이에요, 여기!",
+    "dialogue_text": "떠오르는 중이에요, 여기!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2520,
+    "ep": 90,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "올리면 반응 좋을 것 같아요!",
+    "dialogue_text": "올리면 반응 좋을 것 같아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2522,
+    "ep": 90,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여기 자주 와요!",
+    "dialogue_text": "여기 자주 와요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2514,
+    "ep": 90,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여기 요즘 핫해요!",
+    "dialogue_text": "여기 요즘 핫해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2516,
+    "ep": 90,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "완전 대세예요, 여기!",
+    "dialogue_text": "완전 대세예요, 여기!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2515,
+    "ep": 90,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "진짜요? 여기 처음이에요!",
+    "dialogue_text": "진짜요? 여기 처음이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2521,
+    "ep": 90,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "맞아요, 예뻐요!",
+    "dialogue_text": "맞아요, 예뻐요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2519,
+    "ep": 90,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "사진 찍어요!",
+    "dialogue_text": "사진 찍어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2517,
+    "ep": 90,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "분위기 진짜 좋아요!",
+    "dialogue_text": "분위기 진짜 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2523,
+    "ep": 90,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "좋아요!",
+    "dialogue_text": "좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2526,
+    "ep": 91,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "별로야?",
+    "dialogue_text": "별로야?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2532,
+    "ep": 91,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "완곡하게 말하는 게 어려워요!",
+    "dialogue_text": "완곡하게 말하는 게 어려워요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2530,
+    "ep": 91,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "솔직하게 말해줘서 고마워!",
+    "dialogue_text": "솔직하게 말해줘서 고마워!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2524,
+    "ep": 91,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마, 솔직히 어때?",
+    "dialogue_text": "에마, 솔직히 어때?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2528,
+    "ep": 91,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "꼭 그런 건 아니에요!",
+    "dialogue_text": "꼭 그런 건 아니에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2533,
+    "ep": 91,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "연습하면 돼!",
+    "dialogue_text": "연습하면 돼!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2525,
+    "ep": 91,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "좀 그렇긴 한데요...",
+    "dialogue_text": "좀 그렇긴 한데요...",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2527,
+    "ep": 91,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "아니라고 할 순 없죠.",
+    "dialogue_text": "아니라고 할 순 없죠.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2529,
+    "ep": 91,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "알겠어, 이해해.",
+    "dialogue_text": "알겠어, 이해해.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2531,
+    "ep": 91,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "솔직하게 말하는 게 맞죠?",
+    "dialogue_text": "솔직하게 말하는 게 맞죠?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2538,
+    "ep": 92,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "결국엔 이렇게 해야 해요!",
+    "dialogue_text": "결국엔 이렇게 해야 해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2534,
+    "ep": 92,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "제 생각엔 말이 되네요!",
+    "dialogue_text": "제 생각엔 말이 되네요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2536,
+    "ep": 92,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이렇게 하면 앞뒤가 맞아요!",
+    "dialogue_text": "이렇게 하면 앞뒤가 맞아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2542,
+    "ep": 92,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "맞는 것 같아요!",
+    "dialogue_text": "맞는 것 같아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2540,
+    "ep": 92,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "왜 그렇게 생각해요?",
+    "dialogue_text": "왜 그렇게 생각해요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2543,
+    "ep": 92,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "나도 그렇게 생각해.",
+    "dialogue_text": "나도 그렇게 생각해.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2541,
+    "ep": 92,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "이유가 명확하잖아요!",
+    "dialogue_text": "이유가 명확하잖아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2539,
+    "ep": 92,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "역시 에마 말이 맞아.",
+    "dialogue_text": "역시 에마 말이 맞아.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2535,
+    "ep": 92,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "어떻게?",
+    "dialogue_text": "어떻게?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2537,
+    "ep": 92,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 그 말이 맞아.",
+    "dialogue_text": "맞아, 그 말이 맞아.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2544,
+    "ep": 93,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "에마, 혹시 속상했어요?",
+    "dialogue_text": "에마, 혹시 속상했어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2546,
+    "ep": 93,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "억울했어요, 사실!",
+    "dialogue_text": "억울했어요, 사실!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2550,
+    "ep": 93,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "말하고 나니까 후련해요!",
+    "dialogue_text": "말하고 나니까 후련해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2552,
+    "ep": 93,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 솔직하게 말할게요!",
+    "dialogue_text": "앞으로도 솔직하게 말할게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2548,
+    "ep": 93,
+    "order": 1,
+    "speaker": "sophie",
+    "korean": "충분히 그럴 수 있어요!",
+    "dialogue_text": "충분히 그럴 수 있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2553,
+    "ep": 93,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2547,
+    "ep": 93,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "그랬구나, 말해줘서 고마워요.",
+    "dialogue_text": "그랬구나, 말해줘서 고마워요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2549,
+    "ep": 93,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "소피가 이해해줘서 다행이에요.",
+    "dialogue_text": "소피가 이해해줘서 다행이에요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2551,
+    "ep": 93,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "다행이에요!",
+    "dialogue_text": "다행이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2545,
+    "ep": 93,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "솔직히 말하면... 속상했어요.",
+    "dialogue_text": "솔직히 말하면... 속상했어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2562,
+    "ep": 94,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 잘 부탁해요!",
+    "dialogue_text": "앞으로도 잘 부탁해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2554,
+    "ep": 94,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마야, 상대방 입장에서 생각해 봐.",
+    "dialogue_text": "에마야, 상대방 입장에서 생각해 봐.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2556,
+    "ep": 94,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "어렵지만 이해하려고 해요.",
+    "dialogue_text": "어렵지만 이해하려고 해요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2558,
+    "ep": 94,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "제가 옆에 있을게요!",
+    "dialogue_text": "제가 옆에 있을게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2560,
+    "ep": 94,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "지수 말 듣고 마음이 편해졌어요.",
+    "dialogue_text": "지수 말 듣고 마음이 편해졌어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2561,
+    "ep": 94,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "다행이야!",
+    "dialogue_text": "다행이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2555,
+    "ep": 94,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "그 사람 마음은 알아요.",
+    "dialogue_text": "그 사람 마음은 알아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2557,
+    "ep": 94,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "그게 맞아!",
+    "dialogue_text": "그게 맞아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2559,
+    "ep": 94,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "감사해요, 지수.",
+    "dialogue_text": "감사해요, 지수.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2563,
+    "ep": 94,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "물론이야!",
+    "dialogue_text": "물론이야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2568,
+    "ep": 95,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "여운이 남아요!",
+    "dialogue_text": "여운이 남아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2566,
+    "ep": 95,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "완전 몰입이 돼요!",
+    "dialogue_text": "완전 몰입이 돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2564,
+    "ep": 95,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이 드라마 반전 있어요!",
+    "dialogue_text": "이 드라마 반전 있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2570,
+    "ep": 95,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "보다가 울었어요!",
+    "dialogue_text": "보다가 울었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2572,
+    "ep": 95,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "시즌2 있어요?",
+    "dialogue_text": "시즌2 있어요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2573,
+    "ep": 95,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "있대요! 기대돼요!",
+    "dialogue_text": "있대요! 기대돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2567,
+    "ep": 95,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요, 너무 재미있어요!",
+    "dialogue_text": "저도요, 너무 재미있어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2569,
+    "ep": 95,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요, 잊을 수가 없어요.",
+    "dialogue_text": "저도요, 잊을 수가 없어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2565,
+    "ep": 95,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "진짜요? 어떤 반전이요?",
+    "dialogue_text": "진짜요? 어떤 반전이요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2571,
+    "ep": 95,
+    "order": 2,
+    "speaker": "sophie",
+    "korean": "저도요, 너무 감동이에요.",
+    "dialogue_text": "저도요, 너무 감동이에요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2574,
+    "ep": 96,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "왠지 모르게 한국이 좋아요.",
+    "dialogue_text": "왠지 모르게 한국이 좋아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2576,
+    "ep": 96,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "말로 표현하기 어려워요!",
+    "dialogue_text": "말로 표현하기 어려워요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2578,
+    "ep": 96,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "어딘가 모르게 끌려요!",
+    "dialogue_text": "어딘가 모르게 끌려요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2580,
+    "ep": 96,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "나도 이 느낌 좋아.",
+    "dialogue_text": "나도 이 느낌 좋아.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2582,
+    "ep": 96,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한강이 제일 좋아요!",
+    "dialogue_text": "한강이 제일 좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2583,
+    "ep": 96,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2581,
+    "ep": 96,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "맞아요, 딱 이 느낌!",
+    "dialogue_text": "맞아요, 딱 이 느낌!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2579,
+    "ep": 96,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 한국의 매력이야.",
+    "dialogue_text": "맞아, 한국의 매력이야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2577,
+    "ep": 96,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "그게 정이야.",
+    "dialogue_text": "그게 정이야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2575,
+    "ep": 96,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "이 느낌 알아?",
+    "dialogue_text": "이 느낌 알아?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2588,
+    "ep": 97,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "지수가 그리울 것 같아요.",
+    "dialogue_text": "지수가 그리울 것 같아요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2584,
+    "ep": 97,
+    "order": 1,
+    "speaker": "jisu",
+    "korean": "에마야, 벌써 가는 거야?",
+    "dialogue_text": "에마야, 벌써 가는 거야?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2586,
+    "ep": 97,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "떠나기 싫어요!",
+    "dialogue_text": "떠나기 싫어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2590,
+    "ep": 97,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "꼭 다시 올게요!",
+    "dialogue_text": "꼭 다시 올게요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2592,
+    "ep": 97,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "정말 고마워요, 지수!",
+    "dialogue_text": "정말 고마워요, 지수!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2587,
+    "ep": 97,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도 보내기 싫어.",
+    "dialogue_text": "나도 보내기 싫어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2589,
+    "ep": 97,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2585,
+    "ep": 97,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "네... 시간이 정말 빨랐어요.",
+    "dialogue_text": "네... 시간이 정말 빨랐어요.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2591,
+    "ep": 97,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응, 기다릴게!",
+    "dialogue_text": "응, 기다릴게!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2593,
+    "ep": 97,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도, 잘 가!",
+    "dialogue_text": "나도, 잘 가!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2594,
+    "ep": 98,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "이제 한국어로 생각해요!",
+    "dialogue_text": "이제 한국어로 생각해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2600,
+    "ep": 98,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "민준 씨 덕분이에요!",
+    "dialogue_text": "민준 씨 덕분이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2596,
+    "ep": 98,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "번역 안 해도 이해돼요!",
+    "dialogue_text": "번역 안 해도 이해돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2602,
+    "ep": 98,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 계속 공부할 거예요!",
+    "dialogue_text": "앞으로도 계속 공부할 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2598,
+    "ep": 98,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "실력이 많이 늘었어요!",
+    "dialogue_text": "실력이 많이 늘었어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2599,
+    "ep": 98,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "맞아, 처음이랑 달라.",
+    "dialogue_text": "맞아, 처음이랑 달라.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2597,
+    "ep": 98,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "완전 늘었네.",
+    "dialogue_text": "완전 늘었네.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2595,
+    "ep": 98,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "진짜? 대단하다!",
+    "dialogue_text": "진짜? 대단하다!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2601,
+    "ep": 98,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "아니야, 네가 열심히 한 거야.",
+    "dialogue_text": "아니야, 네가 열심히 한 거야.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2603,
+    "ep": 98,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "화이팅!",
+    "dialogue_text": "화이팅!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2604,
+    "ep": 99,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "다들 앞으로도 잘 부탁해요!",
+    "dialogue_text": "다들 앞으로도 잘 부탁해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2612,
+    "ep": 99,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "모두 고마워요!",
+    "dialogue_text": "모두 고마워요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2606,
+    "ep": 99,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "다 같이 성장한 것 같아요!",
+    "dialogue_text": "다 같이 성장한 것 같아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2610,
+    "ep": 99,
+    "order": 1,
+    "speaker": "minjun",
+    "korean": "에마 처음이랑 완전 달라졌어!",
+    "dialogue_text": "에마 처음이랑 완전 달라졌어!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2608,
+    "ep": 99,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "덕분에 정말 많이 배웠어요!",
+    "dialogue_text": "덕분에 정말 많이 배웠어요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2607,
+    "ep": 99,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "맞아, 우리 많이 변했어.",
+    "dialogue_text": "맞아, 우리 많이 변했어.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2605,
+    "ep": 99,
+    "order": 2,
+    "speaker": "all",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2609,
+    "ep": 99,
+    "order": 2,
+    "speaker": "all",
+    "korean": "우리도!",
+    "dialogue_text": "우리도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2611,
+    "ep": 99,
+    "order": 2,
+    "speaker": "emma",
+    "korean": "그래요?",
+    "dialogue_text": "그래요?",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2613,
+    "ep": 99,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "나도!",
+    "dialogue_text": "나도!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2614,
+    "ep": 99,
+    "order": 3,
+    "speaker": "minjun",
+    "korean": "나도.",
+    "dialogue_text": "나도.",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2615,
+    "ep": 99,
+    "order": 4,
+    "speaker": "sophie",
+    "korean": "저도요!",
+    "dialogue_text": "저도요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2618,
+    "ep": 100,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "한국어로 꿈을 이룰 거예요!",
+    "dialogue_text": "한국어로 꿈을 이룰 거예요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2622,
+    "ep": 100,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "다 같이 화이팅해요!",
+    "dialogue_text": "다 같이 화이팅해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2616,
+    "ep": 100,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "제 한국어 여정은 이제 시작이에요!",
+    "dialogue_text": "제 한국어 여정은 이제 시작이에요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2620,
+    "ep": 100,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "제 꿈은 계속돼요!",
+    "dialogue_text": "제 꿈은 계속돼요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2624,
+    "ep": 100,
+    "order": 1,
+    "speaker": "emma",
+    "korean": "앞으로도 함께 공부해요!",
+    "dialogue_text": "앞으로도 함께 공부해요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2621,
+    "ep": 100,
+    "order": 2,
+    "speaker": "minjun",
+    "korean": "반드시 될 거야!",
+    "dialogue_text": "반드시 될 거야!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2625,
+    "ep": 100,
+    "order": 2,
+    "speaker": "all",
+    "korean": "좋아요!",
+    "dialogue_text": "좋아요!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2617,
+    "ep": 100,
+    "order": 2,
+    "speaker": "all",
+    "korean": "맞아!",
+    "dialogue_text": "맞아!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2619,
+    "ep": 100,
+    "order": 2,
+    "speaker": "jisu",
+    "korean": "응원해!",
+    "dialogue_text": "응원해!",
+    "has_dialogue_id": true
+  },
+  {
+    "id": 2623,
+    "ep": 100,
+    "order": 2,
+    "speaker": "all",
+    "korean": "화이팅!",
+    "dialogue_text": "화이팅!",
+    "has_dialogue_id": true
+  }
+]

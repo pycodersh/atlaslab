@@ -1,0 +1,138 @@
+{
+  "summary": {
+    "totalEps": 100,
+    "epsWithDiff": 3,
+    "spacingOnly": 0,
+    "punctOnly": 0,
+    "contentDiff": 0,
+    "scriptNotInDB": 25,
+    "dbNotInScript": 0
+  },
+  "reports": [
+    {
+      "ep": 98,
+      "type": "script_not_in_db",
+      "script": "맞아, 처음이랑 달라."
+    },
+    {
+      "ep": 98,
+      "type": "script_not_in_db",
+      "script": "앞으로도 계속 할 거예요!"
+    },
+    {
+      "ep": 98,
+      "type": "script_not_in_db",
+      "script": "응원해!"
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "앞으로도 잘 부탁해요!"
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "나도!"
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "나도."
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "저도요!"
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "같이 성장한 것 같아요."
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "맞아!"
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "같이 해줘서 고마웠어요."
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "우리가 더 고마워!"
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "덕분에 정말 많이 배웠어요."
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "저도!"
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "언제든지 연락해요!"
+    },
+    {
+      "ep": 99,
+      "type": "script_not_in_db",
+      "script": "응!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "제 한국어 공부는 이제 시작이에요!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "맞아!!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "앞으로도 계속 공부할 거예요."
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "응원해!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "한국어로 꿈을 이룰 거예요!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "할 수 있어!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "앞으로도 같이 공부해요!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "네, 꼭 같이 공부해요!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "한국어 여정은 계속돼요!"
+    },
+    {
+      "ep": 100,
+      "type": "script_not_in_db",
+      "script": "화이팅!!"
+    }
+  ]
+}
