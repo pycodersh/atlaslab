@@ -97,7 +97,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     translation:    b.translations?.en ?? '',
     speaker:        b.speaker,
     lines:          ((b.position?.lines as 1 | 2 | 3) ?? 1),
-    tail:           b.tail ?? undefined,
+    tail:           b.tail ?? { anchor: 0.25, tipX: 0.5, tipY: 1.1, baseWidth: 0.12 },
     highlight_text: (b.dialogue_id != null ? highlightMap.get(b.dialogue_id) : undefined) ?? b.highlight_text ?? undefined,
     expression_id:  (b.dialogue_id != null ? dialogueExpressionMap.get(b.dialogue_id) : undefined) ?? b.expression_id ?? undefined,
     audio_url:      b.audio_url ?? undefined,
