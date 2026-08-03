@@ -120,7 +120,7 @@ function MCCard({ q, onCorrect, onAdvance }: {
   const [wrongCount, setWrongCount] = useState(0)
   const [state, setState] = useState<'idle' | 'wrong' | 'correct' | 'revealed'>('idle')
 
-  const label = q.type === 'fill_blank' ? 'Fill in the blank.' : 'How do you say this in Korean?'
+  const label = q.type === 'fill_blank' ? 'Fill in the blank.' : 'What does this mean?'
   const hintEn = q.type === 'fill_blank' ? (q as FillBlankQuestion).hint_en : undefined
 
   const handleChoice = useCallback((idx: number) => {
