@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 import { WebtoonEditor } from '@/components/kpatto/WebtoonEditor'
+import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { fetchWebtoonEpisode } from '@/lib/kpatto/fetch-episode'
 import type { WebtoonEpisodeData } from '@/data/kpatto/webtoon-types'
 
@@ -55,7 +56,7 @@ export default function KPattoEditorPage({ params }: PageProps) {
         </span>
       </div>
 
-      <div style={{ maxWidth: 430, margin: '0 auto' }}>
+      <div style={{ maxWidth: 430, margin: '0 auto', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32 }}>
         <WebtoonEditor episode={episode} initialEditMode />
       </div>
     </div>
