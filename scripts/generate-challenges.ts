@@ -129,6 +129,54 @@ function buildMCOptions(answer: string, wrongs: string[], answerPos: number): st
   return opts
 }
 
+// ── SB 셔플 · 더미 헬퍼 ──────────────────────────────────────────────────────
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+/** 정답 어절이 pieces 안에 원래 순서대로 등장하는지 (부분 수열 검사) */
+function answerInOrder(pieces: string[], answer: string[]): boolean {
+  let ai = 0
+  for (const p of pieces) {
+    if (p === answer[ai]) ai++
+    if (ai === answer.length) return true
+  }
+  return false
+}
+
+/** 더미 어절 선정 — 같은 EP의 다른 표현 예문에서 정답과 겹치지 않는 어절 count개 */
+function pickDistractors(
+  answerToks: string[],
+  s12: Array<{ ko: string; exprIdx: number }>,
+  currentExprIdx: number,
+  count: number,
+): string[] {
+  const answerSet = new Set(answerToks)
+  const avgLen = answerToks.reduce((s, t) => s + [...t].length, 0) / answerToks.length
+  const seen = new Set<string>()
+  const pool: string[] = []
+
+  for (const s of s12) {
+    if (s.exprIdx === currentExprIdx) continue  // 같은 표현의 예문 제외
+    for (const tok of s.ko.split(' ').filter(Boolean)) {
+      if (!answerSet.has(tok) && !seen.has(tok)) {
+        seen.add(tok)
+        pool.push(tok)
+      }
+    }
+  }
+
+  // 정답 어절 평균 길이에 가까운 것 우선
+  pool.sort((a, b) => Math.abs([...a].length - avgLen) - Math.abs([...b].length - avgLen))
+  return pool.slice(0, count)
+}
+
 // ── 메인 ─────────────────────────────────────────────────────────────────────
 async function main() {
   console.log(`\nK-PATTO 챌린지 생성${DRY_RUN ? '  [DRY-RUN]' : ''}`)
@@ -250,10 +298,19 @@ async function main() {
         const s    = s12[(defIdx + off) % 12]
         const toks = s.ko.split(' ').filter(Boolean)
         if (toks.length >= 3) {
+          // [2] 더미 어절: 2~3개면 더미 2개, 4개 이상이면 더미 3개
+          const distCount = toks.length <= 3 ? 2 : 3
+          const distractors = pickDistractors(toks, s12, s.exprIdx, distCount)
+          // [1][3] 정답+더미 합쳐서 셔플 — 최종 배열에서 정답이 원래 순서로 등장하면 재시도
+          let allPieces = shuffle([...toks, ...distractors])
+          for (let retry = 0; retry < 30 && answerInOrder(allPieces, toks); retry++) {
+            allPieces = shuffle([...toks, ...distractors])
+          }
+
           epRows.push({
             ep_no: ep, slot, round_no: SLOT_ROUND[slot], type: 'sentence_build',
             variant: '', question: s.en, hint: null, answer: s.ko,
-            options: null, tokens: toks,
+            options: null, tokens: allPieces,
             expression_id: epExprs[s.exprIdx].id, example_index: s.exIdx,
           })
           placed = true
@@ -306,7 +363,8 @@ async function main() {
 
   const optNot4  = mcRows.filter(r => (r.options?.length ?? 0) !== 4).length
   const ansNotIn = mcRows.filter(r => !r.options?.includes(r.answer)).length
-  const tokFew   = sbRows.filter(r => (r.tokens?.length ?? 0) < 3).length
+  // 정답 어절 수 기준 (tokens는 더미 포함이므로 answer 기준으로)
+  const tokFew   = sbRows.filter(r => r.answer.split(' ').filter(Boolean).length < 3).length
 
   const fbNoOpts = fbRows.filter(r => (r.options?.length ?? 0) !== 4).length
   const fbAnsNotIn = fbRows.filter(r => !r.options?.includes(r.answer)).length
@@ -318,6 +376,35 @@ async function main() {
     if (dupSet.has(k)) dups++
     else dupSet.add(k)
   }
+
+  // SB 무결성: 카드 배열이 정답 순서와 같은 문제 (정답 어절이 pieces에 올바른 순서로 등장)
+  const tokInOrder = sbRows.filter(r => {
+    const ansToks = r.answer.split(' ').filter(Boolean)
+    const pieces  = r.tokens ?? []
+    let ai = 0
+    for (const p of pieces) {
+      if (p === ansToks[ai]) ai++
+      if (ai === ansToks.length) return true
+    }
+    return false
+  }).length
+
+  // SB 무결성: 더미가 정답 어절과 겹치는 문제 (같은 어절이 pieces에 중복 등장)
+  const distOverlap = sbRows.filter(r => {
+    const ansToks = r.answer.split(' ').filter(Boolean)
+    const ansCnt  = new Map<string, number>()
+    for (const t of ansToks) ansCnt.set(t, (ansCnt.get(t) ?? 0) + 1)
+    const piecesCnt = new Map<string, number>()
+    for (const t of (r.tokens ?? [])) piecesCnt.set(t, (piecesCnt.get(t) ?? 0) + 1)
+    for (const [tok, cnt] of ansCnt) {
+      if ((piecesCnt.get(tok) ?? 0) > cnt) return true
+    }
+    return false
+  }).length
+
+  const avgPieces = sbRows.length > 0
+    ? (sbRows.reduce((s, r) => s + (r.tokens?.length ?? 0), 0) / sbRows.length).toFixed(1)
+    : '0'
 
   const fbBPct = fbRows.length > 0 ? Math.round((fbBRows.length / fbRows.length) * 100) : 0
 
@@ -336,14 +423,19 @@ kp_challenges          ${rows.length}행
   round 3                ${r3.length}  (MC ${rt(r3,'multiple_choice')} / FB ${rt(r3,'fill_blank')} / SB ${rt(r3,'sentence_build')})
 
 무결성
-  options 4개 아닌 MC 문제     ${optNot4}건
-  정답이 options에 없는 MC     ${ansNotIn}건
-  options 4개 아닌 FB 문제     ${fbNoOpts}건
-  정답이 options에 없는 FB     ${fbAnsNotIn}건
-  tokens 3개 미만 SB 문제      ${tokFew}건
-  빈칸 치환 실패               0건  (FB-B로 대체 완료)
-  중복 문제 (ep_no:slot)       ${dups}건
-${fbBPct > 50 ? `\n  ⚠ 경고: FB-B 비율 ${fbBPct}% > 50% — 패턴 매칭 점검 필요` : `  FB-B 비율                  ${fbBPct}%  (정상)`}`)
+  options 4개 아닌 MC 문제          ${optNot4}건
+  정답이 options에 없는 MC          ${ansNotIn}건
+  options 4개 아닌 FB 문제          ${fbNoOpts}건
+  정답이 options에 없는 FB          ${fbAnsNotIn}건
+  정답 어절 3개 미만 SB 문제        ${tokFew}건
+  빈칸 치환 실패                    0건  (FB-B로 대체 완료)
+  중복 문제 (ep_no:slot)            ${dups}건
+
+SB 카드 배열 검증
+  카드 배열 = 정답 순서인 문제      ${tokInOrder}건  (목표: 0)
+  더미가 정답 어절과 겹치는 문제    ${distOverlap}건  (목표: 0)
+  평균 카드 수 (정답+더미)          ${avgPieces}개
+${fbBPct > 50 ? `\n  ⚠ 경고: FB-B 비율 ${fbBPct}% > 50% — 패턴 매칭 점검 필요` : `  FB-B 비율                          ${fbBPct}%  (정상)`}`)
 }
 
 main().catch(e => { console.error(e); process.exit(1) })
