@@ -106,22 +106,89 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
   let sections: WebtoonSection[]
 
   if (hasGaps) {
-    // Legacy (EP1-30): gap rows stored in kp_panels
-    sections = panelList.map(p => {
-      if (p.type === 'gap') {
-        return {
-          type: 'gap' as const,
-          id: `gap-${gapCount++}`,
-          heightRatio: p.height_ratio ?? 0.88,
-          bubbles: (byPanel.get(p.id) ?? []).map((b, i) => mapBubble(b, `b-${p.order_num}-${i + 1}`)),
+    // Detect whether any gap shares an order_num with a panel (EP31+ pipeline issue).
+    // EP01-30: gaps have unique order_nums after their panels → simple map works.
+    // EP31-100: gaps share order_nums with panels → need row-grouping to fix ordering.
+    const gapOrderSet = new Set(panelList.filter(p => p.type === 'gap').map(p => p.order_num))
+    const hasOrderConflict = panelList.some(p => p.type === 'panel' && gapOrderSet.has(p.order_num))
+
+    if (hasOrderConflict) {
+      // EP31-100 path: group image panels into visual rows, then match each row to
+      // the earliest available gap whose order_num >= the row's last panel order_num.
+      // This keeps split pairs consecutive and prevents gaps from appearing mid-row.
+      const imgPanels = panelList.filter(p => p.type === 'panel') as DBPanel[]
+      const sortedGapRows = [...panelList.filter(p => p.type === 'gap')].sort((a, b) => a.order_num - b.order_num) as DBPanel[]
+
+      const rowsL: DBPanel[][] = []
+      let curL: DBPanel[] = [], wSumL = 0
+      for (const p of imgPanels) {
+        const lay = (p.layout ?? 'wide') as string
+        if (lay === 'wide') {
+          if (curL.length) { rowsL.push(curL); curL = []; wSumL = 0 }
+          rowsL.push([p])
+        } else if (lay.startsWith('split:')) {
+          curL.push(p); wSumL += parseFloat(lay.slice(6))
+          if (wSumL >= 99) { rowsL.push(curL); curL = []; wSumL = 0 }
+        } else if (lay.startsWith('stack-t:')) {
+          curL.push(p); wSumL += parseFloat(lay.slice(8))
+        } else if (lay === 'stack-b') {
+          curL.push(p); rowsL.push(curL); curL = []; wSumL = 0
         }
-      } else if (p.type === 'panel') {
-        panelCount++
-        return { type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: p.image_url ?? '', layout: (p.layout ?? 'wide') as string }
-      } else {
-        return { type: 'crop-panel' as const, id: `crop-${p.order_num}`, imageUrl: p.image_url ?? '', srcW: 0, cropX: 0, cropY: 0, cropW: 0, cropH: 0 }
       }
-    })
+      if (curL.length) rowsL.push(curL)
+
+      const gapQ = [...sortedGapRows]
+      sections = []
+
+      for (const row of rowsL) {
+        const lastOrd = row[row.length - 1].order_num
+        for (const rp of row) {
+          panelCount++
+          sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: (rp.layout ?? 'wide') as string })
+        }
+        // Match the earliest gap at order_num >= last panel of this row
+        const gi = gapQ.findIndex(g => g.order_num >= lastOrd)
+        if (gi >= 0) {
+          const [gRow] = gapQ.splice(gi, 1)
+          const bs = (byPanel.get(gRow.id) ?? []).sort((a, b) => a.order_num - b.order_num)
+          const gapId = `gap-${gapCount++}`
+          sections.push({
+            type: 'gap' as const, id: gapId,
+            heightRatio: gRow.height_ratio ?? 0.88,
+            bubbles: bs.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
+          })
+        }
+      }
+
+      // Remaining gaps have no matching row; keep as trailing sections at episode bottom.
+      // Each trailing gap retains its original bubble(s) with original positions (no yPct conflict).
+      for (const gRow of gapQ) {
+        const bs = (byPanel.get(gRow.id) ?? []).sort((a, b) => a.order_num - b.order_num)
+        const gapId = `gap-${gapCount++}`
+        sections.push({
+          type: 'gap' as const, id: gapId,
+          heightRatio: gRow.height_ratio ?? 0.88,
+          bubbles: bs.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
+        })
+      }
+    } else {
+      // EP01-30 path: gap order_nums are sequential and unique; simple map preserves order.
+      sections = panelList.map(p => {
+        if (p.type === 'gap') {
+          return {
+            type: 'gap' as const,
+            id: `gap-${gapCount++}`,
+            heightRatio: p.height_ratio ?? 0.88,
+            bubbles: (byPanel.get(p.id) ?? []).map((b, i) => mapBubble(b, `b-${p.order_num}-${i + 1}`)),
+          }
+        } else if (p.type === 'panel') {
+          panelCount++
+          return { type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: p.image_url ?? '', layout: (p.layout ?? 'wide') as string }
+        } else {
+          return { type: 'crop-panel' as const, id: `crop-${p.order_num}`, imageUrl: p.image_url ?? '', srcW: 0, cropX: 0, cropY: 0, cropW: 0, cropH: 0 }
+        }
+      })
+    }
   } else {
     // New style (EP31+): image panels only; generate gap sections dynamically.
     // Group consecutive panels into visual rows using layout-width accumulation:

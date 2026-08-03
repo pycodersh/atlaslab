@@ -555,7 +555,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
           }
           const section = group.section
           if (section.type === 'gap') {
-            const gapSt = gapContainerStyle(section.heightRatio, section.bubbles.length > 0, singleColumn, section.fixedHeightPx)
+            const gapSt = gapContainerStyle(section.heightRatio, section.bubbles.length > 0, singleColumn ?? false, section.fixedHeightPx)
             const fixedHeight = 'height' in gapSt ? (gapSt.height as number) : undefined
             return (
               <GapSection
