@@ -114,7 +114,8 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
 
     if (hasOrderConflict) {
       // EP31-100 path: group image panels into visual rows, then match each row to
-      // the earliest available gap whose order_num >= the row's last panel order_num.
+      // the gap whose order_num exactly matches the row's last panel order_num.
+      // Gap is placed BEFORE its row (dialogue-before-scene, same as EP01-30 pattern).
       // This keeps split pairs consecutive and prevents gaps from appearing mid-row.
       const imgPanels = panelList.filter(p => p.type === 'panel') as DBPanel[]
       const sortedGapRows = [...panelList.filter(p => p.type === 'gap')].sort((a, b) => a.order_num - b.order_num) as DBPanel[]
@@ -142,26 +143,26 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
 
       for (const row of rowsL) {
         const lastOrd = row[row.length - 1].order_num
-        for (const rp of row) {
-          panelCount++
-          sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: (rp.layout ?? 'wide') as string })
-        }
-        // Match the earliest gap at order_num >= last panel of this row
+        // First gap at order_num >= last panel of this row
         const gi = gapQ.findIndex(g => g.order_num >= lastOrd)
         if (gi >= 0) {
           const [gRow] = gapQ.splice(gi, 1)
           const bs = (byPanel.get(gRow.id) ?? []).sort((a, b) => a.order_num - b.order_num)
           const gapId = `gap-${gapCount++}`
+          // Gap goes BEFORE the row's panels (dialogue-before-scene pattern)
           sections.push({
             type: 'gap' as const, id: gapId,
             heightRatio: gRow.height_ratio ?? 0.88,
             bubbles: bs.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
           })
         }
+        for (const rp of row) {
+          panelCount++
+          sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: (rp.layout ?? 'wide') as string })
+        }
       }
 
-      // Remaining gaps have no matching row; keep as trailing sections at episode bottom.
-      // Each trailing gap retains its original bubble(s) with original positions (no yPct conflict).
+      // Remaining gaps (trailing closing dialogue): appended at episode bottom.
       for (const gRow of gapQ) {
         const bs = (byPanel.get(gRow.id) ?? []).sort((a, b) => a.order_num - b.order_num)
         const gapId = `gap-${gapCount++}`
