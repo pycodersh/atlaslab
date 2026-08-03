@@ -252,7 +252,7 @@ async function main() {
         if (toks.length >= 3) {
           epRows.push({
             ep_no: ep, slot, round_no: SLOT_ROUND[slot], type: 'sentence_build',
-            variant: '', question: s.ko, hint: s.en, answer: s.ko,
+            variant: '', question: s.en, hint: null, answer: s.ko,
             options: null, tokens: toks,
             expression_id: epExprs[s.exprIdx].id, example_index: s.exIdx,
           })

@@ -141,9 +141,24 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
       const gapQ = [...sortedGapRows]
       sections = []
 
-      for (const row of rowsL) {
+      // Gap height rules (from HTML layout files):
+      //   gap-top  (before first row)        : 100px
+      //   gap-lg   (after 세로컷/wide single) : 160px
+      //   gap-xl   (after 가로컷/split pair)  : 200px
+      //   gap-bottom (trailing)              : 100px
+      const rowGapPx = (rowIndex: number): number => {
+        if (rowIndex === 0) return 100  // gap-top
+        const prevRow = rowsL[rowIndex - 1]
+        const prevHasSplit = prevRow.some(p => {
+          const l = (p.layout ?? 'wide') as string
+          return l.startsWith('split:') || l.startsWith('stack-t:') || l === 'stack-b'
+        })
+        return prevHasSplit ? 200 : 160
+      }
+
+      for (let ri = 0; ri < rowsL.length; ri++) {
+        const row = rowsL[ri]
         const lastOrd = row[row.length - 1].order_num
-        // First gap at order_num >= last panel of this row
         const gi = gapQ.findIndex(g => g.order_num >= lastOrd)
         if (gi >= 0) {
           const [gRow] = gapQ.splice(gi, 1)
@@ -153,6 +168,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
           sections.push({
             type: 'gap' as const, id: gapId,
             heightRatio: gRow.height_ratio ?? 0.88,
+            fixedHeightPx: rowGapPx(ri),
             bubbles: bs.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
           })
         }
@@ -162,13 +178,14 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         }
       }
 
-      // Remaining gaps (trailing closing dialogue): appended at episode bottom.
+      // Trailing closing dialogue gaps: gap-bottom = 100px
       for (const gRow of gapQ) {
         const bs = (byPanel.get(gRow.id) ?? []).sort((a, b) => a.order_num - b.order_num)
         const gapId = `gap-${gapCount++}`
         sections.push({
           type: 'gap' as const, id: gapId,
           heightRatio: gRow.height_ratio ?? 0.88,
+          fixedHeightPx: 100,
           bubbles: bs.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
         })
       }
