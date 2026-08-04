@@ -3,11 +3,12 @@
  *
  * 사용법:
  *   npx tsx scripts/generate-kpatto-audio-gemini.ts --ep 1
- *   npx tsx scripts/generate-kpatto-audio-gemini.ts --ep 1 --ep 30
+ *   npx tsx scripts/generate-kpatto-audio-gemini.ts --ep 2 --ep 30
  *
  * 화자 보이스:  에마=Kore  지수=Zephyr  민준=Umbriel  소피=Aoede
  * 표현 가이드:  Iapetus (단일 보이스)
  * audio_hash:  sha256(text | voice | prompt).slice(0,16)
+ * 딜레이:      RPM 10 기준 6.5초/호출 (429 시 Retry-After 준수)
  */
 
 import * as dotenv from 'dotenv'
@@ -25,7 +26,7 @@ for (let i = 0; i < args.length; i++) {
   if (args[i] === '--ep' && args[i + 1]) epArgs.push(parseInt(args[++i]))
 }
 if (epArgs.length === 0) {
-  console.error('Usage: npx tsx scripts/generate-kpatto-audio-gemini.ts --ep 1')
+  console.error('Usage: npx tsx scripts/generate-kpatto-audio-gemini.ts --ep 2 --ep 30')
   process.exit(1)
 }
 const EP_FROM = Math.min(...epArgs)
@@ -37,8 +38,13 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!
 const BUCKET       = 'audio'
 const FAIL_LOG     = `scripts/audio-failures-ep${EP_FROM}-${EP_TO}.json`
+const PROGRESS_LOG = `scripts/audio-progress-ep${EP_FROM}-${EP_TO}.json`
 
 const MODEL_FLASH = 'gemini-2.5-flash-preview-tts'
+const MODEL_PRO   = 'gemini-2.5-pro-preview-tts'
+
+// RPM 10 → 최소 6초, 여유 0.5초
+const DELAY_BETWEEN_CALLS = 6500
 
 const GUIDE_VOICE = 'Iapetus'
 
@@ -48,7 +54,6 @@ const VOICE_MAP: Record<string, string> = {
   jisoo:  'Zephyr',
   minjun: 'Umbriel',
   sophie: 'Aoede',
-  // 조연
   직원:   'Zephyr',
   행인:   'Kore',
   의사:   'Charon',
@@ -65,7 +70,6 @@ function getVoice(speaker: string): string {
   return VOICE_MAP[speaker.trim()] ?? 'Kore'
 }
 
-// 발음 프롬프트
 function dialoguePrompt(text: string): string {
   return `자연스럽게, 받침을 분명하게 발음해줘: ${text}`
 }
@@ -74,6 +78,13 @@ function patternPromptText(text: string): string {
 }
 function examplePromptText(text: string): string {
   return `자연스러운 대화 속도로, 받침을 분명하게 발음해줘: ${text}`
+}
+
+type TtsType = 'dialogue' | 'pattern' | 'example'
+function buildPrompt(text: string, type: TtsType): string {
+  if (type === 'dialogue') return dialoguePrompt(text)
+  if (type === 'pattern')  return patternPromptText(text)
+  return examplePromptText(text)
 }
 
 function contentHash(text: string, voice: string, prompt: string): string {
@@ -88,7 +99,7 @@ function pcmToWav(pcm: Buffer, sampleRate = 24000, channels = 1, bitDepth = 16):
   const dataLen = pcm.length
   header.write('RIFF', 0);       header.writeUInt32LE(dataLen + 36, 4)
   header.write('WAVE', 8);       header.write('fmt ', 12)
-  header.writeUInt32LE(16, 16);  header.writeUInt16LE(1, 20)           // PCM
+  header.writeUInt32LE(16, 16);  header.writeUInt16LE(1, 20)
   header.writeUInt16LE(channels, 22)
   header.writeUInt32LE(sampleRate, 24)
   header.writeUInt32LE(sampleRate * channels * bitDepth / 8, 28)
@@ -98,7 +109,6 @@ function pcmToWav(pcm: Buffer, sampleRate = 24000, channels = 1, bitDepth = 16):
   return Buffer.concat([header, pcm])
 }
 
-/** Extract PCM from a WAV buffer (finds 'data' chunk) */
 function wavToPcm(wav: Buffer): Buffer {
   for (let i = 12; i < wav.length - 4; i++) {
     if (wav[i] === 0x64 && wav[i+1] === 0x61 && wav[i+2] === 0x74 && wav[i+3] === 0x61) {
@@ -109,32 +119,40 @@ function wavToPcm(wav: Buffer): Buffer {
   return wav.slice(44)
 }
 
-/** 지정 ms 무음 WAV */
 function silenceWav(ms: number, sampleRate = 24000): Buffer {
   return pcmToWav(Buffer.alloc(Math.round(sampleRate * ms / 1000) * 2))
 }
 
-/** 여러 WAV를 PCM 레벨에서 이어 붙여 단일 WAV로 반환 */
 function concatWavs(wavs: Buffer[]): Buffer {
   if (wavs.length === 0) return pcmToWav(Buffer.alloc(0))
   if (wavs.length === 1) return wavs[0]
   return pcmToWav(Buffer.concat(wavs.map(wavToPcm)))
 }
 
-/** pattern_ko → TTS 읽기용 텍스트 */
 function cleanPattern(raw: string): string {
   const cleaned = raw
     .replace(/~/g, '')
     .replace(/\s*\/\s*/g, ', ')
     .replace(/^-+|-+$/g, '')
     .trim()
-  // 조사 하나만 남은 경우 (공백 없고 3자 이하) → 예문만 사용
   if (!cleaned.includes(' ') && cleaned.replace(/[가-힣]/g, '').length === 0 && cleaned.length <= 3) return ''
   return cleaned
 }
 
+// ── RPM 스로틀 ────────────────────────────────────────────────────────────────
+let lastCallTime = 0
+async function throttle() {
+  const wait = DELAY_BETWEEN_CALLS - (Date.now() - lastCallTime)
+  if (wait > 0) await sleep(wait)
+  lastCallTime = Date.now()
+}
+
 // ── Gemini TTS API ────────────────────────────────────────────────────────────
+const MAX_RETRIES = 5
+
 async function tts(text: string, voice: string, model = MODEL_FLASH): Promise<Buffer> {
+  await throttle()
+
   const body = {
     contents: [{ parts: [{ text }] }],
     generationConfig: {
@@ -143,10 +161,9 @@ async function tts(text: string, voice: string, model = MODEL_FLASH): Promise<Bu
     },
   }
 
-  const MAX_RETRIES = 5
   for (let attempt = 1; ; attempt++) {
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 30_000)
+    const timeoutId = setTimeout(() => controller.abort(), 45_000)
     let res: Response
     try {
       res = await fetch(
@@ -162,7 +179,6 @@ async function tts(text: string, voice: string, model = MODEL_FLASH): Promise<Bu
       let errBody: any = {}
       try { errBody = JSON.parse(rawText) } catch { /* noop */ }
 
-      // Retry-After 헤더 우선, 없으면 응답 본문의 retryDelay
       const retryAfterHeader = res.headers.get('Retry-After')
       const retryAfterMs = (() => {
         if (retryAfterHeader) {
@@ -175,20 +191,15 @@ async function tts(text: string, voice: string, model = MODEL_FLASH): Promise<Bu
         return isNaN(sec) ? Math.min(2000 * 2 ** (attempt - 1), 60_000) : Math.ceil(sec * 1000) + 500
       })()
 
-      // 한도 정보 추출 (RPM/RPD/TPM 등)
       const quotaInfo = (() => {
         const violations = errBody?.error?.details?.filter((d: any) => d['@type']?.includes('QuotaFailure')) ?? []
-        if (violations.length > 0) return JSON.stringify(violations)
-        return rawText.slice(0, 400)
+        return violations.length > 0 ? JSON.stringify(violations).slice(0, 300) : rawText.slice(0, 200)
       })()
 
-      console.log(`\n  [429] attempt ${attempt}/${MAX_RETRIES}, wait ${Math.round(retryAfterMs/1000)}s`)
-      console.log(`  quota: ${quotaInfo}`)
-
-      if (attempt >= MAX_RETRIES) {
-        throw new Error(`429 after ${MAX_RETRIES} retries. Last body: ${rawText.slice(0, 200)}`)
-      }
+      process.stdout.write(`\n    [429] attempt ${attempt}/${MAX_RETRIES} wait ${Math.round(retryAfterMs/1000)}s\n    quota: ${quotaInfo}\n    `)
+      if (attempt >= MAX_RETRIES) throw new Error(`429 after ${MAX_RETRIES} retries`)
       await sleep(retryAfterMs)
+      lastCallTime = Date.now()  // 재시도는 스로틀 초기화
       continue
     }
 
@@ -198,21 +209,55 @@ async function tts(text: string, voice: string, model = MODEL_FLASH): Promise<Bu
     const candidate = json?.candidates?.[0]
     const part = candidate?.content?.parts?.[0]?.inlineData
 
-    // finishReason: OTHER → transient rejection, retry
     if (!part?.data) {
       const reason = candidate?.finishReason ?? 'unknown'
       if (reason === 'OTHER' && attempt < MAX_RETRIES) {
-        console.log(`\n  [OTHER] attempt ${attempt}/${MAX_RETRIES}, retrying in 3s`)
+        process.stdout.write(`[OTHER retry ${attempt}] `)
         await sleep(3000)
+        lastCallTime = Date.now()
         continue
       }
-      throw new Error(`No audio data (finishReason=${reason}). Response: ${JSON.stringify(json).slice(0, 300)}`)
+      throw new Error(`finishReason=${reason}`)
     }
 
     const raw  = Buffer.from(part.data, 'base64')
     const mime = (part.mimeType ?? '') as string
     return mime.includes('wav') || mime.includes('wave') ? raw : pcmToWav(raw)
   }
+}
+
+// ── 폴백 전략 (OTHER 5회 후) ───────────────────────────────────────────────────
+async function ttsWithFallback(rawText: string, voice: string, type: TtsType): Promise<Buffer> {
+  const primaryPrompt = buildPrompt(rawText, type)
+
+  // Strategy 1: 기본 프롬프트
+  try {
+    const wav = await tts(primaryPrompt, voice)
+    if (wav.length < 1024) throw new Error(`too small: ${wav.length}B`)
+    return wav
+  } catch (e: any) {
+    if (!e.message.includes('finishReason=OTHER') && !e.message.includes('too small')) throw e
+    process.stdout.write(`[FB1:period] `)
+  }
+
+  // Strategy 2: 마침표 추가
+  try {
+    const wav = await tts(buildPrompt(rawText.replace(/[.!?]$/, '') + '.', type), voice)
+    if (wav.length < 1024) throw new Error(`too small: ${wav.length}B`)
+    return wav
+  } catch { process.stdout.write(`[FB2:format] `) }
+
+  // Strategy 3: 다른 프롬프트 형식
+  try {
+    const wav = await tts(`다음 문장을 읽어줘: '${rawText}'`, voice)
+    if (wav.length < 1024) throw new Error(`too small: ${wav.length}B`)
+    return wav
+  } catch { process.stdout.write(`[FB3:pro] `) }
+
+  // Strategy 4: pro 모델
+  const wav = await tts(primaryPrompt, voice, MODEL_PRO)
+  if (wav.length < 1024) throw new Error(`pro returned too small: ${wav.length}B`)
+  return wav
 }
 
 // ── Supabase Storage upload ────────────────────────────────────────────────────
@@ -224,19 +269,37 @@ async function upload(buf: Buffer, storagePath: string): Promise<string> {
   return sb.storage.from(BUCKET).getPublicUrl(storagePath).data.publicUrl
 }
 
+// ── 화별 검증 ─────────────────────────────────────────────────────────────────
+async function validateEpisode(epNum: number) {
+  const { data } = await sb.from('kp_dialogues').select('id, speaker, text_ko, audio_url').eq('episode_id', epNum)
+  const total = data?.length ?? 0
+  const withAudio = data?.filter(d => d.audio_url).length ?? 0
+  if (total === withAudio) {
+    console.log(`  ✓ EP${String(epNum).padStart(2,'0')} 검증: ${withAudio}/${total} OK`)
+  } else {
+    console.log(`  ✗ EP${String(epNum).padStart(2,'0')} 검증: ${withAudio}/${total} — 누락!`)
+    for (const d of data?.filter(d => !d.audio_url) ?? []) {
+      console.log(`    MISSING id=${d.id} ${d.speaker}: ${d.text_ko}`)
+    }
+  }
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
-  const failures: Array<{ id: number; type: string; text: string; error: string }> = []
+  const failures: Array<{ ep: number; id: number; type: string; text: string; error: string }> = []
+  const progress: Record<string, unknown> = {}
   let charTotal = 0
   let dGenTotal = 0
   let eGenTotal = 0
   const t0 = Date.now()
 
-  console.log(`\n=== K-PATTO Gemini TTS  EP${EP_FROM}${EP_TO > EP_FROM ? `–${EP_TO}` : ''} ===`)
-  console.log(`Model: ${MODEL_FLASH}\n`)
+  const epRange = EP_TO > EP_FROM ? `EP${EP_FROM}–${EP_TO}` : `EP${EP_FROM}`
+  console.log(`\n=== K-PATTO Gemini TTS  ${epRange} ===`)
+  console.log(`Model: ${MODEL_FLASH}  |  딜레이: ${DELAY_BETWEEN_CALLS}ms (RPM ${Math.floor(60000/DELAY_BETWEEN_CALLS)})\n`)
 
   for (let epNum = EP_FROM; epNum <= EP_TO; epNum++) {
-    console.log(`\n── EP${String(epNum).padStart(2,'0')} ─────────────────────────────`)
+    const epLabel = `EP${String(epNum).padStart(2,'0')}`
+    console.log(`\n── ${epLabel} ──────────────────────────────`)
 
     // ── [1] 대사 ───────────────────────────────────────────────────────────────
     const { data: dialogues, error: dErr } = await sb
@@ -244,26 +307,32 @@ async function main() {
       .select('id, speaker, text_ko, audio_url, audio_hash')
       .eq('episode_id', epNum)
       .order('order_num')
-    if (dErr) { console.error('kp_dialogues error:', dErr.message); continue }
-    console.log(`[1] 대사 ${dialogues?.length ?? 0}건`)
+    if (dErr) { console.error(`${epLabel} kp_dialogues error:`, dErr.message); continue }
 
     const dList = dialogues ?? []
     const dTotal = dList.length
-    let dGen = 0, dSkip = 0, dIdx = 0
+    let dGen = 0, dSkip = 0
 
-    for (const d of dList) {
-      dIdx++
+    console.log(`[1] 대사 ${dTotal}건`)
+    for (let di = 0; di < dList.length; di++) {
+      const d = dList[di]
       const voice = getVoice(d.speaker)
       const prompt = dialoguePrompt(d.text_ko)
       const hash = contentHash(d.text_ko, voice, prompt)
-      if (d.audio_url && d.audio_hash === hash) { dSkip++; console.log(`  [${dIdx}/${dTotal}] ${d.id} skip`); continue }
+      const label = `[${epLabel} ${di+1}/${dTotal}]`
+
+      if (d.audio_url && d.audio_hash === hash) {
+        console.log(`${label} id=${d.id} skip`)
+        dSkip++
+        continue
+      }
 
       const t1 = Date.now()
-      process.stdout.write(`  [${dIdx}/${dTotal}] ${d.id} ${d.speaker}(${voice}): ${d.text_ko.slice(0,20)} ... `)
+      process.stdout.write(`${label} id=${d.id} ${d.speaker}(${voice}) "${d.text_ko.slice(0,14).replace(/\n/g,' ')}…" `)
+
       try {
         charTotal += prompt.length
-
-        const wav = await tts(prompt, voice)
+        const wav = await ttsWithFallback(d.text_ko, voice, 'dialogue')
         const storagePath = `dialogues/ep${String(epNum).padStart(2,'0')}/${d.id}.wav`
         const url = await upload(wav, storagePath)
 
@@ -271,15 +340,18 @@ async function main() {
         await sb.from('kp_bubbles').update({ audio_url: url }).eq('episode_id', epNum).eq('korean', d.text_ko)
 
         dGen++
-        console.log(`OK (${((Date.now()-t1)/1000).toFixed(1)}s)`)
+        console.log(`· ${((Date.now()-t1)/1000).toFixed(1)}s · OK`)
       } catch (e: any) {
-        console.log(`FAIL`)
+        console.log(`· FAIL`)
         console.error(`    ${e.message.slice(0, 200)}`)
-        failures.push({ id: d.id, type: 'dialogue', text: d.text_ko, error: e.message })
+        failures.push({ ep: epNum, id: d.id, type: 'dialogue', text: d.text_ko, error: e.message })
       }
     }
     dGenTotal += dGen
-    console.log(`  대사 결과: 생성 ${dGen}  스킵 ${dSkip}  실패 ${failures.filter(f=>f.type==='dialogue').length}`)
+    console.log(`  대사: 생성 ${dGen}  스킵 ${dSkip}  실패 ${failures.filter(f=>f.ep===epNum&&f.type==='dialogue').length}`)
+
+    // 대사 검증
+    await validateEpisode(epNum)
 
     // ── [2] 핵심표현 팝업 음성 ─────────────────────────────────────────────────
     const { data: exprs } = await sb
@@ -289,52 +361,44 @@ async function main() {
     const eList = exprs ?? []
     console.log(`[2] 표현 ${eList.length}건`)
 
-    let eIdx = 0
-    for (const expr of eList) {
-      eIdx++
+    let eGen = 0
+    for (let ei = 0; ei < eList.length; ei++) {
+      const expr = eList[ei]
       const examples: Array<{ ko: string }> = expr.examples ?? []
       const patternText = cleanPattern(expr.korean)
 
-      // 세그먼트별 TTS 프롬프트 구성
-      const segPrompts: string[] = []
-      if (patternText) segPrompts.push(patternPromptText(patternText))
-      for (const e of examples) segPrompts.push(examplePromptText(e.ko))
+      const segItems: Array<{ raw: string; type: TtsType }> = []
+      if (patternText) segItems.push({ raw: patternText, type: 'pattern' })
+      for (const e of examples) segItems.push({ raw: e.ko, type: 'example' })
 
-      if (segPrompts.length === 0) {
-        console.log(`  [${eIdx}/${eList.length}] expr ${expr.id} skip (no segments)`)
+      if (segItems.length === 0) {
+        console.log(`  [${epLabel} expr ${ei+1}/${eList.length}] id=${expr.id} skip (no segments)`)
         continue
       }
 
-      // hash = sha256(all prompts joined | voice)
-      const hashInput = segPrompts.join('§') + '|' + GUIDE_VOICE
+      const hashInput = segItems.map(s => buildPrompt(s.raw, s.type)).join('§') + '|' + GUIDE_VOICE
       const hash = createHash('sha256').update(hashInput, 'utf8').digest('hex').slice(0, 16)
 
       if (expr.audio_url && expr.audio_hash === hash) {
-        console.log(`  [${eIdx}/${eList.length}] expr ${expr.id} skip (${expr.korean})`)
+        console.log(`  [${epLabel} expr ${ei+1}/${eList.length}] id=${expr.id} skip (${expr.korean})`)
         continue
       }
 
       const te1 = Date.now()
-      console.log(`  [${eIdx}/${eList.length}] expr ${expr.id}: ${expr.korean} → ${GUIDE_VOICE} (${segPrompts.length} segments)`)
+      console.log(`  [${epLabel} expr ${ei+1}/${eList.length}] id=${expr.id} ${expr.korean} → ${GUIDE_VOICE} (${segItems.length} segs)`)
+
       try {
         const segments: Buffer[] = []
-        let si = 0
 
-        if (patternText) {
-          process.stdout.write(`    pattern ... `)
-          segments.push(await tts(segPrompts[si], GUIDE_VOICE))
+        for (let si = 0; si < segItems.length; si++) {
+          const { raw, type } = segItems[si]
+          const segLabel = type === 'pattern' ? 'pattern' : `ex${si + (patternText ? 0 : 1)}`
+          process.stdout.write(`    ${segLabel} `)
+          const wav = await ttsWithFallback(raw, GUIDE_VOICE, type)
+          charTotal += buildPrompt(raw, type).length
           console.log(`OK`)
-          charTotal += segPrompts[si].length
-          si++
-          segments.push(silenceWav(700))
-        }
-
-        for (let i = 0; i < examples.length; i++, si++) {
-          process.stdout.write(`    ex${i+1} ... `)
-          segments.push(await tts(segPrompts[si], GUIDE_VOICE))
-          console.log(`OK`)
-          charTotal += segPrompts[si].length
-          if (i < examples.length - 1) segments.push(silenceWav(700))
+          segments.push(wav)
+          if (si < segItems.length - 1) segments.push(silenceWav(700))
         }
 
         const combined = concatWavs(segments)
@@ -343,52 +407,70 @@ async function main() {
 
         await sb.from('kp_expressions').update({ audio_url: url, audio_hash: hash }).eq('id', expr.id)
         console.log(`  → ${storagePath} (${((Date.now()-te1)/1000).toFixed(1)}s total)`)
-        eGenTotal++
+        eGen++
       } catch (e: any) {
         console.log(`FAIL`)
         console.error(`    ${e.message.slice(0, 200)}`)
-        failures.push({ id: expr.id, type: 'expression', text: expr.korean, error: e.message })
+        failures.push({ ep: epNum, id: expr.id, type: 'expression', text: expr.korean, error: e.message })
       }
+    }
+    eGenTotal += eGen
+    console.log(`  표현: 생성 ${eGen}  실패 ${failures.filter(f=>f.ep===epNum&&f.type==='expression').length}`)
+
+    // 진행 파일 저장
+    progress[epLabel] = { dialogues: { gen: dGen, skip: dSkip, total: dTotal }, expressions: { gen: eGen, total: eList.length } }
+    fs.writeFileSync(PROGRESS_LOG, JSON.stringify(progress, null, 2))
+  }
+
+  // ── 최종 검증 ─────────────────────────────────────────────────────────────
+  console.log(`\n${'─'.repeat(60)}`)
+  console.log(`[최종 검증] EP${EP_FROM}–${EP_TO} 누락 확인`)
+
+  const { data: allDlg } = await sb
+    .from('kp_dialogues')
+    .select('id, episode_id, speaker, text_ko, audio_url')
+    .gte('episode_id', EP_FROM)
+    .lte('episode_id', EP_TO)
+  const missingDlg = (allDlg ?? []).filter(d => !d.audio_url)
+  if (missingDlg.length === 0) {
+    console.log(`  ✓ 대사 누락 없음`)
+  } else {
+    console.log(`  ✗ 대사 누락 ${missingDlg.length}건:`)
+    for (const d of missingDlg) {
+      console.log(`    EP${String(d.episode_id).padStart(2,'0')} id=${d.id} ${d.speaker}: ${d.text_ko}`)
     }
   }
 
+  const { data: allExpr } = await sb.from('kp_expressions').select('id, korean, audio_url, episodes')
+  const missingExpr = (allExpr ?? []).filter(e => {
+    const eps = Array.isArray(e.episodes) ? e.episodes : []
+    return eps.some((ep: number) => ep >= EP_FROM && ep <= EP_TO) && !e.audio_url
+  })
+  if (missingExpr.length === 0) {
+    console.log(`  ✓ 표현 누락 없음`)
+  } else {
+    console.log(`  ✗ 표현 누락 ${missingExpr.length}건:`)
+    for (const e of missingExpr) console.log(`    id=${e.id} ${e.korean}`)
+  }
+
   // ── 보고 ──────────────────────────────────────────────────────────────────
-  const elapsed = ((Date.now() - t0) / 1000).toFixed(1)
-  const epCount = EP_TO - EP_FROM + 1
-  console.log(`\n${'─'.repeat(50)}`)
-  console.log(`생성 완료  경과: ${elapsed}s`)
-  console.log(`대사: ${dGenTotal}건  표현: ${eGenTotal}건`)
-  console.log(`실패: ${failures.length}건`)
+  const elapsed = ((Date.now() - t0) / 1000 / 60).toFixed(1)
+  console.log(`\n생성 완료  경과: ${elapsed}분`)
+  console.log(`대사: ${dGenTotal}건  표현: ${eGenTotal}건  실패: ${failures.length}건`)
 
   if (failures.length > 0) {
     fs.writeFileSync(FAIL_LOG, JSON.stringify(failures, null, 2))
     console.log(`실패 목록 → ${FAIL_LOG}`)
   }
 
-  // 비용 추산 (gemini-2.5-flash-preview-tts 기준)
-  // TTS 입력 텍스트 기준 과금 — 실제 단가는 Google Cloud 콘솔 확인
-  // 참고: flash TTS ≈ $0.075/1K chars (Google AI Studio 공개 단가)
-  const RATE_PER_CHAR = 0.075 / 1000   // $0.000075/char
+  const RATE_PER_CHAR = 0.075 / 1000
   const KRW_PER_USD   = 1400
   const estCostUSD    = charTotal * RATE_PER_CHAR
   const estCostKRW    = Math.round(estCostUSD * KRW_PER_USD)
-  const perDialogUSD  = dGenTotal > 0 ? (estCostUSD / dGenTotal) : 0
-
-  console.log(`\n[비용 추산]`)
-  console.log(`  총 문자 수 (프롬프트 포함): ${charTotal.toLocaleString()}자`)
-  console.log(`  추산 비용: $${estCostUSD.toFixed(4)} ≈ ₩${estCostKRW.toLocaleString()}`)
-  if (dGenTotal > 0) {
-    console.log(`  대사 1건당 평균: $${perDialogUSD.toFixed(6)} ≈ ₩${(perDialogUSD * KRW_PER_USD).toFixed(2)}`)
-  }
-
-  // EP01-30 전체 추산 (EP01 실측 기반)
-  if (epCount === 1 && charTotal > 0) {
-    const ep30Chars = charTotal * 30
-    const ep30USD   = ep30Chars * RATE_PER_CHAR
-    const ep30KRW   = Math.round(ep30USD * KRW_PER_USD)
-    console.log(`\n  EP01-30 전체 추산 (EP01 × 30): ~${ep30Chars.toLocaleString()}자`)
-    console.log(`  → $${ep30USD.toFixed(3)} ≈ ₩${ep30KRW.toLocaleString()} (목표 ₩16,000 이내: ${ep30KRW <= 16000 ? '✓ OK' : '✗ 초과'})`)
-  }
+  console.log(`\n[비용]`)
+  console.log(`  총 문자 수: ${charTotal.toLocaleString()}자`)
+  console.log(`  추산: $${estCostUSD.toFixed(4)} ≈ ₩${estCostKRW.toLocaleString()}`)
+  console.log(`  잔여 크레딧 추산: ₩${(16000 - estCostKRW).toLocaleString()} (₩16,000 기준)`)
 }
 
 main().catch(console.error)
