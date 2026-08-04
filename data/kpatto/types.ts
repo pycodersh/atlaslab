@@ -89,6 +89,7 @@ export interface KPattoExpression {
   tip: string | null
   first_episode: number | null
   created_at: string
+  audio_url?: string | null
 }
 
 // User progress types

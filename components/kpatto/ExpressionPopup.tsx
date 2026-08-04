@@ -1,7 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import { Volume2 } from 'lucide-react'
 import type { KPattoExpression } from '@/data/kpatto/types'
+import { playAudio } from '@/lib/kpatto/audio'
 
 const SAVED_KEY = 'kpatto-saved-expressions'
 
@@ -105,8 +107,25 @@ export function ExpressionPopup({
               {expression.category}
             </div>
           )}
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: 4, paddingRight: 32 }}>
-            {expression.korean}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, paddingRight: 32 }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
+              {expression.korean}
+            </div>
+            {expression.audio_url && (
+              <button
+                onClick={() => playAudio(expression.audio_url ?? null)}
+                aria-label="표현 듣기"
+                style={{
+                  flexShrink: 0,
+                  background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%',
+                  width: 30, height: 30, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#fff',
+                }}
+              >
+                <Volume2 size={15} />
+              </button>
+            )}
           </div>
           {expression.english && expression.english !== expression.korean && (
             <div style={{ fontSize: 13, color: '#FFF0DC', fontWeight: 600 }}>
