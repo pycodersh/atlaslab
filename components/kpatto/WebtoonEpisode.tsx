@@ -481,9 +481,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
       if (stopRef.current) break
       const b = allBubbles[i]
       setPlayingId(b.id)
-      console.log('[play] index=' + i + ' bubbleId=' + b.id + ' audioUrl=' + (b.audio_url ?? 'null') + ' status=start')
       await playAudio(b.audio_url ?? null)
-      console.log('[play] index=' + i + ' bubbleId=' + b.id + ' status=done')
     }
 
     setIsPlaying(false)

@@ -45,28 +45,13 @@ export async function tryPlayAudio(url: string): Promise<boolean> {
     const audio = new Audio(url)
     currentAudio = audio
     audio.onended = () => { if (currentAudio === audio) currentAudio = null; resolve(true) }
-    audio.onerror = () => {
-      const err = audio.error
-      console.error('[kpatto audio] onerror', url, 'code:', err?.code, 'message:', err?.message)
-      if (currentAudio === audio) currentAudio = null
-      resolve(false)
-    }
-    audio.play().catch((e) => {
-      console.error('[kpatto audio] play() rejected', url, e)
-      if (currentAudio === audio) currentAudio = null
-      resolve(false)
-    })
+    audio.onerror = () => { if (currentAudio === audio) currentAudio = null; resolve(false) }
+    audio.play().catch(() => { if (currentAudio === audio) currentAudio = null; resolve(false) })
   })
 }
 
 // Play DB audio if URL is available. No TTS fallback.
 export async function playAudio(url: string | null): Promise<void> {
-  if (!url) {
-    console.log('[kpatto audio] no url')
-    return
-  }
-  const ok = await tryPlayAudio(url)
-  if (!ok) {
-    console.log('[kpatto audio] failed', url)
-  }
+  if (!url) return
+  await tryPlayAudio(url)
 }
