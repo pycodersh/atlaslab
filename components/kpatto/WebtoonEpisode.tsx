@@ -480,6 +480,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
       if (stopRef.current) break
       const b = allBubbles[i]
       setPlayingId(b.id)
+      console.log('[kpatto bubble]', b.id, 'audio_url:', b.audio_url)
       await playWithFallback(b.audio_url ?? null, b.korean)
     }
 

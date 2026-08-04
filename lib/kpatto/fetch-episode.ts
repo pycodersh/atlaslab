@@ -54,16 +54,18 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
   // kp_dialogues is the single source of truth for dialogue text.
   // Fetch text_ko for all linked bubbles; fall back to kp_bubbles.korean for unlinked ones (dialogue_id = null).
   const dialogueIds = [...new Set(bubbleList.filter(b => b.dialogue_id != null).map(b => b.dialogue_id as number))]
-  const dialogueTextMap = new Map<number, string>()     // dialogue_id → text_ko
+  const dialogueTextMap  = new Map<number, string>()     // dialogue_id → text_ko
+  const dialogueAudioMap = new Map<number, string>()     // dialogue_id → audio_url
   const dialogueExpressionMap = new Map<number, number>() // dialogue_id → expression_id
   const highlightMap = new Map<number, string>()           // dialogue_id → matched_text (for orange text)
   if (dialogueIds.length > 0) {
     const [{ data: dialogueRows }, { data: focusMappings }] = await Promise.all([
-      supabase.from('kp_dialogues').select('id, text_ko').in('id', dialogueIds),
+      supabase.from('kp_dialogues').select('id, text_ko, audio_url').in('id', dialogueIds),
       supabase.from('kp_dialogue_expressions').select('dialogue_id, matched_text, expression_id').in('dialogue_id', dialogueIds).eq('role', 'focus'),
     ])
     for (const d of (dialogueRows ?? [])) {
-      if (d.text_ko != null) dialogueTextMap.set(d.id as number, d.text_ko as string)
+      if (d.text_ko   != null) dialogueTextMap.set(d.id as number, d.text_ko as string)
+      if (d.audio_url != null) dialogueAudioMap.set(d.id as number, d.audio_url as string)
     }
     for (const m of (focusMappings ?? [])) {
       if (m.expression_id != null) dialogueExpressionMap.set(m.dialogue_id as number, m.expression_id as number)
@@ -101,7 +103,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
     tail:           b.tail ?? { anchor: 0.25, tipX: 0.5, tipY: 1.1, baseWidth: 0.12 },
     highlight_text: (b.dialogue_id != null ? highlightMap.get(b.dialogue_id) : undefined) ?? b.highlight_text ?? undefined,
     expression_id:  (b.dialogue_id != null ? dialogueExpressionMap.get(b.dialogue_id) : undefined) ?? b.expression_id ?? undefined,
-    audio_url:      b.audio_url ?? undefined,
+    audio_url:      (b.dialogue_id != null ? dialogueAudioMap.get(b.dialogue_id) : undefined) ?? b.audio_url ?? undefined,
   })
 
   let sections: WebtoonSection[]
