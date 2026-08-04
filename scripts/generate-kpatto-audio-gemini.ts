@@ -83,8 +83,8 @@ function pcmToWav(pcm: Buffer, sampleRate = 24000, channels = 1, bitDepth = 16):
   header.writeUInt32LE(sampleRate, 24)
   header.writeUInt32LE(sampleRate * channels * bitDepth / 8, 28)
   header.writeUInt16LE(channels * bitDepth / 8, 32)
-  header.writeUInt16LE(bitDepth, 36)
-  header.write('data', 38);      header.writeUInt32LE(dataLen, 40)
+  header.writeUInt16LE(bitDepth, 34)
+  header.write('data', 36);      header.writeUInt32LE(dataLen, 40)
   return Buffer.concat([header, pcm])
 }
 
