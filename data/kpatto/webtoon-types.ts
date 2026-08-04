@@ -44,6 +44,9 @@ export interface WebtoonPanelSection {
   id: string
   imageUrl: string
   layout: 'wide' | 'medium-right' | 'medium-left' | 'small-center' | 'small-center-l' | string
+  align?: 'left' | 'center' | 'right'
+  overlapPx?: number   // negative pulls this panel up to overlap the previous one
+  zIndex?: number      // stacking order when panels overlap (higher = on top)
 }
 
 /**

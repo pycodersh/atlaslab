@@ -275,6 +275,34 @@ function PanelSection({ section }: { section: WebtoonPanelSection }) {
   const isMedRight = section.layout === 'medium-right'
   const isSmallCenter = section.layout === 'small-center'
 
+  if (section.align != null || section.overlapPx != null || section.zIndex != null) {
+    const justify = section.align === 'right' ? 'flex-end' : section.align === 'center' ? 'center' : 'flex-start'
+    return (
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: justify,
+          position: 'relative',
+          zIndex: section.zIndex,
+          marginTop: section.overlapPx,
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={section.imageUrl}
+          alt={`컷 ${section.id}`}
+          style={{
+            display: 'block',
+            width: '73%',
+            height: 'auto',
+            ...(section.zIndex != null && section.zIndex >= 2 ? { boxShadow: '0 0 0 5px #f5f0eb' } : {}),
+          }}
+        />
+      </div>
+    )
+  }
+
   if (isSmallCenter) {
     return (
       <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>

@@ -24,7 +24,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
   const [{ data: panels }, { data: bubbles }] = await Promise.all([
     supabase
       .from('kp_panels')
-      .select('id, order_num, type, image_url, layout, height_ratio')
+      .select('id, order_num, type, image_url, layout, height_ratio, align, overlap_px, z_index')
       .eq('episode_id', ep.id)
       .order('order_num'),
     supabase
@@ -80,6 +80,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
   type DBPanel = {
     id: number; order_num: number; type: string
     image_url: string | null; layout: string | null; height_ratio: number | null
+    align: string | null; overlap_px: number | null; z_index: number | null
   }
   const panelList = (panels ?? []) as DBPanel[]
   const hasGaps = panelList.some(p => p.type === 'gap')
@@ -174,7 +175,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
         }
         for (const rp of row) {
           panelCount++
-          sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: (rp.layout ?? 'wide') as string })
+          sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: (rp.layout ?? 'wide') as string, align: (rp.align as 'left' | 'center' | 'right' | undefined) ?? undefined, overlapPx: rp.overlap_px ?? undefined, zIndex: rp.z_index ?? undefined })
         }
       }
 
@@ -201,7 +202,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
           }
         } else if (p.type === 'panel') {
           panelCount++
-          return { type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: p.image_url ?? '', layout: (p.layout ?? 'wide') as string }
+          return { type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: p.image_url ?? '', layout: (p.layout ?? 'wide') as string, align: (p.align as 'left' | 'center' | 'right' | undefined) ?? undefined, overlapPx: p.overlap_px ?? undefined, zIndex: p.z_index ?? undefined }
         } else {
           return { type: 'crop-panel' as const, id: `crop-${p.order_num}`, imageUrl: p.image_url ?? '', srcW: 0, cropX: 0, cropY: 0, cropW: 0, cropH: 0 }
         }
@@ -239,7 +240,7 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
       for (const rp of row) {
         panelCount++
         const lay = (rp.layout ?? 'wide') as string
-        sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: lay })
+        sections.push({ type: 'panel' as const, id: `cut-${panelCount}`, imageUrl: rp.image_url ?? '', layout: lay, align: (rp.align as 'left' | 'center' | 'right' | undefined) ?? undefined, overlapPx: rp.overlap_px ?? undefined, zIndex: rp.z_index ?? undefined })
 
         const panelBubbles = (byPanel.get(rp.id) ?? []).sort((a, b) => a.order_num - b.order_num)
         const isWide = lay === 'wide'
