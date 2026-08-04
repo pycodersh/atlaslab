@@ -8,15 +8,16 @@ import type {
 } from '@/data/kpatto/webtoon-types'
 import type { Question, TranslationQuestion, FillBlankQuestion, WordOrderQuestion } from '@/components/kpatto/ChallengeSection'
 
-export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpisodeData | null> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: any): Promise<WebtoonEpisodeData | null> {
   const match = episodeId.match(/kp-ep-(\d+)/)
   if (!match) return null
 
-  const supabase = createClient()
+  const supabase = supabaseOverride ?? createClient()
 
   const { data: ep } = await supabase
     .from('kp_episodes')
-    .select('id, episode_num, title, theme')
+    .select('id, episode_num, title, title_en, theme')
     .eq('episode_num', parseInt(match[1]))
     .single()
   if (!ep) return null
@@ -260,9 +261,10 @@ export async function fetchWebtoonEpisode(episodeId: string): Promise<WebtoonEpi
 
   return {
     id: episodeId,
-    episode: ep.episode_num,
-    title: ep.title,
-    theme: ep.theme ?? '',
+    episode: ep.episode_num as number,
+    title: ep.title as string,
+    title_en: (ep.title_en as string | null) ?? null,
+    theme: (ep.theme ?? '') as string,
     sections,
   }
 }

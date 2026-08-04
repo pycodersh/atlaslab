@@ -15,7 +15,7 @@ const T2 = '#666666'
 const BORDER = '#E8E4DF'
 
 const PRO_PERKS = [
-  'EP06~ unlimited access',
+  'EP11~ unlimited access',
   'New episodes auto-unlocked',
   'Full challenge access',
   'Unlimited bookmarks',
@@ -24,7 +24,7 @@ const PRO_PERKS = [
 
 const FREE_PERKS = [
   'Pre-course (all free)',
-  'EP01~05 free',
+  'First 10 episodes free',
   'Basic challenges',
 ]
 

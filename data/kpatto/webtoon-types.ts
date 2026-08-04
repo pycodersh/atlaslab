@@ -76,6 +76,7 @@ export interface WebtoonEpisodeData {
   id: string
   episode: number
   title: string
+  title_en?: string | null
   theme: string
   sections: WebtoonSection[]
 }

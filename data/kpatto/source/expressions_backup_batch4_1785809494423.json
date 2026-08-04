@@ -1,0 +1,515 @@
+[
+  {
+    "id": 818,
+    "english": "취미가 뭐예요?",
+    "description": "Ask someone what their hobby or interests are. It works in casual and polite spe",
+    "examples": [
+      {
+        "en": "What are your hobbies?",
+        "ko": "취미가 뭐예요?"
+      },
+      {
+        "en": "What are your hobbies, oppa?",
+        "ko": "한국 오빠 취미가 뭐예요?"
+      },
+      {
+        "en": "What are your hobbies? Mine is photography!",
+        "ko": "취미가 뭐예요? 저는 사진이에요!"
+      }
+    ]
+  },
+  {
+    "id": 819,
+    "english": "저도요",
+    "description": "Quickly agree by saying you feel the same way. It works in casual and polite spe",
+    "examples": [
+      {
+        "en": "Me too! I love K-pop too!",
+        "ko": "저도요! 저도 케이팝 좋아요!"
+      },
+      {
+        "en": "Me too — it's really delicious!",
+        "ko": "저도요, 진짜 맛있어요!"
+      },
+      {
+        "en": "Me too! Let's go together!",
+        "ko": "저도요! 같이 가요!"
+      }
+    ]
+  },
+  {
+    "id": 820,
+    "english": "~별로예요",
+    "description": "Say something is not great or doesn't meet expectations. Say what you need, then",
+    "examples": [
+      {
+        "en": "I don't really like spicy food.",
+        "ko": "매운 거 별로예요."
+      },
+      {
+        "en": "I don't really like this style.",
+        "ko": "이 스타일 별로예요."
+      },
+      {
+        "en": "This drama isn't really my thing.",
+        "ko": "이 드라마 별로예요."
+      }
+    ]
+  },
+  {
+    "id": 822,
+    "english": "같이 사진 찍어요",
+    "description": "Invite someone to take a photo together. Just place a noun before 같이 사진 찍어요 — no",
+    "examples": [
+      {
+        "en": "Let's take a photo together!",
+        "ko": "같이 사진 찍어요!"
+      },
+      {
+        "en": "Let's take a photo together in front of Gyeongbokgung!",
+        "ko": "경복궁 앞에서 같이 사진 찍어요!"
+      },
+      {
+        "en": "Let's take a photo here together!",
+        "ko": "여기서 같이 사진 찍어요!"
+      }
+    ]
+  },
+  {
+    "id": 823,
+    "english": "사진이 잘 나왔어요?",
+    "description": "Ask if the photo turned out well. It works in casual and polite speech alike. Co",
+    "examples": [
+      {
+        "en": "Did the photo turn out well?",
+        "ko": "사진이 잘 나왔어요?"
+      },
+      {
+        "en": "Did the selfie turn out well?",
+        "ko": "셀카 잘 나왔어요?"
+      },
+      {
+        "en": "The photo turned out great — you look pretty!",
+        "ko": "사진 잘 나왔어요, 예뻐요!"
+      }
+    ]
+  },
+  {
+    "id": 825,
+    "english": "잘 지냈어요?",
+    "description": "Ask someone how they've been doing. Just place a noun before 잘 지냈어요 — no conjuga",
+    "examples": [
+      {
+        "en": "Have you been well?",
+        "ko": "잘 지냈어요?"
+      },
+      {
+        "en": "Have you been well lately?",
+        "ko": "요즘 잘 지냈어요?"
+      },
+      {
+        "en": "Have you been well? Were you very busy?",
+        "ko": "잘 지냈어요? 많이 바빴어요?"
+      }
+    ]
+  },
+  {
+    "id": 828,
+    "english": "~어땠어?",
+    "description": "Casually ask how something was. Just place a noun before 어땠어 — no conjugation ne",
+    "examples": [
+      {
+        "en": "How was the Han River?",
+        "ko": "한강 어땠어?"
+      },
+      {
+        "en": "How was the exam?",
+        "ko": "시험 어땠어?"
+      },
+      {
+        "en": "How was the first day?",
+        "ko": "첫날 어땠어?"
+      }
+    ]
+  },
+  {
+    "id": 829,
+    "english": "처음이었는데",
+    "description": "Say 'it was my first time, but...' to describe a new experience. It works in cas",
+    "examples": [
+      {
+        "en": "It was my first time, but it was really delicious!",
+        "ko": "처음이었는데 진짜 맛있었어!"
+      },
+      {
+        "en": "It was my first time, but it was easier than I thought.",
+        "ko": "처음이었는데 생각보다 쉬웠어."
+      },
+      {
+        "en": "It was my first time, but I want to go again!",
+        "ko": "처음이었는데 또 가고 싶어!"
+      }
+    ]
+  },
+  {
+    "id": 830,
+    "english": "~것 같아요",
+    "description": "Softly express a guess or opinion with 'I think' or 'it seems.' Say what you nee",
+    "examples": [
+      {
+        "en": "It seems like it'll be delicious!",
+        "ko": "맛있을 것 같아요!"
+      },
+      {
+        "en": "It seems like it'll be difficult.",
+        "ko": "어려울 것 같아요."
+      },
+      {
+        "en": "It seems like it's famous.",
+        "ko": "유명한 것 같아요."
+      }
+    ]
+  },
+  {
+    "id": 831,
+    "english": "~나 봐요",
+    "description": "Make a casual inference: 'it seems like' or 'I guess.' Say what you need, then a",
+    "examples": [
+      {
+        "en": "It must be delicious — the line is long!",
+        "ko": "맛있나 봐요, 줄이 길어요!"
+      },
+      {
+        "en": "It must be famous.",
+        "ko": "유명한가 봐요."
+      },
+      {
+        "en": "They must be busy.",
+        "ko": "바쁜가 봐요."
+      }
+    ]
+  },
+  {
+    "id": 833,
+    "english": "~해야 해",
+    "description": "Say you have to or must do something. Just place a noun before 해야 해 — no conjuga",
+    "examples": [
+      {
+        "en": "You have to study now!",
+        "ko": "지금 공부해야 해!"
+      },
+      {
+        "en": "You have to eat.",
+        "ko": "밥 먹어야 해."
+      },
+      {
+        "en": "You absolutely have to go!",
+        "ko": "꼭 가야 해!"
+      }
+    ]
+  },
+  {
+    "id": 834,
+    "english": "~하지 마",
+    "description": "Tell someone not to do something, casually. Just place a noun before 하지 마 — no c",
+    "examples": [
+      {
+        "en": "Don't worry!",
+        "ko": "걱정하지 마!"
+      },
+      {
+        "en": "Don't be late!",
+        "ko": "늦지 마!"
+      },
+      {
+        "en": "Don't give up!",
+        "ko": "포기하지 마!"
+      }
+    ]
+  },
+  {
+    "id": 836,
+    "english": "~어떻게 생각해요?",
+    "description": "Ask for someone's opinion on a specific topic. Say what you need, then add 어떻게 생",
+    "examples": [
+      {
+        "en": "What do you think about Korean food?",
+        "ko": "한국 음식 어떻게 생각해요?"
+      },
+      {
+        "en": "What do you think about this drama?",
+        "ko": "이 드라마 어떻게 생각해요?"
+      },
+      {
+        "en": "What do you think about my idea?",
+        "ko": "제 생각 어떻게 생각해요?"
+      }
+    ]
+  },
+  {
+    "id": 837,
+    "english": "맞는 말이에요",
+    "description": "Agree with and validate what someone just said. It works in casual and polite sp",
+    "examples": [
+      {
+        "en": "That's a good point. I think so too.",
+        "ko": "맞는 말이에요, 저도 그렇게 생각해요."
+      },
+      {
+        "en": "That's a good point, but I see it differently.",
+        "ko": "맞는 말이에요, 근데 저는 달라요."
+      },
+      {
+        "en": "That's a valid point!",
+        "ko": "그건 맞는 말이에요!"
+      }
+    ]
+  },
+  {
+    "id": 838,
+    "english": "저는 좀 달라요",
+    "description": "Politely say you're a bit different or have your own preference. It works in cas",
+    "examples": [
+      {
+        "en": "I'm a bit different — I love spicy food!",
+        "ko": "저는 좀 달라요, 매운 거 좋아해요!"
+      },
+      {
+        "en": "I'm a bit different — I prefer bands.",
+        "ko": "저는 좀 달라요, 밴드가 더 좋아요."
+      },
+      {
+        "en": "My taste is a bit different.",
+        "ko": "취향이 저는 좀 달라요."
+      }
+    ]
+  },
+  {
+    "id": 839,
+    "english": "~에 가 봤어요?",
+    "description": "Ask if someone has ever visited a particular place. Just place a noun before 에 가",
+    "examples": [
+      {
+        "en": "Have you been to Jeju Island?",
+        "ko": "제주도에 가 봤어요?"
+      },
+      {
+        "en": "Have you been to Gyeongbokgung?",
+        "ko": "경복궁에 가 봤어요?"
+      },
+      {
+        "en": "Have you been to Busan?",
+        "ko": "부산에 가 봤어요?"
+      }
+    ]
+  },
+  {
+    "id": 840,
+    "english": "꼭 가 보세요",
+    "description": "Strongly recommend that someone visit a place. Say what you need, then add 꼭 가 보",
+    "examples": [
+      {
+        "en": "You should definitely visit the Han River!",
+        "ko": "한강 꼭 가 보세요!"
+      },
+      {
+        "en": "You should definitely check out Gwangjang Market!",
+        "ko": "광장시장 꼭 가 보세요!"
+      },
+      {
+        "en": "You should definitely go to Jeju Island!",
+        "ko": "제주도 꼭 가 보세요!"
+      }
+    ]
+  },
+  {
+    "id": 842,
+    "english": "요즘 뭐 봐요?",
+    "description": "Ask what shows or content someone is watching these days. It works in casual and",
+    "examples": [
+      {
+        "en": "What are you watching lately?",
+        "ko": "요즘 뭐 봐요?"
+      },
+      {
+        "en": "What dramas are you watching lately?",
+        "ko": "요즘 드라마 뭐 봐요?"
+      },
+      {
+        "en": "What are you watching lately? Give me a recommendation!",
+        "ko": "요즘 뭐 봐요? 추천해줘요!"
+      }
+    ]
+  },
+  {
+    "id": 843,
+    "english": "완전 빠져들었어요",
+    "description": "Say you're totally hooked or obsessed with something. Say what you need, then ad",
+    "examples": [
+      {
+        "en": "I'm totally hooked on this drama!",
+        "ko": "이 드라마 완전 빠져들었어요!"
+      },
+      {
+        "en": "I'm totally hooked on K-pop!",
+        "ko": "케이팝에 완전 빠져들었어요!"
+      },
+      {
+        "en": "I'm totally absorbed in studying Korean.",
+        "ko": "한국어 공부에 완전 빠져들었어요."
+      }
+    ]
+  },
+  {
+    "id": 844,
+    "english": "다음 화가 기대돼요",
+    "description": "Express excitement and anticipation for the next episode. It works in casual and",
+    "examples": [
+      {
+        "en": "I can't wait for the next episode!",
+        "ko": "다음 화가 진짜 기대돼요!"
+      },
+      {
+        "en": "I can't wait for next week!",
+        "ko": "다음 주가 진짜 기대돼요!"
+      },
+      {
+        "en": "I can't wait to see the ending!",
+        "ko": "결말이 정말 기대돼요!"
+      }
+    ]
+  },
+  {
+    "id": 845,
+    "english": "이 노래 알아요?",
+    "description": "Ask if someone knows or recognizes a particular song. It works in casual and pol",
+    "examples": [
+      {
+        "en": "Do you know this song?",
+        "ko": "이 노래 알아요?"
+      },
+      {
+        "en": "Do you know this song? I love it so much!",
+        "ko": "이 노래 알아요? 너무 좋아요!"
+      },
+      {
+        "en": "Do you know New Jeans' songs?",
+        "ko": "뉴진스 노래 알아요?"
+      }
+    ]
+  },
+  {
+    "id": 846,
+    "english": "가사가 무슨 뜻이에요?",
+    "description": "Ask what a song's lyrics mean. Say what you need, then add 가사가 무슨 뜻이에요 at the en",
+    "examples": [
+      {
+        "en": "What does this lyric mean?",
+        "ko": "이 가사가 무슨 뜻이에요?"
+      },
+      {
+        "en": "What does '그리워' mean?",
+        "ko": "'그리워'가 무슨 뜻이에요?"
+      },
+      {
+        "en": "What does this part of the lyrics mean?",
+        "ko": "이 부분 가사가 무슨 뜻이에요?"
+      }
+    ]
+  },
+  {
+    "id": 849,
+    "english": "~효과 있어요?",
+    "description": "Ask if something actually works or makes a difference. Say what you need, then a",
+    "examples": [
+      {
+        "en": "Is this serum effective?",
+        "ko": "이 세럼 효과 있어요?"
+      },
+      {
+        "en": "Does this diet method work?",
+        "ko": "이 다이어트 방법 효과 있어요?"
+      },
+      {
+        "en": "Does this medicine work?",
+        "ko": "이 약 효과 있어요?"
+      }
+    ]
+  },
+  {
+    "id": 850,
+    "english": "후기가 좋아요",
+    "description": "Say the reviews or word-of-mouth for something are great. Say what you need, the",
+    "examples": [
+      {
+        "en": "The reviews for this cream are amazing!",
+        "ko": "이 크림 후기가 진짜 좋아요!"
+      },
+      {
+        "en": "This restaurant has great reviews — let's go!",
+        "ko": "이 식당 후기가 좋아요, 가봐요!"
+      },
+      {
+        "en": "I bought it because the reviews were good.",
+        "ko": "후기가 좋아서 사봤어요."
+      }
+    ]
+  },
+  {
+    "id": 851,
+    "english": "얼마나 자주 해요?",
+    "description": "Ask how often someone does a particular activity. Just place a noun before 얼마나 자",
+    "examples": [
+      {
+        "en": "How often do you exercise?",
+        "ko": "얼마나 자주 운동해요?"
+      },
+      {
+        "en": "How often do you go to cafés?",
+        "ko": "얼마나 자주 카페 가요?"
+      },
+      {
+        "en": "How often do you study Korean?",
+        "ko": "얼마나 자주 한국어 공부해요?"
+      }
+    ]
+  },
+  {
+    "id": 852,
+    "english": "건강에 좋아요",
+    "description": "Say that something is good for your health. Just place a noun before 건강에 좋아요 — n",
+    "examples": [
+      {
+        "en": "Walking is good for your health!",
+        "ko": "걷기 건강에 좋아요!"
+      },
+      {
+        "en": "Kimchi is good for your health.",
+        "ko": "김치 건강에 좋아요."
+      },
+      {
+        "en": "Sleeping well is good for your health.",
+        "ko": "잠 잘 자는 게 건강에 좋아요."
+      }
+    ]
+  },
+  {
+    "id": 854,
+    "english": "~어디 살아요?",
+    "description": "Ask where someone currently lives. Just place a noun before 어디 살아요 — no conjugat",
+    "examples": [
+      {
+        "en": "Where in Korea do you live?",
+        "ko": "한국 어디 살아요?"
+      },
+      {
+        "en": "Where in Seoul do you live?",
+        "ko": "서울 어디 살아요?"
+      },
+      {
+        "en": "Where are you living now?",
+        "ko": "지금 어디 살아요?"
+      }
+    ]
+  }
+]

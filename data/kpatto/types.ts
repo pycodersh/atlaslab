@@ -48,6 +48,7 @@ export interface KPattoStory {
   id: string
   episode: number
   title: string
+  title_en?: string | null
   level: 'beginner' | 'intermediate' | 'advanced'
   theme: string
   tags: string[]

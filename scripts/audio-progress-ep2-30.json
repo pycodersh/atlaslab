@@ -1,0 +1,35 @@
+{
+  "EP02": {
+    "dialogues": {
+      "gen": 9,
+      "skip": 0,
+      "total": 9
+    },
+    "expressions": {
+      "gen": 4,
+      "total": 4
+    }
+  },
+  "EP03": {
+    "dialogues": {
+      "gen": 10,
+      "skip": 0,
+      "total": 10
+    },
+    "expressions": {
+      "gen": 3,
+      "total": 4
+    }
+  },
+  "EP04": {
+    "dialogues": {
+      "gen": 9,
+      "skip": 0,
+      "total": 9
+    },
+    "expressions": {
+      "gen": 4,
+      "total": 4
+    }
+  }
+}

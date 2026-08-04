@@ -1,0 +1,232 @@
+[
+  {
+    "id": 770,
+    "literal_en": "Give me ~, please.",
+    "usage_en": "Used to politely ask for something in a shop, café, or restaurant. Put the item in front of 주세요.\n\nRule: 주세요 asks for an object. To ask someone to do something, attach -아/어 주세요 to a verb instead (도와주세요)."
+  },
+  {
+    "id": 771,
+    "literal_en": "What is ~?",
+    "usage_en": "Used to ask what something is when you don't know its name. Point at it and add 뭐예요?\n\nRule: 뭐 ends in a vowel, so it always takes 예요, never 이에요."
+  },
+  {
+    "id": 772,
+    "literal_en": "Is there ~? / Do you have ~?",
+    "usage_en": "Used to ask whether something exists or is available. It covers both 'is there' and 'do you have'.\n\nRule: Use 있어요? for things and places. When asking whether a person is in, 계세요? is the respectful form."
+  },
+  {
+    "id": 773,
+    "literal_en": "How do I get to ~?",
+    "usage_en": "Used to ask the way to a place. Put the destination in front, with no particle needed.\n\nRule: This asks for the route. To ask which transport to take, use 뭐 타고 가요?"
+  },
+  {
+    "id": 774,
+    "literal_en": "I want to go to ~.",
+    "usage_en": "Used to name a place you'd like to visit. The particle 에 is usually dropped in speech.\n\nRule: -고 싶어요 works only for your own wish. To talk about what someone else wants, use -고 싶어 해요."
+  },
+  {
+    "id": 775,
+    "literal_en": "How is ~?",
+    "usage_en": "Used to ask someone's opinion, or how something is going. Put the topic in front.\n\nRule: It doubles as a suggestion — 커피 어때요? can mean 'How about coffee?' depending on the situation."
+  },
+  {
+    "id": 776,
+    "literal_en": "I'll have ~.",
+    "usage_en": "Used to settle on one option when ordering or choosing between things.\n\nRule: After a noun ending in a consonant, use 으로 할게요 (김밥으로 할게요). After a vowel or ㄹ, use 로 할게요 (커피로 할게요)."
+  },
+  {
+    "id": 777,
+    "literal_en": "Have you ever ~?",
+    "usage_en": "Used to ask whether someone has ever had a particular experience.\n\nRule: Attach -아/어 본 적 있어요? to a verb stem. The natural answer is 있어요 or 없어요 rather than 네 or 아니요."
+  },
+  {
+    "id": 778,
+    "literal_en": "Please recommend ~.",
+    "usage_en": "Used to ask someone for a recommendation. Put the category in front — a food, a place, a show.\n\nRule: Keep 주세요 on the end. Without it, 추천해요 becomes a statement meaning 'I recommend it'."
+  },
+  {
+    "id": 779,
+    "literal_en": "Could you ~?",
+    "usage_en": "Used to make a polite request, noticeably softer than -아/어 주세요.\n\nRule: Attach -아/어 주실 수 있어요? to a verb stem. 주실 carries an honorific, so it suits strangers and people senior to you."
+  },
+  {
+    "id": 780,
+    "literal_en": "I like ~.",
+    "usage_en": "Used to say what you like or enjoy. Put the thing in front.\n\nRule: 좋아해요 is a verb and takes 을/를 (한국 음식을 좋아해요). 좋아요 is an adjective and takes 이/가 (한국 음식이 좋아요)."
+  },
+  {
+    "id": 781,
+    "literal_en": "That's fascinating.",
+    "usage_en": "Used when something strikes you as new and wonderful — a common reaction when you first meet a different culture.\n\nRule: 신기해요 is about novelty and wonder. If you mean something is odd or off, use 이상해요 instead."
+  },
+  {
+    "id": 782,
+    "literal_en": "More ~, please.",
+    "usage_en": "Used to ask for a refill or a second helping. In Korean restaurants, side dishes usually come free this way.\n\nRule: 더 goes right before 주세요, not before the noun — 김치 더 주세요, not 더 김치 주세요."
+  },
+  {
+    "id": 783,
+    "literal_en": "Could you lower the price?",
+    "usage_en": "Used to ask for a discount when haggling.\n\nRule: This belongs at traditional markets and street stalls. Prices are fixed at department stores and chain shops, so it isn't used there."
+  },
+  {
+    "id": 784,
+    "literal_en": "Have you tried ~?",
+    "usage_en": "Used to ask whether someone has tried out a product.\n\nRule: 써 보다 is for things you use — cosmetics, apps, tools. For food say 먹어 봤어요?, and for clothes 입어 봤어요?"
+  },
+  {
+    "id": 785,
+    "literal_en": "Which ~ do you like?",
+    "usage_en": "Used to ask which option the other person prefers.\n\nRule: 어떤 asks 'which one' among options you can see. 무슨 asks 'what kind' in general."
+  },
+  {
+    "id": 786,
+    "literal_en": "It's more ~ than I expected.",
+    "usage_en": "Used when something turns out different from what you had in mind.\n\nRule: 생각보다 goes at the front and the adjective follows. Whether it means more or less depends on that adjective — 생각보다 맵지 않아요 means less spicy."
+  },
+  {
+    "id": 787,
+    "literal_en": "I'm happy we're all together.",
+    "usage_en": "Used to express warmth about everyone being gathered in one place.\n\nRule: -아/어서 좋아요 attaches any reason to 좋아요 — 날씨가 좋아서 좋아요."
+  },
+  {
+    "id": 788,
+    "literal_en": "I already ~.",
+    "usage_en": "Used to say something has already happened, often to stop someone from doing it again.\n\nRule: 이미 normally comes with a past-tense verb (이미 먹었어요). 벌써 is close but adds surprise at how soon it happened."
+  },
+  {
+    "id": 789,
+    "literal_en": "I'm nervous.",
+    "usage_en": "Used for the flutter you feel before something important. It covers both nerves and excitement.\n\nRule: 떨려요 describes your own feeling and takes no object. To give the cause, put it in front with -아/어서 or -라서 (첫 발표라서 떨려요)."
+  },
+  {
+    "id": 790,
+    "literal_en": "I'm from ~.",
+    "usage_en": "Used to say which country or city you come from.\n\nRule: 에서 marks a starting point, so it attaches to the place (미국에서 왔어요). Do not use 에, which marks a destination."
+  },
+  {
+    "id": 791,
+    "literal_en": "I look forward to it.",
+    "usage_en": "A set greeting used when you meet someone you'll be working or studying with. English has no direct equivalent — it asks for their goodwill.\n\nRule: 부탁드려요 is the humble form of 부탁해요. In formal settings such as an interview or presentation, use 잘 부탁드립니다."
+  },
+  {
+    "id": 792,
+    "literal_en": "Where do I catch ~?",
+    "usage_en": "Used to ask where to board a bus, subway line, or shuttle.\n\nRule: 어디서 marks the place where an action happens. If you only want to know where something is, use 어디예요?"
+  },
+  {
+    "id": 793,
+    "literal_en": "I want to eat ~.",
+    "usage_en": "Used to say what you feel like eating.\n\nRule: -고 싶어요 attaches to a verb stem and speaks only for yourself. For another person's craving, use -고 싶어 해요."
+  },
+  {
+    "id": 794,
+    "literal_en": "I can't eat ~.",
+    "usage_en": "Used to say you cannot eat something, whether because of an allergy, a religion, or your tolerance for spice.\n\nRule: 못 goes right before the verb and means you are unable to. 안 먹어요 means you choose not to."
+  },
+  {
+    "id": 795,
+    "literal_en": "May I eat ~?",
+    "usage_en": "Used to ask permission before eating or drinking.\n\nRule: Attach -아/어도 돼요? to a verb stem. The answer comes back as 네, 돼요 or 아니요, 안 돼요."
+  },
+  {
+    "id": 796,
+    "literal_en": "May I call you ~?",
+    "usage_en": "Used to ask permission to address someone by a name or title. Koreans often use 언니, 오빠, or 선배 instead of a first name.\n\nRule: Attach 라고 to a name ending in a vowel (언니라고) and 이라고 to one ending in a consonant (선생님이라고)."
+  },
+  {
+    "id": 797,
+    "literal_en": "I want to come here again.",
+    "usage_en": "Used to tell someone you enjoyed a place enough to return — a natural compliment to a host or a shop.\n\nRule: 또 means 'again' and goes before the verb. 다시 is close, but 또 sounds warmer in this phrase."
+  },
+  {
+    "id": 798,
+    "literal_en": "I'm taking the ~.",
+    "usage_en": "Used to say which transport you're taking, or to tell someone which one to take.\n\nRule: 타다 takes 을/를 in writing (버스를 타요), though the particle is usually dropped in speech. The opposite is 내려요."
+  },
+  {
+    "id": 799,
+    "literal_en": "I get off at ~.",
+    "usage_en": "Used to say which stop or station you're getting off at.\n\nRule: 에서 marks the place where you get off. Pair it with 타요 for getting on — 2호선 타요, 홍대입구역에서 내려요."
+  },
+  {
+    "id": 800,
+    "literal_en": "Please take me to ~.",
+    "usage_en": "Used to tell a taxi driver where you want to go.\n\nRule: 까지 marks the end point of the trip. 에 가 주세요 also works, but 까지 sounds more natural to a driver."
+  },
+  {
+    "id": 801,
+    "literal_en": "Please make it less ~.",
+    "usage_en": "Used to ask a restaurant to adjust how your food is prepared.\n\nRule: Put an adjective stem between 덜 and 게 해 주세요 (덜 맵게 해 주세요). For the opposite, swap 덜 for 더."
+  },
+  {
+    "id": 802,
+    "literal_en": "Can I get a refill of ~?",
+    "usage_en": "Used to ask whether something can be refilled. Side dishes, rice, and soup are often free this way in Korea.\n\nRule: 되다 here means 'is possible'. The answer is 네, 돼요 or 안 돼요."
+  },
+  {
+    "id": 803,
+    "literal_en": "What are you doing on ~?",
+    "usage_en": "Used to ask about someone's plans at a certain time.\n\nRule: 에 attaches to time words like 주말에 and 저녁에, but never to 오늘, 내일, or 어제 — say 내일 뭐 해요?",
+    "examples": [
+      { "ko": "주말에 뭐 해요?", "en": "What are you doing this weekend?" },
+      { "ko": "오늘 저녁에 뭐 해요?", "en": "What are you doing tonight?" },
+      { "ko": "다음 주에 뭐 해요?", "en": "What are you doing next week?" }
+    ]
+  },
+  {
+    "id": 804,
+    "literal_en": "Shall we ~ together?",
+    "usage_en": "Used to invite someone to do something with you. It sounds friendly rather than formal.\n\nRule: After a stem ending in a consonant, use -을래요 (먹을래요?). After a vowel or ㄹ, use -ㄹ래요 (볼래요?)."
+  },
+  {
+    "id": 805,
+    "literal_en": "I think I'll be a little late.",
+    "usage_en": "Used to let someone know in advance that you won't arrive on time.\n\nRule: -을 것 같아요 turns a flat statement into a guess, which sounds softer and more considerate than 늦어요."
+  },
+  {
+    "id": 806,
+    "literal_en": "I'm lost.",
+    "usage_en": "Used to tell someone you don't know where you are and need help.\n\nRule: Korean puts this in the past tense (잃었어요) even though English uses the present. 길을 잃어요 sounds wrong."
+  },
+  {
+    "id": 807,
+    "literal_en": "Just go straight.",
+    "usage_en": "Used when giving directions to say the way is simple — no turns needed.\n\nRule: -으면 돼요 means 'it's enough to ~'. It makes instructions sound easy and reassuring."
+  },
+  {
+    "id": 808,
+    "literal_en": "Turn ~.",
+    "usage_en": "Used to tell someone which way to turn when giving directions.\n\nRule: After a noun ending in a consonant, use 으로 (오른쪽으로). After a vowel or ㄹ, use 로. 돌면 돼요 is just as common as 꺾으면 돼요."
+  },
+  {
+    "id": 809,
+    "literal_en": "Have you tried ~?",
+    "usage_en": "Used to ask whether someone has experienced something before.\n\nRule: Attach -아/어 봤어요? to a verb stem — 먹어 봤어요?, 가 봤어요?, 입어 봤어요? Without 보다, 봤어요? simply means 'did you see it?'"
+  },
+  {
+    "id": 810,
+    "literal_en": "It's fun.",
+    "usage_en": "Used for anything enjoyable — a drama, a class, a person, a trip.\n\nRule: 재미있어요 covers both 'fun' and 'interesting'. The opposite is 재미없어요, written as one word."
+  },
+  {
+    "id": 811,
+    "literal_en": "I highly recommend it.",
+    "usage_en": "Slang shortened from 강력 추천, meaning a strong recommendation. You'll see it constantly in reviews and casual chat.\n\nRule: This is casual. With someone senior, or in writing, use 추천해요 or 추천드려요."
+  },
+  {
+    "id": 812,
+    "literal_en": "How's the weather in ~?",
+    "usage_en": "Used to ask about the weather at a place or on a certain day.\n\nRule: Put the place or time straight in front, with no particle — 서울 날씨 어때요?, 내일 날씨 어때요?"
+  },
+  {
+    "id": 813,
+    "literal_en": "It looks like ~ is coming.",
+    "usage_en": "Used to guess that rain or snow is on the way, based on what you can see.\n\nRule: In everyday Korean, rain and snow 오다 rather than 내리다 — 비 와요, 눈 와요.",
+    "examples": [
+      { "ko": "눈 올 것 같아요.", "en": "It looks like it's going to snow." },
+      { "ko": "비 올 것 같아요.", "en": "It looks like it's going to rain." },
+      { "ko": "곧 소나기 올 것 같아요.", "en": "It looks like a shower is coming soon." }
+    ]
+  }
+]

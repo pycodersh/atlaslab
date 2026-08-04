@@ -1,0 +1,19 @@
+{
+  "id": 796,
+  "english": "May I call you ~?",
+  "description": "Used to ask permission to address someone by a name or title. Koreans often use 언니, 오빠, or 선배 instead of a first name.\n\nRule: Attach 라고 to a name ending in a vowel (언니라고) and 이라고 to one ending in a consonant (선생님이라고).",
+  "examples": [
+    {
+      "en": "Is it okay to call you 언니?",
+      "ko": "언니라고 불러도 돼요?"
+    },
+    {
+      "en": "Is it okay to call you 오빠?",
+      "ko": "오빠라고 불러도 돼요?"
+    },
+    {
+      "en": "Is it okay to call you by your name?",
+      "ko": "이름으로 불러도 돼요?"
+    }
+  ]
+}

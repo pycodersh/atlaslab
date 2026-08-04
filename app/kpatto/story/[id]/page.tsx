@@ -30,6 +30,7 @@ import { onStoryComplete } from '@/lib/srs/storage'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import type { Question } from '@/components/kpatto/ChallengeSection'
 import { generateChallenge } from '@/lib/kpatto/generate-challenge'
+import { FREE_EPISODES } from '@/lib/kpatto/config'
 
 const EPISODE_POOLS: Record<string, RawQuestion[]> = {
   'kp-ep-001': EP001_POOL,
@@ -71,8 +72,6 @@ function WelcomeBanner() {
   )
 }
 
-const FREE_EPISODES = 5 // EP01~05 무료
-
 export default function KPattoStoryPage({ params }: PageProps) {
   const { id } = use(params)
   const { prefs } = usePreferences()
@@ -95,19 +94,34 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const { isPro, loading: subLoading } = useKPattoSubscription()
 
   useEffect(() => {
-    // Static pool as immediate fallback
     const pool = EPISODE_POOLS[id]
     if (pool) setChallengeQuestions(generateChallenge(pool))
 
-    // DB challenges override static pool when available
     fetchEpisodeChallenges(id).then(dbQ => {
       if (dbQ.length > 0) setChallengeQuestions(dbQ)
     })
 
-    fetchWebtoonEpisode(id).then(ep => {
-      setWebtoonEpisode(ep)
-      setWebtoonLoading(false)
-    })
+    const epNumber = parseInt(id.match(/kp-ep-(\d+)/)?.[1] ?? '0')
+
+    if (epNumber <= FREE_EPISODES) {
+      // Free episode: fetch directly from Supabase client
+      fetchWebtoonEpisode(id).then(ep => {
+        setWebtoonEpisode(ep)
+        setWebtoonLoading(false)
+      })
+    } else {
+      // Pro episode: go through server-gated API route (dialogue text never sent to non-subscribers)
+      fetch(`/api/kpatto/episode/${id}`)
+        .then(async r => {
+          if (!r.ok) return null
+          return r.json() as Promise<import('@/data/kpatto/webtoon-types').WebtoonEpisodeData>
+        })
+        .then(ep => {
+          if (ep) setWebtoonEpisode(ep)
+          setWebtoonLoading(false)
+        })
+        .catch(() => setWebtoonLoading(false))
+    }
   }, [id])
 
   const handleChallengeComplete = useCallback(() => {
@@ -168,8 +182,15 @@ export default function KPattoStoryPage({ params }: PageProps) {
           <Link href="/kpatto/story" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: '#111111', flexShrink: 0 }}>
             <ChevronLeft size={22} strokeWidth={2} />
           </Link>
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-            EP {String(epNum).padStart(2, '0')} · {story?.title ?? ''}
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              EP {String(epNum).padStart(2, '0')} · {story?.title ?? webtoonEpisode?.title ?? ''}
+            </div>
+            {(story?.title_en ?? webtoonEpisode?.title_en) && (
+              <div style={{ fontSize: 11, color: '#999999', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {story?.title_en ?? webtoonEpisode?.title_en}
+              </div>
+            )}
           </div>
         </div>
       )}

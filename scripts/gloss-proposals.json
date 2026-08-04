@@ -1,0 +1,1352 @@
+[
+  {
+    "id": 770,
+    "korean": "~주세요",
+    "current": "~주세요",
+    "proposed": "~ please"
+  },
+  {
+    "id": 771,
+    "korean": "~뭐예요?",
+    "current": "~뭐예요?",
+    "proposed": "What is ~?"
+  },
+  {
+    "id": 772,
+    "korean": "~있어요?",
+    "current": "~있어요?",
+    "proposed": "Is there ~?"
+  },
+  {
+    "id": 773,
+    "korean": "~어떻게 가요?",
+    "current": "~어떻게 가요?",
+    "proposed": "How do I get to ~?"
+  },
+  {
+    "id": 774,
+    "korean": "~가고 싶어요",
+    "current": "~가고 싶어요",
+    "proposed": "I want to go to ~"
+  },
+  {
+    "id": 775,
+    "korean": "~어때요?",
+    "current": "~어때요?",
+    "proposed": "How is ~?"
+  },
+  {
+    "id": 776,
+    "korean": "~로 할게요",
+    "current": "~로 할게요",
+    "proposed": "I'll have ~"
+  },
+  {
+    "id": 777,
+    "korean": "~해 본 적 있어요?",
+    "current": "~해 본 적 있어요?",
+    "proposed": "Have you ever ~?"
+  },
+  {
+    "id": 778,
+    "korean": "~추천해 주세요",
+    "current": "~추천해 주세요",
+    "proposed": "Please recommend ~"
+  },
+  {
+    "id": 779,
+    "korean": "~주실 수 있어요?",
+    "current": "~주실 수 있어요?",
+    "proposed": "Could you ~?"
+  },
+  {
+    "id": 780,
+    "korean": "~좋아해요",
+    "current": "~좋아해요",
+    "proposed": "I like ~"
+  },
+  {
+    "id": 781,
+    "korean": "신기해요",
+    "current": "신기해요",
+    "proposed": "This food is fascinating"
+  },
+  {
+    "id": 782,
+    "korean": "~더 주세요",
+    "current": "~더 주세요",
+    "proposed": "More ~, please"
+  },
+  {
+    "id": 783,
+    "korean": "~깎아 주세요",
+    "current": "~깎아 주세요",
+    "proposed": "Discount on ~, please"
+  },
+  {
+    "id": 784,
+    "korean": "~써봤어요?",
+    "current": "~써봤어요?",
+    "proposed": "Have you tried ~?"
+  },
+  {
+    "id": 785,
+    "korean": "~어떤 게 좋아요?",
+    "current": "~어떤 게 좋아요?",
+    "proposed": "Which ~ is good?"
+  },
+  {
+    "id": 786,
+    "korean": "생각보다 ~해요",
+    "current": "생각보다 ~해요",
+    "proposed": "More ~ than expected"
+  },
+  {
+    "id": 787,
+    "korean": "다 같이 있어서 좋아요",
+    "current": "다 같이 있어서 좋아요",
+    "proposed": "I'm so happy we're all"
+  },
+  {
+    "id": 788,
+    "korean": "이미 ~해요",
+    "current": "이미 ~해요",
+    "proposed": "Already ~"
+  },
+  {
+    "id": 789,
+    "korean": "떨려요",
+    "current": "떨려요",
+    "proposed": "I'm so nervous"
+  },
+  {
+    "id": 790,
+    "korean": "~에서 왔어요",
+    "current": "~에서 왔어요",
+    "proposed": "I'm from ~"
+  },
+  {
+    "id": 791,
+    "korean": "잘 부탁드려요",
+    "current": "잘 부탁드려요",
+    "proposed": "Nice to meet you. Please"
+  },
+  {
+    "id": 792,
+    "korean": "~어디서 타요?",
+    "current": "~어디서 타요?",
+    "proposed": "Where do I catch ~?"
+  },
+  {
+    "id": 793,
+    "korean": "~먹고 싶어요",
+    "current": "~먹고 싶어요",
+    "proposed": "I want to eat ~"
+  },
+  {
+    "id": 794,
+    "korean": "~못 먹어요",
+    "current": "~못 먹어요",
+    "proposed": "I can't eat ~"
+  },
+  {
+    "id": 795,
+    "korean": "~먹어도 돼요?",
+    "current": "~먹어도 돼요?",
+    "proposed": "Can I eat ~?"
+  },
+  {
+    "id": 796,
+    "korean": "~불러도 돼요?",
+    "current": "~불러도 돼요?",
+    "proposed": "Can I call you ~?"
+  },
+  {
+    "id": 797,
+    "korean": "또 오고 싶어요",
+    "current": "또 오고 싶어요",
+    "proposed": "I want to come here"
+  },
+  {
+    "id": 857,
+    "korean": "기분이 어때?",
+    "current": "기분이 어때?",
+    "proposed": "How are you feeling today?"
+  },
+  {
+    "id": 858,
+    "korean": "~라서 행복해",
+    "current": "~라서 행복해",
+    "proposed": "Happy because of ~"
+  },
+  {
+    "id": 859,
+    "korean": "설레",
+    "current": "설레",
+    "proposed": "I'm going on a trip"
+  },
+  {
+    "id": 860,
+    "korean": "괜찮아요?",
+    "current": "괜찮아요?",
+    "proposed": "You don't look well. Are"
+  },
+  {
+    "id": 861,
+    "korean": "요즘 좀 힘들어요",
+    "current": "요즘 좀 힘들어요",
+    "proposed": "Things have been a bit"
+  },
+  {
+    "id": 862,
+    "korean": "언제든지 연락해요",
+    "current": "언제든지 연락해요",
+    "proposed": "If you need help, contact"
+  },
+  {
+    "id": 863,
+    "korean": "카카오톡 해요?",
+    "current": "카카오톡 해요?",
+    "proposed": "Do you use KakaoTalk? I'll"
+  },
+  {
+    "id": 864,
+    "korean": "팔로우해도 돼요?",
+    "current": "팔로우해도 돼요?",
+    "proposed": "Can I follow you on"
+  },
+  {
+    "id": 865,
+    "korean": "한국 친구 사귀고 싶어요",
+    "current": "한국 친구 사귀고 싶어요",
+    "proposed": "I'm learning Korean and I"
+  },
+  {
+    "id": 866,
+    "korean": "제가 살게요",
+    "current": "제가 살게요",
+    "proposed": "It's on me today. You"
+  },
+  {
+    "id": 867,
+    "korean": "더치페이 해요?",
+    "current": "더치페이 해요?",
+    "proposed": "Shall we split the bill?"
+  },
+  {
+    "id": 868,
+    "korean": "밥 한번 먹어요",
+    "current": "밥 한번 먹어요",
+    "proposed": "Let's grab a meal together"
+  },
+  {
+    "id": 869,
+    "korean": "배달 시켜요",
+    "current": "배달 시켜요",
+    "proposed": "I don't want to go"
+  },
+  {
+    "id": 870,
+    "korean": "~입어 봤어?",
+    "current": "~입어 봤어?",
+    "proposed": "Have you tried this on? I think it'll suit you really ~"
+  },
+  {
+    "id": 871,
+    "korean": "명절에 뭐 해?",
+    "current": "명절에 뭐 해?",
+    "proposed": "What do you do on"
+  },
+  {
+    "id": 872,
+    "korean": "이게 무슨 뜻이야?",
+    "current": "이게 무슨 뜻이야?",
+    "proposed": "What does this mean? I've"
+  },
+  {
+    "id": 873,
+    "korean": "술 마셔요?",
+    "current": "술 마셔요?",
+    "proposed": "Do you drink? Want to"
+  },
+  {
+    "id": 874,
+    "korean": "건배해요",
+    "current": "건배해요",
+    "proposed": "Everyone's here, so let's toast"
+  },
+  {
+    "id": 875,
+    "korean": "오늘은 여기까지만 해요",
+    "current": "오늘은 여기까지만 해요",
+    "proposed": "You're tired, right? Let's stop"
+  },
+  {
+    "id": 876,
+    "korean": "이 노래 같이 불러요",
+    "current": "이 노래 같이 불러요",
+    "proposed": "Let's sing this song together!"
+  },
+  {
+    "id": 877,
+    "korean": "신청곡 있어요?",
+    "current": "신청곡 있어요?",
+    "proposed": "Do you have a song"
+  },
+  {
+    "id": 878,
+    "korean": "한 곡 더 해요",
+    "current": "한 곡 더 해요",
+    "proposed": "This is fun — let's"
+  },
+  {
+    "id": 879,
+    "korean": "같이 춰요",
+    "current": "같이 춰요",
+    "proposed": "The music is great —"
+  },
+  {
+    "id": 880,
+    "korean": "어렵지만 재미있어요",
+    "current": "어렵지만 재미있어요",
+    "proposed": "Studying Korean is difficult but"
+  },
+  {
+    "id": 881,
+    "korean": "하다 보면 늘어요",
+    "current": "하다 보면 늘어요",
+    "proposed": "Don't worry. You'll get better"
+  },
+  {
+    "id": 882,
+    "korean": "분위기 좋아요",
+    "current": "분위기 좋아요",
+    "proposed": "This café has a great"
+  },
+  {
+    "id": 883,
+    "korean": "달달한 거 있어요?",
+    "current": "달달한 거 있어요?",
+    "proposed": "I'm hungry — do you"
+  },
+  {
+    "id": 884,
+    "korean": "오래 있어도 돼요?",
+    "current": "오래 있어도 돼요?",
+    "proposed": "Is it okay to stay"
+  },
+  {
+    "id": 885,
+    "korean": "나라마다 달라요",
+    "current": "나라마다 달라요",
+    "proposed": "The way you greet people"
+  },
+  {
+    "id": 886,
+    "korean": "이제 적응이 됐어요",
+    "current": "이제 적응이 됐어요",
+    "proposed": "I've finally adjusted to life"
+  },
+  {
+    "id": 887,
+    "korean": "처음엔 낯설었는데",
+    "current": "처음엔 낯설었는데",
+    "proposed": "It felt unfamiliar at first,"
+  },
+  {
+    "id": 888,
+    "korean": "~는데",
+    "current": "~는데",
+    "proposed": "I'm hungry — what should we ~?"
+  },
+  {
+    "id": 889,
+    "korean": "~거든",
+    "current": "~거든",
+    "proposed": "I can't drink. I have to drive, you ~"
+  },
+  {
+    "id": 890,
+    "korean": "~네",
+    "current": "~네",
+    "proposed": "Korean is easier than I ~"
+  },
+  {
+    "id": 891,
+    "korean": "~면 어때요?",
+    "current": "~면 어때요?",
+    "proposed": "How about meeting ~?"
+  },
+  {
+    "id": 892,
+    "korean": "~면 좋겠어요",
+    "current": "~면 좋겠어요",
+    "proposed": "I hope the weather is nice ~"
+  },
+  {
+    "id": 893,
+    "korean": "~면 돼요",
+    "current": "~면 돼요",
+    "proposed": "You can ~"
+  },
+  {
+    "id": 894,
+    "korean": "~때문에",
+    "current": "~때문에",
+    "proposed": "I couldn't go out because of the ~"
+  },
+  {
+    "id": 895,
+    "korean": "~덕분에",
+    "current": "~덕분에",
+    "proposed": "Thanks to my teacher, my Korean has ~"
+  },
+  {
+    "id": 896,
+    "korean": "~보다",
+    "current": "~보다",
+    "proposed": "Korean is harder than I ~"
+  },
+  {
+    "id": 897,
+    "korean": "~는 동안",
+    "current": "~는 동안",
+    "proposed": "Shall we have coffee while we ~?"
+  },
+  {
+    "id": 898,
+    "korean": "~고 나서",
+    "current": "~고 나서",
+    "proposed": "Shall we take a walk after ~?"
+  },
+  {
+    "id": 899,
+    "korean": "~기 전에",
+    "current": "~기 전에",
+    "proposed": "Don't look at your phone before ~"
+  },
+  {
+    "id": 900,
+    "korean": "~아 줄게요",
+    "current": "~아 줄게요",
+    "proposed": "I'll help you. Don't ~"
+  },
+  {
+    "id": 901,
+    "korean": "해 드릴까요?",
+    "current": "해 드릴까요?",
+    "proposed": "Shall I take a photo"
+  },
+  {
+    "id": 902,
+    "korean": "죄송한데요 혹시 ~",
+    "current": "죄송한데요 혹시 ~",
+    "proposed": "죄송한데요 혹시 ~"
+  },
+  {
+    "id": 903,
+    "korean": "~지 얼마나 됐어요?",
+    "current": "~지 얼마나 됐어요?",
+    "proposed": "How long has it been since you came to ~?"
+  },
+  {
+    "id": 904,
+    "korean": "아직 ~는 중이에요",
+    "current": "아직 ~는 중이에요",
+    "proposed": "아직 ~"
+  },
+  {
+    "id": 905,
+    "korean": "거의 다 됐어요",
+    "current": "거의 다 됐어요",
+    "proposed": "Wait just a little. It's"
+  },
+  {
+    "id": 906,
+    "korean": "~스타일 좋아해요?",
+    "current": "~스타일 좋아해요?",
+    "proposed": "What music style do you ~?"
+  },
+  {
+    "id": 907,
+    "korean": "~잘 어울려요",
+    "current": "~잘 어울려요",
+    "proposed": "That outfit suits you really ~!"
+  },
+  {
+    "id": 908,
+    "korean": "요즘 유행이에요",
+    "current": "요즘 유행이에요",
+    "proposed": "This color is trending these"
+  },
+  {
+    "id": 909,
+    "korean": "배달 얼마나 걸려요?",
+    "current": "배달 얼마나 걸려요?",
+    "proposed": "How long does delivery take?"
+  },
+  {
+    "id": 910,
+    "korean": "가성비 좋아요",
+    "current": "가성비 좋아요",
+    "proposed": "This restaurant is great value."
+  },
+  {
+    "id": 911,
+    "korean": "여행 계획 있어요?",
+    "current": "여행 계획 있어요?",
+    "proposed": "Do you have any travel"
+  },
+  {
+    "id": 912,
+    "korean": "며칠이나 있을 거예요?",
+    "current": "며칠이나 있을 거예요?",
+    "proposed": "How many days will you"
+  },
+  {
+    "id": 913,
+    "korean": "꼭 봐야 할 게 뭐예요?",
+    "current": "꼭 봐야 할 게 뭐예요?",
+    "proposed": "What's a must-see in Seoul"
+  },
+  {
+    "id": 914,
+    "korean": "한국 생활 어때?",
+    "current": "한국 생활 어때?",
+    "proposed": "How's life in Korea? Is"
+  },
+  {
+    "id": 915,
+    "korean": "이제 익숙해졌어",
+    "current": "이제 익숙해졌어",
+    "proposed": "It was tough at first,"
+  },
+  {
+    "id": 916,
+    "korean": "~이 제일 좋아",
+    "current": "~이 제일 좋아",
+    "proposed": "Among Korean foods, I like samgyeopsal the ~"
+  },
+  {
+    "id": 917,
+    "korean": "~ㄹ 거예요",
+    "current": "~ㄹ 거예요",
+    "proposed": "I'm going to meet a friend ~"
+  },
+  {
+    "id": 918,
+    "korean": "~려고 해요",
+    "current": "~려고 해요",
+    "proposed": "I'm planning to take a Korean exam next ~"
+  },
+  {
+    "id": 919,
+    "korean": "~고 싶어요",
+    "current": "~고 싶어요",
+    "proposed": "I want to ~"
+  },
+  {
+    "id": 920,
+    "korean": "~기로 했어요",
+    "current": "~기로 했어요",
+    "proposed": "I've decided to live in ~"
+  },
+  {
+    "id": 921,
+    "korean": "마음먹었어요",
+    "current": "마음먹었어요",
+    "proposed": "I've made up my mind"
+  },
+  {
+    "id": 922,
+    "korean": "예전보다 늘었어요",
+    "current": "예전보다 늘었어요",
+    "proposed": "My Korean has improved compared"
+  },
+  {
+    "id": 923,
+    "korean": "~어 봤어?",
+    "current": "~어 봤어?",
+    "proposed": "Have you tried bibimbap? It's really ~"
+  },
+  {
+    "id": 924,
+    "korean": "~보니까",
+    "current": "~보니까",
+    "proposed": "Now that I've studied Korean, it's more fun than I ~"
+  },
+  {
+    "id": 925,
+    "korean": "~추천해줬어",
+    "current": "~추천해줬어",
+    "proposed": "My friend recommended this restaurant. They say it's ~"
+  },
+  {
+    "id": 926,
+    "korean": "~가르쳐줄 수 있어?",
+    "current": "~가르쳐줄 수 있어?",
+    "proposed": "Can you teach me this dish? I want to learn how to make ~"
+  },
+  {
+    "id": 927,
+    "korean": "~맞아?",
+    "current": "~맞아?",
+    "proposed": "This is Hongdae station, ~?"
+  },
+  {
+    "id": 928,
+    "korean": "~어떻게 해?",
+    "current": "~어떻게 해?",
+    "proposed": "How do you use this app? It's my first ~"
+  },
+  {
+    "id": 929,
+    "korean": "~만들어봤어?",
+    "current": "~만들어봤어?",
+    "proposed": "Have you ever tried making kimchi? Is it ~?"
+  },
+  {
+    "id": 930,
+    "korean": "~얼마나 넣어?",
+    "current": "~얼마나 넣어?",
+    "proposed": "How much sugar do you add? I think it'll be too ~"
+  },
+  {
+    "id": 931,
+    "korean": "~하면 돼",
+    "current": "~하면 돼",
+    "proposed": "Just press this button. It's ~"
+  },
+  {
+    "id": 932,
+    "korean": "~살 거예요",
+    "current": "~살 거예요",
+    "proposed": "I'm going to buy new sneakers ~"
+  },
+  {
+    "id": 933,
+    "korean": "이거 어때요?",
+    "current": "이거 어때요?",
+    "proposed": "How is this outfit? Does"
+  },
+  {
+    "id": 934,
+    "korean": "카드로 할게요",
+    "current": "카드로 할게요",
+    "proposed": "I'll pay by card. I"
+  },
+  {
+    "id": 935,
+    "korean": "~해봤어?",
+    "current": "~해봤어?",
+    "proposed": "Have you been to a Korean noraebang? It's really ~"
+  },
+  {
+    "id": 936,
+    "korean": "어땠어?",
+    "current": "어땠어?",
+    "proposed": "How was your blind date"
+  },
+  {
+    "id": 937,
+    "korean": "~받고 싶어요",
+    "current": "~받고 싶어요",
+    "proposed": "I want to receive flowers for my ~"
+  },
+  {
+    "id": 938,
+    "korean": "어디가 아파요?",
+    "current": "어디가 아파요?",
+    "proposed": "Where does it hurt? Do"
+  },
+  {
+    "id": 939,
+    "korean": "언제부터 아팠어요?",
+    "current": "언제부터 아팠어요?",
+    "proposed": "Since when have you been"
+  },
+  {
+    "id": 940,
+    "korean": "~와 봤어요?",
+    "current": "~와 봤어요?",
+    "proposed": "Have you been to Jeju Island ~?"
+  },
+  {
+    "id": 941,
+    "korean": "~하기 좋아요",
+    "current": "~하기 좋아요",
+    "proposed": "This place is great for taking ~"
+  },
+  {
+    "id": 942,
+    "korean": "~중에 뭐가 제일 좋아요?",
+    "current": "~중에 뭐가 제일 좋아요?",
+    "proposed": "What's your favorite among Korean ~?"
+  },
+  {
+    "id": 943,
+    "korean": "~라서 중독성 있어요",
+    "current": "~라서 중독성 있어요",
+    "proposed": "This song is addictive because the melody is so ~"
+  },
+  {
+    "id": 944,
+    "korean": "~이랑 달라요",
+    "current": "~이랑 달라요",
+    "proposed": "It's different from my country. So ~"
+  },
+  {
+    "id": 945,
+    "korean": "좀 그렇긴 한데",
+    "current": "좀 그렇긴 한데",
+    "proposed": "Honestly, it's a little awkward,"
+  },
+  {
+    "id": 946,
+    "korean": "솔직하게 말해도 돼?",
+    "current": "솔직하게 말해도 돼?",
+    "proposed": "Can I be honest? There's"
+  },
+  {
+    "id": 947,
+    "korean": "은근히 ~해",
+    "current": "은근히 ~해",
+    "proposed": "은근히 ~"
+  },
+  {
+    "id": 948,
+    "korean": "~때문에 바빠요",
+    "current": "~때문에 바빠요",
+    "proposed": "I'm busy because of exams. I'll contact you ~"
+  },
+  {
+    "id": 949,
+    "korean": "무리하지 마세요",
+    "current": "무리하지 마세요",
+    "proposed": "If you're not feeling well,"
+  },
+  {
+    "id": 950,
+    "korean": "~많이 해?",
+    "current": "~많이 해?",
+    "proposed": "Do you exercise a lot? You look ~"
+  },
+  {
+    "id": 951,
+    "korean": "~유행이야?",
+    "current": "~유행이야?",
+    "proposed": "Is this style trendy these ~?"
+  },
+  {
+    "id": 952,
+    "korean": "~올렸더니",
+    "current": "~올렸더니",
+    "proposed": "After I posted the photo, I got a lot of ~"
+  },
+  {
+    "id": 953,
+    "korean": "~도전해요",
+    "current": "~도전해요",
+    "proposed": "I'm going to take on cooking this ~"
+  },
+  {
+    "id": 954,
+    "korean": "재료가 있어요?",
+    "current": "재료가 있어요?",
+    "proposed": "I want to make kimchi"
+  },
+  {
+    "id": 955,
+    "korean": "다음엔 더 잘할 거예요",
+    "current": "다음엔 더 잘할 거예요",
+    "proposed": "I made a mistake this"
+  },
+  {
+    "id": 956,
+    "korean": "~루틴 있어요?",
+    "current": "~루틴 있어요?",
+    "proposed": "Do you have a morning routine? How do you start your ~?"
+  },
+  {
+    "id": 957,
+    "korean": "~하고 나서",
+    "current": "~하고 나서",
+    "proposed": "Let's take a walk after ~"
+  },
+  {
+    "id": 958,
+    "korean": "꼭 ~해야 해요",
+    "current": "꼭 ~해야 해요",
+    "proposed": "꼭 ~"
+  },
+  {
+    "id": 959,
+    "korean": "많이 늘었어요",
+    "current": "많이 늘었어요",
+    "proposed": "Your Korean has improved so"
+  },
+  {
+    "id": 960,
+    "korean": "비결이 뭐예요?",
+    "current": "비결이 뭐예요?",
+    "proposed": "Your skin looks amazing. What's"
+  },
+  {
+    "id": 961,
+    "korean": "~이 헷갈려요",
+    "current": "~이 헷갈려요",
+    "proposed": "Formal and informal speech are still confusing to ~"
+  },
+  {
+    "id": 962,
+    "korean": "~이 이렇게 ~해?",
+    "current": "~이 이렇게 ~해?",
+    "proposed": "Is samgyeopsal this delicious? It's seriously ~"
+  },
+  {
+    "id": 963,
+    "korean": "이때가 제일 좋아",
+    "current": "이때가 제일 좋아",
+    "proposed": "This is my favorite moment"
+  },
+  {
+    "id": 964,
+    "korean": "~은 어때?",
+    "current": "~은 어때?",
+    "proposed": "How about that restaurant? I heard the reviews are ~"
+  },
+  {
+    "id": 965,
+    "korean": "서운했어요",
+    "current": "서운했어요",
+    "proposed": "I felt hurt because there"
+  },
+  {
+    "id": 966,
+    "korean": "마음은 알아요",
+    "current": "마음은 알아요",
+    "proposed": "I understand your feelings, but"
+  },
+  {
+    "id": 967,
+    "korean": "말하고 나니까 후련해요",
+    "current": "말하고 나니까 후련해요",
+    "proposed": "I feel relieved now that"
+  },
+  {
+    "id": 968,
+    "korean": "꿈이 뭐예요?",
+    "current": "꿈이 뭐예요?",
+    "proposed": "What's your dream? What do"
+  },
+  {
+    "id": 969,
+    "korean": "~가 되고 싶어요",
+    "current": "~가 되고 싶어요",
+    "proposed": "I want to become a Korean ~"
+  },
+  {
+    "id": 970,
+    "korean": "포기하고 싶어요",
+    "current": "포기하고 싶어요",
+    "proposed": "It's so hard that I"
+  },
+  {
+    "id": 971,
+    "korean": "~어디에 버려?",
+    "current": "~어디에 버려?",
+    "proposed": "Where do I throw away this ~?"
+  },
+  {
+    "id": 972,
+    "korean": "~철저히 해?",
+    "current": "~철저히 해?",
+    "proposed": "Do you do recycling thoroughly? I think it's ~"
+  },
+  {
+    "id": 973,
+    "korean": "~신경 써야겠어",
+    "current": "~신경 써야겠어",
+    "proposed": "I should pay more attention to my ~"
+  },
+  {
+    "id": 974,
+    "korean": "말로 표현하기 어려워요",
+    "current": "말로 표현하기 어려워요",
+    "proposed": "This feeling is hard to"
+  },
+  {
+    "id": 975,
+    "korean": "이 느낌 알아요?",
+    "current": "이 느낌 알아요?",
+    "proposed": "The nervous feeling before a"
+  },
+  {
+    "id": 976,
+    "korean": "왠지 모르게 ~해요",
+    "current": "왠지 모르게 ~해요",
+    "proposed": "왠지 모르게 ~"
+  },
+  {
+    "id": 977,
+    "korean": "딱 이 느낌이에요",
+    "current": "딱 이 느낌이에요",
+    "proposed": "This is exactly the feeling"
+  },
+  {
+    "id": 978,
+    "korean": "오해가 있었어",
+    "current": "오해가 있었어",
+    "proposed": "There was a misunderstanding between"
+  },
+  {
+    "id": 979,
+    "korean": "~뜻이 아니었어",
+    "current": "~뜻이 아니었어",
+    "proposed": "I didn't mean to get ~"
+  },
+  {
+    "id": 980,
+    "korean": "충분히 이해해",
+    "current": "충분히 이해해",
+    "proposed": "I fully understand your situation"
+  },
+  {
+    "id": 981,
+    "korean": "합격했어요",
+    "current": "합격했어요",
+    "proposed": "I passed the exam"
+  },
+  {
+    "id": 982,
+    "korean": "드디어 해냈어요",
+    "current": "드디어 해냈어요",
+    "proposed": "I finally did it! I"
+  },
+  {
+    "id": 983,
+    "korean": "잘 이겨냈어요",
+    "current": "잘 이겨냈어요",
+    "proposed": "You got through the tough"
+  },
+  {
+    "id": 984,
+    "korean": "~먹어봐",
+    "current": "~먹어봐",
+    "proposed": "Try this. It's really ~"
+  },
+  {
+    "id": 985,
+    "korean": "생각보다 훨씬 ~해",
+    "current": "생각보다 훨씬 ~해",
+    "proposed": "생각보다 훨씬 ~"
+  },
+  {
+    "id": 986,
+    "korean": "중독성 있어",
+    "current": "중독성 있어",
+    "proposed": "This song is addictive. I"
+  },
+  {
+    "id": 987,
+    "korean": "행복해요",
+    "current": "행복해요",
+    "proposed": "I'm happy in this moment"
+  },
+  {
+    "id": 988,
+    "korean": "~하는 게 좋아요",
+    "current": "~하는 게 좋아요",
+    "proposed": "I like listening to ~"
+  },
+  {
+    "id": 989,
+    "korean": "이런 일상이 소중해요",
+    "current": "이런 일상이 소중해요",
+    "proposed": "These everyday moments of eating"
+  },
+  {
+    "id": 990,
+    "korean": "알고 보면 쉬워",
+    "current": "알고 보면 쉬워",
+    "proposed": "Korean grammar is easy once"
+  },
+  {
+    "id": 991,
+    "korean": "이게 포인트야",
+    "current": "이게 포인트야",
+    "proposed": "Kneading the dough well is"
+  },
+  {
+    "id": 992,
+    "korean": "다 같이 모이니까 좋아요",
+    "current": "다 같이 모이니까 좋아요",
+    "proposed": "It's great that we're all"
+  },
+  {
+    "id": 993,
+    "korean": "처음 만났을 때",
+    "current": "처음 만났을 때",
+    "proposed": "I was very nervous when"
+  },
+  {
+    "id": 994,
+    "korean": "여러분 덕분이에요",
+    "current": "여러분 덕분이에요",
+    "proposed": "I was able to come"
+  },
+  {
+    "id": 995,
+    "korean": "앞으로도 잘 부탁해요",
+    "current": "앞으로도 잘 부탁해요",
+    "proposed": "Please continue to take care"
+  },
+  {
+    "id": 996,
+    "korean": "얼마나 있을 거예요?",
+    "current": "얼마나 있을 거예요?",
+    "proposed": "How long will you be"
+  },
+  {
+    "id": 997,
+    "korean": "꿈을 위해 할 거예요",
+    "current": "꿈을 위해 할 거예요",
+    "proposed": "I'll study hard for my"
+  },
+  {
+    "id": 998,
+    "korean": "줄 서야 해요",
+    "current": "줄 서야 해요",
+    "proposed": "It's a popular restaurant, so"
+  },
+  {
+    "id": 999,
+    "korean": "웨이팅 있어요?",
+    "current": "웨이팅 있어요?",
+    "proposed": "Is there a wait right"
+  },
+  {
+    "id": 1000,
+    "korean": "꼭 와봐야 할 곳이에요",
+    "current": "꼭 와봐야 할 곳이에요",
+    "proposed": "Gyeongbokgung Palace is a place"
+  },
+  {
+    "id": 1001,
+    "korean": "믿기지 않아",
+    "current": "믿기지 않아",
+    "proposed": "I passed. I can't believe"
+  },
+  {
+    "id": 1002,
+    "korean": "처음에 비하면",
+    "current": "처음에 비하면",
+    "proposed": "Compared to the beginning, my"
+  },
+  {
+    "id": 1003,
+    "korean": "포기 안 하길 잘했어",
+    "current": "포기 안 하길 잘했어",
+    "proposed": "It was hard, but I'm"
+  },
+  {
+    "id": 1004,
+    "korean": "~라고 하던데",
+    "current": "~라고 하던데",
+    "proposed": "I heard it's delicious ~"
+  },
+  {
+    "id": 1005,
+    "korean": "~라더라",
+    "current": "~라더라",
+    "proposed": "I heard the line there is really ~"
+  },
+  {
+    "id": 1006,
+    "korean": "~는 줄 몰랐어",
+    "current": "~는 줄 몰랐어",
+    "proposed": "I didn't know it would be this ~"
+  },
+  {
+    "id": 1007,
+    "korean": "~게 됐어요",
+    "current": "~게 됐어요",
+    "proposed": "I ended up living in ~"
+  },
+  {
+    "id": 1008,
+    "korean": "~다 보니까",
+    "current": "~다 보니까",
+    "proposed": "As I kept practicing every day, my skills ~"
+  },
+  {
+    "id": 1009,
+    "korean": "~하다 보면",
+    "current": "~하다 보면",
+    "proposed": "If you keep practicing, you'll get ~"
+  },
+  {
+    "id": 1010,
+    "korean": "~한 것치고는",
+    "current": "~한 것치고는",
+    "proposed": "For a first attempt, you did really ~"
+  },
+  {
+    "id": 1011,
+    "korean": "아무리 그래도",
+    "current": "아무리 그래도",
+    "proposed": "Even so, that's too much"
+  },
+  {
+    "id": 1012,
+    "korean": "잘 모르겠는데요",
+    "current": "잘 모르겠는데요",
+    "proposed": "I'm not really sure about"
+  },
+  {
+    "id": 1013,
+    "korean": "좀 더 생각해 봐야겠어요",
+    "current": "좀 더 생각해 봐야겠어요",
+    "proposed": "I can't decide right now."
+  },
+  {
+    "id": 1014,
+    "korean": "일단은 ~해요",
+    "current": "일단은 ~해요",
+    "proposed": "일단은 ~"
+  },
+  {
+    "id": 1015,
+    "korean": "눈치챘어요?",
+    "current": "눈치챘어요?",
+    "proposed": "Did you notice that I"
+  },
+  {
+    "id": 1016,
+    "korean": "감이 잡혀요",
+    "current": "감이 잡혀요",
+    "proposed": "After hearing the explanation, I'm"
+  },
+  {
+    "id": 1017,
+    "korean": "딱 봐도 알겠어요",
+    "current": "딱 봐도 알겠어요",
+    "proposed": "You can tell just by"
+  },
+  {
+    "id": 1018,
+    "korean": "흔한 일이야",
+    "current": "흔한 일이야",
+    "proposed": "Missing the subway is a"
+  },
+  {
+    "id": 1019,
+    "korean": "알고 보면 ~해",
+    "current": "알고 보면 ~해",
+    "proposed": "알고 보면 ~"
+  },
+  {
+    "id": 1020,
+    "korean": "부담스러워요",
+    "current": "부담스러워요",
+    "proposed": "The gift is so big"
+  },
+  {
+    "id": 1021,
+    "korean": "솔직하게 말해도 돼요?",
+    "current": "솔직하게 말해도 돼요?",
+    "proposed": "Can I be honest? I'm"
+  },
+  {
+    "id": 1022,
+    "korean": "이제 많이 편해졌어요",
+    "current": "이제 많이 편해졌어요",
+    "proposed": "Life in Korea has become"
+  },
+  {
+    "id": 1023,
+    "korean": "외국인 티 나요?",
+    "current": "외국인 티 나요?",
+    "proposed": "Do I seem like a"
+  },
+  {
+    "id": 1024,
+    "korean": "이제 한국말이 편해요",
+    "current": "이제 한국말이 편해요",
+    "proposed": "It was hard at first,"
+  },
+  {
+    "id": 1025,
+    "korean": "한국어로 꿈도 꿔요",
+    "current": "한국어로 꿈도 꿔요",
+    "proposed": "Lately, I even dream in"
+  },
+  {
+    "id": 1026,
+    "korean": "관광지보다 로컬이 좋아",
+    "current": "관광지보다 로컬이 좋아",
+    "proposed": "I prefer local spots over"
+  },
+  {
+    "id": 1027,
+    "korean": "현지인들이 가는 곳이야",
+    "current": "현지인들이 가는 곳이야",
+    "proposed": "This is a place locals"
+  },
+  {
+    "id": 1028,
+    "korean": "숨겨진 명소야",
+    "current": "숨겨진 명소야",
+    "proposed": "This place is a hidden"
+  },
+  {
+    "id": 1029,
+    "korean": "요즘 핫해요",
+    "current": "요즘 핫해요",
+    "proposed": "This cafe is really popular"
+  },
+  {
+    "id": 1030,
+    "korean": "완전 대세예요",
+    "current": "완전 대세예요",
+    "proposed": "This style is totally the"
+  },
+  {
+    "id": 1031,
+    "korean": "떠오르는 중이에요",
+    "current": "떠오르는 중이에요",
+    "proposed": "This singer is on the"
+  },
+  {
+    "id": 1032,
+    "korean": "아니라고 할 순 없지",
+    "current": "아니라고 할 순 없지",
+    "proposed": "It is expensive, but I"
+  },
+  {
+    "id": 1033,
+    "korean": "꼭 그런 건 아니야",
+    "current": "꼭 그런 건 아니야",
+    "proposed": "Expensive doesn't always mean good."
+  },
+  {
+    "id": 1034,
+    "korean": "말이 되네요",
+    "current": "말이 되네요",
+    "proposed": "Thinking about it that way,"
+  },
+  {
+    "id": 1035,
+    "korean": "앞뒤가 안 맞아요",
+    "current": "앞뒤가 안 맞아요",
+    "proposed": "The story doesn't add up"
+  },
+  {
+    "id": 1036,
+    "korean": "결국엔 ~",
+    "current": "결국엔 ~",
+    "proposed": "결국엔 ~"
+  },
+  {
+    "id": 1037,
+    "korean": "속상했어요",
+    "current": "속상했어요",
+    "proposed": "I was really upset when"
+  },
+  {
+    "id": 1038,
+    "korean": "억울했어요",
+    "current": "억울했어요",
+    "proposed": "I felt wronged because I"
+  },
+  {
+    "id": 1039,
+    "korean": "상대방 입장에서 생각해봐",
+    "current": "상대방 입장에서 생각해봐",
+    "proposed": "Before getting angry, think from"
+  },
+  {
+    "id": 1040,
+    "korean": "마음은 알아",
+    "current": "마음은 알아",
+    "proposed": "I understand how you feel."
+  },
+  {
+    "id": 1041,
+    "korean": "내가 옆에 있을게",
+    "current": "내가 옆에 있을게",
+    "proposed": "Even when it's tough, I'll"
+  },
+  {
+    "id": 1042,
+    "korean": "반전 있어요",
+    "current": "반전 있어요",
+    "proposed": "This movie has a twist."
+  },
+  {
+    "id": 1043,
+    "korean": "여운이 남아요",
+    "current": "여운이 남아요",
+    "proposed": "Even after watching this movie,"
+  },
+  {
+    "id": 1044,
+    "korean": "몰입이 돼요",
+    "current": "몰입이 돼요",
+    "proposed": "When I read this book,"
+  },
+  {
+    "id": 1045,
+    "korean": "어딘가 모르게 끌려요",
+    "current": "어딘가 모르게 끌려요",
+    "proposed": "I'm drawn to this painting"
+  },
+  {
+    "id": 1046,
+    "korean": "떠나기 싫어",
+    "current": "떠나기 싫어",
+    "proposed": "I love Korea so much"
+  },
+  {
+    "id": 1047,
+    "korean": "~이 그리울 것 같아",
+    "current": "~이 그리울 것 같아",
+    "proposed": "I think I'll miss Korean ~"
+  },
+  {
+    "id": 1048,
+    "korean": "꼭 다시 올게",
+    "current": "꼭 다시 올게",
+    "proposed": "It was so good. I'll"
+  },
+  {
+    "id": 1049,
+    "korean": "이제 한국어로 생각해요",
+    "current": "이제 한국어로 생각해요",
+    "proposed": "These days, I now think"
+  },
+  {
+    "id": 1050,
+    "korean": "번역 안 해도 이해돼요",
+    "current": "번역 안 해도 이해돼요",
+    "proposed": "Now I understand without translating"
+  },
+  {
+    "id": 1051,
+    "korean": "실력이 많이 늘었어요",
+    "current": "실력이 많이 늘었어요",
+    "proposed": "My Korean skills have improved"
+  },
+  {
+    "id": 1052,
+    "korean": "같이 성장한 것 같아요",
+    "current": "같이 성장한 것 같아요",
+    "proposed": "Studying together, I feel like"
+  },
+  {
+    "id": 1053,
+    "korean": "덕분에 정말 많이 배웠어요",
+    "current": "덕분에 정말 많이 배웠어요",
+    "proposed": "Thanks to all of you,"
+  }
+]

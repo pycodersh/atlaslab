@@ -11,15 +11,15 @@ import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { getRecord } from '@/lib/srs/storage'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { createClient } from '@/lib/supabase/client'
+import { FREE_EPISODES } from '@/lib/kpatto/config'
 
-type EpItem = { id: string; episode: number; title: string; theme: string; thumbnail_url: string }
+type EpItem = { id: string; episode: number; title: string; title_en: string | null; theme: string; thumbnail_url: string }
 
 const T1    = '#111111'
 const T2    = '#999999'
 const DIV   = '#F2F2F2'
 const ACCENT = '#D4873A'
 const MAX_VIEWS = 10
-const FREE_EPISODES = 5
 
 function EpisodeStatus({ views, done }: { views: number; done: boolean }) {
   if (views >= MAX_VIEWS) {
@@ -71,7 +71,7 @@ export default function KPattoStoryListPage() {
     const supabase = createClient()
     supabase
       .from('kp_episodes')
-      .select('episode_num, title, theme')
+      .select('episode_num, title, title_en, theme')
       .gte('episode_num', 31)
       .lte('episode_num', 100)
       .order('episode_num')
@@ -81,6 +81,7 @@ export default function KPattoStoryListPage() {
           id: `kp-ep-${String(r.episode_num).padStart(3, '0')}`,
           episode: r.episode_num as number,
           title: r.title as string,
+          title_en: (r.title_en as string | null) ?? null,
           theme: (r.theme ?? '') as string,
           thumbnail_url: `/kpatto/ep-${String(r.episode_num).padStart(3, '0')}/ep${r.episode_num}_c1.png`,
         })))
@@ -136,16 +137,23 @@ export default function KPattoStoryListPage() {
               </div>
 
               {/* Info */}
-              <div style={{ flex: 1, minWidth: 0, padding: '12px 8px 12px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6 }}>
+              <div style={{ flex: 1, minWidth: 0, padding: '12px 8px 12px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 4 }}>
                 <div style={{ fontSize: 15, fontWeight: 800, color: T1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   <span style={{ color: locked ? T2 : ACCENT }}>EP {String(story.episode).padStart(2, '0')}</span>
                   <span style={{ color: T2, fontWeight: 400 }}> · </span>
                   {story.title}
                 </div>
-                {locked
-                  ? <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>Pro 전용</span>
-                  : <EpisodeStatus views={views} done={state?.done ?? false} />
-                }
+                {'title_en' in story && story.title_en && (
+                  <div style={{ fontSize: 11, color: T2, fontWeight: 400, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {story.title_en}
+                  </div>
+                )}
+                <div style={{ marginTop: 2 }}>
+                  {locked
+                    ? <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>Pro 전용</span>
+                    : <EpisodeStatus views={views} done={state?.done ?? false} />
+                  }
+                </div>
               </div>
 
               {/* Chevron */}

@@ -1,0 +1,57 @@
+[
+  {
+    "id": 816,
+    "literal_en": "Do you have medicine for ~?",
+    "usage_en": "Used at a pharmacy to ask for medicine for a specific symptom.\n\nRule: Korean builds medicine names as one word — 두통 (headache) + 약 becomes 두통약, and 감기 (cold) + 약 becomes 감기약. A pharmacy is 약국."
+  },
+  {
+    "id": 817,
+    "literal_en": "You'd better not eat it.",
+    "usage_en": "Used to advise someone against eating something, gently rather than as an order.\n\nRule: -는 게 나아요 means 'it's better to ~'. Put 안 in front of the verb for the negative — 안 먹는 게 나아요. For the positive, drop it — 먹는 게 나아요."
+  },
+  {
+    "id": 821,
+    "literal_en": "What's this place famous for?",
+    "usage_en": "Used to ask what a place is known for — its signature dish, product, or sight.\n\nRule: 여기서 means 'here at this place'. 게 is a shortened form of 것이 (the thing that), so 유명한 게 means 'the thing that is famous'."
+  },
+  {
+    "id": 824,
+    "literal_en": "Long time no see.",
+    "usage_en": "Used when you meet someone again after a long gap. It's one of the most common Korean greetings.\n\nRule: The casual form is 오랜만이야. It's usually followed by 잘 지냈어요? (how have you been?) as a set pair."
+  },
+  {
+    "id": 826,
+    "literal_en": "See you again next time.",
+    "usage_en": "A warm goodbye that leaves the door open for another meeting.\n\nRule: 보다 means both 'see' and 'meet' in Korean, so 봐요 works as a farewell. The casual form is 다음에 또 봐."
+  },
+  {
+    "id": 835,
+    "literal_en": "Don't forget ~.",
+    "usage_en": "Used to remind a friend about something they might leave behind or overlook.\n\nRule: This is casual speech; the polite form is 잊지 마세요. It uses -지 말다, the same pattern as 하지 마 (don't do it)."
+  },
+  {
+    "id": 847,
+    "literal_en": "It's addictive.",
+    "usage_en": "Used for a song, snack, or show you can't stop coming back to.\n\nRule: 중독성 means 'addictiveness', and it pairs with 있다 — 중독성 있어요. Adding 진짜 (really) or 완전 (totally) in front makes it stronger."
+  },
+  {
+    "id": 848,
+    "literal_en": "How do you take care of ~?",
+    "usage_en": "Used to ask about someone's routine for looking after something — skin, hair, health.\n\nRule: 관리 means 'care' or 'upkeep' and takes 하다. Put what you're asking about straight in front with no particle — 피부 관리 어떻게 해요?"
+  },
+  {
+    "id": 853,
+    "literal_en": "I've been keeping it up.",
+    "usage_en": "Used to say you've stuck with something over time — exercise, study, a habit.\n\nRule: 꾸준히 means 'steadily, without breaks'. -고 있어요 marks an action still in progress, so together they mean you started before and are still going."
+  },
+  {
+    "id": 855,
+    "literal_en": "Do you live alone?",
+    "usage_en": "Used to ask whether someone lives by themselves — a normal getting-to-know-you question in Korea.\n\nRule: 혼자 means 'alone' and goes before the verb. A related word is 자취하다, used for living away from your family, usually as a student."
+  },
+  {
+    "id": 856,
+    "literal_en": "What's near ~?",
+    "usage_en": "Used to ask what shops or places are around somewhere.\n\nRule: This is casual speech; the polite form is 근처에 뭐 있어요? 근처 (nearby) takes 에, and the place you're asking about goes in front — 집 근처에 뭐 있어?"
+  }
+]

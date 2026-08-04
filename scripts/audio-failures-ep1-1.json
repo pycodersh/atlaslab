@@ -1,0 +1,98 @@
+[
+  {
+    "id": 10291,
+    "type": "dialogue",
+    "text": "안녕하세요… 저, 여기 처음이에요.",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 10295,
+    "type": "dialogue",
+    "text": "네, 있어요!",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 10293,
+    "type": "dialogue",
+    "text": "아, 그건 달고나 라떼예요. 달콤해요!",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 10296,
+    "type": "dialogue",
+    "text": "그럼 아이스 달고나 라떼 주세요.",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 771,
+    "type": "expression_Charon",
+    "text": "뭐예요?|이거 뭐예요?|저거 뭐예요?|이 음식 뭐예요?",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 771,
+    "type": "expression_Kore",
+    "text": "뭐예요?|이거 뭐예요?|저거 뭐예요?|이 음식 뭐예요?",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 771,
+    "type": "expression_Zephyr",
+    "text": "뭐예요?|이거 뭐예요?|저거 뭐예요?|이 음식 뭐예요?",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 770,
+    "type": "expression_Charon",
+    "text": "|물 주세요.|메뉴판 주세요.|영수증 주세요.",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 770,
+    "type": "expression_Kore",
+    "text": "|물 주세요.|메뉴판 주세요.|영수증 주세요.",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 770,
+    "type": "expression_Zephyr",
+    "text": "|물 주세요.|메뉴판 주세요.|영수증 주세요.",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 1383,
+    "type": "expression_Charon",
+    "text": "이에요, 예요|저는 학생이에요.|이건 유자차예요.|제 이름은 에마예요.",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 1383,
+    "type": "expression_Kore",
+    "text": "이에요, 예요|저는 학생이에요.|이건 유자차예요.|제 이름은 에마예요.",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 1383,
+    "type": "expression_Zephyr",
+    "text": "이에요, 예요|저는 학생이에요.|이건 유자차예요.|제 이름은 에마예요.",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 772,
+    "type": "expression_Charon",
+    "text": "있어요?|와이파이 있어요?|자리 있어요?|화장실 있어요?",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 772,
+    "type": "expression_Kore",
+    "text": "있어요?|와이파이 있어요?|자리 있어요?|화장실 있어요?",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  },
+  {
+    "id": 772,
+    "type": "expression_Zephyr",
+    "text": "있어요?|와이파이 있어요?|자리 있어요?|화장실 있어요?",
+    "error": "429 after 5 retries: \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head t"
+  }
+]

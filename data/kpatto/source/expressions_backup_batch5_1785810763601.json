@@ -1,0 +1,57 @@
+[
+  {
+    "id": 816,
+    "english": "~약 있어요?",
+    "description": "Ask if there is medicine for a specific ailment. Just place a noun before 약 있어요"
+  },
+  {
+    "id": 817,
+    "english": "안 먹는 게 나아요",
+    "description": "Advise that it is better not to eat something. Say what you need, then add 안 먹는"
+  },
+  {
+    "id": 821,
+    "english": "여기서 유명한 게 뭐예요?",
+    "description": "Ask what's famous or popular at a specific place. It works in casual and polite"
+  },
+  {
+    "id": 824,
+    "english": "오랜만이에요",
+    "description": "Greet someone you haven't seen in a while. It works in casual and polite speech"
+  },
+  {
+    "id": 826,
+    "english": "다음에 또 봐요",
+    "description": "A warm goodbye that leaves the door open to meet again. Say what you need, then"
+  },
+  {
+    "id": 835,
+    "english": "~잊지 마",
+    "description": "Remind someone not to forget something important. Just place a noun before 잊지 마"
+  },
+  {
+    "id": 847,
+    "english": "중독성 있어요",
+    "description": "Say something is catchy or impossible to stop enjoying. Say what you need, then"
+  },
+  {
+    "id": 848,
+    "english": "~관리 어떻게 해요?",
+    "description": "Ask how someone takes care of or manages something. Just place a noun before 관리"
+  },
+  {
+    "id": 853,
+    "english": "꾸준히 하고 있어요",
+    "description": "Say you've been keeping up with something consistently. Say what you need, then"
+  },
+  {
+    "id": 855,
+    "english": "혼자 살아요?",
+    "description": "Ask if someone lives by themselves. It works in casual and polite speech alike."
+  },
+  {
+    "id": 856,
+    "english": "~근처에 뭐 있어?",
+    "description": "Casually ask what places or things are near somewhere. Just place a noun before"
+  }
+]

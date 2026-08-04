@@ -1,0 +1,574 @@
+[
+  {
+    "id": 770,
+    "korean": "~주세요",
+    "english": "~주세요",
+    "description": "Use this when you want something given to you. Just place a noun before 주세요 — no conjugation needed. Common uses: 물 주세요. (Water, please.) or 메뉴 주세요. (Menu, please.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Water, please.",
+        "ko": "물 주세요."
+      },
+      {
+        "en": "Menu, please.",
+        "ko": "메뉴 주세요."
+      },
+      {
+        "en": "Receipt, please.",
+        "ko": "영수증 주세요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 771,
+    "korean": "~뭐예요?",
+    "english": "~뭐예요?",
+    "description": "Point at anything and ask what it is. Just place a noun before 뭐예요 — no conjugation needed. Common uses: 이거 뭐예요? (What is this?) or 저거 뭐예요? (What is that?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "What is this?",
+        "ko": "이거 뭐예요?"
+      },
+      {
+        "en": "What is that?",
+        "ko": "저거 뭐예요?"
+      },
+      {
+        "en": "What is your name?",
+        "ko": "이름이 뭐예요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 772,
+    "korean": "~있어요?",
+    "english": "~있어요?",
+    "description": "Ask if something exists or is available. Just place a noun before 있어요 — no conjugation needed. Common uses: 자리 있어요? (Is there a seat?) or 와이파이 있어요? (Is there Wi-Fi?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Is there a seat?",
+        "ko": "자리 있어요?"
+      },
+      {
+        "en": "Is there Wi-Fi?",
+        "ko": "와이파이 있어요?"
+      },
+      {
+        "en": "Do you have water?",
+        "ko": "물 있어요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 773,
+    "korean": "~어떻게 가요?",
+    "english": "~어떻게 가요?",
+    "description": "Ask how to get to a specific place. Just place a noun before 어떻게 가요 — no conjugation needed. Common uses: 명동에 어떻게 가요? (How do I get to Myeongdong?) or 지하철역에 어떻게 가요? (How do I get to the subway station?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "How do I get to Myeongdong?",
+        "ko": "명동에 어떻게 가요?"
+      },
+      {
+        "en": "How do I get to the subway station?",
+        "ko": "지하철역에 어떻게 가요?"
+      },
+      {
+        "en": "How do I get to the airport?",
+        "ko": "공항에 어떻게 가요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 774,
+    "korean": "~가고 싶어요",
+    "english": "~가고 싶어요",
+    "description": "Say where you want to go. Just place a noun before 가고 싶어요 — no conjugation needed. Common uses: 제주도에 가고 싶어요. (I want to go to Jeju Island.) or 바다에 가고 싶어요. (I want to go to the sea.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "I want to go to Jeju Island.",
+        "ko": "제주도에 가고 싶어요."
+      },
+      {
+        "en": "I want to go to the sea.",
+        "ko": "바다에 가고 싶어요."
+      },
+      {
+        "en": "I want to go to Seoul.",
+        "ko": "서울에 가고 싶어요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 776,
+    "korean": "~로 할게요",
+    "english": "~로 할게요",
+    "description": "Decide on one option when ordering or choosing. Just place a noun before 로 할게요 — no conjugation needed. Common uses: 이걸로 할게요. (I'll go with this one.) or 아메리카노로 할게요. (I'll have the Americano.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "I'll go with this one.",
+        "ko": "이걸로 할게요."
+      },
+      {
+        "en": "I'll have the Americano.",
+        "ko": "아메리카노로 할게요."
+      },
+      {
+        "en": "I'll take the large size.",
+        "ko": "큰 사이즈로 할게요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 777,
+    "korean": "~해 본 적 있어요?",
+    "english": "~해 본 적 있어요?",
+    "description": "Ask if someone has ever experienced something before. It works in casual and polite speech alike. Common uses: 한국 음식 먹어 본 적 있어요? (Have you ever tried Korean food?) or 서울에 가 본 적 있어요? (Have you ever been to Seoul?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Have you ever tried Korean food?",
+        "ko": "한국 음식 먹어 본 적 있어요?"
+      },
+      {
+        "en": "Have you ever been to Seoul?",
+        "ko": "서울에 가 본 적 있어요?"
+      },
+      {
+        "en": "Have you ever made kimchi?",
+        "ko": "김치 만들어 본 적 있어요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 778,
+    "korean": "~추천해 주세요",
+    "english": "~추천해 주세요",
+    "description": "Ask someone to give you a recommendation. Just place a noun before 추천해 주세요 — no conjugation needed. Common uses: 메뉴 추천해 주세요. (Please recommend something from the menu.) or 숙소 추천해 주세요. (Please recommend a place to stay.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Please recommend something from the menu.",
+        "ko": "메뉴 추천해 주세요."
+      },
+      {
+        "en": "Please recommend a place to stay.",
+        "ko": "숙소 추천해 주세요."
+      },
+      {
+        "en": "Please recommend a tourist spot.",
+        "ko": "관광지 추천해 주세요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 779,
+    "korean": "~주실 수 있어요?",
+    "english": "~주실 수 있어요?",
+    "description": "Politely request someone to do something for you. Say what you need, then add 주실 수 있어요 at the end. Common uses: 사진 찍어 주실 수 있어요? (Could you take a photo for me?) or 도와주실 수 있어요? (Could you help me?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Could you take a photo for me?",
+        "ko": "사진 찍어 주실 수 있어요?"
+      },
+      {
+        "en": "Could you help me?",
+        "ko": "도와주실 수 있어요?"
+      },
+      {
+        "en": "Could you say that again?",
+        "ko": "다시 말해 주실 수 있어요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 780,
+    "korean": "~좋아해요",
+    "english": "~좋아해요",
+    "description": "Say what you like or enjoy. Say what you need, then add 좋아해요 at the end. Common uses: 한국 음식 좋아해요. (I like Korean food.) or 케이팝 좋아해요. (I like K-pop.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "I like Korean food.",
+        "ko": "한국 음식 좋아해요."
+      },
+      {
+        "en": "I like K-pop.",
+        "ko": "케이팝 좋아해요."
+      },
+      {
+        "en": "I like cats.",
+        "ko": "고양이 좋아해요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 781,
+    "korean": "신기해요",
+    "english": "신기해요",
+    "description": "Express that something is surprisingly fascinating or unique. Say what you need, then add 신기해요 at the end. Common uses: 이 음식 신기해요. (This food is fascinating.) or 한국 문화가 신기해요. (Korean culture is really fascinating.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "This food is fascinating.",
+        "ko": "이 음식 신기해요."
+      },
+      {
+        "en": "Korean culture is really fascinating.",
+        "ko": "한국 문화가 신기해요."
+      },
+      {
+        "en": "This machine is so cool.",
+        "ko": "이 기계 신기해요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 783,
+    "korean": "~깎아 주세요",
+    "english": "~깎아 주세요",
+    "description": "Politely ask for a lower price on something. Just place a noun before 깎아 주세요 — no conjugation needed. Common uses: 좀 깎아 주세요. (Please give me a discount.) or 만 원만 깎아 주세요. (Please discount 10,000 won.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Please give me a discount.",
+        "ko": "좀 깎아 주세요."
+      },
+      {
+        "en": "Please discount 10,000 won.",
+        "ko": "만 원만 깎아 주세요."
+      },
+      {
+        "en": "Please lower the price a little.",
+        "ko": "조금만 깎아 주세요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 784,
+    "korean": "~써봤어요?",
+    "english": "~써봤어요?",
+    "description": "Ask if someone has ever tried using something. Say what you need, then add 써봤어요 at the end. Common uses: 이 앱 써봤어요? (Have you tried this app?) or 이 크림 써봤어요? (Have you tried this cream?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Have you tried this app?",
+        "ko": "이 앱 써봤어요?"
+      },
+      {
+        "en": "Have you tried this cream?",
+        "ko": "이 크림 써봤어요?"
+      },
+      {
+        "en": "Have you tried Korean cosmetics?",
+        "ko": "한국 화장품 써봤어요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 785,
+    "korean": "~어떤 게 좋아요?",
+    "english": "~어떤 게 좋아요?",
+    "description": "Ask which option someone prefers. It works in casual and polite speech alike. Common uses: 어떤 색이 좋아요? (Which color do you like?) or 어떤 맛이 좋아요? (Which flavor do you like?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Which color do you like?",
+        "ko": "어떤 색이 좋아요?"
+      },
+      {
+        "en": "Which flavor do you like?",
+        "ko": "어떤 맛이 좋아요?"
+      },
+      {
+        "en": "Which one do you like among these?",
+        "ko": "이 중에 어떤 게 좋아요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 786,
+    "korean": "생각보다 ~해요",
+    "english": "생각보다 ~해요",
+    "description": "Say something is more or less than you expected. It works in casual and polite speech alike. Common uses: 생각보다 맛있어요. (It's tastier than I expected.) or 생각보다 멀어요. (It's farther than I thought.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "It's tastier than I expected.",
+        "ko": "생각보다 맛있어요."
+      },
+      {
+        "en": "It's farther than I thought.",
+        "ko": "생각보다 멀어요."
+      },
+      {
+        "en": "It's faster than I expected.",
+        "ko": "생각보다 빨라요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 789,
+    "korean": "떨려요",
+    "english": "떨려요",
+    "description": "Say you feel nervous or excited about something important. Just place a noun before 떨려요 — no conjugation needed. Common uses: 너무 떨려요. (I'm so nervous.) or 첫날이라 떨려요. (I'm nervous because it's the first day.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "I'm so nervous.",
+        "ko": "너무 떨려요."
+      },
+      {
+        "en": "I'm nervous because it's the first day.",
+        "ko": "첫날이라 떨려요."
+      },
+      {
+        "en": "I'm nervous because I have a presentation.",
+        "ko": "발표가 있어서 떨려요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 790,
+    "korean": "~에서 왔어요",
+    "english": "~에서 왔어요",
+    "description": "Say which country or city you come from. Just place a noun before 에서 왔어요 — no conjugation needed. Common uses: 미국에서 왔어요. (I'm from the United States.) or 영국에서 왔어요. (I'm from the United Kingdom.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "I'm from the United States.",
+        "ko": "미국에서 왔어요."
+      },
+      {
+        "en": "I'm from the United Kingdom.",
+        "ko": "영국에서 왔어요."
+      },
+      {
+        "en": "I'm from Japan.",
+        "ko": "일본에서 왔어요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 791,
+    "korean": "잘 부탁드려요",
+    "english": "잘 부탁드려요",
+    "description": "Use when meeting someone to ask for their cooperation. Say what you need, then add 잘 부탁드려요 at the end. Common uses: 처음 뵙겠습니다. 잘 부탁드려요. (Nice to meet you. Please take good care of me.) or 앞으로 잘 부탁드려요. (Please take good care of me going forward.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Nice to meet you. Please take good care of me.",
+        "ko": "처음 뵙겠습니다. 잘 부탁드려요."
+      },
+      {
+        "en": "Please take good care of me going forward.",
+        "ko": "앞으로 잘 부탁드려요."
+      },
+      {
+        "en": "We'll be working together. Please take care of me.",
+        "ko": "같이 일하게 됐어요. 잘 부탁드려요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 793,
+    "korean": "~먹고 싶어요",
+    "english": "~먹고 싶어요",
+    "description": "Say what food you want to eat right now. Just place a noun before 먹고 싶어요 — no conjugation needed. Common uses: 삼겹살 먹고 싶어요. (I want to eat samgyeopsal.) or 냉면 먹고 싶어요. (I want to eat naengmyeon.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "I want to eat samgyeopsal.",
+        "ko": "삼겹살 먹고 싶어요."
+      },
+      {
+        "en": "I want to eat naengmyeon.",
+        "ko": "냉면 먹고 싶어요."
+      },
+      {
+        "en": "I want to eat tteokbokki.",
+        "ko": "떡볶이 먹고 싶어요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 794,
+    "korean": "~못 먹어요",
+    "english": "~못 먹어요",
+    "description": "Say what you cannot eat due to allergy or preference. Say what you need, then add 못 먹어요 at the end. Common uses: 매운 거 못 먹어요. (I can't eat spicy food.) or 조개 못 먹어요. (I can't eat shellfish.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "I can't eat spicy food.",
+        "ko": "매운 거 못 먹어요."
+      },
+      {
+        "en": "I can't eat shellfish.",
+        "ko": "조개 못 먹어요."
+      },
+      {
+        "en": "I can't eat dairy products.",
+        "ko": "유제품 못 먹어요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 795,
+    "korean": "~먹어도 돼요?",
+    "english": "~먹어도 돼요?",
+    "description": "Ask permission before eating something. Just place a noun before 먹어도 돼요 — no conjugation needed. Common uses: 이거 먹어도 돼요? (Is it okay to eat this?) or 여기서 먹어도 돼요? (Is it okay to eat here?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Is it okay to eat this?",
+        "ko": "이거 먹어도 돼요?"
+      },
+      {
+        "en": "Is it okay to eat here?",
+        "ko": "여기서 먹어도 돼요?"
+      },
+      {
+        "en": "Is it okay to eat all of this?",
+        "ko": "다 먹어도 돼요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 796,
+    "korean": "~불러도 돼요?",
+    "english": "~불러도 돼요?",
+    "description": "Ask permission to call someone by a certain name. Just place a noun before 불러도 돼요 — no conjugation needed. Common uses: 언니라고 불러도 돼요? (Is it okay to call you 언니?) or 오빠라고 불러도 돼요? (Is it okay to call you 오빠?).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Is it okay to call you 언니?",
+        "ko": "언니라고 불러도 돼요?"
+      },
+      {
+        "en": "Is it okay to call you 오빠?",
+        "ko": "오빠라고 불러도 돼요?"
+      },
+      {
+        "en": "Is it okay to call you by your name?",
+        "ko": "이름으로 불러도 돼요?"
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 797,
+    "korean": "또 오고 싶어요",
+    "english": "또 오고 싶어요",
+    "description": "Say you'd like to come back to a place again. Just place a noun before 또 오고 싶어요 — no conjugation needed. Common uses: 여기 또 오고 싶어요. (I want to come here again.) or 한국에 또 오고 싶어요. (I want to come back to Korea.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "I want to come here again.",
+        "ko": "여기 또 오고 싶어요."
+      },
+      {
+        "en": "I want to come back to Korea.",
+        "ko": "한국에 또 오고 싶어요."
+      },
+      {
+        "en": "I want to come to this restaurant again.",
+        "ko": "이 식당에 또 오고 싶어요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 800,
+    "korean": "~까지 가 주세요",
+    "english": "~까지 가 주세요",
+    "description": "Tell a driver where you want to be taken. Just place a noun before 까지 가 주세요 — no conjugation needed. Common uses: 공항까지 가 주세요. (Please take me to the airport.) or 명동까지 가 주세요. (Please take me to Myeongdong.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Please take me to the airport.",
+        "ko": "공항까지 가 주세요."
+      },
+      {
+        "en": "Please take me to Myeongdong.",
+        "ko": "명동까지 가 주세요."
+      },
+      {
+        "en": "Please take me to the hotel.",
+        "ko": "호텔까지 가 주세요."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 931,
+    "korean": "~하면 돼",
+    "english": "~하면 돼",
+    "description": "Tell a friend casually that they just need to do one thing. It works in casual and polite speech alike. Common uses: 이 버튼 누르면 돼. 쉬워. (Just press this button. It's easy.) or 여기서 왼쪽으로 꺾으면 돼. (Just turn left from here.).",
+    "structure": null,
+    "examples": [
+      {
+        "en": "Just press this button. It's easy.",
+        "ko": "이 버튼 누르면 돼. 쉬워."
+      },
+      {
+        "en": "Just turn left from here.",
+        "ko": "여기서 왼쪽으로 꺾으면 돼."
+      },
+      {
+        "en": "Just write your name and phone number.",
+        "ko": "이름이랑 전화번호 쓰면 돼."
+      }
+    ],
+    "tip": null
+  },
+  {
+    "id": 1071,
+    "korean": "얼마나 걸려요?",
+    "english": "얼마나 걸려요?",
+    "description": "Ask how long something takes. Use when waiting, traveling, or estimating time. Say 얼마나 걸려요? after describing the activity.",
+    "structure": null,
+    "examples": [
+      {
+        "en": "How long does it take?",
+        "ko": "얼마나 걸려요?"
+      },
+      {
+        "en": "How long does it take to get home?",
+        "ko": "집까지 얼마나 걸려요?"
+      },
+      {
+        "en": "How long do I have to wait?",
+        "ko": "얼마나 기다려야 해요?"
+      }
+    ],
+    "tip": null
+  }
+]

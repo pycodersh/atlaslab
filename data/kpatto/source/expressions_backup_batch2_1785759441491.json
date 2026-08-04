@@ -1,0 +1,857 @@
+[
+  {
+    "id": 770,
+    "english": "Give me ~, please.",
+    "description": "Used to politely request something or place an order.",
+    "examples": [
+      {
+        "en": "Water, please.",
+        "ko": "물 주세요."
+      },
+      {
+        "en": "Please give me the menu.",
+        "ko": "메뉴판 주세요."
+      },
+      {
+        "en": "Please give me the receipt.",
+        "ko": "영수증 주세요."
+      }
+    ]
+  },
+  {
+    "id": 771,
+    "english": "What is ~?",
+    "description": "Used to ask what something is when you don't know its name or identity.",
+    "examples": [
+      {
+        "en": "What is this?",
+        "ko": "이거 뭐예요?"
+      },
+      {
+        "en": "What is that?",
+        "ko": "저거 뭐예요?"
+      },
+      {
+        "en": "What is this food?",
+        "ko": "이 음식 뭐예요?"
+      }
+    ]
+  },
+  {
+    "id": 772,
+    "english": "Is there ~? / Do you have ~?",
+    "description": "Used to ask whether something exists or is available.",
+    "examples": [
+      {
+        "en": "Is there Wi-Fi?",
+        "ko": "와이파이 있어요?"
+      },
+      {
+        "en": "Is there a seat?",
+        "ko": "자리 있어요?"
+      },
+      {
+        "en": "Is there a restroom?",
+        "ko": "화장실 있어요?"
+      }
+    ]
+  },
+  {
+    "id": 773,
+    "english": "How do I get to ~?",
+    "description": "Used to ask for directions to a place.",
+    "examples": [
+      {
+        "en": "How do I get to Hongdae?",
+        "ko": "홍대 어떻게 가요?"
+      },
+      {
+        "en": "How do I get to Myeongdong?",
+        "ko": "명동 어떻게 가요?"
+      },
+      {
+        "en": "How do I get to the airport?",
+        "ko": "공항 어떻게 가요?"
+      }
+    ]
+  },
+  {
+    "id": 774,
+    "english": "I want to go to ~.",
+    "description": "Used to say that you want to go to a place.",
+    "examples": [
+      {
+        "en": "I want to go to Jeju Island.",
+        "ko": "제주도 가고 싶어요."
+      },
+      {
+        "en": "I want to go to Hongdae!",
+        "ko": "홍대 가고 싶어요!"
+      },
+      {
+        "en": "I want to go to the Han River.",
+        "ko": "한강 가고 싶어요."
+      }
+    ]
+  },
+  {
+    "id": 775,
+    "english": "How is ~?",
+    "description": "Ask for someone's opinion about something. Say what you need, then add 어때요 at th",
+    "examples": [
+      {
+        "en": "How is this food?",
+        "ko": "이 음식 어때요?"
+      },
+      {
+        "en": "How is this café?",
+        "ko": "이 카페 어때요?"
+      },
+      {
+        "en": "How is life in Korea?",
+        "ko": "한국 생활 어때요?"
+      }
+    ]
+  },
+  {
+    "id": 776,
+    "english": "I'll have ~",
+    "description": "Decide on one option when ordering or choosing. Just place a noun before 로 할게요 —",
+    "examples": [
+      {
+        "en": "I'll go with an Americano.",
+        "ko": "아메리카노로 할게요."
+      },
+      {
+        "en": "I'll go with this one.",
+        "ko": "이걸로 할게요."
+      },
+      {
+        "en": "I'll go with the large size.",
+        "ko": "큰 사이즈로 할게요."
+      }
+    ]
+  },
+  {
+    "id": 777,
+    "english": "Have you ever ~?",
+    "description": "Ask if someone has ever experienced something before. It works in casual and pol",
+    "examples": [
+      {
+        "en": "Have you ever tried samgyeopsal?",
+        "ko": "삼겹살 먹어 본 적 있어요?"
+      },
+      {
+        "en": "Have you ever been to a noraebang?",
+        "ko": "노래방 가 본 적 있어요?"
+      },
+      {
+        "en": "Have you ever worn a hanbok?",
+        "ko": "한복 입어 본 적 있어요?"
+      }
+    ]
+  },
+  {
+    "id": 778,
+    "english": "Please recommend ~",
+    "description": "Ask someone to give you a recommendation. Just place a noun before 추천해 주세요 — no",
+    "examples": [
+      {
+        "en": "Please recommend samgyeopsal!",
+        "ko": "삼겹살 추천해 주세요!"
+      },
+      {
+        "en": "Please recommend a café.",
+        "ko": "카페 추천해 주세요."
+      },
+      {
+        "en": "Please recommend a Korean drama.",
+        "ko": "한국 드라마 추천해 주세요."
+      }
+    ]
+  },
+  {
+    "id": 779,
+    "english": "Could you ~?",
+    "description": "Politely request someone to do something for you. Say what you need, then add 주실",
+    "examples": [
+      {
+        "en": "Could you take a photo for me?",
+        "ko": "사진 찍어 주실 수 있어요?"
+      },
+      {
+        "en": "Could you help me?",
+        "ko": "도와주실 수 있어요?"
+      },
+      {
+        "en": "Could you explain a bit more?",
+        "ko": "조금 더 설명해 주실 수 있어요?"
+      }
+    ]
+  },
+  {
+    "id": 780,
+    "english": "I like ~",
+    "description": "Say what you like or enjoy. Say what you need, then add 좋아해요 at the end. Common",
+    "examples": [
+      {
+        "en": "I like K-pop!",
+        "ko": "케이팝 좋아해요!"
+      },
+      {
+        "en": "I like Korean food.",
+        "ko": "한국 음식 좋아해요."
+      },
+      {
+        "en": "I really like this song.",
+        "ko": "이 노래 정말 좋아해요."
+      }
+    ]
+  },
+  {
+    "id": 781,
+    "english": "This food is fascinating",
+    "description": "Express that something is surprisingly fascinating or unique. Say what you need,",
+    "examples": [
+      {
+        "en": "Korean culture is really fascinating!",
+        "ko": "한국 문화 정말 신기해요!"
+      },
+      {
+        "en": "I've never seen this food before — it's fascinating.",
+        "ko": "이 음식 처음 봤는데 신기해요."
+      },
+      {
+        "en": "It's fascinating how thorough the recycling is.",
+        "ko": "분리수거가 이렇게 철저하다니 신기해요."
+      }
+    ]
+  },
+  {
+    "id": 782,
+    "english": "More ~, please",
+    "description": "Ask for more of something you already have. Just place a noun before 더 주세요 — no",
+    "examples": [
+      {
+        "en": "Please give me more kimchi!",
+        "ko": "김치 더 주세요!"
+      },
+      {
+        "en": "Please give me more water.",
+        "ko": "물 더 주세요."
+      },
+      {
+        "en": "Please give me more side dishes.",
+        "ko": "반찬 더 주세요."
+      }
+    ]
+  },
+  {
+    "id": 783,
+    "english": "Discount on ~, please",
+    "description": "Politely ask for a lower price on something. Just place a noun before 깎아 주세요 — n",
+    "examples": [
+      {
+        "en": "Please give me a small discount!",
+        "ko": "조금 깎아 주세요!"
+      },
+      {
+        "en": "Please knock off just 1,000 won.",
+        "ko": "천 원만 깎아 주세요."
+      },
+      {
+        "en": "Please give me a discount if I buy two.",
+        "ko": "두 개 사면 깎아 주세요."
+      }
+    ]
+  },
+  {
+    "id": 784,
+    "english": "Have you tried ~?",
+    "description": "Ask if someone has ever tried using something. Say what you need, then add 써봤어요",
+    "examples": [
+      {
+        "en": "Have you tried this serum?",
+        "ko": "이 세럼 써봤어요?"
+      },
+      {
+        "en": "Have you tried this app?",
+        "ko": "이 앱 써봤어요?"
+      },
+      {
+        "en": "Have you tried Korean cosmetics?",
+        "ko": "한국 화장품 써봤어요?"
+      }
+    ]
+  },
+  {
+    "id": 785,
+    "english": "Which ~ is good?",
+    "description": "Ask which option someone prefers. It works in casual and polite speech alike. Co",
+    "examples": [
+      {
+        "en": "Which color do you like?",
+        "ko": "어떤 색이 좋아요?"
+      },
+      {
+        "en": "Which style do you like?",
+        "ko": "어떤 스타일이 좋아요?"
+      },
+      {
+        "en": "Which one is tastier?",
+        "ko": "어떤 게 더 맛있어요?"
+      }
+    ]
+  },
+  {
+    "id": 786,
+    "english": "More ~ than expected",
+    "description": "Say something is more or less than you expected. It works in casual and polite s",
+    "examples": [
+      {
+        "en": "It's tastier than I expected!",
+        "ko": "생각보다 맛있어요!"
+      },
+      {
+        "en": "It's not as hard as I thought.",
+        "ko": "생각보다 어렵지 않아요."
+      },
+      {
+        "en": "It's faster than I expected!",
+        "ko": "생각보다 빨라요!"
+      }
+    ]
+  },
+  {
+    "id": 787,
+    "english": "I'm so happy we're all together",
+    "description": "Express happiness that everyone is gathered together. It works in casual and pol",
+    "examples": [
+      {
+        "en": "I'm so happy we're all together!",
+        "ko": "다 같이 있어서 좋아요!"
+      },
+      {
+        "en": "I'm happy to be together with my whole family.",
+        "ko": "가족이랑 다 같이 있어서 좋아요."
+      },
+      {
+        "en": "It's great to be together with all my friends!",
+        "ko": "친구들이랑 다 같이 있어서 좋아요!"
+      }
+    ]
+  },
+  {
+    "id": 788,
+    "english": "Already ~",
+    "description": "Say that something has already been done. It works in casual and polite speech a",
+    "examples": [
+      {
+        "en": "I already ate.",
+        "ko": "이미 먹었어요."
+      },
+      {
+        "en": "I already knew!",
+        "ko": "이미 알고 있었어요!"
+      },
+      {
+        "en": "I already made a reservation.",
+        "ko": "이미 예약했어요."
+      }
+    ]
+  },
+  {
+    "id": 789,
+    "english": "I'm so nervous",
+    "description": "Say you feel nervous or excited about something important. Just place a noun bef",
+    "examples": [
+      {
+        "en": "I'm nervous because it's my first presentation.",
+        "ko": "첫 발표라서 떨려요."
+      },
+      {
+        "en": "I'm so nervous — will it be okay?",
+        "ko": "너무 떨려요, 괜찮을까요?"
+      },
+      {
+        "en": "My heart is pounding — I'm so nervous!",
+        "ko": "심장이 두근두근해요, 떨려요!"
+      }
+    ]
+  },
+  {
+    "id": 790,
+    "english": "I'm from ~",
+    "description": "Say which country or city you come from. Just place a noun before 에서 왔어요 — no co",
+    "examples": [
+      {
+        "en": "I'm from the United States.",
+        "ko": "미국에서 왔어요."
+      },
+      {
+        "en": "I'm from Seoul.",
+        "ko": "서울에서 왔어요."
+      },
+      {
+        "en": "I'm from Busan.",
+        "ko": "부산에서 왔어요."
+      }
+    ]
+  },
+  {
+    "id": 791,
+    "english": "Nice to meet you. Please",
+    "description": "Use when meeting someone to ask for their cooperation. Say what you need, then a",
+    "examples": [
+      {
+        "en": "Please take care of me!",
+        "ko": "잘 부탁드려요!"
+      },
+      {
+        "en": "I look forward to working with you.",
+        "ko": "앞으로 잘 부탁드려요."
+      },
+      {
+        "en": "Please take care of me today!",
+        "ko": "오늘 잘 부탁드려요!"
+      }
+    ]
+  },
+  {
+    "id": 792,
+    "english": "Where do I catch ~?",
+    "description": "Ask where to board a specific type of transport. Just place a noun before 어디서 타요",
+    "examples": [
+      {
+        "en": "Where do I get on Line 2?",
+        "ko": "2호선 어디서 타요?"
+      },
+      {
+        "en": "Where do I get on the bus?",
+        "ko": "버스 어디서 타요?"
+      },
+      {
+        "en": "Where do I get on the airport bus?",
+        "ko": "공항버스 어디서 타요?"
+      }
+    ]
+  },
+  {
+    "id": 793,
+    "english": "I want to eat ~",
+    "description": "Say what food you want to eat right now. Just place a noun before 먹고 싶어요 — no co",
+    "examples": [
+      {
+        "en": "I want to eat samgyeopsal!",
+        "ko": "삼겹살 먹고 싶어요!"
+      },
+      {
+        "en": "I want to eat tteokbokki.",
+        "ko": "떡볶이 먹고 싶어요."
+      },
+      {
+        "en": "I want to eat naengmyeon!",
+        "ko": "냉면 먹고 싶어요!"
+      }
+    ]
+  },
+  {
+    "id": 794,
+    "english": "I can't eat ~",
+    "description": "Say what you cannot eat due to allergy or preference. Say what you need, then ad",
+    "examples": [
+      {
+        "en": "I can't eat shellfish.",
+        "ko": "조개 못 먹어요."
+      },
+      {
+        "en": "I can't eat spicy food.",
+        "ko": "매운 거 못 먹어요."
+      },
+      {
+        "en": "I can't eat pork.",
+        "ko": "돼지고기 못 먹어요."
+      }
+    ]
+  },
+  {
+    "id": 795,
+    "english": "Can I eat ~?",
+    "description": "Ask permission before eating something. Just place a noun before 먹어도 돼요 — no con",
+    "examples": [
+      {
+        "en": "Is it okay to eat here?",
+        "ko": "여기서 먹어도 돼요?"
+      },
+      {
+        "en": "Is it okay to eat this?",
+        "ko": "이거 먹어도 돼요?"
+      },
+      {
+        "en": "Is it okay to eat now?",
+        "ko": "지금 먹어도 돼요?"
+      }
+    ]
+  },
+  {
+    "id": 796,
+    "english": "Can I call you ~?",
+    "description": "Ask permission to call someone by a certain name. Just place a noun before 불러도 돼",
+    "examples": [
+      {
+        "en": "Is it okay to call you 언니?",
+        "ko": "언니라고 불러도 돼요?"
+      },
+      {
+        "en": "Is it okay to call you 오빠?",
+        "ko": "오빠라고 불러도 돼요?"
+      },
+      {
+        "en": "Is it okay to call you by your name?",
+        "ko": "이름으로 불러도 돼요?"
+      }
+    ]
+  },
+  {
+    "id": 797,
+    "english": "I want to come here",
+    "description": "Say you'd like to come back to a place again. Just place a noun before 또 오고 싶어요",
+    "examples": [
+      {
+        "en": "I want to come here again!",
+        "ko": "또 오고 싶어요!"
+      },
+      {
+        "en": "I want to come back to Korea.",
+        "ko": "한국 또 오고 싶어요."
+      },
+      {
+        "en": "I want to come back to this café!",
+        "ko": "이 카페 또 오고 싶어요!"
+      }
+    ]
+  },
+  {
+    "id": 798,
+    "english": "~타요",
+    "description": "Say which mode of transport you are taking. Just place a noun before 타요 — no con",
+    "examples": [
+      {
+        "en": "Take Line 2!",
+        "ko": "2호선 타요!"
+      },
+      {
+        "en": "Take the bus.",
+        "ko": "버스 타요."
+      },
+      {
+        "en": "Take a taxi.",
+        "ko": "택시 타요."
+      }
+    ]
+  },
+  {
+    "id": 799,
+    "english": "~에서 내려요",
+    "description": "Say where you get off a bus or subway. Say what you need, then add 에서 내려요 at the",
+    "examples": [
+      {
+        "en": "Get off at Hongik University Station.",
+        "ko": "홍대입구역에서 내려요."
+      },
+      {
+        "en": "Get off at the next stop.",
+        "ko": "다음 정류장에서 내려요."
+      },
+      {
+        "en": "Get off here!",
+        "ko": "여기서 내려요!"
+      }
+    ]
+  },
+  {
+    "id": 800,
+    "english": "~까지 가 주세요",
+    "description": "Tell a driver where you want to be taken. Just place a noun before 까지 가 주세요 — no",
+    "examples": [
+      {
+        "en": "Please take me to Hongdae.",
+        "ko": "홍대까지 가 주세요."
+      },
+      {
+        "en": "Please take me to the airport.",
+        "ko": "공항까지 가 주세요."
+      },
+      {
+        "en": "Please take me to Myeongdong.",
+        "ko": "명동까지 가 주세요."
+      }
+    ]
+  },
+  {
+    "id": 801,
+    "english": "덜 ~게 해 주세요",
+    "description": "Ask for food to be prepared with less of a certain quality. It works in casual a",
+    "examples": [
+      {
+        "en": "Please make it less spicy.",
+        "ko": "덜 맵게 해 주세요."
+      },
+      {
+        "en": "Please make it less sweet.",
+        "ko": "덜 달게 해 주세요."
+      },
+      {
+        "en": "Please make it less salty.",
+        "ko": "덜 짜게 해 주세요."
+      }
+    ]
+  },
+  {
+    "id": 802,
+    "english": "~리필 돼요?",
+    "description": "Ask if a food or drink can be refilled for free. Just place a noun before 리필 돼요",
+    "examples": [
+      {
+        "en": "Can I get a refill of kimchi?",
+        "ko": "김치 리필 돼요?"
+      },
+      {
+        "en": "Can I get a refill of side dishes?",
+        "ko": "반찬 리필 돼요?"
+      },
+      {
+        "en": "Can I get a refill of water?",
+        "ko": "물 리필 돼요?"
+      }
+    ]
+  },
+  {
+    "id": 803,
+    "english": "~에 뭐 해요?",
+    "description": "Ask what someone is doing at a time or place. Just place a noun before 에 뭐 해요 —",
+    "examples": [
+      {
+        "en": "What are you doing this weekend?",
+        "ko": "주말에 뭐 해요?"
+      },
+      {
+        "en": "What are you doing tonight?",
+        "ko": "오늘 저녁에 뭐 해요?"
+      },
+      {
+        "en": "What are you doing tomorrow?",
+        "ko": "내일에 뭐 해요?"
+      }
+    ]
+  },
+  {
+    "id": 804,
+    "english": "같이 ~ㄹ래요?",
+    "description": "Invite someone to do something together with you. It works in casual and polite",
+    "examples": [
+      {
+        "en": "Do you want to eat together?",
+        "ko": "같이 밥 먹을래요?"
+      },
+      {
+        "en": "Do you want to watch a movie together?",
+        "ko": "같이 영화 볼래요?"
+      },
+      {
+        "en": "Do you want to take a walk together?",
+        "ko": "같이 산책할래요?"
+      }
+    ]
+  },
+  {
+    "id": 805,
+    "english": "조금 늦을 것 같아요",
+    "description": "Tell someone you are going to be a little late. It works in casual and polite sp",
+    "examples": [
+      {
+        "en": "I think I'll be a little late.",
+        "ko": "조금 늦을 것 같아요."
+      },
+      {
+        "en": "I think I'll be 10 minutes late.",
+        "ko": "10분 늦을 것 같아요."
+      },
+      {
+        "en": "I think I'll be quite late — sorry.",
+        "ko": "많이 늦을 것 같아요, 미안해요."
+      }
+    ]
+  },
+  {
+    "id": 806,
+    "english": "길을 잃었어요",
+    "description": "Tell someone you are lost and need directions. It works in casual and polite spe",
+    "examples": [
+      {
+        "en": "I'm lost, please help me.",
+        "ko": "길을 잃었어요, 도와주세요."
+      },
+      {
+        "en": "I'm lost — where is Hongdae?",
+        "ko": "길을 잃었어요, 홍대가 어디예요?"
+      },
+      {
+        "en": "I'm lost — can I look at your map?",
+        "ko": "길을 잃었어요, 지도 좀 봐도 돼요?"
+      }
+    ]
+  },
+  {
+    "id": 807,
+    "english": "쭉 가면 돼요",
+    "description": "Tell someone to simply go straight ahead. Say what you need, then add 쭉 가면 돼요 at",
+    "examples": [
+      {
+        "en": "Just go straight.",
+        "ko": "쭉 가면 돼요."
+      },
+      {
+        "en": "Just go straight down this road.",
+        "ko": "이 길로 쭉 가면 돼요."
+      },
+      {
+        "en": "If you go straight, there's a café.",
+        "ko": "쭉 가면 카페가 있어요."
+      }
+    ]
+  },
+  {
+    "id": 808,
+    "english": "~으로 꺾으면 돼요",
+    "description": "Tell someone which direction to turn. Just place a noun before 으로 꺾으면 돼요 — no co",
+    "examples": [
+      {
+        "en": "Turn right over there.",
+        "ko": "저기서 오른쪽으로 꺾으면 돼요."
+      },
+      {
+        "en": "Turn left at the traffic light.",
+        "ko": "신호등에서 왼쪽으로 꺾으면 돼요."
+      },
+      {
+        "en": "Turn right at the convenience store.",
+        "ko": "편의점에서 오른쪽으로 꺾으면 돼요."
+      }
+    ]
+  },
+  {
+    "id": 809,
+    "english": "~봤어요?",
+    "description": "Ask if someone has seen or watched something. Say what you need, then add 봤어요 at",
+    "examples": [
+      {
+        "en": "Have you tried sundae?",
+        "ko": "순대 먹어봤어요?"
+      },
+      {
+        "en": "Have you been to Jeju Island?",
+        "ko": "제주도에 가봤어요?"
+      },
+      {
+        "en": "Have you watched a Korean drama?",
+        "ko": "한국 드라마 봤어요?"
+      }
+    ]
+  },
+  {
+    "id": 810,
+    "english": "재미있어요",
+    "description": "Say that something is fun or interesting. Say what you need, then add 재미있어요 at t",
+    "examples": [
+      {
+        "en": "This drama is really fun!",
+        "ko": "이 드라마 진짜 재미있어요!"
+      },
+      {
+        "en": "Studying Korean is interesting.",
+        "ko": "한국어 공부가 재미있어요."
+      },
+      {
+        "en": "It's hard but fun!",
+        "ko": "어렵지만 재미있어요!"
+      }
+    ]
+  },
+  {
+    "id": 811,
+    "english": "강추예요",
+    "description": "Strongly recommend something you found great. Say what you need, then add 강추예요 a",
+    "examples": [
+      {
+        "en": "I highly recommend this café!",
+        "ko": "이 카페 강추예요!"
+      },
+      {
+        "en": "I highly recommend this drama!",
+        "ko": "이 드라마 강추예요!"
+      },
+      {
+        "en": "I highly recommend this food!",
+        "ko": "이 음식 강추예요!"
+      }
+    ]
+  },
+  {
+    "id": 812,
+    "english": "~날씨 어때요?",
+    "description": "Ask about the weather in a place or at a time. Just place a noun before 날씨 어때요 —",
+    "examples": [
+      {
+        "en": "What's the weather like today?",
+        "ko": "오늘 날씨 어때요?"
+      },
+      {
+        "en": "What's the weather like in Seoul?",
+        "ko": "서울 날씨 어때요?"
+      },
+      {
+        "en": "What's the weather like tomorrow?",
+        "ko": "내일 날씨 어때요?"
+      }
+    ]
+  },
+  {
+    "id": 813,
+    "english": "~올 것 같아요",
+    "description": "Say it looks like rain, snow, or something is coming. Just place a noun before 올",
+    "examples": [
+      {
+        "en": "It looks like it's going to snow.",
+        "ko": "눈 올 것 같아요."
+      },
+      {
+        "en": "It looks like it's going to rain.",
+        "ko": "비 올 것 같아요."
+      },
+      {
+        "en": "It looks like I'm going to be late.",
+        "ko": "늦을 것 같아요."
+      }
+    ]
+  },
+  {
+    "id": 896,
+    "english": "Korean is harder than I ~",
+    "description": "Compare two things, saying one is more or less than the other. Say what you need",
+    "examples": [
+      {
+        "en": "This one is tastier than that one.",
+        "ko": "이게 저것보다 맛있어요."
+      },
+      {
+        "en": "Korean is harder than English.",
+        "ko": "한국어가 영어보다 어려워요."
+      },
+      {
+        "en": "Today is better than yesterday!",
+        "ko": "오늘이 어제보다 좋아요!"
+      }
+    ]
+  }
+]

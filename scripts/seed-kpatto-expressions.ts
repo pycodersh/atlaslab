@@ -9,6 +9,7 @@ import * as dotenv from 'dotenv'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as os from 'os'
+import { fetchAllDialogues } from './_db-utils'
 dotenv.config({ path: '.env.local' })
 
 const supabase = createClient(
@@ -172,18 +173,15 @@ async function main() {
   const { data: epRows } = await supabase.from('kp_episodes').select('id, episode_num')
   const epIdMap = new Map(epRows?.map(e => [e.episode_num, e.id]) ?? [])
 
-  const { data: allDialogues } = await supabase
-    .from('kp_dialogues')
-    .select('id, episode_id, text_ko')
-    .order('id')
+  const allDialogues = await fetchAllDialogues(supabase, 'id, episode_id, text_ko')
 
   // episode_id → dialogues[]
   const dlByEp = new Map<number, Array<{ id: number; text_ko: string }>>()
-  for (const d of allDialogues ?? []) {
+  for (const d of allDialogues) {
     if (!dlByEp.has(d.episode_id)) dlByEp.set(d.episode_id, [])
     dlByEp.get(d.episode_id)!.push({ id: d.id, text_ko: d.text_ko })
   }
-  console.log(`대사 로드: ${allDialogues?.length}개 (${dlByEp.size}개 에피소드)`)
+  console.log(`대사 로드: ${allDialogues.length}개 (${dlByEp.size}개 에피소드)`)
 
   // ── kp_dialogue_expressions 빌드 ─────────────────────────
   const deRecords: Array<{

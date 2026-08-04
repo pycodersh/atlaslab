@@ -1,0 +1,152 @@
+[
+  {
+    "id": 818,
+    "literal_en": "What are your hobbies?",
+    "usage_en": "Used to ask what someone does for fun. It's one of the standard questions when you're getting to know a Korean person.\n\nRule: 취미 (hobby) takes 가 here, so it's 취미가 뭐예요? Among close friends the casual form is 취미가 뭐야?",
+    "examples": [
+      { "ko": "취미가 뭐예요?", "en": "What are your hobbies?" },
+      { "ko": "요즘 취미가 뭐예요?", "en": "What are your hobbies these days?" },
+      { "ko": "취미가 뭐예요? 저는 사진이에요!", "en": "What are your hobbies? Mine is photography!" }
+    ]
+  },
+  {
+    "id": 819,
+    "literal_en": "Me too.",
+    "usage_en": "A quick way to say you feel the same. It works after almost any statement, positive or negative.\n\nRule: 저도요 is the polite form; among friends say 나도. If you're agreeing with something the other person doesn't like, 저도요 still works — 저도요, 저도 안 좋아해요."
+  },
+  {
+    "id": 820,
+    "literal_en": "It's not that great.",
+    "usage_en": "Used to say something didn't meet your expectations, without being blunt about it.\n\nRule: 별로예요 is much softer than 싫어요 (I hate it), so Koreans use it to turn things down politely. The topic goes straight in front with no particle — 이 드라마 별로예요."
+  },
+  {
+    "id": 822,
+    "literal_en": "Let's take a photo together.",
+    "usage_en": "Used to suggest taking a picture with someone.\n\nRule: Korean uses 찍다 (to shoot) for taking photos, never 만들다 or 가지다. Put the place in front with 에서 — 여기서 같이 사진 찍어요."
+  },
+  {
+    "id": 823,
+    "literal_en": "Did the photo turn out well?",
+    "usage_en": "Used to ask whether a picture came out nicely — a natural follow-up after taking one.\n\nRule: Korean says a photo 나오다 (comes out) rather than 되다. 잘 나왔어요 means it turned out well, and 잘 안 나왔어요 means it didn't."
+  },
+  {
+    "id": 825,
+    "literal_en": "How have you been?",
+    "usage_en": "Used when you meet someone again after a while.\n\nRule: This is past tense (지냈어요), asking about the time since you last met. To ask how someone is right now, use 잘 지내요?"
+  },
+  {
+    "id": 828,
+    "literal_en": "How was ~?",
+    "usage_en": "Used to ask a friend how something went — a trip, an exam, a first day.\n\nRule: This is casual speech; the polite form is 어땠어요? Put the topic straight in front with no particle — 시험 어땠어?"
+  },
+  {
+    "id": 829,
+    "literal_en": "It was my first time, but ~",
+    "usage_en": "Used to set up a contrast between a first experience and how it actually went.\n\nRule: -인데 attaches background information that the next clause turns around. The polite form is 처음이었는데요, and for something that is your first time right now, use 처음인데."
+  },
+  {
+    "id": 830,
+    "literal_en": "I think ~ / It seems ~",
+    "usage_en": "Used to soften a guess or an opinion so it doesn't sound like a flat assertion. Koreans use it constantly to stay polite.\n\nRule: The ending changes with the word type. Verbs take -을 것 같아요 for a guess about the future (갈 것 같아요), adjectives take -은/-ㄴ 것 같아요 (좋은 것 같아요), and for the past use -은 것 같아요 (간 것 같아요)."
+  },
+  {
+    "id": 831,
+    "literal_en": "It seems like ~ / I guess ~",
+    "usage_en": "Used to guess about someone else's situation from what you can see or hear.\n\nRule: Verbs take -나 봐요 (오나 봐요). Adjectives take -은가/-ㄴ가 봐요 — 좋은가 봐요 after a consonant, 바쁜가 봐요 after a vowel. Use it about others, not about your own feelings."
+  },
+  {
+    "id": 833,
+    "literal_en": "I have to ~ / You have to ~",
+    "usage_en": "Used to say something is necessary or unavoidable.\n\nRule: This is casual speech; the polite form is 해야 해요. Attach -아/어야 하다 to a verb stem — 먹어야 해, 가야 해. Adding 꼭 (definitely) in front makes it stronger."
+  },
+  {
+    "id": 834,
+    "literal_en": "Don't ~.",
+    "usage_en": "Used to tell a friend not to do something. It sounds caring rather than harsh, depending on tone.\n\nRule: This is casual speech; the polite form is -지 마세요. Attach -지 말다 to a verb stem — 걱정하지 마, 늦지 마."
+  },
+  {
+    "id": 836,
+    "literal_en": "What do you think about ~?",
+    "usage_en": "Used to ask someone's opinion on a specific topic.\n\nRule: Put the topic straight in front with no particle. Korean asks 어떻게 생각해요? (how do you think), never 무엇을 생각해요? — the 어떻게 is fixed.",
+    "examples": [
+      { "ko": "한국 음식 어떻게 생각해요?", "en": "What do you think about Korean food?" },
+      { "ko": "이 드라마 어떻게 생각해요?", "en": "What do you think about this drama?" },
+      { "ko": "제 계획 어떻게 생각해요?", "en": "What do you think about my plan?" }
+    ]
+  },
+  {
+    "id": 837,
+    "literal_en": "That's a good point.",
+    "usage_en": "Used to acknowledge that what the other person said makes sense, even if you go on to disagree.\n\nRule: 맞는 말이에요 agrees with the statement rather than the person. To agree with the person themselves, say 맞아요 or 저도 그렇게 생각해요."
+  },
+  {
+    "id": 838,
+    "literal_en": "I'm a bit different.",
+    "usage_en": "Used to state your own preference without contradicting anyone directly — a gentle way to disagree.\n\nRule: 좀 (a bit) is what softens it. Dropping it — 저는 달라요 — sounds much more blunt."
+  },
+  {
+    "id": 839,
+    "literal_en": "Have you been to ~?",
+    "usage_en": "Used to ask whether someone has ever visited a place.\n\nRule: 에 marks the destination, and -아/어 봤어요 adds the sense of having tried it. The answer is 가 봤어요 (I have) or 안 가 봤어요 (I haven't)."
+  },
+  {
+    "id": 840,
+    "literal_en": "You should definitely go.",
+    "usage_en": "Used to recommend a place strongly.\n\nRule: 꼭 means 'without fail' and carries the emphasis. -아/어 보세요 means 'give it a try', so 가 보세요 is warmer than the plain 가세요."
+  },
+  {
+    "id": 842,
+    "literal_en": "What are you watching these days?",
+    "usage_en": "Used to ask what shows someone is into lately — one of the easiest ways to start a conversation.\n\nRule: 보다 covers watching and reading alike, so it works for dramas, films, and webtoons. 요즘 means 'these days' and goes at the front."
+  },
+  {
+    "id": 843,
+    "literal_en": "I'm totally hooked.",
+    "usage_en": "Used when something has completely pulled you in — a drama, a hobby, a genre of music.\n\nRule: The thing you're hooked on takes 에 — 케이팝에 완전 빠져들었어요. 완전 (totally) is casual emphasis and can be dropped in formal speech."
+  },
+  {
+    "id": 844,
+    "literal_en": "I can't wait for the next episode.",
+    "usage_en": "Used to say you're looking forward to what comes next.\n\nRule: 화 is the counter for episodes, so 다음 화 means 'the next episode'. 기대되다 describes the feeling arising in you, so it takes 가 rather than 를 — 다음 화가 기대돼요."
+  },
+  {
+    "id": 845,
+    "literal_en": "Do you know this song?",
+    "usage_en": "Used to ask whether someone recognizes a song.\n\nRule: The negative of 알아요 is 몰라요, not 안 알아요 — Korean uses a separate word. So the answer is 알아요 or 몰라요.",
+    "examples": [
+      { "ko": "이 노래 알아요?", "en": "Do you know this song?" },
+      { "ko": "이 노래 알아요? 너무 좋아요!", "en": "Do you know this song? I love it so much!" },
+      { "ko": "이 가수 노래 알아요?", "en": "Do you know this singer's songs?" }
+    ]
+  },
+  {
+    "id": 846,
+    "literal_en": "What do the lyrics mean?",
+    "usage_en": "Used to ask what a line of a song means — a natural question when you're learning through music.\n\nRule: 무슨 뜻이에요? asks for the meaning of a word or phrase. Put the part you're asking about in front with 가/이 — '그리워'가 무슨 뜻이에요?"
+  },
+  {
+    "id": 849,
+    "literal_en": "Does ~ actually work?",
+    "usage_en": "Used to ask whether a product or method really makes a difference.\n\nRule: 효과 (effect) pairs with 있다 and 없다, not with 하다 — say 효과 있어요? and 효과 없어요, never 효과 해요."
+  },
+  {
+    "id": 850,
+    "literal_en": "It has good reviews.",
+    "usage_en": "Used to say something is well reviewed. Koreans check 후기 before buying almost anything.\n\nRule: 후기 (review) takes 가 with 좋아요 — 후기가 좋아요. To give the reason for buying, use 후기가 좋아서."
+  },
+  {
+    "id": 851,
+    "literal_en": "How often do you ~?",
+    "usage_en": "Used to ask about the frequency of a habit or activity.\n\nRule: 얼마나 (how much) combines with 자주 (often) to ask frequency. Put the verb at the end — 얼마나 자주 운동해요?"
+  },
+  {
+    "id": 852,
+    "literal_en": "It's good for your health.",
+    "usage_en": "Used to say something benefits your health — a very common remark about food in Korea.\n\nRule: 에 marks what the thing is good for, so the pattern is ~에 좋아요. The same shape works elsewhere — 피부에 좋아요 means 'it's good for your skin'."
+  },
+  {
+    "id": 854,
+    "literal_en": "Where do you live?",
+    "usage_en": "Used to ask where someone lives. Koreans often narrow it down by area — 서울 어디 살아요?\n\nRule: 살다 normally takes 에서 for the place, but with 어디 the particle is dropped in speech. Use the present tense 살아요, not the past."
+  }
+]

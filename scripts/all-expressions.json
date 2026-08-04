@@ -1,0 +1,3722 @@
+[
+  {
+    "id": 770,
+    "korean": "~주세요",
+    "english": "~주세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 771,
+    "korean": "~뭐예요?",
+    "english": "~뭐예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 772,
+    "korean": "~있어요?",
+    "english": "~있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 773,
+    "korean": "~어떻게 가요?",
+    "english": "~어떻게 가요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 774,
+    "korean": "~가고 싶어요",
+    "english": "~가고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 775,
+    "korean": "~어때요?",
+    "english": "~어때요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 776,
+    "korean": "~로 할게요",
+    "english": "~로 할게요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 777,
+    "korean": "~해 본 적 있어요?",
+    "english": "~해 본 적 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 778,
+    "korean": "~추천해 주세요",
+    "english": "~추천해 주세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 779,
+    "korean": "~주실 수 있어요?",
+    "english": "~주실 수 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 780,
+    "korean": "~좋아해요",
+    "english": "~좋아해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 781,
+    "korean": "신기해요",
+    "english": "신기해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 782,
+    "korean": "~더 주세요",
+    "english": "~더 주세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 783,
+    "korean": "~깎아 주세요",
+    "english": "~깎아 주세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 784,
+    "korean": "~써봤어요?",
+    "english": "~써봤어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 785,
+    "korean": "~어떤 게 좋아요?",
+    "english": "~어떤 게 좋아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 786,
+    "korean": "생각보다 ~해요",
+    "english": "생각보다 ~해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 787,
+    "korean": "다 같이 있어서 좋아요",
+    "english": "다 같이 있어서 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 788,
+    "korean": "이미 ~해요",
+    "english": "이미 ~해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 789,
+    "korean": "떨려요",
+    "english": "떨려요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 790,
+    "korean": "~에서 왔어요",
+    "english": "~에서 왔어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 791,
+    "korean": "잘 부탁드려요",
+    "english": "잘 부탁드려요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 792,
+    "korean": "~어디서 타요?",
+    "english": "~어디서 타요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 793,
+    "korean": "~먹고 싶어요",
+    "english": "~먹고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 794,
+    "korean": "~못 먹어요",
+    "english": "~못 먹어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 795,
+    "korean": "~먹어도 돼요?",
+    "english": "~먹어도 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 796,
+    "korean": "~불러도 돼요?",
+    "english": "~불러도 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 797,
+    "korean": "또 오고 싶어요",
+    "english": "또 오고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 798,
+    "korean": "~타요",
+    "english": "~타요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 799,
+    "korean": "~에서 내려요",
+    "english": "~에서 내려요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 800,
+    "korean": "~까지 가 주세요",
+    "english": "~까지 가 주세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 801,
+    "korean": "덜 ~게 해 주세요",
+    "english": "덜 ~게 해 주세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 802,
+    "korean": "~리필 돼요?",
+    "english": "~리필 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 803,
+    "korean": "~에 뭐 해요?",
+    "english": "~에 뭐 해요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 804,
+    "korean": "같이 ~ㄹ래요?",
+    "english": "같이 ~ㄹ래요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 805,
+    "korean": "조금 늦을 것 같아요",
+    "english": "조금 늦을 것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 806,
+    "korean": "길을 잃었어요",
+    "english": "길을 잃었어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 807,
+    "korean": "쭉 가면 돼요",
+    "english": "쭉 가면 돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 808,
+    "korean": "~으로 꺾으면 돼요",
+    "english": "~으로 꺾으면 돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 809,
+    "korean": "~봤어요?",
+    "english": "~봤어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 810,
+    "korean": "재미있어요",
+    "english": "재미있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 811,
+    "korean": "강추예요",
+    "english": "강추예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 812,
+    "korean": "~날씨 어때요?",
+    "english": "~날씨 어때요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 813,
+    "korean": "~올 것 같아요",
+    "english": "~올 것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 814,
+    "korean": "챙겨야겠어요",
+    "english": "챙겨야겠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 815,
+    "korean": "~이 아파요",
+    "english": "~이 아파요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 816,
+    "korean": "~약 있어요?",
+    "english": "~약 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 817,
+    "korean": "안 먹는 게 나아요",
+    "english": "안 먹는 게 나아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 818,
+    "korean": "취미가 뭐예요?",
+    "english": "취미가 뭐예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 819,
+    "korean": "저도요",
+    "english": "저도요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 820,
+    "korean": "~별로예요",
+    "english": "~별로예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 821,
+    "korean": "여기서 유명한 게 뭐예요?",
+    "english": "여기서 유명한 게 뭐예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 822,
+    "korean": "같이 사진 찍어요",
+    "english": "같이 사진 찍어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 823,
+    "korean": "사진이 잘 나왔어요?",
+    "english": "사진이 잘 나왔어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 824,
+    "korean": "오랜만이에요",
+    "english": "오랜만이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 825,
+    "korean": "잘 지냈어요?",
+    "english": "잘 지냈어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 826,
+    "korean": "다음에 또 봐요",
+    "english": "다음에 또 봐요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 827,
+    "korean": "~었어",
+    "english": "~었어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 828,
+    "korean": "~어땠어?",
+    "english": "~어땠어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 829,
+    "korean": "처음이었는데",
+    "english": "처음이었는데",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 830,
+    "korean": "~것 같아요",
+    "english": "~것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 831,
+    "korean": "~나 봐요",
+    "english": "~나 봐요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 832,
+    "korean": "~ㄹ 거야",
+    "english": "~ㄹ 거야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 833,
+    "korean": "~해야 해",
+    "english": "~해야 해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 834,
+    "korean": "~하지 마",
+    "english": "~하지 마",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 835,
+    "korean": "~잊지 마",
+    "english": "~잊지 마",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 836,
+    "korean": "~어떻게 생각해요?",
+    "english": "~어떻게 생각해요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 837,
+    "korean": "맞는 말이에요",
+    "english": "맞는 말이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 838,
+    "korean": "저는 좀 달라요",
+    "english": "저는 좀 달라요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 839,
+    "korean": "~에 가 봤어요?",
+    "english": "~에 가 봤어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 840,
+    "korean": "꼭 가 보세요",
+    "english": "꼭 가 보세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 841,
+    "korean": "언제 시간 돼요?",
+    "english": "언제 시간 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 842,
+    "korean": "요즘 뭐 봐요?",
+    "english": "요즘 뭐 봐요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 843,
+    "korean": "완전 빠져들었어요",
+    "english": "완전 빠져들었어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 844,
+    "korean": "다음 화가 기대돼요",
+    "english": "다음 화가 기대돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 845,
+    "korean": "이 노래 알아요?",
+    "english": "이 노래 알아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 846,
+    "korean": "가사가 무슨 뜻이에요?",
+    "english": "가사가 무슨 뜻이에요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 847,
+    "korean": "중독성 있어요",
+    "english": "중독성 있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 848,
+    "korean": "~관리 어떻게 해요?",
+    "english": "~관리 어떻게 해요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 849,
+    "korean": "~효과 있어요?",
+    "english": "~효과 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 850,
+    "korean": "후기가 좋아요",
+    "english": "후기가 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 851,
+    "korean": "얼마나 자주 해요?",
+    "english": "얼마나 자주 해요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 852,
+    "korean": "건강에 좋아요",
+    "english": "건강에 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 853,
+    "korean": "꾸준히 하고 있어요",
+    "english": "꾸준히 하고 있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 854,
+    "korean": "~어디 살아요?",
+    "english": "~어디 살아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 855,
+    "korean": "혼자 살아요?",
+    "english": "혼자 살아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 856,
+    "korean": "~근처에 뭐 있어?",
+    "english": "~근처에 뭐 있어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 857,
+    "korean": "기분이 어때?",
+    "english": "기분이 어때?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 858,
+    "korean": "~라서 행복해",
+    "english": "~라서 행복해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 859,
+    "korean": "설레",
+    "english": "설레",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 860,
+    "korean": "괜찮아요?",
+    "english": "괜찮아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 861,
+    "korean": "요즘 좀 힘들어요",
+    "english": "요즘 좀 힘들어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 862,
+    "korean": "언제든지 연락해요",
+    "english": "언제든지 연락해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 863,
+    "korean": "카카오톡 해요?",
+    "english": "카카오톡 해요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 864,
+    "korean": "팔로우해도 돼요?",
+    "english": "팔로우해도 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 865,
+    "korean": "한국 친구 사귀고 싶어요",
+    "english": "한국 친구 사귀고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 866,
+    "korean": "제가 살게요",
+    "english": "제가 살게요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 867,
+    "korean": "더치페이 해요?",
+    "english": "더치페이 해요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 868,
+    "korean": "밥 한번 먹어요",
+    "english": "밥 한번 먹어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 869,
+    "korean": "배달 시켜요",
+    "english": "배달 시켜요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 870,
+    "korean": "~입어 봤어?",
+    "english": "~입어 봤어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 871,
+    "korean": "명절에 뭐 해?",
+    "english": "명절에 뭐 해?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 872,
+    "korean": "이게 무슨 뜻이야?",
+    "english": "이게 무슨 뜻이야?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 873,
+    "korean": "술 마셔요?",
+    "english": "술 마셔요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 874,
+    "korean": "건배해요",
+    "english": "건배해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 875,
+    "korean": "오늘은 여기까지만 해요",
+    "english": "오늘은 여기까지만 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 876,
+    "korean": "이 노래 같이 불러요",
+    "english": "이 노래 같이 불러요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 877,
+    "korean": "신청곡 있어요?",
+    "english": "신청곡 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 878,
+    "korean": "한 곡 더 해요",
+    "english": "한 곡 더 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 879,
+    "korean": "같이 춰요",
+    "english": "같이 춰요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 880,
+    "korean": "어렵지만 재미있어요",
+    "english": "어렵지만 재미있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 881,
+    "korean": "하다 보면 늘어요",
+    "english": "하다 보면 늘어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 882,
+    "korean": "분위기 좋아요",
+    "english": "분위기 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 883,
+    "korean": "달달한 거 있어요?",
+    "english": "달달한 거 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 884,
+    "korean": "오래 있어도 돼요?",
+    "english": "오래 있어도 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 885,
+    "korean": "나라마다 달라요",
+    "english": "나라마다 달라요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 886,
+    "korean": "이제 적응이 됐어요",
+    "english": "이제 적응이 됐어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 887,
+    "korean": "처음엔 낯설었는데",
+    "english": "처음엔 낯설었는데",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 888,
+    "korean": "~는데",
+    "english": "~는데",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 889,
+    "korean": "~거든",
+    "english": "~거든",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 890,
+    "korean": "~네",
+    "english": "~네",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 891,
+    "korean": "~면 어때요?",
+    "english": "~면 어때요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 892,
+    "korean": "~면 좋겠어요",
+    "english": "~면 좋겠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 893,
+    "korean": "~면 돼요",
+    "english": "~면 돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 894,
+    "korean": "~때문에",
+    "english": "~때문에",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 895,
+    "korean": "~덕분에",
+    "english": "~덕분에",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 896,
+    "korean": "~보다",
+    "english": "~보다",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 897,
+    "korean": "~는 동안",
+    "english": "~는 동안",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 898,
+    "korean": "~고 나서",
+    "english": "~고 나서",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 899,
+    "korean": "~기 전에",
+    "english": "~기 전에",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 900,
+    "korean": "~아 줄게요",
+    "english": "~아 줄게요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 901,
+    "korean": "해 드릴까요?",
+    "english": "해 드릴까요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 902,
+    "korean": "죄송한데요 혹시 ~",
+    "english": "죄송한데요 혹시 ~",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 903,
+    "korean": "~지 얼마나 됐어요?",
+    "english": "~지 얼마나 됐어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 904,
+    "korean": "아직 ~는 중이에요",
+    "english": "아직 ~는 중이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 905,
+    "korean": "거의 다 됐어요",
+    "english": "거의 다 됐어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 906,
+    "korean": "~스타일 좋아해요?",
+    "english": "~스타일 좋아해요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 907,
+    "korean": "~잘 어울려요",
+    "english": "~잘 어울려요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 908,
+    "korean": "요즘 유행이에요",
+    "english": "요즘 유행이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 909,
+    "korean": "배달 얼마나 걸려요?",
+    "english": "배달 얼마나 걸려요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 910,
+    "korean": "가성비 좋아요",
+    "english": "가성비 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 911,
+    "korean": "여행 계획 있어요?",
+    "english": "여행 계획 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 912,
+    "korean": "며칠이나 있을 거예요?",
+    "english": "며칠이나 있을 거예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 913,
+    "korean": "꼭 봐야 할 게 뭐예요?",
+    "english": "꼭 봐야 할 게 뭐예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 914,
+    "korean": "한국 생활 어때?",
+    "english": "한국 생활 어때?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 915,
+    "korean": "이제 익숙해졌어",
+    "english": "이제 익숙해졌어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 916,
+    "korean": "~이 제일 좋아",
+    "english": "~이 제일 좋아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 917,
+    "korean": "~ㄹ 거예요",
+    "english": "~ㄹ 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 918,
+    "korean": "~려고 해요",
+    "english": "~려고 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 919,
+    "korean": "~고 싶어요",
+    "english": "~고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 920,
+    "korean": "~기로 했어요",
+    "english": "~기로 했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 921,
+    "korean": "마음먹었어요",
+    "english": "마음먹었어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 922,
+    "korean": "예전보다 늘었어요",
+    "english": "예전보다 늘었어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 923,
+    "korean": "~어 봤어?",
+    "english": "~어 봤어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 924,
+    "korean": "~보니까",
+    "english": "~보니까",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 925,
+    "korean": "~추천해줬어",
+    "english": "~추천해줬어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 926,
+    "korean": "~가르쳐줄 수 있어?",
+    "english": "~가르쳐줄 수 있어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 927,
+    "korean": "~맞아?",
+    "english": "~맞아?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 928,
+    "korean": "~어떻게 해?",
+    "english": "~어떻게 해?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 929,
+    "korean": "~만들어봤어?",
+    "english": "~만들어봤어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 930,
+    "korean": "~얼마나 넣어?",
+    "english": "~얼마나 넣어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 931,
+    "korean": "~하면 돼",
+    "english": "~하면 돼",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 932,
+    "korean": "~살 거예요",
+    "english": "~살 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 933,
+    "korean": "이거 어때요?",
+    "english": "이거 어때요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 934,
+    "korean": "카드로 할게요",
+    "english": "카드로 할게요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 935,
+    "korean": "~해봤어?",
+    "english": "~해봤어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 936,
+    "korean": "어땠어?",
+    "english": "어땠어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 937,
+    "korean": "~받고 싶어요",
+    "english": "~받고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 938,
+    "korean": "어디가 아파요?",
+    "english": "어디가 아파요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 939,
+    "korean": "언제부터 아팠어요?",
+    "english": "언제부터 아팠어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 940,
+    "korean": "~와 봤어요?",
+    "english": "~와 봤어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 941,
+    "korean": "~하기 좋아요",
+    "english": "~하기 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 942,
+    "korean": "~중에 뭐가 제일 좋아요?",
+    "english": "~중에 뭐가 제일 좋아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 943,
+    "korean": "~라서 중독성 있어요",
+    "english": "~라서 중독성 있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 944,
+    "korean": "~이랑 달라요",
+    "english": "~이랑 달라요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 945,
+    "korean": "좀 그렇긴 한데",
+    "english": "좀 그렇긴 한데",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 946,
+    "korean": "솔직하게 말해도 돼?",
+    "english": "솔직하게 말해도 돼?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 947,
+    "korean": "은근히 ~해",
+    "english": "은근히 ~해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 948,
+    "korean": "~때문에 바빠요",
+    "english": "~때문에 바빠요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 949,
+    "korean": "무리하지 마세요",
+    "english": "무리하지 마세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 950,
+    "korean": "~많이 해?",
+    "english": "~많이 해?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 951,
+    "korean": "~유행이야?",
+    "english": "~유행이야?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 952,
+    "korean": "~올렸더니",
+    "english": "~올렸더니",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 953,
+    "korean": "~도전해요",
+    "english": "~도전해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 954,
+    "korean": "재료가 있어요?",
+    "english": "재료가 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 955,
+    "korean": "다음엔 더 잘할 거예요",
+    "english": "다음엔 더 잘할 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 956,
+    "korean": "~루틴 있어요?",
+    "english": "~루틴 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 957,
+    "korean": "~하고 나서",
+    "english": "~하고 나서",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 958,
+    "korean": "꼭 ~해야 해요",
+    "english": "꼭 ~해야 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 959,
+    "korean": "많이 늘었어요",
+    "english": "많이 늘었어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 960,
+    "korean": "비결이 뭐예요?",
+    "english": "비결이 뭐예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 961,
+    "korean": "~이 헷갈려요",
+    "english": "~이 헷갈려요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 962,
+    "korean": "~이 이렇게 ~해?",
+    "english": "~이 이렇게 ~해?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 963,
+    "korean": "이때가 제일 좋아",
+    "english": "이때가 제일 좋아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 964,
+    "korean": "~은 어때?",
+    "english": "~은 어때?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 965,
+    "korean": "서운했어요",
+    "english": "서운했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 966,
+    "korean": "마음은 알아요",
+    "english": "마음은 알아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 967,
+    "korean": "말하고 나니까 후련해요",
+    "english": "말하고 나니까 후련해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 968,
+    "korean": "꿈이 뭐예요?",
+    "english": "꿈이 뭐예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 969,
+    "korean": "~가 되고 싶어요",
+    "english": "~가 되고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 970,
+    "korean": "포기하고 싶어요",
+    "english": "포기하고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 971,
+    "korean": "~어디에 버려?",
+    "english": "~어디에 버려?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 972,
+    "korean": "~철저히 해?",
+    "english": "~철저히 해?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 973,
+    "korean": "~신경 써야겠어",
+    "english": "~신경 써야겠어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 974,
+    "korean": "말로 표현하기 어려워요",
+    "english": "말로 표현하기 어려워요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 975,
+    "korean": "이 느낌 알아요?",
+    "english": "이 느낌 알아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 976,
+    "korean": "왠지 모르게 ~해요",
+    "english": "왠지 모르게 ~해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 977,
+    "korean": "딱 이 느낌이에요",
+    "english": "딱 이 느낌이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 978,
+    "korean": "오해가 있었어",
+    "english": "오해가 있었어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 979,
+    "korean": "~뜻이 아니었어",
+    "english": "~뜻이 아니었어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 980,
+    "korean": "충분히 이해해",
+    "english": "충분히 이해해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 981,
+    "korean": "합격했어요",
+    "english": "합격했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 982,
+    "korean": "드디어 해냈어요",
+    "english": "드디어 해냈어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 983,
+    "korean": "잘 이겨냈어요",
+    "english": "잘 이겨냈어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 984,
+    "korean": "~먹어봐",
+    "english": "~먹어봐",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 985,
+    "korean": "생각보다 훨씬 ~해",
+    "english": "생각보다 훨씬 ~해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 986,
+    "korean": "중독성 있어",
+    "english": "중독성 있어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 987,
+    "korean": "행복해요",
+    "english": "행복해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 988,
+    "korean": "~하는 게 좋아요",
+    "english": "~하는 게 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 989,
+    "korean": "이런 일상이 소중해요",
+    "english": "이런 일상이 소중해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 990,
+    "korean": "알고 보면 쉬워",
+    "english": "알고 보면 쉬워",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 991,
+    "korean": "이게 포인트야",
+    "english": "이게 포인트야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 992,
+    "korean": "다 같이 모이니까 좋아요",
+    "english": "다 같이 모이니까 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 993,
+    "korean": "처음 만났을 때",
+    "english": "처음 만났을 때",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 994,
+    "korean": "여러분 덕분이에요",
+    "english": "여러분 덕분이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 995,
+    "korean": "앞으로도 잘 부탁해요",
+    "english": "앞으로도 잘 부탁해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 996,
+    "korean": "얼마나 있을 거예요?",
+    "english": "얼마나 있을 거예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 997,
+    "korean": "꿈을 위해 할 거예요",
+    "english": "꿈을 위해 할 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 998,
+    "korean": "줄 서야 해요",
+    "english": "줄 서야 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 999,
+    "korean": "웨이팅 있어요?",
+    "english": "웨이팅 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1000,
+    "korean": "꼭 와봐야 할 곳이에요",
+    "english": "꼭 와봐야 할 곳이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1001,
+    "korean": "믿기지 않아",
+    "english": "믿기지 않아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1002,
+    "korean": "처음에 비하면",
+    "english": "처음에 비하면",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1003,
+    "korean": "포기 안 하길 잘했어",
+    "english": "포기 안 하길 잘했어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1004,
+    "korean": "~라고 하던데",
+    "english": "~라고 하던데",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1005,
+    "korean": "~라더라",
+    "english": "~라더라",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1006,
+    "korean": "~는 줄 몰랐어",
+    "english": "~는 줄 몰랐어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1007,
+    "korean": "~게 됐어요",
+    "english": "~게 됐어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1008,
+    "korean": "~다 보니까",
+    "english": "~다 보니까",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1009,
+    "korean": "~하다 보면",
+    "english": "~하다 보면",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1010,
+    "korean": "~한 것치고는",
+    "english": "~한 것치고는",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1011,
+    "korean": "아무리 그래도",
+    "english": "아무리 그래도",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1012,
+    "korean": "잘 모르겠는데요",
+    "english": "잘 모르겠는데요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1013,
+    "korean": "좀 더 생각해 봐야겠어요",
+    "english": "좀 더 생각해 봐야겠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1014,
+    "korean": "일단은 ~해요",
+    "english": "일단은 ~해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1015,
+    "korean": "눈치챘어요?",
+    "english": "눈치챘어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1016,
+    "korean": "감이 잡혀요",
+    "english": "감이 잡혀요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1017,
+    "korean": "딱 봐도 알겠어요",
+    "english": "딱 봐도 알겠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1018,
+    "korean": "흔한 일이야",
+    "english": "흔한 일이야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1019,
+    "korean": "알고 보면 ~해",
+    "english": "알고 보면 ~해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1020,
+    "korean": "부담스러워요",
+    "english": "부담스러워요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1021,
+    "korean": "솔직하게 말해도 돼요?",
+    "english": "솔직하게 말해도 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1022,
+    "korean": "이제 많이 편해졌어요",
+    "english": "이제 많이 편해졌어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1023,
+    "korean": "외국인 티 나요?",
+    "english": "외국인 티 나요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1024,
+    "korean": "이제 한국말이 편해요",
+    "english": "이제 한국말이 편해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1025,
+    "korean": "한국어로 꿈도 꿔요",
+    "english": "한국어로 꿈도 꿔요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1026,
+    "korean": "관광지보다 로컬이 좋아",
+    "english": "관광지보다 로컬이 좋아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1027,
+    "korean": "현지인들이 가는 곳이야",
+    "english": "현지인들이 가는 곳이야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1028,
+    "korean": "숨겨진 명소야",
+    "english": "숨겨진 명소야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1029,
+    "korean": "요즘 핫해요",
+    "english": "요즘 핫해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1030,
+    "korean": "완전 대세예요",
+    "english": "완전 대세예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1031,
+    "korean": "떠오르는 중이에요",
+    "english": "떠오르는 중이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1032,
+    "korean": "아니라고 할 순 없지",
+    "english": "아니라고 할 순 없지",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1033,
+    "korean": "꼭 그런 건 아니야",
+    "english": "꼭 그런 건 아니야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1034,
+    "korean": "말이 되네요",
+    "english": "말이 되네요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1035,
+    "korean": "앞뒤가 안 맞아요",
+    "english": "앞뒤가 안 맞아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1036,
+    "korean": "결국엔 ~",
+    "english": "결국엔 ~",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1037,
+    "korean": "속상했어요",
+    "english": "속상했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1038,
+    "korean": "억울했어요",
+    "english": "억울했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1039,
+    "korean": "상대방 입장에서 생각해봐",
+    "english": "상대방 입장에서 생각해봐",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1040,
+    "korean": "마음은 알아",
+    "english": "마음은 알아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1041,
+    "korean": "내가 옆에 있을게",
+    "english": "내가 옆에 있을게",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1042,
+    "korean": "반전 있어요",
+    "english": "반전 있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1043,
+    "korean": "여운이 남아요",
+    "english": "여운이 남아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1044,
+    "korean": "몰입이 돼요",
+    "english": "몰입이 돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1045,
+    "korean": "어딘가 모르게 끌려요",
+    "english": "어딘가 모르게 끌려요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1046,
+    "korean": "떠나기 싫어",
+    "english": "떠나기 싫어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1047,
+    "korean": "~이 그리울 것 같아",
+    "english": "~이 그리울 것 같아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1048,
+    "korean": "꼭 다시 올게",
+    "english": "꼭 다시 올게",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1049,
+    "korean": "이제 한국어로 생각해요",
+    "english": "이제 한국어로 생각해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1050,
+    "korean": "번역 안 해도 이해돼요",
+    "english": "번역 안 해도 이해돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1051,
+    "korean": "실력이 많이 늘었어요",
+    "english": "실력이 많이 늘었어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1052,
+    "korean": "같이 성장한 것 같아요",
+    "english": "같이 성장한 것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1053,
+    "korean": "덕분에 정말 많이 배웠어요",
+    "english": "덕분에 정말 많이 배웠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1054,
+    "korean": "~이에요",
+    "english": "~이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1055,
+    "korean": "~좋아요",
+    "english": "~좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1056,
+    "korean": "~맞아요?",
+    "english": "~맞아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1057,
+    "korean": "~할 수 있어요?",
+    "english": "~할 수 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1058,
+    "korean": "~돼요?",
+    "english": "~돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1059,
+    "korean": "~해도 돼요?",
+    "english": "~해도 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1060,
+    "korean": "~처음이에요",
+    "english": "~처음이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1061,
+    "korean": "맛있어요",
+    "english": "맛있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1062,
+    "korean": "너무 ~해요",
+    "english": "너무 ~해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1063,
+    "korean": "진짜요? 대박!",
+    "english": "진짜요? 대박!",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1064,
+    "korean": "맛봐요",
+    "english": "맛봐요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1065,
+    "korean": "다 해서 얼마예요?",
+    "english": "다 해서 얼마예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1066,
+    "korean": "~뭐 써요?",
+    "english": "~뭐 써요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1067,
+    "korean": "처음이에요",
+    "english": "처음이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1068,
+    "korean": "~전공이에요",
+    "english": "~전공이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1069,
+    "korean": "할 수 있어요",
+    "english": "할 수 있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1070,
+    "korean": "~갈아타요",
+    "english": "~갈아타요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1071,
+    "korean": "얼마나 걸려요?",
+    "english": "얼마나 걸려요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1072,
+    "korean": "~이 들어가 있어요?",
+    "english": "~이 들어가 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1073,
+    "korean": "포장 돼요?",
+    "english": "포장 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1074,
+    "korean": "몇 시에 만날까요?",
+    "english": "몇 시에 만날까요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1075,
+    "korean": "다음에 해요",
+    "english": "다음에 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1076,
+    "korean": "걸어서 얼마나 걸려요?",
+    "english": "걸어서 얼마나 걸려요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1077,
+    "korean": "다음엔 ~해야지",
+    "english": "다음엔 ~해야지",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1078,
+    "korean": "~어디서 볼 수 있어요?",
+    "english": "~어디서 볼 수 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1079,
+    "korean": "몇 시에 ~올라와요?",
+    "english": "몇 시에 ~올라와요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1080,
+    "korean": "날씨 좋네요",
+    "english": "날씨 좋네요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1081,
+    "korean": "너무 더워요",
+    "english": "너무 더워요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1082,
+    "korean": "어디 아파요?",
+    "english": "어디 아파요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1083,
+    "korean": "푹 쉬세요",
+    "english": "푹 쉬세요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1084,
+    "korean": "완전 제 스타일이에요",
+    "english": "완전 제 스타일이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1085,
+    "korean": "~에 요즘 빠져 있어요",
+    "english": "~에 요즘 빠져 있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1086,
+    "korean": "선물로 뭐가 좋을까요?",
+    "english": "선물로 뭐가 좋을까요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1087,
+    "korean": "요즘 바빠요?",
+    "english": "요즘 바빠요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1088,
+    "korean": "하나도 안 변했어요",
+    "english": "하나도 안 변했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1089,
+    "korean": "~못 했어",
+    "english": "~못 했어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1090,
+    "korean": "~안 했어",
+    "english": "~안 했어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1091,
+    "korean": "잘 모르겠어요",
+    "english": "잘 모르겠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1092,
+    "korean": "~인 것 같아요",
+    "english": "~인 것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1093,
+    "korean": "~안 해도 돼",
+    "english": "~안 해도 돼",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1094,
+    "korean": "~조심해",
+    "english": "~조심해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1095,
+    "korean": "그럴 수도 있어요",
+    "english": "그럴 수도 있어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1096,
+    "korean": "~라고 생각해요",
+    "english": "~라고 생각해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1097,
+    "korean": "같이 해요",
+    "english": "같이 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1098,
+    "korean": "다음에 꼭 같이 가요",
+    "english": "다음에 꼭 같이 가요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1099,
+    "korean": "~어디서 봐요?",
+    "english": "~어디서 봐요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1100,
+    "korean": "결말이 어떻게 돼요?",
+    "english": "결말이 어떻게 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1101,
+    "korean": "~누구 좋아해요?",
+    "english": "~누구 좋아해요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1102,
+    "korean": "콘서트 가고 싶어요",
+    "english": "콘서트 가고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1103,
+    "korean": "~에서 팔아요?",
+    "english": "~에서 팔아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1104,
+    "korean": "온라인으로 주문할 수 있어요?",
+    "english": "온라인으로 주문할 수 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1105,
+    "korean": "스트레스 해소가 돼요",
+    "english": "스트레스 해소가 돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1106,
+    "korean": "살이 빠졌어요",
+    "english": "살이 빠졌어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1107,
+    "korean": "살기 좋아요?",
+    "english": "살기 좋아요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1108,
+    "korean": "~로 이사 왔어요",
+    "english": "~로 이사 왔어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1109,
+    "korean": "걱정돼",
+    "english": "걱정돼",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1110,
+    "korean": "화가 났어",
+    "english": "화가 났어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1111,
+    "korean": "걱정돼요",
+    "english": "걱정돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1112,
+    "korean": "응원해요",
+    "english": "응원해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1113,
+    "korean": "연락해요",
+    "english": "연락해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1114,
+    "korean": "우리 자주 만나요",
+    "english": "우리 자주 만나요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1115,
+    "korean": "같이 시킬래요?",
+    "english": "같이 시킬래요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1116,
+    "korean": "한국에서는 어떻게 해?",
+    "english": "한국에서는 어떻게 해?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1117,
+    "korean": "신기하다",
+    "english": "신기하다",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1118,
+    "korean": "많이 취했어요",
+    "english": "많이 취했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1119,
+    "korean": "노래 잘하네요",
+    "english": "노래 잘하네요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1120,
+    "korean": "시간 연장해요",
+    "english": "시간 연장해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1121,
+    "korean": "춤 배우고 싶어요",
+    "english": "춤 배우고 싶어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1122,
+    "korean": "연습이 필요해요",
+    "english": "연습이 필요해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1123,
+    "korean": "뭐 마실 거예요?",
+    "english": "뭐 마실 거예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1124,
+    "korean": "여기서 ~해도 돼요?",
+    "english": "여기서 ~해도 돼요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1125,
+    "korean": "한국에서는 ~이 당연해요",
+    "english": "한국에서는 ~이 당연해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1126,
+    "korean": "우리나라에서는",
+    "english": "우리나라에서는",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1127,
+    "korean": "~잖아",
+    "english": "~잖아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1128,
+    "korean": "~더라",
+    "english": "~더라",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1129,
+    "korean": "~면 안 돼요",
+    "english": "~면 안 돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1130,
+    "korean": "~면 될 것 같아요",
+    "english": "~면 될 것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1131,
+    "korean": "~아서",
+    "english": "~아서",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1132,
+    "korean": "~만큼",
+    "english": "~만큼",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1133,
+    "korean": "~자마자",
+    "english": "~자마자",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1134,
+    "korean": "~다가",
+    "english": "~다가",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1135,
+    "korean": "감사한데요",
+    "english": "감사한데요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1136,
+    "korean": "~지 얼마 안 됐어요",
+    "english": "~지 얼마 안 됐어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1137,
+    "korean": "다 됐어요",
+    "english": "다 됐어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1138,
+    "korean": "~어디 브랜드예요?",
+    "english": "~어디 브랜드예요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1139,
+    "korean": "한번 입어 봐요",
+    "english": "한번 입어 봐요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1140,
+    "korean": "단골이에요",
+    "english": "단골이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1141,
+    "korean": "또 시킬 거예요",
+    "english": "또 시킬 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1142,
+    "korean": "여행 코스 추천해 줘요",
+    "english": "여행 코스 추천해 줘요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1143,
+    "korean": "혼자 여행이에요?",
+    "english": "혼자 여행이에요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1144,
+    "korean": "힘든 점도 있어?",
+    "english": "힘든 점도 있어?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1145,
+    "korean": "한국에 정 들었어",
+    "english": "한국에 정 들었어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1146,
+    "korean": "~할 거예요",
+    "english": "~할 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1147,
+    "korean": "꼭 ~ㄹ게요",
+    "english": "꼭 ~ㄹ게요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1148,
+    "korean": "포기하지 않을 거예요",
+    "english": "포기하지 않을 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1149,
+    "korean": "앞으로도 계속",
+    "english": "앞으로도 계속",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1150,
+    "korean": "처음이야",
+    "english": "처음이야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1151,
+    "korean": "생각보다 맛있어",
+    "english": "생각보다 맛있어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1152,
+    "korean": "덕분에 배웠어",
+    "english": "덕분에 배웠어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1153,
+    "korean": "더 자연스러워",
+    "english": "더 자연스러워",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1154,
+    "korean": "재료 준비해",
+    "english": "재료 준비해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1155,
+    "korean": "맛봐봐",
+    "english": "맛봐봐",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1156,
+    "korean": "깎아주실 수 있어요?",
+    "english": "깎아주실 수 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1157,
+    "korean": "잘 어울릴 것 같아요",
+    "english": "잘 어울릴 것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1158,
+    "korean": "처음엔 힘들었는데",
+    "english": "처음엔 힘들었는데",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1159,
+    "korean": "덕분에 늘었어",
+    "english": "덕분에 늘었어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1160,
+    "korean": "하루에 몇 번이요?",
+    "english": "하루에 몇 번이요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1161,
+    "korean": "많이 나았어요",
+    "english": "많이 나았어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1162,
+    "korean": "재미있을 것 같아요",
+    "english": "재미있을 것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1163,
+    "korean": "어떻게 달라요?",
+    "english": "어떻게 달라요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1164,
+    "korean": "더 맛있는 것 같아요",
+    "english": "더 맛있는 것 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1165,
+    "korean": "나쁘지 않아",
+    "english": "나쁘지 않아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1166,
+    "korean": "사실 나도 그랬어",
+    "english": "사실 나도 그랬어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1167,
+    "korean": "힘들겠어요",
+    "english": "힘들겠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1168,
+    "korean": "그래도 괜찮아요",
+    "english": "그래도 괜찮아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1169,
+    "korean": "요즘 핫해",
+    "english": "요즘 핫해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1170,
+    "korean": "반응이 좋아",
+    "english": "반응이 좋아",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1171,
+    "korean": "~이 없는데요",
+    "english": "~이 없는데요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1172,
+    "korean": "좀 더 ~해요",
+    "english": "좀 더 ~해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1173,
+    "korean": "효과 좋아요",
+    "english": "효과 좋아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1174,
+    "korean": "덕분에 좋아졌어요",
+    "english": "덕분에 좋아졌어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1175,
+    "korean": "매일 조금씩",
+    "english": "매일 조금씩",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1176,
+    "korean": "연습하면 돼요",
+    "english": "연습하면 돼요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1177,
+    "korean": "습해서 힘들어",
+    "english": "습해서 힘들어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1178,
+    "korean": "~이랑 달라?",
+    "english": "~이랑 달라?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1179,
+    "korean": "미안해요",
+    "english": "미안해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1180,
+    "korean": "이해해요",
+    "english": "이해해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1181,
+    "korean": "열심히 하는 중이에요",
+    "english": "열심히 하는 중이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1182,
+    "korean": "절대 포기 안 할 거예요",
+    "english": "절대 포기 안 할 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1183,
+    "korean": "안 하면 안 돼",
+    "english": "안 하면 안 돼",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1184,
+    "korean": "~갖고 다녀",
+    "english": "~갖고 다녀",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1185,
+    "korean": "어딘가 모르게 ~해요",
+    "english": "어딘가 모르게 ~해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1186,
+    "korean": "그랬구나",
+    "english": "그랬구나",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1187,
+    "korean": "앞으로 더 솔직하게",
+    "english": "앞으로 더 솔직하게",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1188,
+    "korean": "포기하지 않길 잘했어요",
+    "english": "포기하지 않길 잘했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1189,
+    "korean": "덕분이에요",
+    "english": "덕분이에요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1190,
+    "korean": "이거 뭐야?",
+    "english": "이거 뭐야?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1191,
+    "korean": "바삭해",
+    "english": "바삭해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1192,
+    "korean": "새로 생겼어요",
+    "english": "새로 생겼어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1193,
+    "korean": "앞으로도 이렇게",
+    "english": "앞으로도 이렇게",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1194,
+    "korean": "뉘앙스가 달라",
+    "english": "뉘앙스가 달라",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1195,
+    "korean": "조금씩 나아지고 있어",
+    "english": "조금씩 나아지고 있어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1196,
+    "korean": "많이 변했어요",
+    "english": "많이 변했어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1197,
+    "korean": "연장하려고 해요",
+    "english": "연장하려고 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1198,
+    "korean": "보고 싶긴 해요",
+    "english": "보고 싶긴 해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1199,
+    "korean": "얼마나 기다려요?",
+    "english": "얼마나 기다려요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1200,
+    "korean": "올 때마다 만족해요",
+    "english": "올 때마다 만족해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1201,
+    "korean": "대단해",
+    "english": "대단해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1202,
+    "korean": "~는 줄 알았어",
+    "english": "~는 줄 알았어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1203,
+    "korean": "~한다고?",
+    "english": "~한다고?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1204,
+    "korean": "어쩌다 보니",
+    "english": "어쩌다 보니",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1205,
+    "korean": "그러다 보니",
+    "english": "그러다 보니",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1206,
+    "korean": "그렇다고",
+    "english": "그렇다고",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1207,
+    "korean": "워낙에 ~해서",
+    "english": "워낙에 ~해서",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1208,
+    "korean": "맞는 것 같기도 하고",
+    "english": "맞는 것 같기도 하고",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1209,
+    "korean": "나름대로",
+    "english": "나름대로",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1210,
+    "korean": "대충 무슨 말인지 알겠어요",
+    "english": "대충 무슨 말인지 알겠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1211,
+    "korean": "뭔가 이상해요",
+    "english": "뭔가 이상해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1212,
+    "korean": "예상치 못했어",
+    "english": "예상치 못했어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1213,
+    "korean": "민망해요",
+    "english": "민망해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1214,
+    "korean": "아직 좀 어색해요",
+    "english": "아직 좀 어색해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1215,
+    "korean": "현지인 같아요",
+    "english": "현지인 같아요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1216,
+    "korean": "자연스러워졌어요",
+    "english": "자연스러워졌어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1217,
+    "korean": "줄 서야 해",
+    "english": "줄 서야 해",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1218,
+    "korean": "꼭 가봐야 할 곳이야",
+    "english": "꼭 가봐야 할 곳이야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1219,
+    "korean": "이미 알고 있었어요",
+    "english": "이미 알고 있었어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1220,
+    "korean": "한번 가볼게요",
+    "english": "한번 가볼게요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1221,
+    "korean": "그렇게 볼 수도 있지",
+    "english": "그렇게 볼 수도 있지",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1222,
+    "korean": "사람마다 달라",
+    "english": "사람마다 달라",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1223,
+    "korean": "어쨌든",
+    "english": "어쨌든",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1224,
+    "korean": "따지고 보면",
+    "english": "따지고 보면",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1225,
+    "korean": "마음이 무거웠어요",
+    "english": "마음이 무거웠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1226,
+    "korean": "그럴 수 있어",
+    "english": "그럴 수 있어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1227,
+    "korean": "잘 이겨낼 거야",
+    "english": "잘 이겨낼 거야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1228,
+    "korean": "보다가 울었어요",
+    "english": "보다가 울었어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1229,
+    "korean": "시즌2 있어요?",
+    "english": "시즌2 있어요?",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1230,
+    "korean": "정말 좋은 추억이야",
+    "english": "정말 좋은 추억이야",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1231,
+    "korean": "정이 들었어",
+    "english": "정이 들었어",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1232,
+    "korean": "이제 한국어가 편해요",
+    "english": "이제 한국어가 편해요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1233,
+    "korean": "앞으로도 계속 할 거예요",
+    "english": "앞으로도 계속 할 거예요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  },
+  {
+    "id": 1234,
+    "korean": "같이 해줘서 고마웠어요",
+    "english": "같이 해줘서 고마웠어요",
+    "category": null,
+    "first_episode": null,
+    "structure": null
+  }
+]

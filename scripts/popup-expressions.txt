@@ -1,0 +1,450 @@
+id=770   ~주세요                    gloss: (표시 안 됨)
+        ex: "물 주세요." / "Water, please."
+id=771   ~뭐예요?                   gloss: (표시 안 됨)
+        ex: "이거 뭐예요?" / "What is this?"
+id=772   ~있어요?                   gloss: (표시 안 됨)
+        ex: "자리 있어요?" / "Is there a seat?"
+id=773   ~어떻게 가요?                gloss: (표시 안 됨)
+        ex: "명동에 어떻게 가요?" / "How do I get to Myeongdong?"
+id=774   ~가고 싶어요                 gloss: (표시 안 됨)
+        ex: "제주도에 가고 싶어요." / "I want to go to Jeju Island."
+id=775   ~어때요?                   gloss: (표시 안 됨)
+        ex: "이 음식 어때요?" / "How is this food?"
+id=776   ~로 할게요                  gloss: (표시 안 됨)
+        ex: "이걸로 할게요." / "I'll go with this one."
+id=777   ~해 본 적 있어요?             gloss: (표시 안 됨)
+        ex: "한국 음식 먹어 본 적 있어요?" / "Have you ever tried Korean food?"
+id=778   ~추천해 주세요                gloss: (표시 안 됨)
+        ex: "메뉴 추천해 주세요." / "Please recommend something from the menu."
+id=779   ~주실 수 있어요?              gloss: (표시 안 됨)
+        ex: "사진 찍어 주실 수 있어요?" / "Could you take a photo for me?"
+id=780   ~좋아해요                   gloss: (표시 안 됨)
+        ex: "한국 음식 좋아해요." / "I like Korean food."
+id=781   신기해요                    gloss: (표시 안 됨)
+        ex: "이 음식 신기해요." / "This food is fascinating."
+id=782   ~더 주세요                  gloss: (표시 안 됨)
+        ex: "물 더 주세요." / "Please give me more water."
+id=783   ~깎아 주세요                 gloss: (표시 안 됨)
+        ex: "좀 깎아 주세요." / "Please give me a discount."
+id=784   ~써봤어요?                  gloss: (표시 안 됨)
+        ex: "이 앱 써봤어요?" / "Have you tried this app?"
+id=785   ~어떤 게 좋아요?              gloss: (표시 안 됨)
+        ex: "어떤 색이 좋아요?" / "Which color do you like?"
+id=786   생각보다 ~해요                gloss: (표시 안 됨)
+        ex: "생각보다 맛있어요." / "It's tastier than I expected."
+id=787   다 같이 있어서 좋아요            gloss: (표시 안 됨)
+        ex: "다 같이 있어서 정말 좋아요." / "I'm so happy we're all together."
+id=788   이미 ~해요                  gloss: (표시 안 됨)
+        ex: "이미 먹었어요." / "I already ate."
+id=789   떨려요                     gloss: (표시 안 됨)
+        ex: "너무 떨려요." / "I'm so nervous."
+id=790   ~에서 왔어요                 gloss: (표시 안 됨)
+        ex: "미국에서 왔어요." / "I'm from the United States."
+id=791   잘 부탁드려요                 gloss: (표시 안 됨)
+        ex: "처음 뵙겠습니다. 잘 부탁드려요." / "Nice to meet you. Please take good care of me."
+id=792   ~어디서 타요?                gloss: (표시 안 됨)
+        ex: "버스 어디서 타요?" / "Where do I get on the bus?"
+id=793   ~먹고 싶어요                 gloss: (표시 안 됨)
+        ex: "삼겹살 먹고 싶어요." / "I want to eat samgyeopsal."
+id=794   ~못 먹어요                  gloss: (표시 안 됨)
+        ex: "매운 거 못 먹어요." / "I can't eat spicy food."
+id=795   ~먹어도 돼요?                gloss: (표시 안 됨)
+        ex: "이거 먹어도 돼요?" / "Is it okay to eat this?"
+id=796   ~불러도 돼요?                gloss: (표시 안 됨)
+        ex: "언니라고 불러도 돼요?" / "Is it okay to call you 언니?"
+id=797   또 오고 싶어요                gloss: (표시 안 됨)
+        ex: "여기 또 오고 싶어요." / "I want to come here again."
+id=857   기분이 어때?                 gloss: (표시 안 됨)
+        ex: "오늘 기분이 어때? 좋아 보여." / "How are you feeling today? You look happy."
+id=858   ~라서 행복해                 gloss: (표시 안 됨)
+        ex: "네가 옆에 있어서 행복해." / "I'm happy because you're by my side."
+id=859   설레                      gloss: (표시 안 됨)
+        ex: "내일 여행 가는데 너무 설레!" / "I'm going on a trip tomorrow and I'm so excited!"
+id=860   괜찮아요?                   gloss: (표시 안 됨)
+        ex: "얼굴이 안 좋아 보여요. 괜찮아요?" / "You don't look well. Are you okay?"
+id=861   요즘 좀 힘들어요               gloss: (표시 안 됨)
+        ex: "요즘 좀 힘들어요. 일이 너무 많아요." / "Things have been a bit tough lately. I have so much work."
+id=862   언제든지 연락해요               gloss: (표시 안 됨)
+        ex: "도움 필요하면 언제든지 연락해요." / "If you need help, contact me anytime."
+id=863   카카오톡 해요?                gloss: (표시 안 됨)
+        ex: "카카오톡 해요? 아이디 알려줄게요." / "Do you use KakaoTalk? I'll give you my ID."
+id=864   팔로우해도 돼요?               gloss: (표시 안 됨)
+        ex: "인스타그램 팔로우해도 돼요?" / "Can I follow you on Instagram?"
+id=865   한국 친구 사귀고 싶어요           gloss: (표시 안 됨)
+        ex: "한국어 배우는데 한국 친구 사귀고 싶어요." / "I'm learning Korean and I really want to make Korean friends."
+id=866   제가 살게요                  gloss: (표시 안 됨)
+        ex: "오늘은 제가 살게요. 지난번에 사 줬잖아요." / "It's on me today. You treated me last time."
+id=867   더치페이 해요?                gloss: (표시 안 됨)
+        ex: "더치페이 해요? 각자 내요?" / "Shall we split the bill? Are we each paying our own?"
+id=868   밥 한번 먹어요                gloss: (표시 안 됨)
+        ex: "시간 될 때 밥 한번 먹어요." / "Let's grab a meal together when you have time."
+id=869   배달 시켜요                  gloss: (표시 안 됨)
+        ex: "밖에 나가기 싫어요. 배달 시켜요." / "I don't want to go out. Let's order delivery."
+id=870   ~입어 봤어?                 gloss: (표시 안 됨)
+        ex: "이 옷 입어 봤어? 너한테 잘 어울릴 것 같아." / "Have you tried this on? I think it'll suit you really well."
+id=871   명절에 뭐 해?                gloss: (표시 안 됨)
+        ex: "추석에 뭐 해? 가족이랑 같이 있어?" / "What do you do on Chuseok? Are you spending it with family?"
+id=872   이게 무슨 뜻이야?              gloss: (표시 안 됨)
+        ex: "이게 무슨 뜻이야? 처음 보는 단어야." / "What does this mean? I've never seen this word before."
+id=873   술 마셔요?                  gloss: (표시 안 됨)
+        ex: "술 마셔요? 같이 한잔할까요?" / "Do you drink? Want to grab a drink together?"
+id=874   건배해요                    gloss: (표시 안 됨)
+        ex: "모두 다 모였으니까 건배해요!" / "Everyone's here, so let's toast!"
+id=875   오늘은 여기까지만 해요            gloss: (표시 안 됨)
+        ex: "많이 피곤하죠? 오늘은 여기까지만 해요." / "You're tired, right? Let's stop here for today."
+id=876   이 노래 같이 불러요             gloss: (표시 안 됨)
+        ex: "이 노래 같이 불러요! 아는 노래예요?" / "Let's sing this song together! Do you know it?"
+id=877   신청곡 있어요?                gloss: (표시 안 됨)
+        ex: "신청곡 있어요? 뭐든지 틀어드릴게요." / "Do you have a song request? I'll play anything you want."
+id=878   한 곡 더 해요                gloss: (표시 안 됨)
+        ex: "재미있는데 한 곡 더 해요!" / "This is fun — let's do one more song!"
+id=879   같이 춰요                   gloss: (표시 안 됨)
+        ex: "음악이 좋은데, 같이 춰요!" / "The music is great — let's dance together!"
+id=880   어렵지만 재미있어요              gloss: (표시 안 됨)
+        ex: "한국어 공부가 어렵지만 재미있어요." / "Studying Korean is difficult but fun."
+id=881   하다 보면 늘어요               gloss: (표시 안 됨)
+        ex: "걱정하지 마요. 하다 보면 늘어요." / "Don't worry. You'll get better as you keep at it."
+id=882   분위기 좋아요                 gloss: (표시 안 됨)
+        ex: "이 카페 분위기 좋아요. 자주 와요?" / "This café has a great vibe. Do you come here often?"
+id=883   달달한 거 있어요?              gloss: (표시 안 됨)
+        ex: "배고픈데 달달한 거 있어요?" / "I'm hungry — do you have something sweet?"
+id=884   오래 있어도 돼요?              gloss: (표시 안 됨)
+        ex: "이 카페 오래 있어도 돼요?" / "Is it okay to stay at this café for a long time?"
+id=885   나라마다 달라요                gloss: (표시 안 됨)
+        ex: "인사하는 방법이 나라마다 달라요." / "The way you greet people differs by country."
+id=886   이제 적응이 됐어요              gloss: (표시 안 됨)
+        ex: "한국 생활에 이제 적응이 됐어요." / "I've finally adjusted to life in Korea."
+id=887   처음엔 낯설었는데               gloss: (표시 안 됨)
+        ex: "처음엔 낯설었는데 이제는 괜찮아요." / "It felt unfamiliar at first, but it's fine now."
+id=888   ~는데                     gloss: (표시 안 됨)
+        ex: "배가 고픈데 뭐 먹을까요?" / "I'm hungry — what should we eat?"
+id=889   ~거든                     gloss: (표시 안 됨)
+        ex: "저 술 못 마셔요. 운전해야 하거든요." / "I can't drink. I have to drive, you see."
+id=890   ~네                      gloss: (표시 안 됨)
+        ex: "한국어가 생각보다 쉽네요." / "Korean is easier than I thought."
+id=891   ~면 어때요?                 gloss: (표시 안 됨)
+        ex: "내일 만나면 어때요?" / "How about meeting tomorrow?"
+id=892   ~면 좋겠어요                 gloss: (표시 안 됨)
+        ex: "내일 날씨가 좋으면 좋겠어요." / "I hope the weather is nice tomorrow."
+id=893   ~면 돼요                   gloss: (표시 안 됨)
+        ex: "이 버스 타면 돼요. 어렵지 않아요." / "You just need to take this bus. It's not hard."
+id=894   ~때문에                    gloss: (표시 안 됨)
+        ex: "비 때문에 못 나갔어요." / "I couldn't go out because of the rain."
+id=895   ~덕분에                    gloss: (표시 안 됨)
+        ex: "선생님 덕분에 한국어 실력이 늘었어요." / "Thanks to my teacher, my Korean has improved."
+id=896   ~보다                     gloss: (표시 안 됨)
+        ex: "한국어가 생각보다 어려워요." / "Korean is harder than I thought."
+id=897   ~는 동안                   gloss: (표시 안 됨)
+        ex: "기다리는 동안 커피 마실까요?" / "Shall we have coffee while we wait?"
+id=898   ~고 나서                   gloss: (표시 안 됨)
+        ex: "밥 먹고 나서 산책할까요?" / "Shall we take a walk after eating?"
+id=899   ~기 전에                   gloss: (표시 안 됨)
+        ex: "자기 전에 핸드폰 보지 마세요." / "Don't look at your phone before sleeping."
+id=900   ~아 줄게요                  gloss: (표시 안 됨)
+        ex: "제가 도와 줄게요. 걱정하지 마세요." / "I'll help you. Don't worry."
+id=901   해 드릴까요?                 gloss: (표시 안 됨)
+        ex: "사진 찍어 드릴까요?" / "Shall I take a photo for you?"
+id=902   죄송한데요 혹시 ~              gloss: (표시 안 됨)
+        ex: "죄송한데요 혹시 지하철역이 어디예요?" / "Excuse me, could you tell me where the subway station is?"
+id=903   ~지 얼마나 됐어요?             gloss: (표시 안 됨)
+        ex: "한국에 온 지 얼마나 됐어요?" / "How long has it been since you came to Korea?"
+id=904   아직 ~는 중이에요              gloss: (표시 안 됨)
+        ex: "아직 밥 먹는 중이에요. 조금만 기다려요." / "I'm still eating. Wait just a moment."
+id=905   거의 다 됐어요                gloss: (표시 안 됨)
+        ex: "조금만 기다려요. 거의 다 됐어요." / "Wait just a little. It's almost done."
+id=906   ~스타일 좋아해요?              gloss: (표시 안 됨)
+        ex: "어떤 음악 스타일 좋아해요?" / "What music style do you like?"
+id=907   ~잘 어울려요                 gloss: (표시 안 됨)
+        ex: "그 옷 잘 어울려요!" / "That outfit suits you really well!"
+id=908   요즘 유행이에요                gloss: (표시 안 됨)
+        ex: "이 색이 요즘 유행이에요." / "This color is trending these days."
+id=909   배달 얼마나 걸려요?             gloss: (표시 안 됨)
+        ex: "배달 얼마나 걸려요? 많이 배고파요." / "How long does delivery take? I'm really hungry."
+id=910   가성비 좋아요                 gloss: (표시 안 됨)
+        ex: "이 식당은 가성비 좋아요. 양도 많아요." / "This restaurant is great value. The portions are big too."
+id=911   여행 계획 있어요?              gloss: (표시 안 됨)
+        ex: "이번 여름에 여행 계획 있어요?" / "Do you have any travel plans this summer?"
+id=912   며칠이나 있을 거예요?            gloss: (표시 안 됨)
+        ex: "한국에 며칠이나 있을 거예요?" / "How many days will you be staying in Korea?"
+id=913   꼭 봐야 할 게 뭐예요?           gloss: (표시 안 됨)
+        ex: "서울에서 꼭 봐야 할 게 뭐예요?" / "What's a must-see in Seoul?"
+id=914   한국 생활 어때?               gloss: (표시 안 됨)
+        ex: "한국 생활 어때? 재미있어?" / "How's life in Korea? Is it fun?"
+id=915   이제 익숙해졌어                gloss: (표시 안 됨)
+        ex: "처음엔 힘들었는데 이제 익숙해졌어." / "It was tough at first, but I'm used to it now."
+id=916   ~이 제일 좋아                gloss: (표시 안 됨)
+        ex: "한국 음식 중에 삼겹살이 제일 좋아." / "Among Korean foods, I like samgyeopsal the most."
+id=917   ~ㄹ 거예요                  gloss: (표시 안 됨)
+        ex: "내일 친구를 만날 거예요." / "I'm going to meet a friend tomorrow."
+id=918   ~려고 해요                  gloss: (표시 안 됨)
+        ex: "내년에 한국어 시험을 보려고 해요." / "I'm planning to take a Korean exam next year."
+id=919   ~고 싶어요                  gloss: (표시 안 됨)
+        ex: "한국에 살고 싶어요." / "I want to live in Korea."
+id=920   ~기로 했어요                 gloss: (표시 안 됨)
+        ex: "한국에서 살기로 했어요." / "I've decided to live in Korea."
+id=921   마음먹었어요                  gloss: (표시 안 됨)
+        ex: "한국어 꼭 잘하기로 마음먹었어요." / "I've made up my mind to get really good at Korean."
+id=922   예전보다 늘었어요               gloss: (표시 안 됨)
+        ex: "한국어 실력이 예전보다 늘었어요." / "My Korean has improved compared to before."
+id=923   ~어 봤어?                  gloss: (표시 안 됨)
+        ex: "비빔밥 먹어 봤어? 진짜 맛있어." / "Have you tried bibimbap? It's really delicious."
+id=924   ~보니까                    gloss: (표시 안 됨)
+        ex: "한국어 공부해 보니까 생각보다 재미있어요." / "Now that I've studied Korean, it's more fun than I expected."
+id=925   ~추천해줬어                  gloss: (표시 안 됨)
+        ex: "친구가 이 식당 추천해줬어. 맛있대." / "My friend recommended this restaurant. They say it's delicious."
+id=926   ~가르쳐줄 수 있어?             gloss: (표시 안 됨)
+        ex: "이 요리 가르쳐줄 수 있어? 배우고 싶어." / "Can you teach me this dish? I want to learn how to make it."
+id=927   ~맞아?                    gloss: (표시 안 됨)
+        ex: "여기가 홍대역 맞아?" / "This is Hongdae station, right?"
+id=928   ~어떻게 해?                 gloss: (표시 안 됨)
+        ex: "이 앱 어떻게 해? 처음 써봐." / "How do you use this app? It's my first time."
+id=929   ~만들어봤어?                 gloss: (표시 안 됨)
+        ex: "김치 만들어봤어? 어려워?" / "Have you ever tried making kimchi? Is it hard?"
+id=930   ~얼마나 넣어?                gloss: (표시 안 됨)
+        ex: "설탕 얼마나 넣어? 너무 달 것 같아." / "How much sugar do you add? I think it'll be too sweet."
+id=931   ~하면 돼                   gloss: (표시 안 됨)
+        ex: "이 버튼 누르면 돼. 쉬워." / "Just press this button. It's easy."
+id=932   ~살 거예요                  gloss: (표시 안 됨)
+        ex: "오늘 새 운동화 살 거예요." / "I'm going to buy new sneakers today."
+id=933   이거 어때요?                 gloss: (표시 안 됨)
+        ex: "이 옷 어때요? 저한테 어울려요?" / "How is this outfit? Does it suit me?"
+id=934   카드로 할게요                 gloss: (표시 안 됨)
+        ex: "카드로 할게요. 현금은 없어요." / "I'll pay by card. I don't have any cash."
+id=935   ~해봤어?                   gloss: (표시 안 됨)
+        ex: "한국 노래방 가봤어? 진짜 재미있어." / "Have you been to a Korean noraebang? It's really fun."
+id=936   어땠어?                    gloss: (표시 안 됨)
+        ex: "어제 소개팅 어땠어?" / "How was your blind date yesterday?"
+id=937   ~받고 싶어요                 gloss: (표시 안 됨)
+        ex: "생일에 꽃 받고 싶어요." / "I want to receive flowers for my birthday."
+id=938   어디가 아파요?                gloss: (표시 안 됨)
+        ex: "어디가 아파요? 병원에 가야 해요?" / "Where does it hurt? Do you need to go to the hospital?"
+id=939   언제부터 아팠어요?              gloss: (표시 안 됨)
+        ex: "언제부터 아팠어요? 어제부터예요?" / "Since when have you been in pain? Since yesterday?"
+id=940   ~와 봤어요?                 gloss: (표시 안 됨)
+        ex: "제주도에 와 봤어요?" / "Have you been to Jeju Island before?"
+id=941   ~하기 좋아요                 gloss: (표시 안 됨)
+        ex: "여기 사진 찍기 좋아요." / "This place is great for taking photos."
+id=942   ~중에 뭐가 제일 좋아요?          gloss: (표시 안 됨)
+        ex: "한국 음식 중에 뭐가 제일 좋아요?" / "What's your favorite among Korean foods?"
+id=943   ~라서 중독성 있어요             gloss: (표시 안 됨)
+        ex: "이 노래 멜로디가 좋아서 중독성 있어요." / "This song is addictive because the melody is so good."
+id=944   ~이랑 달라요                 gloss: (표시 안 됨)
+        ex: "제 나라이랑 달라요. 신기해요." / "It's different from my country. So interesting."
+id=945   좀 그렇긴 한데                gloss: (표시 안 됨)
+        ex: "솔직히 좀 그렇긴 한데, 괜찮아요." / "Honestly, it's a little awkward, but it's okay."
+id=946   솔직하게 말해도 돼?             gloss: (표시 안 됨)
+        ex: "솔직하게 말해도 돼? 좀 아쉬운 게 있어." / "Can I be honest? There's something that disappoints me a little."
+id=947   은근히 ~해                  gloss: (표시 안 됨)
+        ex: "이 음식 은근히 맛있어." / "This food is surprisingly good."
+id=948   ~때문에 바빠요                gloss: (표시 안 됨)
+        ex: "시험 때문에 바빠요. 나중에 연락할게요." / "I'm busy because of exams. I'll contact you later."
+id=949   무리하지 마세요                gloss: (표시 안 됨)
+        ex: "몸이 안 좋으면 무리하지 마세요." / "If you're not feeling well, don't push yourself."
+id=950   ~많이 해?                  gloss: (표시 안 됨)
+        ex: "운동 많이 해? 몸이 좋아 보여." / "Do you exercise a lot? You look fit."
+id=951   ~유행이야?                  gloss: (표시 안 됨)
+        ex: "요즘 이 스타일 유행이야?" / "Is this style trendy these days?"
+id=952   ~올렸더니                   gloss: (표시 안 됨)
+        ex: "사진 올렸더니 댓글이 많이 달렸어." / "After I posted the photo, I got a lot of comments."
+id=953   ~도전해요                   gloss: (표시 안 됨)
+        ex: "이번 주에 요리 도전해요." / "I'm going to take on cooking this week."
+id=954   재료가 있어요?                gloss: (표시 안 됨)
+        ex: "김치찌개 만들려는데, 재료가 있어요?" / "I want to make kimchi stew — do you have the ingredients?"
+id=955   다음엔 더 잘할 거예요            gloss: (표시 안 됨)
+        ex: "이번엔 실수했지만 다음엔 더 잘할 거예요." / "I made a mistake this time, but next time I'll do better."
+id=956   ~루틴 있어요?                gloss: (표시 안 됨)
+        ex: "아침 루틴 있어요? 어떻게 시작해요?" / "Do you have a morning routine? How do you start your day?"
+id=957   ~하고 나서                  gloss: (표시 안 됨)
+        ex: "밥 먹고 나서 같이 산책해요." / "Let's take a walk after eating."
+id=958   꼭 ~해야 해요                gloss: (표시 안 됨)
+        ex: "한국에 오면 삼겹살 꼭 먹어야 해요." / "If you come to Korea, you absolutely have to eat samgyeopsal."
+id=959   많이 늘었어요                 gloss: (표시 안 됨)
+        ex: "한국어가 많이 늘었어요! 대단해요." / "Your Korean has improved so much! Amazing."
+id=960   비결이 뭐예요?                gloss: (표시 안 됨)
+        ex: "피부가 너무 좋아요. 비결이 뭐예요?" / "Your skin looks amazing. What's your secret?"
+id=961   ~이 헷갈려요                 gloss: (표시 안 됨)
+        ex: "존댓말이랑 반말이 아직 헷갈려요." / "Formal and informal speech are still confusing to me."
+id=962   ~이 이렇게 ~해?              gloss: (표시 안 됨)
+        ex: "삼겹살이 이렇게 맛있어? 진짜 대박이야." / "Is samgyeopsal this delicious? It's seriously amazing."
+id=963   이때가 제일 좋아               gloss: (표시 안 됨)
+        ex: "여행 중에 이때가 제일 좋아. 다 같이 밥 먹는 시간." / "This is my favorite moment on the trip — eating together."
+id=964   ~은 어때?                  gloss: (표시 안 됨)
+        ex: "저 식당은 어때? 후기가 좋던데." / "How about that restaurant? I heard the reviews are great."
+id=965   서운했어요                   gloss: (표시 안 됨)
+        ex: "연락이 없어서 서운했어요." / "I felt hurt because there was no contact."
+id=966   마음은 알아요                 gloss: (표시 안 됨)
+        ex: "마음은 알아요. 하지만 이건 힘들어요." / "I understand your feelings, but this is difficult."
+id=967   말하고 나니까 후련해요            gloss: (표시 안 됨)
+        ex: "말하고 나니까 후련해요. 오래 참았어요." / "I feel relieved now that I said it. I held it in for a long time."
+id=968   꿈이 뭐예요?                 gloss: (표시 안 됨)
+        ex: "꿈이 뭐예요? 나중에 뭐 하고 싶어요?" / "What's your dream? What do you want to do in the future?"
+id=969   ~가 되고 싶어요               gloss: (표시 안 됨)
+        ex: "한국어 선생님이 되고 싶어요." / "I want to become a Korean teacher."
+id=970   포기하고 싶어요                gloss: (표시 안 됨)
+        ex: "너무 힘들어서 포기하고 싶어요." / "It's so hard that I want to give up."
+id=971   ~어디에 버려?                gloss: (표시 안 됨)
+        ex: "이 종이 어디에 버려?" / "Where do I throw away this paper?"
+id=972   ~철저히 해?                 gloss: (표시 안 됨)
+        ex: "분리수거 철저히 해? 중요한 것 같아." / "Do you do recycling thoroughly? I think it's important."
+id=973   ~신경 써야겠어                gloss: (표시 안 됨)
+        ex: "건강 더 신경 써야겠어." / "I should pay more attention to my health."
+id=974   말로 표현하기 어려워요            gloss: (표시 안 됨)
+        ex: "이 감정은 말로 표현하기 어려워요." / "This feeling is hard to put into words."
+id=975   이 느낌 알아요?               gloss: (표시 안 됨)
+        ex: "시험 전날 긴장되는 느낌, 이 느낌 알아요?" / "The nervous feeling before a test — do you know it?"
+id=976   왠지 모르게 ~해요              gloss: (표시 안 됨)
+        ex: "왠지 모르게 오늘 기분이 좋아요." / "For some reason, I'm in a good mood today."
+id=977   딱 이 느낌이에요               gloss: (표시 안 됨)
+        ex: "제가 찾던 게 딱 이 느낌이에요." / "This is exactly the feeling I was looking for."
+id=978   오해가 있었어                 gloss: (표시 안 됨)
+        ex: "우리 사이에 오해가 있었어." / "There was a misunderstanding between us."
+id=979   ~뜻이 아니었어                gloss: (표시 안 됨)
+        ex: "화내려는 뜻이 아니었어." / "I didn't mean to get angry."
+id=980   충분히 이해해                 gloss: (표시 안 됨)
+        ex: "네 상황 충분히 이해해." / "I fully understand your situation."
+id=981   합격했어요                   gloss: (표시 안 됨)
+        ex: "시험에 합격했어요!" / "I passed the exam!"
+id=982   드디어 해냈어요                gloss: (표시 안 됨)
+        ex: "드디어 해냈어요! 1년 만에 완성했어요." / "I finally did it! I completed it after a year."
+id=983   잘 이겨냈어요                 gloss: (표시 안 됨)
+        ex: "힘든 시간을 잘 이겨냈어요." / "You got through the tough time well."
+id=984   ~먹어봐                    gloss: (표시 안 됨)
+        ex: "이거 한번 먹어봐. 진짜 맛있어." / "Try this. It's really delicious."
+id=985   생각보다 훨씬 ~해              gloss: (표시 안 됨)
+        ex: "생각보다 훨씬 맛있어." / "It's way more delicious than I thought."
+id=986   중독성 있어                  gloss: (표시 안 됨)
+        ex: "이 노래 중독성 있어. 계속 듣게 돼." / "This song is addictive. I keep listening to it."
+id=987   행복해요                    gloss: (표시 안 됨)
+        ex: "지금 이 순간 행복해요." / "I'm happy in this moment."
+id=988   ~하는 게 좋아요               gloss: (표시 안 됨)
+        ex: "음악 듣는 게 좋아요." / "I like listening to music."
+id=989   이런 일상이 소중해요             gloss: (표시 안 됨)
+        ex: "같이 밥 먹는 이런 일상이 소중해요." / "These everyday moments of eating together are precious."
+id=990   알고 보면 쉬워                gloss: (표시 안 됨)
+        ex: "한국어 문법, 알고 보면 쉬워." / "Korean grammar is easy once you understand it."
+id=991   이게 포인트야                 gloss: (표시 안 됨)
+        ex: "반죽을 충분히 치대는 게 포인트야." / "Kneading the dough well is the key point."
+id=992   다 같이 모이니까 좋아요           gloss: (표시 안 됨)
+        ex: "오랜만에 다 같이 모이니까 좋아요." / "It's great that we're all gathered after a long time."
+id=993   처음 만났을 때                gloss: (표시 안 됨)
+        ex: "처음 만났을 때 많이 떨렸어요." / "I was very nervous when we first met."
+id=994   여러분 덕분이에요               gloss: (표시 안 됨)
+        ex: "여기까지 올 수 있었던 건 여러분 덕분이에요." / "I was able to come this far thanks to all of you."
+id=995   앞으로도 잘 부탁해요             gloss: (표시 안 됨)
+        ex: "앞으로도 잘 부탁해요. 잘 지내봐요." / "Please continue to take care of me. Let's get along well."
+id=996   얼마나 있을 거예요?             gloss: (표시 안 됨)
+        ex: "한국에 얼마나 있을 거예요?" / "How long will you be in Korea?"
+id=997   꿈을 위해 할 거예요             gloss: (표시 안 됨)
+        ex: "꿈을 위해 열심히 공부할 거예요." / "I'll study hard for my dream."
+id=998   줄 서야 해요                 gloss: (표시 안 됨)
+        ex: "맛집이라 줄 서야 해요." / "It's a popular restaurant, so you have to wait in line."
+id=999   웨이팅 있어요?                gloss: (표시 안 됨)
+        ex: "지금 웨이팅 있어요?" / "Is there a wait right now?"
+id=1000  꼭 와봐야 할 곳이에요            gloss: (표시 안 됨)
+        ex: "경복궁은 꼭 와봐야 할 곳이에요." / "Gyeongbokgung Palace is a place you must visit."
+id=1001  믿기지 않아                  gloss: (표시 안 됨)
+        ex: "합격했어. 믿기지 않아." / "I passed. I can't believe it."
+id=1002  처음에 비하면                 gloss: (표시 안 됨)
+        ex: "처음에 비하면 한국어가 많이 늘었어요." / "Compared to the beginning, my Korean has improved a lot."
+id=1003  포기 안 하길 잘했어             gloss: (표시 안 됨)
+        ex: "힘들었지만 포기 안 하길 잘했어." / "It was hard, but I'm glad I didn't give up."
+id=1004  ~라고 하던데                 gloss: (표시 안 됨)
+        ex: "거기 맛있다고 하던데." / "I heard it's delicious there."
+id=1005  ~라더라                    gloss: (표시 안 됨)
+        ex: "거기 줄이 엄청 길다더라." / "I heard the line there is really long."
+id=1006  ~는 줄 몰랐어                gloss: (표시 안 됨)
+        ex: "이렇게 맛있는 줄 몰랐어." / "I didn't know it would be this delicious."
+id=1007  ~게 됐어요                  gloss: (표시 안 됨)
+        ex: "한국에 살게 됐어요." / "I ended up living in Korea."
+id=1008  ~다 보니까                  gloss: (표시 안 됨)
+        ex: "매일 연습하다 보니까 실력이 늘었어요." / "As I kept practicing every day, my skills improved."
+id=1009  ~하다 보면                  gloss: (표시 안 됨)
+        ex: "계속 연습하다 보면 늘어요." / "If you keep practicing, you'll get better."
+id=1010  ~한 것치고는                 gloss: (표시 안 됨)
+        ex: "처음 한 것치고는 잘했어요." / "For a first attempt, you did really well."
+id=1011  아무리 그래도                 gloss: (표시 안 됨)
+        ex: "아무리 그래도 그건 너무해." / "Even so, that's too much."
+id=1012  잘 모르겠는데요                gloss: (표시 안 됨)
+        ex: "그 문제는 잘 모르겠는데요." / "I'm not really sure about that question."
+id=1013  좀 더 생각해 봐야겠어요           gloss: (표시 안 됨)
+        ex: "지금 당장 결정 못 하겠어요. 좀 더 생각해 봐야겠어요." / "I can't decide right now. I need to think more."
+id=1014  일단은 ~해요                 gloss: (표시 안 됨)
+        ex: "일단은 먹어요. 이야기는 나중에." / "Let's eat first. We'll talk later."
+id=1015  눈치챘어요?                  gloss: (표시 안 됨)
+        ex: "제가 긴장한 거 눈치챘어요?" / "Did you notice that I was nervous?"
+id=1016  감이 잡혀요                  gloss: (표시 안 됨)
+        ex: "설명 들으니까 감이 잡혀요." / "After hearing the explanation, I'm getting the hang of it."
+id=1017  딱 봐도 알겠어요               gloss: (표시 안 됨)
+        ex: "딱 봐도 비싸 보여요." / "You can tell just by looking that it's expensive."
+id=1018  흔한 일이야                  gloss: (표시 안 됨)
+        ex: "지하철 놓치는 건 흔한 일이야." / "Missing the subway is a common thing."
+id=1019  알고 보면 ~해                gloss: (표시 안 됨)
+        ex: "그 사람, 알고 보면 정말 친절해." / "Once you get to know them, they're really kind."
+id=1020  부담스러워요                  gloss: (표시 안 됨)
+        ex: "선물이 너무 커서 부담스러워요." / "The gift is so big that I feel pressured."
+id=1021  솔직하게 말해도 돼요?            gloss: (표시 안 됨)
+        ex: "솔직하게 말해도 돼요? 조금 아쉬워요." / "Can I be honest? I'm a little disappointed."
+id=1022  이제 많이 편해졌어요             gloss: (표시 안 됨)
+        ex: "한국 생활이 이제 많이 편해졌어요." / "Life in Korea has become much more comfortable now."
+id=1023  외국인 티 나요?               gloss: (표시 안 됨)
+        ex: "제가 말할 때 외국인 티 나요?" / "Do I seem like a foreigner when I speak?"
+id=1024  이제 한국말이 편해요             gloss: (표시 안 됨)
+        ex: "처음엔 힘들었는데 이제 한국말이 편해요." / "It was hard at first, but now Korean feels comfortable."
+id=1025  한국어로 꿈도 꿔요              gloss: (표시 안 됨)
+        ex: "요즘 한국어로 꿈도 꿔요." / "Lately, I even dream in Korean."
+id=1026  관광지보다 로컬이 좋아            gloss: (표시 안 됨)
+        ex: "저는 관광지보다 로컬이 좋아요." / "I prefer local spots over tourist attractions."
+id=1027  현지인들이 가는 곳이야            gloss: (표시 안 됨)
+        ex: "여기 현지인들이 가는 곳이야. 관광객은 별로 없어." / "This is a place locals go. Not many tourists here."
+id=1028  숨겨진 명소야                 gloss: (표시 안 됨)
+        ex: "여기 숨겨진 명소야. 사람이 별로 없어." / "This place is a hidden gem. Not many people know about it."
+id=1029  요즘 핫해요                  gloss: (표시 안 됨)
+        ex: "이 카페 요즘 핫해요." / "This cafe is really popular these days."
+id=1030  완전 대세예요                 gloss: (표시 안 됨)
+        ex: "이 스타일 완전 대세예요." / "This style is totally the trend right now."
+id=1031  떠오르는 중이에요               gloss: (표시 안 됨)
+        ex: "이 가수 요즘 떠오르는 중이에요." / "This singer is on the rise these days."
+id=1032  아니라고 할 순 없지             gloss: (표시 안 됨)
+        ex: "비싸긴 한데, 아니라고 할 순 없지." / "It is expensive, but I can't say it's not worth it."
+id=1033  꼭 그런 건 아니야              gloss: (표시 안 됨)
+        ex: "비싼 게 다 좋은 건 꼭 그런 건 아니야." / "Expensive doesn't always mean good. That's not necessarily true."
+id=1034  말이 되네요                  gloss: (표시 안 됨)
+        ex: "그렇게 생각하면 말이 되네요." / "Thinking about it that way, it makes sense."
+id=1035  앞뒤가 안 맞아요               gloss: (표시 안 됨)
+        ex: "이야기가 앞뒤가 안 맞아요." / "The story doesn't add up."
+id=1036  결국엔 ~                   gloss: (표시 안 됨)
+        ex: "결국엔 잘 됐어요." / "In the end, it worked out well."
+id=1037  속상했어요                   gloss: (표시 안 됨)
+        ex: "그 말 듣고 많이 속상했어요." / "I was really upset when I heard that."
+id=1038  억울했어요                   gloss: (표시 안 됨)
+        ex: "내 잘못이 아닌데 혼나서 억울했어요." / "I felt wronged because I was scolded for something that wasn't my fault."
+id=1039  상대방 입장에서 생각해봐           gloss: (표시 안 됨)
+        ex: "화내기 전에 상대방 입장에서 생각해봐." / "Before getting angry, think from the other person's perspective."
+id=1040  마음은 알아                  gloss: (표시 안 됨)
+        ex: "마음은 알아. 그래도 조금만 기다려봐." / "I understand how you feel. But just wait a little."
+id=1041  내가 옆에 있을게               gloss: (표시 안 됨)
+        ex: "힘들어도 내가 옆에 있을게." / "Even when it's tough, I'll be by your side."
+id=1042  반전 있어요                  gloss: (표시 안 됨)
+        ex: "이 영화 반전 있어요. 끝까지 봐요." / "This movie has a twist. Watch until the end."
+id=1043  여운이 남아요                 gloss: (표시 안 됨)
+        ex: "이 영화, 보고 나서도 여운이 남아요." / "Even after watching this movie, the feeling lingers."
+id=1044  몰입이 돼요                  gloss: (표시 안 됨)
+        ex: "이 책 읽으면 몰입이 돼요." / "When I read this book, I get completely absorbed."
+id=1045  어딘가 모르게 끌려요             gloss: (표시 안 됨)
+        ex: "이 그림, 어딘가 모르게 끌려요." / "I'm drawn to this painting for some reason."
+id=1046  떠나기 싫어                  gloss: (표시 안 됨)
+        ex: "한국이 너무 좋아서 떠나기 싫어." / "I love Korea so much that I don't want to leave."
+id=1047  ~이 그리울 것 같아             gloss: (표시 안 됨)
+        ex: "한국 음식이 그리울 것 같아." / "I think I'll miss Korean food."
+id=1048  꼭 다시 올게                 gloss: (표시 안 됨)
+        ex: "너무 좋았어. 꼭 다시 올게." / "It was so good. I'll definitely come back."
+id=1049  이제 한국어로 생각해요            gloss: (표시 안 됨)
+        ex: "요즘 이제 한국어로 생각해요." / "These days, I now think in Korean."
+id=1050  번역 안 해도 이해돼요            gloss: (표시 안 됨)
+        ex: "이제 번역 안 해도 이해돼요." / "Now I understand without translating."
+id=1051  실력이 많이 늘었어요             gloss: (표시 안 됨)
+        ex: "한국어 실력이 많이 늘었어요." / "My Korean skills have improved a lot."
+id=1052  같이 성장한 것 같아요            gloss: (표시 안 됨)
+        ex: "같이 공부하면서 같이 성장한 것 같아요." / "Studying together, I feel like we've grown together."
+id=1053  덕분에 정말 많이 배웠어요          gloss: (표시 안 됨)
+        ex: "여러분 덕분에 정말 많이 배웠어요." / "Thanks to all of you, I've learned so much."

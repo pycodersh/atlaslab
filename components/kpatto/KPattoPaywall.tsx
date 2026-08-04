@@ -13,7 +13,7 @@ const T2 = '#666666'
 const KPATTO_PRICE_ID = 'pri_01ky74gvff7x82ehk7csbaztx1'
 
 const PERKS = [
-  'Unlimited access to EP06 and beyond',
+  'Unlimited access to EP11 and beyond',
   'New episodes unlocked automatically',
   'Full access to all challenges',
   'Unlimited bookmarks',
@@ -93,7 +93,7 @@ export function KPattoPaywall({ onDismiss }: Props) {
         {/* Heading */}
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
           <div style={{ fontSize: 20, fontWeight: 800, color: T1, marginBottom: 6 }}>
-            You need Pro membership from EP06
+            You need Pro membership from EP11
           </div>
           <div style={{ fontSize: 14, color: T2, lineHeight: 1.6 }}>
             Learn all episodes without limits with K-PATTO Pro

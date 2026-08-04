@@ -1,0 +1,1621 @@
+[
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "버스 어디서 ___?"
+    },
+    "options": [
+      "한국어 책 있어요?",
+      "타요",
+      "예전보다 많이 늘었어요.",
+      "먹어도 돼요"
+    ],
+    "answer": "타요",
+    "word_pieces": null,
+    "order_num": 1
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "공항버스 어디서 ___?"
+    },
+    "options": [
+      "요즘 한국어로 꿈도 꿔요!",
+      "저도요. 이 느낌 알아요?",
+      "타요",
+      "이제 적응이 됐어요!"
+    ],
+    "answer": "타요",
+    "word_pieces": null,
+    "order_num": 2
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "지하철 어디서 ___?"
+    },
+    "options": [
+      "타요",
+      "에마야, 시험 어땠어?",
+      "잘 부탁드려요",
+      "에마야, 한국어 많이 늘었다!"
+    ],
+    "answer": "타요",
+    "word_pieces": null,
+    "order_num": 3
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "Where do I get on the bus?"
+    },
+    "options": null,
+    "answer": "어디서 타요?",
+    "word_pieces": [
+      "어디서",
+      "타요",
+      "?"
+    ],
+    "order_num": 4
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Where do I get on the bus?"
+    },
+    "options": [
+      "너무 떨려요.",
+      "내일 비 온다고 하던데.",
+      "버스 어디서 타요?",
+      "맛있는 거 먹어서 행복해!"
+    ],
+    "answer": "버스 어디서 타요?",
+    "word_pieces": null,
+    "order_num": 5
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Where do I get on the airport bus?"
+    },
+    "options": [
+      "혼자 여행 도전해요.",
+      "공항버스 어디서 타요?",
+      "스킨케어 루틴 있어요?",
+      "여기 음악도 좋고 분위기 좋아요."
+    ],
+    "answer": "공항버스 어디서 타요?",
+    "word_pieces": null,
+    "order_num": 6
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Where do I get on the subway?"
+    },
+    "options": [
+      "지하철 어디서 타요?",
+      "이제 번역 안 해도 이해돼요.",
+      "아메리카노로 할게요.",
+      "설명 들으니까 감이 잡혀요."
+    ],
+    "answer": "지하철 어디서 타요?",
+    "word_pieces": null,
+    "order_num": 7
+  },
+  {
+    "episode_id": 6,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "언니라고 불러도 ___?"
+    },
+    "options": [
+      "돼요",
+      "음식이 제일 좋아!",
+      "통역사가 되고 싶어요!",
+      "합격했어요!!"
+    ],
+    "answer": "돼요",
+    "word_pieces": null,
+    "order_num": 1
+  },
+  {
+    "episode_id": 6,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "오빠라고 불러도 ___?"
+    },
+    "options": [
+      "조금만 더 주세요!",
+      "한국어도 알고 보면 쉬워.",
+      "1년 안에 유창해지고 싶어요.",
+      "돼요"
+    ],
+    "answer": "돼요",
+    "word_pieces": null,
+    "order_num": 2
+  },
+  {
+    "episode_id": 6,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "이름으로 불러도 ___?"
+    },
+    "options": [
+      "같이 가면 좋겠어요!",
+      "진찰받고 싶어요.",
+      "돼요",
+      "먹어도 돼요"
+    ],
+    "answer": "돼요",
+    "word_pieces": null,
+    "order_num": 3
+  },
+  {
+    "episode_id": 6,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "Is it okay to call you 언니?"
+    },
+    "options": null,
+    "answer": "저도 같이 불러도 돼요?",
+    "word_pieces": [
+      "저도",
+      "같이",
+      "불러도",
+      "돼요",
+      "?"
+    ],
+    "order_num": 4
+  },
+  {
+    "episode_id": 6,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Is it okay to call you 언니?"
+    },
+    "options": [
+      "저거 뭐예요?",
+      "언니라고 불러도 돼요?",
+      "실수하는 건 흔한 일이야. 너무 신경 쓰지 마.",
+      "가끔 포기하고 싶어요. 하지만 계속해요."
+    ],
+    "answer": "언니라고 불러도 돼요?",
+    "word_pieces": null,
+    "order_num": 5
+  },
+  {
+    "episode_id": 6,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Is it okay to call you 오빠?"
+    },
+    "options": [
+      "이 앱 써봤어요?",
+      "오빠라고 불러도 돼요?",
+      "처음엔 낯설었는데 이제는 괜찮아요.",
+      "이 두 단어 의미가 헷갈려요."
+    ],
+    "answer": "오빠라고 불러도 돼요?",
+    "word_pieces": null,
+    "order_num": 6
+  },
+  {
+    "episode_id": 6,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Is it okay to call you by your name?"
+    },
+    "options": [
+      "지금 웨이팅 있어요?",
+      "설명 들으니까 감이 잡혀요.",
+      "이 옷 어때요? 저한테 어울려요?",
+      "이름으로 불러도 돼요?"
+    ],
+    "answer": "이름으로 불러도 돼요?",
+    "word_pieces": null,
+    "order_num": 7
+  },
+  {
+    "episode_id": 7,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "물 더 ___."
+    },
+    "options": [
+      "한국 음식 사진 올렸더니 반응이 좋더라!",
+      "주세요",
+      "한국에서는 흔한 일이야?",
+      "거의 다 됐어요!"
+    ],
+    "answer": "주세요",
+    "word_pieces": null,
+    "order_num": 1
+  },
+  {
+    "episode_id": 7,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "김치 더 ___."
+    },
+    "options": [
+      "한국 음식 사진 올렸더니 반응이 좋더라!",
+      "말하고 나니까 후련해요!",
+      "그게 말이 되네요.",
+      "주세요"
+    ],
+    "answer": "주세요",
+    "word_pieces": null,
+    "order_num": 2
+  },
+  {
+    "episode_id": 7,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "밥 더 ___."
+    },
+    "options": [
+      "더 열심히 하기로 마음먹었어요.",
+      "주세요",
+      "죄송한데요, 혹시 도와주실 수 있어요?",
+      "너무 좋아! 설레."
+    ],
+    "answer": "주세요",
+    "word_pieces": null,
+    "order_num": 3
+  },
+  {
+    "episode_id": 7,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "Please give me more water."
+    },
+    "options": null,
+    "answer": "조금만 더 주세요!",
+    "word_pieces": [
+      "조금만",
+      "더",
+      "주세요",
+      "!"
+    ],
+    "order_num": 4
+  },
+  {
+    "episode_id": 7,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Please give me more water."
+    },
+    "options": [
+      "일 끝나고 나서 연락할게요.",
+      "좀 그렇긴 한데 그냥 넘어갈게요.",
+      "밖에 나가기 싫어요. 배달 시켜요.",
+      "물 더 주세요."
+    ],
+    "answer": "물 더 주세요.",
+    "word_pieces": null,
+    "order_num": 5
+  },
+  {
+    "episode_id": 7,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Please give me more kimchi."
+    },
+    "options": [
+      "김치 더 주세요.",
+      "여기 사람들이 그리울 것 같아.",
+      "비빔밥 먹어 봤어? 진짜 맛있어.",
+      "공항버스 어디서 타요?"
+    ],
+    "answer": "김치 더 주세요.",
+    "word_pieces": null,
+    "order_num": 6
+  },
+  {
+    "episode_id": 7,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Please give me more rice."
+    },
+    "options": [
+      "기분이 어때? 표정이 안 좋아 보여.",
+      "선물이 너무 커서 부담스러워요.",
+      "음식 문화가 나라마다 달라요.",
+      "밥 더 주세요."
+    ],
+    "answer": "밥 더 주세요.",
+    "word_pieces": null,
+    "order_num": 7
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "다 같이 있어서 정말 ___."
+    },
+    "options": [
+      "에마야, 오늘 기분 어때?",
+      "할게요",
+      "좋아요",
+      "힘들었는데 포기 안 하길 잘했어."
+    ],
+    "answer": "좋아요",
+    "word_pieces": null,
+    "order_num": 1
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "오늘 다 같이 있어서 ___."
+    },
+    "options": [
+      "좋아요",
+      "여러분 덕분이에요.",
+      "다음에 또 마셔요!",
+      "한국 음식 사진 올렸더니 반응이 좋더라!"
+    ],
+    "answer": "좋아요",
+    "word_pieces": null,
+    "order_num": 2
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "다 같이 여행 와서 ___."
+    },
+    "options": [
+      "그럴 줄 몰랐어!",
+      "한복 입어 봤어?",
+      "어땠어?",
+      "좋아요"
+    ],
+    "answer": "좋아요",
+    "word_pieces": null,
+    "order_num": 3
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "I'm glad we're all together today."
+    },
+    "options": null,
+    "answer": "다 같이 있어서 좋아요.",
+    "word_pieces": [
+      "다",
+      "같이",
+      "있어서",
+      "좋아요",
+      "."
+    ],
+    "order_num": 4
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I'm so happy we're all together."
+    },
+    "options": [
+      "이 색 어때요? 마음에 들어요?",
+      "다 같이 있어서 정말 좋아요.",
+      "제 나라이랑 달라요. 신기해요.",
+      "출근하는 동안 팟캐스트 들어요."
+    ],
+    "answer": "다 같이 있어서 정말 좋아요.",
+    "word_pieces": null,
+    "order_num": 5
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I'm glad we're all together today."
+    },
+    "options": [
+      "기타 가르쳐줄 수 있어? 오래 배우고 싶었어.",
+      "이번 주에 요리 도전해요.",
+      "이 음식 중독성 있어서 자꾸 먹게 돼.",
+      "오늘 다 같이 있어서 좋아요."
+    ],
+    "answer": "오늘 다 같이 있어서 좋아요.",
+    "word_pieces": null,
+    "order_num": 6
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I love that we all traveled here together."
+    },
+    "options": [
+      "유튜버가 이 제품 추천해줬어. 써보고 싶어.",
+      "이 옷 어때요?",
+      "이 시장은 현지인들이 가는 곳이야.",
+      "다 같이 여행 와서 좋아요."
+    ],
+    "answer": "다 같이 여행 와서 좋아요.",
+    "word_pieces": null,
+    "order_num": 7
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "I already ate."
+    },
+    "options": null,
+    "answer": "이미 너무 좋아요.",
+    "word_pieces": [
+      "이미",
+      "너무",
+      "좋아요",
+      "."
+    ],
+    "order_num": 8
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I already ate."
+    },
+    "options": [
+      "여러분 덕분이에요. 진심으로 감사해요.",
+      "설명 들으니까 감이 잡혀요.",
+      "이미 먹었어요.",
+      "카드로 할게요. 현금은 없어요."
+    ],
+    "answer": "이미 먹었어요.",
+    "word_pieces": null,
+    "order_num": 9
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I already know."
+    },
+    "options": [
+      "속상했는데 말하고 나니까 후련해요.",
+      "이 영화가 이렇게 재밌어? 빨리 보고 싶어.",
+      "시간이 됐으니까 오늘은 여기까지만 해요.",
+      "이미 알아요."
+    ],
+    "answer": "이미 알아요.",
+    "word_pieces": null,
+    "order_num": 10
+  },
+  {
+    "episode_id": 9,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I already bought it."
+    },
+    "options": [
+      "여기서 먹어도 돼요?",
+      "내년에 한국어 학원에 다니기로 했어요.",
+      "이 상은 여러분 덕분이에요.",
+      "이미 샀어요."
+    ],
+    "answer": "이미 샀어요.",
+    "word_pieces": null,
+    "order_num": 11
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "오늘 기분이 ___? 좋아 보여."
+    },
+    "options": [
+      "에마야, 여기 유명한 거 먹어봐!",
+      "처음 한 것치고는 잘했어!",
+      "저도요. 이 느낌 알아요?",
+      "어때"
+    ],
+    "answer": "어때",
+    "word_pieces": null,
+    "order_num": 1
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "기분이 ___? 많이 나아졌어?"
+    },
+    "options": [
+      "기다리는 동안 뭐 해?",
+      "깎아 주세요",
+      "어때",
+      "떨려요"
+    ],
+    "answer": "어때",
+    "word_pieces": null,
+    "order_num": 2
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "기분이 ___? 표정이 안 좋아 보여."
+    },
+    "options": [
+      "언제부터 아팠어요?",
+      "어디서 타요?",
+      "한국 음식 사진 올렸더니 반응이 좋더라!",
+      "어때"
+    ],
+    "answer": "어때",
+    "word_pieces": null,
+    "order_num": 3
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "How are you feeling today? You look happy."
+    },
+    "options": null,
+    "answer": "에마야, 오늘 기분 어때?",
+    "word_pieces": [
+      "에마야,",
+      "오늘",
+      "기분",
+      "어때",
+      "?"
+    ],
+    "order_num": 4
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "How are you feeling today? You look happy."
+    },
+    "options": [
+      "서울에서 꼭 봐야 할 게 뭐예요?",
+      "오늘 기분이 어때? 좋아 보여.",
+      "고추장 얼마나 넣어? 맵게 해도 돼?",
+      "어디가 아파요? 병원에 가야 해요?"
+    ],
+    "answer": "오늘 기분이 어때? 좋아 보여.",
+    "word_pieces": null,
+    "order_num": 5
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "How are you feeling? Are you feeling much better?"
+    },
+    "options": [
+      "포기하고 싶었는데 친구가 응원해줬어요.",
+      "억울했어요. 제가 한 게 아니에요.",
+      "알고 보면 한국어 발음 규칙이 간단해.",
+      "기분이 어때? 많이 나아졌어?"
+    ],
+    "answer": "기분이 어때? 많이 나아졌어?",
+    "word_pieces": null,
+    "order_num": 6
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "How are you feeling? You look like something's wrong."
+    },
+    "options": [
+      "기분이 어때? 표정이 안 좋아 보여.",
+      "말하고 나니까 후련해요. 들어줘서 고마워요.",
+      "배가 고픈데 뭐 먹을까요?",
+      "여기서 먹어도 돼요?"
+    ],
+    "answer": "기분이 어때? 표정이 안 좋아 보여.",
+    "word_pieces": null,
+    "order_num": 7
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "네가 옆에 있어서 ___."
+    },
+    "options": [
+      "이때가 제일 좋아.",
+      "깎아 주세요",
+      "뭐예요?",
+      "행복해"
+    ],
+    "answer": "행복해",
+    "word_pieces": null,
+    "order_num": 8
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "오늘 날씨가 좋아서 ___."
+    },
+    "options": [
+      "달달한 거 있어요?",
+      "합격했어요!!",
+      "한복 입어 봤어?",
+      "행복해"
+    ],
+    "answer": "행복해",
+    "word_pieces": null,
+    "order_num": 9
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "맛있는 거 먹어서 ___!"
+    },
+    "options": [
+      "한국어를 더 열심히 공부하기로 했어요!",
+      "외국인 티 나요?",
+      "행복해",
+      "생각보다"
+    ],
+    "answer": "행복해",
+    "word_pieces": null,
+    "order_num": 10
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "I'm happy because you're by my side."
+    },
+    "options": null,
+    "answer": "내일 여행이라서 행복해요!",
+    "word_pieces": [
+      "내일",
+      "여행이라서",
+      "행복해요",
+      "!"
+    ],
+    "order_num": 11
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I'm happy because you're by my side."
+    },
+    "options": [
+      "네가 옆에 있어서 행복해.",
+      "한국 생활에 이제 적응이 됐어요.",
+      "이 게임 어떻게 해? 규칙 알려줘.",
+      "여기서 왼쪽으로 꺾으면 돼."
+    ],
+    "answer": "네가 옆에 있어서 행복해.",
+    "word_pieces": null,
+    "order_num": 12
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I'm happy because the weather is so nice today."
+    },
+    "options": [
+      "이 호텔 가성비 좋아요. 추천해요.",
+      "생각보다 훨씬 재밌어.",
+      "한국에 처음 왔어요. 꼭 봐야 할 게 뭐예요?",
+      "오늘 날씨가 좋아서 행복해."
+    ],
+    "answer": "오늘 날씨가 좋아서 행복해.",
+    "word_pieces": null,
+    "order_num": 13
+  },
+  {
+    "episode_id": 31,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I'm happy because I ate something delicious!"
+    },
+    "options": [
+      "프로젝트 때문에 바빠요.",
+      "이 두 단어 의미가 헷갈려요.",
+      "맛있는 거 먹어서 행복해!",
+      "오늘 날씨 어때요?"
+    ],
+    "answer": "맛있는 거 먹어서 행복해!",
+    "word_pieces": null,
+    "order_num": 14
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "저기요... 이거 ___?"
+    },
+    "options": [
+      "먹어 본 적 있어요",
+      "어디가 아파요?",
+      "저도 같이 불러도 돼요?",
+      "뭐예요"
+    ],
+    "answer": "뭐예요",
+    "word_pieces": null,
+    "order_num": 1
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "이거 ___?"
+    },
+    "options": [
+      "마약김밥! 중독성 있어.",
+      "먹어보니까 완전 달라.",
+      "생각보다",
+      "뭐예요"
+    ],
+    "answer": "뭐예요",
+    "word_pieces": null,
+    "order_num": 2
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "저거 ___?"
+    },
+    "options": [
+      "뭐예요",
+      "지수야, 이거 어디에 버려?",
+      "웨이팅 있어요?",
+      "아, 감사해요!"
+    ],
+    "answer": "뭐예요",
+    "word_pieces": null,
+    "order_num": 3
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "이름이 ___?"
+    },
+    "options": [
+      "뭐예요",
+      "생각보다 훨씬 맛있어!",
+      "가끔 포기하고 싶어요.",
+      "거기 맛있다고 하던데."
+    ],
+    "answer": "뭐예요",
+    "word_pieces": null,
+    "order_num": 4
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "What is this?"
+    },
+    "options": null,
+    "answer": "저기요... 이거 뭐예요?",
+    "word_pieces": [
+      "저기요",
+      ".",
+      ".",
+      ".",
+      "이거",
+      "뭐예요",
+      "?"
+    ],
+    "order_num": 5
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "What is this?"
+    },
+    "options": [
+      "한국에 꼭 다시 올게.",
+      "이거 뭐예요?",
+      "음식물 쓰레기 어디에 버려?",
+      "청소 철저히 해? 깨끗해 보여."
+    ],
+    "answer": "이거 뭐예요?",
+    "word_pieces": null,
+    "order_num": 6
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "What is that?"
+    },
+    "options": [
+      "저거 뭐예요?",
+      "한국 생활이 이제 많이 편해졌어요.",
+      "이 음식 유행이야? SNS에 자주 나오던데.",
+      "가본 나라 중에 뭐가 제일 좋아요?"
+    ],
+    "answer": "저거 뭐예요?",
+    "word_pieces": null,
+    "order_num": 7
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "What is your name?"
+    },
+    "options": [
+      "어디가 아파요? 많이 힘들어 보여요.",
+      "힘들면 언제든지 연락해요. 같이 얘기해요.",
+      "카카오톡 해요? 거기서 연락해요.",
+      "이름이 뭐예요?"
+    ],
+    "answer": "이름이 뭐예요?",
+    "word_pieces": null,
+    "order_num": 8
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "달고나 라떼 ___!"
+    },
+    "options": [
+      "지수야, 이거 어디에 버려?",
+      "주세요",
+      "처음 만났을 때 기억나?",
+      "에마야, 오해가 있었던 것 같아."
+    ],
+    "answer": "주세요",
+    "word_pieces": null,
+    "order_num": 9
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "물 ___."
+    },
+    "options": [
+      "저도 같이 불러도 돼요?",
+      "그게 말이 되네요.",
+      "다 같이 모이니까 너무 좋아요!",
+      "주세요"
+    ],
+    "answer": "주세요",
+    "word_pieces": null,
+    "order_num": 10
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "메뉴 ___."
+    },
+    "options": [
+      "오빠 덕분에 잘 됐어요!",
+      "주세요",
+      "한국 온 지 얼마나 됐어요?",
+      "에마야, 술 마셔?"
+    ],
+    "answer": "주세요",
+    "word_pieces": null,
+    "order_num": 11
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "영수증 ___."
+    },
+    "options": [
+      "가끔 포기하고 싶어요.",
+      "불고기 도전해요!",
+      "요즘 떠오르는 아티스트예요!",
+      "주세요"
+    ],
+    "answer": "주세요",
+    "word_pieces": null,
+    "order_num": 12
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "Water, please."
+    },
+    "options": null,
+    "answer": "달고나 라떼 주세요!",
+    "word_pieces": [
+      "달고나",
+      "라떼",
+      "주세요",
+      "!"
+    ],
+    "order_num": 13
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Water, please."
+    },
+    "options": [
+      "여기가 홍대역 맞아?",
+      "저 춤 잘 못 추는데, 같이 춰요?",
+      "살 빼기로 마음먹었어요. 내일부터 운동해요.",
+      "물 주세요."
+    ],
+    "answer": "물 주세요.",
+    "word_pieces": null,
+    "order_num": 14
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Menu, please."
+    },
+    "options": [
+      "새 직장에 이제 적응이 됐어요.",
+      "한국에 또 오고 싶어요.",
+      "이미 샀어요.",
+      "메뉴 주세요."
+    ],
+    "answer": "메뉴 주세요.",
+    "word_pieces": null,
+    "order_num": 15
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Receipt, please."
+    },
+    "options": [
+      "한국에 살고 싶어요.",
+      "선생님이 이 책 추천해줬어.",
+      "영수증 주세요.",
+      "일 끝나고 나서 연락할게요."
+    ],
+    "answer": "영수증 주세요.",
+    "word_pieces": null,
+    "order_num": 16
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "와이파이 ___?"
+    },
+    "options": [
+      "무리하지 마세요!",
+      "언제부터 아팠어요?",
+      "있어요",
+      "오래 있어도 돼요?"
+    ],
+    "answer": "있어요",
+    "word_pieces": null,
+    "order_num": 17
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "자리 ___?"
+    },
+    "options": [
+      "오래 살다 보니까 익숙해졌어요.",
+      "있어요",
+      "오늘은 여기까지만 해요.",
+      "네! 아침저녁으로 해요."
+    ],
+    "answer": "있어요",
+    "word_pieces": null,
+    "order_num": 18
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "와이파이 ___?"
+    },
+    "options": [
+      "카드로 할게요.",
+      "무리하지 마세요!",
+      "어디가 아파요?",
+      "있어요"
+    ],
+    "answer": "있어요",
+    "word_pieces": null,
+    "order_num": 19
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "물 ___?"
+    },
+    "options": [
+      "있어요",
+      "분위기 진짜 좋아요.",
+      "에마야, 한국어 많이 늘었다!",
+      "맵고 달아서 중독성 있어요."
+    ],
+    "answer": "있어요",
+    "word_pieces": null,
+    "order_num": 20
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "Is there a seat?"
+    },
+    "options": null,
+    "answer": "와이파이 있어요?",
+    "word_pieces": [
+      "와이파이",
+      "있어요",
+      "?"
+    ],
+    "order_num": 21
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Is there a seat?"
+    },
+    "options": [
+      "이번엔 포기하지 않기로 마음먹었어요.",
+      "자리 있어요?",
+      "번역 안 해도 이해돼요. 기분이 너무 좋아요.",
+      "먹어 보니까 맵지 않아요."
+    ],
+    "answer": "자리 있어요?",
+    "word_pieces": null,
+    "order_num": 22
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Is there Wi-Fi?"
+    },
+    "options": [
+      "제주도에 며칠이나 있을 거예요?",
+      "와이파이 있어요?",
+      "네가 그렇게 생각하는 줄 몰랐어.",
+      "이 가방이 저 가방보다 가벼워요."
+    ],
+    "answer": "와이파이 있어요?",
+    "word_pieces": null,
+    "order_num": 23
+  },
+  {
+    "episode_id": 1,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "Do you have water?"
+    },
+    "options": [
+      "물 있어요?",
+      "생각보다 훨씬 재밌어.",
+      "이걸로 할게요.",
+      "생각보다 빨라요."
+    ],
+    "answer": "물 있어요?",
+    "word_pieces": null,
+    "order_num": 24
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "지수! 홍대 ___..."
+    },
+    "options": [
+      "요즘 좀 힘들어요.",
+      "가고 싶어요",
+      "그래도 꿈을 위해 열심히 할 거예요!",
+      "민준 오빠, 카카오톡 해요?"
+    ],
+    "answer": "가고 싶어요",
+    "word_pieces": null,
+    "order_num": 8
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "제주도에 가고 ___."
+    },
+    "options": [
+      "이때가 제일 좋아.",
+      "하다 보면 금방 늘어!",
+      "에마야, 오해가 있었던 것 같아.",
+      "싶어요"
+    ],
+    "answer": "싶어요",
+    "word_pieces": null,
+    "order_num": 9
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "바다에 가고 ___."
+    },
+    "options": [
+      "싶어요",
+      "어디서 타요?",
+      "에마, 어떻게 생각해요?",
+      "주세요"
+    ],
+    "answer": "싶어요",
+    "word_pieces": null,
+    "order_num": 10
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "서울에 가고 ___."
+    },
+    "options": [
+      "어디서 타요?",
+      "딱 이 느낌이에요!",
+      "싶어요",
+      "비결이 뭐야?"
+    ],
+    "answer": "싶어요",
+    "word_pieces": null,
+    "order_num": 11
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "I want to go to Jeju Island."
+    },
+    "options": null,
+    "answer": "지수! 홍대 가고 싶어요...",
+    "word_pieces": [
+      "지수",
+      "!",
+      "홍대",
+      "가고",
+      "싶어요",
+      ".",
+      ".",
+      "."
+    ],
+    "order_num": 12
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I want to go to Jeju Island."
+    },
+    "options": [
+      "여기서 먹어도 돼요?",
+      "제주도에 가고 싶어요.",
+      "어떤 인테리어 스타일 좋아해요?",
+      "번역 안 해도 이해돼요. 기분이 너무 좋아요."
+    ],
+    "answer": "제주도에 가고 싶어요.",
+    "word_pieces": null,
+    "order_num": 13
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I want to go to the sea."
+    },
+    "options": [
+      "바다에 가고 싶어요.",
+      "한국어가 생각보다 쉽네요.",
+      "한국 생활 어때? 재미있어?",
+      "자꾸 하다 보니까 익숙해졌어요."
+    ],
+    "answer": "바다에 가고 싶어요.",
+    "word_pieces": null,
+    "order_num": 14
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I want to go to Seoul."
+    },
+    "options": [
+      "서울에 가고 싶어요.",
+      "먹어 보니까 맵지 않아요.",
+      "버스 어디서 타요?",
+      "여기서 왼쪽으로 꺾으면 돼."
+    ],
+    "answer": "서울에 가고 싶어요.",
+    "word_pieces": null,
+    "order_num": 15
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "저기요, 홍대 ___?"
+    },
+    "options": [
+      "어떻게 가요",
+      "너무 좋아! 설레.",
+      "음식이 제일 좋아!",
+      "솔직하게 말해도 돼!"
+    ],
+    "answer": "어떻게 가요",
+    "word_pieces": null,
+    "order_num": 16
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "명동에 어떻게 ___?"
+    },
+    "options": [
+      "가요",
+      "에마야, 어떤 스타일 좋아해?",
+      "일 때문에 좀 늦었어요. 미안해요!",
+      "한복 입어 봤어?"
+    ],
+    "answer": "가요",
+    "word_pieces": null,
+    "order_num": 17
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "지하철역에 어떻게 ___?"
+    },
+    "options": [
+      "어렵지만 재미있어!",
+      "가요",
+      "거의 다 됐어요!",
+      "네! 이제 한국어로 생각해요."
+    ],
+    "answer": "가요",
+    "word_pieces": null,
+    "order_num": 18
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "공항에 어떻게 ___?"
+    },
+    "options": [
+      "돌아가면 한국이 그리울 것 같아.",
+      "가요",
+      "에마야, 오해가 있었던 것 같아.",
+      "밥 먹고 나서 산책해."
+    ],
+    "answer": "가요",
+    "word_pieces": null,
+    "order_num": 19
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "How do I get to Myeongdong?"
+    },
+    "options": null,
+    "answer": "저기요, 홍대 어떻게 가요?",
+    "word_pieces": [
+      "저기요,",
+      "홍대",
+      "어떻게",
+      "가요",
+      "?"
+    ],
+    "order_num": 20
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "How do I get to Myeongdong?"
+    },
+    "options": [
+      "여기 오니까 행복해요.",
+      "벌써 시간이 이렇게 됐네요.",
+      "그 말이 아직도 여운이 남아요.",
+      "명동에 어떻게 가요?"
+    ],
+    "answer": "명동에 어떻게 가요?",
+    "word_pieces": null,
+    "order_num": 21
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "How do I get to the subway station?"
+    },
+    "options": [
+      "지하철역에 어떻게 가요?",
+      "얼굴이 안 좋아 보여요. 괜찮아요?",
+      "포기 안 하길 잘했어. 이 순간을 위해서.",
+      "큰 사이즈로 할게요."
+    ],
+    "answer": "지하철역에 어떻게 가요?",
+    "word_pieces": null,
+    "order_num": 22
+  },
+  {
+    "episode_id": 2,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "How do I get to the airport?"
+    },
+    "options": [
+      "넘어졌어요? 괜찮아요? 다쳤어요?",
+      "처음엔 어렵지만 하다 보면 늘어요.",
+      "공항에 어떻게 가요?",
+      "이 문장에서 이게 포인트야."
+    ],
+    "answer": "공항에 어떻게 가요?",
+    "word_pieces": null,
+    "order_num": 23
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "저거 ___! 근데 매워요?"
+    },
+    "options": [
+      "아, 이게 포인트야!",
+      "지수야, 이거 어디에 버려?",
+      "가끔 포기하고 싶어요.",
+      "먹고 싶어요"
+    ],
+    "answer": "먹고 싶어요",
+    "word_pieces": null,
+    "order_num": 1
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "삼겹살 먹고 ___."
+    },
+    "options": [
+      "에마야, 여기 유명한 거 먹어봐!",
+      "싶어요",
+      "알고 보면 재미있어.",
+      "한국에 오게 된 게 신기해요."
+    ],
+    "answer": "싶어요",
+    "word_pieces": null,
+    "order_num": 2
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "냉면 먹고 ___."
+    },
+    "options": [
+      "좋아해요",
+      "분위기 진짜 좋아요.",
+      "에마야, 지금 바빠?",
+      "싶어요"
+    ],
+    "answer": "싶어요",
+    "word_pieces": null,
+    "order_num": 3
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "떡볶이 먹고 ___."
+    },
+    "options": [
+      "친구한테도 추천해줬어.",
+      "오빠, 회사 어때요?",
+      "싶어요",
+      "내일 여행이라서 행복해!"
+    ],
+    "answer": "싶어요",
+    "word_pieces": null,
+    "order_num": 4
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "I want to eat samgyeopsal."
+    },
+    "options": null,
+    "answer": "저거 먹고 싶어요! 근데 매워요?",
+    "word_pieces": [
+      "저거",
+      "먹고",
+      "싶어요",
+      "!",
+      "근데",
+      "매워요",
+      "?"
+    ],
+    "order_num": 5
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I want to eat samgyeopsal."
+    },
+    "options": [
+      "삼겹살 먹고 싶어요.",
+      "선물이 너무 커서 부담스러워요.",
+      "이야기가 앞뒤가 안 맞아요.",
+      "처음 봤는데 어딘가 모르게 끌려요."
+    ],
+    "answer": "삼겹살 먹고 싶어요.",
+    "word_pieces": null,
+    "order_num": 6
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I want to eat naengmyeon."
+    },
+    "options": [
+      "솔직하게 말해도 돼? 좀 아쉬운 게 있어.",
+      "냉면 먹고 싶어요.",
+      "여기 오래 있어도 돼요? 공부하고 싶어서요.",
+      "어디가 아파요? 많이 힘들어 보여요."
+    ],
+    "answer": "냉면 먹고 싶어요.",
+    "word_pieces": null,
+    "order_num": 7
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I want to eat tteokbokki."
+    },
+    "options": [
+      "떡볶이 먹고 싶어요.",
+      "포기하고 싶었는데 친구가 응원해줬어요.",
+      "비싼 게 다 좋은 건 꼭 그런 건 아니야.",
+      "이 스타일 완전 대세예요."
+    ],
+    "answer": "떡볶이 먹고 싶어요.",
+    "word_pieces": null,
+    "order_num": 8
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "매운 거 ___... 근데 맛있어요!!"
+    },
+    "options": [
+      "못 먹어요",
+      "에마, 저 좀 서운했어요.",
+      "존댓말이랑 반말이 헷갈려요.",
+      "한국어를 더 열심히 공부하기로 했어요!"
+    ],
+    "answer": "못 먹어요",
+    "word_pieces": null,
+    "order_num": 9
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "매운 거 못 ___."
+    },
+    "options": [
+      "여기 관광지보다 로컬이 좋아.",
+      "저도 같이 불러도 돼요?",
+      "먹어요",
+      "여름은 어때?"
+    ],
+    "answer": "먹어요",
+    "word_pieces": null,
+    "order_num": 10
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "조개 못 ___."
+    },
+    "options": [
+      "먹어요",
+      "이게 저거보다 나아요.",
+      "재료가 다 있어요?",
+      "잘 부탁드려요"
+    ],
+    "answer": "먹어요",
+    "word_pieces": null,
+    "order_num": 11
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "fill_blank",
+    "question": {
+      "prompt": "유제품 못 ___."
+    },
+    "options": [
+      "뭐예요",
+      "이때가 제일 좋아.",
+      "어떻게 가요",
+      "먹어요"
+    ],
+    "answer": "먹어요",
+    "word_pieces": null,
+    "order_num": 12
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "word_order",
+    "question": {
+      "prompt": "I can't eat spicy food."
+    },
+    "options": null,
+    "answer": "매운 거 못 먹어요... 근데 맛있어요!!",
+    "word_pieces": [
+      "매운",
+      "거",
+      "못",
+      "먹어요",
+      ".",
+      ".",
+      ".",
+      "근데",
+      "맛있어요",
+      "!",
+      "!"
+    ],
+    "order_num": 13
+  },
+  {
+    "episode_id": 3,
+    "challenge_type": "translation",
+    "question": {
+      "prompt": "I can't eat spicy food."
+    },
+    "options": [
+      "매운 거 못 먹어요.",
+      "메뉴 추천해 주세요.",
+      "한국어 공부가 어렵지만 재미있어요.",
+      "솔직하게 말해도 돼? 이 옷은 별로야."
+    ],
+    "answer": "매운 거 못 먹어요.",
+    "word_pieces": null,
+    "order_num": 14
+  }
+]

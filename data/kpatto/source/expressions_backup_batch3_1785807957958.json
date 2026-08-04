@@ -1,0 +1,82 @@
+[
+  {
+    "id": 770,
+    "description": "Used to politely ask for something in a shop, café, or restaurant. Put the item in front of 주세요.\n\nRule: 주세요 asks for an object. To ask someone to do something, attach -아/어 주세요 to a verb instead (도와주세요)."
+  },
+  {
+    "id": 777,
+    "description": "Used to ask whether someone has ever had a particular experience.\n\nRule: Attach -아/어 본 적 있어요? to a verb stem. The natural answer is 있어요 or 없어요 rather than 네 or 아니요."
+  },
+  {
+    "id": 781,
+    "description": "Used when something strikes you as new and wonderful — a common reaction when you first meet a different culture.\n\nRule: 신기해요 is about novelty and wonder. If you mean something is odd or off, use 이상해요 instead."
+  },
+  {
+    "id": 787,
+    "description": "Used to express warmth about everyone being gathered in one place.\n\nRule: -아/어서 좋아요 attaches any reason to 좋아요 — 날씨가 좋아서 좋아요."
+  },
+  {
+    "id": 788,
+    "description": "Used to say something has already happened, often to stop someone from doing it again.\n\nRule: 이미 normally comes with a past-tense verb (이미 먹었어요). 벌써 is close but adds surprise at how soon it happened."
+  },
+  {
+    "id": 795,
+    "description": "Used to ask permission before eating or drinking.\n\nRule: Attach -아/어도 돼요? to a verb stem. The answer comes back as 네, 돼요 or 아니요, 안 돼요."
+  },
+  {
+    "id": 798,
+    "description": "Used to say which transport you're taking, or to tell someone which one to take.\n\nRule: 타다 takes 을/를 in writing (버스를 타요), though the particle is usually dropped in speech. The opposite is 내려요."
+  },
+  {
+    "id": 799,
+    "description": "Used to say which stop or station you're getting off at.\n\nRule: 에서 marks the place where you get off. Pair it with 타요 for getting on — 2호선 타요, 홍대입구역에서 내려요."
+  },
+  {
+    "id": 801,
+    "description": "Used to ask a restaurant to adjust how your food is prepared.\n\nRule: Put an adjective stem between 덜 and 게 해 주세요 (덜 맵게 해 주세요). For the opposite, swap 덜 for 더."
+  },
+  {
+    "id": 802,
+    "description": "Used to ask whether something can be refilled. Side dishes, rice, and soup are often free this way in Korea.\n\nRule: 되다 here means 'is possible'. The answer is 네, 돼요 or 안 돼요."
+  },
+  {
+    "id": 805,
+    "description": "Used to let someone know in advance that you won't arrive on time.\n\nRule: -을 것 같아요 turns a flat statement into a guess, which sounds softer and more considerate than 늦어요."
+  },
+  {
+    "id": 808,
+    "description": "Used to tell someone which way to turn when giving directions.\n\nRule: After a noun ending in a consonant, use 으로 (오른쪽으로). After a vowel or ㄹ, use 로. 돌면 돼요 is just as common as 꺾으면 돼요."
+  },
+  {
+    "id": 810,
+    "description": "Used for anything enjoyable — a drama, a class, a person, a trip.\n\nRule: 재미있어요 covers both 'fun' and 'interesting'. The opposite is 재미없어요, written as one word."
+  },
+  {
+    "id": 813,
+    "description": "Used to guess that rain or snow is on the way, based on what you can see.\n\nRule: In everyday Korean, rain and snow 오다 rather than 내리다 — 비 와요, 눈 와요."
+  },
+  {
+    "id": 1301,
+    "description": "Used to list two or more actions or states when either one is possible.\n\nRule: Attach -거나 to a verb or adjective stem (먹거나, 좋거나). For nouns, use (이)나 instead — 커피나 차 (vowel), 물이나 주스 (consonant)."
+  },
+  {
+    "id": 1348,
+    "description": "Used when you move somewhere with a purpose.\n\nRule: After a stem ending in a consonant, use -으러 (먹으러 가요). After a vowel or ㄹ, drop the 으 (보러 가요, 놀러 가요). Only use it with verbs of movement such as 가다, 오다, 다니다."
+  },
+  {
+    "id": 1353,
+    "description": "Used to say how much time has passed since something happened.\n\nRule: After a stem ending in a consonant, use -은 지 (먹은 지). After a vowel or ㄹ, drop the 은 (온 지, 산 지). It is followed by a time expression plus 됐어요 or 지났어요."
+  },
+  {
+    "id": 1360,
+    "description": "Used for a casual guess, or to express regret about something you didn't do.\n\nRule: This is 반말; the polite form is -을걸요. After a consonant use -을걸 (먹을걸), after a vowel or ㄹ drop the 을 (갈걸). For regret about the past, it usually appears as -을걸 그랬어."
+  },
+  {
+    "id": 1363,
+    "description": "Used when one thing increases as another increases.\n\nRule: After a stem ending in a consonant, use -을수록 (먹을수록). After a vowel or ㄹ, drop the 을 (갈수록). It is often paired with -으면 in front: 보면 볼수록."
+  },
+  {
+    "id": 1364,
+    "description": "Used to suggest doing something together in a formal or group setting.\n\nRule: After a stem ending in a consonant, use -읍시다 (먹읍시다). After a vowel or ㄹ, use -ㅂ시다 (갑시다). Do not use it toward someone older or senior — use -으시겠어요? instead."
+  }
+]

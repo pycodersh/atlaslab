@@ -1,0 +1,1717 @@
+[
+  {
+    "id": 4,
+    "speaker": "jisu",
+    "before": "이건 아메리카노예요.",
+    "after": "이건 아메리카노야.",
+    "note": "존댓말→반말"
+  },
+  {
+    "id": 10,
+    "speaker": "jisu",
+    "before": "오천오백 원이에요.",
+    "after": "오천오백 원이야.",
+    "note": "존댓말→반말"
+  },
+  {
+    "id": 58,
+    "speaker": "sophie",
+    "before": "나도 케이팝 너무 좋아!",
+    "after": "나도 케이팝 너무 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 60,
+    "speaker": "sophie",
+    "before": "당연하지! 다 알아!",
+    "after": "당연하지! 다 알아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 62,
+    "speaker": "sophie",
+    "before": "물론이지! 가르쳐 줄게!",
+    "after": "물론이지! 가르쳐 줄게요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 78,
+    "speaker": "sophie",
+    "before": "여기 진짜 좋아! K-뷰티 최고야!",
+    "after": "여기 진짜 좋아! K-뷰티 최고예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 79,
+    "speaker": "emma",
+    "before": "K-뷰티 진짜 좋아! 좋은 제품이 정말 많아!",
+    "after": "K-뷰티 진짜 좋아! 좋은 제품이 정말 많아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 81,
+    "speaker": "sophie",
+    "before": "이거 써봤어? 진짜 좋아!",
+    "after": "이거 써봤어? 진짜 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 84,
+    "speaker": "emma",
+    "before": "이거... 친구한테 선물하려고요. 어떤 게 좋아?",
+    "after": "이거... 친구한테 선물하려고요. 어떤 게 좋아요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 86,
+    "speaker": "sophie",
+    "before": "이제 K-뷰티 덕후 됐어!",
+    "after": "이제 K-뷰티 덕후 됐어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 87,
+    "speaker": "emma",
+    "before": "또 오고 싶어!",
+    "after": "또 오고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 91,
+    "speaker": "sophie",
+    "before": "생각보다 훨씬 빠르지?",
+    "after": "생각보다 훨씬 빠르죠?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 150,
+    "speaker": "emma",
+    "before": "(혼잣말) 다음엔 지도 보여달라고 해야지.",
+    "after": "(혼잣말) 다음엔 지도 보여달라고 해야죠.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 151,
+    "speaker": "sophie",
+    "before": "에마, 요즘 드라마 봐?",
+    "after": "에마, 요즘 드라마 봐요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 152,
+    "speaker": "emma",
+    "before": "네! 이거 봤어?",
+    "after": "네! 이거 봤어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 153,
+    "speaker": "emma",
+    "before": "진짜 강추야!",
+    "after": "진짜 강추예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 154,
+    "speaker": "sophie",
+    "before": "재미있어?",
+    "after": "재미있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 155,
+    "speaker": "emma",
+    "before": "너무 재미있어!",
+    "after": "너무 재미있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 156,
+    "speaker": "sophie",
+    "before": "어디서 볼 수 있어?",
+    "after": "어디서 볼 수 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 160,
+    "speaker": "sophie",
+    "before": "(다음날) 어젯밤에 다 봤어!",
+    "after": "(다음날) 어젯밤에 다 봤어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 172,
+    "speaker": "emma",
+    "before": "(전화로) 지수야, 나 많이 아파...",
+    "after": "(전화로) 지수 언니, 나 많이 아파...",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 181,
+    "speaker": "emma",
+    "before": "응, 푹 쉬었더니 나았어!",
+    "after": "응, 푹 쉬었더니 나았어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 192,
+    "speaker": "sophie",
+    "before": "여기서 유명한 게 뭐야?",
+    "after": "여기서 유명한 게 뭐예요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 194,
+    "speaker": "emma",
+    "before": "같이 사진 찍어!",
+    "after": "같이 사진 찍어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 195,
+    "speaker": "sophie",
+    "before": "좋아! 잘 나왔어?",
+    "after": "좋아! 잘 나왔어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 198,
+    "speaker": "sophie",
+    "before": "여기 또 오고 싶어!",
+    "after": "여기 또 오고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 200,
+    "speaker": "emma",
+    "before": "사진이 진짜 잘 나왔어!",
+    "after": "사진이 진짜 잘 나왔어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 202,
+    "speaker": "emma",
+    "before": "소피! 오랜만이야!",
+    "after": "소피! 오랜만이에요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 203,
+    "speaker": "sophie",
+    "before": "에마! 정말 오랜만이야!",
+    "after": "에마! 정말 오랜만이에요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 204,
+    "speaker": "sophie",
+    "before": "잘 지냈어?",
+    "after": "잘 지냈어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 206,
+    "speaker": "sophie",
+    "before": "많이 변했어?",
+    "after": "많이 변했어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 207,
+    "speaker": "emma",
+    "before": "하나도 안 변했어!",
+    "after": "하나도 안 변했어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 209,
+    "speaker": "emma",
+    "before": "한국어 공부 열심히 하고 있어!",
+    "after": "한국어 공부 열심히 하고 있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 210,
+    "speaker": "sophie",
+    "before": "다음에 또 봐!",
+    "after": "다음에 또 봐요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 213,
+    "speaker": "emma",
+    "before": "한강에 갔어!",
+    "after": "한강에 갔어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 215,
+    "speaker": "emma",
+    "before": "진짜 좋았어! 사진도 많이 찍었어.",
+    "after": "진짜 좋았어! 사진도 많이 찍었어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 216,
+    "speaker": "emma",
+    "before": "근데 치킨 못 먹었어.",
+    "after": "근데 치킨 못 먹었어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 218,
+    "speaker": "emma",
+    "before": "배달 안 했어. 다음엔 꼭 먹을 거야!",
+    "after": "배달 안 했어. 다음엔 꼭 먹을 거예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 220,
+    "speaker": "emma",
+    "before": "한강은 처음이었는데 또 가고 싶어.",
+    "after": "한강은 처음이었는데 또 가고 싶어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 233,
+    "speaker": "emma",
+    "before": "알아... 나도 해야 해.",
+    "after": "알아... 나도 해야 해요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 234,
+    "speaker": "emma",
+    "before": "지수야, 걱정하지 마.",
+    "after": "지수 언니, 걱정하지 마.",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 240,
+    "speaker": "emma",
+    "before": "차 조심해!",
+    "after": "차 조심해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 242,
+    "speaker": "sophie",
+    "before": "한국 음식, 어떻게 생각해?",
+    "after": "한국 음식, 어떻게 생각해요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 243,
+    "speaker": "emma",
+    "before": "저는 너무 좋아!",
+    "after": "저는 너무 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 245,
+    "speaker": "emma",
+    "before": "그렇긴 한데요, 익숙해지면 괜찮아!",
+    "after": "그렇긴 한데요, 익숙해지면 괜찮아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 250,
+    "speaker": "emma",
+    "before": "어떻게 생각해? 다음엔 같이 도전해봐!",
+    "after": "어떻게 생각해? 다음엔 같이 도전해봐요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 251,
+    "speaker": "sophie",
+    "before": "좋아!",
+    "after": "좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 262,
+    "speaker": "sophie",
+    "before": "에마, 요즘 뭐 봐?",
+    "after": "에마, 요즘 뭐 봐요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 263,
+    "speaker": "emma",
+    "before": "이 드라마 보고 있어!",
+    "after": "이 드라마 보고 있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 264,
+    "speaker": "emma",
+    "before": "완전 빠져들었어!",
+    "after": "완전 빠져들었어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 265,
+    "speaker": "sophie",
+    "before": "어디서 봐?",
+    "after": "어디서 봐요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 266,
+    "speaker": "emma",
+    "before": "넷플릭스에서 봐!",
+    "after": "넷플릭스에서 봐요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 270,
+    "speaker": "sophie",
+    "before": "(다음날) 저도 다 봤어!",
+    "after": "(다음날) 저도 다 봤어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 271,
+    "speaker": "emma",
+    "before": "진짜? 어땠어?",
+    "after": "진짜? 어땠어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 273,
+    "speaker": "emma",
+    "before": "아, 이거? 알아!",
+    "after": "아, 이거? 알아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 274,
+    "speaker": "emma",
+    "before": "이 가사가 무슨 뜻이야?",
+    "after": "이 가사가 무슨 뜻이에요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 276,
+    "speaker": "emma",
+    "before": "너무 중독성 있어!",
+    "after": "너무 중독성 있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 278,
+    "speaker": "emma",
+    "before": "아이돌 누구 좋아해?",
+    "after": "아이돌 누구 좋아해요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 280,
+    "speaker": "emma",
+    "before": "콘서트 가고 싶어!",
+    "after": "콘서트 가고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 282,
+    "speaker": "sophie",
+    "before": "피부 관리 어떻게 해?",
+    "after": "피부 관리 어떻게 해요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 284,
+    "speaker": "sophie",
+    "before": "이 세럼 여기서 팔아?",
+    "after": "이 세럼 여기서 팔아요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 286,
+    "speaker": "sophie",
+    "before": "이거 효과 있어?",
+    "after": "이거 효과 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 287,
+    "speaker": "emma",
+    "before": "후기가 진짜 좋아!",
+    "after": "후기가 진짜 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 288,
+    "speaker": "sophie",
+    "before": "온라인으로 주문할 수 있어?",
+    "after": "온라인으로 주문할 수 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 290,
+    "speaker": "emma",
+    "before": "K-뷰티 진짜 최고야!",
+    "after": "K-뷰티 진짜 최고예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 291,
+    "speaker": "sophie",
+    "before": "완전 동의해!",
+    "after": "완전 동의해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 305,
+    "speaker": "emma",
+    "before": "응! 원룸이야.",
+    "after": "응! 원룸이에요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 306,
+    "speaker": "emma",
+    "before": "거기 살기 좋아?",
+    "after": "거기 살기 좋아요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 308,
+    "speaker": "emma",
+    "before": "최근에 이사 왔어.",
+    "after": "최근에 이사 왔어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 310,
+    "speaker": "emma",
+    "before": "집 근처에 뭐 있어?",
+    "after": "집 근처에 뭐 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 315,
+    "speaker": "emma",
+    "before": "내일 여행이라서 행복해!",
+    "after": "내일 여행이라서 행복해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 320,
+    "speaker": "emma",
+    "before": "잘 될 거야! 응원해!",
+    "after": "잘 될 거야! 응원해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 322,
+    "speaker": "emma",
+    "before": "소피, 괜찮아?",
+    "after": "소피, 괜찮아요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 324,
+    "speaker": "emma",
+    "before": "많이 힘들어?",
+    "after": "많이 힘들어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 328,
+    "speaker": "emma",
+    "before": "잘 될 거야!",
+    "after": "잘 될 거예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 330,
+    "speaker": "emma",
+    "before": "언제든지 연락해!",
+    "after": "언제든지 연락해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 352,
+    "speaker": "emma",
+    "before": "한복 입어 봤어?",
+    "after": "한복 입어 봤어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 354,
+    "speaker": "emma",
+    "before": "추석에 뭐 해?",
+    "after": "추석에 뭐 해요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 356,
+    "speaker": "emma",
+    "before": "이게 무슨 뜻이야?",
+    "after": "이게 무슨 뜻이에요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 358,
+    "speaker": "emma",
+    "before": "한국에서는 어떻게 해?",
+    "after": "한국에서는 어떻게 해요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 373,
+    "speaker": "sophie",
+    "before": "좋아!",
+    "after": "좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 374,
+    "speaker": "sophie",
+    "before": "노래 진짜 잘하네!",
+    "after": "노래 진짜 잘하네요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 375,
+    "speaker": "emma",
+    "before": "감사해!",
+    "after": "감사해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 377,
+    "speaker": "emma",
+    "before": "저 이거 부를게!",
+    "after": "저 이거 부를게요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 378,
+    "speaker": "emma",
+    "before": "한 곡만 더 해!",
+    "after": "한 곡만 더 해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 380,
+    "speaker": "emma",
+    "before": "노래방 또 오고 싶어!",
+    "after": "노래방 또 오고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 382,
+    "speaker": "emma",
+    "before": "케이팝 댄스 배우고 싶어!",
+    "after": "케이팝 댄스 배우고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 385,
+    "speaker": "emma",
+    "before": "어렵지만 재미있어!",
+    "after": "어렵지만 재미있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 386,
+    "speaker": "emma",
+    "before": "연습이 더 필요해.",
+    "after": "연습이 더 필요해요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 388,
+    "speaker": "emma",
+    "before": "잘 못하겠어.",
+    "after": "잘 못하겠어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 390,
+    "speaker": "emma",
+    "before": "조금씩 늘고 있어!",
+    "after": "조금씩 늘고 있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 392,
+    "speaker": "emma",
+    "before": "여기 분위기 좋아!",
+    "after": "여기 분위기 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 393,
+    "speaker": "sophie",
+    "before": "맞아, 공부하기 딱 좋아.",
+    "after": "맞아, 공부하기 딱 좋아요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 394,
+    "speaker": "sophie",
+    "before": "뭐 마실 거야?",
+    "after": "뭐 마실 거예요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 395,
+    "speaker": "emma",
+    "before": "달달한 거 있어?",
+    "after": "달달한 거 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 416,
+    "speaker": "emma",
+    "before": "한국어 어렵잖아.",
+    "after": "한국어 어렵잖아요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 423,
+    "speaker": "emma",
+    "before": "좋아!",
+    "after": "좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 426,
+    "speaker": "emma",
+    "before": "같이 가면 좋겠어!",
+    "after": "같이 가면 좋겠어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 431,
+    "speaker": "sophie",
+    "before": "완벽해!",
+    "after": "완벽해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 443,
+    "speaker": "emma",
+    "before": "음악 들어!",
+    "after": "음악 들어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 444,
+    "speaker": "emma",
+    "before": "밥 먹고 나서 산책해.",
+    "after": "밥 먹고 나서 산책해요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 450,
+    "speaker": "emma",
+    "before": "가다가 편의점 들렀어.",
+    "after": "가다가 편의점 들렀어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 462,
+    "speaker": "sophie",
+    "before": "한국 온 지 얼마나 됐어?",
+    "after": "한국 온 지 얼마나 됐어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 463,
+    "speaker": "emma",
+    "before": "6개월 됐어!",
+    "after": "6개월 됐어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 466,
+    "speaker": "emma",
+    "before": "거의 다 됐어!",
+    "after": "거의 다 됐어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 467,
+    "speaker": "sophie",
+    "before": "진짜? 대단해!",
+    "after": "진짜? 대단해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 469,
+    "speaker": "emma",
+    "before": "그래도 잘 하잖아!",
+    "after": "그래도 잘 하잖아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 470,
+    "speaker": "emma",
+    "before": "다 됐어!",
+    "after": "다 됐어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 471,
+    "speaker": "sophie",
+    "before": "수고했어!",
+    "after": "수고했어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 476,
+    "speaker": "emma",
+    "before": "이 가방 어디 거야?",
+    "after": "이 가방 어디 거예요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 483,
+    "speaker": "emma",
+    "before": "좋아! 뭐 먹을 거야?",
+    "after": "좋아! 뭐 먹을 거예요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 488,
+    "speaker": "emma",
+    "before": "너무 맛있어서 또 시킬 거야!",
+    "after": "너무 맛있어서 또 시킬 거예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 490,
+    "speaker": "emma",
+    "before": "한국 배달 문화 진짜 좋아!",
+    "after": "한국 배달 문화 진짜 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 491,
+    "speaker": "sophie",
+    "before": "맞아, 최고야.",
+    "after": "맞아, 최고예요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 503,
+    "speaker": "emma",
+    "before": "너무 좋아!",
+    "after": "너무 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 506,
+    "speaker": "emma",
+    "before": "이제 많이 익숙해졌어!",
+    "after": "이제 많이 익숙해졌어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 508,
+    "speaker": "emma",
+    "before": "음식이 제일 좋아!",
+    "after": "음식이 제일 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 510,
+    "speaker": "emma",
+    "before": "한국에 정이 많이 들었어.",
+    "after": "한국에 정이 많이 들었어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 512,
+    "speaker": "sophie",
+    "before": "에마, 앞으로 뭐 할 거야?",
+    "after": "에마, 앞으로 뭐 할 거예요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 513,
+    "speaker": "emma",
+    "before": "한국어 더 열심히 공부할 거야!",
+    "after": "한국어 더 열심히 공부할 거예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 515,
+    "speaker": "sophie",
+    "before": "응원해!",
+    "after": "응원해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 517,
+    "speaker": "sophie",
+    "before": "할 수 있어!",
+    "after": "할 수 있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 521,
+    "speaker": "sophie",
+    "before": "좋아!",
+    "after": "좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 533,
+    "speaker": "emma",
+    "before": "아니! 처음이야.",
+    "after": "아니! 처음이에요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 535,
+    "speaker": "emma",
+    "before": "(먹으며) 생각보다 맛있어!",
+    "after": "(먹으며) 생각보다 맛있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 538,
+    "speaker": "emma",
+    "before": "친구한테도 추천해줬어.",
+    "after": "친구한테도 추천해줬어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 540,
+    "speaker": "emma",
+    "before": "친구도 좋아했어!",
+    "after": "친구도 좋아했어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 542,
+    "speaker": "emma",
+    "before": "지수야, 영어 배우고 싶어?",
+    "after": "지수 언니, 영어 배우고 싶어요?",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 544,
+    "speaker": "emma",
+    "before": "나는 한국어, 넌 영어!",
+    "after": "나는 한국어, 넌 영어예요!",
+    "note": "수동수정"
+  },
+  {
+    "id": 548,
+    "speaker": "emma",
+    "before": "지수야, 이거 한국어로 어떻게 해?",
+    "after": "지수 언니, 이거 한국어로 어떻게 해요?",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 550,
+    "speaker": "emma",
+    "before": "덕분에 많이 배웠어!",
+    "after": "덕분에 많이 배웠어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 553,
+    "speaker": "emma",
+    "before": "아니! 가르쳐줘.",
+    "after": "아니! 가르쳐줘요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 555,
+    "speaker": "emma",
+    "before": "이거 얼마나 넣어?",
+    "after": "이거 얼마나 넣어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 557,
+    "speaker": "emma",
+    "before": "어렵지 않네!",
+    "after": "어렵지 않네요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 558,
+    "speaker": "emma",
+    "before": "다 됐어?",
+    "after": "다 됐어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 560,
+    "speaker": "emma",
+    "before": "맛있어!! 내가 만들었어!",
+    "after": "맛있어!! 내가 만들었어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 562,
+    "speaker": "sophie",
+    "before": "에마, 뭐 살 거야?",
+    "after": "에마, 뭐 살 거예요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 563,
+    "speaker": "emma",
+    "before": "한국 옷 사고 싶어!",
+    "after": "한국 옷 사고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 565,
+    "speaker": "sophie",
+    "before": "잘 어울릴 것 같아!",
+    "after": "잘 어울릴 것 같아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 566,
+    "speaker": "emma",
+    "before": "좀 깎아주실 수 있어?",
+    "after": "좀 깎아주실 수 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 571,
+    "speaker": "emma",
+    "before": "너무 재미있어!",
+    "after": "너무 재미있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 572,
+    "speaker": "emma",
+    "before": "지수야, 알바 해봤어?",
+    "after": "지수 언니, 알바 해봤어요?",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 574,
+    "speaker": "emma",
+    "before": "어땠어?",
+    "after": "어땠어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 577,
+    "speaker": "emma",
+    "before": "진짜? 나도 해보고 싶어!",
+    "after": "진짜? 나도 해보고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 579,
+    "speaker": "emma",
+    "before": "도전해볼게!",
+    "after": "도전해볼게요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 592,
+    "speaker": "sophie",
+    "before": "에마, 여기 와 봤어?",
+    "after": "에마, 여기 와 봤어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 593,
+    "speaker": "emma",
+    "before": "아니! 처음이야.",
+    "after": "아니! 처음이에요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 596,
+    "speaker": "emma",
+    "before": "한국어 책 있어?",
+    "after": "한국어 책 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 599,
+    "speaker": "sophie",
+    "before": "빌려봐!",
+    "after": "빌려봐요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 601,
+    "speaker": "sophie",
+    "before": "좋아!",
+    "after": "좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 616,
+    "speaker": "emma",
+    "before": "솔직히 별로야.",
+    "after": "솔직히 별로예요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 619,
+    "speaker": "emma",
+    "before": "맞아, 사실 나도 그랬어.",
+    "after": "맞아, 사실 나도 그랬어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 634,
+    "speaker": "emma",
+    "before": "요즘 뭐가 유행이야?",
+    "after": "요즘 뭐가 유행이에요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 636,
+    "speaker": "emma",
+    "before": "팔로워가 늘었어!",
+    "after": "팔로워가 늘었어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 642,
+    "speaker": "sophie",
+    "before": "에마, 오늘 뭐 만들어?",
+    "after": "에마, 오늘 뭐 만들어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 643,
+    "speaker": "emma",
+    "before": "불고기 도전해!",
+    "after": "불고기 도전해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 644,
+    "speaker": "emma",
+    "before": "재료가 다 있어?",
+    "after": "재료가 다 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 647,
+    "speaker": "sophie",
+    "before": "좀 더 볶아!",
+    "after": "좀 더 볶아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 648,
+    "speaker": "emma",
+    "before": "완성됐어!",
+    "after": "완성됐어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 650,
+    "speaker": "sophie",
+    "before": "진짜 맛있어!",
+    "after": "진짜 맛있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 651,
+    "speaker": "emma",
+    "before": "다음엔 더 잘할 거야!",
+    "after": "다음엔 더 잘할 거예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 652,
+    "speaker": "sophie",
+    "before": "에마, 스킨케어 루틴 있어?",
+    "after": "에마, 스킨케어 루틴 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 657,
+    "speaker": "emma",
+    "before": "수분크림이요. 효과 좋아!",
+    "after": "수분크림이요. 효과 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 659,
+    "speaker": "sophie",
+    "before": "맞아!",
+    "after": "맞아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 660,
+    "speaker": "sophie",
+    "before": "피부 좋아졌어?",
+    "after": "피부 좋아졌어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 672,
+    "speaker": "emma",
+    "before": "지수야, 한국 봄이 이렇게 예뻐?",
+    "after": "지수 언니, 한국 봄이 이렇게 예뻐?",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 685,
+    "speaker": "emma",
+    "before": "아, 바빴어. 정말 미안해!",
+    "after": "아, 바빴어. 정말 미안해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 688,
+    "speaker": "emma",
+    "before": "다음엔 꼭 연락할게!",
+    "after": "다음엔 꼭 연락할게요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 702,
+    "speaker": "emma",
+    "before": "지수야, 이거 어디에 버려?",
+    "after": "지수 언니, 이거 어디에 버려?",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 704,
+    "speaker": "emma",
+    "before": "한국은 분리수거 철저히 해?",
+    "after": "한국은 분리수거 철저히 해요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 706,
+    "speaker": "emma",
+    "before": "환경 생각하는 게 중요해.",
+    "after": "환경 생각하는 게 중요해요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 715,
+    "speaker": "sophie",
+    "before": "저도요. 이 느낌 알아?",
+    "after": "저도요. 이 느낌 알아요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 716,
+    "speaker": "emma",
+    "before": "딱 이 느낌이야!",
+    "after": "딱 이 느낌이에요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 719,
+    "speaker": "sophie",
+    "before": "사진 찍어!",
+    "after": "사진 찍어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 723,
+    "speaker": "emma",
+    "before": "나도. 미안해.",
+    "after": "나도. 미안해요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 724,
+    "speaker": "emma",
+    "before": "내 말이 그런 뜻이 아니었어.",
+    "after": "내 말이 그런 뜻이 아니었어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 727,
+    "speaker": "emma",
+    "before": "나도 오해했어.",
+    "after": "나도 오해했어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 728,
+    "speaker": "emma",
+    "before": "그럴 수 있어. 괜찮아!",
+    "after": "그럴 수 있어. 괜찮아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 743,
+    "speaker": "emma",
+    "before": "이거 뭐야?",
+    "after": "이거 뭐예요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 745,
+    "speaker": "emma",
+    "before": "(먹으며) 바삭해!",
+    "after": "(먹으며) 바삭해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 746,
+    "speaker": "emma",
+    "before": "생각보다 훨씬 맛있어!",
+    "after": "생각보다 훨씬 맛있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 750,
+    "speaker": "emma",
+    "before": "한국 시장 음식이 최고야!",
+    "after": "한국 시장 음식이 최고예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 756,
+    "speaker": "emma",
+    "before": "여기 카페 새로 생겼어!",
+    "after": "여기 카페 새로 생겼어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 757,
+    "speaker": "sophie",
+    "before": "들어가 봐!",
+    "after": "들어가 봐요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 760,
+    "speaker": "emma",
+    "before": "앞으로도 이렇게 살고 싶어!",
+    "after": "앞으로도 이렇게 살고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 762,
+    "speaker": "emma",
+    "before": "지수야, 이 표현 맞아?",
+    "after": "지수 언니, 이 표현 맞아요?",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 766,
+    "speaker": "emma",
+    "before": "이 두 개 차이가 뭐야?",
+    "after": "이 두 개 차이가 뭐예요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 768,
+    "speaker": "emma",
+    "before": "아, 이게 포인트야!",
+    "after": "아, 이게 포인트예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 770,
+    "speaker": "emma",
+    "before": "조금씩 나아지고 있어.",
+    "after": "조금씩 나아지고 있어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 776,
+    "speaker": "sophie",
+    "before": "에마 많이 변했어!",
+    "after": "에마 많이 변했어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 792,
+    "speaker": "sophie",
+    "before": "여기 줄 서야 해!",
+    "after": "여기 줄 서야 해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 793,
+    "speaker": "emma",
+    "before": "웨이팅 있어?",
+    "after": "웨이팅 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 798,
+    "speaker": "emma",
+    "before": "진짜 맛있어!",
+    "after": "진짜 맛있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 800,
+    "speaker": "emma",
+    "before": "다음에 또 오고 싶어!",
+    "after": "다음에 또 오고 싶어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 803,
+    "speaker": "emma",
+    "before": "잘 됐어! 믿기지 않아.",
+    "after": "잘 됐어! 믿기지 않아요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 804,
+    "speaker": "emma",
+    "before": "처음에 비하면 많이 늘었어.",
+    "after": "처음에 비하면 많이 늘었어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 806,
+    "speaker": "emma",
+    "before": "힘들었는데 포기 안 하길 잘했어.",
+    "after": "힘들었는데 포기 안 하길 잘했어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 808,
+    "speaker": "emma",
+    "before": "지수 덕분에 많이 늘었어.",
+    "after": "지수 덕분에 많이 늘었어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 810,
+    "speaker": "emma",
+    "before": "조금씩 나아지고 있어!",
+    "after": "조금씩 나아지고 있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 816,
+    "speaker": "emma",
+    "before": "거기인 줄 알았어.",
+    "after": "거기인 줄 알았어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 818,
+    "speaker": "emma",
+    "before": "그럴 줄 몰랐어!",
+    "after": "그럴 줄 몰랐어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 832,
+    "speaker": "emma",
+    "before": "처음 한 것치고는 잘했어!",
+    "after": "처음 한 것치고는 잘했어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 834,
+    "speaker": "emma",
+    "before": "아무리 그래도 너무해.",
+    "after": "아무리 그래도 너무해요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 836,
+    "speaker": "emma",
+    "before": "그렇다고 포기할 순 없지!",
+    "after": "그렇다고 포기할 순 없죠!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 840,
+    "speaker": "emma",
+    "before": "은근히 재미있어.",
+    "after": "은근히 재미있어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 842,
+    "speaker": "sophie",
+    "before": "에마, 어떻게 생각해?",
+    "after": "에마, 어떻게 생각해요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 845,
+    "speaker": "sophie",
+    "before": "그렇지?",
+    "after": "그렇죠?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 849,
+    "speaker": "sophie",
+    "before": "좋아!",
+    "after": "좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 851,
+    "speaker": "sophie",
+    "before": "응원해!",
+    "after": "응원해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 862,
+    "speaker": "emma",
+    "before": "한국에서는 흔한 일이야?",
+    "after": "한국에서는 흔한 일이에요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 864,
+    "speaker": "emma",
+    "before": "이렇게 될 줄 몰랐어.",
+    "after": "이렇게 될 줄 몰랐어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 868,
+    "speaker": "emma",
+    "before": "알고 보면 재미있어.",
+    "after": "알고 보면 재미있어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 870,
+    "speaker": "emma",
+    "before": "생각보다 훨씬 좋아!",
+    "after": "생각보다 훨씬 좋아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 875,
+    "speaker": "sophie",
+    "before": "아, 그랬어?",
+    "after": "아, 그랬어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 877,
+    "speaker": "sophie",
+    "before": "이해해!",
+    "after": "이해해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 879,
+    "speaker": "sophie",
+    "before": "다행이야!",
+    "after": "다행이에요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 896,
+    "speaker": "emma",
+    "before": "항상 줄 서야 해?",
+    "after": "항상 줄 서야 해요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 898,
+    "speaker": "emma",
+    "before": "꼭 가봐야 할 곳이야!",
+    "after": "꼭 가봐야 할 곳이에요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 900,
+    "speaker": "emma",
+    "before": "여기 숨겨진 명소야!",
+    "after": "여기 숨겨진 명소예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 902,
+    "speaker": "sophie",
+    "before": "에마, 요즘 핫한 카페 알아?",
+    "after": "에마, 요즘 핫한 카페 알아요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 904,
+    "speaker": "sophie",
+    "before": "완전 대세야!",
+    "after": "완전 대세예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 905,
+    "speaker": "emma",
+    "before": "맞아, 인스타에서 많이 봤어.",
+    "after": "맞아, 인스타에서 많이 봤어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 906,
+    "speaker": "emma",
+    "before": "요즘 떠오르는 아티스트야!",
+    "after": "요즘 떠오르는 아티스트예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 910,
+    "speaker": "emma",
+    "before": "한번 가볼게!",
+    "after": "한번 가볼게요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 911,
+    "speaker": "sophie",
+    "before": "같이 가!",
+    "after": "같이 가요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 914,
+    "speaker": "emma",
+    "before": "아니라고 할 순 없지.",
+    "after": "아니라고 할 순 없죠.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 916,
+    "speaker": "emma",
+    "before": "그렇게 볼 수도 있지.",
+    "after": "그렇게 볼 수도 있죠.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 918,
+    "speaker": "emma",
+    "before": "꼭 그런 건 아니야.",
+    "after": "꼭 그런 건 아니예요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 932,
+    "speaker": "sophie",
+    "before": "에마, 많이 속상했어?",
+    "after": "에마, 많이 속상했어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 940,
+    "speaker": "emma",
+    "before": "말하고 나니까 후련해!",
+    "after": "말하고 나니까 후련해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 944,
+    "speaker": "emma",
+    "before": "마음은 알아.",
+    "after": "마음은 알아요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 948,
+    "speaker": "emma",
+    "before": "잘 이겨낼 거야!",
+    "after": "잘 이겨낼 거예요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 950,
+    "speaker": "emma",
+    "before": "내가 옆에 있을게.",
+    "after": "내가 옆에 있을게요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 952,
+    "speaker": "sophie",
+    "before": "에마, 이 드라마 반전 있어!",
+    "after": "에마, 이 드라마 반전 있어요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 955,
+    "speaker": "sophie",
+    "before": "맞아!",
+    "after": "맞아요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 960,
+    "speaker": "emma",
+    "before": "완결났어? 시즌2 있어?",
+    "after": "완결났어? 시즌2 있어요?",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 972,
+    "speaker": "emma",
+    "before": "지수야, 한국 떠나기 싫어.",
+    "after": "지수 언니, 한국 떠나기 싫어요.",
+    "note": "지수야+반말→존댓말"
+  },
+  {
+    "id": 974,
+    "speaker": "emma",
+    "before": "돌아가면 한국이 그리울 것 같아.",
+    "after": "돌아가면 한국이 그리울 것 같아요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 976,
+    "speaker": "emma",
+    "before": "정말 좋은 추억이야.",
+    "after": "정말 좋은 추억이에요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 978,
+    "speaker": "emma",
+    "before": "한국에 정이 많이 들었어.",
+    "after": "한국에 정이 많이 들었어요.",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 980,
+    "speaker": "emma",
+    "before": "꼭 다시 올게!",
+    "after": "꼭 다시 올게요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 992,
+    "speaker": "emma",
+    "before": "앞으로도 잘 부탁해!",
+    "after": "앞으로도 잘 부탁해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 1000,
+    "speaker": "emma",
+    "before": "언제든지 연락해!",
+    "after": "언제든지 연락해요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 1002,
+    "speaker": "emma",
+    "before": "100화가 끝이 아니라 시작이야!",
+    "after": "100화가 끝이 아니라 시작이에요!",
+    "note": "반말→존댓말"
+  },
+  {
+    "id": 1006,
+    "speaker": "emma",
+    "before": "한국어로 꿈을 이룰 거야!",
+    "after": "한국어로 꿈을 이룰 거예요!",
+    "note": "반말→존댓말"
+  }
+]

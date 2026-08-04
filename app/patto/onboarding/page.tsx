@@ -94,7 +94,8 @@ export default function PattoOnboardingPage() {
           padding: 'clamp(16px,2.5dvh,22px) 22px 0',
           color: 'var(--pt)',
         }}>
-          <Image src="/kpatto/kpatto-icon.png" alt="PATTO" width={36} height={36} style={{ borderRadius: 9, display: 'block' }} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/kpatto/kpatto-icon.png" alt="PATTO" width={36} height={36} style={{ borderRadius: 9, display: 'block' }} />
         </header>
 
         {/* Content area — vertically centers the slide group */}

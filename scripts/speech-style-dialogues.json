@@ -1,0 +1,4872 @@
+[
+  {
+    "id": 1,
+    "speaker": "emma",
+    "text_ko": "와, 예쁘다!"
+  },
+  {
+    "id": 3,
+    "speaker": "emma",
+    "text_ko": "저기요... 이거 뭐예요?"
+  },
+  {
+    "id": 5,
+    "speaker": "emma",
+    "text_ko": "달고나 라떼가 뭐예요?"
+  },
+  {
+    "id": 7,
+    "speaker": "emma",
+    "text_ko": "달고나 라떼 주세요!"
+  },
+  {
+    "id": 9,
+    "speaker": "emma",
+    "text_ko": "큰 거 주세요."
+  },
+  {
+    "id": 11,
+    "speaker": "emma",
+    "text_ko": "와이파이 있어요?"
+  },
+  {
+    "id": 13,
+    "speaker": "emma",
+    "text_ko": "너무 맛있어요!"
+  },
+  {
+    "id": 14,
+    "speaker": "emma",
+    "text_ko": "와... 사람이 너무 많다!"
+  },
+  {
+    "id": 16,
+    "speaker": "emma",
+    "text_ko": "지수! 홍대 가고 싶어요..."
+  },
+  {
+    "id": 17,
+    "speaker": "emma",
+    "text_ko": "저기요, 홍대 어떻게 가요?"
+  },
+  {
+    "id": 18,
+    "speaker": "emma",
+    "text_ko": "어디서 타요?"
+  },
+  {
+    "id": 20,
+    "speaker": "emma",
+    "text_ko": "표 두 장 주세요!"
+  },
+  {
+    "id": 22,
+    "speaker": "emma",
+    "text_ko": "와, 서울 진짜 좋아요!"
+  },
+  {
+    "id": 24,
+    "speaker": "emma",
+    "text_ko": "와, 저거 뭐예요?"
+  },
+  {
+    "id": 25,
+    "speaker": "emma",
+    "text_ko": "저거 먹고 싶어요! 근데 매워요?"
+  },
+  {
+    "id": 28,
+    "speaker": "emma",
+    "text_ko": "이게 떡볶이 맞아요?"
+  },
+  {
+    "id": 30,
+    "speaker": "emma",
+    "text_ko": "으악... 매워요!!"
+  },
+  {
+    "id": 31,
+    "speaker": "emma",
+    "text_ko": "매운 거 못 먹어요... 근데 맛있어요!!"
+  },
+  {
+    "id": 34,
+    "speaker": "emma",
+    "text_ko": "와, 편의점이 이렇게 커요?"
+  },
+  {
+    "id": 36,
+    "speaker": "emma",
+    "text_ko": "오! 그걸로 할게요."
+  },
+  {
+    "id": 37,
+    "speaker": "emma",
+    "text_ko": "여기서 먹어도 돼요?"
+  },
+  {
+    "id": 41,
+    "speaker": "emma",
+    "text_ko": "어? 혹시... 지수 오빠 민준 씨예요?"
+  },
+  {
+    "id": 44,
+    "speaker": "emma",
+    "text_ko": "진짜 맛있어요! 한국 편의점 너무 좋아요."
+  },
+  {
+    "id": 47,
+    "speaker": "emma",
+    "text_ko": "추천해 주세요!"
+  },
+  {
+    "id": 49,
+    "speaker": "emma",
+    "text_ko": "뭐가 맛있어요?"
+  },
+  {
+    "id": 50,
+    "speaker": "emma",
+    "text_ko": "천천히 말해주실 수 있어요? 한국어 공부 중이에요."
+  },
+  {
+    "id": 53,
+    "speaker": "emma",
+    "text_ko": "이렇게요?"
+  },
+  {
+    "id": 54,
+    "speaker": "emma",
+    "text_ko": "아니요! 처음이에요!"
+  },
+  {
+    "id": 55,
+    "speaker": "emma",
+    "text_ko": "진짜 너무 맛있어요!!"
+  },
+  {
+    "id": 57,
+    "speaker": "emma",
+    "text_ko": "노래방 처음이에요!"
+  },
+  {
+    "id": 59,
+    "speaker": "emma",
+    "text_ko": "소피, 한국 노래 알아요?"
+  },
+  {
+    "id": 61,
+    "speaker": "emma",
+    "text_ko": "저도 같이 불러도 돼요?"
+  },
+  {
+    "id": 63,
+    "speaker": "emma",
+    "text_ko": "이 노래 너무 좋아요!!"
+  },
+  {
+    "id": 64,
+    "speaker": "emma",
+    "text_ko": "케이팝 진짜 좋아해요!"
+  },
+  {
+    "id": 66,
+    "speaker": "emma",
+    "text_ko": "진짜요? 대박!"
+  },
+  {
+    "id": 67,
+    "speaker": "emma",
+    "text_ko": "또 오고 싶어요!"
+  },
+  {
+    "id": 68,
+    "speaker": "emma",
+    "text_ko": "와, 여기 진짜 신기해요!"
+  },
+  {
+    "id": 69,
+    "speaker": "emma",
+    "text_ko": "이거 뭐예요? 저거도 신기해요!"
+  },
+  {
+    "id": 72,
+    "speaker": "emma",
+    "text_ko": "감사합니다! 맛있어요!"
+  },
+  {
+    "id": 73,
+    "speaker": "emma",
+    "text_ko": "조금만 더 주세요!"
+  },
+  {
+    "id": 75,
+    "speaker": "emma",
+    "text_ko": "저기요... 좀 깎아 주세요!"
+  },
+  {
+    "id": 76,
+    "speaker": "emma",
+    "text_ko": "다 해서 얼마예요?"
+  },
+  {
+    "id": 79,
+    "speaker": "emma",
+    "text_ko": "K-뷰티 진짜 좋아! 좋은 제품이 정말 많아!"
+  },
+  {
+    "id": 80,
+    "speaker": "emma",
+    "text_ko": "뭐가 좋아? 다 신기해 보여요."
+  },
+  {
+    "id": 82,
+    "speaker": "emma",
+    "text_ko": "제 피부 타입에 맞는 거 추천해 주세요."
+  },
+  {
+    "id": 84,
+    "speaker": "emma",
+    "text_ko": "이거... 친구한테 선물하려고요. 어떤 게 좋아?"
+  },
+  {
+    "id": 87,
+    "speaker": "emma",
+    "text_ko": "또 오고 싶어!"
+  },
+  {
+    "id": 88,
+    "speaker": "emma",
+    "text_ko": "와, 한강! 처음이에요!"
+  },
+  {
+    "id": 90,
+    "speaker": "emma",
+    "text_ko": "배달이 이렇게 빨라요?!"
+  },
+  {
+    "id": 92,
+    "speaker": "emma",
+    "text_ko": "한국 치킨... 생각보다 진짜 맛있어요!!"
+  },
+  {
+    "id": 94,
+    "speaker": "emma",
+    "text_ko": "이런 거 너무 좋아요."
+  },
+  {
+    "id": 95,
+    "speaker": "emma",
+    "text_ko": "다 같이 있어서 좋아요."
+  },
+  {
+    "id": 96,
+    "speaker": "emma",
+    "text_ko": "한국에 온 지 얼마 안 됐는데..."
+  },
+  {
+    "id": 97,
+    "speaker": "emma",
+    "text_ko": "이미 너무 좋아요."
+  },
+  {
+    "id": 98,
+    "speaker": "emma",
+    "text_ko": "오늘 첫 수업이에요. 조금 떨려요."
+  },
+  {
+    "id": 101,
+    "speaker": "emma",
+    "text_ko": "네..."
+  },
+  {
+    "id": 102,
+    "speaker": "emma",
+    "text_ko": "저는 에마예요. 미국에서 왔어요."
+  },
+  {
+    "id": 103,
+    "speaker": "emma",
+    "text_ko": "경영학 전공이에요."
+  },
+  {
+    "id": 104,
+    "speaker": "emma",
+    "text_ko": "잘 부탁드려요!"
+  },
+  {
+    "id": 106,
+    "speaker": "emma",
+    "text_ko": "해냈어요. 한국어로!"
+  },
+  {
+    "id": 109,
+    "speaker": "emma",
+    "text_ko": "2호선이요?"
+  },
+  {
+    "id": 110,
+    "speaker": "emma",
+    "text_ko": "갈아타요?"
+  },
+  {
+    "id": 112,
+    "speaker": "emma",
+    "text_ko": "얼마나 걸려요?"
+  },
+  {
+    "id": 114,
+    "speaker": "emma",
+    "text_ko": "와, 빠르다!"
+  },
+  {
+    "id": 116,
+    "speaker": "emma",
+    "text_ko": "다음엔 혼자 탈 수 있을 것 같아요!"
+  },
+  {
+    "id": 117,
+    "speaker": "emma",
+    "text_ko": "홍대까지 가 주세요!"
+  },
+  {
+    "id": 120,
+    "speaker": "emma",
+    "text_ko": "와, 냄새 너무 좋아요!"
+  },
+  {
+    "id": 121,
+    "speaker": "emma",
+    "text_ko": "순두부찌개로 할게요!"
+  },
+  {
+    "id": 123,
+    "speaker": "emma",
+    "text_ko": "덜 맵게 해 주세요."
+  },
+  {
+    "id": 124,
+    "speaker": "emma",
+    "text_ko": "이거 뭐가 들어가 있어요?"
+  },
+  {
+    "id": 126,
+    "speaker": "emma",
+    "text_ko": "아, 조개가 들어가 있어요?"
+  },
+  {
+    "id": 127,
+    "speaker": "emma",
+    "text_ko": "이 반찬 리필 돼요?"
+  },
+  {
+    "id": 129,
+    "speaker": "emma",
+    "text_ko": "너무 맛있었어요!"
+  },
+  {
+    "id": 132,
+    "speaker": "emma",
+    "text_ko": "아직 아무것도 없어요!"
+  },
+  {
+    "id": 134,
+    "speaker": "emma",
+    "text_ko": "좋아요! 몇 시에 만날까요?"
+  },
+  {
+    "id": 136,
+    "speaker": "emma",
+    "text_ko": "저 조금 늦을 것 같아요..."
+  },
+  {
+    "id": 137,
+    "speaker": "emma",
+    "text_ko": "미안해요, 10분만요!"
+  },
+  {
+    "id": 139,
+    "speaker": "emma",
+    "text_ko": "다음엔 제가 절대 안 늦을게요!"
+  },
+  {
+    "id": 141,
+    "speaker": "emma",
+    "text_ko": "(지도 보며) 어...? 길을 잃었어요."
+  },
+  {
+    "id": 143,
+    "speaker": "emma",
+    "text_ko": "경복궁 어떻게 가요?"
+  },
+  {
+    "id": 146,
+    "speaker": "emma",
+    "text_ko": "오른쪽이요? 감사해요!"
+  },
+  {
+    "id": 147,
+    "speaker": "emma",
+    "text_ko": "걸어서 얼마나 걸려요?"
+  },
+  {
+    "id": 149,
+    "speaker": "emma",
+    "text_ko": "지도 없이도 할 수 있었어요!"
+  },
+  {
+    "id": 150,
+    "speaker": "emma",
+    "text_ko": "(혼잣말) 다음엔 지도 보여달라고 해야지."
+  },
+  {
+    "id": 152,
+    "speaker": "emma",
+    "text_ko": "네! 이거 봤어?"
+  },
+  {
+    "id": 153,
+    "speaker": "emma",
+    "text_ko": "진짜 강추야!"
+  },
+  {
+    "id": 155,
+    "speaker": "emma",
+    "text_ko": "너무 재미있어!"
+  },
+  {
+    "id": 157,
+    "speaker": "emma",
+    "text_ko": "넷플릭스에서 볼 수 있어요."
+  },
+  {
+    "id": 159,
+    "speaker": "emma",
+    "text_ko": "매주 금요일 밤 9시!"
+  },
+  {
+    "id": 161,
+    "speaker": "emma",
+    "text_ko": "진짜? 대박!"
+  },
+  {
+    "id": 163,
+    "speaker": "emma",
+    "text_ko": "엄청 추워요!"
+  },
+  {
+    "id": 164,
+    "speaker": "emma",
+    "text_ko": "오늘 눈 올 것 같아요."
+  },
+  {
+    "id": 166,
+    "speaker": "emma",
+    "text_ko": "날씨 좋네요! 산책할까요?"
+  },
+  {
+    "id": 169,
+    "speaker": "emma",
+    "text_ko": "한국 날씨 진짜 신기해요."
+  },
+  {
+    "id": 170,
+    "speaker": "emma",
+    "text_ko": "내일 거기 날씨 어때요?"
+  },
+  {
+    "id": 172,
+    "speaker": "emma",
+    "text_ko": "(전화로) 지수야, 나 많이 아파..."
+  },
+  {
+    "id": 175,
+    "speaker": "emma",
+    "text_ko": "머리가 아파요. 열도 나요."
+  },
+  {
+    "id": 176,
+    "speaker": "emma",
+    "text_ko": "두통약 있어요?"
+  },
+  {
+    "id": 179,
+    "speaker": "emma",
+    "text_ko": "네, 알겠어요."
+  },
+  {
+    "id": 181,
+    "speaker": "emma",
+    "text_ko": "응, 푹 쉬었더니 나았어!"
+  },
+  {
+    "id": 183,
+    "speaker": "emma",
+    "text_ko": "사진 찍는 거요! 오빠는요?"
+  },
+  {
+    "id": 185,
+    "speaker": "emma",
+    "text_ko": "저도요!"
+  },
+  {
+    "id": 187,
+    "speaker": "emma",
+    "text_ko": "저는 폰 카메라 별로예요. 미러리스 써요."
+  },
+  {
+    "id": 188,
+    "speaker": "emma",
+    "text_ko": "요즘 한국 카페 사진에 빠져 있어요."
+  },
+  {
+    "id": 191,
+    "speaker": "emma",
+    "text_ko": "완전 좋아요!"
+  },
+  {
+    "id": 193,
+    "speaker": "emma",
+    "text_ko": "한복 입고 사진 찍는 거!"
+  },
+  {
+    "id": 194,
+    "speaker": "emma",
+    "text_ko": "같이 사진 찍어!"
+  },
+  {
+    "id": 196,
+    "speaker": "emma",
+    "text_ko": "선물로 뭐가 좋을까?"
+  },
+  {
+    "id": 199,
+    "speaker": "emma",
+    "text_ko": "저도! 진짜 예쁘다."
+  },
+  {
+    "id": 200,
+    "speaker": "emma",
+    "text_ko": "사진이 진짜 잘 나왔어!"
+  },
+  {
+    "id": 202,
+    "speaker": "emma",
+    "text_ko": "소피! 오랜만이야!"
+  },
+  {
+    "id": 205,
+    "speaker": "emma",
+    "text_ko": "네! 요즘 바빠?"
+  },
+  {
+    "id": 207,
+    "speaker": "emma",
+    "text_ko": "하나도 안 변했어!"
+  },
+  {
+    "id": 209,
+    "speaker": "emma",
+    "text_ko": "한국어 공부 열심히 하고 있어!"
+  },
+  {
+    "id": 211,
+    "speaker": "emma",
+    "text_ko": "연락해요, 꼭!"
+  },
+  {
+    "id": 213,
+    "speaker": "emma",
+    "text_ko": "한강에 갔어!"
+  },
+  {
+    "id": 215,
+    "speaker": "emma",
+    "text_ko": "진짜 좋았어! 사진도 많이 찍었어."
+  },
+  {
+    "id": 216,
+    "speaker": "emma",
+    "text_ko": "근데 치킨 못 먹었어."
+  },
+  {
+    "id": 218,
+    "speaker": "emma",
+    "text_ko": "배달 안 했어. 다음엔 꼭 먹을 거야!"
+  },
+  {
+    "id": 220,
+    "speaker": "emma",
+    "text_ko": "한강은 처음이었는데 또 가고 싶어."
+  },
+  {
+    "id": 222,
+    "speaker": "emma",
+    "text_ko": "여기 맛있을 것 같아요!"
+  },
+  {
+    "id": 224,
+    "speaker": "emma",
+    "text_ko": "얼마나 기다려야 해요?"
+  },
+  {
+    "id": 226,
+    "speaker": "emma",
+    "text_ko": "이 집 유명한 것 같아요."
+  },
+  {
+    "id": 228,
+    "speaker": "emma",
+    "text_ko": "이거 매울 것 같아요."
+  },
+  {
+    "id": 230,
+    "speaker": "emma",
+    "text_ko": "드디어!"
+  },
+  {
+    "id": 233,
+    "speaker": "emma",
+    "text_ko": "알아... 나도 해야 해."
+  },
+  {
+    "id": 234,
+    "speaker": "emma",
+    "text_ko": "지수야, 걱정하지 마."
+  },
+  {
+    "id": 236,
+    "speaker": "emma",
+    "text_ko": "잠깐 쉬어도 돼?"
+  },
+  {
+    "id": 239,
+    "speaker": "emma",
+    "text_ko": "아, 맞다! 고마워."
+  },
+  {
+    "id": 240,
+    "speaker": "emma",
+    "text_ko": "차 조심해!"
+  },
+  {
+    "id": 243,
+    "speaker": "emma",
+    "text_ko": "저는 너무 좋아!"
+  },
+  {
+    "id": 245,
+    "speaker": "emma",
+    "text_ko": "그렇긴 한데요, 익숙해지면 괜찮아!"
+  },
+  {
+    "id": 246,
+    "speaker": "emma",
+    "text_ko": "맞는 말이에요. 처음엔 저도 그랬어요."
+  },
+  {
+    "id": 249,
+    "speaker": "emma",
+    "text_ko": "사람마다 달라!"
+  },
+  {
+    "id": 250,
+    "speaker": "emma",
+    "text_ko": "어떻게 생각해? 다음엔 같이 도전해봐!"
+  },
+  {
+    "id": 253,
+    "speaker": "emma",
+    "text_ko": "아니요! 꼭 가보고 싶어요."
+  },
+  {
+    "id": 255,
+    "speaker": "emma",
+    "text_ko": "언제 시간 돼요?"
+  },
+  {
+    "id": 256,
+    "speaker": "emma",
+    "text_ko": "다음에 꼭 같이 가요!"
+  },
+  {
+    "id": 258,
+    "speaker": "emma",
+    "text_ko": "같이 가면 재미있을 것 같아요."
+  },
+  {
+    "id": 260,
+    "speaker": "emma",
+    "text_ko": "너무 기대돼요!"
+  },
+  {
+    "id": 263,
+    "speaker": "emma",
+    "text_ko": "이 드라마 보고 있어!"
+  },
+  {
+    "id": 264,
+    "speaker": "emma",
+    "text_ko": "완전 빠져들었어!"
+  },
+  {
+    "id": 266,
+    "speaker": "emma",
+    "text_ko": "넷플릭스에서 봐!"
+  },
+  {
+    "id": 268,
+    "speaker": "emma",
+    "text_ko": "다음 화가 진짜 기대돼!"
+  },
+  {
+    "id": 271,
+    "speaker": "emma",
+    "text_ko": "진짜? 어땠어?"
+  },
+  {
+    "id": 273,
+    "speaker": "emma",
+    "text_ko": "아, 이거? 알아!"
+  },
+  {
+    "id": 274,
+    "speaker": "emma",
+    "text_ko": "이 가사가 무슨 뜻이야?"
+  },
+  {
+    "id": 276,
+    "speaker": "emma",
+    "text_ko": "너무 중독성 있어!"
+  },
+  {
+    "id": 278,
+    "speaker": "emma",
+    "text_ko": "아이돌 누구 좋아해?"
+  },
+  {
+    "id": 280,
+    "speaker": "emma",
+    "text_ko": "콘서트 가고 싶어!"
+  },
+  {
+    "id": 283,
+    "speaker": "emma",
+    "text_ko": "저는 수분크림 매일 발라!"
+  },
+  {
+    "id": 287,
+    "speaker": "emma",
+    "text_ko": "후기가 진짜 좋아!"
+  },
+  {
+    "id": 290,
+    "speaker": "emma",
+    "text_ko": "K-뷰티 진짜 최고야!"
+  },
+  {
+    "id": 293,
+    "speaker": "emma",
+    "text_ko": "저는 매일 걸어요!"
+  },
+  {
+    "id": 294,
+    "speaker": "emma",
+    "text_ko": "이거 건강에 좋아요?"
+  },
+  {
+    "id": 296,
+    "speaker": "emma",
+    "text_ko": "저 요즘 꾸준히 하고 있어요!"
+  },
+  {
+    "id": 298,
+    "speaker": "emma",
+    "text_ko": "운동이 스트레스 해소가 돼요."
+  },
+  {
+    "id": 300,
+    "speaker": "emma",
+    "text_ko": "살이 좀 빠진 것 같아요!"
+  },
+  {
+    "id": 303,
+    "speaker": "emma",
+    "text_ko": "홍대 근처!"
+  },
+  {
+    "id": 305,
+    "speaker": "emma",
+    "text_ko": "응! 원룸이야."
+  },
+  {
+    "id": 306,
+    "speaker": "emma",
+    "text_ko": "거기 살기 좋아?"
+  },
+  {
+    "id": 308,
+    "speaker": "emma",
+    "text_ko": "최근에 이사 왔어."
+  },
+  {
+    "id": 310,
+    "speaker": "emma",
+    "text_ko": "집 근처에 뭐 있어?"
+  },
+  {
+    "id": 313,
+    "speaker": "emma",
+    "text_ko": "너무 좋아! 설레."
+  },
+  {
+    "id": 315,
+    "speaker": "emma",
+    "text_ko": "내일 여행이라서 행복해!"
+  },
+  {
+    "id": 316,
+    "speaker": "emma",
+    "text_ko": "근데 짐이 많아서 좀 걱정돼."
+  },
+  {
+    "id": 319,
+    "speaker": "emma",
+    "text_ko": "왜?"
+  },
+  {
+    "id": 320,
+    "speaker": "emma",
+    "text_ko": "잘 될 거야! 응원해!"
+  },
+  {
+    "id": 322,
+    "speaker": "emma",
+    "text_ko": "소피, 괜찮아?"
+  },
+  {
+    "id": 324,
+    "speaker": "emma",
+    "text_ko": "많이 힘들어?"
+  },
+  {
+    "id": 326,
+    "speaker": "emma",
+    "text_ko": "많이 걱정돼요."
+  },
+  {
+    "id": 328,
+    "speaker": "emma",
+    "text_ko": "잘 될 거야!"
+  },
+  {
+    "id": 330,
+    "speaker": "emma",
+    "text_ko": "언제든지 연락해!"
+  },
+  {
+    "id": 332,
+    "speaker": "emma",
+    "text_ko": "민준 오빠, 카카오톡 해요?"
+  },
+  {
+    "id": 334,
+    "speaker": "emma",
+    "text_ko": "인스타도 해요?"
+  },
+  {
+    "id": 336,
+    "speaker": "emma",
+    "text_ko": "한국 친구 사귀고 싶었어요."
+  },
+  {
+    "id": 339,
+    "speaker": "emma",
+    "text_ko": "네! 연락할게요."
+  },
+  {
+    "id": 340,
+    "speaker": "emma",
+    "text_ko": "앞으로 잘 부탁해요!"
+  },
+  {
+    "id": 343,
+    "speaker": "emma",
+    "text_ko": "아, 감사해요!"
+  },
+  {
+    "id": 346,
+    "speaker": "emma",
+    "text_ko": "오빠, 배달 시켜요?"
+  },
+  {
+    "id": 348,
+    "speaker": "emma",
+    "text_ko": "우리 앞으로 자주 같이 먹어요!"
+  },
+  {
+    "id": 350,
+    "speaker": "emma",
+    "text_ko": "너무 맛있었어요!"
+  },
+  {
+    "id": 352,
+    "speaker": "emma",
+    "text_ko": "한복 입어 봤어?"
+  },
+  {
+    "id": 354,
+    "speaker": "emma",
+    "text_ko": "추석에 뭐 해?"
+  },
+  {
+    "id": 356,
+    "speaker": "emma",
+    "text_ko": "이게 무슨 뜻이야?"
+  },
+  {
+    "id": 358,
+    "speaker": "emma",
+    "text_ko": "한국에서는 어떻게 해?"
+  },
+  {
+    "id": 360,
+    "speaker": "emma",
+    "text_ko": "신기하다! 우리나라랑 달라."
+  },
+  {
+    "id": 363,
+    "speaker": "emma",
+    "text_ko": "조금요!"
+  },
+  {
+    "id": 365,
+    "speaker": "emma",
+    "text_ko": "건배!"
+  },
+  {
+    "id": 366,
+    "speaker": "emma",
+    "text_ko": "저 많이 취한 것 같아요."
+  },
+  {
+    "id": 368,
+    "speaker": "emma",
+    "text_ko": "오늘은 여기까지만 해요."
+  },
+  {
+    "id": 370,
+    "speaker": "emma",
+    "text_ko": "다음에 또 마셔요!"
+  },
+  {
+    "id": 372,
+    "speaker": "emma",
+    "text_ko": "이 노래 같이 불러!"
+  },
+  {
+    "id": 375,
+    "speaker": "emma",
+    "text_ko": "감사해!"
+  },
+  {
+    "id": 377,
+    "speaker": "emma",
+    "text_ko": "저 이거 부를게!"
+  },
+  {
+    "id": 378,
+    "speaker": "emma",
+    "text_ko": "한 곡만 더 해!"
+  },
+  {
+    "id": 380,
+    "speaker": "emma",
+    "text_ko": "노래방 또 오고 싶어!"
+  },
+  {
+    "id": 382,
+    "speaker": "emma",
+    "text_ko": "케이팝 댄스 배우고 싶어!"
+  },
+  {
+    "id": 385,
+    "speaker": "emma",
+    "text_ko": "어렵지만 재미있어!"
+  },
+  {
+    "id": 386,
+    "speaker": "emma",
+    "text_ko": "연습이 더 필요해."
+  },
+  {
+    "id": 388,
+    "speaker": "emma",
+    "text_ko": "잘 못하겠어."
+  },
+  {
+    "id": 390,
+    "speaker": "emma",
+    "text_ko": "조금씩 늘고 있어!"
+  },
+  {
+    "id": 392,
+    "speaker": "emma",
+    "text_ko": "여기 분위기 좋아!"
+  },
+  {
+    "id": 395,
+    "speaker": "emma",
+    "text_ko": "달달한 거 있어?"
+  },
+  {
+    "id": 396,
+    "speaker": "emma",
+    "text_ko": "여기서 공부해도 돼?"
+  },
+  {
+    "id": 400,
+    "speaker": "emma",
+    "text_ko": "여기 완전 단골이 될 것 같아요."
+  },
+  {
+    "id": 403,
+    "speaker": "emma",
+    "text_ko": "나라마다 다르지만 재미있어요!"
+  },
+  {
+    "id": 404,
+    "speaker": "emma",
+    "text_ko": "우리나라에서는 이렇게 안 해요."
+  },
+  {
+    "id": 406,
+    "speaker": "emma",
+    "text_ko": "이제 적응이 됐어요!"
+  },
+  {
+    "id": 408,
+    "speaker": "emma",
+    "text_ko": "처음엔 낯설었는데 이제 괜찮아요."
+  },
+  {
+    "id": 410,
+    "speaker": "emma",
+    "text_ko": "덕분이에요!"
+  },
+  {
+    "id": 413,
+    "speaker": "emma",
+    "text_ko": "나 지금 좀 바쁜데."
+  },
+  {
+    "id": 414,
+    "speaker": "emma",
+    "text_ko": "나 사실 한국어 배우거든."
+  },
+  {
+    "id": 416,
+    "speaker": "emma",
+    "text_ko": "한국어 어렵잖아."
+  },
+  {
+    "id": 418,
+    "speaker": "emma",
+    "text_ko": "여기 진짜 예쁘다!"
+  },
+  {
+    "id": 420,
+    "speaker": "emma",
+    "text_ko": "가 봤는데 생각보다 좋더라!"
+  },
+  {
+    "id": 423,
+    "speaker": "emma",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 424,
+    "speaker": "emma",
+    "text_ko": "이렇게 하면 돼?"
+  },
+  {
+    "id": 426,
+    "speaker": "emma",
+    "text_ko": "같이 가면 좋겠어!"
+  },
+  {
+    "id": 429,
+    "speaker": "emma",
+    "text_ko": "알겠어, 일찍 갈게요."
+  },
+  {
+    "id": 430,
+    "speaker": "emma",
+    "text_ko": "이렇게 하면 될 것 같아요."
+  },
+  {
+    "id": 433,
+    "speaker": "emma",
+    "text_ko": "일 때문에 좀 늦었어요. 미안해요!"
+  },
+  {
+    "id": 434,
+    "speaker": "emma",
+    "text_ko": "오빠 덕분에 잘 됐어요!"
+  },
+  {
+    "id": 436,
+    "speaker": "emma",
+    "text_ko": "바빠서 못 왔어요."
+  },
+  {
+    "id": 438,
+    "speaker": "emma",
+    "text_ko": "이게 저거보다 나아요."
+  },
+  {
+    "id": 440,
+    "speaker": "emma",
+    "text_ko": "기대한 만큼 맛있어요!"
+  },
+  {
+    "id": 443,
+    "speaker": "emma",
+    "text_ko": "음악 들어!"
+  },
+  {
+    "id": 444,
+    "speaker": "emma",
+    "text_ko": "밥 먹고 나서 산책해."
+  },
+  {
+    "id": 446,
+    "speaker": "emma",
+    "text_ko": "자기 전에 일기 써."
+  },
+  {
+    "id": 448,
+    "speaker": "emma",
+    "text_ko": "일어나자마자 커피 마셔."
+  },
+  {
+    "id": 450,
+    "speaker": "emma",
+    "text_ko": "가다가 편의점 들렀어."
+  },
+  {
+    "id": 452,
+    "speaker": "emma",
+    "text_ko": "제가 도와줄게요!"
+  },
+  {
+    "id": 454,
+    "speaker": "emma",
+    "text_ko": "제가 해 드릴까요?"
+  },
+  {
+    "id": 456,
+    "speaker": "emma",
+    "text_ko": "죄송한데요, 혹시 도와주실 수 있어요?"
+  },
+  {
+    "id": 458,
+    "speaker": "emma",
+    "text_ko": "감사한데요, 제가 할게요."
+  },
+  {
+    "id": 460,
+    "speaker": "emma",
+    "text_ko": "앞으로 잘 부탁드려요!"
+  },
+  {
+    "id": 463,
+    "speaker": "emma",
+    "text_ko": "6개월 됐어!"
+  },
+  {
+    "id": 464,
+    "speaker": "emma",
+    "text_ko": "아직 한국어 배우는 중이에요."
+  },
+  {
+    "id": 466,
+    "speaker": "emma",
+    "text_ko": "거의 다 됐어!"
+  },
+  {
+    "id": 469,
+    "speaker": "emma",
+    "text_ko": "그래도 잘 하잖아!"
+  },
+  {
+    "id": 470,
+    "speaker": "emma",
+    "text_ko": "다 됐어!"
+  },
+  {
+    "id": 473,
+    "speaker": "emma",
+    "text_ko": "캐주얼!"
+  },
+  {
+    "id": 475,
+    "speaker": "emma",
+    "text_ko": "진짜?"
+  },
+  {
+    "id": 476,
+    "speaker": "emma",
+    "text_ko": "이 가방 어디 거야?"
+  },
+  {
+    "id": 479,
+    "speaker": "emma",
+    "text_ko": "진짜? 나도 해봐야겠다."
+  },
+  {
+    "id": 480,
+    "speaker": "emma",
+    "text_ko": "한번 입어 봐도 돼?"
+  },
+  {
+    "id": 483,
+    "speaker": "emma",
+    "text_ko": "좋아! 뭐 먹을 거야?"
+  },
+  {
+    "id": 484,
+    "speaker": "emma",
+    "text_ko": "치킨 배달 시켜!"
+  },
+  {
+    "id": 486,
+    "speaker": "emma",
+    "text_ko": "배달 얼마나 걸려?"
+  },
+  {
+    "id": 488,
+    "speaker": "emma",
+    "text_ko": "너무 맛있어서 또 시킬 거야!"
+  },
+  {
+    "id": 490,
+    "speaker": "emma",
+    "text_ko": "한국 배달 문화 진짜 좋아!"
+  },
+  {
+    "id": 493,
+    "speaker": "emma",
+    "text_ko": "제주도 가고 싶어요!"
+  },
+  {
+    "id": 495,
+    "speaker": "emma",
+    "text_ko": "3박 4일요!"
+  },
+  {
+    "id": 496,
+    "speaker": "emma",
+    "text_ko": "여행 코스 추천해 줘요!"
+  },
+  {
+    "id": 498,
+    "speaker": "emma",
+    "text_ko": "꼭 봐야 할 게 뭐예요?"
+  },
+  {
+    "id": 501,
+    "speaker": "emma",
+    "text_ko": "네! 혼자 가볼 거예요."
+  },
+  {
+    "id": 503,
+    "speaker": "emma",
+    "text_ko": "너무 좋아!"
+  },
+  {
+    "id": 505,
+    "speaker": "emma",
+    "text_ko": "언어가 아직 좀 어려워."
+  },
+  {
+    "id": 506,
+    "speaker": "emma",
+    "text_ko": "이제 많이 익숙해졌어!"
+  },
+  {
+    "id": 508,
+    "speaker": "emma",
+    "text_ko": "음식이 제일 좋아!"
+  },
+  {
+    "id": 510,
+    "speaker": "emma",
+    "text_ko": "한국에 정이 많이 들었어."
+  },
+  {
+    "id": 513,
+    "speaker": "emma",
+    "text_ko": "한국어 더 열심히 공부할 거야!"
+  },
+  {
+    "id": 514,
+    "speaker": "emma",
+    "text_ko": "이번엔 꼭 할 거예요."
+  },
+  {
+    "id": 516,
+    "speaker": "emma",
+    "text_ko": "1년 안에 유창해지고 싶어요."
+  },
+  {
+    "id": 518,
+    "speaker": "emma",
+    "text_ko": "매일 조금씩 하려고 해요."
+  },
+  {
+    "id": 520,
+    "speaker": "emma",
+    "text_ko": "같이 해요, 우리!"
+  },
+  {
+    "id": 523,
+    "speaker": "emma",
+    "text_ko": "한국어를 더 열심히 공부하기로 했어요!"
+  },
+  {
+    "id": 524,
+    "speaker": "emma",
+    "text_ko": "포기하지 않기로 했어요."
+  },
+  {
+    "id": 526,
+    "speaker": "emma",
+    "text_ko": "더 열심히 하기로 마음먹었어요."
+  },
+  {
+    "id": 528,
+    "speaker": "emma",
+    "text_ko": "예전보다 많이 늘었어요."
+  },
+  {
+    "id": 530,
+    "speaker": "emma",
+    "text_ko": "앞으로도 계속 할 거예요!"
+  },
+  {
+    "id": 533,
+    "speaker": "emma",
+    "text_ko": "아니! 처음이야."
+  },
+  {
+    "id": 535,
+    "speaker": "emma",
+    "text_ko": "(먹으며) 생각보다 맛있어!"
+  },
+  {
+    "id": 536,
+    "speaker": "emma",
+    "text_ko": "먹어보니까 완전 달라."
+  },
+  {
+    "id": 538,
+    "speaker": "emma",
+    "text_ko": "친구한테도 추천해줬어."
+  },
+  {
+    "id": 540,
+    "speaker": "emma",
+    "text_ko": "친구도 좋아했어!"
+  },
+  {
+    "id": 542,
+    "speaker": "emma",
+    "text_ko": "지수야, 영어 배우고 싶어?"
+  },
+  {
+    "id": 544,
+    "speaker": "emma",
+    "text_ko": "나는 한국어, 넌 영어!"
+  },
+  {
+    "id": 547,
+    "speaker": "emma",
+    "text_ko": "응, 근데 이렇게 하면 더 자연스러워."
+  },
+  {
+    "id": 548,
+    "speaker": "emma",
+    "text_ko": "지수야, 이거 한국어로 어떻게 해?"
+  },
+  {
+    "id": 550,
+    "speaker": "emma",
+    "text_ko": "덕분에 많이 배웠어!"
+  },
+  {
+    "id": 553,
+    "speaker": "emma",
+    "text_ko": "아니! 가르쳐줘."
+  },
+  {
+    "id": 555,
+    "speaker": "emma",
+    "text_ko": "이거 얼마나 넣어?"
+  },
+  {
+    "id": 557,
+    "speaker": "emma",
+    "text_ko": "어렵지 않네!"
+  },
+  {
+    "id": 558,
+    "speaker": "emma",
+    "text_ko": "다 됐어?"
+  },
+  {
+    "id": 560,
+    "speaker": "emma",
+    "text_ko": "맛있어!! 내가 만들었어!"
+  },
+  {
+    "id": 563,
+    "speaker": "emma",
+    "text_ko": "한국 옷 사고 싶어!"
+  },
+  {
+    "id": 564,
+    "speaker": "emma",
+    "text_ko": "이거 어때?"
+  },
+  {
+    "id": 566,
+    "speaker": "emma",
+    "text_ko": "좀 깎아주실 수 있어?"
+  },
+  {
+    "id": 568,
+    "speaker": "emma",
+    "text_ko": "카드로 할게요."
+  },
+  {
+    "id": 571,
+    "speaker": "emma",
+    "text_ko": "너무 재미있어!"
+  },
+  {
+    "id": 572,
+    "speaker": "emma",
+    "text_ko": "지수야, 알바 해봤어?"
+  },
+  {
+    "id": 574,
+    "speaker": "emma",
+    "text_ko": "어땠어?"
+  },
+  {
+    "id": 577,
+    "speaker": "emma",
+    "text_ko": "진짜? 나도 해보고 싶어!"
+  },
+  {
+    "id": 579,
+    "speaker": "emma",
+    "text_ko": "도전해볼게!"
+  },
+  {
+    "id": 581,
+    "speaker": "emma",
+    "text_ko": "고마워!"
+  },
+  {
+    "id": 582,
+    "speaker": "emma",
+    "text_ko": "진찰받고 싶어요."
+  },
+  {
+    "id": 585,
+    "speaker": "emma",
+    "text_ko": "배가 많이 아파요."
+  },
+  {
+    "id": 587,
+    "speaker": "emma",
+    "text_ko": "어제부터요."
+  },
+  {
+    "id": 589,
+    "speaker": "emma",
+    "text_ko": "하루에 몇 번이요?"
+  },
+  {
+    "id": 590,
+    "speaker": "emma",
+    "text_ko": "(다음날) 많이 나았어요!"
+  },
+  {
+    "id": 593,
+    "speaker": "emma",
+    "text_ko": "아니! 처음이야."
+  },
+  {
+    "id": 594,
+    "speaker": "emma",
+    "text_ko": "분위기 진짜 좋아요."
+  },
+  {
+    "id": 596,
+    "speaker": "emma",
+    "text_ko": "한국어 책 있어?"
+  },
+  {
+    "id": 598,
+    "speaker": "emma",
+    "text_ko": "이 책 재미있을 것 같아요."
+  },
+  {
+    "id": 600,
+    "speaker": "emma",
+    "text_ko": "다음에 또 와!"
+  },
+  {
+    "id": 603,
+    "speaker": "emma",
+    "text_ko": "떡볶이요!"
+  },
+  {
+    "id": 604,
+    "speaker": "emma",
+    "text_ko": "맵고 달아서 중독성 있어요."
+  },
+  {
+    "id": 606,
+    "speaker": "emma",
+    "text_ko": "우리나라 음식이랑 달라요."
+  },
+  {
+    "id": 608,
+    "speaker": "emma",
+    "text_ko": "우리나라는 덜 매워요."
+  },
+  {
+    "id": 610,
+    "speaker": "emma",
+    "text_ko": "근데 한국 음식이 더 맛있는 것 같아요!"
+  },
+  {
+    "id": 613,
+    "speaker": "emma",
+    "text_ko": "음... 좀 그렇긴 한데."
+  },
+  {
+    "id": 614,
+    "speaker": "emma",
+    "text_ko": "나쁘지 않은데."
+  },
+  {
+    "id": 616,
+    "speaker": "emma",
+    "text_ko": "솔직히 별로야."
+  },
+  {
+    "id": 619,
+    "speaker": "emma",
+    "text_ko": "맞아, 사실 나도 그랬어."
+  },
+  {
+    "id": 620,
+    "speaker": "emma",
+    "text_ko": "은근히 재미있어, 이런 대화!"
+  },
+  {
+    "id": 622,
+    "speaker": "emma",
+    "text_ko": "오빠, 회사 어때요?"
+  },
+  {
+    "id": 624,
+    "speaker": "emma",
+    "text_ko": "요즘 야근해요?"
+  },
+  {
+    "id": 626,
+    "speaker": "emma",
+    "text_ko": "힘들겠어요."
+  },
+  {
+    "id": 628,
+    "speaker": "emma",
+    "text_ko": "무리하지 마세요!"
+  },
+  {
+    "id": 630,
+    "speaker": "emma",
+    "text_ko": "잘 될 거예요!"
+  },
+  {
+    "id": 633,
+    "speaker": "emma",
+    "text_ko": "응! 한국 일상 올려."
+  },
+  {
+    "id": 634,
+    "speaker": "emma",
+    "text_ko": "요즘 뭐가 유행이야?"
+  },
+  {
+    "id": 636,
+    "speaker": "emma",
+    "text_ko": "팔로워가 늘었어!"
+  },
+  {
+    "id": 638,
+    "speaker": "emma",
+    "text_ko": "한국 음식 사진 올렸더니 반응이 좋더라!"
+  },
+  {
+    "id": 640,
+    "speaker": "emma",
+    "text_ko": "다음엔 뭘 올릴까?"
+  },
+  {
+    "id": 643,
+    "speaker": "emma",
+    "text_ko": "불고기 도전해!"
+  },
+  {
+    "id": 644,
+    "speaker": "emma",
+    "text_ko": "재료가 다 있어?"
+  },
+  {
+    "id": 646,
+    "speaker": "emma",
+    "text_ko": "이렇게 하면 돼?"
+  },
+  {
+    "id": 648,
+    "speaker": "emma",
+    "text_ko": "완성됐어!"
+  },
+  {
+    "id": 651,
+    "speaker": "emma",
+    "text_ko": "다음엔 더 잘할 거야!"
+  },
+  {
+    "id": 653,
+    "speaker": "emma",
+    "text_ko": "네! 아침저녁으로 해요."
+  },
+  {
+    "id": 654,
+    "speaker": "emma",
+    "text_ko": "먼저 클렌징하고 나서 토너 발라요."
+  },
+  {
+    "id": 657,
+    "speaker": "emma",
+    "text_ko": "수분크림이요. 효과 좋아!"
+  },
+  {
+    "id": 658,
+    "speaker": "emma",
+    "text_ko": "자외선 차단제 꼭 발라야 해요."
+  },
+  {
+    "id": 661,
+    "speaker": "emma",
+    "text_ko": "네! 덕분에 많이 좋아졌어요."
+  },
+  {
+    "id": 663,
+    "speaker": "emma",
+    "text_ko": "진짜요? 감사해요!"
+  },
+  {
+    "id": 665,
+    "speaker": "emma",
+    "text_ko": "매일 조금씩 했어요."
+  },
+  {
+    "id": 666,
+    "speaker": "emma",
+    "text_ko": "근데 아직 어려운 부분이 있어요."
+  },
+  {
+    "id": 668,
+    "speaker": "emma",
+    "text_ko": "존댓말이랑 반말이 헷갈려요."
+  },
+  {
+    "id": 670,
+    "speaker": "emma",
+    "text_ko": "포기하지 않을 거예요!"
+  },
+  {
+    "id": 672,
+    "speaker": "emma",
+    "text_ko": "지수야, 한국 봄이 이렇게 예뻐?"
+  },
+  {
+    "id": 674,
+    "speaker": "emma",
+    "text_ko": "벚꽃 진짜 예쁘다!"
+  },
+  {
+    "id": 676,
+    "speaker": "emma",
+    "text_ko": "여름은 어때?"
+  },
+  {
+    "id": 678,
+    "speaker": "emma",
+    "text_ko": "우리나라 여름이랑 달라?"
+  },
+  {
+    "id": 680,
+    "speaker": "emma",
+    "text_ko": "겨울엔 눈 많이 와?"
+  },
+  {
+    "id": 683,
+    "speaker": "emma",
+    "text_ko": "왜? 미안해요."
+  },
+  {
+    "id": 685,
+    "speaker": "emma",
+    "text_ko": "아, 바빴어. 정말 미안해!"
+  },
+  {
+    "id": 686,
+    "speaker": "emma",
+    "text_ko": "마음은 알아요. 제가 잘못했어요."
+  },
+  {
+    "id": 688,
+    "speaker": "emma",
+    "text_ko": "다음엔 꼭 연락할게!"
+  },
+  {
+    "id": 690,
+    "speaker": "emma",
+    "text_ko": "말하고 나니까 후련해요."
+  },
+  {
+    "id": 693,
+    "speaker": "emma",
+    "text_ko": "통역사가 되고 싶어요!"
+  },
+  {
+    "id": 694,
+    "speaker": "emma",
+    "text_ko": "1년 안에 유창해질 거예요."
+  },
+  {
+    "id": 696,
+    "speaker": "emma",
+    "text_ko": "지금 열심히 하는 중이에요."
+  },
+  {
+    "id": 698,
+    "speaker": "emma",
+    "text_ko": "가끔 포기하고 싶어요."
+  },
+  {
+    "id": 700,
+    "speaker": "emma",
+    "text_ko": "절대 포기 안 할 거예요!"
+  },
+  {
+    "id": 702,
+    "speaker": "emma",
+    "text_ko": "지수야, 이거 어디에 버려?"
+  },
+  {
+    "id": 704,
+    "speaker": "emma",
+    "text_ko": "한국은 분리수거 철저히 해?"
+  },
+  {
+    "id": 706,
+    "speaker": "emma",
+    "text_ko": "환경 생각하는 게 중요해."
+  },
+  {
+    "id": 708,
+    "speaker": "emma",
+    "text_ko": "나 텀블러 갖고 다녀."
+  },
+  {
+    "id": 711,
+    "speaker": "emma",
+    "text_ko": "같이 하자!"
+  },
+  {
+    "id": 713,
+    "speaker": "emma",
+    "text_ko": "진짜요. 말로 표현하기 어려워요."
+  },
+  {
+    "id": 714,
+    "speaker": "emma",
+    "text_ko": "왠지 모르게 좋아요."
+  },
+  {
+    "id": 716,
+    "speaker": "emma",
+    "text_ko": "딱 이 느낌이야!"
+  },
+  {
+    "id": 718,
+    "speaker": "emma",
+    "text_ko": "이런 순간이 소중해요."
+  },
+  {
+    "id": 720,
+    "speaker": "emma",
+    "text_ko": "어딘가 모르게 한국이 좋아요."
+  },
+  {
+    "id": 723,
+    "speaker": "emma",
+    "text_ko": "나도. 미안해."
+  },
+  {
+    "id": 724,
+    "speaker": "emma",
+    "text_ko": "내 말이 그런 뜻이 아니었어."
+  },
+  {
+    "id": 727,
+    "speaker": "emma",
+    "text_ko": "나도 오해했어."
+  },
+  {
+    "id": 728,
+    "speaker": "emma",
+    "text_ko": "그럴 수 있어. 괜찮아!"
+  },
+  {
+    "id": 730,
+    "speaker": "emma",
+    "text_ko": "앞으로 더 솔직하게 얘기하자."
+  },
+  {
+    "id": 733,
+    "speaker": "emma",
+    "text_ko": "합격했어요!!"
+  },
+  {
+    "id": 735,
+    "speaker": "emma",
+    "text_ko": "드디어 해냈어요!"
+  },
+  {
+    "id": 736,
+    "speaker": "emma",
+    "text_ko": "포기하지 않길 잘했어요."
+  },
+  {
+    "id": 738,
+    "speaker": "emma",
+    "text_ko": "민준 오빠 덕분이에요."
+  },
+  {
+    "id": 740,
+    "speaker": "emma",
+    "text_ko": "다음 목표는 더 높이 잡을 거예요!"
+  },
+  {
+    "id": 743,
+    "speaker": "emma",
+    "text_ko": "이거 뭐야?"
+  },
+  {
+    "id": 745,
+    "speaker": "emma",
+    "text_ko": "(먹으며) 바삭해!"
+  },
+  {
+    "id": 746,
+    "speaker": "emma",
+    "text_ko": "생각보다 훨씬 맛있어!"
+  },
+  {
+    "id": 748,
+    "speaker": "emma",
+    "text_ko": "저거는?"
+  },
+  {
+    "id": 750,
+    "speaker": "emma",
+    "text_ko": "한국 시장 음식이 최고야!"
+  },
+  {
+    "id": 753,
+    "speaker": "emma",
+    "text_ko": "너무 좋아! 한국 생활이 행복해요."
+  },
+  {
+    "id": 754,
+    "speaker": "emma",
+    "text_ko": "아침에 산책하는 게 좋아요."
+  },
+  {
+    "id": 756,
+    "speaker": "emma",
+    "text_ko": "여기 카페 새로 생겼어!"
+  },
+  {
+    "id": 758,
+    "speaker": "emma",
+    "text_ko": "이런 일상이 소중해요."
+  },
+  {
+    "id": 760,
+    "speaker": "emma",
+    "text_ko": "앞으로도 이렇게 살고 싶어!"
+  },
+  {
+    "id": 762,
+    "speaker": "emma",
+    "text_ko": "지수야, 이 표현 맞아?"
+  },
+  {
+    "id": 764,
+    "speaker": "emma",
+    "text_ko": "한국어도 알고 보면 쉬워."
+  },
+  {
+    "id": 766,
+    "speaker": "emma",
+    "text_ko": "이 두 개 차이가 뭐야?"
+  },
+  {
+    "id": 768,
+    "speaker": "emma",
+    "text_ko": "아, 이게 포인트야!"
+  },
+  {
+    "id": 770,
+    "speaker": "emma",
+    "text_ko": "조금씩 나아지고 있어."
+  },
+  {
+    "id": 772,
+    "speaker": "emma",
+    "text_ko": "다 같이 모이니까 너무 좋아요!"
+  },
+  {
+    "id": 775,
+    "speaker": "emma",
+    "text_ko": "네! 그때 너무 떨렸어요."
+  },
+  {
+    "id": 777,
+    "speaker": "emma",
+    "text_ko": "여러분 덕분이에요."
+  },
+  {
+    "id": 778,
+    "speaker": "emma",
+    "text_ko": "같이 해줘서 고마워요."
+  },
+  {
+    "id": 780,
+    "speaker": "emma",
+    "text_ko": "앞으로도 잘 부탁해요!"
+  },
+  {
+    "id": 783,
+    "speaker": "emma",
+    "text_ko": "더 있고 싶어요!"
+  },
+  {
+    "id": 784,
+    "speaker": "emma",
+    "text_ko": "일 년 더 연장하려고 해요."
+  },
+  {
+    "id": 786,
+    "speaker": "emma",
+    "text_ko": "한국어도 더 배우고 싶고요."
+  },
+  {
+    "id": 788,
+    "speaker": "emma",
+    "text_ko": "가족들이 보고 싶긴 해요."
+  },
+  {
+    "id": 790,
+    "speaker": "emma",
+    "text_ko": "그래도 꿈을 위해 열심히 할 거예요!"
+  },
+  {
+    "id": 793,
+    "speaker": "emma",
+    "text_ko": "웨이팅 있어?"
+  },
+  {
+    "id": 794,
+    "speaker": "emma",
+    "text_ko": "얼마나 기다려?"
+  },
+  {
+    "id": 796,
+    "speaker": "emma",
+    "text_ko": "드디어!"
+  },
+  {
+    "id": 798,
+    "speaker": "emma",
+    "text_ko": "진짜 맛있어!"
+  },
+  {
+    "id": 800,
+    "speaker": "emma",
+    "text_ko": "다음에 또 오고 싶어!"
+  },
+  {
+    "id": 803,
+    "speaker": "emma",
+    "text_ko": "잘 됐어! 믿기지 않아."
+  },
+  {
+    "id": 804,
+    "speaker": "emma",
+    "text_ko": "처음에 비하면 많이 늘었어."
+  },
+  {
+    "id": 806,
+    "speaker": "emma",
+    "text_ko": "힘들었는데 포기 안 하길 잘했어."
+  },
+  {
+    "id": 808,
+    "speaker": "emma",
+    "text_ko": "지수 덕분에 많이 늘었어."
+  },
+  {
+    "id": 810,
+    "speaker": "emma",
+    "text_ko": "조금씩 나아지고 있어!"
+  },
+  {
+    "id": 812,
+    "speaker": "emma",
+    "text_ko": "거기 맛있다고 하던데."
+  },
+  {
+    "id": 814,
+    "speaker": "emma",
+    "text_ko": "좋다더라!"
+  },
+  {
+    "id": 816,
+    "speaker": "emma",
+    "text_ko": "거기인 줄 알았어."
+  },
+  {
+    "id": 818,
+    "speaker": "emma",
+    "text_ko": "그럴 줄 몰랐어!"
+  },
+  {
+    "id": 820,
+    "speaker": "emma",
+    "text_ko": "진짜 한다고?"
+  },
+  {
+    "id": 822,
+    "speaker": "emma",
+    "text_ko": "한국에 오게 된 게 신기해요."
+  },
+  {
+    "id": 824,
+    "speaker": "emma",
+    "text_ko": "어쩌다 보니 여기까지 왔어요."
+  },
+  {
+    "id": 826,
+    "speaker": "emma",
+    "text_ko": "오래 살다 보니까 익숙해졌어요."
+  },
+  {
+    "id": 828,
+    "speaker": "emma",
+    "text_ko": "하다 보면 돼요."
+  },
+  {
+    "id": 830,
+    "speaker": "emma",
+    "text_ko": "그러다 보니 친구가 많아졌어요!"
+  },
+  {
+    "id": 832,
+    "speaker": "emma",
+    "text_ko": "처음 한 것치고는 잘했어!"
+  },
+  {
+    "id": 834,
+    "speaker": "emma",
+    "text_ko": "아무리 그래도 너무해."
+  },
+  {
+    "id": 836,
+    "speaker": "emma",
+    "text_ko": "그렇다고 포기할 순 없지!"
+  },
+  {
+    "id": 838,
+    "speaker": "emma",
+    "text_ko": "워낙에 맛있어서."
+  },
+  {
+    "id": 840,
+    "speaker": "emma",
+    "text_ko": "은근히 재미있어."
+  },
+  {
+    "id": 843,
+    "speaker": "emma",
+    "text_ko": "잘 모르겠는데요."
+  },
+  {
+    "id": 844,
+    "speaker": "emma",
+    "text_ko": "맞는 것 같기도 하고 아닌 것 같기도 해요."
+  },
+  {
+    "id": 846,
+    "speaker": "emma",
+    "text_ko": "좀 더 생각해 봐야겠어요."
+  },
+  {
+    "id": 848,
+    "speaker": "emma",
+    "text_ko": "일단은 해봐요."
+  },
+  {
+    "id": 850,
+    "speaker": "emma",
+    "text_ko": "나름대로 해볼게요."
+  },
+  {
+    "id": 853,
+    "speaker": "emma",
+    "text_ko": "혹시 눈치챘어요?"
+  },
+  {
+    "id": 854,
+    "speaker": "emma",
+    "text_ko": "대충 무슨 말인지 알겠어요."
+  },
+  {
+    "id": 856,
+    "speaker": "emma",
+    "text_ko": "이제 감이 잡혀요!"
+  },
+  {
+    "id": 858,
+    "speaker": "emma",
+    "text_ko": "뭔가 이상해요."
+  },
+  {
+    "id": 860,
+    "speaker": "emma",
+    "text_ko": "딱 봐도 알겠어요."
+  },
+  {
+    "id": 862,
+    "speaker": "emma",
+    "text_ko": "한국에서는 흔한 일이야?"
+  },
+  {
+    "id": 864,
+    "speaker": "emma",
+    "text_ko": "이렇게 될 줄 몰랐어."
+  },
+  {
+    "id": 867,
+    "speaker": "emma",
+    "text_ko": "아, 그렇구나!"
+  },
+  {
+    "id": 868,
+    "speaker": "emma",
+    "text_ko": "알고 보면 재미있어."
+  },
+  {
+    "id": 870,
+    "speaker": "emma",
+    "text_ko": "생각보다 훨씬 좋아!"
+  },
+  {
+    "id": 873,
+    "speaker": "emma",
+    "text_ko": "조금요... 솔직하게 말해도 돼?"
+  },
+  {
+    "id": 874,
+    "speaker": "emma",
+    "text_ko": "사실 좀 민망해요."
+  },
+  {
+    "id": 876,
+    "speaker": "emma",
+    "text_ko": "아직 좀 어색해요."
+  },
+  {
+    "id": 878,
+    "speaker": "emma",
+    "text_ko": "이제 많이 편해졌어요."
+  },
+  {
+    "id": 880,
+    "speaker": "emma",
+    "text_ko": "소피한테는 다 말할 수 있어요."
+  },
+  {
+    "id": 883,
+    "speaker": "emma",
+    "text_ko": "외국인 티 나요?"
+  },
+  {
+    "id": 885,
+    "speaker": "emma",
+    "text_ko": "진짜?"
+  },
+  {
+    "id": 886,
+    "speaker": "emma",
+    "text_ko": "이제 한국말이 편해요."
+  },
+  {
+    "id": 888,
+    "speaker": "emma",
+    "text_ko": "요즘 한국어로 꿈도 꿔요!"
+  },
+  {
+    "id": 890,
+    "speaker": "emma",
+    "text_ko": "제가 많이 늘었죠?"
+  },
+  {
+    "id": 893,
+    "speaker": "emma",
+    "text_ko": "진짜?"
+  },
+  {
+    "id": 895,
+    "speaker": "emma",
+    "text_ko": "대박!"
+  },
+  {
+    "id": 896,
+    "speaker": "emma",
+    "text_ko": "항상 줄 서야 해?"
+  },
+  {
+    "id": 898,
+    "speaker": "emma",
+    "text_ko": "꼭 가봐야 할 곳이야!"
+  },
+  {
+    "id": 900,
+    "speaker": "emma",
+    "text_ko": "여기 숨겨진 명소야!"
+  },
+  {
+    "id": 903,
+    "speaker": "emma",
+    "text_ko": "네! 여기 요즘 뜨고 있어요."
+  },
+  {
+    "id": 905,
+    "speaker": "emma",
+    "text_ko": "맞아, 인스타에서 많이 봤어."
+  },
+  {
+    "id": 906,
+    "speaker": "emma",
+    "text_ko": "요즘 떠오르는 아티스트야!"
+  },
+  {
+    "id": 909,
+    "speaker": "emma",
+    "text_ko": "역시!"
+  },
+  {
+    "id": 910,
+    "speaker": "emma",
+    "text_ko": "한번 가볼게!"
+  },
+  {
+    "id": 913,
+    "speaker": "emma",
+    "text_ko": "좀 그렇긴 한데..."
+  },
+  {
+    "id": 914,
+    "speaker": "emma",
+    "text_ko": "아니라고 할 순 없지."
+  },
+  {
+    "id": 916,
+    "speaker": "emma",
+    "text_ko": "그렇게 볼 수도 있지."
+  },
+  {
+    "id": 918,
+    "speaker": "emma",
+    "text_ko": "꼭 그런 건 아니야."
+  },
+  {
+    "id": 920,
+    "speaker": "emma",
+    "text_ko": "사람마다 달라!"
+  },
+  {
+    "id": 922,
+    "speaker": "emma",
+    "text_ko": "그게 말이 되네요."
+  },
+  {
+    "id": 924,
+    "speaker": "emma",
+    "text_ko": "근데 앞뒤가 안 맞아요."
+  },
+  {
+    "id": 926,
+    "speaker": "emma",
+    "text_ko": "결국엔 잘 됐어요."
+  },
+  {
+    "id": 928,
+    "speaker": "emma",
+    "text_ko": "어쨌든 잘 됐으면 좋겠어요."
+  },
+  {
+    "id": 930,
+    "speaker": "emma",
+    "text_ko": "따지고 보면 맞는 말이에요."
+  },
+  {
+    "id": 933,
+    "speaker": "emma",
+    "text_ko": "네, 좀 속상했어요."
+  },
+  {
+    "id": 934,
+    "speaker": "emma",
+    "text_ko": "너무 억울했어요."
+  },
+  {
+    "id": 936,
+    "speaker": "emma",
+    "text_ko": "좀 서운했어요."
+  },
+  {
+    "id": 938,
+    "speaker": "emma",
+    "text_ko": "마음이 무거웠어요."
+  },
+  {
+    "id": 940,
+    "speaker": "emma",
+    "text_ko": "말하고 나니까 후련해!"
+  },
+  {
+    "id": 943,
+    "speaker": "emma",
+    "text_ko": "그렇게 생각하니까 이해돼."
+  },
+  {
+    "id": 944,
+    "speaker": "emma",
+    "text_ko": "마음은 알아."
+  },
+  {
+    "id": 947,
+    "speaker": "emma",
+    "text_ko": "고마워."
+  },
+  {
+    "id": 948,
+    "speaker": "emma",
+    "text_ko": "잘 이겨낼 거야!"
+  },
+  {
+    "id": 950,
+    "speaker": "emma",
+    "text_ko": "내가 옆에 있을게."
+  },
+  {
+    "id": 953,
+    "speaker": "emma",
+    "text_ko": "진짜? 스포 하지 마!"
+  },
+  {
+    "id": 954,
+    "speaker": "emma",
+    "text_ko": "보고 나서도 여운이 남아요."
+  },
+  {
+    "id": 956,
+    "speaker": "emma",
+    "text_ko": "너무 몰입이 돼서 못 멈췄어요."
+  },
+  {
+    "id": 958,
+    "speaker": "emma",
+    "text_ko": "보다가 울었어요."
+  },
+  {
+    "id": 960,
+    "speaker": "emma",
+    "text_ko": "완결났어? 시즌2 있어?"
+  },
+  {
+    "id": 962,
+    "speaker": "emma",
+    "text_ko": "왠지 모르게 한국이 좋아요."
+  },
+  {
+    "id": 964,
+    "speaker": "emma",
+    "text_ko": "이 느낌 알아요?"
+  },
+  {
+    "id": 966,
+    "speaker": "emma",
+    "text_ko": "딱 이 느낌이에요!"
+  },
+  {
+    "id": 968,
+    "speaker": "emma",
+    "text_ko": "말로 표현하기 어려워요."
+  },
+  {
+    "id": 970,
+    "speaker": "emma",
+    "text_ko": "어딘가 모르게 끌려요."
+  },
+  {
+    "id": 972,
+    "speaker": "emma",
+    "text_ko": "지수야, 한국 떠나기 싫어."
+  },
+  {
+    "id": 974,
+    "speaker": "emma",
+    "text_ko": "돌아가면 한국이 그리울 것 같아."
+  },
+  {
+    "id": 976,
+    "speaker": "emma",
+    "text_ko": "정말 좋은 추억이야."
+  },
+  {
+    "id": 978,
+    "speaker": "emma",
+    "text_ko": "한국에 정이 많이 들었어."
+  },
+  {
+    "id": 980,
+    "speaker": "emma",
+    "text_ko": "꼭 다시 올게!"
+  },
+  {
+    "id": 983,
+    "speaker": "emma",
+    "text_ko": "네! 이제 한국어로 생각해요."
+  },
+  {
+    "id": 984,
+    "speaker": "emma",
+    "text_ko": "번역 안 해도 이해돼요!"
+  },
+  {
+    "id": 986,
+    "speaker": "emma",
+    "text_ko": "이제 한국어가 편해요."
+  },
+  {
+    "id": 988,
+    "speaker": "emma",
+    "text_ko": "실력이 정말 많이 늘었어요."
+  },
+  {
+    "id": 990,
+    "speaker": "emma",
+    "text_ko": "앞으로도 계속 할 거예요!"
+  },
+  {
+    "id": 992,
+    "speaker": "emma",
+    "text_ko": "앞으로도 잘 부탁해!"
+  },
+  {
+    "id": 994,
+    "speaker": "emma",
+    "text_ko": "같이 성장한 것 같아요."
+  },
+  {
+    "id": 996,
+    "speaker": "emma",
+    "text_ko": "같이 해줘서 고마웠어요."
+  },
+  {
+    "id": 998,
+    "speaker": "emma",
+    "text_ko": "덕분에 정말 많이 배웠어요."
+  },
+  {
+    "id": 1000,
+    "speaker": "emma",
+    "text_ko": "언제든지 연락해!"
+  },
+  {
+    "id": 1002,
+    "speaker": "emma",
+    "text_ko": "100화가 끝이 아니라 시작이야!"
+  },
+  {
+    "id": 1004,
+    "speaker": "emma",
+    "text_ko": "앞으로도 계속 공부할 거예요."
+  },
+  {
+    "id": 1006,
+    "speaker": "emma",
+    "text_ko": "한국어로 꿈을 이룰 거야!"
+  },
+  {
+    "id": 1009,
+    "speaker": "emma",
+    "text_ko": "꼭 만나!"
+  },
+  {
+    "id": 1010,
+    "speaker": "emma",
+    "text_ko": "한국어 여정은 계속돼!"
+  },
+  {
+    "id": 2,
+    "speaker": "jisu",
+    "text_ko": "어서 와! 주문하시겠어?"
+  },
+  {
+    "id": 4,
+    "speaker": "jisu",
+    "text_ko": "이건 아메리카노예요."
+  },
+  {
+    "id": 6,
+    "speaker": "jisu",
+    "text_ko": "달달하고 맛있어!"
+  },
+  {
+    "id": 8,
+    "speaker": "jisu",
+    "text_ko": "사이즈는?"
+  },
+  {
+    "id": 10,
+    "speaker": "jisu",
+    "text_ko": "오천오백 원이에요."
+  },
+  {
+    "id": 12,
+    "speaker": "jisu",
+    "text_ko": "네, 있어!"
+  },
+  {
+    "id": 15,
+    "speaker": "jisu",
+    "text_ko": "에마야! 여기서 뭐 해?"
+  },
+  {
+    "id": 19,
+    "speaker": "jisu",
+    "text_ko": "여기서 2호선 타면 돼!"
+  },
+  {
+    "id": 21,
+    "speaker": "jisu",
+    "text_ko": "완벽해!"
+  },
+  {
+    "id": 23,
+    "speaker": "jisu",
+    "text_ko": "그치? 나도 좋아!"
+  },
+  {
+    "id": 26,
+    "speaker": "jisu",
+    "text_ko": "떡볶이야! 진짜 맛있어."
+  },
+  {
+    "id": 27,
+    "speaker": "jisu",
+    "text_ko": "매운 거 먹을 수 있어?"
+  },
+  {
+    "id": 32,
+    "speaker": "jisu",
+    "text_ko": "괜찮아?"
+  },
+  {
+    "id": 33,
+    "speaker": "jisu",
+    "text_ko": "그게 바로 떡볶이 마법이야."
+  },
+  {
+    "id": 46,
+    "speaker": "jisu",
+    "text_ko": "여기 진짜 맛있어. 삼겹살 먹어 본 적 있어?"
+  },
+  {
+    "id": 52,
+    "speaker": "jisu",
+    "text_ko": "에마야, 뒤집어!"
+  },
+  {
+    "id": 56,
+    "speaker": "jisu",
+    "text_ko": "이제 한국 사람 다 됐네."
+  },
+  {
+    "id": 65,
+    "speaker": "jisu",
+    "text_ko": "에마 잘한다!!"
+  },
+  {
+    "id": 89,
+    "speaker": "jisu",
+    "text_ko": "오늘 날씨 너무 좋다!"
+  },
+  {
+    "id": 93,
+    "speaker": "jisu",
+    "text_ko": "이제 알았지?"
+  },
+  {
+    "id": 99,
+    "speaker": "jisu",
+    "text_ko": "에마야, 할 수 있어!"
+  },
+  {
+    "id": 107,
+    "speaker": "jisu",
+    "text_ko": "최고야!"
+  },
+  {
+    "id": 108,
+    "speaker": "jisu",
+    "text_ko": "2호선 타면 돼!"
+  },
+  {
+    "id": 111,
+    "speaker": "jisu",
+    "text_ko": "응, 신촌역에서 갈아타!"
+  },
+  {
+    "id": 113,
+    "speaker": "jisu",
+    "text_ko": "한 5분?"
+  },
+  {
+    "id": 115,
+    "speaker": "jisu",
+    "text_ko": "여기서 내려!"
+  },
+  {
+    "id": 131,
+    "speaker": "jisu",
+    "text_ko": "에마야, 주말에 뭐 해?"
+  },
+  {
+    "id": 133,
+    "speaker": "jisu",
+    "text_ko": "소피랑 같이 영화 볼래?"
+  },
+  {
+    "id": 138,
+    "speaker": "jisu",
+    "text_ko": "괜찮아, 천천히 와."
+  },
+  {
+    "id": 162,
+    "speaker": "jisu",
+    "text_ko": "에마야, 오늘 날씨 어때?"
+  },
+  {
+    "id": 165,
+    "speaker": "jisu",
+    "text_ko": "진짜? 우산 챙겨야겠다!"
+  },
+  {
+    "id": 167,
+    "speaker": "jisu",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 168,
+    "speaker": "jisu",
+    "text_ko": "너무 더워졌다!"
+  },
+  {
+    "id": 171,
+    "speaker": "jisu",
+    "text_ko": "맑을 거야!"
+  },
+  {
+    "id": 173,
+    "speaker": "jisu",
+    "text_ko": "약국 가봐!"
+  },
+  {
+    "id": 180,
+    "speaker": "jisu",
+    "text_ko": "(다음날) 괜찮아?"
+  },
+  {
+    "id": 212,
+    "speaker": "jisu",
+    "text_ko": "에마야, 어제 뭐 했어?"
+  },
+  {
+    "id": 214,
+    "speaker": "jisu",
+    "text_ko": "거기 어땠어?"
+  },
+  {
+    "id": 217,
+    "speaker": "jisu",
+    "text_ko": "왜?"
+  },
+  {
+    "id": 219,
+    "speaker": "jisu",
+    "text_ko": "맞아, 한강 치킨은 진짜야."
+  },
+  {
+    "id": 221,
+    "speaker": "jisu",
+    "text_ko": "같이 가자!"
+  },
+  {
+    "id": 232,
+    "speaker": "jisu",
+    "text_ko": "에마야, 지금 공부해야 해."
+  },
+  {
+    "id": 235,
+    "speaker": "jisu",
+    "text_ko": "응? 난 걱정 안 했는데."
+  },
+  {
+    "id": 237,
+    "speaker": "jisu",
+    "text_ko": "안 쉬어도 돼! 조금만 더!"
+  },
+  {
+    "id": 238,
+    "speaker": "jisu",
+    "text_ko": "핸드폰 잊지 마."
+  },
+  {
+    "id": 241,
+    "speaker": "jisu",
+    "text_ko": "응, 들어가!"
+  },
+  {
+    "id": 272,
+    "speaker": "jisu",
+    "text_ko": "에마야, 이 노래 알아?"
+  },
+  {
+    "id": 275,
+    "speaker": "jisu",
+    "text_ko": "'그리워'는 'I miss you'야."
+  },
+  {
+    "id": 277,
+    "speaker": "jisu",
+    "text_ko": "맞아, 자꾸 생각나지?"
+  },
+  {
+    "id": 279,
+    "speaker": "jisu",
+    "text_ko": "나는 뉴진스!"
+  },
+  {
+    "id": 281,
+    "speaker": "jisu",
+    "text_ko": "다음에 같이 가자!"
+  },
+  {
+    "id": 302,
+    "speaker": "jisu",
+    "text_ko": "에마야, 한국 어디 살아?"
+  },
+  {
+    "id": 304,
+    "speaker": "jisu",
+    "text_ko": "혼자 살아? 자취해?"
+  },
+  {
+    "id": 307,
+    "speaker": "jisu",
+    "text_ko": "응, 교통도 편하고!"
+  },
+  {
+    "id": 309,
+    "speaker": "jisu",
+    "text_ko": "어디서 왔어?"
+  },
+  {
+    "id": 311,
+    "speaker": "jisu",
+    "text_ko": "카페, 편의점 다 있어!"
+  },
+  {
+    "id": 312,
+    "speaker": "jisu",
+    "text_ko": "에마야, 오늘 기분 어때?"
+  },
+  {
+    "id": 314,
+    "speaker": "jisu",
+    "text_ko": "왜?"
+  },
+  {
+    "id": 317,
+    "speaker": "jisu",
+    "text_ko": "괜찮아!"
+  },
+  {
+    "id": 318,
+    "speaker": "jisu",
+    "text_ko": "나는 요즘 좀 짜증나."
+  },
+  {
+    "id": 321,
+    "speaker": "jisu",
+    "text_ko": "고마워!"
+  },
+  {
+    "id": 344,
+    "speaker": "jisu",
+    "text_ko": "더치페이 해?"
+  },
+  {
+    "id": 349,
+    "speaker": "jisu",
+    "text_ko": "응, 자주 먹자!"
+  },
+  {
+    "id": 353,
+    "speaker": "jisu",
+    "text_ko": "응, 어릴 때 많이 입었어."
+  },
+  {
+    "id": 355,
+    "speaker": "jisu",
+    "text_ko": "가족이랑 같이 먹고 놀아."
+  },
+  {
+    "id": 357,
+    "speaker": "jisu",
+    "text_ko": "'복'은 happiness야!"
+  },
+  {
+    "id": 359,
+    "speaker": "jisu",
+    "text_ko": "우리는 절 해. 인사처럼."
+  },
+  {
+    "id": 361,
+    "speaker": "jisu",
+    "text_ko": "문화가 다 달라서 재미있지!"
+  },
+  {
+    "id": 367,
+    "speaker": "jisu",
+    "text_ko": "벌써?"
+  },
+  {
+    "id": 376,
+    "speaker": "jisu",
+    "text_ko": "신청곡 있어?"
+  },
+  {
+    "id": 379,
+    "speaker": "jisu",
+    "text_ko": "시간 연장하자!"
+  },
+  {
+    "id": 383,
+    "speaker": "jisu",
+    "text_ko": "같이 춰!"
+  },
+  {
+    "id": 384,
+    "speaker": "jisu",
+    "text_ko": "따라 해봐!"
+  },
+  {
+    "id": 387,
+    "speaker": "jisu",
+    "text_ko": "하다 보면 금방 늘어!"
+  },
+  {
+    "id": 389,
+    "speaker": "jisu",
+    "text_ko": "괜찮아! 처음엔 다 그래."
+  },
+  {
+    "id": 391,
+    "speaker": "jisu",
+    "text_ko": "맞아, 어제보다 훨씬 나아!"
+  },
+  {
+    "id": 412,
+    "speaker": "jisu",
+    "text_ko": "에마야, 지금 바빠?"
+  },
+  {
+    "id": 415,
+    "speaker": "jisu",
+    "text_ko": "알아, 진짜 잘하던데!"
+  },
+  {
+    "id": 417,
+    "speaker": "jisu",
+    "text_ko": "맞아, 근데 에마는 잘해."
+  },
+  {
+    "id": 419,
+    "speaker": "jisu",
+    "text_ko": "맞지? 내가 좋아하는 곳이야."
+  },
+  {
+    "id": 421,
+    "speaker": "jisu",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 442,
+    "speaker": "jisu",
+    "text_ko": "기다리는 동안 뭐 해?"
+  },
+  {
+    "id": 445,
+    "speaker": "jisu",
+    "text_ko": "좋은 루틴이네."
+  },
+  {
+    "id": 447,
+    "speaker": "jisu",
+    "text_ko": "대단하다!"
+  },
+  {
+    "id": 449,
+    "speaker": "jisu",
+    "text_ko": "나도 그래!"
+  },
+  {
+    "id": 451,
+    "speaker": "jisu",
+    "text_ko": "뭐 샀어?"
+  },
+  {
+    "id": 472,
+    "speaker": "jisu",
+    "text_ko": "에마야, 어떤 스타일 좋아해?"
+  },
+  {
+    "id": 474,
+    "speaker": "jisu",
+    "text_ko": "이 옷 에마한테 진짜 잘 어울려!"
+  },
+  {
+    "id": 477,
+    "speaker": "jisu",
+    "text_ko": "한국 브랜드야."
+  },
+  {
+    "id": 478,
+    "speaker": "jisu",
+    "text_ko": "이 스타일 요즘 유행이야."
+  },
+  {
+    "id": 502,
+    "speaker": "jisu",
+    "text_ko": "에마야, 한국 생활 어때?"
+  },
+  {
+    "id": 504,
+    "speaker": "jisu",
+    "text_ko": "힘든 점도 있어?"
+  },
+  {
+    "id": 507,
+    "speaker": "jisu",
+    "text_ko": "진짜? 대단하다."
+  },
+  {
+    "id": 509,
+    "speaker": "jisu",
+    "text_ko": "뭐가 제일 힘들어?"
+  },
+  {
+    "id": 511,
+    "speaker": "jisu",
+    "text_ko": "우리도 에마한테 정 들었어!"
+  },
+  {
+    "id": 532,
+    "speaker": "jisu",
+    "text_ko": "에마야, 순대 먹어봤어?"
+  },
+  {
+    "id": 534,
+    "speaker": "jisu",
+    "text_ko": "한번 먹어봐!"
+  },
+  {
+    "id": 537,
+    "speaker": "jisu",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 539,
+    "speaker": "jisu",
+    "text_ko": "반응이 어때?"
+  },
+  {
+    "id": 541,
+    "speaker": "jisu",
+    "text_ko": "다행이다."
+  },
+  {
+    "id": 543,
+    "speaker": "jisu",
+    "text_ko": "응! 가르쳐줄 수 있어?"
+  },
+  {
+    "id": 545,
+    "speaker": "jisu",
+    "text_ko": "언어 교환이네!"
+  },
+  {
+    "id": 546,
+    "speaker": "jisu",
+    "text_ko": "에마야, 이 표현 맞아?"
+  },
+  {
+    "id": 549,
+    "speaker": "jisu",
+    "text_ko": "'그리워'는 'I miss you'야."
+  },
+  {
+    "id": 551,
+    "speaker": "jisu",
+    "text_ko": "나도!"
+  },
+  {
+    "id": 552,
+    "speaker": "jisu",
+    "text_ko": "에마야, 김치찌개 만들어봤어?"
+  },
+  {
+    "id": 554,
+    "speaker": "jisu",
+    "text_ko": "먼저 재료 준비해."
+  },
+  {
+    "id": 556,
+    "speaker": "jisu",
+    "text_ko": "이렇게 하면 돼."
+  },
+  {
+    "id": 559,
+    "speaker": "jisu",
+    "text_ko": "응! 맛봐봐."
+  },
+  {
+    "id": 561,
+    "speaker": "jisu",
+    "text_ko": "잘했어!"
+  },
+  {
+    "id": 573,
+    "speaker": "jisu",
+    "text_ko": "응! 카페에서 했어."
+  },
+  {
+    "id": 575,
+    "speaker": "jisu",
+    "text_ko": "처음엔 힘들었는데 재미있었어."
+  },
+  {
+    "id": 576,
+    "speaker": "jisu",
+    "text_ko": "덕분에 한국어도 더 늘었어."
+  },
+  {
+    "id": 578,
+    "speaker": "jisu",
+    "text_ko": "열심히 하면 돼."
+  },
+  {
+    "id": 580,
+    "speaker": "jisu",
+    "text_ko": "화이팅!"
+  },
+  {
+    "id": 591,
+    "speaker": "jisu",
+    "text_ko": "다행이다!"
+  },
+  {
+    "id": 612,
+    "speaker": "jisu",
+    "text_ko": "에마야, 이거 어때?"
+  },
+  {
+    "id": 615,
+    "speaker": "jisu",
+    "text_ko": "솔직하게 말해도 돼!"
+  },
+  {
+    "id": 617,
+    "speaker": "jisu",
+    "text_ko": "ㅎㅎ 역시!"
+  },
+  {
+    "id": 618,
+    "speaker": "jisu",
+    "text_ko": "그렇긴 하지?"
+  },
+  {
+    "id": 621,
+    "speaker": "jisu",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 632,
+    "speaker": "jisu",
+    "text_ko": "에마야, 요즘 인스타 많이 해?"
+  },
+  {
+    "id": 635,
+    "speaker": "jisu",
+    "text_ko": "이 필터 요즘 핫해!"
+  },
+  {
+    "id": 637,
+    "speaker": "jisu",
+    "text_ko": "대박! 왜?"
+  },
+  {
+    "id": 639,
+    "speaker": "jisu",
+    "text_ko": "역시!"
+  },
+  {
+    "id": 641,
+    "speaker": "jisu",
+    "text_ko": "한복 사진 어때?"
+  },
+  {
+    "id": 673,
+    "speaker": "jisu",
+    "text_ko": "응! 벚꽃 봤어?"
+  },
+  {
+    "id": 675,
+    "speaker": "jisu",
+    "text_ko": "이때가 제일 좋아."
+  },
+  {
+    "id": 677,
+    "speaker": "jisu",
+    "text_ko": "엄청 더워. 습해서 힘들어."
+  },
+  {
+    "id": 679,
+    "speaker": "jisu",
+    "text_ko": "한국이 더 습해!"
+  },
+  {
+    "id": 681,
+    "speaker": "jisu",
+    "text_ko": "응, 서울은 가끔 와."
+  },
+  {
+    "id": 703,
+    "speaker": "jisu",
+    "text_ko": "플라스틱은 저기야!"
+  },
+  {
+    "id": 705,
+    "speaker": "jisu",
+    "text_ko": "응! 안 하면 안 돼."
+  },
+  {
+    "id": 707,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 709,
+    "speaker": "jisu",
+    "text_ko": "대단해! 나도 해야겠다."
+  },
+  {
+    "id": 710,
+    "speaker": "jisu",
+    "text_ko": "나도 환경 더 신경 써야겠어."
+  },
+  {
+    "id": 722,
+    "speaker": "jisu",
+    "text_ko": "에마야, 오해가 있었던 것 같아."
+  },
+  {
+    "id": 725,
+    "speaker": "jisu",
+    "text_ko": "아, 그랬구나."
+  },
+  {
+    "id": 726,
+    "speaker": "jisu",
+    "text_ko": "충분히 이해해."
+  },
+  {
+    "id": 729,
+    "speaker": "jisu",
+    "text_ko": "고마워!"
+  },
+  {
+    "id": 731,
+    "speaker": "jisu",
+    "text_ko": "응!"
+  },
+  {
+    "id": 742,
+    "speaker": "jisu",
+    "text_ko": "에마야, 여기 유명한 거 먹어봐!"
+  },
+  {
+    "id": 744,
+    "speaker": "jisu",
+    "text_ko": "빈대떡이야. 맛봐봐!"
+  },
+  {
+    "id": 747,
+    "speaker": "jisu",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 749,
+    "speaker": "jisu",
+    "text_ko": "마약김밥! 중독성 있어."
+  },
+  {
+    "id": 751,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 763,
+    "speaker": "jisu",
+    "text_ko": "응, 근데 이게 더 자연스러워."
+  },
+  {
+    "id": 765,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 767,
+    "speaker": "jisu",
+    "text_ko": "비슷한데 뉘앙스가 달라."
+  },
+  {
+    "id": 769,
+    "speaker": "jisu",
+    "text_ko": "맞아, 잘 이해했어."
+  },
+  {
+    "id": 771,
+    "speaker": "jisu",
+    "text_ko": "맞아, 많이 늘었어!"
+  },
+  {
+    "id": 773,
+    "speaker": "jisu",
+    "text_ko": "맞아, 오랜만이다."
+  },
+  {
+    "id": 779,
+    "speaker": "jisu",
+    "text_ko": "우리가 더 고마워!"
+  },
+  {
+    "id": 802,
+    "speaker": "jisu",
+    "text_ko": "에마야, 발표 어땠어?"
+  },
+  {
+    "id": 805,
+    "speaker": "jisu",
+    "text_ko": "맞아, 진짜 대단해!"
+  },
+  {
+    "id": 807,
+    "speaker": "jisu",
+    "text_ko": "그러게!"
+  },
+  {
+    "id": 809,
+    "speaker": "jisu",
+    "text_ko": "에마가 열심히 한 거야."
+  },
+  {
+    "id": 811,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 813,
+    "speaker": "jisu",
+    "text_ko": "진짜? 가봐야겠다."
+  },
+  {
+    "id": 815,
+    "speaker": "jisu",
+    "text_ko": "누가 그랬어?"
+  },
+  {
+    "id": 817,
+    "speaker": "jisu",
+    "text_ko": "아니야, 옆집이야."
+  },
+  {
+    "id": 819,
+    "speaker": "jisu",
+    "text_ko": "ㅎㅎ 몰랐구나."
+  },
+  {
+    "id": 821,
+    "speaker": "jisu",
+    "text_ko": "응!"
+  },
+  {
+    "id": 833,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 835,
+    "speaker": "jisu",
+    "text_ko": "그렇긴 해."
+  },
+  {
+    "id": 837,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 839,
+    "speaker": "jisu",
+    "text_ko": "ㅎㅎ 맞아."
+  },
+  {
+    "id": 841,
+    "speaker": "jisu",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 863,
+    "speaker": "jisu",
+    "text_ko": "응, 자주 있는 일이야."
+  },
+  {
+    "id": 865,
+    "speaker": "jisu",
+    "text_ko": "ㅎㅎ 놀랐지?"
+  },
+  {
+    "id": 866,
+    "speaker": "jisu",
+    "text_ko": "이게 포인트야."
+  },
+  {
+    "id": 869,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 871,
+    "speaker": "jisu",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 892,
+    "speaker": "jisu",
+    "text_ko": "여기 관광지보다 로컬이 좋아."
+  },
+  {
+    "id": 894,
+    "speaker": "jisu",
+    "text_ko": "여기 현지인들이 가는 곳이야."
+  },
+  {
+    "id": 897,
+    "speaker": "jisu",
+    "text_ko": "응, 인기 많아."
+  },
+  {
+    "id": 899,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 901,
+    "speaker": "jisu",
+    "text_ko": "이제 에마도 로컬이네?"
+  },
+  {
+    "id": 912,
+    "speaker": "jisu",
+    "text_ko": "에마야, 이거 어때?"
+  },
+  {
+    "id": 915,
+    "speaker": "jisu",
+    "text_ko": "솔직하게 말해줘서 고마워."
+  },
+  {
+    "id": 917,
+    "speaker": "jisu",
+    "text_ko": "맞아."
+  },
+  {
+    "id": 919,
+    "speaker": "jisu",
+    "text_ko": "그렇구나."
+  },
+  {
+    "id": 921,
+    "speaker": "jisu",
+    "text_ko": "맞아, 맞아."
+  },
+  {
+    "id": 942,
+    "speaker": "jisu",
+    "text_ko": "에마야, 상대방 입장에서 생각해봐."
+  },
+  {
+    "id": 945,
+    "speaker": "jisu",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 946,
+    "speaker": "jisu",
+    "text_ko": "그럴 수 있어. 충분히 이해해."
+  },
+  {
+    "id": 949,
+    "speaker": "jisu",
+    "text_ko": "응, 괜찮을 거야."
+  },
+  {
+    "id": 951,
+    "speaker": "jisu",
+    "text_ko": "나도!"
+  },
+  {
+    "id": 973,
+    "speaker": "jisu",
+    "text_ko": "나도 보내기 싫어."
+  },
+  {
+    "id": 975,
+    "speaker": "jisu",
+    "text_ko": "나도 에마 그리울 거야."
+  },
+  {
+    "id": 977,
+    "speaker": "jisu",
+    "text_ko": "나도!"
+  },
+  {
+    "id": 979,
+    "speaker": "jisu",
+    "text_ko": "우리도!"
+  },
+  {
+    "id": 981,
+    "speaker": "jisu",
+    "text_ko": "기다릴게!"
+  },
+  {
+    "id": 995,
+    "speaker": "jisu",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 1005,
+    "speaker": "jisu",
+    "text_ko": "응원해!"
+  },
+  {
+    "id": 35,
+    "speaker": "minjun",
+    "text_ko": "이거 어때? 삼각김밥이랑 라면!"
+  },
+  {
+    "id": 38,
+    "speaker": "minjun",
+    "text_ko": "응, 돼. 한국 편의점은 다 이래."
+  },
+  {
+    "id": 42,
+    "speaker": "minjun",
+    "text_ko": "응, 나 민준이야. 에마 맞지?"
+  },
+  {
+    "id": 45,
+    "speaker": "minjun",
+    "text_ko": "이제 시작이야."
+  },
+  {
+    "id": 48,
+    "speaker": "minjun",
+    "text_ko": "여기는 삼겹살이 유명해."
+  },
+  {
+    "id": 70,
+    "speaker": "minjun",
+    "text_ko": "한국 전통 시장이야. 뭐든 다 있어."
+  },
+  {
+    "id": 74,
+    "speaker": "minjun",
+    "text_ko": "자, 따라 해봐. \"좀 깎아 주세요\""
+  },
+  {
+    "id": 77,
+    "speaker": "minjun",
+    "text_ko": "이제 시장 고수네."
+  },
+  {
+    "id": 119,
+    "speaker": "minjun",
+    "text_ko": "여기 순두부찌개 맛집이야."
+  },
+  {
+    "id": 125,
+    "speaker": "minjun",
+    "text_ko": "두부, 조개, 달걀."
+  },
+  {
+    "id": 130,
+    "speaker": "minjun",
+    "text_ko": "포장도 돼. 다음엔 포장해 가."
+  },
+  {
+    "id": 182,
+    "speaker": "minjun",
+    "text_ko": "에마야, 취미가 뭐야?"
+  },
+  {
+    "id": 184,
+    "speaker": "minjun",
+    "text_ko": "나도 사진 좋아해!"
+  },
+  {
+    "id": 186,
+    "speaker": "minjun",
+    "text_ko": "난 필름 카메라 좋아해."
+  },
+  {
+    "id": 189,
+    "speaker": "minjun",
+    "text_ko": "완전 내 스타일이네!"
+  },
+  {
+    "id": 190,
+    "speaker": "minjun",
+    "text_ko": "다음엔 같이 카페 투어 하자."
+  },
+  {
+    "id": 223,
+    "speaker": "minjun",
+    "text_ko": "줄 서 있는 거 보면 맛있나 봐."
+  },
+  {
+    "id": 225,
+    "speaker": "minjun",
+    "text_ko": "한 30분 걸릴 거야."
+  },
+  {
+    "id": 227,
+    "speaker": "minjun",
+    "text_ko": "맞아, 인스타에서 봤어."
+  },
+  {
+    "id": 229,
+    "speaker": "minjun",
+    "text_ko": "잘 모르겠어... 물어봐야지."
+  },
+  {
+    "id": 231,
+    "speaker": "minjun",
+    "text_ko": "생각보다 빠르네."
+  },
+  {
+    "id": 252,
+    "speaker": "minjun",
+    "text_ko": "에마야, 제주도에 가 봤어?"
+  },
+  {
+    "id": 254,
+    "speaker": "minjun",
+    "text_ko": "꼭 가 봐. 진짜 예뻐."
+  },
+  {
+    "id": 257,
+    "speaker": "minjun",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 259,
+    "speaker": "minjun",
+    "text_ko": "맞아, 같이 해!"
+  },
+  {
+    "id": 261,
+    "speaker": "minjun",
+    "text_ko": "나도!"
+  },
+  {
+    "id": 292,
+    "speaker": "minjun",
+    "text_ko": "에마야, 얼마나 자주 운동해?"
+  },
+  {
+    "id": 295,
+    "speaker": "minjun",
+    "text_ko": "응, 꾸준히 하면 좋아."
+  },
+  {
+    "id": 297,
+    "speaker": "minjun",
+    "text_ko": "대단한데?"
+  },
+  {
+    "id": 299,
+    "speaker": "minjun",
+    "text_ko": "맞아, 나도 그래."
+  },
+  {
+    "id": 301,
+    "speaker": "minjun",
+    "text_ko": "진짜? 티 나네!"
+  },
+  {
+    "id": 333,
+    "speaker": "minjun",
+    "text_ko": "응! 추가해줄게."
+  },
+  {
+    "id": 335,
+    "speaker": "minjun",
+    "text_ko": "응, 팔로우해도 돼."
+  },
+  {
+    "id": 337,
+    "speaker": "minjun",
+    "text_ko": "잘됐다! 우리 자주 만나자."
+  },
+  {
+    "id": 338,
+    "speaker": "minjun",
+    "text_ko": "자주 연락해!"
+  },
+  {
+    "id": 341,
+    "speaker": "minjun",
+    "text_ko": "나도!"
+  },
+  {
+    "id": 342,
+    "speaker": "minjun",
+    "text_ko": "오늘은 내가 살게!"
+  },
+  {
+    "id": 345,
+    "speaker": "minjun",
+    "text_ko": "아니야, 오늘은 내가 낼게."
+  },
+  {
+    "id": 347,
+    "speaker": "minjun",
+    "text_ko": "좋아, 같이 시킬래?"
+  },
+  {
+    "id": 351,
+    "speaker": "minjun",
+    "text_ko": "다음엔 네가 사."
+  },
+  {
+    "id": 362,
+    "speaker": "minjun",
+    "text_ko": "에마야, 술 마셔?"
+  },
+  {
+    "id": 364,
+    "speaker": "minjun",
+    "text_ko": "자, 건배!"
+  },
+  {
+    "id": 369,
+    "speaker": "minjun",
+    "text_ko": "그래, 충분히 마셨어."
+  },
+  {
+    "id": 371,
+    "speaker": "minjun",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 402,
+    "speaker": "minjun",
+    "text_ko": "에마야, 한국 생활 어때?"
+  },
+  {
+    "id": 405,
+    "speaker": "minjun",
+    "text_ko": "한국에서는 이게 당연해."
+  },
+  {
+    "id": 407,
+    "speaker": "minjun",
+    "text_ko": "진짜? 대단한데!"
+  },
+  {
+    "id": 409,
+    "speaker": "minjun",
+    "text_ko": "이제 한국 사람 다 됐네!"
+  },
+  {
+    "id": 411,
+    "speaker": "minjun",
+    "text_ko": "뭘~"
+  },
+  {
+    "id": 432,
+    "speaker": "minjun",
+    "text_ko": "에마야, 왜 이렇게 늦었어?"
+  },
+  {
+    "id": 435,
+    "speaker": "minjun",
+    "text_ko": "잘됐다!"
+  },
+  {
+    "id": 437,
+    "speaker": "minjun",
+    "text_ko": "다음엔 꼭 와."
+  },
+  {
+    "id": 439,
+    "speaker": "minjun",
+    "text_ko": "맞아, 나도 그렇게 생각해."
+  },
+  {
+    "id": 441,
+    "speaker": "minjun",
+    "text_ko": "다행이다."
+  },
+  {
+    "id": 453,
+    "speaker": "minjun",
+    "text_ko": "고마워."
+  },
+  {
+    "id": 455,
+    "speaker": "minjun",
+    "text_ko": "괜찮아, 할 수 있어."
+  },
+  {
+    "id": 459,
+    "speaker": "minjun",
+    "text_ko": "그래, 알겠어."
+  },
+  {
+    "id": 461,
+    "speaker": "minjun",
+    "text_ko": "나도!"
+  },
+  {
+    "id": 492,
+    "speaker": "minjun",
+    "text_ko": "에마야, 여행 계획 있어?"
+  },
+  {
+    "id": 494,
+    "speaker": "minjun",
+    "text_ko": "며칠이나 있을 거야?"
+  },
+  {
+    "id": 497,
+    "speaker": "minjun",
+    "text_ko": "성산일출봉 꼭 가봐."
+  },
+  {
+    "id": 499,
+    "speaker": "minjun",
+    "text_ko": "한라산이랑 올레길!"
+  },
+  {
+    "id": 500,
+    "speaker": "minjun",
+    "text_ko": "혼자 여행이야?"
+  },
+  {
+    "id": 522,
+    "speaker": "minjun",
+    "text_ko": "에마야, 요즘 어때?"
+  },
+  {
+    "id": 525,
+    "speaker": "minjun",
+    "text_ko": "잘했어!"
+  },
+  {
+    "id": 527,
+    "speaker": "minjun",
+    "text_ko": "응원해!"
+  },
+  {
+    "id": 529,
+    "speaker": "minjun",
+    "text_ko": "맞아, 티 나!"
+  },
+  {
+    "id": 531,
+    "speaker": "minjun",
+    "text_ko": "화이팅!"
+  },
+  {
+    "id": 602,
+    "speaker": "minjun",
+    "text_ko": "에마야, 한국 음식 중에 뭐가 제일 좋아?"
+  },
+  {
+    "id": 605,
+    "speaker": "minjun",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 607,
+    "speaker": "minjun",
+    "text_ko": "어떻게 달라?"
+  },
+  {
+    "id": 609,
+    "speaker": "minjun",
+    "text_ko": "아, 그렇구나."
+  },
+  {
+    "id": 611,
+    "speaker": "minjun",
+    "text_ko": "ㅎㅎ 고마워!"
+  },
+  {
+    "id": 623,
+    "speaker": "minjun",
+    "text_ko": "바쁘긴 한데 재미있어."
+  },
+  {
+    "id": 625,
+    "speaker": "minjun",
+    "text_ko": "응, 프로젝트 때문에."
+  },
+  {
+    "id": 627,
+    "speaker": "minjun",
+    "text_ko": "그래도 동료들이 좋아서 괜찮아."
+  },
+  {
+    "id": 629,
+    "speaker": "minjun",
+    "text_ko": "고마워, 에마야."
+  },
+  {
+    "id": 631,
+    "speaker": "minjun",
+    "text_ko": "응, 화이팅!"
+  },
+  {
+    "id": 662,
+    "speaker": "minjun",
+    "text_ko": "에마야, 한국어 많이 늘었다!"
+  },
+  {
+    "id": 664,
+    "speaker": "minjun",
+    "text_ko": "비결이 뭐야?"
+  },
+  {
+    "id": 667,
+    "speaker": "minjun",
+    "text_ko": "뭐가 어려워?"
+  },
+  {
+    "id": 669,
+    "speaker": "minjun",
+    "text_ko": "그렇구나, 연습하면 돼!"
+  },
+  {
+    "id": 671,
+    "speaker": "minjun",
+    "text_ko": "응, 화이팅!"
+  },
+  {
+    "id": 692,
+    "speaker": "minjun",
+    "text_ko": "에마야, 꿈이 뭐야?"
+  },
+  {
+    "id": 695,
+    "speaker": "minjun",
+    "text_ko": "할 수 있어!"
+  },
+  {
+    "id": 697,
+    "speaker": "minjun",
+    "text_ko": "티 나!"
+  },
+  {
+    "id": 699,
+    "speaker": "minjun",
+    "text_ko": "그럴 때일수록 더 해야 해."
+  },
+  {
+    "id": 701,
+    "speaker": "minjun",
+    "text_ko": "화이팅!"
+  },
+  {
+    "id": 732,
+    "speaker": "minjun",
+    "text_ko": "에마야, 시험 어땠어?"
+  },
+  {
+    "id": 734,
+    "speaker": "minjun",
+    "text_ko": "진짜? 축하해!"
+  },
+  {
+    "id": 737,
+    "speaker": "minjun",
+    "text_ko": "맞아, 잘 이겨냈어!"
+  },
+  {
+    "id": 739,
+    "speaker": "minjun",
+    "text_ko": "에마가 열심히 한 거지."
+  },
+  {
+    "id": 741,
+    "speaker": "minjun",
+    "text_ko": "응원할게!"
+  },
+  {
+    "id": 774,
+    "speaker": "minjun",
+    "text_ko": "처음 만났을 때 기억나?"
+  },
+  {
+    "id": 782,
+    "speaker": "minjun",
+    "text_ko": "에마야, 한국에 얼마나 있을 거야?"
+  },
+  {
+    "id": 785,
+    "speaker": "minjun",
+    "text_ko": "진짜? 좋은데!"
+  },
+  {
+    "id": 787,
+    "speaker": "minjun",
+    "text_ko": "잘 결정했어."
+  },
+  {
+    "id": 789,
+    "speaker": "minjun",
+    "text_ko": "그렇지."
+  },
+  {
+    "id": 791,
+    "speaker": "minjun",
+    "text_ko": "응원할게!"
+  },
+  {
+    "id": 823,
+    "speaker": "minjun",
+    "text_ko": "어쩌다가?"
+  },
+  {
+    "id": 825,
+    "speaker": "minjun",
+    "text_ko": "ㅎㅎ 다행이다."
+  },
+  {
+    "id": 827,
+    "speaker": "minjun",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 829,
+    "speaker": "minjun",
+    "text_ko": "맞아, 그러다 보니 친해지더라."
+  },
+  {
+    "id": 831,
+    "speaker": "minjun",
+    "text_ko": "ㅎㅎ 에마 인기 많아!"
+  },
+  {
+    "id": 852,
+    "speaker": "minjun",
+    "text_ko": "에마야, 뭔가 이상하지 않아?"
+  },
+  {
+    "id": 855,
+    "speaker": "minjun",
+    "text_ko": "다행이다!"
+  },
+  {
+    "id": 857,
+    "speaker": "minjun",
+    "text_ko": "진짜? 대단해!"
+  },
+  {
+    "id": 859,
+    "speaker": "minjun",
+    "text_ko": "어디가?"
+  },
+  {
+    "id": 861,
+    "speaker": "minjun",
+    "text_ko": "ㅎㅎ 맞아!"
+  },
+  {
+    "id": 882,
+    "speaker": "minjun",
+    "text_ko": "에마야, 한국어 너무 잘한다!"
+  },
+  {
+    "id": 884,
+    "speaker": "minjun",
+    "text_ko": "아니! 완전 현지인 같아."
+  },
+  {
+    "id": 887,
+    "speaker": "minjun",
+    "text_ko": "맞아, 자연스러워졌어!"
+  },
+  {
+    "id": 889,
+    "speaker": "minjun",
+    "text_ko": "진짜? 대단한데!"
+  },
+  {
+    "id": 891,
+    "speaker": "minjun",
+    "text_ko": "응, 진짜야!"
+  },
+  {
+    "id": 923,
+    "speaker": "minjun",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 925,
+    "speaker": "minjun",
+    "text_ko": "맞아, 나도 그렇게 생각해."
+  },
+  {
+    "id": 927,
+    "speaker": "minjun",
+    "text_ko": "다행이다!"
+  },
+  {
+    "id": 929,
+    "speaker": "minjun",
+    "text_ko": "응!"
+  },
+  {
+    "id": 931,
+    "speaker": "minjun",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 963,
+    "speaker": "minjun",
+    "text_ko": "ㅎㅎ 그게 정이야."
+  },
+  {
+    "id": 965,
+    "speaker": "minjun",
+    "text_ko": "응, 알아."
+  },
+  {
+    "id": 967,
+    "speaker": "minjun",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 969,
+    "speaker": "minjun",
+    "text_ko": "그냥 느끼면 돼."
+  },
+  {
+    "id": 971,
+    "speaker": "minjun",
+    "text_ko": "그게 한국의 매력이야."
+  },
+  {
+    "id": 982,
+    "speaker": "minjun",
+    "text_ko": "에마야, 이제 한국어로 생각해?"
+  },
+  {
+    "id": 985,
+    "speaker": "minjun",
+    "text_ko": "진짜 대단해."
+  },
+  {
+    "id": 987,
+    "speaker": "minjun",
+    "text_ko": "맞아, 자연스러워!"
+  },
+  {
+    "id": 989,
+    "speaker": "minjun",
+    "text_ko": "맞아, 처음이랑 달라."
+  },
+  {
+    "id": 991,
+    "speaker": "minjun",
+    "text_ko": "응원해!"
+  },
+  {
+    "id": 997,
+    "speaker": "minjun",
+    "text_ko": "우리가 더 고마워!"
+  },
+  {
+    "id": 1007,
+    "speaker": "minjun",
+    "text_ko": "할 수 있어!"
+  },
+  {
+    "id": 58,
+    "speaker": "sophie",
+    "text_ko": "나도 케이팝 너무 좋아!"
+  },
+  {
+    "id": 60,
+    "speaker": "sophie",
+    "text_ko": "당연하지! 다 알아!"
+  },
+  {
+    "id": 62,
+    "speaker": "sophie",
+    "text_ko": "물론이지! 가르쳐 줄게!"
+  },
+  {
+    "id": 78,
+    "speaker": "sophie",
+    "text_ko": "여기 진짜 좋아! K-뷰티 최고야!"
+  },
+  {
+    "id": 81,
+    "speaker": "sophie",
+    "text_ko": "이거 써봤어? 진짜 좋아!"
+  },
+  {
+    "id": 85,
+    "speaker": "sophie",
+    "text_ko": "이게 제일 예뻐!"
+  },
+  {
+    "id": 86,
+    "speaker": "sophie",
+    "text_ko": "이제 K-뷰티 덕후 됐어!"
+  },
+  {
+    "id": 91,
+    "speaker": "sophie",
+    "text_ko": "생각보다 훨씬 빠르지?"
+  },
+  {
+    "id": 135,
+    "speaker": "sophie",
+    "text_ko": "홍대 카페에서 만나!"
+  },
+  {
+    "id": 140,
+    "speaker": "sophie",
+    "text_ko": "다음에 해요, 다음에!"
+  },
+  {
+    "id": 151,
+    "speaker": "sophie",
+    "text_ko": "에마, 요즘 드라마 봐?"
+  },
+  {
+    "id": 154,
+    "speaker": "sophie",
+    "text_ko": "재미있어?"
+  },
+  {
+    "id": 156,
+    "speaker": "sophie",
+    "text_ko": "어디서 볼 수 있어?"
+  },
+  {
+    "id": 158,
+    "speaker": "sophie",
+    "text_ko": "몇 시에 새 화 올라와?"
+  },
+  {
+    "id": 160,
+    "speaker": "sophie",
+    "text_ko": "(다음날) 어젯밤에 다 봤어!"
+  },
+  {
+    "id": 192,
+    "speaker": "sophie",
+    "text_ko": "여기서 유명한 게 뭐야?"
+  },
+  {
+    "id": 195,
+    "speaker": "sophie",
+    "text_ko": "좋아! 잘 나왔어?"
+  },
+  {
+    "id": 197,
+    "speaker": "sophie",
+    "text_ko": "한국 전통 과자 어때?"
+  },
+  {
+    "id": 198,
+    "speaker": "sophie",
+    "text_ko": "여기 또 오고 싶어!"
+  },
+  {
+    "id": 201,
+    "speaker": "sophie",
+    "text_ko": "인스타에 올려!"
+  },
+  {
+    "id": 203,
+    "speaker": "sophie",
+    "text_ko": "에마! 정말 오랜만이야!"
+  },
+  {
+    "id": 204,
+    "speaker": "sophie",
+    "text_ko": "잘 지냈어?"
+  },
+  {
+    "id": 206,
+    "speaker": "sophie",
+    "text_ko": "많이 변했어?"
+  },
+  {
+    "id": 208,
+    "speaker": "sophie",
+    "text_ko": "요즘 어떻게 지내?"
+  },
+  {
+    "id": 210,
+    "speaker": "sophie",
+    "text_ko": "다음에 또 봐!"
+  },
+  {
+    "id": 242,
+    "speaker": "sophie",
+    "text_ko": "한국 음식, 어떻게 생각해?"
+  },
+  {
+    "id": 244,
+    "speaker": "sophie",
+    "text_ko": "저는 매운 거 별로예요."
+  },
+  {
+    "id": 247,
+    "speaker": "sophie",
+    "text_ko": "그럴 수도 있어요."
+  },
+  {
+    "id": 248,
+    "speaker": "sophie",
+    "text_ko": "그래도 저는 좀 달라요."
+  },
+  {
+    "id": 251,
+    "speaker": "sophie",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 262,
+    "speaker": "sophie",
+    "text_ko": "에마, 요즘 뭐 봐?"
+  },
+  {
+    "id": 265,
+    "speaker": "sophie",
+    "text_ko": "어디서 봐?"
+  },
+  {
+    "id": 267,
+    "speaker": "sophie",
+    "text_ko": "저도 봐야겠다."
+  },
+  {
+    "id": 269,
+    "speaker": "sophie",
+    "text_ko": "결말이 어떻게 될까?"
+  },
+  {
+    "id": 270,
+    "speaker": "sophie",
+    "text_ko": "(다음날) 저도 다 봤어!"
+  },
+  {
+    "id": 282,
+    "speaker": "sophie",
+    "text_ko": "피부 관리 어떻게 해?"
+  },
+  {
+    "id": 284,
+    "speaker": "sophie",
+    "text_ko": "이 세럼 여기서 팔아?"
+  },
+  {
+    "id": 286,
+    "speaker": "sophie",
+    "text_ko": "이거 효과 있어?"
+  },
+  {
+    "id": 288,
+    "speaker": "sophie",
+    "text_ko": "온라인으로 주문할 수 있어?"
+  },
+  {
+    "id": 291,
+    "speaker": "sophie",
+    "text_ko": "완전 동의해!"
+  },
+  {
+    "id": 323,
+    "speaker": "sophie",
+    "text_ko": "요즘 좀 힘들어요."
+  },
+  {
+    "id": 325,
+    "speaker": "sophie",
+    "text_ko": "응, 많이 지쳤어요."
+  },
+  {
+    "id": 327,
+    "speaker": "sophie",
+    "text_ko": "고마워요, 에마."
+  },
+  {
+    "id": 329,
+    "speaker": "sophie",
+    "text_ko": "그럴까?"
+  },
+  {
+    "id": 331,
+    "speaker": "sophie",
+    "text_ko": "고마워요, 에마."
+  },
+  {
+    "id": 373,
+    "speaker": "sophie",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 374,
+    "speaker": "sophie",
+    "text_ko": "노래 진짜 잘하네!"
+  },
+  {
+    "id": 381,
+    "speaker": "sophie",
+    "text_ko": "다음 주에 또 와!"
+  },
+  {
+    "id": 393,
+    "speaker": "sophie",
+    "text_ko": "맞아, 공부하기 딱 좋아."
+  },
+  {
+    "id": 394,
+    "speaker": "sophie",
+    "text_ko": "뭐 마실 거야?"
+  },
+  {
+    "id": 398,
+    "speaker": "sophie",
+    "text_ko": "오래 있어도 돼?"
+  },
+  {
+    "id": 401,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 422,
+    "speaker": "sophie",
+    "text_ko": "내일 만나면 어때?"
+  },
+  {
+    "id": 425,
+    "speaker": "sophie",
+    "text_ko": "응, 이렇게 하면 될 것 같아요."
+  },
+  {
+    "id": 427,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 428,
+    "speaker": "sophie",
+    "text_ko": "늦으면 안 돼!"
+  },
+  {
+    "id": 431,
+    "speaker": "sophie",
+    "text_ko": "완벽해!"
+  },
+  {
+    "id": 462,
+    "speaker": "sophie",
+    "text_ko": "한국 온 지 얼마나 됐어?"
+  },
+  {
+    "id": 465,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 467,
+    "speaker": "sophie",
+    "text_ko": "진짜? 대단해!"
+  },
+  {
+    "id": 468,
+    "speaker": "sophie",
+    "text_ko": "시작한 지 얼마 안 됐어요."
+  },
+  {
+    "id": 471,
+    "speaker": "sophie",
+    "text_ko": "수고했어!"
+  },
+  {
+    "id": 482,
+    "speaker": "sophie",
+    "text_ko": "오늘 배달 시켜!"
+  },
+  {
+    "id": 485,
+    "speaker": "sophie",
+    "text_ko": "가성비 좋은 데로 시키자."
+  },
+  {
+    "id": 487,
+    "speaker": "sophie",
+    "text_ko": "30분이래요."
+  },
+  {
+    "id": 489,
+    "speaker": "sophie",
+    "text_ko": "저 여기 단골이에요."
+  },
+  {
+    "id": 491,
+    "speaker": "sophie",
+    "text_ko": "맞아, 최고야."
+  },
+  {
+    "id": 512,
+    "speaker": "sophie",
+    "text_ko": "에마, 앞으로 뭐 할 거야?"
+  },
+  {
+    "id": 515,
+    "speaker": "sophie",
+    "text_ko": "응원해!"
+  },
+  {
+    "id": 517,
+    "speaker": "sophie",
+    "text_ko": "할 수 있어!"
+  },
+  {
+    "id": 519,
+    "speaker": "sophie",
+    "text_ko": "좋은 방법이에요."
+  },
+  {
+    "id": 521,
+    "speaker": "sophie",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 562,
+    "speaker": "sophie",
+    "text_ko": "에마, 뭐 살 거야?"
+  },
+  {
+    "id": 565,
+    "speaker": "sophie",
+    "text_ko": "잘 어울릴 것 같아!"
+  },
+  {
+    "id": 570,
+    "speaker": "sophie",
+    "text_ko": "쇼핑 어때?"
+  },
+  {
+    "id": 592,
+    "speaker": "sophie",
+    "text_ko": "에마, 여기 와 봤어?"
+  },
+  {
+    "id": 595,
+    "speaker": "sophie",
+    "text_ko": "조용해서 공부하기 좋아요."
+  },
+  {
+    "id": 599,
+    "speaker": "sophie",
+    "text_ko": "빌려봐!"
+  },
+  {
+    "id": 601,
+    "speaker": "sophie",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 642,
+    "speaker": "sophie",
+    "text_ko": "에마, 오늘 뭐 만들어?"
+  },
+  {
+    "id": 645,
+    "speaker": "sophie",
+    "text_ko": "양파가 없는데요."
+  },
+  {
+    "id": 647,
+    "speaker": "sophie",
+    "text_ko": "좀 더 볶아!"
+  },
+  {
+    "id": 649,
+    "speaker": "sophie",
+    "text_ko": "맛있겠다!"
+  },
+  {
+    "id": 650,
+    "speaker": "sophie",
+    "text_ko": "진짜 맛있어!"
+  },
+  {
+    "id": 652,
+    "speaker": "sophie",
+    "text_ko": "에마, 스킨케어 루틴 있어?"
+  },
+  {
+    "id": 655,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 656,
+    "speaker": "sophie",
+    "text_ko": "어떤 크림 써?"
+  },
+  {
+    "id": 659,
+    "speaker": "sophie",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 660,
+    "speaker": "sophie",
+    "text_ko": "피부 좋아졌어?"
+  },
+  {
+    "id": 682,
+    "speaker": "sophie",
+    "text_ko": "에마, 저 좀 서운했어요."
+  },
+  {
+    "id": 684,
+    "speaker": "sophie",
+    "text_ko": "연락을 못 받았어요."
+  },
+  {
+    "id": 687,
+    "speaker": "sophie",
+    "text_ko": "괜찮아, 이해해요."
+  },
+  {
+    "id": 689,
+    "speaker": "sophie",
+    "text_ko": "저도 이해하려고 할게요."
+  },
+  {
+    "id": 691,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 712,
+    "speaker": "sophie",
+    "text_ko": "와, 야경이 너무 예뻐!"
+  },
+  {
+    "id": 715,
+    "speaker": "sophie",
+    "text_ko": "저도요. 이 느낌 알아?"
+  },
+  {
+    "id": 717,
+    "speaker": "sophie",
+    "text_ko": "맞아, 뭔가 설레요."
+  },
+  {
+    "id": 719,
+    "speaker": "sophie",
+    "text_ko": "사진 찍어!"
+  },
+  {
+    "id": 721,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 752,
+    "speaker": "sophie",
+    "text_ko": "에마, 요즘 어때?"
+  },
+  {
+    "id": 755,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 757,
+    "speaker": "sophie",
+    "text_ko": "들어가 봐!"
+  },
+  {
+    "id": 759,
+    "speaker": "sophie",
+    "text_ko": "맞아요."
+  },
+  {
+    "id": 761,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 776,
+    "speaker": "sophie",
+    "text_ko": "에마 많이 변했어!"
+  },
+  {
+    "id": 792,
+    "speaker": "sophie",
+    "text_ko": "여기 줄 서야 해!"
+  },
+  {
+    "id": 795,
+    "speaker": "sophie",
+    "text_ko": "한 30분 정도요."
+  },
+  {
+    "id": 797,
+    "speaker": "sophie",
+    "text_ko": "여기 꼭 와봐야 할 곳이에요."
+  },
+  {
+    "id": 799,
+    "speaker": "sophie",
+    "text_ko": "맞지? 올 때마다 만족해요."
+  },
+  {
+    "id": 801,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 842,
+    "speaker": "sophie",
+    "text_ko": "에마, 어떻게 생각해?"
+  },
+  {
+    "id": 845,
+    "speaker": "sophie",
+    "text_ko": "그렇지?"
+  },
+  {
+    "id": 847,
+    "speaker": "sophie",
+    "text_ko": "그래요, 천천히."
+  },
+  {
+    "id": 849,
+    "speaker": "sophie",
+    "text_ko": "좋아!"
+  },
+  {
+    "id": 851,
+    "speaker": "sophie",
+    "text_ko": "응원해!"
+  },
+  {
+    "id": 872,
+    "speaker": "sophie",
+    "text_ko": "에마, 부담스러워?"
+  },
+  {
+    "id": 875,
+    "speaker": "sophie",
+    "text_ko": "아, 그랬어?"
+  },
+  {
+    "id": 877,
+    "speaker": "sophie",
+    "text_ko": "이해해!"
+  },
+  {
+    "id": 879,
+    "speaker": "sophie",
+    "text_ko": "다행이야!"
+  },
+  {
+    "id": 881,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 902,
+    "speaker": "sophie",
+    "text_ko": "에마, 요즘 핫한 카페 알아?"
+  },
+  {
+    "id": 904,
+    "speaker": "sophie",
+    "text_ko": "완전 대세야!"
+  },
+  {
+    "id": 907,
+    "speaker": "sophie",
+    "text_ko": "저 이미 알고 있었어요."
+  },
+  {
+    "id": 908,
+    "speaker": "sophie",
+    "text_ko": "저 예전부터 알았어요."
+  },
+  {
+    "id": 911,
+    "speaker": "sophie",
+    "text_ko": "같이 가!"
+  },
+  {
+    "id": 932,
+    "speaker": "sophie",
+    "text_ko": "에마, 많이 속상했어?"
+  },
+  {
+    "id": 935,
+    "speaker": "sophie",
+    "text_ko": "그랬겠다."
+  },
+  {
+    "id": 937,
+    "speaker": "sophie",
+    "text_ko": "이해해요."
+  },
+  {
+    "id": 939,
+    "speaker": "sophie",
+    "text_ko": "많이 힘들었겠다."
+  },
+  {
+    "id": 941,
+    "speaker": "sophie",
+    "text_ko": "다행이에요."
+  },
+  {
+    "id": 952,
+    "speaker": "sophie",
+    "text_ko": "에마, 이 드라마 반전 있어!"
+  },
+  {
+    "id": 955,
+    "speaker": "sophie",
+    "text_ko": "맞아!"
+  },
+  {
+    "id": 957,
+    "speaker": "sophie",
+    "text_ko": "저도!"
+  },
+  {
+    "id": 959,
+    "speaker": "sophie",
+    "text_ko": "저도 울었어요."
+  },
+  {
+    "id": 961,
+    "speaker": "sophie",
+    "text_ko": "있대!"
+  },
+  {
+    "id": 999,
+    "speaker": "sophie",
+    "text_ko": "저도요!"
+  },
+  {
+    "id": 1008,
+    "speaker": "sophie",
+    "text_ko": "시즌2에서 우리 또 만나!"
+  }
+]
