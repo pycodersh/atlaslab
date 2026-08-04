@@ -53,8 +53,21 @@ export async function tryPlayAudio(url: string): Promise<boolean> {
   })
 }
 
-// Play DB audio if URL is available. Never falls back to browser TTS.
-export async function playWithFallback(url: string | null, _text: string): Promise<void> {
-  if (!url) return
-  await tryPlayAudio(url)
+// Play DB audio if URL is available; fall back to browser Korean TTS.
+export async function playWithFallback(url: string | null, text: string): Promise<void> {
+  if (url) {
+    const ok = await tryPlayAudio(url)
+    if (ok) return
+  }
+  // Fallback: browser speech synthesis (Korean)
+  if (typeof window === 'undefined' || !window.speechSynthesis) return
+  await new Promise<void>(resolve => {
+    const utter = new SpeechSynthesisUtterance(text)
+    utter.lang = 'ko-KR'
+    utter.rate = 0.85
+    utter.onend = () => resolve()
+    utter.onerror = () => resolve()
+    window.speechSynthesis.cancel()
+    window.speechSynthesis.speak(utter)
+  })
 }
