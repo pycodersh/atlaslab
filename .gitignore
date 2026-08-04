@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Local audio downloads (not committed)
+/tmp-audio/
+
 # dependencies
 /node_modules
 /.pnp
@@ -59,3 +62,6 @@ public/videos/*.mov
 # videos sub-project — node_modules and build cache excluded
 videos/patto-animations/node_modules/
 videos/patto-animations/.next/
+
+# Claude Code local settings (may contain approved command history)
+.claude/settings.local.json

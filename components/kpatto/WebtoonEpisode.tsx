@@ -7,7 +7,7 @@ import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanel
 import type { KPattoExpression } from '@/data/kpatto/types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
-import { playWithFallback, stopAllAudio } from '@/lib/kpatto/audio'
+import { playAudio, stopAllAudio } from '@/lib/kpatto/audio'
 import { gapContainerStyle, panelImageWidth, panelJustify } from '@/lib/kpatto/webtoon-layout'
 import { fetchExpression } from '@/lib/kpatto/fetch-episode'
 import { ExpressionPopup } from './ExpressionPopup'
@@ -462,6 +462,8 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
     return result
   }, [resolvedEpisode])
 
+  const hasAudio = useMemo(() => allBubbles.some(b => b.audio_url), [allBubbles])
+
   const stopRef = useRef(false)
 
   const handlePlayAll = useCallback(async () => {
@@ -475,13 +477,13 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
     stopRef.current = false
     setIsPlaying(true)
 
-
     for (let i = 0; i < allBubbles.length; i++) {
       if (stopRef.current) break
       const b = allBubbles[i]
       setPlayingId(b.id)
-      console.log('[kpatto bubble]', b.id, 'audio_url:', b.audio_url)
-      await playWithFallback(b.audio_url ?? null, b.korean)
+      console.log('[play] index=' + i + ' bubbleId=' + b.id + ' audioUrl=' + (b.audio_url ?? 'null') + ' status=start')
+      await playAudio(b.audio_url ?? null)
+      console.log('[play] index=' + i + ' bubbleId=' + b.id + ' status=done')
     }
 
     setIsPlaying(false)
@@ -538,13 +540,15 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
           <button style={langBtnStyle(showTrans)} onClick={() => setShowTrans(v => !v)}>EN</button>
         </div>
 
-        {/* Volume */}
-        <button
-          onClick={handlePlayAll}
-          style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', color: isPlaying ? '#ef4444' : '#999999', flexShrink: 0 }}
-        >
-          <Volume2 size={18} />
-        </button>
+        {/* Volume — only shown when episode has audio */}
+        {hasAudio && (
+          <button
+            onClick={handlePlayAll}
+            style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', color: isPlaying ? '#ef4444' : '#999999', flexShrink: 0 }}
+          >
+            <Volume2 size={18} />
+          </button>
+        )}
       </div>
 
       {/* Sections */}

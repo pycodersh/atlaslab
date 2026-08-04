@@ -34,14 +34,11 @@ function stopCurrent() {
   }
 }
 
-// Stop all audio (no browser TTS — DB audio only)
 export function stopAllAudio() {
   stopCurrent()
-  if (typeof window !== 'undefined') window.speechSynthesis?.cancel()
 }
 
-// Play a URL directly. No HEAD pre-check, no TTS fallback.
-// Returns true on successful playback, false on error/skip.
+// Play a URL directly. Returns true on successful playback, false on error.
 export async function tryPlayAudio(url: string): Promise<boolean> {
   return new Promise(resolve => {
     stopCurrent()
@@ -62,21 +59,14 @@ export async function tryPlayAudio(url: string): Promise<boolean> {
   })
 }
 
-// Play DB audio if URL is available; fall back to browser Korean TTS.
-export async function playWithFallback(url: string | null, text: string): Promise<void> {
-  if (url) {
-    const ok = await tryPlayAudio(url)
-    if (ok) return
+// Play DB audio if URL is available. No TTS fallback.
+export async function playAudio(url: string | null): Promise<void> {
+  if (!url) {
+    console.log('[kpatto audio] no url')
+    return
   }
-  // Fallback: browser speech synthesis (Korean)
-  if (typeof window === 'undefined' || !window.speechSynthesis) return
-  await new Promise<void>(resolve => {
-    const utter = new SpeechSynthesisUtterance(text)
-    utter.lang = 'ko-KR'
-    utter.rate = 0.85
-    utter.onend = () => resolve()
-    utter.onerror = () => resolve()
-    window.speechSynthesis.cancel()
-    window.speechSynthesis.speak(utter)
-  })
+  const ok = await tryPlayAudio(url)
+  if (!ok) {
+    console.log('[kpatto audio] failed', url)
+  }
 }
