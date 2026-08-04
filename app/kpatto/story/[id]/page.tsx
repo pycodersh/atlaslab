@@ -184,11 +184,11 @@ export default function KPattoStoryPage({ params }: PageProps) {
           </Link>
           <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
             <div style={{ fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-              EP {String(epNum).padStart(2, '0')} · {story?.title ?? webtoonEpisode?.title ?? ''}
+              EP {String(epNum).padStart(2, '0')} · {story?.title ?? ''}
             </div>
-            {(story?.title_en ?? webtoonEpisode?.title_en) && (
+            {story?.title_en && (
               <div style={{ fontSize: 11, color: '#999999', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {story?.title_en ?? webtoonEpisode?.title_en}
+                {story.title_en}
               </div>
             )}
           </div>

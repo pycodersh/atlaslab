@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { House, BookOpen, ClipboardList, User } from 'lucide-react'
+import { House, BookOpen, BarChart2, BookMarked } from 'lucide-react'
 
 export const KPATTO_TAB_BAR_HEIGHT = 80
 
@@ -27,17 +27,17 @@ const TABS = [
   },
   {
     key: 'record',
-    label: 'Record',
+    label: 'Progress',
     href: '/kpatto/record',
     active: (p: string) => p.startsWith('/kpatto/record'),
-    icon: (active: boolean) => <ClipboardList size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
+    icon: (active: boolean) => <BarChart2 size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
   {
-    key: 'profile',
-    label: 'Profile',
-    href: '/kpatto/profile',
-    active: (p: string) => p.startsWith('/kpatto/profile'),
-    icon: (active: boolean) => <User size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
+    key: 'expressions',
+    label: 'Library',
+    href: '/kpatto/expressions',
+    active: (p: string) => p.startsWith('/kpatto/expressions'),
+    icon: (active: boolean) => <BookMarked size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
 ] as const
 
