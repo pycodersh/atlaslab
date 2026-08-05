@@ -284,6 +284,8 @@ EP89 | 골목 맛집
 [컷2]
   에마: 우와, 골목 안에 이런 데가 있었어요?
   EN: Wow, there was a place like this inside the alley?
+  지수: 여기 나만 아는 데야.
+  EN: This is my own little secret spot.
 
 [컷3]
   지수: 현지인들이 가는 곳이야. 완전 숨겨진 명소야.
