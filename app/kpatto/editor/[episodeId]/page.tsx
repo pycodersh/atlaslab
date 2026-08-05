@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
 import { WebtoonEditor } from '@/components/kpatto/WebtoonEditor'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
-import { fetchWebtoonEpisode } from '@/lib/kpatto/fetch-episode'
 import type { WebtoonEpisodeData } from '@/data/kpatto/webtoon-types'
 
 interface PageProps {
@@ -19,10 +18,15 @@ export default function KPattoEditorPage({ params }: PageProps) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchWebtoonEpisode(episodeId).then(ep => {
-      setEpisode(ep)
-      setLoading(false)
-    })
+    // Use admin API (service_role) so all episodes including EP11+ are accessible.
+    // The endpoint is blocked by middleware in production; local dev passes freely.
+    fetch(`/api/admin/episode-content?id=${episodeId}`)
+      .then(r => r.ok ? r.json() as Promise<WebtoonEpisodeData> : null)
+      .then(ep => {
+        setEpisode(ep)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
   }, [episodeId])
 
   if (loading) {

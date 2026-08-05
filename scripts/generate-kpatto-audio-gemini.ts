@@ -181,8 +181,14 @@ async function tts(prompt: string, voice: string): Promise<Buffer> {
       })()
 
       if (isRpd || retryAfterMs > 600_000) {
-        // 일일 한도 → 즉시 종료
+        // 일일 한도 → 즉시 종료 (원문 로깅 후 종료)
+        const rpdCause = isRpd
+          ? `[RPD-PerDay] violations: ${JSON.stringify(violations)}`
+          : `[RPD-retryAfter] retryAfterMs=${retryAfterMs} (>600000) retryAfterHeader=${retryAfterHeader}`
+        const rpdBody  = rawText.slice(0, 1000)
         console.log(`\n  [RPD] 일일 한도 소진. 태평양 자정(한국 오후 4~5시) 이후 재실행하세요.`)
+        console.log(`  판정 근거: ${rpdCause}`)
+        console.log(`  응답 원문: ${rpdBody}`)
         throw new RpdError()
       }
 
@@ -315,6 +321,9 @@ async function processExpression(
     const url         = await upload(wav, storagePath)
     await sb.from('kp_expressions').update({ audio_url: url, audio_hash: hash }).eq('id', expr.id)
     console.log(`· ${((Date.now()-t1)/1000).toFixed(1)}s · OK`)
+    // 같은 표현이 여러 에피소드에서 처리될 때, 이전 실패 기록 제거
+    const prevIdx = failures.findIndex(f => f.type === 'expression' && f.id === expr.id)
+    if (prevIdx !== -1) failures.splice(prevIdx, 1)
     return true
   } catch (e: any) {
     if (e instanceof RpdError) throw e
