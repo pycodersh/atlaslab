@@ -443,7 +443,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
 
   // Load saved layout overrides and merge with base episode data
   useEffect(() => {
-    fetch(`/api/admin/episode-layout?id=${episode.id}`)
+    fetch(`/api/kpatto/episode-layout?id=${episode.id}`)
       .then(r => r.ok ? r.json() : null)
       .then(data => {
         if (data?.overrides && Object.keys(data.overrides).length > 0) {
