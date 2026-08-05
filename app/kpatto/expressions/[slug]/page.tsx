@@ -239,7 +239,7 @@ export default async function ExpressionPage({ params }: PageProps) {
                 background: DIV, borderRadius: 6, padding: '3px 8px',
                 letterSpacing: '0.04em', textDecoration: 'none',
               }}>
-                {catConfig.labelKo} →
+                {catConfig.labelEn} →
               </Link>
             )}
           </div>
@@ -323,9 +323,13 @@ export default async function ExpressionPage({ params }: PageProps) {
           {/* ── How to Use ── */}
           {e.description && (
             <Section label="How to Use">
-              <p style={{ fontSize: 14, color: T1, lineHeight: 1.7, margin: 0 }}>
-                {e.description}
-              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {e.description.split('\n\n').map((para, i) => (
+                  <p key={i} style={{ fontSize: 14, color: T1, lineHeight: 1.7, margin: 0 }}>
+                    {para}
+                  </p>
+                ))}
+              </div>
               {e.tip && (
                 <div style={{
                   marginTop: 12, padding: '12px 14px',
