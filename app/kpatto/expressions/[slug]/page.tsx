@@ -14,7 +14,7 @@ import {
 
 export const dynamicParams = false
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://k-patto.com'
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://atlaslabstudios.com'
 
 const T1     = '#111111'
 const T2     = '#888888'

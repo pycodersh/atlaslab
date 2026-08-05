@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { SLUG_TO_ID, CATEGORIES } from '@/lib/kpatto/expressions-config'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://k-patto.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://atlaslabstudios.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // EP01~10 (free episodes only — EP11+ are gated, excluded from sitemap)

@@ -31,11 +31,13 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://atlaslabstudios.com'
+
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'K-PATTO',
-  url: 'https://k-patto.com',
+  url: `${BASE_URL}/kpatto`,
   description:
     'Learn Korean through webtoon stories — real expressions, real context, with audio.',
   sameAs: [],
