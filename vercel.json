@@ -1,12 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.atlaslabstudios.com" }],
-      "destination": "https://atlaslabstudios.com/:path*",
-      "permanent": true
-    }
-  ],
   "crons": [
     {
       "path": "/api/notifications/daily",
