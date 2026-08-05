@@ -29,6 +29,8 @@ EP51 | 계획 세우기
 [컷6]
   지수: 우리 같이 하자! 파이팅!
   EN: Let's do it together! Fighting!
+  에마: 좋아요, 같이 해요!
+  EN: Great, let's do it together!
 
 
 EP52 | 결심
@@ -54,10 +56,14 @@ EP52 | 결심
   에마: 예전보다 늘었어요!
   EN: I've improved compared to before!
   ▸ 예전보다 늘었어요 → "예전보다 늘었어요"
+  민준: 그거 쉬운 거 아니야.
+  EN: That's not an easy thing to do.
 
 [컷5]
   민준: 계속 그렇게만 해!
   EN: Just keep it up!
+  에마: 네, 지켜봐 주세요!
+  EN: Yes, just watch me!
 
 
 EP53 | 경험 나누기
@@ -65,6 +71,8 @@ EP53 | 경험 나누기
 [컷1]
   지수: 이거 순대야. 한번 먹어 봐.
   EN: This is sundae. Give it a try.
+  에마: 이게 순대예요?
+  EN: So this is sundae?
 
 [컷2]
   에마(생각): 생각보다 괜찮던데?
@@ -87,6 +95,8 @@ EP53 | 경험 나누기
 [컷5]
   에마: 다음엔 제가 추천할게요!
   EN: Next time I'll be the one recommending!
+  지수: 기대할게!
+  EN: I'll look forward to it!
 
 
 EP54 | 언어 교환
@@ -94,6 +104,8 @@ EP54 | 언어 교환
 [컷1]
   에마: 오늘은 영어랑 한국어 같이 해요!
   EN: Today let's do English and Korean together!
+  지수: 좋아! 나도 영어 연습하고 싶었어.
+  EN: Great! I wanted to practice English too.
 
 [컷2]
   에마: 이거 어떻게 읽는지 알려 주세요.
@@ -105,6 +117,8 @@ EP54 | 언어 교환
   지수: 이건 이렇게 쓰는 거야. 맞아?
   EN: You write it like this. Right?
   ▸ ~맞아? → "맞아?"
+  에마: 네, 맞아요!
+  EN: Yes, that's right!
 
 [컷4]
   지수: 이 표현 저번에 배웠잖아.
@@ -114,6 +128,8 @@ EP54 | 언어 교환
 [컷5]
   에마: 아, 맞다! 이제 기억나요!
   EN: Ah, right! I remember now!
+  지수: 역시, 금방 떠올리네.
+  EN: See, you remembered it right away.
 
 
 EP55 | 음식 만들기
@@ -121,6 +137,8 @@ EP55 | 음식 만들기
 [컷1]
   지수: 오늘은 김치찌개 만들 거야!
   EN: Today we're making kimchi jjigae!
+  에마: 제가 도와드릴게요!
+  EN: Let me help you!
 
 [컷2]
   지수: 두부는 미리 썰어 놨어.
@@ -143,6 +161,8 @@ EP55 | 음식 만들기
 [컷5]
   지수: 진짜 맛있어! 잘했어!
   EN: It's really good! Well done!
+  에마: 다음엔 더 잘 만들게요!
+  EN: Next time I'll make it even better!
 
 
 EP56 | 쇼핑
@@ -150,6 +170,8 @@ EP56 | 쇼핑
 [컷1]
   소피: 여기 옷 진짜 많아요!
   EN: There are so many clothes here!
+  에마: 다 예뻐서 고르기 어려워요.
+  EN: They're all pretty, so it's hard to choose.
 
 [컷2]
   소피: 이거 어때요?
@@ -181,6 +203,8 @@ EP57 | 카페 알바
 [컷1]
   지수: 나 여기서 알바 시작했어!
   EN: I started working here!
+  에마: 언제부터요?
+  EN: Since when?
 
 [컷2]
   지수: 손님한테는 이렇게 말해야 해.
@@ -253,16 +277,22 @@ EP59 | 독서 카페
   EN: I've been here before! It's great for studying.
   ▸ ~와 봤어요? → "와 봤어요"
   ▸ ~하기 좋아요 → "공부하기 좋아요"
+  에마: 어쩐지 분위기가 좋아요.
+  EN: No wonder it feels so nice.
 
 [컷3]
   소피: 저기 창가 자리가 비어 있어요.
   EN: That window seat is empty.
   ▸ -어 있다 → "비어 있어요"
+  에마: 저기 앉아요!
+  EN: Let's sit over there!
 
 [컷4]
   에마: 생각만큼 어렵지 않아요!
   EN: It's not as hard as I thought!
   ▸ ~만큼 → "생각만큼"
+  소피: 그것 봐요!
+  EN: See, I told you!
 
 [컷5]
   에마(생각): 다음에도 여기 와야지.
@@ -280,11 +310,15 @@ EP60 | 음식 문화
   에마: 저는 떡볶이요! 매워서 중독성 있어요.
   EN: Tteokbokki! It's spicy, which makes it addictive.
   ▸ ~라서 중독성 있어요 → "매워서 중독성 있어요"
+  민준: 오, 나도 그거 좋아해.
+  EN: Oh, I like that too.
 
 [컷3]
   에마: 미국 음식이랑 정말 달라요.
   EN: It's really different from American food.
   ▸ ~이랑 달라요 → "이랑 정말 달라요"
+  민준: 어떤 게 제일 달라?
+  EN: What's the biggest difference?
 
 [컷4]
   에마: 저는 빵 대신에 밥을 먹게 됐어요.
@@ -294,3 +328,5 @@ EP60 | 음식 문화
 [컷5]
   민준: 이제 완전 한국 사람이네!
   EN: You're totally Korean now!
+  에마: 그 말이 제일 좋아요!
+  EN: That's my favorite thing to hear!

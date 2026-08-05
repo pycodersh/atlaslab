@@ -29,6 +29,8 @@ EP61 | 뉘앙스
 [컷6]
   에마: 이제 조금 알겠어요!
   EN: I think I get it now!
+  소피: 저도요!
+  EN: Me too!
 
 
 EP62 | 직장 생활
@@ -62,6 +64,8 @@ EP62 | 직장 생활
 [컷6]
   에마: 커피는 제가 살게요!
   EN: The coffee's on me!
+  민준: 그럼 얻어먹을게.
+  EN: Then I'll take you up on it.
 
 
 EP63 | SNS 트렌드
@@ -77,6 +81,8 @@ EP63 | SNS 트렌드
 [컷2]
   에마: 음식 사진부터 찍어야 해요!
   EN: You have to photograph the food first!
+  소피: 잠깐만요, 아직 먹지 마세요!
+  EN: Wait, don't eat it yet!
 
 [컷3]
   에마: 어제 사진 올렸더니 팔로워가 늘었어요!
@@ -91,6 +97,8 @@ EP63 | SNS 트렌드
 [컷5]
   소피: 이제 인플루언서네요!
   EN: You're an influencer now!
+  에마: 그 정도는 아니에요!
+  EN: It's not that big a deal!
 
 
 EP64 | 요리 도전
@@ -111,6 +119,8 @@ EP64 | 요리 도전
 [컷3]
   에마(생각): 그래도 한번 해 보자.
   EN: Still, let's give it a shot.
+  소피: 제가 옆에서 도와줄게요.
+  EN: I'll help you from here.
 
 [컷4]
   소피: 우와, 진짜 맛있어요!
@@ -120,6 +130,8 @@ EP64 | 요리 도전
   에마: 다음엔 더 잘할 거예요!
   EN: I'll do even better next time!
   ▸ 다음엔 더 잘할 거예요 → "다음엔 더 잘할 거예요"
+  소피: 다음에도 꼭 불러 주세요!
+  EN: Be sure to invite me next time too!
 
 
 EP65 | K-뷰티 루틴
@@ -140,6 +152,8 @@ EP65 | K-뷰티 루틴
   에마: 마스크팩은 자기 전에 하고 나서 자요.
   EN: I do a sheet mask before bed, then sleep.
   ▸ ~하고 나서 → "하고 나서"
+  소피: 저는 그냥 자는데요.
+  EN: I just go straight to sleep, though.
 
 [컷4]
   소피: 이건 꼭 매일 해야 해요!
@@ -149,6 +163,8 @@ EP65 | K-뷰티 루틴
 [컷5]
   에마: 피부가 진짜 좋아졌어요!
   EN: My skin has really improved!
+  소피: 저도 오늘부터 해 볼래요.
+  EN: I'm going to start today too.
 
 
 EP66 | 한국어 실력
@@ -156,6 +172,8 @@ EP66 | 한국어 실력
 [컷1]
   에마: 요즘 한국어가 진짜 재미있어요!
   EN: Korean is really fun these days!
+  민준: 그 말 들으니까 좋다.
+  EN: It's good to hear that.
 
 [컷2]
   민준: 에마, 진짜 많이 늘었어!
@@ -180,6 +198,8 @@ EP66 | 한국어 실력
 [컷6]
   에마: 더 열심히 할게요!
   EN: I'll work even harder!
+  민준: 그 마음이면 충분해.
+  EN: That attitude is enough.
 
 
 EP67 | 날씨와 계절
@@ -199,6 +219,8 @@ EP67 | 날씨와 계절
 [컷3]
   에마: 여름은 정말 더워요!
   EN: Summer is so hot!
+  지수: 이제 시작이야.
+  EN: This is just the beginning.
 
 [컷4]
   에마: 더워도 밖에 나올 텐데, 다들 대단해요.
@@ -233,6 +255,8 @@ EP68 | 갈등 해소
   에마: 그런 뜻이 아니었거든요.
   EN: That's not what I meant, you see.
   ▸ -거든 → "아니었거든요"
+  소피: 이제는 알아요.
+  EN: I know that now.
 
 [컷4]
   에마: 그때 바로 말할걸 그랬어요.
@@ -242,6 +266,8 @@ EP68 | 갈등 해소
 [컷5]
   소피: 이제 괜찮아요. 말해 줘서 고마워요.
   EN: It's fine now. Thanks for telling me.
+  에마: 저야말로 고마워요.
+  EN: I'm the one who should be thanking you.
 
 
 EP69 | 목표와 꿈
@@ -255,6 +281,8 @@ EP69 | 목표와 꿈
   에마: 저는 통역사가 되고 싶어요.
   EN: I want to become an interpreter.
   ▸ ~가 되고 싶어요 → "되고 싶어요"
+  민준: 오, 멋있다.
+  EN: Oh, that's cool.
 
 [컷3]
   에마: 언젠가 면접에서 이렇게 말할 거예요.
@@ -271,6 +299,8 @@ EP69 | 목표와 꿈
 [컷5]
   민준: 그래도 계속하면 돼. 응원할게!
   EN: But just keep going. I'm rooting for you!
+  에마: 그 말 기억할게요.
+  EN: I'll remember those words.
 
 
 EP70 | 환경과 분리수거
@@ -304,3 +334,5 @@ EP70 | 환경과 분리수거
 [컷6]
   에마: 좋은 생각이에요!
   EN: Great idea!
+  지수: 다음엔 혼자도 되겠네.
+  EN: You'll manage on your own next time.

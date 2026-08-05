@@ -3,6 +3,8 @@ EP41 | 연결 표현
 [컷1]
   에마: 지수 씨, 오늘 시간 있어요?
   EN: Jisu, do you have time today?
+  지수: 응, 왜? 무슨 일 있어?
+  EN: Yeah, why? Is something up?
 
 [컷2]
   에마: 오늘 발표가 있는데, 너무 떨려요.
@@ -25,6 +27,8 @@ EP41 | 연결 표현
 [컷5]
   지수: 그렇지! 파이팅!
   EN: That's the spirit! You got this!
+  에마: 고마워요, 지수 씨!
+  EN: Thank you, Jisu!
 
 
 EP42 | 조건과 제안
@@ -32,6 +36,8 @@ EP42 | 조건과 제안
 [컷1]
   소피: 이번 주말에 뭐 할까요?
   EN: What should we do this weekend?
+  에마: 저는 다 좋아요!
+  EN: Anything works for me!
 
 [컷2]
   소피: 여기 한번 가 보면 어때요?
@@ -56,6 +62,8 @@ EP42 | 조건과 제안
 [컷6]
   소피: 완벽해요!
   EN: Perfect!
+  에마: 그럼 그때 봐요!
+  EN: See you then!
 
 
 EP43 | 이유와 비교
@@ -78,6 +86,8 @@ EP43 | 이유와 비교
   에마: 이게 저것보다 더 매워요.
   EN: This one is spicier than that one.
   ▸ ~보다 → "저것보다"
+  민준: 매운 거 잘 먹네?
+  EN: You handle spicy food well, huh?
 
 [컷5]
   에마: 민준 씨 덕분에 잘 먹었어요!
@@ -87,6 +97,8 @@ EP43 | 이유와 비교
 [컷6]
   민준: 다음엔 더 맛있는 데 가자.
   EN: Next time let's go somewhere even better.
+  에마: 좋아요!
+  EN: Sounds great!
 
 
 EP44 | 시간 순서
@@ -94,6 +106,8 @@ EP44 | 시간 순서
 [컷1]
   에마: 저는 음악 들으면서 걷는 거 좋아해요.
   EN: I like walking while listening to music.
+  지수: 보통 어떤 노래 들어?
+  EN: What kind of songs do you usually listen to?
 
 [컷2]
   에마: 자기 전에 항상 한국 노래를 들어요.
@@ -118,6 +132,8 @@ EP44 | 시간 순서
 [컷6]
   지수: 우리 습관이 비슷하네!
   EN: Our habits are similar!
+  에마: 그러네요!
+  EN: They really are!
 
 
 EP45 | 도움 주기
@@ -147,6 +163,8 @@ EP45 | 도움 주기
 [컷5]
   점원: 여기 있습니다. 맛있게 드세요!
   EN: Here you go. Enjoy!
+  에마: 감사합니다!
+  EN: Thank you!
 
 [컷6]
   민준: 이제 나보다 잘하는데?
@@ -163,6 +181,8 @@ EP46 | 기간과 진행
 [컷2]
   에마: 이제 1년 됐어요!
   EN: It's been a year now!
+  지수: 벌써 1년이야?
+  EN: A year already?
 
 [컷3]
   에마: 아직 배우는 중이에요.
@@ -182,6 +202,8 @@ EP46 | 기간과 진행
 [컷6]
   지수: 진짜 많이 늘었어!
   EN: You've really improved a lot!
+  에마: 그렇게 말해 주니까 힘이 나요.
+  EN: Hearing you say that gives me energy.
 
 
 EP47 | 패션
@@ -194,6 +216,8 @@ EP47 | 패션
 [컷2]
   에마: 이 원피스 어때요?
   EN: How about this dress?
+  소피: 한번 입어 봐요!
+  EN: Try it on!
 
 [컷3]
   소피: 진짜 잘 어울려요!
@@ -213,6 +237,8 @@ EP47 | 패션
 [컷6]
   에마: 이걸로 살게요!
   EN: I'll take this one!
+  소피: 잘 골랐어요!
+  EN: Good choice!
 
 
 EP48 | 배달 음식
@@ -221,6 +247,8 @@ EP48 | 배달 음식
   지수: 오늘은 배달 시켜요!
   EN: Let's order delivery today!
   ▸ 배달 시켜요 → "배달 시켜요"
+  에마: 좋아요! 뭐 시켜요?
+  EN: Great! What should we order?
 
 [컷2]
   에마: 배달 얼마나 걸려요?
@@ -242,6 +270,8 @@ EP48 | 배달 음식
 [컷5]
   지수: 다음에 또 시키자!
   EN: Let's order again next time!
+  에마: 다음엔 제가 시킬게요!
+  EN: Next time I'll be the one ordering!
 
 
 EP49 | 여행 계획
@@ -273,6 +303,8 @@ EP49 | 여행 계획
 [컷5]
   에마: 벌써 설레요!
   EN: I'm excited already!
+  민준: 사진 많이 찍어 와.
+  EN: Take lots of photos while you're there.
 
 
 EP50 | 한국 생활 절반
@@ -281,6 +313,8 @@ EP50 | 한국 생활 절반
   지수: 한국 생활 어때?
   EN: How's life in Korea?
   ▸ 한국 생활 어때? → "한국 생활 어때?"
+  에마: 음… 한마디로는 어려워요.
+  EN: Hmm... it's hard to put in one word.
 
 [컷2]
   에마(생각): 정말 많은 일이 있었어.
@@ -304,3 +338,5 @@ EP50 | 한국 생활 절반
 [컷6]
   지수: 남은 반년도 잘 지내자!
   EN: Let's make the next six months good too!
+  에마: 네, 잘 부탁해요!
+  EN: Yes, I'm counting on you!

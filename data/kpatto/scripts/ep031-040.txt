@@ -19,6 +19,8 @@ EP31 | 감정 표현
 [컷4]
   지수: 나도 그때 진짜 떨렸어…
   EN: I was really nervous back then too...
+  에마: 지수 씨도 떨렸어요?
+  EN: You were nervous too, Jisu?
 
 [컷5]
   에마: 괜찮아요, 지수 씨. 저도 옆에 있을게요.
@@ -27,6 +29,8 @@ EP31 | 감정 표현
 [컷6]
   지수: 고마워. 너 진짜 많이 컸다.
   EN: Thanks. You've really grown.
+  에마(생각): 이런 말은 오래 남는다.
+  EN: Words like these stay with you.
 
 
 EP32 | 위로하기
@@ -44,6 +48,8 @@ EP32 | 위로하기
   지수: 요즘 좀 힘들어…
   EN: Things have been a bit hard lately...
   ▸ 요즘 좀 힘들어요 → "요즘 좀 힘들어"
+  에마: 무슨 일 있었어요?
+  EN: Did something happen?
 
 [컷4]
   지수: 과제 하느라고 잠도 못 잤어.
@@ -58,6 +64,8 @@ EP32 | 위로하기
 [컷6]
   지수: 고마워… 조금 나아졌어.
   EN: Thanks... I feel a little better.
+  에마: 다행이에요.
+  EN: I'm glad.
 
 
 EP33 | SNS 친구
@@ -66,6 +74,8 @@ EP33 | SNS 친구
   에마: 민준 씨, 카카오톡 해요?
   EN: Minjun, do you use KakaoTalk?
   ▸ 카카오톡 해요? → "카카오톡 해요?"
+  민준: 응, 하지. 왜?
+  EN: Yeah, I do. Why?
 
 [컷2]
   에마: 인스타도 있어요! 이거 제 계정이에요.
@@ -85,6 +95,8 @@ EP33 | SNS 친구
   민준: 당연하지! 사진 좋은 거 있으면 보내 줄게.
   EN: Of course! If I get a good shot, I'll send it to you.
   ▸ -을게 → "보내 줄게"
+  에마: 기대할게요!
+  EN: I'll look forward to it!
 
 [컷6]
   에마: 팔로워가 한 명 늘었어요!
@@ -100,6 +112,8 @@ EP34 | 밥 한번 먹어요
 [컷2]
   민준: 뭐 먹을래? 내가 주문할게.
   EN: What do you want? I'll order.
+  에마: 저는 아무거나 좋아요.
+  EN: Anything is fine with me.
 
 [컷3]
   에마: 오늘은 제가 살게요!
@@ -117,6 +131,8 @@ EP34 | 밥 한번 먹어요
   민준: 다음엔 나한테 먼저 연락해.
   EN: Next time, contact me first.
   ▸ ~에게/한테 → "나한테"
+  에마: 네, 꼭이요!
+  EN: Yes, I definitely will!
 
 [컷6]
   에마: 우리 또 밥 한번 먹어요!
@@ -134,6 +150,8 @@ EP35 | 한국 문화
   지수: 에마, 한복 입어 봤어?
   EN: Emma, have you ever worn a hanbok?
   ▸ ~입어 봤어? → "입어 봤어?"
+  에마: 아니요, 오늘이 처음이에요!
+  EN: No, today is my first time!
 
 [컷3]
   에마(생각): 이게 무슨 뜻이야?
@@ -151,6 +169,8 @@ EP35 | 한국 문화
 [컷5]
   에마: 사진 많이 찍어요!
   EN: Let's take lots of photos!
+  지수: 여기 서 봐. 잘 나온다.
+  EN: Stand here. It comes out well.
 
 
 EP36 | 음주 문화
@@ -173,10 +193,14 @@ EP36 | 음주 문화
 [컷4]
   지수: 안주도 먹어! 이게 제일 맛있어.
   EN: Eat some food too! This is the best.
+  에마: 진짜 맛있어요!
+  EN: It really is delicious!
 
 [컷5]
   에마: 얼굴이 뜨거워요…
   EN: My face is burning up...
+  지수: 물 좀 마셔.
+  EN: Drink some water.
 
 [컷6]
   에마: 오늘은 여기까지만 해요!
@@ -194,11 +218,15 @@ EP37 | 노래방
 [컷2]
   소피: 에마 씨, 잘하는데요!
   EN: Emma, you're good at this!
+  에마: 부끄러워요!
+  EN: I'm embarrassed!
 
 [컷3]
   지수: 신청곡 있어? 내가 넣어 줄게.
   EN: Any requests? I'll queue it up.
   ▸ 신청곡 있어요? → "신청곡 있어?"
+  에마: 그럼 이거요!
+  EN: This one, then!
 
 [컷4]
   에마: 다음 곡도 좀 넣어 주세요!
@@ -220,6 +248,8 @@ EP38 | K-댄스
 [컷1]
   지수: 여기가 댄스 스튜디오야.
   EN: This is the dance studio.
+  에마: 여기서 배우는 거예요?
+  EN: Is this where we learn?
 
 [컷2]
   지수: 발부터 이렇게. 넘어지지 않도록 조심해!
@@ -234,6 +264,8 @@ EP38 | K-댄스
 [컷4]
   에마: 아! 넘어질 뻔했어요!
   EN: Ah! I almost fell!
+  지수: 괜찮아? 천천히 해.
+  EN: Are you okay? Take it slow.
 
 [컷5]
   에마: 어렵지만 재미있어요!
@@ -252,6 +284,8 @@ EP39 | 카페 공부
   소피: 여기 분위기 좋아요.
   EN: This place has a nice atmosphere.
   ▸ 분위기 좋아요 → "분위기 좋아요"
+  에마: 그러네요. 진짜 조용해요.
+  EN: It really is. So quiet.
 
 [컷2]
   에마: 달달한 거 있어요?
@@ -275,6 +309,8 @@ EP39 | 카페 공부
 [컷6]
   소피: 다음에도 여기서 공부해요!
   EN: Let's study here again next time!
+  에마: 네, 꼭이요!
+  EN: Yes, definitely!
 
 
 EP40 | 문화 적응
@@ -282,6 +318,8 @@ EP40 | 문화 적응
 [컷1]
   민준: 한국 온 지 벌써 반년이네.
   EN: It's already been half a year since you came to Korea.
+  에마: 벌써요? 시간이 정말 빨라요.
+  EN: Already? Time really flies.
 
 [컷2]
   에마(생각): 처음엔 다 낯설었는데…

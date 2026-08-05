@@ -225,11 +225,15 @@ EP17 | 약국에서
   에마: 목이 아픈데, 감기약 있어요?
   EN: My throat hurts — do you have cold medicine?
   ▸ ~약 있어요? → "약 있어요?"
+  약사: 기침도 하세요?
+  EN: Are you coughing as well?
 
 [컷3]
   약사: 이건 졸려요. 운전하시면 안 돼요.
   EN: This makes you drowsy. You mustn't drive.
   ▸ -으면 안 되다 → "하시면 안 돼요"
+  에마: 그럼 밤에 먹을게요.
+  EN: Then I'll take it at night.
 
 [컷4]
   약사: 커피랑 같이 안 먹는 게 나아요.
@@ -255,6 +259,8 @@ EP18 | 취미 이야기
   민준: 사진. 주말마다 찍으러 다녀.
   EN: Photography. I go shooting every weekend.
   ▸ ~마다 → "주말마다"
+  에마: 주로 어디에서 찍어요?
+  EN: Where do you usually shoot?
 
 [컷3]
   에마: 저도요! 저도 사진 좋아해요.
@@ -319,6 +325,8 @@ EP20 | 오랜만에 만남
 [컷1]
   지수: 에마! 진짜 에마 맞아?
   EN: Emma! Is that really you?
+  에마: 우와, 여기서 만나네요!
+  EN: Wow, of all places to run into you!
 
 [컷2]
   에마: 오랜만이에요!
@@ -336,6 +344,8 @@ EP20 | 오랜만에 만남
   에마: 우리 만난 지 벌써 1년 됐어요.
   EN: It's already been a year since we met.
   ▸ -은 지 → "만난 지"
+  지수: 시간 진짜 빠르다.
+  EN: Time really flies.
 
 [컷5]
   에마: 다음에 또 봐요!

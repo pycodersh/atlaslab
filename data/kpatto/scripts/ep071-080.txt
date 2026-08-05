@@ -11,6 +11,8 @@ EP71 | 감성 대화
   소피: 저는 밤바다처럼 잔잔한 게 좋아요.
   EN: I like things calm, like the sea at night.
   ▸ ~처럼 → "밤바다처럼"
+  에마: 저도 그런 게 좋아요.
+  EN: I like that kind of thing too.
 
 [컷3]
   에마: 여기 올 때마다 마음이 편해져요.
@@ -21,6 +23,8 @@ EP71 | 감성 대화
 [컷4]
   소피: 우리 이런 얘기 처음이네요.
   EN: This is our first time talking like this.
+  에마: 그러네요.
+  EN: You're right.
 
 [컷5]
   에마(생각): 이런 순간이 오래 남을 것 같다.
@@ -56,6 +60,8 @@ EP72 | 갈등과 오해
 [컷5]
   에마: 고마워요. 마음이 놓여요.
   EN: Thank you. I feel relieved.
+  지수: 나도.
+  EN: Same here.
 
 
 EP73 | 목표 달성
@@ -80,11 +86,15 @@ EP73 | 목표 달성
   민준: 매일 그렇게 하기에 될 줄 알았어.
   EN: You worked at it every day, so I knew you'd make it.
   ▸ -기에 → "하기에"
+  에마: 믿어 줘서 고마웠어요.
+  EN: Thank you for believing in me.
 
 [컷5]
   에마: 여러분 덕분이에요. 고마울 수밖에 없어요.
   EN: It's all thanks to you. I can't help but be grateful.
   ▸ -을 수밖에 없다 → "고마울 수밖에 없어요"
+  민준: 다음엔 뭐 할 거야?
+  EN: So what's next for you?
 
 
 EP74 | 한국 음식 탐험
@@ -92,10 +102,14 @@ EP74 | 한국 음식 탐험
 [컷1]
   지수: 여기가 광장시장이야!
   EN: This is Gwangjang Market!
+  에마: 사람이 정말 많아요!
+  EN: There are so many people!
 
 [컷2]
   에마: 이거 진짜 커요!
   EN: This is huge!
+  지수: 여기선 이게 기본이야.
+  EN: Around here, this is the standard size.
 
 [컷3]
   에마: 우와, 생각보다 훨씬 바삭해요!
@@ -111,6 +125,8 @@ EP74 | 한국 음식 탐험
 [컷5]
   에마: 오늘 진짜 배부르게 먹었어요!
   EN: I ate so well today!
+  지수: 다음엔 더 안쪽까지 가 보자.
+  EN: Next time let's go deeper inside.
 
 
 EP75 | 일상의 즐거움
@@ -118,6 +134,8 @@ EP75 | 일상의 즐거움
 [컷1]
   에마: 이 골목 진짜 좋아요.
   EN: I really love this alley.
+  소피: 저도 여기 좋아해요.
+  EN: I like it here too.
 
 [컷2]
   에마: 저기 새로 생긴 카페예요!
@@ -129,6 +147,8 @@ EP75 | 일상의 즐거움
   에마: 저는 이렇게 걷는 게 좋아요.
   EN: I like walking around like this.
   ▸ ~하는 게 좋아요 → "걷는 게 좋아요"
+  소피: 저도요. 천천히 걸어요.
+  EN: Me too. Let's take it slow.
 
 [컷4]
   에마: 여기 올 때마다 행복해요.
@@ -151,11 +171,15 @@ EP76 | 한국어 고민
 [컷2]
   지수: 뜻은 같은데 느낌이 달라.
   EN: The meaning is the same, but the feeling is different.
+  에마: 그 느낌이 제일 어려워요.
+  EN: That feeling is the hardest part.
 
 [컷3]
   에마: 배울수록 더 어려워요!
   EN: The more I learn, the harder it gets!
   ▸ -을수록 → "배울수록"
+  지수: 원래 그래.
+  EN: That's just how it goes.
 
 [컷4]
   에마: 저는 규칙만큼 느낌이 중요한 줄 몰랐어요.
@@ -167,6 +191,8 @@ EP76 | 한국어 고민
   EN: Instead of memorizing, just listen a lot. That's all there is to it!
   ▸ -는 대신에 → "외우는 대신에"
   ▸ ~뿐 → "그거뿐이야"
+  에마: 알겠어요. 많이 들어 볼게요.
+  EN: Got it. I'll listen a lot.
 
 
 EP77 | 친구와 시간
@@ -175,6 +201,8 @@ EP77 | 친구와 시간
   민준: 다 같이 모이니까 좋다!
   EN: It's great having everyone together!
   ▸ 다 같이 모이니까 좋아요 → "다 같이 모이니까 좋"
+  에마: 저도 오늘 기다렸어요.
+  EN: I was looking forward to today too.
 
 [컷2]
   민준: 저기가 우리 처음 만났을 때 그 자리야.
@@ -184,6 +212,8 @@ EP77 | 친구와 시간
 [컷3]
   에마: 그날 저 진짜 긴장했었어요!
   EN: I was so nervous that day!
+  민준: 티 났어.
+  EN: It showed.
 
 [컷4]
   에마: 여러분 덕분이에요.
@@ -208,11 +238,15 @@ EP78 | 꿈을 향해
 [컷2]
   에마: 사실 아직 안 정했어요.
   EN: Honestly, I haven't decided yet.
+  민준: 천천히 정해도 돼.
+  EN: You can take your time deciding.
 
 [컷3]
   에마: 통역사가 되기 위해 더 공부하고 싶어요.
   EN: I want to study more in order to become an interpreter.
   ▸ -기 위해 → "되기 위해"
+  민준: 그럼 여기 더 있어야겠네.
+  EN: Then you'll have to stay here longer.
 
 [컷4]
   에마: 부모님은 걱정하실 텐데, 그래도 해 보고 싶어요.
@@ -223,6 +257,8 @@ EP78 | 꿈을 향해
   민준: 내가 도와줄 테니 걱정 마.
   EN: I'll help you, so don't worry.
   ▸ -을 테니 → "도와줄 테니"
+  에마: 민준 씨가 있어서 든든해요.
+  EN: Having you here makes me feel secure.
 
 
 EP79 | 맛집 탐방
@@ -238,6 +274,8 @@ EP79 | 맛집 탐방
   에마: 이렇게 기다리는 거 보니까 진짜 유명한가 봐요.
   EN: Seeing this queue, it must really be famous.
   ▸ -나 보다 → "유명한가 봐요"
+  소피: 그래도 기다릴래요.
+  EN: I'm willing to wait anyway.
 
 [컷3]
   소피: 온 김에 다른 것도 시켜요!
@@ -252,6 +290,8 @@ EP79 | 맛집 탐방
 [컷5]
   소피: 다음에 또 와요!
   EN: Let's come again!
+  에마: 그때는 제가 줄 설게요!
+  EN: Next time I'll do the waiting in line!
 
 
 EP80 | 성장을 느끼며
