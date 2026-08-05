@@ -12,23 +12,24 @@ const supabase = createClient(
 
 const BACKUP_DIR = path.resolve(process.cwd(), 'data/kpatto/source/backup')
 
-const TABLES = [
-  'kp_episodes',
-  'kp_scenes',
-  'kp_dialogues',
-  'kp_bubbles',
-  'kp_panels',
-  'kp_expressions',
-  'kp_dialogue_expressions',
-  'kp_challenges',
+const TABLES: Array<{ name: string; orderCol: string }> = [
+  { name: 'kp_episodes',             orderCol: 'id' },
+  { name: 'kp_scenes',               orderCol: 'id' },
+  { name: 'kp_dialogues',            orderCol: 'id' },
+  { name: 'kp_bubbles',              orderCol: 'id' },
+  { name: 'kp_panels',               orderCol: 'id' },
+  { name: 'kp_expressions',          orderCol: 'id' },
+  { name: 'kp_dialogue_expressions', orderCol: 'id' },
+  { name: 'kp_challenges',           orderCol: 'id' },
+  { name: 'kpatto_webtoon_layouts',  orderCol: 'episode_id' },
 ]
 
-async function fetchAll(table: string): Promise<any[]> {
+async function fetchAll(table: string, orderCol: string): Promise<any[]> {
   const rows: any[] = []
   let offset = 0
   while (true) {
     const { data, error } = await supabase
-      .from(table).select('*').order('id').range(offset, offset + 999)
+      .from(table).select('*').order(orderCol).range(offset, offset + 999)
     if (error) throw new Error(`${table}: ${error.message}`)
     if (!data || data.length === 0) break
     rows.push(...data)
@@ -45,10 +46,10 @@ async function main() {
 
   const summary: { table: string; count: number; file: string }[] = []
 
-  for (const table of TABLES) {
+  for (const { name: table, orderCol } of TABLES) {
     process.stdout.write(`  ${table} ... `)
     try {
-      const rows = await fetchAll(table)
+      const rows = await fetchAll(table, orderCol)
       const filename = `${table}.json`
       fs.writeFileSync(
         path.join(BACKUP_DIR, filename),

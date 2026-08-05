@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-08-02_085853",
+  "created_at": "2026-08-05_063635",
   "tables": [
     {
       "table": "kp_episodes",
@@ -8,38 +8,43 @@
     },
     {
       "table": "kp_scenes",
-      "count": 500,
+      "count": 541,
       "file": "kp_scenes.json"
     },
     {
       "table": "kp_dialogues",
-      "count": 1009,
+      "count": 700,
       "file": "kp_dialogues.json"
     },
     {
       "table": "kp_bubbles",
-      "count": 1014,
+      "count": 700,
       "file": "kp_bubbles.json"
     },
     {
       "table": "kp_panels",
-      "count": 743,
+      "count": 1100,
       "file": "kp_panels.json"
     },
     {
       "table": "kp_expressions",
-      "count": 524,
+      "count": 325,
       "file": "kp_expressions.json"
     },
     {
       "table": "kp_dialogue_expressions",
-      "count": 559,
+      "count": 399,
       "file": "kp_dialogue_expressions.json"
     },
     {
       "table": "kp_challenges",
-      "count": 126,
+      "count": 1500,
       "file": "kp_challenges.json"
+    },
+    {
+      "table": "kpatto_webtoon_layouts",
+      "count": 32,
+      "file": "kpatto_webtoon_layouts.json"
     }
   ]
 }

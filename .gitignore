@@ -68,3 +68,7 @@ videos/patto-animations/.next/
 
 # Claude Code local settings (may contain approved command history)
 .claude/settings.local.json
+
+# session backups and logs — local only, not for version control
+data/backup/
+export.log
