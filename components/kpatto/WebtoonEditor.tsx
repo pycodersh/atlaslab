@@ -27,7 +27,7 @@ function bubbleHeightPct(widthPct: number, key: string, heightRatio: number): nu
 }
 
 // ── State ────────────────────────────────────────────────────────────────────
-type Override = { bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number; heightScale?: number; tail?: BubbleTailData }
+type Override = { bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number; heightScale?: number; tail?: BubbleTailData; lineBreaks?: number[] }
 type Overrides = Record<string, Override>
 type S = { overrides: Overrides; history: Overrides[]; idx: number; selected: string | null }
 type A =
@@ -37,6 +37,7 @@ type A =
   | { type: 'RESIZE_H'; id: string; heightScale: number }
   | { type: 'SET_KEY'; id: string; key: string }
   | { type: 'SET_TAIL'; id: string; tail: BubbleTailData }
+  | { type: 'SET_LINE_BREAKS'; id: string; lineBreaks: number[] }
   | { type: 'COMMIT' }
   | { type: 'UNDO' }
   | { type: 'REDO' }
@@ -67,6 +68,14 @@ function reducer(s: S, a: A): S {
     case 'SET_TAIL': {
       const o = { ...(s.overrides[a.id] ?? {}), tail: a.tail }
       return { ...s, overrides: { ...s.overrides, [a.id]: o } }
+    }
+    case 'SET_LINE_BREAKS': {
+      const prev = s.overrides[a.id] ?? {}
+      const o: Override = { ...prev }
+      if (a.lineBreaks.length) o.lineBreaks = [...a.lineBreaks].sort((x, y) => x - y)
+      else delete o.lineBreaks
+      const ov = { ...s.overrides, [a.id]: o }
+      return { ...s, overrides: ov, history: [...s.history.slice(0, s.idx + 1), ov], idx: s.idx + 1 }
     }
     case 'COMMIT': {
       const h = [...s.history.slice(0, s.idx + 1), { ...s.overrides }]
@@ -116,7 +125,21 @@ function eff(base: WebtoonBubble, o?: Override): WebtoonBubble & { heightScale: 
     widthPct:    o?.widthPct    ?? base.widthPct,
     tail:        o?.tail        ?? base.tail,
     heightScale: o?.heightScale ?? 1,
+    lineBreaks:  o?.lineBreaks  ?? base.lineBreaks,
   }
+}
+
+// Display-only helper — never mutates kp_bubbles.korean
+function applyLineBreaks(text: string, lineBreaks: number[]): string {
+  if (!lineBreaks.length) return text
+  const words = text.split(/\s+/)
+  const breakSet = new Set(lineBreaks)
+  let result = ''
+  for (let i = 0; i < words.length; i++) {
+    result += words[i]
+    if (i < words.length - 1) result += breakSet.has(i + 1) ? '\n' : ' '
+  }
+  return result
 }
 
 // ── Editor toolbar ───────────────────────────────────────────────────────────
@@ -174,7 +197,7 @@ function Toolbar({
 function EditableBubble({
   base, override, gapSection, isSelected, editMode,
   showKo, showTrans,
-  onSelect, onMove, onResize, onResizeH, onCommit, onTypeChange, onTailChange,
+  onSelect, onMove, onResize, onResizeH, onCommit, onTypeChange, onTailChange, onLineBreakToggle,
   gapRef,
 }: {
   base: WebtoonBubble
@@ -191,6 +214,7 @@ function EditableBubble({
   onCommit: () => void
   onTypeChange: (id: string, key: string) => void
   onTailChange: (id: string, tail: BubbleTailData) => void
+  onLineBreakToggle: (id: string, breakAfter: number) => void
   gapRef: React.RefObject<HTMLDivElement | null>
 }) {
   const b = eff(base, override)
@@ -351,6 +375,9 @@ function EditableBubble({
   const anchorHandleY = ovalP ? (ovalP.cy + ovalP.ry * Math.sin(anchorθ)) * 100 : 50
 
   // Text overlay (shared between bodyOnly and legacy rendering)
+  const words = b.korean.split(/\s+/)
+  const activeBreaks = new Set(b.lineBreaks ?? [])
+
   const textOverlay = (
     <div style={{
       position: 'absolute',
@@ -362,7 +389,7 @@ function EditableBubble({
     }}>
       {showKo && (
         <div style={{ fontSize: koSize, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, whiteSpace: 'pre-line', letterSpacing: '-0.01em' }}>
-          {b.korean}
+          {b.lineBreaks?.length ? applyLineBreaks(b.korean, b.lineBreaks) : b.korean}
         </div>
       )}
       {showTrans && (
@@ -372,6 +399,47 @@ function EditableBubble({
       )}
     </div>
   )
+
+  // Line-break editor overlay — shown only when bubble is selected in edit mode
+  const lineBreakOverlay = isSelected && editMode ? (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${sa.left * 100}%`, top: `${sa.top * 100}%`,
+        right: `${sa.right * 100}%`, bottom: `${sa.bottom * 100}%`,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+        overflow: 'hidden', padding: '0 2px',
+        background: 'rgba(0,0,0,0.60)',
+        borderRadius: 4,
+        zIndex: 35,
+      }}
+      onPointerDown={e => e.stopPropagation()}
+    >
+      <div style={{ fontSize: koSize, fontWeight: 700, lineHeight: 1.4, letterSpacing: '-0.01em', display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'baseline' }}>
+        {words.map((word, i) => (
+          <React.Fragment key={i}>
+            <span style={{ color: '#fff', padding: '0 1px' }}>{word}</span>
+            {i < words.length - 1 && (
+              <span
+                onClick={(e) => { e.stopPropagation(); onLineBreakToggle(b.id, i + 1) }}
+                title={activeBreaks.has(i + 1) ? '줄바꿈 제거' : '줄바꿈 추가'}
+                style={{
+                  cursor: 'pointer', padding: '0 4px',
+                  color: activeBreaks.has(i + 1) ? '#fbbf24' : 'rgba(255,255,255,0.35)',
+                  fontSize: '0.75em',
+                  userSelect: 'none',
+                  transition: 'color 0.1s',
+                }}
+              >
+                {activeBreaks.has(i + 1) ? '↵' : '|'}
+              </span>
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+      <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.45)', marginTop: 4 }}>｜클릭 → 줄바꿈</div>
+    </div>
+  ) : null
 
   return (
     <div
@@ -399,7 +467,8 @@ function EditableBubble({
             tail={b.tail}
             flipY={meta.flipY}
           />
-          {textOverlay}
+          {!(isSelected && editMode) && textOverlay}
+          {lineBreakOverlay}
         </div>
       ) : (
         /* ── Legacy: SVG image file (tail baked in) ── */
@@ -414,7 +483,8 @@ function EditableBubble({
             }}
             draggable={false}
           />
-          {textOverlay}
+          {!(isSelected && editMode) && textOverlay}
+          {lineBreakOverlay}
         </>
       )}
 
@@ -609,6 +679,15 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
     if (editMode) dispatch({ type: 'SELECT', id: null })
   }, [editMode])
 
+  // Line-break toggle: add or remove a break position for a given bubble
+  const handleLineBreakToggle = useCallback((id: string, breakAfter: number) => {
+    const prev = state.overrides[id]?.lineBreaks ?? []
+    const next = prev.includes(breakAfter)
+      ? prev.filter(n => n !== breakAfter)
+      : [...prev, breakAfter]
+    dispatch({ type: 'SET_LINE_BREAKS', id, lineBreaks: next })
+  }, [state.overrides])
+
   // Save
   const handleSave = async () => {
     setSaveStatus('saving')
@@ -776,6 +855,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
                   onCommit={() => dispatch({ type: 'COMMIT' })}
                   onTypeChange={(id, key) => dispatch({ type: 'SET_KEY', id, key })}
                   onTailChange={(id, tail) => dispatch({ type: 'SET_TAIL', id, tail })}
+                  onLineBreakToggle={handleLineBreakToggle}
                   gapRef={gapRef}
                 />
               ))}

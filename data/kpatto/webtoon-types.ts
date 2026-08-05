@@ -29,6 +29,7 @@ export interface WebtoonBubble {
   highlight_text?: string // substring of korean to render in orange (#D4873A)
   expression_id?: number  // foreign key to kp_expressions; set when tap popup is available
   audio_url?: string      // Supabase Storage URL for pre-generated TTS mp3
+  lineBreaks?: number[]   // 1-indexed word positions after which to insert \n (display only, never written to kp_bubbles)
 }
 
 export interface WebtoonGapSection {

@@ -30,6 +30,19 @@ function getBubbleMeta(key: string) {
 
 // ── Highlight helper ─────────────────────────────────────────────────────────
 
+// ── Line-break helper (display only — never mutates kp_bubbles.korean) ────────
+function applyLineBreaks(text: string, lineBreaks: number[]): string {
+  if (!lineBreaks.length) return text
+  const words = text.split(/\s+/)
+  const breakSet = new Set(lineBreaks)
+  let result = ''
+  for (let i = 0; i < words.length; i++) {
+    result += words[i]
+    if (i < words.length - 1) result += breakSet.has(i + 1) ? '\n' : ' '
+  }
+  return result
+}
+
 function renderKorean(text: string, highlight?: string): React.ReactNode {
   if (!highlight) return text
   const idx = text.indexOf(highlight)
@@ -86,7 +99,10 @@ function WebtoonBubbleEl({
     >
       {showKo && (
         <div style={{ fontSize: koFontSize, fontWeight: 700, color: '#1a1a1a', lineHeight: 1.35, whiteSpace: 'pre-line', letterSpacing: '-0.01em' }}>
-          {renderKorean(bubble.korean, tappable ? bubble.highlight_text : undefined)}
+          {renderKorean(
+            bubble.lineBreaks?.length ? applyLineBreaks(bubble.korean, bubble.lineBreaks) : bubble.korean,
+            tappable ? bubble.highlight_text : undefined,
+          )}
         </div>
       )}
       {showTrans && (
@@ -387,6 +403,7 @@ function CropPanelSection({ section }: { section: WebtoonCropSection }) {
 type OverrideMap = Record<string, {
   bubbleKey?: string; xPct?: number; yPct?: number; widthPct?: number; heightScale?: number
   tail?: import('@/data/kpatto/webtoon-types').BubbleTailData
+  lineBreaks?: number[]
 }>
 
 function applyOverrides(base: WebtoonEpisodeData, overrides: OverrideMap): WebtoonEpisodeData {
@@ -408,6 +425,7 @@ function applyOverrides(base: WebtoonEpisodeData, overrides: OverrideMap): Webto
             widthPct:    o.widthPct    ?? b.widthPct,
             heightScale: o.heightScale ?? (b as { heightScale?: number }).heightScale,
             tail:        o.tail        ?? b.tail,
+            lineBreaks:  o.lineBreaks  ?? b.lineBreaks,
           }
         }),
       }
