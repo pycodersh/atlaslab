@@ -31,6 +31,16 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'K-PATTO',
+  url: 'https://k-patto.com',
+  description:
+    'Learn Korean through webtoon stories — real expressions, real context, with audio.',
+  sameAs: [],
+}
+
 export default function KPattoLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={`antialiased kpatto-root ${jakartaSans.variable} ${baloo2.variable}`}>
@@ -38,6 +48,10 @@ export default function KPattoLayout({ children }: { children: React.ReactNode }
         <PreferencesProvider>
           <AuthProvider>
             <div style={{ position: 'relative', minHeight: '100vh', background: '#FFFFFF' }}>
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+              />
               {children}
               <KPattoTabBar />
             </div>

@@ -4,7 +4,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
-import { SLUG_TO_ID, ID_TO_SLUG, SEO_EXPRESSION_IDS } from '@/lib/kpatto/expressions-config'
+import {
+  SLUG_TO_ID,
+  ID_TO_SLUG,
+  ID_TO_CATEGORY,
+  CATEGORY_BY_KEY,
+  SEO_EXPRESSION_IDS,
+} from '@/lib/kpatto/expressions-config'
 
 export const dynamicParams = false
 
@@ -93,7 +99,7 @@ export default async function ExpressionPage({ params }: PageProps) {
   // Webtoon panel image from first_episode
   let panelImageUrl: string | null = null
   let episodeTitle: string | null = null
-  let episodeNum: number | null = e.first_episode
+  const episodeNum: number | null = e.first_episode
 
   if (e.first_episode) {
     const { data: ep } = await supabase
@@ -116,7 +122,7 @@ export default async function ExpressionPage({ params }: PageProps) {
     }
   }
 
-  // Related expressions: same category, within SEO set, excluding self
+  // Related expressions: same DB category, within SEO set, excluding self
   let related: Array<{ id: number; korean: string; english: string }> = []
   if (e.category) {
     const { data: relRows } = await supabase
@@ -134,7 +140,12 @@ export default async function ExpressionPage({ params }: PageProps) {
     : null
   const epLabel = episodeNum ? `EP${String(episodeNum).padStart(2, '0')}` : null
 
-  const jsonLd = {
+  // Category topic page link
+  const catKey = ID_TO_CATEGORY[id]
+  const catConfig = catKey ? CATEGORY_BY_KEY[catKey] : null
+
+  // JSON-LD: Article schema
+  const articleLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: `${e.korean} — ${e.english}`,
@@ -148,11 +159,55 @@ export default async function ExpressionPage({ params }: PageProps) {
     inLanguage: 'en',
   }
 
+  // JSON-LD: FAQPage schema
+  const faqItems: Array<{ '@type': string; name: string; acceptedAnswer: { '@type': string; text: string } }> = []
+
+  faqItems.push({
+    '@type': 'Question',
+    name: `What does ${e.korean} mean in Korean?`,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: e.english,
+    },
+  })
+
+  if (e.description) {
+    faqItems.push({
+      '@type': 'Question',
+      name: `How do you use ${e.korean} in Korean?`,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: e.description,
+      },
+    })
+  }
+
+  if (e.examples && e.examples.length > 0) {
+    faqItems.push({
+      '@type': 'Question',
+      name: `Can you give an example of ${e.korean}?`,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: `${e.examples[0].ko} — ${e.examples[0].en}`,
+      },
+    })
+  }
+
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems,
+  }
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
 
       <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32 }}>
@@ -176,26 +231,26 @@ export default async function ExpressionPage({ params }: PageProps) {
               </svg>
             </Link>
             <span style={{ fontSize: 13, fontWeight: 700, color: T2, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
-              Expressions
+              {catConfig ? catConfig.labelEn : 'Expressions'}
             </span>
-            {e.category && (
-              <span style={{
+            {catConfig && (
+              <Link href={`/kpatto/expressions/topic/${catConfig.key}`} style={{
                 marginLeft: 'auto', fontSize: 10, fontWeight: 700, color: T2,
                 background: DIV, borderRadius: 6, padding: '3px 8px',
-                letterSpacing: '0.04em',
+                letterSpacing: '0.04em', textDecoration: 'none',
               }}>
-                {e.category}
-              </span>
+                {catConfig.labelKo} →
+              </Link>
             )}
           </div>
         </div>
 
         <div style={{ maxWidth: 480, margin: '0 auto', padding: '0 20px' }}>
 
-          {/* Hero: pattern + meaning */}
-          <div style={{ padding: '28px 0 24px' }}>
+          {/* ── Hero: pattern + meaning (compact) ── */}
+          <div style={{ padding: '20px 0 16px' }}>
             {epLabel && (
-              <div style={{ marginBottom: 10 }}>
+              <div style={{ marginBottom: 8 }}>
                 <span style={{
                   fontSize: 10, fontWeight: 800, color: ACCENT, letterSpacing: '0.06em',
                   background: '#FFF4EA', borderRadius: 6, padding: '3px 9px',
@@ -206,7 +261,7 @@ export default async function ExpressionPage({ params }: PageProps) {
             )}
             <h1 style={{
               fontSize: 38, fontWeight: 800, color: ACCENT,
-              letterSpacing: '-0.03em', margin: '0 0 10px',
+              letterSpacing: '-0.03em', margin: '0 0 8px',
               fontFamily: 'var(--font-baloo, sans-serif)',
             }}>
               {e.korean}
@@ -216,9 +271,56 @@ export default async function ExpressionPage({ params }: PageProps) {
             </p>
           </div>
 
+          {/* ── Webtoon panel + audio — FIRST SCROLL ── */}
+          {(panelImageUrl || e.audio_url || episodeHref) && (
+            <div style={{ paddingBottom: 20 }}>
+
+              {/* Webtoon image */}
+              {panelImageUrl && (
+                <div style={{ borderRadius: 14, overflow: 'hidden', marginBottom: 12 }}>
+                  <Image
+                    src={panelImageUrl}
+                    alt={`${e.korean} in K-PATTO webtoon`}
+                    width={440}
+                    height={220}
+                    style={{ width: '100%', height: 'auto', display: 'block' }}
+                    unoptimized
+                    priority
+                  />
+                </div>
+              )}
+
+              {/* Audio player */}
+              {e.audio_url && (
+                <AudioPlayer src={e.audio_url} label={e.korean} />
+              )}
+
+              {/* Episode link */}
+              {episodeHref && episodeTitle && (
+                <Link href={episodeHref} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  textDecoration: 'none', padding: '14px 16px', marginTop: 10,
+                  background: DIV, borderRadius: 12, color: T1,
+                }}>
+                  <div>
+                    <div style={{ fontSize: 10, fontWeight: 800, color: T2, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 3 }}>
+                      {epLabel} · K-PATTO Story
+                    </div>
+                    <div style={{ fontSize: 14, fontWeight: 700, color: T1 }}>
+                      {episodeTitle}
+                    </div>
+                  </div>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                </Link>
+              )}
+            </div>
+          )}
+
           <div style={{ height: 1, background: DIV, margin: '0 -20px' }} />
 
-          {/* Description */}
+          {/* ── How to Use ── */}
           {e.description && (
             <Section label="How to Use">
               <p style={{ fontSize: 14, color: T1, lineHeight: 1.7, margin: 0 }}>
@@ -237,7 +339,7 @@ export default async function ExpressionPage({ params }: PageProps) {
             </Section>
           )}
 
-          {/* Examples */}
+          {/* ── Examples ── */}
           {e.examples && e.examples.length > 0 && (
             <Section label="Examples">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -257,44 +359,7 @@ export default async function ExpressionPage({ params }: PageProps) {
             </Section>
           )}
 
-          {/* Webtoon scene */}
-          {(panelImageUrl || episodeHref) && (
-            <Section label="See It in Context">
-              {panelImageUrl && (
-                <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 12 }}>
-                  <Image
-                    src={panelImageUrl}
-                    alt={`${e.korean} in K-PATTO webtoon`}
-                    width={440}
-                    height={220}
-                    style={{ width: '100%', height: 'auto', display: 'block' }}
-                    unoptimized
-                  />
-                </div>
-              )}
-              {episodeHref && episodeTitle && (
-                <Link href={episodeHref} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  textDecoration: 'none', padding: '14px 16px',
-                  background: DIV, borderRadius: 12, color: T1,
-                }}>
-                  <div>
-                    <div style={{ fontSize: 10, fontWeight: 800, color: T2, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 3 }}>
-                      {epLabel} · K-PATTO Story
-                    </div>
-                    <div style={{ fontSize: 14, fontWeight: 700, color: T1 }}>
-                      {episodeTitle}
-                    </div>
-                  </div>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={T2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M9 18l6-6-6-6"/>
-                  </svg>
-                </Link>
-              )}
-            </Section>
-          )}
-
-          {/* Related expressions */}
+          {/* ── Related Expressions ── */}
           {related.length > 0 && (
             <Section label="Related Expressions">
               <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -320,8 +385,8 @@ export default async function ExpressionPage({ params }: PageProps) {
             </Section>
           )}
 
-          {/* CTA */}
-          <div style={{ padding: '24px 0 8px' }}>
+          {/* ── CTA ── */}
+          <div style={{ padding: '28px 0 8px' }}>
             <Link href="/kpatto/story" style={{
               display: 'block', textAlign: 'center', textDecoration: 'none',
               background: ACCENT, color: '#fff', borderRadius: 14,
@@ -341,6 +406,8 @@ export default async function ExpressionPage({ params }: PageProps) {
   )
 }
 
+// ─── Sub-components ────────────────────────────────────────────────────────
+
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ padding: '24px 0 0' }}>
@@ -351,6 +418,66 @@ function Section({ label, children }: { label: string; children: React.ReactNode
         {label}
       </div>
       {children}
+    </div>
+  )
+}
+
+function AudioPlayer({ src, label }: { src: string; label: string }) {
+  // Server-rendered wrapper; audio element is interactive in the browser
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 14,
+      padding: '14px 18px', background: '#FFF4EA',
+      borderRadius: 14, border: `1px solid #F5D9B4`,
+    }}>
+      {/* Play icon */}
+      <div style={{
+        width: 44, height: 44, borderRadius: '50%',
+        background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        flexShrink: 0,
+      }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: ACCENT, marginBottom: 2, letterSpacing: '0.04em' }}>
+          PRONUNCIATION
+        </div>
+        <div style={{ fontSize: 15, fontWeight: 800, color: '#111' }}>
+          {label}
+        </div>
+      </div>
+      {/* Native audio element — clicking the play div above triggers it via JS not needed for SSR */}
+      {/* Browser renders its own controls as fallback; we rely on the styled button above */}
+      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+      <audio
+        src={src}
+        preload="none"
+        style={{ display: 'none' }}
+        id={`audio-${label}`}
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){
+  var btn=document.currentScript.previousElementSibling;
+  var audio=btn;
+  // find the audio element and the button container
+  var container=document.currentScript.parentElement;
+  if(!container)return;
+  var aud=container.querySelector('audio');
+  var playBtn=container.querySelector('div[style*="border-radius: 50%"]');
+  if(!aud||!playBtn)return;
+  playBtn.style.cursor='pointer';
+  var playing=false;
+  playBtn.addEventListener('click',function(){
+    if(playing){aud.pause();playing=false;}
+    else{aud.play();playing=true;}
+    aud.onended=function(){playing=false;};
+  });
+})();`,
+        }}
+      />
     </div>
   )
 }

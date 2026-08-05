@@ -429,9 +429,9 @@ function NewUser() {
         display: 'flex', justifyContent: 'space-between',
       }}>
         {[
+          { num: '100', label: 'stories' },
+          { num: '300+', label: 'expressions' },
           { num: '10', label: 'free episodes' },
-          { num: '30', label: 'expressions' },
-          { num: '0', label: 'account needed' },
         ].map(({ num, label }) => (
           <div key={label} style={{ textAlign: 'center', flex: 1 }}>
             <div style={{ fontSize: 22, fontWeight: 800, color: ACCENT, letterSpacing: '-0.04em' }}>
