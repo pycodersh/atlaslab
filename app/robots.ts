@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://atlaslabstudios.com'
+// Strip leading BOM (U+FEFF) that PowerShell stdin piping can inject into env vars
+const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com').replace(/^﻿/, '')
 
 export default function robots(): MetadataRoute.Robots {
   return {
