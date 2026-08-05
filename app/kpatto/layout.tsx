@@ -20,8 +20,21 @@ const baloo2 = Baloo_2({
 })
 
 export const metadata: Metadata = {
-  title: 'K-PATTO — 한국어 학습',
-  description: '웹툰 스토리로 배우는 한국어 패턴 학습 앱',
+  title: 'K-PATTO — Learn Korean Through Webtoon Stories',
+  description:
+    'Learn real Korean through a 100-episode webtoon. 300+ essential expressions with native audio. First 10 episodes free.',
+  openGraph: {
+    title: 'K-PATTO — Learn Korean Through Webtoon Stories',
+    description:
+      'Learn real Korean through a 100-episode webtoon. 300+ essential expressions with native audio. First 10 episodes free.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'K-PATTO — Learn Korean Through Webtoon Stories',
+    description:
+      'Learn real Korean through a 100-episode webtoon. 300+ essential expressions with native audio.',
+  },
 }
 
 export const viewport: Viewport = {
