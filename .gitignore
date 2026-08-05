@@ -3,6 +3,9 @@
 # Local audio downloads (not committed)
 /tmp-audio/
 
+# Webtoon canvas export outputs (intermediate files, not committed)
+/data/kpatto/exports/
+
 # dependencies
 /node_modules
 /.pnp

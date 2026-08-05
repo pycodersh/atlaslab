@@ -44,7 +44,7 @@ const TABS = [
 export function KPattoTabBar() {
   const pathname = usePathname()
 
-  if (pathname === '/kpatto/welcome' || pathname === '/kpatto/onboarding') return null
+  if (pathname === '/kpatto/welcome' || pathname === '/kpatto/onboarding' || pathname.endsWith('/export')) return null
   const [compact, setCompact] = useState(false)
   const lastScrollY = useRef(0)
 
