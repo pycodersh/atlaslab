@@ -27,6 +27,7 @@ import { EP009_POOL } from '@/data/kpatto/challenge-pool-ep009'
 import { EP010_POOL } from '@/data/kpatto/challenge-pool-ep010'
 import { getUI } from '@/lib/kpatto/ui-strings'
 import { onStoryComplete } from '@/lib/srs/storage'
+import { markEpisodeComplete } from '@/lib/kpatto/episode-progress'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import type { Question } from '@/components/kpatto/ChallengeSection'
 import { generateChallenge } from '@/lib/kpatto/generate-challenge'
@@ -140,7 +141,11 @@ export default function KPattoStoryPage({ params }: PageProps) {
   }, [id])
 
   const handleChallengeComplete = useCallback(() => {
+    // 1. 활동 로그 (streak / 주간 점 — 기존 SRS localStorage)
     if (story) onStoryComplete(story.episode, story.title)
+    // 2. 에피소드 완료 통합 기록 (새 시스템 — localStorage + DB)
+    markEpisodeComplete(epNum)
+    // 3. 챌린지 라운드 진행 (kp_challenge_progress)
     advanceEpisodeRound(id)
     setChallengeDone(true)
     setTimeout(() => {

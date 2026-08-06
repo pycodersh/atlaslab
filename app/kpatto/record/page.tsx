@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Lock, ChevronDown, ChevronUp, ChevronRight } from 'lucide-react'
@@ -15,6 +15,7 @@ import {
 } from '@/lib/srs/storage'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
+import { getCompletedEpisodeSet } from '@/lib/kpatto/episode-progress'
 
 // ── Tokens ────────────────────────────────────────────────────────────────────
 const ACCENT  = '#D4873A'
@@ -228,18 +229,20 @@ function ChapterRow({
 export default function KPattoRecordPage() {
   const { isPro } = useKPattoSubscription()
 
-  const allRecords     = typeof window !== 'undefined' ? getAllRecords() : []
-  const activityMap    = typeof window !== 'undefined' ? getActivityByDate() : {}
-  const streak         = typeof window !== 'undefined' ? getStreak() : 0
+  const allRecords  = typeof window !== 'undefined' ? getAllRecords() : []
+  const activityMap = typeof window !== 'undefined' ? getActivityByDate() : {}
+  const streak      = typeof window !== 'undefined' ? getStreak() : 0
 
-  // Episode records
+  // 에피소드 완료 세트 — 새 시스템 (챌린지 통과 기준)
+  const [completedSet, setCompletedSet] = useState<Set<number>>(new Set())
+  useEffect(() => {
+    getCompletedEpisodeSet().then(setCompletedSet)
+  }, [])
+
+  // Episode records (streak / 주간 통계용 — 기존 SRS)
   const storyRecords = useMemo(
     () => allRecords.filter(r => r.itemType === 'story'),
     [allRecords],
-  )
-  const completedSet = useMemo(
-    () => new Set(storyRecords.filter(r => (r.repeatCount ?? 0) > 0).map(r => parseInt(r.itemId))),
-    [storyRecords],
   )
   const startedSet = useMemo(
     () => new Set(storyRecords.filter(r => r.lastPracticedAt).map(r => parseInt(r.itemId))),
