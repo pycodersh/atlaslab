@@ -257,19 +257,19 @@ EP18 | 취미 이야기
 
 [컷2]
   민준: 사진. 주말마다 찍으러 다녀.
-  EN: Photography. I go shooting every weekend.
+  EN: Photography. I go out shooting every weekend.
   ▸ ~마다 → "주말마다"
-  에마: 주로 어디에서 찍어요?
-  EN: Where do you usually shoot?
-
-[컷3]
-  에마: 저도요! 저도 사진 좋아해요.
-  EN: Me too! I like photography as well.
+  에마: 저도요! 학교에서 사진 동아리 했어요.
+  EN: Me too! I was in a photography club at school.
   ▸ 저도요 → "저도요"
 
+[컷3]
+
 [컷4]
-  에마: 근데 저는 실내 사진은 별로예요.
-  EN: But indoor photos aren't really my thing.
+  민준: 진짜? 주로 뭐 찍어?
+  EN: Really? What do you usually shoot?
+  에마: 풍경이요. 근데 실내 사진은 별로예요.
+  EN: Landscapes. But indoor photos aren't really my thing.
   ▸ ~별로예요 → "별로예요"
 
 [컷5]
@@ -277,8 +277,8 @@ EP18 | 취미 이야기
   EN: Same here. Outside is much better.
 
 [컷6]
-  민준: 다음 주에 같이 찍으러 가자.
-  EN: Let's go shooting together next week.
+  민준: 다음 주에 같이 가자.
+  EN: Let's go together next week.
   에마: 좋아요!
   EN: Sounds great!
 
