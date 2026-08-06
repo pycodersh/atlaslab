@@ -35,8 +35,14 @@ const HERO_BANNERS = [
   { src: '/kpatto/banners/banner-9.png', ko: '명동 거리',     en: 'Myeongdong Street'     },
 ] as const
 
-// ── 날짜 유틸 ─────────────────────────────────────────────────────────────────
+// ── 시간·날짜 유틸 ────────────────────────────────────────────────────────────
 
+/** 배너: 1시간마다 교체, 같은 시간대 새로고침 → 동일 이미지 */
+function getHourIndex(): number {
+  return new Date().getHours()
+}
+
+/** Today's Expression: 하루 단위 고정 */
 function getDayOfYear(): number {
   const now   = new Date()
   const start = new Date(now.getFullYear(), 0, 0)
@@ -137,49 +143,52 @@ function CardLabel({ left, right }: { left: string; right?: React.ReactNode }) {
 // ── 히어로 이미지 ─────────────────────────────────────────────────────────────
 
 function HeroImage() {
-  const banner = HERO_BANNERS[getDayOfYear() % HERO_BANNERS.length]
+  const banner = HERO_BANNERS[getHourIndex() % HERO_BANNERS.length]
   return (
-    <div style={{
-      position: 'relative',
-      width: '100%',
-      aspectRatio: '4/3',
-      overflow: 'hidden',
-      // CSS background-image: Next.js Image fill보다 안정적 (HMR 오류 무관)
-      backgroundImage: `url(${banner.src})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center center',
-      backgroundColor: '#1A1A1A',
-    }}>
-      {/* 하단 그라데이션 오버레이 (밝은 이미지 대응) */}
+    // 카드와 동일한 좌우 여백·모서리 반경
+    <div style={{ padding: '12px 16px 0' }}>
       <div style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.42) 100%)',
-        pointerEvents: 'none',
-      }} />
-
-      {/* 장소명 — 좌측 하단 */}
-      <div style={{
-        position: 'absolute',
-        left: 16,
-        bottom: 16,
-        pointerEvents: 'none',
+        position: 'relative',
+        width: '100%',
+        aspectRatio: '16/9',
+        borderRadius: 16,
+        overflow: 'hidden',
+        backgroundImage: `url(${banner.src})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundColor: '#1A1A1A',
       }}>
+        {/* 하단 그라데이션 오버레이 */}
         <div style={{
-          fontSize: 13,
-          fontWeight: 500,
-          color: '#FFFFFF',
-          lineHeight: 1.4,
-        }}>
-          {banner.ko}
-        </div>
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.48) 100%)',
+          pointerEvents: 'none',
+        }} />
+
+        {/* 장소명 — 좌측 하단 */}
         <div style={{
-          fontSize: 11,
-          color: 'rgba(255,255,255,0.85)',
-          lineHeight: 1.4,
-          marginTop: 1,
+          position: 'absolute',
+          left: 12,
+          bottom: 12,
+          pointerEvents: 'none',
         }}>
-          {banner.en}
+          <div style={{
+            fontSize: 16,
+            fontWeight: 500,
+            color: '#FFFFFF',
+            lineHeight: 1.35,
+          }}>
+            {banner.ko}
+          </div>
+          <div style={{
+            fontSize: 13,
+            color: 'rgba(255,255,255,0.85)',
+            lineHeight: 1.35,
+            marginTop: 2,
+          }}>
+            {banner.en}
+          </div>
         </div>
       </div>
     </div>
@@ -282,12 +291,12 @@ function ExpressionCard({ expr }: { expr: DailyExpr }) {
           }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{
-                fontSize: 20, fontWeight: 800, color: ACCENT,
-                letterSpacing: '-0.02em', lineHeight: 1.2,
+                fontSize: 17, fontWeight: 800, color: ACCENT,
+                letterSpacing: '-0.02em', lineHeight: 1.25,
               }}>
                 {expr.korean}
               </div>
-              <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 3 }}>
+              <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 4 }}>
                 {expr.english}
               </div>
             </div>
