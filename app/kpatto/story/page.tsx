@@ -68,23 +68,6 @@ function CompletedBadge() {
   )
 }
 
-// ── 다음 화 배지 ─────────────────────────────────────────────────────────────
-
-function NextBadge() {
-  return (
-    <span style={{
-      fontSize: 10, fontWeight: 700,
-      color: '#FFFFFF',
-      background: ACCENT,
-      borderRadius: 6,
-      padding: '2px 6px',
-      letterSpacing: '0.04em',
-      flexShrink: 0,
-    }}>
-      NEXT
-    </span>
-  )
-}
 
 // ── 메인 ─────────────────────────────────────────────────────────────────────
 
@@ -213,7 +196,6 @@ export default function KPattoStoryListPage() {
                     <span style={{ color: T2, fontWeight: 400 }}> · </span>
                     {story.title}
                   </div>
-                  {isNext && !locked && <NextBadge />}
                 </div>
                 {/* 영어 제목 */}
                 {story.title_en && (

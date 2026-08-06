@@ -24,12 +24,14 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 const argv = process.argv.slice(2)
 const epArgs: number[] = []
 const exprIds: number[] = []
-let FORCE = false
+let FORCE    = false
+let NO_EXPR  = false  // --no-expr: 대사만 생성, 표현 건너뜀
 
 for (let i = 0; i < argv.length; i++) {
   if (argv[i] === '--ep' && argv[i + 1])   epArgs.push(parseInt(argv[++i]))
   if (argv[i] === '--expr' && argv[i + 1]) argv[++i].split(',').forEach(s => { const n = parseInt(s.trim()); if (!isNaN(n)) exprIds.push(n) })
-  if (argv[i] === '--force') FORCE = true
+  if (argv[i] === '--force')   FORCE   = true
+  if (argv[i] === '--no-expr') NO_EXPR = true
 }
 
 const EXPR_ONLY = exprIds.length > 0 && epArgs.length === 0
@@ -425,7 +427,14 @@ async function main() {
       console.log(`  대사: 생성 ${dGen}  스킵 ${dSkip}  실패 ${failures.filter(f=>f.ep===epNum&&f.type==='dialogue').length}`)
       await validateEpisode(epNum)
 
-      // [2] 표현
+      // [2] 표현 (--no-expr 시 건너뜀)
+      if (NO_EXPR) {
+        console.log(`[2] 표현 skip (--no-expr)`)
+        progress[epLabel] = { dialogues: { gen: dGen, skip: dSkip, total: dTotal }, expressions: { gen: 0, total: 0 } }
+        if (!EXPR_ONLY) fs.writeFileSync(PROGRESS_LOG, JSON.stringify(progress, null, 2))
+        continue
+      }
+
       const { data: exprs } = await sb
         .from('kp_expressions')
         .select('id, korean, examples, audio_url, audio_hash')

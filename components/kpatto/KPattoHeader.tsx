@@ -2,8 +2,17 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useAuth } from '@/contexts/AuthContext'
 
 export function KPattoHeader() {
+  const { user } = useAuth()
+
+  // OAuth 프로필 사진 (Google 등)
+  const avatarUrl = user?.user_metadata?.avatar_url as string | undefined
+  // 이메일 앞 두 글자를 이니셜로 사용
+  const email    = user?.email ?? ''
+  const initials = email ? email.slice(0, 2).toUpperCase() : ''
+
   return (
     <div style={{
       position: 'sticky',
@@ -44,13 +53,35 @@ export function KPattoHeader() {
         <Link href="/kpatto/profile" style={{ textDecoration: 'none' }}>
           <div style={{
             width: 32, height: 32, borderRadius: '50%',
-            background: '#F2F2F2',
+            overflow: 'hidden',
+            background: user ? '#F0EBE3' : '#F2F2F2',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
           }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
+            {user ? (
+              avatarUrl ? (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={avatarUrl}
+                  alt="profile"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <span style={{
+                  fontSize: 11, fontWeight: 800, color: '#D4873A',
+                  letterSpacing: '-0.02em', lineHeight: 1,
+                }}>
+                  {initials}
+                </span>
+              )
+            ) : (
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="#888888" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            )}
           </div>
         </Link>
       </div>

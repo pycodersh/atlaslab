@@ -4,7 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
-import { ExpressionPopup, getSavedExpressionIds } from '@/components/kpatto/ExpressionPopup'
+import { ExpressionPopup } from '@/components/kpatto/ExpressionPopup'
+import { getSavedFromLocal, getSavedIds, toggleSaved } from '@/lib/kpatto/saved-expressions'
 import { fetchAllExpressions } from '@/lib/kpatto/fetch-episode'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
@@ -273,7 +274,12 @@ export default function KPattoLibraryPage() {
   const epGroupRefs = useRef<Record<number, HTMLDivElement | null>>({})
   const inputRef    = useRef<HTMLInputElement | null>(null)
 
-  const refreshSaved = useCallback(() => setSavedIds(getSavedExpressionIds()), [])
+  // 동기 초기화 (hydration): localStorage에서 즉시 로드
+  const refreshSaved = useCallback(() => {
+    setSavedIds(getSavedFromLocal())
+    // 로그인 여부 무관 — getSavedIds()로 DB 합집합 병합 후 갱신
+    getSavedIds().then(ids => setSavedIds(ids)).catch(() => { /* noop */ })
+  }, [])
 
   useEffect(() => {
     refreshSaved()
@@ -341,17 +347,16 @@ export default function KPattoLibraryPage() {
     }
   }
 
-  // ── 북마크 토글 (localStorage) ────────────────────────────────────────────
+  // ── 북마크 토글 (localStorage + DB 합집합) ───────────────────────────────
   const toggleSave = useCallback((e: React.MouseEvent, exprId: number) => {
     e.stopPropagation()
-    const SAVED_KEY = 'kpatto-saved-expressions'
-    try {
-      const raw = localStorage.getItem(SAVED_KEY)
-      const ids: number[] = raw ? JSON.parse(raw) : []
-      const next = ids.includes(exprId) ? ids.filter(x => x !== exprId) : [...ids, exprId]
-      localStorage.setItem(SAVED_KEY, JSON.stringify(next))
-      setSavedIds(new Set(next))
-    } catch { /* noop */ }
+    toggleSaved(exprId).then(({ saved }) => {
+      setSavedIds(prev => {
+        const next = new Set(prev)
+        if (saved) next.add(exprId); else next.delete(exprId)
+        return next
+      })
+    }).catch(() => { /* noop */ })
   }, [])
 
   // ── 잠긴 행 탭 → 페이월 ─────────────────────────────────────────────────

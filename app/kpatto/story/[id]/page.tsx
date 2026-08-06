@@ -1,5 +1,5 @@
 ﻿'use client'
-// v2 — Emma cut completion screen + Next Story / Unlock EP buttons
+// v2.1 — Emma cut completion screen + Next Story / Unlock EP buttons
 import { use, useState, useCallback, useEffect } from 'react'
 import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
