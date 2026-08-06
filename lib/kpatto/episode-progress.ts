@@ -63,20 +63,42 @@ async function fetchDbMap(userId: string): Promise<EpProgressMap> {
 }
 
 // ── Local → DB 병합 ──────────────────────────────────────────────────────────
+//
+// 병합 규칙 (max count 우선):
+//   - DB에 없는 항목 → INSERT
+//   - 양쪽에 있는 항목 → completed_count가 큰 쪽으로 upsert
+//                         (같으면 completed_at이 더 늦은 쪽)
+//   - DB가 더 크거나 같으면 → 변경 없음
+//   - 병합 후 localStorage는 그대로 유지
 
 async function mergeLocalToDb(userId: string, dbMap: EpProgressMap): Promise<void> {
   const local = readLocal()
-  const toInsert = Object.entries(local)
-    .filter(([ep]) => !dbMap.has(Number(ep)))   // DB에 없는 항목만 삽입 (DB 우선)
-    .map(([ep, rec]) => ({
-      user_id:         userId,
-      episode_num:     Number(ep),
-      completed_at:    rec.completed_at,
-      completed_count: rec.completed_count,
-    }))
-  if (toInsert.length === 0) return
+
+  const toUpsert = Object.entries(local)
+    .filter(([ep, rec]) => {
+      const dbRec = dbMap.get(Number(ep))
+      if (!dbRec) return true                                    // DB에 없음 → 삽입
+      return rec.completed_count > dbRec.completed_count         // local이 더 많음 → 갱신
+    })
+    .map(([ep, rec]) => {
+      const dbRec = dbMap.get(Number(ep))
+      // completed_at: 두 타임스탬프 중 더 늦은 쪽
+      const laterAt = dbRec
+        ? (rec.completed_at > dbRec.completed_at ? rec.completed_at : dbRec.completed_at)
+        : rec.completed_at
+      return {
+        user_id:         userId,
+        episode_num:     Number(ep),
+        completed_at:    laterAt,
+        completed_count: rec.completed_count,   // 이미 local > db 또는 db 없음
+      }
+    })
+
+  if (toUpsert.length === 0) return
   const sb = createClient()
-  await sb.from('kp_episode_progress').insert(toInsert)
+  await sb
+    .from('kp_episode_progress')
+    .upsert(toUpsert, { onConflict: 'user_id,episode_num' })
 }
 
 // ── Public API ────────────────────────────────────────────────────────────────
