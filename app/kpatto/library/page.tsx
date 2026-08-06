@@ -13,17 +13,14 @@ import { createClient } from '@/lib/supabase/client'
 import type { KPattoExpression } from '@/data/kpatto/types'
 
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
-const T1      = '#111111'
-const T2      = '#888888'
-const T3      = '#BBBBBB'
-const ACCENT  = '#D4873A'
-const BORDER  = '#EBEBEB'
-const BG      = '#FFFFFF'
-const GREEN   = '#3B6D11'   // 20/20 달성 색
+const T1     = '#111111'
+const T2     = '#888888'
+const T3     = '#BBBBBB'
+const ACCENT = '#D4873A'
+const BORDER = '#EBEBEB'
+const BG     = '#FFFFFF'
 
 const TOTAL_EXPRESSIONS = 325
-const REPEAT_MAX        = 20   // 반복 학습 목표 (미구현 → 현재는 0)
-const HEADER_H          = 56   // KPattoHeader sticky height (px)
 
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
 function normalize(s: string) {
@@ -132,7 +129,7 @@ function LockIcon() {
   )
 }
 
-/** 칩 하나 */
+/** 칩 하나 — 미선택: 회색 텍스트만 / 선택: 오렌지 텍스트 + 하단 2px 밑줄 */
 function Chip({
   label, active, onClick, icon,
 }: {
@@ -148,14 +145,16 @@ function Chip({
       style={{
         flexShrink: 0,
         display: 'inline-flex', alignItems: 'center', gap: 4,
-        padding: '5px 11px',
-        borderRadius: 20,
-        border: active ? 'none' : `0.5px solid ${BORDER}`,
-        background: active ? ACCENT : BG,
-        color: active ? '#fff' : T2,
-        fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+        padding: '4px 0',
+        background: 'none',
+        border: 'none',
+        borderBottom: active ? `2px solid ${ACCENT}` : '2px solid transparent',
+        color: active ? ACCENT : T2,
+        fontSize: 12, fontWeight: active ? 700 : 500,
+        cursor: 'pointer', fontFamily: 'inherit',
         whiteSpace: 'nowrap',
         WebkitTapHighlightColor: 'transparent',
+        transition: 'color 0.15s, border-color 0.15s',
       }}
     >
       {icon}
@@ -252,8 +251,6 @@ function ExprRow({
   onBookmarkClick: (e: React.MouseEvent) => void
   onClick:         () => void
 }) {
-  const repeatCount = 0  // 반복 학습 미구현
-
   return (
     <div
       style={{
@@ -286,28 +283,19 @@ function ExprRow({
         </div>
       </div>
 
-      {/* 오른쪽: 반복 횟수 + 북마크 */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-        <span style={{
-          fontSize: 11,
-          color: repeatCount >= REPEAT_MAX ? GREEN : T3,
-          fontVariantNumeric: 'tabular-nums',
-        }}>
-          {repeatCount}/{REPEAT_MAX}
-        </span>
-        <button
-          type="button"
-          onClick={onBookmarkClick}
-          style={{
-            background: 'none', border: 'none', padding: 2,
-            cursor: 'pointer', display: 'flex', alignItems: 'center',
-            WebkitTapHighlightColor: 'transparent',
-          }}
-          aria-label={saved ? '북마크 해제' : '북마크 추가'}
-        >
-          <BookmarkIcon filled={saved} />
-        </button>
-      </div>
+      {/* 오른쪽: 북마크 아이콘만 */}
+      <button
+        type="button"
+        onClick={onBookmarkClick}
+        style={{
+          background: 'none', border: 'none', padding: 2, flexShrink: 0,
+          cursor: 'pointer', display: 'flex', alignItems: 'center',
+          WebkitTapHighlightColor: 'transparent',
+        }}
+        aria-label={saved ? '북마크 해제' : '북마크 추가'}
+      >
+        <BookmarkIcon filled={saved} />
+      </button>
     </div>
   )
 }
@@ -317,17 +305,17 @@ export default function KPattoLibraryPage() {
   const router       = useRouter()
   const { isPro }    = useKPattoSubscription()
 
-  const [expressions, setExpressions] = useState<KPattoExpression[]>([])
-  const [epTitles,    setEpTitles]    = useState<Map<number, string>>(new Map())
-  const [epTitlesEn,  setEpTitlesEn]  = useState<Map<number, string>>(new Map())
-  const [loading,     setLoading]     = useState(true)
-  const [query,       setQuery]       = useState('')
-  const [showSaved,   setShowSaved]   = useState(false)
-  const [savedIds,    setSavedIds]    = useState<Set<number>>(new Set())
-  const [popup,       setPopup]       = useState<KPattoExpression | null>(null)
+  const [expressions,      setExpressions]      = useState<KPattoExpression[]>([])
+  const [epTitles,         setEpTitles]         = useState<Map<number, string>>(new Map())
+  const [epTitlesEn,       setEpTitlesEn]       = useState<Map<number, string>>(new Map())
+  const [loading,          setLoading]          = useState(true)
+  const [query,            setQuery]            = useState('')
+  const [showSaved,        setShowSaved]        = useState(false)
+  const [selectedChapter,  setSelectedChapter]  = useState<number | null>(null)
+  const [savedIds,         setSavedIds]         = useState<Set<number>>(new Set())
+  const [popup,            setPopup]            = useState<KPattoExpression | null>(null)
 
-  const epGroupRefs = useRef<Record<number, HTMLDivElement | null>>({})
-  const inputRef    = useRef<HTMLInputElement | null>(null)
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   // 동기 초기화 (hydration): localStorage에서 즉시 로드
   const refreshSaved = useCallback(() => {
@@ -358,6 +346,13 @@ export default function KPattoLibraryPage() {
   const groups = useMemo<EpGroup[]>(() => {
     let src = expressions
     if (showSaved) src = src.filter(e => savedIds.has(e.id))
+    if (selectedChapter !== null) {
+      const s = chapterStart(selectedChapter)
+      src = src.filter(e => {
+        const ep = e.first_episode ?? 0
+        return ep >= s && ep <= s + 9
+      })
+    }
 
     const map = new Map<number, KPattoExpression[]>()
     for (const expr of src) {
@@ -376,7 +371,7 @@ export default function KPattoLibraryPage() {
         locked:  epNum > FREE_EPISODES && !isPro,
         exprs,
       }))
-  }, [expressions, savedIds, showSaved, epTitles, epTitlesEn, isPro])
+  }, [expressions, savedIds, showSaved, selectedChapter, epTitles, epTitlesEn, isPro])
 
   // ── 검색 결과 ────────────────────────────────────────────────────────────
   const searchResults = useMemo(
@@ -387,25 +382,7 @@ export default function KPattoLibraryPage() {
   // ── 표시 건수 ────────────────────────────────────────────────────────────
   const visibleCount = isSearching
     ? searchResults.length
-    : showSaved
-      ? expressions.filter(e => savedIds.has(e.id)).length
-      : expressions.length
-
-  // ── 챕터 점프 ────────────────────────────────────────────────────────────
-  const jumpToChapter = (ch: number) => {
-    const ep = chapterStart(ch)
-    for (let e = ep; e <= ep + 9; e++) {
-      const el = epGroupRefs.current[e]
-      if (el) {
-        // 헤더 실제 높이 동적 읽기 (safe-area-inset-top 포함)
-        const headerEl = document.querySelector('[data-kpatto-header]') as HTMLElement | null
-        const headerH  = headerEl ? headerEl.getBoundingClientRect().height : HEADER_H
-        const top = el.getBoundingClientRect().top + window.scrollY - headerH
-        window.scrollTo({ top, behavior: 'smooth' })
-        return
-      }
-    }
-  }
+    : groups.reduce((sum, g) => sum + g.exprs.length, 0)
 
   // ── 북마크 토글 (localStorage + DB 합집합) ───────────────────────────────
   const toggleSave = useCallback((e: React.MouseEvent, exprId: number) => {
@@ -462,19 +439,23 @@ export default function KPattoLibraryPage() {
       {!isSearching && (
         <div style={{
           overflowX: 'auto',
-          display: 'flex', gap: 6,
+          display: 'flex', gap: 16,
           padding: '10px 16px 8px',
-          // hide scrollbar: Firefox
           scrollbarWidth: 'none' as const,
         } as React.CSSProperties}>
           {/* Saved 칩 */}
           <Chip
             label="Saved"
             active={showSaved}
-            onClick={() => setShowSaved(v => !v)}
+            onClick={() => {
+              setShowSaved(v => !v)
+              setSelectedChapter(null)
+            }}
             icon={
-              <svg width="11" height="11" viewBox="0 0 24 24" fill={showSaved ? '#fff' : 'none'}
-                stroke={showSaved ? '#fff' : T2} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="11" height="11" viewBox="0 0 24 24"
+                fill={showSaved ? ACCENT : 'none'}
+                stroke={showSaved ? ACCENT : T2}
+                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 21 12 16 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
               </svg>
             }
@@ -484,10 +465,10 @@ export default function KPattoLibraryPage() {
             <Chip
               key={ch}
               label={chapterLabel(ch)}
-              active={false}
+              active={selectedChapter === ch}
               onClick={() => {
                 setShowSaved(false)
-                jumpToChapter(ch)
+                setSelectedChapter(prev => prev === ch ? null : ch)
               }}
             />
           ))}
@@ -517,10 +498,7 @@ export default function KPattoLibraryPage() {
         /* 에피소드 순 그룹 */
         <div>
           {groups.map(group => (
-            <div
-              key={group.epNum}
-              ref={el => { epGroupRefs.current[group.epNum] = el }}
-            >
+            <div key={group.epNum}>
               <EpGroupHeader
                 epNum={group.epNum}
                 title={group.title}
