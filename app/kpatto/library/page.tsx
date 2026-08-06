@@ -165,12 +165,11 @@ function Chip({
 
 /** 에피소드 그룹 헤더 (sticky) */
 function EpGroupHeader({
-  epNum, title, titleEn, count, locked,
+  epNum, title, titleEn, locked,
 }: {
   epNum:   number
   title:   string
   titleEn: string
-  count:   number
   locked:  boolean
 }) {
   const barColor = locked ? T3 : '#BA7517'
@@ -194,11 +193,10 @@ function EpGroupHeader({
       <div style={{
         flex: 1, minWidth: 0,
         display: 'flex', alignItems: 'center',
-        justifyContent: 'space-between',
         padding: '10px 14px',
         gap: 8,
       }}>
-        {/* 왼쪽: EP 번호 + 한/영 제목 */}
+        {/* EP 번호 + 한/영 제목 */}
         <div style={{ minWidth: 0, flex: 1 }}>
           {/* 1행 */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, overflow: 'hidden' }}>
@@ -231,11 +229,8 @@ function EpGroupHeader({
           )}
         </div>
 
-        {/* 우측: 개수 + 잠금 아이콘 */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
-          <span style={{ fontSize: 11, color: T2 }}>{count}</span>
-          {locked && <LockIcon />}
-        </div>
+        {/* 우측: 잠금 아이콘만 (잠긴 화) */}
+        {locked && <LockIcon />}
       </div>
     </div>
   )
@@ -427,8 +422,8 @@ export default function KPattoLibraryPage() {
         {/* 건수 */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 6 }}>
           <span style={{ fontSize: 12, color: T2 }}>
-            <span style={{ fontWeight: 700, color: loading ? T3 : T1 }}>{visibleCount}</span>
-            {' '}of {TOTAL_EXPRESSIONS}
+            <span style={{ fontWeight: 700, color: loading ? T3 : T1 }}>0</span>
+            {' '}of {loading ? '…' : visibleCount}
           </span>
         </div>
         {/* 검색 */}
@@ -503,7 +498,6 @@ export default function KPattoLibraryPage() {
                 epNum={group.epNum}
                 title={group.title}
                 titleEn={group.titleEn}
-                count={group.exprs.length}
                 locked={group.locked}
               />
               {group.exprs.map(expr => renderRow(expr, group.locked))}
