@@ -607,8 +607,15 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
         </Link>
 
         {/* Title */}
-        <div style={{ flex: 1, minWidth: 0, fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {episodeLabel && storyTitle ? `${episodeLabel} · ${storyTitle}` : ''}
+        <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 1 }}>
+          <div style={{ fontSize: 15, fontWeight: 700, color: '#111111', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            {episodeLabel && storyTitle ? `${episodeLabel} · ${storyTitle}` : ''}
+          </div>
+          {episode.title_en && (
+            <div style={{ fontSize: 11, color: '#999999', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {episode.title_en}
+            </div>
+          )}
         </div>
 
         {/* KO / EN toggles */}

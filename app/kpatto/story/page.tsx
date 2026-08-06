@@ -59,32 +59,40 @@ export default function KPattoStoryListPage() {
   const [dbEpisodes, setDbEpisodes] = useState<EpItem[]>([])
 
   useEffect(() => {
+    // storyStates: SRS 기록은 episode 번호 기반, 1~100 전체
     const next: Record<string, { views: number; done: boolean }> = {}
-    for (const s of ALL_STORIES) {
-      const rec = getRecord('story', String(s.episode))
-      next[s.id] = { views: rec?.repeatCount ?? 0, done: !!(rec?.lastPracticedAt) }
+    for (let ep = 1; ep <= 100; ep++) {
+      const id = `kp-ep-${String(ep).padStart(3, '0')}`
+      const rec = getRecord('story', String(ep))
+      next[id] = { views: rec?.repeatCount ?? 0, done: !!(rec?.lastPracticedAt) }
     }
     setStoryStates(next)
   }, [])
 
   useEffect(() => {
+    // EP01~100 전체를 DB에서 가져와서 title_en 포함
     const supabase = createClient()
     supabase
       .from('kp_episodes')
       .select('episode_num, title, title_en, theme')
-      .gte('episode_num', 31)
-      .lte('episode_num', 100)
       .order('episode_num')
       .then(({ data }) => {
         if (!data) return
-        setDbEpisodes(data.map(r => ({
-          id: `kp-ep-${String(r.episode_num).padStart(3, '0')}`,
-          episode: r.episode_num as number,
-          title: r.title as string,
-          title_en: (r.title_en as string | null) ?? null,
-          theme: (r.theme ?? '') as string,
-          thumbnail_url: `/kpatto/ep-${String(r.episode_num).padStart(3, '0')}/ep${r.episode_num}_c1.png`,
-        })))
+        setDbEpisodes(data.map(r => {
+          const epNum  = r.episode_num as number
+          const epId   = `kp-ep-${String(epNum).padStart(3, '0')}`
+          // EP01~30은 ALL_STORIES에 thumbnail이 있으면 그것을 사용
+          const staticStory = ALL_STORIES.find(s => s.id === epId)
+          return {
+            id: epId,
+            episode: epNum,
+            title:      r.title as string,
+            title_en:   (r.title_en as string | null) ?? null,
+            theme:      (r.theme ?? '') as string,
+            thumbnail_url: staticStory?.thumbnail_url
+              ?? `/kpatto/ep-${String(epNum).padStart(3, '0')}/ep${epNum}_c1.png`,
+          }
+        }))
       })
   }, [])
 
@@ -94,8 +102,11 @@ export default function KPattoStoryListPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '16px 16px 0' }}>
 
-        {/* ── 에피소드 목록 (EP1-30 정적 + EP31-100 DB) ── */}
-        {[...ALL_STORIES.map(s => ({ ...s, thumbnail_url: s.thumbnail_url ?? '/kpatto/banners/ep1.png' })), ...dbEpisodes].map((story) => {
+        {/* ── 에피소드 목록 (DB 로딩 후엔 EP01~100 전체, 로딩 전엔 ALL_STORIES 폴백) ── */}
+        {(dbEpisodes.length > 0
+          ? dbEpisodes
+          : ALL_STORIES.map(s => ({ ...s, title_en: s.title_en ?? null, thumbnail_url: s.thumbnail_url ?? '/kpatto/banners/ep1.png' }))
+        ).map((story) => {
           const state = storyStates[story.id]
           const views = state?.views ?? 0
           const locked = story.episode > FREE_EPISODES && !isPro
@@ -143,7 +154,7 @@ export default function KPattoStoryListPage() {
                   <span style={{ color: T2, fontWeight: 400 }}> · </span>
                   {story.title}
                 </div>
-                {'title_en' in story && story.title_en && (
+                {story.title_en && (
                   <div style={{ fontSize: 11, color: T2, fontWeight: 400, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {story.title_en}
                   </div>

@@ -1,11 +1,11 @@
 /**
  * backup-layouts.ts
- * kpatto_webtoon_layouts 전체를 JSON으로 덤프.
+ * kpatto_webtoon_layouts 전체를 JSON으로 덤프 (쓰기 없음, SELECT만).
  *
  * 사용:
  *   npx tsx scripts/backup-layouts.ts
  *
- * 저장: data/backup/kpatto_webtoon_layouts_{timestamp}.json
+ * 저장: data/backup/layouts_{timestamp}.json
  */
 import * as dotenv from 'dotenv'
 import * as path from 'path'
@@ -21,7 +21,7 @@ const sb = createClient(
 )
 
 async function main() {
-  // 1. 전체 덤프 (SELECT only)
+  // 1. 전체 덤프 (SELECT only — 쓰기 없음)
   const { data: rows, error } = await sb
     .from('kpatto_webtoon_layouts')
     .select('*')
@@ -30,45 +30,59 @@ async function main() {
   if (error) { console.error('조회 실패:', error.message); process.exit(1) }
   if (!rows?.length) { console.log('행 없음'); return }
 
-  // 2. 저장
+  // 2. 파일 저장
   const outDir = path.resolve(process.cwd(), 'data/backup')
   fs.mkdirSync(outDir, { recursive: true })
   const ts = Date.now()
-  const outPath = path.join(outDir, `kpatto_webtoon_layouts_${ts}.json`)
+  const outPath = path.join(outDir, `layouts_${ts}.json`)
   fs.writeFileSync(outPath, JSON.stringify(rows, null, 2), 'utf-8')
 
-  // 3. 보고
   console.log(`\n✓ 백업 완료: ${outPath}`)
-  console.log(`  총 행: ${rows.length}`)
+  console.log(`  총 ${rows.length}행\n`)
 
-  // EP01~10 상세 집계
-  const EP_RANGE = Array.from({ length: 10 }, (_, i) => `kp-ep-${String(i + 1).padStart(3, '0')}`)
-  console.log('\n  EP    위치버블  LB버블  총버블')
-  console.log('  ─'.repeat(20))
+  // 3. EP01~30 화별 분석
+  type OvVal = Record<string, unknown>
+  type Ov    = Record<string, OvVal>
 
-  for (const epId of EP_RANGE) {
-    const row = rows.find(r => r.episode_id === epId)
-    if (!row) { console.log(`  ${epId}  (행 없음)`); continue }
+  const EP_MAX = 30
+  const missing: string[] = []
 
-    const ov = (row.overrides ?? {}) as Record<string, Record<string, unknown>>
+  console.log('  EP      위치(xPct/yPct/widthPct)  lineBreaks  총버블키')
+  console.log('  ' + '─'.repeat(52))
+
+  for (let n = 1; n <= EP_MAX; n++) {
+    const epId = `kp-ep-${String(n).padStart(3, '0')}`
+    const row  = rows.find(r => r.episode_id === epId)
+
+    if (!row) {
+      missing.push(epId)
+      console.log(`  ${epId}  ⚠ 행 없음`)
+      continue
+    }
+
+    const ov      = (row.overrides ?? {}) as Ov
     const entries = Object.entries(ov)
-    const posCount = entries.filter(([, v]) => 'xPct' in v || 'yPct' in v || 'widthPct' in v).length
-    const lbCount  = entries.filter(([, v]) => 'lineBreaks' in v).length
-    const flag = posCount === 0 ? '  ← ⚠ 위치 없음' : ''
-    console.log(`  ${epId}  ${String(posCount).padStart(4)}     ${String(lbCount).padStart(4)}   ${entries.length}${flag}`)
+    const posCount = entries.filter(([, v]) =>
+      typeof v.xPct === 'number' || typeof v.yPct === 'number' || typeof v.widthPct === 'number'
+    ).length
+    const lbCount = entries.filter(([, v]) =>
+      Array.isArray(v.lineBreaks) && (v.lineBreaks as unknown[]).length > 0
+    ).length
+
+    const posStr = String(posCount).padStart(3)
+    const lbStr  = String(lbCount).padStart(3)
+    const totStr = String(entries.length).padStart(3)
+    const warn   = posCount === 0 && entries.length > 0 ? '  ← ⚠ 위치 없음' : ''
+    console.log(`  ${epId}         ${posStr}                  ${lbStr}        ${totStr}${warn}`)
   }
 
-  // 전체 통계
-  let totalPos = 0, totalLB = 0, totalBubbles = 0
-  for (const row of rows) {
-    const ov = (row.overrides ?? {}) as Record<string, Record<string, unknown>>
-    const entries = Object.entries(ov)
-    totalPos     += entries.filter(([, v]) => 'xPct' in v || 'yPct' in v || 'widthPct' in v).length
-    totalLB      += entries.filter(([, v]) => 'lineBreaks' in v).length
-    totalBubbles += entries.length
+  // 4. 누락 요약
+  console.log('  ' + '─'.repeat(52))
+  if (missing.length > 0) {
+    console.log(`\n  ⚠ 행 없는 화 (${missing.length}개): ${missing.join(', ')}`)
+  } else {
+    console.log(`\n  ✓ EP01~EP30 전 화 행 있음`)
   }
-  console.log('  ─'.repeat(20))
-  console.log(`\n  전체 버블: ${totalBubbles}  위치 있음: ${totalPos}  LB 있음: ${totalLB}`)
 }
 
 main().catch(e => { console.error(e); process.exit(1) })
