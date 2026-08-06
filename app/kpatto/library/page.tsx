@@ -50,10 +50,11 @@ function chapterLabel(ch: number) {
 
 // ── 타입 ─────────────────────────────────────────────────────────────────────
 type EpGroup = {
-  epNum:  number
-  title:  string
-  locked: boolean
-  exprs:  KPattoExpression[]
+  epNum:   number
+  title:   string
+  titleEn: string
+  locked:  boolean
+  exprs:   KPattoExpression[]
 }
 
 // ── 서브 컴포넌트 ─────────────────────────────────────────────────────────────
@@ -164,26 +165,79 @@ function Chip({
 }
 
 /** 에피소드 그룹 헤더 (sticky) */
-function EpGroupHeader({ epNum, title, locked }: { epNum: number; title: string; locked: boolean }) {
+function EpGroupHeader({
+  epNum, title, titleEn, count, locked,
+}: {
+  epNum:   number
+  title:   string
+  titleEn: string
+  count:   number
+  locked:  boolean
+}) {
+  const barColor = locked ? T3 : '#BA7517'
+
   return (
     <div style={{
-      position: 'sticky', top: 'calc(56px + env(safe-area-inset-top, 0px))',
-      background: BG,
-      borderBottom: `1px solid ${BORDER}`,
-      padding: '6px 16px',
-      display: 'flex', alignItems: 'center', gap: 6,
+      position: 'sticky',
+      top: 'calc(56px + env(safe-area-inset-top, 0px))',
       zIndex: 10,
-      opacity: locked ? 0.5 : 1,
+      background: '#F5F5F5',
+      borderTop:    `0.5px solid ${BORDER}`,
+      borderBottom: `0.5px solid ${BORDER}`,
+      opacity: locked ? 0.6 : 1,
+      display: 'flex',
+      alignItems: 'stretch',
     }}>
-      {locked && <LockIcon />}
-      <span style={{ fontSize: 12, fontWeight: 700, color: ACCENT }}>
-        EP {String(epNum).padStart(2, '0')}
-      </span>
-      {title && (
-        <span style={{ fontSize: 12, color: T2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {title}
-        </span>
-      )}
+      {/* 왼쪽 악센트 바 */}
+      <div style={{ width: 3, background: barColor, flexShrink: 0 }} />
+
+      {/* 본문 영역 */}
+      <div style={{
+        flex: 1, minWidth: 0,
+        display: 'flex', alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '10px 14px',
+        gap: 8,
+      }}>
+        {/* 왼쪽: EP 번호 + 한/영 제목 */}
+        <div style={{ minWidth: 0, flex: 1 }}>
+          {/* 1행 */}
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, overflow: 'hidden' }}>
+            <span style={{
+              fontSize: 12, fontWeight: 600, color: barColor,
+              whiteSpace: 'nowrap', flexShrink: 0,
+            }}>
+              EP {String(epNum).padStart(2, '0')}
+            </span>
+            {title && (
+              <>
+                <span style={{ fontSize: 12, color: T3, flexShrink: 0 }}>·</span>
+                <span style={{
+                  fontSize: 13, fontWeight: 500, color: T1,
+                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                }}>
+                  {title}
+                </span>
+              </>
+            )}
+          </div>
+          {/* 2행: 영어 제목 */}
+          {titleEn && (
+            <div style={{
+              fontSize: 11, color: T2, marginTop: 2,
+              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>
+              {titleEn}
+            </div>
+          )}
+        </div>
+
+        {/* 우측: 개수 + 잠금 아이콘 */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, flexShrink: 0 }}>
+          <span style={{ fontSize: 11, color: T2 }}>{count}</span>
+          {locked && <LockIcon />}
+        </div>
+      </div>
     </div>
   )
 }
@@ -265,6 +319,7 @@ export default function KPattoLibraryPage() {
 
   const [expressions, setExpressions] = useState<KPattoExpression[]>([])
   const [epTitles,    setEpTitles]    = useState<Map<number, string>>(new Map())
+  const [epTitlesEn,  setEpTitlesEn]  = useState<Map<number, string>>(new Map())
   const [loading,     setLoading]     = useState(true)
   const [query,       setQuery]       = useState('')
   const [showSaved,   setShowSaved]   = useState(false)
@@ -286,10 +341,12 @@ export default function KPattoLibraryPage() {
     const sb = createClient()
     Promise.all([
       fetchAllExpressions(),
-      sb.from('kp_episodes').select('episode_num, title').order('episode_num').then(r => r.data ?? []),
+      sb.from('kp_episodes').select('episode_num, title, title_en').order('episode_num').then(r => r.data ?? []),
     ]).then(([exprs, eps]) => {
+      const epRows = eps as { episode_num: number; title: string; title_en: string | null }[]
       setExpressions(exprs)
-      setEpTitles(new Map((eps as { episode_num: number; title: string }[]).map(e => [e.episode_num, e.title])))
+      setEpTitles(new Map(epRows.map(e => [e.episode_num, e.title])))
+      setEpTitlesEn(new Map(epRows.map(e => [e.episode_num, e.title_en ?? ''])))
       setLoading(false)
     })
   }, [refreshSaved])
@@ -314,11 +371,12 @@ export default function KPattoLibraryPage() {
       .sort(([a], [b]) => a - b)
       .map(([epNum, exprs]) => ({
         epNum,
-        title:  epTitles.get(epNum) ?? '',
-        locked: epNum > FREE_EPISODES && !isPro,
+        title:   epTitles.get(epNum) ?? '',
+        titleEn: epTitlesEn.get(epNum) ?? '',
+        locked:  epNum > FREE_EPISODES && !isPro,
         exprs,
       }))
-  }, [expressions, savedIds, showSaved, epTitles, isPro])
+  }, [expressions, savedIds, showSaved, epTitles, epTitlesEn, isPro])
 
   // ── 검색 결과 ────────────────────────────────────────────────────────────
   const searchResults = useMemo(
@@ -463,7 +521,13 @@ export default function KPattoLibraryPage() {
               key={group.epNum}
               ref={el => { epGroupRefs.current[group.epNum] = el }}
             >
-              <EpGroupHeader epNum={group.epNum} title={group.title} locked={group.locked} />
+              <EpGroupHeader
+                epNum={group.epNum}
+                title={group.title}
+                titleEn={group.titleEn}
+                count={group.exprs.length}
+                locked={group.locked}
+              />
               {group.exprs.map(expr => renderRow(expr, group.locked))}
             </div>
           ))}
