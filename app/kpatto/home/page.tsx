@@ -22,14 +22,18 @@ const DIV    = '#F2F2F2'
 const TOTAL_LESSONS    = LESSONS.length
 const REQUIRED_LESSONS = LESSONS.filter(l => l.required).length
 
-// ── 히어로 이미지 (자유 화 컷, 날짜 기반 고정) ─────────────────────────────────
-// 잠긴 화 사용 금지 → EP01-10만 사용
-const HERO_IMAGES = [
-  { src: '/kpatto/ep09/ep09_c1.png',    alt: '한강에서' },   // Han River
-  { src: '/kpatto/ep07/ep07_c1.png',    alt: '시장에서' },   // Market
-  { src: '/kpatto/ep02/ep02_c1.png',    alt: '지하철에서' }, // Seoul Subway
-  { src: '/kpatto/ep05/ep05_c1.png',    alt: '식당에서' },   // Restaurant
-  { src: '/kpatto/ep-001/ep01_c1.png',  alt: '카페에서' },   // Cafe
+// ── 히어로 배너 (날짜 기반 고정 · banner-6~9 추가 시 배열 확장) ─────────────────
+const HERO_BANNERS = [
+  { src: '/kpatto/banners/banner-1.png', ko: '북촌 한옥마을',  en: 'Bukchon Hanok Village' },
+  { src: '/kpatto/banners/banner-2.png', ko: '지하철역',       en: 'Subway Station'         },
+  { src: '/kpatto/banners/banner-3.png', ko: '전통시장',       en: 'Traditional Market'     },
+  { src: '/kpatto/banners/banner-4.png', ko: '동네 카페',      en: 'Neighborhood Cafe'      },
+  { src: '/kpatto/banners/banner-5.png', ko: '한강공원',       en: 'Hangang Park'           },
+  // banner-6~9 파일 추가 후 아래 줄 해제
+  // { src: '/kpatto/banners/banner-6.png', ko: '한강의 밤',  en: 'Hangang at Night'   },
+  // { src: '/kpatto/banners/banner-7.png', ko: '홍대 거리',  en: 'Hongdae Street'     },
+  // { src: '/kpatto/banners/banner-8.png', ko: '한옥뷰 카페', en: 'Hanok View Cafe'   },
+  // { src: '/kpatto/banners/banner-9.png', ko: '명동 거리',  en: 'Myeongdong Street'  },
 ] as const
 
 // ── 날짜 유틸 ─────────────────────────────────────────────────────────────────
@@ -134,8 +138,7 @@ function CardLabel({ left, right }: { left: string; right?: React.ReactNode }) {
 // ── 히어로 이미지 ─────────────────────────────────────────────────────────────
 
 function HeroImage() {
-  const idx = getDayOfYear() % HERO_IMAGES.length
-  const img = HERO_IMAGES[idx]
+  const banner = HERO_BANNERS[getDayOfYear() % HERO_BANNERS.length]
   return (
     <div style={{
       position: 'relative',
@@ -144,14 +147,48 @@ function HeroImage() {
       background: '#1A1A1A',
       overflow: 'hidden',
     }}>
+      {/* 배너 이미지 */}
       <Image
-        src={img.src}
-        alt={img.alt}
+        src={banner.src}
+        alt={banner.ko}
         fill
-        style={{ objectFit: 'cover' }}
+        style={{ objectFit: 'cover', objectPosition: 'center center' }}
         sizes="(max-width: 480px) 100vw, 480px"
         priority
       />
+
+      {/* 하단 그라데이션 오버레이 (밝은 이미지 대응) */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.42) 100%)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* 장소명 — 좌측 하단 */}
+      <div style={{
+        position: 'absolute',
+        left: 16,
+        bottom: 16,
+        pointerEvents: 'none',
+      }}>
+        <div style={{
+          fontSize: 13,
+          fontWeight: 500,
+          color: '#FFFFFF',
+          lineHeight: 1.4,
+        }}>
+          {banner.ko}
+        </div>
+        <div style={{
+          fontSize: 11,
+          color: 'rgba(255,255,255,0.85)',
+          lineHeight: 1.4,
+          marginTop: 1,
+        }}>
+          {banner.en}
+        </div>
+      </div>
     </div>
   )
 }
