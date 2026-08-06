@@ -1,12 +1,17 @@
 /**
  * apply-kpatto-line-breaks.ts
- * EP02~100 말풍선에 줄바꿈 위치를 override에 자동 저장.
+ * 말풍선에 줄바꿈 위치를 override에 자동 저장.
+ *
+ * 사용법:
+ *   npx tsx scripts/apply-kpatto-line-breaks.ts            # EP02~100 (기본)
+ *   npx tsx scripts/apply-kpatto-line-breaks.ts --ep 1     # EP01만
+ *   npx tsx scripts/apply-kpatto-line-breaks.ts --ep 1-100 # EP01~100
+ *   npx tsx scripts/apply-kpatto-line-breaks.ts --ep 10 --ep 11 # EP10·11만
  *
  * 규칙:
  *  - kp_bubbles.korean 원문 절대 수정 금지
  *  - 문장 부호(. ? !) 뒤 어절 경계에서 끊기 (마지막 어절 제외)
  *  - 단문(공백 제거 10자 이하) 또는 문장 부호가 중간에 없으면 제외
- *  - EP01은 처리하지 않음 (수동 설정 보존)
  *  - 기존 override의 다른 필드(위치·꼬리 등)는 그대로 유지
  */
 import * as dotenv from 'dotenv'
@@ -58,24 +63,65 @@ function preview(korean: string, breaks: number[]): string {
   return out
 }
 
+// ── CLI 파싱 ─────────────────────────────────────────────────────────────────
+// --ep N      → 단일 화
+// --ep N-M    → 범위
+// --ep N --ep M → 개별 복수
+// (인자 없음)  → EP02~100 기본값
+function parseEpArgs(): { nums: Set<number> | null; min: number; max: number } {
+  const args = process.argv.slice(2)
+  const rawEps: string[] = []
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--ep' && args[i + 1]) rawEps.push(args[++i])
+  }
+
+  if (rawEps.length === 0) return { nums: null, min: 2, max: 100 } // 기본값
+
+  const nums = new Set<number>()
+  for (const raw of rawEps) {
+    const rangeMatch = raw.match(/^(\d+)-(\d+)$/)
+    if (rangeMatch) {
+      const lo = parseInt(rangeMatch[1]), hi = parseInt(rangeMatch[2])
+      for (let n = lo; n <= hi; n++) nums.add(n)
+    } else {
+      const n = parseInt(raw)
+      if (!isNaN(n)) nums.add(n)
+    }
+  }
+  const sorted = [...nums].sort((a, b) => a - b)
+  return { nums, min: sorted[0], max: sorted[sorted.length - 1] }
+}
+
 // ── 메인 ─────────────────────────────────────────────────────────────────────
 async function main() {
-  const SAMPLE_EPS = new Set([2, 50, 99])
+  const { nums: targetNums, min: epMin, max: epMax } = parseEpArgs()
 
-  // EP02~100 목록
-  const { data: episodes, error: epErr } = await sb
-    .from('kp_episodes')
-    .select('id, episode_num')
-    .gte('episode_num', 2)
-    .lte('episode_num', 100)
-    .order('episode_num')
+  // 표본: 지정 범위 첫 화·중간·마지막 화 자동 선정 (최대 3개)
+  const SAMPLE_EPS = targetNums
+    ? (() => {
+        const arr = [...targetNums].sort((a, b) => a - b)
+        return new Set([arr[0], arr[Math.floor(arr.length / 2)], arr[arr.length - 1]])
+      })()
+    : new Set([2, 50, 99])
+
+  // 에피소드 목록 조회
+  let query = sb.from('kp_episodes').select('id, episode_num').order('episode_num')
+  if (targetNums) {
+    query = query.in('episode_num', [...targetNums]) as typeof query
+  } else {
+    query = query.gte('episode_num', epMin).lte('episode_num', epMax) as typeof query
+  }
+  const { data: episodes, error: epErr } = await query
 
   if (epErr || !episodes) {
     console.error('에피소드 조회 실패:', epErr)
     process.exit(1)
   }
 
-  console.log(`\n=== 말풍선 줄바꿈 자동 적용 — EP02~100 (${episodes.length}화) ===\n`)
+  const rangeLabel = targetNums && targetNums.size === 1
+    ? `EP${String(epMin).padStart(2, '0')}`
+    : `EP${String(epMin).padStart(2, '0')}~${String(epMax).padStart(2, '0')}`
+  console.log(`\n=== 말풍선 줄바꿈 자동 적용 — ${rangeLabel} (${episodes.length}화) ===\n`)
   console.log(`   EP  적용  제외`)
   console.log('─'.repeat(22))
 
