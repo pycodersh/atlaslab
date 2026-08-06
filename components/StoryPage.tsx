@@ -229,7 +229,13 @@ export function StoryPage({
   function handleSpeakAll() {
     if (isSpeaking) {
       // [중단 조건 1] 스피커 재클릭: 현재 말풍선 인덱스 보존 후 정지
-      stableStoryInterrupt()            // interruptedAtParaRef 저장 + stop()
+      // currentParagraphIdx와 paraOffsetRef를 직접 읽어 저장
+      // (interruptImplRef 클로저 타이밍에 의존하지 않음)
+      const absIdx = currentParagraphIdx >= 0
+        ? currentParagraphIdx + paraOffsetRef.current
+        : null
+      if (absIdx !== null) interruptedAtParaRef.current = absIdx
+      stop()
       coordinatorEnded(STORY_AUDIO_ID)  // 코디네이터 소유권 반환
       return
     }
