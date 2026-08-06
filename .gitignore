@@ -72,3 +72,9 @@ videos/patto-animations/.next/
 # session backups and logs — local only, not for version control
 data/backup/
 export.log
+
+# large DB backup dumps - local only
+data/kpatto/source/backup/
+
+# audio progress / failure tracking - local only
+scripts/audio-*.json

@@ -152,15 +152,26 @@ async function main() {
       continue
     }
 
-    // 기존 override 로드
-    const { data: layoutRow } = await sb
+    // 기존 override 로드 — episode_id 문자열 형식 "kp-ep-NNN" 으로 조회
+    const { data: layoutRow, error: layoutErr } = await sb
       .from('kpatto_webtoon_layouts')
       .select('overrides')
-      .eq('episode_id', ep.id)
+      .eq('episode_id', epId)          // ← 수정: ep.id(정수) → epId("kp-ep-NNN")
       .maybeSingle()
+
+    if (layoutErr) {
+      console.error(`  ${epLabel}  ✗ override 조회 실패: ${layoutErr.message}`)
+      continue
+    }
 
     const existingOverrides: Record<string, Record<string, unknown>> =
       ((layoutRow?.overrides ?? {}) as Record<string, Record<string, unknown>>)
+
+    // 방어: 행이 존재하는데 overrides가 비어 있으면 데이터 손실 위험 → 건너뜀
+    if (layoutRow !== null && Object.keys(existingOverrides).length === 0) {
+      console.warn(`  ${epLabel}  ⚠ 행 존재 but overrides 비어 있음 → 건너뜀 (수동 확인 필요)`)
+      continue
+    }
 
     let applied = 0
     let excluded = 0
