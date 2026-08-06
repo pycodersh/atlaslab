@@ -55,21 +55,24 @@ function loadPrecourseProgress(): number {
 // ── Continue 에피소드 정보 ────────────────────────────────────────────────────
 
 type ContinueEp = {
-  num:      number
-  id:       string
-  title:    string    // 한국어
-  titleEn:  string    // 영어
+  num:          number
+  id:           string
+  title:        string    // 한국어
+  titleEn:      string    // 영어
+  thumbnailUrl: string
 }
 
 function buildContinueEpStatic(epNum: number): ContinueEp {
-  const num    = Math.max(1, Math.min(epNum, 100))
-  const id     = `kp-ep-${String(num).padStart(3, '0')}`
-  const story  = ALL_STORIES.find(s => s.episode === num)
+  const num   = Math.max(1, Math.min(epNum, 100))
+  const id    = `kp-ep-${String(num).padStart(3, '0')}`
+  const story = ALL_STORIES.find(s => s.episode === num)
   return {
     num,
     id,
-    title:   story?.title ?? `Episode ${num}`,
-    titleEn: '',
+    title:        story?.title ?? `Episode ${num}`,
+    titleEn:      '',
+    thumbnailUrl: story?.thumbnail_url
+      ?? `/kpatto/ep-${String(num).padStart(3, '0')}/ep${num}_c1.png`,
   }
 }
 
@@ -162,12 +165,30 @@ function ContinueRow({ ep }: { ep: ContinueEp }) {
       <Card>
         <div style={{
           display: 'flex', alignItems: 'center',
-          padding: '12px 14px',
-          gap: 10,
+          padding: '10px 14px 10px 10px',
+          gap: 12,
         }}>
-          {/* 왼쪽: EP 번호 + 제목들 */}
+          {/* 왼쪽: 썸네일 (Episodes 목록과 동일 크기) */}
+          <div style={{
+            position: 'relative',
+            width: 120, height: 80,
+            borderRadius: 12,
+            overflow: 'hidden',
+            flexShrink: 0,
+            background: '#F7F7F7',
+          }}>
+            <Image
+              src={ep.thumbnailUrl}
+              alt={ep.title}
+              fill
+              style={{ objectFit: 'cover', objectPosition: 'center center' }}
+              sizes="120px"
+            />
+          </div>
+
+          {/* 가운데: EP 번호 + 제목들 */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT, marginBottom: 2, letterSpacing: '0.04em' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT, marginBottom: 3, letterSpacing: '0.04em' }}>
               {epLabel}
             </div>
             <div style={{
@@ -178,7 +199,7 @@ function ContinueRow({ ep }: { ep: ContinueEp }) {
             </div>
             {ep.titleEn && (
               <div style={{
-                fontSize: 12, color: T2, marginTop: 1,
+                fontSize: 12, color: T2, marginTop: 2,
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
               }}>
                 {ep.titleEn}
@@ -186,7 +207,7 @@ function ContinueRow({ ep }: { ep: ContinueEp }) {
             )}
           </div>
 
-          {/* 오른쪽: Continue 버튼 */}
+          {/* 우측: Continue 버튼 */}
           <Link
             href={`/kpatto/story/${ep.id}`}
             style={{ textDecoration: 'none', flexShrink: 0 }}
@@ -231,12 +252,12 @@ function ExpressionCard({ expr }: { expr: DailyExpr }) {
           }}>
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{
-                fontSize: 26, fontWeight: 800, color: ACCENT,
-                letterSpacing: '-0.03em', lineHeight: 1.15,
+                fontSize: 20, fontWeight: 800, color: ACCENT,
+                letterSpacing: '-0.02em', lineHeight: 1.2,
               }}>
                 {expr.korean}
               </div>
-              <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 4 }}>
+              <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 3 }}>
                 {expr.english}
               </div>
             </div>
@@ -265,17 +286,7 @@ function ExpressionCard({ expr }: { expr: DailyExpr }) {
             )}
           </div>
 
-          {/* 구분선 + "Say it out loud 3 times" */}
-          <div style={{
-            margin: '12px 16px 0',
-            borderTop: `1px solid #F5E0C8`,
-          }} />
-          <div style={{
-            padding: '8px 16px 12px',
-            fontSize: 12, color: T2, fontStyle: 'italic',
-          }}>
-            Say it out loud 3 times 🗣️
-          </div>
+          <div style={{ height: 14 }} />
         </Card>
       </Link>
     </div>
