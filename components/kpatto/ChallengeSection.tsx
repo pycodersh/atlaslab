@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { stopAllAudio } from '@/lib/kpatto/audio'
 
 const GREEN  = '#22C55E'
 const RED    = '#EF4444'
@@ -125,6 +126,7 @@ function MCCard({ q, onCorrect, onAdvance }: {
 
   const handleChoice = useCallback((idx: number) => {
     if (state === 'correct' || state === 'revealed') return
+    stopAllAudio()  // 챌린지 상호작용 → 대사 재생 정지
 
     if (idx === q.correctIdx) {
       setSelected(idx)
@@ -255,6 +257,7 @@ function WordOrderCard({ q, onCorrect }: {
 
   const addWord = useCallback((word: string) => {
     if (done || assembled.includes(word)) return
+    stopAllAudio()  // 챌린지 상호작용 → 대사 재생 정지
     const next = [...assembled, word]
     const isWrong = next.some((w, i) => w !== q.answer[i])
     if (isWrong) {

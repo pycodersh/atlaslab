@@ -23,10 +23,44 @@ export function patternAudioUrl(episodeId: string, patternIndex: number): string
   return `/kpatto/audio/${ep}/${ep}-p${String(patternIndex + 1).padStart(3, '0')}.wav`
 }
 
-// Currently playing Audio element — stop before starting a new one
+// ── Singleton audio state ──────────────────────────────────────────────────────
+
+/** Currently playing Audio element. */
 let currentAudio: HTMLAudioElement | null = null
 
+/**
+ * Resolve callback for the currently-pending tryPlayAudio Promise.
+ * Stored so that stopCurrent() can unblock a hung `await tryPlayAudio()`.
+ */
+let pendingResolve: ((ok: boolean) => void) | null = null
+
+/**
+ * External stop listener — registered by WebtoonEpisode.
+ * Called ONLY from stopAllAudio(), not from the internal stopCurrent()
+ * used between consecutive tryPlayAudio() calls in the playback loop.
+ */
+let stopListener: (() => void) | null = null
+
+/**
+ * Register a callback that is invoked whenever stopAllAudio() is called.
+ * WebtoonEpisode uses this to set stopRef.current = true and break its loop.
+ * Pass null to deregister (call on unmount).
+ */
+export function setAudioStopListener(fn: (() => void) | null) {
+  stopListener = fn
+}
+
+/**
+ * Internal: stops the current audio element and immediately resolves any
+ * hanging tryPlayAudio Promise with false.
+ * Does NOT call stopListener — that is stopAllAudio()'s responsibility.
+ */
 function stopCurrent() {
+  if (pendingResolve) {
+    const r = pendingResolve
+    pendingResolve = null
+    r(false)  // unblock any `await tryPlayAudio(...)` immediately
+  }
   if (currentAudio) {
     currentAudio.pause()
     currentAudio.src = ''
@@ -34,23 +68,41 @@ function stopCurrent() {
   }
 }
 
+/**
+ * Stop all audio and notify WebtoonEpisode's playback loop to stop.
+ * Call this for all external stops: popup open, challenge interaction,
+ * visibilitychange, episode change, unmount.
+ */
 export function stopAllAudio() {
   stopCurrent()
+  stopListener?.()
 }
 
-// Play a URL directly. Returns true on successful playback, false on error.
+/**
+ * Play a URL directly.
+ * Returns true on successful playback, false on load error or external interrupt.
+ * Stops any previously playing audio first (via internal stopCurrent, no listener call).
+ */
 export async function tryPlayAudio(url: string): Promise<boolean> {
   return new Promise(resolve => {
-    stopCurrent()
+    stopCurrent()  // stops previous audio + resolves its pending Promise; no listener
+    pendingResolve = resolve
     const audio = new Audio(url)
     currentAudio = audio
-    audio.onended = () => { if (currentAudio === audio) currentAudio = null; resolve(true) }
-    audio.onerror = () => { if (currentAudio === audio) currentAudio = null; resolve(false) }
-    audio.play().catch(() => { if (currentAudio === audio) currentAudio = null; resolve(false) })
+    const done = (result: boolean) => {
+      if (pendingResolve === resolve) {
+        pendingResolve = null
+        currentAudio = null
+      }
+      resolve(result)
+    }
+    audio.onended = () => done(true)
+    audio.onerror = () => done(false)
+    audio.play().catch(() => done(false))
   })
 }
 
-// Play DB audio if URL is available. No TTS fallback.
+/** Play DB audio if URL is available. No TTS fallback. */
 export async function playAudio(url: string | null): Promise<void> {
   if (!url) return
   await tryPlayAudio(url)

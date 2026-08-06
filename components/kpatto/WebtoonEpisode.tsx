@@ -7,7 +7,7 @@ import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanel
 import type { KPattoExpression } from '@/data/kpatto/types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
-import { playAudio, stopAllAudio } from '@/lib/kpatto/audio'
+import { tryPlayAudio, stopAllAudio, setAudioStopListener } from '@/lib/kpatto/audio'
 import { gapContainerStyle, panelImageWidth, panelJustify } from '@/lib/kpatto/webtoon-layout'
 import { fetchExpression } from '@/lib/kpatto/fetch-episode'
 import { ExpressionPopup } from './ExpressionPopup'
@@ -445,6 +445,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
   const [playingId, setPlayingId] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const playIdxRef = useRef(0)
+  const isPlayingRef = useRef(false)  // 연타 가드: state보다 먼저 갱신되는 동기 플래그
   const [resolvedEpisode, setResolvedEpisode] = useState(episode)
   const [bubblesReady, setBubblesReady] = useState(false)
   const [activeExpression, setActiveExpression] = useState<KPattoExpression | null>(null)
@@ -484,52 +485,83 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
 
   const stopRef = useRef(false)
 
+  // ── 외부 정지 신호 수신 (챌린지 상호작용·팝업 음성 → 루프 중단) ─────────────
+  useEffect(() => {
+    setAudioStopListener(() => {
+      stopRef.current = true
+      isPlayingRef.current = false
+      // setIsPlaying/setPlayingId 는 루프 종료 시 일괄 처리
+    })
+    return () => setAudioStopListener(null)
+  }, [])
+
+  // ── 에피소드 변경 → 정지 + 위치 리셋 ──────────────────────────────────────
+  useEffect(() => {
+    stopAllAudio()
+    setIsPlaying(false)
+    setPlayingId(null)
+    playIdxRef.current = 0
+  }, [episode.id])
+
+  // ── visibilitychange + 언마운트 정리 ────────────────────────────────────────
+  useEffect(() => {
+    const onHidden = () => {
+      if (document.visibilityState === 'hidden') {
+        stopAllAudio()  // listener가 stopRef·isPlayingRef 처리
+      }
+    }
+    document.addEventListener('visibilitychange', onHidden)
+    return () => {
+      document.removeEventListener('visibilitychange', onHidden)
+      stopAllAudio()          // 언마운트(페이지 이탈) 시 정지
+      playIdxRef.current = 0  // 페이지 재진입 후 항상 첫 대사부터
+    }
+  }, [])
+
+  // ── 전체 재생 / 이어듣기 ────────────────────────────────────────────────────
   const handlePlayAll = useCallback(async () => {
-    if (isPlaying) {
-      // 정지: 현재 버블 인덱스는 playIdxRef에 이미 기록돼 있음
+    if (isPlayingRef.current) {
+      // 정지: 현재 인덱스는 playIdxRef에 보존 → 다음 재생 시 이어듣기
+      isPlayingRef.current = false
       stopRef.current = true
       stopAllAudio()
       setIsPlaying(false)
       setPlayingId(null)
       return
     }
-    // 이어듣기: 이전에 정지된 인덱스부터 재개
+    // 연타 가드: ref를 동기적으로 먼저 세운 뒤 시작
+    isPlayingRef.current = true
     stopRef.current = false
     setIsPlaying(true)
 
     for (let i = playIdxRef.current; i < allBubbles.length; i++) {
       if (stopRef.current) break
       const b = allBubbles[i]
-      playIdxRef.current = i   // 현재 위치 기록 (정지 시 이 값부터 재개)
+      playIdxRef.current = i  // 현재 위치 기록 (정지 시 이 값부터 재개)
       setPlayingId(b.id)
-      await playAudio(b.audio_url ?? null)
+      if (!b.audio_url) {
+        console.log(`[kpatto] skip (no audio_url): ${b.id}`)
+        continue
+      }
+      const ok = await tryPlayAudio(b.audio_url)
+      if (!ok && !stopRef.current) {
+        // 로드 실패 → 건너뛰고 다음 대사로 (UI 표시 없음)
+        console.log(`[kpatto] skip (load error): ${b.id}`)
+      }
     }
 
     if (!stopRef.current) {
       playIdxRef.current = 0  // 자연 완료 → 다음 재생은 처음부터
     }
+    isPlayingRef.current = false
     setIsPlaying(false)
     setPlayingId(null)
-  }, [isPlaying, allBubbles, episode.id])
+  }, [allBubbles])  // isPlaying 제거 — isPlayingRef로 동기 가드
 
-  useEffect(() => {
-    // visibilitychange: 탭 전환·앱 백그라운드 시 정지
-    const onHidden = () => {
-      if (document.visibilityState === 'hidden') {
-        stopRef.current = true
-        stopAllAudio()
-        setIsPlaying(false)
-        setPlayingId(null)
-      }
-    }
-    document.addEventListener('visibilitychange', onHidden)
-    return () => {
-      document.removeEventListener('visibilitychange', onHidden)
-      stopAllAudio()  // 언마운트(페이지 이탈) 시 정지
-    }
-  }, [])
-
+  // ── 하이라이트 팝업 ──────────────────────────────────────────────────────────
   const handleHighlightTap = useCallback(async (expressionId: number) => {
+    // 팝업 열림 → 대사 재생 즉시 정지 (닫아도 자동 재개 안 함)
+    stopAllAudio()
     const expr = await fetchExpression(expressionId)
     if (expr) setActiveExpression(expr)
   }, [])

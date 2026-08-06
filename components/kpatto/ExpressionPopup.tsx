@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Volume2 } from 'lucide-react'
 import type { KPattoExpression } from '@/data/kpatto/types'
-import { playAudio } from '@/lib/kpatto/audio'
+import { playAudio, stopAllAudio } from '@/lib/kpatto/audio'
 
 const SAVED_KEY = 'kpatto-saved-expressions'
 
@@ -112,7 +112,7 @@ export function ExpressionPopup({
           </div>
           {expression.audio_url && (
             <button
-              onClick={() => playAudio(expression.audio_url ?? null)}
+              onClick={() => { stopAllAudio(); playAudio(expression.audio_url ?? null) }}
               aria-label="표현 듣기"
               style={{
                 position: 'absolute', bottom: 12, right: 10,
