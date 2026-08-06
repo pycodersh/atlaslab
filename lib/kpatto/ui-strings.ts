@@ -76,6 +76,8 @@ const EN = {
   sv_patterns_learned: (n: number) => `${n} pattern${n === 1 ? '' : 's'} learned`,
   sv_back: 'Back to Stories',
   sv_view_progress: 'View Progress',
+  sv_next_story: 'Next Story →',
+  sv_unlock_ep: (n: number) => `Unlock EP${String(n).padStart(2, '0')} 🔓`,
   sv_welcome_heading: 'Hangeul Basics Complete!',
   sv_welcome_body: 'Now learn Korean through webtoon stories.',
 
@@ -199,6 +201,8 @@ const JA: typeof EN = {
   sv_patterns_learned: (n: number) => `${n}個のパターンを学習しました`,
   sv_back: 'ストーリー一覧へ',
   sv_view_progress: '進捗を見る',
+  sv_next_story: '次のエピソード →',
+  sv_unlock_ep: (n: number) => `EP${String(n).padStart(2, '0')} を解放 🔓`,
   sv_welcome_heading: 'ハングル基礎完了！',
   sv_welcome_body: 'ウェブトゥーンで韓国語を学びましょう。',
 
@@ -321,6 +325,8 @@ const ES: typeof EN = {
   sv_patterns_learned: (n: number) => `${n} patrón${n === 1 ? '' : 'es'} aprendido${n === 1 ? '' : 's'}`,
   sv_back: 'Volver a historias',
   sv_view_progress: 'Ver progreso',
+  sv_next_story: 'Siguiente →',
+  sv_unlock_ep: (n: number) => `Desbloquear EP${String(n).padStart(2, '0')} 🔓`,
   sv_welcome_heading: '¡Básico del Hangeul completado!',
   sv_welcome_body: 'Ahora aprende coreano a través de historias de webtoon.',
 

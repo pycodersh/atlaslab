@@ -14,7 +14,11 @@ export async function GET(
 
   const epNum = parseInt(match[1])
 
-  if (epNum > FREE_EPISODES) {
+  // In local development (VERCEL_ENV not set), skip paywall gate.
+  // Server-side check only — never exposed to the client via env variable.
+  const isLocalDev = !process.env.VERCEL_ENV
+
+  if (!isLocalDev && epNum > FREE_EPISODES) {
     const supabase = await createServerClient()
     const { data: { user } } = await supabase.auth.getUser()
 

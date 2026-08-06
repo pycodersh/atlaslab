@@ -12,8 +12,15 @@ interface PageProps {
   params: Promise<{ episodeId: string }>
 }
 
+/** Normalize numeric shorthand (11 → kp-ep-011) so /kpatto/editor/11 works. */
+function normalizeEpId(raw: string): string {
+  if (/^\d+$/.test(raw)) return `kp-ep-${raw.padStart(3, '0')}`
+  return raw
+}
+
 export default function KPattoEditorPage({ params }: PageProps) {
-  const { episodeId } = use(params)
+  const { episodeId: rawId } = use(params)
+  const episodeId = normalizeEpId(rawId)
   const [episode, setEpisode] = useState<WebtoonEpisodeData | null>(null)
   const [loading, setLoading] = useState(true)
 

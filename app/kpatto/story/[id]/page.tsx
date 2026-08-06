@@ -1,5 +1,5 @@
 ﻿'use client'
-
+// v2 — Emma cut completion screen + Next Story / Unlock EP buttons
 import { use, useState, useCallback, useEffect } from 'react'
 import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -72,8 +72,15 @@ function WelcomeBanner() {
   )
 }
 
+/** Normalize numeric shorthand (11 → kp-ep-011) so /kpatto/story/11 works. */
+function normalizeEpId(raw: string): string {
+  if (/^\d+$/.test(raw)) return `kp-ep-${raw.padStart(3, '0')}`
+  return raw
+}
+
 export default function KPattoStoryPage({ params }: PageProps) {
-  const { id } = use(params)
+  const { id: rawId } = use(params)
+  const id = normalizeEpId(rawId)
   const { prefs } = usePreferences()
   const ui = getUI(prefs.language)
   const router = useRouter()
@@ -92,6 +99,14 @@ export default function KPattoStoryPage({ params }: PageProps) {
   const [webtoonEpisode, setWebtoonEpisode] = useState<WebtoonEpisodeData | null>(null)
   const [webtoonLoading, setWebtoonLoading] = useState(true)
   const { isPro, loading: subLoading } = useKPattoSubscription()
+
+  // Completion-screen button derivations
+  const isLastEp   = epNum === 100
+  const nextEpNum  = epNum + 1
+  const nextEpId   = `kp-ep-${String(nextEpNum).padStart(3, '0')}`
+  const nextEpHref = `/kpatto/story/${nextEpId}`
+  // EP10 + non-subscriber → show "Unlock EP11" (links to EP11 which auto-shows paywall)
+  const showUnlock = epNum === FREE_EPISODES && !isPro
 
   useEffect(() => {
     const pool = EPISODE_POOLS[id]
@@ -234,75 +249,91 @@ export default function KPattoStoryPage({ params }: PageProps) {
 
       {/* Completion footer — only after challenge */}
       {challengeDone && (
-        <div style={{
-          margin: '24px 16px 0',
-          borderRadius: 20,
-          overflow: 'hidden',
-          boxShadow: '0 2px 20px rgba(0,0,0,0.07)',
-        }}>
-          {/* Upper — cream background */}
           <div style={{
-            background: '#faf8f5',
-            padding: '14px 20px 0',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            margin: '24px 16px 0',
+            borderRadius: 20,
+            overflow: 'hidden',
+            boxShadow: '0 2px 20px rgba(0,0,0,0.08)',
           }}>
-            <span style={{
-              position: 'absolute', top: 14, left: 16,
-              fontSize: 11, fontWeight: 600, color: '#aaa',
-              letterSpacing: '0.06em',
+            {/* ── Upper: cream — Emma cut (right) + title text (left) ── */}
+            <div style={{
+              background: '#faf8f5',
+              display: 'flex',
+              alignItems: 'stretch',
+              overflow: 'hidden',
+              minHeight: 168,
             }}>
-              EP {String(epNum).padStart(2, '0')}
-            </span>
-            <svg width="160" height="190" viewBox="0 0 160 190">
-              <ellipse cx="80" cy="178" rx="52" ry="10" fill="#e8e2d8" opacity="0.6"/>
-              <rect x="54" y="112" width="52" height="68" rx="8" fill="#f5e6d0"/>
-              <rect x="44" y="120" width="18" height="48" rx="8" fill="#f5e6d0"/>
-              <rect x="98" y="120" width="18" height="48" rx="8" fill="#f5e6d0"/>
-              <rect x="57" y="148" width="46" height="36" rx="6" fill="#fff3e6" opacity="0.7"/>
-              <rect x="54" y="110" width="52" height="10" rx="4" fill="#e8d5b8"/>
-              <ellipse cx="80" cy="88" rx="30" ry="32" fill="#f5c89a"/>
-              <path d="M50 78 Q52 50 80 47 Q108 50 110 78" fill="#6b3a1f"/>
-              <path d="M54 74 Q57 60 62 66" fill="#7a4020" stroke="#5a2e10" strokeWidth="1"/>
-              <path d="M106 74 Q103 60 98 66" fill="#7a4020" stroke="#5a2e10" strokeWidth="1"/>
-              <ellipse cx="68" cy="85" rx="4.5" ry="5" fill="white"/>
-              <ellipse cx="92" cy="85" rx="4.5" ry="5" fill="white"/>
-              <ellipse cx="68" cy="86" rx="2.8" ry="3.2" fill="#3d2010"/>
-              <ellipse cx="92" cy="86" rx="2.8" ry="3.2" fill="#3d2010"/>
-              <ellipse cx="69" cy="85" rx="1" ry="1" fill="white"/>
-              <ellipse cx="93" cy="85" rx="1" ry="1" fill="white"/>
-              <path d="M74 96 Q80 101 86 96" stroke="#c47a5a" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-              <ellipse cx="65" cy="94" rx="4.5" ry="2.5" fill="#f0a080" opacity="0.4"/>
-              <ellipse cx="95" cy="94" rx="4.5" ry="2.5" fill="#f0a080" opacity="0.4"/>
-              <rect x="62" y="112" width="36" height="4" rx="2" fill="#D4873A" opacity="0.5"/>
-              <path d="M118 96 L133 83 L135 88 L139 82 L137 92 L132 89 Z" fill="#D4873A" opacity="0.9"/>
-              <path d="M126 80 L130 67 L132 73 L136 67 L134 76 L129 73 Z" fill="#D4873A" opacity="0.7"/>
-              <path d="M136 92 L149 83 L148 89 L153 85 L150 94 L145 91 Z" fill="#D4873A" opacity="0.6"/>
-            </svg>
-          </div>
+              {/* Left: EP label + heading + theme */}
+              <div style={{
+                flex: 1,
+                minWidth: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                padding: '20px 0 20px 20px',
+                gap: 4,
+              }}>
+                <span style={{
+                  fontSize: 11, fontWeight: 600, color: '#bbb',
+                  letterSpacing: '0.08em',
+                }}>
+                  EP {String(epNum).padStart(2, '0')}
+                </span>
+                <h3 style={{
+                  margin: 0,
+                  fontSize: 19, fontWeight: 700, color: '#1a1a1a',
+                  lineHeight: 1.25,
+                }}>
+                  {ui.sv_ep_complete}
+                </h3>
+                <p style={{
+                  margin: 0,
+                  fontSize: 12, color: '#aaa', lineHeight: 1.4,
+                }}>
+                  {story?.title ?? webtoonEpisode?.title ?? ''}
+                  {(story?.theme || webtoonEpisode?.theme)
+                    ? ` · ${story?.theme ?? webtoonEpisode?.theme}`
+                    : ''}
+                </p>
+              </div>
 
-          {/* Lower — white */}
-          <div style={{
-            background: '#fff',
-            padding: '20px 20px 24px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 6,
-          }}>
-            <h3 style={{ margin: 0, fontSize: 22, fontWeight: 500, color: '#1a1a1a', textAlign: 'center' }}>
-              {ui.sv_ep_complete}
-            </h3>
-            <p style={{ margin: '0 0 16px', fontSize: 13, color: '#aaa', textAlign: 'center' }}>
-              {story?.title ?? webtoonEpisode?.title ?? ''} · {story?.theme ?? webtoonEpisode?.theme ?? ''}
-            </p>
-            <div style={{ display: 'flex', gap: 10, width: '100%' }}>
+              {/* Right: Emma webtoon cut, fades on left edge into cream bg */}
+              <div style={{
+                flexShrink: 0,
+                width: 148,
+                position: 'relative',
+                overflow: 'hidden',
+              }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/kpatto/ep-001/ep01_c5.png"
+                  alt=""
+                  aria-hidden="true"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: '57% 30%',
+                    display: 'block',
+                    WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.7) 35%, rgba(0,0,0,1) 60%)',
+                    maskImage:       'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.7) 35%, rgba(0,0,0,1) 60%)',
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* ── Lower: white — buttons ── */}
+            <div style={{
+              background: '#fff',
+              padding: '14px 16px 20px',
+              display: 'flex',
+              gap: 8,
+            }}>
+              {/* Left: Back to Stories */}
               <Link
                 href="/kpatto/story"
                 style={{
-                  flex: 1, height: 46, borderRadius: 12,
+                  flex: 1, height: 48, borderRadius: 12,
                   border: '1.5px solid #e0e0e0',
                   background: '#fff',
                   fontSize: 13, fontWeight: 600, color: '#444',
@@ -312,21 +343,40 @@ export default function KPattoStoryPage({ params }: PageProps) {
               >
                 {ui.sv_back}
               </Link>
-              <Link
-                href="/kpatto/progress"
-                style={{
-                  flex: 1, height: 46, borderRadius: 12,
-                  border: 'none', background: '#D4873A',
-                  fontSize: 13, fontWeight: 600, color: '#fff',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  textDecoration: 'none',
-                }}
-              >
-                {ui.sv_view_progress}
-              </Link>
+
+              {/* Right: Next Story / Unlock / (hidden for EP100) */}
+              {!isLastEp && (
+                showUnlock ? (
+                  <Link
+                    href={nextEpHref}
+                    style={{
+                      flex: 1, height: 48, borderRadius: 12,
+                      border: 'none',
+                      background: 'linear-gradient(135deg, #D4873A, #c9711f)',
+                      fontSize: 13, fontWeight: 600, color: '#fff',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {ui.sv_unlock_ep(nextEpNum)}
+                  </Link>
+                ) : (
+                  <Link
+                    href={nextEpHref}
+                    style={{
+                      flex: 1, height: 48, borderRadius: 12,
+                      border: 'none', background: '#D4873A',
+                      fontSize: 13, fontWeight: 600, color: '#fff',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {ui.sv_next_story}
+                  </Link>
+                )
+              )}
             </div>
           </div>
-        </div>
       )}
     </div>
   )
