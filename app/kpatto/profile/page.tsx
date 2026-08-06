@@ -89,6 +89,7 @@ function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void 
   const email = user.email
   const avatarUrl = user.user_metadata?.avatar_url as string | undefined
   const initial = name[0]?.toUpperCase() ?? '?'
+  const { isPro } = useKPattoSubscription()
 
   return (
     <Card>
@@ -105,8 +106,19 @@ function UserProfileCard({ user, onLogout }: { user: User; onLogout: () => void 
           )}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 16, fontWeight: 800, color: T1, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {name}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+            <div style={{ fontSize: 16, fontWeight: 800, color: T1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {name}
+            </div>
+            {isPro && (
+              <span style={{
+                flexShrink: 0,
+                fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
+                color: '#FFFFFF', background: ACCENT,
+                borderRadius: 20, padding: '2px 7px',
+                lineHeight: 1.4,
+              }}>PRO</span>
+            )}
           </div>
           {email && (
             <div style={{ fontSize: 12, color: T2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{email}</div>
@@ -556,43 +568,6 @@ function InstallCard() {
 
 // ── Subscription row ──────────────────────────────────────────────────────────
 function SubscriptionRow({ onClick }: { onClick: () => void }) {
-  const { isPro, isCanceling, billingEnd, loading } = useKPattoSubscription()
-
-  // 날짜 포맷: "Aug 6, 2026"
-  function fmtDate(iso: string | null): string | null {
-    if (!iso) return null
-    try {
-      return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-    } catch { return null }
-  }
-
-  const dateStr = fmtDate(billingEnd)
-
-  let badge: React.ReactNode
-  let sub: React.ReactNode
-
-  if (loading) {
-    badge = <span style={{ fontSize: 13, color: '#CCCCCC' }}>…</span>
-    sub   = null
-  } else if (isPro) {
-    if (isCanceling) {
-      badge = (
-        <span style={{ fontSize: 13, fontWeight: 500, color: ACCENT }}>
-          Pro{dateStr ? ` · ends ${dateStr}` : ' · ending soon'}
-        </span>
-      )
-      sub = null
-    } else {
-      badge = <span style={{ fontSize: 13, fontWeight: 500, color: ACCENT }}>Pro</span>
-      sub   = dateStr
-        ? <span style={{ fontSize: 11, color: T2, marginTop: 1 }}>Renews on {dateStr}</span>
-        : null
-    }
-  } else {
-    badge = <span style={{ fontSize: 13, color: T2 }}>Free</span>
-    sub   = <span style={{ fontSize: 11, color: ACCENT, marginTop: 1 }}>Upgrade to Pro</span>
-  }
-
   return (
     <button
       type="button"
@@ -606,11 +581,6 @@ function SubscriptionRow({ onClick }: { onClick: () => void }) {
     >
       <CreditCard size={18} color={ACCENT} strokeWidth={1.8} style={{ flexShrink: 0 }} />
       <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Subscription</span>
-      {/* 우측: 배지 + 서브텍스트 세로 배치 */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginRight: 4 }}>
-        {badge}
-        {sub}
-      </div>
       <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />
     </button>
   )

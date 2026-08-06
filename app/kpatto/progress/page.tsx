@@ -12,7 +12,7 @@ import {
   localDateStr,
   getPracticedTodayCount,
   getAllRecords,
-} from '@/lib/srs/storage'
+} from '@/lib/kpatto/srs-storage'
 import { getUI } from '@/lib/kpatto/ui-strings'
 import { usePreferences } from '@/contexts/PreferencesContext'
 

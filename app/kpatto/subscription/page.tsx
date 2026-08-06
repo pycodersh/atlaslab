@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import { Gift, Sparkles, Check } from 'lucide-react'
+import { Sparkles, Check } from 'lucide-react'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { useAuth } from '@/contexts/AuthContext'
 import { usePaddle } from '@/hooks/usePaddle'
@@ -15,34 +15,171 @@ const T2 = '#666666'
 const BORDER = '#E8E4DF'
 
 const PRO_PERKS = [
-  'EP11~ unlimited access',
+  'EP 11~ unlimited access',
   'New episodes auto-unlocked',
   'Full challenge access',
   'Unlimited bookmarks',
   'Full audio access',
 ]
 
-const FREE_PERKS = [
-  'Pre-course (all free)',
-  'First 10 episodes free',
-  'Basic challenges',
-]
+// 날짜 포맷: "Aug 6, 2026"
+function fmtDate(iso: string | null | undefined): string | null {
+  if (!iso) return null
+  try {
+    return new Date(iso).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric',
+    })
+  } catch { return null }
+}
 
+// ── Pro 상태 화면 ─────────────────────────────────────────────────────────────
+function ProView({
+  billingEnd,
+  isCanceling,
+}: {
+  billingEnd: string | null
+  isCanceling: boolean
+}) {
+  const [managing, setManaging] = useState(false)
+  const dateStr = fmtDate(billingEnd)
+
+  const handleManage = useCallback(async () => {
+    if (managing) return
+    setManaging(true)
+    try {
+      const res  = await fetch('/kpatto/api/paddle-portal')
+      const json = await res.json() as { url?: string; fallback?: boolean }
+
+      if (json.url) {
+        window.open(json.url, '_blank', 'noopener,noreferrer')
+      } else {
+        // Fallback: 일반 Paddle 고객 포털 (이메일 인증으로 로그인)
+        window.open('https://customer.paddle.com/', '_blank', 'noopener,noreferrer')
+      }
+    } catch {
+      window.open('https://customer.paddle.com/', '_blank', 'noopener,noreferrer')
+    } finally {
+      setManaging(false)
+    }
+  }, [managing])
+
+  return (
+    <div style={{ padding: '24px 16px 0', display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* Pro 헤더 */}
+      <div style={{
+        background: '#FFFFFF', borderRadius: 16,
+        border: `1.5px solid ${ACCENT}`,
+        padding: '20px 20px 16px',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Sparkles size={18} color={ACCENT} strokeWidth={1.8} />
+            <span style={{ fontSize: 18, fontWeight: 800, color: T1 }}>K-PATTO Pro</span>
+          </div>
+          <span style={{
+            fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
+            color: '#16A34A', background: '#F0FDF4',
+            border: '1px solid #BBF7D0', borderRadius: 20, padding: '3px 10px',
+          }}>
+            Active
+          </span>
+        </div>
+
+        {/* 갱신일 / 해지 예정 */}
+        <div style={{ fontSize: 13, color: T2 }}>
+          {isCanceling
+            ? `Ends on ${dateStr ?? '—'}`
+            : dateStr
+              ? `Renews on ${dateStr}`
+              : 'Subscription active'}
+        </div>
+      </div>
+
+      {/* Manage Subscription 버튼 */}
+      <button
+        onClick={handleManage}
+        disabled={managing}
+        style={{
+          width: '100%', height: 48,
+          background: 'transparent', border: `1.5px solid ${ACCENT}`,
+          borderRadius: 12, fontSize: 15, fontWeight: 600, color: ACCENT,
+          cursor: managing ? 'not-allowed' : 'pointer',
+          opacity: managing ? 0.6 : 1,
+          fontFamily: 'inherit',
+          WebkitTapHighlightColor: 'transparent',
+        } as React.CSSProperties}
+      >
+        {managing ? '…' : 'Manage Subscription'}
+      </button>
+    </div>
+  )
+}
+
+// ── Free 상태 화면 ────────────────────────────────────────────────────────────
+function FreeView({ onUpgrade, upgrading }: { onUpgrade: () => void; upgrading: boolean }) {
+  return (
+    <div style={{ padding: '24px 16px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* 현재 플랜 한 줄 */}
+      <div style={{ fontSize: 14, color: T2 }}>You&apos;re on the Free plan.</div>
+
+      {/* Pro 카드 */}
+      <div style={{
+        background: '#FFFFFF', borderRadius: 16,
+        border: `1.5px solid ${ACCENT}`,
+        padding: 20,
+        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Sparkles size={18} color={ACCENT} strokeWidth={1.8} />
+            <span style={{ fontSize: 18, fontWeight: 800, color: T1 }}>K-PATTO Pro</span>
+          </div>
+          <span style={{ fontSize: 13, fontWeight: 700, color: ACCENT }}>$2.99/mo</span>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+          {PRO_PERKS.map(p => (
+            <div key={p} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Check size={14} color={ACCENT} strokeWidth={2.5} />
+              <span style={{ fontSize: 14, color: T2 }}>{p}</span>
+            </div>
+          ))}
+        </div>
+
+        <button
+          onClick={onUpgrade}
+          disabled={upgrading}
+          style={{
+            width: '100%', height: 48,
+            background: ACCENT, color: '#FFFFFF',
+            border: 'none', borderRadius: 12,
+            fontSize: 15, fontWeight: 600,
+            cursor: upgrading ? 'not-allowed' : 'pointer',
+            opacity: upgrading ? 0.7 : 1,
+            fontFamily: 'inherit',
+            WebkitTapHighlightColor: 'transparent',
+            touchAction: 'manipulation',
+          } as React.CSSProperties}
+        >
+          {upgrading ? '...' : 'Upgrade to Pro →'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
 export default function KPattoSubscriptionPage() {
   const { user } = useAuth()
-  const { isPro, loading: subLoading } = useKPattoSubscription()
+  const { isPro, isCanceling, billingEnd, loading: subLoading } = useKPattoSubscription()
   const paddle = usePaddle()
-  const [loading, setLoading] = useState(false)
+  const [upgrading, setUpgrading] = useState(false)
   const router = useRouter()
 
-  async function handleUpgrade() {
-    if (loading) return
-
-    // 로그인 필수 — user_id 없으면 웹훅에서 구독 처리 불가
-    if (!user?.id) {
-      router.push('/kpatto/onboarding')
-      return
-    }
+  const handleUpgrade = useCallback(async () => {
+    if (upgrading) return
+    if (!user?.id) { router.push('/kpatto/onboarding'); return }
 
     const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
     if (!priceId || priceId.includes('REPLACE')) {
@@ -50,7 +187,7 @@ export default function KPattoSubscriptionPage() {
       return
     }
 
-    setLoading(true)
+    setUpgrading(true)
     try {
       let p = paddle
       if (!p) {
@@ -60,10 +197,7 @@ export default function KPattoSubscriptionPage() {
           if (p) break
         }
       }
-      if (!p) {
-        alert('결제 시스템을 불러오는 중입니다. 잠시 후 다시 시도해주세요.')
-        return
-      }
+      if (!p) { alert('결제 시스템을 불러오는 중입니다. 잠시 후 다시 시도해주세요.'); return }
 
       await p.Checkout.open({
         items: [{ priceId, quantity: 1 }],
@@ -72,130 +206,21 @@ export default function KPattoSubscriptionPage() {
         settings: { displayMode: 'overlay', locale: 'ko' },
       })
     } finally {
-      setLoading(false)
+      setUpgrading(false)
     }
-  }
+  }, [upgrading, user, paddle, router])
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--background)', paddingBottom: 40 }}>
       <KPattoHeader />
 
-      <div style={{ padding: '24px 16px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        {/* Section title */}
-        <div style={{ fontSize: 18, fontWeight: 700, color: T1 }}>Choose your plan</div>
-
-        {/* Free plan card */}
-        <div style={{
-          background: '#FFFFFF', borderRadius: 16,
-          border: `1.5px solid ${BORDER}`,
-          padding: 20,
-          boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Gift size={18} color="#999999" strokeWidth={1.8} />
-              <span style={{ fontSize: 18, fontWeight: 700, color: T1 }}>Free</span>
-            </div>
-            {!isPro && !subLoading && (
-              <span style={{
-                fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
-                color: ACCENT, background: '#FFF7EE',
-                border: `1px solid ${ACCENT}40`, borderRadius: 20, padding: '3px 10px',
-              }}>
-                Current
-              </span>
-            )}
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {FREE_PERKS.map(p => (
-              <div key={p} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Check size={14} color="#999999" strokeWidth={2.5} />
-                <span style={{ fontSize: 14, color: T2 }}>{p}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Pro plan card */}
-        <div style={{
-          background: '#FFFFFF', borderRadius: 16,
-          border: `1.5px solid ${ACCENT}`,
-          padding: 20,
-          boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <Sparkles size={18} color={ACCENT} strokeWidth={1.8} />
-              <span style={{ fontSize: 18, fontWeight: 700, color: T1 }}>K-PATTO Pro</span>
-            </div>
-            {!subLoading && (
-              isPro ? (
-                <span style={{
-                  fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
-                  color: '#16A34A', background: '#F0FDF4',
-                  border: '1px solid #BBF7D0', borderRadius: 20, padding: '3px 10px',
-                }}>
-                  Active
-                </span>
-              ) : (
-                <span style={{ fontSize: 13, fontWeight: 700, color: ACCENT }}>$2.99/mo</span>
-              )
-            )}
-          </div>
-
-          {isPro && !subLoading && (
-            <div style={{ fontSize: 12, color: T2, marginBottom: 14 }}>
-              Manage your subscription via Paddle customer portal.
-            </div>
-          )}
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
-            {PRO_PERKS.map(p => (
-              <div key={p} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Check size={14} color={ACCENT} strokeWidth={2.5} />
-                <span style={{ fontSize: 14, color: T2 }}>{p}</span>
-              </div>
-            ))}
-          </div>
-
-          {!subLoading && (
-            isPro ? (
-              <a
-                href="https://customer.paddle.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  width: '100%', height: 48,
-                  background: 'transparent', border: `1.5px solid ${ACCENT}`,
-                  borderRadius: 12, fontSize: 15, fontWeight: 600, color: ACCENT,
-                  textDecoration: 'none', boxSizing: 'border-box',
-                }}
-              >
-                Manage Subscription
-              </a>
-            ) : (
-              <button
-                onClick={handleUpgrade}
-                disabled={loading}
-                style={{
-                  width: '100%', height: 48,
-                  background: ACCENT, color: '#FFFFFF',
-                  border: 'none', borderRadius: 12,
-                  fontSize: 15, fontWeight: 600,
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  opacity: loading ? 0.7 : 1,
-                  fontFamily: 'inherit',
-                  WebkitTapHighlightColor: 'transparent',
-                  touchAction: 'manipulation',
-                } as React.CSSProperties}
-              >
-                {loading ? '...' : 'Upgrade to Pro →'}
-              </button>
-            )
-          )}
-        </div>
-      </div>
+      {subLoading ? (
+        <div style={{ padding: '48px 16px', textAlign: 'center', color: T2, fontSize: 14 }}>…</div>
+      ) : isPro ? (
+        <ProView billingEnd={billingEnd} isCanceling={isCanceling} />
+      ) : (
+        <FreeView onUpgrade={handleUpgrade} upgrading={upgrading} />
+      )}
     </div>
   )
 }
