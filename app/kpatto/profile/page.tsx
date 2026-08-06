@@ -10,6 +10,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { signOut, signInWithGoogleKpatto, signInWithEmail } from '@/lib/auth-actions'
 import type { KPattoLanguage } from '@/data/kpatto/types'
+import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 
 const T1     = '#111111'
 const T2     = '#666666'
@@ -553,6 +554,68 @@ function InstallCard() {
   )
 }
 
+// ── Subscription row ──────────────────────────────────────────────────────────
+function SubscriptionRow({ onClick }: { onClick: () => void }) {
+  const { isPro, isCanceling, billingEnd, loading } = useKPattoSubscription()
+
+  // 날짜 포맷: "Aug 6, 2026"
+  function fmtDate(iso: string | null): string | null {
+    if (!iso) return null
+    try {
+      return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    } catch { return null }
+  }
+
+  const dateStr = fmtDate(billingEnd)
+
+  let badge: React.ReactNode
+  let sub: React.ReactNode
+
+  if (loading) {
+    badge = <span style={{ fontSize: 13, color: '#CCCCCC' }}>…</span>
+    sub   = null
+  } else if (isPro) {
+    if (isCanceling) {
+      badge = (
+        <span style={{ fontSize: 13, fontWeight: 500, color: ACCENT }}>
+          Pro{dateStr ? ` · ends ${dateStr}` : ' · ending soon'}
+        </span>
+      )
+      sub = null
+    } else {
+      badge = <span style={{ fontSize: 13, fontWeight: 500, color: ACCENT }}>Pro</span>
+      sub   = dateStr
+        ? <span style={{ fontSize: 11, color: T2, marginTop: 1 }}>Renews on {dateStr}</span>
+        : null
+    }
+  } else {
+    badge = <span style={{ fontSize: 13, color: T2 }}>Free</span>
+    sub   = <span style={{ fontSize: 11, color: ACCENT, marginTop: 1 }}>Upgrade to Pro</span>
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 14,
+        width: '100%', padding: '14px 16px',
+        background: 'none', border: 'none', cursor: 'pointer',
+        fontFamily: 'inherit', textAlign: 'left',
+      }}
+    >
+      <CreditCard size={18} color={ACCENT} strokeWidth={1.8} style={{ flexShrink: 0 }} />
+      <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Subscription</span>
+      {/* 우측: 배지 + 서브텍스트 세로 배치 */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginRight: 4 }}>
+        {badge}
+        {sub}
+      </div>
+      <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />
+    </button>
+  )
+}
+
 // ── Language selector ─────────────────────────────────────────────────────────
 const LANG_OPTIONS: { value: KPattoLanguage; flag: string; label: string }[] = [
   { value: 'en', flag: '🇺🇸', label: 'English' },
@@ -649,7 +712,7 @@ export default function KPattoProfilePage() {
       {/* APP SETTINGS */}
       <SectionHeader label="App Settings" />
       <Card>
-        <RowItem icon={CreditCard} label="Subscription" value="Free" onClick={() => router.push('/kpatto/subscription')} />
+        <SubscriptionRow onClick={() => router.push('/kpatto/subscription')} />
         <RowDivider />
         <LanguageRow lang={(prefs.language ?? 'en') as KPattoLanguage} onSelect={l => update({ language: l })} />
         <RowDivider />

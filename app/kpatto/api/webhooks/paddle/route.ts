@@ -102,6 +102,7 @@ export async function POST(request: Request) {
         kpatto_pro: isActive,
         kpatto_subscription_id: data.id,
         kpatto_subscription_status: data.status,
+        kpatto_billing_end_at: data.current_billing_period?.ends_at ?? null,
       })
       .eq('id', userId)
 
