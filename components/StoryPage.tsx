@@ -115,6 +115,10 @@ export function StoryPage({
       const absIdx = currentParagraphIdx >= 0
         ? currentParagraphIdx + paraOffsetRef.current
         : null
+      console.log('[RESUME-DBG] coordinator interrupt — absIdx:', absIdx,
+        '| isSpeaking:', isSpeaking,
+        '| currentParagraphIdx:', currentParagraphIdx,
+        '| paraOffset:', paraOffsetRef.current)
       if (absIdx !== null && isSpeaking) interruptedAtParaRef.current = absIdx
       stop()
     }
@@ -131,6 +135,7 @@ export function StoryPage({
   // Reset para offset when audio ends or is stopped
   useEffect(() => {
     if (!isSpeaking) {
+      console.log('[RESUME-DBG] !isSpeaking effect — paraOffset before reset:', paraOffsetRef.current, '| interruptedAt:', interruptedAtParaRef.current)
       if (paraOffsetRef.current !== 0) paraOffsetRef.current = 0
     }
   }, [isSpeaking])
@@ -227,21 +232,27 @@ export function StoryPage({
 
   // ── Full-story audio ─────────────────────────────────────────────────────
   function handleSpeakAll() {
+    console.log('[RESUME-DBG] handleSpeakAll called — isSpeaking:', isSpeaking,
+      '| currentParagraphIdx:', currentParagraphIdx,
+      '| paraOffset:', paraOffsetRef.current,
+      '| interruptedAt:', interruptedAtParaRef.current)
+
     if (isSpeaking) {
       // [중단 조건 1] 스피커 재클릭: 현재 말풍선 인덱스 보존 후 정지
-      // currentParagraphIdx와 paraOffsetRef를 직접 읽어 저장
-      // (interruptImplRef 클로저 타이밍에 의존하지 않음)
       const absIdx = currentParagraphIdx >= 0
         ? currentParagraphIdx + paraOffsetRef.current
         : null
+      console.log('[RESUME-DBG] STOP — absIdx:', absIdx)
       if (absIdx !== null) interruptedAtParaRef.current = absIdx
       stop()
       coordinatorEnded(STORY_AUDIO_ID)  // 코디네이터 소유권 반환
+      console.log('[RESUME-DBG] After stop — interruptedAtParaRef:', interruptedAtParaRef.current)
       return
     }
     // 시작 또는 인터럽트된 위치부터 이어듣기
-    setPlayingParaId(null)
     const fromIdx = interruptedAtParaRef.current ?? 0
+    console.log('[RESUME-DBG] PLAY — fromIdx:', fromIdx, '(interruptedAt was:', interruptedAtParaRef.current, ')')
+    setPlayingParaId(null)
     interruptedAtParaRef.current = null
     paraOffsetRef.current = fromIdx
     const texts     = story.paragraphs.slice(fromIdx).map(p => p.english)
@@ -251,9 +262,10 @@ export function StoryPage({
       voiceKey: narrator,
       fromStart: fromIdx === 0,
       onEnd: () => {
+        console.log('[RESUME-DBG] onEnd fired (natural completion)')
         coordinatorEnded(STORY_AUDIO_ID)
         paraOffsetRef.current = 0
-        interruptedAtParaRef.current = null  // 마지막 말풍선까지 완료 → 인덱스 초기화
+        // interruptedAtParaRef는 play 시점에 이미 null로 초기화했으므로 중복 제거
       },
     })
   }
