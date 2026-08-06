@@ -24,16 +24,15 @@ const REQUIRED_LESSONS = LESSONS.filter(l => l.required).length
 
 // ── 히어로 배너 (날짜 기반 고정 · banner-6~9 추가 시 배열 확장) ─────────────────
 const HERO_BANNERS = [
-  { src: '/kpatto/banners/banner-1.png', ko: '북촌 한옥마을',  en: 'Bukchon Hanok Village' },
-  { src: '/kpatto/banners/banner-2.png', ko: '지하철역',       en: 'Subway Station'         },
-  { src: '/kpatto/banners/banner-3.png', ko: '전통시장',       en: 'Traditional Market'     },
-  { src: '/kpatto/banners/banner-4.png', ko: '동네 카페',      en: 'Neighborhood Cafe'      },
-  { src: '/kpatto/banners/banner-5.png', ko: '한강공원',       en: 'Hangang Park'           },
-  // banner-6~9 파일 추가 후 아래 줄 해제
-  // { src: '/kpatto/banners/banner-6.png', ko: '한강의 밤',  en: 'Hangang at Night'   },
-  // { src: '/kpatto/banners/banner-7.png', ko: '홍대 거리',  en: 'Hongdae Street'     },
-  // { src: '/kpatto/banners/banner-8.png', ko: '한옥뷰 카페', en: 'Hanok View Cafe'   },
-  // { src: '/kpatto/banners/banner-9.png', ko: '명동 거리',  en: 'Myeongdong Street'  },
+  { src: '/kpatto/banners/banner-1.png', ko: '북촌 한옥마을', en: 'Bukchon Hanok Village' },
+  { src: '/kpatto/banners/banner-2.png', ko: '지하철역',      en: 'Subway Station'        },
+  { src: '/kpatto/banners/banner-3.png', ko: '전통시장',      en: 'Traditional Market'    },
+  { src: '/kpatto/banners/banner-4.png', ko: '동네 카페',     en: 'Neighborhood Cafe'     },
+  { src: '/kpatto/banners/banner-5.png', ko: '한강공원',      en: 'Hangang Park'          },
+  { src: '/kpatto/banners/banner-6.png', ko: '한강의 밤',     en: 'Hangang at Night'      },
+  { src: '/kpatto/banners/banner-7.png', ko: '홍대 거리',     en: 'Hongdae Street'        },
+  { src: '/kpatto/banners/banner-8.png', ko: '한옥뷰 카페',   en: 'Hanok View Cafe'       },
+  { src: '/kpatto/banners/banner-9.png', ko: '명동 거리',     en: 'Myeongdong Street'     },
 ] as const
 
 // ── 날짜 유틸 ─────────────────────────────────────────────────────────────────
@@ -144,19 +143,13 @@ function HeroImage() {
       position: 'relative',
       width: '100%',
       aspectRatio: '4/3',
-      background: '#1A1A1A',
       overflow: 'hidden',
+      // CSS background-image: Next.js Image fill보다 안정적 (HMR 오류 무관)
+      backgroundImage: `url(${banner.src})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center center',
+      backgroundColor: '#1A1A1A',
     }}>
-      {/* 배너 이미지 */}
-      <Image
-        src={banner.src}
-        alt={banner.ko}
-        fill
-        style={{ objectFit: 'cover', objectPosition: 'center center' }}
-        sizes="(max-width: 480px) 100vw, 480px"
-        priority
-      />
-
       {/* 하단 그라데이션 오버레이 (밝은 이미지 대응) */}
       <div style={{
         position: 'absolute',
