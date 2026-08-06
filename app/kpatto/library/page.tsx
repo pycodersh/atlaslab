@@ -167,7 +167,7 @@ function Chip({
 function EpGroupHeader({ epNum, title, locked }: { epNum: number; title: string; locked: boolean }) {
   return (
     <div style={{
-      position: 'sticky', top: HEADER_H,
+      position: 'sticky', top: 'calc(56px + env(safe-area-inset-top, 0px))',
       background: BG,
       borderBottom: `1px solid ${BORDER}`,
       padding: '6px 16px',
@@ -339,8 +339,10 @@ export default function KPattoLibraryPage() {
     for (let e = ep; e <= ep + 9; e++) {
       const el = epGroupRefs.current[e]
       if (el) {
-        // sticky KPattoHeader(56px) 아래로 정확히 내려오도록 offset 적용
-        const top = el.getBoundingClientRect().top + window.scrollY - HEADER_H
+        // 헤더 실제 높이 동적 읽기 (safe-area-inset-top 포함)
+        const headerEl = document.querySelector('[data-kpatto-header]') as HTMLElement | null
+        const headerH  = headerEl ? headerEl.getBoundingClientRect().height : HEADER_H
+        const top = el.getBoundingClientRect().top + window.scrollY - headerH
         window.scrollTo({ top, behavior: 'smooth' })
         return
       }
@@ -382,7 +384,7 @@ export default function KPattoLibraryPage() {
   )
 
   return (
-    <div style={{ minHeight: '100vh', background: BG, paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
+    <div style={{ minHeight: '100vh', background: BG, paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
       <KPattoHeader />
 
       {/* ── 상단: 건수 + 검색 ──────────────────────────────────────────────── */}

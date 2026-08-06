@@ -463,7 +463,7 @@ export default function KPattoHomePage() {
 
   if (!hydrated) {
     return (
-      <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32 }}>
+      <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
         <KPattoHeader />
       </div>
     )
@@ -472,7 +472,7 @@ export default function KPattoHomePage() {
   const precoursePercent = Math.round((lessonsCompleted / TOTAL_LESSONS) * 100)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32 }}>
+    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
       <KPattoHeader />
 
       {isReturning

@@ -14,13 +14,17 @@ export function KPattoHeader() {
   const initials = email ? email.slice(0, 2).toUpperCase() : ''
 
   return (
-    <div style={{
-      position: 'sticky',
-      top: 0,
-      zIndex: 30,
-      background: '#FFFFFF',
-      borderBottom: '1px solid #F2F2F2',
-    }}>
+    <div
+      data-kpatto-header
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 30,
+        background: '#FFFFFF',
+        borderBottom: '1px solid #F2F2F2',
+        // safe-area-inset-top: 노치/다이나믹아일랜드 영역만큼 배경 연장
+        paddingTop: 'env(safe-area-inset-top, 0px)',
+      }}>
       <div style={{
         display: 'flex',
         alignItems: 'center',

@@ -132,7 +132,7 @@ export default function KPattoStoryListPage() {
     : ALL_STORIES.map(s => ({ ...s, title_en: s.title_en ?? null, thumbnail_url: s.thumbnail_url ?? '/kpatto/banners/ep1.png' }))
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
+    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
       <KPattoHeader />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, padding: '16px 16px 0' }}>

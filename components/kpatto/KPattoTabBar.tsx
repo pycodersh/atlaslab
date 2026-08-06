@@ -33,10 +33,10 @@ const TABS = [
     icon: (active: boolean) => <BarChart2 size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
   {
-    key: 'expressions',
+    key: 'library',
     label: 'Library',
-    href: '/kpatto/expressions',
-    active: (p: string) => p.startsWith('/kpatto/expressions'),
+    href: '/kpatto/library',
+    active: (p: string) => p.startsWith('/kpatto/library'),
     icon: (active: boolean) => <BookMarked size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
 ] as const
@@ -64,7 +64,7 @@ export function KPattoTabBar() {
   return (
     <div style={{
       position: 'fixed',
-      bottom: 16,
+      bottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
       left: '50%',
       transform: 'translateX(-50%)',
       width: 'calc(100% - 32px)',
