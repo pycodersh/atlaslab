@@ -35,15 +35,27 @@ let currentAudio: HTMLAudioElement | null = null
 let pendingResolve: ((ok: boolean) => void) | null = null
 
 /**
+ * Generation counter — incremented by every stopAllAudio() call.
+ * Playback loops capture this at start and compare on each iteration;
+ * a mismatch means an external stop occurred and the loop must exit.
+ * This makes loop termination independent of listener registration order
+ * or cleanup sequencing (the primary fix for the back-navigation bug).
+ */
+let generation = 0
+
+/** Read the current generation. Export for playback loops. */
+export function getAudioGeneration(): number { return generation }
+
+/**
  * External stop listener — registered by WebtoonEpisode.
  * Called ONLY from stopAllAudio(), not from the internal stopCurrent()
  * used between consecutive tryPlayAudio() calls in the playback loop.
+ * Secondary stop signal; generation is the primary path.
  */
 let stopListener: (() => void) | null = null
 
 /**
  * Register a callback that is invoked whenever stopAllAudio() is called.
- * WebtoonEpisode uses this to set stopRef.current = true and break its loop.
  * Pass null to deregister (call on unmount).
  */
 export function setAudioStopListener(fn: (() => void) | null) {
@@ -53,7 +65,7 @@ export function setAudioStopListener(fn: (() => void) | null) {
 /**
  * Internal: stops the current audio element and immediately resolves any
  * hanging tryPlayAudio Promise with false.
- * Does NOT call stopListener — that is stopAllAudio()'s responsibility.
+ * Does NOT increment generation or call stopListener.
  */
 function stopCurrent() {
   if (pendingResolve) {
@@ -69,13 +81,14 @@ function stopCurrent() {
 }
 
 /**
- * Stop all audio and notify WebtoonEpisode's playback loop to stop.
- * Call this for all external stops: popup open, challenge interaction,
- * visibilitychange, episode change, unmount.
+ * Stop all audio. Increments generation (primary loop-exit signal),
+ * then stops current audio, then fires the stop listener (secondary signal).
+ * Call for all external stops: popup open, challenge, visibilitychange, unmount.
  */
 export function stopAllAudio() {
+  generation++       // primary: loop exits on generation mismatch, regardless of listener
   stopCurrent()
-  stopListener?.()
+  stopListener?.()   // secondary: also set stopRef/isPlayingRef if listener is registered
 }
 
 /**

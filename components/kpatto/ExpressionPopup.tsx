@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Volume2 } from 'lucide-react'
 import type { KPattoExpression } from '@/data/kpatto/types'
-import { playAudio, stopAllAudio } from '@/lib/kpatto/audio'
+import { tryPlayAudio, stopAllAudio } from '@/lib/kpatto/audio'
 
 const SAVED_KEY = 'kpatto-saved-expressions'
 
@@ -39,11 +39,32 @@ export function ExpressionPopup({
   onClose: () => void
 }) {
   const [isSaved, setIsSaved] = useState(() => getSavedExpressionIds().has(expression.id))
+  const [exprPlaying, setExprPlaying] = useState(false)
+  const exprPlayingRef = useRef(false)  // 연타 가드
 
   // Sync if expression changes (e.g. opened from library list)
   useEffect(() => {
     setIsSaved(getSavedExpressionIds().has(expression.id))
   }, [expression.id])
+
+  // 표현 교체 시 재생 중이면 정지 + 상태 리셋
+  useEffect(() => {
+    if (exprPlayingRef.current) {
+      exprPlayingRef.current = false
+      setExprPlaying(false)
+      stopAllAudio()
+    }
+  }, [expression.id])
+
+  // 팝업 닫힘(언마운트) → 표현 음성 정지
+  useEffect(() => {
+    return () => {
+      if (exprPlayingRef.current) {
+        stopAllAudio()
+        exprPlayingRef.current = false
+      }
+    }
+  }, [])
 
   // Close on Escape
   useEffect(() => {
@@ -51,6 +72,26 @@ export function ExpressionPopup({
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
+
+  // 팝업 스피커 버튼: 재생/정지 토글
+  const handleExprAudio = useCallback(async () => {
+    if (exprPlayingRef.current) {
+      // 재클릭 → 정지
+      exprPlayingRef.current = false
+      setExprPlaying(false)
+      stopAllAudio()
+      return
+    }
+    if (!expression.audio_url) return
+    // 연타 가드: ref 즉시 세우기
+    exprPlayingRef.current = true
+    setExprPlaying(true)
+    stopAllAudio()  // 대사 루프 정지 (동시 재생 금지)
+    await tryPlayAudio(expression.audio_url)
+    // 자연 완료 또는 외부 정지
+    exprPlayingRef.current = false
+    setExprPlaying(false)
+  }, [expression.audio_url])
 
   const handleToggleSave = () => {
     const ids = getSavedExpressionIds()
@@ -112,14 +153,16 @@ export function ExpressionPopup({
           </div>
           {expression.audio_url && (
             <button
-              onClick={() => { stopAllAudio(); playAudio(expression.audio_url ?? null) }}
-              aria-label="표현 듣기"
+              onClick={handleExprAudio}
+              aria-label={exprPlaying ? '표현 음성 정지' : '표현 듣기'}
               style={{
                 position: 'absolute', bottom: 12, right: 10,
-                background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%',
+                background: exprPlaying ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.2)',
+                border: 'none', borderRadius: '50%',
                 width: 30, height: 30, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: '#fff',
+                transition: 'background 0.15s',
               }}
             >
               <Volume2 size={15} />

@@ -7,7 +7,7 @@ import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanel
 import type { KPattoExpression } from '@/data/kpatto/types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
-import { tryPlayAudio, stopAllAudio, setAudioStopListener } from '@/lib/kpatto/audio'
+import { tryPlayAudio, stopAllAudio, setAudioStopListener, getAudioGeneration } from '@/lib/kpatto/audio'
 import { gapContainerStyle, panelImageWidth, panelJustify } from '@/lib/kpatto/webtoon-layout'
 import { fetchExpression } from '@/lib/kpatto/fetch-episode'
 import { ExpressionPopup } from './ExpressionPopup'
@@ -533,9 +533,14 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
     isPlayingRef.current = true
     stopRef.current = false
     setIsPlaying(true)
+    // generation 캡처: stopAllAudio() 호출 시마다 증가 → 불일치 = 외부 정지
+    // listener 등록 여부·cleanup 순서와 무관하게 확실히 루프 종료
+    const myGen = getAudioGeneration()
 
     for (let i = playIdxRef.current; i < allBubbles.length; i++) {
-      if (stopRef.current) break
+      // 주 정지 판정: generation 불일치 (unmount·visibilitychange·팝업·챌린지)
+      // 부 정지 판정: stopRef (스피커 버튼 재클릭)
+      if (getAudioGeneration() !== myGen || stopRef.current) break
       const b = allBubbles[i]
       playIdxRef.current = i  // 현재 위치 기록 (정지 시 이 값부터 재개)
       setPlayingId(b.id)
@@ -544,14 +549,17 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
         continue
       }
       const ok = await tryPlayAudio(b.audio_url)
+      // await 직후 재검사: await 중 stopAllAudio()가 호출됐을 수 있음
+      if (getAudioGeneration() !== myGen) break
       if (!ok && !stopRef.current) {
         // 로드 실패 → 건너뛰고 다음 대사로 (UI 표시 없음)
         console.log(`[kpatto] skip (load error): ${b.id}`)
       }
     }
 
-    if (!stopRef.current) {
-      playIdxRef.current = 0  // 자연 완료 → 다음 재생은 처음부터
+    // 자연 완료 조건: 외부 정지 없고 generation도 그대로
+    if (!stopRef.current && getAudioGeneration() === myGen) {
+      playIdxRef.current = 0  // 다음 재생은 처음부터
     }
     isPlayingRef.current = false
     setIsPlaying(false)
