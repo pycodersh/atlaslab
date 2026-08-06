@@ -486,27 +486,48 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
 
   const handlePlayAll = useCallback(async () => {
     if (isPlaying) {
+      // 정지: 현재 버블 인덱스는 playIdxRef에 이미 기록돼 있음
       stopRef.current = true
       stopAllAudio()
       setIsPlaying(false)
       setPlayingId(null)
       return
     }
+    // 이어듣기: 이전에 정지된 인덱스부터 재개
     stopRef.current = false
     setIsPlaying(true)
 
-    for (let i = 0; i < allBubbles.length; i++) {
+    for (let i = playIdxRef.current; i < allBubbles.length; i++) {
       if (stopRef.current) break
       const b = allBubbles[i]
+      playIdxRef.current = i   // 현재 위치 기록 (정지 시 이 값부터 재개)
       setPlayingId(b.id)
       await playAudio(b.audio_url ?? null)
     }
 
+    if (!stopRef.current) {
+      playIdxRef.current = 0  // 자연 완료 → 다음 재생은 처음부터
+    }
     setIsPlaying(false)
     setPlayingId(null)
   }, [isPlaying, allBubbles, episode.id])
 
-  useEffect(() => () => { stopAllAudio() }, [])
+  useEffect(() => {
+    // visibilitychange: 탭 전환·앱 백그라운드 시 정지
+    const onHidden = () => {
+      if (document.visibilityState === 'hidden') {
+        stopRef.current = true
+        stopAllAudio()
+        setIsPlaying(false)
+        setPlayingId(null)
+      }
+    }
+    document.addEventListener('visibilitychange', onHidden)
+    return () => {
+      document.removeEventListener('visibilitychange', onHidden)
+      stopAllAudio()  // 언마운트(페이지 이탈) 시 정지
+    }
+  }, [])
 
   const handleHighlightTap = useCallback(async (expressionId: number) => {
     const expr = await fetchExpression(expressionId)
