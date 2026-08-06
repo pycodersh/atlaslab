@@ -19,8 +19,6 @@ import { useCenterCard } from '@/hooks/useCenterCard'
 import {
   coordinatorClaim,
   coordinatorEnded,
-  coordinatorPaused,
-  coordinatorResumed,
   coordinatorReset,
 } from '@/lib/audio/coordinator'
 
@@ -104,7 +102,6 @@ export function StoryPage({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studyMode])
   const [playingParaId, setPlayingParaId] = useState<string | null>(null)
-  const [isPaused, setIsPaused] = useState(false)
 
   // ── Coordinator: story audio ownership ──────────────────────────────────────
   const STORY_AUDIO_ID = `story-${story.id}`
@@ -120,7 +117,6 @@ export function StoryPage({
         : null
       if (absIdx !== null && isSpeaking) interruptedAtParaRef.current = absIdx
       stop()
-      setIsPaused(false)
     }
   }, [currentParagraphIdx, isSpeaking, stop])
   // useCallback gives a stable reference that the coordinator can store
@@ -132,10 +128,9 @@ export function StoryPage({
   const paraMode = isSpeaking ? 'listening' : 'reading'
   const paraCenterIdx = useCenterCard(paraElemsRef, story.paragraphs.length, paraMode, absParaIdx, patternSectionRef, 'story')
 
-  // Reset pause state when audio ends naturally
+  // Reset para offset when audio ends or is stopped
   useEffect(() => {
     if (!isSpeaking) {
-      setIsPaused(false)
       if (paraOffsetRef.current !== 0) paraOffsetRef.current = 0
     }
   }, [isSpeaking])
@@ -232,20 +227,13 @@ export function StoryPage({
 
   // ── Full-story audio ─────────────────────────────────────────────────────
   function handleSpeakAll() {
-    if (isSpeaking && isPaused) {
-      ttsProvider.resume?.()
-      setIsPaused(false)
-      coordinatorResumed(STORY_AUDIO_ID)
-      return
-    }
     if (isSpeaking) {
-      ttsProvider.pause?.()
-      setIsPaused(true)
-      coordinatorPaused(STORY_AUDIO_ID)
+      // [중단 조건 1] 스피커 재클릭: 현재 말풍선 인덱스 보존 후 정지
+      stableStoryInterrupt()            // interruptedAtParaRef 저장 + stop()
+      coordinatorEnded(STORY_AUDIO_ID)  // 코디네이터 소유권 반환
       return
     }
-    // Start (or resume from interrupted position)
-    setIsPaused(false)
+    // 시작 또는 인터럽트된 위치부터 이어듣기
     setPlayingParaId(null)
     const fromIdx = interruptedAtParaRef.current ?? 0
     interruptedAtParaRef.current = null
@@ -256,7 +244,11 @@ export function StoryPage({
     speakAll(texts, audioUrls, {
       voiceKey: narrator,
       fromStart: fromIdx === 0,
-      onEnd: () => { coordinatorEnded(STORY_AUDIO_ID); paraOffsetRef.current = 0 },
+      onEnd: () => {
+        coordinatorEnded(STORY_AUDIO_ID)
+        paraOffsetRef.current = 0
+        interruptedAtParaRef.current = null  // 마지막 말풍선까지 완료 → 인덱스 초기화
+      },
     })
   }
 
@@ -402,7 +394,7 @@ export function StoryPage({
                   filter: isSpeaking ? 'brightness(1.1)' : 'brightness(1)',
                 }}
               >
-                {isSpeaking && !isPaused
+                {isSpeaking
                   ? <Pause style={{ width: 13, height: 13 }} />
                   : <Volume2 style={{ width: 14, height: 14 }} />}
               </button>
