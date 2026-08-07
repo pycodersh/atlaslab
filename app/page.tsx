@@ -1,597 +1,666 @@
+import Image from 'next/image'
+import { getLatestPosts } from '@/lib/blog/latest'
 
-const FONT_BODY = '"DM Sans", "Inter", system-ui, sans-serif'
-const FONT_DISPLAY = '"Playfair Display", Georgia, serif'
+export const revalidate = 3600
 
-const PattoIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <rect x="4" y="8" width="20" height="2.8" rx="1.4" fill="#a89fff"/>
-    <rect x="4" y="14" width="15" height="2.8" rx="1.4" fill="#7c6fff" opacity="0.85"/>
-    <rect x="4" y="20" width="18" height="2.8" rx="1.4" fill="#6655cc" opacity="0.7"/>
-    <circle cx="24" cy="22" r="6.5" fill="#150d3a"/>
-    <circle cx="24" cy="22" r="6.5" stroke="#a89fff" strokeWidth="1.2"/>
-    <text x="24" y="26" textAnchor="middle" fontSize="8.5" fill="#c4b8ff" fontWeight="800" fontFamily="Georgia,serif">P</text>
-  </svg>
-)
-
-const KPattoIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <rect x="5" y="7" width="9" height="2.5" rx="1.25" fill="#60a5fa"/>
-    <rect x="5" y="7" width="2.5" height="8" rx="1.25" fill="#60a5fa"/>
-    <rect x="20" y="7" width="2.5" height="18" rx="1.25" fill="#93c5fd" opacity="0.9"/>
-    <rect x="20" y="15" width="7" height="2.5" rx="1.25" fill="#93c5fd" opacity="0.9"/>
-    <rect x="5" y="19" width="2.5" height="7" rx="1.25" fill="#60a5fa" opacity="0.8"/>
-    <rect x="5" y="24" width="9" height="2.5" rx="1.25" fill="#60a5fa" opacity="0.8"/>
-  </svg>
-)
-
-const CareerNaviIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <circle cx="7" cy="25" r="2.2" fill="#5DCAA5"/>
-    <circle cx="13" cy="19" r="2.2" fill="#5DCAA5" opacity="0.85"/>
-    <circle cx="19" cy="13" r="2.2" fill="#5DCAA5" opacity="0.7"/>
-    <line x1="7" y1="25" x2="13" y2="19" stroke="#5DCAA5" strokeWidth="1.2" opacity="0.4" strokeDasharray="2 2"/>
-    <line x1="13" y1="19" x2="19" y2="13" stroke="#5DCAA5" strokeWidth="1.2" opacity="0.4" strokeDasharray="2 2"/>
-    <line x1="19" y1="13" x2="26" y2="6" stroke="#5DCAA5" strokeWidth="1.5" opacity="0.6"/>
-    <polyline points="20,6 26,6 26,12" stroke="#5DCAA5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-  </svg>
-)
-
-const KPantryIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <path d="M12 9 Q11 7 12 5" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
-    <path d="M16 8 Q15 6 16 4" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
-    <path d="M20 9 Q19 7 20 5" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
-    <path d="M5 14 h22 a1 1 0 0 1 1 1 L25 22 a10 10 0 0 1-18 0 L5 15 a1 1 0 0 1 1-1z" fill="#3d1f00" stroke="#f59e0b" strokeWidth="1.2"/>
-    <rect x="5" y="14" width="22" height="3" rx="1.5" fill="#f59e0b" opacity="0.9"/>
-    <rect x="2" y="15" width="4" height="3" rx="1.5" fill="#d97706"/>
-    <rect x="26" y="15" width="4" height="3" rx="1.5" fill="#d97706"/>
-  </svg>
-)
-
-const PRODUCTS = [
-  {
-    Icon: PattoIcon,
-    iconBg: 'linear-gradient(135deg, #1a0f4a, #0d0820)',
-    iconGlow: 'rgba(124,111,255,0.3)',
-    name: 'patto',
-    desc: 'Learn English patterns the way natives do',
-    tag: 'Live',
-    tagStyle: { background: 'rgba(29,158,117,0.15)', color: '#5DCAA5', border: '0.5px solid rgba(29,158,117,0.4)' },
-    accentColor: 'rgba(124,111,255,0.15)',
-    borderHover: 'rgba(124,111,255,0.5)',
-    href: '/patto/home',
-    blogLinks: [{ href: '/blog/en/patto', label: '📰 Blog — EN · KO' }],
-  },
-  {
-    Icon: KPattoIcon,
-    iconBg: 'linear-gradient(135deg, #0a1628, #060e1c)',
-    iconGlow: 'rgba(96,165,250,0.3)',
-    name: 'k-patto',
-    desc: 'Korean pattern learning for global learners',
-    tag: 'Beta',
-    tagStyle: { background: 'rgba(96,165,250,0.15)', color: '#60A5FA', border: '0.5px solid rgba(96,165,250,0.4)' },
-    accentColor: 'rgba(96,165,250,0.08)',
-    borderHover: 'rgba(96,165,250,0.4)',
-    href: 'https://www.atlaslabstudios.com/kpatto',
-    blogLinks: [{ href: '/blog/en/k-patto', label: '📰 Blog — EN' }],
-  },
-  {
-    Icon: CareerNaviIcon,
-    iconBg: 'linear-gradient(135deg, #081a10, #040d08)',
-    iconGlow: 'rgba(93,202,165,0.3)',
-    name: 'Career Navi.',
-    desc: 'AI career navigation for Korean professionals',
-    tag: 'Coming soon',
-    tagStyle: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '0.5px solid rgba(255,255,255,0.1)' },
-    accentColor: 'rgba(93,202,165,0.08)',
-    borderHover: 'rgba(93,202,165,0.4)',
-    href: null,
-    blogLinks: [],
-  },
-  {
-    Icon: KPantryIcon,
-    iconBg: 'linear-gradient(135deg, #1a1000, #0d0800)',
-    iconGlow: 'rgba(251,191,36,0.3)',
-    name: 'k-pantry',
-    desc: 'Korean recipes with what\'s in your fridge',
-    tag: 'Coming soon',
-    tagStyle: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '0.5px solid rgba(255,255,255,0.1)' },
-    accentColor: 'rgba(251,191,36,0.08)',
-    borderHover: 'rgba(251,191,36,0.4)',
-    href: null,
-    blogLinks: [{ href: '/blog/en/k-pantry', label: '📰 Blog — EN' }],
-  },
+const TICKER_ITEMS = [
+  '이게 뭐예요?', 'have you ever', '~할 수 있어요?', 'it turns out',
+  '~주세요', 'I was wondering', '어떻게 됐어요?', 'as long as you',
+  '~인 것 같아요', "I can't help but", '~아도 돼요?', 'now that you mention',
 ]
 
-export default function AtlasLabHome() {
+export default async function AtlasLabHome() {
+  const posts = await getLatestPosts(5)
+
   return (
     <>
       <style>{`
+        :root {
+          --ink:       #100E0C;
+          --ink-2:     #171410;
+          --line:      #2B2620;
+          --line-2:    #3A342C;
+          --paper:     #ECE6DB;
+          --muted:     #8B8177;
+          --dim:       #5F584F;
+          --amber:     #D4873A;
+          --amber-dim: #8A5A28;
+          --font-sans: -apple-system, 'Helvetica Neue', Arial,
+                       'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+          --font-mono: 'SF Mono', 'Fira Code', 'Menlo', 'Consolas', monospace;
+        }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { background: #080614; overflow-x: hidden; }
+        body { background: var(--ink); color: var(--paper); font-family: var(--font-sans); }
 
-        /* ── Animations ─────────────────────────────── */
-        @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,80px) scale(1.08); } }
-        @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,-60px) scale(1.05); } }
-        @keyframes float3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-40px) scale(1.1); } }
-        @keyframes gradShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes particleDrift {
-          0% { transform: translateY(0) translateX(0); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(-120px) translateX(20px); opacity: 0; }
-        }
-        @keyframes glowPulse { 0%,100% { box-shadow: 0 0 20px var(--glow,rgba(124,111,255,0.2)); } 50% { box-shadow: 0 0 40px var(--glow,rgba(124,111,255,0.4)), 0 0 80px var(--glow,rgba(124,111,255,0.1)); } }
-        @keyframes borderGlow { 0%,100% { border-color: rgba(124,111,255,0.2); } 50% { border-color: rgba(124,111,255,0.5); } }
-        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
-
-        /* ── Background orbs ─────────────────────────── */
-        .orb {
-          position: fixed; border-radius: 50%;
-          filter: blur(90px); pointer-events: none; z-index: 0; will-change: transform;
-        }
-        .orb-1 {
-          width: 600px; height: 600px;
-          background: radial-gradient(circle, rgba(100,80,220,0.18) 0%, transparent 70%);
-          top: -150px; left: -120px;
-          animation: float1 22s ease-in-out infinite;
-        }
-        .orb-2 {
-          width: 500px; height: 500px;
-          background: radial-gradient(circle, rgba(60,40,180,0.14) 0%, transparent 70%);
-          bottom: -80px; right: -100px;
-          animation: float2 28s ease-in-out infinite;
-        }
-        .orb-3 {
-          width: 350px; height: 350px;
-          background: radial-gradient(circle, rgba(180,100,255,0.1) 0%, transparent 70%);
-          top: 40%; left: 50%; transform: translate(-50%,-50%);
-          animation: float3 18s ease-in-out infinite;
-        }
-
-        /* ── Noise texture ───────────────────────────── */
-        .noise {
-          position: fixed; inset: 0; pointer-events: none; z-index: 1;
-          opacity: 0.025;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-          background-size: 200px;
-        }
-
-        /* ── Nav ─────────────────────────────────────── */
-        .nav {
+        /* ── Nav ─────────────────────────────────────────── */
+        .al-nav {
           position: fixed; top: 0; left: 0; right: 0; z-index: 100;
           display: flex; align-items: center; justify-content: space-between;
-          padding: 0 28px; height: 62px;
-          background: rgba(8,6,20,0.7);
-          backdrop-filter: blur(24px) saturate(180%);
-          -webkit-backdrop-filter: blur(24px) saturate(180%);
-          border-bottom: 0.5px solid rgba(255,255,255,0.06);
-          animation: fadeIn 0.6s ease both;
+          padding: 0 32px; height: 56px;
+          border-bottom: 1px solid transparent;
+          transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
         }
-        .nav-right { display: flex; align-items: center; gap: 28px; }
-        .nav-link {
-          font-family: ${FONT_BODY}; font-size: 13px; font-weight: 500;
-          color: rgba(255,255,255,0.45); text-decoration: none;
-          transition: color 0.2s; letter-spacing: 0.01em;
+        .al-nav.scrolled {
+          background: rgba(16,14,12,0.88);
+          backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+          border-color: var(--line);
         }
-        .nav-link:hover { color: rgba(255,255,255,0.9); }
-        .nav-btn {
-          font-family: ${FONT_BODY}; font-size: 13px; font-weight: 600;
-          color: white;
-          background: linear-gradient(135deg, rgba(124,111,255,0.9), rgba(168,143,255,0.9));
-          border: none; border-radius: 999px; padding: 8px 18px;
-          text-decoration: none;
-          box-shadow: 0 0 20px rgba(124,111,255,0.3);
-          transition: all 0.2s;
+        .al-logo {
+          font-family: var(--font-mono); font-size: 14px; font-weight: 400;
+          color: var(--paper); text-decoration: none; letter-spacing: 0.04em;
         }
-        .nav-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 30px rgba(124,111,255,0.5);
+        .al-logo-dot { color: var(--amber); }
+        .al-nav-links { display: flex; align-items: center; gap: 32px; }
+        .al-nav-link {
+          font-family: var(--font-mono); font-size: 12px;
+          color: var(--muted); text-decoration: none; transition: color 0.15s;
         }
+        .al-nav-link:hover { color: var(--paper); }
+        .al-nav-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 2px; }
         @media (max-width: 600px) {
-          .nav-right { gap: 16px; }
-          .nav-link { display: none; }
+          .al-nav { padding: 0 20px; }
+          .al-nav-links { gap: 20px; }
+          .al-nav-link.al-nav-hide { display: none; }
         }
 
-        /* ── Hero ────────────────────────────────────── */
-        .hero {
-          position: relative; z-index: 2;
-          display: flex; flex-direction: column;
-          align-items: center; text-align: center;
-          padding: 160px 24px 100px;
-          overflow: hidden;
+        /* ── Hero ────────────────────────────────────────── */
+        .al-hero {
+          min-height: 100svh; padding: 112px 32px 40px;
+          display: flex; flex-direction: column; align-items: flex-start;
+          max-width: 880px; margin: 0 auto;
         }
-        .hero-badge {
-          display: inline-flex; align-items: center; gap: 8px;
-          background: rgba(124,111,255,0.08);
-          border: 0.5px solid rgba(124,111,255,0.3);
-          border-radius: 999px; padding: 6px 16px;
-          font-family: ${FONT_BODY}; font-size: 11px; font-weight: 600;
-          color: rgba(168,143,255,0.8); letter-spacing: 0.12em; text-transform: uppercase;
+        @media (max-width: 600px) { .al-hero { padding: 96px 20px 32px; } }
+
+        .al-label {
+          font-family: var(--font-mono); font-size: 11px;
+          color: var(--dim); letter-spacing: 0.12em; text-transform: uppercase;
+          margin-bottom: 28px;
+          opacity: 0; transform: translateY(10px);
+          transition: opacity 0.5s, transform 0.5s;
+        }
+        .al-label.vis { opacity: 1; transform: translateY(0); }
+
+        .al-h1 {
+          font-size: clamp(28px, 3.2vw, 44px); font-weight: 500;
+          line-height: 1.3; color: var(--paper); letter-spacing: -0.01em;
+          max-width: 560px; margin-bottom: 44px;
+          opacity: 0; transform: translateY(10px);
+          transition: opacity 0.5s 0.08s, transform 0.5s 0.08s;
+        }
+        .al-h1.vis { opacity: 1; transform: translateY(0); }
+
+        /* Demo slot */
+        .al-demo {
           margin-bottom: 36px;
-          animation: fadeUp 0.8s 0.1s ease both;
+          opacity: 0; transform: translateY(10px);
+          transition: opacity 0.5s 0.16s, transform 0.5s 0.16s;
         }
-        .badge-dot {
-          width: 6px; height: 6px; border-radius: 50%;
-          background: #a89fff;
-          animation: pulse 2s ease-in-out infinite;
+        .al-demo.vis { opacity: 1; transform: translateY(0); }
+        .al-slot-row {
+          display: flex; align-items: baseline;
+          font-size: clamp(34px, 5vw, 58px); font-weight: 600;
+          line-height: 1.15; color: var(--paper); flex-wrap: wrap; gap: 0;
         }
-        .hero-title {
-          font-family: ${FONT_DISPLAY};
-          font-size: clamp(38px, 6.5vw, 72px);
-          font-weight: 700; line-height: 1.12;
-          letter-spacing: -0.03em;
-          max-width: 780px; margin-bottom: 24px;
-          color: white;
-          animation: fadeUp 0.8s 0.2s ease both;
+        .al-slot-bracket { color: var(--dim); font-weight: 300; margin: 0 4px; }
+        .al-slot-word {
+          border-bottom: 2px solid var(--amber);
+          padding: 0 2px; white-space: nowrap;
+          transition: opacity 0.25s;
         }
-        .hero-title-accent {
-          background: linear-gradient(135deg, #c4b8ff 0%, #a89fff 40%, #7c6fff 80%, #c084fc 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text; background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: shimmer 4s linear infinite;
+        .al-slot-suffix { margin-left: 10px; }
+        .al-slot-translation {
+          font-size: clamp(13px, 1.5vw, 16px); color: var(--muted);
+          margin-top: 10px; font-style: italic;
+          transition: opacity 0.25s;
         }
-        .hero-sub {
-          font-family: ${FONT_BODY}; font-size: clamp(15px, 2.2vw, 18px);
-          color: rgba(255,255,255,0.45); line-height: 1.75;
-          max-width: 480px; margin-bottom: 48px;
-          animation: fadeUp 0.8s 0.3s ease both;
-        }
-        .hero-cta {
-          display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-          animation: fadeUp 0.8s 0.4s ease both;
-        }
-        .btn-primary {
-          font-family: ${FONT_BODY}; font-size: 14px; font-weight: 700;
-          color: white;
-          background: linear-gradient(135deg, #7c6fff, #a855f7);
-          border: none; border-radius: 999px; padding: 13px 28px;
-          text-decoration: none; cursor: pointer;
-          box-shadow: 0 4px 30px rgba(124,111,255,0.4);
-          transition: all 0.25s;
-        }
-        .btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 40px rgba(124,111,255,0.6);
-        }
-        .btn-ghost {
-          font-family: ${FONT_BODY}; font-size: 14px; font-weight: 600;
-          color: rgba(255,255,255,0.7);
-          background: rgba(255,255,255,0.05);
-          border: 0.5px solid rgba(255,255,255,0.15);
-          border-radius: 999px; padding: 13px 28px;
-          text-decoration: none; cursor: pointer;
-          transition: all 0.25s;
-        }
-        .btn-ghost:hover {
-          background: rgba(255,255,255,0.08);
-          border-color: rgba(255,255,255,0.25);
-          transform: translateY(-2px);
+        .al-slot-pattern {
+          font-family: var(--font-mono); font-size: 11px;
+          color: var(--amber); margin-top: 6px; letter-spacing: 0.06em;
         }
 
-        /* Hero grid lines */
-        .hero-grid {
-          position: absolute; inset: 0; pointer-events: none;
-          background-image:
-            linear-gradient(rgba(124,111,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(124,111,255,0.03) 1px, transparent 1px);
-          background-size: 60px 60px;
-          mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+        .al-lead {
+          font-size: clamp(14px, 1.6vw, 17px); color: var(--muted);
+          line-height: 1.75; max-width: 420px;
+          opacity: 0; transform: translateY(10px);
+          transition: opacity 0.5s 0.24s, transform 0.5s 0.24s;
+        }
+        .al-lead.vis { opacity: 1; transform: translateY(0); }
+
+        /* ── Ticker ──────────────────────────────────────── */
+        .al-ticker-wrap {
+          border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+          overflow: hidden; padding: 11px 0; background: var(--ink-2);
+        }
+        .al-ticker {
+          display: flex; white-space: nowrap;
+          animation: al-scroll 28s linear infinite;
+        }
+        @keyframes al-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        @media (prefers-reduced-motion: reduce) { .al-ticker { animation: none; } }
+        .al-ticker-item {
+          font-family: var(--font-mono); font-size: 12px;
+          color: var(--dim); padding: 0 28px;
+          display: inline-flex; align-items: center;
+        }
+        .al-ticker-item::after { content: '·'; color: var(--line-2); margin-left: 28px; font-size: 14px; }
+
+        /* ── Section ─────────────────────────────────────── */
+        .al-section { max-width: 1040px; margin: 0 auto; padding: 72px 32px; }
+        @media (max-width: 600px) { .al-section { padding: 56px 20px; } }
+        .al-section-header {
+          display: flex; align-items: baseline; justify-content: space-between;
+          margin-bottom: 40px; gap: 12px;
+          border-top: 1px solid var(--line); padding-top: 24px;
+          flex-wrap: wrap;
+        }
+        .al-section-title {
+          font-family: var(--font-mono); font-size: 11px;
+          color: var(--dim); letter-spacing: 0.12em; text-transform: uppercase;
+        }
+        .al-section-meta { font-family: var(--font-mono); font-size: 11px; color: var(--dim); }
+
+        /* ── Product rows (big 2-col) ────────────────────── */
+        .al-prod-row {
+          display: grid; grid-template-columns: 1fr 1fr;
+          border: 1px solid var(--line); border-radius: 2px;
+          overflow: hidden; position: relative; margin-bottom: 2px;
+        }
+        .al-prod-row::before {
+          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+          background: linear-gradient(90deg, var(--amber), transparent);
+          transform: scaleX(0); transform-origin: left;
+          transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+          z-index: 2;
+        }
+        .al-prod-row:hover::before { transform: scaleX(1); }
+        @media (max-width: 820px) { .al-prod-row { grid-template-columns: 1fr; } }
+
+        .al-prod-text {
+          padding: 40px 36px; background: var(--ink-2);
+          display: flex; flex-direction: column;
+        }
+        @media (max-width: 600px) { .al-prod-text { padding: 28px 24px; } }
+
+        .al-prod-preview {
+          position: relative; overflow: hidden; min-height: 320px;
+          background: #0a0805;
+        }
+        @media (max-width: 820px) { .al-prod-preview { min-height: 220px; } }
+
+        /* ── Product grid (small 2-col) ──────────────────── */
+        .al-prod-grid {
+          display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 2px;
+        }
+        @media (max-width: 820px) { .al-prod-grid { grid-template-columns: 1fr; } }
+
+        .al-prod-cell {
+          background: var(--ink-2); border: 1px solid var(--line);
+          border-radius: 2px; padding: 32px 28px;
+          display: flex; flex-direction: column; position: relative; overflow: hidden;
+        }
+        .al-prod-cell::before {
+          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+          background: linear-gradient(90deg, var(--amber), transparent);
+          transform: scaleX(0); transform-origin: left;
+          transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .al-prod-cell:hover::before { transform: scaleX(1); }
+        .al-prod-cell-preview {
+          margin-top: 24px; flex: 1;
+          border-top: 1px solid var(--line); padding-top: 18px;
         }
 
-        /* ── Section labels ──────────────────────────── */
-        .section-wrap {
-          max-width: 960px; margin: 0 auto; padding: 80px 24px;
-          position: relative; z-index: 2;
+        /* Product text atoms */
+        .al-badge {
+          font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em;
+          display: inline-block; padding: 3px 8px; border-radius: 2px;
+          margin-bottom: 16px; align-self: flex-start;
         }
-        .section-label {
-          font-family: ${FONT_BODY}; font-size: 11px; font-weight: 700;
-          letter-spacing: 0.18em; text-transform: uppercase;
-          color: rgba(255,255,255,0.25); text-align: center;
-          margin-bottom: 40px;
-          display: flex; align-items: center; justify-content: center; gap: 12px;
+        .al-badge-live  { color: #5DCAA5; border: 1px solid rgba(93,202,165,0.3); background: rgba(93,202,165,0.07); }
+        .al-badge-soon  { color: var(--dim); border: 1px solid var(--line); }
+        .al-badge-build { color: var(--amber); border: 1px solid var(--amber-dim); }
+
+        .al-pname { font-size: 22px; font-weight: 600; color: var(--paper); letter-spacing: -0.02em; margin-bottom: 4px; }
+        .al-psub  { font-size: 12px; color: var(--dim); margin-bottom: 14px; }
+        .al-pone  { font-size: 15px; color: var(--paper); line-height: 1.5; margin-bottom: 12px; }
+        .al-pdesc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 18px; }
+        .al-pspecs {
+          font-family: var(--font-mono); font-size: 11px; color: var(--dim);
+          display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 22px;
         }
-        .section-label::before, .section-label::after {
-          content: ''; flex: 1; max-width: 80px;
-          height: 0.5px; background: rgba(255,255,255,0.08);
+        .al-plink {
+          font-family: var(--font-mono); font-size: 12px; color: var(--amber);
+          text-decoration: none; letter-spacing: 0.04em; transition: color 0.15s;
+          align-self: flex-start; margin-top: auto;
+        }
+        .al-plink:hover { color: var(--paper); }
+        .al-plink:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 2px; }
+
+        /* ── k-patto preview ─────────────────────────────── */
+        .kp-overlay {
+          position: absolute; inset: 0; background: rgba(16,14,12,0.45);
+        }
+        .kp-bubbles {
+          position: absolute; inset: 0; display: flex; flex-direction: column;
+          justify-content: flex-end; padding: 24px; gap: 10px;
+        }
+        .kp-bubble {
+          background: rgba(236,230,219,0.96); border-radius: 14px 14px 4px 14px;
+          padding: 8px 14px; font-size: 14px; color: #111; font-weight: 500;
+          align-self: flex-end; max-width: 240px; line-height: 1.4;
+        }
+        .kp-bubble-l { border-radius: 4px 14px 14px 14px; align-self: flex-start; }
+        .kp-hi { color: var(--amber); font-weight: 700; }
+
+        /* ── patto preview ───────────────────────────────── */
+        .pt-drill-overlay {
+          position: absolute; bottom: 0; left: 0; right: 0;
+          background: linear-gradient(transparent, rgba(10,8,5,0.95));
+          padding: 48px 20px 20px;
+        }
+        .pt-drill-card {
+          background: rgba(16,14,12,0.95); border: 1px solid var(--line);
+          border-radius: 3px; padding: 14px 16px;
+        }
+        .pt-pattern-label {
+          font-family: var(--font-mono); font-size: 10px;
+          color: var(--dim); letter-spacing: 0.06em; margin-bottom: 6px;
+        }
+        .pt-sentence { font-size: 15px; color: var(--paper); font-weight: 500; }
+        .pt-blank {
+          border-bottom: 2px solid var(--amber); padding: 0 3px;
+          color: var(--amber); font-weight: 600;
+          transition: opacity 0.25s;
         }
 
-        /* ── Product cards ───────────────────────────── */
-        .products-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 14px;
+        /* ── Career Navi preview ─────────────────────────── */
+        .cn-graph { display: flex; flex-direction: column; gap: 0; }
+        .cn-node {
+          display: flex; align-items: center; gap: 10px;
+          opacity: 0; transform: translateX(-8px);
+          transition: opacity 0.35s, transform 0.35s;
         }
-        @media (min-width: 720px) {
-          .products-grid { grid-template-columns: repeat(4, 1fr); }
-        }
-        .product-card {
-          position: relative; overflow: hidden;
-          background: rgba(255,255,255,0.03);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 20px; padding: 22px 18px 20px;
-          text-decoration: none; display: block;
-          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
-                      border-color 0.3s, background 0.3s, box-shadow 0.3s;
-          cursor: default;
-        }
-        .product-card-link { cursor: pointer; }
-        .product-card-link:hover {
-          transform: translateY(-4px) scale(1.01);
-          border-color: rgba(124,111,255,0.4);
-          background: rgba(124,111,255,0.06);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,111,255,0.1);
-        }
-        /* Shine overlay on hover */
-        .product-card::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
-          opacity: 0; transition: opacity 0.3s; border-radius: inherit;
-          pointer-events: none;
-        }
-        .product-card:hover::before { opacity: 1; }
-        /* Glow bottom edge */
-        .product-card::after {
-          content: '';
-          position: absolute; bottom: 0; left: 20%; right: 20%; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.4), transparent);
+        .cn-node.in { opacity: 1; transform: translateX(0); }
+        .cn-line {
+          width: 1px; height: 18px; background: var(--line-2); margin-left: 3.5px;
           opacity: 0; transition: opacity 0.3s;
-          pointer-events: none;
         }
-        .product-card:hover::after { opacity: 1; }
+        .cn-line.in { opacity: 1; }
+        .cn-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .cn-dot-a { background: var(--amber); }
+        .cn-dot-m { background: var(--line-2); }
+        .cn-nlabel { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+        .cn-nlabel-a { color: var(--paper); }
 
-        .product-icon-wrap {
-          width: 52px; height: 52px; border-radius: 14px;
-          display: flex; align-items: center; justify-content: center;
-          margin-bottom: 18px;
-          position: relative;
-          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        /* ── k-pantry preview ────────────────────────────── */
+        .kpan-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .kpan-chip {
+          font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+          border: 1px solid var(--line-2); border-radius: 2px; padding: 4px 10px;
         }
-        .product-card-link:hover .product-icon-wrap { transform: scale(1.1) rotate(-3deg); }
-        .product-name {
-          font-family: ${FONT_BODY}; font-size: 14.5px; font-weight: 700;
-          color: white; margin-bottom: 7px; letter-spacing: -0.01em;
-        }
-        .product-desc {
-          font-family: ${FONT_BODY}; font-size: 12px;
-          color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: 16px;
-        }
-        .product-tag {
-          display: inline-block;
-          font-family: ${FONT_BODY}; font-size: 10px; font-weight: 700;
-          letter-spacing: 0.06em; border-radius: 999px; padding: 3px 9px;
-        }
+        .kpan-arrow { font-family: var(--font-mono); font-size: 11px; color: var(--dim); margin-bottom: 10px; }
+        .kpan-dish { font-size: 20px; color: var(--paper); font-weight: 600; margin-bottom: 4px; }
+        .kpan-meta { font-family: var(--font-mono); font-size: 10px; color: var(--amber); }
 
-        /* ── Video button ────────────────────────────── */
-        .video-wrap {
-          text-align: center; padding: 0 0 60px; position: relative; z-index: 2;
+        /* ── Blog list ───────────────────────────────────── */
+        .al-blog-list { display: flex; flex-direction: column; }
+        .al-blog-row {
+          display: flex; align-items: baseline; gap: 16px;
+          padding: 15px 0; border-bottom: 1px solid var(--line);
+          text-decoration: none; color: inherit;
+          transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
         }
-        .video-btn {
-          display: inline-flex; align-items: center; gap: 10px;
-          font-family: ${FONT_BODY}; font-size: 13.5px; font-weight: 600;
-          color: rgba(168,143,255,0.9);
-          background: rgba(124,111,255,0.08);
-          border: 1px solid rgba(124,111,255,0.25);
-          border-radius: 999px; padding: 10px 22px;
-          text-decoration: none;
-          transition: all 0.25s;
-          animation: borderGlow 3s ease-in-out infinite;
+        .al-blog-row:hover { transform: translateX(10px); }
+        .al-blog-row:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; border-radius: 2px; }
+        .al-blog-tag {
+          font-family: var(--font-mono); font-size: 10px; color: var(--amber);
+          letter-spacing: 0.08em; text-transform: uppercase;
+          flex-shrink: 0; min-width: 60px;
         }
-        .video-btn:hover {
-          background: rgba(124,111,255,0.15);
-          border-color: rgba(124,111,255,0.5);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(124,111,255,0.2);
+        .al-blog-title { font-size: 14px; color: var(--paper); line-height: 1.4; flex: 1; }
+        .al-blog-lang {
+          font-family: var(--font-mono); font-size: 10px; color: var(--dim);
+          flex-shrink: 0; letter-spacing: 0.06em;
         }
-        .play-icon {
-          width: 28px; height: 28px; border-radius: 50%;
-          background: rgba(124,111,255,0.2);
-          display: flex; align-items: center; justify-content: center;
-          flex-shrink: 0;
+        .al-blog-more {
+          display: inline-block; margin-top: 22px;
+          font-family: var(--font-mono); font-size: 12px; color: var(--amber);
+          text-decoration: none; letter-spacing: 0.04em; transition: color 0.15s;
         }
+        .al-blog-more:hover { color: var(--paper); }
+        .al-blog-more:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 2px; }
 
-        /* ── Divider ─────────────────────────────────── */
-        .divider {
-          max-width: 960px; margin: 0 auto 0;
-          border: none; border-top: 0.5px solid rgba(255,255,255,0.05);
-          position: relative; z-index: 2;
+        /* ── Footer ──────────────────────────────────────── */
+        .al-footer {
+          border-top: 1px solid var(--line); padding: 28px 32px 40px;
         }
-        .divider-glow {
-          max-width: 400px; margin: 0 auto;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.3), transparent);
-          position: relative; z-index: 2;
+        .al-footer-inner {
+          max-width: 1040px; margin: 0 auto;
+          display: flex; align-items: center; justify-content: space-between;
+          flex-wrap: wrap; gap: 14px;
         }
+        .al-fcopy { font-family: var(--font-mono); font-size: 11px; color: var(--dim); }
+        .al-flinks { display: flex; gap: 24px; flex-wrap: wrap; }
+        .al-flink {
+          font-family: var(--font-mono); font-size: 11px; color: var(--dim);
+          text-decoration: none; transition: color 0.15s;
+        }
+        .al-flink:hover { color: var(--paper); }
+        .al-flink:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 2px; }
 
-        /* ── Blog section ────────────────────────────── */
-        .blog-wrap {
-          max-width: 960px; margin: 0 auto;
-          padding: 60px 24px 80px; position: relative; z-index: 2;
+        /* ── Scroll reveal ───────────────────────────────── */
+        .al-reveal {
+          opacity: 0; transform: translateY(18px);
+          transition: opacity 0.5s, transform 0.5s;
         }
-        .blog-app-group { margin-bottom: 28px; }
-        .blog-app-header {
-          display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
-        }
-        .blog-app-name {
-          font-family: ${FONT_BODY}; font-size: 12px; font-weight: 700;
-          color: white; letter-spacing: 0.02em;
-        }
-        .blog-app-desc {
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.3);
-        }
-        .blog-app-line {
-          flex: 1; height: 0.5px;
-          background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent);
-        }
-        .blog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
-        .blog-card {
-          position: relative; overflow: hidden;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px; padding: 18px;
-          text-decoration: none; display: block;
-          transition: all 0.25s;
-        }
-        .blog-card:hover {
-          background: rgba(255,255,255,0.055);
-          border-color: rgba(124,111,255,0.25);
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-        }
-        .blog-card::before {
-          content: '';
-          position: absolute; top: 0; left: 0; right: 0; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.3), transparent);
-          opacity: 0; transition: opacity 0.25s;
-        }
-        .blog-card:hover::before { opacity: 1; }
-        .blog-locale {
-          font-family: ${FONT_BODY}; font-size: 9.5px; font-weight: 700;
-          color: #a89fff; text-transform: uppercase; letter-spacing: 0.1em;
-          margin-bottom: 8px;
-        }
-        .blog-title {
-          font-family: ${FONT_DISPLAY}; font-size: 14px; font-weight: 700;
-          color: rgba(255,255,255,0.9); line-height: 1.45; margin-bottom: 12px;
-        }
-        .blog-link {
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.25);
-        }
-        .blog-single .blog-card { max-width: 480px; }
+        .al-reveal.vis { opacity: 1; transform: translateY(0); }
 
-        /* ── Footer ──────────────────────────────────── */
-        .footer {
-          padding: 28px 24px calc(28px + env(safe-area-inset-bottom,0px));
-          text-align: center; position: relative; z-index: 2;
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.15); letter-spacing: 0.04em;
+        /* ── Reduced motion ──────────────────────────────── */
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after { transition: none !important; animation: none !important; }
+          .al-label, .al-h1, .al-demo, .al-lead,
+          .al-reveal, .cn-node, .cn-line { opacity: 1 !important; transform: none !important; }
         }
-        .footer-links {
-          display: flex; justify-content: center; gap: 20px;
-          margin-bottom: 10px;
-        }
-        .footer-link {
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.2); text-decoration: none;
-          transition: color 0.2s;
-        }
-        .footer-link:hover { color: rgba(255,255,255,0.5); }
       `}</style>
 
-      {/* Background */}
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="orb orb-3" />
-      <div className="noise" />
+      <div style={{ background: 'var(--ink)', minHeight: '100svh' }}>
 
-      <div style={{ background: '#080614', minHeight: '100svh', color: 'white', position: 'relative', overflowX: 'hidden' }}>
-
-        {/* Nav */}
-        <nav className="nav">
-          <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src="/atlaslab_nav_logo.png" alt="Atlas Lab" style={{ height: '47px', width: 'auto' }} />
-          </a>
-          <div className="nav-right">
-            <a href="#products" className="nav-link">Products</a>
-            <a href="/patto/home" className="nav-btn">Get started</a>
+        {/* ── Nav ── */}
+        <nav className="al-nav" id="al-nav" aria-label="Main navigation">
+          <a href="/" className="al-logo">Atlas<span className="al-logo-dot">·</span>Lab</a>
+          <div className="al-nav-links">
+            <a href="#products" className="al-nav-link al-nav-hide">Products</a>
+            <a href="#writing"  className="al-nav-link al-nav-hide">Writing</a>
+            <a href="mailto:shkim7025@gmail.com" className="al-nav-link">Contact</a>
           </div>
         </nav>
 
-        {/* Hero */}
-        <section className="hero">
-          <div className="hero-grid" />
-          <div className="hero-badge">
-            <span className="badge-dot" />
-            ATLAS LAB · AI-POWERED APPS
-          </div>
-          <h1 className="hero-title">
-            Tools that make you{' '}
-            <span className="hero-title-accent">better</span>,<br />
-            one skill at a time.
+        {/* ── Hero ── */}
+        <section className="al-hero" aria-label="Hero">
+          <p className="al-label" id="al-label">Built in Korea · Language apps</p>
+
+          <h1 className="al-h1" id="al-h1">
+            Atlas Lab builds apps that teach<br />
+            Korean and English through patterns.
           </h1>
-          <p className="hero-sub">
-            Atlas Lab builds AI-powered apps for language learning,<br />
-            career growth, and daily life.
-          </p>
-          <div className="hero-cta">
-            <a href="#products" className="btn-ghost">Explore products</a>
+
+          <div className="al-demo" id="al-demo" aria-label="Pattern example">
+            <div className="al-slot-row">
+              <span className="al-slot-bracket">[</span>
+              <span id="slot-word" className="al-slot-word">아이스 아메리카노</span>
+              <span className="al-slot-bracket">]</span>
+              <span className="al-slot-suffix">주세요</span>
+            </div>
+            <p id="slot-trans" className="al-slot-translation">Iced americano, please.</p>
+            <p className="al-slot-pattern">~주세요 · juseyo · Give me ~, please</p>
           </div>
+
+          <p className="al-lead" id="al-lead">
+            Learn the pattern, then fill it in — with
+            stories, audio, and the phrases people
+            actually use.
+          </p>
         </section>
 
-        {/* Products */}
-        <div className="section-wrap" id="products" style={{ paddingTop: 20 }}>
-          <p className="section-label">Our Products</p>
-          <div className="products-grid">
-            {PRODUCTS.map(p => (
-              <div key={p.name} className="product-card" style={{ display: 'flex', flexDirection: 'column' }}>
-                <div className="product-icon-wrap" style={{ background: p.iconBg }}>
-                  <p.Icon />
-                </div>
-                <div className="product-name">{p.name}</div>
-                <div className="product-desc">{p.desc}</div>
-                <span className="product-tag" style={p.tagStyle}>{p.tag}</span>
-                {(p.href || p.blogLinks.length > 0) && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '12px' }}>
-                    {p.href && (
-                      <a href={p.href} style={{
-                        background: '#7c6fff', color: 'white',
-                        fontSize: '13px', fontWeight: 600,
-                        padding: '8px 12px', borderRadius: '8px',
-                        textAlign: 'center', textDecoration: 'none',
-                      }}>Start for free →</a>
-                    )}
-                    {p.blogLinks.map(b => (
-                      <a key={b.href} href={b.href} style={{
-                        background: 'transparent',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        color: 'rgba(255,255,255,0.5)',
-                        fontSize: '12px', padding: '6px 12px', borderRadius: '8px',
-                        textAlign: 'center', textDecoration: 'none',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
-                      }}>{b.label}</a>
-                    ))}
-                  </div>
-                )}
-              </div>
+        {/* ── Ticker ── */}
+        <div className="al-ticker-wrap" aria-hidden="true">
+          <div className="al-ticker">
+            {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+              <span key={i} className="al-ticker-item">{item}</span>
             ))}
           </div>
         </div>
 
-        {/* Video CTA */}
-        <div className="video-wrap">
-          <a href="/videos" className="video-btn">
-            <span className="play-icon">
-              <svg width="10" height="11" viewBox="0 0 10 11" fill="none">
-                <path d="M2 2l7 3.5L2 9V2z" fill="#a89fff"/>
-              </svg>
-            </span>
-            Watch Patto in action
-          </a>
-        </div>
-
-        {/* Footer */}
-        <hr className="divider" />
-        <footer className="footer">
-          <div className="footer-links">
-            <a href="/patto/home" className="footer-link">patto</a>
-            <a href="/blog/en/patto" className="footer-link">blog</a>
-            <a href="/videos" className="footer-link">videos</a>
+        {/* ── Products ── */}
+        <section className="al-section" id="products" aria-label="Products">
+          <div className="al-section-header">
+            <span className="al-section-title">Products</span>
+            <span className="al-section-meta">Two shipping · two in build</span>
           </div>
-          © 2025 Atlas Lab Studios · atlaslabstudios.com
+
+          {/* k-patto — big row */}
+          <div className="al-prod-row al-reveal">
+            <div className="al-prod-text">
+              <span className="al-badge al-badge-live">LIVE</span>
+              <h2 className="al-pname">k-patto</h2>
+              <p className="al-psub">케이패토 — Korean webtoon learning</p>
+              <p className="al-pone">Read a webtoon, learn the Korean inside it. First 10 episodes free.</p>
+              <p className="al-pdesc">
+                Each episode is a short webtoon with real dialogue. Tap any expression
+                to see the pattern, listen to native audio, and drill it with challenges.
+              </p>
+              <div className="al-pspecs">
+                <span>100 episodes</span>
+                <span>325 expressions</span>
+                <span>10 free</span>
+              </div>
+              <a href="/kpatto/welcome" className="al-plink">Start reading →</a>
+            </div>
+            <div className="al-prod-preview">
+              <Image
+                src="/kpatto/ep-001/cut-1.jpg"
+                alt="k-patto webtoon — Episode 1, a Korean café scene"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'top' }}
+                sizes="(max-width: 820px) 100vw, 50vw"
+                loading="lazy"
+              />
+              <div className="kp-overlay" />
+              <div className="kp-bubbles">
+                <div className="kp-bubble kp-bubble-l">
+                  이게 <span className="kp-hi">뭐예요</span>?
+                </div>
+                <div className="kp-bubble">
+                  아, 이거요? 그냥 커피예요.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* patto — big row */}
+          <div className="al-prod-row al-reveal">
+            <div className="al-prod-text">
+              <span className="al-badge al-badge-live">LIVE</span>
+              <h2 className="al-pname">patto</h2>
+              <p className="al-psub">패토 — English pattern learning</p>
+              <p className="al-pone">Daily English drills built on sentence patterns, in Korean and English.</p>
+              <p className="al-pdesc">
+                500 sentence patterns, native audio, and spaced-repetition review.
+                Stories connect patterns into real conversation, not isolated phrases.
+              </p>
+              <a href="/patto/home" className="al-plink">Start learning →</a>
+            </div>
+            <div className="al-prod-preview">
+              <Image
+                src="/PATTO Dark.png"
+                alt="patto app — English pattern drill screen"
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'top' }}
+                sizes="(max-width: 820px) 100vw, 50vw"
+                loading="lazy"
+              />
+              <div className="pt-drill-overlay">
+                <div className="pt-drill-card">
+                  <div className="pt-pattern-label">be looking forward to ~</div>
+                  <div className="pt-sentence">
+                    I&apos;m <span id="pt-blank" className="pt-blank">looking forward</span> to it.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Career Navi + k-pantry — small grid */}
+          <div className="al-prod-grid">
+
+            {/* Career Navi */}
+            <div className="al-prod-cell al-reveal">
+              <span className="al-badge al-badge-build">IN BUILD</span>
+              <h2 className="al-pname" style={{ fontSize: '19px' }}>Career Navi.</h2>
+              <p className="al-psub">경력 네비 — AI career mapping</p>
+              <p className="al-pone" style={{ fontSize: '14px' }}>
+                See where your career can go next, based on what you&apos;ve done.
+              </p>
+              <p className="al-pdesc" style={{ fontSize: '12px' }}>
+                Upload your résumé. Get a map of roles, companies, and paths
+                that match your actual experience — not generic job boards.
+              </p>
+              <div className="al-prod-cell-preview">
+                <div className="cn-graph" id="cn-graph">
+                  <div className="cn-node" data-d="0">
+                    <div className="cn-dot cn-dot-m" /><span className="cn-nlabel">Junior Developer</span>
+                  </div>
+                  <div className="cn-line" data-d="1" />
+                  <div className="cn-node" data-d="2">
+                    <div className="cn-dot cn-dot-m" /><span className="cn-nlabel">Senior Developer</span>
+                  </div>
+                  <div className="cn-line" data-d="3" />
+                  <div className="cn-node" data-d="4">
+                    <div className="cn-dot cn-dot-a" /><span className="cn-nlabel cn-nlabel-a">Tech Lead ↗</span>
+                  </div>
+                  <div className="cn-line" data-d="5" />
+                  <div className="cn-node" data-d="6">
+                    <div className="cn-dot cn-dot-m" /><span className="cn-nlabel">Engineering Manager</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* k-pantry */}
+            <div className="al-prod-cell al-reveal">
+              <span className="al-badge al-badge-build">IN BUILD</span>
+              <h2 className="al-pname" style={{ fontSize: '19px' }}>k-pantry</h2>
+              <p className="al-psub">케이팬트리 — Korean recipe finder</p>
+              <p className="al-pone" style={{ fontSize: '14px' }}>
+                Tell it what&apos;s in your fridge, get a Korean dish you can cook tonight.
+              </p>
+              <p className="al-pdesc" style={{ fontSize: '12px' }}>
+                No shopping list needed. Type what you have — kimchi, eggs, tofu, gochujang —
+                and get a recipe that actually works.
+              </p>
+              <div className="al-prod-cell-preview">
+                <div className="kpan-chips">
+                  {['계란', '두부', '고추장', '참기름', '대파'].map(c => (
+                    <span key={c} className="kpan-chip">{c}</span>
+                  ))}
+                </div>
+                <div className="kpan-arrow">↓</div>
+                <div className="kpan-dish">순두부찌개</div>
+                <div className="kpan-meta">Soft tofu jjigae · 25 min</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Blog ── */}
+        {posts.length > 0 && (
+          <section className="al-section" id="writing" style={{ paddingTop: 0 }} aria-label="Writing">
+            <div className="al-section-header">
+              <span className="al-section-title">Writing</span>
+              <span className="al-section-meta">1,048 posts · EN · KO</span>
+            </div>
+            <div className="al-blog-list">
+              {posts.map(post => (
+                <a
+                  key={`${post.app}-${post.slug}`}
+                  href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                  className="al-blog-row"
+                >
+                  <span className="al-blog-tag">{post.app}</span>
+                  <span className="al-blog-title">{post.title}</span>
+                  <span className="al-blog-lang">{post.locale.toUpperCase()}</span>
+                </a>
+              ))}
+            </div>
+            <a href="/blog/en/patto" className="al-blog-more">All writing →</a>
+          </section>
+        )}
+
+        {/* ── Footer ── */}
+        <footer className="al-footer">
+          <div className="al-footer-inner">
+            <span className="al-fcopy">© 2026 Atlas Lab</span>
+            <div className="al-flinks">
+              <a href="/kpatto/welcome" className="al-flink">k-patto</a>
+              <a href="/patto/home"     className="al-flink">patto</a>
+              <a href="/blog/en/patto"  className="al-flink">Writing</a>
+              <a href="/videos"         className="al-flink">Videos</a>
+            </div>
+          </div>
         </footer>
       </div>
+
+      {/* ── Client JS ── */}
+      <script dangerouslySetInnerHTML={{ __html: `(function(){
+        // Nav scroll blur
+        var nav = document.getElementById('al-nav');
+        window.addEventListener('scroll', function(){
+          if (nav) nav.classList.toggle('scrolled', window.scrollY > 8);
+        }, { passive: true });
+
+        // Hero entrance
+        ['al-label','al-h1','al-demo','al-lead'].forEach(function(id){
+          var el = document.getElementById(id);
+          if (el) requestAnimationFrame(function(){ el.classList.add('vis'); });
+        });
+
+        // Slot rotation — 2.9 s
+        var slots = [
+          { ko: '아이스 아메리카노', en: 'Iced americano, please.' },
+          { ko: '물 한 잔',          en: 'A glass of water, please.' },
+          { ko: '영수증',            en: 'A receipt, please.' },
+          { ko: '포장',              en: 'To go, please.' },
+        ];
+        var sw = document.getElementById('slot-word');
+        var st = document.getElementById('slot-trans');
+        var si = 0;
+        if (sw && st && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          setInterval(function(){
+            si = (si + 1) % slots.length;
+            sw.style.opacity = '0'; st.style.opacity = '0';
+            setTimeout(function(){
+              sw.textContent = slots[si].ko;
+              st.textContent = slots[si].en;
+              sw.style.opacity = '1'; st.style.opacity = '1';
+            }, 260);
+          }, 2900);
+        }
+
+        // Scroll reveal
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduced && 'IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+              if (e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); }
+            });
+          }, { threshold: 0.1 });
+          document.querySelectorAll('.al-reveal').forEach(function(el){ io.observe(el); });
+        } else {
+          document.querySelectorAll('.al-reveal').forEach(function(el){ el.classList.add('vis'); });
+        }
+
+        // Career Navi graph — runs once on enter
+        var cnGraph = document.getElementById('cn-graph');
+        if (cnGraph) {
+          var cno = new IntersectionObserver(function(entries){
+            if (!entries[0].isIntersecting) return;
+            cno.disconnect();
+            if (reduced){
+              cnGraph.querySelectorAll('[data-d]').forEach(function(el){ el.classList.add('in'); });
+              return;
+            }
+            cnGraph.querySelectorAll('[data-d]').forEach(function(el){
+              var d = parseInt(el.getAttribute('data-d') || '0');
+              setTimeout(function(){ el.classList.add('in'); }, d * 200);
+            });
+          }, { threshold: 0.3 });
+          cno.observe(cnGraph);
+        }
+      })();` }} />
     </>
   )
 }
