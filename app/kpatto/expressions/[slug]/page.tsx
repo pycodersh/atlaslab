@@ -37,6 +37,8 @@ type ExpressionRow = {
   tip: string | null
   first_episode: number | null
   audio_url: string | null
+  romaja: string | null
+  heading_en: string | null
 }
 
 export async function generateStaticParams() {
@@ -89,7 +91,7 @@ export default async function ExpressionPage({ params }: PageProps) {
 
   const { data: expr } = await supabase
     .from('kp_expressions')
-    .select('id, korean, english, description, structure, category, examples, tip, first_episode, audio_url')
+    .select('id, korean, english, description, structure, category, examples, tip, first_episode, audio_url, romaja, heading_en')
     .eq('id', id)
     .single()
 
@@ -164,7 +166,7 @@ export default async function ExpressionPage({ params }: PageProps) {
 
   faqItems.push({
     '@type': 'Question',
-    name: `What does ${e.korean} mean in Korean?`,
+    name: e.heading_en ?? `What does ${e.korean} mean in Korean?`,
     acceptedAnswer: {
       '@type': 'Answer',
       text: e.english,
@@ -261,11 +263,16 @@ export default async function ExpressionPage({ params }: PageProps) {
             )}
             <h1 style={{
               fontSize: 38, fontWeight: 800, color: ACCENT,
-              letterSpacing: '-0.03em', margin: '0 0 8px',
+              letterSpacing: '-0.03em', margin: '0 0 4px',
               fontFamily: 'var(--font-baloo, sans-serif)',
             }}>
               {e.korean}
             </h1>
+            {e.romaja && (
+              <p style={{ fontSize: 13, color: T2, fontWeight: 500, margin: '0 0 8px', letterSpacing: '0.01em' }}>
+                {e.romaja}
+              </p>
+            )}
             <p style={{ fontSize: 18, color: T1, fontWeight: 600, margin: 0, lineHeight: 1.4 }}>
               {e.english}
             </p>
@@ -319,6 +326,17 @@ export default async function ExpressionPage({ params }: PageProps) {
           )}
 
           <div style={{ height: 1, background: DIV, margin: '0 -20px' }} />
+
+          {/* ── heading_en (SEO H2) ── */}
+          {e.heading_en && (
+            <h2 style={{
+              fontSize: 16, fontWeight: 700, color: T1,
+              margin: '20px 0 0', lineHeight: 1.4,
+              letterSpacing: '-0.01em',
+            }}>
+              {e.heading_en}
+            </h2>
+          )}
 
           {/* ── How to Use ── */}
           {e.description && (

@@ -1,7 +1,8 @@
 /**
  * _backup-kp-tables.ts
+ * kp_expressions(마이그레이션 전 필수),
  * kpatto_webtoon_layouts, kp_bubbles, kp_dialogues, kp_dialogue_expressions
- * 4개 테이블을 JSON으로 덤프.
+ * 5개 테이블을 JSON으로 덤프.
  *
  * 사용:
  *   npx tsx scripts/_backup-kp-tables.ts
@@ -29,6 +30,7 @@ async function dump(table: string) {
 
 async function main() {
   const tables = [
+    'kp_expressions',           // ← SEO 마이그레이션 전 필수 백업
     'kpatto_webtoon_layouts',
     'kp_bubbles',
     'kp_dialogues',

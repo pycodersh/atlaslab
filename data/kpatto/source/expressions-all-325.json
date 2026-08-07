@@ -1,0 +1,2606 @@
+{
+  "generated_at": "2026-08-07T06:26:48.765Z",
+  "total": 325,
+  "expressions": [
+    {
+      "id": 770,
+      "korean": "~주세요",
+      "english": "Give me ~, please.",
+      "description": "Used to politely ask for something in a shop, café, or restaurant. Put the item in front of 주세요.\n\nRule: 주세요 asks for an object. To ask someone to do something instead, attach -아/어 주세요 to a verb — 도와주세요 (please help me).",
+      "slug": "juseyo",
+      "episode": 1
+    },
+    {
+      "id": 771,
+      "korean": "~뭐예요?",
+      "english": "What is ~?",
+      "description": "Used to ask what something is when you don't know its name. Point at it and add 뭐예요?\n\nRule: 뭐 ends in a vowel, so it always takes 예요, never 이에요.",
+      "slug": "mwoyeyo",
+      "episode": 1
+    },
+    {
+      "id": 772,
+      "korean": "~있어요?",
+      "english": "Is there ~? / Do you have ~?",
+      "description": "Used to ask whether something exists or is available. It covers both 'is there' and 'do you have'.\n\nRule: Use 있어요? for things and places. When asking whether a person is in, 계세요? is the respectful form.",
+      "slug": "isseoyo",
+      "episode": 1
+    },
+    {
+      "id": 773,
+      "korean": "~어떻게 가요?",
+      "english": "How do I get to ~?",
+      "description": "Used to ask the way to a place. Put the destination in front, with no particle needed.\n\nRule: This asks for the route. To ask which transport to take, use 뭐 타고 가요?",
+      "slug": "eotteoke-gayo",
+      "episode": 2
+    },
+    {
+      "id": 774,
+      "korean": "~가고 싶어요",
+      "english": "I want to go to ~.",
+      "description": "Used to name a place you'd like to visit. The particle 에 is usually dropped in speech.\n\nRule: -고 싶어요 works only for your own wish. To talk about what someone else wants, use -고 싶어 해요.",
+      "slug": "gago-sipeoyo",
+      "episode": 2
+    },
+    {
+      "id": 775,
+      "korean": "~어때요?",
+      "english": "How is ~?",
+      "description": "Used to ask someone's opinion, or how something is going. Put the topic in front.\n\nRule: It doubles as a suggestion — 커피 어때요? can mean 'How about coffee?' depending on the situation.",
+      "slug": null,
+      "episode": 62
+    },
+    {
+      "id": 776,
+      "korean": "~로 할게요",
+      "english": "I'll have ~.",
+      "description": "Used to settle on one option when ordering or choosing between things.\n\nRule: After a noun ending in a consonant, use 으로 할게요 (김밥으로 할게요). After a vowel or ㄹ, use 로 할게요 (커피로 할게요).",
+      "slug": "ro-halkkeyo",
+      "episode": 4
+    },
+    {
+      "id": 777,
+      "korean": "~해 본 적 있어요?",
+      "english": "Have you ever ~?",
+      "description": "Used to ask whether someone has ever had a particular experience.\n\nRule: Attach -아/어 본 적 있어요? to a verb stem. Answer with 있어요 (I have) or 없어요 (I haven't) rather than 네 or 아니요.",
+      "slug": "hae-bon-jeok",
+      "episode": 5
+    },
+    {
+      "id": 778,
+      "korean": "~추천해 주세요",
+      "english": "Please recommend ~.",
+      "description": "Used to ask someone for a recommendation. Put the category in front — a food, a place, a show.\n\nRule: Keep 주세요 on the end. Without it, 추천해요 becomes a statement meaning 'I recommend it'.",
+      "slug": "chucheon-juseyo",
+      "episode": 5
+    },
+    {
+      "id": 779,
+      "korean": "~주실 수 있어요?",
+      "english": "Could you ~?",
+      "description": "Used to make a polite request, noticeably softer than -아/어 주세요.\n\nRule: Attach -아/어 주실 수 있어요? to a verb stem. 주실 carries an honorific, so it suits strangers and people senior to you.",
+      "slug": "jusil-su-isseoyo",
+      "episode": 5
+    },
+    {
+      "id": 780,
+      "korean": "~좋아해요",
+      "english": "I like ~.",
+      "description": "Used to say what you like or enjoy. Put the thing in front.\n\nRule: 좋아해요 is a verb and takes 을/를 (한국 음식을 좋아해요). 좋아요 is an adjective and takes 이/가 (한국 음식이 좋아요).",
+      "slug": "joahaeyo",
+      "episode": 6
+    },
+    {
+      "id": 781,
+      "korean": "신기해요",
+      "english": "That's fascinating.",
+      "description": "Used when something strikes you as new and wonderful — a common reaction when you first meet a different culture.\n\nRule: 신기해요 is about novelty and wonder. If you mean something is odd or off, use 이상해요 (that's strange) instead.",
+      "slug": "singihaeyo",
+      "episode": 7
+    },
+    {
+      "id": 782,
+      "korean": "~더 주세요",
+      "english": "More ~, please.",
+      "description": "Used to ask for a refill or a second helping. In Korean restaurants, side dishes usually come free this way.\n\nRule: 더 goes right before 주세요, not before the noun — 김치 더 주세요, not 더 김치 주세요.",
+      "slug": "deo-juseyo",
+      "episode": 7
+    },
+    {
+      "id": 783,
+      "korean": "~깎아 주세요",
+      "english": "Could you lower the price?",
+      "description": "Used to ask for a discount when haggling.\n\nRule: This belongs at traditional markets and street stalls. Prices are fixed at department stores and chain shops, so it isn't used there.",
+      "slug": "kkakka-juseyo",
+      "episode": 7
+    },
+    {
+      "id": 784,
+      "korean": "~써봤어요?",
+      "english": "Have you tried ~?",
+      "description": "Used to ask whether someone has tried out a product.\n\nRule: 써 보다 is for things you use — cosmetics, apps, tools. For food say 먹어 봤어요?, and for clothes 입어 봤어요?",
+      "slug": "sseobwasseoyo",
+      "episode": 8
+    },
+    {
+      "id": 785,
+      "korean": "~어떤 게 좋아요?",
+      "english": "Which ~ do you like?",
+      "description": "Used to ask which option the other person prefers.\n\nRule: 어떤 asks 'which one' among options you can see. 무슨 asks 'what kind' in general.",
+      "slug": "eotteon-ge-joayo",
+      "episode": 8
+    },
+    {
+      "id": 786,
+      "korean": "생각보다 ~해요",
+      "english": "It's more ~ than I expected.",
+      "description": "Used when something turns out different from what you had in mind.\n\nRule: 생각보다 goes at the front and the adjective follows. Whether it means more or less depends on that adjective — 생각보다 맵지 않아요 means less spicy.",
+      "slug": "saenggak-boda",
+      "episode": 9
+    },
+    {
+      "id": 787,
+      "korean": "다 같이 있어서 좋아요",
+      "english": "I'm happy we're all together.",
+      "description": "Used to express warmth about everyone being gathered in one place.\n\nRule: -아/어서 좋아요 attaches any reason to 좋아요 (it's good) — 날씨가 좋아서 좋아요 means 'I'm happy because the weather is nice'.",
+      "slug": "da-gachi-isseoseo-joayo",
+      "episode": 9
+    },
+    {
+      "id": 788,
+      "korean": "이미 ~해요",
+      "english": "I already ~.",
+      "description": "Used to say something has already happened, often to stop someone from doing it again.\n\nRule: 이미 normally comes with a past-tense verb — 이미 먹었어요 (I already ate). 벌써 also means 'already', but adds surprise at how soon it happened.",
+      "slug": "imi-haeyo",
+      "episode": 9
+    },
+    {
+      "id": 789,
+      "korean": "떨려요",
+      "english": "I'm nervous.",
+      "description": "Used for the flutter you feel before something important. It covers both nerves and excitement.\n\nRule: 떨려요 describes your own feeling and takes no object. To give the cause, put it in front with -아/어서 or -라서 (첫 발표라서 떨려요).",
+      "slug": "tteollyeoyo",
+      "episode": 10
+    },
+    {
+      "id": 790,
+      "korean": "~에서 왔어요",
+      "english": "I'm from ~.",
+      "description": "Used to say which country or city you come from.\n\nRule: 에서 marks a starting point, so it attaches to the place (미국에서 왔어요). Do not use 에, which marks a destination.",
+      "slug": "eseo-wasseoyo",
+      "episode": 10
+    },
+    {
+      "id": 791,
+      "korean": "잘 부탁드려요",
+      "english": "I look forward to it.",
+      "description": "A set greeting used when you meet someone you'll be working or studying with. English has no direct equivalent — it asks for their goodwill.\n\nRule: 부탁드려요 is the humble form of 부탁해요. In formal settings such as an interview or presentation, use 잘 부탁드립니다.",
+      "slug": "jal-butakdeuryeoyo",
+      "episode": 10
+    },
+    {
+      "id": 792,
+      "korean": "~어디서 타요?",
+      "english": "Where do I catch ~?",
+      "description": "Used to ask where to board a bus, subway line, or shuttle.\n\nRule: 어디서 marks the place where an action happens. If you only want to know where something is, use 어디예요?",
+      "slug": "eodiseo-tayo",
+      "episode": 2
+    },
+    {
+      "id": 793,
+      "korean": "~먹고 싶어요",
+      "english": "I want to eat ~.",
+      "description": "Used to say what you feel like eating.\n\nRule: -고 싶어요 attaches to a verb stem and speaks only for yourself. For another person's craving, use -고 싶어 해요.",
+      "slug": "meokgo-sipeoyo",
+      "episode": 3
+    },
+    {
+      "id": 794,
+      "korean": "~못 먹어요",
+      "english": "I can't eat ~.",
+      "description": "Used to say you cannot eat something, whether because of an allergy, a religion, or your tolerance for spice.\n\nRule: 못 goes right before the verb and means you are unable to. 안 먹어요 means you choose not to.",
+      "slug": "mot-meogeoyo",
+      "episode": 3
+    },
+    {
+      "id": 795,
+      "korean": "~먹어도 돼요?",
+      "english": "May I eat ~?",
+      "description": "Used to ask permission before eating or drinking.\n\nRule: Attach -아/어도 돼요? to a verb stem. The answer comes back as 네, 돼요 (yes, you may) or 아니요, 안 돼요 (no, you may not).",
+      "slug": "meogeodo-dwaeyo",
+      "episode": 4
+    },
+    {
+      "id": 796,
+      "korean": "~불러도 돼요?",
+      "english": "May I sing ~? / May I call you ~?",
+      "description": "Used to ask permission. 부르다 covers both singing a song and calling someone by a name, so the meaning comes from what goes in front.\n\nRule: For a song, put it straight in front — 이 노래 불러도 돼요? (May I sing this song?). For a name or title, add 라고 after a vowel and 이라고 after a consonant — 언니라고 불러도 돼요? (Can I call you 언니, older sister?).",
+      "slug": "bulleodo-dwaeyo",
+      "episode": 6
+    },
+    {
+      "id": 797,
+      "korean": "또 오고 싶어요",
+      "english": "I want to come here again.",
+      "description": "Used to tell someone you enjoyed a place enough to return — a natural compliment to a host or a shop.\n\nRule: 또 means 'again' and goes before the verb. 다시 is close, but 또 sounds warmer in this phrase.",
+      "slug": "tto-ogo-sipeoyo",
+      "episode": 6
+    },
+    {
+      "id": 798,
+      "korean": "~타요",
+      "english": "I'm taking the ~.",
+      "description": "Used to say which transport you're taking, or to tell someone which one to take.\n\nRule: Korean says 버스를 타요, not 버스에 타요 — 타다 takes 을/를 even though English says 'get on'. In speech the particle is usually dropped (버스 타요). To get off, use 내려요.",
+      "slug": "tayo",
+      "episode": 11
+    },
+    {
+      "id": 799,
+      "korean": "~에서 내려요",
+      "english": "I get off at ~.",
+      "description": "Used to say which stop or station you're getting off at.\n\nRule: 에서 marks the place where you get off. Pair it with 타요 for getting on — 2호선 타요, 홍대입구역에서 내려요 means 'take Line 2 and get off at Hongik Univ. Station'.",
+      "slug": "naeryeoyo",
+      "episode": 11
+    },
+    {
+      "id": 800,
+      "korean": "~까지 가 주세요",
+      "english": "Please take me to ~.",
+      "description": "Used to tell a taxi driver where you want to go.\n\nRule: 까지 marks the end point of the trip. 에 가 주세요 also works, but 까지 sounds more natural to a driver.",
+      "slug": "kkaji-ga-juseyo",
+      "episode": 11
+    },
+    {
+      "id": 801,
+      "korean": "덜 ~게 해 주세요",
+      "english": "Please make it less ~.",
+      "description": "Used to ask a restaurant to adjust how your food is prepared.\n\nRule: Put an adjective stem between 덜 and 게 해 주세요 — 덜 맵게 해 주세요 (please make it less spicy). To ask for more of something instead, swap 덜 (less) for 더 (more).",
+      "slug": "deol-ge-hae-juseyo",
+      "episode": 12
+    },
+    {
+      "id": 802,
+      "korean": "~리필 돼요?",
+      "english": "Can I get a refill of ~?",
+      "description": "Used to ask whether something can be refilled. Side dishes, rice, and soup are often free this way in Korea.\n\nRule: 되다 here means 'is possible'. The answer comes back as 네, 돼요 (yes, you can) or 안 돼요 (no, you can't).",
+      "slug": "ripil-dwaeyo",
+      "episode": 12
+    },
+    {
+      "id": 803,
+      "korean": "~에 뭐 해요?",
+      "english": "What are you doing on ~?",
+      "description": "Used to ask about someone's plans at a certain time.\n\nRule: 에 attaches to time words like 주말에 and 저녁에, but never to 오늘, 내일, or 어제 — say 내일 뭐 해요?",
+      "slug": "e-mwo-haeyo",
+      "episode": 13
+    },
+    {
+      "id": 804,
+      "korean": "같이 ~ㄹ래요?",
+      "english": "Shall we ~ together?",
+      "description": "Used to invite someone to do something with you. It sounds friendly rather than formal.\n\nRule: After a stem ending in a consonant, use -을래요 (먹을래요?). After a vowel or ㄹ, use -ㄹ래요 (볼래요?).",
+      "slug": "gachi-llaeyo",
+      "episode": 13
+    },
+    {
+      "id": 805,
+      "korean": "조금 늦을 것 같아요",
+      "english": "I think I'll be a little late.",
+      "description": "Used to let someone know in advance that you won't arrive on time.\n\nRule: -을 것 같아요 turns a flat statement into a guess. 늦어요 states plainly 'I'm late', while 늦을 것 같아요 sounds softer and more considerate.",
+      "slug": "jogeum-neujeul-geot-gatayo",
+      "episode": 13
+    },
+    {
+      "id": 806,
+      "korean": "길을 잃었어요",
+      "english": "I'm lost.",
+      "description": "Used to tell someone you don't know where you are and need help.\n\nRule: Korean puts this in the past tense (잃었어요) even though English uses the present. 길을 잃어요 sounds wrong.",
+      "slug": "gireul-ilheosseoyo",
+      "episode": 14
+    },
+    {
+      "id": 807,
+      "korean": "쭉 가면 돼요",
+      "english": "Just go straight.",
+      "description": "Used when giving directions to say the way is simple — no turns needed.\n\nRule: -으면 돼요 means 'it's enough to ~'. It makes instructions sound easy and reassuring.",
+      "slug": "jjuk-gamyeon",
+      "episode": 14
+    },
+    {
+      "id": 808,
+      "korean": "~으로 꺾으면 돼요",
+      "english": "Turn ~.",
+      "description": "Used to tell someone which way to turn when giving directions.\n\nRule: After a noun ending in a consonant, use 으로 — 오른쪽으로 (to the right). After a vowel or ㄹ, use 로. 돌면 돼요 means the same as 꺾으면 돼요 and is just as common.",
+      "slug": "kkeokkeumyeon",
+      "episode": 14
+    },
+    {
+      "id": 809,
+      "korean": "~봤어요?",
+      "english": "Have you tried ~?",
+      "description": "Used to ask whether someone has experienced something before.\n\nRule: Attach -아/어 봤어요? to a verb stem — 먹어 봤어요?, 가 봤어요?, 입어 봤어요? Without 보다, 봤어요? simply means 'did you see it?'",
+      "slug": "bwasseoyo",
+      "episode": 15
+    },
+    {
+      "id": 810,
+      "korean": "재미있어요",
+      "english": "It's fun.",
+      "description": "Used for anything enjoyable — a drama, a class, a person, a trip.\n\nRule: 재미있어요 covers both 'fun' and 'interesting'. To say the opposite, use 재미없어요 (it's boring), written as one word.",
+      "slug": "jaemiisseoyo",
+      "episode": 15
+    },
+    {
+      "id": 811,
+      "korean": "강추예요",
+      "english": "I highly recommend it.",
+      "description": "Slang shortened from 강력 추천, meaning a strong recommendation. You'll see it constantly in reviews and casual chat.\n\nRule: This is casual. With someone senior, or in writing, use 추천해요 or 추천드려요.",
+      "slug": "gangchu-yeyo",
+      "episode": 15
+    },
+    {
+      "id": 812,
+      "korean": "~날씨 어때요?",
+      "english": "How's the weather in ~?",
+      "description": "Used to ask about the weather at a place or on a certain day.\n\nRule: Put the place or time straight in front, with no particle — 서울 날씨 어때요?, 내일 날씨 어때요?",
+      "slug": "nalssi-eottaeyo",
+      "episode": 16
+    },
+    {
+      "id": 813,
+      "korean": "~올 것 같아요",
+      "english": "It looks like ~ is coming.",
+      "description": "Used to guess that rain or snow is on the way, based on what you can see.\n\nRule: In Korean, rain and snow 'come' rather than 'fall' — use 오다 (to come), not 내리다 (to fall). So it's 비 와요 (it's raining), not 비 내려요.",
+      "slug": "ol-geot-gatayo",
+      "episode": 16
+    },
+    {
+      "id": 816,
+      "korean": "~약 있어요?",
+      "english": "Do you have medicine for ~?",
+      "description": "Used at a pharmacy to ask for medicine for a specific symptom.\n\nRule: Korean builds medicine names as one word — 두통 (headache) + 약 becomes 두통약, and 감기 (cold) + 약 becomes 감기약. A pharmacy is 약국.",
+      "slug": "yak-isseoyo",
+      "episode": 17
+    },
+    {
+      "id": 817,
+      "korean": "안 먹는 게 나아요",
+      "english": "You'd better not eat it.",
+      "description": "Used to advise someone against eating something, gently rather than as an order.\n\nRule: -는 게 나아요 means 'it's better to ~'. Put 안 in front of the verb for the negative — 안 먹는 게 나아요. For the positive, drop it — 먹는 게 나아요.",
+      "slug": "an-meokneun-ge-naayo",
+      "episode": 17
+    },
+    {
+      "id": 818,
+      "korean": "취미가 뭐예요?",
+      "english": "What are your hobbies?",
+      "description": "Used to ask what someone does for fun. It's one of the standard questions when you're getting to know a Korean person.\n\nRule: 취미 (hobby) takes 가 here, so it's 취미가 뭐예요? Among close friends the casual form is 취미가 뭐야?",
+      "slug": "chwimi-mwoyeyo",
+      "episode": 18
+    },
+    {
+      "id": 819,
+      "korean": "저도요",
+      "english": "Me too.",
+      "description": "A quick way to say you feel the same. It works after almost any statement, positive or negative.\n\nRule: 저도요 is the polite form; among friends say 나도. If you're agreeing with something the other person doesn't like, 저도요 still works — 저도요, 저도 안 좋아해요.",
+      "slug": "jeodoyo",
+      "episode": 18
+    },
+    {
+      "id": 820,
+      "korean": "~별로예요",
+      "english": "It's not that great.",
+      "description": "Used to say something didn't meet your expectations, without being blunt about it.\n\nRule: 별로예요 is much softer than 싫어요 (I hate it), so Koreans use it to turn things down politely. The topic goes straight in front with no particle — 이 드라마 별로예요.",
+      "slug": "byeolloyeyo",
+      "episode": 18
+    },
+    {
+      "id": 821,
+      "korean": "여기서 유명한 게 뭐예요?",
+      "english": "What's this place famous for?",
+      "description": "Used to ask what a place is known for — its signature dish, product, or sight.\n\nRule: 여기서 means 'here at this place'. 게 is a shortened form of 것이 (the thing that), so 유명한 게 means 'the thing that is famous'.",
+      "slug": "yumyeong-mwoyeyo",
+      "episode": 19
+    },
+    {
+      "id": 822,
+      "korean": "같이 사진 찍어요",
+      "english": "Let's take a photo together.",
+      "description": "Used to suggest taking a picture with someone.\n\nRule: Korean uses 찍다 (to shoot) for taking photos, never 만들다 or 가지다. Put the place in front with 에서 — 여기서 같이 사진 찍어요.",
+      "slug": "sajin-jjigeoyo",
+      "episode": 19
+    },
+    {
+      "id": 823,
+      "korean": "사진이 잘 나왔어요?",
+      "english": "Did the photo turn out well?",
+      "description": "Used to ask whether a picture came out nicely — a natural follow-up after taking one.\n\nRule: Korean says a photo 나오다 (comes out) rather than 되다. 잘 나왔어요 means it turned out well, and 잘 안 나왔어요 means it didn't.",
+      "slug": "sajin-nawasseoyo",
+      "episode": 19
+    },
+    {
+      "id": 824,
+      "korean": "오랜만이에요",
+      "english": "Long time no see.",
+      "description": "Used when you meet someone again after a long gap. It's one of the most common Korean greetings.\n\nRule: The casual form is 오랜만이야. It's usually followed by 잘 지냈어요? (how have you been?) as a set pair.",
+      "slug": "oraenmanieyo",
+      "episode": 20
+    },
+    {
+      "id": 825,
+      "korean": "잘 지냈어요?",
+      "english": "How have you been?",
+      "description": "Used when you meet someone again after a while.\n\nRule: This is past tense (지냈어요), asking about the time since you last met. To ask how someone is right now, use 잘 지내요?",
+      "slug": "jal-jinaesseoyo",
+      "episode": 20
+    },
+    {
+      "id": 826,
+      "korean": "다음에 또 봐요",
+      "english": "See you again next time.",
+      "description": "A warm goodbye that leaves the door open for another meeting.\n\nRule: 보다 means both 'see' and 'meet' in Korean, so 봐요 works as a farewell. The casual form is 다음에 또 봐.",
+      "slug": "daeume-bwayo",
+      "episode": 20
+    },
+    {
+      "id": 828,
+      "korean": "~어땠어?",
+      "english": "How was ~?",
+      "description": "Used to ask a friend how something went — a trip, an exam, a first day.\n\nRule: This is casual speech; the polite form is 어땠어요? Put the topic straight in front with no particle — 시험 어땠어?",
+      "slug": "eottaesseo",
+      "episode": 21
+    },
+    {
+      "id": 829,
+      "korean": "처음이었는데",
+      "english": "It was my first time, but ~",
+      "description": "Used to set up a contrast between a first experience and how it actually went.\n\nRule: -인데 attaches background information that the next clause turns around. The polite form is 처음이었는데요, and for something that is your first time right now, use 처음인데.",
+      "slug": null,
+      "episode": 21
+    },
+    {
+      "id": 830,
+      "korean": "~것 같아요",
+      "english": "I think ~ / It seems ~",
+      "description": "Used to soften a guess or an opinion so it doesn't sound like a flat assertion. Koreans use it constantly to stay polite.\n\nRule: The ending changes with the word type. Verbs take -을 것 같아요 for a guess about the future (갈 것 같아요), adjectives take -은/-ㄴ 것 같아요 (좋은 것 같아요), and for the past use -은 것 같아요 (간 것 같아요).",
+      "slug": "geot-gatayo",
+      "episode": 22
+    },
+    {
+      "id": 831,
+      "korean": "~나 봐요",
+      "english": "It seems like ~ / I guess ~",
+      "description": "Used to guess about someone else's situation from what you can see or hear.\n\nRule: Verbs take -나 봐요 (오나 봐요). Adjectives take -은가/-ㄴ가 봐요 — 좋은가 봐요 after a consonant, 바쁜가 봐요 after a vowel. Use it about others, not about your own feelings.",
+      "slug": "na-bwayo",
+      "episode": 22
+    },
+    {
+      "id": 833,
+      "korean": "~해야 해",
+      "english": "I have to ~ / You have to ~",
+      "description": "Used to say something is necessary or unavoidable.\n\nRule: This is casual speech; the polite form is 해야 해요. Attach -아/어야 하다 to a verb stem — 먹어야 해, 가야 해. Adding 꼭 (definitely) in front makes it stronger.",
+      "slug": "haeya-hae",
+      "episode": 23
+    },
+    {
+      "id": 834,
+      "korean": "~하지 마",
+      "english": "Don't ~.",
+      "description": "Used to tell a friend not to do something. It sounds caring rather than harsh, depending on tone.\n\nRule: This is casual speech; the polite form is -지 마세요. Attach -지 말다 to a verb stem — 걱정하지 마, 늦지 마.",
+      "slug": "haji-ma",
+      "episode": 23
+    },
+    {
+      "id": 835,
+      "korean": "~잊지 마",
+      "english": "Don't forget ~.",
+      "description": "Used to remind a friend about something they might leave behind or overlook.\n\nRule: This is casual speech; the polite form is 잊지 마세요. It uses -지 말다, the same pattern as 하지 마 (don't do it).",
+      "slug": "itji-ma",
+      "episode": 23
+    },
+    {
+      "id": 836,
+      "korean": "~어떻게 생각해요?",
+      "english": "What do you think about ~?",
+      "description": "Used to ask someone's opinion on a specific topic.\n\nRule: Put the topic straight in front with no particle. Korean asks 어떻게 생각해요? (how do you think), never 무엇을 생각해요? — the 어떻게 is fixed.",
+      "slug": "eotteoke-saenggak",
+      "episode": 24
+    },
+    {
+      "id": 837,
+      "korean": "맞는 말이에요",
+      "english": "That's a good point.",
+      "description": "Used to acknowledge that what the other person said makes sense, even if you go on to disagree.\n\nRule: 맞는 말이에요 agrees with the statement rather than the person. To agree with the person themselves, say 맞아요 or 저도 그렇게 생각해요.",
+      "slug": "matneun-marieyo",
+      "episode": 24
+    },
+    {
+      "id": 838,
+      "korean": "저는 좀 달라요",
+      "english": "I'm a bit different.",
+      "description": "Used to state your own preference without contradicting anyone directly — a gentle way to disagree.\n\nRule: 좀 (a bit) is what softens it. Dropping it — 저는 달라요 — sounds much more blunt.",
+      "slug": "jeo-dalayo",
+      "episode": 24
+    },
+    {
+      "id": 839,
+      "korean": "~에 가 봤어요?",
+      "english": "Have you been to ~?",
+      "description": "Used to ask whether someone has ever visited a place.\n\nRule: 에 marks the destination, and -아/어 봤어요 adds the sense of having tried it. The answer is 가 봤어요 (I have) or 안 가 봤어요 (I haven't).",
+      "slug": "ga-bwasseoyo",
+      "episode": 25
+    },
+    {
+      "id": 840,
+      "korean": "꼭 가 보세요",
+      "english": "You should definitely go.",
+      "description": "Used to recommend a place strongly.\n\nRule: 꼭 means 'without fail' and carries the emphasis. -아/어 보세요 means 'give it a try', so 가 보세요 is warmer than the plain 가세요.",
+      "slug": "kkok-ga-boseyo",
+      "episode": 25
+    },
+    {
+      "id": 842,
+      "korean": "요즘 뭐 봐요?",
+      "english": "What are you watching these days?",
+      "description": "Used to ask what shows someone is into lately — one of the easiest ways to start a conversation.\n\nRule: 보다 covers watching and reading alike, so it works for dramas, films, and webtoons. 요즘 means 'these days' and goes at the front.",
+      "slug": "yojeum-mwo-bwayo",
+      "episode": 26
+    },
+    {
+      "id": 843,
+      "korean": "완전 빠져들었어요",
+      "english": "I'm totally hooked.",
+      "description": "Used when something has completely pulled you in — a drama, a hobby, a genre of music.\n\nRule: The thing you're hooked on takes 에 — 케이팝에 완전 빠져들었어요. 완전 (totally) is casual emphasis and can be dropped in formal speech.",
+      "slug": "ppajyeodeureoyo",
+      "episode": 26
+    },
+    {
+      "id": 844,
+      "korean": "다음 화가 기대돼요",
+      "english": "I can't wait for the next episode.",
+      "description": "Used to say you're looking forward to what comes next.\n\nRule: 화 is the counter for episodes, so 다음 화 means 'the next episode'. 기대되다 describes the feeling arising in you, so it takes 가 rather than 를 — 다음 화가 기대돼요.",
+      "slug": "gidae-dwaeyo",
+      "episode": 26
+    },
+    {
+      "id": 845,
+      "korean": "이 노래 알아요?",
+      "english": "Do you know this song?",
+      "description": "Used to ask whether someone recognizes a song.\n\nRule: The negative of 알아요 is 몰라요, not 안 알아요 — Korean uses a separate word. So the answer is 알아요 or 몰라요.",
+      "slug": "norae-arayo",
+      "episode": 27
+    },
+    {
+      "id": 846,
+      "korean": "가사가 무슨 뜻이에요?",
+      "english": "What do the lyrics mean?",
+      "description": "Used to ask what a line of a song means — a natural question when you're learning through music.\n\nRule: 무슨 뜻이에요? asks for the meaning of a word or phrase. Put the part you're asking about in front with 가/이 — '그리워'가 무슨 뜻이에요?",
+      "slug": "gasa-tteut",
+      "episode": 27
+    },
+    {
+      "id": 847,
+      "korean": "중독성 있어요",
+      "english": "It's addictive.",
+      "description": "Used for a song, snack, or show you can't stop coming back to.\n\nRule: 중독성 means 'addictiveness', and it pairs with 있다 — 중독성 있어요. Adding 진짜 (really) or 완전 (totally) in front makes it stronger.",
+      "slug": "jungdokseong",
+      "episode": 27
+    },
+    {
+      "id": 848,
+      "korean": "~관리 어떻게 해요?",
+      "english": "How do you take care of ~?",
+      "description": "Used to ask about someone's routine for looking after something — skin, hair, health.\n\nRule: 관리 means 'care' or 'upkeep' and takes 하다. Put what you're asking about straight in front with no particle — 피부 관리 어떻게 해요?",
+      "slug": "gwanri-haeyo",
+      "episode": 28
+    },
+    {
+      "id": 849,
+      "korean": "~효과 있어요?",
+      "english": "Does ~ actually work?",
+      "description": "Used to ask whether a product or method really makes a difference.\n\nRule: 효과 (effect) pairs with 있다 and 없다, not with 하다 — say 효과 있어요? and 효과 없어요, never 효과 해요.",
+      "slug": "hyogwa-isseoyo",
+      "episode": 28
+    },
+    {
+      "id": 850,
+      "korean": "후기가 좋아요",
+      "english": "It has good reviews.",
+      "description": "Used to say something is well reviewed. Koreans check 후기 before buying almost anything.\n\nRule: 후기 (review) takes 가 with 좋아요 — 후기가 좋아요. To give the reason for buying, use 후기가 좋아서.",
+      "slug": "hugi-joayo",
+      "episode": 28
+    },
+    {
+      "id": 851,
+      "korean": "얼마나 자주 해요?",
+      "english": "How often do you ~?",
+      "description": "Used to ask about the frequency of a habit or activity.\n\nRule: 얼마나 (how much) combines with 자주 (often) to ask frequency. Put the verb at the end — 얼마나 자주 운동해요?",
+      "slug": "eolmana-jaju",
+      "episode": 29
+    },
+    {
+      "id": 852,
+      "korean": "건강에 좋아요",
+      "english": "It's good for your health.",
+      "description": "Used to say something benefits your health — a very common remark about food in Korea.\n\nRule: 에 marks what the thing is good for, so the pattern is ~에 좋아요. The same shape works elsewhere — 피부에 좋아요 means 'it's good for your skin'.",
+      "slug": "geongang-joayo",
+      "episode": 29
+    },
+    {
+      "id": 853,
+      "korean": "꾸준히 하고 있어요",
+      "english": "I've been keeping it up.",
+      "description": "Used to say you've stuck with something over time — exercise, study, a habit.\n\nRule: 꾸준히 means 'steadily, without breaks'. -고 있어요 marks an action still in progress, so together they mean you started before and are still going.",
+      "slug": "kkujunhi",
+      "episode": 29
+    },
+    {
+      "id": 854,
+      "korean": "~어디 살아요?",
+      "english": "Where do you live?",
+      "description": "Used to ask where someone lives. Koreans often narrow it down by area — 서울 어디 살아요?\n\nRule: 살다 normally takes 에서 for the place, but with 어디 the particle is dropped in speech. Use the present tense 살아요, not the past.",
+      "slug": "eodi-sarayo",
+      "episode": 30
+    },
+    {
+      "id": 855,
+      "korean": "혼자 살아요?",
+      "english": "Do you live alone?",
+      "description": "Used to ask whether someone lives by themselves — a normal getting-to-know-you question in Korea.\n\nRule: 혼자 means 'alone' and goes before the verb. A related word is 자취하다, used for living away from your family, usually as a student.",
+      "slug": "honja-sarayo",
+      "episode": 30
+    },
+    {
+      "id": 856,
+      "korean": "~근처에 뭐 있어?",
+      "english": "What's near ~?",
+      "description": "Used to ask what shops or places are around somewhere.\n\nRule: This is casual speech; the polite form is 근처에 뭐 있어요? 근처 (nearby) takes 에, and the place you're asking about goes in front — 집 근처에 뭐 있어?",
+      "slug": null,
+      "episode": 30
+    },
+    {
+      "id": 857,
+      "korean": "기분이 어때?",
+      "english": "How are you feeling today?",
+      "description": "Casually check in and ask how someone is feeling. Just place a noun before 기분이 어",
+      "slug": null,
+      "episode": 31
+    },
+    {
+      "id": 858,
+      "korean": "~라서 행복해",
+      "english": "Happy because of ~",
+      "description": "Express happiness by stating the reason with 'because.' It works in casual and p",
+      "slug": null,
+      "episode": 31
+    },
+    {
+      "id": 859,
+      "korean": "설레",
+      "english": "I'm so excited!",
+      "description": "Describe that fluttery, giddy feeling of excited anticipation. Say what you need",
+      "slug": null,
+      "episode": 31
+    },
+    {
+      "id": 860,
+      "korean": "괜찮아요?",
+      "english": "Are you okay?",
+      "description": "Check in to make sure someone is okay. Say what you need, then add 괜찮아요 at the e",
+      "slug": null,
+      "episode": 32
+    },
+    {
+      "id": 861,
+      "korean": "요즘 좀 힘들어요",
+      "english": "Things have been a bit hard lately.",
+      "description": "Share honestly that things have been a bit tough lately. It works in casual and",
+      "slug": null,
+      "episode": 32
+    },
+    {
+      "id": 862,
+      "korean": "언제든지 연락해요",
+      "english": "Contact me anytime.",
+      "description": "Tell someone they can reach out to you any time. Say what you need, then add 언제든",
+      "slug": null,
+      "episode": 32
+    },
+    {
+      "id": 863,
+      "korean": "카카오톡 해요?",
+      "english": "Do you use KakaoTalk?",
+      "description": "Ask if someone uses KakaoTalk to swap contact info. It works in casual and polit",
+      "slug": null,
+      "episode": 33
+    },
+    {
+      "id": 864,
+      "korean": "팔로우해도 돼요?",
+      "english": "May I follow you?",
+      "description": "Politely ask permission to follow someone on social media. Just place a noun bef",
+      "slug": null,
+      "episode": 33
+    },
+    {
+      "id": 866,
+      "korean": "제가 살게요",
+      "english": "It's on me.",
+      "description": "Offer to treat someone by saying 'it's on me.' Just place a noun before 제가 살게요 —",
+      "slug": null,
+      "episode": 34
+    },
+    {
+      "id": 867,
+      "korean": "더치페이 해요?",
+      "english": "Shall we split the bill?",
+      "description": "Ask if everyone is splitting the bill equally. It works in casual and polite spe",
+      "slug": null,
+      "episode": 34
+    },
+    {
+      "id": 868,
+      "korean": "밥 한번 먹어요",
+      "english": "Let's grab a meal sometime.",
+      "description": "Casually suggest grabbing a meal together sometime. Say what you need, then add",
+      "slug": null,
+      "episode": 34
+    },
+    {
+      "id": 869,
+      "korean": "배달 시켜요",
+      "english": "Let's order delivery.",
+      "description": "Suggest ordering food delivery instead of going out. Say what you need, then add",
+      "slug": null,
+      "episode": 48
+    },
+    {
+      "id": 870,
+      "korean": "~입어 봤어?",
+      "english": "Have you tried this on?",
+      "description": "Casually ask if someone has ever tried wearing something. Say what you need, the",
+      "slug": null,
+      "episode": 35
+    },
+    {
+      "id": 871,
+      "korean": "명절에 뭐 해?",
+      "english": "What do you do on holidays?",
+      "description": "Ask what someone does or plans for Korean holidays. It works in casual and polit",
+      "slug": null,
+      "episode": 35
+    },
+    {
+      "id": 872,
+      "korean": "이게 무슨 뜻이야?",
+      "english": "What does this mean?",
+      "description": "Ask a friend casually what a word or expression means. It works in casual and po",
+      "slug": null,
+      "episode": 35
+    },
+    {
+      "id": 873,
+      "korean": "술 마셔요?",
+      "english": "Do you drink?",
+      "description": "Ask someone politely if they drink alcohol. It works in casual and polite speech",
+      "slug": null,
+      "episode": 36
+    },
+    {
+      "id": 874,
+      "korean": "건배해요",
+      "english": "Cheers!",
+      "description": "Say cheers and raise your glass together. Say what you need, then add 건배해요 at th",
+      "slug": null,
+      "episode": 36
+    },
+    {
+      "id": 875,
+      "korean": "오늘은 여기까지만 해요",
+      "english": "Let's stop here for today.",
+      "description": "Politely wrap up a session or activity for the day. Say what you need, then add",
+      "slug": null,
+      "episode": 36
+    },
+    {
+      "id": 876,
+      "korean": "이 노래 같이 불러요",
+      "english": "Let's sing this song together!",
+      "description": "Invite someone to sing a song together with you. It works in casual and polite s",
+      "slug": null,
+      "episode": 37
+    },
+    {
+      "id": 877,
+      "korean": "신청곡 있어요?",
+      "english": "Any song requests?",
+      "description": "Ask if someone has a song they'd like to request. It works in casual and polite",
+      "slug": null,
+      "episode": 37
+    },
+    {
+      "id": 878,
+      "korean": "한 곡 더 해요",
+      "english": "One more song.",
+      "description": "Suggest doing just one more song before finishing. Just place a noun before 한 곡",
+      "slug": null,
+      "episode": 37
+    },
+    {
+      "id": 879,
+      "korean": "같이 춰요",
+      "english": "Let's dance together.",
+      "description": "Invite someone to get up and dance with you. Say what you need, then add 같이 춰요 a",
+      "slug": null,
+      "episode": 38
+    },
+    {
+      "id": 880,
+      "korean": "어렵지만 재미있어요",
+      "english": "It's hard but fun.",
+      "description": "Express that something is challenging but genuinely enjoyable. Say what you need",
+      "slug": null,
+      "episode": 38
+    },
+    {
+      "id": 881,
+      "korean": "하다 보면 늘어요",
+      "english": "You'll improve as you go.",
+      "description": "Encourage someone that consistent practice leads to improvement. Say what you ne",
+      "slug": null,
+      "episode": 38
+    },
+    {
+      "id": 882,
+      "korean": "분위기 좋아요",
+      "english": "The atmosphere is nice.",
+      "description": "Compliment the vibe or atmosphere of a place. Say what you need, then add 분위기 좋아",
+      "slug": null,
+      "episode": 39
+    },
+    {
+      "id": 883,
+      "korean": "달달한 거 있어요?",
+      "english": "Do you have anything sweet?",
+      "description": "Ask if there's something sweet available to eat or drink. Just place a noun befo",
+      "slug": null,
+      "episode": 39
+    },
+    {
+      "id": 884,
+      "korean": "오래 있어도 돼요?",
+      "english": "Is it okay to stay a long time?",
+      "description": "Politely ask whether it's okay to stay for a long time. Say what you need, then",
+      "slug": null,
+      "episode": 39
+    },
+    {
+      "id": 885,
+      "korean": "나라마다 달라요",
+      "english": "It differs from country to country.",
+      "description": "Point out that customs or practices differ by country. Say what you need, then a",
+      "slug": null,
+      "episode": 40
+    },
+    {
+      "id": 886,
+      "korean": "이제 적응이 됐어요",
+      "english": "I've gotten used to it now.",
+      "description": "Say you've finally adjusted and settled into a new situation. Say what you need,",
+      "slug": null,
+      "episode": 40
+    },
+    {
+      "id": 887,
+      "korean": "처음엔 낯설었는데",
+      "english": "It felt strange at first, but ~",
+      "description": "Start a story by saying something felt strange or unfamiliar at first. It works",
+      "slug": null,
+      "episode": 40
+    },
+    {
+      "id": 888,
+      "korean": "~는데",
+      "english": "I'm hungry — what should we ~?",
+      "description": "Connect two ideas or give soft background context before your point. It works in",
+      "slug": null,
+      "episode": 41
+    },
+    {
+      "id": 891,
+      "korean": "~면 어때요?",
+      "english": "How about meeting ~?",
+      "description": "Politely suggest an idea or alternative to someone. Say what you need, then add",
+      "slug": null,
+      "episode": 42
+    },
+    {
+      "id": 892,
+      "korean": "~면 좋겠어요",
+      "english": "I hope the weather is nice ~",
+      "description": "Express a gentle wish or hope about a situation. Say what you need, then add 면 좋",
+      "slug": null,
+      "episode": 42
+    },
+    {
+      "id": 893,
+      "korean": "~면 돼요",
+      "english": "You can ~",
+      "description": "Tell someone the only thing they need to do is one simple action. Say what you n",
+      "slug": null,
+      "episode": 42
+    },
+    {
+      "id": 894,
+      "korean": "~때문에",
+      "english": "I couldn't go out because of the ~",
+      "description": "State the cause or reason for something using 'because of.' Just place a noun be",
+      "slug": null,
+      "episode": 43
+    },
+    {
+      "id": 895,
+      "korean": "~덕분에",
+      "english": "Thanks to my teacher, my Korean has ~",
+      "description": "Credit someone or something for a positive outcome. Just place a noun before 덕분에",
+      "slug": null,
+      "episode": 43
+    },
+    {
+      "id": 896,
+      "korean": "~보다",
+      "english": "than ~",
+      "description": "Used to compare two things. Attach 보다 to the one you are comparing against, and it means 'more than that'.\n\nRule: 보다 attaches directly to the noun with no space (마트보다). The thing you are comparing against comes first, so 마트보다 싸요 means cheaper than the supermarket. 더 is often added before the adjective for emphasis.",
+      "slug": "boda",
+      "episode": 7
+    },
+    {
+      "id": 897,
+      "korean": "~는 동안",
+      "english": "Shall we have coffee while we ~?",
+      "description": "Describe what happens or happened during a period of time. Just place a noun bef",
+      "slug": null,
+      "episode": 44
+    },
+    {
+      "id": 898,
+      "korean": "~고 나서",
+      "english": "Shall we take a walk after ~?",
+      "description": "Describe what you do or did after finishing an action. Say what you need, then a",
+      "slug": null,
+      "episode": 44
+    },
+    {
+      "id": 899,
+      "korean": "~기 전에",
+      "english": "Don't look at your phone before ~",
+      "description": "Say what you do or should do before a certain action. Just place a noun before 기",
+      "slug": null,
+      "episode": 44
+    },
+    {
+      "id": 901,
+      "korean": "해 드릴까요?",
+      "english": "Shall I do it for you?",
+      "description": "Politely offer to do something for someone, especially a stranger. It works in c",
+      "slug": null,
+      "episode": 45
+    },
+    {
+      "id": 902,
+      "korean": "죄송한데요 혹시 ~",
+      "english": "Excuse me, could you ~?",
+      "description": "Politely interrupt a stranger to ask a question or small favor. It works in casu",
+      "slug": null,
+      "episode": 45
+    },
+    {
+      "id": 903,
+      "korean": "~지 얼마나 됐어요?",
+      "english": "How long has it been since you came to ~?",
+      "description": "Ask how long it has been since something started or happened. Say what you need,",
+      "slug": null,
+      "episode": 46
+    },
+    {
+      "id": 904,
+      "korean": "아직 ~는 중이에요",
+      "english": "아직 ~",
+      "description": "Say you're still in the middle of doing something. It works in casual and polite",
+      "slug": null,
+      "episode": 46
+    },
+    {
+      "id": 905,
+      "korean": "거의 다 됐어요",
+      "english": "It's almost done.",
+      "description": "Tell someone you're almost finished with what you're doing. Say what you need, t",
+      "slug": null,
+      "episode": 46
+    },
+    {
+      "id": 906,
+      "korean": "~스타일 좋아해요?",
+      "english": "What music style do you ~?",
+      "description": "Ask someone about their preferences in style or taste. Say what you need, then a",
+      "slug": null,
+      "episode": 47
+    },
+    {
+      "id": 907,
+      "korean": "~잘 어울려요",
+      "english": "That outfit suits you really ~!",
+      "description": "Compliment someone by saying something suits them really well. Say what you need",
+      "slug": null,
+      "episode": 47
+    },
+    {
+      "id": 908,
+      "korean": "요즘 유행이에요",
+      "english": "It's trendy these days.",
+      "description": "Tell someone something is currently on trend. Say what you need, then add 요즘 유행이",
+      "slug": null,
+      "episode": 47
+    },
+    {
+      "id": 909,
+      "korean": "배달 얼마나 걸려요?",
+      "english": "How long does delivery take?",
+      "description": "Ask how long a delivery will take to arrive. It works in casual and polite speec",
+      "slug": null,
+      "episode": 48
+    },
+    {
+      "id": 910,
+      "korean": "가성비 좋아요",
+      "english": "This restaurant is great value.",
+      "description": "Say something offers great value for the price paid. Say what you need, then add",
+      "slug": null,
+      "episode": 48
+    },
+    {
+      "id": 911,
+      "korean": "여행 계획 있어요?",
+      "english": "Do you have any travel plans?",
+      "description": "Ask if someone has any upcoming travel plans. Say what you need, then add 여행 계획",
+      "slug": null,
+      "episode": 49
+    },
+    {
+      "id": 912,
+      "korean": "며칠이나 있을 거예요?",
+      "english": "How many days will you stay?",
+      "description": "Ask how many days someone plans to stay somewhere. Just place a noun before 며칠이나",
+      "slug": null,
+      "episode": 49
+    },
+    {
+      "id": 914,
+      "korean": "한국 생활 어때?",
+      "english": "How's life in Korea?",
+      "description": "Ask a friend casually how they're finding life in Korea. It works in casual and",
+      "slug": null,
+      "episode": 50
+    },
+    {
+      "id": 915,
+      "korean": "이제 익숙해졌어",
+      "english": "I'm used to it now.",
+      "description": "Tell a friend you've gotten used to something now. Say what you need, then add 이",
+      "slug": null,
+      "episode": 50
+    },
+    {
+      "id": 918,
+      "korean": "~려고 해요",
+      "english": "I'm planning to take a Korean exam next ~",
+      "description": "Say you intend or are planning to do something soon. Say what you need, then add",
+      "slug": null,
+      "episode": 51
+    },
+    {
+      "id": 919,
+      "korean": "~고 싶어요",
+      "english": "I want to ~",
+      "description": "Express what you want or wish to do right now. Say what you need, then add 고 싶어요",
+      "slug": null,
+      "episode": 51
+    },
+    {
+      "id": 920,
+      "korean": "~기로 했어요",
+      "english": "I've decided to live in ~",
+      "description": "Share a decision you've made with someone. Say what you need, then add 기로 했어요 at",
+      "slug": null,
+      "episode": 52
+    },
+    {
+      "id": 921,
+      "korean": "마음먹었어요",
+      "english": "I've made up my mind.",
+      "description": "Say you've firmly made up your mind about something. Say what you need, then add",
+      "slug": null,
+      "episode": 52
+    },
+    {
+      "id": 922,
+      "korean": "예전보다 늘었어요",
+      "english": "I've improved compared to before.",
+      "description": "Say a skill or ability has improved compared to before. Say what you need, then",
+      "slug": null,
+      "episode": 52
+    },
+    {
+      "id": 924,
+      "korean": "~보니까",
+      "english": "Now that I've studied Korean, it's more fun than I ~",
+      "description": "Share a realization or finding after trying or doing something. Say what you nee",
+      "slug": null,
+      "episode": 53
+    },
+    {
+      "id": 925,
+      "korean": "~추천해줬어",
+      "english": "My friend recommended this restaurant. They say it's ~",
+      "description": "Tell someone who recommended something to you. Say what you need, then add 추천해줬어",
+      "slug": null,
+      "episode": 53
+    },
+    {
+      "id": 927,
+      "korean": "~맞아?",
+      "english": "This is Hongdae station, ~?",
+      "description": "Casually check if your understanding or information is correct. Say what you nee",
+      "slug": null,
+      "episode": 54
+    },
+    {
+      "id": 929,
+      "korean": "~만들어봤어?",
+      "english": "Have you ever tried making kimchi? Is it ~?",
+      "description": "Ask a friend if they've ever tried making something themselves. Just place a nou",
+      "slug": null,
+      "episode": 55
+    },
+    {
+      "id": 930,
+      "korean": "~얼마나 넣어?",
+      "english": "How much sugar do you add? I think it'll be too ~",
+      "description": "Ask how much of an ingredient to add when cooking. Just place a noun before 얼마나",
+      "slug": null,
+      "episode": 55
+    },
+    {
+      "id": 931,
+      "korean": "~하면 돼",
+      "english": "Just press this button. It's ~",
+      "description": "Tell a friend casually that they just need to do one thing. It works in casual a",
+      "slug": null,
+      "episode": 55
+    },
+    {
+      "id": 932,
+      "korean": "~살 거예요",
+      "english": "I'm going to buy new sneakers ~",
+      "description": "Tell someone what you're planning to buy. Say what you need, then add 살 거예요 at t",
+      "slug": null,
+      "episode": 56
+    },
+    {
+      "id": 933,
+      "korean": "이거 어때요?",
+      "english": "How about this one?",
+      "description": "Ask for someone's honest opinion on a specific item. It works in casual and poli",
+      "slug": null,
+      "episode": 56
+    },
+    {
+      "id": 934,
+      "korean": "카드로 할게요",
+      "english": "I'll pay by card.",
+      "description": "Tell a cashier or server you'll be paying by card. It works in casual and polite",
+      "slug": null,
+      "episode": 56
+    },
+    {
+      "id": 937,
+      "korean": "~받고 싶어요",
+      "english": "I want to receive flowers for my ~",
+      "description": "Express something you'd like to receive as a gift or gesture. Say what you need,",
+      "slug": null,
+      "episode": 58
+    },
+    {
+      "id": 938,
+      "korean": "어디가 아파요?",
+      "english": "Where does it hurt?",
+      "description": "Ask a patient or friend where they're feeling pain. It works in casual and polit",
+      "slug": null,
+      "episode": 58
+    },
+    {
+      "id": 939,
+      "korean": "언제부터 아팠어요?",
+      "english": "Since when has it been hurting?",
+      "description": "Ask when someone's pain or illness first started. It works in casual and polite",
+      "slug": null,
+      "episode": 58
+    },
+    {
+      "id": 940,
+      "korean": "~와 봤어요?",
+      "english": "Have you been to Jeju Island ~?",
+      "description": "Ask politely if someone has visited a particular place before. Just place a noun",
+      "slug": null,
+      "episode": 59
+    },
+    {
+      "id": 941,
+      "korean": "~하기 좋아요",
+      "english": "This place is great for taking ~",
+      "description": "Say a place or season is great for doing a particular thing. It works in casual",
+      "slug": null,
+      "episode": 59
+    },
+    {
+      "id": 942,
+      "korean": "~중에 뭐가 제일 좋아요?",
+      "english": "What's your favorite among Korean ~?",
+      "description": "Ask someone to pick their favorite from a set of options. Say what you need, the",
+      "slug": null,
+      "episode": 60
+    },
+    {
+      "id": 943,
+      "korean": "~라서 중독성 있어요",
+      "english": "This song is addictive because the melody is so ~",
+      "description": "Explain exactly why something is so addictive or hard to stop. It works in casua",
+      "slug": null,
+      "episode": 60
+    },
+    {
+      "id": 944,
+      "korean": "~이랑 달라요",
+      "english": "It's different from my country. So ~",
+      "description": "Point out how something differs from something else. Say what you need, then add",
+      "slug": null,
+      "episode": 60
+    },
+    {
+      "id": 947,
+      "korean": "은근히 ~해",
+      "english": "은근히 ~",
+      "description": "Say something has a quality in a subtle or surprisingly strong way. It works in",
+      "slug": null,
+      "episode": 83
+    },
+    {
+      "id": 948,
+      "korean": "~때문에 바빠요",
+      "english": "I'm busy because of exams. I'll contact you ~",
+      "description": "Explain what is keeping you busy right now. Just place a noun before 때문에 바빠요 — n",
+      "slug": null,
+      "episode": 62
+    },
+    {
+      "id": 949,
+      "korean": "무리하지 마세요",
+      "english": "Don't push yourself too hard.",
+      "description": "Advise someone not to push themselves too hard. Say what you need, then add 무리하지",
+      "slug": null,
+      "episode": 62
+    },
+    {
+      "id": 950,
+      "korean": "~많이 해?",
+      "english": "Do you exercise a lot? You look ~",
+      "description": "Ask casually if someone does something frequently or a lot. Just place a noun be",
+      "slug": null,
+      "episode": 63
+    },
+    {
+      "id": 951,
+      "korean": "~유행이야?",
+      "english": "Is this style trendy these ~?",
+      "description": "Ask if something is currently trendy or popular. Say what you need, then add 유행이",
+      "slug": null,
+      "episode": 63
+    },
+    {
+      "id": 952,
+      "korean": "~올렸더니",
+      "english": "After I posted the photo, I got a lot of ~",
+      "description": "Share what happened after you posted or uploaded something online. Just place a",
+      "slug": null,
+      "episode": 63
+    },
+    {
+      "id": 953,
+      "korean": "~도전해요",
+      "english": "I'm going to take on cooking this ~",
+      "description": "Announce you're taking on a new challenge or trying something for the first time",
+      "slug": null,
+      "episode": 64
+    },
+    {
+      "id": 954,
+      "korean": "재료가 있어요?",
+      "english": "Do you have the ingredients?",
+      "description": "Check if the necessary ingredients are available. Say what you need, then add 재료",
+      "slug": null,
+      "episode": 64
+    },
+    {
+      "id": 955,
+      "korean": "다음엔 더 잘할 거예요",
+      "english": "I'll do better next time.",
+      "description": "Encourage yourself or someone else that next time will be better. Say what you n",
+      "slug": null,
+      "episode": 64
+    },
+    {
+      "id": 956,
+      "korean": "~루틴 있어요?",
+      "english": "Do you have a morning routine? How do you start your ~?",
+      "description": "Ask if someone has a regular habit or routine for something. Just place a noun b",
+      "slug": null,
+      "episode": 65
+    },
+    {
+      "id": 957,
+      "korean": "~하고 나서",
+      "english": "Let's take a walk after ~",
+      "description": "Say what you plan to do or did after completing an action. It works in casual an",
+      "slug": null,
+      "episode": 65
+    },
+    {
+      "id": 958,
+      "korean": "꼭 ~해야 해요",
+      "english": "꼭 ~",
+      "description": "Insist that something absolutely must be done. It works in casual and polite spe",
+      "slug": null,
+      "episode": 65
+    },
+    {
+      "id": 959,
+      "korean": "많이 늘었어요",
+      "english": "You've improved a lot.",
+      "description": "Compliment someone by saying their skill has improved a lot. Just place a noun b",
+      "slug": null,
+      "episode": 66
+    },
+    {
+      "id": 960,
+      "korean": "비결이 뭐예요?",
+      "english": "What's your secret?",
+      "description": "Ask what someone's secret or key to success is. Say what you need, then add 비결이",
+      "slug": null,
+      "episode": 66
+    },
+    {
+      "id": 961,
+      "korean": "~이 헷갈려요",
+      "english": "Formal and informal speech are still confusing to ~",
+      "description": "Say that something is confusing or hard to tell apart. It works in casual and po",
+      "slug": null,
+      "episode": 66
+    },
+    {
+      "id": 965,
+      "korean": "서운했어요",
+      "english": "I felt hurt.",
+      "description": "Share that you felt hurt or let down because of someone's actions. Say what you",
+      "slug": null,
+      "episode": 68
+    },
+    {
+      "id": 966,
+      "korean": "마음은 알아요",
+      "english": "I understand how you feel.",
+      "description": "Acknowledge politely that you understand someone's feelings or intentions. It wo",
+      "slug": null,
+      "episode": 94
+    },
+    {
+      "id": 967,
+      "korean": "말하고 나니까 후련해요",
+      "english": "I feel relieved now that I've said it.",
+      "description": "Express relief after finally saying something that was on your mind. It works in",
+      "slug": null,
+      "episode": 93
+    },
+    {
+      "id": 968,
+      "korean": "꿈이 뭐예요?",
+      "english": "What's your dream?",
+      "description": "Ask someone what their dream or aspiration in life is. It works in casual and po",
+      "slug": null,
+      "episode": 69
+    },
+    {
+      "id": 969,
+      "korean": "~가 되고 싶어요",
+      "english": "I want to become a Korean ~",
+      "description": "Say what profession or role you want to become in the future. It works in casual",
+      "slug": null,
+      "episode": 69
+    },
+    {
+      "id": 970,
+      "korean": "포기하고 싶어요",
+      "english": "I want to give up.",
+      "description": "Confess that you feel like giving up on something difficult. Say what you need,",
+      "slug": null,
+      "episode": 69
+    },
+    {
+      "id": 974,
+      "korean": "말로 표현하기 어려워요",
+      "english": "It's hard to put into words.",
+      "description": "Say that feelings or ideas are hard to put into words. Say what you need, then a",
+      "slug": null,
+      "episode": 96
+    },
+    {
+      "id": 975,
+      "korean": "이 느낌 알아요?",
+      "english": "Do you know this feeling?",
+      "description": "Ask if someone relates to or understands a specific feeling you have. Say what y",
+      "slug": null,
+      "episode": 96
+    },
+    {
+      "id": 976,
+      "korean": "왠지 모르게 ~해요",
+      "english": "왠지 모르게 ~",
+      "description": "Describe a feeling you have for no clear or explainable reason. It works in casu",
+      "slug": null,
+      "episode": 96
+    },
+    {
+      "id": 977,
+      "korean": "딱 이 느낌이에요",
+      "english": "This is exactly the feeling.",
+      "description": "Say something perfectly matches an exact feeling or expectation. Say what you ne",
+      "slug": null,
+      "episode": 71
+    },
+    {
+      "id": 981,
+      "korean": "합격했어요",
+      "english": "I passed.",
+      "description": "Announce that you or someone passed an exam or was accepted somewhere. Just plac",
+      "slug": null,
+      "episode": 73
+    },
+    {
+      "id": 982,
+      "korean": "드디어 해냈어요",
+      "english": "I finally did it.",
+      "description": "Celebrate finally accomplishing something after a long effort. It works in casua",
+      "slug": null,
+      "episode": 73
+    },
+    {
+      "id": 984,
+      "korean": "~먹어봐",
+      "english": "Try this. It's really ~",
+      "description": "Recommend trying a particular food to a friend. Say what you need, then add 먹어봐",
+      "slug": null,
+      "episode": 74
+    },
+    {
+      "id": 985,
+      "korean": "생각보다 훨씬 ~해",
+      "english": "생각보다 훨씬 ~",
+      "description": "Say something is far more or less than you expected. It works in casual and poli",
+      "slug": null,
+      "episode": 74
+    },
+    {
+      "id": 986,
+      "korean": "중독성 있어",
+      "english": "It's addictive.",
+      "description": "Tell a friend something is so addictive you can't stop enjoying it. Say what you",
+      "slug": null,
+      "episode": 74
+    },
+    {
+      "id": 987,
+      "korean": "행복해요",
+      "english": "I'm happy.",
+      "description": "Simply express that you feel genuinely happy in the present moment. Say what you",
+      "slug": null,
+      "episode": 75
+    },
+    {
+      "id": 988,
+      "korean": "~하는 게 좋아요",
+      "english": "I like listening to ~",
+      "description": "Express that you enjoy a particular activity or type of thing. It works in casua",
+      "slug": null,
+      "episode": 75
+    },
+    {
+      "id": 989,
+      "korean": "이런 일상이 소중해요",
+      "english": "These ordinary days are precious.",
+      "description": "Say that ordinary everyday moments feel precious and meaningful. Say what you ne",
+      "slug": null,
+      "episode": 75
+    },
+    {
+      "id": 992,
+      "korean": "다 같이 모이니까 좋아요",
+      "english": "It's great having everyone together.",
+      "description": "Express happiness about getting together as a group. Just place a noun before 다",
+      "slug": null,
+      "episode": 77
+    },
+    {
+      "id": 993,
+      "korean": "처음 만났을 때",
+      "english": "when we first met",
+      "description": "Recall or refer to the time when you first met someone. It works in casual and p",
+      "slug": null,
+      "episode": 77
+    },
+    {
+      "id": 994,
+      "korean": "여러분 덕분이에요",
+      "english": "It's all thanks to you.",
+      "description": "Credit everyone around you for your success or happiness. Say what you need, the",
+      "slug": null,
+      "episode": 77
+    },
+    {
+      "id": 995,
+      "korean": "앞으로도 잘 부탁해요",
+      "english": "Please keep looking out for me.",
+      "description": "Ask politely for continued goodwill and support going forward. It works in casua",
+      "slug": null,
+      "episode": 99
+    },
+    {
+      "id": 996,
+      "korean": "얼마나 있을 거예요?",
+      "english": "How long will you stay?",
+      "description": "Ask how long someone plans to stay at a place. Just place a noun before 얼마나 있을 거",
+      "slug": null,
+      "episode": 78
+    },
+    {
+      "id": 998,
+      "korean": "줄 서야 해요",
+      "english": "You have to wait in line.",
+      "description": "Warn that you have to wait in line at a popular place. Just place a noun before",
+      "slug": null,
+      "episode": 79
+    },
+    {
+      "id": 1007,
+      "korean": "~게 됐어요",
+      "english": "I ended up living in ~",
+      "description": "Describe naturally how something came to happen or change. Say what you need, th",
+      "slug": null,
+      "episode": 82
+    },
+    {
+      "id": 1008,
+      "korean": "~다 보니까",
+      "english": "As I kept practicing every day, my skills ~",
+      "description": "Describe a gradual result that came from repeatedly doing something. Say what yo",
+      "slug": null,
+      "episode": 82
+    },
+    {
+      "id": 1009,
+      "korean": "~하다 보면",
+      "english": "If you keep practicing, you'll get ~",
+      "description": "Encourage that natural improvement comes with continued effort. Say what you nee",
+      "slug": null,
+      "episode": 82
+    },
+    {
+      "id": 1010,
+      "korean": "~한 것치고는",
+      "english": "For a first attempt, you did really ~",
+      "description": "Say someone does surprisingly well given their circumstances. Just place a noun",
+      "slug": null,
+      "episode": 83
+    },
+    {
+      "id": 1011,
+      "korean": "아무리 그래도",
+      "english": "Even so, ~",
+      "description": "Say that even so, certain limits or principles still apply. It works in casual a",
+      "slug": null,
+      "episode": 83
+    },
+    {
+      "id": 1012,
+      "korean": "잘 모르겠는데요",
+      "english": "I'm not really sure.",
+      "description": "Politely say you're not really sure about something. Say what you need, then add",
+      "slug": null,
+      "episode": 84
+    },
+    {
+      "id": 1013,
+      "korean": "좀 더 생각해 봐야겠어요",
+      "english": "I can't decide right now.",
+      "description": "Say you need more time to think something through before deciding. Say what you",
+      "slug": null,
+      "episode": 84
+    },
+    {
+      "id": 1014,
+      "korean": "일단은 ~해요",
+      "english": "일단은 ~",
+      "description": "Suggest doing something as a first step for now. It works in casual and polite s",
+      "slug": null,
+      "episode": 84
+    },
+    {
+      "id": 1015,
+      "korean": "눈치챘어요?",
+      "english": "Did you notice?",
+      "description": "Ask if someone noticed or picked up on something subtle. Say what you need, then",
+      "slug": null,
+      "episode": 85
+    },
+    {
+      "id": 1016,
+      "korean": "감이 잡혀요",
+      "english": "I'm getting the hang of it.",
+      "description": "Say you're starting to get the feel or hang of something. Say what you need, the",
+      "slug": null,
+      "episode": 85
+    },
+    {
+      "id": 1017,
+      "korean": "딱 봐도 알겠어요",
+      "english": "I can tell just by looking.",
+      "description": "Say something is obvious just from looking at it. It works in casual and polite",
+      "slug": null,
+      "episode": 85
+    },
+    {
+      "id": 1020,
+      "korean": "부담스러워요",
+      "english": "It feels like a burden.",
+      "description": "Express feeling pressured or overwhelmed by expectations or a situation. Say wha",
+      "slug": null,
+      "episode": 87
+    },
+    {
+      "id": 1021,
+      "korean": "솔직하게 말해도 돼요?",
+      "english": "Can I be honest?",
+      "description": "Politely ask permission before giving an honest or direct opinion. It works in c",
+      "slug": null,
+      "episode": 61
+    },
+    {
+      "id": 1022,
+      "korean": "이제 많이 편해졌어요",
+      "english": "I've gotten much more comfortable now.",
+      "description": "Say you have become much more comfortable in a situation. Say what you need, the",
+      "slug": null,
+      "episode": 87
+    },
+    {
+      "id": 1023,
+      "korean": "외국인 티 나요?",
+      "english": "Can you tell I'm a foreigner?",
+      "description": "Ask honestly whether you come across as a foreigner. Say what you need, then add",
+      "slug": null,
+      "episode": 88
+    },
+    {
+      "id": 1024,
+      "korean": "이제 한국말이 편해요",
+      "english": "Korean feels comfortable now.",
+      "description": "Say that Korean now feels comfortable and natural to use. Say what you need, the",
+      "slug": null,
+      "episode": 88
+    },
+    {
+      "id": 1025,
+      "korean": "한국어로 꿈도 꿔요",
+      "english": "I even dream in Korean.",
+      "description": "Show deep fluency by mentioning you even dream in Korean now. Just place a noun",
+      "slug": null,
+      "episode": 88
+    },
+    {
+      "id": 1026,
+      "korean": "관광지보다 로컬이 좋아",
+      "english": "I prefer local spots to tourist spots.",
+      "description": "Say you prefer local hidden spots over typical tourist attractions. Just place a",
+      "slug": null,
+      "episode": 89
+    },
+    {
+      "id": 1027,
+      "korean": "현지인들이 가는 곳이야",
+      "english": "It's a place locals go.",
+      "description": "Describe a place as somewhere locals actually go, not a tourist trap. Just place",
+      "slug": null,
+      "episode": 89
+    },
+    {
+      "id": 1028,
+      "korean": "숨겨진 명소야",
+      "english": "It's a hidden gem.",
+      "description": "Call out a lesser-known but wonderful hidden gem of a place. Just place a noun b",
+      "slug": null,
+      "episode": 89
+    },
+    {
+      "id": 1029,
+      "korean": "요즘 핫해요",
+      "english": "It's hot right now.",
+      "description": "Tell someone something is very popular and trending right now. Say what you need",
+      "slug": null,
+      "episode": 90
+    },
+    {
+      "id": 1030,
+      "korean": "완전 대세예요",
+      "english": "It's totally the trend.",
+      "description": "Say something is totally dominating as the current mainstream trend. Say what yo",
+      "slug": null,
+      "episode": 90
+    },
+    {
+      "id": 1031,
+      "korean": "떠오르는 중이에요",
+      "english": "It's on the rise.",
+      "description": "Say something or someone is currently rising in popularity. Say what you need, t",
+      "slug": null,
+      "episode": 90
+    },
+    {
+      "id": 1034,
+      "korean": "말이 되네요",
+      "english": "That makes sense.",
+      "description": "Say an explanation or argument makes sense to you. Say what you need, then add 말",
+      "slug": null,
+      "episode": 92
+    },
+    {
+      "id": 1035,
+      "korean": "앞뒤가 안 맞아요",
+      "english": "It doesn't add up.",
+      "description": "Point out that something is inconsistent or doesn't add up. Just place a noun be",
+      "slug": null,
+      "episode": 92
+    },
+    {
+      "id": 1036,
+      "korean": "결국엔 ~",
+      "english": "In the end, ~",
+      "description": "State what happened or what will happen in the end. It works in casual and polit",
+      "slug": null,
+      "episode": 92
+    },
+    {
+      "id": 1037,
+      "korean": "속상했어요",
+      "english": "I was upset.",
+      "description": "Share that something hurt your feelings or made you feel upset. Say what you nee",
+      "slug": null,
+      "episode": 93
+    },
+    {
+      "id": 1038,
+      "korean": "억울했어요",
+      "english": "It felt unfair.",
+      "description": "Express feeling wrongly blamed or treated unfairly. Say what you need, then add",
+      "slug": null,
+      "episode": 93
+    },
+    {
+      "id": 1042,
+      "korean": "반전 있어요",
+      "english": "This movie has a twist.",
+      "description": "Tease that a story or situation has a surprising twist ending. Say what you need",
+      "slug": null,
+      "episode": 95
+    },
+    {
+      "id": 1043,
+      "korean": "여운이 남아요",
+      "english": "The feeling lingers.",
+      "description": "Say something leaves a lingering impression long after it ends. Say what you nee",
+      "slug": null,
+      "episode": 95
+    },
+    {
+      "id": 1044,
+      "korean": "몰입이 돼요",
+      "english": "I get completely absorbed.",
+      "description": "Say you get totally absorbed and lost in something you're doing. Say what you ne",
+      "slug": null,
+      "episode": 95
+    },
+    {
+      "id": 1046,
+      "korean": "떠나기 싫어",
+      "english": "I don't want to leave.",
+      "description": "Express not wanting to leave a place or moment you love. Say what you need, then",
+      "slug": null,
+      "episode": 97
+    },
+    {
+      "id": 1047,
+      "korean": "~이 그리울 것 같아",
+      "english": "I think I'll miss Korean ~",
+      "description": "Anticipate missing something or someone after you leave. Say what you need, then",
+      "slug": null,
+      "episode": 97
+    },
+    {
+      "id": 1048,
+      "korean": "꼭 다시 올게",
+      "english": "I'll definitely come back.",
+      "description": "Make a firm promise to definitely come back to a place. Say what you need, then",
+      "slug": null,
+      "episode": 97
+    },
+    {
+      "id": 1049,
+      "korean": "이제 한국어로 생각해요",
+      "english": "I think in Korean now.",
+      "description": "Mark a fluency milestone: thinking directly in Korean without translating. Just",
+      "slug": null,
+      "episode": 98
+    },
+    {
+      "id": 1050,
+      "korean": "번역 안 해도 이해돼요",
+      "english": "I understand without translating.",
+      "description": "Say you now understand Korean directly without needing to translate. Just place",
+      "slug": null,
+      "episode": 98
+    },
+    {
+      "id": 1051,
+      "korean": "실력이 많이 늘었어요",
+      "english": "My skills have improved a lot.",
+      "description": "Note that someone's ability or skill has grown significantly. Just place a noun",
+      "slug": null,
+      "episode": 98
+    },
+    {
+      "id": 1052,
+      "korean": "같이 성장한 것 같아요",
+      "english": "I think we grew together.",
+      "description": "Reflect that both of you have grown and improved through a shared journey. Say w",
+      "slug": null,
+      "episode": 99
+    },
+    {
+      "id": 1053,
+      "korean": "덕분에 정말 많이 배웠어요",
+      "english": "I learned so much thanks to you.",
+      "description": "Credit someone for helping you learn or grow a lot. Just place a noun before 덕분에",
+      "slug": null,
+      "episode": 99
+    },
+    {
+      "id": 1301,
+      "korean": "-거나",
+      "english": "or (with verbs)",
+      "description": "Used to list two or more actions or states when either one is possible.\n\nRule: Attach -거나 to a verb or adjective stem (먹거나, 좋거나). For nouns, use (이)나 instead — 커피나 차 (coffee or tea) after a vowel, 물이나 주스 (water or juice) after a consonant.",
+      "slug": null,
+      "episode": 8
+    },
+    {
+      "id": 1302,
+      "korean": "-거든",
+      "english": "because, you see",
+      "description": "Used to add a reason after your main point, as a soft explanation the listener didn't know.",
+      "slug": null,
+      "episode": 31
+    },
+    {
+      "id": 1303,
+      "korean": "-게 되다",
+      "english": "end up ~ing; come to",
+      "description": "Used when a situation changes by circumstance rather than by your own decision.",
+      "slug": null,
+      "episode": 80
+    },
+    {
+      "id": 1304,
+      "korean": "-겠-",
+      "english": "will; must be; looks like",
+      "description": "Used for a guess you make on the spot, or to state your intention politely.",
+      "slug": null,
+      "episode": 16
+    },
+    {
+      "id": 1305,
+      "korean": "-고 말다",
+      "english": "end up ~ing (regrettably)",
+      "description": "Used when something finally happens, usually with regret, or to show firm determination.\n\nRule: Attach -고 말다 to an action verb only. It normally appears in the past tense (울고 말았어요). The regret meaning is far more common than the determination meaning.",
+      "slug": null,
+      "episode": 52
+    },
+    {
+      "id": 1306,
+      "korean": "-고서",
+      "english": "after doing",
+      "description": "Used to show that the first action was completed before the second one began.\n\nRule: Both clauses must have the same subject. Never add a tense marker before -고서 — say 먹고서, not 먹었고서.",
+      "slug": null,
+      "episode": 72
+    },
+    {
+      "id": 1307,
+      "korean": "-기 위해",
+      "english": "in order to",
+      "description": "Used to state the purpose or goal of an action.",
+      "slug": null,
+      "episode": 78
+    },
+    {
+      "id": 1308,
+      "korean": "-기로 하다",
+      "english": "decide to",
+      "description": "Used to say you have decided on something, or to make an agreement with others.",
+      "slug": null,
+      "episode": 51
+    },
+    {
+      "id": 1309,
+      "korean": "-기에",
+      "english": "since; because",
+      "description": "Used to give a reason based on something you observed or judged.",
+      "slug": null,
+      "episode": 73
+    },
+    {
+      "id": 1310,
+      "korean": "-나 보다",
+      "english": "seem to; must be",
+      "description": "Used to guess about something based on evidence you can see or hear.\n\nRule: Verbs take -나 보다 (비가 오나 봐요). Adjectives take -은가/-ㄴ가 보다 instead — 좋은가 봐요 (consonant), 바쁜가 봐요 (vowel). Nouns take -인가 보다.",
+      "slug": null,
+      "episode": 79
+    },
+    {
+      "id": 1311,
+      "korean": "-나 싶다",
+      "english": "wonder if; think maybe",
+      "description": "Used to express a tentative thought or mild doubt about something.",
+      "slug": null,
+      "episode": 22
+    },
+    {
+      "id": 1312,
+      "korean": "-느라고",
+      "english": "because I was busy ~ing",
+      "description": "Used when something you were doing prevented you from doing something else.\n\nRule: Both clauses must have the same subject, and the result is always negative. Use it with action verbs only, and never with a command or suggestion.",
+      "slug": null,
+      "episode": 32
+    },
+    {
+      "id": 1313,
+      "korean": "-는 것 같기도",
+      "english": "kind of seems like",
+      "description": "Used to soften an opinion when you are not fully sure.\n\nRule: Verbs take -는 것 같기도 (가는 것 같기도 해요). Adjectives take -은/-ㄴ 것 같기도 (좋은 것 같기도, 바쁜 것 같기도). For the past, use -은 것 같기도.",
+      "slug": null,
+      "episode": 91
+    },
+    {
+      "id": 1314,
+      "korean": "-는 게 아니라",
+      "english": "it's not that ~, but",
+      "description": "Used to correct a misunderstanding and give the real reason.",
+      "slug": null,
+      "episode": 61
+    },
+    {
+      "id": 1315,
+      "korean": "-는 김에",
+      "english": "while I'm at it",
+      "description": "Used to add a second action you can do conveniently while doing the first.\n\nRule: The first action is the main reason you are there; the second is the extra one. Verbs take -는 김에 for something you are doing now, and -은/-ㄴ 김에 for something already done (온 김에).",
+      "slug": null,
+      "episode": 79
+    },
+    {
+      "id": 1316,
+      "korean": "-는 대로",
+      "english": "as soon as; just as",
+      "description": "Used to say something will happen right after another thing, or to do exactly as told.",
+      "slug": null,
+      "episode": 26
+    },
+    {
+      "id": 1317,
+      "korean": "-는 대신에",
+      "english": "instead of; in return",
+      "description": "Used to replace one thing with another, or to offer something in exchange.",
+      "slug": null,
+      "episode": 60
+    },
+    {
+      "id": 1318,
+      "korean": "-는 바람에",
+      "english": "because of (something unexpected)",
+      "description": "Used when an unexpected event caused a bad or unintended result.\n\nRule: The result is always negative and always in the past. Never add a tense marker before it — say 늦는 바람에, not 늦었는 바람에. Do not use it with commands or suggestions.",
+      "slug": null,
+      "episode": 43
+    },
+    {
+      "id": 1319,
+      "korean": "-는 줄 알았다",
+      "english": "thought that ~ (but was wrong)",
+      "description": "Used when you believed something that turned out not to be true.\n\nRule: Verbs take -는 줄 알았다 (오는 줄 알았어요). Adjectives take -은/-ㄴ 줄 알았다 (좋은 줄 알았어요). Nouns take -인 줄 알았다.",
+      "slug": null,
+      "episode": 68
+    },
+    {
+      "id": 1320,
+      "korean": "-는 편이다",
+      "english": "tend to be; rather",
+      "description": "Used to describe a general tendency without stating it too strongly.\n\nRule: Verbs take -는 편이다 (자주 먹는 편이에요). Adjectives take -은/-ㄴ 편이다 — 좋은 편이에요 (consonant), 바쁜 편이에요 (vowel).",
+      "slug": null,
+      "episode": 83
+    },
+    {
+      "id": 1321,
+      "korean": "-는다고",
+      "english": "says that",
+      "description": "Used to report what someone else said or what you heard.\n\nRule: The ending changes with the word type. Verbs ending in a consonant take -는다고 (먹는다고), verbs ending in a vowel take -ㄴ다고 (간다고), adjectives take -다고 (좋다고), and nouns take -(이)라고 (학생이라고).",
+      "slug": null,
+      "episode": 24
+    },
+    {
+      "id": 1322,
+      "korean": "-는다면서?",
+      "english": "I heard that ~, right?",
+      "description": "Used to check something you heard about the listener.\n\nRule: Same form changes as -는다고. Verbs take -는다면서/-ㄴ다면서 (먹는다면서, 간다면서), adjectives take -다면서 (좋다면서), nouns take -(이)라면서. This is casual speech — use -는다면서요? with people you are not close to.",
+      "slug": null,
+      "episode": 81
+    },
+    {
+      "id": 1323,
+      "korean": "-는지",
+      "english": "whether; what/how",
+      "description": "Used to put a question inside a larger sentence.\n\nRule: Verbs take -는지 (뭐 먹는지 몰라요). Adjectives take -은/-ㄴ지 (좋은지, 바쁜지). For the past, use -았/었는지.",
+      "slug": null,
+      "episode": 54
+    },
+    {
+      "id": 1324,
+      "korean": "-니?",
+      "english": "casual question ending",
+      "description": "Used to ask a question in a warm, casual way, often to someone younger or close to you.\n\nRule: This is 반말. Use it only with close friends, younger people, or family. With anyone else, use -아요/어요? instead.",
+      "slug": null,
+      "episode": 21
+    },
+    {
+      "id": 1325,
+      "korean": "-다시피",
+      "english": "as you know; as you can see",
+      "description": "Used when the listener already knows or can see what you are saying.",
+      "slug": null,
+      "episode": 35
+    },
+    {
+      "id": 1326,
+      "korean": "-더군",
+      "english": "I noticed that",
+      "description": "Used to report something you personally observed and found notable.\n\nRule: This is 반말 and sounds slightly bookish. In everyday speech -더라 is more natural, and -더군요 is the polite form. You cannot use it about your own feelings or actions.",
+      "slug": null,
+      "episode": 81
+    },
+    {
+      "id": 1327,
+      "korean": "-더라",
+      "english": "I saw; it was",
+      "description": "Used to tell a friend about something you experienced yourself.\n\nRule: This is 반말; the polite form is -더라고요. You must have witnessed it yourself, and you cannot use it to describe your own feelings — say 좋더라 about a place, not about yourself.",
+      "slug": null,
+      "episode": 53
+    },
+    {
+      "id": 1328,
+      "korean": "-더라도",
+      "english": "even if",
+      "description": "Used to suppose something that has not happened yet, and say it won't change the result.",
+      "slug": null,
+      "episode": 42
+    },
+    {
+      "id": 1329,
+      "korean": "-던",
+      "english": "used to; that I was ~ing",
+      "description": "Used to describe something you did repeatedly in the past or left unfinished.\n\nRule: Attach -던 to any verb or adjective stem (가던 길, 읽던 책). Use -던 for something repeated or unfinished, and -았/었던 for a single completed event (갔던 곳).",
+      "slug": null,
+      "episode": 87
+    },
+    {
+      "id": 1330,
+      "korean": "-던데",
+      "english": "I noticed, so...",
+      "description": "Used to mention something you saw and leave the response to the listener.\n\nRule: You must have witnessed it yourself, so it cannot describe your own feelings. The polite form is -던데요. For the past, use -았/었던데.",
+      "slug": null,
+      "episode": 53
+    },
+    {
+      "id": 1331,
+      "korean": "-도록",
+      "english": "so that; to the point of",
+      "description": "Used to state a purpose, or to show the extent something reaches.",
+      "slug": null,
+      "episode": 23
+    },
+    {
+      "id": 1332,
+      "korean": "-습니까?",
+      "english": "formal question ending",
+      "description": "Used to ask a question in formal settings such as service, announcements, or interviews.\n\nRule: After a stem ending in a consonant, use -습니까 (먹습니까?). After a stem ending in a vowel, use -ㅂ니까 (갑니까?). Stems ending in ㄹ drop the ㄹ (만들다 → 만듭니까?).",
+      "slug": null,
+      "episode": 57
+    },
+    {
+      "id": 1333,
+      "korean": "-습니다",
+      "english": "formal statement ending",
+      "description": "Used to make statements in formal settings such as introductions, presentations, or work.\n\nRule: After a stem ending in a consonant, use -습니다 (먹습니다). After a stem ending in a vowel, use -ㅂ니다 (갑니다). Stems ending in ㄹ drop the ㄹ (살다 → 삽니다).",
+      "slug": "seumnida",
+      "episode": 10
+    },
+    {
+      "id": 1334,
+      "korean": "-았/었-",
+      "english": "past tense",
+      "description": "Used to talk about something that already happened.\n\nRule: Use -았- after a stem with ㅏ or ㅗ (가다 → 갔어요, 좋다 → 좋았어요), and -었- after any other vowel (먹다 → 먹었어요). Verbs ending in 하다 become 했- (공부하다 → 공부했어요).",
+      "slug": "at-eot",
+      "episode": 21
+    },
+    {
+      "id": 1335,
+      "korean": "-어 가다",
+      "english": "gradually go on ~ing",
+      "description": "Used when something is gradually progressing toward a point in the future.\n\nRule: Choose -아 가다 after a stem with ㅏ or ㅗ (살아 가다), -어 가다 elsewhere (되어 가다), and 해 가다 for 하다 verbs. Compare with -어 오다, which looks from the past up to now.",
+      "slug": null,
+      "episode": 46
+    },
+    {
+      "id": 1336,
+      "korean": "-어 놓다",
+      "english": "do in advance and leave it",
+      "description": "Used when you finish something ahead of time and leave it in that state.\n\nRule: Choose -아 놓다 after a stem with ㅏ or ㅗ (닫아 놓다), -어 놓다 elsewhere (열어 놓다), and 해 놓다 for 하다 verbs. Action verbs only.",
+      "slug": null,
+      "episode": 48
+    },
+    {
+      "id": 1337,
+      "korean": "-어 두다",
+      "english": "keep it done for later",
+      "description": "Used when you do something now and keep the result for later use.\n\nRule: Choose -아 두다 after a stem with ㅏ or ㅗ (사 두다), -어 두다 elsewhere (넣어 두다), and 해 두다 for 하다 verbs. Very close to -어 놓다; -어 두다 stresses keeping it for later.",
+      "slug": null,
+      "episode": 33
+    },
+    {
+      "id": 1338,
+      "korean": "-어 드리다",
+      "english": "do for someone (humble)",
+      "description": "Used to offer to do something for a customer or someone older or senior.\n\nRule: This is the humble form of -어 주다. Choose -아 드리다 after a stem with ㅏ or ㅗ (닦아 드리다), -어 드리다 elsewhere (들어 드리다), and 해 드리다 for 하다 verbs. Never use it about what someone does for you.",
+      "slug": null,
+      "episode": 45
+    },
+    {
+      "id": 1339,
+      "korean": "-어 버리다",
+      "english": "end up completely ~ing",
+      "description": "Used when an action is finished off entirely, with relief or regret.\n\nRule: Choose -아 버리다 after a stem with ㅏ or ㅗ (팔아 버리다), -어 버리다 elsewhere (먹어 버리다), and 해 버리다 for 하다 verbs. Action verbs only.",
+      "slug": null,
+      "episode": 64
+    },
+    {
+      "id": 1340,
+      "korean": "-어 보다",
+      "english": "try ~ing",
+      "description": "Used to suggest trying something, or to say you have experienced it.\n\nRule: Choose -아 보다 after a stem with ㅏ or ㅗ (가 보다), -어 보다 elsewhere (먹어 보다), and 해 보다 for 하다 verbs. For past experience, use -아/어 봤어요.",
+      "slug": "eo-boda",
+      "episode": 25
+    },
+    {
+      "id": 1341,
+      "korean": "-어 오다",
+      "english": "have been ~ing (until now)",
+      "description": "Used for something you have continued doing from the past up to the present.\n\nRule: Choose -아 오다 after a stem with ㅏ or ㅗ (살아 오다), -어 오다 elsewhere (배워 오다), and 해 오다 for 하다 verbs. Compare with -어 가다, which looks toward the future.",
+      "slug": null,
+      "episode": 29
+    },
+    {
+      "id": 1342,
+      "korean": "-어 있다",
+      "english": "be in the state of",
+      "description": "Used to describe the state that remains after an action is finished.\n\nRule: Choose -아 있다 after a stem with ㅏ or ㅗ (앉아 있다), -어 있다 elsewhere (열려 있다). Use it with verbs that have no object — say 앉아 있어요, but 책을 읽고 있어요 for an ongoing action.",
+      "slug": null,
+      "episode": 39
+    },
+    {
+      "id": 1343,
+      "korean": "-어 주다",
+      "english": "do (as a favor) for someone",
+      "description": "Used when you do something for another person's benefit, or ask them to.\n\nRule: Choose -아 주다 after a stem with ㅏ or ㅗ (도와주다), -어 주다 elsewhere (만들어 주다), and 해 주다 for 하다 verbs. When the other person is older or a customer, use -어 드리다 instead.",
+      "slug": null,
+      "episode": 37
+    },
+    {
+      "id": 1344,
+      "korean": "-어서",
+      "english": "because; and then",
+      "description": "Used to give a reason, or to connect two actions in order.\n\nRule: Choose -아서 after a stem with ㅏ or ㅗ (가서, 좋아서), -어서 elsewhere (먹어서), and 해서 for 하다 verbs. Never add a tense marker before it, and never use it before a command or suggestion — use -으니까 for those.",
+      "slug": "eoseo",
+      "episode": 41
+    },
+    {
+      "id": 1345,
+      "korean": "-어야겠다",
+      "english": "I should; I'd better",
+      "description": "Used for a decision you have just made about what you need to do.\n\nRule: Choose -아야겠다 after a stem with ㅏ or ㅗ (가야겠다), -어야겠다 elsewhere (먹어야겠다), and 해야겠다 for 하다 verbs. The subject is almost always 'I'; the polite form is -아/어야겠어요.",
+      "slug": null,
+      "episode": 70
+    },
+    {
+      "id": 1346,
+      "korean": "-어지다",
+      "english": "become; get",
+      "description": "Used when a state gradually changes into another state.\n\nRule: Attach it to an adjective stem. Choose -아지다 after a stem with ㅏ or ㅗ (좋아지다), -어지다 elsewhere (예뻐지다), and 해지다 for 하다 adjectives (편해지다).",
+      "slug": null,
+      "episode": 50
+    },
+    {
+      "id": 1347,
+      "korean": "-으니까",
+      "english": "since; because",
+      "description": "Used to give a reason, especially before a command, suggestion, or invitation.\n\nRule: After a stem ending in a consonant, use -으니까 (먹으니까). After a vowel, drop the 으 (가니까). Stems ending in ㄹ also drop it (만들다 → 만드니까). Unlike -어서, this one can come before a command.",
+      "slug": "eunikka",
+      "episode": 41
+    },
+    {
+      "id": 1348,
+      "korean": "-으러 가다",
+      "english": "go in order to",
+      "description": "Used when you move somewhere with a purpose.\n\nRule: After a stem ending in a consonant, use -으러 (먹으러 가요). After a vowel or ㄹ, drop the 으 (보러 가요, 놀러 가요). It only works with verbs of movement — 가다 (go), 오다 (come), 다니다 (attend regularly).",
+      "slug": null,
+      "episode": 14
+    },
+    {
+      "id": 1349,
+      "korean": "-으면 안 되다",
+      "english": "must not; shouldn't",
+      "description": "Used to say something is not allowed or not advisable.\n\nRule: After a stem ending in a consonant, use -으면 (먹으면 안 돼요). After a vowel or ㄹ, drop the 으 (가면 안 돼요, 만들면 안 돼요).",
+      "slug": null,
+      "episode": 17
+    },
+    {
+      "id": 1350,
+      "korean": "-으면서",
+      "english": "while ~ing",
+      "description": "Used when one person does two things at the same time.\n\nRule: After a stem ending in a consonant, use -으면서 (먹으면서). After a vowel or ㄹ, drop the 으 (보면서, 만들면서). Both actions must have the same subject.",
+      "slug": null,
+      "episode": 16
+    },
+    {
+      "id": 1351,
+      "korean": "-으십시오",
+      "english": "formal command",
+      "description": "Used for polite instructions in announcements, notices, and customer service.\n\nRule: After a stem ending in a consonant, use -으십시오 (앉으십시오). After a vowel or ㄹ, drop the 으 (가십시오). This is very formal — in everyday conversation use -으세요 instead.",
+      "slug": null,
+      "episode": 11
+    },
+    {
+      "id": 1352,
+      "korean": "-은 다음에",
+      "english": "after doing",
+      "description": "Used to say one action happens after another is finished.\n\nRule: After a stem ending in a consonant, use -은 다음에 (먹은 다음에). After a vowel or ㄹ, drop the 은 (간 다음에, 만든 다음에). Action verbs only.",
+      "slug": null,
+      "episode": 65
+    },
+    {
+      "id": 1353,
+      "korean": "-은 지",
+      "english": "since (time elapsed)",
+      "description": "Used to say how much time has passed since something happened.\n\nRule: After a stem ending in a consonant, use -은 지 (먹은 지). After a vowel or ㄹ, drop the 은 (온 지, 산 지). Finish with a length of time plus 됐어요 or 지났어요, both meaning 'it has been' — 온 지 2년 됐어요.",
+      "slug": null,
+      "episode": 20
+    },
+    {
+      "id": 1354,
+      "korean": "-은 후에",
+      "english": "after",
+      "description": "Used to put two events in order, with the first one finished.\n\nRule: After a stem ending in a consonant, use -은 후에 (먹은 후에). After a vowel or ㄹ, drop the 은 (간 후에). Almost the same as -은 다음에; 후에 sounds slightly more formal.",
+      "slug": null,
+      "episode": 25
+    },
+    {
+      "id": 1355,
+      "korean": "-을 거예요",
+      "english": "will; be going to",
+      "description": "Used for a plan you have already decided, or a prediction about the future.\n\nRule: After a stem ending in a consonant, use -을 거예요 (먹을 거예요). After a vowel or ㄹ, drop the 을 (갈 거예요, 만들 거예요).",
+      "slug": "eul-geoyeyo",
+      "episode": 51
+    },
+    {
+      "id": 1356,
+      "korean": "-을 때마다",
+      "english": "every time",
+      "description": "Used when something happens without fail on each occasion.\n\nRule: After a stem ending in a consonant, use -을 때마다 (먹을 때마다). After a vowel or ㄹ, drop the 을 (갈 때마다). For nouns, use 마다 directly (날마다).",
+      "slug": null,
+      "episode": 71
+    },
+    {
+      "id": 1357,
+      "korean": "-을 수밖에 없다",
+      "english": "have no choice but to",
+      "description": "Used when there is no other option, or when a result is completely natural.\n\nRule: After a stem ending in a consonant, use -을 수밖에 없다 (먹을 수밖에 없어요). After a vowel or ㄹ, drop the 을 (갈 수밖에 없어요).",
+      "slug": null,
+      "episode": 73
+    },
+    {
+      "id": 1358,
+      "korean": "-을 테니",
+      "english": "I'll ~, so",
+      "description": "Used to state your own intention and then ask or suggest something.\n\nRule: After a stem ending in a consonant, use -을 테니 (먹을 테니). After a vowel or ㄹ, drop the 을 (갈 테니). The first clause is what the speaker will do, so the subject is normally 'I'. -을 테니까 is the more conversational form.",
+      "slug": null,
+      "episode": 49
+    },
+    {
+      "id": 1359,
+      "korean": "-을 텐데",
+      "english": "it would/must be ~, but",
+      "description": "Used to guess about someone's situation while showing concern or regret.\n\nRule: After a stem ending in a consonant, use -을 텐데 (먹을 텐데). After a vowel or ㄹ, drop the 을 (갈 텐데). For a past guess, use -았/었을 텐데 (힘들었을 텐데).",
+      "slug": null,
+      "episode": 67
+    },
+    {
+      "id": 1360,
+      "korean": "-을걸",
+      "english": "probably; should have",
+      "description": "Used for a casual guess, or to express regret about something you didn't do.\n\nRule: This is casual speech; the polite form is -을걸요. After a consonant use -을걸 (먹을걸), after a vowel or ㄹ drop the 을 (갈걸). For regret it usually appears as -을걸 그랬어, meaning 'I should have ~'.",
+      "slug": null,
+      "episode": 22
+    },
+    {
+      "id": 1361,
+      "korean": "-을게",
+      "english": "I'll (promise to)",
+      "description": "Used to promise the listener that you will do something.\n\nRule: This is 반말; the polite form is -을게요. After a consonant use -을게 (먹을게), after a vowel or ㄹ drop the 을 (갈게). The subject is always 'I', and it is never used as a question.",
+      "slug": "eulge",
+      "episode": 33
+    },
+    {
+      "id": 1362,
+      "korean": "-을까요?",
+      "english": "shall I/we?",
+      "description": "Used to suggest doing something together or to offer to do something.\n\nRule: After a stem ending in a consonant, use -을까요 (먹을까요?). After a vowel or ㄹ, drop the 을 (갈까요?, 만들까요?).",
+      "slug": "eulkkayo",
+      "episode": 45
+    },
+    {
+      "id": 1363,
+      "korean": "-을수록",
+      "english": "the more ~, the more",
+      "description": "Used when one thing increases as another increases.\n\nRule: After a stem ending in a consonant, use -을수록 (먹을수록). After a vowel or ㄹ, drop the 을 (갈수록). It often pairs with -으면 in front — 보면 볼수록 means 'the more you look at it'.",
+      "slug": null,
+      "episode": 50
+    },
+    {
+      "id": 1364,
+      "korean": "-읍시다",
+      "english": "let's (formal)",
+      "description": "Used to suggest doing something together in a formal or group setting.\n\nRule: After a stem ending in a consonant, use -읍시다 (먹읍시다). After a vowel or ㄹ, use -ㅂ시다 (갑시다). Do not use it toward someone older or senior — use -으시겠어요? (would you like to ~?) instead.",
+      "slug": null,
+      "episode": 36
+    },
+    {
+      "id": 1365,
+      "korean": "-자마자",
+      "english": "as soon as",
+      "description": "Used when the second action happens immediately after the first.\n\nRule: Attach -자마자 directly to the verb stem and never add a tense marker before it — say 도착하자마자, not 도착했자마자. The tense is shown in the second clause.",
+      "slug": null,
+      "episode": 13
+    },
+    {
+      "id": 1366,
+      "korean": "-잖아",
+      "english": "you know, right?",
+      "description": "Used to remind the listener of something you both already know.\n\nRule: This is 반말; the polite form is -잖아요. Only use it for information the listener already has — using it for something new sounds rude.",
+      "slug": "janha",
+      "episode": 54
+    },
+    {
+      "id": 1367,
+      "korean": "-지만",
+      "english": "but; although",
+      "description": "Used to contrast two ideas in one sentence.",
+      "slug": "jiman",
+      "episode": 41
+    },
+    {
+      "id": 1368,
+      "korean": "~과/와",
+      "english": "and; with",
+      "description": "Used to join two nouns or to say you did something together with someone.\n\nRule: After a noun ending in a consonant, use 과 (책과). After a vowel, use 와 (커피와). This pair sounds written or formal; in everyday speech use 하고 or (이)랑.",
+      "slug": "gwa-wa",
+      "episode": 40
+    },
+    {
+      "id": 1369,
+      "korean": "~께",
+      "english": "to (honorific)",
+      "description": "Used when giving or saying something to someone you should show respect to.\n\nRule: 께 is the honorific form of 에게/한테. Use it for someone older or senior (선생님께), and use 한테 for friends or people your age.",
+      "slug": null,
+      "episode": 77
+    },
+    {
+      "id": 1370,
+      "korean": "~께서",
+      "english": "subject marker (honorific)",
+      "description": "Used to mark the subject when that person deserves respect.\n\nRule: 께서 replaces 이/가 for an honored subject (선생님께서 오셨어요). The verb should also take the honorific -으시- when you use it.",
+      "slug": null,
+      "episode": 19
+    },
+    {
+      "id": 1371,
+      "korean": "~마다",
+      "english": "every",
+      "description": "Used to say something applies to each and every one, without exception.",
+      "slug": null,
+      "episode": 18
+    },
+    {
+      "id": 1372,
+      "korean": "~만",
+      "english": "only; just",
+      "description": "Used to limit something to one thing and nothing else.",
+      "slug": "man",
+      "episode": 12
+    },
+    {
+      "id": 1373,
+      "korean": "~만큼",
+      "english": "as much as",
+      "description": "Used to say two things are about the same in degree or amount.",
+      "slug": null,
+      "episode": 28
+    },
+    {
+      "id": 1374,
+      "korean": "~밖에",
+      "english": "only (nothing but)",
+      "description": "Used to say there is nothing more than this; always followed by a negative.\n\nRule: The verb must be negative — say 물밖에 없어요, never 물밖에 있어요. It replaces 이/가 and 을/를, so do not stack particles.",
+      "slug": "bakke",
+      "episode": 4
+    },
+    {
+      "id": 1375,
+      "korean": "~부터 ~까지",
+      "english": "from ~ to ~",
+      "description": "Used to mark the starting point and the end point of time or place.",
+      "slug": "buteo-kkaji",
+      "episode": 5
+    },
+    {
+      "id": 1376,
+      "korean": "~뿐",
+      "english": "only; nothing but",
+      "description": "Used to say that is the whole of it and there is nothing else.",
+      "slug": null,
+      "episode": 27
+    },
+    {
+      "id": 1377,
+      "korean": "~에게/한테",
+      "english": "to (a person)",
+      "description": "Used to mark the person who receives something or is spoken to.\n\nRule: 한테 is for everyday speech, 에게 is for writing and formal speech, and 께 is the honorific form. For animals use 한테/에게; for places or organizations use 에 instead.",
+      "slug": "ege-hante",
+      "episode": 15
+    },
+    {
+      "id": 1378,
+      "korean": "~에서부터",
+      "english": "starting from (a place)",
+      "description": "Used to emphasize the starting point of a movement or process.",
+      "slug": null,
+      "episode": 11
+    },
+    {
+      "id": 1379,
+      "korean": "~으로",
+      "english": "by; toward; with",
+      "description": "Used to mark a direction, a means of doing something, or a material.\n\nRule: After a noun ending in a consonant, use 으로 (손으로). After a vowel or ㄹ, use 로 (버스로, 지하철로).",
+      "slug": "euro",
+      "episode": 2
+    },
+    {
+      "id": 1380,
+      "korean": "~을래요?",
+      "english": "would you like to?",
+      "description": "Used to casually ask what the other person wants to do.\n\nRule: After a stem ending in a consonant, use -을래요 (먹을래요?). After a vowel or ㄹ, drop the 을 (갈래요?). It is friendly rather than formal, so avoid it with someone senior.",
+      "slug": "eullaeyo",
+      "episode": 6
+    },
+    {
+      "id": 1381,
+      "korean": "~이나마",
+      "english": "even if only; at least",
+      "description": "Used when something is not enough but is still better than nothing.\n\nRule: After a noun ending in a consonant, use 이나마 (조금이나마). After a vowel, drop the 이 (잠시나마).",
+      "slug": null,
+      "episode": 91
+    },
+    {
+      "id": 1382,
+      "korean": "~이란",
+      "english": "what we call ~; as for",
+      "description": "Used to raise a topic or to define what something really is.\n\nRule: After a noun ending in a consonant, use 이란 (사랑이란). After a vowel, drop the 이 (친구란). It sounds thoughtful or literary, so it fits reflections more than casual chat.",
+      "slug": null,
+      "episode": 61
+    },
+    {
+      "id": 1383,
+      "korean": "~이에요/예요",
+      "english": "is; am; are",
+      "description": "Used to say what something or someone is; the most basic way to make a statement.\n\nRule: After a noun ending in a consonant, use 이에요 (학생 → 학생이에요). After a noun ending in a vowel, use 예요 (커피 → 커피예요).",
+      "slug": "ieyo-yeyo",
+      "episode": 1
+    },
+    {
+      "id": 1384,
+      "korean": "~처럼",
+      "english": "like; as if",
+      "description": "Used to compare something to another thing it resembles.",
+      "slug": "cheoreom",
+      "episode": 9
+    },
+    {
+      "id": 1385,
+      "korean": "~커녕",
+      "english": "let alone; far from",
+      "description": "Used to say that not only the bigger thing but even the smaller thing was impossible.\n\nRule: With nouns it appears as 은커녕 after a consonant (밥은커녕) and 는커녕 after a vowel (커피는커녕). With verbs, use -기는커녕 (쉬기는커녕). The second clause is always negative.",
+      "slug": null,
+      "episode": 86
+    },
+    {
+      "id": 1386,
+      "korean": "~하고",
+      "english": "and; with",
+      "description": "Used in everyday speech to join nouns or to say you did something with someone.\n\nRule: 하고 attaches the same way to any noun, with no consonant rule. It is the most conversational option; (이)랑 is even more casual and 과/와 is formal.",
+      "slug": "hago",
+      "episode": 3
+    },
+    {
+      "id": 1387,
+      "korean": "~한테서",
+      "english": "from (a person)",
+      "description": "Used to mark the person something was received or heard from.",
+      "slug": null,
+      "episode": 17
+    },
+    {
+      "id": 1388,
+      "korean": "~얼마나 걸려요?",
+      "english": "How long does ~ take?",
+      "description": "Used to ask how much time something will take, such as travel, delivery, or cooking.",
+      "slug": null,
+      "episode": 4
+    },
+    {
+      "id": 1389,
+      "korean": "꼭 봐야 할 게 뭐예요?",
+      "english": "What's a must-see?",
+      "description": "Used to ask what you should not miss when visiting a place.",
+      "slug": null,
+      "episode": 49
+    }
+  ]
+}

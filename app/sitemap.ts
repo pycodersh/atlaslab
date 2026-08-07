@@ -20,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   )
 
-  // 100 individual expression pages
+  // 325 individual expression pages (100 original + 225 new slugs)
   const expressionPages: MetadataRoute.Sitemap = Object.keys(SLUG_TO_ID).map(slug => ({
     url: `${BASE_URL}/kpatto/expressions/${slug}`,
     lastModified: new Date(),
