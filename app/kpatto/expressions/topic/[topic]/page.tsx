@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import {
   CATEGORIES,
   CATEGORY_BY_KEY,
@@ -102,7 +101,7 @@ export default async function TopicPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
       />
 
-      <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 32}px + env(safe-area-inset-bottom, 0px))` }}>
+      <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: 'calc(112px + env(safe-area-inset-bottom, 0px))' }}>
 
         {/* Top nav */}
         <div style={{
@@ -184,8 +183,7 @@ export default async function TopicPage({ params }: PageProps) {
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, flexShrink: 0 }}>
                   {ep && (
                     <span style={{
-                      fontSize: 10, fontWeight: 700, color: ACCENT, letterSpacing: '0.04em',
-                      background: '#FFF4EA', borderRadius: 6, padding: '2px 7px',
+                      fontSize: 10, fontWeight: 600, color: T2, letterSpacing: '0.04em',
                     }}>
                       EP{String(ep).padStart(2, '0')}
                     </span>

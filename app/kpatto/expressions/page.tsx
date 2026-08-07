@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
-import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import {
   CATEGORIES,
   ID_TO_SLUG,
@@ -76,7 +75,7 @@ export default async function ExpressionsHubPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
       />
 
-      <div style={{ minHeight: '100vh', background: BG, paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 32}px + env(safe-area-inset-bottom, 0px))` }}>
+      <div style={{ minHeight: '100vh', background: BG, paddingBottom: 'calc(112px + env(safe-area-inset-bottom, 0px))' }}>
         <KPattoHeader />
 
         {/* Hero */}
@@ -174,8 +173,7 @@ export default async function ExpressionsHubPage() {
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, flexShrink: 0 }}>
                         {expr.first_episode && (
                           <span style={{
-                            fontSize: 10, fontWeight: 700, color: ACCENT, letterSpacing: '0.04em',
-                            background: '#FFF4EA', borderRadius: 6, padding: '2px 7px',
+                            fontSize: 10, fontWeight: 600, color: T2, letterSpacing: '0.04em',
                           }}>
                             EP{String(expr.first_episode).padStart(2, '0')}
                           </span>
