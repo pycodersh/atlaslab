@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useReducer, useRef, useMemo, useEffect, useState, useCallback } from 'react'
 import type {
@@ -620,6 +620,17 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
   initialEditMode?: boolean
 }) {
   const sc = isSingleColumn(episode.episode)
+  // EP31+ (singleColumn): compute top/bottom spacer styles matching EP01~30 visual margin (88% total)
+  let topSpacerStyle: React.CSSProperties | null = null
+  let bottomSpacerStyle: React.CSSProperties | null = null
+  if (sc) {
+    let trailingGapPx = 0
+    for (let i = episode.sections.length - 1; i >= 0; i--) {
+      if (episode.sections[i].type === 'gap') { trailingGapPx += 100 } else { break }
+    }
+    topSpacerStyle = { paddingTop: 'calc(88% - 100px)' }
+    bottomSpacerStyle = { paddingTop: 'calc(88% - ' + String(trailingGapPx) + 'px)' }
+  }
   const [editMode, setEditMode] = useState(initialEditMode)
   const [showKo, setShowKo] = useState(true)
   const [showTrans, setShowTrans] = useState(true)
@@ -797,6 +808,8 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
       )}
 
       {/* Webtoon content */}
+      {/* EP31+: spacer divs match EP01~30 visual top/bottom margin (88% total) */}
+      {topSpacerStyle && <div style={topSpacerStyle} />}
       {episode.sections.map((section, idx) => {
         if (section.type === 'panel') {
           const ps = section as WebtoonPanelSection
@@ -872,6 +885,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
           </div>
         )
       })}
+      {bottomSpacerStyle && <div style={bottomSpacerStyle} />}
     </div>
   )
 }

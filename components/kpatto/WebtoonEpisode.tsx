@@ -587,6 +587,16 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
     transition: 'background 0.15s, color 0.15s',
   } as React.CSSProperties)
 
+  // EP31+ (singleColumn): count trailing gap sections for outer-padding bottom calc
+  let trailingGapPx = 0
+  if (singleColumn) {
+    const secs = resolvedEpisode.sections
+    for (let i = secs.length - 1; i >= 0; i--) {
+      if (secs[i].type === 'gap') trailingGapPx += 100
+      else break
+    }
+  }
+
   return (
     <div style={{ width: '100%' }}>
       {/* Unified header */}
@@ -636,13 +646,16 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
       </div>
 
       {/* Sections */}
-      {/* paddingBottom mirrors the first gap's height so the last bubble clears the challenge card */}
+      {/* EP31+ (singleColumn): outer paddingTop/paddingBottom supplement the 100px gap-0 and trailing gaps  */}
+      {/* to reach 88% total (≈378px @430px), matching EP01~30 visual standard.                            */}
+      {/* EP01~30: paddingBottom mirrors first gap height so last bubble clears challenge card              */}
       <div style={{
         opacity: bubblesReady ? 1 : 0,
         transition: bubblesReady ? 'opacity 0.3s' : 'none',
         visibility: bubblesReady ? 'visible' : 'hidden',
+        paddingTop: singleColumn ? 'calc(88% - 100px)' : undefined,
         paddingBottom: singleColumn
-          ? 200
+          ? ('calc(88% - ' + trailingGapPx + 'px)')
           : (() => {
               const firstGap = resolvedEpisode.sections.find(s => s.type === 'gap') as WebtoonGapSection | undefined
               return firstGap ? `${firstGap.heightRatio * 100}%` : 80
