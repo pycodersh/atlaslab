@@ -204,72 +204,68 @@ function HeroImage() {
 }
 
 // ── Continue / Start 줄 ───────────────────────────────────────────────────────
-// hasProgress=false → "Start Episode 1" 버튼, true → "Continue →" 버튼
+// 카드 전체가 탭 영역. "Continue →" 텍스트는 영문 부제 오른쪽에 배치.
 
 function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean }) {
   const epLabel = `EP ${String(ep.num).padStart(2, '0')}`
+  const linkLabel = hasProgress ? 'Continue →' : 'Start Episode 1 →'
   return (
     <div style={{ padding: '10px 16px 0' }}>
-      <Card>
-        <div style={{
-          display: 'flex', alignItems: 'flex-start',
-          padding: '12px 14px 14px 10px',
-          gap: 12,
-        }}>
-          {/* 왼쪽: 썸네일 */}
+      <Link href={`/kpatto/story/${ep.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+        <Card>
           <div style={{
-            position: 'relative',
-            width: 120, height: 80,
-            borderRadius: 12,
-            overflow: 'hidden',
-            flexShrink: 0,
-            background: '#F7F7F7',
+            display: 'flex', alignItems: 'flex-start',
+            padding: '12px 16px 14px 10px',
+            gap: 12,
           }}>
-            <Image
-              src={ep.thumbnailUrl}
-              alt={ep.title}
-              fill
-              style={{ objectFit: 'cover', objectPosition: 'center center' }}
-              sizes="120px"
-            />
-          </div>
-
-          {/* 오른쪽: EP 번호 + 제목 + 버튼(우측 하단) */}
-          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT, marginBottom: 3, letterSpacing: '0.04em' }}>
-              {epLabel}
-            </div>
+            {/* 왼쪽: 썸네일 */}
             <div style={{
-              fontSize: 15, fontWeight: 700, color: T1,
-              overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              position: 'relative',
+              width: 120, height: 80,
+              borderRadius: 12,
+              overflow: 'hidden',
+              flexShrink: 0,
+              background: '#F7F7F7',
             }}>
-              {ep.title}
+              <Image
+                src={ep.thumbnailUrl}
+                alt={ep.title}
+                fill
+                style={{ objectFit: 'cover', objectPosition: 'center center' }}
+                sizes="120px"
+              />
             </div>
-            {ep.titleEn && (
+
+            {/* 오른쪽: EP 번호 + 한국어 제목 + (영문 부제 | Continue →) */}
+            <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT, marginBottom: 3, letterSpacing: '0.04em' }}>
+                {epLabel}
+              </div>
               <div style={{
-                fontSize: 12, color: T2, marginTop: 2,
+                fontSize: 15, fontWeight: 700, color: T1,
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
               }}>
-                {ep.titleEn}
+                {ep.title}
               </div>
-            )}
-            {/* 버튼: 우측 하단 정렬 */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
-              <Link href={`/kpatto/story/${ep.id}`} style={{ textDecoration: 'none' }}>
-                <div style={{
-                  background: ACCENT, color: '#FFFFFF',
-                  fontSize: 12, fontWeight: 700,
-                  padding: '8px 16px', borderRadius: 8,
-                  whiteSpace: 'nowrap',
-                  WebkitTapHighlightColor: 'transparent',
+              {/* 영문 부제 + Continue 텍스트: 같은 줄 */}
+              <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, gap: 6 }}>
+                <span style={{
+                  fontSize: 12, color: T2, flex: 1, minWidth: 0,
+                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                 }}>
-                  {hasProgress ? 'Continue →' : 'Start Episode 1 →'}
-                </div>
-              </Link>
+                  {ep.titleEn}
+                </span>
+                <span style={{
+                  fontSize: 13, fontWeight: 500, color: ACCENT,
+                  whiteSpace: 'nowrap', flexShrink: 0,
+                }}>
+                  {linkLabel}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-      </Card>
+        </Card>
+      </Link>
     </div>
   )
 }
@@ -365,7 +361,7 @@ function ExpressionCard({
 }
 
 // ── Hangeul Pre-course 카드 ───────────────────────────────────────────────────
-// 항상 표시. 0% → "Start Hangeul", 중간 → "Continue", 완료 → "Review" 버튼
+// 항상 표시. 0% → "Start Hangeul →", 중간 → "Continue →", 완료 → "Review →" 텍스트 링크
 
 function PrecourseCard({
   lessonsCompleted,
@@ -374,11 +370,11 @@ function PrecourseCard({
   lessonsCompleted: number
   precoursePercent: number
 }) {
-  const btnText = lessonsCompleted === 0
-    ? 'Start Hangeul'
+  const linkLabel = lessonsCompleted === 0
+    ? 'Start Hangeul →'
     : lessonsCompleted >= REQUIRED_LESSONS
-      ? 'Review'
-      : 'Continue'
+      ? 'Review →'
+      : 'Continue →'
 
   return (
     <div style={{ padding: '10px 16px 0' }}>
@@ -402,21 +398,17 @@ function PrecourseCard({
                 transition: 'width 0.4s ease',
               }} />
             </div>
-            <div style={{
-              fontSize: 11, color: T2, marginTop: 5,
-            }}>
-              {lessonsCompleted >= REQUIRED_LESSONS ? 'Completed ✓' : `${precoursePercent}% complete`}
-            </div>
-            {/* 버튼 */}
-            <div style={{ marginTop: 12 }}>
-              <div style={{
-                display: 'inline-block',
-                background: ACCENT, color: '#FFFFFF',
-                fontSize: 12, fontWeight: 700,
-                padding: '8px 16px', borderRadius: 8,
+            {/* 완료율 + Continue 텍스트: 같은 줄, 오른쪽 기준선 정렬 */}
+            <div style={{ display: 'flex', alignItems: 'center', marginTop: 5 }}>
+              <span style={{ fontSize: 11, color: T2, flex: 1 }}>
+                {lessonsCompleted >= REQUIRED_LESSONS ? 'Completed ✓' : `${precoursePercent}% complete`}
+              </span>
+              <span style={{
+                fontSize: 13, fontWeight: 500, color: ACCENT,
+                whiteSpace: 'nowrap', flexShrink: 0,
               }}>
-                {btnText} →
-              </div>
+                {linkLabel}
+              </span>
             </div>
           </div>
         </Card>
