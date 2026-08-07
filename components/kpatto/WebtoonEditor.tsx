@@ -21,8 +21,17 @@ function bmeta(key: string) {
     safeArea: { left: number; top: number; right: number; bottom: number }
   }
 }
-function bubbleHeightPct(widthPct: number, key: string, heightRatio: number): number {
+// Returns bubble height as % of gap container height.
+// Must match viewer logic: fixedHeightPx takes priority over heightRatio when singleColumn.
+// containerW = 430px (max viewport width).
+function bubbleHeightPct(widthPct: number, key: string, heightRatio: number, fixedHeightPx?: number): number {
   const vb = bmeta(key).viewBox.split(' ').map(Number)
+  const aspectRatio = vb[3] / vb[2]  // viewBoxH / viewBoxW
+  if (fixedHeightPx != null) {
+    // singleColumn fixed-height gap: bubble px height / gap px height * 100
+    return (widthPct / 100) * 430 * aspectRatio / fixedHeightPx * 100
+  }
+  // Legacy ratio gap: fraction of (heightRatio × containerW)
   return (widthPct / (vb[2] / vb[3])) / heightRatio
 }
 
@@ -833,7 +842,7 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
             onClick={handleGapClick}
             style={{
               position: 'relative', zIndex: 20, width: '100%',
-              ...gapContainerStyle(gap.heightRatio, gap.bubbles.length > 0, sc),
+              ...gapContainerStyle(gap.heightRatio, gap.bubbles.length > 0, sc, gap.fixedHeightPx),
               overflow: 'visible',
             }}
           >
