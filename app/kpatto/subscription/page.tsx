@@ -32,6 +32,8 @@ function fmtDate(iso: string | null | undefined): string | null {
   } catch { return null }
 }
 
+const SUPPORT_EMAIL = 'contact@atlaslabstudios.com'
+
 // ── Pro 상태 화면 ─────────────────────────────────────────────────────────────
 function ProView({
   billingEnd,
@@ -40,7 +42,8 @@ function ProView({
   billingEnd: string | null
   isCanceling: boolean
 }) {
-  const [managing, setManaging] = useState(false)
+  const [managing,     setManaging]     = useState(false)
+  const [showContact,  setShowContact]  = useState(false)
   const dateStr = fmtDate(billingEnd)
 
   const handleManage = useCallback(async () => {
@@ -53,11 +56,11 @@ function ProView({
       if (json.url) {
         window.open(json.url, '_blank', 'noopener,noreferrer')
       } else {
-        // Fallback: 일반 Paddle 고객 포털 (이메일 인증으로 로그인)
-        window.open('https://customer.paddle.com/', '_blank', 'noopener,noreferrer')
+        // PADDLE_API_KEY 미설정 → 동작하지 않는 외부 링크 대신 문의 안내 표시
+        setShowContact(true)
       }
     } catch {
-      window.open('https://customer.paddle.com/', '_blank', 'noopener,noreferrer')
+      setShowContact(true)
     } finally {
       setManaging(false)
     }
@@ -96,22 +99,43 @@ function ProView({
         </div>
       </div>
 
-      {/* Manage Subscription 버튼 */}
-      <button
-        onClick={handleManage}
-        disabled={managing}
-        style={{
-          width: '100%', height: 48,
-          background: 'transparent', border: `1.5px solid ${ACCENT}`,
-          borderRadius: 12, fontSize: 15, fontWeight: 600, color: ACCENT,
-          cursor: managing ? 'not-allowed' : 'pointer',
-          opacity: managing ? 0.6 : 1,
-          fontFamily: 'inherit',
-          WebkitTapHighlightColor: 'transparent',
-        } as React.CSSProperties}
-      >
-        {managing ? '…' : 'Manage Subscription'}
-      </button>
+      {/* Manage Subscription 버튼 또는 문의 안내 */}
+      {showContact ? (
+        <div style={{
+          borderRadius: 12, border: `1.5px solid ${BORDER}`,
+          padding: '16px 20px', textAlign: 'center',
+          background: '#FFFFFF',
+        }}>
+          <p style={{ fontSize: 13, color: T2, margin: '0 0 10px', lineHeight: 1.5 }}>
+            To cancel or update your plan,<br />please contact us:
+          </p>
+          <a
+            href={`mailto:${SUPPORT_EMAIL}`}
+            style={{
+              fontSize: 14, fontWeight: 600, color: ACCENT,
+              textDecoration: 'none',
+            }}
+          >
+            {SUPPORT_EMAIL}
+          </a>
+        </div>
+      ) : (
+        <button
+          onClick={handleManage}
+          disabled={managing}
+          style={{
+            width: '100%', height: 48,
+            background: 'transparent', border: `1.5px solid ${ACCENT}`,
+            borderRadius: 12, fontSize: 15, fontWeight: 600, color: ACCENT,
+            cursor: managing ? 'not-allowed' : 'pointer',
+            opacity: managing ? 0.6 : 1,
+            fontFamily: 'inherit',
+            WebkitTapHighlightColor: 'transparent',
+          } as React.CSSProperties}
+        >
+          {managing ? '…' : 'Manage Subscription'}
+        </button>
+      )}
     </div>
   )
 }
