@@ -204,7 +204,10 @@ function HeroImage() {
 }
 
 // ── Continue / Start 줄 ───────────────────────────────────────────────────────
-// 카드 전체가 탭 영역. "Continue →" 텍스트는 영문 부제 오른쪽에 배치.
+// 카드 전체가 탭 영역.
+// 1행: EP 라벨(min-width 4.5em) · 한글 제목
+// 2행: [들여쓰기] 영문 부제  Continue→
+// 텍스트 블록은 썸네일 높이 내에서 세로 중앙 정렬.
 
 function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean }) {
   const epLabel = `EP ${String(ep.num).padStart(2, '0')}`
@@ -214,8 +217,8 @@ function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean
       <Link href={`/kpatto/story/${ep.id}`} style={{ textDecoration: 'none', display: 'block' }}>
         <Card>
           <div style={{
-            display: 'flex', alignItems: 'flex-start',
-            padding: '12px 16px 14px 10px',
+            display: 'flex', alignItems: 'center',
+            padding: '14px 16px 14px 10px',
             gap: 12,
           }}>
             {/* 왼쪽: 썸네일 */}
@@ -236,19 +239,34 @@ function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean
               />
             </div>
 
-            {/* 오른쪽: EP 번호 + 한국어 제목 + (영문 부제 | Continue →) */}
-            <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT, marginBottom: 3, letterSpacing: '0.04em' }}>
-                {epLabel}
-              </div>
-              <div style={{
+            {/* 오른쪽: 2-row 그리드 — EP열 폭이 두 행에 걸쳐 자동 정렬됨 */}
+            <div style={{
+              flex: 1, minWidth: 0,
+              display: 'grid',
+              gridTemplateColumns: 'minmax(4.5em, max-content) 1fr',
+              rowGap: 8,
+            }}>
+              {/* 1행 열1: EP 라벨 */}
+              <span style={{
+                fontSize: 11, fontWeight: 700, color: ACCENT,
+                letterSpacing: '0.04em', whiteSpace: 'nowrap',
+                alignSelf: 'baseline',
+              }}>
+                {epLabel} ·
+              </span>
+              {/* 1행 열2: 한글 제목 */}
+              <span style={{
                 fontSize: 15, fontWeight: 700, color: T1,
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                alignSelf: 'baseline',
               }}>
                 {ep.title}
-              </div>
-              {/* 영문 부제 + Continue 텍스트: 같은 줄 */}
-              <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, gap: 6 }}>
+              </span>
+
+              {/* 2행 열1: 들여쓰기 공간 (EP 라벨 폭만큼) */}
+              <span aria-hidden="true" />
+              {/* 2행 열2: 영문 부제 + Continue → */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
                 <span style={{
                   fontSize: 12, color: T2, flex: 1, minWidth: 0,
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
