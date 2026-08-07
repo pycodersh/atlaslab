@@ -145,7 +145,6 @@ function CardLabel({ left, right }: { left: string; right?: React.ReactNode }) {
 function HeroImage() {
   const banner = HERO_BANNERS[getHourIndex() % HERO_BANNERS.length]
   return (
-    // 카드와 동일한 좌우 여백·모서리 반경
     <div style={{ padding: '12px 16px 0' }}>
       <div style={{
         position: 'relative',
@@ -195,9 +194,10 @@ function HeroImage() {
   )
 }
 
-// ── Continue 줄 ───────────────────────────────────────────────────────────────
+// ── Continue / Start 줄 ───────────────────────────────────────────────────────
+// hasProgress=false → "Start Episode 1" 버튼, true → "Continue →" 버튼
 
-function ContinueRow({ ep }: { ep: ContinueEp }) {
+function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean }) {
   const epLabel = `EP ${String(ep.num).padStart(2, '0')}`
   return (
     <div style={{ padding: '10px 16px 0' }}>
@@ -207,7 +207,7 @@ function ContinueRow({ ep }: { ep: ContinueEp }) {
           padding: '10px 14px 10px 10px',
           gap: 12,
         }}>
-          {/* 왼쪽: 썸네일 (Episodes 목록과 동일 크기) */}
+          {/* 왼쪽: 썸네일 */}
           <div style={{
             position: 'relative',
             width: 120, height: 80,
@@ -246,7 +246,7 @@ function ContinueRow({ ep }: { ep: ContinueEp }) {
             )}
           </div>
 
-          {/* 우측: Continue 버튼 */}
+          {/* 우측: 버튼 */}
           <Link
             href={`/kpatto/story/${ep.id}`}
             style={{ textDecoration: 'none', flexShrink: 0 }}
@@ -258,7 +258,7 @@ function ContinueRow({ ep }: { ep: ContinueEp }) {
               whiteSpace: 'nowrap',
               WebkitTapHighlightColor: 'transparent',
             }}>
-              Continue →
+              {hasProgress ? 'Continue →' : 'Start Episode 1 →'}
             </div>
           </Link>
         </div>
@@ -283,7 +283,7 @@ function ExpressionCard({ expr }: { expr: DailyExpr }) {
   return (
     <div style={{ padding: '10px 16px 0' }}>
       <Link href={`/kpatto/expressions/${expr.id}`} style={{ textDecoration: 'none', display: 'block' }}>
-        <Card style={{ background: '#FFF9F3', border: '1px solid #F5E0C8' }}>
+        <Card style={{ background: '#FFF8F0', border: '1px solid #F5E0C8' }}>
           <CardLabel left="TODAY'S EXPRESSION" />
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
@@ -333,6 +333,7 @@ function ExpressionCard({ expr }: { expr: DailyExpr }) {
 }
 
 // ── Hangeul Pre-course 카드 ───────────────────────────────────────────────────
+// 항상 표시. 0% → "Start Hangeul", 중간 → "Continue", 완료 → "Review" 버튼
 
 function PrecourseCard({
   lessonsCompleted,
@@ -341,6 +342,12 @@ function PrecourseCard({
   lessonsCompleted: number
   precoursePercent: number
 }) {
+  const btnText = lessonsCompleted === 0
+    ? 'Start Hangeul'
+    : lessonsCompleted >= REQUIRED_LESSONS
+      ? 'Review'
+      : 'Continue'
+
   return (
     <div style={{ padding: '10px 16px 0' }}>
       <Link href="/kpatto/pre-course" style={{ textDecoration: 'none', display: 'block' }}>
@@ -365,9 +372,19 @@ function PrecourseCard({
             </div>
             <div style={{
               fontSize: 11, color: T2, marginTop: 5,
-              display: 'flex', justifyContent: 'space-between',
             }}>
-              <span>{lessonsCompleted >= REQUIRED_LESSONS ? 'Completed ✓' : `${precoursePercent}% complete`}</span>
+              {lessonsCompleted >= REQUIRED_LESSONS ? 'Completed ✓' : `${precoursePercent}% complete`}
+            </div>
+            {/* 버튼 */}
+            <div style={{ marginTop: 12 }}>
+              <div style={{
+                display: 'inline-block',
+                background: ACCENT, color: '#FFFFFF',
+                fontSize: 12, fontWeight: 700,
+                padding: '7px 16px', borderRadius: 99,
+              }}>
+                {btnText} →
+              </div>
             </div>
           </div>
         </Card>
@@ -423,12 +440,38 @@ function StreakCard({ streak, weekActivity }: { streak: number; weekActivity: bo
   )
 }
 
+// ── 통계 줄 ──────────────────────────────────────────────────────────────────
+
+function StatsRow() {
+  return (
+    <div style={{
+      margin: '10px 16px 0',
+      border: `1px solid ${DIV}`,
+      borderRadius: 14,
+      padding: '14px 18px',
+      display: 'flex',
+      justifyContent: 'space-between',
+    }}>
+      {([
+        { num: '100', label: 'stories' },
+        { num: '325', label: 'expressions' },
+        { num: '10',  label: 'free episodes' },
+      ] as { num: string; label: string }[]).map(({ num, label }) => (
+        <div key={label} style={{ textAlign: 'center', flex: 1 }}>
+          <div style={{ fontSize: 20, fontWeight: 800, color: ACCENT, letterSpacing: '-0.04em' }}>{num}</div>
+          <div style={{ fontSize: 11, color: T2, marginTop: 2 }}>{label}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // ── 메인 컴포넌트 ─────────────────────────────────────────────────────────────
 
 export default function KPattoHomePage() {
   const { isPro, loading: subLoading } = useKPattoSubscription()
 
-  const [isReturning,      setIsReturning]      = useState(false)
+  const [hasProgress,      setHasProgress]      = useState(false)
   const [continueEp,       setContinueEp]        = useState<ContinueEp>(buildContinueEpStatic(1))
   const [lessonsCompleted, setLessonsCompleted]  = useState(0)
   const [streak,           setStreak]            = useState(0)
@@ -456,14 +499,13 @@ export default function KPattoHomePage() {
     })
     setWeekActivity(week)
 
-    // 다음 화 계산 (신규 시스템 max 완료 화)
+    // 다음 화 계산
     const sb = createClient()
     getMaxCompletedEpisode().then(async maxDone => {
-      const hasProgress = maxDone > 0 || hasOldRecs
-      setIsReturning(hasProgress)
-      const nextNum = maxDone > 0 ? Math.min(maxDone + 1, 100) : 1
+      const progress = maxDone > 0 || hasOldRecs
+      setHasProgress(progress)
+      const nextNum  = maxDone > 0 ? Math.min(maxDone + 1, 100) : 1
 
-      // DB에서 영어 제목 병행 조회
       const { data: epData } = await sb
         .from('kp_episodes')
         .select('title_en')
@@ -525,147 +567,28 @@ export default function KPattoHomePage() {
     <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
       <KPattoHeader />
 
-      {isReturning
-        ? <ReturningUserView
-            ep={continueEp}
-            todayExpr={todayExpr}
-            lessonsCompleted={lessonsCompleted}
-            precoursePercent={precoursePercent}
-            streak={streak}
-            weekActivity={weekActivity}
-          />
-        : <NewUserView
-            todayExpr={todayExpr}
-            lessonsCompleted={lessonsCompleted}
-            precoursePercent={precoursePercent}
-          />
-      }
-    </div>
-  )
-}
+      <div style={{ maxWidth: 480, margin: '0 auto' }}>
+        {/* [1] 히어로 배너 */}
+        <HeroImage />
 
-// ── 재방문 사용자 뷰 ─────────────────────────────────────────────────────────
+        {/* [2] 이어보기 카드 (진행 없음 → "Start Episode 1") */}
+        <ContinueRow ep={continueEp} hasProgress={hasProgress} />
 
-function ReturningUserView({
-  ep,
-  todayExpr,
-  lessonsCompleted,
-  precoursePercent,
-  streak,
-  weekActivity,
-}: {
-  ep:               ContinueEp
-  todayExpr:        DailyExpr | null
-  lessonsCompleted: number
-  precoursePercent: number
-  streak:           number
-  weekActivity:     boolean[]
-}) {
-  return (
-    <div style={{ maxWidth: 480, margin: '0 auto' }}>
-      {/* [1] 히어로 — 랜드마크 이미지 (날짜 고정) */}
-      <HeroImage />
+        {/* [3] 한글 프리코스 (항상 표시) */}
+        <PrecourseCard
+          lessonsCompleted={lessonsCompleted}
+          precoursePercent={precoursePercent}
+        />
 
-      {/* [2] Continue 줄 */}
-      <ContinueRow ep={ep} />
+        {/* [4] TODAY'S EXPRESSION */}
+        {todayExpr && <ExpressionCard expr={todayExpr} />}
 
-      {/* [3] Today's expression */}
-      {todayExpr && <ExpressionCard expr={todayExpr} />}
+        {/* [5] Streak (0일 때도 표시) */}
+        <StreakCard streak={streak} weekActivity={weekActivity} />
 
-      {/* [4] Hangeul pre-course */}
-      <PrecourseCard
-        lessonsCompleted={lessonsCompleted}
-        precoursePercent={precoursePercent}
-      />
-
-      {/* [7] Streak */}
-      <StreakCard streak={streak} weekActivity={weekActivity} />
-    </div>
-  )
-}
-
-// ── 신규 사용자 뷰 ────────────────────────────────────────────────────────────
-
-function NewUserView({
-  todayExpr,
-  lessonsCompleted,
-  precoursePercent,
-}: {
-  todayExpr:        DailyExpr | null
-  lessonsCompleted: number
-  precoursePercent: number
-}) {
-  return (
-    <div style={{ maxWidth: 480, margin: '0 auto' }}>
-      {/* 히어로 — 동일한 랜드마크 이미지 */}
-      <HeroImage />
-
-      {/* 선택지 카드 */}
-      <div style={{ padding: '14px 16px 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <Link href="/kpatto/pre-course" style={{ textDecoration: 'none', display: 'block' }}>
-          <div style={{ background: '#1A1A1A', borderRadius: 16, padding: '18px 18px' }}>
-            <div style={{ fontSize: 10, fontWeight: 700, color: T2, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>
-              Recommended start
-            </div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>
-              Learn Hangeul first
-            </div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, marginBottom: 14 }}>
-              Korean uses its own alphabet. Master reading in ~15 minutes.
-            </div>
-            <div style={{
-              display: 'inline-block', background: ACCENT, color: '#FFFFFF',
-              fontSize: 12, fontWeight: 700, padding: '7px 16px', borderRadius: 99,
-            }}>
-              Start Hangeul →
-            </div>
-          </div>
-        </Link>
-
-        <Link href="/kpatto/story" style={{ textDecoration: 'none', display: 'block' }}>
-          <div style={{
-            border: `1.5px solid ${DIV}`, borderRadius: 16, padding: '14px 16px',
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          }}>
-            <div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: T1, marginBottom: 3 }}>
-                I already know Hangeul
-              </div>
-              <div style={{ fontSize: 12, color: T2 }}>Jump to Episode 1 →</div>
-            </div>
-            <div style={{
-              width: 50, height: 50, borderRadius: 10, overflow: 'hidden',
-              flexShrink: 0, background: '#F7F7F7', position: 'relative',
-            }}>
-              <Image src="/kpatto/banners/ep1.png" alt="EP01" fill style={{ objectFit: 'cover' }} sizes="50px" />
-            </div>
-          </div>
-        </Link>
+        {/* [6] 통계 100/325/10 (항상 표시) */}
+        <StatsRow />
       </div>
-
-      {/* Stats */}
-      <div style={{
-        margin: '12px 16px 0',
-        border: `1px solid ${DIV}`, borderRadius: 14, padding: '14px 18px',
-        display: 'flex', justifyContent: 'space-between',
-      }}>
-        {([
-          { num: '100', label: 'stories' },
-          { num: '325', label: 'expressions' },
-          { num: '10', label: 'free episodes' },
-        ] as { num: string; label: string }[]).map(({ num, label }) => (
-          <div key={label} style={{ textAlign: 'center', flex: 1 }}>
-            <div style={{ fontSize: 20, fontWeight: 800, color: ACCENT, letterSpacing: '-0.04em' }}>{num}</div>
-            <div style={{ fontSize: 11, color: T2, marginTop: 2 }}>{label}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Today's expression */}
-      {todayExpr && <ExpressionCard expr={todayExpr} />}
-
-      {/* Pre-course */}
-      <PrecourseCard lessonsCompleted={lessonsCompleted} precoursePercent={precoursePercent} />
     </div>
   )
 }
