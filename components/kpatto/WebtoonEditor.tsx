@@ -637,6 +637,17 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
   const [showBubbleList, setShowBubbleList] = useState(false)
   const [state, dispatch] = useReducer(reducer, { overrides: {}, history: [{}], idx: 0, selected: null })
+  // EP31+ (singleColumn): track landscape panels (naturalW > naturalH) to match viewer full-width rendering
+  const [landscapeIds, setLandscapeIds] = useState<Set<string>>(new Set())
+  const onPanelLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>, id: string) => {
+    const img = e.currentTarget
+    if (img.naturalWidth > img.naturalHeight) {
+      setLandscapeIds(prev => {
+        if (prev.has(id)) return prev
+        const next = new Set(prev); next.add(id); return next
+      })
+    }
+  }, [])
 
   // Gap container refs (for coordinate conversion)
   const gapRefs = useRef<Map<string, React.RefObject<HTMLDivElement | null>>>(new Map())
@@ -819,15 +830,17 @@ export function WebtoonEditor({ episode, initialEditMode = false }: {
           const isThisMulti = sc && isMulti(ps.layout)
           const prevIsMulti = sc && prevSec?.type === 'panel' && isMulti((prevSec as WebtoonPanelSection).layout)
           const nextIsMulti = sc && nextSec?.type === 'panel' && isMulti((nextSec as WebtoonPanelSection).layout)
+          // EP31+ (singleColumn): landscape panels render at full width, matching viewer behaviour
+          const isLandscape = sc && landscapeIds.has(ps.id)
           const justify: 'flex-start' | 'flex-end' | 'center' = isThisMulti
             ? (!prevIsMulti ? 'flex-start' : !nextIsMulti ? 'flex-end' : 'center')
-            : panelJustify(ps.layout, sc)
+            : (isLandscape ? 'flex-start' : panelJustify(ps.layout, sc))
           return (
             <React.Fragment key={ps.id}>
               {isThisMulti && prevIsMulti && <div style={{ height: 200 }} />}
               <div style={{ width: '100%', display: 'flex', justifyContent: justify, pointerEvents: editMode ? 'none' : 'auto' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={ps.imageUrl} alt={ps.id} style={{ display: 'block', width: panelImageWidth(ps.layout, sc), height: 'auto' }} />
+                <img src={ps.imageUrl} alt={ps.id} style={{ display: 'block', width: isLandscape ? '100%' : panelImageWidth(ps.layout, sc), height: 'auto' }} onLoad={(e) => onPanelLoad(e, ps.id)} />
               </div>
             </React.Fragment>
           )
