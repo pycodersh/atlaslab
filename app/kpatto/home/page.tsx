@@ -12,6 +12,9 @@ import { getMaxCompletedEpisode } from '@/lib/kpatto/episode-progress'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { createClient } from '@/lib/supabase/client'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
+import { ID_TO_SLUG } from '@/lib/kpatto/expressions-config'
+import { ExpressionPopup } from '@/components/kpatto/ExpressionPopup'
+import type { KPattoExpression } from '@/data/kpatto/types'
 
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
 const ACCENT = '#D4873A'
@@ -88,10 +91,15 @@ function buildContinueEpStatic(epNum: number): ContinueEp {
 // ── Daily Expression ──────────────────────────────────────────────────────────
 
 type DailyExpr = {
-  id:        number
-  korean:    string
-  english:   string
-  audio_url: string | null
+  id:          number
+  korean:      string
+  english:     string
+  audio_url:   string | null
+  description: string | null
+  structure:   string | null
+  category:    string | null
+  examples:    { ko: string; en: string }[] | null
+  tip:         string | null
 }
 
 // ── 오디오 재생 ──────────────────────────────────────────────────────────────
@@ -269,8 +277,15 @@ function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean
 
 // ── Today's Expression 카드 ───────────────────────────────────────────────────
 
-function ExpressionCard({ expr }: { expr: DailyExpr }) {
+function ExpressionCard({
+  expr,
+  onOpenPopup,
+}: {
+  expr: DailyExpr
+  onOpenPopup: (expr: DailyExpr) => void
+}) {
   const [playing, setPlaying] = useState(false)
+  const slug = ID_TO_SLUG[expr.id] ?? null
 
   const handlePlay = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
@@ -280,54 +295,72 @@ function ExpressionCard({ expr }: { expr: DailyExpr }) {
     setTimeout(() => setPlaying(false), 2000)
   }, [expr.audio_url])
 
+  const cardInner = (
+    <Card style={{ background: '#FFF8F0', border: '1px solid #F5E0C8' }}>
+      <CardLabel left="TODAY'S EXPRESSION" />
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '8px 16px 0',
+      }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontSize: 17, fontWeight: 800, color: ACCENT,
+            letterSpacing: '-0.02em', lineHeight: 1.25,
+          }}>
+            {expr.korean}
+          </div>
+          <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 4 }}>
+            {expr.english}
+          </div>
+        </div>
+        {/* 재생 버튼 */}
+        {expr.audio_url && (
+          <button
+            type="button"
+            onClick={handlePlay}
+            style={{
+              flexShrink: 0,
+              width: 36, height: 36,
+              borderRadius: '50%',
+              background: playing ? ACCENT : '#F5E0C8',
+              border: 'none', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'background 0.2s',
+              WebkitTapHighlightColor: 'transparent',
+            }}
+            aria-label="발음 듣기"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill={playing ? '#fff' : ACCENT}
+              stroke="none">
+              <polygon points="5,3 19,12 5,21"/>
+            </svg>
+          </button>
+        )}
+      </div>
+
+      <div style={{ height: 14 }} />
+    </Card>
+  )
+
   return (
     <div style={{ padding: '10px 16px 0' }}>
-      <Link href={`/kpatto/expressions/${expr.id}`} style={{ textDecoration: 'none', display: 'block' }}>
-        <Card style={{ background: '#FFF8F0', border: '1px solid #F5E0C8' }}>
-          <CardLabel left="TODAY'S EXPRESSION" />
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 10,
-            padding: '8px 16px 0',
-          }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{
-                fontSize: 17, fontWeight: 800, color: ACCENT,
-                letterSpacing: '-0.02em', lineHeight: 1.25,
-              }}>
-                {expr.korean}
-              </div>
-              <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 4 }}>
-                {expr.english}
-              </div>
-            </div>
-            {/* 재생 버튼 */}
-            {expr.audio_url && (
-              <button
-                type="button"
-                onClick={handlePlay}
-                style={{
-                  flexShrink: 0,
-                  width: 36, height: 36,
-                  borderRadius: '50%',
-                  background: playing ? ACCENT : '#F5E0C8',
-                  border: 'none', cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'background 0.2s',
-                  WebkitTapHighlightColor: 'transparent',
-                }}
-                aria-label="발음 듣기"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill={playing ? '#fff' : ACCENT}
-                  stroke="none">
-                  <polygon points="5,3 19,12 5,21"/>
-                </svg>
-              </button>
-            )}
-          </div>
-
-          <div style={{ height: 14 }} />
-        </Card>
-      </Link>
+      {slug ? (
+        <Link href={`/kpatto/expressions/${slug}`} style={{ textDecoration: 'none', display: 'block' }}>
+          {cardInner}
+        </Link>
+      ) : (
+        <button
+          type="button"
+          onClick={() => onOpenPopup(expr)}
+          style={{
+            display: 'block', width: '100%',
+            background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+            textAlign: 'left', WebkitTapHighlightColor: 'transparent',
+          }}
+        >
+          {cardInner}
+        </button>
+      )}
     </div>
   )
 }
@@ -478,6 +511,7 @@ export default function KPattoHomePage() {
   const [weekActivity,     setWeekActivity]      = useState<boolean[]>(Array(7).fill(false))
   const [todayExpr,        setTodayExpr]         = useState<DailyExpr | null>(null)
   const [hydrated,         setHydrated]          = useState(false)
+  const [popupExpr,        setPopupExpr]         = useState<DailyExpr | null>(null)
 
   // ── 기본 통계 + 다음 화 계산 ────────────────────────────────────────────────
   useEffect(() => {
@@ -541,7 +575,7 @@ export default function KPattoHomePage() {
 
         const { data } = await supabase
           .from('kp_expressions')
-          .select('id, korean, english, audio_url')
+          .select('id, korean, english, audio_url, description, structure, category, examples, tip')
           .not('first_episode', 'is', null)
           .lte('first_episode', maxEp)
           .order('id')
@@ -564,31 +598,45 @@ export default function KPattoHomePage() {
   const precoursePercent = Math.round((lessonsCompleted / TOTAL_LESSONS) * 100)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
-      <KPattoHeader />
+    <>
+      <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
+        <KPattoHeader />
 
-      <div style={{ maxWidth: 480, margin: '0 auto' }}>
-        {/* [1] 히어로 배너 */}
-        <HeroImage />
+        <div style={{ maxWidth: 480, margin: '0 auto' }}>
+          {/* [1] 히어로 배너 */}
+          <HeroImage />
 
-        {/* [2] 이어보기 카드 (진행 없음 → "Start Episode 1") */}
-        <ContinueRow ep={continueEp} hasProgress={hasProgress} />
+          {/* [2] 이어보기 카드 (진행 없음 → "Start Episode 1") */}
+          <ContinueRow ep={continueEp} hasProgress={hasProgress} />
 
-        {/* [3] 한글 프리코스 (항상 표시) */}
-        <PrecourseCard
-          lessonsCompleted={lessonsCompleted}
-          precoursePercent={precoursePercent}
-        />
+          {/* [3] 한글 프리코스 (항상 표시) */}
+          <PrecourseCard
+            lessonsCompleted={lessonsCompleted}
+            precoursePercent={precoursePercent}
+          />
 
-        {/* [4] TODAY'S EXPRESSION */}
-        {todayExpr && <ExpressionCard expr={todayExpr} />}
+          {/* [4] TODAY'S EXPRESSION */}
+          {todayExpr && <ExpressionCard expr={todayExpr} onOpenPopup={setPopupExpr} />}
 
-        {/* [5] Streak (0일 때도 표시) */}
-        <StreakCard streak={streak} weekActivity={weekActivity} />
+          {/* [5] Streak (0일 때도 표시) */}
+          <StreakCard streak={streak} weekActivity={weekActivity} />
 
-        {/* [6] 통계 100/325/10 (항상 표시) */}
-        <StatsRow />
+          {/* [6] 통계 100/325/10 (항상 표시) */}
+          <StatsRow />
+        </div>
       </div>
-    </div>
+
+      {/* TODAY'S EXPRESSION 팝업 — slug 없는 표현용 */}
+      {popupExpr && (
+        <ExpressionPopup
+          expression={{
+            ...popupExpr,
+            examples:      popupExpr.examples ?? [],
+            first_episode: null,
+          } as unknown as KPattoExpression}
+          onClose={() => setPopupExpr(null)}
+        />
+      )}
+    </>
   )
 }

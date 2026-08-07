@@ -210,7 +210,7 @@ export default async function ExpressionPage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
 
-      <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32 }}>
+      <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 32}px + env(safe-area-inset-bottom, 0px))` }}>
 
         {/* Top nav */}
         <div style={{

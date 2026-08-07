@@ -76,7 +76,7 @@ export default async function ExpressionsHubPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListLd) }}
       />
 
-      <div style={{ minHeight: '100vh', background: BG, paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32 }}>
+      <div style={{ minHeight: '100vh', background: BG, paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 32}px + env(safe-area-inset-bottom, 0px))` }}>
         <KPattoHeader />
 
         {/* Hero */}
