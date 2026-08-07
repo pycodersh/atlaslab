@@ -119,10 +119,11 @@ function playAudioUrl(url: string) {
 function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
   return (
     <div style={{
-      border: `1px solid ${DIV}`,
+      border: '1px solid #E0E0E0',
       borderRadius: 16,
       background: '#FFFFFF',
       overflow: 'hidden',
+      boxShadow: '0 1px 6px rgba(0,0,0,0.07)',
       ...style,
     }}>
       {children}
@@ -211,8 +212,8 @@ function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean
     <div style={{ padding: '10px 16px 0' }}>
       <Card>
         <div style={{
-          display: 'flex', alignItems: 'center',
-          padding: '10px 14px 10px 10px',
+          display: 'flex', alignItems: 'flex-start',
+          padding: '12px 14px 14px 10px',
           gap: 12,
         }}>
           {/* 왼쪽: 썸네일 */}
@@ -233,8 +234,8 @@ function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean
             />
           </div>
 
-          {/* 가운데: EP 번호 + 제목들 */}
-          <div style={{ flex: 1, minWidth: 0 }}>
+          {/* 오른쪽: EP 번호 + 제목 + 버튼(우측 하단) */}
+          <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
             <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT, marginBottom: 3, letterSpacing: '0.04em' }}>
               {epLabel}
             </div>
@@ -252,23 +253,21 @@ function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean
                 {ep.titleEn}
               </div>
             )}
-          </div>
-
-          {/* 우측: 버튼 */}
-          <Link
-            href={`/kpatto/story/${ep.id}`}
-            style={{ textDecoration: 'none', flexShrink: 0 }}
-          >
-            <div style={{
-              background: ACCENT, color: '#FFFFFF',
-              fontSize: 12, fontWeight: 700,
-              padding: '8px 14px', borderRadius: 99,
-              whiteSpace: 'nowrap',
-              WebkitTapHighlightColor: 'transparent',
-            }}>
-              {hasProgress ? 'Continue →' : 'Start Episode 1 →'}
+            {/* 버튼: 우측 하단 정렬 */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
+              <Link href={`/kpatto/story/${ep.id}`} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: ACCENT, color: '#FFFFFF',
+                  fontSize: 12, fontWeight: 700,
+                  padding: '8px 16px', borderRadius: 8,
+                  whiteSpace: 'nowrap',
+                  WebkitTapHighlightColor: 'transparent',
+                }}>
+                  {hasProgress ? 'Continue →' : 'Start Episode 1 →'}
+                </div>
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
       </Card>
     </div>
@@ -296,7 +295,7 @@ function ExpressionCard({
   }, [expr.audio_url])
 
   const cardInner = (
-    <Card style={{ background: '#FFF8F0', border: '1px solid #F5E0C8' }}>
+    <Card>
       <CardLabel left="TODAY'S EXPRESSION" />
       <div style={{
         display: 'flex', alignItems: 'center', gap: 10,
@@ -322,7 +321,7 @@ function ExpressionCard({
               flexShrink: 0,
               width: 36, height: 36,
               borderRadius: '50%',
-              background: playing ? ACCENT : '#F5E0C8',
+              background: playing ? ACCENT : '#FFF4EA',
               border: 'none', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'background 0.2s',
@@ -414,7 +413,7 @@ function PrecourseCard({
                 display: 'inline-block',
                 background: ACCENT, color: '#FFFFFF',
                 fontSize: 12, fontWeight: 700,
-                padding: '7px 16px', borderRadius: 99,
+                padding: '8px 16px', borderRadius: 8,
               }}>
                 {btnText} →
               </div>
@@ -479,11 +478,12 @@ function StatsRow() {
   return (
     <div style={{
       margin: '10px 16px 0',
-      border: `1px solid ${DIV}`,
+      border: '1px solid #E0E0E0',
       borderRadius: 14,
       padding: '14px 18px',
       display: 'flex',
       justifyContent: 'space-between',
+      boxShadow: '0 1px 6px rgba(0,0,0,0.07)',
     }}>
       {([
         { num: '100', label: 'stories' },

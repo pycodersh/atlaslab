@@ -139,7 +139,7 @@ export default async function TopicPage({ params }: PageProps) {
               fontSize: 11, fontWeight: 800, color: ACCENT, letterSpacing: '0.06em',
               background: '#FFF4EA', borderRadius: 6, padding: '3px 9px',
             }}>
-              {cat.labelKo}
+              {cat.labelEn}
             </span>
           </div>
           <h1 style={{ fontSize: 24, fontWeight: 800, color: T1, letterSpacing: '-0.03em', margin: '0 0 8px' }}>
@@ -219,7 +219,7 @@ export default async function TopicPage({ params }: PageProps) {
                   borderRadius: 20, fontSize: 13, fontWeight: 600, color: T1,
                 }}
               >
-                {c.labelKo} <span style={{ color: T2, fontWeight: 400 }}>{c.ids.length}</span>
+                {c.labelEn} <span style={{ color: T2, fontWeight: 400 }}>{c.ids.length}</span>
               </Link>
             ))}
           </div>

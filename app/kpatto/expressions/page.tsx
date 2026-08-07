@@ -14,14 +14,14 @@ export const revalidate = 86400
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://atlaslabstudios.com'
 
 export const metadata: Metadata = {
-  title: 'Korean Expressions — 100 Patterns with Audio | K-PATTO',
+  title: 'Essential Korean Patterns — 325 Patterns with Audio | K-PATTO',
   description:
-    '100 essential Korean expressions across 7 topics — greetings, food, travel, shopping, and more. ' +
-    'Each with audio pronunciation and real webtoon scenes.',
+    '325 Korean patterns drawn from levels 1–3 of Korea\'s national Korean curriculum — ' +
+    'from beginner phrases to early intermediate grammar. Each with audio and real webtoon scenes.',
   openGraph: {
-    title: 'Korean Expressions — 100 Patterns with Audio | K-PATTO',
+    title: 'Essential Korean Patterns — 325 Patterns with Audio | K-PATTO',
     description:
-      '100 Korean expressions across 7 topics. Audio, examples, and webtoon scenes included.',
+      '325 Korean patterns across 7 topics — curriculum-aligned, audio-native, webtoon-illustrated.',
     url: `${BASE}/kpatto/expressions`,
     type: 'website',
   },
@@ -54,7 +54,7 @@ export default async function ExpressionsHubPage() {
   const itemListLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'Korean Expressions — K-PATTO',
+    name: 'Essential Korean Patterns — K-PATTO',
     url: `${BASE}/kpatto/expressions`,
     numberOfItems: SEO_EXPRESSION_IDS.length,
     itemListElement: SEO_EXPRESSION_IDS.map((id, i) => {
@@ -82,10 +82,10 @@ export default async function ExpressionsHubPage() {
         {/* Hero */}
         <div style={{ padding: '28px 20px 20px', maxWidth: 480, margin: '0 auto' }}>
           <h1 style={{ fontSize: 26, fontWeight: 800, color: T1, letterSpacing: '-0.03em', margin: 0 }}>
-            Expressions
+            Essential Korean Patterns
           </h1>
           <p style={{ fontSize: 14, color: T2, marginTop: 6, marginBottom: 0, lineHeight: 1.5 }}>
-            100 essential Korean patterns · tap any to learn with audio
+            325 patterns from Korea's national curriculum · tap any to learn with audio
           </p>
         </div>
 
@@ -98,12 +98,12 @@ export default async function ExpressionsHubPage() {
                 href={`/kpatto/expressions/topic/${cat.key}`}
                 style={{
                   textDecoration: 'none', flexShrink: 0,
-                  padding: '6px 14px', background: '#FFF4EA',
-                  borderRadius: 20, fontSize: 12, fontWeight: 700, color: ACCENT,
-                  letterSpacing: '0.02em',
+                  padding: '6px 14px',
+                  fontSize: 12, fontWeight: 600, color: T2,
+                  letterSpacing: '0.02em', whiteSpace: 'nowrap',
                 }}
               >
-                {cat.labelKo}
+                {cat.labelEn}
               </Link>
             ))}
           </div>
@@ -137,7 +137,7 @@ export default async function ExpressionsHubPage() {
                     fontSize: 11, fontWeight: 800, color: T2,
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                   }}>
-                    {cat.labelKo} · {cat.labelEn}
+                    {cat.labelEn}
                   </span>
                   <span style={{ fontSize: 11, color: T2, opacity: 0.6 }}>{catExprs.length}</span>
                   <span style={{ marginLeft: 'auto', fontSize: 11, color: ACCENT, fontWeight: 700 }}>
@@ -189,20 +189,7 @@ export default async function ExpressionsHubPage() {
                 )
               })}
 
-              {/* "See all N" link if more than 6 */}
-              {catExprs.length > 6 && (
-                <Link
-                  href={`/kpatto/expressions/topic/${cat.key}`}
-                  style={{
-                    textDecoration: 'none', display: 'block', maxWidth: 480, margin: '0 auto',
-                    padding: '12px 20px',
-                    fontSize: 13, fontWeight: 700, color: ACCENT,
-                    borderTop: `1px solid ${DIV}`,
-                  }}
-                >
-                  + {catExprs.length - 6} more {cat.labelEn} expressions →
-                </Link>
-              )}
+              {/* "See all" is in the section header — no duplicate footer link */}
             </div>
           )
         })}
