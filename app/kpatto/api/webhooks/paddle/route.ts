@@ -58,15 +58,18 @@ const KPATTO_PRICE_ID = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
 export async function POST(request: Request) {
   const body = await request.text()
 
-  // Signature verification (skipped if PADDLE_WEBHOOK_SECRET is not set)
+  // Fail-closed: PADDLE_WEBHOOK_SECRET 미설정이거나 서명 불일치 시 무조건 401
   const secret = process.env.PADDLE_WEBHOOK_SECRET
-  if (secret) {
-    const signature = request.headers.get('paddle-signature') ?? ''
-    const valid = await verifyPaddleSignature(body, signature, secret)
-    if (!valid) {
-      console.error('[kpatto webhook] invalid signature')
-      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
-    }
+  if (!secret) {
+    console.error('[kpatto webhook] PADDLE_WEBHOOK_SECRET not configured')
+    return NextResponse.json({ error: 'Webhook secret not configured' }, { status: 401 })
+  }
+
+  const signature = request.headers.get('paddle-signature') ?? ''
+  const valid = await verifyPaddleSignature(body, signature, secret)
+  if (!valid) {
+    console.error('[kpatto webhook] invalid signature')
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
   }
 
   let event: PaddleEvent
