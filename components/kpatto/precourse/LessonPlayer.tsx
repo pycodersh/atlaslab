@@ -269,7 +269,7 @@ function StepRenderer({ step, lang, lessonId, onInteract }: { step: LessonStep; 
     case 'roadmap':      return <RoadmapStepView step={step} lang={lang} />
     case 'combine-anim': return <CombineAnimation step={step} lang={lang} lessonId={lessonId} />
     case 'card-flip-grid': return <CardFlipGrid step={step} lang={lang} lessonId={lessonId} onAllFlipped={onInteract} />
-    case 'stroke-grid':  return <StrokeGrid step={step} lang={lang} />
+    case 'stroke-grid':  return <StrokeGrid step={step} lang={lang} lessonId={lessonId} />
     case 'word-practice': return <WordPracticeView step={step} lang={lang} lessonId={lessonId} />
     case 'diphthong-grid': return <DiphthongGrid step={step} lang={lang} lessonId={lessonId} />
     case 'stack-anim':   return <StackAnimation step={step} lang={lang} lessonId={lessonId} />

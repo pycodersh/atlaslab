@@ -62,7 +62,7 @@ const PRODUCTS = [
     href: '/patto/home',
     // BLOG LINKS HIDDEN — restore when content is ready:
     // blogLinks: [{ href: '/blog/en/patto', label: '📰 Blog — EN · KO' }],
-    blogLinks: [],
+    blogLinks: [] as { href: string; label: string }[],
   },
   {
     Icon: KPattoIcon,
