@@ -19,9 +19,22 @@ export async function generateMetadata({
   const { locale } = await params
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
   const title = locale === 'ko' ? 'Patto 블로그' : 'Patto Blog'
+
+  // noindex when no active posts (e.g. all paused) — auto-removed when posts return
+  const { data: sample } = await supabase
+    .from('blog_posts')
+    .select('id')
+    .eq('locale', locale)
+    .eq('app', 'patto')
+    .lte('published_at', new Date().toISOString())
+    .eq('is_paused', false)
+    .limit(1)
+  const hasContent = (sample?.length ?? 0) > 0
+
   return {
     title,
     description: 'Tips and guides on mastering English patterns.',
+    robots: hasContent ? undefined : { index: false, follow: false },
     alternates: {
       canonical: `${BASE}/blog/${locale}/patto`,
       languages: {

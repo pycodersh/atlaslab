@@ -40,9 +40,22 @@ export async function generateMetadata({
   const label = APP_LABELS[app] ?? { en: `${app} Blog`, ko: `${app} 블로그`, desc: '' }
   const title = locale === 'ko' ? label.ko : label.en
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
+
+  // noindex when no active posts (e.g. all paused) — auto-removed when posts return
+  const { data: sample } = await supabase
+    .from('blog_posts')
+    .select('id')
+    .eq('locale', locale)
+    .eq('app', app)
+    .lte('published_at', new Date().toISOString())
+    .eq('is_paused', false)
+    .limit(1)
+  const hasContent = (sample?.length ?? 0) > 0
+
   return {
     title,
     description: label.desc,
+    robots: hasContent ? undefined : { index: false, follow: false },
     alternates: {
       canonical: `${BASE}/blog/${locale}/${app}`,
       languages: {
