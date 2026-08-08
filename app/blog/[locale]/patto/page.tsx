@@ -54,6 +54,7 @@ export default async function BlogListPage({
     .eq('locale', locale)
     .eq('app', 'patto')
     .lte('published_at', new Date().toISOString())
+    .eq('is_paused', false)
 
   const totalCount = countRows?.length || 0
   const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE)
@@ -65,6 +66,7 @@ export default async function BlogListPage({
     .eq('locale', locale)
     .eq('app', 'patto')
     .lte('published_at', new Date().toISOString())
+    .eq('is_paused', false)
     .order('published_at', { ascending: false })
     .range(from, to)
 

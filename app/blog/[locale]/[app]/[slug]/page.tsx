@@ -25,6 +25,7 @@ export async function generateMetadata({
     .eq('locale', locale)
     .eq('app', app)
     .eq('slug', slug)
+    .eq('is_paused', false)
     .single()
 
   if (!post) return {}
@@ -57,6 +58,7 @@ export default async function AppBlogPostPage({
     .eq('locale', locale)
     .eq('app', app)
     .eq('slug', slug)
+    .eq('is_paused', false)
     .single()
 
   if (!post) notFound()

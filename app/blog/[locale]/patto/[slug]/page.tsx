@@ -25,6 +25,7 @@ export async function generateMetadata({
     .select('title, description')
     .eq('locale', locale)
     .eq('slug', slug)
+    .eq('is_paused', false)
     .single()
 
   if (!post) return {}
@@ -56,6 +57,7 @@ export default async function BlogPostPage({
     .select('*')
     .eq('locale', locale)
     .eq('slug', slug)
+    .eq('is_paused', false)
     .single()
 
   if (!post) notFound()
