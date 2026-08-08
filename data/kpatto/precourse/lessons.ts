@@ -40,14 +40,18 @@ export const LESSONS: LessonConfig[] = [
       },
       {
         type: 'roadmap',
-        title: { en: 'Your 6-lesson path to reading Korean', ko: '한글을 읽기까지 6레슨' },
+        title: { en: 'Your 10-lesson path', ko: '10레슨 커리큘럼' },
         items: [
-          { num: 1, title: { en: 'What is Hangul?', ko: '한글이란?' }, required: true },
-          { num: 2, title: { en: 'Basic Vowels', ko: '기본 모음' }, required: true },
-          { num: 3, title: { en: 'Basic Consonants', ko: '기본 자음' }, required: true },
-          { num: 4, title: { en: 'Combining', ko: '자음+모음 결합' }, required: true },
-          { num: 5, title: { en: 'Diphthongs', ko: '이중모음' }, required: true },
-          { num: 6, title: { en: 'Final Consonants', ko: '받침' }, required: true },
+          { num: 1,  title: { en: 'What is Hangul?',               ko: '한글이란?' },          required: true  },
+          { num: 2,  title: { en: 'Basic Vowels (8)',               ko: '기본 모음 8개' },       required: true  },
+          { num: 3,  title: { en: 'Basic Consonants (14)',          ko: '기본 자음 14개' },      required: true  },
+          { num: 4,  title: { en: 'Combining Consonants & Vowels',  ko: '자음+모음 결합' },      required: true  },
+          { num: 5,  title: { en: 'Diphthongs (11)',                ko: '이중모음 11개' },       required: true  },
+          { num: 6,  title: { en: 'Final Consonants (받침)',        ko: '받침' },               required: true  },
+          { num: 7,  title: { en: 'Word Reading Practice',          ko: '단어로 읽기 연습' },    required: false },
+          { num: 8,  title: { en: 'Pronunciation Rule 1 — Linking', ko: '발음 규칙 1 — 연음' },  required: false },
+          { num: 9,  title: { en: 'Pronunciation Rule 2 — Aspiration', ko: '발음 규칙 2 — 격음화' }, required: false },
+          { num: 10, title: { en: 'Real-World Reading',             ko: '실전 읽기' },           required: false },
         ],
       },
       {
@@ -56,6 +60,10 @@ export const LESSONS: LessonConfig[] = [
         body: {
           en: 'Ready? Let\'s start with vowels!',
           ko: '준비됐어요? 모음부터 시작해요!',
+        },
+        note: {
+          en: 'What you just learned: Hangul is built on 3 ideas — consonants, vowels, and syllable blocks.\n\nLesson 2 → Basic Vowels (8 sounds)',
+          ko: '방금 배운 것: 한글은 자음·모음·음절 블록으로 이루어져요.\n\n레슨 2 → 기본 모음 8개',
         },
       },
     ],
