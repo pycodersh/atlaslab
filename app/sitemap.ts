@@ -1,7 +1,11 @@
 import type { MetadataRoute } from 'next'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { SLUG_TO_ID, CATEGORIES } from '@/lib/kpatto/expressions-config'
-import { createAdminClient } from '@/lib/supabase/admin'
+// import { createAdminClient } from '@/lib/supabase/admin'  // blog 임시 제외 중 — 품질 정리 완료 후 복원
+
+// Blog sitemap temporarily disabled — re-enable by uncommenting the import above
+// and the blogPages block below, then uncommenting ...blogPages in the return array.
+const BLOG_IN_SITEMAP = false
 
 // Strip leading BOM (U+FEFF) that PowerShell stdin piping can inject into env vars
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com').replace(/^﻿/, '')
@@ -37,29 +41,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.85,
   }))
 
-  // Blog posts — all published posts across all locales and apps
-  // sitemap.ts runs server-side at build/revalidate time, independent of page-level
-  // force-dynamic settings, so we can query the DB directly here.
-  let blogPages: MetadataRoute.Sitemap = []
-  try {
-    const supabase = createAdminClient()
-    const { data } = await supabase
-      .from('blog_posts')
-      .select('locale, app, slug, published_at')
-      .lte('published_at', new Date().toISOString())
-      .order('published_at', { ascending: false })
-    if (data) {
-      blogPages = data.map((post: { locale: string; app: string; slug: string; published_at: string }) => ({
-        url: `${BASE_URL}/blog/${post.locale}/${post.app}/${post.slug}`,
-        lastModified: new Date(post.published_at),
-        changeFrequency: 'monthly' as const,
-        priority: 0.6,
-      }))
-    }
-  } catch {
-    // DB unavailable at build time — skip blog pages rather than failing the build
-    console.warn('[sitemap] blog_posts query failed; blog pages omitted')
-  }
+  // [DISABLED] Blog posts — uncomment when blog content quality is resolved
+  // const blogPages: MetadataRoute.Sitemap = []
+  // if (BLOG_IN_SITEMAP) {
+  //   try {
+  //     const supabase = createAdminClient()
+  //     const { data } = await supabase
+  //       .from('blog_posts')
+  //       .select('locale, app, slug, published_at')
+  //       .lte('published_at', new Date().toISOString())
+  //       .order('published_at', { ascending: false })
+  //     if (data) {
+  //       blogPages = data.map((post: { locale: string; app: string; slug: string; published_at: string }) => ({
+  //         url: `${BASE_URL}/blog/${post.locale}/${post.app}/${post.slug}`,
+  //         lastModified: new Date(post.published_at),
+  //         changeFrequency: 'monthly' as const,
+  //         priority: 0.6,
+  //       }))
+  //     }
+  //   } catch {
+  //     console.warn('[sitemap] blog_posts query failed; blog pages omitted')
+  //   }
+  // }
+  void BLOG_IN_SITEMAP  // suppress unused-var warning while disabled
 
   return [
     { url: `${BASE_URL}/kpatto`,             lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
@@ -68,6 +72,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...categoryPages,
     ...freeEpisodes,
     ...expressionPages,
-    ...blogPages,
+    // ...blogPages,  // re-enable with the block above
   ]
 }
