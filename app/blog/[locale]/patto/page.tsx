@@ -1,12 +1,36 @@
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 )
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  const otherLocale = locale === 'ko' ? 'en' : 'ko'
+  const title = locale === 'ko' ? 'Patto 블로그' : 'Patto Blog'
+  return {
+    title,
+    description: 'Tips and guides on mastering English patterns.',
+    alternates: {
+      canonical: `${BASE}/blog/${locale}/patto`,
+      languages: {
+        [locale]:      `${BASE}/blog/${locale}/patto`,
+        [otherLocale]: `${BASE}/blog/${otherLocale}/patto`,
+      },
+    },
+  }
+}
 
 const POSTS_PER_PAGE = 10
 

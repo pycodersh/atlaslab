@@ -1,7 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
+
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -26,6 +29,28 @@ const APP_LABELS: Record<string, { en: string; ko: string; desc: string }> = {
     ko: 'K-Pantry 블로그',
     desc: 'Korean recipes, ingredients, and cooking guides for home cooks everywhere.',
   },
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; app: string }>
+}): Promise<Metadata> {
+  const { locale, app } = await params
+  const label = APP_LABELS[app] ?? { en: `${app} Blog`, ko: `${app} 블로그`, desc: '' }
+  const title = locale === 'ko' ? label.ko : label.en
+  const otherLocale = locale === 'ko' ? 'en' : 'ko'
+  return {
+    title,
+    description: label.desc,
+    alternates: {
+      canonical: `${BASE}/blog/${locale}/${app}`,
+      languages: {
+        [locale]:      `${BASE}/blog/${locale}/${app}`,
+        [otherLocale]: `${BASE}/blog/${otherLocale}/${app}`,
+      },
+    },
+  }
 }
 
 export default async function AppBlogListPage({
