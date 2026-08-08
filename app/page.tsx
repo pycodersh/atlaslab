@@ -60,7 +60,9 @@ const PRODUCTS = [
     accentColor: 'rgba(124,111,255,0.15)',
     borderHover: 'rgba(124,111,255,0.5)',
     href: '/patto/home',
-    blogLinks: [{ href: '/blog/en/patto', label: '📰 Blog — EN · KO' }],
+    // BLOG LINKS HIDDEN — restore when content is ready:
+    // blogLinks: [{ href: '/blog/en/patto', label: '📰 Blog — EN · KO' }],
+    blogLinks: [],
   },
   {
     Icon: KPattoIcon,
@@ -73,7 +75,9 @@ const PRODUCTS = [
     accentColor: 'rgba(96,165,250,0.08)',
     borderHover: 'rgba(96,165,250,0.4)',
     href: 'https://www.atlaslabstudios.com/kpatto',
-    blogLinks: [{ href: '/blog/en/k-patto', label: '📰 Blog — EN' }],
+    // BLOG LINKS HIDDEN — restore when content is ready:
+    // blogLinks: [{ href: '/blog/en/k-patto', label: '📰 Blog — EN' }],
+    blogLinks: [],
   },
   {
     Icon: CareerNaviIcon,
@@ -99,7 +103,9 @@ const PRODUCTS = [
     accentColor: 'rgba(251,191,36,0.08)',
     borderHover: 'rgba(251,191,36,0.4)',
     href: null,
-    blogLinks: [{ href: '/blog/en/k-pantry', label: '📰 Blog — EN' }],
+    // BLOG LINKS HIDDEN — restore when content is ready:
+    // blogLinks: [{ href: '/blog/en/k-pantry', label: '📰 Blog — EN' }],
+    blogLinks: [],
   },
 ]
 
@@ -586,7 +592,8 @@ export default function AtlasLabHome() {
         <footer className="footer">
           <div className="footer-links">
             <a href="/patto/home" className="footer-link">patto</a>
-            <a href="/blog/en/patto" className="footer-link">blog</a>
+            {/* BLOG LINK HIDDEN — restore when content is ready: */}
+            {/* <a href="/blog/en/patto" className="footer-link">blog</a> */}
             <a href="/videos" className="footer-link">videos</a>
           </div>
           © 2025 Atlas Lab Studios · atlaslabstudios.com
