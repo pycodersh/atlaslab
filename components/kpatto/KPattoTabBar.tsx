@@ -7,7 +7,7 @@ import { House, BookOpen, BarChart2, BookMarked } from 'lucide-react'
 
 export const KPATTO_TAB_BAR_HEIGHT = 80
 
-const ACCENT = '#D4873A'
+const ACTIVE = '#1A1A1A'
 const MUTED  = '#BBBBBB'
 
 const TABS = [
@@ -16,28 +16,28 @@ const TABS = [
     label: 'Home',
     href: '/kpatto/home',
     active: (p: string) => p === '/kpatto' || p === '/kpatto/home',
-    icon: (active: boolean) => <House size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
+    icon: (active: boolean) => <House size={22} color={active ? ACTIVE : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
   {
     key: 'story',
     label: 'Episodes',
     href: '/kpatto/story',
     active: (p: string) => p.startsWith('/kpatto/story'),
-    icon: (active: boolean) => <BookOpen size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
+    icon: (active: boolean) => <BookOpen size={22} color={active ? ACTIVE : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
   {
     key: 'record',
     label: 'Progress',
     href: '/kpatto/record',
     active: (p: string) => p.startsWith('/kpatto/record'),
-    icon: (active: boolean) => <BarChart2 size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
+    icon: (active: boolean) => <BarChart2 size={22} color={active ? ACTIVE : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
   {
     key: 'library',
     label: 'Library',
     href: '/kpatto/library',
     active: (p: string) => p.startsWith('/kpatto/library'),
-    icon: (active: boolean) => <BookMarked size={22} color={active ? ACCENT : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
+    icon: (active: boolean) => <BookMarked size={22} color={active ? ACTIVE : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
 ] as const
 
@@ -105,7 +105,7 @@ export function KPattoTabBar() {
                 gap: compact ? 0 : 3,
                 height: '100%',
                 textDecoration: 'none',
-                color: isActive ? ACCENT : MUTED,
+                color: isActive ? ACTIVE : MUTED,
                 WebkitTapHighlightColor: 'transparent',
                 transition: 'gap 0.25s ease',
               }}
@@ -120,7 +120,7 @@ export function KPattoTabBar() {
                 transition: 'opacity 0.2s ease',
                 height: compact ? 0 : 'auto',
                 overflow: 'hidden',
-                color: isActive ? ACCENT : MUTED,
+                color: isActive ? ACTIVE : MUTED,
               }}>
                 {tab.label}
               </span>

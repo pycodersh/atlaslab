@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
@@ -209,81 +210,57 @@ function HeroImage() {
 // 2행: [들여쓰기] 영문 부제  Continue→
 // 텍스트 블록은 썸네일 높이 내에서 세로 중앙 정렬.
 
-function ContinueRow({ ep, hasProgress }: { ep: ContinueEp; hasProgress: boolean }) {
+function ContinueRow({ ep }: { ep: ContinueEp }) {
   const epLabel = `EP ${String(ep.num).padStart(2, '0')}`
-  const linkLabel = hasProgress ? 'Continue →' : 'Start Episode 1 →'
   return (
     <div style={{ padding: '10px 16px 0' }}>
-      <Link href={`/kpatto/story/${ep.id}`} style={{ textDecoration: 'none', display: 'block' }}>
-        <Card>
+      <Card>
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          padding: '14px 16px 14px 10px',
+          gap: 12,
+        }}>
+          {/* 왼쪽: 썸네일 */}
           <div style={{
-            display: 'flex', alignItems: 'center',
-            padding: '14px 16px 14px 10px',
-            gap: 12,
+            position: 'relative',
+            width: 120, height: 80,
+            borderRadius: 12,
+            overflow: 'hidden',
+            flexShrink: 0,
+            background: '#F7F7F7',
           }}>
-            {/* 왼쪽: 썸네일 */}
-            <div style={{
-              position: 'relative',
-              width: 120, height: 80,
-              borderRadius: 12,
-              overflow: 'hidden',
-              flexShrink: 0,
-              background: '#F7F7F7',
-            }}>
-              <Image
-                src={ep.thumbnailUrl}
-                alt={ep.title}
-                fill
-                style={{ objectFit: 'cover', objectPosition: 'center center' }}
-                sizes="120px"
-              />
+            <Image
+              src={ep.thumbnailUrl}
+              alt={ep.title}
+              fill
+              style={{ objectFit: 'cover', objectPosition: 'center center' }}
+              sizes="120px"
+            />
+          </div>
+
+          {/* 오른쪽: 3행 텍스트 */}
+          <div style={{
+            flex: 1, minWidth: 0,
+            display: 'flex', flexDirection: 'column',
+            gap: 4,
+          }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: T2, letterSpacing: '0.04em' }}>
+              {epLabel}
             </div>
-
-            {/* 오른쪽: 2-row 그리드 — EP열 폭이 두 행에 걸쳐 자동 정렬됨 */}
-            <div style={{
-              flex: 1, minWidth: 0,
-              display: 'grid',
-              gridTemplateColumns: 'minmax(4.5em, max-content) 1fr',
-              rowGap: 8,
-            }}>
-              {/* 1행 열1: EP 라벨 */}
-              <span style={{
-                fontSize: 11, fontWeight: 700, color: ACCENT,
-                letterSpacing: '0.04em', whiteSpace: 'nowrap',
-                alignSelf: 'baseline',
-              }}>
-                {epLabel} ·
-              </span>
-              {/* 1행 열2: 한글 제목 */}
-              <span style={{
-                fontSize: 15, fontWeight: 700, color: T1,
-                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                alignSelf: 'baseline',
-              }}>
-                {ep.title}
-              </span>
-
-              {/* 2행 열1: 들여쓰기 공간 (EP 라벨 폭만큼) */}
-              <span aria-hidden="true" />
-              {/* 2행 열2: 영문 부제 + Continue → */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
-                <span style={{
-                  fontSize: 12, color: T2, flex: 1, minWidth: 0,
-                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                }}>
-                  {ep.titleEn}
-                </span>
-                <span style={{
-                  fontSize: 13, fontWeight: 500, color: ACCENT,
-                  whiteSpace: 'nowrap', flexShrink: 0,
-                }}>
-                  {linkLabel}
-                </span>
-              </div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: T1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {ep.title}
+            </div>
+            <div style={{ fontSize: 12, color: T2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {ep.titleEn}
             </div>
           </div>
-        </Card>
-      </Link>
+
+          {/* 화살표만 클릭 영역 */}
+          <Link href={`/kpatto/story/${ep.id}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', padding: 8, margin: -8, flexShrink: 0 }}>
+            <ChevronRight size={20} strokeWidth={2.8} color={ACCENT} />
+          </Link>
+        </div>
+      </Card>
     </div>
   )
 }
@@ -308,72 +285,70 @@ function ExpressionCard({
     setTimeout(() => setPlaying(false), 2000)
   }, [expr.audio_url])
 
-  const cardInner = (
-    <Card>
-      <CardLabel left="TODAY'S EXPRESSION" />
-      <div style={{
-        display: 'flex', alignItems: 'center', gap: 10,
-        padding: '8px 16px 0',
-      }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{
-            fontSize: 17, fontWeight: 800, color: ACCENT,
-            letterSpacing: '-0.02em', lineHeight: 1.25,
-          }}>
-            {expr.korean}
-          </div>
-          <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 4 }}>
-            {expr.english}
-          </div>
-        </div>
-        {/* 재생 버튼 */}
-        {expr.audio_url && (
-          <button
-            type="button"
-            onClick={handlePlay}
-            style={{
-              flexShrink: 0,
-              width: 36, height: 36,
-              borderRadius: '50%',
-              background: playing ? ACCENT : '#FFF4EA',
-              border: 'none', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'background 0.2s',
-              WebkitTapHighlightColor: 'transparent',
-            }}
-            aria-label="발음 듣기"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill={playing ? '#fff' : ACCENT}
-              stroke="none">
-              <polygon points="5,3 19,12 5,21"/>
-            </svg>
-          </button>
-        )}
-      </div>
-
-      <div style={{ height: 14 }} />
-    </Card>
-  )
-
   return (
     <div style={{ padding: '10px 16px 0' }}>
-      {slug ? (
-        <Link href={`/kpatto/expressions/${slug}`} style={{ textDecoration: 'none', display: 'block' }}>
-          {cardInner}
-        </Link>
-      ) : (
-        <button
-          type="button"
-          onClick={() => onOpenPopup(expr)}
-          style={{
-            display: 'block', width: '100%',
-            background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-            textAlign: 'left', WebkitTapHighlightColor: 'transparent',
-          }}
-        >
-          {cardInner}
-        </button>
-      )}
+      <Card>
+        <CardLabel left="TODAY'S EXPRESSION" />
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          padding: '8px 12px 14px 16px',
+        }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{
+              fontSize: 17, fontWeight: 800, color: ACCENT,
+              letterSpacing: '-0.02em', lineHeight: 1.25,
+            }}>
+              {expr.korean}
+            </div>
+            <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 4 }}>
+              {expr.english}
+            </div>
+          </div>
+
+          {/* 재생 버튼 */}
+          {expr.audio_url && (
+            <button
+              type="button"
+              onClick={handlePlay}
+              style={{
+                flexShrink: 0,
+                width: 36, height: 36,
+                borderRadius: '50%',
+                background: playing ? ACCENT : '#FFF4EA',
+                border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'background 0.2s',
+                WebkitTapHighlightColor: 'transparent',
+              }}
+              aria-label="발음 듣기"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill={playing ? '#fff' : ACCENT}
+                stroke="none">
+                <polygon points="5,3 19,12 5,21"/>
+              </svg>
+            </button>
+          )}
+
+          {/* 화살표만 클릭 영역 */}
+          {slug ? (
+            <Link href={`/kpatto/expressions/${slug}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', padding: 8, margin: -8, flexShrink: 0 }}>
+              <ChevronRight size={20} strokeWidth={2.8} color={ACCENT} />
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onOpenPopup(expr)}
+              style={{
+                background: 'none', border: 'none', padding: 8, margin: -8,
+                cursor: 'pointer', display: 'flex', alignItems: 'center',
+                flexShrink: 0, WebkitTapHighlightColor: 'transparent',
+              }}
+            >
+              <ChevronRight size={20} strokeWidth={2.8} color={ACCENT} />
+            </button>
+          )}
+        </div>
+      </Card>
     </div>
   )
 }
@@ -388,25 +363,19 @@ function PrecourseCard({
   lessonsCompleted: number
   precoursePercent: number
 }) {
-  const linkLabel = lessonsCompleted === 0
-    ? 'Start Hangeul →'
-    : lessonsCompleted >= REQUIRED_LESSONS
-      ? 'Review →'
-      : 'Continue →'
-
   return (
     <div style={{ padding: '10px 16px 0' }}>
-      <Link href="/kpatto/pre-course" style={{ textDecoration: 'none', display: 'block' }}>
-        <Card>
-          <CardLabel
-            left="HANGEUL PRE-COURSE"
-            right={`${lessonsCompleted} of ${TOTAL_LESSONS}`}
-          />
-          <div style={{ padding: '8px 16px 14px' }}>
+      <Card>
+        <CardLabel left="HANGEUL PRE-COURSE" />
+        <div style={{
+          display: 'flex', alignItems: 'center',
+          padding: '8px 12px 14px 16px', gap: 12,
+        }}>
+          {/* 왼쪽: 제목 + 진행바 + 퍼센트 */}
+          <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 15, fontWeight: 700, color: T1, marginBottom: 8 }}>
               Master Hangeul Reading
             </div>
-            {/* 진행률 바 */}
             <div style={{ height: 5, background: DIV, borderRadius: 99, overflow: 'hidden' }}>
               <div style={{
                 height: '100%',
@@ -416,21 +385,17 @@ function PrecourseCard({
                 transition: 'width 0.4s ease',
               }} />
             </div>
-            {/* 완료율 + Continue 텍스트: 같은 줄, 오른쪽 기준선 정렬 */}
-            <div style={{ display: 'flex', alignItems: 'center', marginTop: 5 }}>
-              <span style={{ fontSize: 11, color: T2, flex: 1 }}>
-                {lessonsCompleted >= REQUIRED_LESSONS ? 'Completed ✓' : `${precoursePercent}% complete`}
-              </span>
-              <span style={{
-                fontSize: 13, fontWeight: 500, color: ACCENT,
-                whiteSpace: 'nowrap', flexShrink: 0,
-              }}>
-                {linkLabel}
-              </span>
+            <div style={{ fontSize: 11, color: T2, marginTop: 5 }}>
+              {lessonsCompleted >= REQUIRED_LESSONS ? 'Completed ✓' : `${precoursePercent}% complete`}
             </div>
           </div>
-        </Card>
-      </Link>
+
+          {/* 화살표만 클릭 영역 */}
+          <Link href="/kpatto/pre-course" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', padding: 8, margin: -8, flexShrink: 0 }}>
+            <ChevronRight size={20} strokeWidth={2.8} color={ACCENT} />
+          </Link>
+        </div>
+      </Card>
     </div>
   )
 }
@@ -441,7 +406,8 @@ function StreakCard({ streak, weekActivity }: { streak: number; weekActivity: bo
   return (
     <div style={{ padding: '10px 16px 0' }}>
       <Card>
-        <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 20 }}>
+        <CardLabel left="STREAK" />
+        <div style={{ padding: '10px 16px 14px', display: 'flex', alignItems: 'center', gap: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
             <div style={{
               width: 40, height: 40, borderRadius: 12,
@@ -464,7 +430,7 @@ function StreakCard({ streak, weekActivity }: { streak: number; weekActivity: bo
                 <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <div style={{
                     width: 26, height: 26, borderRadius: '50%',
-                    background: done ? ACCENT : isToday ? '#1A1A1A' : '#F2F2F2',
+                    background: done ? '#1A1A1A' : isToday ? '#1A1A1A' : '#F2F2F2',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     {done
@@ -499,11 +465,19 @@ function StatsRow() {
         { num: '100', label: 'stories' },
         { num: '325', label: 'expressions' },
         { num: '10',  label: 'free episodes' },
-      ] as { num: string; label: string }[]).map(({ num, label }) => (
-        <div key={label} style={{ textAlign: 'center', flex: 1 }}>
-          <div style={{ fontSize: 20, fontWeight: 800, color: ACCENT, letterSpacing: '-0.04em' }}>{num}</div>
-          <div style={{ fontSize: 11, color: T2, marginTop: 2 }}>{label}</div>
-        </div>
+      ] as { num: string; label: string }[]).map(({ num, label }, i) => (
+        <>
+          {i > 0 && (
+            <div key={`div-${i}`} style={{
+              width: 1, background: '#E0E0E0',
+              alignSelf: 'stretch', margin: '6px 0', flexShrink: 0,
+            }} />
+          )}
+          <div key={label} style={{ textAlign: 'center', flex: 1 }}>
+            <div style={{ fontSize: 9, fontWeight: 700, color: T2, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>{label}</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: T1, letterSpacing: '-0.04em' }}>{num}</div>
+          </div>
+        </>
       ))}
     </div>
   )
@@ -617,7 +591,7 @@ export default function KPattoHomePage() {
           <HeroImage />
 
           {/* [2] 이어보기 카드 (진행 없음 → "Start Episode 1") */}
-          <ContinueRow ep={continueEp} hasProgress={hasProgress} />
+          <ContinueRow ep={continueEp} />
 
           {/* [3] 한글 프리코스 (항상 표시) */}
           <PrecourseCard

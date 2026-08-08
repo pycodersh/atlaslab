@@ -167,30 +167,22 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor, titleOverride }:
       alignItems: 'center',
       gap: 14,
       background: '#FFFFFF',
-      border: `1.5px solid ${done ? 'rgba(212,135,58,0.25)' : 'rgba(0,0,0,0.07)'}`,
+      border: '1.5px solid rgba(0,0,0,0.08)',
       borderRadius: 18,
       padding: '16px 18px',
       opacity: unlocked ? 1 : 0.5,
       textDecoration: 'none',
       color: '#1a1a2e',
-      boxShadow: done
-        ? '0 2px 12px rgba(212,135,58,0.08)'
-        : unlocked
-          ? '0 1px 6px rgba(0,0,0,0.04)'
-          : 'none',
-      transition: 'box-shadow 0.2s, border-color 0.2s',
+      boxShadow: unlocked ? '0 1px 6px rgba(0,0,0,0.04)' : 'none',
+      transition: 'box-shadow 0.2s',
     }}>
       {/* Number / status */}
       <div style={{
         width: 46,
         height: 46,
         borderRadius: 14,
-        background: done
-          ? 'rgba(212,135,58,0.10)'
-          : !unlocked
-            ? 'rgba(0,0,0,0.04)'
-            : `${badgeColor}12`,
-        border: done ? '1px solid rgba(212,135,58,0.20)' : '1px solid transparent',
+        background: !unlocked ? 'rgba(0,0,0,0.04)' : done ? 'transparent' : `${badgeColor}12`,
+        border: '1px solid transparent',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -211,10 +203,6 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor, titleOverride }:
             fontSize: 9,
             fontWeight: 800,
             color: badgeColor,
-            background: `${badgeColor}12`,
-            border: `1px solid ${badgeColor}30`,
-            padding: '2px 8px',
-            borderRadius: 99,
             letterSpacing: '0.07em',
             textTransform: 'uppercase' as const,
           }}>

@@ -172,7 +172,7 @@ function EpGroupHeader({
   titleEn: string
   locked:  boolean
 }) {
-  const barColor = locked ? T3 : '#BA7517'
+  const barColor = locked ? T3 : T2
 
   return (
     <div style={{

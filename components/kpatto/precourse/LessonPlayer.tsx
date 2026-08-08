@@ -94,7 +94,7 @@ function RoadmapStepView({ step, lang }: { step: Extract<LessonStep, { type: 'ro
       <p style={{
         margin: '0 0 18px',
         fontSize: 13,
-        color: '#D4873A',
+        color: '#888888',
         fontWeight: 600,
         lineHeight: 1.5,
       }}>
@@ -106,7 +106,7 @@ function RoadmapStepView({ step, lang }: { step: Extract<LessonStep, { type: 'ro
         <div style={{
           fontSize: 10,
           fontWeight: 800,
-          color: '#D4873A',
+          color: '#888888',
           letterSpacing: '0.09em',
           textTransform: 'uppercase',
           marginBottom: 8,
@@ -115,7 +115,7 @@ function RoadmapStepView({ step, lang }: { step: Extract<LessonStep, { type: 'ro
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
           {requiredItems.map(item => (
-            <LessonRoadmapRow key={item.num} item={item} badgeColor="#D4873A" />
+            <LessonRoadmapRow key={item.num} item={item} badgeColor="#888888" />
           ))}
         </div>
       </div>

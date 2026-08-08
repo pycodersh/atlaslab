@@ -76,7 +76,7 @@ function StatStrip({ items }: { items: { value: string | number; label: string; 
           <div style={{
             fontSize: 26,
             fontWeight: 800,
-            color: accent ? AMBER : BLACK,
+            color: BLACK,
             letterSpacing: '-0.04em',
             lineHeight: 1,
           }}>
