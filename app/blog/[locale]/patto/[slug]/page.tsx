@@ -7,6 +7,8 @@ import type { Metadata } from 'next'
 export const revalidate = 3600
 export const dynamicParams = true
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
@@ -26,10 +28,19 @@ export async function generateMetadata({
     .single()
 
   if (!post) return {}
+
+  const otherLocale = locale === 'ko' ? 'en' : 'ko'
   return {
     title: `${post.title} — Patto Blog`,
     description: post.description,
     openGraph: { title: post.title, description: post.description },
+    alternates: {
+      canonical: `${BASE}/blog/${locale}/patto/${slug}`,
+      languages: {
+        [locale]: `${BASE}/blog/${locale}/patto/${slug}`,
+        [otherLocale]: `${BASE}/blog/${otherLocale}/patto/${slug}`,
+      },
+    },
   }
 }
 

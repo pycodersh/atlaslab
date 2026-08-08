@@ -1,11 +1,12 @@
 import type { MetadataRoute } from 'next'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { SLUG_TO_ID, CATEGORIES } from '@/lib/kpatto/expressions-config'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 // Strip leading BOM (U+FEFF) that PowerShell stdin piping can inject into env vars
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com').replace(/^﻿/, '')
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // EP01~10 (free episodes only — EP11+ are gated, excluded from sitemap)
   const freeEpisodes: MetadataRoute.Sitemap = Array.from(
     { length: FREE_EPISODES },
@@ -36,6 +37,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }))
 
+  // Blog posts — all published posts across all locales and apps
+  // sitemap.ts runs server-side at build/revalidate time, independent of page-level
+  // force-dynamic settings, so we can query the DB directly here.
+  let blogPages: MetadataRoute.Sitemap = []
+  try {
+    const supabase = createAdminClient()
+    const { data } = await supabase
+      .from('blog_posts')
+      .select('locale, app, slug, published_at')
+      .lte('published_at', new Date().toISOString())
+      .order('published_at', { ascending: false })
+    if (data) {
+      blogPages = data.map((post: { locale: string; app: string; slug: string; published_at: string }) => ({
+        url: `${BASE_URL}/blog/${post.locale}/${post.app}/${post.slug}`,
+        lastModified: new Date(post.published_at),
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      }))
+    }
+  } catch {
+    // DB unavailable at build time — skip blog pages rather than failing the build
+    console.warn('[sitemap] blog_posts query failed; blog pages omitted')
+  }
+
   return [
     { url: `${BASE_URL}/kpatto`,             lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
     { url: `${BASE_URL}/kpatto/story`,        lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
@@ -43,5 +68,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...categoryPages,
     ...freeEpisodes,
     ...expressionPages,
+    ...blogPages,
   ]
 }

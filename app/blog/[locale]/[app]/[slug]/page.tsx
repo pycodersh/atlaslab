@@ -6,6 +6,8 @@ import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
@@ -26,10 +28,19 @@ export async function generateMetadata({
     .single()
 
   if (!post) return {}
+
+  const otherLocale = locale === 'ko' ? 'en' : 'ko'
   return {
     title: `${post.title} — ${app} Blog`,
     description: post.description,
     openGraph: { title: post.title, description: post.description },
+    alternates: {
+      canonical: `${BASE}/blog/${locale}/${app}/${slug}`,
+      languages: {
+        [locale]: `${BASE}/blog/${locale}/${app}/${slug}`,
+        [otherLocale]: `${BASE}/blog/${otherLocale}/${app}/${slug}`,
+      },
+    },
   }
 }
 
@@ -126,7 +137,7 @@ export default async function AppBlogPostPage({
           <p style={{ marginBottom: 20, fontWeight: 600, fontSize: 16, color: '#fff' }}>
             Learn Korean patterns naturally with K-Patto.
           </p>
-          <a href="https://atlaslabstudios.com" style={{
+          <a href="https://www.atlaslabstudios.com" style={{
             background: '#7c6fff', color: 'white',
             padding: '12px 32px', borderRadius: 999,
             textDecoration: 'none', fontWeight: 600, fontSize: 14,

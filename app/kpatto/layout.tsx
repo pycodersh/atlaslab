@@ -44,7 +44,7 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://atlaslabstudios.com'
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
 const orgSchema = {
   '@context': 'https://schema.org',

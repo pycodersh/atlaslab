@@ -10,7 +10,7 @@ import {
 
 export const revalidate = 86400
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://atlaslabstudios.com'
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
 export const metadata: Metadata = {
   title: 'Essential Korean Patterns — 325 Patterns with Audio | K-PATTO',
