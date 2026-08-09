@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import { MDXRemote } from 'next-mdx-remote/rsc'
+import remarkGfm from 'remark-gfm'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -102,6 +103,10 @@ export default async function BlogPostPage({
         .blog-prose a { color: #7c6fff; text-decoration: underline; text-underline-offset: 3px; }
         .blog-prose a:hover { color: #a89fff; }
         .blog-prose hr { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0; }
+        .blog-prose table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; display: block; overflow-x: auto; }
+        .blog-prose th, .blog-prose td { padding: 10px 16px; text-align: left; border: 1px solid rgba(255,255,255,0.12); }
+        .blog-prose th { background: rgba(255,255,255,0.07); font-weight: 600; font-size: 13px; letter-spacing: 0.02em; }
+        .blog-prose tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
         .blog-prose * { font-family: inherit; }
       `}</style>
 
@@ -155,7 +160,7 @@ export default async function BlogPostPage({
         className="blog-prose"
         style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px' }}
       >
-        <MDXRemote source={post.content} />
+        <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
       </article>
 
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 24px 80px' }}>

@@ -888,3 +888,40 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
 @media (prefers-reduced-motion:reduce) {
   .hub-orb, .hub-badge-dot { animation:none; }
 }
+
+/* ── Blog prose: markdown table, hr, code ─────────────────────────── */
+.blog-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+  overflow-x: auto;
+  display: block;
+}
+.blog-prose th,
+.blog-prose td {
+  padding: 10px 16px;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.blog-prose th {
+  background: rgba(255, 255, 255, 0.07);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+.blog-prose tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.03);
+}
+.blog-prose hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 36px 0;
+}
+.blog-prose code {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.88em;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
