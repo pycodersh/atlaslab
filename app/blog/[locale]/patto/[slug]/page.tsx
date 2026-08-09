@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import type { Metadata } from 'next'
 
 export const revalidate = 3600
@@ -62,6 +62,12 @@ export default async function BlogPostPage({
     .single()
 
   if (!post) notFound()
+
+  // k-patto 글은 canonical 경로인 /k-patto/로 308 redirect
+  // patto 앱 글은 이 라우트에서 정상 서빙
+  if (post.app === 'k-patto') {
+    redirect(`/blog/${locale}/k-patto/${slug}`)
+  }
 
   const fontFamily = locale === 'ko'
     ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
