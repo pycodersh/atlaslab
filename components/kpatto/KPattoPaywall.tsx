@@ -16,7 +16,6 @@ const PERKS = [
   'Unlimited access to EP11 and beyond',
   'New episodes unlocked automatically',
   'Full access to all challenges',
-  'Unlimited bookmarks',
   'Full audio access',
 ]
 

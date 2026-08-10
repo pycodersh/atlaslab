@@ -18,7 +18,6 @@ const PRO_PERKS = [
   'EP 11~ unlimited access',
   'New episodes auto-unlocked',
   'Full challenge access',
-  'Unlimited bookmarks',
   'Full audio access',
 ]
 
