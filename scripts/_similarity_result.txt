@@ -1,0 +1,472 @@
+﻿◇ injected env (0) from .env.local // tip: ◈ encrypted .env [www.dotenvx.com]
+📥 전체 blog_posts 조회 중…
+✅ 1000건 로드 완료
+
+🔧 shingle 계산 중…
+════════════════════════════════════════════════════════════════════════
+1. Thin Content 집계
+════════════════════════════════════════════════════════════════════════
+
+전체 thin: 385건 / 1000건 (38.5%)
+  발행 thin: 109건 / 342건 (31.9%)
+  예약 thin: 276건 / 658건 (41.9%)
+
+앱별 thin 비율:
+  k-pantry            1건 /   79건  (1.3%)
+  k-patto            40건 /  200건  (20.0%)
+  patto             344건 /  721건  (47.7%)
+
+thin 사유별:
+  template_fill        385건
+
+발행 thin 예시 (최대 10건):
+  [en/k-patto] "How to Practice Korean Speaking Alone at Home"  → template_fill  (363w)
+  [en/k-patto] "K-Pop Lyrics as Korean Study Material: A Full Guide"  → template_fill  (365w)
+  [en/k-patto] "Using Korean Webtoons to Improve Reading Speed"  → template_fill  (361w)
+  [en/k-patto] "The Shadowing Method for Korean: Step by Step"  → template_fill  (363w)
+  [en/k-patto] "The Best Way to Use Anki for Korean Vocabulary"  → template_fill  (365w)
+  [en/k-patto] "How to Study Korean Grammar Without Getting Bored"  → template_fill  (363w)
+  [en/k-patto] "The 10-Minute Daily Korean Practice That Actually Works"  → template_fill  (363w)
+  [en/k-patto] "The Best Korean Podcasts for Language Learners"  → template_fill  (361w)
+  [en/k-patto] "How to Use Korean Social Media to Improve Naturally"  → template_fill  (365w)
+  [en/k-patto] "How to Set Up a Korean Learning Schedule That Works"  → template_fill  (367w)
+
+════════════════════════════════════════════════════════════════════════
+2. 복붙 쌍·그룹 탐지  (앱 내 Jaccard ≥ 0.85, 정규화 본문 기준)
+════════════════════════════════════════════════════════════════════════
+  [k-pantry] 79건 pairwise 비교…
+  [k-patto] 200건 pairwise 비교…
+  [patto] 721건 pairwise 비교…
+
+복붙 쌍 총 4820건 (정규화 Jaccard ≥ 0.85)
+복붙에 관여된 고유 포스트: 272건
+
+앱별 복붙 쌍:
+  k-pantry         724쌍
+  k-patto          4095쌍
+  patto            1쌍
+
+발행×발행 쌍: 1550건  ← 이미 색인될 수 있음
+발행×예약 쌍: 2339건
+예약×예약 쌍: 931건
+
+상위 30쌍 상세 (Jaccard 내림차순):
+  sim=1.000 (raw=0.896)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Glass Noodles (Dangmyeon) for Japchae and Beyond"
+  sim=1.000 (raw=0.896)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Dried Anchovies in Korean Cooking: A Complete Guide"
+  sim=1.000 (raw=0.885)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "How to Use Korean Soup Soy Sauce (Guk-ganjang)"
+  sim=1.000 (raw=0.915)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Korean Kelp (Dashima/Kombu): Stock, Snacks, and More"
+  sim=1.000 (raw=0.885)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Korean Anchovy Stock: The Base of Almost Every Soup"
+  sim=1.000 (raw=0.896)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "How to Stock a Korean Pantry on a Budget"
+  sim=1.000 (raw=0.879)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Korean Rice: Which Type to Buy and Why It Matters"
+  sim=1.000 (raw=0.902)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Sikhye: Korea's Traditional Sweet Rice Drink"
+  sim=1.000 (raw=0.890)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Toasted vs Untoasted Sesame Seeds in Korean Cooking"
+  sim=1.000 (raw=0.890)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "What Is Maesil-cheong? Korean Plum Syrup Explained"
+  sim=1.000 (raw=0.885)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Korean Radish (Mu) vs Daikon: Are They the Same?"
+  sim=1.000 (raw=0.890)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Gamja-tang Essential: What Is Perilla Seed Powder?"
+  sim=1.000 (raw=0.885)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "What Is Soy Sauce Eggs? Korean Gyeran Jangjorim Guide"
+  sim=1.000 (raw=0.896)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Understanding Korean Tteok: Types of Rice Cakes"
+  sim=1.000 (raw=0.902)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Makgeolli Basics: Korea's Milky Rice Wine"
+  sim=1.000 (raw=0.902)  [en/k-pantry/발행]
+    A: "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    B: "Korean Fermented Shrimp (Saeujeot) in Kimchi"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "How to Make Kimchi: The Complete Fermentation Guide"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "Deep Frying Korean Style: Tuigim and Jeon Compared"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "How to Make Korean Stew (Jjigae): The Fundamentals"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "Korean Steaming Techniques (Jjim): Fish, Ribs, and More"
+  sim=1.000 (raw=0.873)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "Korean Noodle Cooking: Boiling, Rinsing, and Seasoning"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "Blanching Vegetables the Korean Way: Tips and Timing"
+  sim=1.000 (raw=0.857)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "How to Make Sundubu (Soft Tofu) from Store-Bought Tofu"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "Korean Grilling Techniques: How to BBQ at Home"
+  sim=1.000 (raw=0.873)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "How to Make Anchovy Stock from Scratch"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "How to Store Korean Fermented Pastes (Gochujang, Doenjang)"
+  sim=1.000 (raw=0.863)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "Making Korean Rice Dishes: Bibimbap, Bokkeum-bap, and More"
+  sim=1.000 (raw=0.873)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "Korean Porridge (Juk): Healing Comfort in a Bowl"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "How to Make Korean Cold Broth for Naengmyeon"
+  sim=1.000 (raw=0.868)  [en/k-pantry/발행]
+    A: "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    B: "How to Pound and Tenderize Meat Korean Style"
+
+════════════════════════════════════════════════════════════════════════
+3. 복붙 그룹 (클러스터) — Union-Find
+════════════════════════════════════════════════════════════════════════
+
+복붙 그룹 수: 10개
+그룹별 크기 분포:
+    50개짜리 그룹: 2개
+    40개짜리 그룹: 1개
+    30개짜리 그룹: 2개
+    27개짜리 그룹: 1개
+    22개짜리 그룹: 1개
+    17개짜리 그룹: 1개
+     4개짜리 그룹: 1개
+     2개짜리 그룹: 1개
+
+상위 10개 그룹 상세:
+
+  그룹 #1  (50편, 발행 32편)
+    [en/k-patto/발행] "Object Markers 을/를: When and How to Use Them"
+    [en/k-patto/발행] "Korean Sentence Structure (SOV): Why the Verb Goes Last"
+    [en/k-patto/발행] "Korean Consonant Clusters: How to Pronounce Them"
+    [en/k-patto/발행] "Korean Honorifics (존댓말): A Complete Beginner's Guide"
+    [en/k-patto/예약] "Korean Particles Explained: 은/는 vs 이/가"
+    [en/k-patto/예약] "Vowel Harmony in Korean: Does It Still Matter?"
+    [en/k-patto/예약] "Location Particles 에 vs 에서: The Key Difference"
+    [en/k-patto/예약] "The History of Hangul: Why Korea's Alphabet Is Genius"
+    [en/k-patto/발행] "Topic Markers vs Subject Markers in Korean: The Real Difference"
+    [en/k-patto/발행] "Korean vs Chinese: What They Share and Where They Differ"
+    [en/k-patto/예약] "Understanding Korean Tense: Past, Present, Future"
+    [en/k-patto/예약] "Korean Verb Conjugation for Beginners"
+    [en/k-patto/발행] "The Korean Passive Voice: How It Really Works"
+    [en/k-patto/예약] "Korean Counters (단위명사): The Guide You Need"
+    [en/k-patto/예약] "Korean Numbers: Native vs Sino-Korean System"
+    [en/k-patto/예약] "Korean -아서/어서: Expressing Reason and Sequence"
+    [en/k-patto/발행] "Why Korean Verbs Come With So Many Endings"
+    [en/k-patto/발행] "Korean Conditionals: -면/으면 Explained"
+    [en/k-patto/발행] "Korean Reported Speech: How to Say "They Said""
+    [en/k-patto/발행] "Korean Postpositions vs English Prepositions"
+    [en/k-patto/예약] "The Korean Sentence-Final Endings That Express Emotion"
+    [en/k-patto/발행] "Korean Determiners and How They Work"
+    [en/k-patto/발행] "Korean Reduplication: When Words Double Up"
+    [en/k-patto/발행] "Korean Loan Words from English: More Than You Think"
+    [en/k-patto/발행] "How Korean Expresses Ability and Possibility"
+    [en/k-patto/발행] "Korean Informal Speech (반말): When to Use It"
+    [en/k-patto/발행] "Tensed Consonants (경음) in Korean: ㄲ, ㄸ, ㅃ, ㅆ, ㅉ"
+    [en/k-patto/발행] "Aspirated Consonants in Korean: ㅋ, ㅌ, ㅍ, ㅊ"
+    [en/k-patto/예약] "Sino-Korean vs Native Korean: Which Words Are Which?"
+    [en/k-patto/예약] "Korean Sound Changes (연음): Why Words Sound Different"
+    [en/k-patto/예약] "Korean Syllable Structure: Why Every Block Matters"
+    [en/k-patto/발행] "Korean Onomatopoeia: Sound Words That Paint a Picture"
+    [en/k-patto/발행] "Korean Idiomatic Expressions and Their Origins"
+    [en/k-patto/예약] "How Word Order Flexibility Works in Korean"
+    [en/k-patto/예약] "The Korean Copula 이다: More Than Just "To Be""
+    [en/k-patto/발행] "How Context Determines Formality in Korean"
+    [en/k-patto/발행] "Korean Color Terms and Their Cultural Meaning"
+    [en/k-patto/예약] "Korean Spatial Vocabulary: Directions and Positions"
+    [en/k-patto/예약] "Korean Existential Verbs: 있다 and 없다"
+    [en/k-patto/발행] "Korean vs Japanese: Similarities Learners Can Use"
+    [en/k-patto/발행] "Why Korean Has No Articles (a, an, the)"
+    [en/k-patto/발행] "The Korean Connective -고: Linking Actions and Ideas"
+    [en/k-patto/발행] "Korean Politeness Levels Explained Simply"
+    [en/k-patto/발행] "How Korean Expresses Time and Duration"
+    [en/k-patto/발행] "Korean Body Language and What It Communicates"
+    [en/k-patto/발행] "How Korean Expresses Want and Desire"
+    [en/k-patto/발행] "Korean Questions: The Intonation Trick That Changes Everything"
+    [en/k-patto/발행] "Korean Double Negatives and What They Mean"
+    [en/k-patto/발행] "How Korean Expresses Negation"
+    [en/k-patto/예약] "Korean Adjectives That Act Like Verbs"
+
+  그룹 #2  (50편, 발행 32편)
+    [en/k-patto/발행] "~던데: How to Share What You Noticed in Korean"
+    [en/k-patto/발행] "~잖아: The Pattern That Says "You Know" in Korean"
+    [en/k-patto/발행] "~거든: How Koreans Explain Themselves Naturally"
+    [en/k-patto/발행] "~ㄹ/을 것 같다: Making Predictions in Korean"
+    [en/k-patto/발행] "~아/어 보다: How to Say "Try Doing" in Korean"
+    [en/k-patto/예약] "~는 것 같아: How to Express "I Think" in Korean Naturally"
+    [en/k-patto/발행] "~(으)ㄹ 수 있다: Expressing Ability in Korean"
+    [en/k-patto/발행] "~아/어야 하다: The "Have To" Pattern in Korean"
+    [en/k-patto/발행] "~(으)면: Making Conditionals Feel Natural in Korean"
+    [en/k-patto/예약] "~(으)면서: Doing Two Things at Once in Korean"
+    [en/k-patto/예약] "~지 않다: The Clean Negation Pattern in Korean"
+    [en/k-patto/예약] "~고 싶다: Expressing What You Want in Korean"
+    [en/k-patto/예약] "~기 전에: Talking About "Before" in Korean"
+    [en/k-patto/예약] "~(으)ㄴ 후에: How to Say "After" in Korean"
+    [en/k-patto/예약] "~(으)니까: Why Koreans Use This Instead of 때문에"
+    [en/k-patto/예약] "~는데: How to Use This Essential Connector"
+    [en/k-patto/예약] "~자마자: "As Soon As" in Korean — The Natural Way"
+    [en/k-patto/발행] "~아/어서: The Cause-and-Effect Pattern in Korean"
+    [en/k-patto/발행] "~아/어 보이다: How to Say "It Looks Like" in Korean"
+    [en/k-patto/발행] "~(으)ㄹ래요?: Asking Preferences in Korean"
+    [en/k-patto/발행] "~(으)ㄹ 때: Setting the Scene With "When" in Korean"
+    [en/k-patto/발행] "~(으)ㄹ게요: Making Promises and Offers in Korean"
+    [en/k-patto/발행] "~지 마세요: How to Say "Don't" Politely in Korean"
+    [en/k-patto/발행] "~는 동안: Expressing Duration in Korean Naturally"
+    [en/k-patto/발행] "~(으)세요: Making Polite Requests in Korean"
+    [en/k-patto/발행] "~고 나서: "After Doing" — A Step-by-Step Pattern"
+    [en/k-patto/예약] "~(으)ㄹ까요?: Suggesting Things in Korean"
+    [en/k-patto/발행] "~(으)ㄴ 적이 있다: Talking About Past Experiences"
+    [en/k-patto/발행] "~게 되다: How to Describe How Things Came to Be"
+    [en/k-patto/발행] "~(으)ㄹ 뻔하다: The "Almost" Pattern in Korean"
+    [en/k-patto/발행] "~는 반면에: Contrasting Ideas in Korean"
+    [en/k-patto/발행] "~아/어 버리다: Expressing Completion or Regret in Korean"
+    [en/k-patto/발행] "~(으)ㄹ수록: The More... The More in Korean"
+    [en/k-patto/발행] "~(으)ㄴ/는 편이다: Tendencies and Generalizations in Korean"
+    [en/k-patto/발행] "~아/어 있다: Describing a Resulting State in Korean"
+    [en/k-patto/발행] "~(으)ㄹ 텐데: Speculating About the Present or Future"
+    [en/k-patto/발행] "~(으)ㄹ 것이다: Expressing Future Plans in Korean"
+    [en/k-patto/예약] "~는 바람에: Unexpected Consequences in Korean"
+    [en/k-patto/예약] "~도 불구하고: "Despite" and "Although" in Korean"
+    [en/k-patto/예약] "~고 있다: The Korean Present Progressive"
+    [en/k-patto/예약] "~아/어 본 적이 있다: Have You Ever Tried in Korean?"
+    [en/k-patto/예약] "~에 비해: Comparing Things Naturally in Korean"
+    [en/k-patto/예약] "~았/었으면 좋겠다: Expressing Wishes in Korean"
+    [en/k-patto/발행] "~만큼: Expressing Degree and Proportion in Korean"
+    [en/k-patto/발행] "~에 대해: Talking About Topics in Korean"
+    [en/k-patto/예약] "~(이)라도: "At Least" and "Even If" in Korean"
+    [en/k-patto/발행] "~(으)ㄴ/는 것 같다: Softening Opinions in Korean"
+    [en/k-patto/발행] "~기 때문에: Giving Reasons Like a Native Speaker"
+    [en/k-patto/발행] "~밖에: The "Nothing But" Pattern in Korean"
+    [en/k-patto/예약] "~에 따라: "Depending On" in Korean"
+
+  그룹 #3  (40편, 발행 22편)
+    [en/k-patto/예약] "How to Learn Korean Through K-Dramas Effectively"
+    [en/k-patto/발행] "How to Practice Korean Speaking Alone at Home"
+    [en/k-patto/발행] "K-Pop Lyrics as Korean Study Material: A Full Guide"
+    [en/k-patto/발행] "Using Korean Webtoons to Improve Reading Speed"
+    [en/k-patto/발행] "The Shadowing Method for Korean: Step by Step"
+    [en/k-patto/발행] "The Best Way to Use Anki for Korean Vocabulary"
+    [en/k-patto/발행] "How to Study Korean Grammar Without Getting Bored"
+    [en/k-patto/발행] "The 10-Minute Daily Korean Practice That Actually Works"
+    [en/k-patto/예약] "Korean Journaling: Write Your Way to Fluency"
+    [en/k-patto/예약] "How to Read Korean News as a Beginner"
+    [en/k-patto/예약] "How to Watch Korean TV Without Subtitles"
+    [en/k-patto/예약] "How to Find a Korean Language Exchange Partner"
+    [en/k-patto/예약] "How to Remember Korean Vocabulary Without Flashcards"
+    [en/k-patto/예약] "Korean Typing Practice: How to Get Fast on a Korean Keyboard"
+    [en/k-patto/발행] "The Best Korean Podcasts for Language Learners"
+    [en/k-patto/발행] "How to Use Korean Social Media to Improve Naturally"
+    [en/k-patto/발행] "How to Set Up a Korean Learning Schedule That Works"
+    [en/k-patto/발행] "How to Build Korean Vocabulary Through Reading"
+    [en/k-patto/발행] "How to Learn Korean Particles Through Stories"
+    [en/k-patto/발행] "How to Self-Correct Your Korean Without a Teacher"
+    [en/k-patto/발행] "How to Track Korean Vocabulary Growth Over Time"
+    [en/k-patto/발행] "Korean Learning Apps Compared: What Actually Works"
+    [en/k-patto/예약] "How to Use Naver Dictionary for Korean Learning"
+    [en/k-patto/예약] "How to Use Korean YouTube Channels to Learn Naturally"
+    [en/k-patto/예약] "Korean Listening Strategies for Intermediate Learners"
+    [en/k-patto/예약] "The Role of Korean Music in Accent Reduction"
+    [en/k-patto/예약] "Korean Tongue Twisters for Pronunciation Practice"
+    [en/k-patto/예약] "Korean Pronunciation Drills You Can Do in the Car"
+    [en/k-patto/발행] "How to Stay Consistent With Korean When Life Gets Busy"
+    [en/k-patto/발행] "The Best Korean Textbooks Ranked for Self-Learners"
+    [en/k-patto/발행] "Making Korean Sticky: Connecting Words to Memories"
+    [en/k-patto/발행] "What to Do When You Hit a Korean Learning Slump"
+    [en/k-patto/예약] "How to Learn Korean Through Travel in Korea"
+    [en/k-patto/예약] "Korean Learning Through Cooking: Food Vocabulary Guide"
+    [en/k-patto/예약] "How to Overcome Fear of Speaking Korean"
+    [en/k-patto/예약] "How to Get Korean Feedback Without a Tutor"
+    [en/k-patto/발행] "Common Pronunciation Mistakes Korean Learners Make"
+    [en/k-patto/발행] "Korean Conversation Practice With AI: Does It Work?"
+    [en/k-patto/발행] "Korean Conversation Starters You Can Use Today"
+    [en/k-patto/예약] "Korean Dictation Practice: The Underrated Skill Builder"
+
+  그룹 #4  (30편, 발행 16편)
+    [en/k-patto/발행] "The Output Hypothesis: Why Speaking Korean Matters"
+    [en/k-patto/발행] "How Long Does It Really Take to Learn Korean?"
+    [en/k-patto/발행] "How Sleep Helps You Remember Korean Vocabulary"
+    [en/k-patto/발행] "Input vs Output: What Korean Learners Get Wrong"
+    [en/k-patto/발행] "Why Grammar-First Fails Korean Learners"
+    [en/k-patto/발행] "Why Korean Is Easier Than You Think for English Speakers"
+    [en/k-patto/발행] "The Science Behind Learning Korean Patterns"
+    [en/k-patto/예약] "5 Mistakes Western Learners Make When Studying Korean"
+    [en/k-patto/예약] "Why Korean Beginners Plateau — and How to Break Through"
+    [en/k-patto/예약] "How Context Beats Rote Memorization in Korean"
+    [en/k-patto/예약] "Does Korean Immersion Actually Work?"
+    [en/k-patto/예약] "The Role of Comprehensible Input in Korean Acquisition"
+    [en/k-patto/예약] "The Forgetting Curve and Korean Vocabulary Retention"
+    [en/k-patto/예약] "Why Passive Listening Alone Will Not Make You Fluent in Korean"
+    [en/k-patto/예약] "Why Spaced Repetition Is the Secret to Korean Fluency"
+    [en/k-patto/예약] "Pattern-Based Learning: The Fastest Path to Korean"
+    [en/k-patto/예약] "Muscle Memory in Korean: How to Make Patterns Automatic"
+    [en/k-patto/발행] "Active vs Passive Vocabulary in Korean: What You Need to Know"
+    [en/k-patto/발행] "The Power of Minimal Pairs in Korean Pronunciation"
+    [en/k-patto/발행] "The Importance of Noticing in Korean Language Acquisition"
+    [en/k-patto/발행] "Why Korean Learners Should Embrace Making Mistakes"
+    [en/k-patto/발행] "How to Use Retrieval Practice for Korean Grammar"
+    [en/k-patto/발행] "How to Measure Your Korean Progress Accurately"
+    [en/k-patto/예약] "The Neuroscience of Learning Korean as an Adult"
+    [en/k-patto/예약] "How Chunking Transforms Korean Speaking Speed"
+    [en/k-patto/예약] "Why Korean Learners Should Focus on High-Frequency Patterns"
+    [en/k-patto/발행] "Why Motivation Alone Is Not Enough to Learn Korean"
+    [en/k-patto/발행] "Interleaved Practice: The Korean Study Method You Are Missing"
+    [en/k-patto/발행] "How to Create a Korean Immersion Environment at Home"
+    [en/k-patto/예약] "Building a Korean Study Routine That Actually Sticks"
+
+  그룹 #5  (30편, 발행 13편)
+    [en/k-patto/예약] "K-Drama Vocabulary Guide: 50 Phrases You Will Hear Constantly"
+    [en/k-patto/예약] "Korean Slang from Social Media You Need to Know"
+    [en/k-patto/예약] "Korean Internet Culture Expressions Explained"
+    [en/k-patto/예약] "How BTS Lyrics Teach You Real Korean"
+    [en/k-patto/예약] "Korean Food Vocabulary: Beyond Kimchi and Bibimbap"
+    [en/k-patto/발행] "How Korean Variety Shows Teach Informal Language"
+    [en/k-patto/발행] "Korean Gaming Vocabulary and Streaming Slang"
+    [en/k-patto/발행] "Korean Texting Abbreviations You Should Know"
+    [en/k-patto/발행] "Korean Wedding Expressions and Vocabulary"
+    [en/k-patto/발행] "Korean Drinking Culture Vocabulary Explained"
+    [en/k-patto/발행] "K-Beauty Vocabulary: Skincare Terms in Korean"
+    [en/k-patto/예약] "Aegyo (애교): Korean Cute Speech and How It Works"
+    [en/k-patto/예약] "Korean Proverbs and What They Reveal About Culture"
+    [en/k-patto/예약] "Korean Military Slang That Entered Everyday Speech"
+    [en/k-patto/예약] "How Korean Age Works and Why It Matters"
+    [en/k-patto/예약] "Korean Fan Culture Language: How Fandoms Talk"
+    [en/k-patto/예약] "How Koreans Use Silence in Conversation"
+    [en/k-patto/예약] "Korean Workplace Language: Formality at the Office"
+    [en/k-patto/발행] "How K-Drama Titles Teach You Korean Grammar"
+    [en/k-patto/발행] "Korean School Culture and Education Vocabulary"
+    [en/k-patto/발행] "Korean Travel Phrases That Go Beyond the Phrasebook"
+    [en/k-patto/예약] "Korean Coffee Shop Culture and Café Vocabulary"
+    [en/k-patto/예약] "Understanding Han (한): The Korean Emotional Concept"
+    [en/k-patto/예약] "How Korean Celebrity Culture Shapes Everyday Speech"
+    [en/k-patto/예약] "Korean Sports Vocabulary: Watching the Game in Korean"
+    [en/k-patto/예약] "Seasonal Korean: How Language Changes With the Weather"
+    [en/k-patto/발행] "Korean New Year Expressions and Holiday Phrases"
+    [en/k-patto/발행] "Konglish Words: When English Becomes Korean"
+    [en/k-patto/발행] "Busan Dialect vs Seoul Korean: Key Differences"
+    [en/k-patto/발행] "How Korean Expresses Emotion Differently From English"
+
+  그룹 #6  (27편, 발행 9편)
+    [en/k-pantry/발행] "How to Season a Korean Dolsot (Stone Bowl) for the First Time"
+    [en/k-pantry/예약] "How to Make Kimchi: The Complete Fermentation Guide"
+    [en/k-pantry/예약] "Deep Frying Korean Style: Tuigim and Jeon Compared"
+    [en/k-pantry/발행] "How to Make Korean Stew (Jjigae): The Fundamentals"
+    [en/k-pantry/예약] "Korean Steaming Techniques (Jjim): Fish, Ribs, and More"
+    [en/k-pantry/발행] "Korean Noodle Cooking: Boiling, Rinsing, and Seasoning"
+    [en/k-pantry/예약] "Blanching Vegetables the Korean Way: Tips and Timing"
+    [en/k-pantry/발행] "How to Make Sundubu (Soft Tofu) from Store-Bought Tofu"
+    [en/k-pantry/예약] "Korean Grilling Techniques: How to BBQ at Home"
+    [en/k-pantry/예약] "How to Make Anchovy Stock from Scratch"
+    [en/k-pantry/예약] "How to Store Korean Fermented Pastes (Gochujang, Doenjang)"
+    [en/k-pantry/예약] "Making Korean Rice Dishes: Bibimbap, Bokkeum-bap, and More"
+    [en/k-pantry/발행] "Korean Porridge (Juk): Healing Comfort in a Bowl"
+    [en/k-pantry/발행] "How to Make Korean Cold Broth for Naengmyeon"
+    [en/k-pantry/예약] "How to Pound and Tenderize Meat Korean Style"
+    [en/k-pantry/발행] "Tempering Heat in Korean Cooking: Controlling Spice Levels"
+    [en/k-pantry/예약] "How to Use a Korean Stone Pot (Dolsot) at Home"
+    [en/k-pantry/예약] "Korean Sauce Layering: Building Flavor in Multiple Steps"
+    [en/k-pantry/발행] "Making Korean Dipping Sauces: Soy, Vinegar, and More"
+    [en/k-pantry/예약] "How to Cook Tteok (Rice Cakes) Without Them Sticking"
+    [en/k-pantry/예약] "How to Make Haemul-pajeon (Seafood Scallion Pancake)"
+    [en/k-pantry/발행] "Korean Pressure Cooker Recipes for Beginners"
+    [en/k-pantry/예약] "How to Prepare Korean BBQ Side Dishes (Banchan)"
+    [en/k-pantry/예약] "Scoring and Cutting: Korean Knife Skills for Home Cooks"
+    [en/k-pantry/예약] "Making Jeon Batter: The Perfect Korean Pancake Texture"
+    [en/k-pantry/예약] "Korean Egg Dishes: Gyeran-jjim, Gyeran-mari, and More"
+    [en/k-pantry/예약] "Wok vs Korean Pan: What Equipment Do You Actually Need?"
+
+  그룹 #7  (22편, 발행 9편)
+    [en/k-pantry/발행] "Ganjang-bokkeum: Soy Sauce Butter Stir-Fry"
+    [en/k-pantry/발행] "Galbi: Korean Braised or Grilled Short Ribs Recipe"
+    [en/k-pantry/발행] "Doenjang Samgyetang: Korean Ginseng Chicken Soup"
+    [en/k-pantry/예약] "Gyeran-jjim: Steamed Egg Custard Korean Style"
+    [en/k-pantry/발행] "Chapaguri (Ram-don): The Parasite Noodle Dish"
+    [en/k-pantry/예약] "Kimbap Making Guide: Korea's Beloved Rice Rolls"
+    [en/k-pantry/예약] "Korean Fried Chicken: Crispier Than You Think Possible"
+    [en/k-pantry/발행] "Complete Guide to Kimchi Jjigae (Kimchi Stew)"
+    [en/k-pantry/예약] "Kong-Guksu: Chilled Soybean Noodle Soup for Summer"
+    [en/k-pantry/예약] "Bibimbap Assembly Guide: Layers, Sauce, and Technique"
+    [en/k-pantry/예약] "How to Make Bulgogi at Home: Authentic Recipe"
+    [en/k-pantry/예약] "Seolleongtang: Milky Ox Bone Soup from Seoul"
+    [en/k-pantry/발행] "Gamjatang: Spicy Pork Neck Bone Stew Recipe"
+    [en/k-pantry/예약] "Dakgalbi: Spicy Stir-Fried Chicken from Chuncheon"
+    [en/k-pantry/발행] "Haemul Pajeon: Crispy Seafood Scallion Pancakes"
+    [en/k-pantry/예약] "Kongnamul-Guk: Simple Soybean Sprout Soup"
+    [en/k-pantry/예약] "Hotteok: Sweet Korean Street Pancakes Recipe"
+    [en/k-pantry/예약] "Bibim-naengmyeon: Spicy Mixed Cold Noodles"
+    [en/k-pantry/발행] "Doraegi-Gui: Korean Grilled Pork Cheek"
+    [en/k-pantry/예약] "Bugeo-Guk: Dried Pollock Soup for Hangover Recovery"
+    [en/k-pantry/예약] "Korean Fried Rice (Bokkeum-bap): Better Than Takeout"
+    [en/k-pantry/발행] "Sundae: Korean Blood Sausage Explained and How to Serve It"
+
+  그룹 #8  (17편, 발행 11편)
+    [en/k-pantry/발행] "Korean Cooking Wines: Cheongju, Makgeolli, and More"
+    [en/k-pantry/발행] "Glass Noodles (Dangmyeon) for Japchae and Beyond"
+    [en/k-pantry/발행] "Dried Anchovies in Korean Cooking: A Complete Guide"
+    [en/k-pantry/예약] "How to Use Korean Soup Soy Sauce (Guk-ganjang)"
+    [en/k-pantry/예약] "Korean Kelp (Dashima/Kombu): Stock, Snacks, and More"
+    [en/k-pantry/예약] "Korean Anchovy Stock: The Base of Almost Every Soup"
+    [en/k-pantry/발행] "How to Stock a Korean Pantry on a Budget"
+    [en/k-pantry/예약] "Korean Rice: Which Type to Buy and Why It Matters"
+    [en/k-pantry/발행] "Sikhye: Korea's Traditional Sweet Rice Drink"
+    [en/k-pantry/발행] "Toasted vs Untoasted Sesame Seeds in Korean Cooking"
+    [en/k-pantry/발행] "What Is Maesil-cheong? Korean Plum Syrup Explained"
+    [en/k-pantry/발행] "Korean Radish (Mu) vs Daikon: Are They the Same?"
+    [en/k-pantry/발행] "Gamja-tang Essential: What Is Perilla Seed Powder?"
+    [en/k-pantry/발행] "What Is Soy Sauce Eggs? Korean Gyeran Jangjorim Guide"
+    [en/k-pantry/예약] "Understanding Korean Tteok: Types of Rice Cakes"
+    [en/k-pantry/예약] "Makgeolli Basics: Korea's Milky Rice Wine"
+    [en/k-pantry/발행] "Korean Fermented Shrimp (Saeujeot) in Kimchi"
+
+  그룹 #9  (4편, 발행 3편)
+    [en/k-pantry/발행] "How Koreans Eat: Shared Dishes vs Individual Portions"
+    [en/k-pantry/발행] "Korean Convenience Store Food Guide: CU, GS25, and 7-Eleven"
+    [en/k-pantry/발행] "Mukbang Culture: Why Watching Koreans Eat Is an Art Form"
+    [en/k-pantry/예약] "The Rise of K-Food in America: From Koreatown to Mainstream"
+
+  그룹 #10  (2편, 발행 1편)
+    [en/patto/예약] "How to Use "No wonder ~." in English — Real Examples & When to Say It"
+    [en/patto/발행] "How to Use "I wonder ~." in English — Real Examples & When to Say It"
+
+════════════════════════════════════════════════════════════════════════
+4. 전체 요약
+════════════════════════════════════════════════════════════════════════
+
+전체 포스트:     1000건  (발행 342 / 예약 658)
+
+복붙 관련:
+  복붙 쌍:       4820쌍  (Jaccard ≥ 0.85)
+  복붙 그룹:     10개
+  복붙 포함 글:  272건  (발행 148건)
+
+Thin content:
+  전체:          385건 (38.5%)
+  발행 중 thin:  109건 (31.9%)
+  예약 중 thin:  276건 (41.9%)
+
+복붙이거나 thin인 글 (중복 제거):
+  발행 중 문제: 235건 / 342건 (68.7%)
+  예약 중 문제: 382건 / 658건 (58.1%)
