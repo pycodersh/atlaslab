@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -367,16 +367,7 @@ function ExpressionCard({
   onOpenPopup: (expr: DailyExpr) => void
   wrapperRef?: React.RefObject<HTMLDivElement | null>
 }) {
-  const [playing, setPlaying] = useState(false)
   const slug = ID_TO_SLUG[expr.id] ?? null
-
-  const handlePlay = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    if (!expr.audio_url) return
-    setPlaying(true)
-    playAudioUrl(expr.audio_url)
-    setTimeout(() => setPlaying(false), 2000)
-  }, [expr.audio_url])
 
   return (
     <div ref={wrapperRef} style={{ padding: '10px 16px 0', display: 'flex', flexDirection: 'column' }}>
@@ -397,32 +388,11 @@ function ExpressionCard({
           </div>
         </div>
 
-        {/* 행 3: 영어 번역 + 재생 버튼 */}
-        <div style={{ padding: '0 44px 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ fontSize: 13, color: T1, fontWeight: 500, flex: 1 }}>
+        {/* 행 3: 영어 번역 */}
+        <div style={{ padding: '0 44px 0 16px' }}>
+          <div style={{ fontSize: 13, color: T1, fontWeight: 500 }}>
             {expr.english}
           </div>
-          {expr.audio_url && (
-            <button
-              type="button"
-              onClick={handlePlay}
-              style={{
-                flexShrink: 0,
-                width: 28, height: 28,
-                borderRadius: '50%',
-                background: playing ? ACCENT : '#FFF4EA',
-                border: 'none', cursor: 'pointer',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'background 0.2s',
-                WebkitTapHighlightColor: 'transparent',
-              }}
-              aria-label="발음 듣기"
-            >
-              <svg width="10" height="10" viewBox="0 0 24 24" fill={playing ? '#fff' : ACCENT} stroke="none">
-                <polygon points="5,3 19,12 5,21"/>
-              </svg>
-            </button>
-          )}
         </div>
 
         {/* 화살표: 카드 우측 세로 중앙 절대 위치 */}
