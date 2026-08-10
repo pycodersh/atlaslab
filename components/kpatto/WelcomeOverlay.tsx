@@ -18,6 +18,12 @@ export function WelcomeOverlay() {
     // prefers-reduced-motion: 오버레이 자체를 건너뜀
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+    // 세션당 한 번만 표시 — 탭 이동 후 홈으로 돌아와도 다시 뜨지 않음
+    // sessionStorage는 탭 닫기/새로고침 시 초기화되므로 영구 저장 없음
+    const SESSION_KEY = 'kpatto-welcome-shown'
+    if (sessionStorage.getItem(SESSION_KEY)) return
+    sessionStorage.setItem(SESSION_KEY, '1')
+
     // 클라이언트에서만 오버레이 활성화
     setVisible(true)
 
