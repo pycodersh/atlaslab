@@ -159,21 +159,8 @@ export default function KPattoRecordPage() {
 
                 return (
                   <Fragment key={rowIdx}>
-                    {/* 행 번호 + 10개 셀 */}
-                    <div style={{ display: 'flex', alignItems: 'stretch', gap: 4 }}>
-
-                      {/* 행 시작 번호 */}
-                      <div style={{
-                        width: 20,
-                        flexShrink: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        fontSize: 9,
-                        color: T3,
-                        fontVariantNumeric: 'tabular-nums',
-                      }}>
-                        {rowStart}
-                      </div>
+                    {/* 10개 셀 행 */}
+                    <div style={{ display: 'flex', alignItems: 'stretch' }}>
 
                       {/* 10칸 grid */}
                       <div style={{
@@ -205,12 +192,25 @@ export default function KPattoRecordPage() {
                                 border: 'none',
                                 cursor: 'pointer',
                                 padding: 0,
-                                display: 'block',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
                                 WebkitTapHighlightColor: 'transparent',
                                 transition: 'opacity 0.2s',
                               }}
                               aria-label={`EP${String(ep).padStart(2, '0')}${locked ? ' Pro' : ''}`}
-                            />
+                            >
+                              <span style={{
+                                fontSize: 10,
+                                fontWeight: 500,
+                                color: (!loading && count > 0 && !locked) ? '#ffffff' : '#999999',
+                                fontVariantNumeric: 'tabular-nums',
+                                lineHeight: 1,
+                                userSelect: 'none',
+                              }}>
+                                {ep}
+                              </span>
+                            </button>
                           )
                         })}
                       </div>
@@ -221,7 +221,6 @@ export default function KPattoRecordPage() {
                       <div style={{
                         display: 'flex', alignItems: 'center', gap: 6,
                         margin: '1px 0',
-                        paddingLeft: 24,  // 행 번호 너비(20) + gap(4) 만큼 들여씀
                       }}>
                         <div style={{ flex: 1, height: 1, background: BORDER }} />
                         <span style={{
@@ -245,7 +244,7 @@ export default function KPattoRecordPage() {
               justifyContent: 'flex-end',
               gap: 3,
               marginTop: 10,
-              paddingRight: 2,
+              padding: '0 12px',
             }}>
               <span style={{ fontSize: 9, color: T3, marginRight: 1 }}>Less</span>
               {LEGEND_COLORS.map((color, i) => (
@@ -278,7 +277,7 @@ export default function KPattoRecordPage() {
           <div style={{ padding: '0 16px 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
             {/* 설명문 */}
             <p style={{
-              fontSize: 12, color: T2,
+              fontSize: 12, color: '#333333',
               margin: 0, lineHeight: 1.55,
             }}>
               Built on Korea&apos;s national Korean curriculum —
