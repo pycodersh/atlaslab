@@ -1,14 +1,11 @@
 'use client'
 
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ExpressionPopup } from '@/components/kpatto/ExpressionPopup'
 import { getSavedFromLocal, getSavedIds, toggleSaved } from '@/lib/kpatto/saved-expressions'
 import { fetchAllExpressions } from '@/lib/kpatto/fetch-episode'
-import { useKPattoSubscription } from '@/lib/kpatto/subscription'
-import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { createClient } from '@/lib/supabase/client'
 import type { KPattoExpression } from '@/data/kpatto/types'
 
@@ -293,7 +290,7 @@ function ExprRow({
           cursor: 'pointer', display: 'flex', alignItems: 'center',
           WebkitTapHighlightColor: 'transparent',
         }}
-        aria-label={saved ? '북마크 해제' : '북마크 추가'}
+        aria-label={saved ? 'Remove bookmark' : 'Add bookmark'}
       >
         <BookmarkIcon filled={saved} />
       </button>
@@ -308,9 +305,6 @@ function ExprSep() {
 
 // ── 메인 페이지 ───────────────────────────────────────────────────────────────
 export default function KPattoLibraryPage() {
-  const router       = useRouter()
-  const { isPro }    = useKPattoSubscription()
-
   const [expressions,      setExpressions]      = useState<KPattoExpression[]>([])
   const [epTitles,         setEpTitles]         = useState<Map<number, string>>(new Map())
   const [epTitlesEn,       setEpTitlesEn]       = useState<Map<number, string>>(new Map())
@@ -399,10 +393,10 @@ export default function KPattoLibraryPage() {
         epNum,
         title:   epTitles.get(epNum) ?? '',
         titleEn: epTitlesEn.get(epNum) ?? '',
-        locked:  epNum > FREE_EPISODES && !isPro,
+        locked:  false,
         exprs,
       }))
-  }, [expressions, savedIds, showSaved, selectedChapter, epTitles, epTitlesEn, isPro])
+  }, [expressions, savedIds, showSaved, selectedChapter, epTitles, epTitlesEn])
 
   // ── 검색 결과 ────────────────────────────────────────────────────────────
   const searchResults = useMemo(
@@ -427,12 +421,10 @@ export default function KPattoLibraryPage() {
     }).catch(() => { /* noop */ })
   }, [])
 
-  // ── 잠긴 행 탭 → 페이월 ─────────────────────────────────────────────────
+  // ── 행 탭 → 팝업 ────────────────────────────────────────────────────────
   const handleRowClick = useCallback((expr: KPattoExpression) => {
-    const locked = (expr.first_episode ?? 0) > FREE_EPISODES && !isPro
-    if (locked) { router.push('/kpatto/subscription'); return }
     setPopup(expr)
-  }, [isPro, router])
+  }, [])
 
   // ── 공통 행 렌더 — Fragment로 행 + 인셋 구분선 묶음 ─────────────────────
   const renderRow = (expr: KPattoExpression, locked: boolean) => (
@@ -441,10 +433,7 @@ export default function KPattoLibraryPage() {
         expr={expr}
         locked={locked}
         saved={savedIds.has(expr.id)}
-        onBookmarkClick={e => {
-          if (locked) { router.push('/kpatto/subscription'); return }
-          toggleSave(e, expr.id)
-        }}
+        onBookmarkClick={e => toggleSave(e, expr.id)}
         onClick={() => handleRowClick(expr)}
       />
       <ExprSep />
@@ -486,7 +475,7 @@ export default function KPattoLibraryPage() {
                 display: 'flex', alignItems: 'center', paddingLeft: 4,
                 WebkitTapHighlightColor: 'transparent',
               }}
-              aria-label="왼쪽 필터 탭 보기"
+              aria-label="Scroll filters left"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                 stroke={T2} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -553,7 +542,7 @@ export default function KPattoLibraryPage() {
                 paddingRight: 4,
                 WebkitTapHighlightColor: 'transparent',
               }}
-              aria-label="오른쪽 필터 탭 보기"
+              aria-label="Scroll filters right"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                 stroke={T2} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -577,10 +566,7 @@ export default function KPattoLibraryPage() {
           </div>
         ) : (
           <div>
-            {searchResults.map(expr => {
-              const locked = (expr.first_episode ?? 0) > FREE_EPISODES && !isPro
-              return renderRow(expr, locked)
-            })}
+            {searchResults.map(expr => renderRow(expr, false))}
           </div>
         )
       ) : (

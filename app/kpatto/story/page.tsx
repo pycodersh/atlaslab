@@ -206,7 +206,7 @@ export default function KPattoStoryListPage() {
                 {/* 진행 상태 */}
                 <div style={{ marginTop: 2 }}>
                   {locked
-                    ? <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>Pro 전용</span>
+                    ? <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>Pro only</span>
                     : <EpisodeStatus count={count} />
                   }
                 </div>
@@ -216,7 +216,7 @@ export default function KPattoStoryListPage() {
               <Link
                 href={`/kpatto/story/${story.id}`}
                 style={{ display: 'flex', alignItems: 'center', padding: '0 12px', textDecoration: 'none', flexShrink: 0 }}
-                aria-label={`${story.title} 보기`}
+                aria-label={`View ${story.title}`}
               >
                 <ChevronRight size={20} color="#999999" />
               </Link>

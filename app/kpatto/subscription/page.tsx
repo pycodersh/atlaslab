@@ -207,7 +207,7 @@ export default function KPattoSubscriptionPage() {
 
     const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
     if (!priceId || priceId.includes('REPLACE')) {
-      alert('결제 설정 오류. 잠시 후 다시 시도해주세요.')
+      alert('Payment not configured. Please try again later.')
       return
     }
 
@@ -221,13 +221,13 @@ export default function KPattoSubscriptionPage() {
           if (p) break
         }
       }
-      if (!p) { alert('결제 시스템을 불러오는 중입니다. 잠시 후 다시 시도해주세요.'); return }
+      if (!p) { alert('Payment system loading. Please try again in a moment.'); return }
 
       await p.Checkout.open({
         items: [{ priceId, quantity: 1 }],
         customer: user.email ? { email: user.email } : undefined,
         customData: { user_id: user.id },
-        settings: { displayMode: 'overlay', locale: 'ko' },
+        settings: { displayMode: 'overlay', locale: 'en' },
       })
     } finally {
       setUpgrading(false)

@@ -127,7 +127,7 @@ export function ExpressionPopup({
         <div style={{ background: '#D4873A', margin: '8px 16px 0', borderRadius: 14, padding: '16px', position: 'relative' }}>
           <button
             onClick={onClose}
-            aria-label="닫기"
+            aria-label="Close"
             style={{
               position: 'absolute', top: 10, right: 10,
               background: 'rgba(255,255,255,0.25)', border: 'none', borderRadius: '50%',
@@ -154,7 +154,7 @@ export function ExpressionPopup({
           {expression.audio_url && (
             <button
               onClick={handleExprAudio}
-              aria-label={exprPlaying ? '표현 음성 정지' : '표현 듣기'}
+              aria-label={exprPlaying ? 'Stop audio' : 'Play audio'}
               style={{
                 position: 'absolute', bottom: 12, right: 10,
                 background: exprPlaying ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.2)',
