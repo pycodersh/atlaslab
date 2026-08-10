@@ -1,5 +1,19 @@
-import { redirect } from 'next/navigation'
+import type { Metadata } from 'next'
+import KPattoHomePage from './home/page'
+import { WelcomeOverlay } from '@/components/kpatto/WelcomeOverlay'
 
-export default function KPattoRoot() {
-  redirect('/kpatto/welcome')
+const CANONICAL = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'}/kpatto`
+
+export const metadata: Metadata = {
+  alternates: { canonical: CANONICAL },
+  openGraph:  { url: CANONICAL },
+}
+
+export default function KPattoPage() {
+  return (
+    <>
+      <KPattoHomePage />
+      <WelcomeOverlay />
+    </>
+  )
 }

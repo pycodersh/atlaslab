@@ -14,7 +14,7 @@ const TABS = [
   {
     key: 'home',
     label: 'Home',
-    href: '/kpatto/home',
+    href: '/kpatto',
     active: (p: string) => p === '/kpatto' || p === '/kpatto/home',
     icon: (active: boolean) => <House size={22} color={active ? ACTIVE : MUTED} strokeWidth={active ? 2.2 : 1.8} />,
   },
@@ -42,9 +42,7 @@ const TABS = [
 ] as const
 
 export function KPattoTabBar() {
-  const pathname = usePathname()
-
-  if (pathname === '/kpatto/welcome' || pathname === '/kpatto/onboarding' || pathname.endsWith('/export')) return null
+  const pathname    = usePathname()
   const [compact, setCompact] = useState(false)
   const lastScrollY = useRef(0)
 
@@ -58,6 +56,8 @@ export function KPattoTabBar() {
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  if (pathname.endsWith('/export')) return null
 
   const h = compact ? 52 : 64
 
