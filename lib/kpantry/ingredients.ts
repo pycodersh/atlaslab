@@ -3,7 +3,7 @@ import { createClient } from '@/lib/kpantry/supabase'
 export async function getIngredients(category?: string) {
   const supabase = createClient()
   let query = supabase
-    .from('ingredients')
+    .from('pantry_ingredients')
     .select('id, name, name_ko, category, image_url, aliases')
     .order('name')
 
@@ -19,7 +19,7 @@ export async function getIngredients(category?: string) {
 export async function savePantry(userId: string, ingredientIds: string[]) {
   const supabase = createClient()
 
-  await supabase.from('user_pantry').delete().eq('user_id', userId)
+  await supabase.from('pantry_user_items').delete().eq('user_id', userId)
 
   if (ingredientIds.length === 0) return
 
@@ -28,14 +28,14 @@ export async function savePantry(userId: string, ingredientIds: string[]) {
     ingredient_id: id,
   }))
 
-  const { error } = await supabase.from('user_pantry').insert(rows)
+  const { error } = await supabase.from('pantry_user_items').insert(rows)
   if (error) throw error
 }
 
 export async function loadPantry(userId: string) {
   const supabase = createClient()
   const { data, error } = await supabase
-    .from('user_pantry')
+    .from('pantry_user_items')
     .select('ingredient_id')
     .eq('user_id', userId)
   if (error) throw error
@@ -45,7 +45,7 @@ export async function loadPantry(userId: string) {
 export async function getPantryEssentials(names: string[]) {
   const supabase = createClient()
   const { data, error } = await supabase
-    .from('ingredients')
+    .from('pantry_ingredients')
     .select('id, name, name_ko, image_url')
     .in('name', names)
   if (error) throw error
@@ -55,7 +55,7 @@ export async function getPantryEssentials(names: string[]) {
 export async function getIngredientById(id: string) {
   const supabase = createClient()
   const { data } = await supabase
-    .from('ingredients')
+    .from('pantry_ingredients')
     .select('id, name, name_ko, image_url')
     .eq('id', id)
     .single()

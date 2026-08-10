@@ -3,10 +3,10 @@ import { createClient } from '@/lib/kpantry/supabase'
 export async function getSavedRecipes(userId: string) {
   const supabase = createClient()
   const { data, error } = await supabase
-    .from('user_saved_recipes')
+    .from('pantry_saved_recipes')
     .select(`
       id, created_at,
-      recipes(
+      pantry_recipes(
         id, slug, name_en, name_ko, description,
         cooking_time_min, difficulty, hero_image_url, calories
       )
@@ -21,11 +21,11 @@ export async function getSavedRecipes(userId: string) {
 export async function getShoppingList(userId: string) {
   const supabase = createClient()
   const { data, error } = await supabase
-    .from('shopping_list')
+    .from('pantry_shopping_list')
     .select(`
       id, quantity, is_checked, created_at,
-      ingredients(id, name, name_ko, image_url),
-      recipes(id, name_en)
+      pantry_ingredients(id, name, name_ko, image_url),
+      pantry_recipes(id, name_en)
     `)
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
@@ -37,20 +37,20 @@ export async function getShoppingList(userId: string) {
 export async function toggleShoppingItem(itemId: string, isChecked: boolean) {
   const supabase = createClient()
   await supabase
-    .from('shopping_list')
+    .from('pantry_shopping_list')
     .update({ is_checked: isChecked })
     .eq('id', itemId)
 }
 
 export async function deleteShoppingItem(itemId: string) {
   const supabase = createClient()
-  await supabase.from('shopping_list').delete().eq('id', itemId)
+  await supabase.from('pantry_shopping_list').delete().eq('id', itemId)
 }
 
 export async function clearCheckedItems(userId: string) {
   const supabase = createClient()
   await supabase
-    .from('shopping_list')
+    .from('pantry_shopping_list')
     .delete()
     .eq('user_id', userId)
     .eq('is_checked', true)
@@ -59,7 +59,7 @@ export async function clearCheckedItems(userId: string) {
 export async function unsaveRecipe(userId: string, recipeId: string) {
   const supabase = createClient()
   await supabase
-    .from('user_saved_recipes')
+    .from('pantry_saved_recipes')
     .delete()
     .eq('user_id', userId)
     .eq('recipe_id', recipeId)

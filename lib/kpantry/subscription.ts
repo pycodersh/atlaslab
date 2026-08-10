@@ -5,7 +5,7 @@ export type Plan = 'free' | 'pro'
 export async function getUserPlan(userId: string): Promise<Plan> {
   const supabase = createClient()
   const { data } = await supabase
-    .from('subscriptions')
+    .from('pantry_subscriptions')
     .select('plan, status, expires_at')
     .eq('user_id', userId)
     .single()
@@ -30,7 +30,7 @@ export function canAccess(feature: string, plan: Plan): boolean {
 export async function upgradeToProDev(userId: string) {
   const supabase = createClient()
   await supabase
-    .from('subscriptions')
+    .from('pantry_subscriptions')
     .upsert({
       user_id: userId,
       plan: 'pro',
