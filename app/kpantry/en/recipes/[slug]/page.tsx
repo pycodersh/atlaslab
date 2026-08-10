@@ -136,14 +136,14 @@ export default function RecipeDetailPage() {
       />
 
       <IngredientsSection
-        recipeIngredients={recipe.recipe_ingredients ?? []}
+        recipeIngredients={recipe.pantry_recipe_ingredients ?? []}
         userPantryIds={userPantryIds}
         onAddToShoppingList={handleAddToShoppingList}
       />
 
       <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: '#E8E0D0' }} />
 
-      <StepsSection steps={recipe.recipe_steps ?? []} />
+      <StepsSection steps={recipe.pantry_recipe_steps ?? []} />
 
       <div style={{
         position: 'fixed',

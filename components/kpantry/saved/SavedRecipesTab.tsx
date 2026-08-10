@@ -10,7 +10,7 @@ const DISH_EMOJIS: Record<string, string> = {
 interface SavedRecipe {
   id: string
   created_at: string
-  recipes: {
+  pantry_recipes: {
     id: string
     slug: string
     name_en: string
@@ -134,7 +134,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
         gap: 10,
         marginBottom: 16,
       }}>
-        {displayedRecipes.map(({ id, created_at, recipes: recipe }) => {
+        {displayedRecipes.map(({ id, created_at, pantry_recipes: recipe }) => {
           const emoji = DISH_EMOJIS[recipe.name_en] ?? '🍲'
           return (
             <div

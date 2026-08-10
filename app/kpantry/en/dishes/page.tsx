@@ -27,7 +27,7 @@ export default function DishesPage() {
     async function load() {
       const supabase = createClient()
       const { data } = await supabase
-        .from('recipes')
+        .from('pantry_recipes')
         .select('id, slug, name_en, name_ko, description, category, cooking_time_min, difficulty, calories, hero_image_url')
         .order('name_en')
       setAllDishes(data ?? [])

@@ -5,7 +5,7 @@ interface Ingredient {
   id: string
   amount: string
   type: 'essential' | 'recommended' | 'optional'
-  ingredients: {
+  pantry_ingredients: {
     id: string
     name: string
     name_ko: string
@@ -124,7 +124,7 @@ export default function IngredientsSection({
         gap: 12,
       }}>
         {byType[activeTab].map(ri => {
-          const ing = ri.ingredients
+          const ing = ri.pantry_ingredients
           const isOwned = userPantryIds.includes(ing.id)
           const emoji = INGREDIENT_EMOJIS[ing.name] ?? '🥘'
 

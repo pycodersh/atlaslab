@@ -14,8 +14,8 @@ interface ShoppingItem {
   id: string
   quantity?: string
   is_checked: boolean
-  ingredients: { id: string; name: string; name_ko?: string; image_url?: string }
-  recipes?: { id: string; name_en: string }
+  pantry_ingredients: { id: string; name: string; name_ko?: string; image_url?: string }
+  pantry_recipes?: { id: string; name_en: string }
 }
 
 interface Props {
@@ -121,7 +121,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 16 }}>
         {unchecked.map(item => {
-          const ing = item.ingredients
+          const ing = item.pantry_ingredients
           const emoji = INGREDIENT_EMOJIS[ing.name] ?? '🥘'
 
           return (
@@ -179,7 +179,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                 }}>
                   {ing.name}
                 </p>
-                {item.recipes && (
+                {item.pantry_recipes && (
                   <p style={{
                     fontFamily: 'Inter, sans-serif',
                     fontSize: 12,
@@ -187,7 +187,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                     margin: '2px 0 0',
                     fontStyle: 'italic',
                   }}>
-                    For {item.recipes.name_en}
+                    For {item.pantry_recipes.name_en}
                   </p>
                 )}
               </div>
@@ -235,7 +235,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {checked.map(item => {
-              const ing = item.ingredients
+              const ing = item.pantry_ingredients
               const emoji = INGREDIENT_EMOJIS[ing.name] ?? '🥘'
 
               return (
@@ -289,7 +289,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                     }}>
                       {ing.name}
                     </p>
-                    {item.recipes && (
+                    {item.pantry_recipes && (
                       <p style={{
                         fontFamily: 'Inter, sans-serif',
                         fontSize: 12,
@@ -297,7 +297,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                         margin: '2px 0 0',
                         fontStyle: 'italic',
                       }}>
-                        For {item.recipes.name_en}
+                        For {item.pantry_recipes.name_en}
                       </p>
                     )}
                   </div>
