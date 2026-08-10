@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -361,9 +361,11 @@ function ContinueRow({ ep }: { ep: ContinueEp }) {
 function ExpressionCard({
   expr,
   onOpenPopup,
+  wrapperRef,
 }: {
   expr: DailyExpr
   onOpenPopup: (expr: DailyExpr) => void
+  wrapperRef?: React.RefObject<HTMLDivElement | null>
 }) {
   const [playing, setPlaying] = useState(false)
   const slug = ID_TO_SLUG[expr.id] ?? null
@@ -377,8 +379,8 @@ function ExpressionCard({
   }, [expr.audio_url])
 
   return (
-    <div style={{ padding: '10px 16px 0' }}>
-      <Card>
+    <div ref={wrapperRef} style={{ padding: '10px 16px 0', display: 'flex', flexDirection: 'column' }}>
+      <Card style={{ flex: 1 }}>
         <CardLabel left="TODAY'S EXPRESSION" />
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
@@ -450,13 +452,15 @@ function ExpressionCard({
 function PrecourseCard({
   lessonsCompleted,
   precoursePercent,
+  wrapperRef,
 }: {
   lessonsCompleted: number
   precoursePercent: number
+  wrapperRef?: React.RefObject<HTMLDivElement | null>
 }) {
   return (
-    <div style={{ padding: '10px 16px 0' }}>
-      <Card>
+    <div ref={wrapperRef} style={{ padding: '10px 16px 0', display: 'flex', flexDirection: 'column' }}>
+      <Card style={{ flex: 1 }}>
         <CardLabel left="HANGEUL PRE-COURSE" />
         <div style={{
           display: 'flex', alignItems: 'center',
@@ -493,10 +497,10 @@ function PrecourseCard({
 
 // ── Streak ────────────────────────────────────────────────────────────────────
 
-function StreakCard({ streak, weekActivity }: { streak: number; weekActivity: boolean[] }) {
+function StreakCard({ streak, weekActivity, wrapperRef }: { streak: number; weekActivity: boolean[]; wrapperRef?: React.RefObject<HTMLDivElement | null> }) {
   return (
-    <div style={{ padding: '10px 16px 0' }}>
-      <Card>
+    <div ref={wrapperRef} style={{ padding: '10px 16px 0', display: 'flex', flexDirection: 'column' }}>
+      <Card style={{ flex: 1 }}>
         <CardLabel left="STREAK" />
         <div style={{ padding: '10px 16px 14px', display: 'flex', alignItems: 'center', gap: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
@@ -541,9 +545,9 @@ function StreakCard({ streak, weekActivity }: { streak: number; weekActivity: bo
 
 // ── 통계 줄 ──────────────────────────────────────────────────────────────────
 
-function StatsRow() {
+function StatsRow({ wrapperRef }: { wrapperRef?: React.RefObject<HTMLDivElement | null> }) {
   return (
-    <div style={{
+    <div ref={wrapperRef} style={{
       margin: '10px 16px 0',
       border: '1px solid #E0E0E0',
       borderRadius: 14,
@@ -578,6 +582,12 @@ function StatsRow() {
 
 export default function KPattoHomePage() {
   const { isPro, loading: subLoading } = useKPattoSubscription()
+
+  // ── 카드 쌍 높이 동기화용 refs ────────────────────────────────────────────────
+  const precourseRef  = useRef<HTMLDivElement>(null)
+  const expressionRef = useRef<HTMLDivElement>(null)
+  const streakRef     = useRef<HTMLDivElement>(null)
+  const statsRef      = useRef<HTMLDivElement>(null)
 
   const [hasProgress,      setHasProgress]      = useState(false)
   const [continueEp,       setContinueEp]        = useState<ContinueEp>(buildContinueEpStatic(1))
@@ -662,6 +672,22 @@ export default function KPattoHomePage() {
     })()
   }, [isPro, subLoading])
 
+  // ── 카드 쌍 높이 동기화 (위 2개 / 아래 2개 — 큰 쪽 기준) ─────────────────────
+  useEffect(() => {
+    if (!hydrated) return
+    const syncPair = (a: HTMLDivElement | null, b: HTMLDivElement | null) => {
+      if (!a || !b) return
+      // 먼저 리셋해서 자연 높이 측정
+      a.style.minHeight = ''
+      b.style.minHeight = ''
+      const h = Math.max(a.offsetHeight, b.offsetHeight)
+      a.style.minHeight = `${h}px`
+      b.style.minHeight = `${h}px`
+    }
+    syncPair(precourseRef.current, expressionRef.current)
+    syncPair(streakRef.current,    statsRef.current)
+  }, [hydrated, todayExpr, lessonsCompleted, streak])
+
   if (!hydrated) {
     return (
       <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
@@ -685,16 +711,17 @@ export default function KPattoHomePage() {
           <PrecourseCard
             lessonsCompleted={lessonsCompleted}
             precoursePercent={precoursePercent}
+            wrapperRef={precourseRef}
           />
 
           {/* [4] TODAY'S EXPRESSION */}
-          {todayExpr && <ExpressionCard expr={todayExpr} onOpenPopup={setPopupExpr} />}
+          {todayExpr && <ExpressionCard expr={todayExpr} onOpenPopup={setPopupExpr} wrapperRef={expressionRef} />}
 
           {/* [5] Streak (0일 때도 표시) */}
-          <StreakCard streak={streak} weekActivity={weekActivity} />
+          <StreakCard streak={streak} weekActivity={weekActivity} wrapperRef={streakRef} />
 
           {/* [6] 통계 100/325/10 (항상 표시) */}
-          <StatsRow />
+          <StatsRow wrapperRef={statsRef} />
         </div>
       </div>
 
