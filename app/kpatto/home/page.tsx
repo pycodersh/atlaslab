@@ -516,34 +516,30 @@ function StreakCard({ streak, weekActivity, wrapperRef }: { streak: number; week
 // ── 통계 줄 ──────────────────────────────────────────────────────────────────
 
 function StatsRow({ wrapperRef }: { wrapperRef?: React.RefObject<HTMLDivElement | null> }) {
+  // wrapper + Card 구조를 StreakCard와 동일하게 맞춰야
+  // offsetHeight 기준이 같아야 JS 높이 동기화가 정확히 작동함
   return (
-    <div ref={wrapperRef} style={{
-      margin: '10px 16px 0',
-      border: '1px solid #E0E0E0',
-      borderRadius: 14,
-      padding: '14px 18px',
-      display: 'flex',
-      justifyContent: 'space-between',
-      boxShadow: '0 1px 6px rgba(0,0,0,0.07)',
-    }}>
-      {([
-        { num: '100', label: 'stories' },
-        { num: '325', label: 'expressions' },
-        { num: '10',  label: 'free episodes' },
-      ] as { num: string; label: string }[]).map(({ num, label }, i) => (
-        <>
-          {i > 0 && (
-            <div key={`div-${i}`} style={{
-              width: 1, background: '#E0E0E0',
-              alignSelf: 'stretch', margin: '6px 0', flexShrink: 0,
-            }} />
-          )}
-          <div key={label} style={{ textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ fontSize: 9, fontWeight: 700, color: T2, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>{label}</div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: T1, letterSpacing: '-0.04em' }}>{num}</div>
-          </div>
-        </>
-      ))}
+    <div ref={wrapperRef} style={{ padding: '10px 16px 0', display: 'flex', flexDirection: 'column' }}>
+      <Card style={{ flex: 1, display: 'flex', justifyContent: 'space-between', padding: '14px 18px' }}>
+        {([
+          { num: '100', label: 'stories' },
+          { num: '325', label: 'expressions' },
+          { num: '10',  label: 'free episodes' },
+        ] as { num: string; label: string }[]).map(({ num, label }, i) => (
+          <>
+            {i > 0 && (
+              <div key={`div-${i}`} style={{
+                width: 1, background: '#E0E0E0',
+                alignSelf: 'stretch', margin: '6px 0', flexShrink: 0,
+              }} />
+            )}
+            <div key={label} style={{ textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ fontSize: 9, fontWeight: 700, color: T2, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>{label}</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: T1, letterSpacing: '-0.04em' }}>{num}</div>
+            </div>
+          </>
+        ))}
+      </Card>
     </div>
   )
 }
