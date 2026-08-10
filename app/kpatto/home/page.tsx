@@ -380,32 +380,35 @@ function ExpressionCard({
 
   return (
     <div ref={wrapperRef} style={{ padding: '10px 16px 0', display: 'flex', flexDirection: 'column' }}>
-      <Card style={{ flex: 1 }}>
-        <CardLabel left="TODAY'S EXPRESSION" />
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 10,
-          padding: '8px 12px 14px 16px',
-        }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{
-              fontSize: 17, fontWeight: 800, color: ACCENT,
-              letterSpacing: '-0.02em', lineHeight: 1.25,
-            }}>
-              {expr.korean}
-            </div>
-            <div style={{ fontSize: 13, color: T1, fontWeight: 500, marginTop: 4 }}>
-              {expr.english}
-            </div>
-          </div>
+      {/* 3줄(라벨·한국어·영어) space-evenly 균등 배치, 화살표 우측 세로 중앙 절대 위치 */}
+      <Card style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', position: 'relative' }}>
 
-          {/* 재생 버튼 */}
+        {/* 행 1: TODAY'S EXPRESSION 라벨 */}
+        <div style={{ padding: '0 44px 0 16px' }}>
+          <span style={{ fontSize: 10, fontWeight: 700, color: T2, letterSpacing: '0.10em', textTransform: 'uppercase' }}>
+            TODAY&apos;S EXPRESSION
+          </span>
+        </div>
+
+        {/* 행 2: 한국어 표현 */}
+        <div style={{ padding: '0 44px 0 16px' }}>
+          <div style={{ fontSize: 17, fontWeight: 800, color: ACCENT, letterSpacing: '-0.02em', lineHeight: 1.25 }}>
+            {expr.korean}
+          </div>
+        </div>
+
+        {/* 행 3: 영어 번역 + 재생 버튼 */}
+        <div style={{ padding: '0 44px 0 16px', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ fontSize: 13, color: T1, fontWeight: 500, flex: 1 }}>
+            {expr.english}
+          </div>
           {expr.audio_url && (
             <button
               type="button"
               onClick={handlePlay}
               style={{
                 flexShrink: 0,
-                width: 36, height: 36,
+                width: 28, height: 28,
                 borderRadius: '50%',
                 background: playing ? ACCENT : '#FFF4EA',
                 border: 'none', cursor: 'pointer',
@@ -415,27 +418,24 @@ function ExpressionCard({
               }}
               aria-label="발음 듣기"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill={playing ? '#fff' : ACCENT}
-                stroke="none">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill={playing ? '#fff' : ACCENT} stroke="none">
                 <polygon points="5,3 19,12 5,21"/>
               </svg>
             </button>
           )}
+        </div>
 
-          {/* 화살표만 클릭 영역 */}
+        {/* 화살표: 카드 우측 세로 중앙 절대 위치 */}
+        <div style={{ position: 'absolute', right: 4, top: '50%', transform: 'translateY(-50%)' }}>
           {slug ? (
-            <Link href={`/kpatto/expressions/${slug}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', padding: 8, margin: -8, flexShrink: 0 }}>
+            <Link href={`/kpatto/expressions/${slug}`} style={{ textDecoration: 'none', display: 'flex', padding: 8 }}>
               <ChevronRight size={20} strokeWidth={2.8} color={ACCENT} />
             </Link>
           ) : (
             <button
               type="button"
               onClick={() => onOpenPopup(expr)}
-              style={{
-                background: 'none', border: 'none', padding: 8, margin: -8,
-                cursor: 'pointer', display: 'flex', alignItems: 'center',
-                flexShrink: 0, WebkitTapHighlightColor: 'transparent',
-              }}
+              style={{ background: 'none', border: 'none', padding: 8, cursor: 'pointer', display: 'flex', WebkitTapHighlightColor: 'transparent' }}
             >
               <ChevronRight size={20} strokeWidth={2.8} color={ACCENT} />
             </button>
@@ -568,7 +568,7 @@ function StatsRow({ wrapperRef }: { wrapperRef?: React.RefObject<HTMLDivElement 
               alignSelf: 'stretch', margin: '6px 0', flexShrink: 0,
             }} />
           )}
-          <div key={label} style={{ textAlign: 'center', flex: 1 }}>
+          <div key={label} style={{ textAlign: 'center', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ fontSize: 9, fontWeight: 700, color: T2, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 4 }}>{label}</div>
             <div style={{ fontSize: 20, fontWeight: 800, color: T1, letterSpacing: '-0.04em' }}>{num}</div>
           </div>
