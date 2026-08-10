@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
@@ -19,6 +19,9 @@ const T3     = '#BBBBBB'
 const ACCENT = '#D4873A'
 const BORDER = '#EBEBEB'
 const BG     = '#FFFFFF'
+
+// 검색창과 동일한 좌우 여백 (padding: '12px 16px 0' 의 16에서 가져옴)
+const SIDE_PAD = 16
 
 const TOTAL_EXPRESSIONS = 325
 
@@ -163,7 +166,11 @@ function Chip({
   )
 }
 
-/** 에피소드 그룹 헤더 (sticky) */
+/** 에피소드 그룹 헤더 (sticky)
+ *  - 회색 배경은 전체 너비 유지
+ *  - 콘텐츠(악센트 바 포함)는 검색창과 동일한 SIDE_PAD(16px) 기준으로 정렬
+ *    악센트 바 3px + 내부 패딩 (SIDE_PAD-3)px = SIDE_PAD px from left edge
+ */
 function EpGroupHeader({
   epNum, title, titleEn, locked,
 }: {
@@ -186,14 +193,14 @@ function EpGroupHeader({
       display: 'flex',
       alignItems: 'stretch',
     }}>
-      {/* 왼쪽 악센트 바 */}
+      {/* 왼쪽 악센트 바 — 3px 고정 너비로 전체 높이에 걸쳐 */}
       <div style={{ width: 3, background: barColor, flexShrink: 0 }} />
 
-      {/* 본문 영역 */}
+      {/* 본문 영역 — 좌측 (SIDE_PAD - 3)px + 우측 SIDE_PAD px → 텍스트가 검색창과 정렬 */}
       <div style={{
         flex: 1, minWidth: 0,
         display: 'flex', alignItems: 'center',
-        padding: '10px 14px',
+        padding: `10px ${SIDE_PAD}px 10px ${SIDE_PAD - 3}px`,
         gap: 8,
       }}>
         {/* EP 번호 + 한/영 제목 */}
@@ -236,7 +243,7 @@ function EpGroupHeader({
   )
 }
 
-/** 표현 행 */
+/** 표현 행 — borderBottom 제거 (구분선은 별도 인셋 div로 renderRow에서 처리) */
 function ExprRow({
   expr, locked, saved, onBookmarkClick, onClick,
 }: {
@@ -250,8 +257,7 @@ function ExprRow({
     <div
       style={{
         display: 'flex', alignItems: 'center', gap: 10,
-        padding: '9px 16px',
-        borderBottom: `1px solid ${BORDER}`,
+        padding: `9px ${SIDE_PAD}px`,
         background: BG,
         opacity: locked ? 0.4 : 1,
         cursor: 'pointer',
@@ -278,7 +284,7 @@ function ExprRow({
         </div>
       </div>
 
-      {/* 오른쪽: 북마크 아이콘만 */}
+      {/* 오른쪽: 북마크 아이콘 — SIDE_PAD 여백 안에 위치 */}
       <button
         type="button"
         onClick={onBookmarkClick}
@@ -293,6 +299,11 @@ function ExprRow({
       </button>
     </div>
   )
+}
+
+/** 인셋 구분선 — SIDE_PAD 여백 안에서 시작·종료 */
+function ExprSep() {
+  return <div style={{ borderBottom: `1px solid ${BORDER}`, margin: `0 ${SIDE_PAD}px` }} />
 }
 
 // ── 메인 페이지 ───────────────────────────────────────────────────────────────
@@ -310,12 +321,16 @@ export default function KPattoLibraryPage() {
   const [savedIds,         setSavedIds]         = useState<Set<number>>(new Set())
   const [popup,            setPopup]            = useState<KPattoExpression | null>(null)
 
-  const inputRef = useRef<HTMLInputElement | null>(null)
+  const inputRef    = useRef<HTMLInputElement | null>(null)
+  const tabScrollRef = useRef<HTMLDivElement | null>(null)
+
+  // 칩 줄 스크롤 힌트 상태
+  const [tabCanScrollLeft,  setTabCanScrollLeft]  = useState(false)
+  const [tabCanScrollRight, setTabCanScrollRight] = useState(true)
 
   // 동기 초기화 (hydration): localStorage에서 즉시 로드
   const refreshSaved = useCallback(() => {
     setSavedIds(getSavedFromLocal())
-    // 로그인 여부 무관 — getSavedIds()로 DB 합집합 병합 후 갱신
     getSavedIds().then(ids => setSavedIds(ids)).catch(() => { /* noop */ })
   }, [])
 
@@ -333,6 +348,27 @@ export default function KPattoLibraryPage() {
       setLoading(false)
     })
   }, [refreshSaved])
+
+  // 칩 줄 스크롤 위치에 따라 힌트 표시 여부 갱신
+  const handleTabScroll = useCallback(() => {
+    const el = tabScrollRef.current
+    if (!el) return
+    setTabCanScrollLeft(el.scrollLeft > 4)
+    setTabCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4)
+  }, [])
+
+  // 초기 렌더 후 스크롤 가능 여부 체크
+  useEffect(() => {
+    const id = requestAnimationFrame(handleTabScroll)
+    return () => cancelAnimationFrame(id)
+  }, [handleTabScroll])
+
+  // 칩 줄 한 화면씩 스크롤
+  const scrollTabs = useCallback((dir: 'left' | 'right') => {
+    const el = tabScrollRef.current
+    if (!el) return
+    el.scrollBy({ left: dir === 'right' ? el.clientWidth * 0.75 : -el.clientWidth * 0.75, behavior: 'smooth' })
+  }, [])
 
   const nq          = normalize(query)
   const isSearching = nq.length > 0
@@ -398,27 +434,29 @@ export default function KPattoLibraryPage() {
     setPopup(expr)
   }, [isPro, router])
 
-  // ── 공통 행 렌더 ─────────────────────────────────────────────────────────
+  // ── 공통 행 렌더 — Fragment로 행 + 인셋 구분선 묶음 ─────────────────────
   const renderRow = (expr: KPattoExpression, locked: boolean) => (
-    <ExprRow
-      key={expr.id}
-      expr={expr}
-      locked={locked}
-      saved={savedIds.has(expr.id)}
-      onBookmarkClick={e => {
-        if (locked) { router.push('/kpatto/subscription'); return }
-        toggleSave(e, expr.id)
-      }}
-      onClick={() => handleRowClick(expr)}
-    />
+    <Fragment key={expr.id}>
+      <ExprRow
+        expr={expr}
+        locked={locked}
+        saved={savedIds.has(expr.id)}
+        onBookmarkClick={e => {
+          if (locked) { router.push('/kpatto/subscription'); return }
+          toggleSave(e, expr.id)
+        }}
+        onClick={() => handleRowClick(expr)}
+      />
+      <ExprSep />
+    </Fragment>
   )
 
   return (
     <div style={{ minHeight: '100vh', background: BG, paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
       <KPattoHeader />
 
-      {/* ── 상단: 건수 + 검색 ──────────────────────────────────────────────── */}
-      <div style={{ padding: '12px 16px 0' }}>
+      {/* ── 상단: 건수 + 검색 (SIDE_PAD 여백) ────────────────────────────── */}
+      <div style={{ padding: `12px ${SIDE_PAD}px 0` }}>
         {/* 건수 */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 6 }}>
           <span style={{ fontSize: 12, color: T2 }}>
@@ -430,43 +468,99 @@ export default function KPattoLibraryPage() {
         <SearchBar value={query} onChange={setQuery} inputRef={inputRef} />
       </div>
 
-      {/* ── 칩 줄 (검색 중 숨김) ──────────────────────────────────────────── */}
+      {/* ── 칩 줄 (검색 중 숨김) ——————————————————————————————————————————
+           · 첫/마지막 칩에 SIDE_PAD 여백: paddingLeft + trailing spacer
+           · 우측/좌측 그라데이션 힌트 + 클릭 가능 chevron
+      ───────────────────────────────────────────────────────────────────── */}
       {!isSearching && (
-        <div style={{
-          overflowX: 'auto',
-          display: 'flex', gap: 16,
-          padding: '10px 16px 8px',
-          scrollbarWidth: 'none' as const,
-        } as React.CSSProperties}>
-          {/* Saved 칩 */}
-          <Chip
-            label="Saved"
-            active={showSaved}
-            onClick={() => {
-              setShowSaved(v => !v)
-              setSelectedChapter(null)
-            }}
-            icon={
-              <svg width="11" height="11" viewBox="0 0 24 24"
-                fill={showSaved ? ACCENT : 'none'}
-                stroke={showSaved ? ACCENT : T2}
-                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 21 12 16 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-              </svg>
-            }
-          />
-          {/* 챕터 칩 × 10 */}
-          {Array.from({ length: 10 }, (_, i) => i + 1).map(ch => (
-            <Chip
-              key={ch}
-              label={chapterLabel(ch)}
-              active={selectedChapter === ch}
-              onClick={() => {
-                setShowSaved(false)
-                setSelectedChapter(prev => prev === ch ? null : ch)
+        <div style={{ position: 'relative' }}>
+          {/* ← 왼쪽 힌트 (왼쪽으로 스크롤 가능할 때) */}
+          {tabCanScrollLeft && (
+            <button
+              type="button"
+              onClick={() => scrollTabs('left')}
+              style={{
+                position: 'absolute', left: 0, top: 0, bottom: 0, width: 44,
+                background: `linear-gradient(to right, ${BG} 55%, transparent)`,
+                zIndex: 2, border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', paddingLeft: 4,
+                WebkitTapHighlightColor: 'transparent',
               }}
+              aria-label="왼쪽 필터 탭 보기"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke={T2} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+          )}
+
+          {/* 스크롤 컨테이너 */}
+          <div
+            ref={tabScrollRef}
+            onScroll={handleTabScroll}
+            style={{
+              overflowX: 'auto',
+              display: 'flex', gap: 16,
+              // paddingLeft만 설정; padding-right는 overflow 시 씹히므로 trailing spacer 사용
+              padding: `10px 0 8px ${SIDE_PAD}px`,
+              scrollbarWidth: 'none' as const,
+            } as React.CSSProperties}
+          >
+            {/* Saved 칩 */}
+            <Chip
+              label="Saved"
+              active={showSaved}
+              onClick={() => {
+                setShowSaved(v => !v)
+                setSelectedChapter(null)
+              }}
+              icon={
+                <svg width="11" height="11" viewBox="0 0 24 24"
+                  fill={showSaved ? ACCENT : 'none'}
+                  stroke={showSaved ? ACCENT : T2}
+                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 21 12 16 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                </svg>
+              }
             />
-          ))}
+            {/* 챕터 칩 × 10 */}
+            {Array.from({ length: 10 }, (_, i) => i + 1).map(ch => (
+              <Chip
+                key={ch}
+                label={chapterLabel(ch)}
+                active={selectedChapter === ch}
+                onClick={() => {
+                  setShowSaved(false)
+                  setSelectedChapter(prev => prev === ch ? null : ch)
+                }}
+              />
+            ))}
+            {/* 오른쪽 여백 확보 spacer (overflow-x에서 padding-right가 씹히는 문제 대응) */}
+            <div style={{ minWidth: SIDE_PAD, flexShrink: 0 }} aria-hidden />
+          </div>
+
+          {/* → 오른쪽 힌트 (오른쪽으로 스크롤 가능할 때) */}
+          {tabCanScrollRight && (
+            <button
+              type="button"
+              onClick={() => scrollTabs('right')}
+              style={{
+                position: 'absolute', right: 0, top: 0, bottom: 0, width: 44,
+                background: `linear-gradient(to left, ${BG} 55%, transparent)`,
+                zIndex: 2, border: 'none', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
+                paddingRight: 4,
+                WebkitTapHighlightColor: 'transparent',
+              }}
+              aria-label="오른쪽 필터 탭 보기"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke={T2} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+          )}
         </div>
       )}
 
@@ -478,7 +572,7 @@ export default function KPattoLibraryPage() {
       ) : isSearching ? (
         /* 검색 결과 — 평평하게 */
         searchResults.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '48px 16px', color: T2, fontSize: 14 }}>
+          <div style={{ textAlign: 'center', padding: `48px ${SIDE_PAD}px`, color: T2, fontSize: 14 }}>
             No results for &ldquo;{query}&rdquo;
           </div>
         ) : (
