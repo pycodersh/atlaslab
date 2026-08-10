@@ -204,8 +204,99 @@ function HeroImage() {
   )
 }
 
+// ── 히어로 에피소드 카드 (히어로 배너 대체) ────────────────────────────────────
+// 에피소드 썸네일을 전체 배경으로 사용하는 히어로 크기 카드.
+// 기존 HeroImage 와 동일한 패딩·비율·모서리·그림자.
+// 카드 전체가 탭 영역 → /kpatto/story/:id 이동.
+
+function HeroEpisodeCard({ ep }: { ep: ContinueEp }) {
+  const epLabel = `EP ${String(ep.num).padStart(2, '0')}`
+  return (
+    <div style={{ padding: '12px 16px 0' }}>
+      <Link
+        href={`/kpatto/story/${ep.id}`}
+        style={{ textDecoration: 'none', display: 'block' }}
+      >
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '16/9',
+          borderRadius: 16,
+          overflow: 'hidden',
+          backgroundColor: '#1A1A1A',
+        }}>
+          {/* 에피소드 썸네일 */}
+          <Image
+            src={ep.thumbnailUrl}
+            alt={ep.title}
+            fill
+            style={{ objectFit: 'cover', objectPosition: 'center center' }}
+            sizes="(max-width: 480px) 100vw, 480px"
+            priority
+          />
+
+          {/* 하단 그라데이션 오버레이 */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.65) 100%)',
+            pointerEvents: 'none',
+          }} />
+
+          {/* 좌측 하단: EP 라벨 + 한글 제목 + 영문 부제 */}
+          <div style={{
+            position: 'absolute',
+            left: 12,
+            bottom: 12,
+            pointerEvents: 'none',
+          }}>
+            <div style={{
+              fontSize: 11,
+              fontWeight: 700,
+              color: 'rgba(255,255,255,0.75)',
+              letterSpacing: '0.06em',
+              lineHeight: 1.3,
+            }}>
+              {epLabel}
+            </div>
+            <div style={{
+              fontSize: 18,
+              fontWeight: 700,
+              color: '#FFFFFF',
+              lineHeight: 1.25,
+              marginTop: 2,
+            }}>
+              {ep.title}
+            </div>
+            {ep.titleEn && (
+              <div style={{
+                fontSize: 13,
+                color: 'rgba(255,255,255,0.75)',
+                lineHeight: 1.3,
+                marginTop: 2,
+              }}>
+                {ep.titleEn}
+              </div>
+            )}
+          </div>
+
+          {/* 우측 하단: 오렌지 화살표 */}
+          <div style={{
+            position: 'absolute',
+            right: 12,
+            bottom: 12,
+            pointerEvents: 'none',
+          }}>
+            <ChevronRight size={22} strokeWidth={2.5} color={ACCENT} />
+          </div>
+        </div>
+      </Link>
+    </div>
+  )
+}
+
 // ── Continue / Start 줄 ───────────────────────────────────────────────────────
-// 카드 전체가 탭 영역.
+// 재사용 가능성이 있으므로 컴포넌트 정의는 유지 (렌더에서는 HeroEpisodeCard 로 대체됨).
 // 1행: EP 라벨(min-width 4.5em) · 한글 제목
 // 2행: [들여쓰기] 영문 부제  Continue→
 // 텍스트 블록은 썸네일 높이 내에서 세로 중앙 정렬.
@@ -587,11 +678,8 @@ export default function KPattoHomePage() {
         <KPattoHeader />
 
         <div style={{ maxWidth: 480, margin: '0 auto' }}>
-          {/* [1] 히어로 배너 */}
-          <HeroImage />
-
-          {/* [2] 이어보기 카드 (진행 없음 → "Start Episode 1") */}
-          <ContinueRow ep={continueEp} />
+          {/* [1] 히어로 에피소드 카드 (진행 없음 → EP01, 진행 있음 → 다음 화) */}
+          <HeroEpisodeCard ep={continueEp} />
 
           {/* [3] 한글 프리코스 (항상 표시) */}
           <PrecourseCard
