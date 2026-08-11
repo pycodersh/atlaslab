@@ -71,31 +71,33 @@ EP62 | 직장 생활
 EP63 | SNS 트렌드
 
 [컷1]
-  에마: 소피 씨, SNS 많이 해요?
-  EN: Sophie, do you use social media a lot?
+  에마: 지수 씨, SNS 많이 해요?
+  EN: Jisu, do you use social media a lot?
   ▸ ~많이 해? → "많이 해"
-  소피: 요즘 이게 유행이야!
-  EN: This is what's trending lately!
-  ▸ ~유행이야? → "유행이야"
+  에마: 저는 요즘 매일 올려요.
+  EN: I've been posting every day lately.
 
 [컷2]
-  에마: 음식 사진부터 찍어야 해요!
-  EN: You have to photograph the food first!
-  소피: 잠깐만요, 아직 먹지 마세요!
-  EN: Wait, don't eat it yet!
+  지수: 요즘 이게 유행이야!
+  EN: This is what's trending these days!
+  ▸ ~유행이야? → "유행이야"
+  지수: 음식 사진부터 찍어야 해.
+  EN: You have to photograph the food first.
 
 [컷3]
+  에마: 잠깐만요, 아직 먹지 마세요!
+  EN: Wait, don't eat it yet!
+
+[컷4]
   에마: 어제 사진 올렸더니 팔로워가 늘었어요!
   EN: I posted a photo yesterday and my followers went up!
   ▸ ~올렸더니 → "올렸더니"
-
-[컷4]
   에마: 갑자기 태그되는 바람에 깜짝 놀랐어요.
   EN: I was startled because I got tagged out of nowhere.
   ▸ -는 바람에 → "되는 바람에"
 
 [컷5]
-  소피: 이제 인플루언서네요!
+  지수: 이제 인플루언서네!
   EN: You're an influencer now!
   에마: 그 정도는 아니에요!
   EN: It's not that big a deal!

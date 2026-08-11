@@ -105,6 +105,13 @@ export default function KPattoStoryPage({ params }: PageProps) {
 
   const epNum = story?.episode ?? epNumFromId
 
+  // ── 에피소드 진입 시 sessionStorage에 번호 저장 (목록 복귀 시 스크롤 복원용) ──
+  useEffect(() => {
+    if (epNum > 0) {
+      sessionStorage.setItem('kpatto-last-viewed-ep', String(epNum))
+    }
+  }, [epNum])
+
   // ── 반복학습 회차 상태 (localStorage) ────────────────────────────────────────
   const [roundState, setRoundState] = useState<RoundState>(() =>
     typeof window !== 'undefined' ? readRoundState(epNum) : defaultRoundState()

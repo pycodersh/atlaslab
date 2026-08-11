@@ -80,7 +80,9 @@ export default function KPattoStoryListPage() {
   const [nextEpNum,   setNextEpNum]     = useState<number>(0)   // 0 = 아직 모름
   const [dbEpisodes,  setDbEpisodes]    = useState<EpItem[]>([])
 
-  const nextEpRef = useRef<HTMLDivElement | null>(null)
+  const scrollTargetRef = useRef<HTMLDivElement | null>(null)
+  const hasScrolled     = useRef(false)
+  const [lastViewedEp, setLastViewedEp] = useState<number | null>(null)
 
   // ── 완료 진행도 로드 ──────────────────────────────────────────────────────
   useEffect(() => {
@@ -91,16 +93,32 @@ export default function KPattoStoryListPage() {
     })
   }, [])
 
-  // ── 다음 화 위치로 자동 스크롤 ───────────────────────────────────────────
+  // ── sessionStorage에서 마지막 시청 에피소드 읽기 ───────────────────────
   useEffect(() => {
-    if (nextEpNum > 1 && nextEpRef.current) {
-      // 목록이 렌더링될 시간을 주고 스크롤
+    const saved = sessionStorage.getItem('kpatto-last-viewed-ep')
+    if (saved) {
+      const n = parseInt(saved, 10)
+      if (!isNaN(n) && n > 0) setLastViewedEp(n)
+    }
+  }, [])
+
+  // ── 스크롤 복원: 저장값 우선, 없으면 nextEp ───────────────────────────
+  useEffect(() => {
+    if (hasScrolled.current) return
+    const target = lastViewedEp !== null ? lastViewedEp : nextEpNum
+    if (target > 0 && scrollTargetRef.current) {
+      const delay = lastViewedEp !== null ? 100 : 350
       const t = setTimeout(() => {
-        nextEpRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }, 350)
+        if (hasScrolled.current || !scrollTargetRef.current) return
+        hasScrolled.current = true
+        scrollTargetRef.current.scrollIntoView({
+          behavior: lastViewedEp !== null ? 'instant' : 'smooth',
+          block:    lastViewedEp !== null ? 'start'   : 'center',
+        })
+      }, delay)
       return () => clearTimeout(t)
     }
-  }, [nextEpNum])
+  }, [lastViewedEp, nextEpNum])
 
   // ── DB에서 에피소드 메타 로드 ─────────────────────────────────────────────
   useEffect(() => {
@@ -145,10 +163,14 @@ export default function KPattoStoryListPage() {
           const isNext = story.episode === nextEpNum
           const locked = story.episode > FREE_EPISODES && !isPro
 
+          const isScrollTarget = lastViewedEp !== null
+            ? story.episode === lastViewedEp
+            : story.episode === nextEpNum
+
           return (
             <div
               key={story.id}
-              ref={isNext ? nextEpRef : undefined}
+              ref={isScrollTarget ? scrollTargetRef : undefined}
               style={{
                 display: 'flex', alignItems: 'stretch',
                 borderRadius: 16,
@@ -216,6 +238,7 @@ export default function KPattoStoryListPage() {
               {/* Chevron */}
               <Link
                 href={`/kpatto/story/${story.id}`}
+                onClick={() => sessionStorage.setItem('kpatto-last-viewed-ep', String(story.episode))}
                 style={{ display: 'flex', alignItems: 'center', padding: '0 12px', textDecoration: 'none', flexShrink: 0 }}
                 aria-label={`View ${story.title}`}
               >
