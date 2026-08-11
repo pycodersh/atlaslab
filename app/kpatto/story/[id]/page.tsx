@@ -110,6 +110,8 @@ export default function KPattoStoryPage({ params }: PageProps) {
     typeof window !== 'undefined' ? readRoundState(epNum) : defaultRoundState()
   )
   const [roundComplete, setRoundComplete] = useState(false)
+  /** 완료 직후 확정된 회차 수 (1~5), 완료 카드 표시용 */
+  const [completedRound, setCompletedRound] = useState(0)
 
   /** audio_url 있는 말풍선·표현 ID 집합 (에피소드 로드 후 채워짐) */
   const audioTargetsRef = useRef<{ bubbleIds: Set<string>; expressionIds: Set<number> } | null>(null)
@@ -240,7 +242,12 @@ export default function KPattoStoryPage({ params }: PageProps) {
     if (roundComplete) return  // 이미 처리됨
     if (roundState.listen_done && roundState.read_done && roundState.challenge_done) {
       clearRoundState(epNum)       // ① 진행 중 상태 삭제 (재진입 차단)
-      markEpisodeComplete(epNum)   // ② 완료 기록
+      markEpisodeComplete(epNum)   // ② 완료 기록 (localStorage 동기 쓰기가 먼저 실행됨)
+      // ③ 완료 직후 localStorage에서 최신 회차 수 읽기 (동기 쓰기 직후이므로 즉시 가능)
+      try {
+        const store = JSON.parse(localStorage.getItem('kpatto-ep-progress') ?? '{}') as Record<string, { completed_count?: number }>
+        setCompletedRound(Math.min(store[String(epNum)]?.completed_count ?? 1, 5))
+      } catch { setCompletedRound(1) }
       setRoundComplete(true)
       setTimeout(() => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
@@ -406,8 +413,26 @@ export default function KPattoStoryPage({ params }: PageProps) {
                   fontSize: 19, fontWeight: 700, color: '#1a1a1a',
                   lineHeight: 1.25,
                 }}>
-                  {ui.sv_ep_complete}
+                  {completedRound >= 5 ? 'Episode Mastered!' : ui.sv_ep_complete}
                 </h3>
+                {/* 점 5개 + "Round N of 5" / "Mastered" */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 7, margin: '3px 0 1px' }}>
+                  <div style={{ display: 'flex', gap: 4 }}>
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <div key={i} style={{
+                        width: 7, height: 7, borderRadius: '50%', flexShrink: 0,
+                        background: i < completedRound ? '#D4873A' : '#E0E0E0',
+                      }} />
+                    ))}
+                  </div>
+                  <span style={{
+                    fontSize: 11, fontWeight: 700,
+                    color: completedRound >= 5 ? '#D4873A' : '#bbb',
+                    letterSpacing: '0.02em',
+                  }}>
+                    {completedRound >= 5 ? 'Mastered' : `Round ${completedRound} of 5`}
+                  </span>
+                </div>
                 <p style={{
                   margin: 0,
                   fontSize: 12, color: '#aaa', lineHeight: 1.4,
