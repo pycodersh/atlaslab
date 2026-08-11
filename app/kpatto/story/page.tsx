@@ -19,27 +19,28 @@ const T1     = '#111111'
 const T2     = '#999999'
 const ACCENT = '#D4873A'
 const GREEN  = '#22C55E'
-const MAX_VIEWS = 10
+const MAX_VIEWS = 5
 
 // ── 상태 배지 ────────────────────────────────────────────────────────────────
 
 function EpisodeStatus({ count }: { count: number }) {
-  if (count >= MAX_VIEWS) {
+  const displayCount = Math.min(count, MAX_VIEWS)
+  if (displayCount >= MAX_VIEWS) {
     return <span style={{ fontSize: 12, color: ACCENT, fontWeight: 700 }}>Mastered! 🏆</span>
   }
-  if (count > 0) {
+  if (displayCount > 0) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
         <div style={{ display: 'flex', gap: 3 }}>
           {Array.from({ length: MAX_VIEWS }, (_, i) => (
             <div key={i} style={{
               width: 8, height: 8, borderRadius: '50%',
-              background: i < count ? ACCENT : '#E0E0E0',
+              background: i < displayCount ? ACCENT : '#E0E0E0',
               flexShrink: 0,
             }} />
           ))}
         </div>
-        <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>{count}/{MAX_VIEWS}</span>
+        <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>{displayCount}/{MAX_VIEWS}</span>
       </div>
     )
   }

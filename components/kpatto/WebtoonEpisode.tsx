@@ -434,11 +434,15 @@ function applyOverrides(base: WebtoonEpisodeData, overrides: OverrideMap): Webto
 }
 
 // ── Main exported component ──────────────────────────────────────────────────
-export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn }: {
+export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn, onBubblePlay, onExpressionAudioPlay }: {
   episode: WebtoonEpisodeData
   episodeLabel?: string
   storyTitle?: string
   singleColumn?: boolean
+  /** 말풍선 음성 재생을 시작할 때 bubbleId를 전달 — Listening 판정에 사용 */
+  onBubblePlay?: (bubbleId: string) => void
+  /** 표현 팝업 음성 재생을 시작할 때 expressionId를 전달 — Listening 판정에 사용 */
+  onExpressionAudioPlay?: (expressionId: number) => void
 }) {
   const [showKo, setShowKo] = useState(true)
   const [showTrans, setShowTrans] = useState(true)
@@ -548,6 +552,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
         console.log(`[kpatto] skip (no audio_url): ${b.id}`)
         continue
       }
+      onBubblePlay?.(b.id)  // 재생 시작 알림 (Listening 판정)
       const ok = await tryPlayAudio(b.audio_url)
       // await 직후 재검사: await 중 stopAllAudio()가 호출됐을 수 있음
       if (getAudioGeneration() !== myGen) break
@@ -731,6 +736,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
         <ExpressionPopup
           expression={activeExpression}
           onClose={() => setActiveExpression(null)}
+          onAudioPlay={onExpressionAudioPlay}
         />
       )}
     </div>

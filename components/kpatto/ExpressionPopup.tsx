@@ -34,9 +34,12 @@ function descriptionBody(description: string | null | undefined, gloss: string |
 export function ExpressionPopup({
   expression,
   onClose,
+  onAudioPlay,
 }: {
   expression: KPattoExpression
   onClose: () => void
+  /** 음성 재생을 시작할 때 호출 — Listening 판정에 사용 */
+  onAudioPlay?: (expressionId: number) => void
 }) {
   const [isSaved, setIsSaved] = useState(() => getSavedExpressionIds().has(expression.id))
   const [exprPlaying, setExprPlaying] = useState(false)
@@ -87,11 +90,12 @@ export function ExpressionPopup({
     exprPlayingRef.current = true
     setExprPlaying(true)
     stopAllAudio()  // 대사 루프 정지 (동시 재생 금지)
+    onAudioPlay?.(expression.id)  // 재생 시작 알림 (Listening 판정)
     await tryPlayAudio(expression.audio_url)
     // 자연 완료 또는 외부 정지
     exprPlayingRef.current = false
     setExprPlaying(false)
-  }, [expression.audio_url])
+  }, [expression.audio_url, expression.id, onAudioPlay])
 
   const handleToggleSave = () => {
     const ids = getSavedExpressionIds()

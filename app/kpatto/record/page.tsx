@@ -27,16 +27,17 @@ const SECTION_LABEL: React.CSSProperties = {
 const TOTAL_EPISODES    = 100
 const TOTAL_EXPRESSIONS = 325  // DB kp_expressions 실측값
 
-// ── 녹색 5단계 ────────────────────────────────────────────────────────────────
+// ── 녹색 6단계 (0~5회, 5회 이상 = 마스터 아이콘) ─────────────────────────────
 function epColor(count: number, locked: boolean): string {
   if (locked || count === 0) return '#EBEBEB'
   if (count === 1)           return '#EAF3DE'
   if (count === 2)           return '#C0DD97'
   if (count === 3)           return '#97C459'
-  return '#639922'  // 4회 이상
+  if (count === 4)           return '#639922'
+  return '#3D6614'  // 5회 이상 = 마스터
 }
 
-const LEGEND_COLORS = ['#EBEBEB', '#EAF3DE', '#C0DD97', '#97C459', '#639922']
+const LEGEND_COLORS = ['#EBEBEB', '#EAF3DE', '#C0DD97', '#97C459', '#639922', '#3D6614']
 
 // ── 이번 주 월요일 ISO (기기 로컬 시간 기준) ─────────────────────────────────
 function getThisWeekMondayISO(): string {
@@ -200,16 +201,27 @@ export default function KPattoRecordPage() {
                               }}
                               aria-label={`EP${String(ep).padStart(2, '0')}${locked ? ' Pro' : ''}`}
                             >
-                              <span style={{
-                                fontSize: 10,
-                                fontWeight: 500,
-                                color: (!loading && count > 0 && !locked) ? '#ffffff' : '#999999',
-                                fontVariantNumeric: 'tabular-nums',
-                                lineHeight: 1,
-                                userSelect: 'none',
-                              }}>
-                                {ep}
-                              </span>
+                              {(!loading && count >= 5 && !locked) ? (
+                                /* 5회 이상 = 마스터 체크 아이콘 */
+                                <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+                                  <polyline
+                                    points="1.5,6 4.5,9.5 10.5,2.5"
+                                    fill="none" stroke="#ffffff"
+                                    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                                  />
+                                </svg>
+                              ) : (
+                                <span style={{
+                                  fontSize: 10,
+                                  fontWeight: 500,
+                                  color: (!loading && count > 0 && !locked) ? '#ffffff' : '#999999',
+                                  fontVariantNumeric: 'tabular-nums',
+                                  lineHeight: 1,
+                                  userSelect: 'none',
+                                }}>
+                                  {ep}
+                                </span>
+                              )}
                             </button>
                           )
                         })}

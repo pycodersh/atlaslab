@@ -405,6 +405,27 @@ export async function fetchEpisodeChallenges(episodeId: string): Promise<Questio
   })
 }
 
+/**
+ * 표현 ID 목록 중 audio_url이 있는 것만 Map(id → url)으로 반환한다.
+ * Listening 판정을 위해 에피소드 로드 시 호출한다.
+ */
+export async function fetchExpressionAudioMap(
+  expressionIds: number[],
+): Promise<Map<number, string>> {
+  if (expressionIds.length === 0) return new Map()
+  const supabase = createClient()
+  const { data } = await supabase
+    .from('kp_expressions')
+    .select('id, audio_url')
+    .in('id', expressionIds)
+    .not('audio_url', 'is', null)
+  const map = new Map<number, string>()
+  for (const row of (data ?? [])) {
+    if (row.audio_url) map.set(row.id as number, row.audio_url as string)
+  }
+  return map
+}
+
 /** Advances kp_challenge_progress to the next round after completing current round. */
 export async function advanceEpisodeRound(episodeId: string): Promise<void> {
   const match = episodeId.match(/kp-ep-(\d+)/)

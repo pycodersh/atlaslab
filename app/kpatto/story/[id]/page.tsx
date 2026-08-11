@@ -1,6 +1,6 @@
 ﻿'use client'
-// v2.1 — Emma cut completion screen + Next Story / Unlock EP buttons
-import { use, useState, useCallback, useEffect } from 'react'
+// v2.2 — 반복학습 카운팅: 3조건(Listening · Reading · Challenge) 모두 충족 시 1회 완료
+import { use, useState, useCallback, useEffect, useRef } from 'react'
 import { notFound, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { ChevronLeft } from 'lucide-react'
@@ -13,7 +13,7 @@ import { KPattoPaywall } from '@/components/kpatto/KPattoPaywall'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
-import { fetchWebtoonEpisode, fetchEpisodeChallenges, advanceEpisodeRound } from '@/lib/kpatto/fetch-episode'
+import { fetchWebtoonEpisode, fetchEpisodeChallenges, advanceEpisodeRound, fetchExpressionAudioMap } from '@/lib/kpatto/fetch-episode'
 import type { WebtoonEpisodeData } from '@/data/kpatto/webtoon-types'
 import { EP001_POOL, type RawQuestion } from '@/data/kpatto/challenge-pool-ep001'
 import { EP002_POOL } from '@/data/kpatto/challenge-pool-ep002'
@@ -32,6 +32,16 @@ import type { KPattoLanguage } from '@/data/kpatto/types'
 import type { Question } from '@/components/kpatto/ChallengeSection'
 import { generateChallenge } from '@/lib/kpatto/generate-challenge'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
+import {
+  type RoundState,
+  defaultRoundState,
+  readRoundState,
+  writeRoundState,
+  clearRoundState,
+  onBubblePlayed,
+  onExpressionPlayed,
+  autoCompleteListenIfNoAudio,
+} from '@/lib/kpatto/round-state'
 
 const EPISODE_POOLS: Record<string, RawQuestion[]> = {
   'kp-ep-001': EP001_POOL,
@@ -95,7 +105,15 @@ export default function KPattoStoryPage({ params }: PageProps) {
 
   const epNum = story?.episode ?? epNumFromId
 
-  const [challengeDone, setChallengeDone] = useState(false)
+  // ── 반복학습 회차 상태 (localStorage) ────────────────────────────────────────
+  const [roundState, setRoundState] = useState<RoundState>(() =>
+    typeof window !== 'undefined' ? readRoundState(epNum) : defaultRoundState()
+  )
+  const [roundComplete, setRoundComplete] = useState(false)
+
+  /** audio_url 있는 말풍선·표현 ID 집합 (에피소드 로드 후 채워짐) */
+  const audioTargetsRef = useRef<{ bubbleIds: Set<string>; expressionIds: Set<number> } | null>(null)
+
   const [challengeQuestions, setChallengeQuestions] = useState<Question[] | null>(null)
   const [webtoonEpisode, setWebtoonEpisode] = useState<WebtoonEpisodeData | null>(null)
   const [webtoonLoading, setWebtoonLoading] = useState(true)
@@ -140,18 +158,94 @@ export default function KPattoStoryPage({ params }: PageProps) {
     }
   }, [id])
 
+  // 에피소드 로드 완료 → 음성 대상 목록 구성 + Listening 자동 완료 판정
+  useEffect(() => {
+    if (!webtoonEpisode) return
+
+    // audio_url 있는 말풍선 수집
+    const audioBubbleIds = new Set<string>()
+    const expressionIds: number[] = []
+    for (const section of webtoonEpisode.sections) {
+      if (section.type === 'gap') {
+        for (const bubble of section.bubbles) {
+          if (bubble.audio_url) audioBubbleIds.add(bubble.id)
+          if (bubble.expression_id) expressionIds.push(bubble.expression_id)
+        }
+      }
+    }
+
+    fetchExpressionAudioMap(expressionIds).then(exprMap => {
+      const audioExpressionIds = new Set<number>(exprMap.keys())
+      audioTargetsRef.current = { bubbleIds: audioBubbleIds, expressionIds: audioExpressionIds }
+
+      // 음성 없는 화 → Listening 자동 완료
+      setRoundState(prev => {
+        const next = autoCompleteListenIfNoAudio(prev, audioBubbleIds, audioExpressionIds)
+        if (next !== prev) writeRoundState(epNum, next)
+        return next
+      })
+    })
+  }, [webtoonEpisode, epNum])
+
+  // ── 말풍선 음성 재생 콜백 ───────────────────────────────────────────────────
+  const handleBubblePlay = useCallback((bubbleId: string) => {
+    const targets = audioTargetsRef.current
+    if (!targets) return
+    setRoundState(prev => {
+      const next = onBubblePlayed(prev, bubbleId, targets.bubbleIds, targets.expressionIds)
+      if (next !== prev) writeRoundState(epNum, next)
+      return next
+    })
+  }, [epNum])
+
+  // ── 표현 팝업 음성 재생 콜백 ────────────────────────────────────────────────
+  const handleExpressionPlay = useCallback((expressionId: number) => {
+    const targets = audioTargetsRef.current
+    if (!targets) return
+    setRoundState(prev => {
+      const next = onExpressionPlayed(prev, expressionId, targets.bubbleIds, targets.expressionIds)
+      if (next !== prev) writeRoundState(epNum, next)
+      return next
+    })
+  }, [epNum])
+
+  // ── Reading 완료 콜백 (작업 B에서 버튼으로 연결) ─────────────────────────────
+  const handleReadingDone = useCallback(() => {
+    setRoundState(prev => {
+      if (prev.read_done) return prev
+      const next = { ...prev, read_done: true }
+      writeRoundState(epNum, next)
+      return next
+    })
+  }, [epNum])
+
+  // ── 챌린지 완료 콜백 ─────────────────────────────────────────────────────────
   const handleChallengeComplete = useCallback(() => {
     // 1. 활동 로그 (streak / 주간 점 — 기존 SRS localStorage)
     if (story) onStoryComplete(story.episode, story.title)
-    // 2. 에피소드 완료 통합 기록 (새 시스템 — localStorage + DB)
-    markEpisodeComplete(epNum)
-    // 3. 챌린지 라운드 진행 (kp_challenge_progress)
+    // 2. 챌린지 라운드 진행 (kp_challenge_progress — 문제 풀 순환, 학습 회차와 무관)
     advanceEpisodeRound(id)
-    setChallengeDone(true)
-    setTimeout(() => {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-    }, 300)
-  }, [story, id])
+    // 3. challenge_done 플래그 세우기 (3조건 useEffect가 완료 여부 최종 판단)
+    setRoundState(prev => {
+      if (prev.challenge_done) return prev
+      const next = { ...prev, challenge_done: true }
+      writeRoundState(epNum, next)
+      return next
+    })
+  }, [story, id, epNum])
+
+  // ── 3조건 모두 충족 → 학습 1회 확정 ─────────────────────────────────────────
+  useEffect(() => {
+    if (roundComplete) return  // 이미 처리됨
+    if (roundState.listen_done && roundState.read_done && roundState.challenge_done) {
+      markEpisodeComplete(epNum)
+      clearRoundState(epNum)
+      setRoundComplete(true)
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+      }, 300)
+    }
+  }, [roundState.listen_done, roundState.read_done, roundState.challenge_done, roundComplete, epNum])
 
   // After loading: if no static story and DB also returned nothing, 404
   if (!webtoonLoading && !story && !webtoonEpisode) notFound()
@@ -231,6 +325,8 @@ export default function KPattoStoryPage({ params }: PageProps) {
             episodeLabel={`EP ${String(epNum).padStart(2, '0')}`}
             storyTitle={story?.title ?? webtoonEpisode?.title ?? ''}
             singleColumn={epNum >= 31}
+            onBubblePlay={handleBubblePlay}
+            onExpressionAudioPlay={handleExpressionPlay}
           />
         ) : (
           <div style={{ paddingTop: 16 }}>
@@ -247,13 +343,33 @@ export default function KPattoStoryPage({ params }: PageProps) {
         )}
       </div>
 
+      {/* Reading 완료 버튼 (Listening 끝난 뒤 활성 — 작업 B에서 UI 완성) */}
+      {!webtoonLoading && webtoonEpisode && !roundState.read_done && (
+        <div style={{ margin: '16px 16px 0', display: 'flex', justifyContent: 'flex-end' }}>
+          <button
+            onClick={handleReadingDone}
+            disabled={!roundState.listen_done}
+            style={{
+              padding: '10px 20px', borderRadius: 10,
+              border: 'none',
+              background: roundState.listen_done ? '#D4873A' : '#E0E0E0',
+              color: roundState.listen_done ? '#fff' : '#aaa',
+              fontSize: 13, fontWeight: 700, cursor: roundState.listen_done ? 'pointer' : 'default',
+              fontFamily: 'inherit', transition: 'background 0.2s',
+            }}
+          >
+            {roundState.listen_done ? '읽기 완료 ✓' : '청취 먼저 완료하세요'}
+          </button>
+        </div>
+      )}
+
       {/* Challenge section */}
-      {!challengeDone && challengeQuestions && (
+      {!roundState.challenge_done && challengeQuestions && (
         <ChallengeSection onComplete={handleChallengeComplete} questions={challengeQuestions} />
       )}
 
-      {/* Completion footer — only after challenge */}
-      {challengeDone && (
+      {/* Completion footer — 3조건 모두 충족 후 */}
+      {roundComplete && (
           <div style={{
             margin: '24px 16px 0',
             borderRadius: 20,
