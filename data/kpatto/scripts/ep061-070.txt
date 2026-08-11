@@ -277,30 +277,34 @@ EP68 | 갈등 해소
 EP69 | 목표와 꿈
 
 [컷1]
-  민준: 에마는 꿈이 뭐예요?
-  EN: Emma, what's your dream?
+  에마: 민준 씨는 꿈이 뭐예요?
+  EN: Minjun, what's your dream?
   ▸ 꿈이 뭐예요? → "꿈이 뭐예요?"
+  민준: 난 언젠가 내 가게 하나. 에마는?
+  EN: Mine is to have my own shop someday. How about you?
 
 [컷2]
   에마: 저는 통역사가 되고 싶어요.
   EN: I want to become an interpreter.
   ▸ ~가 되고 싶어요 → "되고 싶어요"
+
+[컷3]
   민준: 오, 멋있다.
   EN: Oh, that's cool.
 
-[컷3]
+[컷4]
   에마: 언젠가 면접에서 이렇게 말할 거예요.
   EN: Someday I'll say this in an interview.
-  에마: 저는 두 나라를 잇는 사람이 되겠습니다.
-  EN: I will become someone who connects two countries.
+  에마: 두 나라를 잇는 사람이 되겠습니다!
+  EN: I will become someone who connects two countries!
   ▸ -습니다 → "되겠습니다"
 
-[컷4]
-  에마: 가끔은 포기하고 싶어요.
-  EN: Sometimes I want to give up.
+[컷5]
+  에마: 근데 가끔은 포기하고 싶어요.
+  EN: But sometimes I want to give up.
   ▸ 포기하고 싶어요 → "포기하고 싶어요"
 
-[컷5]
+[컷6]
   민준: 그래도 계속하면 돼. 응원할게!
   EN: But just keep going. I'm rooting for you!
   에마: 그 말 기억할게요.
