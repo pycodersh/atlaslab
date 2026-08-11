@@ -351,25 +351,100 @@ export default function KPattoStoryPage({ params }: PageProps) {
         )}
       </div>
 
-      {/* Reading 완료 버튼 (Listening 끝난 뒤 활성 — 작업 B에서 UI 완성) */}
-      {!webtoonLoading && webtoonEpisode && !roundState.read_done && (
-        <div style={{ margin: '16px 16px 0', display: 'flex', justifyContent: 'flex-end' }}>
-          <button
-            onClick={handleReadingDone}
-            disabled={!roundState.listen_done}
-            style={{
-              padding: '10px 20px', borderRadius: 10,
-              border: 'none',
-              background: roundState.listen_done ? '#D4873A' : '#E0E0E0',
-              color: roundState.listen_done ? '#fff' : '#aaa',
-              fontSize: 13, fontWeight: 700, cursor: roundState.listen_done ? 'pointer' : 'default',
-              fontFamily: 'inherit', transition: 'background 0.2s',
-            }}
-          >
-            {roundState.listen_done ? '읽기 완료 ✓' : '청취 먼저 완료하세요'}
-          </button>
-        </div>
-      )}
+      {/* ── 3-step progress bar: Listening · Reading · Challenge ── */}
+      {!webtoonLoading && webtoonEpisode && !roundComplete && (() => {
+        const tgts    = audioTargetsRef.current
+        const noAudio = tgts !== null
+          && tgts.bubbleIds.size === 0
+          && tgts.expressionIds.size === 0
+        const ld = roundState.listen_done
+        const rd = roundState.read_done
+        const cd = roundState.challenge_done
+
+        // First uncompleted step → highlighted in orange
+        const activeStep =
+          !ld && !noAudio ? 'listen' :
+          !rd             ? 'read'   :
+          !cd             ? 'challenge' : ''
+
+        function Circle({ done, active }: { done: boolean; active: boolean }) {
+          if (done) {
+            return (
+              <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+                <circle cx="10" cy="10" r="9" fill="#D4873A" />
+                <polyline
+                  points="5.5,10.5 8.5,14 14.5,6.5"
+                  stroke="#fff" strokeWidth="2" fill="none"
+                  strokeLinecap="round" strokeLinejoin="round"
+                />
+              </svg>
+            )
+          }
+          return (
+            <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+              <circle cx="10" cy="10" r="8.5" fill="none"
+                stroke={active ? '#D4873A' : '#BDBDBD'} strokeWidth="1.5" />
+            </svg>
+          )
+        }
+
+        const CELL: React.CSSProperties = {
+          flex: 1, display: 'flex', flexDirection: 'column',
+          alignItems: 'center', padding: '12px 4px 10px', gap: 5,
+        }
+        const lc = (done: boolean, active: boolean) => done || active ? '#D4873A' : '#BDBDBD'
+        const LABEL: React.CSSProperties = { fontSize: 11, fontWeight: 600, letterSpacing: '0.01em' }
+
+        return (
+          <div style={{
+            margin: '16px 16px 0',
+            borderRadius: 12,
+            border: '1px solid #EBEBEB',
+            overflow: 'hidden',
+            display: 'flex',
+            background: '#FAFAFA',
+          }}>
+
+            {/* Listening — display only */}
+            <div style={{ ...CELL, borderRight: '0.5px solid #EBEBEB' }}>
+              <Circle done={ld && !noAudio} active={activeStep === 'listen'} />
+              <span style={{ ...LABEL, color: lc(ld && !noAudio, activeStep === 'listen') }}>
+                Listening
+              </span>
+              {noAudio && (
+                <span style={{ fontSize: 9, color: '#BDBDBD', textAlign: 'center', lineHeight: 1.3 }}>
+                  Audio coming soon
+                </span>
+              )}
+            </div>
+
+            {/* Reading — tappable once listen_done; display-only otherwise */}
+            <button
+              onClick={ld && !rd ? handleReadingDone : undefined}
+              style={{
+                ...CELL,
+                borderTop: 'none', borderBottom: 'none', borderLeft: 'none',
+                borderRight: '0.5px solid #EBEBEB',
+                background: 'transparent',
+                fontFamily: 'inherit',
+                cursor: ld && !rd ? 'pointer' : 'default',
+                WebkitTapHighlightColor: 'transparent',
+              }}
+              aria-label={ld && !rd ? 'Mark reading complete' : undefined}
+            >
+              <Circle done={rd} active={activeStep === 'read'} />
+              <span style={{ ...LABEL, color: lc(rd, activeStep === 'read') }}>Reading</span>
+            </button>
+
+            {/* Challenge — display only */}
+            <div style={CELL}>
+              <Circle done={cd} active={activeStep === 'challenge'} />
+              <span style={{ ...LABEL, color: lc(cd, activeStep === 'challenge') }}>Challenge</span>
+            </div>
+
+          </div>
+        )
+      })()}
 
       {/* Challenge section */}
       {!roundState.challenge_done && challengeQuestions && (
