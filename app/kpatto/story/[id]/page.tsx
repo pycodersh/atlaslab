@@ -396,17 +396,10 @@ export default function KPattoStoryPage({ params }: PageProps) {
         const LABEL: React.CSSProperties = { fontSize: 11, fontWeight: 600, letterSpacing: '0.01em' }
 
         return (
-          <div style={{
-            margin: '16px 16px 0',
-            borderRadius: 12,
-            border: '1px solid #EBEBEB',
-            overflow: 'hidden',
-            display: 'flex',
-            background: '#FAFAFA',
-          }}>
+          <div style={{ margin: '16px 16px 0', display: 'flex' }}>
 
             {/* Listening — display only */}
-            <div style={{ ...CELL, borderRight: '0.5px solid #EBEBEB' }}>
+            <div style={CELL}>
               <Circle done={ld && !noAudio} active={activeStep === 'listen'} />
               <span style={{ ...LABEL, color: lc(ld && !noAudio, activeStep === 'listen') }}>
                 Listening
@@ -423,8 +416,7 @@ export default function KPattoStoryPage({ params }: PageProps) {
               onClick={ld && !rd ? handleReadingDone : undefined}
               style={{
                 ...CELL,
-                borderTop: 'none', borderBottom: 'none', borderLeft: 'none',
-                borderRight: '0.5px solid #EBEBEB',
+                borderTop: 'none', borderBottom: 'none', borderLeft: 'none', borderRight: 'none',
                 background: 'transparent',
                 fontFamily: 'inherit',
                 cursor: ld && !rd ? 'pointer' : 'default',
