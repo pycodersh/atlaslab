@@ -106,6 +106,8 @@ export function ExpressionPopup({
 
   return (
     <div
+      role="presentation"
+      aria-label="Close dialog"
       style={{
         position: 'fixed', inset: 0, zIndex: 200,
         background: 'rgba(0,0,0,0.45)',
@@ -114,6 +116,9 @@ export function ExpressionPopup({
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={expression.korean}
         style={{
           width: '100%', maxWidth: 430, margin: '0 auto',
           background: '#FFFFFF', borderRadius: '20px 20px 0 0',
@@ -129,29 +134,30 @@ export function ExpressionPopup({
 
         {/* Header — orange */}
         <div style={{ background: '#D4873A', margin: '8px 16px 0', borderRadius: 14, padding: '16px', position: 'relative' }}>
+          {/* Bookmark toggle — replaces X close button */}
           <button
-            onClick={onClose}
-            aria-label="Close"
+            onClick={handleToggleSave}
+            aria-label={isSaved ? 'Remove from saved' : 'Save expression'}
             style={{
               position: 'absolute', top: 10, right: 10,
               background: 'rgba(255,255,255,0.25)', border: 'none', borderRadius: '50%',
               width: 28, height: 28, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#fff', fontSize: 18, lineHeight: 1, fontFamily: 'inherit',
+              color: '#fff', WebkitTapHighlightColor: 'transparent',
             }}
           >
-            ×
+            {isSaved ? (
+              /* Filled bookmark */
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            ) : (
+              /* Empty bookmark */
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            )}
           </button>
-          {expression.category && (
-            <div style={{
-              display: 'inline-block', fontSize: 10, fontWeight: 700,
-              color: 'rgba(255,255,255,0.7)', letterSpacing: '0.08em',
-              textTransform: 'uppercase', marginBottom: 6,
-              background: 'rgba(0,0,0,0.15)', borderRadius: 4, padding: '2px 7px',
-            }}>
-              {expression.category}
-            </div>
-          )}
           <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: 4, paddingRight: 32 }}>
             {expression.korean}
           </div>
@@ -180,7 +186,7 @@ export function ExpressionPopup({
         </div>
 
         {/* Body */}
-        <div style={{ padding: '14px 16px 0' }}>
+        <div style={{ padding: '14px 16px 28px' }}>
           {expression.description && descriptionBody(expression.description, expression.english !== expression.korean ? expression.english : null).split('\n\n').map((para, i) => (
             <p key={i} style={{ fontSize: 14, color: '#444', lineHeight: 1.6, margin: '0 0 10px' }}>
               {para}
@@ -220,32 +226,7 @@ export function ExpressionPopup({
           )}
         </div>
 
-        {/* Buttons */}
-        <div style={{ display: 'flex', gap: 8, padding: '0 16px 28px' }}>
-          <button
-            onClick={handleToggleSave}
-            style={{
-              flex: 1, padding: '12px', borderRadius: 12,
-              border: '1.5px solid ' + (isSaved ? '#D4873A' : '#E0E0E0'),
-              background: isSaved ? '#FFF4EA' : 'transparent',
-              color: isSaved ? '#D4873A' : '#777',
-              fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-              transition: 'all 0.15s',
-            }}
-          >
-            {isSaved ? 'Saved ✓' : 'Save'}
-          </button>
-          <button
-            onClick={onClose}
-            style={{
-              flex: 1, padding: '12px', borderRadius: 12,
-              border: 'none', background: '#1A1A1A',
-              color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-            }}
-          >
-            Close
-          </button>
-        </div>
+        {/* Buttons removed — close via overlay tap or Esc */}
       </div>
     </div>
   )
