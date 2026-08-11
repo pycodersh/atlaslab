@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronRight, Lock } from 'lucide-react'
@@ -80,7 +80,6 @@ export default function KPattoStoryListPage() {
   const [nextEpNum,   setNextEpNum]     = useState<number>(0)   // 0 = 아직 모름
   const [dbEpisodes,  setDbEpisodes]    = useState<EpItem[]>([])
 
-  const scrollTargetRef = useRef<HTMLDivElement | null>(null)
   const hasScrolled     = useRef(false)
   const [lastViewedEp, setLastViewedEp] = useState<number | null>(null)
 
@@ -102,23 +101,26 @@ export default function KPattoStoryListPage() {
     }
   }, [])
 
-  // ── 스크롤 복원: 저장값 우선, 없으면 nextEp ───────────────────────────
-  useEffect(() => {
-    if (hasScrolled.current) return
-    const target = lastViewedEp !== null ? lastViewedEp : nextEpNum
-    if (target > 0 && scrollTargetRef.current) {
-      const delay = lastViewedEp !== null ? 100 : 350
-      const t = setTimeout(() => {
-        if (hasScrolled.current || !scrollTargetRef.current) return
-        hasScrolled.current = true
-        scrollTargetRef.current.scrollIntoView({
-          behavior: lastViewedEp !== null ? 'instant' : 'smooth',
-          block:    lastViewedEp !== null ? 'start'   : 'center',
-        })
-      }, delay)
-      return () => clearTimeout(t)
+  // ── 스크롤 복원: 콜백 ref 방식 ────────────────────────────────────────────
+  // useEffect + ref.current 방식은 ALL_STORIES(30화) 초기 렌더에서 EP31+ 카드가
+  // DOM에 없어 ref가 null → dbEpisodes 로드 후 deps 변경 없으면 effect 재실행 안 됨.
+  // 콜백 ref는 대상 카드가 DOM에 마운트되는 순간 직접 호출되므로 이 문제를 해결함.
+  //
+  // lastViewedEp가 있으면 nextEp 경로는 deps 분기 자체로 배제됨.
+  const scrollTargetCallback = useCallback((node: HTMLDivElement | null) => {
+    if (!node || hasScrolled.current) return
+    hasScrolled.current = true
+    if (lastViewedEp !== null) {
+      // 복원: 즉시 스크롤 (상단 정렬) — RAF 없이 직접 호출
+      // RAF는 페이지가 백그라운드이면 실행 안 되므로 setTimeout(0)으로 한 틱만 양보
+      setTimeout(() => node.scrollIntoView({ behavior: 'instant', block: 'start' }), 0)
+    } else {
+      // nextEp: 350ms 후 부드럽게 스크롤 (중앙 정렬)
+      setTimeout(() => {
+        node.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }, 350)
     }
-  }, [lastViewedEp, nextEpNum])
+  }, [lastViewedEp])
 
   // ── DB에서 에피소드 메타 로드 ─────────────────────────────────────────────
   useEffect(() => {
@@ -170,7 +172,7 @@ export default function KPattoStoryListPage() {
           return (
             <div
               key={story.id}
-              ref={isScrollTarget ? scrollTargetRef : undefined}
+              ref={isScrollTarget ? scrollTargetCallback : undefined}
               style={{
                 display: 'flex', alignItems: 'stretch',
                 borderRadius: 16,
