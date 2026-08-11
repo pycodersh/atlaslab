@@ -46,9 +46,8 @@ function simulateSections(panelList: { id: number; type: string; order_num: numb
   for (let ri = 0; ri < rowsL.length; ri++) {
     const row = rowsL[ri]
     const lastOrd = row[row.length - 1].order_num
-    const gi = gapQ.findIndex(g => g.order_num >= lastOrd)
-    if (gi >= 0) {
-      const [gRow] = gapQ.splice(gi, 1)
+    if (gapQ.length > 0) {
+      const [gRow] = gapQ.splice(0, 1)
       sections.push({ type: 'gap', id: gRow.id, order_num: gRow.order_num, row: ri + 1 })
     }
     for (const rp of row) {
@@ -165,7 +164,7 @@ async function main() {
   }
 
   // ── 3. EP39·41 allBubbles 시뮬레이션 ────────────────────────────────
-  for (const epNum of [39, 41]) {
+  for (const epNum of [39, 41, 42]) {
     console.log(`\n═══════════════════════════════════════════════`)
     console.log(`  3. EP${epNum} allBubbles 재생 순서 시뮬레이션`)
     console.log(`═══════════════════════════════════════════════`)

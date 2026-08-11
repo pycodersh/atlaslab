@@ -163,9 +163,13 @@ export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: 
       for (let ri = 0; ri < rowsL.length; ri++) {
         const row = rowsL[ri]
         const lastOrd = row[row.length - 1].order_num
-        const gi = gapQ.findIndex(g => g.order_num >= lastOrd)
-        if (gi >= 0) {
-          const [gRow] = gapQ.splice(gi, 1)
+        // Simple shift: take the next gap in sorted order (gapQ[0]) for each row.
+        // This correctly handles multi-panel rows (split3 etc) where the original
+        // lastOrd-based findIndex would skip gaps with a lower order_num.
+        // For standard episodes (wide/split2 only), this is equivalent to the
+        // old findIndex approach because the queue order matches row order.
+        if (gapQ.length > 0) {
+          const [gRow] = gapQ.splice(0, 1)
           const bs = (byPanel.get(gRow.id) ?? []).sort((a, b) => a.order_num - b.order_num)
           const gapId = `gap-${gapCount++}`
           // Gap goes BEFORE the row's panels (dialogue-before-scene pattern)
