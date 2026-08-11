@@ -61,25 +61,34 @@ const DELAY_BETWEEN_CALLS = 6500
 const GUIDE_VOICE = 'Iapetus'
 
 const VOICE_MAP: Record<string, string> = {
-  emma:   'Kore',
-  jisu:   'Zephyr',
-  jisoo:  'Zephyr',
-  minjun: 'Umbriel',
-  sophie: 'Aoede',
-  직원:   'Zephyr',
-  행인:   'Kore',
-  의사:   'Charon',
-  약사:   'Aoede',
-  상인:   'Charon',
-  교수님: 'Charon',
-  기사:   'Puck',
+  // 주역
+  emma:        'Kore',
+  jisu:        'Zephyr',
+  jisoo:       'Zephyr',
+  minjun:      'Umbriel',
+  sophie:      'Aoede',
+  // 단역 — 영문(DB 저장값) 키 우선, 한국어 키는 하위호환용으로 유지
+  staff:       'Zephyr',    직원: 'Zephyr',
+  stranger:    'Kore',      행인: 'Kore',
+  doctor:      'Rasalgethi', 의사: 'Rasalgethi',
+  pharmacist:  'Algieba',   약사: 'Algieba',
+  간호사:      'Vindemiatrix',
+  merchant:    'Charon',    상인: 'Charon',
+  professor:   'Charon',    교수님: 'Charon',
+  driver:      'Puck',      기사: 'Puck',
+  clerk:       'Zephyr',
+  receptionist: 'Vindemiatrix',
+  announcement: 'Iapetus',
+  students:    'Kore',
+  student:     'Kore',
 }
 
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } })
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
-function getVoice(speaker: string): string {
-  return VOICE_MAP[speaker.trim()] ?? 'Kore'
+/** VOICE_MAP에 없는 speaker는 null 반환 — 호출자가 경고 후 skip해야 함 */
+function getVoice(speaker: string): string | null {
+  return VOICE_MAP[speaker.trim()] ?? null
 }
 
 function dialoguePrompt(text: string): string {
@@ -396,9 +405,16 @@ async function main() {
       for (let di = 0; di < dList.length; di++) {
         const d      = dList[di]
         const voice  = getVoice(d.speaker)
+        const label  = `[${epLabel} ${di+1}/${dTotal}]`
+
+        if (voice === null) {
+          console.warn(`${label} id=${d.id} SKIP — VOICE_MAP 미등록 speaker: "${d.speaker}"`)
+          failures.push({ ep: epNum, id: d.id, type: 'dialogue', text: d.text_ko, error: `unmapped speaker: ${d.speaker}` })
+          dSkip++; continue
+        }
+
         const prompt = dialoguePrompt(d.text_ko)
         const hash   = contentHash(d.text_ko, voice, prompt)
-        const label  = `[${epLabel} ${di+1}/${dTotal}]`
 
         if (!FORCE && d.audio_url && d.audio_hash === hash) {
           console.log(`${label} id=${d.id} skip`); dSkip++; continue
