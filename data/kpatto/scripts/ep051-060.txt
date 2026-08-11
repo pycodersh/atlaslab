@@ -320,9 +320,9 @@ EP60 | 음식 문화
   EN: Oh, I like that too.
 
 [컷3]
-  에마: 미국 음식이랑 정말 달라요.
-  EN: It's really different from American food.
-  ▸ ~이랑 달라요 → "이랑 정말 달라요"
+  에마: 미국 음식이랑 달라요.
+  EN: It's different from American food.
+  ▸ ~이랑 달라요 → "이랑 달라요"
   민준: 어떤 게 제일 달라?
   EN: What's the biggest difference?
 
