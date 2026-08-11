@@ -1,36 +1,36 @@
-EP61 | 뉘앙스
+EP61 | 한강에서
 
 [컷1]
-  에마(생각): 이 표현, 뭔가 어색한데…
-  EN: This expression feels a bit off...
-
-[컷2]
-  소피: 저 이거 진짜 헷갈려요.
-  EN: This really confuses me.
-  에마: 저도요. 솔직하게 말해도 돼요?
-  EN: Me too. Can I be honest?
+  민준: 다음 주에 어디 가고 싶어?
+  EN: Where do you want to go next week?
+  에마: 솔직하게 말해도 돼요?
+  EN: Can I be honest?
   ▸ 솔직하게 말해도 돼요? → "솔직하게 말해도 돼요?"
 
+[컷2]
+  에마: 제주도요. 사진으로만 봤어요.
+  EN: Jeju Island. I've only seen it in photos.
+  민준: 제주도란 직접 가 봐야 아는 곳이야.
+  EN: Jeju is a place you have to see for yourself.
+  ▸ ~이란 → "제주도란"
+
 [컷3]
-  에마: 뉘앙스란 참 어려운 거예요.
-  EN: Nuance really is a difficult thing.
-  ▸ ~이란 → "뉘앙스란"
+  에마: 진짜 가 보고 싶어요!
+  EN: I really want to go!
 
 [컷4]
-  에마: 틀린 게 아니라 느낌이 달라요.
-  EN: It's not that it's wrong — the feeling is different.
-  ▸ -는 게 아니라 → "틀린 게 아니라"
+  민준: 근데 여름은 더운 게 아니라 습해.
+  EN: But summer isn't hot so much as humid.
+  ▸ -는 게 아니라 → "더운 게 아니라"
+  에마: 그럼 가을이 더 좋나 싶어요.
+  EN: Then I wonder if autumn would be better.
+  ▸ -나 싶다 → "좋나 싶어요"
 
 [컷5]
-  소피: 제가 너무 어렵게 생각했나 싶어요.
-  EN: I wonder if I was overthinking it.
-  ▸ -나 싶다 → "생각했나 싶어요"
-
-[컷6]
-  에마: 이제 조금 알겠어요!
-  EN: I think I get it now!
-  소피: 저도요!
-  EN: Me too!
+  에마: 오늘 얘기 재밌었어요!
+  EN: Today's talk was fun!
+  민준: 제주도 가면 연락해!
+  EN: Let me know when you go to Jeju!
 
 
 EP62 | 직장 생활
