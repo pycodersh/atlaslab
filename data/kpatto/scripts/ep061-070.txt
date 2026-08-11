@@ -172,25 +172,29 @@ EP65 | K-뷰티 루틴
 EP66 | 한국어 실력
 
 [컷1]
-  에마: 요즘 한국어가 진짜 재미있어요!
-  EN: Korean is really fun these days!
-  민준: 그 말 들으니까 좋다.
-  EN: It's good to hear that.
+  에마: 요즘 매일 한 시간씩 공부해요.
+  EN: I study for an hour every day now.
+  민준: 진짜? 대단하다.
+  EN: Really? That's impressive.
 
 [컷2]
   민준: 에마, 진짜 많이 늘었어!
   EN: Emma, you've really improved a lot!
   ▸ 많이 늘었어요 → "많이 늘었어"
+  민준: 비결이 뭐야?
+  EN: What's your secret?
 
 [컷3]
-  에마: 비결이 뭐예요? 저도 알고 싶어요.
-  EN: What's the secret? I want to know too.
-  ▸ 비결이 뭐예요? → "비결이 뭐예요?"
+  에마: 아침마다 30분, 자기 전에 30분요.
+  EN: Thirty minutes each morning, thirty before bed.
 
 [컷4]
   에마: 근데 '하세요'랑 '해'가 헷갈려요.
   EN: But I get confused between "haseyo" and "hae."
   ▸ ~이 헷갈려요 → "헷갈려요"
+  에마: 자연스럽게 쓰는 비결이 뭐예요?
+  EN: What's the secret to using them naturally?
+  ▸ 비결이 뭐예요? → "비결이 뭐예요?"
 
 [컷5]
   민준: 노력한 만큼 늘어. 걱정 마!
@@ -200,8 +204,6 @@ EP66 | 한국어 실력
 [컷6]
   에마: 더 열심히 할게요!
   EN: I'll work even harder!
-  민준: 그 마음이면 충분해.
-  EN: That attitude is enough.
 
 
 EP67 | 날씨와 계절
