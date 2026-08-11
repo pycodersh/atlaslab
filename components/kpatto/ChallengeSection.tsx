@@ -375,7 +375,7 @@ export function ChallengeSection({ onComplete, questions: customQuestions }: {
   const isMC = q.type === 'mc' || q.type === 'translation' || q.type === 'fill_blank'
 
   return (
-    <div style={{ margin: '24px 0 0', padding: '0 16px' }}>
+    <div style={{ margin: '40px 0 0', padding: '0 16px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#999999', textTransform: 'uppercase' }}>
           Challenge what you've learned
