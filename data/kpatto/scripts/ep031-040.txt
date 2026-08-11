@@ -324,7 +324,7 @@ EP40 | 문화 적응
 [컷2]
   에마(생각): 처음엔 다 낯설었는데…
   EN: At first everything felt strange...
-  ▸ 처음엔 낯설었는데 → "낯설었는데"
+  ▸ 처음엔 낯설었는데 → "처음엔 다 낯설었는데"
 
 [컷3]
   민준: 지금은 어때?
@@ -339,9 +339,9 @@ EP40 | 문화 적응
   ▸ ~과/와 → "한국과"
 
 [컷5]
-  에마: 그래도 나라마다 달라서 재미있어요.
-  EN: Still, it's fun that every country is different.
-  ▸ 나라마다 달라요 → "나라마다 달라"
+  에마: 그래도 나라마다 달라요. 그게 재미있어요.
+  EN: Still, every country is different. That's what makes it fun.
+  ▸ 나라마다 달라요 → "나라마다 달라요"
 
 [컷6]
   에마(생각): 여기가 이제 내 자리 같다.
