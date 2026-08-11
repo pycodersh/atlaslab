@@ -198,10 +198,13 @@ function MCCard({ q, onCorrect, onAdvance }: {
               cursor: (state === 'correct' || state === 'revealed') ? 'default' : 'pointer',
               textAlign: 'left',
               transition: 'background 0.15s, border-color 0.15s',
+              // flex layout for hanging indent: number fixed, text wraps independently
+              display: 'flex',
+              alignItems: 'flex-start',
             }}
           >
-            <span style={{ marginRight: 10, opacity: 0.4 }}>{'①②③④'[i]}</span>
-            {c}
+            <span style={{ flexShrink: 0, width: 22, marginRight: 8, opacity: 0.4 }}>{'①②③④'[i]}</span>
+            <span style={{ flex: 1 }}>{c}</span>
           </button>
         ))}
       </div>

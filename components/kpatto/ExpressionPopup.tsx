@@ -133,70 +133,79 @@ export function ExpressionPopup({
         </div>
 
         {/* Header — orange */}
-        <div style={{ background: '#D4873A', margin: '8px 16px 0', borderRadius: 14, padding: '16px', position: 'relative' }}>
-          {/* Bookmark toggle — replaces X close button */}
-          <button
-            onClick={handleToggleSave}
-            aria-label={isSaved ? 'Remove from saved' : 'Save expression'}
-            style={{
-              position: 'absolute', top: 10, right: 10,
-              background: 'rgba(255,255,255,0.18)', border: 'none', borderRadius: '50%',
-              width: 28, height: 28, cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#fff', WebkitTapHighlightColor: 'transparent',
-            }}
-          >
-            {isSaved ? (
-              /* Filled bookmark */
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-              </svg>
-            ) : (
-              /* Empty bookmark */
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-              </svg>
-            )}
-          </button>
-          {/* Episode number label — shown when first_episode data is available */}
-          {expression.first_episode != null && (
-            <div style={{
-              display: 'inline-block',
-              background: 'rgba(255,255,255,0.2)',
-              borderRadius: 6,
-              padding: '2px 8px',
-              fontSize: 11,
-              fontWeight: 700,
-              color: '#FFFFFF',
-              letterSpacing: '0.06em',
-              marginBottom: 6,
-            }}>
-              {`EP${String(expression.first_episode).padStart(2, '0')}`}
-            </div>
-          )}
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: 4, paddingRight: 32 }}>
-            {expression.korean}
-          </div>
-          {expression.audio_url && (
+        <div style={{ background: '#D4873A', margin: '8px 16px 0', borderRadius: 14, padding: '16px' }}>
+
+          {/* Row 1: EP badge (left) + bookmark icon (right, no circular background) */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+            {expression.first_episode != null ? (
+              <div style={{
+                display: 'inline-flex',
+                background: 'rgba(255,255,255,0.2)',
+                borderRadius: 6,
+                padding: '2px 8px',
+                fontSize: 11,
+                fontWeight: 700,
+                color: '#FFFFFF',
+                letterSpacing: '0.06em',
+              }}>
+                {`EP${String(expression.first_episode).padStart(2, '0')}`}
+              </div>
+            ) : <div />}
+            {/* 44×44px touch area via padding+negative-margin; no circular chip */}
             <button
-              onClick={handleExprAudio}
-              aria-label={exprPlaying ? 'Stop audio' : 'Play audio'}
+              onClick={handleToggleSave}
+              aria-label={isSaved ? 'Remove from saved' : 'Save expression'}
               style={{
-                position: 'absolute', bottom: 12, right: 10,
-                background: exprPlaying ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.18)',
-                border: 'none', borderRadius: '50%',
-                width: 30, height: 30, cursor: 'pointer',
+                background: 'none', border: 'none', cursor: 'pointer',
+                color: '#fff', WebkitTapHighlightColor: 'transparent',
+                padding: 14, margin: -14,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: '#fff',
-                transition: 'background 0.15s',
+                flexShrink: 0, lineHeight: 0,
               }}
             >
-              <Volume2 size={15} />
+              {isSaved ? (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                </svg>
+              ) : (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                </svg>
+              )}
             </button>
-          )}
-          {expression.english && expression.english !== expression.korean && (
-            <div style={{ fontSize: 13, color: '#FFF0DC', fontWeight: 600 }}>
-              {expression.english}
+          </div>
+
+          {/* Korean title */}
+          <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: 4 }}>
+            {expression.korean}
+          </div>
+
+          {/* Row 3: English subtitle (left) + speaker icon (right, no circular background) */}
+          {(expression.audio_url || (expression.english && expression.english !== expression.korean)) && (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              {expression.english && expression.english !== expression.korean ? (
+                <div style={{ fontSize: 13, color: '#FFF0DC', fontWeight: 600, flex: 1 }}>
+                  {expression.english}
+                </div>
+              ) : <div />}
+              {/* 44×44px touch area via padding+negative-margin; color changes on play */}
+              {expression.audio_url && (
+                <button
+                  onClick={handleExprAudio}
+                  aria-label={exprPlaying ? 'Stop audio' : 'Play audio'}
+                  style={{
+                    background: 'none', border: 'none', cursor: 'pointer',
+                    color: exprPlaying ? '#ef4444' : '#fff',
+                    WebkitTapHighlightColor: 'transparent',
+                    padding: 14, margin: -14,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0, lineHeight: 0,
+                    transition: 'color 0.15s',
+                  }}
+                >
+                  <Volume2 size={15} />
+                </button>
+              )}
             </div>
           )}
         </div>
