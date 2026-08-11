@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 /**
- * 뒤로가기 — <Link> 형태이지만 onClick에서 브라우저 이력을 따라 돌아간다.
- * cursor: default → 일반 화살표(iPadOS 적응형 포인터 원형 하이라이트 방지)
+ * 뒤로가기 — <Link> 형태(자연스러운 포인터 커서 유지)이지만
+ * onClick에서 브라우저 이력을 따라 돌아간다.
  * 직접 접근(이력 없음)일 때는 href="/kpatto/expressions" fallback.
  */
 export function ExpressionBackButton() {
@@ -27,8 +27,6 @@ export function ExpressionBackButton() {
       style={{
         display: 'flex', alignItems: 'center', textDecoration: 'none',
         color: '#888888', padding: '8px 4px 8px 0',
-        cursor: 'default',
-        WebkitTapHighlightColor: 'transparent',
       }}
       aria-label="Go back"
     >

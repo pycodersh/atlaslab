@@ -375,8 +375,8 @@ export function ChallengeSection({ onComplete, questions: customQuestions }: {
   const isMC = q.type === 'mc' || q.type === 'translation' || q.type === 'fill_blank'
 
   return (
-    <div style={{ margin: '32px 0 0', padding: '0 16px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+    <div style={{ margin: '24px 0 0', padding: '0 16px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#999999', textTransform: 'uppercase' }}>
           Challenge what you've learned
         </div>
@@ -387,7 +387,7 @@ export function ChallengeSection({ onComplete, questions: customQuestions }: {
         borderRadius: 20,
         padding: '22px 20px 20px',
         background: '#FFFFFF',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
       }}>
         <ProgressBar current={qIdx} total={questions.length} />
 

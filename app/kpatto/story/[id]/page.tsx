@@ -396,7 +396,15 @@ export default function KPattoStoryPage({ params }: PageProps) {
         const LABEL: React.CSSProperties = { fontSize: 11, fontWeight: 600, letterSpacing: '0.01em' }
 
         return (
-          <div style={{ margin: '16px 16px 0', display: 'flex' }}>
+          <div style={{
+            margin: '36px 16px 0',
+            display: 'flex',
+            background: '#FFFFFF',
+            border: '0.5px solid #E0E0E0',
+            borderRadius: 12,
+            overflow: 'hidden',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+          }}>
 
             {/* Listening — display only */}
             <div style={CELL}>
