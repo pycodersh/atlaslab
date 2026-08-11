@@ -163,11 +163,7 @@ function Chip({
   )
 }
 
-/** 에피소드 그룹 헤더 (sticky)
- *  - 회색 배경은 전체 너비 유지
- *  - 콘텐츠(악센트 바 포함)는 검색창과 동일한 SIDE_PAD(16px) 기준으로 정렬
- *    악센트 바 3px + 내부 패딩 (SIDE_PAD-3)px = SIDE_PAD px from left edge
- */
+/** 에피소드 그룹 헤더 (sticky) — 여백 적용 카드 스타일 */
 function EpGroupHeader({
   epNum, title, titleEn, locked,
 }: {
@@ -176,36 +172,28 @@ function EpGroupHeader({
   titleEn: string
   locked:  boolean
 }) {
-  const barColor = locked ? T3 : T2
-
   return (
     <div style={{
       position: 'sticky',
       top: 'calc(56px + env(safe-area-inset-top, 0px))',
       zIndex: 10,
-      background: '#F5F5F5',
-      borderTop:    `0.5px solid ${BORDER}`,
-      borderBottom: `0.5px solid ${BORDER}`,
+      background: BG,
+      padding: `4px ${SIDE_PAD}px`,
       opacity: locked ? 0.6 : 1,
-      display: 'flex',
-      alignItems: 'stretch',
     }}>
-      {/* 왼쪽 악센트 바 — 3px 고정 너비로 전체 높이에 걸쳐 */}
-      <div style={{ width: 3, background: barColor, flexShrink: 0 }} />
-
-      {/* 본문 영역 — 좌측 (SIDE_PAD - 3)px + 우측 SIDE_PAD px → 텍스트가 검색창과 정렬 */}
+      {/* 회색 카드 (좌우 여백 안에서 시작·종료) */}
       <div style={{
-        flex: 1, minWidth: 0,
-        display: 'flex', alignItems: 'center',
-        padding: `10px ${SIDE_PAD}px 10px ${SIDE_PAD - 3}px`,
-        gap: 8,
+        background: '#F5F5F5',
+        borderRadius: 8,
+        padding: `9px ${SIDE_PAD - 3}px`,
+        display: 'flex', alignItems: 'center', gap: 8,
       }}>
         {/* EP 번호 + 한/영 제목 */}
         <div style={{ minWidth: 0, flex: 1 }}>
           {/* 1행 */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, overflow: 'hidden' }}>
             <span style={{
-              fontSize: 12, fontWeight: 600, color: barColor,
+              fontSize: 12, fontWeight: 600, color: T2,
               whiteSpace: 'nowrap', flexShrink: 0,
             }}>
               EP {String(epNum).padStart(2, '0')}

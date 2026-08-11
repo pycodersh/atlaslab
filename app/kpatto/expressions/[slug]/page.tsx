@@ -11,6 +11,7 @@ import {
   CATEGORY_BY_KEY,
   SEO_EXPRESSION_IDS,
 } from '@/lib/kpatto/expressions-config'
+import { ExpressionBackButton } from '@/components/kpatto/ExpressionBackButton'
 
 export const dynamicParams = false
 
@@ -224,14 +225,7 @@ export default async function ExpressionPage({ params }: PageProps) {
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '0 16px', height: 52, maxWidth: 480, margin: '0 auto',
           }}>
-            <Link href="/kpatto/expressions" style={{
-              display: 'flex', alignItems: 'center', textDecoration: 'none',
-              color: T2, padding: '8px 4px 8px 0',
-            }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 18l-6-6 6-6"/>
-              </svg>
-            </Link>
+            <ExpressionBackButton />
             <span style={{ fontSize: 13, fontWeight: 700, color: T2, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               {catConfig ? catConfig.labelEn : 'Expressions'}
             </span>
