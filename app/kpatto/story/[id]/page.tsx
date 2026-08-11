@@ -235,11 +235,12 @@ export default function KPattoStoryPage({ params }: PageProps) {
   }, [story, id, epNum])
 
   // ── 3조건 모두 충족 → 학습 1회 확정 ─────────────────────────────────────────
+  // clearRoundState를 먼저 실행해 중간 종료 후 재진입 시 이중 카운트 방지
   useEffect(() => {
     if (roundComplete) return  // 이미 처리됨
     if (roundState.listen_done && roundState.read_done && roundState.challenge_done) {
-      markEpisodeComplete(epNum)
-      clearRoundState(epNum)
+      clearRoundState(epNum)       // ① 진행 중 상태 삭제 (재진입 차단)
+      markEpisodeComplete(epNum)   // ② 완료 기록
       setRoundComplete(true)
       setTimeout(() => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
