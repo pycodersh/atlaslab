@@ -207,28 +207,34 @@ EP57 | 카페 알바
   EN: Since when?
 
 [컷2]
-  지수: 손님한테는 이렇게 말해야 해.
-  EN: This is how you speak to customers.
-  에마: 우와, 진짜 멋있어요!
-  EN: Wow, that's so cool!
-
-[컷3]
+  지수: 지난주부터. 손님한테는 이렇게 말해야 해.
+  EN: Since last week. This is how you talk to customers.
   지수: 어서 오십시오. 주문하시겠습니까?
   EN: Welcome. Would you like to order?
   ▸ -으십시오 → "오십시오"
   ▸ -습니까? → "주문하시겠습니까?"
 
+[컷3]
+  에마: 우와, 진짜 멋있어요!
+  EN: Wow, that's so cool!
+
 [컷4]
-  지수: 아메리카노 나왔습니다. 맛있게 드십시오.
-  EN: Here's your americano. Please enjoy.
-  ▸ -습니다 → "나왔습니다"
-  지수: 제가 자리까지 가져다 드릴게요.
-  EN: I'll bring it to your seat.
-  ▸ -어 드리다 → "가져다 드릴게요"
+  에마(생각): 나도 한번 해 볼까?
+  EN: Should I try it too?
+  에마: 저, 아메리카노 하나 주세요.
+  EN: Um, one americano, please.
 
 [컷5]
-  에마: 저도 언젠가 알바하고 싶어요!
-  EN: I want to work part-time someday too!
+  에마: 저 방금 한국어로 주문했어요!
+  EN: I just ordered in Korean!
+
+[컷6]
+  지수: 아메리카노 나왔습니다. 자리까지 가져다 드릴게요.
+  EN: Here's your americano. I'll bring it to your seat.
+  ▸ -습니다 → "나왔습니다"
+  ▸ -어 드리다 → "가져다 드릴게요"
+  에마: 감사합니다!
+  EN: Thank you!
 
 
 EP58 | 병원
