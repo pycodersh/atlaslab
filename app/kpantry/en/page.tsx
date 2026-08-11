@@ -1,4 +1,13 @@
+import type { Metadata } from 'next'
 import BottomNav from '@/components/kpantry/layout/BottomNav'
+
+const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com').replace(/^﻿/, '')
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: `${BASE_URL}/kpantry/en`,
+  },
+}
 import HaveIngredientsCard from '@/components/kpantry/home/HaveIngredientsCard'
 import WantToCookCard from '@/components/kpantry/home/WantToCookCard'
 import PopularDishes from '@/components/kpantry/home/PopularDishes'

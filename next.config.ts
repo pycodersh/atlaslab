@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
         destination: '/kpatto',
         permanent:   true,
       },
+      // /kpantry → /kpantry/en (308 — 로케일 구조 확정, permanent)
+      {
+        source:      '/kpantry',
+        destination: '/kpantry/en',
+        permanent:   true,
+      },
     ]
   },
   images: {
