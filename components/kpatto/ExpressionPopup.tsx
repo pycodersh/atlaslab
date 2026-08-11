@@ -140,7 +140,7 @@ export function ExpressionPopup({
             aria-label={isSaved ? 'Remove from saved' : 'Save expression'}
             style={{
               position: 'absolute', top: 10, right: 10,
-              background: 'rgba(255,255,255,0.25)', border: 'none', borderRadius: '50%',
+              background: 'rgba(255,255,255,0.18)', border: 'none', borderRadius: '50%',
               width: 28, height: 28, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               color: '#fff', WebkitTapHighlightColor: 'transparent',
@@ -158,6 +158,22 @@ export function ExpressionPopup({
               </svg>
             )}
           </button>
+          {/* Episode number label — shown when first_episode data is available */}
+          {expression.first_episode != null && (
+            <div style={{
+              display: 'inline-block',
+              background: 'rgba(255,255,255,0.2)',
+              borderRadius: 6,
+              padding: '2px 8px',
+              fontSize: 11,
+              fontWeight: 700,
+              color: '#FFFFFF',
+              letterSpacing: '0.06em',
+              marginBottom: 6,
+            }}>
+              {`EP${String(expression.first_episode).padStart(2, '0')}`}
+            </div>
+          )}
           <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: 4, paddingRight: 32 }}>
             {expression.korean}
           </div>
@@ -167,7 +183,7 @@ export function ExpressionPopup({
               aria-label={exprPlaying ? 'Stop audio' : 'Play audio'}
               style={{
                 position: 'absolute', bottom: 12, right: 10,
-                background: exprPlaying ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.2)',
+                background: exprPlaying ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.18)',
                 border: 'none', borderRadius: '50%',
                 width: 30, height: 30, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
