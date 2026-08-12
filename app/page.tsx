@@ -133,9 +133,9 @@ export default async function AtlasLabHome() {
         html { scroll-behavior: smooth; }
         body { background: var(--paper, #fff); color: var(--ink, #111); overflow-x: hidden; }
 
-        /* ── Hero (red) ────────────────────────────────────────────── */
+        /* ── Hero (dark charcoal) ──────────────────────────────────── */
         .hero {
-          background: var(--brand-red, #C8102E);
+          background: #121212;
           overflow: hidden;
         }
         .hero-text {
@@ -149,14 +149,14 @@ export default async function AtlasLabHome() {
           font-family: ${BODY};
           font-size: 10px; font-weight: 700;
           letter-spacing: 0.18em; text-transform: uppercase;
-          color: rgba(255,255,255,0.6);
+          color: rgba(255,255,255,0.5);
           margin-bottom: 22px;
           display: flex; align-items: center; gap: 10px;
         }
         .hero-eyebrow::before {
           content: '';
           display: inline-block; width: 24px; height: 1px;
-          background: rgba(255,255,255,0.4);
+          background: rgba(255,255,255,0.3);
         }
         .hero-h1 {
           font-family: ${SERIF};
@@ -169,7 +169,7 @@ export default async function AtlasLabHome() {
         .hero-desc {
           font-family: ${BODY};
           font-size: clamp(14px, 1.6vw, 16px);
-          color: rgba(255,255,255,0.72);
+          color: rgba(255,255,255,0.62);
           line-height: 1.75;
           margin-bottom: 36px;
           max-width: 380px;
@@ -178,7 +178,7 @@ export default async function AtlasLabHome() {
           display: inline-block;
           font-family: ${BODY};
           font-size: 13px; font-weight: 700;
-          background: var(--ink, #111);
+          background: var(--brand-red, #C8102E);
           color: #fff;
           padding: 12px 28px;
           text-decoration: none;
@@ -186,7 +186,7 @@ export default async function AtlasLabHome() {
           text-transform: uppercase;
           transition: background 0.15s;
         }
-        .hero-btn:hover { background: #2a2a2a; }
+        .hero-btn:hover { background: var(--brand-red-dark, #A30D25); }
 
         /* ── Inner container ───────────────────────────────────────── */
         .wrap {
@@ -282,12 +282,14 @@ export default async function AtlasLabHome() {
           font-size: 12px; font-weight: 700;
           text-align: center; text-decoration: none;
           letter-spacing: 0.06em; text-transform: uppercase;
-          background: var(--brand-red, #C8102E); color: #fff;
-          padding: 9px 12px;
-          transition: background 0.15s;
+          background: transparent;
+          color: var(--brand-red, #C8102E);
+          border: 1.5px solid var(--brand-red, #C8102E);
+          padding: 8px 12px;
+          transition: background 0.15s, color 0.15s;
           margin-top: auto;
         }
-        .pbtn:hover { background: var(--brand-red-dark, #A30D25); }
+        .pbtn:hover { background: var(--brand-red, #C8102E); color: #fff; }
         .psoon {
           font-family: ${BODY};
           font-size: 12px; color: #bbb;
@@ -296,27 +298,27 @@ export default async function AtlasLabHome() {
 
         /* ── Blog section ──────────────────────────────────────────── */
         .blog-outer {
-          background: var(--paper-warm, #F7F5F2);
+          background: #F5F5F3;
           padding: 60px 0 64px;
         }
         .blog-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 1px;
-          background: var(--rule, #E5E1DC);
-          border: 1px solid var(--rule, #E5E1DC);
+          background: #DDDBD8;
+          border: 1px solid #DDDBD8;
         }
         @media (max-width: 560px) {
           .blog-grid { grid-template-columns: 1fr; }
         }
         .bcard {
-          background: var(--paper-warm, #F7F5F2);
+          background: #F5F5F3;
           padding: 28px 24px;
           text-decoration: none;
           display: flex; flex-direction: column;
           transition: background 0.15s;
         }
-        .bcard:hover { background: #ede9e3; }
+        .bcard:hover { background: #ECEAE7; }
         .bcat {
           font-family: ${BODY};
           font-size: 9.5px; font-weight: 700;
