@@ -258,7 +258,7 @@ export default async function AtlasLabHome() {
         .sec-more:hover { text-decoration: underline; }
 
         /* ── Products section ──────────────────────────────────────── */
-        .products-wrap { padding: 36px 0 64px; }
+        .products-wrap { padding-top: 36px; padding-bottom: 64px; }
         .products-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
@@ -433,7 +433,7 @@ export default async function AtlasLabHome() {
         }
 
         /* ── Why section ───────────────────────────────────────────── */
-        .why-wrap { padding: 60px 0 72px; }
+        .why-wrap { padding-top: 60px; padding-bottom: 72px; }
         .why-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
