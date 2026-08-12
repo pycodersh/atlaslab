@@ -9,34 +9,72 @@ const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 /* ── Product data ─────────────────────────────────────────────────────── */
 const PRODUCTS = [
   {
-    mark: 'P',
     name: 'Patto',
     desc: 'Learn English patterns the way native speakers actually use them.',
     tag: 'Live' as const,
     href: '/patto/home',
   },
   {
-    mark: '한',
     name: 'K-Patto',
     desc: 'Korean pattern learning built for global learners — audio, stories, drills.',
     tag: 'Live' as const,
     href: '/kpatto',
   },
   {
-    mark: '食',
     name: 'K-Pantry',
     desc: 'Discover Korean recipes based on what is already in your fridge.',
     tag: 'Live' as const,
     href: '/kpantry/en',
   },
   {
-    mark: 'C',
     name: 'Career Navi',
     desc: 'AI career navigation for Korean professionals exploring new paths.',
     tag: 'Soon' as const,
     href: null,
   },
 ] as const
+
+/* ── App icons (SVG) ──────────────────────────────────────────────────── */
+const APP_ICONS: Record<string, React.ReactNode> = {
+  /* Patto — document with text lines (pattern learning) */
+  Patto: (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+      stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+      <polyline points="13 2 13 9 20 9"/>
+      <line x1="8" y1="13" x2="16" y2="13"/>
+      <line x1="8" y1="17" x2="13" y2="17"/>
+    </svg>
+  ),
+  /* K-Patto — brackets with pattern lines (Korean patterns) */
+  'K-Patto': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+      stroke="#fff" strokeWidth="1.7" strokeLinecap="round">
+      <path d="M7 4H4v16h3"/>
+      <path d="M17 4h3v16h-3"/>
+      <line x1="9"  y1="9"  x2="15" y2="9"/>
+      <line x1="9"  y1="12" x2="15" y2="12"/>
+      <line x1="9"  y1="15" x2="13" y2="15"/>
+    </svg>
+  ),
+  /* K-Pantry — rice bowl with chopstick steam lines (Korean cooking) */
+  'K-Pantry': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+      stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 12h16c0 4.42-3.58 8-8 8s-8-3.58-8-8z"/>
+      <line x1="3"  y1="12" x2="21" y2="12"/>
+      <path d="M9 11V8M12 11V7M15 11V8"/>
+    </svg>
+  ),
+  /* Career Navi — diagonal arrow (career trajectory / navigation) */
+  'Career Navi': (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+      stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="5" y1="19" x2="19" y2="5"/>
+      <polyline points="9 5 19 5 19 15"/>
+    </svg>
+  ),
+}
 
 /* ── Blog app labels ──────────────────────────────────────────────────── */
 const APP_LABEL: Record<string, string> = {
@@ -249,12 +287,6 @@ export default async function AtlasLabHome() {
           display: flex; align-items: center; justify-content: center;
           margin-bottom: 20px; flex-shrink: 0;
         }
-        .pmark-letter {
-          color: #fff;
-          font-family: ${SERIF};
-          font-weight: 700; font-size: 22px; line-height: 1;
-          letter-spacing: -0.02em;
-        }
         .pname {
           font-family: ${SERIF};
           font-size: 19px; font-weight: 700;
@@ -414,9 +446,9 @@ export default async function AtlasLabHome() {
               )
               const inner = (
                 <>
-                  {/* Icon — dark rounded square */}
+                  {/* Icon — dark rounded square with SVG symbol */}
                   <div className="pmark">
-                    <span className="pmark-letter">{p.mark}</span>
+                    {APP_ICONS[p.name]}
                   </div>
                   {/* Name + description (flex: 1 pushes badge+btn to bottom) */}
                   <div className="pname">{p.name}</div>
