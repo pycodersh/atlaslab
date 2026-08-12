@@ -29,6 +29,12 @@ export default function RootLayout({
         gtag('js', new Date());
         gtag('config', '${GA_ID}');
       `}</Script>
+      <Script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5046051724478341"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
       <body>{children}</body>
     </html>
   );
