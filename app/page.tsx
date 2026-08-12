@@ -269,9 +269,7 @@ export default async function AtlasLabHome() {
         @media (max-width: 820px) {
           .products-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        @media (max-width: 460px) {
-          .products-grid { grid-template-columns: 1fr; }
-        }
+
         .pcard {
           background: var(--paper, #fff);
           padding: 28px 22px 24px;
@@ -280,6 +278,55 @@ export default async function AtlasLabHome() {
           transition: background 0.15s;
         }
         .pcard-link:hover { background: var(--paper-warm, #F7F5F2); }
+
+        /* ── Mobile: CSS Grid reflow ────────────────────────────────── */
+        @media (max-width: 520px) {
+          .products-grid {
+            display: flex; flex-direction: column;
+            gap: 12px;
+            background: transparent; border: none;
+          }
+          .pcard {
+            border: 1px solid var(--rule, #E5E1DC) !important;
+            border-radius: 10px;
+            padding: 18px !important;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            grid-template-rows: auto auto auto;
+            grid-template-areas:
+              "icon name  badge"
+              "desc desc  desc"
+              "btn  btn   btn";
+            gap: 0 12px;
+            align-items: center;
+          }
+          .pmark  {
+            grid-area: icon;
+            width: 44px !important; height: 44px !important;
+            border-radius: 12px !important;
+            margin-bottom: 0 !important;
+          }
+          .pname  {
+            grid-area: name;
+            font-size: 17px !important;
+            margin-bottom: 0 !important;
+          }
+          .pbadge {
+            grid-area: badge;
+            align-self: center;
+            margin-bottom: 0 !important;
+          }
+          .pdesc  {
+            grid-area: desc;
+            margin-top: 12px;
+            font-size: 13px !important;
+            margin-bottom: 14px !important;
+          }
+          .pbtn, .pbtn-soon {
+            grid-area: btn;
+            width: 100%;
+          }
+        }
         .pmark {
           width: 56px; height: 56px;
           background: #121212;
