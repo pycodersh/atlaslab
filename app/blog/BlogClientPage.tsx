@@ -57,16 +57,16 @@ export function BlogClientPage({
     <>
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { background: #F9F8F6; color: #111; overflow-x: hidden; }
+        html { scroll-behavior: smooth; overflow-x: hidden; scrollbar-gutter: stable; }
+        body { background: #F9F8F6; color: #111; overflow-x: hidden; scrollbar-gutter: stable; }
 
         /* ── Hero ──────────────────────────────────────────────────── */
         .bl-hero {
           background: #121212;
-          padding: 52px 48px 60px;
+          padding: 52px 0 60px;
         }
         @media (max-width: 700px) {
-          .bl-hero { padding: 36px 20px 48px; }
+          .bl-hero { padding: 36px 0 48px; }
         }
         .bl-back {
           display: inline-flex; align-items: center; gap: 6px;

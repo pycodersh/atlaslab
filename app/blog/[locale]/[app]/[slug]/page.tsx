@@ -9,6 +9,9 @@ export const dynamic = 'force-dynamic'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
+const SERIF = '"Playfair Display", Georgia, serif'
+const BODY  = '"DM Sans", "Inter", system-ui, sans-serif'
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
@@ -24,7 +27,7 @@ const APP_INFO: Record<string, {
 }> = {
   'k-patto': {
     label: 'K-Patto',
-    blogLabel: 'K-Patto Blog',
+    blogLabel: 'K-Patto Articles',
     href: '/kpatto',
     cta: () => 'Try K-Patto →',
     ctaDesc: (locale) => locale === 'ko'
@@ -33,7 +36,7 @@ const APP_INFO: Record<string, {
   },
   patto: {
     label: 'Patto',
-    blogLabel: 'Patto Blog',
+    blogLabel: 'Patto Articles',
     href: '/patto/home',
     cta: (locale) => locale === 'ko' ? '무료로 시작하기 →' : 'Start for free →',
     ctaDesc: (locale) => locale === 'ko'
@@ -42,25 +45,25 @@ const APP_INFO: Record<string, {
   },
   kpantry: {
     label: 'K-Pantry',
-    blogLabel: 'K-Pantry Blog',
+    blogLabel: 'K-Pantry Articles',
     href: '/kpantry/en',
     cta: () => 'Explore recipes →',
     ctaDesc: (locale) => locale === 'ko'
       ? 'K-Pantry로 냉장고 속 재료로 한국 요리를 만들어보세요.'
-      : 'Cook Korean food with what\'s already in your fridge.',
+      : "Cook Korean food with what's already in your fridge.",
   },
   'k-pantry': {
     label: 'K-Pantry',
-    blogLabel: 'K-Pantry Blog',
+    blogLabel: 'K-Pantry Articles',
     href: '/kpantry/en',
     cta: () => 'Explore recipes →',
     ctaDesc: (locale) => locale === 'ko'
       ? 'K-Pantry로 냉장고 속 재료로 한국 요리를 만들어보세요.'
-      : 'Cook Korean food with what\'s already in your fridge.',
+      : "Cook Korean food with what's already in your fridge.",
   },
   careernavi: {
-    label: 'CareerNavi',
-    blogLabel: 'CareerNavi Blog',
+    label: 'Career Navi',
+    blogLabel: 'Career Navi Articles',
     href: null,
     cta: () => 'Coming soon',
     ctaDesc: (locale) => locale === 'ko'
@@ -72,11 +75,16 @@ const APP_INFO: Record<string, {
 function getAppInfo(app: string) {
   return APP_INFO[app] ?? {
     label: app,
-    blogLabel: `${app} Blog`,
+    blogLabel: `${app} Articles`,
     href: null,
     cta: () => '→',
     ctaDesc: () => '',
   }
+}
+
+function getFilterUrl(app: string): string {
+  if (app === 'kpantry') return '/blog?app=k-pantry'
+  return `/blog?app=${app}`
 }
 
 export async function generateMetadata({
@@ -99,7 +107,6 @@ export async function generateMetadata({
   const info = getAppInfo(app)
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
 
-  // Check if cross-locale version exists before setting hreflang
   const { data: crossPost } = await supabase
     .from('blog_posts')
     .select('id')
@@ -145,7 +152,6 @@ export default async function AppBlogPostPage({
 
   if (!post) notFound()
 
-  // Related posts (same app + locale, excluding current)
   const { data: related } = await supabase
     .from('blog_posts')
     .select('slug, title, description, published_at')
@@ -157,139 +163,233 @@ export default async function AppBlogPostPage({
     .order('published_at', { ascending: false })
     .limit(5)
 
-  const fontFamily = locale === 'ko'
+  const bodyFont = locale === 'ko'
     ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
-    : '"DM Sans", "Inter", system-ui, sans-serif'
+    : BODY
 
   const info = getAppInfo(app)
 
   return (
-    <div style={{ background: '#0a0a1a', minHeight: '100dvh', color: 'white', fontFamily }}>
+    <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>
       <style>{`
-        .blog-prose h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 40px 0 14px; letter-spacing: -0.01em; line-height: 1.3; }
-        .blog-prose h3 { font-size: 17px; font-weight: 700; color: #fff; margin: 28px 0 10px; }
-        .blog-prose p { font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.7); margin: 0 0 18px; }
-        .blog-prose strong { font-weight: 700; color: #fff; }
-        .blog-prose em { font-style: italic; color: rgba(255,255,255,0.8); }
+        html, body { overflow-x: hidden; scrollbar-gutter: stable; }
+
+        /* ── Layout ──────────────────────────────────────────── */
+        .art-wrap {
+          max-width: 720px; margin: 0 auto;
+          padding-left: 24px; padding-right: 24px;
+          box-sizing: border-box;
+        }
+        @media (max-width: 600px) {
+          .art-wrap { padding-left: 20px; padding-right: 20px; }
+        }
+
+        /* ── Hero elements ──────────────────────────────────── */
+        .art-back {
+          display: inline-flex; align-items: center; gap: 6px;
+          font-family: ${BODY};
+          font-size: 13px; color: rgba(255,255,255,0.4);
+          text-decoration: none; margin-bottom: 28px;
+          transition: color 0.15s;
+        }
+        .art-back:hover { color: rgba(255,255,255,0.75); }
+
+        .art-kicker {
+          font-family: ${BODY};
+          font-size: 10px; font-weight: 700;
+          letter-spacing: 0.15em; text-transform: uppercase;
+          color: #C8102E; margin: 0 0 14px;
+        }
+
+        .art-h1 {
+          font-family: ${SERIF};
+          font-size: clamp(24px, 4vw, 40px);
+          font-weight: 700; color: #fff;
+          line-height: 1.15; letter-spacing: -0.02em;
+          margin: 0 0 14px;
+        }
+
+        .art-desc {
+          font-family: ${BODY};
+          font-size: 16px; color: rgba(255,255,255,0.55);
+          line-height: 1.65; margin: 0 0 18px;
+        }
+
+        .art-meta {
+          font-family: ${BODY};
+          font-size: 12px; color: rgba(255,255,255,0.35); margin: 0;
+        }
+
+        /* ── Prose — light mode ──────────────────────────────── */
+        .blog-prose { padding-top: 36px; padding-bottom: 8px; font-family: ${bodyFont}; }
+        .blog-prose h2 {
+          font-family: ${SERIF}; font-size: 22px; font-weight: 700;
+          color: #111; margin: 40px 0 14px;
+          letter-spacing: -0.01em; line-height: 1.3;
+        }
+        .blog-prose h3 {
+          font-family: ${BODY}; font-size: 17px; font-weight: 700;
+          color: #222; margin: 28px 0 10px;
+        }
+        .blog-prose p {
+          font-size: 15px; line-height: 1.85; color: #444; margin: 0 0 18px;
+        }
+        .blog-prose strong { font-weight: 700; color: #111; }
+        .blog-prose em { font-style: italic; color: #555; }
         .blog-prose ul, .blog-prose ol { padding-left: 24px; margin: 0 0 18px; }
-        .blog-prose li { font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.7); margin-bottom: 6px; }
-        .blog-prose blockquote { border-left: 3px solid #7c6fff; margin: 28px 0; padding: 14px 20px; background: rgba(124,111,255,0.08); border-radius: 0 12px 12px 0; }
-        .blog-prose blockquote p { margin: 0; font-style: italic; color: rgba(255,255,255,0.6); }
-        .blog-prose code { font-size: 13px; background: rgba(124,111,255,0.15); color: #a89fff; border-radius: 4px; padding: 2px 6px; font-family: 'Courier New', monospace; }
-        .blog-prose pre { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; overflow-x: auto; margin: 0 0 24px; }
+        .blog-prose li { font-size: 15px; line-height: 1.85; color: #444; margin-bottom: 6px; }
+        .blog-prose blockquote {
+          border-left: 3px solid #C8102E; margin: 28px 0;
+          padding: 14px 20px; background: rgba(200,16,46,0.04);
+          border-radius: 0 8px 8px 0;
+        }
+        .blog-prose blockquote p { margin: 0; font-style: italic; color: #666; }
+        .blog-prose code {
+          font-size: 13px; background: #F0EADF; color: #C8102E;
+          border-radius: 4px; padding: 2px 6px;
+          font-family: "Courier New", monospace;
+        }
+        .blog-prose pre {
+          background: #1a1a1a; border-radius: 8px;
+          padding: 20px; overflow-x: auto; margin: 0 0 24px;
+        }
         .blog-prose pre code { background: none; padding: 0; color: rgba(255,255,255,0.85); }
-        .blog-prose a { color: #7c6fff; text-decoration: underline; text-underline-offset: 3px; }
-        .blog-prose a:hover { color: #a89fff; }
-        .blog-prose hr { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 32px 0; }
-        .blog-prose table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 14px; display: block; overflow-x: auto; }
-        .blog-prose th, .blog-prose td { padding: 10px 16px; text-align: left; border: 1px solid rgba(255,255,255,0.12); }
-        .blog-prose th { background: rgba(255,255,255,0.07); font-weight: 600; font-size: 13px; letter-spacing: 0.02em; }
-        .blog-prose tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+        .blog-prose a { color: #C8102E; text-decoration: underline; text-underline-offset: 3px; }
+        .blog-prose a:hover { color: #A30D25; }
+        .blog-prose hr { border: none; border-top: 1px solid #E5E1DC; margin: 32px 0; }
+        .blog-prose table {
+          width: 100%; border-collapse: collapse; margin: 24px 0;
+          font-size: 14px; display: block; overflow-x: auto;
+        }
+        .blog-prose th, .blog-prose td {
+          padding: 10px 16px; text-align: left; border: 1px solid #E5E1DC;
+        }
+        .blog-prose th {
+          background: #F0EADF; font-weight: 700;
+          font-size: 13px; letter-spacing: 0.02em; color: #111;
+        }
+        .blog-prose tr:nth-child(even) td { background: #F5F3F0; }
         .blog-prose * { font-family: inherit; }
+
+        /* ── Related posts ───────────────────────────────────── */
+        .art-related { border-top: 1px solid #E5E1DC; padding: 28px 0 0; margin-bottom: 36px; }
+        .art-related-label {
+          font-family: ${BODY}; font-size: 10px; font-weight: 700;
+          letter-spacing: 0.15em; text-transform: uppercase;
+          color: #C8102E; margin: 0 0 16px;
+        }
+        .art-related-item {
+          display: block; border-bottom: 1px solid #E5E1DC;
+          padding: 12px 0; text-decoration: none;
+        }
+        .art-related-title {
+          font-family: ${SERIF}; font-size: 15px; font-weight: 700;
+          color: #111; line-height: 1.3; display: block; margin-bottom: 3px;
+        }
+        .art-related-desc {
+          font-family: ${BODY}; font-size: 12px; color: #888;
+          line-height: 1.5; display: block;
+        }
+        .art-related-item:hover .art-related-title { color: #C8102E; }
+
+        /* ── App CTA ─────────────────────────────────────────── */
+        .art-cta {
+          background: #F5F5F3; border: 1px solid #E5E1DC;
+          padding: 28px 24px; text-align: center; margin-bottom: 64px;
+        }
+        .art-cta-kicker {
+          font-family: ${BODY}; font-size: 10px; font-weight: 700;
+          letter-spacing: 0.15em; text-transform: uppercase;
+          color: #C8102E; margin: 0 0 10px;
+        }
+        .art-cta-desc {
+          font-family: ${BODY}; font-size: 15px; font-weight: 500;
+          color: #333; margin: 0 0 20px; line-height: 1.55;
+        }
+        .art-cta-btn {
+          display: inline-block; background: #C8102E; color: #fff;
+          padding: 11px 28px; font-family: ${BODY};
+          font-size: 14px; font-weight: 600;
+          text-decoration: none; letter-spacing: 0.01em;
+          transition: background 0.15s;
+        }
+        .art-cta-btn:hover { background: #A30D25; }
+        .art-cta-btn-soon {
+          display: inline-block; color: #aaa;
+          border: 1.5px solid #D0CEC8; padding: 11px 28px;
+          font-family: ${BODY}; font-size: 14px; font-weight: 500;
+        }
       `}</style>
 
-      {/* Breadcrumb */}
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '28px 24px 0' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'rgba(255,255,255,0.35)', flexWrap: 'wrap' }}>
-          <Link href="/" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Atlas Lab</Link>
-          <span>/</span>
-          <Link href={`/blog/${locale}`} style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Blog</Link>
-          <span>/</span>
-          <Link href={`/blog/${locale}/${app}`} style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'none' }}>{info.blogLabel}</Link>
-        </div>
-      </div>
+      {/* ── Hero ── */}
+      <section style={{ background: '#121212', paddingBottom: 32 }}>
+        <div className="art-wrap" style={{ paddingTop: 32 }}>
+          <Link href="/blog" className="art-back">← Articles</Link>
 
-      <header style={{ maxWidth: 720, margin: '0 auto', padding: '24px 24px 32px' }}>
-        {post.tags?.length > 0 && (
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
-            {post.tags.map((tag: string) => (
-              <span key={tag} style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
-                color: '#a89fff', background: 'rgba(124,111,255,0.2)',
-                borderRadius: 6, padding: '2px 8px',
-              }}>{tag}</span>
-            ))}
-          </div>
-        )}
-        <h1 style={{ fontSize: 'clamp(24px, 5vw, 36px)', fontWeight: 800, color: '#fff', margin: '0 0 12px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
-          {post.title}
-        </h1>
-        <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', margin: '0 0 16px', lineHeight: 1.6 }}>
-          {post.description}
-        </p>
-        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', margin: 0 }}>
-          {info.label} Team · {new Date(post.published_at).toLocaleDateString(
-            locale === 'ko' ? 'ko-KR' : 'en-US',
-            { year: 'numeric', month: 'long', day: 'numeric' }
+          {post.category ? (
+            <p className="art-kicker">{post.category}</p>
+          ) : post.tags?.length > 0 ? (
+            <p className="art-kicker">{post.tags[0]}</p>
+          ) : null}
+
+          <h1 className="art-h1">{post.title}</h1>
+
+          {post.description && (
+            <p className="art-desc">{post.description}</p>
           )}
-        </p>
-        <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginTop: 28 }} />
-      </header>
 
-      <article className="blog-prose" style={{ maxWidth: 720, margin: '0 auto', padding: '0 24px' }}>
-        <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
-      </article>
+          <p className="art-meta">
+            {info.label} Team ·{' '}
+            {new Date(post.published_at).toLocaleDateString(
+              locale === 'ko' ? 'ko-KR' : 'en-US',
+              { year: 'numeric', month: 'long', day: 'numeric' }
+            )}
+          </p>
+        </div>
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', marginTop: 28 }} />
+      </section>
 
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 24px 16px' }}>
+      {/* ── Body ── */}
+      <div style={{ background: '#F9F8F6' }}>
+        <article className="blog-prose art-wrap">
+          <MDXRemote
+            source={post.content}
+            options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+          />
+        </article>
 
-        {/* Related posts */}
-        {related && related.length > 0 && (
-          <div style={{ marginBottom: 40 }}>
-            <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 16 }}>
-              {locale === 'ko' ? '관련 글' : 'More from ' + info.blogLabel}
-            </p>
-            <div>
+        <div className="art-wrap" style={{ paddingBottom: 8 }}>
+          {/* Related posts */}
+          {related && related.length > 0 && (
+            <div className="art-related">
+              <p className="art-related-label">More from {info.blogLabel}</p>
               {related.map(r => (
-                <div key={r.slug} style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                  <Link
-                    href={`/blog/${locale}/${app}/${r.slug}`}
-                    style={{ textDecoration: 'none', display: 'block', padding: '12px 0' }}
-                  >
-                    <p style={{ margin: '0 0 3px', fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.85)', lineHeight: 1.4 }}>
-                      {r.title}
-                    </p>
-                    <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.38)', lineHeight: 1.5 }}>
-                      {r.description}
-                    </p>
-                  </Link>
-                </div>
+                <Link
+                  key={r.slug}
+                  href={`/blog/${locale}/${app}/${r.slug}`}
+                  className="art-related-item"
+                >
+                  <span className="art-related-title">{r.title}</span>
+                  {r.description && (
+                    <span className="art-related-desc">{r.description}</span>
+                  )}
+                </Link>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* App CTA */}
-        <div style={{
-          padding: '32px', textAlign: 'center',
-          background: 'rgba(124,111,255,0.1)',
-          border: '1px solid rgba(124,111,255,0.3)',
-          borderRadius: 20,
-          marginBottom: 64,
-        }}>
-          <p style={{ marginBottom: 8, fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>
-            {info.label}
-          </p>
-          <p style={{ marginBottom: 20, fontWeight: 600, fontSize: 16, color: '#fff' }}>
-            {info.ctaDesc(locale)}
-          </p>
-          {info.href ? (
-            <Link href={info.href} style={{
-              background: '#7c6fff', color: 'white',
-              padding: '12px 32px', borderRadius: 999,
-              textDecoration: 'none', fontWeight: 600, fontSize: 14,
-              display: 'inline-block',
-            }}>
-              {info.cta(locale)}
-            </Link>
-          ) : (
-            <span style={{
-              background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.4)',
-              padding: '12px 32px', borderRadius: 999,
-              fontWeight: 600, fontSize: 14, display: 'inline-block',
-            }}>
-              {info.cta(locale)}
-            </span>
           )}
+
+          {/* App CTA */}
+          <div className="art-cta">
+            <p className="art-cta-kicker">{info.label}</p>
+            <p className="art-cta-desc">{info.ctaDesc(locale)}</p>
+            {info.href ? (
+              <Link href={info.href} className="art-cta-btn">
+                {info.cta(locale)}
+              </Link>
+            ) : (
+              <span className="art-cta-btn-soon">{info.cta(locale)}</span>
+            )}
+          </div>
         </div>
       </div>
     </div>
