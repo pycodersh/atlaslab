@@ -136,20 +136,14 @@ export default async function AtlasLabHome() {
         /* ── Hero (red) ────────────────────────────────────────────── */
         .hero {
           background: var(--brand-red, #C8102E);
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          align-items: end;
-          gap: 0;
           overflow: hidden;
         }
-        @media (max-width: 700px) {
-          .hero { grid-template-columns: 1fr; }
-        }
         .hero-text {
-          padding: 68px 48px 56px 48px;
+          padding: 72px 48px 72px 48px;
+          max-width: 680px;
         }
         @media (max-width: 700px) {
-          .hero-text { padding: 48px 20px 36px; }
+          .hero-text { padding: 48px 20px 56px; }
         }
         .hero-eyebrow {
           font-family: ${BODY};
@@ -193,18 +187,6 @@ export default async function AtlasLabHome() {
           transition: background 0.15s;
         }
         .hero-btn:hover { background: #2a2a2a; }
-        .hero-img-wrap {
-          display: flex; align-items: flex-end; overflow: hidden;
-          height: 100%;
-        }
-        .hero-img-wrap img {
-          width: 100%; height: 340px;
-          object-fit: cover; object-position: center 30%;
-          display: block;
-        }
-        @media (max-width: 700px) {
-          .hero-img-wrap img { height: 200px; }
-        }
 
         /* ── Inner container ───────────────────────────────────────── */
         .wrap {
@@ -406,14 +388,6 @@ export default async function AtlasLabHome() {
           <h1 className="hero-h1">Tools that make you better, one skill at a time.</h1>
           <p className="hero-desc">AI-powered apps for language learning, career growth, and Korean cooking.</p>
           <a href="#products" className="hero-btn">Explore our apps</a>
-        </div>
-        <div className="hero-img-wrap">
-          <img
-            src="/kpatto/ep-001/cut-1.jpg"
-            alt="K-Patto learning scene"
-            width={768}
-            height={254}
-          />
         </div>
       </section>
 
