@@ -85,9 +85,13 @@ export default async function BlogListPage({
 
   return (
     <div style={{ background: '#0a0a1a', minHeight: '100vh', padding: '2rem 1.5rem', color: 'white' }}>
-      <Link href="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.9rem' }}>
-        ← Atlas Lab
-      </Link>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>
+        <Link href="/" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Atlas Lab</Link>
+        <span>/</span>
+        <Link href={`/blog/${locale}`} style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Blog</Link>
+        <span>/</span>
+        <span style={{ color: 'rgba(255,255,255,0.6)' }}>{locale === 'ko' ? 'Patto 블로그' : 'Patto Blog'}</span>
+      </div>
 
       <div style={{ marginTop: '2rem', marginBottom: '2.5rem' }}>
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>

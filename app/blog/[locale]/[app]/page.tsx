@@ -13,6 +13,15 @@ const supabase = createClient(
 
 const POSTS_PER_PAGE = 10
 
+// App href for CTA buttons in list header
+const APP_HREF: Record<string, string | null> = {
+  'k-patto':    '/kpatto',
+  'patto':      '/patto/home',
+  'kpantry':    '/kpantry/en',
+  'k-pantry':   '/kpantry/en',
+  'careernavi': null,
+}
+
 const APP_LABELS: Record<string, { en: string; ko: string; desc: string }> = {
   'k-patto': {
     en: 'K-Patto Blog',
@@ -28,6 +37,16 @@ const APP_LABELS: Record<string, { en: string; ko: string; desc: string }> = {
     en: 'K-Pantry Blog',
     ko: 'K-Pantry 블로그',
     desc: 'Korean recipes, ingredients, and cooking guides for home cooks everywhere.',
+  },
+  kpantry: {
+    en: 'K-Pantry Blog',
+    ko: 'K-Pantry 블로그',
+    desc: 'Korean recipes, ingredients, and cooking guides for home cooks everywhere.',
+  },
+  careernavi: {
+    en: 'CareerNavi Blog',
+    ko: 'CareerNavi 블로그',
+    desc: 'AI career navigation tips for Korean professionals.',
   },
 }
 
@@ -104,9 +123,13 @@ export default async function AppBlogListPage({
 
   return (
     <div style={{ background: '#0a0a1a', minHeight: '100vh', padding: '2rem 1.5rem', color: 'white' }}>
-      <Link href="/" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none', fontSize: '0.9rem' }}>
-        ← Atlas Lab
-      </Link>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'rgba(255,255,255,0.35)' }}>
+        <Link href="/" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Atlas Lab</Link>
+        <span>/</span>
+        <Link href={`/blog/${locale}`} style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Blog</Link>
+        <span>/</span>
+        <span style={{ color: 'rgba(255,255,255,0.6)' }}>{locale === 'ko' ? label.ko : label.en}</span>
+      </div>
 
       <div style={{ marginTop: '2rem', marginBottom: '2.5rem' }}>
         <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
@@ -115,7 +138,18 @@ export default async function AppBlogListPage({
         <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>
           {locale === 'ko' ? label.ko : label.en}
         </h1>
-        <p style={{ color: 'rgba(255,255,255,0.6)' }}>{label.desc}</p>
+        <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: APP_HREF[app] ? '1rem' : '0' }}>{label.desc}</p>
+        {APP_HREF[app] && (
+          <Link href={APP_HREF[app]!} style={{
+            display: 'inline-block',
+            background: '#7c6fff', color: 'white',
+            fontSize: '0.85rem', fontWeight: 600,
+            padding: '8px 20px', borderRadius: 999,
+            textDecoration: 'none',
+          }}>
+            {locale === 'ko' ? '앱 열기 →' : 'Open app →'}
+          </Link>
+        )}
       </div>
 
       {(!posts || posts.length === 0) && (
@@ -150,7 +184,7 @@ export default async function AppBlogListPage({
               </p>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem' }}>
-                  K-Patto Team · {new Date(post.published_at).toLocaleDateString(
+                  Atlas Lab · {new Date(post.published_at).toLocaleDateString(
                     locale === 'ko' ? 'ko-KR' : 'en-US',
                     { year: 'numeric', month: 'long', day: 'numeric' }
                   )}

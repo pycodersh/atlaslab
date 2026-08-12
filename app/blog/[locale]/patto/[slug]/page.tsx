@@ -32,16 +32,29 @@ export async function generateMetadata({
   if (!post) return {}
 
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
+
+  const { data: crossPost } = await supabase
+    .from('blog_posts')
+    .select('id')
+    .eq('locale', otherLocale)
+    .eq('app', 'patto')
+    .eq('slug', slug)
+    .eq('is_paused', false)
+    .limit(1)
+  const hasCross = (crossPost?.length ?? 0) > 0
+
   return {
     title: `${post.title} — Patto Blog`,
     description: post.description,
     openGraph: { title: post.title, description: post.description },
     alternates: {
       canonical: `${BASE}/blog/${locale}/patto/${slug}`,
-      languages: {
-        [locale]: `${BASE}/blog/${locale}/patto/${slug}`,
-        [otherLocale]: `${BASE}/blog/${otherLocale}/patto/${slug}`,
-      },
+      ...(hasCross && {
+        languages: {
+          [locale]: `${BASE}/blog/${locale}/patto/${slug}`,
+          [otherLocale]: `${BASE}/blog/${otherLocale}/patto/${slug}`,
+        },
+      }),
     },
   }
 }
@@ -68,6 +81,18 @@ export default async function BlogPostPage({
   if (post.app === 'k-patto') {
     redirect(`/blog/${locale}/k-patto/${slug}`)
   }
+
+  // Related posts (same locale + patto app, excluding current)
+  const { data: related } = await supabase
+    .from('blog_posts')
+    .select('slug, title, description, published_at')
+    .eq('locale', locale)
+    .eq('app', 'patto')
+    .eq('is_paused', false)
+    .lte('published_at', new Date().toISOString())
+    .neq('slug', slug)
+    .order('published_at', { ascending: false })
+    .limit(5)
 
   const fontFamily = locale === 'ko'
     ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
@@ -116,17 +141,18 @@ export default async function BlogPostPage({
         .blog-prose * { font-family: inherit; }
       `}</style>
 
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '36px 24px 0' }}>
-        <Link href={`/blog/${locale}/patto`} style={{
-          fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.5)',
-          textDecoration: 'none', letterSpacing: '0.04em',
-          display: 'inline-flex', alignItems: 'center', gap: 4,
-        }}>
-          ← Atlas Lab
-        </Link>
+      {/* Breadcrumb */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '28px 24px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'rgba(255,255,255,0.35)', flexWrap: 'wrap' }}>
+          <Link href="/" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Atlas Lab</Link>
+          <span>/</span>
+          <Link href={`/blog/${locale}`} style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Blog</Link>
+          <span>/</span>
+          <Link href={`/blog/${locale}/patto`} style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'none' }}>Patto Blog</Link>
+        </div>
       </div>
 
-      <header style={{ maxWidth: 720, margin: '0 auto', padding: '28px 24px 32px' }}>
+      <header style={{ maxWidth: 720, margin: '0 auto', padding: '24px 24px 32px' }}>
         {post.tags?.length > 0 && (
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
             {post.tags.map((tag: string) => (
@@ -169,13 +195,45 @@ export default async function BlogPostPage({
         <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
       </article>
 
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 24px 80px' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 24px 16px' }}>
+
+        {/* Related posts */}
+        {related && related.length > 0 && (
+          <div style={{ marginBottom: 40 }}>
+            <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 16 }}>
+              {locale === 'ko' ? '관련 글' : 'More from Patto Blog'}
+            </p>
+            <div>
+              {related.map(r => (
+                <div key={r.slug} style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                  <Link
+                    href={`/blog/${locale}/patto/${r.slug}`}
+                    style={{ textDecoration: 'none', display: 'block', padding: '12px 0' }}
+                  >
+                    <p style={{ margin: '0 0 3px', fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.85)', lineHeight: 1.4 }}>
+                      {r.title}
+                    </p>
+                    <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.38)', lineHeight: 1.5 }}>
+                      {r.description}
+                    </p>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Patto CTA */}
         <div style={{
           padding: '32px', textAlign: 'center',
           background: 'rgba(124,111,255,0.1)',
           border: '1px solid rgba(124,111,255,0.3)',
           borderRadius: 20,
+          marginBottom: 64,
         }}>
+          <p style={{ marginBottom: 8, fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>
+            PATTO
+          </p>
           <p style={{ marginBottom: 20, fontWeight: 600, fontSize: 16, color: '#fff' }}>
             {locale === 'ko' ? 'Patto로 영어 패턴을 자동화하세요' : 'Start learning English patterns with Patto'}
           </p>

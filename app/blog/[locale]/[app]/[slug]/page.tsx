@@ -14,6 +14,71 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 )
 
+// ── App display info ──────────────────────────────────────────────────────────
+const APP_INFO: Record<string, {
+  label: string
+  blogLabel: string
+  href: string | null
+  cta: (locale: string) => string
+  ctaDesc: (locale: string) => string
+}> = {
+  'k-patto': {
+    label: 'K-Patto',
+    blogLabel: 'K-Patto Blog',
+    href: '/kpatto',
+    cta: () => 'Try K-Patto →',
+    ctaDesc: (locale) => locale === 'ko'
+      ? 'K-Patto로 한국어 패턴을 자연스럽게 마스터하세요.'
+      : 'Learn Korean patterns naturally with K-Patto.',
+  },
+  patto: {
+    label: 'Patto',
+    blogLabel: 'Patto Blog',
+    href: '/patto/home',
+    cta: (locale) => locale === 'ko' ? '무료로 시작하기 →' : 'Start for free →',
+    ctaDesc: (locale) => locale === 'ko'
+      ? 'Patto로 영어 패턴을 자동화하세요.'
+      : 'Master English patterns with Patto.',
+  },
+  kpantry: {
+    label: 'K-Pantry',
+    blogLabel: 'K-Pantry Blog',
+    href: '/kpantry/en',
+    cta: () => 'Explore recipes →',
+    ctaDesc: (locale) => locale === 'ko'
+      ? 'K-Pantry로 냉장고 속 재료로 한국 요리를 만들어보세요.'
+      : 'Cook Korean food with what\'s already in your fridge.',
+  },
+  'k-pantry': {
+    label: 'K-Pantry',
+    blogLabel: 'K-Pantry Blog',
+    href: '/kpantry/en',
+    cta: () => 'Explore recipes →',
+    ctaDesc: (locale) => locale === 'ko'
+      ? 'K-Pantry로 냉장고 속 재료로 한국 요리를 만들어보세요.'
+      : 'Cook Korean food with what\'s already in your fridge.',
+  },
+  careernavi: {
+    label: 'CareerNavi',
+    blogLabel: 'CareerNavi Blog',
+    href: null,
+    cta: () => 'Coming soon',
+    ctaDesc: (locale) => locale === 'ko'
+      ? 'AI 기반 한국 직장인을 위한 경력 내비게이터 — 출시 예정'
+      : 'AI career navigation for Korean professionals — coming soon.',
+  },
+}
+
+function getAppInfo(app: string) {
+  return APP_INFO[app] ?? {
+    label: app,
+    blogLabel: `${app} Blog`,
+    href: null,
+    cta: () => '→',
+    ctaDesc: () => '',
+  }
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -31,17 +96,33 @@ export async function generateMetadata({
 
   if (!post) return {}
 
+  const info = getAppInfo(app)
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
+
+  // Check if cross-locale version exists before setting hreflang
+  const { data: crossPost } = await supabase
+    .from('blog_posts')
+    .select('id')
+    .eq('locale', otherLocale)
+    .eq('app', app)
+    .eq('slug', slug)
+    .eq('is_paused', false)
+    .limit(1)
+
+  const hasCross = (crossPost?.length ?? 0) > 0
+
   return {
-    title: `${post.title} — ${app} Blog`,
+    title: `${post.title} — ${info.blogLabel}`,
     description: post.description,
     openGraph: { title: post.title, description: post.description },
     alternates: {
       canonical: `${BASE}/blog/${locale}/${app}/${slug}`,
-      languages: {
-        [locale]: `${BASE}/blog/${locale}/${app}/${slug}`,
-        [otherLocale]: `${BASE}/blog/${otherLocale}/${app}/${slug}`,
-      },
+      ...(hasCross && {
+        languages: {
+          [locale]: `${BASE}/blog/${locale}/${app}/${slug}`,
+          [otherLocale]: `${BASE}/blog/${otherLocale}/${app}/${slug}`,
+        },
+      }),
     },
   }
 }
@@ -64,9 +145,23 @@ export default async function AppBlogPostPage({
 
   if (!post) notFound()
 
+  // Related posts (same app + locale, excluding current)
+  const { data: related } = await supabase
+    .from('blog_posts')
+    .select('slug, title, description, published_at')
+    .eq('locale', locale)
+    .eq('app', app)
+    .eq('is_paused', false)
+    .lte('published_at', new Date().toISOString())
+    .neq('slug', slug)
+    .order('published_at', { ascending: false })
+    .limit(5)
+
   const fontFamily = locale === 'ko'
     ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
     : '"DM Sans", "Inter", system-ui, sans-serif'
+
+  const info = getAppInfo(app)
 
   return (
     <div style={{ background: '#0a0a1a', minHeight: '100dvh', color: 'white', fontFamily }}>
@@ -93,17 +188,18 @@ export default async function AppBlogPostPage({
         .blog-prose * { font-family: inherit; }
       `}</style>
 
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '36px 24px 0' }}>
-        <Link href={`/blog/${locale}/${app}`} style={{
-          fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.5)',
-          textDecoration: 'none', letterSpacing: '0.04em',
-          display: 'inline-flex', alignItems: 'center', gap: 4,
-        }}>
-          ← Back to blog
-        </Link>
+      {/* Breadcrumb */}
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '28px 24px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'rgba(255,255,255,0.35)', flexWrap: 'wrap' }}>
+          <Link href="/" style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Atlas Lab</Link>
+          <span>/</span>
+          <Link href={`/blog/${locale}`} style={{ color: 'rgba(255,255,255,0.35)', textDecoration: 'none' }}>Blog</Link>
+          <span>/</span>
+          <Link href={`/blog/${locale}/${app}`} style={{ color: 'rgba(255,255,255,0.45)', textDecoration: 'none' }}>{info.blogLabel}</Link>
+        </div>
       </div>
 
-      <header style={{ maxWidth: 720, margin: '0 auto', padding: '28px 24px 32px' }}>
+      <header style={{ maxWidth: 720, margin: '0 auto', padding: '24px 24px 32px' }}>
         {post.tags?.length > 0 && (
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16 }}>
             {post.tags.map((tag: string) => (
@@ -122,7 +218,7 @@ export default async function AppBlogPostPage({
           {post.description}
         </p>
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.35)', margin: 0 }}>
-          K-Patto Team · {new Date(post.published_at).toLocaleDateString(
+          {info.label} Team · {new Date(post.published_at).toLocaleDateString(
             locale === 'ko' ? 'ko-KR' : 'en-US',
             { year: 'numeric', month: 'long', day: 'numeric' }
           )}
@@ -134,24 +230,66 @@ export default async function AppBlogPostPage({
         <MDXRemote source={post.content} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
       </article>
 
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 24px 80px' }}>
+      <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 24px 16px' }}>
+
+        {/* Related posts */}
+        {related && related.length > 0 && (
+          <div style={{ marginBottom: 40 }}>
+            <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 16 }}>
+              {locale === 'ko' ? '관련 글' : 'More from ' + info.blogLabel}
+            </p>
+            <div>
+              {related.map(r => (
+                <div key={r.slug} style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                  <Link
+                    href={`/blog/${locale}/${app}/${r.slug}`}
+                    style={{ textDecoration: 'none', display: 'block', padding: '12px 0' }}
+                  >
+                    <p style={{ margin: '0 0 3px', fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.85)', lineHeight: 1.4 }}>
+                      {r.title}
+                    </p>
+                    <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.38)', lineHeight: 1.5 }}>
+                      {r.description}
+                    </p>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* App CTA */}
         <div style={{
           padding: '32px', textAlign: 'center',
           background: 'rgba(124,111,255,0.1)',
           border: '1px solid rgba(124,111,255,0.3)',
           borderRadius: 20,
+          marginBottom: 64,
         }}>
-          <p style={{ marginBottom: 20, fontWeight: 600, fontSize: 16, color: '#fff' }}>
-            Learn Korean patterns naturally with K-Patto.
+          <p style={{ marginBottom: 8, fontWeight: 700, fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)' }}>
+            {info.label}
           </p>
-          <a href="https://www.atlaslabstudios.com" style={{
-            background: '#7c6fff', color: 'white',
-            padding: '12px 32px', borderRadius: 999,
-            textDecoration: 'none', fontWeight: 600, fontSize: 14,
-            display: 'inline-block',
-          }}>
-            Coming soon →
-          </a>
+          <p style={{ marginBottom: 20, fontWeight: 600, fontSize: 16, color: '#fff' }}>
+            {info.ctaDesc(locale)}
+          </p>
+          {info.href ? (
+            <Link href={info.href} style={{
+              background: '#7c6fff', color: 'white',
+              padding: '12px 32px', borderRadius: 999,
+              textDecoration: 'none', fontWeight: 600, fontSize: 14,
+              display: 'inline-block',
+            }}>
+              {info.cta(locale)}
+            </Link>
+          ) : (
+            <span style={{
+              background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.4)',
+              padding: '12px 32px', borderRadius: 999,
+              fontWeight: 600, fontSize: 14, display: 'inline-block',
+            }}>
+              {info.cta(locale)}
+            </span>
+          )}
         </div>
       </div>
     </div>
