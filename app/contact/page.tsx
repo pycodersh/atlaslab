@@ -342,8 +342,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="ct-email-type">General</div>
-                    <a href="mailto:hello@atlaslabstudios.com" className="ct-email-addr">
-                      hello@atlaslabstudios.com
+                    <a href="mailto:contact@atlaslabstudios.com" className="ct-email-addr">
+                      contact@atlaslabstudios.com
                     </a>
                     <div className="ct-email-note">For general questions, media, and feedback.</div>
                   </div>
@@ -447,8 +447,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="ct-email-type">Support email</div>
-                    <a href="mailto:support@atlaslabstudios.com" className="ct-email-addr">
-                      support@atlaslabstudios.com
+                    <a href="mailto:contact@atlaslabstudios.com" className="ct-email-addr">
+                      contact@atlaslabstudios.com
                     </a>
                     <div className="ct-email-note">Patto · K-Patto · K-Pantry · Career Navi</div>
                   </div>
@@ -486,8 +486,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="ct-email-type">Business &amp; press</div>
-                    <a href="mailto:business@atlaslabstudios.com" className="ct-email-addr">
-                      business@atlaslabstudios.com
+                    <a href="mailto:contact@atlaslabstudios.com" className="ct-email-addr">
+                      contact@atlaslabstudios.com
                     </a>
                     <div className="ct-email-note">Partnerships, licensing, press &amp; media inquiries.</div>
                   </div>
