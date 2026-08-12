@@ -1,4 +1,6 @@
 
+import { createClient } from '@supabase/supabase-js'
+
 const FONT_BODY = '"DM Sans", "Inter", system-ui, sans-serif'
 const FONT_DISPLAY = '"Playfair Display", Georgia, serif'
 
@@ -96,18 +98,38 @@ const PRODUCTS = [
     iconGlow: 'rgba(251,191,36,0.3)',
     name: 'k-pantry',
     desc: 'Korean recipes with what\'s in your fridge',
-    tag: 'Coming soon',
-    tagStyle: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '0.5px solid rgba(255,255,255,0.1)' },
+    tag: 'Live',
+    tagStyle: { background: 'rgba(29,158,117,0.15)', color: '#5DCAA5', border: '0.5px solid rgba(29,158,117,0.4)' },
     accentColor: 'rgba(251,191,36,0.08)',
     borderHover: 'rgba(251,191,36,0.4)',
-    href: null,
-    // BLOG LINKS HIDDEN — restore when content is ready:
-    // blogLinks: [{ href: '/blog/en/k-pantry', label: '📰 Blog — EN' }],
+    href: '/kpantry/en',
     blogLinks: [],
   },
 ]
 
-export default function AtlasLabHome() {
+const APP_LABEL: Record<string, string> = {
+  'k-patto': 'K-Patto',
+  patto: 'Patto',
+  kpantry: 'K-Pantry',
+  'k-pantry': 'K-Pantry',
+  careernavi: 'CareerNavi',
+}
+
+export const revalidate = 3600
+
+export default async function AtlasLabHome() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+  )
+  const { data: latestPosts } = await supabase
+    .from('blog_posts')
+    .select('slug, title, app, locale, published_at')
+    .eq('is_paused', false)
+    .lte('published_at', new Date().toISOString())
+    .order('published_at', { ascending: false })
+    .limit(4)
+
   return (
     <>
       <style>{`
@@ -492,6 +514,47 @@ export default function AtlasLabHome() {
           transition: color 0.2s;
         }
         .footer-link:hover { color: rgba(255,255,255,0.5); }
+
+        /* ── Expanded site footer ────────────────────── */
+        .site-footer-home {
+          padding: 48px 24px 32px;
+          position: relative; z-index: 2;
+        }
+        .sfh-inner { max-width: 960px; margin: 0 auto; }
+        .sfh-cols {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+          gap: 32px 24px;
+          margin-bottom: 32px;
+        }
+        .sfh-col { display: flex; flex-direction: column; }
+        .sfh-col-title {
+          font-family: ${FONT_BODY}; font-size: 11px; font-weight: 700;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          color: rgba(255,255,255,0.3); margin: 0 0 12px;
+        }
+        .sfh-link {
+          font-family: ${FONT_BODY}; font-size: 13px;
+          color: rgba(255,255,255,0.4); text-decoration: none;
+          margin-bottom: 8px; transition: color 0.2s; display: block;
+        }
+        .sfh-link:hover { color: rgba(255,255,255,0.75); }
+        .sfh-link-muted { color: rgba(255,255,255,0.2) !important; cursor: default; }
+        .sfh-bottom {
+          border-top: 0.5px solid rgba(255,255,255,0.07);
+          padding-top: 20px;
+          display: flex; flex-wrap: wrap; gap: 10px 20px;
+          justify-content: space-between; align-items: center;
+        }
+        .sfh-legal { display: flex; align-items: center; gap: 12px; }
+        .sfh-link-sm {
+          font-family: ${FONT_BODY}; font-size: 11px;
+          color: rgba(255,255,255,0.3); text-decoration: none;
+          transition: color 0.2s;
+        }
+        .sfh-link-sm:hover { color: rgba(255,255,255,0.55); }
+        .sfh-sep { font-size: 11px; color: rgba(255,255,255,0.2); }
+        .sfh-copy { font-family: ${FONT_BODY}; font-size: 11px; color: rgba(255,255,255,0.2); margin: 0; }
       `}</style>
 
       {/* Background */}
@@ -508,7 +571,9 @@ export default function AtlasLabHome() {
             <img src="/atlaslab_nav_logo.png" alt="Atlas Lab" style={{ height: '47px', width: 'auto' }} />
           </a>
           <div className="nav-right">
-            <a href="#products" className="nav-link">Products</a>
+            <a href="#products" className="nav-link">Apps</a>
+            <a href="/blog" className="nav-link">Articles</a>
+            <a href="/about" className="nav-link">About</a>
             <a href="/patto/home" className="nav-btn">Get started</a>
           </div>
         </nav>
@@ -585,16 +650,70 @@ export default function AtlasLabHome() {
           </a>
         </div>
 
+        {/* From the Blog */}
+        {latestPosts && latestPosts.length > 0 && (
+          <>
+            <div className="divider-glow" />
+            <hr className="divider" />
+            <div className="blog-wrap" id="blog">
+              <p className="section-label">From the Blog</p>
+              <div className="blog-grid">
+                {latestPosts.map(post => (
+                  <a
+                    key={post.slug}
+                    href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                    className="blog-card"
+                  >
+                    <div className="blog-locale">
+                      {APP_LABEL[post.app] ?? post.app} · {post.locale.toUpperCase()}
+                    </div>
+                    <div className="blog-title">{post.title}</div>
+                    <div className="blog-link">Read more →</div>
+                  </a>
+                ))}
+              </div>
+              <div style={{ textAlign: 'center', marginTop: 32 }}>
+                <a href="/blog" className="btn-ghost" style={{ display: 'inline-block', padding: '10px 28px', fontSize: 13 }}>
+                  All articles →
+                </a>
+              </div>
+            </div>
+          </>
+        )}
+
         {/* Footer */}
         <hr className="divider" />
-        <footer className="footer">
-          <div className="footer-links">
-            <a href="/patto/home" className="footer-link">patto</a>
-            <a href="/blog/en/k-patto" className="footer-link">blog</a>
-            <a href="/videos" className="footer-link">videos</a>
+        <div className="site-footer-home">
+          <div className="sfh-inner">
+            <div className="sfh-cols">
+              <div className="sfh-col">
+                <p className="sfh-col-title">Products</p>
+                <a href="/patto/home" className="sfh-link">Patto</a>
+                <a href="/kpatto" className="sfh-link">K-Patto</a>
+                <a href="/kpantry/en" className="sfh-link">K-Pantry</a>
+                <span className="sfh-link sfh-link-muted">Career Navi</span>
+              </div>
+              <div className="sfh-col">
+                <p className="sfh-col-title">Resources</p>
+                <a href="/blog" className="sfh-link">Articles</a>
+                <a href="/videos" className="sfh-link">Videos</a>
+              </div>
+              <div className="sfh-col">
+                <p className="sfh-col-title">Company</p>
+                <a href="/about" className="sfh-link">About</a>
+                <a href="/contact" className="sfh-link">Contact</a>
+              </div>
+            </div>
+            <div className="sfh-bottom">
+              <div className="sfh-legal">
+                <a href="/privacy" className="sfh-link-sm">Privacy Policy</a>
+                <span className="sfh-sep">·</span>
+                <a href="/terms" className="sfh-link-sm">Terms of Service</a>
+              </div>
+              <p className="sfh-copy">© 2025 Atlas Lab Studios · atlaslabstudios.com</p>
+            </div>
           </div>
-          © 2025 Atlas Lab Studios · atlaslabstudios.com
-        </footer>
+        </div>
       </div>
     </>
   )
