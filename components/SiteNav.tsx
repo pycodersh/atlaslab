@@ -66,7 +66,7 @@ export function SiteNav() {
             <Link href="/blog" className="site-nav-link">Articles</Link>
             <Link href="/about" className="site-nav-link">About</Link>
           </div>
-          <Link href="/kpantry/en" className="site-nav-cta">Get started →</Link>
+          <Link href="/kpatto" className="site-nav-cta">Get started →</Link>
         </div>
       </nav>
     </>
