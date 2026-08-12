@@ -16,12 +16,6 @@ type Tab = typeof TABS[number]
    ══════════════════════════════════════════════════════════════════════════ */
 export default function ContactPage() {
   const [activeTab, setActiveTab] = useState<Tab>('General Inquiries')
-  const [submitted, setSubmitted] = useState(false)
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setSubmitted(true)
-  }
 
   return (
     <>
@@ -102,26 +96,7 @@ export default function ContactPage() {
           color: #111; font-weight: 700;
         }
 
-        /* ── Split layout ──────────────────────────────────────────── */
-        .ct-split {
-          display: grid;
-          grid-template-columns: 1fr 1.4fr;
-          gap: 1px;
-          background: #E5E3DF;
-          border: 1px solid #E5E3DF;
-          margin-bottom: 64px;
-          align-items: start;
-        }
-        @media (max-width: 720px) {
-          .ct-split { grid-template-columns: 1fr; }
-        }
-
-        /* ── Contact info (left) ───────────────────────────────────── */
-        .ct-info {
-          background: #F9F8F6;
-          padding: 36px 28px;
-          display: flex; flex-direction: column; gap: 24px;
-        }
+        /* ── Contact info ──────────────────────────────────────────── */
         .ct-info-label {
           font-family: ${BODY};
           font-size: 10px; font-weight: 700;
@@ -181,88 +156,21 @@ export default function ContactPage() {
           line-height: 1.55;
         }
 
-        /* ── Form (right) ──────────────────────────────────────────── */
-        .ct-form-wrap {
-          background: #fff;
-          padding: 36px 32px;
-        }
-        .ct-form-title {
-          font-family: ${SERIF};
-          font-size: 18px; font-weight: 700;
-          color: #111; margin-bottom: 24px;
-          letter-spacing: -0.01em;
-        }
-        .ct-form {
-          display: flex; flex-direction: column; gap: 16px;
-        }
-        .ct-field {
-          display: flex; flex-direction: column; gap: 6px;
-        }
-        .ct-label {
-          font-family: ${BODY};
-          font-size: 11px; font-weight: 600;
-          letter-spacing: 0.06em; text-transform: uppercase;
-          color: #666;
-        }
-        .ct-input, .ct-select, .ct-textarea {
-          font-family: ${BODY};
-          font-size: 13.5px; color: #111;
-          background: #F9F8F6;
-          border: 1px solid #D0CEC8;
-          padding: 10px 14px;
-          outline: none;
-          transition: border-color 0.15s;
-          width: 100%;
-          appearance: none; -webkit-appearance: none;
-        }
-        .ct-input:focus, .ct-select:focus, .ct-textarea:focus {
-          border-color: #C8102E;
-          background: #fff;
-        }
-        .ct-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
-        .ct-select-wrap { position: relative; }
-        .ct-select-wrap::after {
-          content: '▾';
-          position: absolute; right: 14px; top: 50%;
-          transform: translateY(-50%);
-          color: #888; pointer-events: none; font-size: 12px;
-        }
-        .ct-submit {
+        /* ── Mailto button ─────────────────────────────────────────── */
+        .ct-mailto-btn {
+          display: inline-block;
           background: #C8102E; color: #fff;
           font-family: ${BODY};
-          font-size: 12px; font-weight: 700;
-          letter-spacing: 0.08em; text-transform: uppercase;
-          border: none; padding: 13px 28px;
-          cursor: pointer; align-self: flex-start;
+          font-size: 13px; font-weight: 700;
+          letter-spacing: 0.04em;
+          text-decoration: none;
+          padding: 13px 24px;
           transition: background 0.15s;
-          margin-top: 4px;
+          margin-top: 28px;
         }
-        .ct-submit:hover { background: #A30D25; }
+        .ct-mailto-btn:hover { background: #A30D25; }
 
-        /* ── Success ───────────────────────────────────────────────── */
-        .ct-success {
-          background: #fff;
-          border: 1px solid #E5E3DF;
-          padding: 32px 28px;
-          text-align: center;
-        }
-        .ct-success-icon {
-          width: 44px; height: 44px;
-          background: #C8102E;
-          display: flex; align-items: center; justify-content: center;
-          margin: 0 auto 16px;
-        }
-        .ct-success-title {
-          font-family: ${SERIF};
-          font-size: 19px; font-weight: 700; color: #111;
-          margin-bottom: 8px;
-        }
-        .ct-success-msg {
-          font-family: ${BODY};
-          font-size: 13px; color: #666; line-height: 1.65;
-        }
-
-        /* ── Simple single-column for Support / Partnerships ───────── */
+        /* ── Single-column layout ───────────────────────────────────── */
         .ct-single {
           background: #F9F8F6;
           border: 1px solid #E5E3DF;
@@ -326,14 +234,13 @@ export default function ContactPage() {
 
           {/* ── General Inquiries ── */}
           {activeTab === 'General Inquiries' && (
-            <div className="ct-split">
-              {/* Left: contact info */}
-              <div className="ct-info">
-                <div>
-                  <div className="ct-info-label">Direct contact</div>
-                </div>
-
-                <div className="ct-email-card">
+            <div className="ct-single">
+              <div className="ct-single-title">General Inquiries</div>
+              <div className="ct-single-desc">
+                Have questions, feedback, or media inquiries? Drop us an email and we&apos;ll get back to you.
+              </div>
+              <div className="ct-cards">
+                <div className="ct-card-row">
                   <div className="ct-email-icon">
                     <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="2" y="4" width="16" height="12" rx="1"/>
@@ -348,9 +255,8 @@ export default function ContactPage() {
                     <div className="ct-email-note">For general questions, media, and feedback.</div>
                   </div>
                 </div>
-
-                <div className="ct-meta">
-                  <div className="ct-meta-icon">
+                <div className="ct-card-row">
+                  <div className="ct-meta-icon" style={{ background: '#1a1a1a', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="10" cy="10" r="8"/>
                       <path d="M10 6v4l3 2"/>
@@ -361,9 +267,8 @@ export default function ContactPage() {
                     <div className="ct-meta-value">We typically reply within 2–3 business days.</div>
                   </div>
                 </div>
-
-                <div className="ct-meta">
-                  <div className="ct-meta-icon">
+                <div className="ct-card-row">
+                  <div className="ct-meta-icon" style={{ background: '#1a1a1a', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="10" cy="10" r="8"/>
                       <line x1="2" y1="10" x2="18" y2="10"/>
@@ -376,57 +281,9 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-
-              {/* Right: form */}
-              <div className="ct-form-wrap">
-                {submitted ? (
-                  <div className="ct-success">
-                    <div className="ct-success-icon">
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 10l4 4 8-8"/>
-                      </svg>
-                    </div>
-                    <div className="ct-success-title">Message sent</div>
-                    <div className="ct-success-msg">
-                      Thanks for reaching out. We&apos;ll get back to you within 2–3 business days.
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="ct-form-title">Send a message</div>
-                    <form className="ct-form" onSubmit={handleSubmit}>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
-                        <div className="ct-field">
-                          <label className="ct-label" htmlFor="ct-name">Name</label>
-                          <input id="ct-name" type="text" className="ct-input" placeholder="Your name" required />
-                        </div>
-                        <div className="ct-field">
-                          <label className="ct-label" htmlFor="ct-email">Email</label>
-                          <input id="ct-email" type="email" className="ct-input" placeholder="you@example.com" required />
-                        </div>
-                      </div>
-                      <div className="ct-field">
-                        <label className="ct-label" htmlFor="ct-subject">Subject</label>
-                        <div className="ct-select-wrap">
-                          <select id="ct-subject" className="ct-select" required defaultValue="">
-                            <option value="" disabled>Select a topic</option>
-                            <option>General question</option>
-                            <option>Media / press inquiry</option>
-                            <option>Bug report</option>
-                            <option>Feedback</option>
-                            <option>Other</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="ct-field">
-                        <label className="ct-label" htmlFor="ct-msg">Message</label>
-                        <textarea id="ct-msg" className="ct-textarea" placeholder="Tell us what you have in mind…" required />
-                      </div>
-                      <button type="submit" className="ct-submit">Send message →</button>
-                    </form>
-                  </>
-                )}
-              </div>
+              <a href="mailto:contact@atlaslabstudios.com" className="ct-mailto-btn">
+                Email us at contact@atlaslabstudios.com →
+              </a>
             </div>
           )}
 
