@@ -21,12 +21,6 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
           rel="stylesheet"
         />
-        {/* AdSense verification — raw tag so it appears in initial HTML */}
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5046051724478341"
-          crossOrigin="anonymous"
-        />
       </head>
       <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
       <Script id="ga4-init" strategy="afterInteractive">{`
@@ -35,7 +29,16 @@ export default function RootLayout({
         gtag('js', new Date());
         gtag('config', '${GA_ID}');
       `}</Script>
-      <body>{children}</body>
+      <body>
+        {/* AdSense verification — raw script in body bypasses Next.js head optimization */}
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5046051724478341"
+          crossOrigin="anonymous"
+        />
+        {children}
+      </body>
     </html>
   );
 }
