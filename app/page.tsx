@@ -19,7 +19,7 @@ const PRODUCTS = [
     mark: '한',
     name: 'K-Patto',
     desc: 'Korean pattern learning built for global learners — audio, stories, drills.',
-    tag: 'Beta' as const,
+    tag: 'Live' as const,
     href: '/kpatto',
   },
   {
@@ -243,28 +243,18 @@ export default async function AtlasLabHome() {
         }
         .pcard-link:hover { background: var(--paper-warm, #F7F5F2); }
         .pmark {
-          width: 42px; height: 42px;
-          background: var(--brand-red, #C8102E);
+          width: 56px; height: 56px;
+          background: #121212;
+          border-radius: 16px;
           display: flex; align-items: center; justify-content: center;
-          margin-bottom: 18px; flex-shrink: 0;
+          margin-bottom: 20px; flex-shrink: 0;
         }
-        .pmark-muted { background: #c8c8c8; }
         .pmark-letter {
           color: #fff;
           font-family: ${SERIF};
-          font-weight: 700; font-size: 18px; line-height: 1;
+          font-weight: 700; font-size: 22px; line-height: 1;
           letter-spacing: -0.02em;
         }
-        .pbadge {
-          display: inline-block; align-self: flex-start;
-          font-family: ${BODY};
-          font-size: 9px; font-weight: 700;
-          letter-spacing: 0.1em; text-transform: uppercase;
-          padding: 3px 8px; margin-bottom: 12px;
-        }
-        .badge-live { background: var(--brand-red, #C8102E); color: #fff; }
-        .badge-beta { background: #e8e8e8; color: var(--ink-muted, #6B6B6B); }
-        .badge-soon { background: #f0f0f0; color: #aaa; }
         .pname {
           font-family: ${SERIF};
           font-size: 19px; font-weight: 700;
@@ -274,8 +264,18 @@ export default async function AtlasLabHome() {
         .pdesc {
           font-family: ${BODY};
           font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
-          line-height: 1.6; margin-bottom: 20px; flex: 1;
+          line-height: 1.6; margin-bottom: 16px; flex: 1;
         }
+        .pbadge {
+          display: inline-block; align-self: flex-start;
+          font-family: ${BODY};
+          font-size: 9px; font-weight: 700;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          padding: 3px 8px; margin-bottom: 10px;
+          border-radius: 4px;
+        }
+        .badge-live { background: var(--brand-red, #C8102E); color: #fff; }
+        .badge-soon { background: #F0EEE9; color: #777; }
         .pbtn {
           display: block;
           font-family: ${BODY};
@@ -285,15 +285,21 @@ export default async function AtlasLabHome() {
           background: transparent;
           color: var(--brand-red, #C8102E);
           border: 1.5px solid var(--brand-red, #C8102E);
-          padding: 8px 12px;
+          padding: 10px 12px;
           transition: background 0.15s, color 0.15s;
-          margin-top: auto;
         }
         .pbtn:hover { background: var(--brand-red, #C8102E); color: #fff; }
-        .psoon {
+        .pbtn-soon {
+          display: block;
           font-family: ${BODY};
-          font-size: 12px; color: #bbb;
-          text-align: center; margin-top: auto; padding-top: 4px;
+          font-size: 12px; font-weight: 700;
+          text-align: center; text-decoration: none;
+          letter-spacing: 0.06em; text-transform: uppercase;
+          background: transparent;
+          color: #aaa;
+          border: 1.5px solid #D0CEC8;
+          padding: 10px 12px;
+          cursor: default;
         }
 
         /* ── Blog section ──────────────────────────────────────────── */
@@ -402,24 +408,24 @@ export default async function AtlasLabHome() {
           <div className="products-grid">
             {PRODUCTS.map(p => {
               const badge = (
-                <span className={`pbadge ${
-                  p.tag === 'Live' ? 'badge-live' :
-                  p.tag === 'Beta' ? 'badge-beta' : 'badge-soon'
-                }`}>
-                  {p.tag === 'Soon' ? 'Coming soon' : p.tag}
+                <span className={`pbadge ${p.tag === 'Live' ? 'badge-live' : 'badge-soon'}`}>
+                  {p.tag === 'Soon' ? 'Coming soon' : 'Live'}
                 </span>
               )
               const inner = (
                 <>
-                  <div className={`pmark ${p.tag === 'Soon' ? 'pmark-muted' : ''}`}>
+                  {/* Icon — dark rounded square */}
+                  <div className="pmark">
                     <span className="pmark-letter">{p.mark}</span>
                   </div>
-                  {badge}
+                  {/* Name + description (flex: 1 pushes badge+btn to bottom) */}
                   <div className="pname">{p.name}</div>
                   <div className="pdesc">{p.desc}</div>
+                  {/* Badge just above button */}
+                  {badge}
                   {p.href
                     ? <span className="pbtn">Start for free →</span>
-                    : <span className="psoon">Coming soon</span>
+                    : <span className="pbtn-soon">Coming soon</span>
                   }
                 </>
               )
