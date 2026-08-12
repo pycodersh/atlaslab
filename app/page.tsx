@@ -1,122 +1,117 @@
-
 import { createClient } from '@supabase/supabase-js'
+import { SiteNav } from '@/components/SiteNav'
+import { SiteFooter } from '@/components/SiteFooter'
 
-const FONT_BODY = '"DM Sans", "Inter", system-ui, sans-serif'
-const FONT_DISPLAY = '"Playfair Display", Georgia, serif'
+/* ── Typography constants ─────────────────────────────────────────────── */
+const SERIF = '"Playfair Display", Georgia, serif'
+const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 
-const PattoIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <rect x="4" y="8" width="20" height="2.8" rx="1.4" fill="#a89fff"/>
-    <rect x="4" y="14" width="15" height="2.8" rx="1.4" fill="#7c6fff" opacity="0.85"/>
-    <rect x="4" y="20" width="18" height="2.8" rx="1.4" fill="#6655cc" opacity="0.7"/>
-    <circle cx="24" cy="22" r="6.5" fill="#150d3a"/>
-    <circle cx="24" cy="22" r="6.5" stroke="#a89fff" strokeWidth="1.2"/>
-    <text x="24" y="26" textAnchor="middle" fontSize="8.5" fill="#c4b8ff" fontWeight="800" fontFamily="Georgia,serif">P</text>
-  </svg>
-)
-
-const KPattoIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <rect x="5" y="7" width="9" height="2.5" rx="1.25" fill="#60a5fa"/>
-    <rect x="5" y="7" width="2.5" height="8" rx="1.25" fill="#60a5fa"/>
-    <rect x="20" y="7" width="2.5" height="18" rx="1.25" fill="#93c5fd" opacity="0.9"/>
-    <rect x="20" y="15" width="7" height="2.5" rx="1.25" fill="#93c5fd" opacity="0.9"/>
-    <rect x="5" y="19" width="2.5" height="7" rx="1.25" fill="#60a5fa" opacity="0.8"/>
-    <rect x="5" y="24" width="9" height="2.5" rx="1.25" fill="#60a5fa" opacity="0.8"/>
-  </svg>
-)
-
-const CareerNaviIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <circle cx="7" cy="25" r="2.2" fill="#5DCAA5"/>
-    <circle cx="13" cy="19" r="2.2" fill="#5DCAA5" opacity="0.85"/>
-    <circle cx="19" cy="13" r="2.2" fill="#5DCAA5" opacity="0.7"/>
-    <line x1="7" y1="25" x2="13" y2="19" stroke="#5DCAA5" strokeWidth="1.2" opacity="0.4" strokeDasharray="2 2"/>
-    <line x1="13" y1="19" x2="19" y2="13" stroke="#5DCAA5" strokeWidth="1.2" opacity="0.4" strokeDasharray="2 2"/>
-    <line x1="19" y1="13" x2="26" y2="6" stroke="#5DCAA5" strokeWidth="1.5" opacity="0.6"/>
-    <polyline points="20,6 26,6 26,12" stroke="#5DCAA5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-  </svg>
-)
-
-const KPantryIcon = () => (
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-    <path d="M12 9 Q11 7 12 5" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
-    <path d="M16 8 Q15 6 16 4" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.8"/>
-    <path d="M20 9 Q19 7 20 5" stroke="#fbbf24" strokeWidth="1.5" strokeLinecap="round" opacity="0.6"/>
-    <path d="M5 14 h22 a1 1 0 0 1 1 1 L25 22 a10 10 0 0 1-18 0 L5 15 a1 1 0 0 1 1-1z" fill="#3d1f00" stroke="#f59e0b" strokeWidth="1.2"/>
-    <rect x="5" y="14" width="22" height="3" rx="1.5" fill="#f59e0b" opacity="0.9"/>
-    <rect x="2" y="15" width="4" height="3" rx="1.5" fill="#d97706"/>
-    <rect x="26" y="15" width="4" height="3" rx="1.5" fill="#d97706"/>
-  </svg>
-)
-
+/* ── Product data ─────────────────────────────────────────────────────── */
 const PRODUCTS = [
   {
-    Icon: PattoIcon,
-    iconBg: 'linear-gradient(135deg, #1a0f4a, #0d0820)',
-    iconGlow: 'rgba(124,111,255,0.3)',
-    name: 'patto',
-    desc: 'Learn English patterns the way natives do',
-    tag: 'Live',
-    tagStyle: { background: 'rgba(29,158,117,0.15)', color: '#5DCAA5', border: '0.5px solid rgba(29,158,117,0.4)' },
-    accentColor: 'rgba(124,111,255,0.15)',
-    borderHover: 'rgba(124,111,255,0.5)',
+    mark: 'P',
+    name: 'Patto',
+    desc: 'Learn English patterns the way native speakers actually use them.',
+    tag: 'Live' as const,
     href: '/patto/home',
-    // BLOG LINKS HIDDEN — restore when content is ready:
-    // blogLinks: [{ href: '/blog/en/patto', label: '📰 Blog — EN · KO' }],
-    blogLinks: [] as { href: string; label: string }[],
   },
   {
-    Icon: KPattoIcon,
-    iconBg: 'linear-gradient(135deg, #0a1628, #060e1c)',
-    iconGlow: 'rgba(96,165,250,0.3)',
-    name: 'k-patto',
-    desc: 'Korean pattern learning for global learners',
-    tag: 'Beta',
-    tagStyle: { background: 'rgba(96,165,250,0.15)', color: '#60A5FA', border: '0.5px solid rgba(96,165,250,0.4)' },
-    accentColor: 'rgba(96,165,250,0.08)',
-    borderHover: 'rgba(96,165,250,0.4)',
-    href: 'https://www.atlaslabstudios.com/kpatto',
-    blogLinks: [{ href: '/blog/en/k-patto', label: '📰 Blog — EN' }],
+    mark: '한',
+    name: 'K-Patto',
+    desc: 'Korean pattern learning built for global learners — audio, stories, drills.',
+    tag: 'Beta' as const,
+    href: '/kpatto',
   },
   {
-    Icon: CareerNaviIcon,
-    iconBg: 'linear-gradient(135deg, #081a10, #040d08)',
-    iconGlow: 'rgba(93,202,165,0.3)',
-    name: 'Career Navi.',
-    desc: 'AI career navigation for Korean professionals',
-    tag: 'Coming soon',
-    tagStyle: { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.3)', border: '0.5px solid rgba(255,255,255,0.1)' },
-    accentColor: 'rgba(93,202,165,0.08)',
-    borderHover: 'rgba(93,202,165,0.4)',
-    href: null,
-    blogLinks: [],
-  },
-  {
-    Icon: KPantryIcon,
-    iconBg: 'linear-gradient(135deg, #1a1000, #0d0800)',
-    iconGlow: 'rgba(251,191,36,0.3)',
-    name: 'k-pantry',
-    desc: 'Korean recipes with what\'s in your fridge',
-    tag: 'Live',
-    tagStyle: { background: 'rgba(29,158,117,0.15)', color: '#5DCAA5', border: '0.5px solid rgba(29,158,117,0.4)' },
-    accentColor: 'rgba(251,191,36,0.08)',
-    borderHover: 'rgba(251,191,36,0.4)',
+    mark: '食',
+    name: 'K-Pantry',
+    desc: 'Discover Korean recipes based on what is already in your fridge.',
+    tag: 'Live' as const,
     href: '/kpantry/en',
-    blogLinks: [],
+  },
+  {
+    mark: 'C',
+    name: 'Career Navi',
+    desc: 'AI career navigation for Korean professionals exploring new paths.',
+    tag: 'Soon' as const,
+    href: null,
+  },
+] as const
+
+/* ── Blog app labels ──────────────────────────────────────────────────── */
+const APP_LABEL: Record<string, string> = {
+  'k-patto':   'K-Patto',
+  patto:       'Patto',
+  kpantry:     'K-Pantry',
+  'k-pantry':  'K-Pantry',
+  careernavi:  'Career Navi',
+}
+
+/* ── Why Atlas Lab items ──────────────────────────────────────────────── */
+const WHY = [
+  {
+    title: 'Pattern-first learning',
+    desc:  'Every app teaches through repeating real patterns — not isolated vocabulary or one-off drills.',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+        stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4 2h9l3 3v13H4V2z"/>
+        <path d="M13 2v3h3"/>
+        <line x1="7" y1="9"  x2="13" y2="9"/>
+        <line x1="7" y1="12" x2="13" y2="12"/>
+        <line x1="7" y1="15" x2="10" y2="15"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'Real AI, not a wrapper',
+    desc:  'AI generates content, adapts to each user, and gives feedback — it does not just relay a chat model.',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+        stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round">
+        <rect x="6" y="6" width="8" height="8"/>
+        <line x1="10" y1="1" x2="10" y2="6"/>
+        <line x1="10" y1="14" x2="10" y2="19"/>
+        <line x1="1"  y1="10" x2="6"  y2="10"/>
+        <line x1="14" y1="10" x2="19" y2="10"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'Habit-sized by design',
+    desc:  'Built for phones and offline use. Five focused minutes a day beats five interrupted hours.',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+        stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="6" y="1" width="8" height="18" rx="1.5"/>
+        <circle cx="10" cy="16" r="0.75" fill="var(--ink,#111)" stroke="none"/>
+        <line x1="8" y1="4" x2="12" y2="4"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'One mission, many tools',
+    desc:  'Language, food, career — every Atlas Lab product helps build a skill that lasts.',
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+        stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round">
+        <circle cx="10" cy="10" r="8"/>
+        <line x1="10" y1="2"  x2="10" y2="5"/>
+        <line x1="10" y1="15" x2="10" y2="18"/>
+        <line x1="2"  y1="10" x2="5"  y2="10"/>
+        <line x1="15" y1="10" x2="18" y2="10"/>
+        <circle cx="10" cy="10" r="2.5"/>
+      </svg>
+    ),
   },
 ]
 
-const APP_LABEL: Record<string, string> = {
-  'k-patto': 'K-Patto',
-  patto: 'Patto',
-  kpantry: 'K-Pantry',
-  'k-pantry': 'K-Pantry',
-  careernavi: 'CareerNavi',
-}
-
+/* ── ISR ──────────────────────────────────────────────────────────────── */
 export const revalidate = 3600
 
+/* ══════════════════════════════════════════════════════════════════════════
+   Home page
+   ══════════════════════════════════════════════════════════════════════════ */
 export default async function AtlasLabHome() {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -124,7 +119,7 @@ export default async function AtlasLabHome() {
   )
   const { data: latestPosts } = await supabase
     .from('blog_posts')
-    .select('slug, title, app, locale, published_at')
+    .select('slug, title, description, app, locale, category, published_at')
     .eq('is_paused', false)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
@@ -132,589 +127,390 @@ export default async function AtlasLabHome() {
 
   return (
     <>
+      {/* ── Page-level styles ── */}
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        body { background: #080614; overflow-x: hidden; }
+        body { background: var(--paper, #fff); color: var(--ink, #111); overflow-x: hidden; }
 
-        /* ── Animations ─────────────────────────────── */
-        @keyframes float1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(60px,80px) scale(1.08); } }
-        @keyframes float2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-50px,-60px) scale(1.05); } }
-        @keyframes float3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-40px) scale(1.1); } }
-        @keyframes gradShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-        @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes particleDrift {
-          0% { transform: translateY(0) translateX(0); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(-120px) translateX(20px); opacity: 0; }
-        }
-        @keyframes glowPulse { 0%,100% { box-shadow: 0 0 20px var(--glow,rgba(124,111,255,0.2)); } 50% { box-shadow: 0 0 40px var(--glow,rgba(124,111,255,0.4)), 0 0 80px var(--glow,rgba(124,111,255,0.1)); } }
-        @keyframes borderGlow { 0%,100% { border-color: rgba(124,111,255,0.2); } 50% { border-color: rgba(124,111,255,0.5); } }
-        @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100vh); } }
-
-        /* ── Background orbs ─────────────────────────── */
-        .orb {
-          position: fixed; border-radius: 50%;
-          filter: blur(90px); pointer-events: none; z-index: 0; will-change: transform;
-        }
-        .orb-1 {
-          width: 600px; height: 600px;
-          background: radial-gradient(circle, rgba(100,80,220,0.18) 0%, transparent 70%);
-          top: -150px; left: -120px;
-          animation: float1 22s ease-in-out infinite;
-        }
-        .orb-2 {
-          width: 500px; height: 500px;
-          background: radial-gradient(circle, rgba(60,40,180,0.14) 0%, transparent 70%);
-          bottom: -80px; right: -100px;
-          animation: float2 28s ease-in-out infinite;
-        }
-        .orb-3 {
-          width: 350px; height: 350px;
-          background: radial-gradient(circle, rgba(180,100,255,0.1) 0%, transparent 70%);
-          top: 40%; left: 50%; transform: translate(-50%,-50%);
-          animation: float3 18s ease-in-out infinite;
-        }
-
-        /* ── Noise texture ───────────────────────────── */
-        .noise {
-          position: fixed; inset: 0; pointer-events: none; z-index: 1;
-          opacity: 0.025;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-          background-size: 200px;
-        }
-
-        /* ── Nav ─────────────────────────────────────── */
-        .nav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-          display: flex; align-items: center; justify-content: space-between;
-          padding: 0 28px; height: 62px;
-          background: rgba(8,6,20,0.7);
-          backdrop-filter: blur(24px) saturate(180%);
-          -webkit-backdrop-filter: blur(24px) saturate(180%);
-          border-bottom: 0.5px solid rgba(255,255,255,0.06);
-          animation: fadeIn 0.6s ease both;
-        }
-        .nav-right { display: flex; align-items: center; gap: 28px; }
-        .nav-link {
-          font-family: ${FONT_BODY}; font-size: 13px; font-weight: 500;
-          color: rgba(255,255,255,0.45); text-decoration: none;
-          transition: color 0.2s; letter-spacing: 0.01em;
-        }
-        .nav-link:hover { color: rgba(255,255,255,0.9); }
-        .nav-btn {
-          font-family: ${FONT_BODY}; font-size: 13px; font-weight: 600;
-          color: white;
-          background: linear-gradient(135deg, rgba(124,111,255,0.9), rgba(168,143,255,0.9));
-          border: none; border-radius: 999px; padding: 8px 18px;
-          text-decoration: none;
-          box-shadow: 0 0 20px rgba(124,111,255,0.3);
-          transition: all 0.2s;
-        }
-        .nav-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 4px 30px rgba(124,111,255,0.5);
-        }
-        @media (max-width: 600px) {
-          .nav-right { gap: 16px; }
-          .nav-link { display: none; }
-        }
-
-        /* ── Hero ────────────────────────────────────── */
+        /* ── Hero (red) ────────────────────────────────────────────── */
         .hero {
-          position: relative; z-index: 2;
-          display: flex; flex-direction: column;
-          align-items: center; text-align: center;
-          padding: 160px 24px 100px;
+          background: var(--brand-red, #C8102E);
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          align-items: end;
+          gap: 0;
           overflow: hidden;
         }
-        .hero-badge {
-          display: inline-flex; align-items: center; gap: 8px;
-          background: rgba(124,111,255,0.08);
-          border: 0.5px solid rgba(124,111,255,0.3);
-          border-radius: 999px; padding: 6px 16px;
-          font-family: ${FONT_BODY}; font-size: 11px; font-weight: 600;
-          color: rgba(168,143,255,0.8); letter-spacing: 0.12em; text-transform: uppercase;
-          margin-bottom: 36px;
-          animation: fadeUp 0.8s 0.1s ease both;
+        @media (max-width: 700px) {
+          .hero { grid-template-columns: 1fr; }
         }
-        .badge-dot {
-          width: 6px; height: 6px; border-radius: 50%;
-          background: #a89fff;
-          animation: pulse 2s ease-in-out infinite;
+        .hero-text {
+          padding: 68px 48px 56px 48px;
         }
-        .hero-title {
-          font-family: ${FONT_DISPLAY};
-          font-size: clamp(38px, 6.5vw, 72px);
-          font-weight: 700; line-height: 1.12;
-          letter-spacing: -0.03em;
-          max-width: 780px; margin-bottom: 24px;
-          color: white;
-          animation: fadeUp 0.8s 0.2s ease both;
+        @media (max-width: 700px) {
+          .hero-text { padding: 48px 20px 36px; }
         }
-        .hero-title-accent {
-          background: linear-gradient(135deg, #c4b8ff 0%, #a89fff 40%, #7c6fff 80%, #c084fc 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text; background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: shimmer 4s linear infinite;
-        }
-        .hero-sub {
-          font-family: ${FONT_BODY}; font-size: clamp(15px, 2.2vw, 18px);
-          color: rgba(255,255,255,0.45); line-height: 1.75;
-          max-width: 480px; margin-bottom: 48px;
-          animation: fadeUp 0.8s 0.3s ease both;
-        }
-        .hero-cta {
-          display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
-          animation: fadeUp 0.8s 0.4s ease both;
-        }
-        .btn-primary {
-          font-family: ${FONT_BODY}; font-size: 14px; font-weight: 700;
-          color: white;
-          background: linear-gradient(135deg, #7c6fff, #a855f7);
-          border: none; border-radius: 999px; padding: 13px 28px;
-          text-decoration: none; cursor: pointer;
-          box-shadow: 0 4px 30px rgba(124,111,255,0.4);
-          transition: all 0.25s;
-        }
-        .btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 40px rgba(124,111,255,0.6);
-        }
-        .btn-ghost {
-          font-family: ${FONT_BODY}; font-size: 14px; font-weight: 600;
-          color: rgba(255,255,255,0.7);
-          background: rgba(255,255,255,0.05);
-          border: 0.5px solid rgba(255,255,255,0.15);
-          border-radius: 999px; padding: 13px 28px;
-          text-decoration: none; cursor: pointer;
-          transition: all 0.25s;
-        }
-        .btn-ghost:hover {
-          background: rgba(255,255,255,0.08);
-          border-color: rgba(255,255,255,0.25);
-          transform: translateY(-2px);
-        }
-
-        /* Hero grid lines */
-        .hero-grid {
-          position: absolute; inset: 0; pointer-events: none;
-          background-image:
-            linear-gradient(rgba(124,111,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(124,111,255,0.03) 1px, transparent 1px);
-          background-size: 60px 60px;
-          mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-        }
-
-        /* ── Section labels ──────────────────────────── */
-        .section-wrap {
-          max-width: 960px; margin: 0 auto; padding: 80px 24px;
-          position: relative; z-index: 2;
-        }
-        .section-label {
-          font-family: ${FONT_BODY}; font-size: 11px; font-weight: 700;
+        .hero-eyebrow {
+          font-family: ${BODY};
+          font-size: 10px; font-weight: 700;
           letter-spacing: 0.18em; text-transform: uppercase;
-          color: rgba(255,255,255,0.25); text-align: center;
-          margin-bottom: 40px;
-          display: flex; align-items: center; justify-content: center; gap: 12px;
+          color: rgba(255,255,255,0.6);
+          margin-bottom: 22px;
+          display: flex; align-items: center; gap: 10px;
         }
-        .section-label::before, .section-label::after {
-          content: ''; flex: 1; max-width: 80px;
-          height: 0.5px; background: rgba(255,255,255,0.08);
+        .hero-eyebrow::before {
+          content: '';
+          display: inline-block; width: 24px; height: 1px;
+          background: rgba(255,255,255,0.4);
+        }
+        .hero-h1 {
+          font-family: ${SERIF};
+          font-size: clamp(34px, 4.2vw, 58px);
+          font-weight: 700; line-height: 1.08;
+          letter-spacing: -0.02em;
+          color: #fff;
+          margin-bottom: 20px;
+        }
+        .hero-desc {
+          font-family: ${BODY};
+          font-size: clamp(14px, 1.6vw, 16px);
+          color: rgba(255,255,255,0.72);
+          line-height: 1.75;
+          margin-bottom: 36px;
+          max-width: 380px;
+        }
+        .hero-btn {
+          display: inline-block;
+          font-family: ${BODY};
+          font-size: 13px; font-weight: 700;
+          background: var(--ink, #111);
+          color: #fff;
+          padding: 12px 28px;
+          text-decoration: none;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          transition: background 0.15s;
+        }
+        .hero-btn:hover { background: #2a2a2a; }
+        .hero-img-wrap {
+          display: flex; align-items: flex-end; overflow: hidden;
+          height: 100%;
+        }
+        .hero-img-wrap img {
+          width: 100%; height: 340px;
+          object-fit: cover; object-position: center 30%;
+          display: block;
+        }
+        @media (max-width: 700px) {
+          .hero-img-wrap img { height: 200px; }
         }
 
-        /* ── Product cards ───────────────────────────── */
+        /* ── Inner container ───────────────────────────────────────── */
+        .wrap {
+          max-width: 1060px; margin: 0 auto;
+          padding-left: 40px; padding-right: 40px;
+        }
+        @media (max-width: 700px) {
+          .wrap { padding-left: 20px; padding-right: 20px; }
+        }
+
+        /* ── Section header (double-border editorial) ──────────────── */
+        .sec-head {
+          display: flex; align-items: baseline;
+          justify-content: space-between;
+          border-top: 2.5px solid var(--ink, #111);
+          padding-top: 11px;
+          margin-bottom: 36px;
+        }
+        .sec-label {
+          font-family: ${BODY};
+          font-size: 10px; font-weight: 700;
+          letter-spacing: 0.16em; text-transform: uppercase;
+          color: var(--ink-muted, #6B6B6B);
+        }
+        .sec-more {
+          font-family: ${BODY};
+          font-size: 12px; font-weight: 600;
+          color: var(--brand-red, #C8102E);
+          text-decoration: none;
+        }
+        .sec-more:hover { text-decoration: underline; }
+
+        /* ── Products section ──────────────────────────────────────── */
+        .products-wrap { padding: 36px 0 64px; }
         .products-grid {
           display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1px;
+          background: var(--rule, #E5E1DC);
+          border: 1px solid var(--rule, #E5E1DC);
+        }
+        @media (max-width: 820px) {
+          .products-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 460px) {
+          .products-grid { grid-template-columns: 1fr; }
+        }
+        .pcard {
+          background: var(--paper, #fff);
+          padding: 28px 22px 24px;
+          display: flex; flex-direction: column;
+          text-decoration: none; color: inherit;
+          transition: background 0.15s;
+        }
+        .pcard-link:hover { background: var(--paper-warm, #F7F5F2); }
+        .pmark {
+          width: 42px; height: 42px;
+          background: var(--brand-red, #C8102E);
+          display: flex; align-items: center; justify-content: center;
+          margin-bottom: 18px; flex-shrink: 0;
+        }
+        .pmark-muted { background: #c8c8c8; }
+        .pmark-letter {
+          color: #fff;
+          font-family: ${SERIF};
+          font-weight: 700; font-size: 18px; line-height: 1;
+          letter-spacing: -0.02em;
+        }
+        .pbadge {
+          display: inline-block; align-self: flex-start;
+          font-family: ${BODY};
+          font-size: 9px; font-weight: 700;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          padding: 3px 8px; margin-bottom: 12px;
+        }
+        .badge-live { background: var(--brand-red, #C8102E); color: #fff; }
+        .badge-beta { background: #e8e8e8; color: var(--ink-muted, #6B6B6B); }
+        .badge-soon { background: #f0f0f0; color: #aaa; }
+        .pname {
+          font-family: ${SERIF};
+          font-size: 19px; font-weight: 700;
+          color: var(--ink, #111); margin-bottom: 8px;
+          letter-spacing: -0.01em; line-height: 1.2;
+        }
+        .pdesc {
+          font-family: ${BODY};
+          font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
+          line-height: 1.6; margin-bottom: 20px; flex: 1;
+        }
+        .pbtn {
+          display: block;
+          font-family: ${BODY};
+          font-size: 12px; font-weight: 700;
+          text-align: center; text-decoration: none;
+          letter-spacing: 0.06em; text-transform: uppercase;
+          background: var(--brand-red, #C8102E); color: #fff;
+          padding: 9px 12px;
+          transition: background 0.15s;
+          margin-top: auto;
+        }
+        .pbtn:hover { background: var(--brand-red-dark, #A30D25); }
+        .psoon {
+          font-family: ${BODY};
+          font-size: 12px; color: #bbb;
+          text-align: center; margin-top: auto; padding-top: 4px;
+        }
+
+        /* ── Blog section ──────────────────────────────────────────── */
+        .blog-outer {
+          background: var(--paper-warm, #F7F5F2);
+          padding: 60px 0 64px;
+        }
+        .blog-grid {
+          display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 14px;
+          gap: 1px;
+          background: var(--rule, #E5E1DC);
+          border: 1px solid var(--rule, #E5E1DC);
         }
-        @media (min-width: 720px) {
-          .products-grid { grid-template-columns: repeat(4, 1fr); }
+        @media (max-width: 560px) {
+          .blog-grid { grid-template-columns: 1fr; }
         }
-        .product-card {
-          position: relative; overflow: hidden;
-          background: rgba(255,255,255,0.03);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 20px; padding: 22px 18px 20px;
-          text-decoration: none; display: block;
-          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
-                      border-color 0.3s, background 0.3s, box-shadow 0.3s;
-          cursor: default;
-        }
-        .product-card-link { cursor: pointer; }
-        .product-card-link:hover {
-          transform: translateY(-4px) scale(1.01);
-          border-color: rgba(124,111,255,0.4);
-          background: rgba(124,111,255,0.06);
-          box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,111,255,0.1);
-        }
-        /* Shine overlay on hover */
-        .product-card::before {
-          content: '';
-          position: absolute; inset: 0;
-          background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
-          opacity: 0; transition: opacity 0.3s; border-radius: inherit;
-          pointer-events: none;
-        }
-        .product-card:hover::before { opacity: 1; }
-        /* Glow bottom edge */
-        .product-card::after {
-          content: '';
-          position: absolute; bottom: 0; left: 20%; right: 20%; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.4), transparent);
-          opacity: 0; transition: opacity 0.3s;
-          pointer-events: none;
-        }
-        .product-card:hover::after { opacity: 1; }
-
-        .product-icon-wrap {
-          width: 52px; height: 52px; border-radius: 14px;
-          display: flex; align-items: center; justify-content: center;
-          margin-bottom: 18px;
-          position: relative;
-          transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-        }
-        .product-card-link:hover .product-icon-wrap { transform: scale(1.1) rotate(-3deg); }
-        .product-name {
-          font-family: ${FONT_BODY}; font-size: 14.5px; font-weight: 700;
-          color: white; margin-bottom: 7px; letter-spacing: -0.01em;
-        }
-        .product-desc {
-          font-family: ${FONT_BODY}; font-size: 12px;
-          color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: 16px;
-        }
-        .product-tag {
-          display: inline-block;
-          font-family: ${FONT_BODY}; font-size: 10px; font-weight: 700;
-          letter-spacing: 0.06em; border-radius: 999px; padding: 3px 9px;
-        }
-
-        /* ── Video button ────────────────────────────── */
-        .video-wrap {
-          text-align: center; padding: 0 0 60px; position: relative; z-index: 2;
-        }
-        .video-btn {
-          display: inline-flex; align-items: center; gap: 10px;
-          font-family: ${FONT_BODY}; font-size: 13.5px; font-weight: 600;
-          color: rgba(168,143,255,0.9);
-          background: rgba(124,111,255,0.08);
-          border: 1px solid rgba(124,111,255,0.25);
-          border-radius: 999px; padding: 10px 22px;
+        .bcard {
+          background: var(--paper-warm, #F7F5F2);
+          padding: 28px 24px;
           text-decoration: none;
-          transition: all 0.25s;
-          animation: borderGlow 3s ease-in-out infinite;
+          display: flex; flex-direction: column;
+          transition: background 0.15s;
         }
-        .video-btn:hover {
-          background: rgba(124,111,255,0.15);
-          border-color: rgba(124,111,255,0.5);
-          transform: translateY(-2px);
-          box-shadow: 0 8px 30px rgba(124,111,255,0.2);
-        }
-        .play-icon {
-          width: 28px; height: 28px; border-radius: 50%;
-          background: rgba(124,111,255,0.2);
-          display: flex; align-items: center; justify-content: center;
-          flex-shrink: 0;
-        }
-
-        /* ── Divider ─────────────────────────────────── */
-        .divider {
-          max-width: 960px; margin: 0 auto 0;
-          border: none; border-top: 0.5px solid rgba(255,255,255,0.05);
-          position: relative; z-index: 2;
-        }
-        .divider-glow {
-          max-width: 400px; margin: 0 auto;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.3), transparent);
-          position: relative; z-index: 2;
-        }
-
-        /* ── Blog section ────────────────────────────── */
-        .blog-wrap {
-          max-width: 960px; margin: 0 auto;
-          padding: 60px 24px 80px; position: relative; z-index: 2;
-        }
-        .blog-app-group { margin-bottom: 28px; }
-        .blog-app-header {
-          display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
-        }
-        .blog-app-name {
-          font-family: ${FONT_BODY}; font-size: 12px; font-weight: 700;
-          color: white; letter-spacing: 0.02em;
-        }
-        .blog-app-desc {
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.3);
-        }
-        .blog-app-line {
-          flex: 1; height: 0.5px;
-          background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent);
-        }
-        .blog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        @media (max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
-        .blog-card {
-          position: relative; overflow: hidden;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px; padding: 18px;
-          text-decoration: none; display: block;
-          transition: all 0.25s;
-        }
-        .blog-card:hover {
-          background: rgba(255,255,255,0.055);
-          border-color: rgba(124,111,255,0.25);
-          transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-        }
-        .blog-card::before {
-          content: '';
-          position: absolute; top: 0; left: 0; right: 0; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(124,111,255,0.3), transparent);
-          opacity: 0; transition: opacity 0.25s;
-        }
-        .blog-card:hover::before { opacity: 1; }
-        .blog-locale {
-          font-family: ${FONT_BODY}; font-size: 9.5px; font-weight: 700;
-          color: #a89fff; text-transform: uppercase; letter-spacing: 0.1em;
-          margin-bottom: 8px;
-        }
-        .blog-title {
-          font-family: ${FONT_DISPLAY}; font-size: 14px; font-weight: 700;
-          color: rgba(255,255,255,0.9); line-height: 1.45; margin-bottom: 12px;
-        }
-        .blog-link {
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.25);
-        }
-        .blog-single .blog-card { max-width: 480px; }
-
-        /* ── Footer ──────────────────────────────────── */
-        .footer {
-          padding: 28px 24px calc(28px + env(safe-area-inset-bottom,0px));
-          text-align: center; position: relative; z-index: 2;
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.15); letter-spacing: 0.04em;
-        }
-        .footer-links {
-          display: flex; justify-content: center; gap: 20px;
+        .bcard:hover { background: #ede9e3; }
+        .bcat {
+          font-family: ${BODY};
+          font-size: 9.5px; font-weight: 700;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          color: var(--brand-red, #C8102E);
           margin-bottom: 10px;
         }
-        .footer-link {
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.2); text-decoration: none;
-          transition: color 0.2s;
+        .btitle {
+          font-family: ${SERIF};
+          font-size: 16.5px; font-weight: 700;
+          color: var(--ink, #111); line-height: 1.32;
+          margin-bottom: 10px; letter-spacing: -0.01em;
         }
-        .footer-link:hover { color: rgba(255,255,255,0.5); }
+        .bexcerpt {
+          font-family: ${BODY};
+          font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
+          line-height: 1.65; flex: 1; margin-bottom: 16px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .bdate {
+          font-family: ${BODY};
+          font-size: 11px; color: var(--ink-muted, #6B6B6B);
+          letter-spacing: 0.02em;
+        }
 
-        /* ── Expanded site footer ────────────────────── */
-        .site-footer-home {
-          padding: 48px 24px 32px;
-          position: relative; z-index: 2;
-        }
-        .sfh-inner { max-width: 960px; margin: 0 auto; }
-        .sfh-cols {
+        /* ── Why section ───────────────────────────────────────────── */
+        .why-wrap { padding: 60px 0 72px; }
+        .why-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-          gap: 32px 24px;
-          margin-bottom: 32px;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 32px 28px;
         }
-        .sfh-col { display: flex; flex-direction: column; }
-        .sfh-col-title {
-          font-family: ${FONT_BODY}; font-size: 11px; font-weight: 700;
-          letter-spacing: 0.1em; text-transform: uppercase;
-          color: rgba(255,255,255,0.3); margin: 0 0 12px;
+        @media (max-width: 820px) {
+          .why-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        .sfh-link {
-          font-family: ${FONT_BODY}; font-size: 13px;
-          color: rgba(255,255,255,0.4); text-decoration: none;
-          margin-bottom: 8px; transition: color 0.2s; display: block;
+        @media (max-width: 460px) {
+          .why-grid { grid-template-columns: 1fr; gap: 28px; }
         }
-        .sfh-link:hover { color: rgba(255,255,255,0.75); }
-        .sfh-link-muted { color: rgba(255,255,255,0.2) !important; cursor: default; }
-        .sfh-bottom {
-          border-top: 0.5px solid rgba(255,255,255,0.07);
-          padding-top: 20px;
-          display: flex; flex-wrap: wrap; gap: 10px 20px;
-          justify-content: space-between; align-items: center;
+        .why-item { display: flex; flex-direction: column; gap: 12px; }
+        .why-icon {
+          width: 40px; height: 40px;
+          display: flex; align-items: center; justify-content: center;
+          border: 1.5px solid var(--ink, #111);
+          flex-shrink: 0;
         }
-        .sfh-legal { display: flex; align-items: center; gap: 12px; }
-        .sfh-link-sm {
-          font-family: ${FONT_BODY}; font-size: 11px;
-          color: rgba(255,255,255,0.3); text-decoration: none;
-          transition: color 0.2s;
+        .why-title {
+          font-family: ${SERIF};
+          font-size: 16px; font-weight: 700;
+          color: var(--ink, #111); line-height: 1.2;
+          letter-spacing: -0.01em;
         }
-        .sfh-link-sm:hover { color: rgba(255,255,255,0.55); }
-        .sfh-sep { font-size: 11px; color: rgba(255,255,255,0.2); }
-        .sfh-copy { font-family: ${FONT_BODY}; font-size: 11px; color: rgba(255,255,255,0.2); margin: 0; }
+        .why-desc {
+          font-family: ${BODY};
+          font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
+          line-height: 1.7;
+        }
       `}</style>
 
-      {/* Background */}
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="orb orb-3" />
-      <div className="noise" />
+      {/* ── Navigation (red) ── */}
+      <SiteNav />
 
-      <div style={{ background: '#080614', minHeight: '100svh', color: 'white', position: 'relative', overflowX: 'hidden' }}>
+      {/* ── Hero ── */}
+      <section className="hero">
+        <div className="hero-text">
+          <p className="hero-eyebrow">Atlas Lab</p>
+          <h1 className="hero-h1">Tools that make you better, one skill at a time.</h1>
+          <p className="hero-desc">AI-powered apps for language learning, career growth, and Korean cooking.</p>
+          <a href="#products" className="hero-btn">Explore our apps</a>
+        </div>
+        <div className="hero-img-wrap">
+          <img
+            src="/kpatto/ep-001/cut-1.jpg"
+            alt="K-Patto learning scene"
+            width={768}
+            height={254}
+          />
+        </div>
+      </section>
 
-        {/* Nav */}
-        <nav className="nav">
-          <a href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src="/atlaslab_nav_logo.png" alt="Atlas Lab" style={{ height: '47px', width: 'auto' }} />
-          </a>
-          <div className="nav-right">
-            <a href="#products" className="nav-link">Apps</a>
-            <a href="/blog" className="nav-link">Articles</a>
-            <a href="/about" className="nav-link">About</a>
-            <a href="/patto/home" className="nav-btn">Get started</a>
+      {/* ── Products ── */}
+      <div id="products">
+        <div className="wrap products-wrap">
+          <div className="sec-head">
+            <span className="sec-label">Our Apps</span>
           </div>
-        </nav>
-
-        {/* Hero */}
-        <section className="hero">
-          <div className="hero-grid" />
-          <div className="hero-badge">
-            <span className="badge-dot" />
-            ATLAS LAB · AI-POWERED APPS
-          </div>
-          <h1 className="hero-title">
-            Tools that make you{' '}
-            <span className="hero-title-accent">better</span>,<br />
-            one skill at a time.
-          </h1>
-          <p className="hero-sub">
-            Atlas Lab builds AI-powered apps for language learning,<br />
-            career growth, and daily life.
-          </p>
-          <div className="hero-cta">
-            <a href="#products" className="btn-ghost">Explore products</a>
-          </div>
-        </section>
-
-        {/* Products */}
-        <div className="section-wrap" id="products" style={{ paddingTop: 20 }}>
-          <p className="section-label">Our Products</p>
           <div className="products-grid">
-            {PRODUCTS.map(p => (
-              <div key={p.name} className="product-card" style={{ display: 'flex', flexDirection: 'column' }}>
-                <div className="product-icon-wrap" style={{ background: p.iconBg }}>
-                  <p.Icon />
-                </div>
-                <div className="product-name">{p.name}</div>
-                <div className="product-desc">{p.desc}</div>
-                <span className="product-tag" style={p.tagStyle}>{p.tag}</span>
-                {(p.href || p.blogLinks.length > 0) && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '12px' }}>
-                    {p.href && (
-                      <a href={p.href} style={{
-                        background: '#7c6fff', color: 'white',
-                        fontSize: '13px', fontWeight: 600,
-                        padding: '8px 12px', borderRadius: '8px',
-                        textAlign: 'center', textDecoration: 'none',
-                      }}>Start for free →</a>
-                    )}
-                    {p.blogLinks.map(b => (
-                      <a key={b.href} href={b.href} style={{
-                        background: 'transparent',
-                        border: '1px solid rgba(255,255,255,0.1)',
-                        color: 'rgba(255,255,255,0.5)',
-                        fontSize: '12px', padding: '6px 12px', borderRadius: '8px',
-                        textAlign: 'center', textDecoration: 'none',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
-                      }}>{b.label}</a>
-                    ))}
+            {PRODUCTS.map(p => {
+              const badge = (
+                <span className={`pbadge ${
+                  p.tag === 'Live' ? 'badge-live' :
+                  p.tag === 'Beta' ? 'badge-beta' : 'badge-soon'
+                }`}>
+                  {p.tag === 'Soon' ? 'Coming soon' : p.tag}
+                </span>
+              )
+              const inner = (
+                <>
+                  <div className={`pmark ${p.tag === 'Soon' ? 'pmark-muted' : ''}`}>
+                    <span className="pmark-letter">{p.mark}</span>
                   </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Video CTA */}
-        <div className="video-wrap">
-          <a href="/videos" className="video-btn">
-            <span className="play-icon">
-              <svg width="10" height="11" viewBox="0 0 10 11" fill="none">
-                <path d="M2 2l7 3.5L2 9V2z" fill="#a89fff"/>
-              </svg>
-            </span>
-            Watch Patto in action
-          </a>
-        </div>
-
-        {/* From the Blog */}
-        {latestPosts && latestPosts.length > 0 && (
-          <>
-            <div className="divider-glow" />
-            <hr className="divider" />
-            <div className="blog-wrap" id="blog">
-              <p className="section-label">From the Blog</p>
-              <div className="blog-grid">
-                {latestPosts.map(post => (
-                  <a
-                    key={post.slug}
-                    href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                    className="blog-card"
-                  >
-                    <div className="blog-locale">
-                      {APP_LABEL[post.app] ?? post.app} · {post.locale.toUpperCase()}
-                    </div>
-                    <div className="blog-title">{post.title}</div>
-                    <div className="blog-link">Read more →</div>
-                  </a>
-                ))}
-              </div>
-              <div style={{ textAlign: 'center', marginTop: 32 }}>
-                <a href="/blog" className="btn-ghost" style={{ display: 'inline-block', padding: '10px 28px', fontSize: 13 }}>
-                  All articles →
+                  {badge}
+                  <div className="pname">{p.name}</div>
+                  <div className="pdesc">{p.desc}</div>
+                  {p.href
+                    ? <span className="pbtn">Start for free →</span>
+                    : <span className="psoon">Coming soon</span>
+                  }
+                </>
+              )
+              return p.href ? (
+                <a key={p.name} href={p.href} className="pcard pcard-link">
+                  {inner}
                 </a>
-              </div>
-            </div>
-          </>
-        )}
-
-        {/* Footer */}
-        <hr className="divider" />
-        <div className="site-footer-home">
-          <div className="sfh-inner">
-            <div className="sfh-cols">
-              <div className="sfh-col">
-                <p className="sfh-col-title">Products</p>
-                <a href="/patto/home" className="sfh-link">Patto</a>
-                <a href="/kpatto" className="sfh-link">K-Patto</a>
-                <a href="/kpantry/en" className="sfh-link">K-Pantry</a>
-                <span className="sfh-link sfh-link-muted">Career Navi</span>
-              </div>
-              <div className="sfh-col">
-                <p className="sfh-col-title">Resources</p>
-                <a href="/blog" className="sfh-link">Articles</a>
-                <a href="/videos" className="sfh-link">Videos</a>
-              </div>
-              <div className="sfh-col">
-                <p className="sfh-col-title">Company</p>
-                <a href="/about" className="sfh-link">About</a>
-                <a href="/contact" className="sfh-link">Contact</a>
-              </div>
-            </div>
-            <div className="sfh-bottom">
-              <div className="sfh-legal">
-                <a href="/privacy" className="sfh-link-sm">Privacy Policy</a>
-                <span className="sfh-sep">·</span>
-                <a href="/terms" className="sfh-link-sm">Terms of Service</a>
-              </div>
-              <p className="sfh-copy">© 2025 Atlas Lab Studios · atlaslabstudios.com</p>
-            </div>
+              ) : (
+                <div key={p.name} className="pcard">{inner}</div>
+              )
+            })}
           </div>
         </div>
       </div>
+
+      {/* ── From the Blog ── */}
+      {latestPosts && latestPosts.length > 0 && (
+        <div className="blog-outer">
+          <div className="wrap">
+            <div className="sec-head">
+              <span className="sec-label">From the Blog</span>
+              <a href="/blog" className="sec-more">Browse all articles →</a>
+            </div>
+            <div className="blog-grid">
+              {latestPosts.map(post => (
+                <a
+                  key={post.slug}
+                  href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                  className="bcard"
+                >
+                  <div className="bcat">
+                    {post.category ?? APP_LABEL[post.app] ?? post.app}
+                  </div>
+                  <div className="btitle">{post.title}</div>
+                  {post.description && (
+                    <div className="bexcerpt">{post.description}</div>
+                  )}
+                  <div className="bdate">
+                    {new Date(post.published_at).toLocaleDateString('en-US', {
+                      year: 'numeric', month: 'long', day: 'numeric',
+                    })}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Why Atlas Lab ── */}
+      <div className="wrap why-wrap">
+        <div className="sec-head">
+          <span className="sec-label">Why Atlas Lab</span>
+        </div>
+        <div className="why-grid">
+          {WHY.map(item => (
+            <div key={item.title} className="why-item">
+              <div className="why-icon">{item.icon}</div>
+              <div className="why-title">{item.title}</div>
+              <div className="why-desc">{item.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Footer (black) ── */}
+      <SiteFooter />
     </>
   )
 }

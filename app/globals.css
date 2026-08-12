@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+/* ── Atlas Lab Brand Tokens (Red / Black / White) ────────────────────── */
+:root {
+  --brand-red:      #C8102E;   /* header, hero bg, accent, buttons */
+  --brand-red-dark: #A30D25;   /* hover */
+  --ink:            #111111;   /* body text, footer bg */
+  --ink-muted:      #6B6B6B;   /* secondary text, dates */
+  --paper:          #FFFFFF;   /* default bg */
+  --paper-warm:     #F7F5F2;   /* section separator bg */
+  --rule:           #E5E1DC;   /* dividers */
+}
+
 /* ── PATTO Design Tokens ─────────────────────────────────────────────── */
 :root {
   /* ── Typography Scale ──────────────────────────────────────────────── */
