@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>K-PATTO carousel cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#2A2A2A; font-family:'Inter','Noto Sans KR',sans-serif; padding:40px; }
+  .set { margin-bottom:60px; }
+  .set-label { color:#888; font-size:14px; margin-bottom:12px; letter-spacing:2px; }
+  .row { display:flex; flex-wrap:wrap; gap:20px; }
+
+  .card {
+    width:1080px; height:1080px; padding:100px;
+    display:flex; flex-direction:column; box-sizing:border-box;
+    transform-origin:top left;
+  }
+  .dark  { background:#1A1614; }
+  .cream { background:#F5F0EB; }
+  .amber { background:#D4873A; }
+
+  .num      { font-size:22px; letter-spacing:6px; color:#D4873A; }
+  .num-dark { font-size:22px; letter-spacing:6px; color:#A8704F; }
+  .num-amber{ font-size:22px; letter-spacing:6px; color:#4A2E10; }
+
+  .hook   { font-size:86px; line-height:1.28; color:#F5F0EB; font-weight:500; }
+  .hook em{ color:#D4873A; font-style:normal; }
+  .swipe  { font-size:30px; color:#8A8078; }
+
+  .ko-big { font-family:'Noto Sans KR',sans-serif; font-size:108px; font-weight:700; color:#1A1614; line-height:1.25; }
+  .ko-mid { font-family:'Noto Sans KR',sans-serif; font-size:88px;  font-weight:700; color:#1A1614; line-height:1.3; }
+  .ko-mid .hl, .ko-big .hl { color:#D4873A; }
+  .roma   { font-size:40px; color:#7A6E64; }
+  .en     { font-size:46px; color:#1A1614; }
+  .rule   { height:2px; background:#DDD2C6; margin:28px 0; }
+
+  .tip      { font-size:60px; line-height:1.45; color:#2B1B08; }
+  .tip b    { font-weight:700; }
+  .formula  { font-family:'Noto Sans KR',sans-serif; font-size:44px; color:#4A2E10; }
+
+  .cta      { font-size:62px; line-height:1.4; color:#F5F0EB; }
+  .cta-sub  { font-size:42px; color:#D4873A; margin-top:36px; }
+  .brand    { font-size:32px; letter-spacing:8px; color:#8A8078; }
+
+  .between  { flex:1; display:flex; flex-direction:column; justify-content:center; gap:22px; }
+  .spread   { justify-content:space-between; }
+</style>
+</head>
+<body>
+<div id="out"></div>
+
+<script>
+const SETS = [
+  {
+    slug: "juseyo",
+    hookTop: "How do you say",
+    hookEm: "\u0022Water, please\u0022",
+    hookBottom: "in Korean?",
+    ko: "\uBB3C \uC8FC\uC138\uC694",
+    roma: "mul ju-se-yo",
+    en: "Water, please",
+    ex: [
+      { ko: "\uCEE4\uD53C", hl: "\uC8FC\uC138\uC694", roma: "keo-pi ju-se-yo", en: "Coffee, please" },
+      { ko: "\uC774\uAC70", hl: "\uC8FC\uC138\uC694", roma: "i-geo ju-se-yo", en: "This one, please" }
+    ],
+    tip: "Put any noun in front of <b>\uC8FC\uC138\uC694</b> and you can order almost anything.",
+    formula: "noun + \uC8FC\uC138\uC694 = \u0022___, please\u0022"
+  },
+  {
+    slug: "mwoyeyo",
+    hookTop: "How do you ask",
+    hookEm: "\u0022What is this?\u0022",
+    hookBottom: "in Korean?",
+    ko: "\uC774\uAC70 \uBB50\uC608\uC694?",
+    roma: "i-geo mwo-ye-yo",
+    en: "What is this?",
+    ex: [
+      { ko: "\uC774\uB984\uC774", hl: "\uBB50\uC608\uC694?", roma: "i-reum-i mwo-ye-yo", en: "What's your name?" },
+      { ko: "\uC800\uAC8C", hl: "\uBB50\uC608\uC694?", roma: "jeo-ge mwo-ye-yo", en: "What's that over there?" }
+    ],
+    tip: "<b>\uBB50\uC608\uC694?</b> is the fastest way to point at something and learn its name.",
+    formula: "noun + \uBB50\uC608\uC694? = \u0022What is ___?\u0022"
+  },
+  {
+    slug: "eotteoke-gayo",
+    hookTop: "Lost in Seoul?",
+    hookEm: "\u0022How do I get there?\u0022",
+    hookBottom: "",
+    ko: "\uD64D\uB300 \uC5B4\uB5BB\uAC8C \uAC00\uC694?",
+    roma: "hong-dae eo-tteo-ke ga-yo",
+    en: "How do I get to Hongdae?",
+    ex: [
+      { ko: "\uC5ED", hl: "\uC5B4\uB5BB\uAC8C \uAC00\uC694?", roma: "yeok eo-tteo-ke ga-yo", en: "How do I get to the station?" },
+      { ko: "\uC5EC\uAE30", hl: "\uC5B4\uB5BB\uAC8C \uAC00\uC694?", roma: "yeo-gi eo-tteo-ke ga-yo", en: "How do I get here?" }
+    ],
+    tip: "Say the place, then <b>\uC5B4\uB5BB\uAC8C \uAC00\uC694?</b> \u2014 that's a whole conversation in four words.",
+    formula: "place + \uC5B4\uB5BB\uAC8C \uAC00\uC694? = \u0022How do I get to ___?\u0022"
+  }
+];
+
+const CTA_MAIN = "325 Korean phrases,<br>with audio and<br>webtoon scenes.";
+const CTA_SUB  = "Free \u2192 link in bio";
+
+function cards(s) {
+  const hook = `<div class="card dark spread" data-card="${s.slug}-1">
+      <div class="num">01</div>
+      <div class="hook">${s.hookTop}<br><em>${s.hookEm}</em>${s.hookBottom ? "<br>" + s.hookBottom : ""}</div>
+      <div class="swipe">swipe \u2192</div>
+    </div>`;
+
+  const phrase = `<div class="card cream" data-card="${s.slug}-2">
+      <div class="num-dark">02 \u00B7 THE PHRASE</div>
+      <div class="between">
+        <div class="ko-big">${s.ko}</div>
+        <div class="roma">${s.roma}</div>
+        <div class="rule"></div>
+        <div class="en">${s.en}</div>
+      </div>
+    </div>`;
+
+  const ex = s.ex.map((e, i) => `<div class="card cream" data-card="${s.slug}-${i + 3}">
+      <div class="num-dark">0${i + 3} \u00B7 EXAMPLE</div>
+      <div class="between">
+        <div class="ko-mid">${e.ko} <span class="hl">${e.hl}</span></div>
+        <div class="roma">${e.roma}</div>
+        <div class="en">${e.en}</div>
+      </div>
+    </div>`).join("");
+
+  const tip = `<div class="card amber" data-card="${s.slug}-5">
+      <div class="num-amber">05 \u00B7 HOW IT WORKS</div>
+      <div class="between">
+        <div class="tip">${s.tip}</div>
+        <div class="formula">${s.formula}</div>
+      </div>
+    </div>`;
+
+  const cta = `<div class="card dark spread" data-card="${s.slug}-6">
+      <div class="num">06</div>
+      <div>
+        <div class="cta">${CTA_MAIN}</div>
+        <div class="cta-sub">${CTA_SUB}</div>
+      </div>
+      <div class="brand">K-PATTO</div>
+    </div>`;
+
+  return hook + phrase + ex + tip + cta;
+}
+
+document.getElementById("out").innerHTML = SETS.map(s =>
+  `<div class="set"><div class="set-label">${s.slug.toUpperCase()}</div><div class="row">${cards(s)}</div></div>`
+).join("");
+</script>
+</body>
+</html>
