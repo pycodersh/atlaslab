@@ -46,6 +46,54 @@ export async function generateStaticParams() {
   return Object.keys(SLUG_TO_ID).map(slug => ({ slug }))
 }
 
+// ── metadata helpers ──────────────────────────────────────────────────────────
+
+/** 앞뒤 `~` 제거. e.g. "~주세요" → "주세요" */
+function cleanKorean(raw: string): string {
+  return raw.replace(/^~+|~+$/g, '').trim()
+}
+
+/** 전체 `~` 제거 후 공백·구두점 정리.
+ *  e.g. "I'm from ~." → "I'm from"
+ *       "Give me ~, please." → "Give me, please" */
+function cleanEnglish(raw: string): string {
+  return raw
+    .replace(/~/g, '')           // 전체 물결 제거
+    .replace(/[ \t]+/g, ' ')    // 연속 공백 → 한 칸
+    .replace(/ ([,?.])/g, '$1') // 구두점 앞 공백 제거
+    .trim()
+    .replace(/\.+$/, '')        // 문말 마침표 제거
+    .trim()
+}
+
+/** 문말 마침표만 제거 (examples 경로용 — 물결 제거 로직 미적용) */
+function stripPeriod(s: string): string {
+  return s.replace(/\.+$/, '').trim()
+}
+
+/** Truncate at a word boundary (last space ≤ maxLen), appending "...". */
+function truncateAtWord(text: string, maxLen: number): string {
+  if (text.length <= maxLen) return text
+  const cut = text.slice(0, maxLen)
+  const lastSpace = cut.lastIndexOf(' ')
+  return (lastSpace > 0 ? cut.slice(0, lastSpace) : cut) + '...'
+}
+
+/** title 조합: 80자 초과 시 — {korean} suffix 제거 */
+function buildTitle(clean: string, kor: string): string {
+  if (!clean) return `${kor} in Korean`
+  const isQuestion = clean.endsWith('?')
+  const full = isQuestion
+    ? `How to Ask "${clean}" in Korean — ${kor}`
+    : `How to Say "${clean}" in Korean — ${kor}`
+  if (full.length <= 80) return full
+  return isQuestion
+    ? `How to Ask "${clean}" in Korean`
+    : `How to Say "${clean}" in Korean`
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const id = SLUG_TO_ID[slug]
@@ -54,29 +102,44 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const supabase = createAdminClient()
   const { data } = await supabase
     .from('kp_expressions')
-    .select('korean, english, description')
+    .select('korean, english, romaja, description, examples')
     .eq('id', id)
     .single()
 
   if (!data) return {}
 
-  const title = `${data.korean} in Korean | K-PATTO`
+  // english 또는 korean에 ~ 포함 시 examples[0] 사용
+  const hasTilde = (data.english ?? '').includes('~') || data.korean.includes('~')
+  const ex0 = (data.examples as Array<{ ko: string; en: string }> | null)?.[0]
+
+  let clean: string
+  let kor: string
+  if (hasTilde && ex0) {
+    clean = stripPeriod(ex0.en)
+    kor   = stripPeriod(ex0.ko)
+  } else {
+    clean = data.english ? cleanEnglish(data.english) : ''
+    kor   = cleanKorean(data.korean)
+  }
+
+  const title = buildTitle(clean, kor)
+
   const desc = data.description
-    ? `${data.english}. ${data.description.slice(0, 120)}...`
+    ? `${data.english}. ${truncateAtWord(data.description, 120)}`
     : `Learn ${data.korean} — ${data.english}. With examples and real Korean webtoon scenes.`
 
   return {
     title,
     description: desc,
     openGraph: {
-      title: `${data.korean} — ${data.english}`,
+      title,
       description: desc,
       url: `${BASE}/kpatto/expressions/${slug}`,
       type: 'article',
     },
     twitter: {
       card: 'summary',
-      title: `${data.korean} — ${data.english}`,
+      title,
       description: desc,
     },
     alternates: { canonical: `${BASE}/kpatto/expressions/${slug}` },
