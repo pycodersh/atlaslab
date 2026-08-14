@@ -72,7 +72,7 @@
 <div id="out"></div>
 
 <script>
-const SETS = [{"slug":"juseyo","hookL1":"Water, please.","hookL2":"How do you say this in Korean?","ko":"~주세요","en":"Give me ~, please.","ex":[{"lead":"물","hl":"주세요.","roma":"mul juseyo.","en":"Water, please."},{"lead":"메뉴판","hl":"주세요.","roma":"menyupan juseyo.","en":"Please give me the menu."}],"desc":"Used to politely ask for something in a shop, café, or restaurant.","formula":"[anything] + 주세요"},{"slug":"mwoyeyo","hookL1":"What is this?","hookL2":"How do you ask this in Korean?","ko":"~뭐예요?","en":"What is ~?","ex":[{"lead":"이거","hl":"뭐예요?","roma":"igeo mwoyeyo?","en":"What is this?"},{"lead":"저거","hl":"뭐예요?","roma":"jeogeo mwoyeyo?","en":"What is that?"}],"desc":"Used to ask what something is when you don't know its name.","formula":"[anything] + 뭐예요?"},{"slug":"isseoyo","hookL1":"Is there Wi-Fi?","hookL2":"How do you ask this in Korean?","ko":"~있어요?","en":"Is there ~? / Do you have ~?","ex":[{"lead":"와이파이","hl":"있어요?","roma":"waipai isseoyo?","en":"Is there Wi-Fi?"},{"lead":"자리","hl":"있어요?","roma":"jari isseoyo?","en":"Is there a seat?"}],"desc":"Used to ask whether something exists or is available.","formula":"[anything] + 있어요?"},{"slug":"ieyo-yeyo","hookL1":"I'm a student.","hookL2":"How do you say this in Korean?","ko":"~이에요/예요","en":"is; am; are","ex":[{"lead":"저는 학생","hl":"이에요.","roma":"jeoneun haksaengieyo.","en":"I'm a student."},{"lead":"","hl":"이건 유자차예요.","roma":"igeon yujachayeyo.","en":"This is yuja tea."}],"desc":"Used to say what something or someone is; the most basic way to make a statement.","formula":"[noun] + 이에요 / 예요"},{"slug":"eotteoke-gayo","hookL1":"How do I get to Hongdae?","hookL2":"How do you ask this in Korean?","ko":"~어떻게 가요?","en":"How do I get to ~?","ex":[{"lead":"홍대","hl":"어떻게 가요?","roma":"hongdae eotteoke gayo?","en":"How do I get to Hongdae?"},{"lead":"명동","hl":"어떻게 가요?","roma":"myeongdong eotteoke gayo?","en":"How do I get to Myeongdong?"}],"desc":"Used to ask the way to a place.","formula":"[anything] + 어떻게 가요?"}];
+const SETS = [{"slug":"juseyo","hookL1":"Water, please.","hookL2":"How do you say this in Korean?","ko":"~주세요","en":"Give me ~, please.","ex":[{"ko":"물 주세요.","lead":"물","hl":"주세요.","roma":"mul juseyo.","en":"Water, please."},{"ko":"메뉴판 주세요.","lead":"메뉴판","hl":"주세요.","roma":"menyupan juseyo.","en":"Please give me the menu."},{"ko":"영수증 주세요.","lead":"영수증","hl":"주세요.","roma":"yeongsujeung juseyo.","en":"Please give me the receipt."}],"desc":"Used to politely ask for something in a shop, café, or restaurant.","formula":"[anything] + 주세요"},{"slug":"mwoyeyo","hookL1":"What is this?","hookL2":"How do you ask this in Korean?","ko":"~뭐예요?","en":"What is ~?","ex":[{"ko":"이거 뭐예요?","lead":"이거","hl":"뭐예요?","roma":"igeo mwoyeyo?","en":"What is this?"},{"ko":"저거 뭐예요?","lead":"저거","hl":"뭐예요?","roma":"jeogeo mwoyeyo?","en":"What is that?"},{"ko":"이 음식 뭐예요?","lead":"이 음식","hl":"뭐예요?","roma":"i eumsik mwoyeyo?","en":"What is this food?"}],"desc":"Used to ask what something is when you don't know its name.","formula":"[anything] + 뭐예요?"},{"slug":"isseoyo","hookL1":"Is there Wi-Fi?","hookL2":"How do you ask this in Korean?","ko":"~있어요?","en":"Is there ~? / Do you have ~?","ex":[{"ko":"와이파이 있어요?","lead":"와이파이","hl":"있어요?","roma":"waipai isseoyo?","en":"Is there Wi-Fi?"},{"ko":"자리 있어요?","lead":"자리","hl":"있어요?","roma":"jari isseoyo?","en":"Is there a seat?"},{"ko":"화장실 있어요?","lead":"화장실","hl":"있어요?","roma":"hwajangsil isseoyo?","en":"Is there a restroom?"}],"desc":"Used to ask whether something exists or is available.","formula":"[anything] + 있어요?"},{"slug":"ieyo-yeyo","hookL1":"I'm a student.","hookL2":"How do you say this in Korean?","ko":"~이에요/예요","en":"is; am; are","ex":[{"ko":"저는 학생이에요.","lead":"저는 학생","hl":"이에요.","roma":"jeoneun haksaengieyo.","en":"I'm a student."},{"ko":"이건 유자차예요.","lead":"","hl":"이건 유자차예요.","roma":"igeon yujachayeyo.","en":"This is yuja tea."},{"ko":"제 이름은 에마예요.","lead":"","hl":"제 이름은 에마예요.","roma":"je ireumeun emayeyo.","en":"My name is Emma."}],"desc":"Used to say what something or someone is; the most basic way to make a statement.","formula":"[noun] + 이에요 / 예요"},{"slug":"eotteoke-gayo","hookL1":"How do I get to Hongdae?","hookL2":"How do you ask this in Korean?","ko":"~어떻게 가요?","en":"How do I get to ~?","ex":[{"ko":"홍대 어떻게 가요?","lead":"홍대","hl":"어떻게 가요?","roma":"hongdae eotteoke gayo?","en":"How do I get to Hongdae?"},{"ko":"명동 어떻게 가요?","lead":"명동","hl":"어떻게 가요?","roma":"myeongdong eotteoke gayo?","en":"How do I get to Myeongdong?"},{"ko":"공항 어떻게 가요?","lead":"공항","hl":"어떻게 가요?","roma":"gonghang eotteoke gayo?","en":"How do I get to the airport?"}],"desc":"Used to ask the way to a place.","formula":"[anything] + 어떻게 가요?"}];
 
 const CTA_MAIN = "Over 300 Korean phrases,<br>with audio and<br>webtoon stories.";
 const CTA_SUB  = "Start → link in bio";
@@ -90,16 +90,20 @@ function cards(s) {
       <div class="swipe">swipe &rarr;</div>
     </div>`;
 
+  /* 카드 2: examples[0] — 전체 문장을 ko-big으로, 로마자·영어 포함 */
+  const p0 = s.ex[0] || {};
   const phrase = `<div class="card c2" data-card="${s.slug}-2">
       <div class="num-dark">02 &middot; THE PHRASE</div>
       <div class="between">
-        <div class="ko-big">${esc(s.ko)}</div>
+        <div class="ko-big">${esc(p0.ko)}</div>
+        ${p0.roma ? `<div class="roma">${esc(p0.roma)}</div>` : ''}
         <div class="rule"></div>
-        <div class="en">${esc(s.en)}</div>
+        <div class="en">${esc(p0.en)}</div>
       </div>
     </div>`;
 
-  const ex = s.ex.map((e, i) => `<div class="card c${i + 3}" data-card="${s.slug}-${i + 3}">
+  /* 카드 3·4: examples[1], examples[2] — ko-mid 하이라이트 스타일 */
+  const ex = s.ex.slice(1).map((e, i) => `<div class="card c${i + 3}" data-card="${s.slug}-${i + 3}">
       <div class="num-dark">0${i + 3} &middot; EXAMPLE</div>
       <div class="between">
         <div class="ko-mid">${e.lead ? `<span class="lead">${esc(e.lead)}</span> ` : ''}${esc(e.hl)}</div>

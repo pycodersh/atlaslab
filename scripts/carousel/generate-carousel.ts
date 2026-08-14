@@ -154,19 +154,19 @@ async function main() {
   type ExRow = { en: string; ko: string }
 
   const SETS = rows.map((r, localIdx) => {
-    // 예문 파싱
+    // 예문 파싱 — 최대 3개 (카드 2·3·4 각각 1개씩)
     let exArr: ExRow[] = []
     try {
       const raw = typeof r.examples === 'string' ? JSON.parse(r.examples) : r.examples
-      if (Array.isArray(raw)) exArr = (raw as ExRow[]).slice(0, 2)
+      if (Array.isArray(raw)) exArr = (raw as ExRow[]).slice(0, 3)
     } catch { /* skip */ }
-    while (exArr.length < 2) exArr.push({ ko: r.korean, en: r.english })
+    while (exArr.length < 3) exArr.push({ ko: r.korean, en: r.english })
 
-    const ex = exArr.slice(0, 2).map((e: ExRow) => {
+    const ex = exArr.slice(0, 3).map((e: ExRow) => {
       const { lead, hl } = splitEx(e.ko, r.korean)
       let roma = ''
       try { roma = romanize(e.ko) ?? '' } catch { roma = '' }
-      return { lead, hl, roma, en: e.en }
+      return { ko: e.ko, lead, hl, roma, en: e.en }
     })
 
     const [hookL1, hookL2] = makeHook(r.examples, r.english)
@@ -203,7 +203,7 @@ function buildHtml(
   sets: Array<{
     slug: string; hookL1: string; hookL2: string
     ko: string; en: string
-    ex: { lead: string; hl: string; roma: string; en: string }[]
+    ex: { ko: string; lead: string; hl: string; roma: string; en: string }[]
     desc: string; formula: string
   }>,
   fromN: number,
@@ -303,16 +303,20 @@ function cards(s) {
       <div class="swipe">swipe &rarr;</div>
     </div>\`;
 
+  /* 카드 2: examples[0] — 전체 문장을 ko-big으로, 로마자·영어 포함 */
+  const p0 = s.ex[0] || {};
   const phrase = \`<div class="card c2" data-card="\${s.slug}-2">
       <div class="num-dark">02 &middot; THE PHRASE</div>
       <div class="between">
-        <div class="ko-big">\${esc(s.ko)}</div>
+        <div class="ko-big">\${esc(p0.ko)}</div>
+        \${p0.roma ? \`<div class="roma">\${esc(p0.roma)}</div>\` : ''}
         <div class="rule"></div>
-        <div class="en">\${esc(s.en)}</div>
+        <div class="en">\${esc(p0.en)}</div>
       </div>
     </div>\`;
 
-  const ex = s.ex.map((e, i) => \`<div class="card c\${i + 3}" data-card="\${s.slug}-\${i + 3}">
+  /* 카드 3·4: examples[1], examples[2] — ko-mid 하이라이트 스타일 */
+  const ex = s.ex.slice(1).map((e, i) => \`<div class="card c\${i + 3}" data-card="\${s.slug}-\${i + 3}">
       <div class="num-dark">0\${i + 3} &middot; EXAMPLE</div>
       <div class="between">
         <div class="ko-mid">\${e.lead ? \`<span class="lead">\${esc(e.lead)}</span> \` : ''}\${esc(e.hl)}</div>
