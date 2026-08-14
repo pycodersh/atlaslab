@@ -260,7 +260,8 @@ function buildHtml(
   .hook .l2  { display:block; font-size:44px; color:#EFE6CF; margin-top:16px; }  /* 서브타이틀: 고정 44px, 줄바꿈 허용 */
   .swipe  { font-size:30px; color:#C9A227; }
 
-  .ko-big { font-family:'Noto Sans KR',sans-serif; font-size:96px; font-weight:700; color:#14342A; line-height:1.24; }
+  .ko-big { font-family:'Noto Sans KR',sans-serif; font-size:96px; font-weight:700; color:#14342A;
+            line-height:1.24; white-space:nowrap; }   /* 한 줄 강제 — JS가 폰트 축소 처리 */
   .ko-mid { font-family:'Noto Sans KR',sans-serif; font-size:82px; font-weight:700; color:#B5813C;
             line-height:1.3; white-space:nowrap; }   /* 한 줄 강제 — JS가 폰트 축소 처리 */
   .ko-mid .lead { color:#14342A; }
@@ -386,10 +387,26 @@ function fitHook() {
   });
 }
 
+// ── ko-big 한 줄 맞춤: 카드2 한국어가 부모 너비를 넘으면 96px → 48px까지 축소 ──
+function fitKoBig() {
+  document.querySelectorAll('.ko-big').forEach(function(el) {
+    var parent = el.parentElement;
+    if (!parent) return;
+    var maxW = parent.clientWidth;
+    if (maxW === 0) return;
+    var size = 96;
+    el.style.fontSize = size + 'px';
+    while (el.scrollWidth > maxW && size > 48) {
+      size -= 2;
+      el.style.fontSize = size + 'px';
+    }
+  });
+}
+
 if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(function() { fitOneLine(); fitHook(); });
+  document.fonts.ready.then(function() { fitOneLine(); fitHook(); fitKoBig(); });
 } else {
-  setTimeout(function() { fitOneLine(); fitHook(); }, 600);
+  setTimeout(function() { fitOneLine(); fitHook(); fitKoBig(); }, 600);
 }
 </script>
 </body>

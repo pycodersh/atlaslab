@@ -16,24 +16,30 @@ import * as fs   from 'fs'
 import puppeteer from 'puppeteer'
 
 // ── 인자 파싱 ──────────────────────────────────────────────────────────────────
-function parseArgs(): { from: number; to: number } {
+function parseArgs(): { from: number; to: number; cards: string[] } {
   const argv = process.argv.slice(2)
   const get  = (flag: string) => {
     const i = argv.indexOf(flag)
     return i >= 0 ? parseInt(argv[i + 1], 10) : NaN
   }
-  const from = get('--from')
-  const to   = get('--to')
-  if (isNaN(from) || isNaN(to) || from < 1 || to < from) {
-    // 기본값 허용
-    return { from: isNaN(from) ? 1 : from, to: isNaN(to) ? 5 : to }
+  const getStr = (flag: string) => {
+    const i = argv.indexOf(flag)
+    return i >= 0 ? argv[i + 1] : ''
   }
-  return { from, to }
+  const from  = get('--from')
+  const to    = get('--to')
+  // --cards juseyo-1,mwoyeyo-2 처럼 지정하면 해당 카드만 캡처
+  const cards = getStr('--cards').split(',').map(s => s.trim()).filter(Boolean)
+  return {
+    from:  isNaN(from) ? 1 : from,
+    to:    isNaN(to)   ? 5 : to,
+    cards,
+  }
 }
 
 // ── 메인 ──────────────────────────────────────────────────────────────────────
 async function main() {
-  const { from, to } = parseArgs()
+  const { from, to, cards: filterCards } = parseArgs()
   const CAROUSEL_HTML = path.resolve(process.cwd(), 'scripts/carousel/kpatto-carousel.html')
   const OUT_DIR       = path.resolve(process.cwd(), 'scripts/carousel/captures')
 
@@ -103,9 +109,11 @@ async function main() {
 
     console.log(`발견된 카드: ${cardIds.length}장`)
 
-    // HTML에 포함된 카드를 전부 캡처 (generate-carousel --from/--to와 동일 범위)
-    const targetCards = cardIds
-    console.log(`캡처 대상: ${targetCards.length}장\n`)
+    // --cards 지정 시 해당 카드만, 없으면 전체
+    const targetCards = filterCards.length > 0
+      ? cardIds.filter(id => filterCards.includes(id))
+      : cardIds
+    console.log(`캡처 대상: ${targetCards.length}장${filterCards.length ? ' (--cards 필터)' : ''}\n`)
 
     // ── 카드별 캡처 ──────────────────────────────────────────────────────────
     let count = 0
