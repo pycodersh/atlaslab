@@ -54,15 +54,18 @@ function corePattern(patKo: string): string {
   return patKo.replace(/^~/, '').split('/')[0].replace(/[.!?]$/, '').trim()
 }
 
-/** 예문 ko → {lead, hl} 분리 */
+/**
+ * 예문 ko → {lead, hl} 분리
+ * 문장부호(? ! .)는 원문 그대로 유지 — hl에 포함
+ */
 function splitEx(exKo: string, patKo: string): { lead: string; hl: string } {
-  const stripped = exKo.replace(/[.!?]$/, '').trim()
-  const core = corePattern(patKo)
-  const idx = stripped.indexOf(core)
-  if (idx < 0) return { lead: '', hl: stripped }
+  const raw  = exKo.trim()                // 원문 유지 (부호 제거 안 함)
+  const core = corePattern(patKo)         // 검색용: 부호 제거한 핵심어
+  const idx  = raw.indexOf(core)
+  if (idx < 0) return { lead: '', hl: raw }
   return {
-    lead: stripped.slice(0, idx).trim(),
-    hl:   stripped.slice(idx).trim(),
+    lead: raw.slice(0, idx).trim(),
+    hl:   raw.slice(idx).trim(),          // 핵심어 + 이후 문장부호 포함
   }
 }
 
@@ -250,15 +253,17 @@ function buildHtml(
   .swipe  { font-size:30px; color:#C9A227; }
 
   .ko-big { font-family:'Noto Sans KR',sans-serif; font-size:96px; font-weight:700; color:#14342A; line-height:1.24; }
-  .ko-mid { font-family:'Noto Sans KR',sans-serif; font-size:82px; font-weight:700; color:#B5813C; line-height:1.3; }
+  .ko-mid { font-family:'Noto Sans KR',sans-serif; font-size:82px; font-weight:700; color:#B5813C;
+            line-height:1.3; white-space:nowrap; }   /* 한 줄 강제 — JS가 폰트 축소 처리 */
   .ko-mid .lead { color:#14342A; }
   .roma   { font-size:38px; color:#7C6B52; }
   .en     { font-size:44px; color:#14342A; }
   .rule   { width:120px; height:3px; background:#B5813C; margin:30px 0; }
 
   /* 카드 5: description 텍스트 */
-  .desc     { font-size:46px; line-height:1.5; color:#2B1A05; }
-  .formula  { font-family:'Noto Sans KR',sans-serif; font-size:38px; color:#3D2A0C; margin-top:8px; }
+  .desc    { font-size:64px; font-weight:600; line-height:1.45; color:#FFF6E4;
+             text-shadow:0 2px 12px rgba(0,0,0,0.35); }
+  .formula { font-family:'Noto Sans KR',sans-serif; font-size:38px; color:#F3E3C4; margin-top:8px; }
 
   .cta      { font-size:62px; line-height:1.36; color:#F2EEE4; }
   .cta-sub  { font-size:42px; color:#D9B45B; margin-top:34px; }
@@ -275,7 +280,7 @@ function buildHtml(
 const SETS = ${setsJson};
 
 const CTA_MAIN = "Over 300 Korean phrases,<br>with audio and<br>webtoon stories.";
-const CTA_SUB  = "Start free → link in bio";
+const CTA_SUB  = "Start → link in bio";
 
 function esc(s) {
   return String(s ?? '')
@@ -334,6 +339,27 @@ document.getElementById('out').innerHTML = SETS.map(s =>
     <div class="row">\${cards(s)}</div>
   </div>\`
 ).join('');
+
+// ── 예문 한 줄 맞춤: ko-mid가 부모 너비를 넘으면 폰트를 60px까지 축소 ──
+function fitOneLine() {
+  document.querySelectorAll('.ko-mid').forEach(function(el) {
+    var parent = el.parentElement;
+    if (!parent) return;
+    var maxW = parent.clientWidth;
+    if (maxW === 0) return;          // 숨겨진 카드는 건너뜀
+    var size = 82;
+    el.style.fontSize = size + 'px';
+    while (el.scrollWidth > maxW && size > 60) {
+      size -= 2;
+      el.style.fontSize = size + 'px';
+    }
+  });
+}
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(fitOneLine);
+} else {
+  setTimeout(fitOneLine, 600);
+}
 </script>
 </body>
 </html>`
