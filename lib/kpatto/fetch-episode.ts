@@ -173,10 +173,11 @@ export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: 
           const bs = (byPanel.get(gRow.id) ?? []).sort((a, b) => a.order_num - b.order_num)
           const gapId = `gap-${gapCount++}`
           // Gap goes BEFORE the row's panels (dialogue-before-scene pattern)
+          // overlap_px on a gap row acts as a custom fixedHeightPx override (non-null → use as-is)
           sections.push({
             type: 'gap' as const, id: gapId,
             heightRatio: gRow.height_ratio ?? 0.88,
-            fixedHeightPx: rowGapPx(ri),
+            fixedHeightPx: gRow.overlap_px ?? rowGapPx(ri),
             bubbles: bs.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
           })
         }
@@ -187,13 +188,14 @@ export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: 
       }
 
       // Trailing closing dialogue gaps: gap-bottom = 100px
+      // overlap_px on a gap row acts as a custom fixedHeightPx override (non-null → use as-is)
       for (const gRow of gapQ) {
         const bs = (byPanel.get(gRow.id) ?? []).sort((a, b) => a.order_num - b.order_num)
         const gapId = `gap-${gapCount++}`
         sections.push({
           type: 'gap' as const, id: gapId,
           heightRatio: gRow.height_ratio ?? 0.88,
-          fixedHeightPx: 100,
+          fixedHeightPx: gRow.overlap_px ?? 100,
           bubbles: bs.map((b, i) => mapBubble(b, `b-${gapId}-${i + 1}`)),
         })
       }
