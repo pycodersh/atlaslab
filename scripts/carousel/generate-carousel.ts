@@ -74,7 +74,7 @@ function splitEx(exKo: string, patKo: string): { lead: string; hl: string } {
  * hookL2: hookL1이 ?로 끝나면 "How do you ask it?", 아니면 "How do you say it?"
  */
 function makeHook(examples: unknown, fallbackEn: string): [string, string] {
-  const l2 = (l1: string) => l1.trim().endsWith('?') ? 'How do you ask it?' : 'How do you say it?'
+  const l2 = (l1: string) => l1.trim().endsWith('?') ? 'How do you ask this in Korean?' : 'How do you say this in Korean?'
   try {
     const arr = (typeof examples === 'string' ? JSON.parse(examples) : examples) as { en: string; ko: string }[]
     if (Array.isArray(arr) && arr[0]?.en) {
@@ -240,16 +240,21 @@ function buildHtml(
   .c5 { background-image:url('bg/bg-5.jpg'); }  /* 05 HOW IT WORKS  — 골드          */
   .c6 { background-image:url('bg/bg-6.jpg'); }  /* 06 CONCLUSION    — 진초록(bg-1과 동일 파일) */
 
-  /* 장식이 오른쪽에 있으므로 글자는 왼쪽 62%로 제한 */
-  .col { max-width:62%; }
+  /* 텍스트 폭 — 배경 장식 위치에 따라 카드별로 다름 */
+  .col     { max-width:62%; overflow:hidden; }
+  .c1 .col, .c6 .col { max-width:80%; }   /* 장식이 우측 상단 모서리에만 → 넓게 */
+  .c2 .between        { max-width:72%; }   /* 매화가 우측 상단에만 → 중간 */
+  /* .c3~5 .between 는 기본 62% 유지 */
 
-  .num       { font-size:22px; letter-spacing:8px; color:#C9A227; }
+  .num       { font-size:22px; letter-spacing:8px; color:#C9A227; white-space:nowrap; }
   .num-dark  { font-size:22px; letter-spacing:8px; color:#8C6B33; }
   .num-gold  { font-size:22px; letter-spacing:8px; color:#3D2A0C; }
 
-  .hook   { font-family:'Playfair Display',serif; font-style:italic; font-weight:500;
-            font-size:84px; line-height:1.24; color:#D9B45B; }
-  .hook .l2 { color:#EFE6CF; }
+  .hook      { font-family:'Playfair Display',serif; font-style:italic; font-weight:500;
+              font-size:78px; line-height:1.24; color:#D9B45B; overflow-wrap:normal; }
+  /* l1: 한 줄 강제 — 하이픈 등에서 꺾이지 않도록; JS가 60px까지 축소 */
+  .hook .l1  { display:block; white-space:nowrap; }
+  .hook .l2  { display:block; font-size:44px; color:#EFE6CF; margin-top:16px; }  /* 서브타이틀: 고정 44px, 줄바꿈 허용 */
   .swipe  { font-size:30px; color:#C9A227; }
 
   .ko-big { font-family:'Noto Sans KR',sans-serif; font-size:96px; font-weight:700; color:#14342A; line-height:1.24; }
@@ -290,8 +295,8 @@ function esc(s) {
 
 function cards(s) {
   const hook = \`<div class="card c1 spread" data-card="\${s.slug}-1">
-      <div class="num">01 &middot; THE INTRODUCTION</div>
-      <div class="hook col">\${esc(s.hookL1)}<br><span class="l2">\${esc(s.hookL2)}</span></div>
+      <div class="num">LEARN KOREAN &middot; 01</div>
+      <div class="hook col"><span class="l1">\${esc(s.hookL1)}</span><span class="l2">\${esc(s.hookL2)}</span></div>
       <div class="swipe">swipe &rarr;</div>
     </div>\`;
 
@@ -355,10 +360,29 @@ function fitOneLine() {
     }
   });
 }
+
+// ── 훅 l1 한 줄 맞춤: hookL1(.l1)이 .col 너비를 넘으면 .hook 폰트를 60px까지 축소 ──
+function fitHook() {
+  document.querySelectorAll('.hook').forEach(function(hook) {
+    var l1 = hook.querySelector('.l1');
+    if (!l1) return;
+    var col = hook.closest('.col') || hook.parentElement;
+    if (!col) return;
+    var maxW = col.clientWidth;
+    if (maxW === 0) return;
+    var size = 78;
+    hook.style.fontSize = size + 'px';
+    while (l1.scrollWidth > maxW && size > 60) {
+      size -= 2;
+      hook.style.fontSize = size + 'px';
+    }
+  });
+}
+
 if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(fitOneLine);
+  document.fonts.ready.then(function() { fitOneLine(); fitHook(); });
 } else {
-  setTimeout(fitOneLine, 600);
+  setTimeout(function() { fitOneLine(); fitHook(); }, 600);
 }
 </script>
 </body>
