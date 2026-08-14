@@ -11,6 +11,7 @@
 import * as dotenv from 'dotenv'
 import * as path from 'path'
 import * as fs from 'fs'
+import { romanize } from 'koroman'
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 import { createClient } from '@supabase/supabase-js'
@@ -163,7 +164,9 @@ async function main() {
 
     const ex = exArr.slice(0, 2).map((e: ExRow) => {
       const { lead, hl } = splitEx(e.ko, r.korean)
-      return { lead, hl, roma: '', en: e.en }
+      let roma = ''
+      try { roma = romanize(e.ko) ?? '' } catch { roma = '' }
+      return { lead, hl, roma, en: e.en }
     })
 
     const [hookL1, hookL2] = makeHook(r.examples, r.english)
