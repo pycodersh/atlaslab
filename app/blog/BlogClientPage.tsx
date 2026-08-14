@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Fragment } from 'react'
+import { Fragment } from 'react'
 import Link from 'next/link'
 
 const SERIF = '"Playfair Display", Georgia, serif'
@@ -30,10 +30,11 @@ type Post = {
   published_at: string
 }
 
-function buildUrl(app: string, page?: number) {
+function buildUrl(app: string, opts: { lang?: 'en' | 'ko'; page?: number } = {}) {
   const params = new URLSearchParams()
   if (app !== 'all') params.set('app', app)
-  if (page && page > 1) params.set('page', String(page))
+  if (opts.lang === 'ko') params.set('lang', 'ko')
+  if (opts.page && opts.page > 1) params.set('page', String(opts.page))
   const q = params.toString()
   return q ? `/blog?${q}` : '/blog'
 }
@@ -41,17 +42,19 @@ function buildUrl(app: string, page?: number) {
 export function BlogClientPage({
   posts,
   activeApp,
+  activeLang,
   totalPages,
   currentPage,
   pageTitle,
 }: {
   posts: Post[]
   activeApp: string
+  activeLang: 'en' | 'ko'
   totalPages: number
   currentPage: number
   pageTitle: string
 }) {
-  const [lang, setLang] = useState<'EN' | 'KO'>('EN')
+  const lang: 'EN' | 'KO' = activeLang === 'ko' ? 'KO' : 'EN'
 
   return (
     <>
@@ -145,7 +148,7 @@ export function BlogClientPage({
           font-size: 12px; font-weight: 500;
           color: #888; background: none; border: none;
           cursor: pointer; transition: color 0.15s;
-          padding: 0;
+          padding: 0; text-decoration: none;
           white-space: nowrap;
         }
         .bl-lang-btn:hover { color: #111; }
@@ -297,122 +300,103 @@ export function BlogClientPage({
                 <Link
                   key={tab.key}
                   href={buildUrl(tab.key)}
-                  className={`bl-tab${activeApp === tab.key && lang === 'EN' ? ' active' : ''}`}
+                  className={`bl-tab${activeApp === tab.key ? ' active' : ''}`}
                 >
                   {tab.label}
                 </Link>
               ))}
             </div>
             <div className="bl-lang">
-              <button
+              <Link
+                href={buildUrl(activeApp)}
                 className={`bl-lang-btn${lang === 'EN' ? ' active' : ''}`}
-                onClick={() => setLang('EN')}
               >
                 EN
-              </button>
+              </Link>
               <span className="bl-lang-div">/</span>
-              <button
+              <Link
+                href={buildUrl(activeApp, { lang: 'ko' })}
                 className={`bl-lang-btn${lang === 'KO' ? ' active' : ''}`}
-                onClick={() => setLang('KO')}
               >
                 KO
-              </button>
+              </Link>
             </div>
           </div>
 
-          {/* KO Empty State */}
-          {lang === 'KO' ? (
+          {/* Post grid (EN & KO 공통) */}
+          {(!posts || posts.length === 0) ? (
             <div className="bl-empty">
-              <div className="bl-empty-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                  stroke="#ccc" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26C17.81 13.47 19 11.38 19 9c0-3.87-3.13-7-7-7z"/>
-                  <line x1="9" y1="21" x2="15" y2="21"/>
-                  <line x1="10" y1="17" x2="10" y2="21"/>
-                  <line x1="14" y1="17" x2="14" y2="21"/>
-                </svg>
-              </div>
-              <h3 className="bl-empty-title">No articles in Korean yet</h3>
-              <p className="bl-empty-desc">
-                We are currently working on Korean content. Switch back to English to read all the latest posts.
-              </p>
-              <button className="bl-empty-action" onClick={() => setLang('EN')}>
-                Switch to English →
-              </button>
+              <h3 className="bl-empty-title">No articles yet for this filter</h3>
+              <p className="bl-empty-desc">Try a different filter or check back later.</p>
             </div>
           ) : (
-            <>
-              {/* EN post grid */}
-              {(!posts || posts.length === 0) ? (
-                <div className="bl-empty">
-                  <h3 className="bl-empty-title">No articles yet for this filter</h3>
-                  <p className="bl-empty-desc">Try a different filter or check back later.</p>
-                </div>
-              ) : (
-                <div className="bl-grid">
-                  {posts.map(post => (
+            <div className="bl-grid">
+              {posts.map(post => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                  className="bl-card"
+                >
+                  <div className="bl-cat">
+                    {post.category ?? APP_LABEL[post.app] ?? post.app}
+                  </div>
+                  <div className="bl-title">{post.title}</div>
+                  {post.description && (
+                    <div className="bl-desc">{post.description}</div>
+                  )}
+                  <div className="bl-date">
+                    {new Date(post.published_at).toLocaleDateString(
+                      lang === 'KO' ? 'ko-KR' : 'en-US',
+                      { year: 'numeric', month: 'long', day: 'numeric' }
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="bl-pag">
+              {currentPage > 1 && (
+                <Link href={buildUrl(activeApp, { lang: activeLang, page: currentPage - 1 })} className="bl-pag-btn">
+                  ← Prev
+                </Link>
+              )}
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
+                .map((p, idx, arr) => (
+                  <Fragment key={p}>
+                    {idx > 0 && arr[idx - 1] !== p - 1 && (
+                      <span className="bl-pag-ellipsis">…</span>
+                    )}
                     <Link
-                      key={post.slug}
-                      href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                      className="bl-card"
+                      href={buildUrl(activeApp, { lang: activeLang, page: p })}
+                      className={`bl-pag-btn${p === currentPage ? ' active' : ''}`}
                     >
-                      <div className="bl-cat">
-                        {post.category ?? APP_LABEL[post.app] ?? post.app}
-                      </div>
-                      <div className="bl-title">{post.title}</div>
-                      {post.description && (
-                        <div className="bl-desc">{post.description}</div>
-                      )}
-                      <div className="bl-date">
-                        {new Date(post.published_at).toLocaleDateString('en-US', {
-                          year: 'numeric', month: 'long', day: 'numeric',
-                        })}
-                      </div>
+                      {p}
                     </Link>
-                  ))}
-                </div>
+                  </Fragment>
+                ))}
+              {currentPage < totalPages && (
+                <Link href={buildUrl(activeApp, { lang: activeLang, page: currentPage + 1 })} className="bl-pag-btn">
+                  Next →
+                </Link>
               )}
+            </div>
+          )}
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="bl-pag">
-                  {currentPage > 1 && (
-                    <Link href={buildUrl(activeApp, currentPage - 1)} className="bl-pag-btn">
-                      ← Prev
-                    </Link>
-                  )}
-                  {Array.from({ length: totalPages }, (_, i) => i + 1)
-                    .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
-                    .map((p, idx, arr) => (
-                      <Fragment key={p}>
-                        {idx > 0 && arr[idx - 1] !== p - 1 && (
-                          <span className="bl-pag-ellipsis">…</span>
-                        )}
-                        <Link
-                          href={buildUrl(activeApp, p)}
-                          className={`bl-pag-btn${p === currentPage ? ' active' : ''}`}
-                        >
-                          {p}
-                        </Link>
-                      </Fragment>
-                    ))}
-                  {currentPage < totalPages && (
-                    <Link href={buildUrl(activeApp, currentPage + 1)} className="bl-pag-btn">
-                      Next →
-                    </Link>
-                  )}
-                </div>
-              )}
-
-              {/* KO teaser (only when EN and no KO state active) */}
-              <div className="bl-ko-teaser">
-                <p className="bl-ko-msg">한국어 블로그도 있어요</p>
-                <button className="bl-ko-link" onClick={() => setLang('KO')}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
-                  → 한국어로 보기
-                </button>
-              </div>
-            </>
+          {/* KO teaser (EN일 때만) */}
+          {lang === 'EN' && (
+            <div className="bl-ko-teaser">
+              <p className="bl-ko-msg">한국어 블로그도 있어요</p>
+              <Link
+                href={buildUrl(activeApp, { lang: 'ko' })}
+                className="bl-ko-link"
+              >
+                → 한국어로 보기
+              </Link>
+            </div>
           )}
 
         </div>

@@ -20,27 +20,27 @@ const APP_LABEL: Record<string, string> = {
   'k-pantry': 'K-Pantry',
 }
 
-function buildCountQuery(app: string, now: string) {
+function buildCountQuery(app: string, now: string, locale: string) {
   const base = supabase
     .from('blog_posts')
     .select('id')
-    .eq('locale', 'en')
+    .eq('locale', locale)
     .eq('is_paused', false)
     .lte('published_at', now)
 
   if (app === 'all') return base
   if (app === 'k-pantry') return supabase
     .from('blog_posts').select('id')
-    .eq('locale', 'en').eq('is_paused', false).lte('published_at', now)
+    .eq('locale', locale).eq('is_paused', false).lte('published_at', now)
     .in('app', ['k-pantry', 'kpantry'])
   return base.eq('app', app)
 }
 
-function buildPostsQuery(app: string, now: string, from: number, to: number) {
+function buildPostsQuery(app: string, now: string, from: number, to: number, locale: string) {
   const base = supabase
     .from('blog_posts')
     .select('slug, title, description, app, locale, category, published_at')
-    .eq('locale', 'en')
+    .eq('locale', locale)
     .eq('is_paused', false)
     .lte('published_at', now)
     .order('published_at', { ascending: false })
@@ -50,7 +50,7 @@ function buildPostsQuery(app: string, now: string, from: number, to: number) {
   if (app === 'k-pantry') return supabase
     .from('blog_posts')
     .select('slug, title, description, app, locale, category, published_at')
-    .eq('locale', 'en').eq('is_paused', false).lte('published_at', now)
+    .eq('locale', locale).eq('is_paused', false).lte('published_at', now)
     .in('app', ['k-pantry', 'kpantry'])
     .order('published_at', { ascending: false })
     .range(from, to)
@@ -60,7 +60,7 @@ function buildPostsQuery(app: string, now: string, from: number, to: number) {
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string; app?: string }>
+  searchParams: Promise<{ page?: string; app?: string; lang?: string }>
 }): Promise<Metadata> {
   const { page, app } = await searchParams
   const currentPage = Math.max(1, parseInt(page || '1'))
@@ -77,18 +77,20 @@ export async function generateMetadata({
 export default async function BlogIndexPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string; app?: string }>
+  searchParams: Promise<{ page?: string; app?: string; lang?: string }>
 }) {
-  const { page, app } = await searchParams
+  const { page, app, lang } = await searchParams
   const currentPage = Math.max(1, parseInt(page || '1'))
   const activeApp   = app ?? 'all'
+  // patto 앱은 항상 KO; 나머지는 lang 파라미터(기본 en)
+  const activeLang: 'en' | 'ko' = activeApp === 'patto' ? 'ko' : (lang === 'ko' ? 'ko' : 'en')
   const from = (currentPage - 1) * POSTS_PER_PAGE
   const to   = from + POSTS_PER_PAGE - 1
   const now  = new Date().toISOString()
 
   const [{ data: countRows }, { data: posts }] = await Promise.all([
-    buildCountQuery(activeApp, now),
-    buildPostsQuery(activeApp, now, from, to),
+    buildCountQuery(activeApp, now, activeLang),
+    buildPostsQuery(activeApp, now, from, to, activeLang),
   ])
 
   const totalCount = countRows?.length || 0
@@ -102,6 +104,7 @@ export default async function BlogIndexPage({
     <BlogClientPage
       posts={posts ?? []}
       activeApp={activeApp}
+      activeLang={activeLang}
       totalPages={totalPages}
       currentPage={currentPage}
       pageTitle={pageTitle}
