@@ -83,3 +83,9 @@ scripts/audio-*.json
 /audio-test/openai/
 /audio-test/openai4o/
 /audio-test/zephyr/
+/audio-test/zephyr-expr/
+/audio-test/probe/
+/audio-test/expr-data.json
+
+# 표현 음성 덮어쓰기 전 백업 (Gemini Zephyr판)
+/audio-backup/
