@@ -12,6 +12,7 @@ import {
   SEO_EXPRESSION_IDS,
 } from '@/lib/kpatto/expressions-config'
 import { ExpressionBackButton } from '@/components/kpatto/ExpressionBackButton'
+import { KPattoAudioPlayer } from '@/components/kpatto/KPattoAudioPlayer'
 
 export const dynamicParams = false
 
@@ -38,6 +39,7 @@ type ExpressionRow = {
   tip: string | null
   first_episode: number | null
   audio_url: string | null
+  audio_urls: { pattern?: string | null; ex1?: string | null; ex2?: string | null; ex3?: string | null } | null
   romaja: string | null
   heading_en: string | null
 }
@@ -155,7 +157,7 @@ export default async function ExpressionPage({ params }: PageProps) {
 
   const { data: expr } = await supabase
     .from('kp_expressions')
-    .select('id, korean, english, description, structure, category, examples, tip, first_episode, audio_url, romaja, heading_en')
+    .select('id, korean, english, description, structure, category, examples, tip, first_episode, audio_url, audio_urls, romaja, heading_en')
     .eq('id', id)
     .single()
 
@@ -336,7 +338,7 @@ export default async function ExpressionPage({ params }: PageProps) {
           </div>
 
           {/* ── Webtoon panel + audio — FIRST SCROLL ── */}
-          {(panelImageUrl || e.audio_url || episodeHref) && (
+          {(panelImageUrl || (e.audio_urls?.pattern ?? e.audio_url) || episodeHref) && (
             <div style={{ paddingBottom: 20 }}>
 
               {/* Webtoon image */}
@@ -354,10 +356,11 @@ export default async function ExpressionPage({ params }: PageProps) {
                 </div>
               )}
 
-              {/* Audio player */}
-              {e.audio_url && (
-                <AudioPlayer src={e.audio_url} label={e.korean} />
-              )}
+              {/* Audio player — audio_urls.pattern 우선, 없으면 audio_url 폴백 (EP06+) */}
+              <KPattoAudioPlayer
+                src={e.audio_urls?.pattern ?? e.audio_url ?? null}
+                label={e.korean}
+              />
 
               {/* Episode link */}
               {episodeHref && episodeTitle && (
@@ -501,62 +504,3 @@ function Section({ label, children }: { label: string; children: React.ReactNode
   )
 }
 
-function AudioPlayer({ src, label }: { src: string; label: string }) {
-  // Server-rendered wrapper; audio element is interactive in the browser
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: 14,
-      padding: '14px 18px', background: '#FFF4EA',
-      borderRadius: 14, border: `1px solid #F5D9B4`,
-    }}>
-      {/* Play icon */}
-      <div style={{
-        width: 44, height: 44, borderRadius: '50%',
-        background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexShrink: 0,
-      }}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff">
-          <polygon points="5 3 19 12 5 21 5 3"/>
-        </svg>
-      </div>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: ACCENT, marginBottom: 2, letterSpacing: '0.04em' }}>
-          PRONUNCIATION
-        </div>
-        <div style={{ fontSize: 15, fontWeight: 800, color: '#111' }}>
-          {label}
-        </div>
-      </div>
-      {/* Native audio element — clicking the play div above triggers it via JS not needed for SSR */}
-      {/* Browser renders its own controls as fallback; we rely on the styled button above */}
-      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <audio
-        src={src}
-        preload="none"
-        style={{ display: 'none' }}
-        id={`audio-${label}`}
-      />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `(function(){
-  var btn=document.currentScript.previousElementSibling;
-  var audio=btn;
-  // find the audio element and the button container
-  var container=document.currentScript.parentElement;
-  if(!container)return;
-  var aud=container.querySelector('audio');
-  var playBtn=container.querySelector('div[style*="border-radius: 50%"]');
-  if(!aud||!playBtn)return;
-  playBtn.style.cursor='pointer';
-  var playing=false;
-  playBtn.addEventListener('click',function(){
-    if(playing){aud.pause();playing=false;}
-    else{aud.play();playing=true;}
-    aud.onended=function(){playing=false;};
-  });
-})();`,
-        }}
-      />
-    </div>
-  )
-}

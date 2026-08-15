@@ -76,6 +76,9 @@ export function ExpressionPopup({
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
 
+  // audio_urls.pattern 우선, 없으면 audio_url 폴백 (EP06+)
+  const audioSrc = expression.audio_urls?.pattern ?? expression.audio_url ?? null
+
   // 팝업 스피커 버튼: 재생/정지 토글
   const handleExprAudio = useCallback(async () => {
     if (exprPlayingRef.current) {
@@ -85,17 +88,17 @@ export function ExpressionPopup({
       stopAllAudio()
       return
     }
-    if (!expression.audio_url) return
+    if (!audioSrc) return
     // 연타 가드: ref 즉시 세우기
     exprPlayingRef.current = true
     setExprPlaying(true)
     stopAllAudio()  // 대사 루프 정지 (동시 재생 금지)
     onAudioPlay?.(expression.id)  // 재생 시작 알림 (Listening 판정)
-    await tryPlayAudio(expression.audio_url)
+    await tryPlayAudio(audioSrc)
     // 자연 완료 또는 외부 정지
     exprPlayingRef.current = false
     setExprPlaying(false)
-  }, [expression.audio_url, expression.id, onAudioPlay])
+  }, [audioSrc, expression.id, onAudioPlay])
 
   const handleToggleSave = () => {
     const ids = getSavedExpressionIds()
@@ -181,7 +184,7 @@ export function ExpressionPopup({
           </div>
 
           {/* Row 3: English subtitle (left) + speaker icon (right, no circular background) */}
-          {(expression.audio_url || (expression.english && expression.english !== expression.korean)) && (
+          {(audioSrc || (expression.english && expression.english !== expression.korean)) && (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               {expression.english && expression.english !== expression.korean ? (
                 <div style={{ fontSize: 13, color: '#FFF0DC', fontWeight: 600, flex: 1 }}>
@@ -189,7 +192,7 @@ export function ExpressionPopup({
                 </div>
               ) : <div />}
               {/* 44×44px touch area via padding+negative-margin; color changes on play */}
-              {expression.audio_url && (
+              {audioSrc && (
                 <button
                   onClick={handleExprAudio}
                   aria-label={exprPlaying ? 'Stop audio' : 'Play audio'}

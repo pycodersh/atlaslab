@@ -91,6 +91,13 @@ export interface KPattoExpression {
   first_episode: number | null
   created_at: string
   audio_url?: string | null
+  /** 4분할 음성 URL (EP01~05). NULL인 경우 audio_url로 폴백. */
+  audio_urls?: {
+    pattern?: string | null
+    ex1?: string | null
+    ex2?: string | null
+    ex3?: string | null
+  } | null
 }
 
 // User progress types
