@@ -89,3 +89,5 @@ scripts/audio-*.json
 
 # 표현 음성 덮어쓰기 전 백업 (Gemini Zephyr판)
 /audio-backup/
+/scripts/expr-audio-report*.json
+/scripts/expr-audio-verify.json
