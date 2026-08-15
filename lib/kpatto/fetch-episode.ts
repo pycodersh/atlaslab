@@ -58,7 +58,7 @@ export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: 
   const dialogueTextMap  = new Map<number, string>()     // dialogue_id → text_ko
   const dialogueAudioMap = new Map<number, string>()     // dialogue_id → audio_url
   const dialogueExpressionMap = new Map<number, number>() // dialogue_id → expression_id
-  const highlightMap = new Map<number, string>()           // dialogue_id → matched_text (for orange text)
+  const highlightMap = new Map<number, string[]>()          // dialogue_id → matched_text[] (for orange text; one per kp_dialogue_expressions row)
   if (dialogueIds.length > 0) {
     const [{ data: dialogueRows }, { data: focusMappings }] = await Promise.all([
       supabase.from('kp_dialogues').select('id, text_ko, audio_url').in('id', dialogueIds),
@@ -70,7 +70,12 @@ export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: 
     }
     for (const m of (focusMappings ?? [])) {
       if (m.expression_id != null) dialogueExpressionMap.set(m.dialogue_id as number, m.expression_id as number)
-      if (m.matched_text != null) highlightMap.set(m.dialogue_id as number, m.matched_text as string)
+      if (m.matched_text != null) {
+        // push: 같은 dialogue_id에 여러 matched_text가 있으면 모두 누적 (덮어쓰지 않음)
+        const arr = highlightMap.get(m.dialogue_id as number) ?? []
+        arr.push(m.matched_text as string)
+        highlightMap.set(m.dialogue_id as number, arr)
+      }
     }
   }
 
@@ -102,7 +107,8 @@ export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: 
     speaker:        b.speaker,
     lines:          ((b.position?.lines as 1 | 2 | 3) ?? 1),
     tail:           b.tail ?? { anchor: 0.25, tipX: 0.5, tipY: 1.1, baseWidth: 0.12 },
-    highlight_text: (b.dialogue_id != null ? highlightMap.get(b.dialogue_id) : undefined) ?? b.highlight_text ?? undefined,
+    highlight_text: (b.dialogue_id != null ? highlightMap.get(b.dialogue_id) : undefined)
+      ?? (b.highlight_text != null ? [b.highlight_text] : undefined),
     expression_id:  (b.dialogue_id != null ? dialogueExpressionMap.get(b.dialogue_id) : undefined) ?? b.expression_id ?? undefined,
     audio_url:      (b.dialogue_id != null ? dialogueAudioMap.get(b.dialogue_id) : undefined) ?? b.audio_url ?? undefined,
   })

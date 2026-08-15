@@ -68,22 +68,41 @@ function enTextTopPct(
 }
 
 // ── Highlight helper ──────────────────────────────────────────────────────────
-function renderKorean(text: string, highlight?: string): React.ReactNode {
-  if (!highlight) return text
-  const idx = text.indexOf(highlight)
-  if (idx === -1) return text
-  return (
-    <>
-      {text.slice(0, idx)}
-      <span style={{
+function renderKorean(text: string, highlights?: string[]): React.ReactNode {
+  if (!highlights?.length) return text
+
+  const candidates: { start: number; end: number }[] = []
+  for (const hl of highlights) {
+    if (!hl) continue
+    const idx = text.indexOf(hl)
+    if (idx !== -1) candidates.push({ start: idx, end: idx + hl.length })
+  }
+  if (!candidates.length) return text
+
+  candidates.sort((a, b) => (b.end - b.start) - (a.end - a.start))
+  const kept: { start: number; end: number }[] = []
+  for (const c of candidates) {
+    if (!kept.some(k => c.start < k.end && c.end > k.start)) kept.push(c)
+  }
+  kept.sort((a, b) => a.start - b.start)
+
+  const nodes: React.ReactNode[] = []
+  let cursor = 0
+  for (const { start, end } of kept) {
+    if (cursor < start) nodes.push(text.slice(cursor, start))
+    nodes.push(
+      <span key={start} style={{
         color: '#D4873A', fontWeight: 800,
         textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px',
       }}>
-        {highlight}
+        {text.slice(start, end)}
       </span>
-      {text.slice(idx + highlight.length)}
-    </>
-  )
+    )
+    cursor = end
+  }
+  if (cursor < text.length) nodes.push(text.slice(cursor))
+
+  return <>{nodes}</>
 }
 
 // ── Single bubble (export mode) ───────────────────────────────────────────────

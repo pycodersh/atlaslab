@@ -43,17 +43,42 @@ function applyLineBreaks(text: string, lineBreaks: number[]): string {
   return result
 }
 
-function renderKorean(text: string, highlight?: string): React.ReactNode {
-  if (!highlight) return text
-  const idx = text.indexOf(highlight)
-  if (idx === -1) return text
-  return (
-    <>
-      {text.slice(0, idx)}
-      <span style={{ color: '#D4873A', fontWeight: 800, textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px' }}>{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </>
-  )
+function renderKorean(text: string, highlights?: string[]): React.ReactNode {
+  // 하이라이트 없거나 빈 배열 — 원문 그대로 반환 (문자열 변형 없음)
+  if (!highlights?.length) return text
+
+  // 각 하이라이트의 첫 번째 일치 위치 수집
+  const candidates: { start: number; end: number }[] = []
+  for (const hl of highlights) {
+    if (!hl) continue
+    const idx = text.indexOf(hl)
+    if (idx !== -1) candidates.push({ start: idx, end: idx + hl.length })
+  }
+  if (!candidates.length) return text
+
+  // 긴 것 우선 탐욕적 선택: 겹치는 짧은 것 제거
+  candidates.sort((a, b) => (b.end - b.start) - (a.end - a.start))
+  const kept: { start: number; end: number }[] = []
+  for (const c of candidates) {
+    if (!kept.some(k => c.start < k.end && c.end > k.start)) kept.push(c)
+  }
+  kept.sort((a, b) => a.start - b.start)
+
+  // 원문 slice 기반 렌더링 — 자르고 이어 붙이지 않음, 공백 추가 없음
+  const nodes: React.ReactNode[] = []
+  let cursor = 0
+  for (const { start, end } of kept) {
+    if (cursor < start) nodes.push(text.slice(cursor, start))
+    nodes.push(
+      <span key={start} style={{ color: '#D4873A', fontWeight: 800, textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px' }}>
+        {text.slice(start, end)}
+      </span>
+    )
+    cursor = end
+  }
+  if (cursor < text.length) nodes.push(text.slice(cursor))
+
+  return <>{nodes}</>
 }
 
 // ── Single speech bubble ─────────────────────────────────────────────────────
