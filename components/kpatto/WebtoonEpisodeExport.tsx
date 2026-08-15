@@ -68,14 +68,15 @@ function enTextTopPct(
 }
 
 // ── Highlight helper ──────────────────────────────────────────────────────────
-function renderKorean(text: string, highlights?: string[]): React.ReactNode {
+// Export용: 클릭 없음 — expressionId는 무시하고 text만 사용
+function renderKorean(text: string, highlights?: Array<{ text: string; expressionId: number }>): React.ReactNode {
   if (!highlights?.length) return text
 
   const candidates: { start: number; end: number }[] = []
   for (const hl of highlights) {
-    if (!hl) continue
-    const idx = text.indexOf(hl)
-    if (idx !== -1) candidates.push({ start: idx, end: idx + hl.length })
+    if (!hl?.text) continue
+    const idx = text.indexOf(hl.text)
+    if (idx !== -1) candidates.push({ start: idx, end: idx + hl.text.length })
   }
   if (!candidates.length) return text
 

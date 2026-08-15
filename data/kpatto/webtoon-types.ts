@@ -26,8 +26,9 @@ export interface WebtoonBubble {
   speaker: string       // character name (lowercase) e.g. "emma"
   lines?: 1 | 2 | 3    // hint for font size
   tail?: BubbleTailData // if present, renders dynamic tail (body-only bubble keys)
-  highlight_text?: string[] // substrings of korean to render in orange (#D4873A); multiple = all highlighted
-  expression_id?: number  // foreign key to kp_expressions; set when tap popup is available
+  /** Substrings to render in orange (#D4873A); each carries its own expressionId for per-span popup. */
+  highlight_text?: Array<{ text: string; expressionId: number }>
+  expression_id?: number  // foreign key to kp_expressions; set when tap popup is available (= first highlight's expressionId, used for non-span clicks)
   audio_url?: string      // Supabase Storage URL for pre-generated TTS mp3
   lineBreaks?: number[]   // 1-indexed word positions after which to insert \n (display only, never written to kp_bubbles)
 }

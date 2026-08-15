@@ -43,22 +43,27 @@ function applyLineBreaks(text: string, lineBreaks: number[]): string {
   return result
 }
 
-function renderKorean(text: string, highlights?: string[]): React.ReactNode {
+function renderKorean(
+  text: string,
+  highlights?: Array<{ text: string; expressionId: number }>,
+  onSpanTap?: (expressionId: number) => void,
+): React.ReactNode {
   // 하이라이트 없거나 빈 배열 — 원문 그대로 반환 (문자열 변형 없음)
   if (!highlights?.length) return text
 
-  // 각 하이라이트의 첫 번째 일치 위치 수집
-  const candidates: { start: number; end: number }[] = []
+  // 각 하이라이트의 첫 번째 일치 위치 수집 (expressionId 보존)
+  type HlCandidate = { start: number; end: number; expressionId: number }
+  const candidates: HlCandidate[] = []
   for (const hl of highlights) {
-    if (!hl) continue
-    const idx = text.indexOf(hl)
-    if (idx !== -1) candidates.push({ start: idx, end: idx + hl.length })
+    if (!hl?.text) continue
+    const idx = text.indexOf(hl.text)
+    if (idx !== -1) candidates.push({ start: idx, end: idx + hl.text.length, expressionId: hl.expressionId })
   }
   if (!candidates.length) return text
 
   // 긴 것 우선 탐욕적 선택: 겹치는 짧은 것 제거
   candidates.sort((a, b) => (b.end - b.start) - (a.end - a.start))
-  const kept: { start: number; end: number }[] = []
+  const kept: HlCandidate[] = []
   for (const c of candidates) {
     if (!kept.some(k => c.start < k.end && c.end > k.start)) kept.push(c)
   }
@@ -67,10 +72,24 @@ function renderKorean(text: string, highlights?: string[]): React.ReactNode {
   // 원문 slice 기반 렌더링 — 자르고 이어 붙이지 않음, 공백 추가 없음
   const nodes: React.ReactNode[] = []
   let cursor = 0
-  for (const { start, end } of kept) {
+  for (const { start, end, expressionId } of kept) {
     if (cursor < start) nodes.push(text.slice(cursor, start))
     nodes.push(
-      <span key={start} style={{ color: '#D4873A', fontWeight: 800, textDecorationLine: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px' }}>
+      <span
+        key={start}
+        onClick={onSpanTap ? (e) => { e.stopPropagation(); onSpanTap(expressionId) } : undefined}
+        style={{
+          color: '#D4873A',
+          fontWeight: 800,
+          textDecorationLine: 'underline',
+          textDecorationStyle: 'dotted',
+          textUnderlineOffset: '3px',
+          // inline(기본)이므로 padding-top/bottom은 line-height에 영향 없음(시각적 확장만)
+          // → 줄바꿈 위치 불변 보장; 터치 영역 확보
+          padding: '3px 4px',
+          cursor: onSpanTap ? 'pointer' : undefined,
+        }}
+      >
         {text.slice(start, end)}
       </span>
     )
@@ -127,6 +146,7 @@ function WebtoonBubbleEl({
           {renderKorean(
             bubble.lineBreaks?.length ? applyLineBreaks(bubble.korean, bubble.lineBreaks) : bubble.korean,
             tappable ? bubble.highlight_text : undefined,
+            tappable ? onHighlightTap : undefined,
           )}
         </div>
       )}

@@ -57,23 +57,27 @@ export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: 
   const dialogueIds = [...new Set(bubbleList.filter(b => b.dialogue_id != null).map(b => b.dialogue_id as number))]
   const dialogueTextMap  = new Map<number, string>()     // dialogue_id → text_ko
   const dialogueAudioMap = new Map<number, string>()     // dialogue_id → audio_url
-  const dialogueExpressionMap = new Map<number, number>() // dialogue_id → expression_id
-  const highlightMap = new Map<number, string[]>()          // dialogue_id → matched_text[] (for orange text; one per kp_dialogue_expressions row)
+  // highlightMap: dialogue_id → [{text, expressionId}, ...] ordered by id asc (first = primary popup)
+  // Replaces separate dialogueExpressionMap: expression_id = highlightMap[0].expressionId
+  const highlightMap = new Map<number, Array<{ text: string; expressionId: number }>>()
   if (dialogueIds.length > 0) {
     const [{ data: dialogueRows }, { data: focusMappings }] = await Promise.all([
       supabase.from('kp_dialogues').select('id, text_ko, audio_url').in('id', dialogueIds),
-      supabase.from('kp_dialogue_expressions').select('dialogue_id, matched_text, expression_id').in('dialogue_id', dialogueIds).eq('role', 'focus'),
+      supabase.from('kp_dialogue_expressions')
+        .select('dialogue_id, matched_text, expression_id')
+        .in('dialogue_id', dialogueIds)
+        .eq('role', 'focus')
+        .order('id'),   // deterministic order: first row = first highlight = primary expression
     ])
     for (const d of (dialogueRows ?? [])) {
       if (d.text_ko   != null) dialogueTextMap.set(d.id as number, d.text_ko as string)
       if (d.audio_url != null) dialogueAudioMap.set(d.id as number, d.audio_url as string)
     }
     for (const m of (focusMappings ?? [])) {
-      if (m.expression_id != null) dialogueExpressionMap.set(m.dialogue_id as number, m.expression_id as number)
-      if (m.matched_text != null) {
-        // push: 같은 dialogue_id에 여러 matched_text가 있으면 모두 누적 (덮어쓰지 않음)
+      if (m.matched_text != null && m.expression_id != null) {
+        // push (not set): accumulate all matched_text per dialogue_id in id-ascending order
         const arr = highlightMap.get(m.dialogue_id as number) ?? []
-        arr.push(m.matched_text as string)
+        arr.push({ text: m.matched_text as string, expressionId: m.expression_id as number })
         highlightMap.set(m.dialogue_id as number, arr)
       }
     }
@@ -108,8 +112,12 @@ export async function fetchWebtoonEpisode(episodeId: string, supabaseOverride?: 
     lines:          ((b.position?.lines as 1 | 2 | 3) ?? 1),
     tail:           b.tail ?? { anchor: 0.25, tipX: 0.5, tipY: 1.1, baseWidth: 0.12 },
     highlight_text: (b.dialogue_id != null ? highlightMap.get(b.dialogue_id) : undefined)
-      ?? (b.highlight_text != null ? [b.highlight_text] : undefined),
-    expression_id:  (b.dialogue_id != null ? dialogueExpressionMap.get(b.dialogue_id) : undefined) ?? b.expression_id ?? undefined,
+      ?? (b.highlight_text != null && b.expression_id != null
+          ? [{ text: b.highlight_text, expressionId: b.expression_id }]
+          : undefined),
+    // expression_id = first highlight's expressionId (primary popup for non-span clicks)
+    // For multi-highlight bubbles, highlightMap[0] is always the first expression by id asc.
+    expression_id:  (b.dialogue_id != null ? highlightMap.get(b.dialogue_id)?.[0]?.expressionId : undefined) ?? b.expression_id ?? undefined,
     audio_url:      (b.dialogue_id != null ? dialogueAudioMap.get(b.dialogue_id) : undefined) ?? b.audio_url ?? undefined,
   })
 
