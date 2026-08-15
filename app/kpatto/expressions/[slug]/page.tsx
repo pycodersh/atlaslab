@@ -356,9 +356,10 @@ export default async function ExpressionPage({ params }: PageProps) {
                 </div>
               )}
 
-              {/* Audio player — audio_urls.pattern 우선, 없으면 audio_url 폴백 (EP06+) */}
+              {/* Audio player — pattern→ex1→ex2→ex3 순차 재생; audio_urls 없으면 audio_url 단일 파일 폴백 */}
               <KPattoAudioPlayer
-                src={e.audio_urls?.pattern ?? e.audio_url ?? null}
+                srcs={[e.audio_urls?.pattern, e.audio_urls?.ex1, e.audio_urls?.ex2, e.audio_urls?.ex3]}
+                src={e.audio_url ?? null}
                 label={e.korean}
               />
 

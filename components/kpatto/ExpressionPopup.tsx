@@ -1,9 +1,9 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Volume2 } from 'lucide-react'
 import type { KPattoExpression } from '@/data/kpatto/types'
-import { tryPlayAudio, stopAllAudio } from '@/lib/kpatto/audio'
+import { tryPlayAudio, stopAllAudio, getAudioGeneration } from '@/lib/kpatto/audio'
 
 const SAVED_KEY = 'kpatto-saved-expressions'
 
@@ -76,29 +76,44 @@ export function ExpressionPopup({
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
 
-  // audio_urls.pattern 우선, 없으면 audio_url 폴백 (EP06+)
-  const audioSrc = expression.audio_urls?.pattern ?? expression.audio_url ?? null
+  // 재생 시퀀스: audio_urls.pattern 우선 → ex1→ex2→ex3 순차.
+  // audio_urls 없으면 audio_url 단일 파일 폴백 (EP06+)
+  const audioSeq = useMemo(() => {
+    const au = expression.audio_urls
+    if (au?.pattern) {
+      return ([au.pattern, au.ex1, au.ex2, au.ex3] as (string | null | undefined)[])
+        .filter((u): u is string => !!u)
+    }
+    return expression.audio_url ? [expression.audio_url] : []
+  }, [expression.id, expression.audio_urls, expression.audio_url])
+  const firstUrl = audioSeq[0] ?? null
 
   // 팝업 스피커 버튼: 재생/정지 토글
   const handleExprAudio = useCallback(async () => {
     if (exprPlayingRef.current) {
-      // 재클릭 → 정지
+      // 재클릭 → 시퀀스 전체 정지
       exprPlayingRef.current = false
       setExprPlaying(false)
       stopAllAudio()
       return
     }
-    if (!audioSrc) return
+    if (!firstUrl) return
     // 연타 가드: ref 즉시 세우기
     exprPlayingRef.current = true
     setExprPlaying(true)
-    stopAllAudio()  // 대사 루프 정지 (동시 재생 금지)
-    onAudioPlay?.(expression.id)  // 재생 시작 알림 (Listening 판정)
-    await tryPlayAudio(audioSrc)
-    // 자연 완료 또는 외부 정지
+    stopAllAudio()  // 대사 루프 정지 (동시 재생 금지), generation 증가
+    const gen = getAudioGeneration()  // 증가 후 캡처
+    onAudioPlay?.(expression.id)  // pattern 재생 시작 시점 알림 (Listening 판정)
+
+    for (const url of audioSeq) {
+      if (!exprPlayingRef.current || getAudioGeneration() !== gen) break
+      await tryPlayAudio(url)
+    }
+
+    // 자연 완료 또는 외부 stopAllAudio()로 중단
     exprPlayingRef.current = false
     setExprPlaying(false)
-  }, [audioSrc, expression.id, onAudioPlay])
+  }, [audioSeq, firstUrl, expression.id, onAudioPlay])
 
   const handleToggleSave = () => {
     const ids = getSavedExpressionIds()
@@ -184,7 +199,7 @@ export function ExpressionPopup({
           </div>
 
           {/* Row 3: English subtitle (left) + speaker icon (right, no circular background) */}
-          {(audioSrc || (expression.english && expression.english !== expression.korean)) && (
+          {(firstUrl || (expression.english && expression.english !== expression.korean)) && (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               {expression.english && expression.english !== expression.korean ? (
                 <div style={{ fontSize: 13, color: '#FFF0DC', fontWeight: 600, flex: 1 }}>
@@ -192,7 +207,7 @@ export function ExpressionPopup({
                 </div>
               ) : <div />}
               {/* 44×44px touch area via padding+negative-margin; color changes on play */}
-              {audioSrc && (
+              {firstUrl && (
                 <button
                   onClick={handleExprAudio}
                   aria-label={exprPlaying ? 'Stop audio' : 'Play audio'}
