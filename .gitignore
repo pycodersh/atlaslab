@@ -78,3 +78,8 @@ data/kpatto/source/backup/
 
 # audio progress / failure tracking - local only
 scripts/audio-*.json
+
+# 표현 음성 시험 파일 (로컬 비교용, 커밋하지 않음)
+/audio-test/openai/
+/audio-test/openai4o/
+/audio-test/zephyr/
