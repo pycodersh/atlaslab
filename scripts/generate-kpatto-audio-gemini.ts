@@ -26,12 +26,16 @@ const epArgs: number[] = []
 const exprIds: number[] = []
 let FORCE    = false
 let NO_EXPR  = false  // --no-expr: 대사만 생성, 표현 건너뜀
+let STOP_ON_ERROR = false  // --stop-on-error: 429(RPM) 외 모든 에러·0바이트에서 즉시 중단
+let DELAY_OVERRIDE: number | null = null  // --delay <ms>
 
 for (let i = 0; i < argv.length; i++) {
   if (argv[i] === '--ep' && argv[i + 1])   epArgs.push(parseInt(argv[++i]))
   if (argv[i] === '--expr' && argv[i + 1]) argv[++i].split(',').forEach(s => { const n = parseInt(s.trim()); if (!isNaN(n)) exprIds.push(n) })
   if (argv[i] === '--force')   FORCE   = true
   if (argv[i] === '--no-expr') NO_EXPR = true
+  if (argv[i] === '--stop-on-error') STOP_ON_ERROR = true
+  if (argv[i] === '--delay' && argv[i + 1]) DELAY_OVERRIDE = parseInt(argv[++i])
 }
 
 const EXPR_ONLY = exprIds.length > 0 && epArgs.length === 0
@@ -55,8 +59,8 @@ const PROGRESS_LOG = `scripts/audio-progress-ep${EP_FROM}-${EP_TO}.json`
 
 const MODEL_FLASH = 'gemini-2.5-flash-preview-tts'
 
-// RPM 10 → 6초 + 0.5초 여유
-const DELAY_BETWEEN_CALLS = 6500
+// RPM 10 → 6초 + 0.5초 여유 (--delay 로 상향 가능)
+const DELAY_BETWEEN_CALLS = DELAY_OVERRIDE ?? 6500
 
 const GUIDE_VOICE = 'Iapetus'
 
@@ -149,6 +153,9 @@ async function throttle() {
 // ── Gemini TTS API ────────────────────────────────────────────────────────────
 const MAX_RETRIES = 3  // OTHER 재시도도 RPD 소모, 축소
 
+/** 이번 실행에서 Gemini에 실제로 나간 HTTP 호출 수 (재시도·폴백 포함 = RPD 소모량) */
+let API_CALLS = 0
+
 async function tts(prompt: string, voice: string): Promise<Buffer> {
   await throttle()
 
@@ -165,6 +172,7 @@ async function tts(prompt: string, voice: string): Promise<Buffer> {
     const timeoutId  = setTimeout(() => controller.abort(), 60_000)
     let res: Response
     try {
+      API_CALLS++
       res = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_FLASH}:generateContent?key=${GEMINI_KEY}`,
         { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: controller.signal }
@@ -284,17 +292,78 @@ async function upload(buf: Buffer, storagePath: string): Promise<string> {
   return sb.storage.from(BUCKET).getPublicUrl(storagePath).data.publicUrl
 }
 
+// ── 대사 audio_url 반영 (kp_dialogues + kp_bubbles 양쪽) ──────────────────────
+/**
+ * 앱(fetch-episode.ts)은 kp_bubbles.audio_url을 읽어 스피커 버튼을 띄운다.
+ * kp_dialogues만 갱신하면 버튼이 안 뜨므로 두 테이블 모두 갱신하고,
+ * 갱신 행 수를 실제로 확인한다(0건이면 에러로 처리).
+ *  - 1순위: kp_bubbles.dialogue_id = 대사 id
+ *  - 2순위: episode_id + korean 완전 일치
+ *  - 3순위: episode_id 내에서 공백·줄바꿈 정규화 일치
+ */
+function normKo(s: string): string {
+  return s.replace(/\s+/g, ' ').trim()
+}
+
+async function updateAudioUrls(
+  dialogueId: number, epNum: number, textKo: string, url: string, hash: string,
+): Promise<number> {
+  const { error: dErr } = await sb
+    .from('kp_dialogues').update({ audio_url: url, audio_hash: hash }).eq('id', dialogueId)
+  if (dErr) throw new Error(`kp_dialogues 갱신 실패 (id=${dialogueId}): ${dErr.message}`)
+
+  // 1순위: dialogue_id 링크
+  const { data: byLink, error: linkErr } = await sb
+    .from('kp_bubbles').update({ audio_url: url }).eq('dialogue_id', dialogueId).select('id')
+  if (linkErr) throw new Error(`kp_bubbles 갱신 실패 (dialogue_id=${dialogueId}): ${linkErr.message}`)
+  if (byLink && byLink.length > 0) return byLink.length
+
+  // 2순위: episode_id + korean 완전 일치
+  const { data: byText, error: textErr } = await sb
+    .from('kp_bubbles').update({ audio_url: url })
+    .eq('episode_id', epNum).eq('korean', textKo).select('id')
+  if (textErr) throw new Error(`kp_bubbles 갱신 실패 (ep=${epNum}, korean 일치): ${textErr.message}`)
+  if (byText && byText.length > 0) return byText.length
+
+  // 3순위: 정규화 일치
+  const { data: epBubbles, error: fetchErr } = await sb
+    .from('kp_bubbles').select('id, korean').eq('episode_id', epNum)
+  if (fetchErr) throw new Error(`kp_bubbles 조회 실패 (ep=${epNum}): ${fetchErr.message}`)
+  const hit = (epBubbles ?? []).filter(b => normKo(b.korean) === normKo(textKo))
+  if (hit.length === 0) {
+    throw new Error(`kp_bubbles 매칭 0건 — ep=${epNum} dialogue_id=${dialogueId} korean="${textKo.slice(0, 40)}"`)
+  }
+  const { data: byNorm, error: normErr } = await sb
+    .from('kp_bubbles').update({ audio_url: url }).in('id', hit.map(h => h.id)).select('id')
+  if (normErr) throw new Error(`kp_bubbles 갱신 실패 (정규화 일치, ep=${epNum}): ${normErr.message}`)
+  return byNorm?.length ?? 0
+}
+
 // ── 화별 검증 ─────────────────────────────────────────────────────────────────
 async function validateEpisode(epNum: number) {
+  const epLabel = `EP${String(epNum).padStart(2,'0')}`
   const { data } = await sb.from('kp_dialogues').select('id, speaker, text_ko, audio_url').eq('episode_id', epNum)
   const total = data?.length ?? 0
   const ok    = data?.filter(d => d.audio_url).length ?? 0
   if (total === ok) {
-    console.log(`  ✓ EP${String(epNum).padStart(2,'0')} 검증: ${ok}/${total} OK`)
+    console.log(`  ✓ ${epLabel} 대사 검증: ${ok}/${total} OK`)
   } else {
-    console.log(`  ✗ EP${String(epNum).padStart(2,'0')} 검증: ${ok}/${total} — 누락!`)
+    console.log(`  ✗ ${epLabel} 대사 검증: ${ok}/${total} — 누락!`)
     for (const d of data?.filter(d => !d.audio_url) ?? [])
       console.log(`    MISSING id=${d.id} ${d.speaker}: ${d.text_ko}`)
+  }
+
+  // 앱이 실제로 읽는 테이블 — 버블 검증
+  const { data: bubs } = await sb.from('kp_bubbles').select('id, speaker, korean, audio_url').eq('episode_id', epNum)
+  const bTotal = bubs?.length ?? 0
+  const bOk    = bubs?.filter(b => b.audio_url).length ?? 0
+  const bStale = bubs?.filter(b => b.audio_url?.includes('/bubbles/')).length ?? 0
+  if (bTotal === bOk && bStale === 0) {
+    console.log(`  ✓ ${epLabel} 버블 검증: ${bOk}/${bTotal} OK (구 OpenAI URL 0건)`)
+  } else {
+    console.log(`  ✗ ${epLabel} 버블 검증: ${bOk}/${bTotal} · 구 OpenAI URL ${bStale}건`)
+    for (const b of bubs?.filter(b => !b.audio_url) ?? [])
+      console.log(`    MISSING bubble id=${b.id} ${b.speaker}: ${b.korean}`)
   }
 }
 
@@ -362,8 +431,9 @@ async function main() {
     const range = EP_TO > EP_FROM ? `EP${EP_FROM}–${EP_TO}` : `EP${EP_FROM}`
     console.log(`\n=== K-PATTO Gemini TTS  ${range}${FORCE ? ' --force' : ''} ===`)
   }
-  console.log(`Model: ${MODEL_FLASH}  |  딜레이: ${DELAY_BETWEEN_CALLS}ms  |  RPD 100회/일 (한국 오후 4~5시 초기화)`)
-  console.log(`표현: 배치 방식(표현당 1회 호출)  |  OTHER 폴백: 2단계  |  RPD 시 즉시 종료\n`)
+  console.log(`엔진: Gemini  |  Model: ${MODEL_FLASH}  |  키: GEMINI_API_KEY(…${(GEMINI_KEY ?? '').slice(-4)})`)
+  console.log(`딜레이: ${DELAY_BETWEEN_CALLS}ms  |  RPD 100회/일 (한국 오후 4~5시 초기화)  |  stop-on-error: ${STOP_ON_ERROR}`)
+  console.log(`표현: 배치 방식(표현당 1회 호출)${NO_EXPR ? ' — --no-expr로 건너뜀' : ''}  |  OTHER 폴백: 2단계  |  RPD 시 즉시 종료\n`)
 
   // ── --expr 단독 모드 ─────────────────────────────────────────────────────────
   if (EXPR_ONLY) {
@@ -428,15 +498,23 @@ async function main() {
           const wav         = await dialogueTts(d.text_ko, voice)
           const storagePath = `dialogues/ep${String(epNum).padStart(2,'0')}/${d.id}.wav`
           const url         = await upload(wav, storagePath)
-          await sb.from('kp_dialogues').update({ audio_url: url, audio_hash: hash }).eq('id', d.id)
-          await sb.from('kp_bubbles').update({ audio_url: url }).eq('episode_id', epNum).eq('korean', d.text_ko)
+          const bubbleRows  = await updateAudioUrls(d.id, epNum, d.text_ko, url, hash)
           dGen++
-          console.log(`· ${((Date.now()-t1)/1000).toFixed(1)}s · OK`)
+          console.log(`· ${((Date.now()-t1)/1000).toFixed(1)}s · ${wav.length.toLocaleString()}B · bubble ${bubbleRows}행 · OK`)
         } catch (e: any) {
           if (e instanceof RpdError) { rpdHit = true; break outer }
           console.log(`· FAIL`)
-          console.error(`    ${e.message.slice(0, 200)}`)
+          console.error(`    ${e.message.slice(0, 300)}`)
           failures.push({ ep: epNum, id: d.id, type: 'dialogue', text: d.text_ko, error: e.message })
+          if (STOP_ON_ERROR) {
+            console.error(`\n[중단] --stop-on-error: 첫 실패에서 즉시 종료합니다.`)
+            console.error(`  실패 항목: ${epLabel} id=${d.id} [${d.speaker}]`)
+            console.error(`  대사 전문: ${d.text_ko}`)
+            console.error(`  오류 전문: ${e.message}`)
+            console.error(`  이번 실행 성공 건수: ${dGenTotal + dGen}  Gemini 호출 수: ${API_CALLS}`)
+            fs.writeFileSync(FAIL_LOG, JSON.stringify(failures, null, 2))
+            process.exit(1)
+          }
         }
       }
       dGenTotal += dGen
@@ -516,6 +594,7 @@ async function main() {
   const elapsed = ((Date.now() - t0) / 1000 / 60).toFixed(1)
   console.log(`\n생성 완료  경과: ${elapsed}분`)
   console.log(`대사: ${dGenTotal}건  표현: ${eGenTotal}건  실패: ${failures.length}건`)
+  console.log(`Gemini API 호출 수(재시도·폴백 포함, RPD 소모량): ${API_CALLS}회`)
 
   if (failures.length > 0) {
     fs.writeFileSync(FAIL_LOG, JSON.stringify(failures, null, 2))
