@@ -70,7 +70,7 @@ function renderKorean(text: string, highlights?: string[]): React.ReactNode {
   for (const { start, end } of kept) {
     if (cursor < start) nodes.push(text.slice(cursor, start))
     nodes.push(
-      <span key={start} style={{ color: '#D4873A', fontWeight: 800, textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px' }}>
+      <span key={start} style={{ color: '#D4873A', fontWeight: 800, textDecorationLine: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px' }}>
         {text.slice(start, end)}
       </span>
     )
