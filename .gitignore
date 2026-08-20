@@ -91,3 +91,6 @@ scripts/audio-*.json
 /audio-backup/
 /scripts/expr-audio-report*.json
 /scripts/expr-audio-verify.json
+/audio-test/preq-expr/
+/scripts/question-pattern-report.json
+/scripts/gemini-strict-abort.json
