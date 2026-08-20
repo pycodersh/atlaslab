@@ -95,3 +95,4 @@ scripts/audio-*.json
 /scripts/question-pattern-report.json
 /scripts/gemini-strict-abort.json
 /audio-test/noq-expr/
+/scripts/gemini-other-skipped.json

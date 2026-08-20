@@ -97,7 +97,17 @@ function wavSeconds(buf: Buffer): number {
   return buf.readUInt32LE(40) / (buf.readUInt32LE(24) * buf.readUInt16LE(22) * (buf.readUInt16LE(34) / 8))
 }
 
-// ── Gemini TTS — 재시도 경로 없음. 무엇이든 어긋나면 throw. ──────────────────
+// ── Gemini TTS ────────────────────────────────────────────────────────────────
+// 재시도는 finishReason=OTHER 한 가지에만 허용한다. OTHER는 API 에러가 아니라
+// "나도." 같은 짧은 발화에서 오디오가 비어 오는 응답이라, 같은 텍스트로 다시 부르면
+// 대개 통과한다. 그 외(HTTP 에러·0바이트·업로드/DB 실패)는 즉시 중단이다.
+// 텍스트 변형(마침표 덧붙이기 등) 폴백은 넣지 않는다 — 대사가 바뀌면 안 된다.
+const MAX_OTHER_RETRY = 2   // 최초 1회 + 재시도 2회 = 최대 3회 호출
+
+class OtherEmptyError extends Error {
+  constructor(public raw: string) { super('finishReason=OTHER (오디오 빈 응답)') }
+}
+
 let API_CALLS = 0
 
 async function tts(prompt: string, voice: string): Promise<Buffer> {
@@ -123,11 +133,17 @@ async function tts(prompt: string, voice: string): Promise<Buffer> {
   const candidate = json?.candidates?.[0]
   const finish = candidate?.finishReason
 
+  const part = candidate?.content?.parts?.[0]?.inlineData
+
+  // OTHER + 오디오 없음 → 재시도 가능한 빈 응답
+  if (finish === 'OTHER' && !part?.data) {
+    throw new OtherEmptyError(JSON.stringify(json).slice(0, 1500))
+  }
+
   if (finish && finish !== 'STOP') {
     throw new Error(`Gemini finishReason=${finish} (STOP 아님)\n응답 원문: ${JSON.stringify(json).slice(0, 1500)}`)
   }
 
-  const part = candidate?.content?.parts?.[0]?.inlineData
   if (!part?.data) {
     throw new Error(`Gemini 오디오 데이터 없음 (finishReason=${finish ?? 'none'})\n응답 원문: ${JSON.stringify(json).slice(0, 1500)}`)
   }
@@ -139,6 +155,24 @@ async function tts(prompt: string, voice: string): Promise<Buffer> {
   const wav = mime.includes('wav') || mime.includes('wave') ? raw : pcmToWav(raw)
   if (wav.length <= 44) throw new Error(`오디오 본문 없음 (${wav.length}B)`)
   return wav
+}
+
+/**
+ * OTHER 빈 응답에만 재시도를 붙인다. 같은 텍스트·같은 보이스로만 다시 부른다.
+ * 모두 소진되면 OtherEmptyError를 그대로 올려 호출자가 skip 처리하게 한다.
+ */
+async function ttsWithOtherRetry(prompt: string, voice: string): Promise<{ wav: Buffer; attempts: number }> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const wav = await tts(prompt, voice)
+      return { wav, attempts: attempt }
+    } catch (e) {
+      if (!(e instanceof OtherEmptyError)) throw e          // 그 외 에러는 즉시 중단
+      if (attempt > MAX_OTHER_RETRY) throw e                 // 재시도 소진 → skip 대상
+      process.stdout.write(`[OTHER ${attempt}/${MAX_OTHER_RETRY} 재시도] `)
+      await sleep(DELAY_MS)
+    }
+  }
 }
 
 async function upload(storagePath: string, buf: Buffer): Promise<string> {
@@ -181,7 +215,9 @@ async function main() {
   console.log(`\n=== K-PATTO 대사 음성 생성 (엄격 모드) ===`)
   console.log(`엔진: Gemini  |  모델: ${MODEL}  |  키: GEMINI_API_KEY(…${GEMINI_KEY.slice(-4)})`)
   console.log(`대상 화: EP${EPS.join(', EP')}  |  딜레이: ${DELAY_MS / 1000}초${FORCE ? '  |  --force (기존 audio_url 무시하고 전건 재생성)' : ''}`)
-  console.log(`중단 규칙: 어떤 에러든 즉시 중단, 재시도 없음 (429·500·finishReason!=STOP 포함)`)
+  console.log(`중단 규칙: 429·500·기타 HTTP·Storage/DB 실패·0바이트 → 즉시 중단 (재시도 없음)`)
+  console.log(`예외: finishReason=OTHER 빈 응답만 같은 텍스트로 최대 ${MAX_OTHER_RETRY}회 재시도, 소진 시 그 건만 skip 후 계속`)
+  console.log(`텍스트 변형 폴백: 없음 (대사 원문 그대로 사용)`)
   console.log(`표현: 제외 (대사만 생성)\n`)
 
   console.log('EP | 대사총 | 생성대상 | skip')
@@ -212,6 +248,7 @@ async function main() {
   if (DRY_RUN) { console.log('--dry-run: 호출하지 않고 종료'); return }
 
   const done: Array<{ ep: number; id: number; url: string; sec: number; bytes: number; bubbleRows: number }> = []
+  const otherSkipped: Array<{ ep: number; id: number; speaker: string; text: string; raw: string }> = []
   let lastOk: { ep: number; id: number; text: string } | null = null
   const t0 = Date.now()
 
@@ -226,7 +263,8 @@ async function main() {
     try {
       const prompt = dialoguePrompt(d.text_ko)
       const hash   = contentHash(d.text_ko, d.voice, prompt)
-      const wav    = await tts(prompt, d.voice)
+      const { wav, attempts } = await ttsWithOtherRetry(prompt, d.voice)
+      if (attempts > 1) process.stdout.write(`(${attempts}회) `)
       const sec    = wavSeconds(wav)
       const url    = await upload(`dialogues/ep${String(d.episode_id).padStart(2, '0')}/${d.id}.wav`, wav)
       const rows   = await updateBoth(d.id, d.episode_id, d.text_ko, url, hash)
@@ -235,7 +273,13 @@ async function main() {
       lastOk = { ep: d.episode_id, id: d.id, text: d.text_ko }
       console.log(`· ${wav.length.toLocaleString()}B · ${sec.toFixed(2)}s · bubble ${rows}행 · OK`)
     } catch (e: any) {
-      // 재시도·continue 없음. 보고 후 종료.
+      // OTHER 재시도 소진 → 이 건만 skip하고 계속 (중단 아님)
+      if (e instanceof OtherEmptyError) {
+        console.log(`· ⏭ SKIP (OTHER ${MAX_OTHER_RETRY + 1}회 모두 빈 응답)`)
+        otherSkipped.push({ ep: d.episode_id, id: d.id, speaker: d.speaker, text: d.text_ko, raw: e.raw })
+        continue
+      }
+      // 그 외는 재시도·continue 없음. 보고 후 종료.
       console.log(`· ❌`)
       console.error(`\n${'━'.repeat(70)}`)
       console.error(`[중단] 재시도 없이 즉시 종료합니다.`)
@@ -262,7 +306,7 @@ async function main() {
   // ── 요약 ────────────────────────────────────────────────────────────────────
   console.log(`\n${'═'.repeat(70)}`)
   console.log(`생성 완료: ${done.length}/${work.length}건 · 경과 ${((Date.now() - t0) / 60000).toFixed(1)}분`)
-  console.log(`Gemini 호출: ${API_CALLS}회 (재시도 없음 = 대상 건수와 동일)`)
+  console.log(`Gemini 호출: ${API_CALLS}회 (대상 ${work.length}건 + OTHER 재시도)`)
   const byEp: Record<number, number> = {}
   for (const r of done) byEp[r.ep] = (byEp[r.ep] ?? 0) + 1
   console.log(`화별: ${Object.entries(byEp).map(([k, v]) => `EP${k}:${v}건`).join(', ')}`)
@@ -271,6 +315,18 @@ async function main() {
   console.log(`1초 미만: ${short.length}건${short.length ? ' — ' + short.map(r => `id=${r.id}(${r.sec.toFixed(2)}s)`).join(', ') : ''}`)
   console.log(`0바이트: ${done.filter(r => r.bytes === 0).length}건`)
   if (skipped.length) console.log(`미등록 화자 skip: ${skipped.length}건 — ${skipped.map(s => `id=${s.id}(${s.speaker})`).join(', ')}`)
+
+  if (otherSkipped.length) {
+    console.log(`\n=== OTHER로 skip된 ${otherSkipped.length}건 (${MAX_OTHER_RETRY + 1}회 모두 빈 응답) ===`)
+    for (const s of otherSkipped) console.log(`  EP${s.ep} id=${s.id} [${s.speaker}] "${s.text}"`)
+    fs.writeFileSync(
+      path.resolve(process.cwd(), 'scripts', 'gemini-other-skipped.json'),
+      JSON.stringify(otherSkipped, null, 2)
+    )
+    console.log(`  목록 → scripts/gemini-other-skipped.json`)
+  } else {
+    console.log(`OTHER skip: 0건`)
+  }
 }
 
 main().catch(e => {
