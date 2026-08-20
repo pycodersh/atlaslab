@@ -21,9 +21,11 @@ const sb = createClient(
 const SLUGS = ['mwoyeyo', 'isseoyo', 'eotteoke-gayo']
 const ROOT     = process.cwd()
 const BK_ZEPH  = path.join(ROOT, 'audio-backup', 'expr-zephyr')
-const BK_PREQ  = path.join(ROOT, 'audio-backup', 'expr-pattern-preq')
+const BK_PREQ  = path.join(ROOT, 'audio-backup', 'expr-pattern-preq')      // 의문 억양 지시 없던 판
+const BK_NOQ   = path.join(ROOT, 'audio-backup', 'expr-pattern-noqmark')   // 지시 있음 + 물음표 제거판
 const DEST_ZEPH = path.join(ROOT, 'audio-test', 'zephyr-expr')
 const DEST_PREQ = path.join(ROOT, 'audio-test', 'preq-expr')
+const DEST_NOQ  = path.join(ROOT, 'audio-test', 'noq-expr')
 const OUTJSON   = path.join(ROOT, 'audio-test', 'expr-data.json')
 
 function copyIfExists(src: string, destDir: string, name: string, webPrefix: string): string | null {
@@ -54,6 +56,9 @@ async function main() {
       preq: key === 'pattern'
         ? copyIfExists(path.join(BK_PREQ, slug, 'pattern.mp3'), path.join(DEST_PREQ, slug), 'pattern.mp3', `preq-expr/${slug}`)
         : null,
+      noq: key === 'pattern'
+        ? copyIfExists(path.join(BK_NOQ, slug, 'pattern.mp3'), path.join(DEST_NOQ, slug), 'pattern.mp3', `noq-expr/${slug}`)
+        : null,
       zephyr: copyIfExists(path.join(BK_ZEPH, slug, `${key}.mp3`), path.join(DEST_ZEPH, slug), `${key}.mp3`, `zephyr-expr/${slug}`),
     }))
     return { id: e.id, slug, korean: e.korean, english: e.english, parts }
@@ -64,7 +69,7 @@ async function main() {
   for (const e of out) {
     console.log(`\n${e.slug} (${e.korean})`)
     for (const p of e.parts)
-      console.log(`  ${p.key.padEnd(8)} "${p.text}"  라이브 ${p.liveUrl ? '있음' : '없음'} · 재생성전 ${p.preq ? '있음' : '—'} · Zephyr ${p.zephyr ? '있음' : '없음'}`)
+      console.log(`  ${p.key.padEnd(8)} "${p.text}"  라이브 ${p.liveUrl ? '있음' : '없음'} · ?제거판 ${p.noq ? '있음' : '—'} · 지시없음판 ${p.preq ? '있음' : '—'} · Zephyr ${p.zephyr ? '있음' : '없음'}`)
   }
 }
 

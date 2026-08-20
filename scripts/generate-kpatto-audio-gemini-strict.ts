@@ -31,6 +31,8 @@ const DELAY_MS   = 7000
 
 const argv = process.argv.slice(2)
 const DRY_RUN = argv.includes('--dry-run')
+/** --force: audio_url이 이미 있는 대사도 다시 생성한다 (구 OpenAI판 교체용) */
+const FORCE = argv.includes('--force')
 const EPS = (() => {
   const i = argv.indexOf('--ep')
   if (i < 0 || !argv[i + 1]) { console.error('Usage: --ep 29,46,47,48,60'); process.exit(1) }
@@ -174,11 +176,11 @@ async function main() {
   if (error) throw new Error(`DB 조회 실패: ${error.message}`)
 
   const all = dlg ?? []
-  const todo: Todo[] = all.filter(d => !d.audio_url) as Todo[]
+  const todo: Todo[] = (FORCE ? all : all.filter(d => !d.audio_url)) as Todo[]
 
   console.log(`\n=== K-PATTO 대사 음성 생성 (엄격 모드) ===`)
   console.log(`엔진: Gemini  |  모델: ${MODEL}  |  키: GEMINI_API_KEY(…${GEMINI_KEY.slice(-4)})`)
-  console.log(`대상 화: EP${EPS.join(', EP')}  |  딜레이: ${DELAY_MS / 1000}초`)
+  console.log(`대상 화: EP${EPS.join(', EP')}  |  딜레이: ${DELAY_MS / 1000}초${FORCE ? '  |  --force (기존 audio_url 무시하고 전건 재생성)' : ''}`)
   console.log(`중단 규칙: 어떤 에러든 즉시 중단, 재시도 없음 (429·500·finishReason!=STOP 포함)`)
   console.log(`표현: 제외 (대사만 생성)\n`)
 

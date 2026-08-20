@@ -25,7 +25,8 @@ const MODEL  = 'gpt-4o-mini-tts'
 const VOICE  = 'sage'
 const BUCKET = 'audio'
 const DELAY_MS = 300
-const BACKUP_DIR = path.resolve(process.cwd(), 'audio-backup', 'expr-pattern-preq')
+// 물음표 유지판으로 덮어쓰기 전 백업 (물음표 제거판이 들어 있는 expr-pattern-preq와 별도 폴더)
+const BACKUP_DIR = path.resolve(process.cwd(), 'audio-backup', 'expr-pattern-noqmark')
 
 const INSTR_QUESTION = 'Speak like a female Korean announcer. Clear and articulate, slightly bright tone. Speak very slowly, enunciating each syllable distinctly, as if teaching a beginner. This is a question — raise the pitch clearly at the end.'
 
@@ -51,9 +52,17 @@ const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms))
 function patternRaw(korean: string): string {
   return korean.split('/')[0].replace(/~/g, '').replace(/^-+|-+$/g, '').replace(/\s+/g, ' ').trim()
 }
-/** 실제 TTS 입력 (기존 생성과 동일하게 문장부호 제거) */
+/**
+ * 실제 TTS 입력 — 물결과 앞뒤 하이픈만 제거하고 물음표는 그대로 둔다.
+ * 문장부호가 억양의 가장 강한 신호라, 물음표를 떼면 instructions만으로는 끝이 잘 안 올라간다.
+ */
 function patternTts(korean: string): string {
-  return patternRaw(korean).replace(/[.!?]$/, '').trim()
+  return patternRaw(korean).trim()
+}
+
+/** 길이 규칙용 글자수 — 문장부호는 세지 않는다 (물음표 유지로 2~3자 판정이 밀리지 않도록) */
+function letterCount(text: string): number {
+  return text.replace(/[\s.,!?~·…"'()]/g, '').length
 }
 
 // ── MP3 길이 ──────────────────────────────────────────────────────────────────
@@ -148,7 +157,7 @@ async function main() {
   for (let i = 0; i < targets.length; i++) {
     const e = targets[i]
     const text = patternTts(e.korean)
-    const chars = text.replace(/\s/g, '').length
+    const chars = letterCount(text)
     const isShort = chars >= 2 && chars <= 3
     const lo = isShort ? SHORT_LO : MIN_SEC
     const hi = isShort ? SHORT_HI : Infinity
