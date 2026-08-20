@@ -33,6 +33,11 @@ const argv = process.argv.slice(2)
 const DRY_RUN = argv.includes('--dry-run')
 /** --force: audio_url이 이미 있는 대사도 다시 생성한다 (구 OpenAI판 교체용) */
 const FORCE = argv.includes('--force')
+/** --skip-id 11677,11680: 대응 버블이 없는 등 사전에 제외하기로 한 대사 id */
+const SKIP_IDS = (() => {
+  const i = argv.indexOf('--skip-id')
+  return i >= 0 ? (argv[i + 1] ?? '').split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n)) : []
+})()
 const EPS = (() => {
   const i = argv.indexOf('--ep')
   if (i < 0 || !argv[i + 1]) { console.error('Usage: --ep 29,46,47,48,60'); process.exit(1) }
@@ -102,7 +107,7 @@ function wavSeconds(buf: Buffer): number {
 // "나도." 같은 짧은 발화에서 오디오가 비어 오는 응답이라, 같은 텍스트로 다시 부르면
 // 대개 통과한다. 그 외(HTTP 에러·0바이트·업로드/DB 실패)는 즉시 중단이다.
 // 텍스트 변형(마침표 덧붙이기 등) 폴백은 넣지 않는다 — 대사가 바뀌면 안 된다.
-const MAX_OTHER_RETRY = 2   // 최초 1회 + 재시도 2회 = 최대 3회 호출
+const MAX_OTHER_RETRY = 1   // 최초 1회 + 재시도 1회 = 최대 2회 호출
 
 class OtherEmptyError extends Error {
   constructor(public raw: string) { super('finishReason=OTHER (오디오 빈 응답)') }
@@ -210,7 +215,9 @@ async function main() {
   if (error) throw new Error(`DB 조회 실패: ${error.message}`)
 
   const all = dlg ?? []
-  const todo: Todo[] = (FORCE ? all : all.filter(d => !d.audio_url)) as Todo[]
+  const preSkipped = all.filter(d => SKIP_IDS.includes(d.id))
+  const todo: Todo[] = (FORCE ? all : all.filter(d => !d.audio_url))
+    .filter(d => !SKIP_IDS.includes(d.id)) as Todo[]
 
   console.log(`\n=== K-PATTO 대사 음성 생성 (엄격 모드) ===`)
   console.log(`엔진: Gemini  |  모델: ${MODEL}  |  키: GEMINI_API_KEY(…${GEMINI_KEY.slice(-4)})`)
@@ -226,7 +233,12 @@ async function main() {
     const t = d.filter(x => !x.audio_url)
     console.log(`${ep} | ${String(d.length).padStart(6)} | ${String(t.length).padStart(8)} | ${String(d.length - t.length).padStart(4)}`)
   }
-  console.log(`합계: ${todo.length}건\n`)
+  console.log(`합계: ${todo.length}건`)
+  if (preSkipped.length) {
+    console.log(`\n--skip-id 로 제외: ${preSkipped.length}건`)
+    for (const d of preSkipped) console.log(`  EP${d.episode_id} id=${d.id} [${d.speaker}] "${d.text_ko}"`)
+  }
+  console.log('')
 
   // 화자 매핑 점검 — 미등록 화자는 폴백 없이 skip
   const skipped: Todo[] = []
