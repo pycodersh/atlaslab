@@ -96,3 +96,4 @@ scripts/audio-*.json
 /scripts/gemini-strict-abort.json
 /audio-test/noq-expr/
 /scripts/gemini-other-skipped.json
+/reels-audio/
