@@ -22,7 +22,9 @@ const SAY = (() => { const i = argv.indexOf('--say'); return i >= 0 ? (argv[i + 
 const OUT_NAME = (() => { const i = argv.indexOf('--out'); return i >= 0 ? (argv[i + 1] ?? '') : '' })()
 
 // 영어 내레이션: 소셜 릴스 톤 — 밝고 또렷하게, 너무 빠르지 않게
-const INSTR_VO = 'Speak like a friendly, upbeat language teacher narrating a short social media reel. Clear and energetic, warm but not shouty. Keep a steady, easy-to-follow pace. Pronounce the Korean phrases carefully and distinctly.'
+// "female voice" 를 명시한다 — 미명시일 때 문장 첫머리에서 남성 톤으로 시작했다가
+// 여성으로 바뀌는 화자 흔들림이 관측됐다(cafe-isseoyo scene1-hook 1차 생성분).
+const INSTR_VO = 'Speak with a female voice throughout, from the very first word. Speak like a friendly, upbeat female language teacher narrating a short social media reel. Clear and energetic, warm but not shouty. Keep a steady, easy-to-follow pace. Pronounce the Korean phrases carefully and distinctly.'
 // 한국어 단독 클립: 앱 표현 음성과 같은 규칙
 const INSTR_KO = 'Speak like a female Korean announcer. Clear and articulate, slightly bright tone. Speak very slowly, enunciating each syllable distinctly, as if teaching a beginner. This is a question — raise the pitch clearly at the end.'
 
