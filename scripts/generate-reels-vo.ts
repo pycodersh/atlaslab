@@ -13,38 +13,76 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 import OpenAI from 'openai'
 
 const MODEL = 'gpt-4o-mini-tts'
-const SLUG  = 'igeo-jeogeo-geugeo'
-const OUT   = path.resolve(process.cwd(), 'reels-audio', SLUG)
 
 const argv = process.argv.slice(2)
 const DRY_RUN = argv.includes('--dry-run')
 const VOICE = (() => { const i = argv.indexOf('--voice'); return i >= 0 ? (argv[i + 1] ?? 'sage') : 'sage' })()
+/** --say "Great job!" [--out great-job] : 한 줄만 같은 목소리·톤으로 추가 생성 */
+const SAY = (() => { const i = argv.indexOf('--say'); return i >= 0 ? (argv[i + 1] ?? '') : '' })()
+const OUT_NAME = (() => { const i = argv.indexOf('--out'); return i >= 0 ? (argv[i + 1] ?? '') : '' })()
 
 // 영어 내레이션: 소셜 릴스 톤 — 밝고 또렷하게, 너무 빠르지 않게
 const INSTR_VO = 'Speak like a friendly, upbeat language teacher narrating a short social media reel. Clear and energetic, warm but not shouty. Keep a steady, easy-to-follow pace. Pronounce the Korean phrases carefully and distinctly.'
 // 한국어 단독 클립: 앱 표현 음성과 같은 규칙
 const INSTR_KO = 'Speak like a female Korean announcer. Clear and articulate, slightly bright tone. Speak very slowly, enunciating each syllable distinctly, as if teaching a beginner. This is a question — raise the pitch clearly at the end.'
 
-const SCENES = [
-  { file: 'scene1-hook',  label: 'Scene 1 (Hook)',   instructions: INSTR_VO,
-    text: "Today's expression! How do you ask, \"What is this?\" in Korean?" },
-  { file: 'scene2-igeo',  label: 'Scene 2 (이거)',   instructions: INSTR_VO,
-    text: 'When something is close to you, you say: 이거 뭐예요?' },
-  { file: 'scene3-jeogeo', label: 'Scene 3 (저거)',  instructions: INSTR_VO,
-    text: 'When something is far away, you say: 저거 뭐예요?' },
-  { file: 'scene4-geugeo', label: 'Scene 4 (그거)',  instructions: INSTR_VO,
-    text: "And when it's near the other person, or already mentioned, you say: 그거 뭐예요?" },
-  { file: 'scene5-cta',   label: 'Scene 5 (CTA)',    instructions: INSTR_VO,
-    text: 'Master three hundred plus Korean expressions just like this. Check the link in bio!' },
+const CTA = 'Master three hundred plus Korean expressions just like this. Check the link in bio!'
+
+type Clip = { file: string; label: string; text: string }
+type Reel = { slug: string; title: string; scenes: Clip[]; ko: Clip[] }
+
+const REELS: Reel[] = [
+  {
+    slug: 'igeo-jeogeo-geugeo',
+    title: '이거 / 저거 / 그거',
+    scenes: [
+      { file: 'scene1-hook',   label: 'Scene 1 (Hook)', text: "Today's expression! How do you ask, \"What is this?\" in Korean?" },
+      { file: 'scene2-igeo',   label: 'Scene 2 (이거)', text: 'When something is close to you, you say: 이거 뭐예요?' },
+      { file: 'scene3-jeogeo', label: 'Scene 3 (저거)', text: 'When something is far away, you say: 저거 뭐예요?' },
+      { file: 'scene4-geugeo', label: 'Scene 4 (그거)', text: "And when it's near the other person, or already mentioned, you say: 그거 뭐예요?" },
+      { file: 'scene5-cta',    label: 'Scene 5 (CTA)',  text: CTA },
+    ],
+    ko: [
+      { file: 'ko-pattern', label: '패턴', text: '뭐예요?' },
+      { file: 'ko-igeo',    label: '이거', text: '이거 뭐예요?' },
+      { file: 'ko-jeogeo',  label: '저거', text: '저거 뭐예요?' },
+      { file: 'ko-geugeo',  label: '그거', text: '그거 뭐예요?' },
+    ],
+  },
+  {
+    slug: 'cafe-isseoyo',
+    title: '카페 필수 생존 표현 (있어요?)',
+    scenes: [
+      { file: 'scene1-hook',      label: 'Scene 1 (Hook)',   text: "Traveling or visiting a cafe in Korea? Let's learn essential expressions!" },
+      { file: 'scene2-jari',      label: 'Scene 2 (자리)',   text: 'First, when you look for a table, you can ask: 자리 있어요?' },
+      { file: 'scene3-hwajangsil', label: 'Scene 3 (화장실)', text: 'Need to find the restroom? You say: 화장실 있어요?' },
+      { file: 'scene4-wifi',      label: 'Scene 4 (와이파이)', text: 'And looking for internet? Ask: 와이파이 있어요?' },
+      { file: 'scene5-cta',       label: 'Scene 5 (CTA)',    text: CTA },
+    ],
+    ko: [
+      { file: 'ko-pattern',     label: '패턴',   text: '있어요?' },
+      { file: 'ko-jari',        label: '자리',   text: '자리 있어요?' },
+      { file: 'ko-hwajangsil',  label: '화장실', text: '화장실 있어요?' },
+      { file: 'ko-wifi',        label: '와이파이', text: '와이파이 있어요?' },
+    ],
+  },
 ]
 
-// 인라인 한국어가 어색할 때 덮어쓸 수 있는 단독 클립
-const KO_CLIPS = [
-  { file: 'ko-pattern', label: '패턴',  text: '뭐예요?' },
-  { file: 'ko-igeo',    label: '이거',  text: '이거 뭐예요?' },
-  { file: 'ko-jeogeo',  label: '저거',  text: '저거 뭐예요?' },
-  { file: 'ko-geugeo',  label: '그거',  text: '그거 뭐예요?' },
-]
+const REEL = (() => {
+  const i = argv.indexOf('--reel')
+  const slug = i >= 0 ? argv[i + 1] : REELS[0].slug
+  const found = REELS.find(r => r.slug === slug)
+  if (!found) {
+    console.error(`--reel "${slug}" 을(를) 찾을 수 없습니다. 사용 가능: ${REELS.map(r => r.slug).join(', ')}`)
+    process.exit(1)
+  }
+  return found
+})()
+
+const SLUG    = REEL.slug
+const OUT     = path.resolve(process.cwd(), 'reels-audio', SLUG)
+const SCENES  = REEL.scenes.map(s => ({ ...s, instructions: INSTR_VO }))
+const KO_CLIPS = REEL.ko
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
 
@@ -82,7 +120,7 @@ async function tts(text: string, instructions: string): Promise<Buffer> {
 async function main() {
   if (!process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY 없음')
 
-  console.log(`\n=== 릴스 보이스오버 생성 ===`)
+  console.log(`\n=== 릴스 보이스오버 생성 — ${REEL.title} ===`)
   console.log(`엔진: OpenAI  |  모델: ${MODEL}  |  목소리: ${VOICE}`)
   console.log(`키: OPENAI_API_KEY(…${(process.env.OPENAI_API_KEY ?? '').slice(-4)})`)
   console.log(`대상: 내레이션 ${SCENES.length}개 + 한국어 단독 ${KO_CLIPS.length}개 = ${SCENES.length + KO_CLIPS.length}파일`)
@@ -96,6 +134,20 @@ async function main() {
   }
 
   fs.mkdirSync(OUT, { recursive: true })
+
+  // --say: 한 줄만 같은 목소리·톤으로 추가 생성하고 종료
+  if (SAY) {
+    const name = OUT_NAME || SAY.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40)
+    const buf = await tts(SAY, INSTR_VO)
+    const sec = mp3Seconds(buf)
+    const file = path.join(OUT, `${name}.mp3`)
+    fs.writeFileSync(file, buf)
+    console.log(`▶ 단일 클립`)
+    console.log(`  "${SAY}"`)
+    console.log(`  ${name}.mp3  ${sec.toFixed(2)}s  ${(buf.length / 1024).toFixed(1)}KB`)
+    console.log(`  → ${file}`)
+    return
+  }
   const rows: Array<{ file: string; label: string; text: string; sec: number; kb: number }> = []
 
   console.log('▶ 영어 내레이션')
