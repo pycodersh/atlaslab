@@ -97,3 +97,4 @@ scripts/audio-*.json
 /audio-test/noq-expr/
 /scripts/gemini-other-skipped.json
 /reels-audio/
+/out/
