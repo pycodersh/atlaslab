@@ -15,9 +15,12 @@ export default function robots(): MetadataRoute.Robots {
           '/kpatto/story/kp-ep-00',
           '/kpatto/story/kp-ep-010',
         ],
+        // 유료 에피소드(EP11~100)는 robots.txt 로 막지 않는다.
+        // 서버에서 권한 없는 요청에 실제 404 를 반환하므로, 크롤러가 그 404 를
+        // 읽을 수 있어야 색인에서 빠진다. Disallow 를 걸면 응답 자체를 못 읽는다.
+        // (이전의 '/kpatto/story/kp-ep-0[1-9][1-9]' 류 규칙은 robots.txt 가
+        //  * 와 $ 만 와일드카드로 인정하므로 애초에 동작하지 않았다.)
         disallow: [
-          '/kpatto/story/kp-ep-0[1-9][1-9]',
-          '/kpatto/story/kp-ep-[1-9]',
           '/kpatto/editor/',
           '/kpatto/record/',
           '/kpatto/profile/',

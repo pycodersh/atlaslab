@@ -238,8 +238,9 @@ export default function KPattoStoryListPage() {
               </div>
 
               {/* Chevron */}
+              {/* 잠긴 화는 서버에서 404 이므로 에피소드 URL 대신 구독 페이지로 보낸다 */}
               <Link
-                href={`/kpatto/story/${story.id}`}
+                href={locked ? '/kpatto/subscription' : `/kpatto/story/${story.id}`}
                 onClick={() => sessionStorage.setItem('kpatto-last-viewed-ep', String(story.episode))}
                 style={{ display: 'flex', alignItems: 'center', padding: '0 12px', textDecoration: 'none', flexShrink: 0 }}
                 aria-label={`View ${story.title}`}

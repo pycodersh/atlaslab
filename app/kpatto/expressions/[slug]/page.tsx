@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import {
   SLUG_TO_ID,
@@ -207,8 +208,11 @@ export default async function ExpressionPage({ params }: PageProps) {
     related = (relRows ?? []) as typeof related
   }
 
+  // EP11+ 는 비구독자에게 서버 404 이므로 에피소드 URL 대신 구독 페이지로 보낸다
   const episodeHref = episodeNum
-    ? `/kpatto/story/kp-ep-${String(episodeNum).padStart(3, '0')}`
+    ? episodeNum <= FREE_EPISODES
+      ? `/kpatto/story/kp-ep-${String(episodeNum).padStart(3, '0')}`
+      : '/kpatto/subscription'
     : null
   const epLabel = episodeNum ? `EP${String(episodeNum).padStart(2, '0')}` : null
 
