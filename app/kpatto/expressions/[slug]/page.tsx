@@ -18,6 +18,9 @@ export const dynamicParams = false
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
+/** 앱 내부 자동 생성 페이지 — 색인 제외, 내부 링크는 계속 따라가게 둔다 */
+const NOINDEX_FOLLOW = { index: false, follow: true } as const
+
 const T1     = '#111111'
 const T2     = '#888888'
 const T3     = '#CCCCCC'
@@ -99,7 +102,7 @@ function buildTitle(clean: string, kor: string): string {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
   const id = SLUG_TO_ID[slug]
-  if (!id) return {}
+  if (!id) return { robots: NOINDEX_FOLLOW }
 
   const supabase = createAdminClient()
   const { data } = await supabase
@@ -108,7 +111,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .eq('id', id)
     .single()
 
-  if (!data) return {}
+  if (!data) return { robots: NOINDEX_FOLLOW }
 
   // english 또는 korean에 ~ 포함 시 examples[0] 사용
   const hasTilde = (data.english ?? '').includes('~') || data.korean.includes('~')
@@ -133,6 +136,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description: desc,
+    robots: NOINDEX_FOLLOW,
     openGraph: {
       title,
       description: desc,

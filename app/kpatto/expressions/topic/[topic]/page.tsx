@@ -13,6 +13,9 @@ export const dynamicParams = false
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
+/** 앱 내부 자동 생성 목록 페이지 — 색인 제외, 내부 링크는 계속 따라가게 둔다 */
+const NOINDEX_FOLLOW = { index: false, follow: true } as const
+
 const T1     = '#111111'
 const T2     = '#888888'
 const DIV    = '#F2F2F2'
@@ -36,11 +39,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { topic } = await params
   const cat = CATEGORY_BY_KEY[topic as CategoryKey]
-  if (!cat) return {}
+  if (!cat) return { robots: NOINDEX_FOLLOW }
 
   return {
     title: cat.titleEn,
     description: cat.descriptionEn,
+    robots: NOINDEX_FOLLOW,
     openGraph: {
       title: cat.titleEn,
       description: cat.descriptionEn,

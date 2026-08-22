@@ -142,7 +142,7 @@ export default function EssaysPage() {
 
   function openDetail(id: string) {
     if (isDesktop) { setActivePanel('detail'); setSelectedEssayId(id) }
-    else router.push(`/essays/${id}`)
+    else router.push(`/patto/essays/${id}`)
   }
 
   function closePanel() { setActivePanel(null); setSelectedEssayId(null) }

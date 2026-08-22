@@ -101,7 +101,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
           setCardIndex((v) => v - 1)
           setIsFlipped(false)
         } else if (!isFirstStory) {
-          router.push(`/learn/${story.order_index - 1}`)
+          router.push(`/patto/learn/${story.order_index - 1}`)
         }
       }
     }, ANIM_MIDPOINT)
@@ -174,7 +174,7 @@ export function StoryCardEngine({ story, totalStories, allStories }: StoryCardEn
       patternsInStory={totalCards}
       onContinue={() => {
         setShowPopup(false)
-        router.push(`/learn/${story.order_index + 1}`)
+        router.push(`/patto/learn/${story.order_index + 1}`)
       }}
       onHome={() => router.push('/patto/home')}
     />

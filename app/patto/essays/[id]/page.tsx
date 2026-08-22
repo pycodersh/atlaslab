@@ -381,7 +381,7 @@ export default function EssayDetailPage({ params }: { params: Promise<{ id: stri
 
   function handleDelete() {
     deleteEssay(id)
-    router.push('/essays')
+    router.push('/patto/essays')
   }
 
   function handleEditClick() {

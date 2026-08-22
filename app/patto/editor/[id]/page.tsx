@@ -173,12 +173,12 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
   const goNext = () => {
     if (!nextId || !note) return
     markNoteRead(note.id)
-    router.push(`/editor/${nextId}`)
+    router.push(`/patto/editor/${nextId}`)
   }
   const goPrev = () => {
     if (!prevId || !note) return
     markNoteRead(note.id)
-    router.push(`/editor/${prevId}`)
+    router.push(`/patto/editor/${prevId}`)
   }
 
   const swipe = useSwipe(goNext, goPrev)
@@ -379,7 +379,7 @@ export default function EditorNotePage({ params }: { params: Promise<{ id: strin
         <NotePicker
           currentId={id}
           lang={lang}
-          onSelect={newId => router.push(`/editor/${newId}`)}
+          onSelect={newId => router.push(`/patto/editor/${newId}`)}
           onClose={() => setPickerOpen(false)}
         />
       )}

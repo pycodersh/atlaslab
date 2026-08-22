@@ -41,7 +41,7 @@ export function StoryJumpSheet({ stories, currentOrderIndex, isOpen, onClose }: 
   function handleSelect(orderIndex: number) {
     onClose()
     if (orderIndex !== currentOrderIndex) {
-      router.push(`/learn/${orderIndex}`)
+      router.push(`/patto/learn/${orderIndex}`)
     }
   }
 

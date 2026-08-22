@@ -1,6 +1,5 @@
 import type { MetadataRoute } from 'next'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
-import { SLUG_TO_ID, CATEGORIES } from '@/lib/kpatto/expressions-config'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 // 블로그 신규 포스트가 재배포 없이 즉시 사이트맵에 반영되도록
@@ -24,21 +23,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   )
 
-  // 325 individual expression pages (100 original + 225 new slugs)
-  const expressionPages: MetadataRoute.Sitemap = Object.keys(SLUG_TO_ID).map(slug => ({
-    url: `${BASE_URL}/kpatto/expressions/${slug}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.8,
-  }))
-
-  // 7 category topic pages
-  const categoryPages: MetadataRoute.Sitemap = CATEGORIES.map(cat => ({
-    url: `${BASE_URL}/kpatto/expressions/topic/${cat.key}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: 0.85,
-  }))
+  // NOTE: /kpatto/expressions/{slug} (325) 과 /kpatto/expressions/topic/{key} (7) 은
+  // 앱 내부 자동 생성 페이지이므로 사이트맵에서 제외한다(각 페이지는 noindex, follow).
+  // 페이지 자체는 살아 있고 /kpatto/expressions 허브에서 계속 링크된다.
 
   // Blog posts + listing pages — is_paused=false 조건 필수 (감춰진 글 제외)
   let blogPages: MetadataRoute.Sitemap = []
@@ -121,9 +108,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/kpatto`,             lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
     { url: `${BASE_URL}/kpatto/story`,        lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/kpatto/expressions`,  lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    ...categoryPages,
     ...freeEpisodes,
-    ...expressionPages,
     ...blogListingPages,
     ...blogPages,
   ]

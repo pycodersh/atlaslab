@@ -248,7 +248,7 @@ export default function NewEssayPage() {
       }
       saveReview(essay.id, data.review as Parameters<typeof saveReview>[1])
       if (!data.cached) recordReviewUsed()
-      router.push(`/essays/${essay.id}`)
+      router.push(`/patto/essays/${essay.id}`)
     } catch (err) {
       if (IS_DEV) console.error('[EssayReview/new] fetch exception:', err)
       setLoading(false)

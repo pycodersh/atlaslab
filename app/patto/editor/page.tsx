@@ -9,7 +9,7 @@ export default function EditorIndexPage() {
 
   useEffect(() => {
     const id = getNextUnreadId(30)
-    router.replace(`/editor/${id}`)
+    router.replace(`/patto/editor/${id}`)
   }, [router])
 
   return null
