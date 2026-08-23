@@ -68,6 +68,25 @@ const REELS: Reel[] = [
       { file: 'ko-wifi',        label: '와이파이', text: '와이파이 있어요?' },
     ],
   },
+  {
+    // 내레이션 속 한국어는 한글로 넣는다 — 로마자를 넣으면 영어식으로 읽힌다.
+    // 원본 대본(로마자)판은 --say 로 따로 뽑아 나란히 비교한다.
+    slug: 'gago-sipeoyo',
+    title: '~ 가고 싶어요 (I want to go)',
+    scenes: [
+      { file: 'scene1-intro',  label: 'Scene 1 (Intro)',  text: "How do you say \"I want to go\" in Korean? Simply say 가고 싶어요." },
+      { file: 'scene2-jeju',   label: 'Scene 2 (제주도)',  text: "Let's practice with places. When you want to go to Jeju Island: 제주도 가고 싶어요." },
+      { file: 'scene3-hongdae', label: 'Scene 3 (홍대)',   text: 'Want to visit Hongdae? 홍대 가고 싶어요.' },
+      { file: 'scene4-hangang', label: 'Scene 4 (한강)',   text: 'Heading to the Han River? Say 한강 가고 싶어요.' },
+      { file: 'scene5-outro',  label: 'Scene 5 (Outro)',  text: 'By mastering three hundred core patterns and one thousand essential words step by step, you can start speaking real Korean naturally.' },
+    ],
+    ko: [
+      { file: 'ko-pattern', label: '패턴',   text: '가고 싶어요.' },
+      { file: 'ko-jeju',    label: '제주도', text: '제주도 가고 싶어요.' },
+      { file: 'ko-hongdae', label: '홍대',   text: '홍대 가고 싶어요.' },
+      { file: 'ko-hangang', label: '한강',   text: '한강 가고 싶어요.' },
+    ],
+  },
 ]
 
 const REEL = (() => {
