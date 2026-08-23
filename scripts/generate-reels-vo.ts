@@ -9,6 +9,7 @@
 import * as dotenv from 'dotenv'
 import * as path from 'path'
 import * as fs from 'fs'
+import { spawnSync } from 'child_process'
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 import OpenAI from 'openai'
 
@@ -138,6 +139,32 @@ async function tts(text: string, instructions: string): Promise<Buffer> {
   return buf
 }
 
+/**
+ * 라우드니스 정규화 (2-pass loudnorm, -16 LUFS).
+ * OpenAI TTS 원본은 -30~-35 LUFS로 매우 작아서 영상에 얹으면 안 들린다.
+ * 1-pass는 짧은 클립에서 목표를 2~3dB 빗나가므로 측정값을 넘겨 linear 보정한다.
+ */
+function normalizeInPlace(file: string): void {
+  const probe = spawnSync('ffmpeg', [
+    '-v', 'info', '-i', file,
+    '-af', 'loudnorm=I=-16:TP=-1.5:LRA=11:print_format=json', '-f', 'null', '-',
+  ], { encoding: 'utf8' })
+  const m = (probe.stderr ?? '').match(/\{[^{}]*input_i[^{}]*\}/s)
+  if (!m) { console.warn(`  ⚠️ 라우드니스 측정 실패 — 정규화 건너뜀: ${path.basename(file)}`); return }
+  const j = JSON.parse(m[0])
+  const flt = `loudnorm=I=-16:TP=-1.5:LRA=11:measured_I=${j.input_i}:measured_TP=${j.input_tp}` +
+              `:measured_LRA=${j.input_lra}:measured_thresh=${j.input_thresh}` +
+              `:offset=${j.target_offset}:linear=true`
+  const tmp = file.replace(/\.mp3$/, '.norm.mp3')
+  const r = spawnSync('ffmpeg', ['-y', '-v', 'error', '-i', file, '-af', flt,
+    '-codec:a', 'libmp3lame', '-b:a', '192k', '-ar', '44100', tmp], { encoding: 'utf8' })
+  if (r.status !== 0 || !fs.existsSync(tmp)) {
+    console.warn(`  ⚠️ 정규화 실패 — 원본 유지: ${path.basename(file)}`)
+    return
+  }
+  fs.renameSync(tmp, file)
+}
+
 async function main() {
   if (!process.env.OPENAI_API_KEY) throw new Error('OPENAI_API_KEY 없음')
 
@@ -160,9 +187,10 @@ async function main() {
   if (SAY) {
     const name = OUT_NAME || SAY.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40)
     const buf = await tts(SAY, INSTR_VO)
-    const sec = mp3Seconds(buf)
     const file = path.join(OUT, `${name}.mp3`)
     fs.writeFileSync(file, buf)
+    normalizeInPlace(file)
+    const sec = mp3Seconds(fs.readFileSync(file))
     console.log(`▶ 단일 클립`)
     console.log(`  "${SAY}"`)
     console.log(`  ${name}.mp3  ${sec.toFixed(2)}s  ${(buf.length / 1024).toFixed(1)}KB`)
@@ -174,19 +202,25 @@ async function main() {
   console.log('▶ 영어 내레이션')
   for (const s of SCENES) {
     const buf = await tts(s.text, s.instructions)
-    const sec = mp3Seconds(buf)
-    fs.writeFileSync(path.join(OUT, `${s.file}.mp3`), buf)
-    rows.push({ file: `${s.file}.mp3`, label: s.label, text: s.text, sec, kb: buf.length / 1024 })
-    console.log(`  ${s.file.padEnd(16)} ${sec.toFixed(2)}s  ${(buf.length / 1024).toFixed(1)}KB`)
+    const f = path.join(OUT, `${s.file}.mp3`)
+    fs.writeFileSync(f, buf)
+    normalizeInPlace(f)
+    const out = fs.readFileSync(f)
+    const sec = mp3Seconds(out)
+    rows.push({ file: `${s.file}.mp3`, label: s.label, text: s.text, sec, kb: out.length / 1024 })
+    console.log(`  ${s.file.padEnd(16)} ${sec.toFixed(2)}s  ${(out.length / 1024).toFixed(1)}KB`)
   }
 
   console.log('\n▶ 한국어 단독 클립 (인라인 한국어 대체용)')
   for (const k of KO_CLIPS) {
     const buf = await tts(k.text, INSTR_KO)
-    const sec = mp3Seconds(buf)
-    fs.writeFileSync(path.join(OUT, `${k.file}.mp3`), buf)
-    rows.push({ file: `${k.file}.mp3`, label: k.label, text: k.text, sec, kb: buf.length / 1024 })
-    console.log(`  ${k.file.padEnd(16)} ${sec.toFixed(2)}s  ${(buf.length / 1024).toFixed(1)}KB  "${k.text}"`)
+    const f = path.join(OUT, `${k.file}.mp3`)
+    fs.writeFileSync(f, buf)
+    normalizeInPlace(f)
+    const out = fs.readFileSync(f)
+    const sec = mp3Seconds(out)
+    rows.push({ file: `${k.file}.mp3`, label: k.label, text: k.text, sec, kb: out.length / 1024 })
+    console.log(`  ${k.file.padEnd(16)} ${sec.toFixed(2)}s  ${(out.length / 1024).toFixed(1)}KB  "${k.text}"`)
   }
 
   // 타임라인 참고용 시트

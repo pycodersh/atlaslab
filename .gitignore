@@ -98,3 +98,4 @@ scripts/audio-*.json
 /scripts/gemini-other-skipped.json
 /reels-audio/
 /out/
+/reels-audio/*/_raw/
