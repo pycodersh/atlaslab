@@ -100,3 +100,4 @@ scripts/audio-*.json
 /out/
 /reels-audio/*/_raw/
 /reels-audio/*/parts-*/
+/data/cvs10-images/

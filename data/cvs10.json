@@ -1,0 +1,27 @@
+{
+  "project": "Korean Vocabulary 10 - Convenience Store",
+  "fps": 30,
+  "durationPerItemSec": 3.0,
+  "totalDurationSec": 30.0,
+  "layout": {
+    "aspectRatio": "9:16",
+    "imageFrameRatio": "4:5",
+    "theme": {
+      "backgroundColor": "#F4F4F6",
+      "textColor": "#111111",
+      "accentColor": "#C8102E"
+    }
+  },
+  "items": [
+    { "index": "01", "korean": "편의점",   "romanization": "pyeon-ui-jeom",  "english": "Convenience store", "image": "01_convenience_store.png", "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "02", "korean": "삼각김밥", "romanization": "sam-gak-gim-bap", "english": "Triangle kimbap",   "image": "02_triangle_kimbap.png",   "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "03", "korean": "컵라면",   "romanization": "keop-ra-myeon",  "english": "Cup ramen",         "image": "03_cup_ramen.png",         "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "04", "korean": "봉투",     "romanization": "bong-tu",        "english": "Plastic bag",       "image": "04_plastic_bag.png",       "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "05", "korean": "계산",     "romanization": "gye-san",        "english": "Checkout",          "image": "05_checkout.png",          "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "06", "korean": "카드",     "romanization": "ka-deu",         "english": "Credit card",       "image": "06_credit_card.png",       "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "07", "korean": "현금",     "romanization": "hyeon-geum",     "english": "Cash",              "image": "07_cash.png",              "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "08", "korean": "영수증",   "romanization": "yeong-su-jeung", "english": "Receipt",           "image": "08_receipt.png",           "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "09", "korean": "물",       "romanization": "mul",            "english": "Water",             "image": "09_water.png",             "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } },
+    { "index": "10", "korean": "음료수",   "romanization": "eum-nyo-su",     "english": "Drink",             "image": "10_drink.png",             "audioTiming": { "firstSpeak": 0.2, "secondSpeak": 1.6 } }
+  ]
+}

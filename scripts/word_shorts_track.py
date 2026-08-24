@@ -50,8 +50,10 @@ neutral tone, no English accent. Do not add any other words."""
 WORD_SETS: dict[str, list[str]] = {
     "cafe": ["커피", "아메리카노", "라떼", "아이스", "따뜻한",
              "얼음", "빨대", "케이크", "포장", "여기서"],
+    "cvs":  ["편의점", "삼각김밥", "컵라면", "봉투", "계산",
+             "카드", "현금", "영수증", "물", "음료수"],
 }
-SET_PREFIX = {"cafe": "01-cafe"}
+SET_PREFIX = {"cafe": "01-cafe", "cvs": "10-convenience-store"}
 
 
 def load_api_key() -> str:
@@ -101,6 +103,8 @@ def main() -> None:
     ap.add_argument("--voice", default=VOICE)
     ap.add_argument("--model", default=MODEL)
     ap.add_argument("--force", action="store_true", help="캐시 무시하고 TTS 재호출")
+    ap.add_argument("--first", type=float, default=0.0, help="1회차 시작 시각(슬롯 기준)")
+    ap.add_argument("--second", type=float, default=SECOND_AT, help="2회차 시작 시각(슬롯 기준)")
     args = ap.parse_args()
 
     if shutil.which("ffmpeg") is None or shutil.which("ffprobe") is None:
@@ -152,7 +156,8 @@ def main() -> None:
         lead = leading_silence(src)                 # 원본은 건드리지 않고 재생 시작점만 당긴다
         d0 = ffprobe_duration(src) - lead
         tempo = 1.0
-        second_at = SECOND_AT
+        first_at = args.first
+        second_at = args.second
         note = f"앞무음 {lead:.2f}s 컷" if lead > 0.005 else "-"
 
         # 2회차가 슬롯을 넘치는지: second_at + d <= SLOT 이어야 한다
@@ -171,22 +176,48 @@ def main() -> None:
         else:
             d = d0
 
-        # 슬롯 wav 구성: 1회차 0.0s, 2회차 second_at, 전체 정확히 3초
-        af1 = f"atempo={tempo}," if tempo != 1.0 else ""
-        filt = (
-            f"[0:a]{af1}aresample=44100,pan=mono|c0=c0,adelay=0|0[a1];"
-            f"[1:a]{af1}aresample=44100,pan=mono|c0=c0,"
-            f"adelay={int(round(second_at*1000))}|{int(round(second_at*1000))}[a2];"
-            f"[a1][a2]amix=inputs=2:duration=longest:normalize=0,"
-            f"apad,atrim=0:{SLOT},asetpts=N/SR/TB[out]"
-        )
+        # 슬롯 구성: [무음][단어][무음][단어][무음] 을 이어 붙인다.
+        #
+        # adelay + apad + amix 조합은 쓰지 않는다. apad 는 무한 오디오를 만드는데
+        # aresample(first_pts=0) 이 DTS 를 음수로 망가뜨리면 -t 가 듣지 않아
+        # ffmpeg 가 디스크가 찰 때까지 파일을 쓴다(실제로 9.7GB 를 쓴 적이 있다).
+        # 아래처럼 유한한 조각만 만들어 concat 하면 길이가 구조적으로 확정된다.
         slot = tmp_dir / f"slot_{i:02d}.wav"
         ss = ["-ss", f"{lead:.4f}"] if lead > 0.005 else []
+        af = f"atempo={tempo}," if tempo != 1.0 else ""
+
+        word_wav = tmp_dir / f"w_{i:02d}.wav"
         subprocess.run(
-            ["ffmpeg", "-y", "-v", "error", *ss, "-i", str(src), *ss, "-i", str(src),
-             "-filter_complex", filt, "-map", "[out]",
-             "-ar", "44100", "-ac", "1", str(slot)],
-            check=True,
+            ["ffmpeg", "-y", "-v", "error", "-nostdin", *ss, "-i", str(src),
+             "-af", f"{af}aresample=44100", "-ac", "1", "-ar", "44100", str(word_wav)],
+            check=True, timeout=60,
+        )
+        d_actual = ffprobe_duration(word_wav)
+
+        pieces: list[Path] = []
+        gaps = [first_at, max(0.0, second_at - first_at - d_actual),
+                max(0.0, SLOT - second_at - d_actual)]
+        for gi, g in enumerate(gaps):
+            if g > 0.001:
+                sil = tmp_dir / f"s_{i:02d}_{gi}.wav"
+                subprocess.run(
+                    ["ffmpeg", "-y", "-v", "error", "-nostdin", "-f", "lavfi",
+                     "-i", "anullsrc=r=44100:cl=mono", "-t", f"{g:.4f}",
+                     "-ar", "44100", "-ac", "1", str(sil)],
+                    check=True, timeout=60,
+                )
+                pieces.append(sil)
+            if gi < 2:
+                pieces.append(word_wav)
+
+        lst = tmp_dir / f"list_{i:02d}.txt"
+        with open(lst, "w", encoding="utf-8") as fh:
+            for p in pieces:
+                fh.write(f"file '{p.resolve().as_posix()}'\n")
+        subprocess.run(
+            ["ffmpeg", "-y", "-v", "error", "-nostdin", "-f", "concat", "-safe", "0",
+             "-i", str(lst), "-t", f"{SLOT}", "-ar", "44100", "-ac", "1", str(slot)],
+            check=True, timeout=60,
         )
         got = ffprobe_duration(slot)
         slot_files.append(slot)
