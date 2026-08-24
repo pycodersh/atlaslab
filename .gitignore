@@ -99,3 +99,4 @@ scripts/audio-*.json
 /reels-audio/
 /out/
 /reels-audio/*/_raw/
+/reels-audio/*/parts-*/
