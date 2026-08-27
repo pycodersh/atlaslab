@@ -44,19 +44,20 @@ KO_INSTRUCTIONS = (
 )
 
 # (구간, 언어, 대사, 뒤 무음 ms)
+# 무음은 학습자가 따라 말할 여유를 준다. 한국어 표현 뒤를 특히 길게 둔다.
 SEGMENTS: list[tuple[str, str, str, int]] = [
-    ("S1", "en", 'How do you say "I can\'t eat this" in Korean? You can say:', 300),
-    ("S1", "ko", "못 먹어요.", 600),
+    ("S1", "en", 'How do you say "I can\'t eat this" in Korean? You can say:', 550),
+    ("S1", "ko", "못 먹어요.", 1000),
 
-    ("S2", "en", "Let's learn a few examples!", 400),
+    ("S2", "en", "Let's learn a few examples!", 800),
 
-    ("S3", "en", "When you can't eat spicy food, you say:", 250),
-    ("S3", "ko", "매운 거 못 먹어요.", 500),
+    ("S3", "en", "When you can't eat spicy food, you say:", 500),
+    ("S3", "ko", "매운 거 못 먹어요.", 900),
 
-    ("S4", "en", "If you can't eat seafood, you say:", 250),
-    ("S4", "ko", "해산물 못 먹어요.", 500),
+    ("S4", "en", "If you can't eat seafood, you say:", 500),
+    ("S4", "ko", "해산물 못 먹어요.", 900),
 
-    ("S5", "en", "And lastly, if you can't eat pork, you can say:", 250),
+    ("S5", "en", "And lastly, if you can't eat pork, you can say:", 500),
     ("S5", "ko", "돼지고기 못 먹어요.", 0),
 ]
 
@@ -86,10 +87,12 @@ def main() -> None:
     ap = argparse.ArgumentParser(description='"못 먹어요" 패턴 나레이션 생성')
     ap.add_argument("--model", default="tts-1-hd", help="영어 구간 모델")
     ap.add_argument("--ko-model", default="", help="한국어 구간 모델 (기본: --model 과 동일)")
-    ap.add_argument("--voice", default="alloy", help="alloy 또는 nova")
+    ap.add_argument("--voice", default="nova", help="alloy / nova / shimmer (오른쪽일수록 높고 밝음)")
     ap.add_argument("--out", default="out/audio")
     ap.add_argument("--name", default="korean_food_patterns.mp3")
     ap.add_argument("--also", default="output.mp3", help="같은 내용을 이 이름으로도 저장")
+    ap.add_argument("--pause-scale", type=float, default=1.0,
+                    help="문장 사이 무음 배율 (1.5 면 1.5배 길게)")
     ap.add_argument("--force", action="store_true")
     args = ap.parse_args()
 
@@ -142,10 +145,11 @@ def main() -> None:
         seg = trim(AudioSegment.from_file(f))
         seg = seg.apply_gain(TARGET_DBFS - seg.dBFS)
         d = len(seg) / 1000
-        print(f"{i:02d}  {sec}  {lang.upper()}  {d:7.2f}  {gap/1000:8.2f}  {t:7.2f}  {text[:42]}")
+        print(f"{i:02d}  {sec}  {lang.upper()}  {d:7.2f}  {int(round(gap*args.pause_scale))/1000:8.2f}  {t:7.2f}  {text[:42]}")
         cues.append(f"{t:6.2f}  {sec} {lang.upper():<2} {d:5.2f}s  {text}")
         track += seg
         t += d
+        gap = int(round(gap * args.pause_scale))
         if gap > 0:
             track += AudioSegment.silent(duration=gap, frame_rate=seg.frame_rate) \
                                  .set_channels(seg.channels).set_sample_width(seg.sample_width)
