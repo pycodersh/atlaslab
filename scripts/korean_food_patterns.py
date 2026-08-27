@@ -93,6 +93,8 @@ def main() -> None:
     ap.add_argument("--also", default="output.mp3", help="같은 내용을 이 이름으로도 저장")
     ap.add_argument("--pause-scale", type=float, default=1.0,
                     help="문장 사이 무음 배율 (1.5 면 1.5배 길게)")
+    ap.add_argument("--say", default="", help="한 줄만 같은 보이스로 생성하고 종료")
+    ap.add_argument("--say-out", default="", help="--say 결과 파일명")
     ap.add_argument("--force", action="store_true")
     args = ap.parse_args()
 
@@ -114,6 +116,45 @@ def main() -> None:
           ("  (instructions 적용)" if ko_model == "gpt-4o-mini-tts" else "  (instructions 미지원 모델)"))
     print(f"키: OPENAI_API_KEY(…{load_api_key()[-4:]})")
     print(f"구간 {len(SEGMENTS)}개  |  출력: {out_dir / args.name}\n")
+
+    # --say: 한 줄만 같은 보이스·모델로 만들고 종료
+    if args.say:
+        name = args.say_out or "say.mp3"
+        dst = out_dir / name
+        with client.audio.speech.with_streaming_response.create(
+            model=args.model, voice=args.voice, input=args.say, response_format="mp3",
+        ) as r:
+            r.stream_to_file(str(dst))
+        if dst.stat().st_size == 0:
+            raise SystemExit(f"TTS 응답 0바이트: {dst}")
+        seg = trim(AudioSegment.from_file(dst)).apply_gain(0)
+        seg.export(dst, format="mp3", bitrate="192k")
+
+        # 전체 라우드니스를 다른 파일들과 같은 -16 LUFS 로
+        probe = subprocess.run(
+            ["ffmpeg", "-v", "info", "-i", str(dst),
+             "-af", "loudnorm=I=-16:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"],
+            capture_output=True, text=True, errors="replace").stderr
+        mm = re.search(r"\{[^{}]*input_i[^{}]*\}", probe, re.S)
+        f2 = "loudnorm=I=-16:TP=-1.5:LRA=11"
+        if mm:
+            jj = json.loads(mm.group(0))
+            f2 += (f":measured_I={jj['input_i']}:measured_TP={jj['input_tp']}"
+                   f":measured_LRA={jj['input_lra']}:measured_thresh={jj['input_thresh']}"
+                   f":offset={jj['target_offset']}:linear=true")
+        tmp = dst.with_suffix(".norm.mp3")
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(dst), "-af", f2,
+                        "-codec:a", "libmp3lame", "-b:a", "192k", str(tmp)], check=True, timeout=120)
+        tmp.replace(dst)
+
+        dur = float(subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(dst)],
+            capture_output=True, text=True, check=True).stdout.strip())
+        print(f"▶ 단일 클립  ({args.model} / {args.voice})")
+        print(f'  "{args.say}"')
+        print(f"  {dur:.2f}초  {dst.stat().st_size/1024:.1f}KB")
+        print(f"  → {dst}")
+        return
 
     calls = 0
     print("[1] 구간별 생성")
