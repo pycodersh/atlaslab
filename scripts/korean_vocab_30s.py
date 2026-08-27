@@ -30,8 +30,12 @@ for _s in (sys.stdout, sys.stderr):
     except Exception:
         pass
 
-WORDS = ["식당", "메뉴", "주문", "반찬", "공기밥",
-         "숟가락", "젓가락", "물수건", "맛있다", "매워요"]
+WORD_SETS: dict[str, list[str]] = {
+    "restaurant": ["식당", "메뉴", "주문", "반찬", "공기밥",
+                   "숟가락", "젓가락", "물수건", "맛있다", "매워요"],
+    "subway":     ["지하철", "역", "출구", "환승", "교통카드",
+                   "급행", "방면", "내리다", "타다", "자리"],
+}
 
 SLOT_MS = 3000          # 슬롯 길이 — 반드시 이 값으로 맞춘다
 GAP_MS = 500            # 같은 슬롯 안 두 발음 사이 간격
@@ -70,14 +74,16 @@ def main() -> None:
                     help="ko-KR-SunHiNeural(여성) 또는 ko-KR-InJoonNeural(남성)")
     ap.add_argument("--out", default="out/audio", help="출력 폴더")
     ap.add_argument("--name", default="korean_vocab_30s.mp3", help="최종 파일명")
+    ap.add_argument("--set", default="restaurant", choices=sorted(WORD_SETS), help="단어 세트")
     ap.add_argument("--force", action="store_true", help="캐시 무시하고 TTS 재생성")
     args = ap.parse_args()
 
     if shutil.which("ffmpeg") is None:
         raise SystemExit("ffmpeg 을 PATH에서 찾을 수 없습니다.")
 
+    WORDS = WORD_SETS[args.set]
     out_dir = Path(args.out)
-    words_dir = out_dir / "words-vocab30"
+    words_dir = out_dir / f"words-{args.set}-edge"
     words_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"\n=== 한국어 10단어 30초 트랙 ===")
