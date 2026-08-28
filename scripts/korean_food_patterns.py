@@ -45,21 +45,38 @@ KO_INSTRUCTIONS = (
 
 # (구간, 언어, 대사, 뒤 무음 ms)
 # 무음은 학습자가 따라 말할 여유를 준다. 한국어 표현 뒤를 특히 길게 둔다.
-SEGMENTS: list[tuple[str, str, str, int]] = [
-    ("S1", "en", 'How do you say "I can\'t eat this" in Korean? You can say:', 550),
-    ("S1", "ko", "못 먹어요.", 1000),
+SETS: dict[str, list[tuple[str, str, str, int]]] = {
+    "cant-eat": [
+        ("S1", "en", 'How do you say "I can\'t eat this" in Korean? You can say:', 550),
+        ("S1", "ko", "못 먹어요.", 1000),
 
-    ("S2", "en", "Let's learn a few examples!", 800),
+        ("S2", "en", "Let's learn a few examples!", 800),
 
-    ("S3", "en", "When you can't eat spicy food, you say:", 500),
-    ("S3", "ko", "매운 거 못 먹어요.", 900),
+        ("S3", "en", "When you can't eat spicy food, you say:", 500),
+        ("S3", "ko", "매운 거 못 먹어요.", 900),
 
-    ("S4", "en", "If you can't eat seafood, you say:", 500),
-    ("S4", "ko", "해산물 못 먹어요.", 900),
+        ("S4", "en", "If you can't eat seafood, you say:", 500),
+        ("S4", "ko", "해산물 못 먹어요.", 900),
 
-    ("S5", "en", "And lastly, if you can't eat pork, you can say:", 500),
-    ("S5", "ko", "돼지고기 못 먹어요.", 0),
-]
+        ("S5", "en", "And lastly, if you can't eat pork, you can say:", 500),
+        ("S5", "ko", "돼지고기 못 먹어요.", 0),
+    ],
+    "want-to-eat": [
+        ("S1", "en", "What would you say in Korean when you want to eat something? You can say:", 550),
+        ("S1", "ko", "먹고 싶어요.", 1000),
+
+        ("S2", "en", "Let's practice with a few examples!", 800),
+
+        ("S3", "en", "When you want to eat grilled pork belly, say:", 500),
+        ("S3", "ko", "삼겹살 먹고 싶어요.", 900),
+
+        ("S4", "en", "When you want to eat Korea's representative street food, Tteokbokki, say:", 500),
+        ("S4", "ko", "떡볶이 먹고 싶어요.", 900),
+
+        ("S5", "en", "And when you want to eat refreshing cold noodles, Naengmyeon, say:", 500),
+        ("S5", "ko", "냉면 먹고 싶어요.", 0),
+    ],
+}
 
 
 def load_api_key() -> str:
@@ -93,6 +110,7 @@ def main() -> None:
     ap.add_argument("--also", default="output.mp3", help="같은 내용을 이 이름으로도 저장")
     ap.add_argument("--pause-scale", type=float, default=1.0,
                     help="문장 사이 무음 배율 (1.5 면 1.5배 길게)")
+    ap.add_argument("--set", default="cant-eat", choices=sorted(SETS), help="대본 세트")
     ap.add_argument("--say", default="", help="한 줄만 같은 보이스로 생성하고 종료")
     ap.add_argument("--say-out", default="", help="--say 결과 파일명")
     ap.add_argument("--force", action="store_true")
@@ -101,9 +119,10 @@ def main() -> None:
     if shutil.which("ffmpeg") is None:
         raise SystemExit("ffmpeg 을 PATH에서 찾을 수 없습니다.")
 
+    SEGMENTS = SETS[args.set]
     ko_model = args.ko_model or args.model
     out_dir = Path(args.out)
-    parts = out_dir / "parts-food"
+    parts = out_dir / f"parts-{args.set}"
     parts.mkdir(parents=True, exist_ok=True)
 
     from openai import OpenAI
@@ -218,7 +237,7 @@ def main() -> None:
     raw.unlink()
 
     # 지시서에 파일명이 두 가지로 적혀 있어 같은 내용을 두 이름으로 남긴다
-    if args.also:
+    if args.also and args.set == "cant-eat":
         (out_dir / args.also).write_bytes(final.read_bytes())
 
     cues_path = out_dir / f"{Path(args.name).stem}_cues.txt"
@@ -232,7 +251,7 @@ def main() -> None:
 
     print(f"\n{'=' * 64}")
     print(f"최종: {final}  ({final.stat().st_size/1024:.1f}KB)")
-    if args.also:
+    if args.also and args.set == "cant-eat":
         print(f"사본: {out_dir / args.also}")
     print(f"길이: {dur:.2f}초  ·  API 호출 {calls}회")
     print(f"큐 시트 → {cues_path}")
