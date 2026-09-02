@@ -41,7 +41,7 @@ To get someone's attention first, say **저기요** (*jeo-gi-yo*) — the Korean
 
 Here's how the whole exchange sounds in a real restaurant:
 
-▶ [Watch: asking for more banchan (10 sec)](https://youtube.com/shorts/sWDjR0tnl3I)
+<YouTube id="sWDjR0tnl3I" title="Asking for more banchan in a Korean restaurant" />
 
 ## Self-serve or served
 
@@ -83,7 +83,7 @@ Ten words cover most of what happens at a Korean table:
 
 반찬 · 김치 · 더 · 주세요 · 저기요 · 물 · 셀프 · 무료 · 그릇 · 리필
 
-▶ [Watch: 10 Korean restaurant words (30 sec)](https://youtube.com/shorts/zXkf_xLj-ow)
+<YouTube id="zXkf_xLj-ow" title="10 Korean words you'll need at any restaurant" />
 
 ## What to actually do
 
