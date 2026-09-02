@@ -3,6 +3,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
@@ -354,6 +355,7 @@ export default async function AppBlogPostPage({
         <article className="blog-prose art-wrap">
           <MDXRemote
             source={post.content}
+            components={blogMdxComponents}
             options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
           />
         </article>
