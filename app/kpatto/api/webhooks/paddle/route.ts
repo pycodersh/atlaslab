@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { cleanEnvLoud } from '@/lib/paddle/env'
+import { verifyPaddleSignature } from '@/lib/paddle/verify'
 
 function getServiceClient() {
   return createClient(
@@ -8,37 +10,7 @@ function getServiceClient() {
   )
 }
 
-// Paddle-Signature: ts=<timestamp>;h1=<hex_hmac_sha256>
-async function verifyPaddleSignature(
-  body: string,
-  signature: string,
-  secret: string,
-): Promise<boolean> {
-  const parts = Object.fromEntries(
-    signature.split(';').map(p => p.split('=') as [string, string]),
-  )
-  const ts = parts['ts']
-  const h1 = parts['h1']
-  if (!ts || !h1) return false
-
-  const key = await crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign'],
-  )
-  const sigBytes = await crypto.subtle.sign(
-    'HMAC',
-    key,
-    new TextEncoder().encode(`${ts}:${body}`),
-  )
-  const computed = Array.from(new Uint8Array(sigBytes))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('')
-
-  return computed === h1
-}
+// 검증은 lib/paddle/verify.ts 하나에 둔다 — 라우트가 둘이라 한쪽이 빠뜨렸었다.
 
 type PaddleEvent = {
   event_type: string
@@ -53,13 +25,18 @@ type PaddleEvent = {
   }
 }
 
-const KPATTO_PRICE_ID = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
+// ★ BOM이 붙으면 아래 `priceId !== KPATTO_PRICE_ID`가 **영원히 참**이 되어
+//   결제가 성사돼도 200으로 흘려보내고 구독이 안 켜진다. 조용한 실패다.
+const KPATTO_PRICE_ID = cleanEnvLoud(
+  process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID,
+  'NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID',
+)
 
 export async function POST(request: Request) {
   const body = await request.text()
 
   // Fail-closed: PADDLE_WEBHOOK_SECRET 미설정이거나 서명 불일치 시 무조건 401
-  const secret = process.env.PADDLE_WEBHOOK_SECRET
+  const secret = cleanEnvLoud(process.env.PADDLE_WEBHOOK_SECRET, 'PADDLE_WEBHOOK_SECRET')
   if (!secret) {
     console.error('[kpatto webhook] PADDLE_WEBHOOK_SECRET not configured')
     return NextResponse.json({ error: 'Webhook secret not configured' }, { status: 401 })

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient as createSupabase } from '@supabase/supabase-js'
 import { createClient as createServerClient } from '@/lib/supabase/server'
+import { cleanEnv, cleanEnvLoud } from '@/lib/paddle/env'
 
 /**
  * GET /kpatto/api/paddle-portal
@@ -30,13 +31,15 @@ export async function GET() {
   const subId        = (profile as Record<string, unknown> | null)?.kpatto_subscription_id as string | null
   let   customerId   = (profile as Record<string, unknown> | null)?.kpatto_customer_id   as string | null
 
-  const apiKey = process.env.PADDLE_API_KEY
+  // ★ API 키는 Authorization 헤더로 간다 — BOM이 붙으면 fetch가 요청을
+  //   만들기도 전에 던진다(ISO-8859-1 아님). 클라이언트 토큰과 같은 자리다.
+  const apiKey = cleanEnvLoud(process.env.PADDLE_API_KEY, 'PADDLE_API_KEY')
   if (!apiKey) {
     // API Key 미설정 → 클라이언트에게 fallback 신호
     return NextResponse.json({ fallback: true })
   }
 
-  const paddleBase = process.env.NEXT_PUBLIC_PADDLE_SANDBOX === 'true'
+  const paddleBase = cleanEnv(process.env.NEXT_PUBLIC_PADDLE_SANDBOX) === 'true'
     ? 'https://sandbox-api.paddle.com'
     : 'https://api.paddle.com'
 

@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { cleanEnvLoud } from '@/lib/paddle/env'
+import { verifyPaddleSignature } from '@/lib/paddle/verify'
 
 function getServiceClient() {
   return createClient(
@@ -21,10 +23,30 @@ type PaddleEvent = {
   }
 }
 
-const KPATTO_PRICE_ID = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
+const KPATTO_PRICE_ID = cleanEnvLoud(
+  process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID,
+  'NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID',
+)
 
 export async function POST(request: Request) {
   const body = await request.text()
+
+  // ★ 이 라우트는 서명을 **검증하지 않고** kpatto_pro를 켜 주고 있었다.
+  //   URL·가격 ID·남의 user_id만 알면 누구나 JSON을 POST해 Pro를 공짜로
+  //   가져갈 수 있었다. 형제 라우트(app/kpatto/api/webhooks/paddle)는 처음부터
+  //   fail-closed였다 — 검증 구현이 그 파일 안에만 있어서 이쪽이 빠뜨렸다.
+  //   이제 둘 다 lib/paddle/verify.ts를 부른다.
+  const secret = cleanEnvLoud(process.env.PADDLE_WEBHOOK_SECRET, 'PADDLE_WEBHOOK_SECRET')
+  if (!secret) {
+    console.error('[paddle webhook] PADDLE_WEBHOOK_SECRET not configured')
+    return NextResponse.json({ error: 'Webhook secret not configured' }, { status: 401 })
+  }
+
+  const signature = request.headers.get('paddle-signature') ?? ''
+  if (!(await verifyPaddleSignature(body, signature, secret))) {
+    console.error('[paddle webhook] invalid signature')
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
+  }
 
   let event: PaddleEvent
   try {

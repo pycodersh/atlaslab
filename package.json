@@ -10,6 +10,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test:env": "tsx scripts/test-paddle-env.ts",
+    "test:verify": "tsx scripts/test-paddle-verify.ts",
+    "test:pay": "npm run test:env && npm run test:verify",
     "generate-audio": "tsx scripts/generate-audio.ts",
     "generate-shimmer": "tsx scripts/generate-shimmer.ts"
   },
@@ -47,6 +50,7 @@
     "msedge-tts": "^2.0.6",
     "pg": "^8.23.0",
     "playwright": "^1.62.1",
+    "puppeteer": "^25.7.0",
     "sharp": "^0.35.3",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",

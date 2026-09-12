@@ -7,6 +7,7 @@ import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { useAuth } from '@/contexts/AuthContext'
 import { usePaddle } from '@/hooks/usePaddle'
 import { getPaddle } from '@/lib/paddle/client'
+import { cleanEnvLoud } from '@/lib/paddle/env'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 
 const ACCENT = '#D4873A'
@@ -204,7 +205,10 @@ export default function KPattoSubscriptionPage() {
     if (upgrading) return
     if (!user?.id) { router.push('/kpatto'); return }
 
-    const priceId = process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID
+    const priceId = cleanEnvLoud(
+      process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID,
+      'NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID',
+    )
     if (!priceId || priceId.includes('REPLACE')) {
       alert('Payment not configured. Please try again later.')
       return
