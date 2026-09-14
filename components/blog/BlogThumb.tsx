@@ -21,7 +21,7 @@ import type { BlogThumbnail } from '@/lib/blog/thumbnail'
  * 외부 호스트를 next.config 의 remotePatterns 에 추가하는 설정 변경을 피한다.
  */
 /** 카드 이미지 높이 상한. 카드 폭이 넓어져도 이 이상 커지지 않는다. */
-const MAX_THUMB_HEIGHT = 260
+const MAX_THUMB_HEIGHT = 180
 
 export function BlogThumb({ thumb, alt }: { thumb: BlogThumbnail | null; alt: string }) {
   // 0=1차 소스, 1=폴백(유튜브만), 2=숨김
