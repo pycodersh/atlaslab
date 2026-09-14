@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
+import { proseCss } from '@/lib/blog/proseCss'
 
 export const revalidate = 3600
 export const dynamicParams = true
@@ -152,55 +153,7 @@ export default async function BlogPostPage({
         }
 
         /* ── Prose — light mode ──────────────────────────────── */
-        .blog-prose { padding-top: 36px; padding-bottom: 8px; font-family: ${bodyFont}; }
-        .blog-prose h2 {
-          font-family: ${SERIF}; font-size: 22px; font-weight: 700;
-          color: #111; margin: 40px 0 14px;
-          letter-spacing: -0.01em; line-height: 1.3;
-        }
-        .blog-prose h3 {
-          font-family: ${BODY}; font-size: 17px; font-weight: 700;
-          color: #222; margin: 28px 0 10px;
-        }
-        .blog-prose p {
-          font-size: 15px; line-height: 1.85; color: #444; margin: 0 0 18px;
-        }
-        .blog-prose strong { font-weight: 700; color: #111; }
-        .blog-prose em { font-style: italic; color: #555; }
-        .blog-prose ul, .blog-prose ol { padding-left: 24px; margin: 0 0 18px; }
-        .blog-prose li { font-size: 15px; line-height: 1.85; color: #444; margin-bottom: 6px; }
-        .blog-prose blockquote {
-          border-left: 3px solid #C8102E; margin: 28px 0;
-          padding: 14px 20px; background: rgba(200,16,46,0.04);
-          border-radius: 0 8px 8px 0;
-        }
-        .blog-prose blockquote p { margin: 0; font-style: italic; color: #666; }
-        .blog-prose code {
-          font-size: 13px; background: #F0EADF; color: #C8102E;
-          border-radius: 4px; padding: 2px 6px;
-          font-family: "Courier New", monospace;
-        }
-        .blog-prose pre {
-          background: #1a1a1a; border-radius: 8px;
-          padding: 20px; overflow-x: auto; margin: 0 0 24px;
-        }
-        .blog-prose pre code { background: none; padding: 0; color: rgba(255,255,255,0.85); }
-        .blog-prose a { color: #C8102E; text-decoration: underline; text-underline-offset: 3px; }
-        .blog-prose a:hover { color: #A30D25; }
-        .blog-prose hr { border: none; border-top: 1px solid #E5E1DC; margin: 32px 0; }
-        .blog-prose table {
-          width: 100%; border-collapse: collapse; margin: 24px 0;
-          font-size: 14px; display: block; overflow-x: auto;
-        }
-        .blog-prose th, .blog-prose td {
-          padding: 10px 16px; text-align: left; border: 1px solid #E5E1DC;
-        }
-        .blog-prose th {
-          background: #F0EADF; font-weight: 700;
-          font-size: 13px; letter-spacing: 0.02em; color: #111;
-        }
-        .blog-prose tr:nth-child(even) td { background: #F5F3F0; }
-        .blog-prose * { font-family: inherit; }
+        ${proseCss(bodyFont)}
 
         /* ── Related posts ───────────────────────────────────── */
         .art-related { border-top: 1px solid #E5E1DC; padding: 28px 0 0; margin-bottom: 36px; }
