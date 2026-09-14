@@ -16,28 +16,35 @@ const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 
 /* ── Product data ─────────────────────────────────────────────────────── */
+/* 순서는 방문자 기준 — 사이트가 영어라 영어권 사용자용 앱이 앞에 온다.
+   audience 는 "누구를 위한 앱인지" 한 줄. Patto 와 K-Patto 는 대상이
+   정반대라 이름만으로는 구분되지 않는다. */
 const PRODUCTS = [
   {
-    name: 'Patto',
-    desc: 'Learn English patterns the way native speakers actually use them.',
-    tag: 'Live' as const,
-    href: '/patto/home',
-  },
-  {
     name: 'K-Patto',
-    desc: 'Korean pattern learning built for global learners — audio, stories, drills.',
+    audience: 'For learners of Korean',
+    desc: 'A 100-episode webtoon set in Seoul that teaches 300+ real phrases, with native audio on every line.',
     tag: 'Live' as const,
     href: '/kpatto',
   },
   {
     name: 'K-Pantry',
-    desc: 'Discover Korean recipes based on what is already in your fridge.',
+    audience: 'For cooking Korean at home',
+    desc: "Tells you what you can make with what's already in your fridge — and what to use when an ingredient is missing.",
     tag: 'Live' as const,
     href: '/kpantry/en',
   },
   {
+    name: 'Patto',
+    audience: 'For Korean speakers learning English',
+    desc: '100 short stories that drill the sentence patterns people actually speak, not the ones textbooks teach.',
+    tag: 'Live' as const,
+    href: '/patto/home',
+  },
+  {
     name: 'Career Navi',
-    desc: 'AI career navigation for Korean professionals exploring new paths.',
+    audience: 'For Korean professionals',
+    desc: 'Maps out where your experience could take you next, and what the move would actually require.',
     tag: 'Soon' as const,
     href: null,
   },
@@ -309,7 +316,9 @@ export default async function AtlasLabHome() {
           background: var(--rule, #E5E1DC);
           border: 1px solid var(--rule, #E5E1DC);
         }
-        @media (max-width: 820px) {
+        /* 1200px 이상 4열(기본) / 768~1199px 2열 / 768px 미만 1열.
+           그리드 아이템은 기본이 stretch 라 같은 행의 카드 높이는 자동으로 맞는다. */
+        @media (max-width: 1199px) {
           .products-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
@@ -337,8 +346,8 @@ export default async function AtlasLabHome() {
           .pcard-glow { animation: none; }
         }
 
-        /* ── Mobile: CSS Grid reflow ────────────────────────────────── */
-        @media (max-width: 520px) {
+        /* ── Mobile(768px 미만): 1열 + 가로형 카드로 재배치 ──────────── */
+        @media (max-width: 767px) {
           .products-grid {
             display: flex; flex-direction: column;
             gap: 12px;
@@ -353,6 +362,7 @@ export default async function AtlasLabHome() {
             grid-template-rows: auto auto auto;
             grid-template-areas:
               "icon name  badge"
+              "aud  aud   aud"
               "desc desc  desc"
               "btn  btn   btn";
             gap: 0 12px;
@@ -374,9 +384,14 @@ export default async function AtlasLabHome() {
             align-self: center;
             margin-bottom: 0 !important;
           }
+          .paud {
+            grid-area: aud;
+            margin-top: 12px;
+            margin-bottom: 0 !important;
+          }
           .pdesc  {
             grid-area: desc;
-            margin-top: 12px;
+            margin-top: 8px;
             font-size: 13px !important;
             margin-bottom: 14px !important;
           }
@@ -395,9 +410,18 @@ export default async function AtlasLabHome() {
         .pname {
           font-family: ${SERIF};
           font-size: 19px; font-weight: 700;
-          color: var(--ink, #111); margin-bottom: 8px;
+          color: var(--ink, #111); margin-bottom: 4px;
           letter-spacing: -0.01em; line-height: 1.2;
         }
+        /* "누구를 위한 앱인지" — 이름 바로 아래 한 줄.
+           LIVE 배지와 같은 레드, 출시 전(Career Navi)은 회색. */
+        .paud {
+          font-family: ${BODY};
+          font-size: 12px; font-weight: 600;
+          color: var(--brand-red, #C8102E);
+          line-height: 1.4; margin-bottom: 10px;
+        }
+        .paud-soon { color: var(--ink-muted, #6B6B6B); }
         .pdesc {
           font-family: ${BODY};
           font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
@@ -581,6 +605,9 @@ export default async function AtlasLabHome() {
                   </div>
                   {/* Name + description (flex: 1 pushes badge+btn to bottom) */}
                   <div className="pname">{p.name}</div>
+                  <div className={`paud${p.tag === 'Soon' ? ' paud-soon' : ''}`}>
+                    {p.audience}
+                  </div>
                   <div className="pdesc">{p.desc}</div>
                   {/* Badge just above button */}
                   {badge}
