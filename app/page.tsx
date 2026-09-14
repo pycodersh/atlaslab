@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
+import { BlogThumb } from '@/components/blog/BlogThumb'
 
 /* ── Typography constants ─────────────────────────────────────────────── */
 const SERIF = '"Playfair Display", Georgia, serif'
@@ -76,13 +77,81 @@ const APP_ICONS: Record<string, React.ReactNode> = {
   ),
 }
 
-/* ── Blog app labels ──────────────────────────────────────────────────── */
-const APP_LABEL: Record<string, string> = {
-  'k-patto':   'K-Patto',
-  patto:       'Patto',
-  kpantry:     'K-Pantry',
-  'k-pantry':  'K-Pantry',
-  careernavi:  'Career Navi',
+/* ── Blog home sections ───────────────────────────────────────────────────
+   category 는 DB 에 이미 있는 값만 쓴다(새로 만들지 않는다).
+   여기 나열되지 않은 category 와 null 은 FALLBACK_SECTION 으로 모인다. */
+const BLOG_SECTIONS = [
+  {
+    key: 'travel',
+    title: 'Travel & real-life Korean',
+    desc: 'What to actually say in cafes, restaurants and shops.',
+    categories: ['Real-Life Korean'],
+  },
+  {
+    key: 'food',
+    title: 'Korean food',
+    desc: 'Ingredients, substitutes and regional dishes.',
+    categories: ['Cooking Basics', 'Ingredients & Pantry'],
+  },
+  {
+    key: 'basics',
+    title: 'Korean basics',
+    desc: 'Hangul, pronunciation and the grammar that trips people up.',
+    categories: [
+      'Hangul & Pronunciation',
+      'Korean Grammar',
+      'Grammar',
+      'Getting Started',
+      'Korean Culture',
+    ],
+  },
+] as const
+
+const FALLBACK_SECTION = 'basics'
+const POSTS_PER_SECTION = 2
+
+/* category → 섹션 key */
+const SECTION_OF_CATEGORY = new Map<string, string>(
+  BLOG_SECTIONS.flatMap(s => s.categories.map(c => [c, s.key] as [string, string])),
+)
+
+/* 본문에서 첫 번째 <YouTube id="..." /> 의 id 를 뽑는다. 없으면 null. */
+const YOUTUBE_ID_RE = /<YouTube\s+id="([A-Za-z0-9_-]+)"/
+
+type BlogRow = {
+  slug: string
+  title: string
+  description: string | null
+  app: string
+  locale: string
+  category: string | null
+  published_at: string
+  content: string | null
+}
+
+/** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다. */
+function groupIntoSections(posts: BlogRow[]) {
+  const buckets = new Map<string, BlogRow[]>(BLOG_SECTIONS.map(s => [s.key, []]))
+
+  for (const post of posts) {
+    const key = (post.category && SECTION_OF_CATEGORY.get(post.category)) || FALLBACK_SECTION
+    buckets.get(key)!.push(post)
+  }
+
+  // posts 는 published_at 내림차순으로 들어오므로 앞에서 자르면 최신순이다.
+  return BLOG_SECTIONS.map(section => {
+    const all = buckets.get(section.key)!
+    return {
+      key: section.key,
+      title: section.title,
+      desc: section.desc,
+      total: all.length,
+      posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
+        ...post,
+        videoId: post.content?.match(YOUTUBE_ID_RE)?.[1] ?? null,
+      })),
+    }
+  })
 }
 
 /* ── Why Atlas Lab items ──────────────────────────────────────────────── */
@@ -155,13 +224,16 @@ export default async function AtlasLabHome() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
   )
-  const { data: latestPosts } = await supabase
+  // 섹션이 3개지만 쿼리는 한 번만 — 전부 가져와서 코드에서 분류한다.
+  // content 를 같이 받는 이유: 카드 썸네일로 쓸 <YouTube id="..." /> 를 여기서 뽑는다.
+  const { data: allPosts } = await supabase
     .from('blog_posts')
-    .select('slug, title, description, app, locale, category, published_at')
+    .select('slug, title, description, app, locale, category, published_at, content')
     .eq('is_paused', false)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
-    .limit(4)
+
+  const blogSections = groupIntoSections(allPosts ?? [])
 
   return (
     <>
@@ -386,6 +458,15 @@ export default async function AtlasLabHome() {
           background: #F5F5F3;
           padding: 60px 0 64px;
         }
+        .blog-sec + .blog-sec { margin-top: 56px; }
+        /* 섹션 안에서는 헤더 바로 아래에 한 줄 설명이 붙으므로 간격을 줄인다 */
+        .blog-sec .sec-head { margin-bottom: 10px; }
+        .bsec-desc {
+          font-family: ${BODY};
+          font-size: 13.5px; color: var(--ink-muted, #6B6B6B);
+          line-height: 1.6;
+          margin: 0 0 20px;
+        }
         .blog-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
@@ -398,18 +479,21 @@ export default async function AtlasLabHome() {
         }
         .bcard {
           background: #F5F5F3;
-          padding: 28px 24px;
           text-decoration: none;
           display: flex; flex-direction: column;
           transition: background 0.15s;
         }
         .bcard:hover { background: #ECEAE7; }
-        .bcat {
-          font-family: ${BODY};
-          font-size: 9.5px; font-weight: 700;
-          letter-spacing: 0.14em; text-transform: uppercase;
-          color: var(--brand-red, #C8102E);
-          margin-bottom: 10px;
+        /* 유튜브 썸네일은 1280x720(16:9)이라 카드 비율과 그대로 맞는다.
+           영상이 없는 글은 이 요소 자체를 렌더링하지 않는다(자리표시자 없음). */
+        .bthumb {
+          display: block; width: 100%;
+          aspect-ratio: 16 / 9; object-fit: cover;
+          background: #E5E3E0;
+        }
+        .bbody {
+          padding: 24px;
+          display: flex; flex-direction: column; flex: 1;
         }
         .btitle {
           font-family: ${SERIF};
@@ -420,16 +504,11 @@ export default async function AtlasLabHome() {
         .bexcerpt {
           font-family: ${BODY};
           font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
-          line-height: 1.65; flex: 1; margin-bottom: 16px;
+          line-height: 1.65; flex: 1; margin-bottom: 0;
           display: -webkit-box;
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
-        }
-        .bdate {
-          font-family: ${BODY};
-          font-size: 11px; color: var(--ink-muted, #6B6B6B);
-          letter-spacing: 0.02em;
         }
 
         /* ── Why section ───────────────────────────────────────────── */
@@ -520,36 +599,42 @@ export default async function AtlasLabHome() {
         </div>
       </div>
 
-      {/* ── From the Blog ── */}
-      {latestPosts && latestPosts.length > 0 && (
+      {/* ── From the Blog — 주제별 3섹션 ── */}
+      {blogSections.some(s => s.posts.length > 0) && (
         <div className="blog-outer">
           <div className="wrap">
-            <div className="sec-head">
-              <span className="sec-label">From the Blog</span>
-              <a href="/blog" className="sec-more">Browse all articles →</a>
-            </div>
-            <div className="blog-grid">
-              {latestPosts.map(post => (
-                <a
-                  key={post.slug}
-                  href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                  className="bcard"
-                >
-                  <div className="bcat">
-                    {post.category ?? APP_LABEL[post.app] ?? post.app}
+            {blogSections.map(section =>
+              section.posts.length === 0 ? null : (
+                <div key={section.key} className="blog-sec">
+                  <div className="sec-head">
+                    <span className="sec-label">{section.title}</span>
+                    <a href="/blog" className="sec-more">
+                      View all {section.total} →
+                    </a>
                   </div>
-                  <div className="btitle">{post.title}</div>
-                  {post.description && (
-                    <div className="bexcerpt">{post.description}</div>
-                  )}
-                  <div className="bdate">
-                    {new Date(post.published_at).toLocaleDateString('en-US', {
-                      year: 'numeric', month: 'long', day: 'numeric',
-                    })}
+                  <p className="bsec-desc">{section.desc}</p>
+                  <div className="blog-grid">
+                    {section.posts.map(post => (
+                      <a
+                        key={`${post.locale}/${post.app}/${post.slug}`}
+                        href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                        className="bcard"
+                      >
+                        {post.videoId && (
+                          <BlogThumb videoId={post.videoId} alt={post.title} />
+                        )}
+                        <div className="bbody">
+                          <div className="btitle">{post.title}</div>
+                          {post.description && (
+                            <div className="bexcerpt">{post.description}</div>
+                          )}
+                        </div>
+                      </a>
+                    ))}
                   </div>
-                </a>
-              ))}
-            </div>
+                </div>
+              ),
+            )}
           </div>
         </div>
       )}
