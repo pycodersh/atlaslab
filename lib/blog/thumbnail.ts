@@ -33,6 +33,11 @@ const COVER_BY_SLUG: Record<string, string> = {
   'korean-convenience-store-phrases': '/images/articles/convenience-store-phrases.jpg',
   'ordering-korean-street-food': '/images/articles/street-food-bunsik.jpg',
   'korean-subway-phrases-first-trip': '/images/articles/seoul-subway-phrases.jpg',
+  'how-to-order-at-a-korean-cafe': '/images/articles/korean-cafe-order.jpg',
+  'seeing-a-doctor-in-korea': '/images/articles/korean-clinic-doctor.jpg',
+  'buying-clothes-in-korean': '/images/articles/korean-clothes-shopping.jpg',
+  'ordering-food-delivery-in-korea': '/images/articles/korean-food-delivery.jpg',
+  'visiting-a-korean-palace-phrases': '/images/articles/korean-palace-gyeongbokgung.jpg',
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
