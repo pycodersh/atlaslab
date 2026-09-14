@@ -9,7 +9,7 @@ import {
   POSTS_PER_SECTION,
   topicSectionKey,
 } from '@/lib/blog/sections'
-import { readThumbnail } from '@/lib/blog/thumbnail'
+import { thumbnailForPost } from '@/lib/blog/thumbnail'
 
 /* ── Typography constants ─────────────────────────────────────────────── */
 const SERIF = '"Playfair Display", Georgia, serif'
@@ -118,7 +118,7 @@ function groupIntoSections(posts: BlogRow[]) {
       total: all.length,
       posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
         ...post,
-        thumb: readThumbnail(post.content),
+        thumb: thumbnailForPost(post.slug, post.content),
       })),
     }
   })
@@ -196,7 +196,7 @@ export default async function AtlasLabHome() {
   )
   // 섹션이 여러 개지만 쿼리는 한 번만 — 전부 가져와서 코드에서 분류한다.
   // content 를 같이 받는 이유: 카드 썸네일(유튜브 임베드 또는 본문 첫 이미지)을
-  // readThumbnail 로 여기서 뽑는다.
+  // thumbnailForPost 로 여기서 정한다(대표 이미지가 있으면 그것이 우선).
   const { data: allPosts } = await supabase
     .from('blog_posts')
     .select('slug, title, description, app, locale, category, published_at, content')
