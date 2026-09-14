@@ -28,6 +28,11 @@ const COVER_BY_SLUG: Record<string, string> = {
   'han-river-picnic-korean-phrases': '/images/articles/han-river-picnic.jpg',
   'k-beauty-store-korean-vocabulary': '/images/articles/olive-young-kbeauty.jpg',
   'shopping-at-a-korean-traditional-market': '/images/articles/traditional-market.jpg',
+  'korean-noraebang-phrases': '/images/articles/korean-noraebang.jpg',
+  'how-to-order-at-a-korean-restaurant': '/images/articles/order-korean-restaurant.jpg',
+  'korean-convenience-store-phrases': '/images/articles/convenience-store-phrases.jpg',
+  'ordering-korean-street-food': '/images/articles/street-food-bunsik.jpg',
+  'korean-subway-phrases-first-trip': '/images/articles/seoul-subway-phrases.jpg',
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
