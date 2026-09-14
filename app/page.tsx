@@ -478,7 +478,7 @@ export default async function AtlasLabHome() {
           font-family: ${SERIF};
           font-size: 22px; font-weight: 700;
           color: #111111;
-          text-transform: none;
+          text-transform: uppercase;
           letter-spacing: normal;
         }
         .bsec-desc {
