@@ -14,10 +14,11 @@ export function proseCss(bodyFont: string): string {
   return `
         .blog-prose { padding-top: 36px; padding-bottom: 8px; font-family: ${bodyFont}; }
 
-        /* 제목 위계 — h2 는 아래 가는 선으로 구간을 끊어준다 */
+        /* 제목 위계 — h2 는 아래 가는 선으로 구간을 끊어준다.
+           선과 첫 문단 사이가 좁아 답답해서 아래 여백을 22px 로 띄웠다(56:22). */
         .blog-prose h2 {
           font-family: ${SERIF}; font-size: 26px; font-weight: 700;
-          color: #111; margin: 56px 0 16px;
+          color: #111; margin: 56px 0 22px;
           padding-bottom: 8px; border-bottom: 1px solid #E5E1DC;
           letter-spacing: -0.01em; line-height: 1.3;
         }
@@ -43,12 +44,29 @@ export function proseCss(bodyFont: string): string {
         .blog-prose li:last-child { margin-bottom: 0; }
         .blog-prose li::marker { color: #C8102E; }
 
+        /* 한국어 예시·회화 콜아웃.
+           본문 인용문(>)은 대부분 "한국어 — 영어 번역" 형태의 예시라,
+           단순 인용이 아니라 눈에 띄는 콜아웃으로 처리한다. */
         .blog-prose blockquote {
-          border-left: 3px solid #C8102E; margin: 28px 0;
-          padding: 14px 20px; background: rgba(200,16,46,0.04);
-          border-radius: 0 8px 8px 0;
+          background: #F8F8F6;
+          border-left: 3px solid #C8102E;
+          padding: 0.75rem 1rem;
+          margin: 1.25rem 0;
         }
-        .blog-prose blockquote p { margin: 0; font-style: italic; color: #666; }
+        .blog-prose blockquote p {
+          margin: 0;
+          /* 원문은 "> 줄1 / > 줄2" 여러 줄인데 마크다운이 한 문단으로 합쳐서
+             대화가 한 줄로 이어져 버린다. pre-line 으로 줄바꿈만 되살린다. */
+          white-space: pre-line;
+          font-style: normal;
+          font-weight: 500;
+          color: #333;
+        }
+        .blog-prose blockquote p + p { margin-top: 10px; }
+        /* 화자 라벨(**You:**)과 강조된 조사는 조금 더 진하게 */
+        .blog-prose blockquote strong { font-weight: 600; color: #111; }
+        /* 이탤릭으로 적힌 번역 줄은 본문보다 흐리게 */
+        .blog-prose blockquote em { font-style: italic; font-weight: 400; color: #666; }
         .blog-prose code {
           font-size: 13px; background: #F0EADF; color: #C8102E;
           border-radius: 4px; padding: 2px 6px;
