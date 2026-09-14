@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
+import { ExploreAppsButton } from '@/components/home/ExploreAppsButton'
 import {
   BLOG_SECTIONS,
   MIN_POSTS_TO_SHOW_SECTION,
@@ -321,6 +322,21 @@ export default async function AtlasLabHome() {
         }
         .pcard-link:hover { background: var(--paper-warm, #F7F5F2); }
 
+        /* "Explore our apps" 로 스크롤해 왔을 때 카드가 순차로 한 번 떠오른다.
+           클래스는 ExploreAppsButton 이 붙였다 뗀다. */
+        .pcard-glow {
+          animation: pcardGlow 0.9s ease-out;
+        }
+        @keyframes pcardGlow {
+          0%   { box-shadow: 0 0 0 0 rgba(200,16,46,0); transform: translateY(0); }
+          30%  { box-shadow: 0 0 0 2px rgba(200,16,46,0.55), 0 8px 22px rgba(200,16,46,0.14);
+                 transform: translateY(-4px); }
+          100% { box-shadow: 0 0 0 0 rgba(200,16,46,0); transform: translateY(0); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .pcard-glow { animation: none; }
+        }
+
         /* ── Mobile: CSS Grid reflow ────────────────────────────────── */
         @media (max-width: 520px) {
           .products-grid {
@@ -538,9 +554,9 @@ export default async function AtlasLabHome() {
       <section className="hero">
         <div className="hero-text">
           <p className="hero-eyebrow">Atlas Lab</p>
-          <h1 className="hero-h1">Master Korean Language, Culture, and Cooking with AI.</h1>
-          <p className="hero-desc">Practical AI-powered tools and guides built for global learners and K-culture enthusiasts.</p>
-          <a href="#products" className="hero-btn">Explore our apps</a>
+          <h1 className="hero-h1">Smart Tools and Deep Insights for Your Everyday Growth.</h1>
+          <p className="hero-desc">From language learning and career navigation to everyday culture—explore interactive apps built to build real skills.</p>
+          <ExploreAppsButton>Explore our apps</ExploreAppsButton>
         </div>
       </section>
 

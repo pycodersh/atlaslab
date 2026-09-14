@@ -4,8 +4,9 @@
  * 카테고리를 직접 나열하지 않고 lib/blog/sections 의 주제 분류를 재사용한다.
  * 카테고리 목록이 또 하나 생기면 홈·목록·CTA 세 곳이 어긋나기 때문이다.
  *
- *   Korean phrases / Korean basics  → K-Patto
- *   Korean food    / Life in Korea  → K-Pantry
+ *   Korean phrases / Korean basics  → K-Patto (표현 연습)
+ *   Life in Korea                   → K-Patto (문화·표현 결이라 요리보다 맞다)
+ *   Korean food                     → K-Pantry
  *   그 외(app=patto 등)             → Patto
  */
 import { topicSectionKey } from './sections'
@@ -25,6 +26,15 @@ const K_PATTO: AppCta = {
   href: '/kpatto',
   blurb: 'Want to practice these phrases with voice drills? Try K-Patto for free.',
   button: 'Start Practicing on K-Patto →',
+}
+
+/** Life in Korea — 문화 글이라 "연습" 보다 "이해" 쪽으로 문구를 맞춘다 */
+const K_PATTO_CULTURE: AppCta = {
+  label: 'K-Patto',
+  href: '/kpatto',
+  blurb:
+    'Want to understand Korean culture through real sentence patterns? Try K-Patto for free.',
+  button: 'Learn with K-Patto →',
 }
 
 const K_PANTRY: AppCta = {
@@ -57,8 +67,9 @@ export function ctaForPost(
     case 'phrases':
     case 'basics':
       return K_PATTO
-    case 'food':
     case 'life':
+      return K_PATTO_CULTURE
+    case 'food':
       return K_PANTRY
     default:
       return patto(locale)
