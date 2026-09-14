@@ -26,6 +26,9 @@ const APPLY = process.argv.includes('--apply')
 const BASE =
   'https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/pantry-recipe-images'
 
+/** heading 대신 쓰는 표식 — 첫 h2 앞의 도입 문단 뒤에 넣는다 */
+const INTRO = '__INTRO__'
+
 type Ins = { heading: string; file: string; alt: string }
 
 const PLAN: Record<string, Ins[]> = {
@@ -46,7 +49,9 @@ const PLAN: Record<string, Ins[]> = {
     { heading: '## The dipping map', file: 'sundae-dipping-02.jpg', alt: 'Sundae Dipping Sauces' },
   ],
   'regional-korean-food-map': [
-    { heading: '## The map', file: 'korean-regional-table-01.jpg', alt: 'Korean Regional Dishes' },
+    // "## The map" 섹션은 표만 있고 일반 문단이 없어서 heading 기준으로는 넣을 수 없다.
+    // 첫 h2 앞의 도입 문단 뒤에 넣는다.
+    { heading: INTRO, file: 'korean-regional-table-01.jpg', alt: 'Korean Regional Dishes' },
   ],
 }
 
@@ -69,12 +74,18 @@ function isParagraph(block: string): boolean {
  * 못 찾으면 null.
  */
 function findInsertPoint(content: string, heading: string): { index: number; skipped: string[] } | null {
-  const hIdx = content.indexOf(heading)
-  if (hIdx === -1) return null
+  let afterHeading: number
 
-  // heading 줄 끝부터 시작
-  const afterHeading = content.indexOf('\n', hIdx)
-  if (afterHeading === -1) return null
+  if (heading === INTRO) {
+    // 도입부 — 글 맨 앞에서 시작해 첫 문단을 찾는다(첫 h2 를 만나면 중단).
+    afterHeading = -1
+  } else {
+    const hIdx = content.indexOf(heading)
+    if (hIdx === -1) return null
+    // heading 줄 끝부터 시작
+    afterHeading = content.indexOf('\n', hIdx)
+    if (afterHeading === -1) return null
+  }
 
   const rest = content.slice(afterHeading + 1)
   const blocks = rest.split(/\n\s*\n/)
