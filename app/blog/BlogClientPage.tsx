@@ -136,23 +136,6 @@ export function BlogClientPage({
         .bl-tab:hover { color: #111; border-bottom-color: rgba(200,16,46,0.35); }
         .bl-tab.active { color: #111; font-weight: 700; border-bottom-color: #C8102E; }
 
-        /* ── Lang switcher ─────────────────────────────────────────── */
-        .bl-lang {
-          display: flex; align-items: center; gap: 8px;
-          flex-shrink: 0; padding-bottom: 12px;
-        }
-        .bl-lang-btn {
-          font-family: ${BODY};
-          font-size: 12px; font-weight: 500;
-          color: #888; background: none; border: none;
-          cursor: pointer; transition: color 0.15s;
-          padding: 0; text-decoration: none;
-          white-space: nowrap;
-        }
-        .bl-lang-btn:hover { color: #111; }
-        .bl-lang-btn.active { color: #C8102E; font-weight: 700; }
-        .bl-lang-div { font-size: 11px; color: #D0CEC8; }
-
         /* ── Post grid ─────────────────────────────────────────────── */
         /* 카드 사이 1px 구분선 — 컨테이너 배경이 아니라 카드 테두리로 그린다.
            행이 덜 찼을 때 빈 칸이 회색 블록으로 보이지 않는다.
@@ -271,19 +254,9 @@ export function BlogClientPage({
         .bl-pag-btn.active { color: #111; font-weight: 700; border-bottom-color: #C8102E; }
         .bl-pag-ellipsis { color: #ccc; font-size: 13px; padding: 6px 4px; }
 
-        /* ── KO teaser ─────────────────────────────────────────────── */
-        .bl-ko-teaser {
-          border-top: 1px solid #E5E3DF;
-          padding: 28px 0 64px;
-          display: flex; align-items: center;
-          justify-content: space-between; gap: 16px; flex-wrap: wrap;
-        }
-        .bl-ko-msg { font-family: ${BODY}; font-size: 13px; color: #aaa; }
-        .bl-ko-link {
-          font-family: ${BODY}; font-size: 13px; font-weight: 600;
-          color: #C8102E; text-decoration: none;
-        }
-        .bl-ko-link:hover { text-decoration: underline; }
+        /* 한국어 안내 블록을 걷어냈으므로, 페이지네이션이 없는 탭에서는
+           마지막 요소가 푸터와 64px 을 유지하도록 맞춘다(.bl-pag 와 동일). */
+        .bl-grid:last-child, .bl-empty:last-child { margin-bottom: 64px; }
       `}</style>
 
       {/* ── Hero ── */}
@@ -316,21 +289,6 @@ export function BlogClientPage({
                   {tab.label}
                 </Link>
               ))}
-            </div>
-            <div className="bl-lang">
-              <Link
-                href={buildUrl(activeTab)}
-                className={`bl-lang-btn${lang === 'EN' ? ' active' : ''}`}
-              >
-                EN
-              </Link>
-              <span className="bl-lang-div">/</span>
-              <Link
-                href={buildUrl(activeTab, { lang: 'ko' })}
-                className={`bl-lang-btn${lang === 'KO' ? ' active' : ''}`}
-              >
-                KO
-              </Link>
             </div>
           </div>
 
@@ -400,19 +358,6 @@ export function BlogClientPage({
                   Next →
                 </Link>
               )}
-            </div>
-          )}
-
-          {/* KO teaser (EN일 때만) */}
-          {lang === 'EN' && (
-            <div className="bl-ko-teaser">
-              <p className="bl-ko-msg">한국어 블로그도 있어요</p>
-              <Link
-                href={buildUrl(activeTab, { lang: 'ko' })}
-                className="bl-ko-link"
-              >
-                → 한국어로 보기
-              </Link>
             </div>
           )}
 
