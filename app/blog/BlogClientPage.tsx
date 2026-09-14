@@ -154,12 +154,14 @@ export function BlogClientPage({
         .bl-lang-div { font-size: 11px; color: #D0CEC8; }
 
         /* ── Post grid ─────────────────────────────────────────────── */
+        /* 카드 사이 1px 구분선 — gap 을 1px 만 벌리고 그 틈으로 배경색이 비쳐
+           세로·가로 선이 된다(카드 간격 자체는 0). 바깥 테두리도 같은 색. */
         .bl-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           gap: 1px;
-          background: #DDDBD8;
-          border: 1px solid #DDDBD8;
+          background: #E5E1DC;
+          border: 1px solid #E5E1DC;
           margin-bottom: 48px;
         }
         @media (max-width: 620px) {

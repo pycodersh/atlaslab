@@ -20,6 +20,9 @@ import type { BlogThumbnail } from '@/lib/blog/thumbnail'
  * next/image 를 쓰지 않는 이유: 블로그 본문이 이미 일반 <img> 로 렌더링하고 있고,
  * 외부 호스트를 next.config 의 remotePatterns 에 추가하는 설정 변경을 피한다.
  */
+/** 카드 이미지 높이 상한. 카드 폭이 넓어져도 이 이상 커지지 않는다. */
+const MAX_THUMB_HEIGHT = 200
+
 export function BlogThumb({ thumb, alt }: { thumb: BlogThumbnail | null; alt: string }) {
   // 0=1차 소스, 1=폴백(유튜브만), 2=숨김
   const [step, setStep] = useState<0 | 1 | 2>(0)
@@ -42,7 +45,12 @@ export function BlogThumb({ thumb, alt }: { thumb: BlogThumbnail | null; alt: st
         position: 'relative',
         overflow: 'hidden',
         width: '100%',
-        aspectRatio: '16 / 9',
+        // 본문 사진은 3:2(1536x1024) 원본이라 3:2 로 두면 크롭이 거의 없다.
+        // 유튜브 썸네일은 중앙 크롭 배율이 16:9 기준이라 16:9 를 유지한다.
+        aspectRatio: isYouTube ? '16 / 9' : '3 / 2',
+        // 카드가 넓어져도 이미지가 같이 커지지 않게 높이 상한을 둔다.
+        // 좁은 화면에서는 aspect-ratio 가 먼저 걸려 자연스럽게 줄어든다.
+        maxHeight: MAX_THUMB_HEIGHT,
         background: '#E5E3E0',
       }}
     >
@@ -55,6 +63,7 @@ export function BlogThumb({ thumb, alt }: { thumb: BlogThumbnail | null; alt: st
         style={
           portraitCrop
             ? {
+                // 쇼츠 중앙 크롭 — 좌우 흐린 여백을 잘라낸다
                 position: 'absolute',
                 top: '50%',
                 left: '50%',
@@ -64,6 +73,9 @@ export function BlogThumb({ thumb, alt }: { thumb: BlogThumbnail | null; alt: st
                 maxWidth: 'none',
               }
             : {
+                // 본문 이미지 — 상한 높이에 걸려도 비지 않도록 영역을 채운다
+                position: 'absolute',
+                inset: 0,
                 display: 'block',
                 width: '100%',
                 height: '100%',
