@@ -2,6 +2,12 @@ import { createClient } from '@supabase/supabase-js'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
+import {
+  BLOG_SECTIONS,
+  MIN_POSTS_TO_SHOW_SECTION,
+  POSTS_PER_SECTION,
+  topicSectionKey,
+} from '@/lib/blog/sections'
 
 /* ── Typography constants ─────────────────────────────────────────────── */
 const SERIF = '"Playfair Display", Georgia, serif'
@@ -77,44 +83,6 @@ const APP_ICONS: Record<string, React.ReactNode> = {
   ),
 }
 
-/* ── Blog home sections ───────────────────────────────────────────────────
-   category 는 DB 에 이미 있는 값만 쓴다(새로 만들지 않는다).
-   여기 나열되지 않은 category 와 null 은 FALLBACK_SECTION 으로 모인다. */
-const BLOG_SECTIONS = [
-  {
-    key: 'travel',
-    title: 'Travel & real-life Korean',
-    desc: 'What to actually say in cafes, restaurants and shops.',
-    categories: ['Real-Life Korean'],
-  },
-  {
-    key: 'food',
-    title: 'Korean food',
-    desc: 'Ingredients, substitutes and regional dishes.',
-    categories: ['Cooking Basics', 'Ingredients & Pantry'],
-  },
-  {
-    key: 'basics',
-    title: 'Korean basics',
-    desc: 'Hangul, pronunciation and the grammar that trips people up.',
-    categories: [
-      'Hangul & Pronunciation',
-      'Korean Grammar',
-      'Grammar',
-      'Getting Started',
-      'Korean Culture',
-    ],
-  },
-] as const
-
-const FALLBACK_SECTION = 'basics'
-const POSTS_PER_SECTION = 2
-
-/* category → 섹션 key */
-const SECTION_OF_CATEGORY = new Map<string, string>(
-  BLOG_SECTIONS.flatMap(s => s.categories.map(c => [c, s.key] as [string, string])),
-)
-
 /* 본문에서 첫 번째 <YouTube ... /> 태그를 통째로 잡는다. 없으면 null.
    id 와 함께 orientation 도 봐야 한다 — 썸네일 중앙 크롭은 세로 쇼츠 전제라
    orientation="landscape" 인 가로 영상에 적용하면 3배 확대돼 버린다. */
@@ -140,12 +108,15 @@ type BlogRow = {
   content: string | null
 }
 
-/** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다. */
+/** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다.
+ *  분류 기준은 lib/blog/sections 하나뿐 — /blog 목록 탭과 같은 것을 쓴다.
+ *  topicSectionKey 가 null 을 주는 글(app=patto)은 주제 섹션에 넣지 않는다. */
 function groupIntoSections(posts: BlogRow[]) {
   const buckets = new Map<string, BlogRow[]>(BLOG_SECTIONS.map(s => [s.key, []]))
 
   for (const post of posts) {
-    const key = (post.category && SECTION_OF_CATEGORY.get(post.category)) || FALLBACK_SECTION
+    const key = topicSectionKey(post.app, post.category)
+    if (!key) continue
     buckets.get(key)!.push(post)
   }
 
@@ -469,16 +440,23 @@ export default async function AtlasLabHome() {
           background: #F5F5F3;
           padding: 60px 0 64px;
         }
-        .blog-sec + .blog-sec { margin-top: 56px; }
-        /* 섹션 안에서는 헤더 바로 아래에 한 줄 설명이 붙으므로 간격을 줄인다 */
-        .blog-sec .sec-head { margin-bottom: 10px; }
-        /* 섹션 제목은 글 제목(16.5px)보다 위에 오도록 본문 서체로 키운다.
-           이 블록 안에서만 덮어써서 Our Apps / Why Atlas Lab 라벨은 그대로 둔다. */
+        /* 섹션이 4개라 구획이 드러나도록 사이 여백을 넉넉히 준다 */
+        .blog-sec + .blog-sec { margin-top: 72px; }
+        /* 구분선은 브랜드 레드 2px, 선과 제목 사이 14px.
+           헤더 바로 아래에 한 줄 설명이 붙으므로 아래 간격은 줄인다.
+           이 블록 안에서만 덮어써서 Our Apps / Why Atlas Lab 은 그대로 둔다. */
+        .blog-sec .sec-head {
+          border-top: 2px solid var(--brand-red, #C8102E);
+          padding-top: 14px;
+          margin-bottom: 10px;
+        }
+        /* 섹션 제목: 글 제목(16.5px) 바로 위 단계로만 두고 대문자는 쓰지 않는다.
+           Our Apps / Why Atlas Lab 라벨은 그대로. */
         .blog-sec .sec-label {
           font-family: ${SERIF};
-          font-size: 22px; font-weight: 700;
+          font-size: 19px; font-weight: 700;
           color: #111111;
-          text-transform: uppercase;
+          text-transform: none;
           letter-spacing: normal;
         }
         .bsec-desc {
@@ -636,15 +614,16 @@ export default async function AtlasLabHome() {
       </div>
 
       {/* ── From the Blog — 주제별 3섹션 ── */}
-      {blogSections.some(s => s.posts.length > 0) && (
+      {blogSections.some(s => s.posts.length >= MIN_POSTS_TO_SHOW_SECTION) && (
         <div className="blog-outer">
           <div className="wrap">
             {blogSections.map(section =>
-              section.posts.length === 0 ? null : (
+              // 카드가 하나뿐인 섹션은 비어 보이므로 홈에서는 감춘다(목록 탭에는 남는다).
+              section.posts.length < MIN_POSTS_TO_SHOW_SECTION ? null : (
                 <div key={section.key} className="blog-sec">
                   <div className="sec-head">
                     <span className="sec-label">{section.title}</span>
-                    <a href="/blog" className="sec-more">
+                    <a href={`/blog?tab=${section.key}`} className="sec-more">
                       View all {section.total} →
                     </a>
                   </div>

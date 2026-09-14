@@ -2,16 +2,10 @@
 
 import { Fragment } from 'react'
 import Link from 'next/link'
+import { BLOG_TABS } from '@/lib/blog/sections'
 
 const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans","Inter",system-ui,sans-serif'
-
-const APP_TABS = [
-  { key: 'all',       label: 'All Articles' },
-  { key: 'k-patto',  label: 'K-Patto'      },
-  { key: 'k-pantry', label: 'K-Pantry'     },
-  { key: 'patto',    label: 'Patto'        },
-] as const
 
 const APP_LABEL: Record<string, string> = {
   'k-patto':  'K-Patto',
@@ -30,9 +24,10 @@ type Post = {
   published_at: string
 }
 
-function buildUrl(app: string, opts: { lang?: 'en' | 'ko'; page?: number } = {}) {
+/** 탭은 화면상의 필터라 쿼리 파라미터로만 표현한다(새 라우트 없음). */
+function buildUrl(tab: string, opts: { lang?: 'en' | 'ko'; page?: number } = {}) {
   const params = new URLSearchParams()
-  if (app !== 'all') params.set('app', app)
+  if (tab !== 'all') params.set('tab', tab)
   if (opts.lang === 'ko') params.set('lang', 'ko')
   if (opts.page && opts.page > 1) params.set('page', String(opts.page))
   const q = params.toString()
@@ -41,14 +36,14 @@ function buildUrl(app: string, opts: { lang?: 'en' | 'ko'; page?: number } = {})
 
 export function BlogClientPage({
   posts,
-  activeApp,
+  activeTab,
   activeLang,
   totalPages,
   currentPage,
   pageTitle,
 }: {
   posts: Post[]
-  activeApp: string
+  activeTab: string
   activeLang: 'en' | 'ko'
   totalPages: number
   currentPage: number
@@ -296,11 +291,11 @@ export function BlogClientPage({
           {/* Filter bar */}
           <div className="bl-filterbar">
             <div className="bl-tabs">
-              {APP_TABS.map(tab => (
+              {BLOG_TABS.map(tab => (
                 <Link
                   key={tab.key}
                   href={buildUrl(tab.key)}
-                  className={`bl-tab${activeApp === tab.key ? ' active' : ''}`}
+                  className={`bl-tab${activeTab === tab.key ? ' active' : ''}`}
                 >
                   {tab.label}
                 </Link>
@@ -308,14 +303,14 @@ export function BlogClientPage({
             </div>
             <div className="bl-lang">
               <Link
-                href={buildUrl(activeApp)}
+                href={buildUrl(activeTab)}
                 className={`bl-lang-btn${lang === 'EN' ? ' active' : ''}`}
               >
                 EN
               </Link>
               <span className="bl-lang-div">/</span>
               <Link
-                href={buildUrl(activeApp, { lang: 'ko' })}
+                href={buildUrl(activeTab, { lang: 'ko' })}
                 className={`bl-lang-btn${lang === 'KO' ? ' active' : ''}`}
               >
                 KO
@@ -359,7 +354,7 @@ export function BlogClientPage({
           {totalPages > 1 && (
             <div className="bl-pag">
               {currentPage > 1 && (
-                <Link href={buildUrl(activeApp, { lang: activeLang, page: currentPage - 1 })} className="bl-pag-btn">
+                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage - 1 })} className="bl-pag-btn">
                   ← Prev
                 </Link>
               )}
@@ -371,7 +366,7 @@ export function BlogClientPage({
                       <span className="bl-pag-ellipsis">…</span>
                     )}
                     <Link
-                      href={buildUrl(activeApp, { lang: activeLang, page: p })}
+                      href={buildUrl(activeTab, { lang: activeLang, page: p })}
                       className={`bl-pag-btn${p === currentPage ? ' active' : ''}`}
                     >
                       {p}
@@ -379,7 +374,7 @@ export function BlogClientPage({
                   </Fragment>
                 ))}
               {currentPage < totalPages && (
-                <Link href={buildUrl(activeApp, { lang: activeLang, page: currentPage + 1 })} className="bl-pag-btn">
+                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage + 1 })} className="bl-pag-btn">
                   Next →
                 </Link>
               )}
@@ -391,7 +386,7 @@ export function BlogClientPage({
             <div className="bl-ko-teaser">
               <p className="bl-ko-msg">한국어 블로그도 있어요</p>
               <Link
-                href={buildUrl(activeApp, { lang: 'ko' })}
+                href={buildUrl(activeTab, { lang: 'ko' })}
                 className="bl-ko-link"
               >
                 → 한국어로 보기

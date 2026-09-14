@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
+import { PATTO_TAB, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,63 +14,26 @@ const supabase = createClient(
 
 const POSTS_PER_PAGE = 20
 
-const APP_LABEL: Record<string, string> = {
-  'k-patto':  'K-Patto',
-  'patto':    'Patto',
-  'kpantry':  'K-Pantry',
-  'k-pantry': 'K-Pantry',
-}
-
-function buildCountQuery(app: string, now: string, locale: string) {
-  const base = supabase
-    .from('blog_posts')
-    .select('id')
-    .eq('locale', locale)
-    .eq('is_paused', false)
-    .lte('published_at', now)
-
-  if (app === 'all') return base
-  if (app === 'k-pantry') return supabase
-    .from('blog_posts').select('id')
-    .eq('locale', locale).eq('is_paused', false).lte('published_at', now)
-    .in('app', ['k-pantry', 'kpantry'])
-  return base.eq('app', app)
-}
-
-function buildPostsQuery(app: string, now: string, from: number, to: number, locale: string) {
-  const base = supabase
-    .from('blog_posts')
-    .select('slug, title, description, app, locale, category, published_at')
-    .eq('locale', locale)
-    .eq('is_paused', false)
-    .lte('published_at', now)
-    .order('published_at', { ascending: false })
-    .range(from, to)
-
-  if (app === 'all') return base
-  if (app === 'k-pantry') return supabase
-    .from('blog_posts')
-    .select('slug, title, description, app, locale, category, published_at')
-    .eq('locale', locale).eq('is_paused', false).lte('published_at', now)
-    .in('app', ['k-pantry', 'kpantry'])
-    .order('published_at', { ascending: false })
-    .range(from, to)
-  return base.eq('app', app)
+function resolveTab(tab: string | undefined): string {
+  return tab && isValidTab(tab) ? tab : 'all'
 }
 
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string; app?: string; lang?: string }>
+  searchParams: Promise<{ page?: string; tab?: string; lang?: string }>
 }): Promise<Metadata> {
-  const { page, app } = await searchParams
+  const { page, tab } = await searchParams
   const currentPage = Math.max(1, parseInt(page || '1'))
-  const appLabel = app ? (APP_LABEL[app] ?? app) : null
+  const activeTab = resolveTab(tab)
   return {
-    title: appLabel ? `${appLabel} Articles — Atlas Lab` : 'Articles — Atlas Lab',
+    title: activeTab === 'all'
+      ? 'Articles — Atlas Lab'
+      : `${tabLabel(activeTab)} — Atlas Lab`,
     description:
       'Tips, guides, and insights on Korean learning, English patterns, Korean recipes, and career growth — from Atlas Lab.',
     robots: currentPage > 1 ? { index: false, follow: true } : undefined,
+    // 탭은 화면상의 필터일 뿐이라 canonical 은 항상 /blog 로 모은다.
     alternates: { canonical: `${BASE}/blog` },
   }
 }
@@ -77,37 +41,41 @@ export async function generateMetadata({
 export default async function BlogIndexPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string; app?: string; lang?: string }>
+  searchParams: Promise<{ page?: string; tab?: string; lang?: string }>
 }) {
-  const { page, app, lang } = await searchParams
+  const { page, tab, lang } = await searchParams
   const currentPage = Math.max(1, parseInt(page || '1'))
-  const activeApp   = app ?? 'all'
-  // patto 앱은 항상 KO; 나머지는 lang 파라미터(기본 en)
-  const activeLang: 'en' | 'ko' = activeApp === 'patto' ? 'ko' : (lang === 'ko' ? 'ko' : 'en')
+  const activeTab = resolveTab(tab)
+  // Patto 탭은 항상 KO; 나머지는 lang 파라미터(기본 en)
+  const activeLang: 'en' | 'ko' =
+    activeTab === PATTO_TAB.key ? 'ko' : (lang === 'ko' ? 'ko' : 'en')
+  const now = new Date().toISOString()
+
+  // 한 번만 조회하고 탭 분류는 lib/blog/sections 로 코드에서 한다.
+  // 주제 탭은 category + app 조합이라 SQL 로 표현하면 홈과 기준이 갈라진다.
+  // (기존에도 총 개수를 세려고 전체 행을 읽고 있었으므로 쿼리는 2개 → 1개로 준다.)
+  const { data: rows } = await supabase
+    .from('blog_posts')
+    .select('slug, title, description, app, locale, category, published_at')
+    .eq('locale', activeLang)
+    .eq('is_paused', false)
+    .lte('published_at', now)
+    .order('published_at', { ascending: false })
+
+  const matched = (rows ?? []).filter(p => postMatchesTab(p, activeTab))
+
+  const totalPages = Math.ceil(matched.length / POSTS_PER_PAGE)
   const from = (currentPage - 1) * POSTS_PER_PAGE
-  const to   = from + POSTS_PER_PAGE - 1
-  const now  = new Date().toISOString()
-
-  const [{ data: countRows }, { data: posts }] = await Promise.all([
-    buildCountQuery(activeApp, now, activeLang),
-    buildPostsQuery(activeApp, now, from, to, activeLang),
-  ])
-
-  const totalCount = countRows?.length || 0
-  const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE)
-
-  const pageTitle = activeApp !== 'all'
-    ? (APP_LABEL[activeApp] ?? activeApp)
-    : 'All Articles'
+  const posts = matched.slice(from, from + POSTS_PER_PAGE)
 
   return (
     <BlogClientPage
-      posts={posts ?? []}
-      activeApp={activeApp}
+      posts={posts}
+      activeTab={activeTab}
       activeLang={activeLang}
       totalPages={totalPages}
       currentPage={currentPage}
-      pageTitle={pageTitle}
+      pageTitle={activeTab === 'all' ? 'All Articles' : tabLabel(activeTab)}
     />
   )
 }
