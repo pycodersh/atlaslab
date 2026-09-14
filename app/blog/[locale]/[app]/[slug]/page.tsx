@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
 import { proseCss } from '@/lib/blog/proseCss'
+import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 
 export const dynamic = 'force-dynamic'
 
@@ -246,33 +247,6 @@ export default async function AppBlogPostPage({
         }
         .art-related-item:hover .art-related-title { color: #C8102E; }
 
-        /* ── App CTA ─────────────────────────────────────────── */
-        .art-cta {
-          background: #F5F5F3; border: 1px solid #E5E1DC;
-          padding: 28px 24px; text-align: center; margin-bottom: 64px;
-        }
-        .art-cta-kicker {
-          font-family: ${BODY}; font-size: 10px; font-weight: 700;
-          letter-spacing: 0.15em; text-transform: uppercase;
-          color: #C8102E; margin: 0 0 10px;
-        }
-        .art-cta-desc {
-          font-family: ${BODY}; font-size: 15px; font-weight: 500;
-          color: #333; margin: 0 0 20px; line-height: 1.55;
-        }
-        .art-cta-btn {
-          display: inline-block; background: #C8102E; color: #fff;
-          padding: 11px 28px; font-family: ${BODY};
-          font-size: 14px; font-weight: 600;
-          text-decoration: none; letter-spacing: 0.01em;
-          transition: background 0.15s;
-        }
-        .art-cta-btn:hover { background: #A30D25; }
-        .art-cta-btn-soon {
-          display: inline-block; color: #aaa;
-          border: 1.5px solid #D0CEC8; padding: 11px 28px;
-          font-family: ${BODY}; font-size: 14px; font-weight: 500;
-        }
       `}</style>
 
       {/* ── Hero ── */}
@@ -314,6 +288,9 @@ export default async function AppBlogPostPage({
         </article>
 
         <div className="art-wrap" style={{ paddingBottom: 8 }}>
+          {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위 */}
+          <ArticleAppBanner app={app} category={post.category} locale={locale} />
+
           {/* Related posts */}
           {related && related.length > 0 && (
             <div className="art-related">
@@ -333,18 +310,6 @@ export default async function AppBlogPostPage({
             </div>
           )}
 
-          {/* App CTA */}
-          <div className="art-cta">
-            <p className="art-cta-kicker">{info.label}</p>
-            <p className="art-cta-desc">{info.ctaDesc(locale)}</p>
-            {info.href ? (
-              <Link href={info.href} className="art-cta-btn">
-                {info.cta(locale)}
-              </Link>
-            ) : (
-              <span className="art-cta-btn-soon">{info.cta(locale)}</span>
-            )}
-          </div>
         </div>
       </div>
     </div>

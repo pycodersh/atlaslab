@@ -538,8 +538,8 @@ export default async function AtlasLabHome() {
       <section className="hero">
         <div className="hero-text">
           <p className="hero-eyebrow">Atlas Lab</p>
-          <h1 className="hero-h1">Tools that make you better, one skill at a time.</h1>
-          <p className="hero-desc">AI-powered apps for language learning, career growth, and Korean cooking.</p>
+          <h1 className="hero-h1">Master Korean Language, Culture, and Cooking with AI.</h1>
+          <p className="hero-desc">Practical AI-powered tools and guides built for global learners and K-culture enthusiasts.</p>
           <a href="#products" className="hero-btn">Explore our apps</a>
         </div>
       </section>

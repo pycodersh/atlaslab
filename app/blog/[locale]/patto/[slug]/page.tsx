@@ -6,6 +6,7 @@ import { notFound, redirect } from 'next/navigation'
 import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
 import { proseCss } from '@/lib/blog/proseCss'
+import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 
 export const revalidate = 3600
 export const dynamicParams = true
@@ -175,29 +176,6 @@ export default async function BlogPostPage({
           line-height: 1.5; display: block;
         }
         .art-related-item:hover .art-related-title { color: #C8102E; }
-
-        /* ── App CTA ─────────────────────────────────────────── */
-        .art-cta {
-          background: #F5F5F3; border: 1px solid #E5E1DC;
-          padding: 28px 24px; text-align: center; margin-bottom: 64px;
-        }
-        .art-cta-kicker {
-          font-family: ${BODY}; font-size: 10px; font-weight: 700;
-          letter-spacing: 0.15em; text-transform: uppercase;
-          color: #C8102E; margin: 0 0 10px;
-        }
-        .art-cta-desc {
-          font-family: ${BODY}; font-size: 15px; font-weight: 500;
-          color: #333; margin: 0 0 20px; line-height: 1.55;
-        }
-        .art-cta-btn {
-          display: inline-block; background: #C8102E; color: #fff;
-          padding: 11px 28px; font-family: ${BODY};
-          font-size: 14px; font-weight: 600;
-          text-decoration: none; letter-spacing: 0.01em;
-          transition: background 0.15s;
-        }
-        .art-cta-btn:hover { background: #A30D25; }
       `}</style>
 
       {/* ── Hero ── */}
@@ -239,6 +217,9 @@ export default async function BlogPostPage({
         </article>
 
         <div className="art-wrap" style={{ paddingBottom: 8 }}>
+          {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위 */}
+          <ArticleAppBanner app={post.app} category={post.category} locale={locale} />
+
           {/* Related posts */}
           {related && related.length > 0 && (
             <div className="art-related">
@@ -258,18 +239,6 @@ export default async function BlogPostPage({
             </div>
           )}
 
-          {/* App CTA */}
-          <div className="art-cta">
-            <p className="art-cta-kicker">Patto</p>
-            <p className="art-cta-desc">
-              {locale === 'ko'
-                ? 'Patto로 영어 패턴을 자동화하세요.'
-                : 'Master English patterns with Patto.'}
-            </p>
-            <Link href="/patto/home" className="art-cta-btn">
-              {locale === 'ko' ? '무료로 시작하기 →' : 'Start for free →'}
-            </Link>
-          </div>
         </div>
       </div>
     </div>
