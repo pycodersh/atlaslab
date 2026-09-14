@@ -115,8 +115,19 @@ const SECTION_OF_CATEGORY = new Map<string, string>(
   BLOG_SECTIONS.flatMap(s => s.categories.map(c => [c, s.key] as [string, string])),
 )
 
-/* 본문에서 첫 번째 <YouTube id="..." /> 의 id 를 뽑는다. 없으면 null. */
-const YOUTUBE_ID_RE = /<YouTube\s+id="([A-Za-z0-9_-]+)"/
+/* 본문에서 첫 번째 <YouTube ... /> 태그를 통째로 잡는다. 없으면 null.
+   id 와 함께 orientation 도 봐야 한다 — 썸네일 중앙 크롭은 세로 쇼츠 전제라
+   orientation="landscape" 인 가로 영상에 적용하면 3배 확대돼 버린다. */
+const YOUTUBE_TAG_RE = /<YouTube\s+([^>]*?)\/>/
+
+function readVideo(content: string | null) {
+  const attrs = content?.match(YOUTUBE_TAG_RE)?.[1]
+  if (!attrs) return { videoId: null, portrait: true }
+  return {
+    videoId: attrs.match(/id="([A-Za-z0-9_-]+)"/)?.[1] ?? null,
+    portrait: !/orientation="landscape"/.test(attrs),
+  }
+}
 
 type BlogRow = {
   slug: string
@@ -148,7 +159,7 @@ function groupIntoSections(posts: BlogRow[]) {
       total: all.length,
       posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
         ...post,
-        videoId: post.content?.match(YOUTUBE_ID_RE)?.[1] ?? null,
+        ...readVideo(post.content),
       })),
     }
   })
@@ -461,6 +472,15 @@ export default async function AtlasLabHome() {
         .blog-sec + .blog-sec { margin-top: 56px; }
         /* 섹션 안에서는 헤더 바로 아래에 한 줄 설명이 붙으므로 간격을 줄인다 */
         .blog-sec .sec-head { margin-bottom: 10px; }
+        /* 섹션 제목은 글 제목(16.5px)보다 위에 오도록 본문 서체로 키운다.
+           이 블록 안에서만 덮어써서 Our Apps / Why Atlas Lab 라벨은 그대로 둔다. */
+        .blog-sec .sec-label {
+          font-family: ${SERIF};
+          font-size: 22px; font-weight: 700;
+          color: #111111;
+          text-transform: none;
+          letter-spacing: normal;
+        }
         .bsec-desc {
           font-family: ${BODY};
           font-size: 13.5px; color: var(--ink-muted, #6B6B6B);
@@ -484,12 +504,28 @@ export default async function AtlasLabHome() {
           transition: background 0.15s;
         }
         .bcard:hover { background: #ECEAE7; }
-        /* 유튜브 썸네일은 1280x720(16:9)이라 카드 비율과 그대로 맞는다.
-           영상이 없는 글은 이 요소 자체를 렌더링하지 않는다(자리표시자 없음). */
-        .bthumb {
-          display: block; width: 100%;
-          aspect-ratio: 16 / 9; object-fit: cover;
+        /* 영상이 없는 글은 이 영역 자체를 렌더링하지 않는다(자리표시자 없음). */
+        .bthumb-wrap {
+          position: relative; overflow: hidden;
+          width: 100%; aspect-ratio: 16 / 9;
           background: #E5E3E0;
+        }
+        .bthumb {
+          display: block; width: 100%; height: 100%;
+          object-fit: cover; object-position: center;
+        }
+        /* 쇼츠(9:16) 썸네일 중앙 크롭.
+           유튜브가 1280x720 안에 실제 영상을 x=438..842(폭 405px, 31.6%)로 넣고
+           좌우를 흐린 확대본으로 채운다. 원본도 카드도 16:9 라 object-fit 만으로는
+           잘리지 않으므로, 1280/405 ≈ 3.16배로 키워 중앙만 보이게 한다.
+           318% 는 경계에 흐린 띠가 새지 않도록 양쪽 1px 씩 더 파고든 값. */
+        .bthumb--portrait {
+          position: absolute; top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          width: 318%; height: auto;
+          /* 전역 img { max-width: 100% } 가 확대를 100% 로 잘라버리므로 풀어준다 */
+          max-width: none;
+          object-fit: fill;
         }
         .bbody {
           padding: 24px;
@@ -621,7 +657,11 @@ export default async function AtlasLabHome() {
                         className="bcard"
                       >
                         {post.videoId && (
-                          <BlogThumb videoId={post.videoId} alt={post.title} />
+                          <BlogThumb
+                            videoId={post.videoId}
+                            alt={post.title}
+                            portrait={post.portrait}
+                          />
                         )}
                         <div className="bbody">
                           <div className="btitle">{post.title}</div>
