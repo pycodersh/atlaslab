@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
 import { PATTO_TAB, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { readThumbnail } from '@/lib/blog/thumbnail'
 
 export const dynamic = 'force-dynamic'
 
@@ -66,7 +67,23 @@ export default async function BlogIndexPage({
 
   const totalPages = Math.ceil(matched.length / POSTS_PER_PAGE)
   const from = (currentPage - 1) * POSTS_PER_PAGE
-  const posts = matched.slice(from, from + POSTS_PER_PAGE)
+  const pageRows = matched.slice(from, from + POSTS_PER_PAGE)
+
+  // 썸네일은 본문에서 뽑아야 하는데, 위 쿼리에 content 를 넣으면 매 요청마다
+  // 전체 본문(수백 KB)을 끌어오게 된다. 화면에 나갈 20편만 따로 받는다.
+  // slug 는 전 테이블에서 유일하다(삽입 스크립트가 slug 단독으로 충돌을 막는다).
+  const { data: bodies } = pageRows.length
+    ? await supabase
+        .from('blog_posts')
+        .select('slug, content')
+        .in('slug', pageRows.map(p => p.slug))
+    : { data: [] as { slug: string; content: string | null }[] }
+
+  const contentBySlug = new Map((bodies ?? []).map(b => [b.slug, b.content]))
+  const posts = pageRows.map(p => ({
+    ...p,
+    thumb: readThumbnail(contentBySlug.get(p.slug)),
+  }))
 
   return (
     <BlogClientPage

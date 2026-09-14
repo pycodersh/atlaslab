@@ -3,6 +3,8 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
 import { BLOG_TABS } from '@/lib/blog/sections'
+import type { BlogThumbnail } from '@/lib/blog/thumbnail'
+import { BlogThumb } from '@/components/blog/BlogThumb'
 
 const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans","Inter",system-ui,sans-serif'
@@ -22,6 +24,7 @@ type Post = {
   locale: string
   category: string | null
   published_at: string
+  thumb: BlogThumbnail | null
 }
 
 /** 탭은 화면상의 필터라 쿼리 파라미터로만 표현한다(새 라우트 없음). */
@@ -163,10 +166,15 @@ export function BlogClientPage({
           .bl-grid { grid-template-columns: 1fr; }
         }
         .bl-card {
-          background: #F9F8F6; padding: 28px 24px;
+          background: #F9F8F6;
           display: flex; flex-direction: column;
           text-decoration: none; color: inherit;
           transition: background 0.15s;
+        }
+        /* 썸네일은 카드 가장자리에 붙고 글은 안쪽에 — 패딩을 본문 래퍼로 옮겼다 */
+        .bl-body {
+          padding: 28px 24px;
+          display: flex; flex-direction: column; flex: 1;
         }
         .bl-card:hover { background: #ECEAE7; }
         .bl-cat {
@@ -332,18 +340,24 @@ export function BlogClientPage({
                   href={`/blog/${post.locale}/${post.app}/${post.slug}`}
                   className="bl-card"
                 >
-                  <div className="bl-cat">
-                    {post.category ?? APP_LABEL[post.app] ?? post.app}
-                  </div>
-                  <div className="bl-title">{post.title}</div>
-                  {post.description && (
-                    <div className="bl-desc">{post.description}</div>
-                  )}
-                  <div className="bl-date">
-                    {new Date(post.published_at).toLocaleDateString(
-                      lang === 'KO' ? 'ko-KR' : 'en-US',
-                      { year: 'numeric', month: 'long', day: 'numeric' }
+                  <BlogThumb thumb={post.thumb} alt={post.title} />
+                  <div className="bl-body">
+                    {/* 주제 탭에서는 탭 이름과 중복이라 라벨을 숨긴다 */}
+                    {activeTab === 'all' && (
+                      <div className="bl-cat">
+                        {post.category ?? APP_LABEL[post.app] ?? post.app}
+                      </div>
                     )}
+                    <div className="bl-title">{post.title}</div>
+                    {post.description && (
+                      <div className="bl-desc">{post.description}</div>
+                    )}
+                    <div className="bl-date">
+                      {new Date(post.published_at).toLocaleDateString(
+                        lang === 'KO' ? 'ko-KR' : 'en-US',
+                        { year: 'numeric', month: 'long', day: 'numeric' }
+                      )}
+                    </div>
                   </div>
                 </Link>
               ))}
