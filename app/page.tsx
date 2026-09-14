@@ -453,14 +453,18 @@ export default async function AtlasLabHome() {
           line-height: 1.6;
           margin: 0 0 20px;
         }
-        /* 카드 사이 1px 구분선 — gap 을 1px 만 벌리고 그 틈으로 배경색이 비쳐
-           세로·가로 선이 된다(카드 간격 자체는 0). 바깥 테두리도 같은 색. */
+        /* 카드 사이 1px 구분선 — 컨테이너 배경이 아니라 카드 테두리로 그린다.
+           행이 덜 찼을 때(3열에 카드 2장 등) 빈 칸이 회색 블록으로 보이지 않는다.
+           위·왼쪽은 컨테이너가, 오른쪽·아래는 각 카드가 맡아 1px 로 맞물린다. */
         .blog-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1px;
-          background: #E5E1DC;
-          border: 1px solid #E5E1DC;
+          grid-template-columns: repeat(2, 1fr);   /* 태블릿 */
+          gap: 0;
+          border-top: 1px solid #E5E1DC;
+          border-left: 1px solid #E5E1DC;
+        }
+        @media (min-width: 1200px) {
+          .blog-grid { grid-template-columns: repeat(3, 1fr); }
         }
         @media (max-width: 560px) {
           .blog-grid { grid-template-columns: 1fr; }
@@ -469,6 +473,8 @@ export default async function AtlasLabHome() {
           background: #F5F5F3;
           text-decoration: none;
           display: flex; flex-direction: column;
+          border-right: 1px solid #E5E1DC;
+          border-bottom: 1px solid #E5E1DC;
           transition: background 0.15s;
         }
         .bcard:hover { background: #ECEAE7; }

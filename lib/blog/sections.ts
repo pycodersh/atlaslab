@@ -55,8 +55,8 @@ export const BLOG_SECTIONS = [
 /** 위 목록에 없는 category(및 null)는 여기로 모인다. */
 export const FALLBACK_SECTION: BlogSectionKey = 'basics'
 
-/** 홈에서 섹션당 보여줄 글 수 */
-export const POSTS_PER_SECTION = 2
+/** 홈에서 섹션당 보여줄 글 수. 넓은 화면이 3열이라 한 행을 채우도록 3편. */
+export const POSTS_PER_SECTION = 3
 
 /** 홈에 섹션을 띄우는 최소 글 수. 카드가 하나뿐이면 비어 보이므로 감춘다. */
 export const MIN_POSTS_TO_SHOW_SECTION = 2
