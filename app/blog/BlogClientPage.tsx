@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react'
 import Link from 'next/link'
-import { BLOG_TABS, layoutForKey } from '@/lib/blog/sections'
+import { BLOG_TABS, layoutForKey, tabDescription } from '@/lib/blog/sections'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { PostListRow } from '@/components/blog/PostListRow'
@@ -70,40 +70,54 @@ export function BlogClientPage({
         body { background: #F9F8F6; color: #111; overflow-x: hidden; scrollbar-gutter: stable; }
 
         /* ── Hero ──────────────────────────────────────────────────── */
+        /* 아래 여백은 탭 바(.bl-filterbar, padding-top 32px)와 붙는 자리라
+           히어로 쪽을 32/40px 으로 줄여 둘이 한 덩어리로 읽히게 한다. */
         .bl-hero {
           background: #121212;
-          padding: 52px 0 60px;
+          padding: 36px 0 32px;
         }
-        @media (max-width: 700px) {
-          .bl-hero { padding: 36px 0 48px; }
+        @media (min-width: 768px) {
+          .bl-hero { padding: 52px 0 40px; }
         }
+        /* 뒤로가기 — 텍스트 링크에서 고스트 알약 버튼으로 */
         .bl-back {
           display: inline-flex; align-items: center; gap: 6px;
           font-family: ${BODY};
-          font-size: 13px; color: rgba(255,255,255,0.45);
-          text-decoration: none; margin-bottom: 28px;
-          transition: color 0.15s;
+          font-size: 12px; line-height: 1;
+          color: #A3A3A3; text-decoration: none;
+          padding: 6px 12px; border-radius: 999px;
+          border: 1px solid #262626;
+          background: rgba(23,23,23,0.6);
+          margin-bottom: 20px;
+          transition: color 0.15s, background 0.15s;
         }
-        .bl-back:hover { color: rgba(255,255,255,0.8); }
+        .bl-back:hover { color: #fff; background: #262626; }
         .bl-kicker {
-          font-family: ${BODY};
-          font-size: 10px; font-weight: 700;
-          letter-spacing: 0.18em; text-transform: uppercase;
-          color: rgba(255,255,255,0.35);
-          margin-bottom: 12px;
+          font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+          font-size: 11px; font-weight: 500;
+          letter-spacing: 0.1em; text-transform: uppercase;
+          color: #A3A3A3;
+          margin-bottom: 8px;
         }
+        /* 세리프는 유지하고 크기만 30/36px 로 눌러 설명·탭과 위계를 맞춘다 */
         .bl-h1 {
           font-family: ${SERIF};
-          font-size: clamp(26px, 3.4vw, 44px);
-          font-weight: 700; line-height: 1.1;
-          letter-spacing: -0.02em;
+          font-size: 30px;
+          font-weight: 700; line-height: 1.15;
+          letter-spacing: -0.025em;
           color: #fff;
           margin-bottom: 12px;
         }
+        @media (min-width: 768px) {
+          .bl-h1 { font-size: 36px; }
+        }
         .bl-sub {
           font-family: ${BODY};
-          font-size: 14px; color: rgba(255,255,255,0.46);
-          line-height: 1.65; max-width: 480px;
+          font-size: 14px; color: #A3A3A3;
+          line-height: 1.625; max-width: 576px;
+        }
+        @media (min-width: 768px) {
+          .bl-sub { font-size: 16px; }
         }
 
         /* ── Wrap ──────────────────────────────────────────────────── */
@@ -279,9 +293,7 @@ export function BlogClientPage({
           <h1 className="bl-h1">
             {lang === 'KO' ? '한국어 아티클' : pageTitle}
           </h1>
-          <p className="bl-sub">
-            Tips, guides, and insights on Korean learning, English patterns, and Korean cooking.
-          </p>
+          <p className="bl-sub">{tabDescription(activeTab)}</p>
         </div>
       </section>
 

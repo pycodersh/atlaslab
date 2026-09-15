@@ -124,6 +124,27 @@ export function tabLabel(tabKey: string): string {
 }
 
 /**
+ * /blog 히어로 한 줄 설명 — 탭마다 다르게 보여준다.
+ *
+ * 홈 섹션의 desc(한 줄 요약)와 쓰임이 달라 따로 둔다. 홈은 카드 묶음 위에
+ * 붙는 짧은 안내고, 이쪽은 페이지 전체를 소개하는 문장이다.
+ * 'all' 과 'patto' 는 주제 섹션이 아니라서 BLOG_SECTIONS 에 자리가 없다.
+ */
+const TAB_DESCRIPTION: Record<string, string> = {
+  all: 'Curated stories, real-life Korean guides, and language insights by Atlas Lab.',
+  phrases: 'Essential real-life expressions used by locals in cafes, convenience stores, and daily life.',
+  basics: 'From Hangul syllable blocks to core grammar — foundational rules explained simply.',
+  life: 'Cultural nuances, social codes, and practical guides for navigating life in Korea.',
+  food: 'Authentic culinary culture, seasonal dishes, and dining etiquette in Korea.',
+  patto: 'Interactive language experiments and smart tools.',
+}
+
+/** 탭 설명. 모르는 값이면 'all' 문구로 떨어진다. */
+export function tabDescription(tabKey: string): string {
+  return TAB_DESCRIPTION[tabKey] ?? TAB_DESCRIPTION.all
+}
+
+/**
  * 탭·섹션을 어떤 모양으로 그릴지. 주제 섹션에만 지정이 있고,
  * All / Patto 처럼 주제가 섞이는 목록은 격자를 쓴다.
  * 홈과 /blog 가 같은 함수를 봐야 한쪽만 리스트로 남는 일이 없다.
