@@ -15,29 +15,38 @@ export const TOPIC_APPS = ['k-patto', 'k-pantry', 'kpantry'] as const
 
 export type BlogSectionKey = 'phrases' | 'life' | 'food' | 'basics'
 
+/** 카드 격자('grid') 또는 한 줄짜리 가로 리스트('list').
+ *  홈 섹션과 /blog 목록이 같은 값을 보고 그린다. */
+export type BlogLayout = 'grid' | 'list'
+
 export const BLOG_SECTIONS = [
   {
     key: 'phrases',
     title: 'Korean phrases',
     desc: 'What to actually say in cafes, restaurants and shops.',
     categories: ['Real-Life Korean'],
+    layout: 'grid',
   },
   {
     key: 'life',
     title: 'Life in Korea',
     desc: 'How things work here, and why they work that way.',
     categories: ['Korean Culture'],
+    layout: 'grid',
   },
   {
     key: 'food',
     title: 'Korean food',
     desc: 'Ingredients, substitutes and regional dishes.',
     categories: ['Cooking Basics', 'Ingredients & Pantry'],
+    layout: 'grid',
   },
   {
     key: 'basics',
     title: 'Korean basics',
     desc: 'Hangul, pronunciation and the grammar that trips people up.',
+    // 표지 이미지보다 제목·설명을 훑는 쪽이 쓸모 있는 주제라 세로 리스트로 둔다
+    layout: 'list',
     categories: [
       'Hangul & Pronunciation',
       'Korean Grammar',
@@ -50,6 +59,7 @@ export const BLOG_SECTIONS = [
   title: string
   desc: string
   categories: readonly string[]
+  layout: BlogLayout
 }>
 
 /** 위 목록에 없는 category(및 null)는 여기로 모인다. */
@@ -111,4 +121,13 @@ export function isValidTab(tabKey: string): boolean {
 /** 탭 라벨 (목록 제목·메타에 쓴다) */
 export function tabLabel(tabKey: string): string {
   return BLOG_TABS.find(t => t.key === tabKey)?.label ?? 'All Articles'
+}
+
+/**
+ * 탭·섹션을 어떤 모양으로 그릴지. 주제 섹션에만 지정이 있고,
+ * All / Patto 처럼 주제가 섞이는 목록은 격자를 쓴다.
+ * 홈과 /blog 가 같은 함수를 봐야 한쪽만 리스트로 남는 일이 없다.
+ */
+export function layoutForKey(key: string): BlogLayout {
+  return BLOG_SECTIONS.find(s => s.key === key)?.layout ?? 'grid'
 }

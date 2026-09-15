@@ -991,3 +991,114 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
   .bcard:hover .blog-thumb-img--portrait,
   .bl-card:hover .blog-thumb-img--portrait { transform: translate(-50%, -50%); }
 }
+
+/* ── 글 목록 · 세로 리스트 (.plist) ──────────────────────────────────
+   카드 격자 대신 한 줄짜리 행으로 쌓는 레이아웃. 어떤 주제가 리스트인지는
+   lib/blog/sections.ts 의 layout 값 하나로 정하고, 홈 섹션과 /blog 목록이
+   같은 컴포넌트(components/blog/PostListRow)를 쓴다. 두 페이지가 각자
+   <style> 블록을 갖고 있어 규칙을 거기 두면 한쪽에만 생기므로 여기에 모은다.
+   구분선 색(#E5E1DC)은 카드 격자와 같은 값을 쓴다. */
+.plist {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #E5E1DC;
+  border-bottom: 1px solid #E5E1DC;
+}
+
+.plist-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+.plist-row + .plist-row { border-top: 1px solid #E5E1DC; }
+/* 배경이 홈(#F5F5F3)과 목록(#F9F8F6)에서 다르므로 반투명으로 덮는다 */
+.plist-row:hover { background: rgba(17, 17, 17, 0.025); }
+
+@media (min-width: 768px) {
+  .plist-row {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 24px 16px;
+  }
+}
+
+/* 제목·요약이 들어가는 왼쪽. min-width:0 이 없으면 긴 제목이 행을 넓힌다 */
+.plist-main { min-width: 0; }
+
+.plist-kicker {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #A8A5A0;
+  margin-bottom: 6px;
+}
+
+.plist-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  color: #111;
+  transition: color 0.15s ease;
+}
+@media (min-width: 768px) {
+  .plist-title { font-size: 20px; }
+}
+.plist-row:hover .plist-title { color: #C8102E; }
+
+.plist-excerpt {
+  font-family: "DM Sans", "Inter", system-ui, sans-serif;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: #6B6B6B;
+  margin-top: 8px;
+  max-width: 640px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 날짜 + 화살표. 모바일은 한 줄 양끝, 데스크톱은 오른쪽 위로 세운다 */
+.plist-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 8px;
+  font-family: "DM Sans", "Inter", system-ui, sans-serif;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  color: #A8A5A0;
+}
+@media (min-width: 768px) {
+  .plist-meta {
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    padding-top: 4px;
+  }
+}
+.plist-date { white-space: nowrap; }
+.plist-arrow {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.2s ease, color 0.15s ease;
+}
+.plist-row:hover .plist-arrow {
+  transform: translateX(4px);
+  color: #C8102E;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plist-row, .plist-title, .plist-arrow { transition: none; }
+  .plist-row:hover .plist-arrow { transform: none; }
+}

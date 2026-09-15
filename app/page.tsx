@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
+import { PostListRow } from '@/components/blog/PostListRow'
 import { ExploreAppsButton } from '@/components/home/ExploreAppsButton'
 import {
   BLOG_SECTIONS,
@@ -122,6 +123,7 @@ function groupIntoSections(posts: BlogRow[]) {
       key: section.key,
       title: section.title,
       desc: section.desc,
+      layout: section.layout,
       total: all.length,
       posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
         ...post,
@@ -644,23 +646,40 @@ export default async function AtlasLabHome() {
                     </a>
                   </div>
                   <p className="bsec-desc">{section.desc}</p>
-                  <div className="blog-grid">
-                    {section.posts.map(post => (
-                      <a
-                        key={`${post.locale}/${post.app}/${post.slug}`}
-                        href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                        className="bcard"
-                      >
-                        <BlogThumb thumb={post.thumb} alt={post.title} />
-                        <div className="bbody">
-                          <div className="btitle">{post.title}</div>
-                          {post.description && (
-                            <div className="bexcerpt">{post.description}</div>
-                          )}
-                        </div>
-                      </a>
-                    ))}
-                  </div>
+                  {section.layout === 'list' ? (
+                    <div className="plist">
+                      {section.posts.map(post => (
+                        <PostListRow
+                          key={`${post.locale}/${post.app}/${post.slug}`}
+                          href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                          kicker={post.category}
+                          title={post.title}
+                          excerpt={post.description}
+                          date={new Date(post.published_at).toLocaleDateString('en-US', {
+                            year: 'numeric', month: 'long', day: 'numeric',
+                          })}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="blog-grid">
+                      {section.posts.map(post => (
+                        <a
+                          key={`${post.locale}/${post.app}/${post.slug}`}
+                          href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                          className="bcard"
+                        >
+                          <BlogThumb thumb={post.thumb} alt={post.title} />
+                          <div className="bbody">
+                            <div className="btitle">{post.title}</div>
+                            {post.description && (
+                              <div className="bexcerpt">{post.description}</div>
+                            )}
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ),
             )}

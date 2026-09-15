@@ -2,9 +2,10 @@
 
 import { Fragment } from 'react'
 import Link from 'next/link'
-import { BLOG_TABS } from '@/lib/blog/sections'
+import { BLOG_TABS, layoutForKey } from '@/lib/blog/sections'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
 import { BlogThumb } from '@/components/blog/BlogThumb'
+import { PostListRow } from '@/components/blog/PostListRow'
 
 const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans","Inter",system-ui,sans-serif'
@@ -53,6 +54,13 @@ export function BlogClientPage({
   pageTitle: string
 }) {
   const lang: 'EN' | 'KO' = activeLang === 'ko' ? 'KO' : 'EN'
+  // 격자로 그릴지 세로 리스트로 그릴지는 홈과 같은 기준(sections.ts)을 본다
+  const isList = layoutForKey(activeTab) === 'list'
+
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString(lang === 'KO' ? 'ko-KR' : 'en-US', {
+      year: 'numeric', month: 'long', day: 'numeric',
+    })
 
   return (
     <>
@@ -254,9 +262,13 @@ export function BlogClientPage({
         .bl-pag-btn.active { color: #111; font-weight: 700; border-bottom-color: #C8102E; }
         .bl-pag-ellipsis { color: #ccc; font-size: 13px; padding: 6px 4px; }
 
+        /* 세로 리스트(.plist) 여백만 목록 페이지 기준으로 맞춘다.
+           나머지 규칙은 globals.css 에 있다(홈과 공유). */
+        .plist { margin-bottom: 48px; }
+
         /* 한국어 안내 블록을 걷어냈으므로, 페이지네이션이 없는 탭에서는
            마지막 요소가 푸터와 64px 을 유지하도록 맞춘다(.bl-pag 와 동일). */
-        .bl-grid:last-child, .bl-empty:last-child { margin-bottom: 64px; }
+        .bl-grid:last-child, .bl-empty:last-child, .plist:last-child { margin-bottom: 64px; }
       `}</style>
 
       {/* ── Hero ── */}
@@ -298,6 +310,19 @@ export function BlogClientPage({
               <h3 className="bl-empty-title">No articles yet for this filter</h3>
               <p className="bl-empty-desc">Try a different filter or check back later.</p>
             </div>
+          ) : isList ? (
+            <div className="plist">
+              {posts.map(post => (
+                <PostListRow
+                  key={post.slug}
+                  href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                  kicker={post.category ?? APP_LABEL[post.app] ?? post.app}
+                  title={post.title}
+                  excerpt={post.description}
+                  date={formatDate(post.published_at)}
+                />
+              ))}
+            </div>
           ) : (
             <div className="bl-grid">
               {posts.map(post => (
@@ -318,12 +343,7 @@ export function BlogClientPage({
                     {post.description && (
                       <div className="bl-desc">{post.description}</div>
                     )}
-                    <div className="bl-date">
-                      {new Date(post.published_at).toLocaleDateString(
-                        lang === 'KO' ? 'ko-KR' : 'en-US',
-                        { year: 'numeric', month: 'long', day: 'numeric' }
-                      )}
-                    </div>
+                    <div className="bl-date">{formatDate(post.published_at)}</div>
                   </div>
                 </Link>
               ))}
