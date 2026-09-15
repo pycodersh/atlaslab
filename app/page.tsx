@@ -508,9 +508,7 @@ export default async function AtlasLabHome() {
         @media (min-width: 1200px) {
           .blog-grid { grid-template-columns: repeat(3, 1fr); }
         }
-        @media (max-width: 560px) {
-          .blog-grid { grid-template-columns: 1fr; }
-        }
+        /* 모바일 규칙은 .bcard / .bbody 정의 뒤에 온다 — 아래 참조 */
         .bcard {
           background: #F5F5F3;
           text-decoration: none;
@@ -538,6 +536,26 @@ export default async function AtlasLabHome() {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+        }
+
+        /* 768px 미만 — 카드 격자를 가로형 콤팩트 리스트로 눕힌다.
+           한 행이 96px 썸네일 + 위아래 12px 이라 한 화면에 4편 이상 들어온다.
+           경계는 카드 아래 테두리가 그대로 맡고, 좌우 테두리는 지운다.
+           ★ .bcard 정의보다 뒤에 와야 flex-direction 이 덮인다(같은 특이도). */
+        @media (max-width: 767px) {
+          .blog-grid { grid-template-columns: 1fr; border-left: none; }
+          .bcard {
+            flex-direction: row; align-items: flex-start;
+            gap: 14px; padding: 12px 2px;
+            border-right: none;
+          }
+          .bbody { padding: 0; min-width: 0; justify-content: center; }
+          .btitle {
+            font-size: 15px; line-height: 1.35; margin-bottom: 6px;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+          }
+          .bexcerpt { font-size: 12.5px; line-height: 1.55; flex: 0 1 auto; }
         }
 
         /* ── Why section ───────────────────────────────────────────── */

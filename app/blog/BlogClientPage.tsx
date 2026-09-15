@@ -173,9 +173,7 @@ export function BlogClientPage({
         @media (min-width: 1200px) {
           .bl-grid { grid-template-columns: repeat(3, 1fr); }
         }
-        @media (max-width: 620px) {
-          .bl-grid { grid-template-columns: 1fr; }
-        }
+        /* 모바일 규칙은 .bl-card / .bl-body 정의 뒤에 온다 — 아래 참조 */
         .bl-card {
           background: #F9F8F6;
           display: flex; flex-direction: column;
@@ -213,6 +211,27 @@ export function BlogClientPage({
         .bl-date {
           font-family: ${BODY};
           font-size: 11px; color: #aaa; letter-spacing: 0.02em;
+        }
+
+        /* 768px 미만 — 홈과 같은 가로형 콤팩트 리스트.
+           썸네일 정사각 96px 규칙은 globals.css 에 공용으로 있다.
+           ★ .bl-card 정의보다 뒤에 와야 flex-direction 이 덮인다. */
+        @media (max-width: 767px) {
+          .bl-grid { grid-template-columns: 1fr; border-left: none; }
+          .bl-card {
+            flex-direction: row; align-items: flex-start;
+            gap: 14px; padding: 12px 2px;
+            border-right: none;
+          }
+          .bl-body { padding: 0; min-width: 0; justify-content: center; }
+          .bl-cat { font-size: 9px; margin-bottom: 5px; }
+          .bl-title {
+            font-size: 15px; line-height: 1.35; margin-bottom: 5px;
+            display: -webkit-box; -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical; overflow: hidden;
+          }
+          .bl-desc { font-size: 12.5px; line-height: 1.55; margin-bottom: 6px; flex: 0 1 auto; }
+          .bl-date { font-size: 10.5px; }
         }
 
         /* ── Empty state ───────────────────────────────────────────── */
