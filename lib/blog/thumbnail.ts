@@ -15,14 +15,18 @@
 
 export type BlogThumbnail =
   | { kind: 'youtube'; videoId: string; portrait: boolean }
-  | { kind: 'image'; src: string }
+  /** alt 를 따로 주지 않으면 카드가 글 제목을 쓴다 */
+  | { kind: 'image'; src: string; alt?: string }
 
 const YOUTUBE_TAG_RE = /<YouTube\s+([^>]*?)\/>/
 /** ![alt](url "title") — url 만 잡고 선택적 title 은 버린다 */
 const MARKDOWN_IMAGE_RE = /!\[[^\]]*\]\(\s*(\S+?)\s*(?:"[^"]*")?\)/
 
-/** slug → 대표 이미지. 파일은 public/images/articles/ 에 있다. */
-const COVER_BY_SLUG: Record<string, string> = {
+/** slug → 대표 이미지. 파일은 public/images/articles/ 에 있다.
+ *  문자열이면 alt 는 글 제목을 쓰고, 객체로 주면 그 alt 를 쓴다. */
+type Cover = string | { src: string; alt: string }
+
+const COVER_BY_SLUG: Record<string, Cover> = {
   'korean-pharmacy-what-to-say': '/images/articles/korean-pharmacy.jpg',
   'asking-for-directions-in-korean': '/images/articles/ask-directions.jpg',
   'han-river-picnic-korean-phrases': '/images/articles/han-river-picnic.jpg',
@@ -38,6 +42,28 @@ const COVER_BY_SLUG: Record<string, string> = {
   'buying-clothes-in-korean': '/images/articles/korean-clothes-shopping.jpg',
   'ordering-food-delivery-in-korea': '/images/articles/korean-food-delivery.jpg',
   'visiting-a-korean-palace-phrases': '/images/articles/korean-palace-gyeongbokgung.jpg',
+
+  // Life in Korea — alt 를 따로 지정한다
+  'korean-internet-slang-guide': {
+    src: '/images/articles/korean-internet-slang.jpg',
+    alt: 'Close-up of hands typing Korean internet slang on smartphone',
+  },
+  'korean-new-year-seollal-explained': {
+    src: '/images/articles/seollal-tteokguk.jpg',
+    alt: 'Traditional Korean Tteokguk rice cake soup for Seollal',
+  },
+  'nunchi-korean-reading-the-room': {
+    src: '/images/articles/nunchi-cafe-terrace.jpg',
+    alt: 'People interacting and reading the room in a Korean cafe terrace',
+  },
+  'korean-age-system-explained': {
+    src: '/images/articles/korean-age-calendar.jpg',
+    alt: 'January calendar and desk setup representing Korean age system',
+  },
+  'konglish-words-when-english-becomes-korean': {
+    src: '/images/articles/konglish-neon-signs.jpg',
+    alt: 'Korean street signage and neon signs representing Konglish words',
+  },
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
@@ -46,7 +72,11 @@ export function thumbnailForPost(
   content: string | null | undefined,
 ): BlogThumbnail | null {
   const cover = COVER_BY_SLUG[slug]
-  if (cover) return { kind: 'image', src: cover }
+  if (cover) {
+    return typeof cover === 'string'
+      ? { kind: 'image', src: cover }
+      : { kind: 'image', src: cover.src, alt: cover.alt }
+  }
   return readThumbnail(content)
 }
 

@@ -936,3 +936,58 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
   font-size: 0.88em;
   font-family: 'SF Mono', 'Fira Code', monospace;
 }
+
+/* ── Blog card thumbnail ──────────────────────────────────────────────
+   components/blog/BlogThumb.tsx 가 쓰는 클래스.
+   홈과 /blog 목록이 각자 <style> 블록을 갖고 있어 거기에 두면 한쪽에만
+   규칙이 생긴다. :hover 는 인라인 스타일로 쓸 수 없어 여기로 모았다. */
+.blog-thumb {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  /* 본문 사진은 3:2 원본이 많아 크롭이 거의 없다 */
+  aspect-ratio: 3 / 2;
+  background: #E5E3E0;
+}
+/* 유튜브 썸네일은 중앙 크롭 배율이 16:9 기준이라 비율을 유지해야 한다 */
+.blog-thumb--youtube { aspect-ratio: 16 / 9; }
+
+.blog-thumb-img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+/* 쇼츠(9:16) 중앙 크롭 — 유튜브가 1280x720 안에 실제 영상을 x=438..842
+   (폭 405px, 31.6%)로 넣고 좌우를 흐린 확대본으로 채운다. 원본도 카드도
+   16:9 라 object-fit 으로는 잘리지 않으므로 1280/405 ≈ 3.16배(여유 포함 318%)
+   로 키워 중앙만 보이게 한다. 전역 img{max-width:100%} 를 풀어줘야 한다. */
+.blog-thumb-img--portrait {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 318%;
+  height: auto;
+  max-width: none;
+  object-fit: fill;
+}
+
+/* 카드 호버 시 살짝 확대 */
+.bcard:hover .blog-thumb-img,
+.bl-card:hover .blog-thumb-img { transform: scale(1.05); }
+.bcard:hover .blog-thumb-img--portrait,
+.bl-card:hover .blog-thumb-img--portrait { transform: translate(-50%, -50%) scale(1.05); }
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-thumb-img { transition: none; }
+  .bcard:hover .blog-thumb-img,
+  .bl-card:hover .blog-thumb-img { transform: none; }
+  .bcard:hover .blog-thumb-img--portrait,
+  .bl-card:hover .blog-thumb-img--portrait { transform: translate(-50%, -50%); }
+}
