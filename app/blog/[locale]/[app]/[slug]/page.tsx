@@ -7,6 +7,8 @@ import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
 import { proseCss } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
+import { BlogThumb } from '@/components/blog/BlogThumb'
+import { thumbnailForPost } from '@/lib/blog/thumbnail'
 
 export const dynamic = 'force-dynamic'
 
@@ -172,6 +174,10 @@ export default async function AppBlogPostPage({
 
   const info = getAppInfo(app)
 
+  // 카드와 같은 함수를 쓴다 — 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다.
+  // null 이면 히어로에 영역 자체를 만들지 않는다.
+  const thumb = thumbnailForPost(post.slug, post.content)
+
   return (
     <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>
       <style>{`
@@ -273,6 +279,12 @@ export default async function AppBlogPostPage({
               { year: 'numeric', month: 'long', day: 'numeric' }
             )}
           </p>
+
+          {thumb && (
+            <div className="art-thumb">
+              <BlogThumb thumb={thumb} alt={post.title} />
+            </div>
+          )}
         </div>
         <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', marginTop: 28 }} />
       </section>

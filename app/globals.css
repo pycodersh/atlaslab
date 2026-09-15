@@ -1102,3 +1102,14 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
   .plist-row, .plist-title, .plist-arrow { transition: none; }
   .plist-row:hover .plist-arrow { transform: none; }
 }
+
+/* ── 글 상세 상단 썸네일 (.art-thumb) ─────────────────────────────────
+   목록·홈 카드와 같은 thumbnailForPost() + BlogThumb 을 그대로 쓴다.
+   .art-wrap(최대 720px, 좌우 패딩 24px) 안에 들어가므로 본문 폭을 넘지 않는다.
+   썸네일이 없는 글은 호출부에서 아예 렌더하지 않는다(빈 영역 금지). */
+.art-thumb { margin-top: 26px; }
+
+/* 유튜브 썸네일은 쇼츠 중앙 크롭(318%)이라, 본문 폭까지 키우면 실제 화소
+   (1280 프레임 중 가운데 405px)를 1.7배 늘리게 돼 흐려진다. 440px 로 묶어
+   확대 배율을 1.1배 수준으로 둔다. 제목과 같은 왼쪽 정렬. */
+.art-thumb .blog-thumb--youtube { max-width: 440px; }

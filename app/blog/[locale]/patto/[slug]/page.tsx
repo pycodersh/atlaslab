@@ -7,6 +7,8 @@ import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
 import { proseCss } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
+import { BlogThumb } from '@/components/blog/BlogThumb'
+import { thumbnailForPost } from '@/lib/blog/thumbnail'
 
 export const revalidate = 3600
 export const dynamicParams = true
@@ -101,6 +103,9 @@ export default async function BlogPostPage({
   const bodyFont = locale === 'ko'
     ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
     : BODY
+
+  // 카드와 같은 함수 — 없으면 히어로에 영역 자체를 만들지 않는다
+  const thumb = thumbnailForPost(post.slug, post.content)
 
   return (
     <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>
@@ -202,6 +207,12 @@ export default async function BlogPostPage({
               { year: 'numeric', month: 'long', day: 'numeric' }
             )}
           </p>
+
+          {thumb && (
+            <div className="art-thumb">
+              <BlogThumb thumb={thumb} alt={post.title} />
+            </div>
+          )}
         </div>
         <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', marginTop: 28 }} />
       </section>
