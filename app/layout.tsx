@@ -4,9 +4,36 @@ import "./globals.css";
 
 const GA_ID = "G-DMDS6WFWSF";
 
+const SITE_TITLE = "Atlas Lab — Guides, Culture & Smart Tools";
+const SITE_DESC =
+  "Atlas Lab builds AI agent apps that help you navigate language, career, news, and food.";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.atlaslabstudios.com";
+
 export const metadata: Metadata = {
-  title: "Atlas Lab — AI-powered guide apps",
-  description: "Atlas Lab builds AI agent apps that help you navigate language, career, news, and food.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESC,
+  // 파비콘은 public/ 에 둔다(app/favicon.ico 는 같은 경로라 함께 둘 수 없다).
+  // 아래 선언이 <head> 의 link 태그로 그대로 나간다.
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  openGraph: {
+    type: "website",
+    siteName: "Atlas Lab",
+    title: SITE_TITLE,
+    description: SITE_DESC,
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESC,
+  },
 };
 
 export default function RootLayout({
