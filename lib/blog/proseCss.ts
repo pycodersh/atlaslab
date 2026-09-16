@@ -14,22 +14,31 @@ export function proseCss(bodyFont: string): string {
   return `
         .blog-prose { padding-top: 36px; padding-bottom: 8px; font-family: ${bodyFont}; }
 
-        /* 제목 위계 — h2 는 아래 가는 선으로 구간을 끊어준다.
-           선과 첫 문단 사이가 좁아 답답해서 아래 여백을 22px 로 띄웠다(56:22). */
+        /* ── 타이포 스케일 (모바일 기본 → 768px 이상에서 한 단 키운다) ──
+           본문 16/1.75 → 18/1.8, h2 24 → 30, h3 20 → 22.
+           px 로 적는 이유: 이 CSS 는 <style> 로 주입돼 rem 기준(루트 폰트)이
+           페이지마다 달라질 여지가 있어, 실제 크기를 고정한다.
+           모든 글이 같은 한 곳(.blog-prose)을 보므로 카테고리와 무관하게 같다. */
         .blog-prose h2 {
-          font-family: ${SERIF}; font-size: 26px; font-weight: 700;
-          color: #111; margin: 56px 0 22px;
+          font-family: ${SERIF}; font-size: 24px; font-weight: 700;
+          color: #111; margin: 48px 0 20px;
           padding-bottom: 8px; border-bottom: 1px solid #E5E1DC;
           letter-spacing: -0.01em; line-height: 1.3;
         }
         .blog-prose h3 {
-          font-family: ${BODY}; font-size: 19px; font-weight: 700;
-          color: #222; margin: 32px 0 10px; line-height: 1.35;
+          font-family: ${BODY}; font-size: 20px; font-weight: 600;
+          color: #222; margin: 30px 0 10px; line-height: 1.35;
         }
 
         /* 본문 */
         .blog-prose p {
-          font-size: 16px; line-height: 1.8; color: #444; margin: 0 0 20px;
+          font-size: 16px; line-height: 1.75; color: #444; margin: 0 0 20px;
+        }
+
+        @media (min-width: 768px) {
+          .blog-prose h2 { font-size: 30px; margin: 56px 0 22px; }
+          .blog-prose h3 { font-size: 22px; margin: 32px 0 10px; }
+          .blog-prose p  { font-size: 18px; line-height: 1.8; margin-bottom: 22px; }
         }
         .blog-prose strong { font-weight: 700; color: #111; }
         .blog-prose em { font-style: italic; color: #555; }
@@ -39,10 +48,13 @@ export function proseCss(bodyFont: string): string {
           margin: 24px 0 24px 8px; padding-left: 24px;
         }
         .blog-prose li {
-          font-size: 16px; line-height: 1.8; color: #444; margin-bottom: 10px;
+          font-size: 16px; line-height: 1.75; color: #444; margin-bottom: 10px;
         }
         .blog-prose li:last-child { margin-bottom: 0; }
         .blog-prose li::marker { color: #C8102E; }
+        @media (min-width: 768px) {
+          .blog-prose li { font-size: 18px; line-height: 1.8; margin-bottom: 12px; }
+        }
 
         /* 한국어 예시·회화 콜아웃.
            본문 인용문(>)은 대부분 "한국어 — 영어 번역" 형태의 예시라,
@@ -55,6 +67,8 @@ export function proseCss(bodyFont: string): string {
         }
         .blog-prose blockquote p {
           margin: 0;
+          /* 본문보다 한 단 작게 — 인용·예시라는 것이 크기로도 드러난다 */
+          font-size: 15.5px; line-height: 1.7;
           /* 원문은 "> 줄1 / > 줄2" 여러 줄인데 마크다운이 한 문단으로 합쳐서
              대화가 한 줄로 이어져 버린다. pre-line 으로 줄바꿈만 되살린다. */
           white-space: pre-line;
@@ -67,6 +81,10 @@ export function proseCss(bodyFont: string): string {
         .blog-prose blockquote strong { font-weight: 600; color: #111; }
         /* 이탤릭으로 적힌 번역 줄은 본문보다 흐리게 */
         .blog-prose blockquote em { font-style: italic; font-weight: 400; color: #666; }
+        @media (min-width: 768px) {
+          .blog-prose blockquote { padding: 0.9rem 1.15rem; }
+          .blog-prose blockquote p { font-size: 17px; line-height: 1.75; }
+        }
         .blog-prose code {
           font-size: 13px; background: #F0EADF; color: #C8102E;
           border-radius: 4px; padding: 2px 6px;
@@ -81,7 +99,7 @@ export function proseCss(bodyFont: string): string {
         .blog-prose a:hover { color: #A30D25; }
         .blog-prose hr { border: none; border-top: 1px solid #E5E1DC; margin: 32px 0; }
 
-        /* 표 — 기존 스타일 유지 */
+        /* 표 — 본문보다 한 단 작게 유지한다(열이 많아 본문 크기로는 넘친다) */
         .blog-prose table {
           width: 100%; border-collapse: collapse; margin: 24px 0;
           font-size: 14px; display: block; overflow-x: auto;
@@ -94,6 +112,11 @@ export function proseCss(bodyFont: string): string {
           font-size: 13px; letter-spacing: 0.02em; color: #111;
         }
         .blog-prose tr:nth-child(even) td { background: #F5F3F0; }
+        @media (min-width: 768px) {
+          .blog-prose table { font-size: 16px; }
+          .blog-prose th { font-size: 15px; }
+          .blog-prose th, .blog-prose td { padding: 11px 16px; }
+        }
 
         .blog-prose * { font-family: inherit; }
         /* ::marker 는 font-family: inherit 대상이 아니므로 위 규칙이 색을 덮지 않는다 */

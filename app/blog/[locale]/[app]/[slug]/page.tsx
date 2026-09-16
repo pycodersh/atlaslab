@@ -212,7 +212,8 @@ export default async function AppBlogPostPage({
 
         .art-h1 {
           font-family: ${SERIF};
-          font-size: clamp(24px, 4vw, 40px);
+          /* 모바일 32px → PC 42px. 본문 h2(30px)보다 확실히 한 단 위. */
+          font-size: clamp(32px, 4vw, 42px);
           font-weight: 700; color: #fff;
           line-height: 1.15; letter-spacing: -0.02em;
           margin: 0 0 14px;
