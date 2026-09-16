@@ -331,7 +331,16 @@ export default async function AtlasLabHome() {
           text-decoration: none; color: inherit;
           transition: background 0.15s;
         }
-        .pcard-link:hover { background: var(--paper-warm, #F7F5F2); }
+        /* 카드 전체가 링크다(a.pcard-link). 터치에서 탭 하이라이트가 남지 않도록
+           호버는 마우스 기기로 한정하고, 누르는 동안의 피드백은 :active 가 준다. */
+        @media (hover: hover) {
+          .pcard-link:hover { background: var(--paper-warm, #F7F5F2); }
+        }
+        .pcard-link {
+          -webkit-tap-highlight-color: transparent;
+          transition: background 0.15s;
+        }
+        .pcard-link:active { background: #F2EFEB; }
 
         /* "Explore our apps" 로 스크롤해 왔을 때 카드가 순차로 한 번 떠오른다.
            클래스는 ExploreAppsButton 이 붙였다 뗀다. */
@@ -352,13 +361,14 @@ export default async function AtlasLabHome() {
         @media (max-width: 767px) {
           .products-grid {
             display: flex; flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             background: transparent; border: none;
           }
           .pcard {
             border: 1px solid var(--rule, #E5E1DC) !important;
             border-radius: 10px;
-            padding: 18px !important;
+            /* 상하를 줄여 한 화면에 더 들어오게 한다(좌우는 읽기 폭이라 유지) */
+            padding: 13px 16px 14px !important;
             display: grid;
             grid-template-columns: auto 1fr auto;
             grid-template-rows: auto auto auto;
@@ -372,12 +382,14 @@ export default async function AtlasLabHome() {
           }
           .pmark  {
             grid-area: icon;
-            width: 44px !important; height: 44px !important;
-            border-radius: 12px !important;
+            width: 40px !important; height: 40px !important;
+            border-radius: 11px !important;
             margin-bottom: 0 !important;
           }
+          /* 아이콘 높이 한가운데에 이름을 맞춘다 — 위로 붙어 보이던 것을 정돈 */
           .pname  {
             grid-area: name;
+            align-self: center;
             font-size: 17px !important;
             margin-bottom: 0 !important;
           }
@@ -388,15 +400,17 @@ export default async function AtlasLabHome() {
           }
           .paud {
             grid-area: aud;
-            margin-top: 12px;
+            margin-top: 9px;
             margin-bottom: 0 !important;
           }
           .pdesc  {
             grid-area: desc;
-            margin-top: 8px;
+            margin-top: 5px;
             font-size: 13px !important;
-            margin-bottom: 14px !important;
+            line-height: 1.55;
+            margin-bottom: 11px !important;
           }
+          /* 버튼 세로 크기는 손가락 타깃이라 줄이지 않는다(패딩 10px 유지) */
           .pbtn, .pbtn-soon {
             grid-area: btn;
             width: 100%;
@@ -439,28 +453,42 @@ export default async function AtlasLabHome() {
         }
         .badge-live { background: var(--brand-red, #C8102E); color: #fff; }
         .badge-soon { background: #F0EEE9; color: #777; }
+        /* CTA 는 세 카드가 모두 같은 솔리드 버건디다.
+           예전에는 아웃라인 + 호버 시 채우기였는데, 터치 기기는 탭한 카드에
+           :hover 를 남겨 둬서 "첫 카드만 채워져 보이는" 상태가 만들어졌다.
+           그래서 기본을 채운 상태로 두고, 호버 변화는 마우스가 있는 기기로 한정한다. */
         .pbtn {
           display: block;
           font-family: ${BODY};
           font-size: 12px; font-weight: 700;
           text-align: center; text-decoration: none;
           letter-spacing: 0.06em; text-transform: uppercase;
-          background: transparent;
-          color: var(--brand-red, #C8102E);
+          background: var(--brand-red, #C8102E);
+          color: #fff;
           border: 1.5px solid var(--brand-red, #C8102E);
           padding: 10px 12px;
-          transition: background 0.15s, color 0.15s;
+          transition: background 0.15s, border-color 0.15s;
         }
-        .pbtn:hover { background: var(--brand-red, #C8102E); color: #fff; }
+        @media (hover: hover) {
+          .pbtn:hover {
+            background: var(--brand-red-dark, #A30D25);
+            border-color: var(--brand-red-dark, #A30D25);
+          }
+        }
+        .pcard-link:active .pbtn {
+          background: var(--brand-red-dark, #A30D25);
+          border-color: var(--brand-red-dark, #A30D25);
+        }
+        /* 누를 수 없는 자리 — 같은 크기·모양으로 두되 색만 죽인다 */
         .pbtn-soon {
           display: block;
           font-family: ${BODY};
           font-size: 12px; font-weight: 700;
           text-align: center; text-decoration: none;
           letter-spacing: 0.06em; text-transform: uppercase;
-          background: transparent;
-          color: #aaa;
-          border: 1.5px solid #D0CEC8;
+          background: #F0EEE9;
+          color: #9A9A9A;
+          border: 1.5px solid #F0EEE9;
           padding: 10px 12px;
           cursor: default;
         }
