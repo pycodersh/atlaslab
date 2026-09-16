@@ -6,6 +6,8 @@ Here are the five essential rules for clearing Incheon Airport and reaching down
 
 Incheon Airport operates across three main sections: Terminal 1 (T1), Concourse A, and Terminal 2 (T2). Understanding their connections prevents costly transit mistakes.
 
+![Incheon Airport Terminal and Transit Structure](/images/posts/icn-terminal-layout.png)
+
 > **Critical Warning: The IAT Shuttle Train is Strictly ONE-WAY**
 > If departing from Concourse A or transferring between terminals airside (post-security), the underground Intra-Airport Transit (IAT) shuttle train runs strictly one-way from T1 to the Concourse. **Once you board this train, you cannot return to Terminal 1.** Complete all shopping, currency exchange, and duty-free pickups in T1 before boarding.
 
@@ -22,6 +24,8 @@ To travel between T1 and T2 landside (before security), take the **free airport 
 ## 2. AREX Train: Express vs. All-Stop Strategy
 
 The most common mistake international visitors make is assuming the pricier Express Train is always the fastest choice. Your hotel location dictates which train to board.
+
+![Navigating from 1F Arrivals to AREX Center](/images/posts/t1-arrivals-to-arex.png)
 
 * Take the central elevator or escalator from the **1F Arrivals Hall down to B1 (Transportation Center)**.
 * **Orange Gate (Express Train)**: Non-stop to Seoul Station (43 min from T1, 51 min from T2) with reserved seating for ₩11,000. Ideal for accommodations in Seoul Station, Myeongdong, Dongdaemun, and Yongsan.
