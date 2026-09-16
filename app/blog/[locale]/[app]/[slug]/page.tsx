@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
-import { proseCss } from '@/lib/blog/proseCss'
+import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
@@ -168,9 +168,9 @@ export default async function AppBlogPostPage({
     .order('published_at', { ascending: false })
     .limit(5)
 
-  const bodyFont = locale === 'ko'
-    ? '"맑은 고딕", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif'
-    : BODY
+  // 본문 글꼴은 locale 과 무관하게 Pretendard 하나로 간다 — 한 문단 안에
+  // 영문과 한글이 섞여도 글꼴이 갈리지 않는다(예전엔 ko/en 이 달랐다).
+  const bodyFont = PROSE_FONT
 
   const info = getAppInfo(app)
 

@@ -10,6 +10,15 @@
 const SERIF = '"Playfair Display", Georgia, serif'
 const BODY = '"DM Sans", "Inter", system-ui, sans-serif'
 
+/**
+ * 글 본문 글꼴 — 블로그 INSIGHTS 와 같은 Pretendard.
+ * 영문과 한글 예문이 한 문단에 섞여도 굵기·자간 인상이 흔들리지 않는다.
+ * (DM Sans 는 한글 글리프가 없어 한글만 다른 글꼴로 떨어지고 있었다.)
+ * 폰트 파일은 app/layout.tsx 의 jsDelivr 링크로 받는다.
+ */
+export const PROSE_FONT =
+  '"Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Malgun Gothic", sans-serif'
+
 export function proseCss(bodyFont: string): string {
   return `
         .blog-prose { padding-top: 36px; padding-bottom: 8px; font-family: ${bodyFont}; }
@@ -57,9 +66,9 @@ export function proseCss(bodyFont: string): string {
         .blog-prose ul { list-style-type: disc; }
         .blog-prose ol { list-style-type: decimal; }
         .blog-prose li {
-          /* 본문과 같은 16px, 색만 한 단 진하게(slate-800).
-             줄간격·간격은 블로그와 같게(1.9 / 10px) */
-          font-size: 16px; line-height: 1.9; color: #1E293B; margin-bottom: 10px;
+          /* 블로그 INSIGHTS 실측값 그대로 — 17px / 32.3px / 아래 10px.
+             (17 × 1.9 = 32.3px) 본문보다 한 단 크고 진해 목록이 구분된다. */
+          font-size: 17px; line-height: 1.9; color: #1E293B; margin-bottom: 10px;
         }
         .blog-prose li:last-child { margin-bottom: 0; }
         .blog-prose li::marker { color: #1E293B; }

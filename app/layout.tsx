@@ -49,6 +49,12 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
           rel="stylesheet"
         />
+        {/* 글 본문용 Pretendard — blog.atlaslabstudios.com 과 같은 소스·버전을 쓴다.
+            dynamic-subset 이라 쓰인 글자만 내려받는다(한글 전체 폰트를 받지 않는다). */}
+        <link
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+          rel="stylesheet"
+        />
       </head>
       <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
       <Script id="ga4-init" strategy="afterInteractive">{`
