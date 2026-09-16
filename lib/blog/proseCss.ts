@@ -25,16 +25,18 @@ export function proseCss(bodyFont: string): string {
           font-family: ${SERIF}; font-size: 22px; font-weight: 700;
           color: #111; margin: 44px 0 16px;
           padding-bottom: 8px; border-bottom: 1px solid #E5E1DC;
-          letter-spacing: -0.01em; line-height: 1.3;
+          letter-spacing: -0.01em; line-height: 1.4;
         }
         .blog-prose h3 {
           font-family: ${BODY}; font-size: 19px; font-weight: 600;
           color: #222; margin: 28px 0 10px; line-height: 1.35;
         }
 
-        /* 본문 — 크기는 모바일·PC 동일(16px). 색은 slate-700 으로 대비를 준다. */
+        /* 본문 — 크기는 모바일·PC 동일(16px). 색은 slate-700 으로 대비를 준다.
+           줄간격 1.85 · 문단 아래 24px 은 블로그 INSIGHTS 실측값 그대로다.
+           크기가 같아도 이 둘이 좁으면 빽빽해 보인다(1.7/20px 이 그랬다). */
         .blog-prose p {
-          font-size: 16px; line-height: 1.7; color: #334155; margin: 0 0 20px;
+          font-size: 16px; line-height: 1.85; color: #334155; margin: 0 0 24px;
         }
 
         @media (min-width: 768px) {
@@ -55,8 +57,9 @@ export function proseCss(bodyFont: string): string {
         .blog-prose ul { list-style-type: disc; }
         .blog-prose ol { list-style-type: decimal; }
         .blog-prose li {
-          /* 본문과 같은 16px, 색만 한 단 진하게(slate-800) */
-          font-size: 16px; line-height: 1.7; color: #1E293B; margin-bottom: 8px;
+          /* 본문과 같은 16px, 색만 한 단 진하게(slate-800).
+             줄간격·간격은 블로그와 같게(1.9 / 10px) */
+          font-size: 16px; line-height: 1.9; color: #1E293B; margin-bottom: 10px;
         }
         .blog-prose li:last-child { margin-bottom: 0; }
         .blog-prose li::marker { color: #1E293B; }
@@ -72,7 +75,7 @@ export function proseCss(bodyFont: string): string {
         }
         .blog-prose blockquote p {
           margin: 0;
-          font-size: 16px; line-height: 1.7;
+          font-size: 16px; line-height: 1.8;
           /* 원문은 "> 줄1 / > 줄2" 여러 줄인데 마크다운이 한 문단으로 합쳐서
              대화가 한 줄로 이어져 버린다. pre-line 으로 줄바꿈만 되살린다. */
           white-space: pre-line;
