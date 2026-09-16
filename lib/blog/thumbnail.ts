@@ -64,6 +64,12 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/konglish-neon-signs.jpg',
     alt: 'Korean street signage and neon signs representing Konglish words',
   },
+  // 표지를 지정하지 않으면 본문 첫 이미지(터미널 다이어그램)가 올라와,
+  // 상세 상단과 1절 본문에 같은 그림이 두 번 나온다.
+  'incheon-airport-survival-guide': {
+    src: '/images/articles/incheon-airport.jpg',
+    alt: 'Aerial view of Incheon International Airport terminals and runways',
+  },
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
