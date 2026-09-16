@@ -37,6 +37,8 @@ The most common mistake international visitors make is assuming the pricier Expr
 
 Transit cards can be purchased immediately at airport convenience stores or AREX ticket counters:
 
+![T-money, Climate Card and WOWPASS transit cards used in Korea](/images/posts/korea-transit-cards.jpg)
+
 * **Short-term Climate Card (Tourist Pass)**
   Available in 1-day (₩5,000), 2-day (₩8,000), 3-day (₩10,000), and 5-day (₩15,000) passes. Best for travelers planning 4+ subway or bus rides per day inside Seoul. Note that boarding AREX at Incheon Airport is excluded from the pass network; activate it upon entering central Seoul.
 * **T-Money Card**
