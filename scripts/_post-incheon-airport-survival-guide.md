@@ -52,6 +52,8 @@ Transit cards can be purchased immediately at airport convenience stores or AREX
 
 Avoid dragging oversized suitcases through crowded train transfers by dispatching bags straight from the terminal.
 
+![Large suitcases waiting to be sent from the airport for same-day hotel delivery](/images/posts/luggage-delivery.jpg)
+
 1. Locate the **ZimCarry or Hanjin Express luggage counters** on 1F (Arrivals Hall) of T1 or T2.
 2. Hand over your luggage with a reservation or walk-in service order.
 3. Your luggage is delivered to your Seoul hotel front desk between 6:00 PM and 8:00 PM the same evening.
@@ -62,6 +64,8 @@ Avoid dragging oversized suitcases through crowded train transfers by dispatchin
 ## 5. Currency Exchange & Late-Night Arrival Protocols
 
 Airport bank booths charge steep exchange spreads, while early-morning arrivals require specific transport planning.
+
+![Hand holding a US dollar bill before exchanging it for Korean won](/images/posts/currency-exchange.jpg)
 
 * **Limit Airport Cash Exchanges**: Airport bank counters carry higher fee spreads. Exchange a small amount (₩20,000–₩30,000) for initial transit card reloads, then convert larger sums via WOWPASS machines or private money changers in central districts.
 * **Pre-activate eSIM**: Bypass queue times at terminal telecom booths by purchasing an eSIM QR code prior to departure. Turn off airplane mode upon touchdown to connect instantly.
