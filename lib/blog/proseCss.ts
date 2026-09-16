@@ -30,15 +30,17 @@ export function proseCss(bodyFont: string): string {
           color: #222; margin: 30px 0 10px; line-height: 1.35;
         }
 
-        /* 본문 */
+        /* 본문 — 색은 #444 대신 slate-700(#334155). 같은 크기라도 대비가 올라가
+           글자가 덜 얇아 보인다("PC에서 얇다"는 지적의 절반은 대비 문제였다). */
         .blog-prose p {
-          font-size: 16px; line-height: 1.75; color: #444; margin: 0 0 20px;
+          font-size: 16px; line-height: 1.75; color: #334155; margin: 0 0 20px;
         }
 
         @media (min-width: 768px) {
-          .blog-prose h2 { font-size: 30px; margin: 56px 0 22px; }
-          .blog-prose h3 { font-size: 22px; margin: 32px 0 10px; }
-          .blog-prose p  { font-size: 18px; line-height: 1.8; margin-bottom: 22px; }
+          .blog-prose h2 { font-size: 30px; margin: 64px 0 24px; }
+          .blog-prose h3 { font-size: 22px; margin: 34px 0 12px; }
+          /* 에디토리얼 기준 본문 20px — Medium·Substack 대역 */
+          .blog-prose p  { font-size: 20px; line-height: 1.8; margin-bottom: 26px; }
         }
         .blog-prose strong { font-weight: 700; color: #111; }
         .blog-prose em { font-style: italic; color: #555; }
@@ -48,12 +50,13 @@ export function proseCss(bodyFont: string): string {
           margin: 24px 0 24px 8px; padding-left: 24px;
         }
         .blog-prose li {
-          font-size: 16px; line-height: 1.75; color: #444; margin-bottom: 10px;
+          font-size: 16px; line-height: 1.75; color: #334155; margin-bottom: 10px;
         }
         .blog-prose li:last-child { margin-bottom: 0; }
         .blog-prose li::marker { color: #C8102E; }
         @media (min-width: 768px) {
-          .blog-prose li { font-size: 18px; line-height: 1.8; margin-bottom: 12px; }
+          .blog-prose li { font-size: 20px; line-height: 1.8; margin-bottom: 14px; }
+          .blog-prose ul, .blog-prose ol { margin: 28px 0 28px 8px; }
         }
 
         /* 한국어 예시·회화 콜아웃.
@@ -82,8 +85,9 @@ export function proseCss(bodyFont: string): string {
         /* 이탤릭으로 적힌 번역 줄은 본문보다 흐리게 */
         .blog-prose blockquote em { font-style: italic; font-weight: 400; color: #666; }
         @media (min-width: 768px) {
-          .blog-prose blockquote { padding: 0.9rem 1.15rem; }
-          .blog-prose blockquote p { font-size: 17px; line-height: 1.75; }
+          .blog-prose blockquote { padding: 1rem 1.25rem; margin: 1.5rem 0; }
+          /* 본문(20px)보다 한 단 작게 유지 — 인용이라는 것이 크기로 드러난다 */
+          .blog-prose blockquote p { font-size: 18px; line-height: 1.75; }
         }
         .blog-prose code {
           font-size: 13px; background: #F0EADF; color: #C8102E;
