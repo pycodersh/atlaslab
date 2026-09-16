@@ -108,7 +108,7 @@ def arrow(ax, p1, p2, color, style="-|>", lw=5.0):
 
 
 def diagram_terminals(path: Path):
-    W, H = 12.0, 7.6
+    W, H = 12.6, 7.85
     fig, ax = new_canvas(W, H)
 
     ax.text(W / 2, H - 0.30, "Incheon Airport (ICN) — Terminal Layout",
@@ -119,21 +119,22 @@ def diagram_terminals(path: Path):
             ha="center", va="top", fontsize=F_LEAD, fontweight="bold", color=INK_SOFT)
     arrow(ax, (2.2, H - 1.75), (W - 2.2, H - 1.75), INK_SOFT, style="<|-|>", lw=3.6)
 
-    bw, gap = 3.5, 0.3
+    # 아시아나는 T2 로 이전했다 — T1 은 스타얼라이언스 외항사 중심이다
+    bw, gap = 3.7, 0.3
     y, h = 2.95, 2.55
     x0 = (W - (bw * 3 + gap * 2)) / 2
     box(ax, x0, y, bw, h, BLUE, "Terminal 1",
-        ["Gates 1 – 50", "Star Alliance", "AREX hub (B1)"])
+        ["Gates 1 – 50", "Star Alliance &", "Foreign Carriers", "AREX hub (B1)"])
     box(ax, x0 + bw + gap, y, bw, h, PURPLE, "Concourse A",
         ["Gates 101 – 132", "Low-cost carriers", "Duty-free (3F)"])
     box(ax, x0 + (bw + gap) * 2, y, bw, h, ORANGE, "Terminal 2",
-        ["Gates 230 – 270", "Korean Air", "SkyTeam (B1 hub)"])
+        ["Gates 230 – 270", "Korean Air · Asiana", "Delta · SkyTeam", "Transit center (B1)"])
 
     # 에어사이드 IAT 셔틀트레인 — T1 → 탑승동 편도.
     # 라벨은 화살표 위(상자 사이 빈 줄)에 두어 아래 경고 상자와 겹치지 않게 한다.
-    ax.text(W / 2, 2.82, "IAT Shuttle Train · Airside", ha="center", va="top",
+    ax.text(W / 2, 2.74, "IAT Shuttle Train · Airside", ha="center", va="top",
             fontsize=F_LEAD, fontweight="bold", color=RED)
-    arrow(ax, (x0 + 1.0, 2.30), (x0 + bw + gap + 1.8, 2.30), RED, lw=5.5)
+    arrow(ax, (x0 + 1.0, 2.22), (x0 + bw + gap + 1.8, 2.22), RED, lw=5.5)
 
     warn_title = "STRICTLY ONE-WAY:  T1 → Concourse A"
     warn_body = "Once you board, you cannot return to Terminal 1."

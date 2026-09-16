@@ -6,6 +6,8 @@ Here are the five essential rules for clearing Incheon Airport and reaching down
 
 Incheon Airport operates across three main sections: Terminal 1 (T1), Concourse A, and Terminal 2 (T2). Understanding their connections prevents costly transit mistakes.
 
+> **Terminal Update**: Asiana Airlines now operates from **Terminal 2**. Do not head to T1 if flying Asiana. Always verify your boarding terminal prior to arrival.
+
 ![Incheon Airport Terminal and Transit Structure](/images/posts/icn-terminal-layout.png)
 
 > **Critical Warning: The IAT Shuttle Train is Strictly ONE-WAY**
@@ -13,9 +15,9 @@ Incheon Airport operates across three main sections: Terminal 1 (T1), Concourse 
 
 | Zone | Gates | Primary Airlines | Level Breakdown |
 | :--- | :--- | :--- | :--- |
-| **Terminal 1 (T1)** | 1 – 50 | Asiana Airlines, Star Alliance, foreign carriers | B1: AREX Train Hub<br/>1F: Arrivals & Buses<br/>3F: Departures |
+| **Terminal 1 (T1)** | 1 – 50 | Star Alliance foreign carriers (United, Singapore Airlines, Lufthansa), foreign airlines | B1: AREX Train Hub<br/>1F: Arrivals & Buses<br/>3F: Departures |
 | **Concourse A** | 101 – 132 | International Low-Cost Carriers (LCCs) | 3F: Duty-Free & Boarding Gates |
-| **Terminal 2 (T2)** | 230 – 270 | Korean Air, Delta Air Lines, SkyTeam partners | B1: Integrated Transit Center<br/>1F: Arrivals & Taxis<br/>3F: Departures |
+| **Terminal 2 (T2)** | 230 – 270 | Korean Air, Asiana Airlines, Delta Air Lines, SkyTeam partners | B1: Integrated Transit Center<br/>1F: Arrivals & Taxis<br/>3F: Departures |
 
 To travel between T1 and T2 landside (before security), take the **free airport shuttle bus** (T1 3F Exit 8 / T2 3F Exit 7). The trip takes approximately 15 to 20 minutes.
 
@@ -40,7 +42,7 @@ Transit cards can be purchased immediately at airport convenience stores or AREX
 ![T-money, Climate Card and WOWPASS transit cards used in Korea](/images/posts/korea-transit-cards.jpg)
 
 * **Short-term Climate Card (Tourist Pass)**
-  Available in 1-day (₩5,000), 2-day (₩8,000), 3-day (₩10,000), and 5-day (₩15,000) passes. Best for travelers planning 4+ subway or bus rides per day inside Seoul. Note that boarding AREX at Incheon Airport is excluded from the pass network; activate it upon entering central Seoul.
+  Available in 1-day (₩5,000), 2-day (₩8,000), 3-day (₩10,000), and 5-day (₩15,000) passes. Best for travelers planning 4+ subway or bus rides per day inside Seoul. Boarding AREX at Incheon Airport using the Climate Card is not permitted (get-off only). Purchase a single AREX ticket or reloadable T-Money/WOWPASS for the airport-to-city trip, then begin using your Climate Card within central Seoul.
 * **T-Money Card**
   The universal reloadable card for all subways, public buses, and taxis nationwide. Best for moderate transit usage or regional travel outside Seoul.
 * **WOWPASS**
