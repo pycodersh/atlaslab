@@ -104,6 +104,19 @@ type BlogRow = {
   content: string | null
 }
 
+/** 카드·피처드에 쓰는 날짜 표기 — 목록 페이지와 같은 형식 */
+function fmtDate(iso: string) {
+  return new Date(iso).toLocaleDateString('en-US', {
+    year: 'numeric', month: 'long', day: 'numeric',
+  })
+}
+
+/** 읽는 데 걸리는 시간(분). 200 단어/분 기준의 흔한 어림값이다. */
+function readMinutes(content: string | null | undefined): number {
+  const words = (content ?? '').trim().split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / 200))
+}
+
 /** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다.
  *  분류 기준은 lib/blog/sections 하나뿐 — /blog 목록 탭과 같은 것을 쓴다.
  *  topicSectionKey 가 null 을 주는 글(app=patto)은 주제 섹션에 넣지 않는다. */
@@ -128,6 +141,7 @@ function groupIntoSections(posts: BlogRow[]) {
       posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
         ...post,
         thumb: thumbnailForPost(post.slug, post.content),
+        readMin: readMinutes(post.content),
       })),
     }
   })
@@ -213,7 +227,27 @@ export default async function AtlasLabHome() {
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
 
-  const blogSections = groupIntoSections(allPosts ?? [])
+  // 주제 탭에 들어가는 글만(= patto 제외). 쿼리가 최신순이라 앞이 최신이다.
+  const topicPosts = (allPosts ?? []).filter(p => topicSectionKey(p.app, p.category))
+
+  // 상단 탭 바 — 전체 + 주제별 건수. 분류는 sections.ts 한 곳만 본다.
+  const tabCounts = BLOG_SECTIONS.map(s => ({
+    key: s.key as string,
+    label: s.title as string,
+    count: topicPosts.filter(p => topicSectionKey(p.app, p.category) === s.key).length,
+  }))
+
+  // 피처드 — 가장 최신 1편. 아래 섹션 그리드에서는 빼서 같은 글이 두 번 나오지 않게 한다.
+  const featuredRow = topicPosts[0]
+  const featured = featuredRow && {
+    ...featuredRow,
+    thumb: thumbnailForPost(featuredRow.slug, featuredRow.content),
+    readMin: readMinutes(featuredRow.content),
+  }
+
+  const blogSections = groupIntoSections(
+    (allPosts ?? []).filter(p => p.slug !== featuredRow?.slug),
+  )
 
   return (
     <>
@@ -555,6 +589,9 @@ export default async function AtlasLabHome() {
           font-size: 16.5px; font-weight: 700;
           color: var(--ink, #111); line-height: 1.32;
           margin-bottom: 10px; letter-spacing: -0.01em;
+          /* 제목 2줄 제한 — 카드 높이가 제목 길이에 휘둘리지 않게 */
+          display: -webkit-box; -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical; overflow: hidden;
         }
         .bexcerpt {
           font-family: ${BODY};
@@ -564,6 +601,85 @@ export default async function AtlasLabHome() {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+        }
+        /* 카드 머리의 카테고리 바와 발치의 날짜 — INSIGHTS 카드와 같은 구성 */
+        .bcat {
+          font-family: ${BODY};
+          font-size: 9.5px; font-weight: 700;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          color: var(--brand-red, #C8102E); margin-bottom: 8px;
+        }
+        .bmeta {
+          font-family: ${BODY};
+          font-size: 11px; color: #9A9A9A;
+          margin-top: 12px; letter-spacing: 0.01em;
+        }
+
+        /* ── 카테고리 탭 바 (건수 표시) ───────────────────────────── */
+        .btabs {
+          display: flex; align-items: center; gap: 26px;
+          border-bottom: 1px solid var(--rule, #E5E1DC);
+          padding-bottom: 12px; margin-bottom: 28px;
+          overflow-x: auto; -webkit-overflow-scrolling: touch;
+        }
+        .btab {
+          font-family: ${BODY};
+          font-size: 13.5px; font-weight: 500;
+          color: #6B6B6B; text-decoration: none;
+          white-space: nowrap; flex-shrink: 0;
+          transition: color 0.15s;
+        }
+        .btab:hover { color: var(--ink, #111); }
+        .btab-n {
+          font-size: 11px; color: #A8A5A0;
+          margin-left: 2px; vertical-align: 1px;
+        }
+
+        /* ── 피처드 히어로 — 좌 16:9 썸네일 / 우 본문 ───────────────── */
+        .feat {
+          display: grid;
+          grid-template-columns: 1.05fr 1fr;
+          gap: 28px; align-items: center;
+          text-decoration: none; color: inherit;
+          padding-bottom: 36px; margin-bottom: 40px;
+          border-bottom: 1px solid var(--rule, #E5E1DC);
+        }
+        .feat-media { overflow: hidden; }
+        /* 카드용 3:2 대신 와이드 16:9 로 — 공용 썸네일 컴포넌트를 그대로 쓴다 */
+        .feat-media .blog-thumb { aspect-ratio: 16 / 9; }
+        .feat-cat {
+          display: inline-block;
+          font-family: ${BODY};
+          font-size: 9.5px; font-weight: 700;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          color: var(--brand-red, #C8102E); margin-bottom: 12px;
+        }
+        .feat-title {
+          font-family: ${SERIF};
+          font-size: 27px; font-weight: 700;
+          color: var(--ink, #111); line-height: 1.24;
+          letter-spacing: -0.015em; margin: 0 0 12px;
+        }
+        .feat:hover .feat-title { color: var(--brand-red, #C8102E); }
+        .feat-desc {
+          font-family: ${BODY};
+          font-size: 14px; color: var(--ink-muted, #6B6B6B);
+          line-height: 1.7; margin: 0 0 14px;
+          display: -webkit-box; -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical; overflow: hidden;
+        }
+        .feat-meta {
+          font-family: ${BODY};
+          font-size: 11.5px; color: #9A9A9A; margin: 0;
+        }
+        @media (max-width: 767px) {
+          .feat {
+            grid-template-columns: 1fr; gap: 16px;
+            padding-bottom: 24px; margin-bottom: 28px;
+          }
+          .feat-title { font-size: 21px; }
+          .feat-desc { font-size: 13.5px; -webkit-line-clamp: 2; }
+          .btabs { gap: 18px; margin-bottom: 22px; }
         }
 
         /* 768px 미만 — 카드 격자를 가로형 콤팩트 리스트로 눕힌다.
@@ -578,12 +694,11 @@ export default async function AtlasLabHome() {
             border-right: none;
           }
           .bbody { padding: 0; min-width: 0; justify-content: center; }
-          .btitle {
-            font-size: 15px; line-height: 1.35; margin-bottom: 6px;
-            display: -webkit-box; -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical; overflow: hidden;
-          }
+          /* 좁은 화면에서는 섹션 제목이 이미 카테고리를 말해주므로 한 줄 아낀다 */
+          .bcat { display: none; }
+          .btitle { font-size: 15px; line-height: 1.35; margin-bottom: 6px; }
           .bexcerpt { font-size: 12.5px; line-height: 1.55; flex: 0 1 auto; }
+          .bmeta { font-size: 10.5px; margin-top: 8px; }
         }
 
         /* ── Why section ───────────────────────────────────────────── */
@@ -677,10 +792,43 @@ export default async function AtlasLabHome() {
         </div>
       </div>
 
-      {/* ── From the Blog — 주제별 3섹션 ── */}
+      {/* ── From the Blog — 탭 바 + 피처드 + 주제별 섹션 ── */}
       {blogSections.some(s => s.posts.length >= MIN_POSTS_TO_SHOW_SECTION) && (
         <div className="blog-outer">
           <div className="wrap">
+
+            {/* 카테고리 탭 — 목록 페이지로 넘긴다(새 라우트를 만들지 않는다) */}
+            <nav className="btabs" aria-label="Article categories">
+              <a href="/blog" className="btab">
+                All <span className="btab-n">{topicPosts.length}</span>
+              </a>
+              {tabCounts.map(t => (
+                <a key={t.key} href={`/blog?tab=${t.key}`} className="btab">
+                  {t.label} <span className="btab-n">{t.count}</span>
+                </a>
+              ))}
+            </nav>
+
+            {/* 피처드 — 가장 최신 글 하나를 좌우 2분할로 */}
+            {featured && (
+              <a
+                href={`/blog/${featured.locale}/${featured.app}/${featured.slug}`}
+                className="feat"
+              >
+                <div className="feat-media">
+                  <BlogThumb thumb={featured.thumb} alt={featured.title} />
+                </div>
+                <div className="feat-body">
+                  {featured.category && <span className="feat-cat">{featured.category}</span>}
+                  <h3 className="feat-title">{featured.title}</h3>
+                  {featured.description && <p className="feat-desc">{featured.description}</p>}
+                  <p className="feat-meta">
+                    {fmtDate(featured.published_at)} · {featured.readMin} min read
+                  </p>
+                </div>
+              </a>
+            )}
+
             {blogSections.map(section =>
               // 카드가 하나뿐인 섹션은 비어 보이므로 홈에서는 감춘다(목록 탭에는 남는다).
               section.posts.length < MIN_POSTS_TO_SHOW_SECTION ? null : (
@@ -717,10 +865,14 @@ export default async function AtlasLabHome() {
                         >
                           <BlogThumb thumb={post.thumb} alt={post.title} />
                           <div className="bbody">
+                            {post.category && <div className="bcat">{post.category}</div>}
                             <div className="btitle">{post.title}</div>
                             {post.description && (
                               <div className="bexcerpt">{post.description}</div>
                             )}
+                            <div className="bmeta">
+                              {fmtDate(post.published_at)} · {post.readMin} min read
+                            </div>
                           </div>
                         </a>
                       ))}

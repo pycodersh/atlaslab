@@ -38,7 +38,7 @@ export function proseCss(bodyFont: string): string {
         }
 
         @media (min-width: 768px) {
-          .blog-prose h2 { font-size: 26px; margin: 56px 0 18px; }
+          .blog-prose h2 { font-size: 26px; margin: 50px 0 18px; }
           .blog-prose h3 { font-size: 20px; margin: 32px 0 10px; }
         }
         .blog-prose strong { font-weight: 700; color: #111; }
@@ -49,20 +49,17 @@ export function proseCss(bodyFont: string): string {
            여기서 disc/decimal 을 다시 지정하기 전까지는 ::marker 자체가
            만들어지지 않았다(그래서 마커 색 규칙도 아무 일을 하지 않았다). */
         .blog-prose ul, .blog-prose ol {
-          margin: 16px 0; padding-left: 22px;
+          margin: 16px 0; padding-left: 20px;   /* ml-5 */
           list-style-position: outside;
         }
         .blog-prose ul { list-style-type: disc; }
         .blog-prose ol { list-style-type: decimal; }
         .blog-prose li {
-          /* 본문보다 살짝 크고 진하게 — 목록이 문단과 구분되도록 */
+          /* 본문과 같은 16px, 색만 한 단 진하게(slate-800) */
           font-size: 16px; line-height: 1.7; color: #1E293B; margin-bottom: 8px;
         }
         .blog-prose li:last-child { margin-bottom: 0; }
-        .blog-prose li::marker { color: #0F172A; }
-        @media (min-width: 768px) {
-          .blog-prose li { font-size: 17px; line-height: 1.75; }
-        }
+        .blog-prose li::marker { color: #1E293B; }
 
         /* 한국어 예시·회화 콜아웃.
            블로그 INSIGHTS 와 같은 모양으로 맞춘다 — 배경 없이 좌측 3px 실선,

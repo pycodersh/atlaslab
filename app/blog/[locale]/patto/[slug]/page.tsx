@@ -113,9 +113,11 @@ export default async function BlogPostPage({
         html, body { overflow-x: hidden; scrollbar-gutter: stable; }
 
         /* ── Layout ──────────────────────────────────────────── */
+        /* 블로그 INSIGHTS 와 같은 폭: 바깥 760px + 좌우 40px = 본문 680px
+           (blog.atlaslabstudios.com 상세에서 실측한 값) */
         .art-wrap {
-          max-width: 720px; margin: 0 auto;
-          padding-left: 24px; padding-right: 24px;
+          max-width: 760px; margin: 0 auto;
+          padding-left: 40px; padding-right: 40px;
           box-sizing: border-box;
         }
         @media (max-width: 600px) {
@@ -142,7 +144,7 @@ export default async function BlogPostPage({
         .art-h1 {
           font-family: ${SERIF};
           /* 모바일 32px → PC 42px. 본문 h2(30px)보다 확실히 한 단 위. */
-          font-size: clamp(32px, 4vw, 42px);
+          font-size: clamp(32px, 4vw, 40px);
           font-weight: 700; color: #fff;
           line-height: 1.15; letter-spacing: -0.02em;
           margin: 0 0 14px;
