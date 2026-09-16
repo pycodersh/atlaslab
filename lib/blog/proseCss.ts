@@ -30,12 +30,17 @@ export function proseCss(bodyFont: string): string {
            px 로 적는 이유: 이 CSS 는 <style> 로 주입돼 rem 기준(루트 폰트)이
            페이지마다 달라질 여지가 있어, 실제 크기를 고정한다.
            모든 글이 같은 한 곳(.blog-prose)을 보므로 카테고리와 무관하게 같다. */
+        /* h2 는 위쪽 레드 선으로 구간을 연다 — 블로그 INSIGHTS 실측값 그대로
+           (border-top 2px #C8102E · 선과 글자 사이 14px · 여백 56/18px).
+           예전의 아래쪽 얇은 회색선은 없앴다. */
         .blog-prose h2 {
           font-family: ${SERIF}; font-size: 22px; font-weight: 700;
           color: #111; margin: 44px 0 16px;
-          padding-bottom: 8px; border-bottom: 1px solid #E5E1DC;
+          padding-top: 14px; border-top: 2px solid #C8102E;
           letter-spacing: -0.01em; line-height: 1.4;
         }
+        /* 글이 곧바로 h2 로 시작하면 위 여백을 빼서 제목 영역과 벌어지지 않게 한다 */
+        .blog-prose > h2:first-child { margin-top: 0; }
         .blog-prose h3 {
           font-family: ${BODY}; font-size: 19px; font-weight: 600;
           color: #222; margin: 28px 0 10px; line-height: 1.35;
@@ -49,7 +54,7 @@ export function proseCss(bodyFont: string): string {
         }
 
         @media (min-width: 768px) {
-          .blog-prose h2 { font-size: 26px; margin: 50px 0 18px; }
+          .blog-prose h2 { font-size: 26px; margin: 56px 0 18px; }
           .blog-prose h3 { font-size: 20px; margin: 32px 0 10px; }
         }
         .blog-prose strong { font-weight: 700; color: #111; }
