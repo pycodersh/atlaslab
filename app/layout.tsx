@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const GA_ID = "G-DMDS6WFWSF";
@@ -65,6 +66,11 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         {children}
+        {/* Vercel Web Analytics — 화면에 아무것도 그리지 않는다(스크립트만 주입).
+            /react 대신 /next 를 쓰는 이유: 이 엔트리가 next/navigation 의
+            usePathname·useParams 를 읽어 /blog/[locale]/[app]/[slug] 같은
+            동적 경로를 패턴으로 묶어 준다. */}
+        <Analytics />
       </body>
     </html>
   );
