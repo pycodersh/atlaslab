@@ -14,64 +14,68 @@ export function proseCss(bodyFont: string): string {
   return `
         .blog-prose { padding-top: 36px; padding-bottom: 8px; font-family: ${bodyFont}; }
 
-        /* ── 타이포 스케일 (모바일 기본 → 768px 이상에서 한 단 키운다) ──
-           본문 16/1.75 → 18/1.8, h2 24 → 30, h3 20 → 22.
+        /* ── 타이포 스케일 — blog.atlaslabstudios.com(INSIGHTS) 규격에 맞춘다.
+           그쪽 본문을 1280px 에서 실측한 값: p 16px/1.85, h2 26px(여백 56/18),
+           blockquote 좌측 3px 실선·투명 배경, 본문 폭 680px.
+           여기서는 본문 줄간격만 1.7 로 조금 좁혀 더 조밀하게 간다.
            px 로 적는 이유: 이 CSS 는 <style> 로 주입돼 rem 기준(루트 폰트)이
            페이지마다 달라질 여지가 있어, 실제 크기를 고정한다.
            모든 글이 같은 한 곳(.blog-prose)을 보므로 카테고리와 무관하게 같다. */
         .blog-prose h2 {
-          font-family: ${SERIF}; font-size: 24px; font-weight: 700;
-          color: #111; margin: 48px 0 20px;
+          font-family: ${SERIF}; font-size: 22px; font-weight: 700;
+          color: #111; margin: 44px 0 16px;
           padding-bottom: 8px; border-bottom: 1px solid #E5E1DC;
           letter-spacing: -0.01em; line-height: 1.3;
         }
         .blog-prose h3 {
-          font-family: ${BODY}; font-size: 20px; font-weight: 600;
-          color: #222; margin: 30px 0 10px; line-height: 1.35;
+          font-family: ${BODY}; font-size: 19px; font-weight: 600;
+          color: #222; margin: 28px 0 10px; line-height: 1.35;
         }
 
-        /* 본문 — 색은 #444 대신 slate-700(#334155). 같은 크기라도 대비가 올라가
-           글자가 덜 얇아 보인다("PC에서 얇다"는 지적의 절반은 대비 문제였다). */
+        /* 본문 — 크기는 모바일·PC 동일(16px). 색은 slate-700 으로 대비를 준다. */
         .blog-prose p {
-          font-size: 16px; line-height: 1.75; color: #334155; margin: 0 0 20px;
+          font-size: 16px; line-height: 1.7; color: #334155; margin: 0 0 20px;
         }
 
         @media (min-width: 768px) {
-          .blog-prose h2 { font-size: 30px; margin: 64px 0 24px; }
-          .blog-prose h3 { font-size: 22px; margin: 34px 0 12px; }
-          /* 에디토리얼 기준 본문 20px — Medium·Substack 대역 */
-          .blog-prose p  { font-size: 20px; line-height: 1.8; margin-bottom: 26px; }
+          .blog-prose h2 { font-size: 26px; margin: 56px 0 18px; }
+          .blog-prose h3 { font-size: 20px; margin: 32px 0 10px; }
         }
         .blog-prose strong { font-weight: 700; color: #111; }
         .blog-prose em { font-style: italic; color: #555; }
 
-        /* 목록 — 문단보다 여백을 넓게 주고 왼쪽으로 살짝 들여쓴다 */
+        /* 목록 — ★ list-style-type 을 직접 켜야 점이 보인다.
+           Tailwind Preflight 에 "ol, ul, menu { list-style: none }" 이 있어서,
+           여기서 disc/decimal 을 다시 지정하기 전까지는 ::marker 자체가
+           만들어지지 않았다(그래서 마커 색 규칙도 아무 일을 하지 않았다). */
         .blog-prose ul, .blog-prose ol {
-          margin: 24px 0 24px 8px; padding-left: 24px;
+          margin: 16px 0; padding-left: 22px;
+          list-style-position: outside;
         }
+        .blog-prose ul { list-style-type: disc; }
+        .blog-prose ol { list-style-type: decimal; }
         .blog-prose li {
-          font-size: 16px; line-height: 1.75; color: #334155; margin-bottom: 10px;
+          /* 본문보다 살짝 크고 진하게 — 목록이 문단과 구분되도록 */
+          font-size: 16px; line-height: 1.7; color: #1E293B; margin-bottom: 8px;
         }
         .blog-prose li:last-child { margin-bottom: 0; }
-        .blog-prose li::marker { color: #C8102E; }
+        .blog-prose li::marker { color: #0F172A; }
         @media (min-width: 768px) {
-          .blog-prose li { font-size: 20px; line-height: 1.8; margin-bottom: 14px; }
-          .blog-prose ul, .blog-prose ol { margin: 28px 0 28px 8px; }
+          .blog-prose li { font-size: 17px; line-height: 1.75; }
         }
 
         /* 한국어 예시·회화 콜아웃.
-           본문 인용문(>)은 대부분 "한국어 — 영어 번역" 형태의 예시라,
-           단순 인용이 아니라 눈에 띄는 콜아웃으로 처리한다. */
+           블로그 INSIGHTS 와 같은 모양으로 맞춘다 — 배경 없이 좌측 3px 실선,
+           슬레이트 계열(#1E293B). 예전의 레드 보더 + 베이지 배경은 걷어냈다. */
         .blog-prose blockquote {
-          background: #F8F8F6;
-          border-left: 3px solid #C8102E;
-          padding: 0.75rem 1rem;
-          margin: 1.25rem 0;
+          background: transparent;
+          border-left: 3px solid #1E293B;
+          padding: 4px 0 4px 24px;
+          margin: 24px 0;
         }
         .blog-prose blockquote p {
           margin: 0;
-          /* 본문보다 한 단 작게 — 인용·예시라는 것이 크기로도 드러난다 */
-          font-size: 15.5px; line-height: 1.7;
+          font-size: 16px; line-height: 1.7;
           /* 원문은 "> 줄1 / > 줄2" 여러 줄인데 마크다운이 한 문단으로 합쳐서
              대화가 한 줄로 이어져 버린다. pre-line 으로 줄바꿈만 되살린다. */
           white-space: pre-line;
@@ -85,9 +89,7 @@ export function proseCss(bodyFont: string): string {
         /* 이탤릭으로 적힌 번역 줄은 본문보다 흐리게 */
         .blog-prose blockquote em { font-style: italic; font-weight: 400; color: #666; }
         @media (min-width: 768px) {
-          .blog-prose blockquote { padding: 1rem 1.25rem; margin: 1.5rem 0; }
-          /* 본문(20px)보다 한 단 작게 유지 — 인용이라는 것이 크기로 드러난다 */
-          .blog-prose blockquote p { font-size: 18px; line-height: 1.75; }
+          .blog-prose blockquote p { font-size: 17px; line-height: 1.75; }
         }
         .blog-prose code {
           font-size: 13px; background: #F0EADF; color: #C8102E;
