@@ -91,6 +91,19 @@ export function proseCss(bodyFont: string): string {
         @media (min-width: 768px) {
           .blog-prose blockquote p { font-size: 17px; line-height: 1.75; }
         }
+
+        /* 경고·공지 콜아웃 — components/blog/Blockquote.tsx 가 머리말을 보고
+           클래스를 붙인다("**Critical Warning:** …" 처럼 머리말 + 콜론).
+           예문 인용구는 위의 단정한 기본 스타일 그대로 둔다. */
+        .blog-prose blockquote.is-callout-warn {
+          background: #FFF1F2;                 /* rose-50 */
+          border-left-color: #F43F5E;          /* rose-500 */
+          padding: 14px 18px 14px 20px;
+          border-radius: 0 4px 4px 0;
+        }
+        .blog-prose blockquote.is-callout-warn p { color: #1F2937; }
+        /* 머리말(**Critical Warning:**)은 로즈 계열로 한 번 더 집어준다 */
+        .blog-prose blockquote.is-callout-warn strong { color: #9F1239; }
         .blog-prose code {
           font-size: 13px; background: #F0EADF; color: #C8102E;
           border-radius: 4px; padding: 2px 6px;
