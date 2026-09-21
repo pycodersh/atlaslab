@@ -70,6 +70,19 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/incheon-airport.jpg',
     alt: 'Aerial view of Incheon International Airport terminals and runways',
   },
+  'korean-cafe-laptop-safety-rules': {
+    src: '/images/articles/korean-cafe-laptop-safety-rules.jpg',
+    alt: 'Open laptop left on a glass table, as is common in Korean cafés',
+  },
+  'korean-restaurant-ordering-guide': {
+    src: '/images/articles/korean-restaurant-ordering-guide.jpg',
+    alt: 'Brass service bell on a restaurant table next to a glass and cutlery',
+  },
+  // 원본은 세로 사진이라 남산타워부터 간판까지 3:2 로 잘라 넣었다
+  'korean-convenience-store-dining-guide': {
+    src: '/images/articles/korean-convenience-store-dining-guide.jpg',
+    alt: '7-Eleven convenience store sign in Seoul with N Seoul Tower behind',
+  },
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
