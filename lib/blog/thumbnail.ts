@@ -88,6 +88,10 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/korean-ssambap-dining-guide.jpg',
     alt: 'Grilled pork belly with ssamjang on a lettuce leaf held in the palm',
   },
+  'korean-bbq-fried-rice-guide': {
+    src: '/images/articles/korean-bbq-fried-rice-guide.jpg',
+    alt: 'Kimchi fried rice with melted cheese on a Korean BBQ grill plate',
+  },
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */

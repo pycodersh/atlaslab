@@ -131,6 +131,9 @@ export function proseCss(bodyFont: string): string {
         .blog-prose a { color: #C8102E; text-decoration: underline; text-underline-offset: 3px; }
         .blog-prose a:hover { color: #A30D25; }
         .blog-prose hr { border: none; border-top: 1px solid #E5E1DC; margin: 32px 0; }
+        /* 본문 폭보다 작은 이미지는 원본 크기로 두되(키우면 흐려진다) 가운데 정렬한다.
+           폭이 꽉 차는 이미지는 어차피 100% 라 달라지지 않는다. */
+        .blog-prose img { margin-left: auto; margin-right: auto; }
 
         /* 표 — 본문보다 한 단 작게 유지한다(열이 많아 본문 크기로는 넘친다) */
         .blog-prose table {
