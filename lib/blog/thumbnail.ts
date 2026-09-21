@@ -83,6 +83,11 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/korean-convenience-store-dining-guide.jpg',
     alt: '7-Eleven convenience store sign in Seoul with N Seoul Tower behind',
   },
+  // 원본이 세로 사진이라 상추쌈이 가운데 오도록 3:2 로 잘랐다
+  'korean-ssambap-dining-guide': {
+    src: '/images/articles/korean-ssambap-dining-guide.jpg',
+    alt: 'Grilled pork belly with ssamjang on a lettuce leaf held in the palm',
+  },
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
