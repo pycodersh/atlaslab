@@ -97,10 +97,11 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/korea-taxi-survival-guide.jpg',
     alt: 'Glowing orange TAXI roof sign on a car at night in Korea',
   },
-  // 사진 대신 그린 표지(scripts/gen_subway_illustrations.py). 사진이 오면 바꾼다.
+  // 실제 사진(01.jpg) — 원본은 암스테르담 역이라 역명·거리 간판이 보이는
+  // 위쪽을 잘라내고 에스컬레이터·발권기 장면만 남겼다. 처음엔 그린 표지였다.
   'seoul-subway-transfer-transit-card-guide': {
     src: '/images/articles/seoul-subway-transfer-transit-card-guide.jpg',
-    alt: 'T-money card tapping a Seoul subway gate reader with a green checkmark',
+    alt: 'People using a subway ticket machine at the bottom of an escalator',
   },
 }
 

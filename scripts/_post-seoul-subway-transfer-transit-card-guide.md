@@ -4,7 +4,7 @@ Purchasing single-journey subway tickets in Seoul is an expensive operational mi
 
 Seoul operates an integrated multi-modal transit fare system linking urban subway lines, regional rail, and metropolitan bus networks. Disembarking without tapping out breaks the digital transaction chain, triggering maximum base fare penalties on your subsequent boarding.
 
-![Diagram showing the 30-minute free transfer window from bus tap-out to subway tap-in](/images/posts/subway-transfer-30min-window.png)
+![T-money card reader mounted on a pole inside a Korean city bus](/images/posts/subway-transfer-30min-window.jpg)
 
 > "A single-journey ticket is not merely inconvenient; it incurs a mandatory 500 KRW deposit that traps travelers in redemption queues, completely voids free transfer discounts, and charges premium single-trip base rates."
 
@@ -33,7 +33,7 @@ Follow this sequence to correct platform routing errors, secure transfer benefit
 * **Step 2: Correct Wrong-Direction Gate Entries Without Paying Double**
   If you tap into a turnstile only to discover the platform serves the opposite travel direction, do not panic or jump the barrier. Tap your card through the exit turnstile and re-tap into the opposing gate within 15 minutes at the same station; the system recognizes the transfer turnaround and charges zero additional fare (valid once per journey on standard metro lines).
 
-![Three-step diagram of fixing a wrong-direction subway gate tap for free](/images/posts/subway-wrong-gate-fix.png)
+![Row of subway turnstile gates in a station corridor](/images/posts/subway-wrong-gate-fix.jpg)
 
 * **Step 3: Maintain the Sequential Tap-Out Habit on Buses**
   When utilizing public buses to connect to metro stations, always tap your card against the reader next to the rear exit doors right before your stop. This action registers your off-boarding timestamp into the central transit server, activating the 30-minute countdown clock for your subsequent free subway or bus transfer.
