@@ -92,6 +92,12 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/korean-bbq-fried-rice-guide.jpg',
     alt: 'Kimchi fried rice with melted cheese on a Korean BBQ grill plate',
   },
+  // 사진 대신 그린 표지(scripts/gen_taxi_illustrations.py). 본문 첫 그림과 겹치지
+  // 않도록 '빈차' 표시등 하나만 크게 따로 만들었다. 사진이 생기면 바꾸면 된다.
+  'korea-taxi-survival-guide': {
+    src: '/images/articles/korea-taxi-survival-guide.jpg',
+    alt: 'Glowing red 빈차 vacancy sign on a Korean taxi windshield at night',
+  },
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
