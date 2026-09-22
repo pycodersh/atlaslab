@@ -92,11 +92,10 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/korean-bbq-fried-rice-guide.jpg',
     alt: 'Kimchi fried rice with melted cheese on a Korean BBQ grill plate',
   },
-  // 사진 대신 그린 표지(scripts/gen_taxi_illustrations.py). 본문 첫 그림과 겹치지
-  // 않도록 '빈차' 표시등 하나만 크게 따로 만들었다. 사진이 생기면 바꾸면 된다.
+  // 실제 사진(TAXI.jpg)을 3:2 로 잘라 넣었다. 처음엔 그린 '빈차' 표시등이었다.
   'korea-taxi-survival-guide': {
     src: '/images/articles/korea-taxi-survival-guide.jpg',
-    alt: 'Glowing red 빈차 vacancy sign on a Korean taxi windshield at night',
+    alt: 'Glowing orange TAXI roof sign on a car at night in Korea',
   },
   // 사진 대신 그린 표지(scripts/gen_subway_illustrations.py). 사진이 오면 바꾼다.
   'seoul-subway-transfer-transit-card-guide': {

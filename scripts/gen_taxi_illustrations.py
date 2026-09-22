@@ -18,12 +18,13 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib import font_manager
+from matplotlib import font_manager, image as mpimg
 from matplotlib.patches import Circle, FancyBboxPatch, Polygon
 import matplotlib.patheffects as pe
 
 POSTS = Path("public/images/posts")
 ARTICLES = Path("public/images/articles")
+TAXI_PHOTOS = Path("scripts/_assets/taxi")
 DPI = 300
 
 BG = "#F8FAFC"
@@ -192,8 +193,21 @@ def car(ax, x, y, body, *, van=False, roof=None, stripe=None, decal=None):
         ax.add_patch(Circle((wx, y + 0.2), 0.11, facecolor="#9CA3AF", zorder=6))
 
 
+def photo_inset(ax, x, y, w, h, src, edge_color, zorder=2):
+    """카드 안에 사진을 둥근 모서리로 끼운다 — 카드 틀·색·글자는 건드리지 않는다."""
+    arr = mpimg.imread(src)
+    im = ax.imshow(arr, extent=(x, x + w, y, y + h), zorder=zorder, aspect="auto")
+    clip = FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=0.07",
+                          transform=ax.transData, facecolor="none")
+    im.set_clip_path(clip)
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=0.07",
+                                linewidth=2.0, edgecolor=edge_color, facecolor="none", zorder=zorder + 1))
+
+
 def diagram_taxi_types(path):
-    W, H = 11.0, 9.0
+    # 사진이 들어가며 카드가 높아져(ph 3.55→3.85) 9.0 이던 캔버스에서
+    # 아래 행 글자 마지막 줄이 잘렸다 — 두 행 + 여백이 들어가게 다시 잡는다.
+    W, H = 11.0, 9.8
     fig, ax = new_canvas(W, H)
 
     title = "Four kinds of Seoul taxi"
@@ -203,36 +217,42 @@ def diagram_taxi_types(path):
             ha="center", va="top", fontsize=F_BODY, color=MUTED)
 
     types = [
-        dict(name="Standard", body=TAXI_ORANGE, kw=dict(roof="#F3F4F6"),
+        dict(name="Standard", photo=TAXI_PHOTOS / "standard.png", edge=TAXI_ORANGE,
              l1="Orange, silver or white sedan", l2="Base fare · night surcharge", l3="Street, taxi stands, apps"),
-        dict(name="Deluxe (Mobeom)", body=DELUXE, kw=dict(roof=ROOF_YELLOW, stripe="#C9A227"),
+        dict(name="Deluxe (Mobeom)", photo=TAXI_PHOTOS / "deluxe.png", edge=DELUXE,
              l1="Black sedan, yellow roof cap", l2="About 40% higher base fare", l3="Hotels, hubs, reservation"),
-        dict(name="Jumbo / Van", body=VAN, kw=dict(van=True),
+        dict(name="Jumbo / Van", photo=TAXI_PHOTOS / "van.png", edge=VAN,
              l1="Large van (Staria, Carnival)", l2="Dynamic pricing by demand", l3="App dispatch only"),
-        dict(name="International", body="#111827", kw=dict(decal="INTERNATIONAL"),
+        dict(name="International", photo=TAXI_PHOTOS / "intl.png", edge="#111827",
              l1="Orange or black, door decal", l2="Flat airport rates", l3="Airport desks, advance booking"),
     ]
-    pw, ph = 5.0, 3.55
+    pw, ph = 5.0, 3.85
     gx, gy = 0.35, 0.28
     x0 = (W - (pw * 2 + gx)) / 2
     y_top = H - 1.5
     for i, t in enumerate(types):
         cx = x0 + (i % 2) * (pw + gx)
         cy = y_top - (i // 2) * (ph + gy) - ph
+        # 카드 틀 — 색·테두리·배경은 원래 그대로
         ax.add_patch(FancyBboxPatch(
             (cx, cy), pw, ph, boxstyle="round,pad=0.02,rounding_size=0.08",
             linewidth=2.0, edgecolor="#CBD5E1", facecolor="#FFFFFF", zorder=1,
         ))
-        car(ax, cx + (pw - 3.2) / 2, cy + 1.62, t["body"], **t["kw"])
+        # 자동차 벡터 대신 실제 사진 — 위치·비율만 이전 car() 자리에 맞춘다
+        photo_w, photo_h = pw - 0.5, 1.85
+        photo_inset(ax, cx + 0.25, cy + ph - 0.25 - photo_h, photo_w, photo_h, t["photo"], t["edge"])
         inner = pw - 0.4
         check_fits(t["name"], F_BOX_TITLE, inner, t["name"], bold=True)
         for k in ("l1", "l2", "l3"):
             check_fits(t[k], F_SMALL, inner, f'{t["name"]} {k}')
-        ax.text(cx + pw / 2, cy + 1.40, t["name"], ha="center", va="top", fontsize=F_BOX_TITLE,
-                fontweight="bold", color=INK)
-        ax.text(cx + pw / 2, cy + 0.92, t["l1"], ha="center", va="top", fontsize=F_SMALL, color=INK_SOFT)
-        ax.text(cx + pw / 2, cy + 0.60, t["l2"], ha="center", va="top", fontsize=F_SMALL, color=INK_SOFT)
-        ax.text(cx + pw / 2, cy + 0.28, t["l3"], ha="center", va="top", fontsize=F_SMALL, color=MUTED)
+        ax.text(cx + pw / 2, cy + ph - photo_h - 0.42, t["name"], ha="center", va="top",
+                fontsize=F_BOX_TITLE, fontweight="bold", color=INK, zorder=3)
+        ax.text(cx + pw / 2, cy + ph - photo_h - 0.90, t["l1"], ha="center", va="top",
+                fontsize=F_SMALL, color=INK_SOFT, zorder=3)
+        ax.text(cx + pw / 2, cy + ph - photo_h - 1.22, t["l2"], ha="center", va="top",
+                fontsize=F_SMALL, color=INK_SOFT, zorder=3)
+        ax.text(cx + pw / 2, cy + ph - photo_h - 1.54, t["l3"], ha="center", va="top",
+                fontsize=F_SMALL, color=MUTED, zorder=3)
 
     fig.savefig(path, dpi=DPI)
     plt.close(fig)
