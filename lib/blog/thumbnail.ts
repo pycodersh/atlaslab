@@ -98,6 +98,11 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/korea-taxi-survival-guide.jpg',
     alt: 'Glowing red 빈차 vacancy sign on a Korean taxi windshield at night',
   },
+  // 사진 대신 그린 표지(scripts/gen_subway_illustrations.py). 사진이 오면 바꾼다.
+  'seoul-subway-transfer-transit-card-guide': {
+    src: '/images/articles/seoul-subway-transfer-transit-card-guide.jpg',
+    alt: 'T-money card tapping a Seoul subway gate reader with a green checkmark',
+  },
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
