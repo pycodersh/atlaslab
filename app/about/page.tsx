@@ -22,7 +22,6 @@ const MISSION_CARDS = [
         <path d="M10 6v4l3 2"/>
       </svg>
     ),
-    link: true,
   },
   {
     title: 'Pattern-First Approach',
@@ -35,7 +34,6 @@ const MISSION_CARDS = [
         <line x1="7" y1="12" x2="13" y2="12"/>
       </svg>
     ),
-    link: true,
   },
   {
     title: 'Real AI, Not a Wrapper',
@@ -49,7 +47,6 @@ const MISSION_CARDS = [
         <line x1="14" y1="10" x2="19" y2="10"/>
       </svg>
     ),
-    link: false,
   },
   {
     title: 'Habit-Sized by Design',
@@ -61,7 +58,6 @@ const MISSION_CARDS = [
         <line x1="8" y1="4" x2="12" y2="4"/>
       </svg>
     ),
-    link: false,
   },
 ]
 
@@ -245,14 +241,6 @@ export default function AboutPage() {
           font-size: 13px; color: #666;
           line-height: 1.7; flex: 1;
         }
-        .mlink {
-          font-family: ${BODY};
-          font-size: 12px; font-weight: 600;
-          color: #C8102E; text-decoration: none;
-          letter-spacing: 0.02em;
-        }
-        .mlink:hover { text-decoration: underline; }
-
         /* ── Products grid ─────────────────────────────────────────── */
         .prod-grid {
           display: grid;
@@ -426,9 +414,6 @@ export default function AboutPage() {
                   </div>
                   <div className="mtitle">{card.title}</div>
                   <div className="mdesc">{card.desc}</div>
-                  {card.link && (
-                    <Link href="/about" className="mlink">Learn more →</Link>
-                  )}
                 </div>
               ))}
             </div>
