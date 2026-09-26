@@ -16,6 +16,8 @@ Leaving physical cash behind on a table causes immediate confusion; staff member
 
 Understanding the mechanical differences between counter settlement and touch-screen kiosks avoids operational bottlenecks during meal hours.
 
+![A Korean cafe self-service kiosk with an English-style menu grid of hot and iced coffees and a hand tapping the touch screen](/images/posts/korea-cafe-order-kiosk.jpg)
+
 | Dimension | Counter POS Settlement | Self-Service Kiosk Ordering |
 | :--- | :--- | :--- |
 | **Payment Timing** | Post-meal upon exit | Pre-meal immediately upon entry |

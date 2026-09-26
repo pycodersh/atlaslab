@@ -111,6 +111,14 @@ const COVER_BY_SLUG: Record<string, Cover> = {
   },
   // 실제 사진(01.jpg) — 원본은 암스테르담 역이라 역명·거리 간판이 보이는
   // 위쪽을 잘라내고 에스컬레이터·발권기 장면만 남겼다. 처음엔 그린 표지였다.
+  'zero-tipping-split-bills-korea': {
+    src: '/images/articles/zero-tipping-split-bills-korea.jpg',
+    alt: 'A hand tapping a point-of-sale touch screen at a restaurant counter',
+  },
+  'google-maps-alternatives-korea': {
+    src: '/images/articles/google-maps-alternatives-korea.jpg',
+    alt: 'Naver Map and Kakao Map logos',
+  },
   'seoul-subway-transfer-transit-card-guide': {
     src: '/images/articles/seoul-subway-transfer-transit-card-guide.jpg',
     alt: 'People using a subway ticket machine at the bottom of an escalator',

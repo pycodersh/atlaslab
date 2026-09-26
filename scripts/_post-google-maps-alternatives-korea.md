@@ -22,7 +22,13 @@ Because Google hosts its global mapping database across offshore cloud servers a
 | **Street & Indoor Views** | Low resolution, severely outdated coverage | **High-definition street views and detailed indoor layouts** | High-precision aerial and road imaging |
 | **Direct Mobility Integration** | Limited third-party handoffs | Integrated reservations and phone links | **Native on-demand taxi, van, and bike dispatching** |
 
+![Naver Map app icon beside its interface showing a detailed Seoul street map with search bar and category shortcuts](/images/posts/naver-map-app-icon-and-screen.jpg)
+
+![Four Kakao Map screens showing a neighborhood map, a walking route with distance and time, a cafe search list, and an indoor location view](/images/posts/kakao-map-app-screens.jpg)
+
 ## 3-Step Setup Protocol for Flawless Korean Transit
+
+![Naver Map on three phones showing a street map, a 3D building view, and category pins for cafes and restaurants](/images/posts/naver-map-app-screens.jpg)
 
 * **Step 1: Install Naver Map and Configure English Interface Defaults**
   Download Naver Map from your mobile app store, open the lateral menu, and set the system display language to English. Search destinations using standard Romanized Korean names or exact street addresses. Access real-time bus arrivals and subway car transfer recommendations directly within the primary routing card.
@@ -30,3 +36,5 @@ Because Google hosts its global mapping database across offshore cloud servers a
   When leaving underground train platforms, check Naver Map's designated exit number rather than attempting to navigate by surface landmarks. Korean street wayfinding centers entirely around sequential numbered station exits; surfacing from the wrong staircase forces cross-boulevard pedestrian detours.
 * **Step 3: Deploy Kakao T with Driver-Direct Payment Channels**
   Download Kakao T, switch the language profile to English, and bypass local mobile verification prompts by choosing foreign account sign-in options. When calling a vehicle, select "General Request" and designate the payment mechanism as "Pay to Driver." This configuration enables foreign Visa, Mastercard, or American Express cards to be swiped on the vehicle's physical dashboard terminal upon arrival at the destination.
+
+![A silver and yellow Kakao T taxi with the Kakao T sign on its roof](/images/posts/kakao-t-taxi.jpg)
