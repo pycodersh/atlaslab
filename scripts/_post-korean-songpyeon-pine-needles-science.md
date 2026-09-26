@@ -16,7 +16,7 @@ During high-heat steaming, fresh needles of the Korean red pine release concentr
 
 Chuseok is celebrated under the largest full moon of the lunar year, yet the central holiday pastry is strictly folded into a crescent half-moon.
 
-![Songpyeon folded into half-moon shapes in white, pink, yellow and green on a wooden plate](/images/posts/songpyeon-half-moon-shape.jpg)
+![Half-moon songpyeon in white, pink and yellow dusted with rice flour on a wooden plate](/images/posts/songpyeon-half-moon-shape.jpg)
 
 This intentional shape reflects an ancient cosmological view of potential and prosperity. In Korean philosophy, a full moon represents the absolute peak of a cycle, meaning its only remaining trajectory is to wane. A half moon, conversely, holds the promise of waxing toward fullness and abundance.
 
