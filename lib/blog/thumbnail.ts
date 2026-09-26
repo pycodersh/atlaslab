@@ -97,6 +97,12 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/korea-taxi-survival-guide.jpg',
     alt: 'Glowing orange TAXI roof sign on a car at night in Korea',
   },
+  // Gemini 생성 이미지(03.png)의 클로즈업 컷. 받침대 위 Gemini 표식은 나뭇결을
+  // 이어 붙여 지웠고, 두 컷이 붙은 원본에서 구분선을 피해 오른쪽 컷만 3:2 로 썼다.
+  'galbijjim-vs-western-beef-stew': {
+    src: '/images/articles/galbijjim-vs-western-beef-stew.jpg',
+    alt: 'Close-up of Korean braised short ribs galbi-jjim with chestnuts, jujubes and carrots in a clay pot',
+  },
   // 라이선스 사진을 걷어내고 Gemini 로 만든 이미지로 교체했다(01.png).
   // 오른쪽 아래 Gemini 표식은 나무 바닥 조각으로 덮어 지웠다.
   'korean-songpyeon-pine-needles-science': {
