@@ -113,7 +113,15 @@ const COVER_BY_SLUG: Record<string, Cover> = {
   // 위쪽을 잘라내고 에스컬레이터·발권기 장면만 남겼다. 처음엔 그린 표지였다.
   'zero-tipping-split-bills-korea': {
     src: '/images/articles/zero-tipping-split-bills-korea.jpg',
-    alt: 'A hand tapping a point-of-sale touch screen at a restaurant counter',
+    alt: 'A hand holding up a green wallet printed with the word NO against a plain wall',
+  },
+  'olive-young-instant-tax-refund-guide': {
+    src: '/images/articles/olive-young-instant-tax-refund-guide.jpg',
+    alt: 'Olive Young flagship store at dusk with illuminated signage and glass facade',
+  },
+  'late-night-medicine-korea-clinics-guide': {
+    src: '/images/articles/late-night-medicine-korea-clinics-guide.jpg',
+    alt: 'A red first aid kit with scissors, tweezers, cotton swabs and blister packs of tablets on a dark table',
   },
   'google-maps-alternatives-korea': {
     src: '/images/articles/google-maps-alternatives-korea.jpg',
