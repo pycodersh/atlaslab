@@ -72,14 +72,18 @@ export function SiteFooter() {
           gap: '8px 20px',
           justifyContent: 'space-between', alignItems: 'center',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '6px 14px' }}>
             <Link href="/privacy" style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textDecoration: 'none', fontFamily: F }}>
               Privacy Policy
             </Link>
-            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.18)' }}>·</span>
+            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.18)' }}>|</span>
             <Link href="/terms" style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textDecoration: 'none', fontFamily: F }}>
               Terms of Service
             </Link>
+            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.18)' }}>|</span>
+            <a href="mailto:contact@atlaslabstudios.com" style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textDecoration: 'none', fontFamily: F }}>
+              Contact: contact@atlaslabstudios.com
+            </a>
           </div>
           <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', margin: 0, fontFamily: F }}>
             © 2025 Atlas Lab Studios · atlaslabstudios.com
