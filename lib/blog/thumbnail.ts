@@ -97,6 +97,11 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/korea-taxi-survival-guide.jpg',
     alt: 'Glowing orange TAXI roof sign on a car at night in Korea',
   },
+  // 원본이 612px 로 작아 키우지 않고 그대로 썼다(키우면 흐려진다)
+  'korean-songpyeon-pine-needles-science': {
+    src: '/images/articles/korean-songpyeon-pine-needles-science.jpg',
+    alt: 'Colorful songpyeon rice cakes arranged on a white plate',
+  },
   // 실제 사진(01.jpg) — 원본은 암스테르담 역이라 역명·거리 간판이 보이는
   // 위쪽을 잘라내고 에스컬레이터·발권기 장면만 남겼다. 처음엔 그린 표지였다.
   'seoul-subway-transfer-transit-card-guide': {
