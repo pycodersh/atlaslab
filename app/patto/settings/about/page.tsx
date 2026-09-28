@@ -105,7 +105,7 @@ export default function AboutPage() {
     {
       icon: ReceiptText, iconColor: '#8E8E93',
       label: t('refund_label'), desc: t('refund_desc'),
-      href: '/settings/about/refunds', last: true,
+      href: '/patto/settings/about/refunds', last: true,
     },
   ]
 

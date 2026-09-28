@@ -20,7 +20,7 @@ export default function PrivacyPage() {
   return (
     <LegalPage>
       <h1>Privacy Policy</h1>
-      <p className="legal-meta">Last updated: July 1, 2025 &nbsp;·&nbsp; Effective: July 1, 2025</p>
+      <p className="legal-meta">Last updated: September 28, 2026 &nbsp;·&nbsp; Effective: September 28, 2026</p>
 
       <h2>1. Who We Are</h2>
       <p>

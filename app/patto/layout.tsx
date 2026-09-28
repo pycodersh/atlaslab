@@ -39,6 +39,8 @@ export const metadata: Metadata = {
   title: "Patto — 영어 패턴 학습",
   description: "100개의 짧은 Story로 영어 핵심 패턴을 자동화하는 앱",
   manifest: "/manifest.json",
+  // 앱 내부 화면 전체 색인 제외 — 내부 링크는 계속 따라간다
+  robots: { index: false, follow: true },
   icons: {
     icon: [
       { url: "/icons/patto/favicon-16x16.png", sizes: "16x16", type: "image/png" },

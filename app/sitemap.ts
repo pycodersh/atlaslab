@@ -8,6 +8,10 @@ export const dynamic = 'force-dynamic'
 // Strip leading BOM (U+FEFF) that PowerShell stdin piping can inject into env vars
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com').replace(/^﻿/, '')
 
+// TEMP(AdSense review): 무료 에피소드 kp-ep-001~010 은 심사 기간 동안 사이트맵에서 뺀다
+// (해당 라우트도 layout 에서 noindex, follow). 승인 후 SSR 본문 보강과 함께 true 로 복원.
+const INDEX_FREE_EPISODES = false
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // EP01~10 (free episodes only — EP11+ are gated, excluded from sitemap)
   const freeEpisodes: MetadataRoute.Sitemap = Array.from(
@@ -108,7 +112,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/kpatto`,             lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
     { url: `${BASE_URL}/kpatto/story`,        lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/kpatto/expressions`,  lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
-    ...freeEpisodes,
+    ...(INDEX_FREE_EPISODES ? freeEpisodes : []),
     ...blogListingPages,
     ...blogPages,
   ]
