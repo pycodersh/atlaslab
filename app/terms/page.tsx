@@ -13,7 +13,7 @@ export default function TermsPage() {
   return (
     <LegalPage>
       <h1>Terms of Service</h1>
-      <p className="legal-meta">Last updated: July 1, 2025 &nbsp;·&nbsp; Effective: July 1, 2025</p>
+      <p className="legal-meta">Last updated: September 28, 2026 &nbsp;·&nbsp; Effective: September 28, 2026</p>
 
       <h2>1. Acceptance of Terms</h2>
       <p>

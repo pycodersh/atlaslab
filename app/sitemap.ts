@@ -12,6 +12,10 @@ const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudi
 // (해당 라우트도 layout 에서 noindex, follow). 승인 후 SSR 본문 보강과 함께 true 로 복원.
 const INDEX_FREE_EPISODES = false
 
+// TEMP(AdSense review): /kpatto 랜딩도 서버 HTML 이 얇아 심사 기간에는 사이트맵에서 뺀다
+// (app/kpatto/page.tsx 의 metadata 에서도 noindex, follow). 승인 후 SSR 본문 보강과 함께 true 로 복원.
+const INDEX_KPATTO_LANDING = false
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // EP01~10 (free episodes only — EP11+ are gated, excluded from sitemap)
   const freeEpisodes: MetadataRoute.Sitemap = Array.from(
@@ -109,7 +113,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/privacy`, lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },
     { url: `${BASE_URL}/terms`,   lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.3 },
     { url: `${BASE_URL}/contact`, lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.4 },
-    { url: `${BASE_URL}/kpatto`,             lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
+    ...(INDEX_KPATTO_LANDING
+      ? [{ url: `${BASE_URL}/kpatto`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 1.0 }]
+      : []),
     { url: `${BASE_URL}/kpatto/story`,        lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/kpatto/expressions`,  lastModified: new Date(), changeFrequency: 'weekly', priority: 0.9 },
     ...(INDEX_FREE_EPISODES ? freeEpisodes : []),
