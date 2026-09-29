@@ -12,6 +12,8 @@ Grilling tables occupy high-utility square footage requiring gas burners, charco
 * **Shared Table Dynamics**: During peak dinner rushes (18:30–20:30), single-seat turnover may still be restricted at high-demand venues; arriving before 18:00 or after 20:30 maximizes table availability.
 * **Side-Dish Allocation**: Full sets of lettuce wraps, garlic, kimchi, and dipping sauces are replenished freely once the 2-serving minimum threshold is registered.
 
+![A restaurant staff member grilling meat tableside for a single seated guest](/images/posts/korean-bbq-staff-grilling-for-guest.jpg)
+
 ## Solo-Friendly Food Categories vs. Group-Centric Formats
 
 Matching your dining plan with appropriate culinary establishments eliminates table rejection and awkward ordering interactions.

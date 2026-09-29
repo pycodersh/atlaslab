@@ -16,6 +16,8 @@ Requesting staff to discard your receipt or leaving it at the counter often lead
 
 Operational boundaries in Korean cafes differ significantly from conventional Western coffee shops.
 
+![A tip jar labeled TIPS next to a card reader at a counter, with a customer holding cash](/images/posts/cafe-receipt-tip-jar-counter.jpg)
+
 | Amenity / Service | Korean Cafe Standard | Western Cafe Standard |
 | :--- | :--- | :--- |
 | **Restroom Access** | External hallway location; locked via 4–6 digit digital keypad | Internal facility; unkeyed or push-button access |

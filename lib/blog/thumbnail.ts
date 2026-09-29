@@ -131,6 +131,26 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/seoul-subway-transfer-transit-card-guide.jpg',
     alt: 'People using a subway ticket machine at the bottom of an escalator',
   },
+  'hands-free-seoul-subway-lockers-guide': {
+    src: '/images/articles/hands-free-seoul-subway-lockers-guide.jpg',
+    alt: 'A wall of digital storage lockers next to a rolling suitcase at a subway station',
+  },
+  'hidden-passwords-korean-cafes-guide': {
+    src: '/images/articles/hidden-passwords-korean-cafes-guide.jpg',
+    alt: 'A coffee cup and spoon on a saucer next to a printed receipt on a wooden cafe table',
+  },
+  'solo-dining-seoul-kbbq-break-time': {
+    src: '/images/articles/solo-dining-seoul-kbbq-break-time.jpg',
+    alt: 'A Korean barbecue table set with grilled meat, banchan side dishes, and drinks',
+  },
+  'where-are-trash-cans-in-seoul': {
+    src: '/images/articles/where-are-trash-cans-in-seoul.jpg',
+    alt: 'A hand holding a disposable coffee cup with a caution hot lid',
+  },
+  'foreign-credit-cards-global-atm-korea': {
+    src: '/images/articles/foreign-credit-cards-global-atm-korea.jpg',
+    alt: 'Two people using street-side ATMs',
+  },
 }
 
 /** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */

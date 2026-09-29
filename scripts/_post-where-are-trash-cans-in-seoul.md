@@ -22,6 +22,8 @@ When walking through Seoul, route your trash disposal through these three access
 | **24-Hour Convenience Stores** | Snack wrappers, wooden skewers, bottles | Beside entrance doors or adjacent to checkout counters | Intended for packaging; no outside household dump |
 | **Originating Cafes** | Disposable plastic cups, paper coffee sleeves | Beside pickup counter condiment bars (*Condi-bar*) | Dump liquid/ice into liquid bins before stacking cups |
 
+![A person carrying a used coffee cup and a shopping bag while walking, holding onto the trash until a proper bin is found](/images/posts/carrying-cup-and-shopping-bag-seoul.jpg)
+
 ## 3-Step Protocol for Managing Street Litter in Seoul
 
 Follow this operating procedure to navigate day-long itineraries without carrying sticky trash across neighborhoods.
