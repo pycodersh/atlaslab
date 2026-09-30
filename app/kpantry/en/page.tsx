@@ -7,6 +7,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: `${BASE_URL}/kpantry/en`,
   },
+  // layout 의 noindex 기본값을 랜딩에서만 해제한다
+  robots: { index: true, follow: true },
 }
 import HaveIngredientsCard from '@/components/kpantry/home/HaveIngredientsCard'
 import WantToCookCard from '@/components/kpantry/home/WantToCookCard'

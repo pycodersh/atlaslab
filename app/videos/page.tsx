@@ -1,4 +1,8 @@
 import Link from 'next/link'
+import { NOINDEX_FOLLOW } from '@/lib/seo/noindex'
+
+// 영상 1개 임베드뿐인 얇은 페이지(본문 ~38단어), 사이트 내 링크도 없다 — 색인 제외
+export const metadata = NOINDEX_FOLLOW
 
 const videos = [
   {
