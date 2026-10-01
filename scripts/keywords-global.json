@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "keyword": "Climate Card vs T-Money: Which One Should Tourists Buy in Seoul?",
+    "category": "life-in-korea",
+    "priority": 1,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 2,
+    "keyword": "Prepaid SIM Card vs eSIM for Tourists in Korea: Which to Buy at the Airport",
+    "category": "life-in-korea",
+    "priority": 2,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 3,
+    "keyword": "Best Convenience Store Combo Meals in Korea: What Locals Actually Buy",
+    "category": "korean-food",
+    "priority": 3,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 4,
+    "keyword": "How Trash and Recycling Separation Actually Works in a Korean Apartment",
+    "category": "life-in-korea",
+    "priority": 4,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  }
+]

@@ -42,6 +42,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# generate-global-post.mjs 실행 기록(그라운딩 출처) — 추적하지 않는다
+/scripts/data/generated-global/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

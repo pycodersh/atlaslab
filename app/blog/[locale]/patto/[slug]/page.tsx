@@ -105,7 +105,7 @@ export default async function BlogPostPage({
   const bodyFont = PROSE_FONT
 
   // 카드와 같은 함수 — 없으면 히어로에 영역 자체를 만들지 않는다
-  const thumb = thumbnailForPost(post.slug, post.content)
+  const thumb = thumbnailForPost(post.slug, post.content, post.thumbnail)
 
   return (
     <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>

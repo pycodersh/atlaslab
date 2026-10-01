@@ -75,14 +75,14 @@ export default async function BlogIndexPage({
   const { data: bodies } = pageRows.length
     ? await supabase
         .from('blog_posts')
-        .select('slug, content')
+        .select('slug, content, thumbnail')
         .in('slug', pageRows.map(p => p.slug))
-    : { data: [] as { slug: string; content: string | null }[] }
+    : { data: [] as { slug: string; content: string | null; thumbnail: string | null }[] }
 
-  const contentBySlug = new Map((bodies ?? []).map(b => [b.slug, b.content]))
+  const bodyBySlug = new Map((bodies ?? []).map(b => [b.slug, b]))
   const posts = pageRows.map(p => ({
     ...p,
-    thumb: thumbnailForPost(p.slug, contentBySlug.get(p.slug)),
+    thumb: thumbnailForPost(p.slug, bodyBySlug.get(p.slug)?.content, bodyBySlug.get(p.slug)?.thumbnail),
   }))
 
   return (

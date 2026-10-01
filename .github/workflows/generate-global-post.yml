@@ -1,0 +1,93 @@
+name: Generate global article
+
+# KST 09:00 / 14:00 / 20:00 = UTC 00:00 / 05:00 / 11:00
+# 깃허브 크론은 혼잡 시간대에 수 분~수십 분 밀릴 수 있다. 정시 발행이 필요한 글에는 쓰지 않는다
+# (어차피 초안으로 들어가므로 발행 시각은 중요하지 않다).
+on:
+  schedule:
+    - cron: "0 0 * * *"
+    - cron: "0 5 * * *"
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+    inputs:
+      keyword_id:
+        description: "특정 키워드 id 로 생성 (비우면 대기열 최상위 1건)"
+        required: false
+        type: string
+
+# 세 크론이 겹치거나 수동 실행이 끼어도 동시에 돌지 않게 한다.
+# 동시에 돌면 같은 키워드를 두 번 쓰거나 push 가 충돌한다.
+concurrency:
+  group: generate-global-post
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: 글 생성 + Supabase INSERT (초안)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          # 입력값은 셸에 직접 끼워 넣지 않고 환경변수로 받는다 (명령 주입 방지)
+          KEYWORD_ID: ${{ inputs.keyword_id }}
+        run: |
+          set -euo pipefail
+          ARGS=()
+          if [ -n "${KEYWORD_ID:-}" ]; then ARGS+=(--id "$KEYWORD_ID"); fi
+          node scripts/generate-global-post.mjs "${ARGS[@]}" | tee generate.log
+          if grep -q "⚠️  초안 상태" generate.log; then
+            {
+              echo "### 새 초안이 생성됐습니다 — 검수 후 공개하세요"
+              echo '```'
+              grep -A2 "✅ INSERT 완료" generate.log || true
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      # blog_posts 는 DB 쓰기라 git 변경이 없다. 대기열 파일만 바뀐다.
+      - name: 변경분 확인
+        id: diff
+        run: |
+          if [ -z "$(git status --porcelain -- scripts/keywords-global.json)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "대기열 변경 없음 — 생성에 실패했거나 대기열이 비어 있었다."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff -- scripts/keywords-global.json
+          fi
+
+      - name: 대기열 커밋 & 푸시
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name "atlaslab-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/keywords-global.json
+          git commit -m "chore: mark global-post keyword as generated"
+          git push origin HEAD:main || (git pull --rebase origin main && git push origin HEAD:main)
+
+      - name: 생성 기록 보관
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: global-post-grounding-sources
+          path: scripts/data/generated-global/
+          if-no-files-found: ignore
+          retention-days: 30

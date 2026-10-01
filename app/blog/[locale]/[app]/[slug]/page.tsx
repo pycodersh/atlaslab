@@ -176,7 +176,7 @@ export default async function AppBlogPostPage({
 
   // 카드와 같은 함수를 쓴다 — 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다.
   // null 이면 히어로에 영역 자체를 만들지 않는다.
-  const thumb = thumbnailForPost(post.slug, post.content)
+  const thumb = thumbnailForPost(post.slug, post.content, post.thumbnail)
 
   return (
     <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>

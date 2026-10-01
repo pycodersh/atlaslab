@@ -153,11 +153,20 @@ const COVER_BY_SLUG: Record<string, Cover> = {
   },
 }
 
-/** 카드에 쓸 썸네일. 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다. */
+/**
+ * 카드에 쓸 썸네일. 우선순위:
+ *   0) blog_posts.thumbnail 컬럼(DB) — 영문 글로벌 아티클 자동 생성 파이프라인
+ *      (scripts/generate-global-post.mjs)이 Pexels 이미지 URL을 직접 저장한다.
+ *      배포 없이 바로 반영된다.
+ *   1) COVER_BY_SLUG(코드) — 이 컬럼이 생기기 전에 수동으로 등록해 둔 표지들.
+ *   2) 본문에서 뽑은 유튜브/첫 이미지.
+ */
 export function thumbnailForPost(
   slug: string,
   content: string | null | undefined,
+  dbThumbnail?: string | null,
 ): BlogThumbnail | null {
+  if (dbThumbnail) return { kind: 'image', src: dbThumbnail }
   const cover = COVER_BY_SLUG[slug]
   if (cover) {
     return typeof cover === 'string'

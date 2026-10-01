@@ -102,6 +102,7 @@ type BlogRow = {
   category: string | null
   published_at: string
   content: string | null
+  thumbnail: string | null
 }
 
 /** 카드·피처드에 쓰는 날짜 표기 — 목록 페이지와 같은 형식 */
@@ -140,7 +141,7 @@ function groupIntoSections(posts: BlogRow[]) {
       total: all.length,
       posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
         ...post,
-        thumb: thumbnailForPost(post.slug, post.content),
+        thumb: thumbnailForPost(post.slug, post.content, post.thumbnail),
         readMin: readMinutes(post.content),
       })),
     }
@@ -222,7 +223,7 @@ export default async function AtlasLabHome() {
   // thumbnailForPost 로 여기서 정한다(대표 이미지가 있으면 그것이 우선).
   const { data: allPosts } = await supabase
     .from('blog_posts')
-    .select('slug, title, description, app, locale, category, published_at, content')
+    .select('slug, title, description, app, locale, category, published_at, content, thumbnail')
     .eq('is_paused', false)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
