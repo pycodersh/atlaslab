@@ -38,7 +38,7 @@ jobs:
 
       - run: npm ci
 
-      - name: 글 생성 + Supabase INSERT (초안)
+      - name: 글 생성 + Supabase INSERT (즉시 공개)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
@@ -52,14 +52,15 @@ jobs:
           ARGS=()
           if [ -n "${KEYWORD_ID:-}" ]; then ARGS+=(--id "$KEYWORD_ID"); fi
           node scripts/generate-global-post.mjs "${ARGS[@]}" | tee generate.log
-          if grep -q "⚠️  초안 상태" generate.log; then
-            {
+          {
+            if grep -q "⚠️  초안 상태" generate.log; then
               echo "### 새 초안이 생성됐습니다 — 검수 후 공개하세요"
-              echo '```'
-              grep -A2 "✅ INSERT 완료" generate.log || true
-              echo '```'
-            } >> "$GITHUB_STEP_SUMMARY"
-          fi
+            elif grep -q "✅ INSERT 완료" generate.log; then
+              echo "### 새 글이 생성·공개됐습니다"
+            fi
+            grep -A2 "✅ INSERT 완료" generate.log > /tmp/ins.txt || true
+            if [ -s /tmp/ins.txt ]; then echo '```'; cat /tmp/ins.txt; echo '```'; fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # blog_posts 는 DB 쓰기라 git 변경이 없다. 대기열 파일만 바뀐다.
       - name: 변경분 확인

@@ -1,10 +1,10 @@
 /**
- * generate-global-post.mjs 가 초안(is_paused: true)으로 넣은 글을 검수 후 공개 전환한다.
- * 애드센스 심사 기간 정책: 자동 생성 글은 전부 초안으로 들어가고, 사람이 내용을
- * 확인한 뒤에만 이 스크립트로 공개한다 — 자동으로 공개 전환하지 않는다.
+ * generate-global-post.mjs 는 기본적으로 생성 즉시 공개(is_paused: false)한다.
+ * --draft 로 생성했을 때만 비공개 초안으로 들어가는데, 그걸 검수 후 공개 전환할 때 쓴다.
+ * 이미 공개된 글을 내리고 싶을 때는 --unpublish 로 반대로 쓴다.
  *
  * 실행: npx tsx scripts/publish-global-draft.ts <slug>
- *       npx tsx scripts/publish-global-draft.ts <slug> --unpublish   (되돌리기)
+ *       npx tsx scripts/publish-global-draft.ts <slug> --unpublish   (비공개로 되돌리기)
  */
 import * as dotenv from 'dotenv'
 import * as path from 'path'

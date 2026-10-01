@@ -14,11 +14,13 @@
  * 카테고리는 Life in Korea / Korean food 둘뿐이다. Korean phrases 는
  * 유튜브 쇼츠 연계로 수동 작성하므로 이 파이프라인 대상이 아니다.
  *
- * 애드센스 심사 중이라 전부 초안(is_paused: true)으로 넣는다. 사람이 확인한 뒤
+ * 검증을 통과하면 생성 즉시 공개(is_paused: false)된다. 검수 후 올리고 싶으면
+ * --draft 를 붙인다 — 그러면 비공개로 들어가고, 나중에
  *   npx tsx scripts/publish-global-draft.ts <slug>
  * 로 공개 전환한다.
  *
- *   node scripts/generate-global-post.mjs              대기열 최상위 1건 생성 + 삽입
+ *   node scripts/generate-global-post.mjs              대기열 최상위 1건 생성 + 즉시 공개
+ *   node scripts/generate-global-post.mjs --draft       생성만 하고 비공개(초안)로 넣기
  *   node scripts/generate-global-post.mjs --dry-run     DB에 쓰지 않고 결과만 출력
  *   node scripts/generate-global-post.mjs --id 2        특정 키워드 id 로 생성
  *   node scripts/generate-global-post.mjs --keyword "..." --category life-in-korea   대기열 밖 즉석 생성
@@ -31,10 +33,9 @@
  *   SUPABASE_SERVICE_ROLE_KEY / SUPABASE_SECRET_KEY   필수(서비스 롤 — RLS 우회 INSERT)
  *
  * 출력물
- *   blog_posts 행 1개 (is_paused: true)
+ *   blog_posts 행 1개 (기본 is_paused: false — 생성 즉시 공개. --draft 면 true)
  *   scripts/data/generated-global/<slug>.json   참고 출처 + 실행 기록 (git 제외)
  *   scripts/keywords-global.json                해당 항목 status: published 로 갱신
- *     (= "생성 완료". 실제 공개 여부는 is_paused 가 결정한다.)
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -348,9 +349,9 @@ const row = {
   content: body,
   thumbnail: thumb?.url ?? null,
   published_at: nowKst().iso,
-  // 애드센스 심사 기간 정책: 전부 초안으로 넣는다. 검수 후
-  // npx tsx scripts/publish-global-draft.ts <slug> 로 공개 전환한다.
-  is_paused: true,
+  // 기본은 생성 즉시 공개(is_paused: false). 검수 후 올리고 싶으면 --draft 를 붙인다
+  // (그 경우 npx tsx scripts/publish-global-draft.ts <slug> 로 나중에 공개 전환한다).
+  is_paused: flag('draft'),
 }
 
 if (flag('dry-run')) {
@@ -363,7 +364,7 @@ const { data: inserted, error: insErr } = await sb.from('blog_posts').insert(row
   .select('id, slug, app, category, tags, thumbnail, published_at, is_paused').single()
 if (insErr) throw new Error(`INSERT 실패: ${insErr.message}`)
 
-console.log(`\n✅ INSERT 완료 (초안, 비공개)\n${JSON.stringify(inserted, null, 2)}`)
+console.log(`\n✅ INSERT 완료 (${inserted.is_paused ? '초안, 비공개' : '공개'})\n${JSON.stringify(inserted, null, 2)}`)
 console.log(`본문 ${result.words}단어, 모델 ${usedModel}`)
 console.log(thumb ? `썸네일: ${thumb.url} (Pexels, ${thumb.photographer})` : '썸네일: 없음 (Pexels 결과 없음/키 없음)')
 
@@ -382,8 +383,15 @@ if (item.id !== null) {
   const idx = queue.findIndex(k => k.id === item.id)
   queue[idx] = { ...queue[idx], status: 'published', publishedAt: nowKst().iso, slug }
   fs.writeFileSync(QUEUE_PATH, `${JSON.stringify(queue, null, 2)}\n`, 'utf8')
-  console.log(`대기열 갱신: id ${item.id} -> published (= 생성 완료, 공개 여부는 is_paused 가 결정)`)
+  console.log(`대기열 갱신: id ${item.id} -> published`)
 }
 
-console.log('\n⚠️  초안 상태(is_paused: true)다. 검수 후 다음으로 공개 전환한다:')
-console.log(`   npx tsx scripts/publish-global-draft.ts ${slug}`)
+if (inserted.is_paused) {
+  console.log('\n⚠️  초안 상태(is_paused: true)다. 검수 후 다음으로 공개 전환한다:')
+  console.log(`   npx tsx scripts/publish-global-draft.ts ${slug}`)
+} else {
+  const url = `https://www.atlaslabstudios.com/blog/${row.locale}/${row.app}/${row.slug}`
+  // Vercel 배포와 무관하게 DB 글은 바로 보이지만, 방금 배포 중이면 잠깐 404 일 수 있다.
+  const res = await fetch(url).catch(() => null)
+  console.log(`\n${res?.status === 200 ? '✅' : '⏳'} ${url}  ${res ? `HTTP ${res.status}` : '(확인 실패, 잠시 후 재확인)'}`)
+}
