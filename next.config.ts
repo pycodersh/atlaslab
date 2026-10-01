@@ -62,6 +62,13 @@ const nextConfig: NextConfig = {
         hostname: 'picsum.photos',
       },
       {
+        // generate-global-post.mjs 가 저장하는 Pexels 썸네일.
+        // 현재 블로그 썸네일은 전부 <img> 로 렌더링해 이 설정과 무관하지만,
+        // 나중에 next/image 로 바꿔도 바로 되도록 미리 허용해 둔다.
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
+      {
         protocol: 'https',
         hostname: 'eecvvgkihtcgfikaimao.supabase.co',
       },

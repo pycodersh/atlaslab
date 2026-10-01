@@ -242,7 +242,7 @@ export default async function AtlasLabHome() {
   const featuredRow = topicPosts[0]
   const featured = featuredRow && {
     ...featuredRow,
-    thumb: thumbnailForPost(featuredRow.slug, featuredRow.content),
+    thumb: thumbnailForPost(featuredRow.slug, featuredRow.content, featuredRow.thumbnail),
     readMin: readMinutes(featuredRow.content),
   }
 
