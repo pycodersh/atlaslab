@@ -34,5 +34,257 @@
     "status": "published",
     "publishedAt": "2026-10-02T05:04:04.171Z",
     "slug": "how-korean-apartment-recycling-works"
+  },
+  {
+    "id": 5,
+    "keyword": "Korean Bathhouse (Jjimjilbang) Etiquette: What to Wear, Pay, and Expect",
+    "category": "life-in-korea",
+    "priority": 5,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 6,
+    "keyword": "Gochugaru vs Chili Flakes: Can You Substitute One for the Other in Korean Cooking?",
+    "category": "korean-food",
+    "priority": 6,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 7,
+    "keyword": "KTX vs Express Bus in Korea: Which Is Better for Day Trips from Seoul?",
+    "category": "life-in-korea",
+    "priority": 7,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 8,
+    "keyword": "Tteokbokki Tteok vs Tteokguk Tteok: Korean Rice Cakes Compared",
+    "category": "korean-food",
+    "priority": 8,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 9,
+    "keyword": "How to Book KTX Tickets as a Foreigner: Korail App vs Kiosk vs Station Counter",
+    "category": "life-in-korea",
+    "priority": 9,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 10,
+    "keyword": "Soju vs Makgeolli vs Cheongju: A Beginner Guide to Korean Alcohol",
+    "category": "korean-food",
+    "priority": 10,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 11,
+    "keyword": "Kakao T vs Uber vs Street Taxi in Seoul: Which Gets You There Cheapest?",
+    "category": "life-in-korea",
+    "priority": 11,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 12,
+    "keyword": "Korean Fried Chicken vs American Fried Chicken: Why Korean Chicken Is Crunchier",
+    "category": "korean-food",
+    "priority": 12,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 13,
+    "keyword": "Korean Delivery Apps for Tourists: Baemin vs Coupang Eats vs Yogiyo",
+    "category": "life-in-korea",
+    "priority": 13,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 14,
+    "keyword": "Napa Cabbage Kimchi vs Radish Kimchi (Kkakdugi): When to Eat Which",
+    "category": "korean-food",
+    "priority": 14,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 15,
+    "keyword": "Public Restrooms in Korea: Where to Find Them and What the Signs Mean",
+    "category": "life-in-korea",
+    "priority": 15,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 16,
+    "keyword": "Doenjang vs Miso: Can You Swap Them in Korean Stews?",
+    "category": "korean-food",
+    "priority": 16,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 17,
+    "keyword": "How to Get a Korean Alien Registration Card (ARC) as a Student: Step-by-Step",
+    "category": "life-in-korea",
+    "priority": 17,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 18,
+    "keyword": "Shin Ramyun vs Jin Ramen vs Neoguri vs Buldak: Korean Instant Noodles Compared",
+    "category": "korean-food",
+    "priority": 18,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 19,
+    "keyword": "Jeonse vs Wolse: How Korean Rental Deposits Actually Work for Foreigners",
+    "category": "life-in-korea",
+    "priority": 19,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 20,
+    "keyword": "Pajeon vs Kimchi-jeon vs Bindaetteok: Korean Savory Pancakes Compared",
+    "category": "korean-food",
+    "priority": 20,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 21,
+    "keyword": "Korean National Health Insurance for Foreigners: Enrollment, Cost, and Coverage",
+    "category": "life-in-korea",
+    "priority": 21,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 22,
+    "keyword": "Jajangmyeon vs Jjamppong: The Two Korean-Chinese Classics Compared",
+    "category": "korean-food",
+    "priority": 22,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 23,
+    "keyword": "Opening a Bank Account in Korea as a Foreigner: Which Bank and What You Need",
+    "category": "life-in-korea",
+    "priority": 23,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 24,
+    "keyword": "Samgyeopsal vs Hanwoo vs Chadolbaegi: Which Korean BBQ Cut Should You Order?",
+    "category": "korean-food",
+    "priority": 24,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 25,
+    "keyword": "Seoul vs Busan: Which City Should First-Time Visitors Choose?",
+    "category": "life-in-korea",
+    "priority": 25,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 26,
+    "keyword": "Gukbap vs Juk: Korean Rice Soup and Rice Porridge Explained",
+    "category": "korean-food",
+    "priority": 26,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 27,
+    "keyword": "Hanbok Rental in Seoul: Palace Free-Entry Rules, Prices, and Where to Rent",
+    "category": "life-in-korea",
+    "priority": 27,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 28,
+    "keyword": "Gim vs Nori vs Miyeok vs Dasima: Korean Seaweed Compared",
+    "category": "korean-food",
+    "priority": 28,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 29,
+    "keyword": "Korean Fine Dust (Misemeonji): How to Read the Air Quality Apps and When to Wear a Mask",
+    "category": "life-in-korea",
+    "priority": 29,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 30,
+    "keyword": "Why Korean Marinades Use Asian Pear: What It Does and What to Substitute",
+    "category": "korean-food",
+    "priority": 30,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 31,
+    "keyword": "How to Ride City Buses in Seoul: Boarding, Tapping Out, and Stop Announcements",
+    "category": "life-in-korea",
+    "priority": 31,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 32,
+    "keyword": "Bulgogi vs Galbi: Which Korean Marinated Beef Is Which?",
+    "category": "korean-food",
+    "priority": 32,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
   }
 ]
