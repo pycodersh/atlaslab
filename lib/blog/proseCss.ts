@@ -130,6 +130,9 @@ export function proseCss(bodyFont: string): string {
         .blog-prose pre code { background: none; padding: 0; color: rgba(255,255,255,0.85); }
         .blog-prose a { color: #C8102E; text-decoration: underline; text-underline-offset: 3px; }
         .blog-prose a:hover { color: #A30D25; }
+        /* 공식 예매처 외부 링크(새 창) — 본문과 구분되는 블루, 모바일 터치 여유 */
+        .blog-prose a.transit-link { color: #1a73e8; text-decoration: underline; font-weight: 500; padding: 2px 1px; }
+        .blog-prose a.transit-link:hover { color: #0d47a1; }
         .blog-prose hr { border: none; border-top: 1px solid #E5E1DC; margin: 32px 0; }
         /* 본문 폭보다 작은 이미지는 원본 크기로 두되(키우면 흐려진다) 가운데 정렬한다.
            폭이 꽉 차는 이미지는 어차피 100% 라 달라지지 않는다. */
