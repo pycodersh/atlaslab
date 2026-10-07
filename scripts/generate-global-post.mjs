@@ -27,7 +27,8 @@
  *
  * 환경변수 (patto/.env.local 또는 셸):
  *   GEMINI_API_KEY              필수
- *   GEMINI_MODEL                선택 (기본 gemini-3.1-pro-preview, 404면 gemini-3.8-flash 로 재시도)
+ *   GEMINI_MODEL                선택, Flash 계열만 허용 (기본 gemini-3.8-flash → 3.5-flash → 3.1-flash-lite 순)
+ *                               GEMINI_API_KEY 는 결제수단이 연결되지 않은 무료 티어 키여야 한다(402 면 즉시 중단).
  *   PEXELS_API_KEY               필수(없으면 썸네일 없이 생성 — 중단하지 않는다)
  *   NEXT_PUBLIC_SUPABASE_URL             필수
  *   SUPABASE_SERVICE_ROLE_KEY / SUPABASE_SECRET_KEY   필수(서비스 롤 — RLS 우회 INSERT)
@@ -152,6 +153,9 @@ async function callGemini({ model, apiKey, system, prompt }) {
     const msg = json?.error?.message || `HTTP ${res.status}`
     const err = new Error(`Gemini 응답 ${res.status}: ${msg}`)
     err.status = res.status
+    // 429 응답에는 "몇 초 뒤에 다시"가 들어 있다(RetryInfo.retryDelay, 예: "34s")
+    const d = json?.error?.details?.find(x => String(x['@type'] ?? '').includes('RetryInfo'))?.retryDelay
+    err.retryAfter = d ? parseFloat(d) : null
     throw err
   }
   const cand = json.candidates?.[0]
@@ -274,7 +278,15 @@ if (adhocKeyword) {
 
 console.log(`키워드: ${item.keyword}  (${item.category} / ${CATEGORIES[item.category].label})`)
 
-const models = [process.env.GEMINI_MODEL, 'gemini-3.1-pro-preview', 'gemini-3.8-flash'].filter(Boolean)
+// 무료 티어(Free Tier) 전용: Flash 계열만 쓴다. Pro 계열은 무료 한도가 없거나 매우 적고,
+// 선결제 크레딧이 바닥나면 402 로 전부 막힌다(2026-10-05 장애). 모델별로 무료 한도가
+// 따로 잡히므로 서로 다른 Flash 모델을 순서대로 시도한다.
+// GEMINI_MODEL 로 바꿀 수는 있지만 이름에 flash 가 들어간 것만 받는다.
+const FREE_TIER_MODELS = ['gemini-3.8-flash', 'gemini-3.5-flash', 'gemini-3.1-flash-lite']
+const envModel = /flash/i.test(process.env.GEMINI_MODEL ?? '') ? process.env.GEMINI_MODEL : null
+if (process.env.GEMINI_MODEL && !envModel) console.warn(`GEMINI_MODEL=${process.env.GEMINI_MODEL} 는 Flash 계열이 아니라 무시한다(무료 티어 전용).`)
+const models = [...new Set([envModel, ...FREE_TIER_MODELS].filter(Boolean))]
+const sleep = ms => new Promise(r => setTimeout(r, ms))
 let result = null
 let usedModel = null
 let lastErr = null
@@ -307,12 +319,24 @@ ${lastText}`
     } catch (e) {
       lastErr = e.message
       console.warn(`  [${model} 시도 ${attempt}] ${e.message}`)
-      if (e.status === 404) break // 다음 모델로
+      if (e.status === 402) {
+        // 결제·선결제 크레딧이 필요하다는 뜻 = 무료 키가 아니다. 다른 모델·재시도로는 해결되지 않는다.
+        console.error('⛔ 402: 이 키는 유료(선결제) 키이고 크레딧이 없다. 결제수단이 연결되지 않은 무료 티어 키로 GEMINI_API_KEY 를 교체한다.')
+        process.exit(1)
+      }
+      if (e.status === 404 || e.status === 403) break // 이 키로 못 쓰는 모델 → 다음 모델로
+      if (e.status === 429) {
+        // 무료 한도(분당/일일) 초과. 짧게 기다릴 수 있으면 같은 모델로 재시도, 아니면 다음 모델로.
+        const wait = e.retryAfter ?? 20
+        if (attempt < 3 && wait <= 60) { console.warn(`  429 — ${wait}초 대기 후 재시도`); await sleep((wait + 1) * 1000); continue }
+        break
+      }
     }
   }
 }
 
 if (!result) {
+  if (/429/.test(lastErr ?? '')) console.error('무료 티어 한도(분당/일일)를 모두 소진했다. 한도가 풀릴 때(태평양시 자정 이후) 다시 돌거나 실행 횟수를 줄인다.')
   console.error(`생성 실패. 마지막 사유:\n- ${lastErr}`)
   process.exit(1)
 }
