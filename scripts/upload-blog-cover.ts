@@ -42,7 +42,8 @@ async function main() {
 
   const file = fs.readFileSync(localPath)
   const { error: upErr } = await sb.storage.from(BUCKET).upload(objectPath, file, {
-    contentType: 'image/jpeg',
+    // 확장자로 정한다 — 도식은 PNG 로 올려야 글자가 깨끗하다
+    contentType: /\.png$/i.test(objectPath) ? 'image/png' : /\.webp$/i.test(objectPath) ? 'image/webp' : 'image/jpeg',
     upsert: true,
   })
   if (upErr) throw new Error(`업로드 실패: ${upErr.message}`)

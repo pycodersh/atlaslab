@@ -32,6 +32,8 @@ Take Seoul City Hall as an example. Its road-name address is 서울특별시 중
 
 A road-name address runs from the largest area to the smallest: city or province, then district (*gu* or *si*), then the road name, then the building number. A neighborhood name often follows in parentheses, which is a leftover from the lot-number system and is safe to ignore when searching.
 
+![Diagram: the parts of a Korean road-name address, using Seoul City Hall as the example: city, district, road name, building number, and the neighborhood in parentheses](https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/korean-address-anatomy.png)
+
 The ending of the road name tells you how big the road is.
 
 * **-daero (대로):** a major avenue, such as Sejong-daero.
@@ -40,9 +42,13 @@ The ending of the road name tells you how big the road is.
 
 Building numbers follow the road, not the block. Odd numbers run along one side of the road and even numbers along the other, and the numbers rise as you move away from the road's starting point. This makes it possible to judge whether a destination is close or far before you start walking. Blue road-name signs at intersections show the road name and the range of building numbers on that stretch, and most buildings carry a number plate near the entrance.
 
+![Diagram: building numbers rise along a road from its starting point, with odd numbers on the left side and even numbers on the right side](https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/korean-address-numbers.png)
+
 ## Floors and Units Are Written Separately
 
 Maps stop at the building. The floor and unit come after the main address, and they are easy to miss.
+
+![Diagram: the street address gets you to the building, then the floor (cheung) and unit (ho) tell you where inside, for example 3rd floor unit 301](https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/korean-address-floors.png)
 
 * **층 (cheung)** means floor. 3층 is the third floor, often written 3F.
 * **지하 (jiha)** means underground. 지하 1층 is the first basement level, often written B1.
