@@ -327,8 +327,14 @@ ${lastText}`
       if (e.status === 404 || e.status === 403) break // 이 키로 못 쓰는 모델 → 다음 모델로
       if (e.status === 429) {
         // 무료 한도(분당/일일) 초과. 짧게 기다릴 수 있으면 같은 모델로 재시도, 아니면 다음 모델로.
-        const wait = e.retryAfter ?? 20
-        if (attempt < 3 && wait <= 60) { console.warn(`  429 — ${wait}초 대기 후 재시도`); await sleep((wait + 1) * 1000); continue }
+        // 서버가 대기 시간(retryDelay)을 알려주지 않는 429 는 일일 한도 성격이라 기다려도 소용없다.
+        const wait = e.retryAfter
+        if (wait != null && attempt < 3 && wait <= 60) { console.warn(`  429 — ${wait}초 대기 후 재시도`); await sleep((wait + 1) * 1000); continue }
+        break
+      }
+      if (e.status === 500 || e.status === 503) {
+        // 일시적 과부하("high demand") — 잠깐 쉬었다가 같은 모델로 다시
+        if (attempt < 3) { console.warn('  일시 과부하 — 15초 대기 후 재시도'); await sleep(15000); continue }
         break
       }
     }
