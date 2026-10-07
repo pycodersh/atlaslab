@@ -4,7 +4,7 @@ description: "Read a Korean address, tell road-name addresses from lot-number ad
 date: "2026-10-07 19:30"
 category: "life-in-korea"
 tags: ["korean addresses", "naver map", "seoul navigation", "korea travel"]
-thumbnail: "https://images.pexels.com/photos/21011601/pexels-photo-21011601.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+thumbnail: "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/korean-road-name-address-vs-lot-number-guide.jpg"
 readTime: 4
 ---
 
