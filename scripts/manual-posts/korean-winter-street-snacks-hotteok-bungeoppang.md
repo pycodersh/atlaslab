@@ -4,7 +4,7 @@ description: "Compare Korea's three classic cold-weather street snacks, what eac
 date: "2026-10-07 19:40"
 category: "korean-food"
 tags: ["korean street food", "hotteok", "bungeoppang", "gyeranppang"]
-thumbnail: "https://images.pexels.com/photos/32014929/pexels-photo-32014929.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+thumbnail: "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/korean-winter-street-snacks-hotteok-bungeoppang.jpg"
 readTime: 4
 ---
 
@@ -14,9 +14,15 @@ Order hotteok if you want something sweet and syrupy, bungeoppang if you want a 
 
 **Hotteok (호떡)** is a ball of yeast-leavened wheat dough filled with brown sugar, cinnamon, and chopped nuts. The cook presses it flat on an oiled griddle until the outside turns crisp and the sugar inside melts into a hot syrup. The first bite is the dangerous one, because the filling can burn your tongue. Busan is known for a variation called *ssiat-hotteok*, which is filled with seeds and nuts and fried until the outside is deeply golden.
 
+![Hotteok pressed flat and golden, one cut open to show the melted brown sugar and nut filling](https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/korean-street-snack-hotteok.jpg)
+
 **Bungeoppang (붕어빵)** is a fish-shaped pastry baked in an iron mold. The name means "carp bread," though no fish is involved. The classic filling is sweet red bean paste (*pat*, 팥). Thin, crisp versions and thicker, fluffier versions both exist, and many stalls now offer custard cream (*syu-keu-rim*) as an alternative.
 
+![Bungeoppang fish-shaped pastries, one broken open to show red bean paste and another showing custard cream](https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/korean-street-snack-bungeoppang.jpg)
+
 **Gyeranppang (계란빵)** means "egg bread." It is a small loaf of sweet batter baked in a mold with a whole egg cracked on top before it sets. The result is a soft, slightly sweet bread with a savory egg in the middle, which makes it feel more like a snack-sized meal than a dessert.
+
+![Gyeranppang egg bread with a whole egg baked on top of each small loaf](https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/korean-street-snack-gyeranppang.jpg)
 
 > Wait about a minute before the first bite. Fillings come out of the mold or griddle at a very high temperature, and Korean stall owners expect first-timers to burn their mouths.
 
