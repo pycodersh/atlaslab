@@ -2,8 +2,11 @@
  * 영문 글로벌 아티클 자동 생성 파이프라인.
  *
  * blog.atlaslabstudios.com(별도 저장소 atlaslab-blog)의
- * scripts/generate-blog-post.mjs 구조(Gemini + Google Search Grounding,
- * 모델 폴백, 자가 수정 재시도, 검증 규칙)를 그대로 가져오되 두 가지가 다르다:
+ * scripts/generate-blog-post.mjs 구조(Gemini, 모델 폴백, 자가 수정 재시도,
+ * 검증 규칙)를 가져오되 세 가지가 다르다:
+ *   - Google Search 그라운딩을 쓰지 않는다. 무료 티어 키는 그라운딩 호출이 429 라서
+ *     모델 자체 지식만으로 쓴다(비용 0원 운영). 그래서 요금·수수료 같이 바뀌는 수치는
+ *     프롬프트에서 "약 ~원 안팎" 또는 "공식 사이트 확인 권장"으로만 쓰게 막아 둔다.
  *   - 출력 대상이 파일(content/posts/*.md)이 아니라 Supabase blog_posts 행이다.
  *     이 사이트(atlaslabstudios.com / patto 저장소)는 블로그가 100% DB 기반이고
  *     파일 기반 글이 없다.
@@ -52,8 +55,8 @@ const CATEGORIES = {
   'life-in-korea': { label: 'Life in Korea', app: 'k-patto', category: 'Korean Culture' },
   'korean-food':   { label: 'Korean food',   app: 'k-pantry', category: 'Cooking Basics' },
 }
-const MIN_WORDS = 800
-const MAX_WORDS = 1200
+const MIN_WORDS = 1200
+const MAX_WORDS = 1500
 
 /* ---------- 작은 유틸 ---------- */
 
@@ -97,7 +100,7 @@ const SYSTEM_INSTRUCTION = `You are the senior global guide editor for "Atlas La
 
 [Tone]
 - Minimal magazine style. No warm greetings, no rhetorical questions ("Have you ever...?"), no emoji.
-- Clear, direct, professional factual sentences (imperative or declarative — "Do this", "This costs X").
+- Clear, direct, professional sentences (imperative or declarative — "Do this", "Expect to pay roughly X").
 
 [Structure]
 - The first 1-2 sentences must give the direct, core answer to what the reader is searching for (a Quick Verdict). Do not open with history or general background.
@@ -105,10 +108,20 @@ const SYSTEM_INSTRUCTION = `You are the senior global guide editor for "Atlas La
 - 3-4 H2 (##) sections. Use H3 only when genuinely needed inside a section.
 - Include at least one markdown comparison table (cost, pros/cons, or option comparison), at least one blockquote (>), and at least one bullet list.
 - Include a clear step-by-step action guide (Step 1, Step 2, Step 3) the reader can follow immediately.
-- Use Google Search to verify current Korean regulations, prices, and procedures before writing. State only facts you can verify. If a number cannot be confirmed through search, omit it rather than guessing, and do not invent a source.
+
+[Practical content]
+- Write from the point of view of a foreign tourist or resident. Make it friendly, detailed, and genuinely useful.
+- Include concrete, practical tips: real Korean expressions with Hangul and romanization (for example "카드로 결제할게요 / kadeu-ro gyeolje-halgeyo"), step-by-step methods, and cultural etiquette (what locals do, what to avoid, common mistakes).
+- Prefer specific, actionable detail over general statements: where to look, what to tap or say, what happens next.
+
+[Facts — no web search is available]
+- You have no search tool. Write from your own knowledge and do not claim to have checked anything online. Never invent a source, statistic, or quote.
+- Do not state exact figures that change over time as if they were certain: subway and bus fares, taxi fares, visa fees, administrative or insurance costs, prices, opening hours, deadlines, quotas, or recently changed rules.
+- Write such figures as rough ranges ("approx. 1,000-2,000 KRW", "around 10,000 KRW or so"), or leave the number out and point the reader to the official website, the Korean app, or the on-site ticket machine or counter ("check the current fare on the official website or at the ticket machine").
+- Stable facts (how a system works, terms, etiquette, step order, name of an app or office) can be stated plainly. If you are unsure whether something is still true, say so briefly and recommend checking the official source.
 
 [Length]
-- Body (excluding frontmatter) must be ${MIN_WORDS}-${MAX_WORDS} words. Aim for about ${Math.round((MIN_WORDS + MAX_WORDS) / 2)}.
+- Body (excluding frontmatter) must be ${MIN_WORDS}-${MAX_WORDS} words. Aim for about ${Math.round((MIN_WORDS + MAX_WORDS) / 2)}. Reach the length with useful detail (examples, phrases, etiquette, common mistakes), not repetition.
 
 [Output format]
 - Output ONLY YAML frontmatter starting with '---', followed by the markdown body. Do not wrap the output in a code fence.
@@ -120,7 +133,7 @@ slug: "english-kebab-case-slug"
 category: "life-in-korea | korean-food"
 tags: ["tag1", "tag2", "tag3", "tag4"]
 pexelsQuery: "short concrete English search query for a representative stock photo"
-readTime: 3
+readTime: 6
 ---
 - slug: lowercase English letters, numbers and hyphens only, 3-7 words summarizing the keyword.
 - pexelsQuery: 2-4 words naming a concrete, visual, photographable thing (a place, object, or scene) — not an abstract concept. Example: "seoul subway platform", "convenience store snacks", "korean apartment door lock".`
@@ -131,7 +144,7 @@ Keyword: ${keyword}
 Category: ${categoryKey} (${CATEGORIES[categoryKey].label})
 Reference date: ${nowKst().date} (KST)
 
-Use Google Search to confirm current facts (prices, rules, deadlines, procedures) for this keyword before writing. Only include numbers and rules you can verify through search.`
+No search tool is available: write from your own knowledge, give practical tips for foreign visitors and residents, and express any price, fare, fee, or deadline as an approximate range or tell the reader to check the official source.`
 
 /* ---------- Gemini 호출 ---------- */
 
@@ -143,7 +156,7 @@ async function callGemini({ model, apiKey, system, prompt }) {
     body: JSON.stringify({
       systemInstruction: { parts: [{ text: system }] },
       contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      tools: [{ googleSearch: {} }],
+      // tools(Google Search 그라운딩) 없음 — 무료 티어에서는 그라운딩 호출이 429 라서 쓰지 않는다.
       // gemini-3 계열은 '생각'에도 토큰을 쓰고 maxOutputTokens 안에 같이 잡힌다. 넉넉히 둔다.
       generationConfig: { temperature: 0.6, maxOutputTokens: 32768 },
     }),
@@ -363,8 +376,7 @@ if (existing && existing.length) {
   process.exit(1)
 }
 
-console.log(`\n검색 질의 ${result.queries.length}건, 참고 출처 ${result.sources.length}건`)
-for (const s of result.sources.slice(0, 10)) console.log(`  - ${s.title || s.uri}`)
+console.log('\n그라운딩 없음 — 모델 자체 지식으로 작성(변동 수치는 근사치/공식 확인 권장 표현)')
 
 const thumb = await fetchPexelsThumbnail(fm.pexelsQuery)
 
@@ -386,7 +398,9 @@ const row = {
 
 if (flag('dry-run')) {
   console.log('\n--- dry-run: DB 에 쓰지 않는다 ---\n')
-  console.log(JSON.stringify({ ...row, content: `${body.slice(0, 200)}... (${result.words}단어)` }, null, 2))
+  // --full 이면 본문 전체를 그대로 출력한다(발행 전에 수치 표현을 눈으로 확인할 때)
+  console.log(JSON.stringify({ ...row, content: flag('full') ? body : `${body.slice(0, 200)}... (${result.words}단어)` }, null, 2))
+  if (flag('full')) console.log(`\n(${result.words}단어)`)
   process.exit(0)
 }
 
