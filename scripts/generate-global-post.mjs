@@ -17,8 +17,9 @@
  * 카테고리는 Life in Korea / Korean food 둘뿐이다. Korean phrases 는
  * 유튜브 쇼츠 연계로 수동 작성하므로 이 파이프라인 대상이 아니다.
  *
- * 검증을 통과하면 생성 즉시 공개(is_paused: false)된다. 검수 후 올리고 싶으면
- * --draft 를 붙인다 — 그러면 비공개로 들어가고, 나중에
+ * 검증을 통과하면 생성 즉시 공개(is_paused: false)된다. 단 대기열 항목에 sensitive: true 가
+ * 있거나 키워드가 SENSITIVE_RE(비자·계좌·임대차·보험 등)에 걸리면 자동으로 초안이 된다(--publish 로 무시).
+ * 검수 후 올리고 싶으면 --draft 를 붙인다 — 그러면 비공개로 들어가고, 나중에
  *   npx tsx scripts/publish-global-draft.ts <slug>
  * 로 공개 전환한다.
  *
@@ -57,6 +58,11 @@ const CATEGORIES = {
 }
 const MIN_WORDS = 1200
 const MAX_WORDS = 1500
+
+// 법·규정·금액이 민감한 주제는 검색 그라운딩 없이 쓰면 틀린 수치가 나갈 수 있다.
+// 대기열 항목에 sensitive: true 가 있거나 키워드가 아래 패턴에 걸리면 자동으로 초안(비공개)으로
+// 넣는다. 공개는 검수 후 publish-global-draft.ts 로. 그래도 즉시 공개하려면 --publish.
+const SENSITIVE_RE = /\b(visa|alien registration|ARC card|bank account|banking|insurance|jeonse|wolse|rental deposit|lease|tenancy|immigration|work permit|residence permit|tax refund|income tax|pension)\b/i
 
 /* ---------- 작은 유틸 ---------- */
 
@@ -380,6 +386,10 @@ console.log('\n그라운딩 없음 — 모델 자체 지식으로 작성(변동 
 
 const thumb = await fetchPexelsThumbnail(fm.pexelsQuery)
 
+const sensitive = item.sensitive === true || SENSITIVE_RE.test(item.keyword)
+const asDraft = flag('draft') || (sensitive && !flag('publish'))
+if (asDraft && !flag('draft')) console.log('\n민감 주제(법·규정·금액) — 자동으로 초안(비공개)으로 넣는다. 즉시 공개하려면 --publish.')
+
 const row = {
   slug,
   locale: 'en',
@@ -393,7 +403,7 @@ const row = {
   published_at: nowKst().iso,
   // 기본은 생성 즉시 공개(is_paused: false). 검수 후 올리고 싶으면 --draft 를 붙인다
   // (그 경우 npx tsx scripts/publish-global-draft.ts <slug> 로 나중에 공개 전환한다).
-  is_paused: flag('draft'),
+  is_paused: asDraft,
 }
 
 if (flag('dry-run')) {
@@ -425,9 +435,9 @@ fs.writeFileSync(
 
 if (item.id !== null) {
   const idx = queue.findIndex(k => k.id === item.id)
-  queue[idx] = { ...queue[idx], status: 'published', publishedAt: nowKst().iso, slug }
+  queue[idx] = { ...queue[idx], status: inserted.is_paused ? 'draft' : 'published', publishedAt: nowKst().iso, slug }
   fs.writeFileSync(QUEUE_PATH, `${JSON.stringify(queue, null, 2)}\n`, 'utf8')
-  console.log(`대기열 갱신: id ${item.id} -> published`)
+  console.log(`대기열 갱신: id ${item.id} -> ${queue[idx].status}`)
 }
 
 if (inserted.is_paused) {

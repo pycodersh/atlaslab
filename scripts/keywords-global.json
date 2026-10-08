@@ -150,7 +150,8 @@
     "priority": 17,
     "status": "published",
     "publishedAt": "2026-10-04T10:08:09.824Z",
-    "slug": "how-to-get-arc-korea-student"
+    "slug": "how-to-get-arc-korea-student",
+    "sensitive": true
   },
   {
     "id": 18,
@@ -168,7 +169,8 @@
     "priority": 19,
     "status": "published",
     "publishedAt": "2026-10-04T15:35:57.567Z",
-    "slug": "jeonse-vs-wolse-korean-rental-deposits-foreigners"
+    "slug": "jeonse-vs-wolse-korean-rental-deposits-foreigners",
+    "sensitive": true
   },
   {
     "id": 20,
@@ -186,7 +188,8 @@
     "priority": 21,
     "status": "published",
     "publishedAt": "2026-10-08T00:08:22.391Z",
-    "slug": "korean-national-health-insurance-foreigners"
+    "slug": "korean-national-health-insurance-foreigners",
+    "sensitive": true
   },
   {
     "id": 22,
@@ -204,7 +207,8 @@
     "priority": 23,
     "status": "pending",
     "publishedAt": null,
-    "slug": null
+    "slug": null,
+    "sensitive": true
   },
   {
     "id": 24,
@@ -240,7 +244,8 @@
     "priority": 27,
     "status": "pending",
     "publishedAt": null,
-    "slug": null
+    "slug": null,
+    "sensitive": true
   },
   {
     "id": 28,
