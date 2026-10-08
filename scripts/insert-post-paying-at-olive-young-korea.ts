@@ -91,7 +91,7 @@ async function main() {
   const res = await fetch(url)
   const html = await res.text()
   console.log(`\n1. ${res.status === 200 ? '✅' : '❌'} HTTP ${res.status}  ${url}`)
-  console.log(`2. ${html.includes('youtube.com/embed/uYKDHNaA-3c') ? '✅' : '❌'} YouTube 임베드`)
+  console.log(`2. ${html.includes('youtube.com/embed/SFea-MbnxLw') ? '✅' : '❌'} YouTube 임베드`)
 
   const tables = (html.match(/<table/g) ?? []).length
   const cells = (html.match(/<td/g) ?? []).length

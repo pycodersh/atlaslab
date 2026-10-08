@@ -26,7 +26,7 @@ Or if you want one:
 *ne, ka-deu-ro gyeol-je-hae ju-se-yo*
 "Yes, please process it by card."
 
-<YouTube id="uYKDHNaA-3c" />
+<YouTube id="SFea-MbnxLw" />
 
 ## Words to know
 
