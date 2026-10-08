@@ -603,13 +603,7 @@ export default async function AtlasLabHome() {
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
-        /* 카드 머리의 카테고리 바와 발치의 날짜 — INSIGHTS 카드와 같은 구성 */
-        .bcat {
-          font-family: ${BODY};
-          font-size: 9.5px; font-weight: 700;
-          letter-spacing: 0.14em; text-transform: uppercase;
-          color: var(--brand-red, #C8102E); margin-bottom: 8px;
-        }
+        /* 카드 발치의 날짜 — 섹션 제목이 카테고리를 말해주므로 카드에는 카테고리 라벨이 없다 */
         .bmeta {
           font-family: ${BODY};
           font-size: 11px; color: #9A9A9A;
@@ -695,8 +689,6 @@ export default async function AtlasLabHome() {
             border-right: none;
           }
           .bbody { padding: 0; min-width: 0; justify-content: center; }
-          /* 좁은 화면에서는 섹션 제목이 이미 카테고리를 말해주므로 한 줄 아낀다 */
-          .bcat { display: none; }
           .btitle { font-size: 15px; line-height: 1.35; margin-bottom: 6px; }
           .bexcerpt { font-size: 12.5px; line-height: 1.55; flex: 0 1 auto; }
           .bmeta { font-size: 10.5px; margin-top: 8px; }
@@ -847,7 +839,6 @@ export default async function AtlasLabHome() {
                         <PostListRow
                           key={`${post.locale}/${post.app}/${post.slug}`}
                           href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                          kicker={post.category}
                           title={post.title}
                           excerpt={post.description}
                           date={new Date(post.published_at).toLocaleDateString('en-US', {
@@ -866,7 +857,6 @@ export default async function AtlasLabHome() {
                         >
                           <BlogThumb thumb={post.thumb} alt={post.title} />
                           <div className="bbody">
-                            {post.category && <div className="bcat">{post.category}</div>}
                             <div className="btitle">{post.title}</div>
                             {post.description && (
                               <div className="bexcerpt">{post.description}</div>
