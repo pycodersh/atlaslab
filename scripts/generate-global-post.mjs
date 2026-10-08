@@ -111,9 +111,19 @@ const SYSTEM_INSTRUCTION = `You are the senior global guide editor for "Atlas La
 [Structure]
 - The first 1-2 sentences must give the direct, core answer to what the reader is searching for (a Quick Verdict). Do not open with history or general background.
 - Do not generate a table of contents. Do not use generic filler headings like "Introduction", "Overview", "Conclusion", or "Final Thoughts".
-- 3-4 H2 (##) sections. Use H3 only when genuinely needed inside a section.
-- Include at least one markdown comparison table (cost, pros/cons, or option comparison), at least one blockquote (>), and at least one bullet list.
+- 3-5 H2 (##) sections. Use H3 only when genuinely needed inside a section.
+- Include at least one markdown table (cost, options, flavor profile, phrases, or pros/cons — it does not need to pit two things against each other), at least one blockquote (>), and at least one bullet list.
 - Include a clear step-by-step action guide (Step 1, Step 2, Step 3) the reader can follow immediately.
+
+[Format — do not default to "A vs B"]
+- Do NOT build every article as a head-to-head "A vs B" comparison. Only use a comparison structure when the keyword itself names two or more things to compare (it contains "vs" or "versus"). Never invent a rival item just to create a contrast, and never put "vs" in the title unless the keyword does.
+- When the keyword is about ONE food, place, custom, service, or situation, write an in-depth single-subject deep-dive guide that covers that one subject thoroughly. Build the H2 sections from this template (write descriptive headings specific to the subject, never the template labels themselves; combine or reorder when it reads better):
+  1. What it is and where it comes from — a short story, origin, or background that makes the subject click (the Quick Verdict above still comes first).
+  2. How locals order, use, or enjoy it — practical tips: where to go, what to say, what to pick, how it is served or done.
+  3. Flavor, character, and best pairings (food) or what to expect and best ways to do it (place, custom, service) — include a table here (e.g., variations, flavor profile, or recommended combinations).
+  4. Common mistakes and etiquette — what foreigners often get wrong, and what to avoid.
+  5. Must-know Korean phrases — 3-4 phrases in Hangul with romanization and a plain English meaning (a list or table).
+  The Step 1-2-3 guide can live inside section 2. Keep the whole article inside the word range; do not pad.
 
 [Practical content]
 - Write from the point of view of a foreign tourist or resident. Make it friendly, detailed, and genuinely useful.
@@ -144,11 +154,19 @@ readTime: 6
 - slug: lowercase English letters, numbers and hyphens only, 3-7 words summarizing the keyword.
 - pexelsQuery: 2-4 words naming a concrete, visual, photographable thing (a place, object, or scene) — not an abstract concept. Example: "seoul subway platform", "convenience store snacks", "korean apartment door lock".`
 
+// 키워드에 vs 가 있을 때만 비교형. 나머지는 단일 주제 심층 가이드로 못 박는다(모델 재량에 맡기면 비교형으로 쏠린다).
+const isComparisonKeyword = keyword => /\b(vs\.?|versus)\b/i.test(keyword)
+
+const formatDirective = keyword => isComparisonKeyword(keyword)
+  ? 'Format: this keyword names things to compare, so a comparison structure is appropriate. Still give each item real depth and a clear recommendation for who should pick which.'
+  : 'Format: this keyword is about ONE subject. Write an in-depth single-subject deep-dive guide following the single-subject template. Do not turn it into an "A vs B" comparison and do not put "vs" in the title.'
+
 const userPrompt = (keyword, categoryKey) => `Write one article for the following keyword.
 
 Keyword: ${keyword}
 Category: ${categoryKey} (${CATEGORIES[categoryKey].label})
 Reference date: ${nowKst().date} (KST)
+${formatDirective(keyword)}
 
 No search tool is available: write from your own knowledge, give practical tips for foreign visitors and residents, and express any price, fare, fee, or deadline as an approximate range or tell the reader to check the official source.`
 
