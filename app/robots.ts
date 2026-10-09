@@ -4,26 +4,26 @@ import type { MetadataRoute } from 'next'
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com').replace(/^﻿/, '')
 
 /**
- * 광고 크롤러에게 숨길 앱 내부 경로.
+ * 광고 크롤러에게 숨길 앱 경로 — 앱 랜딩까지 포함한다.
  *
- * 트레일링 슬래시는 의도된 것이다 — '/kpatto/' 는 '/kpatto' (랜딩)를 막지 않는다.
- * 광고 크롤러에게 앱 랜딩은 보여주고 그 아래 기능 페이지만 가린다.
- * 슬래시를 제거하면 랜딩까지 막히므로 붙인 채로 둘 것.
+ * 트레일링 슬래시 없음이 의도된 것이다. '/kpatto' 는 접두어 매칭이라
+ * 랜딩 '/kpatto' 자체와 그 아래 전부를 막는다. 세 앱 랜딩 모두 본문
+ * 5~100단어의 앱 셸이라 심사에 보여줄 페이지가 아니고, '/patto' 는 307 로
+ * 차단 경로(/patto/home)에 떨어져 실질 내용이 없다. 슬래시를 다시 붙이면
+ * 랜딩이 광고 크롤러에 노출되므로 붙이지 말 것.
  *
- * '/kpantry/en' 은 유일하게 색인 중인 앱 랜딩(page.tsx 에서 index:true 로 명시
- * 해제)이라 Allow 로 되살린다. 'Allow: /kpantry/en$'(12자) 가
- * 'Disallow: /kpantry/'(9자) 보다 길어 최장 매칭 규칙상 Allow 가 이기고,
- * '$' 앵커 덕분에 '/kpantry/en/recipes/*' 는 계속 차단된다.
+ * 광고 크롤러에게 남는 것: '/', '/about', '/contact', '/privacy', '/terms',
+ * '/blog/**' (글 163편 + 목록 6개). 접두어가 '/blog' 로 시작하므로
+ * '/blog/ko/patto', '/blog/en/k-patto/*' 는 위 규칙과 겹치지 않는다.
  */
-const AD_CRAWLER_RULE: { allow: string[]; disallow: string[] } = {
-  allow: ['/kpantry/en$'],
+const AD_CRAWLER_RULE: { disallow: string[] } = {
   disallow: [
-    '/kpatto/',
-    '/kpantry/',
-    '/patto/',
+    '/kpatto',
+    '/kpantry',
+    '/patto',
     '/videos',
-    '/admin/',
-    '/api/',
+    '/admin',
+    '/api',
   ],
 }
 
