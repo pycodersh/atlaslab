@@ -114,6 +114,11 @@ const SYSTEM_INSTRUCTION = `You are the senior global guide editor for "Atlas La
 - 3-5 H2 (##) sections. Use H3 only when genuinely needed inside a section.
 - Include at least one markdown table (cost, options, flavor profile, phrases, or pros/cons — it does not need to pit two things against each other), at least one blockquote (>), and at least one bullet list.
 - Include a clear step-by-step action guide (Step 1, Step 2, Step 3) the reader can follow immediately.
+- Put key numbers, options or phrases in a table, and bold the figures that matter. Never pad the article by repeating the same point.
+
+[Required closing sections — always end the body with these two H2 sections]
+- "## Frequently Asked Questions": pick the 2-3 questions readers most often ask or get wrong about this subject and answer each one directly. Put each question in bold and the answer right underneath.
+- "## Pro Tips: Mistakes to Avoid and How to Save": at least three concrete items — the mistakes people actually make, how to prevent them, and ways to save money or time.
 
 [Format — do not default to "A vs B"]
 - Do NOT build every article as a head-to-head "A vs B" comparison. Only use a comparison structure when the keyword itself names two or more things to compare (it contains "vs" or "versus"). Never invent a rival item just to create a contrast, and never put "vs" in the title unless the keyword does.
@@ -267,7 +272,10 @@ function validate(raw) {
   if (!/^\|.+\|$/m.test(body)) problems.push('마크다운 표 없음')
   if (!/^>\s/m.test(body)) problems.push('인용구 없음')
   if (!/^[*-]\s/m.test(body)) problems.push('불릿 목록 없음')
-  if ((body.match(/^##\s/gm) ?? []).length < 2) problems.push('H2 소제목이 2개 미만')
+  if ((body.match(/^##\s/gm) ?? []).length < 4) problems.push('H2 소제목이 4개 미만입니다. 본론 3개와 마무리 2개를 넣으세요.')
+  // 얇은 글을 막기 위해 마무리 두 섹션을 강제한다 (한글 블로그와 같은 규칙).
+  if (!/^##\s*.*(Frequently Asked|FAQ)/im.test(body)) problems.push("'Frequently Asked Questions' 섹션이 없습니다. 문답 2~3개를 넣으세요.")
+  if (!/^##\s*.*(Pro Tips|Mistakes|Save)/im.test(body)) problems.push("'Pro Tips' 섹션이 없습니다. 실수 예방책과 절약 요령을 3가지 이상 넣으세요.")
   for (const { re, why } of BANNED) if (re.test(body)) problems.push(`금지 표현: ${why}`)
 
   return { problems, cleaned, parsed, words }
