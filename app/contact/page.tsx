@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
@@ -8,15 +7,13 @@ import { SiteFooter } from '@/components/SiteFooter'
 const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 
-const TABS = ['General Inquiries', 'App Support', 'Partnerships'] as const
-type Tab = typeof TABS[number]
+/** 사이트에 존재하는 단 하나의 수신 주소. 창구를 쪼개지 않고 제목으로 분류한다. */
+const EMAIL = 'contact@atlaslabstudios.com'
 
 /* ══════════════════════════════════════════════════════════════════════════
    Contact page
    ══════════════════════════════════════════════════════════════════════════ */
 export default function ContactPage() {
-  const [activeTab, setActiveTab] = useState<Tab>('General Inquiries')
-
   return (
     <>
       <style>{`
@@ -197,6 +194,36 @@ export default function ContactPage() {
           display: flex; align-items: flex-start; gap: 14px;
           background: #fff; padding: 20px 20px;
         }
+
+        /* 탭 바가 빠졌으므로 첫 블록이 히어로에 붙지 않게 위 여백을 준다
+           (기존에는 .ct-tabs 의 padding-top/margin-bottom 이 그 역할을 했다) */
+        .ct-single:first-of-type { margin-top: 44px; }
+
+        /* 본문 블록 — 기존 .ct-single 과 같은 틀을 그대로 쓴다 */
+        .ct-h2 {
+          font-family: ${SERIF};
+          font-size: 20px; font-weight: 700; color: #111;
+          margin-bottom: 12px; letter-spacing: -0.01em;
+        }
+        .ct-body {
+          font-family: ${BODY};
+          font-size: 13.5px; color: #555;
+          line-height: 1.75; max-width: 600px;
+        }
+        .ct-body p + p { margin-top: 14px; }
+        .ct-list {
+          font-family: ${BODY};
+          font-size: 13.5px; color: #555;
+          line-height: 1.75; max-width: 600px;
+          list-style: none; margin-top: 14px;
+        }
+        .ct-list li { padding-left: 14px; position: relative; }
+        .ct-list li + li { margin-top: 8px; }
+        .ct-list li::before {
+          content: ''; position: absolute; left: 0; top: 9px;
+          width: 4px; height: 4px; background: #C8102E;
+        }
+        .ct-list strong { color: #111; font-weight: 700; }
       `}</style>
 
       <SiteNav />
@@ -205,10 +232,12 @@ export default function ContactPage() {
       <section className="ct-hero">
         <div className="ct-wrap">
           <Link href="/" className="ct-back">← Atlas Lab</Link>
-          <p className="ct-kicker">Contact</p>
-          <h1 className="ct-h1">Get in Touch</h1>
+          <p className="ct-kicker">Get in touch</p>
+          <h1 className="ct-h1">Contact</h1>
           <p className="ct-sub">
-            Have questions, partnership inquiries, or feedback? We&apos;d love to hear from you.
+            We read everything that comes in, and we answer. Whether it&apos;s a bug, a
+            correction to something we wrote, or a question about one of the apps,
+            this is the place.
           </p>
         </div>
       </section>
@@ -217,153 +246,96 @@ export default function ContactPage() {
       <div style={{ background: '#F9F8F6', minHeight: '60vh' }}>
         <div className="ct-wrap">
 
-          {/* Tab nav */}
-          <div className="ct-tabs" role="tablist">
-            {TABS.map(tab => (
-              <button
-                key={tab}
-                role="tab"
-                aria-selected={activeTab === tab}
-                className={`ct-tab${activeTab === tab ? ' active' : ''}`}
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </button>
-            ))}
+          {/* ── Email us ── */}
+          <div className="ct-single">
+            <div className="ct-h2">Email us</div>
+            <div className="ct-cards">
+              <div className="ct-card-row">
+                <div className="ct-email-icon">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="4" width="16" height="12" rx="1"/>
+                    <path d="M2 6l8 6 8-6"/>
+                  </svg>
+                </div>
+                <div>
+                  <div className="ct-email-type">Email</div>
+                  <a href={`mailto:${EMAIL}`} className="ct-email-addr">{EMAIL}</a>
+                  <div className="ct-email-note">Patto · K-Patto · K-Pantry · Career Navi · the blog</div>
+                </div>
+              </div>
+              <div className="ct-card-row">
+                <div className="ct-meta-icon">
+                  <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="10" cy="10" r="8"/>
+                    <line x1="2" y1="10" x2="18" y2="10"/>
+                    <path d="M10 2a14.5 14.5 0 0 1 0 16M10 2a14.5 14.5 0 0 0 0 16"/>
+                  </svg>
+                </div>
+                <div>
+                  <div className="ct-meta-label">Based in</div>
+                  <div className="ct-meta-value">Seoul, South Korea (KST, UTC+9)</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="ct-body" style={{ marginTop: 24 }}>
+              <p>
+                Everything reaches the same inbox, so putting the topic at the front of
+                the subject line helps us get to it faster:
+              </p>
+            </div>
+            <ul className="ct-list">
+              <li><strong>Support</strong> — a bug, a payment problem, or an account you can&apos;t get into</li>
+              <li><strong>Correction</strong> — an error in one of our articles</li>
+              <li><strong>Partnerships</strong> — collaborations, licensing, or press</li>
+              <li>
+                <strong>Everything else</strong> — questions about Atlas Lab, our writing, or a
+                situation you&apos;d like us to cover
+              </li>
+            </ul>
+
+            <a href={`mailto:${EMAIL}`} className="ct-mailto-btn">
+              Email us at {EMAIL} →
+            </a>
           </div>
 
-          {/* ── General Inquiries ── */}
-          {activeTab === 'General Inquiries' && (
-            <div className="ct-single">
-              <div className="ct-single-title">General Inquiries</div>
-              <div className="ct-single-desc">
-                Have questions, feedback, or media inquiries? Drop us an email and we&apos;ll get back to you.
-              </div>
-              <div className="ct-cards">
-                <div className="ct-card-row">
-                  <div className="ct-email-icon">
-                    <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="4" width="16" height="12" rx="1"/>
-                      <path d="M2 6l8 6 8-6"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="ct-email-type">General</div>
-                    <a href="mailto:contact@atlaslabstudios.com" className="ct-email-addr">
-                      contact@atlaslabstudios.com
-                    </a>
-                    <div className="ct-email-note">For general questions, media, and feedback.</div>
-                  </div>
-                </div>
-                <div className="ct-card-row">
-                  <div className="ct-meta-icon" style={{ background: '#1a1a1a', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="10" cy="10" r="8"/>
-                      <path d="M10 6v4l3 2"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="ct-meta-label">Response time</div>
-                    <div className="ct-meta-value">We typically reply within 2–3 business days.</div>
-                  </div>
-                </div>
-                <div className="ct-card-row">
-                  <div className="ct-meta-icon" style={{ background: '#1a1a1a', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="10" cy="10" r="8"/>
-                      <line x1="2" y1="10" x2="18" y2="10"/>
-                      <path d="M10 2a14.5 14.5 0 0 1 0 16M10 2a14.5 14.5 0 0 0 0 16"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="ct-meta-label">Based in</div>
-                    <div className="ct-meta-value">Seoul, South Korea (KST, UTC+9)</div>
-                  </div>
-                </div>
-              </div>
-              <a href="mailto:contact@atlaslabstudios.com" className="ct-mailto-btn">
-                Email us at contact@atlaslabstudios.com →
-              </a>
+          {/* ── What helps ── */}
+          <div className="ct-single">
+            <div className="ct-h2">What helps</div>
+            <div className="ct-body">
+              <p>
+                A link to the exact page, a screenshot, and the device and browser you were
+                using. For an app issue, the email address on your account. With those we
+                can usually answer in one reply instead of three.
+              </p>
             </div>
-          )}
+          </div>
 
-          {/* ── App Support ── */}
-          {activeTab === 'App Support' && (
-            <div className="ct-single">
-              <div className="ct-single-title">App Support</div>
-              <div className="ct-single-desc">
-                Having trouble with one of our apps? Reach out directly to our support team with details about the issue — the app name, your device, and what you were doing when it happened helps us respond faster.
-              </div>
-              <div className="ct-cards">
-                <div className="ct-card-row">
-                  <div className="ct-email-icon">
-                    <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="4" width="16" height="12" rx="1"/>
-                      <path d="M2 6l8 6 8-6"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="ct-email-type">Support email</div>
-                    <a href="mailto:contact@atlaslabstudios.com" className="ct-email-addr">
-                      contact@atlaslabstudios.com
-                    </a>
-                    <div className="ct-email-note">Patto · K-Patto · K-Pantry · Career Navi</div>
-                  </div>
-                </div>
-                <div className="ct-card-row">
-                  <div className="ct-meta-icon" style={{ background: '#1a1a1a', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="10" cy="10" r="8"/>
-                      <path d="M10 6v4l3 2"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="ct-meta-label">Response time</div>
-                    <div className="ct-meta-value">Bug reports: 1–2 business days<br/>General support: 2–3 business days</div>
-                  </div>
-                </div>
-              </div>
+          {/* ── Response time ── */}
+          <div className="ct-single">
+            <div className="ct-h2">Response time</div>
+            <div className="ct-body">
+              <p>
+                We&apos;re a small team, so replies usually take one to two business days, and
+                sometimes longer around Korean public holidays. If something is urgent and
+                involves a payment or an account you&apos;ve lost access to, say so in the
+                subject line and we&apos;ll move it up the queue.
+              </p>
             </div>
-          )}
+          </div>
 
-          {/* ── Partnerships ── */}
-          {activeTab === 'Partnerships' && (
-            <div className="ct-single">
-              <div className="ct-single-title">Partnership Inquiries</div>
-              <div className="ct-single-desc">
-                We&apos;re open to partnerships that align with our mission — content collaborations, educational institution licensing, API integrations, and co-development with teams working in language, food, or career tech. If you see a fit, reach out and tell us what you have in mind.
-              </div>
-              <div className="ct-cards">
-                <div className="ct-card-row">
-                  <div className="ct-email-icon">
-                    <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="4" width="16" height="12" rx="1"/>
-                      <path d="M2 6l8 6 8-6"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="ct-email-type">Business &amp; press</div>
-                    <a href="mailto:contact@atlaslabstudios.com" className="ct-email-addr">
-                      contact@atlaslabstudios.com
-                    </a>
-                    <div className="ct-email-note">Partnerships, licensing, press &amp; media inquiries.</div>
-                  </div>
-                </div>
-                <div className="ct-card-row">
-                  <div className="ct-meta-icon" style={{ background: '#1a1a1a', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="10" cy="10" r="8"/>
-                      <path d="M10 6v4l3 2"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="ct-meta-label">Response time</div>
-                    <div className="ct-meta-value">Partnership inquiries: 3–5 business days</div>
-                  </div>
-                </div>
-              </div>
+          {/* ── Corrections ── */}
+          <div className="ct-single">
+            <div className="ct-h2">Corrections</div>
+            <div className="ct-body">
+              <p>
+                We write about a language and a country that both keep changing, and we get
+                things wrong sometimes. Prices move, shops close, a phrase that was common
+                five years ago starts to sound dated. If you spot an error, tell us which
+                article and what&apos;s wrong — we&apos;ll check it and fix it.
+              </p>
             </div>
-          )}
+          </div>
 
         </div>
       </div>

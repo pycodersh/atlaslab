@@ -8,74 +8,16 @@ import { SiteFooter } from '@/components/SiteFooter'
 const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 
-const TABS = ['Our Mission', 'Products', 'Team', 'Philosophy'] as const
+const TABS = ['Why we exist', 'What we build', 'How we write', 'Who we are'] as const
 type Tab = typeof TABS[number]
 
-/* ── Mission cards ────────────────────────────────────────────────────── */
-const MISSION_CARDS = [
-  {
-    title: 'Why We Build',
-    desc: 'Most learning apps optimize for engagement, not mastery. Atlas Lab was built to flip that — every product is designed around a single skill and measured by how well users actually use it in real life.',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="10" cy="10" r="8"/>
-        <path d="M10 6v4l3 2"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Pattern-First Approach',
-    desc: 'Language and skill acquisition works through patterns. We surface the 20% of patterns that cover 80% of real usage — then drill them until they become automatic.',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 2h9l3 3v13H4V2z"/>
-        <path d="M13 2v3h3"/>
-        <line x1="7" y1="9" x2="13" y2="9"/>
-        <line x1="7" y1="12" x2="13" y2="12"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Real AI, Not a Wrapper',
-    desc: 'AI inside Atlas Lab apps generates content, adapts difficulty per user, gives contextual feedback, and explains why — it does not just relay a chat model response with a thin UI on top.',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round">
-        <rect x="6" y="6" width="8" height="8"/>
-        <line x1="10" y1="1" x2="10" y2="6"/>
-        <line x1="10" y1="14" x2="10" y2="19"/>
-        <line x1="1" y1="10" x2="6" y2="10"/>
-        <line x1="14" y1="10" x2="19" y2="10"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Habit-Sized by Design',
-    desc: 'Every Atlas Lab product fits into five focused minutes. Built mobile-first, works offline, and strips out everything that gets in the way of the one thing you are trying to learn.',
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="6" y="1" width="8" height="18" rx="1.5"/>
-        <circle cx="10" cy="16" r="0.75" fill="#fff" stroke="none"/>
-        <line x1="8" y1="4" x2="12" y2="4"/>
-      </svg>
-    ),
-  },
-]
-
-/* ── Products data ────────────────────────────────────────────────────── */
+/* ── Products data — 'What we build' 탭 ───────────────────────────────── */
 const PRODUCTS = [
-  {
-    mark: 'P',
-    name: 'Patto',
-    tag: 'Live',
-    desc: 'Master English through 500 high-frequency sentence patterns. Drill them in context, track your progress, and build fluency one habit at a time.',
-    href: '/patto/home',
-    muted: false,
-  },
   {
     mark: '한',
     name: 'K-Patto',
     tag: 'Beta',
-    desc: 'Korean pattern learning rebuilt for global learners. Audio drills, webtoon stories, and AI pronunciation feedback — all around 500 core Korean patterns.',
+    desc: "Teaches Korean through a 100-episode webtoon set in Seoul. Each episode follows its characters through an ordinary day — ordering at a café, giving a taxi driver an address, paying at Olive Young — and teaches the expressions that actually come up, with native audio on every line. More than 300 expressions, each tied to the moment you'd use it.",
     href: '/kpatto',
     muted: false,
   },
@@ -83,41 +25,25 @@ const PRODUCTS = [
     mark: '食',
     name: 'K-Pantry',
     tag: 'Live',
-    desc: 'Discover Korean recipes based on ingredients already in your fridge. Learn the techniques, not just the recipes. Every dish teaches a transferable cooking method.',
+    desc: "Answers a narrower question: what can I cook with what's already in my fridge? Tell it what you have, and it tells you which Korean dishes are within reach, what to substitute when something is missing, and what that unfamiliar jar in the aisle is actually for.",
     href: '/kpantry/en',
+    muted: false,
+  },
+  {
+    mark: 'P',
+    name: 'Patto',
+    tag: 'Live',
+    desc: 'Runs the other direction — English for Korean speakers. 100 short stories built around the sentence patterns people use when they speak, rather than the ones textbooks drill.',
+    href: '/patto/home',
     muted: false,
   },
   {
     mark: 'C',
     name: 'Career Navi',
     tag: 'Soon',
-    desc: 'AI career navigation for Korean professionals exploring international paths. Pattern-maps the skills gap between where you are and where you want to go.',
+    desc: 'Is in development. It maps where a career could go next, and what each move would actually require.',
     href: null,
     muted: true,
-  },
-]
-
-/* ── Philosophy items ─────────────────────────────────────────────────── */
-const PHILOSOPHY = [
-  {
-    num: '01',
-    title: 'Mastery over engagement',
-    desc: 'We do not optimize for daily active users or session length. We measure whether users can actually use what they learned. These are different targets and they produce different products.',
-  },
-  {
-    num: '02',
-    title: 'Context is the curriculum',
-    desc: 'Isolated facts do not transfer. Every pattern, recipe, or skill we teach is embedded in realistic context — real sentences, real dishes, real career situations — so the brain files it correctly.',
-  },
-  {
-    num: '03',
-    title: 'Five minutes beats five hours',
-    desc: 'Habit formation science says frequency matters more than duration. A focused five-minute daily drill compounds faster than a long weekly session. Our UX is built around this.',
-  },
-  {
-    num: '04',
-    title: 'AI as a real teacher',
-    desc: 'A great teacher does not just answer questions — they diagnose gaps, adjust to the student, and decide what to teach next. Our AI models are evaluated against that standard, not against chat quality.',
   },
 ]
 
@@ -125,7 +51,7 @@ const PHILOSOPHY = [
    About page
    ══════════════════════════════════════════════════════════════════════════ */
 export default function AboutPage() {
-  const [activeTab, setActiveTab] = useState<Tab>('Our Mission')
+  const [activeTab, setActiveTab] = useState<Tab>('Why we exist')
 
   return (
     <>
@@ -206,6 +132,11 @@ export default function AboutPage() {
           border-bottom-color: #C8102E;
           color: #111; font-weight: 700;
         }
+
+        /* 비활성 탭도 HTML 에는 남겨 두고 CSS 로만 감춘다 —
+           조건부 렌더로 빼면 본문 대부분이 서버 HTML 에서 사라져
+           크롤러가 기본 탭 하나밖에 읽지 못한다. */
+        .ab-panel[hidden] { display: none; }
 
         /* ── Mission 2×2 grid ──────────────────────────────────────── */
         .mission-grid {
@@ -378,9 +309,10 @@ export default function AboutPage() {
         <div className="ab-wrap">
           <Link href="/" className="ab-back">← Atlas Lab</Link>
           <p className="ab-kicker">About Us</p>
-          <h1 className="ab-h1">Building Tools for Skill Mastery</h1>
+          <h1 className="ab-h1">About Atlas Lab</h1>
           <p className="ab-sub">
-            We craft AI-powered products focused on language learning, Korean cooking, and career growth.
+            Atlas Lab is an independent studio building language and daily-life apps
+            for people moving between Korean and English.
           </p>
         </div>
       </section>
@@ -404,23 +336,27 @@ export default function AboutPage() {
             ))}
           </div>
 
-          {/* Our Mission */}
-          {activeTab === 'Our Mission' && (
-            <div className="mission-grid">
-              {MISSION_CARDS.map(card => (
-                <div key={card.title} className="mcard">
-                  <div className="micon">
-                    {card.icon}
-                  </div>
-                  <div className="mtitle">{card.title}</div>
-                  <div className="mdesc">{card.desc}</div>
-                </div>
-              ))}
+          {/* Why we exist */}
+          <div className="ab-panel" role="tabpanel" hidden={activeTab !== 'Why we exist'}>
+            <div className="team-wrap">
+              <div className="team-label">Why we exist</div>
+              <div className="team-body">
+                <p>
+                  Most language tools teach sentences nobody actually says. You can finish a
+                  course and still freeze when a convenience store clerk asks whether you want
+                  a bag. The gap isn&apos;t vocabulary. It&apos;s that textbooks are organized around
+                  grammar points, while real conversations are organized around situations —
+                  a counter, a queue, a question you have three seconds to answer.
+                </p>
+                <p>
+                  Everything we make starts from a situation.
+                </p>
+              </div>
             </div>
-          )}
+          </div>
 
-          {/* Products */}
-          {activeTab === 'Products' && (
+          {/* What we build */}
+          <div className="ab-panel" role="tabpanel" hidden={activeTab !== 'What we build'}>
             <div className="prod-grid">
               {PRODUCTS.map(p => {
                 const inner = (
@@ -451,43 +387,53 @@ export default function AboutPage() {
                 )
               })}
             </div>
-          )}
+          </div>
 
-          {/* Team */}
-          {activeTab === 'Team' && (
+          {/* How we write */}
+          <div className="ab-panel" role="tabpanel" hidden={activeTab !== 'How we write'}>
             <div className="team-wrap">
-              <div className="team-label">Our team</div>
+              <div className="team-label">How we write</div>
               <div className="team-body">
                 <p>
-                  Atlas Lab is an independent studio building focused learning tools at the intersection of AI and real-world skill acquisition. We are a small team of designers, engineers, and language learners who believe that technology should make you measurably better at things that matter.
+                  Alongside the apps we publish a blog — more than 160 articles on Korean
+                  phrases, food, and everyday life in Korea. Most of them answer a question
+                  someone actually asked: why side dishes are free, why Google Maps doesn&apos;t
+                  work here, what to say when a pharmacist asks what&apos;s wrong.
                 </p>
                 <p>
-                  We do not chase virality or engagement loops. We chase outcomes — can you use the language? Can you cook the dish? Can you navigate the career transition? If yes, the product worked.
+                  The articles are grouped into four areas — Korean phrases, life in Korea,
+                  Korean food, and Korean basics — so you can read around a whole situation
+                  instead of hunting one phrase at a time. Some of them pair with a short video,
+                  so you can hear an exchange before you read it broken down.
                 </p>
                 <p>
-                  Our team spans Seoul, and we build every product with the assumption that the user has five minutes, an unreliable internet connection, and a clear goal they have been putting off for too long.
+                  When we&apos;re not sure about something, we say so rather than filling the gap.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Who we are */}
+          <div className="ab-panel" role="tabpanel" hidden={activeTab !== 'Who we are'}>
+            <div className="team-wrap">
+              <div className="team-label">Who we are</div>
+              <div className="team-body">
+                <p>
+                  Atlas Lab is a small independent studio based in South Korea. We build and
+                  maintain everything here ourselves — the apps, the writing, the illustrations,
+                  and the audio.
+                </p>
+                <p>
+                  If you&apos;ve found something wrong in one of our articles, or there&apos;s a situation
+                  you&apos;d like us to cover, we&apos;d like to hear about it. You can reach us on our
+                  contact page.
                 </p>
               </div>
               <Link href="/contact" className="team-contact">
-                Get in touch →
+                Contact page →
               </Link>
             </div>
-          )}
-
-          {/* Philosophy */}
-          {activeTab === 'Philosophy' && (
-            <div className="phil-list">
-              {PHILOSOPHY.map(item => (
-                <div key={item.num} className="phil-item">
-                  <div className="phil-num">{item.num}</div>
-                  <div>
-                    <div className="phil-title">{item.title}</div>
-                    <div className="phil-desc">{item.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          </div>
 
         </div>
       </div>
