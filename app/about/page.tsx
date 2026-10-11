@@ -16,7 +16,7 @@ const PRODUCTS = [
   {
     mark: '한',
     name: 'K-Patto',
-    tag: 'Beta',
+    tag: 'Live',
     desc: "Teaches Korean through a 100-episode webtoon set in Seoul. Each episode follows its characters through an ordinary day — ordering at a café, giving a taxi driver an address, paying at Olive Young — and teaches the expressions that actually come up, with native audio on every line. More than 300 expressions, each tied to the moment you'd use it.",
     href: '/kpatto',
     muted: false,
@@ -41,7 +41,7 @@ const PRODUCTS = [
     mark: 'C',
     name: 'Career Navi',
     tag: 'Soon',
-    desc: 'Is in development. It maps where a career could go next, and what each move would actually require.',
+    desc: 'Maps where a career could go next, and what each move would actually require.',
     href: null,
     muted: true,
   },
@@ -372,10 +372,8 @@ export default function AboutPage() {
                     </div>
                     <div className="pname">{p.name}</div>
                     <div className="pdesc">{p.desc}</div>
-                    {p.href
-                      ? <span className="popen">Open app →</span>
-                      : <span className="psoon-text">In development</span>
-                    }
+                    {/* 미출시 앱은 상단 COMING SOON 배지로 충분 — 하단 라벨은 중복 */}
+                    {p.href && <span className="popen">Open app →</span>}
                   </>
                 )
                 return p.href ? (
