@@ -291,5 +291,277 @@
     "status": "published",
     "publishedAt": "2026-10-09T11:43:43.429Z",
     "slug": "bulgogi-vs-galbi-korean-beef-guide"
+  },
+  {
+    "id": 33,
+    "keyword": "Hanok Stays in Korea: What to Expect, How to Book, and Etiquette",
+    "category": "life-in-korea",
+    "priority": 33,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 34,
+    "keyword": "Kimbap: What Goes Inside, Where to Buy It, and How Koreans Eat It",
+    "category": "korean-food",
+    "priority": 34,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 35,
+    "keyword": "Korean Templestay: What It Is and How Foreigners Can Join One",
+    "category": "life-in-korea",
+    "priority": 35,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 36,
+    "keyword": "Samgyetang: Why Koreans Eat Hot Ginseng Chicken Soup on the Hottest Days",
+    "category": "korean-food",
+    "priority": 36,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 37,
+    "keyword": "Han River Parks in Seoul: Ramyeon Machines, Picnic Rules, and Riverside Delivery",
+    "category": "life-in-korea",
+    "priority": 37,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 38,
+    "keyword": "Japchae: Why Korean Glass Noodles Are Chewy and How to Order or Cook Them",
+    "category": "korean-food",
+    "priority": 38,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 39,
+    "keyword": "Chuseok for Visitors: What Closes, What to Eat, and How to Travel During the Holiday",
+    "category": "life-in-korea",
+    "priority": 39,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 40,
+    "keyword": "Sundubu-jjigae: How to Order Korean Soft Tofu Stew and Choose the Spice Level",
+    "category": "korean-food",
+    "priority": 40,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 41,
+    "keyword": "Korean Subway Etiquette: Priority Seats, Phones, and Rush-Hour Rules",
+    "category": "life-in-korea",
+    "priority": 41,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 42,
+    "keyword": "Budae-jjigae: The Story of Korea's Army Base Stew and How to Eat It",
+    "category": "korean-food",
+    "priority": 42,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 43,
+    "keyword": "Jeju Island Without a Car: Buses, Taxis, and Getting Around",
+    "category": "life-in-korea",
+    "priority": 43,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 44,
+    "keyword": "Gyeran-jjim: How to Make Fluffy Korean Steamed Egg and When Koreans Serve It",
+    "category": "korean-food",
+    "priority": 44,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 45,
+    "keyword": "Hiking in Korea: Mountain Culture, Gear, and Easy Trails Near Seoul",
+    "category": "life-in-korea",
+    "priority": 45,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 46,
+    "keyword": "Chimaek: How to Order Korean Fried Chicken and Beer Like a Local",
+    "category": "korean-food",
+    "priority": 46,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 47,
+    "keyword": "Gwangjang Market: What to Eat, How to Order, and Where to Sit",
+    "category": "life-in-korea",
+    "priority": 47,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 48,
+    "keyword": "Haejangguk: Korean Hangover Soups and What to Order the Morning After",
+    "category": "korean-food",
+    "priority": 48,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 49,
+    "keyword": "What to Pack for Korea by Season: Weather, Clothing, and Layers",
+    "category": "life-in-korea",
+    "priority": 49,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 50,
+    "keyword": "Goguma: Roasted Sweet Potatoes, Winter Street Food, and Cooking Them at Home",
+    "category": "korean-food",
+    "priority": 50,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 51,
+    "keyword": "Korean Gift-Giving Etiquette: Holiday Gift Sets, Hosting Gifts, and What to Avoid",
+    "category": "life-in-korea",
+    "priority": 51,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 52,
+    "keyword": "Mandu: Korean Dumpling Types and How to Cook Them at Home",
+    "category": "korean-food",
+    "priority": 52,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 53,
+    "keyword": "Cherry Blossom and Autumn Foliage Seasons in Korea: When and Where to Go",
+    "category": "life-in-korea",
+    "priority": 53,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 54,
+    "keyword": "Sikhye and Sujeonggwa: Traditional Korean Drinks and When to Drink Them",
+    "category": "korean-food",
+    "priority": 54,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 55,
+    "keyword": "Sending Packages in Korea: Post Office, Convenience Store Parcels, and Lockers",
+    "category": "life-in-korea",
+    "priority": 55,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 56,
+    "keyword": "Bossam: Boiled Pork Wraps, What Comes with Them, and How to Assemble a Bite",
+    "category": "korean-food",
+    "priority": 56,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 57,
+    "keyword": "Nami Island Day Trip from Seoul: Transit, Timing, and What to Do",
+    "category": "life-in-korea",
+    "priority": 57,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 58,
+    "keyword": "Seolleongtang: Why Koreans Season Ox-Bone Soup at the Table",
+    "category": "korean-food",
+    "priority": 58,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 59,
+    "keyword": "DMZ Tours from Seoul: How to Book and What the Rules Are",
+    "category": "life-in-korea",
+    "priority": 59,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null,
+    "sensitive": true
+  },
+  {
+    "id": 60,
+    "keyword": "Ttukbaegi: Korean Earthenware Pots and What to Cook in Them",
+    "category": "korean-food",
+    "priority": 60,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
+  },
+  {
+    "id": 61,
+    "keyword": "Can Foreigners Use Kakao Pay and Naver Pay? Mobile Payments in Korea Explained",
+    "category": "life-in-korea",
+    "priority": 61,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null,
+    "sensitive": true
+  },
+  {
+    "id": 62,
+    "keyword": "Kalguksu: Knife-Cut Noodle Soup and How to Order It",
+    "category": "korean-food",
+    "priority": 62,
+    "status": "pending",
+    "publishedAt": null,
+    "slug": null
   }
 ]
