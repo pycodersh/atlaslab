@@ -32,7 +32,7 @@ const POST = {
   app:          'k-patto',
   category:     'Stay in Korea',
   tags:         ['Mohegan INSPIRE', 'INSPIRE Resort', 'Incheon Airport', 'K-POP', 'luxury hotel', 'travel Korea'],
-  title:        'Mohegan INSPIRE Resort Guide: K-POP Arena, Aurora Digital Street & Luxury Staycation near Incheon Airport',
+  title:        'Mohegan INSPIRE Resort Guide: K-POP Arena, Aurora Digital Street, Splash Bay & Luxury Staycations Near Incheon Airport',
   description:  "A foreign traveler's guide to Mohegan INSPIRE Entertainment Resort near Incheon Airport: free shuttles, the 15,000-seat INSPIRE Arena, Aurora digital street, Splash Bay, Le Space, and dining.",
   content:      fs.readFileSync(MD_PATH, 'utf8').trimEnd(),
   published_at: new Date(Date.now() - 2 * 60_000).toISOString().replace('.000Z', '+00:00'),
