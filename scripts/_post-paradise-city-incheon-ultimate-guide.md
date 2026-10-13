@@ -1,3 +1,5 @@
+<p className="post-disclosure"><strong>Disclosure:</strong> This post contains affiliate links. If you make a booking or purchase through these links, I may earn a small commission at no additional cost to you.</p>
+
 Landing at Incheon International Airport after a long-haul flight usually means dragging your luggage through crowded subway stations or hailing expensive taxis into central Seoul. 
 
 However, there is an alternative that locals call the ultimate **"Hokangs" (호캉스: Hotel + Vacance)**: stepping out of arrival gates and checking into a 5-star paradise just five minutes away.
@@ -98,13 +100,13 @@ Paradise City features two distinct accommodation experiences tailored to differ
 <figcaption>Hyatt Regency room with a runway-side view</figcaption>
 </figure>
 
-> 🎟️ **Compare Room Rates**
-> • `[BUTTON: Check Hyatt Regency on Agoda]`
-> • `[BUTTON: Book Hyatt Regency on Trip.com]`
-
 <div className="tip-box">
 
 **Pro-Tip on Room Bookings**: Many room packages include complimentary access to CIMER and Wonderbox for 2 guests. If you book a "Room-Only" rate to save upfront, in-house guests still receive an approximate 30% discount at the door. Check the package details carefully before booking to find the best value for your itinerary.
+
+{/* TODO(affiliate approval): enable after the Agoda / Trip.com link is ready — fill in href and remove this comment
+<a href="" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check Room Rates & Availability</a>
+*/}
 
 </div>
 
