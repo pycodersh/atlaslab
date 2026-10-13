@@ -20,6 +20,11 @@ Whether you are flying into Korea for a major K-POP concert or award show, looki
 <figcaption>Mohegan INSPIRE Entertainment Resort: hotel towers and the main entrance</figcaption>
 </figure>
 
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g1-shuttle.jpg" alt="INSPIRE shuttle bus schedule sign for Incheon Airport Terminal 1 and the INSPIRE shuttle bus at the curb" loading="lazy" />
+<figcaption>The INSPIRE shuttle schedule sign (Terminal 1 to INSPIRE) and the INSPIRE shuttle bus at Incheon Airport Terminal 1</figcaption>
+</figure>
+
 Located on the western boundary of Yeongjong Island, INSPIRE operates seamless, complimentary shuttle buses connecting directly to both Incheon Airport Terminals.
 
 ### Complimentary Airport Shuttle Schedule
@@ -59,6 +64,11 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 <figure className="post-figure post-figure-auto">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-bathroom.jpg" alt="Guest bathroom at Mohegan INSPIRE with a freestanding tub, gold-and-marble tile wall and a double vanity" loading="lazy" />
 <figcaption>Guest bathroom at Mohegan INSPIRE: freestanding tub, gold-and-marble tile wall, and a double vanity</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-room.jpg" alt="Guest room at Mohegan INSPIRE with a king bed, a blue-striped headboard wall and a large window" loading="lazy" />
+<figcaption>Guest room at Mohegan INSPIRE: king bed, striped headboard wall, and a large window</figcaption>
 </figure>
 
 <div className="tip-box">
