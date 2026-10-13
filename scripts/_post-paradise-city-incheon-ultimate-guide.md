@@ -209,18 +209,13 @@ Traveling with kids or young-at-heart companions? **Wonderbox** is a family-orie
 ## 6. Paradise Casino: Korea's Premier Gaming Destination
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-1.jpg" alt="Paradise Casino entrance" loading="lazy" />
-<figcaption>Paradise Casino entrance</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-1-hd.jpg" alt="Paradise Casino entrance with a crystal curtain and a large video screen" loading="lazy" />
+<figcaption>Paradise Casino entrance with a crystal curtain and a large video screen</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-2.jpg" alt="Paradise Casino gaming floor with table games" loading="lazy" />
-<figcaption>Paradise Casino gaming floor with table games</figcaption>
-</figure>
-
-<figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-3.jpg" alt="Carousel and slot machines in the casino area" loading="lazy" />
-<figcaption>Carousel and slot machines in the casino area</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-2-hd.jpg" alt="Slot machine area inside Paradise Casino under chandeliers" loading="lazy" />
+<figcaption>Slot machine area inside Paradise Casino under chandeliers</figcaption>
 </figure>
 
 For international travelers looking for world-class entertainment, Paradise City houses **Korea's largest foreigner-exclusive casino**, spanning over 15,500 square meters. 
