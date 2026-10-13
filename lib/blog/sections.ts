@@ -28,6 +28,16 @@ export const BLOG_SECTIONS = [
     layout: 'grid',
   },
   {
+    // 슬러그(= /blog?tab= 값)는 stay-in-korea. 글의 category 는 'Stay in Korea'.
+    key: 'stay-in-korea',
+    title: 'Stay in Korea',
+    desc: "Curated guides to Korea's best hotels, luxury resorts, and unique stay experiences.",
+    categories: ['Stay in Korea'],
+    layout: 'grid',
+    // 새 카테고리라 아직 글이 한 편뿐이어도 홈에 바로 보여 준다(기본은 2편부터)
+    minToShow: 1,
+  },
+  {
     key: 'life',
     title: 'Life in Korea',
     desc: 'How things work here, and why they work that way.',
@@ -54,20 +64,14 @@ export const BLOG_SECTIONS = [
       'Getting Started',
     ],
   },
-  {
-    // 슬러그(= /blog?tab= 값)는 stay-in-korea. 글의 category 는 'Stay in Korea'.
-    key: 'stay-in-korea',
-    title: 'Stay in Korea',
-    desc: "Curated guides to Korea's best hotels, luxury resorts, and unique stay experiences.",
-    categories: ['Stay in Korea'],
-    layout: 'grid',
-  },
 ] as const satisfies ReadonlyArray<{
   key: BlogSectionKey
   title: string
   desc: string
   categories: readonly string[]
   layout: BlogLayout
+  /** 홈에 섹션을 띄우는 최소 글 수. 없으면 MIN_POSTS_TO_SHOW_SECTION */
+  minToShow?: number
 }>
 
 /** 위 목록에 없는 category(및 null)는 여기로 모인다. */
@@ -79,10 +83,16 @@ export const POSTS_PER_SECTION = 3
 /** 홈에 섹션을 띄우는 최소 글 수. 카드가 하나뿐이면 비어 보이므로 감춘다. */
 export const MIN_POSTS_TO_SHOW_SECTION = 2
 
+/** 섹션별 홈 노출 최소 글 수 */
+export function minPostsToShow(key: string): number {
+  const s = BLOG_SECTIONS.find(x => x.key === key) as { minToShow?: number } | undefined
+  return s?.minToShow ?? MIN_POSTS_TO_SHOW_SECTION
+}
+
 /** Patto 탭 — category 가 아니라 app 으로 거른다 */
 export const PATTO_TAB = { key: 'patto', label: 'Patto', app: 'patto' } as const
 
-/** 목록 탭 순서: All + 주제 5개 + Patto */
+/** 목록 탭 순서: All + 주제 5개 + Patto (주제 순서는 BLOG_SECTIONS 를 따른다) */
 export const BLOG_TABS = [
   { key: 'all', label: 'All Articles' },
   ...BLOG_SECTIONS.map(s => ({ key: s.key as string, label: s.title as string })),

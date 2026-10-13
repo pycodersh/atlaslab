@@ -6,7 +6,7 @@ import { PostListRow } from '@/components/blog/PostListRow'
 import { ExploreAppsButton } from '@/components/home/ExploreAppsButton'
 import {
   BLOG_SECTIONS,
-  MIN_POSTS_TO_SHOW_SECTION,
+  minPostsToShow,
   POSTS_PER_SECTION,
   topicSectionKey,
 } from '@/lib/blog/sections'
@@ -786,7 +786,7 @@ export default async function AtlasLabHome() {
       </div>
 
       {/* ── From the Blog — 탭 바 + 피처드 + 주제별 섹션 ── */}
-      {blogSections.some(s => s.posts.length >= MIN_POSTS_TO_SHOW_SECTION) && (
+      {blogSections.some(s => s.posts.length >= minPostsToShow(s.key)) && (
         <div className="blog-outer">
           <div className="wrap">
 
@@ -823,8 +823,8 @@ export default async function AtlasLabHome() {
             )}
 
             {blogSections.map(section =>
-              // 카드가 하나뿐인 섹션은 비어 보이므로 홈에서는 감춘다(목록 탭에는 남는다).
-              section.posts.length < MIN_POSTS_TO_SHOW_SECTION ? null : (
+              // 카드가 적은 섹션은 비어 보이므로 홈에서는 감춘다(목록 탭에는 남는다). 최소 글 수는 섹션마다 다를 수 있다.
+              section.posts.length < minPostsToShow(section.key) ? null : (
                 <div key={section.key} className="blog-sec">
                   <div className="sec-head">
                     <span className="sec-label">{section.title}</span>
