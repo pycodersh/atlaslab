@@ -150,6 +150,9 @@ export function proseCss(bodyFont: string): string {
           text-align: center; font-size: 14px; line-height: 1.5;
           color: #7A7670; margin-top: 10px;
         }
+        /* 원본 비율 유지판(MDX 의 className="post-figure post-figure-auto") — 16:9 로 자르지 않는다.
+           폭은 그대로 본문 100%, 높이는 원본 비율대로 auto. 세로·파노라마 사진에 쓴다. */
+        .blog-prose .post-figure-auto img { aspect-ratio: auto; object-fit: fill; height: auto; }
 
         /* 제휴 링크 고지 — 글 맨 위에 조용하게 */
         .blog-prose .post-disclosure {
