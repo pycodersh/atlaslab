@@ -138,14 +138,16 @@ export function proseCss(bodyFont: string): string {
            폭이 꽉 차는 이미지는 어차피 100% 라 달라지지 않는다. */
         .blog-prose img { margin-left: auto; margin-right: auto; }
 
-        /* 본문 사진 — 한 줄에 한 장, 본문 폭을 꽉 채운다(MDX 의 <figure className="post-figure">).
-           비율은 height:auto 로 지켜 왜곡이 없고, 위아래 여백으로 글과 호흡을 둔다. */
-        .blog-prose .post-figure { margin: 32px 0; }
+        /* 본문 사진 — 한 줄에 한 장, 좌우 경계가 본문 글과 정확히 같다(MDX 의 <figure className="post-figure">).
+           원본 비율이 3:2·4:3·16:9 로 제각각이라 16:9 한 가지로 통일하고 object-fit:cover 로 자른다
+           (늘어나 왜곡되지 않는다). 높이가 미리 정해져 로딩 중에도 글이 밀리지 않는다. */
+        .blog-prose .post-figure { margin: 32px 0; padding: 0; }
         .blog-prose .post-figure img {
-          display: block; width: 100%; height: auto; margin: 0; border-radius: 2px;
+          display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
+          margin: 0; border-radius: 2px;
         }
         .blog-prose .post-figure figcaption {
-          text-align: center; font-size: 13px; line-height: 1.5;
+          text-align: center; font-size: 14px; line-height: 1.5;
           color: #7A7670; margin-top: 10px;
         }
 

@@ -10,12 +10,20 @@ Whether you need a rejuvenating transit stopover or a peaceful multi-day getaway
 
 ## 1. Getting There: Free Airport Shuttle Bus Guide
 
-<div className="img-grid cols-3">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-exterior.jpg" alt="Paradise City hotel exterior at dusk" loading="lazy" />
+<figcaption>Paradise City hotel exterior at dusk</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-bus.jpg" alt="Paradise City free shuttle bus at Incheon Airport" loading="lazy" />
+<figcaption>Paradise City free shuttle bus at Incheon Airport</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-sign.jpg" alt="Free shuttle bus stop sign at Incheon Airport" loading="lazy" />
-</div>
-<p className="img-caption">Incheon Airport free shuttle bus and Paradise City exterior</p>
+<figcaption>Free shuttle bus stop sign at Incheon Airport</figcaption>
+</figure>
 
 One of Paradise City's greatest perks for international travelers is its **100% free, direct shuttle bus service** operating daily between Incheon Airport (Terminal 1 and Terminal 2) and the resort.
 
@@ -41,28 +49,36 @@ Paradise City features two distinct accommodation experiences tailored to differ
 * **Best for**: Families, couples, business travelers, and first-time visitors.
 * **The Atmosphere**: Grand, bright, and welcoming. Standard Deluxe rooms are noticeably more spacious than average Seoul hotel rooms, featuring king or double beds, walk-in closets, and complimentary soft drinks and beer in the minibar.
 
-<div className="img-grid cols-3">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-1.jpg" alt="Deluxe room with a king bed and armchair" loading="lazy" />
+<figcaption>Deluxe room with a king bed and armchair</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-2.jpg" alt="Deluxe room with a bed and sofa seating area" loading="lazy" />
+<figcaption>Deluxe room with a bed and sofa seating area</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-3.jpg" alt="Suite living area with a coffee table and TV" loading="lazy" />
-</div>
-<p className="img-caption">Spacious 5-star Deluxe Room with comfortable bedding and living area</p>
+<figcaption>Suite living area with a coffee table and TV</figcaption>
+</figure>
 
 * **Bathrooms**: Finished in pure white Italian marble, equipped with deep-soaking bathtubs, separate rain showers, and premium amenities.
 
-<div className="img-grid cols-1">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g3-bathroom.jpg" alt="Luxury marble bathroom with deep-soaking bathtub" loading="lazy" />
-</div>
-<p className="img-caption">Luxury marble bathroom with deep-soaking bathtub</p>
+<figcaption>Luxury marble bathroom with deep-soaking bathtub</figcaption>
+</figure>
 
 ### ② Art Paradiso (Adults-Only Luxury Boutique)
 * **Best for**: Discerning couples, honeymooners, and design enthusiasts (Ages 19+ only).
 * **The Atmosphere**: European duplex suites with dramatic dark-marble decor, moody ambient lighting, and bespoke butler service. It feels like an exclusive private club tucked inside the larger resort.
 
-<div className="img-grid cols-1">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g4-art-paradiso.jpg" alt="Art Paradiso European-style luxury duplex suite" loading="lazy" />
-</div>
-<p className="img-caption">Art Paradiso European-style luxury duplex suite</p>
+<figcaption>Art Paradiso European-style luxury duplex suite</figcaption>
+</figure>
 
 ### ③ Hyatt Regency Incheon Paradise City (Global Loyalty & Value)
 * **Best for**: World of Hyatt members, extended stays, and value-conscious travelers.
@@ -72,11 +88,15 @@ Paradise City features two distinct accommodation experiences tailored to differ
   * 🍽️ **15% OFF select Paradise City dining venues**
   * Complimentary shuttle connection between terminals and the resort.
 
-<div className="img-grid cols-2">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-exterior.jpg" alt="Hyatt hotel exterior next to Paradise City" loading="lazy" />
+<figcaption>Hyatt hotel exterior next to Paradise City</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-room.jpg" alt="Hyatt Regency room with a runway-side view" loading="lazy" />
-</div>
-<p className="img-caption">Hyatt Regency Incheon Paradise City exterior and runway view room</p>
+<figcaption>Hyatt Regency room with a runway-side view</figcaption>
+</figure>
 
 > 🎟️ **Compare Room Rates**
 > • `[BUTTON: Check Hyatt Regency on Agoda]`
@@ -95,18 +115,22 @@ Even without booking external spa tickets, hotel guests have complimentary acces
 
 * **Indoor Swimming Pool**: Bathed in natural sunlight from an expansive glass ceiling, complete with private daybeds, heated whirlpool jacuzzis, and a shallow children's wading zone.
 
-<div className="img-grid cols-1">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g6-indoor-pool.jpg" alt="Sunlit luxury indoor swimming pool and daybeds" loading="lazy" />
-</div>
-<p className="img-caption">Sunlit luxury indoor swimming pool and daybeds</p>
+<figcaption>Sunlit luxury indoor swimming pool and daybeds</figcaption>
+</figure>
 
 * **Outdoor Infinity Pool**: A temperature-controlled outdoor pool surrounded by pine trees and sun loungers. Watching international flights take off into the sunset while relaxing in warm water is a signature Paradise City experience.
 
-<div className="img-grid cols-2">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-1.jpg" alt="Outdoor heated pool at dusk with loungers" loading="lazy" />
+<figcaption>Outdoor heated pool at dusk with loungers</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-2.jpg" alt="Outdoor pool with sun umbrellas and loungers" loading="lazy" />
-</div>
-<p className="img-caption">Outdoor heated pool with sun umbrellas and loungers</p>
+<figcaption>Outdoor pool with sun umbrellas and loungers</figcaption>
+</figure>
 
 ---
 
@@ -114,10 +138,10 @@ Even without booking external spa tickets, hotel guests have complimentary acces
 
 If there is one facility you cannot miss, it is **Cimer**. Unlike typical public baths, Cimer is an upscale, Instagram-worthy wellness facility divided into two major zones:
 
-<div className="img-grid cols-1">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g8-cimer.jpg" alt="CIMER European aqua spa pool and relaxing jjimjilbang" loading="lazy" />
-</div>
-<p className="img-caption">CIMER European aqua spa pool and relaxing jjimjilbang</p>
+<figcaption>CIMER European aqua spa pool and relaxing jjimjilbang</figcaption>
+</figure>
 
 ### 🌊 Aqua Spa Zone (1st – 3rd Floor)
 * **The Water Plaza**: Inspired by the Piazza San Marco in Venice, featuring towering arches and submerged lounge seats.
@@ -141,13 +165,25 @@ Put on the provided loungewear (Jjimjilbok) and explore specialized thermal ther
 
 Traveling with kids or young-at-heart companions? **Wonderbox** is a family-oriented indoor amusement park designed around the aesthetic of a mythical nocturnal carnival.
 
-<div className="img-grid cols-2">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-1.jpg" alt="Wonderbox building lit up at night" loading="lazy" />
+<figcaption>Wonderbox building lit up at night</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-2.jpg" alt="Carnival game stalls inside Wonderbox" loading="lazy" />
+<figcaption>Carnival game stalls inside Wonderbox</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-3.jpg" alt="Bumper cars on a red floor inside Wonderbox" loading="lazy" />
+<figcaption>Bumper cars on a red floor inside Wonderbox</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-4.jpg" alt="Giant tree slide and carnival set inside Wonderbox" loading="lazy" />
-</div>
-<p className="img-caption">Wonderbox indoor night carnival theme park and carousel</p>
+<figcaption>Giant tree slide and carnival set inside Wonderbox</figcaption>
+</figure>
 
 * **Key Attractions**: A two-story classic carousel, bumper cars, a rotating sky buggy, and Korea's highest indoor giant slide.
 * **Carnival Games**: Try classic balloon darts and hoop tossing to win oversized plush toys.
@@ -160,12 +196,20 @@ Traveling with kids or young-at-heart companions? **Wonderbox** is a family-orie
 
 ## 6. Paradise Casino: Korea's Premier Gaming Destination
 
-<div className="img-grid cols-3">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-1.jpg" alt="Paradise Casino entrance" loading="lazy" />
+<figcaption>Paradise Casino entrance</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-2.jpg" alt="Paradise Casino gaming floor with table games" loading="lazy" />
+<figcaption>Paradise Casino gaming floor with table games</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-3.jpg" alt="Carousel and slot machines in the casino area" loading="lazy" />
-</div>
-<p className="img-caption">Paradise Casino premier foreigner-exclusive gaming floor</p>
+<figcaption>Carousel and slot machines in the casino area</figcaption>
+</figure>
 
 For international travelers looking for world-class entertainment, Paradise City houses **Korea's largest foreigner-exclusive casino**, spanning over 15,500 square meters. 
 
@@ -189,12 +233,20 @@ Designed with sophisticated luxury inspired by classic European gaming salons, i
 
 At the core of the resort lies **The Plaza**, a grand sunlit indoor piazza connecting the hotel towers to the entertainment hubs.
 
-<div className="img-grid cols-3">
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-1.jpg" alt="The Plaza with a large bronze sculpture and market stalls" loading="lazy" />
+<figcaption>The Plaza with a large bronze sculpture and market stalls</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-2.jpg" alt="The Plaza seen from above with a seasonal market" loading="lazy" />
+<figcaption>The Plaza seen from above with a seasonal market</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-3.jpg" alt="A live performance in front of stone arches at The Plaza" loading="lazy" />
-</div>
-<p className="img-caption">The Plaza indoor square and public art</p>
+<figcaption>A live performance in front of stone arches at The Plaza</figcaption>
+</figure>
 
 ### 🍽️ Where to Eat
 * **The Plaza Food Hall**: Perfect for casual dining. Find authentic Korean favorites (K-BBQ rice bowls, Gomtang beef soup, Tteokbokki), tonkatsu, and artisanal bakeries at everyday street prices.
