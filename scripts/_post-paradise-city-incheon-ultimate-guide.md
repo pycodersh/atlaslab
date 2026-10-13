@@ -78,7 +78,7 @@ Paradise City features two distinct accommodation experiences tailored to differ
 * **The Atmosphere**: European duplex suites with dramatic dark-marble decor, moody ambient lighting, and bespoke butler service. It feels like an exclusive private club tucked inside the larger resort.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g4-art-paradiso.jpg" alt="Art Paradiso European-style luxury duplex suite" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g4-art-paradiso-hd.jpg" alt="Art Paradiso European-style luxury duplex suite" loading="lazy" />
 <figcaption>Art Paradiso European-style luxury duplex suite</figcaption>
 </figure>
 
