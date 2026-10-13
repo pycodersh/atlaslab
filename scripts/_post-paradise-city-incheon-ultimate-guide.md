@@ -142,8 +142,8 @@ Even without booking external spa tickets, hotel guests have complimentary acces
 If there is one facility you cannot miss, it is **Cimer**. Unlike typical public baths, Cimer is an upscale, Instagram-worthy wellness facility divided into two major zones:
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g8-cimer.jpg" alt="CIMER European aqua spa pool and relaxing jjimjilbang" loading="lazy" />
-<figcaption>CIMER European aqua spa pool and relaxing jjimjilbang</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g8-cimer-hd.jpg" alt="CIMER indoor aqua spa pool hall with arched walls and a glass roof" loading="lazy" />
+<figcaption>CIMER indoor aqua spa pool hall with arched walls and a glass roof</figcaption>
 </figure>
 
 ### 🌊 Aqua Spa Zone (1st – 3rd Floor)
