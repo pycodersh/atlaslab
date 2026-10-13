@@ -2,7 +2,7 @@
 
 Landing at Incheon International Airport after a long-haul flight usually means dragging your luggage through crowded subway stations or hailing expensive taxis into central Seoul. 
 
-However, there is an alternative that locals call the ultimate **"Hokangs" (호캉스: Hotel + Vacance)**: stepping out of arrival gates and checking into a 5-star paradise just five minutes away.
+However, there is an alternative that locals call the ultimate **"Hokangs" (호캉스: Hotel + Vacance)**: stepping out of arrival gates and checking into a 5-star paradise just minutes away from the airport.
 
 **Paradise City Incheon** is Korea's first integrated "arttainment" resort. Covering over 330,000 square meters, it combines luxury accommodations, contemporary art galleries, world-class dining, an indoor theme park, and a massive European-style wellness spa. 
 
@@ -293,7 +293,7 @@ Paradise City houses over 3,000 museum-grade artworks scattered across the prope
 ## Summary
 
 - 📍 **Address**: 186, Yeongjonghaeannam-ro 321beon-gil, Jung-gu, Incheon, Republic of Korea
-- 🚌 **Free Airport Shuttle**: Every 20–30 mins from Incheon Airport Terminal 1 (1F, Gate 3C/14C) & Terminal 2 (1F, Gate 2A) — approx. 5–10 mins ride from T1 and 15–20 mins ride from T2 (T2 requires bypassing the runway, ~13.3 km)
+- 🚌 **Free Airport Shuttle**: Every 30 mins from T1 (1F, Gate 3C/14C) & every 30–60 mins from T2 (1F, Gate 2A) — approx. 5–10 mins ride from T1 and 15–20 mins ride from T2 (T2 requires bypassing the runway, ~13.3 km)
 - ⏰ **Key Operating Hours**:
   - **Hotel Check-in / Out**: 15:00 / 11:00
   - **CIMER Spa**: 10:00 – 21:00

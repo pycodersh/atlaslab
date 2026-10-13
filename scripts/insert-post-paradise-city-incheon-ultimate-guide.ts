@@ -35,7 +35,7 @@ const POST = {
   category:     'Stay in Korea',
   tags:         ['Paradise City', 'Incheon', 'Incheon Airport', 'luxury hotel', 'spa', 'travel Korea'],
   title:        'Paradise City Incheon: The Ultimate Resort Guide & Free Airport Shuttle',
-  description:  "A complete foreign traveler's guide to Korea's premier luxury arttainment resort, 5-minute free airport transfers, Cimer Spa, Wonderbox, and gourmet dining.",
+  description:  "A complete foreign traveler's guide to Korea's premier luxury arttainment resort, quick free airport transfers, Cimer Spa, Wonderbox, and gourmet dining.",
   content:      fs.readFileSync(MD_PATH, 'utf8').trimEnd(),
   published_at: new Date(Date.now() - 2 * 60_000).toISOString().replace('.000Z', '+00:00'),
   is_paused:    false,
