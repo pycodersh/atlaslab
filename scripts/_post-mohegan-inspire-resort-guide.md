@@ -143,18 +143,18 @@ For decades, international K-POP fans suffered through cold outdoor sports stadi
 - **Indoor Pre-Show Comfort**: Instead of waiting outside in freezing winter winds or summer humidity, concertgoers can wait in climate-controlled indoor shopping boulevards with direct access to restrooms, cafes, and restaurants.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-0.jpg" alt="INSPIRE Arena exterior at dusk" loading="lazy" />
-<figcaption>INSPIRE Arena exterior at dusk</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-0.jpg" alt="INSPIRE Arena exterior at dusk: Korea’s first multi-purpose live entertainment venue (15,000 capacity)" loading="lazy" />
+<figcaption>INSPIRE Arena exterior at dusk: Korea’s first multi-purpose live entertainment venue (15,000 capacity)</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-1.jpg" alt="A large-scale K-POP awards show stage with a packed arena crowd" loading="lazy" />
-<figcaption>A large-scale K-POP awards show stage with a packed arena crowd</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-1.jpg" alt="Inside INSPIRE Arena: a large-scale K-POP awards show stage with a packed crowd" loading="lazy" />
+<figcaption>Inside INSPIRE Arena: a large-scale K-POP awards show stage with a packed crowd</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-2.jpg" alt="A K-POP concert crowd lit in red under a full stage production" loading="lazy" />
-<figcaption>A K-POP concert crowd lit in red under a full stage production</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-2.jpg" alt="Inside INSPIRE Arena: the crowd lit in red during a concert" loading="lazy" />
+<figcaption>Inside INSPIRE Arena: the crowd lit in red during a concert</figcaption>
 </figure>
 
 <div className="tip-box">
