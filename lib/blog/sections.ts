@@ -13,7 +13,7 @@
 /** 주제 섹션·탭의 대상이 되는 app. kpantry 는 k-pantry 의 옛 표기. */
 export const TOPIC_APPS = ['k-patto', 'k-pantry', 'kpantry'] as const
 
-export type BlogSectionKey = 'phrases' | 'life' | 'food' | 'basics'
+export type BlogSectionKey = 'phrases' | 'life' | 'food' | 'basics' | 'stay-in-korea'
 
 /** 카드 격자('grid') 또는 한 줄짜리 가로 리스트('list').
  *  홈 섹션과 /blog 목록이 같은 값을 보고 그린다. */
@@ -54,6 +54,14 @@ export const BLOG_SECTIONS = [
       'Getting Started',
     ],
   },
+  {
+    // 슬러그(= /blog?tab= 값)는 stay-in-korea. 글의 category 는 'Stay in Korea'.
+    key: 'stay-in-korea',
+    title: 'Stay in Korea',
+    desc: "Curated guides to Korea's best hotels, luxury resorts, and unique stay experiences.",
+    categories: ['Stay in Korea'],
+    layout: 'grid',
+  },
 ] as const satisfies ReadonlyArray<{
   key: BlogSectionKey
   title: string
@@ -74,7 +82,7 @@ export const MIN_POSTS_TO_SHOW_SECTION = 2
 /** Patto 탭 — category 가 아니라 app 으로 거른다 */
 export const PATTO_TAB = { key: 'patto', label: 'Patto', app: 'patto' } as const
 
-/** 목록 탭 순서: All + 주제 4개 + Patto */
+/** 목록 탭 순서: All + 주제 5개 + Patto */
 export const BLOG_TABS = [
   { key: 'all', label: 'All Articles' },
   ...BLOG_SECTIONS.map(s => ({ key: s.key as string, label: s.title as string })),
@@ -136,6 +144,7 @@ const TAB_DESCRIPTION: Record<string, string> = {
   basics: 'From Hangul syllable blocks to core grammar — foundational rules explained simply.',
   life: 'Cultural nuances, social codes, and practical guides for navigating life in Korea.',
   food: 'Authentic culinary culture, seasonal dishes, and dining etiquette in Korea.',
+  'stay-in-korea': "Curated guides to Korea's best hotels, luxury resorts, and unique stay experiences.",
   patto: 'Interactive language experiments and smart tools.',
 }
 
