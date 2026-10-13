@@ -138,22 +138,15 @@ export function proseCss(bodyFont: string): string {
            폭이 꽉 차는 이미지는 어차피 100% 라 달라지지 않는다. */
         .blog-prose img { margin-left: auto; margin-right: auto; }
 
-        /* 본문 이미지 묶음(MDX 의 <div className="img-grid cols-N"> + <p className="img-caption">).
-           같은 장면의 사진 2~4장을 한 덩어리로 보여 준다. 좁은 화면에서는 한 줄로 쌓는다. */
-        .blog-prose .img-grid {
-          display: grid; gap: 10px; margin: 24px 0 8px;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
+        /* 본문 사진 — 한 줄에 한 장, 본문 폭을 꽉 채운다(MDX 의 <figure className="post-figure">).
+           비율은 height:auto 로 지켜 왜곡이 없고, 위아래 여백으로 글과 호흡을 둔다. */
+        .blog-prose .post-figure { margin: 32px 0; }
+        .blog-prose .post-figure img {
+          display: block; width: 100%; height: auto; margin: 0; border-radius: 2px;
         }
-        .blog-prose .img-grid.cols-1 { grid-template-columns: minmax(0, 1fr); }
-        .blog-prose .img-grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .blog-prose .img-grid img { width: 100%; height: auto; margin: 0; display: block; border-radius: 2px; }
-        .blog-prose .img-grid.cols-1 img { max-width: 100%; width: auto; margin: 0 auto; }
-        .blog-prose .img-caption {
+        .blog-prose .post-figure figcaption {
           text-align: center; font-size: 13px; line-height: 1.5;
-          color: #7A7670; margin: 0 0 28px;
-        }
-        @media (max-width: 560px) {
-          .blog-prose .img-grid, .blog-prose .img-grid.cols-2 { grid-template-columns: minmax(0, 1fr); }
+          color: #7A7670; margin-top: 10px;
         }
 
         /* 표 — 본문보다 한 단 작게 유지한다(열이 많아 본문 크기로는 넘친다) */
