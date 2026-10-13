@@ -292,4 +292,10 @@ Paradise City houses over 3,000 museum-grade artworks scattered across the prope
 
 ## Summary
 
-* 📍 **Address**: 186, Yeongjonghaeannam-ro
+- 📍 **Address**: 186, Yeongjonghaeannam-ro 321beon-gil, Jung-gu, Incheon, Republic of Korea
+- 🚌 **Free Airport Shuttle**: Every 20–30 mins from Incheon Airport Terminal 1 (1F, Gate 3C/14C) & Terminal 2 (1F, Gate 2A) — approx. 5–15 mins ride
+- ⏰ **Key Operating Hours**:
+  - **Hotel Check-in / Out**: 15:00 / 11:00
+  - **CIMER Spa**: 10:00 – 21:00
+  - **Wonderbox**: 10:00 – 19:00 (Weekdays) / 10:00 – 20:00 (Weekends)
+- 💡 **Best For**: Airport layovers (6+ hours), luxury staycations, and traveling families
