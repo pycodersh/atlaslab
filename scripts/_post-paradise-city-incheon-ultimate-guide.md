@@ -13,6 +13,11 @@ Whether you need a rejuvenating transit stopover or a peaceful multi-day getaway
 ## 1. Getting There: Free Airport Shuttle Bus Guide
 
 <figure className="post-figure">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-map-airport.png" alt="Map of Paradise City and its distance from Incheon Airport Terminal 1 and Terminal 2" loading="lazy" />
+<figcaption>Paradise City and Incheon Airport Terminals 1 and 2: straight-line and road distances (map © OpenStreetMap contributors)</figcaption>
+</figure>
+
+<figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-exterior.jpg" alt="Paradise City hotel exterior at dusk" loading="lazy" />
 <figcaption>Paradise City hotel exterior at dusk</figcaption>
 </figure>
@@ -44,6 +49,11 @@ One of Paradise City's greatest perks for international travelers is its **100% 
 ---
 
 ## 2. Where to Stay: Main Hotel vs. Art Paradiso
+
+<figure className="post-figure">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-lobby.jpg" alt="Paradise City lobby with a giant yellow polka-dot pumpkin sculpture" loading="lazy" />
+<figcaption>Paradise City lobby with a giant yellow polka-dot pumpkin sculpture</figcaption>
+</figure>
 
 Paradise City features two distinct accommodation experiences tailored to different travel styles:
 
