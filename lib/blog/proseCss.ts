@@ -151,6 +151,13 @@ export function proseCss(bodyFont: string): string {
           color: #7A7670; margin-top: 10px;
         }
 
+        /* 제휴 링크 고지 — 글 맨 위에 조용하게 */
+        .blog-prose .post-disclosure {
+          font-size: 13px; line-height: 1.55; color: #7A7670;
+          background: #F7F5F2; border-radius: 2px; padding: 10px 14px; margin: 0 0 28px;
+        }
+        .blog-prose .post-disclosure strong { color: #5C5852; font-weight: 600; }
+
         /* 팁 박스 + 예약 버튼(MDX 의 <div className="tip-box"> 안에 글과 <a className="cta-btn">).
            제휴 링크는 rel="sponsored" 로 표시한다. 좁은 화면에서는 버튼이 가로 전체를 쓴다. */
         .blog-prose .tip-box {
