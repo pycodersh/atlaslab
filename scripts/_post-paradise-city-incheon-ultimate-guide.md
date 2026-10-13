@@ -52,18 +52,18 @@ Paradise City features two distinct accommodation experiences tailored to differ
 * **The Atmosphere**: Grand, bright, and welcoming. Standard Deluxe rooms are noticeably more spacious than average Seoul hotel rooms, featuring king or double beds, walk-in closets, and complimentary soft drinks and beer in the minibar.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-1.jpg" alt="Deluxe room with a king bed and armchair" loading="lazy" />
-<figcaption>Deluxe room with a king bed and armchair</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-1-hd.jpg" alt="Deluxe room with a king bed, sofa and floor-to-ceiling windows" loading="lazy" />
+<figcaption>Deluxe room with a king bed, sofa and floor-to-ceiling windows</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-2.jpg" alt="Deluxe room with a bed and sofa seating area" loading="lazy" />
-<figcaption>Deluxe room with a bed and sofa seating area</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-2-hd.jpg" alt="Guest room with a sofa in the foreground and a king bed beyond" loading="lazy" />
+<figcaption>Guest room with a sofa in the foreground and a king bed beyond</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-3.jpg" alt="Suite living area with a coffee table and TV" loading="lazy" />
-<figcaption>Suite living area with a coffee table and TV</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-3-hd.jpg" alt="Suite living room with a TV and armchairs, bedroom visible through the doors" loading="lazy" />
+<figcaption>Suite living room with a TV and armchairs, bedroom visible through the doors</figcaption>
 </figure>
 
 * **Bathrooms**: Finished in pure white Italian marble, equipped with deep-soaking bathtubs, separate rain showers, and premium amenities.
@@ -126,13 +126,13 @@ Even without booking external spa tickets, hotel guests have complimentary acces
 * **Outdoor Infinity Pool**: A temperature-controlled outdoor pool surrounded by pine trees and sun loungers. Watching international flights take off into the sunset while relaxing in warm water is a signature Paradise City experience.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-1.jpg" alt="Outdoor heated pool at dusk with loungers" loading="lazy" />
-<figcaption>Outdoor heated pool at dusk with loungers</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-1-hd.jpg" alt="Outdoor heated pool at dusk with loungers and cabanas" loading="lazy" />
+<figcaption>Outdoor heated pool at dusk with loungers and cabanas</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-2.jpg" alt="Outdoor pool with sun umbrellas and loungers" loading="lazy" />
-<figcaption>Outdoor pool with sun umbrellas and loungers</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-2-hd.jpg" alt="Aerial view of the Paradise City hotel and outdoor pools at dusk" loading="lazy" />
+<figcaption>Aerial view of the Paradise City hotel and outdoor pools at dusk</figcaption>
 </figure>
 
 ---
