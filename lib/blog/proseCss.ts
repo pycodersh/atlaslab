@@ -144,11 +144,40 @@ export function proseCss(bodyFont: string): string {
         .blog-prose .post-figure { margin: 32px 0; padding: 0; }
         .blog-prose .post-figure img {
           display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover;
-          margin: 0; border-radius: 2px;
+          margin: 0; padding: 0; border: 0; box-shadow: none; border-radius: 2px;
         }
         .blog-prose .post-figure figcaption {
           text-align: center; font-size: 14px; line-height: 1.5;
           color: #7A7670; margin-top: 10px;
+        }
+
+        /* 팁 박스 + 예약 버튼(MDX 의 <div className="tip-box"> 안에 글과 <a className="cta-btn">).
+           제휴 링크는 rel="sponsored" 로 표시한다. 좁은 화면에서는 버튼이 가로 전체를 쓴다. */
+        .blog-prose .tip-box {
+          background: #F7F5F2; border-left: 3px solid #C8102E; border-radius: 2px;
+          padding: 18px 20px 20px; margin: 28px 0;
+        }
+        .blog-prose .tip-box p { margin: 0 0 14px; color: #1F2937; }
+        .blog-prose .tip-box p:last-child { margin-bottom: 0; }
+        .blog-prose .tip-box strong { color: #111; }
+        .blog-prose a.cta-btn {
+          display: inline-block; background: #C8102E; color: #fff; text-decoration: none;
+          font-weight: 600; font-size: 15px; line-height: 1.3; letter-spacing: 0.01em;
+          padding: 12px 22px; border-radius: 6px;
+          transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease;
+        }
+        .blog-prose a.cta-btn:hover {
+          background: #A30D25; color: #fff; transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(200, 16, 46, 0.25);
+        }
+        .blog-prose a.cta-btn:active { transform: translateY(0); box-shadow: none; }
+        .blog-prose a.cta-btn:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
+        @media (max-width: 560px) {
+          .blog-prose a.cta-btn { display: block; text-align: center; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .blog-prose a.cta-btn { transition: none; }
+          .blog-prose a.cta-btn:hover { transform: none; }
         }
 
         /* 표 — 본문보다 한 단 작게 유지한다(열이 많아 본문 크기로는 넘친다) */
