@@ -39,6 +39,18 @@ Paradise City features two distinct accommodation experiences tailored to differ
 * **Best for**: Discerning couples, honeymooners, and design enthusiasts (Ages 19+ only).
 * **The Atmosphere**: European duplex suites with dramatic dark-marble decor, moody ambient lighting, and bespoke butler service. It feels like an exclusive private club tucked inside the larger resort.
 
+### ③ Hyatt Regency Incheon Paradise City (Global Loyalty & Value)
+* **Best for**: World of Hyatt members, extended stays, and value-conscious travelers.
+* **The Atmosphere**: Located right next door and integrated directly into the Paradise City resort complex. It offers 501 refined rooms, including airport runway-view suites and multi-bedroom apartment-style residences with kitchenettes.
+* **Exclusive Guest Perks**:
+  * 🎟️ **50% OFF Cimer Spa & Wonderbox tickets**
+  * 🍽️ **15% OFF select Paradise City dining venues**
+  * Complimentary shuttle connection between terminals and the resort.
+
+> 🎟️ **Compare Room Rates**
+> • `[BUTTON: Check Hyatt Regency on Agoda]`
+> • `[BUTTON: Book Hyatt Regency on Trip.com]`
+
 > 🎟️ **Reserve Your Stay**  
 > Compare live room availability and lowest rates:  
 > • **Check Rates on Agoda** *(Link coming soon)*  
