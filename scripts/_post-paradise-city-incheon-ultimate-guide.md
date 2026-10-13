@@ -91,13 +91,13 @@ Paradise City features two distinct accommodation experiences tailored to differ
   * Complimentary shuttle connection between terminals and the resort.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-exterior.jpg" alt="Hyatt hotel exterior next to Paradise City" loading="lazy" />
-<figcaption>Hyatt hotel exterior next to Paradise City</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-exterior-hd.jpg" alt="Hyatt Regency Incheon next to Paradise City at dusk" loading="lazy" />
+<figcaption>Hyatt Regency Incheon next to Paradise City at dusk</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-room.jpg" alt="Hyatt Regency room with a runway-side view" loading="lazy" />
-<figcaption>Hyatt Regency room with a runway-side view</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-room-hd.jpg" alt="Hyatt Regency room with a king bed and a large picture window" loading="lazy" />
+<figcaption>Hyatt Regency room with a king bed and a large picture window</figcaption>
 </figure>
 
 <div className="tip-box">
