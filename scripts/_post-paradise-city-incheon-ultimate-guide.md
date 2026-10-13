@@ -102,10 +102,11 @@ Paradise City features two distinct accommodation experiences tailored to differ
 > • `[BUTTON: Check Hyatt Regency on Agoda]`
 > • `[BUTTON: Book Hyatt Regency on Trip.com]`
 
-> 🎟️ **Reserve Your Stay**  
-> Compare live room availability and lowest rates:  
-> • **Check Rates on Agoda** *(Link coming soon)*  
-> • **View Deals on Trip.com** *(Link coming soon)*  
+<div className="tip-box">
+
+**Pro-Tip on Room Bookings**: Many room packages include complimentary access to CIMER and Wonderbox for 2 guests. If you book a "Room-Only" rate to save upfront, in-house guests still receive an approximate 30% discount at the door. Check the package details carefully before booking to find the best value for your itinerary.
+
+</div>
 
 ---
 
@@ -155,9 +156,13 @@ Put on the provided loungewear (Jjimjilbok) and explore specialized thermal ther
 * **Wave Dream Room & Relax Lounges**: Zero-gravity reclining armchairs with individual TV monitors.
 * *Must-Try*: Sip a cold cup of sweet Sikhye (식혜) and order slow-baked sauna eggs at the snack bar.
 
-> 🎟️ **Cimer Spa Day Pass**  
-> *(Note: Available to both overnight guests and non-staying day visitors)*  
-> • **Book Cimer Spa Pass on Klook** *(Link coming soon)*  
+<div className="tip-box">
+
+**Visiting CIMER without Staying Overnight?** You don’t need to be a hotel guest to experience CIMER. If you have an Incheon Airport layover (6+ hours) or are visiting on a day trip from Seoul, booking a discounted day pass online in advance guarantees entry and skips ticket booth lines.
+
+<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497066&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F226558-paradise-cimer-spa-incheon-ticket%2F%3Fcampaignid%3D24261382032%26device%3Dc%26loc_physical_ms%3D9220764%26network%3Dx%26gad_campaignid%3D24272442907" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Get CIMER Spa Day Pass (Instant Confirmation)</a>
+
+</div>
 
 ---
 
@@ -189,8 +194,13 @@ Traveling with kids or young-at-heart companions? **Wonderbox** is a family-orie
 * **Carnival Games**: Try classic balloon darts and hoop tossing to win oversized plush toys.
 * **Daily Performances**: Acrobats, stilt walkers, and masquerade dancers roam the floor throughout the day.
 
-> 🎟️ **Wonderbox Tickets**  
-> • **Get Wonderbox Admission Pass on Klook** *(Link coming soon)*  
+<div className="tip-box">
+
+**Wonderbox Access Guide**: While hotel guests without inclusive packages receive a 30% discount at the ticket counter, visitors coming solely for Wonderbox and the Plaza dining area can secure advance discounted admission online.
+
+<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497074&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F24620-paradise-city-theme-park-wonderbox-ticket-incheon%2F%3Fcampaignid%3D23585194543%26adgroupid%3D196179857169%26targetid%3Ddsa-2532931825917%26device%3Dc%26creative%3D797846915447%26loc_physical_ms%3D9220764%26network%3Dg%26gad_campaignid%3D23585194543" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Book Wonderbox Entry Ticket</a>
+
+</div>
 
 ---
 
