@@ -51,10 +51,25 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 - **Best For**: Couples, solo wellness travelers, and guests prioritizing a calm, restorative retreat.
 - **Location**: Closest to the Splash Bay indoor water dome entrance.
 
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-5.jpg" alt="Forest Tower suite at Mohegan INSPIRE: living area with a sofa and dining table" loading="lazy" />
+<figcaption>Forest Tower suite at Mohegan INSPIRE: living area with a sofa and dining table</figcaption>
+</figure>
+
 ### 2. Sun Tower (Modern Elegance & Energy)
 - **Atmosphere**: Bold, radiant amber palettes, warm bronze metallic accents, and sleek stone tiling.
 - **Best For**: Trendsetters, design enthusiasts, and business travelers looking for dynamic, stylish accommodations.
 - **Location**: Perfectly centered between the main casino, Aurora digital street, and signature dining venues.
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-1.jpg" alt="Sun Tower guest room at Mohegan INSPIRE" loading="lazy" />
+<figcaption>Sun Tower guest room at Mohegan INSPIRE</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-bathroom.jpg" alt="Sun Tower bathroom with a freestanding tub, gold-and-marble tile wall and double vanity" loading="lazy" />
+<figcaption>Sun Tower bathroom with a freestanding tub, gold-and-marble tile wall and double vanity</figcaption>
+</figure>
 
 ### 3. Ocean Tower (Coastal Serenity & Business Access)
 - **Atmosphere**: Cool coastal blues, crisp airy lines, and sweeping panoramic views facing the West Sea and airport runways.
@@ -62,28 +77,13 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 - **Location**: Direct elevator links to INSPIRE’s primary ballrooms and convention center.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-1.jpg" alt="Guest room at Mohegan INSPIRE with a king bed and a purple chaise lounge" loading="lazy" />
-<figcaption>Guest room at Mohegan INSPIRE with a king bed and a purple chaise lounge</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-room.jpg" alt="Ocean Tower Deluxe room at Mohegan INSPIRE with a king bed and a large window" loading="lazy" />
+<figcaption>Ocean Tower Deluxe room at Mohegan INSPIRE with a king bed and a large window</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-bathroom.jpg" alt="Guest bathroom at Mohegan INSPIRE with a freestanding tub, gold-and-marble tile wall and a double vanity" loading="lazy" />
-<figcaption>Guest bathroom at Mohegan INSPIRE: freestanding tub, gold-and-marble tile wall, and a double vanity</figcaption>
-</figure>
-
-<figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-room.jpg" alt="Guest room at Mohegan INSPIRE with a king bed, a blue-striped headboard wall and a large window" loading="lazy" />
-<figcaption>Guest room at Mohegan INSPIRE: king bed, striped headboard wall, and a large window</figcaption>
-</figure>
-
-<figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-4.jpg" alt="Guest room work desk beside a wide window facing the hills" loading="lazy" />
-<figcaption>Guest room work desk beside a wide window facing the hills</figcaption>
-</figure>
-
-<figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-5.jpg" alt="Suite living area with a sofa, dining table and sea view" loading="lazy" />
-<figcaption>Suite living area with a sofa, dining table and sea view</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-4.jpg" alt="Ocean Tower Deluxe room: work desk beside a wide window" loading="lazy" />
+<figcaption>Ocean Tower Deluxe room: work desk beside a wide window</figcaption>
 </figure>
 
 <div className="tip-box">
@@ -112,23 +112,23 @@ Even if you are only stopping by on a quick layover without booking an overnight
 - Moving rhythmically up and down, the kinetic panels transform into dynamic floral and geometric forms every hour at the half-hour mark.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-1.jpg" alt="Aurora LED canopy showing an underwater scene with swimming marine animals" loading="lazy" />
-<figcaption>Aurora LED canopy showing an underwater scene with swimming marine animals</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-1.jpg" alt="Aurora digital street: an underwater scene on the LED canopy" loading="lazy" />
+<figcaption>Aurora digital street: an underwater scene on the LED canopy</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-2.jpg" alt="Aurora LED ceiling and walls in an aqua-blue wave scene" loading="lazy" />
-<figcaption>Aurora LED ceiling and walls in an aqua-blue wave scene</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-2.jpg" alt="Aurora digital street: an aqua-blue wave scene on the LED ceiling and walls" loading="lazy" />
+<figcaption>Aurora digital street: an aqua-blue wave scene on the LED ceiling and walls</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g3-aurora.jpg" alt="Aurora digital street with a curved LED canopy showing an immersive blue forest scene" loading="lazy" />
-<figcaption>Aurora: the 150-meter curved LED canopy overhead, here showing an immersive blue forest scene</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g3-aurora.jpg" alt="Aurora digital street: an immersive blue forest scene on the 150-meter LED canopy" loading="lazy" />
+<figcaption>Aurora digital street: an immersive blue forest scene on the 150-meter LED canopy</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-4.jpg" alt="A playful animated scene on the LED ceiling above Aurora’s shopfronts" loading="lazy" />
-<figcaption>A playful animated scene on the LED ceiling above Aurora’s shopfronts</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-4.jpg" alt="Aurora digital street: a playful animated scene above the shopfronts" loading="lazy" />
+<figcaption>Aurora digital street: a playful animated scene above the shopfronts</figcaption>
 </figure>
 
 ---
@@ -173,18 +173,18 @@ A tropical paradise sheltered beneath a glass-domed architectural pavilion:
 - **Seasonal Operations**: Operates in controlled morning and afternoon sessions to ensure guest comfort and water cleanliness. (Swim caps or baseball hats are strictly required).
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-1.jpg" alt="Splash Bay indoor water dome: the main pool and stage under a glass roof" loading="lazy" />
-<figcaption>Splash Bay indoor water dome: the main pool and stage under a glass roof</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-1.jpg" alt="Splash Bay: the main pool and stage under the glass dome" loading="lazy" />
+<figcaption>Splash Bay: the main pool and stage under the glass dome</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-2.jpg" alt="Splash Bay from above: pool, cabanas and loungers" loading="lazy" />
-<figcaption>Splash Bay from above: pool, cabanas and loungers</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-2.jpg" alt="Splash Bay: pools, cabanas and loungers seen from above" loading="lazy" />
+<figcaption>Splash Bay: pools, cabanas and loungers seen from above</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-3.jpg" alt="Splash Bay water slides and pools inside the dome" loading="lazy" />
-<figcaption>Splash Bay water slides and pools inside the dome</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-3.jpg" alt="Splash Bay: water slides and pools inside the dome" loading="lazy" />
+<figcaption>Splash Bay: water slides and pools inside the dome</figcaption>
 </figure>
 
 ### Le Space (Galaxy-Themed Immersive Exhibition)
@@ -193,13 +193,13 @@ Curated by Hyundai Department Store Group, **Le Space** is Korea’s largest int
 - **Ideal For**: Layover travelers, photography enthusiasts, and families looking for a rainproof, climate-controlled adventure.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-4.jpg" alt="Entrance of the Le Space immersive exhibition, styled as a spaceship boarding gate" loading="lazy" />
-<figcaption>Entrance of the Le Space immersive exhibition, styled as a spaceship boarding gate</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-4.jpg" alt="Le Space: the spaceship-style entrance" loading="lazy" />
+<figcaption>Le Space: the spaceship-style entrance</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g5-le-space.jpg" alt="A visitor standing in front of a glowing sphere inside the Le Space immersive digital art exhibition" loading="lazy" />
-<figcaption>Immersive interactive digital art exhibition at Le Space</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g5-le-space.jpg" alt="Le Space: an immersive projection room with a glowing sphere" loading="lazy" />
+<figcaption>Le Space: an immersive projection room with a glowing sphere</figcaption>
 </figure>
 
 <div className="tip-box">
