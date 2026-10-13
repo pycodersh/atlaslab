@@ -62,6 +62,11 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 - **Location**: Direct elevator links to INSPIRE’s primary ballrooms and convention center.
 
 <figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-1.jpg" alt="Guest room at Mohegan INSPIRE with a king bed and a purple chaise lounge" loading="lazy" />
+<figcaption>Guest room at Mohegan INSPIRE with a king bed and a purple chaise lounge</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-bathroom.jpg" alt="Guest bathroom at Mohegan INSPIRE with a freestanding tub, gold-and-marble tile wall and a double vanity" loading="lazy" />
 <figcaption>Guest bathroom at Mohegan INSPIRE: freestanding tub, gold-and-marble tile wall, and a double vanity</figcaption>
 </figure>
@@ -69,6 +74,16 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 <figure className="post-figure post-figure-auto">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-room.jpg" alt="Guest room at Mohegan INSPIRE with a king bed, a blue-striped headboard wall and a large window" loading="lazy" />
 <figcaption>Guest room at Mohegan INSPIRE: king bed, striped headboard wall, and a large window</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-4.jpg" alt="Guest room work desk beside a wide window facing the hills" loading="lazy" />
+<figcaption>Guest room work desk beside a wide window facing the hills</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-5.jpg" alt="Suite living area with a sofa, dining table and sea view" loading="lazy" />
+<figcaption>Suite living area with a sofa, dining table and sea view</figcaption>
 </figure>
 
 <div className="tip-box">
@@ -97,8 +112,23 @@ Even if you are only stopping by on a quick layover without booking an overnight
 - Moving rhythmically up and down, the kinetic panels transform into dynamic floral and geometric forms every hour at the half-hour mark.
 
 <figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-1.jpg" alt="Aurora LED canopy showing an underwater scene with swimming marine animals" loading="lazy" />
+<figcaption>Aurora LED canopy showing an underwater scene with swimming marine animals</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-2.jpg" alt="Aurora LED ceiling and walls in an aqua-blue wave scene" loading="lazy" />
+<figcaption>Aurora LED ceiling and walls in an aqua-blue wave scene</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g3-aurora.jpg" alt="Aurora digital street with a curved LED canopy showing an immersive blue forest scene" loading="lazy" />
 <figcaption>Aurora: the 150-meter curved LED canopy overhead, here showing an immersive blue forest scene</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-4.jpg" alt="A playful animated scene on the LED ceiling above Aurora’s shopfronts" loading="lazy" />
+<figcaption>A playful animated scene on the LED ceiling above Aurora’s shopfronts</figcaption>
 </figure>
 
 ---
@@ -112,12 +142,20 @@ For decades, international K-POP fans suffered through cold outdoor sports stadi
 - **Acoustic Precision**: State-of-the-art Meyer Sound line-array audio systems minimize structural reverb and deliver pristine vocal clarity.
 - **Indoor Pre-Show Comfort**: Instead of waiting outside in freezing winter winds or summer humidity, concertgoers can wait in climate-controlled indoor shopping boulevards with direct access to restrooms, cafes, and restaurants.
 
-{/* TODO(image): INSPIRE Arena photo — the prepared "4-4" file was not found. Insert here:
 <figure className="post-figure post-figure-auto">
-<img src="" alt="INSPIRE Arena interior and stage" loading="lazy" />
-<figcaption>Korea's first multi-purpose live entertainment venue, INSPIRE Arena (15,000 capacity)</figcaption>
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-0.jpg" alt="INSPIRE Arena exterior at dusk" loading="lazy" />
+<figcaption>INSPIRE Arena exterior at dusk</figcaption>
 </figure>
-*/}
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-1.jpg" alt="A large-scale K-POP awards show stage with a packed arena crowd" loading="lazy" />
+<figcaption>A large-scale K-POP awards show stage with a packed arena crowd</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-2.jpg" alt="A K-POP concert crowd lit in red under a full stage production" loading="lazy" />
+<figcaption>A K-POP concert crowd lit in red under a full stage production</figcaption>
+</figure>
 
 <div className="tip-box">
 
@@ -134,10 +172,30 @@ A tropical paradise sheltered beneath a glass-domed architectural pavilion:
 - **Features**: A lazy river meandering around towering palms, exhilarating water slide complexes, and private luxury cabanas.
 - **Seasonal Operations**: Operates in controlled morning and afternoon sessions to ensure guest comfort and water cleanliness. (Swim caps or baseball hats are strictly required).
 
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-1.jpg" alt="Splash Bay indoor water dome: the main pool and stage under a glass roof" loading="lazy" />
+<figcaption>Splash Bay indoor water dome: the main pool and stage under a glass roof</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-2.jpg" alt="Splash Bay from above: pool, cabanas and loungers" loading="lazy" />
+<figcaption>Splash Bay from above: pool, cabanas and loungers</figcaption>
+</figure>
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-3.jpg" alt="Splash Bay water slides and pools inside the dome" loading="lazy" />
+<figcaption>Splash Bay water slides and pools inside the dome</figcaption>
+</figure>
+
 ### Le Space (Galaxy-Themed Immersive Exhibition)
 Curated by Hyundai Department Store Group, **Le Space** is Korea’s largest interactive experiential digital art space (spanning over 6,000 square meters):
 - **18 Themed Galactic Zones**: Visitors journey through black holes, uncharted alien planets, and vibrant light ecosystems powered by advanced motion sensors, kinetic lights, and olfactory scents.
 - **Ideal For**: Layover travelers, photography enthusiasts, and families looking for a rainproof, climate-controlled adventure.
+
+<figure className="post-figure post-figure-auto">
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-4.jpg" alt="Entrance of the Le Space immersive exhibition, styled as a spaceship boarding gate" loading="lazy" />
+<figcaption>Entrance of the Le Space immersive exhibition, styled as a spaceship boarding gate</figcaption>
+</figure>
 
 <figure className="post-figure post-figure-auto">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g5-le-space.jpg" alt="A visitor standing in front of a glowing sphere inside the Le Space immersive digital art exhibition" loading="lazy" />
