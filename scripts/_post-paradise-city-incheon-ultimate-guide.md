@@ -38,11 +38,11 @@ One of Paradise City's greatest perks for international travelers is its **100% 
 * **Terminal 1 (T1)**: 
   * Location: **1st Floor (Arrival Hall), Gate 3C or Gate 14C**
   * Frequency: Departs every **30 minutes** (Approx. 05:40 – 23:00)
-  * Travel Time: **Around 3 to 5 minutes**
+  * Travel Time: **Approx. 5–10 mins ride**
 * **Terminal 2 (T2)**: 
   * Location: **1st Floor (Arrival Hall), Gate 2A**
   * Frequency: Departs every **30 to 60 minutes**
-  * Travel Time: **Around 15 to 20 minutes**
+  * Travel Time: **Approx. 15–20 mins ride** (requires bypassing the runway, ~13.3 km)
 
 > **💡 Traveler Tip:** You do not need to show a booking voucher or ticket to board the shuttle. Simply line up at the designated stop and step aboard with your luggage. If you are taking the Incheon Airport Maglev, get off directly at **Paradise City Station**.
 
@@ -293,7 +293,7 @@ Paradise City houses over 3,000 museum-grade artworks scattered across the prope
 ## Summary
 
 - 📍 **Address**: 186, Yeongjonghaeannam-ro 321beon-gil, Jung-gu, Incheon, Republic of Korea
-- 🚌 **Free Airport Shuttle**: Every 20–30 mins from Incheon Airport Terminal 1 (1F, Gate 3C/14C) & Terminal 2 (1F, Gate 2A) — approx. 5–15 mins ride
+- 🚌 **Free Airport Shuttle**: Every 20–30 mins from Incheon Airport Terminal 1 (1F, Gate 3C/14C) & Terminal 2 (1F, Gate 2A) — approx. 5–10 mins ride from T1 and 15–20 mins ride from T2 (T2 requires bypassing the runway, ~13.3 km)
 - ⏰ **Key Operating Hours**:
   - **Hotel Check-in / Out**: 15:00 / 11:00
   - **CIMER Spa**: 10:00 – 21:00
