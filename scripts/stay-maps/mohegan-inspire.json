@@ -1,0 +1,9 @@
+{
+  "output": "map-preview/mohegan-inspire-osm-map.png",
+  "hotel": { "name": "Mohegan INSPIRE", "sub": "Entertainment resort", "query": "Inspire Entertainment Resort, Incheon" },
+  "landmarks": [
+    { "name": "Incheon Airport T1", "lat": 37.44957, "lon": 126.45212, "mode": "drive" },
+    { "name": "Incheon Airport T2", "lat": 37.46847, "lon": 126.43474, "mode": "drive" },
+    { "name": "Paradise City", "lat": 37.43702, "lon": 126.45673, "mode": "drive" }
+  ]
+}
