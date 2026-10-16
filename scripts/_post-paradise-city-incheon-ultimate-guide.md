@@ -114,9 +114,9 @@ Paradise City features two distinct accommodation experiences tailored to differ
 
 **Pro-Tip on Room Bookings**: Many room packages include complimentary access to CIMER and Wonderbox for 2 guests. If you book a "Room-Only" rate to save upfront, in-house guests still receive an approximate 30% discount at the door. Check the package details carefully before booking to find the best value for your itinerary.
 
-<a href="https://www.trip.com/t/d0jPwqYrlW2" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check Lowest Room Rates on Trip.com</a>
+<a href="https://www.trip.com/t/d0jPwqYrlW2" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check Real-time Rates on Trip.com</a>
 
-<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1503551&k_site=https%3A%2F%2Fwww.klook.com%2Fko%2Fhotels%2F272152%3F" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check Special Packages on Klook</a>
+<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1503551&k_site=https%3A%2F%2Fwww.klook.com%2Fko%2Fhotels%2F272152%3F" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">View Special Packages on Klook</a>
 
 </div>
 
