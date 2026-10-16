@@ -184,8 +184,12 @@ export function proseCss(bodyFont: string): string {
         }
         .blog-prose a.cta-btn:active { transform: translateY(0); box-shadow: none; }
         .blog-prose a.cta-btn:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
+        /* 팁 박스 안의 버튼은 한 줄에 하나씩 쌓고, 버튼 사이에 간격을 둔다 */
+        .blog-prose .tip-box a.cta-btn { display: table; margin: 0; }
+        .blog-prose .tip-box a.cta-btn + a.cta-btn { margin-top: 12px; }
         @media (max-width: 560px) {
           .blog-prose a.cta-btn { display: block; text-align: center; }
+          .blog-prose .tip-box a.cta-btn { display: block; }
         }
         @media (prefers-reduced-motion: reduce) {
           .blog-prose a.cta-btn { transition: none; }
