@@ -153,6 +153,8 @@ export function proseCss(bodyFont: string): string {
         /* 원본 비율 유지판(MDX 의 className="post-figure post-figure-auto") — 16:9 로 자르지 않는다.
            폭은 그대로 본문 100%, 높이는 원본 비율대로 auto. 세로·파노라마 사진에 쓴다. */
         .blog-prose .post-figure-auto img { aspect-ratio: auto; object-fit: fill; height: auto; }
+        /* 세로로 긴 사진(콜라주·옷 사진)은 본문 폭으로 키우면 한 화면을 넘어서 폭을 줄여 가운데 둔다. */
+        .blog-prose .post-figure-narrow { max-width: 520px; margin-left: auto; margin-right: auto; }
 
         /* 제휴 링크 고지 — 글 맨 위에 조용하게 */
         .blog-prose .post-disclosure {
