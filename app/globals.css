@@ -1132,3 +1132,15 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
     border-radius: 8px;
   }
 }
+
+/* ── Google Translate(무료 자동 번역) 기본 UI 숨김 ───────────────────────────
+   번역하면 위쪽 배너 프레임·툴팁·강조색이 붙어 레이아웃이 밀리거나 깜빡인다. 번역 결과만 남긴다. */
+.goog-te-banner-frame, .goog-te-banner-frame.skiptranslate, iframe.skiptranslate,
+#goog-gt-tt, .goog-tooltip, .goog-te-balloon-frame, .goog-te-gadget-icon,
+#google_translate_element, .VIpgJd-ZVi9od-aZ2wEe-wOHMyf, .VIpgJd-ZVi9od-ORHb-OEVmcd {
+  display: none !important;
+  visibility: hidden !important;
+}
+.goog-tooltip:hover { display: none !important; }
+.goog-text-highlight { background: none !important; box-shadow: none !important; }
+body { top: 0 !important; position: static !important; }

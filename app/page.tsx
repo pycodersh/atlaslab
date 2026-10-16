@@ -733,7 +733,7 @@ export default async function AtlasLabHome() {
       {/* ── Hero ── */}
       <section className="hero">
         <div className="hero-text">
-          <p className="hero-eyebrow">Atlas Lab</p>
+          <p className="hero-eyebrow notranslate" translate="no">Atlas Lab</p>
           <h1 className="hero-h1">Smart Tools and Deep Insights for Your Everyday Growth.</h1>
           <p className="hero-desc">From language learning and career navigation to everyday culture—explore interactive apps built to build real skills.</p>
           <ExploreAppsButton>Explore our apps</ExploreAppsButton>
@@ -760,7 +760,7 @@ export default async function AtlasLabHome() {
                     {APP_ICONS[p.name]}
                   </div>
                   {/* Name + description (flex: 1 pushes badge+btn to bottom) */}
-                  <div className="pname">{p.name}</div>
+                  <div className="pname notranslate" translate="no">{p.name}</div>
                   <div className={`paud${p.tag === 'Soon' ? ' paud-soon' : ''}`}>
                     {p.audience}
                   </div>

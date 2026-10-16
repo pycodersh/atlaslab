@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { MODAL_APPS, NAV_APPS } from '@/lib/apps'
+import { LanguageSelector } from '@/components/LanguageSelector'
 
 /**
  * Site-wide navigation bar.
@@ -260,7 +261,7 @@ export function SiteNav() {
                       className="nav-apps-item"
                       onClick={closeApps}
                     >
-                      <span className="nav-apps-name">{app.name}</span>
+                      <span className="nav-apps-name notranslate" translate="no">{app.name}</span>
                       <span className="nav-apps-desc">{app.blurb}</span>
                     </Link>
                   ))}
@@ -270,6 +271,7 @@ export function SiteNav() {
 
             <Link href="/blog"  className="site-nav-link">Articles</Link>
             <Link href="/about" className="site-nav-link">About</Link>
+            <LanguageSelector />
           </div>
 
           <button
@@ -311,7 +313,7 @@ export function SiteNav() {
                   onClick={() => setModalOpen(false)}
                 >
                   <span>
-                    <span className="cyp-card-name">{app.name}</span>
+                    <span className="cyp-card-name notranslate" translate="no">{app.name}</span>
                     <span className="cyp-card-desc">{app.blurb}</span>
                   </span>
                   <span className="cyp-card-arrow" aria-hidden="true">→</span>
