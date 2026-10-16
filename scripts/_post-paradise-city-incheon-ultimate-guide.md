@@ -116,6 +116,8 @@ Paradise City features two distinct accommodation experiences tailored to differ
 
 <a href="https://www.trip.com/t/d0jPwqYrlW2" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check Room Rates & Availability</a>
 
+<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1503551&k_site=https%3A%2F%2Fwww.klook.com%2Fko%2Fhotels%2F272152%3F" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check Hotel Deals on Klook</a>
+
 </div>
 
 ---
