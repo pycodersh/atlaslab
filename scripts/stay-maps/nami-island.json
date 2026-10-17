@@ -1,0 +1,8 @@
+{
+  "output": "map-preview/nami-island-osm-map.png",
+  "hotel": { "name": "Nami Island", "sub": "Ferry from Gapyeong Wharf", "lat": 37.7925, "lon": 127.5255 },
+  "landmarks": [
+    { "name": "Yongsan Station", "lat": 37.52987, "lon": 126.96477, "mode": "drive" },
+    { "name": "Cheongnyangni Station", "lat": 37.58000, "lon": 127.04750, "mode": "drive" }
+  ]
+}
