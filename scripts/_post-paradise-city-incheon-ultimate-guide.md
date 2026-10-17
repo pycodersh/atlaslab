@@ -13,22 +13,22 @@ Whether you need a rejuvenating transit stopover or a peaceful multi-day getaway
 ## 1. Getting There: Free Airport Shuttle Bus Guide
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-map-airport.png" alt="Map of Paradise City and its distance from Incheon Airport Terminal 1 and Terminal 2" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-map-airport.webp" alt="Map of Paradise City and its distance from Incheon Airport Terminal 1 and Terminal 2" loading="lazy" />
 <figcaption>Paradise City and Incheon Airport Terminals 1 and 2: straight-line and road distances (map © OpenStreetMap contributors)</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-exterior.jpg" alt="Paradise City hotel exterior at dusk" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-exterior.webp" alt="Paradise City hotel exterior at dusk" loading="lazy" />
 <figcaption>Paradise City hotel exterior at dusk</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-bus.jpg" alt="Paradise City free shuttle bus at Incheon Airport" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-bus.webp" alt="Paradise City free shuttle bus at Incheon Airport" loading="lazy" />
 <figcaption>Paradise City free shuttle bus at Incheon Airport</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-sign.jpg" alt="Free shuttle bus stop sign at Incheon Airport" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-sign.webp" alt="Free shuttle bus stop sign at Incheon Airport" loading="lazy" />
 <figcaption>Free shuttle bus stop sign at Incheon Airport</figcaption>
 </figure>
 
@@ -51,7 +51,7 @@ One of Paradise City's greatest perks for international travelers is its **100% 
 ## 2. Where to Stay: Main Hotel vs. Art Paradiso
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-lobby.jpg" alt="Paradise City lobby with a giant yellow polka-dot pumpkin sculpture" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-lobby.webp" alt="Paradise City lobby with a giant yellow polka-dot pumpkin sculpture" loading="lazy" />
 <figcaption>Paradise City lobby with a giant yellow polka-dot pumpkin sculpture</figcaption>
 </figure>
 
@@ -62,24 +62,24 @@ Paradise City features two distinct accommodation experiences tailored to differ
 * **The Atmosphere**: Grand, bright, and welcoming. Standard Deluxe rooms are noticeably more spacious than average Seoul hotel rooms, featuring king or double beds, walk-in closets, and complimentary soft drinks and beer in the minibar.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-1-hd.jpg" alt="Deluxe room with a king bed, sofa and floor-to-ceiling windows" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-1-hd.webp" alt="Deluxe room with a king bed, sofa and floor-to-ceiling windows" loading="lazy" />
 <figcaption>Deluxe room with a king bed, sofa and floor-to-ceiling windows</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-2-hd.jpg" alt="Guest room with a sofa in the foreground and a king bed beyond" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-2-hd.webp" alt="Guest room with a sofa in the foreground and a king bed beyond" loading="lazy" />
 <figcaption>Guest room with a sofa in the foreground and a king bed beyond</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-3-hd.jpg" alt="Suite living room with a TV and armchairs, bedroom visible through the doors" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-3-hd.webp" alt="Suite living room with a TV and armchairs, bedroom visible through the doors" loading="lazy" />
 <figcaption>Suite living room with a TV and armchairs, bedroom visible through the doors</figcaption>
 </figure>
 
 * **Bathrooms**: Finished in pure white Italian marble, equipped with deep-soaking bathtubs, separate rain showers, and premium amenities.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g3-bathroom.jpg" alt="Luxury marble bathroom with deep-soaking bathtub" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g3-bathroom.webp" alt="Luxury marble bathroom with deep-soaking bathtub" loading="lazy" />
 <figcaption>Luxury marble bathroom with deep-soaking bathtub</figcaption>
 </figure>
 
@@ -88,7 +88,7 @@ Paradise City features two distinct accommodation experiences tailored to differ
 * **The Atmosphere**: European duplex suites with dramatic dark-marble decor, moody ambient lighting, and bespoke butler service. It feels like an exclusive private club tucked inside the larger resort.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g4-art-paradiso-hd.jpg" alt="Art Paradiso European-style luxury duplex suite" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g4-art-paradiso-hd.webp" alt="Art Paradiso European-style luxury duplex suite" loading="lazy" />
 <figcaption>Art Paradiso European-style luxury duplex suite</figcaption>
 </figure>
 
@@ -101,12 +101,12 @@ Paradise City features two distinct accommodation experiences tailored to differ
   * Complimentary shuttle connection between terminals and the resort.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-exterior-hd.jpg" alt="Hyatt Regency Incheon next to Paradise City at dusk" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-exterior-hd.webp" alt="Hyatt Regency Incheon next to Paradise City at dusk" loading="lazy" />
 <figcaption>Hyatt Regency Incheon next to Paradise City at dusk</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-room-hd.jpg" alt="Hyatt Regency room with a king bed and a large picture window" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g5-hyatt-room-hd.webp" alt="Hyatt Regency room with a king bed and a large picture window" loading="lazy" />
 <figcaption>Hyatt Regency room with a king bed and a large picture window</figcaption>
 </figure>
 
@@ -129,19 +129,19 @@ Even without booking external spa tickets, hotel guests have complimentary acces
 * **Indoor Swimming Pool**: Bathed in natural sunlight from an expansive glass ceiling, complete with private daybeds, heated whirlpool jacuzzis, and a shallow children's wading zone.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g6-indoor-pool.jpg" alt="Sunlit luxury indoor swimming pool and daybeds" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g6-indoor-pool.webp" alt="Sunlit luxury indoor swimming pool and daybeds" loading="lazy" />
 <figcaption>Sunlit luxury indoor swimming pool and daybeds</figcaption>
 </figure>
 
 * **Outdoor Infinity Pool**: A temperature-controlled outdoor pool surrounded by pine trees and sun loungers. Watching international flights take off into the sunset while relaxing in warm water is a signature Paradise City experience.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-1-hd.jpg" alt="Outdoor heated pool at dusk with loungers and cabanas" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-1-hd.webp" alt="Outdoor heated pool at dusk with loungers and cabanas" loading="lazy" />
 <figcaption>Outdoor heated pool at dusk with loungers and cabanas</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-2-hd.jpg" alt="Aerial view of the Paradise City hotel and outdoor pools at dusk" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g7-outdoor-2-hd.webp" alt="Aerial view of the Paradise City hotel and outdoor pools at dusk" loading="lazy" />
 <figcaption>Aerial view of the Paradise City hotel and outdoor pools at dusk</figcaption>
 </figure>
 
@@ -152,7 +152,7 @@ Even without booking external spa tickets, hotel guests have complimentary acces
 If there is one facility you cannot miss, it is **Cimer**. Unlike typical public baths, Cimer is an upscale, Instagram-worthy wellness facility divided into two major zones:
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g8-cimer-hd.jpg" alt="CIMER indoor aqua spa pool hall with arched walls and a glass roof" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g8-cimer-hd.webp" alt="CIMER indoor aqua spa pool hall with arched walls and a glass roof" loading="lazy" />
 <figcaption>CIMER indoor aqua spa pool hall with arched walls and a glass roof</figcaption>
 </figure>
 
@@ -183,22 +183,22 @@ Put on the provided loungewear (Jjimjilbok) and explore specialized thermal ther
 Traveling with kids or young-at-heart companions? **Wonderbox** is a family-oriented indoor amusement park designed around the aesthetic of a mythical nocturnal carnival.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-1.jpg" alt="Wonderbox building lit up at night" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-1.webp" alt="Wonderbox building lit up at night" loading="lazy" />
 <figcaption>Wonderbox building lit up at night</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-2.jpg" alt="Carnival game stalls inside Wonderbox" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-2.webp" alt="Carnival game stalls inside Wonderbox" loading="lazy" />
 <figcaption>Carnival game stalls inside Wonderbox</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-3.jpg" alt="Bumper cars on a red floor inside Wonderbox" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-3.webp" alt="Bumper cars on a red floor inside Wonderbox" loading="lazy" />
 <figcaption>Bumper cars on a red floor inside Wonderbox</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-4.jpg" alt="Giant tree slide and carnival set inside Wonderbox" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-4.webp" alt="Giant tree slide and carnival set inside Wonderbox" loading="lazy" />
 <figcaption>Giant tree slide and carnival set inside Wonderbox</figcaption>
 </figure>
 
@@ -219,12 +219,12 @@ Traveling with kids or young-at-heart companions? **Wonderbox** is a family-orie
 ## 6. Paradise Casino: Korea's Premier Gaming Destination
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-1-hd.jpg" alt="Paradise Casino entrance with a crystal curtain and a large video screen" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-1-hd.webp" alt="Paradise Casino entrance with a crystal curtain and a large video screen" loading="lazy" />
 <figcaption>Paradise Casino entrance with a crystal curtain and a large video screen</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-2-hd.jpg" alt="Slot machine area inside Paradise Casino under chandeliers" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g10-casino-2-hd.webp" alt="Slot machine area inside Paradise Casino under chandeliers" loading="lazy" />
 <figcaption>Slot machine area inside Paradise Casino under chandeliers</figcaption>
 </figure>
 
@@ -251,17 +251,17 @@ Designed with sophisticated luxury inspired by classic European gaming salons, i
 At the core of the resort lies **The Plaza**, a grand sunlit indoor piazza connecting the hotel towers to the entertainment hubs.
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-1.jpg" alt="The Plaza with a large bronze sculpture and market stalls" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-1.webp" alt="The Plaza with a large bronze sculpture and market stalls" loading="lazy" />
 <figcaption>The Plaza with a large bronze sculpture and market stalls</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-2.jpg" alt="The Plaza seen from above with a seasonal market" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-2.webp" alt="The Plaza seen from above with a seasonal market" loading="lazy" />
 <figcaption>The Plaza seen from above with a seasonal market</figcaption>
 </figure>
 
 <figure className="post-figure">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-3.jpg" alt="A live performance in front of stone arches at The Plaza" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g11-plaza-3.webp" alt="A live performance in front of stone arches at The Plaza" loading="lazy" />
 <figcaption>A live performance in front of stone arches at The Plaza</figcaption>
 </figure>
 

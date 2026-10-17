@@ -11,17 +11,17 @@ Whether you are flying into Korea for a major K-POP concert or award show, looki
 ## 1. Getting There: Free Airport Shuttle Bus Guide & Route Map
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-map-airport.png" alt="Map of Mohegan INSPIRE Entertainment Resort and its distance from Incheon Airport Terminal 1, Terminal 2 and Paradise City" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-map-airport.webp" alt="Map of Mohegan INSPIRE Entertainment Resort and its distance from Incheon Airport Terminal 1, Terminal 2 and Paradise City" loading="lazy" />
 <figcaption>Mohegan INSPIRE Entertainment Resort and Incheon Airport Terminals 1 &amp; 2: straight-line and road distances (map © OpenStreetMap contributors)</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g1-exterior.jpg" alt="Mohegan INSPIRE Entertainment Resort hotel towers and the entrance roundabout" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g1-exterior.webp" alt="Mohegan INSPIRE Entertainment Resort hotel towers and the entrance roundabout" loading="lazy" />
 <figcaption>Mohegan INSPIRE Entertainment Resort: hotel towers and the main entrance</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g1-shuttle.jpg" alt="INSPIRE shuttle bus schedule sign for Incheon Airport Terminal 1 and the INSPIRE shuttle bus at the curb" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g1-shuttle.webp" alt="INSPIRE shuttle bus schedule sign for Incheon Airport Terminal 1 and the INSPIRE shuttle bus at the curb" loading="lazy" />
 <figcaption>The INSPIRE shuttle schedule sign (Terminal 1 to INSPIRE) and the INSPIRE shuttle bus at Incheon Airport Terminal 1</figcaption>
 </figure>
 
@@ -52,7 +52,7 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 - **Location**: Closest to the Splash Bay indoor water dome entrance.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-5.jpg" alt="Forest Tower suite at Mohegan INSPIRE: living area with a sofa and dining table" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-5.webp" alt="Forest Tower suite at Mohegan INSPIRE: living area with a sofa and dining table" loading="lazy" />
 <figcaption>Forest Tower suite at Mohegan INSPIRE: living area with a sofa and dining table</figcaption>
 </figure>
 
@@ -62,12 +62,12 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 - **Location**: Perfectly centered between the main casino, Aurora digital street, and signature dining venues.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-1.jpg" alt="Sun Tower guest room at Mohegan INSPIRE" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-1.webp" alt="Sun Tower guest room at Mohegan INSPIRE" loading="lazy" />
 <figcaption>Sun Tower guest room at Mohegan INSPIRE</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-bathroom.jpg" alt="Sun Tower bathroom with a freestanding tub, gold-and-marble tile wall and double vanity" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-bathroom.webp" alt="Sun Tower bathroom with a freestanding tub, gold-and-marble tile wall and double vanity" loading="lazy" />
 <figcaption>Sun Tower bathroom with a freestanding tub, gold-and-marble tile wall and double vanity</figcaption>
 </figure>
 
@@ -77,12 +77,12 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 - **Location**: Direct elevator links to INSPIRE’s primary ballrooms and convention center.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-room.jpg" alt="Ocean Tower Deluxe room at Mohegan INSPIRE with a king bed and a large window" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g2-room.webp" alt="Ocean Tower Deluxe room at Mohegan INSPIRE with a king bed and a large window" loading="lazy" />
 <figcaption>Ocean Tower Deluxe room at Mohegan INSPIRE with a king bed and a large window</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-4.jpg" alt="Ocean Tower Deluxe room: work desk beside a wide window" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p2-4.webp" alt="Ocean Tower Deluxe room: work desk beside a wide window" loading="lazy" />
 <figcaption>Ocean Tower Deluxe room: work desk beside a wide window</figcaption>
 </figure>
 
@@ -112,22 +112,22 @@ Even if you are only stopping by on a quick layover without booking an overnight
 - Moving rhythmically up and down, the kinetic panels transform into dynamic floral and geometric forms every hour at the half-hour mark.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-1.jpg" alt="Aurora digital street: an underwater scene on the LED canopy" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-1.webp" alt="Aurora digital street: an underwater scene on the LED canopy" loading="lazy" />
 <figcaption>Aurora digital street: an underwater scene on the LED canopy</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-2.jpg" alt="Aurora digital street: an aqua-blue wave scene on the LED ceiling and walls" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-2.webp" alt="Aurora digital street: an aqua-blue wave scene on the LED ceiling and walls" loading="lazy" />
 <figcaption>Aurora digital street: an aqua-blue wave scene on the LED ceiling and walls</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g3-aurora.jpg" alt="Aurora digital street: an immersive blue forest scene on the 150-meter LED canopy" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g3-aurora.webp" alt="Aurora digital street: an immersive blue forest scene on the 150-meter LED canopy" loading="lazy" />
 <figcaption>Aurora digital street: an immersive blue forest scene on the 150-meter LED canopy</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-4.jpg" alt="Aurora digital street: a playful animated scene above the shopfronts" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p3-4.webp" alt="Aurora digital street: a playful animated scene above the shopfronts" loading="lazy" />
 <figcaption>Aurora digital street: a playful animated scene above the shopfronts</figcaption>
 </figure>
 
@@ -143,17 +143,17 @@ For decades, international K-POP fans suffered through cold outdoor sports stadi
 - **Indoor Pre-Show Comfort**: Instead of waiting outside in freezing winter winds or summer humidity, concertgoers can wait in climate-controlled indoor shopping boulevards with direct access to restrooms, cafes, and restaurants.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-0.jpg" alt="INSPIRE Arena exterior at dusk: Korea’s first multi-purpose live entertainment venue (15,000 capacity)" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-0.webp" alt="INSPIRE Arena exterior at dusk: Korea’s first multi-purpose live entertainment venue (15,000 capacity)" loading="lazy" />
 <figcaption>INSPIRE Arena exterior at dusk: Korea’s first multi-purpose live entertainment venue (15,000 capacity)</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-1.jpg" alt="Inside INSPIRE Arena: a large-scale K-POP awards show stage with a packed crowd" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-1.webp" alt="Inside INSPIRE Arena: a large-scale K-POP awards show stage with a packed crowd" loading="lazy" />
 <figcaption>Inside INSPIRE Arena: a large-scale K-POP awards show stage with a packed crowd</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-2.jpg" alt="Inside INSPIRE Arena: the crowd lit in red during a concert" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p4-2.webp" alt="Inside INSPIRE Arena: the crowd lit in red during a concert" loading="lazy" />
 <figcaption>Inside INSPIRE Arena: the crowd lit in red during a concert</figcaption>
 </figure>
 
@@ -173,17 +173,17 @@ A tropical paradise sheltered beneath a glass-domed architectural pavilion:
 - **Seasonal Operations**: Operates in controlled morning and afternoon sessions to ensure guest comfort and water cleanliness. (Swim caps or baseball hats are strictly required).
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-1.jpg" alt="Splash Bay: the main pool and stage under the glass dome" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-1.webp" alt="Splash Bay: the main pool and stage under the glass dome" loading="lazy" />
 <figcaption>Splash Bay: the main pool and stage under the glass dome</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-2.jpg" alt="Splash Bay: pools, cabanas and loungers seen from above" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-2.webp" alt="Splash Bay: pools, cabanas and loungers seen from above" loading="lazy" />
 <figcaption>Splash Bay: pools, cabanas and loungers seen from above</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-3.jpg" alt="Splash Bay: water slides and pools inside the dome" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-3.webp" alt="Splash Bay: water slides and pools inside the dome" loading="lazy" />
 <figcaption>Splash Bay: water slides and pools inside the dome</figcaption>
 </figure>
 
@@ -193,12 +193,12 @@ Curated by Hyundai Department Store Group, **Le Space** is Korea’s largest int
 - **Ideal For**: Layover travelers, photography enthusiasts, and families looking for a rainproof, climate-controlled adventure.
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-4.jpg" alt="Le Space: the spaceship-style entrance" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-4.webp" alt="Le Space: the spaceship-style entrance" loading="lazy" />
 <figcaption>Le Space: the spaceship-style entrance</figcaption>
 </figure>
 
 <figure className="post-figure post-figure-auto">
-<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g5-le-space.jpg" alt="Le Space: an immersive projection room with a glowing sphere" loading="lazy" />
+<img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-g5-le-space.webp" alt="Le Space: an immersive projection room with a glowing sphere" loading="lazy" />
 <figcaption>Le Space: an immersive projection room with a glowing sphere</figcaption>
 </figure>
 
