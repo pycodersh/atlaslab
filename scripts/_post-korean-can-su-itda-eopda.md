@@ -1,0 +1,140 @@
+English has one word, "can," that does a lot of jobs. It covers what you're able to do, what's possible, and what you're allowed to do. Korean covers all three with one pattern: **-(으)ㄹ 수 있다** for "can," and **-(으)ㄹ 수 없다** for "can't."
+
+It's one of the most useful patterns for travel, because so many questions start with "Can I...?"
+
+---
+
+## The rule
+
+Take the verb stem and add:
+
+- **-ㄹ 수 있어요** if the stem ends in a vowel
+- **-을 수 있어요** if the stem ends in a consonant
+
+| Verb | Can | Can't |
+|---|---|---|
+| 가다 (go) | 갈 수 있어요 | 갈 수 없어요 |
+| 먹다 (eat) | 먹을 수 있어요 | 먹을 수 없어요 |
+| 하다 (do) | 할 수 있어요 | 할 수 없어요 |
+| 읽다 (read) | 읽을 수 있어요 | 읽을 수 없어요 |
+| 만들다 (make) | 만들 수 있어요 | 만들 수 없어요 |
+| 듣다 (listen) | 들을 수 있어요 | 들을 수 없어요 |
+
+Notice that 만들다 keeps its ㄹ, and the irregular 듣다 changes to 들 before the ending.
+
+**수** is a noun meaning "way" or "means," so 갈 수 있어요 is literally "there is a way to go." 있어요 means "there is" and 없어요 means "there isn't." That's all there is to it.
+
+---
+
+## Three meanings, one pattern
+
+**1. Ability (a skill)**
+
+- 수영할 수 있어요. — I can swim.
+- 한국어를 읽을 수 있어요. — I can read Korean.
+
+**2. Possibility (circumstances allow it)**
+
+- 내일은 갈 수 없어요. — I can't go tomorrow.
+- 여기서 환전할 수 있어요. — You can exchange money here.
+
+**3. Permission (it's allowed)**
+
+- 여기서 사진을 찍을 수 있어요? — Can I take photos here?
+- 아이는 들어갈 수 없어요. — Children can't go in.
+
+The context tells you which one is meant.
+
+---
+
+## Questions you'll actually ask
+
+| Korean | Romanization | Meaning |
+|---|---|---|
+| 카드로 결제할 수 있어요? | kadeu-ro gyeolje-hal su isseoyo? | Can I pay by card? |
+| 영어로 말할 수 있어요? | yeongeo-ro malhal su isseoyo? | Can you speak English? |
+| 매운 거 먹을 수 있어요? | maeun geo meogeul su isseoyo? | Can you eat spicy food? |
+| 포장할 수 있어요? | pojanghal su isseoyo? | Can I get this to go? |
+| 예약 없이 들어갈 수 있어요? | yeyak eopsi deureogal su isseoyo? | Can I come in without a reservation? |
+
+To sound softer, add -까요 and say **-(으)ㄹ 수 있을까요?** It means "Would it be possible to...?"
+
+- 여기서 짐을 맡길 수 있을까요? — Could I leave my luggage here?
+- 조금 더 일찍 갈 수 있을까요? — Could we go a bit earlier?
+
+---
+
+## "May I?" has a second form
+
+For asking permission, Koreans very often use **-아/어도 돼요?** ("Is it okay if...?") instead of 수 있어요.
+
+- 앉아도 돼요? — May I sit here?
+- 이거 먹어도 돼요? — Is it okay to eat this?
+
+Both are fine. 수 있어요 sounds a little more about whether it's possible, and 도 돼요 sounds more about whether it's allowed.
+
+---
+
+## 못 vs 수 없다
+
+You already know 못 from the [안 vs 못 guide](/blog/en/k-patto/korean-an-vs-mot-negation). Both mean "can't," but they feel different.
+
+| | Feel | Example |
+|---|---|---|
+| 못 | everyday, short, spoken | 못 가요. |
+| -(으)ㄹ 수 없다 | more formal, written, announcements | 갈 수 없어요. |
+
+In conversation, 못 is more common. 수 없다 shows up on signs and in official language: **사용할 수 없습니다** ("cannot be used").
+
+---
+
+## "Might" with 수도 있다
+
+Add 도 ("also") after 수 and you get "might" or "could":
+
+- 비가 올 수도 있어요. — It might rain.
+- 늦을 수도 있어요. — I might be late.
+- 매울 수도 있어요. — It could be spicy.
+
+It's a polite way to warn someone without being definite, and it's very common.
+
+---
+
+## On signs and menus
+
+You'll often see a noun with **가능** ("possible") instead of a full verb:
+
+- 카드 사용 가능 — Cards accepted
+- 포장 가능 — Takeout available
+- 주차 가능 — Parking available
+- 사용 불가 — Not available
+
+These mean the same thing as 수 있다 and 수 없다, in compact form.
+
+---
+
+## Common mistakes
+
+**Writing 수 attached to the verb.** 수 is a separate word: 갈 수 있어요, not 갈수있어요.
+
+**Adding 을 to a vowel stem.** 가을 수 있어요 is wrong. Say 갈 수 있어요.
+
+**Using it to mean "know how."** 한국어 할 수 있어요 is fine for "I can speak Korean," but it may sound more confident than you intend. Beginners often say 한국어를 조금 해요 ("I speak a little Korean") instead.
+
+**Mixing up the question and the answer.** The question 갈 수 있어요? is answered with 네, 갈 수 있어요 or 아니요, 갈 수 없어요 (or 못 가요).
+
+---
+
+## 2-minute recap
+
+- **-(으)ㄹ 수 있다** = can. **-(으)ㄹ 수 없다** = can't.
+- Vowel stem + ㄹ (갈 수 있어요). Consonant stem + 을 (먹을 수 있어요).
+- It covers **ability, possibility, and permission**.
+- **-(으)ㄹ 수 있을까요?** is the soft way to ask "Would it be possible?"
+- **-아/어도 돼요?** is the other common way to ask permission.
+- **수도 있다** means "might": 비가 올 수도 있어요.
+- On signs, look for **가능** (possible) and **불가** (not possible).
+
+---
+
+Asking "Can I...?" is a skill you use every day on a trip. [K-PATTO](https://www.atlaslabstudios.com/kpatto) teaches 300+ phrases through a webtoon story set in Seoul, with native audio on every line. The first ten episodes are free.
