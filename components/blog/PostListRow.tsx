@@ -7,6 +7,8 @@ import Link from 'next/link'
  * 스타일은 app/globals.css 의 .plist* 에 있다(두 페이지의 <style> 블록에
  * 나눠 두면 한쪽에만 규칙이 생긴다).
  *
+ * 오른쪽 위에는 발행일이 아니라 읽는 시간을 보여 준다(문법·발음 글은 날짜가 의미 없는 에버그린 콘텐츠).
+ *
  * kicker 는 제목 위 작은 라벨이다. 목록이 최신순이라 "01, 02…" 를 붙이면
  * 학습 순서처럼 읽혀서, 대신 글의 category 를 넣는다.
  */
@@ -15,13 +17,14 @@ export function PostListRow({
   kicker,
   title,
   excerpt,
-  date,
+  readMin,
 }: {
   href: string
   kicker?: string | null
   title: string
   excerpt?: string | null
-  date: string
+  /** 읽는 시간(분). 학습용(에버그린) 글이라 발행일 대신 이것을 보여 준다. */
+  readMin?: number | null
 }) {
   return (
     <Link href={href} className="plist-row">
@@ -31,7 +34,7 @@ export function PostListRow({
         {excerpt && <div className="plist-excerpt">{excerpt}</div>}
       </div>
       <div className="plist-meta">
-        <span className="plist-date">{date}</span>
+        {readMin ? <span className="plist-read">{readMin} min read</span> : null}
         <span className="plist-arrow" aria-hidden="true">→</span>
       </div>
     </Link>

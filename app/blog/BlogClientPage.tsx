@@ -26,6 +26,7 @@ type Post = {
   category: string | null
   published_at: string
   thumb: BlogThumbnail | null
+  readMin: number
 }
 
 /** 탭은 화면상의 필터라 쿼리 파라미터로만 표현한다(새 라우트 없음). */
@@ -350,7 +351,7 @@ export function BlogClientPage({
                   kicker={post.category ?? APP_LABEL[post.app] ?? post.app}
                   title={post.title}
                   excerpt={post.description}
-                  date={formatDate(post.published_at)}
+                  readMin={post.readMin}
                 />
               ))}
             </div>

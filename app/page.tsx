@@ -3,6 +3,7 @@ import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { PostListRow } from '@/components/blog/PostListRow'
+import { readMinutes } from '@/lib/blog/readTime'
 import { ExploreAppsButton } from '@/components/home/ExploreAppsButton'
 import {
   BLOG_SECTIONS,
@@ -110,12 +111,6 @@ function fmtDate(iso: string) {
   return new Date(iso).toLocaleDateString('en-US', {
     year: 'numeric', month: 'long', day: 'numeric',
   })
-}
-
-/** 읽는 데 걸리는 시간(분). 200 단어/분 기준의 흔한 어림값이다. */
-function readMinutes(content: string | null | undefined): number {
-  const words = (content ?? '').trim().split(/\s+/).filter(Boolean).length
-  return Math.max(1, Math.round(words / 200))
 }
 
 /** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다.
@@ -841,9 +836,7 @@ export default async function AtlasLabHome() {
                           href={`/blog/${post.locale}/${post.app}/${post.slug}`}
                           title={post.title}
                           excerpt={post.description}
-                          date={new Date(post.published_at).toLocaleDateString('en-US', {
-                            year: 'numeric', month: 'long', day: 'numeric',
-                          })}
+                          readMin={post.readMin}
                         />
                       ))}
                     </div>

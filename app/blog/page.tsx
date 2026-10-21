@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
 import { PATTO_TAB, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { readMinutes } from '@/lib/blog/readTime'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
 
 export const dynamic = 'force-dynamic'
@@ -83,6 +84,7 @@ export default async function BlogIndexPage({
   const posts = pageRows.map(p => ({
     ...p,
     thumb: thumbnailForPost(p.slug, bodyBySlug.get(p.slug)?.content, bodyBySlug.get(p.slug)?.thumbnail),
+    readMin: readMinutes(bodyBySlug.get(p.slug)?.content),
   }))
 
   return (

@@ -1,0 +1,106 @@
+In English, "you" is the safest word there is. You can say it to a king or a toddler. Korean has two words that look like "you," 너 and 당신, and the safest thing to do with both of them is to leave them alone.
+
+This is one of the first things Korean teachers tell learners, and it's the one that surprises people most.
+
+---
+
+## Why 너 and 당신 are risky
+
+**너** is the casual "you." It's the form you use with close friends your own age, or with someone younger. Said to anyone else, it sounds disrespectful.
+
+**당신** looks like the polite version, and that's the trap. In daily speech it's not polite at all.
+
+- Between strangers, 당신 sounds confrontational, like "hey, you."
+- Between spouses, especially older couples, it can be affectionate or serious.
+- In songs, dramas, and advertising slogans, it appears all the time (당신의 하루, "your day").
+
+So you'll see 당신 everywhere, and you shouldn't say it to a stranger. Think of it as a word to recognize, not to use.
+
+---
+
+## The real solution: drop "you" completely
+
+Korean doesn't need the word. When the listener is obvious, you simply leave it out.
+
+| English | Korean | Notes |
+|---|---|---|
+| Do you want some coffee? | 커피 마실래요? | no "you" |
+| Where are you going? | 어디 가세요? | -세요 shows respect |
+| Have you eaten? | 식사하셨어요? | -셨 shows respect |
+| Are you a student? | 학생이세요? | -세요 again |
+
+The respect comes from the verb ending. Adding **-(으)시-** to a verb raises the person you're talking about, and since you're talking to them, that's the "polite you." (See the [politeness levels guide](/blog/en/k-patto/korean-politeness-levels-explained) for how the endings fit together.)
+
+---
+
+## What to say instead
+
+When you do need to address someone, use a **title** or a **name with a suffix**.
+
+| Situation | Say | Romanization |
+|---|---|---|
+| Shop or restaurant owner | 사장님 | sajangnim |
+| Teacher, or a respected professional | 선생님 | seonsaengnim |
+| Boss or senior colleague | title + 님 (팀장님) | timjangnim |
+| Customer (said by staff) | 고객님 / 손님 | gogaengnim / sonnim |
+| Peer or stranger at a similar level | name + 씨 (민수 씨) | minsu ssi |
+| Older male friend (said by a man) | 형 | hyeong |
+| Older female friend (said by a woman) | 언니 | eonni |
+| Getting a stranger's attention | 저기요 | jeogiyo |
+
+A few notes on this table.
+
+- **사장님** is how you address almost any shop or restaurant owner. It works even when the person is just staff, and it's never wrong.
+- **저기요** means "Excuse me." It's the most useful word of all, because it gets someone's attention with no name needed.
+- **씨** goes after a full name or a given name (민수 씨, 김민수 씨). Don't use it with someone senior to you, and avoid a bare surname plus 씨 (김 씨), which can sound curt.
+- In casual restaurants, many customers call a female server **이모** ("aunt"). It's friendly, but follow what the people around you do.
+
+---
+
+## When 너 is okay
+
+너 is fine with:
+
+- close friends of the same age, once you've agreed to speak casually
+- children and people younger than you in casual situations
+
+The rule that keeps you safe: **if you're not sure, don't.** Use a name, a title, or just drop the word.
+
+---
+
+## A few more situations
+
+**At a restaurant.** Say 저기요 to call a server, then 이거 주세요 ("This one, please"). You never need "you."
+
+**At a hotel or shop.** Staff will call you **고객님** or **손님**. You call them 사장님, or simply start with 저기요.
+
+**With a new friend.** Ask 이름이 뭐예요? ("What's your name?") and then use their name plus 씨 until they tell you to relax.
+
+**In a taxi.** Say 기사님, which means "driver, sir." It's polite and expected.
+
+---
+
+## Common mistakes
+
+**Saying 당신은 누구예요?** to a stranger. It sounds like a challenge ("Who are you?!"). Say 누구세요? or just ask what you need to know.
+
+**Using 너 to be friendly.** It reads as rude even if you mean well.
+
+**Using 씨 with a boss.** 사장님 or 팀장님 is correct. 씨 is for peers and juniors.
+
+**Translating "you" word for word.** Most Korean sentences drop the subject. If it feels awkward to leave "you" out in English, that's usually a sign you're doing it right.
+
+---
+
+## 2-minute recap
+
+- 너 is casual (close friends, younger people). 당신 is not a polite "you" — it sounds confrontational with strangers and intimate between spouses.
+- The best "you" in Korean is **no word at all.** Drop it: 커피 마실래요?
+- Use **-(으)시-** to show respect: 어디 가세요? 식사하셨어요?
+- To address someone: **사장님** (owners), **선생님** (teachers, professionals), **name + 씨** (peers), **title + 님** (bosses).
+- To get anyone's attention: **저기요.**
+- When unsure, skip 너 and 당신 entirely.
+
+---
+
+Social rules like these are easiest to absorb by hearing real conversations. [K-PATTO](https://www.atlaslabstudios.com/kpatto) teaches 300+ phrases through a webtoon story set in Seoul, with native audio on every line. The first ten episodes are free.

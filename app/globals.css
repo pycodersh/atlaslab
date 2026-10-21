@@ -1066,7 +1066,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
   overflow: hidden;
 }
 
-/* 날짜 + 화살표. 모바일은 한 줄 양끝, 데스크톱은 오른쪽 위로 세운다 */
+/* 읽는 시간 + 화살표. 모바일은 한 줄 양끝, 데스크톱은 오른쪽 위로 세운다 */
 .plist-meta {
   display: flex;
   align-items: center;
@@ -1086,7 +1086,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
     padding-top: 4px;
   }
 }
-.plist-date { white-space: nowrap; }
+.plist-read { white-space: nowrap; }
 .plist-arrow {
   display: inline-block;
   font-size: 14px;
