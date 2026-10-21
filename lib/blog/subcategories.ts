@@ -75,6 +75,8 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'tteokbokki-tteok-vs-tteokguk-tteok-comparison': 'street',
   'korean-convenience-store-combo-meals': 'street',
   'sundae-differs-by-region': 'street',
+  // 원래 Life 글이었으나 방문 목적이 분식·길거리 음식이라 category 를 Cooking Basics 로 옮겨 food 에 둔다
+  'gwangjang-market-guide': 'street',
   'what-is-tteokbokki-how-spicy': 'street',
   'instant-ramyeon-upgrade-guide': 'street',
   // Classic Meals
@@ -142,7 +144,6 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'korea-cherry-blossom-autumn-foliage-guide': 'daily',
   'korean-gift-giving-etiquette-guide': 'daily',
   'packing-guide-korea-by-season': 'daily',
-  'gwangjang-market-guide': 'daily',
   'hiking-in-korea-guide': 'daily',
   'han-river-parks-seoul-guide': 'daily',
   'korean-templestay-booking-guide-for-foreigners': 'daily',
