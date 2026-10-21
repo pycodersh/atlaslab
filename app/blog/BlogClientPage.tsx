@@ -30,9 +30,10 @@ type Post = {
 }
 
 /** 탭은 화면상의 필터라 쿼리 파라미터로만 표현한다(새 라우트 없음). */
-function buildUrl(tab: string, opts: { lang?: 'en' | 'ko'; page?: number } = {}) {
+function buildUrl(tab: string, opts: { lang?: 'en' | 'ko'; page?: number; sub?: string | null } = {}) {
   const params = new URLSearchParams()
   if (tab !== 'all') params.set('tab', tab)
+  if (opts.sub) params.set('sub', opts.sub)
   if (opts.lang === 'ko') params.set('lang', 'ko')
   if (opts.page && opts.page > 1) params.set('page', String(opts.page))
   const q = params.toString()
@@ -43,6 +44,9 @@ export function BlogClientPage({
   posts,
   activeTab,
   activeLang,
+  subChips,
+  activeSub,
+  totalCount,
   totalPages,
   currentPage,
   pageTitle,
@@ -50,6 +54,9 @@ export function BlogClientPage({
   posts: Post[]
   activeTab: string
   activeLang: 'en' | 'ko'
+  subChips: { key: string; label: string; count: number }[]
+  activeSub: string | null
+  totalCount: number
   totalPages: number
   currentPage: number
   pageTitle: string
@@ -153,6 +160,31 @@ export function BlogClientPage({
         }
         .bl-tab:hover { color: #111; border-bottom-color: rgba(200,16,46,0.35); }
         .bl-tab.active { color: #111; font-weight: 700; border-bottom-color: #C8102E; }
+
+        /* ── Sub-category chips ────────────────────────────────────── */
+        /* 가로로 스크롤되는 알약 버튼 줄. 스크롤바는 숨기고 터치/휠로 민다.
+           줄이 화면보다 길면 오른쪽 끝이 잘려 보여 더 있다는 걸 알려 준다. */
+        .bl-subbar {
+          display: flex; gap: 8px;
+          margin: -12px 0 28px;
+          overflow-x: auto; -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding: 2px 0 4px;
+        }
+        .bl-subbar::-webkit-scrollbar { display: none; }
+        .bl-chip {
+          flex-shrink: 0; white-space: nowrap;
+          display: inline-flex; align-items: center; gap: 6px;
+          font-family: ${BODY};
+          font-size: 13px; font-weight: 500; line-height: 1;
+          color: #555; text-decoration: none;
+          padding: 9px 14px; border-radius: 999px;
+          border: 1px solid #DAD7D1; background: #fff;
+          transition: color 0.15s, background 0.15s, border-color 0.15s;
+        }
+        .bl-chip:hover { border-color: #C8102E; color: #111; }
+        .bl-chip.active { background: #111; border-color: #111; color: #fff; font-weight: 600; }
+        .bl-chip-n { font-size: 11px; opacity: 0.55; font-variant-numeric: tabular-nums; }
 
         /* ── Post grid ─────────────────────────────────────────────── */
         /* 카드 사이 1px 구분선 — 컨테이너 배경이 아니라 카드 테두리로 그린다.
@@ -331,6 +363,29 @@ export function BlogClientPage({
             </div>
           </div>
 
+          {/* Sub-category chips — food / life 탭에서만 */}
+          {subChips.length > 0 && (
+            <nav className="bl-subbar" aria-label="Sub-categories">
+              <Link
+                href={buildUrl(activeTab)}
+                scroll={false}
+                className={`bl-chip${activeSub ? '' : ' active'}`}
+              >
+                All <span className="bl-chip-n">{totalCount}</span>
+              </Link>
+              {subChips.map(c => (
+                <Link
+                  key={c.key}
+                  href={buildUrl(activeTab, { sub: c.key })}
+                  scroll={false}
+                  className={`bl-chip${activeSub === c.key ? ' active' : ''}`}
+                >
+                  {c.label} <span className="bl-chip-n">{c.count}</span>
+                </Link>
+              ))}
+            </nav>
+          )}
+
           {/* Post grid (EN & KO 공통) */}
           {(!posts || posts.length === 0) ? (
             <div className="bl-empty">
@@ -381,7 +436,7 @@ export function BlogClientPage({
           {totalPages > 1 && (
             <div className="bl-pag">
               {currentPage > 1 && (
-                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage - 1 })} className="bl-pag-btn">
+                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage - 1, sub: activeSub })} className="bl-pag-btn">
                   ← Prev
                 </Link>
               )}
@@ -393,7 +448,7 @@ export function BlogClientPage({
                       <span className="bl-pag-ellipsis">…</span>
                     )}
                     <Link
-                      href={buildUrl(activeTab, { lang: activeLang, page: p })}
+                      href={buildUrl(activeTab, { lang: activeLang, page: p, sub: activeSub })}
                       className={`bl-pag-btn${p === currentPage ? ' active' : ''}`}
                     >
                       {p}
@@ -401,7 +456,7 @@ export function BlogClientPage({
                   </Fragment>
                 ))}
               {currentPage < totalPages && (
-                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage + 1 })} className="bl-pag-btn">
+                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage + 1, sub: activeSub })} className="bl-pag-btn">
                   Next →
                 </Link>
               )}

@@ -1,7 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
-import { PATTO_TAB, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { PATTO_TAB, isValidTab, postMatchesTab, tabLabel, topicSectionKey } from '@/lib/blog/sections'
+import { isValidSubcategory, subcategoriesFor, subcategoryOf } from '@/lib/blog/subcategories'
 import { readMinutes } from '@/lib/blog/readTime'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
 
@@ -43,9 +44,9 @@ export async function generateMetadata({
 export default async function BlogIndexPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string; tab?: string; lang?: string }>
+  searchParams: Promise<{ page?: string; tab?: string; lang?: string; sub?: string }>
 }) {
-  const { page, tab, lang } = await searchParams
+  const { page, tab, lang, sub } = await searchParams
   const currentPage = Math.max(1, parseInt(page || '1'))
   const activeTab = resolveTab(tab)
   // Patto 탭은 항상 KO; 나머지는 lang 파라미터(기본 en)
@@ -64,7 +65,17 @@ export default async function BlogIndexPage({
     .lte('published_at', now)
     .order('published_at', { ascending: false })
 
-  const matched = (rows ?? []).filter(p => postMatchesTab(p, activeTab))
+  const inTab = (rows ?? []).filter(p => postMatchesTab(p, activeTab))
+
+  // 서브 카테고리 칩 — 서브 분류가 정의된 주제 탭(food, life)에서만 쓴다.
+  // 분류는 코드(lib/blog/subcategories)에서 하고, 칩 옆 개수는 탭 전체 기준이다.
+  const subDefs = subcategoriesFor(activeTab)
+  const subOf = (p: { slug: string; title: string; app: string; category: string | null }) =>
+    subcategoryOf(topicSectionKey(p.app, p.category), p)
+  const activeSub = isValidSubcategory(activeTab, sub) ? sub : null
+  const subChips = subDefs.map(s => ({ ...s, count: inTab.filter(p => subOf(p) === s.key).length }))
+    .filter(s => s.count > 0)
+  const matched = activeSub ? inTab.filter(p => subOf(p) === activeSub) : inTab
 
   const totalPages = Math.ceil(matched.length / POSTS_PER_PAGE)
   const from = (currentPage - 1) * POSTS_PER_PAGE
@@ -92,6 +103,9 @@ export default async function BlogIndexPage({
       posts={posts}
       activeTab={activeTab}
       activeLang={activeLang}
+      subChips={subChips}
+      activeSub={activeSub}
+      totalCount={inTab.length}
       totalPages={totalPages}
       currentPage={currentPage}
       pageTitle={activeTab === 'all' ? 'All Articles' : tabLabel(activeTab)}
