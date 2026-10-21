@@ -58,11 +58,6 @@ export function BlogClientPage({
   // 격자로 그릴지 세로 리스트로 그릴지는 홈과 같은 기준(sections.ts)을 본다
   const isList = layoutForKey(activeTab) === 'list'
 
-  const formatDate = (iso: string) =>
-    new Date(iso).toLocaleDateString(lang === 'KO' ? 'ko-KR' : 'en-US', {
-      year: 'numeric', month: 'long', day: 'numeric',
-    })
-
   return (
     <>
       <style>{`
@@ -209,7 +204,7 @@ export function BlogClientPage({
           -webkit-line-clamp: 2; -webkit-box-orient: vertical;
           overflow: hidden;
         }
-        .bl-date {
+        .bl-read {
           font-family: ${BODY};
           font-size: 11px; color: #aaa; letter-spacing: 0.02em;
         }
@@ -232,7 +227,7 @@ export function BlogClientPage({
             -webkit-box-orient: vertical; overflow: hidden;
           }
           .bl-desc { font-size: 12.5px; line-height: 1.55; margin-bottom: 6px; flex: 0 1 auto; }
-          .bl-date { font-size: 10.5px; }
+          .bl-read { font-size: 10.5px; }
         }
 
         /* ── Empty state ───────────────────────────────────────────── */
@@ -375,7 +370,7 @@ export function BlogClientPage({
                     {post.description && (
                       <div className="bl-desc">{post.description}</div>
                     )}
-                    <div className="bl-date">{formatDate(post.published_at)}</div>
+                    <div className="bl-read">{post.readMin} min read</div>
                   </div>
                 </Link>
               ))}

@@ -106,13 +106,6 @@ type BlogRow = {
   thumbnail: string | null
 }
 
-/** 카드·피처드에 쓰는 날짜 표기 — 목록 페이지와 같은 형식 */
-function fmtDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
-  })
-}
-
 /** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다.
  *  분류 기준은 lib/blog/sections 하나뿐 — /blog 목록 탭과 같은 것을 쓴다.
  *  topicSectionKey 가 null 을 주는 글(app=patto)은 주제 섹션에 넣지 않는다. */
@@ -811,7 +804,7 @@ export default async function AtlasLabHome() {
                   <h3 className="feat-title">{featured.title}</h3>
                   {featured.description && <p className="feat-desc">{featured.description}</p>}
                   <p className="feat-meta">
-                    {fmtDate(featured.published_at)} · {featured.readMin} min read
+                    {featured.readMin} min read
                   </p>
                 </div>
               </a>
@@ -855,7 +848,7 @@ export default async function AtlasLabHome() {
                               <div className="bexcerpt">{post.description}</div>
                             )}
                             <div className="bmeta">
-                              {fmtDate(post.published_at)} · {post.readMin} min read
+                              {post.readMin} min read
                             </div>
                           </div>
                         </a>

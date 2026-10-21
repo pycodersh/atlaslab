@@ -9,6 +9,8 @@ import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
+import { readMinutes } from '@/lib/blog/readTime'
+import { ArticleJsonLd } from '@/components/blog/ArticleJsonLd'
 
 export const revalidate = 3600
 export const dynamicParams = true
@@ -109,6 +111,12 @@ export default async function BlogPostPage({
 
   return (
     <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>
+      <ArticleJsonLd
+        headline={post.title}
+        description={post.description}
+        datePublished={post.published_at}
+        url={`${BASE}/blog/${locale}/patto/${slug}`}
+      />
       <style>{`
         html, body { overflow-x: hidden; scrollbar-gutter: stable; }
 
@@ -204,11 +212,7 @@ export default async function BlogPostPage({
           )}
 
           <p className="art-meta">
-            Patto Team ·{' '}
-            {new Date(post.published_at).toLocaleDateString(
-              locale === 'ko' ? 'ko-KR' : 'en-US',
-              { year: 'numeric', month: 'long', day: 'numeric' }
-            )}
+            Patto Team · {readMinutes(post.content)} min read
           </p>
 
           {thumb && (
