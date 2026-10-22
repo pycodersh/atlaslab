@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Volume2 } from 'lucide-react'
 import type { KPattoExpression } from '@/data/kpatto/types'
 import { tryPlayAudio, stopAllAudio, getAudioGeneration } from '@/lib/kpatto/audio'
+import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
 
 const SAVED_KEY = 'kpatto-saved-expressions'
 
@@ -83,6 +84,7 @@ export function ExpressionPopup({
     if (au?.pattern) {
       return ([au.pattern, au.ex1, au.ex2, au.ex3] as (string | null | undefined)[])
         .filter((u): u is string => !!u)
+        .map(versionedExpressionAudio)  // 덮어쓴 mp3 가 캐시에서 옛 음성으로 나오지 않게
     }
     return expression.audio_url ? [expression.audio_url] : []
   }, [expression.id, expression.audio_urls, expression.audio_url])

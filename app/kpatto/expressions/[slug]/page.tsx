@@ -14,6 +14,7 @@ import {
 } from '@/lib/kpatto/expressions-config'
 import { ExpressionBackButton } from '@/components/kpatto/ExpressionBackButton'
 import { KPattoAudioPlayer } from '@/components/kpatto/KPattoAudioPlayer'
+import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
 
 export const dynamicParams = false
 
@@ -366,7 +367,7 @@ export default async function ExpressionPage({ params }: PageProps) {
 
               {/* Audio player — pattern→ex1→ex2→ex3 순차 재생; audio_urls 없으면 audio_url 단일 파일 폴백 */}
               <KPattoAudioPlayer
-                srcs={[e.audio_urls?.pattern, e.audio_urls?.ex1, e.audio_urls?.ex2, e.audio_urls?.ex3]}
+                srcs={[e.audio_urls?.pattern, e.audio_urls?.ex1, e.audio_urls?.ex2, e.audio_urls?.ex3].map(versionedExpressionAudio)}
                 src={e.audio_url ?? null}
                 label={e.korean}
               />
