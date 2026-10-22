@@ -38,7 +38,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/juseyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/juseyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/juseyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 771,
@@ -80,7 +81,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mwoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mwoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mwoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 772,
@@ -121,7 +123,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 773,
@@ -162,7 +165,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteoke-gayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteoke-gayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteoke-gayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 774,
@@ -203,7 +207,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gago-sipeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gago-sipeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gago-sipeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 775,
@@ -244,7 +249,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eottaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eottaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eottaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 776,
@@ -286,7 +292,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ro-halkkeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ro-halkkeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ro-halkkeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 777,
@@ -327,7 +334,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hae-bon-jeok/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hae-bon-jeok/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hae-bon-jeok/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 778,
@@ -369,7 +377,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chucheon-juseyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chucheon-juseyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chucheon-juseyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 779,
@@ -410,7 +419,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jusil-su-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jusil-su-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jusil-su-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 780,
@@ -451,7 +461,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/joahaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/joahaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/joahaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 781,
@@ -492,7 +503,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/singihaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/singihaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/singihaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 782,
@@ -533,7 +545,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deo-juseyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deo-juseyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deo-juseyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 783,
@@ -574,7 +587,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkakka-juseyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkakka-juseyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkakka-juseyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 784,
@@ -615,7 +629,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sseobwasseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sseobwasseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sseobwasseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 785,
@@ -656,7 +671,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteon-ge-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteon-ge-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteon-ge-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 786,
@@ -697,27 +713,28 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/saenggak-boda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/saenggak-boda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/saenggak-boda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 787,
-    "korean": "다 같이 있어서 좋아요",
-    "english": "I'm happy we're all together.",
-    "description": "Used to express warmth about everyone being gathered in one place.\n\nRule: -아/어서 좋아요 attaches any reason to 좋아요 (it's good) — 날씨가 좋아서 좋아요 means 'I'm happy because the weather is nice'.",
+    "korean": "~아/어서 좋아요",
+    "english": "I like / happy because [Reason]",
+    "description": "Attached to verb or adjective stems to express happiness or satisfaction due to a specific reason: [Verb/Adj Stem] + 아/어서 좋아요.",
     "structure": null,
     "category": "focus",
     "examples": [
       {
-        "en": "I'm so happy we're all together!",
-        "ko": "다 같이 있어서 좋아요!"
+        "en": "I like it because the weather is warm.",
+        "ko": "날씨가 따뜻해서 좋아요."
       },
       {
-        "en": "I'm happy to be together with my whole family.",
-        "ko": "가족이랑 다 같이 있어서 좋아요."
+        "en": "I'm happy because the food here is delicious.",
+        "ko": "여기 음식이 맛있어서 좋아요."
       },
       {
-        "en": "It's great to be together with all my friends!",
-        "ko": "친구들이랑 다 같이 있어서 좋아요!"
+        "en": "I like it because it's close to the subway station.",
+        "ko": "지하철역이랑 가까워서 좋아요."
       }
     ],
     "tip": null,
@@ -730,15 +747,16 @@
       9
     ],
     "audio_hash": "c256f5243d26b242",
-    "slug": "da-gachi-isseoseo-joayo",
-    "romaja": "da gachi isseoseo joayo",
-    "heading_en": "How to say \"I'm happy we're all together\" in Korean — 다 같이 있어서 좋아요 (da gachi isseoseo joayo)",
+    "slug": "aseo-eoseo-joayo",
+    "romaja": "aseo eoseo joayo",
+    "heading_en": "How to use ~아/어서 좋아요 in Korean — \"I like / happy because [Reason]\"",
     "audio_urls": {
-      "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-isseoseo-joayo/ex1.mp3",
-      "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-isseoseo-joayo/ex2.mp3",
-      "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-isseoseo-joayo/ex3.mp3",
-      "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-isseoseo-joayo/pattern.mp3"
-    }
+      "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/aseo-eoseo-joayo/ex1.mp3",
+      "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/aseo-eoseo-joayo/ex2.mp3",
+      "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/aseo-eoseo-joayo/ex3.mp3",
+      "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/aseo-eoseo-joayo/pattern.mp3"
+    },
+    "is_active": true
   },
   {
     "id": 788,
@@ -779,7 +797,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/imi-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/imi-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/imi-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 789,
@@ -820,7 +839,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteollyeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteollyeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteollyeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 790,
@@ -861,7 +881,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eseo-wasseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eseo-wasseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eseo-wasseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 791,
@@ -902,7 +923,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-butakdeuryeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-butakdeuryeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-butakdeuryeoyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 792,
@@ -943,7 +965,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiseo-tayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiseo-tayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiseo-tayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 793,
@@ -984,7 +1007,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meokgo-sipeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meokgo-sipeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meokgo-sipeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 794,
@@ -1025,7 +1049,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mot-meogeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mot-meogeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mot-meogeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 795,
@@ -1066,7 +1091,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meogeodo-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meogeodo-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meogeodo-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 796,
@@ -1107,7 +1133,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bulleodo-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bulleodo-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bulleodo-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 797,
@@ -1148,7 +1175,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tto-ogo-sipeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tto-ogo-sipeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tto-ogo-sipeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 798,
@@ -1189,7 +1217,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 799,
@@ -1230,7 +1259,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naeryeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naeryeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naeryeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 800,
@@ -1271,7 +1301,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkaji-ga-juseyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkaji-ga-juseyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkaji-ga-juseyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 801,
@@ -1312,7 +1343,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deol-ge-hae-juseyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deol-ge-hae-juseyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deol-ge-hae-juseyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 802,
@@ -1353,7 +1385,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ripil-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ripil-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ripil-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 803,
@@ -1394,7 +1427,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/e-mwo-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/e-mwo-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/e-mwo-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 804,
@@ -1435,7 +1469,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-llaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-llaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-llaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 805,
@@ -1476,7 +1511,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jogeum-neujeul-geot-gatayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jogeum-neujeul-geot-gatayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jogeum-neujeul-geot-gatayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 806,
@@ -1517,7 +1553,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gireul-ilheosseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gireul-ilheosseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gireul-ilheosseoyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 807,
@@ -1558,7 +1595,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jjuk-gamyeon/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jjuk-gamyeon/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jjuk-gamyeon/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 808,
@@ -1599,7 +1637,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkeokkeumyeon/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkeokkeumyeon/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkeokkeumyeon/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 809,
@@ -1640,7 +1679,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bwasseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bwasseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bwasseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 810,
@@ -1681,7 +1721,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jaemiisseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jaemiisseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jaemiisseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 811,
@@ -1722,7 +1763,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gangchu-yeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gangchu-yeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gangchu-yeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 812,
@@ -1763,7 +1805,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/nalssi-eottaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/nalssi-eottaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/nalssi-eottaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 813,
@@ -1804,7 +1847,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ol-geot-gatayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ol-geot-gatayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ol-geot-gatayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 816,
@@ -1845,7 +1889,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yak-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yak-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yak-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 817,
@@ -1886,7 +1931,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/an-meokneun-ge-naayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/an-meokneun-ge-naayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/an-meokneun-ge-naayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 818,
@@ -1927,7 +1973,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chwimi-mwoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chwimi-mwoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chwimi-mwoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 819,
@@ -1968,7 +2015,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jeodoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jeodoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jeodoyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 820,
@@ -2009,7 +2057,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/byeolloyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/byeolloyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/byeolloyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 821,
@@ -2050,7 +2099,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yumyeong-mwoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yumyeong-mwoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yumyeong-mwoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 822,
@@ -2091,7 +2141,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sajin-jjigeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sajin-jjigeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sajin-jjigeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 823,
@@ -2132,7 +2183,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sajin-nawasseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sajin-nawasseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sajin-nawasseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 824,
@@ -2173,7 +2225,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/oraenmanieyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/oraenmanieyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/oraenmanieyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 825,
@@ -2214,7 +2267,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-jinaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-jinaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-jinaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 826,
@@ -2255,7 +2309,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daeume-bwayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daeume-bwayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daeume-bwayo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 828,
@@ -2296,7 +2351,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eottaesseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eottaesseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eottaesseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 829,
@@ -2337,7 +2393,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeumieonneunde/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeumieonneunde/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeumieonneunde/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 830,
@@ -2378,7 +2435,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geot-gatayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geot-gatayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geot-gatayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 831,
@@ -2419,7 +2477,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-bwayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-bwayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-bwayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 833,
@@ -2460,7 +2519,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haeya-hae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haeya-hae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haeya-hae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 834,
@@ -2501,7 +2561,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haji-ma/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haji-ma/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haji-ma/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 835,
@@ -2542,7 +2603,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/itji-ma/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/itji-ma/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/itji-ma/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 836,
@@ -2583,7 +2645,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteoke-saenggak/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteoke-saenggak/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eotteoke-saenggak/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 837,
@@ -2624,7 +2687,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/matneun-marieyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/matneun-marieyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/matneun-marieyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 838,
@@ -2665,7 +2729,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jeo-dalayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jeo-dalayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jeo-dalayo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 839,
@@ -2706,7 +2771,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ga-bwasseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ga-bwasseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ga-bwasseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 840,
@@ -2747,7 +2813,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-ga-boseyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-ga-boseyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-ga-boseyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 842,
@@ -2788,7 +2855,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-mwo-bwayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-mwo-bwayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-mwo-bwayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 843,
@@ -2829,7 +2897,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ppajyeodeureoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ppajyeodeureoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ppajyeodeureoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 844,
@@ -2870,7 +2939,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gidae-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gidae-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gidae-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 845,
@@ -2911,7 +2981,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/norae-arayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/norae-arayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/norae-arayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 846,
@@ -2952,7 +3023,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gasa-tteut/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gasa-tteut/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gasa-tteut/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 847,
@@ -2993,7 +3065,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jungdokseong/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jungdokseong/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jungdokseong/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 848,
@@ -3034,7 +3107,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwanri-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwanri-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwanri-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 849,
@@ -3075,7 +3149,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hyogwa-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hyogwa-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hyogwa-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 850,
@@ -3116,7 +3191,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hugi-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hugi-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hugi-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 851,
@@ -3157,7 +3233,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-jaju/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-jaju/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-jaju/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 852,
@@ -3198,7 +3275,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geongang-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geongang-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geongang-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 853,
@@ -3239,7 +3317,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkujunhi/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkujunhi/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkujunhi/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 854,
@@ -3280,7 +3359,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodi-sarayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodi-sarayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodi-sarayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 855,
@@ -3321,7 +3401,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/honja-sarayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/honja-sarayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/honja-sarayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 856,
@@ -3362,7 +3443,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geuncheoe-mwo-isseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geuncheoe-mwo-isseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geuncheoe-mwo-isseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 857,
@@ -3403,7 +3485,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gibuni-eottae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gibuni-eottae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gibuni-eottae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 858,
@@ -3444,7 +3527,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/raseo-haengbokae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/raseo-haengbokae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/raseo-haengbokae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 859,
@@ -3485,7 +3569,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seolle/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seolle/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seolle/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 860,
@@ -3526,7 +3611,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwaenchanayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwaenchanayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwaenchanayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 861,
@@ -3567,7 +3653,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-jom-himdeureoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-jom-himdeureoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-jom-himdeureoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 862,
@@ -3608,7 +3695,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eonjedeunji-yeollakaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eonjedeunji-yeollakaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eonjedeunji-yeollakaeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 863,
@@ -3649,7 +3737,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kakaotok-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kakaotok-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kakaotok-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 864,
@@ -3690,7 +3779,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pallouhaedo-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pallouhaedo-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pallouhaedo-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 866,
@@ -3731,7 +3821,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jega-salgeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jega-salgeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jega-salgeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 867,
@@ -3772,7 +3863,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deochipei-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deochipei-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deochipei-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 868,
@@ -3813,7 +3905,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bap-hanbeon-meogeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bap-hanbeon-meogeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bap-hanbeon-meogeoyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 869,
@@ -3854,7 +3947,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-sikyeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-sikyeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-sikyeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 870,
@@ -3895,7 +3989,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ibeo-bwasseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ibeo-bwasseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ibeo-bwasseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 871,
@@ -3936,7 +4031,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeongjeore-mwo-hae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeongjeore-mwo-hae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeongjeore-mwo-hae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 872,
@@ -3977,7 +4073,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ige-museun-tteusiya/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ige-museun-tteusiya/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ige-museun-tteusiya/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 873,
@@ -4018,7 +4115,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sul-masyeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sul-masyeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sul-masyeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 874,
@@ -4059,7 +4157,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geonbaehaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geonbaehaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geonbaehaeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 875,
@@ -4100,7 +4199,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeogikkajiman-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeogikkajiman-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeogikkajiman-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 876,
@@ -4141,7 +4241,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-norae-gachi-bulleoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-norae-gachi-bulleoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-norae-gachi-bulleoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 877,
@@ -4182,7 +4283,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sincheonggok-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sincheonggok-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sincheonggok-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 878,
@@ -4223,7 +4325,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-gok-deo-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-gok-deo-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-gok-deo-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 879,
@@ -4264,7 +4367,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-chwoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-chwoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-chwoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 880,
@@ -4305,7 +4409,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoryeopjiman-jaemiisseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoryeopjiman-jaemiisseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoryeopjiman-jaemiisseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 881,
@@ -4346,7 +4451,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hada-bomyeon-neureoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hada-bomyeon-neureoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hada-bomyeon-neureoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 882,
@@ -4387,7 +4493,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bunwigi-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bunwigi-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bunwigi-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 883,
@@ -4428,7 +4535,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daldalhan-geo-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daldalhan-geo-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daldalhan-geo-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 884,
@@ -4469,27 +4577,28 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/orae-isseodo-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/orae-isseodo-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/orae-isseodo-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 885,
-    "korean": "나라마다 달라요",
-    "english": "It differs from country to country.",
-    "description": "Point out that customs or practices differ by country.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+    "korean": "~마다 달라요",
+    "english": "It depends on [Noun] / It differs by [Noun]",
+    "description": "Attached to nouns to express that something varies according to each unit, person, or situation: [Noun] + 마다 달라요.",
     "structure": null,
     "category": "focus",
     "examples": [
       {
-        "en": "Every country is different — that's what makes it fun!",
-        "ko": "나라마다 달라요, 그게 재미있어요!"
+        "en": "Everyone has different thoughts.",
+        "ko": "사람마다 생각이 달라요."
       },
       {
-        "en": "Food is different in every country.",
-        "ko": "나라마다 음식이 달라요."
+        "en": "Prices are slightly different depending on the store.",
+        "ko": "가게마다 가격이 조금씩 달라요."
       },
       {
-        "en": "Every country is different — that's why I love traveling!",
-        "ko": "나라마다 달라요, 그래서 여행이 좋아요!"
+        "en": "Korea's weather differs from season to season.",
+        "ko": "계절마다 한국 날씨가 달라요."
       }
     ],
     "tip": null,
@@ -4502,15 +4611,16 @@
       40
     ],
     "audio_hash": null,
-    "slug": "naramada-dallayo",
-    "romaja": "naramada dallayo",
-    "heading_en": "How to say \"It differs from country to country\" in Korean — 나라마다 달라요 (naramada dallayo)",
+    "slug": "mada-dallayo",
+    "romaja": "mada dallayo",
+    "heading_en": "How to use ~마다 달라요 (mada dallayo) in Korean — \"It depends on [Noun]\"",
     "audio_urls": {
-      "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naramada-dallayo/ex1.mp3",
-      "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naramada-dallayo/ex2.mp3",
-      "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naramada-dallayo/ex3.mp3",
-      "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naramada-dallayo/pattern.mp3"
-    }
+      "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mada-dallayo/ex1.mp3",
+      "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mada-dallayo/ex2.mp3",
+      "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mada-dallayo/ex3.mp3",
+      "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mada-dallayo/pattern.mp3"
+    },
+    "is_active": true
   },
   {
     "id": 886,
@@ -4551,7 +4661,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-jeogeungi-dwaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-jeogeungi-dwaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-jeogeungi-dwaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 887,
@@ -4592,7 +4703,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeumen-natseoreonneunde/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeumen-natseoreonneunde/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeumen-natseoreonneunde/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 888,
@@ -4633,7 +4745,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neunde/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neunde/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neunde/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 891,
@@ -4674,7 +4787,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-eottaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-eottaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-eottaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 892,
@@ -4715,7 +4829,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-jokesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-jokesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-jokesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 893,
@@ -4756,7 +4871,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeon-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 894,
@@ -4797,7 +4913,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttaemune/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttaemune/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttaemune/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 895,
@@ -4838,7 +4955,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deokbune/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deokbune/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deokbune/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 896,
@@ -4880,7 +4998,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/boda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/boda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/boda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 897,
@@ -4921,7 +5040,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-dongan/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-dongan/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-dongan/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 898,
@@ -4962,7 +5082,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-naseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-naseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-naseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 899,
@@ -5003,7 +5124,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gi-jeone/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gi-jeone/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gi-jeone/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 901,
@@ -5044,7 +5166,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hae-deurilkkayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hae-deurilkkayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hae-deurilkkayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 902,
@@ -5085,7 +5208,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/joesonghandeyo-hoksi/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/joesonghandeyo-hoksi/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/joesonghandeyo-hoksi/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 903,
@@ -5126,7 +5250,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ji-eolmana-dwaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ji-eolmana-dwaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ji-eolmana-dwaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 904,
@@ -5167,7 +5292,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ajik-neun-jungieyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ajik-neun-jungieyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ajik-neun-jungieyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 905,
@@ -5208,7 +5334,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geoui-da-dwaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geoui-da-dwaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geoui-da-dwaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 906,
@@ -5249,7 +5376,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seutail-joahaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seutail-joahaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seutail-joahaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 907,
@@ -5290,7 +5418,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-eoullyeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-eoullyeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-eoullyeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 908,
@@ -5331,7 +5460,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-yuhaengieyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-yuhaengieyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-yuhaengieyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 909,
@@ -5372,7 +5502,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-eolmana-geollyeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-eolmana-geollyeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-eolmana-geollyeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 910,
@@ -5413,7 +5544,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gaseongbi-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gaseongbi-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gaseongbi-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 911,
@@ -5454,7 +5586,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeohaeng-gyehoek-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeohaeng-gyehoek-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeohaeng-gyehoek-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 912,
@@ -5495,7 +5628,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeochirina-isseul-geoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeochirina-isseul-geoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/myeochirina-isseul-geoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 914,
@@ -5536,7 +5670,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanguk-saenghwal-eottae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanguk-saenghwal-eottae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanguk-saenghwal-eottae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 915,
@@ -5577,7 +5712,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-iksukaejyeosseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-iksukaejyeosseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-iksukaejyeosseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 918,
@@ -5618,7 +5754,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ryeogo-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ryeogo-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ryeogo-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 919,
@@ -5659,7 +5796,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-sipeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-sipeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-sipeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 920,
@@ -5700,7 +5838,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/giro-haesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/giro-haesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/giro-haesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 921,
@@ -5741,7 +5880,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maeummeogeosseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maeummeogeosseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maeummeogeosseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 922,
@@ -5782,7 +5922,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yejeonboda-neureosseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yejeonboda-neureosseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yejeonboda-neureosseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 924,
@@ -5823,7 +5964,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bonikka/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bonikka/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bonikka/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 925,
@@ -5864,7 +6006,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chucheonhaejwosseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chucheonhaejwosseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chucheonhaejwosseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 927,
@@ -5905,7 +6048,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maja/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maja/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maja/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 929,
@@ -5946,7 +6090,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mandeureobwasseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mandeureobwasseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mandeureobwasseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 930,
@@ -5987,7 +6132,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-neoeo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-neoeo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-neoeo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 931,
@@ -6028,7 +6174,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hamyeon-dwae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hamyeon-dwae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hamyeon-dwae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 932,
@@ -6069,7 +6216,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sal-geoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sal-geoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sal-geoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 933,
@@ -6110,7 +6258,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/igeo-eottaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/igeo-eottaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/igeo-eottaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 934,
@@ -6151,7 +6300,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kadeuro-halgeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kadeuro-halgeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kadeuro-halgeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 937,
@@ -6192,7 +6342,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/batgo-sipeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/batgo-sipeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/batgo-sipeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 938,
@@ -6233,7 +6384,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiga-apayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiga-apayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiga-apayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 939,
@@ -6274,7 +6426,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eonjebuteo-apasseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eonjebuteo-apasseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eonjebuteo-apasseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 940,
@@ -6315,7 +6468,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/wa-bwasseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/wa-bwasseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/wa-bwasseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 941,
@@ -6356,7 +6510,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hagi-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hagi-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hagi-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 942,
@@ -6397,7 +6552,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/junge-mwoga-jeil-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/junge-mwoga-jeil-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/junge-mwoga-jeil-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 943,
@@ -6438,7 +6594,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/raseo-jungdokseong-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/raseo-jungdokseong-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/raseo-jungdokseong-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 944,
@@ -6479,7 +6636,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/irang-dallayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/irang-dallayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/irang-dallayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 947,
@@ -6520,7 +6678,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eungeunhi-hae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eungeunhi-hae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eungeunhi-hae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 948,
@@ -6561,7 +6720,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttaemune-bappayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttaemune-bappayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttaemune-bappayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 949,
@@ -6602,7 +6762,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/murihaji-maseyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/murihaji-maseyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/murihaji-maseyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 950,
@@ -6643,7 +6804,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mani-hae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mani-hae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mani-hae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 951,
@@ -6684,7 +6846,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yuhaengiya/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yuhaengiya/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yuhaengiya/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 952,
@@ -6725,7 +6888,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ollyeotdeoni/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ollyeotdeoni/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ollyeotdeoni/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 953,
@@ -6766,7 +6930,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dojeonhaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dojeonhaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dojeonhaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 954,
@@ -6807,7 +6972,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jaeryoga-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jaeryoga-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jaeryoga-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 955,
@@ -6848,7 +7014,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daeumen-deo-jalhal-geoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daeumen-deo-jalhal-geoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daeumen-deo-jalhal-geoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 956,
@@ -6889,7 +7056,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/rutin-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/rutin-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/rutin-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 957,
@@ -6930,7 +7098,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hago-naseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hago-naseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hago-naseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 958,
@@ -6971,7 +7140,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-haeya-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-haeya-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-haeya-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 959,
@@ -7012,7 +7182,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mani-neureosseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mani-neureosseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mani-neureosseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 960,
@@ -7053,7 +7224,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bigyeori-mwoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bigyeori-mwoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bigyeori-mwoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 961,
@@ -7094,7 +7266,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-hetgallyeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-hetgallyeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-hetgallyeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 965,
@@ -7135,7 +7308,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seounhaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seounhaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seounhaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 966,
@@ -7176,7 +7350,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maeumeun-arayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maeumeun-arayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/maeumeun-arayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 967,
@@ -7217,7 +7392,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/malhago-nanikka/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/malhago-nanikka/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/malhago-nanikka/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 968,
@@ -7258,7 +7434,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkumi-mwoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkumi-mwoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkumi-mwoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 969,
@@ -7299,7 +7476,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ga-doego-sipeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ga-doego-sipeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ga-doego-sipeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 970,
@@ -7340,7 +7518,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pogihago-sipeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pogihago-sipeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pogihago-sipeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 974,
@@ -7381,7 +7560,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pyohyeonhagi-eoryeowoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pyohyeonhagi-eoryeowoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/pyohyeonhagi-eoryeowoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 975,
@@ -7422,7 +7602,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-neukkim-arayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-neukkim-arayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-neukkim-arayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 976,
@@ -7463,7 +7644,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/waenji-moreuge-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/waenji-moreuge-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/waenji-moreuge-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 977,
@@ -7504,7 +7686,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttak-i-neukkimieyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttak-i-neukkimieyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttak-i-neukkimieyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 981,
@@ -7545,7 +7728,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hapgyeokaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hapgyeokaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hapgyeokaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 982,
@@ -7587,7 +7771,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deudieo-haenaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deudieo-haenaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deudieo-haenaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 984,
@@ -7628,7 +7813,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meogeobwa/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meogeobwa/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/meogeobwa/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 985,
@@ -7669,7 +7855,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/saenggakboda-hwolssin-hae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/saenggakboda-hwolssin-hae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/saenggakboda-hwolssin-hae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 986,
@@ -7710,7 +7897,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jungdokseong-isseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jungdokseong-isseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jungdokseong-isseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 987,
@@ -7751,7 +7939,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haengbokaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haengbokaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haengbokaeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 988,
@@ -7792,7 +7981,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haneun-ge-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haneun-ge-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/haneun-ge-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 989,
@@ -7833,7 +8023,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ireon-ilsangi-sojunghaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ireon-ilsangi-sojunghaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ireon-ilsangi-sojunghaeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 992,
@@ -7874,7 +8065,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-moinikka-joayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-moinikka-joayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-moinikka-joayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 993,
@@ -7915,7 +8107,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeum-mannasseul-ttae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeum-mannasseul-ttae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoeum-mannasseul-ttae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 994,
@@ -7956,7 +8149,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeoreobun-deokbunieyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeoreobun-deokbunieyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeoreobun-deokbunieyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 995,
@@ -7997,7 +8191,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/apeurodo-jal-butakaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/apeurodo-jal-butakaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/apeurodo-jal-butakaeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 996,
@@ -8038,7 +8233,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-isseul-geoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-isseul-geoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-isseul-geoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 998,
@@ -8079,7 +8275,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jul-seoya-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jul-seoya-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jul-seoya-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1007,
@@ -8120,7 +8317,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ge-dwaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ge-dwaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ge-dwaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1008,
@@ -8161,7 +8359,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-bonikka/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-bonikka/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-bonikka/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1009,
@@ -8202,7 +8401,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hada-bomyeon/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hada-bomyeon/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hada-bomyeon/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1010,
@@ -8243,7 +8443,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-geotchigoneun/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-geotchigoneun/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-geotchigoneun/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1011,
@@ -8284,7 +8485,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/amuri-geuraedo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/amuri-geuraedo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/amuri-geuraedo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 1012,
@@ -8325,7 +8527,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-moreugenneundeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-moreugenneundeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jal-moreugenneundeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 1013,
@@ -8366,7 +8569,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deo-saenggakae-bwayagesseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deo-saenggakae-bwayagesseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deo-saenggakae-bwayagesseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1014,
@@ -8407,7 +8611,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ildaneun-haeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ildaneun-haeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ildaneun-haeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1015,
@@ -8448,7 +8653,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/nunchichaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/nunchichaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/nunchichaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1016,
@@ -8489,7 +8695,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gami-japyeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gami-japyeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gami-japyeoyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 1017,
@@ -8530,7 +8737,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttak-bwado-algesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttak-bwado-algesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ttak-bwado-algesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1020,
@@ -8571,7 +8779,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/budamseureowoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/budamseureowoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/budamseureowoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1021,
@@ -8612,7 +8821,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/soljikage-malhaedo-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/soljikage-malhaedo-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/soljikage-malhaedo-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 1022,
@@ -8653,7 +8863,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-mani-pyeonhaejyeosseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-mani-pyeonhaejyeosseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-mani-pyeonhaejyeosseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1023,
@@ -8694,7 +8905,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/oegugin-ti-nayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/oegugin-ti-nayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/oegugin-ti-nayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1024,
@@ -8735,7 +8947,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-hangungmari-pyeonhaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-hangungmari-pyeonhaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ije-hangungmari-pyeonhaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1025,
@@ -8776,7 +8989,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hangugeoro-kkumdo-kkwoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hangugeoro-kkumdo-kkwoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hangugeoro-kkumdo-kkwoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1026,
@@ -8817,7 +9031,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/rokeori-joa/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/rokeori-joa/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/rokeori-joa/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1027,
@@ -8858,7 +9073,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hyeonjiindeuri-ganeun/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hyeonjiindeuri-ganeun/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hyeonjiindeuri-ganeun/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1028,
@@ -8899,7 +9115,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sumgyeojin-myeongsoya/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sumgyeojin-myeongsoya/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sumgyeojin-myeongsoya/pattern.mp3"
-    }
+    },
+    "is_active": false
   },
   {
     "id": 1029,
@@ -8940,7 +9157,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-hataeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-hataeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yojeum-hataeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1030,
@@ -8981,7 +9199,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/wanjeon-daeseyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/wanjeon-daeseyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/wanjeon-daeseyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1031,
@@ -9022,7 +9241,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteooreuneun-jungieyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteooreuneun-jungieyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteooreuneun-jungieyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1034,
@@ -9063,7 +9283,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mari-doeneyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mari-doeneyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mari-doeneyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1035,
@@ -9104,7 +9325,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/apdwiga-an-majayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/apdwiga-an-majayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/apdwiga-an-majayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1036,
@@ -9145,7 +9367,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gyeolgugen/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gyeolgugen/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gyeolgugen/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1037,
@@ -9186,7 +9409,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/soksanghaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/soksanghaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/soksanghaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1038,
@@ -9227,7 +9451,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eogulhaesseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eogulhaesseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eogulhaesseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1042,
@@ -9268,7 +9493,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/banjeon-isseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/banjeon-isseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/banjeon-isseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1043,
@@ -9309,7 +9535,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeouni-namayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeouni-namayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/yeouni-namayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1044,
@@ -9350,7 +9577,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/moribi-dwaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/moribi-dwaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/moribi-dwaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1046,
@@ -9391,7 +9619,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteonagi-sileo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteonagi-sileo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/tteonagi-sileo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1047,
@@ -9432,7 +9661,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-geuriul-geot-gata/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-geuriul-geot-gata/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/i-geuriul-geot-gata/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1048,
@@ -9473,7 +9703,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-dasi-olge/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-dasi-olge/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-dasi-olge/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1049,
@@ -9514,7 +9745,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hangugeoro-saenggakaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hangugeoro-saenggakaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hangugeoro-saenggakaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1050,
@@ -9555,7 +9787,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/beonyeok-an-haedo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/beonyeok-an-haedo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/beonyeok-an-haedo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1051,
@@ -9596,7 +9829,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sillyeogi-neureosseoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sillyeogi-neureosseoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sillyeogi-neureosseoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1052,
@@ -9637,7 +9871,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-seongjanghan-geot/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-seongjanghan-geot/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-seongjanghan-geot/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1053,
@@ -9678,7 +9913,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deokbune-mani-baewosseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deokbune-mani-baewosseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deokbune-mani-baewosseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1301,
@@ -9719,7 +9955,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geona/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geona/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geona/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1302,
@@ -9761,7 +9998,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geodeun/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geodeun/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/geodeun/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1303,
@@ -9803,7 +10041,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ge-doeda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ge-doeda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ge-doeda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1304,
@@ -9844,7 +10083,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/get/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/get/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/get/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1305,
@@ -9885,7 +10125,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-malda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-malda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/go-malda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1306,
@@ -9926,7 +10167,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/goseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/goseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/goseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1307,
@@ -9968,7 +10210,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gi-wihae/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gi-wihae/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gi-wihae/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1308,
@@ -10009,7 +10252,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/giro-hada/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/giro-hada/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/giro-hada/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1309,
@@ -10051,7 +10295,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gie/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gie/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gie/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1310,
@@ -10092,7 +10337,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-boda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-boda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-boda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1311,
@@ -10137,7 +10383,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-sipda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-sipda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/na-sipda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1312,
@@ -10179,7 +10426,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neurago/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neurago/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neurago/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1313,
@@ -10220,7 +10468,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-geot-gatgido/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-geot-gatgido/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-geot-gatgido/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1314,
@@ -10261,7 +10510,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-ge-anira/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-ge-anira/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-ge-anira/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1315,
@@ -10303,7 +10553,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-gime/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-gime/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-gime/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1316,
@@ -10344,7 +10595,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-daero/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-daero/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-daero/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1317,
@@ -10386,7 +10638,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-daesine/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-daesine/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-daesine/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1318,
@@ -10428,7 +10681,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-barame/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-barame/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-barame/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1319,
@@ -10470,7 +10724,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-jul-aratda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-jul-aratda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-jul-aratda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1320,
@@ -10512,7 +10767,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-pyeonida/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-pyeonida/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neun-pyeonida/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1321,
@@ -10555,7 +10811,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neundago/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neundago/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neundago/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1322,
@@ -10596,7 +10853,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neundamyeonseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neundamyeonseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neundamyeonseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1323,
@@ -10637,7 +10895,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neunji/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neunji/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/neunji/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1324,
@@ -10678,7 +10937,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ni-eomi/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ni-eomi/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ni-eomi/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1325,
@@ -10721,7 +10981,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dasipi/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dasipi/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dasipi/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1326,
@@ -10763,7 +11024,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deogun/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deogun/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deogun/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1327,
@@ -10804,7 +11066,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deora/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deora/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deora/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1328,
@@ -10848,7 +11111,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deorado/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deorado/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deorado/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1329,
@@ -10889,7 +11153,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deon/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deon/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deon/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1330,
@@ -10930,7 +11195,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deonde/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deonde/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deonde/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1331,
@@ -10974,7 +11240,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dorok/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dorok/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/dorok/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1332,
@@ -11015,7 +11282,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seumnikka/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seumnikka/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seumnikka/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1333,
@@ -11058,7 +11326,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seumnida/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seumnida/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/seumnida/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1334,
@@ -11099,7 +11368,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/at-eot/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/at-eot/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/at-eot/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1335,
@@ -11140,7 +11410,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-gada/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-gada/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-gada/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1336,
@@ -11182,7 +11453,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-nota/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-nota/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-nota/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1337,
@@ -11223,7 +11495,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-duda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-duda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-duda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1338,
@@ -11265,7 +11538,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-deurida/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-deurida/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-deurida/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1339,
@@ -11306,7 +11580,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-beorida/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-beorida/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-beorida/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1340,
@@ -11348,7 +11623,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-boda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-boda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-boda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1341,
@@ -11391,7 +11667,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-oda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-oda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-oda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1342,
@@ -11434,7 +11711,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-itda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-itda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-itda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1343,
@@ -11477,7 +11755,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-juda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-juda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eo-juda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1344,
@@ -11518,7 +11797,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1345,
@@ -11559,7 +11839,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoyagetda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoyagetda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eoyagetda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1346,
@@ -11603,7 +11884,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eojida/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eojida/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eojida/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1347,
@@ -11644,7 +11926,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eunikka/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eunikka/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eunikka/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1348,
@@ -11685,7 +11968,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eureo-gada/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eureo-gada/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eureo-gada/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1349,
@@ -11728,7 +12012,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eumyeon-an-doeda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eumyeon-an-doeda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eumyeon-an-doeda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1350,
@@ -11769,7 +12054,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eumyeonseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eumyeonseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eumyeonseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1351,
@@ -11811,7 +12097,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eusipsio/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eusipsio/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eusipsio/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1352,
@@ -11852,7 +12139,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-daeume/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-daeume/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-daeume/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1353,
@@ -11895,7 +12183,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-ji/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-ji/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-ji/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1354,
@@ -11936,7 +12225,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-hue/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-hue/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eun-hue/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1355,
@@ -11978,7 +12268,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-geoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-geoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-geoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1356,
@@ -12020,7 +12311,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-ttaemada/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-ttaemada/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-ttaemada/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1357,
@@ -12063,7 +12355,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-subakke-eopda/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-subakke-eopda/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-subakke-eopda/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1358,
@@ -12106,7 +12399,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-teni/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-teni/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-teni/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1359,
@@ -12150,7 +12444,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-tende/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-tende/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eul-tende/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1360,
@@ -12193,7 +12488,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulgeol/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulgeol/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulgeol/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1361,
@@ -12234,7 +12530,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulge/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulge/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulge/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1362,
@@ -12275,7 +12572,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulkkayo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulkkayo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulkkayo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1363,
@@ -12317,7 +12615,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulsurok/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulsurok/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eulsurok/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1364,
@@ -12358,7 +12657,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eupsida/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eupsida/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eupsida/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1365,
@@ -12400,7 +12700,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jamaja/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jamaja/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jamaja/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1366,
@@ -12441,7 +12742,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/janha/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/janha/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/janha/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1367,
@@ -12482,7 +12784,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jiman/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jiman/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/jiman/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1368,
@@ -12523,7 +12826,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwa-wa/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwa-wa/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gwa-wa/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1369,
@@ -12565,7 +12869,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kke/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kke/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kke/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1370,
@@ -12606,7 +12911,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkeseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkeseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkeseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1371,
@@ -12647,7 +12953,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mada/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mada/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mada/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1372,
@@ -12688,7 +12995,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/man/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/man/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/man/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1373,
@@ -12733,7 +13041,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mankeum/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mankeum/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/mankeum/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1374,
@@ -12776,7 +13085,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bakke/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bakke/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/bakke/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1375,
@@ -12817,7 +13127,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/buteo-kkaji/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/buteo-kkaji/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/buteo-kkaji/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1376,
@@ -12859,7 +13170,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ppun/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ppun/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ppun/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1377,
@@ -12901,7 +13213,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ege-hante/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ege-hante/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ege-hante/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1378,
@@ -12942,7 +13255,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eseobuteo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eseobuteo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eseobuteo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1379,
@@ -12983,7 +13297,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/euro/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/euro/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/euro/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1380,
@@ -13024,7 +13339,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eullaeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eullaeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eullaeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1381,
@@ -13065,7 +13381,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/inama/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/inama/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/inama/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1382,
@@ -13107,7 +13424,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/iran/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/iran/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/iran/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1383,
@@ -13148,7 +13466,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ieyo-yeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ieyo-yeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/ieyo-yeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1384,
@@ -13193,7 +13512,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoreom/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoreom/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/cheoreom/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1385,
@@ -13235,7 +13555,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/keonyeong/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/keonyeong/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/keonyeong/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1386,
@@ -13276,7 +13597,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hago/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hago/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hago/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1387,
@@ -13317,7 +13639,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanteseo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanteseo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanteseo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1388,
@@ -13358,7 +13681,8 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-geollyeoyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-geollyeoyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eolmana-geollyeoyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   },
   {
     "id": 1389,
@@ -13399,6 +13723,7 @@
       "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-bwaya-hal-ge-mwoyeyo/ex2.mp3",
       "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-bwaya-hal-ge-mwoyeyo/ex3.mp3",
       "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kkok-bwaya-hal-ge-mwoyeyo/pattern.mp3"
-    }
+    },
+    "is_active": true
   }
 ]
