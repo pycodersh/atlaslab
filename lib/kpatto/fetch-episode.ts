@@ -334,6 +334,7 @@ export async function fetchAllExpressions(): Promise<KPattoExpression[]> {
   const { data, error } = await supabase
     .from('kp_expressions')
     .select('*')
+    .eq('is_active', true)   // 비활성(정예화로 빠진 표현)은 라이브러리에서 제외
     .order('first_episode', { ascending: true })
   if (error) return []
   return (data ?? []) as KPattoExpression[]

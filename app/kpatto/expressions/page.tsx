@@ -13,14 +13,14 @@ export const revalidate = 86400
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
 export const metadata: Metadata = {
-  title: 'Essential Korean Patterns — 325 Patterns with Audio | K-PATTO',
+  title: 'Essential Korean Patterns — 300 Patterns with Audio | K-PATTO',
   description:
-    '325 Korean patterns drawn from levels 1–3 of Korea\'s national Korean curriculum — ' +
+    '300 Korean patterns drawn from levels 1–3 of Korea\'s national Korean curriculum — ' +
     'from beginner phrases to early intermediate grammar. Each with audio and real webtoon scenes.',
   openGraph: {
-    title: 'Essential Korean Patterns — 325 Patterns with Audio | K-PATTO',
+    title: 'Essential Korean Patterns — 300 Patterns with Audio | K-PATTO',
     description:
-      '325 Korean patterns across 7 topics — curriculum-aligned, audio-native, webtoon-illustrated.',
+      '300 Korean patterns across 7 topics — curriculum-aligned, audio-native, webtoon-illustrated.',
     url: `${BASE}/kpatto/expressions`,
     type: 'website',
   },
@@ -84,7 +84,7 @@ export default async function ExpressionsHubPage() {
             Essential Korean Patterns
           </h1>
           <p style={{ fontSize: 14, color: T2, marginTop: 6, marginBottom: 0, lineHeight: 1.5 }}>
-            325 patterns from Korea's national curriculum · tap any to learn with audio
+            300 patterns from Korea's national curriculum · tap any to learn with audio
           </p>
         </div>
 

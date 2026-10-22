@@ -523,7 +523,7 @@ function StatsRow({ wrapperRef }: { wrapperRef?: React.RefObject<HTMLDivElement 
       <Card style={{ flex: 1, display: 'flex', justifyContent: 'space-between', padding: '14px 18px' }}>
         {([
           { num: '100', label: 'stories' },
-          { num: '325', label: 'expressions' },
+          { num: '300', label: 'expressions' },
           { num: '10',  label: 'free episodes' },
         ] as { num: string; label: string }[]).map(({ num, label }, i) => (
           <>
@@ -618,6 +618,7 @@ export default function KPattoHomePage() {
         const { count } = await supabase
           .from('kp_expressions')
           .select('id', { count: 'exact', head: true })
+          .eq('is_active', true)
           .not('first_episode', 'is', null)
           .lte('first_episode', maxEp)
 
@@ -627,6 +628,7 @@ export default function KPattoHomePage() {
         const { data } = await supabase
           .from('kp_expressions')
           .select('id, korean, english, audio_url, description, structure, category, examples, tip')
+          .eq('is_active', true)
           .not('first_episode', 'is', null)
           .lte('first_episode', maxEp)
           .order('id')

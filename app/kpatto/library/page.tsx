@@ -20,7 +20,7 @@ const BG     = '#FFFFFF'
 // 검색창과 동일한 좌우 여백 (padding: '12px 16px 0' 의 16에서 가져옴)
 const SIDE_PAD = 16
 
-const TOTAL_EXPRESSIONS = 325
+const TOTAL_EXPRESSIONS = 300  // 활성(is_active) 패턴 수
 
 // ── 유틸 ─────────────────────────────────────────────────────────────────────
 function normalize(s: string) {

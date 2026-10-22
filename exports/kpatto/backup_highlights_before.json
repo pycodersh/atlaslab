@@ -1,0 +1,402 @@
+{
+  "off_dialogue_expressions": [
+    {
+      "id": 5285,
+      "dialogue_id": 10467,
+      "expression_id": 791,
+      "matched_text": "잘 부탁드려요",
+      "role": "focus",
+      "created_at": "2026-08-03T00:31:03.001826+00:00"
+    },
+    {
+      "id": 6030,
+      "dialogue_id": 11852,
+      "expression_id": 819,
+      "matched_text": "저도요",
+      "role": "focus",
+      "created_at": "2026-08-06T04:33:29.792705+00:00"
+    },
+    {
+      "id": 6015,
+      "dialogue_id": 11824,
+      "expression_id": 995,
+      "matched_text": "앞으로도 잘 부탁해요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:23.652969+00:00"
+    },
+    {
+      "id": 6039,
+      "dialogue_id": 11874,
+      "expression_id": 868,
+      "matched_text": "밥 한번 먹어요",
+      "role": "focus",
+      "created_at": "2026-08-07T03:04:28.33605+00:00"
+    },
+    {
+      "id": 5673,
+      "dialogue_id": 11135,
+      "expression_id": 806,
+      "matched_text": "길을 잃었어요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:36.63019+00:00"
+    },
+    {
+      "id": 5680,
+      "dialogue_id": 11148,
+      "expression_id": 811,
+      "matched_text": "강추예요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:37.140392+00:00"
+    },
+    {
+      "id": 5697,
+      "dialogue_id": 11187,
+      "expression_id": 824,
+      "matched_text": "오랜만이에요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:39.950756+00:00"
+    },
+    {
+      "id": 5698,
+      "dialogue_id": 11188,
+      "expression_id": 825,
+      "matched_text": "잘 지냈어요?",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:39.950756+00:00"
+    },
+    {
+      "id": 5700,
+      "dialogue_id": 11192,
+      "expression_id": 826,
+      "matched_text": "다음에 또 봐요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:39.950756+00:00"
+    },
+    {
+      "id": 5714,
+      "dialogue_id": 11221,
+      "expression_id": 837,
+      "matched_text": "맞는 말이에요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:42.310776+00:00"
+    },
+    {
+      "id": 5715,
+      "dialogue_id": 11221,
+      "expression_id": 838,
+      "matched_text": "저는 좀 달라요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:42.310776+00:00"
+    },
+    {
+      "id": 5748,
+      "dialogue_id": 11286,
+      "expression_id": 862,
+      "matched_text": "언제든지 연락해요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:47.622644+00:00"
+    },
+    {
+      "id": 5868,
+      "dialogue_id": 11526,
+      "expression_id": 949,
+      "matched_text": "무리하지 마세요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:03.931989+00:00"
+    },
+    {
+      "id": 5909,
+      "dialogue_id": 11611,
+      "expression_id": 981,
+      "matched_text": "합격했어요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:09.605486+00:00"
+    },
+    {
+      "id": 5910,
+      "dialogue_id": 11612,
+      "expression_id": 982,
+      "matched_text": "드디어 해냈어요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:09.605486+00:00"
+    },
+    {
+      "id": 5763,
+      "dialogue_id": 11316,
+      "expression_id": 874,
+      "matched_text": "건배해요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:49.832872+00:00"
+    },
+    {
+      "id": 5764,
+      "dialogue_id": 11321,
+      "expression_id": 875,
+      "matched_text": "오늘은 여기까지만 해요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:49.832872+00:00"
+    },
+    {
+      "id": 5918,
+      "dialogue_id": 11632,
+      "expression_id": 987,
+      "matched_text": "행복해요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:10.783197+00:00"
+    },
+    {
+      "id": 5919,
+      "dialogue_id": 11633,
+      "expression_id": 989,
+      "matched_text": "이런 일상이 소중해",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:10.783197+00:00"
+    },
+    {
+      "id": 5926,
+      "dialogue_id": 11647,
+      "expression_id": 994,
+      "matched_text": "여러분 덕분이에요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:11.806788+00:00"
+    },
+    {
+      "id": 5951,
+      "dialogue_id": 11693,
+      "expression_id": 1011,
+      "matched_text": "아무리 그래도",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:15.034061+00:00"
+    },
+    {
+      "id": 6048,
+      "dialogue_id": 11895,
+      "expression_id": 1021,
+      "matched_text": "솔직하게 말해도 돼요?",
+      "role": "focus",
+      "created_at": "2026-08-11T07:48:57.080383+00:00"
+    },
+    {
+      "id": 5937,
+      "dialogue_id": 11671,
+      "expression_id": 982,
+      "matched_text": "드디어 해냈어요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:13.414577+00:00"
+    },
+    {
+      "id": 5952,
+      "dialogue_id": 11699,
+      "expression_id": 1012,
+      "matched_text": "잘 모르겠는데요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:15.584397+00:00"
+    },
+    {
+      "id": 6022,
+      "dialogue_id": 11837,
+      "expression_id": 1028,
+      "matched_text": "숨겨진 명소야",
+      "role": "focus",
+      "created_at": "2026-08-05T16:24:16.99235+00:00"
+    },
+    {
+      "id": 5957,
+      "dialogue_id": 11708,
+      "expression_id": 1016,
+      "matched_text": "감이 잡혀요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:16.1346+00:00"
+    }
+  ],
+  "off_bubbles": [
+    {
+      "id": 3572,
+      "korean": "맞는 말이에요. 근데 저는 좀 달라요.",
+      "highlight_text": "맞는 말이에요",
+      "expression_id": 837,
+      "dialogue_id": 11221
+    },
+    {
+      "id": 3539,
+      "korean": "잘 지냈어요?",
+      "highlight_text": "잘 지냈어요?",
+      "expression_id": 825,
+      "dialogue_id": null
+    },
+    {
+      "id": 3543,
+      "korean": "다음에 또 봐요!",
+      "highlight_text": "다음에 또 봐요",
+      "expression_id": 826,
+      "dialogue_id": null
+    },
+    {
+      "id": 2817,
+      "korean": "앞으로 잘 부탁드려요.",
+      "highlight_text": "잘 부탁드려요",
+      "expression_id": 791,
+      "dialogue_id": null
+    },
+    {
+      "id": 4175,
+      "korean": "앞으로도 잘 부탁해요.",
+      "highlight_text": "앞으로도 잘 부탁해요",
+      "expression_id": 995,
+      "dialogue_id": null
+    },
+    {
+      "id": 3499,
+      "korean": "지수 씨, 이 드라마 강추예요!",
+      "highlight_text": "강추예요",
+      "expression_id": 811,
+      "dialogue_id": null
+    },
+    {
+      "id": 4203,
+      "korean": "저도요! 학교에서 사진 동아리 했어요.",
+      "highlight_text": "저도요",
+      "expression_id": 819,
+      "dialogue_id": null
+    },
+    {
+      "id": 4225,
+      "korean": "우리 또 밥 한번 먹어요!",
+      "highlight_text": "밥 한번 먹어요",
+      "expression_id": 868,
+      "dialogue_id": null
+    },
+    {
+      "id": 3486,
+      "korean": "저기요, 길을 잃었어요.",
+      "highlight_text": "길을 잃었어요",
+      "expression_id": 806,
+      "dialogue_id": null
+    },
+    {
+      "id": 3672,
+      "korean": "오늘은 여기까지만 해요!",
+      "highlight_text": "오늘은 여기까지만 해요",
+      "expression_id": 875,
+      "dialogue_id": null
+    },
+    {
+      "id": 3538,
+      "korean": "오랜만이에요!",
+      "highlight_text": "오랜만이에요",
+      "expression_id": 824,
+      "dialogue_id": null
+    },
+    {
+      "id": 3667,
+      "korean": "건배해요!",
+      "highlight_text": "건배해요",
+      "expression_id": 874,
+      "dialogue_id": null
+    },
+    {
+      "id": 3637,
+      "korean": "언제든지 연락해요. 제가 들어 줄게요.",
+      "highlight_text": "언제든지 연락해요",
+      "expression_id": 862,
+      "dialogue_id": null
+    },
+    {
+      "id": 3877,
+      "korean": "너무 무리하지 마세요.",
+      "highlight_text": "무리하지 마세요",
+      "expression_id": 949,
+      "dialogue_id": null
+    },
+    {
+      "id": 4022,
+      "korean": "드디어 해냈어요!",
+      "highlight_text": "드디어 해냈어요",
+      "expression_id": 982,
+      "dialogue_id": null
+    },
+    {
+      "id": 4050,
+      "korean": "사실 저도 잘 모르겠는데요.",
+      "highlight_text": "잘 모르겠는데요",
+      "expression_id": 1012,
+      "dialogue_id": null
+    },
+    {
+      "id": 3963,
+      "korean": "드디어 해냈어요!",
+      "highlight_text": "드디어 해냈어요",
+      "expression_id": 982,
+      "dialogue_id": null
+    },
+    {
+      "id": 3984,
+      "korean": "이런 일상이 소중해.",
+      "highlight_text": "이런 일상이 소중해",
+      "expression_id": 989,
+      "dialogue_id": null
+    },
+    {
+      "id": 3998,
+      "korean": "여러분 덕분이에요.",
+      "highlight_text": "여러분 덕분이에요",
+      "expression_id": 994,
+      "dialogue_id": null
+    },
+    {
+      "id": 4059,
+      "korean": "색만 봐도 이제 감이 잡혀요.",
+      "highlight_text": "감이 잡혀요",
+      "expression_id": 1016,
+      "dialogue_id": null
+    },
+    {
+      "id": 4246,
+      "korean": "솔직하게 말해도 돼요?",
+      "highlight_text": "솔직하게 말해도 돼요?",
+      "expression_id": 1021,
+      "dialogue_id": null
+    },
+    {
+      "id": 3962,
+      "korean": "합격했어요!",
+      "highlight_text": "합격했어요",
+      "expression_id": 981,
+      "dialogue_id": null
+    }
+  ],
+  "promoted_dialogue_expressions": [
+    {
+      "id": 5281,
+      "dialogue_id": 10460,
+      "expression_id": 787,
+      "matched_text": "다 같이 있어서 좋아요",
+      "role": "focus",
+      "created_at": "2026-08-03T00:31:02.43211+00:00"
+    },
+    {
+      "id": 5780,
+      "dialogue_id": 11352,
+      "expression_id": 885,
+      "matched_text": "나라마다 달라요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:51.978714+00:00"
+    }
+  ],
+  "promoted_bubbles": [
+    {
+      "id": 2810,
+      "korean": "괜찮아요. 다 같이 있어서 좋아요.",
+      "highlight_text": "다 같이 있어서 좋아요",
+      "expression_id": 787,
+      "dialogue_id": null
+    },
+    {
+      "id": 3703,
+      "korean": "그래도 나라마다 달라서 재미있어요.",
+      "highlight_text": "나라마다 달라",
+      "expression_id": 885,
+      "dialogue_id": 11352
+    }
+  ]
+}

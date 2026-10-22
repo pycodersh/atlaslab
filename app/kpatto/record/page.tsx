@@ -25,7 +25,7 @@ const SECTION_LABEL: React.CSSProperties = {
 }
 
 const TOTAL_EPISODES    = 100
-const TOTAL_EXPRESSIONS = 325  // DB kp_expressions 실측값
+const TOTAL_EXPRESSIONS = 300  // DB kp_expressions 활성(is_active) 패턴 수
 
 // ── 녹색 6단계 (0~5회, 5회 이상 = 마스터 아이콘) ─────────────────────────────
 function epColor(count: number, locked: boolean): string {

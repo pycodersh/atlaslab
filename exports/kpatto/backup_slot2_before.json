@@ -1,0 +1,84 @@
+[
+  {
+    "id": 787,
+    "korean": "다 같이 있어서 좋아요",
+    "english": "I'm happy we're all together.",
+    "description": "Used to express warmth about everyone being gathered in one place.\n\nRule: -아/어서 좋아요 attaches any reason to 좋아요 (it's good) — 날씨가 좋아서 좋아요 means 'I'm happy because the weather is nice'.",
+    "structure": null,
+    "category": "focus",
+    "examples": [
+      {
+        "en": "I'm so happy we're all together!",
+        "ko": "다 같이 있어서 좋아요!"
+      },
+      {
+        "en": "I'm happy to be together with my whole family.",
+        "ko": "가족이랑 다 같이 있어서 좋아요."
+      },
+      {
+        "en": "It's great to be together with all my friends!",
+        "ko": "친구들이랑 다 같이 있어서 좋아요!"
+      }
+    ],
+    "tip": null,
+    "first_episode": 9,
+    "created_at": "2026-07-26T09:40:24.827003+00:00",
+    "audio_url": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/787.wav",
+    "examples_audio_url": null,
+    "compare": null,
+    "episodes": [
+      9
+    ],
+    "audio_hash": "c256f5243d26b242",
+    "slug": "da-gachi-isseoseo-joayo",
+    "romaja": "da gachi isseoseo joayo",
+    "heading_en": "How to say \"I'm happy we're all together\" in Korean — 다 같이 있어서 좋아요 (da gachi isseoseo joayo)",
+    "audio_urls": {
+      "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-isseoseo-joayo/ex1.mp3",
+      "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-isseoseo-joayo/ex2.mp3",
+      "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-isseoseo-joayo/ex3.mp3",
+      "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/da-gachi-isseoseo-joayo/pattern.mp3"
+    }
+  },
+  {
+    "id": 885,
+    "korean": "나라마다 달라요",
+    "english": "It differs from country to country.",
+    "description": "Point out that customs or practices differ by country.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+    "structure": null,
+    "category": "focus",
+    "examples": [
+      {
+        "en": "Every country is different — that's what makes it fun!",
+        "ko": "나라마다 달라요, 그게 재미있어요!"
+      },
+      {
+        "en": "Food is different in every country.",
+        "ko": "나라마다 음식이 달라요."
+      },
+      {
+        "en": "Every country is different — that's why I love traveling!",
+        "ko": "나라마다 달라요, 그래서 여행이 좋아요!"
+      }
+    ],
+    "tip": null,
+    "first_episode": 40,
+    "created_at": "2026-07-26T09:40:28.194299+00:00",
+    "audio_url": null,
+    "examples_audio_url": null,
+    "compare": null,
+    "episodes": [
+      40
+    ],
+    "audio_hash": null,
+    "slug": "naramada-dallayo",
+    "romaja": "naramada dallayo",
+    "heading_en": "How to say \"It differs from country to country\" in Korean — 나라마다 달라요 (naramada dallayo)",
+    "audio_urls": {
+      "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naramada-dallayo/ex1.mp3",
+      "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naramada-dallayo/ex2.mp3",
+      "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naramada-dallayo/ex3.mp3",
+      "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/naramada-dallayo/pattern.mp3"
+    }
+  }
+]
