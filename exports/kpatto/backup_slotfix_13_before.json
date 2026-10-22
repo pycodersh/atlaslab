@@ -1,0 +1,717 @@
+{
+  "kp_expressions": [
+    {
+      "id": 818,
+      "korean": "취미가 뭐예요?",
+      "english": "What are your hobbies?",
+      "description": "Used to ask what someone does for fun. It's one of the standard questions when you're getting to know a Korean person.\n\nRule: 취미 (hobby) takes 가 here, so it's 취미가 뭐예요? Among close friends the casual form is 취미가 뭐야?",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "What are your hobbies?",
+          "ko": "취미가 뭐예요?"
+        },
+        {
+          "en": "What are your hobbies these days?",
+          "ko": "요즘 취미가 뭐예요?"
+        },
+        {
+          "en": "What are your hobbies? Mine is photography!",
+          "ko": "취미가 뭐예요? 저는 사진이에요!"
+        }
+      ],
+      "tip": null,
+      "first_episode": 18,
+      "created_at": "2026-07-26T09:40:25.764044+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        18
+      ],
+      "audio_hash": null,
+      "slug": "chwimi-mwoyeyo",
+      "romaja": "chwimiga mwoyeyo",
+      "heading_en": "How to say \"What are your hobbies?\" in Korean — 취미가 뭐예요? (chwimiga mwoyeyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chwimi-mwoyeyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chwimi-mwoyeyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chwimi-mwoyeyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/chwimi-mwoyeyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 863,
+      "korean": "카카오톡 해요?",
+      "english": "Do you use KakaoTalk?",
+      "description": "Ask if someone uses KakaoTalk to swap contact info.\n\nRule: Standard phrase to ask for KakaoTalk ID. Follow up with 아이디 알려주세요 (Please give me your ID).",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Do you use KakaoTalk? Tell me your ID!",
+          "ko": "카카오톡 해요? 아이디 알려줘요!"
+        },
+        {
+          "en": "Do you use KakaoTalk? I'll add you as a friend!",
+          "ko": "카카오톡 해요? 친구 추가할게요!"
+        },
+        {
+          "en": "Do you use KakaoTalk? Let's message there!",
+          "ko": "카카오톡 해요? 거기서 연락해요!"
+        }
+      ],
+      "tip": null,
+      "first_episode": 33,
+      "created_at": "2026-07-26T09:40:27.419131+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        33
+      ],
+      "audio_hash": null,
+      "slug": "kakaotok-haeyo",
+      "romaja": "kakaotok haeyo",
+      "heading_en": "How to say \"Do you use KakaoTalk?\" in Korean — 카카오톡 해요? (kakaotok haeyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kakaotok-haeyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kakaotok-haeyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kakaotok-haeyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kakaotok-haeyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 867,
+      "korean": "더치페이 해요?",
+      "english": "Shall we split the bill?",
+      "description": "Ask if everyone is splitting the bill equally.\n\nRule: Loanword used widely among young Koreans meaning 'Let's split the bill' or 'Go Dutch'.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Should we split the bill?",
+          "ko": "더치페이 해요?"
+        },
+        {
+          "en": "Let's split the bill today!",
+          "ko": "오늘 더치페이 해요!"
+        },
+        {
+          "en": "Should we split it? Or I can pay!",
+          "ko": "더치페이 해요? 아니면 제가 낼게요!"
+        }
+      ],
+      "tip": null,
+      "first_episode": 34,
+      "created_at": "2026-07-26T09:40:27.527696+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        34
+      ],
+      "audio_hash": null,
+      "slug": "deochipei-haeyo",
+      "romaja": "deochipei haeyo",
+      "heading_en": "How to say \"Shall we split the bill?\" in Korean — 더치페이 해요? (deochipei haeyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deochipei-haeyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deochipei-haeyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deochipei-haeyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/deochipei-haeyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 873,
+      "korean": "술 마셔요?",
+      "english": "Do you drink?",
+      "description": "Ask someone politely if they drink alcohol.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Do you drink? Just a little for me!",
+          "ko": "술 마셔요? 저는 조금만요!"
+        },
+        {
+          "en": "Do you drink? Let's have a drink together!",
+          "ko": "술 마셔요? 같이 한잔 해요!"
+        },
+        {
+          "en": "Do you drink? I can't drink today.",
+          "ko": "술 마셔요? 오늘은 못 마셔요."
+        }
+      ],
+      "tip": null,
+      "first_episode": 36,
+      "created_at": "2026-07-26T09:40:27.743034+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        36
+      ],
+      "audio_hash": null,
+      "slug": "sul-masyeoyo",
+      "romaja": "sul masyeoyo",
+      "heading_en": "How to say \"Do you drink?\" in Korean — 술 마셔요? (sul masyeoyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sul-masyeoyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sul-masyeoyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sul-masyeoyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sul-masyeoyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 877,
+      "korean": "신청곡 있어요?",
+      "english": "Any song requests?",
+      "description": "Ask if someone has a song they'd like to request.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Do you have a song request?",
+          "ko": "신청곡 있어요?"
+        },
+        {
+          "en": "Do you have a song request? I'll put it on!",
+          "ko": "신청곡 있어요? 제가 틀어줄게요!"
+        },
+        {
+          "en": "Do you have a request? What do you want to hear?",
+          "ko": "신청곡 있어요? 뭐 듣고 싶어요?"
+        }
+      ],
+      "tip": null,
+      "first_episode": 37,
+      "created_at": "2026-07-26T09:40:27.87844+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        37
+      ],
+      "audio_hash": null,
+      "slug": "sincheonggok-isseoyo",
+      "romaja": "sincheonggok isseoyo",
+      "heading_en": "How to say \"Any song requests?\" in Korean — 신청곡 있어요? (sincheonggok isseoyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sincheonggok-isseoyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sincheonggok-isseoyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sincheonggok-isseoyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/sincheonggok-isseoyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 878,
+      "korean": "한 곡 더 해요",
+      "english": "One more song.",
+      "description": "Suggest doing just one more song before finishing.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Let's do one more song!",
+          "ko": "한 곡 더 해요!"
+        },
+        {
+          "en": "One more song — this time I'll sing!",
+          "ko": "한 곡 더 해요, 이번엔 제가 불러요!"
+        },
+        {
+          "en": "It's so fun — let's do one more song!",
+          "ko": "재미있으니까 한 곡 더 해요!"
+        }
+      ],
+      "tip": null,
+      "first_episode": 37,
+      "created_at": "2026-07-26T09:40:27.916921+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        37
+      ],
+      "audio_hash": null,
+      "slug": "han-gok-deo-haeyo",
+      "romaja": "han gok deo haeyo",
+      "heading_en": "How to say \"One more song\" in Korean — 한 곡 더 해요 (han gok deo haeyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-gok-deo-haeyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-gok-deo-haeyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-gok-deo-haeyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/han-gok-deo-haeyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 879,
+      "korean": "같이 춰요",
+      "english": "Let's dance together.",
+      "description": "Invite someone to get up and dance with you.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Let's dance together!",
+          "ko": "같이 춰요!"
+        },
+        {
+          "en": "Let's dance together — to this song!",
+          "ko": "같이 춰요, 이 노래에 맞춰서!"
+        },
+        {
+          "en": "Let's dance together — I'll teach you!",
+          "ko": "같이 춰요, 제가 가르쳐줄게요!"
+        }
+      ],
+      "tip": null,
+      "first_episode": 38,
+      "created_at": "2026-07-26T09:40:27.951619+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        38
+      ],
+      "audio_hash": null,
+      "slug": "gachi-chwoyo",
+      "romaja": "gachi chwoyo",
+      "heading_en": "How to say \"Let's dance together\" in Korean — 같이 춰요 (gachi chwoyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-chwoyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-chwoyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-chwoyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/gachi-chwoyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 883,
+      "korean": "달달한 거 있어요?",
+      "english": "Do you have anything sweet?",
+      "description": "Ask if there's something sweet available to eat or drink. Just place a noun befo.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Do you have anything sweet?",
+          "ko": "달달한 거 있어요?"
+        },
+        {
+          "en": "Do you have anything sweet? Is there caramel latte?",
+          "ko": "달달한 거 있어요? 카라멜 라떼 있어요?"
+        },
+        {
+          "en": "Do you have anything sweet? I'm craving it today!",
+          "ko": "달달한 거 있어요? 오늘 당기네요!"
+        }
+      ],
+      "tip": null,
+      "first_episode": 39,
+      "created_at": "2026-07-26T09:40:28.11651+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        39
+      ],
+      "audio_hash": null,
+      "slug": "daldalhan-geo-isseoyo",
+      "romaja": "daldalhan geo isseoyo",
+      "heading_en": "How to say \"Do you have anything sweet?\" in Korean — 달달한 거 있어요? (daldalhan geo isseoyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daldalhan-geo-isseoyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daldalhan-geo-isseoyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daldalhan-geo-isseoyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/daldalhan-geo-isseoyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 884,
+      "korean": "오래 있어도 돼요?",
+      "english": "Is it okay to stay a long time?",
+      "description": "Politely ask whether it's okay to stay for a long time.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Is it okay to stay a long time?",
+          "ko": "오래 있어도 돼요?"
+        },
+        {
+          "en": "I'm going to study — is it okay to stay long?",
+          "ko": "공부하려고요, 오래 있어도 돼요?"
+        },
+        {
+          "en": "Can I use my laptop and stay a long time?",
+          "ko": "노트북 써도 되고 오래 있어도 돼요?"
+        }
+      ],
+      "tip": null,
+      "first_episode": 39,
+      "created_at": "2026-07-26T09:40:28.155787+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        39
+      ],
+      "audio_hash": null,
+      "slug": "orae-isseodo-dwaeyo",
+      "romaja": "orae isseodo dwaeyo",
+      "heading_en": "How to say \"Is it okay to stay a long time?\" in Korean — 오래 있어도 돼요? (orae isseodo dwaeyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/orae-isseodo-dwaeyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/orae-isseodo-dwaeyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/orae-isseodo-dwaeyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/orae-isseodo-dwaeyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 909,
+      "korean": "배달 얼마나 걸려요?",
+      "english": "How long does delivery take?",
+      "description": "Ask how long a delivery will take to arrive.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "How long does delivery take?",
+          "ko": "배달 얼마나 걸려요?"
+        },
+        {
+          "en": "How long does delivery take to here?",
+          "ko": "여기까지 배달 얼마나 걸려요?"
+        },
+        {
+          "en": "How long does delivery take? I hope it comes quickly!",
+          "ko": "배달 얼마나 걸려요? 빨리 왔으면 좋겠어요!"
+        }
+      ],
+      "tip": null,
+      "first_episode": 48,
+      "created_at": "2026-07-26T09:40:29.128184+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        48
+      ],
+      "audio_hash": null,
+      "slug": "baedal-eolmana-geollyeoyo",
+      "romaja": "baedal eolmana geollyeoyo",
+      "heading_en": "How to say \"How long does delivery take?\" in Korean — 배달 얼마나 걸려요? (baedal eolmana geollyeoyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-eolmana-geollyeoyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-eolmana-geollyeoyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-eolmana-geollyeoyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/baedal-eolmana-geollyeoyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 914,
+      "korean": "한국 생활 어때?",
+      "english": "How's life in Korea?",
+      "description": "Ask a friend casually how they're finding life in Korea.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "How is life in Korea? Have you adapted?",
+          "ko": "한국 생활 어때? 적응됐어?"
+        },
+        {
+          "en": "How is life in Korea? Is there anything hard?",
+          "ko": "한국 생활 어때? 힘든 점 없어?"
+        },
+        {
+          "en": "How is life in Korea? Is the food delicious?",
+          "ko": "한국 생활 어때? 음식은 맛있어?"
+        }
+      ],
+      "tip": null,
+      "first_episode": 50,
+      "created_at": "2026-07-26T09:40:29.317164+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        50
+      ],
+      "audio_hash": null,
+      "slug": "hanguk-saenghwal-eottae",
+      "romaja": "hanguk saenghwal eottae",
+      "heading_en": "How to say \"How's life in Korea?\" in Korean — 한국 생활 어때? (hanguk saenghwal eottae)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanguk-saenghwal-eottae/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanguk-saenghwal-eottae/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanguk-saenghwal-eottae/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/hanguk-saenghwal-eottae/pattern.mp3"
+      }
+    },
+    {
+      "id": 934,
+      "korean": "카드로 할게요",
+      "english": "I'll pay by card.",
+      "description": "Tell a cashier or server you'll be paying by card.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "I'll pay by card!",
+          "ko": "카드로 할게요!"
+        },
+        {
+          "en": "I'll pay with a credit card.",
+          "ko": "신용카드로 할게요."
+        },
+        {
+          "en": "I'll pay by card — is that okay?",
+          "ko": "카드로 할게요, 괜찮아요?"
+        }
+      ],
+      "tip": null,
+      "first_episode": 56,
+      "created_at": "2026-07-26T09:40:29.964523+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        56
+      ],
+      "audio_hash": null,
+      "slug": "kadeuro-halgeyo",
+      "romaja": "kadeuro halgeyo",
+      "heading_en": "How to say \"I'll pay by card\" in Korean — 카드로 할게요 (kadeuro halgeyo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kadeuro-halgeyo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kadeuro-halgeyo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kadeuro-halgeyo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/kadeuro-halgeyo/pattern.mp3"
+      }
+    },
+    {
+      "id": 938,
+      "korean": "어디가 아파요?",
+      "english": "Where does it hurt?",
+      "description": "Ask a patient or friend where they're feeling pain.\n\nRule: Common conversational expression. Use this natural phrasing in daily Korean contexts.",
+      "structure": null,
+      "category": "focus",
+      "examples": [
+        {
+          "en": "Where does it hurt?",
+          "ko": "어디가 아파요?"
+        },
+        {
+          "en": "Where does it hurt? Does it hurt a lot?",
+          "ko": "어디가 아파요? 많이 아파요?"
+        },
+        {
+          "en": "Where does it hurt? Let's go to the hospital together.",
+          "ko": "어디가 아파요? 병원 같이 가요."
+        }
+      ],
+      "tip": null,
+      "first_episode": 58,
+      "created_at": "2026-07-26T09:40:30.08783+00:00",
+      "audio_url": null,
+      "examples_audio_url": null,
+      "compare": null,
+      "episodes": [
+        58
+      ],
+      "audio_hash": null,
+      "slug": "eodiga-apayo",
+      "romaja": "eodiga apayo",
+      "heading_en": "How to say \"Where does it hurt?\" in Korean — 어디가 아파요? (eodiga apayo)",
+      "audio_urls": {
+        "ex1": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiga-apayo/ex1.mp3",
+        "ex2": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiga-apayo/ex2.mp3",
+        "ex3": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiga-apayo/ex3.mp3",
+        "pattern": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/audio/expressions/eodiga-apayo/pattern.mp3"
+      }
+    }
+  ],
+  "kp_dialogue_expressions": [
+    {
+      "id": 6028,
+      "dialogue_id": 11850,
+      "expression_id": 818,
+      "matched_text": "취미가 뭐예요?",
+      "role": "focus",
+      "created_at": "2026-08-06T04:33:29.792705+00:00"
+    },
+    {
+      "id": 6037,
+      "dialogue_id": 11871,
+      "expression_id": 867,
+      "matched_text": "더치페이 해요?",
+      "role": "focus",
+      "created_at": "2026-08-07T03:04:28.33605+00:00"
+    },
+    {
+      "id": 6073,
+      "dialogue_id": 11949,
+      "expression_id": 909,
+      "matched_text": "배달 얼마나 걸려요?",
+      "role": "focus",
+      "created_at": "2026-08-11T08:30:28.719748+00:00"
+    },
+    {
+      "id": 5749,
+      "dialogue_id": 11289,
+      "expression_id": 863,
+      "matched_text": "카카오톡 해요?",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:48.161747+00:00"
+    },
+    {
+      "id": 5766,
+      "dialogue_id": 11325,
+      "expression_id": 877,
+      "matched_text": "신청곡 있어?",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:50.371299+00:00"
+    },
+    {
+      "id": 5768,
+      "dialogue_id": 11329,
+      "expression_id": 878,
+      "matched_text": "한 곡 더 해요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:50.371299+00:00"
+    },
+    {
+      "id": 5770,
+      "dialogue_id": 11333,
+      "expression_id": 879,
+      "matched_text": "같이 춰요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:50.890345+00:00"
+    },
+    {
+      "id": 5774,
+      "dialogue_id": 11340,
+      "expression_id": 883,
+      "matched_text": "달달한 거 있어요?",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:51.46231+00:00"
+    },
+    {
+      "id": 5776,
+      "dialogue_id": 11343,
+      "expression_id": 884,
+      "matched_text": "오래 있어도 돼요?",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:51.46231+00:00"
+    },
+    {
+      "id": 5817,
+      "dialogue_id": 11426,
+      "expression_id": 914,
+      "matched_text": "한국 생활 어때?",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:57.778496+00:00"
+    },
+    {
+      "id": 5844,
+      "dialogue_id": 11479,
+      "expression_id": 934,
+      "matched_text": "카드로 할게요",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:00.860478+00:00"
+    },
+    {
+      "id": 5761,
+      "dialogue_id": 11314,
+      "expression_id": 873,
+      "matched_text": "술 마셔요?",
+      "role": "focus",
+      "created_at": "2026-08-05T16:18:49.832872+00:00"
+    },
+    {
+      "id": 5850,
+      "dialogue_id": 11492,
+      "expression_id": 938,
+      "matched_text": "어디가 아파요?",
+      "role": "focus",
+      "created_at": "2026-08-05T16:19:01.944852+00:00"
+    }
+  ],
+  "kp_bubbles": [
+    {
+      "id": 4300,
+      "korean": "배달 얼마나 걸려요?",
+      "highlight_text": "배달 얼마나 걸려요?",
+      "expression_id": 909
+    },
+    {
+      "id": 4222,
+      "korean": "그럼 더치페이 해요?",
+      "highlight_text": "더치페이 해요?",
+      "expression_id": 867
+    },
+    {
+      "id": 4201,
+      "korean": "민준 씨는 취미가 뭐예요?",
+      "highlight_text": "취미가 뭐예요?",
+      "expression_id": 818
+    },
+    {
+      "id": 3676,
+      "korean": "신청곡 있어? 내가 넣어 줄게.",
+      "highlight_text": "신청곡 있어?",
+      "expression_id": 877
+    },
+    {
+      "id": 3665,
+      "korean": "민준 씨, 술 마셔요?",
+      "highlight_text": "술 마셔요?",
+      "expression_id": 873
+    },
+    {
+      "id": 3684,
+      "korean": "저도 같이 춰요!",
+      "highlight_text": "같이 춰요",
+      "expression_id": 879
+    },
+    {
+      "id": 3640,
+      "korean": "민준 씨, 카카오톡 해요?",
+      "highlight_text": "카카오톡 해요?",
+      "expression_id": 863
+    },
+    {
+      "id": 3691,
+      "korean": "달달한 거 있어요?",
+      "highlight_text": "달달한 거 있어요?",
+      "expression_id": 883
+    },
+    {
+      "id": 3680,
+      "korean": "한 곡 더 해요!",
+      "highlight_text": "한 곡 더 해요",
+      "expression_id": 878
+    },
+    {
+      "id": 3694,
+      "korean": "저기요, 여기 오래 있어도 돼요?",
+      "highlight_text": "오래 있어도 돼요?",
+      "expression_id": 884
+    },
+    {
+      "id": 3777,
+      "korean": "한국 생활 어때?",
+      "highlight_text": "한국 생활 어때?",
+      "expression_id": 914
+    },
+    {
+      "id": 3843,
+      "korean": "어디가 아파요?",
+      "highlight_text": "어디가 아파요?",
+      "expression_id": 938
+    }
+  ]
+}
