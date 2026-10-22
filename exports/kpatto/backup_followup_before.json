@@ -1,0 +1,1396 @@
+{
+  "kp_expressions": [
+    {
+      "id": 818,
+      "slug": "chwimi-mwoyeyo",
+      "korean": "~이/가 뭐예요?",
+      "english": "What is your [Noun]?",
+      "romaja": "chwimiga mwoyeyo",
+      "heading_en": "How to say \"What are your hobbies?\" in Korean — 취미가 뭐예요? (chwimiga mwoyeyo)",
+      "examples": [
+        {
+          "en": "What is your hobby that you usually do on weekends?",
+          "ko": "주말에 주로 하는 취미가 뭐예요?"
+        },
+        {
+          "en": "What is your favorite food in Korea?",
+          "ko": "한국에서 제일 좋아하는 음식이 뭐예요?"
+        },
+        {
+          "en": "What is the travel destination you want to visit most?",
+          "ko": "가장 가보고 싶은 여행지가 뭐예요?"
+        }
+      ]
+    },
+    {
+      "id": 863,
+      "slug": "kakaotok-haeyo",
+      "korean": "~해요? (이용/습관)",
+      "english": "Do you use / do [Noun]?",
+      "romaja": "kakaotok haeyo",
+      "heading_en": "How to say \"Do you use KakaoTalk?\" in Korean — 카카오톡 해요? (kakaotok haeyo)",
+      "examples": [
+        {
+          "en": "Do you use KakaoTalk? Please share your ID.",
+          "ko": "혹시 카카오톡 해요? 아이디 알려주세요."
+        },
+        {
+          "en": "Do Korean friends usually use Instagram?",
+          "ko": "한국 친구들은 보통 인스타그램 해요?"
+        },
+        {
+          "en": "Do you also use LINE to stay in touch?",
+          "ko": "연락할 때 라인도 해요?"
+        }
+      ]
+    },
+    {
+      "id": 867,
+      "slug": "deochipei-haeyo",
+      "korean": "~해요? (제안/정산)",
+      "english": "Shall we [Verb/Do]?",
+      "romaja": "deochipei haeyo",
+      "heading_en": "How to say \"Shall we split the bill?\" in Korean — 더치페이 해요? (deochipei haeyo)",
+      "examples": [
+        {
+          "en": "Let's split the bill separately.",
+          "ko": "우리 각자 더치페이 해요."
+        },
+        {
+          "en": "Do friends in Korea usually split the bill?",
+          "ko": "한국에서는 친구들끼리 더치페이 해요?"
+        },
+        {
+          "en": "My treat this time, let's split next time!",
+          "ko": "이번엔 제가 사고, 다음 모임 때 더치페이 해요!"
+        }
+      ]
+    },
+    {
+      "id": 873,
+      "slug": "sul-masyeoyo",
+      "korean": "~마셔요?",
+      "english": "Do you drink [Drink]?",
+      "romaja": "sul masyeoyo",
+      "heading_en": "How to say \"Do you drink?\" in Korean — 술 마셔요? (sul masyeoyo)",
+      "examples": [
+        {
+          "en": "Do you drink beer or alcohol at get-togethers?",
+          "ko": "회식 때 맥주나 술 마셔요?"
+        },
+        {
+          "en": "Do you drink caffeinated coffee in the evening?",
+          "ko": "저녁에 카페인 있는 커피 마셔요?"
+        },
+        {
+          "en": "Do you often drink soda when having a meal?",
+          "ko": "식사할 때 탄산음료 자주 마셔요?"
+        }
+      ]
+    },
+    {
+      "id": 877,
+      "slug": "sincheonggok-isseoyo",
+      "korean": "~있어요? (희망/요청)",
+      "english": "Do you have [Noun]?",
+      "romaja": "sincheonggok isseoyo",
+      "heading_en": "How to say \"Any song requests?\" in Korean — 신청곡 있어요? (sincheonggok isseoyo)",
+      "examples": [
+        {
+          "en": "Do you have a song request you'd like to hear?",
+          "ko": "듣고 싶은 신청곡 있어요?"
+        },
+        {
+          "en": "Is there another song you want to sing at karaoke?",
+          "ko": "노래방에서 부르고 싶은 다른 노래 있어요?"
+        },
+        {
+          "en": "Is there a favorite singer you really want to listen to today?",
+          "ko": "오늘 꼭 듣고 싶은 좋아하는 가수가 있어요?"
+        }
+      ]
+    },
+    {
+      "id": 878,
+      "slug": "han-gok-deo-haeyo",
+      "korean": "~더 해요 / 할래요",
+      "english": "Let's do [Amount] more.",
+      "romaja": "han gok deo haeyo",
+      "heading_en": "How to say \"One more song\" in Korean — 한 곡 더 해요 (han gok deo haeyo)",
+      "examples": [
+        {
+          "en": "We still have time, so let's do one more song!",
+          "ko": "시간 남았으니까 한 곡 더 해요!"
+        },
+        {
+          "en": "The vibe is great, shall we sing just one more before leaving?",
+          "ko": "분위기 좋은데 한 곡만 더 부르고 갈래요?"
+        },
+        {
+          "en": "It's such a pity to end now, let's do it just once more.",
+          "ko": "너무 아쉬우니까 노래 딱 한 번만 더 해요."
+        }
+      ]
+    },
+    {
+      "id": 879,
+      "slug": "gachi-chwoyo",
+      "korean": "같이 ~어요",
+      "english": "Let's [Verb] together.",
+      "romaja": "gachi chwoyo",
+      "heading_en": "How to say \"Let's dance together\" in Korean — 같이 춰요 (gachi chwoyo)",
+      "examples": [
+        {
+          "en": "An exciting song is playing, let's dance together!",
+          "ko": "신나는 노래 나오니까 같이 춰요!"
+        },
+        {
+          "en": "Don't be shy, let's dance along together.",
+          "ko": "부끄러워하지 말고 이 춤 같이 따라 춰요."
+        },
+        {
+          "en": "Let's all sing the chorus part together!",
+          "ko": "우리 후렴구 부분만 다 같이 불러요!"
+        }
+      ]
+    },
+    {
+      "id": 883,
+      "slug": "daldalhan-geo-isseoyo",
+      "korean": "~(으)ㄴ 거 있어요?",
+      "english": "Do you have something [Adjective]?",
+      "romaja": "daldalhan geo isseoyo",
+      "heading_en": "How to say \"Do you have anything sweet?\" in Korean — 달달한 거 있어요? (daldalhan geo isseoyo)",
+      "examples": [
+        {
+          "en": "Do you have something sweet among the desserts?",
+          "ko": "디저트 중에 달달한 거 있어요?"
+        },
+        {
+          "en": "Do you have something that isn't too spicy and milder?",
+          "ko": "너무 맵지 않고 덜 매운 거 있어요?"
+        },
+        {
+          "en": "Do you have something decaffeinated or warm?",
+          "ko": "카페인이 없거나 따뜻한 거 있어요?"
+        }
+      ]
+    },
+    {
+      "id": 884,
+      "slug": "orae-isseodo-dwaeyo",
+      "korean": "~있어도 돼요?",
+      "english": "Can I stay / be [Condition]?",
+      "romaja": "orae isseodo dwaeyo",
+      "heading_en": "How to say \"Is it okay to stay a long time?\" in Korean — 오래 있어도 돼요? (orae isseodo dwaeyo)",
+      "examples": [
+        {
+          "en": "Can I stay here for a while working on my laptop?",
+          "ko": "여기서 노트북 하면서 오래 있어도 돼요?"
+        },
+        {
+          "en": "Can I stay for about two hours with one drink?",
+          "ko": "음료 한 잔 시키고 두 시간 정도 있어도 돼요?"
+        },
+        {
+          "en": "Can I wait inside for a bit until my friend arrives?",
+          "ko": "친구 올 때까지 잠깐 안에서 기다리고 있어도 돼요?"
+        }
+      ]
+    },
+    {
+      "id": 909,
+      "slug": "baedal-eolmana-geollyeoyo",
+      "korean": "~얼마나 걸려요?",
+      "english": "How long does [Action/Noun] take?",
+      "romaja": "baedal eolmana geollyeoyo",
+      "heading_en": "How to say \"How long does delivery take?\" in Korean — 배달 얼마나 걸려요? (baedal eolmana geollyeoyo)",
+      "examples": [
+        {
+          "en": "If I order now, how long will delivery take?",
+          "ko": "지금 주문하면 배달 얼마나 걸려요?"
+        },
+        {
+          "en": "Since it's busy, how long will it take for the food to come out?",
+          "ko": "주문이 밀려서 음식 나오는 데 얼마나 걸려요?"
+        },
+        {
+          "en": "How long does it take to walk from here to the subway station?",
+          "ko": "여기서 지하철역까지 걸어가면 얼마나 걸려요?"
+        }
+      ]
+    },
+    {
+      "id": 914,
+      "slug": "hanguk-saenghwal-eottae",
+      "korean": "~어때요?",
+      "english": "How is [Noun]?",
+      "romaja": "hanguk saenghwal eottae",
+      "heading_en": "How to say \"How's life in Korea?\" in Korean — 한국 생활 어때? (hanguk saenghwal eottae)",
+      "examples": [
+        {
+          "en": "How is living alone in Korea?",
+          "ko": "한국에서 혼자 사는 생활 어때요?"
+        },
+        {
+          "en": "How is the new job you started?",
+          "ko": "새로 시작한 일은 좀 어때요?"
+        },
+        {
+          "en": "How was the Korean food you had today to your taste?",
+          "ko": "오늘 먹은 한국 음식 입맛에 어때요?"
+        }
+      ]
+    },
+    {
+      "id": 934,
+      "slug": "kadeuro-halgeyo",
+      "korean": "~(으)로 할게요",
+      "english": "I'll do / choose [Noun].",
+      "romaja": "kadeuro halgeyo",
+      "heading_en": "How to say \"I'll pay by card\" in Korean — 카드로 할게요 (kadeuro halgeyo)",
+      "examples": [
+        {
+          "en": "I'll pay with a credit card.",
+          "ko": "계산은 신용카드로 할게요."
+        },
+        {
+          "en": "I don't have cash, so I'll do a bank transfer.",
+          "ko": "현금이 없어서 계좌이체로 할게요."
+        },
+        {
+          "en": "For my order, I'll go with a hot Americano.",
+          "ko": "주문은 따뜻한 아메리카노로 할게요."
+        }
+      ]
+    },
+    {
+      "id": 938,
+      "slug": "eodiga-apayo",
+      "korean": "어디가 ~아요/어요?",
+      "english": "Where does it [Symptom]?",
+      "romaja": "eodiga apayo",
+      "heading_en": "How to say \"Where does it hurt?\" in Korean — 어디가 아파요? (eodiga apayo)",
+      "examples": [
+        {
+          "en": "Since when and where does it hurt a lot?",
+          "ko": "언제부터 어디가 많이 아파요?"
+        },
+        {
+          "en": "Do you have cold symptoms? Does your throat hurt?",
+          "ko": "감기 기운이 있으신가요? 목이 아파요?"
+        },
+        {
+          "en": "Did you injure your leg? Where does it feel uncomfortable when walking?",
+          "ko": "다리를 다쳤어요? 걸을 때 어디가 불편해요?"
+        }
+      ]
+    }
+  ],
+  "kp_challenges": [
+    {
+      "id": 4531,
+      "ep_no": 18,
+      "slot": "MC1",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "취미가 뭐예요?",
+      "hint": null,
+      "answer": "What are your hobbies?",
+      "options": [
+        "What are your hobbies?",
+        "Me too! I love K-pop too!",
+        "I don't really like spicy food.",
+        "I hike every weekend."
+      ],
+      "tokens": null,
+      "expression_id": 818,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4543,
+      "ep_no": 18,
+      "slot": "SB1",
+      "round_no": 1,
+      "type": "sentence_build",
+      "question": "What are your hobbies, oppa?",
+      "hint": null,
+      "answer": "한국 오빠 취미가 뭐예요?",
+      "options": null,
+      "tokens": [
+        "케이팝",
+        "한국",
+        "가요!",
+        "뭐예요?",
+        "취미가",
+        "스타일",
+        "오빠"
+      ],
+      "expression_id": 818,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4539,
+      "ep_no": 18,
+      "slot": "FB3",
+      "round_no": 2,
+      "type": "fill_blank",
+      "question": "___ 저는 사진이에요!",
+      "hint": "What are your hobbies? Mine is photography!",
+      "answer": "취미가 뭐예요?",
+      "options": [
+        "취미가 뭐예요?",
+        "저도요",
+        "~별로예요",
+        "~마다"
+      ],
+      "tokens": null,
+      "expression_id": 818,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4535,
+      "ep_no": 18,
+      "slot": "MC5",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "한국 오빠 취미가 뭐예요?",
+      "hint": null,
+      "answer": "What are your hobbies, oppa?",
+      "options": [
+        "Me too — it's really delicious!",
+        "What are your hobbies, oppa?",
+        "I don't really like this style.",
+        "Culture differs from country to country."
+      ],
+      "tokens": null,
+      "expression_id": 818,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4756,
+      "ep_no": 33,
+      "slot": "MC1",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "카카오톡 해요? 아이디 알려줘요!",
+      "hint": null,
+      "answer": "Do you use KakaoTalk? Tell me your ID!",
+      "options": [
+        "Do you use KakaoTalk? Tell me your ID!",
+        "Is it okay to follow you?",
+        "I saved the contact.",
+        "I'll do it."
+      ],
+      "tokens": null,
+      "expression_id": 863,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4768,
+      "ep_no": 33,
+      "slot": "SB1",
+      "round_no": 1,
+      "type": "sentence_build",
+      "question": "Do you use KakaoTalk? Tell me your ID!",
+      "hint": null,
+      "answer": "카카오톡 해요? 아이디 알려줘요!",
+      "options": null,
+      "tokens": [
+        "해요?",
+        "뒀어요.",
+        "연락처를",
+        "알려줘요!",
+        "아이디",
+        "돼요?",
+        "카카오톡"
+      ],
+      "expression_id": 863,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4763,
+      "ep_no": 33,
+      "slot": "FB2",
+      "round_no": 1,
+      "type": "fill_blank",
+      "question": "___ 거기서 연락해요!",
+      "hint": "Do you use KakaoTalk? Let's message there!",
+      "answer": "카카오톡 해요?",
+      "options": [
+        "카카오톡 해요?",
+        "팔로우해도 돼요?",
+        "-어 두다",
+        "-을게"
+      ],
+      "tokens": null,
+      "expression_id": 863,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4760,
+      "ep_no": 33,
+      "slot": "MC5",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "카카오톡 해요? 친구 추가할게요!",
+      "hint": null,
+      "answer": "Do you use KakaoTalk? I'll add you as a friend!",
+      "options": [
+        "Is it okay to follow you on Instagram?",
+        "Do you use KakaoTalk? I'll add you as a friend!",
+        "I saved us a seat.",
+        "I'll call you later."
+      ],
+      "tokens": null,
+      "expression_id": 863,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4772,
+      "ep_no": 34,
+      "slot": "MC2",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "더치페이 해요?",
+      "hint": null,
+      "answer": "Should we split the bill?",
+      "options": [
+        "Let's grab a meal sometime!",
+        "I gave a gift to my friend.",
+        "Today's on me!",
+        "Should we split the bill?"
+      ],
+      "tokens": null,
+      "expression_id": 867,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4784,
+      "ep_no": 34,
+      "slot": "SB2",
+      "round_no": 2,
+      "type": "sentence_build",
+      "question": "Let's split the bill today!",
+      "hint": null,
+      "answer": "오늘 더치페이 해요!",
+      "options": null,
+      "tokens": [
+        "오늘은",
+        "더치페이",
+        "오늘",
+        "해요!",
+        "이번엔"
+      ],
+      "expression_id": 867,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4780,
+      "ep_no": 34,
+      "slot": "FB4",
+      "round_no": 2,
+      "type": "fill_blank",
+      "question": "___ 아니면 제가 낼게요!",
+      "hint": "Should we split it? Or I can pay!",
+      "answer": "더치페이 해요?",
+      "options": [
+        "제가 살게요",
+        "더치페이 해요?",
+        "밥 한번 먹어요",
+        "~에게/한테"
+      ],
+      "tokens": null,
+      "expression_id": 867,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4776,
+      "ep_no": 34,
+      "slot": "MC6",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "오늘 더치페이 해요!",
+      "hint": null,
+      "answer": "Let's split the bill today!",
+      "options": [
+        "Let's split the bill today!",
+        "Let's grab a meal next time!",
+        "Ask me.",
+        "This time it's on me!"
+      ],
+      "tokens": null,
+      "expression_id": 867,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4801,
+      "ep_no": 36,
+      "slot": "MC1",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "술 마셔요? 저는 조금만요!",
+      "hint": null,
+      "answer": "Do you drink? Just a little for me!",
+      "options": [
+        "Do you drink? Just a little for me!",
+        "Come on, let's toast!",
+        "Let's call it here for today!",
+        "Let's toast!"
+      ],
+      "tokens": null,
+      "expression_id": 873,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4813,
+      "ep_no": 36,
+      "slot": "SB1",
+      "round_no": 1,
+      "type": "sentence_build",
+      "question": "Do you drink? Just a little for me!",
+      "hint": null,
+      "answer": "술 마셔요? 저는 조금만요!",
+      "options": null,
+      "tokens": [
+        "같이!",
+        "조금만요!",
+        "저는",
+        "술",
+        "오늘은",
+        "오늘도",
+        "마셔요?"
+      ],
+      "expression_id": 873,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4808,
+      "ep_no": 36,
+      "slot": "FB2",
+      "round_no": 1,
+      "type": "fill_blank",
+      "question": "___ 오늘은 못 마셔요.",
+      "hint": "Do you drink? I can't drink today.",
+      "answer": "술 마셔요?",
+      "options": [
+        "술 마셔요?",
+        "건배해요",
+        "오늘은 여기까지만 해요",
+        "-읍시다"
+      ],
+      "tokens": null,
+      "expression_id": 873,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4805,
+      "ep_no": 36,
+      "slot": "MC5",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "술 마셔요? 같이 한잔 해요!",
+      "hint": null,
+      "answer": "Do you drink? Let's have a drink together!",
+      "options": [
+        "Let's toast! Let's do our best today!",
+        "Do you drink? Let's have a drink together!",
+        "Let's stop here for today — let's continue tomorrow!",
+        "Let's go together."
+      ],
+      "tokens": null,
+      "expression_id": 873,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4823,
+      "ep_no": 37,
+      "slot": "FB2",
+      "round_no": 1,
+      "type": "fill_blank",
+      "question": "___ 뭐 듣고 싶어요?",
+      "hint": "Do you have a request? What do you want to hear?",
+      "answer": "신청곡 있어요?",
+      "options": [
+        "이 노래 같이 불러요",
+        "신청곡 있어요?",
+        "한 곡 더 해요",
+        "-어 주다"
+      ],
+      "tokens": null,
+      "expression_id": 877,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4817,
+      "ep_no": 37,
+      "slot": "MC2",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "신청곡 있어요?",
+      "hint": null,
+      "answer": "Do you have a song request?",
+      "options": [
+        "Let's do one more song!",
+        "I'll take a photo for you.",
+        "Let's sing this song together!",
+        "Do you have a song request?"
+      ],
+      "tokens": null,
+      "expression_id": 877,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4829,
+      "ep_no": 37,
+      "slot": "SB2",
+      "round_no": 2,
+      "type": "sentence_build",
+      "question": "Do you have a song request? I'll put it on!",
+      "hint": null,
+      "answer": "신청곡 있어요? 제가 틀어줄게요!",
+      "options": null,
+      "tokens": [
+        "신청곡",
+        "제가",
+        "틀어줄게요!",
+        "불러요!",
+        "불러요,",
+        "알아요?",
+        "있어요?"
+      ],
+      "expression_id": 877,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4821,
+      "ep_no": 37,
+      "slot": "MC6",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "신청곡 있어요? 제가 틀어줄게요!",
+      "hint": null,
+      "answer": "Do you have a song request? I'll put it on!",
+      "options": [
+        "Do you have a song request? I'll put it on!",
+        "One more song — this time I'll sing!",
+        "Could you help me a bit?",
+        "Let's sing this song together — do you know the lyrics?"
+      ],
+      "tokens": null,
+      "expression_id": 877,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4822,
+      "ep_no": 37,
+      "slot": "FB1",
+      "round_no": 1,
+      "type": "fill_blank",
+      "question": "___, 이번엔 제가 불러요!",
+      "hint": "One more song — this time I'll sing!",
+      "answer": "한 곡 더 해요",
+      "options": [
+        "이 노래 같이 불러요",
+        "신청곡 있어요?",
+        "한 곡 더 해요",
+        "-어 주다"
+      ],
+      "tokens": null,
+      "expression_id": 878,
+      "example_index": 1,
+      "variant": "blank"
+    },
+    {
+      "id": 4818,
+      "ep_no": 37,
+      "slot": "MC3",
+      "round_no": 2,
+      "type": "multiple_choice",
+      "question": "한 곡 더 해요!",
+      "hint": null,
+      "answer": "Let's do one more song!",
+      "options": [
+        "I'll take a photo for you.",
+        "Let's sing this song together!",
+        "Let's do one more song!",
+        "Do you have a song request?"
+      ],
+      "tokens": null,
+      "expression_id": 878,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4824,
+      "ep_no": 37,
+      "slot": "FB3",
+      "round_no": 2,
+      "type": "fill_blank",
+      "question": "재미있으니까 ___!",
+      "hint": "It's so fun — let's do one more song!",
+      "answer": "한 곡 더 해요",
+      "options": [
+        "이 노래 같이 불러요",
+        "신청곡 있어요?",
+        "한 곡 더 해요",
+        "-어 주다"
+      ],
+      "tokens": null,
+      "expression_id": 878,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4830,
+      "ep_no": 37,
+      "slot": "SB3",
+      "round_no": 3,
+      "type": "sentence_build",
+      "question": "It's so fun — let's do one more song!",
+      "hint": null,
+      "answer": "재미있으니까 한 곡 더 해요!",
+      "options": null,
+      "tokens": [
+        "더",
+        "곡",
+        "재미있으니까",
+        "노래",
+        "해요!",
+        "한",
+        "가사",
+        "같이"
+      ],
+      "expression_id": 878,
+      "example_index": 2,
+      "variant": ""
+    },
+    {
+      "id": 4843,
+      "ep_no": 38,
+      "slot": "SB1",
+      "round_no": 1,
+      "type": "sentence_build",
+      "question": "Let's dance together — to this song!",
+      "hint": null,
+      "answer": "같이 춰요, 이 노래에 맞춰서!",
+      "options": null,
+      "tokens": [
+        "계속",
+        "처음엔",
+        "않도록",
+        "이",
+        "맞춰서!",
+        "춰요,",
+        "같이",
+        "노래에"
+      ],
+      "expression_id": 879,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4831,
+      "ep_no": 38,
+      "slot": "MC1",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "같이 춰요!",
+      "hint": null,
+      "answer": "Let's dance together!",
+      "options": [
+        "Let's dance together!",
+        "It's hard but fun!",
+        "The more you do it, the better you get!",
+        "I left early so I wouldn't be late."
+      ],
+      "tokens": null,
+      "expression_id": 879,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4839,
+      "ep_no": 38,
+      "slot": "FB3",
+      "round_no": 2,
+      "type": "fill_blank",
+      "question": "___, 제가 가르쳐줄게요!",
+      "hint": "Let's dance together — I'll teach you!",
+      "answer": "같이 춰요",
+      "options": [
+        "같이 춰요",
+        "어렵지만 재미있어요",
+        "하다 보면 늘어요",
+        "-도록"
+      ],
+      "tokens": null,
+      "expression_id": 879,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4835,
+      "ep_no": 38,
+      "slot": "MC5",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "같이 춰요, 이 노래에 맞춰서!",
+      "hint": null,
+      "answer": "Let's dance together — to this song!",
+      "options": [
+        "It's hard at first, but it's fun.",
+        "Let's dance together — to this song!",
+        "The more you practice, the better you get.",
+        "I wrote it big so it's easy to see."
+      ],
+      "tokens": null,
+      "expression_id": 879,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4847,
+      "ep_no": 39,
+      "slot": "MC2",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "달달한 거 있어요?",
+      "hint": null,
+      "answer": "Do you have anything sweet?",
+      "options": [
+        "Is it okay to stay a long time?",
+        "The flowers are in bloom.",
+        "This café has a great atmosphere!",
+        "Do you have anything sweet?"
+      ],
+      "tokens": null,
+      "expression_id": 883,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4859,
+      "ep_no": 39,
+      "slot": "SB2",
+      "round_no": 2,
+      "type": "sentence_build",
+      "question": "Do you have anything sweet? Is there caramel latte?",
+      "hint": null,
+      "answer": "달달한 거 있어요? 카라멜 라떼 있어요?",
+      "options": null,
+      "tokens": [
+        "라떼",
+        "있어요?",
+        "카라멜",
+        "거",
+        "날씨도",
+        "있어요?",
+        "분위기",
+        "달달한",
+        "있어도"
+      ],
+      "expression_id": 883,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4854,
+      "ep_no": 39,
+      "slot": "FB3",
+      "round_no": 2,
+      "type": "fill_blank",
+      "question": "___ 오늘 당기네요!",
+      "hint": "Do you have anything sweet? I'm craving it today!",
+      "answer": "달달한 거 있어요?",
+      "options": [
+        "분위기 좋아요",
+        "달달한 거 있어요?",
+        "오래 있어도 돼요?",
+        "-어 있다"
+      ],
+      "tokens": null,
+      "expression_id": 883,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4851,
+      "ep_no": 39,
+      "slot": "MC6",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "달달한 거 있어요? 카라멜 라떼 있어요?",
+      "hint": null,
+      "answer": "Do you have anything sweet? Is there caramel latte?",
+      "options": [
+        "Do you have anything sweet? Is there caramel latte?",
+        "I'm going to study — is it okay to stay long?",
+        "The door is open.",
+        "The weather is nice today and the atmosphere is great!"
+      ],
+      "tokens": null,
+      "expression_id": 883,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4852,
+      "ep_no": 39,
+      "slot": "FB1",
+      "round_no": 1,
+      "type": "fill_blank",
+      "question": "공부하려고요, ___",
+      "hint": "I'm going to study — is it okay to stay long?",
+      "answer": "오래 있어도 돼요?",
+      "options": [
+        "분위기 좋아요",
+        "달달한 거 있어요?",
+        "오래 있어도 돼요?",
+        "-어 있다"
+      ],
+      "tokens": null,
+      "expression_id": 884,
+      "example_index": 1,
+      "variant": "blank"
+    },
+    {
+      "id": 4848,
+      "ep_no": 39,
+      "slot": "MC3",
+      "round_no": 2,
+      "type": "multiple_choice",
+      "question": "오래 있어도 돼요?",
+      "hint": null,
+      "answer": "Is it okay to stay a long time?",
+      "options": [
+        "The flowers are in bloom.",
+        "This café has a great atmosphere!",
+        "Is it okay to stay a long time?",
+        "Do you have anything sweet?"
+      ],
+      "tokens": null,
+      "expression_id": 884,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4855,
+      "ep_no": 39,
+      "slot": "FB4",
+      "round_no": 2,
+      "type": "fill_blank",
+      "question": "노트북 써도 되고 ___",
+      "hint": "Can I use my laptop and stay a long time?",
+      "answer": "오래 있어도 돼요?",
+      "options": [
+        "분위기 좋아요",
+        "달달한 거 있어요?",
+        "오래 있어도 돼요?",
+        "-어 있다"
+      ],
+      "tokens": null,
+      "expression_id": 884,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4860,
+      "ep_no": 39,
+      "slot": "SB3",
+      "round_no": 3,
+      "type": "sentence_build",
+      "question": "Can I use my laptop and stay a long time?",
+      "hint": null,
+      "answer": "노트북 써도 되고 오래 있어도 돼요?",
+      "options": null,
+      "tokens": [
+        "되고",
+        "카페",
+        "오래",
+        "써도",
+        "오늘",
+        "있어도",
+        "분위기",
+        "돼요?",
+        "노트북"
+      ],
+      "expression_id": 884,
+      "example_index": 2,
+      "variant": ""
+    },
+    {
+      "id": 4982,
+      "ep_no": 48,
+      "slot": "MC2",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "배달 얼마나 걸려요?",
+      "hint": null,
+      "answer": "How long does delivery take?",
+      "options": [
+        "This place is great value for money!",
+        "I'll order it in advance.",
+        "Let's order delivery today!",
+        "How long does delivery take?"
+      ],
+      "tokens": null,
+      "expression_id": 909,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 4989,
+      "ep_no": 48,
+      "slot": "FB3",
+      "round_no": 2,
+      "type": "fill_blank",
+      "question": "___ 빨리 왔으면 좋겠어요!",
+      "hint": "How long does delivery take? I hope it comes quickly!",
+      "answer": "배달 얼마나 걸려요?",
+      "options": [
+        "배달 시켜요",
+        "배달 얼마나 걸려요?",
+        "가성비 좋아요",
+        "-어 놓다"
+      ],
+      "tokens": null,
+      "expression_id": 909,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 4994,
+      "ep_no": 48,
+      "slot": "SB2",
+      "round_no": 2,
+      "type": "sentence_build",
+      "question": "How long does delivery take to here?",
+      "hint": null,
+      "answer": "여기까지 배달 얼마나 걸려요?",
+      "options": null,
+      "tokens": [
+        "얼마나",
+        "여기까지",
+        "배달",
+        "해요!",
+        "가성비",
+        "걸려요?",
+        "여기로"
+      ],
+      "expression_id": 909,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 4986,
+      "ep_no": 48,
+      "slot": "MC6",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "여기까지 배달 얼마나 걸려요?",
+      "hint": null,
+      "answer": "How long does delivery take to here?",
+      "options": [
+        "How long does delivery take to here?",
+        "This menu item is great value — I recommend it!",
+        "I left the window open.",
+        "Let's order chicken delivery!"
+      ],
+      "tokens": null,
+      "expression_id": 909,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 5011,
+      "ep_no": 50,
+      "slot": "MC1",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "한국 생활 어때? 적응됐어?",
+      "hint": null,
+      "answer": "How is life in Korea? Have you adapted?",
+      "options": [
+        "How is life in Korea? Have you adapted?",
+        "I've even gotten used to taking the subway now!",
+        "Korean has gotten easier.",
+        "The more I eat, the better it tastes."
+      ],
+      "tokens": null,
+      "expression_id": 914,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 5018,
+      "ep_no": 50,
+      "slot": "FB2",
+      "round_no": 1,
+      "type": "fill_blank",
+      "question": "___ 음식은 맛있어?",
+      "hint": "How is life in Korea? Is the food delicious?",
+      "answer": "한국 생활 어때?",
+      "options": [
+        "한국 생활 어때?",
+        "이제 익숙해졌어",
+        "-어지다",
+        "-을수록"
+      ],
+      "tokens": null,
+      "expression_id": 914,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 5023,
+      "ep_no": 50,
+      "slot": "SB1",
+      "round_no": 1,
+      "type": "sentence_build",
+      "question": "How is life in Korea? Have you adapted?",
+      "hint": null,
+      "answer": "한국 생활 어때? 적응됐어?",
+      "options": null,
+      "tokens": [
+        "적응됐어?",
+        "생활",
+        "음식도",
+        "처음엔",
+        "지하철",
+        "한국",
+        "어때?"
+      ],
+      "expression_id": 914,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 5015,
+      "ep_no": 50,
+      "slot": "MC5",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "한국 생활 어때? 힘든 점 없어?",
+      "hint": null,
+      "answer": "How is life in Korea? Is there anything hard?",
+      "options": [
+        "I've even gotten used to Korean food now!",
+        "How is life in Korea? Is there anything hard?",
+        "The weather has gotten warm.",
+        "The more you practice, the better you get."
+      ],
+      "tokens": null,
+      "expression_id": 914,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 5025,
+      "ep_no": 50,
+      "slot": "SB3",
+      "round_no": 3,
+      "type": "sentence_build",
+      "question": "How is life in Korea? Have you adapted?",
+      "hint": null,
+      "answer": "한국 생활 어때? 적응됐어?",
+      "options": null,
+      "tokens": [
+        "한국",
+        "음식도",
+        "처음엔",
+        "어때?",
+        "지하철",
+        "적응됐어?",
+        "생활"
+      ],
+      "expression_id": 914,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 5107,
+      "ep_no": 56,
+      "slot": "FB1",
+      "round_no": 1,
+      "type": "fill_blank",
+      "question": "신용___.",
+      "hint": "I'll pay with a credit card.",
+      "answer": "카드로 할게요",
+      "options": [
+        "~살 거예요",
+        "이거 어때요?",
+        "카드로 할게요",
+        "~밖에"
+      ],
+      "tokens": null,
+      "expression_id": 934,
+      "example_index": 1,
+      "variant": "blank"
+    },
+    {
+      "id": 5103,
+      "ep_no": 56,
+      "slot": "MC3",
+      "round_no": 2,
+      "type": "multiple_choice",
+      "question": "카드로 할게요!",
+      "hint": null,
+      "answer": "I'll pay by card!",
+      "options": [
+        "I only have a thousand won.",
+        "I'm going to buy this outfit!",
+        "I'll pay by card!",
+        "How about this menu? It looks delicious!"
+      ],
+      "tokens": null,
+      "expression_id": 934,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 5110,
+      "ep_no": 56,
+      "slot": "FB4",
+      "round_no": 2,
+      "type": "fill_blank",
+      "question": "___, 괜찮아요?",
+      "hint": "I'll pay by card — is that okay?",
+      "answer": "카드로 할게요",
+      "options": [
+        "~살 거예요",
+        "이거 어때요?",
+        "카드로 할게요",
+        "~밖에"
+      ],
+      "tokens": null,
+      "expression_id": 934,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 5115,
+      "ep_no": 56,
+      "slot": "SB3",
+      "round_no": 3,
+      "type": "sentence_build",
+      "question": "I'll pay by card — is that okay?",
+      "hint": null,
+      "answer": "카드로 할게요, 괜찮아요?",
+      "options": null,
+      "tokens": [
+        "카드로",
+        "거예요?",
+        "괜찮아요?",
+        "할게요,",
+        "거예요!"
+      ],
+      "expression_id": 934,
+      "example_index": 2,
+      "variant": ""
+    },
+    {
+      "id": 5132,
+      "ep_no": 58,
+      "slot": "MC2",
+      "round_no": 1,
+      "type": "multiple_choice",
+      "question": "어디가 아파요?",
+      "hint": null,
+      "answer": "Where does it hurt?",
+      "options": [
+        "Since when have you been hurting?",
+        "You mustn't take photos here.",
+        "I'd like to be examined.",
+        "Where does it hurt?"
+      ],
+      "tokens": null,
+      "expression_id": 938,
+      "example_index": 0,
+      "variant": ""
+    },
+    {
+      "id": 5138,
+      "ep_no": 58,
+      "slot": "FB2",
+      "round_no": 1,
+      "type": "fill_blank",
+      "question": "___ 병원 같이 가요.",
+      "hint": "Where does it hurt? Let's go to the hospital together.",
+      "answer": "어디가 아파요?",
+      "options": [
+        "~받고 싶어요",
+        "어디가 아파요?",
+        "언제부터 아팠어요?",
+        "-으면 안 되다"
+      ],
+      "tokens": null,
+      "expression_id": 938,
+      "example_index": 2,
+      "variant": "blank"
+    },
+    {
+      "id": 5144,
+      "ep_no": 58,
+      "slot": "SB2",
+      "round_no": 2,
+      "type": "sentence_build",
+      "question": "Where does it hurt? Does it hurt a lot?",
+      "hint": null,
+      "answer": "어디가 아파요? 많이 아파요?",
+      "options": null,
+      "tokens": [
+        "여기서",
+        "아파요?",
+        "많이",
+        "어디가",
+        "처방전",
+        "아파요?",
+        "기침이"
+      ],
+      "expression_id": 938,
+      "example_index": 1,
+      "variant": ""
+    },
+    {
+      "id": 5136,
+      "ep_no": 58,
+      "slot": "MC6",
+      "round_no": 3,
+      "type": "multiple_choice",
+      "question": "어디가 아파요? 많이 아파요?",
+      "hint": null,
+      "answer": "Where does it hurt? Does it hurt a lot?",
+      "options": [
+        "Where does it hurt? Does it hurt a lot?",
+        "Since when have you been coughing?",
+        "You shouldn't overdo it.",
+        "I'd like to get a prescription."
+      ],
+      "tokens": null,
+      "expression_id": 938,
+      "example_index": 1,
+      "variant": ""
+    }
+  ]
+}
