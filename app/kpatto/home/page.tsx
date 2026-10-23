@@ -18,6 +18,7 @@ import { ExpressionPopup } from '@/components/kpatto/ExpressionPopup'
 import type { KPattoExpression } from '@/data/kpatto/types'
 
 import { KP } from '@/lib/kpatto/theme'
+import { formatPatternTitle } from '@/lib/kpatto/pattern-format'
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
 const ACCENT = KP.primary
 const T1     = '#111111'
@@ -403,7 +404,7 @@ function ExpressionCard({
         {/* 행 2: 한국어 표현 */}
         <div style={{ padding: '0 44px 0 16px' }}>
           <div style={{ fontSize: 17, fontWeight: 800, color: ACCENT, letterSpacing: '-0.02em', lineHeight: 1.25 }}>
-            {expr.korean}
+            {formatPatternTitle(expr.korean)}
           </div>
         </div>
 

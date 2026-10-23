@@ -5,6 +5,7 @@ import { Volume2 } from 'lucide-react'
 import type { KPattoExpression } from '@/data/kpatto/types'
 import { tryPlayAudio, stopAllAudio, getAudioGeneration } from '@/lib/kpatto/audio'
 import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
+import { formatPatternTitle } from '@/lib/kpatto/pattern-format'
 
 const SAVED_KEY = 'kpatto-saved-expressions'
 
@@ -138,7 +139,7 @@ export function ExpressionPopup({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label={expression.korean}
+        aria-label={formatPatternTitle(expression.korean)}
         style={{
           width: '100%', maxWidth: 430, margin: '0 auto',
           background: '#FFFFFF', borderRadius: '20px 20px 0 0',
@@ -197,7 +198,7 @@ export function ExpressionPopup({
 
           {/* Korean title */}
           <div style={{ fontSize: 22, fontWeight: 800, color: '#FFFFFF', letterSpacing: '-0.02em', marginBottom: 4 }}>
-            {expression.korean}
+            {formatPatternTitle(expression.korean)}
           </div>
 
           {/* Row 3: English subtitle (left) + speaker icon (right, no circular background) */}

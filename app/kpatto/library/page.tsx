@@ -8,14 +8,14 @@ import { getSavedFromLocal, getSavedIds, toggleSaved } from '@/lib/kpatto/saved-
 import { fetchAllExpressions } from '@/lib/kpatto/fetch-episode'
 import { createClient } from '@/lib/supabase/client'
 import type { KPattoExpression } from '@/data/kpatto/types'
-import { Check, ChevronRight, Volume2 } from 'lucide-react'
+import { Check, ChevronRight } from 'lucide-react'
 
 import { KP } from '@/lib/kpatto/theme'
 import { episodeEmoji } from '@/lib/kpatto/episode-emoji'
-import { tryPlayAudio, stopAllAudio } from '@/lib/kpatto/audio'
-import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
+import { formatPatternTitle } from '@/lib/kpatto/pattern-format'
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
 const T1     = '#111111'
+const CHARCOAL = '#1F2937'  // 문법 패턴 제목 색(전부 동일)
 const T2     = '#888888'
 const T3     = '#BBBBBB'
 const ACCENT = KP.primary
@@ -40,6 +40,7 @@ function matchesQuery(expr: KPattoExpression, nq: string): boolean {
   const n = normalize
   return (
     n(expr.korean).includes(nq)  ||
+    n(formatPatternTitle(expr.korean)).includes(nq) ||
     n(expr.english).includes(nq) ||
     !!(expr.description && n(expr.description).includes(nq)) ||
     !!(expr.examples?.some(ex => n(ex.ko).includes(nq) || n(ex.en).includes(nq)))
@@ -246,34 +247,16 @@ function EpGroupHeader({
   )
 }
 
-/** 패턴 표기의 물결표(~)만 코랄로 */
-function PatternText({ text }: { text: string }) {
-  const parts = text.split('~')
-  return (
-    <>
-      {parts.map((part, i) => (
-        <Fragment key={i}>
-          {i > 0 && <span style={{ color: ACCENT, fontWeight: 700 }}>~</span>}
-          {part}
-        </Fragment>
-      ))}
-    </>
-  )
-}
-
 /** 표현 행 — 구분선은 별도 인셋 div(ExprSep)로 renderRow 에서 그린다 */
 function ExprRow({
-  expr, locked, saved, playing, onPlayClick, onBookmarkClick, onClick,
+  expr, locked, saved, onBookmarkClick, onClick,
 }: {
   expr:            KPattoExpression
   locked:          boolean
   saved:           boolean
-  playing:         boolean
-  onPlayClick:     (e: React.MouseEvent) => void
   onBookmarkClick: (e: React.MouseEvent) => void
   onClick:         () => void
 }) {
-  const hasAudio = !!(expr.audio_urls?.pattern ?? expr.audio_url)
   return (
     <div
       style={{
@@ -292,10 +275,10 @@ function ExprRow({
       {/* 왼쪽: 한국어 패턴 + 영문 뜻 */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{
-          fontSize: 16, fontWeight: 600, color: T1,
+          fontSize: 16, fontWeight: 600, color: CHARCOAL,
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
-          <PatternText text={expr.korean} />
+          {formatPatternTitle(expr.korean)}
         </div>
         <div style={{
           fontSize: 11, color: GRAY500, marginTop: 3,
@@ -305,24 +288,7 @@ function ExprRow({
         </div>
       </div>
 
-      {/* 오른쪽: 대표 발음 재생 + 북마크 */}
-      {hasAudio && (
-        <button
-          type="button"
-          onClick={onPlayClick}
-          style={{
-            width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
-            border: 'none', padding: 0, cursor: 'pointer',
-            background: playing ? ACCENT : KP.primaryLight,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            WebkitTapHighlightColor: 'transparent',
-            transition: 'background 0.15s',
-          }}
-          aria-label={playing ? 'Stop pronunciation' : 'Play pronunciation'}
-        >
-          <Volume2 size={15} strokeWidth={2.2} color={playing ? '#FFFFFF' : ACCENT} />
-        </button>
-      )}
+      {/* 오른쪽: 북마크 */}
       <button
         type="button"
         onClick={onBookmarkClick}
@@ -355,7 +321,6 @@ export default function KPattoLibraryPage() {
   const [selectedChapter,  setSelectedChapter]  = useState<number | null>(null)
   const [savedIds,         setSavedIds]         = useState<Set<number>>(new Set())
   const [popup,            setPopup]            = useState<KPattoExpression | null>(null)
-  const [playingId,        setPlayingId]        = useState<number | null>(null)
 
   const inputRef    = useRef<HTMLInputElement | null>(null)
   const tabScrollRef = useRef<HTMLDivElement | null>(null)
@@ -463,19 +428,6 @@ export default function KPattoLibraryPage() {
     }).catch(() => { /* noop */ })
   }, [])
 
-  // ── 패턴 대표 발음 재생 (다시 누르면 정지) ──────────────────────────────
-  const playPattern = useCallback(async (e: React.MouseEvent, expr: KPattoExpression) => {
-    e.stopPropagation()
-    const url = expr.audio_urls?.pattern ?? expr.audio_url
-    if (!url) return
-    if (playingId === expr.id) { stopAllAudio(); setPlayingId(null); return }
-    stopAllAudio()
-    setPlayingId(expr.id)
-    try { await tryPlayAudio(versionedExpressionAudio(url)) } finally {
-      setPlayingId(prev => (prev === expr.id ? null : prev))
-    }
-  }, [playingId])
-
   // ── 행 탭 → 팝업 ────────────────────────────────────────────────────────
   const handleRowClick = useCallback((expr: KPattoExpression) => {
     setPopup(expr)
@@ -488,8 +440,6 @@ export default function KPattoLibraryPage() {
         expr={expr}
         locked={locked}
         saved={savedIds.has(expr.id)}
-        playing={playingId === expr.id}
-        onPlayClick={e => playPattern(e, expr)}
         onBookmarkClick={e => toggleSave(e, expr.id)}
         onClick={() => handleRowClick(expr)}
       />
