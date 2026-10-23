@@ -41,7 +41,7 @@ function InfoStepView({ step, lang }: { step: Extract<LessonStep, { type: 'info'
     <div style={{ padding: '0 24px' }}>
       {StepIcon && (
         <div style={{ marginBottom: 16 }}>
-          <StepIcon size={28} strokeWidth={1.8} color="#D4873A" />
+          <StepIcon size={28} strokeWidth={1.8} color="#FF5A36" />
         </div>
       )}
       {step.title && (
@@ -53,7 +53,7 @@ function InfoStepView({ step, lang }: { step: Extract<LessonStep, { type: 'info'
         <div style={{
           fontSize: 60,
           fontWeight: 800,
-          color: '#D4873A',
+          color: '#FF5A36',
           margin: '16px 0',
           lineHeight: 1.1,
         }}>
@@ -461,7 +461,7 @@ export function LessonPlayer({ lesson, onComplete }: LessonPlayerProps) {
             padding: '13px 20px',
             borderRadius: 16,
             border: 'none',
-            background: needsInteract && !interacted ? 'rgba(0,0,0,0.07)' : '#D4873A',
+            background: needsInteract && !interacted ? 'rgba(0,0,0,0.07)' : '#FF5A36',
             color: needsInteract && !interacted ? '#BBBBBB' : '#fff',
             fontWeight: 700,
             fontSize: 15,

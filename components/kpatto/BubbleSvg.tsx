@@ -118,8 +118,8 @@ export function BubbleSvg({
   highlighted,
   thought = false,
 }: BubbleSvgProps) {
-  const fill = highlighted ? '#FFF8F0' : '#ffffff'
-  const stroke = highlighted ? '#D4873A' : '#242424'
+  const fill = highlighted ? '#FFF3F0' : '#ffffff'
+  const stroke = highlighted ? '#FF5A36' : '#242424'
   const sw = highlighted ? 3 : 2.5
 
   const parts: string[] = []

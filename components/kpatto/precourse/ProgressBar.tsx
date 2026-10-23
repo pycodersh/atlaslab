@@ -11,14 +11,14 @@ export function ProgressBar({ value, label }: ProgressBarProps) {
     <div style={{ padding: '0 20px 10px' }}>
       <div style={{
         height: 5,
-        background: 'rgba(212,135,58,0.12)',
+        background: 'rgba(255,90,54,0.12)',
         borderRadius: 99,
         overflow: 'hidden',
       }}>
         <div style={{
           height: '100%',
           width: `${pct}%`,
-          background: '#D4873A',
+          background: '#FF5A36',
           borderRadius: 99,
           transition: 'width 0.4s ease',
         }} />

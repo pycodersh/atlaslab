@@ -16,6 +16,7 @@ import { ExpressionBackButton } from '@/components/kpatto/ExpressionBackButton'
 import { KPattoAudioPlayer } from '@/components/kpatto/KPattoAudioPlayer'
 import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
 
+import { KP } from '@/lib/kpatto/theme'
 export const dynamicParams = false
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -27,7 +28,7 @@ const T1     = '#111111'
 const T2     = '#888888'
 const T3     = '#CCCCCC'
 const DIV    = '#F2F2F2'
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -323,7 +324,7 @@ export default async function ExpressionPage({ params }: PageProps) {
               <div style={{ marginBottom: 8 }}>
                 <span style={{
                   fontSize: 10, fontWeight: 800, color: ACCENT, letterSpacing: '0.06em',
-                  background: '#FFF4EA', borderRadius: 6, padding: '3px 9px',
+                  background: '#FFF3F0', borderRadius: 6, padding: '3px 9px',
                 }}>
                   {epLabel}
                 </span>
@@ -421,7 +422,7 @@ export default async function ExpressionPage({ params }: PageProps) {
               {e.tip && (
                 <div style={{
                   marginTop: 12, padding: '12px 14px',
-                  background: '#FFF4EA', borderRadius: 10, borderLeft: `3px solid ${ACCENT}`,
+                  background: '#FFF3F0', borderRadius: 10, borderLeft: `3px solid ${ACCENT}`,
                 }}>
                   <p style={{ fontSize: 13, color: ACCENT, fontWeight: 600, margin: 0, lineHeight: 1.6 }}>
                     💡 {e.tip}

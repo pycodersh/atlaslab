@@ -8,8 +8,9 @@ import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { getEpisodeProgressMap, type EpProgressMap } from '@/lib/kpatto/episode-progress'
 
+import { KP } from '@/lib/kpatto/theme'
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 const T1     = '#111111'
 const T2     = '#888888'
 const T3     = '#BBBBBB'

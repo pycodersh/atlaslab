@@ -9,6 +9,7 @@ import {
   type CategoryKey,
 } from '@/lib/kpatto/expressions-config'
 
+import { KP } from '@/lib/kpatto/theme'
 export const dynamicParams = false
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -19,7 +20,7 @@ const NOINDEX_FOLLOW = { index: false, follow: true } as const
 const T1     = '#111111'
 const T2     = '#888888'
 const DIV    = '#F2F2F2'
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 
 interface PageProps {
   params: Promise<{ topic: string }>
@@ -140,7 +141,7 @@ export default async function TopicPage({ params }: PageProps) {
           <div style={{ marginBottom: 8 }}>
             <span style={{
               fontSize: 11, fontWeight: 800, color: ACCENT, letterSpacing: '0.06em',
-              background: '#FFF4EA', borderRadius: 6, padding: '3px 9px',
+              background: '#FFF3F0', borderRadius: 6, padding: '3px 9px',
             }}>
               {cat.labelEn}
             </span>

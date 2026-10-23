@@ -16,8 +16,9 @@ import {
 import { getUI } from '@/lib/kpatto/ui-strings'
 import { usePreferences } from '@/contexts/PreferencesContext'
 
+import { KP } from '@/lib/kpatto/theme'
 // ── Tokens ───────────────────────────────────────────────────────────────────
-const AMBER   = '#D4873A'
+const AMBER   = KP.primary
 const BLACK   = '#111111'
 const GRAY_1  = '#444444'
 const GRAY_2  = '#999999'

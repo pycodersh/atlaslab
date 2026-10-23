@@ -9,11 +9,12 @@ import { fetchAllExpressions } from '@/lib/kpatto/fetch-episode'
 import { createClient } from '@/lib/supabase/client'
 import type { KPattoExpression } from '@/data/kpatto/types'
 
+import { KP } from '@/lib/kpatto/theme'
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
 const T1     = '#111111'
 const T2     = '#888888'
 const T3     = '#BBBBBB'
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 const BORDER = '#EBEBEB'
 const BG     = '#FFFFFF'
 

@@ -153,7 +153,7 @@ export function ExpressionPopup({
         </div>
 
         {/* Header — orange */}
-        <div style={{ background: '#D4873A', margin: '8px 16px 0', borderRadius: 14, padding: '16px' }}>
+        <div style={{ background: '#FF5A36', margin: '8px 16px 0', borderRadius: 14, padding: '16px' }}>
 
           {/* Row 1: EP badge (left) + bookmark icon (right, no circular background) */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
@@ -242,7 +242,7 @@ export function ExpressionPopup({
             <div style={{ marginBottom: 12 }}>
               <span style={{
                 display: 'inline-block',
-                background: '#FFF4EA', border: '1px solid #F0C89A', borderRadius: 8,
+                background: '#FFF3F0', border: '1px solid #FFD6CC', borderRadius: 8,
                 padding: '4px 10px', fontSize: 12, color: '#B36A1C', fontWeight: 700,
               }}>
                 {expression.structure}

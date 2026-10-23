@@ -79,7 +79,7 @@ function renderKorean(
         key={start}
         onClick={onSpanTap ? (e) => { e.stopPropagation(); onSpanTap(expressionId) } : undefined}
         style={{
-          color: '#D4873A',
+          color: '#FF5A36',
           fontWeight: 800,
           textDecorationLine: 'underline',
           textDecorationStyle: 'dotted',
@@ -175,7 +175,7 @@ function WebtoonBubbleEl({
         filter: isActive
           ? 'drop-shadow(0 0 6px #f59e0b) drop-shadow(0 0 12px rgba(245,158,11,0.5))'
           : tappable && !isBodyOnly
-          ? 'drop-shadow(0 0 5px rgba(212,135,58,0.85)) drop-shadow(0 0 10px rgba(212,135,58,0.4))'
+          ? 'drop-shadow(0 0 5px rgba(255,90,54,0.85)) drop-shadow(0 0 10px rgba(255,90,54,0.4))'
           : undefined,
         transition: 'filter 0.2s ease',
       }}

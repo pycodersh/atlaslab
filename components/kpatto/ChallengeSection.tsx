@@ -3,9 +3,10 @@
 import { useState, useCallback } from 'react'
 import { stopAllAudio } from '@/lib/kpatto/audio'
 
+import { KP } from '@/lib/kpatto/theme'
 const GREEN  = '#22C55E'
 const RED    = '#EF4444'
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 const T1     = '#111111'
 const T2     = '#999999'
 const DIV    = '#F2F2F2'

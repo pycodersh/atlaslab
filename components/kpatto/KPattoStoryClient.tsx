@@ -262,7 +262,7 @@ export function KPattoStoryClient({ id }: Props) {
   if (isProEpisode && subLoading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: 32, height: 32, border: '3px solid #F2F2F2', borderTop: '3px solid #D4873A', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <div style={{ width: 32, height: 32, border: '3px solid #F2F2F2', borderTop: '3px solid #FF5A36', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
     )
@@ -318,7 +318,7 @@ export function KPattoStoryClient({ id }: Props) {
       <div>
         {webtoonLoading ? (
           <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ width: 28, height: 28, border: '3px solid #F2F2F2', borderTop: '3px solid #D4873A', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+            <div style={{ width: 28, height: 28, border: '3px solid #F2F2F2', borderTop: '3px solid #FF5A36', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
             <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
           </div>
         ) : webtoonEpisode ? (
@@ -365,7 +365,7 @@ export function KPattoStoryClient({ id }: Props) {
           if (done) {
             return (
               <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
-                <circle cx="10" cy="10" r="9" fill="#D4873A" />
+                <circle cx="10" cy="10" r="9" fill="#FF5A36" />
                 <polyline
                   points="5.5,10.5 8.5,14 14.5,6.5"
                   stroke="#fff" strokeWidth="2" fill="none"
@@ -377,7 +377,7 @@ export function KPattoStoryClient({ id }: Props) {
           return (
             <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
               <circle cx="10" cy="10" r="8.5" fill="none"
-                stroke={active ? '#D4873A' : '#BDBDBD'} strokeWidth="1.5" />
+                stroke={active ? '#FF5A36' : '#BDBDBD'} strokeWidth="1.5" />
             </svg>
           )
         }
@@ -386,7 +386,7 @@ export function KPattoStoryClient({ id }: Props) {
           flex: 1, display: 'flex', flexDirection: 'column',
           alignItems: 'center', padding: '12px 4px 10px', gap: 5,
         }
-        const lc = (done: boolean, active: boolean) => done || active ? '#D4873A' : '#BDBDBD'
+        const lc = (done: boolean, active: boolean) => done || active ? '#FF5A36' : '#BDBDBD'
         const LABEL: React.CSSProperties = { fontSize: 11, fontWeight: 600, letterSpacing: '0.01em' }
 
         return (
@@ -490,13 +490,13 @@ export function KPattoStoryClient({ id }: Props) {
                     {Array.from({ length: 5 }, (_, i) => (
                       <div key={i} style={{
                         width: 7, height: 7, borderRadius: '50%', flexShrink: 0,
-                        background: i < completedRound ? '#D4873A' : '#E0E0E0',
+                        background: i < completedRound ? '#FF5A36' : '#E0E0E0',
                       }} />
                     ))}
                   </div>
                   <span style={{
                     fontSize: 11, fontWeight: 700,
-                    color: completedRound >= 5 ? '#D4873A' : '#bbb',
+                    color: completedRound >= 5 ? '#FF5A36' : '#bbb',
                     letterSpacing: '0.02em',
                   }}>
                     {completedRound >= 5 ? 'Mastered' : `Round ${completedRound} of 5`}
@@ -568,7 +568,7 @@ export function KPattoStoryClient({ id }: Props) {
                     style={{
                       flex: 1, height: 48, borderRadius: 12,
                       border: 'none',
-                      background: 'linear-gradient(135deg, #D4873A, #c9711f)',
+                      background: 'linear-gradient(135deg, #FF5A36, #E04826)',
                       fontSize: 13, fontWeight: 600, color: '#fff',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       textDecoration: 'none',
@@ -581,7 +581,7 @@ export function KPattoStoryClient({ id }: Props) {
                     href={nextEpHref}
                     style={{
                       flex: 1, height: 48, borderRadius: 12,
-                      border: 'none', background: '#D4873A',
+                      border: 'none', background: '#FF5A36',
                       fontSize: 13, fontWeight: 600, color: '#fff',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       textDecoration: 'none',

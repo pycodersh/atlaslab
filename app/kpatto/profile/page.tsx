@@ -12,9 +12,10 @@ import { signOut, signInWithGoogleKpatto, signInWithEmail } from '@/lib/auth-act
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 
+import { KP } from '@/lib/kpatto/theme'
 const T1     = '#111111'
 const T2     = '#666666'
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 const BORDER = '#E8E4DF'
 const ROW_DIV = '#F0EDE8'
 

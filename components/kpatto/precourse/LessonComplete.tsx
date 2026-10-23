@@ -26,8 +26,8 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
         {passed
           ? isStoryUnlock
-            ? <Unlock size={44} strokeWidth={1.8} color="#D4873A" />
-            : <CheckCircle2 size={44} strokeWidth={1.8} color="#D4873A" />
+            ? <Unlock size={44} strokeWidth={1.8} color="#FF5A36" />
+            : <CheckCircle2 size={44} strokeWidth={1.8} color="#FF5A36" />
           : <RefreshCw size={44} strokeWidth={1.8} color="#888888" />
         }
       </div>
@@ -39,7 +39,7 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
           gap: 4,
           marginBottom: 12,
         }}>
-          <span style={{ fontSize: 48, fontWeight: 800, color: passed ? '#D4873A' : '#888888' }}>
+          <span style={{ fontSize: 48, fontWeight: 800, color: passed ? '#FF5A36' : '#888888' }}>
             {score}
           </span>
           <span style={{ fontSize: 22, color: '#AAAAAA' }}>/ {total}</span>
@@ -68,7 +68,7 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
             href="/kpatto/story/kp-ep-001?welcome=1"
             style={{
               display: 'block',
-              background: '#D4873A',
+              background: '#FF5A36',
               color: '#fff',
               fontWeight: 800,
               fontSize: 15,
@@ -86,7 +86,7 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
           <button
             onClick={onContinue}
             style={{
-              background: '#D4873A',
+              background: '#FF5A36',
               color: '#fff',
               fontWeight: 800,
               fontSize: 15,
@@ -104,7 +104,7 @@ export function LessonComplete({ lessonId, passed, score, total, onRetry, onCont
           <button
             onClick={onRetry}
             style={{
-              background: '#D4873A',
+              background: '#FF5A36',
               color: '#fff',
               fontWeight: 800,
               fontSize: 15,

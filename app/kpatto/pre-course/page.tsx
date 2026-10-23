@@ -55,14 +55,14 @@ export default function PreCoursePage() {
           <div style={{ position: 'relative', zIndex: 1, padding: '20px 20px 20px', color: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', minHeight: 180 }}>
             {storyUnlocked ? (
               <>
-                <CheckCircle2 size={28} strokeWidth={1.8} color="#D4873A" style={{ marginBottom: 6 }} />
+                <CheckCircle2 size={28} strokeWidth={1.8} color="#FF5A36" style={{ marginBottom: 6 }} />
                 <div style={{ fontSize: 17, fontWeight: 800, marginBottom: 4 }}>{ui.pc_hero_done_heading}</div>
                 <div style={{ fontSize: 13, opacity: 0.75, marginBottom: 14 }}>{ui.pc_hero_done_body}</div>
                 <Link
                   href="/kpatto/story/kp-ep-001"
                   style={{
                     display: 'inline-block',
-                    background: '#D4873A',
+                    background: '#FF5A36',
                     color: '#fff',
                     fontWeight: 700,
                     fontSize: 14,
@@ -89,7 +89,7 @@ export default function PreCoursePage() {
                   <div style={{
                     height: '100%',
                     width: `${(requiredDone / required.length) * 100}%`,
-                    background: '#D4873A',
+                    background: '#FF5A36',
                     borderRadius: 99,
                     transition: 'width 0.5s ease',
                   }} />
@@ -104,8 +104,8 @@ export default function PreCoursePage() {
       {/* Required lessons */}
       <div style={{ padding: '24px 20px 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-          <div style={{ width: 3, height: 14, borderRadius: 99, background: '#D4873A' }} />
-          <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.1em', color: '#D4873A', textTransform: 'uppercase' }}>
+          <div style={{ width: 3, height: 14, borderRadius: 99, background: '#FF5A36' }} />
+          <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.1em', color: '#FF5A36', textTransform: 'uppercase' }}>
             {ui.pc_section_required}
           </div>
         </div>
@@ -117,7 +117,7 @@ export default function PreCoursePage() {
               done={isLessonComplete(lesson.id)}
               unlocked={isLessonUnlocked(lesson.id)}
               badge={ui.pc_badge_required}
-              badgeColor="#D4873A"
+              badgeColor="#FF5A36"
               titleOverride={(ui as unknown as Record<string, string>)[`pc_lesson_title_${lesson.id}`] || undefined}
             />
           ))}
@@ -189,7 +189,7 @@ function LessonRow({ lesson, done, unlocked, badge, badgeColor, titleOverride }:
         flexShrink: 0,
       }}>
         {done
-          ? <CheckCircle2 size={22} color="#D4873A" />
+          ? <CheckCircle2 size={22} color="#FF5A36" />
           : !unlocked
             ? <Lock size={17} color="#C0C0C0" strokeWidth={2} />
             : <span style={{ fontSize: 15, fontWeight: 800, color: badgeColor }}>{String(lesson.id).padStart(2, '0')}</span>

@@ -27,7 +27,7 @@ export function SceneInteractive({ step, lang }: Props) {
   return (
     <div style={{ padding: '0 20px' }}>
       <h3 style={{ margin: '0 0 4px', fontSize: 16, fontWeight: 700, color: '#1a1a2e', display: 'flex', alignItems: 'center', gap: 8 }}>
-        {SceneIcon && <SceneIcon size={18} strokeWidth={1.8} color="#D4873A" />}
+        {SceneIcon && <SceneIcon size={18} strokeWidth={1.8} color="#FF5A36" />}
         {step.title[lang] ?? step.title.en}
       </h3>
       <p style={{ margin: '0 0 16px', fontSize: 13, color: '#AAAAAA' }}>
@@ -45,8 +45,8 @@ export function SceneInteractive({ step, lang }: Props) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                background: isRevealed ? 'rgba(212,135,58,0.06)' : '#FFFFFF',
-                border: `1.5px solid ${isRevealed ? 'rgba(212,135,58,0.25)' : 'rgba(0,0,0,0.07)'}`,
+                background: isRevealed ? 'rgba(255,90,54,0.06)' : '#FFFFFF',
+                border: `1.5px solid ${isRevealed ? 'rgba(255,90,54,0.25)' : 'rgba(0,0,0,0.07)'}`,
                 borderRadius: 14,
                 padding: '14px 16px',
                 cursor: 'pointer',
@@ -59,7 +59,7 @@ export function SceneInteractive({ step, lang }: Props) {
               </span>
               <span style={{
                 fontSize: 14,
-                color: '#D4873A',
+                color: '#FF5A36',
                 fontWeight: 600,
                 opacity: isRevealed ? 1 : 0,
                 transition: 'opacity 0.2s',

@@ -79,7 +79,7 @@ export function WelcomeOverlay() {
           letterSpacing: 8,
           lineHeight:    1,
         }}>
-          <span style={{ color: '#D4873A' }}>K</span>
+          <span style={{ color: '#FF5A36' }}>K</span>
           <span style={{ color: '#ffffff' }}>-PATTO</span>
         </div>
 

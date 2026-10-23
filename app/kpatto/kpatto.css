@@ -2,4 +2,10 @@
 
 .kpatto-root {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* 테마 컬러(비비드 탠저린 코랄) — lib/kpatto/theme.ts 의 KP 와 같은 값 */
+  --kp-primary: #FF5A36;
+  --kp-primary-hover: #E04826;
+  --kp-primary-light: #FFF3F0;
+  --kp-primary-border: #FFD6CC;
 }

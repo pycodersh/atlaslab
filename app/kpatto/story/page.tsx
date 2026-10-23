@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { ChevronRight, Lock } from 'lucide-react'
+import { Check, ChevronRight, Lock } from 'lucide-react'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
@@ -13,38 +13,38 @@ import { createClient } from '@/lib/supabase/client'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { getEpisodeProgressMap, type EpProgressMap } from '@/lib/kpatto/episode-progress'
 
+import { KP } from '@/lib/kpatto/theme'
 type EpItem = { id: string; episode: number; title: string; title_en: string | null; theme: string; thumbnail_url: string }
 
 const T1     = '#111111'
 const T2     = '#999999'
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 const GREEN  = '#22C55E'
 const MAX_VIEWS = 5
 
 // ── 상태 배지 ────────────────────────────────────────────────────────────────
 
+// 진행 중(프로그레스 바)이거나 학습 완료(체크)일 때만 보여 준다. 시작 전에는 아무것도 그리지 않는다.
 function EpisodeStatus({ count }: { count: number }) {
   const displayCount = Math.min(count, MAX_VIEWS)
   if (displayCount >= MAX_VIEWS) {
-    return <span style={{ fontSize: 12, color: ACCENT, fontWeight: 700 }}>Mastered! 🏆</span>
+    return (
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 12, color: GREEN, fontWeight: 700 }}>
+        <Check size={14} strokeWidth={3} /> Completed
+      </span>
+    )
   }
   if (displayCount > 0) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <div style={{ display: 'flex', gap: 3 }}>
-          {Array.from({ length: MAX_VIEWS }, (_, i) => (
-            <div key={i} style={{
-              width: 8, height: 8, borderRadius: '50%',
-              background: i < displayCount ? ACCENT : '#E0E0E0',
-              flexShrink: 0,
-            }} />
-          ))}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ flex: 1, maxWidth: 96, height: 6, borderRadius: 9999, background: '#E5E7EB', overflow: 'hidden' }}>
+          <div style={{ width: `${(displayCount / MAX_VIEWS) * 100}%`, height: '100%', borderRadius: 9999, background: ACCENT }} />
         </div>
         <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>{displayCount}/{MAX_VIEWS}</span>
       </div>
     )
   }
-  return <span style={{ fontSize: 12, color: T2 }}>Not started yet</span>
+  return null
 }
 
 // ── 완료 체크 오버레이 (썸네일 우상단) ─────────────────────────────────────
@@ -161,7 +161,7 @@ export default function KPattoStoryListPage() {
         {episodes.map((story) => {
           const prog   = progressMap.get(story.episode)
           const count  = prog?.completed_count ?? 0
-          const isDone = count > 0
+          const isMastered = count >= MAX_VIEWS
           const isNext = story.episode === nextEpNum
           const locked = story.episode > FREE_EPISODES && !isPro
 
@@ -184,19 +184,20 @@ export default function KPattoStoryListPage() {
                   : '0 1px 4px rgba(0,0,0,0.08)',
                 background: locked ? '#FAFAFA' : '#FFFFFF',
                 overflow: 'hidden',
-                minHeight: 100,
+                minHeight: 108,
                 opacity: locked ? 0.75 : 1,
               }}
             >
               {/* Thumbnail */}
               <div style={{ padding: '10px 0 10px 10px', flexShrink: 0 }}>
-                <div style={{ position: 'relative', width: 120, height: 80, borderRadius: 12, overflow: 'hidden', background: '#F7F7F7' }}>
+                {/* 정사각 고정 — 화면 너비가 바뀌어도 찌그러지지 않고, 이미지는 cover 로 채운다 */}
+                <div style={{ position: 'relative', width: 88, aspectRatio: '1 / 1', flexShrink: 0, borderRadius: 12, overflow: 'hidden', background: '#F7F7F7' }}>
                   <Image
                     src={story.thumbnail_url}
                     alt={story.title}
                     fill
                     style={{ objectFit: 'cover', objectPosition: 'center center', filter: locked ? 'grayscale(0.4)' : 'none' }}
-                    sizes="120px"
+                    sizes="88px"
                   />
                   {locked && (
                     <div style={{
@@ -207,8 +208,8 @@ export default function KPattoStoryListPage() {
                       <Lock size={20} color="#FFFFFF" strokeWidth={2} />
                     </div>
                   )}
-                  {/* 완료 체크 (잠금 아닌 경우에만) */}
-                  {isDone && !locked && <CompletedBadge />}
+                  {/* 학습 완료 체크 (잠금 아닌 경우에만) */}
+                  {isMastered && !locked && <CompletedBadge />}
                 </div>
               </div>
 
@@ -228,13 +229,15 @@ export default function KPattoStoryListPage() {
                     {story.title_en}
                   </div>
                 )}
-                {/* 진행 상태 */}
-                <div style={{ marginTop: 2 }}>
-                  {locked
-                    ? <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>Pro only</span>
-                    : <EpisodeStatus count={count} />
-                  }
-                </div>
+                {/* 진행 상태 — 잠금이면 Pro only, 아니면 진행 중/완료일 때만 */}
+                {(locked || count > 0) && (
+                  <div style={{ marginTop: 2 }}>
+                    {locked
+                      ? <span style={{ fontSize: 12, color: ACCENT, fontWeight: 600 }}>Pro only</span>
+                      : <EpisodeStatus count={count} />
+                    }
+                  </div>
+                )}
               </div>
 
               {/* Chevron */}

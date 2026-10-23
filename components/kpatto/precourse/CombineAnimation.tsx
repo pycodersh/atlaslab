@@ -56,8 +56,8 @@ export function CombineAnimation({ step, lang, lessonId }: Props) {
       <div
         onClick={next}
         style={{
-          background: '#FFF8F0',
-          border: '1.5px solid rgba(212,135,58,0.15)',
+          background: '#FFF3F0',
+          border: '1.5px solid rgba(255,90,54,0.15)',
           borderRadius: 20,
           padding: '32px 20px',
           cursor: 'pointer',
@@ -103,7 +103,7 @@ export function CombineAnimation({ step, lang, lessonId }: Props) {
         <div style={{
           fontSize: 72,
           fontWeight: 800,
-          color: '#D4873A',
+          color: '#FF5A36',
           opacity: phase === 'done' ? 1 : 0,
           transform: phase === 'done' ? 'scale(1)' : 'scale(0.6)',
           transition: 'opacity 0.3s ease, transform 0.3s ease',
@@ -128,12 +128,12 @@ export function CombineAnimation({ step, lang, lessonId }: Props) {
             style={{
               padding: '6px 12px',
               borderRadius: 99,
-              border: `1.5px solid ${i === pairIdx ? '#D4873A' : 'rgba(0,0,0,0.10)'}`,
-              background: i === pairIdx ? 'rgba(212,135,58,0.12)' : 'none',
+              border: `1.5px solid ${i === pairIdx ? '#FF5A36' : 'rgba(0,0,0,0.10)'}`,
+              background: i === pairIdx ? 'rgba(255,90,54,0.12)' : 'none',
               cursor: 'pointer',
               fontSize: 16,
               fontWeight: 700,
-              color: i === pairIdx ? '#D4873A' : 'var(--pm)',
+              color: i === pairIdx ? '#FF5A36' : 'var(--pm)',
             }}
           >
             {p.result}

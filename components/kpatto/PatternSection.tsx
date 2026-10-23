@@ -8,7 +8,8 @@ import { isPatternSaved, savePattern, unsavePattern } from '@/lib/kpatto/savedPa
 import { useAuth } from '@/contexts/AuthContext'
 import { patternAudioUrl, playAudio, stopAllAudio } from '@/lib/kpatto/audio'
 
-const ACCENT = '#D4873A'
+import { KP } from '@/lib/kpatto/theme'
+const ACCENT = KP.primary
 
 const PATTERN_DESCS: Record<string, string> = {
   // EP01
@@ -750,7 +751,7 @@ function BookmarkBtn({ pattern, episodeId }: { pattern: KPattoPattern; episodeId
   return (
     <>
       <button onClick={handle} style={{ background: 'none', border: 'none', cursor: user ? 'pointer' : 'default', padding: 0, flexShrink: 0 }}>
-        <Bookmark size={15} color={saved ? '#D4873A' : '#CCCCCC'} fill={saved ? '#D4873A' : 'none'} strokeWidth={1.8} />
+        <Bookmark size={15} color={saved ? '#FF5A36' : '#CCCCCC'} fill={saved ? '#FF5A36' : 'none'} strokeWidth={1.8} />
       </button>
       <Toast msg={toast.msg} visible={toast.visible} />
     </>
@@ -770,7 +771,7 @@ function PatternCard({ p, i, lang, episodeId, highlight }: {
   const explanation = PATTERN_EXPLANATIONS[p.id]
 
   return (
-    <div style={highlight ? { background: 'rgba(212,135,58,0.06)', borderLeft: '3px solid #D4873A' } : undefined}>
+    <div style={highlight ? { background: 'rgba(255,90,54,0.06)', borderLeft: '3px solid #FF5A36' } : undefined}>
       {i > 0 && <div style={{ height: 1, background: '#F0EDE8', margin: '0 20px' }} />}
       <div style={{ padding: '20px 20px' }}>
 

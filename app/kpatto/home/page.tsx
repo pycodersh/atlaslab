@@ -17,8 +17,9 @@ import { ID_TO_SLUG } from '@/lib/kpatto/expressions-config'
 import { ExpressionPopup } from '@/components/kpatto/ExpressionPopup'
 import type { KPattoExpression } from '@/data/kpatto/types'
 
+import { KP } from '@/lib/kpatto/theme'
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 const T1     = '#111111'
 const T2     = '#888888'
 const DIV    = '#F2F2F2'
@@ -235,59 +236,77 @@ function HeroEpisodeCard({ ep }: { ep: ContinueEp }) {
             priority
           />
 
-          {/* 하단 그라데이션 오버레이 */}
+          {/* 하단 그라데이션 오버레이 — 글자 영역이 이미지에 묻히지 않도록 아래쪽을 더 어둡게 */}
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.65) 100%)',
+            background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 50%, transparent 100%)',
             pointerEvents: 'none',
           }} />
 
-          {/* 좌측 하단: EP 라벨 + 한글 제목 + 영문 부제 */}
+          {/* 좌측 하단: EP 배지 + 한글 제목 + 영문 부제 */}
           <div style={{
             position: 'absolute',
-            left: 12,
-            bottom: 12,
+            left: 14,
+            right: 68,
+            bottom: 14,
             pointerEvents: 'none',
           }}>
-            <div style={{
+            <span style={{
+              display: 'inline-block',
               fontSize: 11,
-              fontWeight: 700,
-              color: 'rgba(255,255,255,0.75)',
+              fontWeight: 800,
+              color: '#FFFFFF',
+              background: ACCENT,
+              borderRadius: 9999,
+              padding: '3px 9px',
               letterSpacing: '0.06em',
-              lineHeight: 1.3,
+              lineHeight: 1.2,
             }}>
               {epLabel}
-            </div>
+            </span>
             <div style={{
-              fontSize: 18,
-              fontWeight: 700,
+              fontSize: 19,
+              fontWeight: 800,
               color: '#FFFFFF',
               lineHeight: 1.25,
-              marginTop: 2,
+              marginTop: 6,
+              textShadow: '0 1px 4px rgba(0,0,0,0.55)',
             }}>
               {ep.title}
             </div>
             {ep.titleEn && (
               <div style={{
                 fontSize: 13,
-                color: 'rgba(255,255,255,0.75)',
+                fontWeight: 500,
+                color: 'rgba(255,255,255,0.95)',
                 lineHeight: 1.3,
-                marginTop: 2,
+                marginTop: 3,
+                textShadow: '0 1px 3px rgba(0,0,0,0.6)',
               }}>
                 {ep.titleEn}
               </div>
             )}
           </div>
 
-          {/* 우측 하단: 오렌지 화살표 */}
+          {/* 우측 하단: 이동 버튼 — 반투명 원형 배경 + 44px 터치 영역 */}
           <div style={{
             position: 'absolute',
             right: 12,
             bottom: 12,
+            width: 44,
+            height: 44,
+            borderRadius: '50%',
+            background: 'rgba(255,255,255,0.22)',
+            border: '1px solid rgba(255,255,255,0.35)',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             pointerEvents: 'none',
           }}>
-            <ChevronRight size={22} strokeWidth={2.5} color={ACCENT} />
+            <ChevronRight size={26} strokeWidth={2.6} color="#FFFFFF" />
           </div>
         </div>
       </Link>

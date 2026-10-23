@@ -6,7 +6,8 @@ import { useAuth } from '@/contexts/AuthContext'
 import { usePaddle } from '@/hooks/usePaddle'
 import { getPaddle } from '@/lib/paddle/client'
 
-const ACCENT = '#D4873A'
+import { KP } from '@/lib/kpatto/theme'
+const ACCENT = KP.primary
 const T1 = '#111111'
 const T2 = '#666666'
 

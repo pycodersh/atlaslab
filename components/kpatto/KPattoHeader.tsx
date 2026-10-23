@@ -73,7 +73,7 @@ export function KPattoHeader() {
                 />
               ) : (
                 <span style={{
-                  fontSize: 11, fontWeight: 800, color: '#D4873A',
+                  fontSize: 11, fontWeight: 800, color: '#FF5A36',
                   letterSpacing: '-0.02em', lineHeight: 1,
                 }}>
                   {initials}

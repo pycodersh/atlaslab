@@ -93,7 +93,7 @@ function renderKorean(text: string, highlights?: Array<{ text: string; expressio
     if (cursor < start) nodes.push(text.slice(cursor, start))
     nodes.push(
       <span key={start} style={{
-        color: '#D4873A', fontWeight: 800,
+        color: '#FF5A36', fontWeight: 800,
         textDecorationLine: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px',
       }}>
         {text.slice(start, end)}
@@ -160,7 +160,7 @@ function ExportBubble({ bubble, section }: {
           transform: bubble.rotation ? `rotate(${bubble.rotation}deg)` : undefined,
           overflow: 'visible',
           filter: isFocus
-            ? 'drop-shadow(0 0 5px rgba(212,135,58,0.85)) drop-shadow(0 0 10px rgba(212,135,58,0.4))'
+            ? 'drop-shadow(0 0 5px rgba(255,90,54,0.85)) drop-shadow(0 0 10px rgba(255,90,54,0.4))'
             : undefined,
         }}
       >
@@ -349,7 +349,7 @@ function SummaryPanel({ exprs, siteUrl, epLabel }: {
       {/* Expression cards */}
       {exprs.length > 0 && (
         <div style={{
-          background: '#FFF8F0',
+          background: '#FFF3F0',
           borderRadius: 16,
           padding: '24px 28px',
           width: '100%',
@@ -379,7 +379,7 @@ function SummaryPanel({ exprs, siteUrl, epLabel }: {
         </div>
         <div style={{
           marginTop: 8,
-          fontSize: 13, fontWeight: 700, color: '#D4873A',
+          fontSize: 13, fontWeight: 700, color: '#FF5A36',
           letterSpacing: '0.03em', textDecoration: 'underline',
           textUnderlineOffset: '3px',
         }}>

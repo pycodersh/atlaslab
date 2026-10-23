@@ -81,9 +81,9 @@ export default function LessonPage({ params }: PageProps) {
               <span style={{
                 fontSize: 9,
                 fontWeight: 800,
-                color: lesson.required ? '#D4873A' : '#6366F1',
-                background: lesson.required ? 'rgba(212,135,58,0.10)' : 'rgba(99,102,241,0.10)',
-                border: `1px solid ${lesson.required ? 'rgba(212,135,58,0.25)' : 'rgba(99,102,241,0.25)'}`,
+                color: lesson.required ? '#FF5A36' : '#6366F1',
+                background: lesson.required ? 'rgba(255,90,54,0.10)' : 'rgba(99,102,241,0.10)',
+                border: `1px solid ${lesson.required ? 'rgba(255,90,54,0.25)' : 'rgba(99,102,241,0.25)'}`,
                 padding: '2px 7px',
                 borderRadius: 99,
                 letterSpacing: '0.06em',

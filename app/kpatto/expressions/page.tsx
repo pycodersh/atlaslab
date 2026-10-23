@@ -8,6 +8,7 @@ import {
   SEO_EXPRESSION_IDS,
 } from '@/lib/kpatto/expressions-config'
 
+import { KP } from '@/lib/kpatto/theme'
 export const revalidate = 86400
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -30,7 +31,7 @@ export const metadata: Metadata = {
 const T1     = '#111111'
 const T2     = '#888888'
 const DIV    = '#F2F2F2'
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 const BG     = '#FFFFFF'
 
 type ExprRow = {

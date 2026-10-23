@@ -13,7 +13,8 @@
 import { useState, useRef, useCallback, useMemo } from 'react'
 import { tryPlayAudio, stopAllAudio, getAudioGeneration } from '@/lib/kpatto/audio'
 
-const ACCENT = '#D4873A'
+import { KP } from '@/lib/kpatto/theme'
+const ACCENT = KP.primary
 
 export function KPattoAudioPlayer({
   srcs,
@@ -68,7 +69,7 @@ export function KPattoAudioPlayer({
       onClick={handleClick}
       style={{
         display: 'flex', alignItems: 'center', gap: 14,
-        padding: '14px 18px', background: '#FFF4EA',
+        padding: '14px 18px', background: '#FFF3F0',
         borderRadius: 14, border: '1px solid #F5D9B4',
         cursor: 'pointer',
         WebkitTapHighlightColor: 'transparent',

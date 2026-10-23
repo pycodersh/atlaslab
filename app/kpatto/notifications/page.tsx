@@ -6,10 +6,11 @@ import { ChevronLeft } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { createClient } from '@/lib/supabase/client'
 
+import { KP } from '@/lib/kpatto/theme'
 const T1 = '#111111'
 const T2 = '#666666'
 const BORDER = '#E8E4DF'
-const ACCENT = '#D4873A'
+const ACCENT = KP.primary
 
 interface NotifPrefs {
   kpatto_notif_new_episode: boolean

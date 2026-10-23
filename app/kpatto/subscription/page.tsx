@@ -10,7 +10,8 @@ import { getPaddle } from '@/lib/paddle/client'
 import { cleanEnvLoud } from '@/lib/paddle/env'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 
-const ACCENT = '#D4873A'
+import { KP } from '@/lib/kpatto/theme'
+const ACCENT = KP.primary
 const T1 = '#111111'
 const T2 = '#666666'
 const BORDER = '#E8E4DF'
