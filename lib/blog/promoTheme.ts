@@ -5,8 +5,8 @@
  */
 export const PROMO = {
   espresso: '#2B1D17',
-  brick: '#B4502E',
-  brickDark: '#9A4125',
+  brick: '#C8102E',      // 사이트 기본 레드(상단 선·버튼·라벨)
+  brickDark: '#A30D25',  // hover
   sand: '#F4EDE0',
   line: '#E3D6C4',
   muted: '#6B544A',

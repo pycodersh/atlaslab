@@ -1150,7 +1150,7 @@ body { top: 0 !important; position: static !important; }
 .promo-card + .promo-card { margin-top: 16px !important; }
 .promo-btn {
   display: inline-block;
-  background: #B4502E;
+  background: #C8102E;
   color: #FFFFFF !important;
   padding: 13px 26px;
   border-radius: 4px;
@@ -1161,8 +1161,8 @@ body { top: 0 !important; position: static !important; }
   line-height: 1.2;
   text-decoration: none !important;
   white-space: nowrap;
-  box-shadow: 0 1px 0 #9A4125;
+  box-shadow: 0 1px 0 #A30D25;
   transition: background 0.15s ease, transform 0.15s ease;
 }
-.promo-btn:hover { background: #9A4125; transform: translateY(-1px); }
+.promo-btn:hover { background: #A30D25; transform: translateY(-1px); }
 .promo-btn:active { transform: translateY(0); }
