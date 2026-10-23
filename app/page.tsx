@@ -6,10 +6,10 @@ import { PostListRow } from '@/components/blog/PostListRow'
 import { readMinutes } from '@/lib/blog/readTime'
 import { ExploreAppsButton } from '@/components/home/ExploreAppsButton'
 import {
-  BLOG_SECTIONS,
+  BLOG_GROUPS,
+  groupKeyOf,
   minPostsToShow,
   POSTS_PER_SECTION,
-  topicSectionKey,
 } from '@/lib/blog/sections'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
 
@@ -108,24 +108,24 @@ type BlogRow = {
 
 /** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다.
  *  분류 기준은 lib/blog/sections 하나뿐 — /blog 목록 탭과 같은 것을 쓴다.
- *  topicSectionKey 가 null 을 주는 글(app=patto)은 주제 섹션에 넣지 않는다. */
+ *  groupKeyOf 가 null 을 주는 글(app=patto)은 주제 섹션에 넣지 않는다. */
 function groupIntoSections(posts: BlogRow[]) {
-  const buckets = new Map<string, BlogRow[]>(BLOG_SECTIONS.map(s => [s.key, []]))
+  const buckets = new Map<string, BlogRow[]>(BLOG_GROUPS.map(g => [g.key, []]))
 
   for (const post of posts) {
-    const key = topicSectionKey(post.app, post.category)
+    const key = groupKeyOf(post.app, post.category)
     if (!key) continue
     buckets.get(key)!.push(post)
   }
 
   // posts 는 published_at 내림차순으로 들어오므로 앞에서 자르면 최신순이다.
-  return BLOG_SECTIONS.map(section => {
+  return BLOG_GROUPS.map(section => {
     const all = buckets.get(section.key)!
     return {
       key: section.key,
       title: section.title,
       desc: section.desc,
-      layout: section.layout,
+      layout: 'grid' as 'grid' | 'list',
       total: all.length,
       posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
         ...post,
@@ -217,13 +217,13 @@ export default async function AtlasLabHome() {
     .order('published_at', { ascending: false })
 
   // 주제 탭에 들어가는 글만(= patto 제외). 쿼리가 최신순이라 앞이 최신이다.
-  const topicPosts = (allPosts ?? []).filter(p => topicSectionKey(p.app, p.category))
+  const topicPosts = (allPosts ?? []).filter(p => groupKeyOf(p.app, p.category))
 
   // 상단 탭 바 — 전체 + 주제별 건수. 분류는 sections.ts 한 곳만 본다.
-  const tabCounts = BLOG_SECTIONS.map(s => ({
+  const tabCounts = BLOG_GROUPS.map(s => ({
     key: s.key as string,
     label: s.title as string,
-    count: topicPosts.filter(p => topicSectionKey(p.app, p.category) === s.key).length,
+    count: topicPosts.filter(p => groupKeyOf(p.app, p.category) === s.key).length,
   }))
 
   // 피처드 — 가장 최신 1편. 아래 섹션 그리드에서는 빼서 같은 글이 두 번 나오지 않게 한다.

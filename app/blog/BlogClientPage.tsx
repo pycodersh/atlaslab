@@ -63,7 +63,7 @@ export function BlogClientPage({
 }) {
   const lang: 'EN' | 'KO' = activeLang === 'ko' ? 'KO' : 'EN'
   // 격자로 그릴지 세로 리스트로 그릴지는 홈과 같은 기준(sections.ts)을 본다
-  const isList = layoutForKey(activeTab) === 'list'
+  const isList = layoutForKey(activeTab, activeSub) === 'list'
 
   return (
     <>

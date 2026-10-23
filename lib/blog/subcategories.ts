@@ -9,12 +9,21 @@
  *    규칙이 못 잡으면 섹션의 마지막 분류(문화·일상)로 떨어져 어떤 글도 필터에서 사라지지 않는다.
  *  - 재분류 검토는 scripts/classify-subcategories.ts 로 한다.
  */
-import type { BlogSectionKey } from './sections'
+import { topicSectionKey, type BlogGroupKey } from './sections'
 
 export type Subcategory = { key: string; label: string }
 
 /** 섹션별 서브 카테고리. 배열 순서가 칩 순서다. 마지막 항목이 기본값(fallback)이다. */
-export const SUBCATEGORIES: Partial<Record<BlogSectionKey, readonly Subcategory[]>> = {
+export const SUBCATEGORIES: Partial<Record<BlogGroupKey, readonly Subcategory[]>> = {
+  // 카테고리(section)가 곧 서브 분류인 그룹 — 글의 category 로 정해지며 규칙·오버라이드가 필요 없다
+  korean: [
+    { key: 'phrases', label: 'Phrases' },
+    { key: 'basics', label: 'Basics' },
+  ],
+  'explore-korea': [
+    { key: 'hotels', label: 'Hotels' },
+    { key: 'places', label: 'Places' },
+  ],
   food: [
     { key: 'bbq', label: 'BBQ & Meat' },
     { key: 'soups', label: 'Soups & Stews' },
@@ -30,8 +39,11 @@ export const SUBCATEGORIES: Partial<Record<BlogSectionKey, readonly Subcategory[
   ],
 }
 
+/** 글이 아직 없어도 칩을 보여 주는 그룹(구조를 먼저 드러낸다). 나머지는 글이 있는 칩만 보인다. */
+export const KEEP_EMPTY_SUB_CHIPS: ReadonlySet<string> = new Set(['korean', 'explore-korea'])
+
 export function subcategoriesFor(section: string): readonly Subcategory[] {
-  return SUBCATEGORIES[section as BlogSectionKey] ?? []
+  return SUBCATEGORIES[section as BlogGroupKey] ?? []
 }
 
 export function isValidSubcategory(section: string, sub: string | undefined): sub is string {
@@ -176,7 +188,7 @@ type Rule = { sub: string; test: RegExp }
  * 오버라이드에 없는 새 글용 규칙. 제목 + 슬러그를 소문자로 합쳐 위에서부터 처음 맞는 것을 쓴다.
  * 더 구체적인 분류(국물, 길거리)를 먼저, 넓은 분류(재료·문화)는 기본값으로 둔다.
  */
-const RULES: Partial<Record<BlogSectionKey, readonly Rule[]>> = {
+const RULES: Partial<Record<BlogGroupKey, readonly Rule[]>> = {
   food: [
     { sub: 'soups', test: /\b(jjigae|tang|guk|gukbap|stew|soup|broth|kalguksu|ramyeon soup|ttukbaegi)\b/ },
     { sub: 'bbq', test: /\b(bbq|barbecue|samgyeopsal|galbi|bulgogi|bossam|pork|beef|chicken|dak|ribs|grill|meat|steak)\b/ },
@@ -198,17 +210,25 @@ export function classifyBySubcategoryRules(
   const subs = subcategoriesFor(section)
   if (!subs.length) return null
   const hay = `${post.title} ${post.slug.replace(/-/g, ' ')}`.toLowerCase()
-  const hit = RULES[section as BlogSectionKey]?.find(r => r.test.test(hay))
+  const hit = RULES[section as BlogGroupKey]?.find(r => r.test.test(hay))
   return hit?.sub ?? subs[subs.length - 1].key
 }
 
-/** 글의 서브 카테고리 key. 서브 분류가 없는 섹션이면 null. */
+/**
+ * 글의 서브 카테고리 key. 서브 분류가 없는 그룹이면 null.
+ * korean / explore-korea 는 글의 category(= 세부 섹션)가 곧 서브 카테고리이고,
+ * food / life 는 슬러그 오버라이드 → 제목 규칙 순서로 정한다.
+ */
 export function subcategoryOf(
-  section: string | null,
-  post: { slug: string; title: string },
+  group: string | null,
+  post: { slug: string; title: string; app?: string; category?: string | null },
 ): string | null {
-  if (!section || !subcategoriesFor(section).length) return null
+  if (!group || !subcategoriesFor(group).length) return null
+  if (group === 'korean' || group === 'explore-korea') {
+    const section = topicSectionKey(post.app ?? 'k-patto', post.category ?? null)
+    return section && isValidSubcategory(group, section) ? section : null
+  }
   const fixed = SUBCATEGORY_OVERRIDES[post.slug]
-  if (fixed && isValidSubcategory(section, fixed)) return fixed
-  return classifyBySubcategoryRules(section, post)
+  if (fixed && isValidSubcategory(group, fixed)) return fixed
+  return classifyBySubcategoryRules(group, post)
 }

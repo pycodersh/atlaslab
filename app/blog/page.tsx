@@ -1,8 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
-import { PATTO_TAB, isValidTab, postMatchesTab, tabLabel, topicSectionKey } from '@/lib/blog/sections'
-import { isValidSubcategory, subcategoriesFor, subcategoryOf } from '@/lib/blog/subcategories'
+import { LEGACY_TABS, PATTO_TAB, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { KEEP_EMPTY_SUB_CHIPS, isValidSubcategory, subcategoriesFor, subcategoryOf } from '@/lib/blog/subcategories'
+import { permanentRedirect } from 'next/navigation'
 import { readMinutes } from '@/lib/blog/readTime'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
 
@@ -47,6 +48,15 @@ export default async function BlogIndexPage({
   searchParams: Promise<{ page?: string; tab?: string; lang?: string; sub?: string }>
 }) {
   const { page, tab, lang, sub } = await searchParams
+  // 예전 탭 주소(phrases · basics · stay-in-korea)는 새 구조(Korean · Explore Korea)로 영구 이동
+  const legacy = tab ? LEGACY_TABS[tab] : undefined
+  if (legacy) {
+    const q = new URLSearchParams({ tab: legacy.tab })
+    if (legacy.sub) q.set('sub', legacy.sub)
+    if (lang === 'ko') q.set('lang', 'ko')
+    if (page && page !== '1') q.set('page', page)
+    permanentRedirect(`/blog?${q.toString()}`)
+  }
   const currentPage = Math.max(1, parseInt(page || '1'))
   const activeTab = resolveTab(tab)
   // Patto 탭은 항상 KO; 나머지는 lang 파라미터(기본 en)
@@ -67,14 +77,14 @@ export default async function BlogIndexPage({
 
   const inTab = (rows ?? []).filter(p => postMatchesTab(p, activeTab))
 
-  // 서브 카테고리 칩 — 서브 분류가 정의된 주제 탭(food, life)에서만 쓴다.
+  // 서브 카테고리 칩 — 서브 분류가 정의된 그룹(korean · explore-korea · food · life)에서만 쓴다.
   // 분류는 코드(lib/blog/subcategories)에서 하고, 칩 옆 개수는 탭 전체 기준이다.
   const subDefs = subcategoriesFor(activeTab)
   const subOf = (p: { slug: string; title: string; app: string; category: string | null }) =>
-    subcategoryOf(topicSectionKey(p.app, p.category), p)
+    subcategoryOf(activeTab, p)
   const activeSub = isValidSubcategory(activeTab, sub) ? sub : null
   const subChips = subDefs.map(s => ({ ...s, count: inTab.filter(p => subOf(p) === s.key).length }))
-    .filter(s => s.count > 0)
+    .filter(s => s.count > 0 || KEEP_EMPTY_SUB_CHIPS.has(activeTab))   // Korean · Explore Korea 는 빈 칩도 보인다
   const matched = activeSub ? inTab.filter(p => subOf(p) === activeSub) : inTab
 
   const totalPages = Math.ceil(matched.length / POSTS_PER_PAGE)

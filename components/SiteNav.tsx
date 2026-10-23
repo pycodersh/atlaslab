@@ -4,6 +4,16 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { MODAL_APPS, NAV_APPS } from '@/lib/apps'
 import { LanguageSelector } from '@/components/LanguageSelector'
+import { BLOG_GROUPS } from '@/lib/blog/sections'
+import { subcategoriesFor } from '@/lib/blog/subcategories'
+
+/** 글 카테고리 메뉴 — Korean · Explore Korea · Food · Life (구조는 lib/blog/sections 한 곳에서 온다) */
+const NAV_CATEGORIES = BLOG_GROUPS.map(g => ({
+  key: g.key as string,
+  label: g.title as string,
+  href: `/blog?tab=${g.key}`,
+  subs: subcategoriesFor(g.key).map(sub => ({ label: sub.label, href: `/blog?tab=${g.key}&sub=${sub.key}` })),
+}))
 
 /**
  * Site-wide navigation bar.
@@ -25,6 +35,23 @@ export function SiteNav() {
   const [clickOpen, setClickOpen] = useState(false)
   const appsOpen = hoverOpen || clickOpen
   const closeApps = () => { setHoverOpen(false); setClickOpen(false) }
+
+  // 좁은 화면용 "Articles" 드롭다운(클릭) — 넓은 화면은 카테고리 링크가 그대로 보인다
+  const [articlesOpen, setArticlesOpen] = useState(false)
+  const articlesRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    if (!articlesOpen) return
+    const onDown = (e: MouseEvent) => {
+      if (articlesRef.current && !articlesRef.current.contains(e.target as Node)) setArticlesOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setArticlesOpen(false) }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [articlesOpen])
 
   const [modalOpen, setModalOpen] = useState(false)
   const appsRef = useRef<HTMLDivElement | null>(null)
@@ -129,6 +156,42 @@ export function SiteNav() {
         }
 
         @keyframes navFade { from { opacity: 0; transform: translate(-50%, -4px); } }
+
+        /* ── 글 카테고리 메뉴 (넓은 화면: 링크 + 호버 서브메뉴 / 좁은 화면: Articles 드롭다운) ── */
+        .nav-cats { display: flex; align-items: center; gap: 24px; }
+        .nav-cat { position: relative; display: flex; align-items: center; }
+        .nav-cat-menu { display: none; position: absolute; top: 100%; left: -14px; padding-top: 14px; z-index: 5; }
+        .nav-cat:hover .nav-cat-menu, .nav-cat:focus-within .nav-cat-menu { display: block; }
+        .nav-cat-menu-in {
+          min-width: 200px; background: #fff; border: 1px solid var(--rule, #E5E1DC);
+          box-shadow: 0 12px 32px rgba(0,0,0,0.10); padding: 6px;
+        }
+        .nav-sub {
+          display: block; padding: 8px 12px; font-size: 13px; font-weight: 500;
+          color: var(--ink, #111); text-decoration: none; white-space: nowrap;
+          transition: background 0.12s;
+        }
+        .nav-sub:hover { background: var(--paper-warm, #F7F5F2); }
+        .nav-sub-all { font-weight: 700; }
+        .nav-articles { display: none; position: relative; align-items: center; }
+        .nav-articles-menu {
+          position: absolute; top: calc(100% + 12px); right: -8px; min-width: 250px;
+          max-height: 70vh; overflow-y: auto;
+          background: #fff; border: 1px solid var(--rule, #E5E1DC);
+          box-shadow: 0 12px 32px rgba(0,0,0,0.12); padding: 8px 6px;
+        }
+        .nav-articles-group { padding: 4px 0 6px; border-bottom: 1px solid var(--rule, #E5E1DC); }
+        .nav-articles-group:last-of-type { border-bottom: none; }
+        .nav-articles-head {
+          display: block; padding: 6px 12px 2px; font-size: 13px; font-weight: 800;
+          color: var(--ink, #111); text-decoration: none;
+        }
+        .nav-articles-subs { display: flex; flex-wrap: wrap; gap: 2px 4px; padding: 0 8px; }
+        .nav-articles-subs .nav-sub { padding: 5px 8px; font-size: 12.5px; color: var(--ink-muted, #6B6B6B); }
+        @media (max-width: 1040px) {
+          .nav-cats { display: none; }
+          .nav-articles { display: flex; }
+        }
 
         /* ── Choose Your Path 모달 ─────────────────────────────── */
         .cyp-backdrop {
@@ -269,7 +332,62 @@ export function SiteNav() {
               )}
             </div>
 
-            <Link href="/blog"  className="site-nav-link">Articles</Link>
+            {/* 글 카테고리: 넓은 화면은 링크 + 호버 서브메뉴 */}
+            <div className="nav-cats">
+              {NAV_CATEGORIES.map(cat => (
+                <div key={cat.key} className="nav-cat">
+                  <Link href={cat.href} className="site-nav-link">{cat.label}</Link>
+                  <div className="nav-cat-menu">
+                    <div className="nav-cat-menu-in">
+                      <Link href={cat.href} className="nav-sub nav-sub-all">All {cat.label}</Link>
+                      {cat.subs.map(sub => (
+                        <Link key={sub.href} href={sub.href} className="nav-sub">{sub.label}</Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <Link href="/blog" className="site-nav-link">All articles</Link>
+            </div>
+
+            {/* 좁은 화면: Articles 한 개로 접어 둔다 */}
+            <div className="nav-articles" ref={articlesRef}>
+              <button
+                type="button"
+                className="nav-apps-btn"
+                aria-expanded={articlesOpen}
+                aria-haspopup="true"
+                onClick={() => setArticlesOpen(o => !o)}
+              >
+                Articles
+                <svg width="9" height="6" viewBox="0 0 9 6" fill="none" aria-hidden="true"
+                  style={{ transform: articlesOpen ? 'rotate(180deg)' : undefined, transition: 'transform 0.15s' }}>
+                  <path d="M1 1.5L4.5 5L8 1.5" stroke="currentColor" strokeWidth="1.5"
+                    strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+              {articlesOpen && (
+                <div className="nav-articles-menu" role="menu">
+                  {NAV_CATEGORIES.map(cat => (
+                    <div key={cat.key} className="nav-articles-group">
+                      <Link href={cat.href} className="nav-articles-head" role="menuitem" onClick={() => setArticlesOpen(false)}>
+                        {cat.label}
+                      </Link>
+                      <div className="nav-articles-subs">
+                        {cat.subs.map(sub => (
+                          <Link key={sub.href} href={sub.href} className="nav-sub" role="menuitem" onClick={() => setArticlesOpen(false)}>
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  <Link href="/blog" className="nav-articles-head" role="menuitem" style={{ paddingTop: 10 }} onClick={() => setArticlesOpen(false)}>
+                    All articles →
+                  </Link>
+                </div>
+              )}
+            </div>
             <Link href="/about" className="site-nav-link">About</Link>
             <LanguageSelector />
           </div>

@@ -5,7 +5,7 @@
  * 카테고리 목록이 또 하나 생기면 홈·목록·CTA 세 곳이 어긋나기 때문이다.
  *
  *   Korean phrases / Korean basics  → K-Patto (표현 연습)
- *   Life in Korea / Stay in Korea   → K-Patto (문화·표현 결이라 요리보다 맞다)
+ *   Life in Korea / Explore Korea   → K-Patto (문화·표현 결이라 요리보다 맞다)
  *   Korean food                     → K-Pantry
  *   그 외(app=patto 등)             → Patto
  */
@@ -68,7 +68,8 @@ export function ctaForPost(
     case 'basics':
       return K_PATTO
     case 'life':
-    case 'stay-in-korea':
+    case 'hotels':
+    case 'places':
       return K_PATTO_CULTURE
     case 'food':
       return K_PANTRY
