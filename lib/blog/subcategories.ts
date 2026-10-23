@@ -16,10 +16,6 @@ export type Subcategory = { key: string; label: string }
 /** 섹션별 서브 카테고리. 배열 순서가 칩 순서다. 마지막 항목이 기본값(fallback)이다. */
 export const SUBCATEGORIES: Partial<Record<BlogGroupKey, readonly Subcategory[]>> = {
   // 카테고리(section)가 곧 서브 분류인 그룹 — 글의 category 로 정해지며 규칙·오버라이드가 필요 없다
-  korean: [
-    { key: 'phrases', label: 'Phrases' },
-    { key: 'basics', label: 'Basics' },
-  ],
   'explore-korea': [
     { key: 'hotels', label: 'Hotels' },
     { key: 'places', label: 'Places' },
@@ -40,7 +36,7 @@ export const SUBCATEGORIES: Partial<Record<BlogGroupKey, readonly Subcategory[]>
 }
 
 /** 글이 아직 없어도 칩을 보여 주는 그룹(구조를 먼저 드러낸다). 나머지는 글이 있는 칩만 보인다. */
-export const KEEP_EMPTY_SUB_CHIPS: ReadonlySet<string> = new Set(['korean', 'explore-korea'])
+export const KEEP_EMPTY_SUB_CHIPS: ReadonlySet<string> = new Set(['explore-korea'])
 
 export function subcategoriesFor(section: string): readonly Subcategory[] {
   return SUBCATEGORIES[section as BlogGroupKey] ?? []
@@ -216,7 +212,7 @@ export function classifyBySubcategoryRules(
 
 /**
  * 글의 서브 카테고리 key. 서브 분류가 없는 그룹이면 null.
- * korean / explore-korea 는 글의 category(= 세부 섹션)가 곧 서브 카테고리이고,
+ * explore-korea 는 글의 category(= 세부 섹션: hotels · places)가 곧 서브 카테고리이고,
  * food / life 는 슬러그 오버라이드 → 제목 규칙 순서로 정한다.
  */
 export function subcategoryOf(
@@ -224,7 +220,7 @@ export function subcategoryOf(
   post: { slug: string; title: string; app?: string; category?: string | null },
 ): string | null {
   if (!group || !subcategoriesFor(group).length) return null
-  if (group === 'korean' || group === 'explore-korea') {
+  if (group === 'explore-korea') {
     const section = topicSectionKey(post.app ?? 'k-patto', post.category ?? null)
     return section && isValidSubcategory(group, section) ? section : null
   }

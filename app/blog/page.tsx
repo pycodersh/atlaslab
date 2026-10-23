@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
-import { LEGACY_TABS, PATTO_TAB, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { PATTO_TAB, legacyTabTarget, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
 import { KEEP_EMPTY_SUB_CHIPS, isValidSubcategory, subcategoriesFor, subcategoryOf } from '@/lib/blog/subcategories'
 import { permanentRedirect } from 'next/navigation'
 import { readMinutes } from '@/lib/blog/readTime'
@@ -48,8 +48,8 @@ export default async function BlogIndexPage({
   searchParams: Promise<{ page?: string; tab?: string; lang?: string; sub?: string }>
 }) {
   const { page, tab, lang, sub } = await searchParams
-  // 예전 탭 주소(phrases · basics · stay-in-korea)는 새 구조(Korean · Explore Korea)로 영구 이동
-  const legacy = tab ? LEGACY_TABS[tab] : undefined
+  // 예전 탭 주소(stay-in-korea, 통합 Korean 보기)는 현재 구조로 영구 이동
+  const legacy = tab ? legacyTabTarget(tab, sub) : null
   if (legacy) {
     const q = new URLSearchParams({ tab: legacy.tab })
     if (legacy.sub) q.set('sub', legacy.sub)

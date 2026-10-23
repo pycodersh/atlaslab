@@ -93,7 +93,7 @@ function groupIntoSections(posts: BlogRow[]) {
       key: section.key,
       title: section.title,
       desc: section.desc,
-      layout: 'grid' as 'grid' | 'list',
+      layout: section.layout as 'grid' | 'list',
       total: all.length,
       posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
         ...post,

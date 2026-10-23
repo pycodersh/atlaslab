@@ -6,7 +6,7 @@
  *
  * 구조는 두 층이다.
  *   섹션(BLOG_SECTIONS)  글의 category 로 정해지는 세부 분류 — phrases / basics / hotels / places / life / food
- *   그룹(BLOG_GROUPS)    상단 메뉴·홈·목록 탭에 보이는 묶음 — Korean(phrases+basics) / Explore Korea(hotels+places) / Food / Life
+ *   그룹(BLOG_GROUPS)    홈·목록 탭에 보이는 묶음 — Phrases / Basics / Explore Korea(hotels+places) / Food / Life
  * 글 분류는 섹션으로, 메뉴와 탭은 그룹으로 한다. 그룹 안의 세부 분류는 칩(서브 카테고리)으로 보여 준다.
  *
  * app 기준이 하나 더 있다는 점이 중요하다:
@@ -19,7 +19,7 @@
 export const TOPIC_APPS = ['k-patto', 'k-pantry', 'kpantry'] as const
 
 export type BlogSectionKey = 'phrases' | 'basics' | 'hotels' | 'places' | 'life' | 'food'
-export type BlogGroupKey = 'korean' | 'explore-korea' | 'food' | 'life'
+export type BlogGroupKey = 'phrases' | 'basics' | 'explore-korea' | 'food' | 'life'
 
 /** 카드 격자('grid') 또는 한 줄짜리 가로 리스트('list').
  *  홈 섹션과 /blog 목록이 같은 값을 보고 그린다. */
@@ -101,11 +101,20 @@ export const PATTO_TAB = { key: 'patto', label: 'Patto', app: 'patto' } as const
 // ── 그룹: 상단 메뉴·홈·목록 탭 ─────────────────────────────────────────────────
 export const BLOG_GROUPS = [
   {
-    key: 'korean',
-    title: 'Korean',
-    desc: 'Real-life phrases and the grammar behind them — what to say, and why it works.',
-    sections: ['phrases', 'basics'],
-    // 홈 섹션을 띄우는 최소 글 수(없으면 기본값)
+    key: 'phrases',
+    title: 'Phrases',
+    desc: 'What to actually say in cafes, restaurants and shops.',
+    sections: ['phrases'],
+    layout: 'grid',
+    minToShow: undefined,
+  },
+  {
+    key: 'basics',
+    title: 'Basics',
+    desc: 'Hangul, pronunciation and the grammar that trips people up.',
+    sections: ['basics'],
+    // 표지 이미지보다 제목·설명을 훑는 쪽이 쓸모 있는 주제라 세로 리스트로 둔다
+    layout: 'list',
     minToShow: undefined,
   },
   {
@@ -113,6 +122,7 @@ export const BLOG_GROUPS = [
     title: 'Explore Korea',
     desc: "Hotels, destinations and hot spots — curated guides to the best of Korea.",
     sections: ['hotels', 'places'],
+    layout: 'grid',
     // 아직 글이 적은 새 그룹이라 한 편부터 홈에 보여 준다
     minToShow: 1,
   },
@@ -121,6 +131,7 @@ export const BLOG_GROUPS = [
     title: 'Food',
     desc: 'Ingredients, substitutes and regional dishes.',
     sections: ['food'],
+    layout: 'grid',
     minToShow: undefined,
   },
   {
@@ -128,6 +139,7 @@ export const BLOG_GROUPS = [
     title: 'Life',
     desc: 'How things work here, and why they work that way.',
     sections: ['life'],
+    layout: 'grid',
     minToShow: undefined,
   },
 ] as const satisfies ReadonlyArray<{
@@ -135,6 +147,7 @@ export const BLOG_GROUPS = [
   title: string
   desc: string
   sections: readonly BlogSectionKey[]
+  layout: BlogLayout
   minToShow?: number
 }>
 
@@ -149,7 +162,7 @@ export function minPostsToShow(key: string): number {
   return g?.minToShow ?? MIN_POSTS_TO_SHOW_SECTION
 }
 
-/** 목록 탭 순서: All + 그룹 4개(Korean · Explore Korea · Food · Life) + Patto */
+/** 목록 탭 순서: All + Phrases · Basics · Explore Korea · Food · Life + Patto */
 export const BLOG_TABS = [
   { key: 'all', label: 'All Articles' },
   ...BLOG_GROUPS.map(g => ({ key: g.key as string, label: g.title as string })),
@@ -157,13 +170,13 @@ export const BLOG_TABS = [
 ]
 
 /**
- * 예전 탭 주소 → 새 구조. 색인·북마크된 /blog?tab=phrases 등이 깨지지 않게
- * 목록 페이지가 새 주소로 308 이동시킨다.
+ * 예전 탭 주소 → 현재 구조. 색인·북마크된 /blog?tab=stay-in-korea 와, 잠시 있었던 통합 Korean 보기
+ * (/blog?tab=korean[&sub=basics]) 가 깨지지 않게 목록 페이지가 새 주소로 308 이동시킨다.
  */
-export const LEGACY_TABS: Record<string, { tab: BlogGroupKey; sub?: string }> = {
-  phrases: { tab: 'korean', sub: 'phrases' },
-  basics: { tab: 'korean', sub: 'basics' },
-  'stay-in-korea': { tab: 'explore-korea', sub: 'hotels' },
+export function legacyTabTarget(tab: string, sub?: string): { tab: BlogGroupKey; sub?: string } | null {
+  if (tab === 'stay-in-korea') return { tab: 'explore-korea', sub: 'hotels' }
+  if (tab === 'korean') return { tab: sub === 'basics' ? 'basics' : 'phrases' }
+  return null
 }
 
 const SECTION_OF_CATEGORY = new Map<string, BlogSectionKey>(
@@ -223,7 +236,8 @@ export function tabLabel(tabKey: string): string {
  */
 const TAB_DESCRIPTION: Record<string, string> = {
   all: 'Curated stories, real-life Korean guides, and language insights by Atlas Lab.',
-  korean: 'Real-life phrases for cafes, shops and daily life — plus Hangul and the grammar that trips people up.',
+  phrases: 'Essential real-life expressions used by locals in cafes, convenience stores, and daily life.',
+  basics: 'From Hangul syllable blocks to core grammar — foundational rules explained simply.',
   'explore-korea': "Hotels, destinations and hot spots — curated guides to the best of Korea.",
   food: 'Authentic culinary culture, seasonal dishes, and dining etiquette in Korea.',
   life: 'Cultural nuances, social codes, and practical guides for navigating life in Korea.',
@@ -236,11 +250,9 @@ export function tabDescription(tabKey: string): string {
 }
 
 /**
- * 탭·섹션을 어떤 모양으로 그릴지. 그룹은 기본이 격자이고,
- * Korean 안의 Basics 칩만 제목·설명을 훑는 세로 리스트로 보여 준다(예전 Korean basics 와 같은 모양).
+ * 탭·섹션을 어떤 모양으로 그릴지. Basics 는 제목·설명을 훑는 세로 리스트, 나머지는 격자.
  * 홈과 /blog 가 같은 함수를 봐야 한쪽만 리스트로 남는 일이 없다.
  */
-export function layoutForKey(key: string, sub?: string | null): BlogLayout {
-  if (key === 'korean' && sub === 'basics') return 'list'
-  return 'grid'
+export function layoutForKey(key: string): BlogLayout {
+  return BLOG_GROUPS.find(g => g.key === key)?.layout ?? 'grid'
 }
