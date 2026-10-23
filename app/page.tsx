@@ -17,52 +17,29 @@ const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 
 /* ── Product data ─────────────────────────────────────────────────────── */
-/* 순서는 방문자 기준 — 사이트가 영어라 영어권 사용자용 앱이 앞에 온다.
-   audience 는 "누구를 위한 앱인지" 한 줄. Patto 와 K-Patto 는 대상이
-   정반대라 이름만으로는 구분되지 않는다. */
-const PRODUCTS = [
+/** 홈 'Our Products' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
+ *  앞으로 K-PATTO PDF 패키지 같은 디지털 상품도 이 배열에 항목만 추가하면 그리드에 자연스럽게 합류한다
+ *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가). */
+type Product = { name: string; audience: string; desc: string; tag: 'Live' | 'Soon'; href: string | null }
+const PRODUCTS: readonly Product[] = [
   {
     name: 'K-Patto',
     audience: 'For learners of Korean',
     desc: 'A 100-episode webtoon set in Seoul that teaches 300+ real phrases, with native audio on every line.',
-    tag: 'Live' as const,
+    tag: 'Live',
     href: '/kpatto',
   },
   {
     name: 'K-Pantry',
     audience: 'For cooking Korean at home',
     desc: "Tells you what you can make with what's already in your fridge — and what to use when an ingredient is missing.",
-    tag: 'Live' as const,
+    tag: 'Live',
     href: '/kpantry/en',
   },
-  {
-    name: 'Patto',
-    audience: 'For Korean speakers learning English',
-    desc: '100 short stories that drill the sentence patterns people actually speak, not the ones textbooks teach.',
-    tag: 'Live' as const,
-    href: '/patto/home',
-  },
-  {
-    name: 'Career Navi',
-    audience: 'For Korean professionals',
-    desc: 'Maps out where your experience could take you next, and what the move would actually require.',
-    tag: 'Soon' as const,
-    href: null,
-  },
-] as const
+]
 
 /* ── App icons (SVG) ──────────────────────────────────────────────────── */
 const APP_ICONS: Record<string, React.ReactNode> = {
-  /* Patto — document with text lines (pattern learning) */
-  Patto: (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
-      stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
-      <polyline points="13 2 13 9 20 9"/>
-      <line x1="8" y1="13" x2="16" y2="13"/>
-      <line x1="8" y1="17" x2="13" y2="17"/>
-    </svg>
-  ),
   /* K-Patto — brackets with pattern lines (Korean patterns) */
   'K-Patto': (
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
@@ -81,14 +58,6 @@ const APP_ICONS: Record<string, React.ReactNode> = {
       <path d="M4 12h16c0 4.42-3.58 8-8 8s-8-3.58-8-8z"/>
       <line x1="3"  y1="12" x2="21" y2="12"/>
       <path d="M9 11V8M12 11V7M15 11V8"/>
-    </svg>
-  ),
-  /* Career Navi — diagonal arrow (career trajectory / navigation) */
-  'Career Navi': (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
-      stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="5" y1="19" x2="19" y2="5"/>
-      <polyline points="9 5 19 5 19 15"/>
     </svg>
   ),
 }
@@ -251,17 +220,17 @@ export default async function AtlasLabHome() {
           overflow: hidden;
         }
         /* 좌우 여백·최대 폭은 아래 본문 섹션(.wrap)과 같은 컨테이너를 쓴다 — 텍스트 폭만 따로 제한 */
-        .hero-inner { padding-top: 76px; padding-bottom: 84px; }
-        .hero-text { max-width: 780px; }
+        .hero-inner { padding-top: 56px; padding-bottom: 60px; }
+        .hero-text { max-width: 720px; }
         @media (max-width: 700px) {
-          .hero-inner { padding-top: 52px; padding-bottom: 60px; }
+          .hero-inner { padding-top: 34px; padding-bottom: 38px; }
         }
         .hero-eyebrow {
           font-family: ${BODY};
           font-size: 10px; font-weight: 700;
           letter-spacing: 0.18em; text-transform: uppercase;
           color: rgba(255,255,255,0.5);
-          margin-bottom: 22px;
+          margin-bottom: 16px;
           display: flex; align-items: center; gap: 10px;
         }
         .hero-eyebrow::before {
@@ -271,17 +240,17 @@ export default async function AtlasLabHome() {
         }
         .hero-h1 {
           font-family: ${SERIF};
-          font-size: clamp(32px, 4.4vw, 54px);
-          font-weight: 700; line-height: 1.12;
+          font-size: clamp(27px, 3.6vw, 44px);
+          font-weight: 700; line-height: 1.14;
           letter-spacing: -0.02em;
           color: #fff;
-          margin-bottom: 20px;
+          margin-bottom: 16px;
         }
         .hero-desc {
           font-family: ${BODY};
-          font-size: clamp(14px, 1.6vw, 16px);
-          color: rgba(255,255,255,0.62);
-          line-height: 1.75;
+          font-size: clamp(14px, 1.5vw, 16px);
+          color: rgba(255,255,255,0.66);
+          line-height: 1.65;
           margin-bottom: 0;
           max-width: 640px;
         }
@@ -318,22 +287,16 @@ export default async function AtlasLabHome() {
 
         /* ── Products section ──────────────────────────────────────── */
         .products-wrap { padding-top: 36px; padding-bottom: 64px; }
+        /* 카드 수에 따라 열이 자동으로 늘고 준다(2개면 반반, 3개 이상이면 3열…). 최소 폭 290px. */
         .products-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1px;
-          background: var(--rule, #E5E1DC);
-          border: 1px solid var(--rule, #E5E1DC);
+          grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+          gap: 24px;
         }
-        /* 1200px 이상 4열(기본) / 768~1199px 2열 / 768px 미만 1열.
-           그리드 아이템은 기본이 stretch 라 같은 행의 카드 높이는 자동으로 맞는다. */
-        @media (max-width: 1199px) {
-          .products-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
         .pcard {
           background: var(--paper, #fff);
-          padding: 28px 22px 24px;
+          border: 1px solid var(--rule, #E5E1DC);
+          padding: 32px 28px 28px;
           display: flex; flex-direction: column;
           text-decoration: none; color: inherit;
           transition: background 0.15s;
@@ -694,9 +657,7 @@ export default async function AtlasLabHome() {
             <p className="hero-eyebrow"><span><span className="notranslate" translate="no">Atlas Lab</span> — Your Ultimate Korea Companion</span></p>
             <h1 className="hero-h1">Everything You Need to Live, Travel, and Speak Like a Local in Korea.</h1>
             <p className="hero-desc">
-              Stop struggling with language barriers and uncertain travel plans. From mastering essential Korean patterns
-              with professional audio to discovering curated luxury stays, local food, and authentic culture, we provide
-              the exact guides and tools you need.
+              Your ultimate companion to master Korean, discover curated stays, and experience local culture effortlessly.
             </p>
           </div>
         </div>
@@ -706,7 +667,7 @@ export default async function AtlasLabHome() {
       <div id="products">
         <div className="wrap products-wrap">
           <div className="sec-head">
-            <span className="sec-label">Our Apps</span>
+            <span className="sec-label">Our Products</span>
           </div>
           <div className="products-grid">
             {PRODUCTS.map(p => {
