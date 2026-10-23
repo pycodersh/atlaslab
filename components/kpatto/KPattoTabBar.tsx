@@ -44,7 +44,8 @@ const TABS = [
 export function KPattoTabBar() {
   const pathname = usePathname()
 
-  if (pathname.endsWith('/export')) return null
+  // export(캡처용)와 PDF 구매 랜딩은 하단 탭바 없이 보여 준다
+  if (pathname.endsWith('/export') || pathname.startsWith('/kpatto/purchase')) return null
 
   return (
     <div style={{

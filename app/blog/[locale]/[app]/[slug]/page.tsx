@@ -7,6 +7,8 @@ import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
 import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
+import { PdfPromoBanner } from '@/components/blog/PdfPromoBanner'
+import { topicSectionKey } from '@/lib/blog/sections'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
 import { readMinutes } from '@/lib/blog/readTime'
@@ -309,6 +311,9 @@ export default async function AppBlogPostPage({
         <div className="art-wrap" style={{ paddingBottom: 8 }}>
           {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위 */}
           <ArticleAppBanner app={app} category={post.category} locale={locale} />
+
+          {/* Korean phrases / Korean basics 글 하단: K-PATTO PDF 패키지 안내 */}
+          {(['phrases', 'basics'] as const).some(k => k === topicSectionKey(app, post.category)) && locale !== 'ko' && <PdfPromoBanner />}
 
           {/* Related posts */}
           {related && related.length > 0 && (
