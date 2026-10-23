@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
+import { SiteNav } from '@/components/SiteNav'
+import { SiteFooter } from '@/components/SiteFooter'
 import { SampleAudio, type AudioSample } from './SampleAudio'
 import { CHECKOUT_URL } from '@/lib/kpatto/purchase'
-import { PROMO } from '@/lib/blog/promoTheme'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
@@ -15,12 +15,14 @@ export const metadata: Metadata = {
   alternates: { canonical: `${BASE}/kpatto/purchase` },
 }
 
-// ── 팔레트: 글 하단 프로모션 박스와 같은 토큰(lib/blog/promoTheme) — 한 세트로 보이도록 한 곳에서 가져온다 ──
-const { espresso: ESPRESSO, brick: BRICK, brickDark: BRICK_DARK, sand: SAND, line: LINE, muted: MUTED, serif: SERIF, body: BODY } = PROMO
-const SAND_DEEP = '#EADFCB'
-const ROSE = '#F7ECE6'
-const PAPER = '#FFFBF7'
+// 아틀라스랩 본 사이트와 같은 톤: 블랙 히어로 + 오프화이트 본문 + 얇은 라인 + 레드 포인트(--brand-red)
+const SERIF = '"Playfair Display", Georgia, serif'
+const BODY = '"DM Sans", "Inter", system-ui, sans-serif'
 const KO = '"Pretendard Variable", Pretendard, "DM Sans", system-ui, sans-serif'
+const INK = '#111111'
+const MUTED = '#6B6B6B'
+const RULE = '#E5E1DC'
+const RED = 'var(--brand-red, #C8102E)'
 
 const SAMPLES: AudioSample[] = [
   { slug: 'juseyo', n: 1, ko: '물 주세요.', en: 'Water, please.' },
@@ -39,266 +41,239 @@ const PATTERNS = [
   { no: '004', ko: '~이에요/예요', en: 'is; am; are', ex: '저는 학생이에요.', exEn: "I'm a student." },
 ]
 
-// TOPIK 등급 사다리 — 3급까지가 이 패키지가 데려다 주는 곳
-const TOPIK_TIERS = [
-  { tier: 'Beginner', levels: [1, 2] },
-  { tier: 'Intermediate', levels: [3, 4] },
-  { tier: 'Advanced', levels: [5, 6] },
+const TIERS = [
+  { name: 'Beginner', levels: [1, 2] },
+  { name: 'Intermediate', levels: [3, 4] },
+  { name: 'Advanced', levels: [5, 6] },
 ]
 
 export default function KPattoPurchasePage() {
   return (
-    <div className="pp-root" style={{ background: SAND, color: ESPRESSO, fontFamily: BODY, minHeight: '100vh' }}>
+    <div className="pp-root" style={{ background: '#F9F8F6', color: INK, fontFamily: BODY, minHeight: '100vh' }}>
       <style>{`
-        .pp-wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
-        .pp-narrow { max-width: 720px; margin: 0 auto; }
-        .pp-eyebrow { font-family: ${BODY}; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: ${BRICK}; margin: 0 0 16px; }
-        .pp-h2 { font-family: ${SERIF}; font-size: 34px; line-height: 1.2; letter-spacing: -.015em; margin: 0 0 16px; color: ${ESPRESSO}; }
-        .pp-lead { font-size: 17px; line-height: 1.7; color: ${MUTED}; margin: 0; max-width: 640px; }
-        .pp-section { padding: 88px 0; }
-        .pp-head { margin-bottom: 44px; }
-        .pp-card { background: ${PAPER}; border: 1px solid ${LINE}; border-top: 3px solid ${BRICK}; padding: 30px 26px 28px; }
-        .pp-num { font-family: ${SERIF}; font-size: 30px; line-height: 1; color: ${BRICK}; margin-bottom: 16px; }
-        .pp-card h3 { font-family: ${SERIF}; font-size: 22px; line-height: 1.25; margin: 0 0 12px; color: ${ESPRESSO}; }
-        .pp-card p, .pp-card li { font-size: 15.5px; line-height: 1.7; color: ${MUTED}; margin: 0; }
-        .pp-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: stretch; }
-        .pp-grid2 { display: grid; grid-template-columns: 1.25fr 1fr; gap: 36px; align-items: start; }
-        .pp-tablet { aspect-ratio: 3 / 4; background: ${PAPER}; border: 1px solid ${LINE}; box-shadow: 0 18px 40px rgba(43,29,23,.12); padding: 22px 22px 18px; display: flex; flex-direction: column; }
-        .pp-phone { width: 210px; aspect-ratio: 9 / 19; background: ${PAPER}; border: 8px solid ${ESPRESSO}; border-radius: 30px; box-shadow: 0 18px 40px rgba(43,29,23,.18); padding: 18px 14px; display: flex; flex-direction: column; overflow: hidden; }
-        .pp-quote { font-family: ${SERIF}; font-style: italic; font-weight: 700; font-size: 25px; line-height: 1.45; color: ${ESPRESSO}; margin: 0; padding-left: 22px; border-left: 4px solid ${BRICK}; }
-        .pp-quote strong { color: ${BRICK}; font-style: normal; }
-        .pp-ladder { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 8px; }
-        .pp-level { text-align: center; padding: 14px 4px 12px; background: ${PAPER}; border: 1px solid ${LINE}; }
-        .pp-level.on { background: ${BRICK}; border-color: ${BRICK}; color: #fff; }
-        .pp-level.reach { background: #F3E3DA; border-color: ${BRICK}; }
+        .pp-root *, .pp-root *::before, .pp-root *::after { box-sizing: border-box; }
+        .pp-wrap { max-width: 1060px; margin: 0 auto; padding: 0 40px; }
+        .pp-kicker { font-family: ${BODY}; font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.5); margin: 0 0 22px; display: flex; align-items: center; gap: 10px; }
+        .pp-kicker::before { content: ''; width: 24px; height: 1px; background: rgba(255,255,255,.3); }
+        /* 본 사이트의 섹션 머리: 검은 윗선 + 작은 대문자 라벨 */
+        .pp-sec-head { border-top: 1px solid ${INK}; padding-top: 14px; margin-bottom: 34px; }
+        .pp-label { font-family: ${BODY}; font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: ${MUTED}; margin: 0; }
+        .pp-h2 { font-family: ${SERIF}; font-size: 30px; line-height: 1.2; letter-spacing: -.015em; color: ${INK}; margin: 0 0 12px; font-weight: 700; }
+        .pp-lead { font-size: 15.5px; line-height: 1.75; color: ${MUTED}; margin: 0; max-width: 620px; }
+        .pp-section { padding: 64px 0; }
+        .pp-btn { display: inline-block; font-family: ${BODY}; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: ${RED}; color: #fff; padding: 12px 28px; text-decoration: none; transition: background .15s; }
+        .pp-btn:hover { background: var(--brand-red-dark, #A30D25); }
+        /* 얇은 선으로 칸을 나누는 그리드 — 홈의 제품 카드와 같은 문법 */
+        .pp-cells { display: grid; gap: 1px; background: ${RULE}; border: 1px solid ${RULE}; }
+        .pp-cells-3 { grid-template-columns: repeat(3, 1fr); }
+        .pp-cell { background: #fff; padding: 28px 24px; }
+        .pp-cell-no { font-family: ${BODY}; font-size: 11px; font-weight: 700; letter-spacing: .12em; color: ${RED}; margin: 0 0 14px; }
+        .pp-cell h3 { font-family: ${SERIF}; font-size: 20px; line-height: 1.3; color: ${INK}; margin: 0 0 10px; font-weight: 700; }
+        .pp-cell p, .pp-cell li { font-size: 14.5px; line-height: 1.7; color: ${MUTED}; margin: 0; }
+        .pp-levels { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: ${RULE}; border: 1px solid ${RULE}; }
+        .pp-level { background: #fff; padding: 16px 8px 14px; text-align: center; }
+        .pp-level-goal { box-shadow: inset 0 3px 0 ${RED}; }
+        .pp-body-text { font-size: 17px; line-height: 1.8; color: #333; margin: 0; }
+        .pp-preview { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: start; }
+        .pp-tablet { aspect-ratio: 3 / 4; background: #fff; border: 1px solid ${RULE}; padding: 20px; display: flex; flex-direction: column; }
+        .pp-phone { width: 200px; aspect-ratio: 9 / 19; background: #fff; border: 1px solid ${INK}; border-radius: 22px; padding: 18px 14px; display: flex; flex-direction: column; overflow: hidden; }
         @media (max-width: 820px) {
-          .pp-grid3, .pp-grid2 { grid-template-columns: 1fr; }
-          .pp-h2 { font-size: 28px; }
-          .pp-section { padding: 60px 0; }
-          .pp-head { margin-bottom: 32px; }
-          .pp-quote { font-size: 21px; padding-left: 16px; }
-          .pp-lead { font-size: 16px; }
+          .pp-wrap { padding: 0 20px; }
+          .pp-cells-3 { grid-template-columns: 1fr; }
+          .pp-preview { grid-template-columns: 1fr; }
+          .pp-h2 { font-size: 26px; }
+          .pp-section { padding: 48px 0; }
+          .pp-body-text { font-size: 16px; }
         }
       `}</style>
 
-      {/* Top bar */}
-      <div className="pp-wrap" style={{ paddingTop: 22 }}>
-        <Link href="/blog" style={{ color: MUTED, fontSize: 13, textDecoration: 'none' }}>← Atlas Lab Articles</Link>
-      </div>
+      <SiteNav />
 
-      {/* ── Hero ── */}
-      <section style={{ padding: '56px 0 72px' }}>
-        <div className="pp-wrap" style={{ textAlign: 'center' }}>
-          <p className="pp-eyebrow">K-PATTO E-Book Package</p>
-          <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(34px, 6vw, 56px)', lineHeight: 1.1, letterSpacing: '-.02em', margin: '0 auto 22px', maxWidth: 780, color: ESPRESSO }}>
+      {/* ── Hero (블랙, 본 사이트 히어로와 같은 구조) ── */}
+      <section style={{ background: '#121212' }}>
+        <div className="pp-wrap" style={{ paddingTop: 64, paddingBottom: 64 }}>
+          <p className="pp-kicker" translate="no">K-PATTO E-Book Package</p>
+          <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 700, lineHeight: 1.14, letterSpacing: '-.02em', color: '#fff', margin: '0 0 18px', maxWidth: 760 }}>
             K-PATTO: 300 Essential Korean Patterns &amp; Audio Guide
           </h1>
-          <p className="pp-lead" style={{ margin: '0 auto 34px', fontSize: 19, maxWidth: 600 }}>
+          <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 32px', maxWidth: 560 }}>
             The definitive guide for travelers and learners to speak natural Korean effortlessly.
           </p>
-          <a href="#checkout" className="promo-btn">Get the Premium PDF Package →</a>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 48, marginTop: 52, flexWrap: 'wrap' }}>
+          <a href="#checkout" className="pp-btn">Get the Premium PDF Package →</a>
+          <div style={{ display: 'flex', gap: 44, marginTop: 44, paddingTop: 22, borderTop: '1px solid rgba(255,255,255,.12)', flexWrap: 'wrap' }}>
             {[['300', 'patterns'], ['900', 'audio examples'], ['2', 'PDF editions']].map(([n, l]) => (
               <div key={l}>
-                <div style={{ fontFamily: SERIF, fontSize: 38, color: BRICK, lineHeight: 1 }}>{n}</div>
-                <div style={{ fontSize: 12, letterSpacing: '.14em', textTransform: 'uppercase', color: MUTED, marginTop: 8 }}>{l}</div>
+                <div style={{ fontFamily: SERIF, fontSize: 30, color: '#fff', lineHeight: 1 }}>{n}</div>
+                <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,.45)', marginTop: 8 }}>{l}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Learning outcome: TOPIK 등급 ── */}
-      <section className="pp-section" style={{ background: PAPER, borderTop: `1px solid ${LINE}`, borderBottom: `1px solid ${LINE}` }}>
+      {/* ── Learning outcome ── */}
+      <section className="pp-section">
         <div className="pp-wrap">
-          <div className="pp-narrow">
-            <p className="pp-eyebrow">Learning outcome</p>
+          <div className="pp-sec-head"><p className="pp-label">Learning outcome</p></div>
+          <div style={{ maxWidth: 720 }}>
             <h2 className="pp-h2">Mastering TOPIK-aligned grammar patterns by grade level</h2>
-            <p className="pp-lead" style={{ marginBottom: 40 }}>
+            <p className="pp-lead" style={{ marginBottom: 24 }}>
               This curriculum covers essential grammar expressions structured by proficiency tiers.
             </p>
-            <blockquote className="pp-quote">
+            <p className="pp-body-text">
               By mastering all 300 curated patterns and 900 professional audio examples provided in our app and e-book package,
-              learners gain the practical fluency equivalent to <strong>TOPIK Level 3</strong> — independent user proficiency
-              for daily life, travel, and social interactions in Korea.
-            </blockquote>
+              learners gain the practical fluency equivalent to <strong style={{ color: INK }}>TOPIK Level 3</strong> — independent
+              user proficiency for daily life, travel, and social interactions in Korea.
+            </p>
           </div>
 
-          <div style={{ marginTop: 56 }}>
-            <p className="pp-eyebrow" style={{ textAlign: 'center', marginBottom: 20 }}>Where the 300 patterns take you</p>
-            <div className="pp-ladder" role="img" aria-label="TOPIK levels 1 to 6. The package takes you up to Level 3.">
-              {TOPIK_TIERS.flatMap(t => t.levels).map(level => (
-                <div key={level} className={`pp-level ${level <= 3 ? (level === 3 ? 'on' : 'reach') : ''}`} style={{ opacity: level > 3 ? 0.55 : 1 }}>
-                  <div style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', opacity: level === 3 ? 0.85 : 0.7 }}>Level</div>
-                  <div style={{ fontFamily: SERIF, fontSize: 28, lineHeight: 1.1, color: level === 3 ? '#fff' : ESPRESSO }}>{level}</div>
+          <div style={{ marginTop: 44 }} role="img" aria-label="TOPIK levels 1 to 6. The package takes you up to Level 3.">
+            <div className="pp-levels">
+              {TIERS.flatMap(t => t.levels).map(level => (
+                <div key={level} className={`pp-level${level === 3 ? ' pp-level-goal' : ''}`}>
+                  <div style={{ fontSize: 9.5, letterSpacing: '.14em', textTransform: 'uppercase', color: level <= 3 ? MUTED : '#B9B5AE' }}>Level</div>
+                  <div style={{ fontFamily: SERIF, fontSize: 26, lineHeight: 1.15, color: level <= 3 ? INK : '#B9B5AE' }}>{level}</div>
+                  {level === 3 && <div style={{ fontSize: 9.5, letterSpacing: '.12em', textTransform: 'uppercase', color: RED, fontWeight: 700, marginTop: 4 }}>This package</div>}
                 </div>
               ))}
             </div>
-            <div className="pp-ladder" style={{ marginTop: 6 }} aria-hidden>
-              {TOPIK_TIERS.map(t => (
-                <div key={t.tier} style={{ gridColumn: 'span 2', textAlign: 'center', fontSize: 12, letterSpacing: '.08em', textTransform: 'uppercase', color: MUTED, borderTop: `2px solid ${t.levels.includes(3) ? BRICK : LINE}`, paddingTop: 8 }}>
-                  {t.tier}
-                </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', marginTop: 8 }} aria-hidden>
+              {TIERS.map(t => (
+                <div key={t.name} style={{ textAlign: 'center', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: MUTED }}>{t.name}</div>
               ))}
             </div>
-            <p style={{ textAlign: 'center', fontSize: 13, color: MUTED, margin: '18px 0 0' }}>
-              TOPIK = Test of Proficiency in Korean · Levels 1–6
-            </p>
+            <p style={{ fontSize: 12.5, color: MUTED, margin: '16px 0 0' }}>TOPIK = Test of Proficiency in Korean · Levels 1–6</p>
           </div>
         </div>
       </section>
 
-      {/* ── What's Included ── */}
-      <section className="pp-section" style={{ background: ROSE }}>
+      {/* ── What's included ── */}
+      <section className="pp-section" style={{ paddingTop: 0 }}>
         <div className="pp-wrap">
-          <div className="pp-head">
-            <p className="pp-eyebrow">What&apos;s included</p>
-            <h2 className="pp-h2">Everything you need to speak, not just read</h2>
-            <p className="pp-lead">
-              Every pattern comes with three real-life example sentences — and you can hear each one.
-            </p>
-          </div>
-          <div className="pp-grid3">
-            <div className="pp-card">
-              <div className="pp-num">01</div>
+          <div className="pp-sec-head"><p className="pp-label">What&apos;s included</p></div>
+          <h2 className="pp-h2">Everything you need to speak, not just read</h2>
+          <p className="pp-lead" style={{ marginBottom: 30 }}>
+            Every pattern comes with three real-life example sentences — and you can hear each one.
+          </p>
+          <div className="pp-cells pp-cells-3">
+            <div className="pp-cell">
+              <p className="pp-cell-no">01</p>
               <h3>300 Curated Patterns</h3>
               <p>Essential sentence structures for dining, shopping, transportation, and daily situations in Korea.</p>
             </div>
-            <div className="pp-card">
-              <div className="pp-num">02</div>
+            <div className="pp-cell">
+              <p className="pp-cell-no">02</p>
               <h3>900 Pro Audio Examples</h3>
               <p>Crystal-clear audio files for every example sentence, recorded with a natural tone and comfortable pacing.</p>
             </div>
-            <div className="pp-card">
-              <div className="pp-num">03</div>
+            <div className="pp-cell">
+              <p className="pp-cell-no">03</p>
               <h3>Dual Formats Included</h3>
-              <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 12 }}>
-                <li>
-                  <strong style={{ color: ESPRESSO }}>1. Master Edition</strong> — A4/Tablet optimized, 2-column editorial grid for deep study and printing.
-                </li>
-                <li>
-                  <strong style={{ color: ESPRESSO }}>2. Pocket Edition</strong> — 1-pattern-per-page vertical layout designed specifically for effortless mobile reading.
-                </li>
+              <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 10 }}>
+                <li><strong style={{ color: INK }}>1. Master Edition</strong> — A4/Tablet optimized, 2-column editorial grid for deep study and printing.</li>
+                <li><strong style={{ color: INK }}>2. Pocket Edition</strong> — 1-pattern-per-page vertical layout designed specifically for effortless mobile reading.</li>
               </ol>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Preview / Samples ── */}
-      <section className="pp-section">
+      {/* ── Preview ── */}
+      <section className="pp-section" style={{ paddingTop: 0 }}>
         <div className="pp-wrap">
-          <div className="pp-head">
-            <p className="pp-eyebrow">Preview</p>
-            <h2 className="pp-h2">See the layouts. Hear the audio.</h2>
-            <p className="pp-lead">
-              Layout previews below show how a pattern page is set in each edition (illustrative — final PDF pages may differ slightly).
-            </p>
-          </div>
+          <div className="pp-sec-head"><p className="pp-label">Preview</p></div>
+          <h2 className="pp-h2">See the layouts. Hear the audio.</h2>
+          <p className="pp-lead" style={{ marginBottom: 34 }}>
+            Layout previews show how a pattern page is set in each edition (illustrative — final PDF pages may differ slightly).
+          </p>
 
-          <div className="pp-grid2" style={{ marginBottom: 64 }}>
-            {/* Tablet / Master Edition */}
+          <div className="pp-preview" style={{ marginBottom: 56 }}>
             <figure style={{ margin: 0 }}>
               <div className="pp-tablet" aria-label="Master Edition layout preview">
-                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: `1px solid ${LINE}`, paddingBottom: 8, marginBottom: 14, fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: MUTED }}>
-                  <span>K-PATTO · Master Edition</span><span>Patterns 001–004</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: `1px solid ${RULE}`, paddingBottom: 8, marginBottom: 14, fontSize: 9.5, letterSpacing: '.14em', textTransform: 'uppercase', color: MUTED }}>
+                  <span>K-PATTO · Master Edition</span><span>001–004</span>
                 </div>
                 <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gridAutoRows: '1fr', gap: '14px 18px' }}>
                   {PATTERNS.map(p => (
-                    <div key={p.no} style={{ borderTop: `2px solid ${BRICK}`, paddingTop: 8 }}>
-                      <div style={{ fontSize: 10, color: BRICK, fontWeight: 700, letterSpacing: '.1em' }}>#{p.no}</div>
-                      <div style={{ fontFamily: KO, fontSize: 'clamp(15px, 2.4vw, 22px)', fontWeight: 700, margin: '3px 0 2px', color: ESPRESSO }}>{p.ko}</div>
-                      <div style={{ fontSize: 'clamp(9px, 1.3vw, 12px)', color: MUTED, marginBottom: 8 }}>{p.en}</div>
-                      <div style={{ background: SAND, padding: '6px 8px' }}>
-                        <div style={{ fontFamily: KO, fontSize: 'clamp(10px, 1.6vw, 14px)', fontWeight: 600 }}>{p.ex}</div>
+                    <div key={p.no} style={{ borderTop: `1px solid ${INK}`, paddingTop: 8 }}>
+                      <div style={{ fontSize: 9.5, color: RED, fontWeight: 700, letterSpacing: '.1em' }}>#{p.no}</div>
+                      <div style={{ fontFamily: KO, fontSize: 'clamp(15px, 2.2vw, 21px)', fontWeight: 700, margin: '3px 0 2px', color: INK }}>{p.ko}</div>
+                      <div style={{ fontSize: 'clamp(9px, 1.2vw, 12px)', color: MUTED, marginBottom: 8 }}>{p.en}</div>
+                      <div style={{ borderLeft: `2px solid ${RULE}`, paddingLeft: 8 }}>
+                        <div style={{ fontFamily: KO, fontSize: 'clamp(10px, 1.5vw, 14px)', fontWeight: 600 }}>{p.ex}</div>
                         <div style={{ fontSize: 'clamp(8px, 1.1vw, 11px)', color: MUTED }}>{p.exEn}</div>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-              <figcaption style={{ fontSize: 13, color: MUTED, marginTop: 14, textAlign: 'center' }}>
-                <strong style={{ color: ESPRESSO }}>Master Edition</strong> · A4 / tablet · 2-column grid
+              <figcaption style={{ fontSize: 12.5, color: MUTED, marginTop: 12 }}>
+                <strong style={{ color: INK }}>Master Edition</strong> · A4 / tablet · 2-column grid
               </figcaption>
             </figure>
 
-            {/* Mobile / Pocket Edition */}
-            <figure style={{ margin: 0, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <figure style={{ margin: 0 }}>
               <div className="pp-phone" aria-label="Pocket Edition layout preview">
-                <div style={{ fontSize: 8, letterSpacing: '.14em', textTransform: 'uppercase', color: BRICK, fontWeight: 700 }}>Pattern #001</div>
-                <div style={{ fontFamily: KO, fontSize: 30, fontWeight: 800, margin: '10px 0 2px', color: ESPRESSO }}>~주세요</div>
+                <div style={{ fontSize: 8, letterSpacing: '.14em', textTransform: 'uppercase', color: RED, fontWeight: 700 }}>Pattern #001</div>
+                <div style={{ fontFamily: KO, fontSize: 28, fontWeight: 800, margin: '10px 0 2px', color: INK }}>~주세요</div>
                 <div style={{ fontSize: 12, color: MUTED, marginBottom: 14 }}>Give me ~, please.</div>
                 {[['물 주세요.', 'Water, please.'], ['메뉴판 주세요.', 'Please give me the menu.'], ['영수증 주세요.', 'Please give me the receipt.']].map(([ko, en]) => (
-                  <div key={ko} style={{ background: SAND, padding: '7px 9px', marginBottom: 7, borderLeft: `3px solid ${BRICK}` }}>
+                  <div key={ko} style={{ borderLeft: `2px solid ${RULE}`, padding: '2px 0 2px 9px', marginBottom: 10 }}>
                     <div style={{ fontFamily: KO, fontSize: 13, fontWeight: 700 }}>{ko}</div>
                     <div style={{ fontSize: 9.5, color: MUTED }}>{en}</div>
                   </div>
                 ))}
                 <div style={{ marginTop: 'auto', textAlign: 'center', fontSize: 9, color: MUTED }}>1 / 300</div>
               </div>
-              <figcaption style={{ fontSize: 13, color: MUTED, marginTop: 14, textAlign: 'center' }}>
-                <strong style={{ color: ESPRESSO }}>Pocket Edition</strong> · mobile · 1 pattern per page
+              <figcaption style={{ fontSize: 12.5, color: MUTED, marginTop: 12 }}>
+                <strong style={{ color: INK }}>Pocket Edition</strong> · mobile · 1 pattern per page
               </figcaption>
             </figure>
           </div>
 
-          {/* Sample audio */}
-          <div className="pp-card" style={{ maxWidth: 640, margin: '0 auto' }}>
-            <p className="pp-eyebrow" style={{ marginBottom: 8 }}>Sample audio</p>
-            <h3 style={{ fontFamily: SERIF, fontSize: 24, margin: '0 0 8px', color: ESPRESSO }}>Tap to listen</h3>
-            <p style={{ fontSize: 14.5, color: MUTED, margin: '0 0 20px' }}>
-              These are real audio files from the package.
-            </p>
+          <div style={{ maxWidth: 640 }}>
+            <p className="pp-label" style={{ marginBottom: 6 }}>Sample audio</p>
+            <h3 style={{ fontFamily: SERIF, fontSize: 22, margin: '0 0 6px', color: INK, fontWeight: 700 }}>Tap to listen</h3>
+            <p style={{ fontSize: 14.5, color: MUTED, margin: '0 0 16px' }}>These are real audio files from the package.</p>
             <SampleAudio samples={SAMPLES} />
           </div>
         </div>
       </section>
 
-      {/* ── Pricing & Checkout ── */}
-      <section id="checkout" className="pp-section" style={{ background: SAND_DEEP }}>
-        <div className="pp-wrap" style={{ textAlign: 'center', maxWidth: 680 }}>
-          <p className="pp-eyebrow">Pricing &amp; Download</p>
-          <h2 className="pp-h2">Get the Premium PDF Package</h2>
-          <p style={{ fontSize: 16, lineHeight: 1.7, color: MUTED, margin: '0 auto 8px' }}>
+      {/* ── Pricing & checkout (블랙 밴드) ── */}
+      <section id="checkout" style={{ background: '#121212' }}>
+        <div className="pp-wrap" style={{ paddingTop: 64, paddingBottom: 64, maxWidth: 780 }}>
+          <p className="pp-kicker">Pricing &amp; Download</p>
+          <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.015em', color: '#fff', margin: '0 0 14px' }}>
+            Get the Premium PDF Package
+          </h2>
+          <p style={{ fontSize: 15.5, lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 22px' }}>
             Includes the Master Edition (A4/Tablet), the Pocket Edition (Mobile), and all 900 audio examples.
           </p>
-          <p
-            role="status"
-            style={{
-              display: 'inline-block', background: PAPER, border: `1px dashed ${BRICK}`,
-              color: ESPRESSO, fontSize: 14.5, fontWeight: 600, padding: '12px 18px', margin: '20px 0 28px',
-            }}
-          >
+          <p role="status" style={{ display: 'inline-block', border: '1px solid rgba(255,255,255,.25)', color: '#fff', fontSize: 14, padding: '11px 16px', margin: '0 0 26px' }}>
             PDF files and download links will be updated soon upon final completion.
           </p>
           <div>
             {CHECKOUT_URL ? (
-              <a href={CHECKOUT_URL} className="promo-btn" rel="noopener noreferrer">Buy now →</a>
+              <a href={CHECKOUT_URL} className="pp-btn" rel="noopener noreferrer">Buy now →</a>
             ) : (
               <button
                 type="button"
                 disabled
                 aria-disabled="true"
-                style={{
-                  background: '#C9B7A3', color: '#fff', border: 'none', padding: '13px 26px', borderRadius: 4,
-                  fontSize: 14.5, fontWeight: 600, fontFamily: 'inherit', cursor: 'not-allowed',
-                }}
+                style={{ background: '#3a3a3a', color: 'rgba(255,255,255,.55)', border: 'none', padding: '12px 28px', fontSize: 13, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase', fontFamily: 'inherit', cursor: 'not-allowed' }}
               >
                 Checkout link coming soon
               </button>
             )}
           </div>
-          <p style={{ fontSize: 12.5, color: MUTED, marginTop: 16 }}>
+          <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,.45)', marginTop: 16 }}>
             Secure checkout via Gumroad / Smart Store. Pricing will be announced at launch.
           </p>
         </div>
       </section>
 
-      <div className="pp-wrap" style={{ padding: '32px 24px 44px', textAlign: 'center', fontSize: 13, color: MUTED }}>
-        <Link href="/kpatto" style={{ color: BRICK, textDecoration: 'none', fontWeight: 600 }}>Try the free K-PATTO app</Link>
-        {' · '}
-        <Link href="/blog" style={{ color: BRICK, textDecoration: 'none', fontWeight: 600 }}>Read the articles</Link>
-      </div>
+      <SiteFooter />
     </div>
   )
 }

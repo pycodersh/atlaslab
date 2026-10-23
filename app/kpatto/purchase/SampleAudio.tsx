@@ -6,10 +6,10 @@ import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
 
 export type AudioSample = { slug: string; n: 1 | 2 | 3; ko: string; en: string }
 
-const BRICK = '#B4502E'
-const ESPRESSO = '#2B1D17'
-const MUTED = '#6B544A'
-const LINE = '#E3D6C4'
+const INK = '#111111'
+const MUTED = '#6B6B6B'
+const RULE = '#E5E1DC'
+const RED = 'var(--brand-red, #C8102E)'
 
 /** 실제 Supabase Storage 예문 음성(audio/expressions/{slug}/exN.mp3)을 그대로 재생하는 샘플 플레이어 */
 export function SampleAudio({ samples }: { samples: AudioSample[] }) {
@@ -40,37 +40,34 @@ export function SampleAudio({ samples }: { samples: AudioSample[] }) {
   }
 
   return (
-    <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 10 }}>
+    <ul style={{ listStyle: 'none', margin: 0, padding: 0, borderTop: `1px solid ${RULE}` }}>
       {samples.map(s => {
         const key = `${s.slug}/${s.n}`
         const on = playing === key
         return (
-          <li key={key}>
+          <li key={key} style={{ borderBottom: `1px solid ${RULE}` }}>
             <button
               type="button"
               onClick={() => toggle(s)}
               aria-label={on ? `Stop: ${s.ko}` : `Play: ${s.ko}`}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: 14,
-                background: on ? '#FBEFE9' : '#FFFBF7',
-                border: `1px solid ${on ? BRICK : LINE}`,
-                borderRadius: 14, padding: '12px 14px', cursor: 'pointer',
-                textAlign: 'left', fontFamily: 'inherit',
-                WebkitTapHighlightColor: 'transparent',
-                transition: 'background 0.15s, border-color 0.15s',
+                background: 'transparent', border: 'none', padding: '14px 2px', cursor: 'pointer',
+                textAlign: 'left', fontFamily: 'inherit', WebkitTapHighlightColor: 'transparent',
               }}
             >
               <span
                 style={{
-                  width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
-                  background: BRICK, color: '#fff',
+                  width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
+                  background: on ? RED : INK, color: '#fff',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  transition: 'background 0.15s',
                 }}
               >
-                {on ? <Square size={14} fill="currentColor" /> : <Play size={16} fill="currentColor" style={{ marginLeft: 2 }} />}
+                {on ? <Square size={12} fill="currentColor" /> : <Play size={14} fill="currentColor" style={{ marginLeft: 2 }} />}
               </span>
               <span style={{ minWidth: 0 }}>
-                <span style={{ display: 'block', fontSize: 17, fontWeight: 600, color: ESPRESSO }}>{s.ko}</span>
+                <span style={{ display: 'block', fontSize: 16, fontWeight: 600, color: INK }}>{s.ko}</span>
                 <span style={{ display: 'block', fontSize: 13, color: MUTED, marginTop: 2 }}>{s.en}</span>
               </span>
             </button>
