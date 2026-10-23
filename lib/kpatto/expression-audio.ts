@@ -6,9 +6,10 @@
  * 음성을 다시 만들 때마다 이 값을 올리면 모든 기기가 새 파일을 받는다.
  * (2: 2026-10-22 Edge-TTS ko-KR-SunHiNeural 로 전체 교체
  *  3: 같은 날 의문문 pitch +14% 재합성 + 슬롯 패턴 13개 예문 교체
- *  4: 의문문을 '?' 어절만 pitch +20% 로 다시 합성)
+ *  4: 의문문을 '?' 어절만 pitch +20% 로 다시 합성
+ *  5: 예문 900개를 Typecast 서현 보이스로 교체)
  */
-export const EXPRESSION_AUDIO_VERSION = '4'
+export const EXPRESSION_AUDIO_VERSION = '5'
 
 export function versionedExpressionAudio<T extends string | null | undefined>(url: T): T {
   if (!url) return url
