@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SampleAudio, type AudioSample } from './SampleAudio'
-import { CHECKOUT_URL } from '@/lib/kpatto/purchase'
+import { MASTER_URL, POCKET_URL } from '@/lib/kpatto/purchase'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
@@ -63,6 +63,9 @@ export default function KPattoPurchasePage() {
         .pp-section { padding: 64px 0; }
         .pp-btn { display: inline-block; font-family: ${BODY}; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: ${RED}; color: #fff; padding: 12px 28px; text-decoration: none; transition: background .15s; }
         .pp-btn:hover { background: var(--brand-red-dark, #A30D25); }
+        .pp-dl { border: none; cursor: pointer; font-family: inherit; text-transform: none; font-size: 14px; letter-spacing: .01em; padding: 14px 26px; }
+        .pp-dl-off { opacity: .72; cursor: not-allowed; }
+        .pp-dl-off:hover { background: ${RED}; }
         /* 얇은 선으로 칸을 나누는 그리드 — 홈의 제품 카드와 같은 문법 */
         .pp-cells { display: grid; gap: 1px; background: ${RULE}; border: 1px solid ${RULE}; }
         .pp-cells-3 { grid-template-columns: repeat(3, 1fr); }
@@ -245,7 +248,7 @@ export default function KPattoPurchasePage() {
         </div>
       </section>
 
-      {/* ── Pricing & checkout — 푸터와 섞이지 않도록 오프화이트 바탕 위의 독립 패널 ── */}
+      {/* ── Pricing & download — 푸터와 섞이지 않도록 오프화이트 바탕 위의 독립 패널 ── */}
       <section id="checkout" style={{ padding: '8px 0 96px' }}>
         <div className="pp-wrap">
           <div style={{ background: '#121212', padding: 'clamp(36px, 6vw, 60px) clamp(24px, 6vw, 56px)', borderTop: `3px solid ${RED}` }}>
@@ -254,29 +257,24 @@ export default function KPattoPurchasePage() {
               <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.015em', color: '#fff', margin: '0 0 14px' }}>
                 Get the Premium PDF Package
               </h2>
-              <p style={{ fontSize: 15.5, lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 22px' }}>
-                Includes the Master Edition (A4/Tablet), the Pocket Edition (Mobile), and all 900 audio examples.
+              <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 0 30px' }}>
+                Includes 300 patterns, 900 audio examples, and dual editions. One-time payment, lifetime access.
               </p>
-              <p role="status" style={{ display: 'inline-block', border: '1px solid rgba(255,255,255,.25)', color: '#fff', fontSize: 14, padding: '11px 16px', margin: '0 0 26px' }}>
-                PDF files and download links will be updated soon upon final completion.
-              </p>
-              <div>
-                {CHECKOUT_URL ? (
-                  <a href={CHECKOUT_URL} className="pp-btn" rel="noopener noreferrer">Buy now →</a>
-                ) : (
-                  <button
-                    type="button"
-                    disabled
-                    aria-disabled="true"
-                    style={{ background: '#3a3a3a', color: 'rgba(255,255,255,.55)', border: 'none', padding: '12px 28px', fontSize: 13, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase', fontFamily: 'inherit', cursor: 'not-allowed' }}
-                  >
-                    Checkout link coming soon
-                  </button>
-                )}
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+                {[
+                  { label: 'Download for Mobile (Pocket Edition)', href: POCKET_URL },
+                  { label: 'Download for PC & Tablet (Master Edition)', href: MASTER_URL },
+                ].map(b => (
+                  b.href ? (
+                    <a key={b.label} href={b.href} className="pp-btn pp-dl" rel="noopener noreferrer">{b.label}</a>
+                  ) : (
+                    <button key={b.label} type="button" disabled aria-disabled="true" className="pp-btn pp-dl pp-dl-off">{b.label}</button>
+                  )
+                ))}
               </div>
-              <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,.45)', margin: '16px 0 0' }}>
-                Secure checkout via Gumroad / Smart Store. Pricing will be announced at launch.
-              </p>
+              {!(POCKET_URL && MASTER_URL) && (
+                <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,.45)', margin: '16px 0 0' }}>Download links go live at launch.</p>
+              )}
             </div>
           </div>
         </div>
