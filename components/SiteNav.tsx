@@ -23,25 +23,37 @@ export function SiteNav() {
           background: var(--brand-red, #C8102E);
           font-family: "DM Sans","Inter",system-ui,sans-serif;
         }
-        .site-nav-right { display: flex; align-items: center; gap: 18px; }
+        .site-nav-right { display: flex; align-items: center; gap: 10px; }
 
-        /* 단일 CTA: 빨간 바탕 위 흰 테두리 버튼 */
-        .site-nav-pdf {
-          display: inline-flex; align-items: center;
-          padding: 6px 16px;
-          border: 1px solid rgba(255,255,255,0.8);
-          color: #fff; background: transparent;
-          font-size: 12px; font-weight: 700; letter-spacing: 0.03em;
-          text-decoration: none; white-space: nowrap;
-          transition: background 0.15s, color 0.15s;
+        /* 우측 두 버튼(언어 · E-Book)이 공유하는 필 규격 — 높이를 고정해 두 버튼이 정확히 같은 높이가 된다 */
+        .nav-pill {
+          box-sizing: border-box; height: 34px; padding: 0 16px;
+          display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+          border: 1px solid transparent; border-radius: 999px; cursor: pointer;
+          font-family: inherit; font-size: 12px; font-weight: 700; line-height: 1;
+          letter-spacing: 0.03em; text-decoration: none; white-space: nowrap;
+          transition: background 0.15s, border-color 0.15s, color 0.15s;
         }
-        .site-nav-pdf:hover { background: #fff; color: var(--brand-red, #C8102E); }
+        .nav-pill:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+        /* 서브: 은은한 글라스 */
+        .nav-pill--sub {
+          color: #fff; background: rgba(255,255,255,0.12);
+          border-color: rgba(255,255,255,0.38);
+          -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+        }
+        .nav-pill--sub:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.6); }
+        /* 메인 액션: 헤더 자체가 브랜드 레드라 레드 솔리드는 묻힌다 → 흰 솔리드 + 레드 글자로 반전 */
+        .nav-pill--main {
+          color: var(--brand-red, #C8102E); background: #fff; border-color: #fff;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.14);
+        }
+        .nav-pill--main:hover { background: #F4EDE0; border-color: #F4EDE0; }
 
         @media (max-width: 480px) {
           .site-nav { padding: 0 16px; }
           .site-nav-logo { height: 30px !important; }
-          .site-nav-right { gap: 12px; }
-          .site-nav-pdf { padding: 5px 11px; font-size: 11px; }
+          .site-nav-right { gap: 8px; }
+          .nav-pill { height: 30px; padding: 0 12px; font-size: 11px; }
         }
       `}</style>
 
@@ -57,7 +69,7 @@ export function SiteNav() {
 
         <div className="site-nav-right">
           <LanguageSelector />
-          <Link href={PURCHASE_PATH} className="site-nav-pdf">Get the E-Book</Link>
+          <Link href={PURCHASE_PATH} className="nav-pill nav-pill--main">Get the E-Book</Link>
         </div>
       </nav>
     </>

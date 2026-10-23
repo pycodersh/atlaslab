@@ -150,15 +150,8 @@ export function LanguageSelector() {
     <div className="lang-sel notranslate" translate="no" ref={rootRef} data-open={open}>
       <style>{`
         .lang-sel { position: relative; display: flex; align-items: center; }
-        .lang-sel-btn {
-          display: inline-flex; align-items: center; gap: 6px;
-          background: none; border: none; padding: 4px 2px; cursor: pointer;
-          font-family: inherit; font-size: 13px; font-weight: 500;
-          color: rgba(255,255,255,0.82); letter-spacing: 0.01em; white-space: nowrap;
-          transition: color 0.15s;
-        }
-        .lang-sel-btn:hover, .lang-sel[data-open="true"] .lang-sel-btn { color: #fff; }
-        .lang-sel-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        /* 버튼 크기·모양은 헤더의 .nav-pill(SiteNav)이 정한다 — 여기서는 열림 상태만 */
+        .lang-sel[data-open="true"] .lang-sel-btn { background: rgba(255,255,255,0.24); border-color: rgba(255,255,255,0.6); }
         .lang-sel-menu {
           position: absolute; top: calc(100% + 12px); right: 0; z-index: 300;
           min-width: 168px; margin: 0; padding: 6px; list-style: none;
@@ -177,19 +170,18 @@ export function LanguageSelector() {
         .lang-sel-check { color: var(--brand-red, #C8102E); font-size: 13px; }
         @keyframes langFade { from { opacity: 0; transform: translateY(-4px); } }
         @media (prefers-reduced-motion: reduce) { .lang-sel-menu { animation: none; } }
-        /* 좁은 화면: 아이콘만 */
-        @media (max-width: 480px) { .lang-sel-code { display: none; } .lang-sel-menu { right: -8px; } }
+        @media (max-width: 480px) { .lang-sel-menu { right: -8px; } }
       `}</style>
 
       <button
         type="button"
-        className="lang-sel-btn"
+        className="lang-sel-btn nav-pill nav-pill--sub"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={`Language: ${current.label}`}
         onClick={() => setOpen(o => !o)}
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="9" />
           <path d="M3 12h18" />
           <path d="M12 3c2.6 2.7 4 5.7 4 9s-1.4 6.3-4 9c-2.6-2.7-4-5.7-4-9s1.4-6.3 4-9z" />

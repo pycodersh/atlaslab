@@ -10,28 +10,37 @@ const CREAM = '#F4EDE0'
 const CREAM_LINE = '#E3D6C4'
 const RED = '#C8102E'
 
-const ITEMS = [
+// 이 플랫폼에서 얻을 수 있는 것 3가지 — 각 섹션 끝의 화살표 링크가 해당 콘텐츠로 바로 간다.
+const SECTIONS = [
   {
-    name: 'K-Patto',
+    no: '01',
+    title: 'Learn Korean',
+    product: 'K-Patto',
+    story: 'Follow a 100-episode webtoon and pick up 300+ sentence patterns Koreans actually use — each one with native audio, so you can hear it before you say it.',
     href: '/kpatto',
-    blurb: 'Learn Korean through a 100-episode webtoon — 300+ real sentence patterns with native audio.',
+    link: 'Start learning with K-Patto',
   },
   {
-    name: 'K-Pantry',
+    no: '02',
+    title: 'Cook Korean Food',
+    product: 'K-Pantry',
+    story: "Tell it what's already in your fridge and get authentic Korean recipes that fit — no special shopping trip required.",
     href: '/kpantry/en',
-    blurb: "Authentic Korean recipes built from what's already in your fridge.",
+    link: 'Find a recipe in K-Pantry',
   },
   {
-    name: 'Guides',
-    href: '/blog',
-    blurb: 'Phrases, grammar basics, curated stays, food and everyday life in Korea.',
+    no: '03',
+    title: 'Travel & Local Guides',
+    product: 'Explore Korea',
+    story: 'Curated stays, destinations and hot spots, written like advice from a friend who lives here — so your trip feels local from day one.',
+    href: '/blog?tab=explore-korea',
+    link: 'Read the travel guides',
   },
 ] as const
 
 /**
- * 홈 히어로의 "How it works" 버튼 + 사이트 소개 모달.
+ * 홈 히어로의 "How it works" 버튼 + 사이트 소개 모달("Your Guide to Atlas Lab").
  * 배경 클릭 · X · Esc 로 닫히고, 열려 있는 동안 배경 스크롤을 잠근다.
- * CTA "Explore Products" 는 모달을 닫고 아래 제품 카드(#products)로 부드럽게 이동한다.
  */
 export function WelcomeTour() {
   const [open, setOpen] = useState(false)
@@ -84,23 +93,32 @@ export function WelcomeTour() {
           font-size: 22px; line-height: 1; font-family: inherit; transition: color .15s;
         }
         .wt-close:hover { color: ${INK}; }
-        .wt-item {
-          display: flex; align-items: center; justify-content: space-between; gap: 16px;
-          padding: 14px 0; border-top: 1px solid ${CREAM_LINE};
-          text-decoration: none; color: inherit;
+        .wt-sec {
+          display: grid; grid-template-columns: 44px 1fr; gap: 0 14px;
+          padding: 20px 0; border-top: 1px solid ${CREAM_LINE};
         }
-        .wt-item:last-of-type { border-bottom: 1px solid ${CREAM_LINE}; }
-        .wt-item:hover .wt-item-name { color: ${RED}; }
-        .wt-cta {
-          display: inline-block; background: ${RED}; color: #fff; text-decoration: none;
-          font-family: ${BODY}; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
-          padding: 12px 26px; transition: background .15s;
+        .wt-sec:last-child { border-bottom: 1px solid ${CREAM_LINE}; }
+        .wt-no {
+          font-family: ${SERIF}; font-size: 26px; font-weight: 700; line-height: 1;
+          color: ${RED}; padding-top: 2px;
         }
-        .wt-cta:hover { background: #A30D25; }
+        .wt-link {
+          display: inline-flex; align-items: center; gap: 8px; margin-top: 12px;
+          font-family: ${BODY}; font-size: 13px; font-weight: 700; letter-spacing: .02em;
+          color: ${RED}; text-decoration: none;
+        }
+        .wt-link-arrow { transition: transform .18s; }
+        .wt-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+        .wt-link:hover .wt-link-arrow { transform: translateX(4px); }
+        .wt-link:focus-visible { outline: 2px solid ${RED}; outline-offset: 3px; }
         @keyframes wtFade { from { opacity: 0; } }
         @keyframes wtRise { from { opacity: 0; transform: translateY(14px) scale(.985); } }
         @media (prefers-reduced-motion: reduce) { .wt-backdrop, .wt-modal { animation: none; } }
-        @media (max-width: 480px) { .wt-modal { padding: 40px 22px 28px; } }
+        @media (max-width: 480px) {
+          .wt-modal { padding: 40px 22px 24px; }
+          .wt-sec { grid-template-columns: 34px 1fr; gap: 0 10px; padding: 18px 0; }
+          .wt-no { font-size: 22px; }
+        }
       `}</style>
 
       <button
@@ -128,26 +146,33 @@ export function WelcomeTour() {
               Atlas Lab
             </p>
             <h2 id="wt-title" style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.015em', margin: '0 0 14px' }}>
-              Welcome to Atlas Lab
+              Your Guide to Atlas Lab
             </h2>
             <p style={{ fontFamily: BODY, fontSize: 15, lineHeight: 1.7, color: '#4A4540', margin: '0 0 24px' }}>
-              One place to live, travel and speak like a local in Korea — learn Korean through real sentence patterns,
-              cook authentic Korean food at home, and plan your trip with curated travel and culture guides.
+              Everything you need to speak, eat and travel like a local in Korea. Here&rsquo;s what you&rsquo;ll find.
             </p>
 
-            <div style={{ marginBottom: 28 }}>
-              {ITEMS.map(item => (
-                <a key={item.name} href={item.href} className="wt-item" onClick={() => setOpen(false)}>
-                  <span>
-                    <span className="wt-item-name notranslate" translate="no" style={{ display: 'block', fontFamily: SERIF, fontSize: 18, fontWeight: 700, transition: 'color .15s' }}>{item.name}</span>
-                    <span style={{ display: 'block', fontFamily: BODY, fontSize: 13.5, lineHeight: 1.55, color: MUTED, marginTop: 3 }}>{item.blurb}</span>
-                  </span>
-                  <span aria-hidden style={{ color: RED, fontSize: 18, flexShrink: 0 }}>→</span>
-                </a>
+            <div>
+              {SECTIONS.map(s => (
+                <section key={s.no} className="wt-sec" aria-labelledby={`wt-sec-${s.no}`}>
+                  <span className="wt-no" aria-hidden>{s.no}</span>
+                  <div>
+                    <p className="notranslate" translate="no" style={{ fontFamily: BODY, fontSize: 10, fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: MUTED, margin: '0 0 4px' }}>
+                      {s.product}
+                    </p>
+                    <h3 id={`wt-sec-${s.no}`} style={{ fontFamily: SERIF, fontSize: 20, fontWeight: 700, lineHeight: 1.25, margin: '0 0 6px' }}>
+                      {s.title}
+                    </h3>
+                    <p style={{ fontFamily: BODY, fontSize: 14, lineHeight: 1.6, color: '#4A4540', margin: 0 }}>
+                      {s.story}
+                    </p>
+                    <a href={s.href} className="wt-link" onClick={() => setOpen(false)}>
+                      {s.link} <span className="wt-link-arrow" aria-hidden>→</span>
+                    </a>
+                  </div>
+                </section>
               ))}
             </div>
-
-            <a href="#products" className="wt-cta" onClick={() => setOpen(false)}>Explore Products</a>
           </div>
         </div>
       )}
