@@ -9,7 +9,8 @@ export type AudioSample = { slug: string; n: 1 | 2 | 3; ko: string; en: string }
 const INK = '#111111'
 const MUTED = '#6B6B6B'
 const RULE = '#E5E1DC'
-const RED = 'var(--brand-red, #C8102E)'
+const RED = '#C8102E'        // 사이트 기본 레드
+const RED_DARK = '#A30D25'   // 재생 중·hover
 
 /** 실제 Supabase Storage 예문 음성(audio/expressions/{slug}/exN.mp3)을 그대로 재생하는 샘플 플레이어 */
 export function SampleAudio({ samples }: { samples: AudioSample[] }) {
@@ -58,10 +59,11 @@ export function SampleAudio({ samples }: { samples: AudioSample[] }) {
             >
               <span
                 style={{
-                  width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
-                  background: on ? RED : INK, color: '#fff',
+                  width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+                  background: on ? RED_DARK : RED, color: '#fff',
+                  boxShadow: on ? `0 0 0 4px rgba(200,16,46,0.18)` : 'none',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'background 0.15s',
+                  transition: 'background 0.15s, box-shadow 0.15s',
                 }}
               >
                 {on ? <Square size={12} fill="currentColor" /> : <Play size={14} fill="currentColor" style={{ marginLeft: 2 }} />}

@@ -240,36 +240,40 @@ export default function KPattoPurchasePage() {
         </div>
       </section>
 
-      {/* ── Pricing & checkout (블랙 밴드) ── */}
-      <section id="checkout" style={{ background: '#121212' }}>
-        <div className="pp-wrap" style={{ paddingTop: 64, paddingBottom: 64, maxWidth: 780 }}>
-          <p className="pp-kicker">Pricing &amp; Download</p>
-          <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.015em', color: '#fff', margin: '0 0 14px' }}>
-            Get the Premium PDF Package
-          </h2>
-          <p style={{ fontSize: 15.5, lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 22px' }}>
-            Includes the Master Edition (A4/Tablet), the Pocket Edition (Mobile), and all 900 audio examples.
-          </p>
-          <p role="status" style={{ display: 'inline-block', border: '1px solid rgba(255,255,255,.25)', color: '#fff', fontSize: 14, padding: '11px 16px', margin: '0 0 26px' }}>
-            PDF files and download links will be updated soon upon final completion.
-          </p>
-          <div>
-            {CHECKOUT_URL ? (
-              <a href={CHECKOUT_URL} className="pp-btn" rel="noopener noreferrer">Buy now →</a>
-            ) : (
-              <button
-                type="button"
-                disabled
-                aria-disabled="true"
-                style={{ background: '#3a3a3a', color: 'rgba(255,255,255,.55)', border: 'none', padding: '12px 28px', fontSize: 13, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase', fontFamily: 'inherit', cursor: 'not-allowed' }}
-              >
-                Checkout link coming soon
-              </button>
-            )}
+      {/* ── Pricing & checkout — 푸터와 섞이지 않도록 오프화이트 바탕 위의 독립 패널 ── */}
+      <section id="checkout" style={{ padding: '8px 0 96px' }}>
+        <div className="pp-wrap">
+          <div style={{ background: '#121212', padding: 'clamp(36px, 6vw, 60px) clamp(24px, 6vw, 56px)', borderTop: `3px solid ${RED}` }}>
+            <div style={{ maxWidth: 680 }}>
+              <p className="pp-kicker">Pricing &amp; Download</p>
+              <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.015em', color: '#fff', margin: '0 0 14px' }}>
+                Get the Premium PDF Package
+              </h2>
+              <p style={{ fontSize: 15.5, lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 22px' }}>
+                Includes the Master Edition (A4/Tablet), the Pocket Edition (Mobile), and all 900 audio examples.
+              </p>
+              <p role="status" style={{ display: 'inline-block', border: '1px solid rgba(255,255,255,.25)', color: '#fff', fontSize: 14, padding: '11px 16px', margin: '0 0 26px' }}>
+                PDF files and download links will be updated soon upon final completion.
+              </p>
+              <div>
+                {CHECKOUT_URL ? (
+                  <a href={CHECKOUT_URL} className="pp-btn" rel="noopener noreferrer">Buy now →</a>
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    style={{ background: '#3a3a3a', color: 'rgba(255,255,255,.55)', border: 'none', padding: '12px 28px', fontSize: 13, fontWeight: 700, letterSpacing: '.04em', textTransform: 'uppercase', fontFamily: 'inherit', cursor: 'not-allowed' }}
+                  >
+                    Checkout link coming soon
+                  </button>
+                )}
+              </div>
+              <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,.45)', margin: '16px 0 0' }}>
+                Secure checkout via Gumroad / Smart Store. Pricing will be announced at launch.
+              </p>
+            </div>
           </div>
-          <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,.45)', marginTop: 16 }}>
-            Secure checkout via Gumroad / Smart Store. Pricing will be announced at launch.
-          </p>
         </div>
       </section>
 
