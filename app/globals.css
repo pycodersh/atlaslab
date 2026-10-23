@@ -1144,3 +1144,25 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
 .goog-tooltip:hover { display: none !important; }
 .goog-text-highlight { background: none !important; box-shadow: none !important; }
 body { top: 0 !important; position: static !important; }
+
+/* ── 글 하단 프로모션 박스(앱 안내 · PDF 패키지) 공용 ─────────────────────────
+   lib/blog/promoTheme.ts 와 같은 값. 두 박스가 이어질 때 간격을 16px 로 모은다. */
+.promo-card + .promo-card { margin-top: 16px !important; }
+.promo-btn {
+  display: inline-block;
+  background: #B4502E;
+  color: #FFFFFF !important;
+  padding: 13px 26px;
+  border-radius: 4px;
+  font-family: "DM Sans", "Inter", system-ui, sans-serif;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-decoration: none !important;
+  white-space: nowrap;
+  box-shadow: 0 1px 0 #9A4125;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.promo-btn:hover { background: #9A4125; transform: translateY(-1px); }
+.promo-btn:active { transform: translateY(0); }

@@ -1,10 +1,9 @@
 import Link from 'next/link'
 import { ctaForPost } from '@/lib/blog/appCta'
+import { promoCardStyle, promoEyebrowStyle, promoTitleStyle } from '@/lib/blog/promoTheme'
 
-const SERIF = '"Playfair Display", Georgia, serif'
 const BODY = '"DM Sans", "Inter", system-ui, sans-serif'
 const RED = '#C8102E'
-const LINE = '#E5E1DC'
 
 /**
  * 글 안에 자연스럽게 놓이는 앱 연계 CTA.
@@ -63,55 +62,10 @@ export function ArticleAppBanner({
   }
 
   return (
-    <aside
-      style={{
-        background: '#F5F5F3',
-        border: `1px solid ${LINE}`,
-        padding: '28px 24px',
-        margin: '40px 0 8px',
-        textAlign: 'center',
-      }}
-    >
-      <p
-        style={{
-          fontFamily: BODY,
-          fontSize: 10,
-          fontWeight: 700,
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: RED,
-          margin: '0 0 10px',
-        }}
-      >
-        {cta.label}
-      </p>
-      <p
-        style={{
-          fontFamily: SERIF,
-          fontSize: 18,
-          fontWeight: 700,
-          lineHeight: 1.45,
-          color: '#111',
-          margin: '0 auto 20px',
-          maxWidth: 460,
-        }}
-      >
-        {cta.blurb}
-      </p>
-      <Link
-        href={cta.href}
-        style={{
-          display: 'inline-block',
-          background: RED,
-          color: '#fff',
-          padding: '11px 28px',
-          fontFamily: BODY,
-          fontSize: 14,
-          fontWeight: 600,
-          textDecoration: 'none',
-          letterSpacing: '0.01em',
-        }}
-      >
+    <aside className="promo-card" style={promoCardStyle}>
+      <p style={promoEyebrowStyle} translate="no">{cta.label}</p>
+      <h2 style={promoTitleStyle}>{cta.blurb}</h2>
+      <Link href={cta.href} className="promo-btn">
         {cta.button}
       </Link>
     </aside>
