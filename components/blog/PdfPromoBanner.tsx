@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { PURCHASE_PATH, VOICE_NAME } from '@/lib/kpatto/purchase'
+import { PURCHASE_PATH } from '@/lib/kpatto/purchase'
 import { promoBodyStyle, promoCardStyle, promoEyebrowStyle, promoTitleStyle } from '@/lib/blog/promoTheme'
 
 /**
@@ -14,7 +14,7 @@ export function PdfPromoBanner() {
       <h2 style={promoTitleStyle}>Master 300 Essential Korean Patterns</h2>
       <p style={promoBodyStyle}>
         Get the ultimate K-PATTO e-book package featuring 300 high-frequency patterns,
-        900 native audio examples (voiced by {VOICE_NAME}), and dual formats for tablet and mobile.
+        900 native audio examples, and dual formats for tablet and mobile.
       </p>
       <Link href={PURCHASE_PATH} className="promo-btn">
         Get the Premium PDF Package →
