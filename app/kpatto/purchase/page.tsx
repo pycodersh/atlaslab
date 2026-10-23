@@ -70,9 +70,14 @@ export default function KPattoPurchasePage() {
         .pp-cell-no { font-family: ${BODY}; font-size: 11px; font-weight: 700; letter-spacing: .12em; color: ${RED}; margin: 0 0 14px; }
         .pp-cell h3 { font-family: ${SERIF}; font-size: 20px; line-height: 1.3; color: ${INK}; margin: 0 0 10px; font-weight: 700; }
         .pp-cell p, .pp-cell li { font-size: 14.5px; line-height: 1.7; color: ${MUTED}; margin: 0; }
-        .pp-levels { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: ${RULE}; border: 1px solid ${RULE}; }
-        .pp-level { background: #fff; padding: 16px 8px 14px; text-align: center; }
-        .pp-level-goal { box-shadow: inset 0 3px 0 ${RED}; }
+        /* TOPIK 프로그레스: 트랙 + 1~3급까지 채워진 은은한 레드 + 같은 폭의 옅은 배경 */
+        .pp-track { position: relative; height: 8px; background: ${RULE}; margin-bottom: 14px; }
+        .pp-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 50%; background: linear-gradient(90deg, rgba(200,16,46,.16), rgba(200,16,46,.55)); }
+        .pp-end { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: ${RED}; box-shadow: 0 0 0 4px #F9F8F6; }
+        .pp-levels { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid ${RULE}; background: #fff; }
+        .pp-covered { position: absolute; left: 0; top: 0; bottom: 0; width: 50%; background: rgba(200,16,46,.06); pointer-events: none; }
+        .pp-level { position: relative; padding: 16px 8px 14px; text-align: center; border-left: 1px solid ${RULE}; }
+        .pp-covered + .pp-level { border-left: none; }
         .pp-body-text { font-size: 17px; line-height: 1.8; color: #333; margin: 0; }
         .pp-preview { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: start; }
         .pp-tablet { aspect-ratio: 3 / 4; background: #fff; border: 1px solid ${RULE}; padding: 20px; display: flex; flex-direction: column; }
@@ -91,23 +96,15 @@ export default function KPattoPurchasePage() {
 
       {/* ── Hero (블랙, 본 사이트 히어로와 같은 구조) ── */}
       <section style={{ background: '#121212' }}>
-        <div className="pp-wrap" style={{ paddingTop: 64, paddingBottom: 64 }}>
+        <div className="pp-wrap" style={{ paddingTop: 88, paddingBottom: 92 }}>
           <p className="pp-kicker" translate="no">K-PATTO E-Book Package</p>
           <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(28px, 4vw, 46px)', fontWeight: 700, lineHeight: 1.14, letterSpacing: '-.02em', color: '#fff', margin: '0 0 18px', maxWidth: 760 }}>
             K-PATTO: 300 Essential Korean Patterns &amp; Audio Guide
           </h1>
-          <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 32px', maxWidth: 560 }}>
+          <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 36px', maxWidth: 560 }}>
             The definitive guide for travelers and learners to speak natural Korean effortlessly.
           </p>
           <a href="#checkout" className="pp-btn">Get the Premium PDF Package →</a>
-          <div style={{ display: 'flex', gap: 44, marginTop: 44, paddingTop: 22, borderTop: '1px solid rgba(255,255,255,.12)', flexWrap: 'wrap' }}>
-            {[['300', 'patterns'], ['900', 'audio examples'], ['2', 'PDF editions']].map(([n, l]) => (
-              <div key={l}>
-                <div style={{ fontFamily: SERIF, fontSize: 30, color: '#fff', lineHeight: 1 }}>{n}</div>
-                <div style={{ fontSize: 10, letterSpacing: '.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,.45)', marginTop: 8 }}>{l}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -127,13 +124,18 @@ export default function KPattoPurchasePage() {
             </p>
           </div>
 
-          <div style={{ marginTop: 44 }} role="img" aria-label="TOPIK levels 1 to 6. The package takes you up to Level 3.">
+          <div style={{ marginTop: 48 }} role="img" aria-label="TOPIK levels 1 to 6. This package covers Levels 1 to 3, up to TOPIK Level 3.">
+            {/* 연속된 프로그레스 바: 1~3급 구간이 하나로 채워진다 */}
+            <div className="pp-track">
+              <div className="pp-fill" />
+              <span className="pp-end" />
+            </div>
             <div className="pp-levels">
+              <div className="pp-covered" />
               {TIERS.flatMap(t => t.levels).map(level => (
-                <div key={level} className={`pp-level${level === 3 ? ' pp-level-goal' : ''}`}>
+                <div key={level} className="pp-level">
                   <div style={{ fontSize: 9.5, letterSpacing: '.14em', textTransform: 'uppercase', color: level <= 3 ? MUTED : '#B9B5AE' }}>Level</div>
                   <div style={{ fontFamily: SERIF, fontSize: 26, lineHeight: 1.15, color: level <= 3 ? INK : '#B9B5AE' }}>{level}</div>
-                  {level === 3 && <div style={{ fontSize: 9.5, letterSpacing: '.12em', textTransform: 'uppercase', color: RED, fontWeight: 700, marginTop: 4 }}>This package</div>}
                 </div>
               ))}
             </div>
@@ -142,7 +144,10 @@ export default function KPattoPurchasePage() {
                 <div key={t.name} style={{ textAlign: 'center', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: MUTED }}>{t.name}</div>
               ))}
             </div>
-            <p style={{ fontSize: 12.5, color: MUTED, margin: '16px 0 0' }}>TOPIK = Test of Proficiency in Korean · Levels 1–6</p>
+            <p style={{ width: '50%', margin: '14px 0 0', paddingTop: 8, borderTop: `2px solid ${RED}`, fontSize: 12, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: RED }}>
+              Covered by this package — Level 1 to Level 3
+            </p>
+            <p style={{ fontSize: 12.5, color: MUTED, margin: '14px 0 0' }}>TOPIK = Test of Proficiency in Korean · Levels 1–6</p>
           </div>
         </div>
       </section>
