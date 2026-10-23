@@ -336,6 +336,7 @@ export async function fetchAllExpressions(): Promise<KPattoExpression[]> {
     .select('*')
     .eq('is_active', true)   // 비활성(정예화로 빠진 표현)은 라이브러리에서 제외
     .order('first_episode', { ascending: true })
+    .order('id', { ascending: true })      // 표현 순번(#001~#300)과 같은 정렬
   if (error) return []
   return (data ?? []) as KPattoExpression[]
 }

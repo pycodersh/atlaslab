@@ -1,11 +1,17 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { Volume2 } from 'lucide-react'
+import { Square, Volume2 } from 'lucide-react'
 import type { KPattoExpression } from '@/data/kpatto/types'
 import { tryPlayAudio, stopAllAudio, getAudioGeneration } from '@/lib/kpatto/audio'
 import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
 import { formatPatternTitle } from '@/lib/kpatto/pattern-format'
+import { getExpressionNumbering } from '@/lib/kpatto/expression-number'
+import { KP } from '@/lib/kpatto/theme'
+
+/** 예문 사이 쉬는 시간(전체 재생) */
+const GAP_MS = 800
+const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms))
 
 const SAVED_KEY = 'kpatto-saved-expressions'
 
@@ -44,31 +50,45 @@ export function ExpressionPopup({
   onAudioPlay?: (expressionId: number) => void
 }) {
   const [isSaved, setIsSaved] = useState(() => getSavedExpressionIds().has(expression.id))
-  const [exprPlaying, setExprPlaying] = useState(false)
-  const exprPlayingRef = useRef(false)  // 연타 가드
+  // 재생 상태: playAll = 상단 버튼의 전체 재생 중, playingIdx = 지금 소리 나는 예문(0~2)
+  const [playAll, setPlayAll] = useState(false)
+  const [playingIdx, setPlayingIdx] = useState<number | null>(null)
+  const runRef = useRef(0)           // 재생 요청 번호 — 새 요청이 오면 이전 루프는 스스로 빠진다
+  const activeRef = useRef(false)    // 팝업이 소리를 내고 있는지(언마운트 정리용)
+
+  // 표현 순번 (#052 / 300)
+  const [num, setNum] = useState<{ n: number; total: number } | null>(null)
+  useEffect(() => {
+    let alive = true
+    getExpressionNumbering().then(({ numberOf, total }) => {
+      const n = numberOf.get(expression.id)
+      if (alive) setNum(n ? { n, total } : null)
+    })
+    return () => { alive = false }
+  }, [expression.id])
 
   // Sync if expression changes (e.g. opened from library list)
   useEffect(() => {
     setIsSaved(getSavedExpressionIds().has(expression.id))
   }, [expression.id])
 
-  // 표현 교체 시 재생 중이면 정지 + 상태 리셋
-  useEffect(() => {
-    if (exprPlayingRef.current) {
-      exprPlayingRef.current = false
-      setExprPlaying(false)
-      stopAllAudio()
-    }
-  }, [expression.id])
+  // 재생 중단 (상태 리셋 포함)
+  const stopPlayback = useCallback(() => {
+    runRef.current++
+    if (activeRef.current) stopAllAudio()
+    activeRef.current = false
+    setPlayAll(false)
+    setPlayingIdx(null)
+  }, [])
+
+  // 표현 교체 시 재생 중이면 정지
+  useEffect(() => { stopPlayback() }, [expression.id, stopPlayback])
 
   // 팝업 닫힘(언마운트) → 표현 음성 정지
-  useEffect(() => {
-    return () => {
-      if (exprPlayingRef.current) {
-        stopAllAudio()
-        exprPlayingRef.current = false
-      }
-    }
+  useEffect(() => () => {
+    runRef.current++
+    if (activeRef.current) stopAllAudio()
+    activeRef.current = false
   }, [])
 
   // Close on Escape
@@ -78,45 +98,54 @@ export function ExpressionPopup({
     return () => window.removeEventListener('keydown', handler)
   }, [onClose])
 
-  // 재생 시퀀스: audio_urls.pattern 우선 → ex1→ex2→ex3 순차.
-  // audio_urls 없으면 audio_url 단일 파일 폴백 (EP06+)
-  const audioSeq = useMemo(() => {
+  // 재생 대상: 예문 ex1~ex3 음성만 (패턴 표제어 단독 발음은 쓰지 않는다)
+  const exampleUrls = useMemo(() => {
     const au = expression.audio_urls
-    if (au?.pattern) {
-      return ([au.pattern, au.ex1, au.ex2, au.ex3] as (string | null | undefined)[])
-        .filter((u): u is string => !!u)
-        .map(versionedExpressionAudio)  // 덮어쓴 mp3 가 캐시에서 옛 음성으로 나오지 않게
-    }
-    return expression.audio_url ? [expression.audio_url] : []
-  }, [expression.id, expression.audio_urls, expression.audio_url])
-  const firstUrl = audioSeq[0] ?? null
+    return [au?.ex1, au?.ex2, au?.ex3].map(u => (u ? versionedExpressionAudio(u) : null))
+  }, [expression.id, expression.audio_urls])
+  const hasAnyExampleAudio = exampleUrls.some(Boolean)
 
-  // 팝업 스피커 버튼: 재생/정지 토글
-  const handleExprAudio = useCallback(async () => {
-    if (exprPlayingRef.current) {
-      // 재클릭 → 시퀀스 전체 정지
-      exprPlayingRef.current = false
-      setExprPlaying(false)
-      stopAllAudio()
-      return
+  // 상단 스피커: 예문 1→2→3 을 0.8초 간격으로 이어서 재생 / 재생 중 다시 누르면 정지
+  const handlePlayAll = useCallback(async () => {
+    if (activeRef.current && playAll) { stopPlayback(); return }
+    const urls = exampleUrls
+      .map((url, idx) => ({ url, idx }))
+      .filter((x): x is { url: string; idx: number } => !!x.url)
+    if (!urls.length) return
+    const run = ++runRef.current
+    stopAllAudio()                      // 대사 루프 정지(동시 재생 금지), generation 증가
+    const gen = getAudioGeneration()
+    activeRef.current = true
+    setPlayAll(true)
+    onAudioPlay?.(expression.id)        // Listening 판정
+    for (let i = 0; i < urls.length; i++) {
+      if (runRef.current !== run || getAudioGeneration() !== gen) return
+      setPlayingIdx(urls[i].idx)
+      await tryPlayAudio(urls[i].url)
+      if (runRef.current !== run || getAudioGeneration() !== gen) return
+      setPlayingIdx(null)
+      if (i < urls.length - 1) await sleep(GAP_MS)
     }
-    if (!firstUrl) return
-    // 연타 가드: ref 즉시 세우기
-    exprPlayingRef.current = true
-    setExprPlaying(true)
-    stopAllAudio()  // 대사 루프 정지 (동시 재생 금지), generation 증가
-    const gen = getAudioGeneration()  // 증가 후 캡처
-    onAudioPlay?.(expression.id)  // pattern 재생 시작 시점 알림 (Listening 판정)
+    if (runRef.current === run) { activeRef.current = false; setPlayAll(false); setPlayingIdx(null) }
+  }, [exampleUrls, expression.id, onAudioPlay, playAll, stopPlayback])
 
-    for (const url of audioSeq) {
-      if (!exprPlayingRef.current || getAudioGeneration() !== gen) break
-      await tryPlayAudio(url)
+  // 예문 카드 탭: 연속 재생을 멈추고 그 문장 하나만 바로 재생
+  const handlePlayOne = useCallback(async (idx: number) => {
+    const url = exampleUrls[idx]
+    if (!url) return
+    const run = ++runRef.current
+    stopAllAudio()
+    const gen = getAudioGeneration()
+    activeRef.current = true
+    setPlayAll(false)
+    setPlayingIdx(idx)
+    onAudioPlay?.(expression.id)
+    await tryPlayAudio(url)
+    if (runRef.current === run && getAudioGeneration() === gen) {
+      activeRef.current = false
+      setPlayingIdx(null)
     }
-
-    // 자연 완료 또는 외부 stopAllAudio()로 중단
-    exprPlayingRef.current = false
-    setExprPlaying(false)
-  }, [audioSeq, firstUrl, expression.id, onAudioPlay])
+  }, [exampleUrls, expression.id, onAudioPlay])
 
   const handleToggleSave = () => {
     const ids = getSavedExpressionIds()
@@ -158,9 +187,9 @@ export function ExpressionPopup({
 
           {/* Row 1: EP badge (left) + bookmark icon (right, no circular background) */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-            {expression.first_episode != null ? (
+            {num ? (
               <div style={{
-                display: 'inline-flex',
+                display: 'inline-flex', alignItems: 'baseline', gap: 4,
                 background: 'rgba(255,255,255,0.2)',
                 borderRadius: 6,
                 padding: '2px 8px',
@@ -168,8 +197,10 @@ export function ExpressionPopup({
                 fontWeight: 700,
                 color: '#FFFFFF',
                 letterSpacing: '0.06em',
+                fontVariantNumeric: 'tabular-nums',
               }}>
-                {`EP${String(expression.first_episode).padStart(2, '0')}`}
+                {`#${String(num.n).padStart(3, '0')}`}
+                <span style={{ fontWeight: 500, opacity: 0.8 }}>{`/ ${num.total}`}</span>
               </div>
             ) : <div />}
             {/* 44×44px touch area via padding+negative-margin; no circular chip */}
@@ -201,30 +232,29 @@ export function ExpressionPopup({
             {formatPatternTitle(expression.korean)}
           </div>
 
-          {/* Row 3: English subtitle (left) + speaker icon (right, no circular background) */}
-          {(firstUrl || (expression.english && expression.english !== expression.korean)) && (
+          {/* Row 3: English subtitle (left) + 전체 재생 스피커 (right) */}
+          {(hasAnyExampleAudio || (expression.english && expression.english !== expression.korean)) && (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               {expression.english && expression.english !== expression.korean ? (
-                <div style={{ fontSize: 13, color: '#FFF0DC', fontWeight: 600, flex: 1 }}>
+                <div style={{ fontSize: 13, color: '#FFF3F0', fontWeight: 600, flex: 1 }}>
                   {expression.english}
                 </div>
               ) : <div />}
-              {/* 44×44px touch area via padding+negative-margin; color changes on play */}
-              {firstUrl && (
+              {hasAnyExampleAudio && (
                 <button
-                  onClick={handleExprAudio}
-                  aria-label={exprPlaying ? 'Stop audio' : 'Play audio'}
+                  onClick={handlePlayAll}
+                  aria-label={playAll ? 'Stop playing examples' : 'Play all examples'}
                   style={{
-                    background: 'none', border: 'none', cursor: 'pointer',
-                    color: exprPlaying ? '#ef4444' : '#fff',
-                    WebkitTapHighlightColor: 'transparent',
-                    padding: 14, margin: -14,
+                    background: playAll ? 'rgba(255,255,255,0.28)' : 'rgba(255,255,255,0.18)',
+                    border: 'none', cursor: 'pointer',
+                    color: '#fff', WebkitTapHighlightColor: 'transparent',
+                    width: 32, height: 32, borderRadius: '50%',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     flexShrink: 0, lineHeight: 0,
-                    transition: 'color 0.15s',
+                    transition: 'background 0.15s',
                   }}
                 >
-                  <Volume2 size={15} />
+                  {playAll ? <Square size={12} fill="currentColor" /> : <Volume2 size={16} />}
                 </button>
               )}
             </div>
@@ -253,12 +283,31 @@ export function ExpressionPopup({
 
           {expression.examples && expression.examples.length > 0 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginBottom: 12 }}>
-              {expression.examples.slice(0, 3).map((ex, i) => (
-                <div key={i} style={{ background: '#F7F7F7', borderRadius: 10, padding: '9px 12px' }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: '#111' }}>{ex.ko}</div>
-                  <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>{ex.en}</div>
-                </div>
-              ))}
+              {expression.examples.slice(0, 3).map((ex, i) => {
+                const playable = !!exampleUrls[i]
+                const on = playingIdx === i
+                return (
+                  <div
+                    key={i}
+                    role={playable ? 'button' : undefined}
+                    tabIndex={playable ? 0 : undefined}
+                    aria-label={playable ? `Play example ${i + 1}` : undefined}
+                    onClick={playable ? () => handlePlayOne(i) : undefined}
+                    onKeyDown={playable ? (e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handlePlayOne(i) } }) : undefined}
+                    style={{
+                      background: on ? KP.primaryLight : '#F7F7F7',
+                      border: `1.5px solid ${on ? KP.primary : 'transparent'}`,
+                      borderRadius: 10, padding: '8px 11px',
+                      cursor: playable ? 'pointer' : 'default',
+                      WebkitTapHighlightColor: 'transparent',
+                      transition: 'background 0.15s, border-color 0.15s',
+                    }}
+                  >
+                    <div style={{ fontSize: 14, fontWeight: 600, color: '#111' }}>{ex.ko}</div>
+                    <div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>{ex.en}</div>
+                  </div>
+                )
+              })}
             </div>
           )}
 
