@@ -4,7 +4,6 @@ import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { PostListRow } from '@/components/blog/PostListRow'
 import { readMinutes } from '@/lib/blog/readTime'
-import { ExploreAppsButton } from '@/components/home/ExploreAppsButton'
 import {
   BLOG_GROUPS,
   groupKeyOf,
@@ -251,12 +250,11 @@ export default async function AtlasLabHome() {
           background: #121212;
           overflow: hidden;
         }
-        .hero-text {
-          padding: 72px 48px 72px 48px;
-          max-width: 680px;
-        }
+        /* 좌우 여백·최대 폭은 아래 본문 섹션(.wrap)과 같은 컨테이너를 쓴다 — 텍스트 폭만 따로 제한 */
+        .hero-inner { padding-top: 76px; padding-bottom: 84px; }
+        .hero-text { max-width: 780px; }
         @media (max-width: 700px) {
-          .hero-text { padding: 48px 20px 56px; }
+          .hero-inner { padding-top: 52px; padding-bottom: 60px; }
         }
         .hero-eyebrow {
           font-family: ${BODY};
@@ -273,8 +271,8 @@ export default async function AtlasLabHome() {
         }
         .hero-h1 {
           font-family: ${SERIF};
-          font-size: clamp(34px, 4.2vw, 58px);
-          font-weight: 700; line-height: 1.08;
+          font-size: clamp(32px, 4.4vw, 54px);
+          font-weight: 700; line-height: 1.12;
           letter-spacing: -0.02em;
           color: #fff;
           margin-bottom: 20px;
@@ -284,23 +282,9 @@ export default async function AtlasLabHome() {
           font-size: clamp(14px, 1.6vw, 16px);
           color: rgba(255,255,255,0.62);
           line-height: 1.75;
-          margin-bottom: 36px;
-          max-width: 380px;
+          margin-bottom: 0;
+          max-width: 640px;
         }
-        .hero-btn {
-          display: inline-block;
-          font-family: ${BODY};
-          font-size: 13px; font-weight: 700;
-          background: var(--brand-red, #C8102E);
-          color: #fff;
-          padding: 12px 28px;
-          text-decoration: none;
-          letter-spacing: 0.04em;
-          text-transform: uppercase;
-          transition: background 0.15s;
-        }
-        .hero-btn:hover { background: var(--brand-red-dark, #A30D25); }
-
         /* ── Inner container ───────────────────────────────────────── */
         .wrap {
           max-width: 1060px; margin: 0 auto;
@@ -364,21 +348,6 @@ export default async function AtlasLabHome() {
           transition: background 0.15s;
         }
         .pcard-link:active { background: #F2EFEB; }
-
-        /* "Explore our apps" 로 스크롤해 왔을 때 카드가 순차로 한 번 떠오른다.
-           클래스는 ExploreAppsButton 이 붙였다 뗀다. */
-        .pcard-glow {
-          animation: pcardGlow 0.9s ease-out;
-        }
-        @keyframes pcardGlow {
-          0%   { box-shadow: 0 0 0 0 rgba(200,16,46,0); transform: translateY(0); }
-          30%  { box-shadow: 0 0 0 2px rgba(200,16,46,0.55), 0 8px 22px rgba(200,16,46,0.14);
-                 transform: translateY(-4px); }
-          100% { box-shadow: 0 0 0 0 rgba(200,16,46,0); transform: translateY(0); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .pcard-glow { animation: none; }
-        }
 
         /* ── Mobile(768px 미만): 1열 + 가로형 카드로 재배치 ──────────── */
         @media (max-width: 767px) {
@@ -720,11 +689,16 @@ export default async function AtlasLabHome() {
 
       {/* ── Hero ── */}
       <section className="hero">
-        <div className="hero-text">
-          <p className="hero-eyebrow notranslate" translate="no">Atlas Lab</p>
-          <h1 className="hero-h1">Smart Tools and Deep Insights for Your Everyday Growth.</h1>
-          <p className="hero-desc">From language learning and career navigation to everyday culture—explore interactive apps built to build real skills.</p>
-          <ExploreAppsButton>Explore our apps</ExploreAppsButton>
+        <div className="wrap hero-inner">
+          <div className="hero-text">
+            <p className="hero-eyebrow"><span><span className="notranslate" translate="no">Atlas Lab</span> — Your Ultimate Korea Companion</span></p>
+            <h1 className="hero-h1">Everything You Need to Live, Travel, and Speak Like a Local in Korea.</h1>
+            <p className="hero-desc">
+              Stop struggling with language barriers and uncertain travel plans. From mastering essential Korean patterns
+              with professional audio to discovering curated luxury stays, local food, and authentic culture, we provide
+              the exact guides and tools you need.
+            </p>
+          </div>
         </div>
       </section>
 
