@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
+import { WelcomeTour } from '@/components/home/WelcomeTour'
 import { PostListRow } from '@/components/blog/PostListRow'
 import { readMinutes } from '@/lib/blog/readTime'
 import {
@@ -246,6 +247,7 @@ export default async function AtlasLabHome() {
           color: #fff;
           margin-bottom: 16px;
         }
+        .hero-actions { margin-top: 26px; }
         .hero-desc {
           font-family: ${BODY};
           font-size: clamp(14px, 1.5vw, 16px);
@@ -659,6 +661,7 @@ export default async function AtlasLabHome() {
             <p className="hero-desc">
               Your ultimate companion to master Korean, discover curated stays, and experience local culture effortlessly.
             </p>
+            <div className="hero-actions"><WelcomeTour /></div>
           </div>
         </div>
       </section>
