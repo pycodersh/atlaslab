@@ -36,17 +36,3 @@ export const SITE_APPS: Record<SiteApp['key'], SiteApp> = {
     blurb: 'Find authentic Korean recipes with ingredients in your fridge',
   },
 }
-
-/** 네비 'Apps' 드롭다운 순서 */
-export const NAV_APPS: SiteApp[] = [
-  SITE_APPS.patto,
-  SITE_APPS.kpatto,
-  SITE_APPS.kpantry,
-]
-
-/** "Get started" 모달 카드 순서 */
-export const MODAL_APPS: SiteApp[] = [
-  SITE_APPS.kpatto,
-  SITE_APPS.kpantry,
-  SITE_APPS.patto,
-]
