@@ -119,8 +119,9 @@ export function BubbleSvg({
   thought = false,
 }: BubbleSvgProps) {
   const fill = highlighted ? '#FFF3F0' : '#ffffff'
-  const stroke = highlighted ? '#FF5A36' : '#242424'
-  const sw = highlighted ? 3 : 2.5
+  // 하이라이트가 있어도 테두리는 항상 검정 — 코랄 테두리는 너무 튄다
+  const stroke = '#242424'
+  const sw = 2.5
 
   const parts: string[] = []
   if (flip)  parts.push(`scale(-1,1) translate(${-viewBoxW},0)`)

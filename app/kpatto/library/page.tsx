@@ -8,14 +8,21 @@ import { getSavedFromLocal, getSavedIds, toggleSaved } from '@/lib/kpatto/saved-
 import { fetchAllExpressions } from '@/lib/kpatto/fetch-episode'
 import { createClient } from '@/lib/supabase/client'
 import type { KPattoExpression } from '@/data/kpatto/types'
+import { Check, ChevronRight, Volume2 } from 'lucide-react'
 
 import { KP } from '@/lib/kpatto/theme'
+import { episodeEmoji } from '@/lib/kpatto/episode-emoji'
+import { tryPlayAudio, stopAllAudio } from '@/lib/kpatto/audio'
+import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
 const T1     = '#111111'
 const T2     = '#888888'
 const T3     = '#BBBBBB'
 const ACCENT = KP.primary
-const BORDER = '#EBEBEB'
+const BORDER = '#F3F4F6'   // gray-100 — 목록 구분선
+const GRAY500 = '#6B7280'  // gray-500 — 영문 뜻·비활성 칩 글자
+const PEACH  = '#FFF5F2'   // EP 헤더 카드 살구 틴트
+const SKY    = '#EEF6FF'   // EP 헤더 카드 블루 틴트
 const BG     = '#FFFFFF'
 
 // 검색창과 동일한 좌우 여백 (padding: '12px 16px 0' 의 16에서 가져옴)
@@ -130,7 +137,7 @@ function LockIcon() {
   )
 }
 
-/** 칩 하나 — 미선택: 회색 텍스트만 / 선택: 오렌지 텍스트 + 하단 2px 밑줄 */
+/** 칩 하나 — 캡슐 모양. 활성: 코랄 배경 + 흰 글자 + 왼쪽 아이콘 / 비활성: 연회색 배경 + gray-500 글자 */
 function Chip({
   label, active, onClick, icon,
 }: {
@@ -143,19 +150,20 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
+      aria-pressed={active}
       style={{
         flexShrink: 0,
-        display: 'inline-flex', alignItems: 'center', gap: 4,
-        padding: '4px 0',
-        background: 'none',
+        display: 'inline-flex', alignItems: 'center', gap: 5,
+        padding: '7px 14px',
+        borderRadius: 9999,
+        background: active ? ACCENT : '#F3F4F6',
         border: 'none',
-        borderBottom: active ? `2px solid ${ACCENT}` : '2px solid transparent',
-        color: active ? ACCENT : T2,
-        fontSize: 12, fontWeight: active ? 700 : 500,
+        color: active ? '#FFFFFF' : GRAY500,
+        fontSize: 13, fontWeight: active ? 700 : 500,
         cursor: 'pointer', fontFamily: 'inherit',
         whiteSpace: 'nowrap',
         WebkitTapHighlightColor: 'transparent',
-        transition: 'color 0.15s, border-color 0.15s',
+        transition: 'background 0.15s, color 0.15s',
       }}
     >
       {icon}
@@ -164,14 +172,15 @@ function Chip({
   )
 }
 
-/** 에피소드 그룹 헤더 (sticky) — 여백 적용 카드 스타일 */
+/** 에피소드 그룹 헤더 (sticky) — 살구/블루 틴트를 번갈아 쓰는 카드 + 상황 이모지 + 우측 꺾쇠 */
 function EpGroupHeader({
-  epNum, title, titleEn, locked,
+  epNum, title, titleEn, locked, tint,
 }: {
   epNum:   number
   title:   string
   titleEn: string
   locked:  boolean
+  tint:    'peach' | 'sky'
 }) {
   return (
     <div style={{
@@ -179,22 +188,30 @@ function EpGroupHeader({
       top: 'calc(56px + env(safe-area-inset-top, 0px))',
       zIndex: 10,
       background: BG,
-      padding: `4px ${SIDE_PAD}px`,
+      padding: `6px ${SIDE_PAD}px`,
       opacity: locked ? 0.6 : 1,
     }}>
-      {/* 회색 카드 (좌우 여백 안에서 시작·종료) */}
       <div style={{
-        background: '#F5F5F5',
-        borderRadius: 8,
-        padding: `9px ${SIDE_PAD - 3}px`,
-        display: 'flex', alignItems: 'center', gap: 8,
+        background: tint === 'peach' ? PEACH : SKY,
+        borderRadius: 12,
+        padding: `10px ${SIDE_PAD - 4}px 10px 10px`,
+        display: 'flex', alignItems: 'center', gap: 10,
       }}>
+        {/* 상황 이모지 */}
+        <div aria-hidden style={{
+          width: 34, height: 34, borderRadius: 10, flexShrink: 0,
+          background: 'rgba(255,255,255,0.75)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 19, lineHeight: 1,
+        }}>
+          {episodeEmoji(epNum, title)}
+        </div>
+
         {/* EP 번호 + 한/영 제목 */}
         <div style={{ minWidth: 0, flex: 1 }}>
-          {/* 1행 */}
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, overflow: 'hidden' }}>
             <span style={{
-              fontSize: 12, fontWeight: 600, color: T2,
+              fontSize: 12, fontWeight: 800, color: ACCENT,
               whiteSpace: 'nowrap', flexShrink: 0,
             }}>
               EP {String(epNum).padStart(2, '0')}
@@ -203,7 +220,7 @@ function EpGroupHeader({
               <>
                 <span style={{ fontSize: 12, color: T3, flexShrink: 0 }}>·</span>
                 <span style={{
-                  fontSize: 13, fontWeight: 500, color: T1,
+                  fontSize: 14, fontWeight: 600, color: T1,
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                 }}>
                   {title}
@@ -211,10 +228,9 @@ function EpGroupHeader({
               </>
             )}
           </div>
-          {/* 2행: 영어 제목 */}
           {titleEn && (
             <div style={{
-              fontSize: 11, color: T2, marginTop: 2,
+              fontSize: 11, color: GRAY500, marginTop: 2,
               overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             }}>
               {titleEn}
@@ -222,28 +238,47 @@ function EpGroupHeader({
           )}
         </div>
 
-        {/* 우측: 잠금 아이콘만 (잠긴 화) */}
         {locked && <LockIcon />}
+        {/* 섹션 구분용 꺾쇠(장식) */}
+        <ChevronRight size={18} color="#C4C4C4" strokeWidth={2.2} aria-hidden style={{ flexShrink: 0 }} />
       </div>
     </div>
   )
 }
 
-/** 표현 행 — borderBottom 제거 (구분선은 별도 인셋 div로 renderRow에서 처리) */
+/** 패턴 표기의 물결표(~)만 코랄로 */
+function PatternText({ text }: { text: string }) {
+  const parts = text.split('~')
+  return (
+    <>
+      {parts.map((part, i) => (
+        <Fragment key={i}>
+          {i > 0 && <span style={{ color: ACCENT, fontWeight: 700 }}>~</span>}
+          {part}
+        </Fragment>
+      ))}
+    </>
+  )
+}
+
+/** 표현 행 — 구분선은 별도 인셋 div(ExprSep)로 renderRow 에서 그린다 */
 function ExprRow({
-  expr, locked, saved, onBookmarkClick, onClick,
+  expr, locked, saved, playing, onPlayClick, onBookmarkClick, onClick,
 }: {
   expr:            KPattoExpression
   locked:          boolean
   saved:           boolean
+  playing:         boolean
+  onPlayClick:     (e: React.MouseEvent) => void
   onBookmarkClick: (e: React.MouseEvent) => void
   onClick:         () => void
 }) {
+  const hasAudio = !!(expr.audio_urls?.pattern ?? expr.audio_url)
   return (
     <div
       style={{
         display: 'flex', alignItems: 'center', gap: 10,
-        padding: `9px ${SIDE_PAD}px`,
+        padding: `12px ${SIDE_PAD}px`,
         background: BG,
         opacity: locked ? 0.4 : 1,
         cursor: 'pointer',
@@ -254,28 +289,45 @@ function ExprRow({
       tabIndex={0}
       onKeyDown={e => e.key === 'Enter' && onClick()}
     >
-      {/* 왼쪽: 한국어 + 영어 */}
+      {/* 왼쪽: 한국어 패턴 + 영문 뜻 */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{
-          fontSize: 15, fontWeight: 500, color: T1,
+          fontSize: 16, fontWeight: 600, color: T1,
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
-          {expr.korean}
+          <PatternText text={expr.korean} />
         </div>
         <div style={{
-          fontSize: 12, color: T2, marginTop: 2,
+          fontSize: 11, color: GRAY500, marginTop: 3,
           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
           {expr.english}
         </div>
       </div>
 
-      {/* 오른쪽: 북마크 아이콘 — SIDE_PAD 여백 안에 위치 */}
+      {/* 오른쪽: 대표 발음 재생 + 북마크 */}
+      {hasAudio && (
+        <button
+          type="button"
+          onClick={onPlayClick}
+          style={{
+            width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
+            border: 'none', padding: 0, cursor: 'pointer',
+            background: playing ? ACCENT : KP.primaryLight,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            WebkitTapHighlightColor: 'transparent',
+            transition: 'background 0.15s',
+          }}
+          aria-label={playing ? 'Stop pronunciation' : 'Play pronunciation'}
+        >
+          <Volume2 size={15} strokeWidth={2.2} color={playing ? '#FFFFFF' : ACCENT} />
+        </button>
+      )}
       <button
         type="button"
         onClick={onBookmarkClick}
         style={{
-          background: 'none', border: 'none', padding: 2, flexShrink: 0,
+          background: 'none', border: 'none', padding: 4, flexShrink: 0,
           cursor: 'pointer', display: 'flex', alignItems: 'center',
           WebkitTapHighlightColor: 'transparent',
         }}
@@ -303,6 +355,7 @@ export default function KPattoLibraryPage() {
   const [selectedChapter,  setSelectedChapter]  = useState<number | null>(null)
   const [savedIds,         setSavedIds]         = useState<Set<number>>(new Set())
   const [popup,            setPopup]            = useState<KPattoExpression | null>(null)
+  const [playingId,        setPlayingId]        = useState<number | null>(null)
 
   const inputRef    = useRef<HTMLInputElement | null>(null)
   const tabScrollRef = useRef<HTMLDivElement | null>(null)
@@ -410,6 +463,19 @@ export default function KPattoLibraryPage() {
     }).catch(() => { /* noop */ })
   }, [])
 
+  // ── 패턴 대표 발음 재생 (다시 누르면 정지) ──────────────────────────────
+  const playPattern = useCallback(async (e: React.MouseEvent, expr: KPattoExpression) => {
+    e.stopPropagation()
+    const url = expr.audio_urls?.pattern ?? expr.audio_url
+    if (!url) return
+    if (playingId === expr.id) { stopAllAudio(); setPlayingId(null); return }
+    stopAllAudio()
+    setPlayingId(expr.id)
+    try { await tryPlayAudio(versionedExpressionAudio(url)) } finally {
+      setPlayingId(prev => (prev === expr.id ? null : prev))
+    }
+  }, [playingId])
+
   // ── 행 탭 → 팝업 ────────────────────────────────────────────────────────
   const handleRowClick = useCallback((expr: KPattoExpression) => {
     setPopup(expr)
@@ -422,6 +488,8 @@ export default function KPattoLibraryPage() {
         expr={expr}
         locked={locked}
         saved={savedIds.has(expr.id)}
+        playing={playingId === expr.id}
+        onPlayClick={e => playPattern(e, expr)}
         onBookmarkClick={e => toggleSave(e, expr.id)}
         onClick={() => handleRowClick(expr)}
       />
@@ -479,9 +547,9 @@ export default function KPattoLibraryPage() {
             onScroll={handleTabScroll}
             style={{
               overflowX: 'auto',
-              display: 'flex', gap: 16,
+              display: 'flex', gap: 8,
               // paddingLeft만 설정; padding-right는 overflow 시 씹히므로 trailing spacer 사용
-              padding: `10px 0 8px ${SIDE_PAD}px`,
+              padding: `12px 0 10px ${SIDE_PAD}px`,
               scrollbarWidth: 'none' as const,
             } as React.CSSProperties}
           >
@@ -494,9 +562,9 @@ export default function KPattoLibraryPage() {
                 setSelectedChapter(null)
               }}
               icon={
-                <svg width="11" height="11" viewBox="0 0 24 24"
-                  fill={showSaved ? ACCENT : 'none'}
-                  stroke={showSaved ? ACCENT : T2}
+                <svg width="13" height="13" viewBox="0 0 24 24"
+                  fill={showSaved ? '#FFFFFF' : 'none'}
+                  stroke={showSaved ? '#FFFFFF' : GRAY500}
                   strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M19 21 12 16 5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
                 </svg>
@@ -508,6 +576,7 @@ export default function KPattoLibraryPage() {
                 key={ch}
                 label={chapterLabel(ch)}
                 active={selectedChapter === ch}
+                icon={selectedChapter === ch ? <Check size={13} strokeWidth={3} color="#FFFFFF" /> : undefined}
                 onClick={() => {
                   setShowSaved(false)
                   setSelectedChapter(prev => prev === ch ? null : ch)
@@ -561,13 +630,14 @@ export default function KPattoLibraryPage() {
       ) : (
         /* 에피소드 순 그룹 */
         <div>
-          {groups.map(group => (
+          {groups.map((group, gi) => (
             <div key={group.epNum}>
               <EpGroupHeader
                 epNum={group.epNum}
                 title={group.title}
                 titleEn={group.titleEn}
                 locked={group.locked}
+                tint={gi % 2 === 0 ? 'peach' : 'sky'}
               />
               {group.exprs.map(expr => renderRow(expr, group.locked))}
             </div>

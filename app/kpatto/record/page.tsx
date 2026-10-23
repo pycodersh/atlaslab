@@ -28,17 +28,23 @@ const SECTION_LABEL: React.CSSProperties = {
 const TOTAL_EPISODES    = 100
 const TOTAL_EXPRESSIONS = 300  // DB kp_expressions 활성(is_active) 패턴 수
 
-// ── 녹색 6단계 (0~5회, 5회 이상 = 마스터 아이콘) ─────────────────────────────
+// ── 코랄 틴트 6단계 (0~5회, 5회 이상 = 마스터 아이콘) ──────────────────────────
+// 밝은 3단계는 짙은 글자, 진한 2단계는 흰 글자 — 글자·배경 명암비 WCAG AA(4.5:1) 이상:
+//   #FFE3DB/#8A2410 7.4 · #FFB9A8/#3B1008 10.1 · #FF8A6E/#3B1008 7.2 · #D9381A/#FFF 4.6 · #A8280E/#FFF 7.1
+const EP_LEVELS = ['#EBEBEB', '#FFE3DB', '#FFB9A8', '#FF8A6E', '#D9381A', '#A8280E'] as const
 function epColor(count: number, locked: boolean): string {
-  if (locked || count === 0) return '#EBEBEB'
-  if (count === 1)           return '#EAF3DE'
-  if (count === 2)           return '#C0DD97'
-  if (count === 3)           return '#97C459'
-  if (count === 4)           return '#639922'
-  return '#3D6614'  // 5회 이상 = 마스터
+  if (locked || count === 0) return EP_LEVELS[0]
+  return EP_LEVELS[Math.min(count, 5)]   // 5회 이상 = 마스터
+}
+/** 타일 숫자 색: 진한 타일(4·5회)만 흰색 */
+function epTextColor(count: number, locked: boolean): string {
+  if (locked || count === 0) return '#999999'
+  if (count === 1) return '#8A2410'
+  if (count <= 3) return '#3B1008'
+  return '#FFFFFF'
 }
 
-const LEGEND_COLORS = ['#EBEBEB', '#EAF3DE', '#C0DD97', '#97C459', '#639922', '#3D6614']
+const LEGEND_COLORS = [...EP_LEVELS]
 
 // ── 이번 주 월요일 ISO (기기 로컬 시간 기준) ─────────────────────────────────
 function getThisWeekMondayISO(): string {
@@ -215,7 +221,7 @@ export default function KPattoRecordPage() {
                                 <span style={{
                                   fontSize: 10,
                                   fontWeight: 500,
-                                  color: (!loading && count > 0 && !locked) ? '#ffffff' : '#999999',
+                                  color: loading ? '#999999' : epTextColor(count, locked),
                                   fontVariantNumeric: 'tabular-nums',
                                   lineHeight: 1,
                                   userSelect: 'none',
