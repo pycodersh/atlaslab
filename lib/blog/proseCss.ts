@@ -27,7 +27,7 @@ export function proseCss(bodyFont: string): string {
            그쪽 본문을 1280px 에서 실측한 값: p 16px/1.85, h2 26px(여백 56/18),
            blockquote 좌측 3px 실선·투명 배경, 본문 폭 680px.
            여기서는 본문 줄간격만 1.7 로 조금 좁혀 더 조밀하게 간다.
-           px 로 적는 이유: 이 CSS 는 <style> 로 주입돼 rem 기준(루트 폰트)이
+           px 로 적는 이유: 이 CSS 는 style 태그로 주입돼 rem 기준(루트 폰트)이
            페이지마다 달라질 여지가 있어, 실제 크기를 고정한다.
            모든 글이 같은 한 곳(.blog-prose)을 보므로 카테고리와 무관하게 같다. */
         /* h2 는 위쪽 레드 선으로 구간을 연다 — 블로그 INSIGHTS 실측값 그대로
