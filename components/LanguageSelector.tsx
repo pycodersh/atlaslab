@@ -151,7 +151,9 @@ export function LanguageSelector() {
       <style>{`
         .lang-sel { position: relative; display: flex; align-items: center; }
         /* 버튼 크기·모양은 헤더의 .nav-pill(SiteNav)이 정한다 — 여기서는 열림 상태만 */
-        .lang-sel[data-open="true"] .lang-sel-btn { background: rgba(255,255,255,0.24); border-color: rgba(255,255,255,0.6); }
+        .lang-sel[data-open="true"] .lang-sel-btn { color: #fff; }
+        .lang-sel-caret { opacity: 0.75; transition: transform 0.15s; }
+        .lang-sel[data-open="true"] .lang-sel-caret { transform: rotate(180deg); }
         .lang-sel-menu {
           position: absolute; top: calc(100% + 12px); right: 0; z-index: 300;
           min-width: 168px; margin: 0; padding: 6px; list-style: none;
@@ -187,6 +189,9 @@ export function LanguageSelector() {
           <path d="M12 3c2.6 2.7 4 5.7 4 9s-1.4 6.3-4 9c-2.6-2.7-4-5.7-4-9s1.4-6.3 4-9z" />
         </svg>
         <span className="lang-sel-code">{current.short}</span>
+        <svg className="lang-sel-caret" width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M2 3.5l3 3 3-3" />
+        </svg>
       </button>
 
       {open && (

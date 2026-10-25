@@ -25,7 +25,7 @@ export function SiteNav() {
         }
         .site-nav-right { display: flex; align-items: center; gap: 10px; }
 
-        /* 우측 두 버튼(언어 · E-Book)이 공유하는 필 규격 — 높이를 고정해 두 버튼이 정확히 같은 높이가 된다 */
+        /* 우측 두 버튼(언어 → E-Book 순)이 공유하는 필 규격 — 높이를 고정해 두 버튼의 글자 기준선이 맞는다 */
         .nav-pill {
           box-sizing: border-box; height: 34px; padding: 0 16px;
           display: inline-flex; align-items: center; justify-content: center; gap: 6px;
@@ -35,13 +35,12 @@ export function SiteNav() {
           transition: background 0.15s, border-color 0.15s, color 0.15s;
         }
         .nav-pill:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-        /* 서브: 은은한 글라스 */
+        /* 서브(언어 선택): 테두리·배경 없는 텍스트 — 시선이 옆의 E-Book 솔리드 버튼으로 가게 무게를 뺀다 */
         .nav-pill--sub {
-          color: #fff; background: rgba(255,255,255,0.12);
-          border-color: rgba(255,255,255,0.38);
-          -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+          color: rgba(255,255,255,0.88); background: none; border-color: transparent;
+          padding: 0 8px;
         }
-        .nav-pill--sub:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.6); }
+        .nav-pill--sub:hover { color: #fff; }
         /* 메인 액션: 헤더 자체가 브랜드 레드라 레드 솔리드는 묻힌다 → 흰 솔리드 + 레드 글자로 반전 */
         .nav-pill--main {
           color: var(--brand-red, #C8102E); background: #fff; border-color: #fff;

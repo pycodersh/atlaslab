@@ -2,7 +2,6 @@ import { createClient } from '@supabase/supabase-js'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
-import { WelcomeTour } from '@/components/home/WelcomeTour'
 import { PostListRow } from '@/components/blog/PostListRow'
 import { SectionHeader } from '@/components/SectionHeader'
 import { readMinutes } from '@/lib/blog/readTime'
@@ -203,10 +202,11 @@ export default async function AtlasLabHome() {
           overflow: hidden;
         }
         /* 좌우 여백·최대 폭은 아래 본문 섹션(.wrap)과 같은 컨테이너를 쓴다 — 텍스트 폭만 따로 제한 */
-        .hero-inner { padding-top: 56px; padding-bottom: 60px; }
+        /* 버튼 없이 서브 카피로 끝나므로 위아래 여백을 같게 둬서 텍스트 블록이 가운데 앉게 한다 */
+        .hero-inner { padding-top: 56px; padding-bottom: 56px; }
         .hero-text { max-width: 720px; }
         @media (max-width: 700px) {
-          .hero-inner { padding-top: 34px; padding-bottom: 38px; }
+          .hero-inner { padding-top: 36px; padding-bottom: 36px; }
         }
         .hero-eyebrow {
           font-family: ${BODY};
@@ -229,7 +229,6 @@ export default async function AtlasLabHome() {
           color: #fff;
           margin-bottom: 16px;
         }
-        .hero-actions { margin-top: 26px; }
         .hero-desc {
           font-family: ${BODY};
           font-size: clamp(14px, 1.5vw, 16px);
@@ -250,7 +249,9 @@ export default async function AtlasLabHome() {
         /* 섹션 머리는 공통 디자인 시스템(components/SectionHeader + globals.css .section-header)을 쓴다 */
 
         /* ── Products section ──────────────────────────────────────── */
-        .products-wrap { padding-top: 36px; padding-bottom: 64px; }
+        /* 히어로 아래 여백(56px)과 비슷한 리듬으로 — 어두운 히어로에서 첫 구분선까지 숨 쉴 틈 */
+        .products-wrap { padding-top: 48px; padding-bottom: 64px; }
+        @media (max-width: 700px) { .products-wrap { padding-top: 32px; } }
         /* 카드 수에 따라 열이 자동으로 늘고 준다(2개면 반반, 3개 이상이면 3열…). 최소 폭 290px. */
         .products-grid {
           display: grid;
@@ -533,7 +534,6 @@ export default async function AtlasLabHome() {
             <p className="hero-desc">
               Your ultimate companion to master Korean, discover curated stays, and experience local culture effortlessly.
             </p>
-            <div className="hero-actions"><WelcomeTour /></div>
           </div>
         </div>
       </section>
