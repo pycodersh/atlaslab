@@ -6,37 +6,87 @@ import { CHECKOUT_URL } from '@/lib/kpatto/purchase'
 
 export const PRICE = '$19.99'
 export const LIST_PRICE = '$24.99'
-/** 무료 샘플(15패턴) — public/assets 에 파일을 두면 그대로 내려받아진다 */
-const SAMPLE_PDF = '/assets/k_patto_sample.pdf'
+/** 무료 미리보기 PDF — 표지·사용법 + 패턴 001~010 (exports/kpatto/pdf-build/make_free_sample.py 로 생성) */
+const SAMPLE_PDF = '/assets/K_Patto_Free_Sample_10.pdf'
+const SAMPLE_PATTERNS = 10
 
 const SERIF = '"Playfair Display", Georgia, serif'
 
 /**
  * 히어로와 결제 섹션이 똑같이 쓰는 버튼 한 쌍: 구매(솔리드 레드) + 무료 샘플(아웃라인).
+ * 같은 높이로 나란히(모바일은 세로로 화면 폭), 아래 한 줄로 무엇을 받는지 알린다.
+ * tone 은 바탕색만 따른다 — dark(검은 히어로)는 흰 아웃라인, light(오프화이트 본문)는 검은 아웃라인.
+ *
  * 결제 연동 전이라 구매 버튼은 사전 주문 모달을 연다.
  * NEXT_PUBLIC_PDF_CHECKOUT_URL 이 채워지면 모달 대신 그 결제 링크로 간다(코드 수정 없이).
  */
-export function PurchaseCtas() {
+export function PurchaseCtas({ tone }: { tone: 'dark' | 'light' }) {
   const [open, setOpen] = useState(false)
   const openerRef = useRef<HTMLButtonElement | null>(null)
-  const label = `Buy the Premium Package - ${PRICE}`
+
+  const buyInner = (
+    <>
+      {/* 공백 텍스트는 flex 에서 보이지 않지만 스크린 리더가 "Package $19.99" 로 띄어 읽게 한다 */}
+      <span>Buy the Premium Package</span>{' '}
+      <span className="pc-buy-sep" aria-hidden />{' '}
+      <span className="notranslate" translate="no">{PRICE}</span>
+    </>
+  )
 
   return (
-    <div className="pp-ctas">
-      {CHECKOUT_URL ? (
-        <a href={CHECKOUT_URL} className="pp-btn pp-buy" rel="noopener noreferrer">{label}</a>
-      ) : (
-        <button type="button" ref={openerRef} className="pp-btn pp-buy" aria-haspopup="dialog" onClick={() => setOpen(true)}>
-          {label}
-        </button>
-      )}
-      <a href={SAMPLE_PDF} download className="pp-sample">
-        <span aria-hidden>↓</span> Download Free Sample (15 Patterns)
-      </a>
+    <div className={`pc pc--${tone}`}>
+      <style>{CTA_CSS}</style>
+      <div className="pc-row">
+        {CHECKOUT_URL ? (
+          <a href={CHECKOUT_URL} className="pc-btn pc-buy" rel="noopener noreferrer">{buyInner}</a>
+        ) : (
+          <button type="button" ref={openerRef} className="pc-btn pc-buy" aria-haspopup="dialog" onClick={() => setOpen(true)}>
+            {buyInner}
+          </button>
+        )}
+        <a href={SAMPLE_PDF} download className="pc-btn pc-sample">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14" />
+          </svg>
+          Free Sample ({SAMPLE_PATTERNS} Patterns)
+        </a>
+      </div>
+      <p className="pc-note">Instant PDF download · Sample needs no sign-up · One-time payment, lifetime access</p>
       {open && <CheckoutModal onClose={() => { setOpen(false); openerRef.current?.focus() }} />}
     </div>
   )
 }
+
+const CTA_CSS = `
+  .pc-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .pc-btn {
+    box-sizing: border-box; height: 56px; padding: 0 28px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    font-family: "DM Sans", "Inter", system-ui, sans-serif; font-size: 15px; font-weight: 700;
+    letter-spacing: .01em; line-height: 1; text-decoration: none; white-space: nowrap;
+    border: 1px solid transparent; cursor: pointer;
+    transition: background .18s, border-color .18s, color .18s, transform .18s;
+  }
+  .pc-btn:active { transform: translateY(1px); }
+  .pc-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .pc-buy { background: var(--brand-red, #C8102E); border-color: var(--brand-red, #C8102E); color: #fff; }
+  .pc-buy:hover { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
+  /* 상품명과 가격 사이의 가는 세로선 — 대시보다 정돈돼 보인다 */
+  .pc-buy-sep { width: 1px; height: 16px; background: rgba(255,255,255,.45); }
+  .pc-sample { background: transparent; font-weight: 600; }
+  .pc--dark .pc-sample { color: #fff; border-color: rgba(255,255,255,.38); }
+  .pc--dark .pc-sample:hover { border-color: #fff; background: rgba(255,255,255,.07); }
+  .pc--light .pc-sample { color: #111; border-color: #111; }
+  .pc--light .pc-sample:hover { background: #111; color: #fff; }
+  .pc-note { margin: 14px 0 0; font-family: "DM Sans", "Inter", system-ui, sans-serif; font-size: 12.5px; letter-spacing: .01em; }
+  .pc--dark .pc-note { color: rgba(255,255,255,.48); }
+  .pc--light .pc-note { color: #8A8580; }
+  @media (max-width: 560px) {
+    .pc-row { flex-direction: column; }
+    .pc-btn { width: 100%; padding: 0 18px; }
+    .pc-note { text-align: center; }
+  }
+`
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 

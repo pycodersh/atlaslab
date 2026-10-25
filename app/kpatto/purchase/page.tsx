@@ -61,24 +61,12 @@ export default function KPattoPurchasePage() {
         .pp-h2 { font-family: ${SERIF}; font-size: 30px; line-height: 1.2; letter-spacing: -.015em; color: ${INK}; margin: 0 0 12px; font-weight: 700; }
         .pp-lead { font-size: 15.5px; line-height: 1.75; color: ${MUTED}; margin: 0; max-width: 620px; }
         .pp-section { padding: 64px 0; }
-        .pp-btn { display: inline-block; font-family: ${BODY}; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: ${RED}; color: #fff; padding: 12px 28px; text-decoration: none; transition: background .15s; }
-        .pp-btn:hover { background: var(--brand-red-dark, #A30D25); }
-        /* 구매 + 무료 샘플 버튼 한 쌍(PurchaseCtas) — 히어로·결제 섹션 공통.
-           세로로 쌓고 두 버튼 폭을 넓은 쪽(구매)에 맞춘다. 모바일은 둘 다 화면 폭. */
-        .pp-ctas { display: inline-flex; flex-direction: column; gap: 12px; }
-        .pp-buy { border: none; cursor: pointer; font-family: inherit; text-transform: none; font-size: 16px; letter-spacing: .01em; padding: 17px 34px; text-align: center; }
-        @media (max-width: 520px) {
-          .pp-ctas { display: flex; }
-          .pp-buy { padding: 16px 20px; }
-        }
-        /* 가격 앵커: 정상가는 작게·흐리게·취소선, 판매가는 크게·레드 */
-        .pp-price { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 0 0 24px; }
-        .pp-price-list { font-size: 18px; color: rgba(255,255,255,.42); text-decoration: line-through; text-decoration-thickness: 1.5px; }
-        .pp-price-now { font-family: ${SERIF}; font-size: 48px; font-weight: 700; line-height: 1; letter-spacing: -.02em; color: ${RED}; }
-        .pp-price-note { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
-        /* 무료 샘플 — 구매 버튼 아래의 아웃라인 서브 버튼(두 섹션 모두 검은 바탕 위) */
-        .pp-sample { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 22px; font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.4); transition: border-color .15s, background .15s; }
-        .pp-sample:hover { border-color: #fff; background: rgba(255,255,255,.06); }
+        /* 구매·샘플 버튼은 PurchaseCtas 가 스스로 스타일을 갖는다(히어로·결제 섹션 공통) */
+        /* 가격 앵커: 정상가는 작게·흐리게·취소선, 판매가는 크게·레드 (오프화이트 본문 위) */
+        .pp-price { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 28px 0 24px; }
+        .pp-price-list { font-size: 18px; color: #A8A39C; text-decoration: line-through; text-decoration-thickness: 1.5px; }
+        .pp-price-now { font-family: ${SERIF}; font-size: 52px; font-weight: 700; line-height: 1; letter-spacing: -.02em; color: ${RED}; }
+        .pp-price-note { font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${MUTED}; border: 1px solid ${RULE}; padding: 5px 9px; align-self: center; }
         /* 얇은 선으로 칸을 나누는 그리드 — 홈의 제품 카드와 같은 문법 */
         .pp-cells { display: grid; gap: 1px; background: ${RULE}; border: 1px solid ${RULE}; }
         .pp-cells-3 { grid-template-columns: repeat(3, 1fr); }
@@ -120,7 +108,7 @@ export default function KPattoPurchasePage() {
           <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 36px', maxWidth: 560 }}>
             The definitive guide for travelers and learners to speak natural Korean effortlessly.
           </p>
-          <PurchaseCtas />
+          <PurchaseCtas tone="dark" />
         </div>
       </section>
 
@@ -261,26 +249,20 @@ export default function KPattoPurchasePage() {
         </div>
       </section>
 
-      {/* ── Pricing & download — 푸터와 섞이지 않도록 오프화이트 바탕 위의 독립 패널 ── */}
-      <section id="checkout" style={{ padding: '8px 0 96px' }}>
+      {/* ── Pricing & download — 다른 섹션과 같은 문법(검은 윗선 + 라벨). 버튼은 히어로와 같은 컴포넌트 ── */}
+      <section id="checkout" className="pp-section" style={{ paddingTop: 8, paddingBottom: 96 }}>
         <div className="pp-wrap">
-          <div style={{ background: '#121212', padding: 'clamp(36px, 6vw, 60px) clamp(24px, 6vw, 56px)', borderTop: `3px solid ${RED}` }}>
-            <div style={{ maxWidth: 680 }}>
-              <p className="pp-kicker">Pricing &amp; Download</p>
-              <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.015em', color: '#fff', margin: '0 0 14px' }}>
-                Get the Premium PDF Package
-              </h2>
-              <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 0 28px' }}>
-                Includes 300 patterns, 900 audio examples, and dual editions. One-time payment, lifetime access.
-              </p>
-              <p className="pp-price notranslate" translate="no">
-                <span className="pp-price-list"><span className="sr-only">Regular price </span>{LIST_PRICE}</span>
-                <span className="pp-price-now"><span className="sr-only">Now </span>{PRICE}</span>
-                <span className="pp-price-note">Launch price</span>
-              </p>
-              <PurchaseCtas />
-            </div>
-          </div>
+          <div className="pp-sec-head"><p className="pp-label">Pricing &amp; Download</p></div>
+          <h2 className="pp-h2">Get the Premium PDF Package</h2>
+          <p className="pp-lead">
+            300 patterns, 900 audio examples, and both editions — Master for tablet &amp; print, Pocket for your phone.
+          </p>
+          <p className="pp-price notranslate" translate="no">
+            <span className="pp-price-list"><span className="sr-only">Regular price </span>{LIST_PRICE}</span>
+            <span className="pp-price-now"><span className="sr-only">Now </span>{PRICE}</span>
+            <span className="pp-price-note">Launch price</span>
+          </p>
+          <PurchaseCtas tone="light" />
         </div>
       </section>
 
