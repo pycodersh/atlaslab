@@ -10,6 +10,7 @@ import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 import { PdfPromoBanner } from '@/components/blog/PdfPromoBanner'
 import { groupKeyOf, topicSectionKey } from '@/lib/blog/sections'
 import { KlookBanner } from '@/components/blog/KlookBanner'
+import { SaveActions } from '@/components/SaveActions'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
 import { readMinutes } from '@/lib/blog/readTime'
@@ -286,9 +287,22 @@ export default async function AppBlogPostPage({
             <p className="art-desc">{post.description}</p>
           )}
 
-          <p className="art-meta">
-            {info.label} Team · {readMinutes(post.content)} min read
-          </p>
+          {/* 메타 줄 오른쪽 끝에 북마크·좋아요 — 버튼 여백만큼 위아래를 당겨 줄 높이를 지킨다 */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, margin: '-8px 0' }}>
+            <p className="art-meta">
+              {info.label} Team · {readMinutes(post.content)} min read
+            </p>
+            <SaveActions
+              tone="dark"
+              item={{
+                id: `guide:${locale}/${app}/${slug}`,
+                kind: 'guide',
+                title: post.title,
+                href: `/blog/${locale}/${app}/${slug}`,
+                desc: post.description ?? undefined,
+              }}
+            />
+          </div>
 
           {thumb && (
             <div className="art-thumb">

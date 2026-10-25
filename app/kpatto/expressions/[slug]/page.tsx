@@ -15,6 +15,7 @@ import {
 import { ExpressionBackButton } from '@/components/kpatto/ExpressionBackButton'
 import { KPattoAudioPlayer } from '@/components/kpatto/KPattoAudioPlayer'
 import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
+import { SaveActions } from '@/components/SaveActions'
 
 import { KP } from '@/lib/kpatto/theme'
 export const dynamicParams = false
@@ -330,13 +331,27 @@ export default async function ExpressionPage({ params }: PageProps) {
                 </span>
               </div>
             )}
-            <h1 style={{
-              fontSize: 38, fontWeight: 800, color: ACCENT,
-              letterSpacing: '-0.03em', margin: '0 0 4px',
-              fontFamily: 'var(--font-baloo, sans-serif)',
-            }}>
-              {e.korean}
-            </h1>
+            {/* 패턴 제목 오른쪽에 북마크·좋아요 */}
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
+              <h1 style={{
+                fontSize: 38, fontWeight: 800, color: ACCENT,
+                letterSpacing: '-0.03em', margin: '0 0 4px',
+                fontFamily: 'var(--font-baloo, sans-serif)',
+              }}>
+                {e.korean}
+              </h1>
+              <div style={{ flexShrink: 0, marginTop: 4, marginRight: -8 }}>
+                <SaveActions
+                  item={{
+                    id: `pattern:${slug}`,
+                    kind: 'pattern',
+                    title: `${e.korean} — ${e.english}`,
+                    href: `/kpatto/expressions/${slug}`,
+                    desc: e.description ?? undefined,
+                  }}
+                />
+              </div>
+            </div>
             {e.romaja && (
               <p style={{ fontSize: 13, color: T2, fontWeight: 500, margin: '0 0 8px', letterSpacing: '0.01em' }}>
                 {e.romaja}
