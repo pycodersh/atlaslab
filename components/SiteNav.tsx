@@ -5,7 +5,7 @@ import { PURCHASE_PATH } from '@/lib/kpatto/purchase'
 /**
  * Site-wide navigation bar — 극도로 미니멀하게:
  *   좌측  로고(ATLAS LAB)
- *   우측  언어 선택 + "Get the E-Book"(PDF 구매 페이지) 버튼
+ *   우측  언어 선택 + "📖 E-Book"(PDF 구매 페이지) 버튼
  * 카테고리·앱 링크는 홈의 제품 카드와 글 목록 안에서 보여 주므로 상단바에는 두지 않는다.
  * Red background (#C8102E via --brand-red CSS var).
  * Used in app/blog/layout.tsx, essential pages, app/page.tsx and the purchase page.
@@ -69,7 +69,9 @@ export function SiteNav() {
 
         <div className="site-nav-right">
           <LanguageSelector />
-          <Link href={PURCHASE_PATH} className="nav-pill nav-pill--main">Get the E-Book</Link>
+          <Link href={PURCHASE_PATH} className="nav-pill nav-pill--main" aria-label="Get the E-Book">
+            <span aria-hidden>📖</span> E-Book
+          </Link>
         </div>
       </nav>
     </>

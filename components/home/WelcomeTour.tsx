@@ -10,36 +10,36 @@ const CREAM = '#F4EDE0'
 const CREAM_LINE = '#E3D6C4'
 const RED = '#C8102E'
 
-// 이 플랫폼에서 얻을 수 있는 것 3가지 — 각 섹션 끝의 화살표 링크가 해당 콘텐츠로 바로 간다.
+// 기능 설명이 아니라 "무엇이 쉬워지는가"를 말하는 가치 중심 카피 — 각 섹션 끝의 화살표 링크가 해당 콘텐츠로 바로 간다.
 const SECTIONS = [
   {
     no: '01',
-    title: 'Learn Korean',
-    product: 'K-Patto',
-    story: 'Follow a 100-episode webtoon and pick up 300+ sentence patterns Koreans actually use — each one with native audio, so you can hear it before you say it.',
+    title: 'Speak Korean for Real Life',
+    product: 'K-PATTO',
+    story: "Stop memorizing textbook grammar you'll never use. Learn 300+ survival phrases through our interactive webtoon series. With native audio and real-life scenarios, you'll communicate with confidence from day one.",
     href: '/kpatto',
     link: 'Start learning with K-Patto',
   },
   {
     no: '02',
-    title: 'Cook Korean Food',
-    product: 'K-Pantry',
-    story: "Tell it what's already in your fridge and get authentic Korean recipes that fit — no special shopping trip required.",
+    title: 'Korean Cooking, Zero Hassle',
+    product: 'K-PANTRY',
+    story: "Craving Korean food but missing the right ingredients? Just tell us what’s already in your fridge. We’ll generate authentic, easy-to-follow Korean recipes tailored to your local pantry.",
     href: '/kpantry/en',
     link: 'Find a recipe in K-Pantry',
   },
   {
     no: '03',
-    title: 'Travel & Local Guides',
-    product: 'Explore Korea',
-    story: 'Curated stays, destinations and hot spots, written like advice from a friend who lives here — so your trip feels local from day one.',
+    title: 'Travel Beyond the Tourist Traps',
+    product: 'EXPLORE KOREA',
+    story: 'Skip the generic internet searches. Discover hand-picked luxury resorts, hidden local hotspots, and essential cultural etiquette. It’s like having a local best friend guiding you safely.',
     href: '/blog?tab=explore-korea',
     link: 'Read the travel guides',
   },
 ] as const
 
 /**
- * 홈 히어로의 "How it works" 버튼 + 사이트 소개 모달("Your Guide to Atlas Lab").
+ * 홈 히어로의 "Why Atlas Lab?" 버튼 + 사이트 소개 모달("Unlock Your Ultimate Korean Experience").
  * 배경 클릭 · X · Esc 로 닫히고, 열려 있는 동안 배경 스크롤을 잠근다.
  */
 export function WelcomeTour() {
@@ -128,7 +128,7 @@ export function WelcomeTour() {
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
       >
-        How it works
+        Why Atlas Lab?
       </button>
 
       {open && (
@@ -146,10 +146,10 @@ export function WelcomeTour() {
               Atlas Lab
             </p>
             <h2 id="wt-title" style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.015em', margin: '0 0 14px' }}>
-              Your Guide to Atlas Lab
+              Unlock Your Ultimate Korean Experience
             </h2>
             <p style={{ fontFamily: BODY, fontSize: 15, lineHeight: 1.7, color: '#4A4540', margin: '0 0 24px' }}>
-              Everything you need to speak, eat and travel like a local in Korea. Here&rsquo;s what you&rsquo;ll find.
+              Traveling, living, or cooking Korean shouldn&rsquo;t feel like a maze. We bridge the gap between tourists and locals. Here is how <span className="notranslate" translate="no">Atlas Lab</span> makes your journey effortless:
             </p>
 
             <div>

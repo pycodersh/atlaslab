@@ -4,6 +4,7 @@ import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { WelcomeTour } from '@/components/home/WelcomeTour'
 import { PostListRow } from '@/components/blog/PostListRow'
+import { SectionHeader } from '@/components/SectionHeader'
 import { readMinutes } from '@/lib/blog/readTime'
 import {
   BLOG_GROUPS,
@@ -18,7 +19,7 @@ const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 
 /* ── Product data ─────────────────────────────────────────────────────── */
-/** 홈 'Our Products' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
+/** 홈 'Our Resources' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
  *  앞으로 K-PATTO PDF 패키지 같은 디지털 상품도 이 배열에 항목만 추가하면 그리드에 자연스럽게 합류한다
  *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가). */
 type Product = { name: string; audience: string; desc: string; tag: 'Live' | 'Soon'; href: string | null }
@@ -185,27 +186,8 @@ export default async function AtlasLabHome() {
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
 
-  // 주제 탭에 들어가는 글만(= patto 제외). 쿼리가 최신순이라 앞이 최신이다.
-  const topicPosts = (allPosts ?? []).filter(p => groupKeyOf(p.app, p.category))
-
-  // 상단 탭 바 — 전체 + 주제별 건수. 분류는 sections.ts 한 곳만 본다.
-  const tabCounts = BLOG_GROUPS.map(s => ({
-    key: s.key as string,
-    label: s.title as string,
-    count: topicPosts.filter(p => groupKeyOf(p.app, p.category) === s.key).length,
-  }))
-
-  // 피처드 — 가장 최신 1편. 아래 섹션 그리드에서는 빼서 같은 글이 두 번 나오지 않게 한다.
-  const featuredRow = topicPosts[0]
-  const featured = featuredRow && {
-    ...featuredRow,
-    thumb: thumbnailForPost(featuredRow.slug, featuredRow.content, featuredRow.thumbnail),
-    readMin: readMinutes(featuredRow.content),
-  }
-
-  const blogSections = groupIntoSections(
-    (allPosts ?? []).filter(p => p.slug !== featuredRow?.slug),
-  )
+  // 카테고리(Phrases → Basics → Explore Korea → Food → Life)를 BLOG_GROUPS 순서대로 세로로 바로 그린다.
+  const blogSections = groupIntoSections(allPosts ?? [])
 
   return (
     <>
@@ -265,27 +247,7 @@ export default async function AtlasLabHome() {
           .wrap { padding-left: 20px; padding-right: 20px; }
         }
 
-        /* ── Section header (double-border editorial) ──────────────── */
-        .sec-head {
-          display: flex; align-items: baseline;
-          justify-content: space-between;
-          border-top: 2.5px solid var(--ink, #111);
-          padding-top: 11px;
-          margin-bottom: 36px;
-        }
-        .sec-label {
-          font-family: ${BODY};
-          font-size: 10px; font-weight: 700;
-          letter-spacing: 0.16em; text-transform: uppercase;
-          color: var(--ink-muted, #6B6B6B);
-        }
-        .sec-more {
-          font-family: ${BODY};
-          font-size: 12px; font-weight: 600;
-          color: var(--brand-red, #C8102E);
-          text-decoration: none;
-        }
-        .sec-more:hover { text-decoration: underline; }
+        /* 섹션 머리는 공통 디자인 시스템(components/SectionHeader + globals.css .section-header)을 쓴다 */
 
         /* ── Products section ──────────────────────────────────────── */
         .products-wrap { padding-top: 36px; padding-bottom: 64px; }
@@ -455,31 +417,8 @@ export default async function AtlasLabHome() {
           background: #F5F5F3;
           padding: 60px 0 64px;
         }
-        /* 섹션이 4개라 구획이 드러나도록 사이 여백을 넉넉히 준다 */
-        .blog-sec + .blog-sec { margin-top: 72px; }
-        /* 구분선은 브랜드 레드 2px, 선과 제목 사이 14px.
-           헤더 바로 아래에 한 줄 설명이 붙으므로 아래 간격은 줄인다.
-           이 블록 안에서만 덮어써서 Our Apps / Why Atlas Lab 은 그대로 둔다. */
-        .blog-sec .sec-head {
-          border-top: 2px solid var(--brand-red, #C8102E);
-          padding-top: 14px;
-          margin-bottom: 10px;
-        }
-        /* 섹션 제목: 글 제목(16.5px) 바로 위 단계로만 두고 대문자는 쓰지 않는다.
-           Our Apps / Why Atlas Lab 라벨은 그대로. */
-        .blog-sec .sec-label {
-          font-family: ${SERIF};
-          font-size: 19px; font-weight: 700;
-          color: #111111;
-          text-transform: none;
-          letter-spacing: normal;
-        }
-        .bsec-desc {
-          font-family: ${BODY};
-          font-size: 13.5px; color: var(--ink-muted, #6B6B6B);
-          line-height: 1.6;
-          margin: 0 0 20px;
-        }
+        /* 카테고리가 세로로 이어지므로 구획이 드러나도록 사이 여백을 넉넉히 준다 */
+        .blog-sec + .blog-sec { margin-top: 64px; }
         /* 카드 사이 1px 구분선 — 컨테이너 배경이 아니라 카드 테두리로 그린다.
            행이 덜 찼을 때(3열에 카드 2장 등) 빈 칸이 회색 블록으로 보이지 않는다.
            위·왼쪽은 컨테이너가, 오른쪽·아래는 각 카드가 맡아 1px 로 맞물린다. */
@@ -530,73 +469,6 @@ export default async function AtlasLabHome() {
           font-family: ${BODY};
           font-size: 11px; color: #9A9A9A;
           margin-top: 12px; letter-spacing: 0.01em;
-        }
-
-        /* ── 카테고리 탭 바 (건수 표시) ───────────────────────────── */
-        .btabs {
-          display: flex; align-items: center; gap: 26px;
-          border-bottom: 1px solid var(--rule, #E5E1DC);
-          padding-bottom: 12px; margin-bottom: 28px;
-          overflow-x: auto; -webkit-overflow-scrolling: touch;
-        }
-        .btab {
-          font-family: ${BODY};
-          font-size: 13.5px; font-weight: 500;
-          color: #6B6B6B; text-decoration: none;
-          white-space: nowrap; flex-shrink: 0;
-          transition: color 0.15s;
-        }
-        .btab:hover { color: var(--ink, #111); }
-        .btab-n {
-          font-size: 11px; color: #A8A5A0;
-          margin-left: 2px; vertical-align: 1px;
-        }
-
-        /* ── 피처드 히어로 — 좌 16:9 썸네일 / 우 본문 ───────────────── */
-        .feat {
-          display: grid;
-          grid-template-columns: 1.05fr 1fr;
-          gap: 28px; align-items: center;
-          text-decoration: none; color: inherit;
-          padding-bottom: 36px; margin-bottom: 40px;
-          border-bottom: 1px solid var(--rule, #E5E1DC);
-        }
-        .feat-media { overflow: hidden; }
-        /* 카드용 3:2 대신 와이드 16:9 로 — 공용 썸네일 컴포넌트를 그대로 쓴다 */
-        .feat-media .blog-thumb { aspect-ratio: 16 / 9; }
-        .feat-cat {
-          display: inline-block;
-          font-family: ${BODY};
-          font-size: 9.5px; font-weight: 700;
-          letter-spacing: 0.14em; text-transform: uppercase;
-          color: var(--brand-red, #C8102E); margin-bottom: 12px;
-        }
-        .feat-title {
-          font-family: ${SERIF};
-          font-size: 27px; font-weight: 700;
-          color: var(--ink, #111); line-height: 1.24;
-          letter-spacing: -0.015em; margin: 0 0 12px;
-        }
-        .feat:hover .feat-title { color: var(--brand-red, #C8102E); }
-        .feat-desc {
-          font-family: ${BODY};
-          font-size: 14px; color: var(--ink-muted, #6B6B6B);
-          line-height: 1.7; margin: 0 0 14px;
-          display: -webkit-box; -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical; overflow: hidden;
-        }
-        .feat-meta {
-          font-family: ${BODY};
-          font-size: 11.5px; color: #9A9A9A; margin: 0;
-        }
-        @media (max-width: 767px) {
-          .feat {
-            grid-template-columns: 1fr; gap: 16px;
-            padding-bottom: 24px; margin-bottom: 28px;
-          }
-          .feat-title { font-size: 21px; }
-          .feat-desc { font-size: 13.5px; -webkit-line-clamp: 2; }
-          .btabs { gap: 18px; margin-bottom: 22px; }
         }
 
         /* 768px 미만 — 카드 격자를 가로형 콤팩트 리스트로 눕힌다.
@@ -669,9 +541,7 @@ export default async function AtlasLabHome() {
       {/* ── Products ── */}
       <div id="products">
         <div className="wrap products-wrap">
-          <div className="sec-head">
-            <span className="sec-label">Our Products</span>
-          </div>
+          <SectionHeader label="Our Resources" />
           <div className="products-grid">
             {PRODUCTS.map(p => {
               const badge = (
@@ -711,54 +581,20 @@ export default async function AtlasLabHome() {
         </div>
       </div>
 
-      {/* ── From the Blog — 탭 바 + 피처드 + 주제별 섹션 ── */}
+      {/* ── 주제별 섹션 — 카테고리를 세로로 차례대로, 머리는 공통 SectionHeader ── */}
       {blogSections.some(s => s.posts.length >= minPostsToShow(s.key)) && (
         <div className="blog-outer">
           <div className="wrap">
-
-            {/* 카테고리 탭 — 목록 페이지로 넘긴다(새 라우트를 만들지 않는다) */}
-            <nav className="btabs" aria-label="Article categories">
-              <a href="/blog" className="btab">
-                All <span className="btab-n">{topicPosts.length}</span>
-              </a>
-              {tabCounts.map(t => (
-                <a key={t.key} href={`/blog?tab=${t.key}`} className="btab">
-                  {t.label} <span className="btab-n">{t.count}</span>
-                </a>
-              ))}
-            </nav>
-
-            {/* 피처드 — 가장 최신 글 하나를 좌우 2분할로 */}
-            {featured && (
-              <a
-                href={`/blog/${featured.locale}/${featured.app}/${featured.slug}`}
-                className="feat"
-              >
-                <div className="feat-media">
-                  <BlogThumb thumb={featured.thumb} alt={featured.title} />
-                </div>
-                <div className="feat-body">
-                  {featured.category && <span className="feat-cat">{featured.category}</span>}
-                  <h3 className="feat-title">{featured.title}</h3>
-                  {featured.description && <p className="feat-desc">{featured.description}</p>}
-                  <p className="feat-meta">
-                    {featured.readMin} min read
-                  </p>
-                </div>
-              </a>
-            )}
-
             {blogSections.map(section =>
               // 카드가 적은 섹션은 비어 보이므로 홈에서는 감춘다(목록 탭에는 남는다). 최소 글 수는 섹션마다 다를 수 있다.
               section.posts.length < minPostsToShow(section.key) ? null : (
-                <div key={section.key} className="blog-sec">
-                  <div className="sec-head">
-                    <span className="sec-label">{section.title}</span>
-                    <a href={`/blog?tab=${section.key}`} className="sec-more">
-                      View all {section.total} →
-                    </a>
-                  </div>
-                  <p className="bsec-desc">{section.desc}</p>
+                <section key={section.key} className="blog-sec" aria-labelledby={`sec-${section.key}`}>
+                  <SectionHeader
+                    id={`sec-${section.key}`}
+                    label={section.title}
+                    more={{ href: `/blog?tab=${section.key}`, text: `View all ${section.total} →` }}
+                    desc={section.desc}
+                  />
                   {section.layout === 'list' ? (
                     <div className="plist">
                       {section.posts.map(post => (
@@ -793,7 +629,7 @@ export default async function AtlasLabHome() {
                       ))}
                     </div>
                   )}
-                </div>
+                </section>
               ),
             )}
           </div>
@@ -802,9 +638,7 @@ export default async function AtlasLabHome() {
 
       {/* ── Why Atlas Lab ── */}
       <div className="wrap why-wrap">
-        <div className="sec-head">
-          <span className="sec-label">Why Atlas Lab</span>
-        </div>
+        <SectionHeader label="Why Atlas Lab" />
         <div className="why-grid">
           {WHY.map(item => (
             <div key={item.title} className="why-item">
