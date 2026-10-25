@@ -8,7 +8,8 @@ import type { Metadata } from 'next'
 import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 import { PdfPromoBanner } from '@/components/blog/PdfPromoBanner'
-import { topicSectionKey } from '@/lib/blog/sections'
+import { groupKeyOf, topicSectionKey } from '@/lib/blog/sections'
+import { KlookBanner } from '@/components/blog/KlookBanner'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
 import { readMinutes } from '@/lib/blog/readTime'
@@ -309,6 +310,9 @@ export default async function AppBlogPostPage({
         </article>
 
         <div className="art-wrap" style={{ paddingBottom: 8 }}>
+          {/* Explore Korea(hotels·places) 글에만 — 본문이 끝나는 바로 아래 Klook 배너 */}
+          {groupKeyOf(app, post.category) === 'explore-korea' && <KlookBanner />}
+
           {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위 */}
           <ArticleAppBanner app={app} category={post.category} locale={locale} />
 
