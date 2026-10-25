@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SampleAudio, type AudioSample } from './SampleAudio'
-import { MASTER_URL, POCKET_URL } from '@/lib/kpatto/purchase'
+import { BuyButton, LIST_PRICE, PRICE } from './BuyButton'
+
+/** 무료 샘플(15패턴) — public/assets 에 파일을 두면 그대로 내려받아진다 */
+const SAMPLE_PDF = '/assets/k_patto_sample.pdf'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
@@ -63,9 +66,18 @@ export default function KPattoPurchasePage() {
         .pp-section { padding: 64px 0; }
         .pp-btn { display: inline-block; font-family: ${BODY}; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; background: ${RED}; color: #fff; padding: 12px 28px; text-decoration: none; transition: background .15s; }
         .pp-btn:hover { background: var(--brand-red-dark, #A30D25); }
-        .pp-dl { border: none; cursor: pointer; font-family: inherit; text-transform: none; font-size: 14px; letter-spacing: .01em; padding: 14px 26px; }
-        .pp-dl-off { opacity: .72; cursor: not-allowed; }
-        .pp-dl-off:hover { background: ${RED}; }
+        /* 단일 구매 버튼 — 히어로·결제 섹션 공통, 크고 꽉 찬 레드 */
+        .pp-buy { border: none; cursor: pointer; font-family: inherit; text-transform: none; font-size: 16px; letter-spacing: .01em; padding: 17px 34px; }
+        @media (max-width: 520px) { .pp-buy { display: block; width: 100%; text-align: center; padding: 16px 20px; } }
+        /* 가격 앵커: 정상가는 작게·흐리게·취소선, 판매가는 크게·레드 */
+        .pp-price { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 0 0 24px; }
+        .pp-price-list { font-size: 18px; color: rgba(255,255,255,.42); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+        .pp-price-now { font-family: ${SERIF}; font-size: 48px; font-weight: 700; line-height: 1; letter-spacing: -.02em; color: ${RED}; }
+        .pp-price-note { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+        /* 무료 샘플 — 구매 버튼 아래의 아웃라인 서브 버튼 */
+        .pp-sample { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; padding: 12px 22px; font-size: 14px; font-weight: 600; color: #fff; text-decoration: none; border: 1px solid rgba(255,255,255,.4); transition: border-color .15s, background .15s; }
+        .pp-sample:hover { border-color: #fff; background: rgba(255,255,255,.06); }
+        @media (max-width: 520px) { .pp-sample { display: flex; justify-content: center; } }
         /* 얇은 선으로 칸을 나누는 그리드 — 홈의 제품 카드와 같은 문법 */
         .pp-cells { display: grid; gap: 1px; background: ${RULE}; border: 1px solid ${RULE}; }
         .pp-cells-3 { grid-template-columns: repeat(3, 1fr); }
@@ -107,7 +119,7 @@ export default function KPattoPurchasePage() {
           <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.66)', margin: '0 0 36px', maxWidth: 560 }}>
             The definitive guide for travelers and learners to speak natural Korean effortlessly.
           </p>
-          <a href="#checkout" className="pp-btn">Get the Premium PDF Package →</a>
+          <BuyButton />
         </div>
       </section>
 
@@ -257,24 +269,20 @@ export default function KPattoPurchasePage() {
               <h2 style={{ fontFamily: SERIF, fontSize: 30, fontWeight: 700, lineHeight: 1.2, letterSpacing: '-.015em', color: '#fff', margin: '0 0 14px' }}>
                 Get the Premium PDF Package
               </h2>
-              <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 0 30px' }}>
+              <p style={{ fontSize: 16, lineHeight: 1.7, color: 'rgba(255,255,255,.7)', margin: '0 0 28px' }}>
                 Includes 300 patterns, 900 audio examples, and dual editions. One-time payment, lifetime access.
               </p>
-              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                {[
-                  { label: 'Download for Mobile (Pocket Edition)', href: POCKET_URL },
-                  { label: 'Download for PC & Tablet (Master Edition)', href: MASTER_URL },
-                ].map(b => (
-                  b.href ? (
-                    <a key={b.label} href={b.href} className="pp-btn pp-dl" rel="noopener noreferrer">{b.label}</a>
-                  ) : (
-                    <button key={b.label} type="button" disabled aria-disabled="true" className="pp-btn pp-dl pp-dl-off">{b.label}</button>
-                  )
-                ))}
+              <p className="pp-price">
+                <span className="pp-price-list"><span className="sr-only">Regular price </span>{LIST_PRICE}</span>
+                <span className="pp-price-now"><span className="sr-only">Now </span>{PRICE}</span>
+                <span className="pp-price-note">Launch price</span>
+              </p>
+              <BuyButton />
+              <div>
+                <a href={SAMPLE_PDF} download className="pp-sample">
+                  <span aria-hidden>↓</span> Download Free Sample (15 Patterns)
+                </a>
               </div>
-              {!(POCKET_URL && MASTER_URL) && (
-                <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,.45)', margin: '16px 0 0' }}>Download links go live at launch.</p>
-              )}
             </div>
           </div>
         </div>
