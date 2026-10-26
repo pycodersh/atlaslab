@@ -6,87 +6,62 @@ import { CHECKOUT_URL } from '@/lib/kpatto/purchase'
 
 export const PRICE = '$19.99'
 export const LIST_PRICE = '$24.99'
-/** 무료 미리보기 PDF — 표지·사용법 + 패턴 001~010 (exports/kpatto/pdf-build/make_free_sample.py 로 생성) */
-const SAMPLE_PDF = '/assets/K_Patto_Free_Sample_10.pdf'
-const SAMPLE_PATTERNS = 10
+
+/** 무료 미리보기 PDF — 표지·사용법 + 패턴 001~010 (exports/kpatto/pdf-build/make_free_sample.py 로 생성).
+ *  NEXT_PUBLIC_KPATTO_FREE_SAMPLE_URL 로 바꿀 수 있고, 비어 있으면 커밋된 파일을 쓴다. */
+const SAMPLE_URL = process.env.NEXT_PUBLIC_KPATTO_FREE_SAMPLE_URL || '/assets/K_Patto_Free_Sample_10.pdf'
 
 const SERIF = '"Playfair Display", Georgia, serif'
 
+/* 두 버튼이 공유하는 규격 — 높이 52px · 최소 폭 240px · 모바일은 화면 폭 */
+const BTN = 'box-border w-full sm:w-auto min-w-[240px] h-[52px] px-6 rounded-md font-medium text-sm sm:text-base ' +
+  'flex items-center justify-center text-center whitespace-nowrap no-underline cursor-pointer transition-colors ' +
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
+const PRIMARY = 'bg-[var(--brand-red,#C8102E)] hover:bg-[var(--brand-red-dark,#A30D25)] text-white shadow-sm'
+/* Tailwind 의 dark: 는 방문자 OS 테마를 따른다 — 히어로는 늘 검고 결제 섹션은 늘 밝으므로
+   바탕에 맞춘 tone 으로 색을 고른다(OS 다크 모드에서 밝은 섹션의 글자가 흰색이 되는 일을 막는다). */
+const SECONDARY = {
+  dark: 'bg-transparent border border-white/40 hover:border-white hover:bg-white/5 text-white',
+  light: 'bg-transparent border border-neutral-400 hover:border-neutral-900 text-neutral-900',
+} as const
+const NOTE = { dark: 'text-white/45', light: 'text-[#8A8580]' } as const
+
 /**
- * 히어로와 결제 섹션이 똑같이 쓰는 버튼 한 쌍: 구매(솔리드 레드) + 무료 샘플(아웃라인).
- * 같은 높이로 나란히(모바일은 세로로 화면 폭), 아래 한 줄로 무엇을 받는지 알린다.
- * tone 은 바탕색만 따른다 — dark(검은 히어로)는 흰 아웃라인, light(오프화이트 본문)는 검은 아웃라인.
+ * 히어로와 결제 섹션이 똑같이 쓰는 버튼 한 쌍: 유료 전체 패키지(솔리드 레드) + 무료 샘플(아웃라인).
  *
- * 결제 연동 전이라 구매 버튼은 사전 주문 모달을 연다.
- * NEXT_PUBLIC_PDF_CHECKOUT_URL 이 채워지면 모달 대신 그 결제 링크로 간다(코드 수정 없이).
+ * 결제 링크는 NEXT_PUBLIC_KPATTO_CHECKOUT_URL(옛 이름 NEXT_PUBLIC_PDF_CHECKOUT_URL)에서 온다.
+ * 채워지면 새 창으로 결제 페이지를 열고, 비어 있으면 '#' 대신 사전 주문 모달을 연다 —
+ * 아무 일도 안 일어나는 버튼을 두지 않고 출시 알림 이메일을 받는다.
  */
 export function PurchaseCtas({ tone }: { tone: 'dark' | 'light' }) {
   const [open, setOpen] = useState(false)
   const openerRef = useRef<HTMLButtonElement | null>(null)
 
-  const buyInner = (
-    <>
-      {/* 공백 텍스트는 flex 에서 보이지 않지만 스크린 리더가 "Package $19.99" 로 띄어 읽게 한다 */}
-      <span>Buy the Premium Package</span>{' '}
-      <span className="pc-buy-sep" aria-hidden />{' '}
-      <span className="notranslate" translate="no">{PRICE}</span>
-    </>
-  )
+  // 한 span 으로 감싼다 — flex 버튼 안에서 텍스트와 가격 span 이 따로 놓이면 사이 공백이 사라진다
+  const label = <span>Get Full Package — <span className="notranslate" translate="no">{PRICE}</span></span>
 
   return (
-    <div className={`pc pc--${tone}`}>
-      <style>{CTA_CSS}</style>
-      <div className="pc-row">
+    <div>
+      <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
         {CHECKOUT_URL ? (
-          <a href={CHECKOUT_URL} className="pc-btn pc-buy" rel="noopener noreferrer">{buyInner}</a>
+          <a href={CHECKOUT_URL} target="_blank" rel="noopener noreferrer" className={`${BTN} ${PRIMARY}`}>{label}</a>
         ) : (
-          <button type="button" ref={openerRef} className="pc-btn pc-buy" aria-haspopup="dialog" onClick={() => setOpen(true)}>
-            {buyInner}
+          <button type="button" ref={openerRef} aria-haspopup="dialog" onClick={() => setOpen(true)} className={`${BTN} ${PRIMARY}`}>
+            {label}
           </button>
         )}
-        <a href={SAMPLE_PDF} download className="pc-btn pc-sample">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M12 4v11M7 10.5l5 5 5-5M5 19.5h14" />
-          </svg>
-          Free Sample ({SAMPLE_PATTERNS} Patterns)
+        <a href={SAMPLE_URL} download className={`${BTN} ${SECONDARY[tone]}`}>
+          Download Free Sample
         </a>
       </div>
-      <p className="pc-note">Instant PDF download · Sample needs no sign-up · One-time payment, lifetime access</p>
+      {/* 괄호 설명은 버튼에서 빼서 서브텍스트로 */}
+      <p className={`mt-3 text-xs text-center sm:text-left ${NOTE[tone]}`}>
+        Free sample: patterns 001–010 as a PDF, no sign-up · Full package: one-time payment, lifetime access
+      </p>
       {open && <CheckoutModal onClose={() => { setOpen(false); openerRef.current?.focus() }} />}
     </div>
   )
 }
-
-const CTA_CSS = `
-  .pc-row { display: flex; flex-wrap: wrap; gap: 12px; }
-  .pc-btn {
-    box-sizing: border-box; height: 56px; padding: 0 28px;
-    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-    font-family: "DM Sans", "Inter", system-ui, sans-serif; font-size: 15px; font-weight: 700;
-    letter-spacing: .01em; line-height: 1; text-decoration: none; white-space: nowrap;
-    border: 1px solid transparent; cursor: pointer;
-    transition: background .18s, border-color .18s, color .18s, transform .18s;
-  }
-  .pc-btn:active { transform: translateY(1px); }
-  .pc-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-  .pc-buy { background: var(--brand-red, #C8102E); border-color: var(--brand-red, #C8102E); color: #fff; }
-  .pc-buy:hover { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
-  /* 상품명과 가격 사이의 가는 세로선 — 대시보다 정돈돼 보인다 */
-  .pc-buy-sep { width: 1px; height: 16px; background: rgba(255,255,255,.45); }
-  .pc-sample { background: transparent; font-weight: 600; }
-  .pc--dark .pc-sample { color: #fff; border-color: rgba(255,255,255,.38); }
-  .pc--dark .pc-sample:hover { border-color: #fff; background: rgba(255,255,255,.07); }
-  .pc--light .pc-sample { color: #111; border-color: #111; }
-  .pc--light .pc-sample:hover { background: #111; color: #fff; }
-  .pc-note { margin: 14px 0 0; font-family: "DM Sans", "Inter", system-ui, sans-serif; font-size: 12.5px; letter-spacing: .01em; }
-  .pc--dark .pc-note { color: rgba(255,255,255,.48); }
-  .pc--light .pc-note { color: #8A8580; }
-  @media (max-width: 560px) {
-    .pc-row { flex-direction: column; }
-    .pc-btn { width: 100%; padding: 0 18px; }
-    .pc-note { text-align: center; }
-  }
-`
 
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
