@@ -8,7 +8,7 @@ const F = '"DM Sans","Inter",system-ui,sans-serif'
  * Used in app/blog/layout.tsx and individual essential pages.
  * The home page (app/page.tsx) renders this component directly.
  *
- * Columns per spec: Products / Resources (Articles only) / Company
+ * Columns per spec: Products / Resources (Articles · My Bookmarks) / Company
  * Omitted: Videos, Guides, Newsletter, Help Center, Careers, social icons
  * (no confirmed operating social accounts to link)
  */
@@ -56,6 +56,7 @@ export function SiteFooter() {
           <div>
             <p style={colTitle}>Resources</p>
             <Link href="/blog" style={link}>Articles</Link>
+            <Link href="/bookmarks" style={link}>My Bookmarks</Link>
           </div>
           <div>
             <p style={colTitle}>Company</p>

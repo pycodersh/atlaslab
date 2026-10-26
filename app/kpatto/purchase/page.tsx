@@ -52,6 +52,10 @@ export default function KPattoPurchasePage() {
     <div className="pp-root" style={{ background: '#F9F8F6', color: INK, fontFamily: BODY, minHeight: '100vh' }}>
       <style>{`
         .pp-root *, .pp-root *::before, .pp-root *::after { box-sizing: border-box; }
+        /* 헤더 PDF 링크(#checkout)로 올 때 부드럽게, 붙어 있는 헤더(56px)에 가리지 않게 */
+        html { scroll-behavior: smooth; }
+        #checkout { scroll-margin-top: 72px; }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
         .pp-wrap { max-width: 1060px; margin: 0 auto; padding: 0 40px; }
         .pp-kicker { font-family: ${BODY}; font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.5); margin: 0 0 22px; display: flex; align-items: center; gap: 10px; }
         .pp-kicker::before { content: ''; width: 24px; height: 1px; background: rgba(255,255,255,.3); }
