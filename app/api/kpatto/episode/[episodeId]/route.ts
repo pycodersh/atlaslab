@@ -3,6 +3,7 @@ import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { fetchWebtoonEpisode } from '@/lib/kpatto/fetch-episode'
+import { hasKPattoAccess } from '@/lib/kpatto/entitlement'
 
 export async function GET(
   _req: NextRequest,
@@ -26,13 +27,8 @@ export async function GET(
       return NextResponse.json({ error: 'pro_required' }, { status: 403 })
     }
 
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('kpatto_pro')
-      .eq('id', user.id)
-      .single()
-
-    if (!profile?.kpatto_pro) {
+    // Paddle 구독 또는 Gumroad 평생 이용권
+    if (!(await hasKPattoAccess(supabase, user.id))) {
       return NextResponse.json({ error: 'pro_required' }, { status: 403 })
     }
   }

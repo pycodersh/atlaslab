@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
+import { hasKPattoAccess } from '@/lib/kpatto/entitlement'
 import { KPattoStoryClient } from '@/components/kpatto/KPattoStoryClient'
 
 interface PageProps {
@@ -54,13 +55,8 @@ export default async function KPattoStoryPage({ params }: PageProps) {
 
     if (!user) notFound()
 
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('kpatto_pro')
-      .eq('id', user.id)
-      .single()
-
-    if (!profile?.kpatto_pro) notFound()
+    // Paddle 구독 또는 Gumroad 평생 이용권
+    if (!(await hasKPattoAccess(supabase, user.id))) notFound()
   }
 
   return <KPattoStoryClient id={id} />

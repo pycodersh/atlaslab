@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Sparkles, Check } from 'lucide-react'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { useAuth } from '@/contexts/AuthContext'
@@ -36,6 +37,37 @@ function fmtDate(iso: string | null | undefined): string | null {
 const SUPPORT_EMAIL = 'contact@atlaslabstudios.com'
 
 // ── Pro 상태 화면 ─────────────────────────────────────────────────────────────
+/** Gumroad 평생 이용권(WebApp Pass · Bundle) — 갱신·해지가 없는 일회성 구매 */
+function LifetimeView() {
+  return (
+    <div style={{ padding: '24px 16px 0' }}>
+      <div style={{
+        background: '#FFFFFF', borderRadius: 16,
+        border: `1.5px solid ${ACCENT}`,
+        padding: '20px 20px 18px',
+        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Sparkles size={18} color={ACCENT} strokeWidth={1.8} />
+            <span style={{ fontSize: 18, fontWeight: 800, color: T1 }}>K-PATTO Pro</span>
+          </div>
+          <span style={{
+            fontSize: 11, fontWeight: 700, letterSpacing: '0.06em',
+            color: '#16A34A', background: '#F0FDF4',
+            border: '1px solid #BBF7D0', borderRadius: 20, padding: '3px 10px',
+          }}>
+            Lifetime
+          </span>
+        </div>
+        <div style={{ fontSize: 13.5, lineHeight: 1.6, color: T2 }}>
+          Lifetime access from your Gumroad purchase. No renewals, nothing to cancel — all 100 episodes stay unlocked on this account.
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function ProView({
   billingEnd,
   isCanceling,
@@ -197,7 +229,9 @@ function FreeView({ onUpgrade, upgrading }: { onUpgrade: () => void; upgrading: 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function KPattoSubscriptionPage() {
   const { user } = useAuth()
-  const { isPro, isCanceling, billingEnd, loading: subLoading } = useKPattoSubscription()
+  const { isPro, isLifetime, subStatus, isCanceling, billingEnd, loading: subLoading } = useKPattoSubscription()
+  // 평생 이용권이 있어도 Paddle 구독이 살아 있으면 구독 관리(해지)를 보여 줘야 한다
+  const hasLiveSubscription = subStatus === 'active' || subStatus === 'trialing' || subStatus === 'past_due'
   const paddle = usePaddle()
   const [upgrading, setUpgrading] = useState(false)
   const router = useRouter()
@@ -244,10 +278,19 @@ export default function KPattoSubscriptionPage() {
 
       {subLoading ? (
         <div style={{ padding: '48px 16px', textAlign: 'center', color: T2, fontSize: 14 }}>…</div>
+      ) : isLifetime && !hasLiveSubscription ? (
+        // Gumroad 평생 이용권만 있는 사람 — 갱신일·구독 관리 버튼은 해당이 없다
+        <LifetimeView />
       ) : isPro ? (
         <ProView billingEnd={billingEnd} isCanceling={isCanceling} />
       ) : (
-        <FreeView onUpgrade={handleUpgrade} upgrading={upgrading} />
+        <>
+          <FreeView onUpgrade={handleUpgrade} upgrading={upgrading} />
+          <p style={{ textAlign: 'center', fontSize: 13.5, color: T2, margin: '20px 16px 0' }}>
+            Bought a WebApp Pass or Bundle on Gumroad?{' '}
+            <Link href="/kpatto/redeem" style={{ color: ACCENT, fontWeight: 700 }}>Enter your license key →</Link>
+          </p>
+        </>
       )}
     </div>
   )

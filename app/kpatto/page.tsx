@@ -190,7 +190,10 @@ export default function KPattoLandingPage() {
         <div className="lp-wrap">
           <div className="lp-head"><p className="lp-label">Pricing</p></div>
           <h2 className="lp-h2">Pick how you want to learn</h2>
-          <p className="lp-lead">One-time payment, lifetime access. No subscription.</p>
+          <p className="lp-lead">
+            One-time payment, lifetime access. No subscription. The WebApp Pass and Bundle come with a license key by email —{' '}
+            <a href="/kpatto/redeem" style={{ color: INK, fontWeight: 600, textUnderlineOffset: 3 }}>already bought? Unlock the app here</a>.
+          </p>
           <div className="lp-plans">
             {PRODUCTS.map(p => (
               <div key={p.id} className={`lp-plan${p.featured ? ' lp-plan--featured' : ''}`}>
