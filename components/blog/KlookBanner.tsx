@@ -9,9 +9,8 @@ const H = 90
 /** Klook 제휴 ID — 위젯 data-wid 와 같은 값(위젯이 만드는 링크의 aid 로 확인) */
 const KLOOK_AID = '138930'
 const KLOOK_ADID = '1524803'
-/** 배너를 누르면 가는 곳 — 서울 즐길 거리. Klook 제휴 리다이렉트(k_site)를 거쳐 수수료 추적이 유지된다 */
-const KLOOK_DEST = 'https://www.klook.com/en-US/city/58-seoul-things-to-do/'
-const KLOOK_HREF = `https://affiliate.klook.com/redirect?aid=${KLOOK_AID}&aff_adid=${KLOOK_ADID}&k_site=${encodeURIComponent(KLOOK_DEST)}`
+/** 배너를 누르면 가는 곳 — Klook 한국 여행 탐색 페이지(사용자 지정 URL 그대로). */
+const KLOOK_HREF = 'https://www.klook.com/en-US/country/14-south-korea-things-to-do/'
 
 /**
  * Klook 어필리에이트 배너(728×90) — Explore Korea 글 본문 아래, K-Patto 카드 위.
@@ -22,7 +21,7 @@ const KLOOK_HREF = `https://affiliate.klook.com/redirect?aid=${KLOOK_AID}&aff_ad
  * <ins> 안쪽은 위젯이 innerHTML 로 갈아끼우므로 React 가 자식을 추적하지 않게 문자열로 넘긴다.
  *
  * 404 수정: 원래 위젯 코드의 data-lang="en-BS"(바하마 영어) 때문에 위젯 링크가 klook.com/en-BS/… 로 가서 404 였다.
- * en-US 로 바꾸고, 위젯 iframe 위에 투명 링크를 덮어 클릭은 KLOOK_HREF(서울 즐길 거리, 제휴 추적 포함)로 보낸다.
+ * en-US 로 바꾸고, 위젯 iframe 위에 투명 링크를 덮어 클릭은 KLOOK_HREF(Klook 한국 여행 탐색 페이지)로 보낸다.
  * iframe 안의 링크는 Klook 이 그려서 우리가 고칠 수 없기 때문이다.
  *
  * 폭: 본문 칼럼(680px)을 넘지 않는다. 위젯이 iframe 에 width:728px 을 인라인으로 박아서 CSS 로 줄일 수 없으니
@@ -69,7 +68,7 @@ export function KlookBanner() {
           width: ${W}px; height: ${H}px;
           transform-origin: top center;
         }
-        /* iframe 위를 덮는 클릭 영역 — 위젯 링크 대신 서울 즐길 거리(제휴)로 */
+        /* iframe 위를 덮는 클릭 영역 — 위젯 링크 대신 Klook 한국 여행 탐색 페이지로 */
         .klk-banner-link { position: absolute; inset: 0; z-index: 1; }
         .klk-banner-link:focus-visible { outline: 3px solid #C8102E; outline-offset: -3px; border-radius: 12px; }
       `}</style>
@@ -88,9 +87,9 @@ export function KlookBanner() {
       <a
         href={KLOOK_HREF}
         target="_blank"
-        rel="noopener noreferrer sponsored"
+        rel="noopener noreferrer"
         className="klk-banner-link"
-        aria-label="Things to do in Seoul on Klook (opens in a new tab)"
+        aria-label="Things to do in South Korea on Klook (opens in a new tab)"
       />
     </aside>
   )
