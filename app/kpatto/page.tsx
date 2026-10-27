@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
@@ -57,12 +56,10 @@ const TIERS = [
   { name: 'Advanced', levels: [5, 6] },
 ]
 
-const hasCheckout = PRODUCTS.some(p => p.checkoutUrl)
 
 export default function KPattoLandingPage() {
   return (
     <div className="lp" style={{ background: '#F9F8F6', color: INK, fontFamily: BODY, minHeight: '100vh' }}>
-      {hasCheckout && <Script src="https://gumroad.com/js/gumroad.js" strategy="lazyOnload" />}
       <style>{`
         .lp *, .lp *::before, .lp *::after { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
@@ -149,7 +146,7 @@ export default function KPattoLandingPage() {
         .lp-list { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 9px; flex: 1; }
         .lp-list li { position: relative; padding-left: 22px; font-size: 14px; line-height: 1.5; color: #444; }
         .lp-list li::before { content: ''; position: absolute; left: 2px; top: 6px; width: 10px; height: 6px; border-left: 2px solid ${RED}; border-bottom: 2px solid ${RED}; transform: rotate(-45deg); }
-        /* gumroad.js 가 .gumroad-button 에 자체 스타일을 입혀도 카드 디자인을 지킨다 */
+        /* 가격 카드 버튼 — Gumroad 상품 페이지를 새 탭으로 연다(BuyButton) */
         .lp .lp-plan .lp-buy { width: 100%; min-width: 0; height: 50px; border-radius: 6px; font-size: 14.5px; font-weight: 600; box-shadow: none; background-image: none; }
         .lp .lp-plan .lp-buy:not(.lp-btn-primary) { background: transparent; border: 1px solid ${INK}; color: ${INK}; }
         .lp .lp-plan .lp-buy:not(.lp-btn-primary):hover { background: ${INK}; color: #fff; }
@@ -359,8 +356,6 @@ export default function KPattoLandingPage() {
                 <BuyButton
                   href={p.checkoutUrl}
                   label={p.cta}
-                  product={`${p.name} — ${p.edition}`}
-                  price={p.price}
                   className={`lp-btn lp-buy${p.featured ? ' lp-btn-primary' : ''}`}
                 />
               </div>

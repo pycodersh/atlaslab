@@ -2,14 +2,14 @@
  * K-PATTO 판매 — 상품 3종·가격·결제 링크의 단일 출처.
  *
  * 랜딩 페이지는 /kpatto 하나다(옛 /kpatto/purchase 는 /kpatto#pricing 으로 넘긴다).
- * 결제 링크는 Gumroad 상품 URL 을 환경 변수로 넣는다. 비어 있는 상품의 구매 버튼은
- * 출시 알림(사전 주문) 이메일 모달을 연다 — 누를 수 없는 버튼이나 '#' 링크를 두지 않는다.
+ * 결제는 Gumroad 정식 상품 페이지로 바로 간다(새 탭). 2026-10-27 세 페이지 모두 열려 있고 가격이 맞는 것을 확인했다:
+ *   eBook $14.99 → /l/k-patto · WebApp Pass $19.99 → /l/kpatto-app · Bundle $24.99 → /l/kpatto-bundle
  *
  * WebApp Pass·Bundle 은 Gumroad 라이선스 키로 앱을 연다(로그인 불필요): 앱의 🔑 버튼·잠금 안내 시트나
  * /kpatto/redeem 에서 키를 넣으면 /api/verify-license 가 Gumroad 에 확인하고 서버 서명 패스 쿠키를 준다
  * (lib/kpatto/gumroad.ts · licensePass.ts). 로그인해 있으면 kp_lifetime_access 에도 남긴다(선택).
- * 켜기 전에: 두 상품에 "unique license key per sale" 켜기,
- * GUMROAD_WEBAPP_PRODUCT_ID(또는 GUMROAD_PRODUCT_ID)·GUMROAD_BUNDLE_PRODUCT_ID 넣기, 영수증 문구에 /kpatto/redeem 안내.
+ * 서버 전용 GUMROAD_WEBAPP_PRODUCT_ID(또는 GUMROAD_PRODUCT_ID)·GUMROAD_BUNDLE_PRODUCT_ID 가 Vercel 에 들어가 있다
+ * (2026-10-27 프로덕션 /api/verify-license 가 not_configured 가 아니라 invalid 를 돌려줌으로 확인).
  * 앱 안 Paddle 월 구독 결제는 폐지 — 기존 구독자만 구독 관리로 남는다.
  */
 export const LANDING_PATH = '/kpatto'
@@ -56,7 +56,7 @@ export const PRODUCTS: readonly Product[] = [
       'Printable & iPad-ready',
     ],
     cta: 'Get the eBook — $14.99',
-    checkoutUrl: process.env.NEXT_PUBLIC_GUMROAD_EBOOK_URL || '',
+    checkoutUrl: 'https://zizou7.gumroad.com/l/k-patto',
   },
   {
     id: 'webapp',
@@ -71,7 +71,7 @@ export const PRODUCTS: readonly Product[] = [
       'Works in any phone or desktop browser',
     ],
     cta: 'Get the WebApp Pass — $19.99',
-    checkoutUrl: process.env.NEXT_PUBLIC_GUMROAD_WEBAPP_URL || '',
+    checkoutUrl: 'https://zizou7.gumroad.com/l/kpatto-app',
   },
   {
     id: 'bundle',
@@ -88,7 +88,7 @@ export const PRODUCTS: readonly Product[] = [
       'Full WebApp unlock',
     ],
     cta: 'Get the Bundle — $24.99',
-    checkoutUrl: process.env.NEXT_PUBLIC_GUMROAD_BUNDLE_URL || '',
+    checkoutUrl: 'https://zizou7.gumroad.com/l/kpatto-bundle',
     featured: true,
   },
 ]
