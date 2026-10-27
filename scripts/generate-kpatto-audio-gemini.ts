@@ -76,7 +76,7 @@ const VOICE_MAP: Record<string, string> = {
   stranger:    'Kore',      행인: 'Kore',
   doctor:      'Rasalgethi', 의사: 'Rasalgethi',
   pharmacist:  'Algieba',   약사: 'Algieba',
-  간호사:      'Vindemiatrix',
+  nurse:       'Vindemiatrix', 간호사: 'Vindemiatrix',
   merchant:    'Charon',    상인: 'Charon',
   professor:   'Charon',    교수님: 'Charon',
   driver:      'Puck',      기사: 'Puck',
