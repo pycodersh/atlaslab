@@ -9,8 +9,8 @@ const H = 90
 /** Klook 제휴 ID — 위젯 data-wid 와 같은 값(위젯이 만드는 링크의 aid 로 확인) */
 const KLOOK_AID = '138930'
 const KLOOK_ADID = '1524803'
-/** 배너를 누르면 가는 곳 — Klook 한국 여행 탐색 페이지(사용자 지정 URL 그대로). */
-const KLOOK_HREF = 'https://www.klook.com/en-US/country/14-south-korea-things-to-do/'
+/** 배너를 누르면 가는 곳 — Klook 한국 여행 탐색 페이지. ?aid= 로 제휴 ID 를 붙여 클릭이 수수료로 잡히게 한다 */
+const KLOOK_HREF = `https://www.klook.com/en-US/country/14-south-korea-things-to-do/?aid=${KLOOK_AID}`
 
 /**
  * Klook 어필리에이트 배너(728×90) — Explore Korea 글 본문 아래, K-Patto 카드 위.
