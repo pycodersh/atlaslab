@@ -21,39 +21,25 @@ const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 /** 홈 'Our Resources' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
  *  앞으로 K-PATTO PDF 패키지 같은 디지털 상품도 이 배열에 항목만 추가하면 그리드에 자연스럽게 합류한다
  *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가).
- *  카드는 설명을 늘어놓지 않고 한 문장 + 버튼 하나로 랜딩/도구로 보낸다 — K-Patto 의 체험·샘플·구매는 /kpatto 에서. */
-type Product = {
-  name: string
-  /** 이름 뒤에 붙는 부제(번역 대상) — 이름 자체는 번역하지 않는다 */
-  subtitle?: string
-  audience: string
-  desc: string
-  tag: 'Live' | 'Free' | 'Soon'
-  href: string | null
-  cta: string
-  note?: string
-}
+ *  두 카드는 같은 구조(아이콘 · 이름 · 대상 한 줄 · 설명 · 버튼)로 높이·글꼴이 맞물린다 — 뱃지·부제·버튼 밑 문구는 두지 않는다.
+ *  K-Patto 의 체험·샘플·구매는 /kpatto 랜딩에서. */
+type Product = { name: string; audience: string; desc: string; href: string | null; cta: string }
 const PRODUCTS: readonly Product[] = [
   {
     name: 'K-Patto',
-    subtitle: ': Korean Patterns & Webtoon',
     audience: 'For learners of Korean',
-    desc: 'Learn 300+ real-life Korean phrases through 100 slice-of-life webtoon episodes with native audio sync.',
-    tag: 'Live',
+    desc: 'Master 300+ real-life Korean phrases through 100 slice-of-life webtoon episodes with native audio sync. Available in eBook, WebApp, or Complete Bundle.',
     href: '/kpatto',
-    cta: 'Explore K-Patto & Free Sample →',
-    note: 'Available in 300 Patterns eBook, Webtoon App, or Complete Bundle.',
+    cta: 'Explore K-Patto →',
   },
   {
     name: 'K-Pantry',
     audience: 'For cooking Korean at home',
     desc: "Tells you what you can make with what's already in your fridge — and what to use when an ingredient is missing.",
-    tag: 'Free',
     href: '/kpantry/en',
     cta: 'Start for free →',
   },
 ]
-const TAG_LABEL: Record<Product['tag'], string> = { Live: 'Live', Free: 'Free tool', Soon: 'Coming soon' }
 
 /* ── App icons (SVG) ──────────────────────────────────────────────────── */
 const APP_ICONS: Record<string, React.ReactNode> = {
@@ -306,14 +292,12 @@ export default async function AtlasLabHome() {
             /* 상하를 줄여 한 화면에 더 들어오게 한다(좌우는 읽기 폭이라 유지) */
             padding: 13px 16px 14px !important;
             display: grid;
-            grid-template-columns: auto 1fr auto;
-            grid-template-rows: auto auto auto;
+            grid-template-columns: auto 1fr;
             grid-template-areas:
-              "icon name  badge"
-              "aud  aud   aud"
-              "desc desc  desc"
-              "btn  btn   btn"
-              "note note  note";
+              "icon name"
+              "aud  aud"
+              "desc desc"
+              "btn  btn";
             gap: 0 12px;
             align-items: center;
           }
@@ -328,11 +312,6 @@ export default async function AtlasLabHome() {
             grid-area: name;
             align-self: center;
             font-size: 17px !important;
-            margin-bottom: 0 !important;
-          }
-          .pbadge {
-            grid-area: badge;
-            align-self: center;
             margin-bottom: 0 !important;
           }
           .paud {
@@ -352,7 +331,6 @@ export default async function AtlasLabHome() {
             grid-area: btn;
             width: 100%;
           }
-          .pnote { grid-area: note; margin-top: 8px; }
         }
         .pmark {
           width: 56px; height: 56px;
@@ -367,8 +345,7 @@ export default async function AtlasLabHome() {
           color: var(--ink, #111); margin-bottom: 4px;
           letter-spacing: -0.01em; line-height: 1.2;
         }
-        /* "누구를 위한 앱인지" — 이름 바로 아래 한 줄.
-           LIVE 배지와 같은 레드, 출시 전(Career Navi)은 회색. */
+        /* "누구를 위한 앱인지" — 이름 바로 아래 한 줄. 레드, 출시 전(href 없음)은 회색. */
         .paud {
           font-family: ${BODY};
           font-size: 12px; font-weight: 600;
@@ -380,23 +357,6 @@ export default async function AtlasLabHome() {
           font-family: ${BODY};
           font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
           line-height: 1.6; margin-bottom: 16px; flex: 1;
-        }
-        .pbadge {
-          display: inline-block; align-self: flex-start;
-          font-family: ${BODY};
-          font-size: 9px; font-weight: 700;
-          letter-spacing: 0.1em; text-transform: uppercase;
-          padding: 3px 8px; margin-bottom: 10px;
-          border-radius: 4px;
-        }
-        .badge-live { background: var(--brand-red, #C8102E); color: #fff; }
-        .badge-free { background: var(--ink, #111); color: #fff; }
-        .badge-soon { background: #F0EEE9; color: #777; }
-        /* 버튼 아래 한 줄 — 어떤 형태로 살 수 있는지 */
-        .pnote {
-          font-family: ${BODY};
-          font-size: 11.5px; line-height: 1.5; color: #9A9A9A;
-          margin-top: 10px; text-align: center;
         }
         /* CTA 는 세 카드가 모두 같은 솔리드 버건디다.
            예전에는 아웃라인 + 호버 시 채우기였는데, 터치 기기는 탭한 카드에
@@ -569,36 +529,22 @@ export default async function AtlasLabHome() {
           <SectionHeader label="Our Resources" />
           <div className="products-grid">
             {PRODUCTS.map(p => {
-              const badge = (
-                // 'Live' 는 자동 번역이 동사("살다")로 옮겨 버려서 번역에서 뺀다
-                <span
-                  className={`pbadge badge-${p.tag.toLowerCase()}${p.tag === 'Live' ? ' notranslate' : ''}`}
-                  translate={p.tag === 'Live' ? 'no' : undefined}
-                >
-                  {TAG_LABEL[p.tag]}
-                </span>
-              )
               const inner = (
                 <>
                   {/* Icon — dark rounded square with SVG symbol */}
                   <div className="pmark">
                     {APP_ICONS[p.name]}
                   </div>
-                  {/* Name + description (flex: 1 pushes badge+btn to bottom) */}
-                  <div className="pname">
-                    <span className="notranslate" translate="no">{p.name}</span>{p.subtitle}
-                  </div>
-                  <div className={`paud${p.tag === 'Soon' ? ' paud-soon' : ''}`}>
+                  {/* Name + description (flex: 1 pushes the button to the bottom) */}
+                  <div className="pname notranslate" translate="no">{p.name}</div>
+                  <div className={`paud${p.href ? '' : ' paud-soon'}`}>
                     {p.audience}
                   </div>
                   <div className="pdesc">{p.desc}</div>
-                  {/* Badge just above button */}
-                  {badge}
                   {p.href
                     ? <span className="pbtn">{p.cta}</span>
                     : <span className="pbtn-soon">Coming soon</span>
                   }
-                  {p.note && <div className="pnote">{p.note}</div>}
                 </>
               )
               return p.href ? (
