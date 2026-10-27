@@ -15,6 +15,9 @@ import { thumbnailForPost } from '@/lib/blog/thumbnail'
 import { readMinutes } from '@/lib/blog/readTime'
 import { ArticleJsonLd } from '@/components/blog/ArticleJsonLd'
 
+/** Klook 배너를 붙이는 주제 그룹(lib/blog/sections) — 여행 Explore Korea · 음식 Food · 생활 Life */
+const KLOOK_GROUPS = new Set<string>(['explore-korea', 'food', 'life'])
+
 export const dynamic = 'force-dynamic'
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -340,12 +343,12 @@ export default async function AppBlogPostPage({
             )}
           */}
 
-          {/* Explore Korea(hotels·places) 글에만 — 본문이 끝나는 바로 아래 Klook 배너, 그 아래 K-Patto 카드 */}
-          {groupKeyOf(app, post.category) === 'explore-korea' && <KlookBanner />}
-
           {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위.
               Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta) */}
           <ArticleAppBanner app={app} category={post.category} locale={locale} />
+
+          {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다) */}
+          {KLOOK_GROUPS.has(groupKeyOf(app, post.category) ?? '') && <KlookBanner />}
 
           {/* Related posts */}
           {related && related.length > 0 && (
