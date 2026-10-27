@@ -74,6 +74,15 @@ export default function KPattoLandingPage() {
         .lp-h2 { font-family: ${SERIF}; font-size: 30px; line-height: 1.2; letter-spacing: -.015em; margin: 0 0 12px; font-weight: 700; }
         .lp-lead { font-size: 15.5px; line-height: 1.75; color: ${MUTED}; margin: 0 0 30px; max-width: 640px; }
         .lp-body-text { font-size: 17px; line-height: 1.8; color: #333; margin: 0; }
+        /* 'How Korean actually works' 본문 — 양끝정렬. 좁은 화면에서 단어 사이가 벌어지지 않게 하이픈·줄바꿈을 함께 켠다.
+           한 줄 약 70자(680px)로 맞춰 양끝정렬이 고르게 보이게 한다. */
+        .lp-justify { max-width: 680px; }
+        .lp-justify .lp-body-text {
+          text-align: justify; text-justify: inter-word;
+          -webkit-hyphens: auto; hyphens: auto; hyphenate-limit-chars: 7 3 3;
+          text-wrap: pretty; overflow-wrap: break-word;
+          line-height: 1.7;
+        }
 
         /* 버튼 — 높이 52px */
         .lp-btn {
@@ -197,7 +206,7 @@ export default function KPattoLandingPage() {
       <section id="inside" className="lp-section">
         <div className="lp-wrap">
           <div className="lp-head"><p className="lp-label">How Korean actually works</p></div>
-          <div style={{ maxWidth: 740 }}>
+          <div className="lp-justify" lang="en">
             <h2 className="lp-h2">Korean is a Language of Patterns — Not Endless Memorization</h2>
             {/* 근거 없는 수치("서울 일상 대화의 80%")는 쓰지 않는다 — 주장은 살리고 숫자는 뺀다 */}
             <p className="lp-body-text" style={{ marginBottom: 18 }}>
