@@ -5,11 +5,11 @@ import 'server-only'
  *
  * Gumroad 쪽 준비: 두 상품 모두 상품 설정에서 "Generate a unique license key per sale" 를 켠다.
  * 상품 ID(상품 편집 화면의 License key 섹션에 표시)를 서버 전용 환경 변수에 넣는다:
- *   GUMROAD_WEBAPP_PRODUCT_ID, GUMROAD_BUNDLE_PRODUCT_ID
+ *   GUMROAD_WEBAPP_PRODUCT_ID (또는 GUMROAD_PRODUCT_ID), GUMROAD_BUNDLE_PRODUCT_ID
  * eBook 단품은 앱을 열지 않으므로 여기 없다.
  *
  * API: POST https://api.gumroad.com/v2/licenses/verify (product_id, license_key, increment_uses_count)
- * 사용 횟수는 늘리지 않는다 — 한 키 한 계정은 우리 DB(license_key UNIQUE)가 지킨다.
+ * 처음 입력할 때만 사용 횟수를 늘린다(기기 등록 추적). 30일마다 하는 재확인은 늘리지 않는다.
  */
 
 export type LicenseProduct = 'webapp' | 'bundle'
@@ -29,9 +29,13 @@ type GumroadPurchase = {
   disputed?: boolean
 }
 
-export async function verifyKPattoLicense(licenseKey: string): Promise<LicenseCheck> {
+export async function verifyKPattoLicense(
+  licenseKey: string,
+  { incrementUses = false }: { incrementUses?: boolean } = {},
+): Promise<LicenseCheck> {
+  const webappId = clean(process.env.GUMROAD_WEBAPP_PRODUCT_ID) || clean(process.env.GUMROAD_PRODUCT_ID)
   const products: [LicenseProduct, string][] = (
-    [['webapp', clean(process.env.GUMROAD_WEBAPP_PRODUCT_ID)], ['bundle', clean(process.env.GUMROAD_BUNDLE_PRODUCT_ID)]] as [LicenseProduct, string][]
+    [['webapp', webappId], ['bundle', clean(process.env.GUMROAD_BUNDLE_PRODUCT_ID)]] as [LicenseProduct, string][]
   ).filter(([, id]) => id)
   if (products.length === 0) return { ok: false, reason: 'not_configured' }
 
@@ -42,7 +46,7 @@ export async function verifyKPattoLicense(licenseKey: string): Promise<LicenseCh
       res = await fetch('https://api.gumroad.com/v2/licenses/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ product_id: productId, license_key: licenseKey, increment_uses_count: 'false' }),
+        body: new URLSearchParams({ product_id: productId, license_key: licenseKey, increment_uses_count: String(incrementUses) }),
         cache: 'no-store',
       })
     } catch {

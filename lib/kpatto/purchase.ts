@@ -5,10 +5,12 @@
  * 결제 링크는 Gumroad 상품 URL 을 환경 변수로 넣는다. 비어 있는 상품의 구매 버튼은
  * 출시 알림(사전 주문) 이메일 모달을 연다 — 누를 수 없는 버튼이나 '#' 링크를 두지 않는다.
  *
- * WebApp Pass·Bundle 은 Gumroad 라이선스 키로 앱을 연다: 구매자가 /kpatto/redeem 에서 키를 넣으면
- * /api/kpatto/redeem 이 Gumroad 에 확인하고 kp_lifetime_access 에 기록한다(lib/kpatto/gumroad.ts).
- * 켜기 전에: 두 상품에 "unique license key per sale" 켜기, GUMROAD_{WEBAPP,BUNDLE}_PRODUCT_ID 넣기,
- * 20261027_kp_lifetime_access 마이그레이션 실행. 영수증 문구에 /kpatto/redeem 안내를 넣는다.
+ * WebApp Pass·Bundle 은 Gumroad 라이선스 키로 앱을 연다(로그인 불필요): 앱의 🔑 버튼·잠금 안내 시트나
+ * /kpatto/redeem 에서 키를 넣으면 /api/verify-license 가 Gumroad 에 확인하고 서버 서명 패스 쿠키를 준다
+ * (lib/kpatto/gumroad.ts · licensePass.ts). 로그인해 있으면 kp_lifetime_access 에도 남긴다(선택).
+ * 켜기 전에: 두 상품에 "unique license key per sale" 켜기,
+ * GUMROAD_WEBAPP_PRODUCT_ID(또는 GUMROAD_PRODUCT_ID)·GUMROAD_BUNDLE_PRODUCT_ID 넣기, 영수증 문구에 /kpatto/redeem 안내.
+ * 앱 안 Paddle 월 구독 결제는 폐지 — 기존 구독자만 구독 관리로 남는다.
  */
 export const LANDING_PATH = '/kpatto'
 export const PRICING_ANCHOR = 'pricing'

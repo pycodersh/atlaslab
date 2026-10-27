@@ -7,6 +7,7 @@ import { Check, ChevronRight, Lock } from 'lucide-react'
 import { usePreferences } from '@/contexts/PreferencesContext'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
+import { KPattoPaywall } from '@/components/kpatto/KPattoPaywall'
 import { ALL_STORIES } from '@/data/kpatto/sample-episode'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { createClient } from '@/lib/supabase/client'
@@ -75,6 +76,8 @@ function CompletedBadge() {
 export default function KPattoStoryListPage() {
   usePreferences()
   const { isPro } = useKPattoSubscription()
+  // 잠긴 화를 누르면 앱 안 결제 대신 판매 랜딩·키 입력 안내 시트를 띄운다
+  const [paywallOpen, setPaywallOpen] = useState(false)
 
   const [progressMap, setProgressMap]   = useState<EpProgressMap>(new Map())
   const [nextEpNum,   setNextEpNum]     = useState<number>(0)   // 0 = 아직 모름
@@ -173,7 +176,9 @@ export default function KPattoStoryListPage() {
             <div
               key={story.id}
               ref={isScrollTarget ? scrollTargetCallback : undefined}
+              onClick={locked ? () => setPaywallOpen(true) : undefined}
               style={{
+                cursor: locked ? 'pointer' : undefined,
                 display: 'flex', alignItems: 'stretch',
                 borderRadius: 16,
                 border: isNext
@@ -241,21 +246,33 @@ export default function KPattoStoryListPage() {
               </div>
 
               {/* Chevron */}
-              {/* 잠긴 화는 서버에서 404 이므로 에피소드 URL 대신 구독 페이지로 보낸다 */}
-              <Link
-                href={locked ? '/kpatto/subscription' : `/kpatto/story/${story.id}`}
-                onClick={() => sessionStorage.setItem('kpatto-last-viewed-ep', String(story.episode))}
-                style={{ display: 'flex', alignItems: 'center', padding: '0 12px', textDecoration: 'none', flexShrink: 0 }}
-                aria-label={`View ${story.title}`}
-              >
-                <ChevronRight size={20} color="#999999" />
-              </Link>
+              {/* 잠긴 화는 서버에서 404 이므로 에피소드 URL 대신 안내 시트를 연다(행 전체 클릭과 같다) */}
+              {locked ? (
+                <button
+                  type="button"
+                  aria-label={`Unlock ${story.title}`}
+                  style={{ display: 'flex', alignItems: 'center', padding: '0 12px', background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
+                >
+                  <ChevronRight size={20} color="#999999" />
+                </button>
+              ) : (
+                <Link
+                  href={`/kpatto/story/${story.id}`}
+                  onClick={() => sessionStorage.setItem('kpatto-last-viewed-ep', String(story.episode))}
+                  style={{ display: 'flex', alignItems: 'center', padding: '0 12px', textDecoration: 'none', flexShrink: 0 }}
+                  aria-label={`View ${story.title}`}
+                >
+                  <ChevronRight size={20} color="#999999" />
+                </Link>
+              )}
             </div>
           )
         })}
 
         <div style={{ height: 4 }} />
       </div>
+
+      {paywallOpen && <KPattoPaywall onDismiss={() => setPaywallOpen(false)} />}
     </div>
   )
 }

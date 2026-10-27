@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
+import { KPattoPaywall } from '@/components/kpatto/KPattoPaywall'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
@@ -76,6 +77,8 @@ function Card({ children, style }: { children: React.ReactNode; style?: React.CS
 export default function KPattoRecordPage() {
   const router           = useRouter()
   const { isPro }        = useKPattoSubscription()
+  // 잠긴 칸을 누르면 판매 랜딩·키 입력 안내 시트
+  const [paywallOpen, setPaywallOpen] = useState(false)
 
   const [progressMap, setProgressMap] = useState<EpProgressMap>(new Map())
   const [loading,     setLoading]     = useState(true)
@@ -189,7 +192,7 @@ export default function KPattoRecordPage() {
                             <button
                               key={ep}
                               onClick={() => {
-                                if (locked) router.push('/kpatto/subscription')
+                                if (locked) setPaywallOpen(true)
                                 else        router.push(`/kpatto/story/${epId}`)
                               }}
                               title={`EP${String(ep).padStart(2, '0')}${locked ? ' (Pro)' : ` · ${count}회 완료`}`}
@@ -341,6 +344,8 @@ export default function KPattoRecordPage() {
         </Card>
 
       </div>
+
+      {paywallOpen && <KPattoPaywall onDismiss={() => setPaywallOpen(false)} />}
     </div>
   )
 }

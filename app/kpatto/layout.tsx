@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { PreferencesProvider } from '@/contexts/PreferencesContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { KPattoTabBar } from '@/components/kpatto/KPattoTabBar'
+import { LicenseToast } from '@/components/kpatto/LicenseToast'
 
 const jakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -69,6 +70,7 @@ export default function KPattoLayout({ children }: { children: React.ReactNode }
               />
               {children}
               <KPattoTabBar />
+              <LicenseToast />
             </div>
           </AuthProvider>
         </PreferencesProvider>

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
+import { ProStatusPill } from './ProStatusPill'
 
 export function KPattoHeader() {
   const { user } = useAuth()
@@ -53,7 +54,9 @@ export function KPattoHeader() {
           </span>
         </Link>
 
-        {/* Profile avatar */}
+        {/* Pro 상태(🔑 키 입력 / ✨ Pro Lifetime) + Profile avatar */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <ProStatusPill />
         <Link href="/kpatto/profile" style={{ textDecoration: 'none' }}>
           <div style={{
             width: 32, height: 32, borderRadius: '50%',
@@ -88,6 +91,7 @@ export function KPattoHeader() {
             )}
           </div>
         </Link>
+        </div>
       </div>
     </div>
   )

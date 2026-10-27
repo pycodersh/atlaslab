@@ -106,6 +106,7 @@ export function KPattoStoryClient({ id }: Props) {
     typeof window !== 'undefined' ? readRoundState(epNum) : defaultRoundState()
   )
   const [roundComplete, setRoundComplete] = useState(false)
+  const [paywallOpen, setPaywallOpen] = useState(false)
   /** 완료 직후 확정된 회차 수 (1~5), 완료 카드 표시용 */
   const [completedRound, setCompletedRound] = useState(0)
 
@@ -270,7 +271,8 @@ export function KPattoStoryClient({ id }: Props) {
 
   // Locked — show paywall only, no content in DOM
   if (isLocked) {
-    return <KPattoPaywall onDismiss={() => router.back()} />
+    // 키로 잠금이 풀리면 서버 패스 쿠키가 생겼으니 다시 그려 에피소드를 불러온다
+    return <KPattoPaywall onDismiss={() => router.back()} onUnlocked={() => router.refresh()} />
   }
 
   return (
@@ -563,19 +565,21 @@ export function KPattoStoryClient({ id }: Props) {
               {/* Right: Next Story / Unlock / (hidden for EP100) */}
               {!isLastEp && (
                 showUnlock ? (
-                  <Link
-                    href="/kpatto/subscription"
+                  // 다음 화가 잠겨 있으면 앱 안 결제 대신 판매 랜딩·키 입력 안내 시트
+                  <button
+                    type="button"
+                    onClick={() => setPaywallOpen(true)}
                     style={{
                       flex: 1, height: 48, borderRadius: 12,
                       border: 'none',
                       background: 'linear-gradient(135deg, #FF5A36, #E04826)',
                       fontSize: 13, fontWeight: 600, color: '#fff',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      textDecoration: 'none',
+                      cursor: 'pointer', fontFamily: 'inherit',
                     }}
                   >
                     {ui.sv_unlock_ep(nextEpNum)}
-                  </Link>
+                  </button>
                 ) : (
                   <Link
                     href={nextEpHref}
@@ -594,6 +598,7 @@ export function KPattoStoryClient({ id }: Props) {
             </div>
           </div>
       )}
+      {paywallOpen && <KPattoPaywall onDismiss={() => setPaywallOpen(false)} />}
     </div>
   )
 }

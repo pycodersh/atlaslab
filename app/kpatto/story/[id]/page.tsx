@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
-import { hasKPattoAccess } from '@/lib/kpatto/entitlement'
+import { hasKPattoAccess, PASS_COOKIE } from '@/lib/kpatto/entitlement'
 import { KPattoStoryClient } from '@/components/kpatto/KPattoStoryClient'
 
 interface PageProps {
@@ -50,13 +51,10 @@ export default async function KPattoStoryPage({ params }: PageProps) {
   const isLocalDev = !process.env.VERCEL_ENV
 
   if (!isLocalDev && epNum > FREE_EPISODES) {
+    // 라이선스 패스 쿠키(로그인 불필요) · Paddle 구독 · 계정 평생 이용권 중 하나
     const supabase = await createServerClient()
-    const { data: { user } } = await supabase.auth.getUser()
-
-    if (!user) notFound()
-
-    // Paddle 구독 또는 Gumroad 평생 이용권
-    if (!(await hasKPattoAccess(supabase, user.id))) notFound()
+    const pass = (await cookies()).get(PASS_COOKIE)?.value
+    if (!(await hasKPattoAccess(supabase, pass))) notFound()
   }
 
   return <KPattoStoryClient id={id} />
