@@ -9,9 +9,11 @@ const H = 90
 /** Klook 제휴 ID — 위젯 data-wid 와 같은 값(위젯이 만드는 링크의 aid 로 확인) */
 const KLOOK_AID = '138930'
 const KLOOK_ADID = '1524803'
-/** 배너를 누르면 가는 곳 — Klook 한국 여행 탐색 페이지(country/12 = 한국. 14 는 대만이었다).
+/** 배너를 누르면 가는 곳 — Klook 한국(국가 ID 10) 여행 탐색 페이지.
+ *  ID 는 슬러그 글자가 아니라 숫자로 정해진다: country/14 는 대만, country/12 는 일본(co1012-japan)으로 갔다.
+ *  한국은 10 — Klook 이 색인한 'Places to visit in South Korea'(coureg/10) · attractions/south-korea/g10 로 확인(2026-10-27).
  *  ?aid= 로 제휴 ID 를 붙여 클릭이 수수료로 잡히게 한다 */
-const KLOOK_HREF = `https://www.klook.com/en-US/country/12-south-korea-things-to-do/?aid=${KLOOK_AID}`
+const KLOOK_HREF = `https://www.klook.com/en-US/coureg/10-south-korea-things-to-do/?aid=${KLOOK_AID}`
 
 /**
  * Klook 어필리에이트 배너(728×90) — Explore Korea · Food · Life 글에서 앱 CTA 카드 바로 아래.
