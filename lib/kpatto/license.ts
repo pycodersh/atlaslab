@@ -64,6 +64,39 @@ export async function unlockWithKey(licenseKey: string): Promise<VerifyResult> {
   return r
 }
 
+/** 서버가 보는 이 브라우저의 패스 상태 — 화면 표시의 기준(localStorage 는 힌트) */
+export async function fetchLicenseStatus(): Promise<{ active: boolean; product?: string; exp?: number }> {
+  try {
+    const r = await fetch('/api/verify-license', { credentials: 'same-origin', cache: 'no-store' })
+    return await r.json()
+  } catch {
+    return { active: false }
+  }
+}
+
+/** 이 브라우저에서 Pro 해제 — 서버 패스와 저장된 키를 지운다. 같은 키를 다른 기기에서 다시 넣으면 된다 */
+export async function deactivateLicense() {
+  try { await fetch('/api/verify-license', { method: 'DELETE', credentials: 'same-origin' }) } catch { /* 아래 로컬 정리는 한다 */ }
+  clearLicense()
+}
+
+/** 저장된 키로 지금 바로 패스를 다시 받는다(쿠키가 지워졌는데 키는 남아 있을 때) */
+export async function renewLicenseNow(): Promise<boolean> {
+  const key = read(KEY)
+  if (!key) return false
+  const r = await callVerify(key, true)
+  if (r.valid) { save(key, r.exp ?? 0, false); return true }
+  if (r.reason === 'invalid' || r.reason === 'refunded') clearLicense()
+  return false
+}
+
+/** ABCD1234-...-WXYZ9876 → ABCD••••-••••-WXYZ — 앞 4자·끝 4자만 보인다 */
+export function maskKey(key: string): string {
+  const k = key.trim()
+  if (k.length <= 8) return '•'.repeat(k.length)
+  return `${k.slice(0, 4)}${k.slice(4, -4).replace(/[^-]/g, '•')}${k.slice(-4)}`
+}
+
 /**
  * 앱을 열 때 한 번: 키가 있는데 패스가 곧 만료되거나 없으면 재확인한다.
  * 환불·무효로 확실히 거절되면 상태를 지우고, Gumroad 장애면 그대로 둔다.

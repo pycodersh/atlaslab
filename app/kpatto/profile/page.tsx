@@ -11,6 +11,7 @@ import { usePreferences } from '@/contexts/PreferencesContext'
 import { signOut, signInWithGoogleKpatto, signInWithEmail } from '@/lib/auth-actions'
 import type { KPattoLanguage } from '@/data/kpatto/types'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
+import { LicenseStatusCard } from '@/components/kpatto/LicenseStatusCard'
 
 import { KP } from '@/lib/kpatto/theme'
 const T1     = '#111111'
@@ -567,7 +568,7 @@ function InstallCard() {
   )
 }
 
-// ── Subscription row ──────────────────────────────────────────────────────────
+// ── Subscription row — 기존 월 구독자에게만(구독 관리·해지) ──────────────────
 function SubscriptionRow({ onClick }: { onClick: () => void }) {
   return (
     <button
@@ -581,7 +582,7 @@ function SubscriptionRow({ onClick }: { onClick: () => void }) {
       }}
     >
       <CreditCard size={18} color={ACCENT} strokeWidth={1.8} style={{ flexShrink: 0 }} />
-      <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Subscription</span>
+      <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: T1 }}>Manage monthly subscription</span>
       <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />
     </button>
   )
@@ -666,25 +667,46 @@ function LanguageRow({ lang, onSelect }: { lang: KPattoLanguage; onSelect: (l: K
 }
 
 // ── Page ─────────────────────────────────────────────────────────────────────
+/**
+ * 로그인(Google · 이메일) UI 스위치 — 웹은 Gumroad 평생 라이선스(로그인 불필요)로 운영한다.
+ * 모바일 앱 스토어 버전에서 계정이 다시 필요해지면 true 로 바꾸면 UserProfileCard · GuestCard 가 돌아온다(코드는 그대로 둔다).
+ */
+const ENABLE_AUTH = false
+
 export default function KPattoProfilePage() {
   const router = useRouter()
   const { user, loading } = useAuth()
   const { prefs, update } = usePreferences()
+  const { subStatus } = useKPattoSubscription()
   const [legalModal, setLegalModal] = useState<string | null>(null)
+  // 구독제는 폐지했지만, 이미 월 구독 중인 계정은 해지·결제 수단 변경을 할 수 있어야 한다
+  const hasLiveSubscription = !!user && (subStatus === 'active' || subStatus === 'trialing' || subStatus === 'past_due')
 
   return (
     <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: KPATTO_TAB_BAR_HEIGHT + 24 }}>
       <KPattoHeader />
 
-      {/* ACCOUNT */}
-      <SectionHeader label="Account" />
-      {!loading && (user ? <UserProfileCard user={user} onLogout={signOut} /> : <GuestCard />)}
+      {/* LICENSE — Gumroad 평생 라이선스 상태 */}
+      <SectionHeader label="License" />
+      <LicenseStatusCard />
+
+      {/* ACCOUNT — ENABLE_AUTH 가 켜졌을 때만(모바일 앱 스토어 확장용) */}
+      {ENABLE_AUTH && (
+        <>
+          <SectionHeader label="Account" />
+          {!loading && (user ? <UserProfileCard user={user} onLogout={signOut} /> : <GuestCard />)}
+        </>
+      )}
 
       {/* APP SETTINGS */}
       <SectionHeader label="App Settings" />
       <Card>
-        <SubscriptionRow onClick={() => router.push('/kpatto/subscription')} />
-        <RowDivider />
+        {hasLiveSubscription && (
+          <>
+            <SubscriptionRow onClick={() => router.push('/kpatto/subscription')} />
+            <RowDivider />
+          </>
+        )}
         <LanguageRow lang={(prefs.language ?? 'en') as KPattoLanguage} onSelect={l => update({ language: l })} />
         <RowDivider />
         <InstallCard />

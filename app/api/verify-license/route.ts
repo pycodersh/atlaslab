@@ -2,7 +2,27 @@ import { NextResponse } from 'next/server'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { verifyKPattoLicense } from '@/lib/kpatto/gumroad'
-import { createPass, PASS_COOKIE, PASS_TTL_SECONDS } from '@/lib/kpatto/licensePass'
+import { createPass, PASS_COOKIE, PASS_TTL_SECONDS, readPass } from '@/lib/kpatto/licensePass'
+
+/**
+ * GET /api/verify-license — 이 브라우저의 패스 상태(httpOnly 라 화면 코드가 직접 못 읽는다).
+ * 응답: { active, product?, exp? }  — 키 원문은 서버도 갖고 있지 않다(쿠키엔 지문만 있다).
+ */
+export async function GET(req: Request) {
+  const raw = req.headers.get('cookie')?.match(new RegExp(`(?:^|;\\s*)${PASS_COOKIE}=([^;]+)`))?.[1]
+  const pass = readPass(raw ? decodeURIComponent(raw) : null)
+  return NextResponse.json(
+    pass ? { active: true, product: pass.p, exp: pass.exp } : { active: false },
+    { headers: { 'Cache-Control': 'private, no-store' } },
+  )
+}
+
+/** DELETE /api/verify-license — 이 브라우저에서 Pro 해제(다른 기기로 옮길 때). Gumroad 쪽 키는 그대로 유효하다. */
+export async function DELETE() {
+  const res = NextResponse.json({ ok: true })
+  res.cookies.set(PASS_COOKIE, '', { path: '/', maxAge: 0 })
+  return res
+}
 
 /**
  * POST /api/verify-license  { license_key, renew? }
