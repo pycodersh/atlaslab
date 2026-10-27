@@ -23,7 +23,8 @@ const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
  *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가).
  *  두 카드는 같은 구조(아이콘 · 이름 · 대상 한 줄 · 설명 · 버튼)로 높이·글꼴이 맞물린다 — 뱃지·부제·버튼 밑 문구는 두지 않는다.
  *  K-Patto 의 체험·샘플·구매는 /kpatto 랜딩에서. */
-type Product = { name: string; audience: string; desc: string; href: string | null; cta: string }
+/** newTab: 앱·도구로 가는 카드는 새 탭으로 연다 — 홈(사이트)을 떠나지 않게. 같은 사이트 안의 소개 랜딩은 현재 탭 */
+type Product = { name: string; audience: string; desc: string; href: string | null; cta: string; newTab?: boolean }
 const PRODUCTS: readonly Product[] = [
   {
     name: 'K-Patto',
@@ -37,7 +38,8 @@ const PRODUCTS: readonly Product[] = [
     audience: 'For cooking Korean at home',
     desc: "Tells you what you can make with what's already in your fridge — and what to use when an ingredient is missing.",
     href: '/kpantry/en',
-    cta: 'Start for free →',
+    cta: 'Explore K-Pantry →',
+    newTab: true,
   },
 ]
 
@@ -548,7 +550,12 @@ export default async function AtlasLabHome() {
                 </>
               )
               return p.href ? (
-                <a key={p.name} href={p.href} className="pcard pcard-link">
+                <a
+                  key={p.name}
+                  href={p.href}
+                  className="pcard pcard-link"
+                  {...(p.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                >
                   {inner}
                 </a>
               ) : (
