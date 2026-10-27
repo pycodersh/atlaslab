@@ -11,9 +11,9 @@ import { SampleAudio, type AudioSample } from './_landing/SampleAudio'
 const CANONICAL = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'}/kpatto`
 
 export const metadata: Metadata = {
-  title: 'K-PATTO — Master 300+ Everyday Korean Patterns',
+  title: 'K-PATTO — The Most Natural Way to Speak Real Korean',
   description:
-    'Learn natural, real-life Korean through 100 webtoon episodes with native audio, review quizzes, and a printable eBook. Try the first episodes free.',
+    'Master practical, everyday Korean through 100 slice-of-life webtoon episodes with native audio, quizzes, and a 153-page eBook. Try the first episodes free.',
   alternates: { canonical: CANONICAL },
   openGraph:  { url: CANONICAL },
   // TEMP(AdSense review): 심사 기간에만 색인 제외 — 승인 후 이 줄을 지우고
@@ -88,8 +88,6 @@ export default function KPattoLandingPage() {
         .lp-btn-primary:hover { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
         .lp-btn-outline { background: transparent; border-color: ${INK}; color: ${INK}; }
         .lp-btn-outline:hover { background: ${INK}; color: #fff; }
-        .lp-scroll { display: inline-flex; align-items: center; gap: 8px; color: #fff; text-decoration: none; font-size: 14.5px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,.35); padding-bottom: 4px; }
-        .lp-scroll:hover { border-color: #fff; }
 
         /* TOPIK 프로그레스: 트랙 + 1~3급까지 채워진 은은한 레드 + 같은 폭의 옅은 배경 */
         .lp-track { position: relative; height: 8px; background: ${RULE}; margin-bottom: 14px; }
@@ -99,6 +97,8 @@ export default function KPattoLandingPage() {
         .lp-covered { position: absolute; left: 0; top: 0; bottom: 0; width: 50%; background: rgba(200,16,46,.06); pointer-events: none; }
         .lp-level { position: relative; padding: 16px 8px 14px; text-align: center; border-left: 1px solid ${RULE}; }
         .lp-covered + .lp-level { border-left: none; }
+        /* Level 1~3 구간 아래의 강조 라벨 — PC 는 바의 왼쪽 절반, 모바일은 길어서 전체 폭 */
+        .lp-cover-label { width: 50%; margin: 14px 0 0; padding-top: 8px; border-top: 2px solid ${RED}; font-size: 13px; font-weight: 700; line-height: 1.45; color: ${RED}; }
 
         /* 실물 쇼케이스 — 왼쪽 글, 오른쪽 이미지 */
         .lp-show { display: grid; grid-template-columns: 1fr 1.25fr; gap: 48px; align-items: center; }
@@ -173,38 +173,48 @@ export default function KPattoLandingPage() {
           .lp-phone img { border-radius: 17px; }
           .lp-phone:nth-child(2) { margin-top: 32px; }
           .lp-level { padding: 12px 4px 10px; }
+          .lp-cover-label { width: 100%; }
         }
       `}</style>
 
       <SiteNav />
 
-      {/* ── Hero — 짧게, 아래로 안내만 ── */}
+      {/* ── Hero — 핵심 가치 한 문장(버튼 없이) ── */}
       <section style={{ background: '#121212' }}>
         <div className="lp-wrap" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(52px, 8vw, 88px)' }}>
           <p className="lp-kicker" translate="no">K-PATTO</p>
           <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(30px, 4.4vw, 50px)', fontWeight: 700, lineHeight: 1.12, letterSpacing: '-.02em', color: '#fff', margin: '0 0 18px', maxWidth: 760 }}>
-            Master 300+ Everyday Korean Patterns
+            The Most Natural Way to Speak Real Korean
           </h1>
-          <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.68)', margin: '0 0 30px', maxWidth: 600 }}>
-            Learn natural, real-life Korean through 100 webtoon episodes with native audio on every line, review quizzes, and a printable guide.
+          <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.68)', margin: 0, maxWidth: 640 }}>
+            Master practical, everyday Korean through 100 slice-of-life webtoon episodes with synchronized native audio, smart quizzes,
+            and a comprehensive {EBOOK_PAGES}-page eBook.
           </p>
-          <a href="#inside" className="lp-scroll">See what&rsquo;s inside <span aria-hidden>↓</span></a>
         </div>
       </section>
 
-      {/* ── Learning outcome — TOPIK 단계 ── */}
+      {/* ── How Korean works — 패턴 중심 학습 + TOPIK 단계 ── */}
       <section id="inside" className="lp-section">
         <div className="lp-wrap">
-          <div className="lp-head"><p className="lp-label">Learning outcome</p></div>
-          <div style={{ maxWidth: 720 }}>
-            <h2 className="lp-h2">Mastering TOPIK-aligned grammar patterns by grade level</h2>
-            <p className="lp-lead" style={{ marginBottom: 24 }}>
-              This curriculum covers essential grammar expressions structured by proficiency tiers.
+          <div className="lp-head"><p className="lp-label">How Korean actually works</p></div>
+          <div style={{ maxWidth: 740 }}>
+            <h2 className="lp-h2">Korean is a Language of Patterns — Not Endless Memorization</h2>
+            {/* 근거 없는 수치("서울 일상 대화의 80%")는 쓰지 않는다 — 주장은 살리고 숫자는 뺀다 */}
+            <p className="lp-body-text" style={{ marginBottom: 18 }}>
+              Unlike English, spoken Korean relies heavily on combining core sentence frames with interchangeable words. A native
+              speaker knows tens of thousands of words, but everyday conversation keeps coming back to a few hundred essential
+              grammatical patterns — and K-Patto teaches the 300 you&rsquo;ll hear most.
+            </p>
+            <p className="lp-body-text" style={{ marginBottom: 18 }}>
+              In the official Korean proficiency framework (TOPIK Levels 1–6), <strong style={{ color: INK }}>Level 3</strong> marks
+              the milestone of independent communication — being able to travel, express opinions, and socialize with locals without
+              friction. K-Patto is specifically engineered to take you across this threshold through engaging 100-episode webtoons
+              instead of boring grammar charts.
             </p>
             <p className="lp-body-text">
-              By mastering all 300 curated patterns and 900 native audio examples in the app and the eBook, learners gain practical
-              fluency equivalent to <strong style={{ color: INK }}>TOPIK Level 3</strong> — independent proficiency for daily life,
-              travel, and social interactions in Korea.
+              Beyond the 100 webtoon episodes, we continuously create and publish bite-sized{' '}
+              <a href="/blog?tab=phrases" style={{ color: INK, textUnderlineOffset: 3 }}>real-life phrases</a> across our website and
+              social channels — giving you a non-stop stream of how modern Koreans speak right now.
             </p>
           </div>
 
@@ -227,10 +237,13 @@ export default function KPattoLandingPage() {
                 <div key={t.name} style={{ textAlign: 'center', fontSize: 11.5, letterSpacing: '.08em', textTransform: 'uppercase', color: MUTED }}>{t.name}</div>
               ))}
             </div>
-            <p style={{ width: '50%', margin: '14px 0 0', paddingTop: 8, borderTop: `2px solid ${RED}`, fontSize: 12, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: RED }}>
-              Covered by K-PATTO — Level 1 to Level 3
+            <p className="lp-cover-label">
+              K-Patto Core Coverage: Level 1 ~ Level 3 <span style={{ fontWeight: 600 }}>(Daily Conversational Fluency)</span>
             </p>
-            <p style={{ fontSize: 12.5, color: MUTED, margin: '14px 0 0' }}>TOPIK = Test of Proficiency in Korean · Levels 1–6</p>
+            <p style={{ fontSize: 13.5, lineHeight: 1.6, color: '#4A4540', margin: '14px 0 0', maxWidth: 620 }}>
+              Mastering Level 3 gives you independent fluency for travel, living, and real friendships in Korea.
+            </p>
+            <p style={{ fontSize: 12, color: MUTED, margin: '8px 0 0' }}>TOPIK = Test of Proficiency in Korean · Levels 1–6</p>
           </div>
         </div>
       </section>
