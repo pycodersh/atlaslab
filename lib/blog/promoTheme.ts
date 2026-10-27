@@ -1,5 +1,5 @@
 /**
- * 글 하단 프로모션 박스(앱 안내 ArticleAppBanner · PDF 패키지 PdfPromoBanner) 공용 디자인 토큰.
+ * 글 하단 프로모션 박스(앱 안내 ArticleAppBanner) 공용 디자인 토큰.
  * 두 박스가 위아래로 이어져 한 세트로 보이도록 색·글꼴·간격을 한 곳에서 관리한다.
  * 버튼의 hover 는 인라인 스타일로 못 하므로 .promo-btn / .promo-card 규칙은 app/globals.css 에 있다.
  */

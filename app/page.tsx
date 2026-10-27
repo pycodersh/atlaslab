@@ -20,24 +20,40 @@ const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 /* ── Product data ─────────────────────────────────────────────────────── */
 /** 홈 'Our Resources' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
  *  앞으로 K-PATTO PDF 패키지 같은 디지털 상품도 이 배열에 항목만 추가하면 그리드에 자연스럽게 합류한다
- *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가). */
-type Product = { name: string; audience: string; desc: string; tag: 'Live' | 'Soon'; href: string | null }
+ *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가).
+ *  카드는 설명을 늘어놓지 않고 한 문장 + 버튼 하나로 랜딩/도구로 보낸다 — K-Patto 의 체험·샘플·구매는 /kpatto 에서. */
+type Product = {
+  name: string
+  /** 이름 뒤에 붙는 부제(번역 대상) — 이름 자체는 번역하지 않는다 */
+  subtitle?: string
+  audience: string
+  desc: string
+  tag: 'Live' | 'Free' | 'Soon'
+  href: string | null
+  cta: string
+  note?: string
+}
 const PRODUCTS: readonly Product[] = [
   {
     name: 'K-Patto',
+    subtitle: ': Korean Patterns & Webtoon',
     audience: 'For learners of Korean',
-    desc: 'A 100-episode webtoon set in Seoul that teaches 300+ real phrases, with native audio on every line.',
+    desc: 'Learn 300+ real-life Korean phrases through 100 slice-of-life webtoon episodes with native audio sync.',
     tag: 'Live',
     href: '/kpatto',
+    cta: 'Explore K-Patto & Free Sample →',
+    note: 'Available in 300 Patterns eBook, Webtoon App, or Complete Bundle.',
   },
   {
     name: 'K-Pantry',
     audience: 'For cooking Korean at home',
     desc: "Tells you what you can make with what's already in your fridge — and what to use when an ingredient is missing.",
-    tag: 'Live',
+    tag: 'Free',
     href: '/kpantry/en',
+    cta: 'Start for free →',
   },
 ]
+const TAG_LABEL: Record<Product['tag'], string> = { Live: 'Live', Free: 'Free tool', Soon: 'Coming soon' }
 
 /* ── App icons (SVG) ──────────────────────────────────────────────────── */
 const APP_ICONS: Record<string, React.ReactNode> = {
@@ -296,7 +312,8 @@ export default async function AtlasLabHome() {
               "icon name  badge"
               "aud  aud   aud"
               "desc desc  desc"
-              "btn  btn   btn";
+              "btn  btn   btn"
+              "note note  note";
             gap: 0 12px;
             align-items: center;
           }
@@ -335,6 +352,7 @@ export default async function AtlasLabHome() {
             grid-area: btn;
             width: 100%;
           }
+          .pnote { grid-area: note; margin-top: 8px; }
         }
         .pmark {
           width: 56px; height: 56px;
@@ -372,7 +390,14 @@ export default async function AtlasLabHome() {
           border-radius: 4px;
         }
         .badge-live { background: var(--brand-red, #C8102E); color: #fff; }
+        .badge-free { background: var(--ink, #111); color: #fff; }
         .badge-soon { background: #F0EEE9; color: #777; }
+        /* 버튼 아래 한 줄 — 어떤 형태로 살 수 있는지 */
+        .pnote {
+          font-family: ${BODY};
+          font-size: 11.5px; line-height: 1.5; color: #9A9A9A;
+          margin-top: 10px; text-align: center;
+        }
         /* CTA 는 세 카드가 모두 같은 솔리드 버건디다.
            예전에는 아웃라인 + 호버 시 채우기였는데, 터치 기기는 탭한 카드에
            :hover 를 남겨 둬서 "첫 카드만 채워져 보이는" 상태가 만들어졌다.
@@ -545,8 +570,12 @@ export default async function AtlasLabHome() {
           <div className="products-grid">
             {PRODUCTS.map(p => {
               const badge = (
-                <span className={`pbadge ${p.tag === 'Live' ? 'badge-live' : 'badge-soon'}`}>
-                  {p.tag === 'Soon' ? 'Coming soon' : 'Live'}
+                // 'Live' 는 자동 번역이 동사("살다")로 옮겨 버려서 번역에서 뺀다
+                <span
+                  className={`pbadge badge-${p.tag.toLowerCase()}${p.tag === 'Live' ? ' notranslate' : ''}`}
+                  translate={p.tag === 'Live' ? 'no' : undefined}
+                >
+                  {TAG_LABEL[p.tag]}
                 </span>
               )
               const inner = (
@@ -556,7 +585,9 @@ export default async function AtlasLabHome() {
                     {APP_ICONS[p.name]}
                   </div>
                   {/* Name + description (flex: 1 pushes badge+btn to bottom) */}
-                  <div className="pname notranslate" translate="no">{p.name}</div>
+                  <div className="pname">
+                    <span className="notranslate" translate="no">{p.name}</span>{p.subtitle}
+                  </div>
                   <div className={`paud${p.tag === 'Soon' ? ' paud-soon' : ''}`}>
                     {p.audience}
                   </div>
@@ -564,9 +595,10 @@ export default async function AtlasLabHome() {
                   {/* Badge just above button */}
                   {badge}
                   {p.href
-                    ? <span className="pbtn">Start for free →</span>
+                    ? <span className="pbtn">{p.cta}</span>
                     : <span className="pbtn-soon">Coming soon</span>
                   }
+                  {p.note && <div className="pnote">{p.note}</div>}
                 </>
               )
               return p.href ? (

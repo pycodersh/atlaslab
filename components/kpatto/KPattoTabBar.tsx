@@ -14,8 +14,9 @@ const TABS = [
   {
     key: 'home',
     label: 'Home',
-    href: '/kpatto',
-    active: (p: string) => p === '/kpatto' || p === '/kpatto/home',
+    // /kpatto 는 판매 랜딩이라 앱 홈은 /kpatto/home 이다
+    href: '/kpatto/home',
+    active: (p: string) => p === '/kpatto/home',
     icon: (active: boolean) => <House size={22} color={active ? ACTIVE : MUTED} strokeWidth={active ? 2.5 : 1.8} />,
   },
   {
@@ -44,8 +45,8 @@ const TABS = [
 export function KPattoTabBar() {
   const pathname = usePathname()
 
-  // export(캡처용)와 PDF 구매 랜딩은 하단 탭바 없이 보여 준다
-  if (pathname.endsWith('/export') || pathname.startsWith('/kpatto/purchase')) return null
+  // export(캡처용)와 판매 랜딩(/kpatto, 옛 /kpatto/purchase)은 하단 탭바 없이 보여 준다
+  if (pathname.endsWith('/export') || pathname === '/kpatto' || pathname.startsWith('/kpatto/purchase')) return null
 
   return (
     <div style={{

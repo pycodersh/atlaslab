@@ -68,6 +68,9 @@ export function ArticleAppBanner({
       <Link href={cta.href} className="promo-btn">
         {cta.button}
       </Link>
+      {cta.note && (
+        <p style={{ fontFamily: BODY, fontSize: 13, lineHeight: 1.5, color: '#6B6B6B', margin: '12px 0 0' }}>{cta.note}</p>
+      )}
     </aside>
   )
 }

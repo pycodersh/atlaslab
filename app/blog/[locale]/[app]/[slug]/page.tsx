@@ -7,8 +7,7 @@ import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
 import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
-import { PdfPromoBanner } from '@/components/blog/PdfPromoBanner'
-import { groupKeyOf, topicSectionKey } from '@/lib/blog/sections'
+import { groupKeyOf } from '@/lib/blog/sections'
 import { KlookBanner } from '@/components/blog/KlookBanner'
 import { SaveActions } from '@/components/SaveActions'
 import { BlogThumb } from '@/components/blog/BlogThumb'
@@ -327,11 +326,9 @@ export default async function AppBlogPostPage({
           {/* Explore Korea(hotels·places) 글에만 — 본문이 끝나는 바로 아래 Klook 배너 */}
           {groupKeyOf(app, post.category) === 'explore-korea' && <KlookBanner />}
 
-          {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위 */}
+          {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위.
+              Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta) */}
           <ArticleAppBanner app={app} category={post.category} locale={locale} />
-
-          {/* Korean phrases / Korean basics 글 하단: K-PATTO PDF 패키지 안내 */}
-          {(['phrases', 'basics'] as const).some(k => k === topicSectionKey(app, post.category)) && locale !== 'ko' && <PdfPromoBanner />}
 
           {/* Related posts */}
           {related && related.length > 0 && (

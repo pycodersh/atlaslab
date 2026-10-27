@@ -19,13 +19,17 @@ export type AppCta = {
   blurb: string
   /** 버튼 문구 */
   button: string
+  /** 버튼 아래 작은 안내(선택) */
+  note?: string
 }
 
+/** Korean phrases / basics — 앱 연결과 PDF 구매를 /kpatto 랜딩 하나로 모은 단일 CTA */
 const K_PATTO: AppCta = {
   label: 'K-Patto',
   href: '/kpatto',
-  blurb: 'Want to practice these phrases with voice drills? Try K-Patto for free.',
-  button: 'Start Practicing on K-Patto →',
+  blurb: 'Practice these patterns in a 100-episode webtoon with native audio.',
+  button: 'Study with Webtoon & Get Full 300 Patterns →',
+  note: 'Free sample episodes & 153-page printable eBook available.',
 }
 
 /** Life in Korea — 문화 글이라 "연습" 보다 "이해" 쪽으로 문구를 맞춘다 */

@@ -204,7 +204,7 @@ export default function KPattoSubscriptionPage() {
 
   const handleUpgrade = useCallback(async () => {
     if (upgrading) return
-    if (!user?.id) { router.push('/kpatto'); return }
+    if (!user?.id) { router.push('/kpatto/home'); return }
 
     const priceId = cleanEnvLoud(
       process.env.NEXT_PUBLIC_PADDLE_KPATTO_PRICE_ID,

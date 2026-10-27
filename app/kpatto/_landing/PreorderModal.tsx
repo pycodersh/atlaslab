@@ -2,75 +2,21 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { CHECKOUT_URL } from '@/lib/kpatto/purchase'
-
-export const PRICE = '$19.99'
-export const LIST_PRICE = '$24.99'
-
-/** 무료 미리보기 PDF — 표지·사용법 + 패턴 001~010 (exports/kpatto/pdf-build/make_free_sample.py 로 생성).
- *  NEXT_PUBLIC_KPATTO_FREE_SAMPLE_URL 로 바꿀 수 있고, 비어 있으면 커밋된 파일을 쓴다. */
-const SAMPLE_URL = process.env.NEXT_PUBLIC_KPATTO_FREE_SAMPLE_URL || '/assets/K_Patto_Free_Sample_10.pdf'
 
 const SERIF = '"Playfair Display", Georgia, serif'
 
-/* 두 버튼이 공유하는 규격 — 높이 52px · 최소 폭 240px · 모바일은 화면 폭 */
-const BTN = 'box-border w-full sm:w-auto min-w-[240px] h-[52px] px-6 rounded-md font-medium text-sm sm:text-base ' +
-  'flex items-center justify-center text-center whitespace-nowrap no-underline cursor-pointer transition-colors ' +
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current'
-const PRIMARY = 'bg-[var(--brand-red,#C8102E)] hover:bg-[var(--brand-red-dark,#A30D25)] text-white shadow-sm'
-/* Tailwind 의 dark: 는 방문자 OS 테마를 따른다 — 히어로는 늘 검고 결제 섹션은 늘 밝으므로
-   바탕에 맞춘 tone 으로 색을 고른다(OS 다크 모드에서 밝은 섹션의 글자가 흰색이 되는 일을 막는다). */
-const SECONDARY = {
-  dark: 'bg-transparent border border-white/40 hover:border-white hover:bg-white/5 text-white',
-  light: 'bg-transparent border border-neutral-400 hover:border-neutral-900 text-neutral-900',
-} as const
-const NOTE = { dark: 'text-white/45', light: 'text-[#8A8580]' } as const
-
-/**
- * 히어로와 결제 섹션이 똑같이 쓰는 버튼 한 쌍: 유료 전체 패키지(솔리드 레드) + 무료 샘플(아웃라인).
- *
- * 결제 링크는 NEXT_PUBLIC_KPATTO_CHECKOUT_URL(옛 이름 NEXT_PUBLIC_PDF_CHECKOUT_URL)에서 온다.
- * 채워지면 새 창으로 결제 페이지를 열고, 비어 있으면 '#' 대신 사전 주문 모달을 연다 —
- * 아무 일도 안 일어나는 버튼을 두지 않고 출시 알림 이메일을 받는다.
- */
-export function PurchaseCtas({ tone }: { tone: 'dark' | 'light' }) {
-  const [open, setOpen] = useState(false)
-  const openerRef = useRef<HTMLButtonElement | null>(null)
-
-  // 한 span 으로 감싼다 — flex 버튼 안에서 텍스트와 가격 span 이 따로 놓이면 사이 공백이 사라진다
-  const label = <span>Get Full Package — <span className="notranslate" translate="no">{PRICE}</span></span>
-
-  return (
-    <div>
-      <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
-        {CHECKOUT_URL ? (
-          <a href={CHECKOUT_URL} target="_blank" rel="noopener noreferrer" className={`${BTN} ${PRIMARY}`}>{label}</a>
-        ) : (
-          <button type="button" ref={openerRef} aria-haspopup="dialog" onClick={() => setOpen(true)} className={`${BTN} ${PRIMARY}`}>
-            {label}
-          </button>
-        )}
-        <a href={SAMPLE_URL} download className={`${BTN} ${SECONDARY[tone]}`}>
-          Download Free Sample
-        </a>
-      </div>
-      {/* 괄호 설명은 버튼에서 빼서 서브텍스트로 */}
-      <p className={`mt-3 text-xs text-center sm:text-left ${NOTE[tone]}`}>
-        Free sample: patterns 001–010 as a PDF, no sign-up · Full package: one-time payment, lifetime access
-      </p>
-      {open && <CheckoutModal onClose={() => { setOpen(false); openerRef.current?.focus() }} />}
-    </div>
-  )
-}
-
 type Status = 'idle' | 'sending' | 'done' | 'error'
 
-function CheckoutModal({ onClose }: { onClose: () => void }) {
+/**
+ * 결제 링크가 아직 없는 상품의 구매 버튼이 여는 사전 주문(출시 알림) 모달.
+ * 이메일은 /api/kpatto/preorder → kp_preorder_emails 로 간다.
+ * 배경 클릭 · X · Esc 로 닫히고, 열려 있는 동안 배경 스크롤을 잠근다.
+ */
+export function PreorderModal({ product, price, onClose }: { product: string; price: string; onClose: () => void }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const inputRef = useRef<HTMLInputElement | null>(null)
 
-  // Esc 로 닫기 · 배경 스크롤 잠금 · 열리면 이메일 칸에 포커스
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
     document.addEventListener('keydown', onKey)
@@ -113,7 +59,7 @@ function CheckoutModal({ onClose }: { onClose: () => void }) {
           position: relative; width: 100%; max-width: 460px; max-height: calc(100dvh - 40px); overflow-y: auto;
           background: #fff; color: #111;
           border-top: 4px solid var(--brand-red, #C8102E);
-          padding: 40px 36px 32px;
+          padding: 40px 36px 32px; box-sizing: border-box;
           box-shadow: 0 24px 60px rgba(0,0,0,.35);
           font-family: "DM Sans", "Inter", system-ui, sans-serif;
           animation: ckmRise .28s cubic-bezier(.2,.8,.2,1);
@@ -166,25 +112,25 @@ function CheckoutModal({ onClose }: { onClose: () => void }) {
           </svg>
         </button>
 
-        <p className="ckm-kicker" translate="no">K-PATTO E-Book</p>
-        <h2 id="ckm-title" className="ckm-title">Get K-Patto Premium Package</h2>
+        <p className="ckm-kicker" translate="no">K-PATTO</p>
+        <h2 id="ckm-title" className="ckm-title">{product}</h2>
         <p className="ckm-price">
-          {/* 자동 번역이 가격을 "19.99달러"처럼 바꾸지 않게 */}
-          <span className="ckm-price-now notranslate" translate="no">{PRICE}</span>{' '}
-          <span className="ckm-price-tag">(Launch Special)</span>
+          {/* 자동 번역이 가격을 "14.99달러"처럼 바꾸지 않게 */}
+          <span className="ckm-price-now notranslate" translate="no">{price}</span>{' '}
+          <span className="ckm-price-tag">(Launch price)</span>
         </p>
 
         {status === 'done' ? (
           <div className="ckm-done" role="status">
             <p className="ckm-done-title">You&rsquo;re on the list.</p>
             <p className="ckm-text" style={{ margin: 0 }}>
-              We&rsquo;ll email <strong>{email}</strong> as soon as checkout opens — at the {PRICE} launch price.
+              We&rsquo;ll email <strong>{email}</strong> as soon as checkout opens — at the {price} launch price.
             </p>
           </div>
         ) : (
           <>
             <p className="ckm-text">
-              Secure checkout via Gumroad / Stripe coming soon. Enter your email to get launch notifications:
+              Secure checkout via Gumroad is coming soon. Enter your email and we&rsquo;ll tell you the moment it opens:
             </p>
             <form className="ckm-form" onSubmit={submit}>
               <label htmlFor="ckm-email" className="sr-only">Email address</label>
