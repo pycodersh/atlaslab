@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPATTO_TAB_BAR_HEIGHT } from '@/components/kpatto/KPattoTabBar'
+import { InstallAppButton } from '@/components/kpatto/InstallAppButton'
 import { unlockWithKey } from '@/lib/kpatto/license'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { KP } from '@/lib/kpatto/theme'
@@ -55,6 +56,11 @@ export function RedeemClient() {
               {isLifetime ? 'Pro lifetime access is active in this browser.' : 'K-PATTO Pro is already active on your account.'}
             </p>
             <Link href="/kpatto/story" style={btn}>Go to episodes</Link>
+            {/* 잠금이 풀린 직후가 설치를 권하기 가장 좋은 때 — 이미 설치된 창이면 보이지 않는다 */}
+            <p style={{ fontSize: 13.5, lineHeight: 1.55, color: T2, margin: '18px 0 10px' }}>
+              Keep K-PATTO one tap away — install it on this device.
+            </p>
+            <InstallAppButton />
           </div>
         ) : (
           <form onSubmit={submit} style={{ border: '1px solid #ECECEC', borderRadius: 16, padding: 20 }}>

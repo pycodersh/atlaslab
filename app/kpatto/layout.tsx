@@ -7,6 +7,7 @@ import { PreferencesProvider } from '@/contexts/PreferencesContext'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { KPattoTabBar } from '@/components/kpatto/KPattoTabBar'
 import { LicenseToast } from '@/components/kpatto/LicenseToast'
+import { KPattoInstallPromptCatcher } from '@/components/kpatto/InstallAppButton'
 
 const jakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -21,6 +22,11 @@ const baloo2 = Baloo_2({
 })
 
 export const metadata: Metadata = {
+  // K-PATTO 전용 PWA 매니페스트 — 이게 있어야 안드로이드·데스크톱 Chrome 이 설치(beforeinstallprompt)를 연다.
+  // 범위는 /kpatto/ 만, 시작은 앱 홈. (사이트 전체의 /manifest.json 은 Patto 용이다)
+  manifest: '/kpatto/manifest.webmanifest',
+  appleWebApp: { capable: true, title: 'K-PATTO', statusBarStyle: 'default' },
+  icons: { apple: '/icons/kpatto/icon-192.png' },
   title: 'K-PATTO — Learn Korean Through Webtoon Stories',
   description:
     'Learn real Korean through a 100-episode webtoon. 300+ essential expressions with native audio. First 10 episodes free.',
@@ -71,6 +77,7 @@ export default function KPattoLayout({ children }: { children: React.ReactNode }
               {children}
               <KPattoTabBar />
               <LicenseToast />
+              <KPattoInstallPromptCatcher />
             </div>
           </AuthProvider>
         </PreferencesProvider>

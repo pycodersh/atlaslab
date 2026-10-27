@@ -1,0 +1,20 @@
+{
+  "id": "/kpatto/",
+  "name": "K-PATTO — Learn Korean Through Webtoon Stories",
+  "short_name": "K-PATTO",
+  "description": "Learn real Korean through a 100-episode webtoon with native audio on every line.",
+  "start_url": "/kpatto/home",
+  "scope": "/kpatto/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#FFFFFF",
+  "lang": "en",
+  "categories": ["education"],
+  "icons": [
+    { "src": "/icons/kpatto/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/kpatto/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/kpatto/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/kpatto/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
