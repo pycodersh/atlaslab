@@ -36,9 +36,9 @@ const K_PATTO: AppCta = {
 const K_PATTO_CULTURE: AppCta = {
   label: 'K-Patto',
   href: '/kpatto',
-  blurb:
-    'Want to understand Korean culture through real sentence patterns? Try K-Patto for free.',
-  button: 'Learn with K-Patto →',
+  blurb: 'Want to understand Korean culture through real sentence patterns?',
+  button: 'EXPLORE K-PATTO →',
+  note: 'Master 300+ everyday patterns through 100 slice-of-life webtoon episodes with native audio.',
 }
 
 const K_PANTRY: AppCta = {

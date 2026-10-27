@@ -323,7 +323,24 @@ export default async function AppBlogPostPage({
         </article>
 
         <div className="art-wrap" style={{ paddingBottom: 8 }}>
-          {/* Explore Korea(hotels·places) 글에만 — 본문이 끝나는 바로 아래 Klook 배너 */}
+          {/*
+            ── (추후) 글 전용 예약 버튼 자리 — 본문 Summary 바로 아래 ──────────────────────
+            INSPIRE 처럼 특정 리조트·액티비티 글에 Trip.com / Klook 제휴 예약 링크를 받으면 여기에 둔다.
+            Summary 리스트는 글 본문(DB content)이라 템플릿에서 그 안에 끼울 수 없어, 본문이 끝나는 이 자리가 바로 아래다.
+            slug 별로 링크를 매핑해 해당 글에서만 보이게 한다. 예:
+
+            const BOOKING_LINKS: Record<string, { label: string; href: string }> = {
+              'mohegan-inspire-resort-guide': { label: 'Book INSPIRE Resort on Trip.com →', href: 'https://…(제휴 링크)' },
+            }
+            {BOOKING_LINKS[slug] && (
+              <a href={BOOKING_LINKS[slug].href} target="_blank" rel="noopener noreferrer sponsored" className="promo-btn"
+                 style={{ display: 'block', textAlign: 'center', margin: '24px 0 0' }}>
+                {BOOKING_LINKS[slug].label}
+              </a>
+            )}
+          */}
+
+          {/* Explore Korea(hotels·places) 글에만 — 본문이 끝나는 바로 아래 Klook 배너, 그 아래 K-Patto 카드 */}
           {groupKeyOf(app, post.category) === 'explore-korea' && <KlookBanner />}
 
           {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위.
