@@ -32,6 +32,9 @@ PUBLIC = os.path.join(os.path.dirname(__file__), '..', 'public', 'kpatto')
 WM_LARGE = (113, 58)
 WM_SMALL = (75, 15)
 MAX_STRETCH = 0.03
+# 원본 비율이 기존 컷과 달라 늘리는 대신 위아래를 잘라 맞출 화 — 줄마다 잘라낼 높이 중 위쪽에서 덜어낼 몫.
+# ep42: 새 그림이 0.33 비율(기존 0.40). 머리 · 손 · 컵이 남도록 줄마다 위치를 정했다.
+CROP_FIT = {42: [0.47, 0.30, 0.35, 0.75]}
 # 알파 맵을 잴 이미지: 반짝이가 어두운 단색 배경 위에 있는 것
 ALPHA_REFS = ('ep43',)
 
@@ -189,12 +192,23 @@ def main():
             continue
 
         plan = []
-        for new_row, old_row in zip(rows, old):
+        for ri, (new_row, old_row) in enumerate(zip(rows, old)):
+            if ep in CROP_FIT:
+                # 줄마다 같은 높이로 잘라 분할 컷끼리 배율 · 높이가 맞게 한다. 남는 폭은 양옆에서 똑같이 덜어낸다.
+                H = min((x1 - x0) * th / tw for (x0, y0, x1, y1), (_, (tw, th)) in zip(new_row, old_row))
             for (x0, y0, x1, y1), (path, (tw, th)) in zip(new_row, old_row):
+                if ep in CROP_FIT:
+                    W, cx = H * tw / th, (x0 + x1) / 2
+                    top = y0 + ((y1 - y0) - H) * CROP_FIT[ep][ri]
+                    box = (round(cx - W / 2), round(top), round(cx + W / 2), round(top + H))
+                    print(f'  {os.path.basename(path)}: crop {box[2] - box[0]}x{box[3] - box[1]} '
+                          f'(trim top {box[1] - y0} · bottom {y1 - box[3]} · sides {box[0] - x0}) → {tw}x{th}')
+                    plan.append((box, path, (tw, th), 0.0))
+                    continue
                 stretch = (tw / th) / ((x1 - x0) / (y1 - y0)) - 1
                 plan.append(((x0, y0, x1, y1), path, (tw, th), stretch))
                 print(f'  {os.path.basename(path)}: crop {x1 - x0}x{y1 - y0} → {tw}x{th} (aspect change {stretch:+.1%})')
-        # 원본 비율이 기존 컷과 다르면 같은 크기로 맞출 때 그림이 늘어난다 — 덮어쓰지 않는다
+        # 원본 비율이 기존 컷과 다르면 같은 크기로 맞출 때 그림이 늘어난다 — 덮어쓰지 않는다(CROP_FIT 화는 잘라서 맞춤)
         if max(abs(p[3]) for p in plan) > MAX_STRETCH:
             print(f'  ✗ aspect change over {MAX_STRETCH:.0%} — skipped (the source has a different shape)')
             continue
