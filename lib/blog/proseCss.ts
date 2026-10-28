@@ -178,17 +178,27 @@ export function proseCss(bodyFont: string): string {
           font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
           color: #C8102E; margin: 0 0 12px;
         }
-        .blog-prose .quick-card__list { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 10px; }
-        .blog-prose .quick-card__list li { margin: 0; padding: 0; font-size: 15.5px; line-height: 1.55; color: #1F2937; }
-        .blog-prose .quick-card__list li::before { content: none; }
-        .blog-prose .quick-card__btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .blog-prose .quick-card__btns a.cta-btn { display: block; text-align: center; margin: 0; box-sizing: border-box; }
+        /* 핵심 3줄 — 이모지 없이 작은 점 불릿으로(편집 지면 톤) */
+        .blog-prose .quick-card__list { list-style: disc; margin: 0 0 20px; padding-left: 20px; display: grid; gap: 8px; }
+        .blog-prose .quick-card__list li { margin: 0; padding-left: 2px; font-size: 15.5px; line-height: 1.55; color: #1F2937; }
+        .blog-prose .quick-card__list li::marker { color: #C8102E; }
+        /* 버튼 줄 — 넓으면 나란히, 좁으면 줄바꿈. 두 버튼 사이 12px, 카드 밑 글과는 카드 바깥 여백(32px)이 띄운다 */
+        .blog-prose .quick-card__btns { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 0; }
+        /* 기준 폭 290px: 두 버튼이 한 줄에 다 안 들어가면(라벨이 두 줄로 접히기 전에) 위아래로 넘어간다 */
+        .blog-prose .quick-card__btns a.cta-btn {
+          flex: 1 1 290px; display: block; text-align: center; margin: 0; box-sizing: border-box; white-space: nowrap;
+        }
         .blog-prose a.cta-btn.cta-btn-outline { background: #fff; color: #111; border: 1.5px solid #111; padding: 10.5px 20px; }
         .blog-prose a.cta-btn.cta-btn-outline:hover { background: #111; color: #fff; box-shadow: none; }
-        @media (max-width: 560px) {
+        @media (max-width: 640px) {
           .blog-prose .quick-card { padding: 16px 16px 18px; }
           .blog-prose .quick-card__list li { font-size: 15px; }
-          .blog-prose .quick-card__btns { grid-template-columns: 1fr; }
+          /* 폰: 위아래로 쌓고 폭 전체, 좌우 여백 같게 */
+          .blog-prose .quick-card__btns { flex-direction: column; align-items: stretch; }
+          .blog-prose .quick-card__btns a.cta-btn {
+            flex: 0 0 auto; width: 100%; padding-left: 12px; padding-right: 12px;
+            font-size: 14px; white-space: normal;   /* 아주 좁은 폰에서는 줄바꿈 허용(넘치지 않게) */
+          }
         }
 
         /* 제휴 링크 고지 — 글 맨 위에 조용하게 */

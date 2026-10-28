@@ -110,7 +110,10 @@ async function main() {
   const dir = path.resolve(process.cwd(), 'scripts', 'backups'); fs.mkdirSync(dir, { recursive: true })
   const bak = path.join(dir, `${SLUG}-${new Date().toISOString().replace(/[:.]/g, '-')}.md`)
   fs.writeFileSync(bak, post.content as string)
-  const { error: upErr } = await sb.from('blog_posts').update({ content: next }).eq('id', post.id).eq('content', post.content as string)
+  // 본문 전체를 조건(eq)으로 걸면 URL 이 길어져 400 이 날 수 있다 — 쓰기 직전에 다시 읽어 비교한다
+  const { data: again } = await sb.from('blog_posts').select('content').eq('id', post.id).single()
+  if (again?.content !== post.content) throw new Error('그 사이 본문이 바뀌었다 — 쓰지 않고 중단')
+  const { error: upErr } = await sb.from('blog_posts').update({ content: next }).eq('id', post.id)
   if (upErr) throw new Error(upErr.message)
   console.log(`✅ 저장 (백업: ${path.relative(process.cwd(), bak)})`)
 }

@@ -571,9 +571,17 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
   }
   .desktop-right-col::-webkit-scrollbar { display: none; }
 
-  /* Hide all scrollbars on desktop — content still scrolls via mouse wheel */
-  * { scrollbar-width: none; }
-  *::-webkit-scrollbar { display: none; }
+  /* 안쪽 스크롤 영역(사이드 패널 · 탭 줄 등)의 스크롤바는 숨긴다 — 마우스 휠로는 그대로 스크롤된다.
+     페이지 자체(html)의 세로 스크롤바는 숨기지 않는다: PC 에서 지금 위치를 보고 끌어서 이동할 수 있어야 한다. */
+  body * { scrollbar-width: none; }
+  body *::-webkit-scrollbar { display: none; }
+
+  /* 페이지 스크롤바 — 얇고 무채색으로 */
+  html { scrollbar-width: thin; scrollbar-color: #C9C4BD transparent; }
+  html::-webkit-scrollbar { width: 8px; }
+  html::-webkit-scrollbar-track { background: transparent; }
+  html::-webkit-scrollbar-thumb { background: #C9C4BD; border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+  html::-webkit-scrollbar-thumb:hover { background-color: #9E9890; }
 }
 
 /* ── Image Slider Ken Burns ──────────────────────────────────────────── */
