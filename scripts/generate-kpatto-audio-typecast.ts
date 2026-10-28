@@ -14,7 +14,8 @@
  * 실행:
  *   npx tsx scripts/generate-kpatto-audio-typecast.ts --from 1 --to 30 --dry-run   (생성 없이 배역 · 글자 수만)
  *   npx tsx scripts/generate-kpatto-audio-typecast.ts --from 1 --to 30
- * 이미 같은 파일 · URL 이 있는 말풍선은 건너뛴다(--force 로 다시 만듦). 중간에 끊겨도 다시 돌리면 이어진다.
+ * 문구 · 목소리가 그대로인 줄(대사 audio_hash 일치)은 건너뛴다 — 배역을 바꾸고 다시 돌리면 그 줄만 새로 만든다.
+ * 다시 만든 파일은 같은 경로에 덮어쓰고 URL 에 ?v= 를 붙여 캐시를 피한다. --force 는 전부 다시 만든다.
  */
 import * as dotenv from 'dotenv'
 import * as path from 'path'
@@ -42,7 +43,7 @@ const V = {
   Yumi:     'tc_65e96ab52564d1136ecb1d67',  // 젊은 여성 점원 · 약사 · 간호사 / 안내방송
   Sooni:    'tc_60ad0841061ee28740ec2e1c',  // 시장 할머니
   Siwon:    'tc_62849c0bb958a8ed96096c1c',  // ep2 젊은 남자 행인
-  Sangdo:   'tc_5c789c337ad86500073a02ce',  // ep14 중년 남자 행인 · ep7 남자 상인
+  Byunghun: 'tc_694395d43f2c8d9d43e9a897',  // ep14 중년 남자 행인 · ep7 남자 상인 (병훈 — Sangdo 발음이 어색해 교체)
   Jiseon:   'tc_6a4f2130d153a5cac8e19996',  // 교수(ep10) · 30대 직원(ep8)
   Jinwoo:   'tc_632293f759d649937b97f323',  // 의사
   Taewoo:   'tc_6800a387534948f191cc952b',  // 학생(ep10)
@@ -57,10 +58,10 @@ const BY_SPEAKER: Record<string, VoiceName> = {
 }
 /** 화 · 대사별 예외 — 그림 속 인물에 맞춘다. text 가 있으면 그 대사만. */
 const OVERRIDES: { ep: number; speaker: string; text?: string; voice: VoiceName }[] = [
-  { ep: 14, speaker: 'stranger', voice: 'Sangdo' },                                   // 모자 쓴 중년 남자
-  { ep: 8,  speaker: 'staff',    voice: 'Jiseon' },                                   // 30대 화장품 가게 직원
-  { ep: 7,  speaker: 'merchant_f', text: '만 원이야. 싸게 주는 거야.', voice: 'Sangdo' }, // 4컷 남자 상인이 민준과 흥정
-  { ep: 7,  speaker: 'merchant_f', text: '하하, 그럼 팔천 원!',        voice: 'Sangdo' },
+  { ep: 14, speaker: 'stranger', voice: 'Byunghun' },                                   // 모자 쓴 중년 남자
+  { ep: 8,  speaker: 'staff',    voice: 'Jiseon' },                                     // 30대 화장품 가게 직원
+  { ep: 7,  speaker: 'merchant_f', text: '만 원이야. 싸게 주는 거야.', voice: 'Byunghun' }, // 4컷 남자 상인이 민준과 흥정
+  { ep: 7,  speaker: 'merchant_f', text: '하하, 그럼 팔천 원!',        voice: 'Byunghun' },
 ]
 
 function voiceFor(ep: number, speaker: string, text: string): VoiceName | null {
@@ -115,6 +116,10 @@ async function synth(voiceId: string, text: string): Promise<Buffer> {
 
 type Job = { ep: number; idx: number; bubbleId: number; dialogueId: number | null; speaker: string; text: string; voice: VoiceName; file: string; storagePath: string; currentUrl: string | null }
 
+/** 문구 · 목소리 · 설정이 같으면 같은 값 — 대사의 audio_hash 로 남겨, 다시 돌릴 때 바뀐 줄만 새로 만든다. */
+const audioHash = (text: string, voice: VoiceName) =>
+  'tc-' + createHash('sha256').update(`${text}|${voice}|1.0|normal`, 'utf8').digest('hex').slice(0, 13)
+
 async function main() {
   if (!new URL(process.env.NEXT_PUBLIC_SUPABASE_URL!).hostname.startsWith('eecvvgkihtcgfikaimao')) throw new Error('patto Supabase 가 아니다 — 중단')
 
@@ -145,35 +150,49 @@ async function main() {
   console.log('배역: ' + [...cast].map(([k, n]) => `${k} ${n}`).join(', '))
   if (unmapped.length) { console.log(`✗ 배역 없는 화자 ${unmapped.length}개 — 중단: ${unmapped.join(', ')}`); process.exit(1) }
   if (chars > c0.total - c0.used) { console.log('✗ 남은 크레딧이 모자란다 — 중단'); process.exit(1) }
+
+  const { data: dlgNow } = await sb.from('kp_dialogues').select('id, episode_id, text_ko, audio_url, audio_hash').gte('episode_id', FROM).lte('episode_id', TO)
+  const dlgByEpText = new Map<string, number[]>()
+  for (const d of dlgNow ?? []) { const k = `${d.episode_id}|${d.text_ko}`; dlgByEpText.set(k, [...(dlgByEpText.get(k) ?? []), d.id]) }
+  const dlgHash = new Map((dlgNow ?? []).map(d => [d.id, d.audio_hash as string | null]))
+  // 대사: 연결된 것, 없으면 같은 화 · 같은 문구의 대사(하나일 때만)
+  const targetsOf = (j: Job) => j.dialogueId != null ? [j.dialogueId] : (dlgByEpText.get(`${j.ep}|${j.text}`) ?? [])
+  // 이미 같은 문구 · 목소리로 만든 줄은 건너뛴다(대사 행이 없으면 같은 파일 · URL 이 있을 때)
+  const upToDate = (j: Job) => {
+    const publicUrl = sb.storage.from(BUCKET).getPublicUrl(j.storagePath).data.publicUrl
+    if (j.currentUrl?.split('?')[0] !== publicUrl || !fs.existsSync(j.file)) return false
+    const t = targetsOf(j)
+    return t.length === 1 ? dlgHash.get(t[0]) === audioHash(j.text, j.voice) : true
+  }
+  const todo = FORCE ? jobs : jobs.filter(j => !upToDate(j))
+  console.log(`새로 만들 줄: ${todo.length} (${todo.reduce((s, j) => s + j.text.length, 0).toLocaleString()}자)` +
+    (todo.length && todo.length < 20 ? '\n  ' + todo.map(j => `ep${j.ep} #${j.idx} ${j.speaker}→${j.voice} "${j.text}"`).join('\n  ') : ''))
   if (DRY) return
 
   // 되돌리기용: 지금 연결된 음성 URL
   fs.mkdirSync(LOCAL, { recursive: true })
   const stamp = new Date().toISOString().replace(/[:.]/g, '-')
-  const { data: dlgNow } = await sb.from('kp_dialogues').select('id, episode_id, text_ko, audio_url, audio_hash').gte('episode_id', FROM).lte('episode_id', TO)
   fs.writeFileSync(path.join(LOCAL, `backup-ep${FROM}-${TO}-${stamp}.json`), JSON.stringify({ bubbles: bubbles!.map(b => ({ id: b.id, audio_url: b.audio_url })), dialogues: dlgNow }, null, 1))
-  const dlgByEpText = new Map<string, number[]>()
-  for (const d of dlgNow ?? []) { const k = `${d.episode_id}|${d.text_ko}`; dlgByEpText.set(k, [...(dlgByEpText.get(k) ?? []), d.id]) }
 
-  let done = 0, made = 0, skipped = 0
+  let done = 0, made = 0
+  const skipped = jobs.length - todo.length
   const failed: string[] = []
-  const queue = [...jobs]
+  const queue = [...todo]
   async function worker() {
     for (let j = queue.shift(); j; j = queue.shift()) {
       const label = `ep${String(j.ep).padStart(2, '0')} #${String(j.idx).padStart(2, '0')} ${j.speaker}(${j.voice})`
       try {
-        const publicUrl = sb.storage.from(BUCKET).getPublicUrl(j.storagePath).data.publicUrl
-        if (!FORCE && j.currentUrl === publicUrl && fs.existsSync(j.file)) { skipped++; continue }
+        const hash = audioHash(j.text, j.voice)
+        // 같은 경로에 덮어쓰므로 ?v= 로 주소를 바꿔 브라우저 · CDN 캐시의 옛 음성이 나오지 않게 한다
+        const publicUrl = sb.storage.from(BUCKET).getPublicUrl(j.storagePath).data.publicUrl + `?v=${hash.slice(3, 11)}`
         const buf = await synth(V[j.voice], j.text)
         fs.mkdirSync(path.dirname(j.file), { recursive: true }); fs.writeFileSync(j.file, buf)
         const { error: upErr } = await sb.storage.from(BUCKET).upload(j.storagePath, buf, { contentType: 'audio/mpeg', upsert: true })
         if (upErr) throw new Error(`업로드 실패: ${upErr.message}`)
         const { error: bErr } = await sb.from('kp_bubbles').update({ audio_url: publicUrl }).eq('id', j.bubbleId)
         if (bErr) throw new Error(`kp_bubbles: ${bErr.message}`)
-        // 대사: 연결된 것, 없으면 같은 화 · 같은 문구의 대사(하나일 때만)
-        const targets = j.dialogueId != null ? [j.dialogueId] : (dlgByEpText.get(`${j.ep}|${j.text}`) ?? [])
+        const targets = targetsOf(j)
         if (targets.length === 1) {
-          const hash = 'tc-' + createHash('sha256').update(`${j.text}|${j.voice}|1.0|normal`, 'utf8').digest('hex').slice(0, 13)
           const { error: dErr } = await sb.from('kp_dialogues').update({ audio_url: publicUrl, audio_hash: hash }).eq('id', targets[0])
           if (dErr) throw new Error(`kp_dialogues: ${dErr.message}`)
         }
@@ -183,7 +202,7 @@ async function main() {
         failed.push(`${label}: ${(e as Error).message}`)
         console.log(`  ✗ ${label} ${(e as Error).message}`)
       } finally {
-        if (++done % 50 === 0) console.log(`── ${done}/${jobs.length}`)
+        if (++done % 50 === 0) console.log(`── ${done}/${todo.length}`)
       }
     }
   }
