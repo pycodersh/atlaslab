@@ -7,9 +7,10 @@
  * (2: 2026-10-22 Edge-TTS ko-KR-SunHiNeural 로 전체 교체
  *  3: 같은 날 의문문 pitch +14% 재합성 + 슬롯 패턴 13개 예문 교체
  *  4: 의문문을 '?' 어절만 pitch +20% 로 다시 합성
- *  5: 예문 900개를 Typecast 서현 보이스로 교체)
+ *  5: 예문 900개를 Typecast 서현 보이스로 교체
+ *  6: 2026-10-28 예문 900개를 Typecast 현민 보이스로 교체 — 경로도 patterns-typecast/{slug}/exN.mp3 로 바뀌었다)
  */
-export const EXPRESSION_AUDIO_VERSION = '5'
+export const EXPRESSION_AUDIO_VERSION = '6'
 
 export function versionedExpressionAudio<T extends string | null | undefined>(url: T): T {
   if (!url) return url
