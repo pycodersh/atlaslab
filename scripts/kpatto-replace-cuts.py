@@ -2,9 +2,10 @@
 K-PATTO 컷 이미지 교체 — 다시 만든 한 장짜리 만화를 컷으로 잘라 기존 컷 파일을 덮어쓴다.
 
   1) 오른쪽 아래 Gemini 반짝이 워터마크를 지운다.
-     반짝이는 흰색을 일정 비율로 섞은 것이라, 매끈한 배경 위의 반짝이에서 섞인 비율(알파 맵)을 재고
-     그 비율을 거꾸로 풀어 원래 색을 되살린다. 경계 1~2px 의 잔상은 cv2.inpaint 로 메운다.
+     반짝이는 흰색을 일정 비율로 섞은 것이라, 어두운 배경 위의 반짝이(ALPHA_REFS)에서 픽셀마다 섞인 비율
+     (알파 맵)을 재고 그 비율을 거꾸로 풀어 원래 색을 되살린다. 같은 크기의 기준이 없으면 cv2.inpaint 로 메운다.
      워터마크가 없는 이미지(밝기 차이가 없으면)는 건드리지 않는다.
+  3%를 넘게 늘어나야 맞는 원본(비율이 다른 그림)은 덮어쓰지 않고 건너뛴다.
   2) 칸 사이 흰 여백(가로·세로)을 찾아 그 한가운데에서 자른다 — 기존 컷도 여백 가운데에서 잘려 있다.
   3) 줄마다 컷 수(와이드 1 · 분할 2)가 기존 컷 파일과 같은지 확인하고,
      각 컷을 기존 파일과 같은 크기 · 같은 이름(.png)으로 저장한다(LANCZOS 리사이즈).
@@ -25,12 +26,14 @@ from PIL import Image
 
 PUBLIC = os.path.join(os.path.dirname(__file__), '..', 'public', 'kpatto')
 
-# 반짝이: 이미지 오른쪽 아래 모서리에서 (75, 75) 안쪽이 중심, 지름 약 30px (1024px 높이 이미지 기준 실측)
-WM_OFFSET = 75
-WM_RADIUS = 15
+# 반짝이 위치 · 크기(실측) — Gemini 는 이미지 크기에 따라 두 가지로 찍는다.
+#   폭 1000px 이상: 모서리에서 (113, 113) 안쪽이 중심, 꼭짓점까지 58px (1312x3280 · 1184x3584, ep43 에 맞춘 값)
+#   그보다 작으면:  (75, 75) 안쪽, 꼭짓점까지 약 15px (410x1024 · 338x1024)
+WM_LARGE = (113, 58)
+WM_SMALL = (75, 15)
 MAX_STRETCH = 0.03
 # 알파 맵을 잴 이미지: 반짝이가 어두운 단색 배경 위에 있는 것
-ALPHA_REFS = ('ep43', 'ep45')
+ALPHA_REFS = ('ep43',)
 
 
 def load(path):
@@ -47,46 +50,59 @@ def star_mask(size, radius, grow=0):
     return m.astype(np.uint8)
 
 
+def wm_params(img):
+    return WM_LARGE if img.shape[1] >= 1000 else WM_SMALL
+
+
 def wm_box(img):
     h, w = img.shape[:2]
-    cx, cy = w - WM_OFFSET, h - WM_OFFSET
-    r = WM_RADIUS + 8
-    return cx - r, cy - r, 2 * r + 1
+    offset, radius = wm_params(img)
+    r = int(radius * 1.6)
+    return w - offset - r, h - offset - r, 2 * r + 1
 
 
 def estimate_alpha(paths):
-    """매끈한 배경 위 반짝이에서 섞인 흰색 비율(알파) 맵을 잰다."""
-    maps = []
+    """어두운 단색 배경 위 반짝이에서 픽셀마다 섞인 흰색 비율(알파)을 잰다 — 반짝이 크기별로 따로.
+    별 모양을 수식으로 맞추면 가장자리 · 꼭짓점에 테두리가 남아서, 실제 반짝이를 그대로 본뜬다(몸통 약 0.5)."""
+    maps = {}
     for p in paths:
         img = load(p)
+        params = wm_params(img)
         x0, y0, s = wm_box(img)
-        patch = img[y0:y0 + s, x0:x0 + s].astype(np.float32)
-        hole = cv2.dilate(star_mask(s, WM_RADIUS, 2), np.ones((3, 3), np.uint8))
-        bg = cv2.inpaint(img[y0:y0 + s, x0:x0 + s], hole, 5, cv2.INPAINT_TELEA).astype(np.float32)
-        a = (patch - bg) / np.maximum(255.0 - bg, 1.0)
-        maps.append(np.clip(a.mean(axis=2), 0, 1))
-    return np.mean(maps, axis=0)
+        patch = img[y0:y0 + s, x0:x0 + s]
+        grow = max(2, params[1] // 10)
+        hole = cv2.dilate(star_mask(s, params[1]), np.ones((2 * grow + 1, 2 * grow + 1), np.uint8))
+        bg = cv2.inpaint(patch, hole, 9, cv2.INPAINT_TELEA).astype(np.float32)
+        a = np.clip(((patch.astype(np.float32) - bg) / np.maximum(255.0 - bg, 1.0)).mean(axis=2), 0, 0.6) * hole
+        a[a < 0.02] = 0
+        maps.setdefault(params, []).append(a)
+    return {k: np.mean(v, axis=0) for k, v in maps.items()}
 
 
 def has_watermark(img):
     x0, y0, s = wm_box(img)
+    radius = wm_params(img)[1]
+    k = radius / 15
     g = cv2.cvtColor(img[y0:y0 + s, x0:x0 + s], cv2.COLOR_BGR2GRAY).astype(np.float32)
-    inner = star_mask(s, WM_RADIUS - 5).astype(bool)
-    ring = (star_mask(s, WM_RADIUS + 7) - star_mask(s, WM_RADIUS + 2)).astype(bool)
+    inner = star_mask(s, radius - 5 * k).astype(bool)
+    ring = (star_mask(s, radius + 7 * k) - star_mask(s, radius + 2 * k)).astype(bool)
     return float(g[inner].mean() - g[ring].mean())
 
 
-def remove_watermark(img, alpha):
+def remove_watermark(img, alphas):
+    params = wm_params(img)
     x0, y0, s = wm_box(img)
-    patch = img[y0:y0 + s, x0:x0 + s].astype(np.float32)
-    a = alpha[..., None]
-    restored = (patch - 255.0 * a) / np.maximum(1.0 - a, 0.05)
     out = img.copy()
-    out[y0:y0 + s, x0:x0 + s] = np.clip(restored, 0, 255).astype(np.uint8)
-    # 별 테두리(안티앨리어싱 · JPEG 번짐)는 잔상이 남기 쉬워 얇게 inpaint 한다
-    edge = (star_mask(s, WM_RADIUS, 2) - star_mask(s, WM_RADIUS, -2)).astype(np.uint8)
+    alpha = alphas.get(params)
+    if alpha is not None:
+        patch = img[y0:y0 + s, x0:x0 + s].astype(np.float32)
+        a = alpha[..., None]
+        restored = (patch - 255.0 * a) / np.maximum(1.0 - a, 0.05)
+        out[y0:y0 + s, x0:x0 + s] = np.clip(restored, 0, 255).astype(np.uint8)
+        return out
+    # 같은 크기의 기준 이미지가 없으면 별 전체를 inpaint 로 메운다
     full = np.zeros(img.shape[:2], np.uint8)
-    full[y0:y0 + s, x0:x0 + s] = edge
+    full[y0:y0 + s, x0:x0 + s] = star_mask(s, params[1], max(2, params[1] // 6))
     return cv2.inpaint(out, full, 3, cv2.INPAINT_TELEA)
 
 
@@ -151,14 +167,14 @@ def main():
 
     sources = {int(re.match(r'ep(\d+)', os.path.basename(p)).group(1)): p
                for p in glob.glob(os.path.join(args.src, 'ep*.*'))}
-    alpha = estimate_alpha([sources[int(n[2:])] for n in ALPHA_REFS])
+    alphas = estimate_alpha([sources[int(n[2:])] for n in ALPHA_REFS])
 
     for ep in sorted(sources):
         img = load(sources[ep])
         h, w = img.shape[:2]
         score = has_watermark(img)
         if score > 12:
-            img = remove_watermark(img, alpha)
+            img = remove_watermark(img, alphas)
         wm = f'watermark removed (contrast {score:.0f})' if score > 12 else f'no watermark (contrast {score:.0f})'
         if args.preview:
             os.makedirs(args.preview, exist_ok=True)
