@@ -2,12 +2,12 @@
 
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, Volume2 } from 'lucide-react'
+import { ChevronLeft, Volume2, Pause, Play } from 'lucide-react'
 import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanelSection, WebtoonCropSection, WebtoonSection } from '@/data/kpatto/webtoon-types'
 import type { KPattoExpression } from '@/data/kpatto/types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
-import { tryPlayAudio, stopAllAudio, setAudioStopListener, getAudioGeneration } from '@/lib/kpatto/audio'
+import { tryPlayAudio, stopAllAudio, setAudioStopListener, getAudioGeneration, pauseAudio, resumeAudio } from '@/lib/kpatto/audio'
 import { gapContainerStyle, panelImageWidth, panelJustify } from '@/lib/kpatto/webtoon-layout'
 import { fetchExpression } from '@/lib/kpatto/fetch-episode'
 import { ExpressionPopup } from './ExpressionPopup'
@@ -492,8 +492,10 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
   const [showTrans, setShowTrans] = useState(true)
   const [playingId, setPlayingId] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
   const playIdxRef = useRef(0)
   const isPlayingRef = useRef(false)  // 연타 가드: state보다 먼저 갱신되는 동기 플래그
+  const isPausedRef = useRef(false)   // 일시정지 중 — 재생 루프는 현재 대사에서 기다린다
   const [resolvedEpisode, setResolvedEpisode] = useState(episode)
   const [bubblesReady, setBubblesReady] = useState(false)
   const [activeExpression, setActiveExpression] = useState<KPattoExpression | null>(null)
@@ -538,6 +540,8 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
     setAudioStopListener(() => {
       stopRef.current = true
       isPlayingRef.current = false
+      isPausedRef.current = false
+      setIsPaused(false)
       // setIsPlaying/setPlayingId 는 루프 종료 시 일괄 처리
     })
     return () => setAudioStopListener(null)
@@ -566,19 +570,25 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
     }
   }, [])
 
-  // ── 전체 재생 / 이어듣기 ────────────────────────────────────────────────────
+  // ── 전체 재생 · 일시정지 · 이어듣기 ─────────────────────────────────────────
+  // 재생 중 탭 → 그 자리에서 일시정지, 다시 탭 → 멈춘 지점부터 이어서.
+  // 에피소드 이동 · 페이지 이탈은 stopAllAudio() 로 완전히 멈추고 첫 대사 0초로 돌린다.
   const handlePlayAll = useCallback(async () => {
     if (isPlayingRef.current) {
-      // 정지: 현재 인덱스는 playIdxRef에 보존 → 다음 재생 시 이어듣기
-      isPlayingRef.current = false
-      stopRef.current = true
-      stopAllAudio()
-      setIsPlaying(false)
-      setPlayingId(null)
+      if (isPausedRef.current) {
+        isPausedRef.current = false
+        setIsPaused(false)
+        resumeAudio()  // 대사 사이에서 멈췄다면 재생 중인 음성이 없다 — 루프가 다음 대사로 이어간다
+      } else {
+        isPausedRef.current = true
+        setIsPaused(true)
+        pauseAudio()
+      }
       return
     }
     // 연타 가드: ref를 동기적으로 먼저 세운 뒤 시작
     isPlayingRef.current = true
+    isPausedRef.current = false
     stopRef.current = false
     setIsPlaying(true)
     // generation 캡처: stopAllAudio() 호출 시마다 증가 → 불일치 = 외부 정지
@@ -596,6 +606,11 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
         console.log(`[kpatto] skip (no audio_url): ${b.id}`)
         continue
       }
+      // 대사 사이에서 일시정지됐다면 이어듣기를 누를 때까지 다음 대사를 시작하지 않는다
+      while (isPausedRef.current && getAudioGeneration() === myGen && !stopRef.current) {
+        await new Promise(r => setTimeout(r, 100))
+      }
+      if (getAudioGeneration() !== myGen || stopRef.current) break
       onBubblePlay?.(b.id)  // 재생 시작 알림 (Listening 판정)
       const ok = await tryPlayAudio(b.audio_url)
       // await 직후 재검사: await 중 stopAllAudio()가 호출됐을 수 있음
@@ -611,7 +626,9 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
       playIdxRef.current = 0  // 다음 재생은 처음부터
     }
     isPlayingRef.current = false
+    isPausedRef.current = false
     setIsPlaying(false)
+    setIsPaused(false)
     setPlayingId(null)
   }, [allBubbles])  // isPlaying 제거 — isPlayingRef로 동기 가드
 
@@ -683,13 +700,14 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
           <button style={langBtnStyle(showTrans)} onClick={() => setShowTrans(v => !v)}>EN</button>
         </div>
 
-        {/* Volume — only shown when episode has audio */}
+        {/* Volume — only shown when episode has audio. 재생 중엔 일시정지, 일시정지 중엔 이어듣기 아이콘 */}
         {hasAudio && (
           <button
             onClick={handlePlayAll}
+            aria-label={!isPlaying ? '대사 듣기' : isPaused ? '이어 듣기' : '일시정지'}
             style={{ background: 'none', border: 'none', padding: 4, cursor: 'pointer', display: 'flex', alignItems: 'center', color: isPlaying ? '#ef4444' : '#999999', flexShrink: 0 }}
           >
-            <Volume2 size={18} />
+            {!isPlaying ? <Volume2 size={18} /> : isPaused ? <Play size={18} /> : <Pause size={18} />}
           </button>
         )}
       </div>

@@ -489,6 +489,10 @@ async function main() {
         if (!FORCE && d.audio_url && d.audio_hash === hash) {
           console.log(`${label} id=${d.id} skip`); dSkip++; continue
         }
+        // Typecast 로 바꾼 대사(generate-kpatto-audio-typecast.ts)는 --force 없이 덮어쓰지 않는다
+        if (!FORCE && d.audio_url?.includes('/dialogues-typecast/')) {
+          console.log(`${label} id=${d.id} skip (Typecast)`); dSkip++; continue
+        }
 
         const t1 = Date.now()
         process.stdout.write(`${label} id=${d.id} ${d.speaker}(${voice}) "${d.text_ko.slice(0,14).replace(/\n/g,' ')}…" `)

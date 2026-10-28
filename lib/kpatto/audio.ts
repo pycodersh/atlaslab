@@ -28,6 +28,9 @@ export function patternAudioUrl(episodeId: string, patternIndex: number): string
 /** Currently playing Audio element. */
 let currentAudio: HTMLAudioElement | null = null
 
+/** True while currentAudio is paused by pauseAudio() — its tryPlayAudio Promise stays pending. */
+let paused = false
+
 /**
  * Resolve callback for the currently-pending tryPlayAudio Promise.
  * Stored so that stopCurrent() can unblock a hung `await tryPlayAudio()`.
@@ -68,6 +71,7 @@ export function setAudioStopListener(fn: (() => void) | null) {
  * Does NOT increment generation or call stopListener.
  */
 function stopCurrent() {
+  paused = false
   if (pendingResolve) {
     const r = pendingResolve
     pendingResolve = null
@@ -113,6 +117,26 @@ export async function tryPlayAudio(url: string): Promise<boolean> {
     audio.onerror = () => done(false)
     audio.play().catch(() => done(false))
   })
+}
+
+/**
+ * Pause the current audio where it is. The pending tryPlayAudio Promise is left open,
+ * so a playback loop awaiting it simply waits until resumeAudio() or stopAllAudio().
+ * Returns false when nothing is playing.
+ */
+export function pauseAudio(): boolean {
+  if (!currentAudio || paused) return false
+  currentAudio.pause()
+  paused = true
+  return true
+}
+
+/** Resume audio paused by pauseAudio() from the same position. Returns false when nothing is paused. */
+export function resumeAudio(): boolean {
+  if (!currentAudio || !paused) return false
+  paused = false
+  currentAudio.play().catch(() => {})
+  return true
 }
 
 /** Play DB audio if URL is available. No TTS fallback. */
