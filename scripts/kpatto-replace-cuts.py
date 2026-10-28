@@ -166,13 +166,15 @@ def main():
     ap.add_argument('--backup', required=True)
     ap.add_argument('--preview', help='워터마크 지운 원본 전체를 저장할 폴더(확인용)')
     ap.add_argument('--dry-run', action='store_true')
+    ap.add_argument('--only', help='이 화만 처리 (쉼표로 구분, 예: 28 또는 28,42)')
     args = ap.parse_args()
 
     sources = {int(re.match(r'ep(\d+)', os.path.basename(p)).group(1)): p
                for p in glob.glob(os.path.join(args.src, 'ep*.*'))}
-    alphas = estimate_alpha([sources[int(n[2:])] for n in ALPHA_REFS])
+    alphas = estimate_alpha([sources[int(n[2:])] for n in ALPHA_REFS if int(n[2:]) in sources])
+    only = {int(x) for x in args.only.split(',')} if args.only else set(sources)
 
-    for ep in sorted(sources):
+    for ep in sorted(only & set(sources)):
         img = load(sources[ep])
         h, w = img.shape[:2]
         score = has_watermark(img)
