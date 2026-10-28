@@ -4,6 +4,7 @@ import { SiteFooter } from '@/components/SiteFooter'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { PostListRow } from '@/components/blog/PostListRow'
 import { SectionHeader } from '@/components/SectionHeader'
+import { HomeCategoryBar, type HomeTab } from '@/components/HomeCategoryBar'
 import { readMinutes } from '@/lib/blog/readTime'
 import {
   BLOG_GROUPS,
@@ -108,6 +109,9 @@ function groupIntoSections(posts: BlogRow[]) {
   })
 }
 
+/** 섹션 바로가기 앵커 — 'explore-korea' 만 짧게 #explore */
+const anchorOf = (key: string) => (key === 'explore-korea' ? 'explore' : key)
+
 /* ── Why Atlas Lab items ──────────────────────────────────────────────── */
 const WHY = [
   {
@@ -190,6 +194,12 @@ export default async function AtlasLabHome() {
 
   // 카테고리(Phrases → Basics → Explore Korea → Food → Life)를 BLOG_GROUPS 순서대로 세로로 바로 그린다.
   const blogSections = groupIntoSections(allPosts ?? [])
+  // 글이 적어 감추는 섹션은 바로가기 탭에서도 뺀다 — 탭 순서는 화면에 놓인 순서 그대로
+  const shownSections = blogSections.filter(s => s.posts.length >= minPostsToShow(s.key))
+  const categoryTabs: HomeTab[] = [
+    { id: 'resources', label: 'Resources' },
+    ...shownSections.map(s => ({ id: anchorOf(s.key), label: s.key === 'explore-korea' ? 'Explore' : s.title })),
+  ]
 
   return (
     <>
@@ -520,8 +530,11 @@ export default async function AtlasLabHome() {
         </div>
       </section>
 
+      {/* ── 카테고리 바로가기 — 히어로를 지나면 메뉴 아래에 붙는다 ── */}
+      <HomeCategoryBar tabs={categoryTabs} />
+
       {/* ── Products ── */}
-      <div id="products">
+      <div id="resources">
         <div className="wrap products-wrap">
           <SectionHeader label="Our Resources" />
           <div className="products-grid">
@@ -565,7 +578,7 @@ export default async function AtlasLabHome() {
             {blogSections.map(section =>
               // 카드가 적은 섹션은 비어 보이므로 홈에서는 감춘다(목록 탭에는 남는다). 최소 글 수는 섹션마다 다를 수 있다.
               section.posts.length < minPostsToShow(section.key) ? null : (
-                <section key={section.key} className="blog-sec" aria-labelledby={`sec-${section.key}`}>
+                <section key={section.key} id={anchorOf(section.key)} className="blog-sec" aria-labelledby={`sec-${section.key}`}>
                   <SectionHeader
                     id={`sec-${section.key}`}
                     label={section.title}
