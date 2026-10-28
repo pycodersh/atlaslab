@@ -12,7 +12,9 @@ const RULE = '#E5E1DC'
 const RED = '#C8102E'        // 사이트 기본 레드
 const RED_DARK = '#A30D25'   // 재생 중·hover
 
-/** 실제 Supabase Storage 예문 음성(audio/expressions/{slug}/exN.mp3)을 그대로 재생하는 샘플 플레이어 */
+/** 실제 Supabase Storage 예문 음성을 그대로 재생하는 샘플 플레이어.
+ *  2026-10-28 부터 예문 음성은 Typecast 현민(Hyunmin) — audio/patterns-typecast/{slug}/exN.mp3
+ *  (앱의 kp_expressions.audio_urls 와 같은 파일. 예전 서현 파일은 expressions/ 에 남아 있다) */
 export function SampleAudio({ samples }: { samples: AudioSample[] }) {
   const [playing, setPlaying] = useState<string | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -21,7 +23,7 @@ export function SampleAudio({ samples }: { samples: AudioSample[] }) {
 
   const urlOf = (s: AudioSample) =>
     versionedExpressionAudio(
-      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/audio/expressions/${s.slug}/ex${s.n}.mp3`,
+      `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/audio/patterns-typecast/${s.slug}/ex${s.n}.mp3`,
     )
 
   const toggle = (s: AudioSample) => {

@@ -21,25 +21,24 @@ const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 /** 홈 'Our Resources' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
  *  앞으로 K-PATTO PDF 패키지 같은 디지털 상품도 이 배열에 항목만 추가하면 그리드에 자연스럽게 합류한다
  *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가).
- *  두 카드는 같은 구조(아이콘 · 이름 · 대상 한 줄 · 설명 · 버튼)로 높이·글꼴이 맞물린다 — 뱃지·부제·버튼 밑 문구는 두지 않는다.
- *  K-Patto 의 체험·샘플·구매는 /kpatto 랜딩에서. */
-/** newTab: 앱·도구로 가는 카드는 새 탭으로 연다 — 홈(사이트)을 떠나지 않게. 같은 사이트 안의 소개 랜딩은 현재 탭 */
-type Product = { name: string; audience: string; desc: string; href: string | null; cta: string; newTab?: boolean }
+ *  두 카드는 같은 구조(아이콘 · 이름 · 대상 한 줄 · 설명 · 버튼 두 개)로 높이·글꼴이 맞물린다 — 뱃지·부제·버튼 밑 문구는 두지 않는다.
+ *  버튼: 'Launch WebApp ↗' 은 앱을 새 탭으로(홈을 떠나지 않게), 'Learn More' 는 같은 사이트의 소개 랜딩을 현재 탭으로.
+ *  app 이 없으면 'Coming soon' 카드. */
+type Product = { name: string; audience: string; desc: string; app: string | null; learn: string | null }
 const PRODUCTS: readonly Product[] = [
   {
     name: 'K-Patto',
     audience: 'For learners of Korean',
     desc: 'Master 300+ real-life Korean phrases through 100 slice-of-life webtoon episodes with native audio sync. Available in eBook, WebApp, or Complete Bundle.',
-    href: '/kpatto',
-    cta: 'Explore K-Patto →',
+    app: '/kpatto/story',
+    learn: '/kpatto',
   },
   {
     name: 'K-Pantry',
     audience: 'For cooking Korean at home',
     desc: "Tells you what you can make with what's already in your fridge — and what to use when an ingredient is missing.",
-    href: '/kpantry/en',
-    cta: 'Explore K-Pantry →',
-    newTab: true,
+    app: '/kpantry/en',
+    learn: '/kpantry/landing',
   },
 ]
 
@@ -262,24 +261,14 @@ export default async function AtlasLabHome() {
           grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
           gap: 24px;
         }
+        /* 카드 자체는 링크가 아니다 — 버튼 두 개(앱 · 소개)가 각자 링크다 */
         .pcard {
           background: var(--paper, #fff);
           border: 1px solid var(--rule, #E5E1DC);
           padding: 32px 28px 28px;
           display: flex; flex-direction: column;
-          text-decoration: none; color: inherit;
-          transition: background 0.15s;
+          color: inherit;
         }
-        /* 카드 전체가 링크다(a.pcard-link). 터치에서 탭 하이라이트가 남지 않도록
-           호버는 마우스 기기로 한정하고, 누르는 동안의 피드백은 :active 가 준다. */
-        @media (hover: hover) {
-          .pcard-link:hover { background: var(--paper-warm, #F7F5F2); }
-        }
-        .pcard-link {
-          -webkit-tap-highlight-color: transparent;
-          transition: background 0.15s;
-        }
-        .pcard-link:active { background: #F2EFEB; }
 
         /* ── Mobile(768px 미만): 1열 + 가로형 카드로 재배치 ──────────── */
         @media (max-width: 767px) {
@@ -329,7 +318,7 @@ export default async function AtlasLabHome() {
             margin-bottom: 11px !important;
           }
           /* 버튼 세로 크기는 손가락 타깃이라 줄이지 않는다(패딩 10px 유지) */
-          .pbtn, .pbtn-soon {
+          .pbtns, .pbtn-soon {
             grid-area: btn;
             width: 100%;
           }
@@ -360,12 +349,16 @@ export default async function AtlasLabHome() {
           font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
           line-height: 1.6; margin-bottom: 16px; flex: 1;
         }
-        /* CTA 는 세 카드가 모두 같은 솔리드 버건디다.
-           예전에는 아웃라인 + 호버 시 채우기였는데, 터치 기기는 탭한 카드에
-           :hover 를 남겨 둬서 "첫 카드만 채워져 보이는" 상태가 만들어졌다.
-           그래서 기본을 채운 상태로 두고, 호버 변화는 마우스가 있는 기기로 한정한다. */
+        /* 버튼 두 개를 반반으로 — 왼쪽 솔리드 버건디(앱 열기), 오른쪽 아웃라인(소개 랜딩).
+           터치 기기는 탭한 버튼에 :hover 를 남기므로 호버 변화는 마우스 기기로 한정하고,
+           누르는 동안의 피드백은 :active 가 준다. */
+        .pbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+        /* 좁은 폰에서 'LAUNCH WEBAPP ↗' 이 반 칸을 넘지 않게 자간 · 좌우 여백만 줄인다(높이는 그대로) */
+        @media (max-width: 420px) {
+          .pbtns .pbtn { letter-spacing: 0.02em; padding-left: 6px; padding-right: 6px; }
+        }
         .pbtn {
-          display: block;
+          display: flex; align-items: center; justify-content: center;
           font-family: ${BODY};
           font-size: 12px; font-weight: 700;
           text-align: center; text-decoration: none;
@@ -374,18 +367,20 @@ export default async function AtlasLabHome() {
           color: #fff;
           border: 1.5px solid var(--brand-red, #C8102E);
           padding: 10px 12px;
-          transition: background 0.15s, border-color 0.15s;
+          white-space: nowrap;
+          -webkit-tap-highlight-color: transparent;
+          transition: background 0.15s, border-color 0.15s, color 0.15s;
         }
+        .pbtn-outline { background: transparent; color: var(--ink, #111); border-color: var(--ink, #111); }
         @media (hover: hover) {
           .pbtn:hover {
             background: var(--brand-red-dark, #A30D25);
             border-color: var(--brand-red-dark, #A30D25);
           }
+          .pbtn-outline:hover { background: var(--ink, #111); border-color: var(--ink, #111); color: #fff; }
         }
-        .pcard-link:active .pbtn {
-          background: var(--brand-red-dark, #A30D25);
-          border-color: var(--brand-red-dark, #A30D25);
-        }
+        .pbtn:active { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
+        .pbtn-outline:active { background: var(--ink, #111); border-color: var(--ink, #111); color: #fff; }
         /* 누를 수 없는 자리 — 같은 크기·모양으로 두되 색만 죽인다 */
         .pbtn-soon {
           display: block;
@@ -530,38 +525,35 @@ export default async function AtlasLabHome() {
         <div className="wrap products-wrap">
           <SectionHeader label="Our Resources" />
           <div className="products-grid">
-            {PRODUCTS.map(p => {
-              const inner = (
-                <>
-                  {/* Icon — dark rounded square with SVG symbol */}
-                  <div className="pmark">
-                    {APP_ICONS[p.name]}
+            {PRODUCTS.map(p => (
+              <div key={p.name} className="pcard">
+                {/* Icon — dark rounded square with SVG symbol */}
+                <div className="pmark">
+                  {APP_ICONS[p.name]}
+                </div>
+                {/* Name + description (flex: 1 pushes the buttons to the bottom) */}
+                <div className="pname notranslate" translate="no">{p.name}</div>
+                <div className={`paud${p.app ? '' : ' paud-soon'}`}>
+                  {p.audience}
+                </div>
+                <div className="pdesc">{p.desc}</div>
+                {p.app ? (
+                  <div className="pbtns">
+                    <a href={p.app} target="_blank" rel="noopener noreferrer" className="pbtn"
+                       aria-label={`Launch ${p.name} web app (opens in a new tab)`}>
+                      Launch WebApp ↗
+                    </a>
+                    {p.learn && (
+                      <a href={p.learn} className="pbtn pbtn-outline" aria-label={`Learn more about ${p.name}`}>
+                        Learn More
+                      </a>
+                    )}
                   </div>
-                  {/* Name + description (flex: 1 pushes the button to the bottom) */}
-                  <div className="pname notranslate" translate="no">{p.name}</div>
-                  <div className={`paud${p.href ? '' : ' paud-soon'}`}>
-                    {p.audience}
-                  </div>
-                  <div className="pdesc">{p.desc}</div>
-                  {p.href
-                    ? <span className="pbtn">{p.cta}</span>
-                    : <span className="pbtn-soon">Coming soon</span>
-                  }
-                </>
-              )
-              return p.href ? (
-                <a
-                  key={p.name}
-                  href={p.href}
-                  className="pcard pcard-link"
-                  {...(p.newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                >
-                  {inner}
-                </a>
-              ) : (
-                <div key={p.name} className="pcard">{inner}</div>
-              )
-            })}
+                ) : (
+                  <span className="pbtn-soon">Coming soon</span>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
