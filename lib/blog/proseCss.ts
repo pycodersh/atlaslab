@@ -156,6 +156,41 @@ export function proseCss(bodyFont: string): string {
         /* 세로로 긴 사진(콜라주·옷 사진)은 본문 폭으로 키우면 한 화면을 넘어서 폭을 줄여 가운데 둔다. */
         .blog-prose .post-figure-narrow { max-width: 520px; margin-left: auto; margin-right: auto; }
 
+        /* 사진 묶음 — 같은 주제 사진 여러 장을 2열 격자로(MDX 의 <div className="post-gallery"> 안에 post-figure 들).
+           모바일에서도 2열로 둬서 한 장씩 내려 보는 스크롤을 줄인다. 4:3 으로 맞춰 칸 높이를 고르게 한다. */
+        .blog-prose .post-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0; }
+        .blog-prose .post-gallery .post-figure { margin: 0; }
+        .blog-prose .post-gallery .post-figure img { aspect-ratio: 4 / 3; }
+        .blog-prose .post-gallery .post-figure figcaption { font-size: 12.5px; line-height: 1.4; margin-top: 6px; }
+        @media (max-width: 560px) {
+          .blog-prose .post-gallery { gap: 8px; }
+          .blog-prose .post-gallery .post-figure figcaption { font-size: 11.5px; }
+        }
+
+        /* 요약 + 예약 카드 — 글 맨 위(고지 바로 아래)에서 핵심 3줄과 버튼 두 개.
+           MDX 의 <div className="quick-card"> 안에 quick-card__title · quick-card__list · quick-card__btns.
+           버튼은 넓은 화면에서 나란히, 좁은 화면에서 위아래로. 두 번째 버튼은 아웃라인(cta-btn cta-btn-outline). */
+        .blog-prose .quick-card {
+          border: 1.5px solid #111; border-radius: 4px; background: #fff;
+          padding: 18px 20px 20px; margin: 0 0 32px;
+        }
+        .blog-prose .quick-card__title {
+          font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+          color: #C8102E; margin: 0 0 12px;
+        }
+        .blog-prose .quick-card__list { list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 10px; }
+        .blog-prose .quick-card__list li { margin: 0; padding: 0; font-size: 15.5px; line-height: 1.55; color: #1F2937; }
+        .blog-prose .quick-card__list li::before { content: none; }
+        .blog-prose .quick-card__btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .blog-prose .quick-card__btns a.cta-btn { display: block; text-align: center; margin: 0; box-sizing: border-box; }
+        .blog-prose a.cta-btn.cta-btn-outline { background: #fff; color: #111; border: 1.5px solid #111; padding: 10.5px 20px; }
+        .blog-prose a.cta-btn.cta-btn-outline:hover { background: #111; color: #fff; box-shadow: none; }
+        @media (max-width: 560px) {
+          .blog-prose .quick-card { padding: 16px 16px 18px; }
+          .blog-prose .quick-card__list li { font-size: 15px; }
+          .blog-prose .quick-card__btns { grid-template-columns: 1fr; }
+        }
+
         /* 제휴 링크 고지 — 글 맨 위에 조용하게 */
         .blog-prose .post-disclosure {
           font-size: 13px; line-height: 1.55; color: #7A7670;
