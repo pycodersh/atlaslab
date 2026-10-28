@@ -12,7 +12,6 @@ interface BubbleSvgProps {
   tail?: BubbleTailData
   flip?: boolean
   flipY?: boolean
-  highlighted?: boolean
   thought?: boolean
 }
 
@@ -115,10 +114,10 @@ export function BubbleSvg({
   tail,
   flip,
   flipY,
-  highlighted,
   thought = false,
 }: BubbleSvgProps) {
-  const fill = highlighted ? '#FFF3F0' : '#ffffff'
+  // 패턴 말풍선도 바탕은 흰색 — 패턴은 글자(주황 · 점선 밑줄)로만 표시한다
+  const fill = '#ffffff'
   // 하이라이트가 있어도 테두리는 항상 검정 — 코랄 테두리는 너무 튄다
   const stroke = '#242424'
   const sw = 2.5

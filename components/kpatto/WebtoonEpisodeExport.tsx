@@ -177,7 +177,6 @@ function ExportBubble({ bubble, section }: {
               tail={bubble.tail}
               flip={bubble.flip}
               flipY={meta.flipY}
-              highlighted={isFocus}
               thought={meta.thought}
             />
             {textOverlay}

@@ -190,7 +190,6 @@ function WebtoonBubbleEl({
             tail={bubble.tail}
             flip={bubble.flip}
             flipY={meta.flipY}
-            highlighted={tappable}
             thought={meta.thought}
           />
           {textOverlay}
