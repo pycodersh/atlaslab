@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T02:23:44.950Z",
+  "generated_at": "2026-10-29T02:35:04.351Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -2809,20 +2809,20 @@
     {
       "id": "6082ebb3-6166-4477-bd3a-17ff53c7ac3f",
       "category": "Life",
-      "title": "The Essential Korea Packing Guide: Seasonal Clothing and Weather Readiness",
+      "title": "Korea Packing Guide by Season: What to Wear and What to Bring",
       "slug": "packing-guide-korea-by-season",
       "url": "/blog/en/k-patto/packing-guide-korea-by-season",
       "target_keywords": [
-        "travel-tips",
-        "korea-weather",
-        "packing-list",
-        "expats-in-korea"
+        "korea packing list",
+        "korea weather",
+        "what to wear in korea",
+        "travel tips"
       ],
       "status": "Active",
       "last_updated": "2026-10-15",
-      "summary": "Master the art of layering and seasonal preparation to navigate Korea's extreme climate shifts with ease.",
+      "summary": "What to pack for Korea in each season: winter cold and long padded coats, summer monsoon and humidity, layers for spring and autumn, and handy local buys.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "b66dc334-50ea-438c-8c96-5fcadb59d636",
@@ -2973,38 +2973,38 @@
     {
       "id": "64cfcb44-1c8f-4b69-ade0-42eff4a163c1",
       "category": "Life",
-      "title": "Korean Fine Dust (Misemeonji): How to Read Air Quality Apps and Choose the Right Mask",
+      "title": "Korean Fine Dust (Misemeonji): How to Read Air Quality Apps and Choose a Mask",
       "slug": "korean-fine-dust-apps-mask-guide",
       "url": "/blog/en/k-patto/korean-fine-dust-apps-mask-guide",
       "target_keywords": [
-        "fine-dust",
-        "misemeonji",
-        "korea-living",
-        "health-in-korea"
+        "fine dust korea",
+        "air quality korea",
+        "kf94 mask",
+        "travel health"
       ],
       "status": "Active",
       "last_updated": "2026-10-09",
-      "summary": "Master Korean air quality apps, decode PM10 and PM2.5 thresholds, and choose the correct KF-rated mask to protect your health during fine dust season.",
+      "summary": "What fine dust days are in Korea, how to read the air quality levels in Korean apps, which KF mask to buy, and how to plan sightseeing on bad air days.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "453a7af3-132d-4342-b72c-2b224f77c5db",
       "category": "Life",
-      "title": "How to Ride City Buses in Seoul: Boarding, Tapping Out, and Stop Announcements",
+      "title": "How to Ride City Buses in Seoul: Boarding, Tapping Out, and Bus Colors",
       "slug": "how-to-ride-city-buses-in-seoul",
       "url": "/blog/en/k-patto/how-to-ride-city-buses-in-seoul",
       "target_keywords": [
-        "seoul-transit",
-        "korean-bus",
-        "public-transportation",
-        "travel-tips"
+        "seoul bus",
+        "korea transport",
+        "t-money",
+        "seoul travel"
       ],
       "status": "Active",
       "last_updated": "2026-10-09",
-      "summary": "Master Seoul's color-coded city bus network. Learn how to pay, navigate stop announcements, secure transfer discounts, and avoid common boarding mistakes.",
+      "summary": "Ride Seoul's city buses with confidence: board at the front, tap out when you leave for transfer discounts, read the bus colors, and know the takeout cup rule.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "8337f674-3575-4c6d-9ea8-a2791ecfcf9e",
@@ -3049,16 +3049,16 @@
       "slug": "seoul-vs-busan-first-time-visitors",
       "url": "/blog/en/k-patto/seoul-vs-busan-first-time-visitors",
       "target_keywords": [
-        "seoul",
-        "busan",
-        "korea-travel",
-        "first-time-korea"
+        "seoul vs busan",
+        "korea itinerary",
+        "busan travel",
+        "first time korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-08",
-      "summary": "An in-depth comparison of South Korea's two largest cities to help first-time travelers choose the ideal destination based on budget, transit, food, and lifestyle.",
+      "summary": "Seoul and Busan compared for first-time visitors: atmosphere, highlights, food, costs and getting between them, plus how many days to give each city.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "47f8831b-3af9-4991-857c-c1dfe310e444",
@@ -3153,38 +3153,38 @@
     {
       "id": "3a184070-f54d-4663-9ace-432f916bb6d8",
       "category": "Life",
-      "title": "How to Book KTX Tickets as a Foreigner: Korail App vs Kiosk vs Station Counter",
+      "title": "How to Book and Ride the KTX or SRT as a Foreigner",
       "slug": "how-to-book-ktx-tickets-foreigner",
       "url": "/blog/en/k-patto/how-to-book-ktx-tickets-foreigner",
       "target_keywords": [
-        "ktx-booking",
-        "korail-app",
-        "korea-train-travel",
-        "seoul-to-busan"
+        "ktx",
+        "srt",
+        "korail",
+        "korea train travel"
       ],
       "status": "Active",
       "last_updated": "2026-10-03",
-      "summary": "Compare booking KTX train tickets via the Korail Talk app, station kiosks, and manned ticket counters with international cards, step-by-step instructions, and troubleshooting tips.",
+      "summary": "Book Korea's high-speed trains as a tourist: KTX vs SRT, the Korail website and app vs station counters, seat types including standing tickets, luggage space and boarding.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "d8b7013d-7da9-4156-a43d-db5630874a49",
       "category": "Life",
-      "title": "Kakao T vs Uber vs Street Taxi in Seoul: Which Gets You There Cheapest?",
+      "title": "Kakao T vs Uber vs Street Taxi in Seoul, and What to Do If You Lose Something",
       "slug": "seoul-taxi-cheapest-kakao-uber",
       "url": "/blog/en/k-patto/seoul-taxi-cheapest-kakao-uber",
       "target_keywords": [
-        "seoul-taxi",
-        "kakao-t",
-        "uber-korea",
-        "transportation"
+        "kakao t",
+        "uber korea",
+        "seoul taxi",
+        "lost and found korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-03",
-      "summary": "A direct cost and reliability comparison of Seoul's main taxi options, including 2026 base fares, app call fees, and late-night surcharges.",
+      "summary": "Compare Kakao T, Uber and street taxis in Seoul for price, payment and ease, then learn how to recover items left in a taxi using app history, receipts and 120.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "40eaf6cd-48ff-42a0-92be-7ad6b1c28803",
@@ -3225,20 +3225,20 @@
     {
       "id": "12133fc6-c7a2-47ce-84c8-4b61e3828e2d",
       "category": "Life",
-      "title": "How Trash and Recycling Separation Actually Works in a Korean Apartment",
+      "title": "Trash and Recycling at Korean Hotels, Airbnbs and Apartments",
       "slug": "how-korean-apartment-recycling-works",
       "url": "/blog/en/k-patto/how-korean-apartment-recycling-works",
       "target_keywords": [
-        "apartment living",
-        "waste disposal",
-        "recycling rules",
-        "expat guide"
+        "korea recycling",
+        "airbnb korea",
+        "hotel etiquette",
+        "living in korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-02",
-      "summary": "A complete practical guide to South Korea's volume-based waste fee system, including RFID food waste bins, district-specific garbage bags, and bulky item disposal.",
+      "summary": "How rubbish works where you stay in Korea: hotel vs Airbnb vs apartment, official trash bags, food waste and recycling, the toiletries rule, and checkout etiquette.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "9c4266e7-63f1-4d08-9ee5-184bdc0f4e49",
@@ -3266,15 +3266,15 @@
       "url": "/blog/en/k-patto/ktx-vs-express-bus-korea-day-trips",
       "target_keywords": [
         "ktx",
-        "express-bus",
-        "korea-travel",
-        "seoul-day-trips"
+        "express bus korea",
+        "day trips from seoul",
+        "korea transport"
       ],
       "status": "Active",
       "last_updated": "2026-10-02",
-      "summary": "A direct comparison of travel times, costs, and booking procedures for South Korea's high-speed trains and express buses to help you maximize your day trips.",
+      "summary": "KTX or express bus for day trips from Seoul: speed, price, comfort and booking compared, plus which to pick for Busan, Gyeongju, Jeonju, Gangneung and more.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "306b07dc-980d-424b-b344-aeb22ed6cc45",
@@ -3297,20 +3297,20 @@
     {
       "id": "2e2ff6b1-d531-45a3-8cb7-c64477247778",
       "category": "Life",
-      "title": "Hands-Free Seoul: How to Use Subway Station Lockers and Luggage Delivery Services",
+      "title": "Hands-Free Seoul: Subway Lockers and Luggage Delivery Services",
       "slug": "hands-free-seoul-subway-lockers-guide",
       "url": "/blog/en/k-patto/hands-free-seoul-subway-lockers-guide",
       "target_keywords": [
-        "Seoul Travel",
-        "Subway Lockers",
-        "Luggage Delivery",
-        "T-Locker"
+        "seoul lockers",
+        "luggage storage",
+        "luggage delivery korea",
+        "seoul travel"
       ],
       "status": "Active",
       "last_updated": "2026-09-28",
-      "summary": "Master Seoul's subway digital lockers (T-Locker) and same-day airport luggage delivery services to navigate the city luggage-free.",
+      "summary": "Store or send your bags in Seoul: subway station lockers, staffed luggage counters and airport delivery services compared, with prices, hours and how to use them.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "9a5cd20a-9a18-48f9-906b-675a745cdab1",
@@ -3441,20 +3441,20 @@
     {
       "id": "dd2b7738-49f4-4a3b-8ac4-252550559f73",
       "category": "Life",
-      "title": "Getting Sick Late at Night in Korea: Convenience Store Medicine and English Clinics",
+      "title": "Getting Sick at Night in Korea: Convenience Store Medicine and Clinics",
       "slug": "late-night-medicine-korea-clinics-guide",
       "url": "/blog/en/k-patto/late-night-medicine-korea-clinics-guide",
       "target_keywords": [
-        "Korea Healthcare",
-        "Convenience Store Medicine",
-        "Seoul Clinics",
-        "Emergency Care"
+        "korea medicine",
+        "convenience store",
+        "pharmacy korea",
+        "travel health"
       ],
       "status": "Active",
       "last_updated": "2026-09-26",
-      "summary": "Locate designated emergency OTC medicines at 24-hour convenience stores and navigate fast, affordable walk-in outpatient clinics without advance reservations.",
+      "summary": "What medicine Korean convenience stores sell when pharmacies are closed, how to find a late-night pharmacy or clinic, typical costs, and what to say.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "6c2b8c68-78af-47de-af4d-726ec20f05d5",
