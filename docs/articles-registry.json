@@ -1,13 +1,13 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T02:35:04.351Z",
+  "generated_at": "2026-10-29T02:42:34.392Z",
   "counts": {
     "Active": {
       "Phrases": 47,
       "Basics": 34,
       "Explore Korea": 2,
       "Food": 70,
-      "Life": 51
+      "Life": 54
     },
     "Planned": {
       "Explore Korea": 1,
@@ -2748,6 +2748,60 @@
       "status": "Active",
       "last_updated": "2026-10-29",
       "summary": "Seongsu-dong is Seoul's pop-up and cafe district. Here is when to go, how pop-up reservations and waitlists work, what things cost, and the Korean you need at the door.",
+      "db_category": "Korean Culture",
+      "overhauled": true
+    },
+    {
+      "id": "efc7f58e-0cc1-4e69-8f46-bc36f9a7650a",
+      "category": "Life",
+      "title": "How to Use a Coin Laundromat in Korea: Prices, Payment, and Machines",
+      "slug": "korea-coin-laundromat-guide",
+      "url": "/blog/en/k-patto/korea-coin-laundromat-guide",
+      "target_keywords": [
+        "coin laundry korea",
+        "laundromat seoul",
+        "travel tips",
+        "living in korea"
+      ],
+      "status": "Active",
+      "last_updated": "2026-10-29",
+      "summary": "Use a Korean self-service laundromat: what washing and drying cost, coins vs card payment, whether detergent is added automatically, dryer sheets and settings.",
+      "db_category": "Korean Culture",
+      "overhauled": true
+    },
+    {
+      "id": "41e57b07-3cc9-4693-acb7-97a052373ebd",
+      "category": "Life",
+      "title": "Apple Pay, Samsung Pay and Mobile Payment in Korea for Foreign Visitors",
+      "slug": "mobile-payment-apple-pay-korea-foreigners",
+      "url": "/blog/en/k-patto/mobile-payment-apple-pay-korea-foreigners",
+      "target_keywords": [
+        "apple pay korea",
+        "samsung pay korea",
+        "mobile payment korea",
+        "korea travel money"
+      ],
+      "status": "Active",
+      "last_updated": "2026-10-29",
+      "summary": "Where Apple Pay, Google Pay and Samsung Pay work in Korea with foreign cards, where they don't, how Korean payment apps differ, and the backups to carry.",
+      "db_category": "Korean Culture",
+      "overhauled": true
+    },
+    {
+      "id": "8d7a0d84-9b4b-4d01-ac06-e97383621c98",
+      "category": "Life",
+      "title": "Noraebang Guide: Korean Karaoke vs Coin Karaoke, Prices, and How to Find Songs",
+      "slug": "noraebang-korean-karaoke-guide",
+      "url": "/blog/en/k-patto/noraebang-korean-karaoke-guide",
+      "target_keywords": [
+        "noraebang",
+        "korean karaoke",
+        "coin karaoke",
+        "seoul nightlife"
+      ],
+      "status": "Active",
+      "last_updated": "2026-10-29",
+      "summary": "How noraebang works in Korea: regular rooms vs coin karaoke, prices, how to search English and K-pop songs on the remote, bonus time, and etiquette.",
       "db_category": "Korean Culture",
       "overhauled": true
     },
@@ -6077,23 +6131,6 @@
       "overhauled": false
     },
     {
-      "id": "b0505474-e28b-466f-b796-ccdbdd55fdb0",
-      "category": "Uncategorized",
-      "title": "Korean Holiday Foods: What Koreans Eat on Chuseok and Seollal",
-      "slug": "korean-holiday-foods-guide",
-      "url": null,
-      "target_keywords": [
-        "korean-food",
-        "culture",
-        "holiday"
-      ],
-      "status": "Deprecated",
-      "last_updated": "2026-08-11",
-      "summary": "An inside look at korean holiday foods: what koreans eat on chuseok and seollal and what it reveals about Korean society and identity.",
-      "db_category": null,
-      "overhauled": false
-    },
-    {
       "id": "b1aff418-b485-4950-9713-6866df9140ed",
       "category": "Uncategorized",
       "title": "Sagol-Guk: Bone Broth Soup Korean Style",
@@ -6107,6 +6144,23 @@
       "status": "Deprecated",
       "last_updated": "2026-08-11",
       "summary": "A complete step-by-step guide to making Sagol-Guk — Bone Broth Soup Korean Style at home.",
+      "db_category": null,
+      "overhauled": false
+    },
+    {
+      "id": "b0505474-e28b-466f-b796-ccdbdd55fdb0",
+      "category": "Uncategorized",
+      "title": "Korean Holiday Foods: What Koreans Eat on Chuseok and Seollal",
+      "slug": "korean-holiday-foods-guide",
+      "url": null,
+      "target_keywords": [
+        "korean-food",
+        "culture",
+        "holiday"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-11",
+      "summary": "An inside look at korean holiday foods: what koreans eat on chuseok and seollal and what it reveals about Korean society and identity.",
       "db_category": null,
       "overhauled": false
     },
