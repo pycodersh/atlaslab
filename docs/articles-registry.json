@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T02:54:35.143Z",
+  "generated_at": "2026-10-29T03:16:37.104Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -2880,20 +2880,20 @@
     {
       "id": "b66dc334-50ea-438c-8c96-5fcadb59d636",
       "category": "Life",
-      "title": "A Practical Guide to Korean Gift-Giving Etiquette",
+      "title": "Korean Gift-Giving Etiquette: What to Give, What to Avoid, and How to Hand It Over",
       "slug": "korean-gift-giving-etiquette-guide",
       "url": "/blog/en/k-patto/korean-gift-giving-etiquette-guide",
       "target_keywords": [
-        "korea-culture",
-        "etiquette",
-        "holidays",
-        "social-norms"
+        "korean etiquette",
+        "gift giving korea",
+        "korean culture",
+        "living in korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-15",
-      "summary": "Master the nuances of Korean gift-giving culture, from selecting appropriate holiday sets to avoiding common social faux pas.",
+      "summary": "Korean gift etiquette for visitors and residents: good gifts by occasion, cash gifts at weddings and funerals, unlucky gifts, and how to give and receive.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "c8e46c2d-51d6-4ca0-a506-58a438eab485",
@@ -3064,16 +3064,16 @@
       "slug": "korean-national-health-insurance-foreigners",
       "url": "/blog/en/k-patto/korean-national-health-insurance-foreigners",
       "target_keywords": [
-        "national-health-insurance",
-        "living-in-korea",
-        "foreigner-guide",
-        "korean-healthcare"
+        "national health insurance korea",
+        "nhis",
+        "foreign residents",
+        "living in korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-08",
-      "summary": "A practical guide to South Korea's National Health Insurance (NHI) for foreign residents, covering mandatory enrollment rules, monthly costs, and how to use your coverage.",
+      "summary": "How National Health Insurance works for foreign residents in Korea: who must join, employee vs local plans, student discounts, how to pay, and what's covered.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "9ef4e6a7-b573-4fe7-a726-6d0fd70a98f5",
@@ -3118,16 +3118,16 @@
       "slug": "korean-road-name-address-vs-lot-number-guide",
       "url": "/blog/en/k-patto/korean-road-name-address-vs-lot-number-guide",
       "target_keywords": [
-        "korean addresses",
-        "naver map",
-        "seoul navigation",
-        "korea travel"
+        "korean address",
+        "road name address",
+        "living in korea",
+        "korea travel tips"
       ],
       "status": "Active",
       "last_updated": "2026-10-07",
-      "summary": "Read a Korean address, tell road-name addresses from lot-number addresses, and paste the right one into Naver Map or a taxi app without getting lost.",
+      "summary": "How to read a Korean address: road-name vs lot-number formats, the order of parts, apartment dong and ho numbers, postal codes, and how to search in map apps.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "3b7d2ba4-e19d-4927-ae81-d3eea41c986b",
@@ -3172,16 +3172,16 @@
       "slug": "how-to-get-arc-korea-student",
       "url": "/blog/en/k-patto/how-to-get-arc-korea-student",
       "target_keywords": [
-        "ARC",
-        "student visa",
-        "D-2 visa",
-        "study abroad"
+        "arc korea",
+        "residence card",
+        "international students",
+        "living in korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-04",
-      "summary": "A complete guide to securing your Korean Alien Registration Card (ARC) on a D-2 or D-4 visa, including required documents, HiKorea booking, and current fees.",
+      "summary": "How international students register for an ARC (residence card) in Korea: deadline, documents, booking an immigration appointment, fees, waiting time and pickup.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "04ce9ffa-98b9-43ec-b982-d3e2c05ba296",
@@ -3190,16 +3190,16 @@
       "slug": "jeonse-vs-wolse-korean-rental-deposits-foreigners",
       "url": "/blog/en/k-patto/jeonse-vs-wolse-korean-rental-deposits-foreigners",
       "target_keywords": [
-        "korea housing",
         "jeonse",
         "wolse",
-        "korean deposit protection"
+        "renting in korea",
+        "living in korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-04",
-      "summary": "Understand the financial mechanics, risks, and legal protections of Jeonse and Wolse rental deposits in South Korea before signing a lease.",
+      "summary": "Jeonse, wolse and banjeonse compared: deposits, monthly rent, risks, how to protect your deposit, agent fees and the Korean you'll need when renting.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "3a184070-f54d-4663-9ace-432f916bb6d8",
@@ -3618,66 +3618,74 @@
     {
       "id": "53d01e6c-d5f7-45fc-bca6-b3adf50cd1bb",
       "category": "Life",
-      "title": "Korean Internet Slang You'll Actually See",
+      "title": "Korean Internet Slang You'll Actually See: Texting Shortcuts and Trendy Words",
       "slug": "korean-internet-slang-guide",
       "url": "/blog/en/k-patto/korean-internet-slang-guide",
       "target_keywords": [
-        "slang",
-        "internet"
+        "korean slang",
+        "korean texting",
+        "kakaotalk",
+        "learn korean"
       ],
       "status": "Active",
       "last_updated": "2026-07-27",
-      "summary": "Consonant-only abbreviations, shortened phrases, and the laughter that comes in variable lengths. Here is what Koreans actually type online, and where not to use it.",
+      "summary": "The Korean slang you'll see in KakaoTalk chats, comments and variety shows: consonant shortcuts like ㅋㅋ, shortened words, trendy expressions, and when not to use them.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "4cdfb9fd-ff26-48c7-afe5-ca9d1ebc108f",
       "category": "Life",
-      "title": "Korean New Year: What People Say and Do on Seollal",
+      "title": "Korean New Year (Seollal): Traditions, Greetings, and Travel Tips",
       "slug": "korean-new-year-seollal-explained",
       "url": "/blog/en/k-patto/korean-new-year-seollal-explained",
       "target_keywords": [
         "seollal",
-        "holidays"
+        "korean new year",
+        "korean holidays",
+        "korean culture"
       ],
       "status": "Active",
       "last_updated": "2026-07-26",
-      "summary": "Seollal is the biggest holiday of the year, and it runs on a specific script — bows, rice cake soup, and one greeting you will hear a hundred times.",
+      "summary": "What Koreans do on Seollal: the New Year's bow and sebaetdon, tteokguk, family rites and games, what to say, and how the holiday affects travel and opening hours.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "46172cdf-a4c6-4c53-8002-612f6f8dd02d",
       "category": "Life",
-      "title": "Korean Age: Why You Might Be Two Years Older Here",
+      "title": "Korean Age Explained: International Age, Year Age, and Why Age Still Matters",
       "slug": "korean-age-system-explained",
       "url": "/blog/en/k-patto/korean-age-system-explained",
       "target_keywords": [
-        "korean-age",
-        "culture"
+        "korean age",
+        "korean culture",
+        "learn korean",
+        "korean etiquette"
       ],
       "status": "Active",
       "last_updated": "2026-07-25",
-      "summary": "Korea used to count age differently, changed the law in 2023, and still uses the old system socially. Here is how it works, why age matters so much, and how to ask.",
+      "summary": "How age works in Korea after the 2023 switch to international age: the old Korean age, year age for some laws, and why age shapes speech and friendships.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "436a77b0-aadb-4348-8ccb-0be66fecd971",
       "category": "Life",
-      "title": "눈치: The Korean Skill of Reading the Room",
+      "title": "Nunchi (눈치): The Korean Skill of Reading the Room",
       "slug": "nunchi-korean-reading-the-room",
       "url": "/blog/en/k-patto/nunchi-korean-reading-the-room",
       "target_keywords": [
         "nunchi",
-        "culture"
+        "korean culture",
+        "korean etiquette",
+        "living in korea"
       ],
       "status": "Active",
       "last_updated": "2026-07-25",
-      "summary": "눈치 is the ability to sense what is unsaid, and Korean social life runs on it. Here is what the word covers, the phrases built from it, and how Koreans say no without saying no.",
+      "summary": "What nunchi means in Korea, everyday situations where it matters, phrases built around it, and practical ways visitors can read the room without stress.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "19c7820e-5bca-4a48-a98d-0ab4afae44fa",
@@ -3687,14 +3695,15 @@
       "url": "/blog/en/k-patto/konglish-words-when-english-becomes-korean",
       "target_keywords": [
         "konglish",
-        "vocabulary",
-        "loanwords"
+        "learn korean",
+        "korean language",
+        "korean culture"
       ],
       "status": "Active",
       "last_updated": "2026-07-19",
-      "summary": "Korean borrowed thousands of English words, then reshaped them. Here are the ones that trip up English speakers, grouped by what happened to them.",
+      "summary": "Common Konglish words and what they really mean: handphone, notebook, service, fighting, one-room and more, with the correct English and tips for using them.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "planned-gyeongbokgung-hanbok",
