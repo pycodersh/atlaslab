@@ -1,47 +1,49 @@
 /**
  * '너 vs 당신' 요약 인포그래픽 카드 — Basics 글 korean-never-say-dangsin-neo 본문에서 <GrammarCheatCard /> 로 부른다.
  *
- *   위험 단어 2개(빨강) → 골든 룰(초록) → 대신 쓸 호칭(골드) → 캡션
+ *   피할 단어 2개(옅은 레드 틴트, 2분할) → 대안: 주어 생략 · 호칭 대체(옅은 크림 틴트) → 캡션
  *
+ * 본문과 한 문서처럼 읽히도록 밝은 에디토리얼 톤(아이보리 · 차콜 · 사이트 레드)만 쓰고, 이모지 대신 텍스트 뱃지를 쓴다.
  * 문구가 이 글 전용이라 props 없이 둔다. 다른 글에도 쓰게 되면 그때 내용을 props 로 뺀다.
  * 스타일은 lib/blog/proseCss.ts 의 .gcc 규칙(.blog-prose 아래) — 다른 본문 블록과 같은 방식이다.
  * 한국어 · 로마자는 자동 번역에서 빼야 뜻이 남는다(translate="no").
  */
 
-const DANGER = [
+const AVOID = [
   {
     ko: '너',
-    rom: 'Neo',
-    body: 'Only for close same-age friends or younger kids.',
-    warn: 'Said to anyone else, it’s extremely rude.',
+    rom: 'neo',
+    body: 'Only for close friends your own age, or children.',
+    warn: 'Said to anyone else, it sounds rude.',
   },
   {
     ko: '당신',
-    rom: 'Dangsin',
-    body: 'Not a polite “you.” Heard in K-drama street fights or between older married couples.',
+    rom: 'dangsin',
+    body: 'Not a polite “you.” It’s heard in K-drama arguments and between older married couples.',
     warn: 'Never say it to strangers or taxi drivers.',
   },
 ] as const
 
-const SAFE = [
-  { icon: '🏪', where: 'Shops & restaurants', ko: '사장님', rom: 'Sajangnim', note: 'The all-purpose title for owners and staff' },
-  { icon: '🚕', where: 'Taxis & deliveries', ko: '기사님', rom: 'Gisanim', note: 'For drivers and delivery workers' },
-  { icon: '🙋', where: 'Getting attention', ko: '저기요!', rom: 'Jeogiyo', note: 'The safest “excuse me”' },
-  { icon: '👵', where: 'Asking an elder for directions', ko: '어르신 · 선생님', rom: 'Eoreusin · Seonsaengnim', note: 'Respectful for older people' },
+const TITLES = [
+  { where: 'Shops & restaurants', ko: '사장님', rom: 'sajangnim', note: 'All-purpose title for owners and staff' },
+  { where: 'Taxis & deliveries', ko: '기사님', rom: 'gisanim', note: 'For drivers and delivery workers' },
+  { where: 'Getting attention', ko: '저기요', rom: 'jeogiyo', note: 'The safest “excuse me”' },
+  { where: 'Asking an elder', ko: '어르신 · 선생님', rom: 'eoreusin · seonsaengnim', note: 'Respectful for older people' },
 ] as const
 
 export function GrammarCheatCard() {
   return (
     <aside className="gcc" aria-label="Cheat sheet: how to say you in Korean">
       <p className="gcc__badge">Critical rule</p>
-      <p className="gcc__title">Why You Should Never Say &lsquo;YOU&rsquo; in Korea</p>
+      <p className="gcc__title">Why you should never say &ldquo;you&rdquo; in Korean</p>
 
-      <div className="gcc__danger">
-        {DANGER.map(d => (
-          <div key={d.ko} className="gcc__box is-danger">
+      <div className="gcc__avoid">
+        {AVOID.map(d => (
+          <div key={d.ko} className="gcc__box is-avoid">
+            <p className="gcc__tag">Avoid</p>
             <p className="gcc__word">
-              <span aria-hidden="true">❌</span> <span lang="ko" translate="no">{d.ko}</span>{' '}
-              <span className="gcc__rom" translate="no">({d.rom})</span>
+              <span lang="ko" translate="no">{d.ko}</span>{' '}
+              <span className="gcc__rom" translate="no">{d.rom}</span>
             </p>
             <p className="gcc__text">{d.body}</p>
             <p className="gcc__warn">{d.warn}</p>
@@ -49,23 +51,22 @@ export function GrammarCheatCard() {
         ))}
       </div>
 
-      <div className="gcc__box is-golden">
-        <p className="gcc__word"><span aria-hidden="true">💡</span> Drop &lsquo;You&rsquo; Completely!</p>
+      <div className="gcc__box is-instead">
+        <p className="gcc__tag">Say this instead</p>
+
+        <p className="gcc__step">1. Drop the subject</p>
         <p className="gcc__text">
-          Korean runs on context. When it&rsquo;s obvious who you&rsquo;re talking to, leave the &ldquo;you&rdquo; out entirely.
+          Korean runs on context. When it&rsquo;s clear who you&rsquo;re talking to, leave &ldquo;you&rdquo; out entirely.
         </p>
         <p className="gcc__example">
           <span lang="ko" translate="no">커피 마실래요?</span>
-          <span className="gcc__en">“Want some coffee?” (no “you” needed)</span>
+          <span className="gcc__en">Want some coffee? (no &ldquo;you&rdquo; needed)</span>
         </p>
-      </div>
 
-      <div className="gcc__box is-safe">
-        <p className="gcc__head">Safe cheat-sheet: say this instead</p>
+        <p className="gcc__step">2. Use a title</p>
         <ul className="gcc__list">
-          {SAFE.map(s => (
+          {TITLES.map(s => (
             <li key={s.ko}>
-              <span className="gcc__icon" aria-hidden="true">{s.icon}</span>
               <span className="gcc__where">{s.where}</span>
               <span className="gcc__say">
                 <b lang="ko" translate="no">{s.ko}</b> <span className="gcc__rom" translate="no">{s.rom}</span>
@@ -76,7 +77,7 @@ export function GrammarCheatCard() {
         </ul>
       </div>
 
-      <p className="gcc__foot" translate="no">K-PATTO Webtoon Series</p>
+      <p className="gcc__foot" translate="no">K-Patto Webtoon Series</p>
     </aside>
   )
 }

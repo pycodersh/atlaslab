@@ -264,36 +264,41 @@ export function proseCss(bodyFont: string): string {
         .blog-prose .kp-cta a.cta-btn.cta-btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.75); }
         .blog-prose .kp-cta a.cta-btn.cta-btn-outline:hover { background: #fff; color: #111; }
 
-        /* 요약 인포그래픽(GrammarCheatCard) — 다크 카드: 위험(빨강) · 골든 룰(초록) · 대체 호칭(골드) */
-        .blog-prose .gcc { background: #121212; color: #fff; border-radius: 8px; padding: 22px 20px 16px; margin: 36px 0; }
+        /* 요약 인포그래픽(GrammarCheatCard) — 본문과 같은 밝은 에디토리얼 톤: 아이보리 카드 · 피할 말(옅은 레드) · 대안(옅은 크림) */
+        .blog-prose .gcc { background: #FBFBFA; color: #171717; border: 1px solid #E5E1DC; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,.04); padding: 22px 22px 16px; margin: 36px 0; }
         .blog-prose .gcc p { margin: 0; color: inherit; }
-        .blog-prose .gcc__badge { display: inline-block; background: #C8102E; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 4px 9px; border-radius: 3px; }
-        .blog-prose .gcc__title { font-size: 21px; font-weight: 700; line-height: 1.3; margin: 10px 0 18px !important; }
-        .blog-prose .gcc__danger { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .blog-prose .gcc__box { border: 1px solid rgba(255,255,255,.12); border-left: 3px solid; border-radius: 6px; padding: 14px 14px 15px; background: rgba(255,255,255,.04); }
-        .blog-prose .gcc__box.is-danger { border-left-color: #FF5A6E; background: rgba(255,90,110,.07); }
-        .blog-prose .gcc__box.is-golden { border-left-color: #34D399; background: rgba(52,211,153,.08); margin-top: 10px; }
-        .blog-prose .gcc__box.is-safe { border-left-color: #F2C14E; background: rgba(242,193,78,.06); margin-top: 10px; }
-        .blog-prose .gcc__word { font-size: 18px; font-weight: 700; line-height: 1.35; margin-bottom: 6px !important; }
-        .blog-prose .gcc__rom { font-size: 13px; font-weight: 500; color: rgba(255,255,255,.6); }
-        .blog-prose .gcc__text { font-size: 14.5px; line-height: 1.55; color: rgba(255,255,255,.85) !important; }
-        .blog-prose .gcc__warn { font-size: 13.5px; line-height: 1.5; font-style: italic; color: #FF8A99 !important; margin-top: 6px !important; }
-        .blog-prose .gcc__example { margin-top: 10px !important; padding: 9px 12px; background: rgba(0,0,0,.35); border-radius: 4px; font-size: 17px; font-weight: 700; color: #6EE7B7 !important; }
-        .blog-prose .gcc__en { display: block; font-size: 13px; font-weight: 400; color: rgba(255,255,255,.65); margin-top: 2px; }
-        .blog-prose .gcc__head { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #F2C14E !important; margin-bottom: 10px !important; }
-        .blog-prose .gcc__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-        .blog-prose .gcc__list li { margin: 0; display: grid; grid-template-columns: 28px 1fr; column-gap: 8px; align-items: baseline; padding: 9px 10px; background: rgba(255,255,255,.04); border-radius: 4px; }
+        .blog-prose .gcc__badge { display: inline-block; background: #C8102E; color: #fff !important; font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; }
+        .blog-prose .gcc__title { font-size: 21px; font-weight: 700; line-height: 1.3; color: #171717 !important; margin: 10px 0 18px !important; }
+        .blog-prose .gcc__avoid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .blog-prose .gcc__box { border: 1px solid; border-radius: 6px; padding: 14px 16px 15px; }
+        .blog-prose .gcc__box.is-avoid { background: #FDF4F5; border-color: #F1D5D9; }
+        .blog-prose .gcc__box.is-instead { background: #F7F3EC; border-color: #E8DFD0; margin-top: 10px; }
+        .blog-prose .gcc__tag { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 6px !important; }
+        .blog-prose .is-avoid .gcc__tag { color: #9F1239 !important; }
+        .blog-prose .is-instead .gcc__tag { color: #7A5C33 !important; margin-bottom: 10px !important; }
+        .blog-prose .gcc__word { font-size: 22px; font-weight: 700; line-height: 1.3; color: #171717 !important; margin-bottom: 6px !important; }
+        .blog-prose .gcc__rom { font-size: 13px; font-weight: 500; color: #737373; }
+        .blog-prose .gcc__text { font-size: 14.5px; line-height: 1.6; color: #525252 !important; }
+        .blog-prose .gcc__warn { font-size: 13.5px; line-height: 1.5; font-weight: 600; color: #9F1239 !important; margin-top: 8px !important; }
+        .blog-prose .gcc__step { font-size: 15px; font-weight: 700; color: #171717 !important; margin: 4px 0 !important; }
+        .blog-prose .gcc__step ~ .gcc__step { margin-top: 16px !important; }
+        .blog-prose .gcc__example { margin-top: 10px !important; padding: 10px 12px; background: #fff; border: 1px solid #E8DFD0; border-radius: 4px; font-size: 17px; font-weight: 700; color: #171717 !important; }
+        .blog-prose .gcc__en { display: block; font-size: 13px; font-weight: 400; color: #737373; margin-top: 2px; }
+        .blog-prose .gcc__list { list-style: none; margin: 6px 0 0; padding: 0; background: #fff; border: 1px solid #E8DFD0; border-radius: 4px; }
+        .blog-prose .gcc__list li { margin: 0; display: grid; grid-template-columns: 150px 1fr; column-gap: 12px; row-gap: 1px; align-items: baseline; padding: 10px 12px; border-top: 1px solid #F0EAE0; }
+        .blog-prose .gcc__list li:first-child { border-top: 0; }
         .blog-prose .gcc__list li::before { content: none; }
-        .blog-prose .gcc__icon { grid-row: span 3; font-size: 18px; line-height: 1.2; }
-        .blog-prose .gcc__where { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.55); }
-        .blog-prose .gcc__say { font-size: 16.5px; color: #fff; }
-        .blog-prose .gcc__say b { color: #F2C14E; font-weight: 700; }
-        .blog-prose .gcc__note { font-size: 13.5px; color: rgba(255,255,255,.7); }
-        .blog-prose .gcc__foot { margin-top: 14px !important; text-align: right; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.45) !important; }
+        .blog-prose .gcc__where { grid-row: span 2; font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #737373; }
+        .blog-prose .gcc__say { font-size: 16px; color: #171717; }
+        .blog-prose .gcc__say b { font-weight: 700; color: #171717; }
+        .blog-prose .gcc__note { font-size: 13.5px; color: #525252; }
+        .blog-prose .gcc__foot { margin-top: 14px !important; text-align: right; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #A3A3A3 !important; }
         @media (max-width: 560px) {
           .blog-prose .gcc { padding: 18px 16px 14px; }
           .blog-prose .gcc__title { font-size: 19px; }
-          .blog-prose .gcc__danger { grid-template-columns: 1fr; }
+          .blog-prose .gcc__avoid { grid-template-columns: 1fr; }
+          .blog-prose .gcc__list li { grid-template-columns: 1fr; }
+          .blog-prose .gcc__where { grid-row: auto; }
         }
 
         /* 제휴 링크 고지 — 글 맨 위에 조용하게 */
