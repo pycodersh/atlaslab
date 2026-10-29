@@ -48,7 +48,7 @@ async function main() {
     for (const k of ['title', 'description', 'slug', 'app', 'category', 'tags']) if (!fm[k]) throw new Error(`${file}: 프론트매터 ${k} 누락`)
     await compile(body, { remarkPlugins: [remarkGfm] })   // 실패하면 throw — 쓰지 않는다
     const words = body.split(/\s+/).filter(Boolean).length
-    const faq = (body.slice(body.search(/^## Frequently Asked Questions/m)).match(/^\*\*.+\?\*\*$/gm) ?? []).length
+    const faq = (body.slice(body.search(/^## Frequently Asked Questions/m)).match(/^(\*\*.+\?\*\*|###\s+.+\?)\s*$/gm) ?? []).length
     console.log(`${fm.slug}: ${words}단어 · FAQ ${faq}개 · MDX OK`)
 
     const { data: rows, error } = await sb.from('blog_posts').select('*').eq('app', fm.app).eq('slug', fm.slug).eq('locale', 'en')
