@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T00:43:28.260Z",
+  "generated_at": "2026-10-29T01:07:13.486Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -1418,7 +1418,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-24",
-      "summary": "How the buy-downstairs, eat-upstairs system works at Noryangjin, how to avoid overpaying, and the Korean you need for ordering hoe.",
+      "summary": "How the buy-downstairs, eat-upstairs system works at Noryangjin, what the table and cooking fees cost, and how to handle vendors without overpaying.",
       "db_category": "Cooking Basics"
     },
     {
@@ -1436,7 +1436,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-17",
-      "summary": "Master the use of the Korean ttukbaegi, an unglazed earthenware pot that keeps stews boiling long after they leave the stove.",
+      "summary": "What the ttukbaegi earthenware pot does, which stews arrive in it, how to eat from it safely at a restaurant, and how to season and care for one at home.",
       "db_category": "Cooking Basics"
     },
     {
@@ -1453,7 +1453,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-17",
-      "summary": "Master ordering Kalguksu in South Korea with this guide covering broth varieties, regional styles, essential Korean phrases, and table etiquette.",
+      "summary": "The six kalguksu broths compared, how to order at a noodle shop, what to do with the table kimchi, and the side dishes locals add.",
       "db_category": "Cooking Basics"
     },
     {
@@ -2580,7 +2580,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-24",
-      "summary": "How safe Korea is for visitors, which emergency numbers to call (112, 119, 1330), and the Korean phrases that get help fast.",
+      "summary": "How safe Korea is for visitors, which number to call (112, 119, 1330), how to find lost items, and the Korean phrases that get help fast.",
       "db_category": "Korean Culture"
     },
     {
@@ -2597,7 +2597,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-16",
-      "summary": "A complete guide for expats and tourists on sending domestic and international packages in Korea using the post office, convenience stores, and smart lockers.",
+      "summary": "Post office or convenience store? Compare costs, hours and drop-off steps for sending parcels in Korea, plus how to use the store kiosk and weigh your box.",
       "db_category": "Korean Culture"
     },
     {
