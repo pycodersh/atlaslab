@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
 import { PATTO_TAB, legacyTabTarget, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { badgeFor } from '@/lib/blog/badge'
 import { KEEP_EMPTY_SUB_CHIPS, isValidSubcategory, subcategoriesFor, subcategoryOf } from '@/lib/blog/subcategories'
 import { permanentRedirect } from 'next/navigation'
 import { readMinutes } from '@/lib/blog/readTime'
@@ -106,6 +107,7 @@ export default async function BlogIndexPage({
     ...p,
     thumb: thumbnailForPost(p.slug, bodyBySlug.get(p.slug)?.content, bodyBySlug.get(p.slug)?.thumbnail),
     readMin: readMinutes(bodyBySlug.get(p.slug)?.content),
+    badge: badgeFor(p),
   }))
 
   return (

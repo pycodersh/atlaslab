@@ -14,6 +14,7 @@ import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
 import { readMinutes } from '@/lib/blog/readTime'
 import { ArticleJsonLd } from '@/components/blog/ArticleJsonLd'
+import { ArticleStickyCta } from '@/components/blog/ArticleStickyCta'
 
 /** Klook 배너를 붙이는 주제 그룹(lib/blog/sections) — 여행 Explore Korea · 음식 Food · 생활 Life */
 const KLOOK_GROUPS = new Set<string>(['explore-korea', 'food', 'life'])
@@ -372,6 +373,9 @@ export default async function AppBlogPostPage({
 
         </div>
       </div>
+
+      {/* 모바일 하단 고정 CTA — 20% 이상 읽으면 올라온다(넓은 화면은 숨김) */}
+      <ArticleStickyCta />
     </div>
   )
 }

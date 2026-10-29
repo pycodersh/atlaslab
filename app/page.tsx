@@ -5,6 +5,10 @@ import { BlogThumb } from '@/components/blog/BlogThumb'
 import { PostListRow } from '@/components/blog/PostListRow'
 import { SectionHeader } from '@/components/SectionHeader'
 import { HomeCategoryBar, type HomeTab } from '@/components/HomeCategoryBar'
+import { HomeSearch, type SearchDoc } from '@/components/HomeSearch'
+import { LeadMagnetBanner } from '@/components/LeadMagnetBanner'
+import { PostBadge } from '@/components/blog/PostBadge'
+import { badgeFor } from '@/lib/blog/badge'
 import { readMinutes } from '@/lib/blog/readTime'
 import {
   BLOG_GROUPS,
@@ -77,6 +81,7 @@ type BlogRow = {
   published_at: string
   content: string | null
   thumbnail: string | null
+  tags: string[] | null
 }
 
 /** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다.
@@ -104,6 +109,7 @@ function groupIntoSections(posts: BlogRow[]) {
         ...post,
         thumb: thumbnailForPost(post.slug, post.content, post.thumbnail),
         readMin: readMinutes(post.content),
+        badge: badgeFor(post),
       })),
     }
   })
@@ -187,7 +193,7 @@ export default async function AtlasLabHome() {
   // thumbnailForPost 로 여기서 정한다(대표 이미지가 있으면 그것이 우선).
   const { data: allPosts } = await supabase
     .from('blog_posts')
-    .select('slug, title, description, app, locale, category, published_at, content, thumbnail')
+    .select('slug, title, description, app, locale, category, published_at, content, thumbnail, tags')
     .eq('is_paused', false)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
@@ -200,6 +206,12 @@ export default async function AtlasLabHome() {
     { id: 'resources', label: 'Resources' },
     ...shownSections.map(s => ({ id: anchorOf(s.key), label: s.key === 'explore-korea' ? 'Explore' : s.title })),
   ]
+  // 히어로 검색 색인 — 주제 섹션에 드는 글만(본문은 빼고 제목 · 태그 · 그룹 이름). 브라우저가 이것만으로 거른다.
+  const groupTitle = new Map<string, string>(BLOG_GROUPS.map(g => [g.key, g.title]))
+  const searchDocs: SearchDoc[] = (allPosts ?? []).flatMap(p => {
+    const g = groupKeyOf(p.app, p.category)
+    return g ? [{ title: p.title, href: `/blog/${p.locale}/${p.app}/${p.slug}`, group: groupTitle.get(g) ?? '', tags: p.tags ?? [] }] : []
+  })
 
   return (
     <>
@@ -210,9 +222,9 @@ export default async function AtlasLabHome() {
         body { background: var(--paper, #fff); color: var(--ink, #111); overflow-x: hidden; }
 
         /* ── Hero (dark charcoal) ──────────────────────────────────── */
+        /* overflow 는 보이게 둔다 — 검색 결과 드롭다운이 히어로 아래로 내려온다 */
         .hero {
           background: #121212;
-          overflow: hidden;
         }
         /* 좌우 여백·최대 폭은 아래 본문 섹션(.wrap)과 같은 컨테이너를 쓴다 — 텍스트 폭만 따로 제한 */
         /* 버튼 없이 서브 카피로 끝나므로 위아래 여백을 같게 둬서 텍스트 블록이 가운데 앉게 한다 */
@@ -481,6 +493,21 @@ export default async function AtlasLabHome() {
           .bmeta { font-size: 10.5px; margin-top: 8px; }
         }
 
+        /* 섹션 발치 '전체 보기' — 가운데 아웃라인 버튼. 폰에서는 폭 전체(손가락 표적) */
+        .sec-more { display: flex; justify-content: center; margin-top: 24px; }
+        .sec-more-btn {
+          display: inline-flex; align-items: center; justify-content: center;
+          min-height: 44px; padding: 10px 24px;
+          font-family: ${BODY}; font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+          color: var(--ink, #111); text-decoration: none;
+          border: 1.5px solid var(--ink, #111); border-radius: 999px; background: transparent;
+          transition: background 0.15s, color 0.15s;
+          -webkit-tap-highlight-color: transparent;
+        }
+        @media (hover: hover) { .sec-more-btn:hover { background: var(--ink, #111); color: #fff; } }
+        .sec-more-btn:active { background: var(--ink, #111); color: #fff; }
+        @media (max-width: 767px) { .sec-more { margin-top: 16px; } .sec-more-btn { width: 100%; } }
+
         /* ── Why section ───────────────────────────────────────────── */
         .why-wrap { padding-top: 60px; padding-bottom: 72px; }
         .why-grid {
@@ -526,6 +553,7 @@ export default async function AtlasLabHome() {
             <p className="hero-desc">
               Your ultimate companion to master Korean, discover curated stays, and experience local culture effortlessly.
             </p>
+            <HomeSearch docs={searchDocs} />
           </div>
         </div>
       </section>
@@ -591,6 +619,7 @@ export default async function AtlasLabHome() {
                         <PostListRow
                           key={`${post.locale}/${post.app}/${post.slug}`}
                           href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+                          badge={post.badge}
                           title={post.title}
                           excerpt={post.description}
                           readMin={post.readMin}
@@ -607,6 +636,7 @@ export default async function AtlasLabHome() {
                         >
                           <BlogThumb thumb={post.thumb} alt={post.title} />
                           <div className="bbody">
+                            <PostBadge badge={post.badge} />
                             <div className="btitle">{post.title}</div>
                             {post.description && (
                               <div className="bexcerpt">{post.description}</div>
@@ -619,6 +649,12 @@ export default async function AtlasLabHome() {
                       ))}
                     </div>
                   )}
+                  {/* 섹션 발치 가운데 '전체 보기' 버튼 — 머리 오른쪽의 작은 View all 링크는 그대로 두고, 폰에서 누르기 쉬운 큰 표적을 하나 더 둔다 */}
+                  <div className="sec-more">
+                    <a href={`/blog?tab=${section.key}`} className="sec-more-btn">
+                      Explore All {section.key === 'explore-korea' ? 'Explore Korea' : section.title} Articles →
+                    </a>
+                  </div>
                 </section>
               ),
             )}
@@ -639,6 +675,9 @@ export default async function AtlasLabHome() {
           ))}
         </div>
       </div>
+
+      {/* ── 리드 마그넷 — Why Atlas Lab 아래, 푸터 바로 위 ── */}
+      <LeadMagnetBanner />
 
       {/* ── Footer (black) ── */}
       <SiteFooter />

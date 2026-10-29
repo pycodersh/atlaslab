@@ -1047,6 +1047,21 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
   margin-bottom: 6px;
 }
 
+/* 카드 뱃지(components/blog/PostBadge · lib/blog/badge) — 홈 카드 · /blog 카드 · 세로 리스트 공통.
+   연한 바탕 + 진한 글자로 색만 갈라 둔다(초보 = 초록, 여행 = 코랄 레드, 음식 = 앰버, 생활 = 퍼플 그레이). */
+.pbadge {
+  display: inline-flex; align-items: center; align-self: flex-start;
+  font-family: "DM Sans", Inter, system-ui, sans-serif;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; line-height: 1;
+  padding: 4px 8px 4px; border-radius: 999px; white-space: nowrap;
+  margin-bottom: 8px;
+}
+.pbadge--beginner { background: #E3F4EA; color: #166534; }
+.pbadge--travel   { background: #FDE8E6; color: #B4232F; }
+.pbadge--food     { background: #FEF0D7; color: #9A4A07; }
+.pbadge--life     { background: #EEEAF5; color: #5B4B7A; }
+.plist-main .pbadge { margin-bottom: 6px; }
+
 .plist-title {
   font-family: "Playfair Display", Georgia, serif;
   font-size: 18px;
