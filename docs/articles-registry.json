@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T05:15:15.638Z",
+  "generated_at": "2026-10-29T05:24:52.393Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -1617,20 +1617,20 @@
     {
       "id": "2a1256f8-2b57-449a-905a-84e627c934dc",
       "category": "Food",
-      "title": "A Complete Guide to Korean Goguma: Street Food and Home Preparation",
+      "title": "Goguma: Korean Sweet Potatoes, Street Snacks, and How Locals Eat Them",
       "slug": "korean-goguma-guide",
       "url": "/blog/en/k-pantry/korean-goguma-guide",
       "target_keywords": [
-        "korean-food",
-        "winter-in-korea",
-        "street-food",
-        "cooking-in-korea"
+        "goguma",
+        "korean sweet potato",
+        "korean snacks",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-15",
-      "summary": "Everything you need to know about Korean sweet potatoes, from finding the best street vendors in winter to selecting the right varieties for home cooking.",
+      "summary": "Korean sweet potatoes explained: varieties, roasted street goguma, convenience store snacks, goguma latte, and simple ways to cook them at home.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "5318ee6b-aa2c-4ed5-b2ca-ede964c6efed",
@@ -2140,56 +2140,56 @@
     {
       "id": "ebf42073-5646-47b2-8f1a-f9949bcb6db8",
       "category": "Food",
-      "title": "Galbi-jjim vs Western Beef Stew: The Secret to Korea's Holiday Braised Ribs",
+      "title": "Galbijjim vs Western Beef Stew: Korea's Braised Short Ribs",
       "slug": "galbijjim-vs-western-beef-stew",
       "url": "/blog/en/k-pantry/galbijjim-vs-western-beef-stew",
       "target_keywords": [
-        "Galbijjim",
-        "Korean Braised Ribs",
-        "Beef Stew Comparison",
-        "Food Science"
+        "galbijjim",
+        "braised short ribs",
+        "korean beef",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-09-26",
-      "summary": "Analyze the enzymatic tenderizing science, sweet-savory flavor mechanics, and root vegetable carving techniques separating Korean braised ribs from Western stews.",
+      "summary": "Galbijjim explained: soy-braised beef short ribs with radish, chestnuts and jujubes, how it compares with Western beef stew, spicy versions, and where to eat it.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "9b56512e-b029-4ede-8464-98914c3da6c8",
       "category": "Food",
-      "title": "The Korean Ssam Guide: Leaf Combinations and the One-Bite Rule",
+      "title": "Ssambap: How to Eat Korean Leaf Wraps With Rice",
       "slug": "korean-ssambap-dining-guide",
       "url": "/blog/en/k-pantry/korean-ssambap-dining-guide",
       "target_keywords": [
-        "Korean Food",
-        "Ssam Guide",
-        "Dining Etiquette",
-        "Seoul Travel"
+        "ssambap",
+        "korean wraps",
+        "ssamjang",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-09-21",
-      "summary": "Master the art of Korean leaf wraps, from lettuce and perilla pairings to proper portioning and the essential one-bite dining protocol.",
+      "summary": "Ssambap explained: rice wrapped in lettuce, perilla and other leaves with ssamjang and side dishes, the leaves you'll see, how to build a wrap and where to try it.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "aa52e3ee-f84c-4916-a758-ffd68b45db72",
       "category": "Food",
-      "title": "The Science of Korean BBQ Fried Rice: 3 Rules of the Tabletop Finale",
+      "title": "Korean BBQ Fried Rice: How to Order the Best Part of the Meal",
       "slug": "korean-bbq-fried-rice-guide",
       "url": "/blog/en/k-pantry/korean-bbq-fried-rice-guide",
       "target_keywords": [
-        "Korean BBQ",
-        "Fried Rice",
-        "Bokkeumbap",
-        "Seoul Dining Guide"
+        "korean fried rice",
+        "bokkeumbap",
+        "korean bbq",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-09-21",
-      "summary": "Why fried rice functions as the true savory dessert at Korean BBQ, the emulsification physics behind it, and a 3-step guide to scoring optimal nurungji.",
+      "summary": "How Korean restaurants make fried rice on the grill or pan after BBQ, dakgalbi and stews, what goes in it, when to order, and how to make it at home.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "e4a45ac1-fe77-451f-a518-400e8afac847",
@@ -2212,20 +2212,20 @@
     {
       "id": "32d670b6-f047-44b8-a05e-327b12af1e55",
       "category": "Food",
-      "title": "Why Is Andong Jjimdak Soy-Based When Korean Chicken Dishes Are Usually Red?",
+      "title": "Andong Jjimdak: Why This Korean Chicken Dish Is Soy-Based, Not Red",
       "slug": "andong-jjimdak-why-soy-not-spicy",
       "url": "/blog/en/k-pantry/andong-jjimdak-why-soy-not-spicy",
       "target_keywords": [
-        "jjimdak",
-        "andong",
-        "chicken",
-        "regional food"
+        "andong jjimdak",
+        "braised chicken",
+        "korean chicken",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Andong jjimdak looks dark instead of red, and it is sweet before it is hot. Here is what separates jjimdak from dakbokkeumtang and why the sauce is built the way it is.",
+      "summary": "Andong jjimdak explained: soy-braised chicken with glass noodles and dried chilies, how it differs from spicy Korean chicken dishes, how to order it and its origins.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "19c41e78-990e-4f18-afd5-9a552c06354a",
@@ -2266,20 +2266,20 @@
     {
       "id": "3a664290-d9b8-41cb-8646-7169a6f3917a",
       "category": "Food",
-      "title": "Chuncheon Dakgalbi Without the Griddle: A Home Pan Method",
+      "title": "Chuncheon Dakgalbi: How to Order It in Korea and Make It at Home",
       "slug": "chuncheon-dakgalbi-at-home",
       "url": "/blog/en/k-pantry/chuncheon-dakgalbi-at-home",
       "target_keywords": [
         "dakgalbi",
         "chuncheon",
-        "chicken",
-        "gochujang"
+        "korean chicken",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Dakgalbi is cooked on a wide flat griddle at the table, which no home kitchen has. Here is the sauce ratio and the pan technique that gets you there anyway — plus the fried rice finish.",
+      "summary": "Dakgalbi explained: Chuncheon's spicy stir-fried chicken cooked on a big iron pan at your table, how ordering works, the fried rice finish, and a home pan method.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "054fe19d-933d-4ff6-bb0e-e92174fb5a6b",
@@ -2289,33 +2289,33 @@
       "url": "/blog/en/k-pantry/kimchi-differs-by-region",
       "target_keywords": [
         "kimchi",
-        "regional food",
-        "jeotgal",
+        "regional korean food",
+        "korean food culture",
         "fermentation"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Southern kimchi is saltier and redder, northern kimchi is mild and watery. The split comes from climate and salted seafood, and it explains why two jars can taste nothing alike.",
+      "summary": "How kimchi changes across Korea: salty, spicy southern kimchi vs mild northern kimchi, the role of climate and seafood, and regional styles worth tasting.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "3385c634-4631-4f79-bfd0-0171ca61727d",
       "category": "Food",
-      "title": "Braised Mackerel vs Braised Hairtail: Which Fish to Use for Korean Jorim",
+      "title": "Braised Mackerel vs Braised Hairtail: Korean Fish Jorim Explained",
       "slug": "mackerel-jorim-vs-galchi-jorim",
       "url": "/blog/en/k-pantry/mackerel-jorim-vs-galchi-jorim",
       "target_keywords": [
-        "jorim",
-        "mackerel",
-        "hairtail",
-        "fish"
+        "fish jorim",
+        "braised mackerel",
+        "galchi",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Andong's salted mackerel and Jeju's hairtail are the two classic fish for Korean braising, and they behave completely differently in the pot. Here is how to pick and how to cook each.",
+      "summary": "Godeungeo jorim (braised mackerel) and galchi jorim (braised hairtail) compared: taste, texture, price, where to eat them, and tips for cooking Korean fish jorim.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "356af80c-eaad-428b-8486-a1ff0cc0b6a6",
@@ -2338,20 +2338,20 @@
     {
       "id": "a3f4a8eb-5c12-4b76-8168-3805bdb63572",
       "category": "Food",
-      "title": "Why Koreans Dip Sundae in Different Things Depending on the Region",
+      "title": "Korean Sundae: What It Is and Why the Dip Changes by Region",
       "slug": "sundae-differs-by-region",
       "url": "/blog/en/k-pantry/sundae-differs-by-region",
       "target_keywords": [
         "sundae",
-        "street food",
-        "regional food",
-        "dipping sauce"
+        "korean blood sausage",
+        "korean street food",
+        "regional korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Salt in Seoul, ssamjang in Busan, chili vinegar sauce in Jeolla. The dipping sauce for Korean blood sausage is regional, and so is the sausage itself.",
+      "summary": "Korean sundae (blood sausage) explained: what's inside, how it's served at bunsik shops and markets, and why Seoul, Busan, Jeolla and Jeju dip it in different things.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "1d803289-aaae-4a99-ba4f-4239b6c5806b",
@@ -2434,14 +2434,14 @@
       "target_keywords": [
         "ramyeon",
         "instant noodles",
-        "quick meals",
-        "cooking tips"
+        "korean cooking",
+        "budget food"
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Six additions that turn a packet of Korean instant noodles into an actual meal, plus the two mistakes that ruin it.",
+      "summary": "Simple ways Koreans upgrade instant ramyeon: eggs, cheese, green onion, kimchi and dumplings, cooking tips for better noodles, and popular combinations to try.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "504d0258-2317-478d-9e8d-f1663394432e",
