@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T02:13:22.135Z",
+  "generated_at": "2026-10-29T02:23:44.950Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -1600,20 +1600,20 @@
     {
       "id": "f1475709-8bfc-4576-8822-af72b1f0e5b8",
       "category": "Food",
-      "title": "Seolleongtang Seasoning Guide: Why Korean Ox Bone Soup Arrives Unsalted",
+      "title": "Seolleongtang and Gomtang: How to Season Korean Beef Bone Soup",
       "slug": "seolleongtang-seasoning-guide-ox-bone-soup",
       "url": "/blog/en/k-pantry/seolleongtang-seasoning-guide-ox-bone-soup",
       "target_keywords": [
         "seolleongtang",
-        "korean-food",
-        "seoul-dining",
-        "korean-soup"
+        "gomtang",
+        "beef bone soup",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-16",
-      "summary": "Master the art of seasoning Seolleongtang at the table with sea salt, spring onions, pepper, and kkakdugi juice for the ultimate Korean comfort food experience.",
+      "summary": "Seolleongtang and gomtang compared, why the broth arrives unseasoned, how to add salt, pepper, green onion and kkakdugi juice, and how to order.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "2a1256f8-2b57-449a-905a-84e627c934dc",
@@ -1727,20 +1727,20 @@
     {
       "id": "f9b9c12d-8845-43b9-974a-aea72ddfae59",
       "category": "Food",
-      "title": "Sundubu-jjigae: How to Order Korean Soft Tofu Stew and Choose the Spice Level",
+      "title": "Sundubu Jjigae Guide: Spice Levels, the Raw Egg, and Stone-Pot Rice",
       "slug": "sundubu-jjigae-ordering-guide",
       "url": "/blog/en/k-pantry/sundubu-jjigae-ordering-guide",
       "target_keywords": [
-        "korean-food",
-        "dining-in-korea",
-        "sundubu-jjigae",
-        "korean-cuisine"
+        "sundubu jjigae",
+        "soft tofu stew",
+        "korean stew",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-13",
-      "summary": "A comprehensive guide to enjoying Korea’s iconic soft tofu stew, covering ordering customs, spice levels, and essential dining etiquette.",
+      "summary": "How to order sundubu jjigae (soft tofu stew): choosing a spice level and flavor, when to crack the raw egg, and how to make nurungji from the stone-pot rice.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "8c110cb5-01b3-4115-aa29-8f1faf2d076a",
@@ -1781,38 +1781,38 @@
     {
       "id": "4df0e9bf-6158-4762-85c5-58780ad004a0",
       "category": "Food",
-      "title": "Kimbap Guide: Ingredients, Ordering Etiquette, and Local Eating Habits",
+      "title": "Kimbap Guide: Types, Fillings, and How to Order at a Kimbap Shop",
       "slug": "kimbap-ingredients-ordering-guide-korea",
       "url": "/blog/en/k-pantry/kimbap-ingredients-ordering-guide-korea",
       "target_keywords": [
         "kimbap",
-        "korean-street-food",
-        "bunsik",
-        "seoul-food-guide"
+        "gimbap",
+        "korean snack food",
+        "budget food korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-12",
-      "summary": "Everything you need to know about Korean kimbap, from classic fillings and variations to ordering at bunsik diners and convenience store hacks.",
+      "summary": "Kimbap explained: classic, tuna, cheese and mayak varieties, what's inside, how kimbap shops and convenience store triangles work, and how to order.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "ab3bc994-8ffd-4aa8-913f-8c519101fcb8",
       "category": "Food",
-      "title": "Samgyetang Guide: Why Koreans Eat Hot Ginseng Chicken Soup on Hot Days",
+      "title": "Samgyetang Guide: How to Eat Korean Ginseng Chicken Soup",
       "slug": "samgyetang-korean-ginseng-chicken-soup-guide",
       "url": "/blog/en/k-pantry/samgyetang-korean-ginseng-chicken-soup-guide",
       "target_keywords": [
         "samgyetang",
-        "korean-food",
-        "seoul-dining",
-        "korean-culture"
+        "ginseng chicken soup",
+        "boknal",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-12",
-      "summary": "Discover the cultural tradition behind eating boiling Samgyetang during Korea's peak summer heat, complete with ordering steps, menu variations, and dining etiquette.",
+      "summary": "What samgyetang is, why Koreans eat it on the hottest days of summer, how to eat a whole stuffed chicken with salt and pepper, and how to order at a restaurant.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "f8301740-4e5f-4b68-b1a0-46c56679f5b6",
@@ -1872,38 +1872,38 @@
     {
       "id": "fff8f3cc-c529-4fa2-a422-8490727a8b54",
       "category": "Food",
-      "title": "Jajangmyeon vs Jjamppong: How to Choose and Order Korea's Iconic Noodle Duo",
+      "title": "Jajangmyeon vs Jjamppong (and Tangsuyuk): A Guide to Korean-Chinese Food",
       "slug": "jajangmyeon-vs-jjamppong-korean-chinese-food",
       "url": "/blog/en/k-pantry/jajangmyeon-vs-jjamppong-korean-chinese-food",
       "target_keywords": [
         "jajangmyeon",
         "jjamppong",
-        "korean-chinese food",
-        "seoul dining guide"
+        "tangsuyuk",
+        "korean chinese food"
       ],
       "status": "Active",
       "last_updated": "2026-10-08",
-      "summary": "A practical guide comparing Jajangmyeon and Jjamppong, including flavor profiles, ordering etiquette, and how to navigate Korean-Chinese restaurant menus like a local.",
+      "summary": "Jajangmyeon, jjamppong and tangsuyuk explained: flavors, the half-and-half jjamjjamyeon, the pour vs dip sweet-and-sour debate, free sides, and how to order.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "43247216-44be-47fa-b64e-f004753f7fff",
       "category": "Food",
-      "title": "Gukbap and Juk: A Guide to Korean Rice Soup and Porridge",
+      "title": "Gukbap and Juk: Korean Comfort Food for Cold Days and Sick Days",
       "slug": "gukbap-and-juk-korean-comfort-food",
       "url": "/blog/en/k-pantry/gukbap-and-juk-korean-comfort-food",
       "target_keywords": [
         "gukbap",
         "juk",
-        "korean-comfort-food",
-        "dining-etiquette"
+        "korean porridge",
+        "korean comfort food"
       ],
       "status": "Active",
       "last_updated": "2026-10-08",
-      "summary": "A comprehensive guide to Korea's essential comfort foods, detailing their cultural roles, flavor profiles, ordering etiquette, and practical dining tips.",
+      "summary": "Gukbap (soup with rice) and juk (rice porridge) explained: the main types, when Koreans eat them, how porridge shops work, and tips for ordering to go.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "68c5115d-d17c-4f1b-be46-6b5631f6a3c3",
@@ -2000,21 +2000,20 @@
     {
       "id": "3dda28bf-5fe4-41be-980c-b6cbfcd9d9fc",
       "category": "Food",
-      "title": "Pajeon vs Kimchi-jeon vs Bindaetteok: Korean Savory Pancakes Compared",
+      "title": "Jeon and Makgeolli: Korean Pancakes and Why Koreans Eat Them on Rainy Days",
       "slug": "korean-savory-pancakes-guide",
       "url": "/blog/en/k-pantry/korean-savory-pancakes-guide",
       "target_keywords": [
+        "korean pancakes",
         "pajeon",
-        "kimchi-jeon",
-        "bindaetteok",
-        "korean street food",
-        "makgeolli"
+        "makgeolli",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-04",
-      "summary": "A definitive guide to the ingredients, textures, and average prices of Korea's three major savory pancakes, including where to find them in Seoul.",
+      "summary": "Korean savory pancakes (jeon) explained: pajeon, kimchijeon, bindaetteok and more, why rainy days mean pancakes and makgeolli, and how to pour makgeolli.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "7dc0b77c-2956-4998-98d8-0f900ff13c66",
@@ -2201,20 +2200,20 @@
     {
       "id": "e4a45ac1-fe77-451f-a518-400e8afac847",
       "category": "Food",
-      "title": "Jeonju Bibimbap vs Regular Bibimbap: What Actually Makes It Different",
+      "title": "Bibimbap Guide: Jeonju vs Dolsot vs Regular, and How Much Gochujang to Add",
       "slug": "jeonju-bibimbap-vs-regular-bibimbap",
       "url": "/blog/en/k-pantry/jeonju-bibimbap-vs-regular-bibimbap",
       "target_keywords": [
         "bibimbap",
-        "jeonju",
-        "regional food",
-        "rice dishes"
+        "dolsot bibimbap",
+        "jeonju bibimbap",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Jeonju bibimbap costs more and gets its own name on the menu. The real differences are in the rice, the raw beef, and a yellow jelly most people outside Korea have never seen.",
+      "summary": "The main kinds of bibimbap compared (Jeonju, dolsot stone-pot, regular and more), how to mix it, how much gochujang to add, and how to order at a restaurant.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "32d670b6-f047-44b8-a05e-327b12af1e55",
@@ -2453,21 +2452,20 @@
     {
       "id": "504d0258-2317-478d-9e8d-f1663394432e",
       "category": "Food",
-      "title": "Kimchi Jjigae vs Doenjang Jjigae: Which Korean Stew Should You Try First?",
+      "title": "Kimchi Jjigae vs Doenjang Jjigae: Which Korean Stew to Order First",
       "slug": "kimchi-jjigae-vs-doenjang-jjigae",
       "url": "/blog/en/k-pantry/kimchi-jjigae-vs-doenjang-jjigae",
       "target_keywords": [
-        "jjigae",
-        "stew",
-        "kimchi",
-        "doenjang",
-        "beginners"
+        "kimchi jjigae",
+        "doenjang jjigae",
+        "korean stew",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Two stews, two completely different flavors. Here's how they differ, which is easier for a beginner, and how to make each one properly.",
+      "summary": "Kimchi jjigae and doenjang jjigae compared: broth base, spice, what's inside, what comes with them, how to share a stew, and how to order at a Korean restaurant.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "99da2781-aec9-4219-8ab3-ded2b4eff704",
@@ -2490,20 +2488,20 @@
     {
       "id": "0f5d3314-c0fb-4cb2-aec3-9e23d0f11131",
       "category": "Food",
-      "title": "What Is Tteokbokki? And How Spicy Is It Really",
+      "title": "Bunsik Guide: Tteokbokki, Sundae, Twigim, and How Spicy It Really Is",
       "slug": "what-is-tteokbokki-how-spicy",
       "url": "/blog/en/k-pantry/what-is-tteokbokki-how-spicy",
       "target_keywords": [
         "tteokbokki",
-        "street food",
-        "spicy",
-        "korean food"
+        "bunsik",
+        "korean snack food",
+        "korean street food"
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Chewy rice cakes in a sweet-spicy red sauce. Here's what it actually tastes like, how hot it is, and how to make it milder.",
-      "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "summary": "What tteokbokki is and how spicy it gets, plus the rest of the bunsik snack menu: sundae, twigim, the tteok-twi-sun combo, free fish cake broth, and how to order.",
+      "db_category": "Cooking Basics",
+      "overhauled": true
     },
     {
       "id": "9cc7b660-07f0-4a1e-87b3-ae5fde0fe7ff",
