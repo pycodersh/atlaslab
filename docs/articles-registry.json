@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T05:24:52.393Z",
+  "generated_at": "2026-10-29T05:33:43.613Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -1905,20 +1905,20 @@
     {
       "id": "68c5115d-d17c-4f1b-be46-6b5631f6a3c3",
       "category": "Food",
-      "title": "Gim vs Nori vs Miyeok vs Dasima: Korean Seaweed Compared",
+      "title": "Gim, Miyeok, Dasima: The Three Korean Seaweeds and How to Use Them",
       "slug": "gim-nori-miyeok-dasima-korean-seaweed",
       "url": "/blog/en/k-pantry/gim-nori-miyeok-dasima-korean-seaweed",
       "target_keywords": [
-        "korean food",
-        "seaweed",
+        "korean seaweed",
         "gim",
-        "korean ingredients"
+        "miyeok",
+        "dasima"
       ],
       "status": "Active",
       "last_updated": "2026-10-08",
-      "summary": "A comprehensive guide comparing the four essential types of seaweed used in Korean cuisine, including flavor profiles, purchasing tips, and culinary applications.",
+      "summary": "Korean seaweeds explained: gim (roasted laver), miyeok (wakame) and dasima (kelp), how each is used, birthday seaweed soup, buying tips and storage.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "94ff1fe5-0828-41d9-8e63-73cf179f79d8",
@@ -2104,38 +2104,38 @@
     {
       "id": "7a51d5bd-dd14-4b91-8810-e08b013ebba6",
       "category": "Food",
-      "title": "Tteokbokki Tteok vs Tteokguk Tteok: Korean Rice Cakes Compared",
+      "title": "Tteokbokki Tteok vs Tteokguk Tteok: Which Rice Cake to Buy",
       "slug": "tteokbokki-tteok-vs-tteokguk-tteok-comparison",
       "url": "/blog/en/k-pantry/tteokbokki-tteok-vs-tteokguk-tteok-comparison",
       "target_keywords": [
-        "korean-food",
+        "tteok",
         "tteokbokki",
         "tteokguk",
-        "korean-cooking"
+        "korean ingredients"
       ],
       "status": "Active",
       "last_updated": "2026-10-02",
-      "summary": "Understand the structural differences, cooking times, and substitution rules between Korea's two most common rice cake cuts.",
+      "summary": "The difference between cylinder rice cakes for tteokbokki and sliced ovals for tteokguk, rice vs wheat tteok, how to buy, store and cook each, and substitutes.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "8aaee9d1-7d98-4635-a654-8f2c9cb8b565",
       "category": "Food",
-      "title": "The Science of Songpyeon: Why Koreans Steam Rice Cakes on Pine Needles",
+      "title": "Songpyeon: Why Korean Chuseok Rice Cakes Are Steamed on Pine Needles",
       "slug": "korean-songpyeon-pine-needles-science",
       "url": "/blog/en/k-pantry/korean-songpyeon-pine-needles-science",
       "target_keywords": [
-        "Songpyeon",
-        "Korean Food Culture",
-        "Chuseok",
-        "Food Science"
+        "songpyeon",
+        "chuseok",
+        "korean rice cake",
+        "tteok"
       ],
       "status": "Active",
       "last_updated": "2026-09-26",
-      "summary": "Discover the biochemistry of pine needle phytoncides, the astronomical symbolism behind the half-moon shape, and the texture balance of traditional fillings.",
+      "summary": "Songpyeon explained: half-moon rice cakes made for Chuseok, the fillings, why they're steamed on pine needles, family traditions, and where to buy them.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "ebf42073-5646-47b2-8f1a-f9949bcb6db8",
@@ -2320,20 +2320,20 @@
     {
       "id": "356af80c-eaad-428b-8486-a1ff0cc0b6a6",
       "category": "Food",
-      "title": "What Is Ssambap? Why Gyeongju Serves It as a Table Full of Small Dishes",
+      "title": "Gyeongju Ssambap: Why Gyeongju Serves a Table Full of Small Dishes",
       "slug": "gyeongju-ssambap-what-is-it",
       "url": "/blog/en/k-pantry/gyeongju-ssambap-what-is-it",
       "target_keywords": [
-        "ssambap",
         "gyeongju",
-        "banchan",
-        "ssamjang"
+        "ssambap",
+        "korean set meal",
+        "regional korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Order ssambap and twenty plates arrive. It is not a set menu — it is a build-your-own wrap system, and knowing the order of operations makes it far less overwhelming.",
+      "summary": "What Gyeongju ssambap is: leaf wraps with rice and a spread of 20+ side dishes, how a meal works, where to find ssambap streets, prices and ordering tips.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "a3f4a8eb-5c12-4b76-8168-3805bdb63572",
@@ -2522,16 +2522,16 @@
       "slug": "easy-korean-dishes-for-beginners",
       "url": "/blog/en/k-pantry/easy-korean-dishes-for-beginners",
       "target_keywords": [
-        "beginners",
-        "easy recipes",
         "korean cooking",
-        "weeknight"
+        "easy korean recipes",
+        "beginner cooking",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Five dishes with short ingredient lists, forgiving methods, and no specialty equipment — ordered from easiest to hardest.",
+      "summary": "Five easy Korean dishes for beginners: kimchi fried rice, gyeran-jjim, bulgogi, kimchi jjigae and bibimbap, with key ingredients, difficulty and tips.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "42d45b6c-d841-4bed-9f69-d3987302951a",
@@ -2554,20 +2554,20 @@
     {
       "id": "4d82aa3e-4529-471f-aaed-7b7f4eab0a56",
       "category": "Food",
-      "title": "Gochujang, Gochugaru, Doenjang: How to Tell Them Apart",
+      "title": "Gochujang, Gochugaru, Doenjang: How to Tell Korea's Big Three Apart",
       "slug": "gochujang-vs-gochugaru-vs-doenjang",
       "url": "/blog/en/k-pantry/gochujang-vs-gochugaru-vs-doenjang",
       "target_keywords": [
         "gochujang",
         "gochugaru",
         "doenjang",
-        "ingredients"
+        "korean pantry"
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Three Korean pastes and powders that look interchangeable on the shelf and are not. What each one is, what happens when you swap them, and which to buy first.",
+      "summary": "Gochujang (chili paste), gochugaru (chili flakes) and doenjang (soybean paste) compared: taste, heat, how to cook with each, storage and buying tips.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "8ff7bbf0-42a0-4208-92d9-9e76412d7816",
@@ -2593,15 +2593,16 @@
       "slug": "korean-soy-sauce-types",
       "url": "/blog/en/k-pantry/korean-soy-sauce-types",
       "target_keywords": [
-        "soy-sauce",
+        "korean soy sauce",
         "ganjang",
-        "ingredients"
+        "korean pantry",
+        "korean cooking"
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Korean recipes call for jin ganjang, guk ganjang, or just soy sauce, and they are not interchangeable. What each does, and whether Japanese soy sauce can stand in.",
+      "summary": "Korean soy sauce explained: jin-ganjang, guk-ganjang and yangjo-ganjang compared, what each is used for, how to read labels, and which bottle to buy first.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "39843ff7-ef4b-4243-b13c-57926c4b0c31",
@@ -2647,15 +2648,15 @@
       "url": "/blog/en/k-pantry/how-to-buy-store-and-use-kimchi",
       "target_keywords": [
         "kimchi",
-        "storage",
+        "korean pantry",
         "fermentation",
-        "ingredients"
+        "korean cooking"
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Kimchi does not expire, it ferments, and sour kimchi is an ingredient rather than a problem. How to choose a jar, keep it well, and tell fermentation from spoilage.",
+      "summary": "A practical kimchi guide: how to choose kimchi at the store, how long it keeps, how to store it without smell, and the best dishes for sour, over-fermented kimchi.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "91e7ec9e-a862-4ca3-b304-5e9dd7e19918",
@@ -2695,37 +2696,38 @@
     {
       "id": "07f3d3b1-f801-4f27-aa75-fa9f4050ce60",
       "category": "Food",
-      "title": "Korean Rice: Why It Is Different and How to Cook It",
+      "title": "Korean Rice: Why It's Different and How to Cook It",
       "slug": "how-to-cook-korean-rice",
       "url": "/blog/en/k-pantry/how-to-cook-korean-rice",
       "target_keywords": [
-        "rice",
-        "basics",
-        "beginner"
+        "korean rice",
+        "short grain rice",
+        "korean cooking",
+        "bap"
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Korean rice is meant to be slightly sticky and eaten with a spoon. The grain, the washing, the water ratio, and why long-grain rice changes the meal more than you would expect.",
+      "summary": "How to cook Korean-style short-grain rice: rinsing, soaking, water ratios for pot and rice cooker, mixed-grain rice, and how Koreans eat and store rice.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "e2e2ba0d-a926-4d5c-bf03-8679f304d3f3",
       "category": "Food",
-      "title": "Namul: One Method for a Dozen Vegetable Side Dishes",
+      "title": "Namul: One Method for a Dozen Korean Vegetable Side Dishes",
       "slug": "korean-namul-vegetable-side-dishes",
       "url": "/blog/en/k-pantry/korean-namul-vegetable-side-dishes",
       "target_keywords": [
         "namul",
-        "banchan",
-        "vegetables",
-        "basics"
+        "korean side dishes",
+        "korean vegetables",
+        "banchan"
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Korean vegetable banchan look like a dozen separate recipes and are mostly one technique. Blanch, squeeze, season by hand — and the step almost everyone skips.",
+      "summary": "Namul explained: the Korean way of seasoning vegetables, the basic blanch-and-toss method, common namul types, and how to use them in bibimbap and banchan.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "73323fac-151b-49d4-a1b5-9ef0ad121364",
