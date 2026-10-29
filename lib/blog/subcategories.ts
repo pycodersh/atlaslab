@@ -87,6 +87,7 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'gwangjang-market-guide': 'street',
   'what-is-tteokbokki-how-spicy': 'street',
   'instant-ramyeon-upgrade-guide': 'street',
+  'hongdae-street-food-guide': 'street',
   // Classic Meals
   'gyeran-jjim-korean-steamed-egg-guide': 'meals',
   'korean-japchae-guide': 'meals',
@@ -154,6 +155,7 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'packing-guide-korea-by-season': 'daily',
   'hiking-in-korea-guide': 'daily',
   'han-river-parks-seoul-guide': 'daily',
+  'seongsu-dong-pop-up-cafe-guide': 'daily',
   'korean-templestay-booking-guide-for-foreigners': 'daily',
   'hanok-stay-korea-booking-etiquette': 'daily',
   'seoul-vs-busan-first-time-visitors': 'daily',

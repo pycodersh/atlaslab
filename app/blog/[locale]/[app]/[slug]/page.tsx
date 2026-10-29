@@ -193,6 +193,7 @@ export default async function AppBlogPostPage({
         description={post.description}
         datePublished={post.published_at}
         url={`${BASE}/blog/${locale}/${app}/${slug}`}
+        content={post.content}
       />
       <style>{`
         html, body { overflow-x: hidden; scrollbar-gutter: stable; }

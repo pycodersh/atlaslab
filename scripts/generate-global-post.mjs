@@ -56,8 +56,9 @@ const CATEGORIES = {
   'life-in-korea': { label: 'Life in Korea', app: 'k-patto', category: 'Korean Culture' },
   'korean-food':   { label: 'Korean food',   app: 'k-pantry', category: 'Cooking Basics' },
 }
-const MIN_WORDS = 1200
-const MAX_WORDS = 1500
+// docs/CONTENT_GUIDELINES.md — 800~1,200단어(폰 3분). JSX 블록 태그도 단어로 세지므로 위쪽에 여유를 둔다.
+const MIN_WORDS = 800
+const MAX_WORDS = 1300
 
 // 법·규정·금액이 민감한 주제는 검색 그라운딩 없이 쓰면 틀린 수치가 나갈 수 있다.
 // 대기열 항목에 sensitive: true 가 있거나 키워드가 아래 패턴에 걸리면 자동으로 초안(비공개)으로
@@ -109,16 +110,49 @@ const SYSTEM_INSTRUCTION = `You are the senior global guide editor for "Atlas La
 - Clear, direct, professional sentences (imperative or declarative — "Do this", "Expect to pay roughly X").
 
 [Structure]
-- The first 1-2 sentences must give the direct, core answer to what the reader is searching for (a Quick Verdict). Do not open with history or general background.
+- The intro is at most 2 sentences and gives the direct, core answer to what the reader is searching for (a Quick Verdict). Do not open with history or general background.
+- Right after the intro, add a Key Takeaways card with 3-4 bullets (what to do, rough cost, the one mistake to avoid).
 - Do not generate a table of contents. Do not use generic filler headings like "Introduction", "Overview", "Conclusion", or "Final Thoughts".
-- 3-5 H2 (##) sections. Use H3 only when genuinely needed inside a section.
-- Include at least one markdown table (cost, options, flavor profile, phrases, or pros/cons — it does not need to pit two things against each other), at least one blockquote (>), and at least one bullet list.
-- Include a clear step-by-step action guide (Step 1, Step 2, Step 3) the reader can follow immediately.
+- 4-6 H2 (##) sections. Use H3 only when genuinely needed inside a section.
+- One screen, one visual: never put more than two plain text paragraphs in a row. Break them up with a markdown table, a Dialogue block, a DoDont box, a Callout, or a bullet list.
+- Include at least one markdown table (cost, options, menu, ordering steps, or pros/cons — it does not need to pit two things against each other), one Dialogue block, one DoDont box, and at least one bullet list.
+- Include a clear step-by-step action guide (Step 1, Step 2, Step 3) the reader can follow immediately — a table works well for this.
 - Put key numbers, options or phrases in a table, and bold the figures that matter. Never pad the article by repeating the same point.
 
-[Required closing sections — always end the body with these two H2 sections]
-- "## Frequently Asked Questions": pick the 2-3 questions readers most often ask or get wrong about this subject and answer each one directly. Put each question in bold and the answer right underneath.
-- "## Pro Tips: Mistakes to Avoid and How to Save": at least three concrete items — the mistakes people actually make, how to prevent them, and ways to save money or time.
+[Components — the body is MDX; use these exact tags, each on its own lines with a blank line before and after]
+- Key Takeaways (right after the intro; leave a blank line inside the tags around the list):
+<KeyTakeaways>
+
+- **Label:** short point
+- **Label:** short point
+- **Label:** short point
+
+</KeyTakeaways>
+- Dialogue (1-2 per article, 2-6 lines each; Korean in Hangul, romanization, plain English; add me on the reader's own lines). Attribute values must not contain double quotes:
+<Dialogue title="At the counter">
+  <Line who="Staff" ko="포장이세요?" rom="Pojang-iseyo?" en="Is this to go?" />
+  <Line me who="You" ko="네, 포장이요." rom="Ne, pojang-iyo." en="Yes, to go please." />
+</Dialogue>
+- Do's and Don'ts (exactly one; blank line inside each tag around the list):
+<DoDont>
+<Do>
+
+- concrete good habit
+
+</Do>
+<Dont>
+
+- concrete common mistake
+
+</Dont>
+</DoDont>
+- Callout (optional, for one key tip or warning): <Callout type="tip" title="Local tip"> one short paragraph </Callout> (type is tip, warn, or info).
+- K-Patto CTAs (both required, each exactly once, written exactly like this): <KpattoCta /> after the second or third H2 section, and <KpattoCta variant="end" /> right before the FAQ section.
+- Never use any other JSX tag, HTML tag, curly braces, or import/export lines.
+
+[Required closing section — always end the body with this H2 section]
+- "## Frequently Asked Questions": 3-4 questions readers most often ask or get wrong about this subject. Put each question in bold on its own line, ending with a question mark, and the answer as a plain paragraph right underneath.
+- Mistakes to avoid and money/time savers belong in the DoDont box and the body, not in a separate closing section.
 
 [Format — do not default to "A vs B"]
 - Do NOT build every article as a head-to-head "A vs B" comparison. Only use a comparison structure when the keyword itself names two or more things to compare (it contains "vs" or "versus"). Never invent a rival item just to create a contrast, and never put "vs" in the title unless the keyword does.
@@ -127,7 +161,7 @@ const SYSTEM_INSTRUCTION = `You are the senior global guide editor for "Atlas La
   2. How locals order, use, or enjoy it — practical tips: where to go, what to say, what to pick, how it is served or done.
   3. Flavor, character, and best pairings (food) or what to expect and best ways to do it (place, custom, service) — include a table here (e.g., variations, flavor profile, or recommended combinations).
   4. Common mistakes and etiquette — what foreigners often get wrong, and what to avoid.
-  5. Must-know Korean phrases — 3-4 phrases in Hangul with romanization and a plain English meaning (a list or table).
+  5. Must-know Korean phrases — put the key exchange in a Dialogue block (Hangul, romanization, plain English).
   The Step 1-2-3 guide can live inside section 2. Keep the whole article inside the word range; do not pad.
 
 [Practical content]
@@ -244,7 +278,10 @@ const BANNED = [
   { re: /^```/m, why: '코드펜스' },
 ]
 
-function validate(raw) {
+// 본문에 허용하는 JSX 태그 — components/blog/mdxComponents.ts 에 등록된 것만(그 밖의 태그는 페이지 렌더가 깨진다)
+const ALLOWED_TAGS = new Set(['KeyTakeaways', 'Dialogue', 'Line', 'DoDont', 'Do', 'Dont', 'Callout', 'KpattoCta'])
+
+async function validate(raw) {
   const problems = []
   const cleaned = raw.replace(/^\s*```(?:markdown|md)?\s*\n/, '').replace(/\n```\s*$/, '').trim()
   if (!cleaned.startsWith('---')) problems.push('프론트매터로 시작하지 않는다')
@@ -270,13 +307,42 @@ function validate(raw) {
   if (words < MIN_WORDS) problems.push(`본문이 ${words}단어로 짧습니다. ${MIN_WORDS}~${MAX_WORDS}단어로 맞추세요. 섹션을 늘리거나 조건·금액·절차를 더 구체적으로 적으세요.`)
   else if (words > MAX_WORDS) problems.push(`본문이 ${words}단어로 깁니다. ${MIN_WORDS}~${MAX_WORDS}단어로 맞추세요. 중복 설명을 먼저 지우세요.`)
   if (!/^\|.+\|$/m.test(body)) problems.push('마크다운 표 없음')
-  if (!/^>\s/m.test(body)) problems.push('인용구 없음')
   if (!/^[*-]\s/m.test(body)) problems.push('불릿 목록 없음')
-  if ((body.match(/^##\s/gm) ?? []).length < 4) problems.push('H2 소제목이 4개 미만입니다. 본론 3개와 마무리 2개를 넣으세요.')
-  // 얇은 글을 막기 위해 마무리 두 섹션을 강제한다 (한글 블로그와 같은 규칙).
-  if (!/^##\s*.*(Frequently Asked|FAQ)/im.test(body)) problems.push("'Frequently Asked Questions' 섹션이 없습니다. 문답 2~3개를 넣으세요.")
-  if (!/^##\s*.*(Pro Tips|Mistakes|Save)/im.test(body)) problems.push("'Pro Tips' 섹션이 없습니다. 실수 예방책과 절약 요령을 3가지 이상 넣으세요.")
+  if ((body.match(/^##\s/gm) ?? []).length < 4) problems.push('H2 소제목이 4개 미만입니다. 본론 3개 이상과 FAQ 를 넣으세요.')
+  // docs/CONTENT_GUIDELINES.md 의 필수 블록
+  if (!/<KeyTakeaways>/.test(body)) problems.push('<KeyTakeaways> 카드가 없습니다. 서론 2문장 바로 아래에 3~4줄로 넣으세요.')
+  if (!/<Dialogue[\s>]/.test(body) || !/<Line\s/.test(body)) problems.push('<Dialogue> 대화 블록(<Line /> 포함)이 없습니다.')
+  if (!/<DoDont>/.test(body)) problems.push("<DoDont> 박스(<Do> · <Dont>)가 없습니다.")
+  if ((body.match(/<KpattoCta\s*\/>/g) ?? []).length !== 1) problems.push('<KpattoCta /> 는 본문 중간에 정확히 1번 넣으세요.')
+  if ((body.match(/<KpattoCta\s+variant="end"\s*\/>/g) ?? []).length !== 1) problems.push('<KpattoCta variant="end" /> 는 FAQ 바로 앞에 정확히 1번 넣으세요.')
+  const strangers = [...new Set([...body.matchAll(/<\/?([A-Za-z][\w.]*)/g)].map(m => m[1]).filter(t => !ALLOWED_TAGS.has(t)))]
+  if (strangers.length) problems.push(`허용되지 않은 태그: ${strangers.join(', ')} (KeyTakeaways · Dialogue · Line · DoDont · Do · Dont · Callout · KpattoCta 만)`)
+  if (!/^##\s*.*(Frequently Asked|FAQ)/im.test(body)) problems.push("'Frequently Asked Questions' 섹션이 없습니다. 문답 3~4개를 넣으세요.")
+  else {
+    const faqPart = body.slice(body.search(/^##\s*.*(Frequently Asked|FAQ)/im))
+    const qs = (faqPart.match(/^\*\*.+\?\*\*\s*$/gm) ?? []).length
+    if (qs < 3 || qs > 4) problems.push(`FAQ 질문이 ${qs}개입니다. 굵은 한 줄 질문(?로 끝남) 3~4개로 맞추세요.`)
+  }
+  // 글만 세 문단 이상 이어지지 않게(1화면 1비주얼) — 빈 줄로 나뉜 블록 중 평문 문단이 3개 연속이면 실패
+  let run = 0, maxRun = 0
+  for (const block of body.split(/\n\s*\n/)) {
+    const b = block.trim()
+    const isPlain = b && !/^(#|\||>|[*-]\s|\d+\.\s|<|!\[)/.test(b)
+    run = isPlain ? run + 1 : 0
+    maxRun = Math.max(maxRun, run)
+  }
+  if (maxRun >= 3) problems.push(`글만 ${maxRun}문단이 이어진 곳이 있습니다. 2문단마다 표 · 목록 · <Dialogue> · <DoDont> · <Callout> 중 하나를 끼우세요.`)
   for (const { re, why } of BANNED) if (re.test(body)) problems.push(`금지 표현: ${why}`)
+  // 사이트와 같은 컴파일러로 미리 컴파일 — 깨진 MDX 가 공개되면 글 페이지가 500 이 난다
+  if (!problems.length) {
+    try {
+      const { compile } = await import('@mdx-js/mdx')
+      const remarkGfm = (await import('remark-gfm')).default
+      await compile(body, { remarkPlugins: [remarkGfm] })
+    } catch (e) {
+      problems.push(`MDX 컴파일 실패: ${String(e.message ?? e).slice(0, 200)} — 태그를 닫고, 속성값에 큰따옴표 · 중괄호를 쓰지 마세요.`)
+    }
+  }
 
   return { problems, cleaned, parsed, words }
 }
@@ -351,7 +417,7 @@ Keep the facts and numbers already confirmed in the draft — do not invent new 
 [Previous draft]
 ${lastText}`
       const r = await callGemini({ model, apiKey: geminiKey, system: SYSTEM_INSTRUCTION, prompt })
-      const v = validate(r.text)
+      const v = await validate(r.text)
       if (v.problems.length) {
         lastErr = v.problems.join('\n- ')
         lastText = v.cleaned

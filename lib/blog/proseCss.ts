@@ -201,6 +201,69 @@ export function proseCss(bodyFont: string): string {
           }
         }
 
+        /* ── Food · Life 시각 블록(components/blog/ArticleBlocks.tsx) ──────────────── */
+        /* Key Takeaways — quick-card 모양을 그대로 쓰고, 안의 마크다운 불릿만 같은 점 불릿으로 */
+        .blog-prose .key-takeaways__body ul { list-style: disc; margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+        .blog-prose .key-takeaways__body li { margin: 0; padding-left: 2px; font-size: 15.5px; line-height: 1.55; color: #1F2937; }
+        .blog-prose .key-takeaways__body li::marker { color: #C8102E; }
+        .blog-prose .key-takeaways__body p { margin: 0; }
+
+        /* 대화 말풍선 — 상대는 왼쪽 회색, 독자(me)는 오른쪽 흰 바탕 + 검은 테두리(웹툰 말풍선 결) */
+        .blog-prose .dlg { margin: 32px 0; padding: 18px 16px 20px; background: #F7F5F2; border-radius: 6px; }
+        .blog-prose .dlg__title {
+          font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+          color: #C8102E; margin: 0 0 14px;
+        }
+        .blog-prose .dlg__lines { display: grid; gap: 14px; }
+        .blog-prose .dlg__line { display: flex; flex-direction: column; align-items: flex-start; max-width: 86%; }
+        .blog-prose .dlg__line.is-me { align-items: flex-end; margin-left: auto; }
+        .blog-prose .dlg__who { font-size: 11.5px; font-weight: 600; color: #7A7670; margin: 0 6px 4px; }
+        .blog-prose .dlg__bubble {
+          background: #fff; border: 1.5px solid #111; border-radius: 18px 18px 18px 4px;
+          padding: 10px 14px 11px;
+        }
+        .blog-prose .dlg__line.is-me .dlg__bubble { background: #111; border-color: #111; border-radius: 18px 18px 4px 18px; }
+        .blog-prose .dlg__bubble p { margin: 0; }
+        .blog-prose .dlg__ko { font-size: 17px; font-weight: 600; line-height: 1.45; color: #111; }
+        .blog-prose .dlg__rom { font-size: 13px; line-height: 1.45; color: #7A7670; font-style: italic; margin-top: 2px !important; }
+        .blog-prose .dlg__en { font-size: 14.5px; line-height: 1.5; color: #374151; margin-top: 4px !important; }
+        .blog-prose .dlg__line.is-me .dlg__ko { color: #fff; }
+        .blog-prose .dlg__line.is-me .dlg__rom { color: #B8B4AE; }
+        .blog-prose .dlg__line.is-me .dlg__en { color: #E5E1DC; }
+        @media (max-width: 640px) { .blog-prose .dlg__line { max-width: 94%; } .blog-prose .dlg__ko { font-size: 16px; } }
+
+        /* Do · Don't — 넓으면 2열, 폰은 1열. 머리띠 색으로만 구분(초록 · 브랜드 레드) */
+        .blog-prose .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0; }
+        .blog-prose .dodont__col { background: #fff; border: 1px solid #E5E1DC; border-top: 3px solid; border-radius: 4px; padding: 14px 16px 16px; }
+        .blog-prose .dodont__col.is-do { border-top-color: #15803D; }
+        .blog-prose .dodont__col.is-dont { border-top-color: #C8102E; }
+        .blog-prose .dodont__head { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 8px; }
+        .blog-prose .is-do .dodont__head { color: #15803D; }
+        .blog-prose .is-dont .dodont__head { color: #C8102E; }
+        .blog-prose .dodont__col ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
+        .blog-prose .dodont__col li { margin: 0; font-size: 15px; line-height: 1.55; }
+        .blog-prose .dodont__col p { margin: 0; font-size: 15px; }
+        @media (max-width: 640px) { .blog-prose .dodont { grid-template-columns: 1fr; } }
+
+        /* 콜아웃 — tip(레드 줄) · warn(로즈 틴트) · info(회색) */
+        .blog-prose .callout { border-left: 3px solid #C8102E; background: #F7F5F2; border-radius: 2px; padding: 14px 18px; margin: 28px 0; }
+        .blog-prose .callout.is-warn { background: #FFF1F2; border-left-color: #9F1239; }
+        .blog-prose .callout.is-info { border-left-color: #6B6B6B; }
+        .blog-prose .callout__title { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #C8102E; margin: 0 0 6px; }
+        .blog-prose .callout.is-warn .callout__title { color: #9F1239; }
+        .blog-prose .callout.is-info .callout__title { color: #444; }
+        .blog-prose .callout p { margin: 0 0 8px; font-size: 15.5px; color: #1F2937; }
+        .blog-prose .callout p:last-child { margin-bottom: 0; }
+        .blog-prose .callout ul { margin: 4px 0 0; }
+
+        /* K-Patto CTA — 웹툰 Ep.1 + 무료 PDF. 버튼 줄은 quick-card__btns 규칙을 그대로 쓴다 */
+        .blog-prose .kp-cta { background: #121212; color: #fff; border-radius: 6px; padding: 20px 20px 22px; margin: 36px 0; }
+        .blog-prose .kp-cta__eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #FF5A6E; margin: 0 0 8px; }
+        .blog-prose .kp-cta__title { font-size: 20px; font-weight: 700; line-height: 1.3; color: #fff; margin: 0 0 6px; }
+        .blog-prose .kp-cta__desc { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,.7); margin: 0 0 16px; }
+        .blog-prose .kp-cta a.cta-btn.cta-btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.75); }
+        .blog-prose .kp-cta a.cta-btn.cta-btn-outline:hover { background: #fff; color: #111; }
+
         /* 제휴 링크 고지 — 글 맨 위에 조용하게 */
         .blog-prose .post-disclosure {
           font-size: 13px; line-height: 1.55; color: #7A7670;

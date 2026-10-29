@@ -1,6 +1,7 @@
 import { YouTube } from './YouTube'
 import { Blockquote } from './Blockquote'
 import { NoTranslateCode, NoTranslatePre } from './NoTranslate'
+import { KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta } from './ArticleBlocks'
 
 /**
  * 블로그 본문(MDX)에서 쓸 수 있는 컴포넌트 목록.
@@ -11,4 +12,8 @@ import { NoTranslateCode, NoTranslatePre } from './NoTranslate'
  */
 /** blockquote 는 HTML 태그를 가로채는 것이라 원고를 고치지 않아도 적용된다 */
 /** code·pre 는 자동 번역(헤더 언어 선택)에서 제외한다 */
-export const blogMdxComponents = { YouTube, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre }
+/** KeyTakeaways · Dialogue · Line · DoDont · Do · Dont · Callout · KpattoCta — Food · Life 시각 블록(docs/CONTENT_GUIDELINES.md) */
+export const blogMdxComponents = {
+  YouTube, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre,
+  KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta,
+}
