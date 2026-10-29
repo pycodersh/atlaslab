@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T02:42:34.392Z",
+  "generated_at": "2026-10-29T02:54:35.143Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -2844,21 +2844,20 @@
     {
       "id": "ee0230ae-aa9a-4393-9443-a820c849f460",
       "category": "Life",
-      "title": "Nami Island Day Trip: The Complete Guide to Transit and Timing",
+      "title": "Nami Island Day Trip from Seoul: Transport, Timing, and What to See",
       "slug": "nami-island-day-trip-seoul-guide",
       "url": "/blog/en/k-patto/nami-island-day-trip-seoul-guide",
       "target_keywords": [
-        "travel",
-        "day-trip",
-        "nami-island",
-        "korea-transport",
-        "seoul-excursions"
+        "nami island",
+        "day trip from seoul",
+        "gapyeong",
+        "korea travel"
       ],
       "status": "Active",
       "last_updated": "2026-10-16",
-      "summary": "A comprehensive guide to navigating the transit, optimal arrival times, and essential activities for a day trip to Nami Island from Seoul.",
+      "summary": "Plan a Nami Island day trip: train, subway or shuttle bus from Seoul, the ferry, the best time to arrive, seasonal highlights, and tips for beating the crowds.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "6082ebb3-6166-4477-bd3a-17ff53c7ac3f",
@@ -2899,40 +2898,38 @@
     {
       "id": "c8e46c2d-51d6-4ca0-a506-58a438eab485",
       "category": "Life",
-      "title": "A Practical Guide to Korea’s Cherry Blossom and Autumn Foliage Seasons",
+      "title": "Cherry Blossom and Autumn Foliage in Korea: When and Where to Go",
       "slug": "korea-cherry-blossom-autumn-foliage-guide",
       "url": "/blog/en/k-patto/korea-cherry-blossom-autumn-foliage-guide",
       "target_keywords": [
-        "travel",
-        "korea-seasons",
-        "cherry-blossom",
-        "autumn-foliage",
-        "itinerary"
+        "cherry blossom korea",
+        "autumn foliage korea",
+        "korea seasons",
+        "seoul travel"
       ],
       "status": "Active",
       "last_updated": "2026-10-15",
-      "summary": "Master the timing and logistics of Korea's two most iconic seasonal shifts with this guide to tracking blooms and foliage across the peninsula.",
+      "summary": "When cherry blossoms and autumn leaves peak in Korea, the best spots in Seoul and beyond, how to check forecasts, and tips for beating the crowds.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "6b588970-9add-456a-ba6f-af1ffc348a29",
       "category": "Life",
-      "title": "Hiking in Korea: A Guide to Mountain Culture and Trails Near Seoul",
+      "title": "Hiking in Korea: Mountain Culture and Trails Near Seoul",
       "slug": "hiking-in-korea-guide",
       "url": "/blog/en/k-patto/hiking-in-korea-guide",
       "target_keywords": [
-        "hiking",
-        "seoul",
-        "outdoor",
-        "korea-travel",
-        "mountaineering"
+        "hiking korea",
+        "bukhansan",
+        "seoul trails",
+        "korean culture"
       ],
       "status": "Active",
       "last_updated": "2026-10-14",
-      "summary": "Master the essentials of Korean hiking culture, from necessary gear to navigating accessible trails near the capital.",
+      "summary": "Hike Korea's mountains like a local: easy and challenging trails near Seoul, what to bring, mountain etiquette, the post-hike food ritual, and safety tips.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "bc7e397d-8608-48d1-8451-bb339400988a",
@@ -2955,20 +2952,20 @@
     {
       "id": "58c75838-fce8-49a9-bde2-2a5615938b0b",
       "category": "Life",
-      "title": "Navigating Jeju Island Without a Car: A Practical Transit Guide",
+      "title": "Jeju Island Without a Car: Buses, Taxis, Tours, and Where to Stay",
       "slug": "jeju-island-without-a-car",
       "url": "/blog/en/k-patto/jeju-island-without-a-car",
       "target_keywords": [
-        "jeju",
-        "travel",
-        "public-transportation",
-        "korea-travel"
+        "jeju island",
+        "jeju bus",
+        "korea travel",
+        "car-free travel"
       ],
       "status": "Active",
       "last_updated": "2026-10-13",
-      "summary": "Master Jeju's public transportation system to explore the island efficiently using buses, taxis, and regional transit apps.",
+      "summary": "Get around Jeju without driving: how the island's buses work, when to use taxis or day tours, the best bases to stay in, and a simple car-free itinerary.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "334107b4-5ebb-41d5-b2ac-6a2815d1656c",
@@ -2978,33 +2975,33 @@
       "url": "/blog/en/k-patto/hanok-stay-korea-booking-etiquette",
       "target_keywords": [
         "hanok stay",
-        "korea travel",
-        "korean accommodation",
-        "seoul travel"
+        "traditional korean house",
+        "jeonju hanok village",
+        "korea accommodation"
       ],
       "status": "Active",
       "last_updated": "2026-10-12",
-      "summary": "A practical guide to booking and staying in a traditional Korean hanok, covering ondol heating, paper doors, floor bedding, and essential house etiquette.",
+      "summary": "Staying in a traditional Korean hanok: rooms, floor bedding and ondol heating, where to book in Seoul, Jeonju and Gyeongju, prices and house etiquette.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "5cb05896-4205-48de-9781-e99c653f7959",
       "category": "Life",
-      "title": "Korean Templestay Guide: Booking, Etiquette, and What to Expect as a Foreigner",
+      "title": "Korean Templestay Guide: Booking, Etiquette, and What to Expect",
       "slug": "korean-templestay-booking-guide-for-foreigners",
       "url": "/blog/en/k-patto/korean-templestay-booking-guide-for-foreigners",
       "target_keywords": [
         "templestay",
-        "korean-buddhism",
-        "travel-korea",
-        "cultural-experience"
+        "korean buddhism",
+        "korean culture",
+        "korea travel"
       ],
       "status": "Active",
       "last_updated": "2026-10-12",
-      "summary": "Learn how to join a Korean Templestay program, from choosing between experiential and relaxation stays to mastering monastery etiquette and booking online in English.",
+      "summary": "Templestay in Korea for foreigners: day programs vs overnight stays, a typical schedule, temple meals, what to wear, booking and the etiquette that matters.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "87e03e4d-409c-4271-92c9-0a547e3387e2",
@@ -3373,16 +3370,16 @@
       "slug": "hidden-passwords-korean-cafes-guide",
       "url": "/blog/en/k-patto/hidden-passwords-korean-cafes-guide",
       "target_keywords": [
-        "Seoul Cafes",
-        "Travel Tips Korea",
-        "Cafe Etiquette",
-        "Korea Travel"
+        "korean cafe",
+        "cafe etiquette",
+        "wifi korea",
+        "seoul travel"
       ],
       "status": "Active",
       "last_updated": "2026-09-28",
-      "summary": "Locate door lock passcodes on receipts, connect to gigabit Wi-Fi, and navigate self-service water stations across Korean cafes without asking staff.",
+      "summary": "Where to find the Wi-Fi password and restroom code in a Korean cafe, why water is self-service, how buzzers and tray returns work, and what to ask staff.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "4109a2ce-cc40-467c-a8bf-eac27615f36c",
@@ -3531,38 +3528,38 @@
     {
       "id": "a4fc11bd-80b7-4b0f-adbc-33927ac86548",
       "category": "Life",
-      "title": "Never Buy Single Tickets: How to Master Seoul's Subway Transfers and Transit Cards",
+      "title": "Never Buy Single Tickets: Seoul Subway Transfers and Transit Cards",
       "slug": "seoul-subway-transfer-transit-card-guide",
       "url": "/blog/en/k-patto/seoul-subway-transfer-transit-card-guide",
       "target_keywords": [
-        "Seoul Subway",
-        "T-money",
-        "Climate Card",
-        "Korea Transit"
+        "seoul subway",
+        "t-money",
+        "transit card",
+        "seoul transport"
       ],
       "status": "Active",
       "last_updated": "2026-09-22",
-      "summary": "Master Seoul's 30-minute transit transfer discounts, recover from wrong-direction fare gates for free, and choose between T-money and the Climate Card.",
+      "summary": "Why a transit card beats single tickets in Seoul, how distance-based fares and free transfers work between subway and buses, and how to top up and refund.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "42dddef8-dd58-47b6-baf7-e0d9593f51df",
       "category": "Life",
-      "title": "Leaving Your Laptop on the Table: The Unwritten Rules of Korean Café Culture",
+      "title": "Leaving Your Laptop on the Table: The Unwritten Rules of Korean Cafe Culture",
       "slug": "korean-cafe-laptop-safety-rules",
       "url": "/blog/en/k-patto/korean-cafe-laptop-safety-rules",
       "target_keywords": [
-        "Korea Culture",
-        "Seoul Travel",
-        "Cafe Etiquette",
-        "Public Safety"
+        "korean cafe",
+        "cafe culture",
+        "korea safety",
+        "remote work korea"
       ],
       "status": "Active",
       "last_updated": "2026-09-21",
-      "summary": "Why leaving expensive tech unattended in Seoul cafés is standard practice, the social mechanics behind it, and practical boundaries for travelers.",
+      "summary": "Why Koreans leave laptops and phones on cafe tables, how safe it really is, seat-saving habits, how long you can stay, and the etiquette for working in cafes.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "c5615eac-0bc8-49aa-a84d-6e30b4ecf967",
@@ -3589,16 +3586,16 @@
       "slug": "korean-convenience-store-dining-guide",
       "url": "/blog/en/k-patto/korean-convenience-store-dining-guide",
       "target_keywords": [
-        "Korean Convenience Store",
-        "Seoul Food Guide",
-        "Budget Travel",
-        "K-Food Combinations"
+        "korean convenience store",
+        "seoul food guide",
+        "budget travel",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-09-21",
-      "summary": "Master proven instant food pairings, appliance protocols, and proper disposal etiquette to eat affordably at Korean convenience stores.",
+      "summary": "Eat well at Korean convenience stores: what to buy for a real meal, three classic combos, how to use the microwave and hot water, and cleaning up after.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "2aae4247-6a9e-41f5-96ec-5488206c5ec6",
