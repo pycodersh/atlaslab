@@ -21,6 +21,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local'), quiet: true })
 
 import { createClient } from '@supabase/supabase-js'
 import { BLOG_GROUPS, groupKeyOf, TOPIC_APPS } from '../lib/blog/sections'
+import { allTagsOf } from '../lib/blog/subcategories'
 
 const OUT = path.resolve(process.cwd(), 'docs', 'articles-registry.json')
 const ACTIVE_ONLY = process.argv.includes('--active-only')
@@ -38,6 +39,8 @@ type Entry = {
   db_category?: string | null
   /** docs/CONTENT_GUIDELINES.md 형식으로 다시 쓴 글 — content/blog/<slug>.mdx 원고가 있으면 true */
   overhauled?: boolean
+  /** 칩 분류 'group/sub' — 첫 항목이 대표, 나머지는 다중 태그(lib/blog/subcategories 에서 계산, 직접 고치지 않는다) */
+  subCategories?: string[]
 }
 
 const CONTENT_DIR = path.resolve(process.cwd(), 'content', 'blog')
@@ -101,6 +104,7 @@ async function main() {
       summary: p.description ?? '',
       db_category: p.category,
       overhauled: OVERHAULED.has(p.slug) && status !== 'Deprecated',
+      subCategories: allTagsOf(groupKeyOf(p.app, p.category), p),
     }
   })
 

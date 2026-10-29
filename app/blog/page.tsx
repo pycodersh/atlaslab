@@ -1,9 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
-import { PATTO_TAB, legacyTabTarget, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { PATTO_TAB, groupKeyOf, legacyTabTarget, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
 import { badgeFor } from '@/lib/blog/badge'
-import { KEEP_EMPTY_SUB_CHIPS, isValidSubcategory, subcategoriesFor, subcategoryOf } from '@/lib/blog/subcategories'
+import { KEEP_EMPTY_SUB_CHIPS, isCrossListed, isValidSubcategory, subcategoriesFor, subcategoriesOf } from '@/lib/blog/subcategories'
 import { permanentRedirect } from 'next/navigation'
 import { readMinutes } from '@/lib/blog/readTime'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
@@ -76,17 +76,19 @@ export default async function BlogIndexPage({
     .lte('published_at', now)
     .order('published_at', { ascending: false })
 
-  const inTab = (rows ?? []).filter(p => postMatchesTab(p, activeTab))
+  // 대표 그룹이 이 탭인 글 + 다른 탭 글 중 이 탭 태그(SECONDARY_TAGS)가 붙은 글
+  const inTab = (rows ?? []).filter(p => postMatchesTab(p, activeTab) || isCrossListed(p.slug, activeTab))
 
-  // 서브 카테고리 칩 — 서브 분류가 정의된 그룹(korean · explore-korea · food · life)에서만 쓴다.
-  // 분류는 코드(lib/blog/subcategories)에서 하고, 칩 옆 개수는 탭 전체 기준이다.
+  // 서브 카테고리 칩 — 서브 분류가 정의된 그룹(explore-korea · food · life)에서만 쓴다.
+  // 분류는 코드(lib/blog/subcategories)에서 하고, 한 글이 칩 여러 개에 걸릴 수 있다(다중 태깅).
+  // 칩 옆 개수는 탭 전체 기준이다.
   const subDefs = subcategoriesFor(activeTab)
-  const subOf = (p: { slug: string; title: string; app: string; category: string | null }) =>
-    subcategoryOf(activeTab, p)
+  const subsOf = (p: { slug: string; title: string; app: string; category: string | null }) =>
+    subcategoriesOf(activeTab, groupKeyOf(p.app, p.category), p)
   const activeSub = isValidSubcategory(activeTab, sub) ? sub : null
-  const subChips = subDefs.map(s => ({ ...s, count: inTab.filter(p => subOf(p) === s.key).length }))
-    .filter(s => s.count > 0 || KEEP_EMPTY_SUB_CHIPS.has(activeTab))   // Korean · Explore Korea 는 빈 칩도 보인다
-  const matched = activeSub ? inTab.filter(p => subOf(p) === activeSub) : inTab
+  const subChips = subDefs.map(s => ({ ...s, count: inTab.filter(p => subsOf(p).includes(s.key)).length }))
+    .filter(s => s.count > 0 || KEEP_EMPTY_SUB_CHIPS.has(activeTab))   // Explore Korea 는 빈 칩도 보인다
+  const matched = activeSub ? inTab.filter(p => subsOf(p).includes(activeSub)) : inTab
 
   const totalPages = Math.ceil(matched.length / POSTS_PER_PAGE)
   const from = (currentPage - 1) * POSTS_PER_PAGE
