@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T05:33:43.613Z",
+  "generated_at": "2026-10-29T05:50:08.585Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -1833,7 +1833,7 @@
     {
       "id": "699df36c-34e8-493c-8cc7-cb57102da1c3",
       "category": "Food",
-      "title": "The Science of Korean Marinades: Why Asian Pear is the Essential Ingredient",
+      "title": "Why Korean Marinades Use Asian Pear (and What to Use Instead)",
       "slug": "why-korean-marinades-use-asian-pear",
       "url": "/blog/en/k-pantry/why-korean-marinades-use-asian-pear",
       "target_keywords": [
@@ -1844,9 +1844,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-09",
-      "summary": "Discover how the Asian pear tenderizes meat and balances flavors in classic Korean marinades like bulgogi and galbi, along with the best Western substitutes.",
+      "summary": "How grated Asian pear tenderizes and sweetens bulgogi and galbi marinades, how to prepare it, marinating times, and which substitutes work without turning meat to mush.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "ba978c77-3c06-4006-be7a-ae4d921e2abe",
@@ -1971,9 +1971,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-04",
-      "summary": "A practical guide to the differences between Korean and Japanese fermented soybean pastes, including exact substitution ratios and cooking adjustments.",
+      "summary": "The real differences between Korean doenjang and Japanese miso, how to use miso in doenjang jjigae with exact adjustments, and the dishes where only doenjang works.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "68c72bdc-bfc3-44cb-9c49-7313311cc65c",
@@ -2097,9 +2097,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-02",
-      "summary": "A direct comparison of gochugaru and crushed red pepper flakes, including heat levels, flavor profiles, and exact substitution ratios.",
+      "summary": "Gochugaru vs crushed red pepper flakes compared on heat, flavor and texture, the best gochugaru substitutes with ratios, and how to buy coarse vs fine Korean chili flakes.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "7a51d5bd-dd14-4b91-8810-e08b013ebba6",
@@ -2403,9 +2403,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Yes — with a handful of substitutions from a regular supermarket. Here's what translates well, what doesn't, and what to buy online instead.",
+      "summary": "Yes, with a regular supermarket and a few smart swaps. What you can buy anywhere, which substitutes work, the three jars worth ordering online, and the dishes to cook first.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "2bfa74f4-1eed-4fec-a455-1db3837c976e",
@@ -2511,9 +2511,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Does gochujang go bad? How long does kimchi keep? Practical shelf-life answers for the jars sitting in your fridge.",
+      "summary": "Does gochujang go bad? How long does kimchi keep? Shelf life and storage for Korean pastes, chili flakes, oils, kimchi, dried goods and rice cakes, plus the signs that mean throw it out.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "220dafe2-98e7-4f06-81b8-b435468b0f0e",
@@ -2547,9 +2547,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Kkaennip isn't shiso, and it isn't mint. Here's what it tastes like, where it's used, and the closest substitutes when it's unavailable.",
+      "summary": "Kkaennip explained: what Korean perilla leaf tastes like, how it differs from shiso, how Koreans eat it, the closest substitutes ranked, and how to grow your own.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "4d82aa3e-4529-471f-aaed-7b7f4eab0a56",
@@ -2582,9 +2582,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Gochujang carries heat, sweetness, and fermented depth at once, which is why most single-ingredient substitutes fall flat. Here are mixes that get close, with ratios.",
+      "summary": "Why sriracha fails as a gochujang substitute, three homemade mixes that come close with exact ratios, what never works, and the dishes where only real gochujang will do.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "78d2b762-0954-45c3-baa5-710788fb49d7",
@@ -2618,9 +2618,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Myeolchi yuksu takes twenty minutes and changes almost every Korean soup and stew you make. Ratios, the two mistakes that make it bitter, and how to store it.",
+      "summary": "How to make Korean anchovy and kelp stock (myeolchi yuksu) in 20 minutes: ratios, which anchovies to buy, the two mistakes that make it bitter, additions, storage and shortcuts.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "227783c0-65ed-46e7-a942-fb9ac808cfb6",
@@ -2636,9 +2636,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Korean recipes assume a stocked pantry, and the shopping list looks overwhelming from outside. Here is the order to buy in, and what each purchase actually unlocks.",
+      "summary": "The order to stock a Korean pantry so every purchase unlocks several dishes: eight essentials, what each one is for, what to skip at first, rough cost and where to buy.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "69df8cef-bd32-486f-bd90-4fb72554318d",
@@ -2671,9 +2671,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Chamgireum and deulgireum sit side by side in Korean stores and do different jobs. What each tastes like, where it belongs, and why one of them goes rancid fast.",
+      "summary": "Chamgireum vs deulgireum: what Korean sesame oil and perilla oil taste like, which dishes each belongs in, why perilla oil goes rancid fast, substitutes and buying tips.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "61f541b5-88af-41f3-b5c9-0fd27be3f5aa",
@@ -2689,9 +2689,9 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Three ingredients most people already have, and the Korean dishes they cover. Plus what one more ingredient would unlock, and the technique that separates good kimchi fried rice from bad.",
+      "summary": "Korean dishes you can make with just kimchi, rice and eggs, the technique for great kimchi fried rice, easy kimchi jjigae, Korean egg dishes, and what one more ingredient unlocks.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "07f3d3b1-f801-4f27-aa75-fa9f4050ce60",
