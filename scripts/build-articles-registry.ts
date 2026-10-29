@@ -41,10 +41,9 @@ type Entry = {
 /** 아직 없는 글 — 쓰면 DB 에 들어가 Active 로 바뀌므로 여기서 지운다 */
 const PLANNED: Omit<Entry, 'url' | 'status' | 'last_updated'>[] = [
   { id: 'planned-myeongdong-street-food', category: 'Food', title: 'Myeongdong Street Food: What to Eat, Prices, and How to Order', slug: 'myeongdong-street-food-guide', target_keywords: ['myeongdong street food', 'seoul street food prices', 'myeongdong night market'], summary: 'Stall-by-stall guide to Myeongdong evening street food with price ranges and ordering phrases.' },
-  { id: 'planned-convenience-store-must-buys', category: 'Food', title: 'Korean Convenience Store Must-Buys: 15 Snacks and Meals Locals Actually Pick', slug: 'korean-convenience-store-must-buys', target_keywords: ['korean convenience store food', 'cu gs25 best snacks', 'what to buy at korean convenience store'], summary: 'Best-selling convenience store foods by brand, with combo ideas and 1+1 deal reading.' },
-  { id: 'planned-gwangjang-market', category: 'Food', title: 'Gwangjang Market Food Guide: Bindaetteok, Mayak Gimbap, and Yukhoe', slug: 'gwangjang-market-food-guide', target_keywords: ['gwangjang market', 'gwangjang market food', 'bindaetteok'], summary: 'How to eat at Gwangjang Market stalls: what to order, seating, cash and prices.' },
+  // 레지스트리로 걸러 뺀 것(이미 있음): 광장시장(gwangjang-market-guide) · 편의점 추천(korean-convenience-store-combo-meals) · 카페 주문(how-to-order-at-a-korean-cafe)
   { id: 'planned-myeongdong-shopping', category: 'Life', title: 'Myeongdong Shopping Guide: K-Beauty Streets, Tax Refunds, and Money Exchange', slug: 'myeongdong-shopping-guide', target_keywords: ['myeongdong shopping', 'myeongdong money exchange', 'myeongdong cosmetics'], summary: 'Where to shop, exchange money and claim tax refunds in Myeongdong.' },
-  { id: 'planned-korean-cafe-ordering', category: 'Food', title: 'How to Order at a Korean Cafe: Kiosks, Sizes, and Iced Americano Culture', slug: 'how-to-order-korean-cafe-kiosk', target_keywords: ['korean cafe order', 'korean cafe kiosk', 'iced americano korea'], summary: 'Kiosk menus, size and shot options, and the phrases to order coffee in Korea.' },
+  { id: 'planned-gyeongbokgung-hanbok', category: 'Explore Korea', title: 'Gyeongbokgung in a Hanbok: Rental Shops, Free Entry, and Photo Tips', slug: 'gyeongbokgung-hanbok-rental-guide', target_keywords: ['gyeongbokgung hanbok', 'hanbok rental seoul', 'gyeongbokgung free entry hanbok'], summary: 'How hanbok rental works near Gyeongbokgung, free palace entry in hanbok, and etiquette.' },
   { id: 'planned-ikseon-dong', category: 'Life', title: 'Ikseon-dong Hanok Alley: Cafes, Photo Spots, and When to Go', slug: 'ikseon-dong-hanok-alley-guide', target_keywords: ['ikseondong', 'ikseon-dong hanok village', 'seoul hanok cafe'], summary: 'A short guide to Ikseon-dong hanok alleys, cafes and crowd-free timing.' },
 ]
 
@@ -79,7 +78,8 @@ async function main() {
     const tags: string[] = Array.isArray(p.tags) && p.tags.length ? p.tags : keywordsFromTitle(p.title)
     return {
       id: p.id,
-      category: groupTitle.get(groupKeyOf(p.app, p.category) ?? '') ?? 'Other',
+      // category 가 비어 있으면 사이트는 Basics 로 떨어뜨리지만(FALLBACK_SECTION), 레지스트리에서는 미분류로 드러낸다
+      category: p.category ? groupTitle.get(groupKeyOf(p.app, p.category) ?? '') ?? 'Other' : 'Uncategorized',
       title: p.title,
       slug: p.slug,
       url: status === 'Deprecated' ? null : `/blog/en/${p.app}/${p.slug}`,
@@ -96,7 +96,7 @@ async function main() {
     .filter(p => !liveSlugs.has(p.slug))
     .map(p => ({ ...p, url: null, status: 'Planned', last_updated: new Date().toISOString().slice(0, 10) }))
 
-  const ORDER = ['Phrases', 'Basics', 'Explore Korea', 'Food', 'Life', 'Other']
+  const ORDER = ['Phrases', 'Basics', 'Explore Korea', 'Food', 'Life', 'Other', 'Uncategorized']
   const STATUS_ORDER = ['Active', 'Scheduled', 'Planned', 'Deprecated']
   const all = [...db, ...planned]
     .filter(e => !ACTIVE_ONLY || e.status === 'Active')
