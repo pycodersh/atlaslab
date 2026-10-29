@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T02:01:59.257Z",
+  "generated_at": "2026-10-29T02:13:22.135Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -3083,20 +3083,20 @@
     {
       "id": "3b7d2ba4-e19d-4927-ae81-d3eea41c986b",
       "category": "Life",
-      "title": "Korean Table Etiquette for Visitors: Spoons, Chopsticks, Shared Dishes, and Pouring Drinks",
+      "title": "Korean Table Etiquette: Spoons, Chopsticks, Shared Dishes, and Pouring Drinks",
       "slug": "korean-table-etiquette-spoon-chopsticks-guide",
       "url": "/blog/en/k-patto/korean-table-etiquette-spoon-chopsticks-guide",
       "target_keywords": [
-        "korean dining etiquette",
-        "chopsticks",
-        "drinking etiquette",
-        "korea travel"
+        "korean etiquette",
+        "table manners",
+        "dining culture",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-07",
-      "summary": "Learn which utensil to use for rice and soup, how to handle shared dishes, and how to pour and receive drinks politely at a Korean table.",
+      "summary": "The Korean table manners that matter: spoon for rice and soup, chopsticks for sides, sharing dishes, waiting for elders, and how to pour and receive drinks.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "3a1deca6-301d-424d-9ecd-befc55a1884c",
@@ -3195,35 +3195,34 @@
       "slug": "korean-delivery-apps-tourists",
       "url": "/blog/en/k-patto/korean-delivery-apps-tourists",
       "target_keywords": [
-        "food delivery",
+        "korean delivery apps",
         "baemin",
         "coupang eats",
-        "yogiyo",
-        "korea travel apps"
+        "seoul food"
       ],
       "status": "Active",
       "last_updated": "2026-10-03",
-      "summary": "A definitive guide to ordering food delivery in South Korea as a tourist in 2026, including app comparisons, payment methods, and step-by-step instructions.",
+      "summary": "Can tourists use Korean food delivery apps? Baemin, Coupang Eats and Yogiyo compared on English, foreign cards and phone numbers, plus how to order and receive.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "a244399c-4922-4381-bb72-04badabf29ca",
       "category": "Life",
-      "title": "Prepaid SIM Card vs eSIM for Tourists in Korea: Airport Buying Guide",
+      "title": "SIM Card vs eSIM for Tourists in Korea: Which to Buy and Where",
       "slug": "korea-tourist-sim-vs-esim-airport-guide",
       "url": "/blog/en/k-patto/korea-tourist-sim-vs-esim-airport-guide",
       "target_keywords": [
-        "travel tips",
-        "sim card",
-        "esim",
-        "incheon airport"
+        "korea sim card",
+        "esim korea",
+        "incheon airport",
+        "travel tips"
       ],
       "status": "Active",
       "last_updated": "2026-10-02",
-      "summary": "Compare prices, activation rules, and Incheon Airport pickup procedures for physical SIMs and eSIMs in South Korea.",
+      "summary": "Compare tourist SIM cards and eSIMs for Korea: price ranges, local phone numbers, where to buy at the airport, and which option fits your trip.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "12133fc6-c7a2-47ce-84c8-4b61e3828e2d",
@@ -3252,14 +3251,14 @@
       "target_keywords": [
         "jjimjilbang",
         "korean spa",
-        "etiquette",
-        "travel tips"
+        "seoul travel",
+        "korean culture"
       ],
       "status": "Active",
       "last_updated": "2026-10-02",
-      "summary": "A practical guide to Korean jjimjilbangs, detailing current entry prices, nudity rules, and the step-by-step facility process.",
+      "summary": "How a Korean jjimjilbang works: bathhouse vs jjimjilbang vs spa, prices, the step-by-step routine from locker to sauna, nudity and tattoo rules, and what to say.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "6a492505-ba45-49cc-8315-98bbb477084a",
@@ -3372,20 +3371,20 @@
     {
       "id": "e8e0a291-a0de-43fd-b018-6875dd690d29",
       "category": "Life",
-      "title": "Cashless but Confused: Foreign Credit Cards in Korea and How to Find Global ATMs",
+      "title": "Foreign Credit Cards in Korea: Where They Work and How to Find a Global ATM",
       "slug": "foreign-credit-cards-global-atm-korea",
       "url": "/blog/en/k-patto/foreign-credit-cards-global-atm-korea",
       "target_keywords": [
-        "Korea Travel",
-        "Global ATM",
-        "T-Money Recharge",
-        "Credit Card Korea"
+        "credit cards korea",
+        "global atm",
+        "korea travel money",
+        "cashless korea"
       ],
       "status": "Active",
       "last_updated": "2026-09-28",
-      "summary": "Master South Korea's cash-only T-Money transit card rule, locate international Global ATMs at 24-hour convenience stores, and avoid card payment failures.",
+      "summary": "Where foreign Visa and Mastercard cards work in Korea, where they don't, how to find a Global ATM for cash, typical fees, and what to say at the counter.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "9a53a8db-febc-4b2b-9f66-7dde42f915eb",
@@ -3394,34 +3393,34 @@
       "slug": "zero-tipping-split-bills-korea",
       "url": "/blog/en/k-patto/zero-tipping-split-bills-korea",
       "target_keywords": [
-        "Korea Dining",
-        "No Tip Culture",
-        "Kiosk Ordering",
-        "Dutch Pay"
+        "tipping korea",
+        "split bill korea",
+        "korea travel money",
+        "dining etiquette"
       ],
       "status": "Active",
       "last_updated": "2026-09-26",
-      "summary": "Master South Korea's strict no-tipping culture, upfront POS counter settlements, and painless Dutch pay protocols across restaurants and cafes.",
+      "summary": "Korea has no tipping culture. How paying works at restaurants, cafes, taxis and bars, how to split a bill, who usually pays, and the phrases you need at the counter.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "974dd5c5-5a87-4997-97c8-811a5569ef01",
       "category": "Life",
-      "title": "Why Google Maps Fails in Korea: Navigating with Naver and Kakao",
+      "title": "Why Google Maps Fails in Korea: How to Use Naver Map and KakaoMap",
       "slug": "google-maps-alternatives-korea",
       "url": "/blog/en/k-patto/google-maps-alternatives-korea",
       "target_keywords": [
-        "Google Maps Korea",
-        "Naver Map",
-        "Kakao T",
-        "Korea Travel Tech"
+        "naver map",
+        "kakaomap",
+        "google maps korea",
+        "seoul travel apps"
       ],
       "status": "Active",
       "last_updated": "2026-09-26",
-      "summary": "Overcome South Korean geopolitical mapping restrictions by transitioning from Google Maps to fully functional Naver Map and Kakao T navigation ecosystems.",
+      "summary": "Why Google Maps has no walking or driving directions in Korea, how Naver Map and KakaoMap compare, and how to search in English and follow transit routes.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "fc6670af-ed51-497a-8f08-7589e2c60d6a",
@@ -3462,20 +3461,20 @@
     {
       "id": "6c2b8c68-78af-47de-af4d-726ec20f05d5",
       "category": "Life",
-      "title": "Taking Taxis in Korea: The Red Light Paradox, Fare Classes, and Cashless Etiquette",
+      "title": "Taking Taxis in Korea: Taxi Types, Fares, the Red Light, and How to Pay",
       "slug": "korea-taxi-survival-guide",
       "url": "/blog/en/k-patto/korea-taxi-survival-guide",
       "target_keywords": [
-        "Korea Taxi Guide",
-        "Seoul Travel",
-        "Kakao T",
-        "Public Transit"
+        "korea taxi",
+        "kakao t",
+        "seoul transport",
+        "travel tips"
       ],
       "status": "Active",
       "last_updated": "2026-09-22",
-      "summary": "Master Seoul's counterintuitive taxi system: why red lights mean vacant, how vehicle tiers differ, and how to pay without awkward tipping errors.",
+      "summary": "How to read Korean taxis: regular vs deluxe vs international taxis, night surcharges, what the red light means, card payment, and what to say to the driver.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "a4fc11bd-80b7-4b0f-adbc-33927ac86548",
@@ -3516,20 +3515,20 @@
     {
       "id": "c5615eac-0bc8-49aa-a84d-6e30b4ecf967",
       "category": "Life",
-      "title": "Don't Wait for Eye Contact: How to Call Staff and Navigate Korean Restaurants",
+      "title": "Don't Wait for Eye Contact: How to Order and Pay at Korean Restaurants",
       "slug": "korean-restaurant-ordering-guide",
       "url": "/blog/en/k-patto/korean-restaurant-ordering-guide",
       "target_keywords": [
-        "Korean Dining",
-        "Restaurant Etiquette",
-        "Seoul Travel",
-        "Korea Culture"
+        "korean restaurant",
+        "ordering food korea",
+        "dining etiquette",
+        "seoul food"
       ],
       "status": "Active",
       "last_updated": "2026-09-21",
-      "summary": "Master table call buttons, tucked-away utensil drawers, and self-service stations to navigate dining in South Korea without unnecessary delays.",
+      "summary": "How Korean restaurants work: calling staff with 저기요 or the table bell, ordering by number of servings, free side dishes and water, and paying at the counter.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "e0aac6fe-16ee-4e16-9bc5-1ec246ddbfa1",
@@ -3552,21 +3551,20 @@
     {
       "id": "2aae4247-6a9e-41f5-96ec-5488206c5ec6",
       "category": "Life",
-      "title": "Incheon Airport Survival Guide: Terminal Navigation & Transit to Seoul",
+      "title": "Incheon Airport Arrival Guide: Terminals, SIM Cards, and Getting to Seoul",
       "slug": "incheon-airport-survival-guide",
       "url": "/blog/en/k-patto/incheon-airport-survival-guide",
       "target_keywords": [
-        "Incheon Airport",
-        "AREX",
-        "Seoul Travel",
-        "Transit Card",
-        "Korea Travel Guide"
+        "incheon airport",
+        "arex",
+        "seoul travel",
+        "arrival guide"
       ],
       "status": "Active",
       "last_updated": "2026-09-16",
-      "summary": "Master ICN layout, the crucial one-way shuttle train warning, AREX Express vs All-Stop route selection, transit cards, and same-day luggage delivery.",
+      "summary": "What to do after landing at Incheon: which terminal you're in, where to get a SIM and cash, and how the AREX train, airport bus and taxis compare for getting to Seoul.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "53d01e6c-d5f7-45fc-bca6-b3adf50cd1bb",
